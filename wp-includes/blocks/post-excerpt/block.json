@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/post-excerpt",
-	"title": "Post Excerpt",
+	"title": "Excerpt",
 	"category": "theme",
-	"description": "Display a post's excerpt.",
+	"description": "Display the excerpt.",
 	"textdomain": "default",
 	"attributes": {
 		"textAlign": {
@@ -16,6 +16,10 @@
 		"showMoreOnNewLine": {
 			"type": "boolean",
 			"default": true
+		},
+		"excerptLength": {
+			"type": "number",
+			"default": 55
 		}
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],

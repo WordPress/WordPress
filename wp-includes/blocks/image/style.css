@@ -1,9 +1,13 @@
 .wp-block-image img{
+  box-sizing:border-box;
   height:auto;
   max-width:100%;
   vertical-align:bottom;
 }
-.wp-block-image img,.wp-block-image.has-custom-border img{
+.wp-block-image[style*=border-radius] img,.wp-block-image[style*=border-radius]>a{
+  border-radius:inherit;
+}
+.wp-block-image.has-custom-border img{
   box-sizing:border-box;
 }
 .wp-block-image.aligncenter{
@@ -86,4 +90,172 @@
 
 .wp-block-image figure{
   margin:0;
+}
+
+.wp-lightbox-container .img-container{
+  position:relative;
+}
+.wp-lightbox-container button{
+  background:none;
+  border:none;
+  cursor:zoom-in;
+  height:100%;
+  position:absolute;
+  width:100%;
+  z-index:100;
+}
+.wp-lightbox-container button:focus-visible{
+  outline:5px auto #212121;
+  outline:5px auto -webkit-focus-ring-color;
+  outline-offset:5px;
+}
+
+.wp-lightbox-overlay{
+  height:100vh;
+  left:0;
+  overflow:hidden;
+  position:fixed;
+  top:0;
+  visibility:hidden;
+  width:100vw;
+  z-index:100000;
+}
+.wp-lightbox-overlay .close-button{
+  cursor:pointer;
+  padding:0;
+  position:absolute;
+  right:12.5px;
+  top:12.5px;
+  z-index:5000000;
+}
+.wp-lightbox-overlay .wp-block-image{
+  align-items:center;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  justify-content:center;
+  position:absolute;
+  width:100%;
+  z-index:3000000;
+}
+.wp-lightbox-overlay .wp-block-image figcaption{
+  display:none;
+}
+.wp-lightbox-overlay .wp-block-image img{
+  max-height:100%;
+  max-width:100%;
+  width:auto;
+}
+.wp-lightbox-overlay button{
+  background:none;
+  border:none;
+}
+.wp-lightbox-overlay .scrim{
+  background-color:#fff;
+  height:100%;
+  opacity:.9;
+  position:absolute;
+  width:100%;
+  z-index:2000000;
+}
+.wp-lightbox-overlay.fade.active{
+  animation:turn-on-visibility .25s both;
+  visibility:visible;
+}
+.wp-lightbox-overlay.fade.active img{
+  animation:turn-on-visibility .3s both;
+}
+.wp-lightbox-overlay.fade.hideanimationenabled:not(.active){
+  animation:turn-off-visibility .3s both;
+}
+.wp-lightbox-overlay.fade.hideanimationenabled:not(.active) img{
+  animation:turn-off-visibility .25s both;
+}
+.wp-lightbox-overlay.zoom img{
+  height:var(--lightbox-image-max-height);
+  position:absolute;
+  transform-origin:top left;
+  width:var(--lightbox-image-max-width);
+}
+.wp-lightbox-overlay.zoom.active{
+  opacity:1;
+  visibility:visible;
+}
+.wp-lightbox-overlay.zoom.active .wp-block-image img{
+  animation:lightbox-zoom-in .4s forwards;
+}
+@media (prefers-reduced-motion){
+  .wp-lightbox-overlay.zoom.active .wp-block-image img{
+    animation:turn-on-visibility .4s both;
+  }
+}
+.wp-lightbox-overlay.zoom.active .scrim{
+  animation:turn-on-visibility .4s forwards;
+}
+.wp-lightbox-overlay.zoom.hideanimationenabled:not(.active) .wp-block-image img{
+  animation:lightbox-zoom-out .4s forwards;
+}
+@media (prefers-reduced-motion){
+  .wp-lightbox-overlay.zoom.hideanimationenabled:not(.active) .wp-block-image img{
+    animation:turn-off-visibility .4s both;
+  }
+}
+.wp-lightbox-overlay.zoom.hideanimationenabled:not(.active) .scrim{
+  animation:turn-off-visibility .4s forwards;
+}
+
+html.has-lightbox-open{
+  overflow:hidden;
+}
+
+@keyframes turn-on-visibility{
+  0%{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+}
+@keyframes turn-off-visibility{
+  0%{
+    opacity:1;
+    visibility:visible;
+  }
+  99%{
+    opacity:0;
+    visibility:visible;
+  }
+  to{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+@keyframes lightbox-zoom-in{
+  0%{
+    left:var(--lightbox-initial-left-position);
+    top:var(--lightbox-initial-top-position);
+    transform:scale(var(--lightbox-scale-width), var(--lightbox-scale-height));
+  }
+  to{
+    left:var(--lightbox-target-left-position);
+    top:var(--lightbox-target-top-position);
+    transform:scale(1);
+  }
+}
+@keyframes lightbox-zoom-out{
+  0%{
+    left:var(--lightbox-target-left-position);
+    top:var(--lightbox-target-top-position);
+    transform:scale(1);
+    visibility:visible;
+  }
+  99%{
+    visibility:visible;
+  }
+  to{
+    left:var(--lightbox-initial-left-position);
+    top:var(--lightbox-initial-top-position);
+    transform:scale(var(--lightbox-scale-width), var(--lightbox-scale-height));
+  }
 }

@@ -33,6 +33,7 @@ function render_block_core_pattern( $attributes ) {
 
 	$slug     = $attributes['slug'];
 	$registry = WP_Block_Patterns_Registry::get_instance();
+
 	if ( ! $registry->is_registered( $slug ) ) {
 		return '';
 	}

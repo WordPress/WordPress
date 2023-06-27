@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/search",
 	"title": "Search",
 	"category": "widgets",
@@ -42,6 +42,14 @@
 		"query": {
 			"type": "object",
 			"default": {}
+		},
+		"buttonBehavior": {
+			"type": "string",
+			"default": "expand-searchfield"
+		},
+		"isSearchFieldHidden": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

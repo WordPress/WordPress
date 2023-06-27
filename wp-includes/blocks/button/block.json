@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/button",
 	"title": "Button",
 	"category": "design",
@@ -16,30 +16,35 @@
 			"type": "string",
 			"source": "attribute",
 			"selector": "a",
-			"attribute": "href"
+			"attribute": "href",
+			"__experimentalRole": "content"
 		},
 		"title": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "a",
-			"attribute": "title"
+			"attribute": "title",
+			"__experimentalRole": "content"
 		},
 		"text": {
 			"type": "string",
 			"source": "html",
-			"selector": "a"
+			"selector": "a",
+			"__experimentalRole": "content"
 		},
 		"linkTarget": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "a",
-			"attribute": "target"
+			"attribute": "target",
+			"__experimentalRole": "content"
 		},
 		"rel": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "a",
-			"attribute": "rel"
+			"attribute": "rel",
+			"__experimentalRole": "content"
 		},
 		"placeholder": {
 			"type": "string"
@@ -92,10 +97,16 @@
 			}
 		},
 		"__experimentalBorder": {
+			"color": true,
 			"radius": true,
+			"style": true,
+			"width": true,
 			"__experimentalSkipSerialization": true,
 			"__experimentalDefaultControls": {
-				"radius": true
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
 			}
 		},
 		"__experimentalSelector": ".wp-block-button .wp-block-button__link"

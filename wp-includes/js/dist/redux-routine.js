@@ -731,7 +731,7 @@ function isPromise(obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/node_modules/is-plain-object/dist/is-plain-object.mjs
+;// CONCATENATED MODULE: ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
@@ -814,31 +814,26 @@ function isActionOfType(object, expectedType) {
 /**
  * Create a co-routine runtime.
  *
- * @param  controls Object of control handlers.
- * @param  dispatch Unhandled action dispatch.
+ * @param controls Object of control handlers.
+ * @param dispatch Unhandled action dispatch.
  */
 
-function createRuntime() {
-  let controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let dispatch = arguments.length > 1 ? arguments[1] : undefined;
-  const rungenControls = Object.entries(controls).map(_ref => {
-    let [actionType, control] = _ref;
-    return (value, next, iterate, yieldNext, yieldError) => {
-      if (!isActionOfType(value, actionType)) {
-        return false;
-      }
+function createRuntime(controls = {}, dispatch) {
+  const rungenControls = Object.entries(controls).map(([actionType, control]) => (value, next, iterate, yieldNext, yieldError) => {
+    if (!isActionOfType(value, actionType)) {
+      return false;
+    }
 
-      const routine = control(value);
+    const routine = control(value);
 
-      if (isPromise(routine)) {
-        // Async control routine awaits resolution.
-        routine.then(yieldNext, yieldError);
-      } else {
-        yieldNext(routine);
-      }
+    if (isPromise(routine)) {
+      // Async control routine awaits resolution.
+      routine.then(yieldNext, yieldError);
+    } else {
+      yieldNext(routine);
+    }
 
-      return true;
-    };
+    return true;
   });
 
   const unhandledActionControl = (value, next) => {
@@ -881,8 +876,7 @@ function createRuntime() {
  * @return {import('redux').Middleware} Co-routine runtime
  */
 
-function createMiddleware() {
-  let controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function createMiddleware(controls = {}) {
   return store => {
     const runtime = createRuntime(controls, store.dispatch);
     return next => action => {

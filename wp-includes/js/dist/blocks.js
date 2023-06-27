@@ -1,6 +1,147 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 1919:
+/***/ (function(module) {
+
+"use strict";
+
+
+var isMergeableObject = function isMergeableObject(value) {
+	return isNonNullObject(value)
+		&& !isSpecial(value)
+};
+
+function isNonNullObject(value) {
+	return !!value && typeof value === 'object'
+}
+
+function isSpecial(value) {
+	var stringValue = Object.prototype.toString.call(value);
+
+	return stringValue === '[object RegExp]'
+		|| stringValue === '[object Date]'
+		|| isReactElement(value)
+}
+
+// see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
+var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
+var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
+
+function isReactElement(value) {
+	return value.$$typeof === REACT_ELEMENT_TYPE
+}
+
+function emptyTarget(val) {
+	return Array.isArray(val) ? [] : {}
+}
+
+function cloneUnlessOtherwiseSpecified(value, options) {
+	return (options.clone !== false && options.isMergeableObject(value))
+		? deepmerge(emptyTarget(value), value, options)
+		: value
+}
+
+function defaultArrayMerge(target, source, options) {
+	return target.concat(source).map(function(element) {
+		return cloneUnlessOtherwiseSpecified(element, options)
+	})
+}
+
+function getMergeFunction(key, options) {
+	if (!options.customMerge) {
+		return deepmerge
+	}
+	var customMerge = options.customMerge(key);
+	return typeof customMerge === 'function' ? customMerge : deepmerge
+}
+
+function getEnumerableOwnPropertySymbols(target) {
+	return Object.getOwnPropertySymbols
+		? Object.getOwnPropertySymbols(target).filter(function(symbol) {
+			return Object.propertyIsEnumerable.call(target, symbol)
+		})
+		: []
+}
+
+function getKeys(target) {
+	return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target))
+}
+
+function propertyIsOnObject(object, property) {
+	try {
+		return property in object
+	} catch(_) {
+		return false
+	}
+}
+
+// Protects from prototype poisoning and unexpected merging up the prototype chain.
+function propertyIsUnsafe(target, key) {
+	return propertyIsOnObject(target, key) // Properties are safe to merge if they don't exist in the target yet,
+		&& !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
+			&& Object.propertyIsEnumerable.call(target, key)) // and also unsafe if they're nonenumerable.
+}
+
+function mergeObject(target, source, options) {
+	var destination = {};
+	if (options.isMergeableObject(target)) {
+		getKeys(target).forEach(function(key) {
+			destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+		});
+	}
+	getKeys(source).forEach(function(key) {
+		if (propertyIsUnsafe(target, key)) {
+			return
+		}
+
+		if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
+			destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
+		} else {
+			destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+		}
+	});
+	return destination
+}
+
+function deepmerge(target, source, options) {
+	options = options || {};
+	options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+	options.isMergeableObject = options.isMergeableObject || isMergeableObject;
+	// cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
+	// implementations can use it. The caller may not replace it.
+	options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+
+	var sourceIsArray = Array.isArray(source);
+	var targetIsArray = Array.isArray(target);
+	var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+
+	if (!sourceAndTargetTypesMatch) {
+		return cloneUnlessOtherwiseSpecified(source, options)
+	} else if (sourceIsArray) {
+		return options.arrayMerge(target, source, options)
+	} else {
+		return mergeObject(target, source, options)
+	}
+}
+
+deepmerge.all = function deepmergeAll(array, options) {
+	if (!Array.isArray(array)) {
+		throw new Error('first argument should be an array')
+	}
+
+	return array.reduce(function(prev, next) {
+		return deepmerge(prev, next, options)
+	}, {})
+};
+
+var deepmerge_1 = deepmerge;
+
+module.exports = deepmerge_1;
+
+
+/***/ }),
+
 /***/ 5619:
 /***/ (function(module) {
 
@@ -77,174 +218,6 @@ module.exports = function equal(a, b) {
   // true if both NaN, false otherwise
   return a!==a && b!==b;
 };
-
-
-/***/ }),
-
-/***/ 9756:
-/***/ (function(module) {
-
-/**
- * Memize options object.
- *
- * @typedef MemizeOptions
- *
- * @property {number} [maxSize] Maximum size of the cache.
- */
-
-/**
- * Internal cache entry.
- *
- * @typedef MemizeCacheNode
- *
- * @property {?MemizeCacheNode|undefined} [prev] Previous node.
- * @property {?MemizeCacheNode|undefined} [next] Next node.
- * @property {Array<*>}                   args   Function arguments for cache
- *                                               entry.
- * @property {*}                          val    Function result.
- */
-
-/**
- * Properties of the enhanced function for controlling cache.
- *
- * @typedef MemizeMemoizedFunction
- *
- * @property {()=>void} clear Clear the cache.
- */
-
-/**
- * Accepts a function to be memoized, and returns a new memoized function, with
- * optional options.
- *
- * @template {Function} F
- *
- * @param {F}             fn        Function to memoize.
- * @param {MemizeOptions} [options] Options object.
- *
- * @return {F & MemizeMemoizedFunction} Memoized function.
- */
-function memize( fn, options ) {
-	var size = 0;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var head;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var tail;
-
-	options = options || {};
-
-	function memoized( /* ...args */ ) {
-		var node = head,
-			len = arguments.length,
-			args, i;
-
-		searchCache: while ( node ) {
-			// Perform a shallow equality test to confirm that whether the node
-			// under test is a candidate for the arguments passed. Two arrays
-			// are shallowly equal if their length matches and each entry is
-			// strictly equal between the two sets. Avoid abstracting to a
-			// function which could incur an arguments leaking deoptimization.
-
-			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
-				node = node.next;
-				continue;
-			}
-
-			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
-					node = node.next;
-					continue searchCache;
-				}
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== head ) {
-				// As tail, shift to previous. Must only shift if not also
-				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
-					tail = node.prev;
-				}
-
-				// Adjust siblings to point to each other. If node was tail,
-				// this also handles new tail's empty `next` assignment.
-				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = head;
-				node.prev = null;
-				/** @type {MemizeCacheNode} */ ( head ).prev = node;
-				head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		node = {
-			args: args,
-
-			// Generate the result from original function
-			val: fn.apply( null, args ),
-		};
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( head ) {
-			head.prev = node;
-			node.next = head;
-		} else {
-			// If no head, follows that there's no tail (at initial or reset)
-			tail = node;
-		}
-
-		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
-			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
-			/** @type {MemizeCacheNode} */ ( tail ).next = null;
-		} else {
-			size++;
-		}
-
-		head = node;
-
-		return node.val;
-	}
-
-	memoized.clear = function() {
-		head = null;
-		tail = null;
-		size = 0;
-	};
-
-	if ( false ) {}
-
-	// Ignore reason: There's not a clear solution to create an intersection of
-	// the function with additional properties, where the goal is to retain the
-	// function signature of the incoming argument and add control properties
-	// on the return value.
-
-	// @ts-ignore
-	return memoized;
-}
-
-module.exports = memize;
 
 
 /***/ }),
@@ -6005,6 +5978,13 @@ __webpack_require__.d(selectors_namespaceObject, {
   "isMatchingSearchTerm": function() { return isMatchingSearchTerm; }
 });
 
+// NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
+var private_selectors_namespaceObject = {};
+__webpack_require__.r(private_selectors_namespaceObject);
+__webpack_require__.d(private_selectors_namespaceObject, {
+  "getSupportedStyles": function() { return getSupportedStyles; }
+});
+
 // NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
@@ -6029,8 +6009,6 @@ __webpack_require__.d(actions_namespaceObject, {
 
 ;// CONCATENATED MODULE: external ["wp","data"]
 var external_wp_data_namespaceObject = window["wp"]["data"];
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./node_modules/colord/index.mjs
@@ -6164,13 +6142,22 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
     requiresOptOut: true,
     useEngine: true
   },
+  columnCount: {
+    value: ['typography', 'textColumns'],
+    support: ['typography', 'textColumns'],
+    useEngine: true
+  },
   filter: {
     value: ['filter', 'duotone'],
-    support: ['color', '__experimentalDuotone']
+    support: ['filter', 'duotone']
   },
   linkColor: {
     value: ['elements', 'link', 'color', 'text'],
     support: ['color', 'link']
+  },
+  captionColor: {
+    value: ['elements', 'caption', 'color', 'text'],
+    support: ['color', 'caption']
   },
   buttonColor: {
     value: ['elements', 'button', 'color', 'text'],
@@ -6281,8 +6268,8 @@ const __EXPERIMENTAL_PATHS_WITH_MERGE = {
   'spacing.spacingSizes': true
 };
 
-;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
-/*! *****************************************************************************
+;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
+/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -6296,231 +6283,362 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global Reflect, Promise */
+/* global Reflect, Promise, SuppressedError, Symbol */
 
 var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return extendStatics(d, b);
+  extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return extendStatics(d, b);
 };
 
 function __extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
 var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return __assign.apply(this, arguments);
+  __assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return __assign.apply(this, arguments);
 }
 
 function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
 }
 
 function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
 function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
+  return function (target, key) { decorator(target, key, paramIndex); }
 }
 
+function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function __runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function __propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function __setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
 function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
 
 function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
 }
 
 function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+  return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
 }
 
 var __createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
 });
 
 function __exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
 
 function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
 
 function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
 }
 
 /** @deprecated */
 function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(__read(arguments[i]));
+  return ar;
 }
 
 /** @deprecated */
 function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
 }
 
 function __spreadArray(to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
+  return this instanceof __await ? (this.v = v, this) : new __await(v);
 }
 
 function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 }
 
 function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
 }
 
 function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 }
 
 function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
 };
 
 var __setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+  o["default"] = v;
 };
 
 function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
 }
 
 function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
+  return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
 function __classPrivateFieldGet(receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
 function __classPrivateFieldSet(receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
+
+function __classPrivateFieldIn(state, receiver) {
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+function __addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object") throw new TypeError("Object expected.");
+    var dispose;
+    if (async) {
+        if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+        dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+        if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+        dispose = value[Symbol.dispose];
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function __disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  function next() {
+    while (env.stack.length) {
+      var rec = env.stack.pop();
+      try {
+        var result = rec.dispose && rec.dispose.call(rec.value);
+        if (rec.async) return Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+      }
+      catch (e) {
+          fail(e);
+      }
+    }
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ var tslib_es6 = ({
+  __extends,
+  __assign,
+  __rest,
+  __decorate,
+  __param,
+  __metadata,
+  __awaiter,
+  __generator,
+  __createBinding,
+  __exportStar,
+  __values,
+  __read,
+  __spread,
+  __spreadArrays,
+  __spreadArray,
+  __await,
+  __asyncGenerator,
+  __asyncDelegator,
+  __asyncValues,
+  __makeTemplateObject,
+  __importStar,
+  __importDefault,
+  __classPrivateFieldGet,
+  __classPrivateFieldSet,
+  __classPrivateFieldIn,
+  __addDisposableResource,
+  __disposeResources,
+});
 
 ;// CONCATENATED MODULE: ./node_modules/lower-case/dist.es2015/index.js
 /**
@@ -6814,18 +6932,19 @@ function unstable__bootstrapServerSideBlockDefinitions(definitions) {
 
       if (serverSideBlockDefinitions[blockName].ancestor === undefined && definitions[blockName].ancestor) {
         serverSideBlockDefinitions[blockName].ancestor = definitions[blockName].ancestor;
+      } // The `selectors` prop is not yet included in the server provided
+      // definitions. Polyfill it as well. This can be removed when the
+      // minimum supported WordPress is >= 6.3.
+
+
+      if (serverSideBlockDefinitions[blockName].selectors === undefined && definitions[blockName].selectors) {
+        serverSideBlockDefinitions[blockName].selectors = definitions[blockName].selectors;
       }
 
       continue;
     }
 
-    serverSideBlockDefinitions[blockName] = Object.fromEntries(Object.entries(definitions[blockName]).filter(_ref => {
-      let [, value] = _ref;
-      return value !== null && value !== undefined;
-    }).map(_ref2 => {
-      let [key, value] = _ref2;
-      return [camelCase(key), value];
-    }));
+    serverSideBlockDefinitions[blockName] = Object.fromEntries(Object.entries(definitions[blockName]).filter(([, value]) => value !== null && value !== undefined).map(([key, value]) => [camelCase(key), value]));
   }
 }
 /**
@@ -6837,16 +6956,12 @@ function unstable__bootstrapServerSideBlockDefinitions(definitions) {
  * @return {Object} Block settings.
  */
 
-function getBlockSettingsFromMetadata(_ref3) {
-  let {
-    textdomain,
-    ...metadata
-  } = _ref3;
-  const allowedFields = ['apiVersion', 'title', 'category', 'parent', 'ancestor', 'icon', 'description', 'keywords', 'attributes', 'providesContext', 'usesContext', 'supports', 'styles', 'example', 'variations'];
-  const settings = Object.fromEntries(Object.entries(metadata).filter(_ref4 => {
-    let [key] = _ref4;
-    return allowedFields.includes(key);
-  }));
+function getBlockSettingsFromMetadata({
+  textdomain,
+  ...metadata
+}) {
+  const allowedFields = ['apiVersion', 'title', 'category', 'parent', 'ancestor', 'icon', 'description', 'keywords', 'attributes', 'providesContext', 'usesContext', 'selectors', 'supports', 'styles', 'example', 'variations'];
+  const settings = Object.fromEntries(Object.entries(metadata).filter(([key]) => allowedFields.includes(key)));
 
   if (textdomain) {
     Object.keys(i18nBlockSchema).forEach(key => {
@@ -6865,7 +6980,8 @@ function getBlockSettingsFromMetadata(_ref3) {
  * behavior. Once registered, the block is made available as an option to any
  * editor interface where blocks are implemented.
  *
- * For more in-depth information on registering a custom block see the [Create a block tutorial](docs/how-to-guides/block-tutorial/README.md)
+ * For more in-depth information on registering a custom block see the
+ * [Create a block tutorial](https://developer.wordpress.org/block-editor/getting-started/create-block/).
  *
  * @param {string|Object} blockNameOrMetadata Block type name or its metadata.
  * @param {Object}        settings            Block settings.
@@ -6918,11 +7034,12 @@ function registerBlockType(blockNameOrMetadata, settings) {
     attributes: {},
     providesContext: {},
     usesContext: [],
+    selectors: {},
     supports: {},
     styles: [],
     variations: [],
     save: () => null,
-    ...(serverSideBlockDefinitions === null || serverSideBlockDefinitions === void 0 ? void 0 : serverSideBlockDefinitions[name]),
+    ...serverSideBlockDefinitions?.[name],
     ...settings
   };
 
@@ -6992,11 +7109,10 @@ function translateBlockSettingUsingI18nSchema(i18nSchema, settingValue, textdoma
  */
 
 
-function registerBlockCollection(namespace, _ref5) {
-  let {
-    title,
-    icon
-  } = _ref5;
+function registerBlockCollection(namespace, {
+  title,
+  icon
+}) {
   (0,external_wp_data_namespaceObject.dispatch)(store).addBlockCollection(namespace, title, icon);
 }
 /**
@@ -7126,6 +7242,10 @@ function setDefaultBlockName(name) {
 /**
  * Assigns name of block for handling block grouping interactions.
  *
+ * This function lets you select a different block to group other blocks in instead of the
+ * default `core/group` block. This function must be used in a component or when the DOM is fully
+ * loaded. See https://developer.wordpress.org/block-editor/reference-guides/packages/packages-dom-ready/
+ *
  * @param {string} name Block name.
  *
  * @example
@@ -7136,7 +7256,7 @@ function setDefaultBlockName(name) {
  *
  *     return (
  *         <Button onClick={ () => setGroupingBlockName( 'core/columns' ) }>
- *             { __( 'Set the default block to Heading' ) }
+ *             { __( 'Wrap in columns' ) }
  *         </Button>
  *     );
  * };
@@ -7164,9 +7284,7 @@ function getDefaultBlockName() {
  */
 
 function getBlockType(name) {
-  var _select;
-
-  return (_select = (0,external_wp_data_namespaceObject.select)(store)) === null || _select === void 0 ? void 0 : _select.getBlockType(name);
+  return (0,external_wp_data_namespaceObject.select)(store)?.getBlockType(name);
 }
 /**
  * Returns all registered blocks.
@@ -7216,7 +7334,7 @@ function hasBlockSupport(nameOrType, feature, defaultSupports) {
  */
 
 function isReusableBlock(blockOrType) {
-  return (blockOrType === null || blockOrType === void 0 ? void 0 : blockOrType.name) === 'core/block';
+  return blockOrType?.name === 'core/block';
 }
 /**
  * Determines whether or not the given block is a template part. This is a
@@ -7229,7 +7347,7 @@ function isReusableBlock(blockOrType) {
  */
 
 function isTemplatePart(blockOrType) {
-  return (blockOrType === null || blockOrType === void 0 ? void 0 : blockOrType.name) === 'core/template-part';
+  return blockOrType?.name === 'core/template-part';
 }
 /**
  * Returns an array with the child blocks of a given block.
@@ -7268,7 +7386,8 @@ const hasChildBlocksWithInserterSupport = blockName => {
 /**
  * Registers a new block style for the given block.
  *
- * For more information on connecting the styles with CSS [the official documentation](/docs/reference-guides/block-api/block-styles.md#styles)
+ * For more information on connecting the styles with CSS
+ * [the official documentation](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/#styles).
  *
  * @param {string} blockName      Name of block (example: “core/latest-posts”).
  * @param {Object} styleVariation Object containing `name` which is the class name applied to the block and `label` which identifies the variation to the user.
@@ -7347,7 +7466,8 @@ const getBlockVariations = (blockName, scope) => {
 /**
  * Registers a new block variation for the given block type.
  *
- * For more information on block variations see [the official documentation ](/docs/reference-guides/block-api/block-variations.md)
+ * For more information on block variations see
+ * [the official documentation ](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-variations/).
  *
  * @param {string}           blockName Name of the block (example: “core/columns”).
  * @param {WPBlockVariation} variation Object describing a block variation.
@@ -7523,10 +7643,7 @@ var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
  * @return {Object} Block object.
  */
 
-function createBlock(name) {
-  let attributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  let innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
+function createBlock(name, attributes = {}, innerBlocks = []) {
   const sanitizedAttributes = __experimentalSanitizeBlockAttributes(name, attributes);
 
   const clientId = esm_browser_v4(); // Blocks are stored with a unique ID, the assigned type name, the block
@@ -7551,8 +7668,7 @@ function createBlock(name) {
  * @return {Object[]} Array of Block objects.
  */
 
-function createBlocksFromInnerBlocksTemplate() {
-  let innerBlocksOrTemplate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+function createBlocksFromInnerBlocksTemplate(innerBlocksOrTemplate = []) {
   return innerBlocksOrTemplate.map(innerBlock => {
     const innerBlockTemplate = Array.isArray(innerBlock) ? innerBlock : [innerBlock.name, innerBlock.attributes, innerBlock.innerBlocks];
     const [name, attributes, innerBlocks = []] = innerBlockTemplate;
@@ -7570,9 +7686,7 @@ function createBlocksFromInnerBlocksTemplate() {
  * @return {Object} A cloned block.
  */
 
-function __experimentalCloneSanitizedBlock(block) {
-  let mergeAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  let newInnerBlocks = arguments.length > 2 ? arguments[2] : undefined;
+function __experimentalCloneSanitizedBlock(block, mergeAttributes = {}, newInnerBlocks) {
   const clientId = esm_browser_v4();
 
   const sanitizedAttributes = __experimentalSanitizeBlockAttributes(block.name, { ...block.attributes,
@@ -7596,9 +7710,7 @@ function __experimentalCloneSanitizedBlock(block) {
  * @return {Object} A cloned block.
  */
 
-function cloneBlock(block) {
-  let mergeAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  let newInnerBlocks = arguments.length > 2 ? arguments[2] : undefined;
+function cloneBlock(block, mergeAttributes = {}, newInnerBlocks) {
   const clientId = esm_browser_v4();
   return { ...block,
     clientId,
@@ -7667,10 +7779,6 @@ const isPossibleTransformForSource = (transform, direction, blocks) => {
     return false;
   }
 
-  if (transform.usingMobileTransformations && isWildcardBlockTransform(transform) && !isContainerGroupBlock(sourceBlock.name)) {
-    return false;
-  }
-
   return true;
 };
 /**
@@ -7723,7 +7831,7 @@ const getBlockTypesForPossibleToTransforms = blocks => {
 
   const blockNames = possibleTransforms.map(transformation => transformation.blocks).flat(); // Map block names to block types.
 
-  return blockNames.map(name => name === '*' ? name : getBlockType(name));
+  return blockNames.map(getBlockType);
 };
 /**
  * Determines whether transform is a "block" type
@@ -7810,12 +7918,9 @@ function findTransform(transforms, predicate) {
 function getBlockTransforms(direction, blockTypeOrName) {
   // When retrieving transforms for all block types, recurse into self.
   if (blockTypeOrName === undefined) {
-    return getBlockTypes().map(_ref => {
-      let {
-        name
-      } = _ref;
-      return getBlockTransforms(direction, name);
-    }).flat();
+    return getBlockTypes().map(({
+      name
+    }) => getBlockTransforms(direction, name)).flat();
   } // Validate that block type exists and has array of direction.
 
 
@@ -7889,7 +7994,7 @@ function switchToBlockType(blocks, name) {
 
   const transformationsFrom = getBlockTransforms('from', name);
   const transformationsTo = getBlockTransforms('to', sourceName);
-  const transformation = findTransform(transformationsTo, t => t.type === 'block' && t.blocks.indexOf(name) !== -1 && (!isMultiBlock || t.isMultiBlock) && maybeCheckTransformIsMatch(t, blocksArray)) || findTransform(transformationsFrom, t => t.type === 'block' && (isWildcardBlockTransform(t) || t.blocks.indexOf(sourceName) !== -1) && (!isMultiBlock || t.isMultiBlock) && maybeCheckTransformIsMatch(t, blocksArray)); // Stop if there is no valid transformation.
+  const transformation = findTransform(transformationsTo, t => t.type === 'block' && (isWildcardBlockTransform(t) || t.blocks.indexOf(name) !== -1) && (!isMultiBlock || t.isMultiBlock) && maybeCheckTransformIsMatch(t, blocksArray)) || findTransform(transformationsFrom, t => t.type === 'block' && (isWildcardBlockTransform(t) || t.blocks.indexOf(sourceName) !== -1) && (!isMultiBlock || t.isMultiBlock) && maybeCheckTransformIsMatch(t, blocksArray)); // Stop if there is no valid transformation.
 
   if (!transformation) {
     return null;
@@ -7922,12 +8027,6 @@ function switchToBlockType(blocks, name) {
 
   if (transformationResults.some(result => !getBlockType(result.name))) {
     return null;
-  } // When unwrapping blocks (`switchToBlockType( wrapperblocks, '*' )`), do
-  // not run filters on the unwrapped blocks. They shoud remain as they are.
-
-
-  if (name === '*') {
-    return transformationResults;
   }
 
   const hasSwitchedBlock = transformationResults.some(result => result.name === name); // Ensure that at least one block object returned by the transformation has
@@ -8017,7 +8116,7 @@ function isUnmodifiedBlock(block) {
 
   const newBlock = isUnmodifiedBlock[block.name];
   const blockType = getBlockType(block.name);
-  return Object.keys((_blockType$attributes = blockType === null || blockType === void 0 ? void 0 : blockType.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).every(key => newBlock.attributes[key] === block.attributes[key]);
+  return Object.keys((_blockType$attributes = blockType?.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).every(key => newBlock.attributes[key] === block.attributes[key]);
 }
 /**
  * Determines whether the block is a default block and its attributes are equal
@@ -8105,8 +8204,7 @@ function normalizeBlockType(blockTypeOrName) {
  * @return {string} The block label.
  */
 
-function getBlockLabel(blockType, attributes) {
-  let context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'visual';
+function getBlockLabel(blockType, attributes, context = 'visual') {
   const {
     __experimentalLabel: getLabel,
     title
@@ -8135,10 +8233,9 @@ function getBlockLabel(blockType, attributes) {
  * @return {string} The block label.
  */
 
-function getAccessibleBlockLabel(blockType, attributes, position) {
-  let direction = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'vertical';
+function getAccessibleBlockLabel(blockType, attributes, position, direction = 'vertical') {
   // `title` is already localized, `label` is a user-supplied value.
-  const title = blockType === null || blockType === void 0 ? void 0 : blockType.title;
+  const title = blockType?.title;
   const label = blockType ? getBlockLabel(blockType, attributes, 'accessibility') : '';
   const hasPosition = position !== undefined; // getBlockLabel returns the block title as a fallback when there's no label,
   // if it did return the title, this function needs to avoid adding the
@@ -8196,8 +8293,7 @@ function __experimentalSanitizeBlockAttributes(name, attributes) {
     throw new Error(`Block type '${name}' is not registered.`);
   }
 
-  return Object.entries(blockType.attributes).reduce((accumulator, _ref) => {
-    let [key, schema] = _ref;
+  return Object.entries(blockType.attributes).reduce((accumulator, [key, schema]) => {
     const value = attributes[key];
 
     if (undefined !== value) {
@@ -8229,17 +8325,11 @@ function __experimentalSanitizeBlockAttributes(name, attributes) {
  */
 
 function __experimentalGetBlockAttributesNamesByRole(name, role) {
-  var _getBlockType;
-
-  const attributes = (_getBlockType = getBlockType(name)) === null || _getBlockType === void 0 ? void 0 : _getBlockType.attributes;
+  const attributes = getBlockType(name)?.attributes;
   if (!attributes) return [];
   const attributesNames = Object.keys(attributes);
   if (!role) return attributesNames;
-  return attributesNames.filter(attributeName => {
-    var _attributes$attribute;
-
-    return ((_attributes$attribute = attributes[attributeName]) === null || _attributes$attribute === void 0 ? void 0 : _attributes$attribute.__experimentalRole) === role;
-  });
+  return attributesNames.filter(attributeName => attributes[attributeName]?.__experimentalRole === role);
 }
 /**
  * Return a new object with the specified keys omitted.
@@ -8251,21 +8341,13 @@ function __experimentalGetBlockAttributesNamesByRole(name, role) {
  */
 
 function omit(object, keys) {
-  return Object.fromEntries(Object.entries(object).filter(_ref2 => {
-    let [key] = _ref2;
-    return !keys.includes(key);
-  }));
+  return Object.fromEntries(Object.entries(object).filter(([key]) => !keys.includes(key)));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/reducer.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -8337,10 +8419,7 @@ function getUniqueItemsByName(items) {
  */
 
 
-function unprocessedBlockTypes() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function unprocessedBlockTypes(state = {}, action) {
   switch (action.type) {
     case 'ADD_UNPROCESSED_BLOCK_TYPE':
       return { ...state,
@@ -8363,10 +8442,7 @@ function unprocessedBlockTypes() {
  * @return {Object} Updated state.
  */
 
-function blockTypes() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function blockTypes(state = {}, action) {
   switch (action.type) {
     case 'ADD_BLOCK_TYPES':
       return { ...state,
@@ -8388,31 +8464,31 @@ function blockTypes() {
  * @return {Object} Updated state.
  */
 
-function blockStyles() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
+function blockStyles(state = {}, action) {
+  var _state$action$blockNa, _state$action$blockNa2;
 
   switch (action.type) {
     case 'ADD_BLOCK_TYPES':
       return { ...state,
-        ...(0,external_lodash_namespaceObject.mapValues)(keyBlockTypesByName(action.blockTypes), blockType => getUniqueItemsByName([...(0,external_lodash_namespaceObject.get)(blockType, ['styles'], []).map(style => ({ ...style,
-          source: 'block'
-        })), ...(0,external_lodash_namespaceObject.get)(state, [blockType.name], []).filter(_ref => {
-          let {
+        ...Object.fromEntries(Object.entries(keyBlockTypesByName(action.blockTypes)).map(([name, blockType]) => {
+          var _blockType$styles, _state$blockType$name;
+
+          return [name, getUniqueItemsByName([...((_blockType$styles = blockType.styles) !== null && _blockType$styles !== void 0 ? _blockType$styles : []).map(style => ({ ...style,
+            source: 'block'
+          })), ...((_state$blockType$name = state[blockType.name]) !== null && _state$blockType$name !== void 0 ? _state$blockType$name : []).filter(({
             source
-          } = _ref;
-          return 'block' !== source;
-        })]))
+          }) => 'block' !== source)])];
+        }))
       };
 
     case 'ADD_BLOCK_STYLES':
       return { ...state,
-        [action.blockName]: getUniqueItemsByName([...(0,external_lodash_namespaceObject.get)(state, [action.blockName], []), ...action.styles])
+        [action.blockName]: getUniqueItemsByName([...((_state$action$blockNa = state[action.blockName]) !== null && _state$action$blockNa !== void 0 ? _state$action$blockNa : []), ...action.styles])
       };
 
     case 'REMOVE_BLOCK_STYLES':
       return { ...state,
-        [action.blockName]: (0,external_lodash_namespaceObject.get)(state, [action.blockName], []).filter(style => action.styleNames.indexOf(style.name) === -1)
+        [action.blockName]: ((_state$action$blockNa2 = state[action.blockName]) !== null && _state$action$blockNa2 !== void 0 ? _state$action$blockNa2 : []).filter(style => action.styleNames.indexOf(style.name) === -1)
       };
   }
 
@@ -8427,33 +8503,31 @@ function blockStyles() {
  * @return {Object} Updated state.
  */
 
-function blockVariations() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
+function blockVariations(state = {}, action) {
+  var _state$action$blockNa3, _state$action$blockNa4;
 
   switch (action.type) {
     case 'ADD_BLOCK_TYPES':
       return { ...state,
-        ...(0,external_lodash_namespaceObject.mapValues)(keyBlockTypesByName(action.blockTypes), blockType => {
-          return getUniqueItemsByName([...(0,external_lodash_namespaceObject.get)(blockType, ['variations'], []).map(variation => ({ ...variation,
+        ...Object.fromEntries(Object.entries(keyBlockTypesByName(action.blockTypes)).map(([name, blockType]) => {
+          var _blockType$variations, _state$blockType$name2;
+
+          return [name, getUniqueItemsByName([...((_blockType$variations = blockType.variations) !== null && _blockType$variations !== void 0 ? _blockType$variations : []).map(variation => ({ ...variation,
             source: 'block'
-          })), ...(0,external_lodash_namespaceObject.get)(state, [blockType.name], []).filter(_ref2 => {
-            let {
-              source
-            } = _ref2;
-            return 'block' !== source;
-          })]);
-        })
+          })), ...((_state$blockType$name2 = state[blockType.name]) !== null && _state$blockType$name2 !== void 0 ? _state$blockType$name2 : []).filter(({
+            source
+          }) => 'block' !== source)])];
+        }))
       };
 
     case 'ADD_BLOCK_VARIATIONS':
       return { ...state,
-        [action.blockName]: getUniqueItemsByName([...(0,external_lodash_namespaceObject.get)(state, [action.blockName], []), ...action.variations])
+        [action.blockName]: getUniqueItemsByName([...((_state$action$blockNa3 = state[action.blockName]) !== null && _state$action$blockNa3 !== void 0 ? _state$action$blockNa3 : []), ...action.variations])
       };
 
     case 'REMOVE_BLOCK_VARIATIONS':
       return { ...state,
-        [action.blockName]: (0,external_lodash_namespaceObject.get)(state, [action.blockName], []).filter(variation => action.variationNames.indexOf(variation.name) === -1)
+        [action.blockName]: ((_state$action$blockNa4 = state[action.blockName]) !== null && _state$action$blockNa4 !== void 0 ? _state$action$blockNa4 : []).filter(variation => action.variationNames.indexOf(variation.name) === -1)
       };
   }
 
@@ -8468,10 +8542,7 @@ function blockVariations() {
  */
 
 function createBlockNameSetterReducer(setActionType) {
-  return function () {
-    let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    let action = arguments.length > 1 ? arguments[1] : undefined;
-
+  return (state = null, action) => {
     switch (action.type) {
       case 'REMOVE_BLOCK_TYPES':
         if (action.names.indexOf(state) !== -1) {
@@ -8500,26 +8571,20 @@ const groupingBlockName = createBlockNameSetterReducer('SET_GROUPING_BLOCK_NAME'
  * @return {WPBlockCategory[]} Updated state.
  */
 
-function categories() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CATEGORIES;
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function categories(state = DEFAULT_CATEGORIES, action) {
   switch (action.type) {
     case 'SET_CATEGORIES':
       return action.categories || [];
 
     case 'UPDATE_CATEGORY':
       {
-        if (!action.category || (0,external_lodash_namespaceObject.isEmpty)(action.category)) {
+        if (!action.category || !Object.keys(action.category).length) {
           return state;
         }
 
-        const categoryToChange = state.find(_ref3 => {
-          let {
-            slug
-          } = _ref3;
-          return slug === action.slug;
-        });
+        const categoryToChange = state.find(({
+          slug
+        }) => slug === action.slug);
 
         if (categoryToChange) {
           return state.map(category => {
@@ -8537,10 +8602,7 @@ function categories() {
 
   return state;
 }
-function collections() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function collections(state = {}, action) {
   switch (action.type) {
     case 'ADD_BLOCK_COLLECTION':
       return { ...state,
@@ -8872,15 +8934,43 @@ var remove_accents = __webpack_require__(4793);
 var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/utils.js
+/**
+ * Helper util to return a value from a certain path of the object.
+ * Path is specified as either:
+ * - a string of properties, separated by dots, for example: "x.y".
+ * - an array of properties, for example `[ 'x', 'y' ]`.
+ * You can also specify a default value in case the result is nullish.
+ *
+ * @param {Object}       object       Input object.
+ * @param {string|Array} path         Path to the object property.
+ * @param {*}            defaultValue Default value if the value at the specified path is nullish.
+ * @return {*} Value of the object property at the specified path.
+ */
+const getValueFromObjectPath = (object, path, defaultValue) => {
+  var _value;
+
+  const normalizedPath = Array.isArray(path) ? path : path.split('.');
+  let value = object;
+  normalizedPath.forEach(fieldName => {
+    value = value?.[fieldName];
+  });
+  return (_value = value) !== null && _value !== void 0 ? _value : defaultValue;
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
 /**
  * External dependencies
  */
 
 
-
 /**
  * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
  */
 
 
@@ -9113,12 +9203,10 @@ const selectors_getBlockVariations = rememo((state, blockName, scope) => {
 
 function getActiveBlockVariation(state, blockName, attributes, scope) {
   const variations = selectors_getBlockVariations(state, blockName, scope);
-  const match = variations === null || variations === void 0 ? void 0 : variations.find(variation => {
-    var _variation$isActive;
-
+  const match = variations?.find(variation => {
     if (Array.isArray(variation.isActive)) {
       const blockType = selectors_getBlockType(state, blockName);
-      const attributeKeys = Object.keys((blockType === null || blockType === void 0 ? void 0 : blockType.attributes) || {});
+      const attributeKeys = Object.keys(blockType?.attributes || {});
       const definedAttributes = variation.isActive.filter(attribute => attributeKeys.includes(attribute));
 
       if (definedAttributes.length === 0) {
@@ -9128,7 +9216,7 @@ function getActiveBlockVariation(state, blockName, attributes, scope) {
       return definedAttributes.every(attribute => attributes[attribute] === variation.attributes[attribute]);
     }
 
-    return (_variation$isActive = variation.isActive) === null || _variation$isActive === void 0 ? void 0 : _variation$isActive.call(variation, attributes, variation.attributes);
+    return variation.isActive?.(attributes, variation.attributes);
   });
   return match;
 }
@@ -9172,12 +9260,9 @@ function getActiveBlockVariation(state, blockName, attributes, scope) {
 
 function getDefaultBlockVariation(state, blockName, scope) {
   const variations = selectors_getBlockVariations(state, blockName, scope);
-  const defaultVariation = [...variations].reverse().find(_ref => {
-    let {
-      isDefault
-    } = _ref;
-    return !!isDefault;
-  });
+  const defaultVariation = [...variations].reverse().find(({
+    isDefault
+  }) => !!isDefault);
   return defaultVariation || variations[0];
 }
 /**
@@ -9419,15 +9504,10 @@ function selectors_getGroupingBlockName(state) {
 
 const selectors_getChildBlockNames = rememo((state, blockName) => {
   return selectors_getBlockTypes(state).filter(blockType => {
-    var _blockType$parent;
-
-    return (_blockType$parent = blockType.parent) === null || _blockType$parent === void 0 ? void 0 : _blockType$parent.includes(blockName);
-  }).map(_ref2 => {
-    let {
-      name
-    } = _ref2;
-    return name;
-  });
+    return blockType.parent?.includes(blockName);
+  }).map(({
+    name
+  }) => name);
 }, state => [state.blockTypes]);
 /**
  * Returns the block support value for a feature, if defined.
@@ -9467,11 +9547,11 @@ const selectors_getChildBlockNames = rememo((state, blockName) => {
 const selectors_getBlockSupport = (state, nameOrType, feature, defaultSupports) => {
   const blockType = getNormalizedBlockType(state, nameOrType);
 
-  if (!(blockType !== null && blockType !== void 0 && blockType.supports)) {
+  if (!blockType?.supports) {
     return defaultSupports;
   }
 
-  return (0,external_lodash_namespaceObject.get)(blockType.supports, feature, defaultSupports);
+  return getValueFromObjectPath(blockType.supports, feature, defaultSupports);
 };
 /**
  * Returns true if the block defines support for a feature, or false otherwise.
@@ -9552,8 +9632,6 @@ function selectors_hasBlockSupport(state, nameOrType, feature, defaultSupports) 
  */
 
 function isMatchingSearchTerm(state, nameOrType, searchTerm) {
-  var _blockType$keywords;
-
   const blockType = getNormalizedBlockType(state, nameOrType);
   const getNormalizedSearchTerm = (0,external_wp_compose_namespaceObject.pipe)([// Disregard diacritics.
   //  Input: "média"
@@ -9564,7 +9642,7 @@ function isMatchingSearchTerm(state, nameOrType, searchTerm) {
   term => term.trim()]);
   const normalizedSearchTerm = getNormalizedSearchTerm(searchTerm);
   const isSearchMatch = (0,external_wp_compose_namespaceObject.pipe)([getNormalizedSearchTerm, normalizedCandidate => normalizedCandidate.includes(normalizedSearchTerm)]);
-  return isSearchMatch(blockType.title) || ((_blockType$keywords = blockType.keywords) === null || _blockType$keywords === void 0 ? void 0 : _blockType$keywords.some(isSearchMatch)) || isSearchMatch(blockType.category) || typeof blockType.description === 'string' && isSearchMatch(blockType.description);
+  return isSearchMatch(blockType.title) || blockType.keywords?.some(isSearchMatch) || isSearchMatch(blockType.category) || typeof blockType.description === 'string' && isSearchMatch(blockType.description);
 }
 /**
  * Returns a boolean indicating if a block has child blocks or not.
@@ -9654,19 +9732,115 @@ const __experimentalHasContentRoleAttribute = rememo((state, blockTypeName) => {
     return false;
   }
 
-  return Object.entries(blockType.attributes).some(_ref3 => {
-    let [, {
-      __experimentalRole
-    }] = _ref3;
-    return __experimentalRole === 'content';
+  return Object.entries(blockType.attributes).some(([, {
+    __experimentalRole
+  }]) => __experimentalRole === 'content');
+}, (state, blockTypeName) => [state.blockTypes[blockTypeName]?.attributes]);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const ROOT_BLOCK_SUPPORTS = ['background', 'backgroundColor', 'color', 'linkColor', 'captionColor', 'buttonColor', 'headingColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'lineHeight', 'padding', 'contentSize', 'wideSize', 'blockGap', 'textDecoration', 'textTransform', 'letterSpacing'];
+/**
+ * Filters the list of supported styles for a given element.
+ *
+ * @param {string[]}         blockSupports list of supported styles.
+ * @param {string|undefined} name          block name.
+ * @param {string|undefined} element       element name.
+ *
+ * @return {string[]} filtered list of supported styles.
+ */
+
+function filterElementBlockSupports(blockSupports, name, element) {
+  return blockSupports.filter(support => {
+    if (support === 'fontSize' && element === 'heading') {
+      return false;
+    } // This is only available for links
+
+
+    if (support === 'textDecoration' && !name && element !== 'link') {
+      return false;
+    } // This is only available for heading
+
+
+    if (support === 'textTransform' && !name && !['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element)) {
+      return false;
+    } // This is only available for headings
+
+
+    if (support === 'letterSpacing' && !name && !['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element)) {
+      return false;
+    } // Text columns is only available for blocks.
+
+
+    if (support === 'textColumns' && !name) {
+      return false;
+    }
+
+    return true;
   });
-}, (state, blockTypeName) => {
-  var _state$blockTypes$blo;
+}
+/**
+ * Returns the list of supported styles for a given block name and element.
+ */
 
-  return [(_state$blockTypes$blo = state.blockTypes[blockTypeName]) === null || _state$blockTypes$blo === void 0 ? void 0 : _state$blockTypes$blo.attributes];
-});
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/node_modules/is-plain-object/dist/is-plain-object.mjs
+const getSupportedStyles = rememo((state, name, element) => {
+  if (!name) {
+    return filterElementBlockSupports(ROOT_BLOCK_SUPPORTS, name, element);
+  }
+
+  const blockType = selectors_getBlockType(state, name);
+
+  if (!blockType) {
+    return [];
+  }
+
+  const supportKeys = []; // Check for blockGap support.
+  // Block spacing support doesn't map directly to a single style property, so needs to be handled separately.
+  // Also, only allow `blockGap` support if serialization has not been skipped, to be sure global spacing can be applied.
+
+  if (blockType?.supports?.spacing?.blockGap && blockType?.supports?.spacing?.__experimentalSkipSerialization !== true && !blockType?.supports?.spacing?.__experimentalSkipSerialization?.some?.(spacingType => spacingType === 'blockGap')) {
+    supportKeys.push('blockGap');
+  } // check for shadow support
+
+
+  if (blockType?.supports?.shadow) {
+    supportKeys.push('shadow');
+  }
+
+  Object.keys(__EXPERIMENTAL_STYLE_PROPERTY).forEach(styleName => {
+    if (!__EXPERIMENTAL_STYLE_PROPERTY[styleName].support) {
+      return;
+    } // Opting out means that, for certain support keys like background color,
+    // blocks have to explicitly set the support value false. If the key is
+    // unset, we still enable it.
+
+
+    if (__EXPERIMENTAL_STYLE_PROPERTY[styleName].requiresOptOut) {
+      if (__EXPERIMENTAL_STYLE_PROPERTY[styleName].support[0] in blockType.supports && getValueFromObjectPath(blockType.supports, __EXPERIMENTAL_STYLE_PROPERTY[styleName].support) !== false) {
+        supportKeys.push(styleName);
+        return;
+      }
+    }
+
+    if (getValueFromObjectPath(blockType.supports, __EXPERIMENTAL_STYLE_PROPERTY[styleName].support, false)) {
+      supportKeys.push(styleName);
+    }
+  });
+  return filterElementBlockSupports(supportKeys, name, element);
+}, (state, name) => [state.blockTypes[name]]);
+
+;// CONCATENATED MODULE: ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
@@ -9766,10 +9940,9 @@ function isFunction(maybeFunc) {
  */
 
 
-const processBlockType = (blockType, _ref) => {
-  let {
-    select
-  } = _ref;
+const processBlockType = (blockType, {
+  select
+}) => {
   const {
     name
   } = blockType;
@@ -9791,10 +9964,7 @@ const processBlockType = (blockType, _ref) => {
       // can opt out of specific keys like "supports".
       ...omit(blockType, DEPRECATED_ENTRY_KEYS),
       ...deprecation
-    }, name, deprecation)).filter(_ref2 => {
-      let [key] = _ref2;
-      return DEPRECATED_ENTRY_KEYS.includes(key);
-    })));
+    }, name, deprecation)).filter(([key]) => DEPRECATED_ENTRY_KEYS.includes(key))));
   }
 
   if (!isPlainObject(settings)) {
@@ -9817,12 +9987,9 @@ const processBlockType = (blockType, _ref) => {
     settings.category = LEGACY_CATEGORY_MAPPING[settings.category];
   }
 
-  if ('category' in settings && !select.getCategories().some(_ref3 => {
-    let {
-      slug
-    } = _ref3;
-    return slug === settings.category;
-  })) {
+  if ('category' in settings && !select.getCategories().some(({
+    slug
+  }) => slug === settings.category)) {
     warn('The block "' + name + '" is registered with an invalid category "' + settings.category + '".');
     delete settings.category;
   }
@@ -9871,11 +10038,10 @@ function addBlockTypes(blockTypes) {
  * @param {WPBlockType} blockType Unprocessed block type settings.
  */
 
-const __experimentalRegisterBlockType = blockType => _ref4 => {
-  let {
-    dispatch,
-    select
-  } = _ref4;
+const __experimentalRegisterBlockType = blockType => ({
+  dispatch,
+  select
+}) => {
   dispatch({
     type: 'ADD_UNPROCESSED_BLOCK_TYPE',
     blockType
@@ -9905,12 +10071,10 @@ const __experimentalRegisterBlockType = blockType => _ref4 => {
  * In this scenario some filters would not get applied for all blocks because they are registered too late.
  */
 
-const __experimentalReapplyBlockTypeFilters = () => _ref5 => {
-  let {
-    dispatch,
-    select
-  } = _ref5;
-
+const __experimentalReapplyBlockTypeFilters = () => ({
+  dispatch,
+  select
+}) => {
   const unprocessedBlockTypes = select.__experimentalGetUnprocessedBlockTypes();
 
   const processedBlockTypes = Object.keys(unprocessedBlockTypes).reduce((accumulator, blockName) => {
@@ -10175,6 +10339,18 @@ function removeBlockCollection(namespace) {
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/constants.js
 const STORE_NAME = 'core/blocks';
 
+;// CONCATENATED MODULE: external ["wp","privateApis"]
+var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/lock-unlock.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock,
+  unlock
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/blocks');
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/index.js
 /**
  * WordPress dependencies
@@ -10183,6 +10359,8 @@ const STORE_NAME = 'core/blocks';
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -10202,6 +10380,7 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
   actions: actions_namespaceObject
 });
 (0,external_wp_data_namespaceObject.register)(store);
+unlock(store).registerPrivateSelectors(private_selectors_namespaceObject);
 
 ;// CONCATENATED MODULE: external ["wp","blockSerializationDefaultParser"]
 var external_wp_blockSerializationDefaultParser_namespaceObject = window["wp"]["blockSerializationDefaultParser"];
@@ -10243,8 +10422,7 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
  * @return {string} An HTML string representing a block.
  */
 
-function serializeRawBlock(rawBlock) {
-  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+function serializeRawBlock(rawBlock, options = {}) {
   const {
     isCommentDelimited = true
   } = options;
@@ -10321,13 +10499,12 @@ const innerBlocksPropsProvider = {};
  * @param {Object} props Optional. Props to pass to the element.
  */
 
-function getBlockProps() {
-  let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function getBlockProps(props = {}) {
   const {
     blockType,
     attributes
   } = blockPropsProvider;
-  return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.getSaveContent.extraProps', { ...props
+  return getBlockProps.skipFilters ? props : (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.getSaveContent.extraProps', { ...props
   }, blockType, attributes);
 }
 /**
@@ -10336,11 +10513,18 @@ function getBlockProps() {
  * @param {Object} props Optional. Props to pass to the element.
  */
 
-function getInnerBlocksProps() {
-  let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function getInnerBlocksProps(props = {}) {
   const {
     innerBlocks
-  } = innerBlocksPropsProvider; // Value is an array of blocks, so defer to block serializer.
+  } = innerBlocksPropsProvider;
+  const [firstBlock] = innerBlocks !== null && innerBlocks !== void 0 ? innerBlocks : [];
+  if (!firstBlock) return props; // If the innerBlocks passed to `getSaveElement` are not blocks but already
+  // components, return the props as is. This is the case for
+  // `getRichTextValues`.
+
+  if (!firstBlock.clientId) return { ...props,
+    children: innerBlocks
+  }; // Value is an array of blocks, so defer to block serializer.
 
   const html = serialize(innerBlocks, {
     isInnerBlocks: true
@@ -10362,9 +10546,9 @@ function getInnerBlocksProps() {
  * @return {Object|string} Save element or raw HTML string.
  */
 
-function getSaveElement(blockTypeOrName, attributes) {
-  let innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+function getSaveElement(blockTypeOrName, attributes, innerBlocks = []) {
   const blockType = normalizeBlockType(blockTypeOrName);
+  if (!blockType?.save) return null;
   let {
     save
   } = blockType; // Component classes are unsupported for save since serialization must
@@ -10447,8 +10631,7 @@ function getSaveContent(blockTypeOrName, attributes, innerBlocks) {
 function getCommentAttributes(blockType, attributes) {
   var _blockType$attributes;
 
-  return Object.entries((_blockType$attributes = blockType.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).reduce((accumulator, _ref) => {
-    let [key, attributeSchema] = _ref;
+  return Object.entries((_blockType$attributes = blockType.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).reduce((accumulator, [key, attributeSchema]) => {
     const value = attributes[key]; // Ignore undefined values.
 
     if (undefined === value) {
@@ -10526,7 +10709,7 @@ function getBlockInnerHTML(block) {
 function getCommentDelimitedContent(rawBlockName, attributes, content) {
   const serializedAttributes = attributes && Object.entries(attributes).length ? serializeAttributes(attributes) + ' ' : ''; // Strip core blocks of their namespace prefix.
 
-  const blockName = rawBlockName !== null && rawBlockName !== void 0 && rawBlockName.startsWith('core/') ? rawBlockName.slice(5) : rawBlockName; // @todo make the `wp:` prefix potentially configurable.
+  const blockName = rawBlockName?.startsWith('core/') ? rawBlockName.slice(5) : rawBlockName; // @todo make the `wp:` prefix potentially configurable.
 
   if (!content) {
     return `<!-- wp:${blockName} ${serializedAttributes}/-->`;
@@ -10544,11 +10727,9 @@ function getCommentDelimitedContent(rawBlockName, attributes, content) {
  * @return {string} Serialized block.
  */
 
-function serializeBlock(block) {
-  let {
-    isInnerBlocks = false
-  } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+function serializeBlock(block, {
+  isInnerBlocks = false
+} = {}) {
   if (!block.isValid && block.__unstableBlockSource) {
     return serializeRawBlock(block.__unstableBlockSource);
   }
@@ -11521,13 +11702,7 @@ function createLogger() {
    * @return {Function} Augmented logger function.
    */
   function createLogHandler(logger) {
-    let log = function (message) {
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      return logger('Block validation: ' + message, ...args);
-    }; // In test environments, pre-process string substitutions to improve
+    let log = (message, ...args) => logger('Block validation: ' + message, ...args); // In test environments, pre-process string substitutions to improve
     // readability of error messages. We'd prefer to avoid pulling in this
     // dependency in runtime environments, and it can be dropped by a combo
     // of Webpack env substitution + UglifyJS dead code elimination.
@@ -11559,22 +11734,14 @@ function createQueuedLogger() {
   const queue = [];
   const logger = createLogger();
   return {
-    error() {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
+    error(...args) {
       queue.push({
         log: logger.error,
         args
       });
     },
 
-    warning() {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
+    warning(...args) {
       queue.push({
         log: logger.warning,
         args
@@ -11832,8 +11999,7 @@ function getMeaningfulAttributePairs(token) {
  * @return {boolean} Whether two text tokens are equivalent.
  */
 
-function isEquivalentTextTokens(actual, expected) {
-  let logger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : createLogger();
+function isEquivalentTextTokens(actual, expected, logger = createLogger()) {
   // This function is intentionally written as syntactically "ugly" as a hot
   // path optimization. Text is progressively normalized in order from least-
   // to-most operationally expensive, until the earliest point at which text
@@ -11944,9 +12110,7 @@ const isEqualAttributesOfName = {
  * @return {boolean} Whether attributes are equivalent.
  */
 
-function isEqualTagAttributePairs(actual, expected) {
-  let logger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : createLogger();
-
+function isEqualTagAttributePairs(actual, expected, logger = createLogger()) {
   // Attributes is tokenized as tuples. Their lengths should match. This also
   // avoids us needing to check both attributes sets, since if A has any keys
   // which do not exist in B, we know the sets to be different.
@@ -11998,9 +12162,7 @@ function isEqualTagAttributePairs(actual, expected) {
  */
 
 const isEqualTokensOfType = {
-  StartTag: function (actual, expected) {
-    let logger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : createLogger();
-
+  StartTag: (actual, expected, logger = createLogger()) => {
     if (actual.tagName !== expected.tagName && // Optimization: Use short-circuit evaluation to defer case-
     // insensitive check on the assumption that the majority case will
     // have exactly equal tag names.
@@ -12048,9 +12210,7 @@ function getNextNonWhitespaceToken(tokens) {
  * @return {Object[]|null} Array of valid tokenized HTML elements, or null on error
  */
 
-function getHTMLTokens(html) {
-  let logger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createLogger();
-
+function getHTMLTokens(html, logger = createLogger()) {
   try {
     return new Tokenizer(new DecodeEntityParser()).tokenize(html);
   } catch (e) {
@@ -12094,9 +12254,7 @@ function isClosedByToken(currentToken, nextToken) {
  * @return {boolean} Whether HTML strings are equivalent.
  */
 
-function isEquivalentHTML(actual, expected) {
-  let logger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : createLogger();
-
+function isEquivalentHTML(actual, expected, logger = createLogger()) {
   // Short-circuit if markup is identical.
   if (actual === expected) {
     return true;
@@ -12181,8 +12339,7 @@ function isEquivalentHTML(actual, expected) {
  * @return {[boolean,Array<LoggerItem>]} validation results.
  */
 
-function validateBlock(block) {
-  let blockTypeOrName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : block.name;
+function validateBlock(block, blockTypeOrName = block.name) {
   const isFallbackBlock = block.name === getFreeformContentHandlerName() || block.name === getUnregisteredTypeHandlerName(); // Shortcut to avoid costly validation.
 
   if (isFallbackBlock) {
@@ -12332,22 +12489,19 @@ function convertLegacyBlockNameAndAttributes(name, attributes) {
  * Given object and string of dot-delimited path segments, returns value at
  * path or undefined if path cannot be resolved.
  *
- * @param  {Object} object Lookup object
- * @param  {string} path   Path to resolve
- * @return {?*}            Resolved value
+ * @param object Lookup object
+ * @param path   Path to resolve
+ * @return       Resolved value
  */
 function getPath(object, path) {
   var segments = path.split('.');
   var segment;
-
   while (segment = segments.shift()) {
     if (!(segment in object)) {
       return;
     }
-
     object = object[segment];
   }
-
   return object;
 }
 ;// CONCATENATED MODULE: ./node_modules/hpq/es/index.js
@@ -12359,133 +12513,162 @@ function getPath(object, path) {
  * Function returning a DOM document created by `createHTMLDocument`. The same
  * document is returned between invocations.
  *
- * @return {Document} DOM document.
+ * @return DOM document.
  */
-
 var getDocument = function () {
   var doc;
   return function () {
     if (!doc) {
       doc = document.implementation.createHTMLDocument('');
     }
-
     return doc;
   };
 }();
+
 /**
  * Given a markup string or DOM element, creates an object aligning with the
  * shape of the matchers object, or the value returned by the matcher.
  *
- * @param  {(string|Element)}  source   Source content
- * @param  {(Object|Function)} matchers Matcher function or object of matchers
- * @return {(Object|*)}                 Matched value(s), shaped by object
+ * @param source Source content
+ * @param matchers Matcher function or object of matchers
  */
 
-
+/**
+ * Given a markup string or DOM element, creates an object aligning with the
+ * shape of the matchers object, or the value returned by the matcher.
+ *
+ * @param source Source content
+ * @param matchers Matcher function or object of matchers
+ */
 function parse(source, matchers) {
   if (!matchers) {
     return;
-  } // Coerce to element
+  }
 
-
+  // Coerce to element
   if ('string' === typeof source) {
     var doc = getDocument();
     doc.body.innerHTML = source;
     source = doc.body;
-  } // Return singular value
+  }
 
-
-  if ('function' === typeof matchers) {
+  // Return singular value
+  if (typeof matchers === 'function') {
     return matchers(source);
-  } // Bail if we can't handle matchers
+  }
 
-
+  // Bail if we can't handle matchers
   if (Object !== matchers.constructor) {
     return;
-  } // Shape result by matcher object
+  }
 
-
+  // Shape result by matcher object
   return Object.keys(matchers).reduce(function (memo, key) {
-    memo[key] = parse(source, matchers[key]);
+    var inner = matchers[key];
+    memo[key] = parse(source, inner);
     return memo;
   }, {});
 }
+
 /**
  * Generates a function which matches node of type selector, returning an
  * attribute by property if the attribute exists. If no selector is passed,
  * returns property of the query element.
  *
- * @param  {?string} selector Optional selector
- * @param  {string}  name     Property name
- * @return {*}                Property value
+ * @param name Property name
+ * @return Property value
  */
 
-function prop(selector, name) {
+/**
+ * Generates a function which matches node of type selector, returning an
+ * attribute by property if the attribute exists. If no selector is passed,
+ * returns property of the query element.
+ *
+ * @param selector Optional selector
+ * @param name Property name
+ * @return Property value
+ */
+function prop(arg1, arg2) {
+  var name;
+  var selector;
   if (1 === arguments.length) {
-    name = selector;
+    name = arg1;
     selector = undefined;
+  } else {
+    name = arg2;
+    selector = arg1;
   }
-
   return function (node) {
     var match = node;
-
     if (selector) {
       match = node.querySelector(selector);
     }
-
     if (match) {
       return getPath(match, name);
     }
   };
 }
+
 /**
  * Generates a function which matches node of type selector, returning an
  * attribute by name if the attribute exists. If no selector is passed,
  * returns attribute of the query element.
  *
- * @param  {?string} selector Optional selector
- * @param  {string}  name     Attribute name
- * @return {?string}          Attribute value
+ * @param name Attribute name
+ * @return Attribute value
  */
 
-function attr(selector, name) {
+/**
+ * Generates a function which matches node of type selector, returning an
+ * attribute by name if the attribute exists. If no selector is passed,
+ * returns attribute of the query element.
+ *
+ * @param selector Optional selector
+ * @param name Attribute name
+ * @return Attribute value
+ */
+function attr(arg1, arg2) {
+  var name;
+  var selector;
   if (1 === arguments.length) {
-    name = selector;
+    name = arg1;
     selector = undefined;
+  } else {
+    name = arg2;
+    selector = arg1;
   }
-
   return function (node) {
     var attributes = prop(selector, 'attributes')(node);
-
-    if (attributes && attributes.hasOwnProperty(name)) {
+    if (attributes && Object.prototype.hasOwnProperty.call(attributes, name)) {
       return attributes[name].value;
     }
   };
 }
+
 /**
  * Convenience for `prop( selector, 'innerHTML' )`.
  *
  * @see prop()
  *
- * @param  {?string} selector Optional selector
- * @return {string}           Inner HTML
+ * @param selector Optional selector
+ * @return Inner HTML
  */
-
 function html(selector) {
   return prop(selector, 'innerHTML');
 }
+
 /**
  * Convenience for `prop( selector, 'textContent' )`.
  *
  * @see prop()
  *
- * @param  {?string} selector Optional selector
- * @return {string}           Text content
+ * @param selector Optional selector
+ * @return Text content
  */
-
 function es_text(selector) {
   return prop(selector, 'textContent');
 }
+
 /**
  * Creates a new matching context by first finding elements matching selector
  * using querySelectorAll before then running another `parse` on `matchers`
@@ -12493,11 +12676,10 @@ function es_text(selector) {
  *
  * @see parse()
  *
- * @param  {string}            selector Selector to match
- * @param  {(Object|Function)} matchers Matcher function or object of matchers
- * @return {Array.<*,Object>}           Array of matched value(s)
+ * @param selector Selector to match
+ * @param matchers Matcher function or object of matchers
+ * @return Matcher function which returns an array of matched value(s)
  */
-
 function query(selector, matchers) {
   return function (node) {
     var matches = node.querySelectorAll(selector);
@@ -12506,9 +12688,168 @@ function query(selector, matchers) {
     });
   };
 }
-// EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
-var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {(...args: any[]) => any} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {((...args: Parameters<F>) => ReturnType<F>) & MemizeMemoizedFunction} Memoized function.
+ */
+function memize(fn, options) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized(/* ...args */) {
+		var node = head,
+			len = arguments.length,
+			args,
+			i;
+
+		searchCache: while (node) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if (node.args.length !== arguments.length) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for (i = 0; i < len; i++) {
+				if (node.args[i] !== arguments[i]) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if (node !== head) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if (node === tail) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ (node.prev).next = node.next;
+				if (node.next) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ (head).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array(len);
+		for (i = 0; i < len; i++) {
+			args[i] = arguments[i];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply(null, args),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if (head) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if (size === /** @type {MemizeOptions} */ (options).maxSize) {
+			tail = /** @type {MemizeCacheNode} */ (tail).prev;
+			/** @type {MemizeCacheNode} */ (tail).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function () {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/matchers.js
 /**
  * External dependencies
@@ -12780,7 +13121,7 @@ function getChildrenArray(children) {
  */
 
 
-function concat() {
+function concat(...blockNodes) {
   external_wp_deprecated_default()('wp.blocks.children.concat', {
     since: '6.1',
     version: '6.3',
@@ -12788,10 +13129,6 @@ function concat() {
     link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
   });
   const result = [];
-
-  for (var _len = arguments.length, blockNodes = new Array(_len), _key = 0; _key < _len; _key++) {
-    blockNodes[_key] = arguments[_key];
-  }
 
   for (let i = 0; i < blockNodes.length; i++) {
     const blockNode = Array.isArray(blockNodes[i]) ? blockNodes[i] : [blockNodes[i]];
@@ -12909,7 +13246,6 @@ function children_matcher(selector) {
 /**
  * External dependencies
  */
-
 
 
 /**
@@ -13091,7 +13427,7 @@ function isValidByEnum(value, enumSet) {
  * @return {Function} A hpq Matcher.
  */
 
-const matcherFromSource = memize_default()(sourceConfig => {
+const matcherFromSource = memize(sourceConfig => {
   switch (sourceConfig.source) {
     case 'attribute':
       let matcher = attr(sourceConfig.selector, sourceConfig.attribute);
@@ -13115,7 +13451,7 @@ const matcherFromSource = memize_default()(sourceConfig => {
       return node_matcher(sourceConfig.selector);
 
     case 'query':
-      const subMatchers = (0,external_lodash_namespaceObject.mapValues)(sourceConfig.query, matcherFromSource);
+      const subMatchers = Object.fromEntries(Object.entries(sourceConfig.query).map(([key, subSourceConfig]) => [key, matcherFromSource(subSourceConfig)]));
       return query(sourceConfig.selector, subMatchers);
 
     case 'tag':
@@ -13161,11 +13497,12 @@ function parseWithAttributeSchema(innerHTML, attributeSchema) {
  * @return {Object} All block attributes.
  */
 
-function getBlockAttributes(blockTypeOrName, innerHTML) {
-  let attributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+function getBlockAttributes(blockTypeOrName, innerHTML, attributes = {}) {
+  var _blockType$attributes;
+
   const doc = parseHtml(innerHTML);
   const blockType = normalizeBlockType(blockTypeOrName);
-  const blockAttributes = (0,external_lodash_namespaceObject.mapValues)(blockType.attributes, (schema, key) => getBlockAttribute(key, schema, doc, attributes, innerHTML));
+  const blockAttributes = Object.fromEntries(Object.entries((_blockType$attributes = blockType.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).map(([key, schema]) => [key, getBlockAttribute(key, schema, doc, attributes, innerHTML)]));
   return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.getBlockAttributes', blockAttributes, blockType, innerHTML, attributes);
 }
 
@@ -13314,7 +13651,10 @@ function applyBlockDeprecatedVersions(block, rawBlock, blockType) {
       isEligible = stubFalse
     } = deprecatedDefinitions[i];
 
-    if (block.isValid && !isEligible(parsedAttributes, block.innerBlocks)) {
+    if (block.isValid && !isEligible(parsedAttributes, block.innerBlocks, {
+      blockNode: rawBlock,
+      block
+    })) {
       continue;
     } // Block type properties which could impact either serialization or
     // parsing are not considered in the deprecated block type by default,
@@ -13460,7 +13800,7 @@ function normalizeRawBlock(rawBlock, options) {
   // automatic paragraphs, so preserve them. Assumes wpautop is idempotent,
   // meaning there are no negative consequences to repeated autop calls.
 
-  if (rawBlockName === fallbackBlockName && !(options !== null && options !== void 0 && options.__unstableSkipAutop)) {
+  if (rawBlockName === fallbackBlockName && !options?.__unstableSkipAutop) {
     rawInnerHTML = (0,external_wp_autop_namespaceObject.autop)(rawInnerHTML).trim();
   }
 
@@ -13597,20 +13937,17 @@ function parseRawBlock(rawBlock, options) {
     updatedBlock.__unstableBlockSource = rawBlock;
   }
 
-  if (!validatedBlock.isValid && updatedBlock.isValid && !(options !== null && options !== void 0 && options.__unstableSkipMigrationLogs)) {
+  if (!validatedBlock.isValid && updatedBlock.isValid && !options?.__unstableSkipMigrationLogs) {
     /* eslint-disable no-console */
     console.groupCollapsed('Updated Block: %s', blockType.name);
     console.info('Block successfully updated for `%s` (%o).\n\nNew content generated by `save` function:\n\n%s\n\nContent retrieved from post body:\n\n%s', blockType.name, blockType, getSaveContent(blockType, updatedBlock.attributes), updatedBlock.originalContent);
     console.groupEnd();
     /* eslint-enable no-console */
   } else if (!validatedBlock.isValid && !updatedBlock.isValid) {
-    validationIssues.forEach(_ref => {
-      let {
-        log,
-        args
-      } = _ref;
-      return log(...args);
-    });
+    validationIssues.forEach(({
+      log,
+      args
+    }) => log(...args));
   }
 
   return updatedBlock;
@@ -13655,12 +13992,9 @@ function parser_parse(content, options) {
  */
 
 function getRawTransforms() {
-  return getBlockTransforms('from').filter(_ref => {
-    let {
-      type
-    } = _ref;
-    return type === 'raw';
-  }).map(transform => {
+  return getBlockTransforms('from').filter(({
+    type
+  }) => type === 'raw').map(transform => {
     return transform.isMatch ? transform : { ...transform,
       isMatch: node => transform.selector && node.matches(transform.selector)
     };
@@ -13690,12 +14024,9 @@ function htmlToBlocks(html, handler) {
   const doc = document.implementation.createHTMLDocument('');
   doc.body.innerHTML = html;
   return Array.from(doc.body.children).flatMap(node => {
-    const rawTransform = findTransform(getRawTransforms(), _ref => {
-      let {
-        isMatch
-      } = _ref;
-      return isMatch(node);
-    });
+    const rawTransform = findTransform(getRawTransforms(), ({
+      isMatch
+    }) => isMatch(node));
 
     if (!rawTransform) {
       return createBlock( // Should not be hardcoded.
@@ -13904,12 +14235,9 @@ function isList(node) {
 }
 
 function shallowTextContent(element) {
-  return Array.from(element.childNodes).map(_ref => {
-    let {
-      nodeValue = ''
-    } = _ref;
-    return nodeValue;
-  }).join('');
+  return Array.from(element.childNodes).map(({
+    nodeValue = ''
+  }) => nodeValue).join('');
 }
 
 function listReducer(node) {
@@ -13987,7 +14315,7 @@ function blockquoteNormaliser(node) {
  */
 
 function isFigureContent(node, schema) {
-  var _schema$figure$childr, _schema$figure;
+  var _schema$figure$childr;
 
   const tag = node.nodeName.toLowerCase(); // We are looking for tags that can be a child of the figure tag, excluding
   // `figcaption` and any phrasing content.
@@ -13996,7 +14324,7 @@ function isFigureContent(node, schema) {
     return false;
   }
 
-  return tag in ((_schema$figure$childr = schema === null || schema === void 0 ? void 0 : (_schema$figure = schema.figure) === null || _schema$figure === void 0 ? void 0 : _schema$figure.children) !== null && _schema$figure$childr !== void 0 ? _schema$figure$childr : {});
+  return tag in ((_schema$figure$childr = schema?.figure?.children) !== null && _schema$figure$childr !== void 0 ? _schema$figure$childr : {});
 }
 /**
  * Whether or not the given node can have an anchor.
@@ -14009,10 +14337,10 @@ function isFigureContent(node, schema) {
 
 
 function canHaveAnchor(node, schema) {
-  var _schema$figure$childr2, _schema$figure2, _schema$figure2$child, _schema$figure2$child2;
+  var _schema$figure$childr2;
 
   const tag = node.nodeName.toLowerCase();
-  return tag in ((_schema$figure$childr2 = schema === null || schema === void 0 ? void 0 : (_schema$figure2 = schema.figure) === null || _schema$figure2 === void 0 ? void 0 : (_schema$figure2$child = _schema$figure2.children) === null || _schema$figure2$child === void 0 ? void 0 : (_schema$figure2$child2 = _schema$figure2$child.a) === null || _schema$figure2$child2 === void 0 ? void 0 : _schema$figure2$child2.children) !== null && _schema$figure$childr2 !== void 0 ? _schema$figure$childr2 : {});
+  return tag in ((_schema$figure$childr2 = schema?.figure?.children?.a?.children) !== null && _schema$figure$childr2 !== void 0 ? _schema$figure$childr2 : {});
 }
 /**
  * Wraps the given element in a figure element.
@@ -14022,8 +14350,7 @@ function canHaveAnchor(node, schema) {
  */
 
 
-function wrapFigureContent(element) {
-  let beforeElement = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : element;
+function wrapFigureContent(element, beforeElement = element) {
   const figure = element.ownerDocument.createElement('figure');
   beforeElement.parentNode.insertBefore(figure, beforeElement);
   figure.appendChild(element);
@@ -14088,9 +14415,7 @@ var external_wp_shortcode_namespaceObject = window["wp"]["shortcode"];
 
 const castArray = maybeArray => Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 
-function segmentHTMLToShortcodeBlock(HTML) {
-  let lastIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  let excludedBlockNames = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+function segmentHTMLToShortcodeBlock(HTML, lastIndex = 0, excludedBlockNames = []) {
   // Get all matches.
   const transformsFrom = getBlockTransforms('from');
   const transformation = findTransform(transformsFrom, transform => excludedBlockNames.indexOf(transform.blockName) === -1 && transform.type === 'shortcode' && castArray(transform.tag).some(tag => (0,external_wp_shortcode_namespaceObject.regexp)(tag).test(HTML)));
@@ -14105,8 +14430,6 @@ function segmentHTMLToShortcodeBlock(HTML) {
   const previousIndex = lastIndex;
 
   if (match = (0,external_wp_shortcode_namespaceObject.next)(transformTag, HTML, lastIndex)) {
-    var _match$shortcode$cont;
-
     lastIndex = match.index + match.content.length;
     const beforeHTML = HTML.substr(0, match.index);
     const afterHTML = HTML.substr(lastIndex); // If the shortcode content does not contain HTML and the shortcode is
@@ -14114,7 +14437,7 @@ function segmentHTMLToShortcodeBlock(HTML) {
     // consider the shortcode as inline text, and thus skip conversion for
     // this segment.
 
-    if (!((_match$shortcode$cont = match.shortcode.content) !== null && _match$shortcode$cont !== void 0 && _match$shortcode$cont.includes('<')) && !(/(\n|<p>)\s*$/.test(beforeHTML) && /^\s*(\n|<\/p>)/.test(afterHTML))) {
+    if (!match.shortcode.content?.includes('<') && !(/(\n|<p>)\s*$/.test(beforeHTML) && /^\s*(\n|<\/p>)/.test(afterHTML))) {
       return segmentHTMLToShortcodeBlock(HTML, lastIndex);
     } // If a transformation's `isMatch` predicate fails for the inbound
     // shortcode, try again by excluding the current block type.
@@ -14144,17 +14467,11 @@ function segmentHTMLToShortcodeBlock(HTML) {
         return applyBuiltInValidationFixes(block, getBlockType(block.name));
       });
     } else {
-      const attributes = Object.fromEntries(Object.entries(transformation.attributes).filter(_ref => {
-        let [, schema] = _ref;
-        return schema.shortcode;
-      }) // Passing all of `match` as second argument is intentionally broad
+      const attributes = Object.fromEntries(Object.entries(transformation.attributes).filter(([, schema]) => schema.shortcode) // Passing all of `match` as second argument is intentionally broad
       // but shouldn't be too relied upon.
       //
       // See: https://github.com/WordPress/gutenberg/pull/3610#discussion_r152546926
-      .map(_ref2 => {
-        let [key, schema] = _ref2;
-        return [key, schema.shortcode(match.shortcode.attrs, match)];
-      }));
+      .map(([key, schema]) => [key, schema.shortcode(match.shortcode.attrs, match)]));
       const blockType = getBlockType(transformation.blockName);
 
       if (!blockType) {
@@ -14179,6 +14496,9 @@ function segmentHTMLToShortcodeBlock(HTML) {
 
 /* harmony default export */ var shortcode_converter = (segmentHTMLToShortcodeBlock);
 
+// EXTERNAL MODULE: ./node_modules/deepmerge/dist/cjs.js
+var cjs = __webpack_require__(1919);
+var cjs_default = /*#__PURE__*/__webpack_require__.n(cjs);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js
 /**
  * External dependencies
@@ -14195,40 +14515,9 @@ function segmentHTMLToShortcodeBlock(HTML) {
 
 
 
-function getBlockContentSchemaFromTransforms(transforms, context) {
-  const phrasingContentSchema = (0,external_wp_dom_namespaceObject.getPhrasingContentSchema)(context);
-  const schemaArgs = {
-    phrasingContentSchema,
-    isPaste: context === 'paste'
-  };
-  const schemas = transforms.map(_ref => {
-    let {
-      isMatch,
-      blockName,
-      schema
-    } = _ref;
-    const hasAnchorSupport = hasBlockSupport(blockName, 'anchor');
-    schema = typeof schema === 'function' ? schema(schemaArgs) : schema; // If the block does not has anchor support and the transform does not
-    // provides an isMatch we can return the schema right away.
 
-    if (!hasAnchorSupport && !isMatch) {
-      return schema;
-    }
-
-    return (0,external_lodash_namespaceObject.mapValues)(schema, value => {
-      let attributes = value.attributes || []; // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
-
-      if (hasAnchorSupport) {
-        attributes = [...attributes, 'id'];
-      }
-
-      return { ...value,
-        attributes,
-        isMatch: isMatch ? isMatch : undefined
-      };
-    });
-  });
-  return (0,external_lodash_namespaceObject.mergeWith)({}, ...schemas, (objValue, srcValue, key) => {
+const customMerge = key => {
+  return (srcValue, objValue) => {
     switch (key) {
       case 'children':
         {
@@ -14257,11 +14546,58 @@ function getBlockContentSchemaFromTransforms(transforms, context) {
           // that returns if one of the source functions returns true.
 
 
-          return function () {
-            return objValue(...arguments) || srcValue(...arguments);
+          return (...args) => {
+            return objValue(...args) || srcValue(...args);
           };
         }
     }
+
+    return cjs_default()(objValue, srcValue, {
+      customMerge,
+      clone: false
+    });
+  };
+};
+
+function getBlockContentSchemaFromTransforms(transforms, context) {
+  const phrasingContentSchema = (0,external_wp_dom_namespaceObject.getPhrasingContentSchema)(context);
+  const schemaArgs = {
+    phrasingContentSchema,
+    isPaste: context === 'paste'
+  };
+  const schemas = transforms.map(({
+    isMatch,
+    blockName,
+    schema
+  }) => {
+    const hasAnchorSupport = hasBlockSupport(blockName, 'anchor');
+    schema = typeof schema === 'function' ? schema(schemaArgs) : schema; // If the block does not has anchor support and the transform does not
+    // provides an isMatch we can return the schema right away.
+
+    if (!hasAnchorSupport && !isMatch) {
+      return schema;
+    }
+
+    if (!schema) {
+      return {};
+    }
+
+    return Object.fromEntries(Object.entries(schema).map(([key, value]) => {
+      let attributes = value.attributes || []; // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
+
+      if (hasAnchorSupport) {
+        attributes = [...attributes, 'id'];
+      }
+
+      return [key, { ...value,
+        attributes,
+        isMatch: isMatch ? isMatch : undefined
+      }];
+    }));
+  });
+  return cjs_default().all(schemas, {
+    customMerge,
+    clone: false
   });
 }
 /**
@@ -14322,9 +14658,7 @@ function deepFilterNodeList(nodeList, filters, doc, schema) {
  * @return {string} The filtered HTML.
  */
 
-function deepFilterHTML(HTML) {
-  let filters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  let schema = arguments.length > 2 ? arguments[2] : undefined;
+function deepFilterHTML(HTML, filters = [], schema) {
   const doc = document.implementation.createHTMLDocument('');
   doc.body.innerHTML = HTML;
   deepFilterNodeList(doc.body.childNodes, filters, doc, schema);
@@ -14391,11 +14725,9 @@ function deprecatedGetPhrasingContentSchema(context) {
  * @return {Array} A list of blocks.
  */
 
-function rawHandler(_ref) {
-  let {
-    HTML = ''
-  } = _ref;
-
+function rawHandler({
+  HTML = ''
+}) {
   // If we detect block delimiters, parse entirely as blocks.
   if (HTML.indexOf('<!-- wp:') !== -1) {
     return parser_parse(HTML);
@@ -15017,14 +15349,13 @@ function filterInlineHTML(HTML, preserveWhiteSpace) {
  */
 
 
-function pasteHandler(_ref) {
-  let {
-    HTML = '',
-    plainText = '',
-    mode = 'AUTO',
-    tagName,
-    preserveWhiteSpace
-  } = _ref;
+function pasteHandler({
+  HTML = '',
+  plainText = '',
+  mode = 'AUTO',
+  tagName,
+  preserveWhiteSpace
+}) {
   // First of all, strip any meta tags.
   HTML = HTML.replace(/<meta[^>]+>/g, ''); // Strip Windows markers.
 
@@ -15241,11 +15572,8 @@ function categories_updateCategory(slug, category) {
  * @return {boolean} Whether the list of blocks matches a templates.
  */
 
-function doBlocksMatchTemplate() {
-  let blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  let template = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  return blocks.length === template.length && template.every((_ref, index) => {
-    let [name,, innerBlocksTemplate] = _ref;
+function doBlocksMatchTemplate(blocks = [], template = []) {
+  return blocks.length === template.length && template.every(([name,, innerBlocksTemplate], index) => {
     const block = blocks[index];
     return name === block.name && doBlocksMatchTemplate(block.innerBlocks, innerBlocksTemplate);
   });
@@ -15264,19 +15592,15 @@ function doBlocksMatchTemplate() {
  * @return {Array} Updated Block list.
  */
 
-function synchronizeBlocksWithTemplate() {
-  let blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  let template = arguments.length > 1 ? arguments[1] : undefined;
-
+function synchronizeBlocksWithTemplate(blocks = [], template) {
   // If no template is provided, return blocks unmodified.
   if (!template) {
     return blocks;
   }
 
-  return template.map((_ref2, index) => {
+  return template.map(([name, attributes, innerBlocksTemplate], index) => {
     var _blockType$attributes;
 
-    let [name, attributes, innerBlocksTemplate] = _ref2;
     const block = blocks[index];
 
     if (block && block.name === name) {
@@ -15291,19 +15615,16 @@ function synchronizeBlocksWithTemplate() {
 
     const blockType = getBlockType(name);
 
-    const isHTMLAttribute = attributeDefinition => (attributeDefinition === null || attributeDefinition === void 0 ? void 0 : attributeDefinition.source) === 'html';
+    const isHTMLAttribute = attributeDefinition => attributeDefinition?.source === 'html';
 
-    const isQueryAttribute = attributeDefinition => (attributeDefinition === null || attributeDefinition === void 0 ? void 0 : attributeDefinition.source) === 'query';
+    const isQueryAttribute = attributeDefinition => attributeDefinition?.source === 'query';
 
     const normalizeAttributes = (schema, values) => {
       if (!values) {
         return {};
       }
 
-      return Object.fromEntries(Object.entries(values).map(_ref3 => {
-        let [key, value] = _ref3;
-        return [key, normalizeAttribute(schema[key], value)];
-      }));
+      return Object.fromEntries(Object.entries(values).map(([key, value]) => [key, normalizeAttribute(schema[key], value)]));
     };
 
     const normalizeAttribute = (definition, value) => {
@@ -15322,7 +15643,7 @@ function synchronizeBlocksWithTemplate() {
       return value;
     };
 
-    const normalizedAttributes = normalizeAttributes((_blockType$attributes = blockType === null || blockType === void 0 ? void 0 : blockType.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}, attributes);
+    const normalizedAttributes = normalizeAttributes((_blockType$attributes = blockType?.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}, attributes);
     let [blockName, blockAttributes] = convertLegacyBlockNameAndAttributes(name, normalizedAttributes); // If a Block is undefined at this point, use the core/missing block as
     // a placeholder for a better user experience.
 

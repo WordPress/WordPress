@@ -1,9 +1,37 @@
 /******/ (function() { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 
-/***/ 9756:
-/***/ (function(module) {
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": function() { return /* binding */ build_module; }
+});
 
+// UNUSED EXPORTS: attrs, fromMatch, next, regexp, replace, string
+
+;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
 /**
  * Memize options object.
  *
@@ -36,14 +64,14 @@
  * Accepts a function to be memoized, and returns a new memoized function, with
  * optional options.
  *
- * @template {Function} F
+ * @template {(...args: any[]) => any} F
  *
  * @param {F}             fn        Function to memoize.
  * @param {MemizeOptions} [options] Options object.
  *
- * @return {F & MemizeMemoizedFunction} Memoized function.
+ * @return {((...args: Parameters<F>) => ReturnType<F>) & MemizeMemoizedFunction} Memoized function.
  */
-function memize( fn, options ) {
+function memize(fn, options) {
 	var size = 0;
 
 	/** @type {?MemizeCacheNode|undefined} */
@@ -54,12 +82,13 @@ function memize( fn, options ) {
 
 	options = options || {};
 
-	function memoized( /* ...args */ ) {
+	function memoized(/* ...args */) {
 		var node = head,
 			len = arguments.length,
-			args, i;
+			args,
+			i;
 
-		searchCache: while ( node ) {
+		searchCache: while (node) {
 			// Perform a shallow equality test to confirm that whether the node
 			// under test is a candidate for the arguments passed. Two arrays
 			// are shallowly equal if their length matches and each entry is
@@ -67,14 +96,14 @@ function memize( fn, options ) {
 			// function which could incur an arguments leaking deoptimization.
 
 			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
+			if (node.args.length !== arguments.length) {
 				node = node.next;
 				continue;
 			}
 
 			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
+			for (i = 0; i < len; i++) {
+				if (node.args[i] !== arguments[i]) {
 					node = node.next;
 					continue searchCache;
 				}
@@ -83,23 +112,23 @@ function memize( fn, options ) {
 			// At this point we can assume we've found a match
 
 			// Surface matched node to head if not already
-			if ( node !== head ) {
+			if (node !== head) {
 				// As tail, shift to previous. Must only shift if not also
 				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
+				if (node === tail) {
 					tail = node.prev;
 				}
 
 				// Adjust siblings to point to each other. If node was tail,
 				// this also handles new tail's empty `next` assignment.
-				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
-				if ( node.next ) {
+				/** @type {MemizeCacheNode} */ (node.prev).next = node.next;
+				if (node.next) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = head;
 				node.prev = null;
-				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				/** @type {MemizeCacheNode} */ (head).prev = node;
 				head = node;
 			}
 
@@ -110,23 +139,23 @@ function memize( fn, options ) {
 		// No cached value found. Continue to insertion phase:
 
 		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
+		args = new Array(len);
+		for (i = 0; i < len; i++) {
+			args[i] = arguments[i];
 		}
 
 		node = {
 			args: args,
 
 			// Generate the result from original function
-			val: fn.apply( null, args ),
+			val: fn.apply(null, args),
 		};
 
 		// Don't need to check whether node is already head, since it would
 		// have been returned above already if it was
 
 		// Shift existing head down list
-		if ( head ) {
+		if (head) {
 			head.prev = node;
 			node.next = head;
 		} else {
@@ -135,9 +164,9 @@ function memize( fn, options ) {
 		}
 
 		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
-			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
-			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		if (size === /** @type {MemizeOptions} */ (options).maxSize) {
+			tail = /** @type {MemizeCacheNode} */ (tail).prev;
+			/** @type {MemizeCacheNode} */ (tail).next = null;
 		} else {
 			size++;
 		}
@@ -147,13 +176,11 @@ function memize( fn, options ) {
 		return node.val;
 	}
 
-	memoized.clear = function() {
+	memoized.clear = function () {
 		head = null;
 		tail = null;
 		size = 0;
 	};
-
-	if ( false ) {}
 
 	// Ignore reason: There's not a clear solution to create an intersection of
 	// the function with additional properties, where the goal is to retain the
@@ -164,75 +191,9 @@ function memize( fn, options ) {
 	return memoized;
 }
 
-module.exports = memize;
 
 
-/***/ })
-
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
-"use strict";
-/* unused harmony exports next, replace, string, regexp, attrs, fromMatch */
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9756);
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_0__);
+;// CONCATENATED MODULE: ./node_modules/@wordpress/shortcode/build-module/index.js
 /**
  * External dependencies
  */
@@ -276,8 +237,7 @@ var __webpack_exports__ = {};
  * @return {WPShortcodeMatch | undefined} Matched information.
  */
 
-function next(tag, text) {
-  let index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+function next(tag, text, index = 0) {
   const re = regexp(tag);
   re.lastIndex = index;
   const match = re.exec(text);
@@ -395,7 +355,7 @@ function regexp(tag) {
  * @return {WPShortcodeAttrs} Parsed shortcode attributes.
  */
 
-const attrs = memize__WEBPACK_IMPORTED_MODULE_0___default()(text => {
+const attrs = memize(text => {
   const named = {};
   const numeric = []; // This regular expression is reused from `shortcode_parse_atts()` in
   // `wp-includes/shortcodes.php`.
@@ -510,8 +470,7 @@ const shortcode = Object.assign(function (options) {
   } else if (attributes.length === attributeTypes.length && attributeTypes.every((t, key) => t === attributes[key])) {
     this.attrs = attributes; // Handle a flat object of attributes.
   } else {
-    Object.entries(attributes).forEach(_ref => {
-      let [key, value] = _ref;
+    Object.entries(attributes).forEach(([key, value]) => {
       this.set(key, value);
     });
   }
@@ -568,8 +527,7 @@ Object.assign(shortcode.prototype, {
         text += ' ' + value;
       }
     });
-    Object.entries(this.attrs.named).forEach(_ref2 => {
-      let [name, value] = _ref2;
+    Object.entries(this.attrs.named).forEach(([name, value]) => {
       text += ' ' + name + '="' + value + '"';
     }); // If the tag is marked as `single` or `self-closing`, close the tag and
     // ignore any additional content.
@@ -592,9 +550,8 @@ Object.assign(shortcode.prototype, {
   }
 
 });
-/* harmony default export */ __webpack_exports__["default"] = (shortcode);
+/* harmony default export */ var build_module = (shortcode);
 
-}();
 (window.wp = window.wp || {}).shortcode = __webpack_exports__["default"];
 /******/ })()
 ;

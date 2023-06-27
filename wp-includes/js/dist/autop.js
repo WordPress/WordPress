@@ -164,8 +164,7 @@ function replaceInHtmlTags(haystack, replacePairs) {
  */
 
 
-function autop(text) {
-  let br = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+function autop(text, br = true) {
   const preTags = [];
 
   if (text.trim() === '') {

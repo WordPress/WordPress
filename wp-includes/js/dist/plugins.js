@@ -1,199 +1,7 @@
 /******/ (function() { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
-
-/***/ 9756:
-/***/ (function(module) {
-
-/**
- * Memize options object.
- *
- * @typedef MemizeOptions
- *
- * @property {number} [maxSize] Maximum size of the cache.
- */
-
-/**
- * Internal cache entry.
- *
- * @typedef MemizeCacheNode
- *
- * @property {?MemizeCacheNode|undefined} [prev] Previous node.
- * @property {?MemizeCacheNode|undefined} [next] Next node.
- * @property {Array<*>}                   args   Function arguments for cache
- *                                               entry.
- * @property {*}                          val    Function result.
- */
-
-/**
- * Properties of the enhanced function for controlling cache.
- *
- * @typedef MemizeMemoizedFunction
- *
- * @property {()=>void} clear Clear the cache.
- */
-
-/**
- * Accepts a function to be memoized, and returns a new memoized function, with
- * optional options.
- *
- * @template {Function} F
- *
- * @param {F}             fn        Function to memoize.
- * @param {MemizeOptions} [options] Options object.
- *
- * @return {F & MemizeMemoizedFunction} Memoized function.
- */
-function memize( fn, options ) {
-	var size = 0;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var head;
-
-	/** @type {?MemizeCacheNode|undefined} */
-	var tail;
-
-	options = options || {};
-
-	function memoized( /* ...args */ ) {
-		var node = head,
-			len = arguments.length,
-			args, i;
-
-		searchCache: while ( node ) {
-			// Perform a shallow equality test to confirm that whether the node
-			// under test is a candidate for the arguments passed. Two arrays
-			// are shallowly equal if their length matches and each entry is
-			// strictly equal between the two sets. Avoid abstracting to a
-			// function which could incur an arguments leaking deoptimization.
-
-			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
-				node = node.next;
-				continue;
-			}
-
-			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
-					node = node.next;
-					continue searchCache;
-				}
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== head ) {
-				// As tail, shift to previous. Must only shift if not also
-				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
-					tail = node.prev;
-				}
-
-				// Adjust siblings to point to each other. If node was tail,
-				// this also handles new tail's empty `next` assignment.
-				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = head;
-				node.prev = null;
-				/** @type {MemizeCacheNode} */ ( head ).prev = node;
-				head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		node = {
-			args: args,
-
-			// Generate the result from original function
-			val: fn.apply( null, args ),
-		};
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( head ) {
-			head.prev = node;
-			node.next = head;
-		} else {
-			// If no head, follows that there's no tail (at initial or reset)
-			tail = node;
-		}
-
-		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
-			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
-			/** @type {MemizeCacheNode} */ ( tail ).next = null;
-		} else {
-			size++;
-		}
-
-		head = node;
-
-		return node.val;
-	}
-
-	memoized.clear = function() {
-		head = null;
-		tail = null;
-		size = 0;
-	};
-
-	if ( false ) {}
-
-	// Ignore reason: There's not a clear solution to create an intersection of
-	// the function with additional properties, where the goal is to retain the
-	// function signature of the incoming argument and add control properties
-	// on the return value.
-
-	// @ts-ignore
-	return memoized;
-}
-
-module.exports = memize;
-
-
-/***/ })
-
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
@@ -238,9 +46,6 @@ module.exports = memize;
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
-"use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
@@ -256,36 +61,186 @@ __webpack_require__.d(__webpack_exports__, {
 
 ;// CONCATENATED MODULE: external ["wp","element"]
 var external_wp_element_namespaceObject = window["wp"]["element"];
-// EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
-var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {(...args: any[]) => any} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {((...args: Parameters<F>) => ReturnType<F>) & MemizeMemoizedFunction} Memoized function.
+ */
+function memize(fn, options) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized(/* ...args */) {
+		var node = head,
+			len = arguments.length,
+			args,
+			i;
+
+		searchCache: while (node) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if (node.args.length !== arguments.length) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for (i = 0; i < len; i++) {
+				if (node.args[i] !== arguments[i]) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if (node !== head) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if (node === tail) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ (node.prev).next = node.next;
+				if (node.next) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ (head).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array(len);
+		for (i = 0; i < len; i++) {
+			args[i] = arguments[i];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply(null, args),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if (head) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if (size === /** @type {MemizeOptions} */ (options).maxSize) {
+			tail = /** @type {MemizeCacheNode} */ (tail).prev;
+			/** @type {MemizeCacheNode} */ (tail).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function () {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+
+
 ;// CONCATENATED MODULE: external ["wp","hooks"]
 var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
+;// CONCATENATED MODULE: external ["wp","isShallowEqual"]
+var external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"];
+var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-context/index.js
-
 
 
 /**
  * WordPress dependencies
  */
 
+
+/**
+ * Internal dependencies
+ */
 
 const {
   Consumer,
@@ -299,15 +254,17 @@ const {
  * A Higher Order Component used to inject Plugin context to the
  * wrapped component.
  *
- * @param {Function} mapContextToProps Function called on every context change,
- *                                     expected to return object of props to
- *                                     merge with the component's own props.
+ * @param  mapContextToProps Function called on every context change,
+ *                           expected to return object of props to
+ *                           merge with the component's own props.
  *
  * @return {WPComponent} Enhanced component with injected context as props.
  */
 
 const withPluginContext = mapContextToProps => (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(OriginalComponent => {
-  return props => (0,external_wp_element_namespaceObject.createElement)(Consumer, null, context => (0,external_wp_element_namespaceObject.createElement)(OriginalComponent, _extends({}, props, mapContextToProps(context, props))));
+  return props => (0,external_wp_element_namespaceObject.createElement)(Consumer, null, context => (0,external_wp_element_namespaceObject.createElement)(OriginalComponent, { ...props,
+    ...mapContextToProps(context, props)
+  }));
 }, 'withPluginContext');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-error-boundary/index.js
@@ -316,6 +273,9 @@ const withPluginContext = mapContextToProps => (0,external_wp_compose_namespaceO
  */
 
 class PluginErrorBoundary extends external_wp_element_namespaceObject.Component {
+  /**
+   * @param {Object} props
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -328,6 +288,10 @@ class PluginErrorBoundary extends external_wp_element_namespaceObject.Component 
       hasError: true
     };
   }
+  /**
+   * @param {Error} error Error object passed by React.
+   */
+
 
   componentDidCatch(error) {
     const {
@@ -375,36 +339,17 @@ const plugins = (0,external_wp_element_namespaceObject.createElement)(external_w
  */
 
 
-/**
- * Defined behavior of a plugin type.
- *
- * @typedef {Object} WPPlugin
- *
- * @property {string}                    name    A string identifying the plugin. Must be
- *                                               unique across all registered plugins.
- * @property {string|WPElement|Function} [icon]  An icon to be shown in the UI. It can
- *                                               be a slug of the Dashicon, or an element
- *                                               (or function returning an element) if you
- *                                               choose to render your own SVG.
- * @property {Function}                  render  A component containing the UI elements
- *                                               to be rendered.
- * @property {string}                    [scope] The optional scope to be used when rendering inside
- *                                               a plugin area. No scope by default.
- */
 
 /**
  * Plugin definitions keyed by plugin name.
- *
- * @type {Object.<string,WPPlugin>}
  */
-
 const api_plugins = {};
 /**
  * Registers a plugin to the editor.
  *
- * @param {string}                 name     A string identifying the plugin.Must be
- *                                          unique across all registered plugins.
- * @param {Omit<WPPlugin, 'name'>} settings The settings for this plugin.
+ * @param name     A string identifying the plugin. Must be
+ *                 unique across all registered plugins.
+ * @param settings The settings for this plugin.
  *
  * @example
  * ```js
@@ -474,7 +419,7 @@ const api_plugins = {};
  * } );
  * ```
  *
- * @return {WPPlugin} The final plugin settings object.
+ * @return The final plugin settings object.
  */
 
 function registerPlugin(name, settings) {
@@ -531,7 +476,7 @@ function registerPlugin(name, settings) {
 /**
  * Unregisters a plugin by name.
  *
- * @param {string} name Plugin name.
+ * @param name Plugin name.
  *
  * @example
  * ```js
@@ -549,8 +494,8 @@ function registerPlugin(name, settings) {
  * unregisterPlugin( 'plugin-name' );
  * ```
  *
- * @return {WPPlugin | undefined} The previous plugin settings object, if it has been
- *                     successfully unregistered; otherwise `undefined`.
+ * @return The previous plugin settings object, if it has been
+ *         successfully unregistered; otherwise `undefined`.
  */
 
 function unregisterPlugin(name) {
@@ -567,9 +512,9 @@ function unregisterPlugin(name) {
 /**
  * Returns a registered plugin settings.
  *
- * @param {string} name Plugin name.
+ * @param name Plugin name.
  *
- * @return {?WPPlugin} Plugin setting.
+ * @return Plugin setting.
  */
 
 function getPlugin(name) {
@@ -578,10 +523,10 @@ function getPlugin(name) {
 /**
  * Returns all registered plugins without a scope or for a given scope.
  *
- * @param {string} [scope] The scope to be used when rendering inside
- *                         a plugin area. No scope by default.
+ * @param scope The scope to be used when rendering inside
+ *              a plugin area. No scope by default.
  *
- * @return {WPPlugin[]} The list of plugins without a scope or for a given scope.
+ * @return The list of plugins without a scope or for a given scope.
  */
 
 function getPlugins(scope) {
@@ -601,6 +546,7 @@ function getPlugins(scope) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -608,9 +554,16 @@ function getPlugins(scope) {
 
 
 
+const getPluginContext = memize((icon, name) => ({
+  icon,
+  name
+}));
 /**
  * A component that renders all plugin fills in a hidden div.
  *
+ * @param  props
+ * @param  props.scope
+ * @param  props.onError
  * @example
  * ```js
  * // Using ES5 syntax
@@ -643,69 +596,50 @@ function getPlugins(scope) {
  * @return {WPComponent} The component to be rendered.
  */
 
-class PluginArea extends external_wp_element_namespaceObject.Component {
-  constructor() {
-    super(...arguments);
-    this.setPlugins = this.setPlugins.bind(this);
-    this.memoizedContext = memize_default()((name, icon) => {
-      return {
-        name,
-        icon
-      };
-    });
-    this.state = this.getCurrentPluginsState();
-  }
-
-  getCurrentPluginsState() {
+function PluginArea({
+  scope,
+  onError
+}) {
+  const store = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    let lastValue = [];
     return {
-      plugins: getPlugins(this.props.scope).map(_ref => {
-        let {
-          icon,
-          name,
-          render
-        } = _ref;
-        return {
-          Plugin: render,
-          context: this.memoizedContext(name, icon)
+      subscribe(listener) {
+        (0,external_wp_hooks_namespaceObject.addAction)('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered', listener);
+        (0,external_wp_hooks_namespaceObject.addAction)('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered', listener);
+        return () => {
+          (0,external_wp_hooks_namespaceObject.removeAction)('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered');
+          (0,external_wp_hooks_namespaceObject.removeAction)('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered');
         };
-      })
-    };
-  }
+      },
 
-  componentDidMount() {
-    (0,external_wp_hooks_namespaceObject.addAction)('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered', this.setPlugins);
-    (0,external_wp_hooks_namespaceObject.addAction)('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered', this.setPlugins);
-  }
+      getValue() {
+        const nextValue = getPlugins(scope);
 
-  componentWillUnmount() {
-    (0,external_wp_hooks_namespaceObject.removeAction)('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered');
-    (0,external_wp_hooks_namespaceObject.removeAction)('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered');
-  }
+        if (!external_wp_isShallowEqual_default()(lastValue, nextValue)) {
+          lastValue = nextValue;
+        }
 
-  setPlugins() {
-    this.setState(this.getCurrentPluginsState);
-  }
-
-  render() {
-    return (0,external_wp_element_namespaceObject.createElement)("div", {
-      style: {
-        display: 'none'
+        return lastValue;
       }
-    }, this.state.plugins.map(_ref2 => {
-      let {
-        context,
-        Plugin
-      } = _ref2;
-      return (0,external_wp_element_namespaceObject.createElement)(Provider, {
-        key: context.name,
-        value: context
-      }, (0,external_wp_element_namespaceObject.createElement)(PluginErrorBoundary, {
-        name: context.name,
-        onError: this.props.onError
-      }, (0,external_wp_element_namespaceObject.createElement)(Plugin, null)));
-    }));
-  }
 
+    };
+  }, [scope]);
+  const plugins = (0,external_wp_element_namespaceObject.useSyncExternalStore)(store.subscribe, store.getValue);
+  return (0,external_wp_element_namespaceObject.createElement)("div", {
+    style: {
+      display: 'none'
+    }
+  }, plugins.map(({
+    icon,
+    name,
+    render: Plugin
+  }) => (0,external_wp_element_namespaceObject.createElement)(Provider, {
+    key: name,
+    value: getPluginContext(icon, name)
+  }, (0,external_wp_element_namespaceObject.createElement)(PluginErrorBoundary, {
+    name: name,
+    onError: onError
+  }, (0,external_wp_element_namespaceObject.createElement)(Plugin, null)))));
 }
 
 /* harmony default export */ var plugin_area = (PluginArea);
@@ -718,7 +652,6 @@ class PluginArea extends external_wp_element_namespaceObject.Component {
 
 
 
-}();
 (window.wp = window.wp || {}).plugins = __webpack_exports__;
 /******/ })()
 ;

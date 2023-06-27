@@ -1,5 +1,5 @@
 {
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/legacy-widget",
 	"title": "Legacy Widget",
 	"category": "widgets",

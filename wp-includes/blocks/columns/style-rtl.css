@@ -3,7 +3,6 @@
   box-sizing:border-box;
   display:flex;
   flex-wrap:wrap !important;
-  margin-bottom:1.75em;
 }
 @media (min-width:782px){
   .wp-block-columns{
@@ -42,6 +41,10 @@
 }
 .wp-block-columns.is-not-stacked-on-mobile>.wp-block-column[style*=flex-basis]{
   flex-grow:0;
+}
+
+:where(.wp-block-columns){
+  margin-bottom:1.75em;
 }
 
 :where(.wp-block-columns.has-background){

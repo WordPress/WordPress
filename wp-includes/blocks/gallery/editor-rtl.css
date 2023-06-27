@@ -1,10 +1,6 @@
 figure.wp-block-gallery{
   display:block;
 }
-figure.wp-block-gallery.has-nested-images .components-drop-zone{
-  display:none;
-  pointer-events:none;
-}
 figure.wp-block-gallery>.blocks-gallery-caption{
   flex:0 0 100%;
 }

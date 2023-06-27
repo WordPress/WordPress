@@ -4,7 +4,7 @@
   border-radius:2px;
   box-shadow:inset 0 0 0 1px #1e1e1e;
   color:#1e1e1e;
-  filter:none;
+  filter:none !important;
 }
 .wp-block-image.wp-block-image.is-selected .components-placeholder>svg{
   opacity:0;
@@ -95,6 +95,7 @@ figure.wp-block-image:not(.wp-block){
 }
 .wp-block-image__crop-area .reactEasyCrop_Container .reactEasyCrop_Image{
   border:none;
+  border-radius:0;
 }
 
 .wp-block-image__crop-icon{

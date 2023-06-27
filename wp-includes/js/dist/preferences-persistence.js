@@ -79,18 +79,14 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
 function debounceAsync(func, delayMS) {
   let timeoutId;
   let activePromise;
-  return async function debounced() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
+  return async function debounced(...args) {
     // This is a leading edge debounce. If there's no promise or timeout
     // in progress, call the debounced function immediately.
     if (!activePromise && !timeoutId) {
       return new Promise((resolve, reject) => {
         // Keep a reference to the promise.
-        activePromise = func(...args).then(function () {
-          resolve(...arguments);
+        activePromise = func(...args).then((...thenArgs) => {
+          resolve(...thenArgs);
         }).catch(error => {
           reject(error);
         }).finally(() => {
@@ -117,8 +113,8 @@ function debounceAsync(func, delayMS) {
     return new Promise((resolve, reject) => {
       // Schedule the next request but with a delay.
       timeoutId = setTimeout(() => {
-        activePromise = func(...args).then(function () {
-          resolve(...arguments);
+        activePromise = func(...args).then((...thenArgs) => {
+          resolve(...thenArgs);
         }).catch(error => {
           reject(error);
         }).finally(() => {
@@ -162,18 +158,15 @@ const localStorage = window.localStorage;
  * @return {Object} A persistence layer for WordPress user meta.
  */
 
-function create() {
-  let {
-    preloadedData,
-    localStorageRestoreKey = 'WP_PREFERENCES_RESTORE_DATA',
-    requestDebounceMS = 2500
-  } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function create({
+  preloadedData,
+  localStorageRestoreKey = 'WP_PREFERENCES_RESTORE_DATA',
+  requestDebounceMS = 2500
+} = {}) {
   let cache = preloadedData;
   const debouncedApiFetch = debounceAsync((external_wp_apiFetch_default()), requestDebounceMS);
 
   async function get() {
-    var _user$meta;
-
     if (cache) {
       return cache;
     }
@@ -181,12 +174,12 @@ function create() {
     const user = await external_wp_apiFetch_default()({
       path: '/wp/v2/users/me?context=edit'
     });
-    const serverData = user === null || user === void 0 ? void 0 : (_user$meta = user.meta) === null || _user$meta === void 0 ? void 0 : _user$meta.persisted_preferences;
+    const serverData = user?.meta?.persisted_preferences;
     const localData = JSON.parse(localStorage.getItem(localStorageRestoreKey)); // Date parse returns NaN for invalid input. Coerce anything invalid
     // into a conveniently comparable zero.
 
-    const serverTimestamp = Date.parse(serverData === null || serverData === void 0 ? void 0 : serverData._modified) || 0;
-    const localTimestamp = Date.parse(localData === null || localData === void 0 ? void 0 : localData._modified) || 0; // Prefer server data if it exists and is more recent.
+    const serverTimestamp = Date.parse(serverData?._modified) || 0;
+    const localTimestamp = Date.parse(localData?._modified) || 0; // Prefer server data if it exists and is more recent.
     // Otherwise fallback to localStorage data.
 
     if (serverData && serverTimestamp >= localTimestamp) {
@@ -296,35 +289,31 @@ function create() {
  * @return {Object} The migrated state
  */
 function moveFeaturePreferences(state, sourceStoreName) {
-  var _state$interfaceStore, _state$interfaceStore2, _state$interfaceStore3, _state$sourceStoreNam, _state$sourceStoreNam2, _state$preferencesSto;
-
   const preferencesStoreName = 'core/preferences';
   const interfaceStoreName = 'core/interface'; // Features most recently (and briefly) lived in the interface package.
   // If data exists there, prioritize using that for the migration. If not
   // also check the original package as the user may have updated from an
   // older block editor version.
 
-  const interfaceFeatures = state === null || state === void 0 ? void 0 : (_state$interfaceStore = state[interfaceStoreName]) === null || _state$interfaceStore === void 0 ? void 0 : (_state$interfaceStore2 = _state$interfaceStore.preferences) === null || _state$interfaceStore2 === void 0 ? void 0 : (_state$interfaceStore3 = _state$interfaceStore2.features) === null || _state$interfaceStore3 === void 0 ? void 0 : _state$interfaceStore3[sourceStoreName];
-  const sourceFeatures = state === null || state === void 0 ? void 0 : (_state$sourceStoreNam = state[sourceStoreName]) === null || _state$sourceStoreNam === void 0 ? void 0 : (_state$sourceStoreNam2 = _state$sourceStoreNam.preferences) === null || _state$sourceStoreNam2 === void 0 ? void 0 : _state$sourceStoreNam2.features;
+  const interfaceFeatures = state?.[interfaceStoreName]?.preferences?.features?.[sourceStoreName];
+  const sourceFeatures = state?.[sourceStoreName]?.preferences?.features;
   const featuresToMigrate = interfaceFeatures ? interfaceFeatures : sourceFeatures;
 
   if (!featuresToMigrate) {
     return state;
   }
 
-  const existingPreferences = state === null || state === void 0 ? void 0 : (_state$preferencesSto = state[preferencesStoreName]) === null || _state$preferencesSto === void 0 ? void 0 : _state$preferencesSto.preferences; // Avoid migrating features again if they've previously been migrated.
+  const existingPreferences = state?.[preferencesStoreName]?.preferences; // Avoid migrating features again if they've previously been migrated.
 
-  if (existingPreferences !== null && existingPreferences !== void 0 && existingPreferences[sourceStoreName]) {
+  if (existingPreferences?.[sourceStoreName]) {
     return state;
   }
 
   let updatedInterfaceState;
 
   if (interfaceFeatures) {
-    var _state$interfaceStore4, _state$interfaceStore5;
-
-    const otherInterfaceState = state === null || state === void 0 ? void 0 : state[interfaceStoreName];
-    const otherInterfaceScopes = state === null || state === void 0 ? void 0 : (_state$interfaceStore4 = state[interfaceStoreName]) === null || _state$interfaceStore4 === void 0 ? void 0 : (_state$interfaceStore5 = _state$interfaceStore4.preferences) === null || _state$interfaceStore5 === void 0 ? void 0 : _state$interfaceStore5.features;
+    const otherInterfaceState = state?.[interfaceStoreName];
+    const otherInterfaceScopes = state?.[interfaceStoreName]?.preferences?.features;
     updatedInterfaceState = {
       [interfaceStoreName]: { ...otherInterfaceState,
         preferences: {
@@ -339,10 +328,8 @@ function moveFeaturePreferences(state, sourceStoreName) {
   let updatedSourceState;
 
   if (sourceFeatures) {
-    var _state$sourceStoreNam3;
-
-    const otherSourceState = state === null || state === void 0 ? void 0 : state[sourceStoreName];
-    const sourcePreferences = state === null || state === void 0 ? void 0 : (_state$sourceStoreNam3 = state[sourceStoreName]) === null || _state$sourceStoreNam3 === void 0 ? void 0 : _state$sourceStoreNam3.preferences;
+    const otherSourceState = state?.[sourceStoreName];
+    const sourcePreferences = state?.[sourceStoreName]?.preferences;
     updatedSourceState = {
       [sourceStoreName]: { ...otherSourceState,
         preferences: { ...sourcePreferences,
@@ -409,39 +396,35 @@ function moveFeaturePreferences(state, sourceStoreName) {
  *                  preferences data structure.
  */
 function moveThirdPartyFeaturePreferencesToPreferences(state) {
-  var _state$interfaceStore, _state$interfaceStore2;
-
   const interfaceStoreName = 'core/interface';
   const preferencesStoreName = 'core/preferences';
-  const interfaceScopes = state === null || state === void 0 ? void 0 : (_state$interfaceStore = state[interfaceStoreName]) === null || _state$interfaceStore === void 0 ? void 0 : (_state$interfaceStore2 = _state$interfaceStore.preferences) === null || _state$interfaceStore2 === void 0 ? void 0 : _state$interfaceStore2.features;
+  const interfaceScopes = state?.[interfaceStoreName]?.preferences?.features;
   const interfaceScopeKeys = interfaceScopes ? Object.keys(interfaceScopes) : [];
 
-  if (!(interfaceScopeKeys !== null && interfaceScopeKeys !== void 0 && interfaceScopeKeys.length)) {
+  if (!interfaceScopeKeys?.length) {
     return state;
   }
 
   return interfaceScopeKeys.reduce(function (convertedState, scope) {
-    var _convertedState$prefe, _convertedState$prefe2, _convertedState$prefe3, _convertedState$inter, _convertedState$inter2;
-
     if (scope.startsWith('core')) {
       return convertedState;
     }
 
-    const featuresToMigrate = interfaceScopes === null || interfaceScopes === void 0 ? void 0 : interfaceScopes[scope];
+    const featuresToMigrate = interfaceScopes?.[scope];
 
     if (!featuresToMigrate) {
       return convertedState;
     }
 
-    const existingMigratedData = convertedState === null || convertedState === void 0 ? void 0 : (_convertedState$prefe = convertedState[preferencesStoreName]) === null || _convertedState$prefe === void 0 ? void 0 : (_convertedState$prefe2 = _convertedState$prefe.preferences) === null || _convertedState$prefe2 === void 0 ? void 0 : _convertedState$prefe2[scope];
+    const existingMigratedData = convertedState?.[preferencesStoreName]?.preferences?.[scope];
 
     if (existingMigratedData) {
       return convertedState;
     }
 
-    const otherPreferencesScopes = convertedState === null || convertedState === void 0 ? void 0 : (_convertedState$prefe3 = convertedState[preferencesStoreName]) === null || _convertedState$prefe3 === void 0 ? void 0 : _convertedState$prefe3.preferences;
-    const otherInterfaceState = convertedState === null || convertedState === void 0 ? void 0 : convertedState[interfaceStoreName];
-    const otherInterfaceScopes = convertedState === null || convertedState === void 0 ? void 0 : (_convertedState$inter = convertedState[interfaceStoreName]) === null || _convertedState$inter === void 0 ? void 0 : (_convertedState$inter2 = _convertedState$inter.preferences) === null || _convertedState$inter2 === void 0 ? void 0 : _convertedState$inter2.features;
+    const otherPreferencesScopes = convertedState?.[preferencesStoreName]?.preferences;
+    const otherInterfaceState = convertedState?.[interfaceStoreName];
+    const otherInterfaceScopes = convertedState?.[interfaceStoreName]?.preferences?.features;
     return { ...convertedState,
       [preferencesStoreName]: {
         preferences: { ...otherPreferencesScopes,
@@ -498,31 +481,27 @@ const identity = arg => arg;
  */
 
 
-function moveIndividualPreferenceToPreferences(state, _ref, key) {
-  var _state$sourceStoreNam, _state$sourceStoreNam2, _state$preferencesSto, _state$preferencesSto2, _state$preferencesSto3, _state$preferencesSto4, _state$preferencesSto5, _state$preferencesSto6, _state$sourceStoreNam3;
-
-  let {
-    from: sourceStoreName,
-    to: scope
-  } = _ref;
-  let convert = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : identity;
+function moveIndividualPreferenceToPreferences(state, {
+  from: sourceStoreName,
+  to: scope
+}, key, convert = identity) {
   const preferencesStoreName = 'core/preferences';
-  const sourcePreference = state === null || state === void 0 ? void 0 : (_state$sourceStoreNam = state[sourceStoreName]) === null || _state$sourceStoreNam === void 0 ? void 0 : (_state$sourceStoreNam2 = _state$sourceStoreNam.preferences) === null || _state$sourceStoreNam2 === void 0 ? void 0 : _state$sourceStoreNam2[key]; // There's nothing to migrate, exit early.
+  const sourcePreference = state?.[sourceStoreName]?.preferences?.[key]; // There's nothing to migrate, exit early.
 
   if (sourcePreference === undefined) {
     return state;
   }
 
-  const targetPreference = state === null || state === void 0 ? void 0 : (_state$preferencesSto = state[preferencesStoreName]) === null || _state$preferencesSto === void 0 ? void 0 : (_state$preferencesSto2 = _state$preferencesSto.preferences) === null || _state$preferencesSto2 === void 0 ? void 0 : (_state$preferencesSto3 = _state$preferencesSto2[scope]) === null || _state$preferencesSto3 === void 0 ? void 0 : _state$preferencesSto3[key]; // There's existing data at the target, so don't overwrite it, exit early.
+  const targetPreference = state?.[preferencesStoreName]?.preferences?.[scope]?.[key]; // There's existing data at the target, so don't overwrite it, exit early.
 
   if (targetPreference) {
     return state;
   }
 
-  const otherScopes = state === null || state === void 0 ? void 0 : (_state$preferencesSto4 = state[preferencesStoreName]) === null || _state$preferencesSto4 === void 0 ? void 0 : _state$preferencesSto4.preferences;
-  const otherPreferences = state === null || state === void 0 ? void 0 : (_state$preferencesSto5 = state[preferencesStoreName]) === null || _state$preferencesSto5 === void 0 ? void 0 : (_state$preferencesSto6 = _state$preferencesSto5.preferences) === null || _state$preferencesSto6 === void 0 ? void 0 : _state$preferencesSto6[scope];
-  const otherSourceState = state === null || state === void 0 ? void 0 : state[sourceStoreName];
-  const allSourcePreferences = state === null || state === void 0 ? void 0 : (_state$sourceStoreNam3 = state[sourceStoreName]) === null || _state$sourceStoreNam3 === void 0 ? void 0 : _state$sourceStoreNam3.preferences; // Pass an object with the key and value as this allows the convert
+  const otherScopes = state?.[preferencesStoreName]?.preferences;
+  const otherPreferences = state?.[preferencesStoreName]?.preferences?.[scope];
+  const otherSourceState = state?.[sourceStoreName];
+  const allSourcePreferences = state?.[sourceStoreName]?.preferences; // Pass an object with the key and value as this allows the convert
   // function to convert to a data structure that has different keys.
 
   const convertedPreferences = convert({
@@ -593,27 +572,25 @@ function moveIndividualPreferenceToPreferences(state, _ref, key) {
  * @param {Object} state The local storage state.
  */
 function moveInterfaceEnableItems(state) {
-  var _state$interfaceStore, _state$preferencesSto, _state$preferencesSto2, _sourceEnableItems$si, _sourceEnableItems$si2, _sourceEnableItems$mu, _sourceEnableItems$mu2;
+  var _state$preferencesSto, _sourceEnableItems$si, _sourceEnableItems$mu;
 
   const interfaceStoreName = 'core/interface';
   const preferencesStoreName = 'core/preferences';
-  const sourceEnableItems = state === null || state === void 0 ? void 0 : (_state$interfaceStore = state[interfaceStoreName]) === null || _state$interfaceStore === void 0 ? void 0 : _state$interfaceStore.enableItems; // There's nothing to migrate, exit early.
+  const sourceEnableItems = state?.[interfaceStoreName]?.enableItems; // There's nothing to migrate, exit early.
 
   if (!sourceEnableItems) {
     return state;
   }
 
-  const allPreferences = (_state$preferencesSto = state === null || state === void 0 ? void 0 : (_state$preferencesSto2 = state[preferencesStoreName]) === null || _state$preferencesSto2 === void 0 ? void 0 : _state$preferencesSto2.preferences) !== null && _state$preferencesSto !== void 0 ? _state$preferencesSto : {}; // First convert complementaryAreas into the right format.
+  const allPreferences = (_state$preferencesSto = state?.[preferencesStoreName]?.preferences) !== null && _state$preferencesSto !== void 0 ? _state$preferencesSto : {}; // First convert complementaryAreas into the right format.
   // Use the existing preferences as the accumulator so that the data is
   // merged.
 
-  const sourceComplementaryAreas = (_sourceEnableItems$si = sourceEnableItems === null || sourceEnableItems === void 0 ? void 0 : (_sourceEnableItems$si2 = sourceEnableItems.singleEnableItems) === null || _sourceEnableItems$si2 === void 0 ? void 0 : _sourceEnableItems$si2.complementaryArea) !== null && _sourceEnableItems$si !== void 0 ? _sourceEnableItems$si : {};
+  const sourceComplementaryAreas = (_sourceEnableItems$si = sourceEnableItems?.singleEnableItems?.complementaryArea) !== null && _sourceEnableItems$si !== void 0 ? _sourceEnableItems$si : {};
   const preferencesWithConvertedComplementaryAreas = Object.keys(sourceComplementaryAreas).reduce((accumulator, scope) => {
-    var _accumulator$scope;
-
     const data = sourceComplementaryAreas[scope]; // Don't overwrite any existing data in the preferences store.
 
-    if (accumulator !== null && accumulator !== void 0 && (_accumulator$scope = accumulator[scope]) !== null && _accumulator$scope !== void 0 && _accumulator$scope.complementaryArea) {
+    if (accumulator?.[scope]?.complementaryArea) {
       return accumulator;
     }
 
@@ -625,13 +602,11 @@ function moveInterfaceEnableItems(state) {
   }, allPreferences); // Next feed the converted complementary areas back into a reducer that
   // converts the pinned items, resulting in the fully migrated data.
 
-  const sourcePinnedItems = (_sourceEnableItems$mu = sourceEnableItems === null || sourceEnableItems === void 0 ? void 0 : (_sourceEnableItems$mu2 = sourceEnableItems.multipleEnableItems) === null || _sourceEnableItems$mu2 === void 0 ? void 0 : _sourceEnableItems$mu2.pinnedItems) !== null && _sourceEnableItems$mu !== void 0 ? _sourceEnableItems$mu : {};
+  const sourcePinnedItems = (_sourceEnableItems$mu = sourceEnableItems?.multipleEnableItems?.pinnedItems) !== null && _sourceEnableItems$mu !== void 0 ? _sourceEnableItems$mu : {};
   const allConvertedData = Object.keys(sourcePinnedItems).reduce((accumulator, scope) => {
-    var _accumulator$scope2;
-
     const data = sourcePinnedItems[scope]; // Don't overwrite any existing data in the preferences store.
 
-    if (accumulator !== null && accumulator !== void 0 && (_accumulator$scope2 = accumulator[scope]) !== null && _accumulator$scope2 !== void 0 && _accumulator$scope2.pinnedItems) {
+    if (accumulator?.[scope]?.pinnedItems) {
       return accumulator;
     }
 
@@ -687,15 +662,15 @@ function moveInterfaceEnableItems(state) {
 function convertEditPostPanels(preferences) {
   var _preferences$panels;
 
-  const panels = (_preferences$panels = preferences === null || preferences === void 0 ? void 0 : preferences.panels) !== null && _preferences$panels !== void 0 ? _preferences$panels : {};
+  const panels = (_preferences$panels = preferences?.panels) !== null && _preferences$panels !== void 0 ? _preferences$panels : {};
   return Object.keys(panels).reduce((convertedData, panelName) => {
     const panel = panels[panelName];
 
-    if ((panel === null || panel === void 0 ? void 0 : panel.enabled) === false) {
+    if (panel?.enabled === false) {
       convertedData.inactivePanels.push(panelName);
     }
 
-    if ((panel === null || panel === void 0 ? void 0 : panel.opened) === true) {
+    if (panel?.opened === true) {
       convertedData.openPanels.push(panelName);
     }
 
@@ -739,8 +714,6 @@ function getLegacyData(userId) {
 
 
 function convertLegacyData(data) {
-  var _data, _data$corePreference;
-
   if (!data) {
     return;
   } // Move boolean feature preferences from each editor into the
@@ -785,7 +758,7 @@ function convertLegacyData(data) {
   }, 'editorMode'); // The new system is only concerned with persisting
   // 'core/preferences' preferences reducer, so only return that.
 
-  return (_data = data) === null || _data === void 0 ? void 0 : (_data$corePreference = _data['core/preferences']) === null || _data$corePreference === void 0 ? void 0 : _data$corePreference.preferences;
+  return data?.['core/preferences']?.preferences;
 }
 /**
  * Gets the legacy local storage data for the given user and returns the
@@ -807,7 +780,7 @@ function convertComplementaryAreas(state) {
   return Object.keys(state).reduce((stateAccumulator, scope) => {
     const scopeData = state[scope]; // If a complementary area is truthy, convert it to the `isComplementaryAreaVisible` boolean.
 
-    if (scopeData !== null && scopeData !== void 0 && scopeData.complementaryArea) {
+    if (scopeData?.complementaryArea) {
       const updatedScopeData = { ...scopeData
       };
       delete updatedScopeData.complementaryArea;

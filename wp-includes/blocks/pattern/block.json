@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/pattern",
-	"title": "Pattern",
+	"title": "Pattern placeholder",
 	"category": "theme",
 	"description": "Show a block pattern.",
 	"supports": {

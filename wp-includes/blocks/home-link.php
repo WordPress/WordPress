@@ -98,12 +98,12 @@ function block_core_home_link_build_li_wrapper_attributes( $context ) {
 		$colors['css_classes'],
 		$font_sizes['css_classes']
 	);
+	$classes[]       = 'wp-block-navigation-item';
 	$style_attribute = ( $colors['inline_styles'] . $font_sizes['inline_styles'] );
-	$css_classes     = trim( implode( ' ', $classes ) ) . ' wp-block-navigation-item';
 
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
-			'class' => $css_classes,
+			'class' => implode( ' ', $classes ),
 			'style' => $style_attribute,
 		)
 	);

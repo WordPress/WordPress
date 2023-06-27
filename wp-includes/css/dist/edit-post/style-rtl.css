@@ -9,7 +9,7 @@
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   :root{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -415,6 +415,10 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .interface-preferences__tabs .components-tab-panel__tabs .components-tab-panel__tabs-item:focus:not(:disabled){
   box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline:2px solid transparent;
+}
+.interface-preferences__tabs .components-tab-panel__tabs .components-tab-panel__tabs-item:focus-visible:before{
+  content:none;
 }
 .interface-preferences__tabs .components-tab-panel__tab-content{
   margin-right:160px;
@@ -491,6 +495,12 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   .edit-post-header__toolbar .table-of-contents{
     display:block;
   }
+}
+
+.edit-post-header__document-title{
+  display:flex;
+  flex-grow:1;
+  justify-content:center;
 }
 .edit-post-header__settings{
   align-items:center;
@@ -684,8 +694,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   border-radius:2px;
   height:36px;
   margin-top:-1px;
-  -o-object-fit:cover;
-     object-fit:cover;
+  object-fit:cover;
   width:36px;
 }
 
@@ -693,7 +702,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   align-items:center;
   border:none;
   display:inline-flex;
-  flex-grow:1;
 }
 .edit-post-header-toolbar .edit-post-header-toolbar__left>.components-button{
   display:none;
@@ -792,82 +800,56 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   margin-right:8px;
 }
 
-.edit-post-template-top-area{
-  align-content:space-between;
+.edit-post-document-title{
   align-items:center;
+  background:#f0f0f0;
+  border-radius:4px;
   display:flex;
-  flex-direction:column;
-  width:100%;
+  gap:8px;
+  height:36px;
+  justify-content:space-between;
+  min-width:0;
+  width:min(100%, 450px);
 }
-.edit-post-template-top-area .edit-post-template-post-title,.edit-post-template-top-area .edit-post-template-title{
-  height:auto;
-  padding:0;
-  text-decoration:none;
+.edit-post-document-title:hover{
+  background:#e0e0e0;
+  color:currentColor;
 }
-.edit-post-template-top-area .edit-post-template-post-title:before,.edit-post-template-top-area .edit-post-template-title:before{
-  height:100%;
+
+.edit-post-document-title__title.components-button{
+  color:var(--wp-block-synced-color);
+  flex-grow:1;
+  overflow:hidden;
 }
-.edit-post-template-top-area .edit-post-template-post-title.has-icon svg,.edit-post-template-top-area .edit-post-template-title.has-icon svg{
-  margin-left:0;
-  order:1;
+.edit-post-document-title__title.components-button:hover{
+  color:var(--wp-block-synced-color);
 }
-.edit-post-template-top-area .edit-post-template-title{
-  color:#1e1e1e;
-}
-.edit-post-template-top-area .edit-post-template-post-title{
-  display:block;
-  margin-top:4px;
-  max-width:160px;
+.edit-post-document-title__title.components-button h1{
+  color:var(--wp-block-synced-color);
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-.edit-post-template-top-area .edit-post-template-post-title:before{
-  left:0;
-  right:0;
-}
-@media (min-width:1080px){
-  .edit-post-template-top-area .edit-post-template-post-title{
-    max-width:400px;
-  }
-}
 
-.edit-post-template-top-area__popover .components-popover__content{
-  min-width:280px;
-  padding:0;
+.edit-post-document-title__shortcut{
+  color:#757575;
+  flex-shrink:0;
+  padding:0 12px;
 }
-.edit-post-template-top-area__popover .edit-site-template-details__group{
-  padding:16px;
-}
-.edit-post-template-top-area__popover .edit-site-template-details__group .components-base-control__help{
-  margin-bottom:0;
-}
-.edit-post-template-top-area__popover .edit-post-template-details__description{
+.edit-post-document-title__shortcut:hover{
   color:#757575;
 }
 
-.edit-post-template-top-area__second-menu-group{
-  border-top:1px solid #ddd;
-  padding:16px 8px;
+.edit-post-document-title__left{
+  flex-shrink:0;
+  min-width:36px;
 }
-.edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button{
-  display:flex;
-  justify-content:center;
-  padding:4px 8px;
+.edit-post-document-title__left .components-button.has-icon.has-text{
+  color:#757575;
+  gap:0;
 }
-.edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button.is-destructive{
-  margin-left:8px;
-  margin-right:8px;
-  padding:inherit;
-  width:calc(100% - 16px);
-}
-.edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button.is-destructive .components-menu-item__item{
-  width:auto;
-}
-.edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button .components-menu-item__item{
-  margin-left:0;
-  min-width:0;
-  width:100%;
+.edit-post-document-title__left .components-button.has-icon.has-text:hover{
+  color:currentColor;
 }
 
 .edit-post-keyboard-shortcut-help-modal__section{
@@ -1041,6 +1023,12 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   height:61px;
 }
 
+@media (min-width:782px){
+  .edit-post-layout.has-fixed-toolbar .interface-interface-skeleton__header:not(:focus-within){
+    z-index:19;
+  }
+}
+
 .edit-post-block-manager__no-results{
   font-style:italic;
   padding:24px 0;
@@ -1056,7 +1044,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   border:1px solid #ddd;
   border-width:1px 0;
   box-shadow:32px 0 0 0 #fff,-32px 0 0 0 #fff;
-  font-style:italic;
   padding:8px;
   position:sticky;
   text-align:center;
@@ -1065,6 +1052,9 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 }
 .edit-post-block-manager__disabled-blocks-count~.edit-post-block-manager__results .edit-post-block-manager__category-title{
   top:35px;
+}
+.edit-post-block-manager__disabled-blocks-count .is-link{
+  margin-right:12px;
 }
 
 .edit-post-block-manager__category{
@@ -1187,18 +1177,36 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 .edit-post-meta-boxes-area__clear{
   clear:both;
 }
-
 .edit-post-editor__document-overview-panel,.edit-post-editor__inserter-panel{
   display:flex;
   flex-direction:column;
   height:100%;
 }
 
-.edit-post-editor__document-overview-panel{
-  width:350px;
+@media (min-width:782px){
+  .edit-post-editor__document-overview-panel{
+    width:350px;
+  }
 }
-.edit-post-editor__document-overview-panel .edit-post-sidebar__panel-tabs{
-  flex-direction:row-reverse;
+.edit-post-editor__document-overview-panel .edit-post-editor__document-overview-panel__close-button{
+  background:#fff;
+  left:8px;
+  position:absolute;
+  top:6px;
+  z-index:1;
+}
+.edit-post-editor__document-overview-panel .components-tab-panel__tabs{
+  border-bottom:1px solid #ddd;
+  box-sizing:border-box;
+  display:flex;
+  padding-left:56px;
+  width:100%;
+}
+.edit-post-editor__document-overview-panel .components-tab-panel__tabs .edit-post-sidebar__panel-tab{
+  width:50%;
+}
+.edit-post-editor__document-overview-panel .components-tab-panel__tab-content{
+  height:calc(100% - 48px);
 }
 
 .edit-post-editor__inserter-panel-header{
@@ -1217,36 +1225,39 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   }
 }
 
-.edit-post-editor__document-overview-panel-header{
-  border-bottom:1px solid #ddd;
-  display:flex;
-  height:48px;
-  justify-content:space-between;
-  padding-left:4px;
-  padding-right:16px;
-}
-.edit-post-editor__document-overview-panel-header ul{
-  width:calc(100% - 40px);
-}
-.edit-post-editor__document-overview-panel-header li{
-  width:50%;
-}
-.edit-post-editor__document-overview-panel-header li button{
-  text-align:initial;
-  width:100%;
-}
-.edit-post-editor__document-overview-panel-header li:only-child{
-  width:100%;
-}
-.edit-post-editor__document-overview-panel-header.components-panel__header.edit-post-sidebar__panel-tabs .components-button.has-icon{
-  display:flex;
-}
-
 .edit-post-editor__list-view-container>.document-outline,.edit-post-editor__list-view-empty-headings,.edit-post-editor__list-view-panel-content{
   height:100%;
-  overflow-x:hidden;
-  overflow-y:auto;
+  overflow:auto;
   padding:8px 6px;
+  scrollbar-color:transparent transparent;
+  scrollbar-gutter:stable both-edges;
+  scrollbar-gutter:auto;
+  scrollbar-width:thin;
+  will-change:transform;
+}
+.edit-post-editor__list-view-container>.document-outline::-webkit-scrollbar,.edit-post-editor__list-view-empty-headings::-webkit-scrollbar,.edit-post-editor__list-view-panel-content::-webkit-scrollbar{
+  height:12px;
+  width:12px;
+}
+.edit-post-editor__list-view-container>.document-outline::-webkit-scrollbar-track,.edit-post-editor__list-view-empty-headings::-webkit-scrollbar-track,.edit-post-editor__list-view-panel-content::-webkit-scrollbar-track{
+  background-color:initial;
+}
+.edit-post-editor__list-view-container>.document-outline::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content::-webkit-scrollbar-thumb{
+  background-clip:padding-box;
+  background-color:initial;
+  border:3px solid transparent;
+  border-radius:8px;
+}
+.edit-post-editor__list-view-container>.document-outline:focus-within::-webkit-scrollbar-thumb,.edit-post-editor__list-view-container>.document-outline:focus::-webkit-scrollbar-thumb,.edit-post-editor__list-view-container>.document-outline:hover::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings:focus-within::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings:focus::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings:hover::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content:focus-within::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content:focus::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content:hover::-webkit-scrollbar-thumb{
+  background-color:#949494;
+}
+.edit-post-editor__list-view-container>.document-outline:focus,.edit-post-editor__list-view-container>.document-outline:focus-within,.edit-post-editor__list-view-container>.document-outline:hover,.edit-post-editor__list-view-empty-headings:focus,.edit-post-editor__list-view-empty-headings:focus-within,.edit-post-editor__list-view-empty-headings:hover,.edit-post-editor__list-view-panel-content:focus,.edit-post-editor__list-view-panel-content:focus-within,.edit-post-editor__list-view-panel-content:hover{
+  scrollbar-color:#949494 transparent;
+}
+@media (hover:none){
+  .edit-post-editor__list-view-container>.document-outline,.edit-post-editor__list-view-empty-headings,.edit-post-editor__list-view-panel-content{
+    scrollbar-color:#949494 transparent;
+  }
 }
 
 .edit-post-editor__list-view-empty-headings{
@@ -1281,7 +1292,11 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 .edit-post-editor__list-view-container{
   display:flex;
   flex-direction:column;
-  height:calc(100% - 48px);
+  height:100%;
+}
+
+.edit-post-editor__document-overview-panel__tab-panel{
+  height:100%;
 }
 
 .components-panel__header.edit-post-sidebar__panel-tabs{
@@ -1574,10 +1589,11 @@ h2.edit-post-template-summary__title{
 }
 
 .edit-post-visual-editor{
-  background-color:#2f2f2f;
+  background-color:#1e1e1e;
   display:flex;
   flex:1 0 auto;
   flex-flow:column;
+  overflow:hidden;
   position:relative;
 }
 .edit-post-visual-editor .components-button{
@@ -1596,16 +1612,6 @@ h2.edit-post-template-summary__title{
 .edit-post-visual-editor__post-title-wrapper .editor-post-title{
   margin-left:auto;
   margin-right:auto;
-}
-
-.edit-post-visual-editor__exit-template-mode{
-  color:#fff;
-  position:absolute;
-  right:8px;
-  top:8px;
-}
-.edit-post-visual-editor__exit-template-mode:active:not([aria-disabled=true]),.edit-post-visual-editor__exit-template-mode:focus:not([aria-disabled=true]),.edit-post-visual-editor__exit-template-mode:hover{
-  color:#f0f0f0;
 }
 
 .edit-post-visual-editor__content-area{
@@ -1627,8 +1633,7 @@ h2.edit-post-template-summary__title{
 .edit-post-welcome-guide__image>img,.edit-template-welcome-guide__image>img{
   display:block;
   max-width:100%;
-  -o-object-fit:cover;
-     object-fit:cover;
+  object-fit:cover;
 }
 .edit-post-welcome-guide__heading,.edit-template-welcome-guide__heading{
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
@@ -1652,26 +1657,20 @@ h2.edit-post-template-summary__title{
   fill:#fff;
 }
 
-@media (min-width:600px){
-  .edit-post-start-page-options__modal{
-    height:calc(100% - 120px);
-    width:calc(100% - 32px);
-  }
-}
-@media (min-width:782px){
-  .edit-post-start-page-options__modal{
-    width:750px;
-  }
-}
-@media (min-width:960px){
-  .edit-post-start-page-options__modal{
-    height:70%;
-  }
-}
-
 .edit-post-start-page-options__modal-content .block-editor-block-patterns-list{
   column-count:2;
   column-gap:24px;
+  padding-top:2px;
+}
+@media (min-width:782px){
+  .edit-post-start-page-options__modal-content .block-editor-block-patterns-list{
+    column-count:3;
+  }
+}
+@media (min-width:1280px){
+  .edit-post-start-page-options__modal-content .block-editor-block-patterns-list{
+    column-count:4;
+  }
 }
 .edit-post-start-page-options__modal-content .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item{
   break-inside:avoid-column;
@@ -1764,7 +1763,7 @@ body.admin-color-light{
   --wp-admin-theme-color-darker-20--rgb:0, 97, 135;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-light{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1779,7 +1778,7 @@ body.admin-color-modern{
   --wp-admin-theme-color-darker-20--rgb:24, 58, 214;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-modern{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1794,7 +1793,7 @@ body.admin-color-blue{
   --wp-admin-theme-color-darker-20--rgb:6, 64, 84;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-blue{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1809,7 +1808,7 @@ body.admin-color-coffee{
   --wp-admin-theme-color-darker-20--rgb:43, 39, 36;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-coffee{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1824,7 +1823,7 @@ body.admin-color-ectoplasm{
   --wp-admin-theme-color-darker-20--rgb:58, 44, 77;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-ectoplasm{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1839,7 +1838,7 @@ body.admin-color-midnight{
   --wp-admin-theme-color-darker-20--rgb:208, 44, 33;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-midnight{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1854,7 +1853,7 @@ body.admin-color-ocean{
   --wp-admin-theme-color-darker-20--rgb:76, 96, 102;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-ocean{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -1869,9 +1868,16 @@ body.admin-color-sunrise{
   --wp-admin-theme-color-darker-20--rgb:195, 105, 34;
   --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   body.admin-color-sunrise{
     --wp-admin-border-width-focus:1.5px;
+  }
+}
+
+@supports (scrollbar-gutter:stable){
+  .interface-interface-skeleton__header .edit-post-header{
+    overflow:hidden;
+    scrollbar-gutter:stable;
   }
 }
 
@@ -1881,5 +1887,6 @@ body.admin-color-sunrise{
 @media (min-width:782px){
   .is-sidebar-opened .interface-interface-skeleton__sidebar{
     border-right:1px solid #e0e0e0;
+    overflow:hidden scroll;
   }
 }

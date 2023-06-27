@@ -1,0 +1,1 @@
+.editor-styles-wrapper,.entry-content{counter-reset:footnotes}.fn{counter-increment:footnotes;display:inline-block;font-size:smaller;text-indent:-9999999px;vertical-align:super}.fn:after{content:"[" counter(footnotes) "]";float:right;text-indent:0}

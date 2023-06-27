@@ -300,3 +300,32 @@ div[data-type="core/freeform"].is-selected .block-library-classic__toolbar{
 .block-library-classic__toolbar.has-advanced-toolbar .mce-toolbar-grp .mce-toolbar{
   display:block;
 }
+
+@media (min-width:960px){
+  .block-editor-freeform-modal .components-modal__frame{
+    height:9999rem;
+  }
+  .block-editor-freeform-modal .components-modal__frame .components-modal__header+div{
+    height:100%;
+  }
+  .block-editor-freeform-modal .components-modal__frame .mce-tinymce{
+    height:calc(100% - 52px);
+  }
+  .block-editor-freeform-modal .components-modal__frame .mce-container-body{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+  .block-editor-freeform-modal .components-modal__frame .mce-edit-area{
+    display:flex;
+    flex-direction:column;
+    flex-grow:1;
+  }
+  .block-editor-freeform-modal .components-modal__frame .mce-edit-area iframe{
+    flex-grow:1;
+    height:10px !important;
+  }
+}
+.block-editor-freeform-modal__actions{
+  margin-top:16px;
+}

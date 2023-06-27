@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/verse",
 	"title": "Verse",
 	"category": "text",
@@ -47,6 +47,12 @@
 		"spacing": {
 			"margin": true,
 			"padding": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true,
+			"style": true
 		}
 	},
 	"style": "wp-block-verse",

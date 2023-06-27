@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/gallery",
 	"title": "Gallery",
 	"category": "media",
@@ -123,7 +123,7 @@
 			"background": true,
 			"gradients": true
 		},
-		"__experimentalLayout": {
+		"layout": {
 			"allowSwitching": false,
 			"allowInheriting": false,
 			"allowEditing": false,

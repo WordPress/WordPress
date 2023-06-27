@@ -255,12 +255,11 @@ const Stop = props => (0,external_wp_element_namespaceObject.createElement)('sto
  * @return {JSX.Element} Stop component
  */
 
-const SVG = _ref => {
-  let {
-    className,
-    isPressed,
-    ...props
-  } = _ref;
+const SVG = ({
+  className,
+  isPressed,
+  ...props
+}) => {
   const appliedProps = { ...props,
     className: classnames_default()(className, {
       'is-pressed': isPressed
@@ -270,7 +269,8 @@ const SVG = _ref => {
   }; // Disable reason: We need to have a way to render HTML tag for web.
   // eslint-disable-next-line react/forbid-elements
 
-  return (0,external_wp_element_namespaceObject.createElement)("svg", appliedProps);
+  return (0,external_wp_element_namespaceObject.createElement)("svg", { ...appliedProps
+  });
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/horizontal-rule/index.js

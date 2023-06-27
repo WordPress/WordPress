@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/quote",
 	"title": "Quote",
 	"category": "text",
@@ -29,6 +29,7 @@
 	},
 	"supports": {
 		"anchor": true,
+		"html": false,
 		"__experimentalOnEnter": true,
 		"typography": {
 			"fontSize": true,

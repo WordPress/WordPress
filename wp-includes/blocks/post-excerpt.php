@@ -18,14 +18,20 @@ function render_block_core_post_excerpt( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$excerpt = get_the_excerpt();
-
-	if ( empty( $excerpt ) ) {
-		return '';
+	/*
+	* The purpose of the excerpt length setting is to limit the length of both
+	* automatically generated and user-created excerpts.
+	* Because the excerpt_length filter only applies to auto generated excerpts,
+	* wp_trim_words is used instead.
+	*/
+	$excerpt_length = $attributes['excerptLength'];
+	$excerpt        = get_the_excerpt( $block->context['postId'] );
+	if ( isset( $excerpt_length ) ) {
+		$excerpt = wp_trim_words( $excerpt, $excerpt_length );
 	}
 
 	$more_text           = ! empty( $attributes['moreText'] ) ? '<a class="wp-block-post-excerpt__more-link" href="' . esc_url( get_the_permalink( $block->context['postId'] ) ) . '">' . wp_kses_post( $attributes['moreText'] ) . '</a>' : '';
-	$filter_excerpt_more = function( $more ) use ( $more_text ) {
+	$filter_excerpt_more = static function( $more ) use ( $more_text ) {
 		return empty( $more_text ) ? $more : '';
 	};
 	/**
@@ -70,3 +76,20 @@ function register_block_core_post_excerpt() {
 	);
 }
 add_action( 'init', 'register_block_core_post_excerpt' );
+
+/**
+ * If themes or plugins filter the excerpt_length, we need to
+ * override the filter in the editor, otherwise
+ * the excerpt length block setting has no effect.
+ * Returns 100 because 100 is the max length in the setting.
+ */
+if ( is_admin() ||
+	defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+	add_filter(
+		'excerpt_length',
+		static function() {
+			return 100;
+		},
+		PHP_INT_MAX
+	);
+}

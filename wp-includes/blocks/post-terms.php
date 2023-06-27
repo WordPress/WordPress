@@ -64,8 +64,8 @@ function render_block_core_post_terms( $attributes, $content, $block ) {
 function register_block_core_post_terms() {
 	$taxonomies = get_taxonomies(
 		array(
-			'public'       => true,
-			'show_in_rest' => true,
+			'publicly_queryable' => true,
+			'show_in_rest'       => true,
 		),
 		'objects'
 	);
@@ -87,6 +87,7 @@ function register_block_core_post_terms() {
 				'term' => $taxonomy->name,
 			),
 			'isActive'    => array( 'term' ),
+			'scope'       => array( 'inserter', 'transform' ),
 		);
 		// Set the category variation as the default one.
 		if ( 'category' === $taxonomy->name ) {

@@ -9,7 +9,7 @@
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   :root{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -71,7 +71,8 @@
   width:100%;
 }
 .block-directory-downloadable-block-list-item:hover{
-  box-shadow:0 0 0 2px var(--wp-admin-theme-color);
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline:2px solid transparent;
 }
 .block-directory-downloadable-block-list-item.is-busy{
   background:transparent;

@@ -22,7 +22,7 @@ function render_block_core_comments_pagination_previous( $attributes, $content, 
 		$label = $pagination_arrow . $label;
 	}
 
-	$filter_link_attributes = function() {
+	$filter_link_attributes = static function() {
 		return get_block_wrapper_attributes();
 	};
 	add_filter( 'previous_comments_link_attributes', $filter_link_attributes );

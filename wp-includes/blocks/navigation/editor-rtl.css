@@ -336,18 +336,6 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   top:0;
 }
 
-@media (min-width:600px){
-  .wp-block-navigation__responsive-close,.wp-block-navigation__responsive-container{
-    pointer-events:none;
-  }
-  .wp-block-navigation__responsive-close .block-editor-block-list__layout *,.wp-block-navigation__responsive-close .wp-block-navigation__responsive-container-close,.wp-block-navigation__responsive-container .block-editor-block-list__layout *,.wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-close{
-    pointer-events:all;
-  }
-}
-.wp-block-navigation__responsive-close .wp-block-pages-list__item__link,.wp-block-navigation__responsive-container .wp-block-pages-list__item__link{
-  pointer-events:none;
-}
-
 .components-button.wp-block-navigation__responsive-container-close.wp-block-navigation__responsive-container-close,.components-button.wp-block-navigation__responsive-container-open.wp-block-navigation__responsive-container-open{
   color:inherit;
   height:auto;
@@ -449,4 +437,40 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 
 .wp-block-navigation__responsive-container-open.components-button{
   opacity:1;
+}
+
+.wp-block-navigation__menu-inspector-controls{
+  overflow-x:auto;
+  scrollbar-color:transparent transparent;
+  scrollbar-gutter:stable both-edges;
+  scrollbar-width:thin;
+  will-change:transform;
+}
+.wp-block-navigation__menu-inspector-controls::-webkit-scrollbar{
+  height:12px;
+  width:12px;
+}
+.wp-block-navigation__menu-inspector-controls::-webkit-scrollbar-track{
+  background-color:initial;
+}
+.wp-block-navigation__menu-inspector-controls::-webkit-scrollbar-thumb{
+  background-clip:padding-box;
+  background-color:initial;
+  border:3px solid transparent;
+  border-radius:8px;
+}
+.wp-block-navigation__menu-inspector-controls:focus-within::-webkit-scrollbar-thumb,.wp-block-navigation__menu-inspector-controls:focus::-webkit-scrollbar-thumb,.wp-block-navigation__menu-inspector-controls:hover::-webkit-scrollbar-thumb{
+  background-color:#949494;
+}
+.wp-block-navigation__menu-inspector-controls:focus,.wp-block-navigation__menu-inspector-controls:focus-within,.wp-block-navigation__menu-inspector-controls:hover{
+  scrollbar-color:#949494 transparent;
+}
+@media (hover:none){
+  .wp-block-navigation__menu-inspector-controls{
+    scrollbar-color:#949494 transparent;
+  }
+}
+
+.wp-block-navigation__menu-inspector-controls__empty-message{
+  margin-right:24px;
 }

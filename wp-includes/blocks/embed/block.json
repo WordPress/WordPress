@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/embed",
 	"title": "Embed",
 	"category": "embed",
@@ -41,7 +41,10 @@
 		}
 	},
 	"supports": {
-		"align": true
+		"align": true,
+		"spacing": {
+			"margin": true
+		}
 	},
 	"editorStyle": "wp-block-embed-editor",
 	"style": "wp-block-embed"

@@ -3,12 +3,23 @@ ol.wp-block-latest-comments{
   margin-right:0;
 }
 
+:where(.wp-block-latest-comments:not([style*=line-height] .wp-block-latest-comments__comment)){
+  line-height:1.1;
+}
+
+:where(.wp-block-latest-comments:not([style*=line-height] .wp-block-latest-comments__comment-excerpt p)){
+  line-height:1.8;
+}
+
+.has-dates :where(.wp-block-latest-comments:not([style*=line-height])),.has-excerpts :where(.wp-block-latest-comments:not([style*=line-height])){
+  line-height:1.5;
+}
+
 .wp-block-latest-comments .wp-block-latest-comments{
   padding-right:0;
 }
 
 .wp-block-latest-comments__comment{
-  line-height:1.1;
   list-style:none;
   margin-bottom:1em;
 }
@@ -19,13 +30,9 @@ ol.wp-block-latest-comments{
 .has-avatars .wp-block-latest-comments__comment .wp-block-latest-comments__comment-excerpt,.has-avatars .wp-block-latest-comments__comment .wp-block-latest-comments__comment-meta{
   margin-right:3.25em;
 }
-.has-dates .wp-block-latest-comments__comment,.has-excerpts .wp-block-latest-comments__comment{
-  line-height:1.5;
-}
 
 .wp-block-latest-comments__comment-excerpt p{
   font-size:.875em;
-  line-height:1.8;
   margin:.36em 0 1.4em;
 }
 
@@ -41,4 +48,8 @@ ol.wp-block-latest-comments{
   height:2.5em;
   margin-left:.75em;
   width:2.5em;
+}
+
+.wp-block-latest-comments[class*=-font-size] a,.wp-block-latest-comments[style*=font-size] a{
+  font-size:inherit;
 }

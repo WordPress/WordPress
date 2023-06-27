@@ -4,6 +4,7 @@
 }
 .wp-block-post-featured-image a{
   display:block;
+  height:100%;
 }
 .wp-block-post-featured-image img{
   box-sizing:border-box;

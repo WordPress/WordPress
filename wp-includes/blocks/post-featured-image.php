@@ -42,11 +42,20 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 		}
 	}
 
-	if ( ! empty( $attributes['height'] ) ) {
-		$extra_styles = "height:{$attributes['height']};";
-		if ( ! empty( $attributes['scale'] ) ) {
-			$extra_styles .= "object-fit:{$attributes['scale']};";
-		}
+	$extra_styles = '';
+
+	// Aspect ratio with a height set needs to override the default width/height.
+	if ( ! empty( $attributes['aspectRatio'] ) ) {
+		$extra_styles .= 'width:100%;height:100%;';
+	} elseif ( ! empty( $attributes['height'] ) ) {
+		$extra_styles .= "height:{$attributes['height']};";
+	}
+
+	if ( ! empty( $attributes['scale'] ) ) {
+		$extra_styles .= "object-fit:{$attributes['scale']};";
+	}
+
+	if ( ! empty( $extra_styles ) ) {
 		$attr['style'] = empty( $attr['style'] ) ? $extra_styles : $attr['style'] . $extra_styles;
 	}
 
@@ -71,12 +80,19 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 		$featured_image = $featured_image . $overlay_markup;
 	}
 
-	$width  = ! empty( $attributes['width'] ) ? esc_attr( safecss_filter_attr( 'width:' . $attributes['width'] ) ) . ';' : '';
-	$height = ! empty( $attributes['height'] ) ? esc_attr( safecss_filter_attr( 'height:' . $attributes['height'] ) ) . ';' : '';
-	if ( ! $height && ! $width ) {
+	$aspect_ratio = ! empty( $attributes['aspectRatio'] )
+		? esc_attr( safecss_filter_attr( 'aspect-ratio:' . $attributes['aspectRatio'] ) ) . ';'
+		: '';
+	$width        = ! empty( $attributes['width'] )
+		? esc_attr( safecss_filter_attr( 'width:' . $attributes['width'] ) ) . ';'
+		: '';
+	$height       = ! empty( $attributes['height'] )
+		? esc_attr( safecss_filter_attr( 'height:' . $attributes['height'] ) ) . ';'
+		: '';
+	if ( ! $height && ! $width && ! $aspect_ratio ) {
 		$wrapper_attributes = get_block_wrapper_attributes();
 	} else {
-		$wrapper_attributes = get_block_wrapper_attributes( array( 'style' => $width . $height ) );
+		$wrapper_attributes = get_block_wrapper_attributes( array( 'style' => $aspect_ratio . $width . $height ) );
 	}
 	return "<figure {$wrapper_attributes}>{$featured_image}</figure>";
 }

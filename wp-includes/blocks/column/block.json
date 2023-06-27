@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/column",
 	"title": "Column",
-	"category": "text",
+	"category": "design",
 	"parent": [ "core/columns" ],
 	"description": "A single column within a columns block.",
 	"textdomain": "default",
@@ -38,7 +38,8 @@
 			"blockGap": true,
 			"padding": true,
 			"__experimentalDefaultControls": {
-				"padding": true
+				"padding": true,
+				"blockGap": true
 			}
 		},
 		"__experimentalBorder": {
@@ -64,6 +65,6 @@
 				"fontSize": true
 			}
 		},
-		"__experimentalLayout": true
+		"layout": true
 	}
 }

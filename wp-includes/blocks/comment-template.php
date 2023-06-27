@@ -25,13 +25,26 @@ function block_core_comment_template_render_comments( $comments, $block ) {
 
 	$content = '';
 	foreach ( $comments as $comment ) {
+		$comment_id           = $comment->comment_ID;
+		$filter_block_context = static function( $context ) use ( $comment_id ) {
+			$context['commentId'] = $comment_id;
+			return $context;
+		};
 
-		$block_content = ( new WP_Block(
-			$block->parsed_block,
-			array(
-				'commentId' => $comment->comment_ID,
-			)
-		) )->render( array( 'dynamic' => false ) );
+		/*
+		 * We set commentId context through the `render_block_context` filter so
+		 * that dynamically inserted blocks (at `render_block` filter stage)
+		 * will also receive that context.
+		 */
+		add_filter( 'render_block_context', $filter_block_context );
+
+		/*
+		 * We construct a new WP_Block instance from the parsed block so that
+		 * it'll receive any changes made by the `render_block_data` filter.
+		 */
+		$block_content = ( new WP_Block( $block->parsed_block ) )->render( array( 'dynamic' => false ) );
+
+		remove_filter( 'render_block_context', $filter_block_context );
 
 		$children = $comment->get_children();
 

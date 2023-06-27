@@ -18,27 +18,29 @@ function render_block_core_template_part( $attributes ) {
 	$template_part_id = null;
 	$content          = null;
 	$area             = WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
+	$stylesheet       = get_stylesheet();
 
 	if (
 		isset( $attributes['slug'] ) &&
 		isset( $attributes['theme'] ) &&
-		get_stylesheet() === $attributes['theme']
+		$stylesheet === $attributes['theme']
 	) {
 		$template_part_id    = $attributes['theme'] . '//' . $attributes['slug'];
 		$template_part_query = new WP_Query(
 			array(
-				'post_type'      => 'wp_template_part',
-				'post_status'    => 'publish',
-				'post_name__in'  => array( $attributes['slug'] ),
-				'tax_query'      => array(
+				'post_type'           => 'wp_template_part',
+				'post_status'         => 'publish',
+				'post_name__in'       => array( $attributes['slug'] ),
+				'tax_query'           => array(
 					array(
 						'taxonomy' => 'wp_theme',
 						'field'    => 'name',
 						'terms'    => $attributes['theme'],
 					),
 				),
-				'posts_per_page' => 1,
-				'no_found_rows'  => true,
+				'posts_per_page'      => 1,
+				'no_found_rows'       => true,
+				'lazy_load_term_meta' => false, // Do not lazy load term meta, as template parts only have one term.
 			)
 		);
 		$template_part_post  = $template_part_query->have_posts() ? $template_part_query->next_post() : null;
@@ -64,16 +66,22 @@ function render_block_core_template_part( $attributes ) {
 		} else {
 			// Else, if the template part was provided by the active theme,
 			// render the corresponding file content.
-			$parent_theme_folders        = get_block_theme_folders( get_template() );
-			$child_theme_folders         = get_block_theme_folders( get_stylesheet() );
-			$child_theme_part_file_path  = get_theme_file_path( '/' . $child_theme_folders['wp_template_part'] . '/' . $attributes['slug'] . '.html' );
-			$parent_theme_part_file_path = get_theme_file_path( '/' . $parent_theme_folders['wp_template_part'] . '/' . $attributes['slug'] . '.html' );
-			$template_part_file_path     = 0 === validate_file( $attributes['slug'] ) && file_exists( $child_theme_part_file_path ) ? $child_theme_part_file_path : $parent_theme_part_file_path;
-			if ( 0 === validate_file( $attributes['slug'] ) && file_exists( $template_part_file_path ) ) {
-				$content = file_get_contents( $template_part_file_path );
-				$content = is_string( $content ) && '' !== $content
-						? _inject_theme_attribute_in_block_template_content( $content )
-						: '';
+			if ( 0 === validate_file( $attributes['slug'] ) ) {
+				$themes   = array( $stylesheet );
+				$template = get_template();
+				if ( $stylesheet !== $template ) {
+					$themes[] = $template;
+				}
+
+				foreach ( $themes as $theme ) {
+					$theme_folders           = get_block_theme_folders( $theme );
+					$template_part_file_path = get_theme_file_path( '/' . $theme_folders['wp_template_part'] . '/' . $attributes['slug'] . '.html' );
+					if ( file_exists( $template_part_file_path ) ) {
+						$content = (string) file_get_contents( $template_part_file_path );
+						$content = '' !== $content ? _inject_theme_attribute_in_block_template_content( $content ) : '';
+						break;
+					}
+				}
 			}
 
 			if ( '' !== $content && null !== $content ) {
@@ -172,21 +180,34 @@ function render_block_core_template_part( $attributes ) {
 /**
  * Returns an array of area variation objects for the template part block.
  *
+ * @param array $instance_variations The variations for instances.
+ *
  * @return array Array containing the block variation objects.
  */
-function build_template_part_block_area_variations() {
+function build_template_part_block_area_variations( $instance_variations ) {
 	$variations    = array();
 	$defined_areas = get_allowed_block_template_part_areas();
+
 	foreach ( $defined_areas as $area ) {
 		if ( 'uncategorized' !== $area['area'] ) {
+			$has_instance_for_area = false;
+			foreach ( $instance_variations as $variation ) {
+				if ( $variation['attributes']['area'] === $area['area'] ) {
+					$has_instance_for_area = true;
+					break;
+				}
+			}
+
+			$scope = $has_instance_for_area ? array() : array( 'inserter' );
+
 			$variations[] = array(
-				'name'        => $area['area'],
+				'name'        => 'area_' . $area['area'],
 				'title'       => $area['label'],
 				'description' => $area['description'],
 				'attributes'  => array(
 					'area' => $area['area'],
 				),
-				'scope'       => array( 'inserter' ),
+				'scope'       => $scope,
 				'icon'        => $area['icon'],
 			);
 		}
@@ -222,7 +243,7 @@ function build_template_part_block_instance_variations() {
 
 	foreach ( $template_parts as $template_part ) {
 		$variations[] = array(
-			'name'        => sanitize_title( $template_part->slug ),
+			'name'        => 'instance_' . sanitize_title( $template_part->slug ),
 			'title'       => $template_part->title,
 			// If there's no description for the template part don't show the
 			// block description. This is a bit hacky, but prevent the fallback
@@ -254,7 +275,9 @@ function build_template_part_block_instance_variations() {
  * @return array Array containing the block variation objects.
  */
 function build_template_part_block_variations() {
-	return array_merge( build_template_part_block_area_variations(), build_template_part_block_instance_variations() );
+	$instance_variations = build_template_part_block_instance_variations();
+	$area_variations     = build_template_part_block_area_variations( $instance_variations );
+	return array_merge( $area_variations, $instance_variations );
 }
 
 /**

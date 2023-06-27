@@ -29,6 +29,9 @@
 .wp-block-file a{
   min-width:1em;
 }
+.wp-block-file a:not(.wp-block-file__button){
+  display:inline-block;
+}
 .wp-block-file .wp-block-file__button-richtext-wrapper{
   display:inline-block;
   margin-left:.75em;

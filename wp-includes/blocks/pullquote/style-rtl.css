@@ -1,6 +1,5 @@
 .wp-block-pullquote{
   box-sizing:border-box;
-  margin:0 0 1em;
   overflow-wrap:break-word;
   padding:3em 0;
   text-align:center;
@@ -16,6 +15,10 @@
 }
 .wp-block-pullquote .has-text-color a{
   color:inherit;
+}
+
+:where(.wp-block-pullquote){
+  margin:0 0 1em;
 }
 
 .wp-block-pullquote.has-text-align-left blockquote{
