@@ -373,3 +373,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 :root .editor-styles-wrapper .has-white-background-color:visited {
 	background-color: #fff;
 }
+
+/* Inserter Icon */
+
+.editor-styles-wrapper .block-editor-inserter path {
+	color: #fff;
+}
