@@ -223,3 +223,20 @@ function twentynineteen_add_mobile_parent_nav_menu_items( $sorted_menu_items, $a
 	return $amended_menu_items;
 }
 add_filter( 'wp_nav_menu_objects', 'twentynineteen_add_mobile_parent_nav_menu_items', 10, 2 );
+
+/**
+ * Adds a fragment identifier (to the content) to paginated links.
+ *
+ * @since Twenty Nineteen 2.6
+ *
+ * @param string $link The page number HTML output.
+ * @param int    $i    Page number for paginated posts' page links.
+ * @return string Formatted output in HTML.
+ */
+function twentynineteen_link_pages_link( $link, $i ) {
+	if ( $i > 1 && preg_match( '/href="([^"]*)"/', $link, $matches ) ) {
+		$link = str_replace( $matches[1], $matches[1] . '#content', $link );
+	}
+	return $link;
+}
+add_filter( 'wp_link_pages_link', 'twentynineteen_link_pages_link', 10, 2 );
