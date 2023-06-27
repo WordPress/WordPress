@@ -287,7 +287,9 @@ function get_legacy_widget_block_editor_settings() {
  * @since 6.0.0
  * @access private
  *
- * @global string $pagenow The filename of the current screen.
+ * @global string     $pagenow    The filename of the current screen.
+ * @global WP_Styles  $wp_styles  The WP_Styles current instance.
+ * @global WP_Scripts $wp_scripts The WP_Scripts current instance.
  *
  * @return array {
  *     The block editor assets.
@@ -297,64 +299,78 @@ function get_legacy_widget_block_editor_settings() {
  * }
  */
 function _wp_get_iframed_editor_assets() {
-	global $pagenow, $editor_styles;
+	global $wp_styles, $wp_scripts, $pagenow;
 
-	$script_handles = array(
-		'wp-polyfill',
-	);
-	$style_handles  = array(
-		'wp-edit-blocks',
-	);
+	// Keep track of the styles and scripts instance to restore later.
+	$current_wp_styles  = $wp_styles;
+	$current_wp_scripts = $wp_scripts;
 
-	if (
-		current_theme_supports( 'wp-block-styles' ) &&
-		( ! is_array( $editor_styles ) || count( $editor_styles ) === 0 )
-	) {
-		$style_handles[] = 'wp-block-library-theme';
+	// Create new instances to collect the assets.
+	$wp_styles  = new WP_Styles();
+	$wp_scripts = new WP_Scripts();
+
+	/*
+	 * Register all currently registered styles and scripts. The actions that
+	 * follow enqueue assets, but don't necessarily register them.
+	 */
+	$wp_styles->registered  = $current_wp_styles->registered;
+	$wp_scripts->registered = $current_wp_scripts->registered;
+
+	/*
+	 * We generally do not need reset styles for the iframed editor.
+	 * However, if it's a classic theme, margins will be added to every block,
+	 * which is reset specifically for list items, so classic themes rely on
+	 * these reset styles.
+	 */
+	$wp_styles->done =
+		wp_theme_has_theme_json() ? array( 'wp-reset-editor-styles' ) : array();
+
+	wp_enqueue_script( 'wp-polyfill' );
+	// Enqueue the `editorStyle` handles for all core block, and dependencies.
+	wp_enqueue_style( 'wp-edit-blocks' );
+
+	if ( 'site-editor.php' === $pagenow ) {
+		wp_enqueue_style( 'wp-edit-site' );
 	}
 
-	if ( 'widgets.php' === $pagenow || 'customize.php' === $pagenow ) {
-		$style_handles[] = 'wp-widgets';
-		$style_handles[] = 'wp-edit-widgets';
+	if ( current_theme_supports( 'wp-block-styles' ) ) {
+		wp_enqueue_style( 'wp-block-library-theme' );
 	}
+
+	/*
+	 * We don't want to load EDITOR scripts in the iframe, only enqueue
+	 * front-end assets for the content.
+	 */
+	add_filter( 'should_load_block_editor_scripts_and_styles', '__return_false' );
+	do_action( 'enqueue_block_assets' );
+	remove_filter( 'should_load_block_editor_scripts_and_styles', '__return_false' );
 
 	$block_registry = WP_Block_Type_Registry::get_instance();
 
+	/*
+	 * Additionally, do enqueue `editorStyle` assets for all blocks, which
+	 * contains editor-only styling for blocks (editor content).
+	 */
 	foreach ( $block_registry->get_all_registered() as $block_type ) {
-		$style_handles = array_merge(
-			$style_handles,
-			$block_type->style_handles,
-			$block_type->editor_style_handles
-		);
-
-		$script_handles = array_merge(
-			$script_handles,
-			$block_type->script_handles
-		);
+		if ( isset( $block_type->editor_style_handles ) && is_array( $block_type->editor_style_handles ) ) {
+			foreach ( $block_type->editor_style_handles as $style_handle ) {
+				wp_enqueue_style( $style_handle );
+			}
+		}
 	}
 
-	$style_handles = array_unique( $style_handles );
-	$done          = wp_styles()->done;
-
 	ob_start();
-
-	// We do not need reset styles for the iframed editor.
-	wp_styles()->done = array( 'wp-reset-editor-styles' );
-	wp_styles()->do_items( $style_handles );
-	wp_styles()->done = $done;
-
+	wp_print_styles();
 	$styles = ob_get_clean();
 
-	$script_handles = array_unique( $script_handles );
-	$done           = wp_scripts()->done;
-
 	ob_start();
-
-	wp_scripts()->done = array();
-	wp_scripts()->do_items( $script_handles );
-	wp_scripts()->done = $done;
-
+	wp_print_head_scripts();
+	wp_print_footer_scripts();
 	$scripts = ob_get_clean();
+
+	// Restore the original instances.
+	$wp_styles  = $current_wp_styles;
+	$wp_scripts = $current_wp_scripts;
 
 	return array(
 		'styles'  => $styles,

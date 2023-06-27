@@ -1629,7 +1629,7 @@ function wp_default_styles( $styles ) {
 	$styles->add(
 		'wp-block-editor-content',
 		"/wp-includes/css/dist/block-editor/content$suffix.css",
-		array()
+		array( 'wp-components' )
 	);
 
 	$wp_edit_blocks_dependencies = array(
