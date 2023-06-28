@@ -2147,20 +2147,20 @@ button:not(.components-button)[disabled],
     margin-left: 0px;
     margin-right: 0px;
   }
-  /*.product .woocommerce-product-gallery {*/
-  /*  !* 商品图片详情 图片宽度 *!*/
-  /*  width: 100%;*/
-  /*  -webkit-box-orient: horizontal;*/
-  /*  -webkit-box-direction: normal;*/
-  /*      -ms-flex-direction: row;*/
-  /*          flex-direction: row;*/
-  /*  -webkit-box-flex: 1;*/
-  /*      -ms-flex: 1;*/
-  /*          flex: 1;*/
-  /*  gap: 20px;*/
-  /*  -ms-flex-item-align: start;*/
-  /*      align-self: flex-start;*/
-  /*}*/
+  .product .woocommerce-product-gallery {
+    /* 商品图片详情 图片宽度 */
+    width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    gap: 20px;
+    -ms-flex-item-align: start;
+        align-self: flex-start;
+  }
   .product .woocommerce-product-gallery__wrapper {
     grid-template-columns: repeat(2, 1fr);
   }
