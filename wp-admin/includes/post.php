@@ -681,6 +681,16 @@ function bulk_edit_posts( $post_data = null ) {
 		}
 	}
 
+	/**
+	 * Fires after processing the post data for bulk edit.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param int[] $updated          An array of updated post IDs.
+	 * @param array $shared_post_data Associative array containing the post data.
+	 */
+	do_action( 'bulk_edit_posts', $updated, $shared_post_data );
+
 	return array(
 		'updated' => $updated,
 		'skipped' => $skipped,
