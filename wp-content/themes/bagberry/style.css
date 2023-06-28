@@ -2014,7 +2014,7 @@ button:not(.components-button)[disabled],
 .product .entry-summary .reset_variations {
   font-size: var(--wp--preset--font-size--small);
 }
-.woocommerce-product-gallery flex-viewport {
+.woocommerce-product-gallery {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
