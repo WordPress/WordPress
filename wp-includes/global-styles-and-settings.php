@@ -407,21 +407,20 @@ function wp_theme_has_theme_json() {
 		return $theme_has_support;
 	}
 
+	$stylesheet_directory = get_stylesheet_directory();
+	$template_directory   = get_template_directory();
+
 	// This is the same as get_theme_file_path(), which isn't available in load-styles.php context
-	if ( file_exists( get_stylesheet_directory() . '/theme.json' ) ) {
-		$path = get_stylesheet_directory() . '/theme.json';
+	if ( $stylesheet_directory !== $template_directory && file_exists( $stylesheet_directory . '/theme.json' ) ) {
+		$path = $stylesheet_directory . '/theme.json';
 	} else {
-		$path = get_template_directory() . '/theme.json';
+		$path = $template_directory . '/theme.json';
 	}
 
 	/** This filter is documented in wp-includes/link-template.php */
 	$path = apply_filters( 'theme_file_path', $path, 'theme.json' );
 
-	if ( file_exists( $path ) ) {
-		$theme_has_support = true;
-	} else {
-		$theme_has_support = false;
-	}
+	$theme_has_support = file_exists( $path );
 
 	return $theme_has_support;
 }
