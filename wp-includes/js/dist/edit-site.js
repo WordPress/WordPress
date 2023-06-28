@@ -1593,8 +1593,10 @@ __webpack_require__.d(__webpack_exports__, {
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
+  "closeModal": function() { return closeModal; },
   "disableComplementaryArea": function() { return disableComplementaryArea; },
   "enableComplementaryArea": function() { return enableComplementaryArea; },
+  "openModal": function() { return openModal; },
   "pinItem": function() { return pinItem; },
   "setDefaultComplementaryArea": function() { return setDefaultComplementaryArea; },
   "setFeatureDefaults": function() { return setFeatureDefaults; },
@@ -1610,7 +1612,8 @@ __webpack_require__.d(selectors_namespaceObject, {
   "getActiveComplementaryArea": function() { return getActiveComplementaryArea; },
   "isComplementaryAreaLoading": function() { return isComplementaryAreaLoading; },
   "isFeatureActive": function() { return isFeatureActive; },
-  "isItemPinned": function() { return isItemPinned; }
+  "isItemPinned": function() { return isItemPinned; },
+  "isModalActive": function() { return isModalActive; }
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-site/build-module/store/actions.js
@@ -1946,6 +1949,31 @@ function setFeatureDefaults(scope, defaults) {
     registry.dispatch(external_wp_preferences_namespaceObject.store).setDefaults(scope, defaults);
   };
 }
+/**
+ * Returns an action object used in signalling that the user opened a modal.
+ *
+ * @param {string} name A string that uniquely identifies the modal.
+ *
+ * @return {Object} Action object.
+ */
+
+function openModal(name) {
+  return {
+    type: 'OPEN_MODAL',
+    name
+  };
+}
+/**
+ * Returns an action object signalling that the user closed a modal.
+ *
+ * @return {Object} Action object.
+ */
+
+function closeModal() {
+  return {
+    type: 'CLOSE_MODAL'
+  };
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/selectors.js
 /**
@@ -2018,6 +2046,18 @@ const isFeatureActive = (0,external_wp_data_namespaceObject.createRegistrySelect
   });
   return !!select(external_wp_preferences_namespaceObject.store).get(scope, featureName);
 });
+/**
+ * Returns true if a modal is active, or false otherwise.
+ *
+ * @param {Object} state     Global application state.
+ * @param {string} modalName A string that uniquely identifies the modal.
+ *
+ * @return {boolean} Whether the modal is active.
+ */
+
+function isModalActive(state, modalName) {
+  return state.activeModal === modalName;
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/reducer.js
 /**
@@ -2056,8 +2096,29 @@ function complementaryAreas(state = {}, action) {
 
   return state;
 }
+/**
+ * Reducer for storing the name of the open modal, or null if no modal is open.
+ *
+ * @param {Object} state  Previous state.
+ * @param {Object} action Action object containing the `name` of the modal
+ *
+ * @return {Object} Updated state
+ */
+
+function activeModal(state = null, action) {
+  switch (action.type) {
+    case 'OPEN_MODAL':
+      return action.name;
+
+    case 'CLOSE_MODAL':
+      return null;
+  }
+
+  return state;
+}
 /* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
-  complementaryAreas
+  complementaryAreas,
+  activeModal
 }));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/constants.js
@@ -18763,6 +18824,7 @@ function DynamicShortcut({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -18770,6 +18832,7 @@ function DynamicShortcut({
 
 
 
+const KEYBOARD_SHORTCUT_HELP_MODAL_NAME = 'edit-site/keyboard-shortcut-help';
 
 const ShortcutList = ({
   shortcuts
@@ -18819,10 +18882,17 @@ const ShortcutCategorySection = ({
   });
 };
 
-function KeyboardShortcutHelpModal({
-  isModalActive,
-  toggleModal
-}) {
+function KeyboardShortcutHelpModal() {
+  const isModalActive = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).isModalActive(KEYBOARD_SHORTCUT_HELP_MODAL_NAME));
+  const {
+    closeModal,
+    openModal
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+
+  const toggleModal = () => isModalActive ? closeModal() : openModal(KEYBOARD_SHORTCUT_HELP_MODAL_NAME);
+
+  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-site/keyboard-shortcuts', toggleModal);
+
   if (!isModalActive) {
     return null;
   }
@@ -18907,10 +18977,16 @@ function EnableFeature(props) {
 
 
 
-function EditSitePreferencesModal({
-  isModalActive,
-  toggleModal
-}) {
+const PREFERENCES_MODAL_NAME = 'edit-site/preferences';
+function EditSitePreferencesModal() {
+  const isModalActive = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).isModalActive(PREFERENCES_MODAL_NAME));
+  const {
+    closeModal,
+    openModal
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+
+  const toggleModal = () => isModalActive ? closeModal() : openModal(PREFERENCES_MODAL_NAME);
+
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   const {
     closeGeneralSidebar,
@@ -19232,8 +19308,6 @@ function ModeSwitcher() {
 
 
 
-
-
 /**
  * Internal dependencies
  */
@@ -19249,8 +19323,6 @@ function ModeSwitcher() {
 function MoreMenu({
   showIconLabels
 }) {
-  const [isModalActive, toggleModal] = (0,external_wp_element_namespaceObject.useReducer)(isActive => !isActive, false);
-  const [isPreferencesModalActive, togglePreferencesModal] = (0,external_wp_element_namespaceObject.useReducer)(isActive => !isActive, false);
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   const isDistractionFree = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_preferences_namespaceObject.store).get('core/edit-site', 'distractionFree'), []);
   const {
@@ -19258,6 +19330,9 @@ function MoreMenu({
     setIsListViewOpened,
     closeGeneralSidebar
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  const {
+    openModal
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
     set: setPreference
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_preferences_namespaceObject.store);
@@ -19271,7 +19346,6 @@ function MoreMenu({
     });
   };
 
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/edit-site/keyboard-shortcuts', toggleModal);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(MoreMenuDropdown, {
     toggleProps: {
       showTooltip: !showIconLabels,
@@ -19317,7 +19391,7 @@ function MoreMenu({
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, {
     label: (0,external_wp_i18n_namespaceObject.__)('Tools')
   }, (0,external_wp_element_namespaceObject.createElement)(SiteExport, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: toggleModal,
+    onClick: () => openModal(KEYBOARD_SHORTCUT_HELP_MODAL_NAME),
     shortcut: external_wp_keycodes_namespaceObject.displayShortcut.access('h')
   }, (0,external_wp_i18n_namespaceObject.__)('Keyboard shortcuts')), (0,external_wp_element_namespaceObject.createElement)(WelcomeGuideMenuItem, null), (0,external_wp_element_namespaceObject.createElement)(CopyContentMenuItem, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     icon: library_external,
@@ -19334,14 +19408,8 @@ function MoreMenu({
       onClose
     }
   })), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: togglePreferencesModal
-  }, (0,external_wp_i18n_namespaceObject.__)('Preferences'))))), (0,external_wp_element_namespaceObject.createElement)(KeyboardShortcutHelpModal, {
-    isModalActive: isModalActive,
-    toggleModal: toggleModal
-  }), (0,external_wp_element_namespaceObject.createElement)(EditSitePreferencesModal, {
-    isModalActive: isPreferencesModalActive,
-    toggleModal: togglePreferencesModal
-  }));
+    onClick: () => openModal(PREFERENCES_MODAL_NAME)
+  }, (0,external_wp_i18n_namespaceObject.__)('Preferences'))))), (0,external_wp_element_namespaceObject.createElement)(KeyboardShortcutHelpModal, null), (0,external_wp_element_namespaceObject.createElement)(EditSitePreferencesModal, null));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/undo.js
@@ -21014,6 +21082,21 @@ const code = (0,external_wp_element_namespaceObject.createElement)(external_wp_p
 }));
 /* harmony default export */ var library_code = (code);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/keyboard-close.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const keyboardClose = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "-2 -2 24 24"
+}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M18,0 L2,0 C0.9,0 0.01,0.9 0.01,2 L0,12 C0,13.1 0.9,14 2,14 L18,14 C19.1,14 20,13.1 20,12 L20,2 C20,0.9 19.1,0 18,0 Z M18,12 L2,12 L2,2 L18,2 L18,12 Z M9,3 L11,3 L11,5 L9,5 L9,3 Z M9,6 L11,6 L11,8 L9,8 L9,6 Z M6,3 L8,3 L8,5 L6,5 L6,3 Z M6,6 L8,6 L8,8 L6,8 L6,6 Z M3,6 L5,6 L5,8 L3,8 L3,6 Z M3,3 L5,3 L5,5 L3,5 L3,3 Z M6,9 L14,9 L14,11 L6,11 L6,9 Z M12,6 L14,6 L14,8 L12,8 L12,6 Z M12,3 L14,3 L14,5 L12,5 L12,3 Z M15,6 L17,6 L17,8 L15,8 L15,6 Z M15,3 L17,3 L17,5 L15,5 L15,3 Z M10,20 L14,16 L6,16 L10,20 Z"
+}));
+/* harmony default export */ var keyboard_close = (keyboardClose);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/hooks/commands/use-edit-mode-commands.js
 /**
  * WordPress dependencies
@@ -21028,6 +21111,8 @@ const code = (0,external_wp_element_namespaceObject.createElement)(external_wp_p
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -21170,6 +21255,9 @@ function useEditUICommands() {
     activeSidebar: select(store).getActiveComplementaryArea(store_store.name)
   }), []);
   const {
+    openModal
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const {
     toggle
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_preferences_namespaceObject.store);
 
@@ -21244,6 +21332,22 @@ function useEditUICommands() {
     }) => {
       switchEditorMode(editorMode === 'visual' ? 'text' : 'visual');
       close();
+    }
+  });
+  commands.push({
+    name: 'core/open-preferences',
+    label: (0,external_wp_i18n_namespaceObject.__)('Open editor preferences'),
+    icon: library_cog,
+    callback: () => {
+      openModal(PREFERENCES_MODAL_NAME);
+    }
+  });
+  commands.push({
+    name: 'core/open-shortcut-help',
+    label: (0,external_wp_i18n_namespaceObject.__)('Open keyboard shortcuts'),
+    icon: keyboard_close,
+    callback: () => {
+      openModal(KEYBOARD_SHORTCUT_HELP_MODAL_NAME);
     }
   });
   return {
@@ -21509,7 +21613,7 @@ function GridItem({
     postId: item.type === USER_PATTERNS ? item.id : item.name,
     categoryId,
     categoryType: item.type,
-    canvas: 'edit'
+    canvas: 'view'
   });
 
   const onKeyDown = event => {

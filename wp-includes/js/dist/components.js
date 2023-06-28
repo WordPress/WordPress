@@ -20785,7 +20785,7 @@ const Slot = props => (0,external_wp_element_namespaceObject.createElement)(cont
 
 /* harmony default export */ var slot = (Slot);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/node_modules/uuid/dist/esm-browser/rng.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/rng.js
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
@@ -20805,9 +20805,9 @@ function rng() {
 
   return getRandomValues(rnds8);
 }
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/node_modules/uuid/dist/esm-browser/regex.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/regex.js
 /* harmony default export */ var regex = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/node_modules/uuid/dist/esm-browser/validate.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/validate.js
 
 
 function validate(uuid) {
@@ -20815,7 +20815,7 @@ function validate(uuid) {
 }
 
 /* harmony default export */ var esm_browser_validate = (validate);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/node_modules/uuid/dist/esm-browser/stringify.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/stringify.js
 
 /**
  * Convert array of 16 byte values to UUID string format of the form:
@@ -20846,7 +20846,7 @@ function stringify_stringify(arr) {
 }
 
 /* harmony default export */ var esm_browser_stringify = (stringify_stringify);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/node_modules/uuid/dist/esm-browser/v4.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/v4.js
 
 
 

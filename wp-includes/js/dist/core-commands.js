@@ -416,7 +416,7 @@ function useSiteEditorBasicNavigationCommands() {
         close
       }) => {
         const args = {
-          path: '/wp_template_part'
+          path: '/library'
         };
         const targetUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', args);
 

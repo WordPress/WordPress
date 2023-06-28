@@ -1730,7 +1730,7 @@ body.is-dragging-components-draggable{
   height:72px;
   justify-content:space-between;
   left:0;
-  padding:24px 32px 12px;
+  padding:24px 32px 8px;
   position:absolute;
   top:0;
   width:100%;
@@ -1776,7 +1776,7 @@ body.is-dragging-components-draggable{
   flex:1;
   margin-top:72px;
   overflow:auto;
-  padding:0 32px 32px;
+  padding:4px 32px 32px;
 }
 .components-modal__content.hide-header{
   margin-top:0;

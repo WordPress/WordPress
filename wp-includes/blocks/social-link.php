@@ -47,8 +47,8 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 	$icon               = block_core_social_link_get_icon( $service );
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
-			'class' => 'wp-social-link wp-social-link-' . $service . block_core_social_link_get_color_classes( $block->context ),
-			'style' => block_core_social_link_get_color_styles( $block->context ),
+			'class' => esc_attr( 'wp-social-link wp-social-link-' . $service . block_core_social_link_get_color_classes( $block->context ) ),
+			'style' => esc_attr( block_core_social_link_get_color_styles( $block->context ) ),
 		)
 	);
 

@@ -1660,7 +1660,6 @@ h2.edit-post-template-summary__title{
 .edit-post-start-page-options__modal-content .block-editor-block-patterns-list{
   column-count:2;
   column-gap:24px;
-  padding-top:2px;
 }
 @media (min-width:782px){
   .edit-post-start-page-options__modal-content .block-editor-block-patterns-list{
