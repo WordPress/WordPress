@@ -1137,10 +1137,15 @@ function update_core( $from, $to ) {
 	require WP_CONTENT_DIR . '/upgrade/version-current.php';
 	$wp_filesystem->delete( $versions_file );
 
-	$php_version       = PHP_VERSION;
-	$mysql_version     = $wpdb->db_version();
-	$old_wp_version    = $GLOBALS['wp_version']; // The version of WordPress we're updating from.
-	$development_build = ( str_contains( $old_wp_version . $wp_version, '-' ) ); // A dash in the version indicates a development release.
+	$php_version    = PHP_VERSION;
+	$mysql_version  = $wpdb->db_version();
+	$old_wp_version = $GLOBALS['wp_version']; // The version of WordPress we're updating from.
+	/*
+	 * Note: str_contains() is not used here, as this file is included
+	 * when updating from older WordPress versions, in which case
+	 * the polyfills from wp-includes/compat.php may not be available.
+	 */
+	$development_build = ( false !== strpos( $old_wp_version . $wp_version, '-' ) ); // A dash in the version indicates a development release.
 	$php_compat        = version_compare( $php_version, $required_php_version, '>=' );
 
 	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {
@@ -1242,7 +1247,12 @@ function update_core( $from, $to ) {
 
 		if ( is_array( $checksums ) ) {
 			foreach ( $checksums as $file => $checksum ) {
-				if ( str_starts_with( $file, 'wp-content' ) ) {
+				/*
+				 * Note: str_starts_with() is not used here, as this file is included
+				 * when updating from older WordPress versions, in which case
+				 * the polyfills from wp-includes/compat.php may not be available.
+				 */
+				if ( 'wp-content' === substr( $file, 0, 10 ) ) {
 					continue;
 				}
 
@@ -1349,7 +1359,12 @@ function update_core( $from, $to ) {
 
 	if ( isset( $checksums ) && is_array( $checksums ) ) {
 		foreach ( $checksums as $file => $checksum ) {
-			if ( str_starts_with( $file, 'wp-content' ) ) {
+			/*
+			 * Note: str_starts_with() is not used here, as this file is included
+			 * when updating from older WordPress versions, in which case
+			 * the polyfills from wp-includes/compat.php may not be available.
+			 */
+			if ( 'wp-content' === substr( $file, 0, 10 ) ) {
 				continue;
 			}
 
@@ -1764,7 +1779,12 @@ function _upgrade_422_find_genericons_files_in_folder( $directory ) {
 	$files     = array();
 
 	if ( file_exists( "{$directory}example.html" )
-		&& str_contains( file_get_contents( "{$directory}example.html" ), '<title>Genericons</title>' )
+		/*
+		 * Note: str_contains() is not used here, as this file is included
+		 * when updating from older WordPress versions, in which case
+		 * the polyfills from wp-includes/compat.php may not be available.
+		 */
+		&& false !== strpos( file_get_contents( "{$directory}example.html" ), '<title>Genericons</title>' )
 	) {
 		$files[] = "{$directory}example.html";
 	}
@@ -1773,8 +1793,14 @@ function _upgrade_422_find_genericons_files_in_folder( $directory ) {
 	$dirs = array_filter(
 		$dirs,
 		static function( $dir ) {
-			// Skip any node_modules directories.
-			return ! str_contains( $dir, 'node_modules' );
+			/*
+			 * Skip any node_modules directories.
+			 *
+			 * Note: str_contains() is not used here, as this file is included
+			 * when updating from older WordPress versions, in which case
+			 * the polyfills from wp-includes/compat.php may not be available.
+			 */
+			return false === strpos( $dir, 'node_modules' );
 		}
 	);
 
