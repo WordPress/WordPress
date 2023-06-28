@@ -199,6 +199,10 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'block-pattern',
@@ -287,6 +291,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 			),
 		);
 
-		return $this->add_additional_fields_schema( $schema );
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
 	}
 }

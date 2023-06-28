@@ -523,6 +523,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		$schema = parent::get_item_schema();
 		unset( $schema['properties']['count'], $schema['properties']['link'], $schema['properties']['taxonomy'] );
 
@@ -566,6 +570,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
 			'type'        => 'boolean',
 		);
 
-		return $schema;
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
 	}
 }

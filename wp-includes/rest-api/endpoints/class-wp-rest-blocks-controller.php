@@ -67,6 +67,10 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		// Do not cache this schema because all properties are derived from parent controller.
 		$schema = parent::get_item_schema();
 
@@ -86,7 +90,9 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 		unset( $schema['properties']['title']['properties']['rendered'] );
 		unset( $schema['properties']['content']['properties']['rendered'] );
 
-		return $schema;
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
 	}
 
 }
