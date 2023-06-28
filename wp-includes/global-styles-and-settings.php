@@ -407,8 +407,21 @@ function wp_theme_has_theme_json() {
 		return $theme_has_support;
 	}
 
-	// Does the theme have its own theme.json?
-	$theme_has_support = is_readable( get_theme_file_path( 'theme.json' ) );
+	// This is the same as get_theme_file_path(), which isn't available in load-styles.php context
+	if ( file_exists( get_stylesheet_directory() . '/theme.json' ) ) {
+		$path = get_stylesheet_directory() . '/theme.json';
+	} else {
+		$path = get_template_directory() . '/theme.json';
+	}
+
+	/** This filter is documented in wp-includes/link-template.php */
+	$path = apply_filters( 'theme_file_path', $path, 'theme.json' );
+
+	if ( file_exists( $path ) ) {
+		$theme_has_support = true;
+	} else {
+		$theme_has_support = false;
+	}
 
 	return $theme_has_support;
 }
