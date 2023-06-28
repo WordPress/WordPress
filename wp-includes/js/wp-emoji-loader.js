@@ -179,10 +179,11 @@
 	 *
 	 * @param {CanvasRenderingContext2D} context 2D Context.
 	 * @param {string} type Whether to test for support of "flag" or "emoji".
+	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
 	 *
 	 * @return {boolean} True if the browser can render emoji, false if it cannot.
 	 */
-	function browserSupportsEmoji( context, type ) {
+	function browserSupportsEmoji( context, type, emojiSetsRenderIdentically ) {
 		var isIdentical;
 
 		switch ( type ) {
@@ -278,10 +279,12 @@
 	 * @private
 	 *
 	 * @param {string[]} tests Tests.
+	 * @param {Function} browserSupportsEmoji Reference to browserSupportsEmoji function, needed due to minification.
+	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
 	 *
 	 * @return {SupportTests} Support tests.
 	 */
-	function testEmojiSupports( tests ) {
+	function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically ) {
 		var canvas;
 		if (
 			typeof WorkerGlobalScope !== 'undefined' &&
@@ -304,7 +307,7 @@
 
 		var supports = {};
 		tests.forEach( function ( test ) {
-			supports[ test ] = browserSupportsEmoji( context, test );
+			supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically );
 		} );
 		return supports;
 	}
@@ -349,20 +352,17 @@
 
 		if ( supportsWorkerOffloading() ) {
 			try {
-				/*
-				 * Note that this string contains the real source code for the
-				 * copied functions, _not_ a string representation of them. This
-				 * is because it's not possible to transfer a Function across
-				 * threads. The lack of quotes is intentional. The function names
-				 * are copied to variable names since minification will munge the
-				 * function names, thus breaking the ability for the functions to
-				 * refer to each other.
-				 */
+				// Note that the functions are being passed as arguments due to minification.
 				var workerScript =
-					'var emojiSetsRenderIdentically = ' + emojiSetsRenderIdentically + ';' +
-					'var browserSupportsEmoji = ' + browserSupportsEmoji + ';' +
-					'var testEmojiSupports = ' + testEmojiSupports + ';' +
-					'postMessage(testEmojiSupports(' + JSON.stringify(tests) + '));';
+					'postMessage(' +
+					testEmojiSupports.toString() +
+					'(' +
+					[
+						JSON.stringify( tests ),
+						browserSupportsEmoji.toString(),
+						emojiSetsRenderIdentically.toString()
+					].join( ',' ) +
+					'));';
 				var blob = new Blob( [ workerScript ], {
 					type: 'text/javascript'
 				} );
@@ -376,7 +376,7 @@
 			} catch ( e ) {}
 		}
 
-		supportTests = testEmojiSupports( tests );
+		supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically );
 		setSessionSupportTests( supportTests );
 		resolve( supportTests );
 	} )
