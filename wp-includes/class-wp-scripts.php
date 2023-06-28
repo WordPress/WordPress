@@ -907,9 +907,19 @@ JS;
 	 * @return string The best eligible loading strategy.
 	 */
 	private function get_eligible_loading_strategy( $handle ) {
-		$eligible = $this->filter_eligible_strategies( $handle );
+		$intended = (string) $this->get_data( $handle, 'strategy' );
 
-		// Bail early once we know the eligible strategy is blocking.
+		// Bail early if there is no intended strategy.
+		if ( ! $intended ) {
+			return '';
+		}
+
+		// If the intended strategy is 'defer', limit the initial list of eligibles.
+		$initial = ( 'defer' === $intended ) ? array( 'defer' ) : null;
+
+		$eligible = $this->filter_eligible_strategies( $handle, $initial );
+
+		// Return early once we know the eligible strategy is blocking.
 		if ( empty( $eligible ) ) {
 			return '';
 		}
