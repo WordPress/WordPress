@@ -420,6 +420,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * Prepares links for the request.
 	 *
 	 * @since 5.9.0
+	 * @since 6.3.0 Adds revisions count and rest URL href to version-history.
 	 *
 	 * @param integer $id ID.
 	 * @return array Links for the given post.
@@ -432,6 +433,16 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 				'href' => rest_url( trailingslashit( $base ) . $id ),
 			),
 		);
+
+		if ( post_type_supports( $this->post_type, 'revisions' ) ) {
+			$revisions       = wp_get_latest_revision_id_and_total_count( $id );
+			$revisions_count = ! is_wp_error( $revisions ) ? $revisions['count'] : 0;
+			$revisions_base  = sprintf( '/%s/%d/revisions', $base, $id );
+			$links['version-history'] = array(
+				'href'  => rest_url( $revisions_base ),
+				'count' => $revisions_count,
+			);
+		}
 
 		return $links;
 	}
