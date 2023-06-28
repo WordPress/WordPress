@@ -94,6 +94,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	line-height: 1.75;
 }
 
+.wp-block-quote.has-text-color cite {
+	color: inherit;
+}
+
 .wp-block-quote cite:before {
 	content: "\2014\00a0";
 }
