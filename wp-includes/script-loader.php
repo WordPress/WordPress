@@ -2480,34 +2480,6 @@ function wp_enqueue_global_styles_custom_css() {
 }
 
 /**
- * Renders the SVG filters supplied by theme.json.
- *
- * Note that this doesn't render the per-block user-defined
- * filters which are handled by wp_render_duotone_support,
- * but it should be rendered before the filtered content
- * in the body to satisfy Safari's rendering quirks.
- *
- * @since 5.9.1
- */
-function wp_global_styles_render_svg_filters() {
-	/*
-	 * When calling via the in_admin_header action, we only want to render the
-	 * SVGs on block editor pages.
-	 */
-	if (
-		is_admin() &&
-		! get_current_screen()->is_block_editor()
-	) {
-		return;
-	}
-
-	$filters = wp_get_global_styles_svg_filters();
-	if ( ! empty( $filters ) ) {
-		echo $filters;
-	}
-}
-
-/**
  * Checks if the editor scripts and styles for all registered block types
  * should be enqueued on the current screen.
  *

@@ -114,6 +114,7 @@ class WP_Theme_JSON {
 	 * @since 6.0.0 Replaced `override` with `prevent_override` and updated the
 	 *              `prevent_override` value for `color.duotone` to use `color.defaultDuotone`.
 	 * @since 6.2.0 Added 'shadow' presets.
+	 * @since 6.3.0 Replaced value_func for duotone with `null`. Custom properties are handled by class-wp-duotone.php.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
@@ -143,8 +144,8 @@ class WP_Theme_JSON {
 			'path'              => array( 'color', 'duotone' ),
 			'prevent_override'  => array( 'color', 'defaultDuotone' ),
 			'use_default_names' => false,
-			'value_func'        => 'wp_get_duotone_filter_property',
-			'css_vars'          => '--wp--preset--duotone--$slug',
+			'value_func'        => null, // CSS Custom Properties for duotone are handled by block supports in class-wp-duotone.php.
+			'css_vars'          => null,
 			'classes'           => array(),
 			'properties'        => array( 'filter' ),
 		),

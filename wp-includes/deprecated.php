@@ -4804,3 +4804,501 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 
 	return $image;
 }
+
+/**
+ * Takes input from [0, n] and returns it as [0, 1].
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param mixed $n   Number of unknown type.
+ * @param int   $max Upper value of the range to bound to.
+ * @return float Value in the range [0, 1].
+ */
+function wp_tinycolor_bound01( $n, $max ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	if ( 'string' === gettype( $n ) && str_contains( $n, '.' ) && 1 === (float) $n ) {
+		$n = '100%';
+	}
+
+	$n = min( $max, max( 0, (float) $n ) );
+
+	// Automatically convert percentage into number.
+	if ( 'string' === gettype( $n ) && str_contains( $n, '%' ) ) {
+		$n = (int) ( $n * $max ) / 100;
+	}
+
+	// Handle floating point rounding errors.
+	if ( ( abs( $n - $max ) < 0.000001 ) ) {
+		return 1.0;
+	}
+
+	// Convert into [0, 1] range if it isn't already.
+	return ( $n % $max ) / (float) $max;
+}
+
+/**
+ * Direct port of tinycolor's boundAlpha function to maintain consistency with
+ * how tinycolor works.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.9.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param mixed $n Number of unknown type.
+ * @return float Value in the range [0,1].
+ */
+function _wp_tinycolor_bound_alpha( $n ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	if ( is_numeric( $n ) ) {
+		$n = (float) $n;
+		if ( $n >= 0 && $n <= 1 ) {
+			return $n;
+		}
+	}
+	return 1;
+}
+
+/**
+ * Rounds and converts values of an RGB object.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $rgb_color RGB object.
+ * @return array Rounded and converted RGB object.
+ */
+function wp_tinycolor_rgb_to_rgb( $rgb_color ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	return array(
+		'r' => wp_tinycolor_bound01( $rgb_color['r'], 255 ) * 255,
+		'g' => wp_tinycolor_bound01( $rgb_color['g'], 255 ) * 255,
+		'b' => wp_tinycolor_bound01( $rgb_color['b'], 255 ) * 255,
+	);
+}
+
+/**
+ * Helper function for hsl to rgb conversion.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param float $p first component.
+ * @param float $q second component.
+ * @param float $t third component.
+ * @return float R, G, or B component.
+ */
+function wp_tinycolor_hue_to_rgb( $p, $q, $t ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	if ( $t < 0 ) {
+		++$t;
+	}
+	if ( $t > 1 ) {
+		--$t;
+	}
+	if ( $t < 1 / 6 ) {
+		return $p + ( $q - $p ) * 6 * $t;
+	}
+	if ( $t < 1 / 2 ) {
+		return $q;
+	}
+	if ( $t < 2 / 3 ) {
+		return $p + ( $q - $p ) * ( 2 / 3 - $t ) * 6;
+	}
+	return $p;
+}
+
+/**
+ * Converts an HSL object to an RGB object with converted and rounded values.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $hsl_color HSL object.
+ * @return array Rounded and converted RGB object.
+ */
+function wp_tinycolor_hsl_to_rgb( $hsl_color ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	$h = wp_tinycolor_bound01( $hsl_color['h'], 360 );
+	$s = wp_tinycolor_bound01( $hsl_color['s'], 100 );
+	$l = wp_tinycolor_bound01( $hsl_color['l'], 100 );
+
+	if ( 0 === $s ) {
+		// Achromatic.
+		$r = $l;
+		$g = $l;
+		$b = $l;
+	} else {
+		$q = $l < 0.5 ? $l * ( 1 + $s ) : $l + $s - $l * $s;
+		$p = 2 * $l - $q;
+		$r = wp_tinycolor_hue_to_rgb( $p, $q, $h + 1 / 3 );
+		$g = wp_tinycolor_hue_to_rgb( $p, $q, $h );
+		$b = wp_tinycolor_hue_to_rgb( $p, $q, $h - 1 / 3 );
+	}
+
+	return array(
+		'r' => $r * 255,
+		'g' => $g * 255,
+		'b' => $b * 255,
+	);
+}
+
+/**
+ * Parses hex, hsl, and rgb CSS strings using the same regex as TinyColor v1.4.2
+ * used in the JavaScript. Only colors output from react-color are implemented.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ * @link https://github.com/casesandberg/react-color/
+ *
+ * @since 5.8.0
+ * @since 5.9.0 Added alpha processing.
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param string $color_str CSS color string.
+ * @return array RGB object.
+ */
+function wp_tinycolor_string_to_rgb( $color_str ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	$color_str = strtolower( trim( $color_str ) );
+
+	$css_integer = '[-\\+]?\\d+%?';
+	$css_number  = '[-\\+]?\\d*\\.\\d+%?';
+
+	$css_unit = '(?:' . $css_number . ')|(?:' . $css_integer . ')';
+
+	$permissive_match3 = '[\\s|\\(]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')\\s*\\)?';
+	$permissive_match4 = '[\\s|\\(]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')\\s*\\)?';
+
+	$rgb_regexp = '/^rgb' . $permissive_match3 . '$/';
+	if ( preg_match( $rgb_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => $match[1],
+				'g' => $match[2],
+				'b' => $match[3],
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	$rgba_regexp = '/^rgba' . $permissive_match4 . '$/';
+	if ( preg_match( $rgba_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => $match[1],
+				'g' => $match[2],
+				'b' => $match[3],
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha( $match[4] );
+
+		return $rgb;
+	}
+
+	$hsl_regexp = '/^hsl' . $permissive_match3 . '$/';
+	if ( preg_match( $hsl_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_hsl_to_rgb(
+			array(
+				'h' => $match[1],
+				's' => $match[2],
+				'l' => $match[3],
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	$hsla_regexp = '/^hsla' . $permissive_match4 . '$/';
+	if ( preg_match( $hsla_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_hsl_to_rgb(
+			array(
+				'h' => $match[1],
+				's' => $match[2],
+				'l' => $match[3],
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha( $match[4] );
+
+		return $rgb;
+	}
+
+	$hex8_regexp = '/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/';
+	if ( preg_match( $hex8_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1], 16, 10 ),
+				'g' => base_convert( $match[2], 16, 10 ),
+				'b' => base_convert( $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha(
+			base_convert( $match[4], 16, 10 ) / 255
+		);
+
+		return $rgb;
+	}
+
+	$hex6_regexp = '/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/';
+	if ( preg_match( $hex6_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1], 16, 10 ),
+				'g' => base_convert( $match[2], 16, 10 ),
+				'b' => base_convert( $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	$hex4_regexp = '/^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/';
+	if ( preg_match( $hex4_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1] . $match[1], 16, 10 ),
+				'g' => base_convert( $match[2] . $match[2], 16, 10 ),
+				'b' => base_convert( $match[3] . $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha(
+			base_convert( $match[4] . $match[4], 16, 10 ) / 255
+		);
+
+		return $rgb;
+	}
+
+	$hex3_regexp = '/^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/';
+	if ( preg_match( $hex3_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1] . $match[1], 16, 10 ),
+				'g' => base_convert( $match[2] . $match[2], 16, 10 ),
+				'b' => base_convert( $match[3] . $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	/*
+	 * The JS color picker considers the string "transparent" to be a hex value,
+	 * so we need to handle it here as a special case.
+	 */
+	if ( 'transparent' === $color_str ) {
+		return array(
+			'r' => 0,
+			'g' => 0,
+			'b' => 0,
+			'a' => 0,
+		);
+	}
+}
+
+/**
+ * Returns the prefixed id for the duotone filter for use as a CSS id.
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $preset Duotone preset value as seen in theme.json.
+ * @return string Duotone filter CSS id.
+ */
+function wp_get_duotone_filter_id( $preset ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	return WP_Duotone::get_filter_id_from_preset( $preset );
+}
+
+/**
+ * Returns the CSS filter property url to reference the rendered SVG.
+ *
+ * @since 5.9.0
+ * @since 6.1.0 Allow unset for preset colors.
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $preset Duotone preset value as seen in theme.json.
+ * @return string Duotone CSS filter property url value.
+ */
+function wp_get_duotone_filter_property( $preset ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	return WP_Duotone::get_filter_css_property_value_from_preset( $preset );
+}
+
+/**
+ * Returns the duotone filter SVG string for the preset.
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $preset Duotone preset value as seen in theme.json.
+ * @return string Duotone SVG filter.
+ */
+function wp_get_duotone_filter_svg( $preset ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	return WP_Duotone::get_filter_svg_from_preset( $preset );
+}
+
+/**
+ * Registers the style and colors block attributes for block types that support it.
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0 Use WP_Duotone::register_duotone_support() instead.
+ *
+ * @access private
+ *
+ * @param WP_Block_Type $block_type Block Type.
+ */
+function wp_register_duotone_support( $block_type ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::register_duotone_support' );
+	return WP_Duotone::register_duotone_support( $block_type );
+}
+
+/**
+ * Renders out the duotone stylesheet and SVG.
+ *
+ * @since 5.8.0
+ * @since 6.1.0 Allow unset for preset colors.
+ * @deprecated 6.3.0 Use WP_Duotone::render_duotone_support() instead.
+ * 
+ * @access private
+ *
+ * @param string $block_content Rendered block content.
+ * @param array  $block         Block object.
+ * @return string Filtered block content.
+ */
+function wp_render_duotone_support( $block_content, $block ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::render_duotone_support' );
+	return WP_Duotone::render_duotone_support( $block_content, $block );
+}
+
+/**
+ * Returns a string containing the SVGs to be referenced as filters (duotone).
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0 SVG generation is handled on a per-block basis in block supports.
+ *
+ * @return string
+ */
+function wp_get_global_styles_svg_filters() {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	/*
+	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
+	 * developer's workflow.
+	 */
+	$can_use_cached = wp_get_development_mode() !== 'theme';
+	$cache_group    = 'theme_json';
+	$cache_key      = 'wp_get_global_styles_svg_filters';
+	if ( $can_use_cached ) {
+		$cached = wp_cache_get( $cache_key, $cache_group );
+		if ( $cached ) {
+			return $cached;
+		}
+	}
+
+	$supports_theme_json = wp_theme_has_theme_json();
+
+	$origins = array( 'default', 'theme', 'custom' );
+	if ( ! $supports_theme_json ) {
+		$origins = array( 'default' );
+	}
+
+	$tree = WP_Theme_JSON_Resolver::get_merged_data();
+	$svgs = $tree->get_svg_filters( $origins );
+
+	if ( $can_use_cached ) {
+		wp_cache_set( $cache_key, $svgs, $cache_group );
+	}
+
+	return $svgs;
+}
+
+/**
+ * Renders the SVG filters supplied by theme.json.
+ *
+ * Note that this doesn't render the per-block user-defined
+ * filters which are handled by wp_render_duotone_support,
+ * but it should be rendered before the filtered content
+ * in the body to satisfy Safari's rendering quirks.
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0 SVG generation is handled on a per-block basis in block supports.
+ */
+function wp_global_styles_render_svg_filters() {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	/*
+	 * When calling via the in_admin_header action, we only want to render the
+	 * SVGs on block editor pages.
+	 */
+	if (
+		is_admin() &&
+		! get_current_screen()->is_block_editor()
+	) {
+		return;
+	}
+
+	$filters = wp_get_global_styles_svg_filters();
+	if ( ! empty( $filters ) ) {
+		echo $filters;
+	}
+}
