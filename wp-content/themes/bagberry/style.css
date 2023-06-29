@@ -2059,7 +2059,9 @@ button:not(.components-button)[disabled],
   display: block;
 }
 .woocommerce-product-gallery .flex-control-nav {
-  /* 商品图片详情 下排缩略图宽度 */
+  /* 商品图片详情 下排缩略图宽度
+     product-image.php
+     single-product.js */
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
