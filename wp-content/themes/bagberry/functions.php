@@ -9,6 +9,8 @@
  * @since Bagberry 1.0
  */
 
+/** 完全禁用缩略图生成 */
+add_filter('intermediate_image_sizes', '__return_empty_array');
 
 add_action( 'after_setup_theme', 'bagberry_support' );
 // add_action( 'wp', 'bagberry_remove_theme_support' );
