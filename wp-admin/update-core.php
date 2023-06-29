@@ -1037,13 +1037,21 @@ if ( 'upgrade-core' === $action ) {
 
 	<?php
 	if ( $upgrade_error ) {
-		echo '<div class="error"><p>';
 		if ( 'themes' === $upgrade_error ) {
-			_e( 'Please select one or more themes to update.' );
+			$theme_updates = get_theme_updates();
+			if ( ! empty( $theme_updates ) ) {
+				echo '<div class="error"><p>';
+				_e( 'Please select one or more themes to update.' );
+				echo '</p></div>';
+			}
 		} else {
-			_e( 'Please select one or more plugins to update.' );
+			$plugin_updates = get_plugin_updates();
+			if ( ! empty( $plugin_updates ) ) {
+				echo '<div class="error"><p>';
+				_e( 'Please select one or more plugins to update.' );
+				echo '</p></div>';
+			}
 		}
-		echo '</p></div>';
 	}
 
 	$last_update_check = false;
