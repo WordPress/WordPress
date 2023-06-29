@@ -4645,7 +4645,7 @@ function wlwmanifest_link() {
  * @param WP_Comment[] $comments Array of comment objects.
  */
 function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
-	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_lazyload_comment_meta' );
+	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_lazyload_comment_meta()' );
 	// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
 	$comment_ids = array();
 	if ( is_array( $comments ) ) {
@@ -4685,7 +4685,7 @@ function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
  *                     that the `loading` attribute should be skipped.
  */
 function wp_get_loading_attr_default( $context ) {
-	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_get_loading_optimization_attributes' );
+	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_get_loading_optimization_attributes()' );
 	global $wp_query;
 
 	// Skip lazy-loading for the overall block template, as it is handled more granularly.
@@ -4767,7 +4767,7 @@ function wp_get_loading_attr_default( $context ) {
  * @return string Converted `img` tag with `loading` attribute added.
  */
 function wp_img_tag_add_loading_attr( $image, $context ) {
-	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_img_tag_add_loading_optimization_attrs' );
+	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_img_tag_add_loading_optimization_attrs()' );
 	/*
 	 * Get loading attribute value to use. This must occur before the conditional check below so that even images that
 	 * are ineligible for being lazy-loaded are considered.
@@ -5208,7 +5208,7 @@ function wp_get_duotone_filter_svg( $preset ) {
  * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_duotone_support( $block_type ) {
-	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::register_duotone_support' );
+	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::register_duotone_support()' );
 	return WP_Duotone::register_duotone_support( $block_type );
 }
 
@@ -5218,7 +5218,7 @@ function wp_register_duotone_support( $block_type ) {
  * @since 5.8.0
  * @since 6.1.0 Allow unset for preset colors.
  * @deprecated 6.3.0 Use WP_Duotone::render_duotone_support() instead.
- * 
+ *
  * @access private
  *
  * @param string $block_content Rendered block content.
@@ -5226,7 +5226,7 @@ function wp_register_duotone_support( $block_type ) {
  * @return string Filtered block content.
  */
 function wp_render_duotone_support( $block_content, $block ) {
-	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::render_duotone_support' );
+	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::render_duotone_support()' );
 	return WP_Duotone::render_duotone_support( $block_content, $block );
 }
 
