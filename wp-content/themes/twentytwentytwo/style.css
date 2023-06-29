@@ -156,6 +156,6 @@ body > .is-root-container > .wp-block-template-part > .wp-block-cover,
 	margin-bottom: 1rem;
 }
 
-.wp-block-post-comments ol.commentlist ul.children li:not(:last-child) {
+.wp-block-post-comments ol.commentlist li.comment:not(:last-child) {
 	margin-bottom: 1rem;
 }
