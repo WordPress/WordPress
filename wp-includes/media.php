@@ -1963,15 +1963,14 @@ function wp_img_tag_add_loading_optimization_attrs( $image, $context ) {
 	if ( empty( $loading_val ) && $loading_attrs_enabled ) {
 		/**
 		 * Filters the `loading` attribute value to add to an image. Default `lazy`.
-		 * This filter is added in for backward compatibility.
 		 *
 		 * Returning `false` or an empty string will not add the attribute.
 		 * Returning `true` will add the default value.
-		 * `true` and `false` usage supported for backward compatibility.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string|bool $loading Current value for `loading` attribute for the image.
+		 * @param string|bool $value   The `loading` attribute value. Returning a falsey value will result in
+		 *                             the attribute being omitted for the image.
 		 * @param string      $image   The HTML `img` tag to be filtered.
 		 * @param string      $context Additional context about how the function was called or where the img tag is.
 		 */
