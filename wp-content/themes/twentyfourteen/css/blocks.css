@@ -157,6 +157,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-color: #55d737;
 }
 
+.widget .wp-block-file .wp-block-file__button,
+.widget .wp-block-file .wp-block-file__button:hover {
+	color: #fff;
+}
+
 /*--------------------------------------------------------------
 3.0 Blocks - Formatting
 --------------------------------------------------------------*/
@@ -266,6 +271,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-button__link:active {
 	background-color: #55d737;
+}
+
+.widget a.wp-block-button__link:not(.has-text-color),
+.widget a.wp-block-button__link:not(.has-text-color):hover {
+	color: #fff;
 }
 
 /* Separator */
