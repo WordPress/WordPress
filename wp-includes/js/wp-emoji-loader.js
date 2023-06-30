@@ -366,10 +366,11 @@
 				var blob = new Blob( [ workerScript ], {
 					type: 'text/javascript'
 				} );
-				var worker = new Worker( URL.createObjectURL( blob ) );
+				var worker = new Worker( URL.createObjectURL( blob ), { name: 'wpTestEmojiSupports' } );
 				worker.onmessage = function ( event ) {
 					supportTests = event.data;
 					setSessionSupportTests( supportTests );
+					worker.terminate();
 					resolve( supportTests );
 				};
 				return;
