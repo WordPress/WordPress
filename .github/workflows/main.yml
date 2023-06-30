@@ -1,0 +1,19 @@
+on: push
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: centauri-site.ftp.azurewebsites.windows.net
+        username: ${{ secrets.WP_USER }}
+        password: ${{ secrets.WP_PASSWORD }}
+        protocol: ftps        
+        server-dir: /site/wwwroot/wp-content/plugins/wp-hello-world/
+        # dry-run: true
