@@ -11,7 +11,7 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: centauri-site.ftp.azurewebsites.windows.net
+        server: waws-prod-am2-743.ftp.azurewebsites.windows.net
         username: ${{ secrets.WP_USER }}
         password: ${{ secrets.WP_PASSWORD }}
         protocol: ftps        
