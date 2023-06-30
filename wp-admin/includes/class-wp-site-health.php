@@ -2009,12 +2009,8 @@ class WP_Site_Health {
 		$wp_content = $wp_filesystem->wp_content_dir();
 
 		if ( ! $wp_content ) {
-			$result['status'] = 'critical';
-			$result['label']  = sprintf(
-				/* translators: %s: wp-content */
-				__( 'Unable to locate WordPress content directory (%s)' ),
-				'<code>wp-content</code>'
-			);
+			$result['status']      = 'critical';
+			$result['label']       = __( 'Unable to locate WordPress content directory' );
 			$result['description'] = sprintf(
 				/* translators: %s: wp-content */
 				'<p>' . __( 'The %s directory cannot be located.' ) . '</p>',
@@ -2079,12 +2075,8 @@ class WP_Site_Health {
 		}
 
 		if ( ! $backup_dir_exists && $upgrade_dir_exists && ! $upgrade_dir_is_writable ) {
-			$result['status'] = 'critical';
-			$result['label']  = sprintf(
-				/* translators: %s: upgrade */
-				__( 'The %s directory exists but is not writable' ),
-				'upgrade'
-			);
+			$result['status']      = 'critical';
+			$result['label']       = __( 'The upgrade directory exists but is not writable' );
 			$result['description'] = sprintf(
 				/* translators: %s: wp-content/upgrade */
 				'<p>' . __( 'The %s directory exists but is not writable. This directory is used for plugin and theme updates. Please make sure the server has write permissions to this directory.' ) . '</p>',
@@ -2094,12 +2086,8 @@ class WP_Site_Health {
 		}
 
 		if ( ! $upgrade_dir_exists && ! $wp_filesystem->is_writable( $wp_content ) ) {
-			$result['status'] = 'critical';
-			$result['label']  = sprintf(
-				/* translators: %s: upgrade */
-				__( 'The %s directory cannot be created' ),
-				'upgrade'
-			);
+			$result['status']      = 'critical';
+			$result['label']       = __( 'The upgrade directory cannot be created' );
 			$result['description'] = sprintf(
 				/* translators: 1: wp-content/upgrade, 2: wp-content. */
 				'<p>' . __( 'The %1$s directory does not exist, and the server does not have write permissions in %2$s to create it. This directory is used for plugin and theme updates. Please make sure the server has write permissions in %2$s.' ) . '</p>',
