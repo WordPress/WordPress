@@ -13,7 +13,7 @@
 class Twenty_Twenty_One_Dark_Mode {
 
 	/**
-	 * Instantiate the object.
+	 * Instantiates the object.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 */
@@ -45,7 +45,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Editor custom color variables & scripts.
+	 * Enqueues editor custom color variables & scripts.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -82,7 +82,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Enqueue scripts and styles.
+	 * Enqueues scripts and styles.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -100,7 +100,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Enqueue scripts for the customizer.
+	 * Enqueues scripts for the customizer.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -120,7 +120,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Register customizer options.
+	 * Registers customizer options.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -209,7 +209,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Calculate classes for the main <html> element.
+	 * Calculates classes for the main <html> element.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -234,6 +234,8 @@ class Twenty_Twenty_One_Dark_Mode {
 	 * Adds a class to the <body> element in the editor to accommodate dark-mode.
 	 *
 	 * @since Twenty Twenty-One 1.0
+	 *
+	 * @global WP_Screen $current_screen WordPress current screen object.
 	 *
 	 * @param string $classes The admin body-classes.
 	 * @return string
@@ -261,9 +263,11 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Determine if we want to print the dark-mode switch or not.
+	 * Determines if we want to print the dark-mode switch or not.
 	 *
 	 * @since Twenty Twenty-One 1.0
+	 *
+	 * @global bool $is_IE
 	 *
 	 * @return bool
 	 */
@@ -277,7 +281,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Add night/day switch.
+	 * Adds night/day switch.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -292,7 +296,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Print the dark-mode switch HTML.
+	 * Prints the dark-mode switch HTML.
 	 *
 	 * Inspired from https://codepen.io/aaroniker/pen/KGpXZo (MIT-licensed)
 	 *
@@ -352,7 +356,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	}
 
 	/**
-	 * Print the dark-mode switch script.
+	 * Prints the dark-mode switch script.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
