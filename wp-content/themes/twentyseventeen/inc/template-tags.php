@@ -1,6 +1,6 @@
 <?php
 /**
- * Custom template tags for this theme
+ * Custom template tags for this theme.
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
@@ -70,7 +70,7 @@ if ( ! function_exists( 'twentyseventeen_entry_footer' ) ) :
 		// Get Tags for posts.
 		$tags_list = get_the_tag_list( '', $separate_meta );
 
-		// We don't want to output .entry-footer if it will be empty, so make sure its not.
+		// We don't want to output .entry-footer if it will be empty, so make sure it is not.
 		if ( ( ( twentyseventeen_categorized_blog() && $categories_list ) || $tags_list ) || get_edit_post_link() ) {
 
 			echo '<footer class="entry-footer">';
@@ -112,7 +112,7 @@ if ( ! function_exists( 'twentyseventeen_edit_link' ) ) :
 	/**
 	 * Returns an accessibility-friendly link to edit a post or page.
 	 *
-	 * This also gives us a little context about what exactly we're editing
+	 * This also gives a little context about what exactly we're editing
 	 * (post or page?) so that users understand a bit more where they are in terms
 	 * of the template hierarchy and their content. Helpful when/if the single-page
 	 * layout with multiple posts/pages shown gets confusing.
@@ -131,13 +131,13 @@ if ( ! function_exists( 'twentyseventeen_edit_link' ) ) :
 endif;
 
 /**
- * Display a front page section.
+ * Displays a front page section.
  *
  * @global int|string $twentyseventeencounter Front page section counter.
  * @global WP_Post    $post                   Global post object.
  *
  * @param WP_Customize_Partial $partial Partial associated with a selective refresh request.
- * @param int                  $id Front page section to display.
+ * @param int                  $id      Front page section to display.
  */
 function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 	if ( is_a( $partial, 'WP_Customize_Partial' ) ) {
@@ -205,7 +205,7 @@ function twentyseventeen_categorized_blog() {
 
 
 /**
- * Flush out the transients used in twentyseventeen_categorized_blog.
+ * Flushes out the transients used in twentyseventeen_categorized_blog.
  */
 function twentyseventeen_category_transient_flusher() {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -219,7 +219,7 @@ add_action( 'save_post', 'twentyseventeen_category_transient_flusher' );
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
@@ -227,7 +227,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 	 */
 	function wp_body_open() {
 		/**
-		 * Triggered after the opening <body> tag.
+		 * Fires after the opening <body> tag.
 		 *
 		 * @since Twenty Seventeen 2.2
 		 */
