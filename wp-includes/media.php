@@ -749,10 +749,10 @@ function wp_image_matches_ratio( $source_width, $source_height, $target_width, $
  *     Array of file relative path, width, and height on success. Additionally includes absolute
  *     path and URL if registered size is passed to `$size` parameter. False on failure.
  *
- *     @type string $file   Path of image relative to uploads directory.
+ *     @type string $file   Filename of image.
  *     @type int    $width  Width of image in pixels.
  *     @type int    $height Height of image in pixels.
- *     @type string $path   Absolute filesystem path of image.
+ *     @type string $path   Path of image relative to uploads directory.
  *     @type string $url    URL of image.
  * }
  */
