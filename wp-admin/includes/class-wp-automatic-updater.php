@@ -148,6 +148,7 @@ class WP_Automatic_Updater {
 		}
 
 		$check_dirs = array_unique( $check_dirs );
+		$checkout   = false;
 
 		// Search all directories we've found for evidence of version control.
 		foreach ( $vcs_dirs as $vcs_dir ) {
