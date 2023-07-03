@@ -8251,7 +8251,6 @@ const buildBlockTypeItem = (state, {
  *
  * @param    {Object}   state             Editor state.
  * @param    {?string}  rootClientId      Optional root client ID of block list.
- * @param    {?string}  syncStatus        Optional sync status to filter pattern blocks by.
  *
  * @return {WPEditorInserterItem[]} Items that appear in inserter.
  *
@@ -8269,10 +8268,7 @@ const buildBlockTypeItem = (state, {
  */
 
 
-const getInserterItems = rememo((state, rootClientId = null, syncStatus) => {
-  const buildBlockTypeInserterItem = buildBlockTypeItem(state, {
-    buildScope: 'inserter'
-  });
+const getInserterItems = rememo((state, rootClientId = null) => {
   /*
    * Matches block comment delimiters amid serialized content.
    *
@@ -8286,7 +8282,6 @@ const getInserterItems = rememo((state, rootClientId = null, syncStatus) => {
    * - prepended ^\s*
    *
    */
-
   const blockParserTokenizer = /^\s*<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/;
 
   const buildReusableBlockInserterItem = reusableBlock => {
@@ -8338,8 +8333,13 @@ const getInserterItems = rememo((state, rootClientId = null, syncStatus) => {
     };
   };
 
+  const syncedPatternInserterItems = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).filter(reusableBlock => // Filter to either fully synced patterns (sync_status === 'fully'),
+  // or old school reusable blocks (sync_status === '').
+  reusableBlock.meta?.sync_status === 'fully' || reusableBlock.meta?.sync_status === '' || !reusableBlock.meta?.sync_status).map(buildReusableBlockInserterItem) : [];
+  const buildBlockTypeInserterItem = buildBlockTypeItem(state, {
+    buildScope: 'inserter'
+  });
   const blockTypeInserterItems = (0,external_wp_blocks_namespaceObject.getBlockTypes)().filter(blockType => canIncludeBlockTypeInInserter(state, blockType, rootClientId)).map(buildBlockTypeInserterItem);
-  const reusableBlockInserterItems = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).filter(reusableBlock => syncStatus === reusableBlock.meta?.sync_status || !syncStatus && reusableBlock.meta?.sync_status === '').map(buildReusableBlockInserterItem) : [];
   const items = blockTypeInserterItems.reduce((accumulator, item) => {
     const {
       variations = []
@@ -8381,7 +8381,7 @@ const getInserterItems = rememo((state, rootClientId = null, syncStatus) => {
     noncore: []
   });
   const sortedBlockTypes = [...coreItems, ...nonCoreItems];
-  return [...sortedBlockTypes, ...reusableBlockInserterItems];
+  return [...sortedBlockTypes, ...syncedPatternInserterItems];
 }, (state, rootClientId) => [state.blockListSettings[rootClientId], state.blocks.byClientId, state.blocks.order, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, getReusableBlocks(state), (0,external_wp_blocks_namespaceObject.getBlockTypes)()]);
 /**
  * Determines the items that appear in the available block transforms list.
@@ -8525,9 +8525,24 @@ const checkAllowListRecursive = (blocks, allowedBlockTypes) => {
   return true;
 };
 
+function getUnsyncedPatterns(state) {
+  var _state$settings$__exp;
+
+  const reusableBlocks = (_state$settings$__exp = state?.settings?.__experimentalReusableBlocks) !== null && _state$settings$__exp !== void 0 ? _state$settings$__exp : EMPTY_ARRAY;
+  return reusableBlocks.filter(reusableBlock => reusableBlock.meta?.sync_status === 'unsynced').map(reusableBlock => {
+    return {
+      name: `core/block/${reusableBlock.id}`,
+      title: reusableBlock.title.raw,
+      categories: ['custom'],
+      content: reusableBlock.content.raw
+    };
+  });
+}
+
 const __experimentalGetParsedPattern = rememo((state, patternName) => {
   const patterns = state.settings.__experimentalBlockPatterns;
-  const pattern = patterns.find(({
+  const unsyncedPatterns = getUnsyncedPatterns(state);
+  const pattern = [...patterns, ...unsyncedPatterns].find(({
     name
   }) => name === patternName);
 
@@ -8540,13 +8555,14 @@ const __experimentalGetParsedPattern = rememo((state, patternName) => {
       __unstableSkipMigrationLogs: true
     })
   };
-}, state => [state.settings.__experimentalBlockPatterns]);
+}, state => [state.settings.__experimentalBlockPatterns, state.settings.__experimentalReusableBlocks]);
 const getAllAllowedPatterns = rememo(state => {
   const patterns = state.settings.__experimentalBlockPatterns;
+  const unsyncedPatterns = getUnsyncedPatterns(state);
   const {
     allowedBlockTypes
   } = getSettings(state);
-  const parsedPatterns = patterns.filter(({
+  const parsedPatterns = [...patterns, ...unsyncedPatterns].filter(({
     inserter = true
   }) => !!inserter).map(({
     name
@@ -8555,7 +8571,7 @@ const getAllAllowedPatterns = rememo(state => {
     blocks
   }) => checkAllowListRecursive(blocks, allowedBlockTypes));
   return allowedPatterns;
-}, state => [state.settings.__experimentalBlockPatterns, state.settings.allowedBlockTypes]);
+}, state => [state.settings.__experimentalBlockPatterns, state.settings.__experimentalReusableBlocks, state.settings.allowedBlockTypes]);
 /**
  * Returns the list of allowed patterns for inner blocks children.
  *
@@ -8573,7 +8589,7 @@ const __experimentalGetAllowedPatterns = rememo((state, rootClientId = null) => 
     name
   }) => canInsertBlockType(state, name, rootClientId)));
   return patternsAllowed;
-}, (state, rootClientId) => [state.settings.__experimentalBlockPatterns, state.settings.allowedBlockTypes, state.settings.templateLock, state.blockListSettings[rootClientId], state.blocks.byClientId.get(rootClientId)]);
+}, (state, rootClientId) => [state.settings.__experimentalBlockPatterns, state.settings.__experimentalReusableBlocks, state.settings.allowedBlockTypes, state.settings.templateLock, state.blockListSettings[rootClientId], state.blocks.byClientId.get(rootClientId)]);
 /**
  * Returns the list of patterns based on their declared `blockTypes`
  * and a block's name.
@@ -8797,9 +8813,9 @@ function __experimentalGetLastBlockAttributeChanges(state) {
  */
 
 function getReusableBlocks(state) {
-  var _state$settings$__exp;
+  var _state$settings$__exp2;
 
-  return (_state$settings$__exp = state?.settings?.__experimentalReusableBlocks) !== null && _state$settings$__exp !== void 0 ? _state$settings$__exp : EMPTY_ARRAY;
+  return (_state$settings$__exp2 = state?.settings?.__experimentalReusableBlocks) !== null && _state$settings$__exp2 !== void 0 ? _state$settings$__exp2 : EMPTY_ARRAY;
 }
 /**
  * Returns whether the navigation mode is enabled.
@@ -9101,7 +9117,7 @@ function BlockRemovalWarningModal() {
     }
   }, blockNamesForPrompt.map(name => (0,external_wp_element_namespaceObject.createElement)("li", {
     key: name
-  }, blockTypePromptMessages[name]))), (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject._n)('Removing this block is not advised.', 'Removing these blocks is not advised.', blockNamesForPrompt.length)), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+  }, blockTypePromptMessages[name]))), (0,external_wp_element_namespaceObject.createElement)("p", null, blockNamesForPrompt.length > 1 ? (0,external_wp_i18n_namespaceObject.__)('Removing these blocks is not advised.') : (0,external_wp_i18n_namespaceObject.__)('Removing this block is not advised.')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "right"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     variant: "tertiary",
@@ -27546,11 +27562,10 @@ function InserterPanel({
  *
  * @param {string=}  rootClientId Insertion's root client ID.
  * @param {Function} onInsert     function called when inserter a list of blocks.
- * @param {?string}  syncStatus   Optional sync status to filter pattern blocks by.
  * @return {Array} Returns the block types state. (block types, categories, collections, onSelect handler)
  */
 
-const useBlockTypesState = (rootClientId, onInsert, syncStatus) => {
+const useBlockTypesState = (rootClientId, onInsert) => {
   const {
     categories,
     collections,
@@ -27566,9 +27581,9 @@ const useBlockTypesState = (rootClientId, onInsert, syncStatus) => {
     return {
       categories: getCategories(),
       collections: getCollections(),
-      items: getInserterItems(rootClientId, syncStatus)
+      items: getInserterItems(rootClientId)
     };
-  }, [rootClientId, syncStatus]);
+  }, [rootClientId]);
   const onSelectItem = (0,external_wp_element_namespaceObject.useCallback)(({
     name,
     initialAttributes,
@@ -27767,6 +27782,11 @@ var external_wp_notices_namespaceObject = window["wp"]["notices"];
  */
 
 
+const CUSTOM_CATEGORY = {
+  name: 'custom',
+  label: (0,external_wp_i18n_namespaceObject.__)('My patterns'),
+  description: (0,external_wp_i18n_namespaceObject.__)('Custom patterns add by site users')
+};
 /**
  * Retrieves the block patterns inserter state.
  *
@@ -27790,6 +27810,7 @@ const usePatternsState = (onInsert, rootClientId) => {
       patternCategories: getSettings().__experimentalBlockPatternCategories
     };
   }, [rootClientId]);
+  const allCategories = (0,external_wp_element_namespaceObject.useMemo)(() => [...patternCategories, CUSTOM_CATEGORY], [patternCategories]);
   const {
     createSuccessNotice
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
@@ -27800,8 +27821,8 @@ const usePatternsState = (onInsert, rootClientId) => {
     (0,external_wp_i18n_namespaceObject.__)('Block pattern "%s" inserted.'), pattern.title), {
       type: 'snackbar'
     });
-  }, []);
-  return [patterns, patternCategories, onClickPattern];
+  }, [createSuccessNotice, onInsert]);
+  return [patterns, allCategories, onClickPattern];
 };
 
 /* harmony default export */ var use_patterns_state = (usePatternsState);
@@ -28388,7 +28409,7 @@ function PatternList({
     }
 
     return searchItems(allPatterns, filterValue);
-  }, [filterValue, selectedCategory, allPatterns]); // Announce search results on change.
+  }, [filterValue, allPatterns, selectedCategory, registeredPatternCategories]); // Announce search results on change.
 
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!filterValue) {
@@ -28400,7 +28421,7 @@ function PatternList({
     /* translators: %d: number of results. */
     (0,external_wp_i18n_namespaceObject._n)('%d result found.', '%d results found.', count), count);
     debouncedSpeak(resultsFoundMessage);
-  }, [filterValue, debouncedSpeak]);
+  }, [filterValue, debouncedSpeak, filteredBlockPatterns.length]);
   const currentShownPatterns = (0,external_wp_compose_namespaceObject.useAsyncList)(filteredBlockPatterns, {
     step: INITIAL_INSERTER_RESULTS
   });
@@ -28543,11 +28564,9 @@ function MobileTabNavigation({
 
 
 
-
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -28558,16 +28577,10 @@ const block_patterns_tab_noop = () => {}; // Preferred order of pattern categori
 // be at the bottom without any re-ordering.
 
 
-const patternCategoriesOrder = ['featured', 'posts', 'text', 'gallery', 'call-to-action', 'banner', 'header', 'footer'];
+const patternCategoriesOrder = ['custom', 'featured', 'posts', 'text', 'gallery', 'call-to-action', 'banner', 'header', 'footer'];
 
 function usePatternsCategories(rootClientId) {
   const [allPatterns, allCategories] = use_patterns_state(undefined, rootClientId);
-  const [unsyncedPatterns] = use_block_types_state(rootClientId, undefined, 'unsynced');
-  const filteredUnsyncedPatterns = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return unsyncedPatterns.filter(({
-      category: unsyncedPatternCategory
-    }) => unsyncedPatternCategory === 'reusable');
-  }, [unsyncedPatterns]);
   const hasRegisteredCategory = (0,external_wp_element_namespaceObject.useCallback)(pattern => {
     if (!pattern.categories || !pattern.categories.length) {
       return false;
@@ -28598,15 +28611,8 @@ function usePatternsCategories(rootClientId) {
       });
     }
 
-    if (filteredUnsyncedPatterns.length > 0) {
-      categories.push({
-        name: 'reusable',
-        label: (0,external_wp_i18n_namespaceObject._x)('Custom patterns')
-      });
-    }
-
     return categories;
-  }, [allCategories, allPatterns, filteredUnsyncedPatterns.length, hasRegisteredCategory]);
+  }, [allCategories, allPatterns, hasRegisteredCategory]);
   return populatedCategories;
 }
 
@@ -28644,16 +28650,6 @@ function BlockPatternsCategoryPanel({
   showTitlesAsTooltip
 }) {
   const [allPatterns,, onClick] = use_patterns_state(onInsert, rootClientId);
-  const [unsyncedPatterns] = use_block_types_state(rootClientId, onInsert, 'unsynced');
-  const filteredUnsyncedPatterns = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return unsyncedPatterns.filter(({
-      category: unsyncedPatternCategory
-    }) => unsyncedPatternCategory === 'reusable').map(syncedPattern => ({ ...syncedPattern,
-      blocks: (0,external_wp_blocks_namespaceObject.parse)(syncedPattern.content, {
-        __unstableSkipMigrationLogs: true
-      })
-    }));
-  }, [unsyncedPatterns]);
   const availableCategories = usePatternsCategories(rootClientId);
   const currentCategoryPatterns = (0,external_wp_element_namespaceObject.useMemo)(() => allPatterns.filter(pattern => {
     var _pattern$categories$f;
@@ -28666,13 +28662,12 @@ function BlockPatternsCategoryPanel({
 
     const availablePatternCategories = (_pattern$categories$f = pattern.categories?.filter(cat => availableCategories.find(availableCategory => availableCategory.name === cat))) !== null && _pattern$categories$f !== void 0 ? _pattern$categories$f : [];
     return availablePatternCategories.length === 0;
-  }), [allPatterns, category]);
-  const patterns = category.name === 'reusable' ? filteredUnsyncedPatterns : currentCategoryPatterns;
-  const currentShownPatterns = (0,external_wp_compose_namespaceObject.useAsyncList)(patterns); // Hide block pattern preview on unmount.
+  }), [allPatterns, availableCategories, category.name]);
+  const categoryPatternsList = (0,external_wp_compose_namespaceObject.useAsyncList)(currentCategoryPatterns); // Hide block pattern preview on unmount.
 
   (0,external_wp_element_namespaceObject.useEffect)(() => () => onHover(null), []);
 
-  if (!currentCategoryPatterns.length && !filteredUnsyncedPatterns.length) {
+  if (!currentCategoryPatterns.length) {
     return null;
   }
 
@@ -28681,8 +28676,8 @@ function BlockPatternsCategoryPanel({
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-inserter__patterns-category-panel-title"
   }, category.label), (0,external_wp_element_namespaceObject.createElement)("p", null, category.description), (0,external_wp_element_namespaceObject.createElement)(block_patterns_list, {
-    shownPatterns: currentShownPatterns,
-    blockPatterns: patterns,
+    shownPatterns: categoryPatternsList,
+    blockPatterns: currentCategoryPatterns,
     onClickPattern: onClick,
     onHover: onHover,
     label: category.label,
@@ -28817,7 +28812,7 @@ function ReusableBlocksTab({
     href: (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
       post_type: 'wp_block'
     })
-  }, (0,external_wp_i18n_namespaceObject.__)('Manage custom patterns'))));
+  }, (0,external_wp_i18n_namespaceObject.__)('Manage my patterns'))));
 }
 /* harmony default export */ var reusable_blocks_tab = (ReusableBlocksTab);
 
@@ -45484,7 +45479,7 @@ function FiltersToolsPanel({
   };
 
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToolsPanel, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Filters'),
+    label: (0,external_wp_i18n_namespaceObject._x)('Filters', 'Name for applying graphical effects'),
     resetAll: resetAll,
     panelId: panelId
   }, children);

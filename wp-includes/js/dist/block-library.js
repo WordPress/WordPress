@@ -32276,6 +32276,8 @@ function LinkUI(props) {
   const {
     saveEntityRecord
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
+  const pagesPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('pages');
+  const postsPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('posts');
 
   async function handleCreate(pageTitle) {
     const postType = props.link.type || 'page';
@@ -32308,8 +32310,16 @@ function LinkUI(props) {
     opensInNewTab,
     type,
     kind
-  } = props.link; // Memoize link value to avoid overriding the LinkControl's internal state.
+  } = props.link;
+  let userCanCreate = false;
+
+  if (!type || type === 'page') {
+    userCanCreate = pagesPermissions.canCreate;
+  } else if (type === 'post') {
+    userCanCreate = postsPermissions.canCreate;
+  } // Memoize link value to avoid overriding the LinkControl's internal state.
   // This is a temporary fix. See https://github.com/WordPress/gutenberg/issues/50976#issuecomment-1568226407.
+
 
   const link = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     url,
@@ -32327,7 +32337,7 @@ function LinkUI(props) {
     className: props.className,
     value: link,
     showInitialSuggestions: true,
-    withCreateSuggestion: props.hasCreateSuggestion,
+    withCreateSuggestion: userCanCreate,
     createSuggestion: handleCreate,
     createSuggestionButtonText: searchTerm => {
       let format;
@@ -32413,7 +32423,6 @@ function AdditionalBlockContent({
     onClose: () => {
       setInsertedBlock(null);
     },
-    hasCreateSuggestion: false,
     onChange: updatedValue => {
       updateAttributes(updatedValue, setInsertedBlockAttributes(insertedBlock?.clientId), insertedBlock?.attributes);
       setInsertedBlock(null);
@@ -32670,7 +32679,7 @@ function Navigation({
   const hasUnsavedBlocks = hasUncontrolledInnerBlocks && !isEntityAvailable;
   const {
     getNavigationFallbackId
-  } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_coreData_namespaceObject.store);
+  } = unlock((0,external_wp_data_namespaceObject.useSelect)(external_wp_coreData_namespaceObject.store));
   const navigationFallbackId = !(ref || hasUnsavedBlocks) ? getNavigationFallbackId() : null;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // If:
@@ -34116,8 +34125,6 @@ function NavigationLinkEdit({
   const itemLabelPlaceholder = (0,external_wp_i18n_namespaceObject.__)('Add label…');
 
   const ref = (0,external_wp_element_namespaceObject.useRef)();
-  const pagesPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('pages');
-  const postsPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('posts');
   const {
     innerBlocks,
     isAtMaxNesting,
@@ -34232,14 +34239,6 @@ function NavigationLinkEdit({
     }); // Close the link editing UI.
 
     setIsLinkOpen(false);
-  }
-
-  let userCanCreate = false;
-
-  if (!type || type === 'page') {
-    userCanCreate = pagesPermissions.canCreate;
-  } else if (type === 'post') {
-    userCanCreate = postsPermissions.canCreate;
   }
 
   const {
@@ -34416,7 +34415,6 @@ function NavigationLinkEdit({
     link: attributes,
     onClose: () => setIsLinkOpen(false),
     anchor: popoverAnchor,
-    hasCreateSuggestion: userCanCreate,
     onRemove: removeLink,
     onChange: updatedValue => {
       updateAttributes(updatedValue, setAttributes, attributes);
@@ -46618,7 +46616,7 @@ function ReusableBlockEdit({
     uniqueId: ref
   }, canRemove && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     onClick: () => convertBlockToStatic(clientId),
-    label: innerBlockCount > 1 ? (0,external_wp_i18n_namespaceObject.__)('Convert to regular blocks') : (0,external_wp_i18n_namespaceObject.__)('Convert to regular block'),
+    label: innerBlockCount > 1 ? (0,external_wp_i18n_namespaceObject.__)('Detach patterns') : (0,external_wp_i18n_namespaceObject.__)('Detach pattern'),
     icon: library_ungroup,
     showTooltip: true
   }))), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {

@@ -577,6 +577,9 @@
 .block-editor-default-block-appender .block-editor-default-block-appender__content{
   opacity:.62;
 }
+:where(body .is-layout-constrained) .block-editor-default-block-appender>:first-child:first-child{
+  margin-block-start:0;
+}
 .block-editor-default-block-appender .components-drop-zone__content-icon{
   display:none;
 }

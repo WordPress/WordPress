@@ -106,7 +106,7 @@ function useAdminNavigationCommands() {
   });
   (0,external_wp_commands_namespaceObject.useCommand)({
     name: 'core/manage-reusable-blocks',
-    label: (0,external_wp_i18n_namespaceObject.__)('Manage all custom patterns'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Manage all of my patterns'),
     callback: () => {
       document.location.href = 'edit.php?post_type=wp_block';
     },
@@ -416,7 +416,7 @@ function useSiteEditorBasicNavigationCommands() {
         close
       }) => {
         const args = {
-          path: '/library'
+          path: '/patterns'
         };
         const targetUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', args);
 

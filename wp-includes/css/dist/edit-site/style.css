@@ -1604,54 +1604,54 @@ body.is-fullscreen-mode .edit-site-list-header{
   padding:32px;
 }
 
-.edit-site-library{
+.edit-site-patterns{
   background:rgba(0,0,0,.05);
   margin:60px 0 0;
 }
-.edit-site-library .components-text{
+.edit-site-patterns .components-text{
   color:#949494;
 }
-.edit-site-library .components-heading{
+.edit-site-patterns .components-heading{
   color:#e0e0e0;
 }
 @media (min-width:782px){
-  .edit-site-library{
+  .edit-site-patterns{
     margin:0;
   }
 }
 
-.edit-site-library__grid{
+.edit-site-patterns__grid{
   column-gap:24px;
   margin-bottom:32px;
   padding-top:2px;
 }
 @media (min-width:960px){
-  .edit-site-library__grid{
+  .edit-site-patterns__grid{
     column-count:2;
   }
 }
-.edit-site-library__grid .edit-site-library__pattern{
+.edit-site-patterns__grid .edit-site-patterns__pattern{
   break-inside:avoid-column;
   display:flex;
   flex-direction:column;
   margin-bottom:48px;
 }
-.edit-site-library__grid .edit-site-library__pattern .edit-site-library__preview{
+.edit-site-patterns__grid .edit-site-patterns__pattern .edit-site-patterns__preview{
   border-radius:2px;
   cursor:pointer;
   overflow:hidden;
 }
-.edit-site-library__grid .edit-site-library__pattern .edit-site-library__preview:focus{
+.edit-site-patterns__grid .edit-site-patterns__pattern .edit-site-patterns__preview:focus{
   box-shadow:inset 0 0 0 2px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   outline:2px solid transparent;
 }
-.edit-site-library__grid .edit-site-library__pattern .edit-site-library__preview.is-inactive{
+.edit-site-patterns__grid .edit-site-patterns__pattern .edit-site-patterns__preview.is-inactive{
   cursor:default;
 }
-.edit-site-library__grid .edit-site-library__pattern .edit-site-library__button,.edit-site-library__grid .edit-site-library__pattern .edit-site-library__footer{
+.edit-site-patterns__grid .edit-site-patterns__pattern .edit-site-patterns__button,.edit-site-patterns__grid .edit-site-patterns__pattern .edit-site-patterns__footer{
   color:#949494;
 }
-.edit-site-library__grid .edit-site-library__pattern.is-placeholder .edit-site-library__preview{
+.edit-site-patterns__grid .edit-site-patterns__pattern.is-placeholder .edit-site-patterns__preview{
   align-items:center;
   border:1px dashed #2f2f2f;
   color:#949494;
@@ -1659,35 +1659,38 @@ body.is-fullscreen-mode .edit-site-list-header{
   justify-content:center;
   min-height:64px;
 }
-.edit-site-library__grid .edit-site-library__pattern.is-placeholder .edit-site-library__preview:focus{
+.edit-site-patterns__grid .edit-site-patterns__pattern.is-placeholder .edit-site-patterns__preview:focus{
   box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
-.edit-site-library__grid .edit-site-library__preview{
+.edit-site-patterns__grid .edit-site-patterns__preview{
   flex:1;
   margin-bottom:16px;
 }
 
-.edit-site-library__search.edit-site-library__search input[type=search]{
+.edit-site-patterns__search.edit-site-patterns__search input[type=search]{
   background:#2f2f2f;
   color:#e0e0e0;
 }
-.edit-site-library__search.edit-site-library__search input[type=search]:focus{
+.edit-site-patterns__search.edit-site-patterns__search input[type=search]:focus{
   background:#2f2f2f;
 }
-.edit-site-library__search svg{
+.edit-site-patterns__search svg{
   fill:#949494;
 }
 
-.edit-site-library__pattern-title{
+.edit-site-patterns__pattern-title{
   color:#949494;
 }
-.edit-site-library__pattern-title svg{
+.edit-site-patterns__pattern-title .edit-site-patterns__pattern-icon{
   fill:#fff;
   background:var(--wp-block-synced-color);
   border-radius:4px;
 }
+.edit-site-patterns__pattern-title .edit-site-patterns__pattern-lock-icon{
+  display:inline-flex;
+}
 
-.edit-site-library__no-results{
+.edit-site-patterns__no-results{
   color:#949494;
 }
 
@@ -2202,8 +2205,18 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-welcome-guide{
   width:312px;
 }
-.edit-site-welcome-guide__image{
+.edit-site-welcome-guide.guide-editor .edit-site-welcome-guide__image .edit-site-welcome-guide.guide-styles .edit-site-welcome-guide__image{
   background:#00a0d2;
+}
+.edit-site-welcome-guide.guide-page .edit-site-welcome-guide__video{
+  border-right:16px solid #3858e9;
+  border-top:16px solid #3858e9;
+}
+.edit-site-welcome-guide.guide-template .edit-site-welcome-guide__video{
+  border-left:16px solid #3858e9;
+  border-top:16px solid #3858e9;
+}
+.edit-site-welcome-guide__image{
   margin:0 0 16px;
 }
 .edit-site-welcome-guide__image>img{
@@ -2837,10 +2850,6 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   color:#949494;
 }
 
-.edit-site-sidebar-navigation-screen-library__group{
-  margin-bottom:24px;
-}
-
 .sidebar-navigation__more-menu .components-button{
   color:#e0e0e0;
 }
@@ -2953,6 +2962,14 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   height:24px;
   margin-right:8px;
   width:24px;
+}
+
+.edit-site-sidebar-navigation-screen-pattern__lock-icon{
+  display:inline-flex;
+}
+
+.edit-site-sidebar-navigation-screen-patterns__group{
+  margin-bottom:24px;
 }
 
 .edit-site-sidebar-navigation-screen-template__added-by-description{

@@ -1470,7 +1470,7 @@ body.is-dragging-components-draggable{
 .components-guide__footer{
   align-content:center;
   display:flex;
-  height:30px;
+  height:36px;
   justify-content:center;
   margin:0 0 24px;
   padding:0 32px;
@@ -1486,14 +1486,17 @@ body.is-dragging-components-draggable{
   margin:0;
 }
 .components-guide__page-control .components-button{
+  color:#e0e0e0;
   height:30px;
   margin:-6px 0;
   min-width:20px;
 }
+.components-guide__page-control li[aria-current=step] .components-button{
+  color:var(--wp-components-color-accent, var(--wp-admin-theme-color));
+}
 
 .components-modal__frame.components-guide{
   border:none;
-  height:80vh;
   max-height:575px;
   min-width:312px;
 }
@@ -1505,28 +1508,12 @@ body.is-dragging-components-draggable{
 }
 
 .components-button.components-guide__back-button,.components-button.components-guide__finish-button,.components-button.components-guide__forward-button{
-  height:30px;
   position:absolute;
-}
-.components-button.components-guide__back-button,.components-button.components-guide__forward-button{
-  font-size:13px;
-  padding:4px 2px;
-}
-.components-button.components-guide__back-button.has-text svg,.components-button.components-guide__forward-button.has-text svg{
-  margin:0;
-}
-.components-button.components-guide__back-button:hover,.components-button.components-guide__forward-button:hover{
-  text-decoration:underline;
 }
 .components-button.components-guide__back-button{
   right:32px;
 }
-.components-button.components-guide__forward-button{
-  color:#1386bf;
-  font-weight:700;
-  left:32px;
-}
-.components-button.components-guide__finish-button{
+.components-button.components-guide__finish-button,.components-button.components-guide__forward-button{
   left:32px;
 }
 

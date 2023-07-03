@@ -2402,11 +2402,11 @@ function createResolversCache() {
 function createBindingCache(bind) {
   const cache = new WeakMap();
   return {
-    get(item) {
+    get(item, itemName) {
       let boundItem = cache.get(item);
 
       if (!boundItem) {
-        boundItem = bind(item);
+        boundItem = bind(item, itemName);
         cache.set(item, boundItem);
       }
 
@@ -2493,15 +2493,16 @@ function createReduxStore(key, options) {
       const allActions = new Proxy(() => {}, {
         get: (target, prop) => {
           const privateAction = privateActions[prop];
-          return privateAction ? boundPrivateActions.get(privateAction) : actions[prop];
+          return privateAction ? boundPrivateActions.get(privateAction, prop) : actions[prop];
         }
       });
       const thunkActions = new Proxy(allActions, {
         apply: (target, thisArg, [action]) => store.dispatch(action)
       });
       lock(actions, allActions);
+      const resolvers = options.resolvers ? mapResolvers(options.resolvers) : {};
 
-      function bindSelector(selector) {
+      function bindSelector(selector, selectorName) {
         if (selector.isRegistrySelector) {
           selector.registry = registry;
         }
@@ -2512,8 +2513,14 @@ function createReduxStore(key, options) {
           return selector(state.root, ...args);
         };
 
-        boundSelector.hasResolver = false;
-        return boundSelector;
+        const resolver = resolvers[selectorName];
+
+        if (!resolver) {
+          boundSelector.hasResolver = false;
+          return boundSelector;
+        }
+
+        return mapSelectorWithResolver(boundSelector, selectorName, resolver, store, resolversCache);
       }
 
       function bindMetadataSelector(selector) {
@@ -2527,27 +2534,20 @@ function createReduxStore(key, options) {
         return boundSelector;
       }
 
-      let selectors = { ...mapValues(selectors_namespaceObject, bindMetadataSelector),
+      const selectors = { ...mapValues(selectors_namespaceObject, bindMetadataSelector),
         ...mapValues(options.selectors, bindSelector)
       };
-      let resolvers;
-
-      if (options.resolvers) {
-        resolvers = mapResolvers(options.resolvers);
-        selectors = mapSelectorsWithResolvers(selectors, resolvers, store, resolversCache);
-      }
-
       const boundPrivateSelectors = createBindingCache(bindSelector); // Pre-bind the private selectors that have been registered by the time of
       // instantiation, so that registry selectors are bound to the registry.
 
-      for (const privateSelector of Object.values(privateSelectors)) {
-        boundPrivateSelectors.get(privateSelector);
+      for (const [selectorName, selector] of Object.entries(privateSelectors)) {
+        boundPrivateSelectors.get(selector, selectorName);
       }
 
       const allSelectors = new Proxy(() => {}, {
         get: (target, prop) => {
           const privateSelector = privateSelectors[prop];
-          return privateSelector ? boundPrivateSelectors.get(privateSelector) : selectors[prop];
+          return privateSelector ? boundPrivateSelectors.get(privateSelector, prop) : selectors[prop];
         }
       });
       const thunkSelectors = new Proxy(allSelectors, {
@@ -2777,19 +2777,20 @@ function mapResolvers(resolvers) {
   });
 }
 /**
- * Returns resolvers with matched selectors for a given namespace.
+ * Returns a selector with a matched resolver.
  * Resolvers are side effects invoked once per argument set of a given selector call,
  * used in ensuring that the data needs for the selector are satisfied.
  *
- * @param {Object} selectors      The current selectors to be modified.
- * @param {Object} resolvers      Resolvers to register.
+ * @param {Object} selector       The selector function to be bound.
+ * @param {string} selectorName   The selector name.
+ * @param {Object} resolver       Resolver to call.
  * @param {Object} store          The redux store to which the resolvers should be mapped.
  * @param {Object} resolversCache Resolvers Cache.
  */
 
 
-function mapSelectorsWithResolvers(selectors, resolvers, store, resolversCache) {
-  function fulfillSelector(resolver, selectorName, args) {
+function mapSelectorWithResolver(selector, selectorName, resolver, store, resolversCache) {
+  function fulfillSelector(args) {
     const state = store.getState();
 
     if (resolversCache.isRunning(selectorName, args) || typeof resolver.isFulfilled === 'function' && resolver.isFulfilled(state, ...args)) {
@@ -2823,21 +2824,13 @@ function mapSelectorsWithResolvers(selectors, resolvers, store, resolversCache) 
     }, 0);
   }
 
-  return mapValues(selectors, (selector, selectorName) => {
-    const resolver = resolvers[selectorName];
+  const selectorResolver = (...args) => {
+    fulfillSelector(args);
+    return selector(...args);
+  };
 
-    if (!resolver) {
-      return selector;
-    }
-
-    const selectorResolver = (...args) => {
-      fulfillSelector(resolver, selectorName, args);
-      return selector(...args);
-    };
-
-    selectorResolver.hasResolver = true;
-    return selectorResolver;
-  });
+  selectorResolver.hasResolver = true;
+  return selectorResolver;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/utils/emitter.js

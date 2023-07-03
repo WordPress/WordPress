@@ -11612,9 +11612,6 @@ function PostSwitchToDraftButton({
 
 function PostSyncStatus() {
   const {
-    editPost
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const {
     meta,
     postType
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -11631,26 +11628,11 @@ function PostSyncStatus() {
     return null;
   }
 
-  const onUpdateSync = syncStatus => editPost({
-    meta: { ...meta,
-      wp_block: syncStatus === 'unsynced' ? {
-        sync_status: syncStatus
-      } : null
-    }
-  });
-
-  const syncStatus = meta?.wp_block?.sync_status;
+  const syncStatus = meta?.sync_status;
   const isFullySynced = !syncStatus;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelRow, {
     className: "edit-post-sync-status"
-  }, (0,external_wp_element_namespaceObject.createElement)("span", null, (0,external_wp_i18n_namespaceObject.__)('Syncing')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
-    __nextHasNoMarginBottom: true,
-    label: isFullySynced ? (0,external_wp_i18n_namespaceObject.__)('Fully synced') : (0,external_wp_i18n_namespaceObject.__)('Not synced'),
-    checked: isFullySynced,
-    onChange: () => {
-      onUpdateSync(syncStatus === 'unsynced' ? 'fully' : 'unsynced');
-    }
-  }));
+  }, (0,external_wp_element_namespaceObject.createElement)("span", null, (0,external_wp_i18n_namespaceObject.__)('Sync status')), (0,external_wp_element_namespaceObject.createElement)("div", null, isFullySynced ? (0,external_wp_i18n_namespaceObject.__)('Fully synced') : (0,external_wp_i18n_namespaceObject.__)('Not synced')));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-taxonomies/index.js

@@ -2453,9 +2453,8 @@ body.is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
 }
 .block-editor-list-view-drop-indicator .block-editor-list-view-drop-indicator__line{
   background:var(--wp-admin-theme-color);
-  border:1px solid #fff;
   border-radius:4px;
-  height:6px;
+  height:4px;
 }
 
 .block-editor-list-view-placeholder{

@@ -357,7 +357,8 @@ function ReusableBlockConvertButton({
     __nextHasNoMarginBottom: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Name'),
     value: title,
-    onChange: setTitle
+    onChange: setTitle,
+    placeholder: (0,external_wp_i18n_namespaceObject.__)('My pattern')
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
     label: (0,external_wp_i18n_namespaceObject.__)('Keep all pattern instances in sync'),
     help: (0,external_wp_i18n_namespaceObject.__)('Editing the original pattern will also update anywhere the pattern is used.'),
@@ -376,7 +377,7 @@ function ReusableBlockConvertButton({
   }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     variant: "primary",
     type: "submit"
-  }, (0,external_wp_i18n_namespaceObject.__)('Save'))))))));
+  }, (0,external_wp_i18n_namespaceObject.__)('Create'))))))));
 }
 
 ;// CONCATENATED MODULE: external ["wp","url"]
@@ -437,7 +438,7 @@ function ReusableBlocksManageButton({
     })
   }, (0,external_wp_i18n_namespaceObject.__)('Manage Patterns')), canRemove && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: () => convertBlockToStatic(clientId)
-  }, innerBlockCount > 1 ? (0,external_wp_i18n_namespaceObject.__)('Convert to regular blocks') : (0,external_wp_i18n_namespaceObject.__)('Convert to regular block')));
+  }, innerBlockCount > 1 ? (0,external_wp_i18n_namespaceObject.__)('Detach patterns') : (0,external_wp_i18n_namespaceObject.__)('Detach pattern')));
 }
 
 /* harmony default export */ var reusable_blocks_manage_button = (ReusableBlocksManageButton);

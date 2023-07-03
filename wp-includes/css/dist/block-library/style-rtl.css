@@ -3227,7 +3227,7 @@ pre.wp-block-verse{
   counter-reset:footnotes;
 }
 
-.fn{
+[data-fn].fn{
   counter-increment:footnotes;
   display:inline-block;
   font-size:smaller;
@@ -3235,7 +3235,7 @@ pre.wp-block-verse{
   vertical-align:super;
 }
 
-.fn:after{
+[data-fn].fn:after{
   content:"[" counter(footnotes) "]";
   float:right;
   text-indent:0;

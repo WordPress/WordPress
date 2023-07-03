@@ -538,8 +538,8 @@
   flex-shrink:0;
   width:45%;
 }
-.edit-post-sync-status .components-base-control{
-  padding-left:6px;
+.edit-post-sync-status>div{
+  padding-left:12px;
 }
 
 .editor-post-taxonomies__hierarchical-terms-list{

@@ -549,7 +549,6 @@ __webpack_require__.d(build_module_selectors_namespaceObject, {
   "getEntityRecords": function() { return getEntityRecords; },
   "getLastEntityDeleteError": function() { return getLastEntityDeleteError; },
   "getLastEntitySaveError": function() { return getLastEntitySaveError; },
-  "getNavigationFallbackId": function() { return getNavigationFallbackId; },
   "getRawEntityRecord": function() { return getRawEntityRecord; },
   "getRedoEdit": function() { return getRedoEdit; },
   "getReferenceByDistinctEdits": function() { return getReferenceByDistinctEdits; },
@@ -1676,6 +1675,16 @@ function getUndoEdits(state) {
 
 function getRedoEdits(state) {
   return state.undo.list[state.undo.list.length + state.undo.offset];
+}
+/**
+ * Retrieve the fallback Navigation.
+ *
+ * @param state Data state.
+ * @return The ID for the fallback Navigation post.
+ */
+
+function getNavigationFallbackId(state) {
+  return state.navigationFallbackId;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/actions.js
@@ -5246,16 +5255,6 @@ function getBlockPatternCategories(state) {
   return state.blockPatternCategories;
 }
 /**
- * Retrieve the fallback Navigation.
- *
- * @param state Data state.
- * @return The ID for the fallback Navigation post.
- */
-
-function getNavigationFallbackId(state) {
-  return state.navigationFallbackId;
-}
-/**
  * Returns the revisions of the current global styles theme.
  *
  * @param state Data state.
@@ -5813,7 +5812,8 @@ const resolvers_getBlockPatternCategories = () => async ({
   });
 };
 const resolvers_getNavigationFallbackId = () => async ({
-  dispatch
+  dispatch,
+  select
 }) => {
   const fallback = await external_wp_apiFetch_default()({
     path: (0,external_wp_url_namespaceObject.addQueryArgs)('/wp-block-editor/v1/navigation-fallback', {
@@ -5824,7 +5824,11 @@ const resolvers_getNavigationFallbackId = () => async ({
   dispatch.receiveNavigationFallbackId(fallback?.id);
 
   if (record) {
-    const invalidateNavigationQueries = true;
+    // If the fallback is already in the store, don't invalidate navigation queries.
+    // Otherwise, invalidate the cache for the scenario where there were no Navigation
+    // posts in the state and the fallback created one.
+    const existingFallbackEntityRecord = select.getEntityRecord('postType', 'wp_navigation', fallback?.id);
+    const invalidateNavigationQueries = !existingFallbackEntityRecord;
     dispatch.receiveEntityRecords('postType', 'wp_navigation', record, undefined, invalidateNavigationQueries); // Resolve to avoid further network requests.
 
     dispatch.finishResolution('getEntityRecord', ['postType', 'wp_navigation', fallback?.id]);
@@ -6107,12 +6111,6 @@ function createLocksActions() {
   };
 }
 
-;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
-;// CONCATENATED MODULE: external ["wp","blocks"]
-var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
-;// CONCATENATED MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
 var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/private-apis.js
@@ -6125,6 +6123,12 @@ const {
   unlock
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/core-data');
 
+;// CONCATENATED MODULE: external ["wp","element"]
+var external_wp_element_namespaceObject = window["wp"]["element"];
+;// CONCATENATED MODULE: external ["wp","blocks"]
+var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
+;// CONCATENATED MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/entity-provider.js
 
 
@@ -7391,6 +7395,8 @@ function __experimentalUseResourcePermissions(resource, id) {
 
 
 
+
+
  // The entity selectors/resolvers and actions are shortcuts to their generic equivalents
 // (getEntityRecord, getEntityRecords, updateEntityRecord, updateEntityRecords)
 // Instead of getEntityRecord, the consumer could use more user-friendly named selector: getPostType, getTaxonomy...
@@ -7458,7 +7464,11 @@ const storeConfig = () => ({
 
 
 const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, storeConfig());
-(0,external_wp_data_namespaceObject.register)(store);
+unlock(store).registerPrivateSelectors({
+  getNavigationFallbackId: getNavigationFallbackId
+});
+(0,external_wp_data_namespaceObject.register)(store); // Register store after unlocking private selectors to allow resolvers to use them.
+
 
 
 
