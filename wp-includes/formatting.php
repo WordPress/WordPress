@@ -4883,7 +4883,11 @@ function sanitize_option( $option, $value ) {
 			break;
 
 		case 'blog_charset':
-			$value = preg_replace( '/[^a-zA-Z0-9_-]/', '', $value ); // Strips slashes.
+			if ( is_string( $value ) ) {
+				$value = preg_replace( '/[^a-zA-Z0-9_-]/', '', $value ); // Strips slashes.
+			} else {
+				$value = '';
+			}
 			break;
 
 		case 'blog_public':
@@ -4918,7 +4922,11 @@ function sanitize_option( $option, $value ) {
 			break;
 
 		case 'gmt_offset':
-			$value = preg_replace( '/[^0-9:.-]/', '', $value ); // Strips slashes.
+			if ( is_numeric( $value ) ) {
+				$value = preg_replace( '/[^0-9:.-]/', '', $value ); // Strips slashes.
+			} else {
+				$value = '';
+			}
 			break;
 
 		case 'siteurl':
