@@ -546,6 +546,10 @@ class WP_HTML_Tag_Processor {
 			}
 
 			// Ensure that the tag closes before the end of the document.
+			if ( $this->bytes_already_parsed >= strlen( $this->html ) ) {
+				return false;
+			}
+
 			$tag_ends_at = strpos( $this->html, '>', $this->bytes_already_parsed );
 			if ( false === $tag_ends_at ) {
 				return false;
