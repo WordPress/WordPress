@@ -580,7 +580,7 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	right: 0;
 }
 
-.check-column .label-covers-full-cell input {
+.check-column .label-covers-full-cell + input {
 	position: relative;
 	z-index: 1;
 }
