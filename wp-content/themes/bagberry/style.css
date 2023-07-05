@@ -2070,12 +2070,8 @@ button:not(.components-button)[disabled],
       -ms-flex-pack: center;
           justify-content: center;
   gap: 12px;
-  padding: 0px;
-  margin: 1px;
-  overflow-x: auto;
-
-  flex-direction:row;
-  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
 }
 .woocommerce-product-gallery .flex-control-nav > li {
   position: relative;
@@ -5090,7 +5086,8 @@ div.hide-on-desktop {
     text-align: center;
   }
   .wp-block-navigation .wp-block-navigation-item.has-megamenu > .wp-block-navigation__submenu-container > .wp-block-navigation-item > .wp-block-navigation-item__content {
-    color: #df6724;
+    /* 导航栏颜色 */
+    color: #0e40bc;
 
     padding: 0;
     padding-bottom: 0px;
