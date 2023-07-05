@@ -5643,6 +5643,11 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 		return $postprocess( $loading_attrs, true );
 	}
 
+	// The custom header image is always expected to be in the header.
+	if ( 'get_header_image_tag' === $context ) {
+		return $postprocess( $loading_attrs, true );
+	}
+
 	// Special handling for programmatically created image tags.
 	if ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context ) {
 		/*
