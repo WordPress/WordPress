@@ -589,9 +589,9 @@ add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' 
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties' );
-add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
+add_action( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
-add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
+add_action( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
 add_action( 'admin_head', 'wp_check_widget_editor_deps' );
 add_filter( 'block_editor_settings_all', 'wp_add_editor_classic_theme_styles' );
 
