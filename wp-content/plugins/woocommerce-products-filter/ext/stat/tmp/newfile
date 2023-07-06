@@ -1,0 +1,12 @@
+
+ //echo WOOF_HELPER::get_var_size($operative_data);
+        //$max_memory = (int) WP_MEMORY_LIMIT * 1000000; //bytes
+        //if (WOOF_HELPER::get_var_size($operative_data) >= $max_memory)
+        /*
+          if (true)
+          {
+          die(json_encode(array(
+          'error' => sprintf(__('Not enough memory for this operation. Max memory for your site is %s. Increase it if you need see statistic for bigger date range!', WP_MEMORY_LIMIT))
+          )));
+          }
+         * */

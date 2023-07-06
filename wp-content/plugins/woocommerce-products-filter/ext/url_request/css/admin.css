@@ -1,0 +1,90 @@
+.woof_seo_rule_url{
+    display: inline-block;
+    width: 30%;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.woof_seo_rule_container{
+    display: inline-block;
+    width: 58%;
+    padding: 10px;
+    background: #fcfcfc;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+.woof_seo_rule_container label{
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.woof_seo_rule_delete{
+    display: inline-block;
+    width: fit-content;
+    vertical-align: top;
+}
+
+.woof_seo_rules_item{
+    border: solid 1px #ddd;
+    background: #fefefe;
+    margin-bottom: 15px !important;
+    padding-top: 15px;
+}
+
+
+.woof_seo_rule_url input{
+    width: 100%;
+}
+
+.woof_seo_rule_item_field{
+    display: inline-block;
+    width: 49%;
+}
+
+.woof_seo_rule_item_field.woof_seo_rule_description{
+    width: 100%;
+    margin-top: 11px;
+}
+
+.woof_seo_rule_item_field.woof_seo_rule_description textarea{
+    width: 100%;
+}
+
+.woof_seo_rule_item_field input{
+    width: 100%;
+}
+
+.woof_seo_rules_delete{
+    float: right;
+}
+
+#woof_seo_rules_list{
+    margin-bottom: 40px;
+}
+
+.woof-control-container.woof-control-container-seo{
+    display: block;
+}
+
+.woof_seo_rule_url_add{
+    width: 100%;
+}
+
+.woof-control-container-add-seo-rule{
+    display: block;
+}
+
+.woof-control-container-add-seo-rule > div{
+    width: 100%;
+    margin-bottom: 11px;
+}
+
+#tabs-url-request .woof-control-section h4{
+    margin-bottom: 11px;
+}
+
+.woof_seo_rules_delete .dashicons-trash{
+    line-height: 1.6em;
+}
+

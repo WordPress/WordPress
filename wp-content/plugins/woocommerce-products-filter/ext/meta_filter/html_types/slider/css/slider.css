@@ -1,0 +1,16 @@
+.woof_metarange_slider_inputs{
+    height: 35px;
+}
+.woof_metarange_slider_inputs input{
+    padding: 2px 7px;
+    border: solid 1px #ccc;
+    background: #fff;
+    width: 75px;
+    box-shadow: none;
+}
+.woof_metarange_slider_from{
+    float: left;
+}
+.woof_metarange_slider_to{
+    float: right;
+}

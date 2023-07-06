@@ -1,0 +1,133 @@
+// Geomicons theme
+
+
+$blue: #3ad;
+$light-gray: #f9fcff;
+$mid-gray: #a9acac;
+$dark-gray: #30393f;
+
+//$red: #f43;
+$red: #f54;
+$purple: #f49;
+$slate: #769;
+
+.bg-red { background-color: $red; }
+.bg-purple { background-color: $purple; }
+.bg-slate { background-color: $slate; }
+
+.white { color: #fff; }
+.blue { color: $blue; }
+.light-gray { color: $light-gray; }
+.mid-gray { color: $mid-gray; }
+.dark-gray { color: $dark-gray; }
+
+.red { color: $red; }
+
+.bg-white { background-color: #fff; }
+.bg-blue { background-color: $blue; }
+.bg-light-gray { background-color: $light-gray; }
+.bg-mid-gray { background-color: $mid-gray; }
+.bg-dark-gray { background-color: $dark-gray; }
+
+.fill-white { fill: #fff; }
+.fill-blue { fill: $blue; }
+.fill-light-gray { fill: $light-gray; }
+.fill-mid-gray { fill: $mid-gray; }
+.fill-dark-gray { fill: $dark-gray; }
+
+.fill-white-alpha { fill: rgba(#fff, .8); }
+
+.stroke-mid-gray { stroke: $mid-gray; }
+.stroke-light-gray { stroke: $light-gray; }
+
+
+// Base theme styles
+
+body {
+  color: $dark-gray;
+  background-color: $light-gray;
+}
+
+a {
+  color: #fff;
+  &:hover {
+    color: rgba(#000,.6);
+  }
+}
+
+
+// Buttons
+
+.button {
+  border-radius: .25rem;
+  transition-duration: .2s;
+  transition-timing-function: ease;
+  transition-property: box-shadow , background-color;
+  &:focus {
+    outline: none;
+  }
+}
+
+.button-box-white {
+  color: #fff;
+  fill: #fff;
+  box-shadow: inset 0 0 0 2px #fff;
+  &:focus,
+  &:hover {
+    color: $red;
+    fill: $red;
+    background-color: #fff;
+  }
+}
+
+.button-box-blue {
+  color: $blue;
+  fill: $blue;
+  box-shadow: inset 0 0 0 2px $blue;
+  &:focus,
+  &:hover {
+    color: #fff;
+    fill: #fff;
+    background-color: $blue;
+  }
+}
+
+/*
+.button-box-gray {
+  color: $dark-gray;
+  fill: $dark-gray;
+  box-shadow: inset 0 0 0 2px $dark-gray;
+  &:focus,
+  &:hover {
+    color: $blue;
+    fill: $blue;
+    background-color: $dark-gray;
+  }
+}
+*/
+
+
+// Utilities
+.rounded { border-radius: .25rem; }
+
+.gradient {
+  background-image: linear-gradient( to bottom left, rgba(#f60,.05), rgba(#06f,.05) );
+}
+.gradient-grid {
+  background-image: url(../site/grid.svg), linear-gradient( to bottom left, rgba(#f60,.1), rgba(#06f,.1) );
+  background-position: top center;
+}
+
+// Dev styles
+.bg-grid { background-image: url(../dev/bg-grid.svg); }
+.bg-grid-big { background-size: 16rem 16rem; background-position: top center; }
+/*
+@media (min-width: 57em) {
+  .bg-grid-big { background-size: 24rem 24rem; }
+}
+*/
+
+.bg-cover { background-size: cover; }
+
+.geomicon { width: 1em; height: 1em; vertical-align: -0.125em; }
+

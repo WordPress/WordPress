@@ -1,0 +1,98 @@
+// Type
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+
+
+// Base Type Scale
+
+h1, .h1, .f1 {
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+h2, .h2, .f2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+h3, .h3, .f3 {
+  font-size: 1.25rem;
+  line-height: 2rem;
+}
+
+p, .p, .f4, h4, h5, h6, dl, ol, ul {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+small, .small, .f5 {
+  font-size: .875rem;
+  line-height: 1.5rem;
+}
+
+
+// Responsive Type Scale
+
+@media screen and (min-width: 48em) {
+  .h1 {
+    font-size: 4rem;
+    line-height: 5rem;
+  }
+  .h2 {
+    font-size: 2rem;
+    line-height: 3rem;
+  }
+  .h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  .p {
+    font-size: 1.25rem;
+    line-height: 2rem;
+  }
+  .small {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 64em) {
+  .h1 {
+    font-size: 6rem;
+    line-height: 8rem;
+  }
+  .h2 {
+    font-size: 3rem;
+    line-height: 4rem;
+  }
+}
+
+
+// Utilities
+
+strong, .bold { font-weight: bold; }
+.regular { font-weight: normal; }
+.italic { font-style: italic; }
+.caps { text-transform: uppercase; letter-spacing: .2em; }
+.center { text-align: center; }
+.right-align  { text-align: right; }
+
+
+// Typographical Measure
+// Use with the .wrap class to center container
+
+.measure { max-width: 48rem; }
+.measure-narrow { max-width: 32rem; }
+.measure-wide { max-width: 60rem; }
+
+
+// Leading utilities to control line-height
+
+.leading-1 { line-height: 1.5rem; }
+.leading-2 { line-height: 2rem; }
+.leading-3 { line-height: 3rem; }
+.leading-4 { line-height: 4rem; }
+

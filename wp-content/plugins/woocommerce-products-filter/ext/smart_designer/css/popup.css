@@ -1,0 +1,223 @@
+/**
+ * @summary     Popup23
+ * @description pure javascript popup window
+ * @version     1.0.1
+ * @file        popup-23
+ * @author      Rostislav Sofronov <realmag777>
+ * @contact     https://pluginus.net/contact-us/
+ * @github      https://github.com/realmag777/popup-23
+ * @copyright   Copyright 2022 PluginUs.NET
+ *
+ * This source file is free software, available under the following license:
+ * MIT license - https://en.wikipedia.org/wiki/MIT_License
+ */
+
+.woot-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 360px;
+    background: black;
+    opacity: .7;
+    z-index: 15000;
+}
+
+.woot-modal {
+    position: fixed;
+    top: 50px;
+    left: 10%;
+    right: 10%;
+    z-index: 15001;
+    background: #fff;
+    min-height: 240px;
+    min-width: 320px;
+    overflow: auto;
+    bottom: 50px;
+    animation: woot_modal_pop 0.45s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+@-webkit-keyframes woot_modal_pop {
+    0%   {
+        -webkit-transform:scale(0.8);
+        opacity:0;
+    }
+    100% {
+        -webkit-transform:scale(1);
+        opacity:1;
+    }
+}
+@-moz-keyframes woot_modal_pop {
+    0%   {
+        -moz-transform:scale(0.8);
+        opacity:0;
+    }
+    100% {
+        -moz-transform:scale(1);
+        opacity:1;
+    }
+}
+@-o-keyframes woot_modal_pop {
+    0%   {
+        -o-transform:scale(0.8);
+        opacity:0;
+    }
+    100% {
+        -o-transform:scale(1);
+        opacity:1;
+    }
+}
+@keyframes woot_modal_pop {
+    0%   {
+        transform:scale(0.8);
+        opacity:0;
+    }
+    100% {
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.woot-modal-inner-header {
+    height: 50px;
+    border-bottom: 1px solid #dfdfdf;
+    box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.woot-modal-inner-footer {
+    height: 50px;
+    border-top: 1px solid #dfdfdf;
+    box-shadow: inset 0 4px 4px -4px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 0;
+    background: #FCFCFC;
+    width: 100%;
+    overflow: hidden;
+    clear: both;
+    box-sizing: border-box;
+    padding: 5px 0 0 5px;
+}
+
+.woot-modal .woot-modal-inner-footer .woot-btn {
+    margin: 7px 0 0 7px;
+}
+
+.woot-modal-inner-content {
+    position: absolute;
+    overflow: auto !important;
+    padding: 0;
+    top: 52px;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+}
+
+.woot-modal-inner-header .woot-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    outline: none;
+
+    -webkit-transition-duration: 0s;
+    transition-duration: 0s;
+}
+
+.woot-modal-inner-header .woot-modal-close:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.woot-modal-inner-header .woot-modal-close::before {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    color: #ccc;
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    content: "🗙";
+    -webkit-transition: color .25s ease;
+    transition: color .25s ease;
+}
+
+.woot-modal-inner-header .woot-modal-close:hover::before {
+    color: #cb4a1f;
+}
+
+.woot-modal-title {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    line-height: 53px;
+    left: 14px;
+    color: #555;
+    padding: 0;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.woot-modal-title span{
+    color: crimson;
+}
+
+.woot-modal-title-info {
+    position: absolute;
+    top: 10px;
+    right: 44px;
+    margin: 0;
+    line-height: 0;
+    color: #999;
+    padding: 0;
+    font-size: 15px;
+}
+
+.woot-form-element-container {
+    padding: 8px;
+    position: relative;
+}
+
+.woot-form-element-container::after {
+    content: '.';
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    clear: both;
+}
+
+.woot-form-element-container {
+    padding: 18px 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e1e1e1;
+    position: relative;
+    background-color: #fff;
+    clear: both;
+}
+
+.woot-form-element-container > p {
+    color: #777;
+}
+
+.woot-form-element-container:hover {
+    background-color: #fcfcfc;
+}
+
+.woot-iframe-in-popup{
+    border: 0;
+    position: relative;
+    width: 100%;
+}
+
+.woot-content-in-popup{
+    color: #333;
+}

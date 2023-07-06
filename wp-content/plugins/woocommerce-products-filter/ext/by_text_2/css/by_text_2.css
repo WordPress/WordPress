@@ -1,0 +1,75 @@
+.woof_sid_auto_shortcode .woof_show_text_search{
+}
+
+.woof_text_search_container{
+    width: 100% !important;
+    margin: 0 0 9px 0;
+}
+
+.woof_text_search_container.woof_container{
+    
+}
+
+.woof_text_search_container input[type='search']{
+    padding: 9px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    line-height: 0 !important;
+    font-size: 14px;
+}
+
+.woof_text_search_container .woof_text_search_go{
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+    background: url("../img/magnifying-glass2.svg");
+    display: none;
+    border: none !important;
+    text-decoration: none !important;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 98;
+}
+
+
+
+.woof_text_search_container .woof_container_inner{
+    width: auto !important;
+}
+
+
+@-moz-document url-prefix() {
+    .woof_text_search_container .woof_text_search_go{
+
+    }
+}
+
+.woof_show_text_search_container{
+    position: relative;
+}
+
+.woof_show_text_search_loader{
+    position: absolute;
+    right: 0;
+    z-index: 99;
+    box-shadow: none !important;
+}
+
+.eac-item{
+    line-height: 35px;
+}
+
+.eac-item a{
+    text-decoration: none !important;
+}
+
+.easy-autocomplete-container li{
+    margin: 0 !important;
+}
+
+.woof .eac-icon-right .eac-item img {
+    max-height: 35px;
+    top: 0px;
+}

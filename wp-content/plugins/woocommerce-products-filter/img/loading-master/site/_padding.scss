@@ -1,0 +1,37 @@
+// Padding
+
+.p1  { padding: 1rem; }
+.px1 { padding-right: 1rem; padding-left: 1rem; }
+.py1 { padding-top: 1rem; padding-bottom: 1rem; }
+
+.p2  { padding: 2rem; }
+.px2 { padding-right: 2rem; padding-left: 2rem; }
+.py2 { padding-top: 2rem; padding-bottom: 2rem; }
+
+.p3  { padding: 3rem; }
+.px3 { padding-right: 3rem; padding-left: 3rem; }
+.py3 { padding-top: 3rem; padding-bottom: 3rem; }
+
+.p4  { padding: 4rem; }
+.px4 { padding-right: 4rem; padding-left: 4rem; }
+.py4 { padding-top: 4rem; padding-bottom: 4rem; }
+
+
+// Responsive padding
+
+.p-responsive { padding: 1.5rem; }
+.px-responsive { padding-right: 1.5rem; padding-left: 1.5rem; }
+.py-responsive { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+
+@media screen and (min-width: 48em) and (max-width: 64em) {
+  .p-responsive { padding: 3rem; }
+  .px-responsive { padding-right: 3rem; padding-left: 3rem; }
+  .py-responsive { padding-top: 3rem; padding-bottom: 3rem; }
+}
+
+@media screen and (min-width: 64em) {
+  .p-responsive { padding: 4rem; }
+  .px-responsive { padding-right: 4rem; padding-left: 4rem; }
+  .py-responsive { padding-top: 4rem; padding-bottom: 4rem; }
+}
+

@@ -1,0 +1,40 @@
+// Layout Utilities
+
+.inline       { display: inline; }
+.block        { display: block; }
+.inline-block { display: inline-block; }
+
+.oh    { overflow: hidden; }
+.left  { float: left; }
+.right { float: right; }
+
+.clearfix {
+  &:before, &:after { content: " "; display: table; }
+  &:after { clear: both; }
+}
+
+.fit { max-width: 100%; }
+
+.full-width { width: 100%; }
+.half-width { width: 50%; }
+
+.mobile-show {
+  display: none;
+}
+
+@media screen and (max-width: 48em) {
+  .mobile-show,
+  .mobile-block {
+    display: block;
+  }
+  .mobile-block {
+    width: 100%;
+  }
+  .mobile-hide {
+    display: none;
+  }
+  .mobile-center {
+    text-align: center;
+  }
+}
+

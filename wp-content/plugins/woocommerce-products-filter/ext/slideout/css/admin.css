@@ -1,0 +1,14 @@
+#tabs-slideout .woof_slideout_img_h_w input,
+[name="woof_settings[woof_slideout_speed]"],
+[name="woof_settings[woof_slideout_offset]"],
+[name="woof_settings[woof_slideout_width]"],
+[name="woof_settings[woof_slideout_height]"]{
+    width: 75px !important;
+}
+#tabs-slideout .woof_slideout_offset span{
+    width: 80px !important;
+}
+.woof_slideout_сontainer_size span{
+    display: inline-block;
+}
+

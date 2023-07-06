@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32"
+  fill="none" stroke="#9ff" opacity=".2" stroke-width=".125" preserveAspectRatio="none" >
+  <path transform="translate(.0625 .0625)" opacity=".5" d=" M1 0 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 m1 -32 v32 M0 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 m-32 1 h32 "/>
+  <path transform="translate(.0625 .0625)" d=" M0 0 v32 m4 -32 v32 m4 -32 v32 m4 -32 v32 m4 -32 v32 m4 -32 v32 m4 -32 v32 m4 -32 v32 m4 -32 v32 M0 0 h32 m-32 4 h32 m-32 4 h32 m-32 4 h32 m-32 4 h32 m-32 4 h32 m-32 4 h32 m-32 4 h32 m-32 4 h32 "/>
+</svg>
+

@@ -1,0 +1,45 @@
+.woof_redraw_zone label.woof_section_tab_label {
+    display: block;
+    padding: 6px 12px;
+    margin-right: 0.2rem;
+    cursor: pointer;
+    background: #fff;
+    border: 2px solid #ccc;
+    margin-bottom: 2px;
+    font-weight: normal;
+    transition: background ease 0.2s;
+    width: 100%;
+    float: left;
+}
+.woof_redraw_zone .woof_section_tab {
+    width: 100%;
+    padding: 3px;
+    background: #fff;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+.woof_redraw_zone input[name="woof_section_tabs"] {
+    display: none;
+}
+.woof_redraw_zone input[name="woof_section_tabs"]:checked + label.woof_section_tab_label {
+    font-weight: bold;
+}
+label.woof_section_tab_label span{
+    transition: transform .5s ease-in-out;
+    display: inline-block;
+    float: right;
+    font-weight: bolder;
+}
+.woof_redraw_zone input[name="woof_section_tabs"]:checked + label.woof_section_tab_label span{
+    transform: rotate(45deg);
+}
+.woof_redraw_zone input[name="woof_section_tabs"]:checked + label.woof_section_tab_label + .woof_section_tab {
+    height: auto;
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    overflow: inherit;
+}
+
+

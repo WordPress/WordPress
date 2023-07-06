@@ -1,0 +1,120 @@
+.woof_icon_save_query{
+    width:  18px;
+    height: 18px;
+    background-image: url(../img/save_query.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+.woof_query_save_container .woof_query_save_list ul{
+    list-style: none;
+    margin: 0px;
+}
+.woof_query_save_list p:hover.woof_tooltip span.woof_tooltip_data {
+    bottom: 30px;
+}
+.woof_query_save_item{
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+.woof_query_save_item a{
+    padding: 4px 0 0 2px;
+    text-decoration: none;
+
+}
+.woof_query_save_item a:hover{
+    background: #f2f2f2
+}
+.woof_query_save_list input.woof_remove_query_save{   
+    background: none;
+    margin-left: 10px;
+    text-decoration: none;
+    color: #515151;
+    border: 2px solid #ebebeb;
+    float:right;
+    box-shadow: none;
+    text-shadow: none;
+
+}
+.woof_query_save_list input.woof_remove_query_save:hover{   
+    background: #ebe9eb;
+}
+.woof_add_query_save{   
+    background: none;
+    text-decoration: none;
+    color: #515151;
+    border: 2px solid #ebebeb;
+    box-shadow: none;
+    text-shadow: none;
+    margin-top: 2px;
+    width: 100%;
+}
+.woof_add_query_save:hover{
+    background: #ebe9eb;
+}
+.woof_subscr_price, .woof_author_name, .woof_terms{
+    margin-right: 5px;
+    vertical-align: middle;
+}
+a.woof_remove_query_save{
+    margin-left: 5px;
+    padding: 0;
+    vertical-align: middle;
+}
+
+a.woof_remove_query_save img{
+    display: inline-block;
+}
+.woof_cron_link{
+    color: red;
+
+}
+.woof_query_save_notes_for_customer{
+    display: inline-block;
+    padding: 3px 5px;
+    font-size: 11px;
+    font-style: italic;
+    color: #bbb;
+}
+.woof_query_save_container .woof_save_query_title.woof_save_query_error{
+    border: 2px solid red; 
+}
+.woof_query_save_title_error{
+    font-size: 10px;
+    color: red;
+    font-style: italic;
+}
+
+.woof_query_save_title_error{
+    display:none;
+}
+
+.woof_add_query_count{
+    overflow: hidden;
+}
+
+.woof_save_query_title{
+    padding: 9px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    line-height: 0 !important;
+    font-size: 14px;
+}
+.woof_notise_not_match{
+    color: #c5c5c5;
+    font-style: italic;
+}
+.woof_notise_not_match .dashicons-warning{
+    color:#f3e790;
+}
+.woof_notise_match{
+    font-style: italic;    
+}
+.woof_notise_match .dashicons-yes-alt{
+    color: #6d966d;    
+}
+.woof_query_save_notice_product{
+    font-size: 10px;
+    margin-bottom: 10px;
+}

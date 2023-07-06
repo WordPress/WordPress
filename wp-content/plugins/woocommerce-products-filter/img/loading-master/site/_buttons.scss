@@ -1,0 +1,23 @@
+// Buttons
+
+.button {
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 2rem;
+  height: auto;
+  min-height: 2rem;
+  padding: .5rem 1rem;
+
+  // Add optional FF hack
+}
+
+.button-big { padding: 1rem 1.5rem; }
+
+.button-small { padding: 0 1rem; }
+

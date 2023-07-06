@@ -1,0 +1,16 @@
+.woof_qt_succes{
+    font-style: italic;
+    color: green;
+    margin: 5px 0 0 20px;
+    display: inline-block;
+}
+.woof_qt_fail{
+    font-style: italic;
+    color: red;
+    margin: 5px 0 0 20px;
+    display: inline-block;
+}
+
+.woof_qt_product_count p{
+    color: #2eca8b;
+}

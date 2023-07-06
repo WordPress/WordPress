@@ -1,0 +1,59 @@
+@import "compass";
+@import "animation";
+
+$progress-color: #17f29b;
+$progress-duration: 1s;
+
+.jQuery-plainOverlay-progress {
+  @include box-sizing(border-box);
+  width: 100%;
+  height: 100%;
+  border-top: 3px solid $progress-color;
+  @include border-radius(50%);
+
+  @include anim-init;
+  @include animation-name(jQuery-plainOverlay-spin);
+  @include animation-duration($progress-duration);
+  @include animation-timing-function(linear);
+  @include animation-iteration-count(infinite);
+}
+
+@include keyframes(jQuery-plainOverlay-spin) {
+  from { @include transform(rotate(0deg)); }
+  to { @include transform(rotate(360deg)); }
+}
+
+.jQuery-plainOverlay-progress-legacy {
+  width: 100%;
+  height: 50%;
+  padding-top: 25%;
+  text-align: center;
+  white-space: nowrap;
+
+  // Clearfix
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after { clear: both; }
+  *zoom: 1;
+
+  div {
+    width: 18%;
+    height: 100%;
+    margin: 0 1%;
+    background-color: $progress-color;
+    float: left;
+    visibility: hidden;
+  }
+}
+// 1>1
+.jQuery-plainOverlay-progress-1 div.jQuery-plainOverlay-progress-1,
+// 2>1, 2>2
+.jQuery-plainOverlay-progress-2 div.jQuery-plainOverlay-progress-1,
+.jQuery-plainOverlay-progress-2 div.jQuery-plainOverlay-progress-2,
+// 3>1, 3>2, 3>3
+.jQuery-plainOverlay-progress-3 div.jQuery-plainOverlay-progress-1,
+.jQuery-plainOverlay-progress-3 div.jQuery-plainOverlay-progress-2,
+.jQuery-plainOverlay-progress-3 div.jQuery-plainOverlay-progress-3
+  { visibility: visible; }

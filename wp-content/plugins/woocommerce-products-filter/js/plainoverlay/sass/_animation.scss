@@ -1,0 +1,116 @@
+// Compass 0.12 not support CSS3 Animations. (Compass 0.13 (alpha yet) may support it.)
+
+$animation-support: -moz, -webkit, -o, -ms, not -khtml;
+
+// CSS Animations
+// Including this submodule sets following defaults for the mixins:
+//
+//     $default-animation-name            : none
+//     $default-animation-duration        : 1s
+//     $default-animation-function        : false
+//     $default-animation-delay           : false
+//     $default-animation-fill-mode       : false
+//     $default-animation-iteration-count : 1
+//
+// Override them if you like. Timing-function and delay are set to false for browser defaults (ease, 0s).
+
+$default-animation-name: none !default;
+$default-animation-duration: 1s !default;
+$default-animation-function: false !default;
+$default-animation-delay: false !default;
+$default-animation-fill-mode: none !default;
+$default-animation-iteration-count: 1 !default;
+
+@mixin anim-init {
+  // Prevent highlight colour when element is tapped
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  // Improve performance on mobile/tablet devices
+  transform: translateZ(0);
+  // Improve aliasing on mobile/tablet devices
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+
+// One or more name to animation
+//
+// * for multiple, use a comma-delimited list
+// * also accepts "all" or "none"
+
+@mixin animation-name($names: $default-animation-name) {
+  @include experimental(animation-name, unquote($names), $animation-support...);
+}
+
+// One or more durations in seconds
+//
+// * for multiple, use a comma-delimited list
+// * these durations will affect the properties in the same list position
+
+@mixin animation-duration($duration: $default-animation-duration) {
+  @if type-of($duration) == string { $duration: unquote($duration); }
+  @include experimental(animation-duration, $duration, $animation-support...);
+}
+
+// One or more timing functions
+//
+// * [ ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier(x1, y1, x2, y2)]
+// * For multiple, use a comma-delimited list
+// * These functions will effect the properties in the same list position
+
+@mixin animation-timing-function($function: $default-animation-function) {
+  @include experimental(animation-timing-function, unquote($function), $animation-support...);
+}
+
+// One or more animation-delays in seconds
+//
+// * for multiple, use a comma-delimited list
+// * these delays will effect the properties in the same list position
+
+@mixin animation-delay($delay: $default-animation-delay) {
+  @if type-of($delay) == string { $delay: unquote($delay); }
+  @include experimental(animation-delay, $delay, $animation-support...);
+}
+
+// One or more fill mode
+//
+// * [none | forwards | backwards | both]
+// * For multiple, use a comma-delimited list
+
+@mixin animation-fill-mode($fill-mode: $default-animation-fill-mode) {
+  @include experimental(animation-fill-mode, unquote($fill-mode), $animation-support...);
+}
+
+@mixin animation-iteration-count($count: $default-animation-iteration-count) {
+  @include experimental(animation-iteration-count, unquote($count), $animation-support...);
+}
+
+// animation all-in-one shorthand
+
+@mixin single-animation(
+  $name: $default-animation-name,
+  $duration: $default-animation-duration,
+  $function: $default-animation-function,
+  $delay: $default-animation-delay
+) {
+  @include animation-name($name);
+  @include animation-duration($duration);
+  @if $function { @include animation-timing-function($function); }
+  @if $delay { @include animation-delay($delay); }
+}
+
+@mixin keyframes($name) {
+  @if nth($animation-support, 2) {
+    @-webkit-keyframes #{$name} { @content }
+  }
+  @if nth($animation-support, 1) {
+    @-moz-keyframes #{$name} { @content }
+  }
+  @if nth($animation-support, 4) {
+    @-ms-keyframes #{$name} { @content }
+  }
+  @if nth($animation-support, 3) {
+    @-o-keyframes #{$name} { @content }
+  }
+  @if nth($animation-support, 5) {
+    @-khtml-keyframes #{$name} { @content }
+  }
+  @keyframes #{$name} { @content }
+}

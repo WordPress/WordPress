@@ -1,0 +1,31 @@
+{
+  "name": "plainoverlay",
+  "version": "0.6.1",
+  "title": "plainOverlay",
+  "description": "The simple jQuery Plugin for customizable overlay which covers a page, elements or iframe-windows that is specified.",
+  "keywords": [
+    "overlay",
+    "busy",
+    "loading",
+    "form",
+    "input",
+    "progress",
+    "ui",
+    "simple",
+    "customizable",
+    "iframe",
+    "window"
+  ],
+  "dependencies": {
+    "jquery": ">=1.8"
+  },
+  "homepage": "http://anseki.github.io/jquery-plainoverlay/",
+  "docs": "http://anseki.github.io/jquery-plainoverlay/",
+  "download": "http://anseki.github.io/jquery-plainoverlay/",
+  "bugs": "https://github.com/anseki/jquery-plainoverlay/issues",
+  "licenses": "MIT",
+  "author": {
+    "name": "anseki",
+    "url": "https://github.com/anseki"
+  }
+}

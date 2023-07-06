@@ -1,0 +1,13 @@
+.woof-slide-out-div{
+    z-index: 9999;
+}
+.woof-slide-content{
+    overflow-x: hidden;
+    padding: 9px;
+}
+
+.woof-slide-content .chosen-container{
+    max-width: 100% !important;
+}
+
+

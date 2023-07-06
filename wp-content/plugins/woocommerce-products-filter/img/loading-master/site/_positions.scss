@@ -1,0 +1,22 @@
+// Positioning Utilities
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed    { position: fixed; }
+
+.t0 { top: 0; }
+.r0 { right: 0; }
+.b0 { bottom: 0; }
+.l0 { left: 0; }
+
+.z1 { z-index: 1; }
+.z2 { z-index: 2; }
+.z3 { z-index: 3; }
+.z4 { z-index: 4; }
+
+.absolute-center {
+  top: 0; right: 0; bottom: 0; left: 0;
+  margin: auto;
+  display: table;
+}
+

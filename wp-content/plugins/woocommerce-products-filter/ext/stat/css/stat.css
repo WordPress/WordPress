@@ -1,0 +1,51 @@
+#woof_stat_print_btn{
+    display: none;
+}
+
+.woof_stat_calendar{
+    width: 40% !important;
+}
+
+#woof_stat_get_monitor{
+    font-size: 10px;
+    height: auto;
+    max-height: 75px;
+    overflow: auto;
+}
+
+#woof_stat_get_monitor li{
+    padding: 0;
+    margin: 0 0 3px 0;
+    line-height: normal;
+}
+
+.woof_stat_one_graph .woof_stat_graph_title{
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 50px;
+}
+
+@media print{
+    #adminmenumain,
+    .woo-nav-tab-wrapper{
+        display: none;
+    }
+
+    #wpcontent{
+        margin: 0;
+        padding: 0;
+    }
+
+    #chart_div_1{
+        padding: 50px;
+        page-break-before:always;
+        page-break-after:always;
+    }
+
+    .woof_stat_one_graph{
+        padding: 50px;
+        page-break-before:auto;
+        page-break-after:always;
+    }
+}

@@ -1,0 +1,115 @@
+ //ajax
+    public function woof_get_stat_data()
+    {
+        $res = array();
+        $calendar_from = (int) $_REQUEST['calendar_from'];
+        $calendar_from = mktime(0, 0, 0, date('m', $calendar_from), date('d', $calendar_from), date('y', $calendar_from));
+        $calendar_to = (int) $_REQUEST['calendar_to'];
+        $calendar_to = mktime(23, 59, 59, date('m', $calendar_to), date('d', $calendar_to), date('y', $calendar_to));
+        $table_start = date('Y', $calendar_from) . '_' . date('m', $calendar_from);
+        $table_finish = date('Y', $calendar_to) . '_' . date('m', $calendar_to);
+
+        //+++
+
+        if (!is_null($this->pdo))
+        {
+            $operative_data = array();
+            if ($table_start === $table_finish)
+            {
+                $sql = "SELECT * FROM {$table_start} WHERE time>=:calendar_from AND time<=:calendar_to";
+
+                $sth = $this->pdo->prepare($sql);
+                $sth->bindParam(':calendar_from', $calendar_from, PDO::PARAM_INT);
+                $sth->bindParam(':calendar_to', $calendar_to, PDO::PARAM_INT);
+                $sth->execute();
+                $operative_data = $sth->fetchAll(PDO::FETCH_ASSOC);
+            } else
+            {
+                $tables = $this->get_stat_tables();
+                $request_tables = array();
+                $start_year = date('Y', $calendar_from);
+                $start_month = date('m', $calendar_from);
+                $finish_year = date('Y', $calendar_to);
+                $finish_month = date('m', $calendar_to);
+                //***
+                $current_y = $start_year;
+                $current_m = $start_month;
+                while (true)
+                {
+                    $t = $current_y . '_' . $current_m;
+                    if (in_array($t, $tables))
+                    {
+                        $request_tables[] = $t;
+                    }
+
+                    if ($current_y >= $finish_year AND $current_m >= $finish_month)
+                    {
+                        break;
+                    }
+
+                    $current_m++;
+                    if ($current_m > 12)
+                    {
+                        $current_m = 1;
+                        $current_y++;
+                    }
+                }
+
+                //***
+                if (!empty($request_tables))
+                {
+                    $sql = "";
+                    foreach ($request_tables as $k => $t)
+                    {
+                        /*
+                          if ($k > 0)
+                          {
+                          $sql.=" UNION ";
+                          }
+                         */
+                        $sql = "SELECT * FROM {$t} WHERE time>=:calendar_from AND time<=:calendar_to";
+                        $sth = $this->pdo->prepare($sql);
+                        $sth->bindParam(':calendar_from', $calendar_from, PDO::PARAM_INT);
+                        $sth->bindParam(':calendar_to', $calendar_to, PDO::PARAM_INT);
+                        $sth->execute();
+                        $tmp = $sth->fetchAll(PDO::FETCH_ASSOC);
+                        $operative_data = array_merge($operative_data, $tmp);
+                    }
+                }
+            }
+
+
+            //echo WOOF_HELPER::get_var_size($operative_data);
+            $max_memory = (int) WP_MEMORY_LIMIT * 1000000; //bytes
+            //if (WOOF_HELPER::get_var_size($operative_data) >= $max_memory)
+            if (true)
+            {
+                die(json_encode(array(
+                    'error' => sprintf(__('Not enough memory for this operation. Max memory for your site is %s. Increase it if you need see statistic for bigger date range!', WP_MEMORY_LIMIT))
+                )));
+            }
+            //***            
+            //task#1 - get all taxonomies from $this->items_for_stat count for the selected date range
+            if (!empty($operative_data))
+            {
+                foreach ($operative_data as $value)
+                {
+                    if ($value['taxonomy'] == 'min_price' OR $value['taxonomy'] == 'max_price')
+                    {
+                        continue;
+                    }
+
+                    $res[urldecode($value['taxonomy'])]+=1;
+                }
+
+                array_multisort($res, SORT_DESC);
+            }
+        }
+
+
+
+
+
+        die(json_encode($res, JSON_UNESCAPED_UNICODE));
+    }
+

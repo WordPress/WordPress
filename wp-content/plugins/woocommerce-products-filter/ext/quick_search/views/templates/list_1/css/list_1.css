@@ -1,0 +1,74 @@
+/*list_1*/
+.woof_qs_table_list_1 .qs_title{
+    min-width: 75px;
+}
+.woof_qs_table_list_1_header {
+    background-color: #2eca8b;
+    color: white; 
+    font-size: 1.5em; 
+    padding: 1rem; 
+    text-align: center; 
+    text-transform: uppercase;
+}
+.woof_qs_table_list_1  img {
+    border-radius: 38%; 
+    max-width: 100%;
+}
+.woof_qs_table_list_1 { 
+    border-radius: 3px; 
+    max-width: calc(100% - 2em); 
+    margin: 1em auto; 
+    overflow: hidden;
+} 
+.woof_qs_table_list_1 table { 
+    width: 100%; 
+}
+.woof_qs_table_list_1 table td, .woof_qs_table_list_1 table th { 
+    color: #2b686e; 
+    padding: 10px; 
+} 
+.woof_qs_table_list_1 table td { 
+    text-align: center; 
+    vertical-align: middle; 
+} 
+.woof_qs_table_list_1 table td:last-child { 
+    font-size: 0.95em; 
+    line-height: 1.4; 
+    text-align: left; 
+} 
+.woof_qs_table_list_1 table th { 
+    background-color: #daeff1; 
+    font-weight: 300; 
+    text-align: center;
+} 
+.woof_qs_table_list_1 table tr:nth-child(2n) { 
+    background-color: white; 
+} 
+.woof_qs_table_list_1 table tr:nth-child(2n+1) { 
+    background-color: #edf7f8; 
+} 
+.woof_qs_list_1_img{
+    width: 60px
+}
+.woof_qs_table_list_1 .woof_qs_list_1_title{
+
+}
+.woof_qs_table_list_1 .woof_qs_list_1_key_words{
+    min-width: 200px;
+    max-width: 250px; 
+}
+.woof_qs_table_list_1 .woof_qs_list_1_price{
+
+}
+.woof_qs_table_list_1 .woof_qs_list_1_sku{
+
+}
+.woof_qs_table_list_1 table th.qs_price{
+    min-width: 75px;
+}
+.woof_qs_list_1_title_col{
+    width: 30%;
+}
+.woof_qs_table_list_1 .woof_qs_price{
+    min-width: 70px; 
+}
