@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-06-13 20:05:17+0000\n"
+"PO-Revision-Date: 2023-06-21 09:54:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -330,6 +330,10 @@ msgstr "无法添加新属性。"
 #: includes/admin/class-wc-admin-assets.php:301
 msgid "%qty% variations added"
 msgstr "已添加 %qty% 个变体"
+
+#: packages/woocommerce-blocks/patterns/hero-product-split.php:13
+msgid "Get cozy this fall with knit sweaters"
+msgstr "今年秋天，穿上针织毛衣，享受惬意时光"
 
 #: packages/woocommerce-blocks/assets/js/blocks/single-product/block.json
 #: packages/woocommerce-blocks/build/single-product/block.json
