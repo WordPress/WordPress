@@ -97,9 +97,9 @@ function _wp_add_block_level_preset_styles( $pre_render, $block ) {
 	$blocks                  = $registry->get_all_registered();
 	foreach ( $blocks as $block_type ) {
 		/*
-		* We only want to append selectors for block's using custom selectors
-		* i.e. not `wp-block-<name>`.
-		*/
+		 * We only want to append selectors for blocks using custom selectors
+		 * i.e. not `wp-block-<name>`.
+		 */
 		$has_custom_selector =
 			( isset( $block_type->supports['__experimentalSelector'] ) && is_string( $block_type->supports['__experimentalSelector'] ) ) ||
 			( isset( $block_type->selectors['root'] ) && is_string( $block_type->selectors['root'] ) );
