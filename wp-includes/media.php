@@ -5662,7 +5662,7 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 	}
 
 	// Special handling for programmatically created image tags.
-	if ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context ) {
+	if ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context || 'widget_media_image' === $context ) {
 		/*
 		 * Skip programmatically created images within post content as they need to be handled together with the other
 		 * images within the post content.
