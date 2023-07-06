@@ -1,0 +1,19 @@
+.woobe_meta_delete{
+    font-family: 'fontello';
+    font-size: 18px !important;
+    line-height: 32px !important;
+    height: 32px !important;
+}
+
+.woobe_meta_delete:before{
+    content: "\eba8";
+}
+
+.meta_popup_editor_child_ul{
+    padding: 0 15px;    
+}
+
+.meta_popup_editor_child_ul li{
+    border: solid 1px #e1e1e1;
+    padding: 7px;
+}

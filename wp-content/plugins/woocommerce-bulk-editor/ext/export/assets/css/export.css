@@ -1,0 +1,34 @@
+#woobe_export_is_going{
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    animation:woobe_export_is_going .95s ease-out infinite;
+    text-shadow: 0 0 5px #abc, 0 0 7px #abc;
+}
+#woobe_bulk_to_var_combinations_apply_export .select-wrap {
+    display: inline-block;
+    margin-left: 2px;
+}
+@keyframes woobe_export_is_going{
+    from{
+        text-shadow:0px 0px 10px #fff,
+            0px 0px 10px #fff, 
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 50px #fff,
+            0px 0px 50px #fff,
+            0px 0px 50px #7B96B8,
+            0px 0px 150px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px -10px 100px #7B96B8,
+            0px -10px 100px #7B96B8;
+    }
+}
+

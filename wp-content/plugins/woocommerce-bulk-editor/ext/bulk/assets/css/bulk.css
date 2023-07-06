@@ -1,0 +1,71 @@
+#woobe_bulk_is_going{
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    animation:woobe_bulk_is_going .95s ease-out infinite;
+    text-shadow: 0 0 5px #abc, 0 0 7px #abc;
+}
+
+@keyframes woobe_bulk_is_going{
+    from{
+        text-shadow:0px 0px 10px #fff,
+            0px 0px 10px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 50px #fff,
+            0px 0px 50px #fff,
+            0px 0px 50px #7B96B8,
+            0px 0px 150px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px -10px 100px #7B96B8,
+            0px -10px 100px #7B96B8;
+    }
+}
+
+/******************************/
+
+#woobe_bulk_form nav{
+    border-radius: 4px;
+}
+
+#woobe_bulk_form small{
+    font-style: italic;
+}
+
+#woobe_bulk_to_var_combinations_apply .select-wrap{
+    display: inline-block;
+    margin-left: 2px;
+}
+
+.woobe_post_author_edit .chosen-container{
+    width: 100% !important;
+}
+.filter-unit-wrap.woobe_post_author_edit{
+    overflow: visible;
+}
+#woobe_bulk_delete_products_btn{
+    margin: 4px 0 0 0;
+    background: #ffaaaa;
+    color: #fff;
+    border-color: indianred;
+}
+#woobe_bulk_delete_products_btn_fuse, .woobe_delete_wraper label{
+    vertical-align: bottom;
+}
+.woobe_delete_wraper{
+    padding: 5px 0 5px 0;
+}
+.woobe_random{
+    padding: 3px;
+    border: dotted 2px wheat;
+    margin-top: 10px;
+    text-align: center;
+}
+

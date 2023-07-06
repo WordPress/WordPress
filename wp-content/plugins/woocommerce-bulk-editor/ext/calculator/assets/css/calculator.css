@@ -1,0 +1,32 @@
+.woobe_calculator_btn{
+    display: inline-block;
+    position: absolute;
+    z-index: 999;
+    top: -999px;
+    right: -999px;
+    display: none;
+    width: 25px;
+    height: 25px;
+    background: url(../images/calculator2.png);
+    background-size: cover;
+}
+
+#woobe_calculator{
+    min-width: 300px;
+    position: absolute;
+    z-index: 1001;
+    background: #fff;
+    padding: 5px;
+    border: solid 1px #aaa;
+    border-radius: 3px;
+    box-shadow: 4px 4px grey;
+}
+
+.woobe_calculator_close:before{
+    content: "\eba8";
+}
+
+.woobe_calculator_set:before{
+    content: "\ec38";
+}
+

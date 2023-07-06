@@ -1,0 +1,77 @@
+.woobe_tools_panel_newvars_btn{
+    font-family: 'fontello';
+    font-size: 18px !important;
+}
+
+.woobe_tools_panel_newvars_btn:before{
+    content: "\eb75";
+}
+
+#bulkoperations_attributes_combos{
+    max-height: 300px;
+    overflow: auto;
+}
+
+#bulkoperations_attributes_combos li.woobe_options_li,
+#bulkoperations_attributes_var_order li.woobe_options_li{
+    padding: 4px;
+    margin-bottom: 2px;
+}
+
+
+/**********************************************/
+
+#woobe_bulkoperations_is_going{
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    animation:woobe_bulkoperations_is_going .95s ease-out infinite;
+    text-shadow: 0 0 5px #abc, 0 0 7px #abc;
+}
+
+@keyframes woobe_bulkoperations_is_going{
+    from{
+        text-shadow:0px 0px 10px #fff,
+            0px 0px 10px #fff, 
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 25px #fff,
+            0px 0px 50px #fff,
+            0px 0px 50px #fff,
+            0px 0px 50px #7B96B8,
+            0px 0px 150px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px 10px 100px #7B96B8,
+            0px -10px 100px #7B96B8,
+            0px -10px 100px #7B96B8;
+    }
+}
+
+/******************************************************************/
+
+#bulkoperations_attributes_terms_default li{
+    position: relative;
+}
+
+#bulkoperations_attributes_terms_default li{
+    padding: 5px 0;
+}
+
+#bulkoperations_attributes_terms_default li .chosen-container{
+    width: 90% !important;
+}
+
+#bulkoperations_attributes_terms_default li .woobe_drag_and_drope{
+    right: 8px;
+    top: 7px;
+}
+
+#bulkoperations_attributes_terms .chosen-container{
+    margin-bottom: 3px;
+}
+

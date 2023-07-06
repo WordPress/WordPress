@@ -1,0 +1,3032 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: WOOBE\n"
+"POT-Creation-Date: 2020-06-18 16:31+0000\n"
+"PO-Revision-Date: 2021-11-15 14:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Language: ru_RU\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Report-Msgid-Bugs-To: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"X-Loco-Version: 2.4.0; wp-5.4.2\n"
+
+#: ext/meta/meta.php:219 ext/filters/views/panel.php:423
+#, php-format
+msgid "%s from"
+msgstr "%s с"
+
+#: ext/meta/meta.php:220 ext/filters/views/panel.php:430
+#, php-format
+msgid "%s to"
+msgstr "%s до"
+
+#: index.php:296
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(отфильтрован из _MAX_ записей)"
+
+#: views/woobe.php:108
+msgid "Actions"
+msgstr "Действия"
+
+#: views/woobe.php:39
+#, php-format
+msgid "Actualized for WooCommerce v.%s"
+msgstr "Актуализировано для WooCommerce v.%s"
+
+#: ext/bulkoperations/views/panel.php:287
+msgid "Add attribute"
+msgstr "Добавить аттрибут"
+
+#: ext/export/views/panel.php:35
+msgid "Add attributes combination"
+msgstr "Добавить комбинацию атрибутов"
+
+#: ext/bulk/views/panel.php:34
+msgid "Add attributes combination to apply on"
+msgstr "Добавить комбинацию атрибутов для применения"
+
+#: ext/meta/views/panel.php:14
+msgid "Add Custom key by hands"
+msgstr "Добавить пользовательский ключ руками"
+
+#: data/settings.php:73
+msgid "Add fields to the quick search"
+msgstr "Добавить поля в быстрый поиск"
+
+#: views/woobe.php:213
+msgid "Add File"
+msgstr "Добавить файл"
+
+#: views/woobe.php:283
+msgid "Add Image"
+msgstr "Добавить изображение"
+
+#: views/woobe.php:223
+msgid "Add selected downloads to the already existed ones"
+msgstr "Добавить выбранные загрузки к уже существующим"
+
+#: views/woobe.php:290
+msgid "Add selected images to the already existed ones"
+msgstr "Добавить выбранные изображения в уже существующие"
+
+#: views/woobe.php:363 views/woobe.php:424 views/woobe.php:559
+msgid "Add selected products to the already existed ones"
+msgstr "Добавить выбранные продукты в уже существующие"
+
+#: ext/bulk/views/panel.php:65
+msgid "Additional"
+msgstr "Дополнительно"
+
+#: data/settings.php:74
+msgid ""
+"Adds more fields to quick search fields drop-down on the tools panel. Works "
+"only for text fields. Syntax: post_name:Product slug,post_content: Content"
+msgstr ""
+"Добавляет дополнительные поля в раскрывающийся список полей быстрого поиска "
+"на панели инструментов. Работает только для текстовых полей. Синтаксис: "
+"post_name: Слаг продукта, post_content: Содержимое"
+
+#: data/fields.php:635
+msgid "Aff.Button text"
+msgstr "Текст кнопки аффилиата"
+
+#: ext/history/views/panel.php:21
+msgid "ALL"
+msgstr "ВСЕ"
+
+#: ext/history/views/panel.php:33
+msgid "all"
+msgstr "все"
+
+#: index.php:304 ext/bulk/views/panel.php:11 ext/export/views/panel.php:9
+#: ext/bulkoperations/views/panel.php:85 ext/bulkoperations/views/panel.php:146
+#: ext/bulkoperations/views/panel.php:187
+#: ext/bulkoperations/views/panel.php:215
+#: ext/bulkoperations/views/panel.php:271
+#: ext/bulkoperations/views/panel.php:328
+#: ext/bulkoperations/views/panel.php:416
+msgid "all the products on the site"
+msgstr "все продукты на сайте"
+
+#: data/fields.php:422
+msgid "Allow backorders"
+msgstr "Разрешить резерв.ордера"
+
+#: ext/bulk/views/panel.php:271 ext/bulk/views/panel.php:488
+msgid "append"
+msgstr "добавить"
+
+#: views/woobe.php:478
+msgid "Append array key/value"
+msgstr "Добавить последним ключ/значение массива"
+
+#: views/woobe.php:479
+msgid "Append object set"
+msgstr "Добавить последним ключ/значение объекта"
+
+#: index.php:310
+msgid "append sub item"
+msgstr "добавить вложенность"
+
+#: index.php:267 views/woobe.php:158 views/woobe.php:191 views/woobe.php:242
+#: views/woobe.php:310 views/woobe.php:379 views/woobe.php:439
+#: views/woobe.php:485 views/woobe.php:575
+msgid "Apply"
+msgstr "Применить"
+
+#: ext/bulkoperations/views/panel.php:149
+msgid "Apply combination"
+msgstr "Применить комбинацию"
+
+#: views/elements/draw_meta_popup_editor_btn.php:20
+msgid "Array"
+msgstr "Массив"
+
+#: ext/meta/views/panel.php:83
+msgid "array"
+msgstr "массив"
+
+#: ext/info/views/panel.php:26
+msgid "ask for support here"
+msgstr "попросите поддержку здесь"
+
+#: ext/bulkoperations/views/panel.php:37 ext/bulkoperations/views/panel.php:220
+msgid "Attaching"
+msgstr "Прикрепление"
+
+#: ext/bulkoperations/bulkoperations.php:46
+msgid ""
+"Attaching of the default combination for the products variations is finished!"
+msgstr "Завершена установка комбинации по умолчанию для вариантов продуктов!"
+
+#: ext/bulkoperations/bulkoperations.php:50
+msgid "Attaching of the products variations is finished"
+msgstr "Прикрепление вариаций завершено"
+
+#: views/woobe.php:44
+msgid ""
+"ATTENTION! Your version of the woocommerce plugin is too obsolete. There is "
+"no warranty of normal working with the plugin!!"
+msgstr ""
+"ВНИМАНИЕ! Ваша версия плагина woocommerce слишком устарела. Нет гарантии "
+"нормальной работы с плагином!"
+
+#: ext/bulk/bulk.php:54
+msgid "ATTENTION: Bulk operation is going!"
+msgstr "ВНИМАНИЕ: Массовая операция идет!"
+
+#: ext/export/export.php:35
+msgid "ATTENTION: Export operation is going!"
+msgstr "ВНИМАНИЕ: Экспортная операция идет!"
+
+#: ext/history/history.php:50
+msgid "ATTENTION: History operation is going!"
+msgstr "ВНИМАНИЕ: Историческая операция ведется!"
+
+#: ext/bulkoperations/bulkoperations.php:44
+msgid "ATTENTION: Variations Advanced Bulk Operation is going"
+msgstr "ВНИМАНИЕ: Variations Advanced Bulk Operation идёт"
+
+#: ext/bulkoperations/views/panel.php:238
+#: ext/bulkoperations/views/panel.php:351
+msgid "attribute to select replaceable term"
+msgstr "атрибут для выбора сменяемого тёрма"
+
+#: ext/bulkoperations/views/panel.php:362
+msgid "attribute to select substitute term"
+msgstr "атрибут для выбора тёрма замены"
+
+#: data/fields.php:681
+msgid "Attribute visibility"
+msgstr "Атрибут видимости"
+
+#: data/fields.php:667
+msgid "Author"
+msgstr "Автор"
+
+#: data/settings.php:67
+msgid "Autocomplete max count"
+msgstr "Максимальное количество при автозаполнений"
+
+#: data/fields.php:726
+msgid "Average rating"
+msgstr "Средний рейтинг"
+
+#: data/fields.php:727
+msgid "Average rating of the product"
+msgstr "Средний рейтинг продукта"
+
+#: ext/filters/views/panel.php:455
+msgid "Backorders"
+msgstr "Backorders"
+
+#: ext/bulk/views/panel.php:62
+msgid "Basic"
+msgstr "Базовые"
+
+#: views/woobe.php:1066
+msgid "BEAR - WooCommerce Bulk Editor Professional"
+msgstr ""
+
+#: ext/history/history.php:105 ext/history/history.php:133
+#, fuzzy
+#| msgid ""
+#| "WOOBE cannot create the database table! Make sure that your mysql user "
+#| "has the CREATE privilege! Do it manually using your host panel phpmyadmin!"
+msgid ""
+"BEAR cannot create the database table! Make sure that your mysql user has "
+"the CREATE privilege! Do it manually using your host panel phpmyadmin!"
+msgstr ""
+"BEAR не может создать таблицу базы данных! Убедитесь, что ваш пользователь "
+"mysql имеет привилегию CREATE! Сделайте это вручную с помощью панели "
+"управления phpmyadmin!"
+
+#. Name of the plugin
+msgid "BEAR – Bulk Editor and Products Manager Professional for WooCommerce"
+msgstr ""
+
+#: ext/filters/filters.php:1201 ext/filters/views/panel.php:160
+msgid "BEGIN"
+msgstr ""
+
+#: ext/bulk/bulk.php:63 ext/info/views/panel.php:84
+msgid "binded editing"
+msgstr "редактирование с привязкой"
+
+#: ext/bulk/bulk.php:49 ext/bulk/views/panel.php:163
+#: ext/bulk/views/panel.php:167
+msgid "Bulk deleting"
+msgstr "Массовое удаление"
+
+#: ext/bulk/bulk.php:37
+msgid "Bulk Edit"
+msgstr "Массовое редактирование"
+
+#: ext/bulk/bulk.php:51
+msgid "Bulk editing"
+msgstr "Массовое редактирование"
+
+#: views/parts/advanced-table.php:33
+msgid ""
+"Bulk editing of the parent products will be ignored! Enabling this mode hide "
+"not relevant bulk edit operations for the products [variations]! Before "
+"activation of this mode, for more convenient editing of [variations] "
+"recommend make filtering for all variable products. Binded operation also "
+"will be applied only to the products variations!"
+msgstr ""
+"Массовое редактирование родительских продуктов будет проигнорировано! "
+"Включение этого режима скрывает не соответствующие операции массвого "
+"редактирования для вариантов  продуктов! Перед активацией этого режима для "
+"более удобного редактирования вариаций рекомендуется сделать фильтрацию для "
+"всех переменных продуктов. Работа со связанным редактирование также будет "
+"применяться только к вариантам продуктов!"
+
+#: ext/bulk/views/panel.php:11
+#, php-format
+msgid "Bulk editing will be applied to: %s"
+msgstr "Массовое редактирование будет применено к: % s"
+
+#: index.php:127 index.php:142
+msgid "Bulk Editor"
+msgstr "Редактор продуктов"
+
+#: ext/history/views/list.php:33
+msgid "Bulk operation"
+msgstr "Массовая операция"
+
+#: ext/history/views/panel.php:35
+msgid "bulk operations"
+msgstr "массовые операции"
+
+#: ext/bulk/views/panel.php:20
+msgid ""
+"Bulk operations will be applied to the variations of the products, and their "
+"parent-products will be ignored!"
+msgstr ""
+"Массовые операции будут применяться к вариантам продуктов, и их родительские "
+"продукты будут игнорироваться!"
+
+#: ext/filters/views/panel.php:471
+msgid "By author"
+msgstr "По автору"
+
+#: ext/history/views/panel.php:41
+msgid "by Author"
+msgstr "по Автору"
+
+#: ext/history/views/panel.php:56
+msgid "by date from"
+msgstr "по дате от"
+
+#: ext/history/views/panel.php:61
+msgid "by date to"
+msgstr "по дате до"
+
+#: ext/history/views/panel.php:66
+msgid "by fields, use comma"
+msgstr "по полям, используйте запятую"
+
+#: ext/meta/views/panel.php:84
+msgid "calendar"
+msgstr "календарь"
+
+#: ext/info/views/panel.php:53
+#, php-format
+msgid "Can I %s?"
+msgstr "Могу ли я %s?"
+
+#: index.php:268 views/woobe.php:157 views/woobe.php:190 views/woobe.php:241
+#: views/woobe.php:309 views/woobe.php:378 views/woobe.php:438
+#: views/woobe.php:484 views/woobe.php:574 views/woobe.php:1032
+msgid "Cancel"
+msgstr "Отменить"
+
+#: views/elements/multi_select.php:38
+#: views/elements/attribute_visibility.php:57
+msgid "cancel"
+msgstr "отмена"
+
+#: ext/export/views/panel.php:66
+msgid "cancel export"
+msgstr "отменить экспорт"
+
+#: index.php:269
+msgid "Canceled"
+msgstr "Отменено"
+
+#: data/fields.php:174
+msgid "Catalog Visibility"
+msgstr "Видимость в каталоге"
+
+#: ext/filters/views/panel.php:491
+msgid "Catalog visibility"
+msgstr "Видимость в каталоге"
+
+#: ext/bulk/bulk.php:840
+msgid "catalog visibility"
+msgstr "видимость в каталоге"
+
+#: views/woobe.php:724
+msgid "cell text or number size"
+msgstr "размер текста или числа в ячейке"
+
+#: ext/meta/views/panel.php:82
+msgid "checkbox"
+msgstr "чекбокс"
+
+#: data/fields.php:45
+msgid ""
+"Checkboxes for the products selection. Use SHIFT button on your keyboard to "
+"select multiple rows."
+msgstr ""
+"Флажки для выбора продуктов. Используйте кнопку SHIFT на клавиатуре, чтобы "
+"выбрать несколько строк."
+
+#: data/fields.php:346
+msgid ""
+"Choose a tax class for this product. Tax classes are used to apply different "
+"tax rates specific to certain types of product."
+msgstr ""
+"Выберите класс налога для этого продукта. Классы налогов используются для "
+"применения различных налоговых ставок, специфичных для определенных видов "
+"продукции."
+
+#: views/woobe.php:262 views/parts/product-downloads.php:20
+#: views/parts/product-downloads.php:20
+msgid "Choose file"
+msgstr "Выбрать файл"
+
+#: views/parts/product-gallery.php:12
+msgid "Clean"
+msgstr "Очистить"
+
+#: views/elements/draw_calendar.php:16 ext/history/views/panel.php:58
+#: ext/history/views/panel.php:63
+msgid "clear"
+msgstr "очистить"
+
+#: ext/history/views/panel.php:25
+msgid "Clear the History"
+msgstr "Очистить Историю"
+
+#: ext/info/views/panel.php:100
+msgid ""
+"Click ID of the product in the products table to see it on the site front."
+msgstr "Щелкните ID продукта в таблице продуктов, чтобы увидеть его на сайте."
+
+#: views/woobe.php:978 ext/fprofiles/views/panel.php:83
+#: ext/bulkoperations/views/panel.php:439
+msgid "Close"
+msgstr "Закрыть"
+
+#: views/parts/top_panel.php:20
+msgid "Close the panel"
+msgstr "Закрыть панель"
+
+#: views/woobe.php:634
+msgid "columns finder ..."
+msgstr "поиск столбцов ..."
+
+#: views/woobe.php:919
+msgid "Columns profile"
+msgstr "Профиль столбцов"
+
+#: views/woobe.php:926 views/parts/advanced-table.php:12
+msgid "Columns profiles"
+msgstr "Профили столбцов"
+
+#: views/woobe.php:631
+#, php-format
+msgid "Columns settings%s, columns enabled %s"
+msgstr "Столбцов %s, включено %s"
+
+#: ext/history/views/list.php:79
+#, php-format
+msgid "columns: %s"
+msgstr "колонки: %s"
+
+#: ext/bulkoperations/bulkoperations.php:53
+msgid "Combination(s) not selected!"
+msgstr "Комбинации не выбрана!"
+
+#: ext/bulkoperations/views/panel.php:416
+#, php-format
+msgid ""
+"Combination, of the products variations for deleting, will be applied to: %s"
+msgstr "Комбинация вариантов продуктов для удаления будет применена к: %s"
+
+#: views/elements/draw_popup_editor_btn.php:10
+msgid "Content"
+msgstr "Контент"
+
+#: data/fields.php:408
+msgid ""
+"Controls whether or not the product is listed as in stock or out of stock on "
+"the frontend. Count products in stock can not be zero while activating!"
+msgstr ""
+"Контролирует, есть на складе продукт или нет. Количество продуктов на складе "
+"не может быть равно нулю при активации!"
+
+#: views/woobe.php:977 views/woobe.php:1031
+msgid "Create"
+msgstr "Создать"
+
+#: views/woobe.php:145
+msgid "create new term"
+msgstr "создать новый тёрм"
+
+#: index.php:272
+msgid "Created!"
+msgstr "Создано!"
+
+#: index.php:271 ext/bulkoperations/views/panel.php:24
+msgid "Creating"
+msgstr "Создание"
+
+#: data/fields.php:546
+msgid "Cross-sells"
+msgstr ""
+
+#: data/fields.php:547
+msgid ""
+"Cross-sells are products which you promote in the cart, based on the current "
+"product."
+msgstr ""
+"Перекрестные продажи - это продукты, которые вы рекламируете вместе с "
+"текущем продуктом."
+
+#: views/woobe.php:931
+#, php-format
+msgid "Current profile is: %s %s"
+msgstr "Текущий профиль: %s %s"
+
+#: ext/info/views/panel.php:36
+#, php-format
+msgid ""
+"Current version of the plugin is FREE. See the difference between FREE and "
+"PREMIUM versions %s"
+msgstr ""
+"Текущая версия плагина БЕСПЛАТНА. См. Разницу между версиями FREE и PREMIUM% "
+"s"
+
+#: data/fields.php:589
+msgid "Custom ordering position."
+msgstr "Пользовательская позиция."
+
+#: data/fields.php:756
+msgid "Date Published"
+msgstr "Дата публикации"
+
+#: ext/bulk/bulk.php:864 ext/bulk/bulk.php:885 ext/bulk/bulk.php:899
+#: ext/meta/meta.php:306
+msgid "decrease by %"
+msgstr "уменьшить на %"
+
+#: ext/bulk/bulk.php:862 ext/bulk/bulk.php:870 ext/bulk/bulk.php:883
+#: ext/bulk/bulk.php:897 ext/meta/meta.php:304 ext/bulk/views/panel.php:560
+msgid "decrease by value"
+msgstr "снижение значением"
+
+#: classes/models/profiles.php:61
+msgid "Default"
+msgstr "По умолчанию"
+
+#: ext/bulkoperations/views/panel.php:27
+msgid "Default combination"
+msgstr "Комбинация по умолчанию"
+
+#: data/settings.php:10
+msgid "Default products count per page"
+msgstr "Количество товаров по умолчанию на странице"
+
+#: data/settings.php:27
+msgid "Default sort"
+msgstr "Направление сортировки"
+
+#: data/settings.php:20
+msgid "Default sort by"
+msgstr "Сортировка по умолчанию"
+
+#: ext/bulkoperations/views/panel.php:146
+#, php-format
+msgid "Default variations combination will be applied to: %s"
+msgstr "Комбинация вариантов по умолчанию будет применена к: %s"
+
+#: data/fields.php:327
+msgid ""
+"Define whether or not the entire product is taxable, or just the cost of "
+"shipping it."
+msgstr ""
+"Определите, облагается ли весь товар налогообложением или только его "
+"стоимость."
+
+#: index.php:257 ext/bulk/bulk.php:871 ext/meta/views/panel.php:97
+#: ext/history/views/list.php:90 ext/history/views/list.php:94
+msgid "delete"
+msgstr "удалить"
+
+#: ext/bulkoperations/views/panel.php:400
+msgid "Delete all products variations"
+msgstr "Удалить все варианты продуктов"
+
+#: ext/bulk/views/panel.php:164 ext/bulk/views/panel.php:168
+msgid "Delete products!"
+msgstr "Удалить продукты!"
+
+#: views/woobe.php:291
+msgid "Delete selected images from the products"
+msgstr "Удаление выбранных изображений из продуктов"
+
+#: views/woobe.php:292
+msgid ""
+"Delete selected images from the products, also delete them from the media "
+"library forever"
+msgstr ""
+"Удалить выбранные изображения из продуктов, а также удалите их из "
+"медиабиблиотеки навсегда"
+
+#: views/parts/advanced-table.php:23
+msgid "Delete selected product(s)"
+msgstr "Удалить выбранные продукты"
+
+#: ext/bulkoperations/views/panel.php:399
+msgid ""
+"Delete the products variations according to the combination of the attributes"
+msgstr "Удалить варианты продуктов в соответствии с комбинацией атрибутов"
+
+#: index.php:276
+msgid "Deleted!"
+msgstr "Удалено!"
+
+#: index.php:275 ext/bulkoperations/views/panel.php:50
+msgid "Deleting"
+msgstr "Удаление"
+
+#: ext/bulkoperations/bulkoperations.php:47
+msgid "Deleting of the products variations is finished"
+msgstr "Закончено удаление вариантов продуктов"
+
+#: data/fields.php:108
+msgid "Description"
+msgstr "Описание"
+
+#: ext/bulk/bulk.php:803
+msgid "description"
+msgstr "содержимое"
+
+#: index.php:282 views/elements/multi_select.php:30
+#: views/elements/attribute_visibility.php:52
+msgid "Deselect all"
+msgstr "Убрать выделение со всего"
+
+#: views/parts/product-gallery.php:27
+msgid "Detach image of the product"
+msgstr "Отсоединить изображение продукта"
+
+#: ext/bulk/views/panel.php:151
+msgid "Do Bulk Edit"
+msgstr "Редактировать"
+
+#: index.php:238 views/woobe.php:467 views/woobe.php:600
+#: ext/bulk/views/panel.php:196 ext/filters/views/panel.php:38
+#: ext/export/views/panel.php:123 ext/bulkoperations/views/panel.php:15
+msgid "Documentation"
+msgstr "Документация"
+
+#: ext/info/views/panel.php:14
+msgid "documentation"
+msgstr "документация"
+
+#: data/fields.php:284
+msgid "Down.Files"
+msgstr "Файлы загрузки"
+
+#: ext/export/views/panel.php:64
+msgid "download CSV"
+msgstr "скачать CSV"
+
+#: data/fields.php:312
+msgid "Download expiry"
+msgstr "Срок действия"
+
+#: ext/bulk/bulk.php:913
+msgid "download expiry"
+msgstr "истечение срока загрузки"
+
+#: data/fields.php:298
+msgid "Download limit"
+msgstr "Предел загрузки"
+
+#: ext/bulk/bulk.php:919
+msgid "download limit"
+msgstr "предел загрузки"
+
+#: ext/export/views/panel.php:65
+msgid "download XML"
+msgstr "скачать XML"
+
+#: data/fields.php:265 ext/filters/views/panel.php:356
+msgid "Downloadable"
+msgstr "Загружаемые"
+
+#: data/fields.php:285
+msgid ""
+"Downloadable files. Attention: maybe should be enabled Downloadable by logic!"
+msgstr ""
+"Загружаемые файлы. Внимание: возможно, должно быть включено Загружаемые!"
+
+#: data/fields.php:266
+msgid "Downloadable products give access to a file upon purchase."
+msgstr "Загружаемые продукты предоставляют доступ к файлу при покупке."
+
+#: ext/bulk/views/panel.php:890
+msgid "Downloadable: no"
+msgstr "Загружаемый: нет"
+
+#: ext/bulk/views/panel.php:889
+msgid "Downloadable: yes"
+msgstr "Загружаемый: да"
+
+#: classes/models/profiles.php:78
+msgid "Downloads, Cross-sells, Up-sells, Grouped"
+msgstr ""
+"Загрузки, Перекрестные продажи, Дополнительные продажи, Сгруппированные"
+
+#: views/woobe.php:256 views/woobe.php:497 views/woobe.php:507
+#: views/woobe.php:589 views/woobe.php:662
+#: views/parts/product-cross-sells.php:19 views/parts/product-grouped.php:19
+#: views/parts/product-downloads.php:14 views/parts/product-upsells.php:19
+#: ext/meta/views/panel.php:67 ext/bulkoperations/views/panel.php:450
+#: ext/bulkoperations/views/panel.php:456
+msgid "drag and drop"
+msgstr "перетаскивание"
+
+#: views/parts/advanced-table.php:22
+msgid ""
+"Duplicate selected product(s). ATTENTION: duplication of variations of the "
+"products is locked!"
+msgstr ""
+"Дублирование выбранных продуктов. ВНИМАНИЕ: дублирование вариаций продуктов "
+"заблокировано!"
+
+#: index.php:274
+msgid "Duplicated!"
+msgstr "Отдублирован!"
+
+#: index.php:273
+msgid "Duplicating"
+msgstr "Дублирование"
+
+#: index.php:569
+msgid "Editing of the product on its page"
+msgstr "Редактирование продукта на его странице"
+
+#: ext/meta/meta.php:198 ext/filters/views/panel.php:162
+msgid "Empty"
+msgstr "Пусто"
+
+#: data/fields.php:374
+msgid ""
+"Enable stock management at product level. ATTENTION: if to set count of "
+"products in Stock quantity, Manage stock option automatically set as TRUE!"
+msgstr ""
+"Включить управление запасами на уровне продукта. ВНИМАНИЕ: если установить "
+"количество товаров в количестве запаса, опция «Управление запасом» "
+"автоматически устанавливается как ИСТИНА!"
+
+#: data/fields.php:438
+msgid ""
+"Enable this to only allow one of this item to be bought in a single order"
+msgstr ""
+"Включите это, чтобы продукты можно было купить не более одного в одном ордере"
+
+#: ext/filters/filters.php:1202 ext/filters/views/panel.php:161
+msgid "END"
+msgstr ""
+
+#: ext/meta/meta.php:50
+msgid "Enter a product ID!"
+msgstr "Введите ID продукта!"
+
+#: data/fields.php:575
+msgid "Enter an optional note to send the customer after purchase."
+msgstr "Введите дополнительную заметку, чтобы отправить клиента после покупки."
+
+#: index.php:286
+msgid "Enter how many new product(s) to create!"
+msgstr "Введите сколько продуктов будет создано!"
+
+#: index.php:285
+msgid "Enter how many time duplicate selected product(s)!"
+msgstr "Укажите, сколько раз дублировать выбранные продукты!"
+
+#: ext/calculator/views/panel.php:20
+msgid "enter operation value"
+msgstr "введите значение операции"
+
+#: ext/meta/views/panel.php:22
+msgid "enter product ID"
+msgstr "введите ID продукта"
+
+#: data/fields.php:313
+msgid ""
+"Enter the number of days before a download link expires, or leave blank. "
+"Attention: maybe should be enabled Downloadable by logic!"
+msgstr ""
+"Введите количество дней до истечения срока действия ссылки на скачивание или "
+"оставьте пустым. Внимание: возможно, должно быть включено Загружаемые!"
+
+#: ext/meta/views/panel.php:74
+msgid "enter title"
+msgstr "введите название"
+
+#: index.php:256
+msgid "Error"
+msgstr "Ошибка"
+
+#: ext/filters/filters.php:1199 ext/filters/views/panel.php:158
+#: ext/filters/views/panel.php:168
+msgid "EXACT"
+msgstr ""
+
+#: ext/meta/meta.php:195
+msgid "EXACT (=)"
+msgstr ""
+
+#: ext/export/export.php:22
+msgid "Export"
+msgstr "Экспорт"
+
+#: ext/export/views/panel.php:61
+msgid "Export to CSV"
+msgstr "Экспорт в CSV"
+
+#: ext/export/views/panel.php:63
+msgid "Export to Excel"
+msgstr "Экспорт в эксель"
+
+#: ext/export/views/panel.php:62
+msgid "Export to XML"
+msgstr "Экспорт в XML"
+
+#: ext/export/views/panel.php:9
+#, php-format
+msgid "Export will be applied to: %s"
+msgstr "Экспорт будет применён к: %s"
+
+#: ext/export/export.php:34
+msgid "Exported"
+msgstr "Экспортнулось"
+
+#: ext/export/export.php:33
+msgid "Exporting"
+msgstr "Экспортирование"
+
+#: data/fields.php:621
+msgid "External/Affiliate product: External URL to the product"
+msgstr "Внешний / партнерский продукт: внешний URL-адрес продукта"
+
+#: data/fields.php:636
+msgid ""
+"External/Affiliate product: This text will be shown on the button linking to "
+"the external product"
+msgstr ""
+"Внешний / партнерский продукт: этот текст будет отображаться на кнопке, "
+"связанной с внешним продуктом"
+
+#: index.php:255
+msgid "Failed"
+msgstr "Неудача"
+
+#: ext/info/views/panel.php:18
+msgid "FAQ"
+msgstr "ЧАВО"
+
+#: data/fields.php:189 ext/filters/views/panel.php:337
+msgid "Featured"
+msgstr "Избранный"
+
+#: ext/bulk/bulk.php:852
+msgid "featured"
+msgstr "избранный"
+
+#: views/woobe.php:258 views/parts/product-downloads.php:16
+msgid "File name"
+msgstr "Имя файла"
+
+#: views/elements/draw_downloads_popup_editor_btn.php:31
+#, php-format
+msgid "Files (%s)"
+msgstr "Файлы (%s)"
+
+#: views/woobe.php:215
+msgid "Files should has an allowed file type!"
+msgstr "Файлы должны иметь разрешенный тип!"
+
+#: index.php:284
+msgid "Fill up the data please!"
+msgstr "Заполните данные, пожалуйста!"
+
+#: ext/filters/views/panel.php:32 ext/history/views/panel.php:69
+msgid "Filter"
+msgstr "Фильтр"
+
+#: ext/filters/filters.php:37
+msgid "Filtered! Table redrawing ..."
+msgstr "Отфильтрованно! Перерисовка таблицы ..."
+
+#: ext/filters/filters.php:36
+msgid "Filtering"
+msgstr "Фильтрация"
+
+#: ext/filters/filters.php:24
+msgid "Filters"
+msgstr "Фильтры"
+
+#: ext/fprofiles/fprofiles.php:34 ext/fprofiles/views/panel.php:13
+msgid "Filters profiles"
+msgstr "Профайлы фильтров"
+
+#: index.php:300
+msgid "First"
+msgstr "Первый"
+
+#: views/woobe.php:230
+msgid ""
+"For [Remove selected downloads] - enter links to downloads which should be "
+"removed."
+msgstr ""
+"Для [Удалить выбранные загрузки] - введите ссылки на загружаемые файлы, "
+"которые необходимо удалить."
+
+#: classes/models/profiles.php:67
+msgid "For variations fields only"
+msgstr "Только для полей вариантов"
+
+#: classes/models/products.php:130
+msgid "forbidden"
+msgstr "запрещено"
+
+#: data/fields.php:81
+msgid "Gallery"
+msgstr "Галлерея"
+
+#: views/woobe.php:773
+msgid "General settings"
+msgstr "Общие настройки"
+
+#: ext/bulkoperations/views/panel.php:88
+msgid "Generate possible combinations"
+msgstr "Создание возможных комбинаций"
+
+#: ext/bulkoperations/bulkoperations.php:51
+msgid "Generating possible combinations"
+msgstr "Создание возможных комбинаций"
+
+#: ext/meta/views/panel.php:23
+msgid "Get"
+msgstr "Получить"
+
+#: ext/meta/views/panel.php:21
+msgid "Get meta keys from any product by its ID"
+msgstr "Получите мета-ключи от любого продукта по его ID"
+
+#: ext/bulkoperations/views/panel.php:244
+msgid "Get the existing products variations"
+msgstr "Получить существующие варианты продуктов"
+
+#: ext/bulkoperations/views/panel.php:178
+msgid "Get the products variations"
+msgstr "Получить варианты продуктов"
+
+#: index.php:1426
+msgid "Give Feedback"
+msgstr "Дать обратную связь"
+
+#: index.php:242
+msgid "Go Pro!"
+msgstr ""
+
+#: data/fields.php:560
+msgid "Grouped products"
+msgstr "Сгруппированные продукты"
+
+#: data/fields.php:501
+msgid "Height"
+msgstr "Высота"
+
+#: ext/filters/views/panel.php:243
+msgid "height from"
+msgstr "высота от"
+
+#: ext/filters/views/panel.php:244
+msgid "height to"
+msgstr "высота до"
+
+#: ext/info/info.php:12 ext/info/views/panel.php:7
+msgid "Help"
+msgstr "Помощь"
+
+#: ext/bulk/views/panel.php:49 ext/bulk/views/panel.php:372
+#: ext/info/views/panel.php:38 ext/export/views/panel.php:52
+#: ext/bulkoperations/views/panel.php:75 ext/bulkoperations/views/panel.php:136
+#: ext/bulkoperations/views/panel.php:253
+#: ext/bulkoperations/views/panel.php:311
+#: ext/bulkoperations/views/panel.php:369
+#: ext/bulkoperations/views/panel.php:406
+msgid "here"
+msgstr "тут"
+
+#: views/woobe.php:927
+msgid ""
+"Here you can load previously saved columns profile. After pressing on the "
+"load button, page reloading will start immediately!"
+msgstr ""
+"Здесь вы можете загрузить ранее сохраненный профиль столбцов. После нажатия "
+"на кнопку загрузки перезагрузка страницы начнется немедленно!"
+
+#: ext/fprofiles/views/panel.php:21
+msgid ""
+"Here you can load previously saved filters profile. After pressing on the "
+"load button, products table data reloading will start immediately!"
+msgstr ""
+"Здесь вы можете загрузить профиль ранее сохраненных фильтров. После нажатия "
+"кнопки загрузки перезагрузка данных таблиц продуктов начнется немедленно!"
+
+#: views/woobe.php:1022
+msgid "Here you can select parent for the the new term (optionally)"
+msgstr "Здесь вы можете выбрать родителя для нового термина (необязательно)"
+
+#: ext/bulkoperations/views/panel.php:86
+msgid ""
+"Here you can set order of attributes on the single product page after loaded."
+" Before attaching products variations select variable products by filter or "
+"select them by checkboxes! Selection by checkbox has higher priority!"
+msgstr ""
+"Здесь вы можете установить порядок атрибутов на странице продукта после "
+"загрузки его страницы на фронте. Перед тем, как добавлять варианты продуктов,"
+" выберите переменные (variable) продукты с помощью фильтра или выберите их с "
+"помощью чекбоксов! Отбор с помощью чекбоксов имеет более высокий приоритет!"
+
+#: views/woobe.php:965
+msgid ""
+"Here you can type any title and save current columns set and their order. "
+"Type here any title and then press Save button OR press Enter button on your "
+"keyboard!"
+msgstr ""
+"Здесь вы можете ввести любой заголовок и сохранить текущие столбцы и их "
+"порядок. Введите здесь любой заголовок, а затем нажмите кнопку «Сохранить» "
+"или нажмите кнопку «Enter» на клавиатуре!"
+
+#: ext/fprofiles/views/panel.php:60
+msgid ""
+"Here you can type any title and save current filters set. Type here any "
+"title and then press Save button OR press Enter button on your keyboard!"
+msgstr ""
+"Здесь вы можете ввести любой заголовок и сохранить текущие фильтры. Введите "
+"здесь любой заголовок, а затем нажмите кнопку «Сохранить» или нажмите кнопку "
+"«Enter» на клавиатуре!"
+
+#: views/woobe.php:1011
+msgid ""
+"Here you can write slug for the the new term (optionally). Use comma for "
+"slug(s) when you create some on the same time terms, or leave slug field "
+"empty to create slug(s) automatically"
+msgstr ""
+"Здесь вы можете написать slug для нового термина (необязательно). "
+"Используйте запятую для  slug(-ов), когда вы создаете несколько тёрмов "
+"одновременно, или оставляйте поле пустым для создания slug (-ов) "
+"автоматически"
+
+#: views/woobe.php:1000
+msgid ""
+"Here you can write title for the new term. Use comma to create some new tags "
+"on the same time! New terms with already existed names will not be created!"
+msgstr ""
+"Здесь вы можете написать название для нового термина. Используйте запятую "
+"для создания новых тёрмов за один раз! Новые тёрмы с уже существующими "
+"именами не будут созданы!"
+
+#: index.php:1409
+msgid ""
+"Hi! Are you enjoying using BEAR - WooCommerce Bulk Editor and Products "
+"Manager Professional?"
+msgstr ""
+"Привет! Вам нравится использовать BEAR - WooCommerce Bulk Editor and "
+"Products Manager Professional?"
+
+#: ext/bulk/views/panel.php:1339 ext/filters/views/panel.php:487
+msgid "Hidden"
+msgstr "Скрытый"
+
+#: index.php:289
+msgid "Hide: Filters/Bulk Edit/Export"
+msgstr "Скрыть: Фильтры / Массовое редактирование / Экспорт"
+
+#: ext/history/history.php:29 ext/history/views/panel.php:7
+msgid "History"
+msgstr "История"
+
+#: ext/history/history.php:48
+msgid "History clearing ..."
+msgstr "Очистка истории ..."
+
+#: ext/history/history.php:49
+msgid "History is cleared!"
+msgstr "История очищена!"
+
+#: ext/history/views/list.php:109
+msgid "History is empty!"
+msgstr "История пуста!"
+
+#: data/settings.php:68
+msgid ""
+"How many products display in the autocomplete drop-downs. Uses in up-sells, "
+"cross-sells and grouped popups."
+msgstr ""
+"Сколько продуктов отображается в раскрывающихся списках автозаполнения. "
+"Используется в up-sells, cross-sells и сгруппированные всплывающие окна."
+
+#: data/settings.php:11
+#, php-format
+msgid ""
+"How many rows of products show per page in tab Products. Max possible value "
+"is 100! To set more - read %s please"
+msgstr ""
+"Сколько строк товаров отображается на странице во вкладке «Товары». "
+"Максимально возможное значение 100! Дополнительная информация: %s"
+
+#: data/fields.php:711
+msgid "How many times the products been reviewed by customers"
+msgstr "Сколько отзывов продукты получили от клиентов"
+
+#: ext/info/views/panel.php:62
+#, php-format
+msgid "How to %s by bulk operation"
+msgstr "Как выполнить %s массовыми операциями"
+
+#: ext/info/views/panel.php:82
+#, php-format
+msgid "How to set the same value for some products on the same time - %s"
+msgstr ""
+"Как установить одно и то же значение для некоторых продуктов одновременно - "
+"%s"
+
+#. URI of the plugin
+msgid "https://bulk-editor.com/"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://pluginus.net/"
+msgstr ""
+
+#: index.php:1419
+msgid "I already did"
+msgstr "Я уже сделал"
+
+#: ext/filters/filters.php:1208
+msgid "ID"
+msgstr ""
+
+#: ext/filters/views/panel.php:167
+msgid "ID(s). Use comma or/and minus for range"
+msgstr "ID. Использ. запятую или/или минус для диапазона"
+
+#: ext/bulkoperations/views/panel.php:100
+msgid ""
+"If combinations of the variations in the products exists already - changings "
+"will be ignored, so do not worry, you will never got the same product "
+"variations in one product!"
+msgstr ""
+"Если комбинации вариаций в продуктах уже существуют - изменения будут "
+"проигнорированы, так что не беспокойтесь, вы никогда не получите одинаковые "
+"вариации в одном продукте!"
+
+#: data/fields.php:423
+msgid ""
+"If managing stock, this controls whether or not backorders are allowed. If "
+"enabled, stock quantity can go below 0. Does Not work if the product Manage "
+"stock option is not activated!"
+msgstr ""
+"Разрешены ли резервные ордера. Если включено, количество запасов может "
+"снизиться ниже 0. Не работает, если опция «Управление запасом» не "
+"активирована!"
+
+#: ext/info/views/panel.php:49
+msgid ""
+"If to click on an empty space of the black wp-admin bar, it will get you "
+"back to the top of the page"
+msgstr ""
+"Если щелкнуть по пустому пространству верхней черной панели wp-admin, она "
+"вернет вас в начало страницы"
+
+#: ext/info/views/panel.php:113
+#, php-format
+msgid "If you have any ideas, you can suggest them on %s"
+msgstr "Если у вас есть какие-либо идеи, вы можете предложить их на %s"
+
+#: ext/info/views/panel.php:126
+#, php-format
+msgid ""
+"If you like BEAR %s about what you liked and what you want to see in future "
+"versions of the plugin"
+msgstr ""
+"Если вам нравится BEAR %s о том, что вам понравилось и что вы хотите увидеть "
+"в будущих версиях плагина"
+
+#: index.php:109
+#, php-format
+msgid "If you not familiar with the plugin, firstly %s please"
+msgstr "Если вы не знакомы с плагином, сначала %s пожалуйста"
+
+#: ext/info/views/panel.php:72
+#, php-format
+msgid ""
+"If your shop is on the Russian language you should install %s for the "
+"correct working of BEAR with Cyrillic"
+msgstr ""
+"Если ваш магазин на русском языке, вы должны установить %s для правильной "
+"работы BEAR с кириллицей"
+
+#: index.php:258
+msgid "ignore"
+msgstr "игнорировать"
+
+#: ext/bulk/views/panel.php:284
+msgid "ignore case"
+msgstr "игнорировать строчность"
+
+#: views/elements/draw_gallery_popup_editor_btn.php:40
+#, php-format
+msgid "Images (%s)"
+msgstr "Изображения (%s)"
+
+#: ext/export/views/panel.php:73
+msgid "Import from CSV"
+msgstr "Импорт из CSV"
+
+#: ext/bulkoperations/views/panel.php:218
+msgid ""
+"IMPORTANT: if attached attribute is already selected in the product and not "
+"marked as [Used for variations] operation of attaching is not be done, so "
+"before attaching do [Visibility operation] for the products attributes."
+msgstr ""
+"ВАЖНО: если прикрепленный атрибут уже выбран в продукте и не отмечен как "
+"[Используется для вариантов], операция присоединения не выполняется, поэтому "
+"перед установкой операции [Видимость] для атрибутов продуктов."
+
+#: ext/bulkoperations/views/panel.php:331
+msgid ""
+"IMPORTANT: if swap-attribute is already selected in the product and not "
+"marked as [Used for variations] operation of swapping is not be done, so "
+"before swapping do [Visibility operation] for the products attributes"
+msgstr ""
+"ВАЖНО: если атрибут swap уже выбран в продукте и не помечен как "
+"[Используется для вариантов], операция обмена не выполняется, поэтому перед "
+"тем, как выполнить операцию замены, [Свойства видимости] для атрибутов "
+"продуктов"
+
+#: ext/export/views/panel.php:32
+msgid "In"
+msgstr "В"
+
+#: ext/meta/views/panel.php:10
+msgid ""
+"In FREE version of the plugin it is possible manipulate with 2 meta fields."
+msgstr "В бесплатной версии плагина можно манипулировать двумя мета-полями."
+
+#: ext/history/views/panel.php:11
+msgid ""
+"In FREE version of the plugin it is possible to roll back 2 last operations."
+msgstr "В бесплатной версии плагина можно отменить 2 последних операции."
+
+#: ext/bulk/bulk.php:80
+#, php-format
+msgid "In FREE version of the plugin you can change only next fields: %s"
+msgstr ""
+"В бесплатной версии плагина вы можете изменить только следующие поля:% s"
+
+#: index.php:309
+msgid "In FREE version of the plugin you can create one profile only!"
+msgstr "В бесплатной версии плагина вы можете создать только один профиль!"
+
+#: ext/bulk/views/panel.php:181
+msgid ""
+"In red containers wrapped fields which are not possible modify in bulk in "
+"FREE version of the plugin!"
+msgstr ""
+"В поля обернутые в крвсное, не могут быть модифицированы навалом в "
+"бесплатной версии плагина!"
+
+#: ext/bulk/bulk.php:907
+msgid "in stock quantity"
+msgstr "в количестве на складе"
+
+#: ext/bulk/views/panel.php:184
+msgid ""
+"In the case of an aborted bulk-operation you can roll back changes in the "
+"tab History"
+msgstr ""
+"В случае прерванной операции массового редактирования вы можете откатить "
+"изменения данных в закладке История"
+
+#: ext/bulk/bulk.php:85
+msgid ""
+"In this mode to the all selected products will be set the value of a product "
+"field which been edited"
+msgstr ""
+"В этом режиме всем выбранным продуктам (чекбоксом в 1-й колонке) будет "
+"задано значение поля продукта, которое было отредактировано"
+
+#: ext/bulk/bulk.php:863 ext/bulk/bulk.php:884 ext/bulk/bulk.php:898
+#: ext/meta/meta.php:305
+msgid "increase by %"
+msgstr "увеличить на %"
+
+#: ext/bulk/bulk.php:861 ext/bulk/bulk.php:869 ext/bulk/bulk.php:882
+#: ext/bulk/bulk.php:896 ext/meta/meta.php:303 ext/bulk/views/panel.php:559
+msgid "increase by value"
+msgstr "увеличить значением"
+
+#: views/woobe.php:262 views/parts/product-downloads.php:20
+msgid "Insert file URL"
+msgstr "Вставить URL файла"
+
+#: classes/alert.php:95 classes/alert.php:142
+msgid "Install"
+msgstr "Установить"
+
+#: classes/alert.php:96 classes/alert.php:143
+msgid "Install Now"
+msgstr "Установите сейчас"
+
+#: ext/filters/views/panel.php:338
+msgid "Is Featured"
+msgstr "Избранное"
+
+#: views/woobe.php:498 views/woobe.php:508 views/woobe.php:516
+msgid "key"
+msgstr "ключ"
+
+#: index.php:301
+msgid "Last"
+msgstr "Последний"
+
+#: index.php:1407
+msgid "Later"
+msgstr "Позднее"
+
+#: data/fields.php:299
+msgid ""
+"Leave blank for unlimited re-downloads.  Attention: maybe should be enabled "
+"Downloadable by logic!"
+msgstr ""
+"Оставьте поле пустым для неограниченной повторной загрузки. Внимание: "
+"возможно, должно быть включено Загружаемые!"
+
+#: data/fields.php:471
+msgid "Length"
+msgstr "Длина"
+
+#: ext/filters/views/panel.php:247
+msgid "length from"
+msgstr "длина от"
+
+#: ext/filters/views/panel.php:248
+msgid "length to"
+msgstr "длина до"
+
+#: ext/filters/filters.php:1198 ext/meta/meta.php:194
+#: ext/filters/views/panel.php:157
+msgid "LIKE"
+msgstr ""
+
+#: views/woobe.php:954 ext/fprofiles/views/panel.php:41
+msgid "load"
+msgstr "загрузить"
+
+#: data/settings.php:57
+msgid "Load beauty switchers"
+msgstr "Показывать красивые переключатели"
+
+#: data/settings.php:58
+msgid "Load beauty switchers instead of checkboxes in the products table."
+msgstr "Загрузите красивые переключатели вместо флажков в таблице продуктов."
+
+#: index.php:264
+msgid "Loaded"
+msgstr "Загружено"
+
+#: index.php:263
+msgid "Loading"
+msgstr "Загрузка"
+
+#: index.php:297
+msgid "Loading..."
+msgstr "Загрузка ..."
+
+#: data/fields.php:373
+msgid "Manage stock"
+msgstr "Управление запасами"
+
+#: ext/bulk/views/panel.php:810
+msgid "Manage stock: No"
+msgstr "Управление запасами: Нет"
+
+#: ext/bulk/views/panel.php:809
+msgid "Manage stock: Yes"
+msgstr "Управление запасом: Да"
+
+#: ext/export/views/panel.php:86
+msgid "max downloads per product"
+msgstr "максимальное количество загрузок на продукт"
+
+#: index.php:308
+msgid "Maybe term(s) with such name(s) already exists!"
+msgstr "Возможно, термин(ы) с такими именами уже существует!"
+
+#: ext/bulk/views/panel.php:260 ext/bulk/views/panel.php:299
+msgid "MENU ORDER"
+msgstr "КАСТОМНЫЙ ПОРЯДОК"
+
+#: data/fields.php:588
+msgid "Menu order"
+msgstr "Порядок по меню"
+
+#: ext/filters/views/panel.php:440
+msgid "Menu order from"
+msgstr "Порядок меню от"
+
+#: ext/filters/views/panel.php:446
+msgid "Menu order to"
+msgstr "Порядок меню до"
+
+#: ext/meta/meta.php:27 ext/meta/views/panel.php:7
+msgid "Meta Fields"
+msgstr "Мета Поля"
+
+#: ext/meta/meta.php:49
+msgid "Meta key cannot be empty!"
+msgstr "Мета ключ не может быть пустым!"
+
+#: ext/info/views/panel.php:138
+msgid "Minimal PHP version is"
+msgstr "Минимальная версия PHP"
+
+#: views/woobe.php:837
+msgid "More settings (implicit)"
+msgstr "Доп. настройки (неявные)"
+
+#: index.php:253 views/woobe.php:256 views/woobe.php:497 views/woobe.php:507
+#: views/woobe.php:589 views/woobe.php:662
+#: views/parts/product-cross-sells.php:19 views/parts/product-grouped.php:19
+#: views/parts/product-downloads.php:14 views/parts/product-upsells.php:19
+#: ext/meta/views/panel.php:67
+msgid "move"
+msgstr "передвигать"
+
+#: views/elements/multi_select.php:35 ext/bulk/views/panel.php:273
+msgid "new"
+msgstr "новый"
+
+#: ext/fprofiles/views/panel.php:59
+msgid "New Filter Profile"
+msgstr "Новый профиль фильтра"
+
+#: ext/meta/meta.php:52
+msgid "New meta key"
+msgstr "Новый мета-ключ"
+
+#: index.php:901 views/parts/advanced-table.php:18
+msgid "New Product"
+msgstr "Новый продукт"
+
+#: views/woobe.php:964
+msgid "New Profile"
+msgstr "Новый профиль"
+
+#: views/woobe.php:992
+#, php-format
+msgid "New term for [%s]"
+msgstr "Новый тёрм для [%s]"
+
+#: views/woobe.php:999
+msgid "New Term(s)"
+msgstr "Новые тёрмы"
+
+#: index.php:302 ext/history/views/panel.php:87
+msgid "Next"
+msgstr "Следующий"
+
+#: data/fields.php:196 data/fields.php:274 data/fields.php:382
+#: data/fields.php:446 data/fields.php:610 data/fields.php:657
+#: data/settings.php:43 data/settings.php:53 data/settings.php:63
+#: data/settings.php:85 ext/meta/meta.php:168 ext/meta/meta.php:332
+#: ext/filters/views/panel.php:358 ext/filters/views/panel.php:376
+#: ext/filters/views/panel.php:529
+msgid "No"
+msgstr "Нет"
+
+#: ext/bulk/views/panel.php:47 ext/export/views/panel.php:50
+#: ext/bulkoperations/views/panel.php:73 ext/bulkoperations/views/panel.php:134
+#: ext/bulkoperations/views/panel.php:251
+#: ext/bulkoperations/views/panel.php:309
+#: ext/bulkoperations/views/panel.php:367
+#: ext/bulkoperations/views/panel.php:404
+#, php-format
+msgid "No attributes created, you can do it %s"
+msgstr "Нет созданных атрибутов, вы можете сделать это %s"
+
+#: index.php:262
+msgid "no data"
+msgstr "нет данных"
+
+#: index.php:293
+msgid "No data available in the table"
+msgstr "В таблице нет данных"
+
+#: index.php:260 views/elements/draw_taxonomy_popup_btn.php:16
+#: views/elements/draw_attribute_list_btn.php:15
+#: views/elements/attribute_visibility.php:33
+msgid "no items"
+msgstr "нет искомого"
+
+#: index.php:299
+msgid "No matching records found"
+msgstr "Совпадающие записи не найдены"
+
+#: ext/meta/meta.php:51
+msgid "No meta keys found!"
+msgstr "Мета-ключи не найдены!"
+
+#: classes/helper.php:363
+msgid "no rounding"
+msgstr "без округления"
+
+#: data/fields.php:11
+msgid "No shipping class"
+msgstr "Нет класса доставки"
+
+#: index.php:1427
+msgid "No thanks"
+msgstr "Нет, спасибо"
+
+#: index.php:261
+msgid "none"
+msgstr "ничего"
+
+#: index.php:1418
+msgid "Nope, maybe later"
+msgstr "Нет, может позже"
+
+#: ext/filters/filters.php:1200 ext/filters/views/panel.php:159
+msgid "NOT"
+msgstr ""
+
+#: views/elements/draw_restricked.php:8
+msgid "Not allowed!"
+msgstr "Не допускается!"
+
+#: ext/meta/meta.php:199
+msgid "NOT Empty"
+msgstr ""
+
+#: ext/meta/meta.php:196
+msgid "NOT EXACT (!=)"
+msgstr ""
+
+#: ext/filters/views/panel.php:339
+msgid "Not Featured"
+msgstr "Не избранный"
+
+#: ext/export/views/panel.php:33
+msgid "Not in"
+msgstr "Не в"
+
+#: ext/meta/meta.php:197
+msgid "NOT LIKE"
+msgstr ""
+
+#: index.php:1410
+msgid "Not really..."
+msgstr "Не совсем..."
+
+#: ext/bulk/bulk.php:1025 ext/export/export.php:804
+msgid "not selected"
+msgstr "не выбран"
+
+#: ext/bulkoperations/views/panel.php:100
+msgid "Note"
+msgstr "Заметка"
+
+#: views/woobe.php:604
+msgid ""
+"Note: if horizontal scroll disappeared when it must be visible, click on tab "
+"Products Editor to make it visible"
+msgstr ""
+"Примечание: если горизонтальная прокрутка исчезла, когда она должна быть "
+"видимой, щелкните вкладку «Редактор продуктов», чтобы сделать ее видимой"
+
+#: ext/export/views/panel.php:15
+msgid ""
+"Note: you can change columns set and then set their order in the tab "
+"Settings, then save it as columns profile which in future will help you with "
+"exporting of the products data format quickly without necessary each time "
+"set columns order and their set!"
+msgstr ""
+"Примечание: вы можете изменить набор колонок, а затем установить их порядок "
+"на вкладке «Настройки», а затем сохранить его как профиль столбцов, который "
+"в будущем поможет вам быстро загружать колонки продуктов без необходимости "
+"каждый раз устанавливать их порядок и их набор!"
+
+#: ext/bulk/views/panel.php:178
+msgid "Notes"
+msgstr "Заметки"
+
+#: ext/meta/views/panel.php:92
+msgid "number"
+msgstr "номер"
+
+#: ext/bulk/views/panel.php:89
+msgid "numeric"
+msgstr "числовой"
+
+#: ext/history/views/panel.php:84
+msgid "of"
+msgstr "из"
+
+#: index.php:1417
+msgid "Okay, you deserve it"
+msgstr "Ладно, вы это заслужили"
+
+#: ext/filters/views/panel.php:33
+msgid "Or  press Alt+S"
+msgstr "Или нажмите Alt + S"
+
+#: ext/bulkoperations/views/panel.php:417
+msgid ""
+"Order of the product variations no matter, has the sense only count of the "
+"attributes and their names. Will be deleted variations of the products only "
+"with the exact count of attributes and the exact names of attributes! For "
+"more convenience and more quick operation before deleting filter the "
+"products by their type [Variable]."
+msgstr ""
+"Порядок вариаций продукта не имеет значения, имеет смысл только количество "
+"атрибутов и их имен. Будут удалены вариации продуктов только с точным "
+"количеством атрибутов и точными именами атрибутов! Для большего удобства и "
+"более быстрой работы перед операцией отфильтркйте продукты по типу variables."
+
+#: ext/bulkoperations/views/panel.php:32
+msgid "Ordering"
+msgstr "Очерёдность"
+
+#: ext/bulkoperations/bulkoperations.php:48
+msgid "Ordering of the products variations is finished"
+msgstr "Закончено упорядочивание вариантов продуктов"
+
+#: ext/bulkoperations/views/panel.php:187
+#, php-format
+msgid "Ordering of the products variations will be applied to: %s"
+msgstr "Упорядочивание вариаций продуктов будет применяться к: %s"
+
+#: data/fields.php:770
+msgid "Parent"
+msgstr "Родитель"
+
+#: ext/bulk/views/panel.php:261 ext/bulk/views/panel.php:300
+msgid "PARENT ID"
+msgstr "ID РОДИТЕЛЯ"
+
+#: views/woobe.php:1021
+msgid "Parent of the new term(s)"
+msgstr "Родитель нового термина (ов)"
+
+#: ext/bulk/views/panel.php:263 ext/bulk/views/panel.php:302
+msgid "PARENT SKU"
+msgstr "SKU РОДИТЕЛЯ"
+
+#: ext/bulk/views/panel.php:262 ext/bulk/views/panel.php:301
+msgid "PARENT TITLE"
+msgstr "ЗАГОЛОВОК РОДИТЕЛЯ"
+
+#: ext/bulkoperations/views/panel.php:170
+msgid "Paste any variable product ID"
+msgstr "Вставить любой ID продукта"
+
+#: ext/bulkoperations/views/panel.php:242
+msgid ""
+"Paste any variable product ID which has combinations of the products "
+"variations you need"
+msgstr ""
+"Вставьте любой ID вариативного продукта, который содержит комбинации "
+"вариантов продуктов, которые вам нужны"
+
+#: index.php:290
+msgid "Per page"
+msgstr "На страницу"
+
+#: ext/history/views/panel.php:16
+msgid "Per page:"
+msgstr "На страницу:"
+
+#: ext/bulkoperations/views/panel.php:110
+msgid "Possible combinations"
+msgstr "Возможные комбинации"
+
+#: ext/bulkoperations/bulkoperations.php:52
+msgid "Possible combinations been generated."
+msgstr "Были созданы возможные комбинации."
+
+#: ext/filters/views/panel.php:405
+msgid "Post date from"
+msgstr "Дата публикации с"
+
+#: ext/filters/views/panel.php:412
+msgid "Post date to"
+msgstr "Дата публикации до"
+
+#: ext/bulk/bulk.php:822
+msgid "post status"
+msgstr "статус поста"
+
+#: views/woobe.php:662 views/woobe.php:683 views/woobe.php:806
+#: ext/bulk/views/panel.php:163
+msgid "premium version"
+msgstr "премиум версия"
+
+#: ext/bulk/views/panel.php:272
+msgid "prepend"
+msgstr "прикрепить впереди"
+
+#: views/woobe.php:473
+msgid "Prepend array key/value"
+msgstr "Добавить первым ключ/значение массива"
+
+#: views/woobe.php:474
+msgid "Prepend object set"
+msgstr "Добавить первым ключ/значение объекта"
+
+#: ext/history/views/panel.php:81
+msgid "Prev"
+msgstr "Предыдущая"
+
+#: index.php:303
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: classes/models/profiles.php:74
+msgid "Prices"
+msgstr "Цены"
+
+#: index.php:298
+msgid "Processing..."
+msgstr "Обработка ..."
+
+#: ext/filters/views/panel.php:175
+msgid "Product content ..."
+msgstr "Содержание продукта ..."
+
+#: ext/filters/views/panel.php:179
+msgid "Product excerpt ..."
+msgstr "Выдержка из продукта ..."
+
+#: ext/bulk/bulk.php:811
+msgid "product slug"
+msgstr "слаг продукта"
+
+#: ext/filters/views/panel.php:183
+msgid "Product slug ..."
+msgstr "Слаг продукта ..."
+
+#: ext/filters/views/panel.php:305
+msgid "Product status"
+msgstr "Статус продукта"
+
+#: ext/filters/views/panel.php:171
+msgid "Product title ..."
+msgstr "Название продукта ..."
+
+#: ext/filters/views/panel.php:286
+msgid "Product type"
+msgstr "Тип продукта"
+
+#: ext/bulk/bulk.php:846
+msgid "product type"
+msgstr "тип продукта"
+
+#: data/fields.php:620
+msgid "Product url"
+msgstr "URL-адрес продукта"
+
+#: ext/filters/views/panel.php:191
+msgid "Product URL ..."
+msgstr "URL продукта ..."
+
+#: ext/bulk/bulk.php:50
+msgid "Product(s) deleted!"
+msgstr "Продукт(ы) удален!"
+
+#: ext/bulk/bulk.php:53
+msgid "Product(s) edited!"
+msgstr "Товар(ы) отредактирован!"
+
+#: ext/bulk/bulk.php:52
+msgid "Product(s) edited! Table redrawing ..."
+msgstr "Товар(ы) отредактирован! Перерисовка таблицы ..."
+
+#: views/elements/draw_meta_popup_editor_btn.php:24
+#: views/elements/draw_downloads_popup_editor_btn.php:30
+#: views/elements/draw_popup_editor_btn.php:9
+#: views/elements/draw_upsells_popup_editor_btn.php:29
+#: views/elements/draw_upsells_popup_editor_btn.php:35
+#: views/elements/draw_gallery_popup_editor_btn.php:39
+#: views/elements/draw_gallery_popup_editor_btn.php:45
+#: views/elements/draw_cross_sells_popup_editor_btn.php:30
+#: views/elements/draw_cross_sells_popup_editor_btn.php:36
+#: views/elements/draw_grouped_popup_editor_btn.php:19
+#: views/elements/draw_grouped_popup_editor_btn.php:25
+#, php-format
+msgid "Product: %s"
+msgstr "Продукт: %s"
+
+#: views/elements/draw_upsells_popup_editor_btn.php:30
+#: views/elements/draw_cross_sells_popup_editor_btn.php:31
+#: views/elements/draw_grouped_popup_editor_btn.php:20
+#, php-format
+msgid "Products (%s)"
+msgstr "Продукты: %s"
+
+#: ext/history/views/list.php:69
+#, php-format
+msgid "products bulked: %s"
+msgstr "продуктов изменено: %s"
+
+#: index.php:312
+msgid "Products checked"
+msgstr "Продукты отмечены"
+
+#: index.php:237 views/woobe.php:64
+msgid "Products Editor"
+msgstr "Редактор продуктов"
+
+#: index.php:823
+msgid "Products not found!"
+msgstr "Продукты не найдены!"
+
+#: ext/fprofiles/views/panel.php:20
+msgid "Profiles"
+msgstr "Профайлы"
+
+#: data/fields.php:574
+msgid "Purchase note"
+msgstr "Информация для клиента поле покупки"
+
+#: views/woobe.php:140
+msgid "Quick search"
+msgstr "Быстрый поиск"
+
+#: ext/filters/filters.php:1221
+msgid "quick search by ..."
+msgstr "быстрый поиск по ..."
+
+#: views/woobe.php:141
+msgid "Quick terms search by its name"
+msgstr "Быстрый поиск тёрмов по названию"
+
+#. Author of the plugin
+msgid "realmag777"
+msgstr ""
+
+#: ext/info/views/panel.php:137
+msgid "Recommended min RAM"
+msgstr "Рекомендуемая минимальная оперативная память"
+
+#: ext/info/views/panel.php:139
+msgid "Recommended PHP version"
+msgstr "Рекомендуемая версия PHP"
+
+#: ext/bulk/views/panel.php:264 ext/bulk/views/panel.php:303
+msgid "REGULAR PRICE"
+msgstr "ОБЫЧНАЯ ЦЕНА"
+
+#: data/fields.php:206
+msgid "Regular price"
+msgstr "Обычная цена"
+
+#: ext/bulk/bulk.php:879
+msgid "regular price"
+msgstr "обычная цена"
+
+#: ext/filters/views/panel.php:227
+msgid "regular price from"
+msgstr "обычная цена от"
+
+#: ext/bulk/bulk.php:900
+msgid "regular price minus %"
+msgstr "обычная цена минус %"
+
+#: ext/bulk/bulk.php:901
+msgid "regular price minus value"
+msgstr "обычная цена минус значение"
+
+#: ext/filters/views/panel.php:228
+msgid "regular price to"
+msgstr "обычная цена до"
+
+#: ext/info/views/panel.php:91
+msgid ""
+"Remember! \"Sale price\" can not be greater than \"Regular price\", never! "
+"So if \"Regular price\" is 0 - not possible to set \"Sale price\"!"
+msgstr ""
+"Запомните! «Sale цена» не может быть больше, чем «Regular цена», никогда! "
+"Поэтому, если «Обычная цена» равна 0 - невозможно установить «Цену продажи»!"
+
+#: views/woobe.php:464
+msgid ""
+"REMEMBER: sequence of data maybe have sense (and maybe not), so be attentive!"
+" Do not mix in the same popup window data of array and object data!"
+msgstr ""
+"ПОМНИТЕ: последовательность данных может иметь смысл, а может и не иметь, "
+"будте внимательны! Не смешивайте в одном попапе данные массива и объекта!"
+
+#: views/woobe.php:955 ext/bulk/views/panel.php:490
+#: ext/fprofiles/views/panel.php:49
+msgid "remove"
+msgstr "удалить"
+
+#: views/parts/product-gallery.php:12
+msgid "Remove all images"
+msgstr "Удалить все изображения"
+
+#: views/woobe.php:935
+msgid "remove current columns profile"
+msgstr "удалить текущий профиль столбцов"
+
+#: views/parts/product-gallery.php:9
+msgid "Remove images also from medialibrary if detached of the product"
+msgstr ""
+"Удалять изображения также из медиабиблиотеки, если она откреплена от продукта"
+
+#: ext/info/views/panel.php:64
+msgid "remove sale prices"
+msgstr "удаление цен продажи"
+
+#: views/woobe.php:224
+msgid "Remove selected downloads"
+msgstr "Удалить выбранные загрузки"
+
+#: views/woobe.php:364 views/woobe.php:425 views/woobe.php:560
+msgid "Remove selected products"
+msgstr "Удалить выбранные продукты"
+
+#: ext/bulk/views/panel.php:274 ext/bulk/views/panel.php:489
+msgid "replace"
+msgstr "заменить"
+
+#: views/woobe.php:222
+msgid "Replace all downloads by the selected ones"
+msgstr "Заменить все загрузки выбранными"
+
+#: views/woobe.php:362 views/woobe.php:423 views/woobe.php:558
+msgid "Replace all products by the selected ones"
+msgstr "Заменить все продукты выбранными"
+
+#: views/woobe.php:289
+msgid "Replace all products images by the selected ones"
+msgstr "Заменить все изображения продуктов выбранными"
+
+#: ext/bulk/views/panel.php:289
+msgid "replace to text"
+msgstr "заменить на текст"
+
+#: ext/bulkoperations/views/panel.php:354
+msgid "replaceable term"
+msgstr "заменяемый тёрм"
+
+#: ext/info/views/panel.php:135
+msgid "Requirements"
+msgstr "Требования"
+
+#: ext/filters/views/panel.php:34 ext/history/views/panel.php:69
+msgid "Reset"
+msgstr "Сброс"
+
+#: views/parts/advanced-table.php:26
+msgid "Reset filters"
+msgstr "Сброс фильтров"
+
+#: index.php:278
+msgid "Reseted!"
+msgstr "Сброшено!"
+
+#: index.php:277
+msgid "Reseting"
+msgstr "Сбрасывание"
+
+#: ext/history/views/list.php:89 ext/history/views/list.php:93
+msgid "revert"
+msgstr "откатить"
+
+#: ext/history/history.php:46
+msgid "Reverted!"
+msgstr "Откат завершен!"
+
+#: ext/history/history.php:45
+msgid "Reverting"
+msgstr "Откат"
+
+#: data/fields.php:710
+msgid "Review count"
+msgstr "Количество отзывов"
+
+#: data/fields.php:603
+msgid "Reviews allowed"
+msgstr "Отзывы разрешены"
+
+#: ext/bulk/views/panel.php:265 ext/bulk/views/panel.php:304
+msgid "SALE PRICE"
+msgstr "ЦЕНА ПРОДАЖИ"
+
+#: data/fields.php:220
+msgid "Sale price"
+msgstr "Цена продажи"
+
+#: ext/bulk/bulk.php:893
+msgid "sale price"
+msgstr "цена со скидкой"
+
+#: ext/filters/views/panel.php:389
+msgid "Sale price from"
+msgstr "Цена продажи с"
+
+#: ext/filters/views/panel.php:231
+msgid "sale price from"
+msgstr "цена продажи от"
+
+#: ext/bulk/bulk.php:886
+msgid "sale price plus %"
+msgstr "sale price плюс %"
+
+#: ext/bulk/bulk.php:887
+msgid "sale price plus value"
+msgstr "sale price плюс значение"
+
+#: ext/filters/views/panel.php:396
+msgid "Sale price to"
+msgstr "Цена продажи до"
+
+#: ext/filters/views/panel.php:232
+msgid "sale price to"
+msgstr "цена продажи до"
+
+#: data/fields.php:234
+msgid "Sale time from"
+msgstr "Распродажа с"
+
+#: data/fields.php:250
+msgid "Sale time to"
+msgstr "Распродажа по"
+
+#: data/fields.php:351
+msgid "Same as parent"
+msgstr "Такой же как родитель"
+
+#: ext/bulk/views/panel.php:283
+msgid "same case"
+msgstr "соблюдать строчность"
+
+#: ext/fprofiles/views/panel.php:82
+msgid "Save"
+msgstr "Сохранить"
+
+#: views/elements/multi_select.php:34
+#: views/elements/attribute_visibility.php:62
+msgid "save"
+msgstr "сохранить"
+
+#: views/woobe.php:768 views/woobe.php:834
+msgid "Save all settings"
+msgstr "Сохранить все настройки"
+
+#: ext/meta/views/panel.php:47
+msgid "Save meta fields"
+msgstr "Сохранить мета-поля"
+
+#: index.php:265
+msgid "Saved"
+msgstr "Сохранено"
+
+#: index.php:266
+msgid "Saving"
+msgstr "Сохранение"
+
+#: index.php:1357
+msgid "Scheduled"
+msgstr "Отложенные"
+
+#: views/parts/advanced-table.php:43
+msgid "Scroll left"
+msgstr "Прокрутка влево"
+
+#: views/parts/advanced-table.php:42
+msgid "Scroll right"
+msgstr "Прокрутить вправо"
+
+#: index.php:254 views/woobe.php:341 views/woobe.php:403 views/woobe.php:538
+msgid "Search"
+msgstr "Поиск"
+
+#: ext/info/views/panel.php:95
+msgid ""
+"Search by products slugs, which are in non-latin symbols does not work "
+"because in the data base they are keeps in the encoded format!"
+msgstr ""
+"Поиск по продуктовым слагам, которые находятся в нелатинских символах, не "
+"работает, потому что в базе данных они хранятся в кодированном формате!"
+
+#: views/woobe.php:342 views/woobe.php:404 views/woobe.php:539
+msgid "Search products by its name"
+msgstr "Поиск продуктов по названию"
+
+#: ext/filters/views/panel.php:486
+msgid "Search results only"
+msgstr "Только результаты поиска"
+
+#: index.php:1242
+msgid ""
+"see the product on the site OR select products variations if they are shown"
+msgstr ""
+"посмотреть товар на сайте ИЛИ выбрать варианты товаров, если они показаны"
+
+#: index.php:281 views/elements/multi_select.php:27
+#: views/elements/attribute_visibility.php:51
+msgid "Select all"
+msgstr "Выбрать все"
+
+#: views/woobe.php:147
+msgid "Select all terms"
+msgstr "Выбрать все тёрмы"
+
+#: views/parts/advanced-table.php:36
+msgid "select all variations"
+msgstr "выбрать все варианты"
+
+#: data/fields.php:82
+msgid "Select any images which relate to the product"
+msgstr "Выберите любые изображения, относящиеся к продукту"
+
+#: ext/bulkoperations/views/panel.php:234
+#: ext/bulkoperations/views/panel.php:291
+#: ext/bulkoperations/views/panel.php:347
+#: ext/bulkoperations/views/panel.php:358
+msgid "select attribute"
+msgstr "выбрать атрибут"
+
+#: ext/bulkoperations/views/panel.php:61 ext/bulkoperations/views/panel.php:66
+#: ext/bulkoperations/views/panel.php:122
+#: ext/bulkoperations/views/panel.php:127
+#: ext/bulkoperations/views/panel.php:385
+#: ext/bulkoperations/views/panel.php:391
+msgid "Select attributes"
+msgstr "Выберите атрибуты"
+
+#: ext/bulkoperations/views/panel.php:62
+msgid "Select attributes which products variations you want to create"
+msgstr "Выберите атрибуты, которые вы хотите создать"
+
+#: index.php:291
+msgid "Select background color"
+msgstr "Выберите атрибуты"
+
+#: ext/export/views/panel.php:31
+msgid "select behavior"
+msgstr "выберите поведение"
+
+#: data/settings.php:21
+msgid ""
+"Select column by which products sorting is going after plugin page loaded"
+msgstr ""
+"Выберите столбец, по которому сортировка товаров происходит после загрузки "
+"страницы плагина"
+
+#: ext/bulk/views/panel.php:30 ext/export/views/panel.php:26
+msgid "select combination of attributes"
+msgstr "выбрать комбинацию атрибутов"
+
+#: ext/bulk/views/panel.php:38
+msgid ""
+"Select combination(s) of attributes if you need it by your logic, another "
+"way changes will be applied to all variations of all/filtered/selected "
+"variable products. Order of the terms in combination(s) has no matter."
+msgstr ""
+"Выберите комбинацию атрибутов по вашей логике, иначе изменения будут "
+"применены ко всем вариантам всех / фильтрованных / выбранных вариативных "
+"продуктов. Порядок тёрмов в клмбинации(-ях) не имеет значения."
+
+#: ext/export/views/panel.php:41
+msgid ""
+"Select combination(s) of attributes you want (in) or do not want (not in) "
+"export if you need it. If leave empty will be exported all combinations. "
+"Combinations should be strongly exact!"
+msgstr ""
+"Выберите комбинацию(b) атрибутов, которые вы хотите (in) или не хотите (not "
+"in) экспортировать, если вам это нужно. Если оставить пустым, будут "
+"экспортированы все комбинации. Комбинации должны быть строго точными!"
+
+#: ext/export/views/panel.php:100
+msgid ""
+"Select CSV data delimiter. ATTENTION: if you going to import data back using "
+"native woocommerce importer - delimiter should be comma or import of the "
+"data will not be possible!"
+msgstr ""
+"Выберите разделитель данных CSV. ВНИМАНИЕ: если вы собираетесь импортировать "
+"данные обратно с помощью собственного импортера woocommerce - разделитель "
+"должен быть запятой или импорт данных будет невозможен!"
+
+#: ext/fprofiles/views/panel.php:31
+msgid "Select filter profile to load"
+msgstr "Выберите профиль фильтра для загрузки"
+
+#: ext/bulk/views/panel.php:371
+#, php-format
+msgid ""
+"Select how to round float values fractions in the numeric fields. Works for "
+"prices and numeric meta fields. Read more %s."
+msgstr ""
+"Выберите способ округления значений чисел с плавающей запятой в числовых "
+"полях. Работает с ценами и числовыми мета-полями. Подробнее: %s."
+
+#: ext/bulk/views/panel.php:225 ext/bulk/views/panel.php:247
+#: ext/bulk/views/panel.php:347 ext/bulk/views/panel.php:470
+#: ext/bulk/views/panel.php:524 ext/bulk/views/panel.php:580
+#: ext/bulk/views/panel.php:613 ext/bulk/views/panel.php:644
+#: ext/bulk/views/panel.php:677 ext/bulk/views/panel.php:716
+#: ext/bulk/views/panel.php:758 ext/bulk/views/panel.php:801
+#: ext/bulk/views/panel.php:841 ext/bulk/views/panel.php:881
+#: ext/bulk/views/panel.php:921 ext/bulk/views/panel.php:949
+#: ext/bulk/views/panel.php:987 ext/bulk/views/panel.php:1029
+#: ext/bulk/views/panel.php:1068 ext/bulk/views/panel.php:1107
+#: ext/bulk/views/panel.php:1142 ext/bulk/views/panel.php:1176
+#: ext/bulk/views/panel.php:1210 ext/bulk/views/panel.php:1244
+#: ext/bulk/views/panel.php:1277 ext/bulk/views/panel.php:1319
+#: ext/bulk/views/panel.php:1361
+msgid "select it to use"
+msgstr "выберите его для использования"
+
+#: ext/info/views/panel.php:55
+msgid "select products and add 15% to their regular price"
+msgstr "выбрать товары и добавить 15% к их обычной цене"
+
+#: views/woobe.php:944
+msgid "Select profile to load"
+msgstr "Выберите профиль для загрузки"
+
+#: views/woobe.php:105
+msgid "Select some columns in tab \"Settings\""
+msgstr "Выберите несколько столбцов на вкладке «Настройки»"
+
+#: data/settings.php:28
+msgid "Select sort direction for Default sort by column above"
+msgstr ""
+"Выберите направление сортировки для сортировки по умолчанию по столбцу выше"
+
+#: index.php:292
+msgid "Select text color"
+msgstr "Выберите цвет текста"
+
+#: ext/bulk/views/panel.php:589
+msgid "select thumbnail"
+msgstr "выбрать превьюшку"
+
+#: ext/bulkoperations/views/panel.php:215
+#: ext/bulkoperations/views/panel.php:271
+#: ext/bulkoperations/views/panel.php:328
+#, php-format
+msgid "Selected combination will be applied to: %s"
+msgstr "Выбранная комбинация будет применена к: %s"
+
+#: ext/bulk/views/panel.php:380
+msgid "Selected num fields"
+msgstr "Выбранные числ. поля"
+
+#: views/woobe.php:146
+msgid "selected only"
+msgstr "выбранные только"
+
+#: views/parts/advanced-table.php:11
+msgid "Set full width"
+msgstr "Полная ширина"
+
+#: ext/export/views/panel.php:87
+msgid ""
+"Set here maximal possible count of downloads per product. Not possible to "
+"automate counting of this value because this data is serialized in the data "
+"base!"
+msgstr ""
+"Задайте здесь максимально возможное количество загрузок на продукт. "
+"Невозможно автоматизировать подсчет этого значения, поскольку эти данные "
+"сериализованы в базе данных!"
+
+#: ext/bulk/bulk.php:865 ext/bulk/bulk.php:872 ext/bulk/bulk.php:888
+#: ext/bulk/bulk.php:902 ext/meta/meta.php:302 ext/bulk/views/panel.php:558
+msgid "set new"
+msgstr "поставить новое"
+
+#: ext/bulkoperations/views/panel.php:274
+msgid "Set visibility"
+msgstr "Установить видимость"
+
+#: ext/bulk/views/panel.php:530
+#, php-format
+msgid "Set: %s"
+msgstr "Установить: %s"
+
+#: views/woobe.php:71
+msgid "Settings"
+msgstr "Настройки"
+
+#: data/fields.php:516
+msgid "Shipping class"
+msgstr "Класс доставки"
+
+#: data/fields.php:517
+msgid ""
+"Shipping classes are used by certain shipping methods to group similar "
+"products."
+msgstr "Классы доставки используются для доставки групп похожих продуктов."
+
+#: ext/filters/views/panel.php:484
+msgid "Shop and search results"
+msgstr "Магазин и результаты поиска"
+
+#: ext/filters/views/panel.php:485
+msgid "Shop only"
+msgstr "Магазин только"
+
+#: data/fields.php:119
+msgid "Short Desc."
+msgstr "Кратк.Описание."
+
+#: ext/bulk/bulk.php:807
+msgid "short description"
+msgstr "краткое содержимое"
+
+#: ext/export/export.php:32
+msgid "Should the export be started?"
+msgstr "Следует ли начать экспорт?"
+
+#: views/woobe.php:645
+msgid "Show all columns"
+msgstr "Показать все столбцы"
+
+#: data/settings.php:48
+msgid "Show bigger thumbnail preview on mouse over"
+msgstr ""
+"Показать больше миниатюры при наведении мышью на превьюшку продукта в таблице"
+
+#: data/settings.php:38
+msgid ""
+"Show Bulk Editor button in admin bar for quick access to the products editor"
+msgstr ""
+"Кнопка Редактор продуктов в панели администратора для быстрого доступа к "
+"редактору"
+
+#: data/settings.php:37
+msgid "Show button in admin bar"
+msgstr "Кнопка «Редактор продуктов» на верхней админ панели"
+
+#: data/settings.php:47
+msgid "Show thumbnail preview"
+msgstr "Показать предварительный просмотр"
+
+#: index.php:288 views/parts/top_panel.php:24
+msgid "Show: Filters/Bulk Edit/Export"
+msgstr "Показать: Фильтры / Массовое редактирование / Экспорт"
+
+#: index.php:295
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Отображение от 0 до 0 из 0 записей"
+
+#: index.php:294
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Отображение _START_ до _END_ из _TOTAL_ записей"
+
+#: data/fields.php:360 ext/bulk/bulk.php:815 ext/filters/filters.php:1207
+#: ext/bulk/views/panel.php:259 ext/bulk/views/panel.php:298
+msgid "SKU"
+msgstr "SKU"
+
+#: data/fields.php:361
+msgid ""
+"SKU refers to a Stock-keeping unit, a unique identifier for each distinct "
+"product and service that can be purchased."
+msgstr ""
+"SKU относится к Единице продукта и является уникальным идентификатором для "
+"каждого отдельного продукта и услуги, которые могут быть приобретены."
+
+#: ext/filters/views/panel.php:187
+msgid "SKU, use comma for several ..."
+msgstr "SKU, используйте запятую для нескольких ..."
+
+#: data/fields.php:132
+msgid "Slug"
+msgstr "Слаг"
+
+#: views/woobe.php:1010
+msgid "Slug(s) of the new term"
+msgstr "Слаг(и) нового термина"
+
+#: ext/bulk/views/panel.php:996
+msgid "Sold individ.: No"
+msgstr "Продавать инд.: нет"
+
+#: ext/bulk/views/panel.php:995
+msgid "Sold individ.: Yes"
+msgstr "Продавать инд.: да"
+
+#: data/fields.php:437 ext/filters/views/panel.php:374
+msgid "Sold individually"
+msgstr "Продавать индивидуально"
+
+#: ext/history/views/panel.php:34
+msgid "solo operations"
+msgstr "сольные операции"
+
+#: ext/info/views/panel.php:46
+msgid "Some little hints"
+msgstr "Немного финтов"
+
+#: ext/info/views/panel.php:145
+msgid "Some useful plugins for your e-shop"
+msgstr "Несколько полезных плагинов для вашего интернет-магазина"
+
+#: ext/bulkoperations/views/panel.php:190
+msgid "Start"
+msgstr "Старт"
+
+#: ext/bulkoperations/views/panel.php:98
+msgid "Start BULK Adding!"
+msgstr "Начать массовое добавление!"
+
+#: ext/bulkoperations/views/panel.php:419
+msgid "Start deleting"
+msgstr "Начать удаление"
+
+#: ext/history/views/list.php:34
+#, php-format
+msgid "state: %s"
+msgstr "состояние: %s"
+
+#: data/fields.php:160
+msgid "Status"
+msgstr "Статус"
+
+#: ext/bulk/views/panel.php:101
+msgid "statuses and types"
+msgstr "статусы и типы"
+
+#: classes/models/profiles.php:70
+msgid "Stock"
+msgstr "Сток"
+
+#: data/fields.php:392
+msgid "Stock quantity"
+msgstr "Количество на складе"
+
+#: ext/filters/views/panel.php:235
+msgid "stock quantity from"
+msgstr "количество запасов от"
+
+#: ext/filters/views/panel.php:236
+msgid "stock quantity to"
+msgstr "количество запасов до"
+
+#: data/fields.php:393
+msgid ""
+"Stock quantity. If this is a variable product this value will be used to "
+"control stock for all variations, unless you define stock at variation level."
+" ATTENTION: if to set count of products, Manage stock and Stock status "
+"options automatically set as TRUE!"
+msgstr ""
+"Количество запасов. Если это variable продукт, это значение будет "
+"использоваться для управления запасом для всех вариантов, если вы не "
+"определите запас на уровне изменения. ВНИМАНИЕ: если установить количество "
+"продуктов, параметры управления запасом и запасом автоматически "
+"устанавливаются как ИСТИНА!"
+
+#: data/fields.php:407 ext/filters/views/panel.php:318
+msgid "Stock status"
+msgstr "Статус запасов"
+
+#: ext/bulk/bulk.php:828
+msgid "stock status"
+msgstr "сток статус"
+
+#: ext/meta/views/panel.php:91
+msgid "string"
+msgstr "строка"
+
+#: ext/bulkoperations/views/panel.php:354
+msgid "substitute term"
+msgstr "заменяющий тёрм"
+
+#: index.php:270
+msgid "Sure?"
+msgstr "Уверен?"
+
+#: ext/bulk/bulk.php:48
+msgid "Sure? Delete products?"
+msgstr "Точно? Удалить продукты?"
+
+#: ext/bulkoperations/views/panel.php:45 ext/bulkoperations/views/panel.php:333
+msgid "Swap"
+msgstr "Замена"
+
+#: ext/bulkoperations/bulkoperations.php:49
+msgid "Swap of variations is finished"
+msgstr "Замена вариаций завершена"
+
+#: ext/bulkoperations/views/panel.php:354
+msgid "swap to"
+msgstr "обменять"
+
+#: data/settings.php:79
+msgid "Synchronize managers profiles"
+msgstr "Синхронизировать профили менеджеров"
+
+#: data/fields.php:345 ext/filters/views/panel.php:506
+msgid "Tax class"
+msgstr "Налоговый класс"
+
+#: data/fields.php:326
+msgid "Tax status"
+msgstr "Налоговый статус"
+
+#: ext/bulk/bulk.php:834
+msgid "tax status"
+msgstr "налоговый статус"
+
+#: ext/bulk/views/panel.php:113
+msgid "taxonomies"
+msgstr "таксономии"
+
+#: ext/bulk/views/panel.php:152
+msgid "terminate bulk operation"
+msgstr "прекратить массовую операцию"
+
+#: ext/bulkoperations/views/panel.php:105
+#: ext/bulkoperations/views/panel.php:150
+#: ext/bulkoperations/views/panel.php:195
+#: ext/bulkoperations/views/panel.php:221
+#: ext/bulkoperations/views/panel.php:275
+#: ext/bulkoperations/views/panel.php:334
+#: ext/bulkoperations/views/panel.php:420
+msgid "Terminate operation!"
+msgstr "Прекратить операцию!"
+
+#: ext/info/info.php:22 ext/fprofiles/fprofiles.php:27
+msgid "test"
+msgstr "тест"
+
+#: ext/bulk/views/panel.php:75
+msgid "text"
+msgstr "текст"
+
+#: index.php:287
+msgid "Text search by title or SKU"
+msgstr "Текстовый поиск по названию или SKU"
+
+#: ext/meta/views/panel.php:81
+msgid "textarea"
+msgstr ""
+
+#: ext/meta/views/panel.php:80
+msgid "textinput"
+msgstr ""
+
+#: index.php:1414
+#, php-format
+msgid ""
+"That's awesome! Could you please do us a BIG favor and give it a 5-star "
+"rating on %s to help us spread the word and boost our motivation?"
+msgstr ""
+"Это потрясающе! Не могли бы вы оказать нам ОГРОМНУЮ услугу и дать ему 5-"
+"звездочный рейтинг на %s, чтобы помочь нам распространить информацию и "
+"повысить нашу мотивацию?"
+
+#: index.php:305
+msgid ""
+"the filtered products. To remove the products filtering press reset button "
+"on the tools panel below"
+msgstr ""
+"отфильтрованные продукты. Чтобы удалить фильтрацию продуктов, нажмите кнопку "
+"сброса на панели инструментов ниже"
+
+#: ext/info/views/panel.php:115
+msgid "the plugin forum"
+msgstr "форум плагина"
+
+#: ext/info/views/panel.php:12
+#, php-format
+msgid "The plugin has %s, %s, %s list. Also if you have troubles you can %s!"
+msgstr ""
+"В плагине есть список %s, %s, %s. Также, если у вас возникнут проблемы, вы "
+"можете %s!"
+
+#: ext/bulkoperations/bulkoperations.php:55
+msgid "the product has no variations"
+msgstr "продукт не имеет вариантов"
+
+#: data/settings.php:80
+msgid ""
+"The profiles will be the same for all managers. Except the administrator."
+msgstr "Профили будут одинаковыми для всех менеджеров. Кроме админа."
+
+#: data/fields.php:235
+msgid "The sale will end at the beginning of the set date"
+msgstr "Продажа закончится в начале установленной даты"
+
+#: index.php:306
+msgid "the selected products (variations)"
+msgstr "выбранные продукты (варианты)"
+
+#: data/settings.php:13
+msgid "this article"
+msgstr "эта статья"
+
+#: index.php:311
+msgid "This field is deactivated in FREE version for bulk edit!"
+msgstr "Это поле отключено в БЕСПЛАТНОЙ версии для массового редактирования!"
+
+#: index.php:259
+msgid "This is not deletable!"
+msgstr "Это невозможно удалить!"
+
+#: data/fields.php:561
+msgid "This lets you choose which products are part of this group."
+msgstr "Это позволяет вам выбирать, какие продукты являются частью группы."
+
+#: ext/bulkoperations/views/panel.php:272
+msgid ""
+"This operation is only for attributes of variable products. Select "
+"attributes and their properties."
+msgstr ""
+"Эта операция предназначена только для аттрибутов переменных продуктов. "
+"Выберите атрибуты и их свойства."
+
+#: ext/bulkoperations/views/panel.php:147
+msgid ""
+"This operation is only for variable products and not for their variations. "
+"Before attaching default combination of variations, select variation "
+"products by filter or by checkboxes! Selection by checkbox has higher "
+"priority!"
+msgstr ""
+"Эта операция предназначена только для переменных продуктов, а не для их "
+"вариаций. Перед добавлением комбинации вариантов по умолчанию выберите "
+"продукты вариантов по фильтрам или флажками! Выбор по флажку имеет более "
+"высокий приоритет!"
+
+#: ext/bulkoperations/views/panel.php:171
+msgid ""
+"This operation is only for variable products and not for their variations. "
+"Paste in the textinput ID of any variable product, which variations you want "
+"to set in the custom order, change their order and then apply their new "
+"ordering to the another variative products which you filtered by the filter "
+"or selected them by checkboxes."
+msgstr ""
+"Эта операция предназначена только для переменных продуктов, а не для их "
+"вариантов. Вставьте ID любого продукта варианты которого вы хотите "
+"установить в своём порядке, измените их порядок, а затем примените их новую "
+"очерёднсть к другим вариативным продуктам, которые вы отфильтровали по "
+"фильтру или выбрали их с помощью чекбоксов."
+
+#: ext/bulkoperations/views/panel.php:123
+msgid ""
+"This operation is only for variable products and not for their variations. "
+"Select attributes which combination you want to apply as default one on its "
+"single page of variable a product. Select terms of the attributes and press "
+"button Apply combination. This combination will be pre-selected on the shop "
+"single page. If you will miss any attribute you can always can stop the "
+"operation, and then try again!"
+msgstr ""
+"Эта операция предназначена только для переменных продуктов, а не для их "
+"вариантов. Перед тем, как присоединить комбинацию вариантов по умолчанию, "
+"выберите вариации продуктов с помощью фильтра или чекбоксов! Отбор по "
+"чекбоксам имеет более высокий приоритет!"
+
+#: ext/bulkoperations/views/panel.php:216
+msgid ""
+"This operation is only for variations of variable products and not their "
+"parents. Select a product attribute to attach and also its default term, "
+"then add attaching rules. Attaching usually uses when exists empty attribute "
+"in the variation, but it is also can change existed attribute term in the "
+"variation!"
+msgstr ""
+"Эта операция только для вариаций переменных продуктов, а не их родителей. "
+"Выберите атрибут продукта для вложения, а также его термин по умолчанию, "
+"затем добавьте правила вложения. Присоединение обычно использует, когда в "
+"варианте есть пустой атрибут, но оно также может изменить существующий "
+"термин атрибута в варианте!"
+
+#: ext/bulkoperations/views/panel.php:386
+msgid ""
+"This operation is only for variations of variable products and not their "
+"parents. Select attributes combination of which you want to delete. Remember:"
+" not possible to rollback delete-operations!"
+msgstr ""
+"Эта операция предназначена только для вариаций переменных продуктов, а не "
+"для их родителей. Выберите комбинацию атрибутов, которую вы хотите удалить. "
+"Помните: невозможно отменить операцию удаления аттрибутов!"
+
+#: ext/bulkoperations/views/panel.php:329
+msgid ""
+"This operation is only for variations of variable products and not their "
+"parents. Select which term is replaceable and which is substitute. If the "
+"terms has the same attribute, replaceable term will be replaced by "
+"substitute term. If terms has different attributes - substitute term will be "
+"attached as new to a product variation which has replaceable term, and "
+"replaceable term will not be replaced! Also if parent product has not the "
+"substitute attribute (tab Attributes on the product page) - it will be "
+"attached to the product automatically in the current process!"
+msgstr ""
+"Эта операция предназначена только для вариаций переменных продуктов, а не "
+"для их родителей. Выберите, какой тёрм заменяется и который заменяет. Если "
+"тёрмы имеют один и тот же атрибут, заменяемый тёрм будет заменен заменяющим "
+"тёрмом. Если тёрмы принадлежат разным атрибутам - заменительный тёрм будет "
+"прикреплен как новый к вариации продукта, который имеет заменяемый тёрм, а "
+"заменяющийся тёрм не будет заменен! Также, если родительский продукт не "
+"имеет атрибут заменяющего тёрма (вкладка Атрибуты на странице продукта) - "
+"аттрибут будет автоматически присоединен к продукту в текущем процессе!"
+
+#: ext/bulk/views/panel.php:189 ext/info/views/panel.php:74
+msgid "this plugin"
+msgstr "плагин"
+
+#: data/fields.php:175
+msgid "This setting determines which shop pages products will be listed on"
+msgstr "Этот параметр определяет, какие продукты веб-страниц будут перечислены"
+
+#: data/fields.php:69
+msgid "Thumbnail"
+msgstr "Превьюшка"
+
+#: ext/bulk/views/panel.php:186
+#, php-format
+msgid ""
+"Time by time (one time per week for example) - make the backup of your site "
+"database. For example by %s"
+msgstr ""
+"Время от времени (один раз в неделю, например) - делайте резервную копию "
+"базы данных своего сайта. Например используя %s"
+
+#: ext/bulk/views/panel.php:257 ext/bulk/views/panel.php:296
+msgid "TITLE"
+msgstr "ЗАГОЛОВОК"
+
+#: data/fields.php:95 ext/filters/filters.php:1206
+msgid "Title"
+msgstr "Заголовок"
+
+#: ext/bulk/bulk.php:799
+msgid "title"
+msgstr "заголовок"
+
+#: ext/info/views/panel.php:109
+msgid ""
+"To select range of products using checkboxes - select first product, press "
+"SHIFT key on your PC keyboard and click last product."
+msgstr ""
+"Чтобы выбрать группу продуктов, используя чекбоксы - выберите первый продукт,"
+" зажмите клавишу SHIFT на клавиатуре ПК и нажмите последний продукт."
+
+#. Description of the plugin
+msgid ""
+"Tools for managing and bulk edit <strong>WooCommerce Products</strong> data "
+"in the reliable and flexible way! Be professionals with managing data of "
+"your e-shop!"
+msgstr ""
+"Инструменты для управления и массового редактирования данных <strong>"
+"WooCommerce Products</strong> надежным и гибким способом! Будьте "
+"профессионалом в управлении данными своего интернет-магазина!"
+
+#: data/fields.php:695
+msgid "Total count of the product sales"
+msgstr "Общий объем продаж продукта"
+
+#: data/fields.php:694
+msgid "Total sales"
+msgstr "Всего продаж"
+
+#: ext/info/views/panel.php:22
+msgid "translations"
+msgstr "переводы"
+
+#: classes/alert.php:94
+msgid ""
+"Try new BEAR compatible plugin for displaying WooCommerce shop products in "
+"table format"
+msgstr ""
+"Попробуйте новый плагин, совместимый с BEAR, для отображения товаров "
+"магазина WooCommerce в табличном формате"
+
+#: data/fields.php:146
+msgid "Type"
+msgstr "Тип"
+
+#: views/parts/advanced-table.php:25
+msgid "Uncheck all selected products"
+msgstr "Снять выделение со всех выбранных продуктов"
+
+#: views/woobe.php:1065
+msgid "UPGRADE TO FULL VERSION"
+msgstr "ОБНОВИТЬ ДО ПОЛНОЙ ВЕРСИИ"
+
+#: index.php:283
+msgid "Upload file"
+msgstr "Загрузить файл"
+
+#: index.php:279
+msgid "Upload image"
+msgstr "Загрузить изображение"
+
+#: index.php:280
+msgid "Upload images"
+msgstr "Загрузить изображения"
+
+#: data/fields.php:532
+msgid "Upsells"
+msgstr ""
+
+#: data/fields.php:533
+msgid ""
+"Upsells are products which you recommend instead of the currently viewed "
+"product, for example, products that are more profitable or better quality or "
+"more expensive."
+msgstr ""
+"Upsells - это продукты, которые вы рекомендуете вместо текущего "
+"просматриваемого продукта, например, продукты, которые являются более "
+"прибыльными или более качественными или более дорогими."
+
+#: ext/info/views/panel.php:105
+msgid ""
+"Use Enter keyboard button in the Products Editor for moving to the next "
+"products row cell with saving of changes while edit textinputs. Use arrow Up "
+"or arrow Down keyboard buttons in the Products Editor for moving to the "
+"next/previous products row without saving of changes."
+msgstr ""
+"Используйте кнопку Enter клавиатуры в редакторе продуктов для перехода к "
+"ячейке следующей строки с сохранением изменений при редактировании текстовых "
+"данных. Используйте клавишу стрелка ввер или стрелка вниз клавиатуры в "
+"редакторе продуктов для перехода к следующей / предыдущей строке товаров без "
+"сохранения изменений."
+
+#: ext/fprofiles/views/panel.php:48
+msgid "Use it constantly"
+msgstr "Используйте это постоянно"
+
+#: ext/bulkoperations/views/panel.php:297
+msgid "Used for variations"
+msgstr "Используется для вариаций"
+
+#: ext/bulkoperations/views/panel.php:188
+msgid "Using mouse, set order of variations you need and press start button."
+msgstr "Используя мышь, задайте порядок вариаций и нажмите кнопку «Старт»."
+
+#: views/woobe.php:499 views/woobe.php:517
+msgid "value"
+msgstr "значение"
+
+#: ext/history/views/list.php:64
+#, php-format
+msgid "value been: %s"
+msgstr "значение было: %s"
+
+#: ext/bulk/views/panel.php:256 ext/bulk/views/panel.php:295
+msgid "variable"
+msgstr "переменная"
+
+#: ext/fprofiles/models/profiles.php:28
+msgid "Variable products"
+msgstr "Вариативные продукты"
+
+#: ext/bulkoperations/bulkoperations.php:54
+msgid "variation is not selected"
+msgstr "вариация не выбрана"
+
+#: views/parts/advanced-table.php:32
+msgid "variations"
+msgstr "вариации"
+
+#: ext/bulkoperations/bulkoperations.php:45
+msgid "Variations Advanced Bulk Operation is finished"
+msgstr "Variations Advanced Bulk операция завершена"
+
+#: ext/bulkoperations/views/panel.php:85
+#, php-format
+msgid "Variations Advanced Bulk Operation will be applied to: %s"
+msgstr "Variations Advanced Bulk операция будет применена к: %s"
+
+#: ext/bulkoperations/bulkoperations.php:62
+#: ext/bulkoperations/views/panel.php:15
+msgid "Variations Advanced Bulk Operations"
+msgstr "Расширенные массовые операции над вариациями"
+
+#: index.php:563
+msgid "View the product on the site front"
+msgstr "Посмотреть продукт на сайте"
+
+#: data/fields.php:649
+msgid "Virtual"
+msgstr "Виртуальный"
+
+#: data/fields.php:650
+msgid "Virtual products are intangible and are not shipped."
+msgstr "Виртуальные продукты не физические."
+
+#: ext/bulk/views/panel.php:850
+msgid "Virtual: no"
+msgstr "Виртуальный: нет"
+
+#: ext/bulk/views/panel.php:849
+msgid "Virtual: yes"
+msgstr "Виртуальный: да"
+
+#: ext/bulkoperations/views/panel.php:41
+msgid "Visibility"
+msgstr "Видимость"
+
+#: ext/bulk/views/panel.php:1339
+msgid "Visible"
+msgstr "Видимый"
+
+#: views/woobe.php:681 views/woobe.php:686
+msgid "visible for the shop manager"
+msgstr "видимый для менеджера магазина"
+
+#: ext/bulkoperations/views/panel.php:296
+msgid "Visible on the product page"
+msgstr "Видимый на странице продукта"
+
+#: index.php:110
+msgid "visit this page"
+msgstr "посетить эту страницу"
+
+#: ext/history/history.php:47
+msgid "Wait please while data reverting is going!"
+msgstr "Подождите, пока идет откат данных!"
+
+#: index.php:1424
+msgid ""
+"We are sorry to hear you aren't enjoying BEAR. We would love a chance to "
+"improve it. Could you take a minute and let us know what we can do better?"
+msgstr ""
+"Сожалеем, что вам не нравится BEAR. Мы хотели бы иметь возможность улучшить "
+"его. Не могли бы вы уделить минуту и сообщить нам, что мы можем сделать "
+"лучше?"
+
+#: data/fields.php:456
+msgid "Weight"
+msgstr "Вес"
+
+#: ext/filters/views/panel.php:251
+msgid "weight from"
+msgstr "вес от"
+
+#: ext/filters/views/panel.php:252
+msgid "weight to"
+msgstr "вес до"
+
+#: data/fields.php:486
+msgid "Width"
+msgstr "Ширина"
+
+#: ext/filters/views/panel.php:239
+msgid "width from"
+msgstr "ширина от"
+
+#: ext/filters/views/panel.php:240
+msgid "width to"
+msgstr "ширина до"
+
+#: ext/bulk/bulk.php:47
+msgid "Will be edited next:"
+msgstr "Будет изменено следующее:"
+
+#: views/woobe.php:1075 views/woobe.php:1076
+msgid "WooCommerce Currency Switcher"
+msgstr ""
+
+#: views/woobe.php:1080
+msgid "WooCommerce Products Filter"
+msgstr ""
+
+#: views/woobe.php:1081
+msgid "WOOF - WooCommerce Products Filter"
+msgstr ""
+
+#: ext/history/views/panel.php:8
+msgid ""
+"Works for edit-operations and not work with delete-operations! Also does not "
+"work with all operations which are presented in \"Variations Advanced Bulk "
+"Operations\""
+msgstr ""
+"Работает для операций редактирования и не работает с операциями удаления! "
+"Также не работает со всеми операциями, которые представлены в разделе "
+"«Variations Advanced Bulk Operations»"
+
+#: views/woobe.php:1070
+msgid "WPBE - WordPress Posts Bulk Editor"
+msgstr ""
+
+#: views/woobe.php:1071
+msgid "WPBE - WordPress Posts Bulk Editor Professional"
+msgstr ""
+
+#: ext/info/views/panel.php:129
+msgid "write us feedback please"
+msgstr "напишите нам отзыв пожалуйста"
+
+#: data/fields.php:195 data/fields.php:273 data/fields.php:381
+#: data/fields.php:445 data/fields.php:609 data/fields.php:656
+#: data/settings.php:42 data/settings.php:52 data/settings.php:62
+#: data/settings.php:84 ext/meta/meta.php:167 ext/meta/meta.php:331
+#: ext/filters/views/panel.php:357 ext/filters/views/panel.php:375
+#: ext/filters/views/panel.php:528
+msgid "Yes"
+msgstr "Да"
+
+#: index.php:1410
+msgid "Yes, I love it"
+msgstr "Да, мне это нравится"
+
+#: index.php:307
+msgid ""
+"You can reset selection of the products by its reset button on the panel of "
+"the editor OR uncheck them manually!"
+msgstr ""
+"Вы можете сбросить выбор продуктов кнопкой сброса на панели редактора или "
+"снять их вручную!"
+
+#: ext/fprofiles/views/panel.php:74
+msgid ""
+"You can save filter profile only when you applying filters to the products."
+msgstr ""
+"Вы можете сохранить профиль фильтра только во время применения фильтров к "
+"продуктам."
+
+#: ext/bulk/views/panel.php:413
+msgid ""
+"You can select numeric field then make math operation with another numeric "
+"field using [+ - * /] value"
+msgstr ""
+"Вы можете выбрать числовое поле, а затем выполнить математическую операцию с "
+"другим числовым полем, используя значение [+ - * /]."
+
+#: views/woobe.php:26
+msgid "Your settings have been saved."
+msgstr "Ваши настройки были сохранены."

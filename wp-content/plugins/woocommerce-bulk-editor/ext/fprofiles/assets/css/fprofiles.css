@@ -1,0 +1,10 @@
+.woobe_tools_panel_fprofile_btn{
+    font-family: 'fontello';
+    font-size: 18px !important;
+}
+
+.woobe_tools_panel_fprofile_btn:before{
+    content: "\e824 \e825";
+}
+
+
