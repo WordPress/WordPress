@@ -6,7 +6,7 @@
  */
 
 /**
- * Return the HTTP protocol sent by the server.
+ * Returns the HTTP protocol sent by the server.
  *
  * @since 4.4.0
  *
@@ -21,7 +21,7 @@ function wp_get_server_protocol() {
 }
 
 /**
- * Fix `$_SERVER` variables for various setups.
+ * Fixes `$_SERVER` variables for various setups.
  *
  * @since 3.0.0
  * @access private
@@ -134,7 +134,7 @@ function wp_populate_basic_auth_from_authorization_header() {
 }
 
 /**
- * Check for the required PHP version, and the MySQL extension or
+ * Checks for the required PHP version, and the MySQL extension or
  * a database drop-in.
  *
  * Dies if requirements are not met.
@@ -310,7 +310,7 @@ function wp_get_development_mode() {
 }
 
 /**
- * Don't load all of WordPress when handling a favicon.ico request.
+ * Ensures all of WordPress is not loaded when handling a favicon.ico request.
  *
  * Instead, send the headers for a zero-length favicon and bail.
  *
@@ -325,7 +325,7 @@ function wp_favicon_request() {
 }
 
 /**
- * Die with a maintenance message when conditions are met.
+ * Dies with a maintenance message when conditions are met.
  *
  * The default message can be replaced by using a drop-in (maintenance.php in
  * the wp-content directory).
@@ -357,7 +357,7 @@ function wp_maintenance() {
 }
 
 /**
- * Check if maintenance mode is enabled.
+ * Checks if maintenance mode is enabled.
  *
  * Checks for a file in the WordPress root directory named ".maintenance".
  * This file will contain the variable $upgrading, set to the time the file
@@ -404,7 +404,7 @@ function wp_is_maintenance_mode() {
 }
 
 /**
- * Get the time elapsed so far during this PHP script.
+ * Gets the time elapsed so far during this PHP script.
  *
  * Uses REQUEST_TIME_FLOAT that appeared in PHP 5.4.0.
  *
@@ -417,7 +417,7 @@ function timer_float() {
 }
 
 /**
- * Start the WordPress micro-timer.
+ * Starts the WordPress micro-timer.
  *
  * @since 0.71
  * @access private
@@ -434,7 +434,7 @@ function timer_start() {
 }
 
 /**
- * Retrieve or display the time from the page start to when function is called.
+ * Retrieves or displays the time from the page start to when function is called.
  *
  * @since 0.71
  *
@@ -460,7 +460,7 @@ function timer_stop( $display = 0, $precision = 3 ) {
 }
 
 /**
- * Set PHP error reporting based on WordPress debug settings.
+ * Sets PHP error reporting based on WordPress debug settings.
  *
  * Uses three constants: `WP_DEBUG`, `WP_DEBUG_DISPLAY`, and `WP_DEBUG_LOG`.
  * All three can be defined in wp-config.php. By default, `WP_DEBUG` and
@@ -560,7 +560,7 @@ function wp_debug_mode() {
 }
 
 /**
- * Set the location of the language directory.
+ * Sets the location of the language directory.
  *
  * To set directory manually, define the `WP_LANG_DIR` constant
  * in wp-config.php.
@@ -605,7 +605,7 @@ function wp_set_lang_dir() {
 }
 
 /**
- * Load the database class file and instantiate the `$wpdb` global.
+ * Loads the database class file and instantiates the `$wpdb` global.
  *
  * @since 2.5.0
  *
@@ -633,7 +633,7 @@ function require_wp_db() {
 }
 
 /**
- * Set the database table prefix and the format specifiers for database
+ * Sets the database table prefix and the format specifiers for database
  * table columns.
  *
  * Columns not listed here default to `%s`.
@@ -704,7 +704,7 @@ function wp_set_wpdb_vars() {
 }
 
 /**
- * Toggle `$_wp_using_ext_object_cache` on and off without directly
+ * Toggles `$_wp_using_ext_object_cache` on and off without directly
  * touching global.
  *
  * @since 3.7.0
@@ -724,7 +724,7 @@ function wp_using_ext_object_cache( $using = null ) {
 }
 
 /**
- * Start the WordPress object cache.
+ * Starts the WordPress object cache.
  *
  * If an object-cache.php file exists in the wp-content directory,
  * it uses that drop-in as an external object cache.
@@ -832,7 +832,7 @@ function wp_start_object_cache() {
 }
 
 /**
- * Redirect to the installer if WordPress is not installed.
+ * Redirects to the installer if WordPress is not installed.
  *
  * Dies with an error message when Multisite is enabled.
  *
@@ -860,7 +860,7 @@ function wp_not_installed() {
 }
 
 /**
- * Retrieve an array of must-use plugin files.
+ * Retrieves an array of must-use plugin files.
  *
  * The default directory is wp-content/mu-plugins. To change the default
  * directory manually, define `WPMU_PLUGIN_DIR` and `WPMU_PLUGIN_URL`
@@ -892,7 +892,7 @@ function wp_get_mu_plugins() {
 }
 
 /**
- * Retrieve an array of active and valid plugin files.
+ * Retrieves an array of active and valid plugin files.
  *
  * While upgrading or installing WordPress, no plugins are returned.
  *
@@ -1045,7 +1045,7 @@ function wp_skip_paused_themes( array $themes ) {
 }
 
 /**
- * Is WordPress in Recovery Mode.
+ * Determines whether WordPress is in Recovery Mode.
  *
  * In this mode, plugins or themes that cause WSODs will be paused.
  *
@@ -1143,7 +1143,7 @@ function is_protected_ajax_action() {
 }
 
 /**
- * Set internal encoding.
+ * Sets internal encoding.
  *
  * In most cases the default internal encoding is latin1, which is
  * of no use, since we want to use the `mb_` functions for `utf-8` strings.
@@ -1162,7 +1162,7 @@ function wp_set_internal_encoding() {
 }
 
 /**
- * Add magic quotes to `$_GET`, `$_POST`, `$_COOKIE`, and `$_SERVER`.
+ * Adds magic quotes to `$_GET`, `$_POST`, `$_COOKIE`, and `$_SERVER`.
  *
  * Also forces `$_REQUEST` to be `$_GET + $_POST`. If `$_SERVER`,
  * `$_COOKIE`, or `$_ENV` are needed, use those superglobals directly.
@@ -1199,7 +1199,7 @@ function shutdown_action_hook() {
 }
 
 /**
- * Copy an object.
+ * Clones an object.
  *
  * @since 2.7.0
  * @deprecated 3.2.0
@@ -1327,7 +1327,7 @@ function is_user_admin() {
 }
 
 /**
- * If Multisite is enabled.
+ * Determines whether Multisite is enabled.
  *
  * @since 3.0.0
  *
@@ -1346,7 +1346,7 @@ function is_multisite() {
 }
 
 /**
- * Retrieve the current site ID.
+ * Retrieves the current site ID.
  *
  * @since 3.1.0
  *
@@ -1381,7 +1381,7 @@ function get_current_network_id() {
 }
 
 /**
- * Attempt an early load of translations.
+ * Attempts an early load of translations.
  *
  * Used for errors encountered during the initial loading process, before
  * the locale has been properly detected and loaded.
@@ -1486,7 +1486,7 @@ function wp_load_translations_early() {
 }
 
 /**
- * Check or set whether WordPress is in "installation" mode.
+ * Checks or sets whether WordPress is in "installation" mode.
  *
  * If the `WP_INSTALLING` constant is defined during the bootstrap, `wp_installing()` will default to `true`.
  *
@@ -1701,7 +1701,7 @@ function wp_is_file_mod_allowed( $context ) {
 }
 
 /**
- * Start scraping edited file errors.
+ * Starts scraping edited file errors.
  *
  * @since 4.9.0
  */
@@ -1730,7 +1730,7 @@ function wp_start_scraping_edited_file_errors() {
 }
 
 /**
- * Finalize scraping for edited file errors.
+ * Finalizes scraping for edited file errors.
  *
  * @since 4.9.0
  *
