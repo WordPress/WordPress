@@ -681,7 +681,7 @@ switch ( $action ) {
 							<?php endif; // End Show Password Fields. ?>
 
 							<?php // Allow admins to send reset password link. ?>
-							<?php if ( ! IS_PROFILE_PAGE ) : ?>
+							<?php if ( ! IS_PROFILE_PAGE && true === wp_is_password_reset_allowed_for_user( $profile_user ) ) : ?>
 								<tr class="user-generate-reset-link-wrap hide-if-no-js">
 									<th><?php _e( 'Password Reset' ); ?></th>
 									<td>

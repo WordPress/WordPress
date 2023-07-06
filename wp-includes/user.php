@@ -2897,25 +2897,11 @@ function get_password_reset_key( $user ) {
 	 */
 	do_action( 'retrieve_password', $user->user_login );
 
-	$allow = true;
-	if ( is_multisite() && is_user_spammy( $user ) ) {
-		$allow = false;
-	}
-
-	/**
-	 * Filters whether to allow a password to be reset.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @param bool $allow   Whether to allow the password to be reset. Default true.
-	 * @param int  $user_id The ID of the user attempting to reset a password.
-	 */
-	$allow = apply_filters( 'allow_password_reset', $allow, $user->ID );
-
-	if ( ! $allow ) {
+	$password_reset_allowed = wp_is_password_reset_allowed_for_user( $user );
+	if ( ! $password_reset_allowed ) {
 		return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user' ) );
-	} elseif ( is_wp_error( $allow ) ) {
-		return $allow;
+	} elseif ( is_wp_error( $password_reset_allowed ) ) {
+		return $password_reset_allowed;
 	}
 
 	// Generate something random for a password reset key.
@@ -5036,4 +5022,36 @@ function wp_register_persisted_preferences_meta() {
  */
 function wp_cache_set_users_last_changed() {
 	wp_cache_set_last_changed( 'users' );
+}
+
+/**
+ * Checks if password reset is allowed for a specific user.
+ *
+ * @since 6.3.0
+ *
+ * @param int|WP_User $user The user to check.
+ * @return bool|WP_Error True if allowed, false or WP_Error otherwise.
+ */
+function wp_is_password_reset_allowed_for_user( $user ) {
+	if ( ! is_object( $user ) ) {
+		$user = get_userdata( $user );
+	}
+
+	if ( ! $user || ! $user->exists() ) {
+		return false;
+	}
+	$allow = true;
+	if ( is_multisite() && is_user_spammy( $user ) ) {
+		$allow = false;
+	}
+
+	/**
+	 * Filters whether to allow a password to be reset.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param bool $allow   Whether to allow the password to be reset. Default true.
+	 * @param int  $user_id The ID of the user attempting to reset a password.
+	 */
+	return apply_filters( 'allow_password_reset', $allow, $user->ID );
 }
