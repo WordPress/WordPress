@@ -1,0 +1,53 @@
+/* iCheck plugin flat skin, black
+----------------------------------- */
+.icheckbox_flat-flat,
+.iradio_flat-flat {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(flat.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.icheckbox_flat-flat {
+    background-position: 0 0;
+}
+    .icheckbox_flat-flat.checked {
+        background-position: -22px 0;
+    }
+    .icheckbox_flat-flat.disabled {
+        background-position: -44px 0;
+        cursor: default;
+    }
+    .icheckbox_flat-flat.checked.disabled {
+        background-position: -66px 0;
+    }
+
+.iradio_flat-flat {
+    background-position: -88px 0;
+}
+    .iradio_flat-flat.checked {
+        background-position: -110px 0;
+    }
+    .iradio_flat-flat.disabled {
+        background-position: -132px 0;
+        cursor: default;
+    }
+    .iradio_flat-flat.checked.disabled {
+        background-position: -154px 0;
+    }
+
+/* HiDPI support */
+@media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi), (min-resolution: 1.25dppx) {
+    .icheckbox_flat-flat,
+    .iradio_flat-flat {
+        background-image: url(flat@2x.png);
+        -webkit-background-size: 176px 22px;
+        background-size: 176px 22px;
+    }
+}

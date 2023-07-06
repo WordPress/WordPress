@@ -1,0 +1,40 @@
+.woof_sid_auto_shortcode .woof_container_image{   
+   
+}
+
+.woof_sid_auto_shortcode .woof_container_inner_image{
+    padding: 9px;
+    background: #fff;
+    border-radius: 7px;
+}
+
+ul.woof_list_image{
+
+}
+
+ul.woof_list_image li {
+    display: inline-block;
+    float: none !important;
+    margin: 0 0 0 0 !important;
+    padding: 0 !important;
+}
+
+.woof_image_term {
+    display: block;        
+}
+
+.woof_image_term.checked, .woof_image_term:hover {
+    border-color: #292f38 !important;
+}
+
+.woof_image_checked {
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+.woof_image_text_term{
+    text-align: center;
+}

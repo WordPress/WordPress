@@ -1,0 +1,136 @@
+:root {
+    --ranger23-handler_width: 30px;
+    --ranger23-handler_height: 20px;
+    --ranger23-handler_bgcolor: #79b8ff;
+    --ranger23-handler_color: #ffffff;
+    --ranger23-handler_font_size: 11px;
+
+    --ranger23-bar_bgcolor: #c1e1ff;
+    --ranger23-bar_container_bgcolor: #f1f8ff;
+    --ranger23-bar_container_color: #4d1a7f;
+    
+    --ranger23-input_color: #000000;
+    --ranger23-input_width: 65px;
+    --ranger23-input_height: 30px;
+    --ranger23-input_font_size: 14px;
+    --ranger23-input_border_color: #dddddd;
+    --ranger23-input_border_width: 1px;
+    --ranger23-input_padding: 3px;
+}
+
+.ranger23-container{
+    position: relative;
+    width: 100%;
+    height: var(--ranger23-handler_height);
+    background: var(--ranger23-bar_container_bgcolor);
+    overflow: hidden;
+}
+
+.ranger23-handler-left,
+.ranger23-handler-right{
+    position: absolute;
+    z-index: 1;
+    height: var(--ranger23-handler_height);
+    width: var(--ranger23-handler_width);
+    background: var(--ranger23-handler_bgcolor);
+    outline: 1px solid var(--ranger23-handler_color);
+    color: var(--ranger23-handler_color);
+}
+
+.ranger23-handler-left{
+    left: 0;
+}
+
+.ranger23-handler-right{
+    right: 0;
+}
+
+.ranger23-handler-left:active, .ranger23-handler-right:active{
+    cursor: e-resize
+}
+
+.ranger23-handler-left span,
+.ranger23-handler-right span{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: var(--ranger23-handler_height);
+    user-select: none;
+    text-align: center;
+    line-height: 0;
+    font-size: var(--ranger23-handler_font_size);
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.ranger23-bar{
+    position: absolute;
+    height: var(--ranger23-handler_height);
+    background: var(--ranger23-bar_bgcolor);
+    width: calc(100% - 2*var(--ranger23-handler_width));
+    left: var(--ranger23-handler_width);
+}
+
+.ranger23-bar-var-equal{
+    background: repeating-linear-gradient(
+        135deg,
+        #f7f9fe,
+        #f7f9fe 3px,
+        #96588a 3px,
+        #96588a 6px
+        ) !important;
+}
+
+.ranger23-min,
+.ranger23-max{
+    position: absolute;
+    z-index: 0;
+    color: var(--ranger23-bar_container_color);
+    top: 50%;
+    user-select: none;
+    line-height: 0;
+    font-size: calc(var(--ranger23-handler_font_size) - 2px);
+    cursor: pointer;
+}
+
+.ranger23-min{
+    left: 2px;
+}
+
+.ranger23-max{
+    right: 2px;
+}
+
+.ranger23-handler-left-disabled{
+    background: var(--ranger23-bar_bgcolor);
+    background: repeating-linear-gradient(
+        135deg,
+        var(--ranger23-bar_bgcolor),
+        var(--ranger23-bar_bgcolor) 2px,
+        #92bce0 2px,
+        #92bce0 4px
+        ) !important;
+}
+
+input.ranger23-slider-input {
+    width: var(--ranger23-input_width) !important;
+    min-height: 20px !important;
+    height: var(--ranger23-input_height) !important;
+    margin-bottom: 2px !important;
+    font-size: var(--ranger23-input_font_size) !important;
+    border-color: var(--ranger23-input_border_color) !important;
+    border-width: var(--ranger23-input_border_width) !important;
+    color: var(--ranger23-input_color) !important;
+    line-height: 0 !important;
+    padding: var(--ranger23-input_padding) !important;
+}
+
+input.ranger23-slider-input-right{
+    float: right;
+    clear: right;
+}
+
+input.ranger23-slider-input-left {
+    float: left;
+}

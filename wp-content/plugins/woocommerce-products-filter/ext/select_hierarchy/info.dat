@@ -1,0 +1,4 @@
+title="Hierarchy drop-down"
+version="1.1"
+description="Hierarchical drop-downs. <a href="https://demo.products-filter.com/working-with-hierarchy-drop-down/" target="_blank">Example of using</a>: custom taxonomy 'Location', where parent is сountry, сhild is city, sub-child is district"
+link="https://products-filter.com/extencion/hierarchy-drop-down/"

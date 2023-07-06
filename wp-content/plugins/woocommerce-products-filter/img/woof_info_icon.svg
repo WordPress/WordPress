@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
+    <metadata>
+        <x:xmpmeta x:xmptk="Adobe XMP Core 5.6-c142 79.160924, 2017/07/13-01:06:39" xmlns:x="adobe:ns:meta/">
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                <rdf:Description rdf:about=""/>
+            </rdf:RDF>
+        </x:xmpmeta>
+    </metadata>
+    <defs>
+        <style>.cls-1 {
+            fill: #226122;
+            filter: url(#b);
+            }
+
+            .cls-2 {
+            fill: #fff;
+            }
+
+            .cls-3 {
+            fill: #0ec00e;
+            filter: url(#a);
+            }</style>
+        <filter id="b" x="6" y="6" width="628" height="628" filterUnits="userSpaceOnUse">
+            <feFlood flood-color="#3a74b4" result="flood"/>
+            <feComposite in2="SourceGraphic" operator="in" result="composite"/>
+            <feBlend in2="SourceGraphic" result="blend"/>
+        </filter>
+        <filter id="a" x="35" y="39" width="562" height="562" filterUnits="userSpaceOnUse">
+            <feFlood flood-color="#55a6ff" result="flood"/>
+            <feComposite in2="SourceGraphic" operator="in" result="composite"/>
+            <feBlend in2="SourceGraphic" result="blend"/>
+        </filter>
+    </defs>
+    <circle class="cls-1" cx="320" cy="320" r="314"/>
+    <circle class="cls-2" cx="317" cy="320" r="290" data-name="Ellipse 1 Kopie"/>
+    <circle class="cls-3" cx="316" cy="320" r="281" data-name="Ellipse 1 Kopie 2"/>
+    <rect class="cls-2" x="278" y="253" width="84" height="272" rx="30" ry="30" data-name="Abgerundetes Rechteck 1"/>
+    <rect class="cls-2" x="278" y="135" width="84" height="78" rx="30" ry="30" data-name="Abgerundetes Rechteck 1 Kopie"/>
+</svg>

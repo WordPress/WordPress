@@ -1,0 +1,2940 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2022-01-20 16:07+0000\n"
+"PO-Revision-Date: 2022-02-02 17:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: Deutsch\n"
+"MIME-Version: 1.0\n"
+"Language: de-DE\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Report-Msgid-Bugs-To: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.5.8; wp-5.9"
+
+msgid "(Statistic collected from: %s %d)"
+msgstr "Titel der Abfrage*"
+
+msgid "(zip)"
+msgstr "(zip)"
+
+msgid "+SKU"
+msgstr "+ SKU"
+
+msgid "12 hours recommended"
+msgstr "12 Stunden empfohlen"
+
+msgid "AND"
+msgstr "UND"
+
+msgid ""
+"AND or OR: if to select AND and on the site front select 2 terms - will be "
+"found products which contains both terms on the same time."
+msgstr ""
+"UND oder ODER: Wenn Sie UND auswählen und auf der Website-Front zwei "
+"Begriffe auswählen, werden Produkte gefunden, die beide Begriffe "
+"gleichzeitig enthalten."
+
+msgid "ASC"
+msgstr "ASC"
+
+msgid ""
+"ATTENTION! Your version of the woocommerce plugin is too obsolete. There is "
+"no warranty for working with WOOF!!"
+msgstr ""
+"Achtung! Ihre Version des Woocommerce-Plugins ist veraltet. Es gibt keine "
+"Garantie für die Arbeit mit WOOF!!"
+
+msgid ""
+"Ability to search by the description of the any variation in the variable "
+"product"
+msgstr ""
+"Möglichkeit über die Beschreibung nach einer beliebigen Variante des "
+"variablen Produkts zu suchen."
+
+msgid "About extension"
+msgstr "Über die Erweiterung"
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+"Aktion fehlgeschlagen. Bitte aktualisieren Sie die Seite und versuchen Sie "
+"es erneut."
+
+msgid "Activates the ability to search by SKU from the same text-input"
+msgstr ""
+"Aktiviert die Möglichkeit, über dieselbe Texteingabe nach einer SKU zu suchen"
+
+msgid "Actualized for WooCommerce v.%s.x"
+msgstr "Aktualisiert für WooCommerce v.%s.x"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Add Custom key by hands"
+msgstr "Fügen Sie den individuellen Schlüssel von Hand hinzu"
+
+msgid "Add section"
+msgstr "Abschnitt hinzufügen"
+
+msgid "Add this query"
+msgstr "Fügen Sie diese Abfrage hinzu"
+
+msgid "Additional Quick-search Filter options"
+msgstr "Zusätzliche Optionen für den Schnellsuchfilter"
+
+msgid "Additional search data for text search"
+msgstr "Zusätzliche Suchdaten für die Textsuche"
+
+msgid ""
+"Additional search data: which taxonomies terms titles should be included "
+"into TEXT search data file. So, your customers will be able to find with "
+"TEXT search input also products using your taxonomies terms titles! After "
+"selecting new taxonomies here do not forget press Save and then Reassemble "
+"data file!"
+msgstr ""
+"Zusätzliche Suchdaten: Welche Taxonomiebegriffe sollten in die TEXT-"
+"Suchdatendatei aufgenommen werden? So können Ihre Kunden mit der TEXT-Suche "
+"auch Produkte finden, die Ihre Taxonomiebegriffe verwenden! Vergessen Sie "
+"nach der Auswahl neuer Taxonomien nicht, auf Speichern zu klicken und dann "
+"die Datendatei wieder zusammenzusetzen!"
+
+msgid "Additional text before"
+msgstr "Zusätzlicher Text vor"
+
+msgid "Adv"
+msgstr "Adv"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Advanced info is here"
+msgstr "Erweiterte Informationen finden Sie hier"
+
+msgid ""
+"After activation of Turbo Mode firstly what should be done is generating of "
+"the data file, see button below. And also do not forget to set cron mode."
+msgstr ""
+"Nach der Aktivierung des Turbo-Modus sollte zunächst die Datendatei "
+"generiert werden (siehe Button unten). Und vergessen Sie auch nicht, den "
+"Cron-Modus einzustellen."
+
+msgid ""
+"After installing all settings for statistics assembling - enable it here"
+msgstr ""
+"Nachdem Sie alle Einstellungen für die Statistikerstellung gemacht / "
+"installiert haben, aktivieren Sie diese hier"
+
+msgid "All"
+msgstr "Alles"
+
+msgid ""
+"Allows to wrap filter-elements into [close/open]-sections and make filter "
+"form more compact."
+msgstr ""
+"Ermöglicht das Umschließen von Filterelementen in [Schließen / Öffnen]-"
+"Abschnitte um die Filterform kompakter zu machen."
+
+msgid "Any"
+msgstr "Jedes"
+
+msgid "Any image for closed html-items block 20x20"
+msgstr "Jedes Bild für geschlossene HTML-Elemente blockiert 20x20 px"
+
+msgid "Any image for opened html-items block 20x20"
+msgstr "Jedes Bild für geöffnete HTML-Elemente blockiert 20x20 px"
+
+msgid "Any notes for customer"
+msgstr "Hinweise für den Kunden"
+
+msgid "Any notes for customer."
+msgstr "Hinweise für den Kunden."
+
+msgid "Any text notes for customer under subscription form."
+msgstr "Hinweise für den Kunden unter dem Abonnementenformular."
+
+msgid ""
+"Any text notes for customer. Example: Sorry! This product is not suitable "
+"for your search %title%."
+msgstr ""
+"Hinweise für den Kunden. Beispiel: Entschuldigung! Dieses Produkt ist für "
+"Ihre Suche nicht geeignet %title%."
+
+msgid ""
+"Any text notes for customer. Example: This product matches your search: "
+"%title%."
+msgstr ""
+"Hinweise für den Kunden. Beispiel: Dieses Produkt entspricht Ihrer Suche: "
+"%title%."
+
+msgid "Are you sure?"
+msgstr "Bist du sicher?"
+
+msgid "As checkbox"
+msgstr "Als Checkbox"
+
+msgid "As drop-down"
+msgstr "Als Dropdown"
+
+msgid "As ion range-slider"
+msgstr "Als Ion-Bereichsregler"
+
+msgid "As radio"
+msgstr "Als Schaltknopf"
+
+msgid "As radio button"
+msgstr "Als Schaltknopf"
+
+msgid "As textinputs"
+msgstr "Als Texteingaben"
+
+msgid "As woo range-slider"
+msgstr "Als Woo Range-Slider"
+
+msgid ""
+"Attention! This is the last email. If you want to continue get such emails ->"
+" Go by next link and subscribe again"
+msgstr ""
+"Achtung! Dies ist die letzte E-Mail. Wenn Sie weiterhin solche E-Mails "
+"erhalten möchten -> Gehen Sie zum nächsten Link und abonnieren Sie erneut"
+
+msgid "Author:"
+msgstr "Autor:"
+
+msgid "Auto filter close/open image"
+msgstr "Automatischer Filter zum schließen / öffnen eines Bildes"
+
+msgid "Auto filter close/open text"
+msgstr "Automatischer Filter zum schließen / öffnen von Text"
+
+msgid "Autocomplete"
+msgstr "Automatische Vervollständigung"
+
+msgid "Autocomplete products count"
+msgstr "Produktzahl automatisch vervollständigen"
+
+msgid "Autocomplete relevant variants in SKU textinput"
+msgstr ""
+"Relevante Varianten in der SKU-Texteingabe automatisch vervollständigen"
+
+msgid "Autocomplete relevant variants in by_text textinput"
+msgstr ""
+"Relevante Varianten in der by_text-Texteingabe automatisch vervollständigen"
+
+msgid "Autosubmit"
+msgstr "Automatische Übermittlung"
+
+msgid "Behavior"
+msgstr "Verhalten"
+
+msgid "Behavior as radio button"
+msgstr "Verhalten als Schaltknopf"
+
+msgid "Behavior of how the filter sections will open."
+msgstr "Verhalten, wie sich die Filterabschnitte öffnen."
+
+msgid "Behavior of reset button"
+msgstr "Verhalten des Reset-Buttons"
+
+msgid ""
+"Boost speed of products filtering. This mode allows to avoid generating big "
+"MySQL queries while products filtering on the site front what makes less "
+"loading to the server and getting filtering results more quick"
+msgstr ""
+"Erhöhen Sie die Geschwindigkeit der Produktfilterung. Dieser Modus "
+"ermöglicht es, große MySQL-Abfragen zu vermeiden, während die Produkte auf "
+"der Website gefiltert werden, was die Belastung des Servers verringert und "
+"schneller Filterergebnisse liefert."
+
+msgid "Both"
+msgstr "Beide"
+
+msgid "Bottom"
+msgstr "Unten"
+
+msgid "Button as"
+msgstr "Button als"
+
+msgid "Button image size"
+msgstr "Bildgröße des Buttons"
+
+msgid "Button label"
+msgstr "Button-Beschriftung"
+
+msgid "Button offset (px) from top or left from the window edge"
+msgstr "Button-Versatz (px) von oben oder links vom Fensterrand"
+
+msgid "By author"
+msgstr "Nach Autor"
+
+msgid "By date"
+msgstr "Nach Datum"
+
+msgid "By emails count"
+msgstr "Nach E-Mail-Anzahl"
+
+msgid "By rating"
+msgstr "Nach Wertung"
+
+msgid "By rating drop-down"
+msgstr "Nach Wertungs-Dropdown"
+
+msgid "By text"
+msgstr "Nach Text"
+
+msgid ""
+"By this button you can set settings and generate shortcode for your needs "
+"for on single pages. After using, if you do not want the settings became "
+"globals, refresh the page to avoid settings saving!"
+msgstr ""
+"Mit diesem Button können Sie Einstellungen setzen und Shortcodes für Ihre "
+"Zwecke auf einzelnen Seiten generieren. Wenn Sie nach der Verwendung nicht "
+"möchten, dass die Einstellungen global werden, aktualisieren Sie die Seite, "
+"um das Speichern der Einstellungen zu vermeiden!"
+
+msgid "Cache dynamic recount number for each item in filter"
+msgstr ""
+"Cachen Sie die dynamische Nachzählungsnummer für jedes Element im Filter"
+
+msgid "Cache folder"
+msgstr "Cache-Ordner"
+
+msgid ""
+"Cache pages, allow to make a lot of search queries on your site without high "
+"load on your server!"
+msgstr ""
+"Cache-Seiten ermöglichen auf Ihrer Website eine Menge Suchanfragen ohne hohe "
+"Last auf Ihrem Server zu erzeugen!"
+
+msgid "Cache terms"
+msgstr "Cache-Begriffe"
+
+msgid "Calculate Statistics"
+msgstr "Statistiken berechnen"
+
+msgid "Cheatin’ huh?"
+msgstr "Schummeln, oder?"
+
+msgid "Check DB connection"
+msgstr "Überprüfen Sie die DB-Verbindung"
+
+msgid "Check search logic AND/OR"
+msgstr "Überprüfen Sie die Suchlogik UND / ODER"
+
+msgid "Checkbox"
+msgstr "Checkbox"
+
+msgid "Choose an extension zip"
+msgstr "Wählen Sie eine Erweiterung (zip)"
+
+msgid "Clear"
+msgstr "Bereinigen"
+
+msgid "Clear All"
+msgstr "Alle bereinigen"
+
+msgid "Clear text input"
+msgstr "Texteingabe löschen"
+
+msgid "Click"
+msgstr "Klicke"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Color"
+msgstr "Farbe"
+
+msgid "Conditions logic"
+msgstr "Bedingungslogik"
+
+msgid "Container max-height (px). 0 means no max-height."
+msgstr "Maximale Höhe (px) des Containers. 0 bedeutet keine maximale Höhe."
+
+msgid "Create new section. Don`t forget to click on the save button."
+msgstr ""
+"Neuen Abschnitt erstellen. Vergessen Sie nicht, auf Speichern zu klicken."
+
+msgid "Create section"
+msgstr "Abschnitt erstellen"
+
+msgid "Creating"
+msgstr "Erstellen"
+
+msgid "Cron type"
+msgstr "Cron-Typ"
+
+msgid ""
+"Css class of ordering dropdown container. Is needed for ajax compatibility "
+"with wp themes. If you do not understand, leave it blank."
+msgstr ""
+"CSS-Klasse des Bestell-Dropdown-Containers. Wird für die AJAX-Kompatibilität "
+"mit WP-Themes benötigt. Wenn Sie es nicht verstehen, lassen Sie es leer."
+
+msgid ""
+"Css class of per page dropdown container. Is needed for ajax compatibility "
+"with wp themes. If you do not understand, leave it blank."
+msgstr ""
+"CSS-Klasse des Dropdown-Containers pro Seite. Wird für die AJAX-"
+"Kompatibilität mit WP-Themes benötigt. Wenn Sie es nicht verstehen, lassen "
+"Sie es leer."
+
+msgid ""
+"Css class of result-count container. Is needed for ajax compatibility with "
+"wp themes. If you do not understand, leave it blank."
+msgstr ""
+"CSS-Klasse des Ergebniszähl-Containers. Wird für die AJAX-Kompatibilität mit "
+"WP-Themes benötigt. Wenn Sie es nicht verstehen, lassen Sie es leer."
+
+msgid "Custom CSS code"
+msgstr "Individueller CSS-Code"
+
+msgid "Custom extensions folder"
+msgstr "Individueller Erweiterungsordner"
+
+msgid "Custom extensions folder path relative to: %s"
+msgstr "Individueller Pfad des Erweiterungsordners relativ zu: %s"
+
+msgid "Custom extensions installation"
+msgstr "Installation von individuellen Erweiterungen"
+
+msgid "Custom front css styles file link"
+msgstr "Dateilink für individuelle Front-CSS-Stile "
+
+msgid "Custom text of the button"
+msgstr "Individueller Button-Text"
+
+msgid "DB Name"
+msgstr "DB-Name"
+
+msgid "DESC"
+msgstr "DESC"
+
+msgid "Data for default filter"
+msgstr "Daten für Standardfilter"
+
+msgid "Database not connected! ERROR!"
+msgstr "Datenbank nicht verbunden! FEHLER!"
+
+msgid "Database not connected! ERROR:"
+msgstr "Datenbank nicht verbunden! FEHLER:"
+
+msgid "Database successfully connected!!!"
+msgstr "Datenbank erfolgreich verbunden!!!"
+
+msgid "Database successfully updated!!!"
+msgstr "Datenbank erfolgreich aktualisiert!!!"
+
+msgid "Datepicker"
+msgstr "Datumsauswahl"
+
+msgid ""
+"Dear [DISPLAY_NAME], we increased the range of our products. Number of new "
+"products: [PRODUCT_COUNT]"
+msgstr ""
+"Sehr geehrter [DISPLAY_NAME], wir haben die Produktpalette erweitert. Anzahl "
+"neuer Produkte: [PRODUCT_COUNT]"
+
+msgid "Default"
+msgstr "Standard"
+
+msgid "Default - mm/dd/yy"
+msgstr "Standard - MM / TT / JJ"
+
+msgid "Default extensions"
+msgstr "Standarderweiterungen"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Demo sites"
+msgstr "Demo-Sites"
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Direct links to posts in autocomplete suggestion"
+msgstr ""
+"Direkt-Links zu Beiträgen im Vorschlag für die automatische Vervollständigung"
+
+msgid "Direction of terms sorted inside of filter block"
+msgstr "Richtung der Begriffe, die innerhalb des Filterblocks sortiert sind"
+
+msgid "Disable swoof influence"
+msgstr "Swoof-Einfluss deaktivieren"
+
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+msgid "Display items in a row"
+msgstr "Elemente in einer Reihe anzeigen"
+
+msgid "Display message if current product is suitable for saved search"
+msgstr ""
+"Meldung anzeigen, ob das aktuelle Produkt für die gespeicherte Suche "
+"geeignet ist"
+
+msgid "Documentation"
+msgstr "Dokumentation"
+
+msgid "Drop-down"
+msgstr "Dropdown-Liste"
+
+msgid "Drop-down OR radio"
+msgstr "Dropdown ODER Schaltknopf"
+
+msgid "Drop-down OR radio price filter ranges"
+msgstr "Dropdown- ODER Schaltknopf-Preisfilterbereiche"
+
+msgid "Drop-down price filter first option text"
+msgstr "Dropdown-Preisfilter erster Optionstext"
+
+msgid "Drop-down price filter text"
+msgstr "Dropdown-Preisfiltertext"
+
+msgid "Drop-down to filter ptoducts by rating"
+msgstr "Dropdown-Liste zum Filtern von Produkten nach Wertung"
+
+msgid ""
+"Duplicate, clone, backup, move and transfer an entire site from one location "
+"to another."
+msgstr ""
+"Duplizieren, klonen, sichern, verschieben und übertragen Sie eine gesamte "
+"Site von einem Ort zu einem anderen."
+
+msgid "Dynamic recount"
+msgstr "Dynamische Nachzählung"
+
+msgid "Dynamic recount for current search form"
+msgstr "Dynamische Nachzählung für das aktuelle Suchformular"
+
+msgid "EXACT"
+msgstr "GENAU"
+
+msgid "Emails count"
+msgstr "E-Mails zählen"
+
+msgid "Enable turbo mode"
+msgstr "Turbomodus aktivieren"
+
+msgid "Enabled"
+msgstr "Aktiviert"
+
+msgid ""
+"Enter any random text in the field and use it in the external cron with link "
+"like: http://mysite.com/?woof_stat_collection=__YOUR_SECRET_KEY_HERE__"
+msgstr ""
+"Geben Sie einen beliebigen Text in das Feld ein und verwenden Sie ihn im "
+"externen Cron mit folgendem Link: http://mysite.com/?"
+"woof_stat_collection=__YOUR_SECRET_KEY_HERE__"
+
+msgid ""
+"Enter count of terms which should be visible to make all other collapsible. "
+"\"Show more\" button will be appeared. This feature is works with: radio, "
+"checkboxes, labels, colors."
+msgstr ""
+"Geben Sie die Anzahl der Begriffe ein, die sichtbar sein sollen, damit alle "
+"anderen Begriffe zusammenklappbar sind. Der Button \"Mehr anzeigen\" wird "
+"angezeigt. Diese Funktion funktioniert mit: Schaltknöpfen, Checkboxen, "
+"Beschriftungen, Farben."
+
+msgid "Enter tooltip text if necessary"
+msgstr "Geben Sie ggf. einen Tooltip-Text ein"
+
+msgid "Error! Please read documents"
+msgstr "Fehler! Bitte lesen Sie die Dokumentation"
+
+msgid "Europe - dd-mm-yy"
+msgstr "Europäisch - TT-MM-JJ"
+
+msgid "Exact match"
+msgstr "Exakte Übereinstimmung"
+
+msgid "Exact value"
+msgstr "Genauer Wert"
+
+msgid "Example"
+msgstr "Beispiel"
+
+msgid "Example: 0-50,51-100,101-i. Where \"i\" is infinity."
+msgstr "Beispiel: 0-50,51-100,101-i. Wobei \"i\" unendlich ist."
+
+msgid "Example: 0-50,51-100,101-i. Where \"i\" is infinity. Max price is %s."
+msgstr ""
+"Beispiel: 0-50,51-100,101-i. Wobei \"i\" unendlich ist. Maximaler Preis ist "
+"%s."
+
+msgid "Example: 1^100"
+msgstr "Beispiel: 1 ^ 100"
+
+msgid "Exclude On backorder"
+msgstr "Bei Nachbestellung ausschließen"
+
+msgid "Exclude on backorder"
+msgstr "Bei Nachbestellung ausschließen"
+
+msgid "Exclude products on backorder"
+msgstr "Produkte bei Nachbestellung ausschließen"
+
+msgid "Exclude: On backorder"
+msgstr "Ausschluss: Bei Nachbestellung"
+
+msgid "Export data"
+msgstr "Daten exportieren"
+
+msgid "Export/Import"
+msgstr "Export / Import"
+
+msgid ""
+"Exports your database, does a find and replace on URLs and file paths, then "
+"allows you to save it to your computer."
+msgstr ""
+"Exportiert Ihre Datenbank, sucht und ersetzt URLs und Dateipfade und kann "
+"sie dann auf Ihrem Computer speichern."
+
+msgid "Ext-Applications options"
+msgstr "Optionen für Ext-Anwendungen"
+
+msgid "Extensions"
+msgstr "Erweiterungen"
+
+msgid "External Cron"
+msgstr "Externer Cron"
+
+msgid ""
+"External cron is more predictable with time of execution, but additional "
+"knowledge how to set it correctly is required (External cron will be ready "
+"in the next version of the extension)"
+msgstr ""
+"Ein externer Cron ist mit einer Ausführungszeit vorhersehbarer, es sind "
+"jedoch zusätzliche Kenntnisse zur korrekten Einstellung erforderlich "
+"(externer Cron wird in der nächsten Version der Erweiterung verfügbar sein )."
+
+msgid "External cron key (is recommended as flexible for timetable)"
+msgstr "Externer Cron-Schlüssel (wird als flexibel für den Zeitplan empfohlen)"
+
+msgid "FAQ"
+msgstr "FAQ"
+
+msgid "Featured checkbox"
+msgstr "Empfohlene Checkbox"
+
+msgid "Featured product"
+msgstr "Ausgewähltes Produkt (Featured Product)"
+
+msgid "File updated!!!"
+msgstr "Datei aktualisiert!!!"
+
+msgid "Filter"
+msgstr "Filtern"
+
+msgid "Filter button text"
+msgstr "Text für Filter-Button"
+
+msgid "Filter button text in the search form"
+msgstr "Text für Filter-Button im Suchformular"
+
+msgid "Filter by rating"
+msgstr "Nach Bewertung filtern"
+
+msgid "First drop-down option placeholder text OR title for checkboxes"
+msgstr "Erster Platzhaltertext der Dropdown-Option ODER Titel für Checkbox"
+
+msgid "Flat dark (1column)"
+msgstr "Flach dunkel (1 Spalte)"
+
+msgid "Flat dark (2columns)"
+msgstr "Flach dunkel (2 Spalten)"
+
+msgid "Flat dark (3columns)"
+msgstr "Flach dunkel (3 Spalten)"
+
+msgid "Flat dark (4columns) without sidebar*"
+msgstr "Flach dunkel (4 Spalten) ohne Seitenleiste*"
+
+msgid "Flat grey (1column)"
+msgstr "Flach grau (1 Spalte)"
+
+msgid "Flat grey (2columns)"
+msgstr "Flach grau (2 Spalten)"
+
+msgid "Flat grey (3columns)"
+msgstr "Flach grau (3 Spalten)"
+
+msgid "Flat grey (4columns) without sidebar*"
+msgstr "Flach grau (4 Spalten) ohne Seitenleiste*"
+
+msgid ""
+"For developers who want to rewrite front css of the plugin front side. You "
+"are need to know CSS for this!"
+msgstr ""
+"Für Entwickler, die das Front-CSS der Plugin-Vorderseite neu schreiben "
+"möchten. Dafür müssen Sie sich mit CSS auskennen!"
+
+msgid ""
+"For example you want to show title of Product Categories as \"My Products\". "
+"Just for your convenience."
+msgstr ""
+"Beispielsweise möchten Sie den Titel der Produktkategorien als \"Meine "
+"Produkte\" anzeigen. Nur für Ihre Bequemlichkeit."
+
+msgid "For external cron use the next link"
+msgstr "Für externen Cron verwenden Sie den nächsten Link"
+
+msgid ""
+"For more marketing attraction of the shop WOOF team recommends you to install"
+msgstr ""
+"Für eine besser Vermarktung des Shops empfiehlt das WOOF-Team die "
+"Installation"
+
+msgid "For simple and for variables products"
+msgstr "Für einfache und für variable Produkte"
+
+msgid "For simple products only"
+msgstr "Nur für einfache Produkte"
+
+msgid ""
+"For variable products you can show an image depending on the current filter "
+"selection. For example you have variation with red color, and that varation "
+"has its own preview image - if on the site front user will select red color "
+"this imag will be shown. You can select attributes by which images will be "
+"selected"
+msgstr ""
+"Bei variablen Produkten können Sie abhängig von der aktuellen Filterauswahl "
+"ein Bild anzeigen. Zum Beispiel haben Sie eine Variation mit roter Farbe, "
+"und diese Variation hat ein eigenes Vorschaubild. Wenn der Besucher auf der "
+"Website die rote Farbe auswählt, wird dieses Bild angezeigt. Sie können "
+"Attribute auswählen, anhand derer Bilder ausgewählt werden"
+
+msgid ""
+"For which type of products will be realized searching by SKU. Request for "
+"variables products creates more mysql queries in database ..."
+msgstr ""
+"Für welche Art von Produkten wird die Suche nach SKU realisiert? Die Abfrage "
+"von variablen Produkten erzeugt mehr MySQL-Abfragen in der Datenbank ..."
+
+msgid "Form AJAX redrawing"
+msgstr "Formular AJAX neu zeichnen"
+
+msgid "From"
+msgstr "Ab"
+
+msgid "Full - DD, d MM, yy"
+msgstr "Voll - TT, TT MM, JJ"
+
+msgid "GDPR"
+msgstr "DSGVO"
+
+msgid "GDPR info"
+msgstr "DSGVO-Info"
+
+msgid "Generate attributes for shortcode [woof]"
+msgstr "Attribute für Shortcode [woof] erstellen"
+
+msgid "Generate data for export"
+msgstr "Daten für den Export erstellen"
+
+msgid "Generate shortcode"
+msgstr "Shortcode erstellen"
+
+msgid "Get"
+msgstr "Erhalten"
+
+msgid "Get keys from any product by its ID"
+msgstr "Schlüssel eines beliebigen Produkts anhand seiner ID abrufen"
+
+msgid "Global visibility"
+msgstr "Globale Sichtbarkeit"
+
+msgid "Go Pro!"
+msgstr "Profi werden!"
+
+msgid ""
+"Google charts library not loaded! If site is on localhost just disable "
+"statistic extension in tab Extensions!"
+msgstr ""
+"Google Charts-Bibliothek nicht geladen! Wenn sich die Site auf localhost "
+"befindet, deaktivieren Sie einfach die Statistik-Erweiterung in der "
+"Registerkarte Erweiterungen!"
+
+msgid "Graphics"
+msgstr "Grafiken"
+
+msgid ""
+"Helps to more quickly find the minimum and maximum values for the filter by "
+"price on the site front and minimize server loading."
+msgstr ""
+"Hilft im Frontend die minimalen und maximalen Werte für den Preisfilter "
+"schneller zu finden und die Serverlast zu minimieren."
+
+msgid ""
+"Here is generated WOOF settings data for export. You can only export WOOF "
+"settings and not taxonomies or other site data. For taxonomies, products and "
+"other use special third-party plugins."
+msgstr ""
+"Hier werden WOOF-Einstellungsdaten für den Export generiert. Sie können nur "
+"WOOF-Einstellungen exportieren und keine Taxonomien oder andere Website-"
+"Daten. Verwenden Sie für Taxonomien, Produkte und andere Daten spezielle "
+"Plugins von Drittanbietern."
+
+msgid "Hide"
+msgstr "Ausblenden"
+
+msgid "Hide auto filter by default"
+msgstr "Automatischen Filter standardmäßig ausblenden"
+
+msgid "Hide childs in checkboxes and radio"
+msgstr "Verstecke untergeordnete Elemente in Checkboxen und Schaltknöpfen"
+
+msgid ""
+"Hide childs in checkboxes and radio. Near checkbox/radio which has childs "
+"will be plus icon to show childs."
+msgstr ""
+"Untergeordnete Elemente in Checkboxen und Optionsfeldern ausblenden. In der "
+"Nähe der Checkbox / des Optionsfeldes mit den untergeordneten Elementen "
+"befindet sich ein Plus-Symbol, um die untergeordneten Elemente anzuzeigen."
+
+msgid "Hide empty terms"
+msgstr "Leere Begriffe ausblenden"
+
+msgid "Hide empty terms in \"Dynamic recount\" mode"
+msgstr "Verstecken Sie leere Begriffe im Modus \"Dynamische Nachzählung\""
+
+msgid "Hide search form by default and show one button instead"
+msgstr ""
+"Suchformular standardmäßig ausblenden und stattdessen einen Button anzeigen"
+
+msgid "Hide terms count text"
+msgstr "Text der Begriffszählung ausblenden"
+
+msgid "Hide woof top panel buttons"
+msgstr "Woof-Buttons im oberen Bereich ausblenden"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Hover"
+msgstr "Schweben"
+
+msgid "How long user will get emails after subscription"
+msgstr "Wie lange der Benutzer nach dem Abonnement E-Mails erhält"
+
+msgid ""
+"How many search requests will be catched and written down into the "
+"statistical mySQL table per 1 unique user before cron will assemble the data"
+msgstr ""
+"Wie viele Suchanfragen werden pro Benutzer abgefangen und in die "
+"statistische mySQL-Tabelle geschrieben, bevor cron die Daten zusammenstellt"
+
+msgid "How many show products in the autocomplete list"
+msgstr ""
+"Wie viele Produkte werden in der Autovervollständigungsliste angezeigt?"
+
+msgid ""
+"How many taxonomies and terms to show on the graphs. Use no more than 10 to "
+"understand situation with statistical data"
+msgstr ""
+"Wie viele Taxonomien und Begriffe sollen in den Diagrammen angezeigt werden? "
+"Verwenden Sie nicht mehr als 10, um die Situation mit statistischen Daten zu "
+"verstehen"
+
+msgid ""
+"How many taxonomies per one search request will be written down into the "
+"statistical mySQL table for 1 unique user. The excess data will be truncated!"
+" Number 5 is recommended. More depth - more space in the DataBase will be "
+"occupied by the data"
+msgstr ""
+"Wie viele Taxonomien pro Suchanfrage werden in die statistische mySQL-"
+"Tabelle für einen einzelnen Benutzer geschrieben. Die überzähligen Daten "
+"werden abgeschnitten! Empfohlen werden 5. Je tiefer, desto mehr Platz wird "
+"von den Daten in der Databank belegt"
+
+msgid "How often assemble data file"
+msgstr "Wie oft wird eine Datendatei zusammengestellt?"
+
+msgid "How often update products data file"
+msgstr "Wie oft wird die Produktdatendatei aktualisiert?"
+
+msgid "How to assemble statistic"
+msgstr "Wie man eine Statistik zusammenstellt"
+
+msgid "How to open links with posts in suggestion"
+msgstr "So öffnen Sie Links mit vorgeschlagenen Beiträgen"
+
+msgid "How to sort terms inside of filter block"
+msgstr "So sortieren Sie Begriffe innerhalb des Filterblocks"
+
+msgid "ISO 8601 - yy-mm-dd"
+msgstr "ISO 8601 - JJ-MM-TT"
+
+msgid "Id"
+msgstr "Id"
+
+msgid ""
+"If in options tab option \"Set filter automatically\" is \"Yes\" you can "
+"hide filter and show hide/show button instead of it."
+msgstr ""
+"Wenn auf der Registerkarte \"Optionen\" die Option \"Filter automatisch "
+"einstellen\" auf \"Ja\" ist, können Sie den Filter ausblenden und "
+"stattdessen Button \"Ausblenden / Einblenden\" anzeigen."
+
+msgid ""
+"If to select NOT IN will be found items which not has selected terms!! Means "
+"vice versa to the the concept of including: excluding"
+msgstr ""
+"Wenn Sie NICHT IN auswählen, werden Artikel gefunden, die keine ausgewählten "
+"Begriffe haben!! Bedeutet umgekehrt zum Begriff des Einschließens: "
+"Ausschließen"
+
+msgid ""
+"If you are need to customize something and you don't want to lose your "
+"changes after update"
+msgstr ""
+"Wenn Sie etwas anpassen müssen und Ihre Änderungen nach dem Update nicht "
+"verlieren möchten"
+
+msgid ""
+"If you do not like search key \"swoof\" in the search link you can replace "
+"it by your own word. But be care to avoid conflicts with any themes and "
+"plugins, + never define it as symbol \"s\""
+msgstr ""
+"Wenn Ihnen der Suchschlüssel \"swoof\" im Suchlink nicht gefällt, können Sie "
+"ihn durch Ihr eigenes Wort ersetzen. Vermeiden Sie jedoch Konflikte mit "
+"Themen und Plugins. + Definieren Sie diese niemals als Symbol \"s\""
+
+msgid ""
+"If you have troubles with relevant terms recount on categories pages with "
+"dynamic recount for not logged in users - select transient."
+msgstr ""
+"Wenn Sie Probleme mit der Nachzählung relevanter Begriffe auf "
+"Kategorieseiten mit dynamischer Nachzählung für nicht angemeldete Benutzer "
+"haben, wählen Sie vorübergehend."
+
+msgid ""
+"If you want show relevant tags on the categories pages you should activate "
+"show count, dynamic recount and hide empty terms in the tab Options. But if "
+"you do not want show count (number) text near each term - set Yes here."
+msgstr ""
+"Wenn Sie relevante Tags auf den Kategorieseiten anzeigen möchten, sollten "
+"Sie auf der Registerkarte \"Optionen\" die Optionen \"Anzahl anzeigen\", "
+"\"Dynamische Nachzählung\" und \"Leere Begriffe ausblenden\" aktivieren . "
+"Wenn Sie jedoch nicht möchten, dass Text in der Nähe jedes Begriffs "
+"angezeigt wird, wählen Sie hier \"Ja\"."
+
+msgid "If you want to Unsubscribe from this newsletter"
+msgstr "Wenn Sie diesen Newsletter abbestellen möchten"
+
+msgid ""
+"If you want to exclude some current taxonomies terms from the search form! "
+"Use Reverse if you want include only instead of exclude! Example: 11,23,77"
+msgstr ""
+"Wenn Sie einige aktuelle Taxonomiebegriffe aus dem Suchformular ausschließen "
+"möchten! Verwenden Sie \"Umkehren\", wenn Sie nur einschließen möchten, "
+"anstatt auszuschließen! Beispiel: 11,23,77"
+
+msgid "Image"
+msgstr "Bild"
+
+msgid "Image for block toggle [closed]"
+msgstr "Bild für Blockumschalter [geschlossen]"
+
+msgid "Image for block toggle [opened]"
+msgstr "Bild für Blockumschalter [ geöffnet ]"
+
+msgid "Image for checked color type checkbox"
+msgstr "Bild für aktivierte Farbtyp-Checkbox"
+
+msgid "Image for checked image type checkbox"
+msgstr "Bild für aktivierte Bildtyp-Checkbox"
+
+msgid ""
+"Image for color checkboxes when its checked. Better use png. Size is: 25x25 "
+"px."
+msgstr ""
+"Bild für Farb-Checkbox, wenn es aktiviert ist. Verwenden Sie besser png. "
+"Größe ist: 25x25 px."
+
+msgid ""
+"Image for image checkboxes when its checked. Better use png. Size is: 25x25 "
+"px."
+msgstr ""
+"Bild für Bild-Checkbox, wenn es aktiviert ist. Verwenden Sie besser png. "
+"Größe ist: 25x25 px."
+
+msgid ""
+"Image for sku search button which appears near input when users typing there "
+"any symbols. Better use png. Size is: 20x20 px."
+msgstr ""
+"Bild für die Sku-Suchschaltfläche, die in der Nähe der Eingabe angezeigt "
+"wird, wenn Benutzer dort Symbole eingeben. Verwenden Sie besser png. Größe "
+"ist: 20x20 px."
+
+msgid "Image for subcategories [close]"
+msgstr "Bild für Unterkategorien [schließen]"
+
+msgid "Image for subcategories [open]"
+msgstr "Bild für Unterkategorien [offen]"
+
+msgid ""
+"Image for text search button which appears near input when users typing "
+"there any symbols. Better use png. Size is: 20x20 px."
+msgstr ""
+"Bild für den Textsuch-Button, der in der Nähe der Eingabe angezeigt wird, "
+"wenn Benutzer dort Symbole eingeben. Verwenden Sie besser png. Größe ist: "
+"20x20 px."
+
+msgid ""
+"Image or text, button-image can be selected below of the option, instead of "
+"default one in Slideout image field. If text - you can below of the option "
+"insert Slideout text"
+msgstr ""
+"Bild oder Text, Button-Bild kann unten unter der Option ausgewählt werden, "
+"anstatt standardmäßig im Feld \"Slideout-Bild\". Wenn Text, können Sie unten "
+"die Option Slideout Text einfügen"
+
+msgid "Image settings for term %s"
+msgstr "Bildeinstellungen für den Begriff %s"
+
+msgid "Image styles"
+msgstr "Bildstile"
+
+msgid ""
+"Image when you select in tab Options \"Hide childs in checkboxes and radio\"."
+" By default it is green cross."
+msgstr ""
+"Bild, wenn Sie auf der Registerkarte Optionen \"Untergeordnete Elemente in "
+"Checkboxen und Optionsfeldern ausblenden\" auswählen. Standardmäßig ist es "
+"ein grünes Kreuz."
+
+msgid ""
+"Image when you select in tab Options \"Hide childs in checkboxes and radio\"."
+" By default it is green minus."
+msgstr ""
+"Bild, wenn Sie auf der Registerkarte Optionen \"Untergeordnete Elemente in "
+"Checkboxen und Optionsfeldern ausblenden \" auswählen. Standardmäßig ist es "
+"ein grünes Minus."
+
+msgid "Image which displayed for tooltip"
+msgstr "Bild, das für den Tooltip angezeigt wird"
+
+msgid ""
+"Image which displayed instead filter while it is closed if selected. Write "
+"\"none\" here if you want to use text only!"
+msgstr ""
+"Bild, das anstelle des Filters angezeigt wird, wenn der Filter geschlossen "
+"ist und ausgewählt wurde. Schreiben Sie hier \"keine\", wenn Sie nur Text "
+"verwenden wollen!"
+
+msgid "Images"
+msgstr "Bilder"
+
+msgid "Import data"
+msgstr "Daten importieren"
+
+msgid "Import placed data"
+msgstr "Platzierte Daten importieren"
+
+msgid ""
+"In FREE version it is possible to operate with 1 condition (first) only!"
+msgstr ""
+"In der KOSTENLOSEN Version ist es nur möglich mit einer Bedingung (zuerst) "
+"zu arbeiten!"
+
+msgid "In stock"
+msgstr "Auf Lager"
+
+msgid "In stock checkbox"
+msgstr "Checkbox für \"Auf Lager\""
+
+msgid "In the same window (_self) or in the new one (_blank)"
+msgstr "Im selben Fenster (_self) oder in einem neuen (_blank)"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Init plugin on the next site pages only"
+msgstr "Plugin nur auf den nächsten Seiten der Website initialisieren"
+
+msgid "Init sections"
+msgstr "Abschnitte initialisieren"
+
+msgid "Init sections by default"
+msgstr "Standardmäßig Abschnitte initialisieren"
+
+msgid ""
+"Insert Gallery in post, page and custom post types just in two clicks. You "
+"can create great galleries for your products."
+msgstr ""
+"Fügen Sie die Galerie mit nur zwei Klicks in Post-, Seiten- und "
+"individuellen Post-Typen ein. Sie können tolle Galerien für Ihre Produkte "
+"erstellen."
+
+msgid "Install"
+msgstr "Installieren"
+
+msgid "Install Now"
+msgstr "Jetzt installieren"
+
+msgid "Ion Range slider"
+msgstr "Ion-Bereichsschieberegler"
+
+msgid "Ion-Range slider js lib skin for range-sliders of the plugin"
+msgstr "Ion-Schieberegler js lib Skin für Bereichsregler des Plugins"
+
+msgid ""
+"It concatenates all scripts and styles, minifies and compresses them, adds "
+"expires headers, caches them, and moves styles to the page head, and scripts "
+"to the footer"
+msgstr ""
+"Es verkettet alle Skripte und Stile, minimiert und komprimiert sie, fügt "
+"abgelaufene Überschriften hinzu, speichert sie zwischen und verschiebt Stile "
+"in den Seitenkopf und Skripte in die Fußzeile"
+
+msgid ""
+"It is better to keep products data file in wp-uploads folder to avoid data "
+"removing after the plugin update, but not all hosting providers allows to "
+"get json data from this folder, so if you select keep data in the plugin "
+"folder remember about it and reassemble products data using button above "
+"after the plugin update."
+msgstr ""
+"Es ist besser, die Produktdatendatei im Ordner \"wp-uploads\" zu speichern, "
+"um zu vermeiden, dass Daten nach dem Plugin-Update entfernt werden. Nicht "
+"alle Hosting-Anbieter erlauben es jedoch, JSON-Daten aus diesem Ordner "
+"abzurufen. Wenn Sie also \"Daten im Plugin-Ordner behalten\" auswählen, "
+"denken Sie daran und setzen Sie die Produktdaten nach dem Plugin-Update "
+"mithilfe der obigen Buttons wieder zusammen."
+
+msgid "It will be counted in the filter( Only for ion-slider )"
+msgstr "Es wird im Filter gezählt (nur für Ion-Slider)"
+
+msgid "JavaScript code after AJAX is done"
+msgstr "JavaScript-Code nach Abschluss von AJAX"
+
+msgid "LIKE"
+msgstr "Ähnlich"
+
+msgid "LIKE or Equally"
+msgstr "Ähnlich oder gleich"
+
+msgid "Label"
+msgstr "Bezeichnung (Label)"
+
+msgid "Leave it empty if you not need this"
+msgstr "Lassen Sie es leer, wenn Sie dies nicht benötigen"
+
+msgid "Left"
+msgstr "Links"
+
+msgid "Lets checked terms will be on the top"
+msgstr "Überprüfte Begriffe werden oben angezeigt"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "Links to posts in suggestion"
+msgstr "Links zu vorgeschlagenen Beiträgen"
+
+msgid "Listen catalog visibility"
+msgstr "Sichtbarkeit des Listenkatalogs"
+
+msgid ""
+"Listen catalog visibility - options in each product backend page in "
+"'Publish' sidebar widget."
+msgstr ""
+"Sichtbarkeit des Listenkatalogs - Optionen auf jeder Produkt-Backend-Seite "
+"im Sidebar-Widget \"Veröffentlichen\"."
+
+msgid "Loading ..."
+msgstr "Wird geladen ..."
+
+msgid "Loading balls - SVG"
+msgstr "Ladebälle - SVG"
+
+msgid "Loading bars - SVG"
+msgstr "Ladebalken - SVG"
+
+msgid "Loading bubbles - SVG"
+msgstr "Ladeblasen - SVG"
+
+msgid "Loading cubes - SVG"
+msgstr "Ladewürfel - SVG"
+
+msgid "Loading cyclone - SVG"
+msgstr "Ladezyklon - SVG"
+
+msgid "Loading spin - SVG"
+msgstr "Lade-Spinner - SVG"
+
+msgid "Loading spinning bubbles - SVG"
+msgstr "Ladeblasen (wirbelnd) - SVG"
+
+msgid "Loading spokes - SVG"
+msgstr "Laderadspeichen - SVG"
+
+msgid "Loading word"
+msgstr "Ladewort"
+
+msgid "Logic of filtering"
+msgstr "Logik der Filterung"
+
+msgid "Looks like its not the WOOF extension here %s!"
+msgstr "Sieht so aus, als wäre es nicht die WOOF-Erweiterung hier %s!"
+
+msgid "Looks like troubles with JavaScript!"
+msgstr "Sieht nach Problemen mit JavaScript aus!"
+
+msgid "Make filtering"
+msgstr "Filtern"
+
+msgid ""
+"Make filtering after clearing the SKU field or just clear the text input."
+msgstr ""
+"Führen Sie eine Filterung durch, nachdem Sie das SKU-Feld geleert haben, "
+"oder löschen Sie einfach die Texteingabe."
+
+msgid "Max deep of the search request"
+msgstr "Maximale Tief der Suchanfrage"
+
+msgid "Max height of the block"
+msgstr "Maximale Höhe des Blocks"
+
+msgid "Max price"
+msgstr "Max. Preis"
+
+msgid "Max requests per unique user"
+msgstr "Maximale Abfragen pro eindeutigem Benutzer"
+
+msgid "Max saved queries per user"
+msgstr "Maximal gespeicherte Abfragen pro Benutzer"
+
+msgid "Max subscriptions per user"
+msgstr "Maximale Abonnements pro Benutzer"
+
+msgid "Max terms or taxonomies per graph"
+msgstr "Maximale Begriffe oder Taxonomien pro Diagramm"
+
+msgid "Maximum number of emails per one subscribed user. -1 means no limit."
+msgstr ""
+"Maximale Anzahl von E-Mails pro abonniertem Benutzer. -1 bedeutet keine "
+"Begrenzung."
+
+msgid "Maximum number of subscriptions for a single registered user."
+msgstr ""
+"Maximale Anzahl von Abonnements für einen einzelnen registrierten Benutzer."
+
+msgid "Medium - d MM, y"
+msgstr "Mittel - d MM, y"
+
+msgid "Meta Data"
+msgstr "Metadaten"
+
+msgid "Meta Fields"
+msgstr "Metafelder"
+
+msgid "Meta filter"
+msgstr "Metafilter"
+
+msgid "Min price"
+msgstr "Min. Preis"
+
+msgid "Min rating:"
+msgstr "Min. Bewertung:"
+
+msgid "Mobile behavior"
+msgstr "Mobile-Verhalten"
+
+msgid "More about extension"
+msgstr "Mehr zur Erweiterung"
+
+msgid "More video"
+msgstr "Mehr Video"
+
+msgid "Multi Drop-down"
+msgstr "Multi Dropdown"
+
+msgid "My query"
+msgstr "Meine Abfrage"
+
+msgid "NOT IN"
+msgstr "NOT IN"
+
+msgid "New Products by your request"
+msgstr "Neue Produkte auf Ihre Anfrage"
+
+msgid "New products"
+msgstr "Neue Produkte"
+
+msgid "New section"
+msgstr "Neuer Abschnitt"
+
+msgid "No"
+msgstr "Nein"
+
+msgid "No limit"
+msgstr "Keine Begrenzung"
+
+msgid "No products found"
+msgstr "Keine Produkte gefunden"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Nope, maybe later!"
+msgstr "Nein, vielleicht später!"
+
+msgid ""
+"Not possible to create folder %s automatically, create it please manually!"
+msgstr ""
+"Ordner %s kann nicht automatisch erstellt werden. Bitte manuell erstellen!"
+
+msgid ""
+"Not possible. Enter options ranges in the plugin settings -> tab Structure ->"
+" Search by price -> additional options"
+msgstr ""
+"Nicht möglich. Geben Sie Optionsbereiche in den Plugin-Einstellungen an -> "
+"Registerkarte Struktur -> Suche nach Preis -> Zusätzliche Optionen"
+
+msgid "Not toggled terms count"
+msgstr "Nicht umgeschaltete Begriffe zählen"
+
+msgid ""
+"Note for admin: Create folder for custom extensions in wp-content folder: "
+"tab Advanced -> Options -> Custom extensions folder"
+msgstr ""
+"Hinweis für den Administrator: Ordner für individuelle Erweiterungen im "
+"Ordner wp-content erstellen: Registerkarte Erweitert -> Optionen -> Ordner "
+"für individuelle Erweiterungen"
+
+msgid ""
+"Note for admin: Folder %s for extensions is not writable OR doesn exists! "
+"Ignore this message if you not planning using WOOF custom extensions!"
+msgstr ""
+"Hinweis für den Administrator: Ordner %s für Erweiterungen ist nicht "
+"beschreibbar ODER existiert nicht! Ignorieren Sie diese Meldung, wenn Sie "
+"keine individuellen WOOF-Erweiterungen verwenden möchten!"
+
+msgid "Notes for customer"
+msgstr "Hinweise für den Kunden"
+
+msgid "Notice! Add options in the plugin settings->Meta filter"
+msgstr ""
+"Hinweise: Fügen Sie Optionen in den Plugin-Einstellungen -> Meta-Filter hinzu"
+
+msgid "Notice:"
+msgstr "Hinweise:"
+
+msgid "Numeric."
+msgstr "Numerisch."
+
+msgid "OR"
+msgstr "ODER"
+
+msgid "Offset"
+msgstr "Offset"
+
+msgid "Ok, you deserve it"
+msgstr "Ok, du hast es verdient"
+
+msgid "On sale"
+msgstr "Zum Verkauf"
+
+msgid "On sale checkbox"
+msgstr "Checkbox für \"Zum Verkauf\""
+
+msgid "One month"
+msgstr "Ein Monat"
+
+msgid "One week"
+msgstr "Eine Woche"
+
+msgid "Optimize loading of WOOF JavaScript files"
+msgstr "Optimieren Sie das Laden von WOOF-JavaScript-Dateien"
+
+msgid "Optimize price filter"
+msgstr "Preisfilter optimieren"
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "Order dropdown css selector"
+msgstr "Reihenfolge Dropdown-CSS-Selektor"
+
+msgid "Overlay image background"
+msgstr "Overlay-Bildhintergrund"
+
+msgid "Overlay skins"
+msgstr "Skins für das Wartesymbol beim Laden"
+
+msgid "Override no products found content"
+msgstr "Überschreiben Sie keine gefundenen Inhalte"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Per page css selector"
+msgstr "Pro-Seite-CSS-Selektor"
+
+msgid ""
+"Period of emailing to subscribed users. Set it to \"No\" if you going to use "
+"external cron."
+msgstr ""
+"Zeitraum des E-Mail-Versands an abonnierte Benutzer. Wählen Sie \"Nein\", "
+"wenn Sie einen externen Cron verwenden möchten."
+
+msgid ""
+"Place in which you can paste text or/and any shortcodes which will be "
+"displayed when customer will not find any products by his search criterias. "
+"Example:"
+msgstr ""
+"Stelle, an dem Sie Text oder / und Shortcodes einfügen können, die angezeigt "
+"werden, wenn der Kunde anhand seiner Suchkriterien keine Produkte findet. "
+"Beispiel:"
+
+msgid "Placeholder"
+msgstr "Platzhalter"
+
+msgid "Placeholder text"
+msgstr "Platzhaltertext"
+
+msgid "Plainoverlay - CSS"
+msgstr "Einfache Überlagerung - CSS"
+
+msgid "Plainoverlay color"
+msgstr "Farbe für einfache Überlagerung"
+
+msgid "Please fill the title field."
+msgstr "Bitte füllen Sie das Titelfeld aus."
+
+msgid "Please read documents"
+msgstr "Bitte lesen Sie die Dokumente"
+
+msgid "Please update database:"
+msgstr "Bitte aktualisieren Sie die Datenbank:"
+
+msgid "Position"
+msgstr "Position"
+
+msgid "Possible keys"
+msgstr "Mögliche Schlüssel"
+
+msgid "Postfix"
+msgstr "Postfix"
+
+msgid "Prefix"
+msgstr "Präfix"
+
+msgid "Price - from %s to %s"
+msgstr "Preis - von %s bis %s"
+
+msgid "Price:"
+msgstr "Preis:"
+
+msgid "Print Graphs"
+msgstr "Diagramme drucken"
+
+msgid "Priority of limitations"
+msgstr "Priorität der Einschränkungen"
+
+msgid "Product not found"
+msgstr "Produkt wurde nicht gefunden"
+
+msgid "Products Filter"
+msgstr "Produktfilter"
+
+msgid "Products Messenger"
+msgstr "Produkt-Messenger"
+
+msgid "Products and Variants"
+msgstr "Produkte und Varianten"
+
+msgid "Products assembling period in data file for quick search."
+msgstr ""
+"Produkte, die für eine schnelle Suche in einer Datei zusammengestellt werden."
+
+msgid "Products per page"
+msgstr "Produkte pro Seite"
+
+msgid ""
+"Products per page when searching is going only. Set here -1 to prevent "
+"pagination managing from here!"
+msgstr ""
+"Produkte pro Seite, wenn nur gesucht wird. Setzten Sie hier -1 ein, um zu "
+"verhindern, dass die Paginierung von hier aus verwaltet wird!"
+
+msgid "Quick search"
+msgstr "Schnellsuche"
+
+msgid "Quick video tutorial"
+msgstr "Schnelles Video-Tutorial"
+
+msgid "Radio and checkboxes skin"
+msgstr "Schaltknopf- und Checkbox-Skin"
+
+msgid "Range"
+msgstr "Bereich"
+
+msgid "Range-slider skin"
+msgstr "Bereichs-Slider-Skin"
+
+msgid "Ranges for price filter."
+msgstr "Bereiche für Preisfilter."
+
+msgid "Read about the Statistic extension here"
+msgstr "Lesen Sie hier mehr über die statistische Erweiterung"
+
+msgid "Reassemble data file"
+msgstr "Datendatei neu zusammenstellen"
+
+msgid "Reassemble data file for quick search manually now"
+msgstr "Datendatei für schnelle Suche manuell neu zusammenstellen"
+
+msgid "Reassemble products data now!"
+msgstr "Stellen Sie die Produktdaten jetzt neu zusammen!"
+
+msgid "Recommended plugins for your site flexibility and features"
+msgstr "Empfohlene Plugins für die Flexibilität und Funktionen Ihrer Website"
+
+msgid "Red buttons on the top of the shop page when searching done"
+msgstr "Rote Buttons an der Shop-Oberseite, wenn die Suche abgeschlossen ist"
+
+msgid "Redirect to"
+msgstr "Weiterleiten an"
+
+msgid ""
+"Redirect to any page - use it by your own logic. Leave it empty for default "
+"behavior."
+msgstr ""
+"Auf eine beliebige Seite umleiten: Verwenden Sie es nach Ihrer eigenen Logik."
+" Lassen Sie es für das Standardverhalten leer."
+
+msgid ""
+"Redraws search form by AJAX, and to start filtering \"Filter\" button should "
+"be pressed. Useful when uses hierarchical drop-down for example"
+msgstr ""
+"Zeichnet das Suchformular mit AJAX neu. Und um mit dem Filtern zu beginnen, "
+"sollte der Button \"Filter\" gedrückt werden. Nützlich, wenn beispielsweise "
+"ein hierarchisches Dropdown-Menü verwendet wird"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+msgid "Reset button text"
+msgstr "Text für Zurücksetzen-Button"
+
+msgid ""
+"Reset button text in the search form. Write \"none\" to hide this button on "
+"front."
+msgstr ""
+"Setzt den Button-Text im Suchformular zurück. Schreiben Sie \"keine\", um "
+"diesen Button im Frontend auszublenden."
+
+msgid "Reset items order"
+msgstr "Artikelreihenfolge zurücksetzen"
+
+msgid "Result count css selector"
+msgstr "Ergebnisanzahl-CSS-Selektor"
+
+msgid "Reverse"
+msgstr "Umgekehrt"
+
+msgid "Reverse: deactivate plugin on the next site pages only"
+msgstr ""
+"Umgekehrt: Deaktivieren Sie das Plugin nur auf den nächsten Seiten der Site"
+
+msgid "Right"
+msgstr "Rechts"
+
+msgid "Role"
+msgstr "Rolle"
+
+msgid ""
+"SKU textinput placeholder. Set \"none\" if you want leave it empty on the "
+"front."
+msgstr ""
+"Platzhalter für SKU-Texteingabe. Setzen Sie ihn auf \"keine\", wenn Sie ihn "
+"im Frontend leer lassen möchten."
+
+msgid "SS"
+msgstr "SS"
+
+msgid "SSS"
+msgstr "SSS"
+
+msgid "SSSS"
+msgstr "SSSS"
+
+msgid "SSSSS"
+msgstr "SSSSS"
+
+msgid "Save current search query"
+msgstr "Aktuelle Suchanfrage speichern"
+
+msgid "Save meta fields"
+msgstr "Metafelder speichern"
+
+msgid "Save search query"
+msgstr "Suchabfrage speichern"
+
+msgid "Search by Author"
+msgstr "Suche nach Autor"
+
+msgid "Search by InStock"
+msgstr "Suche nach \"Auf Lager\""
+
+msgid "Search by Price"
+msgstr "Suche nach Preis"
+
+msgid "Search by SKU"
+msgstr "Suche nach SKU"
+
+msgid "Search by Text"
+msgstr "Suche nach Text"
+
+msgid "Search by content"
+msgstr "Suche nach Inhalten"
+
+msgid "Search by content OR excerpt"
+msgstr "Suche nach Inhalten ODER Textauszug"
+
+msgid "Search by description in variations"
+msgstr "Suche nach der Beschreibung in Variationen"
+
+msgid "Search by exact value OR if meta key exists"
+msgstr "Suche nach genauem Wert ODER wenn ein Metaschlüssel vorhanden ist"
+
+msgid "Search by excerpt"
+msgstr "Suche nach Textauszug"
+
+msgid "Search by featured"
+msgstr "Suche nach Featured (Besonderheiten, Merkmalen)"
+
+msgid "Search by full word only"
+msgstr "Nur nach ganzen Wörtern suchen"
+
+msgid "Search by rating"
+msgstr "Suche nach Bewertung"
+
+msgid "Search by text"
+msgstr "Suche nach Text"
+
+msgid "Search by title"
+msgstr "Suche nach Titel"
+
+msgid "Search by title AND content"
+msgstr "Suche nach Titel UND Inhalt"
+
+msgid "Search by title OR content"
+msgstr "Suche nach Titel ODER Inhalt"
+
+msgid "Search by title OR content OR excerpt"
+msgstr "Suche nach Titel ODER Inhalt ODER Textauszug"
+
+msgid "Search in products and their variations"
+msgstr "Suche in Produkten und deren Variationen"
+
+msgid "Search in variable produts"
+msgstr "Suche in variablen Produkten"
+
+msgid "Search logic"
+msgstr "Suchlogik"
+
+msgid "Search option"
+msgstr "Suchoption"
+
+msgid "Search slug"
+msgstr "Such-Slug"
+
+msgid "Search value"
+msgstr "Suchwert"
+
+msgid "Secret key for external cron"
+msgstr "Geheimer Schlüssel für externen Cron"
+
+msgid "Sections"
+msgstr "Abschnitte"
+
+msgid "Sections behavior"
+msgstr "Abschnittsverhalten"
+
+msgid "See more new products..."
+msgstr "Weitere neue Produkte anzeigen ..."
+
+msgid ""
+"Select \"Yes\" if you want to TRY make filtering in your shop by AJAX. Not "
+"compatible for 100% of all wp themes, so test it well if you are going to "
+"buy premium version of the plugin because incompatibility is not fixable!"
+msgstr ""
+"Wählen Sie \"Ja\", wenn Sie die AJAX-Filterung in Ihrem Shop ausprobieren "
+"möchten. Nicht zu 100% kompatibel mit allen WP-Themes. Testen Sie es daher "
+"gut, wenn Sie eine Premium-Version des Plugins kaufen möchten, da die "
+"Inkompatibilität nicht behoben werden kann."
+
+msgid "Select Image"
+msgstr "Bild auswählen"
+
+msgid "Select a product author"
+msgstr "Wählen Sie einen Produktautor aus"
+
+msgid "Select acceptable for your hosting type of cron"
+msgstr "Wählen Sie einen für Ihr Hosting akzeptablen Cron-Typ"
+
+msgid ""
+"Select cron which you want to use for the statistic assembling. Better use "
+"WordPress cron, but on the server create external cron and set there period "
+"of site visiting."
+msgstr ""
+"Wählen Sie den Cron aus, den Sie für die Statistikzusammenstellung verwenden "
+"möchten. Verwenden Sie besser den WordPress-Cron anstatt des auf dem Server "
+"erstellen Cron und legen Sie hier den Zeitraum für den Besuch der Website "
+"fest."
+
+msgid "Select period:"
+msgstr "Zeitraum auswählen:"
+
+msgid "Select taxonomies and meta keys which you want to track"
+msgstr "Wählen Sie Taxonomien und Metaschlüssel aus, die Sie tracken möchten"
+
+msgid "Select taxonomies in tab Options and press \"Save changes\""
+msgstr ""
+"Wählen Sie Taxonomien auf der Registerkarte Optionen aus und klicken Sie auf "
+"\"Änderungen speichern\"."
+
+msgid ""
+"Select taxonomy, taxonomies combinations OR leave this field empty to see "
+"general data for all the most requested taxonomies"
+msgstr ""
+"Wählen Sie eine Taxonomie, Taxonomiekombinationen oder lassen Sie dieses "
+"Feld leer, um allgemeine Daten für alle am häufigsten angeforderten "
+"Taxonomien anzuzeigen"
+
+msgid "Select the time period for which you want to see statistical data"
+msgstr ""
+"Wählen Sie den Zeitraum aus, für den Sie statistische Daten anzeigen möchten"
+
+msgid ""
+"Selected terms will always be displayed on the top (for parent-terms only, "
+"child will be on the top but under parent-term as it was)"
+msgstr ""
+"Ausgewählte Begriffe werden immer ganz oben angezeigt (nur bei "
+"übergeordneten Begriffen steht der untergeordnete Begriff ganz oben, aber "
+"wie bisher unter dem übergeordneten Begriff)"
+
+msgid "Server options for statistic stock"
+msgstr "Server-Optionen für statistische Bestände"
+
+msgid "Set \"none\" to disable placeholder for this textinput"
+msgstr ""
+"Wählen Sie \"keine\", um den Platzhalter für diese Texteingabe zu "
+"deaktivieren."
+
+msgid "Set filter automatically"
+msgstr "Filter automatisch setzen"
+
+msgid "Set filter automatically on the shop page"
+msgstr "Filter auf der Shop-Seite automatisch setzen"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Short - d M, y"
+msgstr "Kurz - d M, y"
+
+msgid "Should the slideout button be visible on mobile devices"
+msgstr "Sollte die Slideout-Taste auf Mobilgeräten sichtbar sein?"
+
+msgid "Show"
+msgstr "Zeigen"
+
+msgid "Show Featured products checkbox inside WOOF search form"
+msgstr ""
+"Aktivieren Sie die Checkbox \"Ausgewählte Produkte\" im WOOF-Suchformular"
+
+msgid "Show In stock only checkbox inside woof search form"
+msgstr "Checkbox \"Nur auf Lager\" im Woof-Suchformular anzeigen"
+
+msgid "Show On backorder checkbox inside woof search form"
+msgstr "Checkbox \"Bei Nachbestellung\" im Woof-Suchformular anzeigen"
+
+msgid "Show On sale only checkbox inside woof search form"
+msgstr "Checkbox \"Nur im Verkauf\" im woof-Suchformular anzeigen"
+
+msgid "Show Search by author drop-down inside woof search form"
+msgstr "Dropdown-Liste Suche nach Autor im woof-Suchformular anzeigen"
+
+msgid "Show blocks helper button"
+msgstr "Hilfsblock-Button anzeigen"
+
+msgid "Show button"
+msgstr "Button anzeigen"
+
+msgid ""
+"Show button for woocommerce filter by price inside woof search form when it "
+"is dispayed as woo range-slider"
+msgstr ""
+"Button für Woocommerce-Filter nach Preis im Woof-Suchformular anzeigen, wenn "
+"er als Woo-Bereichsschieberegler angezeigt wird"
+
+msgid "Show count"
+msgstr "Anzahl anzeigen"
+
+msgid "Show count of items near taxonomies terms on the front"
+msgstr ""
+"Zeigen Sie die Anzahl der Elemente in der Nähe der Taxonomiebegriffe im "
+"Frontend an"
+
+msgid ""
+"Show count of items near taxonomies terms on the front dynamically. Must be "
+"switched on \"Show count\". In turbo mode if filter is very big better "
+"select \"Yes, only for PC\""
+msgstr ""
+"Zeigen Sie die Anzahl der Elemente in der Nähe von Taxonomiebegriffen im "
+"Frontend dynamisch an. \"Anzahl anzeigen\" muss eingeschaltet sein. Wenn der "
+"Filter im Turbomodus sehr groß ist, wählen Sie besser \"Ja, nur für PC\"."
+
+msgid ""
+"Show helper button for shortcode [woof] on the front when 'Set filter "
+"automatically' is Yes"
+msgstr ""
+"Zeigen Sie die Hilfstaste für den Shortcode [woof] im Frontend an, wenn "
+"\"Filter automatisch setzen\" auf \"Ja\" gesetzt ist"
+
+msgid "Show image of variation"
+msgstr "Bild der Variation anzeigen"
+
+msgid "Show image title"
+msgstr "Bildtitel anzeigen"
+
+msgid "Show image title below picture"
+msgstr "Bildtitel unter Bild anzeigen"
+
+msgid "Show in one column"
+msgstr "In einer Spalte anzeigen"
+
+msgid "Show in one column with title"
+msgstr "In einer Spalte mit Titel anzeigen"
+
+msgid "Show less"
+msgstr "Zeige weniger"
+
+msgid "Show more"
+msgstr "Weitere Produkte"
+
+msgid "Show notice"
+msgstr "Hinweis anzeigen"
+
+msgid "Show notice on product page"
+msgstr "Hinweis auf der Produktseite anzeigen"
+
+msgid "Show on all devices"
+msgstr "Auf allen Geräten anzeigen"
+
+msgid "Show only on desktop"
+msgstr "Nur auf dem Desktop anzeigen"
+
+msgid "Show only on mobile"
+msgstr "Nur auf dem Handy anzeigen"
+
+msgid "Show price text inputs"
+msgstr "Preis-Texteingaben anzeigen"
+
+msgid "Show product mesenger box inside woof search form"
+msgstr "Produkt-Messenger-Box im woof-Suchformular anzeigen"
+
+msgid "Show products filter form"
+msgstr "Produktfilterformular anzeigen"
+
+msgid "Show stars in drop-down"
+msgstr "Sterne in Dropdown anzeigen"
+
+msgid "Show subscription button"
+msgstr "Abonnement-Button anzeigen"
+
+msgid ""
+"Show subscription button without search query. For example, user will be "
+"able to subscribe for new products in any products category."
+msgstr ""
+"Abonnement-Button ohne Suchabfrage anzeigen. Beispielsweise kann der "
+"Benutzer neue Produkte in jeder Produktkategorie abonnieren."
+
+msgid "Show textinput for searching by products sku"
+msgstr "Texteingabe für die Suche nach Produkt-SKU anzeigen"
+
+msgid "Show textinput for searching by products title"
+msgstr "Texteingabe für die Suche nach Produkttitel anzeigen"
+
+msgid "Show title label"
+msgstr "Titel-Label anzeigen"
+
+msgid "Show toggle button"
+msgstr "Umschaltknopf anzeigen"
+
+msgid ""
+"Show toggle button near the title on the front above the block of html-items"
+msgstr ""
+"Zeige den Umschaltknopf im Frontend neben dem Titel und über dem Block der "
+"HTML-Elemente an"
+
+msgid "Show tooltip"
+msgstr "Tooltip anzeigen"
+
+msgid "Show woocommerce filter by price inside woof search form"
+msgstr "Zeigen Sie den Woocommerce-Preis-Filter im woof-Suchformular an"
+
+msgid "Show/Hide meta block title on the front"
+msgstr "Ein- / Ausblenden des Meta-Block-Titels im Frontend"
+
+msgid "Show/Hide slideout on shop pages"
+msgstr "Slideout auf Shop-Seiten ein- / ausblenden"
+
+msgid "Show/Hide taxonomy block title on the front"
+msgstr "Titel des Taxonomie-Blocks im Frontend ein- / ausblenden"
+
+msgid ""
+"Shrink, beautify, track, manage and share any URL on or off of your "
+"WordPress website. Create links that look how you want using your own domain "
+"name!"
+msgstr ""
+"Verkleinern, verschönern, track, verwalten und teilen Sie jede URL auf oder "
+"außerhalb Ihrer WordPress-Website. Erstellen Sie Links, die so aussehen, wie "
+"Sie es möchten, indem Sie Ihren eigenen Domainnamen verwenden!"
+
+msgid "Simple products only"
+msgstr "Nur einfache Produkte"
+
+msgid "Skins for the auto filter"
+msgstr "Skins für den automatischen Filter"
+
+msgid ""
+"Skins for the auto-filter which appears on the shop page if in tab Options "
+"enabled Set filter automatically"
+msgstr ""
+"Skins für den automatischen Filter, der auf der Shop-Seite angezeigt wird, "
+"wenn auf der Registerkarte \"Optionen\" der Punkt \"Filter automatisch "
+"setzen\" aktiviert ist."
+
+msgid "Slideout"
+msgstr "Herausgleiten"
+
+msgid "Slideout image"
+msgstr "Slideout-Bild"
+
+msgid "Slideout text"
+msgstr "Slideout-Text"
+
+msgid "Slider"
+msgstr "Schieberegler"
+
+msgid ""
+"Sometimes code 'wp_query->is_post_type_archive = true' does not necessary. "
+"Try to disable this and try woof-search on your site. If all is ok - leave "
+"its disabled. Disabled code by this option you can find in index.php by mark "
+"disable_swoof_influence."
+msgstr ""
+"Manchmal ist der Code ' wp_query->is_post_type_archive = true' nicht "
+"erforderlich. Versuchen Sie dies zu deaktivieren und versuchen Sie die woof-"
+"Suche auf Ihrer Website. Wenn alles in Ordnung ist, lassen Sie es "
+"deaktiviert. Durch diese Option deaktivierten Code finden Sie mit "
+"disable_swoof_influence gekennzeichnet in der index.php."
+
+msgid "Somthing wrong!"
+msgstr "Irgendwas stimmt nicht!"
+
+msgid "Sorry! This product is not suitable for your search %title%."
+msgstr ""
+"Es tut uns leid! Dieses Produkt ist nicht für Ihre Suche %title% geeignet."
+
+msgid "Sort terms"
+msgstr "Begriffe sortieren"
+
+msgid "Speed"
+msgstr "Geschwindigkeit"
+
+msgid ""
+"Start searching just after changing any of the elements on the search form"
+msgstr ""
+"Beginnen Sie mit der Suche, nachdem Sie eines der Elemente im Suchformular "
+"geändert haben"
+
+msgid "State after init"
+msgstr "Zustand nach Initialisierung"
+
+msgid "Statistic"
+msgstr "Statistik"
+
+msgid ""
+"Statistic -> tab Options -> \"Stat server options\" inputs should be filled "
+"in by right data, another way not possible to collect statistical data!"
+msgstr ""
+"Statistik -> Registerkarte Optionen -> Eingaben für \"Stat-Serveroptionen\" "
+"sollten mit den richtigen Daten ausgefüllt werden. Eine andere Möglichkeit, "
+"statistische Daten zu erheben, gibt es nicht!"
+
+msgid ""
+"Statistic extension is activated but statistics collection is not enabled. "
+"Enable it on: tab Statistic -> tab Options -> \"Statistics collection "
+"enabled\""
+msgstr ""
+"Die Statistikerweiterung ist aktiviert, die Statistikerfassung jedoch nicht. "
+"Aktivieren Sie sie auf: Registerkarte Statistik -> Registerkarte Optionen -> "
+"\"Statistiksammlung aktiviert\""
+
+msgid "Statistic for:"
+msgstr "Statistik für:"
+
+msgid "Statistical parameters:"
+msgstr "Statistische Parameter:"
+
+msgid "Statistics collection:"
+msgstr "Statistiksammlung:"
+
+msgid "Step"
+msgstr "Schritt"
+
+msgid "Step by step filter"
+msgstr "Schritt-für-Schritt-Filter"
+
+msgid "Storage type"
+msgstr "Speichertyp"
+
+msgid "Structure"
+msgstr "Struktur"
+
+msgid "Styles and codes which are applied on the demo site"
+msgstr "Stile und Codes, die auf der Demo-Site angewendet werden"
+
+msgid "Subject of the email"
+msgstr "Betreff der E-Mail"
+
+msgid "Subject of the email."
+msgstr "Betreff der E-Mail."
+
+msgid "Submit button position"
+msgstr "Position des Absende-Buttons"
+
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+msgid "Subscribe on the current search request"
+msgstr "Abonnieren Sie die aktuelle Suchanfrage"
+
+msgid "Subscription"
+msgstr "Abonnement"
+
+msgid "Subscription time"
+msgstr "Abonnementzeit"
+
+msgid "Support"
+msgstr "Support"
+
+msgid ""
+"Syntax example: product_cat>pa_size,by_instock>pa_color. In the example "
+"described: if a user will select a [product category] then filter by "
+"[pa_size] or [by_instock] will be appeared [pa_color]. For shortcode [woof] "
+"use an attribute: [conditionals]. Use line break in the textarea to define "
+"some rules (press Enter keyboard). In [woof] shortcode to define some rules "
+"use sign: [+]."
+msgstr ""
+"Syntaxbeispiel: product_cat> pa_size, by_instock> pa_color. Im beschriebenen "
+"Beispiel: Wenn ein Benutzer eine [Produktkategorie] auswählt, wird nach "
+"[pa_size] oder [by_instock] gefiltert und [pa_color] angezeigt. Verwenden "
+"Sie für Shortcode [woof] ein Attribut: [Bedingungen]. Verwenden Sie "
+"Zeilenumbrüche im Textbereich, um einige Regeln zu definieren (drücken Sie "
+"die Eingabetaste). Verwenden Sie im [woof] Shortcode zum Definieren einiger "
+"Regeln das Vorzeichen: [+]."
+
+msgid "TEXT"
+msgstr "TEXT"
+
+msgid ""
+"TRUE value, all another are FALSE. Example: yes or true or 1. By default if "
+"this textinput empty 1 is true and 0 is false"
+msgstr ""
+"TRUE-Wert, alle anderen sind FALSE. Beispiel: Ja oder Wahr oder 1. Wenn "
+"diese Texteingabe leer ist, ist standardmäßig 1 wahr und 0 falsch"
+
+msgid "Tax"
+msgstr "Steuer"
+
+msgid "Taxes"
+msgstr "Steuern"
+
+msgid "Taxonomy conditionals"
+msgstr "Taxonomiebedingungen"
+
+msgid "Taxonomy custom label"
+msgstr "Individuelles Taxonomie-Label"
+
+msgid "Terms:"
+msgstr "Nutzungsbedingungen:"
+
+msgid "Text"
+msgstr "Text"
+
+msgid ""
+"Text before the price filter range slider. Leave it empty if you not need it!"
+msgstr ""
+"Text vor dem Schieberegler für den Preisfilterbereich. Lass es leer, wenn du "
+"es nicht brauchst!"
+
+msgid "Text for block toggle [closed]"
+msgstr "Text für Blockumschalter [geschlossen]"
+
+msgid "Text for block toggle [opened]"
+msgstr "Text für Blockumschalter [ geöffnet ]"
+
+msgid "Text if current product is not suitable for saved searches"
+msgstr ""
+"Text, wenn das aktuelle Produkt nicht für gespeicherte Suchen geeignet ist"
+
+msgid "Text if current product is suitable for saved searches"
+msgstr "Text, wenn das aktuelle Produkt für gespeicherte Suchen geeignet ist"
+
+msgid "Text in header of the email."
+msgstr "Text in der Kopfzeile der E-Mail."
+
+msgid ""
+"Text in the body of the email. You can use next variables: [DISPLAY_NAME], "
+"[USER_NICENAME], [PRODUCT_COUNT]."
+msgstr ""
+"Text im E-Mail-Inhalt. Sie können die nächsten Variablen verwenden: "
+"[DISPLAY_NAME], [USER_NICENAME], [PRODUCT_COUNT]."
+
+msgid "Text of the email"
+msgstr "Text der E-Mail"
+
+msgid "Text search"
+msgstr "Textsuche"
+
+msgid "Text search conditional"
+msgstr "Textsuche bedingt"
+
+msgid "Text which displayed instead filter while it is closed if selected."
+msgstr ""
+"Text, der anstatt des Filters angezeigt wird, wenn er geschlossen ist (falls "
+"ausgewählt)."
+
+msgid "Thank you, I did it!"
+msgstr "Danke, ich habe es geschafft!"
+
+msgid "The placeholder in title field"
+msgstr "Der Platzhalter im Titelfeld"
+
+msgid "The result is only with the full coincidence of words"
+msgstr "Das Ergebnis nur mit der vollen Übereinstimmung von Wörtern"
+
+msgid "The submit and reset buttons position in current search form"
+msgstr ""
+"Die Positionen der Buttons zum Absenden und Zurücksetzen im aktuellen "
+"Suchformular"
+
+msgid "The text before the block of subscription block"
+msgstr "Der Text vor dem Block des Abonnementblocks"
+
+msgid "The text in the button"
+msgstr "Der Text im Button "
+
+msgid ""
+"This button is just helper which allows to assemble data for [woof] "
+"shortcode."
+msgstr ""
+"Dieser Button ist nur ein Hilfsmittel, mit dem Daten für den [woof] "
+"Shortcode zusammengestellt werden können."
+
+msgid ""
+"This data is very important for assembling statistics data, so please fill "
+"fields very responsibly. To collect statistical data uses a separate MySQL "
+"table."
+msgstr ""
+"Diese Daten sind sehr wichtig für die Zusammenstellung von Statistikdaten. "
+"Bitte füllen Sie die Felder sehr gewissenhaft aus. Zum Sammeln statistischer "
+"Daten wird eine separate MySQL-Tabelle verwendet."
+
+msgid "This link does not work."
+msgstr "Dieser Link funktioniert nicht."
+
+msgid ""
+"This option enables or disables initialization of the plugin on all pages of "
+"the site except links and link-masks in the textarea. One row - one link (or "
+"link-mask)! Example of link: http://site.com/ajaxed-search-7. Example of "
+"link-mask: product-category . Leave it empty to allow the plugin "
+"initialization on all pages of the site!"
+msgstr ""
+"Diese Option aktiviert oder deaktiviert die Initialisierung des Plugins auf "
+"allen Seiten der Site mit Ausnahme von Links und Linkmasken im Textbereich. "
+"Ein Link (oder eine Linkmaske) pro Zeile! Beispiel für einen Link: http:"
+"//site.com/ajaxed-search-7. Beispiel für eine Linkmaske: Produktkategorie. "
+"Lassen Sie es leer, damit die Plugin-Initialisierung auf allen Seiten der "
+"Website möglich ist!"
+
+msgid ""
+"This option place WOOF JavaScript files on the site footer. Use it for page "
+"loading optimization. Be care with this option, and always after enabling of "
+"it test your site frontend!"
+msgstr ""
+"Diese Option platziert woof-JavaScript-Dateien in der Fußzeile der Website. "
+"Verwenden Sie es zur Ladezeitoptimierung. Seien Sie vorsichtig mit dieser "
+"Option und testen Sie immer das Frontend, nachdem Sie sie aktiviert haben!"
+
+msgid "This option should be set"
+msgstr "Diese Option sollte gesetzt sein"
+
+msgid ""
+"This plugin provides an easy to use interface to create and administer "
+"custom post types and taxonomies in WordPress."
+msgstr ""
+"Dieses Plugin bietet eine einfach zu bedienende Schnittstelle zum Erstellen "
+"und Verwalten von individuellen Beitragstypen und Taxonomien in WordPress."
+
+msgid "This product matches your search %title%."
+msgstr "Dieses Produkt entspricht Ihrer Suche %title%."
+
+msgid "This works with ionSlider only"
+msgstr "Dies funktioniert nur mit Ion Slider"
+
+msgid "Title"
+msgstr "Überschrift"
+
+msgid "Title of the Query*"
+msgstr "Bezeichnung der Abfrage*"
+
+msgid "Title of the email"
+msgstr "Überschrift der E-Mail"
+
+msgid "Title text"
+msgstr "Text der Überschrift"
+
+msgid "To"
+msgstr "Zu"
+
+msgid ""
+"To update the key, just delete it and save the plugin settings. Key should "
+"be min 16 symbols."
+msgstr ""
+"Um den Schlüssel zu aktualisieren, löschen Sie ihn einfach und speichern Sie "
+"die Plugin-Einstellungen. Der Schlüssel sollte mindestens 16 Zeichen "
+"enthalten."
+
+msgid "Toggle block type"
+msgstr "Blocktyp umschalten"
+
+msgid ""
+"Toggle text for closed html-items block. Example: open. By default applied "
+"sign plus \"+\""
+msgstr ""
+"Schaltet den Text für den geschlossenen HTML-Elementblock um. Beispiel: "
+"offen. Standardmäßig angewendetes Vorzeichen plus \"+\""
+
+msgid ""
+"Toggle text for opened html-items block. Example: close. By default applied "
+"sign minus \"-\""
+msgstr ""
+"Schaltet den Text für den geöffneten HTML-Elementblock um. Beispiel: "
+"schließen. Standardmäßig angewendetes Vorzeichen minus \"-\""
+
+msgid "Tooltip"
+msgstr "Tooltip"
+
+msgid "Tooltip icon"
+msgstr "Tooltip-Symbol"
+
+msgid "Tooltip text"
+msgstr "Tooltip-Text"
+
+msgid "Top"
+msgstr "Oben"
+
+msgid "Top AND Bottom"
+msgstr "Oben und unten"
+
+msgid ""
+"Try new WooCommerce plugin for displaying your shop products in table format"
+msgstr ""
+"Probieren Sie das neue WooCommerce-Plugin aus, um Ihre Shop-Produkte im "
+"Tabellenformat anzuzeigen"
+
+msgid ""
+"Try new plugin for managing and bulk edit WooCommerce Products data in "
+"robust and flexible way"
+msgstr ""
+"Probieren Sie das neue Plugin für die Verwaltung und Massenbearbeitung von "
+"WooCommerce-Produktdaten auf zuverlässige und vielseitige Weise aus"
+
+msgid "Try to ajaxify the shop"
+msgstr "Versuchen Sie AJAX im Shop "
+
+msgid "Turbo mode"
+msgstr "Turbo-Modus"
+
+msgid "Two months"
+msgstr "Zwei Monate"
+
+msgid "Two weeks"
+msgstr "Zwei Wochen"
+
+msgid ""
+"Type of the toogle on the front for block of html-items as: radio, checkbox ."
+"... Works only if the block title is not hidden!"
+msgstr ""
+"Schaltertyp im Frontend für Block von HTML-Elementen als: Radio, Checkbox ..."
+". Funktioniert nur, wenn der Blocktitel nicht ausgeblendet ist!"
+
+msgid "Unsubscribe"
+msgstr "Abbestellen"
+
+msgid "Update"
+msgstr "Aktualisieren"
+
+msgid "Update now!"
+msgstr "Jetzt aktualisieren!"
+
+msgid "Url of the custom image for the button"
+msgstr "URL des individuellen Bildes für den Button"
+
+msgid ""
+"Use WordPress Cron if your site has a lot of traffic, and external cron if "
+"the site traffic is not big. External cron is more predictable with time of "
+"execution, but additional knowledge how to set it correctly is required "
+"(External cron will be ready in the next version of the extension)"
+msgstr ""
+"Verwenden Sie den WordPress Cron, wenn Ihre Site viel Traffic hat, und einen "
+"externen Cron, wenn der Traffic nicht groß ist. Ein externer Cron ist mit "
+"der Ausführungszeit vorhersehbarer. Es sind jedoch zusätzliche Kenntnisse "
+"zur korrekten Einstellung erforderlich. Externer Cron wird in der nächsten "
+"Version der Erweiterung verfügbar sein."
+
+msgid "Use beauty scroll"
+msgstr "Verwenden Sie Beauty Scroll"
+
+msgid ""
+"Use beauty scroll when you apply max height for taxonomy block on the front"
+msgstr ""
+"Verwenden Sie Beauty Scroll, wenn Sie im Frontend die maximale Höhe für den "
+"Taxonomieblock anwenden"
+
+msgid "Use chosen"
+msgstr "Ausgewähltes verwenden"
+
+msgid "Use chosen javascript library on the front of your site for drop-downs."
+msgstr ""
+"Verwenden Sie die ausgewählte Javascript-Bibliothek im Frontend Ihrer "
+"Website für Dropdown-Listen."
+
+msgid ""
+"Use comma as in example: 1,2,3,4,5. If you want structure like title->value "
+"use next syntax example: France^1,Germany^2,USA^3. Countries are titles here."
+msgstr ""
+"Verwenden Sie Kommas wie im Beispiel: 1,2,3,4,5. Wenn Sie eine Struktur wie "
+"title -> value wünschen, verwenden Sie das nächste Syntaxbeispiel: France ^ "
+"1, Germany ^ 2, USA ^ 3. Länder sind hier die Titel."
+
+msgid "Use for"
+msgstr "Verwenden für"
+
+msgid "Use image as radio button"
+msgstr "Bild als Optionsfeld verwenden"
+
+msgid ""
+"Use it if you can not translate your custom taxonomies labels and attributes "
+"labels by another plugins."
+msgstr ""
+"Verwenden Sie diese Option, wenn Sie Ihre individuellen "
+"Taxonomiebeschriftungen und Attributbezeichnungen nicht von anderen Plugins "
+"übersetzen können."
+
+msgid ""
+"Use it when you are need additional action after AJAX redraw your products "
+"in shop page or in page with shortcode! For use when you need additional "
+"functionality after AJAX redraw of your products on the shop page or on "
+"pages with shortcodes."
+msgstr ""
+"Verwenden Sie es, wenn Sie eine zusätzliche Aktion nach dem AJAX-Redraw "
+"Ihrer Produkte auf der Shop-Seite oder auf Seiten mit Shortcode benötigen! "
+"Zur Verwendung, wenn Sie nach dem AJAX-Redraw Ihrer Produkte auf der Shop-"
+"Seite oder auf Seiten mit Shortcodes zusätzliche Funktionen benötigen."
+
+msgid ""
+"Use sign # before link to apply strict compliance. Example: #https:"
+"//your_site.com/product-category/man/"
+msgstr ""
+"Verwenden Sie das Zeichen # vor dem Link, um die strikte Einhaltung der "
+"Vorschriften zu gewährleisten. Beispiel: #https: //your_site.com/product-"
+"category/man/"
+
+msgid "Use tooltip"
+msgstr "Verwenden Sie den Tooltip"
+
+msgid ""
+"Use tooltip library on the front of your site. Possible to disable it here "
+"if any scripts conflicts on the site front."
+msgstr ""
+"Verwenden Sie die Tooltip-Bibliothek im Frontend Ihrer Website. Es ist "
+"möglich, sie hier zu deaktivieren, wenn Skripte im Frontend Konflikte "
+"verursachen."
+
+msgid ""
+"Useful thing when you already set your site IN THE PRODUCTION MODE - its "
+"getting terms for filter faster without big MySQL queries! If you actively "
+"adds new terms every day or week you can set cron period for cleaning. "
+"Another way set: 'not clean cache automatically'!"
+msgstr ""
+"Nützlich, wenn Sie Ihre Site bereits im PRODUKTIONSMODUS betreiben. Es "
+"werden Filterbedingungen schneller ohne große MySQL-Abfragen abgerufen! Wenn "
+"Sie jeden Tag oder jede Woche neue Begriffe hinzufügen, können Sie die Cron-"
+"Periode für die Bereinigung festlegen. Eine weitere Möglichkeit: Cache nicht "
+"automatisch bereinigen!"
+
+msgid ""
+"Useful thing when you already set your site IN THE PRODUCTION MODE and use "
+"dynamic recount -> it make recount very fast! Of course if you added new "
+"products which have to be in search results you have to clean this cache OR "
+"you can set time period for auto cleaning!"
+msgstr ""
+"Nützlich, wenn Sie Ihre Site bereits im PRODUKTIONSMODUS betreiben und eine "
+"dynamische Nachzählung verwenden. Das macht die Nachzählung sehr schnell! "
+"Wenn Sie neue Produkte hinzugefügt haben, die in den Suchergebnissen "
+"enthalten sein müssen, müssen Sie diesen Cache natürlich bereinigen ODER Sie "
+"können den Zeitraum für die automatische Bereinigung festlegen!"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "User can save the search query"
+msgstr "Der Benutzer kann die Suchabfrage speichern"
+
+msgid ""
+"User on the site front will have to press button like \"Show products filter "
+"form\" to load search form by ajax and start filtering. Good feature when "
+"search form is quite big and page loading takes more time because of it!"
+msgstr ""
+"Benutzer müssen im Frontend den Button \"Produktfilterformular anzeigen\" "
+"drücken, um das Suchformular per AJAX zu laden und mit dem filtern zu "
+"beginnen. Eine gute Funktion, wenn das Suchformular ziemlich groß ist und "
+"dadurch das Laden von Seiten mehr Zeit in Anspruch nimmt!"
+
+msgid "Value exists"
+msgstr "Wert existiert"
+
+msgid "Video tutorials"
+msgstr "Videoanleitungen"
+
+msgid "View"
+msgstr "Ansicht"
+
+msgid "View of the search by author"
+msgstr "Ansicht der Autorensuche"
+
+msgid "View of the taxonomies terms on the front"
+msgstr "Ansicht der Taxonomiebegriffe im Frontend"
+
+msgid "View product"
+msgstr "Produkt anzeigen"
+
+msgid ""
+"WARNING: this action will overwrite all current WOOF settings. Insert WOOF "
+"settings data you need to import! Here you can import only WOOF settings and "
+"nothing more! If your site don`t have taxonomies WOOF will not create them "
+"(you should create taxonomies before)."
+msgstr ""
+"WARNUNG! Diese Aktion überschreibt alle aktuellen WOOF-Einstellungen. Fügen "
+"Sie die zu importierenden WOOF-Einstellungsdaten ein! Hier können Sie nur "
+"WOOF-Einstellungen importieren und nichts weiter! Wenn Ihre Website keine "
+"Taxonomien hat, erstellt WOOF diese nicht. Sie sollten vorher Taxonomien "
+"erstellen."
+
+msgid "WOOBE"
+msgstr "WOOBE"
+
+msgid "WOOCS"
+msgstr "WOOCS"
+
+msgid "WOOF - WooCommerce Products Filter"
+msgstr "WOOF - WooCommerce Products Filter"
+
+msgid "WOOF - WooCommerce Products Filter v.%s"
+msgstr "WOOF - WooCommerce Products Filter v.%s"
+
+msgid "WOOF FULL VERSION"
+msgstr "WOOF VOLLVERSION"
+
+msgid ""
+"WOOF cannot create database table for statistic! Make sure that your mysql "
+"user has the CREATE privilege! Do it manually using your host "
+"panel&phpmyadmin!"
+msgstr ""
+"WOOF kann keine Datenbanktabelle für die Statistik erstellen! Stellen Sie "
+"sicher, dass Ihr MySQL-Benutzer das CREATE-Privileg hat! Mach es manuell mit "
+"deinem Hoster-Panel und phpMyAdmin!"
+
+msgid ""
+"WOOF cannot create the database table! Make sure that your mysql user has "
+"the CREATE privilege! Do it manually using your host panel&phpmyadmin!"
+msgstr ""
+"WOOF kann die Datenbanktabelle nicht erstellen! Stellen Sie sicher, dass Ihr "
+"MySQL-Benutzer das CREATE-Privileg hat! Mach es manuell mit deinem Hoster-"
+"Panel und phpMyAdmin!"
+
+msgid "WOOF documentation"
+msgstr "WOOF-Dokumentation"
+
+msgid "WOOF settings saving ..."
+msgstr "WOOF-Einstellungen speichern ..."
+
+msgid "WOOT"
+msgstr "WOOT"
+
+msgid "WPML taxonomies labels translations"
+msgstr "WPML-Taxonomie-Label-Übersetzungen"
+
+msgid "Way to show of slideout popup out: click or hover"
+msgstr ""
+"So zeigen Sie das Slideout-Popup-Fenster an: Klicken oder Bewegen des "
+"Mauszeigers"
+
+msgid "Weekly recommended"
+msgstr "Wöchentlich empfohlen"
+
+msgid "Where to keep products data file"
+msgstr "Speicherort der Produktdatendatei"
+
+msgid "Where to show slideout button: right, left, top"
+msgstr "Wo der Slideout-Button angezeigt werden soll: rechts, links, oben"
+
+msgid ""
+"Which limitation has priority. Event after which user stop getting the "
+"emails. Both - means that any first event of two ones, will reset user "
+"subscription."
+msgstr ""
+"Welche Einschränkung hat Priorität? Ereignis, nach dem der Benutzer die E-"
+"Mails nicht mehr erhält. \"Beides\" bedeutet, dass jedes erste von zwei "
+"Ereignissen das Benutzerabonnement zurücksetzt."
+
+msgid "Widget Logic lets you control on which pages widgets appear using"
+msgstr ""
+"Mit der Widget-Logik können Sie steuern, auf welchen Seiten Widgets "
+"angezeigt werden"
+
+msgid "Width X Height (px) of the button image"
+msgstr "Breite X Höhe (px) des Button-Bildes"
+
+msgid "Width and height of the popup html container size in (px)"
+msgstr "Breite und Höhe der Popup-HTML-Container-Größe in (px)"
+
+msgid ""
+"Will the plugin look in each variable of variable products. Request for "
+"variables products creates more mysql queries in database ..."
+msgstr ""
+"Wird das Plugin in jeder Variablen der variablen Produkte suchen? Die "
+"Anforderung von variablen Produkten erzeugt mehr MySQL-Abfragen in der "
+"Datenbank ..."
+
+msgid ""
+"WooCommerce Active Products Table - WOOT - (new name is PROTAS) WooCommerce "
+"plugin for displaying shop products in table format. Woo Products Tables "
+"makes focus for your buyers on the things they want to get, nothing "
+"superfluous, just what the client wants, and full attention to what is "
+"offered!"
+msgstr ""
+"WooCommerce Active Products Table - WOOT - (neuer Name ist PROTAS). "
+"WooCommerce-Plugin zum Anzeigen von Shop-Produkten im Tabellenformat. Woo "
+"Products Tables fokussiert Ihre Käufer auf die Dinge, die sie haben möchten, "
+"nichts Überflüssiges, genau das, was der Kunde möchte und die volle "
+"Aufmerksamkeit auf das, was angeboten wird!"
+
+msgid "WooCommerce Bulk Editor"
+msgstr "WooCommerce Bulk Editor"
+
+msgid ""
+"WooCommerce Currency Switcher – is the plugin that allows you to switch to "
+"different currencies and get their rates converted in the real time!"
+msgstr ""
+"WooCommerce Currency Switcher ist das Plugin, mit dem Sie zwischen "
+"verschiedenen Währungen wechseln und deren Kurse in Echtzeit umrechnen "
+"können!"
+
+msgid "WooCommerce Currency Swither"
+msgstr "WooCommerce Currency Swither"
+
+msgid "WooCommerce Products Filter"
+msgstr "WooCommerce Products Filter"
+
+msgid "WooCommerce Products Filter by realmag777"
+msgstr "WooCommerce Products Filter by Realmag777"
+
+msgid "WooCommerce Products Tables"
+msgstr "WooCommerce Products Tables"
+
+msgid ""
+"Word while searching is going on front when \"Overlay skins\" is default."
+msgstr ""
+"Das Wort, das während der Suche angezeigt wird, wenn \"Overlay-Skins\" die "
+"Standardeinstellung ist."
+
+msgid "WordPress Cron"
+msgstr "WordPress Cron"
+
+msgid "WordPress Cron period"
+msgstr "WordPress-Cron-Zeitraum"
+
+msgid "WordPress cron period"
+msgstr "WordPress-Cron-Zeitraum"
+
+msgid ""
+"WordPress plugin for managing and bulk edit WooCommerce Products data in "
+"robust and flexible way! Be professionals with managing data of your "
+"woocommerce e-shop!"
+msgstr ""
+"WordPress-Plugin zum Verwalten und Bearbeiten von WooCommerce-Produktdaten "
+"in zuverlässiger und vielseitige Art! Seien Sie ein Profi bei der Verwaltung "
+"der Daten Ihres Woocommerce-e-Shops!"
+
+msgid ""
+"Works for radio and checkboxes only. Allows show radio/checkboxes in 1 row!"
+msgstr ""
+"Funktioniert nur für Optionsfelder und Checkboxen. Ermöglicht das Anzeigen "
+"von Optionsfeldern / Checkboxen in einer Zeile!"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid ""
+"Yes - filtering starts immediately if user changed any item in the search "
+"form. No - user can set search data and then should press Filter button"
+msgstr ""
+"Ja -> Die Filterung beginnt sofort, wenn der Benutzer ein Element im "
+"Suchformular geändert hat. Nein -> Benutzer kann Suchdaten festlegen und "
+"muss dann den Filter-Button drücken."
+
+msgid "Yes(only if the product exists)"
+msgstr "Ja (nur wenn das Produkt vorhanden ist)"
+
+msgid "Yes, but only for desktop"
+msgstr "Ja, aber nur für den Desktop"
+
+msgid "Yes, but only for mobile devices"
+msgstr "Ja, aber nur für mobile Geräte"
+
+msgid "Yes, show as closed"
+msgstr "Ja, als geschlossen anzeigen"
+
+msgid "Yes, show as opened"
+msgstr "Ja, als geöffnet anzeigen"
+
+msgid "You are unsubscribed from the future products newsletters."
+msgstr "Du bist von den zukünftigen Produkt-Newslettern abgemeldet."
+
+msgid ""
+"You can always assemble products data for Turbo Mode by one click! While its "
+"assembling filtering on the site front is still possible with previous "
+"assembled products data until new data assembled!"
+msgstr ""
+"Sie können jederzeit die Produktdaten für den Turbo Mode mit einem Klick "
+"zusammenstellen! Bis neue Daten zusammengestellt sind, ist das Filtern auf "
+"der Website nur mit den vorher zusammengestellten Produktdaten möglich!"
+
+msgid ""
+"You can define the conditions for displaying filter elements depending of "
+"the current filtering request. Briefly this feature allows to hide some "
+"filter-elements while others are not selected. Or vice versa - show some "
+"filter-elements if some another filter elements are selected."
+msgstr ""
+"Sie können die Bedingungen für die Anzeige von Filterelementen in "
+"Abhängigkeit von der aktuellen Filteranforderung festlegen. Kurz gesagt "
+"erlaubt diese Funktion, einige Filterelemente auszublenden, während andere "
+"nicht ausgewählt sind. Oder umgekehrt einige Filterelemente anzeigen, wenn "
+"andere Filterelemente ausgewählt sind."
+
+msgid "You can define whith which role show users in the drop down"
+msgstr ""
+"Sie können festlegen, mit welcher Rolle die Benutzer in der Dropdown-Liste "
+"angezeigt werden"
+
+msgid "You should write extension info in info.dat file!"
+msgstr "Sie sollten Erweiterungsinformationen in die Datei info.dat schreiben!"
+
+msgid "You unsubscribed from the newsletter."
+msgstr "Du hast dich vom Newsletter abgemeldet."
+
+msgid "Your settings have been saved."
+msgstr "Deine Einstellungen wurden gespeichert."
+
+msgid "additional options"
+msgstr "Zusatzoptionen"
+
+msgid "all"
+msgstr "alles"
+
+msgid "as Image"
+msgstr "als Bild"
+
+msgid "as Text"
+msgstr "als Text"
+
+msgid "average rating between 1 to 2-"
+msgstr "Durchschnittswertung zwischen 1 bis 2"
+
+msgid "average rating between 2 to 3-"
+msgstr "Durchschnittswertung zwischen 2 bis 3"
+
+msgid "average rating between 3 to 4-"
+msgstr "Durchschnittswertung zwischen 3 bis 4"
+
+msgid "average rating between 4 to 5"
+msgstr "Durchschnittswertung zwischen 4 bis 5"
+
+msgid "background image url 25x25"
+msgstr "Hintergrundbild URL 25x25 px"
+
+msgid "behavior of the text searching"
+msgstr "Verhalten der Textsuche"
+
+msgid "by SKU"
+msgstr "nach SKU"
+
+msgid "clean cache automatically daily"
+msgstr " Cache täglich automatisch bereinigen"
+
+msgid "clean cache automatically each 2 days"
+msgstr " Cache alle zwei Tage automatisch bereinigen"
+
+msgid "clean cache automatically each 3 days"
+msgstr " Cache alle drei Tage automatisch bereinigen"
+
+msgid "clean cache automatically each 4 days"
+msgstr " Cache alle vier Tage automatisch bereinigen"
+
+msgid "clean cache automatically each 5 days"
+msgstr " Cache alle fünf Tage automatisch bereinigen"
+
+msgid "clean cache automatically each 6 days"
+msgstr " Cache alle sechs Tage automatisch bereinigen"
+
+msgid "clean cache automatically each 7 days"
+msgstr " Cache alle sieben Tage automatisch bereinigen"
+
+msgid "clean cache automatically hourly"
+msgstr " Cache stündlich automatisch bereinigen"
+
+msgid "clean cache automatically twicedaily"
+msgstr " Cache täglich zweimal automatisch bereinigen"
+
+msgid "clear"
+msgstr "bereinigen"
+
+msgid "clear cache"
+msgstr "Cache leeren"
+
+msgid "clear terms cache"
+msgstr "Begriffs-Cache löschen"
+
+msgid "daily"
+msgstr "täglich"
+
+msgid "date"
+msgstr "Datum"
+
+msgid "default_overlay_skin_word"
+msgstr "default_overlay_skin_word"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "do not clean cache automatically"
+msgstr "Den Cache nicht automatisch bereinigen"
+
+msgid "do not use shortcodes here in turbo mode"
+msgstr "Verwenden Sie hier keine Shortcodes im Turbomodus"
+
+msgid "drag and drope"
+msgstr "Drag & Drop"
+
+msgid "drawing graphs ..."
+msgstr "Diagramme zeichnen ..."
+
+msgid "each %s days"
+msgstr "jeweils %s Tage"
+
+msgid "enter a product sku here ..."
+msgstr "Geben Sie hier ein Produkt-SKU ein ..."
+
+msgid "enter a product title here ..."
+msgstr "Geben Sie hier einen Produkttitel ein ..."
+
+msgid "enter a text here ..."
+msgstr "Geben Sie hier einen Text ein ..."
+
+msgid "enter product ID"
+msgstr "Produkt-ID eingeben"
+
+msgid "enter title"
+msgstr "Titel eingeben"
+
+msgid "excluded terms ids"
+msgstr "ausgeschlossene Begriffs-IDs"
+
+msgid "filter by price"
+msgstr "Filtern nach Preis"
+
+msgid "finished!"
+msgstr "fertig!"
+
+msgid "from"
+msgstr "von"
+
+msgid "from: %s"
+msgstr "von: %s"
+
+msgid "full version of the plugin"
+msgstr "Vollversion des Plugins"
+
+msgid "hide products filter"
+msgstr "Produktfilter ausblenden"
+
+msgid "hourly"
+msgstr "stündlich"
+
+msgid "how to show slideout popup after page loaded: opened or closed"
+msgstr ""
+"Anzeigen des Slideout-Popups nach dem Laden der Seite: geöffnet oder "
+"geschlossen"
+
+msgid "jQuery-ui calendar date format"
+msgstr "jQuery-ui-Kalender-Datumsformat"
+
+msgid "leave it empty to show all terms"
+msgstr "Lassen Sie es leer, um alle Begriffe anzuzeigen"
+
+msgid "leave it empty to use native taxonomy name"
+msgstr "Lassen Sie es leer, um den Namen der nativen Taxonomie zu verwenden"
+
+msgid "max price"
+msgstr "Max. Preis"
+
+msgid "menu order"
+msgstr "Menüreihenfolge"
+
+msgid "min price"
+msgstr "Min. Preis"
+
+msgid "min1"
+msgstr "min1"
+
+msgid "monthly"
+msgstr "monatlich"
+
+msgid "move"
+msgstr "bewegen"
+
+msgid "new"
+msgstr "neu"
+
+msgid "new window"
+msgstr "neues Fenster"
+
+msgid "number"
+msgstr "Zahl"
+
+msgid "orderby"
+msgstr "Bestellung über"
+
+msgid "per page"
+msgstr "pro Seite"
+
+msgid "popularity"
+msgstr "Beliebtheit"
+
+msgid "popup animation speed in (ms)"
+msgstr "Popup-Animationsgeschwindigkeit in (ms)"
+
+msgid "predifined step"
+msgstr "vordefinierter Schritt"
+
+msgid "price high to low"
+msgstr "Preis hoch bis niedrig"
+
+msgid "price low to high"
+msgstr "Preis niedrig bis hoch"
+
+msgid "price range"
+msgstr "Preisbereich"
+
+msgid "px"
+msgstr "px"
+
+msgid "rating"
+msgstr "Bewertung"
+
+msgid "remove extension"
+msgstr "Erweiterung entfernen"
+
+msgid "select image"
+msgstr "Bild auswählen"
+
+msgid "set link to the image"
+msgstr "Link zum Bild setzen"
+
+msgid "show blocks helper"
+msgstr "Hilfsblöcke anzeigen"
+
+msgid "show products filter"
+msgstr "Produktfilter anzeigen"
+
+msgid "string"
+msgstr "string"
+
+msgid "support"
+msgstr "support"
+
+msgid "the same window"
+msgstr "das gleiche Fenster"
+
+msgid "to"
+msgstr "zu"
+
+msgid "to: %s"
+msgstr "an: %s"
+
+msgid "toggle"
+msgstr "Umschalten"
+
+msgid "toggle color terms"
+msgstr "Farbbegriffe umschalten"
+
+msgid "toggle image terms"
+msgstr "Bildbegriffe umschalten"
+
+msgid "twicedaily"
+msgstr "zweimal täglich"
+
+msgid "twicemonthly"
+msgstr "zweimal im Monat"
+
+msgid "unsubscribe"
+msgstr "abbestellen"
+
+msgid "ver.: %s"
+msgstr "Ver.: %s"
+
+msgid "weekly"
+msgstr "wöchentlich"
+
+msgid "without update"
+msgstr "ohne Update"
+
+msgid "xxx"
+msgstr "xxx"
+
+msgid "Сlear"
+msgstr "Bereinigen"
+
+msgid "Сonditionals"
+msgstr "Bedingungen"
+
+msgid "Сontainer size"
+msgstr "Container-Größe"
+
+msgid "Сount is max"
+msgstr "Anzahl ist max"

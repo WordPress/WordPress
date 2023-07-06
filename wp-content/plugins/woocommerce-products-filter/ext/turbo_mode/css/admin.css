@@ -1,0 +1,28 @@
+.woof_qt_succes{
+    font-style: italic;
+    color: green;
+    margin-left: 20px;
+    display: inline-block;
+}
+.woof_qt_fail{
+    font-style: italic;
+    color: red;
+    margin-left: 20px;
+    display: inline-block;
+}
+.woof_turbo_mode_product_load img{
+    display: none;
+    width: 30px;
+    height: auto;
+}
+.woof_turbo_mode_product_succes{
+    display: none;
+}
+.woof_turbo_mode_product_succes img{
+    width: 40px;
+}  
+.woof_turbo_mode_product_succes p{
+    display: inline-block;
+    vertical-align: bottom;
+}    
+

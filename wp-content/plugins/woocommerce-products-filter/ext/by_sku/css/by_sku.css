@@ -1,0 +1,50 @@
+.woof_sku_search_container.woof_container{
+   
+}
+
+.woof_show_sku_search_container{
+    position: relative;
+}
+
+.woof_sku_search_container .woof_sku_search_go{
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    z-index: 99;
+    box-shadow: none !important;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url("../img/magnifying-glass2.svg");
+    display: none;
+    border: none !important;
+    text-decoration: none !important;
+}
+.woof_sku_search_container .woof_sku_search_reset{
+    position: absolute;
+    right: -23px;
+    top: 3px;
+    z-index: 99;
+    box-shadow: none !important;
+    display: block;
+    display: none;
+    border: none !important;
+    text-decoration: none !important;
+}
+
+.woof_sku_search_container input[type='search']{
+    width: 100% !important;
+    padding: 9px !important;
+    margin: 0 !important;
+    line-height: 0 !important;
+    font-size: 14px;
+}
+
+.woof_sku_notes_for_customer{
+    display: inline-block;
+    padding: 3px 5px;
+    font-size: 11px;
+    font-style: italic;
+    color: #bbb;
+}
+

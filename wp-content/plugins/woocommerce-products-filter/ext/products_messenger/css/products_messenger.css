@@ -1,0 +1,78 @@
+.woof_icon_subscr{
+    width:  25px;
+    height: 25px;
+    background-image: url(../img/feedback.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+.woof_products_messenger_container .woof_subscr_list ul{
+    list-style: none;
+}
+.woof_subscr_list p:hover.woof_tooltip span.woof_tooltip_data {
+    bottom: 30px;
+}
+.woof_subscr_item{
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+.woof_subscr_item a{
+    padding: 4px 0 0 2px;
+    text-decoration: none;
+
+}
+.woof_subscr_item a:hover{
+    background: #f2f2f2
+}
+.woof_subscr_list input.woof_remove_subscr{   
+    background: none;
+    margin-left: 10px;
+    text-decoration: none;
+    color: #515151;
+    border: 2px solid #ebebeb;
+    float:right;
+    box-shadow: none;
+    text-shadow: none;
+
+}
+.woof_subscr_list input.woof_remove_subscr:hover{   
+    background: #ebe9eb;
+}
+#woof_add_subscr{   
+    background: none;
+    text-decoration: none;
+    color: #515151;
+    border: 2px solid #ebebeb;
+    box-shadow: none;
+    text-shadow: none;
+}
+#woof_add_subscr:hover{
+    background: #ebe9eb;
+}
+.woof_subscr_price, .woof_author_name, .woof_terms{
+    margin-right: 5px;
+    vertical-align: middle;
+}
+a.woof_remove_subscr{
+    margin-left: 5px;
+    padding: 0;
+    vertical-align: middle;
+}
+
+a.woof_remove_subscr img{
+    display: inline-block;
+}
+.woof_cron_link{
+    color: red;
+
+}
+.woof_products_messenger_notes_for_customer{
+    display: inline-block;
+    padding: 3px 5px;
+    font-size: 11px;
+    font-style: italic;
+    color: #bbb;
+}
+
+

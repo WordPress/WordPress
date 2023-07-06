@@ -1,0 +1,29 @@
+/* http://anseki.github.io/jquery-plainoverlay/ */
+
+#woof_svg_load_container {
+    width: 600px;
+    height: 600px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+@media only screen and (max-width: 320px) {
+    #woof_svg_load_container {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #woof_svg_load_container {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+#woof_svg_load_container img {
+    width: 100%;
+    height: 100%;
+}
+
+

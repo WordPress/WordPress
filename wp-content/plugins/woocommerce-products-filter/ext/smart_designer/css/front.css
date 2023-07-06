@@ -1,0 +1,31 @@
+.woof_list_sd .woof_open_hidden_li{
+    width: 100%;
+}
+
+.woof-sd-ie .woof-sd-ie-count:empty{
+    display: none !important;
+}
+
+.woof-sd-ie .woof-sd-list-opener{
+    line-height: 0;
+    position: relative;
+    top: -1px;
+}
+
+.woof-sd-ie woof-sd-list-opener{
+    top: -2px;
+    position: relative;
+}
+
+.woof-sd-ie .woof_childs_list_opener span{
+    width: 18px;
+    height: 18px;
+}
+
+.woof-sd-ie .woof_radio_term_reset_visible{
+    position: absolute;
+    right: -9px;
+    top: -11px;
+}
+
+

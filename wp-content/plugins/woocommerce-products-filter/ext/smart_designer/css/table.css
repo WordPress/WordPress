@@ -1,0 +1,114 @@
+data-table,
+data-table-row,
+data-table-cell{
+    display: block;
+    box-sizing: border-box;
+}
+
+data-table {
+    width: 100%;
+}
+
+data-table-row {
+    display: flex;
+    flex-flow: row wrap;
+    border-left: solid 1px #d9d9d9;
+    transition: 0.5s;
+}
+
+data-table-row:first-of-type {
+    border-top: solid 1px #2f71b1;
+    border-left: solid 1px #2f71b1;
+}
+
+data-table-row:first-of-type data-table-cell{
+    background: #477bff !important;
+    color: #fff !important;
+    border-color: #1565C0 !important;
+}
+
+data-table-row:not([hidden]):nth-child(2n):nth-child(even) data-table-cell {
+    background: #f8f9fc;
+}
+
+data-table-row:hover {
+    background: #F5F5F5;
+    transition: 500ms;
+}
+
+data-table-cell {
+    position: relative;
+    /* width: calc(100% / 4);*/
+    width: var(--width);
+    text-align: center;
+    padding: 0.5em 0.5em;
+    border-right: solid 1px #d9d9d9;
+    border-bottom: solid 1px #d9d9d9;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media all and (max-width: 767px) {
+    data-table-cell:last-of-type {
+        border-bottom: solid 1px #d9d9d9;
+    }
+
+    data-table-cell {
+        width: 100%;
+        border-bottom: 0;
+    }
+
+    data-table-cell:first-child {
+        width: 100%;
+        border-bottom: solid 1px #d9d9d9;
+    }
+}
+
+
+data-table-cell.text-cell-editable{
+    cursor: pointer;
+}
+
+data-table-cell.text-cell-editable input{
+    width: 100%;
+    border: solid 1px #d9d9d9;
+    padding: 3px;
+}
+
+data-table-cell.text-cell-editable input:focus{
+    outline: none;
+}
+
+
+
+.btn {
+    display: inline-block;
+    padding: 4px 12px;
+    outline: none;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    font-weight: 400;
+    color: #0d6efd;
+    border: 1px solid #2f55d4;
+    background-color: transparent;
+    border-radius: 6px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.data-table-cell-help{
+    position: absolute;
+    top: 11px;
+    right: 12px;
+}
+
+.data-table-cell-help img{
+    width: 15px;
+}
+
+
+

@@ -1,0 +1,6 @@
+title="ACF fields"
+version="1.0"
+description="Filter by ACF fields."
+warning="Possible types: 'select', 'radio', 'true_false'"
+link="https://products-filter.com/extencion/acf"
+

@@ -1,0 +1,6 @@
+title="Turbo mode"
+version="1.0"
+description="Boost speed of products filtering. This mode allows to avoid generating big MySQL queries while products filtering on the site front."
+link="https://products-filter.com/extencion/turbo-mode/"
+
+

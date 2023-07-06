@@ -1,0 +1,71 @@
+.woof_sid_auto_shortcode .woof_container_color{
+
+}
+
+.woof_sid_auto_shortcode .woof_container_inner_color{
+    padding: 9px;
+    background: #fff;
+    border-radius: 7px;
+    border-radius: 7px;
+}
+
+ul.woof_list_color li{
+    display: inline-block !important;
+}
+
+ul.woof_list_color li {
+    display: inline-block;
+    float: none !important;
+    margin: 3px 3px 0 0 !important;
+    padding: 0 !important;
+}
+ul.woof_list_color.woof_color_title_col li {
+    display: block;
+}
+.woof_color_title_col li .woof_color_term {
+    display: inline-block;
+}
+ul.woof_list_color.woof_color_title_col li .woof_color_title{
+    display: inline-block;
+    height: 30px;
+    padding: 5px;
+    vertical-align: top;
+    font-size: 14px;
+}
+.woof_color_title_col p:hover.woof_tooltip span.woof_tooltip_data {
+    bottom: 40px;
+}
+
+.woof_color_term {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #eee;
+    padding: 2px;
+    background-clip: content-box;
+    color: #292f38;
+    font-size: 0;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color .35s ease;
+    background-size: cover !important;
+}
+
+.woof_color_term:hover{
+    border-style: double;
+}
+
+.woof_color_term.checked {
+    border-color: #292f38;
+}
+
+.woof_color_checked {
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
