@@ -5666,11 +5666,12 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 		/*
 		 * Skip programmatically created images within post content as they need to be handled together with the other
 		 * images within the post content.
-		 * Without this clause, they would already be counted below which skews the number and can result in the first
-		 * post content image being lazy-loaded only because there are images elsewhere in the post content.
+		 * Without this clause, they would already be considered below which skews the image count and can result in
+		 * the first post content image being lazy-loaded or an image further down the page being marked as a high
+		 * priority.
 		 */
 		if ( doing_filter( 'the_content' ) ) {
-			return $postprocess( $loading_attrs, true );
+			return $loading_attrs;
 		}
 
 		// Conditionally skip lazy-loading on images before the loop.
