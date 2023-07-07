@@ -1947,7 +1947,11 @@ const metadata = {
     html: false,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -3511,7 +3515,11 @@ const audio_metadata = {
     align: true,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     }
   },
   editorStyle: "wp-block-audio-editor",
@@ -6042,7 +6050,11 @@ const categories_metadata = {
     html: false,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -6741,7 +6753,11 @@ const code_metadata = {
     },
     spacing: {
       margin: ["top", "bottom"],
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     __experimentalBorder: {
       radius: true,
@@ -14645,7 +14661,11 @@ const details_metadata = {
     html: false,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -20817,7 +20837,9 @@ const gallery_metadata = {
       blockGap: ["horizontal", "vertical"],
       __experimentalSkipSerialization: ["blockGap"],
       __experimentalDefaultControls: {
-        blockGap: true
+        blockGap: true,
+        margin: false,
+        padding: false
       }
     },
     color: {
@@ -22508,7 +22530,11 @@ const {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -22673,7 +22699,11 @@ const heading_metadata = {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -24029,7 +24059,7 @@ function image_Image({
       }
     }, img);
   } else {
-    const ratio = aspectRatio && evalAspectRatio(aspectRatio) || width && height && width / height || naturalWidth / naturalHeight;
+    const ratio = aspectRatio && evalAspectRatio(aspectRatio) || width && height && width / height || naturalWidth / naturalHeight || 1;
     const currentWidth = !width && height ? height * ratio : width;
     const currentHeight = !height && width ? width / ratio : height;
     const minWidth = naturalWidth < naturalHeight ? constants_MIN_SIZE : constants_MIN_SIZE * ratio;
@@ -26700,7 +26730,11 @@ const list_metadata = {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     __unstablePasteTextInline: true,
     __experimentalSelector: "ol,ul",
@@ -27461,7 +27495,11 @@ const {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     __unstablePasteTextInline: true,
     __experimentalSelector: "ol,ul",
@@ -41033,7 +41071,11 @@ const post_time_to_read_metadata = {
     html: false,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -48894,7 +48936,11 @@ const site_logo_metadata = {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     }
   },
   styles: [{
@@ -49108,7 +49154,11 @@ const site_tagline_metadata = {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -49416,7 +49466,11 @@ const site_title_metadata = {
     },
     spacing: {
       padding: true,
-      margin: true
+      margin: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -51222,7 +51276,9 @@ const social_links_metadata = {
       padding: true,
       units: ["px", "em", "rem", "vh", "vw"],
       __experimentalDefaultControls: {
-        blockGap: true
+        blockGap: true,
+        margin: true,
+        padding: false
       }
     }
   },
@@ -53849,7 +53905,11 @@ const table_metadata = {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     typography: {
       fontSize: true,
@@ -56842,7 +56902,11 @@ const verse_metadata = {
     },
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     },
     __experimentalBorder: {
       radius: true,
@@ -57013,7 +57077,11 @@ const video_deprecated_metadata = {
     align: true,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     }
   },
   editorStyle: "wp-block-video-editor",
@@ -57946,7 +58014,11 @@ const video_metadata = {
     align: true,
     spacing: {
       margin: true,
-      padding: true
+      padding: true,
+      __experimentalDefaultControls: {
+        margin: false,
+        padding: false
+      }
     }
   },
   editorStyle: "wp-block-video-editor",

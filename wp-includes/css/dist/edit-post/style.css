@@ -1065,7 +1065,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   background-color:#fff;
   padding:16px 0;
   position:sticky;
-  top:0;
+  top:-4px;
   z-index:1;
 }
 .edit-post-block-manager__category-title .components-checkbox-control__label{

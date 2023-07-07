@@ -30,7 +30,11 @@
       'html' => false,
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -104,7 +108,11 @@
       'align' => true,
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       )
     ),
     'editorStyle' => 'wp-block-audio-editor',
@@ -457,7 +465,11 @@
       'html' => false,
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -514,7 +526,11 @@
           'top',
           'bottom'
         ),
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       '__experimentalBorder' => array(
         'radius' => true,
@@ -1528,7 +1544,11 @@
       'html' => false,
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -1856,7 +1876,9 @@
           'blockGap'
         ),
         '__experimentalDefaultControls' => array(
-          'blockGap' => true
+          'blockGap' => true,
+          'margin' => false,
+          'padding' => false
         )
       ),
       'color' => array(
@@ -2027,7 +2049,11 @@
       ),
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -2537,7 +2563,11 @@
       ),
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       '__unstablePasteTextInline' => true,
       '__experimentalSelector' => 'ol,ul',
@@ -4978,7 +5008,11 @@
       ),
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       )
     ),
     'styles' => array(
@@ -5029,7 +5063,11 @@
       ),
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -5092,7 +5130,11 @@
       ),
       'spacing' => array(
         'padding' => true,
-        'margin' => true
+        'margin' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -5244,7 +5286,9 @@
           'vw'
         ),
         '__experimentalDefaultControls' => array(
-          'blockGap' => true
+          'blockGap' => true,
+          'margin' => true,
+          'padding' => false
         )
       )
     ),
@@ -5481,7 +5525,11 @@
       ),
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       'typography' => array(
         'fontSize' => true,
@@ -5752,7 +5800,11 @@
       ),
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       '__experimentalBorder' => array(
         'radius' => true,
@@ -5853,7 +5905,11 @@
       'align' => true,
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       )
     ),
     'editorStyle' => 'wp-block-video-editor',

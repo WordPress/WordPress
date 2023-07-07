@@ -40,7 +40,11 @@
 		},
 		"spacing": {
 			"padding": true,
-			"margin": true
+			"margin": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
 		},
 		"typography": {
 			"fontSize": true,

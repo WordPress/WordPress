@@ -5115,6 +5115,7 @@ function floating_ui_dom_browser_min_n(t){var e;return(null==(e=t.ownerDocument)
 
 ;// CONCATENATED MODULE: external "ReactDOM"
 var external_ReactDOM_namespaceObject = window["ReactDOM"];
+var external_ReactDOM_default = /*#__PURE__*/__webpack_require__.n(external_ReactDOM_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js
 
 
@@ -38978,6 +38979,7 @@ function UnitSelectControl({
 
 
 
+
 function UnforwardedUnitControl(unitControlProps, forwardedRef) {
   const {
     __unstableStateReducer,
@@ -39021,9 +39023,9 @@ function UnforwardedUnitControl(unitControlProps, forwardedRef) {
     const firstCharacters = rest.reduce((carry, {
       value
     }) => {
-      const first = value?.substring(0, 1) || '';
+      const first = escapeRegExp(value?.substring(0, 1) || '');
       return carry.includes(first) ? carry : `${carry}|${first}`;
-    }, firstUnitValue.substring(0, 1));
+    }, escapeRegExp(firstUnitValue.substring(0, 1)));
     return [list, new RegExp(`^(?:${firstCharacters})$`, 'i')];
   }, [nonNullValueProp, unitProp, unitsProp]);
   const [parsedQuantity, parsedUnit] = getParsedQuantityAndUnit(nonNullValueProp, unitProp, units);
@@ -59275,7 +59277,6 @@ function PageControl({
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -59324,8 +59325,16 @@ function Guide({
   onFinish,
   pages = []
 }) {
-  const guideContainer = (0,external_wp_element_namespaceObject.useRef)(null);
+  const ref = (0,external_wp_element_namespaceObject.useRef)(null);
   const [currentPage, setCurrentPage] = (0,external_wp_element_namespaceObject.useState)(0);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    // Place focus at the top of the guide on mount and when the page changes.
+    const frame = ref.current?.querySelector('.components-guide');
+
+    if (frame instanceof HTMLElement) {
+      frame.focus();
+    }
+  }, [currentPage]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (external_wp_element_namespaceObject.Children.count(children)) {
       external_wp_deprecated_default()('Passing children to <Guide>', {
@@ -59334,13 +59343,6 @@ function Guide({
       });
     }
   }, [children]);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // Each time we change the current page, start from the first element of the page.
-    // This also solves any focus loss that can happen.
-    if (guideContainer.current) {
-      external_wp_dom_namespaceObject.focus.tabbable.find(guideContainer.current)[0]?.focus();
-    }
-  }, [currentPage]);
 
   if (external_wp_element_namespaceObject.Children.count(children)) {
     var _Children$map;
@@ -59385,7 +59387,7 @@ function Guide({
         event.preventDefault();
       }
     },
-    ref: guideContainer
+    ref: ref
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "components-guide__container"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
@@ -72010,7 +72012,7 @@ const with_focus_return_Provider = ({
 
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
 var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/primitive/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/primitive/dist/index.module.js
 function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEventHandler, { checkForDefaultPrevented: checkForDefaultPrevented = true  } = {}) {
     return function handleEvent(event) {
         originalEventHandler === null || originalEventHandler === void 0 || originalEventHandler(event);
@@ -72022,9 +72024,8 @@ function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEven
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-compose-refs/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-compose-refs/dist/index.module.js
 
 
 
@@ -72055,9 +72056,8 @@ function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEven
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-context/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-context/dist/index.module.js
 
 
 
@@ -72185,9 +72185,8 @@ function $c512c27ab02ef895$export$fd42f52fd3ae1109(rootComponentName, defaultCon
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-callback-ref/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-callback-ref/dist/index.module.js
 
 
 
@@ -72210,9 +72209,8 @@ function $c512c27ab02ef895$export$fd42f52fd3ae1109(rootComponentName, defaultCon
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-controllable-state/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-controllable-state/dist/index.module.js
 
 
 
@@ -72265,9 +72263,8 @@ function $71cd76cc60e0454e$var$useUncontrolledState({ defaultProp: defaultProp ,
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-slot/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-slot/dist/index.module.js
 
 
 
@@ -72307,7 +72304,7 @@ $5e63c961fc1ce211$export$8c6ed5c666ac1360.displayName = 'Slot';
     const { children: children , ...slotProps } = props;
     if (/*#__PURE__*/ (0,external_React_.isValidElement)(children)) return /*#__PURE__*/ (0,external_React_.cloneElement)(children, {
         ...$5e63c961fc1ce211$var$mergeProps(slotProps, children.props),
-        ref: forwardedRef ? $6ed0406888f73fc4$export$43e446d32b3d21af(forwardedRef, children.ref) : children.ref
+        ref: $6ed0406888f73fc4$export$43e446d32b3d21af(forwardedRef, children.ref)
     });
     return external_React_.Children.count(children) > 1 ? external_React_.Children.only(null) : null;
 });
@@ -72356,9 +72353,8 @@ const $5e63c961fc1ce211$export$be92b6f5f03c0fe9 = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-primitive/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-primitive/dist/index.module.js
 
 
 
@@ -72454,9 +72450,8 @@ const $8927f6f2acc4f386$var$NODES = [
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-collection/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-collection/dist/index.module.js
 
 
 
@@ -72483,9 +72478,9 @@ function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
     });
     const CollectionProvider = (props)=>{
         const { scope: scope , children: children  } = props;
-        const ref = external_React_.useRef(null);
-        const itemMap = external_React_.useRef(new Map()).current;
-        return /*#__PURE__*/ external_React_.createElement(CollectionProviderImpl, {
+        const ref = external_React_default().useRef(null);
+        const itemMap = external_React_default().useRef(new Map()).current;
+        return /*#__PURE__*/ external_React_default().createElement(CollectionProviderImpl, {
             scope: scope,
             itemMap: itemMap,
             collectionRef: ref
@@ -72497,11 +72492,11 @@ function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
     /* -----------------------------------------------------------------------------------------------
    * CollectionSlot
    * ---------------------------------------------------------------------------------------------*/ const COLLECTION_SLOT_NAME = name + 'CollectionSlot';
-    const CollectionSlot = /*#__PURE__*/ external_React_.forwardRef((props, forwardedRef)=>{
+    const CollectionSlot = /*#__PURE__*/ external_React_default().forwardRef((props, forwardedRef)=>{
         const { scope: scope , children: children  } = props;
         const context = useCollectionContext(COLLECTION_SLOT_NAME, scope);
         const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, context.collectionRef);
-        return /*#__PURE__*/ external_React_.createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
+        return /*#__PURE__*/ external_React_default().createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
             ref: composedRefs
         }, children);
     });
@@ -72512,12 +72507,12 @@ function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
    * CollectionItem
    * ---------------------------------------------------------------------------------------------*/ const ITEM_SLOT_NAME = name + 'CollectionItemSlot';
     const ITEM_DATA_ATTR = 'data-radix-collection-item';
-    const CollectionItemSlot = /*#__PURE__*/ external_React_.forwardRef((props, forwardedRef)=>{
+    const CollectionItemSlot = /*#__PURE__*/ external_React_default().forwardRef((props, forwardedRef)=>{
         const { scope: scope , children: children , ...itemData } = props;
-        const ref = external_React_.useRef(null);
+        const ref = external_React_default().useRef(null);
         const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, ref);
         const context = useCollectionContext(ITEM_SLOT_NAME, scope);
-        external_React_.useEffect(()=>{
+        external_React_default().useEffect(()=>{
             context.itemMap.set(ref, {
                 ref: ref,
                 ...itemData
@@ -72525,7 +72520,7 @@ function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
             return ()=>void context.itemMap.delete(ref)
             ;
         });
-        return /*#__PURE__*/ external_React_.createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
+        return /*#__PURE__*/ external_React_default().createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
             [ITEM_DATA_ATTR]: '',
             ref: composedRefs
         }, children);
@@ -72537,7 +72532,7 @@ function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
    * useCollection
    * ---------------------------------------------------------------------------------------------*/ function useCollection(scope) {
         const context = useCollectionContext(name + 'CollectionConsumer', scope);
-        const getItems = external_React_.useCallback(()=>{
+        const getItems = external_React_default().useCallback(()=>{
             const collectionNode = context.collectionRef.current;
             if (!collectionNode) return [];
             const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`));
@@ -72566,9 +72561,8 @@ function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-direction/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-direction/dist/index.module.js
 
 
 
@@ -72591,9 +72585,8 @@ const $f631663db3294ace$export$2881499e37b75b9a = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-escape-keydown/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-escape-keydown/dist/index.module.js
 
 
 
@@ -72620,9 +72613,8 @@ const $f631663db3294ace$export$2881499e37b75b9a = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dismissable-layer/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dismissable-layer/dist/index.module.js
 
 
 
@@ -72903,9 +72895,8 @@ const $5cb92bef7577960e$export$aecb2ddcb55c95be = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-focus-guards/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-focus-guards/dist/index.module.js
 
 
 
@@ -72944,9 +72935,8 @@ const $3db38b7d1fb3fe6a$export$be92b6f5f03c0fe9 = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-focus-scope/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-focus-scope/dist/index.module.js
 
 
 
@@ -72996,43 +72986,15 @@ const $d3863c46a17e8a28$export$20e40289641fbbb6 = /*#__PURE__*/ (0,external_Reac
             }
             function handleFocusOut(event) {
                 if (focusScope.paused || !container1) return;
-                const relatedTarget = event.relatedTarget; // A `focusout` event with a `null` `relatedTarget` will happen in at least two cases:
-                //
-                // 1. When the user switches app/tabs/windows/the browser itself loses focus.
-                // 2. In Google Chrome, when the focused element is removed from the DOM.
-                //
-                // We let the browser do its thing here because:
-                //
-                // 1. The browser already keeps a memory of what's focused for when the page gets refocused.
-                // 2. In Google Chrome, if we try to focus the deleted focused element (as per below), it
-                //    throws the CPU to 100%, so we avoid doing anything for this reason here too.
-                if (relatedTarget === null) return; // If the focus has moved to an actual legitimate element (`relatedTarget !== null`)
-                // that is outside the container, we move focus to the last valid focused element inside.
-                if (!container1.contains(relatedTarget)) $d3863c46a17e8a28$var$focus(lastFocusedElementRef.current, {
+                if (!container1.contains(event.relatedTarget)) $d3863c46a17e8a28$var$focus(lastFocusedElementRef.current, {
                     select: true
                 });
-            } // When the focused element gets removed from the DOM, browsers move focus
-            // back to the document.body. In this case, we move focus to the container
-            // to keep focus trapped correctly.
-            function handleMutations(mutations) {
-                const focusedElement = document.activeElement;
-                for (const mutation of mutations){
-                    if (mutation.removedNodes.length > 0) {
-                        if (!(container1 !== null && container1 !== void 0 && container1.contains(focusedElement))) $d3863c46a17e8a28$var$focus(container1);
-                    }
-                }
             }
             document.addEventListener('focusin', handleFocusIn);
             document.addEventListener('focusout', handleFocusOut);
-            const mutationObserver = new MutationObserver(handleMutations);
-            if (container1) mutationObserver.observe(container1, {
-                childList: true,
-                subtree: true
-            });
             return ()=>{
                 document.removeEventListener('focusin', handleFocusIn);
                 document.removeEventListener('focusout', handleFocusOut);
-                mutationObserver.disconnect();
             };
         }
     }, [
@@ -73241,9 +73203,8 @@ const $d3863c46a17e8a28$export$be92b6f5f03c0fe9 = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-layout-effect/dist/index.module.js
 
 
 
@@ -73259,15 +73220,14 @@ const $d3863c46a17e8a28$export$be92b6f5f03c0fe9 = (/* unused pure expression or 
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-id/dist/index.mjs
-
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-id/dist/index.module.js
 
 
 
 
-const $1746a345f3d73bb7$var$useReactId = external_React_namespaceObject['useId'.toString()] || (()=>undefined
+
+const $1746a345f3d73bb7$var$useReactId = external_React_['useId'.toString()] || (()=>undefined
 );
 let $1746a345f3d73bb7$var$count = 0;
 function $1746a345f3d73bb7$export$f680877a34711e37(deterministicId) {
@@ -73285,7 +73245,12 @@ function $1746a345f3d73bb7$export$f680877a34711e37(deterministicId) {
 
 
 
-//# sourceMappingURL=index.mjs.map
+
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-popper/node_modules/@floating-ui/core/dist/floating-ui.core.browser.min.mjs
+function floating_ui_core_browser_min_t(t){return t.split("-")[0]}function dist_floating_ui_core_browser_min_e(t){return t.split("-")[1]}function dist_floating_ui_core_browser_min_n(e){return["top","bottom"].includes(floating_ui_core_browser_min_t(e))?"x":"y"}function dist_floating_ui_core_browser_min_r(t){return"y"===t?"height":"width"}function floating_ui_core_browser_min_i(i,o,a){let{reference:l,floating:s}=i;const c=l.x+l.width/2-s.width/2,f=l.y+l.height/2-s.height/2,u=dist_floating_ui_core_browser_min_n(o),m=dist_floating_ui_core_browser_min_r(u),g=l[m]/2-s[m]/2,d="x"===u;let p;switch(floating_ui_core_browser_min_t(o)){case"top":p={x:c,y:l.y-s.height};break;case"bottom":p={x:c,y:l.y+l.height};break;case"right":p={x:l.x+l.width,y:f};break;case"left":p={x:l.x-s.width,y:f};break;default:p={x:l.x,y:l.y}}switch(dist_floating_ui_core_browser_min_e(o)){case"start":p[u]-=g*(a&&d?-1:1);break;case"end":p[u]+=g*(a&&d?-1:1)}return p}const dist_floating_ui_core_browser_min_o=async(t,e,n)=>{const{placement:r="bottom",strategy:o="absolute",middleware:a=[],platform:l}=n,s=await(null==l.isRTL?void 0:l.isRTL(e));let c=await l.getElementRects({reference:t,floating:e,strategy:o}),{x:f,y:u}=floating_ui_core_browser_min_i(c,r,s),m=r,g={},d=0;for(let n=0;n<a.length;n++){const{name:p,fn:h}=a[n],{x:y,y:x,data:w,reset:v}=await h({x:f,y:u,initialPlacement:r,placement:m,strategy:o,middlewareData:g,rects:c,platform:l,elements:{reference:t,floating:e}});f=null!=y?y:f,u=null!=x?x:u,g={...g,[p]:{...g[p],...w}},v&&d<=50&&(d++,"object"==typeof v&&(v.placement&&(m=v.placement),v.rects&&(c=!0===v.rects?await l.getElementRects({reference:t,floating:e,strategy:o}):v.rects),({x:f,y:u}=floating_ui_core_browser_min_i(c,m,s))),n=-1)}return{x:f,y:u,placement:m,strategy:o,middlewareData:g}};function dist_floating_ui_core_browser_min_a(t){return"number"!=typeof t?function(t){return{top:0,right:0,bottom:0,left:0,...t}}(t):{top:t,right:t,bottom:t,left:t}}function floating_ui_core_browser_min_l(t){return{...t,top:t.y,left:t.x,right:t.x+t.width,bottom:t.y+t.height}}async function dist_floating_ui_core_browser_min_s(t,e){var n;void 0===e&&(e={});const{x:r,y:i,platform:o,rects:s,elements:c,strategy:f}=t,{boundary:u="clippingAncestors",rootBoundary:m="viewport",elementContext:g="floating",altBoundary:d=!1,padding:p=0}=e,h=dist_floating_ui_core_browser_min_a(p),y=c[d?"floating"===g?"reference":"floating":g],x=floating_ui_core_browser_min_l(await o.getClippingRect({element:null==(n=await(null==o.isElement?void 0:o.isElement(y)))||n?y:y.contextElement||await(null==o.getDocumentElement?void 0:o.getDocumentElement(c.floating)),boundary:u,rootBoundary:m,strategy:f})),w=floating_ui_core_browser_min_l(o.convertOffsetParentRelativeRectToViewportRelativeRect?await o.convertOffsetParentRelativeRectToViewportRelativeRect({rect:"floating"===g?{...s.floating,x:r,y:i}:s.reference,offsetParent:await(null==o.getOffsetParent?void 0:o.getOffsetParent(c.floating)),strategy:f}):s[g]);return{top:x.top-w.top+h.top,bottom:w.bottom-x.bottom+h.bottom,left:x.left-w.left+h.left,right:w.right-x.right+h.right}}const floating_ui_core_browser_min_c=Math.min,floating_ui_core_browser_min_f=Math.max;function floating_ui_core_browser_min_u(t,e,n){return floating_ui_core_browser_min_f(t,floating_ui_core_browser_min_c(e,n))}const floating_ui_core_browser_min_m=t=>({name:"arrow",options:t,async fn(i){const{element:o,padding:l=0}=null!=t?t:{},{x:s,y:c,placement:f,rects:m,platform:g}=i;if(null==o)return{};const d=dist_floating_ui_core_browser_min_a(l),p={x:s,y:c},h=dist_floating_ui_core_browser_min_n(f),y=dist_floating_ui_core_browser_min_e(f),x=dist_floating_ui_core_browser_min_r(h),w=await g.getDimensions(o),v="y"===h?"top":"left",b="y"===h?"bottom":"right",R=m.reference[x]+m.reference[h]-p[h]-m.floating[x],A=p[h]-m.reference[h],P=await(null==g.getOffsetParent?void 0:g.getOffsetParent(o));let T=P?"y"===h?P.clientHeight||0:P.clientWidth||0:0;0===T&&(T=m.floating[x]);const O=R/2-A/2,D=d[v],L=T-w[x]-d[b],k=T/2-w[x]/2+O,E=floating_ui_core_browser_min_u(D,k,L),C=("start"===y?d[v]:d[b])>0&&k!==E&&m.reference[x]<=m.floating[x];return{[h]:p[h]-(C?k<D?D-k:L-k:0),data:{[h]:E,centerOffset:k-E}}}}),floating_ui_core_browser_min_g={left:"right",right:"left",bottom:"top",top:"bottom"};function floating_ui_core_browser_min_d(t){return t.replace(/left|right|bottom|top/g,(t=>floating_ui_core_browser_min_g[t]))}function floating_ui_core_browser_min_p(t,i,o){void 0===o&&(o=!1);const a=dist_floating_ui_core_browser_min_e(t),l=dist_floating_ui_core_browser_min_n(t),s=dist_floating_ui_core_browser_min_r(l);let c="x"===l?a===(o?"end":"start")?"right":"left":"start"===a?"bottom":"top";return i.reference[s]>i.floating[s]&&(c=floating_ui_core_browser_min_d(c)),{main:c,cross:floating_ui_core_browser_min_d(c)}}const floating_ui_core_browser_min_h={start:"end",end:"start"};function floating_ui_core_browser_min_y(t){return t.replace(/start|end/g,(t=>floating_ui_core_browser_min_h[t]))}const floating_ui_core_browser_min_x=["top","right","bottom","left"],floating_ui_core_browser_min_w=floating_ui_core_browser_min_x.reduce(((t,e)=>t.concat(e,e+"-start",e+"-end")),[]);const floating_ui_core_browser_min_v=function(n){return void 0===n&&(n={}),{name:"autoPlacement",options:n,async fn(r){var i,o,a,l,c;const{x:f,y:u,rects:m,middlewareData:g,placement:d,platform:h,elements:x}=r,{alignment:v=null,allowedPlacements:b=floating_ui_core_browser_min_w,autoAlignment:R=!0,...A}=n,P=function(n,r,i){return(n?[...i.filter((t=>dist_floating_ui_core_browser_min_e(t)===n)),...i.filter((t=>dist_floating_ui_core_browser_min_e(t)!==n))]:i.filter((e=>floating_ui_core_browser_min_t(e)===e))).filter((t=>!n||dist_floating_ui_core_browser_min_e(t)===n||!!r&&floating_ui_core_browser_min_y(t)!==t))}(v,R,b),T=await dist_floating_ui_core_browser_min_s(r,A),O=null!=(i=null==(o=g.autoPlacement)?void 0:o.index)?i:0,D=P[O];if(null==D)return{};const{main:L,cross:k}=floating_ui_core_browser_min_p(D,m,await(null==h.isRTL?void 0:h.isRTL(x.floating)));if(d!==D)return{x:f,y:u,reset:{placement:P[0]}};const E=[T[floating_ui_core_browser_min_t(D)],T[L],T[k]],C=[...null!=(a=null==(l=g.autoPlacement)?void 0:l.overflows)?a:[],{placement:D,overflows:E}],H=P[O+1];if(H)return{data:{index:O+1,overflows:C},reset:{placement:H}};const B=C.slice().sort(((t,e)=>t.overflows[0]-e.overflows[0])),V=null==(c=B.find((t=>{let{overflows:e}=t;return e.every((t=>t<=0))})))?void 0:c.placement,F=null!=V?V:B[0].placement;return F!==d?{data:{index:O+1,overflows:C},reset:{placement:F}}:{}}}};const floating_ui_core_browser_min_b=function(e){return void 0===e&&(e={}),{name:"flip",options:e,async fn(n){var r;const{placement:i,middlewareData:o,rects:a,initialPlacement:l,platform:c,elements:f}=n,{mainAxis:u=!0,crossAxis:m=!0,fallbackPlacements:g,fallbackStrategy:h="bestFit",flipAlignment:x=!0,...w}=e,v=floating_ui_core_browser_min_t(i),b=g||(v===l||!x?[floating_ui_core_browser_min_d(l)]:function(t){const e=floating_ui_core_browser_min_d(t);return[floating_ui_core_browser_min_y(t),e,floating_ui_core_browser_min_y(e)]}(l)),R=[l,...b],A=await dist_floating_ui_core_browser_min_s(n,w),P=[];let T=(null==(r=o.flip)?void 0:r.overflows)||[];if(u&&P.push(A[v]),m){const{main:t,cross:e}=floating_ui_core_browser_min_p(i,a,await(null==c.isRTL?void 0:c.isRTL(f.floating)));P.push(A[t],A[e])}if(T=[...T,{placement:i,overflows:P}],!P.every((t=>t<=0))){var O,D;const t=(null!=(O=null==(D=o.flip)?void 0:D.index)?O:0)+1,e=R[t];if(e)return{data:{index:t,overflows:T},reset:{placement:e}};let n="bottom";switch(h){case"bestFit":{var L;const t=null==(L=T.map((t=>[t,t.overflows.filter((t=>t>0)).reduce(((t,e)=>t+e),0)])).sort(((t,e)=>t[1]-e[1]))[0])?void 0:L[0].placement;t&&(n=t);break}case"initialPlacement":n=l}if(i!==n)return{reset:{placement:n}}}return{}}}};function floating_ui_core_browser_min_R(t,e){return{top:t.top-e.height,right:t.right-e.width,bottom:t.bottom-e.height,left:t.left-e.width}}function floating_ui_core_browser_min_A(t){return floating_ui_core_browser_min_x.some((e=>t[e]>=0))}const floating_ui_core_browser_min_P=function(t){let{strategy:e="referenceHidden",...n}=void 0===t?{}:t;return{name:"hide",async fn(t){const{rects:r}=t;switch(e){case"referenceHidden":{const e=floating_ui_core_browser_min_R(await dist_floating_ui_core_browser_min_s(t,{...n,elementContext:"reference"}),r.reference);return{data:{referenceHiddenOffsets:e,referenceHidden:floating_ui_core_browser_min_A(e)}}}case"escaped":{const e=floating_ui_core_browser_min_R(await dist_floating_ui_core_browser_min_s(t,{...n,altBoundary:!0}),r.floating);return{data:{escapedOffsets:e,escaped:floating_ui_core_browser_min_A(e)}}}default:return{}}}}};const floating_ui_core_browser_min_T=function(r){return void 0===r&&(r=0),{name:"offset",options:r,async fn(i){const{x:o,y:a}=i,l=await async function(r,i){const{placement:o,platform:a,elements:l}=r,s=await(null==a.isRTL?void 0:a.isRTL(l.floating)),c=floating_ui_core_browser_min_t(o),f=dist_floating_ui_core_browser_min_e(o),u="x"===dist_floating_ui_core_browser_min_n(o),m=["left","top"].includes(c)?-1:1,g=s&&u?-1:1,d="function"==typeof i?i(r):i;let{mainAxis:p,crossAxis:h,alignmentAxis:y}="number"==typeof d?{mainAxis:d,crossAxis:0,alignmentAxis:null}:{mainAxis:0,crossAxis:0,alignmentAxis:null,...d};return f&&"number"==typeof y&&(h="end"===f?-1*y:y),u?{x:h*g,y:p*m}:{x:p*m,y:h*g}}(i,r);return{x:o+l.x,y:a+l.y,data:l}}}};function floating_ui_core_browser_min_O(t){return"x"===t?"y":"x"}const floating_ui_core_browser_min_D=function(e){return void 0===e&&(e={}),{name:"shift",options:e,async fn(r){const{x:i,y:o,placement:a}=r,{mainAxis:l=!0,crossAxis:c=!1,limiter:f={fn:t=>{let{x:e,y:n}=t;return{x:e,y:n}}},...m}=e,g={x:i,y:o},d=await dist_floating_ui_core_browser_min_s(r,m),p=dist_floating_ui_core_browser_min_n(floating_ui_core_browser_min_t(a)),h=floating_ui_core_browser_min_O(p);let y=g[p],x=g[h];if(l){const t="y"===p?"bottom":"right";y=floating_ui_core_browser_min_u(y+d["y"===p?"top":"left"],y,y-d[t])}if(c){const t="y"===h?"bottom":"right";x=floating_ui_core_browser_min_u(x+d["y"===h?"top":"left"],x,x-d[t])}const w=f.fn({...r,[p]:y,[h]:x});return{...w,data:{x:w.x-i,y:w.y-o}}}}},floating_ui_core_browser_min_L=function(e){return void 0===e&&(e={}),{options:e,fn(r){const{x:i,y:o,placement:a,rects:l,middlewareData:s}=r,{offset:c=0,mainAxis:f=!0,crossAxis:u=!0}=e,m={x:i,y:o},g=dist_floating_ui_core_browser_min_n(a),d=floating_ui_core_browser_min_O(g);let p=m[g],h=m[d];const y="function"==typeof c?c({...l,placement:a}):c,x="number"==typeof y?{mainAxis:y,crossAxis:0}:{mainAxis:0,crossAxis:0,...y};if(f){const t="y"===g?"height":"width",e=l.reference[g]-l.floating[t]+x.mainAxis,n=l.reference[g]+l.reference[t]-x.mainAxis;p<e?p=e:p>n&&(p=n)}if(u){var w,v,b,R;const e="y"===g?"width":"height",n=["top","left"].includes(floating_ui_core_browser_min_t(a)),r=l.reference[d]-l.floating[e]+(n&&null!=(w=null==(v=s.offset)?void 0:v[d])?w:0)+(n?0:x.crossAxis),i=l.reference[d]+l.reference[e]+(n?0:null!=(b=null==(R=s.offset)?void 0:R[d])?b:0)-(n?x.crossAxis:0);h<r?h=r:h>i&&(h=i)}return{[g]:p,[d]:h}}}},floating_ui_core_browser_min_k=function(n){return void 0===n&&(n={}),{name:"size",options:n,async fn(r){const{placement:i,rects:o,platform:a,elements:l}=r,{apply:c,...u}=n,m=await dist_floating_ui_core_browser_min_s(r,u),g=floating_ui_core_browser_min_t(i),d=dist_floating_ui_core_browser_min_e(i);let p,h;"top"===g||"bottom"===g?(p=g,h=d===(await(null==a.isRTL?void 0:a.isRTL(l.floating))?"start":"end")?"left":"right"):(h=g,p="end"===d?"top":"bottom");const y=floating_ui_core_browser_min_f(m.left,0),x=floating_ui_core_browser_min_f(m.right,0),w=floating_ui_core_browser_min_f(m.top,0),v=floating_ui_core_browser_min_f(m.bottom,0),b={availableHeight:o.floating.height-(["left","right"].includes(i)?2*(0!==w||0!==v?w+v:floating_ui_core_browser_min_f(m.top,m.bottom)):m[p]),availableWidth:o.floating.width-(["top","bottom"].includes(i)?2*(0!==y||0!==x?y+x:floating_ui_core_browser_min_f(m.left,m.right)):m[h])},R=await a.getDimensions(l.floating);null==c||c({...r,...b});const A=await a.getDimensions(l.floating);return R.width!==A.width||R.height!==A.height?{reset:{rects:!0}}:{}}}},floating_ui_core_browser_min_E=function(e){return void 0===e&&(e={}),{name:"inline",options:e,async fn(r){var i;const{placement:o,elements:s,rects:u,platform:m,strategy:g}=r,{padding:d=2,x:p,y:h}=e,y=floating_ui_core_browser_min_l(m.convertOffsetParentRelativeRectToViewportRelativeRect?await m.convertOffsetParentRelativeRectToViewportRelativeRect({rect:u.reference,offsetParent:await(null==m.getOffsetParent?void 0:m.getOffsetParent(s.floating)),strategy:g}):u.reference),x=null!=(i=await(null==m.getClientRects?void 0:m.getClientRects(s.reference)))?i:[],w=dist_floating_ui_core_browser_min_a(d);const v=await m.getElementRects({reference:{getBoundingClientRect:function(){var e;if(2===x.length&&x[0].left>x[1].right&&null!=p&&null!=h)return null!=(e=x.find((t=>p>t.left-w.left&&p<t.right+w.right&&h>t.top-w.top&&h<t.bottom+w.bottom)))?e:y;if(x.length>=2){if("x"===dist_floating_ui_core_browser_min_n(o)){const e=x[0],n=x[x.length-1],r="top"===floating_ui_core_browser_min_t(o),i=e.top,a=n.bottom,l=r?e.left:n.left,s=r?e.right:n.right;return{top:i,bottom:a,left:l,right:s,width:s-l,height:a-i,x:l,y:i}}const e="left"===floating_ui_core_browser_min_t(o),r=floating_ui_core_browser_min_f(...x.map((t=>t.right))),i=floating_ui_core_browser_min_c(...x.map((t=>t.left))),a=x.filter((t=>e?t.left===i:t.right===r)),l=a[0].top,s=a[a.length-1].bottom;return{top:l,bottom:s,left:i,right:r,width:r-i,height:s-l,x:i,y:l}}return y}},floating:s.floating,strategy:g});return u.reference.x!==v.reference.x||u.reference.y!==v.reference.y||u.reference.width!==v.reference.width||u.reference.height!==v.reference.height?{reset:{rects:v}}:{}}}};
+
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-popper/node_modules/@floating-ui/dom/dist/floating-ui.dom.browser.min.mjs
+function dist_floating_ui_dom_browser_min_n(t){return t&&t.document&&t.location&&t.alert&&t.setInterval}function dist_floating_ui_dom_browser_min_o(t){if(null==t)return window;if(!dist_floating_ui_dom_browser_min_n(t)){const e=t.ownerDocument;return e&&e.defaultView||window}return t}function dist_floating_ui_dom_browser_min_i(t){return dist_floating_ui_dom_browser_min_o(t).getComputedStyle(t)}function floating_ui_dom_browser_min_r(t){return dist_floating_ui_dom_browser_min_n(t)?"":t?(t.nodeName||"").toLowerCase():""}function dist_floating_ui_dom_browser_min_l(){const t=navigator.userAgentData;return null!=t&&t.brands?t.brands.map((t=>t.brand+"/"+t.version)).join(" "):navigator.userAgent}function dist_floating_ui_dom_browser_min_c(t){return t instanceof dist_floating_ui_dom_browser_min_o(t).HTMLElement}function dist_floating_ui_dom_browser_min_f(t){return t instanceof dist_floating_ui_dom_browser_min_o(t).Element}function floating_ui_dom_browser_min_s(t){if("undefined"==typeof ShadowRoot)return!1;return t instanceof dist_floating_ui_dom_browser_min_o(t).ShadowRoot||t instanceof ShadowRoot}function dist_floating_ui_dom_browser_min_u(t){const{overflow:e,overflowX:n,overflowY:o}=dist_floating_ui_dom_browser_min_i(t);return/auto|scroll|overlay|hidden/.test(e+o+n)}function dist_floating_ui_dom_browser_min_d(t){return["table","td","th"].includes(floating_ui_dom_browser_min_r(t))}function dist_floating_ui_dom_browser_min_h(t){const e=/firefox/i.test(dist_floating_ui_dom_browser_min_l()),n=dist_floating_ui_dom_browser_min_i(t);return"none"!==n.transform||"none"!==n.perspective||"paint"===n.contain||["transform","perspective"].includes(n.willChange)||e&&"filter"===n.willChange||e&&!!n.filter&&"none"!==n.filter}function dist_floating_ui_dom_browser_min_a(){return!/^((?!chrome|android).)*safari/i.test(dist_floating_ui_dom_browser_min_l())}const dist_floating_ui_dom_browser_min_g=Math.min,dist_floating_ui_dom_browser_min_p=Math.max,dist_floating_ui_dom_browser_min_m=Math.round;function dist_floating_ui_dom_browser_min_w(t,e,n){var i,r,l,s;void 0===e&&(e=!1),void 0===n&&(n=!1);const u=t.getBoundingClientRect();let d=1,h=1;e&&dist_floating_ui_dom_browser_min_c(t)&&(d=t.offsetWidth>0&&dist_floating_ui_dom_browser_min_m(u.width)/t.offsetWidth||1,h=t.offsetHeight>0&&dist_floating_ui_dom_browser_min_m(u.height)/t.offsetHeight||1);const g=dist_floating_ui_dom_browser_min_f(t)?dist_floating_ui_dom_browser_min_o(t):window,p=!dist_floating_ui_dom_browser_min_a()&&n,w=(u.left+(p&&null!=(i=null==(r=g.visualViewport)?void 0:r.offsetLeft)?i:0))/d,v=(u.top+(p&&null!=(l=null==(s=g.visualViewport)?void 0:s.offsetTop)?l:0))/h,y=u.width/d,x=u.height/h;return{width:y,height:x,top:v,right:w+y,bottom:v+x,left:w,x:w,y:v}}function dist_floating_ui_dom_browser_min_v(t){return(e=t,(e instanceof dist_floating_ui_dom_browser_min_o(e).Node?t.ownerDocument:t.document)||window.document).documentElement;var e}function dist_floating_ui_dom_browser_min_y(t){return dist_floating_ui_dom_browser_min_f(t)?{scrollLeft:t.scrollLeft,scrollTop:t.scrollTop}:{scrollLeft:t.pageXOffset,scrollTop:t.pageYOffset}}function dist_floating_ui_dom_browser_min_x(t){return dist_floating_ui_dom_browser_min_w(dist_floating_ui_dom_browser_min_v(t)).left+dist_floating_ui_dom_browser_min_y(t).scrollLeft}function dist_floating_ui_dom_browser_min_b(t,e,n){const o=dist_floating_ui_dom_browser_min_c(e),i=dist_floating_ui_dom_browser_min_v(e),l=dist_floating_ui_dom_browser_min_w(t,o&&function(t){const e=dist_floating_ui_dom_browser_min_w(t);return dist_floating_ui_dom_browser_min_m(e.width)!==t.offsetWidth||dist_floating_ui_dom_browser_min_m(e.height)!==t.offsetHeight}(e),"fixed"===n);let f={scrollLeft:0,scrollTop:0};const s={x:0,y:0};if(o||!o&&"fixed"!==n)if(("body"!==floating_ui_dom_browser_min_r(e)||dist_floating_ui_dom_browser_min_u(i))&&(f=dist_floating_ui_dom_browser_min_y(e)),dist_floating_ui_dom_browser_min_c(e)){const t=dist_floating_ui_dom_browser_min_w(e,!0);s.x=t.x+e.clientLeft,s.y=t.y+e.clientTop}else i&&(s.x=dist_floating_ui_dom_browser_min_x(i));return{x:l.left+f.scrollLeft-s.x,y:l.top+f.scrollTop-s.y,width:l.width,height:l.height}}function dist_floating_ui_dom_browser_min_L(t){return"html"===floating_ui_dom_browser_min_r(t)?t:t.assignedSlot||t.parentNode||(floating_ui_dom_browser_min_s(t)?t.host:null)||dist_floating_ui_dom_browser_min_v(t)}function dist_floating_ui_dom_browser_min_R(t){return dist_floating_ui_dom_browser_min_c(t)&&"fixed"!==getComputedStyle(t).position?t.offsetParent:null}function dist_floating_ui_dom_browser_min_T(t){const e=dist_floating_ui_dom_browser_min_o(t);let n=dist_floating_ui_dom_browser_min_R(t);for(;n&&dist_floating_ui_dom_browser_min_d(n)&&"static"===getComputedStyle(n).position;)n=dist_floating_ui_dom_browser_min_R(n);return n&&("html"===floating_ui_dom_browser_min_r(n)||"body"===floating_ui_dom_browser_min_r(n)&&"static"===getComputedStyle(n).position&&!dist_floating_ui_dom_browser_min_h(n))?e:n||function(t){let e=dist_floating_ui_dom_browser_min_L(t);for(floating_ui_dom_browser_min_s(e)&&(e=e.host);dist_floating_ui_dom_browser_min_c(e)&&!["html","body"].includes(floating_ui_dom_browser_min_r(e));){if(dist_floating_ui_dom_browser_min_h(e))return e;e=e.parentNode}return null}(t)||e}function floating_ui_dom_browser_min_W(t){if(dist_floating_ui_dom_browser_min_c(t))return{width:t.offsetWidth,height:t.offsetHeight};const e=dist_floating_ui_dom_browser_min_w(t);return{width:e.width,height:e.height}}function dist_floating_ui_dom_browser_min_E(t){const e=dist_floating_ui_dom_browser_min_L(t);return["html","body","#document"].includes(floating_ui_dom_browser_min_r(e))?t.ownerDocument.body:dist_floating_ui_dom_browser_min_c(e)&&dist_floating_ui_dom_browser_min_u(e)?e:dist_floating_ui_dom_browser_min_E(e)}function floating_ui_dom_browser_min_H(t,e){var n;void 0===e&&(e=[]);const i=dist_floating_ui_dom_browser_min_E(t),r=i===(null==(n=t.ownerDocument)?void 0:n.body),l=dist_floating_ui_dom_browser_min_o(i),c=r?[l].concat(l.visualViewport||[],dist_floating_ui_dom_browser_min_u(i)?i:[]):i,f=e.concat(c);return r?f:f.concat(floating_ui_dom_browser_min_H(c))}function dist_floating_ui_dom_browser_min_C(e,n,r){return"viewport"===n?floating_ui_core_browser_min_l(function(t,e){const n=dist_floating_ui_dom_browser_min_o(t),i=dist_floating_ui_dom_browser_min_v(t),r=n.visualViewport;let l=i.clientWidth,c=i.clientHeight,f=0,s=0;if(r){l=r.width,c=r.height;const t=dist_floating_ui_dom_browser_min_a();(t||!t&&"fixed"===e)&&(f=r.offsetLeft,s=r.offsetTop)}return{width:l,height:c,x:f,y:s}}(e,r)):dist_floating_ui_dom_browser_min_f(n)?function(t,e){const n=dist_floating_ui_dom_browser_min_w(t,!1,"fixed"===e),o=n.top+t.clientTop,i=n.left+t.clientLeft;return{top:o,left:i,x:i,y:o,right:i+t.clientWidth,bottom:o+t.clientHeight,width:t.clientWidth,height:t.clientHeight}}(n,r):floating_ui_core_browser_min_l(function(t){var e;const n=dist_floating_ui_dom_browser_min_v(t),o=dist_floating_ui_dom_browser_min_y(t),r=null==(e=t.ownerDocument)?void 0:e.body,l=dist_floating_ui_dom_browser_min_p(n.scrollWidth,n.clientWidth,r?r.scrollWidth:0,r?r.clientWidth:0),c=dist_floating_ui_dom_browser_min_p(n.scrollHeight,n.clientHeight,r?r.scrollHeight:0,r?r.clientHeight:0);let f=-o.scrollLeft+dist_floating_ui_dom_browser_min_x(t);const s=-o.scrollTop;return"rtl"===dist_floating_ui_dom_browser_min_i(r||n).direction&&(f+=dist_floating_ui_dom_browser_min_p(n.clientWidth,r?r.clientWidth:0)-l),{width:l,height:c,x:f,y:s}}(dist_floating_ui_dom_browser_min_v(e)))}function floating_ui_dom_browser_min_S(t){const e=floating_ui_dom_browser_min_H(t),n=["absolute","fixed"].includes(dist_floating_ui_dom_browser_min_i(t).position)&&dist_floating_ui_dom_browser_min_c(t)?dist_floating_ui_dom_browser_min_T(t):t;return dist_floating_ui_dom_browser_min_f(n)?e.filter((t=>dist_floating_ui_dom_browser_min_f(t)&&function(t,e){const n=null==e.getRootNode?void 0:e.getRootNode();if(t.contains(e))return!0;if(n&&floating_ui_dom_browser_min_s(n)){let n=e;do{if(n&&t===n)return!0;n=n.parentNode||n.host}while(n)}return!1}(t,n)&&"body"!==floating_ui_dom_browser_min_r(t))):[]}const dist_floating_ui_dom_browser_min_D={getClippingRect:function(t){let{element:e,boundary:n,rootBoundary:o,strategy:i}=t;const r=[..."clippingAncestors"===n?floating_ui_dom_browser_min_S(e):[].concat(n),o],l=r[0],c=r.reduce(((t,n)=>{const o=dist_floating_ui_dom_browser_min_C(e,n,i);return t.top=dist_floating_ui_dom_browser_min_p(o.top,t.top),t.right=dist_floating_ui_dom_browser_min_g(o.right,t.right),t.bottom=dist_floating_ui_dom_browser_min_g(o.bottom,t.bottom),t.left=dist_floating_ui_dom_browser_min_p(o.left,t.left),t}),dist_floating_ui_dom_browser_min_C(e,l,i));return{width:c.right-c.left,height:c.bottom-c.top,x:c.left,y:c.top}},convertOffsetParentRelativeRectToViewportRelativeRect:function(t){let{rect:e,offsetParent:n,strategy:o}=t;const i=dist_floating_ui_dom_browser_min_c(n),l=dist_floating_ui_dom_browser_min_v(n);if(n===l)return e;let f={scrollLeft:0,scrollTop:0};const s={x:0,y:0};if((i||!i&&"fixed"!==o)&&(("body"!==floating_ui_dom_browser_min_r(n)||dist_floating_ui_dom_browser_min_u(l))&&(f=dist_floating_ui_dom_browser_min_y(n)),dist_floating_ui_dom_browser_min_c(n))){const t=dist_floating_ui_dom_browser_min_w(n,!0);s.x=t.x+n.clientLeft,s.y=t.y+n.clientTop}return{...e,x:e.x-f.scrollLeft+s.x,y:e.y-f.scrollTop+s.y}},isElement:dist_floating_ui_dom_browser_min_f,getDimensions:floating_ui_dom_browser_min_W,getOffsetParent:dist_floating_ui_dom_browser_min_T,getDocumentElement:dist_floating_ui_dom_browser_min_v,getElementRects:t=>{let{reference:e,floating:n,strategy:o}=t;return{reference:dist_floating_ui_dom_browser_min_b(e,dist_floating_ui_dom_browser_min_T(n),o),floating:{...floating_ui_dom_browser_min_W(n),x:0,y:0}}},getClientRects:t=>Array.from(t.getClientRects()),isRTL:t=>"rtl"===dist_floating_ui_dom_browser_min_i(t).direction};function floating_ui_dom_browser_min_N(t,e,n,o){void 0===o&&(o={});const{ancestorScroll:i=!0,ancestorResize:r=!0,elementResize:l=!0,animationFrame:c=!1}=o,s=i&&!c,u=r&&!c,d=s||u?[...dist_floating_ui_dom_browser_min_f(t)?floating_ui_dom_browser_min_H(t):[],...floating_ui_dom_browser_min_H(e)]:[];d.forEach((t=>{s&&t.addEventListener("scroll",n,{passive:!0}),u&&t.addEventListener("resize",n)}));let h,a=null;if(l){let o=!0;a=new ResizeObserver((()=>{o||n(),o=!1})),dist_floating_ui_dom_browser_min_f(t)&&!c&&a.observe(t),a.observe(e)}let g=c?dist_floating_ui_dom_browser_min_w(t):null;return c&&function e(){const o=dist_floating_ui_dom_browser_min_w(t);!g||o.x===g.x&&o.y===g.y&&o.width===g.width&&o.height===g.height||n();g=o,h=requestAnimationFrame(e)}(),n(),()=>{var t;d.forEach((t=>{s&&t.removeEventListener("scroll",n),u&&t.removeEventListener("resize",n)})),null==(t=a)||t.disconnect(),a=null,c&&cancelAnimationFrame(h)}}const floating_ui_dom_browser_min_z=(t,n,o)=>dist_floating_ui_core_browser_min_o(t,n,{platform:dist_floating_ui_dom_browser_min_D,...o});
 
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-popper/node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js
 
@@ -73293,43 +73258,6 @@ function $1746a345f3d73bb7$export$f680877a34711e37(deterministicId) {
 
 
 
-
-/**
- * Provides data to position an inner element of the floating element so that it
- * appears centered to the reference element.
- * This wraps the core `arrow` middleware to allow React refs as the element.
- * @see https://floating-ui.com/docs/arrow
- */
-const floating_ui_react_dom_esm_arrow = options => {
-  function isRef(value) {
-    return {}.hasOwnProperty.call(value, 'current');
-  }
-  return {
-    name: 'arrow',
-    options,
-    fn(state) {
-      const {
-        element,
-        padding
-      } = typeof options === 'function' ? options(state) : options;
-      if (element && isRef(element)) {
-        if (element.current != null) {
-          return g({
-            element: element.current,
-            padding
-          }).fn(state);
-        }
-        return {};
-      } else if (element) {
-        return g({
-          element,
-          padding
-        }).fn(state);
-      }
-      return {};
-    }
-  };
-};
 
 var floating_ui_react_dom_esm_index = typeof document !== 'undefined' ? external_React_.useLayoutEffect : external_React_.useEffect;
 
@@ -73339,59 +73267,60 @@ function floating_ui_react_dom_esm_deepEqual(a, b) {
   if (a === b) {
     return true;
   }
+
   if (typeof a !== typeof b) {
     return false;
   }
+
   if (typeof a === 'function' && a.toString() === b.toString()) {
     return true;
   }
+
   let length, i, keys;
+
   if (a && b && typeof a == 'object') {
     if (Array.isArray(a)) {
       length = a.length;
       if (length != b.length) return false;
+
       for (i = length; i-- !== 0;) {
         if (!floating_ui_react_dom_esm_deepEqual(a[i], b[i])) {
           return false;
         }
       }
+
       return true;
     }
+
     keys = Object.keys(a);
     length = keys.length;
+
     if (length !== Object.keys(b).length) {
       return false;
     }
+
     for (i = length; i-- !== 0;) {
-      if (!{}.hasOwnProperty.call(b, keys[i])) {
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) {
         return false;
       }
     }
+
     for (i = length; i-- !== 0;) {
       const key = keys[i];
+
       if (key === '_owner' && a.$$typeof) {
         continue;
       }
+
       if (!floating_ui_react_dom_esm_deepEqual(a[key], b[key])) {
         return false;
       }
     }
+
     return true;
   }
+
   return a !== a && b !== b;
-}
-
-function getDPR(element) {
-  if (typeof window === 'undefined') {
-    return 1;
-  }
-  const win = element.ownerDocument.defaultView || window;
-  return win.devicePixelRatio || 1;
-}
-
-function roundByDPR(element, value) {
-  const dpr = getDPR(element);
-  return Math.round(value * dpr) / dpr;
 }
 
 function floating_ui_react_dom_esm_useLatestRef(value) {
@@ -73402,94 +73331,65 @@ function floating_ui_react_dom_esm_useLatestRef(value) {
   return ref;
 }
 
-/**
- * Provides data to position a floating element.
- * @see https://floating-ui.com/docs/react
- */
-function floating_ui_react_dom_esm_useFloating(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  const {
+function floating_ui_react_dom_esm_useFloating(_temp) {
+  let {
+    middleware,
     placement = 'bottom',
     strategy = 'absolute',
-    middleware = [],
-    platform,
-    elements: {
-      reference: externalReference,
-      floating: externalFloating
-    } = {},
-    transform = true,
-    whileElementsMounted,
-    open
-  } = options;
+    whileElementsMounted
+  } = _temp === void 0 ? {} : _temp;
+  const reference = external_React_.useRef(null);
+  const floating = external_React_.useRef(null);
+  const whileElementsMountedRef = floating_ui_react_dom_esm_useLatestRef(whileElementsMounted);
+  const cleanupRef = external_React_.useRef(null);
   const [data, setData] = external_React_.useState({
-    x: 0,
-    y: 0,
+    // Setting these to `null` will allow the consumer to determine if
+    // `computePosition()` has run yet
+    x: null,
+    y: null,
     strategy,
     placement,
-    middlewareData: {},
-    isPositioned: false
+    middlewareData: {}
   });
   const [latestMiddleware, setLatestMiddleware] = external_React_.useState(middleware);
-  if (!floating_ui_react_dom_esm_deepEqual(latestMiddleware, middleware)) {
+
+  if (!floating_ui_react_dom_esm_deepEqual(latestMiddleware == null ? void 0 : latestMiddleware.map(_ref => {
+    let {
+      options
+    } = _ref;
+    return options;
+  }), middleware == null ? void 0 : middleware.map(_ref2 => {
+    let {
+      options
+    } = _ref2;
+    return options;
+  }))) {
     setLatestMiddleware(middleware);
   }
-  const [_reference, _setReference] = external_React_.useState(null);
-  const [_floating, _setFloating] = external_React_.useState(null);
-  const setReference = external_React_.useCallback(node => {
-    if (node != referenceRef.current) {
-      referenceRef.current = node;
-      _setReference(node);
-    }
-  }, [_setReference]);
-  const setFloating = external_React_.useCallback(node => {
-    if (node !== floatingRef.current) {
-      floatingRef.current = node;
-      _setFloating(node);
-    }
-  }, [_setFloating]);
-  const referenceEl = externalReference || _reference;
-  const floatingEl = externalFloating || _floating;
-  const referenceRef = external_React_.useRef(null);
-  const floatingRef = external_React_.useRef(null);
-  const dataRef = external_React_.useRef(data);
-  const whileElementsMountedRef = floating_ui_react_dom_esm_useLatestRef(whileElementsMounted);
-  const platformRef = floating_ui_react_dom_esm_useLatestRef(platform);
+
   const update = external_React_.useCallback(() => {
-    if (!referenceRef.current || !floatingRef.current) {
+    if (!reference.current || !floating.current) {
       return;
     }
-    const config = {
+
+    floating_ui_dom_browser_min_z(reference.current, floating.current, {
+      middleware: latestMiddleware,
       placement,
-      strategy,
-      middleware: latestMiddleware
-    };
-    if (platformRef.current) {
-      config.platform = platformRef.current;
-    }
-    N(referenceRef.current, floatingRef.current, config).then(data => {
-      const fullData = {
-        ...data,
-        isPositioned: true
-      };
-      if (isMountedRef.current && !floating_ui_react_dom_esm_deepEqual(dataRef.current, fullData)) {
-        dataRef.current = fullData;
+      strategy
+    }).then(data => {
+      if (isMountedRef.current) {
         external_ReactDOM_namespaceObject.flushSync(() => {
-          setData(fullData);
+          setData(data);
         });
       }
     });
-  }, [latestMiddleware, placement, strategy, platformRef]);
+  }, [latestMiddleware, placement, strategy]);
   floating_ui_react_dom_esm_index(() => {
-    if (open === false && dataRef.current.isPositioned) {
-      dataRef.current.isPositioned = false;
-      setData(data => ({
-        ...data,
-        isPositioned: false
-      }));
+    // Skip first update
+    if (isMountedRef.current) {
+      update();
     }
-  }, [open]);
+  }, [update]);
   const isMountedRef = external_React_.useRef(false);
   floating_ui_react_dom_esm_index(() => {
     isMountedRef.current = true;
@@ -73497,65 +73397,88 @@ function floating_ui_react_dom_esm_useFloating(options) {
       isMountedRef.current = false;
     };
   }, []);
-  floating_ui_react_dom_esm_index(() => {
-    if (referenceEl) referenceRef.current = referenceEl;
-    if (floatingEl) floatingRef.current = floatingEl;
-    if (referenceEl && floatingEl) {
+  const runElementMountCallback = external_React_.useCallback(() => {
+    if (typeof cleanupRef.current === 'function') {
+      cleanupRef.current();
+      cleanupRef.current = null;
+    }
+
+    if (reference.current && floating.current) {
       if (whileElementsMountedRef.current) {
-        return whileElementsMountedRef.current(referenceEl, floatingEl, update);
+        const cleanupFn = whileElementsMountedRef.current(reference.current, floating.current, update);
+        cleanupRef.current = cleanupFn;
       } else {
         update();
       }
     }
-  }, [referenceEl, floatingEl, update, whileElementsMountedRef]);
+  }, [update, whileElementsMountedRef]);
+  const setReference = external_React_.useCallback(node => {
+    reference.current = node;
+    runElementMountCallback();
+  }, [runElementMountCallback]);
+  const setFloating = external_React_.useCallback(node => {
+    floating.current = node;
+    runElementMountCallback();
+  }, [runElementMountCallback]);
   const refs = external_React_.useMemo(() => ({
-    reference: referenceRef,
-    floating: floatingRef,
-    setReference,
-    setFloating
-  }), [setReference, setFloating]);
-  const elements = external_React_.useMemo(() => ({
-    reference: referenceEl,
-    floating: floatingEl
-  }), [referenceEl, floatingEl]);
-  const floatingStyles = external_React_.useMemo(() => {
-    const initialStyles = {
-      position: strategy,
-      left: 0,
-      top: 0
-    };
-    if (!elements.floating) {
-      return initialStyles;
-    }
-    const x = roundByDPR(elements.floating, data.x);
-    const y = roundByDPR(elements.floating, data.y);
-    if (transform) {
-      return {
-        ...initialStyles,
-        transform: "translate(" + x + "px, " + y + "px)",
-        ...(getDPR(elements.floating) >= 1.5 && {
-          willChange: 'transform'
-        })
-      };
-    }
-    return {
-      position: strategy,
-      left: x,
-      top: y
-    };
-  }, [strategy, transform, elements.floating, data.x, data.y]);
-  return external_React_.useMemo(() => ({
-    ...data,
+    reference,
+    floating
+  }), []);
+  return external_React_.useMemo(() => ({ ...data,
     update,
     refs,
-    elements,
-    floatingStyles
-  }), [data, update, refs, elements, floatingStyles]);
+    reference: setReference,
+    floating: setFloating
+  }), [data, update, refs, setReference, setFloating]);
 }
 
+/**
+ * Positions an inner element of the floating element such that it is centered
+ * to the reference element.
+ * This wraps the core `arrow` middleware to allow React refs as the element.
+ * @see https://floating-ui.com/docs/arrow
+ */
+
+const floating_ui_react_dom_esm_arrow = options => {
+  const {
+    element,
+    padding
+  } = options;
+
+  function isRef(value) {
+    return Object.prototype.hasOwnProperty.call(value, 'current');
+  }
+
+  return {
+    name: 'arrow',
+    options,
+
+    fn(args) {
+      if (isRef(element)) {
+        if (element.current != null) {
+          return floating_ui_core_browser_min_m({
+            element: element.current,
+            padding
+          }).fn(args);
+        }
+
+        return {};
+      } else if (element) {
+        return floating_ui_core_browser_min_m({
+          element,
+          padding
+        }).fn(args);
+      }
+
+      return {};
+    }
+
+  };
+};
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-arrow/dist/index.mjs
+
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-arrow/dist/index.module.js
 
 
 
@@ -73587,9 +73510,8 @@ const $7e8f5cd07187803e$export$21b07c8f274aebd5 = /*#__PURE__*/ (0,external_Reac
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-size/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-size/dist/index.module.js
 
 
 
@@ -73646,9 +73568,8 @@ function $db6c3485150b8e66$export$1ab7ae714698c4b8(element) {
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-popper/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-popper/dist/index.module.js
 
 
 
@@ -73723,8 +73644,12 @@ const $cf1ac5d9fe0e8206$export$ecd4e1ccab6ed6d = /*#__PURE__*/ (0,external_React
  * PopperContent
  * -----------------------------------------------------------------------------------------------*/ const $cf1ac5d9fe0e8206$var$CONTENT_NAME = 'PopperContent';
 const [$cf1ac5d9fe0e8206$var$PopperContentProvider, $cf1ac5d9fe0e8206$var$useContentContext] = $cf1ac5d9fe0e8206$var$createPopperContext($cf1ac5d9fe0e8206$var$CONTENT_NAME);
+const [$cf1ac5d9fe0e8206$var$PositionContextProvider, $cf1ac5d9fe0e8206$var$usePositionContext] = $cf1ac5d9fe0e8206$var$createPopperContext($cf1ac5d9fe0e8206$var$CONTENT_NAME, {
+    hasParent: false,
+    positionUpdateFns: new Set()
+});
 const $cf1ac5d9fe0e8206$export$bc4ae5855d3c4fc = /*#__PURE__*/ (0,external_React_.forwardRef)((props, forwardedRef)=>{
-    var _arrowSize$width, _arrowSize$height, _middlewareData$arrow, _middlewareData$arrow2, _middlewareData$arrow3, _middlewareData$trans, _middlewareData$trans2, _middlewareData$hide;
+    var _arrowSize$width, _arrowSize$height, _middlewareData$arrow, _middlewareData$arrow2, _middlewareData$arrow3, _middlewareData$hide, _middlewareData$trans, _middlewareData$trans2;
     const { __scopePopper: __scopePopper , side: side = 'bottom' , sideOffset: sideOffset = 0 , align: align = 'center' , alignOffset: alignOffset = 0 , arrowPadding: arrowPadding = 0 , collisionBoundary: collisionBoundary = [] , collisionPadding: collisionPaddingProp = 0 , sticky: sticky = 'partial' , hideWhenDetached: hideWhenDetached = false , avoidCollisions: avoidCollisions = true , onPlaced: onPlaced , ...contentProps } = props;
     const context = $cf1ac5d9fe0e8206$var$usePopperContext($cf1ac5d9fe0e8206$var$CONTENT_NAME, __scopePopper);
     const [content, setContent] = (0,external_React_.useState)(null);
@@ -73752,58 +73677,59 @@ const $cf1ac5d9fe0e8206$export$bc4ae5855d3c4fc = /*#__PURE__*/ (0,external_React
         // with `strategy: 'fixed'`, this is the only way to get it to respect boundaries
         altBoundary: hasExplicitBoundaries
     };
-    const { refs: refs , floatingStyles: floatingStyles , placement: placement , isPositioned: isPositioned , middlewareData: middlewareData  } = floating_ui_react_dom_esm_useFloating({
+    const { reference: reference , floating: floating , strategy: strategy , x: x , y: y , placement: placement , middlewareData: middlewareData , update: update  } = floating_ui_react_dom_esm_useFloating({
         // default to `fixed` strategy so users don't have to pick and we also avoid focus scroll issues
         strategy: 'fixed',
         placement: desiredPlacement,
-        whileElementsMounted: floating_ui_dom_browser_min_B,
-        elements: {
-            reference: context.anchor
-        },
+        whileElementsMounted: floating_ui_dom_browser_min_N,
         middleware: [
-            L({
+            $cf1ac5d9fe0e8206$var$anchorCssProperties(),
+            floating_ui_core_browser_min_T({
                 mainAxis: sideOffset + arrowHeight,
                 alignmentAxis: alignOffset
             }),
-            avoidCollisions && O({
+            avoidCollisions ? floating_ui_core_browser_min_D({
                 mainAxis: true,
                 crossAxis: false,
-                limiter: sticky === 'partial' ? B() : undefined,
+                limiter: sticky === 'partial' ? floating_ui_core_browser_min_L() : undefined,
                 ...detectOverflowOptions
-            }),
-            avoidCollisions && A({
-                ...detectOverflowOptions
-            }),
-            C({
-                ...detectOverflowOptions,
-                apply: ({ elements: elements , rects: rects , availableWidth: availableWidth , availableHeight: availableHeight  })=>{
-                    const { width: anchorWidth , height: anchorHeight  } = rects.reference;
-                    const contentStyle = elements.floating.style;
-                    contentStyle.setProperty('--radix-popper-available-width', `${availableWidth}px`);
-                    contentStyle.setProperty('--radix-popper-available-height', `${availableHeight}px`);
-                    contentStyle.setProperty('--radix-popper-anchor-width', `${anchorWidth}px`);
-                    contentStyle.setProperty('--radix-popper-anchor-height', `${anchorHeight}px`);
-                }
-            }),
-            arrow && floating_ui_react_dom_esm_arrow({
+            }) : undefined,
+            arrow ? floating_ui_react_dom_esm_arrow({
                 element: arrow,
                 padding: arrowPadding
+            }) : undefined,
+            avoidCollisions ? floating_ui_core_browser_min_b({
+                ...detectOverflowOptions
+            }) : undefined,
+            floating_ui_core_browser_min_k({
+                ...detectOverflowOptions,
+                apply: ({ elements: elements , availableWidth: width , availableHeight: height  })=>{
+                    elements.floating.style.setProperty('--radix-popper-available-width', `${width}px`);
+                    elements.floating.style.setProperty('--radix-popper-available-height', `${height}px`);
+                }
             }),
             $cf1ac5d9fe0e8206$var$transformOrigin({
                 arrowWidth: arrowWidth,
                 arrowHeight: arrowHeight
             }),
-            hideWhenDetached && E({
+            hideWhenDetached ? floating_ui_core_browser_min_P({
                 strategy: 'referenceHidden'
-            })
-        ]
-    });
+            }) : undefined
+        ].filter($cf1ac5d9fe0e8206$var$isDefined)
+    }); // assign the reference dynamically once `Content` has mounted so we can collocate the logic
+    $9f79659886946c16$export$e5c5a5f917a5871c(()=>{
+        reference(context.anchor);
+    }, [
+        reference,
+        context.anchor
+    ]);
+    const isPlaced = x !== null && y !== null;
     const [placedSide, placedAlign] = $cf1ac5d9fe0e8206$var$getSideAndAlignFromPlacement(placement);
     const handlePlaced = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a(onPlaced);
     $9f79659886946c16$export$e5c5a5f917a5871c(()=>{
-        if (isPositioned) handlePlaced === null || handlePlaced === void 0 || handlePlaced();
+        if (isPlaced) handlePlaced === null || handlePlaced === void 0 || handlePlaced();
     }, [
-        isPositioned,
+        isPlaced,
         handlePlaced
     ]);
     const arrowX = (_middlewareData$arrow = middlewareData.arrow) === null || _middlewareData$arrow === void 0 ? void 0 : _middlewareData$arrow.x;
@@ -73815,12 +73741,53 @@ const $cf1ac5d9fe0e8206$export$bc4ae5855d3c4fc = /*#__PURE__*/ (0,external_React
     }, [
         content
     ]);
+    const { hasParent: hasParent , positionUpdateFns: positionUpdateFns  } = $cf1ac5d9fe0e8206$var$usePositionContext($cf1ac5d9fe0e8206$var$CONTENT_NAME, __scopePopper);
+    const isRoot = !hasParent;
+    (0,external_React_.useLayoutEffect)(()=>{
+        if (!isRoot) {
+            positionUpdateFns.add(update);
+            return ()=>{
+                positionUpdateFns.delete(update);
+            };
+        }
+    }, [
+        isRoot,
+        positionUpdateFns,
+        update
+    ]); // when nested contents are rendered in portals, they are appended out of order causing
+    // children to be positioned incorrectly if initially open.
+    // we need to re-compute the positioning once the parent has finally been placed.
+    // https://github.com/floating-ui/floating-ui/issues/1531
+    $9f79659886946c16$export$e5c5a5f917a5871c(()=>{
+        if (isRoot && isPlaced) Array.from(positionUpdateFns).reverse().forEach((fn)=>requestAnimationFrame(fn)
+        );
+    }, [
+        isRoot,
+        isPlaced,
+        positionUpdateFns
+    ]);
+    const commonProps = {
+        'data-side': placedSide,
+        'data-align': placedAlign,
+        ...contentProps,
+        ref: composedRefs,
+        style: {
+            ...contentProps.style,
+            // if the PopperContent hasn't been placed yet (not all measurements done)
+            // we prevent animations so that users's animation don't kick in too early referring wrong sides
+            animation: !isPlaced ? 'none' : undefined,
+            // hide the content if using the hide middleware and should be hidden
+            opacity: (_middlewareData$hide = middlewareData.hide) !== null && _middlewareData$hide !== void 0 && _middlewareData$hide.referenceHidden ? 0 : undefined
+        }
+    };
     return /*#__PURE__*/ (0,external_React_.createElement)("div", {
-        ref: refs.setFloating,
+        ref: floating,
         "data-radix-popper-content-wrapper": "",
         style: {
-            ...floatingStyles,
-            transform: isPositioned ? floatingStyles.transform : 'translate(0, -200%)',
+            position: strategy,
+            left: 0,
+            top: 0,
+            transform: isPlaced ? `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)` : 'translate3d(0, -200%, 0)',
             // keep off the page when measuring
             minWidth: 'max-content',
             zIndex: contentZIndex,
@@ -73838,20 +73805,11 @@ const $cf1ac5d9fe0e8206$export$bc4ae5855d3c4fc = /*#__PURE__*/ (0,external_React
         arrowX: arrowX,
         arrowY: arrowY,
         shouldHideArrow: cannotCenterArrow
-    }, /*#__PURE__*/ (0,external_React_.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, extends_extends({
-        "data-side": placedSide,
-        "data-align": placedAlign
-    }, contentProps, {
-        ref: composedRefs,
-        style: {
-            ...contentProps.style,
-            // if the PopperContent hasn't been placed yet (not all measurements done)
-            // we prevent animations so that users's animation don't kick in too early referring wrong sides
-            animation: !isPositioned ? 'none' : undefined,
-            // hide the content if using the hide middleware and should be hidden
-            opacity: (_middlewareData$hide = middlewareData.hide) !== null && _middlewareData$hide !== void 0 && _middlewareData$hide.referenceHidden ? 0 : undefined
-        }
-    }))));
+    }, isRoot ? /*#__PURE__*/ (0,external_React_.createElement)($cf1ac5d9fe0e8206$var$PositionContextProvider, {
+        scope: __scopePopper,
+        hasParent: true,
+        positionUpdateFns: positionUpdateFns
+    }, /*#__PURE__*/ (0,external_React_.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, commonProps)) : /*#__PURE__*/ (0,external_React_.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, commonProps)));
 });
 /*#__PURE__*/ Object.assign($cf1ac5d9fe0e8206$export$bc4ae5855d3c4fc, {
     displayName: $cf1ac5d9fe0e8206$var$CONTENT_NAME
@@ -73905,9 +73863,23 @@ const $cf1ac5d9fe0e8206$export$79d62cd4e10a3fd0 = /*#__PURE__*/ (0,external_Reac
 /*#__PURE__*/ Object.assign($cf1ac5d9fe0e8206$export$79d62cd4e10a3fd0, {
     displayName: $cf1ac5d9fe0e8206$var$ARROW_NAME
 });
-/* -----------------------------------------------------------------------------------------------*/ function $cf1ac5d9fe0e8206$var$isNotNull(value) {
+/* -----------------------------------------------------------------------------------------------*/ function $cf1ac5d9fe0e8206$var$isDefined(value) {
+    return value !== undefined;
+}
+function $cf1ac5d9fe0e8206$var$isNotNull(value) {
     return value !== null;
 }
+const $cf1ac5d9fe0e8206$var$anchorCssProperties = ()=>({
+        name: 'anchorCssProperties',
+        fn (data) {
+            const { rects: rects , elements: elements  } = data;
+            const { width: width , height: height  } = rects.reference;
+            elements.floating.style.setProperty('--radix-popper-anchor-width', `${width}px`);
+            elements.floating.style.setProperty('--radix-popper-anchor-height', `${height}px`);
+            return {};
+        }
+    })
+;
 const $cf1ac5d9fe0e8206$var$transformOrigin = (options)=>({
         name: 'transformOrigin',
         options: options,
@@ -73966,9 +73938,8 @@ const $cf1ac5d9fe0e8206$export$21b07c8f274aebd5 = $cf1ac5d9fe0e8206$export$79d62
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-portal/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-portal/dist/index.module.js
 
 
 
@@ -73984,7 +73955,7 @@ const $cf1ac5d9fe0e8206$export$21b07c8f274aebd5 = $cf1ac5d9fe0e8206$export$79d62
 const $f1701beae083dbae$export$602eac185826482c = /*#__PURE__*/ (0,external_React_.forwardRef)((props, forwardedRef)=>{
     var _globalThis$document;
     const { container: container = globalThis === null || globalThis === void 0 ? void 0 : (_globalThis$document = globalThis.document) === null || _globalThis$document === void 0 ? void 0 : _globalThis$document.body , ...portalProps } = props;
-    return container ? /*#__PURE__*/ external_ReactDOM_namespaceObject.createPortal(/*#__PURE__*/ (0,external_React_.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, extends_extends({}, portalProps, {
+    return container ? /*#__PURE__*/ external_ReactDOM_default().createPortal(/*#__PURE__*/ (0,external_React_.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, extends_extends({}, portalProps, {
         ref: forwardedRef
     })), container) : null;
 });
@@ -73997,9 +73968,8 @@ const $f1701beae083dbae$export$602eac185826482c = /*#__PURE__*/ (0,external_Reac
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-presence/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-presence/dist/index.module.js
 
 
 
@@ -74138,9 +74108,8 @@ $921a889cee6df7e8$export$99c2b779aa4e8b8b.displayName = 'Presence';
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-roving-focus/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-roving-focus/dist/index.module.js
 
 
 
@@ -74397,7 +74366,6 @@ const $d7bdfb9eb0fdf311$export$6d08773d2e66f8f2 = $d7bdfb9eb0fdf311$export$ab9df
 
 
 
-//# sourceMappingURL=index.mjs.map
 
 ;// CONCATENATED MODULE: ./node_modules/aria-hidden/dist/es2015/index.js
 var getDefaultParent = function (originalTarget) {
@@ -75266,7 +75234,7 @@ var ReactRemoveScroll = external_React_.forwardRef(function (props, ref) { retur
 ReactRemoveScroll.classNames = RemoveScroll.classNames;
 /* harmony default export */ var Combination = (ReactRemoveScroll);
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-menu/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-menu/dist/index.module.js
 
 
 
@@ -76256,9 +76224,8 @@ const $6cc32821e9371a1c$export$6d4de93b380beddf = $6cc32821e9371a1c$export$e7142
 
 
 
-//# sourceMappingURL=index.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dropdown-menu/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dropdown-menu/dist/index.module.js
 
 
 
@@ -76603,7 +76570,6 @@ const $d08ef79370b62062$export$6d4de93b380beddf = $d08ef79370b62062$export$f34ec
 
 
 
-//# sourceMappingURL=index.mjs.map
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-right-small.js
 

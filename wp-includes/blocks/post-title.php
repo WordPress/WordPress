@@ -19,8 +19,11 @@ function render_block_core_post_title( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$post  = get_post( $block->context['postId'] );
-	$title = get_the_title( $post );
+	/**
+	 * The `$post` argument is intentionally omitted so that changes are reflected when previewing a post.
+	 * See: https://github.com/WordPress/gutenberg/pull/37622#issuecomment-1000932816.
+	 */
+	$title = get_the_title();
 
 	if ( ! $title ) {
 		return '';
@@ -33,7 +36,7 @@ function render_block_core_post_title( $attributes, $content, $block ) {
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
 		$rel   = ! empty( $attributes['rel'] ) ? 'rel="' . esc_attr( $attributes['rel'] ) . '"' : '';
-		$title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', get_the_permalink( $post ), esc_attr( $attributes['linkTarget'] ), $rel, $title );
+		$title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', get_the_permalink( $block->context['postId'] ), esc_attr( $attributes['linkTarget'] ), $rel, $title );
 	}
 
 	$classes = array();

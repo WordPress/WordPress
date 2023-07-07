@@ -225,61 +225,86 @@ body.is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
   .block-editor-block-contextual-toolbar.is-fixed{
     border-bottom:none;
     display:flex;
-    margin-left:64px;
+    margin-left:180px;
     min-height:auto;
     position:fixed;
-    top:40px;
+    top:39px;
   }
   .block-editor-block-contextual-toolbar.is-fixed.is-collapsed{
-    margin-left:216px;
     width:auto;
   }
   .is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
-    margin-left:120px;
-    top:8px;
+    margin-left:240px;
+    top:7px;
   }
   .is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed.is-collapsed{
-    margin-left:280px;
     width:auto;
+  }
+  .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar.is-showing-movers{
+    flex-grow:0;
+    width:auto;
+  }
+  .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar.is-showing-movers:before{
+    background-color:#ddd;
+    content:"";
+    height:24px;
+    left:-2px;
+    margin-right:0;
+    margin-top:12px;
+    position:relative;
+    top:-1px;
+    width:1px;
   }
   .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-collapse-fixed-toolbar{
     border:none;
   }
-  .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-collapse-fixed-toolbar:after{
+  .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-collapse-fixed-toolbar .components-button.has-icon svg{
+    display:none;
+  }
+  .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-collapse-fixed-toolbar .components-button.has-icon:after{
+    content:attr(aria-label);
+    font-size:12px;
+  }
+  .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-collapse-fixed-toolbar:before{
     background-color:#ddd;
     content:"";
     height:24px;
-    left:44px;
-    margin-bottom:12px;
+    left:0;
+    margin-right:8px;
     margin-top:12px;
-    position:absolute;
+    position:relative;
     top:-1px;
     width:1px;
   }
   .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-expand-fixed-toolbar{
     border:none;
   }
+  .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-expand-fixed-toolbar{
+    width:256px;
+  }
+  .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-expand-fixed-toolbar .components-button.has-icon svg{
+    display:none;
+  }
+  .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-expand-fixed-toolbar .components-button.has-icon:after{
+    content:attr(aria-label);
+    font-size:12px;
+  }
   .block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-expand-fixed-toolbar:before{
     background-color:#ddd;
     content:"";
     height:24px;
-    left:-12px;
+    left:-8px;
     margin-bottom:12px;
     margin-top:12px;
     position:relative;
+    top:-1px;
     width:1px;
   }
   .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed{
-    margin-left:64px;
-  }
-  .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed.is-collapsed{
-    margin-left:384px;
+    margin-left:80px;
   }
   .is-fullscreen-mode .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed{
-    margin-left:128px;
-  }
-  .is-fullscreen-mode .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed.is-collapsed{
-    margin-left:448px;
+    margin-left:144px;
   }
   .show-icon-labels .block-editor-block-contextual-toolbar.is-fixed .block-editor-block-parent-selector .block-editor-block-parent-selector__button:after{
     left:0;
@@ -335,7 +360,7 @@ body.is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
 }
 @media (min-width:960px){
   .block-editor-block-contextual-toolbar.is-fixed{
-    width:auto;
+    width:calc(100% - 496px);
   }
 }
 .block-editor-block-list__block-selection-button{
@@ -3812,6 +3837,32 @@ body.is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
   }
 }
 .block-editor-inserter-media-tab-media-preview-inserter-external-image-modal p{
+  margin:0;
+}
+
+.block-editor-inserter__hint{
+  margin:16px 16px 0;
+}
+
+.reusable-blocks-menu-items__rename-hint{
+  align-items:top;
+  background:#f0f0f0;
+  border-radius:2px;
+  color:#1e1e1e;
+  display:flex;
+  flex-direction:row;
+  max-width:380px;
+}
+
+.reusable-blocks-menu-items__rename-hint-content{
+  margin:12px 0 12px 12px;
+}
+
+.reusable-blocks-menu-items__rename-hint-dismiss{
+  margin:4px 4px 4px 0;
+}
+
+.components-menu-group .reusable-blocks-menu-items__rename-hint{
   margin:0;
 }
 

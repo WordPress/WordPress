@@ -115,7 +115,9 @@
 			"blockGap": [ "horizontal", "vertical" ],
 			"__experimentalSkipSerialization": [ "blockGap" ],
 			"__experimentalDefaultControls": {
-				"blockGap": true
+				"blockGap": true,
+				"margin": false,
+				"padding": false
 			}
 		},
 		"color": {

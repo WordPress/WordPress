@@ -11550,9 +11550,7 @@ function PostSwitchToDraftButton({
     onClick();
   };
 
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FlexItem, {
-    isBlock: true
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     className: "editor-post-switch-to-draft",
     onClick: () => {
       setShowConfirmDialog(true);
@@ -11560,8 +11558,8 @@ function PostSwitchToDraftButton({
     disabled: isSaving,
     variant: "secondary",
     style: {
-      width: '100%',
-      display: 'block'
+      flexGrow: '1',
+      justifyContent: 'center'
     }
   }, (0,external_wp_i18n_namespaceObject.__)('Switch to draft')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalConfirmDialog, {
     isOpen: showConfirmDialog,
@@ -11612,14 +11610,14 @@ function PostSwitchToDraftButton({
 
 function PostSyncStatus() {
   const {
-    meta,
+    syncStatus,
     postType
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditedPostAttribute
     } = select(store_store);
     return {
-      meta: getEditedPostAttribute('meta'),
+      syncStatus: getEditedPostAttribute('wp_pattern_sync_status'),
       postType: getEditedPostAttribute('type')
     };
   }, []);
@@ -11628,7 +11626,6 @@ function PostSyncStatus() {
     return null;
   }
 
-  const syncStatus = meta?.sync_status;
   const isFullySynced = !syncStatus;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelRow, {
     className: "edit-post-sync-status"

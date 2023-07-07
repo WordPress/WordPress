@@ -759,8 +759,8 @@
 }
 
 .editor-post-trash.components-button{
-  display:block;
-  width:100%;
+  flex-grow:1;
+  justify-content:center;
 }
 
 .table-of-contents__popover.components-popover .components-popover__content{

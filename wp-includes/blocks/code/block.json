@@ -31,7 +31,11 @@
 		},
 		"spacing": {
 			"margin": [ "top", "bottom" ],
-			"padding": true
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
 		},
 		"__experimentalBorder": {
 			"radius": true,

@@ -3204,6 +3204,12 @@ function createRegistry(storeConfigs = {}, parent = null) {
   }
 
   function batch(callback) {
+    // If we're already batching, just call the callback.
+    if (emitter.isPaused) {
+      callback();
+      return;
+    }
+
     emitter.pause();
     Object.values(stores).forEach(store => store.emitter.pause());
     callback();

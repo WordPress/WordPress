@@ -280,7 +280,7 @@ function _extends() {
 }
 ;// CONCATENATED MODULE: external "React"
 var external_React_namespaceObject = window["React"];
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/primitive/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/primitive/dist/index.module.js
 function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEventHandler, { checkForDefaultPrevented: checkForDefaultPrevented = true  } = {}) {
     return function handleEvent(event) {
         originalEventHandler === null || originalEventHandler === void 0 || originalEventHandler(event);
@@ -293,7 +293,7 @@ function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEven
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-compose-refs/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-compose-refs/dist/index.module.js
 
 
 
@@ -325,7 +325,7 @@ function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEven
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-context/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-context/dist/index.module.js
 
 
 
@@ -454,7 +454,7 @@ function $c512c27ab02ef895$export$fd42f52fd3ae1109(rootComponentName, defaultCon
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-use-layout-effect/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-layout-effect/dist/index.module.js
 
 
 
@@ -471,7 +471,7 @@ function $c512c27ab02ef895$export$fd42f52fd3ae1109(rootComponentName, defaultCon
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-id/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-id/dist/index.module.js
 
 
 
@@ -496,7 +496,7 @@ function $1746a345f3d73bb7$export$f680877a34711e37(deterministicId) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-use-callback-ref/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-callback-ref/dist/index.module.js
 
 
 
@@ -520,7 +520,7 @@ function $1746a345f3d73bb7$export$f680877a34711e37(deterministicId) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-use-controllable-state/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-use-controllable-state/dist/index.module.js
 
 
 
@@ -1360,7 +1360,7 @@ const $f1701beae083dbae$export$602eac185826482c = /*#__PURE__*/ (0,external_Reac
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-presence/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-presence/dist/index.module.js
 
 
 
@@ -1500,7 +1500,7 @@ $921a889cee6df7e8$export$99c2b779aa4e8b8b.displayName = 'Presence';
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-focus-guards/dist/index.module.js
+;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-focus-guards/dist/index.module.js
 
 
 
@@ -3251,7 +3251,7 @@ function commandLoaders(state = {}, action) {
   return state;
 }
 /**
- * Reducer returning the command center open state.
+ * Reducer returning the command palette open state.
  *
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
@@ -3272,7 +3272,7 @@ function isOpen(state = false, action) {
   return state;
 }
 /**
- * Reducer returning the command center's active context.
+ * Reducer returning the command palette's active context.
  *
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
@@ -3384,7 +3384,7 @@ function unregisterCommandLoader(name) {
   };
 }
 /**
- * Opens the command center.
+ * Opens the command palette.
  *
  * @return {Object} action.
  */
@@ -3395,7 +3395,7 @@ function actions_open() {
   };
 }
 /**
- * Closes the command center.
+ * Closes the command palette.
  *
  * @return {Object} action.
  */
@@ -3942,7 +3942,7 @@ function CommandMenu() {
     registerShortcut({
       name: 'core/commands',
       category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Open the global command menu'),
+      description: (0,external_wp_i18n_namespaceObject.__)('Open the command palette'),
       keyCombination: {
         modifier: 'primary',
         character: 'k'
@@ -3970,7 +3970,7 @@ function CommandMenu() {
   };
 
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // Focus the command menu input when mounting the modal.
+    // Focus the command palette input when mounting the modal.
     if (isOpen) {
       commandMenuInput.current.focus();
     }
@@ -3989,7 +3989,7 @@ function CommandMenu() {
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "commands-command-menu__container"
   }, (0,external_wp_element_namespaceObject.createElement)(Le, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Global Command Menu')
+    label: (0,external_wp_i18n_namespaceObject.__)('Command palette')
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "commands-command-menu__header"
   }, (0,external_wp_element_namespaceObject.createElement)(Le.Input, {
@@ -4022,7 +4022,7 @@ function CommandMenu() {
 
 
 /**
- * Sets the active context of the command center
+ * Sets the active context of the command palette
  *
  * @param {string} context Context to set.
  */
@@ -4069,7 +4069,7 @@ lock(privateApis, {
 
 
 /**
- * Attach a command to the Global command menu.
+ * Attach a command to the command palette.
  *
  * @param {import('../store/actions').WPCommandConfig} command command config.
  */
@@ -4110,7 +4110,7 @@ function useCommand(command) {
 
 
 /**
- * Attach a command loader to the Global command menu.
+ * Attach a command loader to the command palette.
  *
  * @param {import('../store/actions').WPCommandLoaderConfig} loader command loader config.
  */
