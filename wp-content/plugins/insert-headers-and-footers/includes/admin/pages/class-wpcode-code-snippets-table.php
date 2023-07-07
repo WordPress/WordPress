@@ -46,7 +46,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		);
 
 		// Default number of snippets to show per page.
-		$this->per_page = (int) apply_filters( 'wpcode_code_snippets_per_page', 20 );
+		$this->per_page = $this->get_items_per_page( 'wpcode_snippets_per_page', (int) apply_filters( 'wpcode_code_snippets_per_page', 20 ) );
 		$this->view     = $this->get_current_view();
 	}
 
@@ -106,6 +106,15 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 					__( '%1$s at %2$s', 'insert-headers-and-footers' ),
 					get_the_time( get_option( 'date_format' ), $snippet->get_post_data() ),
 					get_the_time( get_option( 'time_format' ), $snippet->get_post_data() )
+				);
+				break;
+
+			case 'updated':
+				$value = sprintf(
+				// Translators: This is the format for displaying the date in the admin list, [date] at [time].
+					__( '%1$s at %2$s', 'insert-headers-and-footers' ),
+					get_the_modified_date( get_option( 'date_format' ), $snippet->get_post_data() ),
+					get_the_modified_date( get_option( 'time_format' ), $snippet->get_post_data() )
 				);
 				break;
 
@@ -373,15 +382,34 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 		$sortable = array(
 			'name'    => array( 'title', false ),
 			'created' => array( 'date', false ),
+			'updated' => array( 'last_updated', false ),
 		);
 
 		// Set column headers.
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		$page        = $this->get_pagenum();
-		$order       = isset( $_GET['order'] ) && 'asc' === $_GET['order'] ? 'ASC' : 'DESC';
-		$orderby     = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'ID';
+		$page = $this->get_pagenum();
+		if ( isset( $_GET['order'] ) ) {
+			$order = 'asc' === $_GET['order'] ? 'ASC' : 'DESC';
+		} else {
+			$order      = 'DESC';
+			$user_order = get_user_option( 'wpcode_snippets_order' );
+			if ( ! empty( $user_order ) ) {
+				$order = $user_order;
+			}
+		}
+		// Same thing but for order by.
+		if ( isset( $_GET['orderby'] ) ) {
+			$orderby = sanitize_key( $_GET['orderby'] );
+		} else {
+			$orderby      = 'ID';
+			$user_orderby = get_user_option( 'wpcode_snippets_order_by' );
+			if ( ! empty( $user_orderby ) ) {
+				$orderby = $user_orderby;
+			}
+		}
+
 		$per_page    = $this->get_items_per_page( 'wpcode_snippets_per_page', $this->per_page );
 		$is_filtered = false;
 
@@ -490,6 +518,7 @@ class WPCode_Code_Snippets_Table extends WP_List_Table {
 			'author'   => esc_html__( 'Author', 'insert-headers-and-footers' ),
 			'location' => esc_html__( 'Location', 'insert-headers-and-footers' ),
 			'created'  => esc_html__( 'Created', 'insert-headers-and-footers' ),
+			'updated'  => esc_html__( 'Last Updated', 'insert-headers-and-footers' ),
 			'tags'     => esc_html__( 'Tags', 'insert-headers-and-footers' ),
 		);
 		if ( 'trash' !== $this->view ) {

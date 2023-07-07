@@ -40,11 +40,18 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 	 */
 	public function page_hooks() {
 		$this->process_message();
+
 		add_action( 'current_screen', array( $this, 'init_table' ) );
 		add_action( 'admin_init', array( $this, 'maybe_capture_filter' ) );
 		add_action( 'load-toplevel_page_wpcode', array( $this, 'maybe_process_bulk_action' ) );
-		add_filter( 'screen_options_show_screen', '__return_false' );
 		add_action( 'wpcode_admin_notices', array( $this, 'maybe_show_deactivated_notice' ) );
+
+		// Register Screen options.
+		add_action( 'load-toplevel_page_wpcode', array( $this, 'add_per_page_option' ) );
+		// Hide some columns by default.
+		add_filter( 'default_hidden_columns', array( $this, 'hide_columns' ), 10, 2 );
+
+		add_filter( 'screen_settings', array( $this, 'add_custom_screen_option' ), 10, 2 );
 	}
 
 	/**
@@ -298,8 +305,8 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 		}
 		// Let's see if error logging is enabled.
 		$logging_enabled = wpcode()->settings->get_option( 'error_logging' );
-		$button_text = esc_html__( 'Enable Error Logging', 'insert-headers-and-footers' );
-		$button_url  = add_query_arg(
+		$button_text     = esc_html__( 'Enable Error Logging', 'insert-headers-and-footers' );
+		$button_url      = add_query_arg(
 			array(
 				'page' => 'wpcode-settings',
 			),
@@ -328,5 +335,79 @@ class WPCode_Admin_Page_Code_Snippets extends WPCode_Admin_Page {
 			<?php } ?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Add the per page option to the snippets list screen.
+	 *
+	 * @return void
+	 */
+	public function add_per_page_option() {
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => esc_html__( 'Number of snippets per page:', 'insert-headers-and-footers' ),
+				'option'  => 'wpcode_snippets_per_page',
+				'default' => 20,
+			)
+		);
+	}
+
+	/**
+	 * Hide the last updated column by default.
+	 *
+	 * @param array     $hidden The hidden columns.
+	 * @param WP_Screen $screen The current screen.
+	 *
+	 * @return mixed
+	 */
+	public function hide_columns( $hidden, $screen ) {
+		$hidden[] = 'updated';
+
+		return $hidden;
+	}
+
+	/**
+	 *
+	 * @param string    $screen_settings Screen settings.
+	 * @param WP_Screen $screen WP_Screen object.
+	 *
+	 * @return string
+	 */
+	public function add_custom_screen_option( $screen_settings, $screen ) {
+
+		$order_by = get_user_option( 'wpcode_snippets_order_by' );
+		$order    = get_user_option( 'wpcode_snippets_order' );
+		if ( empty( $order_by ) ) {
+			$order_by = 'ID';
+		}
+		if ( empty( $order ) ) {
+			$order = 'desc';
+		}
+
+
+		// Pick which column to order by, title, date or last updated using a select.
+		$screen_settings .= '<h5>' . esc_html__( 'Order Snippets By', 'insert-headers-and-footers' ) . '</h5>';
+		$screen_settings .= '<fieldset>';
+		$screen_settings .= '<legend class="screen-reader-text">' . esc_html__( 'Order snippets by', 'insert-headers-and-footers' ) . '</legend>';
+		// Use dropdown to choose the column to order by.
+		$screen_settings .= '<label for="wpcode_screen_order_by">';
+		$screen_settings .= '<select name="wpcode_screen_order_by" id="wpcode_screen_order_by">';
+		$screen_settings .= '<option value="title" ' . selected( $order_by, 'title', false ) . '>' . esc_html__( 'Name', 'insert-headers-and-footers' ) . '</option>';
+		$screen_settings .= '<option value="ID" ' . selected( $order_by, 'ID', false ) . '>' . esc_html__( 'Created', 'insert-headers-and-footers' ) . '</option>';
+		$screen_settings .= '<option value="last_updated" ' . selected( $order_by, 'last_updated', false ) . '>' . esc_html__( 'Last Updated', 'insert-headers-and-footers' ) . '</option>';
+		$screen_settings .= '</select>';
+		$screen_settings .= '</label>';
+		// Display a dropdown to choose the order.
+		$screen_settings .= '<label for="wpcode_screen_order">';
+		$screen_settings .= '<select name="wpcode_screen_order" id="wpcode_screen_order">';
+		$screen_settings .= '<option value="asc" ' . selected( $order, 'asc', false ) . '>' . esc_html__( 'Ascending', 'insert-headers-and-footers' ) . '</option>';
+		$screen_settings .= '<option value="desc" ' . selected( $order, 'desc', false ) . '>' . esc_html__( 'Descending', 'insert-headers-and-footers' ) . '</option>';
+		$screen_settings .= '</select>';
+		$screen_settings .= '</label>';
+		$screen_settings .= '</fieldset>';
+
+
+		return $screen_settings;
 	}
 }

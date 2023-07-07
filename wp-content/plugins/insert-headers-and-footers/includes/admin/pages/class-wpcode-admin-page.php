@@ -209,6 +209,8 @@ abstract class WPCode_Admin_Page {
 					<?php $this->output_header_right(); ?>
 				</div>
 			</div>
+			<div id="wpcode-header-between">
+			</div>
 			<div class="wpcode-header-bottom">
 				<?php $this->output_header_bottom(); ?>
 			</div>

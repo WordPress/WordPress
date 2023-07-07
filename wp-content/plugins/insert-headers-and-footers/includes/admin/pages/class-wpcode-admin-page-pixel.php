@@ -55,7 +55,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 
 		$text = sprintf(
 		// translators: %1$s and %2$s are <u> tags.
-			'<p>' . __( 'While you can always add pixels manually using code snippets, our Conversion Pixels addon helps you %1$ssave time%2$s while %1$sreducing errors%2$s. It lets you properly implement Facebook, Google, Pinterest, and TikTok ads tracking with deep integrations for eCommerce events, interaction measurement, and more. This addon is available on WPCode Plus plan or higher.', 'insert-headers-and-footers' ) . '</p>',
+			'<p>' . __( 'While you can always add pixels manually using code snippets, our Conversion Pixels addon helps you %1$ssave time%2$s while %1$sreducing errors%2$s. It lets you properly implement Facebook, Google, Pinterest, TikTok and Snapchat ads tracking with deep integrations for eCommerce events, interaction measurement, and more. This addon is available on WPCode Plus plan or higher.', 'insert-headers-and-footers' ) . '</p>',
 			'<u>',
 			'</u>'
 		);
@@ -70,7 +70,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 			array(),
 			array(
 				__( 'Seamless integration with WooCommerce, Easy Digital Downloads and MemberPress', 'insert-headers-and-footers' ),
-				__( 'Works with Facebook, Google Ads, Pinterest, and TikTok', 'insert-headers-and-footers' ),
+				__( 'Works with Facebook, Google Ads, Pinterest, TikTok and Snapchat', 'insert-headers-and-footers' ),
 				__( 'No coding required', 'insert-headers-and-footers' ),
 				__( '1-click setup for conversion tracking', 'insert-headers-and-footers' ),
 			)
@@ -84,10 +84,12 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 	 */
 	protected function setup_views() {
 		$this->views = array(
-			'facebook'  => __( 'Facebook', 'insert-headers-and-footers' ),
-			'google'    => __( 'Google', 'insert-headers-and-footers' ),
-			'pinterest' => __( 'Pinterest', 'insert-headers-and-footers' ),
-			'tiktok'    => __( 'TikTok', 'insert-headers-and-footers' ),
+			'facebook'       => __( 'Facebook', 'insert-headers-and-footers' ),
+			'google'         => __( 'Google', 'insert-headers-and-footers' ),
+			'pinterest'      => __( 'Pinterest', 'insert-headers-and-footers' ),
+			'tiktok'         => __( 'TikTok', 'insert-headers-and-footers' ),
+			'snapchat'       => __( 'Snapchat', 'insert-headers-and-footers' ),
+			'click_tracking' => __( 'Click Tracking', 'insert-headers-and-footers' ),
 		);
 	}
 
@@ -353,6 +355,66 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 			$this->get_ecommerce_events_input() . $this->get_checkbox_inputs( $this->get_tiktok_pixel_events_inputs(), 'tiktok_pixel_events' )
 		);
 		wp_nonce_field( 'wpcode-save-tiktok-pixel-data', 'wpcode-pixel-nonce' );
+		?>
+		<button type="submit" class="wpcode-button">
+			<?php esc_html_e( 'Save Changes', 'insert-headers-and-footers' ); ?>
+		</button>
+		<?php
+	}
+
+	/**
+	 * Page for Snapchat pixel settings.
+	 *
+	 * @return void
+	 */
+	public function output_view_snapchat() {
+		?>
+		<h2><?php esc_html_e( 'Snapchat Pixel', 'insert-headers-and-footers' ); ?></h2>
+		<?php
+		$this->metabox_row(
+			__( 'Snap Pixel ID', 'insert-headers-and-footers' ),
+			$this->get_input_text(
+				'snapchat_pixel_id',
+				$this->get_option( 'snapchat_pixel_id', '' ),
+				sprintf(
+				// translators: %1$s and %2$s are the opening and closing anchor tags.
+					__( 'You can find your Snapchat Pixel ID in the Snapchat Ads Manager. %1$sRead our step by step directions%2$s. ', 'insert-headers-and-footers' ),
+					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-snapchat-pixel-id-and-conversions-api-token/', 'conversion-pixels', 'snapchat', 'pixel' ) . '">',
+					'</a>'
+				),
+				true
+			),
+			'snapchat_pixel_id'
+		);
+		$this->metabox_row(
+			__( 'Conversions API Token', 'insert-headers-and-footers' ),
+			$this->get_input_text(
+				'snapchat_pixel_api_token',
+				$this->get_option( 'snapchat_pixel_api_token', '' ),
+				__( 'The Conversions API token allows you to send API events that are more reliable and can improve audience targeting.', 'insert-headers-and-footers' ),
+				true
+			),
+			'snapchat_pixel_api_token'
+		);
+		$this->metabox_row(
+			__( 'Snapchat Pixel Events', 'insert-headers-and-footers' ),
+			$this->get_checkbox_inputs(
+				array(
+					array(
+						'label'       => __( 'Pave View Event', 'insert-headers-and-footers' ),
+						'name'        => 'page_view',
+						'description' => __( 'Enable the PAGE_VIEW event to track and record page visits on all the pages of your website using the Snapchat Pixel.', 'insert-headers-and-footers' ),
+						'ecommerce'   => false,
+					),
+				),
+				'snapchat_pixel_events'
+			)
+		);
+		$this->metabox_row(
+			__( 'eCommerce Events Tracking', 'insert-headers-and-footers' ),
+			$this->get_ecommerce_events_input() . $this->get_checkbox_inputs( $this->get_snap_pixel_events_inputs(), 'snapchat_pixel_events' )
+		);
+		wp_nonce_field( 'wpcode-save-snapchat-pixel-data', 'wpcode-pixel-nonce' );
 		?>
 		<button type="submit" class="wpcode-button">
 			<?php esc_html_e( 'Save Changes', 'insert-headers-and-footers' ); ?>
@@ -628,5 +690,141 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 		$markup .= '</div>';
 
 		return $markup;
+	}
+
+	/**
+	 * Event options checkboxes for the Snapchat Pixel.
+	 *
+	 * @return array[]
+	 */
+	public function get_snap_pixel_events_inputs() {
+		return array(
+			array(
+				'label'       => __( 'View Content Event', 'insert-headers-and-footers' ),
+				'name'        => 'view_content',
+				'description' => __( 'Turn on the "VIEW_CONTENT" event to track views of product pages on your website.', 'insert-headers-and-footers' ),
+				'ecommerce'   => true,
+				'css_class'   => 'view-content',
+			),
+			array(
+				'label'       => __( 'Add to Cart Event', 'insert-headers-and-footers' ),
+				'name'        => 'add_to_cart',
+				'description' => __( 'Turn on the "ADD_CART" event to track when items are added to a shopping cart on your website.', 'insert-headers-and-footers' ),
+				'ecommerce'   => true,
+				'css_class'   => 'add-to-cart',
+			),
+			array(
+				'label'       => __( 'Start Checkout Event', 'insert-headers-and-footers' ),
+				'name'        => 'begin_checkout',
+				'description' => __( 'Turn on the "START_CHECKOUT" event to track when a user reaches the checkout page on your website.', 'insert-headers-and-footers' ),
+				'ecommerce'   => true,
+				'css_class'   => 'begin-checkout',
+			),
+			array(
+				'label'       => __( 'Purchase Event', 'insert-headers-and-footers' ),
+				'name'        => 'purchase',
+				'description' => __( 'Turn on the "PURCHASE" event to track successful purchases on your website.', 'insert-headers-and-footers' ),
+				'ecommerce'   => true,
+				'css_class'   => 'purchase',
+			),
+		);
+	}
+
+	/**
+	 * This is the page content for the Custom Events page.
+	 *
+	 * @return void
+	 */
+	public function output_view_click_tracking() {
+		?>
+		<h2><?php esc_html_e( 'Custom Click Tracking', 'insert-headers-and-footers' ); ?></h2>
+		<p>
+			<?php
+			printf(
+			/* Translators: %1$s is the opening link tag, %2$s is the closing link tag */
+				esc_html__( 'Use this section to add custom click events to your site. You can add as many as you like. Each event can have multiple pixels and each pixel can have a custom event name and value. Read more about how to configure these settings in %1$sthis article%2$s', 'insert-headers-and-footers' ),
+				'<a href="' . esc_url( wpcode_utm_url( 'https://wpcode.com/docs/conversion-pixels-custom-click-tracking/' ) ) . '" target="_blank" rel="noopener noreferrer">',
+				'</a>'
+			);
+			?>
+		</p>
+		<div id="wpcode-settings-repeater" class="wpcode-settings-repeater-group">
+			<div class="wpcode-settings-repeater-item">
+				<?php
+				$this->metabox_row(
+					__( 'CSS Selector', 'insert-headers-and-footers' ),
+					$this->get_input_text(
+						'',
+						'',
+						sprintf(
+						// Translators: %1$s is an opening anchor tag, %2$s is a closing anchor tag.
+							esc_html__( 'Define the HTML element that triggers the event upon clicking (button, link, etc). Input the appropriate CSS selector here. %1$sLearn more%2$s', 'insert-headers-and-footers' ),
+							'<a href="' . esc_url( wpcode_utm_url( 'https://wpcode.com/docs/finding-css-selector/' ) ) . '" target="_blank" rel="noopener noreferrer">',
+							'</a>'
+						),
+						true
+					)
+				);
+				$this->metabox_row(
+					__( 'Event Name', 'insert-headers-and-footers' ),
+					$this->get_input_text(
+						'',
+						'',
+						__( 'Assign a unique identifier to your event for easy recognition and categorization. ', 'insert-headers-and-footers' )
+					)
+				);
+				$this->metabox_row(
+					__( 'Event Value', 'insert-headers-and-footers' ),
+					$this->get_input_text(
+						'',
+						'',
+						__( 'Input a numerical value for your event. This helps in quantifying user interactions for your tracking needs. ', 'insert-headers-and-footers' )
+					)
+				);
+				?>
+				<div class="wpcode-pixels-chooser-row">
+					<div class="wpcode-metabox-form-row">
+						<div class="wpcode-metabox-form-row-label">
+							<label for="">Pixels </label>
+						</div>
+						<div class="wpcode-metabox-form-row-input">
+							<p>Choose which pixels to enable for this event. </p>
+							<p>You can choose a standard event for each pixel to override the custom event label set
+								above.</p>
+							<?php
+							$pixels = array(
+								'Facebook',
+								'Google',
+								'Pinterest',
+								'TikTok',
+								'Snapchat',
+							);
+							foreach ( $pixels as $pixel ) {
+								echo '<div class="wpcode-checkbox-row">';
+								echo $this->get_checkbox_toggle(
+									true,
+									'',
+									'',
+									1,
+									$pixel
+								);
+								echo '</div>';
+							}
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button type="button" class="wpcode-button wpcode-button-secondary" id="wpcode-add-click-event">
+			<?php esc_html_e( 'Add New Click Event', 'insert-headers-and-footers' ); ?>
+		</button>
+		<?php
+		wp_nonce_field( 'wpcode-save-click-pixel-data', 'insert-headers-and-footers-nonce' );
+		?>
+		<button type="submit" class="wpcode-button">
+			<?php esc_html_e( 'Save Changes', 'insert-headers-and-footers' ); ?>
+		</button>
+		<?php
 	}
 }

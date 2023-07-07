@@ -45,6 +45,10 @@ class WPCode_Admin_Page_Loader {
 
 		// Hide submenus.
 		add_filter( 'parent_file', array( $this, 'hide_menus' ), 1020 );
+
+		// Save Screen options.
+		add_filter( 'set-screen-option', array( $this, 'screen_options_set' ), 10, 3 );
+		add_filter( 'set_screen_option_wpcode_snippets_per_page', array( $this, 'screen_options_set' ), 10, 3 );
 	}
 
 	/**
@@ -233,5 +237,35 @@ class WPCode_Admin_Page_Loader {
 		}
 
 		return $parent_file;
+	}
+
+
+	/**
+	 * Set the per page option for the snippets list screen.
+	 *
+	 * @param $status
+	 * @param $option
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	public function screen_options_set( $status, $option, $value ) {
+
+		if ( isset( $_POST['wpcode_screen_order_by'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$order_by = sanitize_text_field( wp_unslash( $_POST['wpcode_screen_order_by'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			update_user_option( get_current_user_id(), 'wpcode_snippets_order_by', $order_by );
+		}
+
+		if ( isset( $_POST['wpcode_screen_order'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$order_by = sanitize_text_field( wp_unslash( $_POST['wpcode_screen_order'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			update_user_option( get_current_user_id(), 'wpcode_snippets_order', $order_by );
+		}
+
+		if ( 'wpcode_snippets_per_page' === $option ) {
+			return absint( $value );
+		}
+
+
+		return $status;
 	}
 }

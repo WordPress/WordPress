@@ -39,21 +39,25 @@ class WPCode_Auto_Insert_Anywhere_Lite extends WPCode_Auto_Insert_Type {
 	public function init() {
 		$this->label         = __( 'Anywhere (CSS Selector)', 'insert-headers-and-footers' );
 		$this->locations     = array(
-			'before_css_selector' => array(
+			'before_css_selector'  => array(
 				'label'       => __( 'Before HTML Element', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet before the HTML element specified by the CSS selector.', 'insert-headers-and-footers' ),
 			),
-			'after_css_selector'  => array(
+			'after_css_selector'   => array(
 				'label'       => __( 'After HTML Element', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet after the HTML element specified by the CSS selector.', 'insert-headers-and-footers' ),
 			),
-			'start_css_selector'  => array(
+			'start_css_selector'   => array(
 				'label'       => __( 'At the start of HTML Element', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet before the content of the HTML element specified by CSS selector.', 'insert-headers-and-footers' ),
 			),
-			'end_css_selector'    => array(
+			'end_css_selector'     => array(
 				'label'       => __( 'At the end of HTML Element', 'insert-headers-and-footers' ),
 				'description' => __( 'Insert snippet after the content of the HTML element specified by CSS selector.', 'insert-headers-and-footers' ),
+			),
+			'replace_css_selector' => array(
+				'label'       => __( 'Replace HTML Element', 'insert-headers-and-footers' ),
+				'description' => __( 'Completely replace the HTML element specified by the CSS selector with the output of this snippet.', 'insert-headers-and-footers' ),
 			),
 		);
 		$this->upgrade_title = __( 'Insert Anywhere by CSS Selector is a Premium feature', 'insert-headers-and-footers' );

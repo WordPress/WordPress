@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPCode Lite 2.0.12\n"
+"Project-Id-Version: WPCode Lite 2.0.13\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/insert-headers-and-footers\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-30T09:24:45+00:00\n"
+"POT-Creation-Date: 2023-06-27T08:01:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: insert-headers-and-footers\n"
@@ -81,24 +81,24 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: includes/admin/class-wpcode-admin-page-loader.php:127
-#: includes/admin/class-wpcode-admin-page-loader.php:128
-#: includes/admin/class-wpcode-admin-page-loader.php:185
+#: includes/admin/class-wpcode-admin-page-loader.php:131
+#: includes/admin/class-wpcode-admin-page-loader.php:132
+#: includes/admin/class-wpcode-admin-page-loader.php:189
 #: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:32
 msgid "Code Snippets"
 msgstr ""
 
-#: includes/admin/class-wpcode-admin-page-loader.php:193
+#: includes/admin/class-wpcode-admin-page-loader.php:197
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:38
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:180
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-wpcode-admin-page-loader.php:208
+#: includes/admin/class-wpcode-admin-page-loader.php:212
 msgid "Upgrade to WPCode Pro"
 msgstr ""
 
-#: includes/admin/class-wpcode-admin-page-loader.php:209
+#: includes/admin/class-wpcode-admin-page-loader.php:213
 msgid "Get WPCode Pro"
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 
 #. Translators: This simply adds the plugin name before the logo text.
 #: includes/admin/class-wpcode-upgrade-welcome.php:162
-#: includes/admin/pages/class-wpcode-admin-page.php:395
+#: includes/admin/pages/class-wpcode-admin-page.php:397
 msgid "%s logo"
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-click.php:102
 #: includes/admin/pages/class-wpcode-admin-page-click.php:142
-#: includes/admin/pages/class-wpcode-admin-page.php:1239
+#: includes/admin/pages/class-wpcode-admin-page.php:1241
 msgid "Connect to Library"
 msgstr ""
 
@@ -491,79 +491,117 @@ msgstr ""
 msgid "Confirm Snippet Installation"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:195
-#: includes/admin/pages/class-wpcode-admin-page.php:888
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:202
+#: includes/admin/pages/class-wpcode-admin-page.php:890
 msgid "Search Snippets"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:213
-#: includes/admin/pages/class-wpcode-admin-page.php:888
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:220
+#: includes/admin/pages/class-wpcode-admin-page.php:890
 msgid "All Snippets"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:215
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:222
 #: includes/generator/class-wpcode-generator-post-type.php:231
 msgid "Add New"
 msgstr ""
 
 #. Translators: %d - Trashed snippets count.
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:232
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:239
 msgid "%d snippet was successfully moved to Trash."
 msgid_plural "%d snippets were successfully moved to Trash."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - Restored from trash snippets count.
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:240
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:247
 msgid "%d snippet was successfully restored."
 msgid_plural "%d snippet were successfully restored."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - Deleted snippets count.
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:248
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:255
 msgid "%d snippet was successfully permanently deleted."
 msgid_plural "%d snippets were successfully permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - Activated snippets count.
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:258
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:265
 msgid "%d snippet was successfully activated."
 msgid_plural "%d snippets were successfully activated."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - Failed to activate snippets count.
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:267
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:274
 msgid "%d snippet was not activated due to an error."
 msgid_plural "%d snippets were not activated due to errors."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d - Deactivated snippets count.
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:276
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:283
 msgid "%d snippet was successfully deactivated."
 msgid_plural "%d snippets were successfully deactivated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:301
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1948
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:308
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1951
 msgid "Enable Error Logging"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:312
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:319
 msgid "This view lists your snippets that have been automatically disabled due to throwing an error."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:314
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1987
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:321
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1990
 msgid "Learn More"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:321
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:328
 msgid "In order to get more info about the errors that caused the snippets to be disabled please consider enabling error logging."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:349
+msgid "Number of snippets per page:"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:390
+msgid "Order Snippets By"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:392
+msgid "Order snippets by"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:396
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:517
+#: includes/generator/class-wpcode-generator-post-status.php:128
+#: includes/generator/class-wpcode-generator-post-type.php:136
+#: includes/generator/class-wpcode-generator-sidebar.php:130
+msgid "Name"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:397
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:520
+msgid "Created"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:398
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:521
+msgid "Last Updated"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:404
+msgid "Ascending"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:405
+msgid "Descending"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-generator.php:59
@@ -595,7 +633,7 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-generator.php:203
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:346
-#: includes/admin/pages/class-wpcode-admin-page.php:1064
+#: includes/admin/pages/class-wpcode-admin-page.php:1066
 msgid "Code Preview"
 msgstr ""
 
@@ -604,7 +642,7 @@ msgid "Update Snippet"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-generator.php:209
-#: includes/admin/pages/class-wpcode-admin-page.php:1069
+#: includes/admin/pages/class-wpcode-admin-page.php:1071
 msgid "Use Snippet"
 msgstr ""
 
@@ -656,10 +694,12 @@ msgid "Global Header and Footer"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:210
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:167
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:244
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:308
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:358
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:169
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:246
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:310
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:360
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:420
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:826
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:184
 msgid "Save Changes"
 msgstr ""
@@ -707,7 +747,7 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-library.php:202
 #: includes/admin/pages/class-wpcode-admin-page-library.php:232
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1859
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1862
 #: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:149
 #: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:292
 msgid "Learn more about all the features"
@@ -757,7 +797,7 @@ msgstr ""
 
 #. translators: %1$s and %2$s are <u> tags.
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:58
-msgid "While you can always add pixels manually using code snippets, our Conversion Pixels addon helps you %1$ssave time%2$s while %1$sreducing errors%2$s. It lets you properly implement Facebook, Google, Pinterest, and TikTok ads tracking with deep integrations for eCommerce events, interaction measurement, and more. This addon is available on WPCode Plus plan or higher."
+msgid "While you can always add pixels manually using code snippets, our Conversion Pixels addon helps you %1$ssave time%2$s while %1$sreducing errors%2$s. It lets you properly implement Facebook, Google, Pinterest, TikTok and Snapchat ads tracking with deep integrations for eCommerce events, interaction measurement, and more. This addon is available on WPCode Plus plan or higher."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:64
@@ -773,7 +813,7 @@ msgid "Seamless integration with WooCommerce, Easy Digital Downloads and MemberP
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:73
-msgid "Works with Facebook, Google Ads, Pinterest, and TikTok"
+msgid "Works with Facebook, Google Ads, Pinterest, TikTok and Snapchat"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:74
@@ -800,261 +840,361 @@ msgstr ""
 msgid "TikTok"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:121
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:91
+msgid "Snapchat"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:92
+msgid "Click Tracking"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:123
 msgid "Facebook Pixel"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:124
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:126
 msgid "Facebook Pixel ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:130
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:132
 msgid "You can find your Facebook Pixel ID in the Facebook Ads Manager. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:138
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:140
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:390
 msgid "Conversions API Token"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:142
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:144
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:394
 msgid "The Conversions API token allows you to send API events that are more reliable and can improve audience targeting."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:148
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:150
 msgid "Facebook Pixel Events"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:152
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:228
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:154
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:230
 msgid "PageView Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:154
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:156
 msgid "Enable the PageView event to track and record page visits on all the pages of your website using the Facebook Pixel."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:161
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:238
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:302
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:352
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:163
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:240
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:304
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:354
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:414
 msgid "eCommerce Events Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:179
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:181
 msgid "Google Analytics & Ads Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:182
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:184
 msgid "Google Analytics ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:188
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:190
 msgid "You can find your Google Analytics ID in the Google Analytics Admin panel. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:196
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:198
 msgid "Google Ads Tag ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:202
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:204
 msgid "You can find your Google Ads Tag ID in the Google Ads Settings under Google Tag. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:210
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:212
 msgid "Ads Conversion Label"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:216
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:218
 msgid "Add your Google Ads Conversion Label for tracking conversion events. %1$sLearn More%2$s."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:224
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:226
 msgid "Google Events"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:230
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:232
 msgid "Enable PageView event on all pages."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:256
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:258
 msgid "Pinterest Tag"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:259
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:261
 msgid "Tag ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:265
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:267
 msgid "You can find your Tag id in your Pinterest Business account. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:273
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:275
 msgid "Ad Account ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:279
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:281
 msgid "You can find your Ad Account ID in your Pinterest Business account. %1$sRead more%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:287
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:289
 msgid "Conversion Access Token"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:293
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:295
 msgid "You can find your Conversion Access Token under Ads > Conversions > Conversion access token. %1$sRead more%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:320
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:322
 msgid "TikTok Pixel"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:323
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:325
 msgid "Pixel ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:329
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:331
 msgid "You can find your Pixel id in your TikTok Business Account. %1$sRead our step by step directions%2$s."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:337
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:339
 msgid "Events API Access Token"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:343
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:345
 msgid "You can generate an access token in the Pixel Settings under Access Token Generation. %1$sRead more%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:371
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:372
+msgid "Snapchat Pixel"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:375
+msgid "Snap Pixel ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:381
+msgid "You can find your Snapchat Pixel ID in the Snapchat Ads Manager. %1$sRead our step by step directions%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:400
+msgid "Snapchat Pixel Events"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:404
+msgid "Pave View Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:406
+msgid "Enable the PAGE_VIEW event to track and record page visits on all the pages of your website using the Snapchat Pixel."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:433
 msgid "ViewContent Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:373
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:494
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:435
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:556
 msgid "Turn on the \"ViewContent\" event to track views of product pages on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:378
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:440
 msgid "AddtoCart Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:380
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:501
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:442
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:563
 msgid "Turn on the \"AddToCart\" event to track when items are added to a shopping cart on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:385
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:506
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:447
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:568
 msgid "InitiateCheckout Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:387
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:508
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:449
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:570
 msgid "Turn on the \"InitiateCheckout\" event to track when a user reaches the checkout page on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:392
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:430
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:454
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:492
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:724
 msgid "Purchase Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:394
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:456
 msgid "Turn on the \"Purchase\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:409
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:471
 msgid "View Item Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:411
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:473
 msgid "Send the View Item event to track views of product pages on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:416
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:461
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:499
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:478
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:523
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:561
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:710
 msgid "Add to Cart Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:418
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:480
 msgid "Send the Add to Cart event when a product is added to the cart."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:423
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:485
 msgid "Begin Checkout Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:425
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:487
 msgid "Send the Begin Checkout event when the user sees the checkout page."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:432
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:494
 msgid "Send the Purchase event when the user completes a purchase."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:437
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:499
 msgid "Conversion Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:439
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:501
 msgid "Send the conversion event with the Google Ads label set above on a successful purchase."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:454
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:516
 msgid "PageVisit Product Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:456
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:518
 msgid "Turn on the \"PageVisit\" event to track views of product pages on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:463
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:525
 msgid "Turn on the Add to Cart event to track when items are added to a shopping cart on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:468
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:530
 msgid "Checkout PageVisit Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:470
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:532
 msgid "Enable the Checkout PageVisit event to track when a user reaches the checkout page on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:475
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:537
 msgid "Checkout Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:477
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:539
 msgid "Turn on the \"Checkout\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:492
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:554
 msgid "ViewContent Product Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:513
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:575
 msgid "PlaceAnOrder Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:515
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:577
 msgid "Turn on the \"PlaceAnOrder\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:614
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:676
 msgid "Disabled, no eCommerce Platform Detected"
 msgstr ""
 
 #. translators: %s is the name of the eCommerce provider.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:618
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:680
 msgid "%s Tracking Enabled"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:703
+msgid "View Content Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:705
+msgid "Turn on the \"VIEW_CONTENT\" event to track views of product pages on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:712
+msgid "Turn on the \"ADD_CART\" event to track when items are added to a shopping cart on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:717
+msgid "Start Checkout Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:719
+msgid "Turn on the \"START_CHECKOUT\" event to track when a user reaches the checkout page on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:726
+msgid "Turn on the \"PURCHASE\" event to track successful purchases on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:740
+msgid "Custom Click Tracking"
+msgstr ""
+
+#. Translators: %1$s is the opening link tag, %2$s is the closing link tag
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:745
+msgid "Use this section to add custom click events to your site. You can add as many as you like. Each event can have multiple pixels and each pixel can have a custom event name and value. Read more about how to configure these settings in %1$sthis article%2$s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:755
+msgid "CSS Selector"
+msgstr ""
+
+#. Translators: %1$s is an opening anchor tag, %2$s is a closing anchor tag.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:761
+msgid "Define the HTML element that triggers the event upon clicking (button, link, etc). Input the appropriate CSS selector here. %1$sLearn more%2$s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:769
+msgid "Event Name"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:773
+msgid "Assign a unique identifier to your event for easy recognition and categorization. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:777
+msgid "Event Value"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:781
+msgid "Input a numerical value for your event. This helps in quantifying user interactions for your tracking needs. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:820
+msgid "Add New Click Event"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:74
@@ -1145,7 +1285,7 @@ msgid "Almost Done"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:302
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:345
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:354
 msgid "Activate"
 msgstr ""
 
@@ -1244,7 +1384,7 @@ msgid "Insert Method"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:413
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:491
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:519
 msgid "Location"
 msgstr ""
 
@@ -1340,13 +1480,13 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:934
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:362
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:804
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:833
 msgid "Active"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:937
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:363
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:807
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:836
 msgid "Inactive"
 msgstr ""
 
@@ -1438,128 +1578,128 @@ msgstr ""
 msgid "For better results using conditional logic with PHP snippets we automatically switched the auto-insert location to \"Frontend Conditional Logic\" that runs later. If you want to run the snippet earlier please switch back to \"Run Everywhere\" but note not all conditional logic options will be available. %1$sRead more%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1467
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1470
 msgid "Custom Shortcode"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1470
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1473
 msgid "Shortcode name"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1475
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1478
 msgid "Use this field to define a custom shortcode name instead of the id-based one."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1489
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1492
 msgid "Add&nbsp;Attribute"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1570
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1573
 msgid "Schedule snippet"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1599
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1600
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1602
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1603
 msgid "Start Date"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1601
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1604
 msgid "Clear start date"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1608
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1609
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1611
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1612
 msgid "End Date"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1610
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1613
 msgid "Clear end date"
 msgstr ""
 
 #. Translators: %1$s and %2$s are HTML tags for a link to the documentation article.
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1619
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1622
 msgid "Looking for more scheduling options? %1$sClick here%2$s to read more about all the available options."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1691
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1694
 msgid "As you make changes to your snippet and save, you will get a list of previous versions with all the changes made in each revision. You can compare revisions to the current version or see changes as they have been saved by going through each revision. Any of the revisions can then be restored as needed."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1696
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1699
 msgid "Code Revisions"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1698
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1701
 msgid "Easily switch back to a previous version of your snippet."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1710
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1713
 msgid "Limit where you want this snippet to be loaded by device type. By default, snippets are loaded on all devices."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1716
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1719
 #: includes/lite/conditional-logic/class-wpcode-conditional-device.php:26
 #: includes/lite/conditional-logic/class-wpcode-conditional-device.php:37
 msgid "Device Type"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1730
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1733
 msgid "Any device type"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1731
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1734
 msgid "Desktop only"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1732
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1735
 msgid "Mobile only"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1794
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1797
 #: includes/generator/class-wpcode-generator-query.php:514
 msgid "Compare"
 msgstr ""
 
 #. Translators: time since the revision has been updated.
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1804
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1807
 msgid "Updated %s ago"
 msgstr ""
 
 #. Translators: The placeholder gets replaced with the extra number of revisions available.
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1827
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1830
 msgid "%d Other Revisions"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1849
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1852
 msgid "Code Revisions is a Pro Feature"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1852
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1855
 msgid "Upgrade to WPCode Pro today and start tracking revisions and see exactly who, when and which changes were made to your snippet."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1855
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1858
 msgid "Upgrade to Pro and Unlock Revisions"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1939
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1942
 msgid "View Error Logs"
 msgstr ""
 
 #. Translators: The placeholder gets replaced with the time passed since the snippet was deactivated.
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1963
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1966
 msgid "This snippet was automatically deactivated due to an error at %1$s on %2$s (%3$s ago)."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1973
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1976
 msgid "You can view the error log to get more details about the error that caused this."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1975
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1978
 msgid "You can enable error logging to get more details about the error that caused this."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1980
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1983
 msgid "This message will disappear when the snippet is updated."
 msgstr ""
 
@@ -1620,7 +1760,7 @@ msgid "Export Code Snippets"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:205
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:496
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:525
 #: includes/generator/class-wpcode-generator-post-status.php:111
 msgid "Status"
 msgstr ""
@@ -1630,7 +1770,7 @@ msgid "Code type"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:215
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:493
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:522
 msgid "Tags"
 msgstr ""
 
@@ -1663,12 +1803,12 @@ msgid "Select the Snippets you would like to import."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:275
-#: includes/admin/pages/class-wpcode-admin-page.php:970
+#: includes/admin/pages/class-wpcode-admin-page.php:972
 msgid "Available Snippets"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:280
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:357
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:366
 msgid "No snippets found."
 msgstr ""
 
@@ -1691,7 +1831,7 @@ msgid "Congrats, the import process has finished! We have successfully imported 
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:361
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:801
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:830
 msgid "All"
 msgstr ""
 
@@ -1733,7 +1873,7 @@ msgid "Snippets data cannot be imported."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-tools.php:673
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:302
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:311
 msgid "Edit"
 msgstr ""
 
@@ -1774,215 +1914,205 @@ msgstr ""
 msgid "Are you sure you want to delete this log?"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:237
+#: includes/admin/pages/class-wpcode-admin-page.php:239
 msgid "Search docs"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:241
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:707
+#: includes/admin/pages/class-wpcode-admin-page.php:243
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:736
 msgid "Clear"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:248
+#: includes/admin/pages/class-wpcode-admin-page.php:250
 msgid "No docs found"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:263
+#: includes/admin/pages/class-wpcode-admin-page.php:265
 msgid "View Documentation"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:264
+#: includes/admin/pages/class-wpcode-admin-page.php:266
 msgid "Browse documentation, reference material, and tutorials for WPCode."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:265
+#: includes/admin/pages/class-wpcode-admin-page.php:267
 msgid "View All Documentation"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:269
+#: includes/admin/pages/class-wpcode-admin-page.php:271
 msgid "Get Support"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:270
+#: includes/admin/pages/class-wpcode-admin-page.php:272
 msgid "Submit a ticket and our world class support team will be in touch soon."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:271
+#: includes/admin/pages/class-wpcode-admin-page.php:273
 msgid "Submit a Support Ticket"
 msgstr ""
 
 #. Translators: Placeholder for the number of active notifications.
-#: includes/admin/pages/class-wpcode-admin-page.php:283
+#: includes/admin/pages/class-wpcode-admin-page.php:285
 msgid "New Notifications (%s)"
 msgstr ""
 
 #. Translators: Placeholder for the number of dismissed notifications.
-#: includes/admin/pages/class-wpcode-admin-page.php:294
+#: includes/admin/pages/class-wpcode-admin-page.php:296
 msgid "Notifications (%s)"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:301
+#: includes/admin/pages/class-wpcode-admin-page.php:303
 msgid "Dismissed Notifications"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:304
+#: includes/admin/pages/class-wpcode-admin-page.php:306
 msgid "Active Notifications"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:327
+#: includes/admin/pages/class-wpcode-admin-page.php:329
 msgid "Dismiss all"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:369
+#: includes/admin/pages/class-wpcode-admin-page.php:371
 msgid "Dismiss"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:427
+#: includes/admin/pages/class-wpcode-admin-page.php:429
 msgid "Help"
 msgstr ""
 
 #. translators: %s is the title of the metabox.
-#: includes/admin/pages/class-wpcode-admin-page.php:574
+#: includes/admin/pages/class-wpcode-admin-page.php:576
 msgid "Collapse Metabox %s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:691
+#: includes/admin/pages/class-wpcode-admin-page.php:693
 msgid "Use snippet"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:705
+#: includes/admin/pages/class-wpcode-admin-page.php:707
 msgid "Edit snippet"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:706
+#: includes/admin/pages/class-wpcode-admin-page.php:708
 msgid "Used"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:717
+#: includes/admin/pages/class-wpcode-admin-page.php:719
 msgid "Preview"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:730
+#: includes/admin/pages/class-wpcode-admin-page.php:732
 msgid "Connect to library to unlock (Free)"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:894
+#: includes/admin/pages/class-wpcode-admin-page.php:896
 msgid "We encountered a problem loading the Snippet Library items, please try again later."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:1060
+#: includes/admin/pages/class-wpcode-admin-page.php:1062
 msgid "Preview Snippet"
 msgstr ""
 
 #. translators: %d - snippets count.
-#: includes/admin/pages/class-wpcode-admin-page.php:1230
+#: includes/admin/pages/class-wpcode-admin-page.php:1232
 msgid "Get Access to Our Library of %d FREE Snippets"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page.php:1235
+#: includes/admin/pages/class-wpcode-admin-page.php:1237
 msgid "Connect your website with WPCode Library and get instant access to FREE code snippets written by our experts. Snippets can be installed with just 1-click from inside the plugin and come automatically-configured to save you time."
 msgstr ""
 
 #. Translators: This is the format for displaying the date in the admin list, [date] at [time].
 #: includes/admin/pages/class-wpcode-code-snippets-table.php:106
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:115
 msgid "%1$s at %2$s"
 msgstr ""
 
 #. Translators: The tag by which to filter the list of snippets in the admin.
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:137
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:146
 msgid "Filter snippets by tag: %s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:171
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:180
 msgid "Toggle Snippet Status"
 msgstr ""
 
 #. Translators: %1$s is the time since the snippet was deactivated, %2$s is the date and time of deactivation.
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:180
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:189
 msgid "This snippet was automatically deactivated because of a fatal erorr at %2$s on %3$s (%1$s ago)"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:234
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:301
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:243
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:310
 msgid "Edit This Snippet"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:274
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:283
 msgid "Restore this snippet"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:275
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:338
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:284
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:347
 msgid "Restore"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:291
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:300
 msgid "Delete this snippet permanently"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:292
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:339
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:301
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:348
 msgid "Delete Permanently"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:321
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:330
 msgid "Move this snippet to trash"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:322
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:344
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:810
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:331
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:353
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:839
 msgid "Trash"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:346
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:355
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:489
-#: includes/generator/class-wpcode-generator-post-status.php:128
-#: includes/generator/class-wpcode-generator-post-type.php:136
-#: includes/generator/class-wpcode-generator-sidebar.php:130
-msgid "Name"
-msgstr ""
-
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:490
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:518
 #: includes/generator/class-wpcode-generator-post-type.php:378
 #: includes/generator/class-wpcode-generator-query.php:225
 #: includes/generator/class-wpcode-generator-query.php:299
 msgid "Author"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:492
-msgid "Created"
-msgstr ""
-
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:687
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:716
 msgid "0 items"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:703
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:732
 #: includes/generator/class-wpcode-generator-hooks.php:1337
 msgid "Filter"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:737
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:766
 msgid "Filter by code type"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:739
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:768
 msgid "All types"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:779
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:808
 msgid "Filter by location"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:781
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:810
 msgid "All locations"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-code-snippets-table.php:813
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:842
 msgid "Automatically Deactivated"
 msgstr ""
 
@@ -4892,10 +5022,18 @@ msgid "Insert snippet after the content of the HTML element specified by CSS sel
 msgstr ""
 
 #: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:59
-msgid "Insert Anywhere by CSS Selector is a Premium feature"
+msgid "Replace HTML Element"
 msgstr ""
 
 #: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:60
+msgid "Completely replace the HTML element specified by the CSS selector with the output of this snippet."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:63
+msgid "Insert Anywhere by CSS Selector is a Premium feature"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:64
 msgid "Upgrade to PRO today and insert snippets anywhere on your site using CSS selectors to target any HTML element."
 msgstr ""
 
@@ -5277,6 +5415,7 @@ msgid "WooCommerce Page Rules is a Pro Feature"
 msgstr ""
 
 #: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:41
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:93
 msgid "Get access to advanced conditional logic rules for WooCommerce by upgrading to PRO today."
 msgstr ""
 
@@ -5302,6 +5441,14 @@ msgstr ""
 
 #: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:81
 msgid "My Account Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:88
+msgid "WooCommerce Cart"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:92
+msgid "WooCommerce Cart Contents Rule is a Pro Feature"
 msgstr ""
 
 #: includes/safe-mode.php:71
