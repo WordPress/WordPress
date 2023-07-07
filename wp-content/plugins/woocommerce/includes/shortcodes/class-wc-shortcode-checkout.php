@@ -171,6 +171,18 @@ class WC_Shortcode_Checkout {
 					}
 				}
 
+				// If we cannot match the order with the current user, ask that they verify their email address.
+				if ( self::guest_should_verify_email( $order, 'order-pay' ) ) {
+					wc_get_template(
+						'checkout/form-verify-email.php',
+						array(
+							'failed_submission' => ! empty( $_POST['email'] ), // phpcs:ignore WordPress.Security.NonceVerification.Missing
+							'verify_url'        => $order->get_checkout_payment_url(),
+						)
+					);
+					return;
+				}
+
 				WC()->customer->set_props(
 					array(
 						'billing_country'  => $order->get_billing_country() ? $order->get_billing_country() : null,
@@ -258,6 +270,7 @@ class WC_Shortcode_Checkout {
 
 		if ( $order_id > 0 ) {
 			$order = wc_get_order( $order_id );
+
 			if ( ! $order || ! hash_equals( $order->get_order_key(), $order_key ) ) {
 				$order = false;
 			}
@@ -276,6 +289,36 @@ class WC_Shortcode_Checkout {
 		// Empty current cart.
 		wc_empty_cart();
 
+		// If the specified order ID was invalid, we still render the default order received page (which will simply
+		// state that the order was received, but will not output any other details: this makes it harder to probe for
+		// valid order IDs than if we state that the order ID was not recognized).
+		if ( ! $order ) {
+			wc_get_template( 'checkout/thankyou.php', array( 'order' => false ) );
+			return;
+		}
+
+		$order_customer_id = $order->get_customer_id();
+
+		// For non-guest orders, require the user to be logged in before showing this page.
+		if ( $order_customer_id && get_current_user_id() !== $order_customer_id ) {
+			wc_print_notice( esc_html__( 'Please log in to your account to view this order.', 'woocommerce' ), 'notice' );
+			woocommerce_login_form( array( 'redirect' => $order->get_checkout_order_received_url() ) );
+			return;
+		}
+
+		// For guest orders, request they verify their email address (unless we can identify them via the active user session).
+		if ( self::guest_should_verify_email( $order, 'order-received' ) ) {
+			wc_get_template(
+				'checkout/form-verify-email.php',
+				array(
+					'failed_submission' => ! empty( $_POST['email'] ), // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					'verify_url'        => $order->get_checkout_order_received_url(),
+				)
+			);
+			return;
+		}
+
+		// Otherwise, display the thank you (order received) page.
 		wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
 	}
 
@@ -316,5 +359,66 @@ class WC_Shortcode_Checkout {
 			wc_get_template( 'checkout/form-checkout.php', array( 'checkout' => $checkout ) );
 
 		}
+	}
+
+	/**
+	 * Tries to determine if the user's email address should be verified before rendering either the 'order received' or
+	 * 'order pay' pages. This should only be applied to guest orders.
+	 *
+	 * @param WC_Order $order   The order for which a need for email verification is being determined.
+	 * @param string   $context The context in which email verification is being tested.
+	 *
+	 * @return bool
+	 */
+	private static function guest_should_verify_email( WC_Order $order, string $context ): bool {
+		$order_email       = $order->get_billing_email();
+		$order_customer_id = $order->get_customer_id();
+
+		// If we do not have a billing email for the order (could happen in the order is created manually, or if the
+		// requirement for this has been removed from the checkout flow), email verification does not make sense.
+		if ( empty( $order_email ) ) {
+			return false;
+		}
+
+		// No verification step is needed if the user is logged in and is already associated with the order.
+		if ( $order_customer_id && get_current_user_id() === $order_customer_id ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! empty( $_POST ) && ! wp_verify_nonce( $_POST['check_submission'] ?? '', 'wc_verify_email' ) ) {
+			return true;
+		}
+
+		$session       = wc()->session;
+		$session_email = '';
+
+		if ( is_a( $session, WC_Session::class ) ) {
+			$customer      = $session->get( 'customer' );
+			$session_email = is_array( $customer ) && isset( $customer['email'] ) ? $customer['email'] : '';
+		}
+
+		$session_email_match  = $session_email === $order->get_billing_email();
+		$supplied_email_match = isset( $_POST['email'] ) && sanitize_email( wp_unslash( $_POST['email'] ) ?? '' ) === $order->get_billing_email();
+		$can_view_orders      = current_user_can( 'read_private_shop_orders' );
+
+		// If we cannot match the order with the current user, the user should verify their email address.
+		$email_verification_required = ! $session_email_match && ! $supplied_email_match && ! $can_view_orders;
+
+		/**
+		 * Provides an opportunity to override the (potential) requirement for shoppers to verify their email address
+		 * before we show information such as the order summary, or order payment page.
+		 *
+		 * Note that this hook is not always triggered, therefore it is (for example) unsuitable as a way of forcing
+		 * email verification across all order confirmation/order payment scenarios. Instead, the filter primarily
+		 * exists as a way to *remove* the email verification step.
+		 *
+		 * @since 7.9.0
+		 *
+		 * @param bool     $email_verification_required If email verification is required.
+		 * @param WC_Order $order                       The relevant order.
+		 * @param string   $context                     The context under which we are performing this check.
+		 */
+		return (bool) apply_filters( 'woocommerce_order_email_verification_required', $email_verification_required, $order, $context );
 	}
 }

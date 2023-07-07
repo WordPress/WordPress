@@ -563,3 +563,29 @@ function wc_get_current_admin_url() {
 
 	return remove_query_arg( array( '_wpnonce', '_wc_notice_nonce', 'wc_db_update', 'wc_db_update_nonce', 'wc-hide-notice' ), admin_url( $uri ) );
 }
+
+/**
+ * Get default product type options.
+ *
+ * @internal
+ * @since 7.9.0
+ * @return array
+ */
+function wc_get_default_product_type_options() {
+	return array(
+		'virtual'      => array(
+			'id'            => '_virtual',
+			'wrapper_class' => 'show_if_simple',
+			'label'         => __( 'Virtual', 'woocommerce' ),
+			'description'   => __( 'Virtual products are intangible and are not shipped.', 'woocommerce' ),
+			'default'       => 'no',
+		),
+		'downloadable' => array(
+			'id'            => '_downloadable',
+			'wrapper_class' => 'show_if_simple',
+			'label'         => __( 'Downloadable', 'woocommerce' ),
+			'description'   => __( 'Downloadable products give access to a file upon purchase.', 'woocommerce' ),
+			'default'       => 'no',
+		),
+	);
+}

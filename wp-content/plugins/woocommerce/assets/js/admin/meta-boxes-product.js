@@ -1,5 +1,11 @@
 /*global woocommerce_admin_meta_boxes */
 jQuery( function ( $ ) {
+	let isPageUnloading = false;
+
+	$( window ).on( 'beforeunload', function () {
+		isPageUnloading = true;
+	} );
+
 	// Scroll to first checked category
 	// https://github.com/scribu/wp-category-checklist-tree/blob/d1c3c1f449e1144542efa17dde84a9f52ade1739/category-checklist-tree.php
 	$( function () {
@@ -395,29 +401,27 @@ jQuery( function ( $ ) {
 			} );
 	} );
 
-	// Attribute Tables.
+	// Set up attributes, if current page has the attributes list.
+	const $product_attributes = $( '.product_attributes' );
+	if ( $product_attributes.length === 1 ) {
+		var woocommerce_attribute_items = $product_attributes.find( '.woocommerce_attribute' ).get();
 
-	// Initial order.
-	var woocommerce_attribute_items = $( '.product_attributes' )
-		.find( '.woocommerce_attribute' )
-		.get();
-
-	// If the product has no attributes, add an empty attribute to be filled out by the user.
-	$( function add_blank_custom_attribute_if_no_attributes() {
-
+		// If the product has no attributes, add an empty attribute to be filled out by the user.
 		if ( woocommerce_attribute_items.length === 0  ) {
 			add_custom_attribute_to_list();
 		}
-	} );
 
-	woocommerce_attribute_items.sort( function ( a, b ) {
-		var compA = parseInt( $( a ).attr( 'rel' ), 10 );
-		var compB = parseInt( $( b ).attr( 'rel' ), 10 );
-		return compA < compB ? -1 : compA > compB ? 1 : 0;
-	} );
-	$( woocommerce_attribute_items ).each( function ( index, el ) {
-		$( '.product_attributes' ).append( el );
-	} );
+		// Sort the attributes by their position.
+		woocommerce_attribute_items.sort( function ( a, b ) {
+			var compA = parseInt( $( a ).attr( 'rel' ), 10 );
+			var compB = parseInt( $( b ).attr( 'rel' ), 10 );
+			return compA < compB ? -1 : compA > compB ? 1 : 0;
+		} );
+
+		$( woocommerce_attribute_items ).each( function ( index, el ) {
+			$product_attributes.append( el );
+		} );
+	}
 
 	function update_attribute_row_indexes() {
 		$( '.product_attributes .woocommerce_attribute' ).each( function (
@@ -521,6 +525,12 @@ jQuery( function ( $ ) {
 
 			jQuery.maybe_disable_save_button();
 		} catch ( error ) {
+			if ( isPageUnloading ) {
+				// If the page is unloading, the outstanding ajax fetch may fail in Firefox (and possible other browsers, too).
+				// We don't want to show an error message in this case, because it was caused by the user leaving the page.
+				return;
+			}
+
 			alert( woocommerce_admin_meta_boxes.i18n_add_attribute_error_notice );
 			throw error;
 		} finally {
