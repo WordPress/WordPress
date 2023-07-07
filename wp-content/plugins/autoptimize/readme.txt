@@ -5,7 +5,7 @@ Donate link: http://blog.futtta.be/2013/10/21/do-not-donate-to-me/
 Requires at least: 5.3 
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 3.1.7
+Stable tag: 3.1.8.1
 
 Autoptimize speeds up your website by optimizing JS, CSS, images (incl. lazy-load), HTML and Google Fonts, asyncing JS, removing emoji cruft and more.
 
@@ -20,7 +20,7 @@ If you consider performance important, you really should use one of the many cac
 > <strong>Premium Support</strong><br>
 > We provide great [Premium Support and Web Performance Optimization services](https://misc.optimizingmatters.com/partners/?from=partnertab&partner=autoptimizepro), check out our offering on [https://accelera.autoptimize.com/](https://misc.optimizingmatters.com/partners/?from=partnertab&partner=autoptimizepro)!
 
-(Speed-surfing image under creative commons [by LL Twistiti](https://www.flickr.com/photos/twistiti/818552808/))
+(Speed-surfing image  under creative commons [by LL Twistiti](https://www.flickr.com/photos/twistiti/818552808/))
 
 == Installation ==
 
@@ -318,6 +318,14 @@ You can get help on the [wordpress.org support forum](http://wordpress.org/suppo
 Just [fork Autoptimize on Github](https://github.com/futtta/autoptimize) and code away!
 
 == Changelog ==
+
+= 3.1.8.1 =
+* urgent fix for PHP error, sorry about that!
+
+= 3.1.8 =
+* Images: improve optmization logic for background images
+* Critical CSS: don't trigger custom_post rule if not is_singular + adding debug logging for rule selection
+* some other minor changes/ improvements/ filters, see the [GitHub commit log](https://github.com/futtta/autoptimize/commits/beta).
 
 = 3.1.7 =
 * security: improve validation (import) and sanitization (output) of critical CSS rules, to fix a medium severity Admin+ Stored Cross-Site Scripting vulnerability as reported by WP Scan Security.

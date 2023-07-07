@@ -3,7 +3,7 @@
  * Plugin Name: Autoptimize
  * Plugin URI: https://autoptimize.com/pro/
  * Description: Makes your site faster by optimizing CSS, JS, Images, Google fonts and more.
- * Version: 3.1.7
+ * Version: 3.1.8.1
  * Author: Frank Goossens (futtta)
  * Author URI: https://autoptimize.com/pro/
  * Text Domain: autoptimize
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'AUTOPTIMIZE_PLUGIN_VERSION', '3.1.7' );
+define( 'AUTOPTIMIZE_PLUGIN_VERSION', '3.1.8.1' );
 
 // plugin_dir_path() returns the trailing slash!
 define( 'AUTOPTIMIZE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -77,6 +77,11 @@ spl_autoload_register( 'autoptimize_autoload' );
 // Load WP CLI command(s) on demand.
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
     require AUTOPTIMIZE_PLUGIN_DIR . 'classes/autoptimizeCLI.php';
+}
+
+// filter to disable AO both on front- and backend.
+if ( apply_filters( 'autoptimize_filter_disable_plugin', false ) ) {
+    return;
 }
 
 /**

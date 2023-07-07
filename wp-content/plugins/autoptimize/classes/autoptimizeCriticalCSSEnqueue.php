@@ -231,7 +231,7 @@ class autoptimizeCriticalCSSEnqueue {
                 // identify frontpage immediately to avoid it also matching a CPT or template.
                 $page_type = 'is_front_page';
                 break;
-            } elseif ( strpos( $type, 'custom_post_' ) !== false && ( ! $forcepath || ! is_page() ) ) {
+            } elseif ( strpos( $type, 'custom_post_' ) !== false && ( ! $forcepath || ! is_page() ) && is_singular() )  {
                 // Match custom post types and not page or page not forced to path-based.
                 if ( get_post_type( get_the_ID() ) === substr( $type, 12 ) ) {
                     $page_type = $type;
