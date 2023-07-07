@@ -1,0 +1,32 @@
+# Translation of Plugins - Classic Widgets - Stable (latest release) in Chinese (China)
+# This file is distributed under the same license as the Plugins - Classic Widgets - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-05-28 20:02:29+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: zh_CN\n"
+"Project-Id-Version: Plugins - Classic Widgets - Stable (latest release)\n"
+
+#. Author URI of the plugin
+msgid "https://github.com/WordPress/classic-widgets/"
+msgstr "https://github.com/WordPress/classic-widgets/"
+
+#. Author of the plugin
+msgid "WordPress Contributors"
+msgstr "WordPress 贡献者"
+
+#. Description of the plugin
+msgid "Enables the classic widgets settings screens in Appearance - Widgets and the Customizer. Disables the block editor from managing widgets."
+msgstr "启用外观-小工具和定制器中的经典小工具设置页面，并禁止使用区块编辑器管理小工具。"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/classic-widgets/"
+msgstr "https://cn.wordpress.org/plugins/classic-widgets/"
+
+#. Plugin Name of the plugin
+msgid "Classic Widgets"
+msgstr "经典小工具"
