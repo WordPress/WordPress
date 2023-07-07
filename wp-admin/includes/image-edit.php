@@ -49,7 +49,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 	 *
 	 * @since 6.3.0
 	 *
-	 * @param bool Whether to show the settings in the Image Editor. Default false.
+	 * @param bool $show Whether to show the settings in the Image Editor. Default false.
 	 */
 	$edit_thumbnails_separately = (bool) apply_filters( 'image_edit_thumbnails_separately', false );
 

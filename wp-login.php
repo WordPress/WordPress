@@ -315,11 +315,11 @@ function login_footer( $input_id = '' ) {
 	if (
 		! $interim_login &&
 		/**
-		 * Filters the Languages select input activation on the login screen.
+		 * Filters whether to display the Language selector on the login screen.
 		 *
 		 * @since 5.9.0
 		 *
-		 * @param bool Whether to display the Languages select input on the login screen.
+		 * @param bool $display Whether to display the Language selector on the login screen.
 		 */
 		apply_filters( 'login_display_language_dropdown', true )
 	) {

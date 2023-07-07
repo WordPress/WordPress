@@ -170,7 +170,7 @@ class WP_Theme_JSON_Resolver {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+		 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 		 */
 		$theme_json   = apply_filters( 'wp_theme_json_data_default', new WP_Theme_JSON_Data( $config, 'default' ) );
 		$config       = $theme_json->get_data();
@@ -252,7 +252,7 @@ class WP_Theme_JSON_Resolver {
 			 *
 			 * @since 6.1.0
 			 *
-			 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+			 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 			 */
 			$theme_json      = apply_filters( 'wp_theme_json_data_theme', new WP_Theme_JSON_Data( $theme_json_data, 'theme' ) );
 			$theme_json_data = $theme_json->get_data();
@@ -369,7 +369,7 @@ class WP_Theme_JSON_Resolver {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+		 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 		 */
 		$theme_json = apply_filters( 'wp_theme_json_data_blocks', new WP_Theme_JSON_Data( $config, 'blocks' ) );
 		$config     = $theme_json->get_data();
@@ -505,7 +505,7 @@ class WP_Theme_JSON_Resolver {
 				 *
 				 * @since 6.1.0
 				 *
-				 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+				 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 				 */
 				$theme_json = apply_filters( 'wp_theme_json_data_user', new WP_Theme_JSON_Data( $config, 'custom' ) );
 				$config     = $theme_json->get_data();
