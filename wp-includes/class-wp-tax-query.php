@@ -598,7 +598,7 @@ class WP_Tax_Query {
 			return;
 		}
 
-		if ( $query['field'] == $resulting_field ) {
+		if ( $query['field'] === $resulting_field ) {
 			return;
 		}
 
