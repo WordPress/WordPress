@@ -968,8 +968,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $data    Supplied file data.
-	 * @param array $headers HTTP headers from the request.
+	 * @param string $data    Supplied file data.
+	 * @param array  $headers HTTP headers from the request.
 	 * @return array|WP_Error Data from wp_handle_sideload().
 	 */
 	protected function upload_from_data( $data, $headers ) {
