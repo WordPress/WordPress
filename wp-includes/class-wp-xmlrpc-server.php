@@ -6473,7 +6473,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/*
 	 * MovableType API functions.
-	 * Specs on http://www.movabletype.org/docs/mtmanual_programmatic.html
+	 * Specs on https://movabletype.org/documentation/developer/objects/
 	 */
 
 	/**
