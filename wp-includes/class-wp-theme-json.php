@@ -3551,9 +3551,9 @@ class WP_Theme_JSON {
 		 * Assign defaults, then override those that the block sets by itself.
 		 * If the block selector is compounded, will append the element to each
 		 * individual block selector.
-		 * $block_selectors   = explode( ',', $root_selector );
-		 * $element_selectors = array();
 		 */
+		$block_selectors   = explode( ',', $root_selector );
+		$element_selectors = array();
 		foreach ( static::ELEMENTS as $el_name => $el_selector ) {
 			$element_selector = array();
 			foreach ( $block_selectors as $selector ) {
