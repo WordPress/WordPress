@@ -2155,8 +2155,10 @@ class wpdb {
 			$host   = substr( $host, 0, $socket_pos );
 		}
 
-		// We need to check for an IPv6 address first.
-		// An IPv6 address will always contain at least two colons.
+		/*
+		 * We need to check for an IPv6 address first.
+		 * An IPv6 address will always contain at least two colons.
+		 */
 		if ( substr_count( $host, ':' ) > 1 ) {
 			$pattern = '#^(?:\[)?(?P<host>[0-9a-fA-F:]+)(?:\]:(?P<port>[\d]+))?#';
 			$is_ipv6 = true;
@@ -2213,8 +2215,10 @@ class wpdb {
 		}
 
 		for ( $tries = 1; $tries <= $this->reconnect_retries; $tries++ ) {
-			// On the last try, re-enable warnings. We want to see a single instance
-			// of the "unable to connect" message on the bail() screen, if it appears.
+			/*
+			 * On the last try, re-enable warnings. We want to see a single instance
+			 * of the "unable to connect" message on the bail() screen, if it appears.
+			 */
 			if ( $this->reconnect_retries === $tries && WP_DEBUG ) {
 				error_reporting( $error_reporting );
 			}
@@ -2230,8 +2234,10 @@ class wpdb {
 			sleep( 1 );
 		}
 
-		// If template_redirect has already happened, it's too late for wp_die()/dead_db().
-		// Let's just return and hope for the best.
+		/*
+		 * If template_redirect has already happened, it's too late for wp_die()/dead_db().
+		 * Let's just return and hope for the best.
+		 */
 		if ( did_action( 'template_redirect' ) ) {
 			return false;
 		}
@@ -2264,8 +2270,10 @@ class wpdb {
 		// We weren't able to reconnect, so we better bail.
 		$this->bail( $message, 'db_connect_fail' );
 
-		// Call dead_db() if bail didn't die, because this database is no more.
-		// It has ceased to be (at least temporarily).
+		/*
+		 * Call dead_db() if bail didn't die, because this database is no more.
+		 * It has ceased to be (at least temporarily).
+		 */
 		dead_db();
 	}
 
@@ -2313,8 +2321,10 @@ class wpdb {
 		// If we're writing to the database, make sure the query will write safely.
 		if ( $this->check_current_query && ! $this->check_ascii( $query ) ) {
 			$stripped_query = $this->strip_invalid_text_from_query( $query );
-			// strip_invalid_text_from_query() can perform queries, so we need
-			// to flush again, just to make sure everything is clear.
+			/*
+			 * strip_invalid_text_from_query() can perform queries, so we need
+			 * to flush again, just to make sure everything is clear.
+			 */
 			$this->flush();
 			if ( $stripped_query !== $query ) {
 				$this->insert_id  = 0;
@@ -2342,8 +2352,10 @@ class wpdb {
 				if ( $this->dbh instanceof mysqli ) {
 					$mysql_errno = mysqli_errno( $this->dbh );
 				} else {
-					// $dbh is defined, but isn't a real connection.
-					// Something has gone horribly wrong, let's try a reconnect.
+					/*
+					 * $dbh is defined, but isn't a real connection.
+					 * Something has gone horribly wrong, let's try a reconnect.
+					 */
 					$mysql_errno = 2006;
 				}
 			} else {
@@ -3122,8 +3134,10 @@ class wpdb {
 			// Return an integer-keyed array of row objects.
 			return $this->last_result;
 		} elseif ( OBJECT_K === $output ) {
-			// Return an array of row objects with keys from column 1.
-			// (Duplicates are discarded.)
+			/*
+			 * Return an array of row objects with keys from column 1.
+			 * (Duplicates are discarded.)
+			 */
 			if ( $this->last_result ) {
 				foreach ( $this->last_result as $row ) {
 					$var_by_ref = get_object_vars( $row );
@@ -3529,8 +3543,10 @@ class wpdb {
 				$truncate_by_byte_length = 'byte' === $value['length']['type'];
 			} else {
 				$length = false;
-				// Since we have no length, we'll never truncate. Initialize the variable to false.
-				// True would take us through an unnecessary (for this case) codepath below.
+				/*
+				 * Since we have no length, we'll never truncate. Initialize the variable to false.
+				 * True would take us through an unnecessary (for this case) codepath below.
+				 */
 				$truncate_by_byte_length = false;
 			}
 

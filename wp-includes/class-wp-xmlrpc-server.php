@@ -137,8 +137,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			'metaWeblog.getCategories'         => 'this:mw_getCategories',
 			'metaWeblog.newMediaObject'        => 'this:mw_newMediaObject',
 
-			// MetaWeblog API aliases for Blogger API.
-			// See http://www.xmlrpc.com/stories/storyReader$2460
+			/*
+			 * MetaWeblog API aliases for Blogger API.
+			 * See http://www.xmlrpc.com/stories/storyReader$2460
+			 */
 			'metaWeblog.deletePost'            => 'this:blogger_deletePost',
 			'metaWeblog.getUsersBlogs'         => 'this:blogger_getUsersBlogs',
 
@@ -3121,8 +3123,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.deletePage', $args, $this );
 
-		// Get the current page based on the 'page_id' and
-		// make sure it is a page and not a post.
+		/*
+		 * Get the current page based on the 'page_id' and
+		 * make sure it is a page and not a post.
+		 */
 		$actual_page = get_post( $page_id, ARRAY_A );
 		if ( ! $actual_page || ( 'page' !== $actual_page['post_type'] ) ) {
 			return new IXR_Error( 404, __( 'Sorry, no such page.' ) );
@@ -3411,14 +3415,18 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to add a category.' ) );
 		}
 
-		// If no slug was provided, make it empty
-		// so that WordPress will generate one.
+		/*
+		 * If no slug was provided, make it empty
+		 * so that WordPress will generate one.
+		 */
 		if ( empty( $category['slug'] ) ) {
 			$category['slug'] = '';
 		}
 
-		// If no parent_id was provided, make it empty
-		// so that it will be a top-level page (no parent).
+		/*
+		 * If no parent_id was provided, make it empty
+		 * so that it will be a top-level page (no parent).
+		 */
 		if ( ! isset( $category['parent_id'] ) ) {
 			$category['parent_id'] = '';
 		}
@@ -5618,8 +5626,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->attach_uploads( $post_id, $post_content );
 
-		// Handle post formats if assigned, value is validated earlier
-		// in this function.
+		/*
+		 * Handle post formats if assigned, value is validated earlier
+		 * in this function.
+		 */
 		if ( isset( $content_struct['wp_post_format'] ) ) {
 			set_post_format( $post_id, $content_struct['wp_post_format'] );
 		}
@@ -6998,8 +7008,10 @@ class wp_xmlrpc_server extends IXR_Server {
 					continue;
 				}
 
-				// We're going to use this fake tag to mark the context in a bit.
-				// The marker is needed in case the link text appears more than once in the paragraph.
+				/*
+				 * We're going to use this fake tag to mark the context in a bit.
+				 * The marker is needed in case the link text appears more than once in the paragraph.
+				 */
 				$excerpt = preg_replace( '|\</?wpcontext\>|', '', $para );
 
 				// prevent really long link text

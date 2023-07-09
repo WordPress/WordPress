@@ -651,8 +651,10 @@ function sanitize_comment_cookies() {
 function wp_allow_comment( $commentdata, $wp_error = false ) {
 	global $wpdb;
 
-	// Simple duplicate check.
-	// expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
+	/*
+	 * Simple duplicate check.
+	 * expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
+	 */
 	$dupe = $wpdb->prepare(
 		"SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = %s AND comment_approved != 'trash' AND ( comment_author = %s ",
 		wp_unslash( $commentdata['comment_post_ID'] ),
@@ -1352,8 +1354,7 @@ function wp_check_comment_disallowed_list( $author, $email, $url, $comment, $use
 		if ( empty( $word ) ) {
 			continue; }
 
-		// Do some escaping magic so that '#' chars
-		// in the spam words don't break things:
+		// Do some escaping magic so that '#' chars in the spam words don't break things:
 		$word = preg_quote( $word, '#' );
 
 		$pattern = "#$word#iu";

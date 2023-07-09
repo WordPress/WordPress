@@ -200,8 +200,7 @@ class WP {
 				$self     = trim( $self, '/' );
 			}
 
-			// The requested permalink is in $pathinfo for path info requests and
-			// $req_uri for other requests.
+			// The requested permalink is in $pathinfo for path info requests and $req_uri for other requests.
 			if ( ! empty( $pathinfo ) && ! preg_match( '|^.*' . $wp_rewrite->index . '$|', $pathinfo ) ) {
 				$requested_path = $pathinfo;
 			} else {

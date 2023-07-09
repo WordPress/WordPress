@@ -199,8 +199,7 @@ class WP_User {
 		}
 
 		if ( 'id' === $field ) {
-			// Make sure the value is numeric to avoid casting objects, for example,
-			// to int 1.
+			// Make sure the value is numeric to avoid casting objects, for example, to int 1.
 			if ( ! is_numeric( $value ) ) {
 				return false;
 			}

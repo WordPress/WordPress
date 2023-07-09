@@ -321,8 +321,10 @@ final class WP_Theme implements ArrayAccess {
 			return;
 		} else {
 			$this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme' );
-			// Default themes always trump their pretenders.
-			// Properly identify default themes that are inside a directory within wp-content/themes.
+			/*
+			 * Default themes always trump their pretenders.
+			 * Properly identify default themes that are inside a directory within wp-content/themes.
+			 */
 			$default_theme_slug = array_search( $this->headers['Name'], self::$default_themes, true );
 			if ( $default_theme_slug ) {
 				if ( basename( $this->stylesheet ) != $default_theme_slug ) {
@@ -389,16 +391,20 @@ final class WP_Theme implements ArrayAccess {
 
 		// If we got our data from cache, we can assume that 'template' is pointing to the right place.
 		if ( ! is_array( $cache ) && $this->template != $this->stylesheet && ! file_exists( $this->theme_root . '/' . $this->template . '/index.php' ) ) {
-			// If we're in a directory of themes inside /themes, look for the parent nearby.
-			// wp-content/themes/directory-of-themes/*
+			/*
+			 * If we're in a directory of themes inside /themes, look for the parent nearby.
+			 * wp-content/themes/directory-of-themes/*
+			 */
 			$parent_dir  = dirname( $this->stylesheet );
 			$directories = search_theme_directories();
 
 			if ( '.' !== $parent_dir && file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' ) ) {
 				$this->template = $parent_dir . '/' . $this->template;
 			} elseif ( $directories && isset( $directories[ $this->template ] ) ) {
-				// Look for the template in the search_theme_directories() results, in case it is in another theme root.
-				// We don't look into directories of themes, just the theme root.
+				/*
+				 * Look for the template in the search_theme_directories() results, in case it is in another theme root.
+				 * We don't look into directories of themes, just the theme root.
+				 */
 				$theme_root_template = $directories[ $this->template ]['theme_root'];
 			} else {
 				// Parent theme is missing.
@@ -1665,8 +1671,10 @@ final class WP_Theme implements ArrayAccess {
 			restore_current_blog();
 		}
 
-		// This is all super old MU back compat joy.
-		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
+		/*
+		 * This is all super old MU back compat joy.
+		 * 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
+		 */
 		if ( false === $allowed_themes[ $blog_id ] ) {
 			if ( $current ) {
 				$allowed_themes[ $blog_id ] = get_option( 'allowed_themes' );
