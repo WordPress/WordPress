@@ -271,8 +271,10 @@ final class WP_Customize_Manager {
 			$args['changeset_uuid'] = wp_generate_uuid4();
 		}
 
-		// The theme and messenger_channel should be supplied via $args,
-		// but they are also looked at in the $_REQUEST global here for back-compat.
+		/*
+		 * The theme and messenger_channel should be supplied via $args,
+		 * but they are also looked at in the $_REQUEST global here for back-compat.
+		 */
 		if ( ! isset( $args['theme'] ) ) {
 			if ( isset( $_REQUEST['customize_theme'] ) ) {
 				$args['theme'] = wp_unslash( $_REQUEST['customize_theme'] );
@@ -565,8 +567,10 @@ final class WP_Customize_Manager {
 			// Once the theme is loaded, we'll validate it.
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		} else {
-			// If the requested theme is not the active theme and the user doesn't have
-			// the switch_themes cap, bail.
+			/*
+			 * If the requested theme is not the active theme and the user doesn't have
+			 * the switch_themes cap, bail.
+			 */
 			if ( ! current_user_can( 'switch_themes' ) ) {
 				$this->wp_die( -1, __( 'Sorry, you are not allowed to edit theme options on this site.' ) );
 			}
@@ -905,8 +909,10 @@ final class WP_Customize_Manager {
 	 */
 	public function wp_loaded() {
 
-		// Unconditionally register core types for panels, sections, and controls
-		// in case plugin unhooks all customize_register actions.
+		/*
+		 * Unconditionally register core types for panels, sections, and controls
+		 * in case plugin unhooks all customize_register actions.
+		 */
 		$this->register_panel_type( 'WP_Customize_Panel' );
 		$this->register_panel_type( 'WP_Customize_Themes_Panel' );
 		$this->register_section_type( 'WP_Customize_Section' );
@@ -5269,8 +5275,7 @@ final class WP_Customize_Manager {
 			)
 		);
 
-		// Input type: checkbox.
-		// With custom value.
+		// Input type: checkbox, with custom value.
 		$this->add_control(
 			'display_header_text',
 			array(
@@ -5293,8 +5298,7 @@ final class WP_Customize_Manager {
 			)
 		);
 
-		// Input type: color.
-		// With sanitize_callback.
+		// Input type: color, with sanitize_callback.
 		$this->add_setting(
 			'background_color',
 			array(
@@ -5602,8 +5606,10 @@ final class WP_Customize_Manager {
 			)
 		);
 
-		// If the theme is using the default background callback, we can update
-		// the background CSS using postMessage.
+		/*
+		 * If the theme is using the default background callback, we can update
+		 * the background CSS using postMessage.
+		 */
 		if ( get_theme_support( 'custom-background', 'wp-head-callback' ) === '_custom_background_cb' ) {
 			foreach ( array( 'color', 'image', 'preset', 'position_x', 'position_y', 'size', 'repeat', 'attachment' ) as $prop ) {
 				$this->get_setting( 'background_' . $prop )->transport = 'postMessage';

@@ -172,8 +172,10 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			}
 
 			break;
-		// edit_post breaks down to edit_posts, edit_published_posts, or
-		// edit_others_posts.
+		/*
+		 * edit_post breaks down to edit_posts, edit_published_posts, or
+		 * edit_others_posts.
+		 */
 		case 'edit_post':
 		case 'edit_page':
 			if ( ! isset( $args[0] ) ) {
@@ -617,8 +619,10 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'install_themes':
 		case 'upload_themes':
 		case 'update_core':
-			// Disallow anything that creates, deletes, or updates core, plugin, or theme files.
-			// Files in uploads are excepted.
+			/*
+			 * Disallow anything that creates, deletes, or updates core, plugin, or theme files.
+			 * Files in uploads are excepted.
+			 */
 			if ( ! wp_is_file_mod_allowed( 'capability_update_core' ) ) {
 				$caps[] = 'do_not_allow';
 			} elseif ( is_multisite() && ! is_super_admin( $user_id ) ) {

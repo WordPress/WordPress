@@ -404,8 +404,10 @@ function sanitize_bookmark_field( $field, $value, $bookmark_id, $context ) {
 	switch ( $field ) {
 		case 'link_category': // array( ints )
 			$value = array_map( 'absint', (array) $value );
-			// We return here so that the categories aren't filtered.
-			// The 'link_category' filter is for the name of a link category, not an array of a link's link categories.
+			/*
+			 * We return here so that the categories aren't filtered.
+			 * The 'link_category' filter is for the name of a link category, not an array of a link's link categories.
+			 */
 			return $value;
 
 		case 'link_visible': // bool stored as Y|N
