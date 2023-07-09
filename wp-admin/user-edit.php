@@ -921,8 +921,10 @@ switch ( $action ) {
 	jQuery( function( $ ) {
 		var languageSelect = $( '#locale' );
 		$( 'form' ).on( 'submit', function() {
-			// Don't show a spinner for English and installed languages,
-			// as there is nothing to download.
+			/*
+			 * Don't show a spinner for English and installed languages,
+			 * as there is nothing to download.
+			 */
 			if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
 				$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
 			}

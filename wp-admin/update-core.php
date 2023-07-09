@@ -850,8 +850,10 @@ function do_core_upgrade( $reinstall = false ) {
 		return;
 	}
 
-	// Allow relaxed file ownership writes for User-initiated upgrades when the API specifies
-	// that it's safe to do so. This only happens when there are no new files to create.
+	/*
+	 * Allow relaxed file ownership writes for User-initiated upgrades when the API specifies
+	 * that it's safe to do so. This only happens when there are no new files to create.
+	 */
 	$allow_relaxed_file_ownership = ! $reinstall && isset( $update->new_files ) && ! $update->new_files;
 
 	?>

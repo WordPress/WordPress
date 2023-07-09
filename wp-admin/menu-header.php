@@ -226,8 +226,10 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 						$class[]          = 'current';
 						$aria_attributes .= ' aria-current="page"';
 					}
-					// If plugin_page is set the parent must either match the current page or not physically exist.
-					// This allows plugin pages with the same hook to exist under different parents.
+					/*
+					 * If plugin_page is set the parent must either match the current page or not physically exist.
+					 * This allows plugin pages with the same hook to exist under different parents.
+					 */
 				} elseif (
 					( ! isset( $plugin_page ) && $self === $sub_item[2] )
 					|| ( isset( $plugin_page ) && $plugin_page === $sub_item[2]
