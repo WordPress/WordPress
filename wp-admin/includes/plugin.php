@@ -178,8 +178,10 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 		'title' => true,
 	);
 
-	// Name is marked up inside <a> tags. Don't allow these.
-	// Author is too, but some plugins have used <a> here (omitting Author URI).
+	/*
+	 * Name is marked up inside <a> tags. Don't allow these.
+	 * Author is too, but some plugins have used <a> here (omitting Author URI).
+	 */
 	$plugin_data['Name']   = wp_kses( $plugin_data['Name'], $allowed_tags_in_links );
 	$plugin_data['Author'] = wp_kses( $plugin_data['Author'], $allowed_tags );
 
@@ -969,8 +971,10 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 		$this_plugin_dir = trailingslashit( dirname( $plugins_dir . $plugin_file ) );
 
-		// If plugin is in its own directory, recursively delete the directory.
-		// Base check on if plugin includes directory separator AND that it's not the root plugin folder.
+		/*
+		 * If plugin is in its own directory, recursively delete the directory.
+		 * Base check on if plugin includes directory separator AND that it's not the root plugin folder.
+		 */
 		if ( strpos( $plugin_file, '/' ) && $this_plugin_dir !== $plugins_dir ) {
 			$deleted = $wp_filesystem->delete( $this_plugin_dir, true );
 		} else {

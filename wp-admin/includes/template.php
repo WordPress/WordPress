@@ -165,8 +165,10 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	$output = '';
 
 	if ( $parsed_args['checked_ontop'] ) {
-		// Post-process $categories rather than adding an exclude to the get_terms() query
-		// to keep the query the same across all posts (for any query cache).
+		/*
+		 * Post-process $categories rather than adding an exclude to the get_terms() query
+		 * to keep the query the same across all posts (for any query cache).
+		 */
 		$checked_categories = array();
 		$keys               = array_keys( $categories );
 
@@ -1301,8 +1303,10 @@ function do_meta_boxes( $screen, $context, $data_object ) {
 
 	printf( '<div id="%s-sortables" class="meta-box-sortables">', esc_attr( $context ) );
 
-	// Grab the ones the user has manually sorted.
-	// Pull them out of their previous context/priority and into the one the user chose.
+	/*
+	 * Grab the ones the user has manually sorted.
+	 * Pull them out of their previous context/priority and into the one the user chose.
+	 */
 	$sorted = get_user_option( "meta-box-order_$page" );
 
 	if ( ! $already_sorted && $sorted ) {

@@ -548,8 +548,10 @@ function populate_options( array $options = array() ) {
 		// 5.6.0
 		'auto_update_core_dev'            => 'enabled',
 		'auto_update_core_minor'          => 'enabled',
-		// Default to enabled for new installs.
-		// See https://core.trac.wordpress.org/ticket/51742.
+		/*
+		 * Default to enabled for new installs.
+		 * See https://core.trac.wordpress.org/ticket/51742.
+		 */
 		'auto_update_core_major'          => 'enabled',
 
 		// 5.8.0

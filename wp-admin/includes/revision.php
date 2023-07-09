@@ -39,8 +39,10 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		return false;
 	}
 
-	// If comparing revisions, make sure we're dealing with the right post parent.
-	// The parent post may be a 'revision' when revisions are disabled and we're looking at autosaves.
+	/*
+	 * If comparing revisions, make sure we are dealing with the right post parent.
+	 * The parent post may be a 'revision' when revisions are disabled and we're looking at autosaves.
+	 */
 	if ( $compare_from && $compare_from->post_parent !== $post->ID && $compare_from->ID !== $post->ID ) {
 		return false;
 	}
@@ -118,8 +120,10 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$diff = wp_text_diff( $content_from, $content_to, $args );
 
 		if ( ! $diff && 'post_title' === $field ) {
-			// It's a better user experience to still show the Title, even if it didn't change.
-			// No, you didn't see this.
+			/*
+			 * It's a better user experience to still show the Title, even if it didn't change.
+			 * No, you didn't see this.
+			 */
 			$diff = '<table class="diff"><colgroup><col class="content diffsplit left"><col class="content diffsplit middle"><col class="content diffsplit right"></colgroup><tbody><tr>';
 
 			// In split screen mode, show the title before/after side by side.

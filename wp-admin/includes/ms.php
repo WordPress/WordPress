@@ -1005,8 +1005,10 @@ function network_settings_add_js() {
 jQuery( function($) {
 	var languageSelect = $( '#WPLANG' );
 	$( 'form' ).on( 'submit', function() {
-		// Don't show a spinner for English and installed languages,
-		// as there is nothing to download.
+		/*
+		 * Don't show a spinner for English and installed languages,
+		 * as there is nothing to download.
+		 */
 		if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
 			$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
 		}

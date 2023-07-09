@@ -1229,8 +1229,10 @@ function update_core( $from, $to ) {
 	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Preparing to install the latest version&#8230;' ) );
 
-	// Don't copy wp-content, we'll deal with that below.
-	// We also copy version.php last so failed updates report their old version.
+	/*
+	 * Don't copy wp-content, we'll deal with that below.
+	 * We also copy version.php last so failed updates report their old version.
+	 */
 	$skip              = array( 'wp-content', 'wp-includes/version.php' );
 	$check_is_writable = array();
 
@@ -1397,8 +1399,10 @@ function update_core( $from, $to ) {
 			}
 		}
 
-		// If we don't have enough free space, it isn't worth trying again.
-		// Unlikely to be hit due to the check in unzip_file().
+		/*
+		 * If we don't have enough free space, it isn't worth trying again.
+		 * Unlikely to be hit due to the check in unzip_file().
+		 */
 		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( ABSPATH ) : false;
 
 		if ( $available_space && $total_size >= $available_space ) {
@@ -1416,8 +1420,10 @@ function update_core( $from, $to ) {
 		}
 	}
 
-	// Custom content directory needs updating now.
-	// Copy languages.
+	/*
+	 * Custom content directory needs updating now.
+	 * Copy languages.
+	 */
 	if ( ! is_wp_error( $result ) && $wp_filesystem->is_dir( $from . $distro . 'wp-content/languages' ) ) {
 		if ( WP_LANG_DIR !== ABSPATH . WPINC . '/languages' || @is_dir( WP_LANG_DIR ) ) {
 			$lang_dir = WP_LANG_DIR;
@@ -1455,8 +1461,10 @@ function update_core( $from, $to ) {
 	// Remove maintenance file, we're done with potential site-breaking changes.
 	$wp_filesystem->delete( $maintenance_file );
 
-	// 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users,
-	// preventing installation of Twenty Twelve.
+	/*
+	 * 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users,
+	 * preventing installation of Twenty Twelve.
+	 */
 	if ( '3.5' === $old_wp_version ) {
 		if ( is_dir( WP_CONTENT_DIR . '/themes/twentytwelve' )
 			&& ! file_exists( WP_CONTENT_DIR . '/themes/twentytwelve/style.css' )
