@@ -285,8 +285,10 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				if ( preg_match_all( '!(<ins>.*?</ins>|<del>.*?</del>)!', $diff, $diff_matches ) ) {
 					// Length of all text between <ins> or <del>.
 					$stripped_matches = strlen( strip_tags( implode( ' ', $diff_matches[0] ) ) );
-					// Since we count length of text between <ins> or <del> (instead of picking just one),
-					// we double the length of chars not in those tags.
+					/*
+					 * Since we count length of text between <ins> or <del> (instead of picking just one),
+					 * we double the length of chars not in those tags.
+					 */
 					$stripped_diff = strlen( strip_tags( $diff ) ) * 2 - $stripped_matches;
 					$diff_ratio    = $stripped_matches / $stripped_diff;
 					if ( $diff_ratio > $this->_diff_threshold ) {
@@ -416,8 +418,10 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		$orig_rows_copy = $orig_rows;
 		$final_rows     = array_keys( $final_matches );
 
-		// Interleaves rows with blanks to keep matches aligned.
-		// We may end up with some extraneous blank rows, but we'll just ignore them later.
+		/*
+		 * Interleaves rows with blanks to keep matches aligned.
+		 * We may end up with some extraneous blank rows, but we'll just ignore them later.
+		 */
 		foreach ( $orig_rows_copy as $orig_row ) {
 			$final_pos = array_search( $orig_matches[ $orig_row ], $final_rows, true );
 			$orig_pos  = (int) array_search( $orig_row, $orig_rows, true );

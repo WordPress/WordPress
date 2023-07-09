@@ -1616,8 +1616,10 @@ class WP_Query {
 				$search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_title LIKE %s THEN 1 ", $like );
 			}
 
-			// Sanity limit, sort as sentence when more than 6 terms
-			// (few searches are longer than 6 terms and most titles are not).
+			/*
+			 * Sanity limit, sort as sentence when more than 6 terms
+			 * (few searches are longer than 6 terms and most titles are not).
+			 */
 			if ( $num_terms < 7 ) {
 				// All words in title.
 				$search_orderby .= 'WHEN ' . implode( ' AND ', $q['search_orderby_title'] ) . ' THEN 2 ';
@@ -3509,8 +3511,10 @@ class WP_Query {
 			$this->posts = apply_filters_ref_array( 'the_posts', array( $this->posts, &$this ) );
 		}
 
-		// Ensure that any posts added/modified via one of the filters above are
-		// of the type WP_Post and are filtered.
+		/*
+		 * Ensure that any posts added/modified via one of the filters above are
+		 * of the type WP_Post and are filtered.
+		 */
 		if ( $this->posts ) {
 			$this->post_count = count( $this->posts );
 
@@ -3553,8 +3557,10 @@ class WP_Query {
 	private function set_found_posts( $q, $limits ) {
 		global $wpdb;
 
-		// Bail if posts is an empty array. Continue if posts is an empty string,
-		// null, or false to accommodate caching plugins that fill posts later.
+		/*
+		 * Bail if posts is an empty array. Continue if posts is an empty string,
+		 * null, or false to accommodate caching plugins that fill posts later.
+		 */
 		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) ) {
 			return;
 		}

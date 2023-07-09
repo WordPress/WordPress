@@ -219,8 +219,10 @@ class WP_Locale {
 		$this->meridiem['AM'] = __( 'AM' );
 		$this->meridiem['PM'] = __( 'PM' );
 
-		// Numbers formatting.
-		// See https://www.php.net/number_format
+		/*
+		 * Numbers formatting.
+		 * See https://www.php.net/number_format
+		 */
 
 		/* translators: $thousands_sep argument for https://www.php.net/number_format, default is ',' */
 		$thousands_sep = __( 'number_format_thousands_sep' );

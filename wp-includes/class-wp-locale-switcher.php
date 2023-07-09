@@ -255,8 +255,10 @@ class WP_Locale_Switcher {
 				continue;
 			}
 
-			// Unload current text domain but allow them to be reloaded
-			// after switching back or to another locale.
+			/*
+			 * Unload current text domain but allow them to be reloaded
+			 * after switching back or to another locale.
+			 */
 			unload_textdomain( $domain, true );
 			get_translations_for_domain( $domain );
 		}
