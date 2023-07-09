@@ -1142,8 +1142,10 @@ class WP_List_Table {
 			return $column;
 		}
 
-		// We need a primary defined so responsive views show something,
-		// so let's fall back to the first non-checkbox column.
+		/*
+		 * We need a primary defined so responsive views show something,
+		 * so let's fall back to the first non-checkbox column.
+		 */
 		foreach ( $columns as $col => $column_name ) {
 			if ( 'cb' === $col ) {
 				continue;
@@ -1180,8 +1182,10 @@ class WP_List_Table {
 		$columns = get_column_headers( $this->screen );
 		$default = $this->get_default_primary_column_name();
 
-		// If the primary column doesn't exist,
-		// fall back to the first non-checkbox column.
+		/*
+		 * If the primary column doesn't exist,
+		 * fall back to the first non-checkbox column.
+		 */
 		if ( ! isset( $columns[ $default ] ) ) {
 			$default = self::get_default_primary_column_name();
 		}
@@ -1666,8 +1670,10 @@ class WP_List_Table {
 				$classes .= ' hidden';
 			}
 
-			// Comments column uses HTML in the display name with screen reader text.
-			// Strip tags to get closer to a user-friendly string.
+			/*
+			 * Comments column uses HTML in the display name with screen reader text.
+			 * Strip tags to get closer to a user-friendly string.
+			 */
 			$data = 'data-colname="' . esc_attr( wp_strip_all_tags( $column_display_name ) ) . '"';
 
 			$attributes = "class='$classes' $data";

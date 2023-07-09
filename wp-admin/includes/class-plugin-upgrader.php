@@ -212,8 +212,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 		add_filter( 'upgrader_pre_install', array( $this, 'active_before' ), 10, 2 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
 		add_filter( 'upgrader_post_install', array( $this, 'active_after' ), 10, 2 );
-		// There's a Trac ticket to move up the directory for zips which are made a bit differently, useful for non-.org plugins.
-		// 'source_selection' => array( $this, 'source_selection' ),
+		/*
+		 * There's a Trac ticket to move up the directory for zips which are made a bit differently, useful for non-.org plugins.
+		 * 'source_selection' => array( $this, 'source_selection' ),
+		 */
 		if ( $parsed_args['clear_update_cache'] ) {
 			// Clear cache so wp_update_plugins() knows about the new plugin.
 			add_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9, 0 );
@@ -252,8 +254,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
-		// Ensure any future auto-update failures trigger a failure email by removing
-		// the last failure notification from the list when plugins update successfully.
+		/*
+		 * Ensure any future auto-update failures trigger a failure email by removing
+		 * the last failure notification from the list when plugins update successfully.
+		 */
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		if ( isset( $past_failure_emails[ $plugin ] ) ) {
@@ -389,8 +393,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Cleanup our hooks, in case something else does an upgrade on this connection.
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
 
-		// Ensure any future auto-update failures trigger a failure email by removing
-		// the last failure notification from the list when plugins update successfully.
+		/*
+		 * Ensure any future auto-update failures trigger a failure email by removing
+		 * the last failure notification from the list when plugins update successfully.
+		 */
 		$past_failure_emails = get_option( 'auto_plugin_theme_update_emails', array() );
 
 		foreach ( $results as $plugin => $result ) {
@@ -651,8 +657,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return $removed;
 		}
 
-		// If plugin is in its own directory, recursively delete the directory.
-		// Base check on if plugin includes directory separator AND that it's not the root plugin folder.
+		/*
+		 * If plugin is in its own directory, recursively delete the directory.
+		 * Base check on if plugin includes directory separator AND that it's not the root plugin folder.
+		 */
 		if ( strpos( $plugin, '/' ) && $this_plugin_dir !== $plugins_dir ) {
 			$deleted = $wp_filesystem->delete( $this_plugin_dir, true );
 		} else {

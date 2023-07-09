@@ -57,8 +57,10 @@ class WP_Filesystem_Base {
 	public function abspath() {
 		$folder = $this->find_folder( ABSPATH );
 
-		// Perhaps the FTP folder is rooted at the WordPress install.
-		// Check for wp-includes folder in root. Could have some false positives, but rare.
+		/*
+		 * Perhaps the FTP folder is rooted at the WordPress install.
+		 * Check for wp-includes folder in root. Could have some false positives, but rare.
+		 */
 		if ( ! $folder && $this->is_dir( '/' . WPINC ) ) {
 			$folder = '/';
 		}
@@ -305,8 +307,10 @@ class WP_Filesystem_Base {
 			}
 		}
 
-		// Only check this as a last resort, to prevent locating the incorrect install.
-		// All above procedures will fail quickly if this is the right branch to take.
+		/*
+		 * Only check this as a last resort, to prevent locating the incorrect install.
+		 * All above procedures will fail quickly if this is the right branch to take.
+		 */
 		if ( isset( $files[ $last_path ] ) ) {
 			if ( $this->verbose ) {
 				/* translators: %s: Directory name. */
@@ -316,14 +320,18 @@ class WP_Filesystem_Base {
 			return trailingslashit( $base . $last_path );
 		}
 
-		// Prevent this function from looping again.
-		// No need to proceed if we've just searched in `/`.
+		/*
+		 * Prevent this function from looping again.
+		 * No need to proceed if we've just searched in `/`.
+		 */
 		if ( $loop || '/' === $base ) {
 			return false;
 		}
 
-		// As an extra last resort, Change back to / if the folder wasn't found.
-		// This comes into effect when the CWD is /home/user/ but WP is at /var/www/....
+		/*
+		 * As an extra last resort, Change back to / if the folder wasn't found.
+		 * This comes into effect when the CWD is /home/user/ but WP is at /var/www/....
+		 */
 		return $this->search_for_folder( $folder, '/', true );
 
 	}

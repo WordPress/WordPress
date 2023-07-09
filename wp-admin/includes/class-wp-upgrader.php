@@ -563,8 +563,10 @@ class WP_Upgrader {
 			// There are no files?
 			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] );
 		} else {
-			// It's only a single file, the upgrader will use the folder name of this file as the destination folder.
-			// Folder name is based on zip filename.
+			/*
+			 * It's only a single file, the upgrader will use the folder name of this file as the destination folder.
+			 * Folder name is based on zip filename.
+			 */
 			$source = trailingslashit( $args['source'] );
 		}
 
@@ -641,8 +643,10 @@ class WP_Upgrader {
 				return $removed;
 			}
 		} elseif ( $args['abort_if_destination_exists'] && $wp_filesystem->exists( $remote_destination ) ) {
-			// If we're not clearing the destination folder and something exists there already, bail.
-			// But first check to see if there are actually any files in the folder.
+			/*
+			 * If we're not clearing the destination folder and something exists there already, bail.
+			 * But first check to see if there are actually any files in the folder.
+			 */
 			$_files = $wp_filesystem->dirlist( $remote_destination );
 			if ( ! empty( $_files ) ) {
 				$wp_filesystem->delete( $remote_source, true ); // Clear out the source files.
@@ -821,8 +825,10 @@ class WP_Upgrader {
 		 */
 		$download = $this->download_package( $options['package'], true, $options['hook_extra'] );
 
-		// Allow for signature soft-fail.
-		// WARNING: This may be removed in the future.
+		/*
+		 * Allow for signature soft-fail.
+		 * WARNING: This may be removed in the future.
+		 */
 		if ( is_wp_error( $download ) && $download->get_error_data( 'softfail-filename' ) ) {
 
 			// Don't output the 'no signature could be found' failure message for now.

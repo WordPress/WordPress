@@ -28,8 +28,10 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 		$src_file = get_attached_file( $src );
 
 		if ( ! file_exists( $src_file ) ) {
-			// If the file doesn't exist, attempt a URL fopen on the src link.
-			// This can occur with certain file replication plugins.
+			/*
+			 * If the file doesn't exist, attempt a URL fopen on the src link.
+			 * This can occur with certain file replication plugins.
+			 */
 			$src = _load_image_to_edit_path( $src, 'full' );
 		} else {
 			$src = $src_file;
@@ -159,8 +161,10 @@ function wp_update_image_subsizes( $attachment_id ) {
 	$image_file = wp_get_original_image_path( $attachment_id );
 
 	if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
-		// Previously failed upload?
-		// If there is an uploaded file, make all sub-sizes and generate all of the attachment meta.
+		/*
+		 * Previously failed upload?
+		 * If there is an uploaded file, make all sub-sizes and generate all of the attachment meta.
+		 */
 		if ( ! empty( $image_file ) ) {
 			$image_meta = wp_create_image_subsizes( $image_file, $attachment_id );
 		} else {
@@ -283,8 +287,10 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		 */
 		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
 
-		// If the original image's dimensions are over the threshold,
-		// scale the image and use it as the "full" size.
+		/*
+		 * If the original image's dimensions are over the threshold,
+		 * scale the image and use it as the "full" size.
+		 */
 		if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
 			$editor = wp_get_image_editor( $file );
 
@@ -304,8 +310,10 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 			}
 
 			if ( ! is_wp_error( $resized ) ) {
-				// Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
-				// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
+				/*
+				 * Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
+				 * This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
+				 */
 				$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
 
 				if ( ! is_wp_error( $saved ) ) {

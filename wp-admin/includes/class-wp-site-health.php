@@ -772,8 +772,10 @@ class WP_Site_Health {
 			return $result;
 		}
 
-		// The PHP version is still receiving security fixes, but is lower than
-		// the expected minimum version that will be required by WordPress in the near future.
+		/*
+		 * The PHP version is still receiving security fixes, but is lower than
+		 * the expected minimum version that will be required by WordPress in the near future.
+		 */
 		if ( $response['is_secure'] && $response['is_lower_than_future_minimum'] ) {
 			// The `is_secure` array key name doesn't actually imply this is a secure version of PHP. It only means it receives security updates.
 
@@ -1557,8 +1559,10 @@ class WP_Site_Health {
 	 * @return array The test results.
 	 */
 	public function get_test_https_status() {
-		// Enforce fresh HTTPS detection results. This is normally invoked by using cron,
-		// but for Site Health it should always rely on the latest results.
+		/*
+		 * Enforce fresh HTTPS detection results. This is normally invoked by using cron,
+		 * but for Site Health it should always rely on the latest results.
+		 */
 		wp_update_https_detection_errors();
 
 		$default_update_url = wp_get_default_update_https_url();
@@ -1585,8 +1589,10 @@ class WP_Site_Health {
 		);
 
 		if ( ! wp_is_using_https() ) {
-			// If the website is not using HTTPS, provide more information
-			// about whether it is supported and how it can be enabled.
+			/*
+			 * If the website is not using HTTPS, provide more information
+			 * about whether it is supported and how it can be enabled.
+			 */
 			$result['status'] = 'recommended';
 			$result['label']  = __( 'Your website does not use HTTPS' );
 
@@ -1840,8 +1846,10 @@ class WP_Site_Health {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-site-health-auto-updates.php';
 		}
 
-		// Run the auto-update tests in a separate class,
-		// as there are many considerations to be made.
+		/*
+		 * Run the auto-update tests in a separate class,
+		 * as there are many considerations to be made.
+		 */
 		$automatic_updates = new WP_Site_Health_Auto_Updates();
 		$tests             = $automatic_updates->run_tests();
 
@@ -3378,9 +3386,11 @@ class WP_Site_Health {
 
 		$headers = array();
 
-		// Include basic auth in loopback requests. Note that this will only pass along basic auth when user is
-		// initiating the test. If a site requires basic auth, the test will fail when it runs in WP Cron as part of
-		// wp_site_health_scheduled_check. This logic is copied from WP_Site_Health::can_perform_loopback().
+		/*
+		 * Include basic auth in loopback requests. Note that this will only pass along basic auth when user is
+		 * initiating the test. If a site requires basic auth, the test will fail when it runs in WP Cron as part of
+		 * wp_site_health_scheduled_check. This logic is copied from WP_Site_Health::can_perform_loopback().
+		 */
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
 			$headers['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
 		}

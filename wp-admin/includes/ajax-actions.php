@@ -298,16 +298,20 @@ function wp_ajax_autocomplete_user() {
 
 	$return = array();
 
-	// Check the type of request.
-	// Current allowed values are `add` and `search`.
+	/*
+	 * Check the type of request.
+	 * Current allowed values are `add` and `search`.
+	 */
 	if ( isset( $_REQUEST['autocomplete_type'] ) && 'search' === $_REQUEST['autocomplete_type'] ) {
 		$type = $_REQUEST['autocomplete_type'];
 	} else {
 		$type = 'add';
 	}
 
-	// Check the desired field for value.
-	// Current allowed values are `user_email` and `user_login`.
+	/*
+	 * Check the desired field for value.
+	 * Current allowed values are `user_email` and `user_login`.
+	 */
 	if ( isset( $_REQUEST['autocomplete_field'] ) && 'user_email' === $_REQUEST['autocomplete_field'] ) {
 		$field = $_REQUEST['autocomplete_field'];
 	} else {
@@ -1520,8 +1524,10 @@ function wp_ajax_add_menu_item() {
 
 	require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
-	// For performance reasons, we omit some object properties from the checklist.
-	// The following is a hacky way to restore them when adding non-custom items.
+	/*
+	 * For performance reasons, we omit some object properties from the checklist.
+	 * The following is a hacky way to restore them when adding non-custom items.
+	 */
 	$menu_items_data = array();
 
 	foreach ( (array) $_POST['menu-item'] as $menu_item_data ) {
@@ -2512,14 +2518,18 @@ function wp_ajax_media_create_image_subsizes() {
 		}
 	}
 
-	// Set a custom header with the attachment_id.
-	// Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
+	/*
+	 * Set a custom header with the attachment_id.
+	 * Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
+	 */
 	if ( ! headers_sent() ) {
 		header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
 	}
 
-	// This can still be pretty slow and cause timeout or out of memory errors.
-	// The js that handles the response would need to also handle HTTP 500 errors.
+	/*
+	 * This can still be pretty slow and cause timeout or out of memory errors.
+	 * The js that handles the response would need to also handle HTTP 500 errors.
+	 */
 	wp_update_image_subsizes( $attachment_id );
 
 	if ( ! empty( $_POST['_legacy_support'] ) ) {
@@ -3769,8 +3779,10 @@ function wp_ajax_parse_embed() {
 	}
 
 	if ( is_ssl() && str_starts_with( $url, 'http://' ) ) {
-		// Admin is ssl and the user pasted non-ssl URL.
-		// Check if the provider supports ssl embeds and use that for the preview.
+		/*
+		 * Admin is ssl and the user pasted non-ssl URL.
+		 * Check if the provider supports ssl embeds and use that for the preview.
+		 */
 		$ssl_shortcode = preg_replace( '%^(\\[embed[^\\]]*\\])http://%i', '$1https://', $shortcode );
 		$parsed        = $wp_embed->run_shortcode( $ssl_shortcode );
 

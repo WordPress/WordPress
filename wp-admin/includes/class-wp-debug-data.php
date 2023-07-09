@@ -1619,20 +1619,26 @@ class WP_Debug_Data {
 			$max_execution_time = ini_get( 'max_execution_time' );
 		}
 
-		// The max_execution_time defaults to 0 when PHP runs from cli.
-		// We still want to limit it below.
+		/*
+		 * The max_execution_time defaults to 0 when PHP runs from cli.
+		 * We still want to limit it below.
+		 */
 		if ( empty( $max_execution_time ) ) {
 			$max_execution_time = 30; // 30 seconds.
 		}
 
 		if ( $max_execution_time > 20 ) {
-			// If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
-			// edge-case timeouts that may happen after the size loop has finished running.
+			/*
+			 * If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
+			 * edge-case timeouts that may happen after the size loop has finished running.
+			 */
 			$max_execution_time -= 2;
 		}
 
-		// Go through the various installation directories and calculate their sizes.
-		// No trailing slashes.
+		/*
+		 * Go through the various installation directories and calculate their sizes.
+		 * No trailing slashes.
+		 */
 		$paths = array(
 			'wordpress_size' => untrailingslashit( ABSPATH ),
 			'themes_size'    => get_theme_root(),
