@@ -143,7 +143,7 @@ function get_default_block_template_types() {
 		),
 		'author'         => array(
 			'title'       => _x( 'Author Archives', 'Template name' ),
-			'description' => __( 'Displays a single author\'s post archive. This template will serve as a fallback when a more a specific template (e.g., Author: Admin) cannot be found.' ),
+			'description' => __( 'Displays a single author\'s post archive. This template will serve as a fallback when a more specific template (e.g., Author: Admin) cannot be found.' ),
 		),
 		'category'       => array(
 			'title'       => _x( 'Category Archives', 'Template name' ),
