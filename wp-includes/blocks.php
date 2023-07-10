@@ -134,17 +134,34 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		$wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
 	}
 
-	$theme_path_norm  = wp_normalize_path( get_theme_file_path() );
+	// Cache $template_path_norm and $stylesheet_path_norm to avoid unnecessary additional calls.
+	static $template_path_norm   = '';
+	static $stylesheet_path_norm = '';
+	if ( ! $template_path_norm || ! $stylesheet_path_norm ) {
+		$template_path_norm   = wp_normalize_path( get_template_directory() );
+		$stylesheet_path_norm = wp_normalize_path( get_stylesheet_directory() );
+	}
+
 	$script_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $script_path ) );
 
-	$is_core_block  = isset( $metadata['file'] ) && str_starts_with( $metadata['file'], $wpinc_path_norm );
-	$is_theme_block = str_starts_with( $script_path_norm, $theme_path_norm );
+	$is_core_block = isset( $metadata['file'] ) && str_starts_with( $metadata['file'], $wpinc_path_norm );
+
+	/*
+	 * Determine if the block script was registered in a theme, by checking if the script path starts with either
+	 * the parent (template) or child (stylesheet) directory path.
+	 */
+	$is_parent_theme_block = str_starts_with( $script_path_norm, $template_path_norm );
+	$is_child_theme_block  = str_starts_with( $script_path_norm, $stylesheet_path_norm );
+	$is_theme_block        = ( $is_parent_theme_block || $is_child_theme_block );
 
 	$script_uri = plugins_url( $script_path, $metadata['file'] );
 	if ( $is_core_block ) {
 		$script_uri = includes_url( str_replace( $wpinc_path_norm, '', $script_path_norm ) );
 	} elseif ( $is_theme_block ) {
-		$script_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $script_path_norm ) );
+		// Get the script path deterministically based on whether or not it was registered in a parent or child theme.
+		$script_uri = $is_parent_theme_block
+			? get_theme_file_uri( str_replace( $template_path_norm, '', $script_path_norm ) )
+			: get_theme_file_uri( str_replace( $stylesheet_path_norm, '', $script_path_norm ) );
 	}
 
 	$script_asset        = require $script_asset_path;
@@ -234,19 +251,28 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 	if ( $has_style_file ) {
 		$style_uri = plugins_url( $style_path, $metadata['file'] );
 
-		// Cache $theme_path_norm to avoid calling get_theme_file_path() multiple times.
-		static $theme_path_norm = '';
-		if ( ! $theme_path_norm ) {
-			$theme_path_norm = wp_normalize_path( get_theme_file_path() );
+		// Cache $template_path_norm and $stylesheet_path_norm to avoid unnecessary additional calls.
+		static $template_path_norm   = '';
+		static $stylesheet_path_norm = '';
+		if ( ! $template_path_norm || ! $stylesheet_path_norm ) {
+			$template_path_norm   = wp_normalize_path( get_template_directory() );
+			$stylesheet_path_norm = wp_normalize_path( get_stylesheet_directory() );
 		}
 
-		$is_theme_block = str_starts_with( $style_path_norm, $theme_path_norm );
+		// Determine if the block style was registered in a theme, by checking if the script path starts with either
+		// the parent (template) or child (stylesheet) directory path.
+		$is_parent_theme_block = str_starts_with( $style_path_norm, $template_path_norm );
+		$is_child_theme_block  = str_starts_with( $style_path_norm, $stylesheet_path_norm );
+		$is_theme_block        = ( $is_parent_theme_block || $is_child_theme_block );
 
-		if ( $is_theme_block ) {
-			$style_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $style_path_norm ) );
-		} elseif ( $is_core_block ) {
+		if ( $is_core_block ) {
 			// All possible $style_path variants for core blocks are hard-coded above.
 			$style_uri = includes_url( 'blocks/' . str_replace( 'core/', '', $metadata['name'] ) . '/' . $style_path );
+		} elseif ( $is_theme_block ) {
+			// Get the script path deterministically based on whether or not it was registered in a parent or child theme.
+			$style_uri = $is_parent_theme_block
+				? get_theme_file_uri( str_replace( $template_path_norm, '', $style_path_norm ) )
+				: get_theme_file_uri( str_replace( $stylesheet_path_norm, '', $style_path_norm ) );
 		}
 	} else {
 		$style_uri = false;
