@@ -473,7 +473,7 @@ function twentyseventeen_scripts() {
 	wp_style_add_data( 'twentyseventeen-ie8', 'conditional', 'lt IE 9' );
 
 	// Register the html5 shiv.
-	wp_register_style( 'html5', get_theme_file_uri( '/assets/js/html5.js' ), array(), '20161020' );
+	wp_register_script( 'html5', get_theme_file_uri( '/assets/js/html5.js' ), array(), '20161020' );
 	wp_script_add_data( 'html5', 'conditional', 'lt IE 9' );
 
 	// Skip-link fix is no longer enqueued by default.
