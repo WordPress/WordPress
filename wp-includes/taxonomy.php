@@ -3250,8 +3250,10 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	// Check for duplicate slug.
 	$duplicate = get_term_by( 'slug', $slug, $taxonomy );
 	if ( $duplicate && $duplicate->term_id !== $term_id ) {
-		// If an empty slug was passed or the parent changed, reset the slug to something unique.
-		// Otherwise, bail.
+		/*
+		 * If an empty slug was passed or the parent changed, reset the slug to something unique.
+		 * Otherwise, bail.
+		 */
 		if ( $empty_slug || ( $parent !== (int) $term['parent'] ) ) {
 			$slug = wp_unique_term_slug( $slug, (object) $args );
 		} else {

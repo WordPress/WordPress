@@ -1065,8 +1065,10 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 		$user_id = get_current_user_id();
 	}
 
-	// Technically not needed, but does save calls to get_site() and get_user_meta()
-	// in the event that the function is called when a user isn't logged in.
+	/*
+	 * Technically not needed, but does save calls to get_site() and get_user_meta()
+	 * in the event that the function is called when a user isn't logged in.
+	 */
 	if ( empty( $user_id ) ) {
 		return false;
 	} else {
@@ -2723,8 +2725,10 @@ All at ###SITENAME###
 		if ( isset( $plaintext_pass ) ) {
 			wp_clear_auth_cookie();
 
-			// Here we calculate the expiration length of the current auth cookie and compare it to the default expiration.
-			// If it's greater than this, then we know the user checked 'Remember Me' when they logged in.
+			/*
+			 * Here we calculate the expiration length of the current auth cookie and compare it to the default expiration.
+			 * If it's greater than this, then we know the user checked 'Remember Me' when they logged in.
+			 */
 			$logged_in_cookie = wp_parse_auth_cookie( '', 'logged_in' );
 			/** This filter is documented in wp-includes/pluggable.php */
 			$default_cookie_life = apply_filters( 'auth_cookie_expiration', ( 2 * DAY_IN_SECONDS ), $user_id, false );

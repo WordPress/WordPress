@@ -263,8 +263,10 @@ function get_shortcode_regex( $tagnames = null ) {
 	}
 	$tagregexp = implode( '|', array_map( 'preg_quote', $tagnames ) );
 
-	// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag().
-	// Also, see shortcode_unautop() and shortcode.js.
+	/*
+	 * WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag().
+	 * Also, see shortcode_unautop() and shortcode.js.
+	 */
 
 	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	return '\\['                             // Opening bracket.
@@ -466,8 +468,10 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 				 */
 				$attr = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $attr );
 			} else {
-				// $attr like 'name = "[shortcode]"' or "name = '[shortcode]'".
-				// We do not know if $content was unfiltered. Assume KSES ran before shortcodes.
+				/*
+				 * $attr like 'name = "[shortcode]"' or "name = '[shortcode]'".
+				 * We do not know if $content was unfiltered. Assume KSES ran before shortcodes.
+				 */
 				$count    = 0;
 				$new_attr = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $attr, -1, $count );
 				if ( $count > 0 ) {

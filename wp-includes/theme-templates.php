@@ -173,8 +173,10 @@ function the_block_template_skip_link() {
 			return;
 		}
 
-		// Get the site wrapper.
-		// The skip-link will be injected in the beginning of it.
+		/*
+		 * Get the site wrapper.
+		 * The skip-link will be injected in the beginning of it.
+		 */
 		sibling = document.querySelector( '.wp-site-blocks' );
 
 		// Early exit if the root element was not found.
