@@ -172,7 +172,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php // JavaScript is disabled. ?>
 	<div class="wrap hide-if-js site-editor-no-js">
 		<h1 class="wp-heading-inline"><?php _e( 'Edit site' ); ?></h1>
-		<div class="notice notice-error notice-alt">
+		<div class="notice notice-error">
 			<p>
 				<?php
 					/**

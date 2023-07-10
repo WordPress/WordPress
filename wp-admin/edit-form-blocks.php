@@ -319,7 +319,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php // JavaScript is disabled. ?>
 	<div class="wrap hide-if-js block-editor-no-js">
 		<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
-		<div class="notice notice-error notice-alt">
+		<div class="notice notice-error">
 			<p>
 				<?php
 					$message = sprintf(
