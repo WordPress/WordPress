@@ -350,22 +350,19 @@ function wp_add_global_styles_for_blocks() {
  * @return bool Returns true if theme or its parent has a theme.json file, false otherwise.
  */
 function wp_theme_has_theme_json() {
-	static $theme_has_support = null;
+	static $theme_has_support = array();
+
+	$stylesheet = get_stylesheet();
 
 	if (
-		null !== $theme_has_support &&
+		isset( $theme_has_support[ $stylesheet ] ) &&
 		/*
 		 * Ignore static cache when the development mode is set to 'theme', to avoid interfering with
 		 * the theme developer's workflow.
 		 */
-		wp_get_development_mode() !== 'theme' &&
-		/*
-		 * Ignore cache when automated test suites are running. Why? To ensure
-		 * the static cache is reset between each test.
-		 */
-		! ( defined( 'WP_RUN_CORE_TESTS' ) && WP_RUN_CORE_TESTS )
+		wp_get_development_mode() !== 'theme'
 	) {
-		return $theme_has_support;
+		return $theme_has_support[ $stylesheet ];
 	}
 
 	$stylesheet_directory = get_stylesheet_directory();
@@ -381,9 +378,9 @@ function wp_theme_has_theme_json() {
 	/** This filter is documented in wp-includes/link-template.php */
 	$path = apply_filters( 'theme_file_path', $path, 'theme.json' );
 
-	$theme_has_support = file_exists( $path );
+	$theme_has_support[ $stylesheet ] = file_exists( $path );
 
-	return $theme_has_support;
+	return $theme_has_support[ $stylesheet ];
 }
 
 /**
