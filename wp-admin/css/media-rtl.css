@@ -901,13 +901,13 @@ border color while dragging a file over the uploader drop area */
 
 .imgedit-panel-content {
 	display: grid;
-	grid-template-columns: 640px 1fr;
+	grid-template-columns: 1fr;
 	gap: 20px;
 }
 
-@media screen and (max-width: 1120px) {
-	.imgedit-panel-content {
-		grid-template-columns: 1fr;
+@media screen and (min-width: 1200px) {
+	.imgedit-panel-content.imgedit-panel-tools {
+		grid-template-columns: 50% 50%;
 	}
 }
 
@@ -1209,7 +1209,10 @@ span.imgedit-scale-warn {
 
 .image-editor .imgedit-scale-controls input[type="text"],
 .image-editor .imgedit-crop-ratio input[type="text"],
-.image-editor .imgedit-crop-sel input[type="text"] {
+.image-editor .imgedit-crop-sel input[type="text"],
+.image-editor .imgedit-scale-controls input[type="number"],
+.image-editor .imgedit-crop-ratio input[type="number"],
+.image-editor .imgedit-crop-sel input[type="number"] {
 	width: 80px;
 	font-size: 14px;
 	padding: 0 8px;
