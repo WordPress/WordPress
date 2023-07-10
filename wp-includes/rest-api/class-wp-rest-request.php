@@ -473,8 +473,10 @@ class WP_REST_Request implements ArrayAccess {
 
 		$params = array();
 		foreach ( $order as $type ) {
-			// array_merge() / the "+" operator will mess up
-			// numeric keys, so instead do a manual foreach.
+			/*
+			 * array_merge() / the "+" operator will mess up
+			 * numeric keys, so instead do a manual foreach.
+			 */
 			foreach ( (array) $this->params[ $type ] as $key => $value ) {
 				$params[ $key ] = $value;
 			}

@@ -88,8 +88,10 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 
 		if ( is_object( $this->setting ) ) {
 			if ( $this->setting->default ) {
-				// Fake an attachment model - needs all fields used by template.
-				// Note that the default value must be a URL, NOT an attachment ID.
+				/*
+				 * Fake an attachment model - needs all fields used by template.
+				 * Note that the default value must be a URL, NOT an attachment ID.
+				 */
 				$ext  = substr( $this->setting->default, -3 );
 				$type = in_array( $ext, array( 'jpg', 'png', 'gif', 'bmp', 'webp' ), true ) ? 'image' : 'document';
 

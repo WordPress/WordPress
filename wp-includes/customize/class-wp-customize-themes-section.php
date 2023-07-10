@@ -184,8 +184,10 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	 * @since 4.9.0
 	 */
 	protected function filter_drawer_content_template() {
-		// @todo Use the .org API instead of the local core feature list.
-		// The .org API is currently outdated and will be reconciled when the .org themes directory is next redesigned.
+		/*
+		 * @todo Use the .org API instead of the local core feature list.
+		 * The .org API is currently outdated and will be reconciled when the .org themes directory is next redesigned.
+		 */
 		$feature_list = get_theme_feature_list( false );
 		?>
 		<# if ( 'wporg' === data.action ) { #>
