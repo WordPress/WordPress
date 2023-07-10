@@ -136,8 +136,10 @@ function wptexturize( $text, $reset = false ) {
 		$static_characters   = array_merge( array( '...', '``', '\'\'', ' (tm)' ), $cockney );
 		$static_replacements = array_merge( array( '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
 
-		// Pattern-based replacements of characters.
-		// Sort the remaining patterns into several arrays for performance tuning.
+		/*
+		 * Pattern-based replacements of characters.
+		 * Sort the remaining patterns into several arrays for performance tuning.
+		 */
 		$dynamic_characters   = array(
 			'apos'  => array(),
 			'quote' => array(),
@@ -340,8 +342,10 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 						// Assume the rightmost quote-period match is the end of quotation.
 						$pos = strrpos( $sentence, "$flag." );
 					} else {
-						// When all else fails, make the rightmost candidate a closing quote.
-						// This is most likely to be problematic in the context of bug #18549.
+						/*
+						 * When all else fails, make the rightmost candidate a closing quote.
+						 * This is most likely to be problematic in the context of bug #18549.
+						 */
 						$pos = strrpos( $sentence, $flag );
 					}
 					$sentence = substr_replace( $sentence, $close_quote, $pos, strlen( $flag ) );
@@ -976,8 +980,10 @@ function _wp_specialchars( $text, $quote_style = ENT_NOQUOTES, $charset = false,
 	}
 
 	if ( ! $double_encode ) {
-		// Guarantee every &entity; is valid, convert &garbage; into &amp;garbage;
-		// This is required for PHP < 5.4.0 because ENT_HTML401 flag is unavailable.
+		/*
+		 * Guarantee every &entity; is valid, convert &garbage; into &amp;garbage;
+		 * This is required for PHP < 5.4.0 because ENT_HTML401 flag is unavailable.
+		 */
 		$text = wp_kses_normalize_entities( $text, ( $quote_style & ENT_XML1 ) ? 'xml' : 'html' );
 	}
 
@@ -1601,8 +1607,10 @@ function remove_accents( $text, $locale = '' ) {
 
 	if ( seems_utf8( $text ) ) {
 
-		// Unicode sequence normalization from NFD (Normalization Form Decomposed)
-		// to NFC (Normalization Form [Pre]Composed), the encoding used in this function.
+		/*
+		 * Unicode sequence normalization from NFD (Normalization Form Decomposed)
+		 * to NFC (Normalization Form [Pre]Composed), the encoding used in this function.
+		 */
 		if ( function_exists( 'normalizer_is_normalized' )
 			&& function_exists( 'normalizer_normalize' )
 		) {
@@ -1817,8 +1825,7 @@ function remove_accents( $text, $locale = '' ) {
 			'€' => 'E',
 			// GBP (Pound) sign.
 			'£' => '',
-			// Vowels with diacritic (Vietnamese).
-			// Unmarked.
+			// Vowels with diacritic (Vietnamese). Unmarked.
 			'Ơ' => 'O',
 			'ơ' => 'o',
 			'Ư' => 'U',
@@ -2661,17 +2668,24 @@ function force_balance_tags( $text ) {
 				$tag = '';
 			}
 		} else { // Begin tag.
-			if ( $has_self_closer ) { // If it presents itself as a self-closing tag...
-				// ...but it isn't a known single-entity self-closing tag, then don't let it be treated as such
-				// and immediately close it with a closing tag (the tag will encapsulate no text as a result).
+			if ( $has_self_closer ) {
+				/*
+				 * If it presents itself as a self-closing tag, but it isn't a known single-entity self-closing tag,
+				 * then don't let it be treated as such and immediately close it with a closing tag.
+				 * The tag will encapsulate no text as a result.
+				 */
 				if ( ! $is_single_tag ) {
 					$attributes = trim( substr( $attributes, 0, -1 ) ) . "></$tag";
 				}
-			} elseif ( $is_single_tag ) { // Else if it's a known single-entity tag but it doesn't close itself, do so.
+			} elseif ( $is_single_tag ) {
+				// Else if it's a known single-entity tag but it doesn't close itself, do so.
 				$pre_attribute_ws = ' ';
 				$attributes      .= '/';
-			} else { // It's not a single-entity tag.
-				// If the top of the stack is the same as the tag we want to push, close previous tag.
+			} else {
+				/*
+				 * It's not a single-entity tag.
+				 * If the top of the stack is the same as the tag we want to push, close previous tag.
+				 */
 				if ( $stacksize > 0 && ! in_array( $tag, $nestable_tags, true ) && $tagstack[ $stacksize - 1 ] === $tag ) {
 					$tagqueue = '</' . array_pop( $tagstack ) . '>';
 					$stacksize--;
@@ -2925,8 +2939,10 @@ function _make_url_clickable_cb( $matches ) {
 	$url = $matches[2];
 
 	if ( ')' === $matches[3] && strpos( $url, '(' ) ) {
-		// If the trailing character is a closing parethesis, and the URL has an opening parenthesis in it,
-		// add the closing parenthesis to the URL. Then we can let the parenthesis balancer do its thing below.
+		/*
+		 * If the trailing character is a closing parethesis, and the URL has an opening parenthesis in it,
+		 * add the closing parenthesis to the URL. Then we can let the parenthesis balancer do its thing below.
+		 */
 		$url   .= $matches[3];
 		$suffix = '';
 	} else {
@@ -3106,8 +3122,10 @@ function make_clickable( $text ) {
 				)
 				(\)?)                                          # 3: Trailing closing parenthesis (for parethesis balancing post processing).
 			~xS';
-			// The regex is a non-anchored pattern and does not have a single fixed starting character.
-			// Tell PCRE to spend more time optimizing since, when used on a page load, it will probably be used several times.
+			/*
+			 * The regex is a non-anchored pattern and does not have a single fixed starting character.
+			 * Tell PCRE to spend more time optimizing since, when used on a page load, it will probably be used several times.
+			 */
 
 			$ret = preg_replace_callback( $url_clickable, '_make_url_clickable_cb', $ret );
 
@@ -3556,15 +3574,19 @@ function is_email( $email, $deprecated = false ) {
 	// Split out the local and domain parts.
 	list( $local, $domain ) = explode( '@', $email, 2 );
 
-	// LOCAL PART
-	// Test for invalid characters.
+	/*
+	 * LOCAL PART
+	 * Test for invalid characters.
+	 */
 	if ( ! preg_match( '/^[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]+$/', $local ) ) {
 		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'local_invalid_chars' );
 	}
 
-	// DOMAIN PART
-	// Test for sequences of periods.
+	/*
+	 * DOMAIN PART
+	 * Test for sequences of periods.
+	 */
 	if ( preg_match( '/\.{2,}/', $domain ) ) {
 		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'domain_period_sequence' );
@@ -3766,16 +3788,20 @@ function sanitize_email( $email ) {
 	// Split out the local and domain parts.
 	list( $local, $domain ) = explode( '@', $email, 2 );
 
-	// LOCAL PART
-	// Test for invalid characters.
+	/*
+	 * LOCAL PART
+	 * Test for invalid characters.
+	 */
 	$local = preg_replace( '/[^a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]/', '', $local );
 	if ( '' === $local ) {
 		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'local_invalid_chars' );
 	}
 
-	// DOMAIN PART
-	// Test for sequences of periods.
+	/*
+	 * DOMAIN PART
+	 * Test for sequences of periods.
+	 */
 	$domain = preg_replace( '/\.{2,}/', '', $domain );
 	if ( '' === $domain ) {
 		/** This filter is documented in wp-includes/formatting.php */

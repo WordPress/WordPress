@@ -217,8 +217,10 @@ function image_downsize( $id, $size = 'medium' ) {
 	$is_intermediate  = false;
 	$img_url_basename = wp_basename( $img_url );
 
-	// If the file isn't an image, attempt to replace its URL with a rendered image from its meta.
-	// Otherwise, a non-image type could be returned.
+	/*
+	 * If the file isn't an image, attempt to replace its URL with a rendered image from its meta.
+	 * Otherwise, a non-image type could be returned.
+	 */
 	if ( ! $is_image ) {
 		if ( ! empty( $meta['sizes']['full'] ) ) {
 			$img_url          = str_replace( $img_url_basename, $meta['sizes']['full']['file'], $img_url );
@@ -652,8 +654,10 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 		}
 	}
 
-	// The return array matches the parameters to imagecopyresampled().
-	// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
+	/*
+	 * The return array matches the parameters to imagecopyresampled().
+	 * int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
+	 */
 	return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
 }
 
@@ -1077,8 +1081,10 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 			unset( $attr['decoding'] );
 		}
 
-		// If the default value of `lazy` for the `loading` attribute is overridden
-		// to omit the attribute for this image, ensure it is not included.
+		/*
+		 * If the default value of `lazy` for the `loading` attribute is overridden
+		 * to omit the attribute for this image, ensure it is not included.
+		 */
 		if ( isset( $attr['loading'] ) && ! $attr['loading'] ) {
 			unset( $attr['loading'] );
 		}
@@ -1759,9 +1765,11 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
  * @return bool Whether to add the attribute.
  */
 function wp_lazy_loading_enabled( $tag_name, $context ) {
-	// By default add to all 'img' and 'iframe' tags.
-	// See https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading
-	// See https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-loading
+	/*
+	 * By default add to all 'img' and 'iframe' tags.
+	 * See https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-loading
+	 * See https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-loading
+	 */
 	$default = ( 'img' === $tag_name || 'iframe' === $tag_name );
 
 	/**
@@ -1825,8 +1833,10 @@ function wp_filter_content_tags( $content, $context = null ) {
 					$attachment_id = absint( $class_id[1] );
 
 					if ( $attachment_id ) {
-						// If exactly the same image tag is used more than once, overwrite it.
-						// All identical tags will be replaced later with 'str_replace()'.
+						/*
+						 * If exactly the same image tag is used more than once, overwrite it.
+						 * All identical tags will be replaced later with 'str_replace()'.
+						 */
 						$images[ $tag ] = $attachment_id;
 						break;
 					}
@@ -2040,8 +2050,10 @@ function wp_img_tag_add_loading_optimization_attrs( $image, $context ) {
  * @return string Converted `img` tag with `decoding` attribute added.
  */
 function wp_img_tag_add_decoding_attr( $image, $context ) {
-	// Only apply the decoding attribute to images that have a src attribute that
-	// starts with a double quote, ensuring escaped JSON is also excluded.
+	/*
+	 * Only apply the decoding attribute to images that have a src attribute that
+	 * starts with a double quote, ensuring escaped JSON is also excluded.
+	 */
 	if ( ! str_contains( $image, ' src="' ) ) {
 		return $image;
 	}
@@ -2158,14 +2170,18 @@ function wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id 
  * @return string Converted `iframe` tag with `loading` attribute added.
  */
 function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
-	// Iframes with fallback content (see `wp_filter_oembed_result()`) should not be lazy-loaded because they are
-	// visually hidden initially.
+	/*
+	 * Iframes with fallback content (see `wp_filter_oembed_result()`) should not be lazy-loaded because they are
+	 * visually hidden initially.
+	 */
 	if ( str_contains( $iframe, ' data-secret="' ) ) {
 		return $iframe;
 	}
 
-	// Get loading attribute value to use. This must occur before the conditional check below so that even iframes that
-	// are ineligible for being lazy-loaded are considered.
+	/*
+	 * Get loading attribute value to use. This must occur before the conditional check below so that even iframes that
+	 * are ineligible for being lazy-loaded are considered.
+	 */
 	$optimization_attrs = wp_get_loading_optimization_attributes(
 		'iframe',
 		array(
@@ -3522,8 +3538,10 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		wp_enqueue_script( 'mediaelement-vimeo' );
 	}
 
-	// MediaElement.js has issues with some URL formats for Vimeo and YouTube,
-	// so update the URL to prevent the ME.js player from breaking.
+	/*
+	 * MediaElement.js has issues with some URL formats for Vimeo and YouTube,
+	 * so update the URL to prevent the ME.js player from breaking.
+	 */
 	if ( 'mediaelement' === $library ) {
 		if ( $is_youtube ) {
 			// Remove `feature` query arg and force SSL - see #40866.
@@ -3990,8 +4008,10 @@ function wp_get_image_editor( $path, $args = array() ) {
 	if ( ! isset( $args['mime_type'] ) ) {
 		$file_info = wp_check_filetype( $args['path'] );
 
-		// If $file_info['type'] is false, then we let the editor attempt to
-		// figure out the file type, rather than forcing a failure based on extension.
+		/*
+		 * If $file_info['type'] is false, then we let the editor attempt to
+		 * figure out the file type, rather than forcing a failure based on extension.
+		 */
 		if ( isset( $file_info ) && $file_info['type'] ) {
 			$args['mime_type'] = $file_info['type'];
 		}
@@ -4088,8 +4108,10 @@ function _wp_image_editor_choose( $args = array() ) {
 			$args['mime_type'] !== $args['output_mime_type'] &&
 			! call_user_func( array( $implementation, 'supports_mime_type' ), $args['output_mime_type'] )
 		) {
-			// This implementation supports the imput type but not the output type.
-			// Keep looking to see if we can find an implementation that supports both.
+			/*
+			 * This implementation supports the imput type but not the output type.
+			 * Keep looking to see if we can find an implementation that supports both.
+			 */
 			$supports_input = $implementation;
 			continue;
 		}
@@ -4382,8 +4404,10 @@ function wp_prepare_attachment_for_js( $attachment ) {
 				// Nothing from the filter, so consult image metadata if we have it.
 				$size_meta = $meta['sizes'][ $size ];
 
-				// We have the actual image size, but might need to further constrain it if content_width is narrower.
-				// Thumbnail, medium, and full sizes are also checked against the site's height/width options.
+				/*
+				 * We have the actual image size, but might need to further constrain it if content_width is narrower.
+				 * Thumbnail, medium, and full sizes are also checked against the site's height/width options.
+				 */
 				list( $width, $height ) = image_constrain_size_for_editor( $size_meta['width'], $size_meta['height'], $size, 'edit' );
 
 				$sizes[ $size ] = array(
@@ -4513,8 +4537,10 @@ function wp_enqueue_media( $args = array() ) {
 	);
 	$args     = wp_parse_args( $args, $defaults );
 
-	// We're going to pass the old thickbox media tabs to `media_upload_tabs`
-	// to ensure plugins will work. We will then unset those tabs.
+	/*
+	 * We're going to pass the old thickbox media tabs to `media_upload_tabs`
+	 * to ensure plugins will work. We will then unset those tabs.
+	 */
 	$tabs = array(
 		// handler action suffix => tab label
 		'type'     => '',
@@ -4858,8 +4884,10 @@ function wp_enqueue_media( $args = array() ) {
 
 	$strings['settings'] = $settings;
 
-	// Ensure we enqueue media-editor first, that way media-views
-	// is registered internally before we try to localize it. See #24724.
+	/*
+	 * Ensure we enqueue media-editor first, that way media-views
+	 * is registered internally before we try to localize it. See #24724.
+	 */
 	wp_enqueue_script( 'media-editor' );
 	wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
 
@@ -5454,8 +5482,10 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
 		return $info;
 	}
 
-	// For PHP versions that don't support WebP images,
-	// extract the image size info from the file headers.
+	/*
+	 * For PHP versions that don't support WebP images,
+	 * extract the image size info from the file headers.
+	 */
 	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
 		$webp_info = wp_get_webp_info( $filename );
 		$width     = $webp_info['width'];
@@ -5516,8 +5546,10 @@ function wp_get_webp_info( $filename ) {
 		return compact( 'width', 'height', 'type' );
 	}
 
-	// The headers are a little different for each of the three formats.
-	// Header values based on WebP docs, see https://developers.google.com/speed/webp/docs/riff_container.
+	/*
+	 * The headers are a little different for each of the three formats.
+	 * Header values based on WebP docs, see https://developers.google.com/speed/webp/docs/riff_container.
+	 */
 	switch ( substr( $magic, 12, 4 ) ) {
 		// Lossy WebP.
 		case 'VP8 ':

@@ -49,9 +49,11 @@ function wp_is_home_url_using_https() {
  * @return bool True if using HTTPS, false otherwise.
  */
 function wp_is_site_url_using_https() {
-	// Use direct option access for 'siteurl' and manually run the 'site_url'
-	// filter because `site_url()` will adjust the scheme based on what the
-	// current request is using.
+	/*
+	 * Use direct option access for 'siteurl' and manually run the 'site_url'
+	 * filter because `site_url()` will adjust the scheme based on what the
+	 * current request is using.
+	 */
 	/** This filter is documented in wp-includes/link-template.php */
 	$site_url = apply_filters( 'site_url', get_option( 'siteurl' ), '', null, null );
 

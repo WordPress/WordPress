@@ -791,8 +791,10 @@ function wp_kses_one_attr( $attr, $element ) {
 	if ( count( $split ) === 2 ) {
 		$value = $split[1];
 
-		// Remove quotes surrounding $value.
-		// Also guarantee correct quoting in $attr for this one attribute.
+		/*
+		 * Remove quotes surrounding $value.
+		 * Also guarantee correct quoting in $attr for this one attribute.
+		 */
 		if ( '' === $value ) {
 			$quote = '';
 		} else {
@@ -1442,8 +1444,10 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 	} // End while.
 
 	if ( 1 == $mode && false === array_key_exists( $attrname, $attrarr ) ) {
-		// Special case, for when the attribute list ends with a valueless
-		// attribute like "selected".
+		/*
+		 * Special case, for when the attribute list ends with a valueless
+		 * attribute like "selected".
+		 */
 		$attrarr[ $attrname ] = array(
 			'name'  => $attrname,
 			'value' => '',
@@ -1546,8 +1550,10 @@ function wp_kses_hair_parse( $attr ) {
 		. '\s*';              // Trailing space is optional except as mentioned above.
 	// phpcs:enable
 
-	// Although it is possible to reduce this procedure to a single regexp,
-	// we must run that regexp twice to get exactly the expected result.
+	/*
+	 * Although it is possible to reduce this procedure to a single regexp,
+	 * we must run that regexp twice to get exactly the expected result.
+	 */
 
 	$validation = "%^($regex)+$%";
 	$extraction = "%$regex%";
