@@ -689,7 +689,25 @@ function wp_tempnam( $filename = '', $dir = '' ) {
 	// Suffix some random data to avoid filename conflicts.
 	$temp_filename .= '-' . wp_generate_password( 6, false );
 	$temp_filename .= '.tmp';
-	$temp_filename  = $dir . wp_unique_filename( $dir, $temp_filename );
+	$temp_filename  = wp_unique_filename( $dir, $temp_filename );
+
+	/*
+	 * Filesystems typically have a limit of 255 characters for a filename.
+	 *
+	 * If the generated unique filename exceeds this, truncate the initial
+	 * filename and try again.
+	 *
+	 * As it's possible that the truncated filename may exist, producing a
+	 * suffix of "-1" or "-10" which could exceed the limit again, truncate
+	 * it to 252 instead.
+	 */
+	$characters_over_limit = strlen( $temp_filename ) - 252;
+	if ( $characters_over_limit > 0 ) {
+		$filename = substr( $filename, 0, -$characters_over_limit );
+		return wp_tempnam( $filename, $dir );
+	}
+
+	$temp_filename = $dir . $temp_filename;
 
 	$fp = @fopen( $temp_filename, 'x' );
 
