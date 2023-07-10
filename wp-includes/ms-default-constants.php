@@ -28,8 +28,10 @@ function ms_upload_constants() {
 		define( 'UPLOADBLOGSDIR', 'wp-content/blogs.dir' );
 	}
 
-	// Note, the main site in a post-MU network uses wp-content/uploads.
-	// This is handled in wp_upload_dir() by ignoring UPLOADS for this case.
+	/*
+	 * Note, the main site in a post-MU network uses wp-content/uploads.
+	 * This is handled in wp_upload_dir() by ignoring UPLOADS for this case.
+	 */
 	if ( ! defined( 'UPLOADS' ) ) {
 		$site_id = get_current_blog_id();
 

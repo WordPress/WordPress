@@ -226,8 +226,10 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 * then cache whether we can just always ignore paths.
 	 */
 
-	// Either www or non-www is supported, not both. If a www domain is requested,
-	// query for both to provide the proper redirect.
+	/*
+	 * Either www or non-www is supported, not both. If a www domain is requested,
+	 * query for both to provide the proper redirect.
+	 */
 	$domains = array( $domain );
 	if ( str_starts_with( $domain, 'www.' ) ) {
 		$domains[] = substr( $domain, 4 );
@@ -310,8 +312,10 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 		if ( 0 === strcasecmp( $current_site->domain, $domain ) && 0 === strcasecmp( $current_site->path, $path ) ) {
 			$current_blog = get_site_by_path( $domain, $path );
 		} elseif ( '/' !== $current_site->path && 0 === strcasecmp( $current_site->domain, $domain ) && 0 === stripos( $path, $current_site->path ) ) {
-			// If the current network has a path and also matches the domain and path of the request,
-			// we need to look for a site using the first path segment following the network's path.
+			/*
+			 * If the current network has a path and also matches the domain and path of the request,
+			 * we need to look for a site using the first path segment following the network's path.
+			 */
 			$current_blog = get_site_by_path( $domain, $path, 1 + count( explode( '/', trim( $current_site->path, '/' ) ) ) );
 		} else {
 			// Otherwise, use the first path segment (as usual).

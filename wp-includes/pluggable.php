@@ -267,8 +267,10 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			$headers = array();
 		} else {
 			if ( ! is_array( $headers ) ) {
-				// Explode the headers out, so this function can take
-				// both string headers and an array of headers.
+				/*
+				 * Explode the headers out, so this function can take
+				 * both string headers and an array of headers.
+				 */
 				$tempheaders = explode( "\n", str_replace( "\r\n", "\n", $headers ) );
 			} else {
 				$tempheaders = $headers;
@@ -616,8 +618,10 @@ if ( ! function_exists( 'wp_authenticate' ) ) :
 		$user = apply_filters( 'authenticate', null, $username, $password );
 
 		if ( null == $user ) {
-			// TODO: What should the error message be? (Or would these even happen?)
-			// Only needed if all authentication handlers fail to return anything.
+			/*
+			 * TODO: What should the error message be? (Or would these even happen?)
+			 * Only needed if all authentication handlers fail to return anything.
+			 */
 			$user = new WP_Error( 'authentication_failed', __( '<strong>Error:</strong> Invalid username, email address or incorrect password.' ) );
 		}
 
@@ -1561,8 +1565,10 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 			$location = 'http:' . $location;
 		}
 
-		// In PHP 5 parse_url() may fail if the URL query part contains 'http://'.
-		// See https://bugs.php.net/bug.php?id=38143
+		/*
+		 * In PHP 5 parse_url() may fail if the URL query part contains 'http://'.
+		 * See https://bugs.php.net/bug.php?id=38143
+		 */
 		$cut  = strpos( $location, '?' );
 		$test = $cut ? substr( $location, 0, $cut ) : $location;
 
@@ -1587,8 +1593,10 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 			$location = '/' . ltrim( $path . '/', '/' ) . $location;
 		}
 
-		// Reject if certain components are set but host is not.
-		// This catches URLs like https:host.com for which parse_url() does not set the host field.
+		/*
+		 * Reject if certain components are set but host is not.
+		 * This catches URLs like https:host.com for which parse_url() does not set the host field.
+		 */
 		if ( ! isset( $lp['host'] ) && ( isset( $lp['scheme'] ) || isset( $lp['user'] ) || isset( $lp['pass'] ) || isset( $lp['port'] ) ) ) {
 			return $fallback_url;
 		}
@@ -1714,8 +1722,10 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 			$comment_author_domain = gethostbyaddr( $comment->comment_author_IP );
 		}
 
-		// The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
-		// We want to reverse this for the plain text arena of emails.
+		/*
+		 * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
+		 * We want to reverse this for the plain text arena of emails.
+		 */
 		$blogname        = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		$comment_content = wp_specialchars_decode( $comment->comment_content );
 
@@ -1903,8 +1913,10 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 
 		$comments_waiting = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'" );
 
-		// The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
-		// We want to reverse this for the plain text arena of emails.
+		/*
+		 * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
+		 * We want to reverse this for the plain text arena of emails.
+		 */
 		$blogname        = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		$comment_content = wp_specialchars_decode( $comment->comment_content );
 
@@ -2042,13 +2054,17 @@ if ( ! function_exists( 'wp_password_change_notification' ) ) :
 	 * @param WP_User $user User object.
 	 */
 	function wp_password_change_notification( $user ) {
-		// Send a copy of password change notification to the admin,
-		// but check to see if it's the admin whose password we're changing, and skip this.
+		/*
+		 * Send a copy of password change notification to the admin,
+		 * but check to see if it's the admin whose password we're changing, and skip this.
+		 */
 		if ( 0 !== strcasecmp( $user->user_email, get_option( 'admin_email' ) ) ) {
 			/* translators: %s: User name. */
 			$message = sprintf( __( 'Password changed for user: %s' ), $user->user_login ) . "\r\n";
-			// The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
-			// We want to reverse this for the plain text arena of emails.
+			/*
+			 * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
+			 * We want to reverse this for the plain text arena of emails.
+			 */
 			$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
 			$wp_password_change_notification_email = array(
@@ -2115,8 +2131,10 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 
 		$user = get_userdata( $user_id );
 
-		// The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
-		// We want to reverse this for the plain text arena of emails.
+		/*
+		 * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
+		 * We want to reverse this for the plain text arena of emails.
+		 */
 		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
 		/**
@@ -2572,8 +2590,10 @@ if ( ! function_exists( 'wp_check_password' ) ) :
 			return apply_filters( 'check_password', $check, $password, $hash, $user_id );
 		}
 
-		// If the stored hash is longer than an MD5,
-		// presume the new style phpass portable hash.
+		/*
+		 * If the stored hash is longer than an MD5,
+		 * presume the new style phpass portable hash.
+		 */
 		if ( empty( $wp_hasher ) ) {
 			require_once ABSPATH . WPINC . '/class-phpass.php';
 			// By default, use the portable hash from phpass.
@@ -2651,8 +2671,10 @@ if ( ! function_exists( 'wp_rand' ) ) :
 	function wp_rand( $min = null, $max = null ) {
 		global $rnd_value;
 
-		// Some misconfigured 32-bit environments (Entropy PHP, for example)
-		// truncate integers larger than PHP_INT_MAX to PHP_INT_MAX rather than overflowing them to floats.
+		/*
+		 * Some misconfigured 32-bit environments (Entropy PHP, for example)
+		 * truncate integers larger than PHP_INT_MAX to PHP_INT_MAX rather than overflowing them to floats.
+		 */
 		$max_random_number = 3000000000 === 2147483647 ? (float) '4294967295' : 4294967295; // 4294967295 = 0xffffffff
 
 		if ( null === $min ) {
@@ -2687,8 +2709,10 @@ if ( ! function_exists( 'wp_rand' ) ) :
 			}
 		}
 
-		// Reset $rnd_value after 14 uses.
-		// 32 (md5) + 40 (sha1) + 40 (sha1) / 8 = 14 random numbers from $rnd_value.
+		/*
+		 * Reset $rnd_value after 14 uses.
+		 * 32 (md5) + 40 (sha1) + 40 (sha1) / 8 = 14 random numbers from $rnd_value.
+		 */
 		if ( strlen( $rnd_value ) < 8 ) {
 			if ( defined( 'WP_SETUP_CONFIG' ) ) {
 				static $seed = '';

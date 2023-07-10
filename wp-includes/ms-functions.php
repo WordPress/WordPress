@@ -245,8 +245,10 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	 */
 	do_action( 'remove_user_from_blog', $user_id, $blog_id, $reassign );
 
-	// If being removed from the primary blog, set a new primary
-	// if the user is assigned to multiple blogs.
+	/*
+	 * If being removed from the primary blog, set a new primary
+	 * if the user is assigned to multiple blogs.
+	 */
 	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	if ( $primary_blog == $blog_id ) {
 		$new_id     = '';
@@ -717,8 +719,10 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		}
 	}
 
-	// Has someone already signed up for this domain?
-	// TODO: Check email too?
+	/*
+	 * Has someone already signed up for this domain?
+	 * TODO: Check email too?
+	 */
 	$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->signups WHERE domain = %s AND path = %s", $mydomain, $path ) );
 	if ( $signup instanceof stdClass ) {
 		$diff = time() - mysql2date( 'U', $signup->registered );
@@ -1939,8 +1943,10 @@ function get_most_recent_post_of_user( $user_id ) {
 	$user_blogs       = get_blogs_of_user( (int) $user_id );
 	$most_recent_post = array();
 
-	// Walk through each blog and get the most recent post
-	// published by $user_id.
+	/*
+	 * Walk through each blog and get the most recent post
+	 * published by $user_id.
+	 */
 	foreach ( (array) $user_blogs as $blog ) {
 		$prefix      = $wpdb->get_blog_prefix( $blog->userblog_id );
 		$recent_post = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_date_gmt FROM {$prefix}posts WHERE post_author = %d AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1", $user_id ), ARRAY_A );

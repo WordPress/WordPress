@@ -547,8 +547,10 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		do_action( 'wp_add_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 	}
 
-	// Associate the menu item with the menu term.
-	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms().
+	/*
+	 * Associate the menu item with the menu term.
+	 * Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms().
+	 */
 	if ( $menu_id && ( ! $update || ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) ) ) {
 		$update_terms = wp_set_object_terms( $menu_item_db_id, array( $menu->term_id ), 'nav_menu' );
 		if ( is_wp_error( $update_terms ) ) {
