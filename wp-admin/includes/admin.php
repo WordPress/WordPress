@@ -71,7 +71,6 @@ require_once ABSPATH . 'wp-admin/includes/list-table.php';
 
 /** WordPress Theme Administration API */
 require_once ABSPATH . 'wp-admin/includes/theme.php';
-require_once ABSPATH . 'wp-admin/includes/theme-previews.php';
 
 /** WordPress Privacy Functions */
 require_once ABSPATH . 'wp-admin/includes/privacy-tools.php';
