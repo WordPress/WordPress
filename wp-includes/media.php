@@ -5725,9 +5725,10 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 
 	/*
 	 * The first elements in 'the_content' or 'the_post_thumbnail' should not be lazy-loaded,
-	 * as they are likely above the fold.
+	 * as they are likely above the fold. Shortcodes are processed after content images, so if
+	 * thresholds haven't already been met, apply the same logic to those as well.
 	 */
-	if ( 'the_content' === $context || 'the_post_thumbnail' === $context ) {
+	if ( 'the_content' === $context || 'the_post_thumbnail' === $context || 'do_shortcode' === $context ) {
 		// Only elements within the main query loop have special handling.
 		if ( is_admin() || ! in_the_loop() || ! is_main_query() ) {
 			$loading_attrs['loading'] = 'lazy';
