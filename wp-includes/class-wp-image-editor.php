@@ -104,9 +104,9 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 * @abstract
 	 *
-	 * @param int|null $max_w Image width.
-	 * @param int|null $max_h Image height.
-	 * @param bool     $crop
+	 * @param int|null   $max_w Image width.
+	 * @param int|null   $max_h Image height.
+	 * @param bool|array $crop
 	 * @return true|WP_Error
 	 */
 	abstract public function resize( $max_w, $max_h, $crop = false );
@@ -121,9 +121,9 @@ abstract class WP_Image_Editor {
 	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
 	 *
 	 *     @type array ...$0 {
-	 *         @type int  $width  Image width.
-	 *         @type int  $height Image height.
-	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
+	 *         @type int        $width  Image width.
+	 *         @type int        $height Image height.
+	 *         @type bool|array $crop   Optional. Whether to crop the image. Default false.
 	 *     }
 	 * }
 	 * @return array An array of resized images metadata by size.
