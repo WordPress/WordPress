@@ -26,9 +26,18 @@ class WP_Navigation_Fallback {
 	 */
 	public static function get_fallback() {
 
+		/**
+		 * Filters whether or not a fallback should be created.
+		 *
+		 * @since 6.3.0
+		 *
+		 * @param bool Whether to create a fallback navigation menu. Default true.
+		 */
+		$should_create_fallback = apply_filters( 'wp_navigation_should_create_fallback', true );
+
 		$fallback = static::get_most_recently_published_navigation();
 
-		if ( $fallback ) {
+		if ( $fallback || ! $should_create_fallback ) {
 			return $fallback;
 		}
 
