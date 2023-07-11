@@ -23171,99 +23171,52 @@ const html_init = () => initBlock({
  */
 
 
-const image_deprecated_blockAttributes = {
-  align: {
-    type: 'string'
-  },
-  url: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'img',
-    attribute: 'src'
-  },
-  alt: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'img',
-    attribute: 'alt',
-    default: ''
-  },
-  caption: {
-    type: 'string',
-    source: 'html',
-    selector: 'figcaption'
-  },
-  title: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'img',
-    attribute: 'title'
-  },
-  href: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'figure > a',
-    attribute: 'href'
-  },
-  rel: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'figure > a',
-    attribute: 'rel'
-  },
-  linkClass: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'figure > a',
-    attribute: 'class'
-  },
-  id: {
-    type: 'number'
-  },
-  width: {
-    type: 'number'
-  },
-  height: {
-    type: 'number'
-  },
-  sizeSlug: {
-    type: 'string'
-  },
-  linkDestination: {
-    type: 'string'
-  },
-  linkTarget: {
-    type: 'string',
-    source: 'attribute',
-    selector: 'figure > a',
-    attribute: 'target'
-  }
-};
-const deprecated_blockSupports = {
-  anchor: true,
-  color: {
-    __experimentalDuotone: 'img',
-    text: false,
-    background: false
-  },
-  __experimentalBorder: {
-    radius: true,
-    __experimentalDefaultControls: {
-      radius: true
+/**
+ * Deprecation for adding the `wp-image-${id}` class to the image block for
+ * responsive images.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/4898
+ */
+
+const image_deprecated_v1 = {
+  attributes: {
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: ''
+    },
+    caption: {
+      type: 'array',
+      source: 'children',
+      selector: 'figcaption'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'a',
+      attribute: 'href'
+    },
+    id: {
+      type: 'number'
+    },
+    align: {
+      type: 'string'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
     }
-  }
-};
-const image_deprecated_deprecated = [// The following deprecation moves existing border radius styles onto the
-// inner img element where new border block support styles must be applied.
-// It will also add a new `.has-custom-border` class for existing blocks
-// with border radii set. This class is required to improve caption position
-// and styling when an image within a gallery has a custom border or
-// rounded corners.
-//
-// See: https://github.com/WordPress/gutenberg/pull/31366/
-{
-  attributes: image_deprecated_blockAttributes,
-  supports: deprecated_blockSupports,
+  },
 
   save({
     attributes
@@ -23274,19 +23227,185 @@ const image_deprecated_deprecated = [// The following deprecation moves existing
       caption,
       align,
       href,
-      rel,
-      linkClass,
+      width,
+      height
+    } = attributes;
+    const extraImageProps = width || height ? {
+      width,
+      height
+    } : {};
+    const image = (0,external_wp_element_namespaceObject.createElement)("img", {
+      src: url,
+      alt: alt,
+      ...extraImageProps
+    });
+    let figureStyle = {};
+
+    if (width) {
+      figureStyle = {
+        width
+      };
+    } else if (align === 'left' || align === 'right') {
+      figureStyle = {
+        maxWidth: '50%'
+      };
+    }
+
+    return (0,external_wp_element_namespaceObject.createElement)("figure", {
+      className: align ? `align${align}` : null,
+      style: figureStyle
+    }, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      href: href
+    }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "figcaption",
+      value: caption
+    }));
+  }
+
+};
+/**
+ * Deprecation for adding the `is-resized` class to the image block to fix
+ * captions on resized images.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/6496
+ */
+
+const image_deprecated_v2 = {
+  attributes: {
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: ''
+    },
+    caption: {
+      type: 'array',
+      source: 'children',
+      selector: 'figcaption'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'a',
+      attribute: 'href'
+    },
+    id: {
+      type: 'number'
+    },
+    align: {
+      type: 'string'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    }
+  },
+
+  save({
+    attributes
+  }) {
+    const {
+      url,
+      alt,
+      caption,
+      align,
+      href,
       width,
       height,
-      id,
-      linkTarget,
-      sizeSlug,
-      title
+      id
     } = attributes;
-    const newRel = !rel ? undefined : rel;
+    const image = (0,external_wp_element_namespaceObject.createElement)("img", {
+      src: url,
+      alt: alt,
+      className: id ? `wp-image-${id}` : null,
+      width: width,
+      height: height
+    });
+    return (0,external_wp_element_namespaceObject.createElement)("figure", {
+      className: align ? `align${align}` : null
+    }, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      href: href
+    }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "figcaption",
+      value: caption
+    }));
+  }
+
+};
+/**
+ * Deprecation for image floats including a wrapping div.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/7721
+ */
+
+const image_deprecated_v3 = {
+  attributes: {
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: ''
+    },
+    caption: {
+      type: 'array',
+      source: 'children',
+      selector: 'figcaption'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'href'
+    },
+    id: {
+      type: 'number'
+    },
+    align: {
+      type: 'string'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    },
+    linkDestination: {
+      type: 'string',
+      default: 'none'
+    }
+  },
+
+  save({
+    attributes
+  }) {
+    const {
+      url,
+      alt,
+      caption,
+      align,
+      href,
+      width,
+      height,
+      id
+    } = attributes;
     const classes = classnames_default()({
       [`align${align}`]: align,
-      [`size-${sizeSlug}`]: sizeSlug,
       'is-resized': width || height
     });
     const image = (0,external_wp_element_namespaceObject.createElement)("img", {
@@ -23294,37 +23413,97 @@ const image_deprecated_deprecated = [// The following deprecation moves existing
       alt: alt,
       className: id ? `wp-image-${id}` : null,
       width: width,
-      height: height,
-      title: title
+      height: height
     });
-    const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
-      className: linkClass,
-      href: href,
-      target: linkTarget,
-      rel: newRel
+    return (0,external_wp_element_namespaceObject.createElement)("figure", {
+      className: classes
+    }, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      href: href
     }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
       tagName: "figcaption",
       value: caption
     }));
-    return (0,external_wp_element_namespaceObject.createElement)("figure", { ...external_wp_blockEditor_namespaceObject.useBlockProps.save({
-        className: classes
-      })
-    }, figure);
   }
 
-}, {
-  attributes: { ...image_deprecated_blockAttributes,
+};
+/**
+ * Deprecation for removing the outer div wrapper around aligned images.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/38657
+ */
+
+const image_deprecated_v4 = {
+  attributes: {
+    align: {
+      type: 'string'
+    },
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: ''
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: 'figcaption'
+    },
     title: {
       type: 'string',
       source: 'attribute',
       selector: 'img',
       attribute: 'title'
     },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'href'
+    },
+    rel: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'rel'
+    },
+    linkClass: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'class'
+    },
+    id: {
+      type: 'number'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    },
     sizeSlug: {
       type: 'string'
+    },
+    linkDestination: {
+      type: 'string'
+    },
+    linkTarget: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'target'
     }
   },
-  supports: deprecated_blockSupports,
+  supports: {
+    anchor: true
+  },
 
   save({
     attributes
@@ -23381,8 +23560,106 @@ const image_deprecated_deprecated = [// The following deprecation moves existing
     }, figure);
   }
 
-}, {
-  attributes: image_deprecated_blockAttributes,
+};
+/**
+ * Deprecation for moving existing border radius styles onto the inner img
+ * element where new border block support styles must be applied.
+ * It will also add a new `.has-custom-border` class for existing blocks
+ * with border radii set. This class is required to improve caption position
+ * and styling when an image within a gallery has a custom border or
+ * rounded corners.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/31366
+ */
+
+const image_deprecated_v5 = {
+  attributes: {
+    align: {
+      type: 'string'
+    },
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: ''
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: 'figcaption'
+    },
+    title: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'title'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'href'
+    },
+    rel: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'rel'
+    },
+    linkClass: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'class'
+    },
+    id: {
+      type: 'number'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    },
+    sizeSlug: {
+      type: 'string'
+    },
+    linkDestination: {
+      type: 'string'
+    },
+    linkTarget: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'target'
+    }
+  },
+  supports: {
+    anchor: true,
+    color: {
+      __experimentalDuotone: 'img',
+      text: false,
+      background: false
+    },
+    __experimentalBorder: {
+      radius: true,
+      __experimentalDefaultControls: {
+        radius: true
+      }
+    },
+    __experimentalStyle: {
+      spacing: {
+        margin: '0 0 1em 0'
+      }
+    }
+  },
 
   save({
     attributes
@@ -23393,12 +23670,19 @@ const image_deprecated_deprecated = [// The following deprecation moves existing
       caption,
       align,
       href,
+      rel,
+      linkClass,
       width,
       height,
-      id
+      id,
+      linkTarget,
+      sizeSlug,
+      title
     } = attributes;
+    const newRel = !rel ? undefined : rel;
     const classes = classnames_default()({
       [`align${align}`]: align,
+      [`size-${sizeSlug}`]: sizeSlug,
       'is-resized': width || height
     });
     const image = (0,external_wp_element_namespaceObject.createElement)("img", {
@@ -23406,21 +23690,33 @@ const image_deprecated_deprecated = [// The following deprecation moves existing
       alt: alt,
       className: id ? `wp-image-${id}` : null,
       width: width,
-      height: height
+      height: height,
+      title: title
     });
-    return (0,external_wp_element_namespaceObject.createElement)("figure", {
-      className: classes
-    }, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
-      href: href
+    const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      className: linkClass,
+      href: href,
+      target: linkTarget,
+      rel: newRel
     }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
       tagName: "figcaption",
       value: caption
     }));
+    return (0,external_wp_element_namespaceObject.createElement)("figure", { ...external_wp_blockEditor_namespaceObject.useBlockProps.save({
+        className: classes
+      })
+    }, figure);
   }
 
-}, {
-  attributes: image_deprecated_blockAttributes,
+};
+/**
+ * Deprecation for adding width and height as style rules on the inner img.
+ * It also updates the widht and height attributes to be strings instead of numbers.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/31366
+ */
 
+const image_deprecated_v6 = {
   save({
     attributes
   }) {
@@ -23430,76 +23726,58 @@ const image_deprecated_deprecated = [// The following deprecation moves existing
       caption,
       align,
       href,
+      rel,
+      linkClass,
       width,
       height,
-      id
+      aspectRatio,
+      scale,
+      id,
+      linkTarget,
+      sizeSlug,
+      title
     } = attributes;
+    const newRel = !rel ? undefined : rel;
+    const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)(attributes);
+    const classes = classnames_default()({
+      [`align${align}`]: align,
+      [`size-${sizeSlug}`]: sizeSlug,
+      'is-resized': width || height,
+      'has-custom-border': !!borderProps.className || borderProps.style && Object.keys(borderProps.style).length > 0
+    });
+    const imageClasses = classnames_default()(borderProps.className, {
+      [`wp-image-${id}`]: !!id
+    });
     const image = (0,external_wp_element_namespaceObject.createElement)("img", {
       src: url,
       alt: alt,
-      className: id ? `wp-image-${id}` : null,
+      className: imageClasses || undefined,
+      style: { ...borderProps.style,
+        aspectRatio,
+        objectFit: scale
+      },
       width: width,
-      height: height
+      height: height,
+      title: title
     });
-    return (0,external_wp_element_namespaceObject.createElement)("figure", {
-      className: align ? `align${align}` : null
-    }, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
-      href: href
+    const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      className: linkClass,
+      href: href,
+      target: linkTarget,
+      rel: newRel
     }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      className: (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)('caption'),
       tagName: "figcaption",
       value: caption
     }));
+    return (0,external_wp_element_namespaceObject.createElement)("figure", { ...external_wp_blockEditor_namespaceObject.useBlockProps.save({
+        className: classes
+      })
+    }, figure);
   }
 
-}, {
-  attributes: image_deprecated_blockAttributes,
-
-  save({
-    attributes
-  }) {
-    const {
-      url,
-      alt,
-      caption,
-      align,
-      href,
-      width,
-      height
-    } = attributes;
-    const extraImageProps = width || height ? {
-      width,
-      height
-    } : {};
-    const image = (0,external_wp_element_namespaceObject.createElement)("img", {
-      src: url,
-      alt: alt,
-      ...extraImageProps
-    });
-    let figureStyle = {};
-
-    if (width) {
-      figureStyle = {
-        width
-      };
-    } else if (align === 'left' || align === 'right') {
-      figureStyle = {
-        maxWidth: '50%'
-      };
-    }
-
-    return (0,external_wp_element_namespaceObject.createElement)("figure", {
-      className: align ? `align${align}` : null,
-      style: figureStyle
-    }, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
-      href: href
-    }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
-      tagName: "figcaption",
-      value: caption
-    }));
-  }
-
-}];
-/* harmony default export */ var image_deprecated = (image_deprecated_deprecated);
+};
+/* harmony default export */ var image_deprecated = ([image_deprecated_v6, image_deprecated_v5, image_deprecated_v4, image_deprecated_v3, image_deprecated_v2, image_deprecated_v1]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/crop.js
 
@@ -24560,7 +24838,9 @@ function image_save_save({
     className: imageClasses || undefined,
     style: { ...borderProps.style,
       aspectRatio,
-      objectFit: scale
+      objectFit: scale,
+      width,
+      height
     },
     width: width,
     height: height,
@@ -26498,10 +26778,10 @@ function list_edit_Edit({
     type: type,
     ...innerBlocksProps
   }), controls, ordered && (0,external_wp_element_namespaceObject.createElement)(ordered_list_settings, {
-    setAttributes: setAttributes,
-    ordered: ordered,
-    reversed: reversed,
-    start: start
+    setAttributes,
+    reversed,
+    start,
+    type
   }));
 }
 
@@ -34162,7 +34442,10 @@ function NavigationLinkEdit({
 
   const itemLabelPlaceholder = (0,external_wp_i18n_namespaceObject.__)('Add label…');
 
-  const ref = (0,external_wp_element_namespaceObject.useRef)();
+  const ref = (0,external_wp_element_namespaceObject.useRef)(); // Change the label using inspector causes rich text to change focus on firefox.
+  // This is a workaround to keep the focus on the label field when label filed is focused we don't render the rich text.
+
+  const [isLabelFieldFocused, setIsLabelFieldFocused] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
     innerBlocks,
     isAtMaxNesting,
@@ -34358,7 +34641,9 @@ function NavigationLinkEdit({
       });
     },
     label: (0,external_wp_i18n_namespaceObject.__)('Label'),
-    autoComplete: "off"
+    autoComplete: "off",
+    onFocus: () => setIsLabelFieldFocused(true),
+    onBlur: () => setIsLabelFieldFocused(false)
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {
     __nextHasNoMarginBottom: true,
     value: url || '',
@@ -34411,7 +34696,7 @@ function NavigationLinkEdit({
     text: tooltipText
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("span", null, missingText), (0,external_wp_element_namespaceObject.createElement)("span", {
     className: "wp-block-navigation-link__missing_text-tooltip"
-  }, tooltipText)))) : (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !isInvalid && !isDraft && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
+  }, tooltipText)))) : (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !isInvalid && !isDraft && !isLabelFieldFocused && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
     ref: ref,
     identifier: "label",
     className: "wp-block-navigation-item__label",
@@ -34433,7 +34718,7 @@ function NavigationLinkEdit({
     }
   }), description && (0,external_wp_element_namespaceObject.createElement)("span", {
     className: "wp-block-navigation-item__description"
-  }, description)), (isInvalid || isDraft) && (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, description)), (isInvalid || isDraft || isLabelFieldFocused) && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "wp-block-navigation-link__placeholder-text wp-block-navigation-link__label"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Tooltip, {
     position: "top center",
@@ -34445,7 +34730,7 @@ function NavigationLinkEdit({
   // Unescape is used here to "recover" the escaped characters
   // so they display without encoding.
   // See `updateAttributes` for more details.
-  `${(0,external_wp_htmlEntities_namespaceObject.decodeEntities)(label)} ${placeholderText}`.trim()), (0,external_wp_element_namespaceObject.createElement)("span", {
+  `${(0,external_wp_htmlEntities_namespaceObject.decodeEntities)(label)} ${isInvalid || isDraft ? placeholderText : ''}`.trim()), (0,external_wp_element_namespaceObject.createElement)("span", {
     className: "wp-block-navigation-link__missing_text-tooltip"
   }, tooltipText))))), isLinkOpen && (0,external_wp_element_namespaceObject.createElement)(LinkUI, {
     className: "wp-block-navigation-link__inline-link-input",
@@ -46424,6 +46709,14 @@ const quote_transforms_transforms = {
     }
   }, {
     type: 'block',
+    blocks: ['core/paragraph'],
+    transform: ({
+      citation
+    }, innerBlocks) => citation ? [...innerBlocks, (0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {
+      content: citation
+    })] : innerBlocks
+  }, {
+    type: 'block',
     blocks: ['core/group'],
     transform: ({
       citation,
@@ -58058,6 +58351,9 @@ const video_init = () => initBlock({
  */
 
 
+
+
+
 function FootnotesEdit({
   context: {
     postType,
@@ -58066,7 +58362,20 @@ function FootnotesEdit({
 }) {
   const [meta, updateMeta] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', postType, 'meta', postId);
   const footnotes = meta?.footnotes ? JSON.parse(meta.footnotes) : [];
-  return (0,external_wp_element_namespaceObject.createElement)("ol", { ...(0,external_wp_blockEditor_namespaceObject.useBlockProps)()
+  const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
+
+  if (!footnotes.length) {
+    return (0,external_wp_element_namespaceObject.createElement)("div", { ...blockProps
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
+      icon: (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockIcon, {
+        icon: format_list_numbered
+      }),
+      label: (0,external_wp_i18n_namespaceObject.__)('Footnotes'),
+      instructions: (0,external_wp_i18n_namespaceObject.__)('Footnotes found in blocks within this document will be displayed here.')
+    }));
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)("ol", { ...blockProps
   }, footnotes.map(({
     id,
     content
@@ -58221,7 +58530,6 @@ const {
   supports: {
     html: false,
     multiple: false,
-    inserter: false,
     reusable: false
   },
   style: "wp-block-footnotes"
@@ -58229,11 +58537,9 @@ const {
 const formatName = 'core/footnote';
 const format = {
   title: (0,external_wp_i18n_namespaceObject.__)('Footnote'),
-  tagName: 'a',
+  tagName: 'sup',
   className: 'fn',
   attributes: {
-    id: 'id',
-    href: 'href',
     'data-fn': 'data-fn'
   },
   contentEditable: false,
@@ -58260,11 +58566,9 @@ const format = {
         const newValue = (0,external_wp_richText_namespaceObject.insertObject)(value, {
           type: formatName,
           attributes: {
-            href: '#' + id,
-            id: `${id}-link`,
             'data-fn': id
           },
-          innerHTML: '*'
+          innerHTML: `<a href="#${id}" id="${id}-link">*</a>`
         }, value.end, value.end);
         newValue.start = newValue.end - 1;
         onChange(newValue); // BFS search to find the first footnote block.
@@ -58337,7 +58641,6 @@ const footnotes_metadata = {
   supports: {
     html: false,
     multiple: false,
-    inserter: false,
     reusable: false
   },
   style: "wp-block-footnotes"

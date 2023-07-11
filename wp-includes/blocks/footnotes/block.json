@@ -11,7 +11,6 @@
 	"supports": {
 		"html": false,
 		"multiple": false,
-		"inserter": false,
 		"reusable": false
 	},
 	"style": "wp-block-footnotes"

@@ -2,15 +2,16 @@
   counter-reset:footnotes;
 }
 
-[data-fn].fn{
+a[data-fn].fn{
   counter-increment:footnotes;
-  display:inline-block;
+  display:inline-flex;
   font-size:smaller;
+  text-decoration:none;
   text-indent:-9999999px;
   vertical-align:super;
 }
 
-[data-fn].fn:after{
+a[data-fn].fn:after{
   content:"[" counter(footnotes) "]";
   float:left;
   text-indent:0;

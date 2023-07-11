@@ -1713,7 +1713,6 @@
     'supports' => array(
       'html' => false,
       'multiple' => false,
-      'inserter' => false,
       'reusable' => false
     ),
     'style' => 'wp-block-footnotes'

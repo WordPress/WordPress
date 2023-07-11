@@ -35,8 +35,11 @@ function block_core_comment_template_render_comments( $comments, $block ) {
 		 * We set commentId context through the `render_block_context` filter so
 		 * that dynamically inserted blocks (at `render_block` filter stage)
 		 * will also receive that context.
+		 *
+		 * Use an early priority to so that other 'render_block_context' filters
+		 * have access to the values.
 		 */
-		add_filter( 'render_block_context', $filter_block_context );
+		add_filter( 'render_block_context', $filter_block_context, 1 );
 
 		/*
 		 * We construct a new WP_Block instance from the parsed block so that
@@ -44,7 +47,7 @@ function block_core_comment_template_render_comments( $comments, $block ) {
 		 */
 		$block_content = ( new WP_Block( $block->parsed_block ) )->render( array( 'dynamic' => false ) );
 
-		remove_filter( 'render_block_context', $filter_block_context );
+		remove_filter( 'render_block_context', $filter_block_context, 1 );
 
 		$children = $comment->get_children();
 

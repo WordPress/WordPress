@@ -411,6 +411,10 @@ function getOutboundType(blockName) {
 
 
 
+;// CONCATENATED MODULE: external ["wp","coreData"]
+var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
+;// CONCATENATED MODULE: external ["wp","editor"]
+var external_wp_editor_namespaceObject = window["wp"]["editor"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
@@ -434,8 +438,6 @@ var external_wp_plugins_namespaceObject = window["wp"]["plugins"];
 var external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: external ["wp","notices"]
 var external_wp_notices_namespaceObject = window["wp"]["notices"];
-;// CONCATENATED MODULE: external ["wp","editor"]
-var external_wp_editor_namespaceObject = window["wp"]["editor"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/plugins/copy-content-menu-item/index.js
 
 
@@ -2463,8 +2465,6 @@ var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","a11y"]
 var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
-;// CONCATENATED MODULE: external ["wp","coreData"]
-var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/utils/meta-boxes.js
 /**
  * Function returning the current Meta Boxes DOM Node in the editor
@@ -3834,6 +3834,9 @@ function WelcomeGuideMenuItem() {
 
 
 
+
+
+
 /**
  * Internal dependencies
  */
@@ -3842,16 +3845,40 @@ function WelcomeGuideMenuItem() {
 
 
 
+
+function ManagePatternsMenuItem() {
+  const url = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      canUser
+    } = select(external_wp_coreData_namespaceObject.store);
+    const {
+      getEditorSettings
+    } = select(external_wp_editor_namespaceObject.store);
+
+    const isBlockTheme = getEditorSettings().__unstableIsBlockBasedTheme;
+
+    const defaultUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
+      post_type: 'wp_block'
+    });
+    const patternsUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', {
+      path: '/patterns'
+    }); // The site editor and templates both check whether the user has
+    // edit_theme_options capabilities. We can leverage that here and not
+    // display the manage patterns link if the user can't access it.
+
+    return canUser('read', 'templates') && isBlockTheme ? patternsUrl : defaultUrl;
+  }, []);
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+    role: "menuitem",
+    href: url
+  }, (0,external_wp_i18n_namespaceObject.__)('Manage Patterns'));
+}
+
 (0,external_wp_plugins_namespaceObject.registerPlugin)('edit-post', {
   render() {
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(tools_more_menu_group, null, ({
       onClose
-    }) => (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-      role: "menuitem",
-      href: (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
-        post_type: 'wp_block'
-      })
-    }, (0,external_wp_i18n_namespaceObject.__)('Manage Patterns')), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts_help_menu_item, {
+    }) => (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(ManagePatternsMenuItem, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts_help_menu_item, {
       onSelect: onClose
     }), (0,external_wp_element_namespaceObject.createElement)(WelcomeGuideMenuItem, null), (0,external_wp_element_namespaceObject.createElement)(CopyContentMenuItem, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
       role: "menuitem",
@@ -8921,10 +8948,6 @@ function StartPageOptions() {
 
 
 
-
-const {
-  BlockRemovalWarningModal
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const interfaceLabels = {
   /* translators: accessibility text for the editor top bar landmark region. */
   header: (0,external_wp_i18n_namespaceObject.__)('Editor top bar'),
@@ -8940,9 +8963,6 @@ const interfaceLabels = {
 
   /* translators: accessibility text for the editor footer landmark region. */
   footer: (0,external_wp_i18n_namespaceObject.__)('Editor footer')
-};
-const blockRemovalRules = {
-  'core/footnotes': (0,external_wp_i18n_namespaceObject.__)('The Footnotes block displays all footnotes found in the content. Note that any footnotes in the content will persist after removing this block.')
 };
 
 function Layout({
@@ -9056,9 +9076,7 @@ function Layout({
 
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(fullscreen_mode, {
     isActive: isFullscreenActive
-  }), (0,external_wp_element_namespaceObject.createElement)(browser_url, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.UnsavedChangesWarning, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.AutosaveMonitor, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.LocalAutosaveMonitor, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.EditorKeyboardShortcutsRegister, null), (0,external_wp_element_namespaceObject.createElement)(BlockRemovalWarningModal, {
-    rules: blockRemovalRules
-  }), (0,external_wp_element_namespaceObject.createElement)(settings_sidebar, null), (0,external_wp_element_namespaceObject.createElement)(interface_skeleton, {
+  }), (0,external_wp_element_namespaceObject.createElement)(browser_url, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.UnsavedChangesWarning, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.AutosaveMonitor, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.LocalAutosaveMonitor, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.EditorKeyboardShortcutsRegister, null), (0,external_wp_element_namespaceObject.createElement)(settings_sidebar, null), (0,external_wp_element_namespaceObject.createElement)(interface_skeleton, {
     isDistractionFree: isDistractionFree && isLargeViewport,
     className: className,
     labels: { ...interfaceLabels,

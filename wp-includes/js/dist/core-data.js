@@ -6322,9 +6322,12 @@ function useEntityBlockEditor(kind, name, {
     }
   }, [content]);
   const updateFootnotes = (0,external_wp_element_namespaceObject.useCallback)(_blocks => {
-    if (!meta) return; // If meta.footnotes is empty, it means the meta is not registered.
+    const output = {
+      blocks: _blocks
+    };
+    if (!meta) return output; // If meta.footnotes is empty, it means the meta is not registered.
 
-    if (meta.footnotes === undefined) return {};
+    if (meta.footnotes === undefined) return output;
     const {
       getRichTextValues
     } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
@@ -6346,11 +6349,61 @@ function useEntityBlockEditor(kind, name, {
 
     const footnotes = meta.footnotes ? JSON.parse(meta.footnotes) : [];
     const currentOrder = footnotes.map(fn => fn.id);
-    if (currentOrder.join('') === newOrder.join('')) return;
+    if (currentOrder.join('') === newOrder.join('')) return output;
     const newFootnotes = newOrder.map(fnId => footnotes.find(fn => fn.id === fnId) || oldFootnotes[fnId] || {
       id: fnId,
       content: ''
     });
+
+    function updateAttributes(attributes) {
+      attributes = { ...attributes
+      };
+
+      for (const key in attributes) {
+        const value = attributes[key];
+
+        if (Array.isArray(value)) {
+          attributes[key] = value.map(updateAttributes);
+          continue;
+        }
+
+        if (typeof value !== 'string') {
+          continue;
+        }
+
+        if (value.indexOf('data-fn') === -1) {
+          continue;
+        } // When we store rich text values, this would no longer
+        // require a regex.
+
+
+        const regex = /(<sup[^>]+data-fn="([^"]+)"[^>]*><a[^>]*>)[\d*]*<\/a><\/sup>/g;
+        attributes[key] = value.replace(regex, (match, opening, fnId) => {
+          const index = newOrder.indexOf(fnId);
+          return `${opening}${index + 1}</a></sup>`;
+        });
+        const compatRegex = /<a[^>]+data-fn="([^"]+)"[^>]*>\*<\/a>/g;
+        attributes[key] = attributes[key].replace(compatRegex, (match, fnId) => {
+          const index = newOrder.indexOf(fnId);
+          return `<sup data-fn="${fnId}" class="fn"><a href="#${fnId}" id="${fnId}-link">${index + 1}</a></sup>`;
+        });
+      }
+
+      return attributes;
+    }
+
+    function updateBlocksAttributes(__blocks) {
+      return __blocks.map(block => {
+        return { ...block,
+          attributes: updateAttributes(block.attributes),
+          innerBlocks: updateBlocksAttributes(block.innerBlocks)
+        };
+      });
+    } // We need to go through all block attributs deeply and update the
+    // footnote anchor numbering (textContent) to match the new order.
+
+
+    const newBlocks = updateBlocksAttributes(_blocks);
     oldFootnotes = { ...oldFootnotes,
       ...footnotes.reduce((acc, fn) => {
         if (!newOrder.includes(fn.id)) {
@@ -6363,7 +6416,8 @@ function useEntityBlockEditor(kind, name, {
     return {
       meta: { ...meta,
         footnotes: JSON.stringify(newFootnotes)
-      }
+      },
+      blocks: newBlocks
     };
   }, [meta]);
   const onChange = (0,external_wp_element_namespaceObject.useCallback)((newBlocks, options) => {
@@ -6380,7 +6434,6 @@ function useEntityBlockEditor(kind, name, {
     // a new undo level.
 
     const edits = {
-      blocks: newBlocks,
       selection,
       content: ({
         blocks: blocksForSerialization = []
@@ -6397,7 +6450,6 @@ function useEntityBlockEditor(kind, name, {
     } = options;
     const footnotesChanges = updateFootnotes(newBlocks);
     const edits = {
-      blocks: newBlocks,
       selection,
       ...footnotesChanges
     };

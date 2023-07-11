@@ -97,11 +97,13 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 			$context['postId']   = $post_id;
 			return $context;
 		};
-		add_filter( 'render_block_context', $filter_block_context );
+
+		// Use an early priority to so that other 'render_block_context' filters have access to the values.
+		add_filter( 'render_block_context', $filter_block_context, 1 );
 		// Render the inner blocks of the Post Template block with `dynamic` set to `false` to prevent calling
 		// `render_callback` and ensure that no wrapper markup is included.
 		$block_content = ( new WP_Block( $block_instance ) )->render( array( 'dynamic' => false ) );
-		remove_filter( 'render_block_context', $filter_block_context );
+		remove_filter( 'render_block_context', $filter_block_context, 1 );
 
 		// Wrap the render inner blocks in a `li` element with the appropriate post classes.
 		$post_classes = implode( ' ', get_post_class( 'wp-block-post' ) );

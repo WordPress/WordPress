@@ -2311,7 +2311,7 @@ function fromFormat({
   const formatType = get_format_type_getFormatType(type);
   let elementAttributes = {};
 
-  if (boundaryClass) {
+  if (boundaryClass && isEditableTree) {
     elementAttributes['data-rich-text-format-boundary'] = 'true';
   }
 
@@ -2358,7 +2358,7 @@ function fromFormat({
   }
 
   return {
-    type: formatType.tagName === '*' ? tagName : formatType.tagName,
+    type: tagName || formatType.tagName,
     object: formatType.object,
     attributes: restoreOnAttributes(elementAttributes, isEditableTree)
   };
@@ -2551,7 +2551,12 @@ function toTree({
           isEditableTree,
           boundaryClass: start === i && end === i + 1
         }));
-        if (innerHTML) append(pointer, innerHTML);
+
+        if (innerHTML) {
+          append(pointer, {
+            html: innerHTML
+          });
+        }
       } else {
         pointer = append(getParent(pointer), fromFormat({ ...replacement,
           object: true,
@@ -2685,6 +2690,10 @@ function getNodeByPath(node, path) {
 }
 
 function append(element, child) {
+  if (child.html !== undefined) {
+    return element.innerHTML += child.html;
+  }
+
   if (typeof child === 'string') {
     child = element.ownerDocument.createTextNode(child);
   }
@@ -3712,8 +3721,11 @@ function useSelectObject() {
       // happen. This means it's "click-through".
 
       if (selection.containsNode(target)) return;
-      const range = ownerDocument.createRange();
-      range.selectNode(target);
+      const range = ownerDocument.createRange(); // If the target is within a non editable element, select the non
+      // editable element.
+
+      const nodeToSelect = target.isContentEditable ? target : target.closest('[contenteditable]');
+      range.selectNode(nodeToSelect);
       selection.removeAllRanges();
       selection.addRange(range);
       event.preventDefault();

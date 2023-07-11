@@ -894,26 +894,26 @@ body.is-fullscreen-mode .edit-widgets-notices__snackbar{
   padding-right:16px;
 }
 
-body.appearance_page_gutenberg-widgets,body.widgets-php,html.wp-toolbar{
+body.js.appearance_page_gutenberg-widgets,body.js.widgets-php{
   background:#fff;
 }
-body.appearance_page_gutenberg-widgets #wpcontent,body.widgets-php #wpcontent{
+body.js.appearance_page_gutenberg-widgets #wpcontent,body.js.widgets-php #wpcontent{
   padding-right:0;
 }
-body.appearance_page_gutenberg-widgets #wpbody-content,body.widgets-php #wpbody-content{
+body.js.appearance_page_gutenberg-widgets #wpbody-content,body.js.widgets-php #wpbody-content{
   padding-bottom:0;
 }
-body.appearance_page_gutenberg-widgets #wpbody-content>div:not(.blocks-widgets-container):not(#screen-meta),body.appearance_page_gutenberg-widgets #wpfooter,body.widgets-php #wpbody-content>div:not(.blocks-widgets-container):not(#screen-meta),body.widgets-php #wpfooter{
+body.js.appearance_page_gutenberg-widgets #wpbody-content>div:not(.blocks-widgets-container):not(#screen-meta),body.js.appearance_page_gutenberg-widgets #wpfooter,body.js.widgets-php #wpbody-content>div:not(.blocks-widgets-container):not(#screen-meta),body.js.widgets-php #wpfooter{
   display:none;
 }
-body.appearance_page_gutenberg-widgets .a11y-speak-region,body.widgets-php .a11y-speak-region{
+body.js.appearance_page_gutenberg-widgets .a11y-speak-region,body.js.widgets-php .a11y-speak-region{
   right:-1px;
   top:-1px;
 }
-body.appearance_page_gutenberg-widgets ul#adminmenu a.wp-has-current-submenu:after,body.appearance_page_gutenberg-widgets ul#adminmenu>li.current>a.current:after,body.widgets-php ul#adminmenu a.wp-has-current-submenu:after,body.widgets-php ul#adminmenu>li.current>a.current:after{
+body.js.appearance_page_gutenberg-widgets ul#adminmenu a.wp-has-current-submenu:after,body.js.appearance_page_gutenberg-widgets ul#adminmenu>li.current>a.current:after,body.js.widgets-php ul#adminmenu a.wp-has-current-submenu:after,body.js.widgets-php ul#adminmenu>li.current>a.current:after{
   border-left-color:#fff;
 }
-body.appearance_page_gutenberg-widgets .media-frame select.attachment-filters:last-of-type,body.widgets-php .media-frame select.attachment-filters:last-of-type{
+body.js.appearance_page_gutenberg-widgets .media-frame select.attachment-filters:last-of-type,body.js.widgets-php .media-frame select.attachment-filters:last-of-type{
   max-width:100%;
   width:auto;
 }

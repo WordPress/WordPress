@@ -411,21 +411,34 @@ function ReusableBlocksManageButton({
   const {
     canRemove,
     isVisible,
-    innerBlockCount
+    innerBlockCount,
+    managePatternsUrl
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getBlock,
       canRemoveBlock,
-      getBlockCount
+      getBlockCount,
+      getSettings
     } = select(external_wp_blockEditor_namespaceObject.store);
     const {
       canUser
     } = select(external_wp_coreData_namespaceObject.store);
     const reusableBlock = getBlock(clientId);
+
+    const isBlockTheme = getSettings().__unstableIsBlockBasedTheme;
+
     return {
       canRemove: canRemoveBlock(clientId),
       isVisible: !!reusableBlock && (0,external_wp_blocks_namespaceObject.isReusableBlock)(reusableBlock) && !!canUser('update', 'blocks', reusableBlock.attributes.ref),
-      innerBlockCount: getBlockCount(clientId)
+      innerBlockCount: getBlockCount(clientId),
+      // The site editor and templates both check whether the user
+      // has edit_theme_options capabilities. We can leverage that here
+      // and omit the manage patterns link if the user can't access it.
+      managePatternsUrl: isBlockTheme && canUser('read', 'templates') ? (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', {
+        path: '/patterns'
+      }) : (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
+        post_type: 'wp_block'
+      })
     };
   }, [clientId]);
   const {
@@ -437,9 +450,7 @@ function ReusableBlocksManageButton({
   }
 
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockSettingsMenuControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    href: (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
-      post_type: 'wp_block'
-    })
+    href: managePatternsUrl
   }, (0,external_wp_i18n_namespaceObject.__)('Manage Patterns')), canRemove && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: () => convertBlockToStatic(clientId)
   }, innerBlockCount > 1 ? (0,external_wp_i18n_namespaceObject.__)('Detach patterns') : (0,external_wp_i18n_namespaceObject.__)('Detach pattern')));

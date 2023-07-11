@@ -25176,36 +25176,6 @@ function bubbleEvents(doc) {
   }
 }
 
-function useParsedAssets(html) {
-  return (0,external_wp_element_namespaceObject.useMemo)(() => {
-    const doc = document.implementation.createHTMLDocument('');
-    doc.body.innerHTML = html;
-    return Array.from(doc.body.children);
-  }, [html]);
-}
-
-async function loadScript(head, {
-  id,
-  src
-}) {
-  return new Promise((resolve, reject) => {
-    const script = head.ownerDocument.createElement('script');
-    script.id = id;
-
-    if (src) {
-      script.src = src;
-
-      script.onload = () => resolve();
-
-      script.onerror = () => reject();
-    } else {
-      resolve();
-    }
-
-    head.appendChild(script);
-  });
-}
-
 function Iframe({
   contentRef,
   children,
@@ -25217,20 +25187,23 @@ function Iframe({
   forwardedRef: ref,
   ...props
 }) {
-  var _assets$styles;
-
-  const assets = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getSettings().__unstableResolvedAssets, []);
-  const [, forceRender] = (0,external_wp_element_namespaceObject.useReducer)(() => ({}));
+  const {
+    styles = '',
+    scripts = ''
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getSettings().__unstableResolvedAssets, []);
   const [iframeDocument, setIframeDocument] = (0,external_wp_element_namespaceObject.useState)();
   const [bodyClasses, setBodyClasses] = (0,external_wp_element_namespaceObject.useState)([]);
   const compatStyles = useCompatibilityStyles();
-  const scripts = useParsedAssets(assets?.scripts);
   const clearerRef = useBlockSelectionClearer();
   const [before, writingFlowRef, after] = useWritingFlow();
   const [contentResizeListener, {
     height: contentHeight
   }] = (0,external_wp_compose_namespaceObject.useResizeObserver)();
   const setRef = (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
+    node._load = () => {
+      setIframeDocument(node.contentDocument);
+    };
+
     let iFrameDocument; // Prevent the default browser action for files dropped outside of dropzones.
 
     function preventFileDropDefault(event) {
@@ -25247,14 +25220,12 @@ function Iframe({
       } = contentDocument;
       iFrameDocument = contentDocument;
       bubbleEvents(contentDocument);
-      setIframeDocument(contentDocument);
       clearerRef(documentElement); // Ideally ALL classes that are added through get_body_class should
       // be added in the editor too, which we'll somehow have to get from
       // the server in the future (which will run the PHP filters).
 
       setBodyClasses(Array.from(ownerDocument.body.classList).filter(name => name.startsWith('admin-color-') || name.startsWith('post-type-') || name === 'wp-embed-responsive'));
       contentDocument.dir = ownerDocument.dir;
-      documentElement.removeChild(contentDocument.body);
 
       for (const compatStyle of compatStyles) {
         if (contentDocument.getElementById(compatStyle.id)) {
@@ -25277,21 +25248,25 @@ function Iframe({
       iFrameDocument?.removeEventListener('drop', preventFileDropDefault);
     };
   }, []);
-  const headRef = (0,external_wp_compose_namespaceObject.useRefEffect)(element => {
-    scripts.reduce((promise, script) => promise.then(() => loadScript(element, script)), Promise.resolve()).finally(() => {
-      // When script are loaded, re-render blocks to allow them
-      // to initialise.
-      forceRender();
-    });
-  }, []);
   const disabledRef = (0,external_wp_compose_namespaceObject.useDisabled)({
     isDisabled: !readonly
   });
-  const bodyRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([contentRef, clearerRef, writingFlowRef, disabledRef, headRef]); // Correct doctype is required to enable rendering in standards
+  const bodyRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([contentRef, clearerRef, writingFlowRef, disabledRef]); // Correct doctype is required to enable rendering in standards
   // mode. Also preload the styles to avoid a flash of unstyled
   // content.
 
-  const html = '<!doctype html>' + '<style>html{height:auto!important;min-height:100%;}body{margin:0}</style>' + ((_assets$styles = assets?.styles) !== null && _assets$styles !== void 0 ? _assets$styles : '');
+  const html = `<!doctype html>
+<html>
+	<head>
+		<script>window.frameElement._load()</script>
+		<style>html{height:auto!important;min-height:100%;}body{margin:0}</style>
+		${styles}
+		${scripts}
+	</head>
+	<body>
+		<script>document.currentScript.parentElement.remove()</script>
+	</body>
+</html>`;
   const [src, cleanup] = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const _src = URL.createObjectURL(new window.Blob([html], {
       type: 'text/html'
@@ -58131,41 +58106,6 @@ const Content = ({
 
   return content;
 };
-Content.__unstableIsRichTextContent = {};
-
-function findContent(blocks, richTextValues = []) {
-  if (!Array.isArray(blocks)) {
-    blocks = [blocks];
-  }
-
-  for (const block of blocks) {
-    if (block?.type?.__unstableIsRichTextContent === Content.__unstableIsRichTextContent) {
-      richTextValues.push(block.props.value);
-      continue;
-    }
-
-    if (block?.props?.children) {
-      findContent(block.props.children, richTextValues);
-    }
-  }
-
-  return richTextValues;
-}
-
-function _getSaveElement({
-  name,
-  attributes,
-  innerBlocks
-}) {
-  return (0,external_wp_blocks_namespaceObject.getSaveElement)(name, attributes, innerBlocks.map(_getSaveElement));
-}
-
-function getRichTextValues(blocks = []) {
-  external_wp_blocks_namespaceObject.__unstableGetBlockProps.skipFilters = true;
-  const values = findContent((Array.isArray(blocks) ? blocks : [blocks]).map(_getSaveElement));
-  external_wp_blocks_namespaceObject.__unstableGetBlockProps.skipFilters = false;
-  return values;
-}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/rich-text/index.js
 
@@ -63330,6 +63270,106 @@ function AdvancedPanel({
 
 
 
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/rich-text/get-rich-text-values.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/*
+ * This function is similar to `@wordpress/element`'s `renderToString` function,
+ * except that it does not render the elements to a string, but instead collects
+ * the values of all rich text `Content` elements.
+ */
+
+function addValuesForElement(element, ...args) {
+  if (null === element || undefined === element || false === element) {
+    return;
+  }
+
+  if (Array.isArray(element)) {
+    return addValuesForElements(element, ...args);
+  }
+
+  switch (typeof element) {
+    case 'string':
+    case 'number':
+      return;
+  }
+
+  const {
+    type,
+    props
+  } = element;
+
+  switch (type) {
+    case external_wp_element_namespaceObject.StrictMode:
+    case external_wp_element_namespaceObject.Fragment:
+      return addValuesForElements(props.children, ...args);
+
+    case external_wp_element_namespaceObject.RawHTML:
+      return;
+
+    case inner_blocks.Content:
+      return addValuesForBlocks(...args);
+
+    case Content:
+      const [values] = args;
+      values.push(props.value);
+      return;
+  }
+
+  switch (typeof type) {
+    case 'string':
+      if (typeof props.children !== 'undefined') {
+        return addValuesForElements(props.children, ...args);
+      }
+
+      return;
+
+    case 'function':
+      if (type.prototype && typeof type.prototype.render === 'function') {
+        return addValuesForElement(new type(props).render(), ...args);
+      }
+
+      return addValuesForElement(type(props), ...args);
+  }
+}
+
+function addValuesForElements(children, ...args) {
+  children = Array.isArray(children) ? children : [children];
+
+  for (let i = 0; i < children.length; i++) {
+    addValuesForElement(children[i], ...args);
+  }
+}
+
+function addValuesForBlocks(values, blocks) {
+  for (let i = 0; i < blocks.length; i++) {
+    const {
+      name,
+      attributes,
+      innerBlocks
+    } = blocks[i];
+    const saveElement = (0,external_wp_blocks_namespaceObject.getSaveElement)(name, attributes);
+    addValuesForElement(saveElement, values, innerBlocks);
+  }
+}
+
+function getRichTextValues(blocks = []) {
+  external_wp_blocks_namespaceObject.__unstableGetBlockProps.skipFilters = true;
+  const values = [];
+  addValuesForBlocks(values, blocks);
+  external_wp_blocks_namespaceObject.__unstableGetBlockProps.skipFilters = false;
+  return values;
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/resizable-box-popover/index.js
 
