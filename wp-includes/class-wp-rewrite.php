@@ -1668,7 +1668,7 @@ class WP_Rewrite {
 			$index = ! str_contains( $query, '?' ) ? strlen( $query ) : strpos( $query, '?' );
 			$front = substr( $query, 0, $index );
 
-			$external = $front != $this->index;
+			$external = $front !== $this->index;
 		}
 
 		// "external" = it doesn't correspond to index.php.
@@ -1799,7 +1799,8 @@ class WP_Rewrite {
 		if ( ! is_array( $args ) ) {
 			$args = array( 'with_front' => $args );
 		}
-		if ( func_num_args() == 4 ) {
+
+		if ( func_num_args() === 4 ) {
 			$args['ep_mask'] = func_get_arg( 3 );
 		}
 
@@ -1812,14 +1813,16 @@ class WP_Rewrite {
 			'walk_dirs'   => true,
 			'endpoints'   => true,
 		);
-		$args     = array_intersect_key( $args, $defaults );
-		$args     = wp_parse_args( $args, $defaults );
+
+		$args = array_intersect_key( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 
 		if ( $args['with_front'] ) {
 			$struct = $this->front . $struct;
 		} else {
 			$struct = $this->root . $struct;
 		}
+
 		$args['struct'] = $struct;
 
 		$this->extra_permastructs[ $name ] = $args;
@@ -1937,7 +1940,7 @@ class WP_Rewrite {
 	 * @param string $permalink_structure Permalink structure.
 	 */
 	public function set_permalink_structure( $permalink_structure ) {
-		if ( $permalink_structure != $this->permalink_structure ) {
+		if ( $this->permalink_structure !== $permalink_structure ) {
 			$old_permalink_structure = $this->permalink_structure;
 			update_option( 'permalink_structure', $permalink_structure );
 
