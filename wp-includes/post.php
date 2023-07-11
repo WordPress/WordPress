@@ -287,7 +287,7 @@ function create_initial_post_types() {
 				'add_new'                  => _x( 'Add New', 'Pattern' ),
 				'add_new_item'             => __( 'Add new Pattern' ),
 				'new_item'                 => __( 'New Pattern' ),
-				'edit_item'                => __( 'Edit Pattern' ),
+				'edit_item'                => __( 'Edit Block Pattern' ),
 				'view_item'                => __( 'View Pattern' ),
 				'view_items'               => __( 'View Patterns' ),
 				'all_items'                => __( 'All Patterns' ),
