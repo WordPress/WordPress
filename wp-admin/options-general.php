@@ -85,8 +85,8 @@ if ( ! is_multisite() ) {
 	/* translators: %s: Network title. */
 	$sample_tagline = sprintf( __( 'Just another %s site' ), get_network()->site_name );
 }
-/* translators: %s: Site tagline example. */
 $tagline_description = sprintf(
+	/* translators: %s: Site tagline example. */
 	__( 'In a few words, explain what this site is about. Example: &#8220;%s.&#8221;' ),
 	$sample_tagline
 );
