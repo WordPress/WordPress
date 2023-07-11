@@ -139,6 +139,11 @@
 	height: auto; /* Fixes a Safari+VoiceOver bug, see ticket #42006 */
 }
 
+.screen-reader-text + .dashicons-external {
+	margin-top: -1px;
+	margin-right: 2px;
+}
+
 .screen-reader-shortcut {
 	position: absolute;
 	top: -1000em;

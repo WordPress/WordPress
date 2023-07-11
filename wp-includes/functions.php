@@ -8239,7 +8239,7 @@ function wp_direct_php_update_button() {
 
 	echo '<p class="button-container">';
 	printf(
-		'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+		'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 		esc_url( $direct_update_url ),
 		__( 'Update PHP' ),
 		/* translators: Hidden accessibility text. */

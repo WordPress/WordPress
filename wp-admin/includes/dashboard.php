@@ -1298,7 +1298,7 @@ function wp_dashboard_events_news() {
 	<p class="community-events-footer">
 		<?php
 			printf(
-				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 				'https://make.wordpress.org/community/meetups-landing-page',
 				__( 'Meetups' ),
 				/* translators: Hidden accessibility text. */
@@ -1310,7 +1310,7 @@ function wp_dashboard_events_news() {
 
 		<?php
 			printf(
-				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 				'https://central.wordcamp.org/schedule/',
 				__( 'WordCamps' ),
 				/* translators: Hidden accessibility text. */
@@ -1322,7 +1322,7 @@ function wp_dashboard_events_news() {
 
 		<?php
 			printf(
-				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 				/* translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. */
 				esc_url( _x( 'https://wordpress.org/news/', 'Events and News dashboard widget' ) ),
 				__( 'News' ),
@@ -1648,7 +1648,7 @@ function wp_dashboard_quota() {
 				number_format_i18n( $quota )
 			);
 			printf(
-				'<a href="%1$s">%2$s <span class="screen-reader-text">(%3$s)</span></a>',
+				'<a href="%1$s">%2$s<span class="screen-reader-text"> (%3$s)</span></a>',
 				esc_url( admin_url( 'upload.php' ) ),
 				$text,
 				/* translators: Hidden accessibility text. */
@@ -1664,7 +1664,7 @@ function wp_dashboard_quota() {
 				$percentused
 			);
 			printf(
-				'<a href="%1$s" class="musublink">%2$s <span class="screen-reader-text">(%3$s)</span></a>',
+				'<a href="%1$s" class="musublink">%2$s<span class="screen-reader-text"> (%3$s)</span></a>',
 				esc_url( admin_url( 'upload.php' ) ),
 				$text,
 				/* translators: Hidden accessibility text. */
@@ -1895,7 +1895,7 @@ function wp_dashboard_php_nag() {
 	<p class="button-container">
 		<?php
 		printf(
-			'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+			'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 			esc_url( wp_get_update_php_url() ),
 			__( 'Learn more about updating PHP' ),
 			/* translators: Hidden accessibility text. */
