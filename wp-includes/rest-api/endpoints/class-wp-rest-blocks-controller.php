@@ -40,7 +40,7 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 * Filters a response based on the context defined in the schema.
 	 *
 	 * @since 5.0.0
-	 * @since 6.3 Adds the `wp_pattern_sync_status` postmeta property to the top level of response.
+	 * @since 6.3.0 Adds the `wp_pattern_sync_status` postmeta property to the top level of response.
 	 *
 	 * @param array  $data    Response data to filter.
 	 * @param string $context Context defined in the schema.
