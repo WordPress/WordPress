@@ -40,12 +40,8 @@ WP_Block_Supports::get_instance()->register(
 	)
 );
 
-// Set up metadata prior to rendering any blocks.
-add_action( 'wp_loaded', array( 'WP_Duotone', 'set_global_styles_presets' ), 10 );
-add_action( 'wp_loaded', array( 'WP_Duotone', 'set_global_style_block_names' ), 10 );
-
 // Add classnames to blocks using duotone support.
-add_filter( 'render_block', array( 'WP_Duotone', 'render_duotone_support' ), 10, 2 );
+add_filter( 'render_block', array( 'WP_Duotone', 'render_duotone_support' ), 10, 3 );
 
 // Enqueue styles.
 // Block styles (core-block-supports-inline-css) before the style engine (wp_enqueue_stored_styles).

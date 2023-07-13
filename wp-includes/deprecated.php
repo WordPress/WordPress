@@ -5215,7 +5215,8 @@ function wp_register_duotone_support( $block_type ) {
  */
 function wp_render_duotone_support( $block_content, $block ) {
 	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::render_duotone_support()' );
-	return WP_Duotone::render_duotone_support( $block_content, $block );
+	$wp_block = new WP_Block( $block );
+	return WP_Duotone::render_duotone_support( $block_content, $block, $wp_block );
 }
 
 /**
