@@ -1180,9 +1180,17 @@ class WP_Duotone {
 			echo self::get_svg_definitions( self::$used_svg_filter_data );
 		}
 
-		// This is for classic themes - in block themes, the CSS is added in the head via wp_add_inline_style in the wp_enqueue_scripts action.
-		if ( ! wp_is_block_theme() && ! empty( self::$used_global_styles_presets ) ) {
-			wp_add_inline_style( 'core-block-supports', self::get_global_styles_presets( self::$used_global_styles_presets ) );
+		// In block themes, the CSS is added in the head via wp_add_inline_style in the wp_enqueue_scripts action.
+		if ( ! wp_is_block_theme() ) {
+			$style_tag_id = 'core-block-supports-duotone';
+			wp_register_style( $style_tag_id, false );
+			if ( ! empty( self::$used_global_styles_presets ) ) {
+				wp_add_inline_style( $style_tag_id, self::get_global_styles_presets( self::$used_global_styles_presets ) );
+			}
+			if ( ! empty( self::$block_css_declarations ) ) {
+				wp_add_inline_style( $style_tag_id, wp_style_engine_get_stylesheet_from_css_rules( self::$block_css_declarations ) );
+			}
+			wp_enqueue_style( $style_tag_id );
 		}
 	}
 
