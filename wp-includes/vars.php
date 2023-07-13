@@ -69,6 +69,8 @@ if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		$is_lynx = true;
 	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Edg' ) ) {
 		$is_edge = true;
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Opera' ) || str_contains( $_SERVER['HTTP_USER_AGENT'], 'OPR/' ) ) {
+		$is_opera = true;
 	} elseif ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chrome' ) !== false ) {
 		if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chromeframe' ) !== false ) {
 			$is_admin = is_admin();
@@ -95,8 +97,6 @@ if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		$is_macIE = true;
 	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Gecko' ) ) {
 		$is_gecko = true;
-	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Opera' ) ) {
-		$is_opera = true;
 	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Nav' ) && str_contains( $_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.' ) ) {
 		$is_NS4 = true;
 	}
