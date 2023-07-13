@@ -5233,7 +5233,7 @@ function wp_get_global_styles_svg_filters() {
 	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
 	 */
-	$can_use_cached = wp_get_development_mode() !== 'theme';
+	$can_use_cached = ! wp_in_development_mode( 'theme' );
 	$cache_group    = 'theme_json';
 	$cache_key      = 'wp_get_global_styles_svg_filters';
 	if ( $can_use_cached ) {

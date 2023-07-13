@@ -271,10 +271,14 @@ function wp_get_environment_type() {
  * The development mode affects how certain parts of the WordPress application behave, which is relevant when
  * developing for WordPress.
  *
- * Valid developer modes are 'core', 'plugin', 'theme', or an empty string to disable developer mode.
+ * Valid development modes are 'core', 'plugin', 'theme', 'all', or an empty string to disable development mode.
+ * 'all' is a special value to signify that all three development modes 'core', 'plugin', and 'theme' are enabled.
  *
  * Developer mode is considered separately from `WP_DEBUG` and {@see wp_get_environment_type()}. It does not affect
  * debugging output, but rather functional nuances in WordPress.
+ *
+ * This function controls the currently set development mode value. To check for whether a specific development mode is
+ * enabled, use wp_in_development_mode().
  *
  * @since 6.3.0
  *
@@ -298,6 +302,7 @@ function wp_get_development_mode() {
 		'core',
 		'plugin',
 		'theme',
+		'all',
 		'',
 	);
 	if ( ! in_array( $development_mode, $valid_modes, true ) ) {
@@ -307,6 +312,29 @@ function wp_get_development_mode() {
 	$current_mode = $development_mode;
 
 	return $current_mode;
+}
+
+/**
+ * Checks whether the site is in the given development mode.
+ *
+ * @since 6.3.0
+ *
+ * @param string $mode Development mode to check for. Either 'core', 'plugin', 'theme', or 'all'.
+ * @return bool True if the given mode is covered by the current development mode, false otherwise.
+ */
+function wp_in_development_mode( $mode ) {
+	$current_mode = wp_get_development_mode();
+	if ( empty( $current_mode ) ) {
+		return false;
+	}
+
+	// Return true if the current mode encompasses all modes.
+	if ( 'all' === $current_mode ) {
+		return true;
+	}
+
+	// Return true if the current mode is the given mode.
+	return $mode === $current_mode;
 }
 
 /**
