@@ -656,6 +656,10 @@
 		/* Fluid font size scales on browser size 600px - 960px. */
 		font-size: clamp(3rem, 6.67vw - 0.5rem, 4.5rem);
 	}
+
+	.about__header-navigation .nav-tab {
+		padding: calc(var(--gap) * 0.75) calc(var(--gap) * 0.5);
+	}
 }
 
 @media screen and (max-width: 782px) {
