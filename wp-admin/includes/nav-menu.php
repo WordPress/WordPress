@@ -432,8 +432,12 @@ function wp_nav_menu_item_post_type_meta_box( $data_object, $box ) {
 		$front_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
 
 		$front_page_obj = null;
+
 		if ( ! empty( $front_page ) ) {
-			$front_page_obj                = get_post( $front_page );
+			$front_page_obj = get_post( $front_page );
+		}
+
+		if ( $front_page_obj ) {
 			$front_page_obj->front_or_home = true;
 
 			$important_pages[]   = $front_page_obj;
@@ -460,11 +464,14 @@ function wp_nav_menu_item_post_type_meta_box( $data_object, $box ) {
 		$posts_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_for_posts' ) : 0;
 
 		if ( ! empty( $posts_page ) ) {
-			$posts_page_obj             = get_post( $posts_page );
-			$posts_page_obj->posts_page = true;
+			$posts_page_obj = get_post( $posts_page );
 
-			$important_pages[]   = $posts_page_obj;
-			$suppress_page_ids[] = $posts_page_obj->ID;
+			if ( $posts_page_obj ) {
+				$front_page_obj->posts_page = true;
+
+				$important_pages[]   = $posts_page_obj;
+				$suppress_page_ids[] = $posts_page_obj->ID;
+			}
 		}
 
 		// Insert Privacy Policy Page.
