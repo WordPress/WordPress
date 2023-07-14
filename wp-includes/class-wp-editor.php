@@ -511,9 +511,13 @@ final class _WP_Editors {
 							// Try to load langs/[locale].js and langs/[locale]_dlg.js.
 							if ( ! in_array( $name, $loaded_langs, true ) ) {
 								$path = str_replace( content_url(), '', $plugurl );
-								$path = WP_CONTENT_DIR . $path . '/langs/';
+								$path = realpath( WP_CONTENT_DIR . $path . '/langs/' );
 
-								$path = trailingslashit( realpath( $path ) );
+								if ( ! $path ) {
+									continue;
+								}
+
+								$path = trailingslashit( $path );
 
 								if ( @is_file( $path . $mce_locale . '.js' ) ) {
 									$strings .= @file_get_contents( $path . $mce_locale . '.js' ) . "\n";
