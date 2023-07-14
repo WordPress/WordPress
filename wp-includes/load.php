@@ -276,7 +276,7 @@ function wp_get_environment_type() {
  * development mode. 'all' is a special value to signify that all three development modes
  * ('core', 'plugin', and 'theme') are enabled.
  *
- * Developer mode is considered separately from `WP_DEBUG` and wp_get_environment_type().
+ * Development mode is considered separately from `WP_DEBUG` and wp_get_environment_type().
  * It does not affect debugging output, but rather functional nuances in WordPress.
  *
  * This function retrieves the currently set development mode value. To check whether
