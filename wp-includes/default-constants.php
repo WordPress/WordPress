@@ -78,8 +78,8 @@ function wp_initial_constants() {
 	}
 
 	/*
-	 * Add define( 'WP_DEVELOPMENT_MODE', 'core' ) or define( 'WP_DEVELOPMENT_MODE', 'plugin' ) or
-	 * define( 'WP_DEVELOPMENT_MODE', 'theme' ) or define( 'WP_DEVELOPMENT_MODE', 'all' ) to wp-config.php
+	 * Add define( 'WP_DEVELOPMENT_MODE', 'core' ), or define( 'WP_DEVELOPMENT_MODE', 'plugin' ), or
+	 * define( 'WP_DEVELOPMENT_MODE', 'theme' ), or define( 'WP_DEVELOPMENT_MODE', 'all' ) to wp-config.php
 	 * to signify development mode for WordPress core, a plugin, a theme, or all three types respectively.
 	 */
 	if ( ! defined( 'WP_DEVELOPMENT_MODE' ) ) {

@@ -268,17 +268,19 @@ function wp_get_environment_type() {
 /**
  * Retrieves the current development mode.
  *
- * The development mode affects how certain parts of the WordPress application behave, which is relevant when
- * developing for WordPress.
+ * The development mode affects how certain parts of the WordPress application behave,
+ * which is relevant when developing for WordPress.
  *
- * Valid development modes are 'core', 'plugin', 'theme', 'all', or an empty string to disable development mode.
- * 'all' is a special value to signify that all three development modes 'core', 'plugin', and 'theme' are enabled.
+ * Development mode can be set via the `WP_DEVELOPMENT_MODE` constant in `wp-config.php`.
+ * Possible values are 'core', 'plugin', 'theme', 'all', or an empty string to disable
+ * development mode. 'all' is a special value to signify that all three development modes
+ * ('core', 'plugin', and 'theme') are enabled.
  *
- * Developer mode is considered separately from `WP_DEBUG` and {@see wp_get_environment_type()}. It does not affect
- * debugging output, but rather functional nuances in WordPress.
+ * Developer mode is considered separately from `WP_DEBUG` and wp_get_environment_type().
+ * It does not affect debugging output, but rather functional nuances in WordPress.
  *
- * This function controls the currently set development mode value. To check for whether a specific development mode is
- * enabled, use wp_in_development_mode().
+ * This function retrieves the currently set development mode value. To check whether
+ * a specific development mode is enabled, use wp_in_development_mode().
  *
  * @since 6.3.0
  *
@@ -293,7 +295,7 @@ function wp_get_development_mode() {
 
 	$development_mode = WP_DEVELOPMENT_MODE;
 
-	// Exclusively for core tests, rely on a global `$_wp_tests_development_mode`.
+	// Exclusively for core tests, rely on the `$_wp_tests_development_mode` global.
 	if ( defined( 'WP_RUN_CORE_TESTS' ) && isset( $GLOBALS['_wp_tests_development_mode'] ) ) {
 		$development_mode = $GLOBALS['_wp_tests_development_mode'];
 	}
