@@ -1024,7 +1024,7 @@ $help_sidebar_rollback = '';
 if ( current_user_can( 'update_themes' ) || current_user_can( 'update_plugins' ) ) {
 	$rollback_help = '<p>' . __( 'This feature will create a temporary backup of a plugin or theme before it is upgraded. This backup is used to restore the plugin or theme back to its previous state if there is an error during the update process.' ) . '</p>';
 
-	$rollback_help .= '<p>' . __( 'On systems with fewer resources, this may lead to server timeouts or resource limits being reached. If you encounter an issue during the update process, please create a support forum ticket and reference <strong>Rollback</strong> in the issue title.' ) . '</p>';
+	$rollback_help .= '<p>' . __( 'On systems with fewer resources, this may lead to server timeouts or resource limits being reached. If you encounter an issue during the update process, please create a support forum topic and reference <strong>Rollback</strong> in the issue title.' ) . '</p>';
 
 	get_current_screen()->add_help_tab(
 		array(
