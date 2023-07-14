@@ -1350,6 +1350,7 @@ __webpack_require__.d(__webpack_exports__, {
   "PostStickyCheck": function() { return /* reexport */ post_sticky_check; },
   "PostSwitchToDraftButton": function() { return /* reexport */ post_switch_to_draft_button; },
   "PostSyncStatus": function() { return /* reexport */ PostSyncStatus; },
+  "PostSyncStatusModal": function() { return /* reexport */ PostSyncStatusModal; },
   "PostTaxonomies": function() { return /* reexport */ post_taxonomies; },
   "PostTaxonomiesCheck": function() { return /* reexport */ post_taxonomies_check; },
   "PostTaxonomiesFlatTermSelector": function() { return /* reexport */ FlatTermSelector; },
@@ -11603,6 +11604,8 @@ function PostSwitchToDraftButton({
 
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -11611,25 +11614,95 @@ function PostSwitchToDraftButton({
 function PostSyncStatus() {
   const {
     syncStatus,
-    postType
+    postType,
+    meta
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditedPostAttribute
     } = select(store_store);
     return {
       syncStatus: getEditedPostAttribute('wp_pattern_sync_status'),
+      meta: getEditedPostAttribute('meta'),
       postType: getEditedPostAttribute('type')
     };
-  }, []);
+  });
 
   if (postType !== 'wp_block') {
     return null;
-  }
+  } // When the post is first created, the top level wp_pattern_sync_status is not set so get meta value instead.
 
-  const isFullySynced = !syncStatus;
+
+  const currentSyncStatus = meta?.wp_pattern_sync_status === 'unsynced' ? 'unsynced' : syncStatus;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelRow, {
     className: "edit-post-sync-status"
-  }, (0,external_wp_element_namespaceObject.createElement)("span", null, (0,external_wp_i18n_namespaceObject.__)('Sync status')), (0,external_wp_element_namespaceObject.createElement)("div", null, isFullySynced ? (0,external_wp_i18n_namespaceObject.__)('Fully synced') : (0,external_wp_i18n_namespaceObject.__)('Not synced')));
+  }, (0,external_wp_element_namespaceObject.createElement)("span", null, (0,external_wp_i18n_namespaceObject.__)('Sync status')), (0,external_wp_element_namespaceObject.createElement)("div", null, currentSyncStatus === 'unsynced' ? (0,external_wp_i18n_namespaceObject.__)('Not synced') : (0,external_wp_i18n_namespaceObject.__)('Fully synced')));
+}
+function PostSyncStatusModal() {
+  const {
+    editPost
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  const [isModalOpen, setIsModalOpen] = (0,external_wp_element_namespaceObject.useState)(false);
+  const [syncType, setSyncType] = (0,external_wp_element_namespaceObject.useState)(undefined);
+  const {
+    postType,
+    isNewPost
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getEditedPostAttribute,
+      isCleanNewPost
+    } = select(store_store);
+    return {
+      postType: getEditedPostAttribute('type'),
+      isNewPost: isCleanNewPost()
+    };
+  }, []);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (isNewPost && postType === 'wp_block') {
+      setIsModalOpen(true);
+    } // We only want the modal to open when the page is first loaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, []);
+
+  const setSyncStatus = () => {
+    editPost({
+      meta: {
+        wp_pattern_sync_status: syncType
+      }
+    });
+  };
+
+  if (postType !== 'wp_block' || !isNewPost) {
+    return null;
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isModalOpen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+    title: (0,external_wp_i18n_namespaceObject.__)('Set pattern sync status'),
+    onRequestClose: () => {
+      setIsModalOpen(false);
+    },
+    overlayClassName: "reusable-blocks-menu-items__convert-modal"
+  }, (0,external_wp_element_namespaceObject.createElement)("form", {
+    onSubmit: event => {
+      event.preventDefault();
+      setIsModalOpen(false);
+      setSyncStatus();
+    }
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+    spacing: "5"
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.ReusableBlocksRenameHint, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
+    label: (0,external_wp_i18n_namespaceObject.__)('Synced'),
+    help: (0,external_wp_i18n_namespaceObject.__)('Editing the pattern will update it anywhere it is used.'),
+    checked: !syncType,
+    onChange: () => {
+      setSyncType(!syncType ? 'unsynced' : undefined);
+    }
+  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    justify: "right"
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    variant: "primary",
+    type: "submit"
+  }, (0,external_wp_i18n_namespaceObject.__)('Create')))))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-taxonomies/index.js

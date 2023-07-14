@@ -181,7 +181,10 @@
     'name' => 'core/block',
     'title' => 'Pattern',
     'category' => 'reusable',
-    'description' => 'Create and save content to reuse across your site. Update the block, and the changes apply everywhere it’s used.',
+    'description' => 'Create and save content to reuse across your site. Update the pattern, and the changes apply everywhere it’s used.',
+    'keywords' => array(
+      'reusable'
+    ),
     'textdomain' => 'default',
     'attributes' => array(
       'ref' => array(

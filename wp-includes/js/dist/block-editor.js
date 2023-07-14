@@ -8325,7 +8325,7 @@ const getInserterItems = rememo((state, rootClientId = null) => {
       title: reusableBlock.title.raw,
       icon,
       category: 'reusable',
-      keywords: [],
+      keywords: ['reusable'],
       isDisabled: false,
       utility: 1,
       // Deprecated.
@@ -28787,7 +28787,7 @@ function ReusableBlocksRenameHint() {
     className: "reusable-blocks-menu-items__rename-hint"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "reusable-blocks-menu-items__rename-hint-content"
-  }, (0,external_wp_i18n_namespaceObject.__)('Reusable blocks are now called patterns. A synced pattern will behave in exactly the same way as a reusable block.')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Reusable blocks are now synced patterns. A synced pattern will behave in exactly the same way as a reusable block.')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     className: "reusable-blocks-menu-items__rename-hint-dismiss",
     icon: library_close,
     iconSize: "16",
@@ -31905,7 +31905,8 @@ function useBlockDisplayInformation(clientId) {
     if (!clientId) return null;
     const {
       getBlockName,
-      getBlockAttributes
+      getBlockAttributes,
+      __experimentalGetReusableBlockTitle
     } = select(store);
     const {
       getBlockType,
@@ -31916,11 +31917,14 @@ function useBlockDisplayInformation(clientId) {
     if (!blockType) return null;
     const attributes = getBlockAttributes(clientId);
     const match = getActiveBlockVariation(blockName, attributes);
-    const isSynced = (0,external_wp_blocks_namespaceObject.isReusableBlock)(blockType) || (0,external_wp_blocks_namespaceObject.isTemplatePart)(blockType);
+    const isReusable = (0,external_wp_blocks_namespaceObject.isReusableBlock)(blockType);
+    const resusableTitle = isReusable ? __experimentalGetReusableBlockTitle(attributes.ref) : undefined;
+    const title = resusableTitle || blockType.title;
+    const isSynced = isReusable || (0,external_wp_blocks_namespaceObject.isTemplatePart)(blockType);
     const positionLabel = getPositionTypeLabel(attributes);
     const blockTypeInfo = {
       isSynced,
-      title: blockType.title,
+      title,
       icon: blockType.icon,
       description: blockType.description,
       anchor: attributes?.anchor,
@@ -32175,17 +32179,20 @@ const BlockDraggable = ({
     const {
       canMoveBlocks,
       getBlockRootClientId,
-      getBlockName
+      getBlockName,
+      getBlockAttributes
     } = select(store);
     const {
-      getBlockType
+      getBlockType,
+      getActiveBlockVariation
     } = select(external_wp_blocks_namespaceObject.store);
     const rootClientId = getBlockRootClientId(clientIds[0]);
     const blockName = getBlockName(clientIds[0]);
+    const variation = getActiveBlockVariation(blockName, getBlockAttributes(clientIds[0]));
     return {
       srcRootClientId: rootClientId,
       isDraggable: canMoveBlocks(clientIds, rootClientId),
-      icon: getBlockType(blockName)?.icon
+      icon: variation?.icon || getBlockType(blockName)?.icon
     };
   }, [clientIds]);
   const isDragging = (0,external_wp_element_namespaceObject.useRef)(false);
@@ -44489,7 +44496,7 @@ function MarginVisualizer({
   const [style, setStyle] = (0,external_wp_element_namespaceObject.useState)();
   const margin = attributes?.style?.spacing?.margin;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!blockElement) {
+    if (!blockElement || null === blockElement.ownerDocument.defaultView) {
       return;
     }
 
@@ -44577,7 +44584,7 @@ function PaddingVisualizer({
   const [style, setStyle] = (0,external_wp_element_namespaceObject.useState)();
   const padding = attributes?.style?.spacing?.padding;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!blockElement) {
+    if (!blockElement || null === blockElement.ownerDocument.defaultView) {
       return;
     }
 
@@ -54198,13 +54205,8 @@ class URLInput extends external_wp_element_namespaceObject.Component {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -54213,7 +54215,6 @@ const LinkControlSearchCreate = ({
   searchTerm,
   onClick,
   itemProps,
-  isSelected,
   buttonText
 }) => {
   if (!searchTerm) {
@@ -54232,19 +54233,12 @@ const LinkControlSearchCreate = ({
     });
   }
 
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, { ...itemProps,
-    className: classnames_default()('block-editor-link-control__search-create block-editor-link-control__search-item', {
-      'is-selected': isSelected
-    }),
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, { ...itemProps,
+    iconPosition: "left",
+    icon: library_plus,
+    className: "block-editor-link-control__search-item",
     onClick: onClick
-  }, (0,external_wp_element_namespaceObject.createElement)(build_module_icon, {
-    className: "block-editor-link-control__search-item-icon",
-    icon: library_plus
-  }), (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "block-editor-link-control__search-item-header"
-  }, (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "block-editor-link-control__search-item-title"
-  }, text)));
+  }, text);
 };
 /* harmony default export */ var search_create_button = (LinkControlSearchCreate);
 
@@ -54329,13 +54323,8 @@ const globe = (0,external_wp_element_namespaceObject.createElement)(external_wp_
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -54374,36 +54363,27 @@ function SearchItemIcon({
 const LinkControlSearchItem = ({
   itemProps,
   suggestion,
-  isSelected = false,
+  searchTerm,
   onClick,
   isURL = false,
-  searchTerm = '',
   shouldShowType = false
 }) => {
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, { ...itemProps,
+  const info = isURL ? (0,external_wp_i18n_namespaceObject.__)('Press ENTER to add this link') : (0,external_wp_url_namespaceObject.filterURLForDisplay)((0,external_wp_url_namespaceObject.safeDecodeURI)(suggestion?.url));
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, { ...itemProps,
+    info: info,
+    iconPosition: "left",
+    icon: (0,external_wp_element_namespaceObject.createElement)(SearchItemIcon, {
+      suggestion: suggestion,
+      isURL: isURL
+    }),
     onClick: onClick,
-    className: classnames_default()('block-editor-link-control__search-item', {
-      'is-selected': isSelected,
-      'is-url': isURL,
-      'is-entity': !isURL
-    })
-  }, (0,external_wp_element_namespaceObject.createElement)(SearchItemIcon, {
-    suggestion: suggestion,
-    isURL: isURL
-  }), (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "block-editor-link-control__search-item-header"
-  }, (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "block-editor-link-control__search-item-title"
+    shortcut: shouldShowType && getVisualTypeName(suggestion),
+    className: "block-editor-link-control__search-item"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextHighlight // The component expects a plain text string.
   , {
     text: (0,external_wp_dom_namespaceObject.__unstableStripHTML)(suggestion.title),
     highlight: searchTerm
-  })), (0,external_wp_element_namespaceObject.createElement)("span", {
-    "aria-hidden": !isURL,
-    className: "block-editor-link-control__search-item-info"
-  }, !isURL && ((0,external_wp_url_namespaceObject.filterURLForDisplay)((0,external_wp_url_namespaceObject.safeDecodeURI)(suggestion.url)) || ''), isURL && (0,external_wp_i18n_namespaceObject.__)('Press ENTER to add this link'))), shouldShowType && suggestion.type && (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "block-editor-link-control__search-item-type"
-  }, getVisualTypeName(suggestion)));
+  }));
 };
 
 function getVisualTypeName(suggestion) {
@@ -54427,7 +54407,7 @@ function getVisualTypeName(suggestion) {
 
 const CREATE_TYPE = '__CREATE__';
 const TEL_TYPE = 'tel';
-const URL_TYPE = 'URL';
+const URL_TYPE = 'link';
 const MAILTO_TYPE = 'mailto';
 const INTERNAL_TYPE = 'internal';
 const LINK_ENTRY_TYPES = [URL_TYPE, MAILTO_TYPE, TEL_TYPE, INTERNAL_TYPE];
@@ -54492,7 +54472,7 @@ function LinkControlSearchResults({
   }, searchResultsLabel, (0,external_wp_element_namespaceObject.createElement)("div", { ...suggestionsListProps,
     className: resultsListClasses,
     "aria-labelledby": searchResultsLabelId
-  }, suggestions.map((suggestion, index) => {
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, null, suggestions.map((suggestion, index) => {
     if (shouldShowCreateSuggestion && CREATE_TYPE === suggestion.type) {
       return (0,external_wp_element_namespaceObject.createElement)(search_create_button, {
         searchTerm: currentInputValue,
@@ -54527,7 +54507,7 @@ function LinkControlSearchResults({
       shouldShowType: shouldShowSuggestionsTypes,
       isFrontPage: suggestion?.isFrontPage
     });
-  })));
+  }))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/link-control/is-url-like.js

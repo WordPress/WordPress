@@ -61832,6 +61832,7 @@ function UnconnectedNavigatorProvider(props, forwardedRef) {
       focusTargetSelector,
       isBack = false,
       skipFocus = false,
+      replace = false,
       ...restOptions
     } = options;
     const isNavigatingToPreviousPath = isBack && currentLocationHistory.current.length > 1 && currentLocationHistory.current[currentLocationHistory.current.length - 2].path === path;
@@ -61849,18 +61850,25 @@ function UnconnectedNavigatorProvider(props, forwardedRef) {
         skipFocus
       };
 
-      if (prevLocationHistory.length < 1) {
-        return [newLocation];
+      if (prevLocationHistory.length === 0) {
+        return replace ? [] : [newLocation];
       }
 
-      return [...prevLocationHistory.slice(prevLocationHistory.length > MAX_HISTORY_LENGTH - 1 ? 1 : 0, -1), // Assign `focusTargetSelector` to the previous location in history
-      // (the one we just navigated from).
-      { ...prevLocationHistory[prevLocationHistory.length - 1],
-        focusTargetSelector
-      }, newLocation];
+      const newLocationHistory = prevLocationHistory.slice(prevLocationHistory.length > MAX_HISTORY_LENGTH - 1 ? 1 : 0, -1);
+
+      if (!replace) {
+        newLocationHistory.push( // Assign `focusTargetSelector` to the previous location in history
+        // (the one we just navigated from).
+        { ...prevLocationHistory[prevLocationHistory.length - 1],
+          focusTargetSelector
+        });
+      }
+
+      newLocationHistory.push(newLocation);
+      return newLocationHistory;
     });
   }, [goBack]);
-  const goToParent = (0,external_wp_element_namespaceObject.useCallback)(() => {
+  const goToParent = (0,external_wp_element_namespaceObject.useCallback)((options = {}) => {
     const currentPath = currentLocationHistory.current[currentLocationHistory.current.length - 1].path;
 
     if (currentPath === undefined) {
@@ -61873,7 +61881,7 @@ function UnconnectedNavigatorProvider(props, forwardedRef) {
       return;
     }
 
-    goTo(parentPath, {
+    goTo(parentPath, { ...options,
       isBack: true
     });
   }, [goTo]);

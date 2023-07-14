@@ -935,7 +935,7 @@ function InlineLinkUI({
   function createButtonText(searchTerm) {
     return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)(
     /* translators: %s: search term. */
-    (0,external_wp_i18n_namespaceObject.__)('Create Page: <mark>%s</mark>'), searchTerm), {
+    (0,external_wp_i18n_namespaceObject.__)('Create page: <mark>%s</mark>'), searchTerm), {
       mark: (0,external_wp_element_namespaceObject.createElement)("mark", null)
     });
   }

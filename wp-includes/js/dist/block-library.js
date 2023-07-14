@@ -11642,8 +11642,9 @@ const deprecated_v11 = {
         className: 'wp-block-cover__inner-container'
       })
     }));
-  }
+  },
 
+  migrate: migrateTag
 }; // Deprecation for blocks that renders fixed background as backgroud from the main block container.
 
 const deprecated_v10 = {
@@ -11737,8 +11738,9 @@ const deprecated_v10 = {
         className: 'wp-block-cover__inner-container'
       })
     }));
-  }
+  },
 
+  migrate: migrateTag
 }; // Deprecation for blocks with `minHeightUnit` set but no `minHeight`.
 
 const v9 = {
@@ -31461,6 +31463,328 @@ function OverlayMenuPreview({
   })));
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/menu-items-to-blocks.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Convert a flat menu item structure to a nested blocks structure.
+ *
+ * @param {Object[]} menuItems An array of menu items.
+ *
+ * @return {WPBlock[]} An array of blocks.
+ */
+
+function menuItemsToBlocks(menuItems) {
+  if (!menuItems) {
+    return null;
+  }
+
+  const menuTree = createDataTree(menuItems);
+  const blocks = mapMenuItemsToBlocks(menuTree);
+  return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.navigation.__unstableMenuItemsToBlocks', blocks, menuItems);
+}
+/**
+ * A recursive function that maps menu item nodes to blocks.
+ *
+ * @param {WPNavMenuItem[]} menuItems An array of WPNavMenuItem items.
+ * @param {number}          level     An integer representing the nesting level.
+ * @return {Object} Object containing innerBlocks and mapping.
+ */
+
+function mapMenuItemsToBlocks(menuItems, level = 0) {
+  let mapping = {}; // The menuItem should be in menu_order sort order.
+
+  const sortedItems = [...menuItems].sort((a, b) => a.menu_order - b.menu_order);
+  const innerBlocks = sortedItems.map(menuItem => {
+    if (menuItem.type === 'block') {
+      const [block] = (0,external_wp_blocks_namespaceObject.parse)(menuItem.content.raw);
+
+      if (!block) {
+        return (0,external_wp_blocks_namespaceObject.createBlock)('core/freeform', {
+          content: menuItem.content
+        });
+      }
+
+      return block;
+    }
+
+    const blockType = menuItem.children?.length ? 'core/navigation-submenu' : 'core/navigation-link';
+    const attributes = menuItemToBlockAttributes(menuItem, blockType, level); // If there are children recurse to build those nested blocks.
+
+    const {
+      innerBlocks: nestedBlocks = [],
+      // alias to avoid shadowing
+      mapping: nestedMapping = {} // alias to avoid shadowing
+
+    } = menuItem.children?.length ? mapMenuItemsToBlocks(menuItem.children, level + 1) : {}; // Update parent mapping with nested mapping.
+
+    mapping = { ...mapping,
+      ...nestedMapping
+    }; // Create block with nested "innerBlocks".
+
+    const block = (0,external_wp_blocks_namespaceObject.createBlock)(blockType, attributes, nestedBlocks); // Create mapping for menuItem -> block.
+
+    mapping[menuItem.id] = block.clientId;
+    return block;
+  });
+  return {
+    innerBlocks,
+    mapping
+  };
+}
+/**
+ * A WP nav_menu_item object.
+ * For more documentation on the individual fields present on a menu item please see:
+ * https://core.trac.wordpress.org/browser/tags/5.7.1/src/wp-includes/nav-menu.php#L789
+ *
+ * @typedef WPNavMenuItem
+ *
+ * @property {Object} title       stores the raw and rendered versions of the title/label for this menu item.
+ * @property {Array}  xfn         the XFN relationships expressed in the link of this menu item.
+ * @property {Array}  classes     the HTML class attributes for this menu item.
+ * @property {string} attr_title  the HTML title attribute for this menu item.
+ * @property {string} object      The type of object originally represented, such as 'category', 'post', or 'attachment'.
+ * @property {string} object_id   The DB ID of the original object this menu item represents, e.g. ID for posts and term_id for categories.
+ * @property {string} description The description of this menu item.
+ * @property {string} url         The URL to which this menu item points.
+ * @property {string} type        The family of objects originally represented, such as 'post_type' or 'taxonomy'.
+ * @property {string} target      The target attribute of the link element for this menu item.
+ */
+
+/**
+ * Convert block attributes to menu item.
+ *
+ * @param {WPNavMenuItem} menuItem  the menu item to be converted to block attributes.
+ * @param {string}        blockType The block type.
+ * @param {number}        level     An integer representing the nesting level.
+ * @return {Object} the block attributes converted from the WPNavMenuItem item.
+ */
+
+
+function menuItemToBlockAttributes({
+  title: menuItemTitleField,
+  xfn,
+  classes,
+  // eslint-disable-next-line camelcase
+  attr_title,
+  object,
+  // eslint-disable-next-line camelcase
+  object_id,
+  description,
+  url,
+  type: menuItemTypeField,
+  target
+}, blockType, level) {
+  // For historical reasons, the `core/navigation-link` variation type is `tag`
+  // whereas WP Core expects `post_tag` as the `object` type.
+  // To avoid writing a block migration we perform a conversion here.
+  // See also inverse equivalent in `blockAttributesToMenuItem`.
+  if (object && object === 'post_tag') {
+    object = 'tag';
+  }
+
+  return {
+    label: menuItemTitleField?.rendered || '',
+    ...(object?.length && {
+      type: object
+    }),
+    kind: menuItemTypeField?.replace('_', '-') || 'custom',
+    url: url || '',
+    ...(xfn?.length && xfn.join(' ').trim() && {
+      rel: xfn.join(' ').trim()
+    }),
+    ...(classes?.length && classes.join(' ').trim() && {
+      className: classes.join(' ').trim()
+    }),
+
+    /* eslint-disable camelcase */
+    ...(attr_title?.length && {
+      title: attr_title
+    }),
+    ...(object_id && 'custom' !== object && {
+      id: object_id
+    }),
+
+    /* eslint-enable camelcase */
+    ...(description?.length && {
+      description
+    }),
+    ...(target === '_blank' && {
+      opensInNewTab: true
+    }),
+    ...(blockType === 'core/navigation-submenu' && {
+      isTopLevelItem: level === 0
+    }),
+    ...(blockType === 'core/navigation-link' && {
+      isTopLevelLink: level === 0
+    })
+  };
+}
+/**
+ * Creates a nested, hierarchical tree representation from unstructured data that
+ * has an inherent relationship defined between individual items.
+ *
+ * For example, by default, each element in the dataset should have an `id` and
+ * `parent` property where the `parent` property indicates a relationship between
+ * the current item and another item with a matching `id` properties.
+ *
+ * This is useful for building linked lists of data from flat data structures.
+ *
+ * @param {Array}  dataset  linked data to be rearranged into a hierarchical tree based on relational fields.
+ * @param {string} id       the property which uniquely identifies each entry within the array.
+ * @param {*}      relation the property which identifies how the current item is related to other items in the data (if at all).
+ * @return {Array} a nested array of parent/child relationships
+ */
+
+
+function createDataTree(dataset, id = 'id', relation = 'parent') {
+  const hashTable = Object.create(null);
+  const dataTree = [];
+
+  for (const data of dataset) {
+    hashTable[data[id]] = { ...data,
+      children: []
+    };
+
+    if (data[relation]) {
+      hashTable[data[relation]] = hashTable[data[relation]] || {};
+      hashTable[data[relation]].children = hashTable[data[relation]].children || [];
+      hashTable[data[relation]].children.push(hashTable[data[id]]);
+    } else {
+      dataTree.push(hashTable[data[id]]);
+    }
+  }
+
+  return dataTree;
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-convert-classic-menu-to-block-menu.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+const CLASSIC_MENU_CONVERSION_SUCCESS = 'success';
+const CLASSIC_MENU_CONVERSION_ERROR = 'error';
+const CLASSIC_MENU_CONVERSION_PENDING = 'pending';
+const CLASSIC_MENU_CONVERSION_IDLE = 'idle'; // This is needed to ensure that multiple components using this hook
+// do not import the same classic menu twice.
+
+let classicMenuBeingConvertedId = null;
+
+function useConvertClassicToBlockMenu(createNavigationMenu) {
+  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
+  const {
+    editEntityRecord
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
+  const [status, setStatus] = (0,external_wp_element_namespaceObject.useState)(CLASSIC_MENU_CONVERSION_IDLE);
+  const [error, setError] = (0,external_wp_element_namespaceObject.useState)(null);
+  const convertClassicMenuToBlockMenu = (0,external_wp_element_namespaceObject.useCallback)(async (menuId, menuName, postStatus = 'publish') => {
+    let navigationMenu;
+    let classicMenuItems; // 1. Fetch the classic Menu items.
+
+    try {
+      classicMenuItems = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getMenuItems({
+        menus: menuId,
+        per_page: -1,
+        context: 'view'
+      });
+    } catch (err) {
+      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
+      (0,external_wp_i18n_namespaceObject.__)(`Unable to fetch classic menu "%s" from API.`), menuName), {
+        cause: err
+      });
+    } // Handle offline response which resolves to `null`.
+
+
+    if (classicMenuItems === null) {
+      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
+      (0,external_wp_i18n_namespaceObject.__)(`Unable to fetch classic menu "%s" from API.`), menuName));
+    } // 2. Convert the classic items into blocks.
+
+
+    const {
+      innerBlocks
+    } = menuItemsToBlocks(classicMenuItems); // 3. Create the `wp_navigation` Post with the blocks.
+
+    try {
+      navigationMenu = await createNavigationMenu(menuName, innerBlocks, postStatus);
+      /**
+       * Immediately trigger editEntityRecord to change the wp_navigation post status to 'publish'.
+       * This status change causes the menu to be displayed on the front of the site and sets the post state to be "dirty".
+       * The problem being solved is if saveEditedEntityRecord was used here, the menu would be updated on the frontend and the editor _automatically_,
+       * without user interaction.
+       * If the user abandons the site editor without saving, there would still be a wp_navigation post created as draft.
+       */
+
+      await editEntityRecord('postType', 'wp_navigation', navigationMenu.id, {
+        status: 'publish'
+      }, {
+        throwOnError: true
+      });
+    } catch (err) {
+      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
+      (0,external_wp_i18n_namespaceObject.__)(`Unable to create Navigation Menu "%s".`), menuName), {
+        cause: err
+      });
+    }
+
+    return navigationMenu;
+  }, [createNavigationMenu, editEntityRecord, registry]);
+  const convert = (0,external_wp_element_namespaceObject.useCallback)(async (menuId, menuName, postStatus) => {
+    // Check whether this classic menu is being imported already.
+    if (classicMenuBeingConvertedId === menuId) {
+      return;
+    } // Set the ID for the currently importing classic menu.
+
+
+    classicMenuBeingConvertedId = menuId;
+
+    if (!menuId || !menuName) {
+      setError('Unable to convert menu. Missing menu details.');
+      setStatus(CLASSIC_MENU_CONVERSION_ERROR);
+      return;
+    }
+
+    setStatus(CLASSIC_MENU_CONVERSION_PENDING);
+    setError(null);
+    return await convertClassicMenuToBlockMenu(menuId, menuName, postStatus).then(navigationMenu => {
+      setStatus(CLASSIC_MENU_CONVERSION_SUCCESS); // Reset the ID for the currently importing classic menu.
+
+      classicMenuBeingConvertedId = null;
+      return navigationMenu;
+    }).catch(err => {
+      setError(err?.message); // Reset the ID for the currently importing classic menu.
+
+      setStatus(CLASSIC_MENU_CONVERSION_ERROR); // Reset the ID for the currently importing classic menu.
+
+      classicMenuBeingConvertedId = null; // Rethrow error for debugging.
+
+      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
+      (0,external_wp_i18n_namespaceObject.__)(`Unable to create Navigation Menu "%s".`), menuName), {
+        cause: err
+      });
+    });
+  }, [convertClassicMenuToBlockMenu]);
+  return {
+    convert,
+    status,
+    error
+  };
+}
+
+/* harmony default export */ var use_convert_classic_menu_to_block_menu = (useConvertClassicToBlockMenu);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/create-template-part-id.js
 /**
  * Generates a template part Id based on slug and theme inputs.
@@ -31681,336 +32005,6 @@ function useCreateNavigationMenu(clientId) {
     isError: status === CREATE_NAVIGATION_MENU_ERROR
   };
 }
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/menu-items-to-blocks.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Convert a flat menu item structure to a nested blocks structure.
- *
- * @param {Object[]} menuItems An array of menu items.
- *
- * @return {WPBlock[]} An array of blocks.
- */
-
-function menuItemsToBlocks(menuItems) {
-  if (!menuItems) {
-    return null;
-  }
-
-  const menuTree = createDataTree(menuItems);
-  const blocks = mapMenuItemsToBlocks(menuTree);
-  return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.navigation.__unstableMenuItemsToBlocks', blocks, menuItems);
-}
-/**
- * A recursive function that maps menu item nodes to blocks.
- *
- * @param {WPNavMenuItem[]} menuItems An array of WPNavMenuItem items.
- * @param {number}          level     An integer representing the nesting level.
- * @return {Object} Object containing innerBlocks and mapping.
- */
-
-function mapMenuItemsToBlocks(menuItems, level = 0) {
-  let mapping = {}; // The menuItem should be in menu_order sort order.
-
-  const sortedItems = [...menuItems].sort((a, b) => a.menu_order - b.menu_order);
-  const innerBlocks = sortedItems.map(menuItem => {
-    if (menuItem.type === 'block') {
-      const [block] = (0,external_wp_blocks_namespaceObject.parse)(menuItem.content.raw);
-
-      if (!block) {
-        return (0,external_wp_blocks_namespaceObject.createBlock)('core/freeform', {
-          content: menuItem.content
-        });
-      }
-
-      return block;
-    }
-
-    const blockType = menuItem.children?.length ? 'core/navigation-submenu' : 'core/navigation-link';
-    const attributes = menuItemToBlockAttributes(menuItem, blockType, level); // If there are children recurse to build those nested blocks.
-
-    const {
-      innerBlocks: nestedBlocks = [],
-      // alias to avoid shadowing
-      mapping: nestedMapping = {} // alias to avoid shadowing
-
-    } = menuItem.children?.length ? mapMenuItemsToBlocks(menuItem.children, level + 1) : {}; // Update parent mapping with nested mapping.
-
-    mapping = { ...mapping,
-      ...nestedMapping
-    }; // Create block with nested "innerBlocks".
-
-    const block = (0,external_wp_blocks_namespaceObject.createBlock)(blockType, attributes, nestedBlocks); // Create mapping for menuItem -> block.
-
-    mapping[menuItem.id] = block.clientId;
-    return block;
-  });
-  return {
-    innerBlocks,
-    mapping
-  };
-}
-/**
- * A WP nav_menu_item object.
- * For more documentation on the individual fields present on a menu item please see:
- * https://core.trac.wordpress.org/browser/tags/5.7.1/src/wp-includes/nav-menu.php#L789
- *
- * @typedef WPNavMenuItem
- *
- * @property {Object} title       stores the raw and rendered versions of the title/label for this menu item.
- * @property {Array}  xfn         the XFN relationships expressed in the link of this menu item.
- * @property {Array}  classes     the HTML class attributes for this menu item.
- * @property {string} attr_title  the HTML title attribute for this menu item.
- * @property {string} object      The type of object originally represented, such as 'category', 'post', or 'attachment'.
- * @property {string} object_id   The DB ID of the original object this menu item represents, e.g. ID for posts and term_id for categories.
- * @property {string} description The description of this menu item.
- * @property {string} url         The URL to which this menu item points.
- * @property {string} type        The family of objects originally represented, such as 'post_type' or 'taxonomy'.
- * @property {string} target      The target attribute of the link element for this menu item.
- */
-
-/**
- * Convert block attributes to menu item.
- *
- * @param {WPNavMenuItem} menuItem  the menu item to be converted to block attributes.
- * @param {string}        blockType The block type.
- * @param {number}        level     An integer representing the nesting level.
- * @return {Object} the block attributes converted from the WPNavMenuItem item.
- */
-
-
-function menuItemToBlockAttributes({
-  title: menuItemTitleField,
-  xfn,
-  classes,
-  // eslint-disable-next-line camelcase
-  attr_title,
-  object,
-  // eslint-disable-next-line camelcase
-  object_id,
-  description,
-  url,
-  type: menuItemTypeField,
-  target
-}, blockType, level) {
-  // For historical reasons, the `core/navigation-link` variation type is `tag`
-  // whereas WP Core expects `post_tag` as the `object` type.
-  // To avoid writing a block migration we perform a conversion here.
-  // See also inverse equivalent in `blockAttributesToMenuItem`.
-  if (object && object === 'post_tag') {
-    object = 'tag';
-  }
-
-  return {
-    label: menuItemTitleField?.rendered || '',
-    ...(object?.length && {
-      type: object
-    }),
-    kind: menuItemTypeField?.replace('_', '-') || 'custom',
-    url: url || '',
-    ...(xfn?.length && xfn.join(' ').trim() && {
-      rel: xfn.join(' ').trim()
-    }),
-    ...(classes?.length && classes.join(' ').trim() && {
-      className: classes.join(' ').trim()
-    }),
-
-    /* eslint-disable camelcase */
-    ...(attr_title?.length && {
-      title: attr_title
-    }),
-    ...(object_id && 'custom' !== object && {
-      id: object_id
-    }),
-
-    /* eslint-enable camelcase */
-    ...(description?.length && {
-      description
-    }),
-    ...(target === '_blank' && {
-      opensInNewTab: true
-    }),
-    ...(blockType === 'core/navigation-submenu' && {
-      isTopLevelItem: level === 0
-    }),
-    ...(blockType === 'core/navigation-link' && {
-      isTopLevelLink: level === 0
-    })
-  };
-}
-/**
- * Creates a nested, hierarchical tree representation from unstructured data that
- * has an inherent relationship defined between individual items.
- *
- * For example, by default, each element in the dataset should have an `id` and
- * `parent` property where the `parent` property indicates a relationship between
- * the current item and another item with a matching `id` properties.
- *
- * This is useful for building linked lists of data from flat data structures.
- *
- * @param {Array}  dataset  linked data to be rearranged into a hierarchical tree based on relational fields.
- * @param {string} id       the property which uniquely identifies each entry within the array.
- * @param {*}      relation the property which identifies how the current item is related to other items in the data (if at all).
- * @return {Array} a nested array of parent/child relationships
- */
-
-
-function createDataTree(dataset, id = 'id', relation = 'parent') {
-  const hashTable = Object.create(null);
-  const dataTree = [];
-
-  for (const data of dataset) {
-    hashTable[data[id]] = { ...data,
-      children: []
-    };
-
-    if (data[relation]) {
-      hashTable[data[relation]] = hashTable[data[relation]] || {};
-      hashTable[data[relation]].children = hashTable[data[relation]].children || [];
-      hashTable[data[relation]].children.push(hashTable[data[id]]);
-    } else {
-      dataTree.push(hashTable[data[id]]);
-    }
-  }
-
-  return dataTree;
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-convert-classic-menu-to-block-menu.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-const CLASSIC_MENU_CONVERSION_SUCCESS = 'success';
-const CLASSIC_MENU_CONVERSION_ERROR = 'error';
-const CLASSIC_MENU_CONVERSION_PENDING = 'pending';
-const CLASSIC_MENU_CONVERSION_IDLE = 'idle'; // This is needed to ensure that multiple components using this hook
-// do not import the same classic menu twice.
-
-let classicMenuBeingConvertedId = null;
-
-function useConvertClassicToBlockMenu(clientId) {
-  /*
-   * The wp_navigation post is created as a draft so the changes on the frontend and
-   * the site editor are not permanent without a save interaction done by the user.
-   */
-  const {
-    create: createNavigationMenu
-  } = useCreateNavigationMenu(clientId, 'draft');
-  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const {
-    editEntityRecord
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
-  const [status, setStatus] = (0,external_wp_element_namespaceObject.useState)(CLASSIC_MENU_CONVERSION_IDLE);
-  const [error, setError] = (0,external_wp_element_namespaceObject.useState)(null);
-  const convertClassicMenuToBlockMenu = (0,external_wp_element_namespaceObject.useCallback)(async (menuId, menuName, postStatus = 'publish') => {
-    let navigationMenu;
-    let classicMenuItems; // 1. Fetch the classic Menu items.
-
-    try {
-      classicMenuItems = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getMenuItems({
-        menus: menuId,
-        per_page: -1,
-        context: 'view'
-      });
-    } catch (err) {
-      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
-      (0,external_wp_i18n_namespaceObject.__)(`Unable to fetch classic menu "%s" from API.`), menuName), {
-        cause: err
-      });
-    } // Handle offline response which resolves to `null`.
-
-
-    if (classicMenuItems === null) {
-      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
-      (0,external_wp_i18n_namespaceObject.__)(`Unable to fetch classic menu "%s" from API.`), menuName));
-    } // 2. Convert the classic items into blocks.
-
-
-    const {
-      innerBlocks
-    } = menuItemsToBlocks(classicMenuItems); // 3. Create the `wp_navigation` Post with the blocks.
-
-    try {
-      navigationMenu = await createNavigationMenu(menuName, innerBlocks, postStatus);
-      /**
-       * Immediately trigger editEntityRecord to change the wp_navigation post status to 'publish'.
-       * This status change causes the menu to be displayed on the front of the site and sets the post state to be "dirty".
-       * The problem being solved is if saveEditedEntityRecord was used here, the menu would be updated on the frontend and the editor _automatically_,
-       * without user interaction.
-       * If the user abandons the site editor without saving, there would still be a wp_navigation post created as draft.
-       */
-
-      await editEntityRecord('postType', 'wp_navigation', navigationMenu.id, {
-        status: 'publish'
-      }, {
-        throwOnError: true
-      });
-    } catch (err) {
-      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
-      (0,external_wp_i18n_namespaceObject.__)(`Unable to create Navigation Menu "%s".`), menuName), {
-        cause: err
-      });
-    }
-
-    return navigationMenu;
-  }, [createNavigationMenu, editEntityRecord, registry]);
-  const convert = (0,external_wp_element_namespaceObject.useCallback)(async (menuId, menuName, postStatus) => {
-    // Check whether this classic menu is being imported already.
-    if (classicMenuBeingConvertedId === menuId) {
-      return;
-    } // Set the ID for the currently importing classic menu.
-
-
-    classicMenuBeingConvertedId = menuId;
-
-    if (!menuId || !menuName) {
-      setError('Unable to convert menu. Missing menu details.');
-      setStatus(CLASSIC_MENU_CONVERSION_ERROR);
-      return;
-    }
-
-    setStatus(CLASSIC_MENU_CONVERSION_PENDING);
-    setError(null);
-    return await convertClassicMenuToBlockMenu(menuId, menuName, postStatus).then(navigationMenu => {
-      setStatus(CLASSIC_MENU_CONVERSION_SUCCESS); // Reset the ID for the currently importing classic menu.
-
-      classicMenuBeingConvertedId = null;
-      return navigationMenu;
-    }).catch(err => {
-      setError(err?.message); // Reset the ID for the currently importing classic menu.
-
-      setStatus(CLASSIC_MENU_CONVERSION_ERROR); // Reset the ID for the currently importing classic menu.
-
-      classicMenuBeingConvertedId = null; // Rethrow error for debugging.
-
-      throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of a menu (e.g. Header navigation).
-      (0,external_wp_i18n_namespaceObject.__)(`Unable to create Navigation Menu "%s".`), menuName), {
-        cause: err
-      });
-    });
-  }, [convertClassicMenuToBlockMenu]);
-  return {
-    convert,
-    status,
-    error
-  };
-}
-
-/* harmony default export */ var use_convert_classic_menu_to_block_menu = (useConvertClassicToBlockMenu);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-inner-blocks.js
 /**
@@ -32973,7 +32967,7 @@ function Navigation({
     convert: convertClassicMenu,
     status: classicMenuConversionStatus,
     error: classicMenuConversionError
-  } = use_convert_classic_menu_to_block_menu(clientId);
+  } = use_convert_classic_menu_to_block_menu(createNavigationMenu);
   const isConvertingClassicMenu = classicMenuConversionStatus === CLASSIC_MENU_CONVERSION_PENDING;
   const handleUpdateMenu = (0,external_wp_element_namespaceObject.useCallback)((menuId, options = {
     focusNavigationBlock: false
@@ -46979,7 +46973,8 @@ const block_metadata = {
   name: "core/block",
   title: "Pattern",
   category: "reusable",
-  description: "Create and save content to reuse across your site. Update the block, and the changes apply everywhere it\u2019s used.",
+  description: "Create and save content to reuse across your site. Update the pattern, and the changes apply everywhere it\u2019s used.",
+  keywords: ["reusable"],
   textdomain: "default",
   attributes: {
     ref: {
@@ -58562,16 +58557,24 @@ const format = {
 
     function onClick() {
       registry.batch(() => {
-        const id = esm_browser_v4();
-        const newValue = (0,external_wp_richText_namespaceObject.insertObject)(value, {
-          type: formatName,
-          attributes: {
-            'data-fn': id
-          },
-          innerHTML: `<a href="#${id}" id="${id}-link">*</a>`
-        }, value.end, value.end);
-        newValue.start = newValue.end - 1;
-        onChange(newValue); // BFS search to find the first footnote block.
+        let id;
+
+        if (isObjectActive) {
+          const object = value.replacements[value.start];
+          id = object?.attributes?.['data-fn'];
+        } else {
+          id = esm_browser_v4();
+          const newValue = (0,external_wp_richText_namespaceObject.insertObject)(value, {
+            type: formatName,
+            attributes: {
+              'data-fn': id
+            },
+            innerHTML: `<a href="#${id}" id="${id}-link">*</a>`
+          }, value.end, value.end);
+          newValue.start = newValue.end - 1;
+          onChange(newValue);
+        } // BFS search to find the first footnote block.
+
 
         let fnBlock = null;
         {
