@@ -147,7 +147,7 @@ function get_default_block_template_types() {
 		),
 		'category'       => array(
 			'title'       => _x( 'Category Archives', 'Template name' ),
-			'description' => __( 'Displays a post category archive. This template will serve as a fallback when more specific template (e.g., Category: Recipes) cannot be found.' ),
+			'description' => __( 'Displays a post category archive. This template will serve as a fallback when a more specific template (e.g., Category: Recipes) cannot be found.' ),
 		),
 		'taxonomy'       => array(
 			'title'       => _x( 'Taxonomy', 'Template name' ),
@@ -159,7 +159,7 @@ function get_default_block_template_types() {
 		),
 		'tag'            => array(
 			'title'       => _x( 'Tag Archives', 'Template name' ),
-			'description' => __( 'Displays a post tag archive. This template will serve as a fallback when more specific template (e.g., Tag: Pizza) cannot be found.' ),
+			'description' => __( 'Displays a post tag archive. This template will serve as a fallback when a more specific template (e.g., Tag: Pizza) cannot be found.' ),
 		),
 		'attachment'     => array(
 			'title'       => __( 'Attachment Pages' ),
