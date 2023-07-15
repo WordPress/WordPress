@@ -1001,6 +1001,7 @@ border color while dragging a file over the uploader drop area */
 	padding: 0 10px;
 }
 
+.imgedit-menu .button:after,
 .imgedit-menu .button:before {
 	font: normal 16px/1 dashicons;
 	margin-right: 8px;
@@ -1010,6 +1011,16 @@ border color while dragging a file over the uploader drop area */
 	top: -2px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.imgedit-menu .imgedit-rotate.button:after {
+	content: '\f140';
+	margin-left: 2px;
+	margin-right: 0;
+}
+
+.imgedit-menu .imgedit-rotate.button[aria-expanded="true"]:after {
+	content: '\f142';
 }
 
 .imgedit-menu .button.disabled {
@@ -1121,10 +1132,11 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-popup-menu {
-	width: fit-content;
+	width: calc( 100% - 20px );
 	position: absolute;
-	left: calc( 100% + 4px );
-	top: -3px;
+	background: #fff;
+	padding: 10px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .image-editor .imgedit-menu .imgedit-popup-menu button {
