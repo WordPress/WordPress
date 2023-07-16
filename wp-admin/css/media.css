@@ -899,15 +899,10 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-panel-content {
-	display: grid;
-	grid-template-columns: 1fr;
+	display: flex;
+	flex-wrap: wrap;
 	gap: 20px;
-}
-
-@media screen and (min-width: 1200px) {
-	.imgedit-panel-content.imgedit-panel-tools {
-		grid-template-columns: 50% 50%;
-	}
+	margin-bottom: 20px;
 }
 
 .imgedit-settings {
@@ -1129,6 +1124,7 @@ border color while dragging a file over the uploader drop area */
 	display: flex;
 	column-gap: 4px;
 	align-items: start;
+	flex-wrap: wrap;
 }
 
 .imgedit-popup-menu {
