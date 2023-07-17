@@ -29,7 +29,7 @@
 					<!-- wp:comment-author-name /-->
 
 					<!-- wp:group {"style":{"spacing":{"margin":{"top":"0px","bottom":"0px"}}},"layout":{"type":"flex"}} -->
-					<div class="wp-block-group" style="margin-top:0;margin-bottom:0">
+					<div class="wp-block-group" style="margin-top:0px;margin-bottom:0px">
 						<!-- wp:comment-date /-->
 						<!-- wp:comment-edit-link /-->
 					</div>
