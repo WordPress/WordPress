@@ -914,7 +914,10 @@ JS;
 			return '';
 		}
 
-		// If the intended strategy is 'defer', limit the initial list of eligibles.
+		/*
+		 * If the intended strategy is 'defer', limit the initial list of eligible
+		 * strategies, since 'async' can fallback to 'defer', but not vice-versa.
+		 */
 		$initial = ( 'defer' === $intended ) ? array( 'defer' ) : null;
 
 		$eligible = $this->filter_eligible_strategies( $handle, $initial );
