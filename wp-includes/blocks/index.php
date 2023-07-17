@@ -44,7 +44,7 @@ function register_core_block_style_handles() {
 	 * Ignore transient cache when the development mode is set to 'core'. Why? To avoid interfering with
 	 * the core developer's workflow.
 	 */
-	if ( ! wp_in_development_mode( 'core' ) ) {
+	if ( ! wp_is_development_mode( 'core' ) ) {
 		$transient_name = 'wp_core_block_css_files';
 		$files          = get_transient( $transient_name );
 		if ( ! $files ) {

@@ -69,7 +69,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
 	 */
-	$can_use_cached = ! wp_in_development_mode( 'theme' );
+	$can_use_cached = ! wp_is_development_mode( 'theme' );
 
 	$settings = false;
 	if ( $can_use_cached ) {
@@ -152,7 +152,7 @@ function wp_get_global_stylesheet( $types = array() ) {
 	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
 	 */
-	$can_use_cached = empty( $types ) && ! wp_in_development_mode( 'theme' );
+	$can_use_cached = empty( $types ) && ! wp_is_development_mode( 'theme' );
 
 	/*
 	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
@@ -251,7 +251,7 @@ function wp_get_global_styles_custom_css() {
 	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
 	 */
-	$can_use_cached = ! wp_in_development_mode( 'theme' );
+	$can_use_cached = ! wp_is_development_mode( 'theme' );
 
 	/*
 	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
@@ -360,7 +360,7 @@ function wp_theme_has_theme_json() {
 		 * Ignore static cache when the development mode is set to 'theme', to avoid interfering with
 		 * the theme developer's workflow.
 		 */
-		! wp_in_development_mode( 'theme' )
+		! wp_is_development_mode( 'theme' )
 	) {
 		return $theme_has_support[ $stylesheet ];
 	}
