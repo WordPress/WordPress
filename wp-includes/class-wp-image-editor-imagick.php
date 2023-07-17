@@ -268,6 +268,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * This function, which is expected to be run before heavy image routines, resolves
 	 * point 1 above by aligning Imagick's timeout with PHP's timeout, assuming it is set.
 	 *
+	 * However seems it introduces more problems than it fixes,
+	 * see https://core.trac.wordpress.org/ticket/58202.
+	 *
 	 * Note:
 	 *  - Imagick resource exhaustion does not issue catchable exceptions (yet).
 	 *    See https://github.com/Imagick/imagick/issues/333.
@@ -275,10 +278,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *    image operations within the time of the HTTP request.
 	 *
 	 * @since 6.2.0
+	 * @since 6.3.0 This method was deprecated.
 	 *
 	 * @return int|null The new limit on success, null on failure.
 	 */
 	public static function set_imagick_time_limit() {
+		_deprecated_function( __METHOD__, '6.3.0' );
+
 		if ( ! defined( 'Imagick::RESOURCETYPE_TIME' ) ) {
 			return null;
 		}
@@ -328,8 +334,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( $crop ) {
 			return $this->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
 		}
-
-		self::set_imagick_time_limit();
 
 		// Execute the resize.
 		$thumb_result = $this->thumbnail_image( $dst_w, $dst_h );
@@ -596,8 +600,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$src_w -= $src_x;
 			$src_h -= $src_y;
 		}
-
-		self::set_imagick_time_limit();
 
 		try {
 			$this->image->cropImage( $src_w, $src_h, $src_x, $src_y );
