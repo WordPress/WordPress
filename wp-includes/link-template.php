@@ -4438,7 +4438,7 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	if ( is_numeric( $id_or_email ) ) {
 		$user = get_user_by( 'id', absint( $id_or_email ) );
 	} elseif ( is_string( $id_or_email ) ) {
-		if ( strpos( $id_or_email, '@md5.gravatar.com' ) ) {
+		if ( str_contains( $id_or_email, '@md5.gravatar.com' ) ) {
 			// MD5 hash.
 			list( $email_hash ) = explode( '@', $id_or_email );
 		} else {

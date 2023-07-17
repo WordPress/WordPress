@@ -679,7 +679,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	// Strip multiple slashes out of the URL.
-	if ( strpos( $redirect['path'], '//' ) > -1 ) {
+	if ( str_contains( $redirect['path'], '//' ) ) {
 		$redirect['path'] = preg_replace( '|/+|', '/', $redirect['path'] );
 	}
 

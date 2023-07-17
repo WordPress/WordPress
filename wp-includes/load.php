@@ -75,14 +75,12 @@ function wp_fix_server_vars() {
 	}
 
 	// Fix for PHP as CGI hosts that set SCRIPT_FILENAME to something ending in php.cgi for all requests.
-	if ( isset( $_SERVER['SCRIPT_FILENAME'] )
-		&& ( strpos( $_SERVER['SCRIPT_FILENAME'], 'php.cgi' ) === strlen( $_SERVER['SCRIPT_FILENAME'] ) - 7 )
-	) {
+	if ( isset( $_SERVER['SCRIPT_FILENAME'] ) && str_ends_with( $_SERVER['SCRIPT_FILENAME'], 'php.cgi' ) ) {
 		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 	}
 
 	// Fix for Dreamhost and other PHP as CGI hosts.
-	if ( isset( $_SERVER['SCRIPT_NAME'] ) && ( strpos( $_SERVER['SCRIPT_NAME'], 'php.cgi' ) !== false ) ) {
+	if ( isset( $_SERVER['SCRIPT_NAME'] ) && str_contains( $_SERVER['SCRIPT_NAME'], 'php.cgi' ) ) {
 		unset( $_SERVER['PATH_INFO'] );
 	}
 
@@ -937,7 +935,7 @@ function wp_get_mu_plugins() {
 	}
 
 	while ( ( $plugin = readdir( $dh ) ) !== false ) {
-		if ( '.php' === substr( $plugin, -4 ) ) {
+		if ( str_ends_with( $plugin, '.php' ) ) {
 			$mu_plugins[] = WPMU_PLUGIN_DIR . '/' . $plugin;
 		}
 	}
@@ -981,7 +979,7 @@ function wp_get_active_and_valid_plugins() {
 
 	foreach ( $active_plugins as $plugin ) {
 		if ( ! validate_file( $plugin )                     // $plugin must validate as file.
-			&& '.php' === substr( $plugin, -4 )             // $plugin must end with '.php'.
+			&& str_ends_with( $plugin, '.php' )             // $plugin must end with '.php'.
 			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist.
 			// Not already included as a network plugin.
 			&& ( ! $network_plugins || ! in_array( WP_PLUGIN_DIR . '/' . $plugin, $network_plugins, true ) )
@@ -1617,11 +1615,11 @@ function wp_convert_hr_to_bytes( $value ) {
 	$value = strtolower( trim( $value ) );
 	$bytes = (int) $value;
 
-	if ( false !== strpos( $value, 'g' ) ) {
+	if ( str_contains( $value, 'g' ) ) {
 		$bytes *= GB_IN_BYTES;
-	} elseif ( false !== strpos( $value, 'm' ) ) {
+	} elseif ( str_contains( $value, 'm' ) ) {
 		$bytes *= MB_IN_BYTES;
-	} elseif ( false !== strpos( $value, 'k' ) ) {
+	} elseif ( str_contains( $value, 'k' ) ) {
 		$bytes *= KB_IN_BYTES;
 	}
 
@@ -1908,7 +1906,7 @@ function wp_is_xml_request() {
 
 	if ( isset( $_SERVER['HTTP_ACCEPT'] ) ) {
 		foreach ( $accepted as $type ) {
-			if ( false !== strpos( $_SERVER['HTTP_ACCEPT'], $type ) ) {
+			if ( str_contains( $_SERVER['HTTP_ACCEPT'], $type ) ) {
 				return true;
 			}
 		}

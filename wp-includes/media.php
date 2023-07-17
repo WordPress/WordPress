@@ -1323,7 +1323,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 			'height' => $image_meta['height'],
 			'file'   => $image_basename,
 		);
-	} elseif ( strpos( $image_src, $image_meta['file'] ) ) {
+	} elseif ( str_contains( $image_src, $image_meta['file'] ) ) {
 		return false;
 	}
 

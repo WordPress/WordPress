@@ -3853,7 +3853,7 @@ function wp_ajax_parse_embed() {
 		'attr' => $wp_embed->last_attr,
 	);
 
-	if ( strpos( $parsed, 'class="wp-embedded-content' ) ) {
+	if ( str_contains( $parsed, 'class="wp-embedded-content' ) ) {
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 			$script_src = includes_url( 'js/wp-embed.js' );
 		} else {

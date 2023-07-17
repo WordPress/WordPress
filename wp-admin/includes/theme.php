@@ -1167,9 +1167,9 @@ function resume_theme( $theme, $redirect = '' ) {
 	 */
 	if ( ! empty( $redirect ) ) {
 		$functions_path = '';
-		if ( strpos( STYLESHEETPATH, $extension ) ) {
+		if ( str_contains( STYLESHEETPATH, $extension ) ) {
 			$functions_path = STYLESHEETPATH . '/functions.php';
-		} elseif ( strpos( TEMPLATEPATH, $extension ) ) {
+		} elseif ( str_contains( TEMPLATEPATH, $extension ) ) {
 			$functions_path = TEMPLATEPATH . '/functions.php';
 		}
 

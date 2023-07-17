@@ -1362,7 +1362,7 @@ switch ( $action ) {
 				$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
 			} elseif ( isset( $_GET['registration'] ) && 'disabled' === $_GET['registration'] ) {
 				$errors->add( 'registerdisabled', __( '<strong>Error:</strong> User registration is currently not allowed.' ) );
-			} elseif ( strpos( $redirect_to, 'about.php?updated' ) ) {
+			} elseif ( str_contains( $redirect_to, 'about.php?updated' ) ) {
 				$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 			} elseif ( WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED === $action ) {
 				$errors->add( 'enter_recovery_mode', __( 'Recovery Mode Initialized. Please log in to continue.' ), 'message' );

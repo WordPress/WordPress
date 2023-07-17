@@ -1237,7 +1237,11 @@ if ( ! function_exists( 'auth_redirect' ) ) :
 		// The cookie is no good, so force login.
 		nocache_headers();
 
-		$redirect = ( strpos( $_SERVER['REQUEST_URI'], '/options.php' ) && wp_get_referer() ) ? wp_get_referer() : set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		if ( str_contains( $_SERVER['REQUEST_URI'], '/options.php' ) && wp_get_referer() ) {
+			$redirect = wp_get_referer();
+		} else {
+			$redirect = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		}
 
 		$login_url = wp_login_url( $redirect, true );
 
