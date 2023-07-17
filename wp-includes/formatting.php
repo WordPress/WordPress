@@ -3952,6 +3952,7 @@ function human_time_diff( $from, $to = 0 ) {
  *
  * @since 1.5.0
  * @since 5.2.0 Added the `$post` parameter.
+ * @since 6.3.0 Removes footnotes markup from the excerpt content.
  *
  * @param string             $text Optional. The excerpt. If set to empty, an excerpt is generated.
  * @param WP_Post|object|int $post Optional. WP_Post instance or Post ID/object. Default null.
@@ -3966,6 +3967,7 @@ function wp_trim_excerpt( $text = '', $post = null ) {
 
 		$text = strip_shortcodes( $text );
 		$text = excerpt_remove_blocks( $text );
+		$text = excerpt_remove_footnotes( $text );
 
 		/*
 		 * Temporarily unhook wp_filter_content_tags() since any tags
@@ -4008,6 +4010,7 @@ function wp_trim_excerpt( $text = '', $post = null ) {
 		 */
 		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
 		$text         = wp_trim_words( $text, $excerpt_length, $excerpt_more );
+
 	}
 
 	/**
