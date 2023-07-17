@@ -596,7 +596,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 				$changes->tax_input['wp_template_part_area'] = _filter_block_template_part_area( $request['area'] );
 			} elseif ( null !== $template && 'custom' !== $template->source && $template->area ) {
 				$changes->tax_input['wp_template_part_area'] = _filter_block_template_part_area( $template->area );
-			} elseif ( ! $template->area ) {
+			} elseif ( empty( $template->area ) ) {
 				$changes->tax_input['wp_template_part_area'] = WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
 			}
 		}
