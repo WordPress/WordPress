@@ -22,16 +22,17 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: #1d35b4;
+	--background: #151515;
 	--subtle-background: #eff2ff;
 
 	/* Main text color */
-	--text: #000;
+	--text: #1e1e1e;
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #1d35b4; /* Link color, credit image overlay */
-	--accent-2: #33f078; /* Accent background */
+	--accent-1: #3858e9; /* Link color, credit image overlay */
+	--accent-2: #ffb7a7; /* Accent background */
+	--accent-3: #f0f0f1; /* hr background */
 
 	/* Navigation colors. */
 	--nav-background: #fff;
@@ -476,24 +477,20 @@
 	margin-top: 1.5em;
 }
 
-.about__container .column .about__image {
-	margin-bottom: calc(var(--gap) / 2);
-}
-
 .about__container hr {
-	margin: 0 var(--gap);
-	height: var(--gap);
+	margin: calc(var(--gap) / 2) var(--gap);
+	height: 0;
 	border: none;
-	border-top: 4px solid var(--accent-2);
+	border-top: 4px solid var(--accent-3);
 }
 
 .about__container hr.is-small {
-	height: calc(var(--gap) / 4);
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 .about__container hr.is-large {
-	height: calc(var(--gap) * 2);
-	margin: calc(var(--gap) / 2) auto;
+	margin: var(--gap) auto;
 }
 
 .about__container div.updated,
@@ -540,21 +537,25 @@
 	padding: calc(var(--gap) * 2) 0;
 	min-height: 420px;
 	color: var(--text-light);
-	background: var(--background) url('../images/about-header-about.svg?ver=6.2') no-repeat;
+	background: var(--background) url('../images/about-header-about.svg?ver=6.3') no-repeat;
 	background-size: cover;
 	background-position: center;
 }
 
 .credits-php .about__header {
-	background-image: url('../images/about-header-credits.svg?ver=6.2');
+	background-image: url('../images/about-header-credits.svg?ver=6.3');
 }
 
 .freedoms-php .about__header {
-	background-image: url('../images/about-header-freedoms.svg?ver=6.2');
+	background-image: url('../images/about-header-freedoms.svg?ver=6.3');
 }
 
 .privacy-php .about__header {
-	background-image: url('../images/about-header-privacy.svg?ver=6.2');
+	background-image: url('../images/about-header-privacy.svg?ver=6.3');
+}
+
+.contribute-php .about__header {
+	background-image: url('../images/about-header-contribute.svg?ver=6.3');
 }
 
 .about__header-image {
@@ -585,13 +586,9 @@
 	font-size: clamp(3rem, 10vw - 3rem, 4.5rem);
 }
 
-.about__header-title h1 span {
-	color: var(--accent-2);
-}
-
 .about__header-text {
 	box-sizing: border-box;
-	max-width: 22em;
+	max-width: 26em;
 	margin: 0 auto;
 	padding: 0;
 	font-size: 1.6rem;

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" fill="none" viewBox="0 0 280 280">
+  <g clip-path="url(#a)">
+    <rect width="280" height="280" fill="#151515" rx="5"/>
+    <ellipse cx="140" cy="323" fill="url(#b)" opacity=".2" rx="928" ry="154"/>
+    <g stroke-width="1.5" clip-path="url(#c)">
+      <path stroke="url(#d)" d="M53 135v1635"/>
+      <path stroke="url(#e)" d="M111 135v1635"/>
+      <path stroke="url(#f)" d="M169 135v1635"/>
+      <path stroke="url(#g)" d="M227 135v1635"/>
+    </g>
+    <path fill="#fff" d="M98.666 177.465c-10.254 0-18.603-4.981-23.34-14.014-3.32-5.762-5.03-13.135-5.03-21.875 0-23.486 10.89-37.5 28.76-37.5 12.891 0 22.901 7.666 25.001 19.043h-12.5c-1.612-5.322-6.543-8.789-12.598-8.789-10.547 0-16.748 9.766-16.65 26.758h.244c2.978-6.885 10.205-11.475 19.092-11.475 13.378 0 23.339 9.864 23.339 23.242 0 14.307-11.035 24.61-26.318 24.61Zm-.098-10.303c7.813 0 14.014-6.152 14.014-13.916 0-7.959-5.859-13.769-13.916-13.769-8.105 0-14.111 5.81-14.111 13.623 0 7.861 6.152 14.062 14.013 14.062Zm41.018 9.375c-3.955 0-7.031-3.076-7.031-7.031 0-3.906 3.076-7.031 7.031-7.031 3.906 0 6.982 3.125 6.982 7.031 0 3.955-3.076 7.031-6.982 7.031Zm32.082-31.933v-9.473h8.496c7.227 0 12.158-4.443 12.158-10.742 0-6.153-4.297-10.254-12.207-10.254-7.275 0-12.158 4.248-12.646 10.84H155.75c.684-12.647 10.4-20.85 24.951-20.85 13.867 0 23.731 7.568 23.731 18.555 0 8.74-5.86 15.039-14.551 16.552v.293c10.547.782 17.383 7.227 17.383 17.041 0 12.452-11.328 20.85-26.709 20.85-15.479 0-25.537-8.496-26.172-21.045h12.012c.585 6.445 5.859 10.742 14.257 10.742 8.106 0 13.819-4.541 13.819-11.035 0-7.129-5.371-11.474-14.112-11.474h-8.691Z"/>
+  </g>
+  <defs>
+    <linearGradient id="d" x1="53.5" x2="53.5" y1="135" y2="1770" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3858E9" stop-opacity="0"/>
+      <stop offset=".297" stop-color="#3858E9"/>
+      <stop offset=".734" stop-color="#3858E9"/>
+      <stop offset="1" stop-color="#3858E9" stop-opacity="0"/>
+      <stop offset="1" stop-color="#3858E9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="e" x1="111.5" x2="111.5" y1="135" y2="1770" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C7FFDB" stop-opacity="0"/>
+      <stop offset=".297" stop-color="#C7FFDB"/>
+      <stop offset=".693" stop-color="#C7FFDB"/>
+      <stop offset="1" stop-color="#C7FFDB" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="f" x1="169.5" x2="169.5" y1="135" y2="1770" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB7A7" stop-opacity="0"/>
+      <stop offset=".297" stop-color="#FFB7A7"/>
+      <stop offset=".734" stop-color="#FFB7A7"/>
+      <stop offset="1" stop-color="#3858E9" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FFB7A7" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="g" x1="227.5" x2="227.5" y1="135" y2="1770" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7B90FF" stop-opacity="0"/>
+      <stop offset=".297" stop-color="#7B90FF"/>
+      <stop offset=".734" stop-color="#7B90FF"/>
+      <stop offset="1" stop-color="#3858E9" stop-opacity="0"/>
+      <stop offset="1" stop-color="#7B90FF" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="a">
+      <rect width="280" height="280" fill="#fff" rx="5"/>
+    </clipPath>
+    <clipPath id="c">
+      <path fill="#fff" d="M0 135h280v280H0z"/>
+    </clipPath>
+    <radialGradient id="b" cx="0" cy="0" r="1" gradientTransform="matrix(0 154 -928 0 140 323)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3858E9"/>
+      <stop offset="1" stop-color="#151515" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
