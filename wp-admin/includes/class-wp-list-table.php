@@ -1115,7 +1115,7 @@ class WP_List_Table {
 	 *
 	 * In the second format, passing true as second parameter will make the initial
 	 * sorting order be descending. Following parameters add a short column name to
-	 * be used as 'abbr' attribute, a translatable string for the current sorting
+	 * be used as 'abbr' attribute, a translatable string for the current sorting,
 	 * and the initial order for the initial sorted column, 'asc' or 'desc' (default: false).
 	 *
 	 * @since 3.1.0
@@ -1325,10 +1325,10 @@ class WP_List_Table {
 		}
 
 		// Not in the initial view and descending order.
-		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] ) {
+		if ( isset( $_GET['order'] ) && 'desc' === $_GET['order'] ) {
 			$current_order = 'desc';
 		} else {
-			// The initial view is not always 'asc' we'll take care of this below.
+			// The initial view is not always 'asc', we'll take care of this below.
 			$current_order = 'asc';
 		}
 
@@ -1388,13 +1388,14 @@ class WP_List_Table {
 				 */
 				if ( $current_orderby === $orderby ) {
 					// The sorted column. The `aria-sort` attribute must be set only on the sorted column.
-					if ( 'asc' == $current_order ) {
+					if ( 'asc' === $current_order ) {
 						$order          = 'desc';
 						$aria_sort_attr = ' aria-sort="ascending"';
 					} else {
 						$order          = 'asc';
 						$aria_sort_attr = ' aria-sort="descending"';
 					}
+
 					$class[] = 'sorted';
 					$class[] = $current_order;
 				} else {
@@ -1407,12 +1408,14 @@ class WP_List_Table {
 
 					$class[] = 'sortable';
 					$class[] = 'desc' === $order ? 'asc' : 'desc';
+
 					/* translators: Hidden accessibility text. */
 					$asc_text = __( 'Sort ascending.' );
 					/* translators: Hidden accessibility text. */
 					$desc_text  = __( 'Sort descending.' );
 					$order_text = 'asc' === $order ? $asc_text : $desc_text;
 				}
+
 				if ( '' !== $order_text ) {
 					$order_text = ' <span class="screen-reader-text">' . $order_text . '</span>';
 				}
@@ -1459,10 +1462,10 @@ class WP_List_Table {
 		}
 
 		// Not in the initial view and descending order.
-		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] ) {
+		if ( isset( $_GET['order'] ) && 'desc' === $_GET['order'] ) {
 			$current_order = 'desc';
 		} else {
-			// The initial view is not always 'asc' we'll take care of this below.
+			// The initial view is not always 'asc', we'll take care of this below.
 			$current_order = 'asc';
 		}
 
@@ -1493,7 +1496,7 @@ class WP_List_Table {
 				 * True in the initial view when an initial orderby is set via get_sortable_columns()
 				 * and true in the sorted views when the actual $_GET['orderby'] is equal to $orderby.
 				 */
-				if ( $current_orderby == $orderby ) {
+				if ( $current_orderby === $orderby ) {
 					/* translators: Hidden accessibility text. */
 					$asc_text = __( 'Ascending.' );
 					/* translators: Hidden accessibility text. */
