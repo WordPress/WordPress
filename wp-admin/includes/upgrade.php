@@ -2320,7 +2320,7 @@ function upgrade_630() {
 			$can_compress_scripts = get_option( 'can_compress_scripts', false );
 			if ( false !== $can_compress_scripts ) {
 				delete_option( 'can_compress_scripts' );
-				add_option( 'can_compress_scripts', $can_compress_scripts, 'yes' );
+				add_option( 'can_compress_scripts', $can_compress_scripts, '', 'yes' );
 			}
 		}
 	}
