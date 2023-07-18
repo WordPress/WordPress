@@ -3871,7 +3871,7 @@ function ManagePatternsMenuItem() {
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     role: "menuitem",
     href: url
-  }, (0,external_wp_i18n_namespaceObject.__)('Manage Patterns'));
+  }, (0,external_wp_i18n_namespaceObject.__)('Manage patterns'));
 }
 
 (0,external_wp_plugins_namespaceObject.registerPlugin)('edit-post', {

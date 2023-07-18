@@ -4883,6 +4883,7 @@
       ),
       'html' => false
     ),
+    'viewScript' => 'file:./view.min.js',
     'editorStyle' => 'wp-block-search-editor',
     'style' => 'wp-block-search'
   ),

@@ -3078,17 +3078,17 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 }
 
 .edit-site-sidebar-navigation-screen-patterns__group{
-  margin-bottom:32px;
+  margin-bottom:24px;
 }
-.edit-site-sidebar-navigation-screen-patterns__group:first-of-type,.edit-site-sidebar-navigation-screen-patterns__group:last-of-type{
+.edit-site-sidebar-navigation-screen-patterns__group:last-of-type{
   border-bottom:0;
   margin-bottom:0;
   padding-bottom:0;
 }
-.edit-site-sidebar-navigation-screen-patterns__group:first-of-type{
-  margin-bottom:32px;
-}
 
+.edit-site-sidebar-navigation-screen-patterns__group-header{
+  margin-top:16px;
+}
 .edit-site-sidebar-navigation-screen-patterns__group-header p{
   color:#949494;
 }

@@ -3314,7 +3314,6 @@ __webpack_require__.d(__webpack_exports__, {
   "ObserveTyping": function() { return /* reexport */ observe_typing; },
   "PanelColorSettings": function() { return /* reexport */ panel_color_settings; },
   "PlainText": function() { return /* reexport */ plain_text; },
-  "ReusableBlocksRenameHint": function() { return /* reexport */ ReusableBlocksRenameHint; },
   "RichText": function() { return /* reexport */ rich_text; },
   "RichTextShortcut": function() { return /* reexport */ RichTextShortcut; },
   "RichTextToolbarButton": function() { return /* reexport */ RichTextToolbarButton; },
@@ -3429,13 +3428,13 @@ var private_selectors_namespaceObject = {};
 __webpack_require__.r(private_selectors_namespaceObject);
 __webpack_require__.d(private_selectors_namespaceObject, {
   "getBlockEditingMode": function() { return getBlockEditingMode; },
+  "getBlockRemovalRules": function() { return getBlockRemovalRules; },
   "getEnabledBlockParents": function() { return getEnabledBlockParents; },
   "getEnabledClientIdsTree": function() { return getEnabledClientIdsTree; },
   "getLastInsertedBlocksClientIds": function() { return getLastInsertedBlocksClientIds; },
   "getRemovalPromptData": function() { return getRemovalPromptData; },
   "isBlockInterfaceHidden": function() { return private_selectors_isBlockInterfaceHidden; },
-  "isBlockSubtreeDisabled": function() { return isBlockSubtreeDisabled; },
-  "isRemovalPromptSupported": function() { return private_selectors_isRemovalPromptSupported; }
+  "isBlockSubtreeDisabled": function() { return isBlockSubtreeDisabled; }
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/block-editor/build-module/store/selectors.js
@@ -3558,14 +3557,13 @@ var private_actions_namespaceObject = {};
 __webpack_require__.r(private_actions_namespaceObject);
 __webpack_require__.d(private_actions_namespaceObject, {
   "__experimentalUpdateSettings": function() { return __experimentalUpdateSettings; },
-  "clearRemovalPrompt": function() { return clearRemovalPrompt; },
-  "displayRemovalPrompt": function() { return displayRemovalPrompt; },
+  "clearBlockRemovalPrompt": function() { return clearBlockRemovalPrompt; },
   "ensureDefaultBlock": function() { return ensureDefaultBlock; },
   "hideBlockInterface": function() { return hideBlockInterface; },
   "privateRemoveBlocks": function() { return privateRemoveBlocks; },
   "setBlockEditingMode": function() { return setBlockEditingMode; },
+  "setBlockRemovalRules": function() { return setBlockRemovalRules; },
   "showBlockInterface": function() { return showBlockInterface; },
-  "toggleRemovalPromptSupport": function() { return toggleRemovalPromptSupport; },
   "unsetBlockEditingMode": function() { return unsetBlockEditingMode; }
 });
 
@@ -5412,7 +5410,7 @@ function isSelectionEnabled(state = true, action) {
 
 function removalPromptData(state = false, action) {
   switch (action.type) {
-    case 'DISPLAY_REMOVAL_PROMPT':
+    case 'DISPLAY_BLOCK_REMOVAL_PROMPT':
       const {
         clientIds,
         selectPrevious,
@@ -5424,26 +5422,34 @@ function removalPromptData(state = false, action) {
         blockNamesForPrompt
       };
 
-    case 'CLEAR_REMOVAL_PROMPT':
+    case 'CLEAR_BLOCK_REMOVAL_PROMPT':
       return false;
   }
 
   return state;
 }
 /**
- * Reducer prompt availability state.
+ * Reducer returning any rules that a block editor may provide in order to
+ * prevent a user from accidentally removing certain blocks. These rules are
+ * then used to display a confirmation prompt to the user. For instance, in the
+ * Site Editor, the Query Loop block is important enough to warrant such
+ * confirmation.
+ *
+ * The data is a record whose keys are block types (e.g. 'core/query') and
+ * whose values are the explanation to be shown to users (e.g. 'Query Loop
+ * displays a list of posts or pages.').
  *
  * @param {boolean} state  Current state.
  * @param {Object}  action Dispatched action.
  *
- * @return {boolean} Updated state.
+ * @return {Record<string,string>} Updated state.
  */
 
 
-function isRemovalPromptSupported(state = false, action) {
+function blockRemovalRules(state = false, action) {
   switch (action.type) {
-    case 'TOGGLE_REMOVAL_PROMPT_SUPPORT':
-      return action.status;
+    case 'SET_BLOCK_REMOVAL_RULES':
+      return action.rules;
   }
 
   return state;
@@ -5863,7 +5869,7 @@ const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   blockVisibility,
   blockEditingModes,
   removalPromptData,
-  isRemovalPromptSupported
+  blockRemovalRules
 });
 
 function withAutomaticChangeReset(reducer) {
@@ -6480,8 +6486,8 @@ function getRemovalPromptData(state) {
  * @return {boolean} Whether removal prompt exists.
  */
 
-function private_selectors_isRemovalPromptSupported(state) {
-  return state.isRemovalPromptSupported;
+function getBlockRemovalRules(state) {
+  return state.blockRemovalRules;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/selectors.js
@@ -9042,107 +9048,10 @@ function __unstableIsWithinBlockOverlay(state, clientId) {
   return false;
 }
 
-;// CONCATENATED MODULE: external ["wp","privateApis"]
-var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/lock-unlock.js
-/**
- * WordPress dependencies
- */
-
-const {
-  lock,
-  unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/block-editor');
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-removal-warning-modal/index.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
- // In certain editing contexts, we'd like to prevent accidental removal of
-// important blocks. For example, in the site editor, the Query Loop block is
-// deemed important. In such cases, we'll ask the user for confirmation that
-// they intended to remove such block(s).
-//
-// @see https://github.com/WordPress/gutenberg/pull/51145
-
-const blockTypePromptMessages = {
-  'core/query': (0,external_wp_i18n_namespaceObject.__)('Query Loop displays a list of posts or pages.'),
-  'core/post-content': (0,external_wp_i18n_namespaceObject.__)('Post Content displays the content of a post or page.')
-};
-function BlockRemovalWarningModal() {
-  const {
-    clientIds,
-    selectPrevious,
-    blockNamesForPrompt
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => unlock(select(store)).getRemovalPromptData());
-  const {
-    clearRemovalPrompt,
-    toggleRemovalPromptSupport,
-    privateRemoveBlocks
-  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store)); // Signalling the removal prompt is in place.
-
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    toggleRemovalPromptSupport(true);
-    return () => {
-      toggleRemovalPromptSupport(false);
-    };
-  }, [toggleRemovalPromptSupport]);
-
-  if (!blockNamesForPrompt) {
-    return;
-  }
-
-  const onConfirmRemoval = () => {
-    privateRemoveBlocks(clientIds, selectPrevious,
-    /* force */
-    true);
-    clearRemovalPrompt();
-  };
-
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Are you sure?'),
-    onRequestClose: clearRemovalPrompt,
-    style: {
-      maxWidth: '40rem'
-    }
-  }, blockNamesForPrompt.length === 1 ? (0,external_wp_element_namespaceObject.createElement)("p", null, blockTypePromptMessages[blockNamesForPrompt[0]]) : (0,external_wp_element_namespaceObject.createElement)("ul", {
-    style: {
-      listStyleType: 'disc',
-      paddingLeft: '1rem'
-    }
-  }, blockNamesForPrompt.map(name => (0,external_wp_element_namespaceObject.createElement)("li", {
-    key: name
-  }, blockTypePromptMessages[name]))), (0,external_wp_element_namespaceObject.createElement)("p", null, blockNamesForPrompt.length > 1 ? (0,external_wp_i18n_namespaceObject.__)('Removing these blocks is not advised.') : (0,external_wp_i18n_namespaceObject.__)('Removing this block is not advised.')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    justify: "right"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    variant: "tertiary",
-    onClick: clearRemovalPrompt
-  }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    variant: "primary",
-    onClick: onConfirmRemoval
-  }, (0,external_wp_i18n_namespaceObject.__)('Delete'))));
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/private-actions.js
 /**
  * WordPress dependencies
  */
-
-/**
- * Internal dependencies
- */
-
 
 
 const castArray = maybeArray => Array.isArray(maybeArray) ? maybeArray : [maybeArray];
@@ -9284,26 +9193,18 @@ const privateRemoveBlocks = (clientIds, selectPrevious = true, forceRemove = fal
   // confirmation that they intended to remove such block(s). However,
   // the editor instance is responsible for presenting those confirmation
   // prompts to the user. Any instance opting into removal prompts must
-  // register using `toggleRemovalPromptSupport()`.
+  // register using `setBlockRemovalRules()`.
   //
   // @see https://github.com/WordPress/gutenberg/pull/51145
 
 
-  if (!forceRemove && // FIXME: Without this existence check, the unit tests for
-  // `__experimentalDeleteReusableBlock` in
-  // `packages/reusable-blocks/src/store/test/actions.js` fail due to
-  // the fact that the `registry` object passed to the thunk actions
-  // doesn't include this private action. This needs to be
-  // investigated to understand whether it's a real smell or if it's
-  // because not all store code has been updated to accommodate
-  // private selectors.
-  select.isRemovalPromptSupported && select.isRemovalPromptSupported()) {
+  const rules = !forceRemove && select.getBlockRemovalRules();
+
+  if (rules) {
     const blockNamesForPrompt = new Set(); // Given a list of client IDs of blocks that the user intended to
     // remove, perform a tree search (BFS) to find all block names
     // corresponding to "important" blocks, i.e. blocks that require a
     // removal prompt.
-    //
-    // @see blockTypePromptMessages
 
     const queue = [...clientIds];
 
@@ -9311,7 +9212,7 @@ const privateRemoveBlocks = (clientIds, selectPrevious = true, forceRemove = fal
       const clientId = queue.shift();
       const blockName = select.getBlockName(clientId);
 
-      if (blockTypePromptMessages[blockName]) {
+      if (rules[blockName]) {
         blockNamesForPrompt.add(blockName);
       }
 
@@ -9322,7 +9223,7 @@ const privateRemoveBlocks = (clientIds, selectPrevious = true, forceRemove = fal
 
 
     if (blockNamesForPrompt.size) {
-      dispatch(displayRemovalPrompt(clientIds, selectPrevious, Array.from(blockNamesForPrompt)));
+      dispatch(displayBlockRemovalPrompt(clientIds, selectPrevious, Array.from(blockNamesForPrompt)));
       return;
     }
   }
@@ -9375,7 +9276,7 @@ const ensureDefaultBlock = () => ({
  * Returns an action object used in signalling that a block removal prompt must
  * be displayed.
  *
- * Contrast with `toggleRemovalPromptSupport`.
+ * Contrast with `setBlockRemovalRules`.
  *
  * @param {string|string[]} clientIds           Client IDs of blocks to remove.
  * @param {boolean}         selectPrevious      True if the previous block
@@ -9383,13 +9284,16 @@ const ensureDefaultBlock = () => ({
  *                                              (if no previous block exists)
  *                                              should be selected
  *                                              when a block is removed.
- * @param {string[]}        blockNamesForPrompt Names of blocks requiring user
+ * @param {string[]}        blockNamesForPrompt Names of the blocks that
+ *                                              triggered the need for
+ *                                              confirmation before removal.
+ *
  * @return {Object} Action object.
  */
 
-function displayRemovalPrompt(clientIds, selectPrevious, blockNamesForPrompt) {
+function displayBlockRemovalPrompt(clientIds, selectPrevious, blockNamesForPrompt) {
   return {
-    type: 'DISPLAY_REMOVAL_PROMPT',
+    type: 'DISPLAY_BLOCK_REMOVAL_PROMPT',
     clientIds,
     selectPrevious,
     blockNamesForPrompt
@@ -9403,25 +9307,38 @@ function displayRemovalPrompt(clientIds, selectPrevious, blockNamesForPrompt) {
  * @return {Object} Action object.
  */
 
-function clearRemovalPrompt() {
+
+function clearBlockRemovalPrompt() {
   return {
-    type: 'CLEAR_REMOVAL_PROMPT'
+    type: 'CLEAR_BLOCK_REMOVAL_PROMPT'
   };
 }
 /**
- * Returns an action object used in signalling that a removal prompt display
- * mechanism is available or unavailable in the current editor.
+ * Returns an action object used to set up any rules that a block editor may
+ * provide in order to prevent a user from accidentally removing certain
+ * blocks. These rules are then used to display a confirmation prompt to the
+ * user. For instance, in the Site Editor, the Query Loop block is important
+ * enough to warrant such confirmation.
  *
- * Contrast with `displayRemovalPrompt`.
+ * IMPORTANT: Registering rules implicitly signals to the `privateRemoveBlocks`
+ * action that the editor will be responsible for displaying block removal
+ * prompts and confirming deletions. This action is meant to be used by
+ * component `BlockRemovalWarningModal` only.
  *
- * @param {boolean} status Whether a prompt display mechanism exists.
+ * The data is a record whose keys are block types (e.g. 'core/query') and
+ * whose values are the explanation to be shown to users (e.g. 'Query Loop
+ * displays a list of posts or pages.').
+ *
+ * Contrast with `displayBlockRemovalPrompt`.
+ *
+ * @param {Record<string,string>|false} rules Block removal rules.
  * @return {Object} Action object.
  */
 
-function toggleRemovalPromptSupport(status = true) {
+function setBlockRemovalRules(rules = false) {
   return {
-    type: 'TOGGLE_REMOVAL_PROMPT_SUPPORT',
-    status
+    type: 'SET_BLOCK_REMOVAL_RULES',
+    rules
   };
 }
 
@@ -10925,6 +10842,18 @@ function __unstableSetTemporarilyEditingAsBlocks(temporarilyEditingAsBlocks) {
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/constants.js
 const STORE_NAME = 'core/block-editor';
 
+;// CONCATENATED MODULE: external ["wp","privateApis"]
+var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/lock-unlock.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock,
+  unlock
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/block-editor');
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/index.js
 /**
  * WordPress dependencies
@@ -10967,7 +10896,16 @@ const registeredStore = (0,external_wp_data_namespaceObject.registerStore)(STORE
   persist: ['preferences']
 });
 unlock(registeredStore).registerPrivateActions(private_actions_namespaceObject);
-unlock(registeredStore).registerPrivateSelectors(private_selectors_namespaceObject);
+unlock(registeredStore).registerPrivateSelectors(private_selectors_namespaceObject); // TODO: Remove once we switch to the `register` function (see above).
+//
+// Until then, private functions also need to be attached to the original
+// `store` descriptor in order to avoid unit tests failing, which could happen
+// when tests create new registries in which they register stores.
+//
+// @see https://github.com/WordPress/gutenberg/pull/51145#discussion_r1239999590
+
+unlock(store).registerPrivateActions(private_actions_namespaceObject);
+unlock(store).registerPrivateSelectors(private_selectors_namespaceObject);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-edit/context.js
 /**
@@ -11807,7 +11745,7 @@ function getCustomValueFromPreset(value, spacingSizes) {
 
 function getPresetValueFromCustomValue(value, spacingSizes) {
   // Return value as-is if it is already a preset;
-  if (isValueSpacingPreset(value)) {
+  if (isValueSpacingPreset(value) || value === '0') {
     return value;
   }
 
@@ -25049,6 +24987,11 @@ function useCompatibilityStyles() {
 
       if (ownerNode.id === 'wp-reset-editor-styles-css') {
         return accumulator;
+      } // Don't try to add styles without ID. Styles enqueued via the WP dependency system will always have IDs.
+
+
+      if (!ownerNode.id) {
+        return accumulator;
       }
 
       function matchFromRules(_cssRules) {
@@ -25188,9 +25131,19 @@ function Iframe({
   ...props
 }) {
   const {
+    resolvedAssets,
+    isPreviewMode
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const settings = select(store).getSettings();
+    return {
+      resolvedAssets: settings.__unstableResolvedAssets,
+      isPreviewMode: settings.__unstableIsPreviewMode
+    };
+  }, []);
+  const {
     styles = '',
     scripts = ''
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getSettings().__unstableResolvedAssets, []);
+  } = resolvedAssets;
   const [iframeDocument, setIframeDocument] = (0,external_wp_element_namespaceObject.useState)();
   const [bodyClasses, setBodyClasses] = (0,external_wp_element_namespaceObject.useState)([]);
   const compatStyles = useCompatibilityStyles();
@@ -25232,9 +25185,12 @@ function Iframe({
           continue;
         }
 
-        contentDocument.head.appendChild(compatStyle.cloneNode(true)); // eslint-disable-next-line no-console
+        contentDocument.head.appendChild(compatStyle.cloneNode(true));
 
-        console.warn(`${compatStyle.id} was added to the iframe incorrectly. Please use block.json or enqueue_block_assets to add styles to the iframe.`, compatStyle);
+        if (!isPreviewMode) {
+          // eslint-disable-next-line no-console
+          console.warn(`${compatStyle.id} was added to the iframe incorrectly. Please use block.json or enqueue_block_assets to add styles to the iframe.`, compatStyle);
+        }
       }
 
       iFrameDocument.addEventListener('dragover', preventFileDropDefault, false);
@@ -28767,11 +28723,30 @@ var external_wp_preferences_namespaceObject = window["wp"]["preferences"];
 
 
 const PREFERENCE_NAME = 'isResuableBlocksrRenameHintVisible';
-function ReusableBlocksRenameHint() {
-  const isReusableBlocksRenameHint = (0,external_wp_data_namespaceObject.useSelect)(select => {
+/*
+ * This hook was added in 6.3 to help users with the transition from Reusable blocks to Patterns.
+ * It is only exported for use in the reusable-blocks package as well as block-editor.
+ * It will be removed in 6.4. and should not be used in any new code.
+ */
+
+function useReusableBlocksRenameHint() {
+  return (0,external_wp_data_namespaceObject.useSelect)(select => {
     var _select$get;
 
     return (_select$get = select(external_wp_preferences_namespaceObject.store).get('core', PREFERENCE_NAME)) !== null && _select$get !== void 0 ? _select$get : true;
+  }, []);
+}
+/*
+ * This component was added in 6.3 to help users with the transition from Reusable blocks to Patterns.
+ * It is only exported for use in the reusable-blocks package as well as block-editor.
+ * It will be removed in 6.4. and should not be used in any new code.
+ */
+
+function ReusableBlocksRenameHint() {
+  const isReusableBlocksRenameHint = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _select$get2;
+
+    return (_select$get2 = select(external_wp_preferences_namespaceObject.store).get('core', PREFERENCE_NAME)) !== null && _select$get2 !== void 0 ? _select$get2 : true;
   }, []);
   const ref = (0,external_wp_element_namespaceObject.useRef)();
   const {
@@ -40307,6 +40282,7 @@ function __experimentalUseGradient({
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -40315,12 +40291,12 @@ function __experimentalUseGradient({
 const colorsAndGradientKeys = ['colors', 'disableCustomColors', 'gradients', 'disableCustomGradients'];
 const TAB_COLOR = {
   name: 'color',
-  title: 'Solid',
+  title: (0,external_wp_i18n_namespaceObject.__)('Solid'),
   value: 'color'
 };
 const TAB_GRADIENT = {
   name: 'gradient',
-  title: 'Gradient',
+  title: (0,external_wp_i18n_namespaceObject.__)('Gradient'),
   value: 'gradient'
 };
 const TABS_SETTINGS = [TAB_COLOR, TAB_GRADIENT];
@@ -43406,9 +43382,13 @@ function AxialInputControls({
   const createHandleOnChange = side => next => {
     if (!onChange) {
       return;
-    }
+    } // Encode the existing value into the preset value if the passed in value matches the value of one of the spacingSizes.
 
-    const nextValues = { ...values
+
+    const nextValues = { ...Object.keys(values).reduce((acc, key) => {
+        acc[key] = getPresetValueFromCustomValue(values[key], spacingSizes);
+        return acc;
+      }, {})
     };
 
     if (side === 'vertical') {
@@ -43467,7 +43447,11 @@ function SeparatedInputControls({
   const filteredSides = sides?.length ? ALL_SIDES.filter(side => sides.includes(side)) : ALL_SIDES;
 
   const createHandleOnChange = side => next => {
-    const nextValues = { ...values
+    // Encode the existing value into the preset value if the passed in value matches the value of one of the spacingSizes.
+    const nextValues = { ...Object.keys(values).reduce((acc, key) => {
+        acc[key] = getPresetValueFromCustomValue(values[key], spacingSizes);
+        return acc;
+      }, {})
     };
     nextValues[side] = next;
     onChange(nextValues);
@@ -43511,7 +43495,11 @@ function SingleInputControl({
   values
 }) {
   const createHandleOnChange = currentSide => next => {
-    const nextValues = { ...values
+    // Encode the existing value into the preset value if the passed in value matches the value of one of the spacingSizes.
+    const nextValues = { ...Object.keys(values).reduce((acc, key) => {
+        acc[key] = getPresetValueFromCustomValue(values[key], spacingSizes);
+        return acc;
+      }, {})
     };
     nextValues[currentSide] = next;
     onChange(nextValues);
@@ -43620,7 +43608,7 @@ function useSpacingSizes() {
   const spacingSizes = [{
     name: 0,
     slug: '0',
-    side: 0
+    size: 0
   }, ...(use_setting_useSetting('spacing.spacingSizes') || [])];
 
   if (spacingSizes.length > 8) {
@@ -44131,18 +44119,29 @@ function DimensionsPanel({
 }) {
   var _settings$parentLayou2, _defaultControls$cont, _defaultControls$wide, _defaultControls$padd, _defaultControls$marg, _defaultControls$bloc, _defaultControls$minH, _defaultControls$chil;
 
+  const {
+    dimensions,
+    spacing
+  } = settings;
+
   const decodeValue = rawValue => {
     if (rawValue && typeof rawValue === 'object') {
       return Object.keys(rawValue).reduce((acc, key) => {
         acc[key] = getValueFromVariable({
-          settings
+          settings: {
+            dimensions,
+            spacing
+          }
         }, '', rawValue[key]);
         return acc;
       }, {});
     }
 
     return getValueFromVariable({
-      settings
+      settings: {
+        dimensions,
+        spacing
+      }
     }, '', rawValue);
   };
 
@@ -61591,11 +61590,6 @@ function PublishDateTimePicker({
 
 
 
-/*
- * The following rename hint component can be removed in 6.4.
- */
-
-
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/elements/index.js
 const ELEMENT_CLASS_NAMES = {
@@ -63331,6 +63325,10 @@ function addValuesForElements(children, ...args) {
   }
 }
 
+function _getSaveElement(name, attributes, innerBlocks) {
+  return (0,external_wp_blocks_namespaceObject.getSaveElement)(name, attributes, innerBlocks.map(block => _getSaveElement(block.name, block.attributes, block.innerBlocks)));
+}
+
 function addValuesForBlocks(values, blocks) {
   for (let i = 0; i < blocks.length; i++) {
     const {
@@ -63338,7 +63336,9 @@ function addValuesForBlocks(values, blocks) {
       attributes,
       innerBlocks
     } = blocks[i];
-    const saveElement = (0,external_wp_blocks_namespaceObject.getSaveElement)(name, attributes);
+
+    const saveElement = _getSaveElement(name, attributes, innerBlocks);
+
     addValuesForElement(saveElement, values, innerBlocks);
   }
 }
@@ -63376,6 +63376,79 @@ function ResizableBoxPopover({
     ...props
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ResizableBox, { ...resizableBoxProps
   }));
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-removal-warning-modal/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function BlockRemovalWarningModal({
+  rules
+}) {
+  const {
+    clientIds,
+    selectPrevious,
+    blockNamesForPrompt
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => unlock(select(store)).getRemovalPromptData());
+  const {
+    clearBlockRemovalPrompt,
+    setBlockRemovalRules,
+    privateRemoveBlocks
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store)); // Load block removal rules, simultaneously signalling that the block
+  // removal prompt is in place.
+
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    setBlockRemovalRules(rules);
+    return () => {
+      setBlockRemovalRules();
+    };
+  }, [rules, setBlockRemovalRules]);
+
+  if (!blockNamesForPrompt) {
+    return;
+  }
+
+  const onConfirmRemoval = () => {
+    privateRemoveBlocks(clientIds, selectPrevious,
+    /* force */
+    true);
+    clearBlockRemovalPrompt();
+  };
+
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+    title: (0,external_wp_i18n_namespaceObject.__)('Are you sure?'),
+    onRequestClose: clearBlockRemovalPrompt,
+    style: {
+      maxWidth: '40rem'
+    }
+  }, blockNamesForPrompt.length === 1 ? (0,external_wp_element_namespaceObject.createElement)("p", null, rules[blockNamesForPrompt[0]]) : (0,external_wp_element_namespaceObject.createElement)("ul", {
+    style: {
+      listStyleType: 'disc',
+      paddingLeft: '1rem'
+    }
+  }, blockNamesForPrompt.map(name => (0,external_wp_element_namespaceObject.createElement)("li", {
+    key: name
+  }, rules[name]))), (0,external_wp_element_namespaceObject.createElement)("p", null, blockNamesForPrompt.length > 1 ? (0,external_wp_i18n_namespaceObject.__)('Removing these blocks is not advised.') : (0,external_wp_i18n_namespaceObject.__)('Removing this block is not advised.')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    justify: "right"
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    variant: "tertiary",
+    onClick: clearBlockRemovalPrompt
+  }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    variant: "primary",
+    onClick: onConfirmRemoval
+  }, (0,external_wp_i18n_namespaceObject.__)('Delete'))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/dimensions-tool/aspect-ratio-tool.js
@@ -66257,6 +66330,7 @@ function ResolutionTool({
 
 
 
+
 /**
  * Private @wordpress/block-editor APIs.
  */
@@ -66278,7 +66352,9 @@ lock(privateApis, { ...global_styles_namespaceObject,
   useLayoutClasses: useLayoutClasses,
   useLayoutStyles: useLayoutStyles,
   DimensionsTool: dimensions_tool,
-  ResolutionTool: ResolutionTool
+  ResolutionTool: ResolutionTool,
+  ReusableBlocksRenameHint: ReusableBlocksRenameHint,
+  useReusableBlocksRenameHint: useReusableBlocksRenameHint
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/index.js

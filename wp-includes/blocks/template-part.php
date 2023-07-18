@@ -18,12 +18,11 @@ function render_block_core_template_part( $attributes ) {
 	$template_part_id = null;
 	$content          = null;
 	$area             = WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
-	$stylesheet       = get_stylesheet();
 
 	if (
 		isset( $attributes['slug'] ) &&
 		isset( $attributes['theme'] ) &&
-		$stylesheet === $attributes['theme']
+		get_stylesheet() === $attributes['theme']
 	) {
 		$template_part_id    = $attributes['theme'] . '//' . $attributes['slug'];
 		$template_part_query = new WP_Query(
@@ -64,22 +63,17 @@ function render_block_core_template_part( $attributes ) {
 			 */
 			do_action( 'render_block_core_template_part_post', $template_part_id, $attributes, $template_part_post, $content );
 		} else {
+			$template_part_file_path = '';
 			// Else, if the template part was provided by the active theme,
 			// render the corresponding file content.
 			if ( 0 === validate_file( $attributes['slug'] ) ) {
-				$themes   = array( $stylesheet );
-				$template = get_template();
-				if ( $stylesheet !== $template ) {
-					$themes[] = $template;
-				}
-
-				foreach ( $themes as $theme ) {
-					$theme_folders           = get_block_theme_folders( $theme );
-					$template_part_file_path = get_theme_file_path( '/' . $theme_folders['wp_template_part'] . '/' . $attributes['slug'] . '.html' );
-					if ( file_exists( $template_part_file_path ) ) {
-						$content = (string) file_get_contents( $template_part_file_path );
-						$content = '' !== $content ? _inject_theme_attribute_in_block_template_content( $content ) : '';
-						break;
+				$block_template_file = _get_block_template_file( 'wp_template_part', $attributes['slug'] );
+				if ( $block_template_file ) {
+					$template_part_file_path = $block_template_file['path'];
+					$content                 = (string) file_get_contents( $template_part_file_path );
+					$content                 = '' !== $content ? _inject_theme_attribute_in_block_template_content( $content ) : '';
+					if ( isset( $block_template_file['area'] ) ) {
+						$area = $block_template_file['area'];
 					}
 				}
 			}

@@ -8,11 +8,13 @@
 /**
  * Dynamically renders the `core/search` block.
  *
- * @param array $attributes The block attributes.
+ * @param array    $attributes The block attributes.
+ * @param string   $content    The saved content.
+ * @param WP_Block $block      The parsed block.
  *
  * @return string The search block markup.
  */
-function render_block_core_search( $attributes ) {
+function render_block_core_search( $attributes, $content, $block ) {
 	// Older versions of the Search block defaulted the label and buttonText
 	// attributes to `__( 'Search' )` meaning that many posts contain `<!--
 	// wp:search /-->`. Support these by defaulting an undefined label and
@@ -70,10 +72,26 @@ function render_block_core_search( $attributes ) {
 		$input->set_attribute( 'id', $input_id );
 		$input->set_attribute( 'value', get_search_query() );
 		$input->set_attribute( 'placeholder', $attributes['placeholder'] );
-		if ( 'button-only' === $button_position && 'expand-searchfield' === $button_behavior ) {
+
+		$is_expandable_searchfield = 'button-only' === $button_position && 'expand-searchfield' === $button_behavior;
+		if ( $is_expandable_searchfield ) {
 			$input->set_attribute( 'aria-hidden', 'true' );
 			$input->set_attribute( 'tabindex', '-1' );
-			wp_enqueue_script( 'wp-block--search-view', plugins_url( 'search/view.min.js', __FILE__ ) );
+		}
+
+		// If the script already exists, there is no point in removing it from viewScript.
+		$view_js_file = 'wp-block-search-view';
+		if ( ! wp_script_is( $view_js_file ) ) {
+			$script_handles = $block->block_type->view_script_handles;
+
+			// If the script is not needed, and it is still in the `view_script_handles`, remove it.
+			if ( ! $is_expandable_searchfield && in_array( $view_js_file, $script_handles, true ) ) {
+				$block->block_type->view_script_handles = array_diff( $script_handles, array( $view_js_file ) );
+			}
+			// If the script is needed, but it was previously removed, add it again.
+			if ( $is_expandable_searchfield && ! in_array( $view_js_file, $script_handles, true ) ) {
+				$block->block_type->view_script_handles = array_merge( $script_handles, array( $view_js_file ) );
+			}
 		}
 	}
 
