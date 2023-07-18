@@ -125,7 +125,7 @@ class WP_Navigation_Fallback {
 	}
 
 	/**
-	 * Determine the most appropriate classic navigation menu to use as a fallback.
+	 * Determines the most appropriate classic navigation menu to use as a fallback.
 	 *
 	 * @since 6.3.0
 	 *

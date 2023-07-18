@@ -147,8 +147,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
 	 *
 	 * @since 6.3.0
 	 *
-	 * @param WP_Post         $item     The wp_navigation Post object whose response is being prepared.
-	 * @param WP_REST_Request $request  Request object.
+	 * @param WP_Post         $item    The wp_navigation Post object whose response is being prepared.
+	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response $response The response data.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
