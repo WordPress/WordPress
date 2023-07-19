@@ -547,7 +547,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .edit-site-template-actions-loading-screen-modal{
   -webkit-backdrop-filter:none;
           backdrop-filter:none;
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-site-template-actions-loading-screen-modal.is-full-screen{
   background-color:#fff;
@@ -1268,10 +1268,10 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
   content:attr(aria-label);
 }
 .edit-site-header-edit-mode.show-icon-labels .components-button.has-icon[aria-disabled=true]{
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-site-header-edit-mode.show-icon-labels .is-tertiary:active{
-  background-color:initial;
+  background-color:transparent;
   box-shadow:0 0 0 1.5px var(--wp-admin-theme-color);
 }
 .edit-site-header-edit-mode.show-icon-labels .edit-site-save-button__button{
@@ -1910,7 +1910,7 @@ body.is-fullscreen-mode .edit-site-list-header{
   background:#fff;
   border-top:1px solid #ddd;
   bottom:0;
-  box-sizing:initial;
+  box-sizing:content-box;
   display:flex;
   padding:16px;
   position:sticky;
@@ -2273,11 +2273,11 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   width:12px;
 }
 .edit-site-editor__list-view-panel-content::-webkit-scrollbar-track{
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-site-editor__list-view-panel-content::-webkit-scrollbar-thumb{
   background-clip:padding-box;
-  background-color:initial;
+  background-color:transparent;
   border:3px solid transparent;
   border-radius:8px;
 }
@@ -2734,11 +2734,11 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   width:12px;
 }
 .edit-site-sidebar__content .components-navigator-screen::-webkit-scrollbar-track{
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-site-sidebar__content .components-navigator-screen::-webkit-scrollbar-thumb{
   background-clip:padding-box;
-  background-color:initial;
+  background-color:transparent;
   border:3px solid transparent;
   border-radius:8px;
 }
@@ -3350,7 +3350,7 @@ body:has(.edit-site-resizable-frame__inner.edit-site-layout__resizable-frame-ove
   opacity:0 !important;
 }
 body:has(.edit-site-resizable-frame__inner.edit-site-layout__resizable-frame-oversized) .edit-site-site-hub .edit-site-site-hub__view-mode-toggle-container{
-  background-color:initial;
+  background-color:transparent;
 }
 
 body:has(.edit-site-resizable-frame__inner.is-resizing){

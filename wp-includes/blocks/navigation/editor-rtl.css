@@ -125,7 +125,7 @@
 }
 
 .wp-block-navigation .wp-block .wp-block .block-editor-button-block-appender{
-  background-color:initial;
+  background-color:transparent;
   color:#1e1e1e;
 }
 @keyframes loadingpulse{
@@ -451,11 +451,11 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   width:12px;
 }
 .wp-block-navigation__menu-inspector-controls::-webkit-scrollbar-track{
-  background-color:initial;
+  background-color:transparent;
 }
 .wp-block-navigation__menu-inspector-controls::-webkit-scrollbar-thumb{
   background-clip:padding-box;
-  background-color:initial;
+  background-color:transparent;
   border:3px solid transparent;
   border-radius:8px;
 }

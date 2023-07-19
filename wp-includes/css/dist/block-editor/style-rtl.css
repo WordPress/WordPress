@@ -1821,7 +1821,7 @@ body.is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
   width:100%;
 }
 .block-editor-link-control__search-item .components-menu-item__item mark{
-  background-color:initial;
+  background-color:transparent;
   color:inherit;
   font-weight:600;
 }
@@ -1883,7 +1883,7 @@ body.is-fullscreen-mode .block-editor-block-contextual-toolbar.is-fixed{
   position:relative;
 }
 .block-editor-link-control__search-item .block-editor-link-control__search-item-title mark{
-  background-color:initial;
+  background-color:transparent;
   color:inherit;
   font-weight:600;
 }

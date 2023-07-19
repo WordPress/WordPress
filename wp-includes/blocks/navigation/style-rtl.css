@@ -183,7 +183,7 @@
 }
 
 button.wp-block-navigation-item__content{
-  background-color:initial;
+  background-color:transparent;
   border:none;
   color:currentColor;
   font-family:inherit;

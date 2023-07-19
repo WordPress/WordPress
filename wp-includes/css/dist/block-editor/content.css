@@ -51,7 +51,10 @@
 .block-editor-block-list__layout{
   position:relative;
 }
-.block-editor-block-list__layout::selection,.has-multi-selection .block-editor-block-list__layout::selection{
+.block-editor-block-list__layout::selection{
+  background:transparent;
+}
+.has-multi-selection .block-editor-block-list__layout::selection{
   background:transparent;
 }
 .block-editor-block-list__layout:where(.block-editor-block-list__block.is-multi-selected:not(.is-partially-selected)){
@@ -190,7 +193,7 @@
   top:0;
 }
 .block-editor-block-list__layout .block-editor-block-list__block.has-warning.is-multi-selected:after{
-  background-color:initial;
+  background-color:transparent;
 }
 .block-editor-block-list__layout .block-editor-block-list__block.is-reusable>.block-editor-inner-blocks>.block-editor-block-list__layout.has-overlay:after{
   display:none;

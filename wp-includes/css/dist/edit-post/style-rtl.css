@@ -546,10 +546,10 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   content:attr(aria-label);
 }
 .edit-post-header__dropdown .components-button.has-icon[aria-disabled=true],.show-icon-labels .edit-post-header .components-button.has-icon[aria-disabled=true],.show-icon-labels.interface-pinned-items .components-button.has-icon[aria-disabled=true]{
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-post-header__dropdown .is-tertiary:active,.show-icon-labels .edit-post-header .is-tertiary:active,.show-icon-labels.interface-pinned-items .is-tertiary:active{
-  background-color:initial;
+  background-color:transparent;
   box-shadow:0 0 0 1.5px var(--wp-admin-theme-color);
 }
 .edit-post-header__dropdown .components-button.has-icon.button-toggle svg,.edit-post-header__dropdown .edit-post-fullscreen-mode-close.has-icon svg,.show-icon-labels .edit-post-header .components-button.has-icon.button-toggle svg,.show-icon-labels .edit-post-header .edit-post-fullscreen-mode-close.has-icon svg,.show-icon-labels.interface-pinned-items .components-button.has-icon.button-toggle svg,.show-icon-labels.interface-pinned-items .edit-post-fullscreen-mode-close.has-icon svg{
@@ -1107,7 +1107,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   position:relative;
 }
 .edit-post-meta-boxes-area .inside,.edit-post-meta-boxes-area__container{
-  box-sizing:initial;
+  box-sizing:content-box;
 }
 .edit-post-meta-boxes-area input,.edit-post-meta-boxes-area textarea{
   box-sizing:border-box;
@@ -1240,11 +1240,11 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   width:12px;
 }
 .edit-post-editor__list-view-container>.document-outline::-webkit-scrollbar-track,.edit-post-editor__list-view-empty-headings::-webkit-scrollbar-track,.edit-post-editor__list-view-panel-content::-webkit-scrollbar-track{
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-post-editor__list-view-container>.document-outline::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content::-webkit-scrollbar-thumb{
   background-clip:padding-box;
-  background-color:initial;
+  background-color:transparent;
   border:3px solid transparent;
   border-radius:8px;
 }

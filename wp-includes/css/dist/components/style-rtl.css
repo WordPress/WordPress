@@ -321,7 +321,7 @@ p+.components-button.is-tertiary{
 }
 .components-button.has-icon .dashicon{
   align-items:center;
-  box-sizing:initial;
+  box-sizing:content-box;
   display:inline-flex;
   justify-content:center;
   padding:2px;
@@ -627,7 +627,7 @@ svg.components-checkbox-control__checked,svg.components-checkbox-control__indete
   width:32px;
 }
 .components-circular-option-picker__option.components-button:focus{
-  background-color:initial;
+  background-color:transparent;
   box-shadow:inset 0 0 0 14px;
   outline:none;
 }
@@ -1073,7 +1073,7 @@ body.is-dragging-components-draggable{
 }
 .components-dropdown-menu__menu .components-dropdown-menu__menu-item.has-separator:before,.components-dropdown-menu__menu .components-menu-item.has-separator:before{
   background-color:#ddd;
-  box-sizing:initial;
+  box-sizing:content-box;
   content:"";
   display:block;
   height:1px;
@@ -1828,7 +1828,7 @@ body.is-dragging-components-draggable{
   flex-shrink:0;
 }
 .components-notice__dismiss:not(:disabled):not([aria-disabled=true]):focus,.components-notice__dismiss:not(:disabled):not([aria-disabled=true]):not(.is-secondary):active,.components-notice__dismiss:not(:disabled):not([aria-disabled=true]):not(.is-secondary):hover{
-  background-color:initial;
+  background-color:transparent;
   color:#1e1e1e;
 }
 .components-notice__dismiss:not(:disabled):not([aria-disabled=true]):not(.is-secondary):hover{
@@ -1879,7 +1879,7 @@ body.is-dragging-components-draggable{
 .components-panel__header{
   align-items:center;
   border-bottom:1px solid #ddd;
-  box-sizing:initial;
+  box-sizing:content-box;
   display:flex;
   height:47px;
   justify-content:space-between;
@@ -2161,7 +2161,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   -webkit-backdrop-filter:blur(100px);
           backdrop-filter:blur(100px);
   backface-visibility:hidden;
-  background-color:initial;
+  background-color:transparent;
   border-radius:2px;
   box-shadow:none;
   color:inherit;
@@ -2211,7 +2211,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 
 .components-placeholder__illustration{
   stroke:currentColor;
-  box-sizing:initial;
+  box-sizing:content-box;
   height:100%;
   opacity:.25;
   position:absolute;
@@ -2699,7 +2699,7 @@ body.lockscroll,html.lockscroll{
   padding:0;
 }
 .components-snackbar__action.components-button:not(:disabled):not([aria-disabled=true]):not(.is-secondary){
-  background-color:initial;
+  background-color:transparent;
   text-decoration:underline;
 }
 .components-snackbar__action.components-button:not(:disabled):not([aria-disabled=true]):not(.is-secondary):focus{
@@ -3015,7 +3015,7 @@ div.components-toolbar>div+div.has-left-divider{
 }
 div.components-toolbar>div+div.has-left-divider:before{
   background-color:#ddd;
-  box-sizing:initial;
+  box-sizing:content-box;
   content:"";
   display:inline-block;
   height:20px;
