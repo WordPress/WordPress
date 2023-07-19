@@ -168,6 +168,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$this->image->setIteratorIndex( 0 );
 			}
 
+			if ( 'pdf' === $file_extension ) {
+				$this->remove_pdf_alpha_channel();
+			}
+
 			$this->mime_type = $this->get_mime_type( $this->image->getImageFormat() );
 		} catch ( Exception $e ) {
 			return new WP_Error( 'invalid_image', $e->getMessage(), $this->file );
@@ -749,6 +753,24 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		return $saved;
+	}
+
+	/**
+	 * Removes PDF alpha after it's been read.
+	 *
+	 * @since 6.4.0
+	 */
+	protected function remove_pdf_alpha_channel() {
+		$version = Imagick::getVersion();
+		// Remove alpha channel if possible to avoid black backgrounds for Ghostscript >= 9.14. RemoveAlphaChannel added in ImageMagick 6.7.5.
+		if ( $version['versionNumber'] >= 0x675 ) {
+			try {
+				// Imagick::ALPHACHANNEL_REMOVE mapped to RemoveAlphaChannel in PHP imagick 3.2.0b2.
+				$this->image->setImageAlphaChannel( defined( 'Imagick::ALPHACHANNEL_REMOVE' ) ? Imagick::ALPHACHANNEL_REMOVE : 12 );
+			} catch ( Exception $e ) {
+				return new WP_Error( 'pdf_alpha_process_failed', $e->getMessage() );
+			}
+		}
 	}
 
 	/**
