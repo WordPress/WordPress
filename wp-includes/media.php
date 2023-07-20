@@ -5620,6 +5620,7 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 		}
 		return $loading_attributes;
 	};
+
 	// Closure to increase media count for images with certain minimum threshold, mostly used for header images.
 	$maybe_increase_content_media_count = static function() use ( $attr ) {
 		/** This filter is documented in wp-admin/includes/media.php */

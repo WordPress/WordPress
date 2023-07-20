@@ -964,7 +964,7 @@ JS;
 			return $eligible;
 		}
 
-		$is_alias = (bool) ! $this->registered[ $handle ]->src;
+		$is_alias          = (bool) ! $this->registered[ $handle ]->src;
 		$intended_strategy = $this->get_data( $handle, 'strategy' );
 
 		// For non-alias handles, an empty intended strategy filters all strategies.

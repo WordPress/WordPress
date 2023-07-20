@@ -222,7 +222,7 @@ function do_shortcode( $content, $ignore_html = false ) {
 	}
 
 	// Ensure this context is only added once if shortcodes are nested.
-	$has_filter = has_filter( 'wp_get_attachment_image_context', '_filter_do_shortcode_context' );
+	$has_filter   = has_filter( 'wp_get_attachment_image_context', '_filter_do_shortcode_context' );
 	$filter_added = false;
 
 	if ( ! $has_filter ) {
