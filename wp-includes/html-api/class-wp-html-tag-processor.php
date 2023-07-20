@@ -522,7 +522,7 @@ class WP_HTML_Tag_Processor {
 	 *     @type string|null $class_name   Tag must contain this whole class name to match.
 	 *     @type string|null $tag_closers  "visit" or "skip": whether to stop on tag closers, e.g. </div>.
 	 * }
-	 * @return boolean Whether a tag was matched.
+	 * @return bool Whether a tag was matched.
 	 */
 	public function next_tag( $query = null ) {
 		$this->parse_query( $query );
@@ -673,7 +673,7 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		if ( ! array_key_exists( $name, $this->bookmarks ) && count( $this->bookmarks ) >= self::MAX_BOOKMARKS ) {
+		if ( ! array_key_exists( $name, $this->bookmarks ) && count( $this->bookmarks ) >= static::MAX_BOOKMARKS ) {
 			_doing_it_wrong(
 				__METHOD__,
 				__( 'Too many bookmarks: cannot create any more.' ),
@@ -1538,7 +1538,7 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		if ( ++$this->seek_count > self::MAX_SEEK_OPS ) {
+		if ( ++$this->seek_count > static::MAX_SEEK_OPS ) {
 			_doing_it_wrong(
 				__METHOD__,
 				__( 'Too many calls to seek() - this can lead to performance issues.' ),
@@ -2221,7 +2221,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.2.0
 	 *
-	 * @return boolean Whether the given tag and its attribute match the search criteria.
+	 * @return bool Whether the given tag and its attribute match the search criteria.
 	 */
 	private function matches() {
 		if ( $this->is_closing_tag && ! $this->stop_on_tag_closers ) {
