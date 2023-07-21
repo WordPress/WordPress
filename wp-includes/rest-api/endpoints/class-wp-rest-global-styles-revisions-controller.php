@@ -21,7 +21,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	 * @since 6.3.0
 	 * @var string
 	 */
-	private $parent_post_type;
+	protected $parent_post_type;
 
 	/**
 	 * The base of the parent controller's route.
@@ -29,7 +29,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	 * @since 6.3.0
 	 * @var string
 	 */
-	private $parent_base;
+	protected $parent_base;
 
 	/**
 	 * Constructor.
@@ -102,7 +102,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	 * @param string $raw_json Encoded JSON from global styles custom post content.
 	 * @return Array|WP_Error
 	 */
-	private function get_decoded_global_styles_json( $raw_json ) {
+	protected function get_decoded_global_styles_json( $raw_json ) {
 		$decoded_json = json_decode( $raw_json, true );
 
 		if ( is_array( $decoded_json ) && isset( $decoded_json['isGlobalStylesUserThemeJSON'] ) && true === $decoded_json['isGlobalStylesUserThemeJSON'] ) {
