@@ -3014,7 +3014,6 @@ div.action-links {
 }
 
 @media print,
-	(-webkit-min-device-pixel-ratio: 1.25),
 	(min-resolution: 120dpi) {
 
 	#TB_window.plugin-details-modal.thickbox-loading:before {
@@ -3757,7 +3756,6 @@ img {
  * HiDPI Displays
  */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	/* Back-compat for pre-3.8 */
 	div.star-holder,

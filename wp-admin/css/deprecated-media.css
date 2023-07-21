@@ -404,7 +404,6 @@ table.not-image tr.image-only {
  * HiDPI Displays
  */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 
 	.image-align-none-label {
