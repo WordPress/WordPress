@@ -120,8 +120,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	 * Returns paginated revisions of the given global styles config custom post type.
 	 *
 	 * The bulk of the body is taken from WP_REST_Revisions_Controller->get_items,
-		 * but global styles does not require as many parameters.
-		 *
+	 * but global styles does not require as many parameters.
+	 *
 	 * @since 6.3.0
 	 *
 	 * @param WP_REST_Request $request The request instance.
@@ -245,7 +245,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	 * Checks the post_date_gmt or modified_gmt and prepare any post or
 	 * modified date for single post output.
 	 *
-	 * Duplicate of WP_REST_Revisions_Controller::prepare_date_response
+	 * Duplicate of WP_REST_Revisions_Controller::prepare_date_response.
 	 *
 	 * @since 6.3.0
 	 *
@@ -441,9 +441,9 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get the parent post, if the ID is valid.
+	 * Gets the parent post, if the ID is valid.
 	 *
-	 * Duplicate of WP_REST_Revisions_Controller::get_parent
+	 * Duplicate of WP_REST_Revisions_Controller::get_parent.
 	 *
 	 * @since 6.3.0
 	 *
