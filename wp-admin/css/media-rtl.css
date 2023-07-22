@@ -1140,6 +1140,10 @@ border color while dragging a file over the uploader drop area */
 	display: block;
 	margin: 2px 0;
 	width: 100%;
+	white-space: break-spaces;
+	line-height: 1.5;
+	padding-top: 3px;
+	padding-bottom: 2px;
 }
 
 .imgedit-rotate-menu-container {
