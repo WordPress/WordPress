@@ -29,8 +29,8 @@
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #3858e9; /* Link color, credit image overlay */
-	--accent-2: #ffb7a7; /* Accent background */
+	--accent-1: #3858e9; /* Link color */
+	--accent-2: #c7b9f2; /* Accent background */
 	--accent-3: #f0f0f1; /* hr background */
 
 	/* Navigation colors. */
@@ -764,14 +764,12 @@
 	height: 140px;
 	border-radius: 100%;
 	overflow: hidden;
-	background: var(--accent-1);
 }
 
 .about__section .wp-person .gravatar {
 	width: 140px;
 	height: 140px;
 	filter: grayscale(100%);
-	mix-blend-mode: screen;
 }
 
 .about__section .compact .wp-person-avatar,
