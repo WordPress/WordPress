@@ -42,7 +42,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
 			<a href="contribute.php" class="nav-tab"><?php _e( 'Get Involved' ); ?></a>
 		</nav>
-		
+
 		<div class="about__section aligncenter">
 			<div class="column">
 				<h2>
