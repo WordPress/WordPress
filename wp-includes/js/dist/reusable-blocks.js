@@ -39,7 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "ReusableBlocksMenuItems": function() { return /* reexport */ reusable_blocks_menu_items; },
+  "ReusableBlocksMenuItems": function() { return /* reexport */ ReusableBlocksMenuItems; },
   "store": function() { return /* reexport */ store; }
 });
 
@@ -309,14 +309,16 @@ function ReusableBlockConvertButton({
     } = select(external_wp_coreData_namespaceObject.store);
     const {
       getBlocksByClientId,
-      canInsertBlockType
+      canInsertBlockType,
+      getBlockRootClientId
     } = select(external_wp_blockEditor_namespaceObject.store);
+    const rootId = rootClientId || (clientIds.length > 0 ? getBlockRootClientId(clientIds[0]) : undefined);
     const blocks = (_getBlocksByClientId = getBlocksByClientId(clientIds)) !== null && _getBlocksByClientId !== void 0 ? _getBlocksByClientId : [];
     const isReusable = blocks.length === 1 && blocks[0] && (0,external_wp_blocks_namespaceObject.isReusableBlock)(blocks[0]) && !!select(external_wp_coreData_namespaceObject.store).getEntityRecord('postType', 'wp_block', blocks[0].attributes.ref);
 
     const _canConvert = // Hide when this is already a reusable block.
     !isReusable && // Hide when reusable blocks are disabled.
-    canInsertBlockType('core/block', rootClientId) && blocks.every(block => // Guard against the case where a regular block has *just* been converted.
+    canInsertBlockType('core/block', rootId) && blocks.every(block => // Guard against the case where a regular block has *just* been converted.
     !!block && // Hide on invalid blocks.
     block.isValid && // Hide when block doesn't support being made reusable.
     (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, 'reusable', true)) && // Hide when current doesn't have permission to do that.
@@ -489,11 +491,10 @@ function ReusableBlocksManageButton({
 
 
 
-
 function ReusableBlocksMenuItems({
-  clientIds,
   rootClientId
 }) {
+  const clientIds = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).getSelectedBlockClientIds(), []);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(ReusableBlockConvertButton, {
     clientIds: clientIds,
     rootClientId: rootClientId
@@ -501,18 +502,6 @@ function ReusableBlocksMenuItems({
     clientId: clientIds[0]
   }));
 }
-
-/* harmony default export */ var reusable_blocks_menu_items = ((0,external_wp_data_namespaceObject.withSelect)(select => {
-  const {
-    getSelectedBlockClientIds,
-    getBlockRootClientId
-  } = select(external_wp_blockEditor_namespaceObject.store);
-  const clientIds = getSelectedBlockClientIds();
-  return {
-    clientIds,
-    rootClientId: clientIds?.length > 0 ? getBlockRootClientId(clientIds[0]) : undefined
-  };
-})(ReusableBlocksMenuItems));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/components/index.js
 

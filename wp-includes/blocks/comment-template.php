@@ -8,6 +8,8 @@
 /**
  * Function that recursively renders a list of nested comments.
  *
+ * @since 6.3.0 Changed render_block_context priority to `1`.
+ *
  * @global int $comment_depth
  *
  * @param WP_Comment[] $comments        The array of comments.

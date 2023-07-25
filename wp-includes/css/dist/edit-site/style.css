@@ -1671,6 +1671,9 @@ body.is-fullscreen-mode .edit-site-list-header{
     width:300px;
   }
 }
+.edit-site-patterns .edit-site-patterns__sync-status-filter-option:not([aria-checked=true]){
+  color:#949494;
+}
 .edit-site-patterns .edit-site-patterns__sync-status-filter-option:active{
   background:#757575;
   color:#f0f0f0;
@@ -2540,7 +2543,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   top:0;
   width:100%;
 }
-.edit-site-layout__canvas:has(.edit-site-layout__resizable-frame-oversized){
+.edit-site-layout__canvas.is-right-aligned{
   justify-content:flex-end;
 }
 .edit-site-layout__canvas>div{
@@ -3156,8 +3159,12 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-site-hub .edit-site-site-hub__site-title,.edit-site-site-hub .edit-site-site-hub_toggle-command-center{
   transition:opacity .1s ease;
 }
+.edit-site-site-hub .edit-site-site-hub__site-title.is-transparent,.edit-site-site-hub .edit-site-site-hub_toggle-command-center.is-transparent{
+  opacity:0 !important;
+}
 .edit-site-site-hub .edit-site-site-hub__site-view-link{
   flex-grow:0;
+  margin-right:var(--wp-admin-border-width-focus);
 }
 @media (min-width:480px){
   .edit-site-site-hub .edit-site-site-hub__site-view-link{
@@ -3166,9 +3173,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   }
 }
 .edit-site-site-hub .edit-site-site-hub__site-view-link:focus{
-  box-shadow:none;
   opacity:1;
-  outline:none;
 }
 .edit-site-site-hub .edit-site-site-hub__site-view-link svg{
   fill:#e0e0e0;
@@ -3186,6 +3191,9 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   flex-shrink:0;
   height:60px;
   width:60px;
+}
+.edit-site-site-hub__view-mode-toggle-container.has-transparent-background{
+  background:transparent;
 }
 
 .edit-site-site-hub__text-content{
@@ -3346,13 +3354,6 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-resizable-frame__inner{
   position:relative;
 }
-body:has(.edit-site-resizable-frame__inner.edit-site-layout__resizable-frame-oversized) .edit-site-site-hub .edit-site-site-hub__site-title,body:has(.edit-site-resizable-frame__inner.edit-site-layout__resizable-frame-oversized) .edit-site-site-hub .edit-site-site-hub_toggle-command-center{
-  opacity:0 !important;
-}
-body:has(.edit-site-resizable-frame__inner.edit-site-layout__resizable-frame-oversized) .edit-site-site-hub .edit-site-site-hub__view-mode-toggle-container{
-  background-color:initial;
-}
-
 body:has(.edit-site-resizable-frame__inner.is-resizing){
   cursor:col-resize;
   user-select:none;
