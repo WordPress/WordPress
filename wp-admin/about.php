@@ -32,7 +32,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				</h1>
 			</div>
 
-			<div class="about__header-text"><?php _e( 'Edit pages in the Site Editor, sync patterns, and more' ); ?></div>
+			<div class="about__header-text"></div>
 		</div>
 
 		<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
@@ -92,7 +92,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'Work faster with the Command Palette' ); ?></h3>
-				<p><?php _e( 'Switch to a specific template or open your editor preferences with a new tool that helps you quickly navigate expanded functionality. With simple keyboard shortcuts (⌘+k on Mac or ctrl+k on Windows), clicking the sidebar search icon in Site View, or clicking the Title Bar, get where you need to go and do what you need to do in seconds.' ); ?></p>
+				<p><?php _e( 'Switch to a specific template or open your editor preferences with a new tool that helps you quickly navigate expanded functionality. With simple keyboard shortcuts (⌘+k on Mac or Ctrl+k on Windows), clicking the sidebar search icon in Site View, or clicking the Title Bar, get where you need to go and do what you need to do in seconds.' ); ?></p>
 			</div>
 		</div>
 
@@ -197,6 +197,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#151515"/>
+						<path fill="#fff" fill-rule="evenodd" d="m20.014 21.168 3.988-3.418 3.988 3.418-.976 1.14-3.012-2.582-3.012 2.581-.976-1.139Z" clip-rule="evenodd"/>
+						<path fill="#fff" d="M16 29h16v-1.5H16V29Z"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading" style="margin-top:calc(var(--gap) / 2);margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Rediscover the Top Toolbar' ); ?></h3>
@@ -231,7 +233,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-3-columns">
 			<div class="column about__image is-vertically-aligned-top">
-				<img src="./images/about-release-badge.svg" alt="" />
+				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.3' ) ); ?>" alt="" />
 			</div>
 			<div class="column is-vertically-aligned-center" style="grid-column-end:span 2">
 				<h3>
