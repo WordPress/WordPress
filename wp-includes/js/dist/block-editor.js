@@ -27773,7 +27773,8 @@ const usePatternsState = (onInsert, rootClientId) => {
     createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
     /* translators: %s: block pattern title. */
     (0,external_wp_i18n_namespaceObject.__)('Block pattern "%s" inserted.'), pattern.title), {
-      type: 'snackbar'
+      type: 'snackbar',
+      id: 'block-pattern-inserted-notice'
     });
   }, [createSuccessNotice, onInsert]);
   return [patterns, allCategories, onClickPattern];

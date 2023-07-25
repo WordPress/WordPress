@@ -23713,12 +23713,116 @@ const image_deprecated_v5 = {
 };
 /**
  * Deprecation for adding width and height as style rules on the inner img.
- * It also updates the widht and height attributes to be strings instead of numbers.
  *
  * @see https://github.com/WordPress/gutenberg/pull/31366
  */
 
 const image_deprecated_v6 = {
+  attributes: {
+    align: {
+      type: 'string'
+    },
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src',
+      __experimentalRole: 'content'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: '',
+      __experimentalRole: 'content'
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: 'figcaption',
+      __experimentalRole: 'content'
+    },
+    title: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'title',
+      __experimentalRole: 'content'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'href',
+      __experimentalRole: 'content'
+    },
+    rel: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'rel'
+    },
+    linkClass: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'class'
+    },
+    id: {
+      type: 'number',
+      __experimentalRole: 'content'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    },
+    aspectRatio: {
+      type: 'string'
+    },
+    scale: {
+      type: 'string'
+    },
+    sizeSlug: {
+      type: 'string'
+    },
+    linkDestination: {
+      type: 'string'
+    },
+    linkTarget: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'target'
+    }
+  },
+  supports: {
+    anchor: true,
+    behaviors: {
+      lightbox: true
+    },
+    color: {
+      text: false,
+      background: false
+    },
+    filter: {
+      duotone: true
+    },
+    __experimentalBorder: {
+      color: true,
+      radius: true,
+      width: true,
+      __experimentalSkipSerialization: true,
+      __experimentalDefaultControls: {
+        color: true,
+        radius: true,
+        width: true
+      }
+    }
+  },
+
   save({
     attributes
   }) {
@@ -23740,7 +23844,7 @@ const image_deprecated_v6 = {
       title
     } = attributes;
     const newRel = !rel ? undefined : rel;
-    const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)(attributes);
+    const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetBorderClassesAndStyles)(attributes);
     const classes = classnames_default()({
       [`align${align}`]: align,
       [`size-${sizeSlug}`]: sizeSlug,
@@ -56068,7 +56172,7 @@ function TemplatePartImportControls({
     type: "submit",
     isBusy: isBusy,
     "aria-disabled": isBusy || !selectedSidebar
-  }, (0,external_wp_i18n_namespaceObject.__)('Import')))));
+  }, (0,external_wp_i18n_namespaceObject._x)('Import', 'button label')))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/template-part/edit/advanced-controls.js

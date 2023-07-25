@@ -10761,7 +10761,7 @@ function __unstableSerializeAndClean(blocks) {
   // single freeform block as legacy content and apply
   // pre-block-editor removep'd content formatting.
 
-  if (blocks.length === 1 && blocks[0].name === getFreeformContentHandlerName()) {
+  if (blocks.length === 1 && blocks[0].name === getFreeformContentHandlerName() && blocks[0].name === 'core/freeform') {
     content = (0,external_wp_autop_namespaceObject.removep)(content);
   }
 
@@ -13800,7 +13800,7 @@ function normalizeRawBlock(rawBlock, options) {
   // automatic paragraphs, so preserve them. Assumes wpautop is idempotent,
   // meaning there are no negative consequences to repeated autop calls.
 
-  if (rawBlockName === fallbackBlockName && !options?.__unstableSkipAutop) {
+  if (rawBlockName === fallbackBlockName && rawBlockName === 'core/freeform' && !options?.__unstableSkipAutop) {
     rawInnerHTML = (0,external_wp_autop_namespaceObject.autop)(rawInnerHTML).trim();
   }
 

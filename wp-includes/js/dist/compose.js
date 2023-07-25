@@ -3886,11 +3886,12 @@ function useFocusOnMount(focusOnMount = 'firstElement') {
  * WordPress dependencies
  */
 
+/** @type {Element|null} */
+
+let origin = null;
 /**
- * When opening modals/sidebars/dialogs, the focus
- * must move to the opened area and return to the
- * previously focused element when closed.
- * The current hook implements the returning behavior.
+ * Adds the unmount behavior of returning focus to the element which had it
+ * previously as is expected for roles like menus or dialogs.
  *
  * @param {() => void} [onFocusReturn] Overrides the default return behavior.
  * @return {import('react').RefCallback<HTMLElement>} Element Ref.
@@ -3935,6 +3936,9 @@ function useFocusReturn(onFocusReturn) {
       const isFocused = ref.current?.contains(ref.current?.ownerDocument.activeElement);
 
       if (ref.current?.isConnected && !isFocused) {
+        var _origin;
+
+        (_origin = origin) !== null && _origin !== void 0 ? _origin : origin = focusedBeforeMount.current;
         return;
       } // Defer to the component's own explicit focus return behavior, if
       // specified. This allows for support that the `onFocusReturn`
@@ -3945,9 +3949,11 @@ function useFocusReturn(onFocusReturn) {
       if (onFocusReturnRef.current) {
         onFocusReturnRef.current();
       } else {
-        /** @type {null | HTMLElement} */
-        focusedBeforeMount.current?.focus();
+        /** @type {null|HTMLElement} */
+        (!focusedBeforeMount.current.isConnected ? origin : focusedBeforeMount.current)?.focus();
       }
+
+      origin = null;
     }
   }, []);
 }
