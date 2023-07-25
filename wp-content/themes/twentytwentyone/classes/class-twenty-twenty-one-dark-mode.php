@@ -20,7 +20,7 @@ class Twenty_Twenty_One_Dark_Mode {
 	public function __construct() {
 
 		// Enqueue assets for the block-editor.
-		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'editor_custom_color_variables' ) );
 
 		// Add styles for dark-mode.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
