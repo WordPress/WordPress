@@ -1,7 +1,9 @@
 === Twenty Seventeen ===
 Contributors: wordpressdotorg
-Tested up to: 6.2
-Version: 3.2
+Requires at least: 4.7
+Tested up to: 6.3
+Requires PHP: 5.2.4
+Version: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-patterns
@@ -72,6 +74,11 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/striped-fabric-9CBVWF2CDU
 
 == Changelog ==
+
+= 3.3 =
+* Released: August 8, 2023
+
+https://codex.wordpress.org/Twenty_Seventeen_Theme_Changelog#Version_3.3
 
 = 3.2 =
 * Released: March 28, 2023

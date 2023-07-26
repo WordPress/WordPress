@@ -1,9 +1,9 @@
 === Twenty Twenty-Three ===
 Contributors: wordpressdotorg
 Requires at least: 6.1
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 5.6
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,11 @@ Twenty Twenty-Three is designed to take advantage of the new design tools introd
 Whether you want to build a complex or incredibly simple website, you can do it quickly and intuitively through the bundled styles or dive into creation and full customization yourself.
 
 == Changelog ==
+
+= 1.2 =
+* Released: August 8, 2023
+
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.2
 
 = 1.1 =
 * Released: March 28, 2023
