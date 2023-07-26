@@ -3399,7 +3399,7 @@ function _wp_theme_json_webfonts_handler() {
 		}
 
 		// Check the font-display.
-		if ( ! in_array( $webfont['font-display'], array( 'auto', 'block', 'fallback', 'swap' ), true ) ) {
+		if ( ! in_array( $webfont['font-display'], array( 'auto', 'block', 'fallback', 'optional', 'swap' ), true ) ) {
 			$webfont['font-display'] = 'fallback';
 		}
 
