@@ -250,7 +250,7 @@ function build_template_part_block_instance_variations() {
 				'area'  => $template_part->area,
 			),
 			'scope'       => array( 'inserter' ),
-			'icon'        => isset( $icon_by_area[ $template_part->area ] ) ? $icon_by_area[ $template_part->area ] : null,
+			'icon'        => $icon_by_area[ $template_part->area ],
 			'example'     => array(
 				'attributes' => array(
 					'slug'  => $template_part->slug,
