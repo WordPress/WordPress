@@ -11744,8 +11744,8 @@ function getCustomValueFromPreset(value, spacingSizes) {
  */
 
 function getPresetValueFromCustomValue(value, spacingSizes) {
-  // Return value as-is if it is already a preset;
-  if (isValueSpacingPreset(value) || value === '0') {
+  // Return value as-is if it is undefined or is already a preset, or '0';
+  if (!value || isValueSpacingPreset(value) || value === '0') {
     return value;
   }
 
@@ -13394,9 +13394,9 @@ function useSettingsForBlockElement(parentSettings, blockName, element) {
         };
       }
 
-      const sides = Array.isArray(supports?.spacing?.[key]) ? supports?.spacing?.[key] : supports?.spacing?.[key]?.sides;
+      const sides = Array.isArray(supports?.spacing?.[key]) ? supports?.spacing?.[key] : supports?.spacing?.[key]?.sides; // Check if spacing type is supported before adding sides.
 
-      if (sides?.length) {
+      if (sides?.length && updatedSettings.spacing?.[key]) {
         updatedSettings.spacing = { ...updatedSettings.spacing,
           [key]: { ...updatedSettings.spacing?.[key],
             sides
@@ -26739,10 +26739,10 @@ function useDarkThemeBodyClassName(styles) {
       const tempCanvas = ownerDocument.createElement('div');
       tempCanvas.classList.add('editor-styles-wrapper');
       body.appendChild(tempCanvas);
-      backgroundColor = defaultView.getComputedStyle(tempCanvas, null).getPropertyValue('background-color');
+      backgroundColor = defaultView?.getComputedStyle(tempCanvas, null).getPropertyValue('background-color');
       body.removeChild(tempCanvas);
     } else {
-      backgroundColor = defaultView.getComputedStyle(canvas, null).getPropertyValue('background-color');
+      backgroundColor = defaultView?.getComputedStyle(canvas, null).getPropertyValue('background-color');
     }
 
     const colordBackgroundColor = w(backgroundColor); // If background is transparent, it should be treated as light color.
@@ -50077,7 +50077,12 @@ function useListViewDropZone({
   }, [canInsertBlocks, draggedBlockClientIds, getBlockCount, getBlockIndex, getBlockRootClientId, rtl]), 200);
   const ref = (0,external_wp_compose_namespaceObject.__experimentalUseDropZone)({
     dropZoneElement,
-    onDrop: onBlockDrop,
+
+    onDrop(event) {
+      if (target) {
+        onBlockDrop(event);
+      }
+    },
 
     onDragLeave() {
       throttled.cancel();
@@ -58001,39 +58006,64 @@ function useFirefoxCompat(props) {
  * WordPress dependencies
  */
 
-function FormatEdit({
-  formatTypes,
+
+/**
+ * Internal dependencies
+ */
+
+
+const format_edit_DEFAULT_BLOCK_CONTEXT = {};
+const usesContextKey = Symbol('usesContext');
+
+function format_edit_Edit({
   onChange,
   onFocus,
   value,
-  forwardedRef
+  forwardedRef,
+  settings
 }) {
-  return formatTypes.map(settings => {
-    const {
-      name,
-      edit: Edit
-    } = settings;
+  const {
+    name,
+    edit: EditFunction,
+    [usesContextKey]: usesContext
+  } = settings;
+  const blockContext = (0,external_wp_element_namespaceObject.useContext)(block_context); // Assign context values using the block type's declared context needs.
 
-    if (!Edit) {
-      return null;
-    }
+  const context = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    return usesContext ? Object.fromEntries(Object.entries(blockContext).filter(([key]) => usesContext.includes(key))) : format_edit_DEFAULT_BLOCK_CONTEXT;
+  }, [usesContext, blockContext]);
 
-    const activeFormat = (0,external_wp_richText_namespaceObject.getActiveFormat)(value, name);
-    const isActive = activeFormat !== undefined;
-    const activeObject = (0,external_wp_richText_namespaceObject.getActiveObject)(value);
-    const isObjectActive = activeObject !== undefined && activeObject.type === name;
-    return (0,external_wp_element_namespaceObject.createElement)(Edit, {
-      key: name,
-      isActive: isActive,
-      activeAttributes: isActive ? activeFormat.attributes || {} : {},
-      isObjectActive: isObjectActive,
-      activeObjectAttributes: isObjectActive ? activeObject.attributes || {} : {},
-      value: value,
-      onChange: onChange,
-      onFocus: onFocus,
-      contentRef: forwardedRef
-    });
+  if (!EditFunction) {
+    return null;
+  }
+
+  const activeFormat = (0,external_wp_richText_namespaceObject.getActiveFormat)(value, name);
+  const isActive = activeFormat !== undefined;
+  const activeObject = (0,external_wp_richText_namespaceObject.getActiveObject)(value);
+  const isObjectActive = activeObject !== undefined && activeObject.type === name;
+  return (0,external_wp_element_namespaceObject.createElement)(EditFunction, {
+    key: name,
+    isActive: isActive,
+    activeAttributes: isActive ? activeFormat.attributes || {} : {},
+    isObjectActive: isObjectActive,
+    activeObjectAttributes: isObjectActive ? activeObject.attributes || {} : {},
+    value: value,
+    onChange: onChange,
+    onFocus: onFocus,
+    contentRef: forwardedRef,
+    context: context
   });
+}
+
+function FormatEdit({
+  formatTypes,
+  ...props
+}) {
+  return formatTypes.map(settings => (0,external_wp_element_namespaceObject.createElement)(format_edit_Edit, {
+    settings: settings,
+    ...props,
+    key: settings.name
+  }));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/rich-text/content.js
@@ -66332,6 +66362,7 @@ function ResolutionTool({
 
 
 
+
 /**
  * Private @wordpress/block-editor APIs.
  */
@@ -66355,7 +66386,8 @@ lock(privateApis, { ...global_styles_namespaceObject,
   DimensionsTool: dimensions_tool,
   ResolutionTool: ResolutionTool,
   ReusableBlocksRenameHint: ReusableBlocksRenameHint,
-  useReusableBlocksRenameHint: useReusableBlocksRenameHint
+  useReusableBlocksRenameHint: useReusableBlocksRenameHint,
+  usesContextKey: usesContextKey
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/index.js

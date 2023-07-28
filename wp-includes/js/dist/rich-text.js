@@ -4128,7 +4128,7 @@ function useSelectionChangeCompat() {
     const {
       defaultView
     } = ownerDocument;
-    const selection = defaultView.getSelection();
+    const selection = defaultView?.getSelection();
     let range;
 
     function getRange() {

@@ -6117,7 +6117,7 @@ const layout = (0,external_wp_element_namespaceObject.createElement)(external_wp
 }));
 /* harmony default export */ var library_layout = (layout);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/document-title/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/document-actions/index.js
 
 
 /**
@@ -6136,7 +6136,7 @@ const layout = (0,external_wp_element_namespaceObject.createElement)(external_wp
 
 
 
-function DocumentTitle() {
+function DocumentActions() {
   const {
     template,
     isEditing
@@ -6176,19 +6176,19 @@ function DocumentTitle() {
   }
 
   return (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "edit-post-document-title"
-  }, (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "edit-post-document-title__left"
+    className: "edit-post-document-actions"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    className: "edit-post-document-actions__back",
     onClick: () => {
       clearSelectedBlock();
       setIsEditingTemplate(false);
     },
     icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_right_small : chevron_left_small
-  }, (0,external_wp_i18n_namespaceObject.__)('Back'))), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "edit-post-document-title__title",
+  }, (0,external_wp_i18n_namespaceObject.__)('Back')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    className: "edit-post-document-actions__command",
     onClick: () => openCommandCenter()
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    className: "edit-post-document-actions__title",
     spacing: 1,
     justify: "center"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockIcon, {
@@ -6198,13 +6198,12 @@ function DocumentTitle() {
     as: "h1"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
     as: "span"
-  }, (0,external_wp_i18n_namespaceObject.__)('Editing template: ')), templateTitle))), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "edit-post-document-title__shortcut",
-    onClick: () => openCommandCenter()
-  }, external_wp_keycodes_namespaceObject.displayShortcut.primary('k')));
+  }, (0,external_wp_i18n_namespaceObject.__)('Editing template: ')), templateTitle)), (0,external_wp_element_namespaceObject.createElement)("span", {
+    className: "edit-post-document-actions__shortcut"
+  }, external_wp_keycodes_namespaceObject.displayShortcut.primary('k'))));
 }
 
-/* harmony default export */ var document_title = (DocumentTitle);
+/* harmony default export */ var document_actions = (DocumentActions);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/index.js
 
@@ -6288,8 +6287,8 @@ function Header({
     },
     className: "edit-post-header__toolbar"
   }, (0,external_wp_element_namespaceObject.createElement)(header_toolbar, null), (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "edit-post-header__document-title"
-  }, (0,external_wp_element_namespaceObject.createElement)(document_title, null))), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
+    className: "edit-post-header__center"
+  }, (0,external_wp_element_namespaceObject.createElement)(document_actions, null))), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
     variants: slideY,
     transition: {
       type: 'tween',
@@ -6636,11 +6635,11 @@ function ListViewSidebar() {
       selectOnMove: false,
       tabs: [{
         name: 'list-view',
-        title: 'List View',
+        title: (0,external_wp_i18n_namespaceObject._x)('List View', 'Post overview'),
         className: 'edit-post-sidebar__panel-tab'
       }, {
         name: 'outline',
-        title: 'Outline',
+        title: (0,external_wp_i18n_namespaceObject._x)('Outline', 'Post overview'),
         className: 'edit-post-sidebar__panel-tab'
       }]
     }, currentTab => (0,external_wp_element_namespaceObject.createElement)("div", {
