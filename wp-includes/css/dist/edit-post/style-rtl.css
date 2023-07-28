@@ -497,7 +497,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   }
 }
 
-.edit-post-header__document-title{
+.edit-post-header__center{
   display:flex;
   flex-grow:1;
   justify-content:center;
@@ -800,7 +800,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   margin-right:8px;
 }
 
-.edit-post-document-title{
+.edit-post-document-actions{
   align-items:center;
   background:#f0f0f0;
   border-radius:4px;
@@ -811,44 +811,40 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   min-width:0;
   width:min(100%, 450px);
 }
-.edit-post-document-title:hover{
+.edit-post-document-actions .components-button:hover{
   background:#e0e0e0;
-  color:currentColor;
+  color:var(--wp-block-synced-color);
 }
 
-.edit-post-document-title__title.components-button{
+.edit-post-document-actions__command,.edit-post-document-actions__title{
   color:var(--wp-block-synced-color);
   flex-grow:1;
   overflow:hidden;
 }
-.edit-post-document-title__title.components-button:hover{
+.edit-post-document-actions__title:hover{
   color:var(--wp-block-synced-color);
 }
-.edit-post-document-title__title.components-button h1{
+.edit-post-document-actions__title .block-editor-block-icon{
+  flex-shrink:0;
+}
+.edit-post-document-actions__title h1{
   color:var(--wp-block-synced-color);
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
 
-.edit-post-document-title__shortcut{
-  color:#757575;
-  flex-shrink:0;
-  padding:0 12px;
-}
-.edit-post-document-title__shortcut:hover{
-  color:#757575;
+.edit-post-document-actions__shortcut{
+  color:#2f2f2f;
 }
 
-.edit-post-document-title__left{
+.edit-post-document-actions__back.components-button.has-icon.has-text{
+  color:#757575;
   flex-shrink:0;
+  gap:0;
   min-width:36px;
 }
-.edit-post-document-title__left .components-button.has-icon.has-text{
-  color:#757575;
-  gap:0;
-}
-.edit-post-document-title__left .components-button.has-icon.has-text:hover{
+.edit-post-document-actions__back.components-button.has-icon.has-text:hover{
   color:currentColor;
 }
 

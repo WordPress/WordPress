@@ -58464,6 +58464,17 @@ function FootnotesEdit({
   const footnotes = meta?.footnotes ? JSON.parse(meta.footnotes) : [];
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
 
+  if (postType !== 'post' && postType !== 'page') {
+    return (0,external_wp_element_namespaceObject.createElement)("div", { ...blockProps
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
+      icon: (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockIcon, {
+        icon: format_list_numbered
+      }),
+      label: (0,external_wp_i18n_namespaceObject.__)('Footnotes') // To do: add instructions. We can't add new string in RC.
+
+    }));
+  }
+
   if (!footnotes.length) {
     return (0,external_wp_element_namespaceObject.createElement)("div", { ...blockProps
     }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
@@ -58634,6 +58645,10 @@ const {
   },
   style: "wp-block-footnotes"
 };
+
+const {
+  usesContextKey
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const formatName = 'core/footnote';
 const format = {
   title: (0,external_wp_i18n_namespaceObject.__)('Footnote'),
@@ -58643,10 +58658,14 @@ const format = {
     'data-fn': 'data-fn'
   },
   contentEditable: false,
+  [usesContextKey]: ['postType'],
   edit: function Edit({
     value,
     onChange,
-    isObjectActive
+    isObjectActive,
+    context: {
+      postType
+    }
   }) {
     const registry = (0,external_wp_data_namespaceObject.useRegistry)();
     const {
@@ -58655,10 +58674,19 @@ const format = {
       getBlockName,
       getBlocks
     } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blockEditor_namespaceObject.store);
+    const footnotesBlockType = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blocks_namespaceObject.store).getBlockType(format_name));
     const {
       selectionChange,
       insertBlock
     } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+
+    if (!footnotesBlockType) {
+      return null;
+    }
+
+    if (postType !== 'post' && postType !== 'page') {
+      return null;
+    }
 
     function onClick() {
       registry.batch(() => {
@@ -58761,8 +58789,7 @@ const {
 const footnotes_settings = {
   icon: format_list_numbered,
   edit: FootnotesEdit
-}; // Would be good to remove the format and HoR if the block is unregistered.
-
+};
 (0,external_wp_richText_namespaceObject.registerFormatType)(formatName, format);
 const footnotes_init = () => {
   initBlock({

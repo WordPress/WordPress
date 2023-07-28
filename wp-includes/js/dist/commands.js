@@ -3980,6 +3980,16 @@ function CommandMenu() {
     return false;
   }
 
+  const onKeyDown = event => {
+    if ( // Ignore keydowns from IMEs
+    event.nativeEvent.isComposing || // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
+    // is `isComposing=false`, even though it's technically still part of the composition.
+    // These can only be detected by keyCode.
+    event.keyCode === 229) {
+      event.preventDefault();
+    }
+  };
+
   const isLoading = Object.values(loaders).some(Boolean);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
     className: "commands-command-menu",
@@ -3989,7 +3999,8 @@ function CommandMenu() {
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "commands-command-menu__container"
   }, (0,external_wp_element_namespaceObject.createElement)(Le, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Command palette')
+    label: (0,external_wp_i18n_namespaceObject.__)('Command palette'),
+    onKeyDown: onKeyDown
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "commands-command-menu__header"
   }, (0,external_wp_element_namespaceObject.createElement)(Le.Input, {
