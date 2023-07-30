@@ -354,7 +354,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 				$sentence = preg_replace( $prime_pattern, $prime, $sentence );
 				$sentence = preg_replace( $flag_after_digit, $prime, $sentence );
 				$sentence = str_replace( $flag, $close_quote, $sentence );
-			} elseif ( 1 == $count ) {
+			} elseif ( 1 === $count ) {
 				// Found only one closing quote candidate, so give it priority over primes.
 				$sentence = str_replace( $flag, $close_quote, $sentence );
 				$sentence = preg_replace( $prime_pattern, $prime, $sentence );
@@ -422,7 +422,7 @@ function _wptexturize_pushpop_element( $text, &$stack, $disabled_elements ) {
 			 */
 
 			array_push( $stack, $tag );
-		} elseif ( end( $stack ) == $tag ) {
+		} elseif ( end( $stack ) === $tag ) {
 			array_pop( $stack );
 		}
 	}
@@ -884,29 +884,33 @@ function seems_utf8( $str ) {
 	mbstring_binary_safe_encoding();
 	$length = strlen( $str );
 	reset_mbstring_encoding();
+
 	for ( $i = 0; $i < $length; $i++ ) {
 		$c = ord( $str[ $i ] );
+
 		if ( $c < 0x80 ) {
 			$n = 0; // 0bbbbbbb
-		} elseif ( ( $c & 0xE0 ) == 0xC0 ) {
+		} elseif ( ( $c & 0xE0 ) === 0xC0 ) {
 			$n = 1; // 110bbbbb
-		} elseif ( ( $c & 0xF0 ) == 0xE0 ) {
+		} elseif ( ( $c & 0xF0 ) === 0xE0 ) {
 			$n = 2; // 1110bbbb
-		} elseif ( ( $c & 0xF8 ) == 0xF0 ) {
+		} elseif ( ( $c & 0xF8 ) === 0xF0 ) {
 			$n = 3; // 11110bbb
-		} elseif ( ( $c & 0xFC ) == 0xF8 ) {
+		} elseif ( ( $c & 0xFC ) === 0xF8 ) {
 			$n = 4; // 111110bb
-		} elseif ( ( $c & 0xFE ) == 0xFC ) {
+		} elseif ( ( $c & 0xFE ) === 0xFC ) {
 			$n = 5; // 1111110b
 		} else {
 			return false; // Does not match any model.
 		}
+
 		for ( $j = 0; $j < $n; $j++ ) { // n bytes matching 10bbbbbb follow ?
-			if ( ( ++$i === $length ) || ( ( ord( $str[ $i ] ) & 0xC0 ) != 0x80 ) ) {
+			if ( ( ++$i === $length ) || ( ( ord( $str[ $i ] ) & 0xC0 ) !== 0x80 ) ) {
 				return false;
 			}
 		}
 	}
+
 	return true;
 }
 
@@ -2910,13 +2914,15 @@ function urldecode_deep( $value ) {
  */
 function antispambot( $email_address, $hex_encoding = 0 ) {
 	$email_no_spam_address = '';
+
 	for ( $i = 0, $len = strlen( $email_address ); $i < $len; $i++ ) {
 		$j = rand( 0, 1 + $hex_encoding );
-		if ( 0 == $j ) {
+
+		if ( 0 === $j ) {
 			$email_no_spam_address .= '&#' . ord( $email_address[ $i ] ) . ';';
-		} elseif ( 1 == $j ) {
+		} elseif ( 1 === $j ) {
 			$email_no_spam_address .= $email_address[ $i ];
-		} elseif ( 2 == $j ) {
+		} elseif ( 2 === $j ) {
 			$email_no_spam_address .= '%' . zeroise( dechex( ord( $email_address[ $i ] ) ), 2 );
 		}
 	}
@@ -4892,7 +4898,7 @@ function sanitize_option( $option, $value ) {
 		case 'default_ping_status':
 		case 'default_comment_status':
 			// Options that if not there have 0 value but need to be something like "closed".
-			if ( '0' == $value || '' === $value ) {
+			if ( '0' === (string) $value || '' === $value ) {
 				$value = 'closed';
 			}
 			break;
@@ -5230,6 +5236,7 @@ function wp_sprintf( $pattern, ...$args ) {
 	$start     = 0;
 	$result    = '';
 	$arg_index = 0;
+
 	while ( $len > $start ) {
 		// Last character: append and break.
 		if ( strlen( $pattern ) - 1 === $start ) {
@@ -5274,7 +5281,8 @@ function wp_sprintf( $pattern, ...$args ) {
 			 * @param string $arg      The argument.
 			 */
 			$_fragment = apply_filters( 'wp_sprintf', $fragment, $arg );
-			if ( $_fragment != $fragment ) {
+
+			if ( $_fragment !== $fragment ) {
 				$fragment = $_fragment;
 			} else {
 				$fragment = sprintf( $fragment, (string) $arg );
@@ -5381,7 +5389,8 @@ function wp_html_excerpt( $str, $count, $more = null ) {
 
 	// Remove part of an entity at the end.
 	$excerpt = preg_replace( '/&[^;\s]{0,6}$/', '', $excerpt );
-	if ( $str != $excerpt ) {
+
+	if ( $str !== $excerpt ) {
 		$excerpt = trim( $excerpt ) . $more;
 	}
 
