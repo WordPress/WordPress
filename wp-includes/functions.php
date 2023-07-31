@@ -1061,12 +1061,15 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 		if ( $urlencode ) {
 			$k = urlencode( $k );
 		}
-		if ( is_int( $k ) && null != $prefix ) {
+
+		if ( is_int( $k ) && null !== $prefix ) {
 			$k = $prefix . $k;
 		}
+
 		if ( ! empty( $key ) ) {
 			$k = $key . '%5B' . $k . '%5D';
 		}
+
 		if ( null === $v ) {
 			continue;
 		} elseif ( false === $v ) {
@@ -1772,15 +1775,18 @@ function is_blog_installed() {
 	}
 
 	$suppress = $wpdb->suppress_errors();
+
 	if ( ! wp_installing() ) {
 		$alloptions = wp_load_alloptions();
 	}
+
 	// If siteurl is not set to autoload, check it specifically.
 	if ( ! isset( $alloptions['siteurl'] ) ) {
 		$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 	} else {
 		$installed = $alloptions['siteurl'];
 	}
+
 	$wpdb->suppress_errors( $suppress );
 
 	$installed = ! empty( $installed );
@@ -1805,10 +1811,11 @@ function is_blog_installed() {
 	$wp_tables = $wpdb->tables();
 	foreach ( $wp_tables as $table ) {
 		// The existence of custom user tables shouldn't suggest an unwise state or prevent a clean installation.
-		if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE == $table ) {
+		if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE === $table ) {
 			continue;
 		}
-		if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE == $table ) {
+
+		if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE === $table ) {
 			continue;
 		}
 
@@ -2080,7 +2087,7 @@ function wp_mkdir_p( $target ) {
 		 * If a umask is set that modifies $dir_perms, we'll have to re-set
 		 * the $dir_perms correctly with chmod()
 		 */
-		if ( ( $dir_perms & ~umask() ) != $dir_perms ) {
+		if ( ( $dir_perms & ~umask() ) !== $dir_perms ) {
 			$folder_parts = explode( '/', substr( $target, strlen( $target_parent ) + 1 ) );
 			for ( $i = 1, $c = count( $folder_parts ); $i <= $c; $i++ ) {
 				chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
@@ -2430,7 +2437,7 @@ function _wp_upload_dir( $time = null ) {
 
 	$url = get_option( 'upload_url_path' );
 	if ( ! $url ) {
-		if ( empty( $upload_path ) || ( 'wp-content/uploads' === $upload_path ) || ( $upload_path == $dir ) ) {
+		if ( empty( $upload_path ) || ( 'wp-content/uploads' === $upload_path ) || ( $upload_path === $dir ) ) {
 			$url = WP_CONTENT_URL . '/uploads';
 		} else {
 			$url = trailingslashit( $siteurl ) . $upload_path;
@@ -3095,7 +3102,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		// Attempt to figure out what type of image it actually is.
 		$real_mime = wp_get_image_mime( $file );
 
-		if ( $real_mime && $real_mime != $type ) {
+		if ( $real_mime && $real_mime !== $type ) {
 			/**
 			 * Filters the list mapping image mime types to their respective extensions.
 			 *
@@ -3122,9 +3129,10 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				$filename_parts[] = $mime_to_ext[ $real_mime ];
 				$new_filename     = implode( '.', $filename_parts );
 
-				if ( $new_filename != $filename ) {
+				if ( $new_filename !== $filename ) {
 					$proper_filename = $new_filename; // Mark that it changed.
 				}
+
 				// Redefine the extension / MIME.
 				$wp_filetype = wp_check_filetype( $new_filename, $mimes );
 				$ext         = $wp_filetype['ext'];
@@ -4787,16 +4795,18 @@ function smilies_init() {
 		$rest      = substr( $smiley, 1 );
 
 		// New subpattern?
-		if ( $firstchar != $subchar ) {
+		if ( $firstchar !== $subchar ) {
 			if ( '' !== $subchar ) {
 				$wp_smiliessearch .= ')(?=' . $spaces . '|$)';  // End previous "subpattern".
 				$wp_smiliessearch .= '|(?<=' . $spaces . '|^)'; // Begin another "subpattern".
 			}
+
 			$subchar           = $firstchar;
 			$wp_smiliessearch .= preg_quote( $firstchar, '/' ) . '(?:';
 		} else {
 			$wp_smiliessearch .= '|';
 		}
+
 		$wp_smiliessearch .= preg_quote( $rest, '/' );
 	}
 
@@ -5938,7 +5948,7 @@ function is_lighttpd_before_150() {
 	$server_parts    = explode( '/', isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '' );
 	$server_parts[1] = isset( $server_parts[1] ) ? $server_parts[1] : '';
 
-	return ( 'lighttpd' === $server_parts[0] && -1 == version_compare( $server_parts[1], '1.5.0' ) );
+	return ( 'lighttpd' === $server_parts[0] && -1 === version_compare( $server_parts[1], '1.5.0' ) );
 }
 
 /**
@@ -6347,6 +6357,7 @@ function wp_timezone_override_offset() {
 	if ( false === $timezone_object || false === $datetime_object ) {
 		return false;
 	}
+
 	return round( timezone_offset_get( $timezone_object, $datetime_object ) / HOUR_IN_SECONDS, 2 );
 }
 
@@ -6367,33 +6378,42 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 		if ( str_starts_with( $a['city'], 'GMT+' ) && str_starts_with( $b['city'], 'GMT+' ) ) {
 			return -1 * ( strnatcasecmp( $a['city'], $b['city'] ) );
 		}
+
 		if ( 'UTC' === $a['city'] ) {
 			if ( str_starts_with( $b['city'], 'GMT+' ) ) {
 				return 1;
 			}
+
 			return -1;
 		}
+
 		if ( 'UTC' === $b['city'] ) {
 			if ( str_starts_with( $a['city'], 'GMT+' ) ) {
 				return -1;
 			}
+
 			return 1;
 		}
+
 		return strnatcasecmp( $a['city'], $b['city'] );
 	}
-	if ( $a['t_continent'] == $b['t_continent'] ) {
-		if ( $a['t_city'] == $b['t_city'] ) {
+
+	if ( $a['t_continent'] === $b['t_continent'] ) {
+		if ( $a['t_city'] === $b['t_city'] ) {
 			return strnatcasecmp( $a['t_subcity'], $b['t_subcity'] );
 		}
+
 		return strnatcasecmp( $a['t_city'], $b['t_city'] );
 	} else {
 		// Force Etc to the bottom of the list.
 		if ( 'Etc' === $a['continent'] ) {
 			return 1;
 		}
+
 		if ( 'Etc' === $b['continent'] ) {
 			return -1;
 		}
+
 		return strnatcasecmp( $a['t_continent'], $b['t_continent'] );
 	}
 }
@@ -6913,7 +6933,7 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 		}
 
 		// Tortoise got lapped - must be a loop.
-		if ( $tortoise == $evanescent_hare || $tortoise == $hare ) {
+		if ( $tortoise === $evanescent_hare || $tortoise === $hare ) {
 			return $_return_loop ? $return : $tortoise;
 		}
 
@@ -7010,7 +7030,7 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 		if ( $skip_frames > 0 ) {
 			$skip_frames--;
 		} elseif ( isset( $call['class'] ) ) {
-			if ( $check_class && $ignore_class == $call['class'] ) {
+			if ( $check_class && $ignore_class === $call['class'] ) {
 				continue; // Filter out calls.
 			}
 
