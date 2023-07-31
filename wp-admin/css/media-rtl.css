@@ -584,7 +584,7 @@ border color while dragging a file over the uploader drop area */
 	margin-top: 0;
 }
 
-.media-search-input-label {
+.media-frame-content .media-search-input-label {
 	margin: 0 0 0 .2em;
 	vertical-align: baseline;
 }
@@ -878,16 +878,16 @@ border color while dragging a file over the uploader drop area */
 	padding-top: 10px;
 }
 
-.imgedit-settings p,
-.imgedit-settings fieldset {
+.image-editor p,
+.image-editor fieldset {
 	margin: 8px 0;
 }
 
-.imgedit-settings legend {
+.image-editor legend {
 	margin-bottom: 5px;
 }
 
-.describe .imgedit-wrap .imgedit-settings {
+.describe .imgedit-wrap .image-editor {
 	padding: 0 5px;
 }
 
@@ -899,19 +899,31 @@ border color while dragging a file over the uploader drop area */
 	height: auto;
 }
 
-.wp_attachment_holder .imgedit-wrap .imgedit-panel-content {
-	float: right;
-	padding: 3px 0 0 16px;
-	min-width: 400px;
-	max-width: calc( 100% - 266px );
+.imgedit-panel-content {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	margin-bottom: 20px;
 }
 
-.wp_attachment_holder .imgedit-wrap .imgedit-settings {
+.imgedit-settings {
+	max-width: 400px; /* Prevent reflow when help info is expanded. */
+}
+
+.imgedit-group-controls > * {
+	display: none;
+}
+
+.imgedit-panel-active .imgedit-group-controls > * {
+	display: block;
+}
+
+.wp_attachment_holder .imgedit-wrap .image-editor {
 	float: left;
 	width: 250px;
 }
 
-.imgedit-settings input {
+.image-editor input {
 	margin-top: 0;
 	vertical-align: middle;
 }
@@ -946,7 +958,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-disabled,
-.imgedit-settings .disabled {
+.image-editor .disabled {
 	/* WCAG 1.4.3 Text or images of text that are part of an inactive user
 	   interface component ... have no contrast requirement. */
 	color: #a7aaad;
@@ -970,10 +982,6 @@ border color while dragging a file over the uploader drop area */
 	float: right;
 }
 
-.imgedit-menu {
-	margin: 0 0 12px;
-}
-
 .imgedit-menu .note-no-rotate {
 	clear: both;
 	margin: 0;
@@ -986,10 +994,10 @@ border color while dragging a file over the uploader drop area */
 	min-height: 28px;
 	font-size: 13px;
 	line-height: 2;
-	margin: 0 0 8px 8px;
 	padding: 0 10px;
 }
 
+.imgedit-menu .button:after,
 .imgedit-menu .button:before {
 	font: normal 16px/1 dashicons;
 	margin-left: 8px;
@@ -999,6 +1007,16 @@ border color while dragging a file over the uploader drop area */
 	top: -2px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.imgedit-menu .imgedit-rotate.button:after {
+	content: '\f140';
+	margin-right: 2px;
+	margin-left: 0;
+}
+
+.imgedit-menu .imgedit-rotate.button[aria-expanded="true"]:after {
+	content: '\f142';
 }
 
 .imgedit-menu .button.disabled {
@@ -1015,20 +1033,12 @@ border color while dragging a file over the uploader drop area */
 	content: "\f165";
 }
 
-.imgedit-rleft:before {
-	content: "\f166";
+.imgedit-scale:before {
+	content: "\f211";
 }
 
-.imgedit-rright:before {
+.imgedit-rotate:before {
 	content: "\f167";
-}
-
-.imgedit-flipv:before {
-	content: "\f168";
-}
-
-.imgedit-fliph:before {
-	content: "\f169";
 }
 
 .imgedit-undo:before {
@@ -1049,23 +1059,19 @@ border color while dragging a file over the uploader drop area */
 	background-size: 20px 20px;
 }
 
+.imgedit-crop-wrap {
+	padding: 20px;
+	background-image: linear-gradient(-45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7), linear-gradient(-45deg, #c3c4c7 25%, transparent 25%, transparent 75%, #c3c4c7 75%, #c3c4c7);
+	background-position: 100% 0, 10px 10px;
+	background-size: 20px 20px;
+}
+
+
 .imgedit-crop {
 	margin: 0 0 0 8px;
 }
 
-.imgedit-rleft {
-	margin: 0 3px;
-}
-
-.imgedit-rright {
-	margin: 0 3px 0 8px;
-}
-
-.imgedit-flipv {
-	margin: 0 3px;
-}
-
-.imgedit-fliph {
+.imgedit-rotate {
 	margin: 0 3px 0 8px;
 }
 
@@ -1075,6 +1081,12 @@ border color while dragging a file over the uploader drop area */
 
 .imgedit-redo {
 	margin: 0 3px 0 8px;
+}
+
+.imgedit-thumbnail-preview-group {
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 10px;
 }
 
 .imgedit-thumbnail-preview {
@@ -1103,9 +1115,39 @@ border color while dragging a file over the uploader drop area */
 	padding: .5em 0 0;
 }
 
+.imgedit-popup-menu,
 .imgedit-help {
 	display: none;
 	padding-bottom: 8px;
+}
+
+.imgedit-panel-tools > .imgedit-menu {
+	display: flex;
+	column-gap: 4px;
+	align-items: start;
+	flex-wrap: wrap;
+}
+
+.imgedit-popup-menu {
+	width: calc( 100% - 20px );
+	position: absolute;
+	background: #fff;
+	padding: 10px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.image-editor .imgedit-menu .imgedit-popup-menu button {
+	display: block;
+	margin: 2px 0;
+	width: 100%;
+	white-space: break-spaces;
+	line-height: 1.5;
+	padding-top: 3px;
+	padding-bottom: 2px;
+}
+
+.imgedit-rotate-menu-container {
+	position: relative;
 }
 
 .imgedit-help.imgedit-restore {
@@ -1140,10 +1182,6 @@ border color while dragging a file over the uploader drop area */
 	padding: 0;
 }
 
-.imgedit-submit {
-	margin: 8px 0 0;
-}
-
 .imgedit-submit-btn {
 	margin-right: 20px;
 }
@@ -1155,8 +1193,11 @@ border color while dragging a file over the uploader drop area */
 }
 
 span.imgedit-scale-warn {
-	color: #d63638;
-	font-size: 20px;
+	display: flex;
+	align-items: center;
+	margin: 4px;
+	gap: 4px;
+	color: #b32d2e;
 	font-style: normal;
 	visibility: hidden;
 	vertical-align: middle;
@@ -1171,17 +1212,19 @@ span.imgedit-scale-warn {
 }
 
 .imgedit-group {
-	margin-bottom: 8px;
-	padding: 10px;
+	margin-bottom: 20px;
 }
 
-.imgedit-settings .imgedit-original-dimensions {
+.image-editor .imgedit-original-dimensions {
 	display: inline-block;
 }
 
-.imgedit-settings .imgedit-scale input[type="text"],
-.imgedit-settings .imgedit-crop-ratio input[type="text"],
-.imgedit-settings .imgedit-crop-sel input[type="text"] {
+.image-editor .imgedit-scale-controls input[type="text"],
+.image-editor .imgedit-crop-ratio input[type="text"],
+.image-editor .imgedit-crop-sel input[type="text"],
+.image-editor .imgedit-scale-controls input[type="number"],
+.image-editor .imgedit-crop-ratio input[type="number"],
+.image-editor .imgedit-crop-sel input[type="number"] {
 	width: 80px;
 	font-size: 14px;
 	padding: 0 8px;
@@ -1195,12 +1238,12 @@ span.imgedit-scale-warn {
 	color: #3c434a;
 }
 
-.imgedit-settings .imgedit-scale-button-wrapper {
+.image-editor .imgedit-scale-button-wrapper {
 	margin-top: 0.3077em;
 	display: block;
 }
 
-.imgedit-settings .imgedit-scale .button {
+.image-editor .imgedit-scale-controls .button {
 	margin-bottom: 0;
 }
 
@@ -1229,7 +1272,6 @@ audio, video {
  * HiDPI Displays
  */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	.imgedit-wait:before {
 		background-image: url(../images/spinner-2x.gif);
@@ -1269,15 +1311,15 @@ audio, video {
 		padding: 10px 12px 10px 0;
 	}
 
-	.imgedit-settings .imgedit-scale input[type="text"],
-	.imgedit-settings .imgedit-crop-ratio input[type="text"],
-	.imgedit-settings .imgedit-crop-sel input[type="text"] {
+	.image-editor .imgedit-scale input[type="text"],
+	.image-editor .imgedit-crop-ratio input[type="text"],
+	.image-editor .imgedit-crop-sel input[type="text"] {
 		font-size: 16px;
 		padding: 6px 10px;
 	}
 
 	.wp_attachment_holder .imgedit-wrap .imgedit-panel-content,
-	.wp_attachment_holder .imgedit-wrap .imgedit-settings {
+	.wp_attachment_holder .imgedit-wrap .image-editor {
 		float: none;
 		width: auto;
 		max-width: none;
@@ -1294,16 +1336,16 @@ audio, video {
 	}
 
 	.media-modal .imgedit-wrap .imgedit-panel-content,
-	.media-modal .imgedit-wrap .imgedit-settings {
+	.media-modal .imgedit-wrap .image-editor {
 		position: initial !important;
 	}
 
-	.media-modal .imgedit-wrap .imgedit-settings {
+	.media-modal .imgedit-wrap .image-editor {
 		box-sizing: border-box;
 		width: 100% !important;
 	}
 
-	.imgedit-settings .imgedit-scale-button-wrapper {
+	.image-editor .imgedit-scale-button-wrapper {
 		display: inline-block;
 	}
 }
@@ -1317,12 +1359,22 @@ audio, video {
 /**
  * Media queries for media grid.
  */
-
 @media only screen and (max-width: 1120px) {
 	/* override for media-views.css */
 	#wp-media-grid .wp-filter .attachment-filters {
 		max-width: 100%;
 	}
+}
+
+@media only screen and (max-width: 1000px) {
+	/* override for forms.css */
+	.wp-filter p.search-box {
+		float: none;
+		width: 100%;
+		margin-bottom: 20px;
+		display: flex;
+	}
+
 }
 
 @media only screen and (max-width: 782px) {

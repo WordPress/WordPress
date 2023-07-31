@@ -143,7 +143,7 @@ if ( ! empty( $messages ) ) {
 				}
 			}
 
-			if ( strpos( $option->option_value, "\n" ) !== false ) {
+			if ( str_contains( $option->option_value, "\n" ) ) {
 				?>
 				<tr class="form-field">
 					<th scope="row"><label for="<?php echo esc_attr( $option->option_name ); ?>" class="code"><?php echo esc_html( $option->option_name ); ?></label></th>

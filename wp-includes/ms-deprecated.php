@@ -295,7 +295,7 @@ function wpmu_admin_do_redirect( $url = '' ) {
 	if ( isset( $_GET['redirect'] ) && isset( $_POST['redirect'] ) && $_GET['redirect'] !== $_POST['redirect'] ) {
 		wp_die( __( 'A variable mismatch has been detected.' ), __( 'Sorry, you are not allowed to view this item.' ), 400 );
 	} elseif ( isset( $_GET['redirect'] ) ) {
-		if ( 's_' === substr( $_GET['redirect'], 0, 2 ) )
+		if ( str_starts_with( $_GET['redirect'], 's_' ) )
 			$url .= '&action=blogs&s='. esc_html( substr( $_GET['redirect'], 2 ) );
 	} elseif ( isset( $_POST['redirect'] ) ) {
 		$url = wpmu_admin_redirect_add_updated_param( $_POST['redirect'] );
@@ -317,8 +317,8 @@ function wpmu_admin_do_redirect( $url = '' ) {
 function wpmu_admin_redirect_add_updated_param( $url = '' ) {
 	_deprecated_function( __FUNCTION__, '3.3.0', 'add_query_arg()' );
 
-	if ( strpos( $url, 'updated=true' ) === false ) {
-		if ( strpos( $url, '?' ) === false )
+	if ( ! str_contains( $url, 'updated=true' ) ) {
+		if ( ! str_contains( $url, '?' ) )
 			return $url . '?updated=true';
 		else
 			return $url . '&updated=true';
@@ -355,7 +355,7 @@ function get_user_id_from_string( $email_or_login ) {
 }
 
 /**
- * Get a full blog URL, given a domain and a path.
+ * Get a full site URL, given a domain and a path.
  *
  * @since MU (3.0.0)
  * @deprecated 3.7.0

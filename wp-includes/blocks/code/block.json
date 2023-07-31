@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/code",
 	"title": "Code",
 	"category": "text",
@@ -14,6 +14,7 @@
 		}
 	},
 	"supports": {
+		"align": [ "wide" ],
 		"anchor": true,
 		"typography": {
 			"fontSize": true,
@@ -30,7 +31,11 @@
 		},
 		"spacing": {
 			"margin": [ "top", "bottom" ],
-			"padding": true
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
 		},
 		"__experimentalBorder": {
 			"radius": true,

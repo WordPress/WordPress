@@ -142,7 +142,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: #fff;
 	font-size: 12px;
 	font-weight: 700;
-	line-height: 15px;
+	line-height: 1.25;
 	padding: 10px 30px 11px;
 	text-transform: uppercase;
 	vertical-align: bottom;
@@ -155,6 +155,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-file .wp-block-file__button:active {
 	background-color: #55d737;
+}
+
+.widget .wp-block-file .wp-block-file__button,
+.widget .wp-block-file .wp-block-file__button:hover {
+	color: #fff;
 }
 
 /*--------------------------------------------------------------
@@ -235,11 +240,16 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-button .wp-block-button__link {
 	font-size: 12px;
 	font-weight: 700;
-	line-height: 15px;
+	line-height: 1.25;
 	padding: 10px 30px 11px;
 	text-decoration: none;
 	text-transform: uppercase;
 	vertical-align: bottom;
+}
+
+.wp-block-buttons[style*="text-transform"] .wp-block-button__link,
+.wp-block-button[style*="text-transform"] .wp-block-button__link {
+	text-transform: inherit;
 }
 
 .wp-block-button__link {
@@ -261,6 +271,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-button__link:active {
 	background-color: #55d737;
+}
+
+.widget a.wp-block-button__link:not(.has-text-color),
+.widget a.wp-block-button__link:not(.has-text-color):hover {
+	color: #fff;
 }
 
 /* Separator */

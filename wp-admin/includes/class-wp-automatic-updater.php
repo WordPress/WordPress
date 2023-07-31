@@ -148,6 +148,7 @@ class WP_Automatic_Updater {
 		}
 
 		$check_dirs = array_unique( $check_dirs );
+		$checkout   = false;
 
 		// Search all directories we've found for evidence of version control.
 		foreach ( $vcs_dirs as $vcs_dir ) {
@@ -469,8 +470,10 @@ class WP_Automatic_Updater {
 				&& ( 'up_to_date' === $upgrade_result->get_error_code()
 					|| 'locked' === $upgrade_result->get_error_code() )
 			) {
-				// These aren't actual errors, treat it as a skipped-update instead
-				// to avoid triggering the post-core update failure routines.
+				/*
+				 * These aren't actual errors, treat it as a skipped-update instead
+				 * to avoid triggering the post-core update failure routines.
+				 */
 				return false;
 			}
 
@@ -547,8 +550,10 @@ class WP_Automatic_Updater {
 			$this->update( 'core', $core_update );
 		}
 
-		// Clean up, and check for any pending translations.
-		// (Core_Upgrader checks for core updates.)
+		/*
+		 * Clean up, and check for any pending translations.
+		 * (Core_Upgrader checks for core updates.)
+		 */
 		$theme_stats = array();
 		if ( isset( $this->update_results['theme'] ) ) {
 			foreach ( $this->update_results['theme'] as $upgrade ) {
@@ -582,7 +587,7 @@ class WP_Automatic_Updater {
 
 		// Send debugging email to admin for all development installations.
 		if ( ! empty( $this->update_results ) ) {
-			$development_version = false !== strpos( get_bloginfo( 'version' ), '-' );
+			$development_version = str_contains( get_bloginfo( 'version' ), '-' );
 
 			/**
 			 * Filters whether to send a debugging email for each automatic background update.
@@ -617,8 +622,8 @@ class WP_Automatic_Updater {
 	}
 
 	/**
-	 * If we tried to perform a core update, check if we should send an email,
-	 * and if we need to avoid processing future updates.
+	 * Checks whether to send an email and avoid processing future updates after
+	 * attempting a core update.
 	 *
 	 * @since 3.7.0
 	 *
@@ -637,16 +642,18 @@ class WP_Automatic_Updater {
 
 		$error_code = $result->get_error_code();
 
-		// Any of these WP_Error codes are critical failures, as in they occurred after we started to copy core files.
-		// We should not try to perform a background update again until there is a successful one-click update performed by the user.
+		/*
+		 * Any of these WP_Error codes are critical failures, as in they occurred after we started to copy core files.
+		 * We should not try to perform a background update again until there is a successful one-click update performed by the user.
+		 */
 		$critical = false;
-		if ( 'disk_full' === $error_code || false !== strpos( $error_code, '__copy_dir' ) ) {
+		if ( 'disk_full' === $error_code || str_contains( $error_code, '__copy_dir' ) ) {
 			$critical = true;
 		} elseif ( 'rollback_was_required' === $error_code && is_wp_error( $result->get_error_data()->rollback ) ) {
 			// A rollback is only critical if it failed too.
 			$critical        = true;
 			$rollback_result = $result->get_error_data()->rollback;
-		} elseif ( false !== strpos( $error_code, 'do_rollback' ) ) {
+		} elseif ( str_contains( $error_code, 'do_rollback' ) ) {
 			$critical = true;
 		}
 
@@ -830,8 +837,10 @@ class WP_Automatic_Updater {
 
 				$body .= "\n\n";
 
-				// Don't show this message if there is a newer version available.
-				// Potential for confusion, and also not useful for them to know at this point.
+				/*
+				 * Don't show this message if there is a newer version available.
+				 * Potential for confusion, and also not useful for them to know at this point.
+				 */
 				if ( 'fail' === $type && ! $newer_version_available ) {
 					$body .= __( 'An attempt was made, but your site could not be updated automatically.' ) . ' ';
 				}
@@ -902,8 +911,10 @@ class WP_Automatic_Updater {
 			$body .= ' ' . __( 'Some data that describes the error your site encountered has been put together.' );
 			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
 
-			// If we had a rollback and we're still critical, then the rollback failed too.
-			// Loop through all errors (the main WP_Error, the update result, the rollback result) for code, data, etc.
+			/*
+			 * If we had a rollback and we're still critical, then the rollback failed too.
+			 * Loop through all errors (the main WP_Error, the update result, the rollback result) for code, data, etc.
+			 */
 			if ( 'rollback_was_required' === $result->get_error_code() ) {
 				$errors = array( $result, $result->get_error_data()->update, $result->get_error_data()->rollback );
 			} else {
@@ -967,7 +978,7 @@ class WP_Automatic_Updater {
 
 
 	/**
-	 * If we tried to perform plugin or theme updates, check if we should send an email.
+	 * Checks whether an email should be sent after attempting plugin or theme updates.
 	 *
 	 * @since 5.5.0
 	 *

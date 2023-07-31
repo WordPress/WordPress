@@ -12,6 +12,7 @@ add_theme_support( 'core-block-patterns' );
  * Registers the core block patterns and categories.
  *
  * @since 5.5.0
+ * @since 6.3.0 Added source to core block patterns.
  * @access private
  */
 function _register_core_block_patterns_and_categories() {
@@ -29,10 +30,9 @@ function _register_core_block_patterns_and_categories() {
 		);
 
 		foreach ( $core_block_patterns as $core_block_pattern ) {
-			register_block_pattern(
-				'core/' . $core_block_pattern,
-				require __DIR__ . '/block-patterns/' . $core_block_pattern . '.php'
-			);
+			$pattern           = require __DIR__ . '/block-patterns/' . $core_block_pattern . '.php';
+			$pattern['source'] = 'core';
+			register_block_pattern( 'core/' . $core_block_pattern, $pattern );
 		}
 	}
 
@@ -190,6 +190,7 @@ function wp_normalize_remote_block_pattern( $pattern ) {
  * @since 5.9.0 The $current_screen argument was removed.
  * @since 6.2.0 Normalize the pattern from the API (snake_case) to the
  *              format expected by `register_block_pattern` (camelCase).
+ * @since 6.3.0 Add 'pattern-directory/core' to the pattern's 'source'.
  *
  * @param WP_Screen $deprecated Unused. Formerly the screen that the current request was triggered from.
  */
@@ -224,6 +225,7 @@ function _load_remote_block_patterns( $deprecated = null ) {
 		$patterns = $response->get_data();
 
 		foreach ( $patterns as $pattern ) {
+			$pattern['source']  = 'pattern-directory/core';
 			$normalized_pattern = wp_normalize_remote_block_pattern( $pattern );
 			$pattern_name       = 'core/' . sanitize_title( $normalized_pattern['title'] );
 			register_block_pattern( $pattern_name, $normalized_pattern );
@@ -237,6 +239,7 @@ function _load_remote_block_patterns( $deprecated = null ) {
  * @since 5.9.0
  * @since 6.2.0 Normalized the pattern from the API (snake_case) to the
  *              format expected by `register_block_pattern()` (camelCase).
+ * @since 6.3.0 Add 'pattern-directory/featured' to the pattern's 'source'.
  */
 function _load_remote_featured_patterns() {
 	$supports_core_patterns = get_theme_support( 'core-block-patterns' );
@@ -258,6 +261,7 @@ function _load_remote_featured_patterns() {
 	$patterns = $response->get_data();
 	$registry = WP_Block_Patterns_Registry::get_instance();
 	foreach ( $patterns as $pattern ) {
+		$pattern['source']  = 'pattern-directory/featured';
 		$normalized_pattern = wp_normalize_remote_block_pattern( $pattern );
 		$pattern_name       = sanitize_title( $normalized_pattern['title'] );
 		// Some patterns might be already registered as core patterns with the `core` prefix.
@@ -275,6 +279,7 @@ function _load_remote_featured_patterns() {
  * @since 6.0.0
  * @since 6.2.0 Normalized the pattern from the API (snake_case) to the
  *              format expected by `register_block_pattern()` (camelCase).
+ * @since 6.3.0 Add 'pattern-directory/theme' to the pattern's 'source'.
  * @access private
  */
 function _register_remote_theme_patterns() {
@@ -287,7 +292,7 @@ function _register_remote_theme_patterns() {
 		return;
 	}
 
-	$pattern_settings = WP_Theme_JSON_Resolver::get_theme_data()->get_patterns();
+	$pattern_settings = wp_get_theme_directory_pattern_slugs();
 	if ( empty( $pattern_settings ) ) {
 		return;
 	}
@@ -301,6 +306,7 @@ function _register_remote_theme_patterns() {
 	$patterns          = $response->get_data();
 	$patterns_registry = WP_Block_Patterns_Registry::get_instance();
 	foreach ( $patterns as $pattern ) {
+		$pattern['source']  = 'pattern-directory/theme';
 		$normalized_pattern = wp_normalize_remote_block_pattern( $pattern );
 		$pattern_name       = sanitize_title( $normalized_pattern['title'] );
 		// Some patterns might be already registered as core patterns with the `core` prefix.

@@ -39,7 +39,7 @@ if ( is_admin() ) {
 	} else {
 		preg_match( '#(.*?)(/|$)#', $pagenow, $self_matches );
 		$pagenow = strtolower( $self_matches[1] );
-		if ( '.php' !== substr( $pagenow, -4, 4 ) ) {
+		if ( ! str_ends_with( $pagenow, '.php' ) ) {
 			$pagenow .= '.php'; // For `Options +Multiviews`: /wp-admin/themes/index.php (themes.php is queried).
 		}
 	}
@@ -65,10 +65,12 @@ $is_iphone = false;
 $is_edge   = false;
 
 if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
-	if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Lynx' ) !== false ) {
+	if ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Lynx' ) ) {
 		$is_lynx = true;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Edg' ) !== false ) {
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Edg' ) ) {
 		$is_edge = true;
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Opera' ) || str_contains( $_SERVER['HTTP_USER_AGENT'], 'OPR/' ) ) {
+		$is_opera = true;
 	} elseif ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chrome' ) !== false ) {
 		if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chromeframe' ) !== false ) {
 			$is_admin = is_admin();
@@ -89,15 +91,13 @@ if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		}
 	} elseif ( stripos( $_SERVER['HTTP_USER_AGENT'], 'safari' ) !== false ) {
 		$is_safari = true;
-	} elseif ( ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false || strpos( $_SERVER['HTTP_USER_AGENT'], 'Trident' ) !== false ) && strpos( $_SERVER['HTTP_USER_AGENT'], 'Win' ) !== false ) {
+	} elseif ( ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) || str_contains( $_SERVER['HTTP_USER_AGENT'], 'Trident' ) ) && str_contains( $_SERVER['HTTP_USER_AGENT'], 'Win' ) ) {
 		$is_winIE = true;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false && strpos( $_SERVER['HTTP_USER_AGENT'], 'Mac' ) !== false ) {
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) && str_contains( $_SERVER['HTTP_USER_AGENT'], 'Mac' ) ) {
 		$is_macIE = true;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Gecko' ) !== false ) {
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Gecko' ) ) {
 		$is_gecko = true;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Opera' ) !== false ) {
-		$is_opera = true;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Nav' ) !== false && strpos( $_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.' ) !== false ) {
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Nav' ) && str_contains( $_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.' ) ) {
 		$is_NS4 = true;
 	}
 }
@@ -115,21 +115,21 @@ $is_IE = ( $is_macIE || $is_winIE );
  *
  * @global bool $is_apache
  */
-$is_apache = ( strpos( $_SERVER['SERVER_SOFTWARE'], 'Apache' ) !== false || strpos( $_SERVER['SERVER_SOFTWARE'], 'LiteSpeed' ) !== false );
+$is_apache = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Apache' ) || str_contains( $_SERVER['SERVER_SOFTWARE'], 'LiteSpeed' ) );
 
 /**
  * Whether the server software is Nginx or something else
  *
  * @global bool $is_nginx
  */
-$is_nginx = ( strpos( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false );
+$is_nginx = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) );
 
 /**
  * Whether the server software is IIS or something else
  *
  * @global bool $is_IIS
  */
-$is_IIS = ! $is_apache && ( strpos( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) !== false || strpos( $_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer' ) !== false );
+$is_IIS = ! $is_apache && ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) || str_contains( $_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer' ) );
 
 /**
  * Whether the server software is IIS 7.X or greater
@@ -148,13 +148,13 @@ $is_iis7 = $is_IIS && (int) substr( $_SERVER['SERVER_SOFTWARE'], strpos( $_SERVE
 function wp_is_mobile() {
 	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		$is_mobile = false;
-	} elseif ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Android' ) !== false
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Silk/' ) !== false
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Kindle' ) !== false
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'BlackBerry' ) !== false
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Opera Mini' ) !== false
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Opera Mobi' ) !== false ) {
+	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'Mobile' ) // Many mobile devices (all iPhone, iPad, etc.)
+		|| str_contains( $_SERVER['HTTP_USER_AGENT'], 'Android' )
+		|| str_contains( $_SERVER['HTTP_USER_AGENT'], 'Silk/' )
+		|| str_contains( $_SERVER['HTTP_USER_AGENT'], 'Kindle' )
+		|| str_contains( $_SERVER['HTTP_USER_AGENT'], 'BlackBerry' )
+		|| str_contains( $_SERVER['HTTP_USER_AGENT'], 'Opera Mini' )
+		|| str_contains( $_SERVER['HTTP_USER_AGENT'], 'Opera Mobi' ) ) {
 			$is_mobile = true;
 	} else {
 		$is_mobile = false;

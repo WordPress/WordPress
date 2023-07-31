@@ -127,10 +127,10 @@ function isShallowEqualArrays(a, b) {
 
 /**
  * Returns true if the two arrays or objects are shallow equal, or false
- * otherwise.
+ * otherwise. Also handles primitive values, just in case.
  *
- * @param {any[]|ComparableObject} a First object or array to compare.
- * @param {any[]|ComparableObject} b Second object or array to compare.
+ * @param {unknown} a First object or array to compare.
+ * @param {unknown} b Second object or array to compare.
  *
  * @return {boolean} Whether the two values are shallow equal.
  */

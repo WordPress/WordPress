@@ -261,8 +261,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	protected function do_permissions_check() {
-		// Verify if the current user has edit_theme_options capability.
-		// This capability is required to access the widgets screen.
+		/*
+		 * Verify if the current user has edit_theme_options capability.
+		 * This capability is required to access the widgets screen.
+		 */
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return new WP_Error(
 				'rest_cannot_manage_widgets',

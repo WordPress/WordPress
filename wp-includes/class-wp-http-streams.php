@@ -37,6 +37,9 @@ class WP_Http_Streams {
 			'headers'     => array(),
 			'body'        => null,
 			'cookies'     => array(),
+			'decompress'  => false,
+			'stream'      => false,
+			'filename'    => null,
 		);
 
 		$parsed_args = wp_parse_args( $args, $defaults );
@@ -126,8 +129,13 @@ class WP_Http_Streams {
 			)
 		);
 
-		$timeout         = (int) floor( $parsed_args['timeout'] );
-		$utimeout        = $timeout == $parsed_args['timeout'] ? 0 : 1000000 * $parsed_args['timeout'] % 1000000;
+		$timeout  = (int) floor( $parsed_args['timeout'] );
+		$utimeout = 0;
+
+		if ( $timeout !== (int) $parsed_args['timeout'] ) {
+			$utimeout = 1000000 * $parsed_args['timeout'] % 1000000;
+		}
+
 		$connect_timeout = max( $timeout, 1 );
 
 		// Store error number.
@@ -217,8 +225,8 @@ class WP_Http_Streams {
 
 		$include_port_in_host_header = (
 			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
-			|| ( 'http' === $parsed_url['scheme'] && 80 != $parsed_url['port'] )
-			|| ( 'https' === $parsed_url['scheme'] && 443 != $parsed_url['port'] )
+			|| ( 'http' === $parsed_url['scheme'] && 80 !== $parsed_url['port'] )
+			|| ( 'https' === $parsed_url['scheme'] && 443 !== $parsed_url['port'] )
 		);
 
 		if ( $include_port_in_host_header ) {
@@ -320,7 +328,7 @@ class WP_Http_Streams {
 
 				$bytes_written_to_file = fwrite( $stream_handle, $block );
 
-				if ( $bytes_written_to_file != $this_block_size ) {
+				if ( $bytes_written_to_file !== $this_block_size ) {
 					fclose( $handle );
 					fclose( $stream_handle );
 					return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );

@@ -5,6 +5,7 @@
 }
 .wp-block-post-featured-image .components-placeholder,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder{
   align-items:center;
+  display:flex;
   justify-content:center;
   min-height:200px;
   padding:0;

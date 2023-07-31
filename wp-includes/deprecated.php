@@ -889,7 +889,7 @@ function permalink_single_rss($deprecated = '') {
 function wp_get_links($args = '') {
 	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_bookmarks()' );
 
-	if ( strpos( $args, '=' ) === false ) {
+	if ( ! str_contains( $args, '=' ) ) {
 		$cat_id = $args;
 		$args = add_query_arg( 'category', $cat_id, $args );
 	}
@@ -947,7 +947,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$order = 'ASC';
-	if ( substr($orderby, 0, 1) === '_' ) {
+	if ( str_starts_with($orderby, '_') ) {
 		$order = 'DESC';
 		$orderby = substr($orderby, 1);
 	}
@@ -980,7 +980,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 		$title = $desc;
 
 		if ( $show_updated )
-			if (substr($row->link_updated_f, 0, 2) !== '00')
+			if ( !str_starts_with($row->link_updated_f, '00') )
 				$title .= ' ('.__('Last updated') . ' ' . gmdate(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * HOUR_IN_SECONDS)) . ')';
 
 		if ( '' != $title )
@@ -995,7 +995,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
 
 		if ( $row->link_image != null && $show_images ) {
-			if ( strpos($row->link_image, 'http') !== false )
+			if ( str_contains( $row->link_image, 'http' ) )
 				$output .= "<img src=\"$row->link_image\" $alt $title />";
 			else // If it's a relative path.
 				$output .= "<img src=\"" . get_option('siteurl') . "$row->link_image\" $alt $title />";
@@ -1042,7 +1042,7 @@ function get_links_list($order = 'name') {
 
 	// Handle link category sorting.
 	$direction = 'ASC';
-	if ( '_' === substr($order,0,1) ) {
+	if ( str_starts_with( $order, '_' ) ) {
 		$direction = 'DESC';
 		$order = substr($order,1);
 	}
@@ -4484,7 +4484,7 @@ function wp_typography_get_css_variable_inline_style( $attributes, $feature, $cs
 	}
 
 	// If we don't have a preset CSS variable, we'll assume it's a regular CSS value.
-	if ( strpos( $style_value, "var:preset|{$css_property}|" ) === false ) {
+	if ( ! str_contains( $style_value, "var:preset|{$css_property}|" ) ) {
 		return sprintf( '%s:%s;', $css_property, $style_value );
 	}
 
@@ -4562,22 +4562,18 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
 		$post_type           = esc_sql( $post_type );
 		$post_type_in_string = "'" . implode( "','", $post_type ) . "'";
 		$sql                 = $wpdb->prepare(
-			"
-			SELECT ID
+			"SELECT ID
 			FROM $wpdb->posts
 			WHERE post_title = %s
-			AND post_type IN ($post_type_in_string)
-		",
+			AND post_type IN ($post_type_in_string)",
 			$page_title
 		);
 	} else {
 		$sql = $wpdb->prepare(
-			"
-			SELECT ID
+			"SELECT ID
 			FROM $wpdb->posts
 			WHERE post_title = %s
-			AND post_type = %s
-		",
+			AND post_type = %s",
 			$page_title,
 			$post_type
 		);
@@ -4638,4 +4634,736 @@ function _resolve_home_block_template() {
  */
 function wlwmanifest_link() {
 	_deprecated_function( __FUNCTION__, '6.3.0' );
+}
+
+/**
+ * Queues comments for metadata lazy-loading.
+ *
+ * @since 4.5.0
+ * @deprecated 6.3.0 Use wp_lazyload_comment_meta() instead.
+ *
+ * @param WP_Comment[] $comments Array of comment objects.
+ */
+function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_lazyload_comment_meta()' );
+	// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
+	$comment_ids = array();
+	if ( is_array( $comments ) ) {
+		foreach ( $comments as $comment ) {
+			if ( $comment instanceof WP_Comment ) {
+				$comment_ids[] = $comment->comment_ID;
+			}
+		}
+	}
+
+	wp_lazyload_comment_meta( $comment_ids );
+}
+
+/**
+ * Gets the default value to use for a `loading` attribute on an element.
+ *
+ * This function should only be called for a tag and context if lazy-loading is generally enabled.
+ *
+ * The function usually returns 'lazy', but uses certain heuristics to guess whether the current element is likely to
+ * appear above the fold, in which case it returns a boolean `false`, which will lead to the `loading` attribute being
+ * omitted on the element. The purpose of this refinement is to avoid lazy-loading elements that are within the initial
+ * viewport, which can have a negative performance impact.
+ *
+ * Under the hood, the function uses {@see wp_increase_content_media_count()} every time it is called for an element
+ * within the main content. If the element is the very first content element, the `loading` attribute will be omitted.
+ * This default threshold of 3 content elements to omit the `loading` attribute for can be customized using the
+ * {@see 'wp_omit_loading_attr_threshold'} filter.
+ *
+ * @since 5.9.0
+ * @deprecated 6.3.0 Use wp_get_loading_optimization_attributes() instead.
+ * @see wp_get_loading_optimization_attributes()
+ *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
+ * @param string $context Context for the element for which the `loading` attribute value is requested.
+ * @return string|bool The default `loading` attribute value. Either 'lazy', 'eager', or a boolean `false`, to indicate
+ *                     that the `loading` attribute should be skipped.
+ */
+function wp_get_loading_attr_default( $context ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_get_loading_optimization_attributes()' );
+	global $wp_query;
+
+	// Skip lazy-loading for the overall block template, as it is handled more granularly.
+	if ( 'template' === $context ) {
+		return false;
+	}
+
+	/*
+	 * Do not lazy-load images in the header block template part, as they are likely above the fold.
+	 * For classic themes, this is handled in the condition below using the 'get_header' action.
+	 */
+	$header_area = WP_TEMPLATE_PART_AREA_HEADER;
+	if ( "template_part_{$header_area}" === $context ) {
+		return false;
+	}
+
+	// Special handling for programmatically created image tags.
+	if ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context ) {
+		/*
+		 * Skip programmatically created images within post content as they need to be handled together with the other
+		 * images within the post content.
+		 * Without this clause, they would already be counted below which skews the number and can result in the first
+		 * post content image being lazy-loaded only because there are images elsewhere in the post content.
+		 */
+		if ( doing_filter( 'the_content' ) ) {
+			return false;
+		}
+
+		// Conditionally skip lazy-loading on images before the loop.
+		if (
+			// Only apply for main query but before the loop.
+			$wp_query->before_loop && $wp_query->is_main_query()
+			/*
+			 * Any image before the loop, but after the header has started should not be lazy-loaded,
+			 * except when the footer has already started which can happen when the current template
+			 * does not include any loop.
+			 */
+			&& did_action( 'get_header' ) && ! did_action( 'get_footer' )
+		) {
+			return false;
+		}
+	}
+
+	/*
+	 * The first elements in 'the_content' or 'the_post_thumbnail' should not be lazy-loaded,
+	 * as they are likely above the fold.
+	 */
+	if ( 'the_content' === $context || 'the_post_thumbnail' === $context ) {
+		// Only elements within the main query loop have special handling.
+		if ( is_admin() || ! in_the_loop() || ! is_main_query() ) {
+			return 'lazy';
+		}
+
+		// Increase the counter since this is a main query content element.
+		$content_media_count = wp_increase_content_media_count();
+
+		// If the count so far is below the threshold, return `false` so that the `loading` attribute is omitted.
+		if ( $content_media_count <= wp_omit_loading_attr_threshold() ) {
+			return false;
+		}
+
+		// For elements after the threshold, lazy-load them as usual.
+		return 'lazy';
+	}
+
+	// Lazy-load by default for any unknown context.
+	return 'lazy';
+}
+
+/**
+ * Adds `loading` attribute to an `img` HTML tag.
+ *
+ * @since 5.5.0
+ * @deprecated 6.3.0 Use wp_img_tag_add_loading_optimization_attrs() instead.
+ * @see wp_img_tag_add_loading_optimization_attrs()
+ *
+ * @param string $image   The HTML `img` tag where the attribute should be added.
+ * @param string $context Additional context to pass to the filters.
+ * @return string Converted `img` tag with `loading` attribute added.
+ */
+function wp_img_tag_add_loading_attr( $image, $context ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'wp_img_tag_add_loading_optimization_attrs()' );
+	/*
+	 * Get loading attribute value to use. This must occur before the conditional check below so that even images that
+	 * are ineligible for being lazy-loaded are considered.
+	 */
+	$value = wp_get_loading_attr_default( $context );
+
+	// Images should have source and dimension attributes for the `loading` attribute to be added.
+	if ( ! str_contains( $image, ' src="' ) || ! str_contains( $image, ' width="' ) || ! str_contains( $image, ' height="' ) ) {
+		return $image;
+	}
+
+	/** This filter is documented in wp-admin/includes/media.php */
+	$value = apply_filters( 'wp_img_tag_add_loading_attr', $value, $image, $context );
+
+	if ( $value ) {
+		if ( ! in_array( $value, array( 'lazy', 'eager' ), true ) ) {
+			$value = 'lazy';
+		}
+
+		return str_replace( '<img', '<img loading="' . esc_attr( $value ) . '"', $image );
+	}
+
+	return $image;
+}
+
+/**
+ * Takes input from [0, n] and returns it as [0, 1].
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param mixed $n   Number of unknown type.
+ * @param int   $max Upper value of the range to bound to.
+ * @return float Value in the range [0, 1].
+ */
+function wp_tinycolor_bound01( $n, $max ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	if ( 'string' === gettype( $n ) && str_contains( $n, '.' ) && 1 === (float) $n ) {
+		$n = '100%';
+	}
+
+	$n = min( $max, max( 0, (float) $n ) );
+
+	// Automatically convert percentage into number.
+	if ( 'string' === gettype( $n ) && str_contains( $n, '%' ) ) {
+		$n = (int) ( $n * $max ) / 100;
+	}
+
+	// Handle floating point rounding errors.
+	if ( ( abs( $n - $max ) < 0.000001 ) ) {
+		return 1.0;
+	}
+
+	// Convert into [0, 1] range if it isn't already.
+	return ( $n % $max ) / (float) $max;
+}
+
+/**
+ * Direct port of tinycolor's boundAlpha function to maintain consistency with
+ * how tinycolor works.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.9.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param mixed $n Number of unknown type.
+ * @return float Value in the range [0,1].
+ */
+function _wp_tinycolor_bound_alpha( $n ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	if ( is_numeric( $n ) ) {
+		$n = (float) $n;
+		if ( $n >= 0 && $n <= 1 ) {
+			return $n;
+		}
+	}
+	return 1;
+}
+
+/**
+ * Rounds and converts values of an RGB object.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $rgb_color RGB object.
+ * @return array Rounded and converted RGB object.
+ */
+function wp_tinycolor_rgb_to_rgb( $rgb_color ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	return array(
+		'r' => wp_tinycolor_bound01( $rgb_color['r'], 255 ) * 255,
+		'g' => wp_tinycolor_bound01( $rgb_color['g'], 255 ) * 255,
+		'b' => wp_tinycolor_bound01( $rgb_color['b'], 255 ) * 255,
+	);
+}
+
+/**
+ * Helper function for hsl to rgb conversion.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param float $p first component.
+ * @param float $q second component.
+ * @param float $t third component.
+ * @return float R, G, or B component.
+ */
+function wp_tinycolor_hue_to_rgb( $p, $q, $t ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	if ( $t < 0 ) {
+		++$t;
+	}
+	if ( $t > 1 ) {
+		--$t;
+	}
+	if ( $t < 1 / 6 ) {
+		return $p + ( $q - $p ) * 6 * $t;
+	}
+	if ( $t < 1 / 2 ) {
+		return $q;
+	}
+	if ( $t < 2 / 3 ) {
+		return $p + ( $q - $p ) * ( 2 / 3 - $t ) * 6;
+	}
+	return $p;
+}
+
+/**
+ * Converts an HSL object to an RGB object with converted and rounded values.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $hsl_color HSL object.
+ * @return array Rounded and converted RGB object.
+ */
+function wp_tinycolor_hsl_to_rgb( $hsl_color ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	$h = wp_tinycolor_bound01( $hsl_color['h'], 360 );
+	$s = wp_tinycolor_bound01( $hsl_color['s'], 100 );
+	$l = wp_tinycolor_bound01( $hsl_color['l'], 100 );
+
+	if ( 0 === $s ) {
+		// Achromatic.
+		$r = $l;
+		$g = $l;
+		$b = $l;
+	} else {
+		$q = $l < 0.5 ? $l * ( 1 + $s ) : $l + $s - $l * $s;
+		$p = 2 * $l - $q;
+		$r = wp_tinycolor_hue_to_rgb( $p, $q, $h + 1 / 3 );
+		$g = wp_tinycolor_hue_to_rgb( $p, $q, $h );
+		$b = wp_tinycolor_hue_to_rgb( $p, $q, $h - 1 / 3 );
+	}
+
+	return array(
+		'r' => $r * 255,
+		'g' => $g * 255,
+		'b' => $b * 255,
+	);
+}
+
+/**
+ * Parses hex, hsl, and rgb CSS strings using the same regex as TinyColor v1.4.2
+ * used in the JavaScript. Only colors output from react-color are implemented.
+ *
+ * Direct port of TinyColor's function, lightly simplified to maintain
+ * consistency with TinyColor.
+ *
+ * @link https://github.com/bgrins/TinyColor
+ * @link https://github.com/casesandberg/react-color/
+ *
+ * @since 5.8.0
+ * @since 5.9.0 Added alpha processing.
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param string $color_str CSS color string.
+ * @return array RGB object.
+ */
+function wp_tinycolor_string_to_rgb( $color_str ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	$color_str = strtolower( trim( $color_str ) );
+
+	$css_integer = '[-\\+]?\\d+%?';
+	$css_number  = '[-\\+]?\\d*\\.\\d+%?';
+
+	$css_unit = '(?:' . $css_number . ')|(?:' . $css_integer . ')';
+
+	$permissive_match3 = '[\\s|\\(]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')\\s*\\)?';
+	$permissive_match4 = '[\\s|\\(]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')[,|\\s]+(' . $css_unit . ')\\s*\\)?';
+
+	$rgb_regexp = '/^rgb' . $permissive_match3 . '$/';
+	if ( preg_match( $rgb_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => $match[1],
+				'g' => $match[2],
+				'b' => $match[3],
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	$rgba_regexp = '/^rgba' . $permissive_match4 . '$/';
+	if ( preg_match( $rgba_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => $match[1],
+				'g' => $match[2],
+				'b' => $match[3],
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha( $match[4] );
+
+		return $rgb;
+	}
+
+	$hsl_regexp = '/^hsl' . $permissive_match3 . '$/';
+	if ( preg_match( $hsl_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_hsl_to_rgb(
+			array(
+				'h' => $match[1],
+				's' => $match[2],
+				'l' => $match[3],
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	$hsla_regexp = '/^hsla' . $permissive_match4 . '$/';
+	if ( preg_match( $hsla_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_hsl_to_rgb(
+			array(
+				'h' => $match[1],
+				's' => $match[2],
+				'l' => $match[3],
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha( $match[4] );
+
+		return $rgb;
+	}
+
+	$hex8_regexp = '/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/';
+	if ( preg_match( $hex8_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1], 16, 10 ),
+				'g' => base_convert( $match[2], 16, 10 ),
+				'b' => base_convert( $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha(
+			base_convert( $match[4], 16, 10 ) / 255
+		);
+
+		return $rgb;
+	}
+
+	$hex6_regexp = '/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/';
+	if ( preg_match( $hex6_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1], 16, 10 ),
+				'g' => base_convert( $match[2], 16, 10 ),
+				'b' => base_convert( $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	$hex4_regexp = '/^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/';
+	if ( preg_match( $hex4_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1] . $match[1], 16, 10 ),
+				'g' => base_convert( $match[2] . $match[2], 16, 10 ),
+				'b' => base_convert( $match[3] . $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = _wp_tinycolor_bound_alpha(
+			base_convert( $match[4] . $match[4], 16, 10 ) / 255
+		);
+
+		return $rgb;
+	}
+
+	$hex3_regexp = '/^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/';
+	if ( preg_match( $hex3_regexp, $color_str, $match ) ) {
+		$rgb = wp_tinycolor_rgb_to_rgb(
+			array(
+				'r' => base_convert( $match[1] . $match[1], 16, 10 ),
+				'g' => base_convert( $match[2] . $match[2], 16, 10 ),
+				'b' => base_convert( $match[3] . $match[3], 16, 10 ),
+			)
+		);
+
+		$rgb['a'] = 1;
+
+		return $rgb;
+	}
+
+	/*
+	 * The JS color picker considers the string "transparent" to be a hex value,
+	 * so we need to handle it here as a special case.
+	 */
+	if ( 'transparent' === $color_str ) {
+		return array(
+			'r' => 0,
+			'g' => 0,
+			'b' => 0,
+			'a' => 0,
+		);
+	}
+}
+
+/**
+ * Returns the prefixed id for the duotone filter for use as a CSS id.
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $preset Duotone preset value as seen in theme.json.
+ * @return string Duotone filter CSS id.
+ */
+function wp_get_duotone_filter_id( $preset ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	return WP_Duotone::get_filter_id_from_preset( $preset );
+}
+
+/**
+ * Returns the CSS filter property url to reference the rendered SVG.
+ *
+ * @since 5.9.0
+ * @since 6.1.0 Allow unset for preset colors.
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $preset Duotone preset value as seen in theme.json.
+ * @return string Duotone CSS filter property url value.
+ */
+function wp_get_duotone_filter_property( $preset ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	return WP_Duotone::get_filter_css_property_value_from_preset( $preset );
+}
+
+/**
+ * Returns the duotone filter SVG string for the preset.
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0
+ *
+ * @access private
+ *
+ * @param array $preset Duotone preset value as seen in theme.json.
+ * @return string Duotone SVG filter.
+ */
+function wp_get_duotone_filter_svg( $preset ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	return WP_Duotone::get_filter_svg_from_preset( $preset );
+}
+
+/**
+ * Registers the style and colors block attributes for block types that support it.
+ *
+ * @since 5.8.0
+ * @deprecated 6.3.0 Use WP_Duotone::register_duotone_support() instead.
+ *
+ * @access private
+ *
+ * @param WP_Block_Type $block_type Block Type.
+ */
+function wp_register_duotone_support( $block_type ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::register_duotone_support()' );
+	return WP_Duotone::register_duotone_support( $block_type );
+}
+
+/**
+ * Renders out the duotone stylesheet and SVG.
+ *
+ * @since 5.8.0
+ * @since 6.1.0 Allow unset for preset colors.
+ * @deprecated 6.3.0 Use WP_Duotone::render_duotone_support() instead.
+ *
+ * @access private
+ *
+ * @param string $block_content Rendered block content.
+ * @param array  $block         Block object.
+ * @return string Filtered block content.
+ */
+function wp_render_duotone_support( $block_content, $block ) {
+	_deprecated_function( __FUNCTION__, '6.3.0', 'WP_Duotone::render_duotone_support()' );
+	$wp_block = new WP_Block( $block );
+	return WP_Duotone::render_duotone_support( $block_content, $block, $wp_block );
+}
+
+/**
+ * Returns a string containing the SVGs to be referenced as filters (duotone).
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0 SVG generation is handled on a per-block basis in block supports.
+ *
+ * @return string
+ */
+function wp_get_global_styles_svg_filters() {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	/*
+	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
+	 * developer's workflow.
+	 */
+	$can_use_cached = ! wp_is_development_mode( 'theme' );
+	$cache_group    = 'theme_json';
+	$cache_key      = 'wp_get_global_styles_svg_filters';
+	if ( $can_use_cached ) {
+		$cached = wp_cache_get( $cache_key, $cache_group );
+		if ( $cached ) {
+			return $cached;
+		}
+	}
+
+	$supports_theme_json = wp_theme_has_theme_json();
+
+	$origins = array( 'default', 'theme', 'custom' );
+	if ( ! $supports_theme_json ) {
+		$origins = array( 'default' );
+	}
+
+	$tree = WP_Theme_JSON_Resolver::get_merged_data();
+	$svgs = $tree->get_svg_filters( $origins );
+
+	if ( $can_use_cached ) {
+		wp_cache_set( $cache_key, $svgs, $cache_group );
+	}
+
+	return $svgs;
+}
+
+/**
+ * Renders the SVG filters supplied by theme.json.
+ *
+ * Note that this doesn't render the per-block user-defined
+ * filters which are handled by wp_render_duotone_support,
+ * but it should be rendered before the filtered content
+ * in the body to satisfy Safari's rendering quirks.
+ *
+ * @since 5.9.1
+ * @deprecated 6.3.0 SVG generation is handled on a per-block basis in block supports.
+ */
+function wp_global_styles_render_svg_filters() {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+
+	/*
+	 * When calling via the in_admin_header action, we only want to render the
+	 * SVGs on block editor pages.
+	 */
+	if (
+		is_admin() &&
+		! get_current_screen()->is_block_editor()
+	) {
+		return;
+	}
+
+	$filters = wp_get_global_styles_svg_filters();
+	if ( ! empty( $filters ) ) {
+		echo $filters;
+	}
+}
+
+/**
+ * Build an array with CSS classes and inline styles defining the colors
+ * which will be applied to the navigation markup in the front-end.
+ *
+ * @since 5.9.0
+ * @deprecated 6.3.0 This was removed from the Navigation Submenu block in favour of `wp_apply_colors_support()`.
+ *                   `wp_apply_colors_support()` returns an array with similar class and style values,
+ *                   but with different keys: `class` and `style`.
+ *
+ * @param  array $context     Navigation block context.
+ * @param  array $attributes  Block attributes.
+ * @param  bool  $is_sub_menu Whether the block is a sub-menu.
+ * @return array Colors CSS classes and inline styles.
+ */
+function block_core_navigation_submenu_build_css_colors( $context, $attributes, $is_sub_menu = false ) {
+	_deprecated_function( __FUNCTION__, '6.3.0' );
+	$colors = array(
+		'css_classes'   => array(),
+		'inline_styles' => '',
+	);
+
+	// Text color.
+	$named_text_color  = null;
+	$custom_text_color = null;
+
+	if ( $is_sub_menu && array_key_exists( 'customOverlayTextColor', $context ) ) {
+		$custom_text_color = $context['customOverlayTextColor'];
+	} elseif ( $is_sub_menu && array_key_exists( 'overlayTextColor', $context ) ) {
+		$named_text_color = $context['overlayTextColor'];
+	} elseif ( array_key_exists( 'customTextColor', $context ) ) {
+		$custom_text_color = $context['customTextColor'];
+	} elseif ( array_key_exists( 'textColor', $context ) ) {
+		$named_text_color = $context['textColor'];
+	} elseif ( isset( $context['style']['color']['text'] ) ) {
+		$custom_text_color = $context['style']['color']['text'];
+	}
+
+	// If has text color.
+	if ( ! is_null( $named_text_color ) ) {
+		// Add the color class.
+		array_push( $colors['css_classes'], 'has-text-color', sprintf( 'has-%s-color', $named_text_color ) );
+	} elseif ( ! is_null( $custom_text_color ) ) {
+		// Add the custom color inline style.
+		$colors['css_classes'][]  = 'has-text-color';
+		$colors['inline_styles'] .= sprintf( 'color: %s;', $custom_text_color );
+	}
+
+	// Background color.
+	$named_background_color  = null;
+	$custom_background_color = null;
+
+	if ( $is_sub_menu && array_key_exists( 'customOverlayBackgroundColor', $context ) ) {
+		$custom_background_color = $context['customOverlayBackgroundColor'];
+	} elseif ( $is_sub_menu && array_key_exists( 'overlayBackgroundColor', $context ) ) {
+		$named_background_color = $context['overlayBackgroundColor'];
+	} elseif ( array_key_exists( 'customBackgroundColor', $context ) ) {
+		$custom_background_color = $context['customBackgroundColor'];
+	} elseif ( array_key_exists( 'backgroundColor', $context ) ) {
+		$named_background_color = $context['backgroundColor'];
+	} elseif ( isset( $context['style']['color']['background'] ) ) {
+		$custom_background_color = $context['style']['color']['background'];
+	}
+
+	// If has background color.
+	if ( ! is_null( $named_background_color ) ) {
+		// Add the background-color class.
+		array_push( $colors['css_classes'], 'has-background', sprintf( 'has-%s-background-color', $named_background_color ) );
+	} elseif ( ! is_null( $custom_background_color ) ) {
+		// Add the custom background-color inline style.
+		$colors['css_classes'][]  = 'has-background';
+		$colors['inline_styles'] .= sprintf( 'background-color: %s;', $custom_background_color );
+	}
+
+	return $colors;
 }

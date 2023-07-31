@@ -149,8 +149,7 @@ function validateHookName(hookName) {
  */
 
 function createAddHook(hooks, storeKey) {
-  return function addHook(hookName, namespace, callback) {
-    let priority = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 10;
+  return function addHook(hookName, namespace, callback, priority = 10) {
     const hooksStore = hooks[storeKey];
 
     if (!build_module_validateHookName(hookName)) {
@@ -257,8 +256,7 @@ function createAddHook(hooks, storeKey) {
  * @return {RemoveHook} Function that removes hooks.
  */
 
-function createRemoveHook(hooks, storeKey) {
-  let removeAll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+function createRemoveHook(hooks, storeKey, removeAll = false) {
   return function removeHook(hookName, namespace) {
     const hooksStore = hooks[storeKey];
 
@@ -365,9 +363,8 @@ function createHasHook(hooks, storeKey) {
  *
  * @return {(hookName:string, ...args: unknown[]) => unknown} Function that runs hook callbacks.
  */
-function createRunHook(hooks, storeKey) {
-  let returnFirstArg = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  return function runHooks(hookName) {
+function createRunHook(hooks, storeKey, returnFirstArg = false) {
+  return function runHooks(hookName, ...args) {
     const hooksStore = hooks[storeKey];
 
     if (!hooksStore[hookName]) {
@@ -381,10 +378,6 @@ function createRunHook(hooks, storeKey) {
     const handlers = hooksStore[hookName].handlers; // The following code is stripped from production builds.
 
     if (false) {}
-
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
 
     if (!handlers || !handlers.length) {
       return returnFirstArg ? args[0] : undefined;
@@ -431,10 +424,10 @@ function createRunHook(hooks, storeKey) {
  */
 function createCurrentHook(hooks, storeKey) {
   return function currentHook() {
-    var _hooksStore$__current, _hooksStore$__current2;
+    var _hooksStore$__current;
 
     const hooksStore = hooks[storeKey];
-    return (_hooksStore$__current = (_hooksStore$__current2 = hooksStore.__current[hooksStore.__current.length - 1]) === null || _hooksStore$__current2 === void 0 ? void 0 : _hooksStore$__current2.name) !== null && _hooksStore$__current !== void 0 ? _hooksStore$__current : null;
+    return (_hooksStore$__current = hooksStore.__current[hooksStore.__current.length - 1]?.name) !== null && _hooksStore$__current !== void 0 ? _hooksStore$__current : null;
   };
 }
 

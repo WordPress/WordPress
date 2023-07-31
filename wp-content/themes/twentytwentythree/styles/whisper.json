@@ -288,16 +288,15 @@
 							}
 						},
 						"typography": {
-							"fontFamily": "var(--wp--preset--font-family--dm-sans)",
-							"fontSize": "var(--wp--preset--font-size--large)",
-							"fontWeight": "700",
-							"letterSpacing": "-0.01em",
 							"textDecoration": "none"
 						}
 					}
 				},
 				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--dm-sans)",
 					"fontSize": "var(--wp--preset--font-size--large)",
+					"fontWeight": "700",
+					"letterSpacing": "-0.01em",
 					"lineHeight": "1.4",
 					"textTransform": "capitalize"
 				}

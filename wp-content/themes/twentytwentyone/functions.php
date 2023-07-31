@@ -27,13 +27,6 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 	 * @return void
 	 */
 	function twenty_twenty_one_setup() {
-		/*
-		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on Twenty Twenty-One, use a find and replace
-		 * to change 'twentytwentyone' to the name of your theme in all the template files.
-		 */
-		load_theme_textdomain( 'twentytwentyone', get_template_directory() . '/languages' );
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
@@ -329,8 +322,8 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		// Add support for custom line height controls.
 		add_theme_support( 'custom-line-height' );
 
-		// Add support for experimental link color control.
-		add_theme_support( 'experimental-link-color' );
+		// Add support for link color control.
+		add_theme_support( 'link-color' );
 
 		// Add support for experimental cover block spacing.
 		add_theme_support( 'custom-spacing' );
@@ -346,7 +339,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 add_action( 'after_setup_theme', 'twenty_twenty_one_setup' );
 
 /**
- * Register widget area.
+ * Registers widget area.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -371,7 +364,7 @@ function twenty_twenty_one_widgets_init() {
 add_action( 'widgets_init', 'twenty_twenty_one_widgets_init' );
 
 /**
- * Set the content width in pixels, based on the theme's design and stylesheet.
+ * Sets the content width in pixels, based on the theme's design and stylesheet.
  *
  * Priority 0 to make it available to lower priority callbacks.
  *
@@ -390,9 +383,12 @@ function twenty_twenty_one_content_width() {
 add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0 );
 
 /**
- * Enqueue scripts and styles.
+ * Enqueues scripts and styles.
  *
  * @since Twenty Twenty-One 1.0
+ *
+ * @global bool       $is_IE
+ * @global WP_Scripts $wp_scripts
  *
  * @return void
  */
@@ -469,7 +465,7 @@ function twenty_twenty_one_scripts() {
 add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
 
 /**
- * Enqueue block editor script.
+ * Enqueues block editor script.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -483,12 +479,13 @@ function twentytwentyone_block_editor_script() {
 add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script' );
 
 /**
- * Fix skip link focus in IE11.
+ * Fixes skip link focus in IE11.
  *
  * This does not enqueue the script because it is tiny and because it is only for IE11,
  * thus it does not warrant having an entire dedicated blocking script being loaded.
  *
  * @since Twenty Twenty-One 1.0
+ * @deprecated Twenty Twenty-One 1.9 Removed from wp_print_footer_scripts action.
  *
  * @link https://git.io/vWdr2
  */
@@ -508,10 +505,9 @@ function twenty_twenty_one_skip_link_focus_fix() {
 		<?php
 	}
 }
-add_action( 'wp_print_footer_scripts', 'twenty_twenty_one_skip_link_focus_fix' );
 
 /**
- * Enqueue non-latin language styles.
+ * Enqueues non-latin language styles.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -557,7 +553,7 @@ require_once get_template_directory() . '/classes/class-twenty-twenty-one-dark-m
 new Twenty_Twenty_One_Dark_Mode();
 
 /**
- * Enqueue scripts for the customizer preview.
+ * Enqueues scripts for the customizer preview.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -583,7 +579,7 @@ function twentytwentyone_customize_preview_init() {
 add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init' );
 
 /**
- * Enqueue scripts for the customizer.
+ * Enqueues scripts for the customizer.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -602,7 +598,7 @@ function twentytwentyone_customize_controls_enqueue_scripts() {
 add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts' );
 
 /**
- * Calculate classes for the main <html> element.
+ * Calculates classes for the main <html> element.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -624,7 +620,7 @@ function twentytwentyone_the_html_classes() {
 }
 
 /**
- * Add "is-IE" class to body if the user is on Internet Explorer.
+ * Adds "is-IE" class to body if the user is on Internet Explorer.
  *
  * @since Twenty Twenty-One 1.0
  *

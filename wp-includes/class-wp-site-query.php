@@ -753,7 +753,7 @@ class WP_Site_Query {
 	protected function get_search_sql( $search, $columns ) {
 		global $wpdb;
 
-		if ( false !== strpos( $search, '*' ) ) {
+		if ( str_contains( $search, '*' ) ) {
 			$like = '%' . implode( '%', array_map( array( $wpdb, 'esc_like' ), explode( '*', $search ) ) ) . '%';
 		} else {
 			$like = '%' . $wpdb->esc_like( $search ) . '%';

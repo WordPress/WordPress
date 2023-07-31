@@ -226,7 +226,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Determine if the current view is the "All" view.
+	 * Determines if the current view is the "All" view.
 	 *
 	 * @since 4.2.0
 	 *
@@ -246,7 +246,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Helper to create links to edit.php with params.
+	 * Creates a link to edit.php with params.
 	 *
 	 * @since 4.4.0
 	 *
@@ -760,12 +760,33 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	protected function get_sortable_columns() {
-		return array(
-			'title'    => 'title',
-			'parent'   => 'parent',
-			'comments' => 'comment_count',
-			'date'     => array( 'date', true ),
-		);
+
+		$post_type = $this->screen->post_type;
+
+		if ( 'page' === $post_type ) {
+			if ( isset( $_GET['orderby'] ) ) {
+				$title_orderby_text = __( 'Table ordered by Title.' );
+			} else {
+				$title_orderby_text = __( 'Table ordered by Hierarchical Menu Order and Title.' );
+			}
+
+			$sortables = array(
+				'title'    => array( 'title', false, __( 'Title' ), $title_orderby_text, 'asc' ),
+				'parent'   => array( 'parent', false ),
+				'comments' => array( 'comment_count', false, __( 'Comments' ), __( 'Table ordered by Comments.' ) ),
+				'date'     => array( 'date', true, __( 'Date' ), __( 'Table ordered by Date.' ) ),
+			);
+		} else {
+			$sortables = array(
+				'title'    => array( 'title', false, __( 'Title' ), __( 'Table ordered by Title.' ) ),
+				'parent'   => array( 'parent', false ),
+				'comments' => array( 'comment_count', false, __( 'Comments' ), __( 'Table ordered by Comments.' ) ),
+				'date'     => array( 'date', true, __( 'Date' ), __( 'Table ordered by Date.' ), 'desc' ),
+			);
+		}
+		// Custom Post Types: there's a filter for that, see get_column_info().
+
+		return $sortables;
 	}
 
 	/**
@@ -917,8 +938,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Given a top level page ID, display the nested hierarchy of sub-pages
-	 * together with paging support
+	 * Displays the nested hierarchy of sub-pages together with paging
+	 * support, based on a top level page ID.
 	 *
 	 * @since 3.1.0 (Standalone function exists since 2.6.0)
 	 * @since 4.2.0 Added the `$to_display` parameter.
@@ -1012,11 +1033,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 */
 		if ( apply_filters( 'wp_list_table_show_post_checkbox', $show, $post ) ) :
 			?>
-			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>">
+			<label class="label-covers-full-cell" for="cb-select-<?php the_ID(); ?>">
+				<span class="screen-reader-text">
 				<?php
 					/* translators: %s: Post title. */
 					printf( __( 'Select %s' ), _draft_or_post_title() );
 				?>
+				</span>
 			</label>
 			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
 			<div class="locked-indicator">

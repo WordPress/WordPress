@@ -458,6 +458,11 @@ Inter variable font. Usage:
 	padding-right: 0;
 }
 
+.editor-styles-wrapper ul.wp-block-latest-posts {
+	margin-right: auto;
+	margin-left: auto;
+}
+
 .editor-styles-wrapper ul.wp-block-categories__list ul {
 	margin: 0;
 }
@@ -693,6 +698,7 @@ hr.wp-block-separator.is-style-dots::before {
 	color: inherit;
 	font-weight: 400;
 	margin: 0 0 20px 0;
+	letter-spacing: inherit;
 }
 
 .editor-styles-wrapper .wp-block-quote.is-style-large {
@@ -945,6 +951,11 @@ hr.wp-block-separator.is-style-dots::before {
 	text-transform: uppercase;
 }
 
+.wp-block-buttons[style*="text-transform"] .wp-block-button__link,
+.wp-block-button[style*="text-transform"] .wp-block-button__link {
+	text-transform: inherit;
+}
+
 .editor-styles-wrapper .wp-block-button .wp-block-button__link.mce-content-body {
 	line-height: 1.1;
 }
@@ -976,7 +987,7 @@ hr.wp-block-separator.is-style-dots::before {
 
 .editor-styles-wrapper .wp-block-latest-comments {
 	font-family: inherit;
-	margin-right: 0;
+	margin-right: auto;
 }
 
 .editor-styles-wrapper .wp-block-latest-comments li.wp-block-latest-comments__comment {

@@ -142,7 +142,7 @@ if ( isset( $_GET['action'] ) ) {
 			}
 
 			$updated_action = 'not_deleted';
-			if ( '0' != $id && ! is_main_site( $id ) && current_user_can( 'delete_site', $id ) ) {
+			if ( 0 !== $id && ! is_main_site( $id ) && current_user_can( 'delete_site', $id ) ) {
 				wpmu_delete_blog( $id, true );
 				$updated_action = 'delete';
 			}
@@ -182,7 +182,9 @@ if ( isset( $_GET['action'] ) ) {
 				$doaction = $_POST['action'];
 
 				foreach ( (array) $_POST['allblogs'] as $site_id ) {
-					if ( '0' != $site_id && ! is_main_site( $site_id ) ) {
+					$site_id = (int) $site_id;
+
+					if ( 0 !== $site_id && ! is_main_site( $site_id ) ) {
 						switch ( $doaction ) {
 							case 'delete':
 								require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -197,12 +199,14 @@ if ( isset( $_GET['action'] ) ) {
 										<ul class="ul-disc">
 											<?php
 											foreach ( $_POST['allblogs'] as $site_id ) :
+												$site_id = (int) $site_id;
+
 												$site         = get_site( $site_id );
 												$site_address = untrailingslashit( $site->domain . $site->path );
 												?>
 												<li>
 													<?php echo $site_address; ?>
-													<input type="hidden" name="site_ids[]" value="<?php echo (int) $site_id; ?>" />
+													<input type="hidden" name="site_ids[]" value="<?php echo esc_attr( $site_id ); ?>" />
 												</li>
 											<?php endforeach; ?>
 										</ul>

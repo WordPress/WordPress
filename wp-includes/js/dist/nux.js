@@ -94,10 +94,7 @@ var external_wp_data_namespaceObject = window["wp"]["data"];
  * @return {Array} Updated state.
  */
 
-function guides() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function guides(state = [], action) {
   switch (action.type) {
     case 'TRIGGER_GUIDE':
       return [...state, action.tipIds];
@@ -114,10 +111,7 @@ function guides() {
  * @return {boolean} Updated state.
  */
 
-function areTipsEnabled() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function areTipsEnabled(state = true, action) {
   switch (action.type) {
     case 'DISABLE_TIPS':
       return false;
@@ -138,10 +132,7 @@ function areTipsEnabled() {
  * @return {Object} Updated state.
  */
 
-function dismissedTips() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function dismissedTips(state = {}, action) {
   switch (action.type) {
     case 'DISMISS_TIP':
       return { ...state,
@@ -566,13 +557,11 @@ const getAssociatedGuide = rememo((state, tipId) => {
  */
 
 function isTipVisible(state, tipId) {
-  var _state$preferences$di;
-
   if (!state.preferences.areTipsEnabled) {
     return false;
   }
 
-  if ((_state$preferences$di = state.preferences.dismissedTips) !== null && _state$preferences$di !== void 0 && _state$preferences$di.hasOwnProperty(tipId)) {
+  if (state.preferences.dismissedTips?.hasOwnProperty(tipId)) {
     return false;
   }
 
@@ -681,15 +670,14 @@ function onClick(event) {
   event.stopPropagation();
 }
 
-function DotTip(_ref) {
-  let {
-    position = 'middle right',
-    children,
-    isVisible,
-    hasNextTip,
-    onDismiss,
-    onDisable
-  } = _ref;
+function DotTip({
+  position = 'middle right',
+  children,
+  isVisible,
+  hasNextTip,
+  onDismiss,
+  onDisable
+}) {
   const anchorParent = (0,external_wp_element_namespaceObject.useRef)(null);
   const onFocusOutsideCallback = (0,external_wp_element_namespaceObject.useCallback)(event => {
     if (!anchorParent.current) {
@@ -725,10 +713,9 @@ function DotTip(_ref) {
     onClick: onDisable
   }));
 }
-/* harmony default export */ var dot_tip = ((0,external_wp_compose_namespaceObject.compose)((0,external_wp_data_namespaceObject.withSelect)((select, _ref2) => {
-  let {
-    tipId
-  } = _ref2;
+/* harmony default export */ var dot_tip = ((0,external_wp_compose_namespaceObject.compose)((0,external_wp_data_namespaceObject.withSelect)((select, {
+  tipId
+}) => {
   const {
     isTipVisible,
     getAssociatedGuide
@@ -738,10 +725,9 @@ function DotTip(_ref) {
     isVisible: isTipVisible(tipId),
     hasNextTip: !!(associatedGuide && associatedGuide.nextTipId)
   };
-}), (0,external_wp_data_namespaceObject.withDispatch)((dispatch, _ref3) => {
-  let {
-    tipId
-  } = _ref3;
+}), (0,external_wp_data_namespaceObject.withDispatch)((dispatch, {
+  tipId
+}) => {
   const {
     dismissTip,
     disableTips

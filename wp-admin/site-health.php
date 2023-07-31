@@ -19,7 +19,7 @@ $tabs = array(
 );
 
 /**
- * An associative array of extra tabs for the Site Health navigation bar.
+ * Filters the extra tabs for the Site Health navigation bar.
  *
  * Add a custom page to the Site Health screen, based on a tab slug and label.
  * The label you provide will also be used as part of the site title.
@@ -198,7 +198,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php
 if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 	/**
-	 * Output content of a custom Site Health tab.
+	 * Fires when outputting the content of a custom Site Health tab.
 	 *
 	 * This action fires right after the Site Health header, and users are still subject to
 	 * the capability checks for the Site Health page to view any custom tabs and their contents.

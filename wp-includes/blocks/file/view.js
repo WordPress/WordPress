@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 var __webpack_exports__ = {};
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/utils.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/utils/index.js
 /**
  * Uses a combination of user agent matching and feature detection to determine whether
  * the current browser supports rendering PDFs inline.
@@ -71,7 +71,7 @@ const hidePdfEmbedsOnUnsupportedBrowsers = () => {
  * Internal dependencies
  */
 
-hidePdfEmbedsOnUnsupportedBrowsers();
+document.addEventListener('DOMContentLoaded', hidePdfEmbedsOnUnsupportedBrowsers);
 
 /******/ })()
 ;

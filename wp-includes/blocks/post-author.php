@@ -32,7 +32,7 @@ function render_block_core_post_author( $attributes, $content, $block ) {
 	$link        = get_author_posts_url( $author_id );
 	$author_name = get_the_author_meta( 'display_name', $author_id );
 	if ( ! empty( $attributes['isLink'] && ! empty( $attributes['linkTarget'] ) ) ) {
-		$author_name = sprintf( '<a href="%1s" target="%2s">%2s</a>', esc_url( $link ), esc_attr( $attributes['linkTarget'] ), $author_name );
+		$author_name = sprintf( '<a href="%1$s" target="%2$s">%3$s</a>', esc_url( $link ), esc_attr( $attributes['linkTarget'] ), $author_name );
 	}
 
 	$byline  = ! empty( $attributes['byline'] ) ? $attributes['byline'] : false;

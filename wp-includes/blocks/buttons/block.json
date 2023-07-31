@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/buttons",
 	"title": "Buttons",
 	"category": "design",
@@ -10,6 +10,7 @@
 	"supports": {
 		"anchor": true,
 		"align": [ "wide", "full" ],
+		"html": false,
 		"__experimentalExposeControlsToChildren": true,
 		"spacing": {
 			"blockGap": true,
@@ -31,7 +32,7 @@
 				"fontSize": true
 			}
 		},
-		"__experimentalLayout": {
+		"layout": {
 			"allowSwitching": false,
 			"allowInheriting": false,
 			"default": {

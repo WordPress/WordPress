@@ -60,7 +60,7 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 		 */
 		public function readint32() {
 			$bytes = $this->read( 4 );
-			if ( 4 != $this->strlen( $bytes ) ) {
+			if ( 4 !== $this->strlen( $bytes ) ) {
 				return false;
 			}
 			$endian_letter = ( 'big' === $this->endian ) ? 'N' : 'V';
@@ -77,7 +77,7 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 		 */
 		public function readint32array( $count ) {
 			$bytes = $this->read( 4 * $count );
-			if ( 4 * $count != $this->strlen( $bytes ) ) {
+			if ( 4 * $count !== $this->strlen( $bytes ) ) {
 				return false;
 			}
 			$endian_letter = ( 'big' === $this->endian ) ? 'N' : 'V';
@@ -194,7 +194,7 @@ if ( ! class_exists( 'POMO_FileReader', false ) ) :
 		 * @return bool
 		 */
 		public function seekto( $pos ) {
-			if ( -1 == fseek( $this->_f, $pos, SEEK_SET ) ) {
+			if ( -1 === fseek( $this->_f, $pos, SEEK_SET ) ) {
 				return false;
 			}
 			$this->_pos = $pos;

@@ -9,7 +9,7 @@
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
 }
-@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+@media (min-resolution:192dpi){
   :root{
     --wp-admin-border-width-focus:1.5px;
   }
@@ -159,8 +159,6 @@
   margin-left:-12px;
   margin-right:-12px;
   overflow-y:auto;
-  top:0;
-  width:calc(100% + 24px);
   z-index:7;
 }
 
@@ -223,4 +221,21 @@
 }
 .customize-control-sidebar_block_editor *,.customize-control-sidebar_block_editor :after,.customize-control-sidebar_block_editor :before,.customize-widgets-layout__inspector *,.customize-widgets-layout__inspector :after,.customize-widgets-layout__inspector :before,.customize-widgets-popover *,.customize-widgets-popover :after,.customize-widgets-popover :before{
   box-sizing:inherit;
+}
+.block-editor-block-contextual-toolbar.is-fixed{
+  border:none;
+  border-bottom:1px solid #e0e0e0;
+  border-radius:0;
+  overflow-y:hidden;
+  position:sticky;
+  right:0;
+  top:0;
+  width:calc(100% + 24px);
+  z-index:6;
+}
+.block-editor-block-contextual-toolbar.is-fixed .block-editor-block-toolbar .components-toolbar,.block-editor-block-contextual-toolbar.is-fixed .block-editor-block-toolbar .components-toolbar-group{
+  border-left-color:#e0e0e0;
+}
+.block-editor-block-contextual-toolbar.is-fixed.is-collapsed{
+  margin-right:-12px;
 }

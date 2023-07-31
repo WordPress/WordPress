@@ -841,7 +841,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	}
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 782px) {
 	body.folded .theme-overlay .theme-wrap,
 	.theme-overlay .theme-wrap {
 		top: 0; /* The adminmenu isn't fixed on mobile, so this can use the full viewport height */
@@ -1942,7 +1942,6 @@ body.full-overlay-active {
  * HiDPI Displays
  */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	.wp-full-overlay .collapse-sidebar-arrow {
 		background-image: url(../images/arrows-2x.png);

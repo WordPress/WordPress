@@ -9,6 +9,12 @@
 
 @import "03-generic/breakpoints";
 
+// Add relevant styles from "04-elements/misc"
+b,
+strong {
+    font-weight: 700;
+}
+
 @import "04-elements/blockquote";
 @import "04-elements/media";
 @import "04-elements/forms-editor";

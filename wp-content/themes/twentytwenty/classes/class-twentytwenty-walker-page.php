@@ -38,10 +38,8 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 
 			if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 				$t = "\t";
-				$n = "\n";
 			} else {
 				$t = '';
-				$n = '';
 			}
 			if ( $depth ) {
 				$indent = str_repeat( $t, $depth );

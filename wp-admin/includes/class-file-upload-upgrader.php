@@ -115,7 +115,7 @@ class File_Upload_Upgrader {
 	}
 
 	/**
-	 * Delete the attachment/uploaded file.
+	 * Deletes the attachment/uploaded file.
 	 *
 	 * @since 3.2.2
 	 *

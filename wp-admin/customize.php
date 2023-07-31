@@ -116,7 +116,7 @@ wp_enqueue_script( 'customize-controls' );
 wp_enqueue_style( 'customize-controls' );
 
 /**
- * Enqueue Customizer control scripts.
+ * Fires when enqueuing Customizer control scripts.
  *
  * @since 3.4.0
  */

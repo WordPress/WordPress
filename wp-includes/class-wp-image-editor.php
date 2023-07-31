@@ -104,9 +104,9 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 * @abstract
 	 *
-	 * @param int|null $max_w Image width.
-	 * @param int|null $max_h Image height.
-	 * @param bool     $crop
+	 * @param int|null   $max_w Image width.
+	 * @param int|null   $max_h Image height.
+	 * @param bool|array $crop
 	 * @return true|WP_Error
 	 */
 	abstract public function resize( $max_w, $max_h, $crop = false );
@@ -121,9 +121,9 @@ abstract class WP_Image_Editor {
 	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
 	 *
 	 *     @type array ...$0 {
-	 *         @type int  $width  Image width.
-	 *         @type int  $height Image height.
-	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
+	 *         @type int        $width  Image width.
+	 *         @type int        $height Image height.
+	 *         @type bool|array $crop   Optional. Whether to crop the image. Default false.
 	 *     }
 	 * }
 	 * @return array An array of resized images metadata by size.
@@ -349,8 +349,10 @@ abstract class WP_Image_Editor {
 			$file_mime = $this->mime_type;
 		}
 
-		// Check to see if specified mime-type is the same as type implied by
-		// file extension. If so, prefer extension from file.
+		/*
+		 * Check to see if specified mime-type is the same as type implied by
+		 * file extension. If so, prefer extension from file.
+		 */
 		if ( ! $mime_type || ( $file_mime == $mime_type ) ) {
 			$mime_type = $file_mime;
 			$new_ext   = $file_ext;
@@ -384,8 +386,10 @@ abstract class WP_Image_Editor {
 			$new_ext   = $this->get_extension( $mime_type );
 		}
 
-		// Double-check that the mime-type selected is supported by the editor.
-		// If not, choose a default instead.
+		/*
+		 * Double-check that the mime-type selected is supported by the editor.
+		 * If not, choose a default instead.
+		 */
 		if ( ! $this->supports_mime_type( $mime_type ) ) {
 			/**
 			 * Filters default mime type prior to getting the file extension.
@@ -400,9 +404,11 @@ abstract class WP_Image_Editor {
 			$new_ext   = $this->get_extension( $mime_type );
 		}
 
-		// Ensure both $filename and $new_ext are not empty.
-		// $this->get_extension() returns false on error which would effectively remove the extension
-		// from $filename. That shouldn't happen, files without extensions are not supported.
+		/*
+		 * Ensure both $filename and $new_ext are not empty.
+		 * $this->get_extension() returns false on error which would effectively remove the extension
+		 * from $filename. That shouldn't happen, files without extensions are not supported.
+		 */
 		if ( $filename && $new_ext ) {
 			$dir = pathinfo( $filename, PATHINFO_DIRNAME );
 			$ext = pathinfo( $filename, PATHINFO_EXTENSION );
@@ -515,8 +521,10 @@ abstract class WP_Image_Editor {
 				$result = $this->flip( false, true );
 				break;
 			case 3:
-				// Rotate 180 degrees or flip horizontally and vertically.
-				// Flipping seems faster and uses less resources.
+				/*
+				 * Rotate 180 degrees or flip horizontally and vertically.
+				 * Flipping seems faster and uses less resources.
+				 */
 				$result = $this->flip( true, true );
 				break;
 			case 4:

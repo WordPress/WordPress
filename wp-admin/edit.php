@@ -81,7 +81,7 @@ if ( $doaction ) {
 		$sendback = admin_url( $parent_file );
 	}
 	$sendback = add_query_arg( 'paged', $pagenum, $sendback );
-	if ( strpos( $sendback, 'post.php' ) !== false ) {
+	if ( str_contains( $sendback, 'post.php' ) ) {
 		$sendback = admin_url( $post_new_file );
 	}
 

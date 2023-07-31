@@ -571,13 +571,15 @@ function list_plugin_updates() {
 	<tr>
 		<td class="check-column">
 			<?php if ( $compatible_php ) : ?>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
-				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
+				<label for="<?php echo $checkbox_id; ?>" class="label-covers-full-cell">
+					<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. %s: Plugin name. */
 					printf( __( 'Select %s' ), $plugin_data->Name );
 					?>
+					</span>
 				</label>
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 			<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>
@@ -591,11 +593,13 @@ function list_plugin_updates() {
 				$plugin_data->update->new_version
 			);
 
-			echo ' ' . $details . $compat . $upgrade_notice;
+			echo ' ' . $details . $compat;
 
 			if ( in_array( $plugin_file, $auto_updates, true ) ) {
 				echo $auto_update_notice;
 			}
+
+			echo $upgrade_notice;
 			?>
 		</p></td>
 	</tr>
@@ -745,13 +749,15 @@ function list_theme_updates() {
 	<tr>
 		<td class="check-column">
 			<?php if ( $compatible_wp && $compatible_php ) : ?>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
-				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
+				<label for="<?php echo $checkbox_id; ?>" class="label-covers-full-cell">
+					<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. %s: Theme name. */
 					printf( __( 'Select %s' ), $theme->display( 'Name' ) );
 					?>
+					</span>
 				</label>
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
 			<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>
@@ -817,7 +823,7 @@ function list_translation_updates() {
 }
 
 /**
- * Upgrade WordPress core display.
+ * Upgrades WordPress core display.
  *
  * @since 2.7.0
  *
@@ -844,8 +850,10 @@ function do_core_upgrade( $reinstall = false ) {
 		return;
 	}
 
-	// Allow relaxed file ownership writes for User-initiated upgrades when the API specifies
-	// that it's safe to do so. This only happens when there are no new files to create.
+	/*
+	 * Allow relaxed file ownership writes for User-initiated upgrades when the API specifies
+	 * that it's safe to do so. This only happens when there are no new files to create.
+	 */
 	$allow_relaxed_file_ownership = ! $reinstall && isset( $update->new_files ) && ! $update->new_files;
 
 	?>
@@ -1011,11 +1019,30 @@ if ( ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type
 	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
 }
 
+$help_sidebar_rollback = '';
+
+if ( current_user_can( 'update_themes' ) || current_user_can( 'update_plugins' ) ) {
+	$rollback_help = '<p>' . __( 'This feature will create a temporary backup of a plugin or theme before it is upgraded. This backup is used to restore the plugin or theme back to its previous state if there is an error during the update process.' ) . '</p>';
+
+	$rollback_help .= '<p>' . __( 'On systems with fewer resources, this may lead to server timeouts or resource limits being reached. If you encounter an issue during the update process, please create a support forum topic and reference <strong>Rollback</strong> in the issue title.' ) . '</p>';
+
+	get_current_screen()->add_help_tab(
+		array(
+			'id'      => 'rollback-plugins-themes',
+			'title'   => __( 'Restore Plugin or Theme' ),
+			'content' => $rollback_help,
+		)
+	);
+
+	$help_sidebar_rollback = '<p>' . __( '<a href="https://wordpress.org/documentation/article/common-wordpress-errors/">Common Errors</a>' ) . '</p>';
+}
+
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://wordpress.org/documentation/article/dashboard-updates-screen/">Documentation on Updating WordPress</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
-	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>' .
+	$help_sidebar_rollback
 );
 
 if ( 'upgrade-core' === $action ) {
@@ -1027,17 +1054,25 @@ if ( 'upgrade-core' === $action ) {
 	?>
 	<div class="wrap">
 	<h1><?php _e( 'WordPress Updates' ); ?></h1>
-	<p><?php _e( 'Here you can find information about updates, set auto-updates and see what plugins or themes need updating.' ); ?></p>
+	<p><?php _e( 'Updates may take several minutes to complete. If there is no feedback after 5 minutes, or if there are errors please refer to the Help section above.' ); ?></p>
 
 	<?php
 	if ( $upgrade_error ) {
-		echo '<div class="error"><p>';
 		if ( 'themes' === $upgrade_error ) {
-			_e( 'Please select one or more themes to update.' );
+			$theme_updates = get_theme_updates();
+			if ( ! empty( $theme_updates ) ) {
+				echo '<div class="error"><p>';
+				_e( 'Please select one or more themes to update.' );
+				echo '</p></div>';
+			}
 		} else {
-			_e( 'Please select one or more plugins to update.' );
+			$plugin_updates = get_plugin_updates();
+			if ( ! empty( $plugin_updates ) ) {
+				echo '<div class="error"><p>';
+				_e( 'Please select one or more plugins to update.' );
+				echo '</p></div>';
+			}
 		}
-		echo '</p></div>';
 	}
 
 	$last_update_check = false;

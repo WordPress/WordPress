@@ -132,7 +132,7 @@ textarea {
 	font-size: 14px;
 	text-align: right;
 	padding: 10px 0 10px 20px;
-	width: 140px;
+	width: 115px;
 	vertical-align: top;
 }
 
@@ -146,10 +146,28 @@ textarea {
 	font-size: 11px;
 }
 
+.form-table .setup-description {
+	margin: 4px 0 0;
+	line-height: 1.6;
+}
+
 .form-table input {
 	line-height: 1.33333333;
 	font-size: 15px;
 	padding: 3px 5px;
+}
+
+.wp-pwd {
+	margin-top: 0;
+}
+
+.form-table .wp-pwd {
+	display: flex;
+	column-gap: 4px;
+}
+
+.form-table .password-input-wrapper {
+	width: 100%;
 }
 
 input,
@@ -162,7 +180,7 @@ submit {
 .form-table input[type=url],
 .form-table input[type=password],
 #pass-strength-result {
-	width: 218px;
+	width: 100%;
 }
 
 .form-table th p {
@@ -287,6 +305,10 @@ body.rtl,
 		box-sizing: border-box;
 	}
 
+	#pwd {
+		padding-left: 2.5rem;
+	}
+
 	.wp-pwd #pass1 {
 		padding-left: 50px;
 	}
@@ -370,7 +392,6 @@ body.language-chooser {
  * HiDPI Displays
  */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 
 	.spinner {

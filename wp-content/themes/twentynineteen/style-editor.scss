@@ -651,6 +651,31 @@ figcaption,
 		letter-spacing: calc(2 * #{$size__spacing-unit});
 		padding-left: calc(2 * #{$size__spacing-unit});
 	}
+
+	&.has-primary-background-color {
+		color: $color__link;
+		background-color: $color__link;
+	}
+
+	&.has-secondary-background-color {
+		color: $color__border-link-hover;
+		background-color: $color__border-link-hover;
+	}
+
+	&.has-dark-gray-background-color {
+		color: $color__text-main;
+		background-color: $color__text-main;
+	}
+
+	&.has-light-gray-background-color {
+		color: $color__text-light;
+		background-color: $color__text-light;
+	}
+
+	&.has-white-background-color {
+		color: #fff;
+		background-color: #fff;
+	}
 }
 
 /* Remove duplicate rule-line when a separator

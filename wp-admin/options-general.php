@@ -78,17 +78,23 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 </tr>
 
 <?php
-/* translators: Site tagline. */
-$sample_tagline = __( 'Just another WordPress site' );
-if ( is_multisite() ) {
+if ( ! is_multisite() ) {
+	/* translators: Site tagline. */
+	$sample_tagline = __( 'Just another WordPress site' );
+} else {
 	/* translators: %s: Network title. */
 	$sample_tagline = sprintf( __( 'Just another %s site' ), get_network()->site_name );
 }
+$tagline_description = sprintf(
+	/* translators: %s: Site tagline example. */
+	__( 'In a few words, explain what this site is about. Example: &#8220;%s.&#8221;' ),
+	$sample_tagline
+);
 ?>
 <tr>
 <th scope="row"><label for="blogdescription"><?php _e( 'Tagline' ); ?></label></th>
-<td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" placeholder="<?php echo $sample_tagline; ?>" />
-<p class="description" id="tagline-description"><?php _e( 'In a few words, explain what this site is about.' ); ?></p></td>
+<td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" />
+<p class="description" id="tagline-description"><?php echo $tagline_description; ?></p></td>
 </tr>
 
 <?php
@@ -230,7 +236,7 @@ $tzstring       = get_option( 'timezone_string' );
 $check_zone_info = true;
 
 // Remove old Etc mappings. Fallback to gmt_offset.
-if ( false !== strpos( $tzstring, 'Etc/GMT' ) ) {
+if ( str_contains( $tzstring, 'Etc/GMT' ) ) {
 	$tzstring = '';
 }
 

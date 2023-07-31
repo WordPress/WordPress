@@ -23,7 +23,7 @@ class Twenty_Twenty_One_Custom_Colors {
 		add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_variables' ) );
 
 		// Enqueue color variables for editor.
-		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'editor_custom_color_variables' ) );
 
 		// Add body-class if needed.
 		add_filter( 'body_class', array( $this, 'body_class' ) );

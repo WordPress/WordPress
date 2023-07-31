@@ -149,7 +149,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Initialize the upgrader.
+	 * Initializes the upgrader.
 	 *
 	 * This will set the relationship between the skin being used and this upgrader,
 	 * and also add the generic strings to `WP_Upgrader::$strings`.
@@ -180,7 +180,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Add the generic strings to WP_Upgrader::$strings.
+	 * Adds the generic strings to WP_Upgrader::$strings.
 	 *
 	 * @since 2.8.0
 	 */
@@ -189,7 +189,8 @@ class WP_Upgrader {
 		$this->strings['fs_unavailable']    = __( 'Could not access filesystem.' );
 		$this->strings['fs_error']          = __( 'Filesystem error.' );
 		$this->strings['fs_no_root_dir']    = __( 'Unable to locate WordPress root directory.' );
-		$this->strings['fs_no_content_dir'] = __( 'Unable to locate WordPress content directory (wp-content).' );
+		/* translators: %s: Directory name. */
+		$this->strings['fs_no_content_dir'] = sprintf( __( 'Unable to locate WordPress content directory (%s).' ), 'wp-content' );
 		$this->strings['fs_no_plugins_dir'] = __( 'Unable to locate WordPress plugin directory.' );
 		$this->strings['fs_no_themes_dir']  = __( 'Unable to locate WordPress theme directory.' );
 		/* translators: %s: Directory name. */
@@ -217,7 +218,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Connect to the filesystem.
+	 * Connects to the filesystem.
 	 *
 	 * @since 2.8.0
 	 *
@@ -289,7 +290,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Download a package.
+	 * Downloads a package.
 	 *
 	 * @since 2.8.0
 	 * @since 5.2.0 Added the `$check_signatures` parameter.
@@ -339,7 +340,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Unpack a compressed package file.
+	 * Unpacks a compressed package file.
 	 *
 	 * @since 2.8.0
 	 *
@@ -397,7 +398,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Flatten the results of WP_Filesystem_Base::dirlist() for iterating over.
+	 * Flattens the results of WP_Filesystem_Base::dirlist() for iterating over.
 	 *
 	 * @since 4.9.0
 	 * @access protected
@@ -563,8 +564,10 @@ class WP_Upgrader {
 			// There are no files?
 			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] );
 		} else {
-			// It's only a single file, the upgrader will use the folder name of this file as the destination folder.
-			// Folder name is based on zip filename.
+			/*
+			 * It's only a single file, the upgrader will use the folder name of this file as the destination folder.
+			 * Folder name is based on zip filename.
+			 */
 			$source = trailingslashit( $args['source'] );
 		}
 
@@ -641,8 +644,10 @@ class WP_Upgrader {
 				return $removed;
 			}
 		} elseif ( $args['abort_if_destination_exists'] && $wp_filesystem->exists( $remote_destination ) ) {
-			// If we're not clearing the destination folder and something exists there already, bail.
-			// But first check to see if there are actually any files in the folder.
+			/*
+			 * If we're not clearing the destination folder and something exists there already, bail.
+			 * But first check to see if there are actually any files in the folder.
+			 */
 			$_files = $wp_filesystem->dirlist( $remote_destination );
 			if ( ! empty( $_files ) ) {
 				$wp_filesystem->delete( $remote_source, true ); // Clear out the source files.
@@ -712,7 +717,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Run an upgrade/installation.
+	 * Runs an upgrade/installation.
 	 *
 	 * Attempts to download the package (if it is not a local file), unpack it, and
 	 * install it in the destination folder.
@@ -821,8 +826,10 @@ class WP_Upgrader {
 		 */
 		$download = $this->download_package( $options['package'], true, $options['hook_extra'] );
 
-		// Allow for signature soft-fail.
-		// WARNING: This may be removed in the future.
+		/*
+		 * Allow for signature soft-fail.
+		 * WARNING: This may be removed in the future.
+		 */
 		if ( is_wp_error( $download ) && $download->get_error_data( 'softfail-filename' ) ) {
 
 			// Don't output the 'no signature could be found' failure message for now.
@@ -960,7 +967,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Toggle maintenance mode for the site.
+	 * Toggles maintenance mode for the site.
 	 *
 	 * Creates/deletes the maintenance file to enable/disable maintenance mode.
 	 *

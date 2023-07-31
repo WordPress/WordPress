@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v3.4.0 - 2022-03-24T16:30Z
+ * jQuery Migrate - v3.4.1 - 2023-02-23T15:31Z
  * Copyright OpenJS Foundation and other contributors
  */
 ( function( factory ) {
@@ -24,7 +24,7 @@
 } )( function( jQuery, window ) {
 "use strict";
 
-jQuery.migrateVersion = "3.4.0";
+jQuery.migrateVersion = "3.4.1";
 
 // Returns 0 if v1 == v2, -1 if v1 < v2, 1 if v1 > v2
 function compareVersions( v1, v2 ) {
@@ -91,9 +91,10 @@ jQuery.migrateIsPatchEnabled = function( patchCode ) {
 		return;
 	}
 
-	// Need jQuery 3.0.0+ and no older Migrate loaded
-	if ( !jQuery || !jQueryVersionSince( "3.0.0" ) ) {
-		window.console.log( "JQMIGRATE: jQuery 3.0.0+ REQUIRED" );
+	// Need jQuery 3.x-4.x and no older Migrate loaded
+	if ( !jQuery || !jQueryVersionSince( "3.0.0" ) ||
+			jQueryVersionSince( "5.0.0" ) ) {
+		window.console.log( "JQMIGRATE: jQuery 3.x-4.x REQUIRED" );
 	}
 	if ( jQuery.migrateWarnings ) {
 		window.console.log( "JQMIGRATE: Migrate plugin loaded multiple times" );
@@ -206,9 +207,9 @@ var findProp,
 	rattrHashTest = /\[(\s*[-\w]+\s*)([~|^$*]?=)\s*([-\w#]*?#[-\w#]*)\s*\]/,
 	rattrHashGlob = /\[(\s*[-\w]+\s*)([~|^$*]?=)\s*([-\w#]*?#[-\w#]*)\s*\]/g,
 
-	// Support: Android <=4.0 only
-	// Make sure we trim BOM and NBSP
-	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+	// Require that the "whitespace run" starts from a non-whitespace
+	// to avoid O(N^2) behavior when the engine would try matching "\s+$" at each space position.
+	rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
 
 migratePatchFunc( jQuery.fn, "init", function( arg1 ) {
 	var args = Array.prototype.slice.call( arguments );
@@ -300,7 +301,7 @@ if ( jQueryVersionSince( "3.1.1" ) ) {
 	migratePatchAndWarnFunc( jQuery, "trim", function( text ) {
 		return text == null ?
 			"" :
-			( text + "" ).replace( rtrim, "" );
+			( text + "" ).replace( rtrim, "$1" );
 	}, "trim",
 	"jQuery.trim is deprecated; use String.prototype.trim" );
 }
@@ -419,10 +420,24 @@ var oldRemoveAttr = jQuery.fn.removeAttr,
 	rmatchNonSpace = /\S+/g;
 
 migratePatchFunc( jQuery.fn, "removeAttr", function( name ) {
-	var self = this;
+	var self = this,
+		patchNeeded = false;
 
 	jQuery.each( name.match( rmatchNonSpace ), function( _i, attr ) {
 		if ( jQuery.expr.match.bool.test( attr ) ) {
+
+			// Only warn if at least a single node had the property set to
+			// something else than `false`. Otherwise, this Migrate patch
+			// doesn't influence the behavior and there's no need to set or warn.
+			self.each( function() {
+				if ( jQuery( this ).prop( attr ) !== false ) {
+					patchNeeded = true;
+					return false;
+				}
+			} );
+		}
+
+		if ( patchNeeded ) {
 			migrateWarn( "removeAttr-bool",
 				"jQuery.fn.removeAttr no longer sets boolean properties: " + attr );
 			self.prop( attr, false );
@@ -470,7 +485,7 @@ function camelCase( string ) {
 	} );
 }
 
-var origFnCss,
+var origFnCss, internalCssNumber,
 	internalSwapCall = false,
 	ralphaStart = /^[a-z]/,
 
@@ -552,8 +567,11 @@ if ( jQueryVersionSince( "3.4.0" ) && typeof Proxy !== "undefined" ) {
 // https://github.com/jquery/jquery/blob/3.6.0/src/css.js#L212-L233
 // This way, number values for the CSS properties below won't start triggering
 // Migrate warnings when jQuery gets updated to >=4.0.0 (gh-438).
-if ( jQueryVersionSince( "4.0.0" ) && typeof Proxy !== "undefined" ) {
-	jQuery.cssNumber = new Proxy( {
+if ( jQueryVersionSince( "4.0.0" ) ) {
+
+	// We need to keep this as a local variable as we need it internally
+	// in a `jQuery.fn.css` patch and this usage shouldn't warn.
+	internalCssNumber = {
 		animationIterationCount: true,
 		columnCount: true,
 		fillOpacity: true,
@@ -574,16 +592,31 @@ if ( jQueryVersionSince( "4.0.0" ) && typeof Proxy !== "undefined" ) {
 		widows: true,
 		zIndex: true,
 		zoom: true
-	}, {
-		get: function() {
-			migrateWarn( "css-number", "jQuery.cssNumber is deprecated" );
-			return Reflect.get.apply( this, arguments );
-		},
-		set: function() {
-			migrateWarn( "css-number", "jQuery.cssNumber is deprecated" );
-			return Reflect.set.apply( this, arguments );
-		}
-	} );
+	};
+
+	if ( typeof Proxy !== "undefined" ) {
+		jQuery.cssNumber = new Proxy( internalCssNumber, {
+			get: function() {
+				migrateWarn( "css-number", "jQuery.cssNumber is deprecated" );
+				return Reflect.get.apply( this, arguments );
+			},
+			set: function() {
+				migrateWarn( "css-number", "jQuery.cssNumber is deprecated" );
+				return Reflect.set.apply( this, arguments );
+			}
+		} );
+	} else {
+
+		// Support: IE 9-11+
+		// IE doesn't support proxies, but we still want to restore the legacy
+		// jQuery.cssNumber there.
+		jQuery.cssNumber = internalCssNumber;
+	}
+} else {
+
+	// Make `internalCssNumber` defined for jQuery <4 as well as it's needed
+	// in the `jQuery.fn.css` patch below.
+	internalCssNumber = jQuery.cssNumber;
 }
 
 function isAutoPx( prop ) {
@@ -610,7 +643,10 @@ migratePatchFunc( jQuery.fn, "css", function( name, value ) {
 
 	if ( typeof value === "number" ) {
 		camelName = camelCase( name );
-		if ( !isAutoPx( camelName ) && !jQuery.cssNumber[ camelName ] ) {
+
+		// Use `internalCssNumber` to avoid triggering our warnings in this
+		// internal check.
+		if ( !isAutoPx( camelName ) && !internalCssNumber[ camelName ] ) {
 			migrateWarn( "css-number",
 				"Number-typed values are deprecated for jQuery.fn.css( \"" +
 				name + "\", value )" );

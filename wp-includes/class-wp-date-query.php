@@ -494,7 +494,7 @@ class WP_Date_Query {
 		);
 
 		// Attempt to detect a table prefix.
-		if ( false === strpos( $column, '.' ) ) {
+		if ( ! str_contains( $column, '.' ) ) {
 			/**
 			 * Filters the list of valid date query columns.
 			 *

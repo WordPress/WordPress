@@ -515,7 +515,7 @@
 
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$pluginRow     = $( 'tr[data-plugin="' + response.plugin + '"]' )
-				.removeClass( 'update' )
+				.removeClass( 'update is-enqueued' )
 				.addClass( 'updated' );
 			$updateMessage = $pluginRow.find( '.update-message' )
 				.removeClass( 'updating-message notice-warning' )
@@ -567,7 +567,7 @@
 	 * @param {string}  response.errorMessage The error that occurred.
 	 */
 	wp.updates.updatePluginError = function( response ) {
-		var $card, $message, errorMessage,
+		var $pluginRow, $card, $message, errorMessage,
 			$adminBarUpdates = $( '#wp-admin-bar-updates' );
 
 		if ( ! wp.updates.isValidResponse( response, 'update' ) ) {
@@ -585,6 +585,8 @@
 		);
 
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
+			$pluginRow = $( 'tr[data-plugin="' + response.plugin + '"]' ).removeClass( 'is-enqueued' );
+
 			if ( response.plugin ) {
 				$message = $( 'tr[data-plugin="' + response.plugin + '"]' ).find( '.update-message' );
 			} else {
@@ -2467,6 +2469,13 @@
 					$checkbox.prop( 'checked', false );
 					return;
 				}
+
+				// Don't add items to the update queue again, even if the user clicks the update button several times.
+				if ( 'update-selected' === bulkAction && $itemRow.hasClass( 'is-enqueued' ) ) {
+					return;
+				}
+
+				$itemRow.addClass( 'is-enqueued' );
 
 				// Add it to the queue.
 				wp.updates.queue.push( {

@@ -32,8 +32,8 @@
 
 	<!-- wp:column -->
 	<div class="wp-block-column">
-		<!-- wp:separator -->
-		<hr class="wp-block-separator has-alpha-channel-opacity"/>
+		<!-- wp:separator {"className":"is-style-wide"} -->
+		<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
 		<!-- /wp:separator -->
 	</div>
 	<!-- /wp:column -->

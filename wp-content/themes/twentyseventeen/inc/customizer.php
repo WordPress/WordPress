@@ -144,7 +144,7 @@ function twentyseventeen_customize_register( $wp_customize ) {
 				'section'         => 'theme_options',
 				'type'            => 'dropdown-pages',
 				'allow_addition'  => true,
-				'active_callback' => 'twentyseventeen_is_static_front_page',
+				'active_callback' => 'twentyseventeen_is_frontpage',
 			)
 		);
 
@@ -221,9 +221,16 @@ function twentyseventeen_customize_partial_blogdescription() {
 
 /**
  * Return whether we're previewing the front page and it's a static page.
+ *
+ * This function is an alias for twentyseventeen_is_frontpage().
+ *
+ * @since Twenty Seventeen 1.0
+ * @since Twenty Seventeen 3.3 Converted function to an alias.
+ *
+ * @return bool Whether the current page is the front page and static.
  */
 function twentyseventeen_is_static_front_page() {
-	return ( is_front_page() && ! is_home() );
+	return twentyseventeen_is_frontpage();
 }
 
 /**

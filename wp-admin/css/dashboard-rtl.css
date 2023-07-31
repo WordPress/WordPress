@@ -121,7 +121,7 @@
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
-	background-color: #1d35b4;
+	background-color: #151515;
 	font-size: 14px;
 	line-height: 1.3;
 	clear: both;
@@ -890,31 +890,32 @@ body #dashboard-widgets .postbox form .submit {
 
 #future-posts ul,
 #published-posts ul {
-	clear: both;
-	margin-bottom: 0;
+	margin: 8px -12px 0 -12px;
 }
 
 #future-posts li,
 #published-posts li {
-	margin-bottom: 8px;
+	display: grid;
+	grid-template-columns: clamp(160px, calc(2vw + 140px), 200px) auto;
+	column-gap: 10px;
+	color: #646970;
+	padding: 4px 12px;
 }
 
-#future-posts ul span,
-#published-posts ul span {
-	display: inline-block;
-	margin-left: 5px;
-	min-width: 150px;
-	color: #646970;
+#future-posts li:nth-child(odd),
+#published-posts li:nth-child(odd) {
+	background-color: #f6f7f7;
 }
 
 .activity-block {
 	border-bottom: 1px solid #f0f0f1;
-	margin: 0 -12px;
+	margin: 0 -12px 6px -12px;
 	padding: 8px 12px 4px;
 }
 
 .activity-block:last-child {
 	border-bottom: none;
+	margin-bottom: 0;
 }
 
 .activity-block .subsubsub li {

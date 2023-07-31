@@ -448,7 +448,7 @@ function the_category_rss( $type = null ) {
  */
 function html_type_rss() {
 	$type = get_bloginfo( 'html_type' );
-	if ( strpos( $type, 'xhtml' ) !== false ) {
+	if ( str_contains( $type, 'xhtml' ) ) {
 		$type = 'xhtml';
 	} else {
 		$type = 'html';
@@ -580,7 +580,7 @@ function atom_enclosure() {
  * @return array array(type, value)
  */
 function prep_atom_text_construct( $data ) {
-	if ( strpos( $data, '<' ) === false && strpos( $data, '&' ) === false ) {
+	if ( ! str_contains( $data, '<' ) && ! str_contains( $data, '&' ) ) {
 		return array( 'text', $data );
 	}
 
@@ -597,7 +597,7 @@ function prep_atom_text_construct( $data ) {
 	unset( $parser );
 
 	if ( ! $code ) {
-		if ( strpos( $data, '<' ) === false ) {
+		if ( ! str_contains( $data, '<' ) ) {
 			return array( 'text', $data );
 		} else {
 			$data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
@@ -605,7 +605,7 @@ function prep_atom_text_construct( $data ) {
 		}
 	}
 
-	if ( strpos( $data, ']]>' ) === false ) {
+	if ( ! str_contains( $data, ']]>' ) ) {
 		return array( 'html', "<![CDATA[$data]]>" );
 	} else {
 		return array( 'html', htmlspecialchars( $data ) );
@@ -797,8 +797,10 @@ function fetch_feed( $url ) {
 	$feed = new SimplePie();
 
 	$feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
-	// We must manually overwrite $feed->sanitize because SimplePie's constructor
-	// sets it before we have a chance to set the sanitization class.
+	/*
+	 * We must manually overwrite $feed->sanitize because SimplePie's constructor
+	 * sets it before we have a chance to set the sanitization class.
+	 */
 	$feed->sanitize = new WP_SimplePie_Sanitize_KSES();
 
 	// Register the cache handler using the recommended method for SimplePie 1.3 or later.

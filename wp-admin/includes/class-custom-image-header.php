@@ -66,12 +66,18 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Set up the hooks for the Custom Header admin page.
+	 * Sets up the hooks for the Custom Header admin page.
 	 *
 	 * @since 2.1.0
 	 */
 	public function init() {
-		$page = add_theme_page( __( 'Header' ), __( 'Header' ), 'edit_theme_options', 'custom-header', array( $this, 'admin_page' ) );
+		$page = add_theme_page(
+			_x( 'Header', 'custom image header' ),
+			_x( 'Header', 'custom image header' ),
+			'edit_theme_options',
+			'custom-header',
+			array( $this, 'admin_page' )
+		);
 
 		if ( ! $page ) {
 			return;
@@ -140,7 +146,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Get the current step.
+	 * Gets the current step.
 	 *
 	 * @since 2.6.0
 	 *
@@ -163,7 +169,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Set up the enqueue for the JavaScript files.
+	 * Sets up the enqueue for the JavaScript files.
 	 *
 	 * @since 2.1.0
 	 */
@@ -182,7 +188,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Set up the enqueue for the CSS files
+	 * Sets up the enqueue for the CSS files.
 	 *
 	 * @since 2.7.0
 	 */
@@ -197,7 +203,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Execute custom header modification.
+	 * Executes custom header modification.
 	 *
 	 * @since 2.6.0
 	 */
@@ -256,7 +262,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Process the default headers
+	 * Processes the default headers.
 	 *
 	 * @since 3.0.0
 	 *
@@ -293,9 +299,9 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display UI for selecting one of several default headers.
+	 * Displays UI for selecting one of several default headers.
 	 *
-	 * Show the random image option if this theme has multiple header images.
+	 * Shows the random image option if this theme has multiple header images.
 	 * Random image option is on by default if no header has been set.
 	 *
 	 * @since 3.0.0
@@ -340,7 +346,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Execute JavaScript depending on step.
+	 * Executes JavaScript depending on step.
 	 *
 	 * @since 2.1.0
 	 */
@@ -355,7 +361,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display JavaScript based on Step 1 and 3.
+	 * Displays JavaScript based on Step 1 and 3.
 	 *
 	 * @since 2.6.0
 	 */
@@ -363,7 +369,7 @@ class Custom_Image_Header {
 		$default_color = '';
 		if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 			$default_color = get_theme_support( 'custom-header', 'default-text-color' );
-			if ( $default_color && false === strpos( $default_color, '#' ) ) {
+			if ( $default_color && ! str_contains( $default_color, '#' ) ) {
 				$default_color = '#' . $default_color;
 			}
 		}
@@ -416,7 +422,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display JavaScript based on Step 2.
+	 * Displays JavaScript based on Step 2.
 	 *
 	 * @since 2.6.0
 	 */
@@ -492,7 +498,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display first step of custom header image page.
+	 * Displays first step of custom header image page.
 	 *
 	 * @since 2.1.0
 	 */
@@ -697,7 +703,7 @@ class Custom_Image_Header {
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
 			<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
-	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers, or show a random one.' ); ?></p>
+	<p><?php _e( 'If you do not want to upload your own image, you can use one of these cool headers, or show a random one.' ); ?></p>
 	<?php else : ?>
 	<p><?php _e( 'You can use one of these cool headers or show a random one on each page.' ); ?></p>
 	<?php endif; ?>
@@ -762,7 +768,7 @@ class Custom_Image_Header {
 			$default_color = '';
 			if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 				$default_color = get_theme_support( 'custom-header', 'default-text-color' );
-				if ( $default_color && false === strpos( $default_color, '#' ) ) {
+				if ( $default_color && ! str_contains( $default_color, '#' ) ) {
 					$default_color = '#' . $default_color;
 				}
 			}
@@ -770,7 +776,7 @@ class Custom_Image_Header {
 			$default_color_attr = $default_color ? ' data-default-color="' . esc_attr( $default_color ) . '"' : '';
 
 			$header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
-			if ( $header_textcolor && false === strpos( $header_textcolor, '#' ) ) {
+			if ( $header_textcolor && ! str_contains( $header_textcolor, '#' ) ) {
 				$header_textcolor = '#' . $header_textcolor;
 			}
 
@@ -806,7 +812,7 @@ endif;
 	}
 
 	/**
-	 * Display second step of custom header image page.
+	 * Displays second step of custom header image page.
 	 *
 	 * @since 2.1.0
 	 */
@@ -949,7 +955,7 @@ endif;
 
 
 	/**
-	 * Upload the file to be cropped in the second step.
+	 * Uploads the file to be cropped in the second step.
 	 *
 	 * @since 3.4.0
 	 */
@@ -990,7 +996,7 @@ endif;
 	}
 
 	/**
-	 * Display third step of custom header image page.
+	 * Displays third step of custom header image page.
 	 *
 	 * @since 2.1.0
 	 * @since 4.4.0 Switched to using wp_get_attachment_url() instead of the guid
@@ -1086,7 +1092,7 @@ endif;
 	}
 
 	/**
-	 * Display last step of custom header image page.
+	 * Displays last step of custom header image page.
 	 *
 	 * @since 2.1.0
 	 */
@@ -1096,7 +1102,7 @@ endif;
 	}
 
 	/**
-	 * Display the page based on the current step.
+	 * Displays the page based on the current step.
 	 *
 	 * @since 2.1.0
 	 */
@@ -1141,16 +1147,17 @@ endif;
 	}
 
 	/**
-	 * Choose a header image, selected from existing uploaded and default headers,
-	 * or provide an array of uploaded header data (either new, or from media library).
+	 * Chooses a header image, selected from existing uploaded and default headers,
+	 * or provides an array of uploaded header data (either new, or from media library).
 	 *
 	 * @since 3.4.0
 	 *
 	 * @param mixed $choice Which header image to select. Allows for values of 'random-default-image',
-	 *  for randomly cycling among the default images; 'random-uploaded-image', for randomly cycling
-	 *  among the uploaded images; the key of a default image registered for that theme; and
-	 *  the key of an image uploaded for that theme (the attachment ID of the image).
-	 *  Or an array of arguments: attachment_id, url, width, height. All are required.
+	 *                      for randomly cycling among the default images; 'random-uploaded-image',
+	 *                      for randomly cycling among the uploaded images; the key of a default image
+	 *                      registered for that theme; and the key of an image uploaded for that theme
+	 *                      (the attachment ID of the image). Or an array of arguments: attachment_id,
+	 *                      url, width, height. All are required.
 	 */
 	final public function set_header_image( $choice ) {
 		if ( is_array( $choice ) || is_object( $choice ) ) {
@@ -1203,7 +1210,7 @@ endif;
 	}
 
 	/**
-	 * Remove a header image.
+	 * Removes a header image.
 	 *
 	 * @since 3.4.0
 	 */
@@ -1212,7 +1219,7 @@ endif;
 	}
 
 	/**
-	 * Reset a header image to the default image for the theme.
+	 * Resets a header image to the default image for the theme.
 	 *
 	 * This method does not do anything if the theme does not have a default header image.
 	 *
@@ -1242,7 +1249,7 @@ endif;
 	}
 
 	/**
-	 * Calculate width and height based on what the currently selected theme supports.
+	 * Calculates width and height based on what the currently selected theme supports.
 	 *
 	 * @since 3.9.0
 	 *
@@ -1293,7 +1300,7 @@ endif;
 	}
 
 	/**
-	 * Create an attachment 'object'.
+	 * Creates an attachment 'object'.
 	 *
 	 * @since 3.9.0
 	 *
@@ -1322,7 +1329,7 @@ endif;
 	}
 
 	/**
-	 * Insert an attachment and its metadata.
+	 * Inserts an attachment and its metadata.
 	 *
 	 * @since 3.9.0
 	 *
@@ -1572,7 +1579,7 @@ endif;
 	}
 
 	/**
-	 * Get the ID of a previous crop from the same base image.
+	 * Gets the ID of a previous crop from the same base image.
 	 *
 	 * @since 4.9.0
 	 *

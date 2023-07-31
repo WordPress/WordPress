@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/shortcode",
 	"title": "Shortcode",
 	"category": "widgets",
@@ -9,7 +9,7 @@
 	"attributes": {
 		"text": {
 			"type": "string",
-			"source": "html"
+			"source": "raw"
 		}
 	},
 	"supports": {

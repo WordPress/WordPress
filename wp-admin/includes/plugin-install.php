@@ -486,8 +486,10 @@ function install_plugin_install_status( $api, $loop = false ) {
 				}
 			} else {
 				$key = array_keys( $installed_plugin );
-				// Use the first plugin regardless of the name.
-				// Could have issues for multiple plugins in one directory if they share different version numbers.
+				/*
+				 * Use the first plugin regardless of the name.
+				 * Could have issues for multiple plugins in one directory if they share different version numbers.
+				 */
 				$key = reset( $key );
 
 				$update_file = $api->slug . '/' . $key;

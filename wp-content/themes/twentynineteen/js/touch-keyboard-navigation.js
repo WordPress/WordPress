@@ -274,7 +274,7 @@
 
 		document.addEventListener('focus', function(event) {
 
-			if ( event.target.matches('.main-navigation > div > ul > li a') ) {
+			if ( event.target !== window.document && event.target.matches( '.main-navigation > div > ul > li a' ) ) {
 
 				// Remove Focused elements in sibling div.
 				var currentDiv        = getCurrentParent( event.target, 'div', '.main-navigation' );

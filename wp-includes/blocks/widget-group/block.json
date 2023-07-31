@@ -1,5 +1,5 @@
 {
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/widget-group",
 	"category": "widgets",
 	"attributes": {

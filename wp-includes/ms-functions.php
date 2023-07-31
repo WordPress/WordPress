@@ -245,8 +245,10 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	 */
 	do_action( 'remove_user_from_blog', $user_id, $blog_id, $reassign );
 
-	// If being removed from the primary blog, set a new primary
-	// if the user is assigned to multiple blogs.
+	/*
+	 * If being removed from the primary blog, set a new primary
+	 * if the user is assigned to multiple blogs.
+	 */
 	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	if ( $primary_blog == $blog_id ) {
 		$new_id     = '';
@@ -401,13 +403,12 @@ function is_email_address_unsafe( $user_email ) {
 				continue;
 			}
 
-			if ( $email_domain == $banned_domain ) {
+			if ( $email_domain === $banned_domain ) {
 				$is_email_address_unsafe = true;
 				break;
 			}
 
-			$dotted_domain = ".$banned_domain";
-			if ( substr( $normalized_email, -strlen( $dotted_domain ) ) === $dotted_domain ) {
+			if ( str_ends_with( $normalized_email, ".$banned_domain" ) ) {
 				$is_email_address_unsafe = true;
 				break;
 			}
@@ -604,12 +605,12 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
  * @global wpdb   $wpdb   WordPress database abstraction object.
  * @global string $domain
  *
- * @param string         $blogname   The blog name provided by the user. Must be unique.
- * @param string         $blog_title The blog title provided by the user.
+ * @param string         $blogname   The site name provided by the user. Must be unique.
+ * @param string         $blog_title The site title provided by the user.
  * @param WP_User|string $user       Optional. The user object to check against the new site name.
  *                                   Default empty string.
  * @return array {
- *     Array of domain, path, blog name, blog title, user and error messages.
+ *     Array of domain, path, site name, site title, user and error messages.
  *
  *     @type string         $domain     Domain for the site.
  *     @type string         $path       Path for the site. Used in subdirectory installations.
@@ -718,8 +719,10 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		}
 	}
 
-	// Has someone already signed up for this domain?
-	// TODO: Check email too?
+	/*
+	 * Has someone already signed up for this domain?
+	 * TODO: Check email too?
+	 */
 	$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->signups WHERE domain = %s AND path = %s", $mydomain, $path ) );
 	if ( $signup instanceof stdClass ) {
 		$diff = time() - mysql2date( 'U', $signup->registered );
@@ -752,12 +755,12 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * @since MU (3.0.0)
 	 *
 	 * @param array $result {
-	 *     Array of domain, path, blog name, blog title, user and error messages.
+	 *     Array of domain, path, site name, site title, user and error messages.
 	 *
 	 *     @type string         $domain     Domain for the site.
 	 *     @type string         $path       Path for the site. Used in subdirectory installations.
 	 *     @type string         $blogname   The unique site name (slug).
-	 *     @type string         $blog_title Blog title.
+	 *     @type string         $blog_title Site title.
 	 *     @type string|WP_User $user       By default, an empty string. A user object if provided.
 	 *     @type WP_Error       $errors     WP_Error containing any errors found.
 	 * }
@@ -1940,8 +1943,10 @@ function get_most_recent_post_of_user( $user_id ) {
 	$user_blogs       = get_blogs_of_user( (int) $user_id );
 	$most_recent_post = array();
 
-	// Walk through each blog and get the most recent post
-	// published by $user_id.
+	/*
+	 * Walk through each blog and get the most recent post
+	 * published by $user_id.
+	 */
 	foreach ( (array) $user_blogs as $blog ) {
 		$prefix      = $wpdb->get_blog_prefix( $blog->userblog_id );
 		$recent_post = $wpdb->get_row( $wpdb->prepare( "SELECT ID, post_date_gmt FROM {$prefix}posts WHERE post_author = %d AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1", $user_id ), ARRAY_A );
@@ -1992,7 +1997,7 @@ function check_upload_mimes( $mimes ) {
 	$site_mimes = array();
 	foreach ( $site_exts as $ext ) {
 		foreach ( $mimes as $ext_pattern => $mime ) {
-			if ( '' !== $ext && false !== strpos( $ext_pattern, $ext ) ) {
+			if ( '' !== $ext && str_contains( $ext_pattern, $ext ) ) {
 				$site_mimes[ $ext_pattern ] = $mime;
 			}
 		}
@@ -2165,7 +2170,7 @@ function maybe_redirect_404() {
  * @since MU (3.0.0)
  */
 function maybe_add_existing_user_to_blog() {
-	if ( false === strpos( $_SERVER['REQUEST_URI'], '/newbloguser/' ) ) {
+	if ( ! str_contains( $_SERVER['REQUEST_URI'], '/newbloguser/' ) ) {
 		return;
 	}
 
@@ -2387,7 +2392,7 @@ function force_ssl_content( $force = '' ) {
  */
 function filter_SSL( $url ) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	if ( ! is_string( $url ) ) {
-		return get_bloginfo( 'url' ); // Return home blog URL with proper scheme.
+		return get_bloginfo( 'url' ); // Return home site URL with proper scheme.
 	}
 
 	if ( force_ssl_content() && is_ssl() ) {

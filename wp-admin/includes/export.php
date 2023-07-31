@@ -218,7 +218,7 @@ function export_wp( $args = array() ) {
 			// Multisite: the base URL.
 			return network_home_url();
 		} else {
-			// WordPress (single site): the blog URL.
+			// WordPress (single site): the site URL.
 			return get_bloginfo_rss( 'url' );
 		}
 	}

@@ -209,7 +209,7 @@ class WP_HTTP_Proxy {
 		if ( null === $bypass_hosts ) {
 			$bypass_hosts = preg_split( '|,\s*|', WP_PROXY_BYPASS_HOSTS );
 
-			if ( false !== strpos( WP_PROXY_BYPASS_HOSTS, '*' ) ) {
+			if ( str_contains( WP_PROXY_BYPASS_HOSTS, '*' ) ) {
 				$wildcard_regex = array();
 				foreach ( $bypass_hosts as $host ) {
 					$wildcard_regex[] = str_replace( '\*', '.+', preg_quote( $host, '/' ) );

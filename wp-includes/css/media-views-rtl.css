@@ -282,10 +282,6 @@
 	width: calc(48% - 12px);
 }
 
-.media-modal-content .attachments-browser .search {
-	width: 100%;
-}
-
 /* higher specificity */
 .wp-core-ui .media-modal-icon {
 	background-image: url(../images/uploader-icons.png);
@@ -372,7 +368,7 @@
 }
 
 .media-sidebar h2,
-.image-details h2:not(.media-attachments-filter-heading) {
+.image-details .media-embed h2 {
 	position: relative;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -907,8 +903,6 @@
 
 .media-frame select.attachment-filters:last-of-type {
 	margin-left: 0;
-	width: auto;
-	max-width: 100%;
 }
 
 /**
@@ -927,7 +921,7 @@
 	max-width: 100%;
 }
 
-.media-frame .media-search-input-label {
+.media-modal .media-frame .media-search-input-label {
 	position: absolute;
 	right: 0;
 	top: 10px;
@@ -1220,6 +1214,7 @@
 .mode-grid .attachments-browser .media-toolbar-primary {
 	display: flex;
 	align-items: center;
+	column-gap: .5rem;
 }
 
 .mode-grid .attachments-browser .media-toolbar-mode-select .media-toolbar-primary {
@@ -1960,32 +1955,7 @@
 
 .media-modal .imgedit-wrap .imgedit-panel-content {
 	padding: 16px 16px 0;
-	position: absolute;
-	top: 0;
-	left: 282px;
-	bottom: 0;
-	right: 0;
-	overflow: auto;
-}
-
-/*
- * Implementation of bottom padding in overflow content differs across browsers.
- * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
- */
-.media-modal .imgedit-wrap .imgedit-submit {
-	margin-bottom: 16px;
-}
-
-.media-modal .imgedit-wrap .imgedit-settings {
-	background: #f6f7f7;
-	border-right: 1px solid #dcdcde;
-	padding: 20px 16px 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	width: 250px;
-	overflow: auto;
+	overflow: visible;
 }
 
 /*
@@ -1999,19 +1969,15 @@
 .media-modal .imgedit-group {
 	background: none;
 	border: none;
-	border-bottom: 1px solid #dcdcde;
 	box-shadow: none;
 	margin: 0;
-	margin-bottom: 16px;
 	padding: 0;
-	padding-bottom: 16px;
 	position: relative; /* RTL fix, #WP29352 */
 }
 
-.media-modal .imgedit-group:last-of-type {
-	border: none;
-	margin: 0;
-	padding: 0;
+.media-modal .imgedit-group.imgedit-panel-active {
+	margin-bottom: 16px;
+	padding-bottom: 16px;
 }
 
 .media-modal .imgedit-group-top {
@@ -2080,8 +2046,7 @@
 
 .media-modal .imgedit-wrap div.updated, /* Back-compat for pre-5.5 */
 .media-modal .imgedit-wrap .notice {
-	margin: 0;
-	margin-bottom: 16px;
+	margin: 0 16px;
 }
 
 /**
@@ -2610,6 +2575,16 @@
 		left: 262px;
 	}
 
+	.attachments-browser .media-toolbar {
+		height: 82px;
+	}
+
+	.attachments-browser .attachments,
+	.attachments-browser .uploader-inline,
+	.media-frame-content .attachments-browser .attachments-wrapper {
+		top: 82px;
+	}
+
 	.media-sidebar .setting,
 	.attachment-details .setting {
 		margin: 6px 0;
@@ -2820,13 +2795,8 @@
 }
 
 @media screen and (max-width: 782px) {
-	.attachments-browser .media-toolbar {
-		height: 82px;
-	}
-
-	.attachments-browser .attachments,
-	.attachments-browser .uploader-inline {
-		top: 82px;
+	.imgedit-panel-content {
+		grid-template-columns: auto;
 	}
 
 	.media-frame-toolbar .media-toolbar {
@@ -2834,7 +2804,11 @@
 	}
 
 	.mode-grid .attachments-browser .media-toolbar-primary {
-		display: block;
+		display: flex;
+	}
+
+	.mode-grid .attachments-browser .media-toolbar-primary input[type="search"] {
+		width: 100%;
 	}
 
 	.media-sidebar .copy-to-clipboard-container .success,
@@ -2877,10 +2851,6 @@
 	.attachments-browser .media-toolbar,
 	.media-frame-content .attachments-browser .attachments-wrapper {
 		left: 0;
-	}
-
-	.attachments-browser .attachments-wrapper {
-		padding-top: 12px;
 	}
 
 	.image-details .media-frame-title {
@@ -2936,7 +2906,6 @@
  * HiDPI Displays
  */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 
 	.wp-core-ui .media-modal-icon {

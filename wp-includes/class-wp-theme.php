@@ -321,8 +321,10 @@ final class WP_Theme implements ArrayAccess {
 			return;
 		} else {
 			$this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme' );
-			// Default themes always trump their pretenders.
-			// Properly identify default themes that are inside a directory within wp-content/themes.
+			/*
+			 * Default themes always trump their pretenders.
+			 * Properly identify default themes that are inside a directory within wp-content/themes.
+			 */
 			$default_theme_slug = array_search( $this->headers['Name'], self::$default_themes, true );
 			if ( $default_theme_slug ) {
 				if ( basename( $this->stylesheet ) != $default_theme_slug ) {
@@ -362,11 +364,7 @@ final class WP_Theme implements ArrayAccess {
 			$this->template = $this->stylesheet;
 			$theme_path     = $this->theme_root . '/' . $this->stylesheet;
 
-			if (
-				! file_exists( $theme_path . '/templates/index.html' )
-				&& ! file_exists( $theme_path . '/block-templates/index.html' ) // Deprecated path support since 5.9.0.
-				&& ! file_exists( $theme_path . '/index.php' )
-			) {
+			if ( ! $this->is_block_theme() && ! file_exists( $theme_path . '/index.php' ) ) {
 				$error_message = sprintf(
 					/* translators: 1: templates/index.html, 2: index.php, 3: Documentation URL, 4: Template, 5: style.css */
 					__( 'Template is missing. Standalone themes need to have a %1$s or %2$s template file. <a href="%3$s">Child themes</a> need to have a %4$s header in the %5$s stylesheet.' ),
@@ -380,7 +378,7 @@ final class WP_Theme implements ArrayAccess {
 				$this->cache_add(
 					'theme',
 					array(
-						'block_theme' => $this->is_block_theme(),
+						'block_theme' => $this->block_theme,
 						'headers'     => $this->headers,
 						'errors'      => $this->errors,
 						'stylesheet'  => $this->stylesheet,
@@ -393,16 +391,20 @@ final class WP_Theme implements ArrayAccess {
 
 		// If we got our data from cache, we can assume that 'template' is pointing to the right place.
 		if ( ! is_array( $cache ) && $this->template != $this->stylesheet && ! file_exists( $this->theme_root . '/' . $this->template . '/index.php' ) ) {
-			// If we're in a directory of themes inside /themes, look for the parent nearby.
-			// wp-content/themes/directory-of-themes/*
+			/*
+			 * If we're in a directory of themes inside /themes, look for the parent nearby.
+			 * wp-content/themes/directory-of-themes/*
+			 */
 			$parent_dir  = dirname( $this->stylesheet );
 			$directories = search_theme_directories();
 
 			if ( '.' !== $parent_dir && file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' ) ) {
 				$this->template = $parent_dir . '/' . $this->template;
 			} elseif ( $directories && isset( $directories[ $this->template ] ) ) {
-				// Look for the template in the search_theme_directories() results, in case it is in another theme root.
-				// We don't look into directories of themes, just the theme root.
+				/*
+				 * Look for the template in the search_theme_directories() results, in case it is in another theme root.
+				 * We don't look into directories of themes, just the theme root.
+				 */
 				$theme_root_template = $directories[ $this->template ]['theme_root'];
 			} else {
 				// Parent theme is missing.
@@ -1287,24 +1289,24 @@ final class WP_Theme implements ArrayAccess {
 				}
 			}
 
-			if ( current_theme_supports( 'block-templates' ) ) {
-				$block_templates = get_block_templates( array(), 'wp_template' );
-				foreach ( get_post_types( array( 'public' => true ) ) as $type ) {
-					foreach ( $block_templates as $block_template ) {
-						if ( ! $block_template->is_custom ) {
-							continue;
-						}
+			$this->cache_add( 'post_templates', $post_templates );
+		}
 
-						if ( isset( $block_template->post_types ) && ! in_array( $type, $block_template->post_types, true ) ) {
-							continue;
-						}
-
-						$post_templates[ $type ][ $block_template->slug ] = $block_template->title;
+		if ( current_theme_supports( 'block-templates' ) ) {
+			$block_templates = get_block_templates( array(), 'wp_template' );
+			foreach ( get_post_types( array( 'public' => true ) ) as $type ) {
+				foreach ( $block_templates as $block_template ) {
+					if ( ! $block_template->is_custom ) {
+						continue;
 					}
+
+					if ( isset( $block_template->post_types ) && ! in_array( $type, $block_template->post_types, true ) ) {
+						continue;
+					}
+
+					$post_templates[ $type ][ $block_template->slug ] = $block_template->title;
 				}
 			}
-
-			$this->cache_add( 'post_templates', $post_templates );
 		}
 
 		if ( $this->load_textdomain() ) {
@@ -1519,8 +1521,8 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		$paths_to_index_block_template = array(
-			$this->get_file_path( '/block-templates/index.html' ),
 			$this->get_file_path( '/templates/index.html' ),
+			$this->get_file_path( '/block-templates/index.html' ),
 		);
 
 		$this->block_theme = false;
@@ -1669,8 +1671,10 @@ final class WP_Theme implements ArrayAccess {
 			restore_current_blog();
 		}
 
-		// This is all super old MU back compat joy.
-		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
+		/*
+		 * This is all super old MU back compat joy.
+		 * 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
+		 */
 		if ( false === $allowed_themes[ $blog_id ] ) {
 			if ( $current ) {
 				$allowed_themes[ $blog_id ] = get_option( 'allowed_themes' );

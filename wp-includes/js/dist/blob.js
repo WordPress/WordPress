@@ -83,9 +83,7 @@ function getBlobByURL(url) {
  */
 
 function getBlobTypeByURL(url) {
-  var _getBlobByURL;
-
-  return (_getBlobByURL = getBlobByURL(url)) === null || _getBlobByURL === void 0 ? void 0 : _getBlobByURL.type.split('/')[0]; // 0: media type , 1: file extension eg ( type: 'image/jpeg' ).
+  return getBlobByURL(url)?.type.split('/')[0]; // 0: media type , 1: file extension eg ( type: 'image/jpeg' ).
 }
 /**
  * Remove the resource and file cache from memory.

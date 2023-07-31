@@ -59,25 +59,27 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	// A config file doesn't exist.
 
 	define( 'WPINC', 'wp-includes' );
+	require_once ABSPATH . WPINC . '/version.php';
+	require_once ABSPATH . WPINC . '/compat.php';
 	require_once ABSPATH . WPINC . '/load.php';
+
+	// Check for the required PHP version and for the MySQL extension or a database drop-in.
+	wp_check_php_mysql_versions();
 
 	// Standardize $_SERVER variables across setups.
 	wp_fix_server_vars();
 
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 	require_once ABSPATH . WPINC . '/functions.php';
 
 	$path = wp_guess_url() . '/wp-admin/setup-config.php';
 
 	// Redirect to setup-config.php.
-	if ( false === strpos( $_SERVER['REQUEST_URI'], 'setup-config' ) ) {
+	if ( ! str_contains( $_SERVER['REQUEST_URI'], 'setup-config' ) ) {
 		header( 'Location: ' . $path );
 		exit;
 	}
 
-	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-	require_once ABSPATH . WPINC . '/version.php';
-
-	wp_check_php_mysql_versions();
 	wp_load_translations_early();
 
 	// Die with an error message.

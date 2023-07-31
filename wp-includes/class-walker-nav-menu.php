@@ -73,9 +73,27 @@ class Walker_Nav_Menu extends Walker {
 		 * @param int      $depth   Depth of menu item. Used for padding.
 		 */
 		$class_names = implode( ' ', apply_filters( 'nav_menu_submenu_css_class', $classes, $args, $depth ) );
-		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
-		$output .= "{$n}{$indent}<ul$class_names>{$n}";
+		$atts          = array();
+		$atts['class'] = ! empty( $class_names ) ? $class_names : '';
+
+		/**
+		 * Filters the HTML attributes applied to a menu list element.
+		 *
+		 * @since 6.3.0
+		 *
+		 * @param array $atts {
+		 *     The HTML attributes applied to the `<ul>` element, empty strings are ignored.
+		 *
+		 *     @type string $class    HTML CSS class attribute.
+		 * }
+		 * @param stdClass $args      An object of `wp_nav_menu()` arguments.
+		 * @param int      $depth     Depth of menu item. Used for padding.
+		 */
+		$atts       = apply_filters( 'nav_menu_submenu_attributes', $atts, $args, $depth );
+		$attributes = $this->build_atts( $atts );
+
+		$output .= "{$n}{$indent}<ul{$attributes}>{$n}";
 	}
 
 	/**
@@ -156,7 +174,6 @@ class Walker_Nav_Menu extends Walker {
 		 * @param int      $depth     Depth of menu item. Used for padding.
 		 */
 		$class_names = implode( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $menu_item, $args, $depth ) );
-		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		/**
 		 * Filters the ID attribute applied to a menu item's list item element.
@@ -170,9 +187,30 @@ class Walker_Nav_Menu extends Walker {
 		 * @param int      $depth        Depth of menu item. Used for padding.
 		 */
 		$id = apply_filters( 'nav_menu_item_id', 'menu-item-' . $menu_item->ID, $menu_item, $args, $depth );
-		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
-		$output .= $indent . '<li' . $id . $class_names . '>';
+		$li_atts          = array();
+		$li_atts['id']    = ! empty( $id ) ? $id : '';
+		$li_atts['class'] = ! empty( $class_names ) ? $class_names : '';
+
+		/**
+		 * Filters the HTML attributes applied to a menu's list item element.
+		 *
+		 * @since 6.3.0
+		 *
+		 * @param array $li_atts {
+		 *     The HTML attributes applied to the menu item's `<li>` element, empty strings are ignored.
+		 *
+		 *     @type string $class        HTML CSS class attribute.
+		 *     @type string $id           HTML id attribute.
+		 * }
+		 * @param WP_Post  $menu_item The current menu item object.
+		 * @param stdClass $args      An object of wp_nav_menu() arguments.
+		 * @param int      $depth     Depth of menu item. Used for padding.
+		 */
+		$li_atts       = apply_filters( 'nav_menu_item_attributes', $li_atts, $menu_item, $args, $depth );
+		$li_attributes = $this->build_atts( $li_atts );
+
+		$output .= $indent . '<li' . $li_attributes . '>';
 
 		$atts           = array();
 		$atts['title']  = ! empty( $menu_item->attr_title ) ? $menu_item->attr_title : '';
@@ -214,15 +252,8 @@ class Walker_Nav_Menu extends Walker {
 		 * @param stdClass $args      An object of wp_nav_menu() arguments.
 		 * @param int      $depth     Depth of menu item. Used for padding.
 		 */
-		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $menu_item, $args, $depth );
-
-		$attributes = '';
-		foreach ( $atts as $attr => $value ) {
-			if ( is_scalar( $value ) && '' !== $value && false !== $value ) {
-				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
-				$attributes .= ' ' . $attr . '="' . $value . '"';
-			}
-		}
+		$atts       = apply_filters( 'nav_menu_link_attributes', $atts, $menu_item, $args, $depth );
+		$attributes = $this->build_atts( $atts );
 
 		/** This filter is documented in wp-includes/post-template.php */
 		$title = apply_filters( 'the_title', $menu_item->title, $menu_item->ID );
@@ -286,4 +317,23 @@ class Walker_Nav_Menu extends Walker {
 		$output .= "</li>{$n}";
 	}
 
+	/**
+	 * Builds a string of HTML attributes from an array of key/value pairs.
+	 * Empty values are ignored.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param  array $atts Optional. An array of HTML attribute key/value pairs. Default empty array.
+	 * @return string A string of HTML attributes.
+	 */
+	protected function build_atts( $atts = array() ) {
+		$attribute_string = '';
+		foreach ( $atts as $attr => $value ) {
+			if ( false !== $value && '' !== $value && is_scalar( $value ) ) {
+				$value             = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+				$attribute_string .= ' ' . $attr . '="' . $value . '"';
+			}
+		}
+		return $attribute_string;
+	}
 }

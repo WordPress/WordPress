@@ -539,7 +539,11 @@
 			},
 			"core/quote": {
 				"border": {
-					"width": "1px"
+					"left": {
+						"color": "inherit",
+						"style": "solid",
+						"width": "1px"
+					}
 				},
 				"elements": {
 					"cite": {
@@ -587,6 +591,9 @@
 					"fontWeight": "normal",
 					"lineHeight": "1.4"
 				}
+			},
+			"core/separator": {
+				"css": " &:not(.is-style-wide):not(.is-style-dots):not(.alignwide):not(.alignfull){width: 100px}"
 			}
 		},
 		"color": {

@@ -571,13 +571,27 @@ add_action( 'admin_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000 );
 add_action( 'admin_enqueue_scripts', 'wp_common_block_scripts_and_styles' );
 add_action( 'enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
 add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30 );
+/*
+ * `wp_enqueue_registered_block_scripts_and_styles` is bound to both
+ * `enqueue_block_editor_assets` and `enqueue_block_assets` hooks
+ * since the introduction of the block editor in WordPress 5.0.
+ *
+ * The way this works is that the block assets are loaded before any other assets.
+ * For example, this is the order of styles for the editor:
+ *
+ * - front styles registered for blocks, via `styles` handle (block.json)
+ * - editor styles registered for blocks, via `editorStyles` handle (block.json)
+ * - editor styles enqueued via `enqueue_block_editor_assets` hook
+ * - front styles enqueued via `enqueue_block_assets` hook
+ */
+add_action( 'enqueue_block_editor_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
 add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties' );
-add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
+add_action( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
-add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
+add_action( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
 add_action( 'admin_head', 'wp_check_widget_editor_deps' );
 add_filter( 'block_editor_settings_all', 'wp_add_editor_classic_theme_styles' );
 
@@ -591,10 +605,6 @@ add_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles_custom_css' );
 // Block supports, and other styles parsed and stored in the Style Engine.
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_stored_styles' );
 add_action( 'wp_footer', 'wp_enqueue_stored_styles', 1 );
-
-// SVG filters like duotone have to be loaded at the beginning of the body in both admin and the front-end.
-add_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
-add_action( 'in_admin_header', 'wp_global_styles_render_svg_filters' );
 
 add_action( 'wp_default_styles', 'wp_default_styles' );
 add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
@@ -705,5 +715,8 @@ add_filter( 'render_block', 'wp_render_typography_support', 10, 2 );
 
 // User preferences.
 add_action( 'init', 'wp_register_persisted_preferences_meta' );
+
+// CPT wp_block custom postmeta field.
+add_action( 'init', 'wp_create_initial_post_meta' );
 
 unset( $filter, $action );

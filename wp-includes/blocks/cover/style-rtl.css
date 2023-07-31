@@ -5,6 +5,8 @@
   display:flex;
   justify-content:center;
   min-height:430px;
+  overflow:hidden;
+  overflow:clip;
   padding:1em;
   position:relative;
 }
@@ -109,12 +111,9 @@
   display:flex;
 }
 .wp-block-cover .wp-block-cover__inner-container,.wp-block-cover-image .wp-block-cover__inner-container{
-  color:#fff; direction:rtl;
+  color:inherit; direction:rtl;
   width:100%;
   z-index:1;
-}
-.wp-block-cover-image.is-light .wp-block-cover__inner-container,.wp-block-cover.is-light .wp-block-cover__inner-container{
-  color:#000;
 }
 .wp-block-cover h1:not(.has-text-color),.wp-block-cover h2:not(.has-text-color),.wp-block-cover h3:not(.has-text-color),.wp-block-cover h4:not(.has-text-color),.wp-block-cover h5:not(.has-text-color),.wp-block-cover h6:not(.has-text-color),.wp-block-cover p:not(.has-text-color),.wp-block-cover-image h1:not(.has-text-color),.wp-block-cover-image h2:not(.has-text-color),.wp-block-cover-image h3:not(.has-text-color),.wp-block-cover-image h4:not(.has-text-color),.wp-block-cover-image h5:not(.has-text-color),.wp-block-cover-image h6:not(.has-text-color),.wp-block-cover-image p:not(.has-text-color){
   color:inherit;
@@ -168,8 +167,7 @@
   margin:0;
   max-height:none;
   max-width:none;
-  -o-object-fit:cover;
-     object-fit:cover;
+  object-fit:cover;
   outline:none;
   padding:0;
   position:absolute;
@@ -183,7 +181,7 @@
   background-repeat:no-repeat;
   background-size:cover;
 }
-@supports (-webkit-overflow-scrolling:touch){
+@supports (-webkit-touch-callout:inherit){
   .wp-block-cover-image.has-parallax,.wp-block-cover.has-parallax,.wp-block-cover__image-background.has-parallax,video.wp-block-cover__video-background.has-parallax{
     background-attachment:scroll;
   }
@@ -230,4 +228,12 @@
   padding:.44em;
   text-align:center;
   z-index:1;
+}
+
+:where(.wp-block-cover-image:not(.has-text-color)),:where(.wp-block-cover:not(.has-text-color)){
+  color:#fff;
+}
+
+:where(.wp-block-cover-image.is-light:not(.has-text-color)),:where(.wp-block-cover.is-light:not(.has-text-color)){
+  color:#000;
 }

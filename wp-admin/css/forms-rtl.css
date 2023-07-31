@@ -548,10 +548,67 @@ fieldset label,
 
 .wp-generate-pw {
 	margin-top: 1em;
+	position: relative;
+}
+
+.wp-pwd button {
+	height: min-content;
+}
+
+.wp-pwd button.pwd-toggle .dashicons {
+	position: relative;
+	top: 0.25rem;
 }
 
 .wp-pwd {
 	margin-top: 1em;
+	position: relative;
+}
+
+.mailserver-pass-wrap .wp-pwd {
+	display: inline-block;
+	margin-top: 0;
+}
+
+/* rtl:ignore */
+#mailserver_pass {
+	padding-right: 2.5rem;
+}
+
+/* rtl:ignore */
+.mailserver-pass-wrap .button.wp-hide-pw {
+	background: transparent;
+	border: 1px solid transparent;
+	box-shadow: none;
+	font-size: 14px;
+	line-height: 2;
+	width: 2.5rem;
+	min-width: 40px;
+	margin: 0;
+	padding: 0 9px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.mailserver-pass-wrap .button.wp-hide-pw:hover {
+	background: transparent;
+	border-color: transparent;
+}
+
+.mailserver-pass-wrap .button.wp-hide-pw:focus {
+	background: transparent;
+	border-color: #3582c4;
+	border-radius: 4px;
+	box-shadow: 0 0 0 1px #3582c4;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+.mailserver-pass-wrap .button.wp-hide-pw:active {
+	background: transparent;
+	box-shadow: none;
+	transform: none;
 }
 
 #misc-publishing-actions label {
@@ -592,6 +649,10 @@ fieldset label,
 	background-color: #b8e6bf;
 	border-color: #68de7c;
 	opacity: 1;
+}
+
+.password-input-wrapper {
+	display: inline-block;
 }
 
 .password-input-wrapper input {
@@ -1584,13 +1645,15 @@ table.form-table td .updated p {
 		padding: 8px;
 	}
 
+	.password-input-wrapper {
+		display: block;
+	}
+
 	p.search-box {
 		float: none;
-		position: absolute;
-		bottom: 0;
-		width: 98%;
-		height: 90px;
+		width: 100%;
 		margin-bottom: 20px;
+		display: flex;
 	}
 
 	p.search-box input[name="s"] {
@@ -1720,6 +1783,15 @@ table.form-table td .updated p {
 
 	.wp-cancel-pw .dashicons-no {
 		display: inline-block;
+	}
+
+	.mailserver-pass-wrap .wp-pwd {
+		display: block;
+	}
+
+	/* rtl:ignore */
+	#mailserver_pass {
+		padding-left: 10px;
 	}
 
 	.options-general-php input[type="text"].small-text {

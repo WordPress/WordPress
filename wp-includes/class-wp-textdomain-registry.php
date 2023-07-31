@@ -97,7 +97,7 @@ class WP_Textdomain_Registry {
 	 */
 	public function has( $domain ) {
 		return (
-			! empty( $this->current[ $domain ] ) ||
+			isset( $this->current[ $domain ] ) ||
 			empty( $this->all[ $domain ] ) ||
 			in_array( $domain, $this->domains_with_translations, true )
 		);
@@ -201,8 +201,10 @@ class WP_Textdomain_Registry {
 			return $found_location;
 		}
 
-		// If no path is found for the given locale and a custom path has been set
-		// using load_plugin_textdomain/load_theme_textdomain, use that one.
+		/*
+		 * If no path is found for the given locale and a custom path has been set
+		 * using load_plugin_textdomain/load_theme_textdomain, use that one.
+		 */
 		if ( 'en_US' !== $locale && isset( $this->custom_paths[ $domain ] ) ) {
 			$fallback_location = rtrim( $this->custom_paths[ $domain ], '/' ) . '/';
 			$this->set( $domain, $locale, $fallback_location );

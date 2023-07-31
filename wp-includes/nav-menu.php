@@ -547,8 +547,10 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		do_action( 'wp_add_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 	}
 
-	// Associate the menu item with the menu term.
-	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms().
+	/*
+	 * Associate the menu item with the menu term.
+	 * Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms().
+	 */
 	if ( $menu_id && ( ! $update || ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) ) ) {
 		$update_terms = wp_set_object_terms( $menu_item_db_id, array( $menu->term_id ), 'nav_menu' );
 		if ( is_wp_error( $update_terms ) ) {
@@ -674,18 +676,21 @@ function _is_valid_nav_menu_item( $item ) {
  * @param array              $args {
  *     Optional. Arguments to pass to get_posts().
  *
- *     @type string $order       How to order nav menu items as queried with get_posts(). Will be ignored
- *                               if 'output' is ARRAY_A. Default 'ASC'.
- *     @type string $orderby     Field to order menu items by as retrieved from get_posts(). Supply an orderby
- *                               field via 'output_key' to affect the output order of nav menu items.
- *                               Default 'menu_order'.
- *     @type string $post_type   Menu items post type. Default 'nav_menu_item'.
- *     @type string $post_status Menu items post status. Default 'publish'.
- *     @type string $output      How to order outputted menu items. Default ARRAY_A.
- *     @type string $output_key  Key to use for ordering the actual menu items that get returned. Note that
- *                               that is not a get_posts() argument and will only affect output of menu items
- *                               processed in this function. Default 'menu_order'.
- *     @type bool   $nopaging    Whether to retrieve all menu items (true) or paginate (false). Default true.
+ *     @type string $order                  How to order nav menu items as queried with get_posts().
+ *                                          Will be ignored if 'output' is ARRAY_A. Default 'ASC'.
+ *     @type string $orderby                Field to order menu items by as retrieved from get_posts().
+ *                                          Supply an orderby field via 'output_key' to affect the
+ *                                          output order of nav menu items. Default 'menu_order'.
+ *     @type string $post_type              Menu items post type. Default 'nav_menu_item'.
+ *     @type string $post_status            Menu items post status. Default 'publish'.
+ *     @type string $output                 How to order outputted menu items. Default ARRAY_A.
+ *     @type string $output_key             Key to use for ordering the actual menu items that get
+ *                                          returned. Note that that is not a get_posts() argument
+ *                                          and will only affect output of menu items processed in
+ *                                          this function. Default 'menu_order'.
+ *     @type bool   $nopaging               Whether to retrieve all menu items (true) or paginate
+ *                                          (false). Default true.
+ *     @type bool   $update_menu_item_cache Whether to update the menu item cache. Default true.
  * }
  * @return array|false Array of menu items, otherwise false.
  */
@@ -820,6 +825,24 @@ function update_menu_item_cache( $menu_items ) {
  * @return object The menu item with standard menu item properties.
  */
 function wp_setup_nav_menu_item( $menu_item ) {
+
+	/**
+	 * Filters whether to short-circuit the wp_setup_nav_menu_item() output.
+	 *
+	 * Returning a non-null value from the filter will short-circuit wp_setup_nav_menu_item(),
+	 * returning that value instead.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param object|null $modified_menu_item Modified menu item. Default null.
+	 * @param object      $menu_item          The menu item to modify.
+	 */
+	$pre_menu_item = apply_filters( 'pre_wp_setup_nav_menu_item', null, $menu_item );
+
+	if ( null !== $pre_menu_item ) {
+		return $pre_menu_item;
+	}
+
 	if ( isset( $menu_item->post_type ) ) {
 		if ( 'nav_menu_item' === $menu_item->post_type ) {
 			$menu_item->db_id            = (int) $menu_item->ID;

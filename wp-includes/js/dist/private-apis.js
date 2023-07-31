@@ -54,7 +54,7 @@ __webpack_require__.d(__webpack_exports__, {
 /**
  * The list of core modules allowed to opt-in to the private APIs.
  */
-const CORE_MODULES_USING_PRIVATE_APIS = ['@wordpress/block-editor', '@wordpress/block-library', '@wordpress/blocks', '@wordpress/components', '@wordpress/customize-widgets', '@wordpress/data', '@wordpress/edit-post', '@wordpress/edit-site', '@wordpress/edit-widgets', '@wordpress/editor'];
+const CORE_MODULES_USING_PRIVATE_APIS = ['@wordpress/block-editor', '@wordpress/block-library', '@wordpress/blocks', '@wordpress/commands', '@wordpress/components', '@wordpress/core-commands', '@wordpress/core-data', '@wordpress/customize-widgets', '@wordpress/data', '@wordpress/edit-post', '@wordpress/edit-site', '@wordpress/edit-widgets', '@wordpress/editor', '@wordpress/reusable-blocks', '@wordpress/router'];
 /**
  * A list of core modules that already opted-in to
  * the privateApis package.
@@ -81,15 +81,16 @@ const registeredPrivateApis = [];
 const requiredConsent = 'I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.';
 /** @type {boolean} */
 
-let allowReRegistration; // Use try/catch to force "false" if the environment variable is not explicitly
-// set to true (e.g. when building WordPress core).
+let allowReRegistration; // The safety measure is meant for WordPress core where IS_WORDPRESS_CORE
+// is set to true.
+// For the general use-case, the re-registration should be allowed by default
+// Let's default to true, then. Try/catch will fall back to "true" even if the
+// environment variable is not explicitly defined.
 
 try {
-  var _process$env$ALLOW_EX;
-
-  allowReRegistration = (_process$env$ALLOW_EX = process.env.ALLOW_EXPERIMENT_REREGISTRATION) !== null && _process$env$ALLOW_EX !== void 0 ? _process$env$ALLOW_EX : false;
+  allowReRegistration =  true ? false : 0;
 } catch (error) {
-  allowReRegistration = false;
+  allowReRegistration = true;
 }
 /**
  * Called by a @wordpress package wishing to opt-in to accessing or exposing

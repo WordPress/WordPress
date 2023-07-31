@@ -94,7 +94,7 @@
 					}
 				} );
 			} else {
-				siteNavigation.find( '.menu-item-has-children > a' ).unbind( 'touchstart.twentysixteen' );
+				siteNavigation.find( '.menu-item-has-children > a' ).off( 'touchstart.twentysixteen' );
 			}
 		}
 

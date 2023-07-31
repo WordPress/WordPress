@@ -19,9 +19,14 @@ function render_block_core_query_pagination_previous( $attributes, $content, $bl
 	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
 	$wrapper_attributes = get_block_wrapper_attributes();
+	$show_label         = isset( $block->context['showLabel'] ) ? (bool) $block->context['showLabel'] : true;
 	$default_label      = __( 'Previous Page' );
-	$label              = isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ? esc_html( $attributes['label'] ) : $default_label;
+	$label_text         = isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ? esc_html( $attributes['label'] ) : $default_label;
+	$label              = $show_label ? $label_text : '';
 	$pagination_arrow   = get_query_pagination_arrow( $block, false );
+	if ( ! $label ) {
+		$wrapper_attributes .= ' aria-label="' . $label_text . '"';
+	}
 	if ( $pagination_arrow ) {
 		$label = $pagination_arrow . $label;
 	}
@@ -29,7 +34,7 @@ function render_block_core_query_pagination_previous( $attributes, $content, $bl
 	// Check if the pagination is for Query that inherits the global context
 	// and handle appropriately.
 	if ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] ) {
-		$filter_link_attributes = function() use ( $wrapper_attributes ) {
+		$filter_link_attributes = static function() use ( $wrapper_attributes ) {
 			return $wrapper_attributes;
 		};
 

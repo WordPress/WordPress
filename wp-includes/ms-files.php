@@ -41,7 +41,7 @@ if ( $mime['type'] ) {
 }
 
 header( 'Content-Type: ' . $mimetype ); // Always send this.
-if ( false === strpos( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) ) {
+if ( ! str_contains( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) ) {
 	header( 'Content-Length: ' . filesize( $file ) );
 }
 

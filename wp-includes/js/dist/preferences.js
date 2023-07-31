@@ -104,10 +104,7 @@ var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
  * @return {Object} Updated state.
  */
 
-function defaults() {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+function defaults(state = {}, action) {
   if (action.type === 'SET_PREFERENCE_DEFAULTS') {
     const {
       scope,
@@ -150,9 +147,7 @@ function withPersistenceLayer(reducer) {
     const nextState = reducer(state, action);
 
     if (action.type === 'SET_PREFERENCE_VALUE') {
-      var _persistenceLayer;
-
-      (_persistenceLayer = persistenceLayer) === null || _persistenceLayer === void 0 ? void 0 : _persistenceLayer.set(nextState);
+      persistenceLayer?.set(nextState);
     }
 
     return nextState;
@@ -168,10 +163,7 @@ function withPersistenceLayer(reducer) {
  */
 
 
-const preferences = withPersistenceLayer(function () {
-  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  let action = arguments.length > 1 ? arguments[1] : undefined;
-
+const preferences = withPersistenceLayer((state = {}, action) => {
   if (action.type === 'SET_PREFERENCE_VALUE') {
     const {
       scope,
@@ -201,11 +193,10 @@ const preferences = withPersistenceLayer(function () {
  * @param {string} name  The preference name.
  */
 function toggle(scope, name) {
-  return function (_ref) {
-    let {
-      select,
-      dispatch
-    } = _ref;
+  return function ({
+    select,
+    dispatch
+  }) {
     const currentValue = select.get(scope, name);
     dispatch.set(scope, name, !currentValue);
   };
@@ -248,13 +239,13 @@ function setDefaults(scope, defaults) {
 }
 /** @typedef {() => Promise<Object>} WPPreferencesPersistenceLayerGet */
 
-/** @typedef {(*) => void} WPPreferencesPersistenceLayerSet */
+/** @typedef {(Object) => void} WPPreferencesPersistenceLayerSet */
 
 /**
  * @typedef WPPreferencesPersistenceLayer
  *
  * @property {WPPreferencesPersistenceLayerGet} get An async function that gets data from the persistence layer.
- * @property {WPPreferencesPersistenceLayerSet} set A  function that sets data in the persistence layer.
+ * @property {WPPreferencesPersistenceLayerSet} set A function that sets data in the persistence layer.
  */
 
 /**
@@ -294,10 +285,8 @@ async function setPersistenceLayer(persistenceLayer) {
  * @return {*} Is the feature enabled?
  */
 function get(state, scope, name) {
-  var _state$preferences$sc, _state$defaults$scope;
-
-  const value = (_state$preferences$sc = state.preferences[scope]) === null || _state$preferences$sc === void 0 ? void 0 : _state$preferences$sc[name];
-  return value !== undefined ? value : (_state$defaults$scope = state.defaults[scope]) === null || _state$defaults$scope === void 0 ? void 0 : _state$defaults$scope[name];
+  const value = state.preferences[scope]?.[name];
+  return value !== undefined ? value : state.defaults[scope]?.[name];
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/store/constants.js
@@ -352,19 +341,18 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
  */
 
 
-function PreferenceToggleMenuItem(_ref) {
-  let {
-    scope,
-    name,
-    label,
-    info,
-    messageActivated,
-    messageDeactivated,
-    shortcut,
-    onToggle = () => null,
-    disabled = false
-  } = _ref;
-  const isActive = (0,external_wp_data_namespaceObject.useSelect)(select => !!select(store).get(scope, name), [name]);
+function PreferenceToggleMenuItem({
+  scope,
+  name,
+  label,
+  info,
+  messageActivated,
+  messageDeactivated,
+  shortcut,
+  onToggle = () => null,
+  disabled = false
+}) {
+  const isActive = (0,external_wp_data_namespaceObject.useSelect)(select => !!select(store).get(scope, name), [scope, name]);
   const {
     toggle
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);

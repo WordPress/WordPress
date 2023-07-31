@@ -54,6 +54,8 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
+wp_enqueue_script( 'user-profile' );
+
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
@@ -168,11 +170,21 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 <th scope="row"><label for="mailserver_login"><?php _e( 'Login Name' ); ?></label></th>
 <td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option( 'mailserver_login' ); ?>" class="regular-text ltr" /></td>
 </tr>
-<tr>
-<th scope="row"><label for="mailserver_pass"><?php _e( 'Password' ); ?></label></th>
-<td>
-<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option( 'mailserver_pass' ); ?>" class="regular-text ltr" />
-</td>
+<tr class="mailserver-pass-wrap">
+	<th scope="row">
+		<label for="mailserver_pass">
+			<?php _e( 'Password' ); ?>
+		</label>
+	</th>
+	<td>
+		<input type="hidden" value=" " /><!-- #24364 workaround -->
+		<span class="wp-pwd">
+			<input type="text" name="mailserver_pass" id="mailserver_pass" class="regular-text ltr" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( get_option( 'mailserver_pass' ) ); ?>" />
+			<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" data-start-masked="1" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
+				<span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+			</button>
+		</span>
+	</td>
 </tr>
 <tr>
 <th scope="row"><label for="default_email_category"><?php _e( 'Default Mail Category' ); ?></label></th>
@@ -206,7 +218,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	?>
 <h2 class="title"><?php _e( 'Update Services' ); ?></h2>
 
-	<?php if ( 1 == get_option( 'blog_public' ) ) : ?>
+	<?php if ( '1' === get_option( 'blog_public' ) ) : ?>
 
 	<p><label for="ping_sites">
 		<?php

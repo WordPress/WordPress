@@ -16,7 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $opml;
 
 /**
- * XML callback function for the start of a new XML tag.
+ * Starts a new XML tag.
+ *
+ * Callback function for xml_set_element_handler().
  *
  * @since 0.71
  * @access private
@@ -60,7 +62,9 @@ function startElement( $parser, $tag_name, $attrs ) { // phpcs:ignore WordPress.
 }
 
 /**
- * XML callback function that is called at the end of a XML tag.
+ * Ends a new XML tag.
+ *
+ * Callback function for xml_set_element_handler().
  *
  * @since 0.71
  * @access private

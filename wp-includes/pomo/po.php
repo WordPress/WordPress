@@ -128,7 +128,7 @@ if ( ! class_exists( 'PO', false ) ) :
 
 			$po = $quote . implode( "{$slash}n{$quote}{$newline}{$quote}", explode( $newline, $input_string ) ) . $quote;
 			// Add empty string on first line for readbility.
-			if ( false !== strpos( $input_string, $newline ) &&
+			if ( str_contains( $input_string, $newline ) &&
 				( substr_count( $input_string, $newline ) > 1 || substr( $input_string, -strlen( $newline ) ) !== $newline ) ) {
 				$po = "$quote$quote$newline$po";
 			}
@@ -505,10 +505,10 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * @return string
 		 */
 		public static function trim_quotes( $s ) {
-			if ( '"' === substr( $s, 0, 1 ) ) {
+			if ( str_starts_with( $s, '"' ) ) {
 				$s = substr( $s, 1 );
 			}
-			if ( '"' === substr( $s, -1, 1 ) ) {
+			if ( str_ends_with( $s, '"' ) ) {
 				$s = substr( $s, 0, -1 );
 			}
 			return $s;

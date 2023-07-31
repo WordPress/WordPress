@@ -8,6 +8,8 @@
 /**
  * Renders the `core/post-title` block on the server.
  *
+ * @since 6.3.0 Omitting the $post argument from the `get_the_title`.
+ *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.
  * @param WP_Block $block      Block instance.
@@ -19,8 +21,11 @@ function render_block_core_post_title( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$post_ID = $block->context['postId'];
-	$title   = get_the_title();
+	/**
+	 * The `$post` argument is intentionally omitted so that changes are reflected when previewing a post.
+	 * See: https://github.com/WordPress/gutenberg/pull/37622#issuecomment-1000932816.
+	 */
+	$title = get_the_title();
 
 	if ( ! $title ) {
 		return '';
@@ -28,12 +33,12 @@ function render_block_core_post_title( $attributes, $content, $block ) {
 
 	$tag_name = 'h2';
 	if ( isset( $attributes['level'] ) ) {
-		$tag_name = 0 === $attributes['level'] ? 'p' : 'h' . $attributes['level'];
+		$tag_name = 'h' . $attributes['level'];
 	}
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
 		$rel   = ! empty( $attributes['rel'] ) ? 'rel="' . esc_attr( $attributes['rel'] ) . '"' : '';
-		$title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', get_the_permalink( $post_ID ), esc_attr( $attributes['linkTarget'] ), $rel, $title );
+		$title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', get_the_permalink( $block->context['postId'] ), esc_attr( $attributes['linkTarget'] ), $rel, $title );
 	}
 
 	$classes = array();

@@ -65,7 +65,7 @@ if ( $charset ) {
 }
 
 // No valid uses for UTF-7.
-if ( false !== strpos( $charset, 'UTF-7' ) ) {
+if ( str_contains( $charset, 'UTF-7' ) ) {
 	die;
 }
 
@@ -106,7 +106,7 @@ if ( ! empty( $trackback_url ) && ! empty( $title ) ) {
 	 * @param string $charset       Character set.
 	 * @param string $title         Trackback title.
 	 * @param string $excerpt       Trackback excerpt.
-	 * @param string $blog_name     Blog name.
+	 * @param string $blog_name     Site name.
 	 */
 	do_action( 'pre_trackback_post', $post_id, $trackback_url, $charset, $title, $excerpt, $blog_name );
 

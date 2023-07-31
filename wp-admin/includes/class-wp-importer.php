@@ -187,7 +187,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * GET URL
+	 * Gets URL.
 	 *
 	 * @param string $url
 	 * @param string $username

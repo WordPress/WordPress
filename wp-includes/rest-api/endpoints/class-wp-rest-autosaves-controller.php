@@ -229,8 +229,10 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		$is_draft  = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
 
 		if ( $is_draft && (int) $post->post_author === $user_id && ! $post_lock ) {
-			// Draft posts for the same author: autosaving updates the post and does not create a revision.
-			// Convert the post object to an array and add slashes, wp_update_post() expects escaped array.
+			/*
+			 * Draft posts for the same author: autosaving updates the post and does not create a revision.
+			 * Convert the post object to an array and add slashes, wp_update_post() expects escaped array.
+			 */
 			$autosave_id = wp_update_post( wp_slash( (array) $prepared_post ), true );
 		} else {
 			// Non-draft posts: create or update the post autosave.
@@ -304,7 +306,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		$revisions = wp_get_post_revisions( $parent_id, array( 'check_enabled' => false ) );
 
 		foreach ( $revisions as $revision ) {
-			if ( false !== strpos( $revision->post_name, "{$parent_id}-autosave" ) ) {
+			if ( str_contains( $revision->post_name, "{$parent_id}-autosave" ) ) {
 				$data       = $this->prepare_item_for_response( $revision, $request );
 				$response[] = $this->prepare_response_for_collection( $data );
 			}
@@ -371,18 +373,15 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			}
 		}
 
-		if ( ! $autosave_is_different ) {
-			return new WP_Error(
-				'rest_autosave_no_changes',
-				__( 'There is nothing to save. The autosave and the post content are the same.' ),
-				array( 'status' => 400 )
-			);
-		}
-
 		$user_id = get_current_user_id();
 
 		// Store one autosave per author. If there is already an autosave, overwrite it.
 		$old_autosave = wp_get_post_autosave( $post_id, $user_id );
+
+		if ( ! $autosave_is_different && $old_autosave ) {
+			// Nothing to save, return the existing autosave.
+			return $old_autosave->ID;
+		}
 
 		if ( $old_autosave ) {
 			$new_autosave['ID']          = $old_autosave->ID;

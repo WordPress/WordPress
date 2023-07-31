@@ -186,7 +186,7 @@ if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) )
 		<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the welcome panel' ); ?>"><?php _e( 'Dismiss' ); ?></a>
 		<?php
 		/**
-		 * Add content to the welcome panel on the admin dashboard.
+		 * Fires when adding content to the welcome panel on the admin dashboard.
 		 *
 		 * To remove the default welcome panel, use remove_action():
 		 *

@@ -271,7 +271,6 @@ body:not(.sidebar) .wp-block-cover > .wp-block-cover__inner-container > * {
 /* Table */
 
 .wp-block-table {
-	border-bottom: 1px solid #ededed;
 	border-collapse: collapse;
 	border-spacing: 0;
 	font-size: 14px;

@@ -72,7 +72,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * Action to perform following a single plugin update.
+	 * Performs an action following a single plugin update.
 	 *
 	 * @since 2.8.0
 	 */

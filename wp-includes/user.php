@@ -986,7 +986,7 @@ function get_blogs_of_user( $user_id, $all = false ) {
 	$keys = array_keys( $keys );
 
 	foreach ( $keys as $key ) {
-		if ( 'capabilities' !== substr( $key, -12 ) ) {
+		if ( ! str_ends_with( $key, 'capabilities' ) ) {
 			continue;
 		}
 		if ( $wpdb->base_prefix && ! str_starts_with( $key, $wpdb->base_prefix ) ) {
@@ -1065,8 +1065,10 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 		$user_id = get_current_user_id();
 	}
 
-	// Technically not needed, but does save calls to get_site() and get_user_meta()
-	// in the event that the function is called when a user isn't logged in.
+	/*
+	 * Technically not needed, but does save calls to get_site() and get_user_meta()
+	 * in the event that the function is called when a user isn't logged in.
+	 */
 	if ( empty( $user_id ) ) {
 		return false;
 	} else {
@@ -1765,7 +1767,7 @@ function sanitize_user_field( $field, $value, $user_id, $context ) {
 		return $value;
 	}
 
-	$prefixed = false !== strpos( $field, 'user_' );
+	$prefixed = str_contains( $field, 'user_' );
 
 	if ( 'edit' === $context ) {
 		if ( $prefixed ) {
@@ -2030,7 +2032,8 @@ function validate_username( $username ) {
  *     An array, object, or WP_User object of user data arguments.
  *
  *     @type int    $ID                   User ID. If supplied, the user will be updated.
- *     @type string $user_pass            The plain-text user password.
+ *     @type string $user_pass            The plain-text user password for new users.
+ *                                        Hashed password for existing users.
  *     @type string $user_login           The user's login username.
  *     @type string $user_nicename        The URL-friendly user name.
  *     @type string $user_url             The user URL.
@@ -2520,6 +2523,8 @@ function wp_update_user( $userdata ) {
 		$userdata = $userdata->to_array();
 	}
 
+	$userdata_raw = $userdata;
+
 	$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
 	if ( ! $user_id ) {
 		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
@@ -2720,8 +2725,10 @@ All at ###SITENAME###
 		if ( isset( $plaintext_pass ) ) {
 			wp_clear_auth_cookie();
 
-			// Here we calculate the expiration length of the current auth cookie and compare it to the default expiration.
-			// If it's greater than this, then we know the user checked 'Remember Me' when they logged in.
+			/*
+			 * Here we calculate the expiration length of the current auth cookie and compare it to the default expiration.
+			 * If it's greater than this, then we know the user checked 'Remember Me' when they logged in.
+			 */
 			$logged_in_cookie = wp_parse_auth_cookie( '', 'logged_in' );
 			/** This filter is documented in wp-includes/pluggable.php */
 			$default_cookie_life = apply_filters( 'auth_cookie_expiration', ( 2 * DAY_IN_SECONDS ), $user_id, false );
@@ -2733,6 +2740,17 @@ All at ###SITENAME###
 			wp_set_auth_cookie( $user_id, $remember );
 		}
 	}
+
+	/**
+	 * Fires after the user has been updated and emails have been sent.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param int   $user_id      The ID of the user that was just updated.
+	 * @param array $userdata     The array of user data that was updated.
+	 * @param array $userdata_raw The unedited array of user data that was updated.
+	 */
+	do_action( 'wp_update_user', $user_id, $userdata, $userdata_raw );
 
 	return $user_id;
 }
@@ -2883,25 +2901,11 @@ function get_password_reset_key( $user ) {
 	 */
 	do_action( 'retrieve_password', $user->user_login );
 
-	$allow = true;
-	if ( is_multisite() && is_user_spammy( $user ) ) {
-		$allow = false;
-	}
-
-	/**
-	 * Filters whether to allow a password to be reset.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @param bool $allow   Whether to allow the password to be reset. Default true.
-	 * @param int  $user_id The ID of the user attempting to reset a password.
-	 */
-	$allow = apply_filters( 'allow_password_reset', $allow, $user->ID );
-
-	if ( ! $allow ) {
+	$password_reset_allowed = wp_is_password_reset_allowed_for_user( $user );
+	if ( ! $password_reset_allowed ) {
 		return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user' ) );
-	} elseif ( is_wp_error( $allow ) ) {
-		return $allow;
+	} elseif ( is_wp_error( $password_reset_allowed ) ) {
+		return $password_reset_allowed;
 	}
 
 	// Generate something random for a password reset key.
@@ -2989,7 +2993,7 @@ function check_password_reset_key( $key, $login ) {
 	 */
 	$expiration_duration = apply_filters( 'password_reset_expiration', DAY_IN_SECONDS );
 
-	if ( false !== strpos( $user->user_activation_key, ':' ) ) {
+	if ( str_contains( $user->user_activation_key, ':' ) ) {
 		list( $pass_request_time, $pass_key ) = explode( ':', $user->user_activation_key, 2 );
 		$expiration_time                      = $pass_request_time + $expiration_duration;
 	} else {
@@ -3545,12 +3549,10 @@ function wp_get_users_with_no_role( $site_id = null ) {
 	$regex = preg_replace( '/[^a-zA-Z_\|-]/', '', $regex );
 	$users = $wpdb->get_col(
 		$wpdb->prepare(
-			"
-		SELECT user_id
-		FROM $wpdb->usermeta
-		WHERE meta_key = '{$prefix}capabilities'
-		AND meta_value NOT REGEXP %s
-	",
+			"SELECT user_id
+			FROM $wpdb->usermeta
+			WHERE meta_key = '{$prefix}capabilities'
+			AND meta_value NOT REGEXP %s",
 			$regex
 		)
 	);
@@ -5024,4 +5026,36 @@ function wp_register_persisted_preferences_meta() {
  */
 function wp_cache_set_users_last_changed() {
 	wp_cache_set_last_changed( 'users' );
+}
+
+/**
+ * Checks if password reset is allowed for a specific user.
+ *
+ * @since 6.3.0
+ *
+ * @param int|WP_User $user The user to check.
+ * @return bool|WP_Error True if allowed, false or WP_Error otherwise.
+ */
+function wp_is_password_reset_allowed_for_user( $user ) {
+	if ( ! is_object( $user ) ) {
+		$user = get_userdata( $user );
+	}
+
+	if ( ! $user || ! $user->exists() ) {
+		return false;
+	}
+	$allow = true;
+	if ( is_multisite() && is_user_spammy( $user ) ) {
+		$allow = false;
+	}
+
+	/**
+	 * Filters whether to allow a password to be reset.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param bool $allow   Whether to allow the password to be reset. Default true.
+	 * @param int  $user_id The ID of the user attempting to reset a password.
+	 */
+	return apply_filters( 'allow_password_reset', $allow, $user->ID );
 }

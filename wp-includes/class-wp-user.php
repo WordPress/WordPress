@@ -199,8 +199,7 @@ class WP_User {
 		}
 
 		if ( 'id' === $field ) {
-			// Make sure the value is numeric to avoid casting objects, for example,
-			// to int 1.
+			// Make sure the value is numeric to avoid casting objects, for example, to int 1.
 			if ( ! is_numeric( $value ) ) {
 				return false;
 			}
@@ -501,7 +500,7 @@ class WP_User {
 	 */
 	public function get_role_caps() {
 		$switch_site = false;
-		if ( is_multisite() && get_current_blog_id() != $this->site_id ) {
+		if ( is_multisite() && get_current_blog_id() !== $this->site_id ) {
 			$switch_site = true;
 
 			switch_to_blog( $this->site_id );
@@ -603,7 +602,7 @@ class WP_User {
 	 * @param string $role Role name.
 	 */
 	public function set_role( $role ) {
-		if ( 1 === count( $this->roles ) && current( $this->roles ) == $role ) {
+		if ( 1 === count( $this->roles ) && current( $this->roles ) === $role ) {
 			return;
 		}
 

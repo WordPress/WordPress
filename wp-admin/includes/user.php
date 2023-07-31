@@ -174,7 +174,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	// Check for "\" in password.
-	if ( false !== strpos( wp_unslash( $pass1 ), '\\' ) ) {
+	if ( str_contains( wp_unslash( $pass1 ), '\\' ) ) {
 		$errors->add( 'pass', __( '<strong>Error:</strong> Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 	}
 
@@ -539,7 +539,7 @@ function default_password_nag() {
 	<div class="error default-password-nag">
 		<p>
 			<strong><?php _e( 'Notice:' ); ?></strong>
-			<?php _e( 'You&rsquo;re using the auto-generated password for your account. Would you like to change it?' ); ?>
+			<?php _e( 'You are using the auto-generated password for your account. Would you like to change it?' ); ?>
 		</p>
 		<p>
 		<?php

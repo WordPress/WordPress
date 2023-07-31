@@ -21,6 +21,7 @@
  *
  * @access private
  * @since 6.1.0
+ * @since 6.3.0 Added support for text-columns.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -147,6 +148,17 @@ final class WP_Style_Engine {
 				),
 			),
 		),
+		'shadow'     => array(
+			'shadow' => array(
+				'property_keys' => array(
+					'default' => 'box-shadow',
+				),
+				'path'          => array( 'shadow' ),
+				'css_vars'      => array(
+					'shadow' => '--wp--preset--shadow--$slug',
+				),
+			),
+		),
 		'dimensions' => array(
 			'minHeight' => array(
 				'property_keys' => array(
@@ -216,6 +228,12 @@ final class WP_Style_Engine {
 					'default' => 'line-height',
 				),
 				'path'          => array( 'typography', 'lineHeight' ),
+			),
+			'textColumns'    => array(
+				'property_keys' => array(
+					'default' => 'column-count',
+				),
+				'path'          => array( 'typography', 'textColumns' ),
 			),
 			'textDecoration' => array(
 				'property_keys' => array(

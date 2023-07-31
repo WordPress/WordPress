@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/query-pagination-numbers",
 	"title": "Page Numbers",
 	"category": "theme",
@@ -32,5 +32,5 @@
 			}
 		}
 	},
-	"editorStyle": "query-pagination-numbers-editor"
+	"editorStyle": "wp-block-query-pagination-numbers-editor"
 }

@@ -157,6 +157,7 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
  *
  * @since 2.1.0
  * @since 4.3.0 A return value was added.
+ * @since 6.3.0 The $in_footer parameter of type boolean was overloaded to be an $args parameter of type array.
  *
  * @param string           $handle    Name of the script. Should be unique.
  * @param string|false     $src       Full URL of the script, or path of the script relative to the WordPress root directory.
@@ -166,20 +167,32 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
  *                                    as a query string for cache busting purposes. If version is set to false, a version
  *                                    number is automatically added equal to current installed WordPress version.
  *                                    If set to null, no version is added.
- * @param bool             $in_footer Optional. Whether to enqueue the script before `</body>` instead of in the `<head>`.
- *                                    Default 'false'.
+ * @param array|bool       $args     {
+ *      Optional. An array of additional script loading strategies. Default empty array.
+ *      Otherwise, it may be a boolean in which case it determines whether the script is printed in the footer. Default false.
+ *
+ *      @type string    $strategy     Optional. If provided, may be either 'defer' or 'async'.
+ *      @type bool      $in_footer    Optional. Whether to print the script in the footer. Default 'false'.
+ * }
  * @return bool Whether the script has been registered. True on success, false on failure.
  */
-function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
+function wp_register_script( $handle, $src, $deps = array(), $ver = false, $args = array() ) {
+	if ( ! is_array( $args ) ) {
+		$args = array(
+			'in_footer' => (bool) $args,
+		);
+	}
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__, $handle );
 
 	$wp_scripts = wp_scripts();
 
 	$registered = $wp_scripts->add( $handle, $src, $deps, $ver );
-	if ( $in_footer ) {
+	if ( ! empty( $args['in_footer'] ) ) {
 		$wp_scripts->add_data( $handle, 'group', 1 );
 	}
-
+	if ( ! empty( $args['strategy'] ) ) {
+		$wp_scripts->add_data( $handle, 'strategy', $args['strategy'] );
+	}
 	return $registered;
 }
 
@@ -331,6 +344,7 @@ function wp_deregister_script( $handle ) {
  * @see WP_Dependencies::enqueue()
  *
  * @since 2.1.0
+ * @since 6.3.0 The $in_footer parameter of type boolean was overloaded to be an $args parameter of type array.
  *
  * @param string           $handle    Name of the script. Should be unique.
  * @param string           $src       Full URL of the script, or path of the script relative to the WordPress root directory.
@@ -340,23 +354,35 @@ function wp_deregister_script( $handle ) {
  *                                    as a query string for cache busting purposes. If version is set to false, a version
  *                                    number is automatically added equal to current installed WordPress version.
  *                                    If set to null, no version is added.
- * @param bool             $in_footer Optional. Whether to enqueue the script before `</body>` instead of in the `<head>`.
- *                                    Default 'false'.
+ * @param array|bool       $args     {
+ *      Optional. An array of additional script loading strategies. Default empty array.
+ *      Otherwise, it may be a boolean in which case it determines whether the script is printed in the footer. Default false.
+ *
+ *      @type string    $strategy     Optional. If provided, may be either 'defer' or 'async'.
+ *      @type bool      $in_footer    Optional. Whether to print the script in the footer. Default 'false'.
+ * }
  */
-function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $in_footer = false ) {
+function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $args = array() ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__, $handle );
 
 	$wp_scripts = wp_scripts();
 
-	if ( $src || $in_footer ) {
+	if ( $src || ! empty( $args ) ) {
 		$_handle = explode( '?', $handle );
+		if ( ! is_array( $args ) ) {
+			$args = array(
+				'in_footer' => (bool) $args,
+			);
+		}
 
 		if ( $src ) {
 			$wp_scripts->add( $_handle[0], $src, $deps, $ver );
 		}
-
-		if ( $in_footer ) {
+		if ( ! empty( $args['in_footer'] ) ) {
 			$wp_scripts->add_data( $_handle[0], 'group', 1 );
+		}
+		if ( ! empty( $args['strategy'] ) ) {
+			$wp_scripts->add_data( $_handle[0], 'strategy', $args['strategy'] );
 		}
 	}
 

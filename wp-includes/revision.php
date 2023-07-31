@@ -138,7 +138,7 @@ function wp_save_post_revision( $post_id ) {
 	if ( $revisions ) {
 		// Grab the latest revision, but not an autosave.
 		foreach ( $revisions as $revision ) {
-			if ( false !== strpos( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
+			if ( str_contains( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
 				$latest_revision = $revision;
 				break;
 			}
@@ -190,8 +190,10 @@ function wp_save_post_revision( $post_id ) {
 
 	$return = _wp_put_post_revision( $post );
 
-	// If a limit for the number of revisions to keep has been set,
-	// delete the oldest ones.
+	/*
+	 * If a limit for the number of revisions to keep has been set,
+	 * delete the oldest ones.
+	 */
 	$revisions_to_keep = wp_revisions_to_keep( $post );
 
 	if ( $revisions_to_keep < 0 ) {
@@ -223,7 +225,7 @@ function wp_save_post_revision( $post_id ) {
 	$revisions = array_slice( $revisions, 0, $delete );
 
 	for ( $i = 0; isset( $revisions[ $i ] ); $i++ ) {
-		if ( false !== strpos( $revisions[ $i ]->post_name, 'autosave' ) ) {
+		if ( str_contains( $revisions[ $i ]->post_name, 'autosave' ) ) {
 			continue;
 		}
 
@@ -313,7 +315,7 @@ function wp_is_post_autosave( $post ) {
 		return false;
 	}
 
-	if ( false !== strpos( $post->post_name, "{$post->post_parent}-autosave" ) ) {
+	if ( str_contains( $post->post_name, "{$post->post_parent}-autosave" ) ) {
 		return (int) $post->post_parent;
 	}
 
@@ -869,8 +871,10 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 		$locked = get_option( $lock );
 
 		if ( ! $locked ) {
-			// Can't write to the lock, and can't read the lock.
-			// Something broken has happened.
+			/*
+			 * Can't write to the lock, and can't read the lock.
+			 * Something broken has happened.
+			 */
 			return false;
 		}
 
@@ -899,8 +903,10 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 			continue;
 		}
 
-		// 1 is the latest revision version, so we're already up to date.
-		// No need to add a copy of the post as latest revision.
+		/*
+		 * 1 is the latest revision version, so we're already up to date.
+		 * No need to add a copy of the post as latest revision.
+		 */
 		if ( 0 < $this_revision_version ) {
 			$add_last = false;
 			continue;

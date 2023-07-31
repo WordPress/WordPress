@@ -212,8 +212,10 @@ class WP_Embed {
 
 		$this->last_attr = $attr;
 
-		// KSES converts & into &amp; and we need to undo this.
-		// See https://core.trac.wordpress.org/ticket/11311
+		/*
+		 * KSES converts & into &amp; and we need to undo this.
+		 * See https://core.trac.wordpress.org/ticket/11311
+		 */
 		$url = str_replace( '&amp;', '&', $url );
 
 		// Look for known internal handlers.
@@ -388,7 +390,7 @@ class WP_Embed {
 		}
 
 		foreach ( $post_metas as $post_meta_key ) {
-			if ( '_oembed_' === substr( $post_meta_key, 0, 8 ) ) {
+			if ( str_starts_with( $post_meta_key, '_oembed_' ) ) {
 				delete_post_meta( $post_id, $post_meta_key );
 			}
 		}

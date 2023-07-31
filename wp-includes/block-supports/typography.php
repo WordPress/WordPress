@@ -10,6 +10,7 @@
  * Registers the style and typography block attributes for block types that support it.
  *
  * @since 5.6.0
+ * @since 6.3.0 Added support for text-columns.
  * @access private
  *
  * @param WP_Block_Type $block_type Block Type.
@@ -30,6 +31,7 @@ function wp_register_typography_support( $block_type ) {
 	$has_font_weight_support     = _wp_array_get( $typography_supports, array( '__experimentalFontWeight' ), false );
 	$has_letter_spacing_support  = _wp_array_get( $typography_supports, array( '__experimentalLetterSpacing' ), false );
 	$has_line_height_support     = _wp_array_get( $typography_supports, array( 'lineHeight' ), false );
+	$has_text_columns_support    = _wp_array_get( $typography_supports, array( 'textColumns' ), false );
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
 
@@ -39,6 +41,7 @@ function wp_register_typography_support( $block_type ) {
 		|| $has_font_weight_support
 		|| $has_letter_spacing_support
 		|| $has_line_height_support
+		|| $has_text_columns_support
 		|| $has_text_decoration_support
 		|| $has_text_transform_support;
 
@@ -72,6 +75,7 @@ function wp_register_typography_support( $block_type ) {
  *
  * @since 5.6.0
  * @since 6.1.0 Used the style engine to generate CSS and classnames.
+ * @since 6.3.0 Added support for text-columns.
  * @access private
  *
  * @param WP_Block_Type $block_type       Block type.
@@ -98,6 +102,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_font_weight_support     = _wp_array_get( $typography_supports, array( '__experimentalFontWeight' ), false );
 	$has_letter_spacing_support  = _wp_array_get( $typography_supports, array( '__experimentalLetterSpacing' ), false );
 	$has_line_height_support     = _wp_array_get( $typography_supports, array( 'lineHeight' ), false );
+	$has_text_columns_support    = _wp_array_get( $typography_supports, array( 'textColumns' ), false );
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
 
@@ -107,6 +112,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$should_skip_font_style      = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontStyle' );
 	$should_skip_font_weight     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontWeight' );
 	$should_skip_line_height     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'lineHeight' );
+	$should_skip_text_columns    = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textColumns' );
 	$should_skip_text_decoration = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textDecoration' );
 	$should_skip_text_transform  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textTransform' );
 	$should_skip_letter_spacing  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'letterSpacing' );
@@ -160,6 +166,10 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 
 	if ( $has_line_height_support && ! $should_skip_line_height ) {
 		$typography_block_styles['lineHeight'] = _wp_array_get( $block_attributes, array( 'style', 'typography', 'lineHeight' ) );
+	}
+
+	if ( $has_text_columns_support && ! $should_skip_text_columns && isset( $block_attributes['style']['typography']['textColumns'] ) ) {
+		$typography_block_styles['textColumns'] = _wp_array_get( $block_attributes, array( 'style', 'typography', 'textColumns' ), null );
 	}
 
 	if (
@@ -368,6 +378,7 @@ function wp_get_typography_value_and_unit( $raw_value, $options = array() ) {
  * width and min/max font sizes.
  *
  * @since 6.1.0
+ * @since 6.3.0 Checks for unsupported min/max viewport values that cause invalid clamp values.
  * @access private
  *
  * @param array $args {
@@ -433,6 +444,11 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
 		)
 	);
 
+	// Protects against unsupported units in min and max viewport widths.
+	if ( ! $minimum_viewport_width || ! $maximum_viewport_width ) {
+		return null;
+	}
+
 	/*
 	 * Build CSS rule.
 	 * Borrowed from https://websemantics.uk/tools/responsive-font-calculator/.
@@ -454,6 +470,7 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
  * @since 6.1.0
  * @since 6.1.1 Adjusted rules for min and max font sizes.
  * @since 6.2.0 Added 'settings.typography.fluid.minFontSize' support.
+ * @since 6.3.0 Using layout.wideSize as max viewport width, and logarithmic scale factor to calculate minimum font scale.
  *
  * @param array $preset                     {
  *     Required. fontSizes preset value as seen in theme.json.
@@ -480,7 +497,10 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 	}
 
 	// Checks if fluid font sizes are activated.
-	$typography_settings = wp_get_global_settings( array( 'typography' ) );
+	$global_settings     = wp_get_global_settings();
+	$typography_settings = isset( $global_settings['typography'] ) ? $global_settings['typography'] : array();
+	$layout_settings     = isset( $global_settings['layout'] ) ? $global_settings['layout'] : array();
+
 	if (
 		isset( $typography_settings['fluid'] ) &&
 		( true === $typography_settings['fluid'] || is_array( $typography_settings['fluid'] ) )
@@ -497,12 +517,14 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 		: array();
 
 	// Defaults.
-	$default_maximum_viewport_width   = '1600px';
-	$default_minimum_viewport_width   = '768px';
-	$default_minimum_font_size_factor = 0.75;
-	$default_scale_factor             = 1;
-	$has_min_font_size                = isset( $fluid_settings['minFontSize'] ) && ! empty( wp_get_typography_value_and_unit( $fluid_settings['minFontSize'] ) );
-	$default_minimum_font_size_limit  = $has_min_font_size ? $fluid_settings['minFontSize'] : '14px';
+	$default_maximum_viewport_width       = isset( $layout_settings['wideSize'] ) ? $layout_settings['wideSize'] : '1600px';
+	$default_minimum_viewport_width       = '320px';
+	$default_minimum_font_size_factor_max = 0.75;
+	$default_minimum_font_size_factor_min = 0.25;
+	$default_scale_factor                 = 1;
+	$has_min_font_size                    = isset( $fluid_settings['minFontSize'] ) &&
+		! empty( wp_get_typography_value_and_unit( $fluid_settings['minFontSize'] ) );
+	$default_minimum_font_size_limit      = $has_min_font_size ? $fluid_settings['minFontSize'] : '14px';
 
 	// Font sizes.
 	$fluid_font_size_settings = isset( $preset['fluid'] ) ? $preset['fluid'] : null;
@@ -557,10 +579,16 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 	 * the given font size multiplied by the min font size scale factor.
 	 */
 	if ( ! $minimum_font_size_raw ) {
-		$calculated_minimum_font_size = round(
-			$preferred_size['value'] * $default_minimum_font_size_factor,
-			3
-		);
+		$preferred_font_size_in_px = 'px' === $preferred_size['unit'] ? $preferred_size['value'] : $preferred_size['value'] * 16;
+
+		/*
+		 * The scale factor is a multiplier that affects how quickly the curve will move towards the minimum,
+		 * that is, how quickly the size factor reaches 0 given increasing font size values.
+		 * For a - b * log2(), lower values of b will make the curve move towards the minimum faster.
+		 * The scale factor is constrained between min and max values.
+		 */
+		$minimum_font_size_factor     = min( max( 1 - 0.075 * log( $preferred_font_size_in_px, 2 ), $default_minimum_font_size_factor_min ), $default_minimum_font_size_factor_max );
+		$calculated_minimum_font_size = round( $preferred_size['value'] * $minimum_font_size_factor, 3 );
 
 		// Only use calculated min font size if it's > $minimum_font_size_limit value.
 		if ( ! empty( $minimum_font_size_limit ) && $calculated_minimum_font_size <= $minimum_font_size_limit['value'] ) {

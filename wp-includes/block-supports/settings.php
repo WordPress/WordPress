@@ -66,6 +66,7 @@ function _wp_add_block_level_presets_class( $block_content, $block ) {
  * @internal
  *
  * @since 6.2.0
+ * @since 6.3.0 Updated preset styles to use Selectors API.
  * @access private
  *
  * @param string|null $pre_render   The pre-rendered content. Default null.
@@ -95,11 +96,16 @@ function _wp_add_block_level_preset_styles( $pre_render, $block ) {
 	$registry                = WP_Block_Type_Registry::get_instance();
 	$blocks                  = $registry->get_all_registered();
 	foreach ( $blocks as $block_type ) {
-		if (
-			isset( $block_type->supports['__experimentalSelector'] ) &&
-			is_string( $block_type->supports['__experimentalSelector'] )
-		) {
-			$variables_root_selector .= ',' . $block_type->supports['__experimentalSelector'];
+		/*
+		 * We only want to append selectors for blocks using custom selectors
+		 * i.e. not `wp-block-<name>`.
+		 */
+		$has_custom_selector =
+			( isset( $block_type->supports['__experimentalSelector'] ) && is_string( $block_type->supports['__experimentalSelector'] ) ) ||
+			( isset( $block_type->selectors['root'] ) && is_string( $block_type->selectors['root'] ) );
+
+		if ( $has_custom_selector ) {
+			$variables_root_selector .= ',' . wp_get_block_css_selector( $block_type );
 		}
 	}
 	$variables_root_selector = WP_Theme_JSON::scope_selector( $class_name, $variables_root_selector );

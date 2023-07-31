@@ -36,7 +36,7 @@ class WP_Privacy_Data_Removal_Requests_List_Table extends WP_Privacy_Requests_Ta
 	protected $post_type = 'user_request';
 
 	/**
-	 * Actions column.
+	 * Outputs the Actions column.
 	 *
 	 * @since 4.9.6
 	 *
@@ -108,7 +108,7 @@ class WP_Privacy_Data_Removal_Requests_List_Table extends WP_Privacy_Requests_Ta
 	}
 
 	/**
-	 * Next steps column.
+	 * Outputs the Next steps column.
 	 *
 	 * @since 4.9.6
 	 *

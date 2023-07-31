@@ -313,8 +313,10 @@ class WP_Admin_Bar {
 			return;
 		}
 
-		// Add the root node.
-		// Clear it first, just in case. Don't mess with The Root.
+		/*
+		 * Add the root node.
+		 * Clear it first, just in case. Don't mess with The Root.
+		 */
 		$this->remove_node( 'root' );
 		$this->add_node(
 			array(
@@ -362,11 +364,15 @@ class WP_Admin_Bar {
 				$default_id = $parent->id . '-default';
 				$default    = $this->_get_node( $default_id );
 
-				// The default group is added here to allow groups that are
-				// added before standard menu items to render first.
+				/*
+				 * The default group is added here to allow groups that are
+				 * added before standard menu items to render first.
+				 */
 				if ( ! $default ) {
-					// Use _set_node because add_node can be overloaded.
-					// Make sure to specify default settings for all properties.
+					/*
+					 * Use _set_node because add_node can be overloaded.
+					 * Make sure to specify default settings for all properties.
+					 */
 					$this->_set_node(
 						array(
 							'id'       => $default_id,
@@ -385,16 +391,20 @@ class WP_Admin_Bar {
 				}
 				$parent = $default;
 
-				// Groups in groups aren't allowed. Add a special 'container' node.
-				// The container will invisibly wrap both groups.
+				/*
+				 * Groups in groups aren't allowed. Add a special 'container' node.
+				 * The container will invisibly wrap both groups.
+				 */
 			} elseif ( 'group' === $parent->type && 'group' === $node->type ) {
 				$container_id = $parent->id . '-container';
 				$container    = $this->_get_node( $container_id );
 
 				// We need to create a container for this group, life is sad.
 				if ( ! $container ) {
-					// Use _set_node because add_node can be overloaded.
-					// Make sure to specify default settings for all properties.
+					/*
+					 * Use _set_node because add_node can be overloaded.
+					 * Make sure to specify default settings for all properties.
+					 */
 					$this->_set_node(
 						array(
 							'id'       => $container_id,
@@ -447,8 +457,10 @@ class WP_Admin_Bar {
 	 * @param object $root
 	 */
 	final protected function _render( $root ) {
-		// Add browser classes.
-		// We have to do this here since admin bar shows on the front end.
+		/*
+		 * Add browser classes.
+		 * We have to do this here since admin bar shows on the front end.
+		 */
 		$class = 'nojq nojs';
 		if ( wp_is_mobile() ) {
 			$class .= ' mobile';

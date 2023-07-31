@@ -170,7 +170,7 @@ class WP_Theme_JSON_Resolver {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+		 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 		 */
 		$theme_json   = apply_filters( 'wp_theme_json_data_default', new WP_Theme_JSON_Data( $config, 'default' ) );
 		$config       = $theme_json->get_data();
@@ -238,9 +238,9 @@ class WP_Theme_JSON_Resolver {
 		$options = wp_parse_args( $options, array( 'with_supports' => true ) );
 
 		if ( null === static::$theme || ! static::has_same_registered_blocks( 'theme' ) ) {
-			$theme_json_file = static::get_file_path_from_theme( 'theme.json' );
 			$wp_theme        = wp_get_theme();
-			if ( '' !== $theme_json_file ) {
+			$theme_json_file = $wp_theme->get_file_path( 'theme.json' );
+			if ( is_readable( $theme_json_file ) ) {
 				$theme_json_data = static::read_json_file( $theme_json_file );
 				$theme_json_data = static::translate( $theme_json_data, $wp_theme->get( 'TextDomain' ) );
 			} else {
@@ -252,7 +252,7 @@ class WP_Theme_JSON_Resolver {
 			 *
 			 * @since 6.1.0
 			 *
-			 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+			 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 			 */
 			$theme_json      = apply_filters( 'wp_theme_json_data_theme', new WP_Theme_JSON_Data( $theme_json_data, 'theme' ) );
 			$theme_json_data = $theme_json->get_data();
@@ -260,8 +260,8 @@ class WP_Theme_JSON_Resolver {
 
 			if ( $wp_theme->parent() ) {
 				// Get parent theme.json.
-				$parent_theme_json_file = static::get_file_path_from_theme( 'theme.json', true );
-				if ( '' !== $parent_theme_json_file ) {
+				$parent_theme_json_file = $wp_theme->parent()->get_file_path( 'theme.json' );
+				if ( $theme_json_file !== $parent_theme_json_file && is_readable( $parent_theme_json_file ) ) {
 					$parent_theme_json_data = static::read_json_file( $parent_theme_json_file );
 					$parent_theme_json_data = static::translate( $parent_theme_json_data, $wp_theme->parent()->get( 'TextDomain' ) );
 					$parent_theme           = new WP_Theme_JSON( $parent_theme_json_data );
@@ -314,6 +314,19 @@ class WP_Theme_JSON_Resolver {
 
 			// Classic themes without a theme.json don't support global duotone.
 			$theme_support_data['settings']['color']['defaultDuotone'] = false;
+
+			// Allow themes to enable link color setting via theme_support.
+			if ( current_theme_supports( 'link-color' ) ) {
+				$theme_support_data['settings']['color']['link'] = true;
+			}
+
+			// Allow themes to enable all border settings via theme_support.
+			if ( current_theme_supports( 'border' ) ) {
+				$theme_support_data['settings']['border']['color']  = true;
+				$theme_support_data['settings']['border']['radius'] = true;
+				$theme_support_data['settings']['border']['style']  = true;
+				$theme_support_data['settings']['border']['width']  = true;
+			}
 		}
 		$with_theme_supports = new WP_Theme_JSON( $theme_support_data );
 		$with_theme_supports->merge( static::$theme );
@@ -345,8 +358,10 @@ class WP_Theme_JSON_Resolver {
 				isset( $block_type->supports['spacing']['blockGap']['__experimentalDefault'] ) &&
 				null === _wp_array_get( $config, array( 'styles', 'blocks', $block_name, 'spacing', 'blockGap' ), null )
 			) {
-				// Ensure an empty placeholder value exists for the block, if it provides a default blockGap value.
-				// The real blockGap value to be used will be determined when the styles are rendered for output.
+				/*
+				 * Ensure an empty placeholder value exists for the block, if it provides a default blockGap value.
+				 * The real blockGap value to be used will be determined when the styles are rendered for output.
+				 */
 				$config['styles']['blocks'][ $block_name ]['spacing']['blockGap'] = null;
 			}
 		}
@@ -356,7 +371,7 @@ class WP_Theme_JSON_Resolver {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+		 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 		 */
 		$theme_json = apply_filters( 'wp_theme_json_data_blocks', new WP_Theme_JSON_Data( $config, 'blocks' ) );
 		$config     = $theme_json->get_data();
@@ -492,15 +507,17 @@ class WP_Theme_JSON_Resolver {
 				 *
 				 * @since 6.1.0
 				 *
-				 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
+				 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 				 */
 				$theme_json = apply_filters( 'wp_theme_json_data_user', new WP_Theme_JSON_Data( $config, 'custom' ) );
 				$config     = $theme_json->get_data();
 				return new WP_Theme_JSON( $config, 'custom' );
 			}
 
-			// Very important to verify that the flag isGlobalStylesUserThemeJSON is true.
-			// If it's not true then the content was not escaped and is not safe.
+			/*
+			 * Very important to verify that the flag isGlobalStylesUserThemeJSON is true.
+			 * If it's not true then the content was not escaped and is not safe.
+			 */
 			if (
 				is_array( $decoded_data ) &&
 				isset( $decoded_data['isGlobalStylesUserThemeJSON'] ) &&

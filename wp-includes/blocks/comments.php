@@ -29,13 +29,8 @@ function render_block_core_comments( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$comment_args = array(
-		'post_id' => $post_id,
-		'count'   => true,
-		'status'  => 'approve',
-	);
 	// Return early if there are no comments and comments are closed.
-	if ( ! comments_open( $post_id ) && get_comments( $comment_args ) === 0 ) {
+	if ( ! comments_open( $post_id ) && (int) get_comments_number( $post_id ) === 0 ) {
 		return '';
 	}
 
@@ -212,6 +207,7 @@ function register_legacy_post_comments_block() {
 	 * like `_wp_multiple_block_styles`, which is required in this case because
 	 * the block has multiple styles.
 	 */
+	/** This filter is documented in wp-includes/blocks.php */
 	$metadata = apply_filters( 'block_type_metadata', $metadata );
 
 	register_block_type( 'core/post-comments', $metadata );

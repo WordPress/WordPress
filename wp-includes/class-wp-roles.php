@@ -192,7 +192,7 @@ class WP_Roles {
 			update_option( $this->role_key, $this->roles );
 		}
 
-		if ( get_option( 'default_role' ) == $role ) {
+		if ( get_option( 'default_role' ) === $role ) {
 			update_option( 'default_role', 'subscriber' );
 		}
 	}
@@ -359,7 +359,7 @@ class WP_Roles {
 			return $wp_user_roles;
 		}
 
-		if ( is_multisite() && get_current_blog_id() != $this->site_id ) {
+		if ( is_multisite() && get_current_blog_id() !== $this->site_id ) {
 			remove_action( 'switch_blog', 'wp_switch_roles_and_user', 1 );
 
 			$roles = get_blog_option( $this->site_id, $this->role_key, array() );

@@ -6,7 +6,7 @@
  */
 
 /**
- * Whether this is an XML-RPC Request
+ * Whether this is an XML-RPC Request.
  *
  * @var bool
  */
@@ -30,7 +30,7 @@ if ( isset( $HTTP_RAW_POST_DATA ) ) {
 /** Include the bootstrap for setting up WordPress environment */
 require_once __DIR__ . '/wp-load.php';
 
-if ( isset( $_GET['rsd'] ) ) { // http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
+if ( isset( $_GET['rsd'] ) ) { // https://cyber.harvard.edu/blogs/gems/tech/rsd.html
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 	echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>';
 	?>
@@ -46,9 +46,9 @@ if ( isset( $_GET['rsd'] ) ) { // http://cyber.law.harvard.edu/blogs/gems/tech/r
 			<api name="Blogger" blogID="1" preferred="false" apiLink="<?php echo site_url( 'xmlrpc.php', 'rpc' ); ?>" />
 			<?php
 			/**
-			 * Add additional APIs to the Really Simple Discovery (RSD) endpoint.
+			 * Fires when adding APIs to the Really Simple Discovery (RSD) endpoint.
 			 *
-			 * @link http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
+			 * @link https://cyber.harvard.edu/blogs/gems/tech/rsd.html
 			 *
 			 * @since 3.5.0
 			 */

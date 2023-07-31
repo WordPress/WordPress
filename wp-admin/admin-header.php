@@ -109,7 +109,7 @@ var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?
 <?php
 
 /**
- * Enqueue scripts for all admin pages.
+ * Fires when enqueuing scripts for all admin pages.
  *
  * @since 2.8.0
  *
@@ -242,7 +242,7 @@ unset( $error_get_last );
 $admin_body_classes = apply_filters( 'admin_body_class', '' );
 $admin_body_classes = ltrim( $admin_body_classes . ' ' . $admin_body_class );
 ?>
-<body class="wp-admin wp-core-ui no-js <?php echo $admin_body_classes; ?>">
+<body class="wp-admin wp-core-ui no-js <?php echo esc_attr( $admin_body_classes ); ?>">
 <script type="text/javascript">
 	document.body.className = document.body.className.replace('no-js','js');
 </script>

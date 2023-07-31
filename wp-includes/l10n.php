@@ -132,30 +132,28 @@ function determine_locale() {
 	 */
 	$determined_locale = apply_filters( 'pre_determine_locale', null );
 
-	if ( ! empty( $determined_locale ) && is_string( $determined_locale ) ) {
+	if ( $determined_locale && is_string( $determined_locale ) ) {
 		return $determined_locale;
 	}
 
-	$determined_locale = get_locale();
-
-	if ( is_admin() ) {
+	if (
+		isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] &&
+		( ! empty( $_GET['wp_lang'] ) || ! empty( $_COOKIE['wp_lang'] ) )
+	) {
+		if ( ! empty( $_GET['wp_lang'] ) ) {
+			$determined_locale = sanitize_locale_name( $_GET['wp_lang'] );
+		} else {
+			$determined_locale = sanitize_locale_name( $_COOKIE['wp_lang'] );
+		}
+	} elseif (
+		is_admin() ||
+		( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() )
+	) {
 		$determined_locale = get_user_locale();
 	}
 
-	if ( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() ) {
-		$determined_locale = get_user_locale();
-	}
-
-	$wp_lang = '';
-
-	if ( ! empty( $_GET['wp_lang'] ) ) {
-		$wp_lang = sanitize_locale_name( wp_unslash( $_GET['wp_lang'] ) );
-	} elseif ( ! empty( $_COOKIE['wp_lang'] ) ) {
-		$wp_lang = sanitize_locale_name( wp_unslash( $_COOKIE['wp_lang'] ) );
-	}
-
-	if ( ! empty( $wp_lang ) && ! empty( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
-		$determined_locale = $wp_lang;
+	if ( ! $determined_locale ) {
+		$determined_locale = get_locale();
 	}
 
 	/**
@@ -722,6 +720,28 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 	$l10n_unloaded = (array) $l10n_unloaded;
 
 	/**
+	 * Filters whether to short-circuit loading .mo file.
+	 *
+	 * Returning a non-null value from the filter will effectively short-circuit
+	 * the loading, returning the passed value instead.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param bool|null   $loaded The result of loading a .mo file. Default null.
+	 * @param string      $domain Text domain. Unique identifier for retrieving translated strings.
+	 * @param string      $mofile Path to the MO file.
+	 * @param string|null $locale Locale.
+	 */
+	$loaded = apply_filters( 'pre_load_textdomain', null, $domain, $mofile, $locale );
+	if ( null !== $loaded ) {
+		if ( true === $loaded ) {
+			unset( $l10n_unloaded[ $domain ] );
+		}
+
+		return $loaded;
+	}
+
+	/**
 	 * Filters whether to override the .mo file loading.
 	 *
 	 * @since 2.9.0
@@ -838,6 +858,12 @@ function unload_textdomain( $domain, $reloadable = false ) {
 	do_action( 'unload_textdomain', $domain, $reloadable );
 
 	if ( isset( $l10n[ $domain ] ) ) {
+		if ( $l10n[ $domain ] instanceof NOOP_Translations ) {
+			unset( $l10n[ $domain ] );
+
+			return false;
+		}
+
 		unset( $l10n[ $domain ] );
 
 		if ( ! $reloadable ) {
@@ -1157,7 +1183,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 	}
 
 	// Translations are always based on the unminified filename.
-	if ( substr( $relative, -7 ) === '.min.js' ) {
+	if ( str_ends_with( $relative, '.min.js' ) ) {
 		$relative = substr( $relative, 0, -7 ) . '.js';
 	}
 
@@ -1311,6 +1337,8 @@ function get_translations_for_domain( $domain ) {
 		$noop_translations = new NOOP_Translations();
 	}
 
+	$l10n[ $domain ] = &$noop_translations;
+
 	return $noop_translations;
 }
 
@@ -1326,7 +1354,7 @@ function get_translations_for_domain( $domain ) {
  */
 function is_textdomain_loaded( $domain ) {
 	global $l10n;
-	return isset( $l10n[ $domain ] );
+	return isset( $l10n[ $domain ] ) && ! $l10n[ $domain ] instanceof NOOP_Translations;
 }
 
 /**
@@ -1428,7 +1456,7 @@ function wp_get_installed_translations( $type ) {
 		if ( '.' === $file[0] || is_dir( WP_LANG_DIR . "$dir/$file" ) ) {
 			continue;
 		}
-		if ( substr( $file, -3 ) !== '.po' ) {
+		if ( ! str_ends_with( $file, '.po' ) ) {
 			continue;
 		}
 		if ( ! preg_match( '/(?:(.+)-)?([a-z]{2,3}(?:_[A-Z]{2})?(?:_[a-z0-9]+)?).po/', $file, $match ) ) {

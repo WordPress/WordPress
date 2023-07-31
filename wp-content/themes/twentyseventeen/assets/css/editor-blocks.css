@@ -391,7 +391,7 @@ html[lang="th"] .edit-post-visual-editor * {
 	padding: 0;
 }
 
-.edit-post-visual-editor ul:not(.wp-block-gallery),
+.edit-post-visual-editor ul:not(.wp-block-gallery, .wp-block-post-template),
 .editor-block-list__block ul:not(.wp-block-gallery),
 .block-library-list ul {
 	list-style: disc;

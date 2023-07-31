@@ -210,7 +210,7 @@ if ( ! wp_is_block_theme() && current_theme_supports( 'block-template-parts' ) )
 	$submenu['themes.php'][6] = array(
 		__( 'Template Parts' ),
 		'edit_theme_options',
-		'site-editor.php?postType=wp_template_part&amp;path=/wp_template_part/all',
+		'site-editor.php?path=/wp_template_part/all',
 	);
 }
 
@@ -230,12 +230,12 @@ if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) ) 
 
 if ( current_theme_supports( 'custom-header' ) && current_user_can( 'customize' ) ) {
 	$customize_header_url      = add_query_arg( array( 'autofocus' => array( 'control' => 'header_image' ) ), $customize_url );
-	$submenu['themes.php'][15] = array( __( 'Header' ), $appearance_cap, esc_url( $customize_header_url ), '', 'hide-if-no-customize' );
+	$submenu['themes.php'][15] = array( _x( 'Header', 'custom image header' ), $appearance_cap, esc_url( $customize_header_url ), '', 'hide-if-no-customize' );
 }
 
 if ( current_theme_supports( 'custom-background' ) && current_user_can( 'customize' ) ) {
 	$customize_background_url  = add_query_arg( array( 'autofocus' => array( 'control' => 'background_image' ) ), $customize_url );
-	$submenu['themes.php'][20] = array( __( 'Background' ), $appearance_cap, esc_url( $customize_background_url ), '', 'hide-if-no-customize' );
+	$submenu['themes.php'][20] = array( _x( 'Background', 'custom background' ), $appearance_cap, esc_url( $customize_background_url ), '', 'hide-if-no-customize' );
 }
 
 unset( $customize_url );

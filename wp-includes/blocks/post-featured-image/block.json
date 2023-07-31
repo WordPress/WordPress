@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "core/post-featured-image",
 	"title": "Post Featured Image",
 	"category": "theme",
@@ -10,6 +10,9 @@
 		"isLink": {
 			"type": "boolean",
 			"default": false
+		},
+		"aspectRatio": {
+			"type": "string"
 		},
 		"width": {
 			"type": "string"

@@ -14,7 +14,7 @@
   flex-wrap:wrap;
   gap:1.25em;
 }
-.wp-block-post-template.is-flex-container li{
+.wp-block-post-template.is-flex-container>li{
   margin:0;
   width:100%;
 }
@@ -33,5 +33,11 @@
   }
   .wp-block-post-template.is-flex-container.is-flex-container.columns-6>li{
     width:calc(16.66667% - 1.04167em);
+  }
+}
+
+@media (max-width:600px){
+  .wp-block-post-template-is-layout-grid.wp-block-post-template-is-layout-grid.wp-block-post-template-is-layout-grid.wp-block-post-template-is-layout-grid{
+    grid-template-columns:1fr;
   }
 }

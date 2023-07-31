@@ -232,7 +232,7 @@ const getGalleryDetailsMediaFrame = () => {
 const slimImageObject = img => {
   const attrSet = ['sizes', 'mime', 'type', 'subtype', 'id', 'url', 'alt', 'link', 'caption'];
   return attrSet.reduce((result, key) => {
-    if (img !== null && img !== void 0 && img.hasOwnProperty(key)) {
+    if (img?.hasOwnProperty(key)) {
       result[key] = img[key];
     }
 
@@ -255,15 +255,14 @@ const getAttachmentsCollection = ids => {
 };
 
 class MediaUpload extends external_wp_element_namespaceObject.Component {
-  constructor(_ref) {
-    let {
-      allowedTypes,
-      gallery = false,
-      unstableFeaturedImageFlow = false,
-      modalClass,
-      multiple = false,
-      title = (0,external_wp_i18n_namespaceObject.__)('Select or Upload Media')
-    } = _ref;
+  constructor({
+    allowedTypes,
+    gallery = false,
+    unstableFeaturedImageFlow = false,
+    modalClass,
+    multiple = false,
+    title = (0,external_wp_i18n_namespaceObject.__)('Select or Upload Media')
+  }) {
     super(...arguments);
     this.openModal = this.openModal.bind(this);
     this.onOpen = this.onOpen.bind(this);
@@ -439,7 +438,7 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     // (for galleries) or a (number) singular id (e.g. image block).
 
 
-    const hasMedia = Array.isArray(value) ? !!(value !== null && value !== void 0 && value.length) : !!value;
+    const hasMedia = Array.isArray(value) ? !!value?.length : !!value;
 
     if (!hasMedia) {
       return;
@@ -459,9 +458,7 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     const attachments = getAttachmentsCollection(valueArray); // Once attachments are loaded, set the current selection.
 
     attachments.more().done(function () {
-      var _attachments$models;
-
-      if (isGallery && attachments !== null && attachments !== void 0 && (_attachments$models = attachments.models) !== null && _attachments$models !== void 0 && _attachments$models.length) {
+      if (isGallery && attachments?.models?.length) {
         selection.add(attachments.models);
       }
     });
@@ -546,8 +543,7 @@ function getMimeTypesArray(wpMimeTypesObject) {
     return wpMimeTypesObject;
   }
 
-  return Object.entries(wpMimeTypesObject).map(_ref => {
-    let [extensionsString, mime] = _ref;
+  return Object.entries(wpMimeTypesObject).map(([extensionsString, mime]) => {
     const [type] = mime.split('/');
     const extensions = extensionsString.split('|');
     return [mime, ...extensions.map(extension => `${type}/${extension}`)];
@@ -569,24 +565,21 @@ function getMimeTypesArray(wpMimeTypesObject) {
  * @param {?Object}  $0.wpAllowedMimeTypes List of allowed mime types and file extensions.
  */
 
-async function uploadMedia(_ref2) {
-  let {
-    allowedTypes,
-    additionalData = {},
-    filesList,
-    maxUploadFileSize,
-    onError = noop,
-    onFileChange,
-    wpAllowedMimeTypes = null
-  } = _ref2;
+async function uploadMedia({
+  allowedTypes,
+  additionalData = {},
+  filesList,
+  maxUploadFileSize,
+  onError = noop,
+  onFileChange,
+  wpAllowedMimeTypes = null
+}) {
   // Cast filesList to array.
   const files = [...filesList];
   const filesSet = [];
 
   const setAndUpdateFiles = (idx, value) => {
-    var _filesSet$idx;
-
-    (0,external_wp_blob_namespaceObject.revokeBlobURL)((_filesSet$idx = filesSet[idx]) === null || _filesSet$idx === void 0 ? void 0 : _filesSet$idx.url);
+    (0,external_wp_blob_namespaceObject.revokeBlobURL)(filesSet[idx]?.url);
     filesSet[idx] = value;
     onFileChange(filesSet.filter(Boolean));
   }; // Allowed type specified by consumer.
@@ -677,7 +670,7 @@ async function uploadMedia(_ref2) {
     const mediaFile = validFiles[idx];
 
     try {
-      var _savedMedia$caption$r, _savedMedia$caption;
+      var _savedMedia$caption$r;
 
       const savedMedia = await createMediaFromFile(mediaFile, additionalData); // eslint-disable-next-line camelcase
 
@@ -688,7 +681,7 @@ async function uploadMedia(_ref2) {
       } = savedMedia;
       const mediaObject = { ...savedMediaProps,
         alt: savedMedia.alt_text,
-        caption: (_savedMedia$caption$r = (_savedMedia$caption = savedMedia.caption) === null || _savedMedia$caption === void 0 ? void 0 : _savedMedia$caption.raw) !== null && _savedMedia$caption$r !== void 0 ? _savedMedia$caption$r : '',
+        caption: (_savedMedia$caption$r = savedMedia.caption?.raw) !== null && _savedMedia$caption$r !== void 0 ? _savedMedia$caption$r : '',
         title: savedMedia.title.raw,
         url: savedMedia.source_url
       };
@@ -726,10 +719,7 @@ function createMediaFromFile(file, additionalData) {
   data.append('file', file, file.name || file.type.replace('/', '.'));
 
   if (additionalData) {
-    Object.entries(additionalData).forEach(_ref3 => {
-      let [key, value] = _ref3;
-      return data.append(key, value);
-    });
+    Object.entries(additionalData).forEach(([key, value]) => data.append(key, value));
   }
 
   return external_wp_apiFetch_default()({

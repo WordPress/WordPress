@@ -133,12 +133,12 @@ class Walker_Page extends Walker {
 				$css_class[] = 'current_page_ancestor';
 			}
 
-			if ( $page->ID == $current_page_id ) {
+			if ( $page->ID === (int) $current_page_id ) {
 				$css_class[] = 'current_page_item';
 			} elseif ( $_current_page && $page->ID === $_current_page->post_parent ) {
 				$css_class[] = 'current_page_parent';
 			}
-		} elseif ( get_option( 'page_for_posts' ) == $page->ID ) {
+		} elseif ( (int) get_option( 'page_for_posts' ) === $page->ID ) {
 			$css_class[] = 'current_page_parent';
 		}
 
@@ -168,7 +168,7 @@ class Walker_Page extends Walker {
 
 		$atts                 = array();
 		$atts['href']         = get_permalink( $page->ID );
-		$atts['aria-current'] = ( $page->ID == $current_page_id ) ? 'page' : '';
+		$atts['aria-current'] = ( $page->ID === (int) $current_page_id ) ? 'page' : '';
 
 		/**
 		 * Filters the HTML attributes applied to a page menu item's anchor element.

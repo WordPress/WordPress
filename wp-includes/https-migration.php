@@ -97,8 +97,10 @@ function wp_update_urls_to_https() {
 	update_option( 'siteurl', $siteurl );
 
 	if ( ! wp_is_using_https() ) {
-		// If this did not result in the site recognizing HTTPS as being used,
-		// revert the change and return false.
+		/*
+		 * If this did not result in the site recognizing HTTPS as being used,
+		 * revert the change and return false.
+		 */
 		update_option( 'home', $orig_home );
 		update_option( 'siteurl', $orig_siteurl );
 		return false;

@@ -1,4 +1,4 @@
-.wp-block-post-excerpt{
+:where(.wp-block-post-excerpt){
   margin-bottom:var(--wp--style--block-gap);
   margin-top:var(--wp--style--block-gap);
 }

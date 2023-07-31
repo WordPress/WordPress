@@ -34,7 +34,7 @@ function render_block_core_cover( $attributes, $content ) {
 
 		/*
 		 * Inserts the featured image between the (1st) cover 'background' `span` and 'inner_container' `div`,
-		 * and removes eventual withespace characters between the two (typically introduced at template level)
+		 * and removes eventual whitespace characters between the two (typically introduced at template level)
 		 */
 		$inner_container_start = '/<div\b[^>]+wp-block-cover__inner-container[\s|"][^>]*>/U';
 		if ( 1 === preg_match( $inner_container_start, $content, $matches, PREG_OFFSET_CAPTURE ) ) {
@@ -46,22 +46,19 @@ function render_block_core_cover( $attributes, $content ) {
 			update_post_thumbnail_cache();
 		}
 		$current_featured_image = get_the_post_thumbnail_url();
-
-		$styles = 'background-image:url(' . esc_url( $current_featured_image ) . '); ';
-
-		if ( isset( $attributes['minHeight'] ) ) {
-			$height_unit = empty( $attributes['minHeightUnit'] ) ? 'px' : $attributes['minHeightUnit'];
-			$height      = " min-height:{$attributes['minHeight']}{$height_unit}";
-
-			$styles .= $height;
+		if ( ! $current_featured_image ) {
+			return $content;
 		}
 
-		$content = preg_replace(
-			'/class=\".*?\"/',
-			'${0} style="' . $styles . '"',
-			$content,
-			1
-		);
+		$processor = new WP_HTML_Tag_Processor( $content );
+		$processor->next_tag();
+
+		$styles         = $processor->get_attribute( 'style' );
+		$merged_styles  = ! empty( $styles ) ? $styles . ';' : '';
+		$merged_styles .= 'background-image:url(' . esc_url( $current_featured_image ) . ');';
+
+		$processor->set_attribute( 'style', $merged_styles );
+		$content = $processor->get_updated_html();
 	}
 
 	return $content;

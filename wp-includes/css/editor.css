@@ -1845,7 +1845,6 @@ html:lang(he-il) .rtl .quicktags-toolbar input {
 
 /* HiDPI */
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	.wp-media-buttons .add_media span.wp-media-buttons-icon {
 		background: none;
