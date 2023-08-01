@@ -100,7 +100,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="column">
 			<h2><?php _e( 'Shape the future of the web with WordPress' ); ?></h2>
 			<p><?php _e( 'Finding the area that aligns with your skills and interests is the first step toward meaningful contribution. With more than 20 Make WordPress teams working on different parts of the open source WordPress project, there&#8217;s a place for everyone, no matter what your skill set is.' ); ?></p>
-			<p class="aligncenter"><a href="<?php _e( 'https://make.wordpress.org/contribute/' ); ?>" target="_blank"><?php _e( 'Find your team &rarr;' ); ?></a></p>
+			<p class="aligncenter"><a href="<?php _e( 'https://make.wordpress.org/contribute/' ); ?>"><?php _e( 'Find your team &rarr;' ); ?></a></p>
 		</div>
 	</div>
 
