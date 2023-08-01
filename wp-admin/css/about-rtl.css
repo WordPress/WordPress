@@ -540,6 +540,7 @@
 	background: var(--background) url('../images/about-header-about.svg?ver=6.3') no-repeat;
 	background-size: cover;
 	background-position: center;
+	border-radius: 5px;
 }
 
 .credits-php .about__header {
