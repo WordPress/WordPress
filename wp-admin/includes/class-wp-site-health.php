@@ -2009,9 +2009,19 @@ class WP_Site_Health {
 			'test'        => 'update_temp_backup_writable',
 		);
 
-		if ( ! $wp_filesystem ) {
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
-			WP_Filesystem();
+		}
+
+		ob_start();
+		$credentials = request_filesystem_credentials( '' );
+		ob_end_clean();
+
+		if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
+			$result['status']      = 'recommended';
+			$result['label']       = __( 'Could not access filesystem' );
+			$result['description'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+			return $result;
 		}
 
 		$wp_content = $wp_filesystem->wp_content_dir();
