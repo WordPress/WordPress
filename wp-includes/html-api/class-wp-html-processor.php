@@ -626,6 +626,37 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				$this->insert_html_element( $this->current_token );
 				return true;
 
+			/*
+			 * > Any other start tag
+			 */
+			case '+SPAN':
+				$this->reconstruct_active_formatting_elements();
+				$this->insert_html_element( $this->current_token );
+				return true;
+
+			/*
+			 * Any other end tag
+			 */
+			case '-SPAN':
+				foreach ( $this->state->stack_of_open_elements->walk_up() as $item ) {
+					// > If node is an HTML element with the same tag name as the token, then:
+					if ( $item->node_name === $tag_name ) {
+						$this->generate_implied_end_tags( $tag_name );
+
+						// > If node is not the current node, then this is a parse error.
+
+						$this->state->stack_of_open_elements->pop_until( $tag_name );
+						return true;
+					}
+
+					// > Otherwise, if node is in the special category, then this is a parse error; ignore the token, and return.
+					if ( self::is_special( $item->node_name ) ) {
+						return $this->step();
+					}
+				}
+				// Execution should not reach here; if it does then something went wrong.
+				return false;
+
 			default:
 				$this->last_error = self::ERROR_UNSUPPORTED;
 				throw new WP_HTML_Unsupported_Exception( "Cannot process {$tag_name} element." );
@@ -873,7 +904,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @throws Exception
+	 * @throws WP_HTML_Unsupported_Exception
 	 *
 	 * @see https://html.spec.whatwg.org/#generate-implied-end-tags
 	 *
@@ -889,6 +920,26 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			$current_node && $current_node->node_name !== $except_for_this_element &&
 			in_array( $this->state->stack_of_open_elements->current_node(), $elements_with_implied_end_tags, true )
 		) {
+			$this->state->stack_of_open_elements->pop();
+		}
+	}
+
+	/*
+	 * Closes elements that have implied end tags, thoroughly.
+	 *
+	 * See the HTML specification for an explanation why this is
+	 * different from {@see WP_HTML_Processor::generate_implied_end_tags}.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @see https://html.spec.whatwg.org/#generate-implied-end-tags
+	 */
+	private function generate_implied_end_tags_thoroughly() {
+		$elements_with_implied_end_tags = array(
+			'P',
+		);
+
+		while ( in_array( $this->state->stack_of_open_elements->current_node(), $elements_with_implied_end_tags, true ) ) {
 			$this->state->stack_of_open_elements->pop();
 		}
 	}
