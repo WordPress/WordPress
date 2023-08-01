@@ -92,7 +92,7 @@ function graceful_fail( $message ) {
 	$message_template = apply_filters( 'graceful_fail_template',
 '<!DOCTYPE html>
 <html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Error!</title>
 <style type="text/css">
 img {

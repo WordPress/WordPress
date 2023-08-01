@@ -423,7 +423,7 @@
 				// Load the colors stylesheet.
 				// The default color scheme won't have one, so we'll need to create an element.
 				if ( 0 === $stylesheet.length ) {
-					$stylesheet = $( '<link rel="stylesheet" />' ).appendTo( 'head' );
+					$stylesheet = $( '<link rel="stylesheet">' ).appendTo( 'head' );
 				}
 				$stylesheet.attr( 'href', $this.children( '.css_url' ).val() );
 

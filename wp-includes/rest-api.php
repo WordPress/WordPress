@@ -1000,12 +1000,12 @@ function rest_output_link_wp_head() {
 		return;
 	}
 
-	printf( '<link rel="https://api.w.org/" href="%s" />', esc_url( $api_root ) );
+	printf( '<link rel="https://api.w.org/" href="%s">', esc_url( $api_root ) );
 
 	$resource = rest_get_queried_resource_route();
 
 	if ( $resource ) {
-		printf( '<link rel="alternate" type="application/json" href="%s" />', esc_url( rest_url( $resource ) ) );
+		printf( '<link rel="alternate" type="application/json" href="%s">', esc_url( rest_url( $resource ) ) );
 	}
 }
 

@@ -2064,7 +2064,7 @@ function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $
 
 	$link  = $previous ? "<link rel='prev' title='" : "<link rel='next' title='";
 	$link .= esc_attr( $title );
-	$link .= "' href='" . get_permalink( $post ) . "' />\n";
+	$link .= "' href='" . get_permalink( $post ) . "'>\n";
 
 	$adjacent = $previous ? 'previous' : 'next';
 
@@ -4086,7 +4086,7 @@ function rel_canonical() {
 	$url = wp_get_canonical_url( $id );
 
 	if ( ! empty( $url ) ) {
-		echo '<link rel="canonical" href="' . esc_url( $url ) . '" />' . "\n";
+		echo '<link rel="canonical" href="' . esc_url( $url ) . '">' . "\n";
 	}
 }
 
@@ -4181,7 +4181,7 @@ function wp_shortlink_wp_head() {
 		return;
 	}
 
-	echo "<link rel='shortlink' href='" . esc_url( $shortlink ) . "' />\n";
+	echo "<link rel='shortlink' href='" . esc_url( $shortlink ) . "'>\n";
 }
 
 /**

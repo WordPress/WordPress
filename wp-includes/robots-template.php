@@ -46,7 +46,7 @@ function wp_robots() {
 		return;
 	}
 
-	echo "<meta name='robots' content='" . esc_attr( implode( ', ', $robots_strings ) ) . "' />\n";
+	echo "<meta name='robots' content='" . esc_attr( implode( ', ', $robots_strings ) ) . "'>\n";
 }
 
 /**

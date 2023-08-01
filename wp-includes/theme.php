@@ -726,7 +726,7 @@ function locale_stylesheet() {
 	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 
 	printf(
-		'<link rel="stylesheet" href="%s"%s media="screen" />',
+		'<link rel="stylesheet" href="%s"%s media="screen">',
 		$stylesheet,
 		$type_attr
 	);

@@ -248,7 +248,7 @@ function get_the_block_template_html() {
  * @since 5.8.0
  */
 function _block_template_viewport_meta_tag() {
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1" />' . "\n";
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1">' . "\n";
 }
 
 /**

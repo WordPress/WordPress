@@ -1913,7 +1913,7 @@ function get_archives_link( $url, $text, $format = 'html', $before = '', $after 
 	$aria_current = $selected ? ' aria-current="page"' : '';
 
 	if ( 'link' === $format ) {
-		$link_html = "\t<link rel='archives' title='" . esc_attr( $text ) . "' href='$url' />\n";
+		$link_html = "\t<link rel='archives' title='" . esc_attr( $text ) . "' href='$url'>\n";
 	} elseif ( 'option' === $format ) {
 		$selected_attr = $selected ? " selected='selected'" : '';
 		$link_html     = "\t<option value='$url'$selected_attr>$before $text $after</option>\n";
@@ -3117,7 +3117,7 @@ function feed_links( $args = array() ) {
 	 */
 	if ( apply_filters( 'feed_links_show_posts_feed', true ) ) {
 		printf(
-			'<link rel="alternate" type="%s" title="%s" href="%s" />' . "\n",
+			'<link rel="alternate" type="%s" title="%s" href="%s">' . "\n",
 			feed_content_type(),
 			esc_attr( sprintf( $args['feedtitle'], get_bloginfo( 'name' ), $args['separator'] ) ),
 			esc_url( get_feed_link() )
@@ -3133,7 +3133,7 @@ function feed_links( $args = array() ) {
 	 */
 	if ( apply_filters( 'feed_links_show_comments_feed', true ) ) {
 		printf(
-			'<link rel="alternate" type="%s" title="%s" href="%s" />' . "\n",
+			'<link rel="alternate" type="%s" title="%s" href="%s">' . "\n",
 			feed_content_type(),
 			esc_attr( sprintf( $args['comstitle'], get_bloginfo( 'name' ), $args['separator'] ) ),
 			esc_url( get_feed_link( 'comments_' . get_default_feed() ) )
@@ -3355,7 +3355,7 @@ function feed_links_extra( $args = array() ) {
 
 	if ( isset( $title ) && isset( $href ) ) {
 		printf(
-			'<link rel="alternate" type="%s" title="%s" href="%s" />' . "\n",
+			'<link rel="alternate" type="%s" title="%s" href="%s">' . "\n",
 			feed_content_type(),
 			esc_attr( $title ),
 			esc_url( $href )
@@ -3371,7 +3371,7 @@ function feed_links_extra( $args = array() ) {
  */
 function rsd_link() {
 	printf(
-		'<link rel="EditURI" type="application/rsd+xml" title="RSD" href="%s" />' . "\n",
+		'<link rel="EditURI" type="application/rsd+xml" title="RSD" href="%s">' . "\n",
 		esc_url( site_url( 'xmlrpc.php?rsd', 'rpc' ) )
 	);
 }
@@ -3390,7 +3390,7 @@ function rsd_link() {
  */
 function wp_strict_cross_origin_referrer() {
 	?>
-	<meta name='referrer' content='strict-origin-when-cross-origin' />
+	<meta name='referrer' content='strict-origin-when-cross-origin'>
 	<?php
 }
 
@@ -3412,19 +3412,19 @@ function wp_site_icon() {
 		$icon_32 = '/favicon.ico'; // Serve default favicon URL in customizer so element can be updated for preview.
 	}
 	if ( $icon_32 ) {
-		$meta_tags[] = sprintf( '<link rel="icon" href="%s" sizes="32x32" />', esc_url( $icon_32 ) );
+		$meta_tags[] = sprintf( '<link rel="icon" href="%s" sizes="32x32">', esc_url( $icon_32 ) );
 	}
 	$icon_192 = get_site_icon_url( 192 );
 	if ( $icon_192 ) {
-		$meta_tags[] = sprintf( '<link rel="icon" href="%s" sizes="192x192" />', esc_url( $icon_192 ) );
+		$meta_tags[] = sprintf( '<link rel="icon" href="%s" sizes="192x192">', esc_url( $icon_192 ) );
 	}
 	$icon_180 = get_site_icon_url( 180 );
 	if ( $icon_180 ) {
-		$meta_tags[] = sprintf( '<link rel="apple-touch-icon" href="%s" />', esc_url( $icon_180 ) );
+		$meta_tags[] = sprintf( '<link rel="apple-touch-icon" href="%s">', esc_url( $icon_180 ) );
 	}
 	$icon_270 = get_site_icon_url( 270 );
 	if ( $icon_270 ) {
-		$meta_tags[] = sprintf( '<meta name="msapplication-TileImage" content="%s" />', esc_url( $icon_270 ) );
+		$meta_tags[] = sprintf( '<meta name="msapplication-TileImage" content="%s">', esc_url( $icon_270 ) );
 	}
 
 	/**
@@ -3556,7 +3556,7 @@ function wp_resource_hints() {
 
 			$html = trim( $html );
 
-			echo "<link $html />\n";
+			echo "<link $html>\n";
 		}
 	}
 }
@@ -3671,7 +3671,7 @@ function wp_preload_resources() {
 		}
 		$html = trim( $html );
 
-		printf( "<link rel='preload' %s />\n", $html );
+		printf( "<link rel='preload' %s>\n", $html );
 	}
 }
 
@@ -4878,7 +4878,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	}
 
 	$stylesheet_link = sprintf(
-		"<link rel='stylesheet' href='%s' type='text/css' />\n",
+		"<link rel='stylesheet' href='%s' type='text/css'>\n",
 		esc_url( wp_admin_css_uri( $file ) )
 	);
 
@@ -4897,7 +4897,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 
 	if ( function_exists( 'is_rtl' ) && is_rtl() ) {
 		$rtl_stylesheet_link = sprintf(
-			"<link rel='stylesheet' href='%s' type='text/css' />\n",
+			"<link rel='stylesheet' href='%s' type='text/css'>\n",
 			esc_url( wp_admin_css_uri( "$file-rtl" ) )
 		);
 

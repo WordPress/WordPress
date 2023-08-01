@@ -543,7 +543,7 @@ function atom_enclosure() {
 				}
 
 				$html_link_tag = sprintf(
-					"<link href=\"%s\" rel=\"enclosure\" length=\"%d\" type=\"%s\" />\n",
+					"<link href=\"%s\" rel=\"enclosure\" length=\"%d\" type=\"%s\">\n",
 					esc_url( $url ),
 					esc_attr( $length ),
 					esc_attr( $type )

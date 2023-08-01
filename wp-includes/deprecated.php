@@ -2698,7 +2698,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
 
 	$link = $start ? "<link rel='start' title='" : "<link rel='end' title='";
 	$link .= esc_attr($title);
-	$link .= "' href='" . get_permalink($post) . "' />\n";
+	$link .= "' href='" . get_permalink($post) . "'>\n";
 
 	$boundary = $start ? 'start' : 'end';
 	return apply_filters( "{$boundary}_post_rel_link", $link );
@@ -2731,7 +2731,7 @@ function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_
 function get_index_rel_link() {
 	_deprecated_function( __FUNCTION__, '3.3.0' );
 
-	$link = "<link rel='index' title='" . esc_attr( get_bloginfo( 'name', 'display' ) ) . "' href='" . esc_url( user_trailingslashit( get_bloginfo( 'url', 'display' ) ) ) . "' />\n";
+	$link = "<link rel='index' title='" . esc_attr( get_bloginfo( 'name', 'display' ) ) . "' href='" . esc_url( user_trailingslashit( get_bloginfo( 'url', 'display' ) ) ) . "'>\n";
 	return apply_filters( "index_rel_link", $link );
 }
 
@@ -2773,7 +2773,7 @@ function get_parent_post_rel_link( $title = '%title' ) {
 
 	$link = "<link rel='up' title='";
 	$link .= esc_attr( $title );
-	$link .= "' href='" . get_permalink($post) . "' />\n";
+	$link .= "' href='" . get_permalink($post) . "'>\n";
 
 	return apply_filters( "parent_post_rel_link", $link );
 }
@@ -4167,11 +4167,11 @@ function wp_no_robots() {
 	_deprecated_function( __FUNCTION__, '5.7.0', 'wp_robots_no_robots()' );
 
 	if ( get_option( 'blog_public' ) ) {
-		echo "<meta name='robots' content='noindex,follow' />\n";
+		echo "<meta name='robots' content='noindex,follow'>\n";
 		return;
 	}
 
-	echo "<meta name='robots' content='noindex,nofollow' />\n";
+	echo "<meta name='robots' content='noindex,nofollow'>\n";
 }
 
 /**
@@ -4195,7 +4195,7 @@ function wp_sensitive_page_meta() {
 	_deprecated_function( __FUNCTION__, '5.7.0', 'wp_robots_sensitive_page()' );
 
 	?>
-	<meta name='robots' content='noindex,noarchive' />
+	<meta name='robots' content='noindex,noarchive'>
 	<?php
 	wp_strict_cross_origin_referrer();
 }
