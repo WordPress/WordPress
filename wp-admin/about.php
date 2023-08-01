@@ -61,9 +61,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 
 		<div class="about__section has-2-columns">
-			<div class="column">
+			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/1-site-editor.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -77,17 +77,17 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<h3><?php _e( 'Create and sync patterns' ); ?></h3>
 				<p><?php _e( 'Arrange blocks in unlimited ways and save them as Patterns for use throughout your site. You can even specify whether to sync your patterns (previously referred to as “reusable blocks”) so that one change applies to all parts of your site. Or, utilize patterns as a starting point with the ability to customize each instance.' ); ?></p>
 			</div>
-			<div class="column">
+			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/2-create-patterns.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
-			<div class="column">
+			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/3-command-palette.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -101,9 +101,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<h3><?php _e( 'Sharpen your designs with new tools' ); ?></h3>
 				<p><?php _e( 'New design controls bring more versatility for fine-tuning designs, starting with the ability to customize your caption&#8217;s styles from the Styles Interface without coding. You can manage your duotone filters in Styles for supported blocks and pick from the options provided by your theme or disable them entirely. The Cover block gets added settings for text color, layout controls, and border options, making this powerful block even more handy.' ); ?></p>
 			</div>
-			<div class="column">
+			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/4-design-tools.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -111,21 +111,21 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-3-columns">
 			<div class="column">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='100' height='100' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/5-style-revisions.webp" alt="" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Track design changes with Style Revisions' ); ?></h3>
 				<p><?php _e( 'You can now see how your site looked at a specific time. Visualize these revisions in a timeline and access a one-click option to restore prior styles.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='100' height='100' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/6-footnotes-block.webp" alt="" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Annotate with the Footnotes block' ); ?></h3>
 				<p><?php _e( 'Footnotes add convenient annotations throughout your content. Now you can add and link footnotes for any paragraph.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='100' height='100' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23dcdcde' /%3E%3C/svg%3E" alt="" />
+					<img src="https://s.w.org/images/core/6.3/7-details-block.webp" alt="" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Show or hide content with the Details block' ); ?></h3>
 				<p><?php _e( 'Use the block to avoid spoiling a surprise, create an interactive Q&A section, or hide a long paragraph under a heading.' ); ?></p>
@@ -233,7 +233,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-3-columns">
 			<div class="column about__image is-vertically-aligned-top">
-				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.3' ) ); ?>" alt="" />
+				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.3' ) ); ?>" alt="" height="270" width="270" />
 			</div>
 			<div class="column is-vertically-aligned-center" style="grid-column-end:span 2">
 				<h3>
