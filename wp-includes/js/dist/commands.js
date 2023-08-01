@@ -3949,7 +3949,11 @@ function CommandMenu() {
       }
     });
   }, [registerShortcut]);
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/commands', event => {
+  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/commands',
+  /** @type {import('react').KeyboardEventHandler} */
+  event => {
+    // Bails to avoid obscuring the effect of the preceding handler(s).
+    if (event.defaultPrevented) return;
     event.preventDefault();
 
     if (isOpen) {

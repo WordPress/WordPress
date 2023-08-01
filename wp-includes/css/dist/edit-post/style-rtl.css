@@ -770,6 +770,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .edit-post-header-toolbar__left{
   align-items:center;
   display:inline-flex;
+  margin-left:8px;
   padding-right:8px;
 }
 @media (min-width:600px){
