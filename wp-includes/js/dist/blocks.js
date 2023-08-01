@@ -10516,15 +10516,15 @@ function getBlockProps(props = {}) {
 function getInnerBlocksProps(props = {}) {
   const {
     innerBlocks
-  } = innerBlocksPropsProvider;
-  const [firstBlock] = innerBlocks !== null && innerBlocks !== void 0 ? innerBlocks : [];
-  if (!firstBlock) return props; // If the innerBlocks passed to `getSaveElement` are not blocks but already
-  // components, return the props as is. This is the case for
-  // `getRichTextValues`.
+  } = innerBlocksPropsProvider; // Allow a different component to be passed to getSaveElement to handle
+  // inner blocks, bypassing the default serialisation.
 
-  if (!firstBlock.clientId) return { ...props,
-    children: innerBlocks
-  }; // Value is an array of blocks, so defer to block serializer.
+  if (!Array.isArray(innerBlocks)) {
+    return { ...props,
+      children: innerBlocks
+    };
+  } // Value is an array of blocks, so defer to block serializer.
+
 
   const html = serialize(innerBlocks, {
     isInnerBlocks: true

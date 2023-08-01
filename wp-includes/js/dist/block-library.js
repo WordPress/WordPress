@@ -24407,8 +24407,8 @@ function image_Image({
     ref: imageRef,
     className: borderProps.className,
     style: {
-      width: width && height || aspectRatio ? '100%' : 'inherit',
-      height: width && height || aspectRatio ? '100%' : 'inherit',
+      width: width && height || aspectRatio ? '100%' : undefined,
+      height: width && height || aspectRatio ? '100%' : undefined,
       objectFit: scale,
       ...borderProps.style
     }
@@ -35988,6 +35988,11 @@ const nextpage_init = () => initBlock({
 
 
 
+/**
+ * Internal dependencies
+ */
+
+
 
 const PatternEdit = ({
   attributes,
@@ -35997,7 +36002,14 @@ const PatternEdit = ({
   const {
     replaceBlocks,
     __unstableMarkNextChangeAsNotPersistent
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store); // Run this effect when the component loads.
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+  const {
+    setBlockEditingMode
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store));
+  const {
+    getBlockRootClientId,
+    getBlockEditingMode
+  } = unlock((0,external_wp_data_namespaceObject.useSelect)(external_wp_blockEditor_namespaceObject.store)); // Run this effect when the component loads.
   // This adds the Pattern's contents to the post.
   // This change won't be saved.
   // It will continue to pull from the pattern file unless changes are made to its respective template part.
@@ -36010,16 +36022,27 @@ const PatternEdit = ({
       // because nested pattern blocks cannot be inserted if the parent block supports
       // inner blocks but doesn't have blockSettings in the state.
       window.queueMicrotask(() => {
-        // Clone blocks from the pattern before insertion to ensure they receive
+        const rootClientId = getBlockRootClientId(clientId); // Clone blocks from the pattern before insertion to ensure they receive
         // distinct client ids. See https://github.com/WordPress/gutenberg/issues/50628.
+
         const clonedBlocks = selectedPattern.blocks.map(block => (0,external_wp_blocks_namespaceObject.cloneBlock)(block));
+        const rootEditingMode = getBlockEditingMode(rootClientId); // Temporarily set the root block to default mode to allow replacing the pattern.
+        // This could happen when the page is disabling edits of non-content blocks.
 
         __unstableMarkNextChangeAsNotPersistent();
 
-        replaceBlocks(clientId, clonedBlocks);
+        setBlockEditingMode(rootClientId, 'default');
+
+        __unstableMarkNextChangeAsNotPersistent();
+
+        replaceBlocks(clientId, clonedBlocks); // Restore the root block's original mode.
+
+        __unstableMarkNextChangeAsNotPersistent();
+
+        setBlockEditingMode(rootClientId, rootEditingMode);
       });
     }
-  }, [clientId, selectedPattern?.blocks, __unstableMarkNextChangeAsNotPersistent, replaceBlocks]);
+  }, [clientId, selectedPattern?.blocks, __unstableMarkNextChangeAsNotPersistent, replaceBlocks, getBlockEditingMode, setBlockEditingMode, getBlockRootClientId]);
   const props = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
   return (0,external_wp_element_namespaceObject.createElement)("div", { ...props
   });
@@ -58650,6 +58673,8 @@ const {
   usesContextKey
 } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const formatName = 'core/footnote';
+const POST_CONTENT_BLOCK_NAME = 'core/post-content';
+const SYNCED_PATTERN_BLOCK_NAME = 'core/block';
 const format = {
   title: (0,external_wp_i18n_namespaceObject.__)('Footnote'),
   tagName: 'sup',
@@ -58670,11 +58695,27 @@ const format = {
     const registry = (0,external_wp_data_namespaceObject.useRegistry)();
     const {
       getSelectedBlockClientId,
+      getBlocks,
       getBlockRootClientId,
       getBlockName,
-      getBlocks
+      getBlockParentsByBlockName
     } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blockEditor_namespaceObject.store);
     const footnotesBlockType = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blocks_namespaceObject.store).getBlockType(format_name));
+    /*
+     * This useSelect exists because we need to use its return value
+     * outside the event callback.
+     */
+
+    const isBlockWithinPattern = (0,external_wp_data_namespaceObject.useSelect)(select => {
+      const {
+        getBlockParentsByBlockName: _getBlockParentsByBlockName,
+        getSelectedBlockClientId: _getSelectedBlockClientId
+      } = select(external_wp_blockEditor_namespaceObject.store);
+
+      const parentCoreBlocks = _getBlockParentsByBlockName(_getSelectedBlockClientId(), SYNCED_PATTERN_BLOCK_NAME);
+
+      return parentCoreBlocks && parentCoreBlocks.length > 0;
+    }, []);
     const {
       selectionChange,
       insertBlock
@@ -58685,6 +58726,11 @@ const format = {
     }
 
     if (postType !== 'post' && postType !== 'page') {
+      return null;
+    } // Checks if the selected block lives within a pattern.
+
+
+    if (isBlockWithinPattern) {
       return null;
     }
 
@@ -58706,12 +58752,22 @@ const format = {
           }, value.end, value.end);
           newValue.start = newValue.end - 1;
           onChange(newValue);
-        } // BFS search to find the first footnote block.
+        }
 
+        const selectedClientId = getSelectedBlockClientId();
+        /*
+         * Attempts to find a common parent post content block.
+         * This allows for locating blocks within a page edited in the site editor.
+         */
+
+        const parentPostContent = getBlockParentsByBlockName(selectedClientId, POST_CONTENT_BLOCK_NAME); // When called with a post content block, getBlocks will return
+        // the block with controlled inner blocks included.
+
+        const blocks = parentPostContent.length ? getBlocks(parentPostContent[0]) : getBlocks(); // BFS search to find the first footnote block.
 
         let fnBlock = null;
         {
-          const queue = [...getBlocks()];
+          const queue = [...blocks];
 
           while (queue.length) {
             const block = queue.shift();
@@ -58728,10 +58784,9 @@ const format = {
         // insert it at the bottom.
 
         if (!fnBlock) {
-          const clientId = getSelectedBlockClientId();
-          let rootClientId = getBlockRootClientId(clientId);
+          let rootClientId = getBlockRootClientId(selectedClientId);
 
-          while (rootClientId && getBlockName(rootClientId) !== 'core/post-content') {
+          while (rootClientId && getBlockName(rootClientId) !== POST_CONTENT_BLOCK_NAME) {
             rootClientId = getBlockRootClientId(rootClientId);
           }
 
