@@ -1151,7 +1151,7 @@ function wp_user_settings() {
 		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE[ 'wp-settings-' . $user_id ] );
 
 		// No change or both empty.
-		if ( $cookie == $settings ) {
+		if ( $cookie === $settings ) {
 			return;
 		}
 
