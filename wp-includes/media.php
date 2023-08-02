@@ -5604,33 +5604,6 @@ function wp_get_webp_info( $filename ) {
 function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 	global $wp_query;
 
-	/*
-	 * Closure for postprocessing logic.
-	 * It is here to avoid duplicate logic in many places below, without having
-	 * to introduce a very specific private global function.
-	 */
-	$postprocess = static function( $loading_attributes, $with_fetchpriority = false ) use ( $tag_name, $attr, $context ) {
-		// Potentially add `fetchpriority="high"`.
-		if ( $with_fetchpriority ) {
-			$loading_attributes = wp_maybe_add_fetchpriority_high_attr( $loading_attributes, $tag_name, $attr );
-		}
-		// Potentially strip `loading="lazy"` if the feature is disabled.
-		if ( isset( $loading_attributes['loading'] ) && ! wp_lazy_loading_enabled( $tag_name, $context ) ) {
-			unset( $loading_attributes['loading'] );
-		}
-		return $loading_attributes;
-	};
-
-	// Closure to increase media count for images with certain minimum threshold, mostly used for header images.
-	$maybe_increase_content_media_count = static function() use ( $attr ) {
-		/** This filter is documented in wp-admin/includes/media.php */
-		$wp_min_priority_img_pixels = apply_filters( 'wp_min_priority_img_pixels', 50000 );
-		// Images with a certain minimum size in the header of the page are also counted towards the threshold.
-		if ( $wp_min_priority_img_pixels <= $attr['width'] * $attr['height'] ) {
-			wp_increase_content_media_count();
-		}
-	};
-
 	$loading_attrs = array();
 
 	/*
@@ -5651,104 +5624,163 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 		return $loading_attrs;
 	}
 
+	/*
+	 * Skip programmatically created images within post content as they need to be handled together with the other
+	 * images within the post content.
+	 * Without this clause, they would already be considered within their own context which skews the image count and
+	 * can result in the first post content image being lazy-loaded or an image further down the page being marked as a
+	 * high priority.
+	 */
+	switch ( $context ) {
+		case 'the_post_thumbnail':
+		case 'wp_get_attachment_image':
+		case 'widget_media_image':
+			if ( doing_filter( 'the_content' ) ) {
+				return $loading_attrs;
+			}
+	}
+
+	/*
+	 * The key function logic starts here.
+	 */
+	$maybe_in_viewport    = null;
+	$increase_count       = false;
+	$maybe_increase_count = false;
+
+	// Logic to handle a `loading` attribute that is already provided.
 	if ( isset( $attr['loading'] ) ) {
 		/*
-		 * While any `loading` value could be set in `$loading_attrs`, for
-		 * consistency we only do it for `loading="lazy"` since that is the
-		 * only possible value that WordPress core would apply on its own.
+		 * Interpret "lazy" as not in viewport. Any other value can be
+		 * interpreted as in viewport (realistically only "eager" or `false`
+		 * to force-omit the attribute are other potential values).
 		 */
 		if ( 'lazy' === $attr['loading'] ) {
-			$loading_attrs['loading'] = 'lazy';
-			if ( isset( $attr['fetchpriority'] ) && 'high' === $attr['fetchpriority'] ) {
-				_doing_it_wrong(
-					__FUNCTION__,
-					__( 'An image should not be lazy-loaded and marked as high priority at the same time.' ),
-					'6.3.0'
-				);
-			}
+			$maybe_in_viewport = false;
+		} else {
+			$maybe_in_viewport = true;
 		}
-
-		return $postprocess( $loading_attrs, true );
 	}
 
-	// An image with `fetchpriority="high"` cannot be assigned `loading="lazy"` at the same time.
+	// Logic to handle a `fetchpriority` attribute that is already provided.
 	if ( isset( $attr['fetchpriority'] ) && 'high' === $attr['fetchpriority'] ) {
-		return $postprocess( $loading_attrs, true );
-	}
-
-	/*
-	 * Do not lazy-load images in the header block template part, as they are likely above the fold.
-	 * For classic themes, this is handled in the condition below using the 'get_header' action.
-	 */
-	$header_area = WP_TEMPLATE_PART_AREA_HEADER;
-	if ( "template_part_{$header_area}" === $context ) {
-		// Increase media count if there are images in header above a certian minimum size threshold.
-		$maybe_increase_content_media_count();
-		return $postprocess( $loading_attrs, true );
-	}
-
-	// The custom header image is always expected to be in the header.
-	if ( 'get_header_image_tag' === $context ) {
-		// Increase media count if there are images in header above a certian minimum size threshold.
-		$maybe_increase_content_media_count();
-		return $postprocess( $loading_attrs, true );
-	}
-
-	// Special handling for programmatically created image tags.
-	if ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context || 'widget_media_image' === $context ) {
 		/*
-		 * Skip programmatically created images within post content as they need to be handled together with the other
-		 * images within the post content.
-		 * Without this clause, they would already be considered below which skews the image count and can result in
-		 * the first post content image being lazy-loaded or an image further down the page being marked as a high
-		 * priority.
+		 * If the image was already determined to not be in the viewport (e.g.
+		 * from an already provided `loading` attribute), trigger a warning.
+		 * Otherwise, the value can be interpreted as in viewport, since only
+		 * the most important in-viewport image should have `fetchpriority` set
+		 * to "high".
 		 */
-		if ( doing_filter( 'the_content' ) ) {
-			return $loading_attrs;
-		}
-
-		// Conditionally skip lazy-loading on images before the loop.
-		if (
-			// Only apply for main query but before the loop.
-			$wp_query->before_loop && $wp_query->is_main_query()
+		if ( false === $maybe_in_viewport ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				__( 'An image should not be lazy-loaded and marked as high priority at the same time.' ),
+				'6.3.0'
+			);
 			/*
-			 * Any image before the loop, but after the header has started should not be lazy-loaded,
-			 * except when the footer has already started which can happen when the current template
-			 * does not include any loop.
+			 * Set `fetchpriority` here for backward-compatibility as we should
+			 * not override what a developer decided, even though it seems
+			 * incorrect.
 			 */
-			&& did_action( 'get_header' ) && ! did_action( 'get_footer' )
-		) {
-			// Increase media count if there are images in header above a certian minimum size threshold.
-			$maybe_increase_content_media_count();
-			return $postprocess( $loading_attrs, true );
+			$loading_attrs['fetchpriority'] = 'high';
+		} else {
+			$maybe_in_viewport = true;
+		}
+	}
+
+	if ( null === $maybe_in_viewport ) {
+		switch ( $context ) {
+			// Consider elements with these header-specific contexts to be in viewport.
+			case 'template_part_' . WP_TEMPLATE_PART_AREA_HEADER:
+			case 'get_header_image_tag':
+				$maybe_in_viewport    = true;
+				$maybe_increase_count = true;
+				break;
+			// Count main content elements and detect whether in viewport.
+			case 'the_content':
+			case 'the_post_thumbnail':
+			case 'do_shortcode':
+				// Only elements within the main query loop have special handling.
+				if ( ! is_admin() && in_the_loop() && is_main_query() ) {
+					/*
+					 * Get the content media count, since this is a main query
+					 * content element. This is accomplished by "increasing"
+					 * the count by zero, as the only way to get the count is
+					 * to call this function.
+					 * The actual count increase happens further below, based
+					 * on the `$increase_count` flag set here.
+					 */
+					$content_media_count = wp_increase_content_media_count( 0 );
+					$increase_count      = true;
+
+					// If the count so far is below the threshold, `loading` attribute is omitted.
+					if ( $content_media_count < wp_omit_loading_attr_threshold() ) {
+						$maybe_in_viewport = true;
+					} else {
+						$maybe_in_viewport = false;
+					}
+				}
+				/*
+				 * For the 'the_post_thumbnail' context, the following case
+				 * clause needs to be considered as well, therefore skip the
+				 * break statement here if the viewport has not been
+				 * determined.
+				 */
+				if ( 'the_post_thumbnail' !== $context || null !== $maybe_in_viewport ) {
+					break;
+				}
+			// phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect
+			// Consider elements before the loop as being in viewport.
+			case 'wp_get_attachment_image':
+			case 'widget_media_image':
+				if (
+					// Only apply for main query but before the loop.
+					$wp_query->before_loop && $wp_query->is_main_query()
+					/*
+					 * Any image before the loop, but after the header has started should not be lazy-loaded,
+					 * except when the footer has already started which can happen when the current template
+					 * does not include any loop.
+					 */
+					&& did_action( 'get_header' ) && ! did_action( 'get_footer' )
+				) {
+					$maybe_in_viewport    = true;
+					$maybe_increase_count = true;
+				}
+				break;
 		}
 	}
 
 	/*
-	 * The first elements in 'the_content' or 'the_post_thumbnail' should not be lazy-loaded,
-	 * as they are likely above the fold. Shortcodes are processed after content images, so if
-	 * thresholds haven't already been met, apply the same logic to those as well.
+	 * If the element is in the viewport (`true`), potentially add
+	 * `fetchpriority` with a value of "high". Otherwise, i.e. if the element
+	 * is not not in the viewport (`false`) or it is unknown (`null`), add
+	 * `loading` with a value of "lazy".
 	 */
-	if ( 'the_content' === $context || 'the_post_thumbnail' === $context || 'do_shortcode' === $context ) {
-		// Only elements within the main query loop have special handling.
-		if ( is_admin() || ! in_the_loop() || ! is_main_query() ) {
+	if ( $maybe_in_viewport ) {
+		$loading_attrs = wp_maybe_add_fetchpriority_high_attr( $loading_attrs, $tag_name, $attr );
+	} else {
+		// Only add `loading="lazy"` if the feature is enabled.
+		if ( wp_lazy_loading_enabled( $tag_name, $context ) ) {
 			$loading_attrs['loading'] = 'lazy';
-			return $postprocess( $loading_attrs, false );
-		}
-
-		// Increase the counter since this is a main query content element.
-		$content_media_count = wp_increase_content_media_count();
-
-		// If the count so far is below the threshold, `loading` attribute is omitted.
-		if ( $content_media_count <= wp_omit_loading_attr_threshold() ) {
-			// The first largest image will still get `fetchpriority='high'`.
-			return $postprocess( $loading_attrs, true );
 		}
 	}
 
-	// Lazy-load by default for any unknown context.
-	$loading_attrs['loading'] = 'lazy';
-	return $postprocess( $loading_attrs, false );
+	/*
+	 * If flag was set based on contextual logic above, increase the content
+	 * media count, either unconditionally, or based on whether the image size
+	 * is larger than the threshold.
+	 */
+	if ( $increase_count ) {
+		wp_increase_content_media_count();
+	} elseif ( $maybe_increase_count ) {
+		/** This filter is documented in wp-admin/includes/media.php */
+		$wp_min_priority_img_pixels = apply_filters( 'wp_min_priority_img_pixels', 50000 );
+
+		if ( $wp_min_priority_img_pixels <= $attr['width'] * $attr['height'] ) {
+			wp_increase_content_media_count();
+		}
+	}
+
+	return $loading_attrs;
 }
 
 /**
