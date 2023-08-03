@@ -1349,7 +1349,8 @@ function wp_default_scripts( $scripts ) {
 		)
 	);
 
-	$scripts->add( 'wp-embed', "/wp-includes/js/wp-embed$suffix.js", array(), false, 1 );
+	$scripts->add( 'wp-embed', "/wp-includes/js/wp-embed$suffix.js" );
+	did_action( 'init' ) && $scripts->add_data( 'wp-embed', 'strategy', 'defer' );
 
 	/*
 	 * To enqueue media-views or media-editor, call wp_enqueue_media().
