@@ -187,8 +187,8 @@ class WP_List_Table {
 		}
 
 		trigger_error(
-			"The property `{$name}` is not defined. Getting a dynamic (undefined) property is " .
-			'deprecated since version 6.4.0! Instead, define the property on the class.',
+			"The property `{$name}` is not declared. Getting a dynamic property is " .
+			'deprecated since version 6.4.0! Instead, declare the property on the class.',
 			E_USER_DEPRECATED
 		);
 		return null;
@@ -210,8 +210,8 @@ class WP_List_Table {
 		}
 
 		trigger_error(
-			"The property `{$name}` is not defined. Setting a dynamic (undefined) property is " .
-			'deprecated since version 6.4.0! Instead, define the property on the class.',
+			"The property `{$name}` is not declared. Setting a dynamic property is " .
+			'deprecated since version 6.4.0! Instead, declare the property on the class.',
 			E_USER_DEPRECATED
 		);
 	}
@@ -231,8 +231,8 @@ class WP_List_Table {
 		}
 
 		trigger_error(
-			"The property `{$name}` is not defined. Checking `isset()` on a dynamic (undefined) property " .
-			'is deprecated since version 6.4.0! Instead, define the property on the class.',
+			"The property `{$name}` is not declared. Checking `isset()` on a dynamic property " .
+			'is deprecated since version 6.4.0! Instead, declare the property on the class.',
 			E_USER_DEPRECATED
 		);
 		return false;
@@ -253,8 +253,8 @@ class WP_List_Table {
 		}
 
 		trigger_error(
-			"A property `{$name}` is not defined. Unsetting a dynamic (undefined) property is " .
-			'deprecated since version 6.4.0! Instead, define the property on the class.',
+			"A property `{$name}` is not declared. Unsetting a dynamic property is " .
+			'deprecated since version 6.4.0! Instead, declare the property on the class.',
 			E_USER_DEPRECATED
 		);
 	}
