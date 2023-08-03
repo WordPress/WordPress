@@ -1109,6 +1109,7 @@ class WP_User_Query {
 	 * Makes private properties readable for backward compatibility.
 	 *
 	 * @since 4.0.0
+	 * @since 6.4.0 Getting a dynamic property is deprecated.
 	 *
 	 * @param string $name Property to get.
 	 * @return mixed Property.
@@ -1117,27 +1118,42 @@ class WP_User_Query {
 		if ( in_array( $name, $this->compat_fields, true ) ) {
 			return $this->$name;
 		}
+
+		trigger_error(
+			"The property `{$name}` is not declared. Getting a dynamic property is " .
+			'deprecated since version 6.4.0! Instead, declare the property on the class.',
+			E_USER_DEPRECATED
+		);
+		return null;
 	}
 
 	/**
 	 * Makes private properties settable for backward compatibility.
 	 *
 	 * @since 4.0.0
+	 * @since 6.4.0 Setting a dynamic property is deprecated.
 	 *
 	 * @param string $name  Property to check if set.
 	 * @param mixed  $value Property value.
-	 * @return mixed Newly-set property.
 	 */
 	public function __set( $name, $value ) {
 		if ( in_array( $name, $this->compat_fields, true ) ) {
-			return $this->$name = $value;
+			$this->$name = $value;
+			return;
 		}
+
+		trigger_error(
+			"The property `{$name}` is not declared. Setting a dynamic property is " .
+			'deprecated since version 6.4.0! Instead, declare the property on the class.',
+			E_USER_DEPRECATED
+		);
 	}
 
 	/**
 	 * Makes private properties checkable for backward compatibility.
 	 *
 	 * @since 4.0.0
+	 * @since 6.4.0 Checking a dynamic property is deprecated.
 	 *
 	 * @param string $name Property to check if set.
 	 * @return bool Whether the property is set.
@@ -1146,19 +1162,34 @@ class WP_User_Query {
 		if ( in_array( $name, $this->compat_fields, true ) ) {
 			return isset( $this->$name );
 		}
+
+		trigger_error(
+			"The property `{$name}` is not declared. Checking `isset()` on a dynamic property " .
+			'is deprecated since version 6.4.0! Instead, declare the property on the class.',
+			E_USER_DEPRECATED
+		);
+		return false;
 	}
 
 	/**
 	 * Makes private properties un-settable for backward compatibility.
 	 *
 	 * @since 4.0.0
+	 * @since 6.4.0 Unsetting a dynamic property is deprecated.
 	 *
 	 * @param string $name Property to unset.
 	 */
 	public function __unset( $name ) {
 		if ( in_array( $name, $this->compat_fields, true ) ) {
 			unset( $this->$name );
+			return;
 		}
+
+		trigger_error(
+			"A property `{$name}` is not declared. Unsetting a dynamic property is " .
+			'deprecated since version 6.4.0! Instead, declare the property on the class.',
+			E_USER_DEPRECATED
+		);
 	}
 
 	/**
