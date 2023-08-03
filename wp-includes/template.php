@@ -707,7 +707,7 @@ function locate_template( $template_names, $load = false, $load_once = true, $ar
 		if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
 			$located = STYLESHEETPATH . '/' . $template_name;
 			break;
-		} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
+		} elseif ( is_child_theme() && file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
 			$located = TEMPLATEPATH . '/' . $template_name;
 			break;
 		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
