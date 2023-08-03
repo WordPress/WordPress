@@ -140,7 +140,7 @@ endif;
  * @param int                  $id      Front page section to display.
  */
 function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
-	if ( is_a( $partial, 'WP_Customize_Partial' ) ) {
+	if ( $partial instanceof WP_Customize_Partial ) {
 		// Find out the ID and set it up during a selective refresh.
 		global $twentyseventeencounter;
 

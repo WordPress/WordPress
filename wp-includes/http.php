@@ -354,7 +354,7 @@ function wp_remote_retrieve_cookie( $response, $name ) {
 function wp_remote_retrieve_cookie_value( $response, $name ) {
 	$cookie = wp_remote_retrieve_cookie( $response, $name );
 
-	if ( ! is_a( $cookie, 'WP_Http_Cookie' ) ) {
+	if ( ! ( $cookie instanceof WP_Http_Cookie ) ) {
 		return '';
 	}
 
