@@ -73,25 +73,20 @@
 	 * @returns {?SupportTests} Support tests, or null if not set or older than 1 week.
 	 */
 	function getSessionSupportTests() {
-		if (
-			typeof sessionStorage !== 'undefined' &&
-			sessionStorageKey in sessionStorage
-		) {
-			try {
-				/** @type {SessionSupportTests} */
-				var item = JSON.parse(
-					sessionStorage.getItem( sessionStorageKey )
-				);
-				if (
-					typeof item === 'object' &&
-					typeof item.timestamp === 'number' &&
-					new Date().valueOf() < item.timestamp + 604800 && // Note: Number is a week in seconds.
-					typeof item.supportTests === 'object'
-				) {
-					return item.supportTests;
-				}
-			} catch ( e ) {}
-		}
+		try {
+			/** @type {SessionSupportTests} */
+			var item = JSON.parse(
+				sessionStorage.getItem( sessionStorageKey )
+			);
+			if (
+				typeof item === 'object' &&
+				typeof item.timestamp === 'number' &&
+				new Date().valueOf() < item.timestamp + 604800 && // Note: Number is a week in seconds.
+				typeof item.supportTests === 'object'
+			) {
+				return item.supportTests;
+			}
+		} catch ( e ) {}
 		return null;
 	}
 
@@ -105,20 +100,18 @@
 	 * @param {SupportTests} supportTests Support tests.
 	 */
 	function setSessionSupportTests( supportTests ) {
-		if ( typeof sessionStorage !== 'undefined' ) {
-			try {
-				/** @type {SessionSupportTests} */
-				var item = {
-					supportTests: supportTests,
-					timestamp: new Date().valueOf()
-				};
+		try {
+			/** @type {SessionSupportTests} */
+			var item = {
+				supportTests: supportTests,
+				timestamp: new Date().valueOf()
+			};
 
-				sessionStorage.setItem(
-					sessionStorageKey,
-					JSON.stringify( item )
-				);
-			} catch ( e ) {}
-		}
+			sessionStorage.setItem(
+				sessionStorageKey,
+				JSON.stringify( item )
+			);
+		} catch ( e ) {}
 	}
 
 	/**
