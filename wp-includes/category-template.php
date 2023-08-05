@@ -568,7 +568,7 @@ function wp_list_categories( $args = '' ) {
 	}
 
 	// Descendants of exclusions should be excluded too.
-	if ( true == $parsed_args['hierarchical'] ) {
+	if ( $parsed_args['hierarchical'] ) {
 		$exclude_tree = array();
 
 		if ( $parsed_args['exclude_tree'] ) {
