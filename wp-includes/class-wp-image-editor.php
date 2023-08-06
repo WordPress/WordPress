@@ -353,7 +353,7 @@ abstract class WP_Image_Editor {
 		 * Check to see if specified mime-type is the same as type implied by
 		 * file extension. If so, prefer extension from file.
 		 */
-		if ( ! $mime_type || ( $file_mime == $mime_type ) ) {
+		if ( ! $mime_type || ( $file_mime === $mime_type ) ) {
 			$mime_type = $file_mime;
 			$new_ext   = $file_ext;
 		}
