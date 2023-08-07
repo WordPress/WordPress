@@ -110,7 +110,7 @@ class WP_HTML_Open_Elements {
 	 * @param string[] $termination_list List of elements that terminate the search.
 	 * @return bool Whether the element was found in a specific scope.
 	 */
-	public function has_element_in_specific_scope( $tag_name, $termination_list ) {
+	public function has_element_in_specific_scope( $tag_name, $termination_list ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		foreach ( $this->walk_up() as $node ) {
 			if ( $node->node_name === $tag_name ) {
 				return true;
@@ -134,6 +134,7 @@ class WP_HTML_Open_Elements {
 		return $this->has_element_in_specific_scope(
 			$tag_name,
 			array(
+
 				/*
 				 * Because it's not currently possible to encounter
 				 * one of the termination elements, they don't need
@@ -152,11 +153,15 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-list-item-scope
 	 *
+	 * @throws WP_HTML_Unsupported_Exception Always until this function is implemented.
+	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
-	public function has_element_in_list_item_scope( $tag_name ) {
+	public function has_element_in_list_item_scope( $tag_name ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on list item scope.' );
+
+		return false; // The linter requires this unreachable code until the function is implemented and can return.
 	}
 
 	/**
@@ -173,6 +178,7 @@ class WP_HTML_Open_Elements {
 		return $this->has_element_in_specific_scope(
 			$tag_name,
 			array(
+
 				/*
 				 * Because it's not currently possible to encounter
 				 * one of the termination elements, they don't need
@@ -191,11 +197,15 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-table-scope
 	 *
+	 * @throws WP_HTML_Unsupported_Exception Always until this function is implemented.
+	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
-	public function has_element_in_table_scope( $tag_name ) {
+	public function has_element_in_table_scope( $tag_name ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on table scope.' );
+
+		return false; // The linter requires this unreachable code until the function is implemented and can return.
 	}
 
 	/**
@@ -205,11 +215,15 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-select-scope
 	 *
+	 * @throws WP_HTML_Unsupported_Exception Always until this function is implemented.
+	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
-	public function has_element_in_select_scope( $tag_name ) {
+	public function has_element_in_select_scope( $tag_name ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on select scope.' );
+
+		return false; // The linter requires this unreachable code until the function is implemented and can return.
 	}
 
 	/**
@@ -219,7 +233,7 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
 	 *
-	 * @return bool
+	 * @return bool Whether a P is in BUTTON scope.
 	 */
 	public function has_p_in_button_scope() {
 		return $this->has_p_in_button_scope;
@@ -320,7 +334,7 @@ class WP_HTML_Open_Elements {
 	 *     > EM -> STRONG -> A ->
 	 *
 	 * To start with the most-recently added element and walk towards the top,
-	 * @see WP_HTML_Open_Elements::walk_up
+	 * see WP_HTML_Open_Elements::walk_up().
 	 *
 	 * @since 6.4.0
 	 */
@@ -347,7 +361,7 @@ class WP_HTML_Open_Elements {
 	 *     > A -> STRONG -> EM ->
 	 *
 	 * To start with the first added element and walk towards the bottom,
-	 * @see WP_HTML_Open_Elements::walk_down
+	 * see WP_HTML_Open_Elements::walk_down().
 	 *
 	 * @since 6.4.0
 	 */

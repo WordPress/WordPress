@@ -36,9 +36,11 @@ class WP_HTML_Token {
 	/**
 	 * Name of node; lowercase names such as "marker" are not HTML elements.
 	 *
-	 * For HTML elements/tags this value should come from {@see WP_HTML_Processor::get_tag}.
+	 * For HTML elements/tags this value should come from WP_HTML_Processor::get_tag().
 	 *
 	 * @since 6.4.0
+	 *
+	 * @see WP_HTML_Processor::get_tag()
 	 *
 	 * @var string
 	 */
