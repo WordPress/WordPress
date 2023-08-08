@@ -923,7 +923,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		}
 	}
 
-	/*
+	/**
 	 * Closes elements that have implied end tags, thoroughly.
 	 *
 	 * See the HTML specification for an explanation why this is
