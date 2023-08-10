@@ -29,7 +29,7 @@ function wp_register_dimensions_support( $block_type ) {
 		return;
 	}
 
-	$has_dimensions_support = block_has_support( $block_type, array( 'dimensions' ), false );
+	$has_dimensions_support = block_has_support( $block_type, 'dimensions', false );
 
 	if ( $has_dimensions_support ) {
 		$block_type->attributes['style'] = array(

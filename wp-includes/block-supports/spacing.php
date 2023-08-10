@@ -18,7 +18,7 @@
  * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_spacing_support( $block_type ) {
-	$has_spacing_support = block_has_support( $block_type, array( 'spacing' ), false );
+	$has_spacing_support = block_has_support( $block_type, 'spacing', false );
 
 	// Setup attributes and styles within that if needed.
 	if ( ! $block_type->attributes ) {

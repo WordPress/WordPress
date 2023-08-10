@@ -15,7 +15,7 @@
  * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_shadow_support( $block_type ) {
-	$has_shadow_support = block_has_support( $block_type, array( 'shadow' ), false );
+	$has_shadow_support = block_has_support( $block_type, 'shadow', false );
 
 	if ( ! $has_shadow_support ) {
 		return;
@@ -50,7 +50,7 @@ function wp_register_shadow_support( $block_type ) {
  * @return array Shadow CSS classes and inline styles.
  */
 function wp_apply_shadow_support( $block_type, $block_attributes ) {
-	$has_shadow_support = block_has_support( $block_type, array( 'shadow' ), false );
+	$has_shadow_support = block_has_support( $block_type, 'shadow', false );
 
 	if ( ! $has_shadow_support ) {
 		return array();
