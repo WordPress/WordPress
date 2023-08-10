@@ -115,6 +115,15 @@ class WP_HTML_Open_Elements {
 			if ( $node->node_name === $tag_name ) {
 				return true;
 			}
+
+			switch ( $node->node_name ) {
+				case 'HTML':
+					return false;
+			}
+
+			if ( in_array( $node->node_name, $termination_list, true ) ) {
+				return true;
+			}
 		}
 
 		return false;
@@ -175,19 +184,7 @@ class WP_HTML_Open_Elements {
 	 * @return bool Whether given element is in scope.
 	 */
 	public function has_element_in_button_scope( $tag_name ) {
-		return $this->has_element_in_specific_scope(
-			$tag_name,
-			array(
-
-				/*
-				 * Because it's not currently possible to encounter
-				 * one of the termination elements, they don't need
-				 * to be listed here. If they were, they would be
-				 * unreachable and only waste CPU cycles while
-				 * scanning through HTML.
-				 */
-			)
-		);
+		return $this->has_element_in_specific_scope( $tag_name, array( 'BUTTON' ) );
 	}
 
 	/**
@@ -394,6 +391,10 @@ class WP_HTML_Open_Elements {
 		 * cases where the precalculated value needs to change.
 		 */
 		switch ( $item->node_name ) {
+			case 'BUTTON':
+				$this->has_p_in_button_scope = false;
+				break;
+
 			case 'P':
 				$this->has_p_in_button_scope = true;
 				break;
@@ -419,6 +420,10 @@ class WP_HTML_Open_Elements {
 		 * cases where the precalculated value needs to change.
 		 */
 		switch ( $item->node_name ) {
+			case 'BUTTON':
+				$this->has_p_in_button_scope = $this->has_element_in_button_scope( 'P' );
+				break;
+
 			case 'P':
 				$this->has_p_in_button_scope = $this->has_element_in_button_scope( 'P' );
 				break;

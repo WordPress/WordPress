@@ -349,7 +349,13 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	public function next_tag( $query = null ) {
 		if ( null === $query ) {
-			return $this->step();
+			while ( $this->step() ) {
+				if ( ! $this->is_tag_closer() ) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		if ( is_string( $query ) ) {
@@ -366,7 +372,13 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		}
 
 		if ( ! ( array_key_exists( 'breadcrumbs', $query ) && is_array( $query['breadcrumbs'] ) ) ) {
-			return $this->step();
+			while ( $this->step() ) {
+				if ( ! $this->is_tag_closer() ) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		if ( isset( $query['tag_closers'] ) && 'visit' === $query['tag_closers'] ) {
@@ -383,7 +395,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		$crumb  = end( $breadcrumbs );
 		$target = strtoupper( $crumb );
-		while ( $this->step() ) {
+		while ( $match_offset > 0 && $this->step() ) {
 			if ( $target !== $this->get_tag() ) {
 				continue;
 			}
@@ -395,7 +407,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 
 				$crumb = prev( $breadcrumbs );
-				if ( false === $crumb && 0 === --$match_offset ) {
+				if ( false === $crumb && 0 === --$match_offset && ! $this->is_tag_closer() ) {
 					return true;
 				}
 			}
@@ -511,6 +523,22 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		switch ( $op ) {
 			/*
+			 * > A start tag whose tag name is "button"
+			 */
+			case '+BUTTON':
+				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'BUTTON' ) ) {
+					// @TODO: Indicate a parse error once it's possible. This error does not impact the logic here.
+					$this->generate_implied_end_tags();
+					$this->state->stack_of_open_elements->pop_until( 'BUTTON' );
+				}
+
+				$this->reconstruct_active_formatting_elements();
+				$this->insert_html_element( $this->current_token );
+				$this->state->frameset_ok = false;
+
+				return true;
+
+			/*
 			 * > A start tag whose tag name is one of: "address", "article", "aside",
 			 * > "blockquote", "center", "details", "dialog", "dir", "div", "dl",
 			 * > "fieldset", "figcaption", "figure", "footer", "header", "hgroup",
@@ -535,15 +563,20 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * > "menu", "nav", "ol", "pre", "search", "section", "summary", "ul"
 			 */
 			case '-BLOCKQUOTE':
+			case '-BUTTON':
 			case '-DIV':
 			case '-FIGCAPTION':
 			case '-FIGURE':
 				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name ) ) {
+					// @TODO: Report parse error.
 					// Ignore the token.
 					return $this->step();
 				}
 
 				$this->generate_implied_end_tags();
+				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $tag_name ) {
+					// @TODO: Record parse error: this error doesn't impact parsing.
+				}
 				$this->state->stack_of_open_elements->pop_until( $tag_name );
 				return true;
 
