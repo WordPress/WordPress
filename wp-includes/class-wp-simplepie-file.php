@@ -14,8 +14,6 @@
  * to hook into the process.
  *
  * @since 2.8.0
- *
- * @see SimplePie_File
  */
 #[AllowDynamicProperties]
 class WP_SimplePie_File extends SimplePie_File {
