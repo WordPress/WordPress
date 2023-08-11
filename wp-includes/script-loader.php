@@ -111,7 +111,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'regenerator-runtime'         => '0.13.11',
 		'moment'                      => '2.29.4',
 		'lodash'                      => '4.17.19',
-		'wp-polyfill-fetch'           => '3.6.2',
+		'wp-polyfill-fetch'           => '3.6.17',
 		'wp-polyfill-formdata'        => '4.0.10',
 		'wp-polyfill-node-contains'   => '4.6.0',
 		'wp-polyfill-url'             => '3.6.4',
