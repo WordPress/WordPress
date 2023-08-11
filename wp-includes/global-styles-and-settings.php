@@ -425,6 +425,7 @@ function wp_clean_theme_json_cache() {
 	wp_cache_delete( 'wp_get_global_settings_custom', 'theme_json' );
 	wp_cache_delete( 'wp_get_global_settings_theme', 'theme_json' );
 	wp_cache_delete( 'wp_get_global_styles_custom_css', 'theme_json' );
+	wp_cache_delete( 'wp_get_theme_data_template_parts', 'theme_json' );
 	WP_Theme_JSON_Resolver::clean_cached_data();
 }
 
@@ -438,6 +439,36 @@ function wp_clean_theme_json_cache() {
  */
 function wp_get_theme_directory_pattern_slugs() {
 	return WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_patterns();
+}
+
+/**
+ * Returns the metadata for the template parts defined by the theme.
+ *
+ * @since 6.4.0
+ *
+ * return array Associative array of `$part_name => $part_data` pairs, with `$part_data` having "title" and "area" fields.
+ */
+function wp_get_theme_data_template_parts() {
+	$cache_group    = 'theme_json';
+	$cache_key      = 'wp_get_theme_data_template_parts';
+	$can_use_cached = ! wp_is_development_mode( 'theme' );
+
+	$metadata = false;
+	if ( $can_use_cached ) {
+		$metadata = wp_cache_get( $cache_key, $cache_group );
+		if ( false !== $metadata ) {
+			return $metadata;
+		}
+	}
+
+	if ( false === $metadata ) {
+		$metadata = WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_template_parts();
+		if ( $can_use_cached ) {
+			wp_cache_set( $cache_key, $metadata, $cache_group );
+		}
+	}
+
+	return $metadata;
 }
 
 /**
