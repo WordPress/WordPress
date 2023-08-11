@@ -63,7 +63,7 @@
   background-color:#fcf0ef;
 }
 .wp-block-table.is-style-stripes td,.wp-block-table.is-style-stripes th{
-  border-color:transparent;
+  border-color:#0000;
 }
 .wp-block-table .has-border-color td,.wp-block-table .has-border-color th,.wp-block-table .has-border-color tr,.wp-block-table .has-border-color>*{
   border-color:inherit;

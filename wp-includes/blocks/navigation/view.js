@@ -1,4 +1,4 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 // Open on click functionality.
 function closeSubmenus(element) {

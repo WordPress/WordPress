@@ -1,48 +1,48 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -51,57 +51,57 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "store": function() { return /* reexport */ store; }
+  store: () => (/* reexport */ store)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/block-directory/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  "getDownloadableBlocks": function() { return getDownloadableBlocks; },
-  "getErrorNoticeForBlock": function() { return getErrorNoticeForBlock; },
-  "getErrorNotices": function() { return getErrorNotices; },
-  "getInstalledBlockTypes": function() { return getInstalledBlockTypes; },
-  "getNewBlockTypes": function() { return getNewBlockTypes; },
-  "getUnusedBlockTypes": function() { return getUnusedBlockTypes; },
-  "isInstalling": function() { return isInstalling; },
-  "isRequestingDownloadableBlocks": function() { return isRequestingDownloadableBlocks; }
+  getDownloadableBlocks: () => (getDownloadableBlocks),
+  getErrorNoticeForBlock: () => (getErrorNoticeForBlock),
+  getErrorNotices: () => (getErrorNotices),
+  getInstalledBlockTypes: () => (getInstalledBlockTypes),
+  getNewBlockTypes: () => (getNewBlockTypes),
+  getUnusedBlockTypes: () => (getUnusedBlockTypes),
+  isInstalling: () => (isInstalling),
+  isRequestingDownloadableBlocks: () => (isRequestingDownloadableBlocks)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/block-directory/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  "addInstalledBlockType": function() { return addInstalledBlockType; },
-  "clearErrorNotice": function() { return clearErrorNotice; },
-  "fetchDownloadableBlocks": function() { return fetchDownloadableBlocks; },
-  "installBlockType": function() { return installBlockType; },
-  "receiveDownloadableBlocks": function() { return receiveDownloadableBlocks; },
-  "removeInstalledBlockType": function() { return removeInstalledBlockType; },
-  "setErrorNotice": function() { return setErrorNotice; },
-  "setIsInstalling": function() { return setIsInstalling; },
-  "uninstallBlockType": function() { return uninstallBlockType; }
+  addInstalledBlockType: () => (addInstalledBlockType),
+  clearErrorNotice: () => (clearErrorNotice),
+  fetchDownloadableBlocks: () => (fetchDownloadableBlocks),
+  installBlockType: () => (installBlockType),
+  receiveDownloadableBlocks: () => (receiveDownloadableBlocks),
+  removeInstalledBlockType: () => (removeInstalledBlockType),
+  setErrorNotice: () => (setErrorNotice),
+  setIsInstalling: () => (setIsInstalling),
+  uninstallBlockType: () => (uninstallBlockType)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/block-directory/build-module/store/resolvers.js
 var resolvers_namespaceObject = {};
 __webpack_require__.r(resolvers_namespaceObject);
 __webpack_require__.d(resolvers_namespaceObject, {
-  "getDownloadableBlocks": function() { return resolvers_getDownloadableBlocks; }
+  getDownloadableBlocks: () => (resolvers_getDownloadableBlocks)
 });
 
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","plugins"]
-var external_wp_plugins_namespaceObject = window["wp"]["plugins"];
+const external_wp_plugins_namespaceObject = window["wp"]["plugins"];
 ;// CONCATENATED MODULE: external ["wp","hooks"]
-var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
+const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: external ["wp","blocks"]
-var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
+const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external ["wp","editor"]
-var external_wp_editor_namespaceObject = window["wp"]["editor"];
+const external_wp_editor_namespaceObject = window["wp"]["editor"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/reducer.js
 /**
  * WordPress dependencies
@@ -199,14 +199,14 @@ const errorNotices = (state = {}, action) => {
 
   return state;
 };
-/* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   downloadableBlocks,
   blockManagement,
   errorNotices
 }));
 
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
+const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/utils/has-block-type.js
 /**
  * Check if a block list contains a specific block type. Recursively searches
@@ -353,14 +353,14 @@ function getErrorNoticeForBlock(state, blockId) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
+const external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","notices"]
-var external_wp_notices_namespaceObject = window["wp"]["notices"];
+const external_wp_notices_namespaceObject = window["wp"]["notices"];
 ;// CONCATENATED MODULE: external ["wp","url"]
-var external_wp_url_namespaceObject = window["wp"]["url"];
+const external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/load-assets.js
 /**
  * WordPress dependencies
@@ -1058,7 +1058,7 @@ function __disposeResources(env) {
   return next();
 }
 
-/* harmony default export */ var tslib_es6 = ({
+/* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
@@ -1318,13 +1318,13 @@ function AutoBlockUninstaller() {
 }
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
-var external_wp_compose_namespaceObject = window["wp"]["compose"];
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: external ["wp","components"]
-var external_wp_components_namespaceObject = window["wp"]["components"];
+const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","coreData"]
-var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
+const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
-var external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
+const external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
 /**
  * WordPress dependencies
@@ -1354,10 +1354,10 @@ function Icon({
   });
 }
 
-/* harmony default export */ var icon = (Icon);
+/* harmony default export */ const icon = (Icon);
 
 ;// CONCATENATED MODULE: external ["wp","primitives"]
-var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
 
 
@@ -1371,7 +1371,7 @@ const starFilled = (0,external_wp_element_namespaceObject.createElement)(externa
 }, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z"
 }));
-/* harmony default export */ var star_filled = (starFilled);
+/* harmony default export */ const star_filled = (starFilled);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-half.js
 
@@ -1386,7 +1386,7 @@ const starHalf = (0,external_wp_element_namespaceObject.createElement)(external_
 }, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M9.518 8.783a.25.25 0 00.188-.137l2.069-4.192a.25.25 0 01.448 0l2.07 4.192a.25.25 0 00.187.137l4.626.672a.25.25 0 01.139.427l-3.347 3.262a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.363.264l-4.137-2.176a.25.25 0 00-.233 0l-4.138 2.175a.25.25 0 01-.362-.263l.79-4.607a.25.25 0 00-.072-.222L4.753 9.882a.25.25 0 01.14-.427l4.625-.672zM12 14.533c.28 0 .559.067.814.2l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39v7.143z"
 }));
-/* harmony default export */ var star_half = (starHalf);
+/* harmony default export */ const star_half = (starHalf);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
 
@@ -1403,7 +1403,7 @@ const starEmpty = (0,external_wp_element_namespaceObject.createElement)(external
   d: "M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z",
   clipRule: "evenodd"
 }));
-/* harmony default export */ var star_empty = (starEmpty);
+/* harmony default export */ const star_empty = (starEmpty);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/stars.js
 
@@ -1449,7 +1449,7 @@ function Stars({
   })));
 }
 
-/* harmony default export */ var stars = (Stars);
+/* harmony default export */ const stars = (Stars);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/index.js
 
@@ -1465,7 +1465,7 @@ const BlockRatings = ({
 }, (0,external_wp_element_namespaceObject.createElement)(stars, {
   rating: rating
 }));
-/* harmony default export */ var block_ratings = (BlockRatings);
+/* harmony default export */ const block_ratings = (BlockRatings);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-block-icon/index.js
 
@@ -1490,7 +1490,7 @@ function DownloadableBlockIcon({
   });
 }
 
-/* harmony default export */ var downloadable_block_icon = (DownloadableBlockIcon);
+/* harmony default export */ const downloadable_block_icon = (DownloadableBlockIcon);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-block-notice/index.js
 
@@ -1520,7 +1520,7 @@ const DownloadableBlockNotice = ({
     className: "block-directory-downloadable-block-notice__content"
   }, errorNotice.message, errorNotice.isFatal ? ' ' + (0,external_wp_i18n_namespaceObject.__)('Try reloading the page.') : null));
 };
-/* harmony default export */ var downloadable_block_notice = (DownloadableBlockNotice);
+/* harmony default export */ const downloadable_block_notice = (DownloadableBlockNotice);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-block-list-item/index.js
 
@@ -1664,7 +1664,7 @@ function DownloadableBlockListItem({
   }, !!statusText ? statusText : (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(description)), isInstallable && !(isInstalled || isInstalling) && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, null, (0,external_wp_i18n_namespaceObject.__)('Install block')))));
 }
 
-/* harmony default export */ var downloadable_block_list_item = (DownloadableBlockListItem);
+/* harmony default export */ const downloadable_block_list_item = (DownloadableBlockListItem);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-blocks-list/index.js
 
@@ -1729,10 +1729,10 @@ function DownloadableBlocksList({
   }));
 }
 
-/* harmony default export */ var downloadable_blocks_list = (DownloadableBlocksList);
+/* harmony default export */ const downloadable_blocks_list = (DownloadableBlocksList);
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
-var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
+const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-blocks-panel/inserter-panel.js
 
 
@@ -1769,7 +1769,7 @@ function DownloadableBlocksInserterPanel({
   }, (0,external_wp_i18n_namespaceObject.__)('Select a block to install and add it to your post.'))), children));
 }
 
-/* harmony default export */ var inserter_panel = (DownloadableBlocksInserterPanel);
+/* harmony default export */ const inserter_panel = (DownloadableBlocksInserterPanel);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
 
@@ -1784,7 +1784,7 @@ const blockDefault = (0,external_wp_element_namespaceObject.createElement)(exter
 }, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M19 8h-1V6h-5v2h-2V6H6v2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm.5 10c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-8c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v8z"
 }));
-/* harmony default export */ var block_default = (blockDefault);
+/* harmony default export */ const block_default = (blockDefault);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-blocks-panel/no-results.js
 
@@ -1809,7 +1809,7 @@ function DownloadableBlocksNoResults() {
   }, (0,external_wp_i18n_namespaceObject.__)('Get started here'), "."))));
 }
 
-/* harmony default export */ var no_results = (DownloadableBlocksNoResults);
+/* harmony default export */ const no_results = (DownloadableBlocksNoResults);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/downloadable-blocks-panel/index.js
 
@@ -1870,7 +1870,7 @@ function DownloadableBlocksPanel({
   })) : !hasLocalBlocks && (0,external_wp_element_namespaceObject.createElement)(no_results, null);
 }
 
-/* harmony default export */ var downloadable_blocks_panel = ((0,external_wp_compose_namespaceObject.compose)([(0,external_wp_data_namespaceObject.withSelect)((select, {
+/* harmony default export */ const downloadable_blocks_panel = ((0,external_wp_compose_namespaceObject.compose)([(0,external_wp_data_namespaceObject.withSelect)((select, {
   filterValue,
   rootClientId = null
 }) => {
@@ -1952,7 +1952,7 @@ function InserterMenuDownloadableBlocksPanel() {
   });
 }
 
-/* harmony default export */ var inserter_menu_downloadable_blocks_panel = (InserterMenuDownloadableBlocksPanel);
+/* harmony default export */ const inserter_menu_downloadable_blocks_panel = (InserterMenuDownloadableBlocksPanel);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/compact-list/index.js
 
@@ -2191,7 +2191,7 @@ const ModifiedWarning = ({
   }, messageHTML), (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, null, originalUndelimitedContent));
 };
 
-/* harmony default export */ var get_install_missing = (getInstallMissing);
+/* harmony default export */ const get_install_missing = (getInstallMissing);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/plugins/index.js
 

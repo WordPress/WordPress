@@ -20,7 +20,7 @@
     top:-1px;
   }
   .wp-block-navigation-submenu.has-child-selected>.wp-block-navigation__submenu-container .wp-block-navigation__submenu-container:before,.wp-block-navigation-submenu.is-selected>.wp-block-navigation__submenu-container .wp-block-navigation__submenu-container:before{
-    background:transparent;
+    background:#0000;
     content:"";
     display:block;
     height:100%;

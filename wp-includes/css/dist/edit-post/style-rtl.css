@@ -415,7 +415,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .interface-preferences__tabs .components-tab-panel__tabs .components-tab-panel__tabs-item:focus:not(:disabled){
   box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline:2px solid transparent;
+  outline:2px solid #0000;
 }
 .interface-preferences__tabs .components-tab-panel__tabs .components-tab-panel__tabs-item:focus-visible:before{
   content:none;
@@ -615,7 +615,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .is-distraction-free .edit-post-header{
   -webkit-backdrop-filter:blur(20px) !important;
           backdrop-filter:blur(20px) !important;
-  background-color:hsla(0,0%,100%,.9);
+  background-color:#ffffffe6;
   border-bottom:1px solid #e0e0e0;
   position:absolute;
   width:100%;
@@ -687,7 +687,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
     box-shadow:none;
   }
   .edit-post-fullscreen-mode-close.components-button:focus:before{
-    box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) hsla(0,0%,100%,.1), inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+    box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) #ffffff1a, inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   }
 }
 .edit-post-fullscreen-mode-close.components-button .edit-post-fullscreen-mode-close_site-icon{
@@ -744,7 +744,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .edit-post-header-toolbar .edit-post-header-toolbar__left>.components-button.has-icon:focus:not(:disabled),.edit-post-header-toolbar .edit-post-header-toolbar__left>.components-dropdown>.components-button.has-icon:focus:not(:disabled){
   box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 0 0 1px #fff;
-  outline:1px solid transparent;
+  outline:1px solid #0000;
 }
 .edit-post-header-toolbar .edit-post-header-toolbar__left>.components-button.has-icon:before,.edit-post-header-toolbar .edit-post-header-toolbar__left>.components-dropdown>.components-button.has-icon:before{
   display:none;
@@ -1006,12 +1006,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   z-index:100000;
 }
 
-.interface-interface-skeleton__sidebar:focus .edit-post-layout__toggle-sidebar-panel,.interface-interface-skeleton__sidebar:focus-within .edit-post-layout__toggle-sidebar-panel{
-  bottom:0;
-  top:auto;
-}
-
-.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel{
+.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__sidebar:focus .edit-post-layout__toggle-sidebar-panel,.interface-interface-skeleton__sidebar:focus-within .edit-post-layout__toggle-sidebar-panel{
   bottom:0;
   top:auto;
 }
@@ -1142,7 +1137,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   width:44px;
 }
 .edit-post-meta-boxes-area.is-loading:before{
-  background:transparent;
+  background:#0000;
   bottom:0;
   content:"";
   left:0;
@@ -1226,7 +1221,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   height:100%;
   overflow:auto;
   padding:8px 6px;
-  scrollbar-color:transparent transparent;
+  scrollbar-color:#0000 #0000;
   scrollbar-gutter:stable both-edges;
   scrollbar-gutter:auto;
   scrollbar-width:thin;
@@ -1242,18 +1237,18 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 .edit-post-editor__list-view-container>.document-outline::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content::-webkit-scrollbar-thumb{
   background-clip:padding-box;
   background-color:initial;
-  border:3px solid transparent;
+  border:3px solid #0000;
   border-radius:8px;
 }
 .edit-post-editor__list-view-container>.document-outline:focus-within::-webkit-scrollbar-thumb,.edit-post-editor__list-view-container>.document-outline:focus::-webkit-scrollbar-thumb,.edit-post-editor__list-view-container>.document-outline:hover::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings:focus-within::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings:focus::-webkit-scrollbar-thumb,.edit-post-editor__list-view-empty-headings:hover::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content:focus-within::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content:focus::-webkit-scrollbar-thumb,.edit-post-editor__list-view-panel-content:hover::-webkit-scrollbar-thumb{
   background-color:#949494;
 }
 .edit-post-editor__list-view-container>.document-outline:focus,.edit-post-editor__list-view-container>.document-outline:focus-within,.edit-post-editor__list-view-container>.document-outline:hover,.edit-post-editor__list-view-empty-headings:focus,.edit-post-editor__list-view-empty-headings:focus-within,.edit-post-editor__list-view-empty-headings:hover,.edit-post-editor__list-view-panel-content:focus,.edit-post-editor__list-view-panel-content:focus-within,.edit-post-editor__list-view-panel-content:hover{
-  scrollbar-color:#949494 transparent;
+  scrollbar-color:#949494 #0000;
 }
 @media (hover:none){
   .edit-post-editor__list-view-container>.document-outline,.edit-post-editor__list-view-empty-headings,.edit-post-editor__list-view-panel-content{
-    scrollbar-color:#949494 transparent;
+    scrollbar-color:#949494 #0000;
   }
 }
 
@@ -1449,7 +1444,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 }
 
 .components-button.edit-post-sidebar__panel-tab{
-  background:transparent;
+  background:#0000;
   border:none;
   border-radius:0;
   box-shadow:none;
@@ -1485,13 +1480,13 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 }
 .components-button.edit-post-sidebar__panel-tab.is-active:after{
   height:calc(var(--wp-admin-border-width-focus)*1);
-  outline:2px solid transparent;
+  outline:2px solid #0000;
   outline-offset:-1px;
 }
 .components-button.edit-post-sidebar__panel-tab:before{
   border-radius:2px;
   bottom:12px;
-  box-shadow:0 0 0 0 transparent;
+  box-shadow:0 0 0 0 #0000;
   content:"";
   left:12px;
   pointer-events:none;
@@ -1508,7 +1503,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 }
 .components-button.edit-post-sidebar__panel-tab:focus-visible:before{
   box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline:2px solid transparent;
+  outline:2px solid #0000;
 }
 
 h2.edit-post-template-summary__title{
@@ -1556,7 +1551,7 @@ h2.edit-post-template-summary__title{
 }
 
 .edit-post-text-editor__toolbar{
-  background:hsla(0,0%,100%,.8);
+  background:#fffc;
   display:flex;
   left:0;
   padding:4px 12px;

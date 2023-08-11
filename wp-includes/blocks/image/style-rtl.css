@@ -52,7 +52,7 @@
     -webkit-mask-position:center;
             mask-position:center;
     -webkit-mask-repeat:no-repeat;
-            mask-repeat:initial;
+            mask-repeat:no-repeat;
     -webkit-mask-size:contain;
             mask-size:contain;
   }

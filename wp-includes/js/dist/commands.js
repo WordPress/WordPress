@@ -1,8 +1,8 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 8670:
-/***/ (function(module) {
+/***/ ((module) => {
 
 // The scores are arranged so that a continuous match of characters will
 // result in a total score of 1.
@@ -171,98 +171,98 @@ module.exports = commandScore;
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		__webpack_require__.nc = undefined;
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "CommandMenu": function() { return /* reexport */ CommandMenu; },
-  "privateApis": function() { return /* reexport */ privateApis; },
-  "store": function() { return /* reexport */ store; },
-  "useCommand": function() { return /* reexport */ useCommand; },
-  "useCommandLoader": function() { return /* reexport */ useCommandLoader; }
+  CommandMenu: () => (/* reexport */ CommandMenu),
+  privateApis: () => (/* reexport */ privateApis),
+  store: () => (/* reexport */ store),
+  useCommand: () => (/* reexport */ useCommand),
+  useCommandLoader: () => (/* reexport */ useCommandLoader)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  "close": function() { return actions_close; },
-  "open": function() { return actions_open; },
-  "registerCommand": function() { return registerCommand; },
-  "registerCommandLoader": function() { return registerCommandLoader; },
-  "unregisterCommand": function() { return unregisterCommand; },
-  "unregisterCommandLoader": function() { return unregisterCommandLoader; }
+  close: () => (actions_close),
+  open: () => (actions_open),
+  registerCommand: () => (registerCommand),
+  registerCommandLoader: () => (registerCommandLoader),
+  unregisterCommand: () => (unregisterCommand),
+  unregisterCommandLoader: () => (unregisterCommandLoader)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  "getCommandLoaders": function() { return getCommandLoaders; },
-  "getCommands": function() { return getCommands; },
-  "getContext": function() { return getContext; },
-  "isOpen": function() { return selectors_isOpen; }
+  getCommandLoaders: () => (getCommandLoaders),
+  getCommands: () => (getCommands),
+  getContext: () => (getContext),
+  isOpen: () => (selectors_isOpen)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/private-actions.js
 var private_actions_namespaceObject = {};
 __webpack_require__.r(private_actions_namespaceObject);
 __webpack_require__.d(private_actions_namespaceObject, {
-  "setContext": function() { return setContext; }
+  setContext: () => (setContext)
 });
 
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -279,7 +279,7 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 ;// CONCATENATED MODULE: external "React"
-var external_React_namespaceObject = window["React"];
+const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/primitive/dist/index.module.js
 function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEventHandler, { checkForDefaultPrevented: checkForDefaultPrevented = true  } = {}) {
     return function handleEvent(event) {
@@ -575,7 +575,7 @@ function $71cd76cc60e0454e$var$useUncontrolledState({ defaultProp: defaultProp ,
 
 
 ;// CONCATENATED MODULE: external "ReactDOM"
-var external_ReactDOM_namespaceObject = window["ReactDOM"];
+const external_ReactDOM_namespaceObject = window["ReactDOM"];
 var external_ReactDOM_default = /*#__PURE__*/__webpack_require__.n(external_ReactDOM_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-slot/dist/index.module.js
 
@@ -1882,7 +1882,7 @@ function __disposeResources(env) {
   return next();
 }
 
-/* harmony default export */ var tslib_es6 = ({
+/* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
@@ -2599,7 +2599,7 @@ function RemoveScrollSideCar(props) {
 
 
 
-/* harmony default export */ var sidecar = (exportSidecar(effectCar, RemoveScrollSideCar));
+/* harmony default export */ const sidecar = (exportSidecar(effectCar, RemoveScrollSideCar));
 
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/react-remove-scroll/dist/es2015/Combination.js
 
@@ -2608,7 +2608,7 @@ function RemoveScrollSideCar(props) {
 
 var ReactRemoveScroll = external_React_namespaceObject.forwardRef(function (props, ref) { return (external_React_namespaceObject.createElement(RemoveScroll, __assign({}, props, { ref: ref, sideCar: sidecar }))); });
 ReactRemoveScroll.classNames = RemoveScroll.classNames;
-/* harmony default export */ var Combination = (ReactRemoveScroll);
+/* harmony default export */ const Combination = (ReactRemoveScroll);
 
 ;// CONCATENATED MODULE: ./node_modules/aria-hidden/dist/es2015/index.js
 var getDefaultParent = function (originalTarget) {
@@ -3139,13 +3139,13 @@ var command_score = __webpack_require__(8670);
 var ue='[cmdk-list-sizer=""]',M='[cmdk-group=""]',N='[cmdk-group-items=""]',de='[cmdk-group-heading=""]',ee='[cmdk-item=""]',Z=`${ee}:not([aria-disabled="true"])`,z="cmdk-item-select",S="data-value",fe=(n,a)=>command_score(n,a),te=external_React_namespaceObject.createContext(void 0),k=()=>external_React_namespaceObject.useContext(te),re=external_React_namespaceObject.createContext(void 0),U=()=>external_React_namespaceObject.useContext(re),ne=external_React_namespaceObject.createContext(void 0),oe=external_React_namespaceObject.forwardRef((n,a)=>{let r=external_React_namespaceObject.useRef(null),o=x(()=>({search:"",value:"",filtered:{count:0,items:new Map,groups:new Set}})),u=x(()=>new Set),l=x(()=>new Map),p=x(()=>new Map),f=x(()=>new Set),d=ae(n),{label:v,children:E,value:R,onValueChange:w,filter:O,shouldFilter:ie,...D}=n,F=external_React_namespaceObject.useId(),g=external_React_namespaceObject.useId(),A=external_React_namespaceObject.useId(),y=ye();L(()=>{if(R!==void 0){let e=R.trim().toLowerCase();o.current.value=e,y(6,W),h.emit()}},[R]);let h=external_React_namespaceObject.useMemo(()=>({subscribe:e=>(f.current.add(e),()=>f.current.delete(e)),snapshot:()=>o.current,setState:(e,c,i)=>{var s,m,b;if(!Object.is(o.current[e],c)){if(o.current[e]=c,e==="search")j(),G(),y(1,V);else if(e==="value")if(((s=d.current)==null?void 0:s.value)!==void 0){(b=(m=d.current).onValueChange)==null||b.call(m,c);return}else i||y(5,W);h.emit()}},emit:()=>{f.current.forEach(e=>e())}}),[]),K=external_React_namespaceObject.useMemo(()=>({value:(e,c)=>{c!==p.current.get(e)&&(p.current.set(e,c),o.current.filtered.items.set(e,B(c)),y(2,()=>{G(),h.emit()}))},item:(e,c)=>(u.current.add(e),c&&(l.current.has(c)?l.current.get(c).add(e):l.current.set(c,new Set([e]))),y(3,()=>{j(),G(),o.current.value||V(),h.emit()}),()=>{p.current.delete(e),u.current.delete(e),o.current.filtered.items.delete(e),y(4,()=>{j(),V(),h.emit()})}),group:e=>(l.current.has(e)||l.current.set(e,new Set),()=>{p.current.delete(e),l.current.delete(e)}),filter:()=>d.current.shouldFilter,label:v||n["aria-label"],listId:F,inputId:A,labelId:g}),[]);function B(e){var i;let c=((i=d.current)==null?void 0:i.filter)??fe;return e?c(e,o.current.search):0}function G(){if(!r.current||!o.current.search||d.current.shouldFilter===!1)return;let e=o.current.filtered.items,c=[];o.current.filtered.groups.forEach(s=>{let m=l.current.get(s),b=0;m.forEach(P=>{let ce=e.get(P);b=Math.max(ce,b)}),c.push([s,b])});let i=r.current.querySelector(ue);I().sort((s,m)=>{let b=s.getAttribute(S),P=m.getAttribute(S);return(e.get(P)??0)-(e.get(b)??0)}).forEach(s=>{let m=s.closest(N);m?m.appendChild(s.parentElement===m?s:s.closest(`${N} > *`)):i.appendChild(s.parentElement===i?s:s.closest(`${N} > *`))}),c.sort((s,m)=>m[1]-s[1]).forEach(s=>{let m=r.current.querySelector(`${M}[${S}="${s[0]}"]`);m==null||m.parentElement.appendChild(m)})}function V(){let e=I().find(i=>!i.ariaDisabled),c=e==null?void 0:e.getAttribute(S);h.setState("value",c||void 0)}function j(){if(!o.current.search||d.current.shouldFilter===!1){o.current.filtered.count=u.current.size;return}o.current.filtered.groups=new Set;let e=0;for(let c of u.current){let i=p.current.get(c),s=B(i);o.current.filtered.items.set(c,s),s>0&&e++}for(let[c,i]of l.current)for(let s of i)if(o.current.filtered.items.get(s)>0){o.current.filtered.groups.add(c);break}o.current.filtered.count=e}function W(){var c,i,s;let e=_();e&&(((c=e.parentElement)==null?void 0:c.firstChild)===e&&((s=(i=e.closest(M))==null?void 0:i.querySelector(de))==null||s.scrollIntoView({block:"nearest"})),e.scrollIntoView({block:"nearest"}))}function _(){return r.current.querySelector(`${ee}[aria-selected="true"]`)}function I(){return Array.from(r.current.querySelectorAll(Z))}function q(e){let i=I()[e];i&&h.setState("value",i.getAttribute(S))}function $(e){var b;let c=_(),i=I(),s=i.findIndex(P=>P===c),m=i[s+e];(b=d.current)!=null&&b.loop&&(m=s+e<0?i[i.length-1]:s+e===i.length?i[0]:i[s+e]),m&&h.setState("value",m.getAttribute(S))}function J(e){let c=_(),i=c==null?void 0:c.closest(M),s;for(;i&&!s;)i=e>0?Se(i,M):Ce(i,M),s=i==null?void 0:i.querySelector(Z);s?h.setState("value",s.getAttribute(S)):$(e)}let Q=()=>q(I().length-1),X=e=>{e.preventDefault(),e.metaKey?Q():e.altKey?J(1):$(1)},Y=e=>{e.preventDefault(),e.metaKey?q(0):e.altKey?J(-1):$(-1)};return external_React_namespaceObject.createElement("div",{ref:H([r,a]),...D,"cmdk-root":"",onKeyDown:e=>{var c;if((c=D.onKeyDown)==null||c.call(D,e),!e.defaultPrevented)switch(e.key){case"n":case"j":{e.ctrlKey&&X(e);break}case"ArrowDown":{X(e);break}case"p":case"k":{e.ctrlKey&&Y(e);break}case"ArrowUp":{Y(e);break}case"Home":{e.preventDefault(),q(0);break}case"End":{e.preventDefault(),Q();break}case"Enter":{e.preventDefault();let i=_();if(i){let s=new Event(z);i.dispatchEvent(s)}}}}},external_React_namespaceObject.createElement("label",{"cmdk-label":"",htmlFor:K.inputId,id:K.labelId,style:xe},v),external_React_namespaceObject.createElement(re.Provider,{value:h},external_React_namespaceObject.createElement(te.Provider,{value:K},E)))}),me=external_React_namespaceObject.forwardRef((n,a)=>{let r=external_React_namespaceObject.useId(),o=external_React_namespaceObject.useRef(null),u=external_React_namespaceObject.useContext(ne),l=k(),p=ae(n);L(()=>l.item(r,u),[]);let f=se(r,o,[n.value,n.children,o]),d=U(),v=T(g=>g.value&&g.value===f.current),E=T(g=>l.filter()===!1?!0:g.search?g.filtered.items.get(r)>0:!0);external_React_namespaceObject.useEffect(()=>{let g=o.current;if(!(!g||n.disabled))return g.addEventListener(z,R),()=>g.removeEventListener(z,R)},[E,n.onSelect,n.disabled]);function R(){var g,A;(A=(g=p.current).onSelect)==null||A.call(g,f.current)}function w(){d.setState("value",f.current,!0)}if(!E)return null;let{disabled:O,value:ie,onSelect:D,...F}=n;return external_React_namespaceObject.createElement("div",{ref:H([o,a]),...F,"cmdk-item":"",role:"option","aria-disabled":O||void 0,"aria-selected":v||void 0,"data-selected":v||void 0,onPointerMove:O?void 0:w,onClick:O?void 0:R},n.children)}),pe=external_React_namespaceObject.forwardRef((n,a)=>{let{heading:r,children:o,...u}=n,l=external_React_namespaceObject.useId(),p=external_React_namespaceObject.useRef(null),f=external_React_namespaceObject.useRef(null),d=external_React_namespaceObject.useId(),v=k(),E=T(w=>v.filter()===!1?!0:w.search?w.filtered.groups.has(l):!0);L(()=>v.group(l),[]),se(l,p,[n.value,n.heading,f]);let R=external_React_namespaceObject.createElement(ne.Provider,{value:l},o);return external_React_namespaceObject.createElement("div",{ref:H([p,a]),...u,"cmdk-group":"",role:"presentation",hidden:E?void 0:!0},r&&external_React_namespaceObject.createElement("div",{ref:f,"cmdk-group-heading":"","aria-hidden":!0,id:d},r),external_React_namespaceObject.createElement("div",{"cmdk-group-items":"",role:"group","aria-labelledby":r?d:void 0},R))}),ge=external_React_namespaceObject.forwardRef((n,a)=>{let{alwaysRender:r,...o}=n,u=external_React_namespaceObject.useRef(null),l=T(p=>!p.search);return!r&&!l?null:external_React_namespaceObject.createElement("div",{ref:H([u,a]),...o,"cmdk-separator":"",role:"separator"})}),ve=external_React_namespaceObject.forwardRef((n,a)=>{let{onValueChange:r,...o}=n,u=n.value!=null,l=U(),p=T(d=>d.search),f=k();return external_React_namespaceObject.useEffect(()=>{n.value!=null&&l.setState("search",n.value)},[n.value]),external_React_namespaceObject.createElement("input",{ref:a,...o,"cmdk-input":"",autoComplete:"off",autoCorrect:"off",spellCheck:!1,"aria-autocomplete":"list",role:"combobox","aria-expanded":!0,"aria-controls":f.listId,"aria-labelledby":f.labelId,id:f.inputId,type:"text",value:u?n.value:p,onChange:d=>{u||l.setState("search",d.target.value),r==null||r(d.target.value)}})}),Re=external_React_namespaceObject.forwardRef((n,a)=>{let{children:r,...o}=n,u=external_React_namespaceObject.useRef(null),l=external_React_namespaceObject.useRef(null),p=k();return external_React_namespaceObject.useEffect(()=>{if(l.current&&u.current){let f=l.current,d=u.current,v,E=new ResizeObserver(()=>{v=requestAnimationFrame(()=>{let R=f.getBoundingClientRect().height;d.style.setProperty("--cmdk-list-height",R.toFixed(1)+"px")})});return E.observe(f),()=>{cancelAnimationFrame(v),E.unobserve(f)}}},[]),external_React_namespaceObject.createElement("div",{ref:H([u,a]),...o,"cmdk-list":"",role:"listbox","aria-label":"Suggestions",id:p.listId,"aria-labelledby":p.inputId},external_React_namespaceObject.createElement("div",{ref:l,"cmdk-list-sizer":""},r))}),be=external_React_namespaceObject.forwardRef((n,a)=>{let{open:r,onOpenChange:o,container:u,...l}=n;return external_React_namespaceObject.createElement($5d3850c4d0b4e6c7$export$be92b6f5f03c0fe9,{open:r,onOpenChange:o},external_React_namespaceObject.createElement($5d3850c4d0b4e6c7$export$602eac185826482c,{container:u},external_React_namespaceObject.createElement($5d3850c4d0b4e6c7$export$c6fdb837b070b4ff,{"cmdk-overlay":""}),external_React_namespaceObject.createElement($5d3850c4d0b4e6c7$export$7c6e2c02157bb7d2,{"aria-label":n.label,"cmdk-dialog":""},external_React_namespaceObject.createElement(oe,{ref:a,...l}))))}),he=external_React_namespaceObject.forwardRef((n,a)=>{let r=external_React_namespaceObject.useRef(!0),o=T(u=>u.filtered.count===0);return external_React_namespaceObject.useEffect(()=>{r.current=!1},[]),r.current||!o?null:external_React_namespaceObject.createElement("div",{ref:a,...n,"cmdk-empty":"",role:"presentation"})}),Ee=external_React_namespaceObject.forwardRef((n,a)=>{let{progress:r,children:o,...u}=n;return external_React_namespaceObject.createElement("div",{ref:a,...u,"cmdk-loading":"",role:"progressbar","aria-valuenow":r,"aria-valuemin":0,"aria-valuemax":100,"aria-label":"Loading..."},external_React_namespaceObject.createElement("div",{"aria-hidden":!0},o))}),Le=Object.assign(oe,{List:Re,Item:me,Input:ve,Group:pe,Separator:ge,Dialog:be,Empty:he,Loading:Ee});function Se(n,a){let r=n.nextElementSibling;for(;r;){if(r.matches(a))return r;r=r.nextElementSibling}}function Ce(n,a){let r=n.previousElementSibling;for(;r;){if(r.matches(a))return r;r=r.previousElementSibling}}function ae(n){let a=external_React_namespaceObject.useRef(n);return L(()=>{a.current=n}),a}var L=typeof window>"u"?external_React_namespaceObject.useEffect:external_React_namespaceObject.useLayoutEffect;function x(n){let a=external_React_namespaceObject.useRef();return a.current===void 0&&(a.current=n()),a}function H(n){return a=>{n.forEach(r=>{typeof r=="function"?r(a):r!=null&&(r.current=a)})}}function T(n){let a=U(),r=()=>n(a.snapshot());return external_React_namespaceObject.useSyncExternalStore(a.subscribe,r,r)}function se(n,a,r){let o=external_React_namespaceObject.useRef(),u=k();return L(()=>{var p;let l=(()=>{var f;for(let d of r){if(typeof d=="string")return d.trim().toLowerCase();if(typeof d=="object"&&"current"in d&&d.current)return(f=d.current.textContent)==null?void 0:f.trim().toLowerCase()}})();u.value(n,l),(p=a.current)==null||p.setAttribute(S,l),o.current=l}),o}var ye=()=>{let[n,a]=external_React_namespaceObject.useState(),r=x(()=>new Map);return L(()=>{r.current.forEach(o=>o()),r.current=new Map},[n]),(o,u)=>{r.current.set(o,u),a({})}},xe={position:"absolute",width:"1px",height:"1px",padding:"0",margin:"-1px",overflow:"hidden",clip:"rect(0, 0, 0, 0)",whiteSpace:"nowrap",borderWidth:"0"};
 
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","components"]
-var external_wp_components_namespaceObject = window["wp"]["components"];
+const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","keyboardShortcuts"]
-var external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
+const external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
 /**
  * WordPress dependencies
@@ -3175,7 +3175,7 @@ function Icon({
   });
 }
 
-/* harmony default export */ var icon = (Icon);
+/* harmony default export */ const icon = (Icon);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/store/reducer.js
 /**
@@ -3296,7 +3296,7 @@ const reducer = (0,external_wp_data_namespaceObject.combineReducers)({
   isOpen,
   context
 });
-/* harmony default export */ var store_reducer = (reducer);
+/* harmony default export */ const store_reducer = (reducer);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/store/actions.js
 /** @typedef {import('@wordpress/keycodes').WPKeycodeModifier} WPKeycodeModifier */
@@ -3740,7 +3740,7 @@ function setContext(context) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
-var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/lock-unlock.js
 /**
  * WordPress dependencies
@@ -4154,7 +4154,8 @@ function useCommandLoader(loader) {
 
 
 
-}();
+})();
+
 (window.wp = window.wp || {}).commands = __webpack_exports__;
 /******/ })()
 ;

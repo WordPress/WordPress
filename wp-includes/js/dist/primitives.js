@@ -1,8 +1,8 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 4403:
-/***/ (function(module, exports) {
+/***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	Copyright (c) 2018 Jed Watson.
@@ -95,76 +95,76 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "BlockQuotation": function() { return /* reexport */ BlockQuotation; },
-  "Circle": function() { return /* reexport */ Circle; },
-  "Defs": function() { return /* reexport */ Defs; },
-  "G": function() { return /* reexport */ G; },
-  "HorizontalRule": function() { return /* reexport */ HorizontalRule; },
-  "Line": function() { return /* reexport */ Line; },
-  "LinearGradient": function() { return /* reexport */ LinearGradient; },
-  "Path": function() { return /* reexport */ Path; },
-  "Polygon": function() { return /* reexport */ Polygon; },
-  "RadialGradient": function() { return /* reexport */ RadialGradient; },
-  "Rect": function() { return /* reexport */ Rect; },
-  "SVG": function() { return /* reexport */ SVG; },
-  "Stop": function() { return /* reexport */ Stop; },
-  "View": function() { return /* reexport */ View; }
+  BlockQuotation: () => (/* reexport */ BlockQuotation),
+  Circle: () => (/* reexport */ Circle),
+  Defs: () => (/* reexport */ Defs),
+  G: () => (/* reexport */ G),
+  HorizontalRule: () => (/* reexport */ HorizontalRule),
+  Line: () => (/* reexport */ Line),
+  LinearGradient: () => (/* reexport */ LinearGradient),
+  Path: () => (/* reexport */ Path),
+  Polygon: () => (/* reexport */ Polygon),
+  RadialGradient: () => (/* reexport */ RadialGradient),
+  Rect: () => (/* reexport */ Rect),
+  SVG: () => (/* reexport */ SVG),
+  Stop: () => (/* reexport */ Stop),
+  View: () => (/* reexport */ View)
 });
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(4403);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/svg/index.js
 /**
  * External dependencies
@@ -288,7 +288,8 @@ const View = 'div';
 
 
 
-}();
+})();
+
 (window.wp = window.wp || {}).primitives = __webpack_exports__;
 /******/ })()
 ;

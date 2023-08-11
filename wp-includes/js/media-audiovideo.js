@@ -1,8 +1,8 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 6045:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var State = wp.media.controller.State,
 	l10n = wp.media.view.l10n,
@@ -42,7 +42,7 @@ module.exports = AudioDetails;
 /***/ }),
 
 /***/ 580:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.controller.VideoDetails
@@ -82,7 +82,7 @@ module.exports = VideoDetails;
 /***/ }),
 
 /***/ 6615:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.model.PostMedia
@@ -131,7 +131,7 @@ module.exports = PostMedia;
 /***/ }),
 
 /***/ 1764:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaDetails,
 	AudioDetails;
@@ -176,7 +176,7 @@ module.exports = AudioDetails;
 /***/ }),
 
 /***/ 5262:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
 	MediaLibrary = wp.media.controller.MediaLibrary,
@@ -259,7 +259,7 @@ module.exports = AudioDetails;
 /***/ }),
 
 /***/ 6445:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Select = wp.media.view.MediaFrame.Select,
 	l10n = wp.media.view.l10n,
@@ -396,7 +396,7 @@ module.exports = MediaDetails;
 /***/ }),
 
 /***/ 2075:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
 	MediaLibrary = wp.media.controller.MediaLibrary,
@@ -539,7 +539,7 @@ module.exports = VideoDetails;
 /***/ }),
 
 /***/ 8867:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /* global MediaElementPlayer */
 var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
@@ -714,7 +714,7 @@ module.exports = MediaDetails;
 /***/ }),
 
 /***/ 7697:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaDetails,
 	VideoDetails;
@@ -792,7 +792,7 @@ module.exports = VideoDetails;
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-!function() {
+(() => {
 /**
  * @output wp-includes/js/media-audiovideo.js
  */
@@ -1078,6 +1078,7 @@ media.view.MediaDetails = __webpack_require__( 8867 );
 media.view.AudioDetails = __webpack_require__( 1764 );
 media.view.VideoDetails = __webpack_require__( 7697 );
 
-}();
+})();
+
 /******/ })()
 ;
