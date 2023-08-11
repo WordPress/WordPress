@@ -929,7 +929,7 @@ function wp_default_scripts( $scripts ) {
 	 * Masonry v2 depended on jQuery. v3 does not. The older jquery-masonry handle is a shiv.
 	 * It sets jQuery as a dependency, as the theme may have been implicitly loading it this way.
 	 */
-	$scripts->add( 'imagesloaded', '/wp-includes/js/imagesloaded.min.js', array(), '4.1.4', 1 );
+	$scripts->add( 'imagesloaded', '/wp-includes/js/imagesloaded.min.js', array(), '5.0.0', 1 );
 	$scripts->add( 'masonry', '/wp-includes/js/masonry.min.js', array( 'imagesloaded' ), '4.2.2', 1 );
 	$scripts->add( 'jquery-masonry', '/wp-includes/js/jquery/jquery.masonry.min.js', array( 'jquery', 'masonry' ), '3.1.2b', 1 );
 
