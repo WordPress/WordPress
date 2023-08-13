@@ -505,8 +505,8 @@ class WP {
 			}
 
 			$wp_last_modified .= ' GMT';
+			$wp_etag           = '"' . md5( $wp_last_modified ) . '"';
 
-			$wp_etag                  = '"' . md5( $wp_last_modified ) . '"';
 			$headers['Last-Modified'] = $wp_last_modified;
 			$headers['ETag']          = $wp_etag;
 
@@ -514,19 +514,24 @@ class WP {
 			if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
 				$client_etag = wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] );
 			} else {
-				$client_etag = false;
+				$client_etag = '';
 			}
 
-			$client_last_modified = empty( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ? '' : trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
+			if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) {
+				$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
+			} else {
+				$client_last_modified = '';
+			}
+
 			// If string is empty, return 0. If not, attempt to parse into a timestamp.
 			$client_modified_timestamp = $client_last_modified ? strtotime( $client_last_modified ) : 0;
 
-			// Make a timestamp for our most recent modification..
+			// Make a timestamp for our most recent modification.
 			$wp_modified_timestamp = strtotime( $wp_last_modified );
 
-			if ( ( $client_last_modified && $client_etag ) ?
-					( ( $client_modified_timestamp >= $wp_modified_timestamp ) && ( $client_etag === $wp_etag ) ) :
-					( ( $client_modified_timestamp >= $wp_modified_timestamp ) || ( $client_etag === $wp_etag ) )
+			if ( ( $client_last_modified && $client_etag )
+				? ( ( $client_modified_timestamp >= $wp_modified_timestamp ) && ( $client_etag === $wp_etag ) )
+				: ( ( $client_modified_timestamp >= $wp_modified_timestamp ) || ( $client_etag === $wp_etag ) )
 			) {
 				$status        = 304;
 				$exit_required = true;

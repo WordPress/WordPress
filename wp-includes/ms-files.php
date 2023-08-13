@@ -54,30 +54,36 @@ if ( WPMU_ACCEL_REDIRECT ) {
 	exit;
 }
 
-$last_modified = gmdate( 'D, d M Y H:i:s', filemtime( $file ) );
-$etag          = '"' . md5( $last_modified ) . '"';
-header( "Last-Modified: $last_modified GMT" );
-header( 'ETag: ' . $etag );
+$wp_last_modified = gmdate( 'D, d M Y H:i:s', filemtime( $file ) );
+$wp_etag          = '"' . md5( $wp_last_modified ) . '"';
+
+header( "Last-Modified: $wp_last_modified GMT" );
+header( 'ETag: ' . $wp_etag );
 header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + 100000000 ) . ' GMT' );
 
 // Support for conditional GET - use stripslashes() to avoid formatting.php dependency.
-$client_etag = isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ? stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) : false;
-
-if ( ! isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) {
-	$_SERVER['HTTP_IF_MODIFIED_SINCE'] = false;
+if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
+	$client_etag = stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] );
+} else {
+	$client_etag = '';
 }
 
-$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
+if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) {
+	$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
+} else {
+	$client_last_modified = '';
+}
+
 // If string is empty, return 0. If not, attempt to parse into a timestamp.
 $client_modified_timestamp = $client_last_modified ? strtotime( $client_last_modified ) : 0;
 
-// Make a timestamp for our most recent modification...
-$modified_timestamp = strtotime( $last_modified );
+// Make a timestamp for our most recent modification.
+$wp_modified_timestamp = strtotime( $wp_last_modified );
 
 if ( ( $client_last_modified && $client_etag )
-	? ( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) )
-	: ( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) )
-	) {
+	? ( ( $client_modified_timestamp >= $wp_modified_timestamp ) && ( $client_etag === $wp_etag ) )
+	: ( ( $client_modified_timestamp >= $wp_modified_timestamp ) || ( $client_etag === $wp_etag ) )
+) {
 	status_header( 304 );
 	exit;
 }
