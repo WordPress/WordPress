@@ -105,7 +105,7 @@ class WP_Importer {
 					$source_comment_id = (int) $source_comment_id;
 
 					// Check if this comment came from this blog.
-					if ( $blog_id == $comment_agent_blog_id ) {
+					if ( (int) $blog_id === (int) $comment_agent_blog_id ) {
 						$hashtable[ $source_comment_id ] = (int) $r->comment_ID;
 					}
 				}
