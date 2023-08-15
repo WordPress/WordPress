@@ -329,7 +329,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	public function views() {
 		$views = $this->get_views();
 
-		/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
+		/** This filter is documented in wp-admin/includes/class-wp-list-table.php */
 		$views = apply_filters( "views_{$this->screen->id}", $views );
 
 		$this->screen->render_screen_reader_content( 'heading_views' );
