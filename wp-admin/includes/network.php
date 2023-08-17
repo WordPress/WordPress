@@ -445,7 +445,7 @@ function network_step2( $errors = false ) {
 		$notice_message = '<strong>' . __( 'Caution:' ) . '</strong> ';
 		$notice_args    = array(
 			'type'               => 'warning',
-			'additional_classes' => 'inline',
+			'additional_classes' => array( 'inline' ),
 		);
 
 		if ( file_exists( $home_path . '.htaccess' ) ) {
