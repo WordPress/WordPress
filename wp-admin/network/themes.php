@@ -367,57 +367,82 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 <hr class="wp-header-end">
 
 <?php
+$message = '';
+$type    = 'success';
+
 if ( isset( $_GET['enabled'] ) ) {
 	$enabled = absint( $_GET['enabled'] );
 	if ( 1 === $enabled ) {
 		$message = __( 'Theme enabled.' );
 	} else {
-		/* translators: %s: Number of themes. */
-		$message = _n( '%s theme enabled.', '%s themes enabled.', $enabled );
+		$message = sprintf(
+			/* translators: %s: Number of themes. */
+			_n( '%s theme enabled.', '%s themes enabled.', $enabled ),
+			number_format_i18n( $enabled )
+		);
 	}
-	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled'] ) ) {
 	$disabled = absint( $_GET['disabled'] );
 	if ( 1 === $disabled ) {
 		$message = __( 'Theme disabled.' );
 	} else {
-		/* translators: %s: Number of themes. */
-		$message = _n( '%s theme disabled.', '%s themes disabled.', $disabled );
+		$message = sprintf(
+			/* translators: %s: Number of themes. */
+			_n( '%s theme disabled.', '%s themes disabled.', $disabled ),
+			number_format_i18n( $disabled )
+		);
 	}
-	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['deleted'] ) ) {
 	$deleted = absint( $_GET['deleted'] );
 	if ( 1 === $deleted ) {
 		$message = __( 'Theme deleted.' );
 	} else {
-		/* translators: %s: Number of themes. */
-		$message = _n( '%s theme deleted.', '%s themes deleted.', $deleted );
+		$message = sprintf(
+			/* translators: %s: Number of themes. */
+			_n( '%s theme deleted.', '%s themes deleted.', $deleted ),
+			number_format_i18n( $deleted )
+		);
 	}
-	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';
 } elseif ( isset( $_GET['enabled-auto-update'] ) ) {
 	$enabled = absint( $_GET['enabled-auto-update'] );
 	if ( 1 === $enabled ) {
 		$message = __( 'Theme will be auto-updated.' );
 	} else {
-		/* translators: %s: Number of themes. */
-		$message = _n( '%s theme will be auto-updated.', '%s themes will be auto-updated.', $enabled );
+		$message = sprintf(
+			/* translators: %s: Number of themes. */
+			_n( '%s theme will be auto-updated.', '%s themes will be auto-updated.', $enabled ),
+			number_format_i18n( $enabled )
+		);
 	}
-	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled-auto-update'] ) ) {
 	$disabled = absint( $_GET['disabled-auto-update'] );
 	if ( 1 === $disabled ) {
 		$message = __( 'Theme will no longer be auto-updated.' );
 	} else {
-		/* translators: %s: Number of themes. */
-		$message = _n( '%s theme will no longer be auto-updated.', '%s themes will no longer be auto-updated.', $disabled );
+		$message = sprintf(
+			/* translators: %s: Number of themes. */
+			_n( '%s theme will no longer be auto-updated.', '%s themes will no longer be auto-updated.', $disabled ),
+			number_format_i18n( $disabled )
+		);
 	}
-	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'none' === $_GET['error'] ) {
-	echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
+	$message = __( 'No theme selected.' );
+	$type    = 'error';
 } elseif ( isset( $_GET['error'] ) && 'main' === $_GET['error'] ) {
-	echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
+	$message = __( 'You cannot delete a theme while it is active on the main site.' );
+	$type    = 'error';
 }
 
+if ( '' !== $message ) {
+	wp_admin_notice(
+		$message,
+		array(
+			'type'        => $type,
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
+}
 ?>
 
 <form method="get">

@@ -107,19 +107,33 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <h1 id="add-new-user"><?php _e( 'Add New User' ); ?></h1>
 <?php
 if ( '' !== $message ) {
-	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . $message . '</p></div>';
+	wp_admin_notice(
+		$message,
+		array(
+			'type'        => 'success',
+			'dismissible' => true,
+			'id'          => 'message',
+		)
+	);
 }
 
 if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) {
-	?>
-	<div id="message" class="notice notice-error is-dismissible">
-		<?php
-		foreach ( $add_user_errors->get_error_messages() as $error ) {
-			echo "<p>$error</p>";
-		}
-		?>
-	</div>
-<?php } ?>
+	$error_messages = '';
+	foreach ( $add_user_errors->get_error_messages() as $error ) {
+		$error_messages .= "<p>$error</p>";
+	}
+
+	wp_admin_notice(
+		$error_messages,
+		array(
+			'type'           => 'error',
+			'dismissible'    => true,
+			'id'             => 'message',
+			'paragraph_wrap' => false,
+		)
+	);
+}
+?>
 	<form action="<?php echo esc_url( network_admin_url( 'user-new.php?action=add-user' ) ); ?>" id="adduser" method="post" novalidate="novalidate">
 		<p><?php echo wp_required_field_message(); ?></p>
 		<table class="form-table" role="presentation">

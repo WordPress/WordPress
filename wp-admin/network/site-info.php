@@ -146,8 +146,14 @@ network_edit_site_nav(
 );
 
 if ( ! empty( $messages ) ) {
+	$notice_args = array(
+		'type'        => 'success',
+		'dismissible' => true,
+		'id'          => 'message',
+	);
+
 	foreach ( $messages as $msg ) {
-		echo '<div id="message" class="notice notice-success is-dismissible"><p>' . $msg . '</p></div>';
+		wp_admin_notice( $msg, $notice_args );
 	}
 }
 ?>

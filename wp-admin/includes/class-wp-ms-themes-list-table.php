@@ -859,7 +859,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 */
 		echo apply_filters( 'theme_auto_update_setting_html', $html, $stylesheet, $theme );
 
-		echo '<div class="notice notice-error notice-alt inline hidden"><p></p></div>';
+		wp_admin_notice(
+			'',
+			array(
+				'type'               => 'error',
+				'additional_classes' => array( 'notice-alt', 'inline', 'hidden' ),
+			)
+		);
 	}
 
 	/**
