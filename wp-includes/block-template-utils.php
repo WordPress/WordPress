@@ -411,7 +411,7 @@ function _add_block_template_info( $template_item ) {
 		return $template_item;
 	}
 
-	$theme_data = WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_custom_templates();
+	$theme_data = wp_get_theme_data_custom_templates();
 	if ( isset( $theme_data[ $template_item['slug'] ] ) ) {
 		$template_item['title']     = $theme_data[ $template_item['slug'] ]['title'];
 		$template_item['postTypes'] = $theme_data[ $template_item['slug'] ]['postTypes'];
