@@ -32,6 +32,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$can_restore  = false;
+
 	if ( ! empty( $backup_sizes ) && isset( $backup_sizes['full-orig'], $meta['file'] ) ) {
 		$can_restore = wp_basename( $meta['file'] ) !== $backup_sizes['full-orig']['file'];
 	}
@@ -897,30 +898,30 @@ function wp_save_image( $post_id ) {
 		return $return;
 	}
 
-	$fwidth  = ! empty( $_REQUEST['fwidth'] ) ? (int) $_REQUEST['fwidth'] : 0;
-	$fheight = ! empty( $_REQUEST['fheight'] ) ? (int) $_REQUEST['fheight'] : 0;
-	$target  = ! empty( $_REQUEST['target'] ) ? preg_replace( '/[^a-z0-9_-]+/i', '', $_REQUEST['target'] ) : '';
-	$scale   = ! empty( $_REQUEST['do'] ) && 'scale' === $_REQUEST['do'];
+	$full_width  = ! empty( $_REQUEST['fwidth'] ) ? (int) $_REQUEST['fwidth'] : 0;
+	$full_height = ! empty( $_REQUEST['fheight'] ) ? (int) $_REQUEST['fheight'] : 0;
+	$target      = ! empty( $_REQUEST['target'] ) ? preg_replace( '/[^a-z0-9_-]+/i', '', $_REQUEST['target'] ) : '';
+	$scale       = ! empty( $_REQUEST['do'] ) && 'scale' === $_REQUEST['do'];
 
 	/** This filter is documented in wp-admin/includes/image-edit.php */
 	$edit_thumbnails_separately = (bool) apply_filters( 'image_edit_thumbnails_separately', false );
 
 	if ( $scale ) {
-		$size = $img->get_size();
-		$sX   = $size['width'];
-		$sY   = $size['height'];
+		$size            = $img->get_size();
+		$original_width  = $size['width'];
+		$original_height = $size['height'];
 
-		if ( $sX < $fwidth || $sY < $fheight ) {
+		if ( $full_width > $original_width || $full_height > $original_height ) {
 			$return->error = esc_js( __( 'Images cannot be scaled to a size larger than the original.' ) );
 			return $return;
 		}
 
-		if ( $fwidth > 0 && $fheight > 0 ) {
+		if ( $full_width > 0 && $full_height > 0 ) {
 			// Check if it has roughly the same w / h ratio.
-			$diff = round( $sX / $sY, 2 ) - round( $fwidth / $fheight, 2 );
+			$diff = round( $original_width / $original_height, 2 ) - round( $full_width / $full_height, 2 );
 			if ( -0.1 < $diff && $diff < 0.1 ) {
 				// Scale the full size image.
-				if ( $img->resize( $fwidth, $fheight ) ) {
+				if ( $img->resize( $full_width, $full_height ) ) {
 					$scaled = true;
 				}
 			}
