@@ -40,7 +40,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return bool|WP_Error True if the request has read access for the item, otherwise false or WP_Error object.
+	 * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
 	 */
 	public function get_item_permissions_check( $request ) {
 		$has_permission = parent::get_item_permissions_check( $request );
@@ -81,7 +81,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return bool|WP_Error Whether the current user has permission.
+	 * @return true|WP_Error True if the current user has permission, WP_Error object otherwise.
 	 */
 	protected function check_has_read_only_access( $request ) {
 		if ( current_user_can( 'edit_theme_options' ) ) {

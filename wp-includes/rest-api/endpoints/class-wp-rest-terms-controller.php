@@ -179,7 +179,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return true|WP_Error True if the request has read access, otherwise false or WP_Error object.
+	 * @return bool|WP_Error True if the request has read access, otherwise false or WP_Error object.
 	 */
 	public function get_items_permissions_check( $request ) {
 		$tax_obj = get_taxonomy( $this->taxonomy );
@@ -417,7 +417,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return true|WP_Error True if the request has read access for the item, otherwise false or WP_Error object.
+	 * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
 	 */
 	public function get_item_permissions_check( $request ) {
 		$term = $this->get_term( $request['id'] );

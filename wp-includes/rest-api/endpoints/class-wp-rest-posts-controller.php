@@ -475,7 +475,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
+	 * @return bool|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
 		$post = $this->get_post( $request['id'] );
@@ -1506,7 +1506,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @param string          $template Page template filename.
 	 * @param WP_REST_Request $request  Request.
-	 * @return bool|WP_Error True if template is still valid or if the same as existing value, or false if template not supported.
+	 * @return true|WP_Error True if template is still valid or if the same as existing value, or a WP_Error if template not supported.
 	 */
 	public function check_template( $template, $request ) {
 
