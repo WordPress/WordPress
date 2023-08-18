@@ -34,7 +34,7 @@ function render_block_core_footnotes( $attributes, $content, $block ) {
 
 	$footnotes = json_decode( $footnotes, true );
 
-	if ( count( $footnotes ) === 0 ) {
+	if ( ! $footnotes || ! is_countable( $footnotes ) || count( $footnotes ) === 0 ) {
 		return '';
 	}
 
