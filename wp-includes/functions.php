@@ -8600,7 +8600,7 @@ function is_php_version_compatible( $required ) {
  *
  * @param int|float $expected  The expected value.
  * @param int|float $actual    The actual number.
- * @param int|float $precision The allowed variation.
+ * @param int|float $precision Optional. The allowed variation. Default 1.
  * @return bool Whether the numbers match within the specified precision.
  */
 function wp_fuzzy_number_match( $expected, $actual, $precision = 1 ) {

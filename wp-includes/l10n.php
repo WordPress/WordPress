@@ -1517,7 +1517,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *
  *     @type string   $id                           ID attribute of the select element. Default 'locale'.
  *     @type string   $name                         Name attribute of the select element. Default 'locale'.
- *     @type array    $languages                    List of installed languages, contain only the locales.
+ *     @type string[] $languages                    List of installed languages, contain only the locales.
  *                                                  Default empty array.
  *     @type array    $translations                 List of available translations. Default result of
  *                                                  wp_get_available_translations().

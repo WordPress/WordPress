@@ -308,10 +308,10 @@ function _get_block_template_file( $template_type, $slug ) {
  * @param array  $query {
  *     Arguments to retrieve templates. Optional, empty by default.
  *
- *     @type array  $slug__in     List of slugs to include.
- *     @type array  $slug__not_in List of slugs to skip.
- *     @type string $area         A 'wp_template_part_area' taxonomy value to filter by (for 'wp_template_part' template type only).
- *     @type string $post_type    Post type to get the templates for.
+ *     @type string[] $slug__in     List of slugs to include.
+ *     @type string[] $slug__not_in List of slugs to skip.
+ *     @type string   $area         A 'wp_template_part_area' taxonomy value to filter by (for 'wp_template_part' template type only).
+ *     @type string   $post_type    Post type to get the templates for.
  * }
  *
  * @return array Template

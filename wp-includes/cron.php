@@ -57,7 +57,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 	);
 
 	/**
-	 * Filter to preflight or hijack scheduling an event.
+	 * Filter to override scheduling an event.
 	 *
 	 * Returning a non-null value will short-circuit adding the event to the
 	 * cron array, causing the function to return the filtered value instead.
@@ -376,7 +376,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array(), $
 	);
 
 	/**
-	 * Filter to preflight or hijack rescheduling of a recurring event.
+	 * Filter to override rescheduling of a recurring event.
 	 *
 	 * Returning a non-null value will short-circuit the normal rescheduling
 	 * process, causing the function to return the filtered value instead.
@@ -473,7 +473,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array(), $wp_error = fa
 	}
 
 	/**
-	 * Filter to preflight or hijack unscheduling of events.
+	 * Filter to override unscheduling of events.
 	 *
 	 * Returning a non-null value will short-circuit the normal unscheduling
 	 * process, causing the function to return the filtered value instead.
@@ -526,8 +526,8 @@ function wp_unschedule_event( $timestamp, $hook, $args = array(), $wp_error = fa
 /**
  * Unschedules all events attached to the hook with the specified arguments.
  *
- * Warning: This function may return Boolean FALSE, but may also return a non-Boolean
- * value which evaluates to FALSE. For information about casting to booleans see the
+ * Warning: This function may return boolean false, but may also return a non-boolean
+ * value which evaluates to false. For information about casting to booleans see the
  * {@link https://www.php.net/manual/en/language.types.boolean.php PHP documentation}. Use
  * the `===` operator for testing the return value of this function.
  *
@@ -563,7 +563,7 @@ function wp_clear_scheduled_hook( $hook, $args = array(), $wp_error = false ) {
 	}
 
 	/**
-	 * Filter to preflight or hijack clearing a scheduled hook.
+	 * Filter to override clearing a scheduled hook.
 	 *
 	 * Returning a non-null value will short-circuit the normal unscheduling
 	 * process, causing the function to return the filtered value instead.
@@ -637,8 +637,8 @@ function wp_clear_scheduled_hook( $hook, $args = array(), $wp_error = false ) {
  *
  * Can be useful for plugins when deactivating to clean up the cron queue.
  *
- * Warning: This function may return Boolean FALSE, but may also return a non-Boolean
- * value which evaluates to FALSE. For information about casting to booleans see the
+ * Warning: This function may return boolean false, but may also return a non-boolean
+ * value which evaluates to false. For information about casting to booleans see the
  * {@link https://www.php.net/manual/en/language.types.boolean.php PHP documentation}. Use
  * the `===` operator for testing the return value of this function.
  *
@@ -653,7 +653,7 @@ function wp_clear_scheduled_hook( $hook, $args = array(), $wp_error = false ) {
  */
 function wp_unschedule_hook( $hook, $wp_error = false ) {
 	/**
-	 * Filter to preflight or hijack clearing all events attached to the hook.
+	 * Filter to override clearing all events attached to the hook.
 	 *
 	 * Returning a non-null value will short-circuit the normal unscheduling
 	 * process, causing the function to return the filtered value instead.
@@ -749,7 +749,7 @@ function wp_unschedule_hook( $hook, $wp_error = false ) {
  */
 function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
 	/**
-	 * Filter to preflight or hijack retrieving a scheduled event.
+	 * Filter to override retrieving a scheduled event.
 	 *
 	 * Returning a non-null value will short-circuit the normal process,
 	 * returning the filtered value instead.
@@ -965,9 +965,9 @@ function spawn_cron( $gmt_time = 0 ) {
  * @since 5.1.0 Return value added to indicate success or failure.
  * @since 5.7.0 Functionality moved to _wp_cron() to which this becomes a wrapper.
  *
- * @return bool|int|void On success an integer indicating number of events spawned (0 indicates no
- *                       events needed to be spawned), false if spawning fails for one or more events or
- *                       void if the function registered _wp_cron() to run on the action.
+ * @return false|int|void On success an integer indicating number of events spawned (0 indicates no
+ *                        events needed to be spawned), false if spawning fails for one or more events or
+ *                        void if the function registered _wp_cron() to run on the action.
  */
 function wp_cron() {
 	if ( did_action( 'wp_loaded' ) ) {
@@ -1160,7 +1160,7 @@ function wp_get_schedule( $hook, $args = array() ) {
  */
 function wp_get_ready_cron_jobs() {
 	/**
-	 * Filter to preflight or hijack retrieving ready cron jobs.
+	 * Filter to override retrieving ready cron jobs.
 	 *
 	 * Returning an array will short-circuit the normal retrieval of ready
 	 * cron jobs, causing the function to return the filtered value instead.

@@ -333,8 +333,8 @@ class WP_Block_Type {
 	 *
 	 * @param string $name Deprecated property name.
 	 *
-	 * @return boolean Returns true when for the new property the first item in the array exists,
-	 *                     or false otherwise.
+	 * @return bool Returns true when for the new property the first item in the array exists,
+	 *              or false otherwise.
 	 */
 	public function __isset( $name ) {
 		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {

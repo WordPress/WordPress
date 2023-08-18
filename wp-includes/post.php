@@ -4974,8 +4974,8 @@ function check_and_publish_future_post( $post ) {
  *
  * @since 5.7.0
  *
- * @param string $post_date     The date in mysql format.
- * @param string $post_date_gmt The GMT date in mysql format.
+ * @param string $post_date     The date in mysql format (`Y-m-d H:i:s`).
+ * @param string $post_date_gmt The GMT date in mysql format (`Y-m-d H:i:s`).
  * @return string|false A valid Gregorian-calendar date string, or false on failure.
  */
 function wp_resolve_post_date( $post_date = '', $post_date_gmt = '' ) {

@@ -18,7 +18,7 @@
  * @param string        $feature_set Name of block support feature set..
  * @param string        $feature     Optional name of individual feature to check.
  *
- * @return boolean Whether to serialize block support styles & classes.
+ * @return bool Whether to serialize block support styles & classes.
  */
 function wp_should_skip_block_supports_serialization( $block_type, $feature_set, $feature = null ) {
 	if ( ! is_object( $block_type ) || ! $feature_set ) {

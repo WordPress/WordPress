@@ -4268,7 +4268,7 @@ function create_initial_theme_features() {
  *
  * @since 5.9.0
  *
- * @return boolean Whether the active theme is a block-based theme or not.
+ * @return bool Whether the active theme is a block-based theme or not.
  */
 function wp_is_block_theme() {
 	return wp_get_theme()->is_block_theme();

@@ -73,7 +73,7 @@ function _wp_scripts_maybe_doing_it_wrong( $function_name, $handle = '' ) {
  *
  * Called by admin-header.php and {@see 'wp_head'} hook. Since it is called by wp_head on every page load,
  * the function does not instantiate the WP_Scripts object unless script names are explicitly passed.
- * Makes use of already-instantiated $wp_scripts global if present. Use provided {@see 'wp_print_scripts'}
+ * Makes use of already-instantiated `$wp_scripts` global if present. Use provided {@see 'wp_print_scripts'}
  * hook to register/enqueue new scripts.
  *
  * @see WP_Scripts::do_item()
@@ -113,8 +113,8 @@ function wp_print_scripts( $handles = false ) {
  * Adds extra code to a registered script.
  *
  * Code will only be added if the script is already in the queue.
- * Accepts a string $data containing the Code. If two or more code blocks
- * are added to the same script $handle, they will be printed in the order
+ * Accepts a string `$data` containing the code. If two or more code blocks
+ * are added to the same script `$handle`, they will be printed in the order
  * they were added, i.e. the latter added code can redeclare the previous.
  *
  * @since 4.5.0
@@ -201,9 +201,9 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $args
  *
  * Works only if the script has already been registered.
  *
- * Accepts an associative array $l10n and creates a JavaScript object:
+ * Accepts an associative array `$l10n` and creates a JavaScript object:
  *
- *     "$object_name" = {
+ *     "$object_name": {
  *         key: value,
  *         key: value,
  *         ...
@@ -337,7 +337,7 @@ function wp_deregister_script( $handle ) {
 /**
  * Enqueues a script.
  *
- * Registers the script if $src provided (does NOT overwrite), and enqueues it.
+ * Registers the script if `$src` provided (does NOT overwrite), and enqueues it.
  *
  * @see WP_Dependencies::add()
  * @see WP_Dependencies::add_data()
