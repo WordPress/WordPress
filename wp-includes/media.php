@@ -283,12 +283,14 @@ function image_downsize( $id, $size = 'medium' ) {
  * @param string     $name   Image size identifier.
  * @param int        $width  Optional. Image width in pixels. Default 0.
  * @param int        $height Optional. Image height in pixels. Default 0.
- * @param bool|array $crop   Optional. Image cropping behavior. If false, the image will be scaled (default),
- *                           If true, image will be cropped to the specified dimensions using center positions.
- *                           If an array, the image will be cropped using the array to specify the crop location.
- *                           Array values must be in the format: array( x_crop_position, y_crop_position ) where:
- *                               - x_crop_position accepts: 'left', 'center', or 'right'.
- *                               - y_crop_position accepts: 'top', 'center', or 'bottom'.
+ * @param bool|array $crop   {
+ *     Optional. Image cropping behavior. If false, the image will be scaled (default).
+ *     If true, image will be cropped to the specified dimensions using center positions.
+ *     If an array, the image will be cropped using the array to specify the crop location:
+ *
+ *     @type string $0 The x crop position. Accepts 'left' 'center', or 'right'.
+ *     @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
+ * }
  */
 function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 	global $_wp_additional_image_sizes;
@@ -343,8 +345,14 @@ function remove_image_size( $name ) {
  *
  * @param int        $width  Image width in pixels.
  * @param int        $height Image height in pixels.
- * @param bool|array $crop   Optional. Whether to crop images to specified width and height or resize.
- *                           An array can specify positioning of the crop area. Default false.
+ * @param bool|array $crop   {
+ *     Optional. Image cropping behavior. If false, the image will be scaled (default),
+ *     If true, image will be cropped to the specified dimensions using center positions.
+ *     If an array, the image will be cropped using the array to specify the crop location:
+ *
+ *     @type string $0 The x crop position. Accepts 'left' 'center', or 'right'.
+ *     @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
+ * }
  */
 function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
 	add_image_size( 'post-thumbnail', $width, $height, $crop );
@@ -511,22 +519,20 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width = 
  * Calculates dimensions and coordinates for a resized image that fits
  * within a specified width and height.
  *
- * Cropping behavior is dependent on the value of $crop:
- * 1. If false (default), images will not be cropped.
- * 2. If an array in the form of array( x_crop_position, y_crop_position ):
- *    - x_crop_position accepts 'left' 'center', or 'right'.
- *    - y_crop_position accepts 'top', 'center', or 'bottom'.
- *    Images will be cropped to the specified dimensions within the defined crop area.
- * 3. If true, images will be cropped to the specified dimensions using center positions.
- *
  * @since 2.5.0
  *
  * @param int        $orig_w Original width in pixels.
  * @param int        $orig_h Original height in pixels.
  * @param int        $dest_w New width in pixels.
  * @param int        $dest_h New height in pixels.
- * @param bool|array $crop   Optional. Whether to crop image to specified width and height or resize.
- *                           An array can specify positioning of the crop area. Default false.
+ * @param bool|array $crop   {
+ *     Optional. Image cropping behavior. If false, the image will be scaled (default).
+ *     If true, image will be cropped to the specified dimensions using center positions.
+ *     If an array, the image will be cropped using the array to specify the crop location:
+ *
+ *     @type string $0 The x crop position. Accepts 'left' 'center', or 'right'.
+ *     @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
+ * }
  * @return array|false Returned array matches parameters for `imagecopyresampled()`. False on failure.
  */
 function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = false ) {
@@ -670,11 +676,17 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
  *
  * @since 2.5.0
  *
- * @param string $file   File path.
- * @param int    $width  Image width.
- * @param int    $height Image height.
- * @param bool   $crop   Optional. Whether to crop image to specified width and height or resize.
- *                       Default false.
+ * @param string     $file   File path.
+ * @param int        $width  Image width.
+ * @param int        $height Image height.
+ * @param bool|array $crop   {
+ *     Optional. Image cropping behavior. If false, the image will be scaled (default),
+ *     If true, image will be cropped to the specified dimensions using center positions.
+ *     If an array, the image will be cropped using the array to specify the crop location:
+ *
+ *     @type string $0 The x crop position. Accepts 'left' 'center', or 'right'.
+ *     @type string $1 The y crop position. Accepts 'top', 'center', or 'bottom'.
+ * }
  * @return array|false Metadata array on success. False if no image was created.
  */
 function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
