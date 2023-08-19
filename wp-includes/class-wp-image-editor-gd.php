@@ -165,8 +165,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *
 	 * @param int|null   $max_w Image width.
 	 * @param int|null   $max_h Image height.
-	 * @param bool|array $crop   {
-	 *     Optional. Image cropping behavior. If false, the image will be scaled (default),
+	 * @param bool|array $crop  {
+	 *     Optional. Image cropping behavior. If false, the image will be scaled (default).
 	 *     If true, image will be cropped to the specified dimensions using center positions.
 	 *     If an array, the image will be cropped using the array to specify the crop location:
 	 *
@@ -197,8 +197,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	/**
 	 * @param int        $max_w
 	 * @param int        $max_h
-	 * @param bool|array $crop   {
-	 *     Optional. Image cropping behavior. If false, the image will be scaled (default),
+	 * @param bool|array $crop  {
+	 *     Optional. Image cropping behavior. If false, the image will be scaled (default).
 	 *     If true, image will be cropped to the specified dimensions using center positions.
 	 *     If an array, the image will be cropped using the array to specify the crop location:
 	 *

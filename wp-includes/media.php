@@ -346,7 +346,7 @@ function remove_image_size( $name ) {
  * @param int        $width  Image width in pixels.
  * @param int        $height Image height in pixels.
  * @param bool|array $crop   {
- *     Optional. Image cropping behavior. If false, the image will be scaled (default),
+ *     Optional. Image cropping behavior. If false, the image will be scaled (default).
  *     If true, image will be cropped to the specified dimensions using center positions.
  *     If an array, the image will be cropped using the array to specify the crop location:
  *
@@ -680,7 +680,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
  * @param int        $width  Image width.
  * @param int        $height Image height.
  * @param bool|array $crop   {
- *     Optional. Image cropping behavior. If false, the image will be scaled (default),
+ *     Optional. Image cropping behavior. If false, the image will be scaled (default).
  *     If true, image will be cropped to the specified dimensions using center positions.
  *     If an array, the image will be cropped using the array to specify the crop location:
  *
