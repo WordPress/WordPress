@@ -34,7 +34,7 @@ function render_block_core_footnotes( $attributes, $content, $block ) {
 
 	$footnotes = json_decode( $footnotes, true );
 
-	if ( count( $footnotes ) === 0 ) {
+	if ( ! is_array( $footnotes ) || count( $footnotes ) === 0 ) {
 		return '';
 	}
 
@@ -98,7 +98,7 @@ function wp_save_footnotes_meta( $revision_id ) {
 
 		if ( $footnotes ) {
 			// Can't use update_post_meta() because it doesn't allow revisions.
-			update_metadata( 'post', $revision_id, 'footnotes', $footnotes );
+			update_metadata( 'post', $revision_id, 'footnotes', wp_slash( $footnotes ) );
 		}
 	}
 }
@@ -154,15 +154,14 @@ function wp_add_footnotes_revisions_to_post_meta( $post ) {
 
 			if ( $footnotes ) {
 				// Can't use update_post_meta() because it doesn't allow revisions.
-				update_metadata( 'post', $wp_temporary_footnote_revision_id, 'footnotes', $footnotes );
+				update_metadata( 'post', $wp_temporary_footnote_revision_id, 'footnotes', wp_slash( $footnotes ) );
 			}
 		}
 	}
 }
 
-foreach ( array( 'post', 'page' ) as $post_type ) {
-	add_action( "rest_after_insert_{$post_type}", 'wp_add_footnotes_revisions_to_post_meta' );
-}
+add_action( 'rest_after_insert_post', 'wp_add_footnotes_revisions_to_post_meta' );
+add_action( 'rest_after_insert_page', 'wp_add_footnotes_revisions_to_post_meta' );
 
 /**
  * Restores the footnotes meta value from the revision.
@@ -176,7 +175,7 @@ function wp_restore_footnotes_from_revision( $post_id, $revision_id ) {
 	$footnotes = get_post_meta( $revision_id, 'footnotes', true );
 
 	if ( $footnotes ) {
-		update_post_meta( $post_id, 'footnotes', $footnotes );
+		update_post_meta( $post_id, 'footnotes', wp_slash( $footnotes ) );
 	} else {
 		delete_post_meta( $post_id, 'footnotes' );
 	}
@@ -243,7 +242,7 @@ function _wp_rest_api_autosave_meta( $autosave ) {
 		return;
 	}
 
-	update_post_meta( $id, 'footnotes', $body['meta']['footnotes'] );
+	update_post_meta( $id, 'footnotes', wp_slash( $body['meta']['footnotes'] ) );
 }
 // See https://github.com/WordPress/wordpress-develop/blob/2103cb9966e57d452c94218bbc3171579b536a40/src/wp-includes/rest-api/endpoints/class-wp-rest-autosaves-controller.php#L391C1-L391C1.
 add_action( 'wp_creating_autosave', '_wp_rest_api_autosave_meta' );

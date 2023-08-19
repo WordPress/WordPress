@@ -46279,6 +46279,8 @@ function useClipboardHandler() {
         if (shouldHandleWholeBlocks && !expandSelectionIsNeeded) {
           removeBlocks(selectedBlockClientIds);
         } else {
+          event.target.ownerDocument.activeElement.contentEditable = false;
+
           __unstableDeleteSelection();
         }
       } else if (event.type === 'paste') {
@@ -56118,7 +56120,14 @@ function RichTextWrapper({
     }), anchorRef]),
     contentEditable: true,
     suppressContentEditableWarning: true,
-    className: classnames_default()('block-editor-rich-text__editable', props.className, 'rich-text')
+    className: classnames_default()('block-editor-rich-text__editable', props.className, 'rich-text') // Setting tabIndex to 0 is unnecessary, the element is already
+    // focusable because it's contentEditable. This also fixes a
+    // Safari bug where it's not possible to Shift+Click multi
+    // select blocks when Shift Clicking into an element with
+    // tabIndex because Safari will focus the element. However,
+    // Safari will correctly ignore nested contentEditable elements.
+    ,
+    tabIndex: props.tabIndex === 0 ? null : props.tabIndex
   }));
 }
 
