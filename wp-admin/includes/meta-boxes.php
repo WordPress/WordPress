@@ -1033,7 +1033,7 @@ function page_attributes_meta_box( $post ) {
 		endif; // End empty pages check.
 	endif;  // End hierarchical check.
 
-	if ( count( get_page_templates( $post ) ) > 0 && get_option( 'page_for_posts' ) != $post->ID ) :
+	if ( count( get_page_templates( $post ) ) > 0 && (int) get_option( 'page_for_posts' ) !== $post->ID ) :
 		$template = ! empty( $post->page_template ) ? $post->page_template : false;
 		?>
 <p class="post-attributes-label-wrapper page-template-label-wrapper"><label class="post-attributes-label" for="page_template"><?php _e( 'Template' ); ?></label>
@@ -1496,7 +1496,7 @@ function link_advanced_meta_box( $link ) {
 		<?php
 		for ( $rating = 0; $rating <= 10; $rating++ ) {
 			echo '<option value="' . $rating . '"';
-			if ( isset( $link->link_rating ) && $link->link_rating == $rating ) {
+			if ( isset( $link->link_rating ) && $link->link_rating === $rating ) {
 				echo ' selected="selected"';
 			}
 			echo '>' . $rating . '</option>';
