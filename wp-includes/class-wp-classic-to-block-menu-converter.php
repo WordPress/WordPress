@@ -20,7 +20,9 @@ class WP_Classic_To_Block_Menu_Converter {
 	 * @since 6.3.0
 	 *
 	 * @param WP_Term $menu The Menu term object of the menu to convert.
-	 * @return string the serialized and normalized parsed blocks.
+	 * @return string|WP_Error The serialized and normalized parsed blocks on success,
+	 *                         an empty string when there are no menus to convert,
+	 *                         or WP_Error on invalid menu.
 	 */
 	public static function convert( $menu ) {
 
@@ -34,7 +36,7 @@ class WP_Classic_To_Block_Menu_Converter {
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => false ) );
 
 		if ( empty( $menu_items ) ) {
-			return array();
+			return '';
 		}
 
 		// Set up the $menu_item variables.
