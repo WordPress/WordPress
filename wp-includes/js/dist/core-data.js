@@ -6356,6 +6356,11 @@ function useEntityBlockEditor(kind, name, {
     });
 
     function updateAttributes(attributes) {
+      // Only attempt to update attributes, if attributes is an object.
+      if (!attributes || Array.isArray(attributes) || typeof attributes !== 'object') {
+        return attributes;
+      }
+
       attributes = { ...attributes
       };
 

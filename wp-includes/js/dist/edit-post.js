@@ -8968,6 +8968,40 @@ const interfaceLabels = {
   footer: (0,external_wp_i18n_namespaceObject.__)('Editor footer')
 };
 
+function useEditorStyles() {
+  const {
+    hasThemeStyleSupport,
+    editorSettings
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
+    hasThemeStyleSupport: select(store_store).isFeatureActive('themeStyles'),
+    editorSettings: select(external_wp_editor_namespaceObject.store).getEditorSettings()
+  }), []); // Compute the default styles.
+
+  return (0,external_wp_element_namespaceObject.useMemo)(() => {
+    var _editorSettings$style, _editorSettings$style2;
+
+    const presetStyles = (_editorSettings$style = editorSettings.styles?.filter(style => style.__unstableType && style.__unstableType !== 'theme')) !== null && _editorSettings$style !== void 0 ? _editorSettings$style : [];
+    const defaultEditorStyles = [...editorSettings.defaultEditorStyles, ...presetStyles]; // Has theme styles if the theme supports them and if some styles were not preset styles (in which case they're theme styles).
+
+    const hasThemeStyles = hasThemeStyleSupport && presetStyles.length !== ((_editorSettings$style2 = editorSettings.styles?.length) !== null && _editorSettings$style2 !== void 0 ? _editorSettings$style2 : 0); // If theme styles are not present or displayed, ensure that
+    // base layout styles are still present in the editor.
+
+    if (!editorSettings.disableLayoutStyles && !hasThemeStyles) {
+      defaultEditorStyles.push({
+        css: getLayoutStyles({
+          style: {},
+          selector: 'body',
+          hasBlockGapSupport: false,
+          hasFallbackGapSupport: true,
+          fallbackGapValue: '0.5em'
+        })
+      });
+    }
+
+    return hasThemeStyles ? editorSettings.styles : defaultEditorStyles;
+  }, [editorSettings.defaultEditorStyles, editorSettings.disableLayoutStyles, editorSettings.styles, hasThemeStyleSupport]);
+}
+
 function Layout() {
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
   const isHugeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('huge', '>=');
@@ -8996,43 +9030,14 @@ function Layout() {
     isDistractionFree,
     showBlockBreadcrumbs,
     isTemplateMode,
-    documentLabel,
-    styles
+    documentLabel
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditorSettings,
       getPostTypeLabel
     } = select(external_wp_editor_namespaceObject.store);
-    const {
-      isFeatureActive
-    } = select(store_store);
     const editorSettings = getEditorSettings();
     const postTypeLabel = getPostTypeLabel();
-    const hasThemeStyles = isFeatureActive('themeStyles');
-    const themeStyles = [];
-    const presetStyles = [];
-    editorSettings.styles?.forEach(style => {
-      if (!style.__unstableType || style.__unstableType === 'theme') {
-        themeStyles.push(style);
-      } else {
-        presetStyles.push(style);
-      }
-    });
-    const defaultEditorStyles = [...editorSettings.defaultEditorStyles, ...presetStyles]; // If theme styles are not present or displayed, ensure that
-    // base layout styles are still present in the editor.
-
-    if (!editorSettings.disableLayoutStyles && !(hasThemeStyles && themeStyles.length)) {
-      defaultEditorStyles.push({
-        css: getLayoutStyles({
-          style: {},
-          selector: 'body',
-          hasBlockGapSupport: false,
-          hasFallbackGapSupport: true,
-          fallbackGapValue: '0.5em'
-        })
-      });
-    }
-
     return {
       isTemplateMode: select(store_store).isEditingTemplate(),
       hasFixedToolbar: select(store_store).isFeatureActive('fixedToolbar'),
@@ -9049,10 +9054,10 @@ function Layout() {
       isDistractionFree: select(store_store).isFeatureActive('distractionFree'),
       showBlockBreadcrumbs: select(store_store).isFeatureActive('showBlockBreadcrumbs'),
       // translators: Default label for the Document in the Block Breadcrumb.
-      documentLabel: postTypeLabel || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun'),
-      styles: hasThemeStyles && themeStyles.length ? editorSettings.styles : defaultEditorStyles
+      documentLabel: postTypeLabel || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun')
     };
   }, []);
+  const styles = useEditorStyles();
 
   const openSidebarPanel = () => openGeneralSidebar(hasBlockSelected ? 'edit-post/block' : 'edit-post/document'); // Inserter and Sidebars are mutually exclusive
 

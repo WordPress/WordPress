@@ -67779,7 +67779,7 @@ var CollectionContext = (0,external_React_.createContext)(
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/HGFTMLQ7.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/VFNGSUSF.js
 
 
 
@@ -67805,18 +67805,18 @@ var useCollectionItem = NQJBHION_createHook(
     const context = (0,external_React_.useContext)(CollectionContext);
     store = store || context;
     const id = useId(props.id);
-    const unrenderItem = (0,external_React_.useRef)();
-    const ref = (0,external_React_.useCallback)(
-      (element2) => {
-        var _a2;
-        if (!element2 || !id || !shouldRegisterItem) {
-          return (_a2 = unrenderItem.current) == null ? void 0 : _a2.call(unrenderItem);
-        }
-        const item = getItem({ id, element: element2 });
-        unrenderItem.current = store == null ? void 0 : store.renderItem(item);
-      },
-      [id, shouldRegisterItem, getItem, store]
-    );
+    const ref = (0,external_React_.useRef)(element);
+    (0,external_React_.useEffect)(() => {
+      const element2 = ref.current;
+      if (!id)
+        return;
+      if (!element2)
+        return;
+      if (!shouldRegisterItem)
+        return;
+      const item = getItem({ id, element: element2 });
+      return store == null ? void 0 : store.renderItem(item);
+    }, [id, shouldRegisterItem, getItem, store]);
     props = PNRLI7OV_spreadProps(PNRLI7OV_spreadValues({}, props), {
       ref: useMergeRefs(ref, props.ref)
     });
@@ -67927,7 +67927,182 @@ var CompositeContext = (0,external_React_.createContext)(
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/OOWNFOTF.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/OGOHEUXI.js
+
+
+
+// src/utils/store.ts
+function getInternal(store, key) {
+  const internals = store.__unstableInternals;
+  WVTCK5PV_invariant(internals, "Invalid store");
+  return internals[key];
+}
+function createStore(initialState, ...stores) {
+  let state = initialState;
+  let prevStateBatch = state;
+  let lastUpdate = Symbol();
+  let initialized = false;
+  const updatedKeys = /* @__PURE__ */ new Set();
+  const setups = /* @__PURE__ */ new Set();
+  const listeners = /* @__PURE__ */ new Set();
+  const listenersBatch = /* @__PURE__ */ new Set();
+  const disposables = /* @__PURE__ */ new WeakMap();
+  const listenerKeys = /* @__PURE__ */ new WeakMap();
+  const storeSetup = (callback) => {
+    setups.add(callback);
+    return () => setups.delete(callback);
+  };
+  const storeInit = () => {
+    if (initialized)
+      return WVTCK5PV_noop;
+    if (!stores.length)
+      return WVTCK5PV_noop;
+    initialized = true;
+    const desyncs = getKeys(state).map(
+      (key) => WVTCK5PV_chain(
+        ...stores.map((store) => {
+          var _a;
+          const storeState = (_a = store == null ? void 0 : store.getState) == null ? void 0 : _a.call(store);
+          if (!storeState)
+            return;
+          if (!WVTCK5PV_hasOwnProperty(storeState, key))
+            return;
+          return OGOHEUXI_sync(store, [key], (state2) => setState(key, state2[key]));
+        })
+      )
+    );
+    const teardowns = [];
+    setups.forEach((setup2) => teardowns.push(setup2()));
+    const cleanups = stores.map(init);
+    return WVTCK5PV_chain(...desyncs, ...teardowns, ...cleanups, () => {
+      initialized = false;
+    });
+  };
+  const sub = (keys, listener, batch2 = false) => {
+    const set = batch2 ? listenersBatch : listeners;
+    set.add(listener);
+    listenerKeys.set(listener, keys);
+    return () => {
+      var _a;
+      (_a = disposables.get(listener)) == null ? void 0 : _a();
+      disposables.delete(listener);
+      listenerKeys.delete(listener);
+      set.delete(listener);
+    };
+  };
+  const storeSubscribe = (keys, listener) => sub(keys, listener);
+  const storeSync = (keys, listener) => {
+    disposables.set(listener, listener(state, state));
+    return sub(keys, listener);
+  };
+  const storeBatch = (keys, listener) => {
+    disposables.set(listener, listener(state, prevStateBatch));
+    return sub(keys, listener, true);
+  };
+  const storePick = (keys) => createStore(pick(state, keys), finalStore);
+  const storeOmit = (keys) => createStore(omit(state, keys), finalStore);
+  const getState = () => state;
+  const setState = (key, value) => {
+    if (!WVTCK5PV_hasOwnProperty(state, key))
+      return;
+    const nextValue = WVTCK5PV_applyState(value, state[key]);
+    if (nextValue === state[key])
+      return;
+    stores.forEach((store) => {
+      var _a;
+      (_a = store == null ? void 0 : store.setState) == null ? void 0 : _a.call(store, key, nextValue);
+    });
+    const prevState = state;
+    state = _chunks_PNRLI7OV_spreadProps(_chunks_PNRLI7OV_spreadValues({}, state), { [key]: nextValue });
+    const thisUpdate = Symbol();
+    lastUpdate = thisUpdate;
+    updatedKeys.add(key);
+    const run = (listener, prev, uKeys) => {
+      var _a;
+      const keys = listenerKeys.get(listener);
+      const updated = (k) => uKeys ? uKeys.has(k) : k === key;
+      if (!keys || keys.some(updated)) {
+        (_a = disposables.get(listener)) == null ? void 0 : _a();
+        disposables.set(listener, listener(state, prev));
+      }
+    };
+    listeners.forEach((listener) => run(listener, prevState));
+    queueMicrotask(() => {
+      if (lastUpdate !== thisUpdate)
+        return;
+      const snapshot = state;
+      listenersBatch.forEach((listener) => {
+        run(listener, prevStateBatch, updatedKeys);
+      });
+      prevStateBatch = snapshot;
+      updatedKeys.clear();
+    });
+  };
+  const finalStore = {
+    getState,
+    setState,
+    __unstableInternals: {
+      setup: storeSetup,
+      init: storeInit,
+      subscribe: storeSubscribe,
+      sync: storeSync,
+      batch: storeBatch,
+      pick: storePick,
+      omit: storeOmit
+    }
+  };
+  return finalStore;
+}
+function setup(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "setup")(...args);
+}
+function init(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "init")(...args);
+}
+function OGOHEUXI_subscribe(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "subscribe")(...args);
+}
+function OGOHEUXI_sync(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "sync")(...args);
+}
+function batch(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "batch")(...args);
+}
+function omit2(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "omit")(...args);
+}
+function pick2(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "pick")(...args);
+}
+function mergeStore(...stores) {
+  const initialState = stores.reduce((state, store2) => {
+    var _a;
+    const nextState = (_a = store2 == null ? void 0 : store2.getState) == null ? void 0 : _a.call(store2);
+    if (!nextState)
+      return state;
+    return __spreadValues(__spreadValues({}, state), nextState);
+  }, {});
+  const store = createStore(initialState, ...stores);
+  return store;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/QPTZ2G2N.js
 
 
 
@@ -67936,9 +68111,34 @@ var CompositeContext = (0,external_React_.createContext)(
 
 
 
+
 var noopSubscribe = () => () => {
 };
+var inFlushSyncContext = false;
+function safeFlushSync(fn, canFlushSync = true) {
+  if (inFlushSyncContext || !canFlushSync) {
+    fn();
+    return;
+  }
+  inFlushSyncContext = true;
+  const originalError = console.error;
+  if (false) {}
+  try {
+    (0,external_ReactDOM_namespaceObject.flushSync)(fn);
+  } finally {
+    console.error = originalError;
+    inFlushSyncContext = false;
+  }
+}
 function useStoreState(store, keyOrSelector = WVTCK5PV_identity) {
+  const storeSubscribe = external_React_.useCallback(
+    (callback) => {
+      if (!store)
+        return noopSubscribe();
+      return OGOHEUXI_subscribe(store, null, callback);
+    },
+    [store]
+  );
   const getSnapshot = () => {
     if (!store)
       return;
@@ -67953,11 +68153,7 @@ function useStoreState(store, keyOrSelector = WVTCK5PV_identity) {
       return;
     return state[key];
   };
-  return (0,shim.useSyncExternalStore)(
-    (store == null ? void 0 : store.subscribe) || noopSubscribe,
-    getSnapshot,
-    getSnapshot
-  );
+  return (0,shim.useSyncExternalStore)(storeSubscribe, getSnapshot, getSnapshot);
 }
 function useStoreProps(store, props, key, setKey) {
   const value = WVTCK5PV_hasOwnProperty(props, key) ? props[key] : void 0;
@@ -67970,45 +68166,41 @@ function useStoreProps(store, props, key, setKey) {
     queueMicrotask(() => {
       canFlushSync = true;
     });
-    return store.sync(
-      (state, prev) => {
-        const { value: value2, setValue } = propsRef.current;
-        if (!setValue)
-          return;
-        if (state[key] === prev[key])
-          return;
-        if (state[key] === value2)
-          return;
-        if (canFlushSync) {
-          (0,external_ReactDOM_namespaceObject.flushSync)(() => setValue(state[key]));
-        } else {
-          setValue(state[key]);
-        }
-      },
-      [key]
-    );
+    return OGOHEUXI_sync(store, [key], (state, prev) => {
+      const { value: value2, setValue } = propsRef.current;
+      if (!setValue)
+        return;
+      if (state[key] === prev[key])
+        return;
+      if (state[key] === value2)
+        return;
+      safeFlushSync(() => setValue(state[key]), canFlushSync);
+    });
   }, [store, key]);
   useSafeLayoutEffect(() => {
-    return store.sync(() => {
+    return batch(store, [key], () => {
       if (value === void 0)
         return;
       store.setState(key, value);
-    }, [key]);
+    });
   }, [store, key, value]);
 }
-function OOWNFOTF_useStore(createStore) {
+function QPTZ2G2N_useStore(createStore) {
   const store = useLazyValue(createStore);
-  useSafeLayoutEffect(() => store.init(), [store]);
-  const useState = (0,external_React_.useCallback)(
+  useSafeLayoutEffect(() => init(store), [store]);
+  const useState = external_React_.useCallback(
     (keyOrSelector) => useStoreState(store, keyOrSelector),
     [store]
   );
-  return (0,external_React_.useMemo)(() => PNRLI7OV_spreadProps(PNRLI7OV_spreadValues({}, store), { useState }), [store, useState]);
+  return external_React_.useMemo(
+    () => PNRLI7OV_spreadProps(PNRLI7OV_spreadValues({}, store), { useState }),
+    [store, useState]
+  );
 }
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/DCG3EYDE.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/7SIWUER2.js
 
 
 
@@ -68083,12 +68275,12 @@ function findNextPageItemId(element, store, next, pageUp = false) {
   }
   return id;
 }
-function DCG3EYDE_targetIsAnotherItem(event, store) {
+function _7SIWUER2_targetIsAnotherItem(event, store) {
   if (events_isSelfTarget(event))
     return false;
   return OXPV2NBK_isItem(store, event.target);
 }
-function DCG3EYDE_useRole(ref, props) {
+function _7SIWUER2_useRole(ref, props) {
   const roleProp = props.role;
   const [role, setRole] = (0,external_React_.useState)(roleProp);
   useSafeLayoutEffect(() => {
@@ -68119,7 +68311,7 @@ function supportsAriaSelected(role) {
     return true;
   return false;
 }
-var DCG3EYDE_useCompositeItem = NQJBHION_createHook(
+var _7SIWUER2_useCompositeItem = NQJBHION_createHook(
   (_a) => {
     var _b = _a, {
       store,
@@ -68181,7 +68373,7 @@ var DCG3EYDE_useCompositeItem = NQJBHION_createHook(
       if (!store)
         return;
       const { activeId, virtualFocus: virtualFocus2, baseElement: baseElement2 } = store.getState();
-      if (DCG3EYDE_targetIsAnotherItem(event, store))
+      if (_7SIWUER2_targetIsAnotherItem(event, store))
         return;
       if (activeId !== id) {
         store.setActiveId(id);
@@ -68281,7 +68473,7 @@ var DCG3EYDE_useCompositeItem = NQJBHION_createHook(
     );
     const isActiveItem = useStoreState(store, (state) => state.activeId === id);
     const virtualFocus = useStoreState(store, "virtualFocus");
-    const role = DCG3EYDE_useRole(ref, props);
+    const role = _7SIWUER2_useRole(ref, props);
     let ariaSelected;
     if (isActiveItem) {
       if (requiresAriaSelected(role)) {
@@ -68340,9 +68532,9 @@ var DCG3EYDE_useCompositeItem = NQJBHION_createHook(
     });
   }
 );
-var DCG3EYDE_CompositeItem = createMemoComponent(
+var _7SIWUER2_CompositeItem = createMemoComponent(
   (props) => {
-    const htmlProps = DCG3EYDE_useCompositeItem(props);
+    const htmlProps = _7SIWUER2_useCompositeItem(props);
     return NQJBHION_createElement("button", htmlProps);
   }
 );
@@ -68350,7 +68542,7 @@ if (false) {}
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/HCTED3MY.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/JD3UVZX5.js
 
 
 
@@ -68359,7 +68551,7 @@ if (false) {}
 var useToolbarItem = NQJBHION_createHook(
   (_a) => {
     var _b = _a, { store } = _b, props = __objRest(_b, ["store"]);
-    props = DCG3EYDE_useCompositeItem(PNRLI7OV_spreadValues({ store }, props));
+    props = _7SIWUER2_useCompositeItem(PNRLI7OV_spreadValues({ store }, props));
     return props;
   }
 );
@@ -68714,7 +68906,7 @@ function ToolbarGroup({
 
 /* harmony default export */ var toolbar_group = (ToolbarGroup);
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/WKNTOKYS.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/FSTINJD5.js
 
 
 
@@ -68737,7 +68929,7 @@ function useCollectionStore(props = {}) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/5PLAJI33.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/X5CHG5LF.js
 
 
 
@@ -68769,155 +68961,19 @@ function useCompositeStore(props = {}) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/FQL4TRMX.js
-
-
-
-// src/utils/store.ts
-function createStore(initialState, ...stores) {
-  let state = initialState;
-  let prevStateBatch = state;
-  let lastUpdate = Symbol();
-  let initialized = false;
-  const updatedKeys = /* @__PURE__ */ new Set();
-  const setups = /* @__PURE__ */ new Set();
-  const listeners = /* @__PURE__ */ new Set();
-  const listenersBatch = /* @__PURE__ */ new Set();
-  const disposables = /* @__PURE__ */ new WeakMap();
-  const listenerKeys = /* @__PURE__ */ new WeakMap();
-  const setup = (callback) => {
-    setups.add(callback);
-    return () => setups.delete(callback);
-  };
-  const init = () => {
-    if (initialized)
-      return WVTCK5PV_noop;
-    if (!stores.length)
-      return WVTCK5PV_noop;
-    initialized = true;
-    const desyncs = getKeys(state).map(
-      (key) => WVTCK5PV_chain(
-        ...stores.map((store) => {
-          var _a, _b;
-          const storeState = (_a = store == null ? void 0 : store.getState) == null ? void 0 : _a.call(store);
-          if (!storeState)
-            return;
-          if (!WVTCK5PV_hasOwnProperty(storeState, key))
-            return;
-          return (_b = store == null ? void 0 : store.sync) == null ? void 0 : _b.call(store, (state2) => setState(key, state2[key]), [key]);
-        })
-      )
-    );
-    const teardowns = [];
-    setups.forEach((setup2) => teardowns.push(setup2()));
-    const cleanups = stores.map((store) => {
-      var _a;
-      return (_a = store == null ? void 0 : store.init) == null ? void 0 : _a.call(store);
-    });
-    return WVTCK5PV_chain(...desyncs, ...teardowns, ...cleanups, () => {
-      initialized = false;
-    });
-  };
-  const sub = (listener, keys, batch = false) => {
-    const set = batch ? listenersBatch : listeners;
-    set.add(listener);
-    listenerKeys.set(listener, keys);
-    return () => {
-      var _a;
-      (_a = disposables.get(listener)) == null ? void 0 : _a();
-      disposables.delete(listener);
-      listenerKeys.delete(listener);
-      set.delete(listener);
-    };
-  };
-  const subscribe = (listener, keys) => sub(listener, keys);
-  const sync = (listener, keys) => {
-    disposables.set(listener, listener(state, state));
-    return sub(listener, keys);
-  };
-  const syncBatch = (listener, keys) => {
-    disposables.set(listener, listener(state, prevStateBatch));
-    return sub(listener, keys, true);
-  };
-  const getState = () => state;
-  const setState = (key, value) => {
-    if (!WVTCK5PV_hasOwnProperty(state, key))
-      return;
-    const nextValue = WVTCK5PV_applyState(value, state[key]);
-    if (nextValue === state[key])
-      return;
-    stores.forEach((store) => {
-      var _a;
-      (_a = store == null ? void 0 : store.setState) == null ? void 0 : _a.call(store, key, nextValue);
-    });
-    const prevState = state;
-    state = _chunks_PNRLI7OV_spreadProps(_chunks_PNRLI7OV_spreadValues({}, state), { [key]: nextValue });
-    const thisUpdate = Symbol();
-    lastUpdate = thisUpdate;
-    updatedKeys.add(key);
-    const run = (listener, prev, uKeys) => {
-      var _a;
-      const keys = listenerKeys.get(listener);
-      const updated = (k) => uKeys ? uKeys.has(k) : k === key;
-      if (!keys || keys.some(updated)) {
-        (_a = disposables.get(listener)) == null ? void 0 : _a();
-        disposables.set(listener, listener(state, prev));
-      }
-    };
-    listeners.forEach((listener) => run(listener, prevState));
-    queueMicrotask(() => {
-      if (lastUpdate !== thisUpdate)
-        return;
-      const snapshot = state;
-      listenersBatch.forEach((listener) => {
-        run(listener, prevStateBatch, updatedKeys);
-      });
-      prevStateBatch = snapshot;
-      updatedKeys.clear();
-    });
-  };
-  const pick2 = (...keys) => createStore(pick(state, keys), finalStore);
-  const omit2 = (...keys) => createStore(omit(state, keys), finalStore);
-  const finalStore = {
-    setup,
-    init,
-    subscribe,
-    sync,
-    syncBatch,
-    getState,
-    setState,
-    pick: pick2,
-    omit: omit2
-  };
-  return finalStore;
-}
-function mergeStore(...stores) {
-  const initialState = stores.reduce((state, store2) => {
-    var _a;
-    const nextState = (_a = store2 == null ? void 0 : store2.getState) == null ? void 0 : _a.call(store2);
-    if (!nextState)
-      return state;
-    return __spreadValues(__spreadValues({}, state), nextState);
-  }, {});
-  const store = createStore(initialState, ...stores);
-  return store;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/SHUO6V52.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/A7IMXABC.js
 
 
 
 
 
 // src/collection/collection-store.ts
-function SHUO6V52_isElementPreceding(a, b) {
+function A7IMXABC_isElementPreceding(a, b) {
   return Boolean(
     b.compareDocumentPosition(a) & Node.DOCUMENT_POSITION_PRECEDING
   );
 }
-function SHUO6V52_sortBasedOnDOMPosition(items) {
+function A7IMXABC_sortBasedOnDOMPosition(items) {
   const pairs = items.map((item, index) => [index, item]);
   let isOrderDifferent = false;
   pairs.sort(([indexA, a], [indexB, b]) => {
@@ -68927,7 +68983,7 @@ function SHUO6V52_sortBasedOnDOMPosition(items) {
       return 0;
     if (!elementA || !elementB)
       return 0;
-    if (SHUO6V52_isElementPreceding(elementA, elementB)) {
+    if (A7IMXABC_isElementPreceding(elementA, elementB)) {
       if (indexA > indexB) {
         isOrderDifferent = true;
       }
@@ -68943,7 +68999,7 @@ function SHUO6V52_sortBasedOnDOMPosition(items) {
   }
   return items;
 }
-function SHUO6V52_getCommonParent(items) {
+function A7IMXABC_getCommonParent(items) {
   var _a;
   const firstItem = items.find((item) => !!item.element);
   const lastItem = [...items].reverse().find((item) => !!item.element);
@@ -68977,39 +69033,36 @@ function createCollectionStore(props = {}) {
   const collection = createStore(initialState, props.store);
   const sortItems = () => {
     const state = privateStore.getState();
-    const renderedItems = SHUO6V52_sortBasedOnDOMPosition(state.renderedItems);
+    const renderedItems = A7IMXABC_sortBasedOnDOMPosition(state.renderedItems);
     privateStore.setState("renderedItems", renderedItems);
     collection.setState("renderedItems", renderedItems);
   };
-  collection.setup(() => {
-    return privateStore.syncBatch(
-      (state) => {
-        let firstRun = true;
-        let raf = requestAnimationFrame(sortItems);
-        if (typeof IntersectionObserver !== "function")
+  setup(collection, () => {
+    return batch(privateStore, ["renderedItems"], (state) => {
+      let firstRun = true;
+      let raf = requestAnimationFrame(sortItems);
+      if (typeof IntersectionObserver !== "function")
+        return;
+      const callback = () => {
+        if (firstRun) {
+          firstRun = false;
           return;
-        const callback = () => {
-          if (firstRun) {
-            firstRun = false;
-            return;
-          }
-          cancelAnimationFrame(raf);
-          raf = requestAnimationFrame(sortItems);
-        };
-        const root = SHUO6V52_getCommonParent(state.renderedItems);
-        const observer = new IntersectionObserver(callback, { root });
-        state.renderedItems.forEach((item) => {
-          if (!item.element)
-            return;
-          observer.observe(item.element);
-        });
-        return () => {
-          cancelAnimationFrame(raf);
-          observer.disconnect();
-        };
-      },
-      ["renderedItems"]
-    );
+        }
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(sortItems);
+      };
+      const root = A7IMXABC_getCommonParent(state.renderedItems);
+      const observer = new IntersectionObserver(callback, { root });
+      state.renderedItems.forEach((item) => {
+        if (!item.element)
+          return;
+        observer.observe(item.element);
+      });
+      return () => {
+        cancelAnimationFrame(raf);
+        observer.disconnect();
+      };
+    });
   });
   const mergeItem = (item, setItems, canDeleteFromMap = false) => {
     let prevItem;
@@ -69101,7 +69154,7 @@ function reverseArray(array) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/NRXA5QTV.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/ROY5BBHL.js
 
 
 
@@ -69109,8 +69162,8 @@ function reverseArray(array) {
 
 
 // src/composite/composite-store.ts
-var NRXA5QTV_NULL_ITEM = { id: null };
-function NRXA5QTV_findFirstEnabledItem(items, excludeId) {
+var ROY5BBHL_NULL_ITEM = { id: null };
+function ROY5BBHL_findFirstEnabledItem(items, excludeId) {
   return items.find((item) => {
     if (excludeId) {
       return !item.disabled && item.id !== excludeId;
@@ -69126,7 +69179,7 @@ function getEnabledItems(items, excludeId) {
     return !item.disabled;
   });
 }
-function NRXA5QTV_getOppositeOrientation(orientation) {
+function ROY5BBHL_getOppositeOrientation(orientation) {
   if (orientation === "vertical")
     return "horizontal";
   if (orientation === "horizontal")
@@ -69136,15 +69189,15 @@ function NRXA5QTV_getOppositeOrientation(orientation) {
 function getItemsInRow(items, rowId) {
   return items.filter((item) => item.rowId === rowId);
 }
-function NRXA5QTV_flipItems(items, activeId, shouldInsertNullItem = false) {
+function ROY5BBHL_flipItems(items, activeId, shouldInsertNullItem = false) {
   const index = items.findIndex((item) => item.id === activeId);
   return [
     ...items.slice(index + 1),
-    ...shouldInsertNullItem ? [NRXA5QTV_NULL_ITEM] : [],
+    ...shouldInsertNullItem ? [ROY5BBHL_NULL_ITEM] : [],
     ...items.slice(0, index)
   ];
 }
-function NRXA5QTV_groupItemsByRows(items) {
+function ROY5BBHL_groupItemsByRows(items) {
   const rows = [];
   for (const item of items) {
     const row = rows.find((currentRow) => {
@@ -69168,7 +69221,7 @@ function getMaxRowLength(array) {
   }
   return maxLength;
 }
-function NRXA5QTV_createEmptyItem(rowId) {
+function ROY5BBHL_createEmptyItem(rowId) {
   return {
     id: "__EMPTY_ITEM__",
     disabled: true,
@@ -69182,15 +69235,15 @@ function normalizeRows(rows, activeId, focusShift) {
       const item = row[i];
       if (!item || focusShift && item.disabled) {
         const isFirst = i === 0;
-        const previousItem = isFirst && focusShift ? NRXA5QTV_findFirstEnabledItem(row) : row[i - 1];
-        row[i] = previousItem && activeId !== previousItem.id && focusShift ? previousItem : NRXA5QTV_createEmptyItem(previousItem == null ? void 0 : previousItem.rowId);
+        const previousItem = isFirst && focusShift ? ROY5BBHL_findFirstEnabledItem(row) : row[i - 1];
+        row[i] = previousItem && activeId !== previousItem.id && focusShift ? previousItem : ROY5BBHL_createEmptyItem(previousItem == null ? void 0 : previousItem.rowId);
       }
     }
   }
   return rows;
 }
-function NRXA5QTV_verticalizeItems(items) {
-  const rows = NRXA5QTV_groupItemsByRows(items);
+function ROY5BBHL_verticalizeItems(items) {
+  const rows = ROY5BBHL_groupItemsByRows(items);
   const maxLength = getMaxRowLength(rows);
   const verticalized = [];
   for (let i = 0; i < maxLength; i += 1) {
@@ -69244,18 +69297,16 @@ function createCompositeStore(props = {}) {
     focusShift: defaultValue(props.focusShift, syncState == null ? void 0 : syncState.focusShift, false)
   });
   const composite = createStore(initialState, collection, props.store);
-  composite.setup(
-    () => composite.sync(
-      (state) => {
-        composite.setState("activeId", (activeId2) => {
-          var _a2;
-          if (activeId2 !== void 0)
-            return activeId2;
-          return (_a2 = NRXA5QTV_findFirstEnabledItem(state.renderedItems)) == null ? void 0 : _a2.id;
-        });
-      },
-      ["renderedItems", "activeId"]
-    )
+  setup(
+    composite,
+    () => OGOHEUXI_sync(composite, ["renderedItems", "activeId"], (state) => {
+      composite.setState("activeId", (activeId2) => {
+        var _a2;
+        if (activeId2 !== void 0)
+          return activeId2;
+        return (_a2 = ROY5BBHL_findFirstEnabledItem(state.renderedItems)) == null ? void 0 : _a2.id;
+      });
+    })
   );
   const getNextId = (items, orientation, hasNullItem, skip) => {
     var _a2, _b;
@@ -69264,11 +69315,11 @@ function createCompositeStore(props = {}) {
     const isRTL = rtl && isHorizontal;
     const allItems = isRTL ? reverseArray(items) : items;
     if (activeId2 == null) {
-      return (_a2 = NRXA5QTV_findFirstEnabledItem(allItems)) == null ? void 0 : _a2.id;
+      return (_a2 = ROY5BBHL_findFirstEnabledItem(allItems)) == null ? void 0 : _a2.id;
     }
     const activeItem = allItems.find((item) => item.id === activeId2);
     if (!activeItem) {
-      return (_b = NRXA5QTV_findFirstEnabledItem(allItems)) == null ? void 0 : _b.id;
+      return (_b = ROY5BBHL_findFirstEnabledItem(allItems)) == null ? void 0 : _b.id;
     }
     const isGrid = !!activeItem.rowId;
     const activeIndex = allItems.indexOf(activeItem);
@@ -69280,7 +69331,7 @@ function createCompositeStore(props = {}) {
       nextEnabledItemsInRow[nextEnabledItemsInRow.length - 1];
       return nextItem2 == null ? void 0 : nextItem2.id;
     }
-    const oppositeOrientation = NRXA5QTV_getOppositeOrientation(
+    const oppositeOrientation = ROY5BBHL_getOppositeOrientation(
       // If it's a grid and orientation is not set, it's a next/previous call,
       // which is inherently horizontal. up/down will call next with orientation
       // set to vertical by default (see below on up/down methods).
@@ -69291,12 +69342,12 @@ function createCompositeStore(props = {}) {
     hasNullItem = hasNullItem || !isGrid && canLoop && includesBaseElement;
     if (canLoop) {
       const loopItems = canWrap && !hasNullItem ? allItems : getItemsInRow(allItems, activeItem.rowId);
-      const sortedItems = NRXA5QTV_flipItems(loopItems, activeId2, hasNullItem);
-      const nextItem2 = NRXA5QTV_findFirstEnabledItem(sortedItems, activeId2);
+      const sortedItems = ROY5BBHL_flipItems(loopItems, activeId2, hasNullItem);
+      const nextItem2 = ROY5BBHL_findFirstEnabledItem(sortedItems, activeId2);
       return nextItem2 == null ? void 0 : nextItem2.id;
     }
     if (canWrap) {
-      const nextItem2 = NRXA5QTV_findFirstEnabledItem(
+      const nextItem2 = ROY5BBHL_findFirstEnabledItem(
         // We can use nextItems, which contains all the next items, including
         // items from other rows, to wrap between rows. However, if there is a
         // null item (the composite container), we'll only use the next items in
@@ -69309,7 +69360,7 @@ function createCompositeStore(props = {}) {
       const nextId = hasNullItem ? (nextItem2 == null ? void 0 : nextItem2.id) || null : nextItem2 == null ? void 0 : nextItem2.id;
       return nextId;
     }
-    const nextItem = NRXA5QTV_findFirstEnabledItem(nextItemsInRow, activeId2);
+    const nextItem = ROY5BBHL_findFirstEnabledItem(nextItemsInRow, activeId2);
     if (!nextItem && hasNullItem) {
       return null;
     }
@@ -69326,11 +69377,11 @@ function createCompositeStore(props = {}) {
     },
     first: () => {
       var _a2;
-      return (_a2 = NRXA5QTV_findFirstEnabledItem(composite.getState().renderedItems)) == null ? void 0 : _a2.id;
+      return (_a2 = ROY5BBHL_findFirstEnabledItem(composite.getState().renderedItems)) == null ? void 0 : _a2.id;
     },
     last: () => {
       var _a2;
-      return (_a2 = NRXA5QTV_findFirstEnabledItem(reverseArray(composite.getState().renderedItems))) == null ? void 0 : _a2.id;
+      return (_a2 = ROY5BBHL_findFirstEnabledItem(reverseArray(composite.getState().renderedItems))) == null ? void 0 : _a2.id;
     },
     next: (skip) => {
       const { renderedItems, orientation } = composite.getState();
@@ -69339,7 +69390,7 @@ function createCompositeStore(props = {}) {
     previous: (skip) => {
       var _a2;
       const { renderedItems, orientation, includesBaseElement } = composite.getState();
-      const isGrid = !!((_a2 = NRXA5QTV_findFirstEnabledItem(renderedItems)) == null ? void 0 : _a2.rowId);
+      const isGrid = !!((_a2 = ROY5BBHL_findFirstEnabledItem(renderedItems)) == null ? void 0 : _a2.rowId);
       const hasNullItem = !isGrid && includesBaseElement;
       return getNextId(
         reverseArray(renderedItems),
@@ -69357,9 +69408,9 @@ function createCompositeStore(props = {}) {
         includesBaseElement
       } = composite.getState();
       const shouldShift = focusShift && !skip;
-      const verticalItems = NRXA5QTV_verticalizeItems(
+      const verticalItems = ROY5BBHL_verticalizeItems(
         flatten2DArray(
-          normalizeRows(NRXA5QTV_groupItemsByRows(renderedItems), activeId2, shouldShift)
+          normalizeRows(ROY5BBHL_groupItemsByRows(renderedItems), activeId2, shouldShift)
         )
       );
       const canLoop = focusLoop && focusLoop !== "horizontal";
@@ -69369,11 +69420,11 @@ function createCompositeStore(props = {}) {
     up: (skip) => {
       const { activeId: activeId2, renderedItems, focusShift, includesBaseElement } = composite.getState();
       const shouldShift = focusShift && !skip;
-      const verticalItems = NRXA5QTV_verticalizeItems(
+      const verticalItems = ROY5BBHL_verticalizeItems(
         reverseArray(
           flatten2DArray(
             normalizeRows(
-              NRXA5QTV_groupItemsByRows(renderedItems),
+              ROY5BBHL_groupItemsByRows(renderedItems),
               activeId2,
               shouldShift
             )
@@ -69430,7 +69481,7 @@ function useToolbarStoreProps(store, props) {
 }
 function useToolbarStore(props = {}) {
   const options = useToolbarStoreOptions(props);
-  const store = OOWNFOTF_useStore(
+  const store = QPTZ2G2N_useStore(
     () => createToolbarStore(PNRLI7OV_spreadValues(PNRLI7OV_spreadValues({}, props), options))
   );
   return useToolbarStoreProps(store, props);
