@@ -512,8 +512,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$theme       = $item;
 		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
 		?>
-		<input type="checkbox" name="checked[]" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" id="<?php echo $checkbox_id; ?>" />
-		<label for="<?php echo $checkbox_id; ?>" >
+		<label class="label-covers-full-cell" for="<?php echo $checkbox_id; ?>" >
 			<span class="screen-reader-text">
 			<?php
 			printf(
@@ -524,6 +523,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			?>
 			</span>
 		</label>
+		<input type="checkbox" name="checked[]" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" id="<?php echo $checkbox_id; ?>" />
 		<?php
 	}
 

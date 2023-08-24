@@ -895,8 +895,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		if ( $this->user_can ) {
 			?>
-		<input id="cb-select-<?php echo $comment->comment_ID; ?>" type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" />
-		<label for="cb-select-<?php echo $comment->comment_ID; ?>">
+		<label class="label-covers-full-cell" for="cb-select-<?php echo $comment->comment_ID; ?>">
 			<span class="screen-reader-text">
 			<?php
 			/* translators: Hidden accessibility text. */
@@ -904,6 +903,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			?>
 			</span>
 		</label>
+		<input id="cb-select-<?php echo $comment->comment_ID; ?>" type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" />
 			<?php
 		}
 	}

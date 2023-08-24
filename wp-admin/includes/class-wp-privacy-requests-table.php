@@ -416,8 +416,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="request_id[]" id="requester_%1$s" value="%1$s" /><span class="spinner"></span>' .
-			'<label for="requester_%1$s"><span class="screen-reader-text">%2$s</span></label>',
+			'<label class="label-covers-full-cell" for="requester_%1$s"><span class="screen-reader-text">%2$s</span></label>' .
+			'<input type="checkbox" name="request_id[]" id="requester_%1$s" value="%1$s" /><span class="spinner"></span>',
 			esc_attr( $item->ID ),
 			/* translators: Hidden accessibility text. %s: Email address. */
 			sprintf( __( 'Select %s' ), $item->email )

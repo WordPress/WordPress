@@ -174,8 +174,7 @@ class WP_Links_List_Table extends WP_List_Table {
 		$link = $item;
 
 		?>
-		<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
-		<label for="cb-select-<?php echo $link->link_id; ?>">
+		<label class="label-covers-full-cell" for="cb-select-<?php echo $link->link_id; ?>">
 			<span class="screen-reader-text">
 			<?php
 			/* translators: Hidden accessibility text. %s: Link name. */
@@ -183,6 +182,7 @@ class WP_Links_List_Table extends WP_List_Table {
 			?>
 			</span>
 		</label>
+		<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
 		<?php
 	}
 

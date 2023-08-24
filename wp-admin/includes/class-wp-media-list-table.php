@@ -419,8 +419,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			?>
-			<input type="checkbox" name="media[]" id="cb-select-<?php echo $post->ID; ?>" value="<?php echo $post->ID; ?>" />
-			<label for="cb-select-<?php echo $post->ID; ?>">
+			<label class="label-covers-full-cell" for="cb-select-<?php echo $post->ID; ?>">
 				<span class="screen-reader-text">
 				<?php
 				/* translators: Hidden accessibility text. %s: Attachment title. */
@@ -428,6 +427,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				?>
 				</span>
 			</label>
+			<input type="checkbox" name="media[]" id="cb-select-<?php echo $post->ID; ?>" value="<?php echo $post->ID; ?>" />
 			<?php
 		}
 	}

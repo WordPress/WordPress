@@ -571,7 +571,7 @@ function list_plugin_updates() {
 	<tr>
 		<td class="check-column">
 			<?php if ( $compatible_php ) : ?>
-				<label for="<?php echo $checkbox_id; ?>">
+				<label for="<?php echo $checkbox_id; ?>" class="label-covers-full-cell">
 					<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. %s: Plugin name. */
@@ -749,7 +749,7 @@ function list_theme_updates() {
 	<tr>
 		<td class="check-column">
 			<?php if ( $compatible_wp && $compatible_php ) : ?>
-				<label for="<?php echo $checkbox_id; ?>">
+				<label for="<?php echo $checkbox_id; ?>" class="label-covers-full-cell">
 					<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. %s: Theme name. */
