@@ -115,7 +115,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	 * Render the filter bar portion of a themes section as a JS template.
 	 *
 	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
-	 * The filter bar container is rendered by @see `render_template()`.
+	 * The filter bar container is rendered by {@see render_template()}.
 	 *
 	 * @since 4.9.0
 	 */
@@ -179,7 +179,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	/**
 	 * Render the filter drawer portion of a themes section as a JS template.
 	 *
-	 * The filter bar container is rendered by @see `render_template()`.
+	 * The filter bar container is rendered by {@see render_template()}.
 	 *
 	 * @since 4.9.0
 	 */

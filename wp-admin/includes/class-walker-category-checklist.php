@@ -32,7 +32,7 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
+	 * @param array  $args   An array of arguments. See {@see wp_terms_checklist()}.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent  = str_repeat( "\t", $depth );
@@ -48,7 +48,7 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
+	 * @param array  $args   An array of arguments. See {@see wp_terms_checklist()}.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent  = str_repeat( "\t", $depth );
@@ -67,7 +67,7 @@ class Walker_Category_Checklist extends Walker {
 	 * @param string  $output            Used to append additional content (passed by reference).
 	 * @param WP_Term $data_object       The current term object.
 	 * @param int     $depth             Depth of the term in reference to parents. Default 0.
-	 * @param array   $args              An array of arguments. @see wp_terms_checklist()
+	 * @param array   $args              An array of arguments. See {@see wp_terms_checklist()}.
 	 * @param int     $current_object_id Optional. ID of the current term. Default 0.
 	 */
 	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
@@ -130,7 +130,7 @@ class Walker_Category_Checklist extends Walker {
 	 * @param string  $output      Used to append additional content (passed by reference).
 	 * @param WP_Term $data_object The current term object.
 	 * @param int     $depth       Depth of the term in reference to parents. Default 0.
-	 * @param array   $args        An array of arguments. @see wp_terms_checklist()
+	 * @param array   $args        An array of arguments. See {@see wp_terms_checklist()}.
 	 */
 	public function end_el( &$output, $data_object, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";

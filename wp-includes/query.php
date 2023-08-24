@@ -451,7 +451,7 @@ function is_comment_feed() {
  * If you set a static page for the front page of your site, this function will return
  * true when viewing that page.
  *
- * Otherwise the same as @see is_home()
+ * Otherwise the same as {@see is_home()}.
  *
  * For more information on this and similar theme functions, check out
  * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/

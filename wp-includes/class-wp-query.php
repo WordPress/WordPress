@@ -4312,7 +4312,7 @@ class WP_Query {
 	 * If you set a static page for the front page of your site, this function will return
 	 * true when viewing that page.
 	 *
-	 * Otherwise the same as @see WP_Query::is_home()
+	 * Otherwise the same as {@see WP_Query::is_home()}.
 	 *
 	 * @since 3.1.0
 	 *
