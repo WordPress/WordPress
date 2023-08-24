@@ -40,7 +40,7 @@ function twentynineteen_get_social_link_svg( $uri, $size = 24 ) {
 function twentynineteen_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
 	// Change SVG icon inside social links menu if there is supported URL.
 	if ( 'social' === $args->theme_location ) {
-		$svg = twentynineteen_get_social_link_svg( $item->url, 26 );
+		$svg = twentynineteen_get_social_link_svg( $item->url, 32 );
 		if ( empty( $svg ) ) {
 			$svg = twentynineteen_get_icon_svg( 'link' );
 		}
