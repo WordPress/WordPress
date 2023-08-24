@@ -104,10 +104,10 @@ switch ( $action ) {
 		}
 
 		$post_edit_link = get_edit_post_link();
-		$post_title     = '<a href="' . $post_edit_link . '">' . _draft_or_post_title() . '</a>';
+		$post_title     = '<a href="' . esc_url( $post_edit_link ) . '">' . _draft_or_post_title() . '</a>';
 		/* translators: %s: Post title. */
 		$h1             = sprintf( __( 'Compare Revisions of &#8220;%s&#8221;' ), $post_title );
-		$return_to_post = '<a href="' . $post_edit_link . '">' . __( '&larr; Go to editor' ) . '</a>';
+		$return_to_post = '<a href="' . esc_url( $post_edit_link ) . '">' . __( '&larr; Go to editor' ) . '</a>';
 		// Used in the HTML title tag.
 		$title = __( 'Revisions' );
 
