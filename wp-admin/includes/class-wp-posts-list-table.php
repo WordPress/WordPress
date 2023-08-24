@@ -1228,7 +1228,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filters the published time of the post.
+		 * Filters the published, scheduled, or unpublished time of the post.
 		 *
 		 * @since 2.5.1
 		 * @since 5.5.0 Removed the difference between 'excerpt' and 'list' modes.
