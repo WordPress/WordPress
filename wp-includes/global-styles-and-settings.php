@@ -539,7 +539,7 @@ function wp_get_block_css_selector( $block_type, $target = 'root', $fallback = f
 		// Prefer the selectors API if available.
 		if ( $has_selectors ) {
 			// Look for selector under `feature.root`.
-			$path             = array_merge( $target, array( 'root' ) );
+			$path             = array( current( $target ), 'root' );
 			$feature_selector = _wp_array_get( $block_type->selectors, $path, null );
 
 			if ( $feature_selector ) {
@@ -553,7 +553,7 @@ function wp_get_block_css_selector( $block_type, $target = 'root', $fallback = f
 		}
 
 		// Try getting old experimental supports selector value.
-		$path             = array_merge( $target, array( '__experimentalSelector' ) );
+		$path             = array( current( $target ), '__experimentalSelector' );
 		$feature_selector = _wp_array_get( $block_type->supports, $path, null );
 
 		// Nothing to work with, provide fallback or null.
