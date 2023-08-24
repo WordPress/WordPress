@@ -1909,6 +1909,7 @@ final class WP_Customize_Manager {
 		if ( ! headers_sent() ) {
 			nocache_headers();
 			header( 'X-Robots: noindex, nofollow, noarchive' );
+			header( 'X-Robots-Tag: noindex, nofollow, noarchive' );
 		}
 		add_filter( 'wp_robots', 'wp_robots_no_robots' );
 		add_filter( 'wp_headers', array( $this, 'filter_iframe_security_headers' ) );
