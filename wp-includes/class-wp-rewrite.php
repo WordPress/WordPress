@@ -1490,16 +1490,33 @@ class WP_Rewrite {
 	public function wp_rewrite_rules() {
 		$this->rules = get_option( 'rewrite_rules' );
 		if ( empty( $this->rules ) ) {
-			$this->matches = 'matches';
-			$this->rewrite_rules();
-			if ( ! did_action( 'wp_loaded' ) ) {
-				add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
-				return $this->rules;
-			}
-			update_option( 'rewrite_rules', $this->rules );
+			$this->refresh_rewrite_rules();
 		}
 
 		return $this->rules;
+	}
+
+	/**
+	 * Refreshes the rewrite rules, saving the fresh value to the database.
+	 * If the `wp_loaded` action has not occurred yet, will postpone saving to the database.
+	 *
+	 * @since 6.4.0
+	 */
+	private function refresh_rewrite_rules() {
+		$this->rules   = '';
+		$this->matches = 'matches';
+
+		$this->rewrite_rules();
+
+		if ( ! did_action( 'wp_loaded' ) ) {
+			/*
+			 * Is not safe to save the results right now, as the rules may be partial.
+			 * Need to give all rules the chance to register.
+			 */
+			add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
+		} else {
+			update_option( 'rewrite_rules', $this->rules );
+		}
 	}
 
 	/**
@@ -1864,8 +1881,7 @@ class WP_Rewrite {
 			unset( $do_hard_later );
 		}
 
-		update_option( 'rewrite_rules', '' );
-		$this->wp_rewrite_rules();
+		$this->refresh_rewrite_rules();
 
 		/**
 		 * Filters whether a "hard" rewrite rule flush should be performed when requested.
