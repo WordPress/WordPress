@@ -837,20 +837,13 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 /* Major/minor publishing actions (classes) */
 .nav-menus-php .major-publishing-actions {
-	clear: both;
 	padding: 10px 0;
-	line-height: 2.15384615;
+	display: flex;
+	align-items: center;
 }
 
-.nav-menus-php .major-publishing-actions .publishing-action {
-	text-align: right;
-	float: right;
-}
-
-/* Same as the Publish Meta Box #delete-action */
-.nav-menus-php .delete-action {
-	float: left;
-	line-height: 2.1;
+.nav-menus-php .major-publishing-actions > * {
+	margin-right: 10px;
 }
 
 .nav-menus-php .major-publishing-actions .form-invalid {

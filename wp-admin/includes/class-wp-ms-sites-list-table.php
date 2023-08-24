@@ -420,7 +420,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		if ( ! is_main_site( $blog['blog_id'] ) ) :
 			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 			?>
-			<label class="label-covers-full-cell" for="blog_<?php echo $blog['blog_id']; ?>">
+			<input type="checkbox" id="blog_<?php echo $blog['blog_id']; ?>" name="allblogs[]"
+				value="<?php echo esc_attr( $blog['blog_id'] ); ?>" />
+			<label for="blog_<?php echo $blog['blog_id']; ?>">
 				<span class="screen-reader-text">
 				<?php
 				/* translators: %s: Site URL. */
@@ -428,8 +430,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				?>
 				</span>
 			</label>
-			<input type="checkbox" id="blog_<?php echo $blog['blog_id']; ?>" name="allblogs[]"
-				value="<?php echo esc_attr( $blog['blog_id'] ); ?>" />
 			<?php
 		endif;
 	}

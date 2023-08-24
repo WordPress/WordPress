@@ -365,8 +365,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		if ( current_user_can( 'delete_term', $tag->term_id ) ) {
 			return sprintf(
-				'<label class="label-covers-full-cell" for="cb-select-%1$s"><span class="screen-reader-text">%2$s</span></label>' .
-				'<input type="checkbox" name="delete_tags[]" value="%1$s" id="cb-select-%1$s" />',
+				'<input type="checkbox" name="delete_tags[]" value="%1$s" id="cb-select-%1$s" />' .
+				'<label for="cb-select-%1$s"><span class="screen-reader-text">%2$s</span></label>',
 				$tag->term_id,
 				/* translators: Hidden accessibility text. %s: Taxonomy term name. */
 				sprintf( __( 'Select %s' ), $tag->name )

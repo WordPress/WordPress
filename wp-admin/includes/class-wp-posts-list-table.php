@@ -1033,7 +1033,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 */
 		if ( apply_filters( 'wp_list_table_show_post_checkbox', $show, $post ) ) :
 			?>
-			<label class="label-covers-full-cell" for="cb-select-<?php the_ID(); ?>">
+			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
+			<label for="cb-select-<?php the_ID(); ?>">
 				<span class="screen-reader-text">
 				<?php
 					/* translators: %s: Post title. */
@@ -1041,7 +1042,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 				?>
 				</span>
 			</label>
-			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
 			<div class="locked-indicator">
 				<span class="locked-indicator-icon" aria-hidden="true"></span>
 				<span class="screen-reader-text">

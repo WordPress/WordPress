@@ -235,7 +235,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			return;
 		}
 		?>
-		<label class="label-covers-full-cell" for="blog_<?php echo $user->ID; ?>">
+		<input type="checkbox" id="blog_<?php echo $user->ID; ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ); ?>" />
+		<label for="blog_<?php echo $user->ID; ?>">
 			<span class="screen-reader-text">
 			<?php
 			/* translators: Hidden accessibility text. %s: User login. */
@@ -243,7 +244,6 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			?>
 			</span>
 		</label>
-		<input type="checkbox" id="blog_<?php echo $user->ID; ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ); ?>" />
 		<?php
 	}
 
