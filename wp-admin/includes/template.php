@@ -900,7 +900,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
  * @since 4.7.0 Added the `$post_type` parameter.
  *
  * @param string $default_template Optional. The template file name. Default empty.
- * @param string $post_type        Optional. Post type to get templates for. Default 'post'.
+ * @param string $post_type        Optional. Post type to get templates for. Default 'page'.
  */
 function page_template_dropdown( $default_template = '', $post_type = 'page' ) {
 	$templates = get_page_templates( null, $post_type );
