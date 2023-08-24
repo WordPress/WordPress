@@ -288,7 +288,11 @@ if ( 'post' === $post_type ) {
 			'title'   => __( 'Bulk actions' ),
 			'content' =>
 					'<p>' . __( 'You can also edit or move multiple posts to the Trash at once. Select the posts you want to act on using the checkboxes, then select the action you want to take from the Bulk actions menu and click Apply.' ) . '</p>' .
-							'<p>' . __( 'When using Bulk Edit, you can change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the x next to its name in the Bulk Edit area that appears.' ) . '</p>',
+					'<p>' . sprintf(
+						/* translators: %s: The dismiss dashicon used for buttons that dismiss or remove. */
+						__( 'When using Bulk Edit, you can change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the %s<span class="screen-reader-text">remove</span> button next to its name in the Bulk Edit area that appears.' ),
+						'<span class="dashicons dashicons-dismiss" aria-hidden="true" style="font-size: 16px; width: 16px; vertical-align: middle;"></span>'
+					) . '</p>',
 		)
 	);
 
