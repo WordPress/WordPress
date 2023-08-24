@@ -254,6 +254,117 @@ function get_option( $option, $default_value = false ) {
 }
 
 /**
+ * Primes specific options into the cache with a single database query.
+ *
+ * Only options that do not already exist in cache will be primed.
+ *
+ * @since 6.4.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $options An array of option names to be primed.
+ */
+function prime_options( $options ) {
+	$alloptions     = wp_load_alloptions();
+	$cached_options = wp_cache_get_multiple( $options, 'options' );
+
+	// Filter options that are not in the cache.
+	$options_to_prime = array();
+	foreach ( $options as $option ) {
+		if ( ( ! isset( $cached_options[ $option ] ) || ! $cached_options[ $option ] ) && ! isset( $alloptions[ $option ] ) ) {
+			$options_to_prime[] = $option;
+		}
+	}
+
+	// Bail early if there are no options to be primed.
+	if ( empty( $options_to_prime ) ) {
+		return;
+	}
+
+	global $wpdb;
+	$results = $wpdb->get_results(
+		$wpdb->prepare(
+			sprintf(
+				"SELECT option_name, option_value FROM $wpdb->options WHERE option_name IN (%s)",
+				implode( ',', array_fill( 0, count( $options_to_prime ), '%s' ) )
+			),
+			$options_to_prime
+		)
+	);
+
+	$options_found = array();
+	foreach ( $results as $result ) {
+		$options_found[ $result->option_name ] = maybe_unserialize( $result->option_value );
+	}
+	wp_cache_set_multiple( $options_found, 'options' );
+
+	// If all options were found, no need to update `notoptions` cache.
+	if ( count( $options_found ) === count( $options_to_prime ) ) {
+		return;
+	}
+
+	$options_not_found = array_diff( $options_to_prime, array_keys( $options_found ) );
+
+	$notoptions = wp_cache_get( 'notoptions', 'options' );
+
+	if ( ! is_array( $notoptions ) ) {
+		$notoptions = array();
+	}
+
+	// Add the options that were not found to the cache.
+	$update_notoptions = false;
+	foreach ( $options_not_found as $option_name ) {
+		if ( ! isset( $notoptions[ $option_name ] ) ) {
+			$notoptions[ $option_name ] = true;
+			$update_notoptions          = true;
+		}
+	}
+
+	// Only update the cache if it was modified.
+	if ( $update_notoptions ) {
+		wp_cache_set( 'notoptions', $notoptions, 'options' );
+	}
+}
+
+/**
+ * Primes all options registered with a specific option group.
+ *
+ * @since 6.4.0
+ *
+ * @global array $new_allowed_options
+ *
+ * @param string $option_group The option group to prime options for.
+ */
+function prime_options_by_group( $option_group ) {
+	global $new_allowed_options;
+
+	if ( isset( $new_allowed_options[ $option_group ] ) ) {
+		prime_options( $new_allowed_options[ $option_group ] );
+	}
+}
+
+/**
+ * Retrieves multiple options.
+ *
+ * Options are primed as necessary first in order to use a single database query at most.
+ *
+ * @since 6.4.0
+ *
+ * @param array $options An array of option names to retrieve.
+ * @return array An array of key-value pairs for the requested options.
+ */
+function get_options( $options ) {
+	prime_options( $options );
+
+	$result = array();
+	foreach ( $options as $option ) {
+		$result[ $option ] = get_option( $option );
+	}
+
+	return $result;
+}
+
+/**
  * Protects WordPress special option from being modified.
  *
  * Will die if $option is in protected list. Protected options are 'alloptions'
