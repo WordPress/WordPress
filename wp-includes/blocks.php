@@ -154,7 +154,7 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	$is_child_theme_block  = str_starts_with( $script_path_norm, $stylesheet_path_norm );
 	$is_theme_block        = ( $is_parent_theme_block || $is_child_theme_block );
 
-	$script_uri = plugins_url( $script_path, $metadata['file'] );
+	$script_uri = '';
 	if ( $is_core_block ) {
 		$script_uri = includes_url( str_replace( $wpinc_path_norm, '', $script_path_norm ) );
 	} elseif ( $is_theme_block ) {
@@ -162,6 +162,9 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		$script_uri = $is_parent_theme_block
 			? get_theme_file_uri( str_replace( $template_path_norm, '', $script_path_norm ) )
 			: get_theme_file_uri( str_replace( $stylesheet_path_norm, '', $script_path_norm ) );
+	} else {
+		// Fallback to plugins_url().
+		$script_uri = plugins_url( $script_path, $metadata['file'] );
 	}
 
 	$script_args = array();
