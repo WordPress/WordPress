@@ -624,20 +624,26 @@ code {
 .wrap .add-new-h2:active, /* deprecated */
 .wrap .page-title-action,
 .wrap .page-title-action:active {
-	margin-left: 4px;
-	padding: 4px 8px;
+	display: inline-block;
 	position: relative;
-	top: -3px;
-	text-decoration: none;
-	border: 1px solid #2271b1;
-	border-radius: 2px;
-	text-shadow: none;
-	font-weight: 600;
-	font-size: 13px;
-	line-height: normal; /* IE8-IE11 need this for buttons */
-	color: #2271b1; /* use the standard color used for buttons */
-	background: #f6f7f7;
+	box-sizing: border-box;
 	cursor: pointer;
+	white-space: nowrap;
+	text-decoration: none;
+	text-shadow: none;
+	top: -3px;
+	margin-left: 4px;
+	border: 1px solid #2271b1;
+	border-radius: 3px;
+	background: #f6f7f7;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 2.15384615;
+	color: #2271b1; /* use the standard color used for buttons */
+	padding: 0 10px;
+	min-height: 30px;
+	-webkit-appearance: none;
+
 }
 
 .wrap .wp-heading-inline + .page-title-action {
