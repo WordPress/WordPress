@@ -48,7 +48,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	public $filter_type = 'local';
 
 	/**
-	 * Get section parameters for JS.
+	 * Gets section parameters for JS.
 	 *
 	 * @since 4.9.0
 	 * @return array Exported parameters.
@@ -62,7 +62,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	}
 
 	/**
-	 * Render a themes section as a JS template.
+	 * Renders a themes section as a JS template.
 	 *
 	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
 	 *
@@ -112,7 +112,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	}
 
 	/**
-	 * Render the filter bar portion of a themes section as a JS template.
+	 * Renders the filter bar portion of a themes section as a JS template.
 	 *
 	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
 	 * The filter bar container is rendered by {@see render_template()}.
@@ -177,7 +177,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	}
 
 	/**
-	 * Render the filter drawer portion of a themes section as a JS template.
+	 * Renders the filter drawer portion of a themes section as a JS template.
 	 *
 	 * The filter bar container is rendered by {@see render_template()}.
 	 *
