@@ -368,7 +368,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $name
+	 * @param string $name Property name.
 	 * @return mixed
 	 */
 	public function __get( $name ) {
