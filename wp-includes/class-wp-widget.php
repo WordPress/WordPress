@@ -429,14 +429,14 @@ class WP_Widget {
 			if ( isset( $wp_registered_widgets[ $del_id ]['params'][0]['number'] ) ) {
 				$number = $wp_registered_widgets[ $del_id ]['params'][0]['number'];
 
-				if ( $this->id_base . '-' . $number == $del_id ) {
+				if ( $this->id_base . '-' . $number === $del_id ) {
 					unset( $all_instances[ $number ] );
 				}
 			}
 		} else {
 			if ( isset( $_POST[ 'widget-' . $this->id_base ] ) && is_array( $_POST[ 'widget-' . $this->id_base ] ) ) {
 				$settings = $_POST[ 'widget-' . $this->id_base ];
-			} elseif ( isset( $_POST['id_base'] ) && $_POST['id_base'] == $this->id_base ) {
+			} elseif ( isset( $_POST['id_base'] ) && $_POST['id_base'] === $this->id_base ) {
 				$num      = $_POST['multi_number'] ? (int) $_POST['multi_number'] : (int) $_POST['widget_number'];
 				$settings = array( $num => array() );
 			} else {
@@ -508,7 +508,7 @@ class WP_Widget {
 		$widget_args   = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 		$all_instances = $this->get_settings();
 
-		if ( -1 == $widget_args['number'] ) {
+		if ( -1 === $widget_args['number'] ) {
 			// We echo out a form where 'number' can be set later.
 			$this->_set( '__i__' );
 			$instance = array();
