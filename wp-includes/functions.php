@@ -5599,8 +5599,7 @@ function _deprecated_constructor( $class_name, $version, $parent_class = '' ) {
  * Marks a class as deprecated and informs when it has been used.
  *
  * There is a {@see 'deprecated_class_run'} hook that will be called that can be used
- * to get the backtrace up to what file and function called the
- * deprecated class.
+ * to get the backtrace up to what file and function called the deprecated class.
  *
  * The current behavior is to trigger a user error if `WP_DEBUG` is true.
  *
@@ -5609,7 +5608,7 @@ function _deprecated_constructor( $class_name, $version, $parent_class = '' ) {
  *
  * @since 6.4.0
  *
- * @param string $class       The class being instantiated
+ * @param string $class       The class being instantiated.
  * @param string $version     The version of WordPress that deprecated the class.
  * @param string $replacement Optional. The class or function that should have been called.
  *                            Default empty string.
@@ -5621,7 +5620,7 @@ function _deprecated_class( $class, $version, $replacement = '' ) {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @param string $class       The class being instantiated
+	 * @param string $class       The class being instantiated.
 	 * @param string $replacement The class or function that should have been called.
 	 * @param string $version     The version of WordPress that deprecated the class.
 	 */
