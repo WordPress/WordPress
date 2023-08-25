@@ -5144,7 +5144,7 @@ function _wp_to_kebab_case( $input_string ) {
 
 	preg_match_all( $regexp, str_replace( "'", '', $input_string ), $matches );
 	return strtolower( implode( '-', $matches[0] ) );
-	//phpcs:enable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+	// phpcs:enable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 }
 
 /**
