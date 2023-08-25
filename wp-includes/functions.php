@@ -5638,10 +5638,10 @@ function _deprecated_class( $class, $version, $replacement = '' ) {
 		if ( function_exists( '__' ) ) {
 			if ( ! is_null( $replacement ) ) {
 				/* translators: 1: PHP class name, 2: version number, 3: alternative clas or function name */
-				trigger_error( sprintf( __('Class %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $class, $version, $replacement ), E_USER_DEPRECATED );
+				trigger_error( sprintf( __( 'Class %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.' ), $class, $version, $replacement ), E_USER_DEPRECATED );
 			} else {
 				/* translators: 1: PHP class name, 2: version number */
-				trigger_error( sprintf( __('Class %1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $class, $version ), E_USER_DEPRECATED );
+				trigger_error( sprintf( __( 'Class %1$s is <strong>deprecated</strong> since version %2$s with no alternative available.' ), $class, $version ), E_USER_DEPRECATED );
 			}
 		} else {
 			if ( ! is_null( $replacement ) ) {
