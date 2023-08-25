@@ -5596,6 +5596,64 @@ function _deprecated_constructor( $class_name, $version, $parent_class = '' ) {
 }
 
 /**
+ * Marks a class as deprecated and informs when it has been used.
+ *
+ * There is a {@see 'deprecated_class_run'} hook that will be called that can be used
+ * to get the backtrace up to what file and function called the
+ * deprecated class.
+ *
+ * The current behavior is to trigger a user error if `WP_DEBUG` is true.
+ *
+ * This function is to be used in the class constructor for every deprecated class.
+ * See {@see _deprecated_constructor()} for deprecating PHP4 style constructors.
+ *
+ * @since 6.4.0
+ *
+ * @param string $class       The class being instantiated
+ * @param string $version     The version of WordPress that deprecated the class.
+ * @param string $replacement Optional. The class or function that should have been called.
+ *                            Default empty string.
+ */
+function _deprecated_class( $class, $version, $replacement = '' ) {
+
+	/**
+	 * Fires when a deprecated class is called.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $class       The class being instantiated
+	 * @param string $replacement The class or function that should have been called.
+	 * @param string $version     The version of WordPress that deprecated the class.
+	 */
+	do_action( 'deprecated_class_run', $class, $replacement, $version );
+
+	/**
+	 * Filters whether to trigger an error for a deprecated class.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param bool $trigger Whether to trigger an error for a deprecated class. Default true.
+	 */
+	if ( WP_DEBUG && apply_filters( 'deprecated_class_trigger_error', true ) ) {
+		if ( function_exists( '__' ) ) {
+			if ( ! is_null( $replacement ) ) {
+				/* translators: 1: PHP class name, 2: version number, 3: alternative clas or function name */
+				trigger_error( sprintf( __('Class %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $class, $version, $replacement ), E_USER_DEPRECATED );
+			} else {
+				/* translators: 1: PHP class name, 2: version number */
+				trigger_error( sprintf( __('Class %1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $class, $version ), E_USER_DEPRECATED );
+			}
+		} else {
+			if ( ! is_null( $replacement ) ) {
+				trigger_error( sprintf( 'Class %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $class, $version, $replacement ), E_USER_DEPRECATED );
+			} else {
+				trigger_error( sprintf( 'Class %1$s is <strong>deprecated</strong> since version %2$s with no alternative available.', $class, $version ), E_USER_DEPRECATED );
+			}
+		}
+	}
+}
+
+/**
  * Marks a file as deprecated and inform when it has been used.
  *
  * There is a hook {@see 'deprecated_file_included'} that will be called that can be used
