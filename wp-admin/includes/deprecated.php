@@ -493,7 +493,7 @@ class WP_User_Search {
 	 * @return WP_User_Search
 	 */
 	function __construct( $search_term = '', $page = '', $role = '' ) {
-		_deprecated_function( __FUNCTION__, '3.1.0', 'WP_User_Query' );
+		_deprecated_class( 'WP_User_Search', '3.1.0', 'WP_User_Query' );
 
 		$this->search_term = wp_unslash( $search_term );
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
@@ -516,6 +516,7 @@ class WP_User_Search {
 	 * @return WP_User_Search
 	 */
 	public function WP_User_Search( $search_term = '', $page = '', $role = '' ) {
+		_deprecated_constructor( 'WP_User_Search', '3.1.0', get_class( $this ) );
 		self::__construct( $search_term, $page, $role );
 	}
 
