@@ -2447,8 +2447,24 @@ class wpdb {
 	 *
 	 * Examples:
 	 *
-	 *     wpdb::insert( 'table', array( 'column' => 'foo', 'field' => 'bar' ) )
-	 *     wpdb::insert( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( '%s', '%d' ) )
+	 *     $wpdb->insert(
+	 *         'table',
+	 *         array(
+	 *             'column1' => 'foo',
+	 *             'column2' => 'bar',
+	 *         )
+	 *     );
+	 *     $wpdb->insert(
+	 *         'table',
+	 *         array(
+	 *             'column1' => 'foo',
+	 *             'column2' => 1337,
+	 *         ),
+	 *         array(
+	 *             '%s',
+	 *             '%d',
+	 *         )
+	 *     );
 	 *
 	 * @since 2.5.0
 	 *
@@ -2456,16 +2472,16 @@ class wpdb {
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
 	 *
-	 * @param string       $table  Table name.
-	 * @param array        $data   Data to insert (in column => value pairs).
-	 *                             Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
-	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
-	 *                             format is ignored in this case.
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
-	 *                             If string, that format will be used for all of the values in `$data`.
-	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in `$data` will be treated as strings unless otherwise
-	 *                             specified in wpdb::$field_types. Default null.
+	 * @param string          $table  Table name.
+	 * @param array           $data   Data to insert (in column => value pairs).
+	 *                                Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
+	 *                                Sending a null value will cause the column to be set to NULL - the corresponding
+	 *                                format is ignored in this case.
+	 * @param string[]|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
+	 *                                If string, that format will be used for all of the values in `$data`.
+	 *                                A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                If omitted, all values in `$data` will be treated as strings unless otherwise
+	 *                                specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	public function insert( $table, $data, $format = null ) {
@@ -2473,12 +2489,34 @@ class wpdb {
 	}
 
 	/**
-	 * Replaces a row in the table.
+	 * Replaces a row in the table or inserts it if it does not exist, based on a PRIMARY KEY or a UNIQUE index.
+	 *
+	 * A REPLACE works exactly like an INSERT, except that if an old row in the table has the same value as a new row
+	 * for a PRIMARY KEY or a UNIQUE index, the old row is deleted before the new row is inserted.
 	 *
 	 * Examples:
 	 *
-	 *     wpdb::replace( 'table', array( 'column' => 'foo', 'field' => 'bar' ) )
-	 *     wpdb::replace( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( '%s', '%d' ) )
+	 *     $wpdb->replace(
+	 *         'table',
+	 *         array(
+	 *             'ID'      => 123,
+	 *             'column1' => 'foo',
+	 *             'column2' => 'bar',
+	 *         )
+	 *     );
+	 *     $wpdb->replace(
+	 *         'table',
+	 *         array(
+	 *             'ID'      => 456,
+	 *             'column1' => 'foo',
+	 *             'column2' => 1337,
+	 *         ),
+	 *         array(
+	 *             '%d',
+	 *             '%s',
+	 *             '%d',
+	 *         )
+	 *     );
 	 *
 	 * @since 3.0.0
 	 *
@@ -2486,16 +2524,17 @@ class wpdb {
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
 	 *
-	 * @param string       $table  Table name.
-	 * @param array        $data   Data to insert (in column => value pairs).
-	 *                             Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
-	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
-	 *                             format is ignored in this case.
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
-	 *                             If string, that format will be used for all of the values in `$data`.
-	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in `$data` will be treated as strings unless otherwise
-	 *                             specified in wpdb::$field_types. Default null.
+	 * @param string          $table  Table name.
+	 * @param array           $data   Data to insert (in column => value pairs).
+	 *                                Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
+	 *                                A primary key or unique index is required to perform a replace operation.
+	 *                                Sending a null value will cause the column to be set to NULL - the corresponding
+	 *                                format is ignored in this case.
+	 * @param string[]|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
+	 *                                If string, that format will be used for all of the values in `$data`.
+	 *                                A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                If omitted, all values in `$data` will be treated as strings unless otherwise
+	 *                                specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	public function replace( $table, $data, $format = null ) {
@@ -2513,18 +2552,18 @@ class wpdb {
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
 	 *
-	 * @param string       $table  Table name.
-	 * @param array        $data   Data to insert (in column => value pairs).
-	 *                             Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
-	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
-	 *                             format is ignored in this case.
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
-	 *                             If string, that format will be used for all of the values in `$data`.
-	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in `$data` will be treated as strings unless otherwise
-	 *                             specified in wpdb::$field_types. Default null.
-	 * @param string       $type   Optional. Type of operation. Either 'INSERT' or 'REPLACE'.
-	 *                             Default 'INSERT'.
+	 * @param string          $table  Table name.
+	 * @param array           $data   Data to insert (in column => value pairs).
+	 *                                Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
+	 *                                Sending a null value will cause the column to be set to NULL - the corresponding
+	 *                                format is ignored in this case.
+	 * @param string[]|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
+	 *                                If string, that format will be used for all of the values in `$data`.
+	 *                                A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                If omitted, all values in `$data` will be treated as strings unless otherwise
+	 *                                specified in wpdb::$field_types. Default null.
+	 * @param string          $type   Optional. Type of operation. Either 'INSERT' or 'REPLACE'.
+	 *                                Default 'INSERT'.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	public function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
@@ -2565,8 +2604,33 @@ class wpdb {
 	 *
 	 * Examples:
 	 *
-	 *     wpdb::update( 'table', array( 'column' => 'foo', 'field' => 'bar' ), array( 'ID' => 1 ) )
-	 *     wpdb::update( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( 'ID' => 1 ), array( '%s', '%d' ), array( '%d' ) )
+	 *     $wpdb->update(
+	 *         'table',
+	 *         array(
+	 *             'column1' => 'foo',
+	 *             'column2' => 'bar',
+	 *         ),
+	 *         array(
+	 *             'ID' => 1,
+	 *         )
+	 *     );
+	 *     $wpdb->update(
+	 *         'table',
+	 *         array(
+	 *             'column1' => 'foo',
+	 *             'column2' => 1337,
+	 *         ),
+	 *         array(
+	 *             'ID' => 1,
+	 *         ),
+	 *         array(
+	 *             '%s',
+	 *             '%d',
+	 *         ),
+	 *         array(
+	 *             '%d',
+	 *         )
+	 *     );
 	 *
 	 * @since 2.5.0
 	 *
@@ -2574,25 +2638,26 @@ class wpdb {
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
 	 *
-	 * @param string       $table        Table name.
-	 * @param array        $data         Data to update (in column => value pairs).
-	 *                                   Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 *                                   Sending a null value will cause the column to be set to NULL - the corresponding
-	 *                                   format is ignored in this case.
-	 * @param array        $where        A named array of WHERE clauses (in column => value pairs).
-	 *                                   Multiple clauses will be joined with ANDs.
-	 *                                   Both $where columns and $where values should be "raw".
-	 *                                   Sending a null value will create an IS NULL comparison - the corresponding
-	 *                                   format will be ignored in this case.
-	 * @param array|string $format       Optional. An array of formats to be mapped to each of the values in $data.
-	 *                                   If string, that format will be used for all of the values in $data.
-	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $data will be treated as strings unless otherwise
-	 *                                   specified in wpdb::$field_types. Default null.
-	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
-	 *                                   If string, that format will be used for all of the items in $where.
-	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $where will be treated as strings. Default null.
+	 * @param string       $table           Table name.
+	 * @param array        $data            Data to update (in column => value pairs).
+	 *                                      Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 *                                      Sending a null value will cause the column to be set to NULL - the corresponding
+	 *                                      format is ignored in this case.
+	 * @param array        $where           A named array of WHERE clauses (in column => value pairs).
+	 *                                      Multiple clauses will be joined with ANDs.
+	 *                                      Both $where columns and $where values should be "raw".
+	 *                                      Sending a null value will create an IS NULL comparison - the corresponding
+	 *                                      format will be ignored in this case.
+	 * @param string[]|string $format       Optional. An array of formats to be mapped to each of the values in $data.
+	 *                                      If string, that format will be used for all of the values in $data.
+	 *                                      A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                      If omitted, all values in $data will be treated as strings unless otherwise
+	 *                                      specified in wpdb::$field_types. Default null.
+	 * @param string[]|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
+	 *                                      If string, that format will be used for all of the items in $where.
+	 *                                      A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                      If omitted, all values in $where will be treated as strings unless otherwise
+	 *                                      specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function update( $table, $data, $where, $format = null, $where_format = null ) {
@@ -2645,8 +2710,21 @@ class wpdb {
 	 *
 	 * Examples:
 	 *
-	 *     wpdb::delete( 'table', array( 'ID' => 1 ) )
-	 *     wpdb::delete( 'table', array( 'ID' => 1 ), array( '%d' ) )
+	 *     $wpdb->delete(
+	 *         'table',
+	 *         array(
+	 *             'ID' => 1,
+	 *         )
+	 *     );
+	 *     $wpdb->delete(
+	 *         'table',
+	 *         array(
+	 *             'ID' => 1,
+	 *         ),
+	 *         array(
+	 *             '%d',
+	 *         )
+	 *     );
 	 *
 	 * @since 3.4.0
 	 *
@@ -2654,17 +2732,17 @@ class wpdb {
 	 * @see wpdb::$field_types
 	 * @see wp_set_wpdb_vars()
 	 *
-	 * @param string       $table        Table name.
-	 * @param array        $where        A named array of WHERE clauses (in column => value pairs).
-	 *                                   Multiple clauses will be joined with ANDs.
-	 *                                   Both $where columns and $where values should be "raw".
-	 *                                   Sending a null value will create an IS NULL comparison - the corresponding
-	 *                                   format will be ignored in this case.
-	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
-	 *                                   If string, that format will be used for all of the items in $where.
-	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $data will be treated as strings unless otherwise
-	 *                                   specified in wpdb::$field_types. Default null.
+	 * @param string          $table        Table name.
+	 * @param array           $where        A named array of WHERE clauses (in column => value pairs).
+	 *                                      Multiple clauses will be joined with ANDs.
+	 *                                      Both $where columns and $where values should be "raw".
+	 *                                      Sending a null value will create an IS NULL comparison - the corresponding
+	 *                                      format will be ignored in this case.
+	 * @param string[]|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
+	 *                                      If string, that format will be used for all of the items in $where.
+	 *                                      A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                      If omitted, all values in $data will be treated as strings unless otherwise
+	 *                                      specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows deleted, or false on error.
 	 */
 	public function delete( $table, $where, $where_format = null ) {
@@ -2708,9 +2786,9 @@ class wpdb {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param string $table  Table name.
-	 * @param array  $data   Field/value pair.
-	 * @param mixed  $format Format for each field.
+	 * @param string          $table  Table name.
+	 * @param array           $data   Array of values keyed by their field names.
+	 * @param string[]|string $format Formats or format to be mapped to the values in the data.
 	 * @return array|false An array of fields that contain paired value and formats.
 	 *                     False for invalid values.
 	 */
@@ -2768,10 +2846,14 @@ class wpdb {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $data   Array of fields to values.
-	 * @param mixed $format Formats to be mapped to the values in $data.
-	 * @return array Array, keyed by field names with values being an array
-	 *               of 'value' and 'format' keys.
+	 * @param array           $data   Array of values keyed by their field names.
+	 * @param string[]|string $format Formats or format to be mapped to the values in the data.
+	 * @return array {
+	 *     Array of values and formats keyed by their field names.
+	 *
+	 *     @type mixed  $value  The value to be formatted.
+	 *     @type string $format The format to be mapped to the value.
+	 * }
 	 */
 	protected function process_field_formats( $data, $format ) {
 		$formats          = (array) $format;
@@ -2803,10 +2885,30 @@ class wpdb {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array  $data  As it comes from the wpdb::process_field_formats() method.
+	 * @param array $data {
+	 *     Array of values and formats keyed by their field names,
+	 *     as it comes from the wpdb::process_field_formats() method.
+	 *
+	 *     @type array ...$0 {
+	 *         Value and format for this field.
+	 *
+	 *         @type mixed  $value  The value to be formatted.
+	 *         @type string $format The format to be mapped to the value.
+	 *     }
+	 * }
 	 * @param string $table Table name.
-	 * @return array|false The same array as $data with additional 'charset' keys.
-	 *                     False on failure.
+	 * @return array|false {
+	 *     The same array of data with additional 'charset' keys, or false if
+	 *     the charset for the table cannot be found.
+	 *
+	 *     @type array ...$0 {
+	 *         Value, format, and charset for this field.
+	 *
+	 *         @type mixed        $value   The value to be formatted.
+	 *         @type string       $format  The format to be mapped to the value.
+	 *         @type string|false $charset The charset to be used for the value.
+	 *     }
+	 * }
 	 */
 	protected function process_field_charsets( $data, $table ) {
 		foreach ( $data as $field => $value ) {
@@ -2834,10 +2936,38 @@ class wpdb {
 	 *
 	 * @since 4.2.1
 	 *
-	 * @param array  $data  As it comes from the wpdb::process_field_charsets() method.
+	 * @param array $data {
+	 *     Array of values, formats, and charsets keyed by their field names,
+	 *     as it comes from the wpdb::process_field_charsets() method.
+	 *
+	 *     @type array ...$0 {
+	 *         Value, format, and charset for this field.
+	 *
+	 *         @type mixed        $value   The value to be formatted.
+	 *         @type string       $format  The format to be mapped to the value.
+	 *         @type string|false $charset The charset to be used for the value.
+	 *     }
+	 * }
 	 * @param string $table Table name.
-	 * @return array|false The same array as $data with additional 'length' keys, or false if
-	 *                     any of the values were too long for their corresponding field.
+	 * @return array|false {
+	 *     The same array of data with additional 'length' keys, or false if
+	 *     information for the table cannot be found.
+	 *
+	 *     @type array ...$0 {
+	 *         Value, format, charset, and length for this field.
+	 *
+	 *         @type mixed        $value   The value to be formatted.
+	 *         @type string       $format  The format to be mapped to the value.
+	 *         @type string|false $charset The charset to be used for the value.
+	 *         @type array|false  $length  {
+	 *             Information about the maximum length of the value.
+	 *             False if the column has no length.
+	 *
+	 *             @type string $type   One of 'byte' or 'char'.
+	 *             @type int    $length The column length.
+	 *         }
+	 *     }
+	 * }
 	 */
 	protected function process_field_lengths( $data, $table ) {
 		foreach ( $data as $field => $value ) {
@@ -2861,7 +2991,7 @@ class wpdb {
 	}
 
 	/**
-	 * Retrieves one variable from the database.
+	 * Retrieves one value from the database.
 	 *
 	 * Executes a SQL query and returns the value from the SQL result.
 	 * If the SQL result contains more than one column and/or more than one row,
@@ -3169,9 +3299,9 @@ class wpdb {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string|null $charset The character set to use. Default null.
-		 * @param string      $table   The name of the table being checked.
-		 * @param string      $column  The name of the column being checked.
+		 * @param string|null|false|WP_Error $charset The character set to use. Default null.
+		 * @param string                     $table   The name of the table being checked.
+		 * @param string                     $column  The name of the column being checked.
 		 */
 		$charset = apply_filters( 'pre_get_col_charset', null, $table, $column );
 		if ( null !== $charset ) {
@@ -3223,8 +3353,8 @@ class wpdb {
 	 *     Array of column length information, false if the column has no length (for
 	 *     example, numeric column), WP_Error object if there was an error.
 	 *
-	 *     @type int    $length The column length.
 	 *     @type string $type   One of 'byte' or 'char'.
+	 *     @type int    $length The column length.
 	 * }
 	 */
 	public function get_col_length( $table, $column ) {
@@ -3399,7 +3529,7 @@ class wpdb {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $data Array of value arrays. Each value array has the keys 'value' and 'charset'.
+	 * @param array $data Array of value arrays. Each value array has the keys 'value', 'charset', and 'length'.
 	 *                    An optional 'ascii' key can be set to false to avoid redundant ASCII checks.
 	 * @return array|WP_Error The $data parameter, with invalid characters removed from each value.
 	 *                        This works as a passthrough: any additional keys such as 'field' are
