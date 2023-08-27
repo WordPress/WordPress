@@ -2953,7 +2953,6 @@ function get_password_reset_key( $user ) {
  *
  * @since 3.1.0
  *
- * @global wpdb         $wpdb      WordPress database object for queries.
  * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
  * @param string $key       Hash to validate sending user's password.
@@ -2961,7 +2960,7 @@ function get_password_reset_key( $user ) {
  * @return WP_User|WP_Error WP_User object on success, WP_Error object for invalid or expired keys.
  */
 function check_password_reset_key( $key, $login ) {
-	global $wpdb, $wp_hasher;
+	global $wp_hasher;
 
 	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
 
