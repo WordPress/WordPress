@@ -2431,9 +2431,16 @@ function wp_insert_user( $userdata ) {
 
 	$meta = array_merge( $meta, $custom_meta );
 
-	// Update user meta.
-	foreach ( $meta as $key => $value ) {
-		update_user_meta( $user_id, $key, $value );
+	if ( $update ) {
+		// Update user meta.
+		foreach ( $meta as $key => $value ) {
+			update_user_meta( $user_id, $key, $value );
+		}
+	} else {
+		// Add user meta.
+		foreach ( $meta as $key => $value ) {
+			add_user_meta( $user_id, $key, $value );
+		}
 	}
 
 	foreach ( wp_get_user_contact_methods( $user ) as $key => $value ) {
