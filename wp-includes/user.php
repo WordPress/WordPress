@@ -3807,7 +3807,12 @@ function wp_register_user_personal_data_exporter( $exporters ) {
  * @since 5.4.0 Added 'Session Tokens' group to the export data.
  *
  * @param string $email_address  The user's email address.
- * @return array An array of personal data.
+ * @return array {
+ *     An array of personal data.
+ *
+ *     @type array[] $data An array of personal data arrays.
+ *     @type bool    $done Whether the exporter is finished.
+ * }
  */
 function wp_user_personal_data_exporter( $email_address ) {
 	$email_address = trim( $email_address );

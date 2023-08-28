@@ -4939,8 +4939,8 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 *         Array of personal data exporters.
 	 *
 	 *         @type callable $callback               Callable exporter function that accepts an
-	 *                                                email address and a page and returns an array
-	 *                                                of name => value pairs of personal data.
+	 *                                                email address and a page number and returns an
+	 *                                                array of name => value pairs of personal data.
 	 *         @type string   $exporter_friendly_name Translated user facing friendly name for the
 	 *                                                exporter.
 	 *     }
@@ -5051,10 +5051,10 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param array  $response        The personal data for the given exporter and page.
+	 * @param array  $response        The personal data for the given exporter and page number.
 	 * @param int    $exporter_index  The index of the exporter that provided this data.
 	 * @param string $email_address   The email address associated with this personal data.
-	 * @param int    $page            The page for this response.
+	 * @param int    $page            The page number for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
 	 * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
 	 * @param string $exporter_key    The key (slug) of the exporter that provided this data.
@@ -5128,8 +5128,8 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 *     @type array ...$0 {
 	 *         Array of personal data exporters.
 	 *
-	 *         @type callable $callback               Callable eraser that accepts an email address and
-	 *                                                a page and returns an array with boolean values for
+	 *         @type callable $callback               Callable eraser that accepts an email address and a page
+	 *                                                number, and returns an array with boolean values for
 	 *                                                whether items were removed or retained and any messages
 	 *                                                from the eraser, as well as if additional pages are
 	 *                                                available.
@@ -5281,10 +5281,17 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param array  $response        The personal data for the given exporter and page.
+	 * @param array  $response        {
+	 *     The personal data for the given exporter and page number.
+	 *
+	 *     @type bool     $items_removed  Whether items were actually removed or not.
+	 *     @type bool     $items_retained Whether items were retained or not.
+	 *     @type string[] $messages       An array of messages to add to the personal data export file.
+	 *     @type bool     $done           Whether the eraser is finished or not.
+	 * }
 	 * @param int    $eraser_index    The index of the eraser that provided this data.
 	 * @param string $email_address   The email address associated with this personal data.
-	 * @param int    $page            The page for this response.
+	 * @param int    $page            The page number for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
 	 * @param string $eraser_key      The key (slug) of the eraser that provided this data.
 	 */

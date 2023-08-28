@@ -5359,8 +5359,13 @@ function wp_register_media_personal_data_exporter( $exporters ) {
  * @since 4.9.6
  *
  * @param string $email_address The attachment owner email address.
- * @param int    $page          Attachment page.
- * @return array An array of personal data.
+ * @param int    $page          Attachment page number.
+ * @return array {
+ *     An array of personal data.
+ *
+ *     @type array[] $data An array of personal data arrays.
+ *     @type bool    $done Whether the exporter is finished.
+ * }
  */
 function wp_media_personal_data_exporter( $email_address, $page = 1 ) {
 	// Limit us to 50 attachments at a time to avoid timing out.

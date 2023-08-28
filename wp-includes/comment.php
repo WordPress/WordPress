@@ -3684,8 +3684,8 @@ function wp_handle_comment_submission( $comment_data ) {
  *
  * @since 4.9.6
  *
- * @param array $exporters An array of personal data exporters.
- * @return array An array of personal data exporters.
+ * @param array[] $exporters An array of personal data exporters.
+ * @return array[] An array of personal data exporters.
  */
 function wp_register_comment_personal_data_exporter( $exporters ) {
 	$exporters['wordpress-comments'] = array(
@@ -3702,8 +3702,13 @@ function wp_register_comment_personal_data_exporter( $exporters ) {
  * @since 4.9.6
  *
  * @param string $email_address The comment author email address.
- * @param int    $page          Comment page.
- * @return array An array of personal data.
+ * @param int    $page          Comment page number.
+ * @return array {
+ *     An array of personal data.
+ *
+ *     @type array[] $data An array of personal data arrays.
+ *     @type bool    $done Whether the exporter is finished.
+ * }
  */
 function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 	// Limit us to 500 comments at a time to avoid timing out.
@@ -3814,8 +3819,15 @@ function wp_register_comment_personal_data_eraser( $erasers ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $email_address The comment author email address.
- * @param int    $page          Comment page.
- * @return array
+ * @param int    $page          Comment page number.
+ * @return array {
+ *     Data removal results.
+ *
+ *     @type bool     $items_removed  Whether items were actually removed.
+ *     @type bool     $items_retained Whether items were retained.
+ *     @type string[] $messages       An array of messages to add to the personal data export file.
+ *     @type bool     $done           Whether the eraser is finished.
+ * }
  */
 function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 	global $wpdb;
