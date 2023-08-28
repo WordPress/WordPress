@@ -6370,8 +6370,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param array $args {
 	 *     Method arguments. Note: arguments must be ordered as documented.
 	 *
@@ -6383,8 +6381,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array|IXR_Error
 	 */
 	public function mw_newMediaObject( $args ) {
-		global $wpdb;
-
 		$username = $this->escape( $args[1] );
 		$password = $this->escape( $args[2] );
 		$data     = $args[3];
