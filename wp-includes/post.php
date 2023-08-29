@@ -6105,8 +6105,8 @@ function get_pages( $args = array() ) {
 	 */
 	$query_args = apply_filters( 'get_pages_query_args', $query_args, $parsed_args );
 
-	$query = new WP_Query( $query_args );
-	$pages = $query->get_posts();
+	$pages = new WP_Query();
+	$pages = $pages->query( $query_args );
 
 	if ( $child_of || $hierarchical ) {
 		$pages = get_page_children( $child_of, $pages );
