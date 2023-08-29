@@ -750,7 +750,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.8.0';
+    const VERSION = '6.8.1';
 
     /**
      * Error severity: message only, continue processing.
@@ -795,7 +795,7 @@ class PHPMailer
      * The maximum line length supported by mail().
      *
      * Background: mail() will sometimes corrupt messages
-     * with headers headers longer than 65 chars, see #818.
+     * with headers longer than 65 chars, see #818.
      *
      * @var int
      */
