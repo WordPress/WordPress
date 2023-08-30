@@ -3613,7 +3613,7 @@ function wp_nonce_ays( $action ) {
 
 		if ( wp_get_referer() ) {
 			$wp_http_referer = remove_query_arg( 'updated', wp_get_referer() );
-			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$wp_http_referer = wp_validate_redirect( sanitize_url( $wp_http_referer ) );
 
 			$html .= '</p><p>';
 			$html .= sprintf(

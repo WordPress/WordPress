@@ -754,7 +754,7 @@ function wp_update_themes( $extra_stats = array() ) {
 			continue;
 		}
 
-		$hostname = wp_parse_url( esc_url_raw( $theme_data['UpdateURI'] ), PHP_URL_HOST );
+		$hostname = wp_parse_url( sanitize_url( $theme_data['UpdateURI'] ), PHP_URL_HOST );
 
 		/**
 		 * Filters the update response for a given theme hostname.
