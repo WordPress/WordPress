@@ -432,6 +432,11 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether a tag was matched.
 	 */
 	public function step( $node_to_process = self::PROCESS_NEXT_NODE ) {
+		// Refuse to proceed if there was a previous error.
+		if ( null !== $this->last_error ) {
+			return false;
+		}
+
 		if ( self::PROCESS_NEXT_NODE === $node_to_process ) {
 			$top_node = $this->state->stack_of_open_elements->current_node();
 			if ( $top_node && self::is_void( $top_node->node_name ) ) {
@@ -744,6 +749,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string|null Name of currently matched tag in input HTML, or `null` if none found.
 	 */
 	public function get_tag() {
+		if ( null !== $this->last_error ) {
+			return null;
+		}
+
 		$tag_name = parent::get_tag();
 
 		switch ( $tag_name ) {
