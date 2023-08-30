@@ -326,11 +326,11 @@ class WP_Http {
 		);
 
 		// Ensure redirects follow browser behavior.
-		$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'browser_redirect_compatibility' ) );
+		$options['hooks']->register( 'requests.before_redirect', array( static::class, 'browser_redirect_compatibility' ) );
 
 		// Validate redirected URLs.
 		if ( function_exists( 'wp_kses_bad_protocol' ) && $parsed_args['reject_unsafe_urls'] ) {
-			$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'validate_redirects' ) );
+			$options['hooks']->register( 'requests.before_redirect', array( static::class, 'validate_redirects' ) );
 		}
 
 		if ( $parsed_args['stream'] ) {
