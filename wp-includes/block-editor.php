@@ -361,6 +361,7 @@ function _wp_get_iframed_editor_assets() {
 
 	ob_start();
 	wp_print_styles();
+	wp_print_font_faces();
 	$styles = ob_get_clean();
 
 	ob_start();
