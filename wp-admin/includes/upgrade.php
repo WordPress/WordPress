@@ -625,10 +625,9 @@ if ( ! function_exists( 'wp_upgrade' ) ) :
 	 *
 	 * @global int  $wp_current_db_version The old (current) database version.
 	 * @global int  $wp_db_version         The new database version.
-	 * @global wpdb $wpdb                  WordPress database abstraction object.
 	 */
 	function wp_upgrade() {
-		global $wp_current_db_version, $wp_db_version, $wpdb;
+		global $wp_current_db_version, $wp_db_version;
 
 		$wp_current_db_version = __get_option( 'db_version' );
 

@@ -130,12 +130,8 @@ final class WP_Privacy_Policy_Content {
 	 * Outputs a warning when some privacy info has changed.
 	 *
 	 * @since 4.9.6
-	 *
-	 * @global WP_Post $post Global post object.
 	 */
 	public static function policy_text_changed_notice() {
-		global $post;
-
 		$screen = get_current_screen()->id;
 
 		if ( 'privacy' !== $screen ) {
