@@ -210,12 +210,12 @@ function _block_template_render_title_tag() {
  *
  * @global string   $_wp_current_template_content
  * @global WP_Embed $wp_embed
+ * @global WP_Query $wp_query
  *
  * @return string Block template markup.
  */
 function get_the_block_template_html() {
-	global $_wp_current_template_content;
-	global $wp_embed;
+	global $_wp_current_template_content, $wp_embed, $wp_query;
 
 	if ( ! $_wp_current_template_content ) {
 		if ( is_user_logged_in() ) {
@@ -228,7 +228,30 @@ function get_the_block_template_html() {
 	$content = $wp_embed->autoembed( $content );
 	$content = shortcode_unautop( $content );
 	$content = do_shortcode( $content );
-	$content = do_blocks( $content );
+
+	/*
+	 * Most block themes omit the `core/query` and `core/post-template` blocks in their singular content templates.
+	 * While this technically still works since singular content templates are always for only one post, it results in
+	 * the main query loop never being entered which causes bugs in core and the plugin ecosystem.
+	 *
+	 * The workaround below ensures that the loop is started even for those singular templates. The while loop will by
+	 * definition only go through a single iteration, i.e. `do_blocks()` is only called once. Additional safeguard
+	 * checks are included to ensure the main query loop has not been tampered with and really only encompasses a
+	 * single post.
+	 *
+	 * Even if the block template contained a `core/query` and `core/post-template` block referencing the main query
+	 * loop, it would not cause errors since it would use a cloned instance and go through the same loop of a single
+	 * post, within the actual main query loop.
+	 */
+	if ( is_singular() && 1 === $wp_query->post_count && have_posts() ) {
+		while ( have_posts() ) {
+			the_post();
+			$content = do_blocks( $content );
+		}
+	} else {
+		$content = do_blocks( $content );
+	}
+
 	$content = wptexturize( $content );
 	$content = convert_smilies( $content );
 	$content = wp_filter_content_tags( $content, 'template' );
