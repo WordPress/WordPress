@@ -365,6 +365,172 @@ function get_options( $options ) {
 }
 
 /**
+ * Sets the autoload values for multiple options in the database.
+ *
+ * Autoloading too many options can lead to performance problems, especially if the options are not frequently used.
+ * This function allows modifying the autoload value for multiple options without changing the actual option value.
+ * This is for example recommended for plugin activation and deactivation hooks, to ensure any options exclusively used
+ * by the plugin which are generally autoloaded can be set to not autoload when the plugin is inactive.
+ *
+ * @since 6.4.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $options Associative array of option names and their autoload values to set. The option names are
+ *                       expected to not be SQL-escaped. The autoload values accept 'yes'|true to enable or 'no'|false
+ *                       to disable.
+ * @return array Associative array of all provided $options as keys and boolean values for whether their autoload value
+ *               was updated.
+ */
+function wp_set_option_autoload_values( array $options ) {
+	global $wpdb;
+
+	if ( ! $options ) {
+		return array();
+	}
+
+	$grouped_options = array(
+		'yes' => array(),
+		'no'  => array(),
+	);
+	$results         = array();
+	foreach ( $options as $option => $autoload ) {
+		wp_protect_special_option( $option ); // Ensure only valid options can be passed.
+		if ( 'no' === $autoload || false === $autoload ) { // Sanitize autoload value and categorize accordingly.
+			$grouped_options['no'][] = $option;
+		} else {
+			$grouped_options['yes'][] = $option;
+		}
+		$results[ $option ] = false; // Initialize result value.
+	}
+
+	$where      = array();
+	$where_args = array();
+	foreach ( $grouped_options as $autoload => $options ) {
+		if ( ! $options ) {
+			continue;
+		}
+		$placeholders = implode( ',', array_fill( 0, count( $options ), '%s' ) );
+		$where[]      = "autoload != '%s' AND option_name IN ($placeholders)";
+		$where_args[] = $autoload;
+		foreach ( $options as $option ) {
+			$where_args[] = $option;
+		}
+	}
+	$where = 'WHERE ' . implode( ' OR ', $where );
+
+	/*
+	 * Determine the relevant options that do not already use the given autoload value.
+	 * If no options are returned, no need to update.
+	 */
+	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+	$options_to_update = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM $wpdb->options $where", $where_args ) );
+	if ( ! $options_to_update ) {
+		return $results;
+	}
+
+	// Run UPDATE queries as needed (maximum 2) to update the relevant options' autoload values to 'yes' or 'no'.
+	foreach ( $grouped_options as $autoload => $options ) {
+		if ( ! $options ) {
+			continue;
+		}
+		$options                      = array_intersect( $options, $options_to_update );
+		$grouped_options[ $autoload ] = $options;
+		if ( ! $grouped_options[ $autoload ] ) {
+			continue;
+		}
+
+		// Run query to update autoload value for all the options where it is needed.
+		$success = $wpdb->query(
+			$wpdb->prepare(
+				"UPDATE $wpdb->options SET autoload = %s WHERE option_name IN (" . implode( ',', array_fill( 0, count( $grouped_options[ $autoload ] ), '%s' ) ) . ')',
+				array_merge(
+					array( $autoload ),
+					$grouped_options[ $autoload ]
+				)
+			)
+		);
+		if ( ! $success ) {
+			// Set option list to an empty array to indicate no options were updated.
+			$grouped_options[ $autoload ] = array();
+			continue;
+		}
+
+		// Assume that on success all options were updated, which should be the case given only new values are sent.
+		foreach ( $grouped_options[ $autoload ] as $option ) {
+			$results[ $option ] = true;
+		}
+	}
+
+	/*
+	 * If any options were changed to 'yes', delete their individual caches, and delete 'alloptions' cache so that it
+	 * is refreshed as needed.
+	 * If no options were changed to 'yes' but any options were changed to 'no', delete them from the 'alloptions'
+	 * cache. This is not necessary when options were changed to 'yes', since in that situation the entire cache is
+	 * deleted anyway.
+	 */
+	if ( $grouped_options['yes'] ) {
+		wp_cache_delete_multiple( $grouped_options['yes'], 'options' );
+		wp_cache_delete( 'alloptions', 'options' );
+	} elseif ( $grouped_options['no'] ) {
+		$alloptions = wp_load_alloptions( true );
+		foreach ( $grouped_options['no'] as $option ) {
+			if ( isset( $alloptions[ $option ] ) ) {
+				unset( $alloptions[ $option ] );
+			}
+		}
+		wp_cache_set( 'alloptions', $alloptions, 'options' );
+	}
+
+	return $results;
+}
+
+/**
+ * Sets the autoload value for multiple options in the database.
+ *
+ * This is a wrapper for {@see wp_set_option_autoload_values()}, which can be used to set different autoload values for
+ * each option at once.
+ *
+ * @since 6.4.0
+ *
+ * @see wp_set_option_autoload_values()
+ *
+ * @param array       $options  List of option names. Expected to not be SQL-escaped.
+ * @param string|bool $autoload Autoload value to control whether to load the options when WordPress starts up.
+ *                              Accepts 'yes'|true to enable or 'no'|false to disable.
+ * @return array Associative array of all provided $options as keys and boolean values for whether their autoload value
+ *               was updated.
+ */
+function wp_set_options_autoload( array $options, $autoload ) {
+	return wp_set_option_autoload_values(
+		array_fill_keys( $options, $autoload )
+	);
+}
+
+/**
+ * Sets the autoload value for an option in the database.
+ *
+ * This is a wrapper for {@see wp_set_option_autoload_values()}, which can be used to set the autoload value for
+ * multiple options at once.
+ *
+ * @since 6.4.0
+ *
+ * @see wp_set_option_autoload_values()
+ *
+ * @param string      $option   Name of the option. Expected to not be SQL-escaped.
+ * @param string|bool $autoload Autoload value to control whether to load the option when WordPress starts up.
+ *                              Accepts 'yes'|true to enable or 'no'|false to disable.
+ * @return bool True if the autoload value was modified, false otherwise.
+ */
+function wp_set_option_autoload( $option, $autoload ) {
+	$result = wp_set_option_autoload_values( array( $option => $autoload ) );
+	if ( isset( $result[ $option ] ) ) {
+		return $result[ $option ];
+	}
+	return false;
+}
+
+/**
  * Protects WordPress special option from being modified.
  *
  * Will die if $option is in protected list. Protected options are 'alloptions'
