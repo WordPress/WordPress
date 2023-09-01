@@ -2083,13 +2083,11 @@ function media_upload_header() {
  *
  * @global string $type
  * @global string $tab
- * @global bool   $is_IE
- * @global bool   $is_opera
  *
  * @param array $errors
  */
 function media_upload_form( $errors = null ) {
-	global $type, $tab, $is_IE, $is_opera;
+	global $type, $tab;
 
 	if ( ! _device_can_upload() ) {
 		echo '<p>' . sprintf(
