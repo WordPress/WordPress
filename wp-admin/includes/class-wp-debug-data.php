@@ -548,6 +548,7 @@ class WP_Debug_Data {
 			);
 		} else {
 			// Get the PHP ini directive values.
+			$file_uploads        = ini_get( 'file_uploads' );
 			$post_max_size       = ini_get( 'post_max_size' );
 			$upload_max_filesize = ini_get( 'upload_max_filesize' );
 			$max_file_uploads    = ini_get( 'max_file_uploads' );
@@ -556,8 +557,8 @@ class WP_Debug_Data {
 			// Add info in Media section.
 			$info['wp-media']['fields']['file_uploads']        = array(
 				'label' => __( 'File uploads' ),
-				'value' => empty( ini_get( 'file_uploads' ) ) ? __( 'Disabled' ) : __( 'Enabled' ),
-				'debug' => 'File uploads is turned off',
+				'value' => $file_uploads ? __( 'Enabled' ) : __( 'Disabled' ),
+				'debug' => $file_uploads,
 			);
 			$info['wp-media']['fields']['post_max_size']       = array(
 				'label' => __( 'Max size of post data allowed' ),
