@@ -3150,9 +3150,22 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		$real_mime = finfo_file( $finfo, $file );
 		finfo_close( $finfo );
 
-		// finfo_file() returns redudant mime type for Google docs, see #57898.
-		if ( 'application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document' === $real_mime ) {
-			$real_mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+		$google_docs_types = array(
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		);
+
+		foreach ( $google_docs_types as $google_docs_type ) {
+			/*
+			 * finfo_file() can return duplicate mime type for Google docs,
+			 * this conditional reduces it to a single instance.
+			 *
+			 * @see https://bugs.php.net/bug.php?id=77784
+			 * @see https://core.trac.wordpress.org/ticket/57898
+			 */
+			if ( 2 === substr_count( $real_mime, $google_docs_type ) ) {
+				$real_mime = $google_docs_type;
+			}
 		}
 
 		// fileinfo often misidentifies obscure files as one of these types.
