@@ -78,7 +78,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 
 		$this->callbacks[ $priority ][ $idx ] = array(
 			'function'      => $callback,
-			'accepted_args' => $accepted_args,
+			'accepted_args' => (int) $accepted_args,
 		);
 
 		// If we're adding a new priority to the list, put them back in sorted order.
@@ -304,12 +304,12 @@ final class WP_Hook implements Iterator, ArrayAccess {
 				}
 
 				// Avoid the array_slice() if possible.
-				if ( 0 == $the_['accepted_args'] ) {
+				if ( 0 === $the_['accepted_args'] ) {
 					$value = call_user_func( $the_['function'] );
 				} elseif ( $the_['accepted_args'] >= $num_args ) {
 					$value = call_user_func_array( $the_['function'], $args );
 				} else {
-					$value = call_user_func_array( $the_['function'], array_slice( $args, 0, (int) $the_['accepted_args'] ) );
+					$value = call_user_func_array( $the_['function'], array_slice( $args, 0, $the_['accepted_args'] ) );
 				}
 			}
 		} while ( false !== next( $this->iterations[ $nesting_level ] ) );
