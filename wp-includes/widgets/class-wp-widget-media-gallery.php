@@ -248,6 +248,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 	protected function has_content( $instance ) {
 		if ( ! empty( $instance['ids'] ) ) {
 			$attachments = wp_parse_id_list( $instance['ids'] );
+			// Prime attachment post caches.
+			_prime_post_caches( $attachments, false, false );
 			foreach ( $attachments as $attachment ) {
 				if ( 'attachment' !== get_post_type( $attachment ) ) {
 					return false;
