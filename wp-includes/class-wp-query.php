@@ -3271,7 +3271,14 @@ class WP_Query {
 		}
 
 		if ( null === $this->posts ) {
-			$split_the_query = ( $old_request == $this->request && "{$wpdb->posts}.*" === $fields && ! empty( $limits ) && $q['posts_per_page'] < 500 );
+			$split_the_query = (
+				$old_request == $this->request
+				&& "{$wpdb->posts}.*" === $fields
+				&& (
+					wp_using_ext_object_cache()
+					|| ( ! empty( $limits ) && $q['posts_per_page'] < 500 )
+				)
+			);
 
 			/**
 			 * Filters whether to split the query.
