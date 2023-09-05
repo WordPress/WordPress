@@ -50,11 +50,11 @@ $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 /* translators: Sites menu item. */
 $menu[5]                  = array( __( 'Sites' ), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'dashicons-admin-multisite' );
 $submenu['sites.php'][5]  = array( __( 'All Sites' ), 'manage_sites', 'sites.php' );
-$submenu['sites.php'][10] = array( _x( 'Add New', 'site' ), 'create_sites', 'site-new.php' );
+$submenu['sites.php'][10] = array( __( 'Add New Site' ), 'create_sites', 'site-new.php' );
 
 $menu[10]                 = array( __( 'Users' ), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'dashicons-admin-users' );
 $submenu['users.php'][5]  = array( __( 'All Users' ), 'manage_network_users', 'users.php' );
-$submenu['users.php'][10] = array( _x( 'Add New', 'user' ), 'create_users', 'user-new.php' );
+$submenu['users.php'][10] = array( __( 'Add New User' ), 'create_users', 'user-new.php' );
 
 if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
 	$menu[15] = array(
@@ -78,7 +78,7 @@ if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
 	$menu[15] = array( __( 'Themes' ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
 }
 $submenu['themes.php'][5]  = array( __( 'Installed Themes' ), 'manage_network_themes', 'themes.php' );
-$submenu['themes.php'][10] = array( _x( 'Add New', 'theme' ), 'install_themes', 'theme-install.php' );
+$submenu['themes.php'][10] = array( __( 'Add New Theme' ), 'install_themes', 'theme-install.php' );
 $submenu['themes.php'][15] = array( __( 'Theme File Editor' ), 'edit_themes', 'theme-editor.php' );
 
 if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] ) {
@@ -103,7 +103,7 @@ if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] )
 	$menu[20] = array( __( 'Plugins' ), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
 }
 $submenu['plugins.php'][5]  = array( __( 'Installed Plugins' ), 'manage_network_plugins', 'plugins.php' );
-$submenu['plugins.php'][10] = array( _x( 'Add New', 'plugin' ), 'install_plugins', 'plugin-install.php' );
+$submenu['plugins.php'][10] = array( __( 'Add New Plugin' ), 'install_plugins', 'plugin-install.php' );
 $submenu['plugins.php'][15] = array( __( 'Plugin File Editor' ), 'edit_plugins', 'plugin-editor.php' );
 
 $menu[25] = array( __( 'Settings' ), 'manage_network_options', 'settings.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'dashicons-admin-settings' );

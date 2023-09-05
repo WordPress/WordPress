@@ -694,13 +694,13 @@ switch ( $wp_list_table->current_action() ) {
 			printf(
 				'<a href="%1$s" class="page-title-action">%2$s</a>',
 				esc_url( admin_url( 'user-new.php' ) ),
-				esc_html_x( 'Add New', 'user' )
+				esc_html__( 'Add New User' )
 			);
 		} elseif ( is_multisite() && current_user_can( 'promote_users' ) ) {
 			printf(
 				'<a href="%1$s" class="page-title-action">%2$s</a>',
 				esc_url( admin_url( 'user-new.php' ) ),
-				esc_html_x( 'Add Existing', 'user' )
+				esc_html__( 'Add Existing User' )
 			);
 		}
 

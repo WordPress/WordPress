@@ -461,7 +461,7 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 	<legend>
 		<span class="hidden" id="editlegend"><?php _e( 'Edit Comment' ); ?></span>
 		<span class="hidden" id="replyhead"><?php _e( 'Reply to Comment' ); ?></span>
-		<span class="hidden" id="addhead"><?php _e( 'Add new Comment' ); ?></span>
+		<span class="hidden" id="addhead"><?php _e( 'Add New Comment' ); ?></span>
 	</legend>
 
 	<div id="replycontainer">

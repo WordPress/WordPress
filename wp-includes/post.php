@@ -75,7 +75,7 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'           => _x( 'Media', 'post type general name' ),
 				'name_admin_bar' => _x( 'Media', 'add new from admin bar' ),
-				'add_new'        => _x( 'Add New', 'file' ),
+				'add_new'        => __( 'Add New Media File' ),
 				'edit_item'      => __( 'Edit Media' ),
 				'view_item'      => __( 'View Attachment Page' ),
 				'attributes'     => __( 'Attachment Attributes' ),
@@ -202,7 +202,7 @@ function create_initial_post_types() {
 			'labels'           => array(
 				'name'               => _x( 'Changesets', 'post type general name' ),
 				'singular_name'      => _x( 'Changeset', 'post type singular name' ),
-				'add_new'            => _x( 'Add New', 'Customize Changeset' ),
+				'add_new'            => __( 'Add New Changeset' ),
 				'add_new_item'       => __( 'Add New Changeset' ),
 				'new_item'           => __( 'New Changeset' ),
 				'edit_item'          => __( 'Edit Changeset' ),
@@ -284,8 +284,8 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'                     => _x( 'Patterns', 'post type general name' ),
 				'singular_name'            => _x( 'Pattern', 'post type singular name' ),
-				'add_new'                  => _x( 'Add New', 'Pattern' ),
-				'add_new_item'             => __( 'Add new Pattern' ),
+				'add_new'                  => __( 'Add New Pattern' ),
+				'add_new_item'             => __( 'Add New Pattern' ),
 				'new_item'                 => __( 'New Pattern' ),
 				'edit_item'                => __( 'Edit Block Pattern' ),
 				'view_item'                => __( 'View Pattern' ),
@@ -347,7 +347,7 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'                  => _x( 'Templates', 'post type general name' ),
 				'singular_name'         => _x( 'Template', 'post type singular name' ),
-				'add_new'               => _x( 'Add New', 'Template' ),
+				'add_new'               => __( 'Add New Template' ),
 				'add_new_item'          => __( 'Add New Template' ),
 				'new_item'              => __( 'New Template' ),
 				'edit_item'             => __( 'Edit Template' ),
@@ -408,7 +408,7 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'                  => _x( 'Template Parts', 'post type general name' ),
 				'singular_name'         => _x( 'Template Part', 'post type singular name' ),
-				'add_new'               => _x( 'Add New', 'Template Part' ),
+				'add_new'               => __( 'Add New Template Part' ),
 				'add_new_item'          => __( 'Add New Template Part' ),
 				'new_item'              => __( 'New Template Part' ),
 				'edit_item'             => __( 'Edit Template Part' ),
@@ -505,7 +505,7 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'                  => _x( 'Navigation Menus', 'post type general name' ),
 				'singular_name'         => _x( 'Navigation Menu', 'post type singular name' ),
-				'add_new'               => _x( 'Add New', 'Navigation Menu' ),
+				'add_new'               => __( 'Add New Navigation Menu' ),
 				'add_new_item'          => __( 'Add New Navigation Menu' ),
 				'new_item'              => __( 'New Navigation Menu' ),
 				'edit_item'             => __( 'Edit Navigation Menu' ),
@@ -1931,9 +1931,9 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `name` - General name for the post type, usually plural. The same and overridden
  *          by `$post_type_object->label`. Default is 'Posts' / 'Pages'.
  * - `singular_name` - Name for one object of this post type. Default is 'Post' / 'Page'.
- * - `add_new` - Default is 'Add New' for both hierarchical and non-hierarchical types.
+ * - `add_new` - Default is 'Add New Type' for both hierarchical and non-hierarchical types.
  *             When internationalizing this string, please use a {@link https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#disambiguation-by-context gettext context}
- *             matching your post type. Example: `_x( 'Add New', 'product', 'textdomain' );`.
+ *             matching your post type. Example: `__( 'Add New Product', 'textdomain' );`.
  * - `add_new_item` - Label for adding a new singular item. Default is 'Add New Post' / 'Add New Page'.
  * - `edit_item` - Label for editing a singular item. Default is 'Edit Post' / 'Edit Page'.
  * - `new_item` - Label for the new item page title. Default is 'New Post' / 'New Page'.
