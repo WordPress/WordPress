@@ -5625,23 +5625,23 @@ function _deprecated_constructor( $class_name, $version, $parent_class = '' ) {
  *
  * @since 6.4.0
  *
- * @param string $class       The class being instantiated.
+ * @param string $class_name  The name of the class being instantiated.
  * @param string $version     The version of WordPress that deprecated the class.
  * @param string $replacement Optional. The class or function that should have been called.
  *                            Default empty string.
  */
-function _deprecated_class( $class, $version, $replacement = '' ) {
+function _deprecated_class( $class_name, $version, $replacement = '' ) {
 
 	/**
 	 * Fires when a deprecated class is called.
 	 *
 	 * @since 6.4.0
 	 *
-	 * @param string $class       The class being instantiated.
+	 * @param string $class_name  The name of the class being instantiated.
 	 * @param string $replacement The class or function that should have been called.
 	 * @param string $version     The version of WordPress that deprecated the class.
 	 */
-	do_action( 'deprecated_class_run', $class, $replacement, $version );
+	do_action( 'deprecated_class_run', $class_name, $replacement, $version );
 
 	/**
 	 * Filters whether to trigger an error for a deprecated class.
@@ -5657,7 +5657,7 @@ function _deprecated_class( $class, $version, $replacement = '' ) {
 					sprintf(
 						/* translators: 1: PHP class name, 2: Version number, 3: Alternative class or function name. */
 						__( 'Class %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.' ),
-						$class,
+						$class_name,
 						$version,
 						$replacement
 					),
@@ -5668,7 +5668,7 @@ function _deprecated_class( $class, $version, $replacement = '' ) {
 					sprintf(
 						/* translators: 1: PHP class name, 2: Version number. */
 						__( 'Class %1$s is <strong>deprecated</strong> since version %2$s with no alternative available.' ),
-						$class,
+						$class_name,
 						$version
 					),
 					E_USER_DEPRECATED
@@ -5679,7 +5679,7 @@ function _deprecated_class( $class, $version, $replacement = '' ) {
 				trigger_error(
 					sprintf(
 						'Class %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.',
-						$class,
+						$class_name,
 						$version,
 						$replacement
 					),
@@ -5689,7 +5689,7 @@ function _deprecated_class( $class, $version, $replacement = '' ) {
 				trigger_error(
 					sprintf(
 						'Class %1$s is <strong>deprecated</strong> since version %2$s with no alternative available.',
-						$class,
+						$class_name,
 						$version
 					),
 					E_USER_DEPRECATED
