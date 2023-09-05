@@ -6066,8 +6066,22 @@ function get_pages( $args = array() ) {
 		$query_args['post_parent'] = $parent;
 	}
 
+	/*
+	 * Maintain backward compatibility for `sort_column` key.
+	 * Additionally to `WP_Query`, it has been supporting the `post_modified_gmt` field, so this logic will translate
+	 * it to `post_modified` which should result in the same order given the two dates in the fields match.
+	 */
 	$orderby = wp_parse_list( $parsed_args['sort_column'] );
-	$orderby = array_map( 'trim', $orderby );
+	$orderby = array_map(
+		static function( $orderby_field ) {
+			$orderby_field = trim( $orderby_field );
+			if ( 'post_modified_gmt' === $orderby_field || 'modified_gmt' === $orderby_field ) {
+				$orderby_field = str_replace( '_gmt', '', $orderby_field );
+			}
+			return $orderby_field;
+		},
+		$orderby
+	);
 	if ( $orderby ) {
 		$query_args['orderby'] = array_fill_keys( $orderby, $parsed_args['sort_order'] );
 	}
