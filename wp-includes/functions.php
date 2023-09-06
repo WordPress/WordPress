@@ -6040,6 +6040,52 @@ function _doing_it_wrong( $function_name, $message, $version ) {
 }
 
 /**
+ * Generates a user-level error/warning/notice/deprecation message.
+ *
+ * Generates the message when `WP_DEBUG` is true.
+ *
+ * @since 6.4.0
+ *
+ * @param string $function_name The function that triggered the error.
+ * @param string $message       The message explaining the error.
+ * @param int    $error_level   Optional. The designated error type for this error.
+ *                              Only works with E_USER family of constants. Default E_USER_NOTICE.
+ */
+function wp_trigger_error( $function_name, $message, $error_level = E_USER_NOTICE ) {
+
+	// Bail out if WP_DEBUG is not turned on.
+	if ( ! WP_DEBUG ) {
+		return;
+	}
+
+	/**
+	 * Fires when the given function triggers a user-level error/warning/notice/deprecation message.
+	 *
+	 * Can be used for debug backtracking.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $function_name The function that was called.
+	 * @param string $message       A message explaining what has been done incorrectly.
+	 * @param int    $error_level   The designated error type for this error.
+	 */
+	do_action( 'wp_trigger_error_run', $function_name, $message, $error_level );
+
+	if ( ! empty( $function_name ) ) {
+		$message = sprintf( '%s(): %s', $function_name, $message );
+	}
+
+	/*
+	 * If the message appears in the browser, then it needs to be escaped.
+	 * Note the warning in the `trigger_error()` PHP manual.
+	 * @link https://www.php.net/manual/en/function.trigger-error.php
+	 */
+	$message = esc_html( $message );
+
+	trigger_error( $message, $error_level );
+}
+
+/**
  * Determines whether the server is running an earlier than 1.5.0 version of lighttpd.
  *
  * @since 2.5.0
