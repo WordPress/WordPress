@@ -421,7 +421,7 @@ function twenty_twenty_one_scripts() {
 		get_template_directory_uri() . '/assets/js/polyfills.js',
 		array(),
 		wp_get_theme()->get( 'Version' ),
-		true
+		array( 'in_footer' => true )
 	);
 
 	// Register the IE11 polyfill loader.
@@ -430,7 +430,7 @@ function twenty_twenty_one_scripts() {
 		null,
 		array(),
 		wp_get_theme()->get( 'Version' ),
-		true
+		array( 'in_footer' => true )
 	);
 	wp_add_inline_script(
 		'twenty-twenty-one-ie11-polyfills',
@@ -449,7 +449,7 @@ function twenty_twenty_one_scripts() {
 			get_template_directory_uri() . '/assets/js/primary-navigation.js',
 			array( 'twenty-twenty-one-ie11-polyfills' ),
 			wp_get_theme()->get( 'Version' ),
-			true
+			array( 'in_footer' => true )
 		);
 	}
 
@@ -459,7 +459,7 @@ function twenty_twenty_one_scripts() {
 		get_template_directory_uri() . '/assets/js/responsive-embeds.js',
 		array( 'twenty-twenty-one-ie11-polyfills' ),
 		wp_get_theme()->get( 'Version' ),
-		true
+		array( 'in_footer' => true )
 	);
 }
 add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
@@ -473,7 +473,7 @@ add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
  */
 function twentytwentyone_block_editor_script() {
 
-	wp_enqueue_script( 'twentytwentyone-editor', get_theme_file_uri( '/assets/js/editor.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), true );
+	wp_enqueue_script( 'twentytwentyone-editor', get_theme_file_uri( '/assets/js/editor.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), array( 'in_footer' => true ) );
 }
 
 add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script' );
@@ -565,7 +565,7 @@ function twentytwentyone_customize_preview_init() {
 		get_theme_file_uri( '/assets/js/customize-helpers.js' ),
 		array(),
 		wp_get_theme()->get( 'Version' ),
-		true
+		array( 'in_footer' => true )
 	);
 
 	wp_enqueue_script(
@@ -573,7 +573,7 @@ function twentytwentyone_customize_preview_init() {
 		get_theme_file_uri( '/assets/js/customize-preview.js' ),
 		array( 'customize-preview', 'customize-selective-refresh', 'jquery', 'twentytwentyone-customize-helpers' ),
 		wp_get_theme()->get( 'Version' ),
-		true
+		array( 'in_footer' => true )
 	);
 }
 add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init' );
@@ -592,7 +592,7 @@ function twentytwentyone_customize_controls_enqueue_scripts() {
 		get_theme_file_uri( '/assets/js/customize-helpers.js' ),
 		array(),
 		wp_get_theme()->get( 'Version' ),
-		true
+		array( 'in_footer' => true )
 	);
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts' );

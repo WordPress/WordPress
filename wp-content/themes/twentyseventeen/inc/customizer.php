@@ -245,7 +245,7 @@ function twentyseventeen_is_view_with_layout_option() {
  * Bind JS handlers to instantly live-preview changes.
  */
 function twentyseventeen_customize_preview_js() {
-	wp_enqueue_script( 'twentyseventeen-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview' ), '20161002', true );
+	wp_enqueue_script( 'twentyseventeen-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview' ), '20161002', array( 'in_footer' => true ) );
 }
 add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
 
@@ -253,6 +253,6 @@ add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
  * Load dynamic logic for the customizer controls area.
  */
 function twentyseventeen_panels_js() {
-	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20161020', true );
+	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20161020', array( 'in_footer' => true ) );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyseventeen_panels_js' );

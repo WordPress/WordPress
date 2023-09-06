@@ -673,6 +673,6 @@ function twentyeleven_customize_partial_blogdescription() {
  * @since Twenty Eleven 1.3
  */
 function twentyeleven_customize_preview_js() {
-	wp_enqueue_script( 'twentyeleven-customizer', get_template_directory_uri() . '/inc/theme-customizer.js', array( 'customize-preview' ), '20150401', true );
+	wp_enqueue_script( 'twentyeleven-customizer', get_template_directory_uri() . '/inc/theme-customizer.js', array( 'customize-preview' ), '20150401', array( 'in_footer' => true ) );
 }
 add_action( 'customize_preview_init', 'twentyeleven_customize_preview_js' );
