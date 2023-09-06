@@ -20,46 +20,78 @@ require BLOCKS_PATH . 'require-dynamic-blocks.php';
  * avoids unnecessary logic and filesystem lookups in the other function.
  *
  * @since 6.3.0
+ *
+ * @global string $wp_version The WordPress version string.
  */
 function register_core_block_style_handles() {
+	global $wp_version;
+
 	if ( ! wp_should_load_separate_core_block_assets() ) {
 		return;
 	}
 
-	static $core_blocks_meta;
-	if ( ! $core_blocks_meta ) {
-		$core_blocks_meta = require ABSPATH . WPINC . '/blocks/blocks-json.php';
-	}
-
-	$includes_url  = includes_url();
-	$includes_path = ABSPATH . WPINC . '/';
-	$suffix        = wp_scripts_get_suffix();
-	$wp_styles     = wp_styles();
-	$style_fields  = array(
+	$blocks_url   = includes_url( 'blocks/' );
+	$suffix       = wp_scripts_get_suffix();
+	$wp_styles    = wp_styles();
+	$style_fields = array(
 		'style'       => 'style',
 		'editorStyle' => 'editor',
 	);
+
+	static $core_blocks_meta;
+	if ( ! $core_blocks_meta ) {
+		$core_blocks_meta = require BLOCKS_PATH . 'blocks-json.php';
+	}
+
+	$files          = false;
+	$transient_name = 'wp_core_block_css_files';
 
 	/*
 	 * Ignore transient cache when the development mode is set to 'core'. Why? To avoid interfering with
 	 * the core developer's workflow.
 	 */
-	if ( ! wp_is_development_mode( 'core' ) ) {
-		$transient_name = 'wp_core_block_css_files';
-		$files          = get_transient( $transient_name );
-		if ( ! $files ) {
-			$files = glob( wp_normalize_path( __DIR__ . '/**/**.css' ) );
-			set_transient( $transient_name, $files );
+	$can_use_cached = ! wp_is_development_mode( 'core' );
+
+	if ( $can_use_cached ) {
+		$cached_files = get_transient( $transient_name );
+
+		// Check the validity of cached values by checking against the current WordPress version.
+		if (
+			is_array( $cached_files )
+			&& isset( $cached_files['version'] )
+			&& $cached_files['version'] === $wp_version
+			&& isset( $cached_files['files'] )
+		) {
+			$files = $cached_files['files'];
 		}
-	} else {
-		$files = glob( wp_normalize_path( __DIR__ . '/**/**.css' ) );
 	}
 
-	$register_style = static function( $name, $filename, $style_handle ) use ( $includes_path, $includes_url, $suffix, $wp_styles, $files ) {
-		$style_path = "blocks/{$name}/{$filename}{$suffix}.css";
-		$path       = wp_normalize_path( $includes_path . $style_path );
+	if ( ! $files ) {
+		$files = glob( wp_normalize_path( BLOCKS_PATH . '**/**.css' ) );
+		$files = array_map(
+			static function ( $file ) {
+				return str_replace( BLOCKS_PATH, '', $file );
+			},
+			$files
+		);
 
-		if ( ! in_array( $path, $files, true ) ) {
+		// Save core block style paths in cache when not in development mode.
+		if ( $can_use_cached ) {
+			set_transient(
+				$transient_name,
+				array(
+					'version' => $wp_version,
+					'files'   => $files,
+				)
+			);
+		}
+	}
+
+	$register_style = static function( $name, $filename, $style_handle ) use ( $blocks_url, $suffix, $wp_styles, $files ) {
+		$style_path = "{$name}/{$filename}{$suffix}.css";
+		$path       = wp_normalize_path( BLOCKS_PATH . $style_path );
+
+		if ( ! in_array( $style_path, $files, true ) ) {
 			$wp_styles->add(
 				$style_handle,
 				false
@@ -67,7 +99,7 @@ function register_core_block_style_handles() {
 			return;
 		}
 
-		$wp_styles->add( $style_handle, $includes_url . $style_path );
+		$wp_styles->add( $style_handle, $blocks_url . $style_path );
 		$wp_styles->add_data( $style_handle, 'path', $path );
 
 		$rtl_file = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $path );
