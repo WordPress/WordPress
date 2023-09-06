@@ -2221,10 +2221,10 @@
         '__experimentalRole' => 'content'
       ),
       'width' => array(
-        'type' => 'number'
+        'type' => 'string'
       ),
       'height' => array(
-        'type' => 'number'
+        'type' => 'string'
       ),
       'aspectRatio' => array(
         'type' => 'string'

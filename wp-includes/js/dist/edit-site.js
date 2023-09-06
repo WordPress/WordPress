@@ -3212,13 +3212,23 @@ function useSupportedStyles(name, element) {
 
 
 const {
+  cleanEmptyObject,
   GlobalStylesContext,
   useBlockEditingMode
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis); // TODO: Temporary duplication of constant in @wordpress/block-editor. Can be
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis); // Block Gap is a special case and isn't defined within the blocks
+// style properties config. We'll add it here to allow it to be pushed
+// to global styles as well.
+
+const STYLE_PROPERTY = { ...external_wp_blocks_namespaceObject.__EXPERIMENTAL_STYLE_PROPERTY,
+  blockGap: {
+    value: ['spacing', 'blockGap']
+  }
+}; // TODO: Temporary duplication of constant in @wordpress/block-editor. Can be
 // removed by moving PushChangesToGlobalStylesControl to
 // @wordpress/block-editor.
 
 const STYLE_PATH_TO_CSS_VAR_INFIX = {
+  'border.color': 'color',
   'color.background': 'color',
   'color.text': 'color',
   'elements.link.color.text': 'color',
@@ -3260,6 +3270,7 @@ const STYLE_PATH_TO_CSS_VAR_INFIX = {
   'elements.h6.typography.fontFamily': 'font-family',
   'elements.h6.color.gradient': 'gradient',
   'color.gradient': 'gradient',
+  blockGap: 'spacing',
   'typography.fontSize': 'font-size',
   'typography.fontFamily': 'font-family'
 }; // TODO: Temporary duplication of constant in @wordpress/block-editor. Can be
@@ -3267,6 +3278,7 @@ const STYLE_PATH_TO_CSS_VAR_INFIX = {
 // @wordpress/block-editor.
 
 const STYLE_PATH_TO_PRESET_BLOCK_ATTRIBUTE = {
+  'border.color': 'borderColor',
   'color.background': 'backgroundColor',
   'color.text': 'textColor',
   'color.gradient': 'gradient',
@@ -3274,25 +3286,128 @@ const STYLE_PATH_TO_PRESET_BLOCK_ATTRIBUTE = {
   'typography.fontFamily': 'fontFamily'
 };
 const SUPPORTED_STYLES = ['border', 'color', 'spacing', 'typography'];
+const flatBorderProperties = ['borderColor', 'borderWidth', 'borderStyle'];
+const sides = ['top', 'right', 'bottom', 'left'];
 
-function useChangesToPush(name, attributes) {
+function getBorderStyleChanges(border, presetColor, userStyle) {
+  if (!border && !presetColor) {
+    return [];
+  }
+
+  const changes = [...getFallbackBorderStyleChange('top', border, userStyle), ...getFallbackBorderStyleChange('right', border, userStyle), ...getFallbackBorderStyleChange('bottom', border, userStyle), ...getFallbackBorderStyleChange('left', border, userStyle)]; // Handle a flat border i.e. all sides the same, CSS shorthand.
+
+  const {
+    color: customColor,
+    style,
+    width
+  } = border || {};
+  const hasColorOrWidth = presetColor || customColor || width;
+
+  if (hasColorOrWidth && !style) {
+    // Global Styles need individual side configurations to overcome
+    // theme.json configurations which are per side as well.
+    sides.forEach(side => {
+      // Only add fallback border-style if global styles don't already
+      // have something set.
+      if (!userStyle?.[side]?.style) {
+        changes.push({
+          path: ['border', side, 'style'],
+          value: 'solid'
+        });
+      }
+    });
+  }
+
+  return changes;
+}
+
+function getFallbackBorderStyleChange(side, border, globalBorderStyle) {
+  if (!border?.[side] || globalBorderStyle?.[side]?.style) {
+    return [];
+  }
+
+  const {
+    color,
+    style,
+    width
+  } = border[side];
+  const hasColorOrWidth = color || width;
+
+  if (!hasColorOrWidth || style) {
+    return [];
+  }
+
+  return [{
+    path: ['border', side, 'style'],
+    value: 'solid'
+  }];
+}
+
+function useChangesToPush(name, attributes, userConfig) {
   const supports = useSupportedStyles(name);
-  return (0,external_wp_element_namespaceObject.useMemo)(() => supports.flatMap(key => {
-    if (!external_wp_blocks_namespaceObject.__EXPERIMENTAL_STYLE_PROPERTY[key]) {
-      return [];
-    }
+  const blockUserConfig = userConfig?.styles?.blocks?.[name];
+  return (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const changes = supports.flatMap(key => {
+      if (!STYLE_PROPERTY[key]) {
+        return [];
+      }
 
-    const {
-      value: path
-    } = external_wp_blocks_namespaceObject.__EXPERIMENTAL_STYLE_PROPERTY[key];
-    const presetAttributeKey = path.join('.');
-    const presetAttributeValue = attributes[STYLE_PATH_TO_PRESET_BLOCK_ATTRIBUTE[presetAttributeKey]];
-    const value = presetAttributeValue ? `var:preset|${STYLE_PATH_TO_CSS_VAR_INFIX[presetAttributeKey]}|${presetAttributeValue}` : (0,external_lodash_namespaceObject.get)(attributes.style, path);
-    return value ? [{
-      path,
-      value
-    }] : [];
-  }), [supports, name, attributes]);
+      const {
+        value: path
+      } = STYLE_PROPERTY[key];
+      const presetAttributeKey = path.join('.');
+      const presetAttributeValue = attributes[STYLE_PATH_TO_PRESET_BLOCK_ATTRIBUTE[presetAttributeKey]];
+      const value = presetAttributeValue ? `var:preset|${STYLE_PATH_TO_CSS_VAR_INFIX[presetAttributeKey]}|${presetAttributeValue}` : (0,external_lodash_namespaceObject.get)(attributes.style, path); // Links only have a single support entry but have two element
+      // style properties, color and hover color. The following check
+      // will add the hover color to the changes if required.
+
+      if (key === 'linkColor') {
+        const linkChanges = value ? [{
+          path,
+          value
+        }] : [];
+        const hoverPath = ['elements', 'link', ':hover', 'color', 'text'];
+        const hoverValue = (0,external_lodash_namespaceObject.get)(attributes.style, hoverPath);
+
+        if (hoverValue) {
+          linkChanges.push({
+            path: hoverPath,
+            value: hoverValue
+          });
+        }
+
+        return linkChanges;
+      } // The shorthand border styles can't be mapped directly as global
+      // styles requires longhand config.
+
+
+      if (flatBorderProperties.includes(key) && value) {
+        // The shorthand config path is included to clear the block attribute.
+        const borderChanges = [{
+          path,
+          value
+        }];
+        sides.forEach(side => {
+          const currentPath = [...path];
+          currentPath.splice(-1, 0, side);
+          borderChanges.push({
+            path: currentPath,
+            value
+          });
+        });
+        return borderChanges;
+      }
+
+      return value ? [{
+        path,
+        value
+      }] : [];
+    }); // To ensure display of a visible border, global styles require a
+    // default border style if a border color or width is present.
+
+    getBorderStyleChanges(attributes.style?.border, attributes.borderColor, blockUserConfig?.border).forEach(change => changes.push(change));
+    return changes;
+  }, [supports, attributes, blockUserConfig]);
 }
 
 function cloneDeep(object) {
@@ -3304,11 +3419,11 @@ function PushChangesToGlobalStylesControl({
   attributes,
   setAttributes
 }) {
-  const changes = useChangesToPush(name, attributes);
   const {
     user: userConfig,
     setUserConfig
   } = (0,external_wp_element_namespaceObject.useContext)(GlobalStylesContext);
+  const changes = useChangesToPush(name, attributes, userConfig);
   const {
     __unstableMarkNextChangeAsNotPersistent
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
@@ -3332,17 +3447,24 @@ function PushChangesToGlobalStylesControl({
     } of changes) {
       (0,external_lodash_namespaceObject.set)(newBlockStyles, path, undefined);
       (0,external_lodash_namespaceObject.set)(newUserConfig, ['styles', 'blocks', name, ...path], value);
-    } // @wordpress/core-data doesn't support editing multiple entity types in
+    }
+
+    const newBlockAttributes = {
+      borderColor: undefined,
+      backgroundColor: undefined,
+      textColor: undefined,
+      gradient: undefined,
+      fontSize: undefined,
+      fontFamily: undefined,
+      style: cleanEmptyObject(newBlockStyles)
+    }; // @wordpress/core-data doesn't support editing multiple entity types in
     // a single undo level. So for now, we disable @wordpress/core-data undo
     // tracking and implement our own Undo button in the snackbar
     // notification.
 
-
     __unstableMarkNextChangeAsNotPersistent();
 
-    setAttributes({
-      style: newBlockStyles
-    });
+    setAttributes(newBlockAttributes);
     setUserConfig(() => newUserConfig, {
       undoIgnore: true
     });
@@ -3355,9 +3477,7 @@ function PushChangesToGlobalStylesControl({
         onClick() {
           __unstableMarkNextChangeAsNotPersistent();
 
-          setAttributes({
-            style: blockStyles
-          });
+          setAttributes(attributes);
           setUserConfig(() => userConfig, {
             undoIgnore: true
           });
@@ -3365,7 +3485,7 @@ function PushChangesToGlobalStylesControl({
 
       }]
     });
-  }, [changes, attributes, userConfig, name]);
+  }, [__unstableMarkNextChangeAsNotPersistent, attributes, changes, createSuccessNotice, name, setAttributes, setUserConfig, userConfig]);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl, {
     className: "edit-site-push-changes-to-global-styles-control",
     help: (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: Title of the block e.g. 'Heading'.
@@ -5745,7 +5865,7 @@ function isPlainObject(o) {
 
 const {
   GlobalStylesContext: global_styles_provider_GlobalStylesContext,
-  cleanEmptyObject
+  cleanEmptyObject: global_styles_provider_cleanEmptyObject
 } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function mergeBaseAndUserConfigs(base, user) {
   return cjs_default()(base, user, {
@@ -5806,8 +5926,8 @@ function useGlobalStylesUserConfig() {
     };
     const updatedConfig = callback(currentConfig);
     editEntityRecord('root', 'globalStyles', globalStylesId, {
-      styles: cleanEmptyObject(updatedConfig.styles) || {},
-      settings: cleanEmptyObject(updatedConfig.settings) || {}
+      styles: global_styles_provider_cleanEmptyObject(updatedConfig.styles) || {},
+      settings: global_styles_provider_cleanEmptyObject(updatedConfig.settings) || {}
     }, options);
   }, [globalStylesId]);
   return [isReady, config, setConfig];
@@ -9518,8 +9638,8 @@ function HomeTemplateDetails() {
     spacing: 3
   }, (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreenDetailsPanelRow, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     className: "edit-site-sidebar-navigation-screen__input-control",
-    label: "Allow comments on new posts",
-    help: "Changes will apply to new posts only. Individual posts may override these settings.",
+    label: (0,external_wp_i18n_namespaceObject.__)('Allow comments on new posts'),
+    help: (0,external_wp_i18n_namespaceObject.__)('Changes will apply to new posts only. Individual posts may override these settings.'),
     checked: commentsOnNewPostsValue,
     onChange: setAllowCommentsOnNewPosts
   }))), (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreenDetailsPanel, {
@@ -10825,7 +10945,7 @@ function LeafMoreMenu(props) {
       moveBlocksDown([clientId], rootClientId);
       onClose();
     }
-  }, (0,external_wp_i18n_namespaceObject.__)('Move down')), block.attributes?.id && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Move down')), block.attributes?.type === 'page' && block.attributes?.id && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: () => {
       onGoToPage(block);
       onClose();
@@ -19888,8 +20008,14 @@ function RedoButton(props, ref) {
 
 
 
+const document_actions_typeLabels = {
+  wp_block: (0,external_wp_i18n_namespaceObject.__)('Editing pattern:'),
+  wp_navigation: (0,external_wp_i18n_namespaceObject.__)('Editing navigation menu:'),
+  wp_template: (0,external_wp_i18n_namespaceObject.__)('Editing template:'),
+  wp_template_part: (0,external_wp_i18n_namespaceObject.__)('Editing template part:')
+};
 function DocumentActions() {
-  const isPage = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).isPage());
+  const isPage = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).isPage(), []);
   return isPage ? (0,external_wp_element_namespaceObject.createElement)(PageDocumentActions, null) : (0,external_wp_element_namespaceObject.createElement)(TemplateDocumentActions, null);
 }
 
@@ -19956,6 +20082,8 @@ function TemplateDocumentActions({
   className,
   onBack
 }) {
+  var _typeLabels$record$ty;
+
   const {
     isLoaded,
     record,
@@ -19973,7 +20101,6 @@ function TemplateDocumentActions({
     }, (0,external_wp_i18n_namespaceObject.__)('Document not found'));
   }
 
-  const entityLabel = getEntityLabel(record.type);
   let typeIcon = icon;
 
   if (record.type === 'wp_navigation') {
@@ -19988,9 +20115,7 @@ function TemplateDocumentActions({
     onBack: onBack
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
     as: "span"
-  }, (0,external_wp_i18n_namespaceObject.sprintf)(
-  /* translators: %s: the entity being edited, like "template"*/
-  (0,external_wp_i18n_namespaceObject.__)('Editing %s: '), entityLabel)), getTitle());
+  }, (_typeLabels$record$ty = document_actions_typeLabels[record.type]) !== null && _typeLabels$record$ty !== void 0 ? _typeLabels$record$ty : document_actions_typeLabels.wp_template), getTitle());
 }
 
 function BaseDocumentActions({
@@ -20026,26 +20151,6 @@ function BaseDocumentActions({
   }, children)), (0,external_wp_element_namespaceObject.createElement)("span", {
     className: "edit-site-document-actions__shortcut"
   }, external_wp_keycodes_namespaceObject.displayShortcut.primary('k'))));
-}
-
-function getEntityLabel(entityType) {
-  let label = '';
-
-  switch (entityType) {
-    case 'wp_navigation':
-      label = 'navigation menu';
-      break;
-
-    case 'wp_template_part':
-      label = 'template part';
-      break;
-
-    default:
-      label = 'template';
-      break;
-  }
-
-  return label;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/header-edit-mode/index.js
@@ -21940,13 +22045,13 @@ function Page({
   return (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
     className: classes,
     ariaLabel: title
+  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "edit-site-page-content"
   }, !hideTitleFromUI && title && (0,external_wp_element_namespaceObject.createElement)(Header, {
     title: title,
     subTitle: subTitle,
     actions: actions
-  }), (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "edit-site-page-content"
-  }, children, (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.EditorSnackbars, null)));
+  }), children), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.EditorSnackbars, null));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/page-patterns/header.js

@@ -23883,7 +23883,194 @@ const image_deprecated_v6 = {
   }
 
 };
-/* harmony default export */ const image_deprecated = ([image_deprecated_v6, image_deprecated_v5, image_deprecated_v4, image_deprecated_v3, image_deprecated_v2, image_deprecated_v1]);
+/**
+ * Deprecation for converting to string width and height block attributes and
+ * removing the width and height img element attributes which are not needed
+ * as they get added by the TODO hook.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/53274
+ */
+
+const image_deprecated_v7 = {
+  attributes: {
+    align: {
+      type: 'string'
+    },
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src',
+      __experimentalRole: 'content'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: '',
+      __experimentalRole: 'content'
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: 'figcaption',
+      __experimentalRole: 'content'
+    },
+    title: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'title',
+      __experimentalRole: 'content'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'href',
+      __experimentalRole: 'content'
+    },
+    rel: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'rel'
+    },
+    linkClass: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'class'
+    },
+    id: {
+      type: 'number',
+      __experimentalRole: 'content'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    },
+    aspectRatio: {
+      type: 'string'
+    },
+    scale: {
+      type: 'string'
+    },
+    sizeSlug: {
+      type: 'string'
+    },
+    linkDestination: {
+      type: 'string'
+    },
+    linkTarget: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'target'
+    }
+  },
+  supports: {
+    anchor: true,
+    behaviors: {
+      lightbox: true
+    },
+    color: {
+      text: false,
+      background: false
+    },
+    filter: {
+      duotone: true
+    },
+    __experimentalBorder: {
+      color: true,
+      radius: true,
+      width: true,
+      __experimentalSkipSerialization: true,
+      __experimentalDefaultControls: {
+        color: true,
+        radius: true,
+        width: true
+      }
+    }
+  },
+
+  migrate({
+    width,
+    height,
+    ...attributes
+  }) {
+    return { ...attributes,
+      width: `${width}px`,
+      height: `${height}px`
+    };
+  },
+
+  save({
+    attributes
+  }) {
+    const {
+      url,
+      alt,
+      caption,
+      align,
+      href,
+      rel,
+      linkClass,
+      width,
+      height,
+      aspectRatio,
+      scale,
+      id,
+      linkTarget,
+      sizeSlug,
+      title
+    } = attributes;
+    const newRel = !rel ? undefined : rel;
+    const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetBorderClassesAndStyles)(attributes);
+    const classes = classnames_default()({
+      [`align${align}`]: align,
+      [`size-${sizeSlug}`]: sizeSlug,
+      'is-resized': width || height,
+      'has-custom-border': !!borderProps.className || borderProps.style && Object.keys(borderProps.style).length > 0
+    });
+    const imageClasses = classnames_default()(borderProps.className, {
+      [`wp-image-${id}`]: !!id
+    });
+    const image = (0,external_wp_element_namespaceObject.createElement)("img", {
+      src: url,
+      alt: alt,
+      className: imageClasses || undefined,
+      style: { ...borderProps.style,
+        aspectRatio,
+        objectFit: scale,
+        width,
+        height
+      },
+      width: width,
+      height: height,
+      title: title
+    });
+    const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      className: linkClass,
+      href: href,
+      target: linkTarget,
+      rel: newRel
+    }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      className: (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)('caption'),
+      tagName: "figcaption",
+      value: caption
+    }));
+    return (0,external_wp_element_namespaceObject.createElement)("figure", { ...external_wp_blockEditor_namespaceObject.useBlockProps.save({
+        className: classes
+      })
+    }, figure);
+  }
+
+};
+/* harmony default export */ const image_deprecated = ([image_deprecated_v7, image_deprecated_v6, image_deprecated_v5, image_deprecated_v4, image_deprecated_v3, image_deprecated_v2, image_deprecated_v1]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/crop.js
 
@@ -24032,7 +24219,10 @@ function image_Image({
     scale,
     linkTarget,
     sizeSlug
-  } = attributes;
+  } = attributes; // The only supported unit is px, so we can parseInt to strip the px here.
+
+  const numericWidth = width ? parseInt(width, 10) : undefined;
+  const numericHeight = height ? parseInt(height, 10) : undefined;
   const imageRef = (0,external_wp_element_namespaceObject.useRef)();
   const prevCaption = (0,external_wp_compose_namespaceObject.usePrevious)(caption);
   const [showCaption, setShowCaption] = (0,external_wp_element_namespaceObject.useState)(!!caption);
@@ -24237,7 +24427,9 @@ function image_Image({
   function updateAlignment(nextAlign) {
     const extraUpdatedAttributes = ['wide', 'full'].includes(nextAlign) ? {
       width: undefined,
-      height: undefined
+      height: undefined,
+      aspectRatio: undefined,
+      scale: undefined
     } : {};
     setAttributes({ ...extraUpdatedAttributes,
       align: nextAlign
@@ -24338,10 +24530,10 @@ function image_Image({
       href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
     }, (0,external_wp_i18n_namespaceObject.__)('Describe the purpose of the image.')), (0,external_wp_element_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Leave empty if decorative.')),
     __nextHasNoMarginBottom: true
-  })), (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
+  })), isResizable && (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
     value: {
-      width: width && `${width}px`,
-      height: height && `${height}px`,
+      width,
+      height,
       scale,
       aspectRatio
     },
@@ -24350,8 +24542,8 @@ function image_Image({
       // for values that are removed since setAttributes
       // doesn't do anything with keys that aren't set.
       setAttributes({
-        width: newValue.width && parseInt(newValue.width, 10),
-        height: newValue.height && parseInt(newValue.height, 10),
+        width: newValue.width,
+        height: newValue.height,
         scale: newValue.scale,
         aspectRatio: newValue.aspectRatio
       });
@@ -24423,8 +24615,8 @@ function image_Image({
     img = (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalImageEditor, {
       id: id,
       url: url,
-      width: width,
-      height: height,
+      width: numericWidth,
+      height: numericHeight,
       clientWidth: fallbackClientWidth,
       naturalHeight: naturalHeight,
       naturalWidth: naturalWidth,
@@ -24443,9 +24635,11 @@ function image_Image({
       }
     }, img);
   } else {
-    const ratio = aspectRatio && evalAspectRatio(aspectRatio) || width && height && width / height || naturalWidth / naturalHeight || 1;
-    const currentWidth = !width && height ? height * ratio : width;
-    const currentHeight = !height && width ? width / ratio : height;
+    const numericRatio = aspectRatio && evalAspectRatio(aspectRatio);
+    const customRatio = numericWidth / numericHeight;
+    const ratio = numericRatio || customRatio || naturalWidth / naturalHeight || 1;
+    const currentWidth = !numericWidth && numericHeight ? numericHeight * ratio : numericWidth;
+    const currentHeight = !numericHeight && numericWidth ? numericWidth / ratio : numericHeight;
     const minWidth = naturalWidth < naturalHeight ? constants_MIN_SIZE : constants_MIN_SIZE * ratio;
     const minHeight = naturalHeight < naturalWidth ? constants_MIN_SIZE : constants_MIN_SIZE / ratio; // With the current implementation of ResizableBox, an image needs an
     // explicit pixel value for the max-width. In absence of being able to
@@ -24512,11 +24706,15 @@ function image_Image({
       },
       onResizeStart: onResizeStart,
       onResizeStop: (event, direction, elt) => {
-        onResizeStop();
+        onResizeStop(); // Since the aspect ratio is locked when resizing, we can
+        // use the width of the resized element to calculate the
+        // height in CSS to prevent stretching when the max-width
+        // is reached.
+
         setAttributes({
-          width: elt.offsetWidth,
-          height: elt.offsetHeight,
-          aspectRatio: undefined
+          width: `${elt.offsetWidth}px`,
+          height: 'auto',
+          aspectRatio: `${ratio}`
         });
       },
       resizeRatio: align === 'center' ? 2 : 1
@@ -24948,8 +25146,6 @@ function image_save_save({
       width,
       height
     },
-    width: width,
-    height: height,
     title: title
   });
   const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
@@ -25243,10 +25439,10 @@ const image_metadata = {
       __experimentalRole: "content"
     },
     width: {
-      type: "number"
+      type: "string"
     },
     height: {
-      type: "number"
+      type: "string"
     },
     aspectRatio: {
       type: "string"
@@ -58513,8 +58709,19 @@ function FootnotesEdit({
   }, footnotes.map(({
     id,
     content
-  }) => (0,external_wp_element_namespaceObject.createElement)("li", {
-    key: id
+  }) =>
+  /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */
+  (0,external_wp_element_namespaceObject.createElement)("li", {
+    key: id,
+    onMouseDown: event => {
+      // When clicking on the list item (not on descendants),
+      // focus the rich text element since it's only 1px wide when
+      // empty.
+      if (event.target === event.currentTarget) {
+        event.target.firstElementChild.focus();
+        event.preventDefault();
+      }
+    }
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
     id: id,
     tagName: "span",
@@ -58682,6 +58889,7 @@ const format = {
   attributes: {
     'data-fn': 'data-fn'
   },
+  interactive: true,
   contentEditable: false,
   [usesContextKey]: ['postType'],
   edit: function Edit({

@@ -217,6 +217,11 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   overflow:auto;
   z-index:20;
 }
+@media (min-width:782px){
+  .interface-interface-skeleton__content{
+    z-index:auto;
+  }
+}
 
 .interface-interface-skeleton__secondary-sidebar,.interface-interface-skeleton__sidebar{
   background:#fff;

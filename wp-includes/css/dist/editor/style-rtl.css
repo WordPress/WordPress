@@ -529,6 +529,7 @@
 }
 
 .edit-post-sync-status{
+  align-items:flex-start;
   justify-content:flex-start;
   position:relative;
   width:100%;
@@ -536,10 +537,12 @@
 .edit-post-sync-status>span{
   display:block;
   flex-shrink:0;
+  padding:6px 0;
   width:45%;
+  word-break:break-word;
 }
 .edit-post-sync-status>div{
-  padding-right:12px;
+  padding:6px 12px 6px 0;
 }
 
 .editor-post-taxonomies__hierarchical-terms-list{
