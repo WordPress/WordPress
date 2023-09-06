@@ -1556,7 +1556,7 @@ final class WP_Theme implements ArrayAccess {
 
 		if ( empty( $file ) ) {
 			$path = $stylesheet_directory;
-		} elseif ( file_exists( $stylesheet_directory . '/' . $file ) ) {
+		} elseif ( $stylesheet_directory !== $template_directory && file_exists( $stylesheet_directory . '/' . $file ) ) {
 			$path = $stylesheet_directory . '/' . $file;
 		} else {
 			$path = $template_directory . '/' . $file;
