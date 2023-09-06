@@ -532,6 +532,9 @@ add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
 add_action( 'transition_post_status', '_wp_keep_alive_customize_changeset_dependent_auto_drafts', 20, 3 );
 
+// Block Theme Previews.
+add_action( 'plugins_loaded', 'initialize_theme_preview_hooks', 1 );
+
 // Calendar widget cache.
 add_action( 'save_post', 'delete_get_calendar_cache' );
 add_action( 'delete_post', 'delete_get_calendar_cache' );
