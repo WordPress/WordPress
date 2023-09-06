@@ -150,8 +150,8 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	 * Determine if the block script was registered in a theme, by checking if the script path starts with either
 	 * the parent (template) or child (stylesheet) directory path.
 	 */
-	$is_parent_theme_block = str_starts_with( $script_path_norm, $template_path_norm );
-	$is_child_theme_block  = str_starts_with( $script_path_norm, $stylesheet_path_norm );
+	$is_parent_theme_block = str_starts_with( $script_path_norm, trailingslashit( $template_path_norm ) );
+	$is_child_theme_block  = str_starts_with( $script_path_norm, trailingslashit( $stylesheet_path_norm ) );
 	$is_theme_block        = ( $is_parent_theme_block || $is_child_theme_block );
 
 	$script_uri = '';
@@ -270,8 +270,8 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 
 		// Determine if the block style was registered in a theme, by checking if the script path starts with either
 		// the parent (template) or child (stylesheet) directory path.
-		$is_parent_theme_block = str_starts_with( $style_path_norm, $template_path_norm );
-		$is_child_theme_block  = str_starts_with( $style_path_norm, $stylesheet_path_norm );
+		$is_parent_theme_block = str_starts_with( $style_path_norm, trailingslashit( $template_path_norm ) );
+		$is_child_theme_block  = str_starts_with( $style_path_norm, trailingslashit( $stylesheet_path_norm ) );
 		$is_theme_block        = ( $is_parent_theme_block || $is_child_theme_block );
 
 		if ( $is_core_block ) {
