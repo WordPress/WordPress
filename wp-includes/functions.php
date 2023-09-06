@@ -8600,7 +8600,8 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 
 	// Only write the transient on the top level call and not on recursive calls.
 	if ( $save_cache ) {
-		set_transient( 'dirsize_cache', $directory_cache );
+		$expiration = ( wp_using_ext_object_cache() ) ? 0 : 10 * YEAR_IN_SECONDS;
+		set_transient( 'dirsize_cache', $directory_cache, $expiration );
 	}
 
 	return $size;
@@ -8635,12 +8636,13 @@ function clean_dirsize_cache( $path ) {
 		return;
 	}
 
+	$expiration = ( wp_using_ext_object_cache() ) ? 0 : 10 * YEAR_IN_SECONDS;
 	if (
 		! str_contains( $path, '/' ) &&
 		! str_contains( $path, '\\' )
 	) {
 		unset( $directory_cache[ $path ] );
-		set_transient( 'dirsize_cache', $directory_cache );
+		set_transient( 'dirsize_cache', $directory_cache, $expiration );
 		return;
 	}
 
@@ -8659,7 +8661,7 @@ function clean_dirsize_cache( $path ) {
 		unset( $directory_cache[ $path ] );
 	}
 
-	set_transient( 'dirsize_cache', $directory_cache );
+	set_transient( 'dirsize_cache', $directory_cache, $expiration );
 }
 
 /**
