@@ -1931,9 +1931,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `name` - General name for the post type, usually plural. The same and overridden
  *          by `$post_type_object->label`. Default is 'Posts' / 'Pages'.
  * - `singular_name` - Name for one object of this post type. Default is 'Post' / 'Page'.
- * - `add_new` - Default is 'Add New Type' for both hierarchical and non-hierarchical types.
- *             When internationalizing this string, please use a {@link https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#disambiguation-by-context gettext context}
- *             matching your post type. Example: `__( 'Add New Product', 'textdomain' );`.
+ * - `add_new` - Label for adding a new item. Default is 'Add New Post' / 'Add New Page'.
  * - `add_new_item` - Label for adding a new singular item. Default is 'Add New Post' / 'Add New Page'.
  * - `edit_item` - Label for editing a singular item. Default is 'Edit Post' / 'Edit Page'.
  * - `new_item` - Label for the new item page title. Default is 'New Post' / 'New Page'.
@@ -1992,6 +1990,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 5.7.0 Added the `filter_by_date` label.
  * @since 5.8.0 Added the `item_link` and `item_link_description` labels.
  * @since 6.3.0 Added the `item_trashed` label.
+ * @since 6.4.0 Changed default values for the `add_new` label to include the type of content.
+ *              This matches `add_new_item` and provides more context for better accessibility.
  *
  * @access private
  *
