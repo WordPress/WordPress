@@ -116,4 +116,3 @@ if ( 'type' === $tab || 'type_url' === $tab || ! array_key_exists( $tab, media_u
 	 */
 	do_action( "media_upload_{$tab}" );
 }
-

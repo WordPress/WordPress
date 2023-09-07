@@ -654,4 +654,3 @@ abstract class WP_Image_Editor {
 		return wp_get_default_extension_for_mime_type( $mime_type );
 	}
 }
-

@@ -359,4 +359,3 @@ if ( ! class_exists( 'POMO_CachedIntFileReader', false ) ) :
 		}
 	}
 endif;
-
