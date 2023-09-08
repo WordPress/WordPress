@@ -4829,7 +4829,6 @@ function smilies_init() {
 	}
 
 	$wp_smiliessearch .= ')(?=' . $spaces . '|$)/m';
-
 }
 
 /**
@@ -5609,7 +5608,6 @@ function _deprecated_constructor( $class_name, $version, $parent_class = '' ) {
 			}
 		}
 	}
-
 }
 
 /**

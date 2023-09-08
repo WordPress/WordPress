@@ -919,7 +919,6 @@ class WP_Http {
 		} else {
 			return ! in_array( $check['host'], $accessible_hosts, true ); // Inverse logic, if it's in the array, then don't block it.
 		}
-
 	}
 
 	/**

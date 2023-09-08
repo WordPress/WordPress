@@ -2622,7 +2622,6 @@ function the_modified_date( $format = '', $before = '', $after = '', $display = 
 	} else {
 		return $the_modified_date;
 	}
-
 }
 
 /**
@@ -4810,7 +4809,6 @@ function register_admin_color_schemes() {
 			'current' => '#fff',
 		)
 	);
-
 }
 
 /**

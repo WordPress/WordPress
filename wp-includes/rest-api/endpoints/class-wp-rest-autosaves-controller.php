@@ -131,7 +131,6 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-
 	}
 
 	/**

@@ -207,7 +207,6 @@ function twentynineteen_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
-
 }
 add_action( 'widgets_init', 'twentynineteen_widgets_init' );
 

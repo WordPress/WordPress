@@ -42,7 +42,6 @@ if ( ! function_exists( 'twentytwenty_generate_css' ) ) {
 		}
 
 		return $return;
-
 	}
 }
 
@@ -190,6 +189,5 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 
 		// Return the results.
 		return ob_get_clean();
-
 	}
 }

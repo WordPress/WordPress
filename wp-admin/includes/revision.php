@@ -161,7 +161,6 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 	 * @param WP_Post $compare_to   The revision post to compare to.
 	 */
 	return apply_filters( 'wp_get_revision_ui_diff', $return, $compare_from, $compare_to );
-
 }
 
 /**

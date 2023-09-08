@@ -62,7 +62,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 				'get_url'  => 'get_header_image',
 			)
 		);
-
 	}
 
 	/**

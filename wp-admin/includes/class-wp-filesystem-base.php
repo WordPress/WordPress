@@ -333,7 +333,6 @@ class WP_Filesystem_Base {
 		 * This comes into effect when the CWD is /home/user/ but WP is at /var/www/....
 		 */
 		return $this->search_for_folder( $folder, '/', true );
-
 	}
 
 	/**

@@ -995,7 +995,6 @@ function upgrade_110() {
 		$wpdb->query( "UPDATE $wpdb->comments SET comment_date_gmt = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)" );
 		$wpdb->query( "UPDATE $wpdb->users SET user_registered = DATE_ADD(user_registered, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)" );
 	}
-
 }
 
 /**
@@ -1545,7 +1544,6 @@ function upgrade_250() {
 	if ( $wp_current_db_version < 6689 ) {
 		populate_roles_250();
 	}
-
 }
 
 /**
@@ -1704,7 +1702,6 @@ function upgrade_300() {
 			)
 		);
 	}
-
 }
 
 /**

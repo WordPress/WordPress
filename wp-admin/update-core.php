@@ -191,7 +191,6 @@ function list_core_update( $update ) {
 	}
 
 	echo '</form>';
-
 }
 
 /**

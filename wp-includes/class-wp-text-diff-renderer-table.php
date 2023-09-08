@@ -118,7 +118,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			/* translators: Hidden accessibility text. */
 			__( 'Added:' ) .
 		" </span>{$line}</td>";
-
 	}
 
 	/**

@@ -131,7 +131,6 @@ if ( ! class_exists( 'TwentyTwenty_Non_Latin_Languages' ) ) {
 
 			// Return the specified styles.
 			return twentytwenty_generate_css( implode( ',', $elements[ $type ] ), 'font-family', implode( ',', $font_family[ $locale ] ), null, null, false );
-
 		}
 	}
 }

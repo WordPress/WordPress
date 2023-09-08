@@ -128,7 +128,6 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-
 	}
 
 	/**

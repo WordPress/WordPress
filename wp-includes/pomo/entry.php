@@ -111,7 +111,6 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 			if ( $this->extracted_comments !== $other->extracted_comments ) {
 				$this->extracted_comments .= $other->extracted_comments;
 			}
-
 		}
 	}
 endif;

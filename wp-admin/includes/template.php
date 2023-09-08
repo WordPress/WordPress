@@ -1451,7 +1451,6 @@ function do_meta_boxes( $screen, $context, $data_object ) {
 	echo '</div>';
 
 	return $i;
-
 }
 
 /**

@@ -1397,7 +1397,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 * @param WP_REST_Request $request       Request object.
 		 */
 		return apply_filters( "rest_pre_insert_{$this->post_type}", $prepared_post, $request );
-
 	}
 
 	/**
@@ -1496,7 +1495,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		} else {
 			return delete_post_thumbnail( $post_id );
 		}
-
 	}
 
 	/**

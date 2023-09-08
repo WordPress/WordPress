@@ -63,7 +63,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( empty( $post_type ) || ! in_array( $post_type, get_post_types( array( 'show_ui' => true ) ), true ) ) {
 			$post_type = 'post';
 		}
-
 	}
 
 	/**

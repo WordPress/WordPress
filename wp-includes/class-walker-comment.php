@@ -150,7 +150,6 @@ class Walker_Comment extends Walker {
 
 			unset( $children_elements[ $id ] );
 		}
-
 	}
 
 	/**

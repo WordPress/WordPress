@@ -1320,7 +1320,6 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 	} elseif ( is_wp_error( $menu ) ) {
 		return $menu;
 	}
-
 }
 
 /**
