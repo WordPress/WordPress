@@ -490,5 +490,4 @@ class WP_Dependencies {
 
 		return true;
 	}
-
 }

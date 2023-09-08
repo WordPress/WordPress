@@ -1102,5 +1102,4 @@ class WP_Http {
 
 		return false;
 	}
-
 }

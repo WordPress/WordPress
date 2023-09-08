@@ -564,5 +564,4 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	public function rewind() {
 		reset( $this->callbacks );
 	}
-
 }

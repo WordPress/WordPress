@@ -463,7 +463,6 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 		public static function sanitize_checkbox( $checked ) {
 			return ( ( isset( $checked ) && true === $checked ) ? true : false );
 		}
-
 	}
 
 	// Setup the Theme Customizer settings and controls.

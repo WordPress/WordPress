@@ -241,5 +241,4 @@ class Walker_Page extends Walker {
 		}
 		$output .= "</li>{$n}";
 	}
-
 }

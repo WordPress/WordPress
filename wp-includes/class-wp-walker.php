@@ -446,5 +446,4 @@ class Walker {
 
 		unset( $children_elements[ $id ] );
 	}
-
 }

@@ -203,5 +203,4 @@ class WP_Widget_Categories extends WP_Widget {
 		</p>
 		<?php
 	}
-
 }

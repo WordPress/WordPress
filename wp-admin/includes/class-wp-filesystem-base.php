@@ -862,5 +862,4 @@ class WP_Filesystem_Base {
 	public function dirlist( $path, $include_hidden = true, $recursive = false ) {
 		return false;
 	}
-
 }

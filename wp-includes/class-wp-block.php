@@ -309,5 +309,4 @@ class WP_Block {
 
 		return $block_content;
 	}
-
 }

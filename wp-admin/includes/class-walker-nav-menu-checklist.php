@@ -123,5 +123,4 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="' . esc_attr( implode( ' ', $menu_item->classes ) ) . '" />';
 		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="' . esc_attr( $menu_item->xfn ) . '" />';
 	}
-
 }

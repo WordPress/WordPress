@@ -100,5 +100,4 @@ class WP_Role {
 			return false;
 		}
 	}
-
 }

@@ -3633,5 +3633,4 @@ class WP_Site_Health {
 		 */
 		return apply_filters( 'site_status_available_object_cache_services', $services );
 	}
-
 }

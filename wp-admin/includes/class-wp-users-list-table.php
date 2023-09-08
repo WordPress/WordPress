@@ -680,5 +680,4 @@ class WP_Users_List_Table extends WP_List_Table {
 		 */
 		return apply_filters( 'get_role_list', $role_list, $user_object );
 	}
-
 }

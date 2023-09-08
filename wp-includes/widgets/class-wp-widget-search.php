@@ -91,5 +91,4 @@ class WP_Widget_Search extends WP_Widget {
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		return $instance;
 	}
-
 }

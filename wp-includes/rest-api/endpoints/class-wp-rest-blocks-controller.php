@@ -97,5 +97,4 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 
 		return $this->add_additional_fields_schema( $this->schema );
 	}
-
 }

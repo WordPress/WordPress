@@ -369,5 +369,4 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
 			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 		);
 	}
-
 }
