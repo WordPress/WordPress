@@ -3399,7 +3399,7 @@ class WP_Theme_JSON {
 			}
 
 			if ( $below_midpoint_count < $steps_mid_point - 2 ) {
-				$x_small_count++;
+				++$x_small_count;
 			}
 
 			$slug -= 10;
@@ -3436,7 +3436,7 @@ class WP_Theme_JSON {
 			}
 
 			if ( $above_midpoint_count > 1 ) {
-				$x_large_count++;
+				++$x_large_count;
 			}
 
 			$slug += 10;

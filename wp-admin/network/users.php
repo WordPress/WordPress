@@ -184,7 +184,7 @@ if ( isset( $_GET['action'] ) ) {
 						continue;
 					}
 					wpmu_delete_user( $id );
-					$i++;
+					++$i;
 				}
 			}
 

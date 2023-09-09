@@ -1292,7 +1292,7 @@ function upgrade_230() {
 			$num        = 2;
 			do {
 				$alt_slug = $slug . "-$num";
-				$num++;
+				++$num;
 				$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
 			} while ( $slug_check );
 

@@ -238,7 +238,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				$destination .= '/themes';
 			}
 
-			$this->update_current++;
+			++$this->update_current;
 
 			$options = array(
 				'package'                     => $language_update->package,

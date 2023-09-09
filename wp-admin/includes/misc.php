@@ -403,7 +403,7 @@ function wp_print_theme_file_tree( $tree, $level = 2, $size = 1, $index = 1 ) {
 		$size  = count( $tree );
 
 		foreach ( $tree as $label => $theme_file ) :
-			$index++;
+			++$index;
 
 			if ( ! is_array( $theme_file ) ) {
 				wp_print_theme_file_tree( $theme_file, $level, $index, $size );
@@ -505,7 +505,7 @@ function wp_print_plugin_file_tree( $tree, $label = '', $level = 2, $size = 1, $
 		$size  = count( $tree );
 
 		foreach ( $tree as $label => $plugin_file ) :
-			$index++;
+			++$index;
 
 			if ( ! is_array( $plugin_file ) ) {
 				wp_print_plugin_file_tree( $plugin_file, $label, $level, $index, $size );

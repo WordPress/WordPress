@@ -979,7 +979,7 @@ function wp_save_image( $post_id ) {
 			$new_path     = "{$dirname}/$new_filename";
 
 			if ( file_exists( $new_path ) ) {
-				$suffix++;
+				++$suffix;
 			} else {
 				break;
 			}

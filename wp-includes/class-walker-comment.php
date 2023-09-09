@@ -174,7 +174,7 @@ class Walker_Comment extends Walker {
 		// Restores the more descriptive, specific name for use within this method.
 		$comment = $data_object;
 
-		$depth++;
+		++$depth;
 		$GLOBALS['comment_depth'] = $depth;
 		$GLOBALS['comment']       = $comment;
 

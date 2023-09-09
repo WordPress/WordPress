@@ -89,7 +89,7 @@ function twentyseventeen_panel_count() {
 	// Create a setting and control for each of the sections available in the theme.
 	for ( $i = 1; $i < ( 1 + $num_sections ); $i++ ) {
 		if ( get_theme_mod( 'panel_' . $i ) ) {
-			$panel_count++;
+			++$panel_count;
 		}
 	}
 

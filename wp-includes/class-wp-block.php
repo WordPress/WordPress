@@ -244,7 +244,7 @@ class WP_Block {
 						$block_content .= $inner_block->render();
 					}
 
-					$index++;
+					++$index;
 				}
 			}
 		}

@@ -1316,11 +1316,11 @@ function count_users( $strategy = 'time', $site_id = null ) {
 				continue;
 			}
 			if ( empty( $b_roles ) ) {
-				$avail_roles['none']++;
+				++$avail_roles['none'];
 			}
 			foreach ( $b_roles as $b_role => $val ) {
 				if ( isset( $avail_roles[ $b_role ] ) ) {
-					$avail_roles[ $b_role ]++;
+					++$avail_roles[ $b_role ];
 				} else {
 					$avail_roles[ $b_role ] = 1;
 				}
@@ -2177,7 +2177,7 @@ function wp_insert_user( $userdata ) {
 			$base_length         = 49 - mb_strlen( $suffix );
 			$alt_user_nicename   = mb_substr( $user_nicename, 0, $base_length ) . "-$suffix";
 			$user_nicename_check = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1", $alt_user_nicename, $user_login ) );
-			$suffix++;
+			++$suffix;
 		}
 		$user_nicename = $alt_user_nicename;
 	}

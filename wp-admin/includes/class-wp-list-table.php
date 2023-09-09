@@ -1410,7 +1410,7 @@ class WP_List_Table {
 				'</span>' .
 				'</label>' .
 				'<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />';
-			$cb_counter++;
+			++$cb_counter;
 		}
 
 		foreach ( $columns as $column_key => $column_display_name ) {

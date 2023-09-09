@@ -317,7 +317,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 		unset( $this->iterations[ $nesting_level ] );
 		unset( $this->current_priority[ $nesting_level ] );
 
-		$this->nesting_level--;
+		--$this->nesting_level;
 
 		return $value;
 	}
@@ -359,7 +359,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 		} while ( false !== next( $this->iterations[ $nesting_level ] ) );
 
 		unset( $this->iterations[ $nesting_level ] );
-		$this->nesting_level--;
+		--$this->nesting_level;
 	}
 
 	/**

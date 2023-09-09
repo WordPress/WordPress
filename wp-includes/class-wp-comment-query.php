@@ -1079,7 +1079,7 @@ class WP_Comment_Query {
 				wp_cache_set_multiple( $data, 'comment-queries' );
 			}
 
-			$level++;
+			++$level;
 			$levels[ $level ] = $child_ids;
 		} while ( $child_ids );
 

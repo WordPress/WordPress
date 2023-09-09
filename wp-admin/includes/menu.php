@@ -228,7 +228,7 @@ function add_menu_classes( $menu ) {
 	$i = 0;
 
 	foreach ( $menu as $order => $top ) {
-		$i++;
+		++$i;
 
 		if ( 0 === $order ) { // Dashboard is always shown/single.
 			$menu[0][4] = add_cssclass( 'menu-top-first', $top[4] );

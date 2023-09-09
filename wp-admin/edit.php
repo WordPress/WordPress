@@ -124,7 +124,7 @@ if ( $doaction ) {
 				}
 
 				if ( wp_check_post_lock( $post_id ) ) {
-					$locked++;
+					++$locked;
 					continue;
 				}
 
@@ -132,7 +132,7 @@ if ( $doaction ) {
 					wp_die( __( 'Error in moving the item to Trash.' ) );
 				}
 
-				$trashed++;
+				++$trashed;
 			}
 
 			$sendback = add_query_arg(
@@ -160,7 +160,7 @@ if ( $doaction ) {
 					wp_die( __( 'Error in restoring the item from Trash.' ) );
 				}
 
-				$untrashed++;
+				++$untrashed;
 			}
 			$sendback = add_query_arg( 'untrashed', $untrashed, $sendback );
 
@@ -185,7 +185,7 @@ if ( $doaction ) {
 						wp_die( __( 'Error in deleting the item.' ) );
 					}
 				}
-				$deleted++;
+				++$deleted;
 			}
 			$sendback = add_query_arg( 'deleted', $deleted, $sendback );
 			break;

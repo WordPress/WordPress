@@ -161,7 +161,7 @@ foreach ( array_merge( $builtin, $types ) as $ptype ) {
 	 */
 	$core_menu_positions = array( 59, 60, 65, 70, 75, 80, 85, 99 );
 	while ( isset( $menu[ $ptype_menu_position ] ) || in_array( $ptype_menu_position, $core_menu_positions, true ) ) {
-		$ptype_menu_position++;
+		++$ptype_menu_position;
 	}
 
 	$menu[ $ptype_menu_position ] = array( esc_attr( $ptype_obj->labels->menu_name ), $ptype_obj->cap->edit_posts, $ptype_file, '', $menu_class, $ptype_menu_id, $menu_icon );

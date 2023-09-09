@@ -45,7 +45,7 @@ switch ( $action ) {
 			$link_id = (int) $link_id;
 
 			if ( wp_delete_link( $link_id ) ) {
-				$deleted++;
+				++$deleted;
 			}
 		}
 

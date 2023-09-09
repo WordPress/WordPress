@@ -1077,7 +1077,7 @@ final class WP_Customize_Manager {
 				continue;
 			}
 			if ( update_post_meta( $autosave_autodraft_post->ID, '_customize_restore_dismissed', true ) ) {
-				$dismissed++;
+				++$dismissed;
 			}
 		}
 		return $dismissed;
@@ -1479,7 +1479,7 @@ final class WP_Customize_Manager {
 
 			if ( ! $nav_menu_term_id ) {
 				while ( isset( $changeset_data[ sprintf( 'nav_menu[%d]', $placeholder_id ) ] ) ) {
-					$placeholder_id--;
+					--$placeholder_id;
 				}
 				$nav_menu_term_id    = $placeholder_id;
 				$nav_menu_setting_id = sprintf( 'nav_menu[%d]', $placeholder_id );

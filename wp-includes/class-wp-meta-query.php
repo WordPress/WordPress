@@ -633,7 +633,7 @@ class WP_Meta_Query {
 		$clause_key_base = $clause_key;
 		while ( isset( $this->clauses[ $clause_key ] ) ) {
 			$clause_key = $clause_key_base . '-' . $iterator;
-			$iterator++;
+			++$iterator;
 		}
 
 		// Store the clause in our flat array.

@@ -476,7 +476,7 @@ function wpautop( $text, $br = true ) {
 			$pre_tags[ $name ] = substr( $text_part, $start ) . '</pre>';
 
 			$text .= substr( $text_part, 0, $start ) . $name;
-			$i++;
+			++$i;
 		}
 
 		$text .= $last_part;
@@ -2657,14 +2657,14 @@ function force_balance_tags( $text ) {
 			} elseif ( $tagstack[ $stacksize - 1 ] === $tag ) { // Found closing tag.
 				$tag = '</' . $tag . '>'; // Close tag.
 				array_pop( $tagstack );
-				$stacksize--;
+				--$stacksize;
 			} else { // Closing tag not at top, search for it.
 				for ( $j = $stacksize - 1; $j >= 0; $j-- ) {
 					if ( $tagstack[ $j ] === $tag ) {
 						// Add tag to tagqueue.
 						for ( $k = $stacksize - 1; $k >= $j; $k-- ) {
 							$tagqueue .= '</' . array_pop( $tagstack ) . '>';
-							$stacksize--;
+							--$stacksize;
 						}
 						break;
 					}
@@ -2692,7 +2692,7 @@ function force_balance_tags( $text ) {
 				 */
 				if ( $stacksize > 0 && ! in_array( $tag, $nestable_tags, true ) && $tagstack[ $stacksize - 1 ] === $tag ) {
 					$tagqueue = '</' . array_pop( $tagstack ) . '>';
-					$stacksize--;
+					--$stacksize;
 				}
 				$stacksize = array_push( $tagstack, $tag );
 			}
@@ -3083,7 +3083,7 @@ function make_clickable( $text ) {
 			|| preg_match( '|^<script[\s>]|i', $piece )
 			|| preg_match( '|^<style[\s>]|i', $piece )
 		) {
-			$nested_code_pre++;
+			++$nested_code_pre;
 		} elseif ( $nested_code_pre
 			&& ( '</code>' === strtolower( $piece )
 				|| '</pre>' === strtolower( $piece )
@@ -3091,7 +3091,7 @@ function make_clickable( $text ) {
 				|| '</style>' === strtolower( $piece )
 			)
 		) {
-			$nested_code_pre--;
+			--$nested_code_pre;
 		}
 
 		if ( $nested_code_pre
@@ -5354,7 +5354,7 @@ function wp_sprintf_l( $pattern, $args ) {
 	$i = count( $args );
 	while ( $i ) {
 		$arg = array_shift( $args );
-		$i--;
+		--$i;
 		if ( 0 === $i ) {
 			$result .= $l['between_last_two'] . $arg;
 		} else {

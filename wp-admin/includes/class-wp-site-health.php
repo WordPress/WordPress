@@ -381,14 +381,14 @@ class WP_Site_Health {
 
 		// Loop over the available plugins and check their versions and active state.
 		foreach ( $plugins as $plugin_path => $plugin ) {
-			$plugins_total++;
+			++$plugins_total;
 
 			if ( is_plugin_active( $plugin_path ) ) {
-				$plugins_active++;
+				++$plugins_active;
 			}
 
 			if ( array_key_exists( $plugin_path, $plugin_updates ) ) {
-				$plugins_need_update++;
+				++$plugins_need_update;
 			}
 		}
 
@@ -543,21 +543,21 @@ class WP_Site_Health {
 		}
 
 		foreach ( $all_themes as $theme_slug => $theme ) {
-			$themes_total++;
+			++$themes_total;
 
 			if ( array_key_exists( $theme_slug, $theme_updates ) ) {
-				$themes_need_updates++;
+				++$themes_need_updates;
 			}
 		}
 
 		// If this is a child theme, increase the allowed theme count by one, to account for the parent.
 		if ( is_child_theme() ) {
-			$allowed_theme_count++;
+			++$allowed_theme_count;
 		}
 
 		// If there's a default theme installed and not in use, we count that as allowed as well.
 		if ( $has_default_theme && ! $using_default_theme ) {
-			$allowed_theme_count++;
+			++$allowed_theme_count;
 		}
 
 		if ( $themes_total > $allowed_theme_count ) {
@@ -3293,11 +3293,11 @@ class WP_Site_Health {
 
 		foreach ( $results as $result ) {
 			if ( 'critical' === $result['status'] ) {
-				$site_status['critical']++;
+				++$site_status['critical'];
 			} elseif ( 'recommended' === $result['status'] ) {
-				$site_status['recommended']++;
+				++$site_status['recommended'];
 			} else {
-				$site_status['good']++;
+				++$site_status['good'];
 			}
 		}
 

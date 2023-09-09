@@ -310,7 +310,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 			} else {
 				$j = count( $sidebars_widgets[ $sbname ] );
 				if ( isset( $_GET['addnew'] ) || ! in_array( $widget_id, $sidebars_widgets[ $sbname ], true ) ) {
-					$j++;
+					++$j;
 				}
 			}
 			$selected = '';
@@ -540,7 +540,7 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 	</div>
 	<?php
 
-	$i++;
+	++$i;
 }
 
 ?>

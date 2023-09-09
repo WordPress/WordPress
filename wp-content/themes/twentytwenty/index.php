@@ -84,7 +84,7 @@ get_header();
 		$i = 0;
 
 		while ( have_posts() ) {
-			$i++;
+			++$i;
 			if ( $i > 1 ) {
 				echo '<hr class="post-separator styled-separator is-style-wide section-inner" aria-hidden="true" />';
 			}

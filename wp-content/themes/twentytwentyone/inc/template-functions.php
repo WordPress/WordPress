@@ -384,7 +384,7 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 
 		if ( $is_matching_block ) {
 			// Increment count.
-			$instances_count++;
+			++$instances_count;
 
 			// Add the block HTML.
 			$blocks_content .= render_block( $block );

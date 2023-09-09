@@ -877,7 +877,7 @@ function wp_uninitialize_site( $site_id ) {
 			}
 			@closedir( $dh );
 		}
-		$index++;
+		++$index;
 	}
 
 	$stack = array_reverse( $stack ); // Last added directories are deepest.

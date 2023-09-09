@@ -310,7 +310,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				while ( $my_parent = array_pop( $my_parents ) ) {
 					echo "\t";
 					$this->single_row( $my_parent, $level - $num_parents );
-					$num_parents--;
+					--$num_parents;
 				}
 			}
 

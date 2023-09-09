@@ -2552,7 +2552,7 @@ function gallery_shortcode( $attr ) {
 	$post = get_post();
 
 	static $instance = 0;
-	$instance++;
+	++$instance;
 
 	if ( ! empty( $attr['ids'] ) ) {
 		// 'ids' is explicitly ordered, unless you specify otherwise.
@@ -2899,7 +2899,7 @@ function wp_playlist_shortcode( $attr ) {
 	$post = get_post();
 
 	static $instance = 0;
-	$instance++;
+	++$instance;
 
 	if ( ! empty( $attr['ids'] ) ) {
 		// 'ids' is explicitly ordered, unless you specify otherwise.
@@ -3213,7 +3213,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	$post_id = get_post() ? get_the_ID() : 0;
 
 	static $instance = 0;
-	$instance++;
+	++$instance;
 
 	/**
 	 * Filters the default audio shortcode output.
@@ -3432,7 +3432,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	$post_id = get_post() ? get_the_ID() : 0;
 
 	static $instance = 0;
-	$instance++;
+	++$instance;
 
 	/**
 	 * Filters the default video shortcode output.

@@ -734,7 +734,7 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 
 	while ( $c < 10 && get_id_from_blogname( $post_name ) ) {
 		$post_name .= mt_rand( 1, 10 );
-		$c++;
+		++$c;
 	}
 
 	if ( $post_name !== $data['post_name'] ) {

@@ -549,7 +549,7 @@ function get_comment_class( $css_class = '', $comment_id = null, $post = null ) 
 		$classes[] = 'even';
 	}
 
-	$comment_alt++;
+	++$comment_alt;
 
 	// Alt for top-level comments.
 	if ( 1 == $comment_depth ) {
@@ -559,7 +559,7 @@ function get_comment_class( $css_class = '', $comment_id = null, $post = null ) 
 		} else {
 			$classes[] = 'thread-even';
 		}
-		$comment_thread_alt++;
+		++$comment_thread_alt;
 	}
 
 	$classes[] = "depth-$comment_depth";

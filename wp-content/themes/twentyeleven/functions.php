@@ -667,15 +667,15 @@ function twentyeleven_footer_sidebar_class() {
 	$count = 0;
 
 	if ( is_active_sidebar( 'sidebar-3' ) ) {
-		$count++;
+		++$count;
 	}
 
 	if ( is_active_sidebar( 'sidebar-4' ) ) {
-		$count++;
+		++$count;
 	}
 
 	if ( is_active_sidebar( 'sidebar-5' ) ) {
-		$count++;
+		++$count;
 	}
 
 	$class = '';

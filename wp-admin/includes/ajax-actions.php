@@ -2149,7 +2149,7 @@ function wp_ajax_inline_save() {
 		while ( $parent > 0 ) {
 			$parent_post = get_post( $parent );
 			$parent      = $parent_post->post_parent;
-			$level++;
+			++$level;
 		}
 	}
 
@@ -2211,7 +2211,7 @@ function wp_ajax_inline_save_tax() {
 	while ( $parent > 0 ) {
 		$parent_tag = get_term( $parent, $taxonomy );
 		$parent     = $parent_tag->parent;
-		$level++;
+		++$level;
 	}
 
 	$wp_list_table->single_row( $tag, $level );
@@ -2821,7 +2821,7 @@ function wp_ajax_set_attachment_thumbnail() {
 		}
 
 		if ( set_post_thumbnail( $post_id, $thumbnail_id ) ) {
-			$success++;
+			++$success;
 		}
 	}
 

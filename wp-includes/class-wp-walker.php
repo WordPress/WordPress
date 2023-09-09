@@ -325,7 +325,7 @@ class Walker {
 
 			$empty_array = array();
 			foreach ( $elements as $e ) {
-				$count++;
+				++$count;
 				if ( $count < $start ) {
 					continue;
 				}
@@ -372,7 +372,7 @@ class Walker {
 		}
 
 		foreach ( $top_level_elements as $e ) {
-			$count++;
+			++$count;
 
 			// For the last page, need to unset earlier children in order to keep track of orphans.
 			if ( $end >= $total_top && $count < $start ) {
@@ -416,7 +416,7 @@ class Walker {
 
 		foreach ( $elements as $e ) {
 			if ( empty( $e->$parent_field ) ) {
-				$num++;
+				++$num;
 			}
 		}
 		return $num;

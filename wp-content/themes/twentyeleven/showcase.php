@@ -88,7 +88,7 @@ get_header(); ?>
 							$featured->the_post();
 
 							// Increase the counter.
-							$counter_slider++;
+							++$counter_slider;
 
 							/*
 							* We're going to add a class to our featured post for featured images.
@@ -153,7 +153,7 @@ get_header(); ?>
 							// Let's roll again.
 							while ( $featured->have_posts() ) :
 								$featured->the_post();
-								$counter_slider++;
+								++$counter_slider;
 								if ( 1 === $counter_slider ) {
 									$class = ' class="active"';
 								} else {

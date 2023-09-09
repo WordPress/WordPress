@@ -330,7 +330,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->update_count   = count( $plugins );
 		$this->update_current = 0;
 		foreach ( $plugins as $plugin ) {
-			$this->update_current++;
+			++$this->update_current;
 			$this->skin->plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, true );
 
 			if ( ! isset( $current->response[ $plugin ] ) ) {

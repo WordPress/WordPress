@@ -728,7 +728,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$suffix = 2;
 		while ( in_array( $plugin_id_attr, $plugin_id_attrs, true ) ) {
 			$plugin_id_attr = "$plugin_slug-$suffix";
-			$suffix++;
+			++$suffix;
 		}
 
 		$plugin_id_attrs[] = $plugin_id_attr;

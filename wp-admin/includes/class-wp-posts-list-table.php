@@ -898,7 +898,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$to_display[ $page->ID ] = $level;
 			}
 
-			$count++;
+			++$count;
 
 			if ( isset( $children_pages ) ) {
 				$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page, $to_display );
@@ -917,7 +917,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$to_display[ $op->ID ] = 0;
 					}
 
-					$count++;
+					++$count;
 				}
 			}
 		}
@@ -992,7 +992,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 				while ( $my_parent = array_pop( $my_parents ) ) {
 					$to_display[ $my_parent->ID ] = $level - $num_parents;
-					$num_parents--;
+					--$num_parents;
 				}
 			}
 
@@ -1000,7 +1000,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$to_display[ $page->ID ] = $level;
 			}
 
-			$count++;
+			++$count;
 
 			$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page, $to_display );
 		}
@@ -1097,7 +1097,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						break;
 					}
 
-					$this->current_level++;
+					++$this->current_level;
 					$find_main_page = (int) $parent->post_parent;
 
 					if ( ! isset( $parent_name ) ) {
@@ -2085,7 +2085,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			</td></tr>
 
 			<?php
-			$bulk++;
+			++$bulk;
 		endwhile;
 		?>
 		</tbody></table>

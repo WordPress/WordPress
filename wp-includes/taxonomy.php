@@ -3090,7 +3090,7 @@ function wp_unique_term_slug( $slug, $term ) {
 			$num = 2;
 			do {
 				$alt_slug = $slug . "-$num";
-				$num++;
+				++$num;
 				$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
 			} while ( $slug_check );
 			$slug = $alt_slug;

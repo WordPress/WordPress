@@ -117,12 +117,12 @@ class WP_List_Util {
 				if ( is_array( $obj ) ) {
 					// Treat object as an array.
 					if ( array_key_exists( $m_key, $obj ) && ( $m_value == $obj[ $m_key ] ) ) {
-						$matched++;
+						++$matched;
 					}
 				} elseif ( is_object( $obj ) ) {
 					// Treat object as an object.
 					if ( isset( $obj->{$m_key} ) && ( $m_value == $obj->{$m_key} ) ) {
-						$matched++;
+						++$matched;
 					}
 				}
 			}

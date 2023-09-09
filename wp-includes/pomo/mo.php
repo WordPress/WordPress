@@ -129,7 +129,7 @@ if ( ! class_exists( 'MO', false ) ) :
 
 			// Headers' msgid is an empty string.
 			fwrite( $fh, pack( 'VV', 0, $current_addr ) );
-			$current_addr++;
+			++$current_addr;
 			$originals_table = "\0";
 
 			$reader = new POMO_Reader();

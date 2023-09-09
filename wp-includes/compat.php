@@ -203,7 +203,7 @@ function _mb_strlen( $str, $encoding = null ) {
 
 	do {
 		// We had some string left over from the last round, but we counted it in that last round.
-		$count--;
+		--$count;
 
 		/*
 		 * Split by UTF-8 character, limit to 1000 characters (last array element will contain

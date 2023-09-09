@@ -66,7 +66,7 @@ class WP_Widget_Calendar extends WP_Widget {
 		echo '</div>';
 		echo $args['after_widget'];
 
-		self::$instance++;
+		++self::$instance;
 	}
 
 	/**

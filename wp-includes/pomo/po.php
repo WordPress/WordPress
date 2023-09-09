@@ -342,7 +342,7 @@ if ( ! class_exists( 'PO', false ) ) :
 			$context      = '';
 			$msgstr_index = 0;
 			while ( true ) {
-				$lineno++;
+				++$lineno;
 				$line = PO::read_line( $f );
 				if ( ! $line ) {
 					if ( feof( $f ) ) {
@@ -365,7 +365,7 @@ if ( ! class_exists( 'PO', false ) ) :
 					// The comment is the start of a new entry.
 					if ( self::is_final( $context ) ) {
 						PO::read_line( $f, 'put-back' );
-						$lineno--;
+						--$lineno;
 						break;
 					}
 					// Comments have to be at the beginning.
@@ -377,7 +377,7 @@ if ( ! class_exists( 'PO', false ) ) :
 				} elseif ( preg_match( '/^msgctxt\s+(".*")/', $line, $m ) ) {
 					if ( self::is_final( $context ) ) {
 						PO::read_line( $f, 'put-back' );
-						$lineno--;
+						--$lineno;
 						break;
 					}
 					if ( $context && 'comment' !== $context ) {
@@ -388,7 +388,7 @@ if ( ! class_exists( 'PO', false ) ) :
 				} elseif ( preg_match( '/^msgid\s+(".*")/', $line, $m ) ) {
 					if ( self::is_final( $context ) ) {
 						PO::read_line( $f, 'put-back' );
-						$lineno--;
+						--$lineno;
 						break;
 					}
 					if ( $context && 'msgctxt' !== $context && 'comment' !== $context ) {

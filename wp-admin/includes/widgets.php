@@ -134,7 +134,7 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	global $wp_registered_widgets;
 	static $i = 0;
-	$i++;
+	++$i;
 
 	$widget_id = $params[0]['widget_id'];
 	$id        = isset( $params[0]['_temp_id'] ) ? $params[0]['_temp_id'] : $widget_id;
@@ -168,7 +168,7 @@ function next_widget_id_number( $id_base ) {
 			$number = max( $number, $matches[1] );
 		}
 	}
-	$number++;
+	++$number;
 
 	return $number;
 }

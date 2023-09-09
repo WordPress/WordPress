@@ -381,7 +381,7 @@ switch ( $wp_list_table->current_action() ) {
 				);
 				echo "</li>\n";
 
-				$go_delete++;
+				++$go_delete;
 			}
 		}
 		?>

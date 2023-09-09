@@ -261,7 +261,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 				switch ( $char ) {
 					case '?':
 						$res .= ' ? (';
-						$depth++;
+						++$depth;
 						break;
 					case ':':
 						$res .= ') : (';

@@ -84,31 +84,31 @@ if ( $doaction ) {
 		switch ( $doaction ) {
 			case 'approve':
 				wp_set_comment_status( $comment_id, 'approve' );
-				$approved++;
+				++$approved;
 				break;
 			case 'unapprove':
 				wp_set_comment_status( $comment_id, 'hold' );
-				$unapproved++;
+				++$unapproved;
 				break;
 			case 'spam':
 				wp_spam_comment( $comment_id );
-				$spammed++;
+				++$spammed;
 				break;
 			case 'unspam':
 				wp_unspam_comment( $comment_id );
-				$unspammed++;
+				++$unspammed;
 				break;
 			case 'trash':
 				wp_trash_comment( $comment_id );
-				$trashed++;
+				++$trashed;
 				break;
 			case 'untrash':
 				wp_untrash_comment( $comment_id );
-				$untrashed++;
+				++$untrashed;
 				break;
 			case 'delete':
 				wp_delete_comment( $comment_id );
-				$deleted++;
+				++$deleted;
 				break;
 		}
 	}
