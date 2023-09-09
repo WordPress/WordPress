@@ -57,6 +57,10 @@ p {
 	border-left-color: #00a32a;
 }
 
+.login .success {
+	border-left-color: #46b450;
+}
+
 .login #login_error {
 	border-left-color: #d63638;
 }
@@ -323,6 +327,12 @@ p {
 	text-align: center;
 	width: 100%;
 	margin: 3em 0 2em;
+}
+
+.login .privacy-policy-page-link {
+	text-align: center;
+	width: 100%;
+	margin: 5em 0 2em;
 }
 
 .login form .input,

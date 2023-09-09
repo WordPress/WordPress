@@ -265,6 +265,11 @@ a[data-wplink-url-error]:before {
 	z-index: -1;
 }
 
+/* Special styling for the suggestes policy text tutorial sections after they have been pasted in the editor. */
+p.wp-policy-help {
+    background-color: #ff0;
+}
+
 /**
  * WP Views
  */

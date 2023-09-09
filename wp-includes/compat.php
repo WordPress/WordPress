@@ -497,3 +497,43 @@ if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
 if ( ! defined( 'IMG_WEBP' ) ) {
 	define( 'IMG_WEBP', IMAGETYPE_WEBP );
 }
+
+if ( ! function_exists( 'is_countable' ) ) {
+	/**
+	 * Polyfill for is_countable() function added in PHP 7.3.
+	 *
+	 * Verify that the content of a variable is an array or an object
+	 * implementing the Countable interface.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param mixed $var The value to check.
+	 *
+	 * @return bool True if `$var` is countable, false otherwise.
+	 */
+	function is_countable( $var ) {
+		return ( is_array( $var )
+			|| $var instanceof Countable
+			|| $var instanceof SimpleXMLElement
+			|| $var instanceof ResourceBundle
+		);
+	}
+}
+
+if ( ! function_exists( 'is_iterable' ) ) {
+	/**
+	 * Polyfill for is_iterable() function added in PHP 7.1.
+	 *
+	 * Verify that the content of a variable is an array or an object
+	 * implementing the Traversable interface.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param mixed $var The value to check.
+	 *
+	 * @return bool True if `$var` is iterable, false otherwise.
+	 */
+	function is_iterable( $var ) {
+		return ( is_array( $var ) || $var instanceof Traversable );
+	}
+}
