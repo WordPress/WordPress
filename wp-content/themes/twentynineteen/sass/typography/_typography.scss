@@ -1,0 +1,47 @@
+
+html {
+	font-size: $font__size_base;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+<<<<<<< HEAD
+	background-color: $color__background-body;
+	color: $color__text-main;
+	@include font-family( $font__body );
+=======
+	color: $color__text-main;
+	font-family: $font__body;
+>>>>>>> cc0aa4e659209bc2ca7c9df37dc56696d84621c9
+	font-weight: 400;
+	font-size: 1em;
+	line-height: $font__line-height-body;
+	margin: 0;
+	text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+optgroup,
+textarea {
+	color: $color__text-main;
+<<<<<<< HEAD
+	@include font-family( $font__body );
+=======
+	font-family: $font__body;
+>>>>>>> cc0aa4e659209bc2ca7c9df37dc56696d84621c9
+	font-weight: 400;
+	line-height: $font__line-height-body;
+	text-rendering: optimizeLegibility;
+}
+
+@import "headings";
+
+@import "copy";
+<<<<<<< HEAD
+=======
+
+@include non-latin-fonts();
+>>>>>>> cc0aa4e659209bc2ca7c9df37dc56696d84621c9
