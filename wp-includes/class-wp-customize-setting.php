@@ -836,7 +836,7 @@ class WP_Customize_Setting {
 			return false;
 		}
 
-		if ( $this->theme_supports && ! current_theme_supports( ... (array) $this->theme_supports ) ) {
+		if ( $this->theme_supports && ! current_theme_supports( ...(array) $this->theme_supports ) ) {
 			return false;
 		}
 
