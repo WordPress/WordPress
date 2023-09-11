@@ -738,6 +738,8 @@ class WP_Term_Query {
 		$order    = isset( $clauses['order'] ) ? $clauses['order'] : '';
 		$limits   = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
 
+		$fields_is_filtered = implode( ', ', $selects ) !== $fields;
+
 		if ( $where ) {
 			$where = "WHERE $where";
 		}
@@ -782,7 +784,7 @@ class WP_Term_Query {
 				$cache = array_map( 'intval', $cache );
 			} elseif ( 'count' !== $_fields ) {
 				if ( ( 'all_with_object_id' === $_fields && ! empty( $args['object_ids'] ) )
-					|| ( 'all' === $_fields && $args['pad_counts'] )
+					|| ( 'all' === $_fields && $args['pad_counts'] || $fields_is_filtered )
 				) {
 					$term_ids = wp_list_pluck( $cache, 'term_id' );
 				} else {
@@ -884,6 +886,8 @@ class WP_Term_Query {
 				$object->count   = $term->count;
 				$term_cache[]    = $object;
 			}
+		} elseif ( $fields_is_filtered ) {
+			$term_cache = $term_objects;
 		} else {
 			$term_cache = wp_list_pluck( $term_objects, 'term_id' );
 		}
