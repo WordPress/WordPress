@@ -7,7 +7,7 @@
  */
 define( 'WP_REPAIRING', true );
 
-require_once dirname( dirname( __DIR__ ) ) . '/wp-load.php';
+require_once dirname( __DIR__, 2 ) . '/wp-load.php';
 
 header( 'Content-Type: text/html; charset=utf-8' );
 ?>
