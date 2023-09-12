@@ -794,16 +794,22 @@ function get_comment_delimited_block_content( $block_name, $block_attributes, $b
  * instead preserve the markup as parsed.
  *
  * @since 5.3.1
+ * @since 6.4.0 The `$callback` parameter was added.
  *
- * @param array $block A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ * @param array         $block    A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ * @param callable|null $callback Optional. Callback to run on each block in the tree before serialization. Default null.
  * @return string String of rendered HTML.
  */
-function serialize_block( $block ) {
+function serialize_block( $block, $callback = null ) {
+	if ( is_callable( $callback ) ) {
+		$block = call_user_func( $callback, $block );
+	}
+
 	$block_content = '';
 
 	$index = 0;
 	foreach ( $block['innerContent'] as $chunk ) {
-		$block_content .= is_string( $chunk ) ? $chunk : serialize_block( $block['innerBlocks'][ $index++ ] );
+		$block_content .= is_string( $chunk ) ? $chunk : serialize_block( $block['innerBlocks'][ $index++ ], $callback );
 	}
 
 	if ( ! is_array( $block['attrs'] ) ) {
@@ -822,12 +828,18 @@ function serialize_block( $block ) {
  * parsed blocks.
  *
  * @since 5.3.1
+ * @since 6.4.0 The `$callback` parameter was added.
  *
- * @param array[] $blocks An array of representative arrays of parsed block objects. See serialize_block().
+ * @param array[]       $blocks   An array of representative arrays of parsed block objects. See serialize_block().
+ * @param callable|null $callback Optional. Callback to run on each block in the tree before serialization. Default null.
  * @return string String of rendered HTML.
  */
-function serialize_blocks( $blocks ) {
-	return implode( '', array_map( 'serialize_block', $blocks ) );
+function serialize_blocks( $blocks, $callback = null ) {
+	$result = '';
+	foreach ( $blocks as $block ) {
+		$result .= serialize_block( $block, $callback );
+	};
+	return $result;
 }
 
 /**
