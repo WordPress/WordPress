@@ -42,7 +42,7 @@ $current_screen->is_block_editor( true );
 // Default to is-fullscreen-mode to avoid jumps in the UI.
 add_filter(
 	'admin_body_class',
-	static function( $classes ) {
+	static function ( $classes ) {
 		return "$classes is-fullscreen-mode";
 	}
 );

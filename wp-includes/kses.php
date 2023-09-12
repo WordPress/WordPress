@@ -1183,7 +1183,7 @@ function wp_kses_attr( $element, $attr, $allowed_html, $allowed_protocols ) {
 	// Check if there are attributes that are required.
 	$required_attrs = array_filter(
 		$allowed_html[ $element_low ],
-		static function( $required_attr_limits ) {
+		static function ( $required_attr_limits ) {
 			return isset( $required_attr_limits['required'] ) && true === $required_attr_limits['required'];
 		}
 	);

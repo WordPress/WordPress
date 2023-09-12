@@ -22,7 +22,7 @@ $title = __( 'Privacy Policy Guide' );
 
 add_filter(
 	'admin_body_class',
-	static function( $body_class ) {
+	static function ( $body_class ) {
 		$body_class .= ' privacy-settings ';
 
 		return $body_class;

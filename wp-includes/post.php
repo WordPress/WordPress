@@ -6071,7 +6071,7 @@ function get_pages( $args = array() ) {
 	 */
 	$orderby = wp_parse_list( $parsed_args['sort_column'] );
 	$orderby = array_map(
-		static function( $orderby_field ) {
+		static function ( $orderby_field ) {
 			$orderby_field = trim( $orderby_field );
 			if ( 'post_modified_gmt' === $orderby_field || 'modified_gmt' === $orderby_field ) {
 				$orderby_field = str_replace( '_gmt', '', $orderby_field );

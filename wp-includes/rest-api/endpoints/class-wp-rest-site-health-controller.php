@@ -152,7 +152,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_directory_sizes' ),
-				'permission_callback' => function() {
+				'permission_callback' => function () {
 					return $this->validate_request_permission( 'directory_sizes' ) && ! is_multisite();
 				},
 			)

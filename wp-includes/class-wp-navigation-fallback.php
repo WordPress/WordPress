@@ -169,7 +169,7 @@ class WP_Navigation_Fallback {
 	private static function get_most_recently_created_nav_menu( $classic_nav_menus ) {
 		usort(
 			$classic_nav_menus,
-			static function( $a, $b ) {
+			static function ( $a, $b ) {
 				return $b->term_id - $a->term_id;
 			}
 		);

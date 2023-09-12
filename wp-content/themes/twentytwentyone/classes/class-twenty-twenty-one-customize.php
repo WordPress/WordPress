@@ -92,7 +92,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 				array(
 					'capability'        => 'edit_theme_options',
 					'default'           => 'excerpt',
-					'sanitize_callback' => static function( $value ) {
+					'sanitize_callback' => static function ( $value ) {
 						return 'excerpt' === $value || 'full' === $value ? $value : 'excerpt';
 					},
 				)

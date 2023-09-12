@@ -87,7 +87,7 @@ function register_core_block_style_handles() {
 		}
 	}
 
-	$register_style = static function( $name, $filename, $style_handle ) use ( $blocks_url, $suffix, $wp_styles, $files ) {
+	$register_style = static function ( $name, $filename, $style_handle ) use ( $blocks_url, $suffix, $wp_styles, $files ) {
 		$style_path = "{$name}/{$filename}{$suffix}.css";
 		$path       = wp_normalize_path( BLOCKS_PATH . $style_path );
 

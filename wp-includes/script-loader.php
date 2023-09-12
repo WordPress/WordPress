@@ -2453,7 +2453,7 @@ function wp_common_block_scripts_and_styles() {
 function wp_filter_out_block_nodes( $nodes ) {
 	return array_filter(
 		$nodes,
-		static function( $node ) {
+		static function ( $node ) {
 			return ! in_array( 'blocks', $node['path'], true );
 		},
 		ARRAY_FILTER_USE_BOTH
@@ -2655,7 +2655,7 @@ function enqueue_block_styles_assets() {
 				if ( wp_should_load_separate_core_block_assets() ) {
 					add_filter(
 						'render_block',
-						static function( $html, $block ) use ( $block_name, $style_properties ) {
+						static function ( $html, $block ) use ( $block_name, $style_properties ) {
 							if ( $block['blockName'] === $block_name ) {
 								wp_enqueue_style( $style_properties['style_handle'] );
 							}
@@ -2917,7 +2917,7 @@ function wp_maybe_inline_styles() {
 		// Reorder styles array based on size.
 		usort(
 			$styles,
-			static function( $a, $b ) {
+			static function ( $a, $b ) {
 				return ( $a['size'] <= $b['size'] ) ? -1 : 1;
 			}
 		);
@@ -3150,7 +3150,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 	 *                        is to ensure the content exists.
 	 * @return string Block content.
 	 */
-	$callback = static function( $content ) use ( $args ) {
+	$callback = static function ( $content ) use ( $args ) {
 		// Register the stylesheet.
 		if ( ! empty( $args['src'] ) ) {
 			wp_register_style( $args['handle'], $args['src'], $args['deps'], $args['ver'], $args['media'] );
@@ -3188,7 +3188,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 		 * @param array  $block   The full block, including name and attributes.
 		 * @return string Block content.
 		 */
-		$callback_separate = static function( $content, $block ) use ( $block_name, $callback ) {
+		$callback_separate = static function ( $content, $block ) use ( $block_name, $callback ) {
 			if ( ! empty( $block['blockName'] ) && $block_name === $block['blockName'] ) {
 				return $callback( $content );
 			}

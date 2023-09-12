@@ -982,10 +982,10 @@ final class WP_Customize_Widgets {
 			$args['transport']            = current_theme_supports( 'customize-selective-refresh-widgets' ) ? 'postMessage' : 'refresh';
 		} elseif ( preg_match( $this->setting_id_patterns['widget_instance'], $id, $matches ) ) {
 			$id_base                      = $matches['id_base'];
-			$args['sanitize_callback']    = function( $value ) use ( $id_base ) {
+			$args['sanitize_callback']    = function ( $value ) use ( $id_base ) {
 				return $this->sanitize_widget_instance( $value, $id_base );
 			};
-			$args['sanitize_js_callback'] = function( $value ) use ( $id_base ) {
+			$args['sanitize_js_callback'] = function ( $value ) use ( $id_base ) {
 				return $this->sanitize_widget_js_instance( $value, $id_base );
 			};
 			$args['transport']            = $this->is_widget_selective_refreshable( $matches['id_base'] ) ? 'postMessage' : 'refresh';

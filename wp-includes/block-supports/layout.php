@@ -789,7 +789,7 @@ function wp_restore_group_inner_container( $block_content, $block ) {
 	);
 	$updated_content = preg_replace_callback(
 		$replace_regex,
-		static function( $matches ) {
+		static function ( $matches ) {
 			return $matches[1] . '<div class="wp-block-group__inner-container">' . $matches[2] . '</div>' . $matches[3];
 		},
 		$block_content

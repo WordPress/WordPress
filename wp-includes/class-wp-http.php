@@ -463,7 +463,7 @@ class WP_Http {
 			if ( $value instanceof WP_Http_Cookie ) {
 				$attributes                 = array_filter(
 					$value->get_attributes(),
-					static function( $attr ) {
+					static function ( $attr ) {
 						return null !== $attr;
 					}
 				);

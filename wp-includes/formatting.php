@@ -3259,7 +3259,7 @@ function wp_rel_nofollow( $text ) {
 	$text = stripslashes( $text );
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		static function( $matches ) {
+		static function ( $matches ) {
 			return wp_rel_callback( $matches, 'nofollow' );
 		},
 		$text
@@ -3293,7 +3293,7 @@ function wp_rel_ugc( $text ) {
 	$text = stripslashes( $text );
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		static function( $matches ) {
+		static function ( $matches ) {
 			return wp_rel_callback( $matches, 'nofollow ugc' );
 		},
 		$text
@@ -4756,7 +4756,7 @@ EOF;
 
 	$safe_text = (string) preg_replace_callback(
 		$regex,
-		static function( $matches ) {
+		static function ( $matches ) {
 			if ( ! isset( $matches[0] ) ) {
 				return '';
 			}
