@@ -165,15 +165,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	private $bookmark_counter = 0;
 
 	/**
-	 * Refers to the currently-matched tag, if any.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @var WP_HTML_Token|null
-	 */
-	private $current_token = null;
-
-	/**
 	 * Stores an explanation for why something failed, if it did.
 	 *
 	 * @see self::get_last_error
@@ -451,7 +442,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		$this->current_token = new WP_HTML_Token(
+		$this->state->current_token = new WP_HTML_Token(
 			$this->bookmark_tag(),
 			$this->get_tag(),
 			$this->is_tag_closer(),
@@ -538,7 +529,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 
 				$this->reconstruct_active_formatting_elements();
-				$this->insert_html_element( $this->current_token );
+				$this->insert_html_element( $this->state->current_token );
 				$this->state->frameset_ok = false;
 
 				return true;
@@ -558,7 +549,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					$this->close_a_p_element();
 				}
 
-				$this->insert_html_element( $this->current_token );
+				$this->insert_html_element( $this->state->current_token );
 				return true;
 
 			/*
@@ -590,7 +581,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '-P':
 				if ( ! $this->state->stack_of_open_elements->has_p_in_button_scope() ) {
-					$this->insert_html_element( $this->current_token );
+					$this->insert_html_element( $this->state->current_token );
 				}
 
 				$this->close_a_p_element();
@@ -612,8 +603,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 
 				$this->reconstruct_active_formatting_elements();
-				$this->insert_html_element( $this->current_token );
-				$this->state->active_formatting_elements->push( $this->current_token );
+				$this->insert_html_element( $this->state->current_token );
+				$this->state->active_formatting_elements->push( $this->state->current_token );
 				return true;
 
 			/*
@@ -633,8 +624,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '+TT':
 			case '+U':
 				$this->reconstruct_active_formatting_elements();
-				$this->insert_html_element( $this->current_token );
-				$this->state->active_formatting_elements->push( $this->current_token );
+				$this->insert_html_element( $this->state->current_token );
+				$this->state->active_formatting_elements->push( $this->state->current_token );
 				return true;
 
 			/*
@@ -662,7 +653,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '+IMG':
 				$this->reconstruct_active_formatting_elements();
-				$this->insert_html_element( $this->current_token );
+				$this->insert_html_element( $this->state->current_token );
 				return true;
 
 			/*
@@ -670,7 +661,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '+SPAN':
 				$this->reconstruct_active_formatting_elements();
-				$this->insert_html_element( $this->current_token );
+				$this->insert_html_element( $this->state->current_token );
 				return true;
 
 			/*
@@ -796,7 +787,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	public function seek( $bookmark_name ) {
 		$actual_bookmark_name = "_{$bookmark_name}";
-		$processor_started_at = $this->current_token ? $this->bookmarks[ $this->current_token->bookmark_name ]->start : 0;
+		$processor_started_at = $this->state->current_token
+			? $this->bookmarks[ $this->state->current_token->bookmark_name ]->start
+			: 0;
 		$bookmark_starts_at   = $this->bookmarks[ $actual_bookmark_name ]->start;
 		$direction            = $bookmark_starts_at > $processor_started_at ? 'forward' : 'backward';
 
@@ -804,7 +797,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'forward':
 				// When moving forwards, re-parse the document until reaching the same location as the original bookmark.
 				while ( $this->step() ) {
-					if ( $bookmark_starts_at === $this->bookmarks[ $this->current_token->bookmark_name ]->start ) {
+					if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
 						return true;
 					}
 				}

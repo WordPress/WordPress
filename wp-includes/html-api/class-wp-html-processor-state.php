@@ -86,6 +86,15 @@ class WP_HTML_Processor_State {
 	public $active_formatting_elements = null;
 
 	/**
+	 * Refers to the currently-matched tag, if any.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @var WP_HTML_Token|null
+	 */
+	public $current_token = null;
+
+	/**
 	 * Tree construction insertion mode.
 	 *
 	 * @since 6.4.0
