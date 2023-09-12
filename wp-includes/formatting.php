@@ -3980,18 +3980,29 @@ function wp_trim_excerpt( $text = '', $post = null ) {
 		 * within the excerpt are stripped out. Modifying the tags here
 		 * is wasteful and can lead to bugs in the image counting logic.
 		 */
-		$filter_removed = remove_filter( 'the_content', 'wp_filter_content_tags' );
+		$filter_image_removed = remove_filter( 'the_content', 'wp_filter_content_tags' );
+
+		/*
+		 * Temporarily unhook do_blocks() since excerpt_remove_blocks( $text )
+		 * handels block rendering needed for excerpt.
+		 */
+		$filter_block_removed = remove_filter( 'the_content', 'do_blocks', 9 );
 
 		/** This filter is documented in wp-includes/post-template.php */
 		$text = apply_filters( 'the_content', $text );
 		$text = str_replace( ']]>', ']]&gt;', $text );
 
-		/**
+		// Restore the original filter if removed.
+		if ( $filter_block_removed ) {
+			add_filter( 'the_content', 'do_blocks', 9 );
+		}
+
+		/*
 		 * Only restore the filter callback if it was removed above. The logic
 		 * to unhook and restore only applies on the default priority of 10,
 		 * which is generally used for the filter callback in WordPress core.
 		 */
-		if ( $filter_removed ) {
+		if ( $filter_image_removed ) {
 			add_filter( 'the_content', 'wp_filter_content_tags' );
 		}
 
