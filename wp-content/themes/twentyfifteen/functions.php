@@ -454,7 +454,16 @@ function twentyfifteen_scripts() {
 		wp_enqueue_script( 'twentyfifteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20141210' );
 	}
 
-	wp_enqueue_script( 'twentyfifteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20221101', array( 'in_footer' => true ) );
+	wp_enqueue_script(
+		'twentyfifteen-script',
+		get_template_directory_uri() . '/js/functions.js',
+		array( 'jquery' ),
+		'20221101',
+		array(
+			'in_footer' => false, // Because involves header.
+			'strategy'  => 'defer',
+		)
+	);
 	wp_localize_script(
 		'twentyfifteen-script',
 		'screenReaderText',

@@ -16,7 +16,16 @@
  */
 
 // Enqueue showcase script for the slider.
-wp_enqueue_script( 'twentyeleven-showcase', get_template_directory_uri() . '/js/showcase.js', array( 'jquery' ), '20211130' );
+wp_enqueue_script(
+	'twentyeleven-showcase',
+	get_template_directory_uri() . '/js/showcase.js',
+	array( 'jquery' ),
+	'20211130',
+	array(
+		'in_footer' => false, // Because involves header.
+		'strategy'  => 'defer',
+	)
+);
 
 get_header(); ?>
 

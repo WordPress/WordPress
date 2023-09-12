@@ -449,7 +449,10 @@ function twenty_twenty_one_scripts() {
 			get_template_directory_uri() . '/assets/js/primary-navigation.js',
 			array( 'twenty-twenty-one-ie11-polyfills' ),
 			wp_get_theme()->get( 'Version' ),
-			array( 'in_footer' => true )
+			array(
+				'in_footer' => false, // Because involves header.
+				'strategy'  => 'defer',
+			)
 		);
 	}
 
