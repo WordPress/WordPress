@@ -1527,6 +1527,7 @@ pre.wp-block-preformatted {
 	position: relative;
 	border-left: none;
 	margin: var(--global--spacing-vertical) auto var(--global--spacing-vertical) var(--global--spacing-horizontal);
+	padding-left: 1em;
 }
 
 .wp-block-quote p {
@@ -1545,7 +1546,7 @@ pre.wp-block-preformatted {
 	content: "“";
 	font-size: var(--quote--font-size);
 	line-height: var(--quote--line-height);
-	left: calc(-0.5 * var(--global--spacing-horizontal));
+	left: 8px;
 }
 
 .wp-block-quote .wp-block-quote__citation {

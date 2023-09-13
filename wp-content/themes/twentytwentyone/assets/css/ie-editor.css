@@ -1624,6 +1624,7 @@ pre.wp-block-preformatted {
 	position: relative;
 	border-left: none;
 	margin: 30px auto 30px 25px;
+	padding-left: 1em;
 }
 
 .wp-block-quote p {
@@ -1642,7 +1643,7 @@ pre.wp-block-preformatted {
 	content: "“";
 	font-size: 1.25rem;
 	line-height: 1.7;
-	left: -12px;
+	left: 8px;
 }
 
 .wp-block-quote .wp-block-quote__citation {
