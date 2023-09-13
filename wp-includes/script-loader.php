@@ -2717,7 +2717,7 @@ function enqueue_editor_block_styles_assets() {
 	$register_script_lines[] = '} )();';
 	$inline_script           = implode( "\n", $register_script_lines );
 
-	wp_register_script( 'wp-block-styles', false, array( 'wp-blocks' ), true, true );
+	wp_register_script( 'wp-block-styles', false, array( 'wp-blocks' ), true, array( 'in_footer' => true ) );
 	wp_add_inline_script( 'wp-block-styles', $inline_script );
 	wp_enqueue_script( 'wp-block-styles' );
 }
