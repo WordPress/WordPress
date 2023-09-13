@@ -215,16 +215,14 @@ function twentytwenty_register_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	wp_enqueue_script(
-		'twentytwenty-js',
-		get_template_directory_uri() . '/assets/js/index.js',
-		array(),
-		$theme_version,
-		array(
-			'in_footer' => false, // Because involves header.
-			'strategy'  => 'defer',
-		)
-	);
+	/*
+	 * This script is intentionally printed in the head because it involves the page header. The `defer` script loading
+	 * strategy ensures that it does not block rendering; being in the head it will start loading earlier so that it
+	 * will execute sooner once the DOM has loaded. The $args array is not used here to avoid unintentional footer
+	 * placement in WP<6.3; the wp_script_add_data() call is used instead.
+	 */
+	wp_enqueue_script( 'twentytwenty-js', get_template_directory_uri() . '/assets/js/index.js', array(), $theme_version );
+	wp_script_add_data( 'twentytwenty-js', 'strategy', 'defer' );
 }
 
 add_action( 'wp_enqueue_scripts', 'twentytwenty_register_scripts' );
