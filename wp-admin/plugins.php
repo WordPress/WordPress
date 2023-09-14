@@ -618,6 +618,12 @@ if ( ! empty( $invalid ) ) {
 	}
 }
 
+// Used by wp_admin_notice() updated notices.
+$updated_notice_args = array(
+	'id'                 => 'message',
+	'additional_classes' => array( 'updated' ),
+	'dismissible'        => true,
+);
 if ( isset( $_GET['error'] ) ) {
 
 	if ( isset( $_GET['main'] ) ) {
@@ -663,7 +669,7 @@ if ( isset( $_GET['error'] ) ) {
 	);
 
 } elseif ( isset( $_GET['deleted'] ) ) {
-	$delete_result = get_transient( 'plugins_delete_result_' . $user_ID );
+	$delete_result       = get_transient( 'plugins_delete_result_' . $user_ID );
 	// Delete it once we're done.
 	delete_transient( 'plugins_delete_result_' . $user_ID );
 
@@ -682,38 +688,33 @@ if ( isset( $_GET['error'] ) ) {
 			)
 		);
 	} else {
-		$updated_args = array(
-			'id'                 => 'message',
-			'additional_classes' => array( 'updated' ),
-			'dismissible'        => true,
-		);
 		if ( 1 === (int) $_GET['deleted'] ) {
 			$plugins_deleted_message = __( 'The selected plugin has been deleted.' );
 		} else {
 			$plugins_deleted_message = __( 'The selected plugins have been deleted.' );
 		}
-		wp_admin_notice( $plugins_deleted_message, $updated_args );
+		wp_admin_notice( $plugins_deleted_message, $updated_notice_args );
 	}
 } elseif ( isset( $_GET['activate'] ) ) {
-	wp_admin_notice( __( 'Plugin activated.' ), $updated_args );
+	wp_admin_notice( __( 'Plugin activated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['activate-multi'] ) ) {
-	wp_admin_notice( __( 'Selected plugins activated.' ), $updated_args );
+	wp_admin_notice( __( 'Selected plugins activated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['deactivate'] ) ) {
-	wp_admin_notice( __( 'Plugin deactivated.' ), $updated_args );
+	wp_admin_notice( __( 'Plugin deactivated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['deactivate-multi'] ) ) {
-	wp_admin_notice( __( 'Selected plugins deactivated.' ), $updated_args );
+	wp_admin_notice( __( 'Selected plugins deactivated.' ), $updated_notice_args );
 } elseif ( 'update-selected' === $action ) {
-	wp_admin_notice( __( 'All selected plugins are up to date.' ), $updated_args );
+	wp_admin_notice( __( 'All selected plugins are up to date.' ), $updated_notice_args );
 } elseif ( isset( $_GET['resume'] ) ) {
-	wp_admin_notice( __( 'Plugin resumed.' ), $updated_args );
+	wp_admin_notice( __( 'Plugin resumed.' ), $updated_notice_args );
 } elseif ( isset( $_GET['enabled-auto-update'] ) ) {
-	wp_admin_notice( __( 'Plugin will be auto-updated.' ), $updated_args );
+	wp_admin_notice( __( 'Plugin will be auto-updated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['disabled-auto-update'] ) ) {
-	wp_admin_notice( __( 'Plugin will no longer be auto-updated.' ), $updated_args );
+	wp_admin_notice( __( 'Plugin will no longer be auto-updated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['enabled-auto-update-multi'] ) ) {
-	wp_admin_notice( __( 'Selected plugins will be auto-updated.' ), $updated_args );
+	wp_admin_notice( __( 'Selected plugins will be auto-updated.' ), $updated_notice_args );
 } elseif ( isset( $_GET['disabled-auto-update-multi'] ) ) {
-	wp_admin_notice( __( 'Selected plugins will no longer be auto-updated.' ), $updated_args );
+	wp_admin_notice( __( 'Selected plugins will no longer be auto-updated.' ), $updated_notice_args );
 }
 ?>
 
