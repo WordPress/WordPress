@@ -381,7 +381,7 @@ figcaption,
 .wp-block-button {
 
 	.wp-block-button__link {
-		line-height: 1.8;
+		line-height:inherit;
 		@include font-family( $font__heading );
 		font-size: $font__size-sm;
 		font-weight: bold;

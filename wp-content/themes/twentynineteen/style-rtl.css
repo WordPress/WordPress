@@ -5489,7 +5489,7 @@ body.page .main-navigation {
   border: none;
   font-size: 0.88889em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  line-height: 1.2;
+  line-height: inherit;
   box-sizing: border-box;
   font-weight: bold;
   text-decoration: none;

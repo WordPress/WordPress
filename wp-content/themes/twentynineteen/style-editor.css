@@ -1005,7 +1005,7 @@ figcaption,
 
 /** === Button === */
 .wp-block-button .wp-block-button__link {
-  line-height: 1.8;
+  line-height: inherit;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 0.88889em;
   font-weight: bold;
