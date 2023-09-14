@@ -320,6 +320,8 @@ function create_initial_post_types() {
 				'edit_posts'             => 'edit_posts',
 				'edit_published_posts'   => 'edit_published_posts',
 				'delete_published_posts' => 'delete_published_posts',
+				// Enables trashing draft posts as well.
+				'delete_posts'           => 'delete_posts',
 				'edit_others_posts'      => 'edit_others_posts',
 				'delete_others_posts'    => 'delete_others_posts',
 			),
