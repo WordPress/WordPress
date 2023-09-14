@@ -176,7 +176,8 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$post_type  = $item;
+		$post_type = $item;
+
 		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), array( 'show_in_rest' => true ) );
 		$taxonomies = wp_list_pluck( $taxonomies, 'name' );
 		$base       = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;

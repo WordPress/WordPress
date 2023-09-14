@@ -320,8 +320,9 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 
 		// Restores the more descriptive, specific name for use within this method.
 		$raw_sidebar = $item;
-		$id          = $raw_sidebar['id'];
-		$sidebar     = array( 'id' => $id );
+
+		$id      = $raw_sidebar['id'];
+		$sidebar = array( 'id' => $id );
 
 		if ( isset( $wp_registered_sidebars[ $id ] ) ) {
 			$registered_sidebar = $wp_registered_sidebars[ $id ];

@@ -60,7 +60,8 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 */
 	public function get_url_list( $page_num, $object_subtype = '' ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$taxonomy        = $object_subtype;
+		$taxonomy = $object_subtype;
+
 		$supported_types = $this->get_object_subtypes();
 
 		// Bail early if the queried taxonomy is not supported.

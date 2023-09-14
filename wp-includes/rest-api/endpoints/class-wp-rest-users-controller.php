@@ -984,9 +984,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$user   = $item;
-		$data   = array();
+		$user = $item;
+
 		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
 
 		if ( in_array( 'id', $fields, true ) ) {
 			$data['id'] = $user->ID;

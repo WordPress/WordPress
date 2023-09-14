@@ -1019,6 +1019,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	public function column_cb( $item ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$post = $item;
+
 		$show = current_user_can( 'edit_post', $post->ID );
 
 		/**
@@ -1458,7 +1459,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		// Restores the more descriptive, specific name for use within this method.
-		$post             = $item;
+		$post = $item;
+
 		$post_type_object = get_post_type_object( $post->post_type );
 		$can_edit_post    = current_user_can( 'edit_post', $post->ID );
 		$actions          = array();

@@ -880,11 +880,11 @@ class WP_Media_List_Table extends WP_List_Table {
 			return '';
 		}
 
+		// Restores the more descriptive, specific name for use within this method.
+		$post = $item;
+
 		$att_title = _draft_or_post_title();
-		$actions   = $this->_get_row_actions(
-			$item, // WP_Post object for an attachment.
-			$att_title
-		);
+		$actions   = $this->_get_row_actions( $post, $att_title );
 
 		return $this->row_actions( $actions );
 	}

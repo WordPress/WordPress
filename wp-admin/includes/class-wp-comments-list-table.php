@@ -685,7 +685,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		// Restores the more descriptive, specific name for use within this method.
-		$comment            = $item;
+		$comment = $item;
+
 		$the_comment_status = wp_get_comment_status( $comment );
 
 		$output = '';
@@ -1087,6 +1088,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @param string     $column_name The custom column's name.
 	 */
 	public function column_default( $item, $column_name ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$comment = $item;
+
 		/**
 		 * Fires when the default column output is displayed for a single row.
 		 *
@@ -1095,6 +1099,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @param string $column_name The custom column's name.
 		 * @param string $comment_id  The comment ID as a numeric string.
 		 */
-		do_action( 'manage_comments_custom_column', $column_name, $item->comment_ID );
+		do_action( 'manage_comments_custom_column', $column_name, $comment->comment_ID );
 	}
 }

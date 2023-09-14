@@ -59,7 +59,8 @@ class Walker_CategoryDropdown extends Walker {
 	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$category = $data_object;
-		$pad      = str_repeat( '&nbsp;', $depth * 3 );
+
+		$pad = str_repeat( '&nbsp;', $depth * 3 );
 
 		/** This filter is documented in wp-includes/category-template.php */
 		$cat_name = apply_filters( 'list_cats', $category->name, $category );

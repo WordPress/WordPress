@@ -104,7 +104,8 @@ class Walker_Page extends Walker {
 	 */
 	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$page            = $data_object;
+		$page = $data_object;
+
 		$current_page_id = $current_object_id;
 
 		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {

@@ -367,8 +367,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		}
 
 		// Base fields for every post.
-		$data   = array();
 		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
 
 		if ( rest_is_field_included( 'id', $fields ) ) {
 			$data['id'] = $post->ID;
@@ -603,8 +603,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		}
 
 		$theme  = WP_Theme_JSON_Resolver::get_merged_data( 'theme' );
-		$data   = array();
 		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
 
 		if ( rest_is_field_included( 'settings', $fields ) ) {
 			$data['settings'] = $theme->get_settings();

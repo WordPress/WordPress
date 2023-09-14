@@ -409,10 +409,10 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$post     = $item;
-		$response = $this->revisions_controller->prepare_item_for_response( $post, $request );
+		$post = $item;
 
-		$fields = $this->get_fields_for_response( $request );
+		$response = $this->revisions_controller->prepare_item_for_response( $post, $request );
+		$fields   = $this->get_fields_for_response( $request );
 
 		if ( in_array( 'preview_link', $fields, true ) ) {
 			$parent_id          = wp_is_post_autosave( $post );

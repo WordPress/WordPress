@@ -231,9 +231,10 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$theme  = $item;
-		$data   = array();
+		$theme = $item;
+
 		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
 
 		if ( rest_is_field_included( 'stylesheet', $fields ) ) {
 			$data['stylesheet'] = $theme->get_stylesheet();

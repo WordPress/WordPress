@@ -168,7 +168,8 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
-		$location  = $item;
+		$location = $item;
+
 		$locations = get_nav_menu_locations();
 		$menu      = isset( $locations[ $location->name ] ) ? $locations[ $location->name ] : 0;
 

@@ -458,13 +458,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 * @param string  $column_name The current column name.
 	 */
 	public function column_default( $item, $column_name ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$user = $item;
+
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
-		echo apply_filters(
-			'manage_users_custom_column',
-			'', // Custom column output. Default empty.
-			$column_name,
-			$item->ID // User ID.
-		);
+		echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
 	}
 
 	public function display_rows() {
@@ -519,10 +517,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		}
 
 		// Restores the more descriptive, specific name for use within this method.
-		$user         = $item;
-		$super_admins = get_super_admins();
+		$user = $item;
 
-		$actions = array();
+		$super_admins = get_super_admins();
+		$actions      = array();
 
 		if ( current_user_can( 'edit_user', $user->ID ) ) {
 			$edit_link       = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );

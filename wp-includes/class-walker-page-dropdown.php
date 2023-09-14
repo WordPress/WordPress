@@ -62,7 +62,8 @@ class Walker_PageDropdown extends Walker {
 	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$page = $data_object;
-		$pad  = str_repeat( '&nbsp;', $depth * 3 );
+
+		$pad = str_repeat( '&nbsp;', $depth * 3 );
 
 		if ( ! isset( $args['value_field'] ) || ! isset( $page->{$args['value_field']} ) ) {
 			$args['value_field'] = 'ID';

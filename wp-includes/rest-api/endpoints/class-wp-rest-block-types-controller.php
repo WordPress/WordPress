@@ -246,8 +246,9 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$block_type = $item;
-		$fields     = $this->get_fields_for_response( $request );
-		$data       = array();
+
+		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
 
 		if ( rest_is_field_included( 'attributes', $fields ) ) {
 			$data['attributes'] = $block_type->get_attributes();
