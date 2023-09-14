@@ -160,22 +160,25 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php // JavaScript is disabled. ?>
 	<div class="wrap hide-if-js site-editor-no-js">
 		<h1 class="wp-heading-inline"><?php _e( 'Edit site' ); ?></h1>
-		<div class="notice notice-error">
-			<p>
-				<?php
-					/**
-					 * Filters the message displayed in the site editor interface when JavaScript is
-					 * not enabled in the browser.
-					 *
-					 * @since 6.3.0
-					 *
-					 * @param string  $message The message being displayed.
-					 * @param WP_Post $post    The post being edited.
-					 */
-					echo apply_filters( 'site_editor_no_javascript_message', __( 'The site editor requires JavaScript. Please enable JavaScript in your browser settings.' ), $post );
-				?>
-			</p>
-		</div>
+		<?php
+		/**
+		 * Filters the message displayed in the site editor interface when JavaScript is
+		 * not enabled in the browser.
+		 *
+		 * @since 6.3.0
+		 *
+		 * @param string  $message The message being displayed.
+		 * @param WP_Post $post    The post being edited.
+		 */
+		$message = apply_filters( 'site_editor_no_javascript_message', __( 'The site editor requires JavaScript. Please enable JavaScript in your browser settings.' ), $post );
+		wp_admin_notice(
+			$message,
+			array(
+				'type'               => 'error',
+				'additional_classes' => array( 'hide-if-js' ),
+			)
+		);
+		?>
 	</div>
 </div>
 

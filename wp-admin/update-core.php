@@ -255,14 +255,19 @@ function core_upgrade_preamble() {
 		_e( 'An updated version of WordPress is available.' );
 		echo '</h2>';
 
-		echo '<div class="notice notice-warning inline"><p>';
-		printf(
+		$message = sprintf(
 			/* translators: 1: Documentation on WordPress backups, 2: Documentation on updating WordPress. */
 			__( '<strong>Important:</strong> Before updating, please <a href="%1$s">back up your database and files</a>. For help with updates, visit the <a href="%2$s">Updating WordPress</a> documentation page.' ),
 			__( 'https://wordpress.org/documentation/article/wordpress-backups/' ),
 			__( 'https://wordpress.org/documentation/article/updating-wordpress/' )
 		);
-		echo '</p></div>';
+		wp_admin_notice(
+			$message,
+			array(
+				'type'               => 'warning',
+				'additional_classes' => array( 'inline' ),
+			)
+		);
 	} elseif ( $is_development_version ) {
 		echo '<h2 class="response">' . __( 'You are using a development version of WordPress.' ) . '</h2>';
 	} else {
@@ -302,10 +307,22 @@ function core_auto_updates_settings() {
 	if ( isset( $_GET['core-major-auto-updates-saved'] ) ) {
 		if ( 'enabled' === $_GET['core-major-auto-updates-saved'] ) {
 			$notice_text = __( 'Automatic updates for all WordPress versions have been enabled. Thank you!' );
-			echo '<div class="notice notice-success is-dismissible"><p>' . $notice_text . '</p></div>';
+			wp_admin_notice(
+				$notice_text,
+				array(
+					'type'        => 'success',
+					'dismissible' => true,
+				)
+			);
 		} elseif ( 'disabled' === $_GET['core-major-auto-updates-saved'] ) {
 			$notice_text = __( 'WordPress will only receive automatic security and maintenance releases from now on.' );
-			echo '<div class="notice notice-success is-dismissible"><p>' . $notice_text . '</p></div>';
+			wp_admin_notice(
+				$notice_text,
+				array(
+					'type'        => 'success',
+					'dismissible' => true,
+				)
+			);
 		}
 	}
 

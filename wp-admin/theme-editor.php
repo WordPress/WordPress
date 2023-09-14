@@ -189,31 +189,44 @@ if ( $file_description !== $file_show ) {
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
-<?php if ( isset( $_GET['a'] ) ) : ?>
-	<div id="message" class="updated notice is-dismissible">
-		<p><?php _e( 'File edited successfully.' ); ?></p>
-	</div>
-<?php elseif ( is_wp_error( $edit_error ) ) : ?>
-	<div id="message" class="notice notice-error">
-		<p><?php _e( 'There was an error while trying to update the file. You may need to fix something and try updating again.' ); ?></p>
-		<pre><?php echo esc_html( $edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code() ); ?></pre>
-	</div>
-<?php endif; ?>
+<?php
+if ( isset( $_GET['a'] ) ) {
+	wp_admin_notice(
+		__( 'File edited successfully.' ),
+		array(
+			'id'                 => 'message',
+			'is-dismissible'     => true,
+			'additional_classes' => array( 'updated' ),
+		)
+	);
+} elseif ( is_wp_error( $edit_error ) ) {
+	$error_code = esc_html( $edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code() );
+	$message    = '<p>' . __( 'There was an error while trying to update the file. You may need to fix something and try updating again.' ) . '</p>
+	<pre>' . $error_code . '</pre>';
+	wp_admin_notice(
+		$message,
+		array(
+			'type' => 'error',
+			'id'   => 'message',
+		)
+	);
+}
 
-<?php if ( preg_match( '/\.css$/', $file ) && ! wp_is_block_theme() && current_user_can( 'customize' ) ) : ?>
-	<div id="message" class="notice-info notice">
-		<p><strong><?php _e( 'Did you know?' ); ?></strong></p>
-		<p>
-			<?php
-			printf(
-				/* translators: %s: Link to Custom CSS section in the Customizer. */
-				__( 'There is no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
-				esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
-			);
-			?>
-		</p>
-	</div>
-<?php endif; ?>
+if ( preg_match( '/\.css$/', $file ) && ! wp_is_block_theme() && current_user_can( 'customize' ) ) {
+	$message = '<p><strong>' . __( 'Did you know?' ) . '</strong></p><p>' . sprintf(
+		/* translators: %s: Link to Custom CSS section in the Customizer. */
+		__( 'There is no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
+		esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
+	) . '</p>';
+	wp_admin_notice(
+		$message,
+		array(
+			'type' => 'info',
+			'id'   => 'message',
+		)
+	);
+}
+?>
 
 <div class="fileedit-sub">
 <div class="alignleft">
@@ -304,23 +317,30 @@ else :
 
 		<div>
 			<div class="editor-notices">
-				<?php if ( is_child_theme() && $theme->get_stylesheet() === get_template() ) : ?>
-					<div class="notice notice-warning inline">
-						<p>
-							<?php if ( is_writable( $file ) ) : ?>
-								<strong><?php _e( 'Caution:' ); ?></strong>
-							<?php endif; ?>
-							<?php _e( 'This is a file in your current parent theme.' ); ?>
-						</p>
-					</div>
-				<?php endif; ?>
+				<?php
+				if ( is_child_theme() && $theme->get_stylesheet() === get_template() ) :
+					$message  = ( is_writable( $file ) ) ? '<strong>' . __( 'Caution:' ) . '</strong> ' : '';
+					$message .= __( 'This is a file in your current parent theme.' );
+					wp_admin_notice(
+						$message,
+						array(
+							'type'               => 'warning',
+							'additional_classes' => array( 'inline' ),
+						)
+					);
+				endif;
+				?>
 			</div>
-			<?php if ( is_writable( $file ) ) : ?>
+			<?php
+			if ( is_writable( $file ) ) {
+				?>
 				<p class="submit">
 					<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
 					<span class="spinner"></span>
 				</p>
-			<?php else : ?>
+				<?php
+			} else {
+				?>
 				<p>
 					<?php
 					printf(
@@ -330,7 +350,9 @@ else :
 					);
 					?>
 				</p>
-			<?php endif; ?>
+				<?php
+			}
+			?>
 		</div>
 
 		<?php wp_print_file_editor_templates(); ?>
@@ -342,7 +364,7 @@ endif; // End if $error.
 </div>
 <?php
 $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
+if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) {
 	// Get a back URL.
 	$referer = wp_get_referer();
 
@@ -388,6 +410,6 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 		</div>
 	</div>
 	<?php
-endif; // Editor warning notice.
+} // Editor warning notice.
 
 require_once ABSPATH . 'wp-admin/admin-footer.php';

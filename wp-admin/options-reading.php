@@ -144,12 +144,28 @@ else :
 	?>
 </label></li>
 </ul>
-	<?php if ( 'page' === get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) === get_option( 'page_on_front' ) ) : ?>
-	<div id="front-page-warning" class="notice notice-warning inline"><p><?php _e( '<strong>Warning:</strong> these pages should not be the same!' ); ?></p></div>
-	<?php endif; ?>
-	<?php if ( get_option( 'wp_page_for_privacy_policy' ) === get_option( 'page_for_posts' ) || get_option( 'wp_page_for_privacy_policy' ) === get_option( 'page_on_front' ) ) : ?>
-	<div id="privacy-policy-page-warning" class="notice notice-warning inline"><p><?php _e( '<strong>Warning:</strong> these pages should not be the same as your Privacy Policy page!' ); ?></p></div>
-	<?php endif; ?>
+	<?php
+	if ( 'page' === get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) === get_option( 'page_on_front' ) ) :
+		wp_admin_notice(
+			__( '<strong>Warning:</strong> these pages should not be the same!' ),
+			array(
+				'type'               => 'warning',
+				'id'                 => 'front-page-warning',
+				'additional_classes' => array( 'inline' ),
+			)
+		);
+	endif;
+	if ( get_option( 'wp_page_for_privacy_policy' ) === get_option( 'page_for_posts' ) || get_option( 'wp_page_for_privacy_policy' ) === get_option( 'page_on_front' ) ) :
+		wp_admin_notice(
+			__( '<strong>Warning:</strong> these pages should not be the same as your Privacy Policy page!' ),
+			array(
+				'type'               => 'warning',
+				'id'                 => 'privacy-policy-page-warning',
+				'additional_classes' => array( 'inline' ),
+			)
+		);
+	endif;
+	?>
 </fieldset></td>
 </tr>
 <?php endif; ?>

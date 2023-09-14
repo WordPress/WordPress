@@ -105,13 +105,23 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php
 	if ( isset( $_GET['https_updated'] ) ) {
 		if ( $_GET['https_updated'] ) {
-			?>
-			<div id="message" class="notice notice-success is-dismissible"><p><?php _e( 'Site URLs switched to HTTPS.' ); ?></p></div>
-			<?php
+			wp_admin_notice(
+				__( 'Site URLs switched to HTTPS.' ),
+				array(
+					'type'        => 'success',
+					'id'          => 'message',
+					'dismissible' => true,
+				)
+			);
 		} else {
-			?>
-			<div id="message" class="notice notice-error is-dismissible"><p><?php _e( 'Site URLs could not be switched to HTTPS.' ); ?></p></div>
-			<?php
+			wp_admin_notice(
+				__( 'Site URLs could not be switched to HTTPS.' ),
+				array(
+					'type'        => 'error',
+					'id'          => 'message',
+					'dismissible' => true,
+				)
+			);
 		}
 	}
 	?>
@@ -212,11 +222,14 @@ if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 	require_once ABSPATH . 'wp-admin/admin-footer.php';
 	return;
 } else {
+	wp_admin_notice(
+		__( 'The Site Health check requires JavaScript.' ),
+		array(
+			'type'               => 'error',
+			'additional_classes' => array( 'hide-if-js' ),
+		)
+	);
 	?>
-
-<div class="notice notice-error hide-if-js">
-	<p><?php _e( 'The Site Health check requires JavaScript.' ); ?></p>
-</div>
 
 <div class="health-check-body health-check-status-tab hide-if-no-js">
 	<div class="site-status-all-clear hide">

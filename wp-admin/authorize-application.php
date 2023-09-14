@@ -137,9 +137,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 
-	<?php if ( is_wp_error( $error ) ) : ?>
-		<div class="notice notice-error"><p><?php echo $error->get_error_message(); ?></p></div>
-	<?php endif; ?>
+	<?php
+	if ( is_wp_error( $error ) ) {
+		wp_admin_notice(
+			$error->get_error_message(),
+			array(
+				'type' => 'error',
+			)
+		);
+	}
+	?>
 
 	<div class="card auth-app-card">
 		<h2 class="title"><?php _e( 'An application would like to connect to your account.' ); ?></h2>
@@ -194,24 +201,25 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		}
 		?>
 
-		<?php if ( $new_password ) : ?>
-			<div class="notice notice-success notice-alt below-h2">
-				<p class="application-password-display">
-					<label for="new-application-password-value">
-						<?php
-						printf(
-							/* translators: %s: Application name. */
-							esc_html__( 'Your new password for %s is:' ),
-							'<strong>' . esc_html( $app_name ) . '</strong>'
-						);
-						?>
-					</label>
-					<input id="new-application-password-value" type="text" class="code" readonly="readonly" value="<?php esc_attr( WP_Application_Passwords::chunk_password( $new_password ) ); ?>" />
-				</p>
-				<p><?php _e( 'Be sure to save this in a safe location. You will not be able to retrieve it.' ); ?></p>
-			</div>
+		<?php
+		if ( $new_password ) :
+			$message = '<p class="application-password-display">
+				<label for="new-application-password-value">' . sprintf(
+				/* translators: %s: Application name. */
+				esc_html__( 'Your new password for %s is:' ),
+				'<strong>' . esc_html( $app_name ) . '</strong>'
+			) . '
+				</label>
+				<input id="new-application-password-value" type="text" class="code" readonly="readonly" value="' . esc_attr( WP_Application_Passwords::chunk_password( $new_password ) ) . '" />
+			</p>
+			<p>' . __( 'Be sure to save this in a safe location. You will not be able to retrieve it.' ) . '</p>';
+			$args = array(
+				'type'               => 'success',
+				'additional_classes' => array( 'notice-alt', 'below-h2' ),
+				'paragraph_wrap'     => false,
+			);
+			wp_admin_notice( $message, $args );
 
-			<?php
 			/**
 			 * Fires in the Authorize Application Password new password section in the no-JS version.
 			 *
@@ -226,8 +234,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			 * @param WP_User $user         The user authorizing the application.
 			 */
 			do_action( 'wp_authorize_application_password_form_approved_no_js', $new_password, $request, $user );
+		else :
 			?>
-		<?php else : ?>
 			<form action="<?php echo esc_url( admin_url( 'authorize-application.php' ) ); ?>" method="post" class="form-wrap">
 				<?php wp_nonce_field( 'authorize_application_password' ); ?>
 				<input type="hidden" name="action" value="authorize_application_password" />

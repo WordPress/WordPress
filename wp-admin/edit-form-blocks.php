@@ -319,27 +319,29 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php // JavaScript is disabled. ?>
 	<div class="wrap hide-if-js block-editor-no-js">
 		<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
-		<div class="notice notice-error">
-			<p>
-				<?php
-					$message = sprintf(
-						/* translators: %s: A link to install the Classic Editor plugin. */
-						__( 'The block editor requires JavaScript. Please enable JavaScript in your browser settings, or try the <a href="%s">Classic Editor plugin</a>.' ),
-						esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg&save=0' ), 'save_wporg_username_' . get_current_user_id() ) )
-					);
+		<?php
+		$message = sprintf(
+			/* translators: %s: A link to install the Classic Editor plugin. */
+			__( 'The block editor requires JavaScript. Please enable JavaScript in your browser settings, or try the <a href="%s">Classic Editor plugin</a>.' ),
+			esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg&save=0' ), 'save_wporg_username_' . get_current_user_id() ) )
+		);
 
-					/**
-					 * Filters the message displayed in the block editor interface when JavaScript is
-					 * not enabled in the browser.
-					 *
-					 * @since 5.0.3
-					 *
-					 * @param string  $message The message being displayed.
-					 * @param WP_Post $post    The post being edited.
-					 */
-					echo apply_filters( 'block_editor_no_javascript_message', $message, $post );
-					?>
-			</p>
-		</div>
+		/**
+		 * Filters the message displayed in the block editor interface when JavaScript is
+		 * not enabled in the browser.
+		 *
+		 * @since 5.0.3
+		 *
+		 * @param string  $message The message being displayed.
+		 * @param WP_Post $post    The post being edited.
+		 */
+		$message = apply_filters( 'block_editor_no_javascript_message', $message, $post );
+		wp_admin_notice(
+			$message,
+			array(
+				'type' => 'error',
+			)
+		);
+		?>
 	</div>
 </div>
