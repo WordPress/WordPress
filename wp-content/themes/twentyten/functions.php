@@ -290,6 +290,39 @@ if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 	}
 endif;
 
+
+if ( ! function_exists( 'twentyten_header_image' ) ) :
+	/**
+	 * Custom header image markup displayed.
+	 *
+	 * @since Twenty Ten 4.0
+	 */
+	function twentyten_header_image() {
+		$attrs = array(
+			'alt' => get_bloginfo( 'name', 'display' ),
+		);
+
+		// Compatibility with versions of WordPress prior to 3.4.
+		if ( function_exists( 'get_custom_header' ) ) {
+			$custom_header   = get_custom_header();
+			$attrs['width']  = $custom_header->width;
+			$attrs['height'] = $custom_header->height;
+		} else {
+			$attrs['width']  = HEADER_IMAGE_WIDTH;
+			$attrs['height'] = HEADER_IMAGE_HEIGHT;
+		}
+
+		if ( function_exists( 'the_header_image_tag' ) ) {
+			the_header_image_tag( $attrs );
+			return;
+		}
+
+		?>
+		<img src="<?php header_image(); ?>" width="<?php echo esc_attr( $attrs['width'] ); ?>" height="<?php echo esc_attr( $attrs['height'] ); ?>" alt="<?php echo esc_attr( $attrs['alt'] ); ?>" />
+		<?php
+	}
+endif; // twentyten_header_image()
+
 /**
  * Show a home link for our wp_nav_menu() fallback, wp_page_menu().
  *
