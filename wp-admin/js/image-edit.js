@@ -236,8 +236,10 @@
 		// Open menu and set z-index to appear above image crop area if it is enabled.
 		$target
 			.toggleClass( 'imgedit-popup-menu-open' ).slideToggle( 'fast' ).css( { 'z-index' : 200000 } );
-		// Move focus to first item in menu.
-		$target.find( 'button' ).first().trigger( 'focus' );
+		// Move focus to first item in menu when opening menu.
+		if ( 'true' === $el.attr( 'aria-expanded' ) ) {
+			$target.find( 'button' ).first().trigger( 'focus' );
+		}
 
 		return false;
 	},
