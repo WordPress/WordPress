@@ -85,12 +85,13 @@ class WP_Style_Engine_Processor {
 	 * Gets the CSS rules as a string.
 	 *
 	 * @since 6.1.0
+	 * @since 6.4.0 The Optimization is no longer the default.
 	 *
 	 * @param array $options   {
 	 *     Optional. An array of options. Default empty array.
 	 *
 	 *     @type bool $optimize Whether to optimize the CSS output, e.g. combine rules.
-	 *                          Default true.
+	 *                          Default false.
 	 *     @type bool $prettify Whether to add new lines and indents to output.
 	 *                          Defaults to whether the `SCRIPT_DEBUG` constant is defined.
 	 * }
@@ -98,7 +99,7 @@ class WP_Style_Engine_Processor {
 	 */
 	public function get_css( $options = array() ) {
 		$defaults = array(
-			'optimize' => true,
+			'optimize' => false,
 			'prettify' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG,
 		);
 		$options  = wp_parse_args( $options, $defaults );
