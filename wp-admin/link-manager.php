@@ -119,11 +119,17 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 
 <?php
 if ( isset( $_REQUEST['deleted'] ) ) {
-	echo '<div id="message" class="updated notice is-dismissible"><p>';
 	$deleted = (int) $_REQUEST['deleted'];
 	/* translators: %s: Number of links. */
-	printf( _n( '%s link deleted.', '%s links deleted.', $deleted ), $deleted );
-	echo '</p></div>';
+	$deleted_message = sprintf( _n( '%s link deleted.', '%s links deleted.', $deleted ), $deleted );
+	wp_admin_notice(
+		$deleted_message,
+		array(
+			'id'                 => 'message',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deleted' ), $_SERVER['REQUEST_URI'] );
 }
 ?>

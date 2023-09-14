@@ -260,43 +260,86 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<hr class="wp-header-end">
 <?php
 if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) {
-	?>
-	<div id="message1" class="updated notice is-dismissible"><p><?php _e( 'The active theme is broken. Reverting to the default theme.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'The active theme is broken. Reverting to the default theme.' ),
+		array(
+			'id'                 => 'message1',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 } elseif ( isset( $_GET['activated'] ) ) {
 	if ( isset( $_GET['previewed'] ) ) {
-		?>
-		<div id="message2" class="updated notice is-dismissible"><p><?php _e( 'Settings saved and theme activated.' ); ?> <a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php _e( 'Visit site' ); ?></a></p></div>
-		<?php
+		wp_admin_notice(
+			__( 'Settings saved and theme activated.' ) . '<a href="' . esc_url( home_url( '/' ) ) . '">' . __( 'Visit site' ) . '</a>',
+			array(
+				'id'                 => 'message2',
+				'additional_classes' => array( 'updated' ),
+				'dismissible'        => true,
+			)
+		);
 	} else {
-		?>
-		<div id="message2" class="updated notice is-dismissible"><p><?php _e( 'New theme activated.' ); ?> <a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php _e( 'Visit site' ); ?></a></p></div>
-		<?php
+		wp_admin_notice(
+			__( 'New theme activated.' ) . '<a href="' . esc_url( home_url( '/' ) ) . '">' . __( 'Visit site' ) . '</a>',
+			array(
+				'id'                 => 'message2',
+				'additional_classes' => array( 'updated' ),
+				'dismissible'        => true,
+			)
+		);
 	}
 } elseif ( isset( $_GET['deleted'] ) ) {
-	?>
-	<div id="message3" class="updated notice is-dismissible"><p><?php _e( 'Theme deleted.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'Theme deleted.' ),
+		array(
+			'id'                 => 'message3',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 } elseif ( isset( $_GET['delete-active-child'] ) ) {
-	?>
-	<div id="message4" class="error"><p><?php _e( 'You cannot delete a theme while it has an active child theme.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'You cannot delete a theme while it has an active child theme.' ),
+		array(
+			'id'                 => 'message4',
+			'additional_classes' => array( 'error' ),
+		)
+	);
 } elseif ( isset( $_GET['resumed'] ) ) {
-	?>
-	<div id="message5" class="updated notice is-dismissible"><p><?php _e( 'Theme resumed.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'Theme resumed.' ),
+		array(
+			'id'                 => 'message5',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 } elseif ( isset( $_GET['error'] ) && 'resuming' === $_GET['error'] ) {
-	?>
-	<div id="message6" class="error"><p><?php _e( 'Theme could not be resumed because it triggered a <strong>fatal error</strong>.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'Theme could not be resumed because it triggered a <strong>fatal error</strong>.' ),
+		array(
+			'id'                 => 'message6',
+			'additional_classes' => array( 'error' ),
+		)
+	);
 } elseif ( isset( $_GET['enabled-auto-update'] ) ) {
-	?>
-	<div id="message7" class="updated notice is-dismissible"><p><?php _e( 'Theme will be auto-updated.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'Theme will be auto-updated.' ),
+		array(
+			'id'                 => 'message7',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 } elseif ( isset( $_GET['disabled-auto-update'] ) ) {
-	?>
-	<div id="message8" class="updated notice is-dismissible"><p><?php _e( 'Theme will no longer be auto-updated.' ); ?></p></div>
-	<?php
+	wp_admin_notice(
+		__( 'Theme will no longer be auto-updated.' ),
+		array(
+			'id'                 => 'message8',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 }
 
 $current_theme = wp_get_theme();

@@ -91,9 +91,18 @@ echo esc_html( $title );
 
 <hr class="wp-header-end">
 
-<?php if ( isset( $_GET['added'] ) ) : ?>
-<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Link added.' ); ?></p></div>
-<?php endif; ?>
+<?php
+if ( isset( $_GET['added'] ) ) {
+	wp_admin_notice(
+		__( 'Link added.' ),
+		array(
+			'id'                 => 'message',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
+}
+?>
 
 <form name="<?php echo esc_attr( $form_name ); ?>" id="<?php echo esc_attr( $form_name ); ?>" method="post" action="link.php">
 <?php

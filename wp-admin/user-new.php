@@ -396,7 +396,14 @@ endif;
 
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg ) {
-		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
+		wp_admin_notice(
+			$msg,
+			array(
+				'id'                 => 'message',
+				'additional_classes' => array( 'updated' ),
+				'dismissible'        => true,
+			)
+		);
 	}
 }
 ?>

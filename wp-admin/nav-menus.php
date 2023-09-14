@@ -281,7 +281,14 @@ switch ( $action ) {
 		check_admin_referer( 'delete-menu_item_' . $menu_item_id );
 
 		if ( is_nav_menu_item( $menu_item_id ) && wp_delete_post( $menu_item_id, true ) ) {
-			$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'The menu item has been successfully deleted.' ) . '</p></div>';
+			$messages[] = wp_get_admin_notice(
+				__( 'The menu item has been successfully deleted.' ),
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'updated' ),
+					'dismissible'        => true,
+				)
+			);
 		}
 
 		break;
@@ -302,9 +309,23 @@ switch ( $action ) {
 		}
 
 		if ( is_wp_error( $deletion ) ) {
-			$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . $deletion->get_error_message() . '</p></div>';
+			$messages[] = wp_get_admin_notice(
+				$deletion->get_error_message(),
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'error' ),
+					'dismissible'        => true,
+				)
+			);
 		} else {
-			$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'The menu has been successfully deleted.' ) . '</p></div>';
+			$messages[] = wp_get_admin_notice(
+				__( 'The menu has been successfully deleted.' ),
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'updated' ),
+					'dismissible'        => true,
+				)
+			);
 		}
 
 		break;
@@ -320,13 +341,27 @@ switch ( $action ) {
 			$deletion = wp_delete_nav_menu( $menu_id_to_delete );
 
 			if ( is_wp_error( $deletion ) ) {
-				$messages[]     = '<div id="message" class="error notice is-dismissible"><p>' . $deletion->get_error_message() . '</p></div>';
+				$messages[]     = wp_get_admin_notice(
+					$deletion->get_error_message(),
+					array(
+						'id'                 => 'message',
+						'additional_classes' => array( 'error' ),
+						'dismissible'        => true,
+					)
+				);
 				$deletion_error = true;
 			}
 		}
 
 		if ( empty( $deletion_error ) ) {
-			$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'Selected menus have been successfully deleted.' ) . '</p></div>';
+			$messages[] = wp_get_admin_notice(
+				__( 'Selected menus have been successfully deleted.' ),
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'updated' ),
+					'dismissible'        => true,
+				)
+			);
 		}
 
 		break;
@@ -431,7 +466,14 @@ switch ( $action ) {
 
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
 					$_menu_object = $_nav_menu_selected_id;
-					$messages[]   = '<div id="message" class="error notice is-dismissible"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+					$messages[]   = wp_get_admin_notice(
+						$_nav_menu_selected_id->get_error_message(),
+						array(
+							'id'                 => 'message',
+							'additional_classes' => array( 'error' ),
+							'dismissible'        => true,
+						)
+					);
 				} else {
 					$_menu_object            = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_title = $_menu_object->name;
@@ -614,11 +656,19 @@ wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();
 
 if ( ! current_theme_supports( 'menus' ) && ! $num_locations ) {
-	$messages[] = '<div id="message" class="updated"><p>' . sprintf(
+	$message_no_theme_support = sprintf(
 		/* translators: %s: URL to Widgets screen. */
 		__( 'Your theme does not natively support menus, but you can use them in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%s">Widgets</a> screen.' ),
 		admin_url( 'widgets.php' )
-	) . '</p></div>';
+	);
+	$messages[] = wp_get_admin_notice(
+		$message_no_theme_support,
+		array(
+			'id'                 => 'message',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
 }
 
 if ( ! $locations_screen ) : // Main tab.

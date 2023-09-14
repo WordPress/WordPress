@@ -218,21 +218,41 @@ if ( 'grid' === $mode ) {
 
 		<hr class="wp-header-end">
 
-		<?php if ( ! empty( $message ) ) : ?>
-			<div id="message" class="updated notice is-dismissible"><p><?php echo $message; ?></p></div>
-		<?php endif; ?>
-
-		<div class="error hide-if-js">
-			<p>
-			<?php
-			printf(
-				/* translators: %s: List view URL. */
-				__( 'The grid view for the Media Library requires JavaScript. <a href="%s">Switch to the list view</a>.' ),
-				'upload.php?mode=list'
+		<?php
+		if ( ! empty( $message ) ) {
+			wp_admin_notice(
+				$message,
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'updated' ),
+					'dismissible'        => true,
+				)
 			);
-			?>
-			</p>
-		</div>
+		}
+
+		if ( ! empty( $message ) ) {
+			wp_admin_notice(
+				$message,
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'updated' ),
+					'dismissible'        => true,
+				)
+			);
+		}
+
+		$js_required_message = sprintf(
+			/* translators: %s: List view URL. */
+			__( 'The grid view for the Media Library requires JavaScript. <a href="%s">Switch to the list view</a>.' ),
+			'upload.php?mode=list'
+		);
+		wp_admin_notice(
+			$js_required_message,
+			array(
+				additional_classes( 'error', 'hide-if-js' ),
+			)
+		);
+		?>
 	</div>
 	<?php
 	require_once ABSPATH . 'wp-admin/admin-footer.php';
@@ -426,9 +446,18 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 
 <hr class="wp-header-end">
 
-<?php if ( ! empty( $message ) ) : ?>
-<div id="message" class="updated notice is-dismissible"><p><?php echo $message; ?></p></div>
-<?php endif; ?>
+<?php
+if ( ! empty( $message ) ) {
+	wp_admin_notice(
+		$message,
+		array(
+			'id'                 => 'message',
+			'additional_classes' => array( 'updated' ),
+			'dismissible'        => true,
+		)
+	);
+}
+?>
 
 <form id="posts-filter" method="get">
 
