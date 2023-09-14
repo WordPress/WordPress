@@ -174,6 +174,18 @@ class WP_Block_Type {
 	public $provides_context = null;
 
 	/**
+	 * Block hooks for this block type.
+	 *
+	 * A block hook is specified by a block type and a relative position.
+	 * The hooked block will be automatically inserted in the given position
+	 * next to the "anchor" block whenever the latter is encountered.
+	 *
+	 * @since 6.4.0
+	 * @var array[]
+	 */
+	public $block_hooks = array();
+
+	/**
 	 * Block type editor only script handles.
 	 *
 	 * @since 6.1.0
@@ -254,6 +266,7 @@ class WP_Block_Type {
 	 *              `editor_style_handles`, and `style_handles` properties.
 	 *              Deprecated the `editor_script`, `script`, `view_script`, `editor_style`, and `style` properties.
 	 * @since 6.3.0 Added the `selectors` property.
+	 * @since 6.4.0 Added the `block_hooks` property.
 	 *
 	 * @see register_block_type()
 	 *
@@ -284,6 +297,7 @@ class WP_Block_Type {
 	 *     @type array|null    $attributes               Block type attributes property schemas.
 	 *     @type string[]      $uses_context             Context values inherited by blocks of this type.
 	 *     @type string[]|null $provides_context         Context provided by blocks of this type.
+	 *     @type array[]       $block_hooks              Block hooks.
 	 *     @type string[]      $editor_script_handles    Block type editor only script handles.
 	 *     @type string[]      $script_handles           Block type front end and editor script handles.
 	 *     @type string[]      $view_script_handles      Block type front end only script handles.
