@@ -711,9 +711,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 				<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $this->screen->taxonomy ); ?>" />
 				<input type="hidden" name="post_type" value="<?php echo esc_attr( $this->screen->post_type ); ?>" />
 
-				<div class="notice notice-error notice-alt inline hidden">
-					<p class="error"></p>
-				</div>
+				<?php
+				wp_admin_notice(
+					'<p class="error"></p>',
+					array(
+						'type'               => 'error',
+						'additional_classes' => array( 'notice-alt', 'inline', 'hidden' ),
+						'paragraph_wrap'     => false,
+					)
+				);
+				?>
 			</div>
 			</div>
 

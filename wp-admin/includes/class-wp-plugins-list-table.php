@@ -1243,7 +1243,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 */
 					echo apply_filters( 'plugin_auto_update_setting_html', $html, $plugin_file, $plugin_data );
 
-					echo '<div class="notice notice-error notice-alt inline hidden"><p></p></div>';
+					wp_admin_notice(
+						'',
+						array(
+							'type'               => 'error',
+							'additional_classes' => array( 'notice-alt', 'inline', 'hidden' ),
+						)
+					);
+
 					echo '</td>';
 
 					break;

@@ -1224,11 +1224,18 @@ function paused_themes_notice() {
 		return;
 	}
 
-	printf(
-		'<div class="notice notice-error"><p><strong>%s</strong><br>%s</p><p><a href="%s">%s</a></p></div>',
+	$message = sprintf(
+		'<p><strong>%s</strong><br>%s</p><p><a href="%s">%s</a></p>',
 		__( 'One or more themes failed to load properly.' ),
 		__( 'You can find more details and make changes on the Themes screen.' ),
 		esc_url( admin_url( 'themes.php' ) ),
 		__( 'Go to the Themes screen' )
+	);
+	wp_admin_notice(
+		$message,
+		array(
+			'type'           => 'error',
+			'paragraph_wrap' => false,
+		)
 	);
 }

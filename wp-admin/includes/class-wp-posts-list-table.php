@@ -2076,9 +2076,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 					<input type="hidden" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
 				<?php endif; ?>
 
-				<div class="notice notice-error notice-alt inline hidden">
-					<p class="error"></p>
-				</div>
+				<?php
+				wp_admin_notice(
+					'<p class="error"></p>',
+					array(
+						'type'               => 'error',
+						'additional_classes' => array( 'notice-alt', 'inline', 'hidden' ),
+						'paragraph_wrap'     => false,
+					)
+				);
+				?>
 			</div>
 		</div> <!-- end of .inline-edit-wrapper -->
 

@@ -512,9 +512,16 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 			<button type="button" class="cancel button"><?php _e( 'Cancel' ); ?></button>
 			<span class="waiting spinner"></span>
 		</p>
-		<div class="notice notice-error notice-alt inline hidden">
-			<p class="error"></p>
-		</div>
+		<?php
+		wp_admin_notice(
+			'<p class="error"></p>',
+			array(
+				'type'               => 'error',
+				'additional_classes' => array( 'notice-alt', 'inline', 'hidden' ),
+				'paragraph_wrap'     => false,
+			)
+		);
+		?>
 	</div>
 
 	<input type="hidden" name="action" id="action" value="" />
@@ -2776,9 +2783,12 @@ function wp_star_rating( $args = array() ) {
  * @since 4.2.0
  */
 function _wp_posts_page_notice() {
-	printf(
-		'<div class="notice notice-warning inline"><p>%s</p></div>',
-		__( 'You are currently editing the page that shows your latest posts.' )
+	wp_admin_notice(
+		__( 'You are currently editing the page that shows your latest posts.' ),
+		array(
+			'type'               => 'warning',
+			'additional_classes' => array( 'inline' ),
+		)
 	);
 }
 
