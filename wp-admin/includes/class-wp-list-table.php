@@ -1434,6 +1434,7 @@ class WP_List_Table {
 			}
 
 			if ( isset( $sortable[ $column_key ] ) ) {
+				$sortable[ $column_key ] = (array) $sortable[ $column_key ];
 				$orderby       = isset( $sortable[ $column_key ][0] ) ? $sortable[ $column_key ][0] : '';
 				$desc_first    = isset( $sortable[ $column_key ][1] ) ? $sortable[ $column_key ][1] : false;
 				$abbr          = isset( $sortable[ $column_key ][2] ) ? $sortable[ $column_key ][2] : '';
