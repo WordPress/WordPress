@@ -533,7 +533,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 			if ( $metadata['name'] === $anchor_block_name ) {
 				_doing_it_wrong(
 					__METHOD__,
-					__( 'Cannot hook block to itself.', 'gutenberg' ),
+					__( 'Cannot hook block to itself.' ),
 					'6.4.0'
 				);
 				continue;
