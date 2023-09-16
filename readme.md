@@ -1,16 +1,18 @@
-  WordPress › ReadMe 
-
 [![WordPress](wp-admin/images/wordpress-logo.png)](https://wordpress.org/)
 ==========================================================================
 
+<p align="center">
 Semantic Personal Publishing Platform
+</p>
 
 First Things First
 ------------------
 
 Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I am proud to be a part of. Thousands of hours have gone into WordPress, and we are dedicated to making it better every day. Thank you for making it part of your world.
 
+<p align="right">
 — Matt Mullenweg
+</p>
 
 Installation: Famous 5-minute install
 -------------------------------------
