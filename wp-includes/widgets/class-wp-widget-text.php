@@ -495,13 +495,21 @@ class WP_Widget_Text extends WP_Widget {
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 			</p>
-			<div class="notice inline notice-info notice-alt">
-				<?php if ( ! isset( $instance['visual'] ) ) : ?>
-					<p><?php _e( 'This widget may contain code that may work better in the &#8220;Custom HTML&#8221; widget. How about trying that widget instead?' ); ?></p>
-				<?php else : ?>
-					<p><?php _e( 'This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you have not yet, how about trying that widget instead?' ); ?></p>
-				<?php endif; ?>
-			</div>
+			<?php
+			if ( ! isset( $instance['visual'] ) ) {
+				$widget_info_message = __( 'This widget may contain code that may work better in the &#8220;Custom HTML&#8221; widget. How about trying that widget instead?' );
+			} else {
+				$widget_info_message = __( 'This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you have not yet, how about trying that widget instead?' );
+			}
+
+			wp_admin_notice(
+				$widget_info_message,
+				array(
+					'type'               => 'info',
+					'additional_classes' => array( 'notice-alt', 'inline' ),
+				)
+			);
+			?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Content:' ); ?></label>
 				<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $instance['text'] ); ?></textarea>
