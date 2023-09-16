@@ -91,7 +91,9 @@ if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		}
 	} elseif ( stripos( $_SERVER['HTTP_USER_AGENT'], 'safari' ) !== false ) {
 		$is_safari = true;
-	} elseif ( ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) || str_contains( $_SERVER['HTTP_USER_AGENT'], 'Trident' ) ) && str_contains( $_SERVER['HTTP_USER_AGENT'], 'Win' ) ) {
+	} elseif ( ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) || str_contains( $_SERVER['HTTP_USER_AGENT'], 'Trident' ) )
+		&& str_contains( $_SERVER['HTTP_USER_AGENT'], 'Win' )
+	) {
 		$is_winIE = true;
 	} elseif ( str_contains( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) && str_contains( $_SERVER['HTTP_USER_AGENT'], 'Mac' ) ) {
 		$is_macIE = true;

@@ -4522,7 +4522,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 		$url = str_replace( "'", '&#039;', $url );
 	}
 
-	if ( ( str_contains( $url, '[' ) ) || ( str_contains( $url, ']' ) ) ) {
+	if ( str_contains( $url, '[' ) || str_contains( $url, ']' ) ) {
 
 		$parsed = wp_parse_url( $url );
 		$front  = '';
