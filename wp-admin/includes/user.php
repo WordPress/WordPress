@@ -535,28 +535,30 @@ function default_password_nag() {
 	if ( 'profile.php' === $pagenow || ! get_user_option( 'default_password_nag' ) ) {
 		return;
 	}
-	?>
-	<div class="error default-password-nag">
-		<p>
-			<strong><?php _e( 'Notice:' ); ?></strong>
-			<?php _e( 'You are using the auto-generated password for your account. Would you like to change it?' ); ?>
-		</p>
-		<p>
-		<?php
-		printf(
-			'<a href="%1$s">%2$s</a> | ',
-			esc_url( get_edit_profile_url() . '#password' ),
-			__( 'Yes, take me to my profile page' )
-		);
-		printf(
-			'<a href="%1$s" id="default-password-nag-no">%2$s</a>',
-			'?default_password_nag=0',
-			__( 'No thanks, do not remind me again' )
-		);
-		?>
-		</p>
-	</div>
-	<?php
+
+	$default_password_nag_message  = sprintf(
+		'<p><strong>%1$s</strong> %2$s</p>',
+		__( 'Notice:' ),
+		__( 'You are using the auto-generated password for your account. Would you like to change it?' )
+	);
+	$default_password_nag_message .= sprintf(
+		'<p><a href="%1$s">%2$s</a> | ',
+		esc_url( get_edit_profile_url() . '#password' ),
+		__( 'Yes, take me to my profile page' )
+	);
+	$default_password_nag_message .= sprintf(
+		'<a href="%1$s" id="default-password-nag-no">%2$s</a></p>',
+		'?default_password_nag=0',
+		__( 'No thanks, do not remind me again' )
+	);
+
+	wp_admin_notice(
+		$default_password_nag_message,
+		array(
+			'additional_classes' => array( 'error', 'default-password-nag' ),
+			'paragraph_wrap'     => false,
+		)
+	);
 }
 
 /**

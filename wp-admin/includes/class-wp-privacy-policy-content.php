@@ -138,19 +138,20 @@ final class WP_Privacy_Policy_Content {
 			return;
 		}
 
-		?>
-		<div class="policy-text-updated notice notice-warning is-dismissible">
-			<p>
-			<?php
-				printf(
-					/* translators: %s: Privacy Policy Guide URL. */
-					__( 'The suggested privacy policy text has changed. Please <a href="%s">review the guide</a> and update your privacy policy.' ),
-					esc_url( admin_url( 'privacy-policy-guide.php?tab=policyguide' ) )
-				);
-			?>
-			</p>
-		</div>
-		<?php
+		$privacy_message = sprintf(
+			/* translators: %s: Privacy Policy Guide URL. */
+			__( 'The suggested privacy policy text has changed. Please <a href="%s">review the guide</a> and update your privacy policy.' ),
+			esc_url( admin_url( 'privacy-policy-guide.php?tab=policyguide' ) )
+		);
+
+		wp_admin_notice(
+			$privacy_message,
+			array(
+				'type'               => 'warning',
+				'additional_classes' => array( 'policy-text-updated' ),
+				'dismissible'        => true,
+			)
+		);
 	}
 
 	/**

@@ -1437,7 +1437,13 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 			);
 
 			if ( is_wp_error( $menu_item_db_id ) ) {
-				$messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
+				$messages[] = wp_get_admin_notice(
+					$menu_item_db_id->get_error_message(),
+					array(
+						'id'                 => 'message',
+						'additional_classes' => array( 'error' ),
+					)
+				);
 			} else {
 				unset( $menu_items[ $menu_item_db_id ] );
 			}

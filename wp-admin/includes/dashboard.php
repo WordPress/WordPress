@@ -573,9 +573,16 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form hide-if-no-js">
 
-		<?php if ( $error_msg ) : ?>
-		<div class="error"><?php echo $error_msg; ?></div>
-		<?php endif; ?>
+		<?php
+		if ( $error_msg ) {
+			wp_admin_notice(
+				$error_msg,
+				array(
+					'additional_classes' => array( 'error' ),
+				)
+			);
+		}
+		?>
 
 		<div class="input-text-wrap" id="title-wrap">
 			<label for="title">
@@ -1157,8 +1164,15 @@ function wp_dashboard_rss_output( $widget_id ) {
  * @return bool True on success, false on failure.
  */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array(), ...$args ) {
-	$loading    = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&hellip;' ) . '</p><div class="hide-if-js notice notice-error inline"><p>' . __( 'This widget requires JavaScript.' ) . '</p></div>';
 	$doing_ajax = wp_doing_ajax();
+	$loading    = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&hellip;' ) . '</p>';
+	$loading   .= wp_get_admin_notice(
+		__( 'This widget requires JavaScript.' ),
+		array(
+			'type'               => 'error',
+			'additional_classes' => array( 'inline', 'hide-if-js' ),
+		)
+	);
 
 	if ( empty( $check_urls ) ) {
 		$widgets = get_option( 'dashboard_widget_options' );
@@ -1340,25 +1354,19 @@ function wp_dashboard_events_news() {
  * @since 4.8.0
  */
 function wp_print_community_events_markup() {
-	?>
+	$community_events_notice  = '<p class="hide-if-js">' . ( 'This widget requires JavaScript.' ) . '</p>';
+	$community_events_notice .= '<p class="community-events-error-occurred" aria-hidden="true">' . __( 'An error occurred. Please try again.' ) . '</p>';
+	$community_events_notice .= '<p class="community-events-could-not-locate" aria-hidden="true"></p>';
 
-	<div class="community-events-errors notice notice-error inline hide-if-js">
-		<p class="hide-if-js">
-			<?php _e( 'This widget requires JavaScript.' ); ?>
-		</p>
+	wp_admin_notice(
+		$community_events_notice,
+		array(
+			'type'               => 'error',
+			'additional_classes' => array( 'community-events-errors', 'inline', 'hide-if-js' ),
+			'paragraph_wrap'     => false,
+		)
+	);
 
-		<p class="community-events-error-occurred" aria-hidden="true">
-			<?php _e( 'An error occurred. Please try again.' ); ?>
-		</p>
-
-		<p class="community-events-could-not-locate" aria-hidden="true"></p>
-	</div>
-
-	<div class="community-events-loading hide-if-no-js">
-		<?php _e( 'Loading&hellip;' ); ?>
-	</div>
-
-	<?php
 	/*
 	 * Hide the main element when the page first loads, because the content
 	 * won't be ready until wp.communityEvents.renderEventsTemplate() has run.

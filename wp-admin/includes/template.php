@@ -1013,10 +1013,15 @@ function wp_import_upload_form( $action ) {
 	$size       = size_format( $bytes );
 	$upload_dir = wp_upload_dir();
 	if ( ! empty( $upload_dir['error'] ) ) :
-		?>
-		<div class="error"><p><?php _e( 'Before you can upload your import file, you will need to fix the following error:' ); ?></p>
-		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div>
-		<?php
+		$upload_directory_error  = '<p>' . __( 'Before you can upload your import file, you will need to fix the following error:' ) . '</p>';
+		$upload_directory_error .= '<p><strong>' . $upload_dir['error'] . '</strong></p>';
+		wp_admin_notice(
+			$upload_directory_error,
+			array(
+				'additonal_classes' => array( 'error' ),
+				'paragraph_wrap'    => false,
+			)
+		);
 	else :
 		?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" class="wp-upload-form" action="<?php echo esc_url( wp_nonce_url( $action, 'import-upload' ) ); ?>">
@@ -1434,16 +1439,17 @@ function do_meta_boxes( $screen, $context, $data_object ) {
 					if ( WP_DEBUG && ! $block_compatible && 'edit' === $screen->parent_base && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {
 						$plugin = _get_plugin_from_callback( $box['callback'] );
 						if ( $plugin ) {
-							?>
-							<div class="error inline">
-								<p>
-									<?php
-										/* translators: %s: The name of the plugin that generated this meta box. */
-										printf( __( 'This meta box, from the %s plugin, is not compatible with the block editor.' ), "<strong>{$plugin['Name']}</strong>" );
-									?>
-								</p>
-							</div>
-							<?php
+							$meta_box_not_compatible_message = sprintf(
+								/* translators: %s: The name of the plugin that generated this meta box. */
+								__( 'This meta box, from the %s plugin, is not compatible with the block editor.' ),
+								"<strong>{$plugin['Name']}</strong>"
+							);
+							wp_admin_notice(
+								$meta_box_not_compatible_message,
+								array(
+									'additional_classes' => array( 'error', 'inline' ),
+								)
+							);
 						}
 					}
 
@@ -2695,17 +2701,22 @@ function convert_to_screen( $hook_name ) {
  * @access private
  */
 function _local_storage_notice() {
-	?>
-	<div id="local-storage-notice" class="hidden notice is-dismissible">
-	<p class="local-restore">
-		<?php _e( 'The backup of this post in your browser is different from the version below.' ); ?>
-		<button type="button" class="button restore-backup"><?php _e( 'Restore the backup' ); ?></button>
-	</p>
-	<p class="help">
-		<?php _e( 'This will replace the current editor content with the last backup version. You can use undo and redo in the editor to get the old content back or to return to the restored version.' ); ?>
-	</p>
-	</div>
-	<?php
+	$local_storage_message  = '<p class="local-restore">';
+	$local_storage_message .= __( 'The backup of this post in your browser is different from the version below.' );
+	$local_storage_message .= '<button type="button" class="button restore-backup">' . __( 'Restore the backup' ) . '</button></p>';
+	$local_storage_message .= '<p class="help">';
+	$local_storage_message .= __( 'This will replace the current editor content with the last backup version. You can use undo and redo in the editor to get the old content back or to return to the restored version.' );
+	$local_storage_message .= '</p>';
+
+	wp_admin_notice(
+		$local_storage_message,
+		array(
+			'id'                 => 'local-storage-notice',
+			'additional_classes' => array( 'hidden' ),
+			'dismissible'        => true,
+			'paragraph_wrap'     => false,
+		)
+	);
 }
 
 /**
