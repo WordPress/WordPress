@@ -872,7 +872,7 @@ function serialize_blocks( $blocks, $callback = null ) {
 	$result = '';
 	foreach ( $blocks as $block ) {
 		$result .= serialize_block( $block, $callback );
-	};
+	}
 	return $result;
 }
 
