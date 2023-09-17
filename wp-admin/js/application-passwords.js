@@ -60,7 +60,7 @@
 				name: response.name,
 				password: response.password
 			} ) );
-			$( '.new-application-password-notice' ).trigger( 'focus' );
+			$( '.new-application-password-notice' ).attr( 'tabindex', '-1' ).trigger( 'focus' );
 
 			$appPassTbody.prepend( tmplAppPassRow( response ) );
 

@@ -858,7 +858,7 @@
 				elementToSetFocusTo = $( '.imgedit-wrap' ).find( ':tabbable:first' );
 			}
 
-			elementToSetFocusTo.trigger( 'focus' );
+			elementToSetFocusTo.attr( 'tabindex', '-1' ).trigger( 'focus' );
 		}, 100 );
 	},
 

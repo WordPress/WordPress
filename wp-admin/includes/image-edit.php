@@ -39,9 +39,9 @@ function wp_image_editor( $post_id, $msg = false ) {
 
 	if ( $msg ) {
 		if ( isset( $msg->error ) ) {
-			$note = "<div class='notice notice-error' tabindex='-1' role='alert'><p>$msg->error</p></div>";
+			$note = "<div class='notice notice-error' role='alert'><p>$msg->error</p></div>";
 		} elseif ( isset( $msg->msg ) ) {
-			$note = "<div class='notice notice-success' tabindex='-1' role='alert'><p>$msg->msg</p></div>";
+			$note = "<div class='notice notice-success' role='alert'><p>$msg->msg</p></div>";
 		}
 	}
 

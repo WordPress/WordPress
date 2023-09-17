@@ -965,7 +965,7 @@ switch ( $action ) {
 
 <?php if ( isset( $application_passwords_list_table ) ) : ?>
 	<script type="text/html" id="tmpl-new-application-password">
-		<div class="notice notice-success is-dismissible new-application-password-notice" role="alert" tabindex="-1">
+		<div class="notice notice-success is-dismissible new-application-password-notice" role="alert">
 			<p class="application-password-display">
 				<label for="new-application-password-value">
 					<?php
