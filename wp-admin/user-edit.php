@@ -244,11 +244,12 @@ switch ( $action ) {
 		endif;
 
 		if ( isset( $errors ) && is_wp_error( $errors ) ) {
-			?>
-			<div class="error">
-				<p><?php echo implode( "</p>\n<p>", $errors->get_error_messages() ); ?></p>
-			</div>
-			<?php
+			wp_admin_notice(
+				implode( "</p>\n<p>", $errors->get_error_messages() ),
+				array(
+					'additional_classes' => array( 'error' ),
+				)
+			);
 		}
 		?>
 

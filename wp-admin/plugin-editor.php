@@ -29,7 +29,15 @@ if ( empty( $plugins ) ) {
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( $title ); ?></h1>
-		<div id="message" class="error"><p><?php _e( 'No plugins are currently available.' ); ?></p></div>
+		<?php
+		wp_admin_notice(
+			__( 'No plugins are currently available.' ),
+			array(
+				'id'                 => 'message',
+				'additional_classes' => array( 'error' ),
+			)
+		);
+		?>
 	</div>
 	<?php
 	require_once ABSPATH . 'wp-admin/admin-footer.php';

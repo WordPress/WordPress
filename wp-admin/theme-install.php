@@ -183,9 +183,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<hr class="wp-header-end">
 
-	<div class="error hide-if-js">
-		<p><?php _e( 'The Theme Installer screen requires JavaScript.' ); ?></p>
-	</div>
+	<?php
+	wp_admin_notice(
+		__( 'The Theme Installer screen requires JavaScript.' ),
+		array(
+			'additional_classes' => array( 'error', 'hide-if-js' ),
+		)
+	);
+	?>
 
 	<div class="upload-theme">
 	<?php install_themes_upload(); ?>

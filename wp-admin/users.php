@@ -339,11 +339,16 @@ switch ( $wp_list_table->current_action() ) {
 		<div class="wrap">
 		<h1><?php _e( 'Delete Users' ); ?></h1>
 
-		<?php if ( isset( $_REQUEST['error'] ) ) : ?>
-			<div class="error">
-				<p><strong><?php _e( 'Error:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
-			</div>
-		<?php endif; ?>
+		<?php
+		if ( isset( $_REQUEST['error'] ) ) :
+			wp_admin_notice(
+				'<strong>' . __( 'Error:' ) . '</strong> ' . __( 'Please select an option.' ),
+				array(
+					'additional_classes' => array( 'error' ),
+				)
+			);
+		endif;
+		?>
 
 		<?php if ( 1 === count( $all_user_ids ) ) : ?>
 			<p><?php _e( 'You have specified this user for deletion:' ); ?></p>
@@ -742,17 +747,18 @@ switch ( $wp_list_table->current_action() ) {
 		endif;
 		?>
 
-		<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
-			<div class="error">
-				<ul>
-				<?php
-				foreach ( $errors->get_error_messages() as $err ) {
-					echo "<li>$err</li>\n";
-				}
-				?>
-				</ul>
-			</div>
-			<?php
+		<?php
+		if ( isset( $errors ) && is_wp_error( $errors ) ) :
+			$error_message = '';
+			foreach ( $errors->get_error_messages() as $err ) {
+				$error_message .= "<li>$err</li>\n";
+			}
+			wp_admin_notice(
+				'<ul>' . $error_message . '</ul>',
+				array(
+					'additional_classes' => array( 'error' ),
+				)
+			);
 		endif;
 
 		if ( ! empty( $messages ) ) {

@@ -301,7 +301,13 @@ if ( isset( $_REQUEST['error'] ) ) {
 			break;
 	}
 	if ( $error_msg ) {
-		echo '<div id="moderated" class="error"><p>' . $error_msg . '</p></div>';
+		wp_admin_notice(
+			$error_msg,
+			array(
+				'id'                 => 'moderated',
+				'additional_classes' => array( 'error' ),
+			)
+		);
 	}
 }
 

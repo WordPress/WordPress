@@ -384,7 +384,14 @@ switch ( $action ) {
 				$_nav_menu_selected_id = wp_update_nav_menu_object( 0, array( 'menu-name' => $new_menu_title ) );
 
 				if ( is_wp_error( $_nav_menu_selected_id ) ) {
-					$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . $_nav_menu_selected_id->get_error_message() . '</p></div>';
+					$messages[] = wp_get_admin_notice(
+						$_nav_menu_selected_id->get_error_message(),
+						array(
+							'id'                 => 'message',
+							'additional_classes' => array( 'error' ),
+							'dismissible'        => true,
+						)
+					);
 				} else {
 					$_menu_object            = wp_get_nav_menu_object( $_nav_menu_selected_id );
 					$nav_menu_selected_id    = $_nav_menu_selected_id;
@@ -435,7 +442,14 @@ switch ( $action ) {
 					exit;
 				}
 			} else {
-				$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
+				$messages[] = wp_get_admin_notice(
+					__( 'Please enter a valid menu name.' ),
+					array(
+						'id'                 => 'message',
+						'additional_classes' => array( 'error' ),
+						'dismissible'        => true,
+					)
+				);
 			}
 
 			// Update existing menu.
@@ -457,7 +471,14 @@ switch ( $action ) {
 			$menu_title = trim( esc_html( $_POST['menu-name'] ) );
 
 			if ( ! $menu_title ) {
-				$messages[] = '<div id="message" class="error notice is-dismissible"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
+				$messages[] = wp_get_admin_notice(
+					__( 'Please enter a valid menu name.' ),
+					array(
+						'id'                 => 'message',
+						'additional_classes' => array( 'error' ),
+						'dismissible'        => true,
+					)
+				);
 				$menu_title = $_menu_object->name;
 			}
 
@@ -510,7 +531,14 @@ switch ( $action ) {
 			// Set menu locations.
 			set_theme_mod( 'nav_menu_locations', $menu_locations );
 
-			$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'Menu locations updated.' ) . '</p></div>';
+			$messages[] = wp_get_admin_notice(
+				__( 'Menu locations updated.' ),
+				array(
+					'id'                 => 'message',
+					'additional_classes' => array( 'updated' ),
+					'dismissible'        => true,
+				)
+			);
 		}
 
 		break;

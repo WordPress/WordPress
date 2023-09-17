@@ -339,15 +339,31 @@ if ( $action ) {
 				?>
 				<?php if ( 1 === $plugins_to_delete ) : ?>
 					<h1><?php _e( 'Delete Plugin' ); ?></h1>
-					<?php if ( $have_non_network_plugins && is_network_admin() ) : ?>
-						<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'This plugin may be active on other sites in the network.' ); ?></p></div>
-					<?php endif; ?>
+					<?php
+					if ( $have_non_network_plugins && is_network_admin() ) :
+						$maybe_active_plugin = '<strong>' . __( 'Caution:' ) . '</strong> ' . __( 'This plugin may be active on other sites in the network.' );
+						wp_admin_notice(
+							$maybe_active_plugin,
+							array(
+								'additional_classes' => array( 'error' ),
+							)
+						);
+					endif;
+					?>
 					<p><?php _e( 'You are about to remove the following plugin:' ); ?></p>
 				<?php else : ?>
 					<h1><?php _e( 'Delete Plugins' ); ?></h1>
-					<?php if ( $have_non_network_plugins && is_network_admin() ) : ?>
-						<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'These plugins may be active on other sites in the network.' ); ?></p></div>
-					<?php endif; ?>
+					<?php
+					if ( $have_non_network_plugins && is_network_admin() ) :
+						$maybe_active_plugins = '<strong>' . __( 'Caution:' ) . '</strong> ' . __( 'These plugins may be active on other sites in the network.' );
+						wp_admin_notice(
+							$maybe_active_plugins,
+							array(
+								'additional_classes' => array( 'error' ),
+							)
+						);
+					endif;
+					?>
 					<p><?php _e( 'You are about to remove the following plugins:' ); ?></p>
 				<?php endif; ?>
 					<ul class="ul-disc">
@@ -607,14 +623,19 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 $invalid = validate_active_plugins();
 if ( ! empty( $invalid ) ) {
 	foreach ( $invalid as $plugin_file => $error ) {
-		echo '<div id="message" class="error"><p>';
-		printf(
+		$deactivated_message = sprintf(
 			/* translators: 1: Plugin file, 2: Error message. */
 			__( 'The plugin %1$s has been deactivated due to an error: %2$s' ),
 			'<code>' . esc_html( $plugin_file ) . '</code>',
 			esc_html( $error->get_error_message() )
 		);
-		echo '</p></div>';
+		wp_admin_notice(
+			$deactivated_message,
+			array(
+				'id'                 => 'message',
+				'additional_classes' => array( 'error' ),
+			)
+		);
 	}
 }
 

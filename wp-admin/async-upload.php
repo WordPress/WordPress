@@ -113,8 +113,8 @@ if ( isset( $_REQUEST['post_id'] ) ) {
 
 $id = media_handle_upload( 'async-upload', $post_id );
 if ( is_wp_error( $id ) ) {
-	printf(
-		'<div class="error-div error">%s <strong>%s</strong><br />%s</div>',
+	$message = sprintf(
+		'%s <strong>%s</strong><br />%s',
 		sprintf(
 			'<button type="button" class="dismiss button-link" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">%s</button>',
 			__( 'Dismiss' )
@@ -125,6 +125,13 @@ if ( is_wp_error( $id ) ) {
 			esc_html( $_FILES['async-upload']['name'] )
 		),
 		esc_html( $id->get_error_message() )
+	);
+	wp_admin_notice(
+		$message,
+		array(
+			'additional_classes' => array( 'error-div', 'error' ),
+			'paragraph_wrap'     => false,
+		)
 	);
 	exit;
 }

@@ -1072,16 +1072,22 @@ if ( 'upgrade-core' === $action ) {
 		if ( 'themes' === $upgrade_error ) {
 			$theme_updates = get_theme_updates();
 			if ( ! empty( $theme_updates ) ) {
-				echo '<div class="error"><p>';
-				_e( 'Please select one or more themes to update.' );
-				echo '</p></div>';
+				wp_admin_notice(
+					__( 'Please select one or more themes to update.' ),
+					array(
+						'additional_classes' => array( 'error' ),
+					)
+				);
 			}
 		} else {
 			$plugin_updates = get_plugin_updates();
 			if ( ! empty( $plugin_updates ) ) {
-				echo '<div class="error"><p>';
-				_e( 'Please select one or more plugins to update.' );
-				echo '</p></div>';
+				wp_admin_notice(
+					__( 'Please select one or more plugins to update.' ),
+					array(
+						'additional_classes' => array( 'error' ),
+					)
+				);
 			}
 		}
 	}

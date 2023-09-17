@@ -262,7 +262,12 @@ if ( preg_match( '/\.css$/', $file ) && ! wp_is_block_theme() && current_user_ca
 
 <?php
 if ( $theme->errors() ) {
-	echo '<div class="error"><p><strong>' . __( 'This theme is broken.' ) . '</strong> ' . $theme->errors()->get_error_message() . '</p></div>';
+	wp_admin_notice(
+		'<strong>' . __( 'This theme is broken.' ) . '</strong> ' . $theme->errors()->get_error_message(),
+		array(
+			'additional_classes' => array( 'error' ),
+		)
+	);
 }
 ?>
 
@@ -294,7 +299,12 @@ if ( $theme->errors() ) {
 
 <?php
 if ( $error ) :
-	echo '<div class="error"><p>' . __( 'File does not exist! Please double check the name and try again.' ) . '</p></div>';
+	wp_admin_notice(
+		__( 'File does not exist! Please double check the name and try again.' ),
+		array(
+			'additional_classes' => array( 'error' ),
+		)
+	);
 else :
 	?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
