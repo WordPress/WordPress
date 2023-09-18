@@ -54,8 +54,8 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"width":"33.33%"} -->
-					<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
-					<figure class="wp-block-image size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-salmon.jpg" alt="' . esc_attr__( 'Illustration of a flying bird.', 'twentytwentytwo' ) . '"/></figure>
+					<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:image {"width":768,"height":1160,"sizeSlug":"large","linkDestination":"none"} -->
+					<figure class="wp-block-image size-large is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-salmon.jpg" alt="' . esc_attr__( 'Illustration of a flying bird.', 'twentytwentytwo' ) . '" width="768" height="1160"/></figure>
 					<!-- /wp:image -->
 
 					<!-- wp:spacer {"height":4} -->

@@ -25,8 +25,8 @@ return array(
 					<!-- /wp:heading --></div>
 					<!-- /wp:group -->
 
-					<!-- wp:image {"align":"full","sizeSlug":"full","linkDestination":"none"} -->
-					<figure class="wp-block-image alignfull size-full"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-transparent-c.png" alt="' . esc_attr__( 'Illustration of a bird flying.', 'twentytwentytwo' ) . '"/></figure>
+					<!-- wp:image {"align":"full","width":2400,"height":1020,"sizeSlug":"full","linkDestination":"none"} -->
+					<figure class="wp-block-image alignfull size-full is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-transparent-c.png" alt="' . esc_attr__( 'Illustration of a bird flying.', 'twentytwentytwo' ) . '" width="2400" height="1020"/></figure>
 					<!-- /wp:image --></div>
 					<!-- /wp:group --><!-- wp:spacer {"height":66} -->
 					<div style="height:66px" aria-hidden="true" class="wp-block-spacer"></div>
