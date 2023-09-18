@@ -21,10 +21,14 @@ function wp_register_colors_support( $block_type ) {
 	$has_background_colors_support = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'background' ), true ) );
 	$has_gradients_support         = _wp_array_get( $color_support, array( 'gradients' ), false );
 	$has_link_colors_support       = _wp_array_get( $color_support, array( 'link' ), false );
+	$has_button_colors_support     = _wp_array_get( $color_support, array( 'button' ), false );
+	$has_heading_colors_support    = _wp_array_get( $color_support, array( 'heading' ), false );
 	$has_color_support             = $has_text_colors_support ||
 		$has_background_colors_support ||
 		$has_gradients_support ||
-		$has_link_colors_support;
+		$has_link_colors_support ||
+		$has_button_colors_support ||
+		$has_heading_colors_support;
 
 	if ( ! $block_type->attributes ) {
 		$block_type->attributes = array();
