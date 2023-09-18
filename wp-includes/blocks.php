@@ -740,6 +740,27 @@ function get_dynamic_block_names() {
 }
 
 /**
+ * Retrieves block types (and positions) hooked into the given block.
+ *
+ * @since 6.4.0
+ *
+ * @param string $name Block type name including namespace.
+ * @return array Associative array of `$block_type_name => $position` pairs.
+ */
+function get_hooked_blocks( $name ) {
+	$block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
+	$hooked_blocks = array();
+	foreach ( $block_types as $block_type ) {
+		foreach ( $block_type->block_hooks as $anchor_block_type => $relative_position ) {
+			if ( $anchor_block_type === $name ) {
+				$hooked_blocks[ $block_type->name ] = $relative_position;
+			}
+		}
+	}
+	return $hooked_blocks;
+}
+
+/**
  * Given an array of attributes, returns a string in the serialized attributes
  * format prepared for post content.
  *
