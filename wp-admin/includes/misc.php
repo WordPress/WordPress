@@ -1658,6 +1658,7 @@ function wp_check_php_version() {
  *     @type bool     $dismissible        Optional. Whether the admin notice is dismissible. Default false.
  *     @type string   $id                 Optional. The value of the admin notice's ID attribute. Default empty string.
  *     @type string[] $additional_classes Optional. A string array of class names. Default empty array.
+ *     @type string[] $attributes         Optional. Additional attributes for the notice div. Default empty array.
  *     @type bool     $paragraph_wrap     Optional. Whether to wrap the message in paragraph tags. Default true.
  * }
  * @return string The markup for an admin notice.
@@ -1668,6 +1669,7 @@ function wp_get_admin_notice( $message, $args = array() ) {
 		'dismissible'        => false,
 		'id'                 => '',
 		'additional_classes' => array(),
+		'attributes'         => array(),
 		'paragraph_wrap'     => true,
 	);
 
@@ -1681,9 +1683,10 @@ function wp_get_admin_notice( $message, $args = array() ) {
 	 * @param array  $args    The arguments for the admin notice.
 	 * @param string $message The message for the admin notice.
 	 */
-	$args    = apply_filters( 'wp_admin_notice_args', $args, $message );
-	$id      = '';
-	$classes = 'notice';
+	$args       = apply_filters( 'wp_admin_notice_args', $args, $message );
+	$id         = '';
+	$classes    = 'notice';
+	$attributes = '';
 
 	if ( is_string( $args['id'] ) ) {
 		$trimmed_id = trim( $args['id'] );
@@ -1721,11 +1724,24 @@ function wp_get_admin_notice( $message, $args = array() ) {
 		$classes .= ' ' . implode( ' ', $args['additional_classes'] );
 	}
 
+	if ( is_array( $args['attributes'] ) && ! empty( $args['attributes'] ) ) {
+		$attributes = '';
+		foreach ( $args['attributes'] as $attr => $val ) {
+			if ( is_bool( $val ) ) {
+				$attributes .= $val ? ' ' . $attr : '';
+			} elseif ( is_int( $attr ) ) {
+				$attributes .= ' ' . esc_attr( trim( $val ) );
+			} elseif ( $val ) {
+				$attributes .= ' ' . $attr . '="' . esc_attr( trim( $val ) ) . '"';
+			}
+		}
+	}
+
 	if ( false !== $args['paragraph_wrap'] ) {
 		$message = "<p>$message</p>";
 	}
 
-	$markup = sprintf( '<div %1$sclass="%2$s">%3$s</div>', $id, $classes, $message );
+	$markup = sprintf( '<div %1$sclass="%2$s"%3$s>%4$s</div>', $id, $classes, $attributes, $message );
 
 	/**
 	 * Filters the markup for an admin notice.
