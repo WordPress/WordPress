@@ -34,6 +34,7 @@ function wp_register_typography_support( $block_type ) {
 	$has_text_columns_support    = _wp_array_get( $typography_supports, array( 'textColumns' ), false );
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
+	$has_writing_mode_support    = _wp_array_get( $typography_supports, array( '__experimentalWritingMode' ), false );
 
 	$has_typography_support = $has_font_family_support
 		|| $has_font_size_support
@@ -43,7 +44,8 @@ function wp_register_typography_support( $block_type ) {
 		|| $has_line_height_support
 		|| $has_text_columns_support
 		|| $has_text_decoration_support
-		|| $has_text_transform_support;
+		|| $has_text_transform_support
+		|| $has_writing_mode_support;
 
 	if ( ! $block_type->attributes ) {
 		$block_type->attributes = array();
@@ -105,6 +107,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_text_columns_support    = _wp_array_get( $typography_supports, array( 'textColumns' ), false );
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
+	$has_writing_mode_support    = _wp_array_get( $typography_supports, array( '__experimentalWritingMode' ), false );
 
 	// Whether to skip individual block support features.
 	$should_skip_font_size       = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontSize' );
@@ -116,6 +119,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$should_skip_text_decoration = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textDecoration' );
 	$should_skip_text_transform  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textTransform' );
 	$should_skip_letter_spacing  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'letterSpacing' );
+	$should_skip_writing_mode    = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'writingMode' );
 
 	$typography_block_styles = array();
 	if ( $has_font_size_support && ! $should_skip_font_size ) {
@@ -202,6 +206,17 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 		$typography_block_styles['letterSpacing'] = wp_typography_get_preset_inline_style_value(
 			$block_attributes['style']['typography']['letterSpacing'],
 			'letter-spacing'
+		);
+	}
+
+	if ( $has_writing_mode_support &&
+		! $should_skip_writing_mode &&
+		isset( $block_attributes['style']['typography']['writingMode'] )
+	) {
+		$typography_block_styles['writingMode'] = _wp_array_get(
+			$block_attributes,
+			array( 'style', 'typography', 'writingMode' ),
+			null
 		);
 	}
 

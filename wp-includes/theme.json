@@ -263,7 +263,8 @@
 			"letterSpacing": true,
 			"lineHeight": false,
 			"textDecoration": true,
-			"textTransform": true
+			"textTransform": true,
+			"writingMode": false
 		},
 		"blocks": {
 			"core/button": {
