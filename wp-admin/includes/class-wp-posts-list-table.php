@@ -1168,7 +1168,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 			}
 		}
 
-		get_inline_data( $post );
+		/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
+		$quick_edit_enabled = apply_filters( 'quick_edit_enabled_for_post_type', true, $post->post_type );
+
+		if ( $quick_edit_enabled ) {
+			get_inline_data( $post );
+		}
 	}
 
 	/**
@@ -1475,7 +1480,17 @@ class WP_Posts_List_Table extends WP_List_Table {
 				__( 'Edit' )
 			);
 
-			if ( 'wp_block' !== $post->post_type ) {
+			/**
+			 * Filters whether Quick Edit should be enabled for the given post type.
+			 *
+			 * @since 6.4.0
+			 *
+			 * @param bool   $enable    Whether to enable the Quick Edit functionality. Default true.
+			 * @param string $post_type Post type name.
+			 */
+			$quick_edit_enabled = apply_filters( 'quick_edit_enabled_for_post_type', true, $post->post_type );
+
+			if ( $quick_edit_enabled && 'wp_block' !== $post->post_type ) {
 				$actions['inline hide-if-no-js'] = sprintf(
 					'<button type="button" class="button-link editinline" aria-label="%s" aria-expanded="false">%s</button>',
 					/* translators: %s: Post title. */
