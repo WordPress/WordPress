@@ -108,7 +108,7 @@ function wp_default_packages_vendor( $scripts ) {
 	$vendor_scripts_versions = array(
 		'react'                       => '18.2.0',
 		'react-dom'                   => '18.2.0',
-		'regenerator-runtime'         => '0.13.11',
+		'regenerator-runtime'         => '0.14.0',
 		'moment'                      => '2.29.4',
 		'lodash'                      => '4.17.19',
 		'wp-polyfill-fetch'           => '3.6.17',
