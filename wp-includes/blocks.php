@@ -761,6 +761,84 @@ function get_hooked_blocks( $name ) {
 }
 
 /**
+ * Insert a parsed block into a parent block's inner blocks.
+ *
+ * Given a parsed block, a block index, and a chunk index, insert another parsed block
+ * into the parent block at the given indices.
+ *
+ * Note that the this mutates the parent block by inserting into the parent's `innerBlocks`
+ * array, and by updating the parent's `innerContent` array accordingly.
+ *
+ * @since 6.4.0
+ *
+ * @param array $parent_block   The parent block.
+ * @param int   $block_index    The index specifying the insertion position among the parent block's inner blocks.
+ * @param int   $chunk_index    The index specifying the insertion position among the parent block's inner content chunks.
+ * @param array $inserted_block The block to insert.
+ * @return void
+ */
+function insert_inner_block( &$parent_block, $block_index, $chunk_index, $inserted_block ) {
+	array_splice( $parent_block['innerBlocks'], $block_index, 0, array( $inserted_block ) );
+
+	/*
+	 * Since WP_Block::render() iterates over `inner_content` (rather than `inner_blocks`)
+	 * when rendering blocks, we also need to insert a value (`null`, to mark a block
+	 * location) into that array.
+	 */
+	array_splice( $parent_block['innerContent'], $chunk_index, 0, array( null ) );
+}
+
+/**
+ * Prepend a parsed block to a parent block's inner blocks.
+ *
+ * Given a parsed block, prepend another parsed block to the parent block's inner blocks.
+ *
+ * Note that the this mutates the parent block by inserting into the parent's `innerBlocks`
+ * array, and by updating the parent's `innerContent` array accordingly.
+ *
+ * @since 6.4.0
+ *
+ * @param array  $parent_block   The parent block.
+ * @param array  $inserted_block The block to insert.
+ * @return void
+ */
+function prepend_inner_block( &$parent_block, $inserted_block ) {
+	$chunk_index = 0;
+	for ( $index = 0; $index < count( $parent_block['innerContent'] ); $index++ ) {
+		if ( is_null( $parent_block['innerContent'][ $index ] ) ) {
+			$chunk_index = $index;
+			break;
+		}
+	}
+	insert_inner_block( $parent_block, 0, $chunk_index, $inserted_block );
+}
+
+/**
+ * Append a parsed block to a parent block's inner blocks.
+ *
+ * Given a parsed block, append another parsed block to the parent block's inner blocks.
+ *
+ * Note that the this mutates the parent block by inserting into the parent's `innerBlocks`
+ * array, and by updating the parent's `innerContent` array accordingly.
+ *
+ * @since 6.4.0
+ *
+ * @param array  $parent_block   The parent block.
+ * @param array  $inserted_block The block to insert.
+ * @return void
+ */
+function append_inner_block( &$parent_block, $inserted_block ) {
+	$chunk_index = count( $parent_block['innerContent'] );
+	for ( $index = count( $parent_block['innerContent'] ); $index > 0; $index-- ) {
+		if ( is_null( $parent_block['innerContent'][ $index - 1 ] ) ) {
+			$chunk_index = $index;
+			break;
+		}
+	}
+	insert_inner_block( $parent_block, count( $parent_block['innerBlocks'] ), $chunk_index, $inserted_block );
+}
+
+/**
  * Given an array of attributes, returns a string in the serialized attributes
  * format prepared for post content.
  *
