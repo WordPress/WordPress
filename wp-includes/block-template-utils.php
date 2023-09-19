@@ -609,7 +609,7 @@ function _build_block_template_result_from_file( $template_file, $template_type 
 	}
 
 	$blocks            = parse_blocks( $template_content );
-	$template->content = serialize_blocks( $blocks, '_inject_theme_attribute_in_template_part_block' );
+	$template->content = traverse_and_serialize_blocks( $blocks, '_inject_theme_attribute_in_template_part_block' );
 
 	return $template;
 }
