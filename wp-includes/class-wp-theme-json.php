@@ -342,13 +342,16 @@ class WP_Theme_JSON {
 	 * @since 6.2.0 Added `dimensions.minHeight`, 'shadow.presets', 'shadow.defaultPresets',
 	 *              `position.fixed` and `position.sticky`.
 	 * @since 6.3.0 Added support for `typography.textColumns`, removed `layout.definitions`.
-	 * @since 6.4.0 Added `layout.allowEditing` and `typography.writingMode`.
-	 *
+	 * @since 6.4.0 Added support for `layout.allowEditing`, `background.backgroundImage`,
+	 *              and `typography.writingMode`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
 		'appearanceTools'               => null,
 		'useRootPaddingAwareAlignments' => null,
+		'background'                    => array(
+			'backgroundImage' => null,
+		),
 		'border'                        => array(
 			'color'  => null,
 			'radius' => null,
@@ -563,9 +566,11 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.0.0
 	 * @since 6.2.0 Added `dimensions.minHeight` and `position.sticky`.
+	 * @since 6.4.0 Added `background.backgroundImage`.
 	 * @var array
 	 */
 	const APPEARANCE_TOOLS_OPT_INS = array(
+		array( 'background', 'backgroundImage' ),
 		array( 'border', 'color' ),
 		array( 'border', 'radius' ),
 		array( 'border', 'style' ),
