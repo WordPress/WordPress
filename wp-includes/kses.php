@@ -2301,6 +2301,7 @@ function kses_init() {
  *              and `z-index` CSS properties.
  * @since 6.3.0 Extended support for `filter` to accept a URL and added support for repeat().
  *              Added support for `box-shadow`.
+ * @since 6.4.0 Added support for `writing-mode`.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
@@ -2461,6 +2462,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'object-position',
 			'overflow',
 			'vertical-align',
+			'writing-mode',
 
 			'position',
 			'top',
