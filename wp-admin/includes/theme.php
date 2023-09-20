@@ -1166,11 +1166,14 @@ function resume_theme( $theme, $redirect = '' ) {
 	 * creating a fatal error.
 	 */
 	if ( ! empty( $redirect ) ) {
+		$stylesheet_path = get_stylesheet_directory();
+		$template_path   = get_template_directory();
+
 		$functions_path = '';
-		if ( str_contains( STYLESHEETPATH, $extension ) ) {
-			$functions_path = STYLESHEETPATH . '/functions.php';
-		} elseif ( str_contains( TEMPLATEPATH, $extension ) ) {
-			$functions_path = TEMPLATEPATH . '/functions.php';
+		if ( str_contains( $stylesheet_path, $extension ) ) {
+			$functions_path = $stylesheet_path . '/functions.php';
+		} elseif ( str_contains( $template_path, $extension ) ) {
+			$functions_path = $template_path . '/functions.php';
 		}
 
 		if ( ! empty( $functions_path ) ) {

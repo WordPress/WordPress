@@ -1381,7 +1381,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * and the post ID respectively.
  *
  * The `$file` path is passed through a filter hook called {@see 'comments_template'},
- * which includes the TEMPLATEPATH and $file combined. Tries the $filtered path
+ * which includes the template directory and $file combined. Tries the $filtered path
  * first and if it fails it will require the default comment template from the
  * default theme. If either does not exist, then the WordPress process will be
  * halted. It is advised for that reason, that the default theme is not deleted.
@@ -1600,7 +1600,10 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		define( 'COMMENTS_TEMPLATE', true );
 	}
 
-	$theme_template = STYLESHEETPATH . $file;
+	$stylesheet_path = get_stylesheet_directory();
+	$template_path   = get_template_directory();
+
+	$theme_template = $stylesheet_path . $file;
 
 	/**
 	 * Filters the path to the theme template file used for the comments template.
@@ -1613,8 +1616,8 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	if ( file_exists( $include ) ) {
 		require $include;
-	} elseif ( file_exists( TEMPLATEPATH . $file ) ) {
-		require TEMPLATEPATH . $file;
+	} elseif ( file_exists( $template_path . $file ) ) {
+		require $template_path . $file;
 	} else { // Backward compat code will be removed in a future release.
 		require ABSPATH . WPINC . '/theme-compat/comments.php';
 	}

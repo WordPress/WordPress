@@ -1049,11 +1049,14 @@ function wp_get_active_and_valid_themes() {
 		return $themes;
 	}
 
-	if ( TEMPLATEPATH !== STYLESHEETPATH ) {
-		$themes[] = STYLESHEETPATH;
+	$stylesheet_path = get_stylesheet_directory();
+	$template_path   = get_template_directory();
+
+	if ( $template_path !== $stylesheet_path ) {
+		$themes[] = $stylesheet_path;
 	}
 
-	$themes[] = TEMPLATEPATH;
+	$themes[] = $template_path;
 
 	/*
 	 * Remove themes from the list of active themes when we're on an endpoint

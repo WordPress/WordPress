@@ -157,7 +157,7 @@ function wp_clean_themes_cache( $clear_update_cache = true ) {
  * @return bool True if a child theme is in use, false otherwise.
  */
 function is_child_theme() {
-	return ( TEMPLATEPATH !== STYLESHEETPATH );
+	return get_template_directory() !== get_stylesheet_directory();
 }
 
 /**
@@ -187,24 +187,40 @@ function get_stylesheet() {
  * Retrieves stylesheet directory path for the active theme.
  *
  * @since 1.5.0
+ * @since 6.4.0 Memoizes filter execution so that it only runs once for the current theme.
+ *
+ * @global string $wp_stylesheet_path Current theme stylesheet directory path.
  *
  * @return string Path to active theme's stylesheet directory.
  */
 function get_stylesheet_directory() {
-	$stylesheet     = get_stylesheet();
-	$theme_root     = get_theme_root( $stylesheet );
-	$stylesheet_dir = "$theme_root/$stylesheet";
+	global $wp_stylesheet_path;
 
-	/**
-	 * Filters the stylesheet directory path for the active theme.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $stylesheet_dir Absolute path to the active theme.
-	 * @param string $stylesheet     Directory name of the active theme.
-	 * @param string $theme_root     Absolute path to themes directory.
-	 */
-	return apply_filters( 'stylesheet_directory', $stylesheet_dir, $stylesheet, $theme_root );
+	if ( null === $wp_stylesheet_path ) {
+		$stylesheet     = get_stylesheet();
+		$theme_root     = get_theme_root( $stylesheet );
+		$stylesheet_dir = "$theme_root/$stylesheet";
+
+		/**
+		 * Filters the stylesheet directory path for the active theme.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param string $stylesheet_dir Absolute path to the active theme.
+		 * @param string $stylesheet     Directory name of the active theme.
+		 * @param string $theme_root     Absolute path to themes directory.
+		 */
+		$stylesheet_dir = apply_filters( 'stylesheet_directory', $stylesheet_dir, $stylesheet, $theme_root );
+
+		// If there are filter callbacks, force the logic to execute on every call.
+		if ( has_filter( 'stylesheet' ) || has_filter( 'theme_root' ) || has_filter( 'stylesheet_directory' ) ) {
+			return $stylesheet_dir;
+		}
+
+		$wp_stylesheet_path = $stylesheet_dir;
+	}
+
+	return $wp_stylesheet_path;
 }
 
 /**
@@ -321,24 +337,40 @@ function get_template() {
  * Retrieves template directory path for the active theme.
  *
  * @since 1.5.0
+ * @since 6.4.0 Memoizes filter execution so that it only runs once for the current theme.
+ *
+ * @global string $wp_template_path Current theme template directory path.
  *
  * @return string Path to active theme's template directory.
  */
 function get_template_directory() {
-	$template     = get_template();
-	$theme_root   = get_theme_root( $template );
-	$template_dir = "$theme_root/$template";
+	global $wp_template_path;
 
-	/**
-	 * Filters the active theme directory path.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $template_dir The path of the active theme directory.
-	 * @param string $template     Directory name of the active theme.
-	 * @param string $theme_root   Absolute path to the themes directory.
-	 */
-	return apply_filters( 'template_directory', $template_dir, $template, $theme_root );
+	if ( null === $wp_template_path ) {
+		$template     = get_template();
+		$theme_root   = get_theme_root( $template );
+		$template_dir = "$theme_root/$template";
+
+		/**
+		 * Filters the active theme directory path.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param string $template_dir The path of the active theme directory.
+		 * @param string $template     Directory name of the active theme.
+		 * @param string $theme_root   Absolute path to the themes directory.
+		 */
+		$template_dir = apply_filters( 'template_directory', $template_dir, $template, $theme_root );
+
+		// If there are filter callbacks, force the logic to execute on every call.
+		if ( has_filter( 'template' ) || has_filter( 'theme_root' ) || has_filter( 'template_directory' ) ) {
+			return $template_dir;
+		}
+
+		$wp_template_path = $template_dir;
+	}
+
+	return $wp_template_path;
 }
 
 /**
@@ -744,11 +776,13 @@ function locale_stylesheet() {
  * @global WP_Customize_Manager $wp_customize
  * @global array                $sidebars_widgets
  * @global array                $wp_registered_sidebars
+ * @global string               $wp_stylesheet_path
+ * @global string               $wp_template_path
  *
  * @param string $stylesheet Stylesheet name.
  */
 function switch_theme( $stylesheet ) {
-	global $wp_theme_directories, $wp_customize, $sidebars_widgets, $wp_registered_sidebars;
+	global $wp_theme_directories, $wp_customize, $sidebars_widgets, $wp_registered_sidebars, $wp_stylesheet_path, $wp_template_path;
 
 	$requirements = validate_theme_requirements( $stylesheet );
 	if ( is_wp_error( $requirements ) ) {
@@ -831,6 +865,13 @@ function switch_theme( $stylesheet ) {
 	}
 
 	update_option( 'theme_switched', $old_theme->get_stylesheet() );
+
+	/*
+	 * Reset globals to force refresh the next time these directories are
+	 * accessed via `get_stylesheet_directory()` / `get_template_directory()`.
+	 */
+	$wp_stylesheet_path = null;
+	$wp_template_path   = null;
 
 	/**
 	 * Fires after the theme is switched.
