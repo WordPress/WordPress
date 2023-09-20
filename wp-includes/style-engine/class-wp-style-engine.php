@@ -27,26 +27,21 @@
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
 	/**
-	 * Style definitions that contain the instructions to
-	 * parse/output valid Gutenberg styles from a block's attributes.
+	 * Style definitions that contain the instructions to parse/output valid Gutenberg styles from a block's attributes.
 	 *
-	 * For every style definition, the following properties are valid:
+	 * For every style definition, the follow properties are valid:
 	 *
-	 *  - classnames    => (array) An array of classnames to be returned for block styles.
-	 *                     The key is a classname or pattern.
-	 *                     A value of `true` means the classname should be applied always.
-	 *                     Otherwise, a valid CSS property (string) to match the incoming value,
-	 *                     e.g. "color" to match var:preset|color|somePresetSlug.
-	 *  - css_vars      => (array) An array of key value pairs used to generate CSS var values.
-	 *                     The key is a CSS var pattern, whose `$slug` fragment will be replaced with a preset slug.
-	 *                     The value should be a valid CSS property (string) to match the incoming value,
-	 *                     e.g. "color" to match var:preset|color|somePresetSlug.
-	 *  - property_keys => (array) An array of keys whose values represent a valid CSS property,
-	 *                     e.g. "margin" or "border".
-	 *  - path          => (array) A path that accesses the corresponding style value in the block style object.
-	 *  - value_func    => (string) The name of a function to generate a CSS definition array
-	 *                     for a particular style object. The output of this function should be
-	 *                     `array( "$property" => "$value", ... )`.
+	 *  - classnames    => (array) an array of classnames to be returned for block styles. The key is a classname or pattern.
+	 *                    A value of `true` means the classname should be applied always. Otherwise, a valid CSS property (string)
+	 *                    to match the incoming value, e.g., "color" to match var:preset|color|somePresetSlug.
+	 *  - css_vars      => (array) an array of key value pairs used to generate CSS var values.
+	 *                     The key should be the CSS property name that matches the second element of the preset string value,
+	 *                     i.e., "color" in var:preset|color|somePresetSlug. The value is a CSS var pattern (e.g. `--wp--preset--color--$slug`),
+	 *                     whose `$slug` fragment will be replaced with the preset slug, which is the third element of the preset string value,
+	 *                     i.e., `somePresetSlug` in var:preset|color|somePresetSlug.
+	 *  - property_keys => (array) array of keys whose values represent a valid CSS property, e.g., "margin" or "border".
+	 *  - path          => (array) a path that accesses the corresponding style value in the block style object.
+	 *  - value_func    => (string) the name of a function to generate a CSS definition array for a particular style object. The output of this function should be `array( "$property" => "$value", ... )`.
 	 *
 	 * @since 6.1.0
 	 * @var array
