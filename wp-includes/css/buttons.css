@@ -385,6 +385,10 @@ TABLE OF CONTENTS:
 		vertical-align: inherit;
 	}
 
+	.wp-customizer .theme-overlay .theme-actions .button {
+		margin-bottom: 5px;
+	}
+
 	.media-modal-content .media-toolbar-primary .media-button {
 		margin-top: 10px;
 		margin-left: 5px;

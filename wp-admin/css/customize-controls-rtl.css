@@ -2318,20 +2318,13 @@ p.customize-section-description {
 
 .wp-customizer .theme-overlay .theme-actions {
 	text-align: left; /* Because there're only one or two actions, match the UI pattern of media modals and right-align the action. */
-	padding: 10px 25px;
+	padding: 10px 25px 5px;
 	background: #f0f0f1;
 	border-top: 1px solid #dcdcde;
 }
 
 .wp-customizer .theme-overlay .theme-actions .theme-install.preview {
 	margin-right: 8px;
-}
-
-.control-panel-themes .theme-actions .delete-theme {
-	right: 15px; /* these override themes.css on mobile */
-	left: auto;
-	bottom: auto;
-	position: absolute;
 }
 
 .modal-open .in-themes-panel #customize-controls .wp-full-overlay-sidebar-content {

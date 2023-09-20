@@ -1058,12 +1058,7 @@ function customize_themes_print_templates() {
 				<# if ( data.active ) { #>
 					<button type="button" class="button button-primary customize-theme"><?php _e( 'Customize' ); ?></button>
 				<# } else if ( 'installed' === data.type ) { #>
-					<?php if ( current_user_can( 'delete_themes' ) ) { ?>
-						<# if ( data.actions && data.actions['delete'] ) { #>
-							<a href="{{{ data.actions['delete'] }}}" data-slug="{{ data.id }}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
-						<# } #>
-					<?php } ?>
-
+					<div class="theme-inactive-actions">
 					<# if ( data.blockTheme ) { #>
 						<?php
 							/* translators: %s: Theme name. */
@@ -1079,6 +1074,12 @@ function customize_themes_print_templates() {
 							<button class="button button-primary disabled"><?php _e( 'Live Preview' ); ?></button>
 						<# } #>
 					<# } #>
+					</div>
+					<?php if ( current_user_can( 'delete_themes' ) ) { ?>
+						<# if ( data.actions && data.actions['delete'] ) { #>
+							<a href="{{{ data.actions['delete'] }}}" data-slug="{{ data.id }}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
+						<# } #>
+					<?php } ?>
 				<# } else { #>
 					<# if ( data.compatibleWP && data.compatiblePHP ) { #>
 						<button type="button" class="button theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></button>
