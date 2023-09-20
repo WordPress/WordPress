@@ -1708,6 +1708,11 @@ table.form-table td .updated p {
 		font-size: 14px;
 	}
 
+	.form-table td > label:first-child {
+		display: inline-block;
+		margin-top: 0.35em;
+	}
+
 	.background-position-control .button-group > label {
 		font-size: 0;
 	}
