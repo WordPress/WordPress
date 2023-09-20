@@ -160,7 +160,7 @@ function export_date_options( $post_type = 'post' ) {
 		}
 
 		$month = zeroise( $date->month, 2 );
-		echo '<option value="' . $date->year . '-' . $month . '">' . $wp_locale->get_month( $month ) . ' ' . $date->year . '</option>';
+		echo '<option value="' . esc_attr( $date->year ) . '-' . esc_attr( $month ) . '">' . $wp_locale->get_month( $month ) . ' ' . $date->year . '</option>';
 	}
 }
 ?>
