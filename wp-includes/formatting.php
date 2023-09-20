@@ -3502,6 +3502,10 @@ function convert_smilies( $text ) {
 	global $wp_smiliessearch;
 	$output = '';
 	if ( get_option( 'use_smilies' ) && ! empty( $wp_smiliessearch ) ) {
+
+		//Convert null to empty string to prevent splitting of null variable
+		if(is_null($text)){ $text = ''; }
+		
 		// HTML loop taken from texturize function, could possible be consolidated.
 		$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // Capture the tags as well as in between.
 		$stop    = count( $textarr ); // Loop stuff.
