@@ -63,7 +63,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 			<button type="button" onclick="imageEdit.toggleCropTool( <?php echo "$post_id, '$nonce'"; ?>, this );" aria-expanded="false" aria-controls="imgedit-crop" class="imgedit-crop button disabled" disabled><?php esc_html_e( 'Crop' ); ?></button>
 			<button type="button" class="imgedit-scale button" onclick="imageEdit.toggleControls(this);" aria-expanded="false" aria-controls="imgedit-scale"><?php esc_html_e( 'Scale' ); ?></button>
 			<div class="imgedit-rotate-menu-container">
-				<button type="button" aria-controls="imgedit-rotate-menu" class="imgedit-rotate button" aria-expanded="false" onclick="imageEdit.togglePopup(this)"><?php esc_html_e( 'Image Rotation' ); ?></button>
+				<button type="button" aria-controls="imgedit-rotate-menu" class="imgedit-rotate button" aria-expanded="false" onclick="imageEdit.togglePopup(this)" onblur="imageEdit.monitorPopup(this)"><?php esc_html_e( 'Image Rotation' ); ?></button>
 				<div id="imgedit-rotate-menu" class="imgedit-popup-menu">
 			<?php
 			// On some setups GD library does not provide imagerotate() - Ticket #11536.
@@ -75,9 +75,9 @@ function wp_image_editor( $post_id, $msg = false ) {
 			) ) {
 				$note_no_rotate = '';
 				?>
-					<button type="button" class="imgedit-rleft button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.rotate( 90, <?php echo "$post_id, '$nonce'"; ?>, this)"><?php esc_html_e( 'Rotate 90° left' ); ?></button>
-					<button type="button" class="imgedit-rright button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)"><?php esc_html_e( 'Rotate 90° right' ); ?></button>
-					<button type="button" class="imgedit-rfull button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.rotate(180, <?php echo "$post_id, '$nonce'"; ?>, this)"><?php esc_html_e( 'Rotate 180°' ); ?></button>
+					<button type="button" class="imgedit-rleft button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.rotate( 90, <?php echo "$post_id, '$nonce'"; ?>, this)" onblur="imageEdit.monitorPopup(this)"><?php esc_html_e( 'Rotate 90&deg; left' ); ?></button>
+					<button type="button" class="imgedit-rright button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" onblur="imageEdit.monitorPopup(this)"><?php esc_html_e( 'Rotate 90&deg; right' ); ?></button>
+					<button type="button" class="imgedit-rfull button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.rotate(180, <?php echo "$post_id, '$nonce'"; ?>, this)" onblur="imageEdit.monitorPopup(this)"><?php esc_html_e( 'Rotate 180&deg;' ); ?></button>
 				<?php
 			} else {
 				$note_no_rotate = '<p class="note-no-rotate"><em>' . __( 'Image rotation is not supported by your web host.' ) . '</em></p>';
@@ -88,8 +88,8 @@ function wp_image_editor( $post_id, $msg = false ) {
 			}
 			?>
 					<hr />
-					<button type="button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-flipv button"><?php esc_html_e( 'Flip vertical' ); ?></button>
-					<button type="button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-fliph button"><?php esc_html_e( 'Flip horizontal' ); ?></button>
+					<button type="button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" onblur="imageEdit.monitorPopup(this)" class="imgedit-flipv button"><?php esc_html_e( 'Flip vertical' ); ?></button>
+					<button type="button" onkeyup="imageEdit.browsePopup(this)" onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>, this)" onblur="imageEdit.monitorPopup(this)" class="imgedit-fliph button"><?php esc_html_e( 'Flip horizontal' ); ?></button>
 					<?php echo $note_no_rotate; ?>
 				</div>
 			</div>

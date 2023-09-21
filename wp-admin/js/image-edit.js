@@ -245,6 +245,37 @@
 	},
 
 	/**
+	 * Observes whether the popup should remain open based on focus position.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @memberof imageEdit
+	 *
+	 * @param {HTMLElement} el The activated control element.
+	 *
+	 * @return {boolean} Always returns false.
+	 */
+	monitorPopup : function(el) {
+		var $el     = $( el );
+		var $parent = document.querySelector( '.imgedit-rotate-menu-container' );
+		var $toggle = document.querySelector( '.imgedit-rotate-menu-container .imgedit-rotate' );
+
+		setTimeout( function() {
+			var $focused = document.activeElement;
+			var $contains = $parent.contains( $focused );
+
+			// If $focused is defined and not inside the menu container, close the popup.
+			if ( $focused && ! $contains ) {
+				if ( 'true' === $toggle.getAttribute( 'aria-expanded' ) ) {
+					imageEdit.togglePopup( $toggle );
+				}
+			}
+		}, 100 );
+
+		return false;
+	},
+
+	/**
 	 * Navigate popup menu by arrow keys.
 	 *
 	 * @since 6.3.0
