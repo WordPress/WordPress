@@ -29,7 +29,6 @@ echo '<?xml version="1.0"?' . ">\n";
 	<head>
 		<title>
 		<?php
-			/* translators: %s: Site title. */
 			printf( __( 'Links for %s' ), esc_attr( get_bloginfo( 'name', 'display' ) ) );
 		?>
 		</title>
@@ -45,22 +44,10 @@ echo '<?xml version="1.0"?' . ">\n";
 	</head>
 	<body>
 <?php
-if ( empty( $link_cat ) ) {
-	$cats = get_categories(
-		array(
-			'taxonomy'     => 'link_category',
-			'hierarchical' => 0,
-		)
-	);
-} else {
-	$cats = get_categories(
-		array(
-			'taxonomy'     => 'link_category',
-			'hierarchical' => 0,
-			'include'      => $link_cat,
-		)
-	);
-}
+
+$cats = empty($link_cat)
+	? get_categories(array('taxonomy' => 'link_category', 'hierarchical' => 0,))
+	: get_categories(array('taxonomy' => 'link_category', 'hierarchical' => 0, 'include' => $link_cat,));
 
 foreach ( (array) $cats as $cat ) :
 	/** This filter is documented in wp-includes/bookmark-template.php */
