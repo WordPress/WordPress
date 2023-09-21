@@ -25,6 +25,13 @@ function add_filter() {}
 /**
  * @ignore
  */
+function has_filter() {
+	return false;
+}
+
+/**
+ * @ignore
+ */
 function esc_attr() {}
 
 /**
