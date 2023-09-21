@@ -1079,7 +1079,6 @@ class WP_REST_Server {
 
 			foreach ( $handlers as $handler ) {
 				$callback = $handler['callback'];
-				$response = null;
 
 				// Fallback to GET method if no HEAD method is registered.
 				$checked_method = $method;
