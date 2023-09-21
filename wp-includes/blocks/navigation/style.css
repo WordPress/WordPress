@@ -123,7 +123,7 @@
     top:-1px;
   }
   .wp-block-navigation .has-child .wp-block-navigation__submenu-container .wp-block-navigation__submenu-container:before{
-    background:#0000;
+    background:transparent;
     content:"";
     display:block;
     height:100%;
@@ -138,7 +138,23 @@
     transform:rotate(-90deg);
   }
 }
-.wp-block-navigation .has-child .wp-block-navigation-submenu__toggle[aria-expanded=true]~.wp-block-navigation__submenu-container,.wp-block-navigation .has-child:not(.open-on-click):hover>.wp-block-navigation__submenu-container,.wp-block-navigation .has-child:not(.open-on-click):not(.open-on-hover-click):focus-within>.wp-block-navigation__submenu-container{
+.wp-block-navigation .has-child:not(.open-on-click):hover>.wp-block-navigation__submenu-container{
+  height:auto;
+  min-width:200px;
+  opacity:1;
+  overflow:visible;
+  visibility:visible;
+  width:auto;
+}
+.wp-block-navigation .has-child:not(.open-on-click):not(.open-on-hover-click):focus-within>.wp-block-navigation__submenu-container{
+  height:auto;
+  min-width:200px;
+  opacity:1;
+  overflow:visible;
+  visibility:visible;
+  width:auto;
+}
+.wp-block-navigation .has-child .wp-block-navigation-submenu__toggle[aria-expanded=true]~.wp-block-navigation__submenu-container{
   height:auto;
   min-width:200px;
   opacity:1;
@@ -167,7 +183,7 @@
 }
 
 button.wp-block-navigation-item__content{
-  background-color:initial;
+  background-color:transparent;
   border:none;
   color:currentColor;
   font-family:inherit;
@@ -217,7 +233,7 @@ button.wp-block-navigation-item__content{
 
 .wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container{
   background-color:#fff;
-  border:1px solid #00000026;
+  border:1px solid rgba(0,0,0,.15);
   color:#000;
 }
 
@@ -327,7 +343,7 @@ button.wp-block-navigation-item__content{
   flex-direction:column;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item,.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item .wp-block-navigation__submenu-container,.wp-block-navigation__responsive-container.is-menu-open .wp-block-page-list{
-  background:#0000 !important;
+  background:transparent !important;
   color:inherit !important;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container{
@@ -361,7 +377,7 @@ button.wp-block-navigation-item__content{
 }
 
 .wp-block-navigation__responsive-container-close,.wp-block-navigation__responsive-container-open{
-  background:#0000;
+  background:transparent;
   border:none;
   color:currentColor;
   cursor:pointer;

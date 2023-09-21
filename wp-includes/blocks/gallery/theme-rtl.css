@@ -4,5 +4,5 @@
   text-align:center;
 }
 .is-dark-theme .blocks-gallery-caption{
-  color:#ffffffa6;
+  color:hsla(0,0%,100%,.65);
 }

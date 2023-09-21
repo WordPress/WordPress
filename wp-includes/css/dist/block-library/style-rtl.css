@@ -106,7 +106,7 @@
 }
 
 .wp-block-button .wp-block-button__link.is-style-outline:not(.has-background),.wp-block-button.is-style-outline>.wp-block-button__link:not(.has-background){
-  background-color:initial;
+  background-color:transparent;
   background-image:none;
 }
 
@@ -488,7 +488,7 @@
   background-color:#000;
 }
 .wp-block-cover .has-background-dim.has-background-gradient,.wp-block-cover-image .has-background-dim.has-background-gradient{
-  background-color:initial;
+  background-color:transparent;
 }
 .wp-block-cover-image.has-background-dim:before,.wp-block-cover.has-background-dim:before{
   background-color:inherit;
@@ -861,7 +861,7 @@
   width:auto;
 }
 .blocks-gallery-grid:not(.has-nested-images) .blocks-gallery-image figcaption,.blocks-gallery-grid:not(.has-nested-images) .blocks-gallery-item figcaption,.wp-block-gallery:not(.has-nested-images) .blocks-gallery-image figcaption,.wp-block-gallery:not(.has-nested-images) .blocks-gallery-item figcaption{
-  background:linear-gradient(0deg, #000000b3, #0000004d 70%, #0000);
+  background:linear-gradient(0deg, rgba(0,0,0,.7), rgba(0,0,0,.3) 70%, transparent);
   bottom:0;
   box-sizing:border-box;
   color:#fff;
@@ -964,7 +964,7 @@ figure.wp-block-gallery.has-nested-images{
   width:auto;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
-  background:linear-gradient(0deg, #000000b3, #0000004d 70%, #0000);
+  background:linear-gradient(0deg, rgba(0,0,0,.7), rgba(0,0,0,.3) 70%, transparent);
   bottom:0;
   box-sizing:border-box;
   color:#fff;
@@ -1693,7 +1693,7 @@ ol.has-background,ul.has-background{
     top:-1px;
   }
   .wp-block-navigation .has-child .wp-block-navigation__submenu-container .wp-block-navigation__submenu-container:before{
-    background:#0000;
+    background:transparent;
     content:"";
     display:block;
     height:100%;
@@ -1708,7 +1708,23 @@ ol.has-background,ul.has-background{
     transform:rotate(90deg);
   }
 }
-.wp-block-navigation .has-child .wp-block-navigation-submenu__toggle[aria-expanded=true]~.wp-block-navigation__submenu-container,.wp-block-navigation .has-child:not(.open-on-click):hover>.wp-block-navigation__submenu-container,.wp-block-navigation .has-child:not(.open-on-click):not(.open-on-hover-click):focus-within>.wp-block-navigation__submenu-container{
+.wp-block-navigation .has-child:not(.open-on-click):hover>.wp-block-navigation__submenu-container{
+  height:auto;
+  min-width:200px;
+  opacity:1;
+  overflow:visible;
+  visibility:visible;
+  width:auto;
+}
+.wp-block-navigation .has-child:not(.open-on-click):not(.open-on-hover-click):focus-within>.wp-block-navigation__submenu-container{
+  height:auto;
+  min-width:200px;
+  opacity:1;
+  overflow:visible;
+  visibility:visible;
+  width:auto;
+}
+.wp-block-navigation .has-child .wp-block-navigation-submenu__toggle[aria-expanded=true]~.wp-block-navigation__submenu-container{
   height:auto;
   min-width:200px;
   opacity:1;
@@ -1737,7 +1753,7 @@ ol.has-background,ul.has-background{
 }
 
 button.wp-block-navigation-item__content{
-  background-color:initial;
+  background-color:transparent;
   border:none;
   color:currentColor;
   font-family:inherit;
@@ -1787,7 +1803,7 @@ button.wp-block-navigation-item__content{
 
 .wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container{
   background-color:#fff;
-  border:1px solid #00000026;
+  border:1px solid rgba(0,0,0,.15);
   color:#000;
 }
 
@@ -1897,7 +1913,7 @@ button.wp-block-navigation-item__content{
   flex-direction:column;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item,.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item .wp-block-navigation__submenu-container,.wp-block-navigation__responsive-container.is-menu-open .wp-block-page-list{
-  background:#0000 !important;
+  background:transparent !important;
   color:inherit !important;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container{
@@ -1931,7 +1947,7 @@ button.wp-block-navigation-item__content{
 }
 
 .wp-block-navigation__responsive-container-close,.wp-block-navigation__responsive-container-open{
-  background:#0000;
+  background:transparent;
   border:none;
   color:currentColor;
   cursor:pointer;
@@ -2206,7 +2222,7 @@ p.has-background{
 }
 
 .wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-gradient{
-  background-color:initial;
+  background-color:transparent;
 }
 .wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-0{
   opacity:0;
@@ -3095,7 +3111,7 @@ ul.wp-block-rss.is-grid li{
   background-color:#fcf0ef;
 }
 .wp-block-table.is-style-stripes{
-  background-color:initial;
+  background-color:transparent;
   border-bottom:1px solid #f0f0f0;
   border-collapse:inherit;
   border-spacing:0;
@@ -3116,7 +3132,7 @@ ul.wp-block-rss.is-grid li{
   background-color:#fcf0ef;
 }
 .wp-block-table.is-style-stripes td,.wp-block-table.is-style-stripes th{
-  border-color:#0000;
+  border-color:transparent;
 }
 .wp-block-table .has-border-color td,.wp-block-table .has-border-color th,.wp-block-table .has-border-color tr,.wp-block-table .has-border-color>*{
   border-color:inherit;
@@ -3125,7 +3141,7 @@ ul.wp-block-rss.is-grid li{
   border-top-color:inherit;
 }
 .wp-block-table table[style*=border-top-color] tr:not(:first-child){
-  border-top-color:initial;
+  border-top-color:currentColor;
 }
 .wp-block-table table[style*=border-right-color] td:last-child,.wp-block-table table[style*=border-right-color] th,.wp-block-table table[style*=border-right-color] tr,.wp-block-table table[style*=border-right-color]>*{
   border-left-color:inherit;
@@ -3134,7 +3150,7 @@ ul.wp-block-rss.is-grid li{
   border-bottom-color:inherit;
 }
 .wp-block-table table[style*=border-bottom-color] tr:not(:last-child){
-  border-bottom-color:initial;
+  border-bottom-color:currentColor;
 }
 .wp-block-table table[style*=border-left-color] td:first-child,.wp-block-table table[style*=border-left-color] th,.wp-block-table table[style*=border-left-color] tr,.wp-block-table table[style*=border-left-color]>*{
   border-right-color:inherit;

@@ -1,8 +1,8 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 124:
-/***/ ((module, exports, __webpack_require__) => {
+/***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
@@ -268,68 +268,68 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
+/******/ 		__webpack_require__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 		__webpack_require__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
+/******/ 		__webpack_require__.r = function(exports) {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
+!function() {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  __: () => (/* reexport */ __),
-  _n: () => (/* reexport */ _n),
-  _nx: () => (/* reexport */ _nx),
-  _x: () => (/* reexport */ _x),
-  createI18n: () => (/* reexport */ createI18n),
-  defaultI18n: () => (/* reexport */ default_i18n),
-  getLocaleData: () => (/* reexport */ getLocaleData),
-  hasTranslation: () => (/* reexport */ hasTranslation),
-  isRTL: () => (/* reexport */ isRTL),
-  resetLocaleData: () => (/* reexport */ resetLocaleData),
-  setLocaleData: () => (/* reexport */ setLocaleData),
-  sprintf: () => (/* reexport */ sprintf_sprintf),
-  subscribe: () => (/* reexport */ subscribe)
+  __: function() { return /* reexport */ __; },
+  _n: function() { return /* reexport */ _n; },
+  _nx: function() { return /* reexport */ _nx; },
+  _x: function() { return /* reexport */ _x; },
+  createI18n: function() { return /* reexport */ createI18n; },
+  defaultI18n: function() { return /* reexport */ default_i18n; },
+  getLocaleData: function() { return /* reexport */ getLocaleData; },
+  hasTranslation: function() { return /* reexport */ hasTranslation; },
+  isRTL: function() { return /* reexport */ isRTL; },
+  resetLocaleData: function() { return /* reexport */ resetLocaleData; },
+  setLocaleData: function() { return /* reexport */ setLocaleData; },
+  sprintf: function() { return /* reexport */ sprintf_sprintf; },
+  subscribe: function() { return /* reexport */ subscribe; }
 });
 
 ;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
@@ -1518,7 +1518,7 @@ const createI18n = (initialData, initialDomain, hooks) => {
 };
 
 ;// CONCATENATED MODULE: external ["wp","hooks"]
-const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
+var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/default-i18n.js
 /**
  * Internal dependencies
@@ -1534,7 +1534,7 @@ const i18n = createI18n(undefined, undefined, external_wp_hooks_namespaceObject.
  * Default, singleton instance of `I18n`.
  */
 
-/* harmony default export */ const default_i18n = (i18n);
+/* harmony default export */ var default_i18n = (i18n);
 /*
  * Comments in this file are duplicated from ./i18n due to
  * https://github.com/WordPress/gutenberg/pull/20318#issuecomment-590837722
@@ -1672,8 +1672,7 @@ const hasTranslation = i18n.hasTranslation.bind(i18n);
 
 
 
-})();
-
+}();
 (window.wp = window.wp || {}).i18n = __webpack_exports__;
 /******/ })()
 ;

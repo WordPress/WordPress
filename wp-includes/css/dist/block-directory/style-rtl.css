@@ -72,10 +72,10 @@
 }
 .block-directory-downloadable-block-list-item:hover{
   box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline:2px solid #0000;
+  outline:2px solid transparent;
 }
 .block-directory-downloadable-block-list-item.is-busy{
-  background:#0000;
+  background:transparent;
 }
 .block-directory-downloadable-block-list-item.is-busy .block-directory-downloadable-block-list-item__author{
   clip:rect(1px, 1px, 1px, 1px);
@@ -101,7 +101,7 @@
 }
 .block-directory-downloadable-block-list-item__icon .block-directory-downloadable-block-list-item__spinner{
   align-items:center;
-  background:#ffffffbf;
+  background:hsla(0,0%,100%,.75);
   bottom:0;
   display:flex;
   justify-content:center;

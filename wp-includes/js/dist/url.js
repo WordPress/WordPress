@@ -1,8 +1,8 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 4793:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var characterMap = {
 	"À": "A",
@@ -462,82 +462,82 @@ module.exports.remove = removeAccents;
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
+/******/ 		__webpack_require__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 		__webpack_require__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
+/******/ 		__webpack_require__.r = function(exports) {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
+!function() {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  addQueryArgs: () => (/* reexport */ addQueryArgs),
-  buildQueryString: () => (/* reexport */ buildQueryString),
-  cleanForSlug: () => (/* reexport */ cleanForSlug),
-  filterURLForDisplay: () => (/* reexport */ filterURLForDisplay),
-  getAuthority: () => (/* reexport */ getAuthority),
-  getFilename: () => (/* reexport */ getFilename),
-  getFragment: () => (/* reexport */ getFragment),
-  getPath: () => (/* reexport */ getPath),
-  getPathAndQueryString: () => (/* reexport */ getPathAndQueryString),
-  getProtocol: () => (/* reexport */ getProtocol),
-  getQueryArg: () => (/* reexport */ getQueryArg),
-  getQueryArgs: () => (/* reexport */ getQueryArgs),
-  getQueryString: () => (/* reexport */ getQueryString),
-  hasQueryArg: () => (/* reexport */ hasQueryArg),
-  isEmail: () => (/* reexport */ isEmail),
-  isURL: () => (/* reexport */ isURL),
-  isValidAuthority: () => (/* reexport */ isValidAuthority),
-  isValidFragment: () => (/* reexport */ isValidFragment),
-  isValidPath: () => (/* reexport */ isValidPath),
-  isValidProtocol: () => (/* reexport */ isValidProtocol),
-  isValidQueryString: () => (/* reexport */ isValidQueryString),
-  normalizePath: () => (/* reexport */ normalizePath),
-  prependHTTP: () => (/* reexport */ prependHTTP),
-  prependHTTPS: () => (/* reexport */ prependHTTPS),
-  removeQueryArgs: () => (/* reexport */ removeQueryArgs),
-  safeDecodeURI: () => (/* reexport */ safeDecodeURI),
-  safeDecodeURIComponent: () => (/* reexport */ safeDecodeURIComponent)
+  addQueryArgs: function() { return /* reexport */ addQueryArgs; },
+  buildQueryString: function() { return /* reexport */ buildQueryString; },
+  cleanForSlug: function() { return /* reexport */ cleanForSlug; },
+  filterURLForDisplay: function() { return /* reexport */ filterURLForDisplay; },
+  getAuthority: function() { return /* reexport */ getAuthority; },
+  getFilename: function() { return /* reexport */ getFilename; },
+  getFragment: function() { return /* reexport */ getFragment; },
+  getPath: function() { return /* reexport */ getPath; },
+  getPathAndQueryString: function() { return /* reexport */ getPathAndQueryString; },
+  getProtocol: function() { return /* reexport */ getProtocol; },
+  getQueryArg: function() { return /* reexport */ getQueryArg; },
+  getQueryArgs: function() { return /* reexport */ getQueryArgs; },
+  getQueryString: function() { return /* reexport */ getQueryString; },
+  hasQueryArg: function() { return /* reexport */ hasQueryArg; },
+  isEmail: function() { return /* reexport */ isEmail; },
+  isURL: function() { return /* reexport */ isURL; },
+  isValidAuthority: function() { return /* reexport */ isValidAuthority; },
+  isValidFragment: function() { return /* reexport */ isValidFragment; },
+  isValidPath: function() { return /* reexport */ isValidPath; },
+  isValidProtocol: function() { return /* reexport */ isValidProtocol; },
+  isValidQueryString: function() { return /* reexport */ isValidQueryString; },
+  normalizePath: function() { return /* reexport */ normalizePath; },
+  prependHTTP: function() { return /* reexport */ prependHTTP; },
+  prependHTTPS: function() { return /* reexport */ prependHTTPS; },
+  removeQueryArgs: function() { return /* reexport */ removeQueryArgs; },
+  safeDecodeURI: function() { return /* reexport */ safeDecodeURI; },
+  safeDecodeURIComponent: function() { return /* reexport */ safeDecodeURIComponent; }
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
@@ -1391,8 +1391,7 @@ function prependHTTPS(url) {
 
 
 
-})();
-
+}();
 (window.wp = window.wp || {}).url = __webpack_exports__;
 /******/ })()
 ;

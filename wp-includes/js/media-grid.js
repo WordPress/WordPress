@@ -1,8 +1,8 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 5817:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var l10n = wp.media.view.l10n,
 	EditAttachmentMetadata;
@@ -37,7 +37,7 @@ module.exports = EditAttachmentMetadata;
 /***/ }),
 
 /***/ 9525:
-/***/ ((module) => {
+/***/ (function(module) {
 
 /**
  * wp.media.view.MediaFrame.Manage.Router
@@ -111,7 +111,7 @@ module.exports = Router;
 /***/ }),
 
 /***/ 7433:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var Details = wp.media.view.Attachment.Details,
 	TwoColumn;
@@ -160,7 +160,7 @@ module.exports = TwoColumn;
 /***/ }),
 
 /***/ 5562:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var Button = wp.media.view.Button,
 	DeleteSelected = wp.media.view.DeleteSelectedButton,
@@ -214,7 +214,7 @@ module.exports = DeleteSelectedPermanently;
 /***/ }),
 
 /***/ 471:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var Button = wp.media.view.Button,
 	l10n = wp.media.view.l10n,
@@ -275,7 +275,7 @@ module.exports = DeleteSelected;
 /***/ }),
 
 /***/ 6767:
-/***/ ((module) => {
+/***/ (function(module) {
 
 
 var Button = wp.media.view.Button,
@@ -359,7 +359,7 @@ module.exports = SelectModeToggle;
 /***/ }),
 
 /***/ 9157:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var View = wp.media.View,
 	EditImage = wp.media.view.EditImage,
@@ -401,7 +401,7 @@ module.exports = Details;
 /***/ }),
 
 /***/ 5169:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var Frame = wp.media.view.Frame,
 	MediaFrame = wp.media.view.MediaFrame,
@@ -683,7 +683,7 @@ module.exports = EditAttachments;
 /***/ }),
 
 /***/ 4817:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var MediaFrame = wp.media.view.MediaFrame,
 	Library = wp.media.controller.Library,
@@ -1005,7 +1005,7 @@ module.exports = Manage;
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
+!function() {
 /**
  * @output wp-includes/js/media-grid.js
  */
@@ -1022,7 +1022,6 @@ media.view.SelectModeToggleButton = __webpack_require__( 6767 );
 media.view.DeleteSelectedButton = __webpack_require__( 471 );
 media.view.DeleteSelectedPermanentlyButton = __webpack_require__( 5562 );
 
-})();
-
+}();
 /******/ })()
 ;

@@ -4,7 +4,7 @@
   text-align:center;
 }
 .is-dark-theme .wp-block-video figcaption{
-  color:#ffffffa6;
+  color:hsla(0,0%,100%,.65);
 }
 
 .wp-block-video{

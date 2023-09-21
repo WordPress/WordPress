@@ -1,4 +1,4 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 var __webpack_exports__ = {};
 window.addEventListener('DOMContentLoaded', () => {
   const hiddenClass = 'wp-block-search__searchfield-hidden';

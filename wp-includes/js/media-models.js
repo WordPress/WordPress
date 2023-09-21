@@ -1,8 +1,8 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 7727:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var $ = Backbone.$,
 	Attachment;
@@ -178,7 +178,7 @@ module.exports = Attachment;
 /***/ }),
 
 /***/ 6940:
-/***/ ((module) => {
+/***/ (function(module) {
 
 /**
  * wp.media.model.Attachments
@@ -786,7 +786,7 @@ module.exports = Attachments;
 /***/ }),
 
 /***/ 5927:
-/***/ ((module) => {
+/***/ (function(module) {
 
 /**
  * wp.media.model.PostImage
@@ -947,7 +947,7 @@ module.exports = PostImage;
 /***/ }),
 
 /***/ 4009:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var Attachments = wp.media.model.Attachments,
 	Query;
@@ -1258,7 +1258,7 @@ module.exports = Query;
 /***/ }),
 
 /***/ 6584:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var Attachments = wp.media.model.Attachments,
 	Selection;
@@ -1390,7 +1390,7 @@ module.exports = Selection;
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
+!function() {
 /**
  * @output wp-includes/js/media-models.js
  */
@@ -1636,7 +1636,6 @@ $(window).on('unload', function(){
 	window.wp = null;
 });
 
-})();
-
+}();
 /******/ })()
 ;
