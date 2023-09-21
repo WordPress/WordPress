@@ -272,6 +272,11 @@
 					"radius": true
 				}
 			},
+			"core/image": {
+				"lightbox": {
+					"allowEditing": true
+				}
+			},
 			"core/pullquote": {
 				"border": {
 					"color": true,

@@ -343,7 +343,7 @@ class WP_Theme_JSON {
 	 *              `position.fixed` and `position.sticky`.
 	 * @since 6.3.0 Added support for `typography.textColumns`, removed `layout.definitions`.
 	 * @since 6.4.0 Added support for `layout.allowEditing`, `background.backgroundImage`,
-	 *              and `typography.writingMode`.
+	 *              `typography.writingMode`, `lightbox.enabled` and `lightbox.allowEditing`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -382,6 +382,10 @@ class WP_Theme_JSON {
 		'layout'                        => array(
 			'contentSize'  => null,
 			'wideSize'     => null,
+			'allowEditing' => null,
+		),
+		'lightbox'                      => array(
+			'enabled'      => null,
 			'allowEditing' => null,
 		),
 		'position'                      => array(
