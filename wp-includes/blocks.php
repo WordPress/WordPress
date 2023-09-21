@@ -886,38 +886,68 @@ function serialize_blocks( $blocks ) {
 }
 
 /**
- * Traverses the block applying transformations using the callback provided and returns the content of a block,
- * including comment delimiters, serializing all attributes from the given parsed block.
+ * Traverses a parsed block tree and applies callbacks before and after serializing it.
  *
- * This should be used when there is a need to modify the saved block.
- * Prefer `serialize_block` when preparing a block to be saved to post content.
+ * Recursively traverses the block and its inner blocks and applies the two callbacks provided as
+ * arguments, the first one before serializing the block, and the second one after serializing it.
+ * If either callback returns a string value, it will be prepended and appended to the serialized
+ * block markup, respectively.
+ *
+ * The callbacks will receive a reference to the current block as their first argument, so that they
+ * can also modify it, and the current block's parent block as second argument. Finally, the
+ * `$pre_callback` receives the previous block, whereas the `$post_callback` receives
+ * the next block as third argument.
+ *
+ * Serialized blocks are returned including comment delimiters, and with all attributes serialized.
+ *
+ * This function should be used when there is a need to modify the saved block, or to inject markup
+ * into the return value. Prefer `serialize_block` when preparing a block to be saved to post content.
  *
  * @since 6.4.0
  *
  * @see serialize_block()
  *
- * @param array    $block    A representative array of a single parsed block object. See WP_Block_Parser_Block.
- * @param callable $callback Callback to run on each block in the tree before serialization.
- *                           It is called with the following arguments: $block, $parent_block, $block_index, $chunk_index.
- * @return string String of rendered HTML.
+ * @param array    $block         A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ * @param callable $pre_callback  Callback to run on each block in the tree before it is traversed and serialized.
+ *                                It is called with the following arguments: &$block, $parent_block, $previous_block.
+ *                                Its string return value will be prepended to the serialized block markup.
+ * @param callable $post_callback Callback to run on each block in the tree after it is traversed and serialized.
+ *                                It is called with the following arguments: &$block, $parent_block, $next_block.
+ *                                Its string return value will be appended to the serialized block markup.
+ * @return string Serialized block markup.
  */
-function traverse_and_serialize_block( $block, $callback ) {
+function traverse_and_serialize_block( $block, $pre_callback = null, $post_callback = null ) {
 	$block_content = '';
 	$block_index   = 0;
 
-	foreach ( $block['innerContent'] as $chunk_index => $chunk ) {
+	foreach ( $block['innerContent'] as $chunk ) {
 		if ( is_string( $chunk ) ) {
 			$block_content .= $chunk;
 		} else {
-			$inner_block = call_user_func(
-				$callback,
-				$block['innerBlocks'][ $block_index ],
-				$block,
-				$block_index,
-				$chunk_index
-			);
+			$inner_block = $block['innerBlocks'][ $block_index ];
+
+			if ( is_callable( $pre_callback ) ) {
+				$prev = 0 === $block_index
+					? null
+					: $block['innerBlocks'][ $block_index - 1 ];
+				$block_content .= call_user_func_array(
+					$pre_callback,
+					array( &$inner_block, $block, $prev )
+				);
+			}
+
+			$block_content .= traverse_and_serialize_block( $inner_block, $pre_callback, $post_callback );
+
+			if ( is_callable( $post_callback ) ) {
+				$next = count( $block['innerBlocks'] ) - 1 === $block_index
+					? null
+					: $block['innerBlocks'][ $block_index + 1 ];
+				$block_content .= call_user_func_array(
+					$post_callback,
+					array( &$inner_block, $block, $next )
+				);
+			}
 			$block_index++;
-			$block_content .= traverse_and_serialize_block( $inner_block, $callback );
 		}
 	}
 
@@ -933,27 +963,59 @@ function traverse_and_serialize_block( $block, $callback ) {
 }
 
 /**
- * Traverses the blocks applying transformations using the callback provided,
- * and returns a joined string of the aggregate serialization of the given parsed blocks.
+ * Given an array of parsed block trees, applies callbacks before and after serializing them and
+ * returns their concatenated output.
  *
- * This should be used when there is a need to modify the saved blocks.
- * Prefer `serialize_blocks` when preparing blocks to be saved to post content.
+ * Recursively traverses the blocks and their inner blocks and applies the two callbacks provided as
+ * arguments, the first one before serializing a block, and the second one after serializing.
+ * If either callback returns a string value, it will be prepended and appended to the serialized
+ * block markup, respectively.
+ *
+ * The callbacks will receive a reference to the current block as their first argument, so that they
+ * can also modify it, and the current block's parent block as second argument. Finally, the
+ * `$pre_callback` receives the previous block, whereas the `$post_callback` receives
+ * the next block as third argument.
+ *
+ * Serialized blocks are returned including comment delimiters, and with all attributes serialized.
+ *
+ * This function should be used when there is a need to modify the saved blocks, or to inject markup
+ * into the return value. Prefer `serialize_blocks` when preparing blocks to be saved to post content.
  *
  * @since 6.4.0
  *
  * @see serialize_blocks()
  *
- * @param array[]  $blocks   An array of representative arrays of parsed block objects. See serialize_block().
- * @param callable $callback Callback to run on each block in the tree before serialization.
- *                           It is called with the following arguments: $block, $parent_block, $block_index, $chunk_index.
- * @return string String of rendered HTML.
+ * @param array[]  $blocks        An array of parsed blocks. See WP_Block_Parser_Block.
+ * @param callable $pre_callback  Callback to run on each block in the tree before it is traversed and serialized.
+ *                                It is called with the following arguments: &$block, $parent_block, $previous_block.
+ *                                Its string return value will be prepended to the serialized block markup.
+ * @param callable $post_callback Callback to run on each block in the tree after it is traversed and serialized.
+ *                                It is called with the following arguments: &$block, $parent_block, $next_block.
+ *                                Its string return value will be appended to the serialized block markup.
+ * @return string Serialized block markup.
  */
-function traverse_and_serialize_blocks( $blocks, $callback ) {
+function traverse_and_serialize_blocks( $blocks, $pre_callback = null, $post_callback = null ) {
 	$result = '';
-	foreach ( $blocks as $block ) {
-		// At the top level, there is no parent block, block index, or chunk index to pass to the callback.
-		$block = call_user_func( $callback, $block );
-		$result .= traverse_and_serialize_block( $block, $callback );
+	foreach ( $blocks as $index => $block ) {
+		if ( is_callable( $pre_callback ) ) {
+			$prev = 0 === $index
+				? null
+				: $blocks[ $index - 1 ];
+			$result .= call_user_func_array(
+				$pre_callback,
+				array( &$block, null, $prev ) // At the top level, there is no parent block to pass to the callback.
+			);
+		}
+		$result .= traverse_and_serialize_block( $block, $pre_callback, $post_callback );
+		if ( is_callable( $post_callback ) ) {
+			$next = count( $blocks ) - 1 === $index
+				? null
+				: $blocks[ $index + 1 ];
+			$result .= call_user_func_array(
+				$post_callback,
+				array( &$block, null, $next ) // At the top level, there is no parent block to pass to the callback.
+			);
+		}
 	}
 	return $result;
 }

@@ -515,16 +515,15 @@ function _inject_theme_attribute_in_block_template_content( $template_content ) 
  * @access private
  *
  * @param array $block a parsed block.
- * @return array Updated block.
+ * @return void
  */
-function _inject_theme_attribute_in_template_part_block( $block ) {
+function _inject_theme_attribute_in_template_part_block( &$block ) {
 	if (
 		'core/template-part' === $block['blockName'] &&
 		! isset( $block['attrs']['theme'] )
 	) {
 		$block['attrs']['theme'] = get_stylesheet();
 	}
-	return $block;
 }
 
 /**
