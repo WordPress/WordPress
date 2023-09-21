@@ -255,8 +255,7 @@
 	 *
 	 * @return {boolean} Always returns false.
 	 */
-	monitorPopup : function(el) {
-		var $el     = $( el );
+	monitorPopup : function() {
 		var $parent = document.querySelector( '.imgedit-rotate-menu-container' );
 		var $toggle = document.querySelector( '.imgedit-rotate-menu-container .imgedit-rotate' );
 
