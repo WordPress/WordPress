@@ -165,7 +165,13 @@ final class WP_Block_Patterns_Registry {
 			return null;
 		}
 
-		return $this->registered_patterns[ $pattern_name ];
+		$pattern              = $this->registered_patterns[ $pattern_name ];
+		$blocks               = parse_blocks( $pattern['content'] );
+		$before_block_visitor = make_before_block_visitor( $pattern );
+		$after_block_visitor  = make_after_block_visitor( $pattern );
+		$pattern['content']   = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+
+		return $pattern;
 	}
 
 	/**
@@ -178,11 +184,19 @@ final class WP_Block_Patterns_Registry {
 	 *                 and per style.
 	 */
 	public function get_all_registered( $outside_init_only = false ) {
-		return array_values(
+		$patterns = array_values(
 			$outside_init_only
 				? $this->registered_patterns_outside_init
 				: $this->registered_patterns
 		);
+
+		foreach ( $patterns as $index => $pattern ) {
+			$blocks                        = parse_blocks( $pattern['content'] );
+			$before_block_visitor          = make_before_block_visitor( $pattern );
+			$after_block_visitor           = make_after_block_visitor( $pattern );
+			$patterns[ $index ]['content'] = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+		}
+		return $patterns;
 	}
 
 	/**

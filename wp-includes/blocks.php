@@ -751,6 +751,9 @@ function get_hooked_blocks( $name ) {
 	$block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
 	$hooked_blocks = array();
 	foreach ( $block_types as $block_type ) {
+		if ( ! property_exists( $block_type, 'block_hooks' ) || ! is_array( $block_type->block_hooks ) ) {
+			continue;
+		}
 		foreach ( $block_type->block_hooks as $anchor_block_type => $relative_position ) {
 			if ( $anchor_block_type === $name ) {
 				$hooked_blocks[ $block_type->name ] = $relative_position;
@@ -758,6 +761,128 @@ function get_hooked_blocks( $name ) {
 		}
 	}
 	return $hooked_blocks;
+}
+
+/**
+ * Returns a function that injects the theme attribute into, and hooked blocks before, a given block.
+ *
+ * The returned function can be used as `$pre_callback` argument to `traverse_and_serialize_block(s)`,
+ * where it will inject the `theme` attribute into all Template Part blocks, and prepend the markup for
+ * any blocks hooked `before` the given block and as its parent's `first_child`, respectively.
+ *
+ * @since 6.4.0
+ * @access private
+ *
+ * @param WP_Block_Template|array $context A block template, template part, or pattern that the blocks belong to.
+ * @return callable A function that returns the serialized markup for the given block,
+ *                  including the markup for any hooked blocks before it.
+ */
+function make_before_block_visitor( $context ) {
+	/**
+	 * Injects hooked blocks before the given block, injects the `theme` attribute into Template Part blocks, and returns the serialized markup.
+	 *
+	 * If the current block is a Template Part block, inject the `theme` attribute.
+	 * Furthermore, prepend the markup for any blocks hooked `before` the given block and as its parent's
+	 * `first_child`, respectively, to the serialized markup for the given block.
+	 *
+	 * @param array $block  The block to inject the theme attribute into, and hooked blocks before.
+	 * @param array $parent The parent block of the given block.
+	 * @param array $prev   The previous sibling block of the given block.
+	 * @return string The serialized markup for the given block, with the markup for any hooked blocks prepended to it.
+	 */
+	return function( &$block, $parent = null, $prev = null ) use ( $context ) {
+		_inject_theme_attribute_in_template_part_block( $block );
+
+		$markup = '';
+
+		if ( $parent && ! $prev ) {
+			// Candidate for first-child insertion.
+			$hooked_blocks_for_parent = get_hooked_blocks( $parent['blockName'] );
+			foreach ( $hooked_blocks_for_parent as $hooked_block_type => $relative_position ) {
+				if ( 'first_child' === $relative_position ) {
+					$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+					/** This filter is documented in wp-includes/blocks.php */
+					$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
+				}
+			}
+		}
+
+		$hooked_blocks = get_hooked_blocks( $block['blockName'] );
+		foreach ( $hooked_blocks as $hooked_block_type => $relative_position ) {
+			if ( 'before' === $relative_position ) {
+				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+				/**
+				 * Filters the serialized markup of a hooked block.
+				 *
+				 * @since 6.4.0
+				 *
+				 * @param string                  $hooked_block_markup The serialized markup of the hooked block.
+				 * @param string                  $hooked_block_type   The type of the hooked block.
+				 * @param string                  $relative_position   The relative position of the hooked block.
+				 *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
+				 * @param array                   $block               The anchor block.
+				 * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
+				 */
+				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
+			}
+		}
+
+		return $markup;
+	};
+}
+
+/**
+ * Returns a function that injects the hooked blocks after a given block.
+ *
+ * The returned function can be used as `$post_callback` argument to `traverse_and_serialize_block(s)`,
+ * where it will append the markup for any blocks hooked `after` the given block and as its parent's
+ * `last_child`, respectively.
+ *
+ * @since 6.4.0
+ * @access private
+ *
+ * @param WP_Block_Template|array $context A block template, template part, or pattern that the blocks belong to.
+ * @return callable A function that returns the serialized markup for the given block,
+ *                  including the markup for any hooked blocks after it.
+ */
+function make_after_block_visitor( $context ) {
+	/**
+	 * Injects hooked blocks after the given block, and returns the serialized markup.
+	 *
+	 * Append the markup for any blocks hooked `after` the given block and as its parent's
+	 * `last_child`, respectively, to the serialized markup for the given block.
+	 *
+	 * @param array $block  The block to inject the hooked blocks after.
+	 * @param array $parent The parent block of the given block.
+	 * @param array $next   The next sibling block of the given block.
+	 * @return string The serialized markup for the given block, with the markup for any hooked blocks appended to it.
+	 */
+	return function( &$block, $parent = null, $next = null ) use ( $context ) {
+		$markup = '';
+
+		$hooked_blocks = get_hooked_blocks( $block['blockName'] );
+		foreach ( $hooked_blocks as $hooked_block_type => $relative_position ) {
+			if ( 'after' === $relative_position ) {
+				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+				/** This filter is documented in wp-includes/blocks.php */
+				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
+			}
+		}
+
+		if ( $parent && ! $next ) {
+			// Candidate for last-child insertion.
+			$hooked_blocks_for_parent = get_hooked_blocks( $parent['blockName'] );
+			foreach ( $hooked_blocks_for_parent as $hooked_block_type => $relative_position ) {
+				if ( 'last_child' === $relative_position ) {
+					$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+					/** This filter is documented in wp-includes/blocks.php */
+					$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
+				}
+			}
+		}
+
+		return $markup;
+	};
 }
 
 /**
