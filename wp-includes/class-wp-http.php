@@ -516,6 +516,8 @@ class WP_Http {
 	 * Tests which transports are capable of supporting the request.
 	 *
 	 * @since 3.2.0
+	 * @deprecated 6.4.0 Use WpOrg\Requests\Requests::get_transport_class()
+	 * @see WpOrg\Requests\Requests::get_transport_class()
 	 *
 	 * @param array  $args Request arguments.
 	 * @param string $url  URL to request.
