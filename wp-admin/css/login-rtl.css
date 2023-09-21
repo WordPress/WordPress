@@ -43,8 +43,8 @@ p {
 }
 
 .login .message,
-.login .success,
-.login #login_error {
+.login .notice,
+.login .success {
 	border-right: 4px solid #72aee6;
 	padding: 12px;
 	margin-right: 0;
@@ -58,8 +58,17 @@ p {
 	border-right-color: #00a32a;
 }
 
-.login #login_error {
+/* Match border color from common.css */
+.login .notice-error {
 	border-right-color: #d63638;
+}
+
+.login .login-error-list {
+	list-style: none;
+}
+
+.login .login-error-list li + li {
+	margin-top: 4px;
 }
 
 #loginform p.submit,
@@ -238,6 +247,11 @@ p {
 	margin-bottom: 0;
 }
 
+#login form .indicator-hint,
+#login #reg_passmail {
+	margin-bottom: 16px;
+}
+
 #login form p.submit {
 	margin: 0;
 	padding: 0;
@@ -343,9 +357,7 @@ p {
 	font-family: Consolas, Monaco, monospace;
 }
 
-.js.login input.password-input,
-.js.login-action-rp form .input,
-.js.login-action-rp input[type="text"] {
+.js.login input.password-input {
 	padding-left: 2.5rem;
 }
 
@@ -355,6 +367,8 @@ p {
 	background: #fff;
 }
 
+.js.login-action-resetpass input[type="text"],
+.js.login-action-resetpass input[type="password"],
 .js.login-action-rp input[type="text"],
 .js.login-action-rp input[type="password"] {
 	margin-bottom: 0;
