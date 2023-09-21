@@ -29,7 +29,7 @@ final class WP_Style_Engine {
 	/**
 	 * Style definitions that contain the instructions to parse/output valid Gutenberg styles from a block's attributes.
 	 *
-	 * For every style definition, the follow properties are valid:
+	 * For every style definition, the following properties are valid:
 	 *
 	 *  - classnames    => (array) an array of classnames to be returned for block styles. The key is a classname or pattern.
 	 *                    A value of `true` means the classname should be applied always. Otherwise, a valid CSS property (string)
