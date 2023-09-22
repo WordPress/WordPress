@@ -839,6 +839,10 @@ function upgrade_all() {
 		upgrade_630();
 	}
 
+	if ( $wp_current_db_version < 56657 ) {
+		upgrade_640();
+	}
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -2319,6 +2323,23 @@ function upgrade_630() {
 				add_option( 'can_compress_scripts', $can_compress_scripts, '', 'yes' );
 			}
 		}
+	}
+}
+
+/**
+ * Executes changes made in WordPress 6.4.0.
+ *
+ * @ignore
+ * @since 6.4.0
+ *
+ * @global int $wp_current_db_version The old (current) database version.
+ */
+function upgrade_640() {
+	global $wp_current_db_version;
+
+	if ( $wp_current_db_version < 56657 ) {
+		// Enable attachment pages.
+		update_option( 'wp_media_use_attachment_pages', 1 );
 	}
 }
 
