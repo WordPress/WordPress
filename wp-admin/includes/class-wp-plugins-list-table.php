@@ -993,12 +993,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$checkbox = '';
 		} else {
 			$checkbox = sprintf(
-				'<label class="label-covers-full-cell" for="%1$s"><span class="screen-reader-text">%2$s</span></label>' .
-				'<input type="checkbox" name="checked[]" value="%3$s" id="%1$s" />',
+				'<input type="checkbox" name="checked[]" value="%1$s" id="%2$s" />' .
+				'<label for="%2$s"><span class="screen-reader-text">%3$s</span></label>',
+				esc_attr( $plugin_file ),
 				$checkbox_id,
 				/* translators: Hidden accessibility text. %s: Plugin name. */
-				sprintf( __( 'Select %s' ), $plugin_data['Name'] ),
-				esc_attr( $plugin_file )
+				sprintf( __( 'Select %s' ), $plugin_data['Name'] )
 			);
 		}
 

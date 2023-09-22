@@ -571,7 +571,8 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	position: relative;
 }
 
-.check-column .label-covers-full-cell {
+.check-column label {
+	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
 	display: block;
@@ -580,13 +581,19 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	right: 0;
 }
 
-.check-column .label-covers-full-cell + input {
+.check-column input {
 	position: relative;
 	z-index: 1;
 }
 
-.check-column .label-covers-full-cell:hover + input {
+.check-column input:where(:not(:disabled)):hover,
+.check-column:hover input:where(:not(:disabled)) {
 	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.check-column label:hover,
+.check-column input:hover + label {
+	background: rgba(0, 0, 0, 0.05);
 }
 
 .locked-indicator {
