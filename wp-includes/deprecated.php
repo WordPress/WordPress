@@ -5870,3 +5870,41 @@ function _wp_theme_json_webfonts_handler() {
 	add_action( 'wp_enqueue_scripts', $fn_generate_and_enqueue_styles );
 	add_action( 'admin_init', $fn_generate_and_enqueue_editor_styles );
 }
+
+/**
+ * Runs a remote HTTPS request to detect whether HTTPS supported, and stores potential errors.
+ *
+ * This internal function is called by a regular Cron hook to ensure HTTPS support is detected and maintained.
+ *
+ * @since 5.7.0
+ * @deprecated 6.4.0 The `wp_update_https_detection_errors()` function is no longer used and has been replaced by
+ *                   `wp_get_https_detection_errors()`. Previously the function was called by a regular Cron hook to
+ *                    update the `https_detection_errors` option, but this is no longer necessary as the errors are
+ *                    retrieved directly in Site Health and no longer used outside of Site Health.
+ * @access private
+ */
+function wp_update_https_detection_errors() {
+	_deprecated_function( __FUNCTION__, '6.4.0' );
+
+	/**
+	 * Short-circuits the process of detecting errors related to HTTPS support.
+	 *
+	 * Returning a `WP_Error` from the filter will effectively short-circuit the default logic of trying a remote
+	 * request to the site over HTTPS, storing the errors array from the returned `WP_Error` instead.
+	 *
+	 * @since 5.7.0
+	 * @deprecated 6.4.0 The `wp_update_https_detection_errors` filter is no longer used and has been replaced by `pre_wp_get_https_detection_errors`.
+	 *
+	 * @param null|WP_Error $pre Error object to short-circuit detection,
+	 *                           or null to continue with the default behavior.
+	 */
+	$support_errors = apply_filters( 'pre_wp_update_https_detection_errors', null );
+	if ( is_wp_error( $support_errors ) ) {
+		update_option( 'https_detection_errors', $support_errors->errors );
+		return;
+	}
+
+	$support_errors = wp_get_https_detection_errors();
+
+	update_option( 'https_detection_errors', $support_errors );
+}

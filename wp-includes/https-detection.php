@@ -86,25 +86,25 @@ function wp_is_https_supported() {
  *
  * This internal function is called by a regular Cron hook to ensure HTTPS support is detected and maintained.
  *
- * @since 5.7.0
+ * @since 6.4.0
  * @access private
  */
-function wp_update_https_detection_errors() {
+function wp_get_https_detection_errors() {
 	/**
 	 * Short-circuits the process of detecting errors related to HTTPS support.
 	 *
 	 * Returning a `WP_Error` from the filter will effectively short-circuit the default logic of trying a remote
 	 * request to the site over HTTPS, storing the errors array from the returned `WP_Error` instead.
 	 *
-	 * @since 5.7.0
+	 * @since 6.4.0
 	 *
 	 * @param null|WP_Error $pre Error object to short-circuit detection,
 	 *                           or null to continue with the default behavior.
+	 * @return null|WP_Error Error object if HTTPS detection errors are found, null otherwise.
 	 */
-	$support_errors = apply_filters( 'pre_wp_update_https_detection_errors', null );
+	$support_errors = apply_filters( 'pre_wp_get_https_detection_errors', null );
 	if ( is_wp_error( $support_errors ) ) {
-		update_option( 'https_detection_errors', $support_errors->errors );
-		return;
+		return $support_errors->errors;
 	}
 
 	$support_errors = new WP_Error();
@@ -153,41 +153,7 @@ function wp_update_https_detection_errors() {
 		}
 	}
 
-	update_option( 'https_detection_errors', $support_errors->errors );
-}
-
-/**
- * Schedules the Cron hook for detecting HTTPS support.
- *
- * @since 5.7.0
- * @access private
- */
-function wp_schedule_https_detection() {
-	if ( wp_installing() ) {
-		return;
-	}
-
-	if ( ! wp_next_scheduled( 'wp_https_detection' ) ) {
-		wp_schedule_event( time(), 'twicedaily', 'wp_https_detection' );
-	}
-}
-
-/**
- * Disables SSL verification if the 'cron_request' arguments include an HTTPS URL.
- *
- * This prevents an issue if HTTPS breaks, where there would be a failed attempt to verify HTTPS.
- *
- * @since 5.7.0
- * @access private
- *
- * @param array $request The cron request arguments.
- * @return array The filtered cron request arguments.
- */
-function wp_cron_conditionally_prevent_sslverify( $request ) {
-	if ( 'https' === wp_parse_url( $request['url'], PHP_URL_SCHEME ) ) {
-		$request['args']['sslverify'] = false;
-	}
-	return $request;
+	return $support_errors->errors;
 }
 
 /**

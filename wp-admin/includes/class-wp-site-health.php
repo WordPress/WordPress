@@ -1555,10 +1555,9 @@ class WP_Site_Health {
 	 */
 	public function get_test_https_status() {
 		/*
-		 * Enforce fresh HTTPS detection results. This is normally invoked by using cron,
-		 * but for Site Health it should always rely on the latest results.
+		 * Check HTTPS detection results.
 		 */
-		wp_update_https_detection_errors();
+		$errors = wp_get_https_detection_errors();
 
 		$default_update_url = wp_get_default_update_https_url();
 

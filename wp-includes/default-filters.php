@@ -387,11 +387,6 @@ if ( ! defined( 'DOING_CRON' ) ) {
 	add_action( 'init', 'wp_cron' );
 }
 
-// HTTPS detection.
-add_action( 'init', 'wp_schedule_https_detection' );
-add_action( 'wp_https_detection', 'wp_update_https_detection_errors' );
-add_filter( 'cron_request', 'wp_cron_conditionally_prevent_sslverify', 9999 );
-
 // HTTPS migration.
 add_action( 'update_option_home', 'wp_update_https_migration_required', 10, 2 );
 
