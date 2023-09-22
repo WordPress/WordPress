@@ -2339,7 +2339,7 @@ function upgrade_640() {
 
 	if ( $wp_current_db_version < 56657 ) {
 		// Enable attachment pages.
-		update_option( 'wp_media_use_attachment_pages', 1 );
+		update_option( 'wp_attachment_pages_enabled', 1 );
 	}
 }
 
