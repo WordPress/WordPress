@@ -225,12 +225,12 @@ jQuery( function( $ ) {
 			$wrapper.addClass( 'green' ).removeClass( 'orange' );
 
 			$progressLabel.text( __( 'Good' ) );
-			wp.a11y.speak( __( 'All site health tests have finished running. Your site is looking good, and the results are now available on the page.' ) );
+			announceTestsProgression( 'good' );
 		} else {
 			$wrapper.addClass( 'orange' ).removeClass( 'green' );
 
 			$progressLabel.text( __( 'Should be improved' ) );
-			wp.a11y.speak( __( 'All site health tests have finished running. There are items that should be addressed, and the results are now available on the page.' ) );
+			announceTestsProgression( 'improvable' );
 		}
 
 		if ( isStatusTab ) {
@@ -379,7 +379,7 @@ jQuery( function( $ ) {
 
 		// After 3 seconds announce that we're still waiting for directory sizes.
 		var timeout = window.setTimeout( function() {
-			wp.a11y.speak( __( 'Please wait...' ) );
+			announceTestsProgression( 'waiting-for-directory-sizes' );
 		}, 3000 );
 
 		wp.apiRequest( {
@@ -390,7 +390,6 @@ jQuery( function( $ ) {
 			var delay = ( new Date().getTime() ) - timestamp;
 
 			$( '.health-check-wp-paths-sizes.spinner' ).css( 'visibility', 'hidden' );
-			recalculateProgression();
 
 			if ( delay > 3000 ) {
 				/*
@@ -405,7 +404,7 @@ jQuery( function( $ ) {
 				}
 
 				window.setTimeout( function() {
-					wp.a11y.speak( __( 'All site health tests have finished running.' ) );
+					recalculateProgression();
 				}, delay );
 			} else {
 				// Cancel the announcement.
@@ -452,4 +451,34 @@ jQuery( function( $ ) {
 	$( '.health-check-offscreen-nav-wrapper' ).on( 'click', function() {
 		$( this ).toggleClass( 'visible' );
 	} );
+
+	/**
+	 * Announces to assistive technologies the tests progression status.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param {string} type The type of message to be announced.
+	 *
+	 * @return {void}
+	 */
+	function announceTestsProgression( type ) {
+		// Only announce the messages in the Site Health pages.
+		if ( 'site-health' !== SiteHealth.screen ) {
+			return;
+		}
+
+		switch ( type ) {
+			case 'good':
+				wp.a11y.speak( __( 'All site health tests have finished running. Your site is looking good.' ) );
+				break;
+			case 'improvable':
+				wp.a11y.speak( __( 'All site health tests have finished running. There are items that should be addressed.' ) );
+				break;
+			case 'waiting-for-directory-sizes':
+				wp.a11y.speak( __( 'Running additional tests... please wait.' ) );
+				break;
+			default:
+				return;
+		}
+	}
 } );
