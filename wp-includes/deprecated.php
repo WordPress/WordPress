@@ -5872,6 +5872,92 @@ function _wp_theme_json_webfonts_handler() {
 }
 
 /**
+ * Prints the CSS in the embed iframe header.
+ *
+ * @since 4.4.0
+ * @deprecated 6.4.0 Use wp_enqueue_embed_styles() instead.
+ */
+function print_embed_styles() {
+	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_embed_styles' );
+
+	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+	$suffix    = SCRIPT_DEBUG ? '' : '.min';
+	?>
+	<style<?php echo $type_attr; ?>>
+		<?php echo file_get_contents( ABSPATH . WPINC . "/css/wp-embed-template$suffix.css" ); ?>
+	</style>
+	<?php
+}
+
+/**
+ * Prints the important emoji-related styles.
+ *
+ * @since 4.2.0
+ * @deprecated 6.4.0 Use wp_enqueue_emoji_styles() instead.
+ */
+function print_emoji_styles() {
+	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_emoji_styles' );
+	static $printed = false;
+
+	if ( $printed ) {
+		return;
+	}
+
+	$printed = true;
+
+	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+	?>
+	<style<?php echo $type_attr; ?>>
+	img.wp-smiley,
+	img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+	</style>
+	<?php
+}
+
+/**
+ * Prints style and scripts for the admin bar.
+ *
+ * @since 3.1.0
+ * @deprecated 6.4.0 Use wp_enqueue_admin_bar_header_styles() instead.
+ */
+function wp_admin_bar_header() {
+	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_admin_bar_header_styles' );
+	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+	?>
+	<style<?php echo $type_attr; ?> media="print">#wpadminbar { display:none; }</style>
+	<?php
+}
+
+/**
+ * Prints default admin bar callback.
+ *
+ * @since 3.1.0
+ * @deprecated 6.4.0 Use wp_enqueue_admin_bar_bump_styles() instead.
+ */
+function _admin_bar_bump_cb() {
+	_deprecated_function( __FUNCTION__, '6.4.0', 'wp_enqueue_admin_bar_bump_styles' );
+	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+	?>
+	<style<?php echo $type_attr; ?> media="screen">
+	html { margin-top: 32px !important; }
+	@media screen and ( max-width: 782px ) {
+	  html { margin-top: 46px !important; }
+	}
+	</style>
+	<?php
+}
+
+/**
  * Runs a remote HTTPS request to detect whether HTTPS supported, and stores potential errors.
  *
  * This internal function is called by a regular Cron hook to ensure HTTPS support is detected and maintained.
