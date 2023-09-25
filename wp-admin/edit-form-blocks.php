@@ -351,7 +351,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		 * @param WP_Post $post      The post being edited.
 		 * @param bool    $installed Whether the classic editor is installed.
 		 */
-		$message = apply_filters( 'block_editor_no_javascript_message', $message, $post );
+		$message = apply_filters( 'block_editor_no_javascript_message', $message, $post, $installed );
 		wp_admin_notice(
 			$message,
 			array(
