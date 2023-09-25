@@ -1697,6 +1697,9 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		}
 	}
 
+	// Enough space to unzip the file and copy its contents, with a 10% buffer.
+	$required_space = $uncompressed_size * 2.1;
+
 	/*
 	 * disk_free_space() could return false. Assume that any falsey value is an error.
 	 * A disk that has zero free bytes has bigger problems.
@@ -1705,7 +1708,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 	if ( wp_doing_cron() ) {
 		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( WP_CONTENT_DIR ) : false;
 
-		if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space ) {
+		if ( $available_space && ( $required_space > $available_space ) ) {
 			return new WP_Error(
 				'disk_full_unzip_file',
 				__( 'Could not copy files. You may have run out of disk space.' ),
@@ -1746,7 +1749,26 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 			return new WP_Error( 'mkdir_failed_ziparchive', __( 'Could not create directory.' ), $_dir );
 		}
 	}
-	unset( $needed_dirs );
+
+	/**
+	 * Filters archive unzipping to override with a custom process.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param null|true|WP_Error $result         The result of the override. True on success, otherwise WP Error. Default null.
+	 * @param string             $file           Full path and filename of ZIP archive.
+	 * @param string             $to             Full path on the filesystem to extract archive to.
+	 * @param string[]           $needed_dirs    A full list of required folders that need to be created.
+	 * @param float              $required_space The space required to unzip the file and copy its contents, with a 10% buffer.
+	 */
+	$pre = apply_filters( 'pre_unzip_file', null, $file, $to, $needed_dirs, $required_space );
+
+	if ( null !== $pre ) {
+		// Ensure the ZIP file archive has been closed.
+		$z->close();
+
+		return $pre;
+	}
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		$info = $z->statIndex( $i );
@@ -1781,7 +1803,22 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 
 	$z->close();
 
-	return true;
+	/**
+	 * Filters the result of unzipping an archive.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param true|WP_Error $result         The result of unzipping the archive. True on success, otherwise WP_Error. Default true.
+	 * @param string        $file           Full path and filename of ZIP archive.
+	 * @param string        $to             Full path on the filesystem the archive was extracted to.
+	 * @param string[]      $needed_dirs    A full list of required folders that were created.
+	 * @param float         $required_space The space required to unzip the file and copy its contents, with a 10% buffer.
+	 */
+	$result = apply_filters( 'unzip_file', true, $file, $to, $needed_dirs, $required_space );
+
+	unset( $needed_dirs );
+
+	return $result;
 }
 
 /**
@@ -1838,6 +1875,9 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname( $file['filename'] ) );
 	}
 
+	// Enough space to unzip the file and copy its contents, with a 10% buffer.
+	$required_space = $uncompressed_size * 2.1;
+
 	/*
 	 * disk_free_space() could return false. Assume that any falsey value is an error.
 	 * A disk that has zero free bytes has bigger problems.
@@ -1846,7 +1886,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 	if ( wp_doing_cron() ) {
 		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( WP_CONTENT_DIR ) : false;
 
-		if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space ) {
+		if ( $available_space && ( $required_space > $available_space ) ) {
 			return new WP_Error(
 				'disk_full_unzip_file',
 				__( 'Could not copy files. You may have run out of disk space.' ),
@@ -1887,7 +1927,13 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 			return new WP_Error( 'mkdir_failed_pclzip', __( 'Could not create directory.' ), $_dir );
 		}
 	}
-	unset( $needed_dirs );
+
+	/** This filter is documented in src/wp-admin/includes/file.php */
+	$pre = apply_filters( 'pre_unzip_file', null, $file, $to, $needed_dirs, $required_space );
+
+	if ( null !== $pre ) {
+		return $pre;
+	}
 
 	// Extract the files from the zip.
 	foreach ( $archive_files as $file ) {
@@ -1909,7 +1955,12 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 		}
 	}
 
-	return true;
+	/** This action is documented in src/wp-admin/includes/file.php */
+	$result = apply_filters( 'unzip_file', true, $file, $to, $needed_dirs, $required_space );
+
+	unset( $needed_dirs );
+
+	return $result;
 }
 
 /**
