@@ -240,12 +240,11 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 			}
 
 			$attr = array(
-				'class'    => $classes,
-				'src'      => $instance['url'],
-				'alt'      => $instance['alt'],
-				'width'    => $instance['width'],
-				'height'   => $instance['height'],
-				'decoding' => 'async',
+				'class'  => $classes,
+				'src'    => $instance['url'],
+				'alt'    => $instance['alt'],
+				'width'  => $instance['width'],
+				'height' => $instance['height'],
 			);
 
 			$loading_optimization_attr = wp_get_loading_optimization_attributes(
