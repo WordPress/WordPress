@@ -744,20 +744,25 @@ function get_dynamic_block_names() {
  *
  * @since 6.4.0
  *
- * @param string $name Block type name including namespace.
+ * @param string $name              Block type name including namespace.
+ * @param string $relative_position Optional. Relative position of the hooked block. Default empty string.
  * @return array Associative array of `$block_type_name => $position` pairs.
  */
-function get_hooked_blocks( $name ) {
+function get_hooked_blocks( $name, $relative_position = '' ) {
 	$block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
 	$hooked_blocks = array();
 	foreach ( $block_types as $block_type ) {
 		if ( ! property_exists( $block_type, 'block_hooks' ) || ! is_array( $block_type->block_hooks ) ) {
 			continue;
 		}
-		foreach ( $block_type->block_hooks as $anchor_block_type => $relative_position ) {
-			if ( $anchor_block_type === $name ) {
-				$hooked_blocks[ $block_type->name ] = $relative_position;
+		foreach ( $block_type->block_hooks as $anchor_block_type => $position ) {
+			if ( $anchor_block_type !== $name ) {
+				continue;
 			}
+			if ( $relative_position && $relative_position !== $position ) {
+				continue;
+			}
+			$hooked_blocks[ $block_type->name ] = $position;
 		}
 	}
 	return $hooked_blocks;
@@ -797,34 +802,48 @@ function make_before_block_visitor( $context ) {
 
 		if ( $parent && ! $prev ) {
 			// Candidate for first-child insertion.
-			$hooked_blocks_for_parent = get_hooked_blocks( $parent['blockName'] );
-			foreach ( $hooked_blocks_for_parent as $hooked_block_type => $relative_position ) {
-				if ( 'first_child' === $relative_position ) {
-					$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-					/** This filter is documented in wp-includes/blocks.php */
-					$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
-				}
+			$relative_position  = 'first_child';
+			$anchor_block_type  = $parent['blockName'];
+			$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+			/**
+			 * Filters the list of hooked block types for a given anchor block type and relative position.
+			 *
+			 * @since 6.4.0
+			 *
+			 * @param string[]                $hooked_block_types  The list of hooked block types.
+			 * @param string                  $relative_position   The relative position of the hooked blocks.
+			 *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
+			 * @param string                  $anchor_block_type   The anchor block type.
+			 * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
+			 */
+			$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
+			foreach ( $hooked_block_types as $hooked_block_type ) {
+				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+				/** This filter is documented in wp-includes/blocks.php */
+				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
 			}
 		}
 
-		$hooked_blocks = get_hooked_blocks( $block['blockName'] );
-		foreach ( $hooked_blocks as $hooked_block_type => $relative_position ) {
-			if ( 'before' === $relative_position ) {
-				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-				/**
-				 * Filters the serialized markup of a hooked block.
-				 *
-				 * @since 6.4.0
-				 *
-				 * @param string                  $hooked_block_markup The serialized markup of the hooked block.
-				 * @param string                  $hooked_block_type   The type of the hooked block.
-				 * @param string                  $relative_position   The relative position of the hooked block.
-				 *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
-				 * @param array                   $block               The anchor block.
-				 * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
-				 */
-				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
-			}
+		$relative_position  = 'before';
+		$anchor_block_type  = $block['blockName'];
+		$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+		/** This filter is documented in wp-includes/blocks.php */
+		$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
+		foreach ( $hooked_block_types as $hooked_block_type ) {
+			$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+			/**
+			 * Filters the serialized markup of a hooked block.
+			 *
+			 * @since 6.4.0
+			 *
+			 * @param string                  $hooked_block_markup The serialized markup of the hooked block.
+			 * @param string                  $hooked_block_type   The type of the hooked block.
+			 * @param string                  $relative_position   The relative position of the hooked block.
+			 *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
+			 * @param array                   $block               The anchor block.
+			 * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
+			 */
+			$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
 		}
 
 		return $markup;
@@ -860,24 +879,28 @@ function make_after_block_visitor( $context ) {
 	return function( &$block, $parent = null, $next = null ) use ( $context ) {
 		$markup = '';
 
-		$hooked_blocks = get_hooked_blocks( $block['blockName'] );
-		foreach ( $hooked_blocks as $hooked_block_type => $relative_position ) {
-			if ( 'after' === $relative_position ) {
-				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-				/** This filter is documented in wp-includes/blocks.php */
-				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
-			}
+		$relative_position  = 'after';
+		$anchor_block_type  = $block['blockName'];
+		$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+		/** This filter is documented in wp-includes/blocks.php */
+		$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
+		foreach ( $hooked_block_types as $hooked_block_type ) {
+			$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+			/** This filter is documented in wp-includes/blocks.php */
+			$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
 		}
 
 		if ( $parent && ! $next ) {
 			// Candidate for last-child insertion.
-			$hooked_blocks_for_parent = get_hooked_blocks( $parent['blockName'] );
-			foreach ( $hooked_blocks_for_parent as $hooked_block_type => $relative_position ) {
-				if ( 'last_child' === $relative_position ) {
-					$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-					/** This filter is documented in wp-includes/blocks.php */
-					$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
-				}
+			$relative_position  = 'last_child';
+			$anchor_block_type  = $parent['blockName'];
+			$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+			/** This filter is documented in wp-includes/blocks.php */
+			$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
+			foreach ( $hooked_block_types as $hooked_block_type ) {
+				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
+				/** This filter is documented in wp-includes/blocks.php */
+				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
 			}
 		}
 
