@@ -231,8 +231,8 @@ function create_initial_taxonomies() {
 			'publicly_queryable' => false,
 			'hierarchical'       => false,
 			'labels'             => array(
-				'name'           => _x( 'Pattern Categories', 'taxonomy general name' ),
-				'singular_name'  => _x( 'Pattern Category', 'taxonomy singular name' ),
+				'name'          => _x( 'Pattern Categories', 'taxonomy general name' ),
+				'singular_name' => _x( 'Pattern Category', 'taxonomy singular name' ),
 			),
 			'query_var'          => false,
 			'rewrite'            => false,

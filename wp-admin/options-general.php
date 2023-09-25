@@ -140,7 +140,7 @@ if ( ! is_multisite() ) {
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && get_option( 'admin_email' ) !== $new_admin_email ) {
-	$pending_admin_email_message  = sprintf(
+	$pending_admin_email_message = sprintf(
 		/* translators: %s: New admin email. */
 		__( 'There is a pending change of the admin email to %s.' ),
 		'<code>' . esc_html( $new_admin_email ) . '</code>'

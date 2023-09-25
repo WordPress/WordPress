@@ -790,20 +790,20 @@ function make_before_block_visitor( $context ) {
 	 * Furthermore, prepend the markup for any blocks hooked `before` the given block and as its parent's
 	 * `first_child`, respectively, to the serialized markup for the given block.
 	 *
-	 * @param array $block  The block to inject the theme attribute into, and hooked blocks before.
-	 * @param array $parent The parent block of the given block.
-	 * @param array $prev   The previous sibling block of the given block.
+	 * @param array $block        The block to inject the theme attribute into, and hooked blocks before.
+	 * @param array $parent_block The parent block of the given block.
+	 * @param array $prev         The previous sibling block of the given block.
 	 * @return string The serialized markup for the given block, with the markup for any hooked blocks prepended to it.
 	 */
-	return function( &$block, $parent = null, $prev = null ) use ( $context ) {
+	return function ( &$block, $parent_block = null, $prev = null ) use ( $context ) {
 		_inject_theme_attribute_in_template_part_block( $block );
 
 		$markup = '';
 
-		if ( $parent && ! $prev ) {
+		if ( $parent_block && ! $prev ) {
 			// Candidate for first-child insertion.
 			$relative_position  = 'first_child';
-			$anchor_block_type  = $parent['blockName'];
+			$anchor_block_type  = $parent_block['blockName'];
 			$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
 			/**
 			 * Filters the list of hooked block types for a given anchor block type and relative position.
@@ -856,12 +856,12 @@ function make_after_block_visitor( $context ) {
 	 * Append the markup for any blocks hooked `after` the given block and as its parent's
 	 * `last_child`, respectively, to the serialized markup for the given block.
 	 *
-	 * @param array $block  The block to inject the hooked blocks after.
-	 * @param array $parent The parent block of the given block.
-	 * @param array $next   The next sibling block of the given block.
+	 * @param array $block        The block to inject the hooked blocks after.
+	 * @param array $parent_block The parent block of the given block.
+	 * @param array $next         The next sibling block of the given block.
 	 * @return string The serialized markup for the given block, with the markup for any hooked blocks appended to it.
 	 */
-	return function( &$block, $parent = null, $next = null ) use ( $context ) {
+	return function ( &$block, $parent_block = null, $next = null ) use ( $context ) {
 		$markup = '';
 
 		$relative_position  = 'after';
@@ -873,10 +873,10 @@ function make_after_block_visitor( $context ) {
 			$markup .= get_comment_delimited_block_content( $hooked_block_type, array(), '' );
 		}
 
-		if ( $parent && ! $next ) {
+		if ( $parent_block && ! $next ) {
 			// Candidate for last-child insertion.
 			$relative_position  = 'last_child';
-			$anchor_block_type  = $parent['blockName'];
+			$anchor_block_type  = $parent_block['blockName'];
 			$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
 			/** This filter is documented in wp-includes/blocks.php */
 			$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
@@ -1059,6 +1059,7 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
 				$prev = 0 === $block_index
 					? null
 					: $block['innerBlocks'][ $block_index - 1 ];
+
 				$block_content .= call_user_func_array(
 					$pre_callback,
 					array( &$inner_block, $block, $prev )
@@ -1071,12 +1072,13 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
 				$next = count( $block['innerBlocks'] ) - 1 === $block_index
 					? null
 					: $block['innerBlocks'][ $block_index + 1 ];
+
 				$block_content .= call_user_func_array(
 					$post_callback,
 					array( &$inner_block, $block, $next )
 				);
 			}
-			$block_index++;
+			++$block_index;
 		}
 	}
 
@@ -1130,22 +1132,27 @@ function traverse_and_serialize_blocks( $blocks, $pre_callback = null, $post_cal
 			$prev = 0 === $index
 				? null
 				: $blocks[ $index - 1 ];
+
 			$result .= call_user_func_array(
 				$pre_callback,
 				array( &$block, null, $prev ) // At the top level, there is no parent block to pass to the callback.
 			);
 		}
+
 		$result .= traverse_and_serialize_block( $block, $pre_callback, $post_callback );
+
 		if ( is_callable( $post_callback ) ) {
 			$next = count( $blocks ) - 1 === $index
 				? null
 				: $blocks[ $index + 1 ];
+
 			$result .= call_user_func_array(
 				$post_callback,
 				array( &$block, null, $next ) // At the top level, there is no parent block to pass to the callback.
 			);
 		}
 	}
+
 	return $result;
 }
 

@@ -690,7 +690,7 @@ if ( isset( $_GET['error'] ) ) {
 	);
 
 } elseif ( isset( $_GET['deleted'] ) ) {
-	$delete_result       = get_transient( 'plugins_delete_result_' . $user_ID );
+	$delete_result = get_transient( 'plugins_delete_result_' . $user_ID );
 	// Delete it once we're done.
 	delete_transient( 'plugins_delete_result_' . $user_ID );
 

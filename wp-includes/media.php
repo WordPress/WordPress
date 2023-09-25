@@ -5730,7 +5730,7 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 	if ( null === $maybe_in_viewport ) {
 		$header_enforced_contexts = array(
 			'template_part_' . WP_TEMPLATE_PART_AREA_HEADER => true,
-			'get_header_image_tag'                          => true,
+			'get_header_image_tag' => true,
 		);
 
 		/**

@@ -98,7 +98,7 @@ function wp_render_elements_support( $block_content, $block ) {
 
 		foreach ( $element_config['paths'] as $path ) {
 			if ( null !== _wp_array_get( $block['attrs'], explode( '.', $path ), null ) ) {
-				$element_colors_set++;
+				++$element_colors_set;
 			}
 		}
 	}
