@@ -407,6 +407,16 @@ class WP_HTML_Tag_Processor {
 	private $attributes = array();
 
 	/**
+	 * Tracks spans of duplicate attributes on a given tag, used for removing
+	 * all copies of an attribute when calling `remove_attribute()`.
+	 *
+	 * @since 6.3.2
+	 *
+	 * @var (WP_HTML_Span[])[]|null
+	 */
+	private $duplicate_attributes = null;
+
+	/**
 	 * Which class names to add or remove from a tag.
 	 *
 	 * These are tracked separately from attribute updates because they are
@@ -1286,6 +1296,25 @@ class WP_HTML_Tag_Processor {
 				$attribute_end,
 				! $has_value
 			);
+
+			return true;
+		}
+
+		/*
+		 * Track the duplicate attributes so if we remove it, all disappear together.
+		 *
+		 * While `$this->duplicated_attributes` could always be stored as an `array()`,
+		 * which would simplify the logic here, storing a `null` and only allocating
+		 * an array when encountering duplicates avoids needless allocations in the
+		 * normative case of parsing tags with no duplicate attributes.
+		 */
+		$duplicate_span = new WP_HTML_Span( $attribute_start, $attribute_end );
+		if ( null === $this->duplicate_attributes ) {
+			$this->duplicate_attributes = array( $comparable_name => array( $duplicate_span ) );
+		} elseif ( ! array_key_exists( $comparable_name, $this->duplicate_attributes ) ) {
+			$this->duplicate_attributes[ $comparable_name ] = array( $duplicate_span );
+		} else {
+			$this->duplicate_attributes[ $comparable_name ][] = $duplicate_span;
 		}
 
 		return true;
@@ -1307,11 +1336,12 @@ class WP_HTML_Tag_Processor {
 	 */
 	private function after_tag() {
 		$this->get_updated_html();
-		$this->tag_name_starts_at = null;
-		$this->tag_name_length    = null;
-		$this->tag_ends_at        = null;
-		$this->is_closing_tag     = null;
-		$this->attributes         = array();
+		$this->tag_name_starts_at   = null;
+		$this->tag_name_length      = null;
+		$this->tag_ends_at          = null;
+		$this->is_closing_tag       = null;
+		$this->attributes           = array();
+		$this->duplicate_attributes = null;
 	}
 
 	/**
@@ -2079,6 +2109,17 @@ class WP_HTML_Tag_Processor {
 			$this->attributes[ $name ]->end,
 			''
 		);
+
+		// Removes any duplicated attributes if they were also present.
+		if ( null !== $this->duplicate_attributes && array_key_exists( $name, $this->duplicate_attributes ) ) {
+			foreach ( $this->duplicate_attributes[ $name ] as $attribute_token ) {
+				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
+					$attribute_token->start,
+					$attribute_token->end,
+					''
+				);
+			}
+		}
 
 		return true;
 	}
