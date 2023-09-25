@@ -1589,7 +1589,7 @@ function unregister_block_style( $block_name, $block_style_name ) {
  */
 function block_has_support( $block_type, $feature, $default_value = false ) {
 	$block_support = $default_value;
-	if ( $block_type && property_exists( $block_type, 'supports' ) ) {
+	if ( $block_type instanceof WP_Block_Type ) {
 		if ( is_array( $feature ) && count( $feature ) === 1 ) {
 			$feature = $feature[0];
 		}
