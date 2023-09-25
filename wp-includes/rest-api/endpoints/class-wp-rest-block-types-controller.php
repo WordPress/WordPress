@@ -16,6 +16,8 @@
  */
 class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 
+	const NAME_PATTERN = '^[a-z][a-z0-9-]*/[a-z][a-z0-9-]*$';
+
 	/**
 	 * Instance of WP_Block_Type_Registry.
 	 *
@@ -402,6 +404,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'name'        => array(
 						'description' => __( 'The name of the inner block.' ),
 						'type'        => 'string',
+						'pattern'     => self::NAME_PATTERN,
+						'required'    => true,
 					),
 					'attributes'  => array(
 						'description' => __( 'The attributes of the inner block.' ),
@@ -479,7 +483,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 				'name'                  => array(
 					'description' => __( 'Unique name identifying the block type.' ),
 					'type'        => 'string',
-					'default'     => '',
+					'pattern'     => self::NAME_PATTERN,
+					'required'    => true,
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
 				),
@@ -689,7 +694,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'description' => __( 'Parent blocks.' ),
 					'type'        => array( 'array', 'null' ),
 					'items'       => array(
-						'type' => 'string',
+						'type'    => 'string',
+						'pattern' => self::NAME_PATTERN,
 					),
 					'default'     => null,
 					'context'     => array( 'embed', 'view', 'edit' ),
@@ -699,7 +705,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'description' => __( 'Ancestor blocks.' ),
 					'type'        => array( 'array', 'null' ),
 					'items'       => array(
-						'type' => 'string',
+						'type'    => 'string',
+						'pattern' => self::NAME_PATTERN,
 					),
 					'default'     => null,
 					'context'     => array( 'embed', 'view', 'edit' ),
@@ -711,7 +718,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'description'       => __( 'This block is automatically inserted near any occurrence of the block types used as keys of this map, into a relative position given by the corresponding value.' ),
 					'type'              => 'object',
 					'patternProperties' => array(
-						'^[a-zA-Z0-9-]+/[a-zA-Z0-9-]+$' => array(
+						self::NAME_PATTERN => array(
 							'type' => 'string',
 							'enum' => array( 'before', 'after', 'first_child', 'last_child' ),
 						),
