@@ -818,9 +818,7 @@ function make_before_block_visitor( $context ) {
 			 */
 			$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 			foreach ( $hooked_block_types as $hooked_block_type ) {
-				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-				/** This filter is documented in wp-includes/blocks.php */
-				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
+				$markup .= get_comment_delimited_block_content( $hooked_block_type, array(), '' );
 			}
 		}
 
@@ -830,20 +828,7 @@ function make_before_block_visitor( $context ) {
 		/** This filter is documented in wp-includes/blocks.php */
 		$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 		foreach ( $hooked_block_types as $hooked_block_type ) {
-			$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-			/**
-			 * Filters the serialized markup of a hooked block.
-			 *
-			 * @since 6.4.0
-			 *
-			 * @param string                  $hooked_block_markup The serialized markup of the hooked block.
-			 * @param string                  $hooked_block_type   The type of the hooked block.
-			 * @param string                  $relative_position   The relative position of the hooked block.
-			 *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
-			 * @param array                   $block               The anchor block.
-			 * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
-			 */
-			$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
+			$markup .= get_comment_delimited_block_content( $hooked_block_type, array(), '' );
 		}
 
 		return $markup;
@@ -885,9 +870,7 @@ function make_after_block_visitor( $context ) {
 		/** This filter is documented in wp-includes/blocks.php */
 		$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 		foreach ( $hooked_block_types as $hooked_block_type ) {
-			$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-			/** This filter is documented in wp-includes/blocks.php */
-			$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $block, $context );
+			$markup .= get_comment_delimited_block_content( $hooked_block_type, array(), '' );
 		}
 
 		if ( $parent && ! $next ) {
@@ -898,9 +881,7 @@ function make_after_block_visitor( $context ) {
 			/** This filter is documented in wp-includes/blocks.php */
 			$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 			foreach ( $hooked_block_types as $hooked_block_type ) {
-				$hooked_block_markup = get_comment_delimited_block_content( $hooked_block_type, array(), '' );
-				/** This filter is documented in wp-includes/blocks.php */
-				$markup .= apply_filters( 'inject_hooked_block_markup', $hooked_block_markup, $hooked_block_type, $relative_position, $parent, $context );
+				$markup .= get_comment_delimited_block_content( $hooked_block_type, array(), '' );
 			}
 		}
 
