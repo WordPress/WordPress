@@ -776,21 +776,23 @@ function update_option( $option, $value, $autoload = null ) {
 	 */
 	$value = apply_filters( 'pre_update_option', $value, $option, $old_value );
 
+	/** This filter is documented in wp-includes/option.php */
+	$default_value = apply_filters( "default_option_{$option}", false, $option, false );
+
 	/*
 	 * If the new and old values are the same, no need to update.
 	 *
-	 * Unserialized values will be adequate in most cases. If the unserialized
-	 * data differs, the (maybe) serialized data is checked to avoid
-	 * unnecessary database calls for otherwise identical object instances.
+	 * An exception applies when no value is set in the database, i.e. the old value is the default.
+	 * In that case, the new value should always be added as it may be intentional to store it rather than relying on the default.
 	 *
-	 * See https://core.trac.wordpress.org/ticket/38903
+	 * See https://core.trac.wordpress.org/ticket/38903 and https://core.trac.wordpress.org/ticket/22192.
 	 */
-	if ( $value === $old_value || maybe_serialize( $value ) === maybe_serialize( $old_value ) ) {
+	if ( $old_value !== $default_value && _is_equal_database_value( $old_value, $value ) ) {
 		return false;
 	}
 
-	/** This filter is documented in wp-includes/option.php */
-	if ( apply_filters( "default_option_{$option}", false, $option, false ) === $old_value ) {
+	if ( $old_value === $default_value ) {
+
 		// Default setting for new options is 'yes'.
 		if ( null === $autoload ) {
 			$autoload = 'yes';
@@ -2886,4 +2888,41 @@ function filter_default_option( $default_value, $option, $passed_default ) {
 	}
 
 	return $registered[ $option ]['default'];
+}
+
+/**
+ * Determines whether two values will be equal when stored in the database.
+ *
+ * @since 6.4.0
+ * @access private
+ *
+ * @param mixed $old_value The old value to compare.
+ * @param mixed $new_value The new value to compare.
+ * @return bool True if the values are equal, false otherwise.
+ */
+function _is_equal_database_value( $old_value, $new_value ) {
+	$values = array(
+		'old' => $old_value,
+		'new' => $new_value,
+	);
+
+	foreach ( $values as $_key => &$_value ) {
+		// Cast scalars or null to a string so type discrepancies don't result in cache misses.
+		if ( null === $_value || is_scalar( $_value ) ) {
+			$_value = (string) $_value;
+		}
+	}
+
+	if ( $values['old'] === $values['new'] ) {
+		return true;
+	}
+
+	/*
+	 * Unserialized values will be adequate in most cases. If the unserialized
+	 * data differs, the (maybe) serialized data is checked to avoid
+	 * unnecessary database calls for otherwise identical object instances.
+	 *
+	 * See https://core.trac.wordpress.org/ticket/38903
+	 */
+	return maybe_serialize( $old_value ) === maybe_serialize( $new_value );
 }
