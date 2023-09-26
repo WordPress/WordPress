@@ -500,9 +500,6 @@ function wp_restore_post_revision( $revision, $fields = null ) {
 	// Update last edit user.
 	update_post_meta( $post_id, '_edit_last', get_current_user_id() );
 
-	// Restore any revisioned meta fields.
-	wp_restore_post_revision_meta( $post_id, $revision['ID'] );
-
 	/**
 	 * Fires after a post revision has been restored.
 	 *
