@@ -194,6 +194,16 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		)
 	);
 
+	// Add learn link.
+	$wp_admin_bar->add_node(
+		array(
+			'parent' => 'wp-logo-external',
+			'id'     => 'learn',
+			'title'  => __( 'Learn WordPress' ),
+			'href'   => 'https://learn.wordpress.org/',
+		)
+	);
+
 	// Add forums link.
 	$wp_admin_bar->add_node(
 		array(
