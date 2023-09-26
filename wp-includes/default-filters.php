@@ -411,6 +411,7 @@ add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'plugins_loaded', 'wp_maybe_load_embeds', 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1 );
 // Create a revision whenever a post is updated.
+add_action( 'wp_after_insert_post', 'wp_save_post_revision_on_insert', 9, 3 );
 add_action( 'post_updated', 'wp_save_post_revision', 10, 1 );
 add_action( 'publish_post', '_publish_post_hook', 5, 1 );
 add_action( 'transition_post_status', '_transition_post_status', 5, 3 );
@@ -718,6 +719,18 @@ add_action( 'init', 'wp_register_persisted_preferences_meta' );
 
 // CPT wp_block custom postmeta field.
 add_action( 'init', 'wp_create_initial_post_meta' );
+
+// Include revisioned meta when considering whether a post revision has changed.
+add_filter( 'wp_save_post_revision_post_has_changed', 'wp_check_revisioned_meta_fields_have_changed', 10, 3 );
+
+// Save revisioned post meta immediately after a revision is saved
+add_action( '_wp_put_post_revision', 'wp_save_revisioned_meta_fields', 10, 2 );
+
+// Include revisioned meta when creating or updating an autosave revision.
+add_action( 'wp_creating_autosave', 'wp_autosave_post_revisioned_meta_fields' );
+
+// When restoring revisions, also restore revisioned meta.
+add_action( 'wp_restore_post_revision', 'wp_restore_post_revision_meta', 10, 2 );
 
 // Font management.
 add_action( 'wp_head', 'wp_print_font_faces', 50 );
