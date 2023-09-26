@@ -5649,16 +5649,20 @@ function wp_get_loading_optimization_attributes( $tag_name, $attr, $context ) {
 	}
 
 	/*
-	 * Skip programmatically created images within post content as they need to be handled together with the other
-	 * images within the post content.
+	 * Skip programmatically created images within content blobs as they need to be handled together with the other
+	 * images within the post content or widget content.
 	 * Without this clause, they would already be considered within their own context which skews the image count and
 	 * can result in the first post content image being lazy-loaded or an image further down the page being marked as a
 	 * high priority.
 	 */
-	// TODO: Handle shortcode images together with the content (see https://core.trac.wordpress.org/ticket/58853).
-	if ( 'the_content' !== $context && 'do_shortcode' !== $context && doing_filter( 'the_content' ) ) {
+	if (
+		'the_content' !== $context && doing_filter( 'the_content' ) ||
+		'widget_text_content' !== $context && doing_filter( 'widget_text_content' ) ||
+		'widget_block_content' !== $context && doing_filter( 'widget_block_content' )
+	) {
 		/** This filter is documented in wp-includes/media.php */
 		return apply_filters( 'wp_get_loading_optimization_attributes', $loading_attrs, $tag_name, $attr, $context );
+
 	}
 
 	/*

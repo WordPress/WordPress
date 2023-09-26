@@ -3980,7 +3980,7 @@ function wp_trim_excerpt( $text = '', $post = null ) {
 		 * within the excerpt are stripped out. Modifying the tags here
 		 * is wasteful and can lead to bugs in the image counting logic.
 		 */
-		$filter_image_removed = remove_filter( 'the_content', 'wp_filter_content_tags' );
+		$filter_image_removed = remove_filter( 'the_content', 'wp_filter_content_tags', 12 );
 
 		/*
 		 * Temporarily unhook do_blocks() since excerpt_remove_blocks( $text )
@@ -4003,7 +4003,7 @@ function wp_trim_excerpt( $text = '', $post = null ) {
 		 * which is generally used for the filter callback in WordPress core.
 		 */
 		if ( $filter_image_removed ) {
-			add_filter( 'the_content', 'wp_filter_content_tags' );
+			add_filter( 'the_content', 'wp_filter_content_tags', 12 );
 		}
 
 		/* translators: Maximum number of words used in a post excerpt. */
