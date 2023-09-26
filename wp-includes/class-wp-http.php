@@ -531,13 +531,14 @@ class WP_Http {
 		 * Filters which HTTP transports are available and in what order.
 		 *
 		 * @since 3.7.0
+		 * @deprecated 6.4.0 Use WpOrg\Requests\Requests::get_transport_class()
 		 *
 		 * @param string[] $transports Array of HTTP transports to check. Default array contains
 		 *                             'curl' and 'streams', in that order.
 		 * @param array    $args       HTTP request arguments.
 		 * @param string   $url        The URL to request.
 		 */
-		$request_order = apply_filters( 'http_api_transports', $transports, $args, $url );
+		$request_order = apply_filters_deprecated( 'http_api_transports', array( $transports, $args, $url ), '6.4.0' );
 
 		// Loop over each transport on each HTTP request looking for one which will serve this request's needs.
 		foreach ( $request_order as $transport ) {
