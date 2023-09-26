@@ -490,36 +490,21 @@ function _inject_theme_attribute_in_template_part_block( &$block ) {
 }
 
 /**
- * Parses a block template and removes the theme attribute from each template part.
+ * Removes the `theme` attribute from a given template part block.
  *
- * @since 5.9.0
+ * @since 6.4.0
  * @access private
  *
- * @param string $template_content Serialized block template content.
- * @return string Updated block template content.
+ * @param array $block a parsed block.
+ * @return void
  */
-function _remove_theme_attribute_in_block_template_content( $template_content ) {
-	$has_updated_content = false;
-	$new_content         = '';
-	$template_blocks     = parse_blocks( $template_content );
-
-	$blocks = _flatten_blocks( $template_blocks );
-	foreach ( $blocks as $key => $block ) {
-		if ( 'core/template-part' === $block['blockName'] && isset( $block['attrs']['theme'] ) ) {
-			unset( $blocks[ $key ]['attrs']['theme'] );
-			$has_updated_content = true;
-		}
+function _remove_theme_attribute_from_template_part_block( &$block ) {
+	if (
+		'core/template-part' === $block['blockName'] &&
+		isset( $block['attrs']['theme'] )
+	) {
+		unset( $block['attrs']['theme'] );
 	}
-
-	if ( ! $has_updated_content ) {
-		return $template_content;
-	}
-
-	foreach ( $template_blocks as $block ) {
-		$new_content .= serialize_block( $block );
-	}
-
-	return $new_content;
 }
 
 /**
@@ -1278,7 +1263,10 @@ function wp_generate_block_templates_export_file() {
 	// Load templates into the zip file.
 	$templates = get_block_templates();
 	foreach ( $templates as $template ) {
-		$template->content = _remove_theme_attribute_in_block_template_content( $template->content );
+		$template->content = traverse_and_serialize_blocks(
+			parse_blocks( $template->content ),
+			'_remove_theme_attribute_from_template_part_block'
+		);
 
 		$zip->addFromString(
 			'templates/' . $template->slug . '.html',
