@@ -547,21 +547,22 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
  * @return string Filtered block content.
  */
 function wp_render_layout_support_flag( $block_content, $block ) {
-	$block_type       = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$support_layout   = block_has_support( $block_type, 'layout', false ) || block_has_support( $block_type, '__experimentalLayout', false );
-	$has_child_layout = isset( $block['attrs']['style']['layout']['selfStretch'] );
+	$block_type            = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$block_supports_layout = block_has_support( $block_type, 'layout', false ) || block_has_support( $block_type, '__experimentalLayout', false );
+	$layout_from_parent    = $block['attrs']['style']['layout']['selfStretch'] ?? null;
 
-	if ( ! $support_layout && ! $has_child_layout ) {
+	if ( ! $block_supports_layout && ! $layout_from_parent ) {
 		return $block_content;
 	}
+
 	$outer_class_names = array();
 
-	if ( $has_child_layout && ( 'fixed' === $block['attrs']['style']['layout']['selfStretch'] || 'fill' === $block['attrs']['style']['layout']['selfStretch'] ) ) {
+	if ( 'fixed' === $layout_from_parent || 'fill' === $layout_from_parent ) {
 		$container_content_class = wp_unique_id( 'wp-container-content-' );
 
 		$child_layout_styles = array();
 
-		if ( 'fixed' === $block['attrs']['style']['layout']['selfStretch'] && isset( $block['attrs']['style']['layout']['flexSize'] ) ) {
+		if ( 'fixed' === $layout_from_parent && isset( $block['attrs']['style']['layout']['flexSize'] ) ) {
 			$child_layout_styles[] = array(
 				'selector'     => ".$container_content_class",
 				'declarations' => array(
@@ -569,7 +570,7 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 					'box-sizing' => 'border-box',
 				),
 			);
-		} elseif ( 'fill' === $block['attrs']['style']['layout']['selfStretch'] ) {
+		} elseif ( 'fill' === $layout_from_parent ) {
 			$child_layout_styles[] = array(
 				'selector'     => ".$container_content_class",
 				'declarations' => array(
@@ -589,12 +590,25 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		$outer_class_names[] = $container_content_class;
 	}
 
-	// Return early if only child layout exists.
-	if ( ! $support_layout && ! empty( $outer_class_names ) ) {
-		$content = new WP_HTML_Tag_Processor( $block_content );
-		$content->next_tag();
-		$content->add_class( implode( ' ', $outer_class_names ) );
-		return (string) $content;
+	// Prep the processor for modifying the block output.
+	$processor = new WP_HTML_Tag_Processor( $block_content );
+
+	// Having no tags implies there are no tags onto which to add class names.
+	if ( ! $processor->next_tag() ) {
+		return $block_content;
+	}
+
+	/*
+	 * A block may not support layout but still be affected by a parent block's layout.
+	 *
+	 * In these cases add the appropriate class names and then return early; there's
+	 * no need to investigate on this block whether additional layout constraints apply.
+	 */
+	if ( ! $block_supports_layout && ! empty( $outer_class_names ) ) {
+		foreach ( $outer_class_names as $class_name ) {
+			$processor->add_class( $class_name );
+		}
+		return $processor->get_updated_html();
 	}
 
 	$global_settings = wp_get_global_settings();
@@ -604,7 +618,6 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	$class_names        = array();
 	$layout_definitions = wp_get_layout_definitions();
 	$container_class    = wp_unique_id( 'wp-container-' );
-	$layout_classname   = '';
 
 	// Set the correct layout type for blocks using legacy content width.
 	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] || isset( $used_layout['contentSize'] ) && $used_layout['contentSize'] ) {
@@ -702,49 +715,100 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	$block_name    = explode( '/', $block['blockName'] );
 	$class_names[] = 'wp-block-' . end( $block_name ) . '-' . $layout_classname;
 
-	$content_with_outer_classnames = '';
-
+	// Add classes to the outermost HTML tag if necessary.
 	if ( ! empty( $outer_class_names ) ) {
-		$content_with_outer_classnames = new WP_HTML_Tag_Processor( $block_content );
-		$content_with_outer_classnames->next_tag();
 		foreach ( $outer_class_names as $outer_class_name ) {
-			$content_with_outer_classnames->add_class( $outer_class_name );
+			$processor->add_class( $outer_class_name );
 		}
-
-		$content_with_outer_classnames = (string) $content_with_outer_classnames;
 	}
 
 	/**
-	* The first chunk of innerContent contains the block markup up until the inner blocks start.
-	* This targets the opening tag of the inner blocks wrapper, which is the last tag in that chunk.
-	*/
-	$inner_content_classnames = '';
-
-	if ( isset( $block['innerContent'][0] ) && 'string' === gettype( $block['innerContent'][0] ) && count( $block['innerContent'] ) > 1 ) {
-		$tags            = new WP_HTML_Tag_Processor( $block['innerContent'][0] );
-		$last_classnames = '';
-		while ( $tags->next_tag() ) {
-			$last_classnames = $tags->get_attribute( 'class' );
+	 * Attempts to refer to the inner-block wrapping element by its class attribute.
+	 *
+	 * When examining a block's inner content, if a block has inner blocks, then
+	 * the first content item will likely be a text (HTML) chunk immediately
+	 * preceding the inner blocks. The last HTML tag in that chunk would then be
+	 * an opening tag for an element that wraps the inner blocks.
+	 *
+	 * There's no reliable way to associate this wrapper in $block_content because
+	 * it may have changed during the rendering pipeline (as inner contents is
+	 * provided before rendering) and through previous filters. In many cases,
+	 * however, the `class` attribute will be a good-enough identifier, so this
+	 * code finds the last tag in that chunk and stores the `class` attribute
+	 * so that it can be used later when working through the rendered block output
+	 * to identify the wrapping element and add the remaining class names to it.
+	 *
+	 * It's also possible that no inner block wrapper even exists. If that's the
+	 * case this code could apply the class names to an invalid element.
+	 *
+	 * Example:
+	 *
+	 *     $block['innerBlocks']  = array( $list_item );
+	 *     $block['innerContent'] = array( '<ul class="list-wrapper is-unordered">', null, '</ul>' );
+	 *
+	 *     // After rendering, the initial contents may have been modified by other renderers or filters.
+	 *     $block_content = <<<HTML
+	 *         <figure>
+	 *             <ul class="annotated-list list-wrapper is-unordered">
+	 *                 <li>Code</li>
+	 *             </ul><figcaption>It's a list!</figcaption>
+	 *         </figure>
+	 *     HTML;
+	 *
+	 * Although it is possible that the original block-wrapper classes are changed in $block_content
+	 * from how they appear in $block['innerContent'], it's likely that the original class attributes
+	 * are still present in the wrapper as they are in this example. Frequently, additional classes
+	 * will also be present; rarely should classes be removed.
+	 *
+	 * @TODO: Find a better way to match the first inner block. If it's possible to identify where the
+	 *        first inner block starts, then it will be possible to find the last tag before it starts
+	 *        and then that tag, if an opening tag, can be solidly identified as a wrapping element.
+	 *        Can some unique value or class or ID be added to the inner blocks when they process
+	 *        so that they can be extracted here safely without guessing? Can the block rendering function
+	 *        return information about where the rendered inner blocks start?
+	 *
+	 * @var string|null
+	 */
+	$inner_block_wrapper_classes = null;
+	$first_chunk                 = $block['innerContent'][0] ?? null;
+	if ( is_string( $first_chunk ) && count( $block['innerContent'] ) > 1 ) {
+		$first_chunk_processor = new WP_HTML_Tag_Processor( $first_chunk );
+		while ( $first_chunk_processor->next_tag() ) {
+			$class_attribute = $first_chunk_processor->get_attribute( 'class' );
+			if ( is_string( $class_attribute ) && ! empty( $class_attribute ) ) {
+				$inner_block_wrapper_classes = $class_attribute;
+			}
 		}
-
-		$inner_content_classnames = (string) $last_classnames;
 	}
 
-	$content = $content_with_outer_classnames ? new WP_HTML_Tag_Processor( $content_with_outer_classnames ) : new WP_HTML_Tag_Processor( $block_content );
+	/*
+	 * If necessary, advance to what is likely to be an inner block wrapper tag.
+	 *
+	 * This advances until it finds the first tag containing the original class
+	 * attribute from above. If none is found it will scan to the end of the block
+	 * and fail to add any class names.
+	 *
+	 * If there is no block wrapper it won't advance at all, in which case the
+	 * class names will be added to the first and outermost tag of the block.
+	 * For cases where this outermost tag is the only tag surrounding inner
+	 * blocks then the outer wrapper and inner wrapper are the same.
+	 */
+	do {
+		if ( ! $inner_block_wrapper_classes ) {
+			break;
+		}
 
-	if ( $inner_content_classnames ) {
-		$content->next_tag( array( 'class_name' => $inner_content_classnames ) );
-		foreach ( $class_names as $class_name ) {
-			$content->add_class( $class_name );
+		if ( false !== strpos( $processor->get_attribute( 'class' ), $inner_block_wrapper_classes ) ) {
+			break;
 		}
-	} else {
-		$content->next_tag();
-		foreach ( $class_names as $class_name ) {
-			$content->add_class( $class_name );
-		}
+	} while ( $processor->next_tag() );
+
+	// Add the remaining class names.
+	foreach ( $class_names as $class_name ) {
+		$processor->add_class( $class_name );
 	}
 
-	return (string) $content;
+	return $processor->get_updated_html();
 }
 
 // Register the block support.
