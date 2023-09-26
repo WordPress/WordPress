@@ -33,6 +33,12 @@
 			"selector": "figcaption",
 			"__experimentalRole": "content"
 		},
+		"lightbox": {
+			"type": "object",
+			"enabled": {
+				"type": "boolean"
+			}
+		},
 		"title": {
 			"type": "string",
 			"source": "attribute",
@@ -90,9 +96,6 @@
 	},
 	"supports": {
 		"anchor": true,
-		"behaviors": {
-			"lightbox": true
-		},
 		"color": {
 			"text": false,
 			"background": false
@@ -127,5 +130,6 @@
 		{ "name": "rounded", "label": "Rounded" }
 	],
 	"editorStyle": "wp-block-image-editor",
-	"style": "wp-block-image"
+	"style": "wp-block-image",
+	"viewScript": "file:./view.min.js"
 }

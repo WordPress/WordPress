@@ -15,9 +15,10 @@
  * @return string Returns the next posts link for the query pagination.
  */
 function render_block_core_query_pagination_next( $attributes, $content, $block ) {
-	$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
-	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
-	$max_page = isset( $block->context['query']['pages'] ) ? (int) $block->context['query']['pages'] : 0;
+	$page_key            = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+	$enhanced_pagination = isset( $block->context['enhancedPagination'] ) && $block->context['enhancedPagination'];
+	$page                = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+	$max_page            = isset( $block->context['query']['pages'] ) ? (int) $block->context['query']['pages'] : 0;
 
 	$wrapper_attributes = get_block_wrapper_attributes();
 	$show_label         = isset( $block->context['showLabel'] ) ? (bool) $block->context['showLabel'] : true;
@@ -36,7 +37,7 @@ function render_block_core_query_pagination_next( $attributes, $content, $block 
 
 	// Check if the pagination is for Query that inherits the global context.
 	if ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] ) {
-		$filter_link_attributes = static function() use ( $wrapper_attributes ) {
+		$filter_link_attributes = static function () use ( $wrapper_attributes ) {
 			return $wrapper_attributes;
 		};
 		add_filter( 'next_posts_link_attributes', $filter_link_attributes );
@@ -61,6 +62,23 @@ function render_block_core_query_pagination_next( $attributes, $content, $block 
 		}
 		wp_reset_postdata(); // Restore original Post Data.
 	}
+
+	if ( $enhanced_pagination ) {
+		$p = new WP_HTML_Tag_Processor( $content );
+		if ( $p->next_tag(
+			array(
+				'tag_name'   => 'a',
+				'class_name' => 'wp-block-query-pagination-next',
+			)
+		) ) {
+			$p->set_attribute( 'data-wp-key', 'query-pagination-next' );
+			$p->set_attribute( 'data-wp-on--click', 'actions.core.query.navigate' );
+			$p->set_attribute( 'data-wp-on--mouseenter', 'actions.core.query.prefetch' );
+			$p->set_attribute( 'data-wp-effect', 'effects.core.query.prefetch' );
+			$content = $p->get_updated_html();
+		}
+	}
+
 	return $content;
 }
 

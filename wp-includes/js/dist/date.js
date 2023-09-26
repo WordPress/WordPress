@@ -1184,13 +1184,13 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
 
 
 
+
 /**
  * WordPress dependencies
  */
 
 
 /** @typedef {import('moment').Moment} Moment */
-
 /** @typedef {import('moment').LocaleSpecification} MomentLocaleSpecification */
 
 /**
@@ -1217,7 +1217,6 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
  */
 
 /* eslint-disable jsdoc/valid-types */
-
 /**
  * @typedef L10nSettings
  * @property {string}                                     locale        Moment locale.
@@ -1229,7 +1228,6 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
  * @property {MomentLocaleSpecification['relativeTime']}  relative      Relative time config.
  * @property {0|1|2|3|4|5|6}                              startOfWeek   Day that the week starts on.
  */
-
 /* eslint-enable jsdoc/valid-types */
 
 /**
@@ -1239,14 +1237,15 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
  * @property {TimezoneConfig} timezone Timezone settings.
  */
 
-const WP_ZONE = 'WP'; // This regular expression tests positive for UTC offsets as described in ISO 8601.
+const WP_ZONE = 'WP';
+
+// This regular expression tests positive for UTC offsets as described in ISO 8601.
 // See: https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC
+const VALID_UTC_OFFSET = /^[+-][0-1][0-9](:?[0-9][0-9])?$/;
 
-const VALID_UTC_OFFSET = /^[+-][0-1][0-9](:?[0-9][0-9])?$/; // Changes made here will likely need to be made in `lib/client-assets.php` as
+// Changes made here will likely need to be made in `lib/client-assets.php` as
 // well because it uses the `setSettings()` function to change these settings.
-
 /** @type {DateSettings} */
-
 let settings = {
   l10n: {
     locale: 'en',
@@ -1290,16 +1289,17 @@ let settings = {
     abbr: ''
   }
 };
+
 /**
  * Adds a locale to moment, using the format supplied by `wp_localize_script()`.
  *
  * @param {DateSettings} dateSettings Settings, including locale data.
  */
-
 function setSettings(dateSettings) {
   settings = dateSettings;
-  setupWPTimezone(); // Does moment already have a locale with the right name?
+  setupWPTimezone();
 
+  // Does moment already have a locale with the right name?
   if (external_moment_default().locales().includes(dateSettings.l10n.locale)) {
     // Is that locale misconfigured, e.g. because we are on a site running
     // WordPress < 6.0?
@@ -1311,11 +1311,12 @@ function setSettings(dateSettings) {
       // We have a properly configured locale, so no need to create one.
       return;
     }
-  } // defineLocale() will modify the current locale, so back it up.
+  }
 
+  // defineLocale() will modify the current locale, so back it up.
+  const currentLocale = external_moment_default().locale();
 
-  const currentLocale = external_moment_default().locale(); // Create locale.
-
+  // Create locale.
   external_moment_default().defineLocale(dateSettings.l10n.locale, {
     // Inherit anything missing from English. We don't load
     // moment-with-locales.js so English is all there is.
@@ -1324,15 +1325,12 @@ function setSettings(dateSettings) {
     monthsShort: dateSettings.l10n.monthsShort,
     weekdays: dateSettings.l10n.weekdays,
     weekdaysShort: dateSettings.l10n.weekdaysShort,
-
     meridiem(hour, minute, isLowercase) {
       if (hour < 12) {
         return isLowercase ? dateSettings.l10n.meridiem.am : dateSettings.l10n.meridiem.AM;
       }
-
       return isLowercase ? dateSettings.l10n.meridiem.pm : dateSettings.l10n.meridiem.PM;
     },
-
     longDateFormat: {
       LT: dateSettings.formats.time,
       LTS: external_moment_default().localeData('en').longDateFormat('LTS'),
@@ -1344,26 +1342,27 @@ function setSettings(dateSettings) {
     // From human_time_diff?
     // Set to `(number, withoutSuffix, key, isFuture) => {}` instead.
     relativeTime: dateSettings.l10n.relative
-  }); // Restore the locale to what it was.
+  });
 
+  // Restore the locale to what it was.
   external_moment_default().locale(currentLocale);
 }
+
 /**
  * Returns the currently defined date settings.
  *
  * @return {DateSettings} Settings, including locale data.
  */
-
 function getSettings() {
   return settings;
 }
+
 /**
  * Returns the currently defined date settings.
  *
  * @deprecated
  * @return {DateSettings} Settings, including locale data.
  */
-
 function __experimentalGetSettings() {
   external_wp_deprecated_default()('wp.date.__experimentalGetSettings', {
     since: '6.1',
@@ -1371,39 +1370,52 @@ function __experimentalGetSettings() {
   });
   return getSettings();
 }
-
 function setupWPTimezone() {
-  // Create WP timezone based off dateSettings.
-  external_moment_default().tz.add(external_moment_default().tz.pack({
-    name: WP_ZONE,
-    abbrs: [WP_ZONE],
-    untils: [null],
-    offsets: [-settings.timezone.offset * 60 || 0]
-  }));
-} // Date constants.
+  // Get the current timezone settings from the WP timezone string.
+  const currentTimezone = external_moment_default().tz.zone(settings.timezone.string);
 
+  // Check to see if we have a valid TZ data, if so, use it for the custom WP_ZONE timezone, otherwise just use the offset.
+  if (currentTimezone) {
+    // Create WP timezone based off settings.timezone.string.  We need to include the additional data so that we
+    // don't lose information about daylight savings time and other items.
+    // See https://github.com/WordPress/gutenberg/pull/48083
+    external_moment_default().tz.add(external_moment_default().tz.pack({
+      name: WP_ZONE,
+      abbrs: currentTimezone.abbrs,
+      untils: currentTimezone.untils,
+      offsets: currentTimezone.offsets
+    }));
+  } else {
+    // Create WP timezone based off dateSettings.
+    external_moment_default().tz.add(external_moment_default().tz.pack({
+      name: WP_ZONE,
+      abbrs: [WP_ZONE],
+      untils: [null],
+      offsets: [-settings.timezone.offset * 60 || 0]
+    }));
+  }
+}
+
+// Date constants.
 /**
  * Number of seconds in one minute.
  *
  * @type {number}
  */
-
-
 const MINUTE_IN_SECONDS = 60;
 /**
  * Number of minutes in one hour.
  *
  * @type {number}
  */
-
 const HOUR_IN_MINUTES = 60;
 /**
  * Number of seconds in one hour.
  *
  * @type {number}
  */
-
 const HOUR_IN_SECONDS = 60 * MINUTE_IN_SECONDS;
+
 /**
  * Map of PHP formats to Moment.js formats.
  *
@@ -1414,7 +1426,6 @@ const HOUR_IN_SECONDS = 60 * MINUTE_IN_SECONDS;
  * This should only be used through {@link wp.date.format}, not
  * directly.
  */
-
 const formatMap = {
   // Day.
   d: 'DD',
@@ -1422,7 +1433,6 @@ const formatMap = {
   j: 'D',
   l: 'dddd',
   N: 'E',
-
   /**
    * Gets the ordinal suffix.
    *
@@ -1436,9 +1446,7 @@ const formatMap = {
     const withOrdinal = momentDate.format('Do');
     return withOrdinal.replace(num, '');
   },
-
   w: 'd',
-
   /**
    * Gets the day of the year (zero-indexed).
    *
@@ -1450,7 +1458,6 @@ const formatMap = {
     // DDD - 1.
     return (parseInt(momentDate.format('DDD'), 10) - 1).toString();
   },
-
   // Week.
   W: 'W',
   // Month.
@@ -1458,7 +1465,6 @@ const formatMap = {
   m: 'MM',
   M: 'MMM',
   n: 'M',
-
   /**
    * Gets the days in the month.
    *
@@ -1469,9 +1475,7 @@ const formatMap = {
   t(momentDate) {
     return momentDate.daysInMonth();
   },
-
   // Year.
-
   /**
    * Gets whether the current year is a leap year.
    *
@@ -1482,14 +1486,12 @@ const formatMap = {
   L(momentDate) {
     return momentDate.isLeapYear() ? '1' : '0';
   },
-
   o: 'GGGG',
   Y: 'YYYY',
   y: 'YY',
   // Time.
   a: 'a',
   A: 'A',
-
   /**
    * Gets the current time in Swatch Internet Time (.beats).
    *
@@ -1500,11 +1502,10 @@ const formatMap = {
   B(momentDate) {
     const timezoned = external_moment_default()(momentDate).utcOffset(60);
     const seconds = parseInt(timezoned.format('s'), 10),
-          minutes = parseInt(timezoned.format('m'), 10),
-          hours = parseInt(timezoned.format('H'), 10);
+      minutes = parseInt(timezoned.format('m'), 10),
+      hours = parseInt(timezoned.format('H'), 10);
     return parseInt(((seconds + minutes * MINUTE_IN_SECONDS + hours * HOUR_IN_SECONDS) / 86.4).toString(), 10);
   },
-
   g: 'h',
   G: 'H',
   h: 'hh',
@@ -1515,7 +1516,6 @@ const formatMap = {
   v: 'SSS',
   // Timezone.
   e: 'zz',
-
   /**
    * Gets whether the timezone is in DST currently.
    *
@@ -1526,11 +1526,9 @@ const formatMap = {
   I(momentDate) {
     return momentDate.isDST() ? '1' : '0';
   },
-
   O: 'ZZ',
   P: 'Z',
   T: 'z',
-
   /**
    * Gets the timezone offset in seconds.
    *
@@ -1545,12 +1543,9 @@ const formatMap = {
     const parts = offset.substring(1).split(':').map(n => parseInt(n, 10));
     return sign * (parts[0] * HOUR_IN_MINUTES + parts[1]) * MINUTE_IN_SECONDS;
   },
-
   // Full date/time.
   c: 'YYYY-MM-DDTHH:mm:ssZ',
-
   // .toISOString.
-
   /**
    * Formats the date as RFC2822.
    *
@@ -1561,9 +1556,9 @@ const formatMap = {
   r(momentDate) {
     return momentDate.locale('en').format('ddd, DD MMM YYYY HH:mm:ss ZZ');
   },
-
   U: 'X'
 };
+
 /**
  * Formats a date. Does not alter the date's timezone.
  *
@@ -1574,27 +1569,21 @@ const formatMap = {
  *
  * @return {string} Formatted date.
  */
-
 function format(dateFormat, dateValue = new Date()) {
   let i, char;
   const newFormat = [];
   const momentDate = external_moment_default()(dateValue);
-
   for (i = 0; i < dateFormat.length; i++) {
-    char = dateFormat[i]; // Is this an escape?
-
+    char = dateFormat[i];
+    // Is this an escape?
     if ('\\' === char) {
       // Add next character, then move on.
       i++;
       newFormat.push('[' + dateFormat[i] + ']');
       continue;
     }
-
     if (char in formatMap) {
-      const formatter = formatMap[
-      /** @type {keyof formatMap} */
-      char];
-
+      const formatter = formatMap[/** @type {keyof formatMap} */char];
       if (typeof formatter !== 'string') {
         // If the format is a function, call it.
         newFormat.push('[' + formatter(momentDate) + ']');
@@ -1605,12 +1594,12 @@ function format(dateFormat, dateValue = new Date()) {
     } else {
       newFormat.push('[' + char + ']');
     }
-  } // Join with [] between to separate characters, and replace
+  }
+  // Join with [] between to separate characters, and replace
   // unneeded separators with static text.
-
-
   return momentDate.format(newFormat.join('[]'));
 }
+
 /**
  * Formats a date (like `date()` in PHP).
  *
@@ -1627,11 +1616,11 @@ function format(dateFormat, dateValue = new Date()) {
  *
  * @return {string} Formatted date in English.
  */
-
 function date(dateFormat, dateValue = new Date(), timezone) {
   const dateMoment = buildMoment(dateValue, timezone);
   return format(dateFormat, dateMoment);
 }
+
 /**
  * Formats a date (like `date()` in PHP), in the UTC timezone.
  *
@@ -1642,11 +1631,11 @@ function date(dateFormat, dateValue = new Date(), timezone) {
  *
  * @return {string} Formatted date in English.
  */
-
 function gmdate(dateFormat, dateValue = new Date()) {
   const dateMoment = external_moment_default()(dateValue).utc();
   return format(dateFormat, dateMoment);
 }
+
 /**
  * Formats a date (like `wp_date()` in PHP), translating it into site's locale.
  *
@@ -1668,20 +1657,18 @@ function gmdate(dateFormat, dateValue = new Date()) {
  *
  * @return {string} Formatted date.
  */
-
 function dateI18n(dateFormat, dateValue = new Date(), timezone) {
   if (true === timezone) {
     return gmdateI18n(dateFormat, dateValue);
   }
-
   if (false === timezone) {
     timezone = undefined;
   }
-
   const dateMoment = buildMoment(dateValue, timezone);
   dateMoment.locale(settings.l10n.locale);
   return format(dateFormat, dateMoment);
 }
+
 /**
  * Formats a date (like `wp_date()` in PHP), translating it into site's locale
  * and using the UTC timezone.
@@ -1693,12 +1680,12 @@ function dateI18n(dateFormat, dateValue = new Date(), timezone) {
  *
  * @return {string} Formatted date.
  */
-
 function gmdateI18n(dateFormat, dateValue = new Date()) {
   const dateMoment = external_moment_default()(dateValue).utc();
   dateMoment.locale(settings.l10n.locale);
   return format(dateFormat, dateMoment);
 }
+
 /**
  * Check whether a date is considered in the future according to the WordPress settings.
  *
@@ -1706,12 +1693,12 @@ function gmdateI18n(dateFormat, dateValue = new Date()) {
  *
  * @return {boolean} Is in the future.
  */
-
 function isInTheFuture(dateValue) {
   const now = external_moment_default().tz(WP_ZONE);
   const momentObject = external_moment_default().tz(dateValue, WP_ZONE);
   return momentObject.isAfter(now);
 }
+
 /**
  * Create and return a JavaScript Date Object from a date string in the WP timezone.
  *
@@ -1719,14 +1706,13 @@ function isInTheFuture(dateValue) {
  *
  * @return {Date} Date
  */
-
 function getDate(dateString) {
   if (!dateString) {
     return external_moment_default().tz(WP_ZONE).toDate();
   }
-
   return external_moment_default().tz(dateString, WP_ZONE).toDate();
 }
+
 /**
  * Returns a human-readable time difference between two dates, like human_time_diff() in PHP.
  *
@@ -1735,12 +1721,12 @@ function getDate(dateString) {
  *
  * @return {string} Human-readable time difference.
  */
-
 function humanTimeDiff(from, to) {
   const fromMoment = external_moment_default().tz(from, WP_ZONE);
   const toMoment = to ? external_moment_default().tz(to, WP_ZONE) : external_moment_default().tz(WP_ZONE);
   return fromMoment.from(toMoment);
 }
+
 /**
  * Creates a moment instance using the given timezone or, if none is provided, using global settings.
  *
@@ -1755,27 +1741,21 @@ function humanTimeDiff(from, to) {
  *
  * @return {Moment} a moment instance.
  */
-
 function buildMoment(dateValue, timezone = '') {
   const dateMoment = external_moment_default()(dateValue);
-
   if (timezone && !isUTCOffset(timezone)) {
     // The ! isUTCOffset() check guarantees that timezone is a string.
-    return dateMoment.tz(
-    /** @type {string} */
-    timezone);
+    return dateMoment.tz( /** @type {string} */timezone);
   }
-
   if (timezone && isUTCOffset(timezone)) {
     return dateMoment.utcOffset(timezone);
   }
-
   if (settings.timezone.string) {
     return dateMoment.tz(settings.timezone.string);
   }
-
   return dateMoment.utcOffset(+settings.timezone.offset);
 }
+
 /**
  * Returns whether a certain UTC offset is valid or not.
  *
@@ -1783,16 +1763,12 @@ function buildMoment(dateValue, timezone = '') {
  *
  * @return {boolean} whether a certain UTC offset is valid or not.
  */
-
-
 function isUTCOffset(offset) {
   if ('number' === typeof offset) {
     return true;
   }
-
   return VALID_UTC_OFFSET.test(offset);
 }
-
 setupWPTimezone();
 
 }();

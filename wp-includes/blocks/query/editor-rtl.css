@@ -45,3 +45,13 @@
 .block-library-query-toolspanel__filters .block-library-query-inspector__taxonomy-control:not(:last-child){
   margin-bottom:24px;
 }
+
+@media (min-width:600px){
+  .wp-block-query__enhanced-pagination-modal{
+    max-width:480px;
+  }
+}
+
+.wp-block-query__enhanced-pagination-notice{
+  margin:0;
+}

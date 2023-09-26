@@ -31,7 +31,7 @@ function render_block_core_post_excerpt( $attributes, $content, $block ) {
 	}
 
 	$more_text           = ! empty( $attributes['moreText'] ) ? '<a class="wp-block-post-excerpt__more-link" href="' . esc_url( get_the_permalink( $block->context['postId'] ) ) . '">' . wp_kses_post( $attributes['moreText'] ) . '</a>' : '';
-	$filter_excerpt_more = static function( $more ) use ( $more_text ) {
+	$filter_excerpt_more = static function ( $more ) use ( $more_text ) {
 		return empty( $more_text ) ? $more : '';
 	};
 	/**
@@ -87,7 +87,7 @@ if ( is_admin() ||
 	defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 	add_filter(
 		'excerpt_length',
-		static function() {
+		static function () {
 			return 100;
 		},
 		PHP_INT_MAX

@@ -61,10 +61,10 @@
 		},
 		"shortCodeTransforms": {
 			"type": "array",
-			"default": [],
 			"items": {
 				"type": "object"
-			}
+			},
+			"default": []
 		},
 		"columns": {
 			"type": "number",

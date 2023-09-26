@@ -70,6 +70,7 @@ function __unstableEscapeGreaterThan(value) {
  * Internal dependencies
  */
 
+
 /**
  * Regular expression matching invalid attribute names.
  *
@@ -81,8 +82,8 @@ function __unstableEscapeGreaterThan(value) {
  *
  * @type {RegExp}
  */
-
 const REGEXP_INVALID_ATTRIBUTE_NAME = /[\u007F-\u009F "'>/="\uFDD0-\uFDEF]/;
+
 /**
  * Returns a string with ampersands escaped. Note that this is an imperfect
  * implementation, where only ampersands which do not appear as a pattern of
@@ -97,10 +98,10 @@ const REGEXP_INVALID_ATTRIBUTE_NAME = /[\u007F-\u009F "'>/="\uFDD0-\uFDEF]/;
  *
  * @return {string} Escaped string.
  */
-
 function escapeAmpersand(value) {
   return value.replace(/&(?!([a-z0-9]+|#[0-9]+|#x[a-f0-9]+);)/gi, '&amp;');
 }
+
 /**
  * Returns a string with quotation marks replaced.
  *
@@ -108,10 +109,10 @@ function escapeAmpersand(value) {
  *
  * @return {string} Escaped string.
  */
-
 function escapeQuotationMark(value) {
   return value.replace(/"/g, '&quot;');
 }
+
 /**
  * Returns a string with less-than sign replaced.
  *
@@ -119,10 +120,10 @@ function escapeQuotationMark(value) {
  *
  * @return {string} Escaped string.
  */
-
 function escapeLessThan(value) {
   return value.replace(/</g, '&lt;');
 }
+
 /**
  * Returns an escaped attribute value.
  *
@@ -143,10 +144,10 @@ function escapeLessThan(value) {
  *
  * @return {string} Escaped attribute value.
  */
-
 function escapeAttribute(value) {
   return __unstableEscapeGreaterThan(escapeQuotationMark(escapeAmpersand(value)));
 }
+
 /**
  * Returns an escaped HTML element value.
  *
@@ -159,10 +160,10 @@ function escapeAttribute(value) {
  *
  * @return {string} Escaped HTML element value.
  */
-
 function escapeHTML(value) {
   return escapeLessThan(escapeAmpersand(value));
 }
+
 /**
  * Returns an escaped Editable HTML element value. This is different from
  * `escapeHTML`, because for editable HTML, ALL ampersands must be escaped in
@@ -172,10 +173,10 @@ function escapeHTML(value) {
  *
  * @return {string} Escaped HTML element value.
  */
-
 function escapeEditableHTML(value) {
   return escapeLessThan(value.replace(/&/g, '&amp;'));
 }
+
 /**
  * Returns true if the given attribute name is valid, or false otherwise.
  *
@@ -183,7 +184,6 @@ function escapeEditableHTML(value) {
  *
  * @return {boolean} Whether attribute is valid.
  */
-
 function isValidAttributeName(name) {
   return !REGEXP_INVALID_ATTRIBUTE_NAME.test(name);
 }

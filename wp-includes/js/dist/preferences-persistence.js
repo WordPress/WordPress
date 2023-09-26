@@ -96,20 +96,19 @@ function debounceAsync(func, delayMS) {
         });
       });
     }
-
     if (activePromise) {
       // Let any active promises finish before queuing the next request.
       await activePromise;
-    } // Clear any active timeouts, abandoning any requests that have
+    }
+
+    // Clear any active timeouts, abandoning any requests that have
     // been queued but not been made.
-
-
     if (timeoutId) {
       clearTimeout(timeoutId);
       timeoutId = null;
-    } // Trigger any trailing edge calls to the function.
+    }
 
-
+    // Trigger any trailing edge calls to the function.
     return new Promise((resolve, reject) => {
       // Schedule the next request but with a delay.
       timeoutId = setTimeout(() => {
@@ -133,13 +132,14 @@ function debounceAsync(func, delayMS) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
 
-
 const EMPTY_OBJECT = {};
 const localStorage = window.localStorage;
+
 /**
  * Creates a persistence layer that stores data in WordPress user meta via the
  * REST API.
@@ -157,7 +157,6 @@ const localStorage = window.localStorage;
  *
  * @return {Object} A persistence layer for WordPress user meta.
  */
-
 function create({
   preloadedData,
   localStorageRestoreKey = 'WP_PREFERENCES_RESTORE_DATA',
@@ -165,23 +164,23 @@ function create({
 } = {}) {
   let cache = preloadedData;
   const debouncedApiFetch = debounceAsync((external_wp_apiFetch_default()), requestDebounceMS);
-
   async function get() {
     if (cache) {
       return cache;
     }
-
     const user = await external_wp_apiFetch_default()({
       path: '/wp/v2/users/me?context=edit'
     });
     const serverData = user?.meta?.persisted_preferences;
-    const localData = JSON.parse(localStorage.getItem(localStorageRestoreKey)); // Date parse returns NaN for invalid input. Coerce anything invalid
+    const localData = JSON.parse(localStorage.getItem(localStorageRestoreKey));
+
+    // Date parse returns NaN for invalid input. Coerce anything invalid
     // into a conveniently comparable zero.
-
     const serverTimestamp = Date.parse(serverData?._modified) || 0;
-    const localTimestamp = Date.parse(localData?._modified) || 0; // Prefer server data if it exists and is more recent.
-    // Otherwise fallback to localStorage data.
+    const localTimestamp = Date.parse(localData?._modified) || 0;
 
+    // Prefer server data if it exists and is more recent.
+    // Otherwise fallback to localStorage data.
     if (serverData && serverTimestamp >= localTimestamp) {
       cache = serverData;
     } else if (localData) {
@@ -189,24 +188,25 @@ function create({
     } else {
       cache = EMPTY_OBJECT;
     }
-
     return cache;
   }
-
   function set(newData) {
-    const dataWithTimestamp = { ...newData,
+    const dataWithTimestamp = {
+      ...newData,
       _modified: new Date().toISOString()
     };
-    cache = dataWithTimestamp; // Store data in local storage as a fallback. If for some reason the
+    cache = dataWithTimestamp;
+
+    // Store data in local storage as a fallback. If for some reason the
     // api request does not complete or becomes unavailable, this data
     // can be used to restore preferences.
+    localStorage.setItem(localStorageRestoreKey, JSON.stringify(dataWithTimestamp));
 
-    localStorage.setItem(localStorageRestoreKey, JSON.stringify(dataWithTimestamp)); // The user meta endpoint seems susceptible to errors when consecutive
+    // The user meta endpoint seems susceptible to errors when consecutive
     // requests are made in quick succession. Ensure there's a gap between
     // any consecutive requests.
     //
     // Catch and do nothing with errors from the REST API.
-
     debouncedApiFetch({
       path: '/wp/v2/users/me',
       method: 'PUT',
@@ -223,7 +223,6 @@ function create({
       }
     }).catch(() => {});
   }
-
   return {
     get,
     set
@@ -290,61 +289,63 @@ function create({
  */
 function moveFeaturePreferences(state, sourceStoreName) {
   const preferencesStoreName = 'core/preferences';
-  const interfaceStoreName = 'core/interface'; // Features most recently (and briefly) lived in the interface package.
+  const interfaceStoreName = 'core/interface';
+
+  // Features most recently (and briefly) lived in the interface package.
   // If data exists there, prioritize using that for the migration. If not
   // also check the original package as the user may have updated from an
   // older block editor version.
-
   const interfaceFeatures = state?.[interfaceStoreName]?.preferences?.features?.[sourceStoreName];
   const sourceFeatures = state?.[sourceStoreName]?.preferences?.features;
   const featuresToMigrate = interfaceFeatures ? interfaceFeatures : sourceFeatures;
-
   if (!featuresToMigrate) {
     return state;
   }
+  const existingPreferences = state?.[preferencesStoreName]?.preferences;
 
-  const existingPreferences = state?.[preferencesStoreName]?.preferences; // Avoid migrating features again if they've previously been migrated.
-
+  // Avoid migrating features again if they've previously been migrated.
   if (existingPreferences?.[sourceStoreName]) {
     return state;
   }
-
   let updatedInterfaceState;
-
   if (interfaceFeatures) {
     const otherInterfaceState = state?.[interfaceStoreName];
     const otherInterfaceScopes = state?.[interfaceStoreName]?.preferences?.features;
     updatedInterfaceState = {
-      [interfaceStoreName]: { ...otherInterfaceState,
+      [interfaceStoreName]: {
+        ...otherInterfaceState,
         preferences: {
-          features: { ...otherInterfaceScopes,
+          features: {
+            ...otherInterfaceScopes,
             [sourceStoreName]: undefined
           }
         }
       }
     };
   }
-
   let updatedSourceState;
-
   if (sourceFeatures) {
     const otherSourceState = state?.[sourceStoreName];
     const sourcePreferences = state?.[sourceStoreName]?.preferences;
     updatedSourceState = {
-      [sourceStoreName]: { ...otherSourceState,
-        preferences: { ...sourcePreferences,
+      [sourceStoreName]: {
+        ...otherSourceState,
+        preferences: {
+          ...sourcePreferences,
           features: undefined
         }
       }
     };
-  } // Set the feature values in the interface store, the features
+  }
+
+  // Set the feature values in the interface store, the features
   // object is keyed by 'scope', which matches the store name for
   // the source.
-
-
-  return { ...state,
+  return {
+    ...state,
     [preferencesStoreName]: {
-      preferences: { ...existingPreferences,
+      preferences: {
+        ...existingPreferences,
         [sourceStoreName]: featuresToMigrate
       }
     },
@@ -400,40 +401,37 @@ function moveThirdPartyFeaturePreferencesToPreferences(state) {
   const preferencesStoreName = 'core/preferences';
   const interfaceScopes = state?.[interfaceStoreName]?.preferences?.features;
   const interfaceScopeKeys = interfaceScopes ? Object.keys(interfaceScopes) : [];
-
   if (!interfaceScopeKeys?.length) {
     return state;
   }
-
   return interfaceScopeKeys.reduce(function (convertedState, scope) {
     if (scope.startsWith('core')) {
       return convertedState;
     }
-
     const featuresToMigrate = interfaceScopes?.[scope];
-
     if (!featuresToMigrate) {
       return convertedState;
     }
-
     const existingMigratedData = convertedState?.[preferencesStoreName]?.preferences?.[scope];
-
     if (existingMigratedData) {
       return convertedState;
     }
-
     const otherPreferencesScopes = convertedState?.[preferencesStoreName]?.preferences;
     const otherInterfaceState = convertedState?.[interfaceStoreName];
     const otherInterfaceScopes = convertedState?.[interfaceStoreName]?.preferences?.features;
-    return { ...convertedState,
+    return {
+      ...convertedState,
       [preferencesStoreName]: {
-        preferences: { ...otherPreferencesScopes,
+        preferences: {
+          ...otherPreferencesScopes,
           [scope]: featuresToMigrate
         }
       },
-      [interfaceStoreName]: { ...otherInterfaceState,
+      [interfaceStoreName]: {
+        ...otherInterfaceState,
         preferences: {
-          features: { ...otherInterfaceScopes,
+          features: {
+            ...otherInterfaceScopes,
             [scope]: undefined
           }
         }
@@ -444,6 +442,7 @@ function moveThirdPartyFeaturePreferencesToPreferences(state) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-individual-preference.js
 const identity = arg => arg;
+
 /**
  * Migrates an individual item inside the `preferences` object for a package's store.
  *
@@ -479,44 +478,48 @@ const identity = arg => arg;
  * @param {string}    key          The key in the preferences object to migrate.
  * @param {?Function} convert      A function that converts preferences from one format to another.
  */
-
-
 function moveIndividualPreferenceToPreferences(state, {
   from: sourceStoreName,
   to: scope
 }, key, convert = identity) {
   const preferencesStoreName = 'core/preferences';
-  const sourcePreference = state?.[sourceStoreName]?.preferences?.[key]; // There's nothing to migrate, exit early.
+  const sourcePreference = state?.[sourceStoreName]?.preferences?.[key];
 
+  // There's nothing to migrate, exit early.
   if (sourcePreference === undefined) {
     return state;
   }
+  const targetPreference = state?.[preferencesStoreName]?.preferences?.[scope]?.[key];
 
-  const targetPreference = state?.[preferencesStoreName]?.preferences?.[scope]?.[key]; // There's existing data at the target, so don't overwrite it, exit early.
-
+  // There's existing data at the target, so don't overwrite it, exit early.
   if (targetPreference) {
     return state;
   }
-
   const otherScopes = state?.[preferencesStoreName]?.preferences;
   const otherPreferences = state?.[preferencesStoreName]?.preferences?.[scope];
   const otherSourceState = state?.[sourceStoreName];
-  const allSourcePreferences = state?.[sourceStoreName]?.preferences; // Pass an object with the key and value as this allows the convert
-  // function to convert to a data structure that has different keys.
+  const allSourcePreferences = state?.[sourceStoreName]?.preferences;
 
+  // Pass an object with the key and value as this allows the convert
+  // function to convert to a data structure that has different keys.
   const convertedPreferences = convert({
     [key]: sourcePreference
   });
-  return { ...state,
+  return {
+    ...state,
     [preferencesStoreName]: {
-      preferences: { ...otherScopes,
-        [scope]: { ...otherPreferences,
+      preferences: {
+        ...otherScopes,
+        [scope]: {
+          ...otherPreferences,
           ...convertedPreferences
         }
       }
     },
-    [sourceStoreName]: { ...otherSourceState,
-      preferences: { ...allSourcePreferences,
+    [sourceStoreName]: {
+      ...otherSourceState,
+      preferences: {
+        ...allSourcePreferences,
         [key]: undefined
       }
     }
@@ -573,55 +576,61 @@ function moveIndividualPreferenceToPreferences(state, {
  */
 function moveInterfaceEnableItems(state) {
   var _state$preferencesSto, _sourceEnableItems$si, _sourceEnableItems$mu;
-
   const interfaceStoreName = 'core/interface';
   const preferencesStoreName = 'core/preferences';
-  const sourceEnableItems = state?.[interfaceStoreName]?.enableItems; // There's nothing to migrate, exit early.
+  const sourceEnableItems = state?.[interfaceStoreName]?.enableItems;
 
+  // There's nothing to migrate, exit early.
   if (!sourceEnableItems) {
     return state;
   }
+  const allPreferences = (_state$preferencesSto = state?.[preferencesStoreName]?.preferences) !== null && _state$preferencesSto !== void 0 ? _state$preferencesSto : {};
 
-  const allPreferences = (_state$preferencesSto = state?.[preferencesStoreName]?.preferences) !== null && _state$preferencesSto !== void 0 ? _state$preferencesSto : {}; // First convert complementaryAreas into the right format.
+  // First convert complementaryAreas into the right format.
   // Use the existing preferences as the accumulator so that the data is
   // merged.
-
   const sourceComplementaryAreas = (_sourceEnableItems$si = sourceEnableItems?.singleEnableItems?.complementaryArea) !== null && _sourceEnableItems$si !== void 0 ? _sourceEnableItems$si : {};
   const preferencesWithConvertedComplementaryAreas = Object.keys(sourceComplementaryAreas).reduce((accumulator, scope) => {
-    const data = sourceComplementaryAreas[scope]; // Don't overwrite any existing data in the preferences store.
+    const data = sourceComplementaryAreas[scope];
 
+    // Don't overwrite any existing data in the preferences store.
     if (accumulator?.[scope]?.complementaryArea) {
       return accumulator;
     }
-
-    return { ...accumulator,
-      [scope]: { ...accumulator[scope],
+    return {
+      ...accumulator,
+      [scope]: {
+        ...accumulator[scope],
         complementaryArea: data
       }
     };
-  }, allPreferences); // Next feed the converted complementary areas back into a reducer that
-  // converts the pinned items, resulting in the fully migrated data.
+  }, allPreferences);
 
+  // Next feed the converted complementary areas back into a reducer that
+  // converts the pinned items, resulting in the fully migrated data.
   const sourcePinnedItems = (_sourceEnableItems$mu = sourceEnableItems?.multipleEnableItems?.pinnedItems) !== null && _sourceEnableItems$mu !== void 0 ? _sourceEnableItems$mu : {};
   const allConvertedData = Object.keys(sourcePinnedItems).reduce((accumulator, scope) => {
-    const data = sourcePinnedItems[scope]; // Don't overwrite any existing data in the preferences store.
-
+    const data = sourcePinnedItems[scope];
+    // Don't overwrite any existing data in the preferences store.
     if (accumulator?.[scope]?.pinnedItems) {
       return accumulator;
     }
-
-    return { ...accumulator,
-      [scope]: { ...accumulator[scope],
+    return {
+      ...accumulator,
+      [scope]: {
+        ...accumulator[scope],
         pinnedItems: data
       }
     };
   }, preferencesWithConvertedComplementaryAreas);
   const otherInterfaceItems = state[interfaceStoreName];
-  return { ...state,
+  return {
+    ...state,
     [preferencesStoreName]: {
       preferences: allConvertedData
     },
-    [interfaceStoreName]: { ...otherInterfaceItems,
+    [interfaceStoreName]: {
+      ...otherInterfaceItems,
       enableItems: undefined
     }
   };
@@ -661,19 +670,15 @@ function moveInterfaceEnableItems(state) {
  */
 function convertEditPostPanels(preferences) {
   var _preferences$panels;
-
   const panels = (_preferences$panels = preferences?.panels) !== null && _preferences$panels !== void 0 ? _preferences$panels : {};
   return Object.keys(panels).reduce((convertedData, panelName) => {
     const panel = panels[panelName];
-
     if (panel?.enabled === false) {
       convertedData.inactivePanels.push(panelName);
     }
-
     if (panel?.opened === true) {
       convertedData.openPanels.push(panelName);
     }
-
     return convertedData;
   }, {
     inactivePanels: [],
@@ -690,6 +695,7 @@ function convertEditPostPanels(preferences) {
 
 
 
+
 /**
  * Gets the legacy local storage data for a given user.
  *
@@ -697,12 +703,12 @@ function convertEditPostPanels(preferences) {
  *
  * @return {Object | null} The local storage data.
  */
-
 function getLegacyData(userId) {
   const key = `WP_DATA_USER_${userId}`;
   const unparsedData = window.localStorage.getItem(key);
   return JSON.parse(unparsedData);
 }
+
 /**
  * Converts data from the old `@wordpress/data` package format.
  *
@@ -711,27 +717,28 @@ function getLegacyData(userId) {
  * @return {Object | undefined} The converted data or `undefined` if there was
  *                              nothing to convert.
  */
-
-
 function convertLegacyData(data) {
   if (!data) {
     return;
-  } // Move boolean feature preferences from each editor into the
+  }
+
+  // Move boolean feature preferences from each editor into the
   // preferences store data structure.
-
-
   data = moveFeaturePreferences(data, 'core/edit-widgets');
   data = moveFeaturePreferences(data, 'core/customize-widgets');
   data = moveFeaturePreferences(data, 'core/edit-post');
-  data = moveFeaturePreferences(data, 'core/edit-site'); // Move third party boolean feature preferences from the interface package
+  data = moveFeaturePreferences(data, 'core/edit-site');
+
+  // Move third party boolean feature preferences from the interface package
   // to the preferences store data structure.
+  data = moveThirdPartyFeaturePreferencesToPreferences(data);
 
-  data = moveThirdPartyFeaturePreferencesToPreferences(data); // Move and convert the interface store's `enableItems` data into the
+  // Move and convert the interface store's `enableItems` data into the
   // preferences data structure.
+  data = moveInterfaceEnableItems(data);
 
-  data = moveInterfaceEnableItems(data); // Move individual ad-hoc preferences from various packages into the
+  // Move individual ad-hoc preferences from various packages into the
   // preferences store data structure.
-
   data = moveIndividualPreferenceToPreferences(data, {
     from: 'core/edit-post',
     to: 'core/edit-post'
@@ -755,11 +762,13 @@ function convertLegacyData(data) {
   data = moveIndividualPreferenceToPreferences(data, {
     from: 'core/edit-site',
     to: 'core/edit-site'
-  }, 'editorMode'); // The new system is only concerned with persisting
-  // 'core/preferences' preferences reducer, so only return that.
+  }, 'editorMode');
 
+  // The new system is only concerned with persisting
+  // 'core/preferences' preferences reducer, so only return that.
   return data?.['core/preferences']?.preferences;
 }
+
 /**
  * Gets the legacy local storage data for the given user and returns the
  * data converted to the new format.
@@ -769,7 +778,6 @@ function convertLegacyData(data) {
  * @return {Object | undefined} The converted data or undefined if no local
  *                              storage data could be found.
  */
-
 function convertLegacyLocalStorageData(userId) {
   const data = getLegacyData(userId);
   return convertLegacyData(data);
@@ -778,17 +786,18 @@ function convertLegacyLocalStorageData(userId) {
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences-persistence/build-module/migrations/preferences-package-data/convert-complementary-areas.js
 function convertComplementaryAreas(state) {
   return Object.keys(state).reduce((stateAccumulator, scope) => {
-    const scopeData = state[scope]; // If a complementary area is truthy, convert it to the `isComplementaryAreaVisible` boolean.
+    const scopeData = state[scope];
 
+    // If a complementary area is truthy, convert it to the `isComplementaryAreaVisible` boolean.
     if (scopeData?.complementaryArea) {
-      const updatedScopeData = { ...scopeData
+      const updatedScopeData = {
+        ...scopeData
       };
       delete updatedScopeData.complementaryArea;
       updatedScopeData.isComplementaryAreaVisible = true;
       stateAccumulator[scope] = updatedScopeData;
       return stateAccumulator;
     }
-
     return stateAccumulator;
   }, state);
 }
@@ -810,6 +819,7 @@ function convertPreferencesPackageData(data) {
 
 
 
+
 /**
  * Creates the persistence layer with preloaded data.
  *
@@ -824,16 +834,15 @@ function convertPreferencesPackageData(data) {
  *
  * @return {Object} The persistence layer initialized with the preloaded data.
  */
-
 function __unstableCreatePersistenceLayer(serverData, userId) {
   const localStorageRestoreKey = `WP_PREFERENCES_USER_${userId}`;
-  const localData = JSON.parse(window.localStorage.getItem(localStorageRestoreKey)); // Date parse returns NaN for invalid input. Coerce anything invalid
-  // into a conveniently comparable zero.
+  const localData = JSON.parse(window.localStorage.getItem(localStorageRestoreKey));
 
+  // Date parse returns NaN for invalid input. Coerce anything invalid
+  // into a conveniently comparable zero.
   const serverModified = Date.parse(serverData && serverData._modified) || 0;
   const localModified = Date.parse(localData && localData._modified) || 0;
   let preloadedData;
-
   if (serverData && serverModified >= localModified) {
     preloadedData = convertPreferencesPackageData(serverData);
   } else if (localData) {
@@ -842,7 +851,6 @@ function __unstableCreatePersistenceLayer(serverData, userId) {
     // Check if there is data in the legacy format from the old persistence system.
     preloadedData = convertLegacyLocalStorageData(userId);
   }
-
   return create({
     preloadedData,
     localStorageRestoreKey

@@ -12,7 +12,13 @@
 			"type": "string"
 		}
 	},
-	"usesContext": [ "queryId", "query", "paginationArrow", "showLabel" ],
+	"usesContext": [
+		"queryId",
+		"query",
+		"paginationArrow",
+		"showLabel",
+		"enhancedPagination"
+	],
 	"supports": {
 		"reusable": false,
 		"html": false,

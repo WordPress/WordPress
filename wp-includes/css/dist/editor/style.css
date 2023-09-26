@@ -141,24 +141,6 @@
   margin-top:12px;
 }
 
-.entities-saved-states__find-entity{
-  display:none;
-}
-@media (min-width:782px){
-  .entities-saved-states__find-entity{
-    display:block;
-  }
-}
-
-.entities-saved-states__find-entity-small{
-  display:block;
-}
-@media (min-width:782px){
-  .entities-saved-states__find-entity-small{
-    display:none;
-  }
-}
-
 .entities-saved-states__panel-header{
   background:#fff;
   border-bottom:1px solid #ddd;
@@ -435,20 +417,11 @@
   align-content:space-between;
   display:flex;
   flex-wrap:wrap;
-  margin:-5px;
-}
-.post-publish-panel__postpublish-buttons>*{
-  flex-grow:1;
-  margin:5px;
+  gap:16px;
 }
 .post-publish-panel__postpublish-buttons .components-button{
   flex:1;
-  height:auto;
   justify-content:center;
-  line-height:1.6;
-  padding:3px 10px 4px;
-  text-align:center;
-  white-space:normal;
 }
 .post-publish-panel__postpublish-buttons .components-clipboard-button{
   width:100%;
@@ -463,18 +436,17 @@
   flex:1;
 }
 .post-publish-panel__postpublish-post-address-container input[readonly]{
-  background:#ddd;
+  background:#f0f0f0;
+  border-color:#ccc;
+  height:36px;
   overflow:hidden;
-  padding:10px;
+  padding:16px;
   text-overflow:ellipsis;
 }
 
 .post-publish-panel__postpublish-post-address__copy-button-wrap{
   flex-shrink:0;
-  margin-left:8px;
-}
-.post-publish-panel__postpublish-post-address__copy-button-wrap .components-button{
-  height:38px;
+  margin-left:16px;
 }
 
 .post-publish-panel__postpublish-header{
@@ -668,7 +640,7 @@
 }
 .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:focus{
   border-color:var(--wp-admin-theme-color);
-  box-shadow:0 0 0 1px var(--wp-admin-theme-color);
+  box-shadow:0 0 0 .5px var(--wp-admin-theme-color);
 }
 .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]::-webkit-input-placeholder{
   color:rgba(30,30,30,.62);
@@ -747,7 +719,7 @@
 }
 .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]:focus{
   border-color:var(--wp-admin-theme-color);
-  box-shadow:0 0 0 1px var(--wp-admin-theme-color);
+  box-shadow:0 0 0 .5px var(--wp-admin-theme-color);
   outline:2px solid transparent;
 }
 .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]::-webkit-input-placeholder{

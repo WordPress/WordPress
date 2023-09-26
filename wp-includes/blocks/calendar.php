@@ -44,12 +44,12 @@ function render_block_core_calendar( $attributes ) {
 
 	// Text color.
 	$preset_text_color          = array_key_exists( 'textColor', $attributes ) ? "var:preset|color|{$attributes['textColor']}" : null;
-	$custom_text_color          = _wp_array_get( $attributes, array( 'style', 'color', 'text' ), null );
+	$custom_text_color          = $attributes['style']['color']['text'] ?? null;
 	$color_block_styles['text'] = $preset_text_color ? $preset_text_color : $custom_text_color;
 
 	// Background Color.
 	$preset_background_color          = array_key_exists( 'backgroundColor', $attributes ) ? "var:preset|color|{$attributes['backgroundColor']}" : null;
-	$custom_background_color          = _wp_array_get( $attributes, array( 'style', 'color', 'background' ), null );
+	$custom_background_color          = $attributes['style']['color']['background'] ?? null;
 	$color_block_styles['background'] = $preset_background_color ? $preset_background_color : $custom_background_color;
 
 	// Generate color styles and classes.

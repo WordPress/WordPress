@@ -65,6 +65,7 @@ var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
  * WordPress dependencies
  */
 
+
 /**
  * Build the explanatory text to be placed before the aria live regions.
  *
@@ -73,7 +74,6 @@ var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
  *
  * @return {HTMLParagraphElement} The explanatory text HTML element.
  */
-
 function addIntroText() {
   const introText = document.createElement('p');
   introText.id = 'a11y-speak-intro-text';
@@ -84,11 +84,9 @@ function addIntroText() {
   const {
     body
   } = document;
-
   if (body) {
     body.appendChild(introText);
   }
-
   return introText;
 }
 
@@ -111,11 +109,9 @@ function addContainer(ariaLive = 'polite') {
   const {
     body
   } = document;
-
   if (body) {
     body.appendChild(container);
   }
-
   return container;
 }
 
@@ -126,12 +122,11 @@ function addContainer(ariaLive = 'polite') {
 function clear() {
   const regions = document.getElementsByClassName('a11y-speak-region');
   const introText = document.getElementById('a11y-speak-intro-text');
-
   for (let i = 0; i < regions.length; i++) {
     regions[i].textContent = '';
-  } // Make sure the explanatory text is hidden from assistive technologies.
+  }
 
-
+  // Make sure the explanatory text is hidden from assistive technologies.
   if (introText) {
     introText.setAttribute('hidden', 'hidden');
   }
@@ -139,6 +134,7 @@ function clear() {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/filter-message.js
 let previousMessage = '';
+
 /**
  * Filter the message to be announced to the screenreader.
  *
@@ -146,7 +142,6 @@ let previousMessage = '';
  *
  * @return {string} The filtered message.
  */
-
 function filterMessage(message) {
   /*
    * Strip HTML tags (if any) from the message string. Ideally, messages should
@@ -156,15 +151,14 @@ function filterMessage(message) {
    * spaces natively.
    */
   message = message.replace(/<[^<>]+>/g, ' ');
+
   /*
    * Safari + VoiceOver don't announce repeated, identical strings. We use
    * a `no-break space` to force them to think identical strings are different.
    */
-
   if (previousMessage === message) {
     message += '\u00A0';
   }
-
   previousMessage = message;
   return message;
 }
@@ -173,6 +167,7 @@ function filterMessage(message) {
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
@@ -185,29 +180,26 @@ function filterMessage(message) {
 /**
  * Create the live regions.
  */
-
 function setup() {
   const introText = document.getElementById('a11y-speak-intro-text');
   const containerAssertive = document.getElementById('a11y-speak-assertive');
   const containerPolite = document.getElementById('a11y-speak-polite');
-
   if (introText === null) {
     addIntroText();
   }
-
   if (containerAssertive === null) {
     addContainer('assertive');
   }
-
   if (containerPolite === null) {
     addContainer('polite');
   }
 }
+
 /**
  * Run setup on domReady.
  */
-
 external_wp_domReady_default()(setup);
+
 /**
  * Allows you to easily announce dynamic interface updates to screen readers using ARIA live regions.
  * This module is inspired by the `speak` function in `wp-a11y.js`.
@@ -226,7 +218,6 @@ external_wp_domReady_default()(setup);
  * speak( 'The message you want to send to the ARIA live region', 'assertive' );
  * ```
  */
-
 function speak(message, ariaLive) {
   /*
    * Clear previous messages to allow repeated strings being read out and hide
@@ -237,18 +228,16 @@ function speak(message, ariaLive) {
   const introText = document.getElementById('a11y-speak-intro-text');
   const containerAssertive = document.getElementById('a11y-speak-assertive');
   const containerPolite = document.getElementById('a11y-speak-polite');
-
   if (containerAssertive && ariaLive === 'assertive') {
     containerAssertive.textContent = message;
   } else if (containerPolite) {
     containerPolite.textContent = message;
   }
+
   /*
    * Make the explanatory text available to assistive technologies by removing
    * the 'hidden' HTML attribute.
    */
-
-
   if (introText) {
     introText.removeAttribute('hidden');
   }

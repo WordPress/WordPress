@@ -4,6 +4,7 @@
 }
 .wp-block-site-logo a{
   display:inline-block;
+  line-height:0;
 }
 .wp-block-site-logo.is-default-size img{
   height:auto;

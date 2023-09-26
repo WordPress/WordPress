@@ -198,6 +198,7 @@ function memize(fn, options) {
  * External dependencies
  */
 
+
 /**
  * Shortcode attributes object.
  *
@@ -236,40 +237,38 @@ function memize(fn, options) {
  *
  * @return {WPShortcodeMatch | undefined} Matched information.
  */
-
 function next(tag, text, index = 0) {
   const re = regexp(tag);
   re.lastIndex = index;
   const match = re.exec(text);
-
   if (!match) {
     return;
-  } // If we matched an escaped shortcode, try again.
+  }
 
-
+  // If we matched an escaped shortcode, try again.
   if ('[' === match[1] && ']' === match[7]) {
     return next(tag, text, re.lastIndex);
   }
-
   const result = {
     index: match.index,
     content: match[0],
     shortcode: fromMatch(match)
-  }; // If we matched a leading `[`, strip it from the match and increment the
-  // index accordingly.
+  };
 
+  // If we matched a leading `[`, strip it from the match and increment the
+  // index accordingly.
   if (match[1]) {
     result.content = result.content.slice(1);
     result.index++;
-  } // If we matched a trailing `]`, strip it from the match.
+  }
 
-
+  // If we matched a trailing `]`, strip it from the match.
   if (match[7]) {
     result.content = result.content.slice(0, -1);
   }
-
   return result;
 }
+
 /**
  * Replace matching shortcodes in a block of text.
  *
@@ -280,22 +279,23 @@ function next(tag, text, index = 0) {
  *
  * @return {string} Text with shortcodes replaced.
  */
-
 function replace(tag, text, callback) {
   return text.replace(regexp(tag), function (match, left, $3, attrs, slash, content, closing, right) {
     // If both extra brackets exist, the shortcode has been properly
     // escaped.
     if (left === '[' && right === ']') {
       return match;
-    } // Create the match object and pass it through the callback.
+    }
 
+    // Create the match object and pass it through the callback.
+    const result = callback(fromMatch(arguments));
 
-    const result = callback(fromMatch(arguments)); // Make sure to return any of the extra brackets if they weren't used to
+    // Make sure to return any of the extra brackets if they weren't used to
     // escape the shortcode.
-
     return result || result === '' ? left + result + right : match;
   });
 }
+
 /**
  * Generate a string from shortcode parameters.
  *
@@ -309,10 +309,10 @@ function replace(tag, text, callback) {
  *
  * @return {string} String representation of the shortcode.
  */
-
 function string(options) {
   return new shortcode(options).string();
 }
+
 /**
  * Generate a RegExp to identify a shortcode.
  *
@@ -333,10 +333,10 @@ function string(options) {
  *
  * @return {RegExp} Shortcode RegExp.
  */
-
 function regexp(tag) {
   return new RegExp('\\[(\\[?)(' + tag + ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)', 'g');
 }
+
 /**
  * Parse shortcode attributes.
  *
@@ -354,10 +354,11 @@ function regexp(tag) {
  *
  * @return {WPShortcodeAttrs} Parsed shortcode attributes.
  */
-
 const attrs = memize(text => {
   const named = {};
-  const numeric = []; // This regular expression is reused from `shortcode_parse_atts()` in
+  const numeric = [];
+
+  // This regular expression is reused from `shortcode_parse_atts()` in
   // `wp-includes/shortcodes.php`.
   //
   // Capture groups:
@@ -371,12 +372,13 @@ const attrs = memize(text => {
   // 7. A numeric attribute in double quotes.
   // 8. A numeric attribute in single quotes.
   // 9. An unquoted numeric attribute.
+  const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g;
 
-  const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g; // Map zero-width spaces to actual spaces.
-
+  // Map zero-width spaces to actual spaces.
   text = text.replace(/[\u00a0\u200b]/g, ' ');
-  let match; // Match and normalize attributes.
+  let match;
 
+  // Match and normalize attributes.
   while (match = pattern.exec(text)) {
     if (match[1]) {
       named[match[1].toLowerCase()] = match[2];
@@ -392,12 +394,12 @@ const attrs = memize(text => {
       numeric.push(match[9]);
     }
   }
-
   return {
     named,
     numeric
   };
 });
+
 /**
  * Generate a Shortcode Object from a RegExp match.
  *
@@ -409,10 +411,8 @@ const attrs = memize(text => {
  *
  * @return {WPShortcode} Shortcode instance.
  */
-
 function fromMatch(match) {
   let type;
-
   if (match[4]) {
     type = 'self-closing';
   } else if (match[6]) {
@@ -420,7 +420,6 @@ function fromMatch(match) {
   } else {
     type = 'single';
   }
-
   return new shortcode({
     tag: match[2],
     attrs: match[3],
@@ -428,6 +427,7 @@ function fromMatch(match) {
     content: match[5]
   });
 }
+
 /**
  * Creates a shortcode instance.
  *
@@ -440,7 +440,6 @@ function fromMatch(match) {
  *
  * @return {WPShortcode} Shortcode instance.
  */
-
 const shortcode = Object.assign(function (options) {
   const {
     tag,
@@ -452,23 +451,25 @@ const shortcode = Object.assign(function (options) {
     tag,
     type,
     content
-  }); // Ensure we have a correctly formatted `attrs` object.
+  });
 
+  // Ensure we have a correctly formatted `attrs` object.
   this.attrs = {
     named: {},
     numeric: []
   };
-
   if (!attributes) {
     return;
   }
+  const attributeTypes = ['named', 'numeric'];
 
-  const attributeTypes = ['named', 'numeric']; // Parse a string of attributes.
-
+  // Parse a string of attributes.
   if (typeof attributes === 'string') {
-    this.attrs = attrs(attributes); // Identify a correctly formatted `attrs` object.
+    this.attrs = attrs(attributes);
+    // Identify a correctly formatted `attrs` object.
   } else if (attributes.length === attributeTypes.length && attributeTypes.every((t, key) => t === attributes[key])) {
-    this.attrs = attributes; // Handle a flat object of attributes.
+    this.attrs = attributes;
+    // Handle a flat object of attributes.
   } else {
     Object.entries(attributes).forEach(([key, value]) => {
       this.set(key, value);
@@ -496,7 +497,6 @@ Object.assign(shortcode.prototype, {
   get(attr) {
     return this.attrs[typeof attr === 'number' ? 'numeric' : 'named'][attr];
   },
-
   /**
    * Set a shortcode attribute.
    *
@@ -512,7 +512,6 @@ Object.assign(shortcode.prototype, {
     this.attrs[typeof attr === 'number' ? 'numeric' : 'named'][attr] = value;
     return this;
   },
-
   /**
    * Transform the shortcode into a string.
    *
@@ -529,26 +528,25 @@ Object.assign(shortcode.prototype, {
     });
     Object.entries(this.attrs.named).forEach(([name, value]) => {
       text += ' ' + name + '="' + value + '"';
-    }); // If the tag is marked as `single` or `self-closing`, close the tag and
-    // ignore any additional content.
+    });
 
+    // If the tag is marked as `single` or `self-closing`, close the tag and
+    // ignore any additional content.
     if ('single' === this.type) {
       return text + ']';
     } else if ('self-closing' === this.type) {
       return text + ' /]';
-    } // Complete the opening tag.
+    }
 
-
+    // Complete the opening tag.
     text += ']';
-
     if (this.content) {
       text += this.content;
-    } // Add the closing tag.
+    }
 
-
+    // Add the closing tag.
     return text + '[/' + this.tag + ']';
   }
-
 });
 /* harmony default export */ var build_module = (shortcode);
 

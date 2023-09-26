@@ -108,7 +108,7 @@ function wp_default_packages_vendor( $scripts ) {
 	$vendor_scripts_versions = array(
 		'react'                       => '18.2.0',
 		'react-dom'                   => '18.2.0',
-		'regenerator-runtime'         => '0.14.0',
+		'regenerator-runtime'         => '0.13.11',
 		'moment'                      => '2.29.4',
 		'lodash'                      => '4.17.19',
 		'wp-polyfill-fetch'           => '3.6.17',
@@ -278,6 +278,10 @@ function wp_default_packages_scripts( $scripts ) {
 	 *     'api-fetch.js' => array(...
 	 */
 	$assets = include ABSPATH . WPINC . "/assets/script-loader-packages{$suffix}.php";
+
+	// Add the private version of the Interactivity API manually.
+	$scripts->add( 'wp-interactivity', '/wp-includes/js/dist/interactivity.min.js' );
+	did_action( 'init' ) && $scripts->add_data( 'wp-interactivity', 'strategy', 'defer' );
 
 	foreach ( $assets as $file_name => $package_data ) {
 		$basename = str_replace( $suffix . '.js', '', basename( $file_name ) );
@@ -1684,6 +1688,7 @@ function wp_default_styles( $styles ) {
 		'wp-block-library',
 		'wp-reusable-blocks',
 		'wp-block-editor-content',
+		'wp-patterns',
 	);
 
 	// Only load the default layout and margin styles for themes without theme.json file.
@@ -1726,10 +1731,12 @@ function wp_default_styles( $styles ) {
 			'wp-components',
 			'wp-block-editor',
 			'wp-reusable-blocks',
+			'wp-patterns',
 		),
 		'format-library'       => array(),
 		'list-reusable-blocks' => array( 'wp-components' ),
 		'reusable-blocks'      => array( 'wp-components' ),
+		'patterns'             => array( 'wp-components' ),
 		'nux'                  => array( 'wp-components' ),
 		'widgets'              => array(
 			'wp-components',
@@ -1740,6 +1747,7 @@ function wp_default_styles( $styles ) {
 			'wp-edit-blocks',
 			'wp-block-library',
 			'wp-reusable-blocks',
+			'wp-patterns',
 		),
 		'customize-widgets'    => array(
 			'wp-widgets',
@@ -1747,6 +1755,7 @@ function wp_default_styles( $styles ) {
 			'wp-edit-blocks',
 			'wp-block-library',
 			'wp-reusable-blocks',
+			'wp-patterns',
 		),
 		'edit-site'            => array(
 			'wp-components',
@@ -1818,6 +1827,7 @@ function wp_default_styles( $styles ) {
 		'wp-format-library',
 		'wp-list-reusable-blocks',
 		'wp-reusable-blocks',
+		'wp-patterns',
 		'wp-nux',
 		'wp-widgets',
 		// Deprecated CSS.

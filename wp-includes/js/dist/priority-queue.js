@@ -307,6 +307,7 @@ var requestidlecallback = __webpack_require__(3159);
  * External dependencies
  */
 
+
 /**
  * @typedef {( timeOrDeadline: IdleDeadline | number ) => void} Callback
  */
@@ -314,14 +315,12 @@ var requestidlecallback = __webpack_require__(3159);
 /**
  * @return {(callback: Callback) => void} RequestIdleCallback
  */
-
 function createRequestIdleCallback() {
   if (typeof window === 'undefined') {
     return callback => {
       setTimeout(() => callback(Date.now()), 0);
     };
   }
-
   return window.requestIdleCallback;
 }
 /* harmony default export */ var request_idle_callback = (createRequestIdleCallback());
@@ -330,6 +329,7 @@ function createRequestIdleCallback() {
 /**
  * Internal dependencies
  */
+
 
 /**
  * Enqueued callback to invoke once idle time permits.
@@ -394,11 +394,11 @@ function createRequestIdleCallback() {
  *
  * @return {WPPriorityQueue} Queue object with `add`, `flush` and `reset` methods.
  */
-
 const createQueue = () => {
   /** @type {Map<WPPriorityQueueContext, WPPriorityQueueCallback>} */
   const waitingList = new Map();
   let isRunning = false;
+
   /**
    * Callback to process as much queue as time permits.
    *
@@ -415,24 +415,21 @@ const createQueue = () => {
    * @param {IdleDeadline|number} deadline Idle callback deadline object, or
    *                                       animation frame timestamp.
    */
-
   const runWaitingList = deadline => {
     for (const [nextElement, callback] of waitingList) {
       waitingList.delete(nextElement);
       callback();
-
       if ('number' === typeof deadline || deadline.timeRemaining() <= 0) {
         break;
       }
     }
-
     if (waitingList.size === 0) {
       isRunning = false;
       return;
     }
-
     request_idle_callback(runWaitingList);
   };
+
   /**
    * Add a callback to the queue for a given context.
    *
@@ -446,16 +443,14 @@ const createQueue = () => {
    * @param {WPPriorityQueueContext}  element Context object.
    * @param {WPPriorityQueueCallback} item    Callback function.
    */
-
-
   const add = (element, item) => {
     waitingList.set(element, item);
-
     if (!isRunning) {
       isRunning = true;
       request_idle_callback(runWaitingList);
     }
   };
+
   /**
    * Flushes queue for a given context, returning true if the flush was
    * performed, or false if there is no queue for the given context.
@@ -466,19 +461,16 @@ const createQueue = () => {
    *
    * @return {boolean} Whether flush was performed.
    */
-
-
   const flush = element => {
     const callback = waitingList.get(element);
-
     if (undefined === callback) {
       return false;
     }
-
     waitingList.delete(element);
     callback();
     return true;
   };
+
   /**
    * Clears the queue for a given context, cancelling the callbacks without
    * executing them. Returns `true` if there were scheduled callbacks to cancel,
@@ -490,23 +482,19 @@ const createQueue = () => {
    *
    * @return {boolean} Whether any callbacks got cancelled.
    */
-
-
   const cancel = element => {
     return waitingList.delete(element);
   };
+
   /**
    * Reset the queue without running the pending callbacks.
    *
    * @type {WPPriorityQueueReset}
    */
-
-
   const reset = () => {
     waitingList.clear();
     isRunning = false;
   };
-
   return {
     add,
     flush,

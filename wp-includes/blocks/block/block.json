@@ -5,7 +5,7 @@
 	"title": "Pattern",
 	"category": "reusable",
 	"description": "Create and save content to reuse across your site. Update the pattern, and the changes apply everywhere it’s used.",
- 	"keywords": [ "reusable" ],
+	"keywords": [ "reusable" ],
 	"textdomain": "default",
 	"attributes": {
 		"ref": {

@@ -73,7 +73,7 @@ class WP_Block_Parser {
 		$this->offset      = 0;
 		$this->output      = array();
 		$this->stack       = array();
-		$this->empty_attrs = json_decode( '{}', true );
+		$this->empty_attrs = array();
 
 		while ( $this->proceed() ) {
 			continue;

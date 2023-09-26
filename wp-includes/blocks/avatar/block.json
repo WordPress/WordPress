@@ -48,6 +48,9 @@
 			"__experimentalDuotone": "img"
 		}
 	},
+	"selectors": {
+		"border": ".wp-block-avatar img"
+	},
 	"editorStyle": "wp-block-avatar-editor",
 	"style": "wp-block-avatar"
 }

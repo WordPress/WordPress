@@ -32,12 +32,8 @@ function render_block_core_query_no_results( $attributes, $content, $block ) {
 		$query      = new WP_Query( $query_args );
 	}
 
-	if ( $query->have_posts() ) {
+	if ( $query->post_count > 0 ) {
 		return '';
-	}
-
-	if ( ! $use_global_query ) {
-		wp_reset_postdata();
 	}
 
 	$classes            = ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) ? 'has-link-color' : '';

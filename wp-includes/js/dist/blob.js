@@ -46,6 +46,7 @@ __webpack_require__.r(__webpack_exports__);
  * @type {Record<string, File|undefined>}
  */
 const cache = {};
+
 /**
  * Create a blob URL from a file.
  *
@@ -53,12 +54,12 @@ const cache = {};
  *
  * @return {string} The blob URL.
  */
-
 function createBlobURL(file) {
   const url = window.URL.createObjectURL(file);
   cache[url] = file;
   return url;
 }
+
 /**
  * Retrieve a file based on a blob URL. The file must have been created by
  * `createBlobURL` and not removed by `revokeBlobURL`, otherwise it will return
@@ -68,10 +69,10 @@ function createBlobURL(file) {
  *
  * @return {File|undefined} The file for the blob URL.
  */
-
 function getBlobByURL(url) {
   return cache[url];
 }
+
 /**
  * Retrieve a blob type based on URL. The file must have been created by
  * `createBlobURL` and not removed by `revokeBlobURL`, otherwise it will return
@@ -81,36 +82,33 @@ function getBlobByURL(url) {
  *
  * @return {string|undefined} The blob type.
  */
-
 function getBlobTypeByURL(url) {
   return getBlobByURL(url)?.type.split('/')[0]; // 0: media type , 1: file extension eg ( type: 'image/jpeg' ).
 }
+
 /**
  * Remove the resource and file cache from memory.
  *
  * @param {string} url The blob URL.
  */
-
 function revokeBlobURL(url) {
   if (cache[url]) {
     window.URL.revokeObjectURL(url);
   }
-
   delete cache[url];
 }
+
 /**
  * Check whether a url is a blob url.
  *
- * @param {string} url The URL.
+ * @param {string|undefined} url The URL.
  *
  * @return {boolean} Is the url a blob url?
  */
-
 function isBlobURL(url) {
   if (!url || !url.indexOf) {
     return false;
   }
-
   return url.indexOf('blob:') === 0;
 }
 

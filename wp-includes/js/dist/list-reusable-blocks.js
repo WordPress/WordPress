@@ -536,9 +536,10 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
 function download(fileName, content, contentType) {
   const file = new window.Blob([content], {
     type: contentType
-  }); // IE11 can't use the click to download technique
-  // we use a specific IE11 technique instead.
+  });
 
+  // IE11 can't use the click to download technique
+  // we use a specific IE11 technique instead.
   if (window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(file, fileName);
   } else {
@@ -551,20 +552,19 @@ function download(fileName, content, contentType) {
     document.body.removeChild(a);
   }
 }
+
 /**
  * Reads the textual content of the given file.
  *
  * @param {File} file File.
  * @return {Promise<string>}  Content of the file.
  */
-
 function readTextFile(file) {
   const reader = new window.FileReader();
   return new Promise(resolve => {
     reader.onload = () => {
       resolve(reader.result);
     };
-
     reader.readAsText(file);
   });
 }
@@ -573,6 +573,7 @@ function readTextFile(file) {
 /**
  * External dependencies
  */
+
 
 /**
  * WordPress dependencies
@@ -589,7 +590,6 @@ function readTextFile(file) {
  *
  * @param {number} id
  */
-
 async function exportReusableBlock(id) {
   const postType = await external_wp_apiFetch_default()({
     path: `/wp/v2/types/wp_block`
@@ -609,7 +609,6 @@ async function exportReusableBlock(id) {
   const fileName = paramCase(title) + '.json';
   download(fileName, fileContent, 'application/json');
 }
-
 /* harmony default export */ var utils_export = (exportReusableBlock);
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
@@ -620,6 +619,7 @@ var external_wp_components_namespaceObject = window["wp"]["components"];
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
@@ -632,21 +632,17 @@ var external_wp_components_namespaceObject = window["wp"]["components"];
  * @param {File} file File.
  * @return {Promise} Promise returning the imported reusable block.
  */
-
 async function importReusableBlock(file) {
   const fileContent = await readTextFile(file);
   let parsedContent;
-
   try {
     parsedContent = JSON.parse(fileContent);
   } catch (e) {
     throw new Error('Invalid JSON file');
   }
-
   if (parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || typeof parsedContent.title !== 'string' || typeof parsedContent.content !== 'string' || parsedContent.syncStatus && typeof parsedContent.syncStatus !== 'string') {
     throw new Error('Invalid Pattern JSON file');
   }
-
   const postType = await external_wp_apiFetch_default()({
     path: `/wp/v2/types/wp_block`
   });
@@ -664,11 +660,9 @@ async function importReusableBlock(file) {
   });
   return reusableBlock;
 }
-
 /* harmony default export */ var utils_import = (importReusableBlock);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/components/import-form/index.js
-
 
 /**
  * WordPress dependencies
@@ -677,11 +671,10 @@ async function importReusableBlock(file) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
-
 
 function ImportForm({
   instanceId,
@@ -692,19 +685,15 @@ function ImportForm({
   const [isLoading, setIsLoading] = (0,external_wp_element_namespaceObject.useState)(false);
   const [error, setError] = (0,external_wp_element_namespaceObject.useState)(null);
   const [file, setFile] = (0,external_wp_element_namespaceObject.useState)(null);
-
   const onChangeFile = event => {
     setFile(event.target.files[0]);
     setError(null);
   };
-
   const onSubmit = event => {
     event.preventDefault();
-
     if (!file) {
       return;
     }
-
     setIsLoading({
       isLoading: true
     });
@@ -712,38 +701,30 @@ function ImportForm({
       if (!formRef) {
         return;
       }
-
       setIsLoading(false);
       onUpload(reusableBlock);
     }).catch(errors => {
       if (!formRef) {
         return;
       }
-
       let uiMessage;
-
       switch (errors.message) {
         case 'Invalid JSON file':
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Invalid JSON file');
           break;
-
         case 'Invalid Pattern JSON file':
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Invalid Pattern JSON file');
           break;
-
         default:
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Unknown error');
       }
-
       setIsLoading(false);
       setError(uiMessage);
     });
   };
-
   const onDismissError = () => {
     setError(null);
   };
-
   return (0,external_wp_element_namespaceObject.createElement)("form", {
     className: "list-reusable-blocks-import-form",
     onSubmit: onSubmit,
@@ -766,11 +747,9 @@ function ImportForm({
     className: "list-reusable-blocks-import-form__button"
   }, (0,external_wp_i18n_namespaceObject._x)('Import', 'button label')));
 }
-
 /* harmony default export */ var import_form = ((0,external_wp_compose_namespaceObject.withInstanceId)(ImportForm));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/components/import-dropdown/index.js
-
 
 /**
  * WordPress dependencies
@@ -778,11 +757,10 @@ function ImportForm({
 
 
 
+
 /**
  * Internal dependencies
  */
-
-
 
 function ImportDropdown({
   onUpload
@@ -807,15 +785,14 @@ function ImportDropdown({
     })
   });
 }
-
 /* harmony default export */ var import_dropdown = (ImportDropdown);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/index.js
 
-
 /**
  * WordPress dependencies
  */
+
 
 
 /**
@@ -823,37 +800,32 @@ function ImportDropdown({
  */
 
 
- // Setup Export Links.
 
+// Setup Export Links.
 document.body.addEventListener('click', event => {
   if (!event.target.classList.contains('wp-list-reusable-blocks__export')) {
     return;
   }
-
   event.preventDefault();
   utils_export(event.target.dataset.id);
-}); // Setup Import Form.
+});
 
+// Setup Import Form.
 document.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector('.page-title-action');
-
   if (!button) {
     return;
   }
-
   const showNotice = () => {
     const notice = document.createElement('div');
     notice.className = 'notice notice-success is-dismissible';
     notice.innerHTML = `<p>${(0,external_wp_i18n_namespaceObject.__)('Pattern imported successfully!')}</p>`;
     const headerEnd = document.querySelector('.wp-header-end');
-
     if (!headerEnd) {
       return;
     }
-
     headerEnd.parentNode.insertBefore(notice, headerEnd);
   };
-
   const container = document.createElement('div');
   container.className = 'list-reusable-blocks__container';
   button.parentNode.insertBefore(container, button);

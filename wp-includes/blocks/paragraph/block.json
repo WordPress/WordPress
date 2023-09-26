@@ -7,6 +7,7 @@
 	"description": "Start with the basic building block of all narrative.",
 	"keywords": [ "text" ],
 	"textdomain": "default",
+	"usesContext": [ "postId" ],
 	"attributes": {
 		"align": {
 			"type": "string"
@@ -41,6 +42,7 @@
 				"text": true
 			}
 		},
+		"__experimentalConnections": true,
 		"spacing": {
 			"margin": true,
 			"padding": true,
@@ -58,6 +60,7 @@
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextTransform": true,
+			"__experimentalWritingMode": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}

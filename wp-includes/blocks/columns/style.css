@@ -66,6 +66,9 @@
 .wp-block-column.is-vertically-aligned-bottom{
   align-self:flex-end;
 }
+.wp-block-column.is-vertically-aligned-stretch{
+  align-self:stretch;
+}
 .wp-block-column.is-vertically-aligned-bottom,.wp-block-column.is-vertically-aligned-center,.wp-block-column.is-vertically-aligned-top{
   width:100%;
 }

@@ -41,7 +41,9 @@
 }
 
 .wp-block-search.wp-block-search__button-only .wp-block-search__button{
+  flex-shrink:0;
   margin-right:0;
+  max-width:calc(100% - 100px);
 }
 
 :where(.wp-block-search__button-inside .wp-block-search__inside-wrapper){

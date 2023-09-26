@@ -856,44 +856,40 @@ var external_wp_url_namespaceObject = window["wp"]["url"];
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
 
-
 const history_history = createBrowserHistory();
 const originalHistoryPush = history_history.push;
 const originalHistoryReplace = history_history.replace;
-
 function push(params, state) {
   const currentArgs = (0,external_wp_url_namespaceObject.getQueryArgs)(window.location.href);
   const currentUrlWithoutArgs = (0,external_wp_url_namespaceObject.removeQueryArgs)(window.location.href, ...Object.keys(currentArgs));
   const newUrl = (0,external_wp_url_namespaceObject.addQueryArgs)(currentUrlWithoutArgs, params);
   return originalHistoryPush.call(history_history, newUrl, state);
 }
-
 function replace(params, state) {
   const currentArgs = (0,external_wp_url_namespaceObject.getQueryArgs)(window.location.href);
   const currentUrlWithoutArgs = (0,external_wp_url_namespaceObject.removeQueryArgs)(window.location.href, ...Object.keys(currentArgs));
   const newUrl = (0,external_wp_url_namespaceObject.addQueryArgs)(currentUrlWithoutArgs, params);
   return originalHistoryReplace.call(history_history, newUrl, state);
 }
-
 history_history.push = push;
 history_history.replace = replace;
 /* harmony default export */ var build_module_history = (history_history);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/router/build-module/router.js
 
-
 /**
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
-
 
 const RoutesContext = (0,external_wp_element_namespaceObject.createContext)();
 const HistoryContext = (0,external_wp_element_namespaceObject.createContext)();
@@ -903,14 +899,13 @@ function useLocation() {
 function useHistory() {
   return (0,external_wp_element_namespaceObject.useContext)(HistoryContext);
 }
-
 function getLocationWithParams(location) {
   const searchParams = new URLSearchParams(location.search);
-  return { ...location,
+  return {
+    ...location,
     params: Object.fromEntries(searchParams.entries())
   };
 }
-
 function RouterProvider({
   children
 }) {

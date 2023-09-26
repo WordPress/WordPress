@@ -108,9 +108,11 @@
 		},
 		"color": {
 			"__experimentalDuotone": "> .wp-block-cover__image-background, > .wp-block-cover__video-background",
+			"heading": true,
 			"text": true,
 			"background": false,
-			"__experimentalSkipSerialization": [ "gradients" ]
+			"__experimentalSkipSerialization": [ "gradients" ],
+			"enableContrastChecker": false
 		},
 		"typography": {
 			"fontSize": true,

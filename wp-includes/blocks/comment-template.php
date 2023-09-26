@@ -28,7 +28,7 @@ function block_core_comment_template_render_comments( $comments, $block ) {
 	$content = '';
 	foreach ( $comments as $comment ) {
 		$comment_id           = $comment->comment_ID;
-		$filter_block_context = static function( $context ) use ( $comment_id ) {
+		$filter_block_context = static function ( $context ) use ( $comment_id ) {
 			$context['commentId'] = $comment_id;
 			return $context;
 		};

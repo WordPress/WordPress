@@ -31,15 +31,6 @@
 .wp-block-navigation-link__invalid-item{
   color:#000;
 }
-
-.wp-block-navigation-link__missing_text-tooltip{
-  height:1px;
-  margin:-1px;
-  overflow:hidden;
-  padding:0;
-  position:absolute;
-  width:1px;
-}
 .wp-block-navigation-link__placeholder{
   background-image:none !important;
   box-shadow:none !important;

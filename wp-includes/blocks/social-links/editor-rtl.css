@@ -64,7 +64,7 @@
   padding-left:8px;
 }
 
-.wp-block[data-align=center]>.wp-block-social-links{
+.wp-block.wp-block-social-links.aligncenter,.wp-block[data-align=center]>.wp-block-social-links{
   justify-content:center;
 }
 

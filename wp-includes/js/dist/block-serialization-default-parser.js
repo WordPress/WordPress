@@ -45,18 +45,16 @@ let document;
 /**
  * @type {number}
  */
-
 let offset;
 /**
  * @type {ParsedBlock[]}
  */
-
 let output;
 /**
  * @type {ParsedFrame[]}
  */
-
 let stack;
+
 /**
  * @typedef {Object|null} Attributes
  */
@@ -128,8 +126,8 @@ let stack;
  * @since 3.8.0
  * @since 4.6.1 added optimization to prevent backtracking on attribute parsing
  */
-
 const tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
+
 /**
  * Constructs a block object.
  *
@@ -140,7 +138,6 @@ const tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?
  * @param {string[]}      innerContent
  * @return {ParsedBlock} The block object.
  */
-
 function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
   return {
     blockName,
@@ -150,17 +147,17 @@ function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
     innerContent
   };
 }
+
 /**
  * Constructs a freeform block object.
  *
  * @param {string} innerHTML
  * @return {ParsedBlock} The freeform block object.
  */
-
-
 function Freeform(innerHTML) {
   return Block(null, {}, [], innerHTML, [innerHTML]);
 }
+
 /**
  * Constructs a frame object.
  *
@@ -171,8 +168,6 @@ function Freeform(innerHTML) {
  * @param {number|null} leadingHtmlStart
  * @return {ParsedFrame} The frame object.
  */
-
-
 function Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {
   return {
     block,
@@ -182,6 +177,7 @@ function Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {
     leadingHtmlStart
   };
 }
+
 /**
  * Parser function, that converts input HTML into a block based structure.
  *
@@ -259,61 +255,57 @@ function Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {
  * ```
  * @return {ParsedBlock[]} A block-based representation of the input HTML.
  */
-
-
 const parse = doc => {
   document = doc;
   offset = 0;
   output = [];
   stack = [];
   tokenizer.lastIndex = 0;
-
-  do {// twiddle our thumbs
+  do {
+    // twiddle our thumbs
   } while (proceed());
-
   return output;
 };
+
 /**
  * Parses the next token in the input document.
  *
  * @return {boolean} Returns true when there is more tokens to parse.
  */
-
 function proceed() {
   const stackDepth = stack.length;
   const next = nextToken();
-  const [tokenType, blockName, attrs, startOffset, tokenLength] = next; // We may have some HTML soup before the next block.
+  const [tokenType, blockName, attrs, startOffset, tokenLength] = next;
 
+  // We may have some HTML soup before the next block.
   const leadingHtmlStart = startOffset > offset ? offset : null;
-
   switch (tokenType) {
     case 'no-more-tokens':
       // If not in a block then flush output.
       if (0 === stackDepth) {
         addFreeform();
         return false;
-      } // Otherwise we have a problem
+      }
+
+      // Otherwise we have a problem
       // This is an error
       // we have options
       //  - treat it all as freeform text
       //  - assume an implicit closer (easiest when not nesting)
+
       // For the easy case we'll assume an implicit closer.
-
-
       if (1 === stackDepth) {
         addBlockFromStack();
         return false;
-      } // For the nested case where it's more difficult we'll
+      }
+
+      // For the nested case where it's more difficult we'll
       // have to assume that multiple closers are missing
       // and so we'll collapse the whole stack piecewise.
-
-
       while (0 < stack.length) {
         addBlockFromStack();
       }
-
       return false;
-
     case 'void-block':
       // easy case is if we stumbled upon a void block
       // in the top-level of the document.
@@ -321,23 +313,20 @@ function proceed() {
         if (null !== leadingHtmlStart) {
           output.push(Freeform(document.substr(leadingHtmlStart, startOffset - leadingHtmlStart)));
         }
-
         output.push(Block(blockName, attrs, [], '', []));
         offset = startOffset + tokenLength;
         return true;
-      } // Otherwise we found an inner block.
+      }
 
-
+      // Otherwise we found an inner block.
       addInnerBlock(Block(blockName, attrs, [], '', []), startOffset, tokenLength);
       offset = startOffset + tokenLength;
       return true;
-
     case 'block-opener':
       // Track all newly-opened blocks on the stack.
       stack.push(Frame(Block(blockName, attrs, [], '', []), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
       offset = startOffset + tokenLength;
       return true;
-
     case 'block-closer':
       // If we're missing an opener we're in trouble
       // This is an error.
@@ -348,20 +337,18 @@ function proceed() {
         // - give up and close out the document.
         addFreeform();
         return false;
-      } // If we're not nesting then this is easy - close the block.
+      }
 
-
+      // If we're not nesting then this is easy - close the block.
       if (1 === stackDepth) {
         addBlockFromStack(startOffset);
         offset = startOffset + tokenLength;
         return true;
-      } // Otherwise we're nested and we have to close out the current
+      }
+
+      // Otherwise we're nested and we have to close out the current
       // block and add it as a innerBlock to the parent.
-
-
-      const stackTop =
-      /** @type {ParsedFrame} */
-      stack.pop();
+      const stackTop = /** @type {ParsedFrame} */stack.pop();
       const html = document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
       stackTop.block.innerHTML += html;
       stackTop.block.innerContent.push(html);
@@ -369,13 +356,13 @@ function proceed() {
       addInnerBlock(stackTop.block, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
       offset = startOffset + tokenLength;
       return true;
-
     default:
       // This is an error.
       addFreeform();
       return false;
   }
 }
+
 /**
  * Parse JSON if valid, otherwise return null
  *
@@ -386,8 +373,6 @@ function proceed() {
  * @param {string} input JSON input string to parse
  * @return {Object|null} parsed JSON if valid
  */
-
-
 function parseJSON(input) {
   try {
     return JSON.parse(input);
@@ -395,13 +380,12 @@ function parseJSON(input) {
     return null;
   }
 }
+
 /**
  * Finds the next token in the document.
  *
  * @return {Token} The next matched token.
  */
-
-
 function nextToken() {
   // Aye the magic
   // we're using a single RegExp to tokenize the block comment delimiters
@@ -409,55 +393,50 @@ function nextToken() {
   // block opener and a block closer is the leading `/` before `wp:` (and
   // a closer has no attributes). we can trap them both and process the
   // match back in JavaScript to see which one it was.
-  const matches = tokenizer.exec(document); // We have no more tokens.
+  const matches = tokenizer.exec(document);
 
+  // We have no more tokens.
   if (null === matches) {
     return ['no-more-tokens', '', null, 0, 0];
   }
-
   const startedAt = matches.index;
-  const [match, closerMatch, namespaceMatch, nameMatch, attrsMatch
-  /* Internal/unused. */
-  ,, voidMatch] = matches;
+  const [match, closerMatch, namespaceMatch, nameMatch, attrsMatch /* Internal/unused. */,, voidMatch] = matches;
   const length = match.length;
   const isCloser = !!closerMatch;
   const isVoid = !!voidMatch;
   const namespace = namespaceMatch || 'core/';
   const name = namespace + nameMatch;
   const hasAttrs = !!attrsMatch;
-  const attrs = hasAttrs ? parseJSON(attrsMatch) : {}; // This state isn't allowed
-  // This is an error.
+  const attrs = hasAttrs ? parseJSON(attrsMatch) : {};
 
-  if (isCloser && (isVoid || hasAttrs)) {// We can ignore them since they don't hurt anything
+  // This state isn't allowed
+  // This is an error.
+  if (isCloser && (isVoid || hasAttrs)) {
+    // We can ignore them since they don't hurt anything
     // we may warn against this at some point or reject it.
   }
-
   if (isVoid) {
     return ['void-block', name, attrs, startedAt, length];
   }
-
   if (isCloser) {
     return ['block-closer', name, null, startedAt, length];
   }
-
   return ['block-opener', name, attrs, startedAt, length];
 }
+
 /**
  * Adds a freeform block to the output.
  *
  * @param {number} [rawLength]
  */
-
-
 function addFreeform(rawLength) {
   const length = rawLength ? rawLength : document.length - offset;
-
   if (0 === length) {
     return;
   }
-
   output.push(Freeform(document.substr(offset, length)));
 }
+
 /**
  * Adds inner block to the parent block.
  *
@@ -466,48 +445,38 @@ function addFreeform(rawLength) {
  * @param {number}      tokenLength
  * @param {number}      [lastOffset]
  */
-
-
 function addInnerBlock(block, tokenStart, tokenLength, lastOffset) {
   const parent = stack[stack.length - 1];
   parent.block.innerBlocks.push(block);
   const html = document.substr(parent.prevOffset, tokenStart - parent.prevOffset);
-
   if (html) {
     parent.block.innerHTML += html;
     parent.block.innerContent.push(html);
   }
-
   parent.block.innerContent.push(null);
   parent.prevOffset = lastOffset ? lastOffset : tokenStart + tokenLength;
 }
+
 /**
  * Adds block from the stack to the output.
  *
  * @param {number} [endOffset]
  */
-
-
 function addBlockFromStack(endOffset) {
   const {
     block,
     leadingHtmlStart,
     prevOffset,
     tokenStart
-  } =
-  /** @type {ParsedFrame} */
-  stack.pop();
+  } = /** @type {ParsedFrame} */stack.pop();
   const html = endOffset ? document.substr(prevOffset, endOffset - prevOffset) : document.substr(prevOffset);
-
   if (html) {
     block.innerHTML += html;
     block.innerContent.push(html);
   }
-
   if (null !== leadingHtmlStart) {
     output.push(Freeform(document.substr(leadingHtmlStart, tokenStart - leadingHtmlStart)));
   }
-
   output.push(block);
 }
 

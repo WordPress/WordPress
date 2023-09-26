@@ -70,17 +70,16 @@ __webpack_require__.d(__webpack_exports__, {
  *
  * @typedef {Partial<WPWordCountSettingsFields>} WPWordCountUserSettings
  */
+
 // Disable reason: JSDoc linter doesn't seem to parse the union (`&`) correctly: https://github.com/jsdoc/jsdoc/issues/1285
-
 /* eslint-disable jsdoc/valid-types */
-
 /**
  * Word counting settings that include non-optional values we set if missing
  *
  * @typedef {WPWordCountUserSettings & typeof defaultSettings} WPWordCountDefaultSettings
  */
-
 /* eslint-enable jsdoc/valid-types */
+
 const defaultSettings = {
   HTMLRegExp: /<\/?[a-z][^>]*?>/gi,
   HTMLcommentRegExp: /<!--[\s\S]*?-->/g,
@@ -89,8 +88,10 @@ const defaultSettings = {
   // \u2014 = em-dash.
   connectorRegExp: /--|\u2014/g,
   // Characters to be removed from input text.
-  removeRegExp: new RegExp(['[', // Basic Latin (extract)
-  '\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E', // Latin-1 Supplement (extract)
+  removeRegExp: new RegExp(['[',
+  // Basic Latin (extract)
+  '\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E',
+  // Latin-1 Supplement (extract)
   '\u0080-\u00BF\u00D7\u00F7',
   /*
    * The following range consists of:
@@ -119,13 +120,13 @@ const defaultSettings = {
    * Supplemental Mathematical Operators
    * Miscellaneous Symbols and Arrows
    */
-  '\u2000-\u2BFF', // Supplemental Punctuation.
+  '\u2000-\u2BFF',
+  // Supplemental Punctuation.
   '\u2E00-\u2E7F', ']'].join(''), 'g'),
   // Remove UTF-16 surrogate points, see https://en.wikipedia.org/wiki/UTF-16#U.2BD800_to_U.2BDFFF
   astralRegExp: /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
   wordsRegExp: /\S\s+/g,
   characters_excluding_spacesRegExp: /\S/g,
-
   /*
    * Match anything that is not a formatting character, excluding:
    * \f = form feed
@@ -234,7 +235,6 @@ function stripShortcodes(settings, text) {
   if (settings.shortcodesRegExp) {
     return text.replace(settings.shortcodesRegExp, '\n');
   }
-
   return text;
 }
 
@@ -278,6 +278,7 @@ function transposeHTMLEntitiesToCountableChars(settings, text) {
 
 
 
+
 /**
  * @typedef {import('./defaultSettings').WPWordCountDefaultSettings}  WPWordCountSettings
  * @typedef {import('./defaultSettings').WPWordCountUserSettings}     WPWordCountUserSettings
@@ -297,25 +298,20 @@ function transposeHTMLEntitiesToCountableChars(settings, text) {
  *
  * @return {WPWordCountSettings} The combined settings object to be used.
  */
-
 function loadSettings(type, userSettings) {
   var _settings$l10n$shortc;
-
   const settings = Object.assign({}, defaultSettings, userSettings);
   settings.shortcodes = (_settings$l10n$shortc = settings.l10n?.shortcodes) !== null && _settings$l10n$shortc !== void 0 ? _settings$l10n$shortc : [];
-
   if (settings.shortcodes && settings.shortcodes.length) {
     settings.shortcodesRegExp = new RegExp('\\[\\/?(?:' + settings.shortcodes.join('|') + ')[^\\]]*?\\]', 'g');
   }
-
   settings.type = type;
-
   if (settings.type !== 'characters_excluding_spaces' && settings.type !== 'characters_including_spaces') {
     settings.type = 'words';
   }
-
   return settings;
 }
+
 /**
  * Count the words in text
  *
@@ -325,15 +321,13 @@ function loadSettings(type, userSettings) {
  *
  * @return {number} Count of words.
  */
-
-
 function countWords(text, regex, settings) {
   var _text$match$length;
-
   text = [stripTags.bind(null, settings), stripHTMLComments.bind(null, settings), stripShortcodes.bind(null, settings), stripSpaces.bind(null, settings), stripHTMLEntities.bind(null, settings), stripConnectors.bind(null, settings), stripRemovables.bind(null, settings)].reduce((result, fn) => fn(result), text);
   text = text + '\n';
   return (_text$match$length = text.match(regex)?.length) !== null && _text$match$length !== void 0 ? _text$match$length : 0;
 }
+
 /**
  * Count the characters in text
  *
@@ -343,15 +337,13 @@ function countWords(text, regex, settings) {
  *
  * @return {number} Count of characters.
  */
-
-
 function countCharacters(text, regex, settings) {
   var _text$match$length2;
-
   text = [stripTags.bind(null, settings), stripHTMLComments.bind(null, settings), stripShortcodes.bind(null, settings), transposeAstralsToCountableChar.bind(null, settings), stripSpaces.bind(null, settings), transposeHTMLEntitiesToCountableChars.bind(null, settings)].reduce((result, fn) => fn(result), text);
   text = text + '\n';
   return (_text$match$length2 = text.match(regex)?.length) !== null && _text$match$length2 !== void 0 ? _text$match$length2 : 0;
 }
+
 /**
  * Count some words.
  *
@@ -367,25 +359,19 @@ function countCharacters(text, regex, settings) {
  *
  * @return {number} The word or character count.
  */
-
-
 function count(text, type, userSettings) {
   const settings = loadSettings(type, userSettings);
   let matchRegExp;
-
   switch (settings.type) {
     case 'words':
       matchRegExp = settings.wordsRegExp;
       return countWords(text, matchRegExp, settings);
-
     case 'characters_including_spaces':
       matchRegExp = settings.characters_including_spacesRegExp;
       return countCharacters(text, matchRegExp, settings);
-
     case 'characters_excluding_spaces':
       matchRegExp = settings.characters_excluding_spacesRegExp;
       return countCharacters(text, matchRegExp, settings);
-
     default:
       return 0;
   }

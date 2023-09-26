@@ -28,7 +28,11 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 	if ( isset( $attributes['textAlign'] ) ) {
 		$classes .= " has-text-align-{$attributes['textAlign']}";
 	}
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
+	$wrapper_attributes = get_block_wrapper_attributes(
+		array(
+			'class' => $classes,
+		)
+	);
 	// Set default values.
 	$format = '%link';
 	$link   = 'next' === $navigation_type ? _x( 'Next', 'label for next post link' ) : _x( 'Previous', 'label for previous post link' );
@@ -88,9 +92,9 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 		$arrow = $arrow_map[ $attributes['arrow'] ][ $navigation_type ];
 
 		if ( 'next' === $navigation_type ) {
-			$format = '%link <span class="wp-block-post-navigation-link__arrow-next is-arrow-' . $attributes['arrow'] . '" aria-hidden="true">' . $arrow . '</span>';
+			$format = '%link<span class="wp-block-post-navigation-link__arrow-next is-arrow-' . $attributes['arrow'] . '" aria-hidden="true">' . $arrow . '</span>';
 		} else {
-			$format = '<span class="wp-block-post-navigation-link__arrow-previous is-arrow-' . $attributes['arrow'] . '" aria-hidden="true">' . $arrow . '</span> %link';
+			$format = '<span class="wp-block-post-navigation-link__arrow-previous is-arrow-' . $attributes['arrow'] . '" aria-hidden="true">' . $arrow . '</span>%link';
 		}
 	}
 

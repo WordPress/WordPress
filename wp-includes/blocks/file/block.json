@@ -57,6 +57,10 @@
 	"supports": {
 		"anchor": true,
 		"align": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -65,7 +69,8 @@
 				"background": true,
 				"link": true
 			}
-		}
+		},
+		"interactivity": true
 	},
 	"viewScript": "file:./view.min.js",
 	"editorStyle": "wp-block-file-editor",

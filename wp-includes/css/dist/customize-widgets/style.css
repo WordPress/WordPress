@@ -159,7 +159,11 @@
   margin-left:-12px;
   margin-right:-12px;
   overflow-y:auto;
+  width:calc(100% + 24px) !important;
   z-index:7;
+}
+.block-editor-block-contextual-toolbar.is-fixed>.block-editor-block-toolbar__group-collapse-fixed-toolbar{
+  display:none;
 }
 
 .customize-control-sidebar_block_editor .block-editor-block-list__block-popover{

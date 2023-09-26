@@ -18,6 +18,7 @@
 }
 .wp-block-navigation .wp-block-navigation-item{
   align-items:center;
+  background-color:inherit;
   display:flex;
   position:relative;
 }
@@ -234,6 +235,13 @@ button.wp-block-navigation-item__content{
 .wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container{
   background-color:#fff;
   border:1px solid rgba(0,0,0,.15);
+}
+
+.wp-block-navigation.has-background .wp-block-navigation__submenu-container{
+  background-color:inherit;
+}
+
+.wp-block-navigation:not(.has-text-color) .wp-block-navigation__submenu-container{
   color:#000;
 }
 
@@ -272,7 +280,7 @@ button.wp-block-navigation-item__content{
   right:0;
   top:0;
 }
-.wp-block-navigation__responsive-container .wp-block-navigation-link a{
+.wp-block-navigation__responsive-container :where(.wp-block-navigation-item a){
   color:inherit;
 }
 .wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content{
@@ -342,7 +350,7 @@ button.wp-block-navigation-item__content{
   display:flex;
   flex-direction:column;
 }
-.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item,.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item .wp-block-navigation__submenu-container,.wp-block-navigation__responsive-container.is-menu-open .wp-block-page-list{
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item,.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item .wp-block-navigation__submenu-container,.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container,.wp-block-navigation__responsive-container.is-menu-open .wp-block-page-list{
   background:transparent !important;
   color:inherit !important;
 }
@@ -368,6 +376,9 @@ button.wp-block-navigation-item__content{
 
 .wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open{
   background-color:#fff;
+}
+
+.wp-block-navigation:not(.has-text-color) .wp-block-navigation__responsive-container.is-menu-open{
   color:#000;
 }
 

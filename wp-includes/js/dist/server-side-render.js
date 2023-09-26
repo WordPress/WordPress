@@ -169,15 +169,14 @@ var external_wp_components_namespaceObject = window["wp"]["components"];
 var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/server-side-render/build-module/server-side-render.js
 
-
 /**
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -214,11 +213,11 @@ function removeBlockSupportAttributes(attributes) {
     typography,
     ...restStyles
   } = attributes?.style || EMPTY_OBJECT;
-  return { ...restAttributes,
+  return {
+    ...restAttributes,
     style: restStyles
   };
 }
-
 function DefaultEmptyResponsePlaceholder({
   className
 }) {
@@ -226,18 +225,17 @@ function DefaultEmptyResponsePlaceholder({
     className: className
   }, (0,external_wp_i18n_namespaceObject.__)('Block rendered as empty.'));
 }
-
 function DefaultErrorResponsePlaceholder({
   response,
   className
 }) {
-  const errorMessage = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: error message describing the problem
+  const errorMessage = (0,external_wp_i18n_namespaceObject.sprintf)(
+  // translators: %s: error message describing the problem
   (0,external_wp_i18n_namespaceObject.__)('Error loading block: %s'), response.errorMsg);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
     className: className
   }, errorMessage);
 }
-
 function DefaultLoadingResponsePlaceholder({
   children,
   showLoader
@@ -260,7 +258,6 @@ function DefaultLoadingResponsePlaceholder({
     }
   }, children));
 }
-
 function ServerSideRender(props) {
   const {
     attributes,
@@ -279,32 +276,28 @@ function ServerSideRender(props) {
   const [response, setResponse] = (0,external_wp_element_namespaceObject.useState)(null);
   const prevProps = (0,external_wp_compose_namespaceObject.usePrevious)(props);
   const [isLoading, setIsLoading] = (0,external_wp_element_namespaceObject.useState)(false);
-
   function fetchData() {
     var _sanitizedAttributes, _sanitizedAttributes2;
-
     if (!isMountedRef.current) {
       return;
     }
-
     setIsLoading(true);
-
     let sanitizedAttributes = attributes && (0,external_wp_blocks_namespaceObject.__experimentalSanitizeBlockAttributes)(block, attributes);
-
     if (skipBlockSupportAttributes) {
       sanitizedAttributes = removeBlockSupportAttributes(sanitizedAttributes);
-    } // If httpMethod is 'POST', send the attributes in the request body instead of the URL.
+    }
+
+    // If httpMethod is 'POST', send the attributes in the request body instead of the URL.
     // This allows sending a larger attributes object than in a GET request, where the attributes are in the URL.
-
-
     const isPostRequest = 'POST' === httpMethod;
     const urlAttributes = isPostRequest ? null : (_sanitizedAttributes = sanitizedAttributes) !== null && _sanitizedAttributes !== void 0 ? _sanitizedAttributes : null;
     const path = rendererPath(block, urlAttributes, urlQueryArgs);
     const data = isPostRequest ? {
       attributes: (_sanitizedAttributes2 = sanitizedAttributes) !== null && _sanitizedAttributes2 !== void 0 ? _sanitizedAttributes2 : null
-    } : null; // Store the latest fetch request so that when we process it, we can
-    // check if it is the current request, to avoid race conditions on slow networks.
+    } : null;
 
+    // Store the latest fetch request so that when we process it, we can
+    // check if it is the current request, to avoid race conditions on slow networks.
     const fetchRequest = fetchRequestRef.current = external_wp_apiFetch_default()({
       path,
       data,
@@ -327,10 +320,10 @@ function ServerSideRender(props) {
     });
     return fetchRequest;
   }
+  const debouncedFetchData = (0,external_wp_compose_namespaceObject.useDebounce)(fetchData, 500);
 
-  const debouncedFetchData = (0,external_wp_compose_namespaceObject.useDebounce)(fetchData, 500); // When the component unmounts, set isMountedRef to false. This will
+  // When the component unmounts, set isMountedRef to false. This will
   // let the async fetch callbacks know when to stop.
-
   (0,external_wp_element_namespaceObject.useEffect)(() => () => {
     isMountedRef.current = false;
   }, []);
@@ -343,17 +336,16 @@ function ServerSideRender(props) {
       debouncedFetchData();
     }
   });
+
   /**
    * Effect to handle showing the loading placeholder.
    * Show it only if there is no previous response or
    * the request takes more than one second.
    */
-
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!isLoading) {
       return;
     }
-
     const timeout = setTimeout(() => {
       setShowLoader(true);
     }, 1000);
@@ -362,27 +354,25 @@ function ServerSideRender(props) {
   const hasResponse = !!response;
   const hasEmptyResponse = response === '';
   const hasError = response?.error;
-
   if (isLoading) {
-    return (0,external_wp_element_namespaceObject.createElement)(LoadingResponsePlaceholder, { ...props,
+    return (0,external_wp_element_namespaceObject.createElement)(LoadingResponsePlaceholder, {
+      ...props,
       showLoader: showLoader
     }, hasResponse && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
       className: className
     }, response));
   }
-
   if (hasEmptyResponse || !hasResponse) {
-    return (0,external_wp_element_namespaceObject.createElement)(EmptyResponsePlaceholder, { ...props
+    return (0,external_wp_element_namespaceObject.createElement)(EmptyResponsePlaceholder, {
+      ...props
     });
   }
-
   if (hasError) {
     return (0,external_wp_element_namespaceObject.createElement)(ErrorResponsePlaceholder, {
       response: response,
       ...props
     });
   }
-
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
     className: className
   }, response);
@@ -390,10 +380,10 @@ function ServerSideRender(props) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/server-side-render/build-module/index.js
 
-
 /**
  * WordPress dependencies
  */
+
 
 
 /**
@@ -404,27 +394,24 @@ function ServerSideRender(props) {
 /**
  * Constants
  */
-
 const build_module_EMPTY_OBJECT = {};
 const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)(select => {
   // FIXME: @wordpress/server-side-render should not depend on @wordpress/editor.
   // It is used by blocks that can be loaded into a *non-post* block editor.
   // eslint-disable-next-line @wordpress/data-no-store-string-literals
   const coreEditorSelect = select('core/editor');
-
   if (coreEditorSelect) {
-    const currentPostId = coreEditorSelect.getCurrentPostId(); // For templates and template parts we use a custom ID format.
+    const currentPostId = coreEditorSelect.getCurrentPostId();
+    // For templates and template parts we use a custom ID format.
     // Since they aren't real posts, we don't want to use their ID
     // for server-side rendering. Since they use a string based ID,
     // we can assume real post IDs are numbers.
-
     if (currentPostId && typeof currentPostId === 'number') {
       return {
         currentPostId
       };
     }
   }
-
   return build_module_EMPTY_OBJECT;
 })(({
   urlQueryArgs = build_module_EMPTY_OBJECT,
@@ -435,7 +422,6 @@ const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)
     if (!currentPostId) {
       return urlQueryArgs;
     }
-
     return {
       post_id: currentPostId,
       ...urlQueryArgs

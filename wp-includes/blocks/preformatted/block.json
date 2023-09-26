@@ -25,6 +25,10 @@
 				"text": true
 			}
 		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

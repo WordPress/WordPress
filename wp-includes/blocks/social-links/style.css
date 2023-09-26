@@ -195,7 +195,7 @@
   background-color:#2aabee;
   color:#fff;
 }
-.wp-block-social-links:not(.is-style-logos-only) .wp-social-link-tiktok{
+.wp-block-social-links:not(.is-style-logos-only) .wp-social-link-threads,.wp-block-social-links:not(.is-style-logos-only) .wp-social-link-tiktok{
   background-color:#000;
   color:#fff;
 }
@@ -337,7 +337,7 @@
 .wp-block-social-links.is-style-logos-only .wp-social-link-telegram{
   color:#2aabee;
 }
-.wp-block-social-links.is-style-logos-only .wp-social-link-tiktok{
+.wp-block-social-links.is-style-logos-only .wp-social-link-threads,.wp-block-social-links.is-style-logos-only .wp-social-link-tiktok{
   color:#000;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-tumblr{

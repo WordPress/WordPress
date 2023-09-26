@@ -76,16 +76,13 @@ function validateNamespace(namespace) {
     console.error('The namespace must be a non-empty string.');
     return false;
   }
-
   if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
     // eslint-disable-next-line no-console
     console.error('The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.');
     return false;
   }
-
   return true;
 }
-
 /* harmony default export */ var build_module_validateNamespace = (validateNamespace);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/validateHookName.js
@@ -104,28 +101,25 @@ function validateHookName(hookName) {
     console.error('The hook name must be a non-empty string.');
     return false;
   }
-
   if (/^__/.test(hookName)) {
     // eslint-disable-next-line no-console
     console.error('The hook name cannot begin with `__`.');
     return false;
   }
-
   if (!/^[a-zA-Z][a-zA-Z0-9_.-]*$/.test(hookName)) {
     // eslint-disable-next-line no-console
     console.error('The hook name can only contain numbers, letters, dashes, periods and underscores.');
     return false;
   }
-
   return true;
 }
-
 /* harmony default export */ var build_module_validateHookName = (validateHookName);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createAddHook.js
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -147,63 +141,55 @@ function validateHookName(hookName) {
  *
  * @return {AddHook} Function that adds a new hook.
  */
-
 function createAddHook(hooks, storeKey) {
   return function addHook(hookName, namespace, callback, priority = 10) {
     const hooksStore = hooks[storeKey];
-
     if (!build_module_validateHookName(hookName)) {
       return;
     }
-
     if (!build_module_validateNamespace(namespace)) {
       return;
     }
-
     if ('function' !== typeof callback) {
       // eslint-disable-next-line no-console
       console.error('The hook callback must be a function.');
       return;
-    } // Validate numeric priority
+    }
 
-
+    // Validate numeric priority
     if ('number' !== typeof priority) {
       // eslint-disable-next-line no-console
       console.error('If specified, the hook priority must be a number.');
       return;
     }
-
     const handler = {
       callback,
       priority,
       namespace
     };
-
     if (hooksStore[hookName]) {
       // Find the correct insert index of the new hook.
       const handlers = hooksStore[hookName].handlers;
+
       /** @type {number} */
-
       let i;
-
       for (i = handlers.length; i > 0; i--) {
         if (priority >= handlers[i - 1].priority) {
           break;
         }
       }
-
       if (i === handlers.length) {
         // If append, operate via direct assignment.
         handlers[i] = handler;
       } else {
         // Otherwise, insert before index via splice.
         handlers.splice(i, 0, handler);
-      } // We may also be currently executing this hook.  If the callback
+      }
+
+      // We may also be currently executing this hook.  If the callback
       // we're adding would come after the current callback, there's no
       // problem; otherwise we need to increase the execution index of
       // any other runs by 1 to account for the added element.
-
-
       hooksStore.__current.forEach(hookInfo => {
         if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
           hookInfo.currentIndex++;
@@ -216,19 +202,18 @@ function createAddHook(hooks, storeKey) {
         runs: 0
       };
     }
-
     if (hookName !== 'hookAdded') {
       hooks.doAction('hookAdded', hookName, namespace, callback, priority);
     }
   };
 }
-
 /* harmony default export */ var build_module_createAddHook = (createAddHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createRemoveHook.js
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -255,26 +240,21 @@ function createAddHook(hooks, storeKey) {
  *
  * @return {RemoveHook} Function that removes hooks.
  */
-
 function createRemoveHook(hooks, storeKey, removeAll = false) {
   return function removeHook(hookName, namespace) {
     const hooksStore = hooks[storeKey];
-
     if (!build_module_validateHookName(hookName)) {
       return;
     }
-
     if (!removeAll && !build_module_validateNamespace(namespace)) {
       return;
-    } // Bail if no hooks exist by this name.
+    }
 
-
+    // Bail if no hooks exist by this name.
     if (!hooksStore[hookName]) {
       return 0;
     }
-
     let handlersRemoved = 0;
-
     if (removeAll) {
       handlersRemoved = hooksStore[hookName].handlers.length;
       hooksStore[hookName] = {
@@ -284,16 +264,15 @@ function createRemoveHook(hooks, storeKey, removeAll = false) {
     } else {
       // Try to find the specified callback to remove.
       const handlers = hooksStore[hookName].handlers;
-
       for (let i = handlers.length - 1; i >= 0; i--) {
         if (handlers[i].namespace === namespace) {
           handlers.splice(i, 1);
-          handlersRemoved++; // This callback may also be part of a hook that is
+          handlersRemoved++;
+          // This callback may also be part of a hook that is
           // currently executing.  If the callback we're removing
           // comes after the current callback, there's no problem;
           // otherwise we need to decrease the execution index of any
           // other runs by 1 to account for the removed element.
-
           hooksStore.__current.forEach(hookInfo => {
             if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
               hookInfo.currentIndex--;
@@ -302,15 +281,12 @@ function createRemoveHook(hooks, storeKey, removeAll = false) {
         }
       }
     }
-
     if (hookName !== 'hookRemoved') {
       hooks.doAction('hookRemoved', hookName, namespace);
     }
-
     return handlersRemoved;
   };
 }
-
 /* harmony default export */ var build_module_createRemoveHook = (createRemoveHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createHasHook.js
@@ -325,7 +301,6 @@ function createRemoveHook(hooks, storeKey, removeAll = false) {
  *
  * @return {boolean} Whether there are handlers that are attached to the given hook.
  */
-
 /**
  * Returns a function which, when invoked, will return whether any handlers are
  * attached to a particular hook.
@@ -338,16 +313,15 @@ function createRemoveHook(hooks, storeKey, removeAll = false) {
  */
 function createHasHook(hooks, storeKey) {
   return function hasHook(hookName, namespace) {
-    const hooksStore = hooks[storeKey]; // Use the namespace if provided.
+    const hooksStore = hooks[storeKey];
 
+    // Use the namespace if provided.
     if ('undefined' !== typeof namespace) {
       return hookName in hooksStore && hooksStore[hookName].handlers.some(hook => hook.namespace === namespace);
     }
-
     return hookName in hooksStore;
   };
 }
-
 /* harmony default export */ var build_module_createHasHook = (createHasHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createRunHook.js
@@ -361,54 +335,45 @@ function createHasHook(hooks, storeKey) {
  * @param {boolean}              [returnFirstArg=false] Whether each hook callback is expected to
  *                                                      return its first argument.
  *
- * @return {(hookName:string, ...args: unknown[]) => unknown} Function that runs hook callbacks.
+ * @return {(hookName:string, ...args: unknown[]) => undefined|unknown} Function that runs hook callbacks.
  */
 function createRunHook(hooks, storeKey, returnFirstArg = false) {
   return function runHooks(hookName, ...args) {
     const hooksStore = hooks[storeKey];
-
     if (!hooksStore[hookName]) {
       hooksStore[hookName] = {
         handlers: [],
         runs: 0
       };
     }
-
     hooksStore[hookName].runs++;
-    const handlers = hooksStore[hookName].handlers; // The following code is stripped from production builds.
+    const handlers = hooksStore[hookName].handlers;
 
+    // The following code is stripped from production builds.
     if (false) {}
-
     if (!handlers || !handlers.length) {
       return returnFirstArg ? args[0] : undefined;
     }
-
     const hookInfo = {
       name: hookName,
       currentIndex: 0
     };
-
     hooksStore.__current.push(hookInfo);
-
     while (hookInfo.currentIndex < handlers.length) {
       const handler = handlers[hookInfo.currentIndex];
       const result = handler.callback.apply(null, args);
-
       if (returnFirstArg) {
         args[0] = result;
       }
-
       hookInfo.currentIndex++;
     }
-
     hooksStore.__current.pop();
-
     if (returnFirstArg) {
       return args[0];
     }
+    return undefined;
   };
 }
-
 /* harmony default export */ var build_module_createRunHook = (createRunHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createCurrentHook.js
@@ -425,12 +390,10 @@ function createRunHook(hooks, storeKey, returnFirstArg = false) {
 function createCurrentHook(hooks, storeKey) {
   return function currentHook() {
     var _hooksStore$__current;
-
     const hooksStore = hooks[storeKey];
     return (_hooksStore$__current = hooksStore.__current[hooksStore.__current.length - 1]?.name) !== null && _hooksStore$__current !== void 0 ? _hooksStore$__current : null;
   };
 }
-
 /* harmony default export */ var build_module_createCurrentHook = (createCurrentHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createDoingHook.js
@@ -456,23 +419,24 @@ function createCurrentHook(hooks, storeKey) {
  */
 function createDoingHook(hooks, storeKey) {
   return function doingHook(hookName) {
-    const hooksStore = hooks[storeKey]; // If the hookName was not passed, check for any current hook.
+    const hooksStore = hooks[storeKey];
 
+    // If the hookName was not passed, check for any current hook.
     if ('undefined' === typeof hookName) {
       return 'undefined' !== typeof hooksStore.__current[0];
-    } // Return the __current hook.
+    }
 
-
+    // Return the __current hook.
     return hooksStore.__current[0] ? hookName === hooksStore.__current[0].name : false;
   };
 }
-
 /* harmony default export */ var build_module_createDoingHook = (createDoingHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createDidHook.js
 /**
  * Internal dependencies
  */
+
 
 /**
  * @callback DidHook
@@ -493,25 +457,22 @@ function createDoingHook(hooks, storeKey) {
  *
  * @return {DidHook} Function that returns a hook's call count.
  */
-
 function createDidHook(hooks, storeKey) {
   return function didHook(hookName) {
     const hooksStore = hooks[storeKey];
-
     if (!build_module_validateHookName(hookName)) {
       return;
     }
-
     return hooksStore[hookName] && hooksStore[hookName].runs ? hooksStore[hookName].runs : 0;
   };
 }
-
 /* harmony default export */ var build_module_createDidHook = (createDidHook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createHooks.js
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -526,14 +487,13 @@ function createDidHook(hooks, storeKey) {
  *
  * @private
  */
-
 class _Hooks {
   constructor() {
     /** @type {import('.').Store} actions */
     this.actions = Object.create(null);
     this.actions.__current = [];
-    /** @type {import('.').Store} filters */
 
+    /** @type {import('.').Store} filters */
     this.filters = Object.create(null);
     this.filters.__current = [];
     this.addAction = build_module_createAddHook(this, 'actions');
@@ -553,8 +513,8 @@ class _Hooks {
     this.didAction = build_module_createDidHook(this, 'actions');
     this.didFilter = build_module_createDidHook(this, 'filters');
   }
-
 }
+
 /** @typedef {_Hooks} Hooks */
 
 /**
@@ -562,17 +522,16 @@ class _Hooks {
  *
  * @return {Hooks} A Hooks instance.
  */
-
 function createHooks() {
   return new _Hooks();
 }
-
 /* harmony default export */ var build_module_createHooks = (createHooks);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/index.js
 /**
  * Internal dependencies
  */
+
 
 /** @typedef {(...args: any[])=>any} Callback */
 

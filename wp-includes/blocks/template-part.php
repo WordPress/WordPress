@@ -67,14 +67,11 @@ function render_block_core_template_part( $attributes ) {
 			// Else, if the template part was provided by the active theme,
 			// render the corresponding file content.
 			if ( 0 === validate_file( $attributes['slug'] ) ) {
-				$block_template_file = _get_block_template_file( 'wp_template_part', $attributes['slug'] );
-				if ( $block_template_file ) {
-					$template_part_file_path = $block_template_file['path'];
-					$content                 = (string) file_get_contents( $template_part_file_path );
-					$content                 = '' !== $content ? _inject_theme_attribute_in_block_template_content( $content ) : '';
-					if ( isset( $block_template_file['area'] ) ) {
-						$area = $block_template_file['area'];
-					}
+				$block_template = get_block_file_template( $template_part_id, 'wp_template_part' );
+
+				$content = $block_template->content;
+				if ( isset( $block_template->area ) ) {
+					$area = $block_template->area;
 				}
 			}
 

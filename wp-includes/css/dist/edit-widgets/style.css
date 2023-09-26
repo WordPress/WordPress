@@ -362,23 +362,21 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   gap:4px;
   margin-right:-4px;
 }
-.interface-pinned-items .components-button:not(:first-child){
-  display:none;
-}
-@media (min-width:600px){
-  .interface-pinned-items .components-button:not(:first-child){
-    display:flex;
-  }
-}
 .interface-pinned-items .components-button{
+  display:none;
   margin:0;
+}
+.interface-pinned-items .components-button[aria-controls="edit-post:block"],.interface-pinned-items .components-button[aria-controls="edit-post:document"],.interface-pinned-items .components-button[aria-controls="edit-site:block-inspector"],.interface-pinned-items .components-button[aria-controls="edit-site:global-styles"],.interface-pinned-items .components-button[aria-controls="edit-site:template"]{
+  display:flex;
 }
 .interface-pinned-items .components-button svg{
   max-height:24px;
   max-width:24px;
 }
-
 @media (min-width:600px){
+  .interface-pinned-items .components-button{
+    display:flex;
+  }
   .interface-preferences-modal{
     height:calc(100% - 120px);
     width:calc(100% - 32px);
@@ -527,7 +525,6 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
   height:60px;
   justify-content:space-between;
   overflow:auto;
-  padding:0 16px;
 }
 @media (min-width:600px){
   .edit-widgets-header{
@@ -539,6 +536,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
   align-items:center;
   display:flex;
   justify-content:center;
+  padding-left:16px;
 }
 
 .edit-widgets-header__title{
@@ -551,6 +549,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
   align-items:center;
   display:flex;
   gap:4px;
+  padding-right:16px;
 }
 @media (min-width:600px){
   .edit-widgets-header__actions{
@@ -605,9 +604,6 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 
 .edit-widgets-keyboard-shortcut-help-modal__section{
   margin:0 0 2rem;
-}
-.edit-widgets-keyboard-shortcut-help-modal__main-shortcuts .edit-widgets-keyboard-shortcut-help-modal__shortcut-list{
-  margin-top:-25px;
 }
 .edit-widgets-keyboard-shortcut-help-modal__section-title{
   font-size:.9rem;
@@ -860,7 +856,7 @@ body.is-fullscreen-mode .edit-widgets-notices__snackbar{
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
   position:relative;
 }
-.edit-widgets-block-editor,.edit-widgets-block-editor .block-editor-writing-flow,.edit-widgets-block-editor .block-editor-writing-flow>div,.edit-widgets-block-editor>div:last-of-type{
+.edit-widgets-block-editor,.edit-widgets-block-editor .block-editor-writing-flow,.edit-widgets-block-editor>div:last-of-type{
   display:flex;
   flex-direction:column;
   flex-grow:1;
@@ -874,6 +870,89 @@ body.is-fullscreen-mode .edit-widgets-notices__snackbar{
 }
 .edit-widgets-block-editor .components-button.has-icon,.edit-widgets-block-editor .components-button.is-tertiary{
   padding:6px;
+}
+
+.edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+  left:0;
+}
+@media (min-width:783px){
+  .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    left:160px;
+  }
+}
+@media (min-width:783px){
+  .auto-fold .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    left:36px;
+  }
+}
+@media (min-width:961px){
+  .auto-fold .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    left:160px;
+  }
+}
+.folded .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+  left:0;
+}
+@media (min-width:783px){
+  .folded .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    left:36px;
+  }
+}
+
+body.is-fullscreen-mode .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+  left:0 !important;
+}
+
+.edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+  display:block;
+  position:sticky;
+  top:0;
+  width:100%;
+  z-index:31;
+}
+@media (min-width:782px){
+  .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    align-items:center;
+    border-bottom:none;
+    display:flex;
+    height:60px;
+    margin-left:180px;
+    min-height:auto;
+    position:fixed;
+    top:32px;
+    width:calc(100% - 180px);
+  }
+  .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed.is-collapsed,.edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed:empty{
+    width:auto;
+  }
+  .is-fullscreen-mode .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    margin-left:240px;
+    top:0;
+  }
+  .is-fullscreen-mode .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed.is-collapsed,.is-fullscreen-mode .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed:empty{
+    width:auto;
+  }
+  .show-icon-labels .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    margin-left:80px;
+    width:calc(100% - 140px);
+  }
+  .is-fullscreen-mode .show-icon-labels .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    margin-left:144px;
+  }
+  .blocks-widgets-container .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    margin-left:153.6px;
+  }
+  .blocks-widgets-container .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed.is-collapsed{
+    margin-left:268.8px;
+  }
+}
+@media (min-width:960px){
+  .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed,.show-icon-labels .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    width:auto;
+  }
+  .is-fullscreen-mode .edit-widgets-block-editor .block-editor-block-contextual-toolbar.is-fixed{
+    width:calc(100% - 536px);
+  }
 }
 
 .edit-widgets-editor__list-view-panel{

@@ -9,6 +9,15 @@
 	"keywords": [ "link" ],
 	"textdomain": "default",
 	"attributes": {
+		"tagName": {
+			"type": "string",
+			"enum": [ "a", "button" ],
+			"default": "a"
+		},
+		"type": {
+			"type": "string",
+			"default": "button"
+		},
 		"textAlign": {
 			"type": "string"
 		},
@@ -22,14 +31,14 @@
 		"title": {
 			"type": "string",
 			"source": "attribute",
-			"selector": "a",
+			"selector": "a,button",
 			"attribute": "title",
 			"__experimentalRole": "content"
 		},
 		"text": {
 			"type": "string",
 			"source": "html",
-			"selector": "a",
+			"selector": "a,button",
 			"__experimentalRole": "content"
 		},
 		"linkTarget": {
