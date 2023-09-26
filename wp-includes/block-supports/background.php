@@ -58,9 +58,15 @@ function wp_render_background_support( $block_content, $block ) {
 		return $block_content;
 	}
 
-	$background_image_source = _wp_array_get( $block_attributes, array( 'style', 'background', 'backgroundImage', 'source' ), null );
-	$background_image_url    = _wp_array_get( $block_attributes, array( 'style', 'background', 'backgroundImage', 'url' ), null );
-	$background_size         = _wp_array_get( $block_attributes, array( 'style', 'background', 'backgroundSize' ), 'cover' );
+	$background_image_source = isset( $block_attributes['style']['background']['backgroundImage']['source'] )
+		? $block_attributes['style']['background']['backgroundImage']['source']
+		: null;
+	$background_image_url    = isset( $block_attributes['style']['background']['backgroundImage']['url'] )
+		? $block_attributes['style']['background']['backgroundImage']['url']
+		: null;
+	$background_size         = isset( $block_attributes['style']['background']['backgroundSize'] )
+		? $block_attributes['style']['background']['backgroundSize']
+		: 'cover';
 
 	$background_block_styles = array();
 
