@@ -5988,6 +5988,10 @@ function _doing_it_wrong( $function_name, $message, $version ) {
  *
  * @param string $function_name The function that triggered the error.
  * @param string $message       The message explaining the error.
+ *                              The message can contain allowed HTML 'a' (with href), 'code',
+ *                              'br', 'em', and 'strong' tags and http or https protocols.
+ *                              If it contains other HTML tags or protocols, the message should be escaped
+ *                              before passing to this function to avoid being stripped {@see wp_kses()}.
  * @param int    $error_level   Optional. The designated error type for this error.
  *                              Only works with E_USER family of constants. Default E_USER_NOTICE.
  */
@@ -6015,12 +6019,17 @@ function wp_trigger_error( $function_name, $message, $error_level = E_USER_NOTIC
 		$message = sprintf( '%s(): %s', $function_name, $message );
 	}
 
-	/*
-	 * If the message appears in the browser, then it needs to be escaped.
-	 * Note the warning in the `trigger_error()` PHP manual.
-	 * @link https://www.php.net/manual/en/function.trigger-error.php
-	 */
-	$message = esc_html( $message );
+	$message = wp_kses(
+		$message,
+		array(
+			'a' => array( 'href' ),
+			'br',
+			'code',
+			'em',
+			'strong',
+		),
+		array( 'http', 'https' )
+	);
 
 	trigger_error( $message, $error_level );
 }
