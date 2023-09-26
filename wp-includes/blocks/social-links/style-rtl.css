@@ -227,6 +227,10 @@
   background-color:#25d366;
   color:#fff;
 }
+.wp-block-social-links:not(.is-style-logos-only) .wp-social-link-x{
+  background-color:#000;
+  color:#fff;
+}
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-yelp{
   background-color:#d32422;
   color:#fff;
@@ -360,6 +364,9 @@
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-wordpress{
   color:#3499cd;
+}
+.wp-block-social-links.is-style-logos-only .wp-social-link-x{
+  color:#000;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-yelp{
   color:#d32422;

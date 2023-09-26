@@ -3714,6 +3714,7 @@
   grid-gap:32px;
   display:grid;
   grid-template-columns:repeat(1, 1fr);
+  margin-bottom:16px;
 }
 @media (min-width:1080px){
   .block-editor-block-patterns-explorer .block-editor-block-patterns-list{

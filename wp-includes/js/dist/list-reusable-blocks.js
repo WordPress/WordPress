@@ -641,7 +641,7 @@ async function importReusableBlock(file) {
     throw new Error('Invalid JSON file');
   }
   if (parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || typeof parsedContent.title !== 'string' || typeof parsedContent.content !== 'string' || parsedContent.syncStatus && typeof parsedContent.syncStatus !== 'string') {
-    throw new Error('Invalid Pattern JSON file');
+    throw new Error('Invalid pattern JSON file');
   }
   const postType = await external_wp_apiFetch_default()({
     path: `/wp/v2/types/wp_block`
@@ -712,8 +712,8 @@ function ImportForm({
         case 'Invalid JSON file':
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Invalid JSON file');
           break;
-        case 'Invalid Pattern JSON file':
-          uiMessage = (0,external_wp_i18n_namespaceObject.__)('Invalid Pattern JSON file');
+        case 'Invalid pattern JSON file':
+          uiMessage = (0,external_wp_i18n_namespaceObject.__)('Invalid pattern JSON file');
           break;
         default:
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Unknown error');

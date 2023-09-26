@@ -155,7 +155,7 @@ const createPatternFromFile = (file, categories) => async ({
     throw new Error('Invalid JSON file');
   }
   if (parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || typeof parsedContent.title !== 'string' || typeof parsedContent.content !== 'string' || parsedContent.syncStatus && typeof parsedContent.syncStatus !== 'string') {
-    throw new Error('Invalid Pattern JSON file');
+    throw new Error('Invalid pattern JSON file');
   }
   const pattern = await dispatch.createPattern(parsedContent.title, parsedContent.syncStatus, parsedContent.content, categories);
   return pattern;
@@ -511,6 +511,7 @@ const symbol = (0,external_wp_element_namespaceObject.createElement)(external_wp
 
 
 
+
 /**
  * Menu control to convert block(s) to a pattern block.
  *
@@ -573,16 +574,18 @@ function PatternConvertButton({
   const handleSuccess = ({
     pattern
   }) => {
-    const newBlock = (0,external_wp_blocks_namespaceObject.createBlock)('core/block', {
-      ref: pattern.id
-    });
-    replaceBlocks(clientIds, newBlock);
-    setEditingPattern(newBlock.clientId, true);
-    createSuccessNotice(pattern.wp_pattern_sync_status === 'unsynced' ? (0,external_wp_i18n_namespaceObject.sprintf)(
+    if (pattern.wp_pattern_sync_status !== PATTERN_SYNC_TYPES.unsynced) {
+      const newBlock = (0,external_wp_blocks_namespaceObject.createBlock)('core/block', {
+        ref: pattern.id
+      });
+      replaceBlocks(clientIds, newBlock);
+      setEditingPattern(newBlock.clientId, true);
+    }
+    createSuccessNotice(pattern.wp_pattern_sync_status === PATTERN_SYNC_TYPES.unsynced ? (0,external_wp_i18n_namespaceObject.sprintf)(
     // translators: %s: the name the user has given to the pattern.
-    (0,external_wp_i18n_namespaceObject.__)('Unsynced Pattern created: %s'), pattern.title.raw) : (0,external_wp_i18n_namespaceObject.sprintf)(
+    (0,external_wp_i18n_namespaceObject.__)('Unsynced pattern created: %s'), pattern.title.raw) : (0,external_wp_i18n_namespaceObject.sprintf)(
     // translators: %s: the name the user has given to the pattern.
-    (0,external_wp_i18n_namespaceObject.__)('Synced Pattern created: %s'), pattern.title.raw), {
+    (0,external_wp_i18n_namespaceObject.__)('Synced pattern created: %s'), pattern.title.raw), {
       type: 'snackbar',
       id: 'convert-to-pattern-success'
     });

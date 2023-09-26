@@ -105,7 +105,7 @@ const __experimentalConvertBlocksToReusable = (clientIds, title, syncType) => as
     wp_pattern_sync_status: syncType
   } : undefined;
   const reusableBlock = {
-    title: title || (0,external_wp_i18n_namespaceObject.__)('Untitled Pattern block'),
+    title: title || (0,external_wp_i18n_namespaceObject.__)('Untitled pattern block'),
     content: (0,external_wp_blocks_namespaceObject.serialize)(registry.select(external_wp_blockEditor_namespaceObject.store).getBlocksByClientId(clientIds)),
     status: 'publish',
     meta
@@ -339,9 +339,9 @@ function ReusableBlockConvertButton({
       await convertBlocksToReusable(clientIds, reusableBlockTitle, syncType);
       createSuccessNotice(!syncType ? (0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: the name the user has given to the pattern.
-      (0,external_wp_i18n_namespaceObject.__)('Synced Pattern created: %s'), reusableBlockTitle) : (0,external_wp_i18n_namespaceObject.sprintf)(
+      (0,external_wp_i18n_namespaceObject.__)('Synced pattern created: %s'), reusableBlockTitle) : (0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: the name the user has given to the pattern.
-      (0,external_wp_i18n_namespaceObject.__)('Unsynced Pattern created: %s'), reusableBlockTitle), {
+      (0,external_wp_i18n_namespaceObject.__)('Unsynced pattern created: %s'), reusableBlockTitle), {
         type: 'snackbar',
         id: 'convert-to-reusable-block-success'
       });

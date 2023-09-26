@@ -27471,7 +27471,7 @@ function Pagination({
   // translators: %s: Total number of patterns.
   (0,external_wp_i18n_namespaceObject.sprintf)(
   // translators: %s: Total number of patterns.
-  (0,external_wp_i18n_namespaceObject._n)('%s item', '%s items', totalItems), totalItems)), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+  (0,external_wp_i18n_namespaceObject._n)('%s item', '%s items', totalItems), totalItems)), numPages > 1 && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     expanded: false,
     spacing: 3,
     justify: "flex-start",
@@ -27636,7 +27636,7 @@ function BlockPatternList({
   onHover,
   onClickPattern,
   orientation,
-  label = (0,external_wp_i18n_namespaceObject.__)('Block Patterns'),
+  label = (0,external_wp_i18n_namespaceObject.__)('Block patterns'),
   showTitlesAsTooltip,
   pagingProps
 }, ref) {
@@ -27662,7 +27662,7 @@ function BlockPatternList({
     }) : (0,external_wp_element_namespaceObject.createElement)(BlockPatternPlaceholder, {
       key: pattern.name
     });
-  }), pagingProps && pagingProps.numPages > 1 && (0,external_wp_element_namespaceObject.createElement)(Pagination, {
+  }), pagingProps && (0,external_wp_element_namespaceObject.createElement)(Pagination, {
     ...pagingProps
   }));
 }
@@ -28154,14 +28154,14 @@ function PatternList({
   }, (0,external_wp_element_namespaceObject.createElement)(PatternsListHeader, {
     filterValue: searchValue,
     filteredBlockPatternsLength: filteredBlockPatterns.length
-  }), (0,external_wp_element_namespaceObject.createElement)(inserter_listbox, null, hasItems && (0,external_wp_element_namespaceObject.createElement)(block_patterns_list, {
+  }), (0,external_wp_element_namespaceObject.createElement)(inserter_listbox, null, hasItems && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(block_patterns_list, {
     shownPatterns: pagingProps.categoryPatternsAsyncList,
     blockPatterns: pagingProps.categoryPatterns,
     onClickPattern: onClickPattern,
     isDraggable: false
-  }), pagingProps.numPages > 1 && (0,external_wp_element_namespaceObject.createElement)(Pagination, {
+  }), (0,external_wp_element_namespaceObject.createElement)(Pagination, {
     ...pagingProps
-  })));
+  }))));
 }
 /* harmony default export */ var patterns_list = (PatternList);
 
@@ -28431,7 +28431,7 @@ function BlockPatternsSyncFilter({
 const block_patterns_tab_noop = () => {};
 const allPatternsCategory = {
   name: 'allPatterns',
-  label: (0,external_wp_i18n_namespaceObject.__)('All Patterns')
+  label: (0,external_wp_i18n_namespaceObject.__)('All patterns')
 };
 const myPatternsCategory = {
   name: 'myPatterns',
@@ -29525,7 +29525,7 @@ function InserterSearchResults({
     isDraggable: isDraggable
   }));
   const patternsUI = !!filteredBlockPatterns.length && (0,external_wp_element_namespaceObject.createElement)(panel, {
-    title: (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, null, (0,external_wp_i18n_namespaceObject.__)('Block Patterns'))
+    title: (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, null, (0,external_wp_i18n_namespaceObject.__)('Block patterns'))
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-inserter__quick-inserter-patterns"
   }, (0,external_wp_element_namespaceObject.createElement)(block_patterns_list, {
