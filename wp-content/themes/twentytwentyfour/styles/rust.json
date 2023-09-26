@@ -1,0 +1,95 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"title": "Rust",
+	"settings": {
+		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#A62B0C",
+						"#F3F0E7"
+					],
+					"slug": "duotone-1",
+					"name": "Dark rust to beige"
+				}
+			],
+			"gradients": [
+				{
+					"slug": "gradient-1",
+					"gradient": "linear-gradient(to bottom, #A62A0C5C 0%, #F3F0E7 100%)",
+					"name": "Vertical rust to beige"
+				},
+				{
+					"slug": "gradient-7",
+					"gradient": "linear-gradient(to bottom, #A62A0C5C 50%, #F3F0E7 50%)",
+					"name": "Vertical hard rust to beige"
+				}
+			],
+			"palette": [
+				{
+					"color": "#F3F0E7",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#EAE4D7",
+					"name": "Base / 2",
+					"slug": "base-2"
+				},
+				{
+					"color": "#A62B0C",
+					"name": "Contrast",
+					"slug": "contrast"
+				}
+			]
+		},
+		"layout": {
+			"contentSize": "620px",
+			"wideSize": "90vw"
+		},
+		"typography": {
+			"fontSizes": [
+				{
+					"fluid": false,
+					"name": "Small",
+					"size": "1rem",
+					"slug": "small"
+				},
+				{
+					"fluid": false,
+					"name": "Medium",
+					"size": "1.15rem",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"min": "1.777rem",
+						"max": "2.3rem"
+					},
+					"name": "Large",
+					"size": "2.3rem",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"min": "2.3rem",
+						"max": "3.1rem"
+					},
+					"name": "Extra Large",
+					"size": "2.369rem",
+					"slug": "x-large"
+				},
+				{
+					"fluid": {
+						"min": "3.1rem",
+						"max": "4.2rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "4.2rem",
+					"slug": "xx-large"
+				}
+			]
+		}
+	}
+}

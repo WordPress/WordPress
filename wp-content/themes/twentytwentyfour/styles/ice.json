@@ -1,0 +1,108 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"title": "Ice",
+	"settings": {
+		"typography": {
+			"fontFamilies": [
+				{
+					"fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
+					"name": "System Font",
+					"slug": "heading"
+				},
+				{
+					"fontFamily": "\"Inter\", sans-serif",
+					"name": "Inter",
+					"slug": "body"
+				}
+			]
+		}
+	},
+	"styles": {
+		"blocks": {
+			"core/code": {
+				"border": {
+					"bottom": {
+						"style": "none",
+						"width": "0px"
+					},
+					"left": {
+						"style": "none",
+						"width": "0px"
+					},
+					"radius": "16px",
+					"right": {
+						"style": "none",
+						"width": "0px"
+					},
+					"top": {
+						"style": "none",
+						"width": "0px"
+					}
+				},
+				"color": {
+					"background": "var(--wp--preset--color--base-2)",
+					"text": "var(--wp--preset--color--contrast-2)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--contrast-2)"
+						}
+					}
+				}
+			},
+			"core/pullquote": {
+				"border": {
+					"bottom": {
+						"color": "var(--wp--preset--color--contrast)",
+						"style": "solid",
+						"width": "2px"
+					},
+					"left": {
+						"style": "none",
+						"width": "0px"
+					},
+					"radius": "0px",
+					"right": {
+						"style": "none",
+						"width": "0px"
+					},
+					"top": {
+						"color": "var(--wp--preset--color--contrast)",
+						"style": "solid",
+						"width": "2px"
+					}
+				},
+				"typography": {
+					"fontStyle": "normal",
+					"fontWeight": "700",
+					"lineHeight": "1.3"
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--large)",
+					"fontStyle": "normal",
+					"fontWeight": "700"
+				},
+				"variations": {
+					"plain": {
+						"typography": {
+							"fontStyle": "normal",
+							"fontWeight": "400"
+						}
+					}
+				}
+			}
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontStyle": "normal",
+					"fontWeight": "700"
+				}
+			}
+		}
+	}
+}

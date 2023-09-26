@@ -1,0 +1,6 @@
+.wp-block-button.is-style-outline
+	> .wp-block-button__link:not(.has-background):hover {
+	background-color: var(--wp--preset--color--contrast-2);
+	color: var(--wp--preset--color--base);
+	border-color: var(--wp--preset--color--contrast-2);
+}
