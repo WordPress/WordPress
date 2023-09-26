@@ -723,29 +723,28 @@ function get_dynamic_block_names() {
 }
 
 /**
- * Retrieves block types (and positions) hooked into the given block.
+ * Retrieves block types hooked into the given block, grouped by their relative position.
  *
  * @since 6.4.0
  *
- * @param string $name              Block type name including namespace.
- * @param string $relative_position Optional. Relative position of the hooked block. Default empty string.
- * @return array Associative array of `$block_type_name => $position` pairs.
+ * @param string $name Block type name including namespace.
+ * @return array[] Array of block types grouped by their relative position.
  */
-function get_hooked_blocks( $name, $relative_position = '' ) {
+function get_hooked_blocks( $name ) {
 	$block_types   = WP_Block_Type_Registry::get_instance()->get_all_registered();
 	$hooked_blocks = array();
 	foreach ( $block_types as $block_type ) {
 		if ( ! ( $block_type instanceof WP_Block_Type ) || ! is_array( $block_type->block_hooks ) ) {
 			continue;
 		}
-		foreach ( $block_type->block_hooks as $anchor_block_type => $position ) {
+		foreach ( $block_type->block_hooks as $anchor_block_type => $relative_position ) {
 			if ( $anchor_block_type !== $name ) {
 				continue;
 			}
-			if ( $relative_position && $relative_position !== $position ) {
-				continue;
+			if ( ! isset( $hooked_blocks[ $relative_position ] ) ) {
+				$hooked_blocks[ $relative_position ] = array();
 			}
-			$hooked_blocks[ $block_type->name ] = $position;
+			$hooked_blocks[ $relative_position ][] = $block_type->name;
 		}
 	}
 	return $hooked_blocks;
@@ -787,7 +786,11 @@ function make_before_block_visitor( $context ) {
 			// Candidate for first-child insertion.
 			$relative_position  = 'first_child';
 			$anchor_block_type  = $parent_block['blockName'];
-			$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+			$hooked_block_types = get_hooked_blocks( $anchor_block_type );
+			$hooked_block_types = isset( $hooked_block_types[ $relative_position ] )
+				? $hooked_block_types[ $relative_position ]
+				: array();
+
 			/**
 			 * Filters the list of hooked block types for a given anchor block type and relative position.
 			 *
@@ -807,7 +810,11 @@ function make_before_block_visitor( $context ) {
 
 		$relative_position  = 'before';
 		$anchor_block_type  = $block['blockName'];
-		$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+		$hooked_block_types = get_hooked_blocks( $anchor_block_type );
+		$hooked_block_types = isset( $hooked_block_types[ $relative_position ] )
+			? $hooked_block_types[ $relative_position ]
+			: array();
+
 		/** This filter is documented in wp-includes/blocks.php */
 		$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 		foreach ( $hooked_block_types as $hooked_block_type ) {
@@ -849,7 +856,11 @@ function make_after_block_visitor( $context ) {
 
 		$relative_position  = 'after';
 		$anchor_block_type  = $block['blockName'];
-		$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+		$hooked_block_types = get_hooked_blocks( $anchor_block_type );
+		$hooked_block_types = isset( $hooked_block_types[ $relative_position ] )
+			? $hooked_block_types[ $relative_position ]
+			: array();
+
 		/** This filter is documented in wp-includes/blocks.php */
 		$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 		foreach ( $hooked_block_types as $hooked_block_type ) {
@@ -860,7 +871,11 @@ function make_after_block_visitor( $context ) {
 			// Candidate for last-child insertion.
 			$relative_position  = 'last_child';
 			$anchor_block_type  = $parent_block['blockName'];
-			$hooked_block_types = array_keys( get_hooked_blocks( $anchor_block_type, $relative_position ) );
+			$hooked_block_types = get_hooked_blocks( $anchor_block_type );
+			$hooked_block_types = isset( $hooked_block_types[ $relative_position ] )
+				? $hooked_block_types[ $relative_position ]
+				: array();
+
 			/** This filter is documented in wp-includes/blocks.php */
 			$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 			foreach ( $hooked_block_types as $hooked_block_type ) {
