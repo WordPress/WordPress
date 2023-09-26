@@ -776,6 +776,24 @@ function update_option( $option, $value, $autoload = null ) {
 	 */
 	$value = apply_filters( 'pre_update_option', $value, $option, $old_value );
 
+	/*
+	 * To get the actual raw old value from the database, any existing pre filters need to be temporarily disabled.
+	 * Immediately after getting the raw value, they are reinstated.
+	 * The raw value is only used to determine whether a value is present in the database. It is not used anywhere
+	 * else, and is not passed to any of the hooks either.
+	 */
+	if ( has_filter( "pre_option_{$option}" ) ) {
+		global $wp_filter;
+
+		$old_filters = $wp_filter[ "pre_option_{$option}" ];
+		unset( $wp_filter[ "pre_option_{$option}" ] );
+
+		$raw_old_value                       = get_option( $option );
+		$wp_filter[ "pre_option_{$option}" ] = $old_filters;
+	} else {
+		$raw_old_value = $old_value;
+	}
+
 	/** This filter is documented in wp-includes/option.php */
 	$default_value = apply_filters( "default_option_{$option}", false, $option, false );
 
@@ -787,11 +805,11 @@ function update_option( $option, $value, $autoload = null ) {
 	 *
 	 * See https://core.trac.wordpress.org/ticket/38903 and https://core.trac.wordpress.org/ticket/22192.
 	 */
-	if ( $old_value !== $default_value && _is_equal_database_value( $old_value, $value ) ) {
+	if ( $raw_old_value !== $default_value && _is_equal_database_value( $raw_old_value, $value ) ) {
 		return false;
 	}
 
-	if ( $old_value === $default_value ) {
+	if ( $raw_old_value === $default_value ) {
 
 		// Default setting for new options is 'yes'.
 		if ( null === $autoload ) {
