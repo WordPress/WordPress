@@ -1028,6 +1028,7 @@ function wp_redirect_admin_locations() {
 
 	$logins = array(
 		home_url( 'wp-login.php', 'relative' ),
+		home_url( 'login.php', 'relative' ),
 		home_url( 'login', 'relative' ),
 		site_url( 'login', 'relative' ),
 	);
