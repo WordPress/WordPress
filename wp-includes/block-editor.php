@@ -359,10 +359,23 @@ function _wp_get_iframed_editor_assets() {
 		}
 	}
 
+	/**
+	 * Remove the deprecated `print_emoji_styles` handler.
+	 * It avoids breaking style generation with a deprecation message.
+	 */
+	$has_emoji_styles = has_action( 'wp_print_styles', 'print_emoji_styles' );
+	if ( $has_emoji_styles ) {
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	}
+
 	ob_start();
 	wp_print_styles();
 	wp_print_font_faces();
 	$styles = ob_get_clean();
+
+	if ( $has_emoji_styles ) {
+		add_action( 'wp_print_styles', 'print_emoji_styles' );
+	}
 
 	ob_start();
 	wp_print_head_scripts();
