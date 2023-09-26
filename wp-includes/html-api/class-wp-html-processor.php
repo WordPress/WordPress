@@ -357,6 +357,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *                                     Defaults to first tag.
 	 *     @type string|null $class_name   Tag must contain this whole class name to match.
 	 *     @type string[]    $breadcrumbs  DOM sub-path at which element is found, e.g. `array( 'FIGURE', 'IMG' )`.
+	 *                                     May also contain the wildcard `*` which matches a single element, e.g. `array( 'SECTION', '*' )`.
 	 * }
 	 * @return bool Whether a tag was matched.
 	 */
@@ -406,26 +407,67 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$breadcrumbs  = $query['breadcrumbs'];
 		$match_offset = isset( $query['match_offset'] ) ? (int) $query['match_offset'] : 1;
 
-		$crumb  = end( $breadcrumbs );
-		$target = strtoupper( $crumb );
 		while ( $match_offset > 0 && $this->step() ) {
-			if ( $target !== $this->get_tag() ) {
-				continue;
+			if ( $this->matches_breadcrumbs( $breadcrumbs ) && 0 === --$match_offset ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the currently-matched tag matches the given breadcrumbs.
+	 *
+	 * A "*" represents a single tag wildcard, where any tag matches, but not no tags.
+	 *
+	 * At some point this function _may_ support a `**` syntax for matching any number
+	 * of unspecified tags in the breadcrumb stack. This has been intentionally left
+	 * out, however, to keep this function simple and to avoid introducing backtracking,
+	 * which could open up surprising performance breakdowns.
+	 *
+	 * Example:
+	 *
+	 *     $processor = WP_HTML_Processor::createFragment( '<div><span><figure><img></figure></span></div>' );
+	 *     $processor->next_tag( 'img' );
+	 *     true  === $processor->matches_breadcrumbs( array( 'figure', 'img' ) );
+	 *     true  === $processor->matches_breadcrumbs( array( 'span', 'figure', 'img' ) );
+	 *     false === $processor->matches_breadcrumbs( array( 'span', 'img' ) );
+	 *     true  === $processor->matches_breadcrumbs( array( 'span', '*', 'img' ) );
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string[] $breadcrumbs DOM sub-path at which element is found, e.g. `array( 'FIGURE', 'IMG' )`.
+	 *                              May also contain the wildcard `*` which matches a single element, e.g. `array( 'SECTION', '*' )`.
+	 * @return bool Whether the currently-matched tag is found at the given nested structure.
+	 */
+	public function matches_breadcrumbs( $breadcrumbs ) {
+		if ( ! $this->get_tag() ) {
+			return false;
+		}
+
+		// Everything matches when there are zero constraints.
+		if ( 0 === count( $breadcrumbs ) ) {
+			return true;
+		}
+
+		// Start at the last crumb.
+		$crumb = end( $breadcrumbs );
+
+		if ( '*' !== $crumb && $this->get_tag() !== strtoupper( $crumb ) ) {
+			return false;
+		}
+
+		foreach ( $this->state->stack_of_open_elements->walk_up() as $node ) {
+			$crumb = strtoupper( current( $breadcrumbs ) );
+
+			if ( '*' !== $crumb && $node->node_name !== $crumb ) {
+				return false;
 			}
 
-			// Look up the stack to see if the breadcrumbs match.
-			foreach ( $this->state->stack_of_open_elements->walk_up() as $node ) {
-				if ( strtoupper( $crumb ) !== $node->node_name ) {
-					break;
-				}
-
-				$crumb = prev( $breadcrumbs );
-				if ( false === $crumb && 0 === --$match_offset && ! $this->is_tag_closer() ) {
-					return true;
-				}
+			if ( false === prev( $breadcrumbs ) ) {
+				return true;
 			}
-
-			$crumb = end( $breadcrumbs );
 		}
 
 		return false;
