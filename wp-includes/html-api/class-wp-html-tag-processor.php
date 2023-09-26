@@ -627,6 +627,94 @@ class WP_HTML_Tag_Processor {
 
 
 	/**
+	 * Generator for a foreach loop to step through each class name for the matched tag.
+	 *
+	 * This generator function is designed to be used inside a "foreach" loop.
+	 *
+	 * Example:
+	 *
+	 *     $p = new WP_HTML_Tag_Processor( "<div class='free &lt;egg&lt;\tlang-en'>" );
+	 *     $p->next_tag();
+	 *     foreach ( $p->class_list() as $class_name ) {
+	 *         echo "{$class_name} ";
+	 *     }
+	 *     // Outputs: "free <egg> lang-en "
+	 *
+	 * @since 6.4.0
+	 */
+	public function class_list() {
+		/** @var string $class contains the string value of the class attribute, with character references decoded. */
+		$class = $this->get_attribute( 'class' );
+
+		if ( ! is_string( $class ) ) {
+			return;
+		}
+
+		$seen = array();
+
+		$at = 0;
+		while ( $at < strlen( $class ) ) {
+			// Skip past any initial boundary characters.
+			$at += strspn( $class, " \t\f\r\n", $at );
+			if ( $at >= strlen( $class ) ) {
+				return;
+			}
+
+			// Find the byte length until the next boundary.
+			$length = strcspn( $class, " \t\f\r\n", $at );
+			if ( 0 === $length ) {
+				return;
+			}
+
+			/*
+			 * CSS class names are case-insensitive in the ASCII range.
+			 *
+			 * @see https://www.w3.org/TR/CSS2/syndata.html#x1
+			 */
+			$name = strtolower( substr( $class, $at, $length ) );
+			$at  += $length;
+
+			/*
+			 * It's expected that the number of class names for a given tag is relatively small.
+			 * Given this, it is probably faster overall to scan an array for a value rather
+			 * than to use the class name as a key and check if it's a key of $seen.
+			 */
+			if ( in_array( $name, $seen, true ) ) {
+				continue;
+			}
+
+			$seen[] = $name;
+			yield $name;
+		}
+	}
+
+
+	/**
+	 * Returns if a matched tag contains the given ASCII case-insensitive class name.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $wanted_class Look for this CSS class name, ASCII case-insensitive.
+	 * @return bool|null Whether the matched tag contains the given class name, or null if not matched.
+	 */
+	public function has_class( $wanted_class ) {
+		if ( ! $this->tag_name_starts_at ) {
+			return null;
+		}
+
+		$wanted_class = strtolower( $wanted_class );
+
+		foreach ( $this->class_list() as $class_name ) {
+			if ( $class_name === $wanted_class ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
 	 * Sets a bookmark in the HTML document.
 	 *
 	 * Bookmarks represent specific places or tokens in the HTML
@@ -2347,64 +2435,7 @@ class WP_HTML_Tag_Processor {
 			}
 		}
 
-		$needs_class_name = null !== $this->sought_class_name;
-
-		if ( $needs_class_name && ! isset( $this->attributes['class'] ) ) {
-			return false;
-		}
-
-		/*
-		 * Match byte-for-byte (case-sensitive and encoding-form-sensitive) on the class name.
-		 *
-		 * This will overlook certain classes that exist in other lexical variations
-		 * than was supplied to the search query, but requires more complicated searching.
-		 */
-		if ( $needs_class_name ) {
-			$class_start = $this->attributes['class']->value_starts_at;
-			$class_end   = $class_start + $this->attributes['class']->value_length;
-			$class_at    = $class_start;
-
-			/*
-			 * Ensure that boundaries surround the class name to avoid matching on
-			 * substrings of a longer name. For example, the sequence "not-odd"
-			 * should not match for the class "odd" even though "odd" is found
-			 * within the class attribute text.
-			 *
-			 * See https://html.spec.whatwg.org/#attributes-3
-			 * See https://html.spec.whatwg.org/#space-separated-tokens
-			 */
-			while (
-				// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-				false !== ( $class_at = strpos( $this->html, $this->sought_class_name, $class_at ) ) &&
-				$class_at < $class_end
-			) {
-				/*
-				 * Verify this class starts at a boundary.
-				 */
-				if ( $class_at > $class_start ) {
-					$character = $this->html[ $class_at - 1 ];
-
-					if ( ' ' !== $character && "\t" !== $character && "\f" !== $character && "\r" !== $character && "\n" !== $character ) {
-						$class_at += strlen( $this->sought_class_name );
-						continue;
-					}
-				}
-
-				/*
-				 * Verify this class ends at a boundary as well.
-				 */
-				if ( $class_at + strlen( $this->sought_class_name ) < $class_end ) {
-					$character = $this->html[ $class_at + strlen( $this->sought_class_name ) ];
-
-					if ( ' ' !== $character && "\t" !== $character && "\f" !== $character && "\r" !== $character && "\n" !== $character ) {
-						$class_at += strlen( $this->sought_class_name );
-						continue;
-					}
-				}
-
-				return true;
-			}
-
+		if ( null !== $this->sought_class_name && ! $this->has_class( $this->sought_class_name ) ) {
 			return false;
 		}
 
