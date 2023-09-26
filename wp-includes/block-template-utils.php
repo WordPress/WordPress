@@ -471,50 +471,6 @@ function _flatten_blocks( &$blocks ) {
 }
 
 /**
- * Parses wp_template content and injects the active theme's
- * stylesheet as a theme attribute into each wp_template_part
- *
- * @since 5.9.0
- * @deprecated 6.4.0 Use traverse_and_serialize_blocks( parse_blocks( $template_content ), '_inject_theme_attribute_in_template_part_block' ) instead.
- * @access private
- *
- * @param string $template_content serialized wp_template content.
- * @return string Updated 'wp_template' content.
- */
-function _inject_theme_attribute_in_block_template_content( $template_content ) {
-	_deprecated_function(
-		__FUNCTION__,
-		'6.4.0',
-		'traverse_and_serialize_blocks( parse_blocks( $template_content ), "_inject_theme_attribute_in_template_part_block" )'
-	);
-
-	$has_updated_content = false;
-	$new_content         = '';
-	$template_blocks     = parse_blocks( $template_content );
-
-	$blocks = _flatten_blocks( $template_blocks );
-	foreach ( $blocks as &$block ) {
-		if (
-			'core/template-part' === $block['blockName'] &&
-			! isset( $block['attrs']['theme'] )
-		) {
-			$block['attrs']['theme'] = get_stylesheet();
-			$has_updated_content     = true;
-		}
-	}
-
-	if ( $has_updated_content ) {
-		foreach ( $template_blocks as &$block ) {
-			$new_content .= serialize_block( $block );
-		}
-
-		return $new_content;
-	}
-
-	return $template_content;
-}
-
-/**
  * Injects the active theme's stylesheet as a `theme` attribute
  * into a given template part block.
  *
