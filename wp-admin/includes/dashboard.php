@@ -1454,6 +1454,15 @@ function wp_print_community_events_templates() {
 					<div class="dashicons event-icon" aria-hidden="true"></div>
 					<div class="event-info-inner">
 						<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+						<# if ( event.type ) {
+							const titleCaseEventType = event.type.replace(
+								/\w\S*/g,
+								function ( type ) { return type.charAt(0).toUpperCase() + type.substr(1).toLowerCase(); }
+							);
+						#>
+							{{ 'wordcamp' === event.type ? 'WordCamp' : titleCaseEventType }}
+							<span class="ce-separator"></span>
+						<# } #>
 						<span class="event-city">{{ event.location.location }}</span>
 					</div>
 				</div>

@@ -559,6 +559,10 @@
 	display: block;
 }
 
+.community-events .ce-separator::before {
+	content: "\2022";
+}
+
 .event-icon {
 	height: 18px;
 	padding-left: 10px;
