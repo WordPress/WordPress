@@ -136,8 +136,9 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 			)
 		);
 
-		// We're not supporting sitemaps for author pages for attachments.
+		// We're not supporting sitemaps for author pages for attachments and pages.
 		unset( $public_post_types['attachment'] );
+		unset( $public_post_types['page'] );
 
 		/**
 		 * Filters the query arguments for authors with public posts.
