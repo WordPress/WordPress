@@ -1672,6 +1672,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		$info = $z->statIndex( $i );
 
 		if ( ! $info ) {
+			$z->close();
 			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 		}
 
@@ -1709,6 +1710,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( WP_CONTENT_DIR ) : false;
 
 		if ( $available_space && ( $required_space > $available_space ) ) {
+			$z->close();
 			return new WP_Error(
 				'disk_full_unzip_file',
 				__( 'Could not copy files. You may have run out of disk space.' ),
@@ -1746,6 +1748,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 	foreach ( $needed_dirs as $_dir ) {
 		// Only check to see if the Dir exists upon creation failure. Less I/O this way.
 		if ( ! $wp_filesystem->mkdir( $_dir, FS_CHMOD_DIR ) && ! $wp_filesystem->is_dir( $_dir ) ) {
+			$z->close();
 			return new WP_Error( 'mkdir_failed_ziparchive', __( 'Could not create directory.' ), $_dir );
 		}
 	}
@@ -1774,6 +1777,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		$info = $z->statIndex( $i );
 
 		if ( ! $info ) {
+			$z->close();
 			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 		}
 
@@ -1793,10 +1797,12 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 		$contents = $z->getFromIndex( $i );
 
 		if ( false === $contents ) {
+			$z->close();
 			return new WP_Error( 'extract_failed_ziparchive', __( 'Could not extract file from archive.' ), $info['name'] );
 		}
 
 		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE ) ) {
+			$z->close();
 			return new WP_Error( 'copy_failed_ziparchive', __( 'Could not copy file.' ), $info['name'] );
 		}
 	}
