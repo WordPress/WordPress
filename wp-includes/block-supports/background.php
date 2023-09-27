@@ -48,7 +48,7 @@ function wp_register_background_support( $block_type ) {
  */
 function wp_render_background_support( $block_content, $block ) {
 	$block_type                   = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$block_attributes             = $block['attrs'];
+	$block_attributes             = ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) ? $block['attrs'] : array();
 	$has_background_image_support = block_has_support( $block_type, array( 'background', 'backgroundImage' ), false );
 
 	if (
