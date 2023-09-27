@@ -1284,8 +1284,6 @@ function add_magic_quotes( $input_array ) {
 			$input_array[ $k ] = add_magic_quotes( $v );
 		} elseif ( is_string( $v ) ) {
 			$input_array[ $k ] = addslashes( $v );
-		} else {
-			continue;
 		}
 	}
 
