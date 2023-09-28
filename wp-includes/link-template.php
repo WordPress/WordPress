@@ -2511,7 +2511,8 @@ function get_next_posts_page_link( $max_page = 0 ) {
  * @return string|void The link URL for next posts page if `$display = false`.
  */
 function next_posts( $max_page = 0, $display = true ) {
-	$output = esc_url( get_next_posts_page_link( $max_page ) );
+	$link   = get_next_posts_page_link( $max_page );
+	$output = $link ? esc_url( $link ) : '';
 
 	if ( $display ) {
 		echo $output;
