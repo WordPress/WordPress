@@ -205,7 +205,7 @@ function the_block_template_skip_link() {
 	}() );
 	</script>
 	<?php
-	$skip_link_script = str_replace( array( '<script>', '</script>' ), '', ob_get_clean() );
+	$skip_link_script = wp_remove_surrounding_empty_script_tags( ob_get_clean() );
 	$script_handle    = 'wp-block-template-skip-link';
 	wp_register_script( $script_handle, false );
 	wp_add_inline_script( $script_handle, $skip_link_script );
