@@ -181,7 +181,7 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	$script_uri       = get_block_asset_url( $script_path_norm );
 
 	$script_args = array();
-	if ( 'viewScript' === $field_name ) {
+	if ( 'viewScript' === $field_name && $script_uri ) {
 		$script_args['strategy'] = 'defer';
 	}
 
