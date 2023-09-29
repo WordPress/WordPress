@@ -421,7 +421,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		if ( ! empty( $meta ) ) {
 			foreach ( $revisioned_meta_keys as $meta_key ) {
 				if ( isset( $meta[ $meta_key ] ) ) {
-					update_metadata( 'post', $revision_id, $meta_key, $meta[ $meta_key ] );
+					update_metadata( 'post', $revision_id, $meta_key, wp_slash( $meta[ $meta_key ] ) );
 				}
 			}
 		}
