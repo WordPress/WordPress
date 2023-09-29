@@ -295,8 +295,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			// Out-of-bounds, run the query again without LIMIT for total count.
 			unset( $prepared_args['number'], $prepared_args['offset'] );
 
-			$query                  = new WP_Comment_Query();
-			$prepared_args['count'] = true;
+			$query                    = new WP_Comment_Query();
+			$prepared_args['count']   = true;
+			$prepared_args['orderby'] = 'none';
 
 			$total_comments = $query->query( $prepared_args );
 			$max_pages      = ceil( $total_comments / $request['per_page'] );
@@ -1188,8 +1189,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		// Only grab one comment to verify the comment has children.
 		$comment_children = $comment->get_children(
 			array(
-				'number' => 1,
-				'count'  => true,
+				'count'   => true,
+				'orderby' => 'none',
 			)
 		);
 

@@ -396,6 +396,7 @@ function get_comment_count( $post_id = 0 ) {
 	$args = array(
 		'count'                     => true,
 		'update_comment_meta_cache' => false,
+		'orderby'                   => 'none',
 	);
 	if ( $post_id > 0 ) {
 		$args['post_id'] = $post_id;
@@ -1114,6 +1115,7 @@ function get_page_of_comment( $comment_id, $args = array() ) {
 			'fields'     => 'ids',
 			'count'      => true,
 			'status'     => 'approve',
+			'orderby'    => 'none',
 			'parent'     => 0,
 			'date_query' => array(
 				array(

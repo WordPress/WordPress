@@ -177,9 +177,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 			array_merge(
 				$args,
 				array(
-					'count'  => true,
-					'offset' => 0,
-					'number' => 0,
+					'count'   => true,
+					'offset'  => 0,
+					'number'  => 0,
+					'orderby' => 'none',
 				)
 			)
 		);
@@ -298,6 +299,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 						'post_id' => $post_id ? $post_id : 0,
 						'user_id' => $current_user_id,
 						'count'   => true,
+						'orderby' => 'none',
 					)
 				);
 				$link               = add_query_arg( 'user_id', $current_user_id, $link );
@@ -518,8 +520,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 			foreach ( $comment_types as $type => $label ) {
 				if ( get_comments(
 					array(
-						'number' => 1,
-						'type'   => $type,
+						'count'   => true,
+						'orderby' => 'none',
+						'type'    => $type,
 					)
 				) ) {
 					printf(
