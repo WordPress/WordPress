@@ -419,7 +419,7 @@ function login_footer( $input_id = '' ) {
 	if ( ! empty( $input_id ) ) {
 		ob_start();
 		?>
-		<script type="text/javascript">
+		<script>
 		try{document.getElementById('<?php echo $input_id; ?>').focus();}catch(e){}
 		if(typeof wpOnload==='function')wpOnload();
 		</script>
