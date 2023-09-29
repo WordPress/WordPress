@@ -142,7 +142,7 @@ class WP_Block_Supports {
 		$block_registry         = WP_Block_Type_Registry::get_instance();
 		$registered_block_types = $block_registry->get_all_registered();
 		foreach ( $registered_block_types as $block_type ) {
-			if ( ! property_exists( $block_type, 'supports' ) ) {
+			if ( ! ( $block_type instanceof WP_Block_Type ) ) {
 				continue;
 			}
 			if ( ! $block_type->attributes ) {

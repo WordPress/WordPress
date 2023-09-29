@@ -17,7 +17,7 @@
  */
 function wp_register_colors_support( $block_type ) {
 	$color_support = false;
-	if ( property_exists( $block_type, 'supports' ) ) {
+	if ( $block_type instanceof WP_Block_Type ) {
 		$color_support = isset( $block_type->supports['color'] ) ? $block_type->supports['color'] : false;
 	}
 	$has_text_colors_support       = true === $color_support ||
