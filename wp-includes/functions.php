@@ -3317,7 +3317,6 @@ function wp_get_image_mime( $file ) {
 				// Not using wp_getimagesize() here to avoid an infinite loop.
 				$imagesize = getimagesize( $file );
 			} else {
-				// phpcs:ignore WordPress.PHP.NoSilencedErrors
 				$imagesize = @getimagesize( $file );
 			}
 

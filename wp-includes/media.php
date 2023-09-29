@@ -5477,10 +5477,8 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
 		 * See https://core.trac.wordpress.org/ticket/42480
 		 */
 		if ( 2 === func_num_args() ) {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors
 			$info = @getimagesize( $filename, $image_info );
 		} else {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors
 			$info = @getimagesize( $filename );
 		}
 	}

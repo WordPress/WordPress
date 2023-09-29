@@ -782,7 +782,7 @@ function wp_read_image_metadata( $file ) {
 			) {
 				$iptc = iptcparse( $info['APP13'] );
 			} else {
-				// phpcs:ignore WordPress.PHP.NoSilencedErrors -- Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
+				// Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
 				$iptc = @iptcparse( $info['APP13'] );
 			}
 
@@ -855,7 +855,7 @@ function wp_read_image_metadata( $file ) {
 		) {
 			$exif = exif_read_data( $file );
 		} else {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors -- Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
+			// Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
 			$exif = @exif_read_data( $file );
 		}
 
