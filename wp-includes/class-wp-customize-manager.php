@@ -2089,22 +2089,13 @@ final class WP_Customize_Manager {
 		?>
 		<script>
 		( function() {
-			var urlParser, oldQueryParams, newQueryParams, i;
 			if ( parent !== window ) {
 				return;
 			}
-			urlParser = document.createElement( 'a' );
-			urlParser.href = location.href;
-			oldQueryParams = urlParser.search.substr( 1 ).split( /&/ );
-			newQueryParams = [];
-			for ( i = 0; i < oldQueryParams.length; i += 1 ) {
-				if ( ! /^customize_messenger_channel=/.test( oldQueryParams[ i ] ) ) {
-					newQueryParams.push( oldQueryParams[ i ] );
-				}
-			}
-			urlParser.search = newQueryParams.join( '&' );
-			if ( urlParser.search !== location.search ) {
-				location.replace( urlParser.href );
+			const url = new URL( location.href );
+			if ( url.searchParams.has( 'customize_messenger_channel' ) ) {
+				url.searchParams.delete( 'customize_messenger_channel' );
+				location.replace( url );
 			}
 		} )();
 		</script>
