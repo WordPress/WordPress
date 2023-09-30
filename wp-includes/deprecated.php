@@ -4008,7 +4008,7 @@ function wp_make_content_images_responsive( $content ) {
  * @access private
  * @deprecated 5.5.0
  */
-function wp_unregister_GLOBALS() {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function wp_unregister_GLOBALS() {
 	// register_globals was deprecated in PHP 5.3 and removed entirely in PHP 5.4.
 	_deprecated_function( __FUNCTION__, '5.5.0' );
 }
