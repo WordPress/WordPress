@@ -2011,11 +2011,8 @@ function wp_autosave_post_revisioned_meta_fields( $new_autosave ) {
 	 *
 	 * Ignoring sanitization to avoid altering meta. Ignoring the nonce check because
 	 * this is hooked on inner core hooks where a valid nonce was already checked.
-	 *
-	 * @phpcs:disable WordPress.Security
 	 */
 	$posted_data = isset( $_POST['data']['wp_autosave'] ) ? $_POST['data']['wp_autosave'] : $_POST;
-	// phpcs:enable
 
 	$post_type = get_post_type( $new_autosave['post_parent'] );
 
