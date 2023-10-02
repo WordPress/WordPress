@@ -110,7 +110,7 @@ class WP_HTML_Open_Elements {
 	 * @param string[] $termination_list List of elements that terminate the search.
 	 * @return bool Whether the element was found in a specific scope.
 	 */
-	public function has_element_in_specific_scope( $tag_name, $termination_list ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	public function has_element_in_specific_scope( $tag_name, $termination_list ) {
 		foreach ( $this->walk_up() as $node ) {
 			if ( $node->node_name === $tag_name ) {
 				return true;
@@ -167,7 +167,7 @@ class WP_HTML_Open_Elements {
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
-	public function has_element_in_list_item_scope( $tag_name ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	public function has_element_in_list_item_scope( $tag_name ) {
 		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on list item scope.' );
 
 		return false; // The linter requires this unreachable code until the function is implemented and can return.
@@ -199,7 +199,7 @@ class WP_HTML_Open_Elements {
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
-	public function has_element_in_table_scope( $tag_name ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	public function has_element_in_table_scope( $tag_name ) {
 		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on table scope.' );
 
 		return false; // The linter requires this unreachable code until the function is implemented and can return.
@@ -217,7 +217,7 @@ class WP_HTML_Open_Elements {
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
-	public function has_element_in_select_scope( $tag_name ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	public function has_element_in_select_scope( $tag_name ) {
 		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on select scope.' );
 
 		return false; // The linter requires this unreachable code until the function is implemented and can return.

@@ -50,7 +50,7 @@ function wp_register_dimensions_support( $block_type ) {
  * @param array         $block_attributes Block attributes.
  * @return array Block dimensions CSS classes and inline styles.
  */
-function wp_apply_dimensions_support( $block_type, $block_attributes ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+function wp_apply_dimensions_support( $block_type, $block_attributes ) {
 	if ( wp_should_skip_block_supports_serialization( $block_type, 'dimensions' ) ) {
 		return array();
 	}

@@ -106,7 +106,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		$query_args       = array_intersect_key( $request->get_params(), $valid_query_args );
 
 		$query_args['locale']             = get_user_locale();
-		$query_args['wp-version']         = $wp_version; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable -- it's defined in `version.php` above.
+		$query_args['wp-version']         = $wp_version;
 		$query_args['pattern-categories'] = isset( $request['category'] ) ? $request['category'] : false;
 		$query_args['pattern-keywords']   = isset( $request['keyword'] ) ? $request['keyword'] : false;
 
