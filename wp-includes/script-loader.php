@@ -3188,6 +3188,7 @@ function wp_enqueue_stored_styles( $options = array() ) {
  *     @type string[]         $deps   Array of registered stylesheet handles this stylesheet depends on.
  *     @type string|bool|null $ver    Stylesheet version number.
  *     @type string           $media  The media for which this stylesheet has been defined.
+ *     @type string|null      $path   Absolute path to the stylesheet, so that it can potentially be inlined.
  * }
  */
 function wp_enqueue_block_style( $block_name, $args ) {
