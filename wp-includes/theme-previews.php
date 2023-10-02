@@ -83,7 +83,7 @@ function wp_block_theme_activate_nonce() {
  *
  * @since 6.3.2
  */
-function initialize_theme_preview_hooks() {
+function wp_initialize_theme_preview_hooks() {
 	if ( ! empty( $_GET['wp_theme_preview'] ) ) {
 		add_filter( 'stylesheet', 'wp_get_theme_preview_path' );
 		add_filter( 'template', 'wp_get_theme_preview_path' );
