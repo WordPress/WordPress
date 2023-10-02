@@ -299,7 +299,8 @@ function orderEntityRecordsBySearch(records = [], search = '') {
 
 
 const {
-  useHistory: site_editor_navigation_commands_useHistory
+  useHistory: site_editor_navigation_commands_useHistory,
+  useLocation
 } = unlock(external_wp_router_namespaceObject.privateApis);
 const icons = {
   post: library_post,
@@ -388,6 +389,9 @@ const getNavigationCommandLoaderPerTemplate = templateType => function useNaviga
   search
 }) {
   const history = site_editor_navigation_commands_useHistory();
+  const location = useLocation();
+  const isPatternsPage = location?.params?.path === '/patterns' || location?.params?.postType === 'wp_block';
+  const didAccessPatternsPage = !!location?.params?.didAccessPatternsPage;
   const isBlockBasedTheme = useIsBlockBasedTheme();
   const {
     records,
@@ -433,6 +437,7 @@ const getNavigationCommandLoaderPerTemplate = templateType => function useNaviga
           const args = {
             postType: templateType,
             postId: record.id,
+            didAccessPatternsPage: !isBlockBasedTheme && (isPatternsPage || didAccessPatternsPage) ? 1 : undefined,
             ...extraArgs
           };
           const targetUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', args);

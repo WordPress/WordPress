@@ -16741,13 +16741,6 @@ function TemplateAreaButton({
   }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)));
 }
 function HomeTemplateDetails() {
-  const navigator = (0,external_wp_components_namespaceObject.__experimentalUseNavigator)();
-  const {
-    params: {
-      postType,
-      postId
-    }
-  } = navigator;
   const {
     editEntityRecord
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
@@ -16762,22 +16755,21 @@ function HomeTemplateDetails() {
     const {
       getEntityRecord
     } = select(external_wp_coreData_namespaceObject.store);
-    const siteSettings = getEntityRecord('root', 'site');
     const {
-      getSettings
+      getSettings,
+      getCurrentTemplateTemplateParts
     } = unlock(select(store_store));
-    const _currentTemplateParts = select(store_store).getCurrentTemplateTemplateParts();
-    const siteEditorSettings = getSettings();
-    const _postsPageRecord = siteSettings?.page_for_posts ? select(external_wp_coreData_namespaceObject.store).getEntityRecord('postType', 'page', siteSettings?.page_for_posts) : EMPTY_OBJECT;
+    const siteSettings = getEntityRecord('root', 'site');
+    const _postsPageRecord = siteSettings?.page_for_posts ? getEntityRecord('postType', 'page', siteSettings?.page_for_posts) : EMPTY_OBJECT;
     return {
       allowCommentsOnNewPosts: siteSettings?.default_comment_status === 'open',
       postsPageTitle: _postsPageRecord?.title?.rendered,
       postsPageId: _postsPageRecord?.id,
       postsPerPage: siteSettings?.posts_per_page,
-      templatePartAreas: siteEditorSettings?.defaultTemplatePartAreas,
-      currentTemplateParts: _currentTemplateParts
+      templatePartAreas: getSettings()?.defaultTemplatePartAreas,
+      currentTemplateParts: getCurrentTemplateTemplateParts()
     };
-  }, [postType, postId]);
+  }, []);
   const [commentsOnNewPostsValue, setCommentsOnNewPostsValue] = (0,external_wp_element_namespaceObject.useState)('');
   const [postsCountValue, setPostsCountValue] = (0,external_wp_element_namespaceObject.useState)(1);
   const [postsPageTitleValue, setPostsPageTitleValue] = (0,external_wp_element_namespaceObject.useState)('');
@@ -16799,12 +16791,14 @@ function HomeTemplateDetails() {
    */
   const templateAreas = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return currentTemplateParts.length && templatePartAreas ? currentTemplateParts.map(({
-      templatePart
+      templatePart,
+      block
     }) => ({
       ...templatePartAreas?.find(({
         area
       }) => area === templatePart?.area),
-      ...templatePart
+      ...templatePart,
+      clientId: block.clientId
     })) : [];
   }, [currentTemplateParts, templatePartAreas]);
   const setAllowCommentsOnNewPosts = newValue => {
@@ -16859,13 +16853,14 @@ function HomeTemplateDetails() {
     title: (0,external_wp_i18n_namespaceObject.__)('Areas'),
     spacing: 3
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, templateAreas.map(({
+    clientId,
     label,
     icon,
     theme,
     slug,
     title
   }) => (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreenDetailsPanelRow, {
-    key: slug
+    key: clientId
   }, (0,external_wp_element_namespaceObject.createElement)(TemplateAreaButton, {
     postId: `${theme}//${slug}`,
     title: title?.rendered || label,
@@ -17515,7 +17510,11 @@ const selectPatterns = rememo((select, categoryId, syncStatus, search = '') => {
   } = selectUserPatterns(select);
   let patterns = [...(themePatterns || []), ...(userPatterns || [])];
   if (syncStatus) {
-    patterns = patterns.filter(pattern => pattern.syncStatus === syncStatus);
+    // User patterns can have their sync statuses checked directly
+    // Non-user patterns are all unsynced for the time being.
+    patterns = patterns.filter(pattern => {
+      return pattern.id ? pattern.syncStatus === syncStatus : syncStatus === PATTERN_SYNC_TYPES.unsynced;
+    });
   }
   if (categoryId) {
     patterns = searchItems(patterns, search, {
@@ -17713,10 +17712,10 @@ function usePatternCategories() {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -17736,9 +17735,8 @@ function AddNewPattern() {
   } = add_new_pattern_useLocation();
   const [showPatternModal, setShowPatternModal] = (0,external_wp_element_namespaceObject.useState)(false);
   const [showTemplatePartModal, setShowTemplatePartModal] = (0,external_wp_element_namespaceObject.useState)(false);
-  const isTemplatePartsMode = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const settings = select(store_store).getSettings();
-    return !!settings.supportsTemplatePartsMode;
+  const isBlockBasedTheme = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    return select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.is_block_theme;
   }, []);
   const {
     createPatternFromFile
@@ -17759,7 +17757,7 @@ function AddNewPattern() {
     history.push({
       postId: pattern.id,
       postType: PATTERN_TYPES.user,
-      categoryType: PATTERN_TYPES.user,
+      categoryType: PATTERN_TYPES.theme,
       categoryId,
       canvas: 'edit'
     });
@@ -17783,10 +17781,7 @@ function AddNewPattern() {
     onClick: () => setShowPatternModal(true),
     title: (0,external_wp_i18n_namespaceObject.__)('Create pattern')
   }];
-
-  // Remove condition when command palette issues are resolved.
-  // See: https://github.com/WordPress/gutenberg/issues/52154.
-  if (!isTemplatePartsMode) {
+  if (isBlockBasedTheme) {
     controls.push({
       icon: symbol_filled,
       onClick: () => setShowTemplatePartModal(true),
@@ -17947,9 +17942,12 @@ function useTemplatePartAreas() {
 
 
 
+
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -18016,18 +18014,27 @@ function SidebarNavigationScreenPatterns() {
     patternCategories,
     hasPatterns
   } = usePatternCategories();
+  const isBlockBasedTheme = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.is_block_theme, []);
+  const isTemplatePartsMode = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const settings = select(store_store).getSettings();
+    return !!settings.supportsTemplatePartsMode;
+  }, []);
   const templatePartsLink = useLink({
-    path: '/wp_template_part/all'
+    path: '/wp_template_part/all',
+    // If a classic theme that supports template parts accessed
+    // the Patterns page directly, preserve that state in the URL.
+    didAccessPatternsPage: !isBlockBasedTheme && isTemplatePartsMode ? 1 : undefined
   });
   const footer = !isMobileViewport ? (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationItem, {
     as: "a",
     href: "edit.php?post_type=wp_block",
     withChevron: true
-  }, (0,external_wp_i18n_namespaceObject.__)('Manage all of my patterns')), (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationItem, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Manage all of my patterns')), (isBlockBasedTheme || isTemplatePartsMode) && (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationItem, {
     withChevron: true,
     ...templatePartsLink
   }, (0,external_wp_i18n_namespaceObject.__)('Manage all template parts'))) : undefined;
   return (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreen, {
+    isRoot: !isBlockBasedTheme,
     title: (0,external_wp_i18n_namespaceObject.__)('Patterns'),
     description: (0,external_wp_i18n_namespaceObject.__)('Manage what patterns are available when editing the site.'),
     actions: (0,external_wp_element_namespaceObject.createElement)(AddNewPattern, null),
@@ -19548,9 +19555,11 @@ const NavMenuItem = ({
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -19565,18 +19574,28 @@ const config = {
     backPath: '/patterns'
   }
 };
+const {
+  useLocation: sidebar_navigation_screen_templates_browse_useLocation
+} = unlock(external_wp_router_namespaceObject.privateApis);
 function SidebarNavigationScreenTemplatesBrowse() {
   const {
     params: {
       postType
     }
   } = (0,external_wp_components_namespaceObject.__experimentalUseNavigator)();
+  const {
+    params: {
+      didAccessPatternsPage
+    }
+  } = sidebar_navigation_screen_templates_browse_useLocation();
   const isTemplatePartsMode = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const settings = select(store_store).getSettings();
-    return !!settings.supportsTemplatePartsMode;
+    return !!select(store_store).getSettings().supportsTemplatePartsMode;
   }, []);
-  return (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreen, {
-    isRoot: isTemplatePartsMode,
+  return (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreen
+  // If a classic theme that supports template parts has never
+  // accessed the Patterns page, return to the dashboard.
+  , {
+    isRoot: isTemplatePartsMode && !didAccessPatternsPage,
     title: config[postType].title,
     description: config[postType].description,
     backPath: config[postType].backPath
@@ -21614,6 +21633,9 @@ async function utils_loadFontFaceInBrowser(fontFace, source, addTo = 'all') {
   }
 }
 function utils_getDisplaySrcFromFontFace(input, urlPrefix) {
+  if (!input) {
+    return;
+  }
   let src;
   if (Array.isArray(input)) {
     src = input[0];
@@ -21669,8 +21691,6 @@ function utils_makeFormDataFromFontFamilies(fontFamilies) {
 
 
 
-
-
 /**
  * Internal dependencies
  */
@@ -21701,9 +21721,6 @@ function context_FontLibraryProvider({
   });
   const globalStyles = useEntityRecord('root', 'globalStyles', globalStylesId);
   const fontFamiliesHasChanges = !!globalStyles?.edits?.settings?.typography?.fontFamilies;
-  const {
-    createErrorNotice
-  } = useDispatch(noticesStore);
   const [isInstalling, setIsInstalling] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const refreshLibrary = () => {
@@ -21815,7 +21832,8 @@ function context_FontLibraryProvider({
       // Prepare formData to install.
       const formData = makeFormDataFromFontFamilies(fonts);
       // Install the fonts (upload the font files to the server and create the post in the database).
-      const fontsInstalled = await fetchInstallFonts(formData);
+      const response = await fetchInstallFonts(formData);
+      const fontsInstalled = response?.successes || [];
       // Get intersecting font faces between the fonts we tried to installed and the fonts that were installed
       // (to avoid activating a non installed font).
       const fontToBeActivated = getIntersectingFontFaces(fontsInstalled, fonts);
@@ -21825,35 +21843,33 @@ function context_FontLibraryProvider({
       saveSpecifiedEntityEdits('root', 'globalStyles', globalStylesId, ['settings.typography.fontFamilies']);
       refreshLibrary();
       setIsInstalling(false);
-      return true;
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      createErrorNotice(__('Error installing fonts.'), {
-        type: 'snackbar'
-      });
+      return response;
+    } catch (error) {
       setIsInstalling(false);
-      return false;
+      return {
+        errors: [error]
+      };
     }
   }
   async function uninstallFont(font) {
     try {
       // Uninstall the font (remove the font files from the server and the post from the database).
-      await fetchUninstallFonts([font]);
+      const response = await fetchUninstallFonts([font]);
       // Deactivate the font family (remove the font family from the global styles).
-      deactivateFontFamily(font);
-      // Save the global styles to the database.
-      await saveSpecifiedEntityEdits('root', 'globalStyles', globalStylesId, ['settings.typography.fontFamilies']);
+      if (!response.errors) {
+        deactivateFontFamily(font);
+        // Save the global styles to the database.
+        await saveSpecifiedEntityEdits('root', 'globalStyles', globalStylesId, ['settings.typography.fontFamilies']);
+      }
       // Refresh the library (the the library font families from database).
       refreshLibrary();
-      return true;
-    } catch (e) {
+      return response;
+    } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(e);
-      createErrorNotice(__('Error uninstalling fonts.'), {
-        type: 'snackbar'
-      });
-      return false;
+      console.error(error);
+      return {
+        errors: [error]
+      };
     }
   }
   const deactivateFontFamily = font => {
@@ -21877,10 +21893,12 @@ function context_FontLibraryProvider({
     });
     // Add custom fonts to the browser.
     fontsToAdd.forEach(font => {
-      font.fontFace.forEach(face => {
-        // Load font faces just in the iframe because they already are in the document.
-        loadFontFaceInBrowser(face, getDisplaySrcFromFontFace(face.src), 'iframe');
-      });
+      if (font.fontFace) {
+        font.fontFace.forEach(face => {
+          // Load font faces just in the iframe because they already are in the document.
+          loadFontFaceInBrowser(face, getDisplaySrcFromFontFace(face.src), 'iframe');
+        });
+      }
     });
   };
   const toggleActivateFont = (font, face) => {
@@ -21902,7 +21920,7 @@ function context_FontLibraryProvider({
     // Get the src of the font.
     const src = getDisplaySrcFromFontFace(fontFace.src, themeUrl);
     // If the font is already loaded, don't load it again.
-    if (loadedFontUrls.has(src)) return;
+    if (!src || loadedFontUrls.has(src)) return;
     // Load the font in the browser.
     loadFontFaceInBrowser(fontFace, src, 'document');
     // Add the font to the loaded fonts list.
@@ -22297,6 +22315,543 @@ function library_font_card_LibraryFontCard({
   });
 }
 /* harmony default export */ var library_font_card = ((/* unused pure expression or super */ null && (library_font_card_LibraryFontCard)));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/confirm-delete-dialog.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+function confirm_delete_dialog_ConfirmDeleteDialog({
+  font,
+  isConfirmDeleteOpen,
+  handleConfirmUninstall,
+  handleCancelUninstall
+}) {
+  return createElement(ConfirmDialog, {
+    isOpen: isConfirmDeleteOpen,
+    cancelButtonText: __('No, keep the font'),
+    confirmButtonText: __('Yes, uninstall'),
+    onCancel: handleCancelUninstall,
+    onConfirm: handleConfirmUninstall
+  }, font && sprintf( /* translators: %s: Name of the font. */
+  __('Would you like to remove %s and all its variants and assets?'), font.name));
+}
+/* harmony default export */ var confirm_delete_dialog = ((/* unused pure expression or super */ null && (confirm_delete_dialog_ConfirmDeleteDialog)));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/utils/get-notice-from-response.js
+/**
+ * WordPress dependencies
+ */
+
+function get_notice_from_response_getNoticeFromInstallResponse(response) {
+  const {
+    errors = [],
+    successes = []
+  } = response;
+  // Everything failed.
+  if (errors.length && !successes.length) {
+    return {
+      type: 'error',
+      message: __('Error installing the fonts.')
+    };
+  }
+
+  // Eveerything succeeded.
+  if (!errors.length && successes.length) {
+    return {
+      type: 'success',
+      message: __('Fonts were installed successfully.')
+    };
+  }
+
+  // Some succeeded, some failed.
+  if (errors.length && successes.length) {
+    return {
+      type: 'warning',
+      message: __('Some fonts were installed successfully and some failed.')
+    };
+  }
+}
+function get_notice_from_response_getNoticeFromUninstallResponse(response) {
+  const {
+    errors = [],
+    successes = []
+  } = response;
+  // Everything failed.
+  if (errors.length && !successes.length) {
+    return {
+      type: 'error',
+      message: __('Error uninstalling the fonts.')
+    };
+  }
+
+  // Everything succeeded.
+  if (!errors.length && successes.length) {
+    return {
+      type: 'success',
+      message: __('Fonts were uninstalled successfully.')
+    };
+  }
+
+  // Some succeeded, some failed.
+  if (errors.length && successes.length) {
+    return {
+      type: 'warning',
+      message: __('Some fonts were uninstalled successfully and some failed.')
+    };
+  }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/installed-fonts.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+const {
+  ProgressBar
+} = unlock(external_wp_components_namespaceObject.privateApis);
+function installed_fonts_InstalledFonts() {
+  const {
+    baseCustomFonts,
+    libraryFontSelected,
+    baseThemeFonts,
+    handleSetLibraryFontSelected,
+    refreshLibrary,
+    uninstallFont,
+    isResolvingLibrary
+  } = useContext(FontLibraryContext);
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+  const handleUnselectFont = () => {
+    handleSetLibraryFontSelected(null);
+  };
+  const handleSelectFont = font => {
+    handleSetLibraryFontSelected(font);
+  };
+  const [notice, setNotice] = useState(null);
+  const handleConfirmUninstall = async () => {
+    const response = await uninstallFont(libraryFontSelected);
+    const uninstallNotice = getNoticeFromUninstallResponse(response);
+    setNotice(uninstallNotice);
+    // If the font was succesfully uninstalled it is unselected
+    if (!response?.errors?.length) {
+      handleUnselectFont();
+    }
+    setIsConfirmDeleteOpen(false);
+  };
+  const handleUninstallClick = async () => {
+    setIsConfirmDeleteOpen(true);
+  };
+  const handleCancelUninstall = () => {
+    setIsConfirmDeleteOpen(false);
+  };
+  const tabDescription = !!libraryFontSelected ? __('Choose font variants. Keep in mind that too many variants could make your site slower.') : null;
+  const shouldDisplayDeleteButton = !!libraryFontSelected && libraryFontSelected?.source !== 'theme';
+  useEffect(() => {
+    refreshLibrary();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Reset notice after 5 seconds
+  useEffect(() => {
+    if (notice) {
+      const timeout = setTimeout(() => {
+        setNotice(null);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [notice]);
+  return createElement(TabLayout, {
+    title: libraryFontSelected?.name || '',
+    description: tabDescription,
+    handleBack: !!libraryFontSelected && handleUnselectFont,
+    footer: createElement(Footer, {
+      shouldDisplayDeleteButton: shouldDisplayDeleteButton,
+      handleUninstallClick: handleUninstallClick
+    })
+  }, createElement(ConfirmDeleteDialog, {
+    font: libraryFontSelected,
+    isConfirmDeleteOpen: isConfirmDeleteOpen,
+    handleConfirmUninstall: handleConfirmUninstall,
+    handleCancelUninstall: handleCancelUninstall
+  }), notice && createElement(Fragment, null, createElement(FlexItem, null, createElement(Spacer, {
+    margin: 2
+  }), createElement(Notice, {
+    isDismissible: false,
+    status: notice.type,
+    className: "font-library-modal__font-collection__notice"
+  }, notice.message)), createElement(Spacer, {
+    margin: 4
+  })), !libraryFontSelected && createElement(Fragment, null, isResolvingLibrary && createElement(Spinner, null), baseCustomFonts.length > 0 && createElement(Fragment, null, createElement(Spacer, {
+    margin: 2
+  }), createElement(FontsGrid, null, baseCustomFonts.map(font => createElement(LibraryFontCard, {
+    font: font,
+    key: font.slug,
+    onClick: () => {
+      handleSelectFont(font);
+    }
+  }))), createElement(Spacer, {
+    margin: 8
+  })), baseThemeFonts.length > 0 && createElement(Fragment, null, createElement(FontsGrid, {
+    title: __('Theme Fonts')
+  }, baseThemeFonts.map(font => createElement(LibraryFontCard, {
+    font: font,
+    key: font.slug,
+    onClick: () => {
+      handleSelectFont(font);
+    }
+  }))))), libraryFontSelected && createElement(LibraryFontDetails, {
+    font: libraryFontSelected,
+    isConfirmDeleteOpen: isConfirmDeleteOpen,
+    handleConfirmUninstall: handleConfirmUninstall,
+    handleCancelUninstall: handleCancelUninstall
+  }));
+}
+function Footer({
+  shouldDisplayDeleteButton,
+  handleUninstallClick
+}) {
+  const {
+    saveFontFamilies,
+    fontFamiliesHasChanges,
+    isInstalling
+  } = useContext(FontLibraryContext);
+  return createElement(HStack, {
+    justify: "space-between"
+  }, isInstalling && createElement(ProgressBar, null), createElement("div", null, shouldDisplayDeleteButton && createElement(Button, {
+    variant: "tertiary",
+    onClick: handleUninstallClick
+  }, __('Delete'))), createElement(Button, {
+    disabled: !fontFamiliesHasChanges,
+    variant: "primary",
+    onClick: saveFontFamilies
+  }, __('Update')));
+}
+/* harmony default export */ var installed_fonts = ((/* unused pure expression or super */ null && (installed_fonts_InstalledFonts)));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/collection-font-variant.js
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+function collection_font_variant_CollectionFontVariant({
+  face,
+  font,
+  handleToggleVariant,
+  selected
+}) {
+  const handleToggleActivation = () => {
+    if (font?.fontFace) {
+      handleToggleVariant(font, face);
+      return;
+    }
+    handleToggleVariant(font);
+  };
+  const displayName = font.name + ' ' + getFontFaceVariantName(face);
+  return createElement("div", {
+    className: "font-library-modal__library-font-variant"
+  }, createElement(Flex, {
+    justify: "space-between",
+    align: "center",
+    gap: "1rem"
+  }, createElement(FontFaceDemo, {
+    fontFace: face,
+    text: displayName
+  }), createElement(CheckboxControl, {
+    checked: selected,
+    onChange: handleToggleActivation,
+    __nextHasNoMarginBottom: true
+  })));
+}
+/* harmony default export */ var collection_font_variant = ((/* unused pure expression or super */ null && (collection_font_variant_CollectionFontVariant)));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/collection-font-details.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function collection_font_details_CollectionFontDetails({
+  font,
+  handleToggleVariant,
+  fontToInstallOutline
+}) {
+  const fontFaces = font.fontFace && font.fontFace.length ? sortFontFaces(font.fontFace) : [{
+    fontFamily: font.fontFamily,
+    fontStyle: 'normal',
+    fontWeight: '400'
+  }];
+  return createElement(Fragment, null, createElement(Spacer, {
+    margin: 4
+  }), createElement(VStack, {
+    spacing: 0
+  }, createElement(Spacer, {
+    margin: 8
+  }), fontFaces.map((face, i) => createElement(CollectionFontVariant, {
+    font: font,
+    face: face,
+    key: `face${i}`,
+    handleToggleVariant: handleToggleVariant,
+    selected: isFontFontFaceInOutline(font.slug, font.fontFace ? face : null,
+    // If the font has no fontFace, we want to check if the font is in the outline
+    fontToInstallOutline)
+  }))), createElement(Spacer, {
+    margin: 8
+  }));
+}
+/* harmony default export */ var collection_font_details = ((/* unused pure expression or super */ null && (collection_font_details_CollectionFontDetails)));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/google-fonts-confirm-dialog.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+function google_fonts_confirm_dialog_GoogleFontsConfirmDialog() {
+  const handleConfirm = () => {
+    // eslint-disable-next-line no-undef
+    window.localStorage.setItem('wp-font-library-default-font-collection-permission', 'true');
+    window.dispatchEvent(new Event('storage'));
+  };
+  return createElement("div", {
+    className: "font-library__google-fonts-confirm"
+  }, createElement(Card, null, createElement(CardBody, null, createElement(Text, {
+    as: "h3"
+  }, "Connect to Google Fonts"), createElement(Spacer, {
+    margin: 6
+  }), createElement(Text, {
+    as: "p"
+  }, __('To install fonts from Google you must give permission to connect directly to Google servers. The fonts you install will be downloaded from Google and stored on your site. Your site will then use these locally-hosted fonts.')), createElement(Spacer, {
+    margin: 3
+  }), createElement(Text, {
+    as: "p"
+  }, __('You can alternatively upload files directly on the Library tab.')), createElement(Spacer, {
+    margin: 6
+  }), createElement(Button, {
+    variant: "primary",
+    onClick: handleConfirm
+  }, __('Allow access to Google Fonts')))));
+}
+/* harmony default export */ var google_fonts_confirm_dialog = ((/* unused pure expression or super */ null && (google_fonts_confirm_dialog_GoogleFontsConfirmDialog)));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/font-collection.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+
+
+const DEFAULT_CATEGORY = {
+  id: 'all',
+  name: (0,external_wp_i18n_namespaceObject.__)('All')
+};
+function font_collection_FontCollection({
+  id
+}) {
+  var _selectedCollection$d2;
+  const requiresPermission = id === 'default-font-collection';
+  const getGoogleFontsPermissionFromStorage = () => {
+    return window.localStorage.getItem('wp-font-library-default-font-collection-permission') === 'true';
+  };
+  const [notice, setNotice] = useState(null);
+  const [selectedFont, setSelectedFont] = useState(null);
+  const [fontsToInstall, setFontsToInstall] = useState([]);
+  const [filters, setFilters] = useState({});
+  const [renderConfirmDialog, setRenderConfirmDialog] = useState(requiresPermission && !getGoogleFontsPermissionFromStorage());
+  const {
+    collections,
+    getFontCollection,
+    installFonts
+  } = useContext(FontLibraryContext);
+  const selectedCollection = collections.find(collection => collection.id === id);
+  useEffect(() => {
+    const handleStorage = () => {
+      setRenderConfirmDialog(requiresPermission && !getGoogleFontsPermissionFromStorage());
+    };
+    handleStorage();
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, [id, requiresPermission]);
+  useEffect(() => {
+    getFontCollection(id);
+    resetFilters();
+  }, [id, getFontCollection]);
+  useEffect(() => {
+    setSelectedFont(null);
+  }, [id]);
+
+  // Reset notice after 5 seconds
+  useEffect(() => {
+    if (notice) {
+      const timeout = setTimeout(() => {
+        setNotice(null);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [notice]);
+  const collectionFonts = useMemo(() => {
+    var _selectedCollection$d;
+    return (_selectedCollection$d = selectedCollection?.data?.fontFamilies) !== null && _selectedCollection$d !== void 0 ? _selectedCollection$d : [];
+  }, [selectedCollection]);
+  const collectionCategories = (_selectedCollection$d2 = selectedCollection?.data?.categories) !== null && _selectedCollection$d2 !== void 0 ? _selectedCollection$d2 : [];
+  const categories = [DEFAULT_CATEGORY, ...collectionCategories];
+  const fonts = useMemo(() => filterFonts(collectionFonts, filters), [collectionFonts, filters]);
+  const handleCategoryFilter = category => {
+    setFilters({
+      ...filters,
+      category
+    });
+  };
+  const handleUpdateSearchInput = value => {
+    setFilters({
+      ...filters,
+      search: value
+    });
+  };
+  const debouncedUpdateSearchInput = debounce(handleUpdateSearchInput, 300);
+  const resetFilters = () => {
+    setFilters({});
+  };
+  const resetSearch = () => {
+    setFilters({
+      ...filters,
+      search: ''
+    });
+  };
+  const handleUnselectFont = () => {
+    setSelectedFont(null);
+  };
+  const handleToggleVariant = (font, face) => {
+    const newFontsToInstall = toggleFont(font, face, fontsToInstall);
+    setFontsToInstall(newFontsToInstall);
+  };
+  const fontToInstallOutline = getFontsOutline(fontsToInstall);
+  const resetFontsToInstall = () => {
+    setFontsToInstall([]);
+  };
+  const handleInstall = async () => {
+    const response = await installFonts(fontsToInstall);
+    const installNotice = getNoticeFromInstallResponse(response);
+    setNotice(installNotice);
+    resetFontsToInstall();
+  };
+  return createElement(TabLayout, {
+    title: !selectedFont ? selectedCollection.name : selectedFont.name,
+    description: !selectedFont ? selectedCollection.description : __('Select font variants to install.'),
+    handleBack: !!selectedFont && handleUnselectFont,
+    footer: fontsToInstall.length > 0 && createElement(font_collection_Footer, {
+      handleInstall: handleInstall
+    })
+  }, renderConfirmDialog && createElement(Fragment, null, createElement(Spacer, {
+    margin: 8
+  }), createElement(GoogleFontsConfirmDialog, null)), !renderConfirmDialog && !selectedCollection.data && createElement(Spinner, null), notice && createElement(Fragment, null, createElement(FlexItem, null, createElement(Spacer, {
+    margin: 2
+  }), createElement(Notice, {
+    isDismissible: false,
+    status: notice.type,
+    className: "font-library-modal__font-collection__notice"
+  }, notice.message)), createElement(Spacer, {
+    margin: 2
+  })), !renderConfirmDialog && !selectedFont && createElement(Flex, null, createElement(FlexItem, null, createElement(InputControl, {
+    value: filters.search,
+    placeholder: __('Font name…'),
+    label: __('Search'),
+    onChange: debouncedUpdateSearchInput,
+    prefix: createElement(Icon, {
+      icon: search
+    }),
+    suffix: filters?.search ? createElement(Icon, {
+      icon: closeSmall,
+      onClick: resetSearch
+    }) : null
+  })), createElement(FlexItem, null, createElement(SelectControl, {
+    label: __('Category'),
+    value: filters.category,
+    onChange: handleCategoryFilter
+  }, categories && categories.map(category => createElement("option", {
+    value: category.id,
+    key: category.id
+  }, category.name))))), createElement(Spacer, {
+    margin: 4
+  }), !renderConfirmDialog && !selectedCollection?.data?.fontFamilies && createElement(Spinner, null), !renderConfirmDialog && !!selectedCollection?.data?.fontFamilies?.length && !fonts.length && createElement(Text, null, __('No fonts found. Try with a different seach term')), !renderConfirmDialog && selectedFont && createElement(CollectionFontDetails, {
+    font: selectedFont,
+    handleToggleVariant: handleToggleVariant,
+    fontToInstallOutline: fontToInstallOutline
+  }), !renderConfirmDialog && !selectedFont && createElement(FontsGrid, null, fonts.map(font => createElement(FontCard, {
+    key: font.slug,
+    font: font,
+    onClick: () => {
+      setSelectedFont(font);
+    }
+  }))));
+}
+function font_collection_Footer({
+  handleInstall
+}) {
+  const {
+    isInstalling
+  } = useContext(FontLibraryContext);
+  return createElement(Flex, {
+    justify: "flex-end"
+  }, createElement(Button, {
+    variant: "primary",
+    onClick: handleInstall,
+    isBusy: isInstalling,
+    disabled: isInstalling
+  }, __('Install')));
+}
+/* harmony default export */ var font_collection = ((/* unused pure expression or super */ null && (font_collection_FontCollection)));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/edit-site/lib/unbrotli.js
 var unbrotli = __webpack_require__(5723);
@@ -26154,16 +26709,29 @@ var vmtx$1 = Object.freeze( { __proto__: null, vmtx: vmtx } );
 
 
 
+
 function local_fonts_LocalFonts() {
   const {
     installFonts
   } = useContext(FontLibraryContext);
+  const [notice, setNotice] = useState(null);
+  const supportedFormats = ALLOWED_FILE_EXTENSIONS.slice(0, -1).map(extension => `.${extension}`).join(', ') + ` ${__('and')} .${ALLOWED_FILE_EXTENSIONS.slice(-1)}`;
   const handleDropZone = files => {
     handleFilesUpload(files);
   };
   const onFilesUpload = event => {
     handleFilesUpload(event.target.files);
   };
+
+  // Reset notice after 5 seconds
+  useEffect(() => {
+    if (notice) {
+      const timeout = setTimeout(() => {
+        setNotice(null);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [notice]);
 
   /**
    * Filters the selected files to only allow the ones with the allowed extensions
@@ -26172,6 +26740,7 @@ function local_fonts_LocalFonts() {
    * @return {void}
    */
   const handleFilesUpload = files => {
+    setNotice(null);
     const uniqueFilenames = new Set();
     const selectedFiles = [...files];
     const allowedFiles = selectedFiles.filter(file => {
@@ -26251,15 +26820,17 @@ function local_fonts_LocalFonts() {
    */
   const handleInstall = async fontFaces => {
     const fontFamilies = makeFamiliesFromFaces(fontFaces);
-    await installFonts(fontFamilies);
+    const response = await installFonts(fontFamilies);
+    const installNotice = getNoticeFromInstallResponse(response);
+    setNotice(installNotice);
   };
-  return createElement(Fragment, null, createElement(Text, {
-    className: "font-library-modal__subtitle"
-  }, __('Upload Fonts')), createElement(Spacer, {
-    margin: 2
+  return createElement(Fragment, null, createElement(Spacer, {
+    margin: 16
   }), createElement(DropZone, {
     onFilesDrop: handleDropZone
-  }), createElement(FormFileUpload, {
+  }), createElement(VStack, {
+    className: "font-library-modal__local-fonts"
+  }, createElement(FormFileUpload, {
     accept: ALLOWED_FILE_EXTENSIONS.map(ext => `.${ext}`).join(','),
     multiple: true,
     onChange: onFilesUpload,
@@ -26268,203 +26839,23 @@ function local_fonts_LocalFonts() {
     }) => createElement(Button, {
       className: "font-library-modal__upload-area",
       onClick: openFileDialog
-    }, createElement("span", null, __('Drag and drop your font files here.')))
-  }));
+    }, createElement("span", null, __('Upload font')))
+  }), notice && createElement(FlexItem, null, createElement(Spacer, {
+    margin: 2
+  }), createElement(Notice, {
+    isDismissible: false,
+    status: notice.type,
+    className: "font-library-modal__upload-area__notice"
+  }, notice.message)), createElement(Spacer, {
+    margin: 2
+  }), createElement(Text, {
+    className: "font-library-modal__upload-area__text"
+  }, sprintf( /* translators: %s: supported font formats: ex: .ttf, .woff and .woff2 */
+  __('Uploaded fonts appear in your library and can be used in your theme. Supported formats: %s.'), supportedFormats))));
 }
 /* harmony default export */ var local_fonts = ((/* unused pure expression or super */ null && (local_fonts_LocalFonts)));
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/confirm-delete-dialog.js
-
-/**
- * WordPress dependencies
- */
-
-
-function confirm_delete_dialog_ConfirmDeleteDialog({
-  font,
-  isConfirmDeleteOpen,
-  handleConfirmUninstall,
-  handleCancelUninstall
-}) {
-  return createElement(ConfirmDialog, {
-    isOpen: isConfirmDeleteOpen,
-    cancelButtonText: __('No, keep the font'),
-    confirmButtonText: __('Yes, uninstall'),
-    onCancel: handleCancelUninstall,
-    onConfirm: handleConfirmUninstall
-  }, font && sprintf( /* translators: %s: Name of the font. */
-  __('Would you like to remove %s and all its variants and assets?'), font.name));
-}
-/* harmony default export */ var confirm_delete_dialog = ((/* unused pure expression or super */ null && (confirm_delete_dialog_ConfirmDeleteDialog)));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/installed-fonts.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-
-const {
-  ProgressBar
-} = unlock(external_wp_components_namespaceObject.privateApis);
-function installed_fonts_InstalledFonts() {
-  const {
-    baseCustomFonts,
-    libraryFontSelected,
-    baseThemeFonts,
-    handleSetLibraryFontSelected,
-    refreshLibrary,
-    uninstallFont,
-    isResolvingLibrary
-  } = useContext(FontLibraryContext);
-  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
-  const handleUnselectFont = () => {
-    handleSetLibraryFontSelected(null);
-  };
-  const handleSelectFont = font => {
-    handleSetLibraryFontSelected(font);
-  };
-  const handleConfirmUninstall = async () => {
-    const result = await uninstallFont(libraryFontSelected);
-    // If the font was succesfully uninstalled it is unselected
-    if (result) {
-      handleUnselectFont();
-    }
-    setIsConfirmDeleteOpen(false);
-  };
-  const handleUninstallClick = async () => {
-    setIsConfirmDeleteOpen(true);
-  };
-  const handleCancelUninstall = () => {
-    setIsConfirmDeleteOpen(false);
-  };
-  const tabDescription = !!libraryFontSelected ? __('Choose font variants. Keep in mind that too many variants could make your site slower.') : null;
-  const shouldDisplayDeleteButton = !!libraryFontSelected && libraryFontSelected?.source !== 'theme';
-  useEffect(() => {
-    refreshLibrary();
-  }, []);
-  return createElement(TabLayout, {
-    title: libraryFontSelected?.name || '',
-    description: tabDescription,
-    handleBack: !!libraryFontSelected && handleUnselectFont,
-    footer: createElement(Footer, {
-      shouldDisplayDeleteButton: shouldDisplayDeleteButton,
-      handleUninstallClick: handleUninstallClick
-    })
-  }, createElement(ConfirmDeleteDialog, {
-    font: libraryFontSelected,
-    isConfirmDeleteOpen: isConfirmDeleteOpen,
-    handleConfirmUninstall: handleConfirmUninstall,
-    handleCancelUninstall: handleCancelUninstall
-  }), !libraryFontSelected && createElement(Fragment, null, isResolvingLibrary && createElement(Spinner, null), baseCustomFonts.length > 0 && createElement(Fragment, null, createElement(Spacer, {
-    margin: 2
-  }), createElement(FontsGrid, null, baseCustomFonts.map(font => createElement(LibraryFontCard, {
-    font: font,
-    key: font.slug,
-    onClick: () => {
-      handleSelectFont(font);
-    }
-  }))), createElement(Spacer, {
-    margin: 8
-  })), baseThemeFonts.length > 0 && createElement(Fragment, null, createElement(FontsGrid, {
-    title: __('Theme Fonts')
-  }, baseThemeFonts.map(font => createElement(LibraryFontCard, {
-    font: font,
-    key: font.slug,
-    onClick: () => {
-      handleSelectFont(font);
-    }
-  })))), createElement(Spacer, {
-    margin: 8
-  }), createElement(LocalFonts, null)), libraryFontSelected && createElement(LibraryFontDetails, {
-    font: libraryFontSelected,
-    isConfirmDeleteOpen: isConfirmDeleteOpen,
-    handleConfirmUninstall: handleConfirmUninstall,
-    handleCancelUninstall: handleCancelUninstall
-  }));
-}
-function Footer({
-  shouldDisplayDeleteButton,
-  handleUninstallClick
-}) {
-  const {
-    saveFontFamilies,
-    fontFamiliesHasChanges,
-    isInstalling
-  } = useContext(FontLibraryContext);
-  return createElement(HStack, {
-    justify: "space-between"
-  }, isInstalling && createElement(ProgressBar, null), createElement("div", null, shouldDisplayDeleteButton && createElement(Button, {
-    variant: "tertiary",
-    onClick: handleUninstallClick
-  }, __('Delete'))), createElement(Button, {
-    disabled: !fontFamiliesHasChanges,
-    variant: "primary",
-    onClick: saveFontFamilies
-  }, __('Update')));
-}
-/* harmony default export */ var installed_fonts = ((/* unused pure expression or super */ null && (installed_fonts_InstalledFonts)));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/collection-font-variant.js
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-function collection_font_variant_CollectionFontVariant({
-  face,
-  font,
-  handleToggleVariant,
-  selected
-}) {
-  const handleToggleActivation = () => {
-    if (font?.fontFace) {
-      handleToggleVariant(font, face);
-      return;
-    }
-    handleToggleVariant(font);
-  };
-  const displayName = font.name + ' ' + getFontFaceVariantName(face);
-  return createElement("div", {
-    className: "font-library-modal__library-font-variant"
-  }, createElement(Flex, {
-    justify: "space-between",
-    align: "center",
-    gap: "1rem"
-  }, createElement(FontFaceDemo, {
-    fontFace: face,
-    text: displayName
-  }), createElement(CheckboxControl, {
-    checked: selected,
-    onChange: handleToggleActivation,
-    __nextHasNoMarginBottom: true
-  })));
-}
-/* harmony default export */ var collection_font_variant = ((/* unused pure expression or super */ null && (collection_font_variant_CollectionFontVariant)));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/collection-font-details.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/upload-fonts.js
 
 /**
  * WordPress dependencies
@@ -26475,234 +26866,12 @@ function collection_font_variant_CollectionFontVariant({
  * Internal dependencies
  */
 
-
-
-function collection_font_details_CollectionFontDetails({
-  font,
-  handleToggleVariant,
-  fontToInstallOutline
-}) {
-  const fontFaces = font.fontFace && font.fontFace.length ? sortFontFaces(font.fontFace) : [{
-    fontFamily: font.fontFamily,
-    fontStyle: 'normal',
-    fontWeight: '400'
-  }];
+function upload_fonts_UploadFonts() {
   return createElement(Fragment, null, createElement(Spacer, {
-    margin: 4
-  }), createElement(VStack, {
-    spacing: 0
-  }, createElement(Spacer, {
     margin: 8
-  }), fontFaces.map((face, i) => createElement(CollectionFontVariant, {
-    font: font,
-    face: face,
-    key: `face${i}`,
-    handleToggleVariant: handleToggleVariant,
-    selected: isFontFontFaceInOutline(font.slug, face, fontToInstallOutline)
-  }))), createElement(Spacer, {
-    margin: 8
-  }));
+  }), createElement(LocalFonts, null));
 }
-/* harmony default export */ var collection_font_details = ((/* unused pure expression or super */ null && (collection_font_details_CollectionFontDetails)));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/google-fonts-confirm-dialog.js
-
-/**
- * WordPress dependencies
- */
-
-
-function google_fonts_confirm_dialog_GoogleFontsConfirmDialog() {
-  const handleConfirm = () => {
-    // eslint-disable-next-line no-undef
-    window.localStorage.setItem('wp-font-library-default-font-collection-permission', 'true');
-    window.dispatchEvent(new Event('storage'));
-  };
-  return createElement("div", {
-    className: "font-library__google-fonts-confirm"
-  }, createElement(Card, null, createElement(CardBody, null, createElement(Text, {
-    as: "h3"
-  }, "Connect to Google Fonts"), createElement(Spacer, {
-    margin: 6
-  }), createElement(Text, {
-    as: "p"
-  }, __('To install fonts from Google you must give permission to connect directly to Google servers. The fonts you install will be downloaded from Google and stored on your site. Your site will then use these locally-hosted fonts.')), createElement(Spacer, {
-    margin: 3
-  }), createElement(Text, {
-    as: "p"
-  }, __('You can alternatively upload files directly on the Library tab.')), createElement(Spacer, {
-    margin: 6
-  }), createElement(Button, {
-    variant: "primary",
-    onClick: handleConfirm
-  }, __('Allow access to Google Fonts')))));
-}
-/* harmony default export */ var google_fonts_confirm_dialog = ((/* unused pure expression or super */ null && (google_fonts_confirm_dialog_GoogleFontsConfirmDialog)));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/font-collection.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-
-
-const DEFAULT_CATEGORY = {
-  id: 'all',
-  name: (0,external_wp_i18n_namespaceObject.__)('All')
-};
-function font_collection_FontCollection({
-  id
-}) {
-  var _selectedCollection$d2;
-  const requiresPermission = id === 'default-font-collection';
-  const getGoogleFontsPermissionFromStorage = () => {
-    return window.localStorage.getItem('wp-font-library-default-font-collection-permission') === 'true';
-  };
-  const [selectedFont, setSelectedFont] = useState(null);
-  const [fontsToInstall, setFontsToInstall] = useState([]);
-  const [filters, setFilters] = useState({});
-  const [renderConfirmDialog, setRenderConfirmDialog] = useState(requiresPermission && !getGoogleFontsPermissionFromStorage());
-  const {
-    collections,
-    getFontCollection
-  } = useContext(FontLibraryContext);
-  const selectedCollection = collections.find(collection => collection.id === id);
-  useEffect(() => {
-    const handleStorage = () => {
-      setRenderConfirmDialog(requiresPermission && !getGoogleFontsPermissionFromStorage());
-    };
-    handleStorage();
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, [id, requiresPermission]);
-  useEffect(() => {
-    getFontCollection(id);
-    resetFilters();
-  }, [id, getFontCollection]);
-  useEffect(() => {
-    setSelectedFont(null);
-  }, [id]);
-  const collectionFonts = useMemo(() => {
-    var _selectedCollection$d;
-    return (_selectedCollection$d = selectedCollection?.data?.fontFamilies) !== null && _selectedCollection$d !== void 0 ? _selectedCollection$d : [];
-  }, [selectedCollection]);
-  const collectionCategories = (_selectedCollection$d2 = selectedCollection?.data?.categories) !== null && _selectedCollection$d2 !== void 0 ? _selectedCollection$d2 : [];
-  const categories = [DEFAULT_CATEGORY, ...collectionCategories];
-  const fonts = useMemo(() => filterFonts(collectionFonts, filters), [collectionFonts, filters]);
-  const handleCategoryFilter = category => {
-    setFilters({
-      ...filters,
-      category
-    });
-  };
-  const handleUpdateSearchInput = value => {
-    setFilters({
-      ...filters,
-      search: value
-    });
-  };
-  const debouncedUpdateSearchInput = debounce(handleUpdateSearchInput, 300);
-  const resetFilters = () => {
-    setFilters({});
-  };
-  const resetSearch = () => {
-    setFilters({
-      ...filters,
-      search: ''
-    });
-  };
-  const handleUnselectFont = () => {
-    setSelectedFont(null);
-  };
-  const handleToggleVariant = (font, face) => {
-    const newFontsToInstall = toggleFont(font, face, fontsToInstall);
-    setFontsToInstall(newFontsToInstall);
-  };
-  const fontToInstallOutline = getFontsOutline(fontsToInstall);
-  const resetFontsToInstall = () => {
-    setFontsToInstall([]);
-  };
-  return createElement(TabLayout, {
-    title: !selectedFont ? selectedCollection.name : selectedFont.name,
-    description: !selectedFont ? selectedCollection.description : __('Select font variants to install.'),
-    handleBack: !!selectedFont && handleUnselectFont,
-    footer: fontsToInstall.length > 0 && createElement(font_collection_Footer, {
-      fontsToInstall: fontsToInstall,
-      resetFontsToInstall: resetFontsToInstall
-    })
-  }, renderConfirmDialog && createElement(Fragment, null, createElement(Spacer, {
-    margin: 8
-  }), createElement(GoogleFontsConfirmDialog, null)), !renderConfirmDialog && !selectedCollection.data && createElement(Spinner, null), !renderConfirmDialog && !selectedFont && createElement(Flex, null, createElement(FlexItem, null, createElement(InputControl, {
-    value: filters.search,
-    placeholder: __('Font name…'),
-    label: __('Search'),
-    onChange: debouncedUpdateSearchInput,
-    prefix: createElement(Icon, {
-      icon: search
-    }),
-    suffix: filters?.search ? createElement(Icon, {
-      icon: closeSmall,
-      onClick: resetSearch
-    }) : null
-  })), createElement(FlexItem, null, createElement(SelectControl, {
-    label: __('Category'),
-    value: filters.category,
-    onChange: handleCategoryFilter
-  }, categories && categories.map(category => createElement("option", {
-    value: category.id,
-    key: category.id
-  }, category.name))))), createElement(Spacer, {
-    margin: 4
-  }), !renderConfirmDialog && !selectedCollection?.data?.fontFamilies && createElement(Spinner, null), !renderConfirmDialog && !!selectedCollection?.data?.fontFamilies?.length && !fonts.length && createElement(Text, null, __('No fonts found. Try with a different seach term')), !renderConfirmDialog && selectedFont && createElement(CollectionFontDetails, {
-    font: selectedFont,
-    handleToggleVariant: handleToggleVariant,
-    fontToInstallOutline: fontToInstallOutline
-  }), !renderConfirmDialog && !selectedFont && createElement(FontsGrid, null, fonts.map(font => createElement(FontCard, {
-    key: font.slug,
-    font: font,
-    onClick: () => {
-      setSelectedFont(font);
-    }
-  }))));
-}
-function font_collection_Footer({
-  fontsToInstall,
-  resetFontsToInstall
-}) {
-  const {
-    installFonts,
-    isInstalling
-  } = useContext(FontLibraryContext);
-  const handleInstall = async () => {
-    await installFonts(fontsToInstall);
-    resetFontsToInstall();
-  };
-  return createElement(Flex, {
-    justify: "flex-end"
-  }, createElement(Button, {
-    variant: "primary",
-    onClick: handleInstall,
-    isBusy: isInstalling,
-    disabled: isInstalling
-  }, __('Install')));
-}
-/* harmony default export */ var font_collection = ((/* unused pure expression or super */ null && (font_collection_FontCollection)));
+/* harmony default export */ var upload_fonts = ((/* unused pure expression or super */ null && (upload_fonts_UploadFonts)));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/index.js
 
@@ -26719,11 +26888,16 @@ function font_collection_Footer({
 
 
 
-const INSTALLED_FONTS_TAB = {
+
+const DEFAULT_TABS = [{
   name: 'installed-fonts',
   title: (0,external_wp_i18n_namespaceObject.__)('Library'),
   className: 'installed-fonts'
-};
+}, {
+  name: 'upload-fonts',
+  title: (0,external_wp_i18n_namespaceObject.__)('Upload'),
+  className: 'upload-fonts'
+}];
 const tabsFromCollections = collections => collections.map(({
   id,
   name
@@ -26739,7 +26913,7 @@ function font_library_modal_FontLibraryModal({
   const {
     collections
   } = useContext(FontLibraryContext);
-  const tabs = [INSTALLED_FONTS_TAB, ...tabsFromCollections(collections || [])];
+  const tabs = [...DEFAULT_TABS, ...tabsFromCollections(collections || [])];
   return createElement(Modal, {
     title: __('Fonts'),
     onRequestClose: onRequestClose,
@@ -26751,6 +26925,8 @@ function font_library_modal_FontLibraryModal({
     tabs: tabs
   }, tab => {
     switch (tab.name) {
+      case 'upload-fonts':
+        return createElement(UploadFonts, null);
       case 'installed-fonts':
         return createElement(InstalledFonts, null);
       default:
@@ -28943,7 +29119,7 @@ function ResetDefaultTemplate({
         }
       });
     }
-  }, (0,external_wp_i18n_namespaceObject.__)('Reset')));
+  }, (0,external_wp_i18n_namespaceObject.__)('Use default template')));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-edit-mode/page-panels/edit-template.js
@@ -29248,7 +29424,7 @@ function TemplateAreas() {
     templatePart,
     block
   }) => (0,external_wp_element_namespaceObject.createElement)("li", {
-    key: templatePart.slug
+    key: block.clientId
   }, (0,external_wp_element_namespaceObject.createElement)(TemplateAreaItem, {
     area: templatePart.area,
     clientId: block.clientId
@@ -29511,7 +29687,7 @@ function PatternCategories({
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelRow, {
     initialOpen: true,
     title: (0,external_wp_i18n_namespaceObject.__)('Categories')
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FormTokenField, {
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FlexBlock, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FormTokenField, {
     __next40pxDefaultSize: true,
     value: values,
     suggestions: suggestions,
@@ -29525,7 +29701,7 @@ function PatternCategories({
       remove: removeTermLabel
     },
     tokenizeOnBlur: true
-  }));
+  })));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-edit-mode/template-panel/index.js
@@ -35826,7 +36002,6 @@ function Grid({
     return null;
   }
   return (0,external_wp_element_namespaceObject.createElement)("ul", {
-    role: "listbox",
     className: "edit-site-patterns__grid",
     ...props
   }, items.map(item => (0,external_wp_element_namespaceObject.createElement)(grid_item, {
@@ -35936,7 +36111,7 @@ const {
 const SYNC_FILTERS = {
   all: (0,external_wp_i18n_namespaceObject.__)('All'),
   [PATTERN_SYNC_TYPES.full]: (0,external_wp_i18n_namespaceObject.__)('Synced'),
-  [PATTERN_SYNC_TYPES.unsynced]: (0,external_wp_i18n_namespaceObject.__)('Standard')
+  [PATTERN_SYNC_TYPES.unsynced]: (0,external_wp_i18n_namespaceObject.__)('Not synced')
 };
 const SYNC_DESCRIPTIONS = {
   all: '',
@@ -36244,6 +36419,7 @@ function AddNewTemplatePart() {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -36254,7 +36430,16 @@ function AddNewTemplatePart() {
 
 
 
+
+const {
+  useLocation: page_template_parts_useLocation
+} = unlock(external_wp_router_namespaceObject.privateApis);
 function PageTemplateParts() {
+  const {
+    params: {
+      didAccessPatternsPage
+    }
+  } = page_template_parts_useLocation();
   const {
     records: templateParts
   } = (0,external_wp_coreData_namespaceObject.useEntityRecords)('postType', TEMPLATE_PART_POST_TYPE, {
@@ -36268,7 +36453,8 @@ function PageTemplateParts() {
     }, (0,external_wp_element_namespaceObject.createElement)(Link, {
       params: {
         postId: templatePart.id,
-        postType: templatePart.type
+        postType: templatePart.type,
+        didAccessPatternsPage: !!didAccessPatternsPage ? 1 : undefined
       },
       state: {
         backPath: '/wp_template_part/all'

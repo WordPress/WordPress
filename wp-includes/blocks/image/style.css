@@ -126,8 +126,8 @@
   cursor:pointer;
   padding:0;
   position:absolute;
-  right:calc(env(safe-area-inset-right) + 12.5px);
-  top:calc(env(safe-area-inset-top) + 12.5px);
+  right:calc(env(safe-area-inset-right) + 20px);
+  top:calc(env(safe-area-inset-top) + 20px);
   z-index:5000000;
 }
 .wp-lightbox-overlay .lightbox-image-container{
@@ -214,10 +214,6 @@
   .wp-lightbox-overlay.zoom.hideanimationenabled:not(.active) .scrim{
     animation:turn-off-visibility .4s forwards;
   }
-}
-
-html.wp-has-lightbox-open{
-  overflow:hidden;
 }
 
 @keyframes turn-on-visibility{

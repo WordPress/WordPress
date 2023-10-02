@@ -124,10 +124,10 @@
 }
 .wp-lightbox-overlay .close-button{
   cursor:pointer;
-  left:calc(env(safe-area-inset-left) + 12.5px);
+  left:calc(env(safe-area-inset-left) + 20px);
   padding:0;
   position:absolute;
-  top:calc(env(safe-area-inset-top) + 12.5px);
+  top:calc(env(safe-area-inset-top) + 20px);
   z-index:5000000;
 }
 .wp-lightbox-overlay .lightbox-image-container{
@@ -214,10 +214,6 @@
   .wp-lightbox-overlay.zoom.hideanimationenabled:not(.active) .scrim{
     animation:turn-off-visibility .4s forwards;
   }
-}
-
-html.wp-has-lightbox-open{
-  overflow:hidden;
 }
 
 @keyframes turn-on-visibility{

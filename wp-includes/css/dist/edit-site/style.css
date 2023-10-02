@@ -3055,7 +3055,6 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 
 .edit-site-sidebar-navigation-screen__title{
   flex-grow:1;
-  overflow:hidden;
   overflow-wrap:break-word;
   padding:6px 0 0;
 }
@@ -3649,9 +3648,20 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   align-items:center;
   background-color:#f0f0f0;
   display:flex;
-  height:100px;
+  height:250px;
   justify-content:center;
   width:100%;
+}
+
+.font-library-modal__local-fonts{
+  margin:0 auto;
+  width:80%;
+}
+.font-library-modal__local-fonts .font-library-modal__upload-area__text{
+  color:#6e6e6e;
+}
+.font-library-modal__local-fonts .font-library-modal__upload-area__notice{
+  margin:0;
 }
 
 .font-library-modal__font-name{
@@ -3690,6 +3700,10 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   max-width:350px;
   min-width:250px;
   width:50%;
+}
+
+.font-library-modal__font-collection__notice{
+  margin:0;
 }
 
 body.js #wpadminbar{

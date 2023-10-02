@@ -36760,6 +36760,7 @@ function overlayMiddlewares() {
 
 
 
+
 /**
  * Name of slot in which popover should fill.
  *
@@ -37031,7 +37032,9 @@ const UnforwardedPopover = (props, forwardedRef) => {
       name: slotName
     }, content);
   } else if (!inline) {
-    content = (0,external_wp_element_namespaceObject.createPortal)(content, getPopoverFallbackContainer());
+    content = (0,external_wp_element_namespaceObject.createPortal)((0,external_wp_element_namespaceObject.createElement)(StyleProvider, {
+      document: document
+    }, content), getPopoverFallbackContainer());
   }
   if (hasAnchor) {
     return content;

@@ -24103,7 +24103,7 @@ function image_Image({
     availableUnits: ['px']
   });
   const lightboxSetting = (0,external_wp_blockEditor_namespaceObject.useSetting)('lightbox');
-  const showLightboxToggle = lightboxSetting === true || lightboxSetting?.allowEditing === true;
+  const showLightboxToggle = !!lightbox || lightboxSetting?.allowEditing === true;
   const lightboxChecked = lightbox?.enabled || !lightbox && lightboxSetting?.enabled;
   const dimensionsControl = (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
     value: {
@@ -36709,7 +36709,7 @@ function ParagraphBlock({
     onMerge: mergeBlocks,
     onReplace: onReplace,
     onRemove: onRemove,
-    "aria-label": content ? (0,external_wp_i18n_namespaceObject.__)('Paragraph block') : (0,external_wp_i18n_namespaceObject.__)('Empty block; start writing or type forward slash to choose a block'),
+    "aria-label": content ? (0,external_wp_i18n_namespaceObject.__)('Block: Paragraph') : (0,external_wp_i18n_namespaceObject.__)('Empty block; start writing or type forward slash to choose a block'),
     "data-empty": content ? false : true,
     placeholder: placeholder || (0,external_wp_i18n_namespaceObject.__)('Type / to choose a block'),
     "data-custom-placeholder": placeholder ? true : undefined,
@@ -46918,7 +46918,7 @@ function SearchEdit({
     isSearchFieldHidden,
     style
   } = attributes;
-  const insertedInNavigationBlock = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  const wasJustInsertedIntoNavigationBlock = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getBlockParentsByBlockName,
       wasBlockJustInserted
@@ -46928,15 +46928,17 @@ function SearchEdit({
   const {
     __unstableMarkNextChangeAsNotPersistent
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
-  if (insertedInNavigationBlock) {
-    // This side-effect should not create an undo level.
-    __unstableMarkNextChangeAsNotPersistent();
-    setAttributes({
-      showLabel: false,
-      buttonUseIcon: true,
-      buttonPosition: 'button-inside'
-    });
-  }
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (wasJustInsertedIntoNavigationBlock) {
+      // This side-effect should not create an undo level.
+      __unstableMarkNextChangeAsNotPersistent();
+      setAttributes({
+        showLabel: false,
+        buttonUseIcon: true,
+        buttonPosition: 'button-inside'
+      });
+    }
+  }, [__unstableMarkNextChangeAsNotPersistent, wasJustInsertedIntoNavigationBlock, setAttributes]);
   const borderRadius = style?.border?.radius;
   const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalUseBorderProps)(attributes);
 

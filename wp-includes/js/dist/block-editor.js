@@ -13581,6 +13581,27 @@ function scopeSelector(scope, selector) {
 }
 
 /**
+ * Appends a sub-selector to an existing one.
+ *
+ * Given the compounded `selector` "h1, h2, h3"
+ * and the `toAppend` selector ".some-class" the result will be
+ * "h1.some-class, h2.some-class, h3.some-class".
+ *
+ * @param {string} selector Original selector.
+ * @param {string} toAppend Selector to append.
+ *
+ * @return {string} The new selector.
+ */
+function appendToSelector(selector, toAppend) {
+  if (!selector.includes(',')) {
+    return selector + toAppend;
+  }
+  const selectors = selector.split(',');
+  const newSelectors = selectors.map(sel => sel + toAppend);
+  return newSelectors.join(',');
+}
+
+/**
  * Compares global style variations according to their styles and settings properties.
  *
  * @example
@@ -13673,7 +13694,7 @@ function useGlobalSetting(propertyPath, blockName, source = 'all') {
     VALID_SETTINGS.forEach(setting => {
       var _getValueFromObjectPa2;
       const value = (_getValueFromObjectPa2 = getValueFromObjectPath(configToUse, `settings${appendedBlockPath}.${setting}`)) !== null && _getValueFromObjectPa2 !== void 0 ? _getValueFromObjectPa2 : getValueFromObjectPath(configToUse, `settings.${setting}`);
-      if (value) {
+      if (value !== undefined) {
         result = setImmutably(result, setting.split('.'), value);
       }
     });
@@ -33577,6 +33598,7 @@ const globe = (0,external_wp_element_namespaceObject.createElement)(external_wp_
 
 
 
+
 const ICONS_MAP = {
   post: post_list,
   page: library_page,
@@ -33602,6 +33624,40 @@ function SearchItemIcon({
   }
   return null;
 }
+
+/**
+ * Adds a leading slash to a url if it doesn't already have one.
+ * @param {string} url the url to add a leading slash to.
+ * @return {string} the url with a leading slash.
+ */
+function addLeadingSlash(url) {
+  const trimmedURL = url?.trim();
+  if (!trimmedURL?.length) return url;
+  return url?.replace(/^\/?/, '/');
+}
+function removeTrailingSlash(url) {
+  const trimmedURL = url?.trim();
+  if (!trimmedURL?.length) return url;
+  return url?.replace(/\/$/, '');
+}
+const partialRight = (fn, ...partialArgs) => (...args) => fn(...args, ...partialArgs);
+const defaultTo = d => v => {
+  return v === null || v === undefined || v !== v ? d : v;
+};
+
+/**
+ * Prepares a URL for display in the UI.
+ * - decodes the URL.
+ * - filters it (removes protocol, www, etc.).
+ * - truncates it if necessary.
+ * - adds a leading slash.
+ * @param {string} url the url.
+ * @return {string} the processed url to display.
+ */
+function getURLForDisplay(url) {
+  if (!url) return url;
+  return (0,external_wp_compose_namespaceObject.pipe)(external_wp_url_namespaceObject.safeDecodeURI, external_wp_url_namespaceObject.getPath, defaultTo(''), partialRight(external_wp_url_namespaceObject.filterURLForDisplay, 24), removeTrailingSlash, addLeadingSlash)(url);
+}
 const LinkControlSearchItem = ({
   itemProps,
   suggestion,
@@ -33610,7 +33666,7 @@ const LinkControlSearchItem = ({
   isURL = false,
   shouldShowType = false
 }) => {
-  const info = isURL ? (0,external_wp_i18n_namespaceObject.__)('Press ENTER to add this link') : (0,external_wp_url_namespaceObject.filterURLForDisplay)((0,external_wp_url_namespaceObject.safeDecodeURI)(suggestion?.url), 24);
+  const info = isURL ? (0,external_wp_i18n_namespaceObject.__)('Press ENTER to add this link') : getURLForDisplay(suggestion.url);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     ...itemProps,
     info: info,
@@ -44119,9 +44175,12 @@ function RenameModal({
   const autoSelectInputText = event => event.target.select();
   const dialogDescription = (0,external_wp_compose_namespaceObject.useInstanceId)(RenameModal, `block-editor-rename-modal__description`);
   const handleSubmit = () => {
+    const message = nameIsOriginal || nameIsEmpty ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
+    (0,external_wp_i18n_namespaceObject.__)('Block name reset to: "%s".'), editedBlockName) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
+    (0,external_wp_i18n_namespaceObject.__)('Block name changed to: "%s".'), editedBlockName);
+
     // Must be assertive to immediately announce change.
-    (0,external_wp_a11y_namespaceObject.speak)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s: type of update (either reset of changed). %2$s: new name/label for the block */
-    (0,external_wp_i18n_namespaceObject.__)('Block name %1$s to: "%2$s".'), nameIsOriginal || nameIsEmpty ? (0,external_wp_i18n_namespaceObject.__)('reset') : (0,external_wp_i18n_namespaceObject.__)('changed'), editedBlockName), 'assertive');
+    (0,external_wp_a11y_namespaceObject.speak)(message, 'assertive');
     onSave(editedBlockName);
 
     // Immediate close avoids ability to hit save multiple times.
@@ -56123,7 +56182,8 @@ function ToolSelector(props, ref) {
       label: (0,external_wp_i18n_namespaceObject.__)('Tools')
     }),
     popoverProps: {
-      placement: 'bottom-start'
+      placement: 'bottom-start',
+      variant: undefined
     },
     renderContent: () => (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.NavigableMenu, {
       role: "menu",
@@ -62160,18 +62220,29 @@ function updateConfigWithSeparator(config) {
   }
   return config;
 }
-const processCSSNesting = (css, blockSelector) => {
+function processCSSNesting(css, blockSelector) {
   let processedCSS = '';
 
   // Split CSS nested rules.
   const parts = css.split('&');
   parts.forEach(part => {
-    processedCSS += !part.includes('{') ? blockSelector + '{' + part + '}' // If the part doesn't contain braces, it applies to the root level.
-    : blockSelector + part; // Prepend the selector, which effectively replaces the "&" character.
+    const isRootCss = !part.includes('{');
+    if (isRootCss) {
+      // If the part doesn't contain braces, it applies to the root level.
+      processedCSS += `${blockSelector}{${part.trim()}}`;
+    } else {
+      // If the part contains braces, it's a nested CSS rule.
+      const splittedPart = part.replace('}', '').split('{');
+      if (splittedPart.length !== 2) {
+        return;
+      }
+      const [nestedSelector, cssValue] = splittedPart;
+      const combinedSelector = nestedSelector.startsWith(' ') ? scopeSelector(blockSelector, nestedSelector) : appendToSelector(blockSelector, nestedSelector);
+      processedCSS += `${combinedSelector}{${cssValue.trim()}}`;
+    }
   });
-
   return processedCSS;
-};
+}
 
 /**
  * Returns the global styles output using a global styles configuration.

@@ -1064,10 +1064,10 @@ const {
  * @return {import('@wordpress/element').WPElement} Component.
  */
 function ShortcutProvider(props) {
-  const keyboardShortcuts = (0,external_wp_element_namespaceObject.useRef)(new Set());
+  const [keyboardShortcuts] = (0,external_wp_element_namespaceObject.useState)(() => new Set());
   function onKeyDown(event) {
     if (props.onKeyDown) props.onKeyDown(event);
-    for (const keyboardShortcut of keyboardShortcuts.current) {
+    for (const keyboardShortcut of keyboardShortcuts) {
       keyboardShortcut(event);
     }
   }

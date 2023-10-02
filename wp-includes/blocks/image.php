@@ -64,7 +64,12 @@ function render_block_core_image( $attributes, $content, $block ) {
 	}
 
 	if ( $lightbox_enabled ) {
-		return block_core_image_render_lightbox( $processor->get_updated_html(), $block->parsed_block );
+		// This render needs to happen in a filter with priority 15 to ensure that it
+		// runs after the duotone filter and that duotone styles are applied to the image
+		// in the lightbox. We also need to ensure that the lightbox works with any plugins
+		// that might use filters as well. We can consider removing this in the future if the
+		// way the blocks are rendered changes, or if a new kind of filter is introduced.
+		add_filter( 'render_block_core/image', 'block_core_image_render_lightbox', 15, 2 );
 	}
 
 	return $processor->get_updated_html();
@@ -267,7 +272,9 @@ function block_core_image_render_lightbox( $block_content, $block ) {
             aria-modal="false"
             data-wp-effect="effects.core.image.initLightbox"
             data-wp-on--keydown="actions.core.image.handleKeydown"
-            data-wp-on--mousewheel="actions.core.image.hideLightbox"
+            data-wp-on--touchstart="actions.core.image.handleTouchStart"
+            data-wp-on--touchmove="actions.core.image.handleTouchMove"
+            data-wp-on--touchend="actions.core.image.handleTouchEnd"
             data-wp-on--click="actions.core.image.hideLightbox"
             >
                 <button type="button" aria-label="$close_button_label" style="fill: $close_button_color" class="close-button" data-wp-on--click="actions.core.image.hideLightbox">
