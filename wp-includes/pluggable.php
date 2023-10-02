@@ -2845,6 +2845,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			'loading'       => null,
 			'fetchpriority' => null,
 			'extra_attr'    => '',
+			'decoding'      => null,
 		);
 
 		if ( empty( $args ) ) {
