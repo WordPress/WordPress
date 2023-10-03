@@ -2797,26 +2797,41 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 * Retrieves the avatar `<img>` tag for a user, email address, MD5 hash, comment, or post.
 	 *
 	 * @since 2.5.0
-	 * @since 4.2.0 Optional `$args` parameter added.
+	 * @since 4.2.0 Added the optional `$args` parameter.
+	 * @since 5.5.0 Added the `loading` argument.
+	 * @since 6.1.0 Added the `decoding` argument.
+	 * @since 6.3.0 Added the `fetchpriority` argument.
 	 *
-	 * @param mixed  $id_or_email   The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+	 * @param mixed  $id_or_email   The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
 	 *                              user email, WP_User object, WP_Post object, or WP_Comment object.
-	 * @param int    $size          Optional. Height and width of the avatar image file in pixels. Default 96.
-	 * @param string $default_value URL for the default image or a default type. Accepts '404' (return
-	 *                              a 404 instead of a default image), 'retro' (8bit), 'RoboHash' (robohash),
-	 *                              'monsterid' (monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
-	 *                              'mystery', 'mm', or 'mysteryman' (The Oyster Man), 'blank' (transparent GIF),
-	 *                              or 'gravatar_default' (the Gravatar logo). Default is the value of the
-	 *                              'avatar_default' option, with a fallback of 'mystery'.
-	 * @param string $alt           Optional. Alternative text to use in img tag. Default empty.
+	 * @param int    $size          Optional. Height and width of the avatar in pixels. Default 96.
+	 * @param string $default_value URL for the default image or a default type. Accepts:
+	 *                              - '404' (return a 404 instead of a default image)
+	 *                              - 'retro' (a 8-bit arcade-style pixelated face)
+	 *                              - 'robohash' (a robot)
+	 *                              - 'monsterid' (a monster)
+	 *                              - 'wavatar' (a cartoon face)
+	 *                              - 'identicon' (the "quilt", a geometric pattern)
+	 *                              - 'mystery', 'mm', or 'mysteryman' (The Oyster Man)
+	 *                              - 'blank' (transparent GIF)
+	 *                              - 'gravatar_default' (the Gravatar logo)
+	 *                              Default is the value of the 'avatar_default' option,
+	 *                              with a fallback of 'mystery'.
+	 * @param string $alt           Optional. Alternative text to use in the avatar image tag.
+	 *                              Default empty.
 	 * @param array  $args {
 	 *     Optional. Extra arguments to retrieve the avatar.
 	 *
 	 *     @type int          $height        Display height of the avatar in pixels. Defaults to $size.
 	 *     @type int          $width         Display width of the avatar in pixels. Defaults to $size.
-	 *     @type bool         $force_default Whether to always show the default image, never the Gravatar. Default false.
-	 *     @type string       $rating        What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
-	 *                                       judged in that order. Default is the value of the 'avatar_rating' option.
+	 *     @type bool         $force_default Whether to always show the default image, never the Gravatar.
+	 *                                       Default false.
+	 *     @type string       $rating        What rating to display avatars up to. Accepts:
+	 *                                       - 'G' (suitable for all audiences)
+	 *                                       - 'PG' (possibly offensive, usually for audiences 13 and above)
+	 *                                       - 'R' (intended for adult audiences above 17)
+	 *                                       - 'X' (even more mature than above)
+	 *                                       Default is the value of the 'avatar_rating' option.
 	 *     @type string       $scheme        URL scheme to use. See set_url_scheme() for accepted values.
 	 *                                       Default null.
 	 *     @type array|string $class         Array or string of additional classes to add to the img element.
@@ -2825,7 +2840,12 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 *                                       Default false.
 	 *     @type string       $loading       Value for the `loading` attribute.
 	 *                                       Default null.
-	 *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
+	 *     @type string       $fetchpriority Value for the `fetchpriority` attribute.
+	 *                                       Default null.
+	 *     @type string       $decoding      Value for the `decoding` attribute.
+	 *                                       Default null.
+	 *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized.
+	 *                                       Default empty.
 	 * }
 	 * @return string|false `<img>` tag for the user's avatar. False on failure.
 	 */
@@ -2844,8 +2864,8 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			'force_display' => false,
 			'loading'       => null,
 			'fetchpriority' => null,
-			'extra_attr'    => '',
 			'decoding'      => null,
+			'extra_attr'    => '',
 		);
 
 		if ( empty( $args ) ) {
@@ -2883,7 +2903,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		 * @since 4.2.0
 		 *
 		 * @param string|null $avatar      HTML for the user's avatar. Default null.
-		 * @param mixed       $id_or_email The avatar to retrieve. Accepts a user_id, Gravatar MD5 hash,
+		 * @param mixed       $id_or_email The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
 		 *                                 user email, WP_User object, WP_Post object, or WP_Comment object.
 		 * @param array       $args        Arguments passed to get_avatar_url(), after processing.
 		 */
@@ -2922,7 +2942,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			}
 		}
 
-		// Add `loading`, `fetchpriority` and `decoding` attributes.
+		// Add `loading`, `fetchpriority`, and `decoding` attributes.
 		$extra_attr = $args['extra_attr'];
 
 		if ( in_array( $args['loading'], array( 'lazy', 'eager' ), true )
@@ -2935,17 +2955,6 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			$extra_attr .= "loading='{$args['loading']}'";
 		}
 
-		if ( in_array( $args['decoding'], array( 'async', 'sync', 'auto' ), true )
-			&& ! preg_match( '/\bdecoding\s*=/', $extra_attr )
-		) {
-			if ( ! empty( $extra_attr ) ) {
-				$extra_attr .= ' ';
-			}
-
-			$extra_attr .= "decoding='{$args['decoding']}'";
-		}
-
-		// Add support for `fetchpriority`.
 		if ( in_array( $args['fetchpriority'], array( 'high', 'low', 'auto' ), true )
 			&& ! preg_match( '/\bfetchpriority\s*=/', $extra_attr )
 		) {
@@ -2954,6 +2963,16 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			}
 
 			$extra_attr .= "fetchpriority='{$args['fetchpriority']}'";
+		}
+
+		if ( in_array( $args['decoding'], array( 'async', 'sync', 'auto' ), true )
+			&& ! preg_match( '/\bdecoding\s*=/', $extra_attr )
+		) {
+			if ( ! empty( $extra_attr ) ) {
+				$extra_attr .= ' ';
+			}
+
+			$extra_attr .= "decoding='{$args['decoding']}'";
 		}
 
 		$avatar = sprintf(
@@ -2971,14 +2990,22 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		 * Filters the HTML for a user's avatar.
 		 *
 		 * @since 2.5.0
-		 * @since 4.2.0 The `$args` parameter was added.
+		 * @since 4.2.0 Added the `$args` parameter.
 		 *
 		 * @param string $avatar        HTML for the user's avatar.
-		 * @param mixed  $id_or_email   The avatar to retrieve. Accepts a user_id, Gravatar MD5 hash,
+		 * @param mixed  $id_or_email   The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
 		 *                              user email, WP_User object, WP_Post object, or WP_Comment object.
-		 * @param int    $size          Square avatar width and height in pixels to retrieve.
-		 * @param string $default_value URL for the default image or a default type. Accepts '404', 'retro', 'monsterid',
-		 *                              'wavatar', 'indenticon', 'mystery', 'mm', 'mysteryman', 'blank', or 'gravatar_default'.
+		 * @param int    $size          Height and width of the avatar in pixels.
+		 * @param string $default_value URL for the default image or a default type. Accepts:
+		 *                              - '404' (return a 404 instead of a default image)
+		 *                              - 'retro' (a 8-bit arcade-style pixelated face)
+		 *                              - 'robohash' (a robot)
+		 *                              - 'monsterid' (a monster)
+		 *                              - 'wavatar' (a cartoon face)
+		 *                              - 'identicon' (the "quilt", a geometric pattern)
+		 *                              - 'mystery', 'mm', or 'mysteryman' (The Oyster Man)
+		 *                              - 'blank' (transparent GIF)
+		 *                              - 'gravatar_default' (the Gravatar logo)
 		 * @param string $alt           Alternative text to use in the avatar image tag.
 		 * @param array  $args          Arguments passed to get_avatar_data(), after processing.
 		 */
