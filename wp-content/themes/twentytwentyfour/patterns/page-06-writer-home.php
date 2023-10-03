@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Writer Home Page
- * Slug: twentytwentyfour/page-writer-home
+ * Slug: twentytwentyfour/writer-home
  * Categories: text, page
  * Keywords: page, starter
  * Block Types: core/post-content
@@ -26,7 +26,7 @@
 
 <!-- wp:post-title {"isLink":true,"fontSize":"large"} /-->
 
-<!-- wp:template-part {"slug":"post-meta","theme":"twentytwentyfour"} /-->
+<!-- wp:template-part {"slug":"post-meta"} /-->
 
 </article>
 <!-- /wp:group -->
@@ -47,7 +47,7 @@
 <!-- /wp:query-pagination -->
 
 <!-- wp:query-no-results -->
-<!-- wp:pattern {"slug":"twentytwentyfour/hidden-no-results-content"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/no-results-content"} /-->
 <!-- /wp:query-no-results --></div>
 <!-- /wp:query --></div>
 <!-- /wp:column -->
@@ -58,7 +58,7 @@
 
 <!-- wp:column {"width":"30%"} -->
 <div class="wp-block-column" style="flex-basis:30%">
-<!-- wp:template-part {"slug":"sidebar","theme":"twentytwentyfour"} /-->
+<!-- wp:template-part {"slug":"sidebar","tagName":"aside"} /-->
 </div>
 <!-- /wp:column -->
 

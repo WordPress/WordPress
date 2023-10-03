@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Heading on left
- * Slug: twentytwentyfour/hidden-intro-text-left
+ * Slug: twentytwentyfour/intro-text-left
  * Categories: text
  * Inserter: no
  */

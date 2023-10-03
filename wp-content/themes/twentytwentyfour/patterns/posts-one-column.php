@@ -32,7 +32,7 @@
 		<!-- wp:query-pagination-next /-->
 		<!-- /wp:query-pagination -->
 		<!-- wp:query-no-results -->
-			<!-- wp:pattern {"slug":"twentytwentyfour/hidden-no-results-content"} /-->
+			<!-- wp:pattern {"slug":"twentytwentyfour/no-results-content"} /-->
 		<!-- /wp:query-no-results -->
 	</div>
 	<!-- /wp:group -->

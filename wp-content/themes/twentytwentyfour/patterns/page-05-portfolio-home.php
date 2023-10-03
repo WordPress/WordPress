@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Portfolio Home Page
- * Slug: twentytwentyfour/page-portfolio-home
+ * Slug: twentytwentyfour/portfolio-home
  * Categories: portfolio
  * Keywords: page, starter
  * Block Types: core/post-content
@@ -10,5 +10,5 @@
  */
 ?>
 
-<!-- wp:pattern {"slug":"twentytwentyfour/hidden-intro-text-left"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/intro-text-left"} /-->
 <!-- wp:pattern {"slug":"twentytwentyfour/offset-grid-image-posts"} /-->

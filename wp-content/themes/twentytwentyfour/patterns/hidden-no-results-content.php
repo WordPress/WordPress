@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Hidden No Results Content
- * Slug: twentytwentyfour/hidden-no-results-content
+ * Slug: twentytwentyfour/no-results-content
  * Inserter: no
  */
 ?>

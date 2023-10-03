@@ -8,11 +8,7 @@
  */
 ?>
 
-<!-- wp:group {"style":{"position":{"type":"sticky","top":"0px"}},"layout":{"type":"default"}} -->
-<div class="wp-block-group">
-	<!-- wp:template-part {"slug":"header","theme":"twentytwentyfour"} /-->
-</div>
-<!-- /wp:group -->
+<!-- wp:template-part {"slug":"header"} /-->
 
 
 <!-- wp:group {"tagName":"main","align":"full","layout":{"type":"constrained"}} -->
@@ -23,10 +19,10 @@
 	<div class="wp-block-columns alignwide">
 		<!-- wp:column {"width":"66.66%"} -->
 		<div class="wp-block-column" style="flex-basis:66.66%">
-			<!-- wp:pattern {"slug":"twentytwentyfour/hidden-search"} /-->
+			<!-- wp:pattern {"slug":"twentytwentyfour/search"} /-->
 		</div>
 		<!-- /wp:column -->
-	
+
 		<!-- wp:column {"width":"33.33%"} -->
 		<div class="wp-block-column" style="flex-basis:33.33%">
 			<!-- wp:spacer {"height":"0"} -->
@@ -36,9 +32,9 @@
 		<!-- /wp:column -->
 	</div>
 	<!-- /wp:columns -->
-	
+
 	<!-- wp:pattern {"slug":"twentytwentyfour/posts-three-columns-images"} /-->
 </main>
 <!-- /wp:group -->
 
-<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer","theme":"twentytwentyfour"} /-->
+<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->

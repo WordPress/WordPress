@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Portfolio Overview Page
- * Slug: twentytwentyfour/page-project-overview
+ * Slug: twentytwentyfour/portfolio-overview
  * Categories: about
  * Keywords: page, starter
  * Block Types: core/post-content
