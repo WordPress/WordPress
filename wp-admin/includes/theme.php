@@ -81,6 +81,8 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 	 */
 	do_action( 'delete_theme', $stylesheet );
 
+	$theme = wp_get_theme( $stylesheet );
+
 	$themes_dir = trailingslashit( $themes_dir );
 	$theme_dir  = trailingslashit( $themes_dir . $stylesheet );
 	$deleted    = $wp_filesystem->delete( $theme_dir, true );
@@ -124,6 +126,9 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 	if ( is_multisite() ) {
 		WP_Theme::network_disable_theme( $stylesheet );
 	}
+
+	// Clear theme caches.
+	$theme->cache_delete();
 
 	// Force refresh of theme update information.
 	delete_site_transient( 'update_themes' );

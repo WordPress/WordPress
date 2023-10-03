@@ -821,6 +821,16 @@ final class WP_Theme implements ArrayAccess {
 		$this->block_template_folders = null;
 		$this->headers                = array();
 		$this->__construct( $this->stylesheet, $this->theme_root );
+		$this->delete_pattern_cache();
+	}
+
+	/**
+	 * Clear block pattern cache.
+	 *
+	 * @since 6.4.0
+	 */
+	public function delete_pattern_cache() {
+		delete_transient( 'wp_theme_patterns_' . $this->stylesheet );
 	}
 
 	/**

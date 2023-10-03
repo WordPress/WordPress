@@ -873,6 +873,10 @@ function switch_theme( $stylesheet ) {
 	$wp_stylesheet_path = null;
 	$wp_template_path   = null;
 
+	// Clear pattern caches.
+	$new_theme->delete_pattern_cache();
+	$old_theme->delete_pattern_cache();
+
 	/**
 	 * Fires after the theme is switched.
 	 *
