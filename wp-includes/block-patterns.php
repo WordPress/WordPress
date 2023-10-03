@@ -341,11 +341,11 @@ function _register_theme_block_patterns() {
 	$registry = WP_Block_Patterns_Registry::get_instance();
 
 	foreach ( $themes as $theme ) {
-		$pattern_data = _wp_get_block_patterns( $theme );
-		$dirpath      = $theme->get_stylesheet_directory() . '/patterns/';
-		$text_domain  = $theme->get( 'TextDomain' );
+		$patterns    = _wp_get_block_patterns( $theme );
+		$dirpath     = $theme->get_stylesheet_directory() . '/patterns/';
+		$text_domain = $theme->get( 'TextDomain' );
 
-		foreach ( $pattern_data['patterns'] as $file => $pattern_data ) {
+		foreach ( $patterns as $file => $pattern_data ) {
 			if ( $registry->is_registered( $pattern_data['slug'] ) ) {
 				continue;
 			}
@@ -405,42 +405,29 @@ add_action( 'init', '_register_theme_block_patterns' );
  * @param WP_Theme $theme Theme object.
  * @return array Block pattern data.
  */
-
 function _wp_get_block_patterns( WP_Theme $theme ) {
-	if ( ! $theme->exists() ) {
-		return array(
-			'version'  => false,
-			'patterns' => array(),
-		);
-	}
-
-	$transient_name = 'wp_theme_patterns_' . $theme->get_stylesheet();
-	$version        = $theme->get( 'Version' );
 	$can_use_cached = ! wp_is_development_mode( 'theme' );
 
 	if ( $can_use_cached ) {
-		$pattern_data = get_transient( $transient_name );
-		if ( is_array( $pattern_data ) && $pattern_data['version'] === $version ) {
+		$pattern_data = $theme->get_pattern_cache();
+		if ( is_array( $pattern_data ) ) {
 			return $pattern_data;
 		}
 	}
 
-	$pattern_data = array(
-		'version'  => $version,
-		'patterns' => array(),
-	);
 	$dirpath      = $theme->get_stylesheet_directory() . '/patterns/';
+	$pattern_data = array();
 
 	if ( ! file_exists( $dirpath ) ) {
 		if ( $can_use_cached ) {
-			set_transient( $transient_name, $pattern_data );
+			$theme->set_pattern_cache( $pattern_data );
 		}
 		return $pattern_data;
 	}
 	$files = glob( $dirpath . '*.php' );
 	if ( ! $files ) {
 		if ( $can_use_cached ) {
-			set_transient( $transient_name, $pattern_data );
+			$theme->set_pattern_cache( $pattern_data );
 		}
 		return $pattern_data;
 	}
@@ -473,7 +460,7 @@ function _wp_get_block_patterns( WP_Theme $theme ) {
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-					/* translators: %s: file name. */
+					/* translators: 1: file name. */
 					__( 'Could not register file "%s" as a block pattern ("Slug" field missing)' ),
 					$file
 				),
@@ -486,7 +473,7 @@ function _wp_get_block_patterns( WP_Theme $theme ) {
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-					/* translators: %1s: file name; %2s: slug value found. */
+					/* translators: 1: file name; 2: slug value found. */
 					__( 'Could not register file "%1$s" as a block pattern (invalid slug "%2$s")' ),
 					$file,
 					$pattern['slug']
@@ -500,7 +487,7 @@ function _wp_get_block_patterns( WP_Theme $theme ) {
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-					/* translators: %1s: file name. */
+					/* translators: 1: file name. */
 					__( 'Could not register file "%s" as a block pattern ("Title" field missing)' ),
 					$file
 				),
@@ -540,11 +527,11 @@ function _wp_get_block_patterns( WP_Theme $theme ) {
 
 		$key = str_replace( $dirpath, '', $file );
 
-		$pattern_data['patterns'][ $key ] = $pattern;
+		$pattern_data[ $key ] = $pattern;
 	}
 
 	if ( $can_use_cached ) {
-		set_transient( $transient_name, $pattern_data );
+		$theme->set_pattern_cache( $pattern_data );
 	}
 
 	return $pattern_data;
