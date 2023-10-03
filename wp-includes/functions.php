@@ -7169,7 +7169,7 @@ function _get_non_cached_ids( $object_ids, $cache_group ) {
 	$cache_values   = wp_cache_get_multiple( $object_ids, $cache_group );
 
 	foreach ( $cache_values as $id => $value ) {
-		if ( ! $value ) {
+		if ( false === $value ) {
 			$non_cached_ids[] = (int) $id;
 		}
 	}
