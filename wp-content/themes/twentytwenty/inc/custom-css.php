@@ -144,7 +144,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 
 			// Text color.
 			if ( $body && $body !== $body_default ) {
-				twentytwenty_generate_css( 'body .editor-styles-wrapper, .editor-post-title__block .editor-post-title__input, .editor-post-title__block .editor-post-title__input:focus', 'color', $body );
+				twentytwenty_generate_css( 'html .editor-styles-wrapper, .editor-post-title__block .editor-post-title__input, .editor-post-title__block .editor-post-title__input:focus', 'color', $body );
 			}
 
 			// Secondary color.
