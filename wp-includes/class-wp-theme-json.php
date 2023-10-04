@@ -2849,6 +2849,7 @@ class WP_Theme_JSON {
 	 * Removes insecure data from theme.json.
 	 *
 	 * @since 5.9.0
+	 * @since 6.3.2 Preserves global styles block variations when securing styles.
 	 *
 	 * @param array $theme_json Structure to sanitize.
 	 * @return array Sanitized structure.
@@ -2909,6 +2910,20 @@ class WP_Theme_JSON {
 
 			if ( ! empty( $output ) ) {
 				_wp_array_set( $sanitized, $metadata['path'], $output );
+			}
+
+			if ( isset( $metadata['variations'] ) ) {
+				foreach ( $metadata['variations'] as $variation ) {
+					$variation_input = _wp_array_get( $theme_json, $variation['path'], array() );
+					if ( empty( $variation_input ) ) {
+						continue;
+					}
+
+					$variation_output = static::remove_insecure_styles( $variation_input );
+					if ( ! empty( $variation_output ) ) {
+						_wp_array_set( $sanitized, $variation['path'], $variation_output );
+					}
+				}
 			}
 		}
 
