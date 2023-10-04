@@ -2848,7 +2848,7 @@ class WP_Theme_JSON {
 	 * Removes insecure data from theme.json.
 	 *
 	 * @since 5.9.0
-	 * @since 6.3.1 Preserves global styles block variations when securing styles.
+	 * @since 6.3.2 Preserves global styles block variations when securing styles.
 	 *
 	 * @param array $theme_json Structure to sanitize.
 	 * @return array Sanitized structure.
