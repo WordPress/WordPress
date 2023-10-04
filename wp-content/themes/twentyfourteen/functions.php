@@ -542,7 +542,7 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 		/**
 		 * Filters query arguments for listing authors.
 		 *
-		 * @since 3.3
+		 * @since Twenty Fourteen 3.3
 		 *
 		 * @param array $args Query arguments.
 		 */
