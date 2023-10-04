@@ -2112,7 +2112,7 @@ $( function( $ ) {
  * stops animations for all GIFs on the page with the class 'plugin-icon' or 
  * plugin icon images in the update plugins table.
  *
- * @since 6.4
+ * @since 6.4.0
  */
 (function() {
 	// Private variables and methods.
