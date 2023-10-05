@@ -12532,7 +12532,7 @@ var r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeo
 /* harmony default export */ function names(e,f){var a={white:"#ffffff",bisque:"#ffe4c4",blue:"#0000ff",cadetblue:"#5f9ea0",chartreuse:"#7fff00",chocolate:"#d2691e",coral:"#ff7f50",antiquewhite:"#faebd7",aqua:"#00ffff",azure:"#f0ffff",whitesmoke:"#f5f5f5",papayawhip:"#ffefd5",plum:"#dda0dd",blanchedalmond:"#ffebcd",black:"#000000",gold:"#ffd700",goldenrod:"#daa520",gainsboro:"#dcdcdc",cornsilk:"#fff8dc",cornflowerblue:"#6495ed",burlywood:"#deb887",aquamarine:"#7fffd4",beige:"#f5f5dc",crimson:"#dc143c",cyan:"#00ffff",darkblue:"#00008b",darkcyan:"#008b8b",darkgoldenrod:"#b8860b",darkkhaki:"#bdb76b",darkgray:"#a9a9a9",darkgreen:"#006400",darkgrey:"#a9a9a9",peachpuff:"#ffdab9",darkmagenta:"#8b008b",darkred:"#8b0000",darkorchid:"#9932cc",darkorange:"#ff8c00",darkslateblue:"#483d8b",gray:"#808080",darkslategray:"#2f4f4f",darkslategrey:"#2f4f4f",deeppink:"#ff1493",deepskyblue:"#00bfff",wheat:"#f5deb3",firebrick:"#b22222",floralwhite:"#fffaf0",ghostwhite:"#f8f8ff",darkviolet:"#9400d3",magenta:"#ff00ff",green:"#008000",dodgerblue:"#1e90ff",grey:"#808080",honeydew:"#f0fff0",hotpink:"#ff69b4",blueviolet:"#8a2be2",forestgreen:"#228b22",lawngreen:"#7cfc00",indianred:"#cd5c5c",indigo:"#4b0082",fuchsia:"#ff00ff",brown:"#a52a2a",maroon:"#800000",mediumblue:"#0000cd",lightcoral:"#f08080",darkturquoise:"#00ced1",lightcyan:"#e0ffff",ivory:"#fffff0",lightyellow:"#ffffe0",lightsalmon:"#ffa07a",lightseagreen:"#20b2aa",linen:"#faf0e6",mediumaquamarine:"#66cdaa",lemonchiffon:"#fffacd",lime:"#00ff00",khaki:"#f0e68c",mediumseagreen:"#3cb371",limegreen:"#32cd32",mediumspringgreen:"#00fa9a",lightskyblue:"#87cefa",lightblue:"#add8e6",midnightblue:"#191970",lightpink:"#ffb6c1",mistyrose:"#ffe4e1",moccasin:"#ffe4b5",mintcream:"#f5fffa",lightslategray:"#778899",lightslategrey:"#778899",navajowhite:"#ffdead",navy:"#000080",mediumvioletred:"#c71585",powderblue:"#b0e0e6",palegoldenrod:"#eee8aa",oldlace:"#fdf5e6",paleturquoise:"#afeeee",mediumturquoise:"#48d1cc",mediumorchid:"#ba55d3",rebeccapurple:"#663399",lightsteelblue:"#b0c4de",mediumslateblue:"#7b68ee",thistle:"#d8bfd8",tan:"#d2b48c",orchid:"#da70d6",mediumpurple:"#9370db",purple:"#800080",pink:"#ffc0cb",skyblue:"#87ceeb",springgreen:"#00ff7f",palegreen:"#98fb98",red:"#ff0000",yellow:"#ffff00",slateblue:"#6a5acd",lavenderblush:"#fff0f5",peru:"#cd853f",palevioletred:"#db7093",violet:"#ee82ee",teal:"#008080",slategray:"#708090",slategrey:"#708090",aliceblue:"#f0f8ff",darkseagreen:"#8fbc8f",darkolivegreen:"#556b2f",greenyellow:"#adff2f",seagreen:"#2e8b57",seashell:"#fff5ee",tomato:"#ff6347",silver:"#c0c0c0",sienna:"#a0522d",lavender:"#e6e6fa",lightgreen:"#90ee90",orange:"#ffa500",orangered:"#ff4500",steelblue:"#4682b4",royalblue:"#4169e1",turquoise:"#40e0d0",yellowgreen:"#9acd32",salmon:"#fa8072",saddlebrown:"#8b4513",sandybrown:"#f4a460",rosybrown:"#bc8f8f",darksalmon:"#e9967a",lightgoldenrodyellow:"#fafad2",snow:"#fffafa",lightgrey:"#d3d3d3",lightgray:"#d3d3d3",dimgray:"#696969",dimgrey:"#696969",olivedrab:"#6b8e23",olive:"#808000"},r={};for(var d in a)r[a[d]]=d;var l={};e.prototype.toName=function(f){if(!(this.rgba.a||this.rgba.r||this.rgba.g||this.rgba.b))return"transparent";var d,i,n=r[this.toHex()];if(n)return n;if(null==f?void 0:f.closest){var o=this.toRgb(),t=1/0,b="black";if(!l.length)for(var c in a)l[c]=new e(a[c]).toRgb();for(var g in a){var u=(d=o,i=l[g],Math.pow(d.r-i.r,2)+Math.pow(d.g-i.g,2)+Math.pow(d.b-i.b,2));u<t&&(t=u,b=g)}return b}};f.string.push([function(f){var r=f.toLowerCase(),d="transparent"===r?"#0000":a[r];return d?new e(d).toRgb():null},"name"])}
 
 ;// CONCATENATED MODULE: ./node_modules/fast-average-color/dist/index.esm.js
-/*! Fast Average Color | © 2022 Denis Seleznev | MIT License | https://github.com/fast-average-color/fast-average-color */
+/*! Fast Average Color | © 2023 Denis Seleznev | MIT License | https://github.com/fast-average-color/fast-average-color */
 function toHex(num) {
     var str = num.toString(16);
     return str.length === 1 ? '0' + str : str;
@@ -12635,9 +12635,10 @@ function isIgnoredRGBAColorWithThreshold(data, index, ignoredColor) {
     return false;
 }
 
+var DEFAULT_DOMINANT_DIVIDER = 24;
 function dominantAlgorithm(arr, len, options) {
     var colorHash = {};
-    var divider = 24;
+    var divider = options.dominantDivider || DEFAULT_DOMINANT_DIVIDER;
     var ignoredColor = options.ignoredColor;
     var step = options.step;
     var max = [0, 0, 0, 0, 0];
@@ -12870,12 +12871,9 @@ var FastAverageColor = /** @class */ (function () {
         this.canvas = null;
         this.ctx = null;
     }
-    /**
-     * Get asynchronously the average color from not loaded image.
-     */
     FastAverageColor.prototype.getColorAsync = function (resource, options) {
         if (!resource) {
-            return Promise.reject(getError('call .getColorAsync() without resource.'));
+            return Promise.reject(getError('call .getColorAsync() without resource'));
         }
         if (typeof resource === 'string') {
             // Web workers
@@ -12902,7 +12900,7 @@ var FastAverageColor = /** @class */ (function () {
         options = options || {};
         var defaultColor = getDefaultColor(options);
         if (!resource) {
-            var error = getError('call .getColor(null) without resource');
+            var error = getError('call .getColor() without resource');
             outputError(error, options.silent);
             return this.prepareResult(defaultColor, error);
         }
@@ -12975,7 +12973,8 @@ var FastAverageColor = /** @class */ (function () {
         return algorithm(arr, len, {
             defaultColor: defaultColor,
             ignoredColor: prepareIgnoredColor(options.ignoredColor),
-            step: step
+            step: step,
+            dominantDivider: options.dominantDivider,
         });
     };
     /**
@@ -13022,7 +13021,7 @@ var FastAverageColor = /** @class */ (function () {
             };
             var onerror = function () {
                 unbindEvents();
-                reject(getError("Error loading image \"".concat(resource.src, "\".")));
+                reject(getError("Error loading image \"".concat(resource.src, "\"")));
             };
             var onabort = function () {
                 unbindEvents();
@@ -23883,7 +23882,194 @@ const image_deprecated_v6 = {
   }
 
 };
-/* harmony default export */ var image_deprecated = ([image_deprecated_v6, image_deprecated_v5, image_deprecated_v4, image_deprecated_v3, image_deprecated_v2, image_deprecated_v1]);
+/**
+ * Deprecation for converting to string width and height block attributes and
+ * removing the width and height img element attributes which are not needed
+ * as they get added by the TODO hook.
+ *
+ * @see https://github.com/WordPress/gutenberg/pull/53274
+ */
+
+const image_deprecated_v7 = {
+  attributes: {
+    align: {
+      type: 'string'
+    },
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src',
+      __experimentalRole: 'content'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'alt',
+      default: '',
+      __experimentalRole: 'content'
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: 'figcaption',
+      __experimentalRole: 'content'
+    },
+    title: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'title',
+      __experimentalRole: 'content'
+    },
+    href: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'href',
+      __experimentalRole: 'content'
+    },
+    rel: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'rel'
+    },
+    linkClass: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'class'
+    },
+    id: {
+      type: 'number',
+      __experimentalRole: 'content'
+    },
+    width: {
+      type: 'number'
+    },
+    height: {
+      type: 'number'
+    },
+    aspectRatio: {
+      type: 'string'
+    },
+    scale: {
+      type: 'string'
+    },
+    sizeSlug: {
+      type: 'string'
+    },
+    linkDestination: {
+      type: 'string'
+    },
+    linkTarget: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'figure > a',
+      attribute: 'target'
+    }
+  },
+  supports: {
+    anchor: true,
+    behaviors: {
+      lightbox: true
+    },
+    color: {
+      text: false,
+      background: false
+    },
+    filter: {
+      duotone: true
+    },
+    __experimentalBorder: {
+      color: true,
+      radius: true,
+      width: true,
+      __experimentalSkipSerialization: true,
+      __experimentalDefaultControls: {
+        color: true,
+        radius: true,
+        width: true
+      }
+    }
+  },
+
+  migrate({
+    width,
+    height,
+    ...attributes
+  }) {
+    return { ...attributes,
+      width: `${width}px`,
+      height: `${height}px`
+    };
+  },
+
+  save({
+    attributes
+  }) {
+    const {
+      url,
+      alt,
+      caption,
+      align,
+      href,
+      rel,
+      linkClass,
+      width,
+      height,
+      aspectRatio,
+      scale,
+      id,
+      linkTarget,
+      sizeSlug,
+      title
+    } = attributes;
+    const newRel = !rel ? undefined : rel;
+    const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetBorderClassesAndStyles)(attributes);
+    const classes = classnames_default()({
+      [`align${align}`]: align,
+      [`size-${sizeSlug}`]: sizeSlug,
+      'is-resized': width || height,
+      'has-custom-border': !!borderProps.className || borderProps.style && Object.keys(borderProps.style).length > 0
+    });
+    const imageClasses = classnames_default()(borderProps.className, {
+      [`wp-image-${id}`]: !!id
+    });
+    const image = (0,external_wp_element_namespaceObject.createElement)("img", {
+      src: url,
+      alt: alt,
+      className: imageClasses || undefined,
+      style: { ...borderProps.style,
+        aspectRatio,
+        objectFit: scale,
+        width,
+        height
+      },
+      width: width,
+      height: height,
+      title: title
+    });
+    const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+      className: linkClass,
+      href: href,
+      target: linkTarget,
+      rel: newRel
+    }, image) : image, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      className: (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)('caption'),
+      tagName: "figcaption",
+      value: caption
+    }));
+    return (0,external_wp_element_namespaceObject.createElement)("figure", { ...external_wp_blockEditor_namespaceObject.useBlockProps.save({
+        className: classes
+      })
+    }, figure);
+  }
+
+};
+/* harmony default export */ var image_deprecated = ([image_deprecated_v7, image_deprecated_v6, image_deprecated_v5, image_deprecated_v4, image_deprecated_v3, image_deprecated_v2, image_deprecated_v1]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/crop.js
 
@@ -24032,7 +24218,10 @@ function image_Image({
     scale,
     linkTarget,
     sizeSlug
-  } = attributes;
+  } = attributes; // The only supported unit is px, so we can parseInt to strip the px here.
+
+  const numericWidth = width ? parseInt(width, 10) : undefined;
+  const numericHeight = height ? parseInt(height, 10) : undefined;
   const imageRef = (0,external_wp_element_namespaceObject.useRef)();
   const prevCaption = (0,external_wp_compose_namespaceObject.usePrevious)(caption);
   const [showCaption, setShowCaption] = (0,external_wp_element_namespaceObject.useState)(!!caption);
@@ -24237,7 +24426,9 @@ function image_Image({
   function updateAlignment(nextAlign) {
     const extraUpdatedAttributes = ['wide', 'full'].includes(nextAlign) ? {
       width: undefined,
-      height: undefined
+      height: undefined,
+      aspectRatio: undefined,
+      scale: undefined
     } : {};
     setAttributes({ ...extraUpdatedAttributes,
       align: nextAlign
@@ -24338,10 +24529,10 @@ function image_Image({
       href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
     }, (0,external_wp_i18n_namespaceObject.__)('Describe the purpose of the image.')), (0,external_wp_element_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Leave empty if decorative.')),
     __nextHasNoMarginBottom: true
-  })), (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
+  })), isResizable && (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
     value: {
-      width: width && `${width}px`,
-      height: height && `${height}px`,
+      width,
+      height,
       scale,
       aspectRatio
     },
@@ -24350,8 +24541,8 @@ function image_Image({
       // for values that are removed since setAttributes
       // doesn't do anything with keys that aren't set.
       setAttributes({
-        width: newValue.width && parseInt(newValue.width, 10),
-        height: newValue.height && parseInt(newValue.height, 10),
+        width: newValue.width,
+        height: newValue.height,
         scale: newValue.scale,
         aspectRatio: newValue.aspectRatio
       });
@@ -24423,8 +24614,8 @@ function image_Image({
     img = (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalImageEditor, {
       id: id,
       url: url,
-      width: width,
-      height: height,
+      width: numericWidth,
+      height: numericHeight,
       clientWidth: fallbackClientWidth,
       naturalHeight: naturalHeight,
       naturalWidth: naturalWidth,
@@ -24443,9 +24634,11 @@ function image_Image({
       }
     }, img);
   } else {
-    const ratio = aspectRatio && evalAspectRatio(aspectRatio) || width && height && width / height || naturalWidth / naturalHeight || 1;
-    const currentWidth = !width && height ? height * ratio : width;
-    const currentHeight = !height && width ? width / ratio : height;
+    const numericRatio = aspectRatio && evalAspectRatio(aspectRatio);
+    const customRatio = numericWidth / numericHeight;
+    const ratio = numericRatio || customRatio || naturalWidth / naturalHeight || 1;
+    const currentWidth = !numericWidth && numericHeight ? numericHeight * ratio : numericWidth;
+    const currentHeight = !numericHeight && numericWidth ? numericWidth / ratio : numericHeight;
     const minWidth = naturalWidth < naturalHeight ? constants_MIN_SIZE : constants_MIN_SIZE * ratio;
     const minHeight = naturalHeight < naturalWidth ? constants_MIN_SIZE : constants_MIN_SIZE / ratio; // With the current implementation of ResizableBox, an image needs an
     // explicit pixel value for the max-width. In absence of being able to
@@ -24512,11 +24705,15 @@ function image_Image({
       },
       onResizeStart: onResizeStart,
       onResizeStop: (event, direction, elt) => {
-        onResizeStop();
+        onResizeStop(); // Since the aspect ratio is locked when resizing, we can
+        // use the width of the resized element to calculate the
+        // height in CSS to prevent stretching when the max-width
+        // is reached.
+
         setAttributes({
-          width: elt.offsetWidth,
-          height: elt.offsetHeight,
-          aspectRatio: undefined
+          width: `${elt.offsetWidth}px`,
+          height: 'auto',
+          aspectRatio: `${ratio}`
         });
       },
       resizeRatio: align === 'center' ? 2 : 1
@@ -24948,8 +25145,6 @@ function image_save_save({
       width,
       height
     },
-    width: width,
-    height: height,
     title: title
   });
   const figure = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, href ? (0,external_wp_element_namespaceObject.createElement)("a", {
@@ -25243,10 +25438,10 @@ const image_metadata = {
       __experimentalRole: "content"
     },
     width: {
-      type: "number"
+      type: "string"
     },
     height: {
-      type: "number"
+      type: "string"
     },
     aspectRatio: {
       type: "string"
@@ -58513,8 +58708,19 @@ function FootnotesEdit({
   }, footnotes.map(({
     id,
     content
-  }) => (0,external_wp_element_namespaceObject.createElement)("li", {
-    key: id
+  }) =>
+  /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */
+  (0,external_wp_element_namespaceObject.createElement)("li", {
+    key: id,
+    onMouseDown: event => {
+      // When clicking on the list item (not on descendants),
+      // focus the rich text element since it's only 1px wide when
+      // empty.
+      if (event.target === event.currentTarget) {
+        event.target.firstElementChild.focus();
+        event.preventDefault();
+      }
+    }
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
     id: id,
     tagName: "span",
@@ -58682,6 +58888,7 @@ const format = {
   attributes: {
     'data-fn': 'data-fn'
   },
+  interactive: true,
   contentEditable: false,
   [usesContextKey]: ['postType'],
   edit: function Edit({

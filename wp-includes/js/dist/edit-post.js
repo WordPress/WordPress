@@ -4229,10 +4229,12 @@ function VisualEditor({
 		.is-root-container.alignwide:where(.is-layout-flow) > :not(.alignleft):not(.alignright) { max-width: var(--wp--style--global--wide-size);}
 		.is-root-container.alignfull { max-width: none; margin-left: auto; margin-right: auto;}
 		.is-root-container.alignfull:where(.is-layout-flow) > :not(.alignleft):not(.alignright) { max-width: none;}`;
+  const isToBeIframed = (hasV3BlocksOnly || isGutenbergPlugin && isBlockBasedTheme) && !hasMetaBoxes || isTemplateMode || deviceType === 'Tablet' || deviceType === 'Mobile';
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockTools, {
     __unstableContentRef: ref,
     className: classnames_default()('edit-post-visual-editor', {
-      'is-template-mode': isTemplateMode
+      'is-template-mode': isTemplateMode,
+      'has-inline-canvas': !isToBeIframed
     })
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.VisualEditorGlobalKeyboardShortcuts, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
     className: "edit-post-visual-editor__content-area",
@@ -4245,7 +4247,7 @@ function VisualEditor({
     initial: desktopCanvasStyles,
     className: previewMode
   }, (0,external_wp_element_namespaceObject.createElement)(MaybeIframe, {
-    shouldIframe: (hasV3BlocksOnly || isGutenbergPlugin && isBlockBasedTheme) && !hasMetaBoxes || isTemplateMode || deviceType === 'Tablet' || deviceType === 'Mobile',
+    shouldIframe: isToBeIframed,
     contentRef: contentRef,
     styles: styles
   }, themeSupportsLayout && !themeHasDisabledLayoutStyles && !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(LayoutStyle, {

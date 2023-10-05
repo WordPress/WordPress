@@ -67019,26 +67019,20 @@ function queueBeforeEvent(element, type, callback) {
   return raf;
 }
 function events_addGlobalEventListener(type, listener, options, scope = window) {
-  var _a;
+  const children = [];
   try {
     scope.document.addEventListener(type, listener, options);
-  } catch (e) {
-  }
-  const listeners = [];
-  for (let i = 0; i < ((_a = scope.frames) == null ? void 0 : _a.length); i += 1) {
-    const frameWindow = scope.frames[i];
-    if (frameWindow) {
-      listeners.push(
-        events_addGlobalEventListener(type, listener, options, frameWindow)
-      );
+    for (const frame of Array.from(scope.frames)) {
+      children.push(events_addGlobalEventListener(type, listener, options, frame));
     }
+  } catch (e) {
   }
   const removeEventListener = () => {
     try {
       scope.document.removeEventListener(type, listener, options);
     } catch (e) {
     }
-    listeners.forEach((listener2) => listener2());
+    children.forEach((remove) => remove());
   };
   return removeEventListener;
 }
@@ -68102,7 +68096,7 @@ function mergeStore(...stores) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/QPTZ2G2N.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/P63NRZ4A.js
 
 
 
@@ -68112,6 +68106,7 @@ function mergeStore(...stores) {
 
 
 
+var { useSyncExternalStore: P63NRZ4A_useSyncExternalStore } = shim;
 var noopSubscribe = () => () => {
 };
 var inFlushSyncContext = false;
@@ -68153,7 +68148,7 @@ function useStoreState(store, keyOrSelector = WVTCK5PV_identity) {
       return;
     return state[key];
   };
-  return (0,shim.useSyncExternalStore)(storeSubscribe, getSnapshot, getSnapshot);
+  return P63NRZ4A_useSyncExternalStore(storeSubscribe, getSnapshot, getSnapshot);
 }
 function useStoreProps(store, props, key, setKey) {
   const value = WVTCK5PV_hasOwnProperty(props, key) ? props[key] : void 0;
@@ -68185,7 +68180,7 @@ function useStoreProps(store, props, key, setKey) {
     });
   }, [store, key, value]);
 }
-function QPTZ2G2N_useStore(createStore) {
+function P63NRZ4A_useStore(createStore) {
   const store = useLazyValue(createStore);
   useSafeLayoutEffect(() => init(store), [store]);
   const useState = external_React_.useCallback(
@@ -68200,7 +68195,7 @@ function QPTZ2G2N_useStore(createStore) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/7SIWUER2.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/FVD2NJZN.js
 
 
 
@@ -68275,12 +68270,12 @@ function findNextPageItemId(element, store, next, pageUp = false) {
   }
   return id;
 }
-function _7SIWUER2_targetIsAnotherItem(event, store) {
+function FVD2NJZN_targetIsAnotherItem(event, store) {
   if (events_isSelfTarget(event))
     return false;
   return OXPV2NBK_isItem(store, event.target);
 }
-function _7SIWUER2_useRole(ref, props) {
+function FVD2NJZN_useRole(ref, props) {
   const roleProp = props.role;
   const [role, setRole] = (0,external_React_.useState)(roleProp);
   useSafeLayoutEffect(() => {
@@ -68311,7 +68306,7 @@ function supportsAriaSelected(role) {
     return true;
   return false;
 }
-var _7SIWUER2_useCompositeItem = NQJBHION_createHook(
+var FVD2NJZN_useCompositeItem = NQJBHION_createHook(
   (_a) => {
     var _b = _a, {
       store,
@@ -68373,7 +68368,7 @@ var _7SIWUER2_useCompositeItem = NQJBHION_createHook(
       if (!store)
         return;
       const { activeId, virtualFocus: virtualFocus2, baseElement: baseElement2 } = store.getState();
-      if (_7SIWUER2_targetIsAnotherItem(event, store))
+      if (FVD2NJZN_targetIsAnotherItem(event, store))
         return;
       if (activeId !== id) {
         store.setActiveId(id);
@@ -68473,7 +68468,7 @@ var _7SIWUER2_useCompositeItem = NQJBHION_createHook(
     );
     const isActiveItem = useStoreState(store, (state) => state.activeId === id);
     const virtualFocus = useStoreState(store, "virtualFocus");
-    const role = _7SIWUER2_useRole(ref, props);
+    const role = FVD2NJZN_useRole(ref, props);
     let ariaSelected;
     if (isActiveItem) {
       if (requiresAriaSelected(role)) {
@@ -68532,9 +68527,9 @@ var _7SIWUER2_useCompositeItem = NQJBHION_createHook(
     });
   }
 );
-var _7SIWUER2_CompositeItem = createMemoComponent(
+var FVD2NJZN_CompositeItem = createMemoComponent(
   (props) => {
-    const htmlProps = _7SIWUER2_useCompositeItem(props);
+    const htmlProps = FVD2NJZN_useCompositeItem(props);
     return NQJBHION_createElement("button", htmlProps);
   }
 );
@@ -68542,7 +68537,7 @@ if (false) {}
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/JD3UVZX5.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/P4CYWFUE.js
 
 
 
@@ -68551,7 +68546,7 @@ if (false) {}
 var useToolbarItem = NQJBHION_createHook(
   (_a) => {
     var _b = _a, { store } = _b, props = __objRest(_b, ["store"]);
-    props = _7SIWUER2_useCompositeItem(PNRLI7OV_spreadValues({ store }, props));
+    props = FVD2NJZN_useCompositeItem(PNRLI7OV_spreadValues({ store }, props));
     return props;
   }
 );
@@ -68906,7 +68901,7 @@ function ToolbarGroup({
 
 /* harmony default export */ var toolbar_group = (ToolbarGroup);
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/FSTINJD5.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/RS7KBRGA.js
 
 
 
@@ -68929,7 +68924,7 @@ function useCollectionStore(props = {}) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/X5CHG5LF.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/7KULBIZY.js
 
 
 
@@ -69481,7 +69476,7 @@ function useToolbarStoreProps(store, props) {
 }
 function useToolbarStore(props = {}) {
   const options = useToolbarStoreOptions(props);
-  const store = QPTZ2G2N_useStore(
+  const store = P63NRZ4A_useStore(
     () => createToolbarStore(PNRLI7OV_spreadValues(PNRLI7OV_spreadValues({}, props), options))
   );
   return useToolbarStoreProps(store, props);

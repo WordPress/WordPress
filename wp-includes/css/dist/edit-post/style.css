@@ -217,6 +217,11 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   overflow:auto;
   z-index:20;
 }
+@media (min-width:782px){
+  .interface-interface-skeleton__content{
+    z-index:auto;
+  }
+}
 
 .interface-interface-skeleton__secondary-sidebar,.interface-interface-skeleton__sidebar{
   background:#fff;
@@ -1590,8 +1595,10 @@ h2.edit-post-template-summary__title{
   display:flex;
   flex:1 0 auto;
   flex-flow:column;
-  overflow:hidden;
   position:relative;
+}
+.edit-post-visual-editor:not(.has-inline-canvas){
+  overflow:hidden;
 }
 .edit-post-visual-editor .components-button{
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;

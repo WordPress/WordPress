@@ -12824,9 +12824,10 @@ function isFluidTypographyEnabled(typographySettings) {
 function getFluidTypographyOptionsFromSettings(settings) {
   const typographySettings = settings?.typography;
   const layoutSettings = settings?.layout;
-  return isFluidTypographyEnabled(typographySettings) && layoutSettings?.wideSize ? {
+  const defaultMaxViewportWidth = getTypographyValueAndUnit(layoutSettings?.wideSize) ? layoutSettings?.wideSize : null;
+  return isFluidTypographyEnabled(typographySettings) && defaultMaxViewportWidth ? {
     fluid: {
-      maxViewPortWidth: layoutSettings.wideSize,
+      maxViewPortWidth: defaultMaxViewportWidth,
       ...typographySettings.fluid
     }
   } : {
@@ -52727,6 +52728,8 @@ function useInternalValue(value) {
 
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -52816,6 +52819,9 @@ function useInternalValue(value) {
  */
 
 const link_control_noop = () => {};
+
+const PREFERENCE_SCOPE = 'core/block-editor';
+const PREFERENCE_KEY = 'linkControlSettingsDrawer';
 /**
  * Renders a link control. A link control is a controlled input which maintains
  * a value associated with a link (HTML anchor element) and relevant settings
@@ -52823,7 +52829,6 @@ const link_control_noop = () => {};
  *
  * @param {WPLinkControlProps} props Component props.
  */
-
 
 function LinkControl({
   searchInputPlaceholder,
@@ -52850,6 +52855,43 @@ function LinkControl({
     withCreateSuggestion = true;
   }
 
+  const [settingsOpen, setSettingsOpen] = (0,external_wp_element_namespaceObject.useState)(false);
+  const {
+    advancedSettingsPreference
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _prefsStore$get;
+
+    const prefsStore = select(external_wp_preferences_namespaceObject.store);
+    return {
+      advancedSettingsPreference: (_prefsStore$get = prefsStore.get(PREFERENCE_SCOPE, PREFERENCE_KEY)) !== null && _prefsStore$get !== void 0 ? _prefsStore$get : false
+    };
+  }, []);
+  const {
+    set: setPreference
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_preferences_namespaceObject.store);
+  /**
+   * Sets the open/closed state of the Advanced Settings Drawer,
+   * optionlly persisting the state to the user's preferences.
+   *
+   * Note that Block Editor components can be consumed by non-WordPress
+   * environments which may not have preferences setup.
+   * Therefore a local state is also  used as a fallback.
+   *
+   * @param {boolean} prefVal the open/closed state of the Advanced Settings Drawer.
+   */
+
+  const setSettingsOpenWithPreference = prefVal => {
+    if (setPreference) {
+      setPreference(PREFERENCE_SCOPE, PREFERENCE_KEY, prefVal);
+    }
+
+    setSettingsOpen(prefVal);
+  }; // Block Editor components can be consumed by non-WordPress environments
+  // which may not have these preferences setup.
+  // Therefore a local state is used as a fallback.
+
+
+  const isSettingsOpen = advancedSettingsPreference || settingsOpen;
   const isMounting = (0,external_wp_element_namespaceObject.useRef)(true);
   const wrapperNode = (0,external_wp_element_namespaceObject.useRef)();
   const textInputRef = (0,external_wp_element_namespaceObject.useRef)();
@@ -52857,7 +52899,6 @@ function LinkControl({
   const settingsKeys = settings.map(({
     id
   }) => id);
-  const [settingsOpen, setSettingsOpen] = (0,external_wp_element_namespaceObject.useState)(false);
   const [internalControlValue, setInternalControlValue, setInternalURLInputValue, setInternalTextInputValue, createSetInternalSettingValueHandler] = useInternalValue(value);
   const valueHasChanges = value && !(0,external_wp_isShallowEqual_namespaceObject.isShallowEqualObjects)(internalControlValue, value);
   const [isEditingLink, setIsEditingLink] = (0,external_wp_element_namespaceObject.useState)(forceIsEditingLink !== undefined ? forceIsEditingLink : !value || !value.url);
@@ -52899,7 +52940,6 @@ function LinkControl({
 
   const stopEditing = () => {
     isEndingEditWithFocus.current = !!wrapperNode.current?.contains(wrapperNode.current.ownerDocument.activeElement);
-    setSettingsOpen(false);
     setIsEditingLink(false);
   };
 
@@ -52973,7 +53013,6 @@ function LinkControl({
   const currentUrlInputValue = propInputValue || internalControlValue?.url || '';
   const currentInputIsEmpty = !currentUrlInputValue?.trim()?.length;
   const shownUnlinkControl = onRemove && value && !isEditingLink && !isCreatingPage;
-  const showSettings = !!settings?.length && isEditingLink && hasLinkValue;
   const showActions = isEditingLink && hasLinkValue; // Only show text control once a URL value has been committed
   // and it isn't just empty whitespace.
   // See https://github.com/WordPress/gutenberg/pull/33849/#issuecomment-932194927.
@@ -52981,6 +53020,7 @@ function LinkControl({
   const showTextControl = hasLinkValue && hasTextControl;
   const isEditing = (isEditingLink || !value) && !isCreatingPage;
   const isDisabled = !valueHasChanges || currentInputIsEmpty;
+  const showSettings = !!settings?.length && isEditingLink && hasLinkValue;
   return (0,external_wp_element_namespaceObject.createElement)("div", {
     tabIndex: -1,
     ref: wrapperNode,
@@ -53032,8 +53072,8 @@ function LinkControl({
   }), showSettings && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-link-control__tools"
   }, !currentInputIsEmpty && (0,external_wp_element_namespaceObject.createElement)(settings_drawer, {
-    settingsOpen: settingsOpen,
-    setSettingsOpen: setSettingsOpen
+    settingsOpen: isSettingsOpen,
+    setSettingsOpen: setSettingsOpenWithPreference
   }, (0,external_wp_element_namespaceObject.createElement)(link_control_settings, {
     value: internalControlValue,
     settings: settings,
@@ -55390,19 +55430,20 @@ function useFormatTypes({
   const formatTypes = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return allFormatTypes.filter(({
       name,
+      interactive,
       tagName
     }) => {
       if (allowedFormats && !allowedFormats.includes(name)) {
         return false;
       }
 
-      if (withoutInteractiveFormatting && interactiveContentTags.has(tagName)) {
+      if (withoutInteractiveFormatting && (interactive || interactiveContentTags.has(tagName))) {
         return false;
       }
 
       return true;
     });
-  }, [allFormatTypes, allowedFormats, interactiveContentTags]);
+  }, [allFormatTypes, allowedFormats, withoutInteractiveFormatting]);
   const keyedSelected = (0,external_wp_data_namespaceObject.useSelect)(select => formatTypes.reduce((accumulator, type) => {
     if (!type.__experimentalGetPropsForEditableTreePreparation) {
       return accumulator;
@@ -59856,6 +59897,45 @@ const previous = (0,external_wp_element_namespaceObject.createElement)(external_
 }));
 /* harmony default export */ var library_previous = (previous);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-controls/use-has-block-controls.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function useHasAnyBlockControls() {
+  let hasAnyBlockControls = false;
+
+  for (const group in block_controls_groups) {
+    // It is safe to violate the rules of hooks here as the `groups` object
+    // is static and will not change length between renders. Do not return
+    // early as that will cause the hook to be called a different number of
+    // times between renders.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if (useHasBlockControls(group)) {
+      hasAnyBlockControls = true;
+    }
+  }
+
+  return hasAnyBlockControls;
+}
+function useHasBlockControls(group = 'default') {
+  const Slot = block_controls_groups[group]?.Slot;
+  const fills = (0,external_wp_components_namespaceObject.__experimentalUseSlotFills)(Slot?.__unstableName);
+
+  if (!Slot) {
+    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+    return null;
+  }
+
+  return !!fills?.length;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-tools/block-contextual-toolbar.js
 
 
@@ -59883,6 +59963,7 @@ const previous = (0,external_wp_element_namespaceObject.createElement)(external_
 
 
 
+
 function BlockContextualToolbar({
   focusOnMount,
   isFixed,
@@ -59894,10 +59975,10 @@ function BlockContextualToolbar({
   const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const {
     blockType,
+    blockEditingMode,
     hasParents,
     showParentSelector,
-    selectedBlockClientId,
-    isContentOnly
+    selectedBlockClientId
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getBlockName,
@@ -59917,16 +59998,59 @@ function BlockContextualToolbar({
     return {
       selectedBlockClientId: _selectedBlockClientId,
       blockType: _selectedBlockClientId && getBlockType(getBlockName(_selectedBlockClientId)),
+      blockEditingMode: getBlockEditingMode(_selectedBlockClientId),
       hasParents: parents.length,
-      isContentOnly: getBlockEditingMode(_selectedBlockClientId) === 'contentOnly',
       showParentSelector: parentBlockType && getBlockEditingMode(firstParentClientId) === 'default' && (0,external_wp_blocks_namespaceObject.hasBlockSupport)(parentBlockType, '__experimentalParentSelector', true) && selectedBlockClientIds.length <= 1 && getBlockEditingMode(_selectedBlockClientId) === 'default'
     };
   }, []);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setIsCollapsed(false);
   }, [selectedBlockClientId]);
+  const isLargerThanTabletViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('large', '>=');
+  const isFullscreen = document.body.classList.contains('is-fullscreen-mode');
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    // don't do anything if not fixed toolbar
+    if (!isFixed || !blockType) {
+      return;
+    }
 
-  if (isContentOnly || blockType && !(0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockType, '__experimentalToolbar', true)) {
+    const blockToolbar = document.querySelector('.block-editor-block-contextual-toolbar');
+
+    if (!blockToolbar) {
+      return;
+    }
+
+    if (!isLargerThanTabletViewport) {
+      // set the width of the toolbar to auto
+      blockToolbar.style = {};
+      return;
+    }
+
+    if (isCollapsed) {
+      // set the width of the toolbar to auto
+      blockToolbar.style.width = 'auto';
+      return;
+    } // get the width of the pinned items in the post editor
+
+
+    const pinnedItems = document.querySelector('.edit-post-header__settings'); // get the width of the left header in the site editor
+
+    const leftHeader = document.querySelector('.edit-site-header-edit-mode__end');
+    const computedToolbarStyle = window.getComputedStyle(blockToolbar);
+    const computedPinnedItemsStyle = pinnedItems ? window.getComputedStyle(pinnedItems) : false;
+    const computedLeftHeaderStyle = leftHeader ? window.getComputedStyle(leftHeader) : false;
+    const marginLeft = parseFloat(computedToolbarStyle.marginLeft);
+    const pinnedItemsWidth = computedPinnedItemsStyle ? parseFloat(computedPinnedItemsStyle.width) + 10 // 10 is the pinned items padding
+    : 0;
+    const leftHeaderWidth = computedLeftHeaderStyle ? parseFloat(computedLeftHeaderStyle.width) : 0; // set the new witdth of the toolbar
+
+    blockToolbar.style.width = `calc(100% - ${leftHeaderWidth + pinnedItemsWidth + marginLeft + (isFullscreen ? 0 : 160) // the width of the admin sidebar expanded
+    }px)`;
+  }, [isFixed, isLargerThanTabletViewport, isCollapsed, isFullscreen, blockType]);
+  const isToolbarEnabled = !blockType || (0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockType, '__experimentalToolbar', true);
+  const hasAnyBlockControls = useHasAnyBlockControls();
+
+  if (!isToolbarEnabled || blockEditingMode !== 'default' && !hasAnyBlockControls) {
     return null;
   } // Shifts the toolbar to make room for the parent block selector.
 
