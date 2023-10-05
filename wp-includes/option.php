@@ -805,7 +805,13 @@ function update_option( $option, $value, $autoload = null ) {
 	 *
 	 * See https://core.trac.wordpress.org/ticket/38903 and https://core.trac.wordpress.org/ticket/22192.
 	 */
-	if ( $raw_old_value !== $default_value && _is_equal_database_value( $raw_old_value, $value ) ) {
+	if (
+		$value === $raw_old_value ||
+		(
+			$raw_old_value !== $default_value &&
+			_is_equal_database_value( $raw_old_value, $value )
+		)
+	) {
 		return false;
 	}
 
