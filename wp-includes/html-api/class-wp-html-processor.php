@@ -39,7 +39,7 @@
  *
  * Example:
  *
- *     $processor = WP_HTML_Processor::createFragment( $html );
+ *     $processor = WP_HTML_Processor::create_fragment( $html );
  *     if ( $processor->next_tag( array( 'breadcrumbs' => array( 'DIV', 'FIGURE', 'IMG' ) ) ) ) {
  *         $processor->add_class( 'responsive-image' );
  *     }
@@ -58,7 +58,7 @@
  * Since all elements find themselves inside a full HTML document
  * when parsed, the return value from `get_breadcrumbs()` will always
  * contain any implicit outermost elements. For example, when parsing
- * with `createFragment()` in the `BODY` context (the default), any
+ * with `create_fragment()` in the `BODY` context (the default), any
  * tag in the given HTML document will contain `array( 'HTML', 'BODY', … )`
  * in its breadcrumbs.
  *
@@ -239,7 +239,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @param string $encoding Text encoding of the document; must be default of 'UTF-8'.
 	 * @return WP_HTML_Processor|null The created processor if successful, otherwise null.
 	 */
-	public static function createFragment( $html, $context = '<body>', $encoding = 'UTF-8' ) {
+	public static function create_fragment( $html, $context = '<body>', $encoding = 'UTF-8' ) {
 		if ( '<body>' !== $context || 'UTF-8' !== $encoding ) {
 			return null;
 		}
@@ -280,7 +280,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @see WP_HTML_Processor::createFragment()
+	 * @see WP_HTML_Processor::create_fragment()
 	 *
 	 * @param string      $html                                  HTML to process.
 	 * @param string|null $use_the_static_create_methods_instead This constructor should not be called manually.
@@ -292,9 +292,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			_doing_it_wrong(
 				__METHOD__,
 				sprintf(
-					/* translators: %s: WP_HTML_Processor::createFragment. */
+					/* translators: %s: WP_HTML_Processor::create_fragment(). */
 					__( 'Call %s to create an HTML Processor instead of calling the constructor directly.' ),
-					'<code>WP_HTML_Processor::createFragment</code>'
+					'<code>WP_HTML_Processor::create_fragment()</code>'
 				),
 				'6.4.0'
 			);
@@ -324,7 +324,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * Example
 	 *
-	 *     $processor = WP_HTML_Processor::createFragment( '<template><strong><button><em><p><em>' );
+	 *     $processor = WP_HTML_Processor::create_fragment( '<template><strong><button><em><p><em>' );
 	 *     false === $processor->next_tag();
 	 *     WP_HTML_Processor::ERROR_UNSUPPORTED === $processor->get_last_error();
 	 *
@@ -428,7 +428,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * Example:
 	 *
-	 *     $processor = WP_HTML_Processor::createFragment( '<div><span><figure><img></figure></span></div>' );
+	 *     $processor = WP_HTML_Processor::create_fragment( '<div><span><figure><img></figure></span></div>' );
 	 *     $processor->next_tag( 'img' );
 	 *     true  === $processor->matches_breadcrumbs( array( 'figure', 'img' ) );
 	 *     true  === $processor->matches_breadcrumbs( array( 'span', 'figure', 'img' ) );
@@ -557,7 +557,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * Example
 	 *
-	 *     $processor = WP_HTML_Processor::createFragment( '<p><strong><em><img></em></strong></p>' );
+	 *     $processor = WP_HTML_Processor::create_fragment( '<p><strong><em><img></em></strong></p>' );
 	 *     $processor->next_tag( 'IMG' );
 	 *     $processor->get_breadcrumbs() === array( 'HTML', 'BODY', 'P', 'STRONG', 'EM', 'IMG' );
 	 *
@@ -1439,5 +1439,5 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @access private
 	 */
-	const CONSTRUCTOR_UNLOCK_CODE = 'Use WP_HTML_Processor::createFragment instead of calling the class constructor directly.';
+	const CONSTRUCTOR_UNLOCK_CODE = 'Use WP_HTML_Processor::create_fragment() instead of calling the class constructor directly.';
 }
