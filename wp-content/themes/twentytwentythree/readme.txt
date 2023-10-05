@@ -44,3 +44,28 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
+
+
+This theme bundles the following third-party resources:
+
+DM Sans Font
+Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com)
+Copyright 2019 Google LLC
+Copyright 2014-2018 Adobe (http://www.adobe.com/)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/googlefonts/dm-fonts
+
+IBM Plex Font
+Copyright 2017 IBM Corp.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/IBM/plex
+
+Inter Font
+Copyright (c) 2016-2020 The Inter Project Authors.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/rsms/inter
+
+Source Serif Font
+Copyright 2014-2021 Adobe (http://www.adobe.com/)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/adobe-fonts/source-serif
