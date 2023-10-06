@@ -867,6 +867,8 @@ $_old_files = array(
 	'wp-includes/images/wlw',
 	'wp-includes/wlwmanifest.xml',
 	'wp-includes/random_compat',
+	// 6.4
+	'wp-includes/navigation-fallback.php',
 );
 
 /**
