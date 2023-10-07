@@ -832,7 +832,7 @@ switch ( $action ) {
 									wp_admin_notice(
 										__( 'Your website appears to use Basic Authentication, which is not currently compatible with Application Passwords.' ),
 										array(
-											'type'               => 'error',
+											'type' => 'error',
 											'additional_classes' => array( 'inline' ),
 										)
 									);
