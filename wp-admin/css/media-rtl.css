@@ -131,6 +131,7 @@
 }
 
 .media-item .edit-attachment.copy-to-clipboard-container {
+	display: flex;
 	margin-top: 0;
 }
 
