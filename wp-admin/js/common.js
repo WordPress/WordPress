@@ -1702,24 +1702,45 @@ $( function() {
 				}
 			} );
 
-			// Close sidebar when focus moves outside of toggle and sidebar.
-			$( '#wp-admin-bar-menu-toggle, #adminmenumain' ).on( 'focusout', function() {
-				var focusIsInToggle, focusIsInSidebar;
-
+			// Close sidebar when target moves outside of toggle and sidebar.
+			$( document ).on( 'click', function( event ) {
 				if ( ! $wpwrap.hasClass( 'wp-responsive-open' ) || ! document.hasFocus() ) {
 					return;
 				}
-				// A brief delay is required to allow focus to switch to another element.
-				setTimeout( function() {
-					focusIsInToggle  = $.contains( $( '#wp-admin-bar-menu-toggle' )[0], $( ':focus' )[0] );
-					focusIsInSidebar = $.contains( $( '#adminmenumain' )[0], $( ':focus' )[0] );
 
-					if ( ! focusIsInToggle && ! focusIsInSidebar ) {
-						$( '#wp-admin-bar-menu-toggle' ).trigger( 'click.wp-responsive' );
-					}
-				}, 10 );
+				var focusIsInToggle  = $.contains( $( '#wp-admin-bar-menu-toggle' )[0], event.target );
+				var focusIsInSidebar = $.contains( $( '#adminmenuwrap' )[0], event.target );
+
+				if ( ! focusIsInToggle && ! focusIsInSidebar ) {
+					$( '#wp-admin-bar-menu-toggle' ).trigger( 'click.wp-responsive' );
+				}
 			} );
 
+			// Close sidebar when a keypress completes outside of toggle and sidebar.
+			$( document ).on( 'keyup', function( event ) {
+				var toggleButton   = $( '#wp-admin-bar-menu-toggle' )[0];
+				if ( ! $wpwrap.hasClass( 'wp-responsive-open' ) ) {
+				    return;
+				}
+				if ( 27 === event.keyCode ) {
+					$( toggleButton ).trigger( 'click.wp-responsive' );
+					$( toggleButton ).find( 'a' ).trigger( 'focus' );
+				} else {
+					if ( 9 === event.keyCode ) {
+						var sidebar        = $( '#adminmenuwrap' )[0];
+						var focusedElement = event.relatedTarget || document.activeElement;
+						// A brief delay is required to allow focus to switch to another element.
+						setTimeout( function() {
+							var focusIsInToggle  = $.contains( toggleButton, focusedElement );
+							var focusIsInSidebar = $.contains( sidebar, focusedElement );
+							
+							if ( ! focusIsInToggle && ! focusIsInSidebar ) {
+								$( toggleButton ).trigger( 'click.wp-responsive' );
+							}
+						}, 10 );
+					}
+				}
+			});
 
 			// Add menu events.
 			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
