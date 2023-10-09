@@ -93,6 +93,8 @@
 }
 
 .wp-lightbox-container{
+  display:flex;
+  flex-direction:column;
   position:relative;
 }
 .wp-lightbox-container button{
@@ -109,6 +111,10 @@
   outline:5px auto -webkit-focus-ring-color;
   outline-offset:5px;
 }
+.wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){
+  background:none;
+  border:none;
+}
 
 .wp-lightbox-overlay{
   box-sizing:border-box;
@@ -123,12 +129,21 @@
   z-index:100000;
 }
 .wp-lightbox-overlay .close-button{
+  align-items:center;
   cursor:pointer;
-  left:calc(env(safe-area-inset-left) + 20px);
+  display:flex;
+  justify-content:center;
+  left:calc(env(safe-area-inset-left) + 16px);
+  min-height:40px;
+  min-width:40px;
   padding:0;
   position:absolute;
-  top:calc(env(safe-area-inset-top) + 20px);
+  top:calc(env(safe-area-inset-top) + 16px);
   z-index:5000000;
+}
+.wp-lightbox-overlay .close-button:focus,.wp-lightbox-overlay .close-button:hover,.wp-lightbox-overlay .close-button:not(:hover):not(:active):not(.has-background){
+  background:none;
+  border:none;
 }
 .wp-lightbox-overlay .lightbox-image-container{
   height:var(--wp--lightbox-container-height);

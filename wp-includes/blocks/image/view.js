@@ -206,7 +206,17 @@ function handleScroll(context) {
         roleAttribute: ({
           context
         }) => {
-          return context.core.image.lightboxEnabled ? 'dialog' : '';
+          return context.core.image.lightboxEnabled ? 'dialog' : null;
+        },
+        ariaModal: ({
+          context
+        }) => {
+          return context.core.image.lightboxEnabled ? 'true' : null;
+        },
+        dialogLabel: ({
+          context
+        }) => {
+          return context.core.image.lightboxEnabled ? context.core.image.dialogLabel : null;
         },
         lightboxObjectFit: ({
           context
@@ -218,7 +228,7 @@ function handleScroll(context) {
         enlargedImgSrc: ({
           context
         }) => {
-          return context.core.image.initialized ? context.core.image.imageUploadedSrc : '';
+          return context.core.image.initialized ? context.core.image.imageUploadedSrc : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
         }
       }
     }
@@ -329,11 +339,11 @@ function setStyles(context, event) {
     naturalHeight,
     offsetWidth: originalWidth,
     offsetHeight: originalHeight
-  } = event.target.nextElementSibling;
+  } = event.target.previousElementSibling;
   let {
     x: screenPosX,
     y: screenPosY
-  } = event.target.nextElementSibling.getBoundingClientRect();
+  } = event.target.previousElementSibling.getBoundingClientRect();
 
   // Natural ratio of the image clicked to open the lightbox.
   const naturalRatio = naturalWidth / naturalHeight;

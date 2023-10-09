@@ -3568,7 +3568,7 @@
   flex-grow:1;
   height:100%;
   overflow-y:auto;
-  padding:32px 24px;
+  padding:16px 24px;
 }
 
 .block-editor-block-patterns-list__list-item .block-editor-block-preview__container{

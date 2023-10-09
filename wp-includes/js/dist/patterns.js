@@ -282,41 +282,25 @@ var external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 
 
 
-
-
 const unescapeString = arg => {
   return (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(arg);
 };
-const EMPTY_ARRAY = [];
-const MAX_TERMS_SUGGESTIONS = 20;
-const DEFAULT_QUERY = {
-  per_page: MAX_TERMS_SUGGESTIONS,
-  _fields: 'id,name',
-  context: 'view'
-};
 const CATEGORY_SLUG = 'wp_pattern_category';
 function CategorySelector({
-  values,
-  onChange
+  categoryTerms,
+  onChange,
+  categoryMap
 }) {
   const [search, setSearch] = (0,external_wp_element_namespaceObject.useState)('');
   const debouncedSearch = (0,external_wp_compose_namespaceObject.useDebounce)(setSearch, 500);
-  const {
-    searchResults
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEntityRecords
-    } = select(external_wp_coreData_namespaceObject.store);
-    return {
-      searchResults: !!search ? getEntityRecords('taxonomy', CATEGORY_SLUG, {
-        ...DEFAULT_QUERY,
-        search
-      }) : EMPTY_ARRAY
-    };
-  }, [search]);
   const suggestions = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return (searchResults !== null && searchResults !== void 0 ? searchResults : []).map(term => unescapeString(term.name));
-  }, [searchResults]);
+    return Array.from(categoryMap.values()).map(category => unescapeString(category.label)).filter(category => {
+      if (search !== '') {
+        return category.toLowerCase().includes(search.toLowerCase());
+      }
+      return true;
+    }).sort((a, b) => a.localeCompare(b));
+  }, [search, categoryMap]);
   function handleChange(termNames) {
     const uniqueTerms = termNames.reduce((terms, newTerm) => {
       if (!terms.some(term => term.toLowerCase() === newTerm.toLowerCase())) {
@@ -326,16 +310,17 @@ function CategorySelector({
     }, []);
     onChange(uniqueTerms);
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FormTokenField, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FormTokenField, {
     className: "patterns-menu-items__convert-modal-categories",
-    value: values,
+    value: categoryTerms,
     suggestions: suggestions,
     onChange: handleChange,
     onInputChange: debouncedSearch,
-    maxSuggestions: MAX_TERMS_SUGGESTIONS,
     label: (0,external_wp_i18n_namespaceObject.__)('Categories'),
-    tokenizeOnBlur: true
-  }));
+    tokenizeOnBlur: true,
+    __experimentalExpandOnFocus: true,
+    __next40pxDefaultSize: true
+  });
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/create-pattern-modal.js
@@ -382,6 +367,38 @@ function CreatePatternModal({
   const {
     createErrorNotice
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
+  const {
+    corePatternCategories,
+    userPatternCategories
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getUserPatternCategories,
+      getBlockPatternCategories
+    } = select(external_wp_coreData_namespaceObject.store);
+    return {
+      corePatternCategories: getBlockPatternCategories(),
+      userPatternCategories: getUserPatternCategories()
+    };
+  });
+  const categoryMap = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    // Merge the user and core pattern categories and remove any duplicates.
+    const uniqueCategories = new Map();
+    [...userPatternCategories, ...corePatternCategories].forEach(category => {
+      if (!uniqueCategories.has(category.label) &&
+      // There are two core categories with `Post` label so explicitly remove the one with
+      // the `query` slug to avoid any confusion.
+      category.name !== 'query') {
+        // We need to store the name separately as this is used as the slug in the
+        // taxonomy and may vary from the label.
+        uniqueCategories.set(category.label, {
+          label: category.label,
+          value: category.label,
+          name: category.name
+        });
+      }
+    });
+    return uniqueCategories;
+  }, [userPatternCategories, corePatternCategories]);
   async function onCreate(patternTitle, sync) {
     if (!title || isSaving) {
       return;
@@ -413,9 +430,16 @@ function CreatePatternModal({
    */
   async function findOrCreateTerm(term) {
     try {
-      const newTerm = await saveEntityRecord('taxonomy', CATEGORY_SLUG, {
+      // We need to match any existing term to the correct slug to prevent duplicates, eg.
+      // the core `Headers` category uses the singular `header` as the slug.
+      const existingTerm = categoryMap.get(term);
+      const termData = existingTerm ? {
+        name: existingTerm.label,
+        slug: existingTerm.name
+      } : {
         name: term
-      }, {
+      };
+      const newTerm = await saveEntityRecord('taxonomy', CATEGORY_SLUG, termData, {
         throwOnError: true
       });
       invalidateResolution('getUserPatternCategories');
@@ -449,8 +473,9 @@ function CreatePatternModal({
     placeholder: (0,external_wp_i18n_namespaceObject.__)('My pattern'),
     className: "patterns-create-modal__name-input"
   }), (0,external_wp_element_namespaceObject.createElement)(CategorySelector, {
-    values: categoryTerms,
-    onChange: setCategoryTerms
+    categoryTerms: categoryTerms,
+    onChange: setCategoryTerms,
+    categoryMap: categoryMap
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
     label: (0,external_wp_i18n_namespaceObject.__)('Synced'),
     help: (0,external_wp_i18n_namespaceObject.__)('Editing the pattern will update it anywhere it is used.'),

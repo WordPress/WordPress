@@ -9,10 +9,11 @@
  * Renders the `core/image` block on the server,
  * adding a data-id attribute to the element if core/gallery has added on pre-render.
  *
- * @param  array    $attributes The block attributes.
- * @param  string   $content    The block content.
- * @param  WP_Block $block      The block object.
- * @return string Returns the block content with the data-id attribute added.
+ * @param array    $attributes The block attributes.
+ * @param string   $content    The block content.
+ * @param WP_Block $block      The block object.
+ *
+ * @return string The block content with the data-id attribute added.
  */
 function render_block_core_image( $attributes, $content, $block ) {
 
@@ -76,12 +77,13 @@ function render_block_core_image( $attributes, $content, $block ) {
 }
 
 /**
- * Add the lightboxEnabled flag to the block data.
+ * Adds the lightboxEnabled flag to the block data.
  *
  * This is used to determine whether the lightbox should be rendered or not.
  *
- * @param  array $block Block data.
- * @return array        Filtered block data.
+ * @param array $block Block data.
+ *
+ * @return array Filtered block data.
  */
 function block_core_image_get_lightbox_settings( $block ) {
 	// Get the lightbox setting from the block attributes.
@@ -113,43 +115,44 @@ function block_core_image_get_lightbox_settings( $block ) {
 }
 
 /**
- * Add the directives and layout needed for the lightbox behavior.
+ * Adds the directives and layout needed for the lightbox behavior.
  *
- * @param  string $block_content        Rendered block content.
- * @param  array  $block                Block object.
- * @return string                Filtered block content.
+ * @param string $block_content Rendered block content.
+ * @param array  $block         Block object.
+ *
+ * @return string Filtered block content.
  */
 function block_core_image_render_lightbox( $block_content, $block ) {
 	$processor = new WP_HTML_Tag_Processor( $block_content );
 
 	$aria_label = __( 'Enlarge image' );
 
+	$processor->next_tag( 'img' );
 	$alt_attribute = $processor->get_attribute( 'alt' );
 
-	if ( null !== $alt_attribute ) {
+	// An empty alt attribute `alt=""` is valid for decorative images.
+	if ( is_string( $alt_attribute ) ) {
 		$alt_attribute = trim( $alt_attribute );
 	}
 
+	// It only makes sense to append the alt text to the button aria-label when the alt text is non-empty.
 	if ( $alt_attribute ) {
 		/* translators: %s: Image alt text. */
 		$aria_label = sprintf( __( 'Enlarge image: %s' ), $alt_attribute );
 	}
-	$content = $processor->get_updated_html();
 
 	// Currently, we are only enabling the zoom animation.
 	$lightbox_animation = 'zoom';
 
-	// We want to store the src in the context so we can set it dynamically when the lightbox is opened.
-	$z = new WP_HTML_Tag_Processor( $content );
-	$z->next_tag( 'img' );
-
+	// Note: We want to store the `src` in the context so we
+	// can set it dynamically when the lightbox is opened.
 	if ( isset( $block['attrs']['id'] ) ) {
 		$img_uploaded_src = wp_get_attachment_url( $block['attrs']['id'] );
 		$img_metadata     = wp_get_attachment_metadata( $block['attrs']['id'] );
 		$img_width        = $img_metadata['width'];
 		$img_height       = $img_metadata['height'];
 	} else {
-		$img_uploaded_src = $z->get_attribute( 'src' );
+		$img_uploaded_src = $processor->get_attribute( 'src' );
 		$img_width        = 'none';
 		$img_height       = 'none';
 	}
@@ -160,7 +163,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 		$scale_attr = false;
 	}
 
-	$w = new WP_HTML_Tag_Processor( $content );
+	$w = new WP_HTML_Tag_Processor( $block_content );
 	$w->next_tag( 'figure' );
 	$w->add_class( 'wp-lightbox-container' );
 	$w->set_attribute( 'data-wp-interactive', true );
@@ -180,7 +183,8 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 						"imageCurrentSrc": "",
 						"targetWidth": "%s",
 						"targetHeight": "%s",
-						"scaleAttr": "%s"
+						"scaleAttr": "%s",
+						"dialogLabel": "%s"
 					}
 				}
 			}',
@@ -188,7 +192,8 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			$img_uploaded_src,
 			$img_width,
 			$img_height,
-			$scale_attr
+			$scale_attr,
+			__( 'Enlarged image' )
 		)
 	);
 	$w->next_tag( 'img' );
@@ -200,19 +205,20 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	// Wrap the image in the body content with a button.
 	$img = null;
 	preg_match( '/<img[^>]+>/', $body_content, $img );
-	$button       =
-				'<button
-					type="button"
-					aria-haspopup="dialog"
-					aria-label="' . esc_attr( $aria_label ) . '"
-					data-wp-on--click="actions.core.image.showLightbox"
-					data-wp-style--width="context.core.image.imageButtonWidth"
-					data-wp-style--height="context.core.image.imageButtonHeight"
-					data-wp-style--left="context.core.image.imageButtonLeft"
-					data-wp-style--top="context.core.image.imageButtonTop"
-				>
-				</button>'
-				. $img[0];
+
+	$button =
+		$img[0]
+		. '<button
+			type="button"
+			aria-haspopup="dialog"
+			aria-label="' . esc_attr( $aria_label ) . '"
+			data-wp-on--click="actions.core.image.showLightbox"
+			data-wp-style--width="context.core.image.imageButtonWidth"
+			data-wp-style--height="context.core.image.imageButtonHeight"
+			data-wp-style--left="context.core.image.imageButtonLeft"
+			data-wp-style--top="context.core.image.imageButtonTop"
+		></button>';
+
 	$body_content = preg_replace( '/<img[^>]+>/', $button, $body_content );
 
 	// We need both a responsive image and an enlarged image to animate
@@ -220,7 +226,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	// image is a copy of the one in the body, which animates immediately
 	// as the lightbox is opened, while the enlarged one is a full-sized
 	// version that will likely still be loading as the animation begins.
-	$m = new WP_HTML_Tag_Processor( $content );
+	$m = new WP_HTML_Tag_Processor( $block_content );
 	$m->next_tag( 'figure' );
 	$m->add_class( 'responsive-image' );
 	$m->next_tag( 'img' );
@@ -236,7 +242,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	$m->set_attribute( 'data-wp-style--object-fit', 'selectors.core.image.lightboxObjectFit' );
 	$initial_image_content = $m->get_updated_html();
 
-	$q = new WP_HTML_Tag_Processor( $content );
+	$q = new WP_HTML_Tag_Processor( $block_content );
 	$q->next_tag( 'figure' );
 	$q->add_class( 'enlarged-image' );
 	$q->next_tag( 'img' );
@@ -252,24 +258,32 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	$q->set_attribute( 'data-wp-style--object-fit', 'selectors.core.image.lightboxObjectFit' );
 	$enlarged_image_content = $q->get_updated_html();
 
-	$background_color = esc_attr( wp_get_global_styles( array( 'color', 'background' ) ) );
+	// If the current theme does NOT have a `theme.json`, or the colors are not defined,
+	// we need to set the background color & close button color to some default values
+	// because we can't get them from the Global Styles.
+	$background_color   = '#fff';
+	$close_button_color = '#000';
+	if ( wp_theme_has_theme_json() ) {
+		$global_styles_color = wp_get_global_styles( array( 'color' ) );
+		if ( ! empty( $global_styles_color['background'] ) ) {
+			$background_color = esc_attr( $global_styles_color['background'] );
+		}
+		if ( ! empty( $global_styles_color['text'] ) ) {
+			$close_button_color = esc_attr( $global_styles_color['text'] );
+		}
+	}
 
 	$close_button_icon  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg>';
-	$close_button_color = esc_attr( wp_get_global_styles( array( 'color', 'text' ) ) );
-	$dialog_label       = $alt_attribute ? esc_attr( $alt_attribute ) : esc_attr__( 'Image' );
 	$close_button_label = esc_attr__( 'Close' );
 
 	$lightbox_html = <<<HTML
         <div data-wp-body="" class="wp-lightbox-overlay $lightbox_animation"
             data-wp-bind--role="selectors.core.image.roleAttribute"
-            aria-label="$dialog_label"
+            data-wp-bind--aria-label="selectors.core.image.dialogLabel"
             data-wp-class--initialized="context.core.image.initialized"
             data-wp-class--active="context.core.image.lightboxEnabled"
             data-wp-class--hideAnimationEnabled="context.core.image.hideAnimationEnabled"
-            data-wp-bind--aria-hidden="!context.core.image.lightboxEnabled"
-            aria-hidden="true"
-            data-wp-bind--aria-modal="context.core.image.lightboxEnabled"
-            aria-modal="false"
+            data-wp-bind--aria-modal="selectors.core.image.ariaModal"
             data-wp-effect="effects.core.image.initLightbox"
             data-wp-on--keydown="actions.core.image.handleKeydown"
             data-wp-on--touchstart="actions.core.image.handleTouchStart"
@@ -282,7 +296,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
                 </button>
                 <div class="lightbox-image-container">$initial_image_content</div>
 				<div class="lightbox-image-container">$enlarged_image_content</div>
-                <div class="scrim" style="background-color: $background_color"></div>
+                <div class="scrim" style="background-color: $background_color" aria-hidden="true"></div>
         </div>
 HTML;
 
@@ -290,11 +304,13 @@ HTML;
 }
 
 /**
- * Ensure that the view script has the `wp-interactivity` dependency.
+ * Ensures that the view script has the `wp-interactivity` dependency.
  *
  * @since 6.4.0
  *
  * @global WP_Scripts $wp_scripts
+ *
+ * @return void
  */
 function block_core_image_ensure_interactivity_dependency() {
 	global $wp_scripts;
@@ -310,6 +326,8 @@ add_action( 'wp_print_scripts', 'block_core_image_ensure_interactivity_dependenc
 
 /**
  * Registers the `core/image` block on server.
+ *
+ * @return void
  */
 function register_block_core_image() {
 	register_block_type_from_metadata(

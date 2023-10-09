@@ -3620,8 +3620,10 @@ __webpack_require__.d(private_selectors_namespaceObject, {
   getBlockRemovalRules: function() { return getBlockRemovalRules; },
   getEnabledBlockParents: function() { return getEnabledBlockParents; },
   getEnabledClientIdsTree: function() { return getEnabledClientIdsTree; },
+  getInserterMediaCategories: function() { return getInserterMediaCategories; },
   getLastInsertedBlocksClientIds: function() { return getLastInsertedBlocksClientIds; },
   getOpenedBlockSettingsMenu: function() { return getOpenedBlockSettingsMenu; },
+  getRegisteredInserterMediaCategories: function() { return getRegisteredInserterMediaCategories; },
   getRemovalPromptData: function() { return getRemovalPromptData; },
   getStyleOverrides: function() { return getStyleOverrides; },
   isBlockInterfaceHidden: function() { return private_selectors_isBlockInterfaceHidden; },
@@ -5785,6 +5787,22 @@ function styleOverrides(state = new Map(), action) {
   }
   return state;
 }
+
+/**
+ * Reducer returning a map of the registered inserter media categories.
+ *
+ * @param {Array}  state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Array} Updated state.
+ */
+function registeredInserterMediaCategories(state = [], action) {
+  switch (action.type) {
+    case 'REGISTER_INSERTER_MEDIA_CATEGORY':
+      return [...state, action.category];
+  }
+  return state;
+}
 const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   blocks,
   isTyping,
@@ -5811,7 +5829,8 @@ const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   styleOverrides,
   removalPromptData,
   blockRemovalRules,
-  openedBlockSettingsMenu
+  openedBlockSettingsMenu,
+  registeredInserterMediaCategories
 });
 function withAutomaticChangeReset(reducer) {
   return (state, action) => {
@@ -9130,6 +9149,58 @@ function getStyleOverrides(state) {
   return state.styleOverrides;
 }
 
+/** @typedef {import('./actions').InserterMediaCategory} InserterMediaCategory */
+/**
+ * Returns the registered inserter media categories through the public API.
+ *
+ * @param {Object} state Editor state.
+ *
+ * @return {InserterMediaCategory[]} Inserter media categories.
+ */
+function getRegisteredInserterMediaCategories(state) {
+  return state.registeredInserterMediaCategories;
+}
+
+/**
+ * Returns an array containing the allowed inserter media categories.
+ * It merges the registered media categories from extenders with the
+ * core ones. It also takes into account the allowed `mime_types`, which
+ * can be altered by `upload_mimes` filter and restrict some of them.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {InserterMediaCategory[]} Client IDs of descendants.
+ */
+const getInserterMediaCategories = rememo(state => {
+  const {
+    settings: {
+      inserterMediaCategories,
+      allowedMimeTypes,
+      enableOpenverseMediaCategory
+    },
+    registeredInserterMediaCategories
+  } = state;
+  // The allowed `mime_types` can be altered by `upload_mimes` filter and restrict
+  // some of them. In this case we shouldn't add the category to the available media
+  // categories list in the inserter.
+  if (!inserterMediaCategories && !registeredInserterMediaCategories.length || !allowedMimeTypes) {
+    return;
+  }
+  const coreInserterMediaCategoriesNames = inserterMediaCategories?.map(({
+    name
+  }) => name) || [];
+  const mergedCategories = [...(inserterMediaCategories || []), ...(registeredInserterMediaCategories || []).filter(({
+    name
+  }) => !coreInserterMediaCategoriesNames.includes(name))];
+  return mergedCategories.filter(category => {
+    // Check if Openverse category is enabled.
+    if (!enableOpenverseMediaCategory && category.name === 'openverse') {
+      return false;
+    }
+    return Object.values(allowedMimeTypes).some(mimeType => mimeType.startsWith(`${category.mediaType}/`));
+  });
+}, state => [state.settings.inserterMediaCategories, state.settings.allowedMimeTypes, state.settings.enableOpenverseMediaCategory, state.registeredInserterMediaCategories]);
+
 ;// CONCATENATED MODULE: external ["wp","a11y"]
 var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/selection.js
@@ -10759,19 +10830,17 @@ const registerInserterMediaCategory = category => ({
     console.error('Category should have a `fetch` function defined with the following signature `(InserterMediaRequest) => Promise<InserterMediaItem[]>`.');
     return;
   }
-  const {
-    inserterMediaCategories = []
-  } = select.getSettings();
-  if (inserterMediaCategories.some(({
+  const registeredInserterMediaCategories = select.getRegisteredInserterMediaCategories();
+  if (registeredInserterMediaCategories.some(({
     name
   }) => name === category.name)) {
     console.error(`A category is already registered with the same name: "${category.name}".`);
     return;
   }
-  if (inserterMediaCategories.some(({
+  if (registeredInserterMediaCategories.some(({
     labels: {
       name
-    }
+    } = {}
   }) => name === category.labels?.name)) {
     console.error(`A category is already registered with the same labels.name: "${category.labels.name}".`);
     return;
@@ -10781,12 +10850,10 @@ const registerInserterMediaCategory = category => ({
   // private, so extenders can only add new inserter media categories and don't have any
   // control over the core media categories.
   dispatch({
-    type: 'UPDATE_SETTINGS',
-    settings: {
-      inserterMediaCategories: [...inserterMediaCategories, {
-        ...category,
-        isExternalResource: true
-      }]
+    type: 'REGISTER_INSERTER_MEDIA_CATEGORY',
+    category: {
+      ...category,
+      isExternalResource: true
     }
   });
 };
@@ -24785,7 +24852,15 @@ function bubbleEvent(event, Constructor, frame) {
   for (const key in event) {
     init[key] = event[key];
   }
-  if (event instanceof frame.ownerDocument.defaultView.MouseEvent) {
+
+  // Check if the event is a MouseEvent generated within the iframe.
+  // If so, adjust the coordinates to be relative to the position of
+  // the iframe. This ensures that components such as Draggable
+  // receive coordinates relative to the window, instead of relative
+  // to the iframe. Without this, the Draggable event handler would
+  // result in components "jumping" position as soon as the user
+  // drags over the iframe.
+  if (event instanceof frame.contentDocument.defaultView.MouseEvent) {
     const rect = frame.getBoundingClientRect();
     init.clientX += rect.left;
     init.clientY += rect.top;
@@ -26323,6 +26398,11 @@ const wrap = (namespace, ignore = []) => node => {
    */
   const updateSelector = selector => {
     if (ignore.includes(selector.trim())) {
+      return selector;
+    }
+
+    // Skip the update when a selector already has a namespace + space (" ").
+    if (selector.trim().startsWith(`${namespace} `)) {
       return selector;
     }
 
@@ -28356,12 +28436,10 @@ function BlockPatternsSyncFilter({
   }, {
     value: SYNC_TYPES.full,
     label: (0,external_wp_i18n_namespaceObject.__)('Synced'),
-    info: (0,external_wp_i18n_namespaceObject.__)('Updated everywhere'),
     disabled: shouldDisableSyncFilter
   }, {
     value: SYNC_TYPES.unsynced,
-    label: (0,external_wp_i18n_namespaceObject.__)('Standard'),
-    info: (0,external_wp_i18n_namespaceObject.__)('Edit freely'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Not synced'),
     disabled: shouldDisableSyncFilter
   }], [shouldDisableSyncFilter]);
   const patternSourceMenuOptions = (0,external_wp_element_namespaceObject.useMemo)(() => [{
@@ -28370,18 +28448,15 @@ function BlockPatternsSyncFilter({
     disabled: shouldDisableNonUserSources
   }, {
     value: PATTERN_TYPES.directory,
-    label: (0,external_wp_i18n_namespaceObject.__)('Directory'),
-    info: (0,external_wp_i18n_namespaceObject.__)('Pattern directory & core'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Pattern Directory'),
     disabled: shouldDisableNonUserSources
   }, {
     value: PATTERN_TYPES.theme,
-    label: (0,external_wp_i18n_namespaceObject.__)('Theme'),
-    info: (0,external_wp_i18n_namespaceObject.__)('Bundled with the theme'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Theme & Plugins'),
     disabled: shouldDisableNonUserSources
   }, {
     value: PATTERN_TYPES.user,
-    label: (0,external_wp_i18n_namespaceObject.__)('User'),
-    info: (0,external_wp_i18n_namespaceObject.__)('Custom created')
+    label: (0,external_wp_i18n_namespaceObject.__)('User')
   }], [shouldDisableNonUserSources]);
   function handleSetSourceFilterChange(newSourceFilter) {
     setPatternSourceFilter(newSourceFilter);
@@ -28407,7 +28482,7 @@ function BlockPatternsSyncFilter({
       }))
     })
   }, () => (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Author')
+    label: (0,external_wp_i18n_namespaceObject.__)('Source')
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItemsChoice, {
     choices: patternSourceMenuOptions,
     onSelect: value => {
@@ -28424,6 +28499,12 @@ function BlockPatternsSyncFilter({
       scrollContainerRef.current?.scrollTo(0, 0);
     },
     value: patternSyncFilter
+  })), (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "block-editor-tool-selector__help"
+  }, (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('Patterns are available from the <Link>WordPress.org Pattern Directory</Link>, bundled in the active theme, or created by users on this site. Only patterns created on this site can be synced.'), {
+    Link: (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+      href: (0,external_wp_i18n_namespaceObject.__)('https://wordpress.org/patterns/')
+    })
   })))));
 }
 
@@ -28615,7 +28696,7 @@ function BlockPatternsCategoryPanel({
     setPatternSourceFilter: onSetPatternSourceFilter,
     scrollContainerRef: scrollContainerRef,
     category: category
-  })), category.description && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, null, category.description), !currentCategoryPatterns.length && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
+  })), !currentCategoryPatterns.length && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     variant: "muted",
     className: "block-editor-inserter__patterns-category-no-results"
   }, (0,external_wp_i18n_namespaceObject.__)('No results found'))), currentCategoryPatterns.length > 0 && (0,external_wp_element_namespaceObject.createElement)(block_patterns_list, {
@@ -28694,8 +28775,9 @@ function BlockPatternsTabs({
  */
 
 
-/** @typedef {import('./api').InserterMediaRequest} InserterMediaRequest */
-/** @typedef {import('./api').InserterMediaItem} InserterMediaItem */
+
+/** @typedef {import('../../../store/actions').InserterMediaRequest} InserterMediaRequest */
+/** @typedef {import('../../../store/actions').InserterMediaItem} InserterMediaItem */
 
 /**
  * Fetches media items based on the provided category.
@@ -28737,38 +28819,9 @@ function useMediaResults(category, query = {}) {
     isLoading
   };
 }
-function useInserterMediaCategories() {
-  const {
-    inserterMediaCategories,
-    allowedMimeTypes,
-    enableOpenverseMediaCategory
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const settings = select(store).getSettings();
-    return {
-      inserterMediaCategories: settings.inserterMediaCategories,
-      allowedMimeTypes: settings.allowedMimeTypes,
-      enableOpenverseMediaCategory: settings.enableOpenverseMediaCategory
-    };
-  }, []);
-  // The allowed `mime_types` can be altered by `upload_mimes` filter and restrict
-  // some of them. In this case we shouldn't add the category to the available media
-  // categories list in the inserter.
-  const allowedCategories = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!inserterMediaCategories || !allowedMimeTypes) {
-      return;
-    }
-    return inserterMediaCategories.filter(category => {
-      // Check if Openverse category is enabled.
-      if (!enableOpenverseMediaCategory && category.name === 'openverse') {
-        return false;
-      }
-      return Object.values(allowedMimeTypes).some(mimeType => mimeType.startsWith(`${category.mediaType}/`));
-    });
-  }, [inserterMediaCategories, allowedMimeTypes, enableOpenverseMediaCategory]);
-  return allowedCategories;
-}
 function useMediaCategories(rootClientId) {
   const [categories, setCategories] = (0,external_wp_element_namespaceObject.useState)([]);
+  const inserterMediaCategories = (0,external_wp_data_namespaceObject.useSelect)(select => unlock(select(store)).getInserterMediaCategories(), []);
   const {
     canInsertImage,
     canInsertVideo,
@@ -28783,7 +28836,6 @@ function useMediaCategories(rootClientId) {
       canInsertAudio: canInsertBlockType('core/audio', rootClientId)
     };
   }, [rootClientId]);
-  const inserterMediaCategories = useInserterMediaCategories();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     (async () => {
       const _categories = [];
@@ -47405,6 +47457,7 @@ const ListViewBlockContents = (0,external_wp_element_namespaceObject.forwardRef)
  * WordPress dependencies
  */
 
+
 const getBlockPositionDescription = (position, siblingCount, level) => (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: The numerical position of the block. 2: The total number of blocks. 3. The level of nesting for the block. */
 (0,external_wp_i18n_namespaceObject.__)('Block %1$d of %2$d, Level %3$d'), position, siblingCount, level);
 
@@ -47444,6 +47497,39 @@ function getCommonDepthClientIds(startId, endId, startParents, endParents) {
   };
 }
 
+/**
+ * Shift focus to the list view item associated with a particular clientId.
+ *
+ * @typedef {import('@wordpress/element').RefObject} RefObject
+ *
+ * @param {string}                 focusClientId      The client ID of the block to focus.
+ * @param {RefObject<HTMLElement>} treeGridElementRef The container element to search within.
+ */
+function focusListItem(focusClientId, treeGridElementRef) {
+  const getFocusElement = () => {
+    const row = treeGridElementRef.current?.querySelector(`[role=row][data-block="${focusClientId}"]`);
+    if (!row) return null;
+    // Focus the first focusable in the row, which is the ListViewBlockSelectButton.
+    return external_wp_dom_namespaceObject.focus.focusable.find(row)[0];
+  };
+  let focusElement = getFocusElement();
+  if (focusElement) {
+    focusElement.focus();
+  } else {
+    // The element hasn't been painted yet. Defer focusing on the next frame.
+    // This could happen when all blocks have been deleted and the default block
+    // hasn't been added to the editor yet.
+    window.requestAnimationFrame(() => {
+      focusElement = getFocusElement();
+
+      // Ignore if the element still doesn't exist.
+      if (focusElement) {
+        focusElement.focus();
+      }
+    });
+  }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/list-view/block.js
 
 /**
@@ -47454,7 +47540,6 @@ function getCommonDepthClientIds(startId, endId, startParents, endParents) {
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -47529,7 +47614,6 @@ function ListViewBlock({
   // translators: %s: The title of the block.
   (0,external_wp_i18n_namespaceObject.__)('Options for %s'), blockTitle);
   const {
-    isTreeGridMounted,
     expand,
     collapse,
     BlockSettingsMenu,
@@ -47546,15 +47630,6 @@ function ListViewBlock({
   const listViewBlockSettingsClassName = classnames_default()('block-editor-list-view-block__menu-cell', {
     'is-visible': isHovered || isFirstSelectedBlock
   });
-
-  // If ListView has experimental features related to the Persistent List View,
-  // only focus the selected list item on mount; otherwise the list would always
-  // try to steal the focus from the editor canvas.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!isTreeGridMounted && isSelected) {
-      cellRef.current.focus();
-    }
-  }, []);
 
   // If multiple blocks are selected, deselect all blocks when the user
   // presses the escape key.
@@ -47581,27 +47656,7 @@ function ListViewBlock({
     if (shouldSelectBlock) {
       selectBlock(undefined, focusClientId, null, null);
     }
-    const getFocusElement = () => {
-      const row = treeGridElementRef.current?.querySelector(`[role=row][data-block="${focusClientId}"]`);
-      if (!row) return null;
-      // Focus the first focusable in the row, which is the ListViewBlockSelectButton.
-      return external_wp_dom_namespaceObject.focus.focusable.find(row)[0];
-    };
-    let focusElement = getFocusElement();
-    if (focusElement) {
-      focusElement.focus();
-    } else {
-      // The element hasn't been painted yet. Defer focusing on the next frame.
-      // This could happen when all blocks have been deleted and the default block
-      // hasn't been added to the editor yet.
-      window.requestAnimationFrame(() => {
-        focusElement = getFocusElement();
-        // Ignore if the element still doesn't exist.
-        if (focusElement) {
-          focusElement.focus();
-        }
-      });
-    }
+    focusListItem(focusClientId, treeGridElementRef);
   }, [selectBlock, treeGridElementRef]);
   const toggleExpanded = (0,external_wp_element_namespaceObject.useCallback)(event => {
     // Prevent shift+click from opening link in a new window when toggling.
@@ -47862,7 +47917,14 @@ function ListViewBranch(props) {
     // but asynchronous for any other block.
     const isSelected = isClientIdSelected(clientId, selectedClientIds);
     const isSelectedBranch = isBranchSelected || isSelected && hasNestedBlocks;
-    const showBlock = isDragged || blockInView || isSelected || isBranchDragged;
+
+    // To avoid performance issues, we only render blocks that are in view,
+    // or blocks that are selected or dragged. If a block is selected,
+    // it is only counted if it is the first of the block selection.
+    // This prevents the entire tree from being rendered when a branch is
+    // selected, or a user selects all blocks, while still enabling scroll
+    // into view behavior when selecting a block or opening the list view.
+    const showBlock = isDragged || blockInView || isBranchDragged || isSelected && clientId === selectedClientIds[0];
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_data_namespaceObject.AsyncModeProvider, {
       key: clientId,
       value: !isSelected
@@ -49720,6 +49782,7 @@ function BlockSettingsDropdown({
 
 
 
+
 const expanded = (state, action) => {
   if (Array.isArray(action.clientIds)) {
     return {
@@ -49813,7 +49876,6 @@ function ListViewComponent({
   });
   const elementRef = (0,external_wp_element_namespaceObject.useRef)();
   const treeGridRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([elementRef, dropZoneRef, ref]);
-  const isMounted = (0,external_wp_element_namespaceObject.useRef)(false);
   const [insertedBlock, setInsertedBlock] = (0,external_wp_element_namespaceObject.useState)(null);
   const {
     setSelectedTreeId
@@ -49835,7 +49897,13 @@ function ListViewComponent({
     }
   }, [setSelectedTreeId, updateBlockSelection, onSelect, getBlock]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    isMounted.current = true;
+    // If a blocks are already selected when the list view is initially
+    // mounted, shift focus to the first selected block.
+    if (selectedClientIds?.length) {
+      focusListItem(selectedClientIds[0], elementRef);
+    }
+    // Disable reason: Only focus on the selected item when the list view is mounted.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const expand = (0,external_wp_element_namespaceObject.useCallback)(clientId => {
     if (!clientId) {
@@ -49867,7 +49935,6 @@ function ListViewComponent({
     }
   }, [updateBlockSelection]);
   const contextValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
-    isTreeGridMounted: isMounted.current,
     draggedClientIds,
     expandedState,
     expand,
@@ -50255,7 +50322,6 @@ function useStylesForBlocks({
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -50305,7 +50371,7 @@ function BlockStyles({
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-block-styles__variants"
   }, stylesToRender.map(style => {
-    const buttonText = style.isDefault ? (0,external_wp_i18n_namespaceObject.__)('Default') : style.label || style.name;
+    const buttonText = style.label || style.name;
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
       __next40pxDefaultSize: true,
       className: classnames_default()('block-editor-block-styles__item', {

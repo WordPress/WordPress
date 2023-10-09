@@ -2285,6 +2285,25 @@ h3.edit-site-template-card__template-areas-title{
   margin:0 0 8px;
 }
 
+.edit-site-template-panel__replace-template-modal{
+  z-index:1000001;
+}
+
+.edit-site-template-panel__replace-template-modal__content{
+  column-count:2;
+  column-gap:24px;
+}
+@media (min-width:782px){
+  .edit-site-template-panel__replace-template-modal__content{
+    column-count:3;
+  }
+}
+@media (min-width:1280px){
+  .edit-site-template-panel__replace-template-modal__content{
+    column-count:4;
+  }
+}
+
 .edit-site-editor__interface-skeleton{
   opacity:1;
   transition:opacity .1s ease-out;

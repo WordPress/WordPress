@@ -13098,7 +13098,7 @@ function CoverInspectorControls({
   const colorGradientSettings = (0,external_wp_blockEditor_namespaceObject.__experimentalUseMultipleOriginColorsAndGradients)();
   const htmlElementMessages = {
     header: (0,external_wp_i18n_namespaceObject.__)('The <header> element should represent introductory content, typically a group of introductory or navigational aids.'),
-    main: (0,external_wp_i18n_namespaceObject.__)('The <main> element should be used for the primary content of your document only. '),
+    main: (0,external_wp_i18n_namespaceObject.__)('The <main> element should be used for the primary content of your document only.'),
     section: (0,external_wp_i18n_namespaceObject.__)("The <section> element should represent a standalone portion of the document that can't be better represented by another element."),
     article: (0,external_wp_i18n_namespaceObject.__)('The <article> element should represent a self-contained, syndicatable portion of the document.'),
     aside: (0,external_wp_i18n_namespaceObject.__)("The <aside> element should represent a portion of a document whose content is only indirectly related to the document's main content."),
@@ -15146,6 +15146,7 @@ class EmbedPreview extends external_wp_element_namespaceObject.Component {
 
 
 
+
 const EmbedEdit = props => {
   const {
     attributes: {
@@ -15243,6 +15244,22 @@ const EmbedEdit = props => {
       url: newURL
     });
   }, [preview?.html, attributesUrl, cannotEmbed, fetching]);
+
+  // Try a different provider in case the embed url is not supported.
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!cannotEmbed || fetching || !url) {
+      return;
+    }
+
+    // Until X provider is supported in WordPress, as a workaround we use Twitter provider.
+    if ((0,external_wp_url_namespaceObject.getAuthority)(url) === 'x.com') {
+      const newURL = new URL(url);
+      newURL.host = 'twitter.com';
+      setAttributes({
+        url: newURL.toString()
+      });
+    }
+  }, [url, cannotEmbed, fetching, setAttributes]);
 
   // Handle incoming preview.
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -24104,7 +24121,7 @@ function image_Image({
   });
   const lightboxSetting = (0,external_wp_blockEditor_namespaceObject.useSetting)('lightbox');
   const showLightboxToggle = !!lightbox || lightboxSetting?.allowEditing === true;
-  const lightboxChecked = lightbox?.enabled || !lightbox && lightboxSetting?.enabled;
+  const lightboxChecked = !!lightbox?.enabled || !lightbox && !!lightboxSetting?.enabled;
   const dimensionsControl = (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
     value: {
       width,
@@ -25942,14 +25959,18 @@ function LatestPostsEdit({
       }
     });
     const needsReadMore = excerptLength < excerpt.trim().split(' ').length && post.excerpt.raw === '';
-    const postExcerpt = needsReadMore ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, excerpt.trim().split(' ', excerptLength).join(' '), (0,external_wp_element_namespaceObject.createInterpolateElement)( /* translators: excerpt truncation character, default …  */
-    (0,external_wp_i18n_namespaceObject.__)(' … <a>Read more</a>'), {
+    const postExcerpt = needsReadMore ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, excerpt.trim().split(' ', excerptLength).join(' '), (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: The static string "Read more", 2: The post title only visible to screen readers. */
+    (0,external_wp_i18n_namespaceObject.__)('… <a>%1$s<span>: %2$s</span></a>'), (0,external_wp_i18n_namespaceObject.__)('Read more'), titleTrimmed || (0,external_wp_i18n_namespaceObject.__)('(no title)')), {
       a:
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       (0,external_wp_element_namespaceObject.createElement)("a", {
+        className: "wp-block-latest-posts__read-more",
         href: post.link,
         rel: "noopener noreferrer",
         onClick: showRedirectionPreventedNotice
+      }),
+      span: (0,external_wp_element_namespaceObject.createElement)("span", {
+        className: "screen-reader-text"
       })
     })) : excerpt;
     return (0,external_wp_element_namespaceObject.createElement)("li", {
@@ -29175,7 +29196,7 @@ function MediaTextEdit({
   }), mediaType === 'image' && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
     __nextHasNoMarginBottom: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Crop image to fill entire column'),
-    checked: imageFill,
+    checked: !!imageFill,
     onChange: () => setAttributes({
       imageFill: !imageFill
     })
@@ -30791,7 +30812,8 @@ function NavigationInnerBlocks({
     // Show the appender while dragging to allow inserting element between item and the appender.
     parentOrChildHasSelection ? external_wp_blockEditor_namespaceObject.InnerBlocks.ButtonBlockAppender : false,
     placeholder: showPlaceholder ? placeholder : undefined,
-    __experimentalCaptureToolbars: true
+    __experimentalCaptureToolbars: true,
+    __unstableDisableLayoutClassNames: true
   });
   return (0,external_wp_element_namespaceObject.createElement)("div", {
     ...innerBlocksProps
@@ -31786,13 +31808,16 @@ const ManageMenusButton = ({
 
 
 
+
 function DeletedNavigationWarning({
   onCreateNew
 }) {
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Navigation menu has been deleted or is unavailable. '), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    onClick: onCreateNew,
-    variant: "link"
-  }, (0,external_wp_i18n_namespaceObject.__)('Create a new menu?')));
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('Navigation menu has been deleted or is unavailable. <button>Create a new menu?</button>'), {
+    button: (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+      onClick: onCreateNew,
+      variant: "link"
+    })
+  }));
 }
 /* harmony default export */ var deleted_navigation_warning = (DeletedNavigationWarning);
 
@@ -32492,7 +32517,8 @@ function Navigation({
   // These props are used by the navigation editor to override specific
   // navigation block settings.
   hasSubmenuIndicatorSetting = true,
-  customPlaceholder: CustomPlaceholder = null
+  customPlaceholder: CustomPlaceholder = null,
+  __unstableLayoutClassNames: layoutClassNames
 }) {
   const {
     openSubmenusOnClick,
@@ -32656,7 +32682,7 @@ function Navigation({
       [(0,external_wp_blockEditor_namespaceObject.getColorClassName)('background-color', backgroundColor?.slug)]: !!backgroundColor?.slug,
       [`has-text-decoration-${textDecoration}`]: textDecoration,
       'block-editor-block-content-overlay': hasBlockOverlay
-    }),
+    }, layoutClassNames),
     style: {
       color: !textColor?.slug && textColor?.color,
       backgroundColor: !backgroundColor?.slug && backgroundColor?.color
