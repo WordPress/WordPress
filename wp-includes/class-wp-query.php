@@ -3191,7 +3191,7 @@ class WP_Query {
 
 						return $this->posts;
 					} elseif ( 'id=>parent' === $q['fields'] ) {
-						_prime_post_parents_caches( $post_ids );
+						_prime_post_parent_id_caches( $post_ids );
 
 						/** @var int[] */
 						$post_parents = wp_cache_get_multiple( $post_ids, 'post_parent' );
