@@ -31,7 +31,7 @@ function wp_get_elements_class_name( $block ) {
  * @return string Filtered block content.
  */
 function wp_render_elements_support( $block_content, $block ) {
-	if ( ! $block_content || empty( $block['attrs'] ) ) {
+	if ( ! $block_content || ! isset( $block['attrs']['style']['elements'] ) ) {
 		return $block_content;
 	}
 
@@ -41,42 +41,42 @@ function wp_render_elements_support( $block_content, $block ) {
 		'button'  => array(
 			'skip'  => wp_should_skip_block_supports_serialization( $block_type, 'color', 'button' ),
 			'paths' => array(
-				'style.elements.button.color.text',
-				'style.elements.button.color.background',
-				'style.elements.button.color.gradient',
+				array( 'button', 'color', 'text' ),
+				array( 'button', 'color', 'background' ),
+				array( 'button', 'color', 'gradient' ),
 			),
 		),
 		'link'    => array(
 			'skip'  => wp_should_skip_block_supports_serialization( $block_type, 'color', 'link' ),
 			'paths' => array(
-				'style.elements.link.color.text',
-				'style.elements.link.:hover.color.text',
+				array( 'link', 'color', 'text' ),
+				array( 'link', ':hover', 'color', 'text' ),
 			),
 		),
 		'heading' => array(
 			'skip'  => wp_should_skip_block_supports_serialization( $block_type, 'color', 'heading' ),
 			'paths' => array(
-				'style.elements.heading.color.text',
-				'style.elements.heading.color.background',
-				'style.elements.heading.color.gradient',
-				'style.elements.h1.color.text',
-				'style.elements.h1.color.background',
-				'style.elements.h1.color.gradient',
-				'style.elements.h2.color.text',
-				'style.elements.h2.color.background',
-				'style.elements.h2.color.gradient',
-				'style.elements.h3.color.text',
-				'style.elements.h3.color.background',
-				'style.elements.h3.color.gradient',
-				'style.elements.h4.color.text',
-				'style.elements.h4.color.background',
-				'style.elements.h4.color.gradient',
-				'style.elements.h5.color.text',
-				'style.elements.h5.color.background',
-				'style.elements.h5.color.gradient',
-				'style.elements.h6.color.text',
-				'style.elements.h6.color.background',
-				'style.elements.h6.color.gradient',
+				array( 'heading', 'color', 'text' ),
+				array( 'heading', 'color', 'background' ),
+				array( 'heading', 'color', 'gradient' ),
+				array( 'h1', 'color', 'text' ),
+				array( 'h1', 'color', 'background' ),
+				array( 'h1', 'color', 'gradient' ),
+				array( 'h2', 'color', 'text' ),
+				array( 'h2', 'color', 'background' ),
+				array( 'h2', 'color', 'gradient' ),
+				array( 'h3', 'color', 'text' ),
+				array( 'h3', 'color', 'background' ),
+				array( 'h3', 'color', 'gradient' ),
+				array( 'h4', 'color', 'text' ),
+				array( 'h4', 'color', 'background' ),
+				array( 'h4', 'color', 'gradient' ),
+				array( 'h5', 'color', 'text' ),
+				array( 'h5', 'color', 'background' ),
+				array( 'h5', 'color', 'gradient' ),
+				array( 'h6', 'color', 'text' ),
+				array( 'h6', 'color', 'background' ),
+				array( 'h6', 'color', 'gradient' ),
 			),
 		),
 	);
@@ -89,7 +89,7 @@ function wp_render_elements_support( $block_content, $block ) {
 		return $block_content;
 	}
 
-	$element_colors_set = 0;
+	$elements_style_attributes = $block['attrs']['style']['elements'];
 
 	foreach ( $element_color_properties as $element_config ) {
 		if ( $element_config['skip'] ) {
@@ -97,24 +97,28 @@ function wp_render_elements_support( $block_content, $block ) {
 		}
 
 		foreach ( $element_config['paths'] as $path ) {
-			if ( null !== _wp_array_get( $block['attrs'], explode( '.', $path ), null ) ) {
-				++$element_colors_set;
+			if ( null !== _wp_array_get( $elements_style_attributes, $path, null ) ) {
+				/*
+				 * It only takes a single custom attribute to require that the custom
+				 * class name be added to the block, so once one is found there's no
+				 * need to continue looking for others.
+				 *
+				 * As is done with the layout hook, this code assumes that the block
+				 * contains a single wrapper and that it's the first element in the
+				 * rendered output. That first element, if it exists, gets the class.
+				 */
+				$tags = new WP_HTML_Tag_Processor( $block_content );
+				if ( $tags->next_tag() ) {
+					$tags->add_class( wp_get_elements_class_name( $block ) );
+				}
+
+				return $tags->get_updated_html();
 			}
 		}
 	}
 
-	if ( ! $element_colors_set ) {
-		return $block_content;
-	}
-
-	// Like the layout hook this assumes the hook only applies to blocks with a single wrapper.
-	// Add the class name to the first element, presuming it's the wrapper, if it exists.
-	$tags = new WP_HTML_Tag_Processor( $block_content );
-	if ( $tags->next_tag() ) {
-		$tags->add_class( wp_get_elements_class_name( $block ) );
-	}
-
-	return $tags->get_updated_html();
+	// If no custom attributes were found then there's nothing to modify.
+	return $block_content;
 }
 
 /**
