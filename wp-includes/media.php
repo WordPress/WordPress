@@ -775,7 +775,13 @@ function wp_image_matches_ratio( $source_width, $source_height, $target_width, $
 function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 	$imagedata = wp_get_attachment_metadata( $post_id );
 
-	if ( ! $size || ! is_array( $imagedata ) || empty( $imagedata['sizes'] ) ) {
+	// Check whether $imagedata and $imagedata['sizes'] are real arrays
+	if (!is_array($imagedata) || empty($imagedata['sizes']) || !is_array($imagedata['sizes'])) {
+		return false;
+	}
+	
+	// Check whether $size has a valid structure
+	if (!is_array($size) || count($size) < 2) {
 		return false;
 	}
 
