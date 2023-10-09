@@ -511,7 +511,7 @@ jQuery( function($) {
 			// See https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event.
 			return __( 'The changes you made will be lost if you navigate away from this page.' );
 		}
-	}).on( 'unload.edit-post', function( event ) {
+	}).on( 'pagehide.edit-post', function( event ) {
 		if ( ! releaseLock ) {
 			return;
 		}

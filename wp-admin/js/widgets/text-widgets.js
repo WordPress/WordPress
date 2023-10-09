@@ -291,7 +291,7 @@ wp.textWidgets = ( function( $ ) {
 				onInit = function() {
 
 					// When a widget is moved in the DOM the dynamically-created TinyMCE iframe will be destroyed and has to be re-built.
-					$( editor.getWin() ).on( 'unload', function() {
+					$( editor.getWin() ).on( 'pagehide', function() {
 						_.defer( buildEditor );
 					});
 

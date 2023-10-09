@@ -223,15 +223,34 @@
 				settings.checkFocusTimer = window.setInterval( checkFocus, 10000 );
 			}
 
-			$(window).on( 'unload.wp-heartbeat', function() {
+			$(window).on( 'pagehide.wp-heartbeat', function() {
 				// Don't connect anymore.
-				settings.suspend = true;
+				suspend();
 
 				// Abort the last request if not completed.
 				if ( settings.xhr && settings.xhr.readyState !== 4 ) {
 					settings.xhr.abort();
 				}
 			});
+
+			$(window).on(
+				'pageshow.wp-heartbeat',
+				/**
+				 * Handles pageshow event, specifically when page navigation is restored from back/forward cache.
+				 *
+				 * @param {jQuery.Event} event
+				 * @param {PageTransitionEvent} event.originalEvent
+				 */
+				function ( event ) {
+					if ( event.originalEvent.persisted ) {
+						/*
+						 * When page navigation is stored via bfcache (Back/Forward Cache), consider this the same as
+						 * if the user had just switched to the tab since the behavior is similar.
+						 */
+						focused();
+					}
+				}
+			);
 
 			// Check for user activity every 30 seconds.
 			window.setInterval( checkUserActivity, 30000 );
@@ -541,12 +560,26 @@
 			settings.userActivity = time();
 
 			// Resume if suspended.
-			settings.suspend = false;
+			resume();
 
 			if ( ! settings.hasFocus ) {
 				settings.hasFocus = true;
 				scheduleNextTick();
 			}
+		}
+
+		/**
+		 * Suspends connecting.
+		 */
+		function suspend() {
+			settings.suspend = true;
+		}
+
+		/**
+		 * Resumes connecting.
+		 */
+		function resume() {
+			settings.suspend = false;
 		}
 
 		/**
@@ -593,7 +626,7 @@
 			// Suspend after 10 minutes of inactivity when suspending is enabled.
 			// Always suspend after 60 minutes of inactivity. This will release the post lock, etc.
 			if ( ( settings.suspendEnabled && lastActive > 600000 ) || lastActive > 3600000 ) {
-				settings.suspend = true;
+				suspend();
 			}
 
 			if ( ! settings.userActivityEvents ) {
