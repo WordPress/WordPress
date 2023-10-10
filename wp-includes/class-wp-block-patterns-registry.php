@@ -164,12 +164,15 @@ final class WP_Block_Patterns_Registry {
 	 */
 	private function prepare_content( $pattern, $hooked_blocks ) {
 		$content = $pattern['content'];
+
+		$before_block_visitor = '_inject_theme_attribute_in_template_part_block';
+		$after_block_visitor  = null;
 		if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
-			$blocks               = parse_blocks( $content );
 			$before_block_visitor = make_before_block_visitor( $hooked_blocks, $pattern );
 			$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $pattern );
-			$content              = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
 		}
+		$blocks  = parse_blocks( $content );
+		$content = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
 
 		return $content;
 	}
