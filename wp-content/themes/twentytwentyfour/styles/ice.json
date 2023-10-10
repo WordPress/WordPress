@@ -20,38 +20,6 @@
 	},
 	"styles": {
 		"blocks": {
-			"core/code": {
-				"border": {
-					"bottom": {
-						"style": "none",
-						"width": "0px"
-					},
-					"left": {
-						"style": "none",
-						"width": "0px"
-					},
-					"radius": "16px",
-					"right": {
-						"style": "none",
-						"width": "0px"
-					},
-					"top": {
-						"style": "none",
-						"width": "0px"
-					}
-				},
-				"color": {
-					"background": "var(--wp--preset--color--base-2)",
-					"text": "var(--wp--preset--color--contrast-2)"
-				},
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var(--wp--preset--color--contrast-2)"
-						}
-					}
-				}
-			},
 			"core/pullquote": {
 				"border": {
 					"bottom": {

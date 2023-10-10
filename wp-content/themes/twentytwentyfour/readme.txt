@@ -1,6 +1,6 @@
 === Twenty Twenty-Four ===
 Contributors: wordpressdotorg
-Requires at least: 6.2
+Requires at least: 6.4
 Tested up to: 6.4
 Requires PHP: 7.0
 License: GPLv2 or later
@@ -35,17 +35,15 @@ GNU General Public License for more details.
 === Images ===
 License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 
-about.webp - https://www.rawpixel.com/image/3297419/free-photo-image-interior-hallway-architecture
-business-app.webp - https://www.rawpixel.com/image/5928004/photo-image-public-domain-hand-person
-business-hero.webp - https://www.rawpixel.com/image/430335/free-photo-image-architecture-building-roof
-home.webp - https://www.rawpixel.com/image/3286615/free-photo-image-texture-architecture-building
-left-aligned-cta.webp - https://www.rawpixel.com/image/3283970/free-photo-image-pattern-artwork-abstract
-project-1.webp - https://www.rawpixel.com/image/3289063/free-photo-image-architectural-detail-architecture
-project-2.webp - https://www.rawpixel.com/image/430585/free-photo-image-stairs-staircase-concrete
-project-overview.webp - https://www.rawpixel.com/image/3286187/free-photo-image-person-stairs-architecture
-rsvp.webp - https://www.rawpixel.com/image/430558/free-photo-image-abstract-architecture-art-public-domain
-services.webp - https://www.rawpixel.com/image/5928302/photo-image-public-domain-person-construction
-tt4_projectoverview.jpg - https://www.rawpixel.com/image/3286725/free-photo-image-black-and-white-background-photos
+museum.webp - https://www.rawpixel.com/image/3297419/free-photo-image-interior-hallway-architecture
+tourist-and-building.webp - https://www.rawpixel.com/image/5928004/photo-image-public-domain-hand-person
+building-exterior.webp - https://www.rawpixel.com/image/430335/free-photo-image-architecture-building-roof
+windows.webp - https://www.rawpixel.com/image/3286615/free-photo-image-texture-architecture-building
+abstract-geometric-art.webp - https://www.rawpixel.com/image/3283970/free-photo-image-pattern-artwork-abstract
+angular-roof.webp - https://www.rawpixel.com/image/3289063/free-photo-image-architectural-detail-architecture
+art-gallery.webp - https://www.rawpixel.com/image/3286187/free-photo-image-person-stairs-architecture
+green-staircase.webp - https://www.rawpixel.com/image/430558/free-photo-image-abstract-architecture-art-public-domain
+hotel-facade.webp - https://www.rawpixel.com/image/3286725/free-photo-image-black-and-white-background-photos
 
 License: UNICODE LICENSE V3 https://www.unicode.org/license.txt
 icon-message.webp

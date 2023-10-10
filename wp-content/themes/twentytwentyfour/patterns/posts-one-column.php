@@ -9,6 +9,10 @@
 
 <!-- wp:query {"query":{"perPage":3,"pages":0,"offset":"0","postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-query alignfull">
+	<!-- wp:query-no-results -->
+		<!-- wp:pattern {"slug":"twentytwentyfour/no-results-content"} /-->
+	<!-- /wp:query-no-results -->
+
 	<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"0","right":"0"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--50);padding-right:0;padding-bottom:var(--wp--preset--spacing--50);padding-left:0">
 		<!-- wp:post-template {"align":"full","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default","columnCount":3}} -->
@@ -31,9 +35,7 @@
 		<!-- wp:query-pagination-previous /-->
 		<!-- wp:query-pagination-next /-->
 		<!-- /wp:query-pagination -->
-		<!-- wp:query-no-results -->
-			<!-- wp:pattern {"slug":"twentytwentyfour/no-results-content"} /-->
-		<!-- /wp:query-no-results -->
+
 	</div>
 	<!-- /wp:group -->
 </div>

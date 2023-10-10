@@ -3,6 +3,7 @@
  * Title: Centered Statement
  * Slug: twentytwentyfour/centered-statement
  * Categories: text, about, featured
+ * Keywords: statement, centered
  * Viewport width: 1400
  */
 ?>

@@ -1,8 +1,9 @@
 <?php
 /**
  * Title: Centered Call To Action
- * Slug: twentytwentyfour/cta
+ * Slug: twentytwentyfour/text-centered-cta-subscribe
  * Categories: call-to-action
+ * Keywords: newsletter, subscribe, button
  */
 ?>
 

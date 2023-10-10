@@ -68,4 +68,4 @@
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:pattern {"slug":"twentytwentyfour/cta"}	/-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-centered-cta-subscribe"}	/-->

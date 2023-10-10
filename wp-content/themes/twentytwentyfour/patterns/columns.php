@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Columns
+ * Title: Three columns of text
  * Slug: twentytwentyfour/columns
  * Categories: text
  * Viewport width: 1500

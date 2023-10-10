@@ -75,6 +75,9 @@
 		<div class="wp-block-group">
 			<!-- wp:group {"style":{"spacing":{"blockGap":"6px"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
 			<div class="wp-block-group">
+				<!-- wp:paragraph {"fontSize":"small"} -->
+				<p class="has-small-font-size"><?php esc_html_e( '&copy;', 'twentytwentyfour' ); ?></p>
+				<!-- /wp:paragraph -->
 				<!-- wp:site-title {"level":0,"style":{"typography":{"fontStyle":"normal","fontWeight":"400"}},"fontSize":"small"} /-->
 			</div>
 			<!-- /wp:group -->

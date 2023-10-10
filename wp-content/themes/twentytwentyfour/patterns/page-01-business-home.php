@@ -15,4 +15,4 @@
 <!-- wp:pattern {"slug":"twentytwentyfour/features-with-images"} /-->
 <!-- wp:pattern {"slug":"twentytwentyfour/testimonial-centered"} /-->
 <!-- wp:pattern {"slug":"twentytwentyfour/posts-featured"} /-->
-<!-- wp:pattern {"slug":"twentytwentyfour/cta"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-centered-cta-subscribe"} /-->

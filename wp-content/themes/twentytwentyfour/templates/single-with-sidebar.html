@@ -1,7 +1,7 @@
 <!-- wp:template-part {"slug":"header"} /-->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"0vh","bottom":"0vh"},"padding":{"top":"10vh","bottom":"8vh"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group" style="margin-top:0vh;margin-bottom:0vh;padding-top:10vh;padding-bottom:8vh"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"1rem","left":"1rem"}}}} -->
+<!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"0vh","bottom":"0vh"},"padding":{"top":"10vh","bottom":"8vh"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="margin-top:0vh;margin-bottom:0vh;padding-top:10vh;padding-bottom:8vh"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"1rem","left":"1rem"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"width":"10%"} -->
 <div class="wp-block-column" style="flex-basis:10%"></div>
 <!-- /wp:column -->
@@ -19,10 +19,11 @@
 <!-- wp:template-part {"slug":"post-meta"} /--></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
-<main class="wp-block-group"><!-- wp:post-content {"lock":{"move":false,"remove":true},"layout":{"type":"constrained"}} /-->
+<!-- wp:group {"layout":{"type":"constrained"}} -->
+<div class="wp-block-group">
+<!-- wp:post-content {"lock":{"move":false,"remove":true},"layout":{"type":"constrained"}} /-->
 
-<!-- wp:post-terms {"term":"post_tag","separator":"  "} /--></main>
+<!-- wp:post-terms {"term":"post_tag","separator":"  "} /--></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -36,11 +37,9 @@
 <div style="height:4rem" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"0vh"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
-<div class="wp-block-group" style="padding-bottom:0vh"><!-- wp:post-navigation-link {"type":"previous","arrow":"arrow"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/post-navigation"} /-->
 
-<!-- wp:post-navigation-link {"label":"Next","arrow":"arrow"} /--></div>
-<!-- /wp:group --></div>
+</div>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
 
@@ -55,7 +54,7 @@
 <!-- wp:column {"width":"10%"} -->
 <div class="wp-block-column" style="flex-basis:10%"></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div>
+<!-- /wp:columns --></main>
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->

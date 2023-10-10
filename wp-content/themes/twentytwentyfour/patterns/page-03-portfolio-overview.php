@@ -2,7 +2,7 @@
 /**
  * Title: Portfolio Overview Page
  * Slug: twentytwentyfour/portfolio-overview
- * Categories: about
+ * Categories: about, featured
  * Keywords: page, starter
  * Block Types: core/post-content
  * Post Types: page, wp_template

@@ -162,7 +162,7 @@
 			"spacingSizes": [
 				{
 					"name": "1",
-					"size": "min(1rem, 1vw)",
+					"size": "1rem",
 					"slug": "10"
 				},
 				{
@@ -331,20 +331,25 @@
 			"core/code": {
 				"border": {
 					"color": "var(--wp--preset--color--contrast)",
-					"radius": "0.25rem",
-					"style": "solid",
-					"width": "2px"
+					"radius": "var(--wp--preset--spacing--20)"
+				},
+				"color": {
+					"background": "var(--wp--preset--color--base-2)",
+					"text": "var(--wp--preset--color--contrast-2)"
 				},
 				"spacing": {
 					"padding": {
-						"bottom": "var(--wp--preset--spacing--50)",
-						"left": "var(--wp--preset--spacing--50)",
-						"right": "var(--wp--preset--spacing--50)",
-						"top": "var(--wp--preset--spacing--50)"
+						"bottom": "calc(var(--wp--preset--spacing--30) + 0.75rem)",
+						"left": "calc(var(--wp--preset--spacing--30) + 0.75rem)",
+						"right": "calc(var(--wp--preset--spacing--30) + 0.75rem)",
+						"top": "calc(var(--wp--preset--spacing--30) + 0.75rem)"
 					}
 				},
 				"typography": {
-					"fontFamily": "monospace"
+					"fontSize": "var(--wp--preset--font-size--medium)",
+					"fontStyle": "normal",
+					"fontWeight": "400",
+					"lineHeight": "1.6"
 				}
 			},
 			"core/comment-author-name": {
@@ -612,23 +617,7 @@
 			},
 			"core/pullquote": {
 				"border": {
-					"bottom": {
-						"style": "none",
-						"width": "0px"
-					},
-					"left": {
-						"style": "none",
-						"width": "0px"
-					},
-					"radius": "var(--wp--preset--spacing--20)",
-					"right": {
-						"style": "none",
-						"width": "0px"
-					},
-					"top": {
-						"style": "none",
-						"width": "0px"
-					}
+					"radius": "var(--wp--preset--spacing--20)"
 				},
 				"elements": {
 					"cite": {
@@ -656,6 +645,13 @@
 			},
 			"core/query-title": {
 				"css": "& span {font-style: italic;}"
+			},
+			"core/query-no-results": {
+				"spacing": {
+					"padding": {
+						"top": "var(--wp--preset--spacing--30)"
+					}
+				}
 			},
 			"core/quote": {
 				"border": {
