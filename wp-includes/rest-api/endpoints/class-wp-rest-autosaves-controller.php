@@ -65,8 +65,13 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			$parent_controller = new WP_REST_Posts_Controller( $parent_post_type );
 		}
 
-		$this->parent_controller    = $parent_controller;
-		$this->revisions_controller = new WP_REST_Revisions_Controller( $parent_post_type );
+		$this->parent_controller = $parent_controller;
+
+		$revisions_controller = $post_type_object->get_revisions_rest_controller();
+		if ( ! $revisions_controller ) {
+			$revisions_controller = new WP_REST_Revisions_Controller( $parent_post_type );
+		}
+		$this->revisions_controller = $revisions_controller;
 		$this->rest_base            = 'autosaves';
 		$this->parent_base          = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
 		$this->namespace            = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
@@ -205,11 +210,11 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	 */
 	public function create_item( $request ) {
 
-		if ( ! defined( 'DOING_AUTOSAVE' ) ) {
+		if ( ! defined( 'WP_RUN_CORE_TESTS' ) && ! defined( 'DOING_AUTOSAVE' ) ) {
 			define( 'DOING_AUTOSAVE', true );
 		}
 
-		$post = get_post( $request['id'] );
+		$post = $this->get_parent( $request['id'] );
 
 		if ( is_wp_error( $post ) ) {
 			return $post;
