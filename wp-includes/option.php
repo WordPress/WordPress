@@ -2125,7 +2125,7 @@ function update_network_option( $network_id, $option, $value ) {
 
 	wp_protect_special_option( $option );
 
-	$old_value = get_network_option( $network_id, $option, false );
+	$old_value = get_network_option( $network_id, $option );
 
 	/**
 	 * Filters a specific network option before its value is updated.
@@ -2145,19 +2145,79 @@ function update_network_option( $network_id, $option, $value ) {
 	$value = apply_filters( "pre_update_site_option_{$option}", $value, $old_value, $option, $network_id );
 
 	/*
+	 * To get the actual raw old value from the database, any existing pre filters need to be temporarily disabled.
+	 * Immediately after getting the raw value, they are reinstated.
+	 * The raw value is only used to determine whether a value is present in the database. It is not used anywhere
+	 * else, and is not passed to any of the hooks either.
+	 */
+	global $wp_filter;
+
+	/** This filter is documented in wp-includes/option.php */
+	$default_value = apply_filters( "default_site_option_{$option}", false, $option, $network_id );
+
+	$has_site_filter   = has_filter( "pre_site_option_{$option}" );
+	$has_option_filter = has_filter( "pre_option_{$option}" );
+	if ( $has_site_filter || $has_option_filter ) {
+		if ( $has_site_filter ) {
+			$old_ms_filters = $wp_filter[ "pre_site_option_{$option}" ];
+			unset( $wp_filter[ "pre_site_option_{$option}" ] );
+		}
+
+		if ( $has_option_filter ) {
+			$old_single_site_filters = $wp_filter[ "pre_option_{$option}" ];
+			unset( $wp_filter[ "pre_option_{$option}" ] );
+		}
+
+		if ( is_multisite() ) {
+			$raw_old_value = get_network_option( $network_id, $option );
+		} else {
+			$raw_old_value = get_option( $option, $default_value );
+		}
+
+		if ( $has_site_filter ) {
+			$wp_filter[ "pre_site_option_{$option}" ] = $old_ms_filters;
+		}
+		if ( $has_option_filter ) {
+			$wp_filter[ "pre_option_{$option}" ] = $old_single_site_filters;
+		}
+	} else {
+		$raw_old_value = $old_value;
+	}
+
+	if ( ! is_multisite() ) {
+		/** This filter is documented in wp-includes/option.php */
+		$default_value = apply_filters( "default_option_{$option}", $default_value, $option, true );
+	}
+
+	/*
 	 * If the new and old values are the same, no need to update.
 	 *
-	 * Unserialized values will be adequate in most cases. If the unserialized
-	 * data differs, the (maybe) serialized data is checked to avoid
-	 * unnecessary database calls for otherwise identical object instances.
+	 * An exception applies when no value is set in the database, i.e. the old value is the default.
+	 * In that case, the new value should always be added as it may be intentional to store it rather than relying on the default.
 	 *
-	 * See https://core.trac.wordpress.org/ticket/44956
+	 * See https://core.trac.wordpress.org/ticket/44956 and https://core.trac.wordpress.org/ticket/22192 and https://core.trac.wordpress.org/ticket/59360
 	 */
-	if ( $value === $old_value || maybe_serialize( $value ) === maybe_serialize( $old_value ) ) {
+	if (
+		$value === $raw_old_value ||
+		(
+			false !== $raw_old_value &&
+			/*
+			 * Single site stores values in the `option_value` field, which cannot be set to NULL.
+			 * This means a PHP `null` value will be cast to an empty string, which can be considered
+			 * equal to values such as an empty string, or false when cast to string.
+			 *
+			 * However, Multisite stores values in the `meta_value` field, which can be set to NULL.
+			 * As NULL is unique in the database, skip checking an old or new value of NULL
+			 * against any other value.
+			 */
+			( ! is_multisite() || ! ( null === $raw_old_value || null === $value ) ) &&
+			_is_equal_database_value( $raw_old_value, $value )
+		)
+	) {
 		return false;
 	}
 
-	if ( false === $old_value ) {
+	if ( $default_value === $raw_old_value ) {
 		return add_network_option( $network_id, $option, $value );
 	}
 
