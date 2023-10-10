@@ -34,7 +34,8 @@ function render_block_core_query( $attributes, $content, $block ) {
 								'loadedText'  => __( 'Page Loaded.' ),
 							),
 						),
-					)
+					),
+					JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP
 				)
 			);
 			$content = $p->get_updated_html();

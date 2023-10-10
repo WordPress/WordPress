@@ -3082,6 +3082,11 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   flex-shrink:0;
 }
 
+@media (min-width:782px){
+  .edit-site-sidebar-navigation-screen__content .edit-site-global-styles-style-variations-container{
+    max-width:292px;
+  }
+}
 .edit-site-sidebar-navigation-screen__content .edit-site-global-styles-style-variations-container .edit-site-global-styles-variations_item-preview{
   border:1px solid #1e1e1e;
 }

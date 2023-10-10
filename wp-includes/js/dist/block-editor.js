@@ -58490,10 +58490,8 @@ function PreviewPatternsPopover({
     className: "block-editor-block-switcher__preview__popover",
     position: "bottom right"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "block-editor-block-switcher__preview"
-  }, (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "block-editor-block-switcher__preview-title"
-  }, (0,external_wp_i18n_namespaceObject.__)('Preview')), (0,external_wp_element_namespaceObject.createElement)(BlockPatternsList, {
+    className: "block-editor-block-switcher__preview is-pattern-list-preview"
+  }, (0,external_wp_element_namespaceObject.createElement)(BlockPatternsList, {
     patterns: patterns,
     onSelect: onSelect
   })))));

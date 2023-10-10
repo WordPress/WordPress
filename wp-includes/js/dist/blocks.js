@@ -14815,6 +14815,31 @@ function headRemover(node) {
   node.parentNode.removeChild(node);
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-ignore.js
+/**
+ * Looks for comments, and removes them.
+ *
+ * @param {Node} node The node to be processed.
+ * @return {void}
+ */
+function msListIgnore(node) {
+  if (node.nodeType !== node.ELEMENT_NODE) {
+    return;
+  }
+  const style = node.getAttribute('style');
+  if (!style || !style.includes('mso-list')) {
+    return;
+  }
+  const rules = style.split(';').reduce((acc, rule) => {
+    const [key, value] = rule.split(':');
+    acc[key.trim().toLowerCase()] = value.trim().toLowerCase();
+    return acc;
+  }, {});
+  if (rules['mso-list'] === 'ignore') {
+    node.remove();
+  }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js
 /**
  * Browser dependencies
@@ -14822,6 +14847,12 @@ function headRemover(node) {
 const {
   parseInt: ms_list_converter_parseInt
 } = window;
+
+/**
+ * Internal dependencies
+ */
+
+
 function ms_list_converter_isList(node) {
   return node.nodeName === 'OL' || node.nodeName === 'UL';
 }
@@ -14830,19 +14861,9 @@ function msListConverter(node, doc) {
     return;
   }
   const style = node.getAttribute('style');
-  if (!style) {
+  if (!style || !style.includes('mso-list')) {
     return;
   }
-
-  // Quick check.
-  if (style.indexOf('mso-list') === -1) {
-    return;
-  }
-  const matches = /mso-list\s*:[^;]+level([0-9]+)/i.exec(style);
-  if (!matches) {
-    return;
-  }
-  let level = ms_list_converter_parseInt(matches[1], 10) - 1 || 0;
   const prevNode = node.previousElementSibling;
 
   // Add new list if no previous.
@@ -14861,13 +14882,10 @@ function msListConverter(node, doc) {
   const listItem = doc.createElement('li');
   let receivingNode = listNode;
 
-  // Remove the first span with list info.
-  node.removeChild(node.firstChild);
-
   // Add content.
-  while (node.firstChild) {
-    listItem.appendChild(node.firstChild);
-  }
+  listItem.innerHTML = deepFilterHTML(node.innerHTML, [msListIgnore]);
+  const matches = /mso-list\s*:[^;]+level([0-9]+)/i.exec(style);
+  let level = matches ? ms_list_converter_parseInt(matches[1], 10) - 1 || 0 : 0;
 
   // Change pointer depending on indentation level.
   while (level--) {
@@ -15204,6 +15222,7 @@ function slackParagraphCorrector(node) {
 
 
 
+
 /**
  * Browser dependencies
  */
@@ -15220,7 +15239,7 @@ const {
  * @return {string} HTML only containing phrasing content.
  */
 function filterInlineHTML(HTML, preserveWhiteSpace) {
-  HTML = deepFilterHTML(HTML, [headRemover, googleDocsUIdRemover, phrasingContentReducer, commentRemover]);
+  HTML = deepFilterHTML(HTML, [headRemover, googleDocsUIdRemover, msListIgnore, phrasingContentReducer, commentRemover]);
   HTML = (0,external_wp_dom_namespaceObject.removeInvalidHTML)(HTML, (0,external_wp_dom_namespaceObject.getPhrasingContentSchema)('paste'), {
     inline: true
   });

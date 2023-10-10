@@ -1018,6 +1018,7 @@
 
 .block-editor-block-switcher__preview__popover{
   display:none;
+  overflow:hidden;
 }
 .block-editor-block-switcher__preview__popover.components-popover{
   margin-top:11px;
@@ -1033,6 +1034,7 @@
   border-radius:2px;
   box-shadow:none;
   outline:none;
+  overflow:auto;
   width:300px;
 }
 .block-editor-block-switcher__preview__popover .block-editor-block-switcher__preview{
@@ -1040,6 +1042,9 @@
   max-height:468px;
   overflow:hidden;
   padding:0 16px;
+}
+.block-editor-block-switcher__preview__popover .block-editor-block-switcher__preview.is-pattern-list-preview{
+  overflow:unset;
 }
 
 .block-editor-block-switcher__preview-title{

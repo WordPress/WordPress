@@ -696,9 +696,22 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 	$responsive_dialog_directives    = '';
 	$close_button_directives         = '';
 	if ( $should_load_view_script ) {
+		$nav_element_context             = wp_json_encode(
+			array(
+				'core' => array(
+					'navigation' => array(
+						'overlayOpenedBy' => array(),
+						'type'            => 'overlay',
+						'roleAttribute'   => '',
+						'ariaLabel'       => __( 'Menu' ),
+					),
+				),
+			),
+			JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP
+		);
 		$nav_element_directives          = '
 			data-wp-interactive
-			data-wp-context=\'{ "core": { "navigation": { "overlayOpenedBy": {}, "type": "overlay", "roleAttribute": "" } } }\'
+			data-wp-context=\'' . $nav_element_context . '\'
 		';
 		$open_button_directives          = '
 			data-wp-on--click="actions.core.navigation.openMenuOnClick"
@@ -714,6 +727,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		';
 		$responsive_dialog_directives    = '
 			data-wp-bind--aria-modal="selectors.core.navigation.ariaModal"
+			data-wp-bind--aria-label="selectors.core.navigation.ariaLabel"
 			data-wp-bind--role="selectors.core.navigation.roleAttribute"
 			data-wp-effect="effects.core.navigation.focusFirstElement"
 		';
@@ -723,11 +737,11 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 	}
 
 	$responsive_container_markup = sprintf(
-		'<button aria-haspopup="true" %3$s class="%6$s" %11$s>%9$s</button>
-			<div class="%5$s" style="%7$s" id="%1$s" %12$s>
+		'<button aria-haspopup="true" %3$s class="%6$s" %10$s>%8$s</button>
+			<div class="%5$s" style="%7$s" id="%1$s" %11$s>
 				<div class="wp-block-navigation__responsive-close" tabindex="-1">
-					<div class="wp-block-navigation__responsive-dialog" aria-label="%8$s" %13$s>
-							<button %4$s class="wp-block-navigation__responsive-container-close" %14$s>%10$s</button>
+					<div class="wp-block-navigation__responsive-dialog" %12$s>
+							<button %4$s class="wp-block-navigation__responsive-container-close" %13$s>%9$s</button>
 						<div class="wp-block-navigation__responsive-container-content" id="%1$s-content">
 							%2$s
 						</div>
@@ -741,7 +755,6 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		esc_attr( implode( ' ', $responsive_container_classes ) ),
 		esc_attr( implode( ' ', $open_button_classes ) ),
 		esc_attr( safecss_filter_attr( $colors['overlay_inline_styles'] ) ),
-		__( 'Menu' ),
 		$toggle_button_content,
 		$toggle_close_button_content,
 		$open_button_directives,

@@ -25959,8 +25959,8 @@ function LatestPostsEdit({
       }
     });
     const needsReadMore = excerptLength < excerpt.trim().split(' ').length && post.excerpt.raw === '';
-    const postExcerpt = needsReadMore ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, excerpt.trim().split(' ', excerptLength).join(' '), (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: The static string "Read more", 2: The post title only visible to screen readers. */
-    (0,external_wp_i18n_namespaceObject.__)('… <a>%1$s<span>: %2$s</span></a>'), (0,external_wp_i18n_namespaceObject.__)('Read more'), titleTrimmed || (0,external_wp_i18n_namespaceObject.__)('(no title)')), {
+    const postExcerpt = needsReadMore ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, excerpt.trim().split(' ', excerptLength).join(' '), (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Hidden accessibility text: Post title */
+    (0,external_wp_i18n_namespaceObject.__)('… <a>Read more<span>: %1$s</span></a>'), titleTrimmed || (0,external_wp_i18n_namespaceObject.__)('(no title)')), {
       a:
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       (0,external_wp_element_namespaceObject.createElement)("a", {
@@ -33013,7 +33013,6 @@ function Navigation({
   }), (0,external_wp_element_namespaceObject.createElement)(ResponsiveWrapper, {
     id: clientId,
     onToggle: setResponsiveMenuVisibility,
-    label: (0,external_wp_i18n_namespaceObject.__)('Menu'),
     hasIcon: hasIcon,
     icon: icon,
     isOpen: isResponsiveMenuOpen,
