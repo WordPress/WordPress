@@ -2903,7 +2903,10 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 		$option_group = 'reading';
 	}
 
-	$pos = array_search( $option_name, (array) $new_allowed_options[ $option_group ], true );
+	$pos = false;
+	if ( isset( $new_allowed_options[ $option_group ] ) ) {
+		$pos = array_search( $option_name, (array) $new_allowed_options[ $option_group ], true );
+	}
 
 	if ( false !== $pos ) {
 		unset( $new_allowed_options[ $option_group ][ $pos ] );
