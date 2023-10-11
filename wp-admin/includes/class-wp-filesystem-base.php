@@ -216,13 +216,13 @@ class WP_Filesystem_Base {
 				}
 			}
 		} elseif ( 'direct' === $this->method ) {
-			$folder = str_replace( '\\', '/', $folder ); // Windows path sanitisation.
+			$folder = str_replace( '\\', '/', $folder ); // Windows path sanitization.
 
 			return trailingslashit( $folder );
 		}
 
 		$folder = preg_replace( '|^([a-z]{1}):|i', '', $folder ); // Strip out Windows drive letter if it's there.
-		$folder = str_replace( '\\', '/', $folder ); // Windows path sanitisation.
+		$folder = str_replace( '\\', '/', $folder ); // Windows path sanitization.
 
 		if ( isset( $this->cache[ $folder ] ) ) {
 			return $this->cache[ $folder ];

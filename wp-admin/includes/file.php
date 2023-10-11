@@ -1266,7 +1266,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		$signature_verification = in_array( parse_url( $url, PHP_URL_HOST ), $signed_hostnames, true );
 	}
 
-	// Perform signature valiation if supported.
+	// Perform signature validation if supported.
 	if ( $signature_verification ) {
 		$signature = wp_remote_retrieve_header( $response, 'X-Content-Signature' );
 
