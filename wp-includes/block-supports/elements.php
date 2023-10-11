@@ -36,6 +36,9 @@ function wp_render_elements_support( $block_content, $block ) {
 	}
 
 	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	if ( ! $block_type ) {
+		return $block_content;
+	}
 
 	$element_color_properties = array(
 		'button'  => array(
