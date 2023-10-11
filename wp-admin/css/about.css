@@ -733,7 +733,7 @@
 ------------------------------------------------------------------------------*/
 
 .about__section .wp-people-group-title {
-	margin-bottom: calc(var(--gap) * 2);
+	margin-bottom: calc(var(--gap) * 2 - 10px);
 	text-align: center;
 
 }
@@ -748,7 +748,7 @@
 	display: inline-block;
 	vertical-align: top;
 	box-sizing: border-box;
-	margin-bottom: var(--gap);
+	margin-bottom: calc(var(--gap) - 10px);
 	width: 25%;
 	text-align: center;
 }
@@ -780,8 +780,10 @@
 }
 
 .about__section .wp-person .web {
+	display: block;
 	font-size: 1.4em;
 	font-weight: 600;
+	padding: 10px 10px 0;
 	text-decoration: none;
 }
 
