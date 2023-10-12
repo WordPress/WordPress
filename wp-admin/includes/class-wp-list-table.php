@@ -655,7 +655,20 @@ class WP_List_Table {
 		$approved_phrase = sprintf( _n( '%s approved comment', '%s approved comments', $approved_comments ), $approved_comments_number );
 		$pending_phrase = sprintf( _n( '%s pending comment', '%s pending comments', $pending_comments ), $pending_comments_number );
 
-		// No comments at all.
+		$post_object   = get_post( $post_id );
+		$edit_post_cap = $post_object ? 'edit_post' : 'edit_posts';
+		if (
+			current_user_can( $edit_post_cap, $post_id ) ||
+			(
+				empty( $post_object->post_password ) &&
+				current_user_can( 'read_post', $post_id )
+			)
+		) {
+			// The user has access to the post and thus can see comments
+		} else {
+			return false;
+		}
+
 		if ( ! $approved_comments && ! $pending_comments ) {
 			printf( '<span aria-hidden="true">—</span><span class="screen-reader-text">%s</span>',
 				__( 'No comments' )
