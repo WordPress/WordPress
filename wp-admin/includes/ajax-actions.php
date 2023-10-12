@@ -828,7 +828,7 @@ function wp_ajax_get_tagcloud() {
 	if ( ! $tax ) {
 		wp_die( 0 );
 	}
-	
+
 	if ( ! current_user_can( $tax->cap->assign_terms ) ) {
 		wp_die( -1 );
 	}
@@ -2767,8 +2767,36 @@ function wp_ajax_parse_media_shortcode() {
 		wp_send_json_error();
 	}
 
-	setup_postdata( $post );
-	$shortcode = do_shortcode( wp_unslash( $_POST['shortcode'] ) );
+	$shortcode = wp_unslash( $_POST['shortcode'] );
+
+	// Only process previews for media related shortcodes:
+	$found_shortcodes = get_shortcode_tags_in_content( $shortcode );
+	$media_shortcodes = array(
+		'audio',
+		'embed',
+		'playlist',
+		'video',
+		'gallery',
+	);
+
+	$other_shortcodes = array_diff( $found_shortcodes, $media_shortcodes );
+
+	if ( ! empty( $other_shortcodes ) ) {
+		wp_send_json_error();
+	}
+
+	if ( ! empty( $_POST['post_ID'] ) ) {
+		$post = get_post( (int) $_POST['post_ID'] );
+	}
+
+	// the embed shortcode requires a post
+	if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
+		if ( in_array( 'embed', $found_shortcodes, true ) ) {
+			wp_send_json_error();
+		}
+	} else {
+		setup_postdata( $post );
+	}
 
 	if ( empty( $shortcode ) ) {
 		wp_send_json_error( array(
@@ -2835,7 +2863,7 @@ function wp_ajax_destroy_sessions() {
 		$message = __( 'You are now logged out everywhere else.' );
 	} else {
 		$sessions->destroy_all();
-		/* translators: 1: User's display name. */ 
+		/* translators: 1: User's display name. */
 		$message = sprintf( __( '%s has been logged out.' ), $user->display_name );
 	}
 
