@@ -197,6 +197,21 @@ final class WP_Block_Patterns_Registry {
 		return isset( $this->registered_patterns[ $pattern_name ] );
 	}
 
+	public function __wakeup() {
+		if ( ! $this->registered_patterns ) {
+			return;
+		}
+		if ( ! is_array( $this->registered_patterns ) ) {
+			throw new UnexpectedValueException();
+		}
+		foreach ( $this->registered_patterns as $value ) {
+			if ( ! is_array( $value ) ) {
+				throw new UnexpectedValueException();
+			}
+		}
+		$this->registered_patterns_outside_init = array();
+	}
+
 	/**
 	 * Utility method to retrieve the main instance of the class.
 	 *

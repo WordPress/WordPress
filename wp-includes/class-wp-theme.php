@@ -742,6 +742,28 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
+	 * Perform reinitialization tasks.
+	 *
+	 * Prevents a callback from being injected during unserialization of an object.
+	 *
+	 * @return void
+	 */
+	public function __wakeup() {
+		if ( $this->parent && ! $this->parent instanceof self ) {
+			throw new UnexpectedValueException();
+		}
+		if ( $this->headers && ! is_array( $this->headers ) ) {
+			throw new UnexpectedValueException();
+		}
+		foreach ( $this->headers as $value ) {
+			if ( ! is_string( $value ) ) {
+				throw new UnexpectedValueException();
+			}
+		}
+		$this->headers_sanitized = array();
+	}
+
+	/**
 	 * Adds theme data to cache.
 	 *
 	 * Cache entries keyed by the theme and the type of data.
@@ -1811,5 +1833,17 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	private static function _name_sort_i18n( $a, $b ) {
 		return strnatcasecmp( $a->name_translated, $b->name_translated );
+	}
+
+	private static function _check_headers_property_has_correct_type( $headers ) {
+		if ( ! is_array( $headers ) ) {
+			return false;
+		}
+		foreach ( $headers as $key => $value ) {
+			if ( ! is_string( $key ) || ! is_string( $value ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
