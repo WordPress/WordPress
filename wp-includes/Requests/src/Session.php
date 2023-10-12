@@ -265,6 +265,10 @@ class Session {
 		return Requests::request_multiple($requests, $options);
 	}
 
+	public function __wakeup() {
+		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
+	}
+
 	/**
 	 * Merge a request's data with the default data
 	 *

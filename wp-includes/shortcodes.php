@@ -169,6 +169,44 @@ function has_shortcode( $content, $tag ) {
 }
 
 /**
+ * Returns a list of registered shortcode names found in the given content.
+ *
+ * Example usage:
+ *
+ *     get_shortcode_tags_in_content( '[audio src="file.mp3"][/audio] [foo] [gallery ids="1,2,3"]' );
+ *     // array( 'audio', 'gallery' )
+ *
+ * @since 6.3.2
+ *
+ * @param string $content The content to check.
+ * @return string[] An array of registered shortcode names found in the content.
+ */
+function get_shortcode_tags_in_content( $content ) {
+	if ( false === strpos( $content, '[' ) ) {
+		return array();
+	}
+
+	preg_match_all( '/' . get_shortcode_regex() . '/', $content, $matches, PREG_SET_ORDER );
+	if ( empty( $matches ) ) {
+		return array();
+	}
+
+	$tags = array();
+	foreach ( $matches as $shortcode ) {
+		$tags[] = $shortcode[2];
+
+		if ( ! empty( $shortcode[5] ) ) {
+			$deep_tags = get_shortcode_tags_in_content( $shortcode[5] );
+			if ( ! empty( $deep_tags ) ) {
+				$tags = array_merge( $tags, $deep_tags );
+			}
+		}
+	}
+
+	return $tags;
+}
+
+/**
  * Searches content for shortcodes and filter shortcodes through their hooks.
  *
  * This function is an alias for do_shortcode().

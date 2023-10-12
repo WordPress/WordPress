@@ -168,6 +168,20 @@ final class WP_Block_Type_Registry {
 		return isset( $this->registered_block_types[ $name ] );
 	}
 
+	public function __wakeup() {
+		if ( ! $this->registered_block_types ) {
+			return;
+		}
+		if ( ! is_array( $this->registered_block_types ) ) {
+			throw new UnexpectedValueException();
+		}
+		foreach ( $this->registered_block_types as $value ) {
+			if ( ! $value instanceof WP_Block_Type ) {
+				throw new UnexpectedValueException();
+			}
+		}
+	}
+
 	/**
 	 * Utility method to retrieve the main instance of the class.
 	 *
