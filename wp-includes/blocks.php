@@ -2028,7 +2028,3 @@ function _wp_footnotes_force_filtered_html_on_import_filter( $arg ) {
 	}
 	return $arg;
 }
-
-add_action( 'init', '_wp_footnotes_kses_init' );
-add_action( 'set_current_user', '_wp_footnotes_kses_init' );
-add_filter( 'force_filtered_html_on_import', '_wp_footnotes_force_filtered_html_on_import_filter', 999 );

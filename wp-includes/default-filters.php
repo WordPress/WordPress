@@ -613,6 +613,15 @@ add_action( 'wp_head', 'wp_maybe_inline_styles', 1 ); // Run for styles enqueued
 add_action( 'wp_footer', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded styles in the footer.
 
 /*
+ * Block specific actions and filters.
+ */
+
+// Footnotes Block.
+add_action( 'init', '_wp_footnotes_kses_init' );
+add_action( 'set_current_user', '_wp_footnotes_kses_init' );
+add_filter( 'force_filtered_html_on_import', '_wp_footnotes_force_filtered_html_on_import_filter', 999 );
+
+/*
  * Disable "Post Attributes" for wp_navigation post type. The attributes are
  * also conditionally enabled when a site has custom templates. Block Theme
  * templates can be available for every post type.
