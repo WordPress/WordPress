@@ -636,6 +636,7 @@ Please click the following link to activate your user account:
  *
  * @since 5.6.0
  * @since 6.2.0 Allow insecure HTTP connections for the local environment.
+ * @since 6.3.2 Validates the success and reject URLs to prevent javascript pseudo protocol being executed.
  *
  * @param array   $request {
  *     The array of request data. All arguments are optional and may be empty.
@@ -649,27 +650,24 @@ Please click the following link to activate your user account:
  * @return true|WP_Error True if the request is valid, a WP_Error object contains errors if not.
  */
 function wp_is_authorize_application_password_request_valid( $request, $user ) {
-	$error    = new WP_Error();
-	$is_local = 'local' === wp_get_environment_type();
+	$error = new WP_Error();
 
-	if ( ! empty( $request['success_url'] ) ) {
-		$scheme = wp_parse_url( $request['success_url'], PHP_URL_SCHEME );
-
-		if ( 'http' === $scheme && ! $is_local ) {
+	if ( isset( $request['success_url'] ) ) {
+		$validated_success_url = wp_is_authorize_application_redirect_url_valid( $request['success_url'] );
+		if ( is_wp_error( $validated_success_url ) ) {
 			$error->add(
-				'invalid_redirect_scheme',
-				__( 'The success URL must be served over a secure connection.' )
+				$validated_success_url->get_error_code(),
+				$validated_success_url->get_error_message()
 			);
 		}
 	}
 
-	if ( ! empty( $request['reject_url'] ) ) {
-		$scheme = wp_parse_url( $request['reject_url'], PHP_URL_SCHEME );
-
-		if ( 'http' === $scheme && ! $is_local ) {
+	if ( isset( $request['reject_url'] ) ) {
+		$validated_reject_url = wp_is_authorize_application_redirect_url_valid( $request['reject_url'] );
+		if ( is_wp_error( $validated_reject_url ) ) {
 			$error->add(
-				'invalid_redirect_scheme',
-				__( 'The rejection URL must be served over a secure connection.' )
+				$validated_reject_url->get_error_code(),
+				$validated_reject_url->get_error_message()
 			);
 		}
 	}
@@ -694,6 +692,62 @@ function wp_is_authorize_application_password_request_valid( $request, $user ) {
 
 	if ( $error->has_errors() ) {
 		return $error;
+	}
+
+	return true;
+}
+
+/**
+ * Validates the redirect URL protocol scheme. The protocol can be anything except http and javascript.
+ *
+ * @since 6.3.2
+ *
+ * @param string $url - The redirect URL to be validated.
+ *
+ * @return true|WP_Error True if the redirect URL is valid, a WP_Error object otherwise.
+ */
+function wp_is_authorize_application_redirect_url_valid( $url ) {
+	$bad_protocols = array( 'javascript', 'data' );
+	if ( empty( $url ) ) {
+		return true;
+	}
+
+	// Based on https://www.rfc-editor.org/rfc/rfc2396#section-3.1
+	$valid_scheme_regex = '/^[a-zA-Z][a-zA-Z0-9+.-]*:/';
+	if ( ! preg_match( $valid_scheme_regex, $url ) ) {
+		return new WP_Error(
+			'invalid_redirect_url_format',
+			__( 'Invalid URL format.' )
+		);
+	}
+
+	/**
+	 * Filters the list of invalid protocols used in applications redirect URLs.
+	 *
+	 * @since 6.3.2
+	 *
+	 * @param string[]  $bad_protocols Array of invalid protocols.
+	 * @param string    $url The redirect URL to be validated.
+	 */
+	$invalid_protocols = array_map( 'strtolower', apply_filters( 'wp_authorize_application_redirect_url_invalid_protocols', $bad_protocols, $url ) );
+
+	$scheme   = wp_parse_url( $url, PHP_URL_SCHEME );
+	$host     = wp_parse_url( $url, PHP_URL_HOST );
+	$is_local = 'local' === wp_get_environment_type();
+
+	// validates if the proper URI format is applied to the $url
+	if ( empty( $host ) || empty( $scheme ) || in_array( strtolower( $scheme ), $invalid_protocols, true ) ) {
+		return new WP_Error(
+			'invalid_redirect_url_format',
+			__( 'Invalid URL format.' )
+		);
+	}
+
+	if ( 'http' === $scheme && ! $is_local ) {
+		return new WP_Error(
+			'invalid_redirect_scheme',
+			__( 'The URL must be served over a secure connection.' )
+		);
 	}
 
 	return true;
