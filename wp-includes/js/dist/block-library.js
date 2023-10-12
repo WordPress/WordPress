@@ -2777,7 +2777,7 @@ var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 const {
   lock,
   unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/block-library');
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/block-library');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/util.js
 
@@ -6078,7 +6078,7 @@ const fullscreen = (0,external_wp_element_namespaceObject.createElement)(externa
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M4.2 9h1.5V5.8H9V4.2H4.2V9zm14 9.2H15v1.5h4.8V15h-1.5v3.2zM15 4.2v1.5h3.2V9h1.5V4.2H15zM5.8 15H4.2v4.8H9v-1.5H5.8V15z"
+  d: "M6 4a2 2 0 0 0-2 2v3h1.5V6a.5.5 0 0 1 .5-.5h3V4H6Zm3 14.5H6a.5.5 0 0 1-.5-.5v-3H4v3a2 2 0 0 0 2 2h3v-1.5Zm6 1.5v-1.5h3a.5.5 0 0 0 .5-.5v-3H20v3a2 2 0 0 1-2 2h-3Zm3-16a2 2 0 0 1 2 2v3h-1.5V6a.5.5 0 0 0-.5-.5h-3V4h3Z"
 }));
 /* harmony default export */ var library_fullscreen = (fullscreen);
 
@@ -24122,6 +24122,7 @@ function image_Image({
   const lightboxSetting = (0,external_wp_blockEditor_namespaceObject.useSetting)('lightbox');
   const showLightboxToggle = !!lightbox || lightboxSetting?.allowEditing === true;
   const lightboxChecked = !!lightbox?.enabled || !lightbox && !!lightboxSetting?.enabled;
+  const lightboxToggleDisabled = linkDestination !== 'none';
   const dimensionsControl = (0,external_wp_element_namespaceObject.createElement)(DimensionsTool, {
     value: {
       width,
@@ -24255,7 +24256,9 @@ function image_Image({
           enabled: newValue
         }
       });
-    }
+    },
+    disabled: lightboxToggleDisabled,
+    help: lightboxToggleDisabled ? (0,external_wp_i18n_namespaceObject.__)('“Expand on click” scales the image up, and can’t be combined with a link.') : ''
   })))), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, {
     group: "advanced"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {
@@ -27571,6 +27574,19 @@ function useMerge(clientId, onMerge) {
     return getBlockOrder(order[0])[0];
   }
   return forward => {
+    function mergeWithNested(clientIdA, clientIdB) {
+      registry.batch(() => {
+        // When merging a sub list item with a higher next list item, we
+        // also need to move any nested list items. Check if there's a
+        // listed list, and append its nested list items to the current
+        // list.
+        const [nestedListClientId] = getBlockOrder(clientIdB);
+        if (nestedListClientId) {
+          moveBlocksToPosition(getBlockOrder(nestedListClientId), nestedListClientId, getBlockRootClientId(clientIdA));
+        }
+        mergeBlocks(clientIdA, clientIdB);
+      });
+    }
     if (forward) {
       const nextBlockClientId = getNextId(clientId);
       if (!nextBlockClientId) {
@@ -27580,10 +27596,7 @@ function useMerge(clientId, onMerge) {
       if (getParentListItemId(nextBlockClientId)) {
         outdentListItem(nextBlockClientId);
       } else {
-        registry.batch(() => {
-          moveBlocksToPosition(getBlockOrder(nextBlockClientId), nextBlockClientId, getPreviousBlockClientId(nextBlockClientId));
-          mergeBlocks(clientId, nextBlockClientId);
-        });
+        mergeWithNested(clientId, nextBlockClientId);
       }
     } else {
       // Merging is only done from the top level. For lowel levels, the
@@ -27593,17 +27606,7 @@ function useMerge(clientId, onMerge) {
         outdentListItem(clientId);
       } else if (previousBlockClientId) {
         const trailingId = getTrailingId(previousBlockClientId);
-        registry.batch(() => {
-          // When merging a list item with a previous trailing list
-          // item, we also need to move any nested list items. First,
-          // check if there's a listed list. If there's a nested list,
-          // append its nested list items to the trailing list.
-          const [nestedListClientId] = getBlockOrder(clientId);
-          if (nestedListClientId) {
-            moveBlocksToPosition(getBlockOrder(nestedListClientId), nestedListClientId, getBlockRootClientId(trailingId));
-          }
-          mergeBlocks(trailingId, clientId);
-        });
+        mergeWithNested(trailingId, clientId);
       } else {
         onMerge(forward);
       }

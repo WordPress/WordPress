@@ -18,13 +18,10 @@ function render_block_core_template_part( $attributes ) {
 	$template_part_id = null;
 	$content          = null;
 	$area             = WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
+	$theme            = isset( $attributes['theme'] ) ? $attributes['theme'] : get_stylesheet();
 
-	if (
-		isset( $attributes['slug'] ) &&
-		isset( $attributes['theme'] ) &&
-		get_stylesheet() === $attributes['theme']
-	) {
-		$template_part_id    = $attributes['theme'] . '//' . $attributes['slug'];
+	if ( isset( $attributes['slug'] ) && get_stylesheet() === $theme ) {
+		$template_part_id    = $theme . '//' . $attributes['slug'];
 		$template_part_query = new WP_Query(
 			array(
 				'post_type'           => 'wp_template_part',
@@ -34,7 +31,7 @@ function render_block_core_template_part( $attributes ) {
 					array(
 						'taxonomy' => 'wp_theme',
 						'field'    => 'name',
-						'terms'    => $attributes['theme'],
+						'terms'    => $theme,
 					),
 				),
 				'posts_per_page'      => 1,
