@@ -12332,22 +12332,19 @@ function convertLegacyBlockNameAndAttributes(name, attributes) {
  * Given object and string of dot-delimited path segments, returns value at
  * path or undefined if path cannot be resolved.
  *
- * @param  {Object} object Lookup object
- * @param  {string} path   Path to resolve
- * @return {?*}            Resolved value
+ * @param object Lookup object
+ * @param path   Path to resolve
+ * @return       Resolved value
  */
 function getPath(object, path) {
   var segments = path.split('.');
   var segment;
-
   while (segment = segments.shift()) {
     if (!(segment in object)) {
       return;
     }
-
     object = object[segment];
   }
-
   return object;
 }
 ;// CONCATENATED MODULE: ./node_modules/hpq/es/index.js
@@ -12359,133 +12356,162 @@ function getPath(object, path) {
  * Function returning a DOM document created by `createHTMLDocument`. The same
  * document is returned between invocations.
  *
- * @return {Document} DOM document.
+ * @return DOM document.
  */
-
 var getDocument = function () {
   var doc;
   return function () {
     if (!doc) {
       doc = document.implementation.createHTMLDocument('');
     }
-
     return doc;
   };
 }();
+
 /**
  * Given a markup string or DOM element, creates an object aligning with the
  * shape of the matchers object, or the value returned by the matcher.
  *
- * @param  {(string|Element)}  source   Source content
- * @param  {(Object|Function)} matchers Matcher function or object of matchers
- * @return {(Object|*)}                 Matched value(s), shaped by object
+ * @param source Source content
+ * @param matchers Matcher function or object of matchers
  */
 
-
+/**
+ * Given a markup string or DOM element, creates an object aligning with the
+ * shape of the matchers object, or the value returned by the matcher.
+ *
+ * @param source Source content
+ * @param matchers Matcher function or object of matchers
+ */
 function parse(source, matchers) {
   if (!matchers) {
     return;
-  } // Coerce to element
+  }
 
-
+  // Coerce to element
   if ('string' === typeof source) {
     var doc = getDocument();
     doc.body.innerHTML = source;
     source = doc.body;
-  } // Return singular value
+  }
 
-
-  if ('function' === typeof matchers) {
+  // Return singular value
+  if (typeof matchers === 'function') {
     return matchers(source);
-  } // Bail if we can't handle matchers
+  }
 
-
+  // Bail if we can't handle matchers
   if (Object !== matchers.constructor) {
     return;
-  } // Shape result by matcher object
+  }
 
-
+  // Shape result by matcher object
   return Object.keys(matchers).reduce(function (memo, key) {
-    memo[key] = parse(source, matchers[key]);
+    var inner = matchers[key];
+    memo[key] = parse(source, inner);
     return memo;
   }, {});
 }
+
 /**
  * Generates a function which matches node of type selector, returning an
  * attribute by property if the attribute exists. If no selector is passed,
  * returns property of the query element.
  *
- * @param  {?string} selector Optional selector
- * @param  {string}  name     Property name
- * @return {*}                Property value
+ * @param name Property name
+ * @return Property value
  */
 
-function prop(selector, name) {
+/**
+ * Generates a function which matches node of type selector, returning an
+ * attribute by property if the attribute exists. If no selector is passed,
+ * returns property of the query element.
+ *
+ * @param selector Optional selector
+ * @param name Property name
+ * @return Property value
+ */
+function prop(arg1, arg2) {
+  var name;
+  var selector;
   if (1 === arguments.length) {
-    name = selector;
+    name = arg1;
     selector = undefined;
+  } else {
+    name = arg2;
+    selector = arg1;
   }
-
   return function (node) {
     var match = node;
-
     if (selector) {
       match = node.querySelector(selector);
     }
-
     if (match) {
       return getPath(match, name);
     }
   };
 }
+
 /**
  * Generates a function which matches node of type selector, returning an
  * attribute by name if the attribute exists. If no selector is passed,
  * returns attribute of the query element.
  *
- * @param  {?string} selector Optional selector
- * @param  {string}  name     Attribute name
- * @return {?string}          Attribute value
+ * @param name Attribute name
+ * @return Attribute value
  */
 
-function attr(selector, name) {
+/**
+ * Generates a function which matches node of type selector, returning an
+ * attribute by name if the attribute exists. If no selector is passed,
+ * returns attribute of the query element.
+ *
+ * @param selector Optional selector
+ * @param name Attribute name
+ * @return Attribute value
+ */
+function attr(arg1, arg2) {
+  var name;
+  var selector;
   if (1 === arguments.length) {
-    name = selector;
+    name = arg1;
     selector = undefined;
+  } else {
+    name = arg2;
+    selector = arg1;
   }
-
   return function (node) {
     var attributes = prop(selector, 'attributes')(node);
-
-    if (attributes && attributes.hasOwnProperty(name)) {
+    if (attributes && Object.prototype.hasOwnProperty.call(attributes, name)) {
       return attributes[name].value;
     }
   };
 }
+
 /**
  * Convenience for `prop( selector, 'innerHTML' )`.
  *
  * @see prop()
  *
- * @param  {?string} selector Optional selector
- * @return {string}           Inner HTML
+ * @param selector Optional selector
+ * @return Inner HTML
  */
-
 function html(selector) {
   return prop(selector, 'innerHTML');
 }
+
 /**
  * Convenience for `prop( selector, 'textContent' )`.
  *
  * @see prop()
  *
- * @param  {?string} selector Optional selector
- * @return {string}           Text content
+ * @param selector Optional selector
+ * @return Text content
  */
-
 function es_text(selector) {
   return prop(selector, 'textContent');
 }
+
 /**
  * Creates a new matching context by first finding elements matching selector
  * using querySelectorAll before then running another `parse` on `matchers`
@@ -12493,11 +12519,10 @@ function es_text(selector) {
  *
  * @see parse()
  *
- * @param  {string}            selector Selector to match
- * @param  {(Object|Function)} matchers Matcher function or object of matchers
- * @return {Array.<*,Object>}           Array of matched value(s)
+ * @param selector Selector to match
+ * @param matchers Matcher function or object of matchers
+ * @return Matcher function which returns an array of matched value(s)
  */
-
 function query(selector, matchers) {
   return function (node) {
     var matches = node.querySelectorAll(selector);
