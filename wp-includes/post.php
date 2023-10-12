@@ -7270,8 +7270,8 @@ function clean_post_cache( $post ) {
 	}
 
 	wp_cache_delete( $post->ID, 'posts' );
+	wp_cache_delete( 'post_parent:' . (string) $post->ID, 'posts' );
 	wp_cache_delete( $post->ID, 'post_meta' );
-	wp_cache_delete( $post->ID, 'post_parent' );
 
 	clean_object_term_cache( $post->ID, $post->post_type );
 
@@ -7817,17 +7817,37 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 function _prime_post_parent_id_caches( array $ids ) {
 	global $wpdb;
 
-	$non_cached_ids = _get_non_cached_ids( $ids, 'post_parent' );
+	$ids = array_filter( $ids, '_validate_cache_id' );
+	$ids = array_unique( array_map( 'intval', $ids ), SORT_NUMERIC );
+
+	if ( empty( $ids ) ) {
+		return;
+	}
+
+	$cache_keys = array();
+	foreach ( $ids as $id ) {
+		$cache_keys[ $id ] = 'post_parent:' . (string) $id;
+	}
+
+	$cached_data = wp_cache_get_multiple( array_values( $cache_keys ), 'posts' );
+
+	$non_cached_ids = array();
+	foreach ( $cache_keys as $id => $cache_key ) {
+		if ( false === $cached_data[ $cache_key ] ) {
+			$non_cached_ids[] = $id;
+		}
+	}
+
 	if ( ! empty( $non_cached_ids ) ) {
 		$fresh_posts = $wpdb->get_results( sprintf( "SELECT $wpdb->posts.ID, $wpdb->posts.post_parent FROM $wpdb->posts WHERE ID IN (%s)", implode( ',', $non_cached_ids ) ) );
 
 		if ( $fresh_posts ) {
 			$post_parent_data = array();
 			foreach ( $fresh_posts as $fresh_post ) {
-				$post_parent_data[ (int) $fresh_post->ID ] = (int) $fresh_post->post_parent;
+				$post_parent_data[ 'post_parent:' . (string) $fresh_post->ID ] = (int) $fresh_post->post_parent;
 			}
 
-			wp_cache_add_multiple( $post_parent_data, 'post_parent' );
+			wp_cache_add_multiple( $post_parent_data, 'posts' );
 		}
 	}
 }

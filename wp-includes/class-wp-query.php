@@ -3192,12 +3192,17 @@ class WP_Query {
 					} elseif ( 'id=>parent' === $q['fields'] ) {
 						_prime_post_parent_id_caches( $post_ids );
 
-						/** @var int[] */
-						$post_parents = wp_cache_get_multiple( $post_ids, 'post_parent' );
+						$post_parent_cache_keys = array();
+						foreach ( $post_ids as $post_id ) {
+							$post_parent_cache_keys[] = 'post_parent:' . (string) $post_id;
+						}
 
-						foreach ( $post_parents as $id => $post_parent ) {
+						/** @var int[] */
+						$post_parents = wp_cache_get_multiple( $post_parent_cache_keys, 'posts' );
+
+						foreach ( $post_parents as $cache_key => $post_parent ) {
 							$obj              = new stdClass();
-							$obj->ID          = (int) $id;
+							$obj->ID          = (int) str_replace( 'post_parent:', '', $cache_key );
 							$obj->post_parent = (int) $post_parent;
 
 							$this->posts[] = $obj;
@@ -3245,8 +3250,9 @@ class WP_Query {
 			$this->set_found_posts( $q, $limits );
 
 			/** @var int[] */
-			$post_parents = array();
-			$post_ids     = array();
+			$post_parents       = array();
+			$post_ids           = array();
+			$post_parents_cache = array();
 
 			foreach ( $this->posts as $key => $post ) {
 				$this->posts[ $key ]->ID          = (int) $post->ID;
@@ -3254,9 +3260,11 @@ class WP_Query {
 
 				$post_parents[ (int) $post->ID ] = (int) $post->post_parent;
 				$post_ids[]                      = (int) $post->ID;
+
+				$post_parents_cache[ 'post_parent:' . (string) $post->ID ] = (int) $post->post_parent;
 			}
 			// Prime post parent caches, so that on second run, there is not another database query.
-			wp_cache_add_multiple( $post_parents, 'post_parent' );
+			wp_cache_add_multiple( $post_parents_cache, 'posts' );
 
 			if ( $q['cache_results'] && $id_query_is_cacheable ) {
 				$cache_value = array(
