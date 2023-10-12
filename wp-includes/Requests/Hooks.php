@@ -65,4 +65,8 @@ class Requests_Hooks implements Requests_Hooker {
 
 		return true;
 	}
+
+	public function __wakeup() {
+		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
+	}
 }
