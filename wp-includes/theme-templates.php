@@ -99,15 +99,21 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_id
 }
 
 /**
- * Prints the skip-link script & styles.
+ * Enqueues the skip-link script & styles.
  *
  * @access private
- * @since 5.8.0
+ * @since 6.4.0
  *
  * @global string $_wp_current_template_content
  */
-function the_block_template_skip_link() {
+function wp_enqueue_block_template_skip_link() {
 	global $_wp_current_template_content;
+
+	// Back-compat for plugins that disable functionality by unhooking this action.
+	if ( ! has_action( 'wp_footer', 'the_block_template_skip_link' ) ) {
+		return;
+	}
+	remove_action( 'wp_footer', 'the_block_template_skip_link' );
 
 	// Early exit if not a block theme.
 	if ( ! current_theme_supports( 'block-templates' ) ) {
@@ -207,7 +213,7 @@ function the_block_template_skip_link() {
 	<?php
 	$skip_link_script = wp_remove_surrounding_empty_script_tags( ob_get_clean() );
 	$script_handle    = 'wp-block-template-skip-link';
-	wp_register_script( $script_handle, false );
+	wp_register_script( $script_handle, false, array(), false, array( 'in_footer' => true ) );
 	wp_add_inline_script( $script_handle, $skip_link_script );
 	wp_enqueue_script( $script_handle );
 }
