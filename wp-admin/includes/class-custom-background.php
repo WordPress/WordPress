@@ -571,8 +571,9 @@ class Custom_Background {
 		$thumbnail = wp_get_attachment_image_src( $id, 'thumbnail' );
 		set_theme_mod( 'background_image_thumb', sanitize_url( $thumbnail[0] ) );
 
-		/** This action is documented in wp-admin/includes/class-custom-image-header.php */
-		do_action( 'wp_create_file_in_uploads', $file, $id ); // For replication.
+		/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
+		$file = apply_filters( 'wp_create_file_in_uploads', $file, $id ); // For replication.
+
 		$this->updated = true;
 	}
 

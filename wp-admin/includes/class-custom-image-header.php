@@ -882,14 +882,16 @@ endif;
 			$this->set_header_image( compact( 'url', 'attachment_id', 'width', 'height' ) );
 
 			/**
-			 * Fires after the header image is set or an error is returned.
+			 * Filters the attachment file path after the custom header or background image is set.
+			 *
+			 * Used for file replication.
 			 *
 			 * @since 2.1.0
 			 *
 			 * @param string $file          Path to the file.
 			 * @param int    $attachment_id Attachment ID.
 			 */
-			do_action( 'wp_create_file_in_uploads', $file, $attachment_id ); // For replication.
+			$file = apply_filters( 'wp_create_file_in_uploads', $file, $attachment_id ); // For replication.
 
 			return $this->finished();
 		} elseif ( $width > $max_width ) {
