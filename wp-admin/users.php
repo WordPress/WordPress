@@ -256,7 +256,7 @@ switch ( $wp_list_table->current_action() ) {
 
 			// Send the password reset link.
 			$user = get_userdata( $id );
-			if ( retrieve_password( $user->user_login ) ) {
+			if ( true === retrieve_password( $user->user_login ) ) {
 				++$reset_count;
 			}
 		}
