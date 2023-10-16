@@ -478,7 +478,6 @@ function _flatten_blocks( &$blocks ) {
  * @access private
  *
  * @param array $block a parsed block.
- * @return void
  */
 function _inject_theme_attribute_in_template_part_block( &$block ) {
 	if (
@@ -496,7 +495,6 @@ function _inject_theme_attribute_in_template_part_block( &$block ) {
  * @access private
  *
  * @param array $block a parsed block.
- * @return void
  */
 function _remove_theme_attribute_from_template_part_block( &$block ) {
 	if (

@@ -776,8 +776,6 @@ final class WP_Theme implements ArrayAccess {
 	 * Perform reinitialization tasks.
 	 *
 	 * Prevents a callback from being injected during unserialization of an object.
-	 *
-	 * @return void
 	 */
 	public function __wakeup() {
 		if ( $this->parent && ! $this->parent instanceof self ) {

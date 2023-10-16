@@ -40,8 +40,6 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
 	 * Registers the controllers routes.
 	 *
 	 * @since 6.3.0
-	 *
-	 * @return void
 	 */
 	public function register_routes() {
 
