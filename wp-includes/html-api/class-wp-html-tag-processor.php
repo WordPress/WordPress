@@ -2270,6 +2270,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.2.0
 	 * @since 6.2.1 Shifts the internal cursor corresponding to the applied updates.
+	 * @since 6.4.0 No longer calls subclass method `next_tag()` after updating HTML.
 	 *
 	 * @return string The processed HTML.
 	 */
@@ -2303,24 +2304,25 @@ class WP_HTML_Tag_Processor {
 		 * Rewind before the tag name starts so that it's as if the cursor didn't
 		 * move; a call to `next_tag()` will reparse the recently-updated attributes
 		 * and additional calls to modify the attributes will apply at this same
-		 * location.
+		 * location, but in order to avoid issues with subclasses that might add
+		 * behaviors to `next_tag()`, the internal methods should be called here
+		 * instead.
+		 *
+		 * It's important to note that in this specific place there will be no change
+		 * because the processor was already at a tag when this was called and it's
+		 * rewinding only to the beginning of this very tag before reprocessing it
+		 * and its attributes.
 		 *
 		 * <p>Previous HTML<em>More HTML</em></p>
-		 *                 ^  | back up by the length of the tag name plus the opening <
-		 *                 \<-/ back up by strlen("em") + 1 ==> 3
+		 *                 ↑  │ back up by the length of the tag name plus the opening <
+		 *                 └←─┘ back up by strlen("em") + 1 ==> 3
 		 */
-
-		// Store existing state so it can be restored after reparsing.
-		$previous_parsed_byte_count = $this->bytes_already_parsed;
-		$previous_query             = $this->last_query;
-
-		// Reparse attributes.
 		$this->bytes_already_parsed = $before_current_tag;
-		$this->next_tag();
-
-		// Restore previous state.
-		$this->bytes_already_parsed = $previous_parsed_byte_count;
-		$this->parse_query( $previous_query );
+		$this->parse_next_tag();
+		// Reparse the attributes.
+		while ( $this->parse_next_attribute() ) {
+			continue;
+		}
 
 		return $this->html;
 	}
