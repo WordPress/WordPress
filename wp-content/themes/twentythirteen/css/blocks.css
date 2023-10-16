@@ -544,6 +544,12 @@ body:not(.sidebar) .wp-block-table.alignfull {
 	margin-bottom: 0;
 }
 
+/* Details */
+
+.wp-block-details > summary:first-of-type {
+	display: list-item;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Widgets
 --------------------------------------------------------------*/

@@ -319,6 +319,12 @@ hr.wp-block-separator {
 	margin-bottom: 0;
 }
 
+/* Details */
+
+.wp-block-details > summary:first-of-type {
+	display: list-item;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widget Blocks
 --------------------------------------------------------------*/
