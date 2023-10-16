@@ -68,6 +68,7 @@
 }
 
 @media print,
+  (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 
 	#wp-auth-check-form.loading:before {
