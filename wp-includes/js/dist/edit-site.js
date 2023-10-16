@@ -29660,6 +29660,9 @@ function PostLastRevisionCheck({
     lastRevisionId,
     revisionsCount
   } = useRevisionData();
+  if (true) {
+    return null;
+  }
   if (!lastRevisionId || revisionsCount < 2) {
     return null;
   }

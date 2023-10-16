@@ -170,8 +170,8 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	if ( isset( $block['attrs']['id'] ) ) {
 		$img_uploaded_src = wp_get_attachment_url( $block['attrs']['id'] );
 		$img_metadata     = wp_get_attachment_metadata( $block['attrs']['id'] );
-		$img_width        = $img_metadata['width'];
-		$img_height       = $img_metadata['height'];
+		$img_width        = $img_metadata['width'] ?? 'none';
+		$img_height       = $img_metadata['height'] ?? 'none';
 	} else {
 		$img_uploaded_src = $processor->get_attribute( 'src' );
 		$img_width        = 'none';

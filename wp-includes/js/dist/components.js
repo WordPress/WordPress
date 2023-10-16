@@ -76092,10 +76092,10 @@ const animateProgressBar = emotion_react_browser_esm_keyframes({
 const INDETERMINATE_TRACK_WIDTH = 50;
 const styles_Track = createStyled("div",  true ? {
   target: "e15u147w2"
-} : 0)("position:relative;overflow:hidden;width:100%;max-width:160px;height:", config_values.borderWidthFocus, ";background-color:var(\n\t\t--wp-components-color-gray-300,\n\t\t", COLORS.gray[300], "\n\t);border-radius:", config_values.radiusBlockUi, ";" + ( true ? "" : 0));
+} : 0)("position:relative;overflow:hidden;width:100%;max-width:160px;height:", config_values.borderWidthFocus, ";background-color:color-mix(\n\t\tin srgb,\n\t\tvar( --wp-components-color-foreground, ", COLORS.gray[900], " ),\n\t\ttransparent 90%\n\t);border-radius:", config_values.radiusBlockUi, ";outline:2px solid transparent;outline-offset:2px;" + ( true ? "" : 0));
 const Indicator = createStyled("div",  true ? {
   target: "e15u147w1"
-} : 0)("display:inline-block;position:absolute;top:0;height:100%;border-radius:", config_values.radiusBlockUi, ";background-color:", COLORS.theme.accent, ";", ({
+} : 0)("display:inline-block;position:absolute;top:0;height:100%;border-radius:", config_values.radiusBlockUi, ";background-color:color-mix(\n\t\tin srgb,\n\t\tvar( --wp-components-color-foreground, ", COLORS.gray[900], " ),\n\t\ttransparent 10%\n\t);outline:2px solid transparent;outline-offset:-2px;", ({
   isIndeterminate,
   value
 }) => isIndeterminate ? /*#__PURE__*/emotion_react_browser_esm_css({

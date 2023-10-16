@@ -1056,21 +1056,28 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
 }
 
 .edit-site-global-styles-variations_item{
+  border-radius:2px;
   box-sizing:border-box;
 }
 .edit-site-global-styles-variations_item .edit-site-global-styles-variations_item-preview{
-  border:1px solid #e0e0e0;
   border-radius:2px;
+  box-shadow:0 0 0 1px #e0e0e0;
+  outline:1px solid transparent;
   padding:2px;
 }
 .edit-site-global-styles-variations_item.is-active .edit-site-global-styles-variations_item-preview{
-  border:1px solid #1e1e1e;
+  box-shadow:0 0 0 1px #1e1e1e;
+  outline-width:3px;
 }
 .edit-site-global-styles-variations_item:hover .edit-site-global-styles-variations_item-preview{
-  border:1px solid var(--wp-admin-theme-color);
+  box-shadow:0 0 0 1px var(--wp-admin-theme-color);
 }
 .edit-site-global-styles-variations_item:focus .edit-site-global-styles-variations_item-preview{
-  border:var(--wp-admin-theme-color) var(--wp-admin-border-width-focus) solid;
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+}
+.edit-site-global-styles-variations_item:focus-visible{
+  outline:3px solid transparent;
+  outline-offset:0;
 }
 
 .edit-site-global-styles-icon-with-current-color{
@@ -3088,16 +3095,16 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   }
 }
 .edit-site-sidebar-navigation-screen__content .edit-site-global-styles-style-variations-container .edit-site-global-styles-variations_item-preview{
-  border:1px solid #1e1e1e;
+  box-shadow:0 0 0 1px #1e1e1e;
 }
 .edit-site-sidebar-navigation-screen__content .edit-site-global-styles-style-variations-container .edit-site-global-styles-variations_item.is-active .edit-site-global-styles-variations_item-preview{
-  border:1px solid #f0f0f0;
+  box-shadow:0 0 0 1px #f0f0f0;
 }
 .edit-site-sidebar-navigation-screen__content .edit-site-global-styles-style-variations-container .edit-site-global-styles-variations_item:hover .edit-site-global-styles-variations_item-preview{
-  border:1px solid var(--wp-admin-theme-color);
+  box-shadow:0 0 0 1px var(--wp-admin-theme-color);
 }
 .edit-site-sidebar-navigation-screen__content .edit-site-global-styles-style-variations-container .edit-site-global-styles-variations_item:focus .edit-site-global-styles-variations_item-preview{
-  border:var(--wp-admin-theme-color) var(--wp-admin-border-width-focus) solid;
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
 
 .edit-site-sidebar-navigation-screen__footer{
