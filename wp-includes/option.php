@@ -777,46 +777,20 @@ function update_option( $option, $value, $autoload = null ) {
 	$value = apply_filters( 'pre_update_option', $value, $option, $old_value );
 
 	/*
-	 * To get the actual raw old value from the database, any existing pre filters need to be temporarily disabled.
-	 * Immediately after getting the raw value, they are reinstated.
-	 * The raw value is only used to determine whether a value is present in the database. It is not used anywhere
-	 * else, and is not passed to any of the hooks either.
-	 */
-	if ( has_filter( "pre_option_{$option}" ) ) {
-		global $wp_filter;
-
-		$old_filters = $wp_filter[ "pre_option_{$option}" ];
-		unset( $wp_filter[ "pre_option_{$option}" ] );
-
-		$raw_old_value                       = get_option( $option );
-		$wp_filter[ "pre_option_{$option}" ] = $old_filters;
-	} else {
-		$raw_old_value = $old_value;
-	}
-
-	/** This filter is documented in wp-includes/option.php */
-	$default_value = apply_filters( "default_option_{$option}", false, $option, false );
-
-	/*
 	 * If the new and old values are the same, no need to update.
 	 *
-	 * An exception applies when no value is set in the database, i.e. the old value is the default.
-	 * In that case, the new value should always be added as it may be intentional to store it rather than relying on the default.
+	 * Unserialized values will be adequate in most cases. If the unserialized
+	 * data differs, the (maybe) serialized data is checked to avoid
+	 * unnecessary database calls for otherwise identical object instances.
 	 *
-	 * See https://core.trac.wordpress.org/ticket/38903 and https://core.trac.wordpress.org/ticket/22192.
+	 * See https://core.trac.wordpress.org/ticket/38903
 	 */
-	if (
-		$value === $raw_old_value ||
-		(
-			$raw_old_value !== $default_value &&
-			_is_equal_database_value( $raw_old_value, $value )
-		)
-	) {
+	if ( $value === $old_value || maybe_serialize( $value ) === maybe_serialize( $old_value ) ) {
 		return false;
 	}
 
-	if ( $raw_old_value === $default_value ) {
-
+	/** This filter is documented in wp-includes/option.php */
+	if ( apply_filters( "default_option_{$option}", false, $option, false ) === $old_value ) {
 		// Default setting for new options is 'yes'.
 		if ( null === $autoload ) {
 			$autoload = 'yes';
@@ -2145,79 +2119,19 @@ function update_network_option( $network_id, $option, $value ) {
 	$value = apply_filters( "pre_update_site_option_{$option}", $value, $old_value, $option, $network_id );
 
 	/*
-	 * To get the actual raw old value from the database, any existing pre filters need to be temporarily disabled.
-	 * Immediately after getting the raw value, they are reinstated.
-	 * The raw value is only used to determine whether a value is present in the database. It is not used anywhere
-	 * else, and is not passed to any of the hooks either.
-	 */
-	global $wp_filter;
-
-	/** This filter is documented in wp-includes/option.php */
-	$default_value = apply_filters( "default_site_option_{$option}", false, $option, $network_id );
-
-	$has_site_filter   = has_filter( "pre_site_option_{$option}" );
-	$has_option_filter = has_filter( "pre_option_{$option}" );
-	if ( $has_site_filter || $has_option_filter ) {
-		if ( $has_site_filter ) {
-			$old_ms_filters = $wp_filter[ "pre_site_option_{$option}" ];
-			unset( $wp_filter[ "pre_site_option_{$option}" ] );
-		}
-
-		if ( $has_option_filter ) {
-			$old_single_site_filters = $wp_filter[ "pre_option_{$option}" ];
-			unset( $wp_filter[ "pre_option_{$option}" ] );
-		}
-
-		if ( is_multisite() ) {
-			$raw_old_value = get_network_option( $network_id, $option );
-		} else {
-			$raw_old_value = get_option( $option, $default_value );
-		}
-
-		if ( $has_site_filter ) {
-			$wp_filter[ "pre_site_option_{$option}" ] = $old_ms_filters;
-		}
-		if ( $has_option_filter ) {
-			$wp_filter[ "pre_option_{$option}" ] = $old_single_site_filters;
-		}
-	} else {
-		$raw_old_value = $old_value;
-	}
-
-	if ( ! is_multisite() ) {
-		/** This filter is documented in wp-includes/option.php */
-		$default_value = apply_filters( "default_option_{$option}", $default_value, $option, true );
-	}
-
-	/*
 	 * If the new and old values are the same, no need to update.
 	 *
-	 * An exception applies when no value is set in the database, i.e. the old value is the default.
-	 * In that case, the new value should always be added as it may be intentional to store it rather than relying on the default.
+	 * Unserialized values will be adequate in most cases. If the unserialized
+	 * data differs, the (maybe) serialized data is checked to avoid
+	 * unnecessary database calls for otherwise identical object instances.
 	 *
-	 * See https://core.trac.wordpress.org/ticket/44956 and https://core.trac.wordpress.org/ticket/22192 and https://core.trac.wordpress.org/ticket/59360
+	 * See https://core.trac.wordpress.org/ticket/44956
 	 */
-	if (
-		$value === $raw_old_value ||
-		(
-			false !== $raw_old_value &&
-			/*
-			 * Single site stores values in the `option_value` field, which cannot be set to NULL.
-			 * This means a PHP `null` value will be cast to an empty string, which can be considered
-			 * equal to values such as an empty string, or false when cast to string.
-			 *
-			 * However, Multisite stores values in the `meta_value` field, which can be set to NULL.
-			 * As NULL is unique in the database, skip checking an old or new value of NULL
-			 * against any other value.
-			 */
-			( ! is_multisite() || ! ( null === $raw_old_value || null === $value ) ) &&
-			_is_equal_database_value( $raw_old_value, $value )
-		)
-	) {
+	if ( $value === $old_value || maybe_serialize( $value ) === maybe_serialize( $old_value ) ) {
 		return false;
 	}
 
-	if ( $default_value === $raw_old_value ) {
+	if ( false === $old_value ) {
 		return add_network_option( $network_id, $option, $value );
 	}
 
@@ -2994,41 +2908,4 @@ function filter_default_option( $default_value, $option, $passed_default ) {
 	}
 
 	return $registered[ $option ]['default'];
-}
-
-/**
- * Determines whether two values will be equal when stored in the database.
- *
- * @since 6.4.0
- * @access private
- *
- * @param mixed $old_value The old value to compare.
- * @param mixed $new_value The new value to compare.
- * @return bool True if the values are equal, false otherwise.
- */
-function _is_equal_database_value( $old_value, $new_value ) {
-	$values = array(
-		'old' => $old_value,
-		'new' => $new_value,
-	);
-
-	foreach ( $values as $_key => &$_value ) {
-		// Cast scalars or null to a string so type discrepancies don't result in cache misses.
-		if ( null === $_value || is_scalar( $_value ) ) {
-			$_value = (string) $_value;
-		}
-	}
-
-	if ( $values['old'] === $values['new'] ) {
-		return true;
-	}
-
-	/*
-	 * Unserialized values will be adequate in most cases. If the unserialized
-	 * data differs, the (maybe) serialized data is checked to avoid
-	 * unnecessary database calls for otherwise identical object instances.
-	 *
-	 * See https://core.trac.wordpress.org/ticket/38903
-	 */
-	return maybe_serialize( $old_value ) === maybe_serialize( $new_value );
 }
