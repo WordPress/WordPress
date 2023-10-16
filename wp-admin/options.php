@@ -279,6 +279,23 @@ if ( 'update' === $action ) { // We are saving settings sent from a settings pag
 			$_POST['gmt_offset']      = $_POST['timezone_string'];
 			$_POST['gmt_offset']      = preg_replace( '/UTC\+?/', '', $_POST['gmt_offset'] );
 			$_POST['timezone_string'] = '';
+		} elseif ( isset( $_POST['timezone_string'] ) && ! in_array( $_POST['timezone_string'], timezone_identifiers_list( DateTimeZone::ALL_WITH_BC ), true ) ) {
+			// Reset to the current value.
+			$current_timezone_string = get_option( 'timezone_string' );
+
+			if ( ! empty( $current_timezone_string ) ) {
+				$_POST['timezone_string'] = $current_timezone_string;
+			} else {
+				$_POST['gmt_offset']      = get_option( 'gmt_offset' );
+				$_POST['timezone_string'] = '';
+			}
+
+			add_settings_error(
+				'general',
+				'settings_updated',
+				__( 'The timezone you have entered is not valid. Please select a valid timezone.' ),
+				'error'
+			);
 		}
 
 		// Handle translation installation.
