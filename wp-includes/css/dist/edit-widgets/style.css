@@ -1037,7 +1037,7 @@ body.js.appearance_page_gutenberg-widgets .media-frame select.attachment-filters
   display:none;
 }
 
-.widgets-php .notice{
+.js .widgets-php .notice{
   display:none !important;
 }
 

@@ -218,13 +218,17 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 		)
 	);
 	$w->next_tag( 'img' );
-	$w->set_attribute( 'data-wp-init', 'effects.core.image.setCurrentSrc' );
+	$w->set_attribute( 'data-wp-init', 'effects.core.image.initOriginImage' );
 	$w->set_attribute( 'data-wp-on--load', 'actions.core.image.handleLoad' );
 	$w->set_attribute( 'data-wp-effect', 'effects.core.image.setButtonStyles' );
+	// We need to set an event callback on the `img` specifically
+	// because the `figure` element can also contain a caption, and
+	// we don't want to trigger the lightbox when the caption is clicked.
+	$w->set_attribute( 'data-wp-on--click', 'actions.core.image.showLightbox' );
 	$w->set_attribute( 'data-wp-effect--setStylesOnResize', 'effects.core.image.setStylesOnResize' );
 	$body_content = $w->get_updated_html();
 
-	// Wrap the image in the body content with a button.
+	// Add a button alongside image in the body content.
 	$img = null;
 	preg_match( '/<img[^>]+>/', $body_content, $img );
 
@@ -235,11 +239,17 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			aria-haspopup="dialog"
 			aria-label="' . esc_attr( $aria_label ) . '"
 			data-wp-on--click="actions.core.image.showLightbox"
-			data-wp-style--width="context.core.image.imageButtonWidth"
-			data-wp-style--height="context.core.image.imageButtonHeight"
-			data-wp-style--left="context.core.image.imageButtonLeft"
+			data-wp-style--right="context.core.image.imageButtonRight"
 			data-wp-style--top="context.core.image.imageButtonTop"
-		></button>';
+			style="background: #000"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+				<path d="M9 5H5V9" stroke="#FFFFFF" stroke-width="1.5"/>
+				<path d="M15 19L19 19L19 15" stroke="#FFFFFF" stroke-width="1.5"/>
+				<path d="M15 5H19V9" stroke="#FFFFFF" stroke-width="1.5"/>
+				<path d="M9 19L5 19L5 15" stroke="#FFFFFF" stroke-width="1.5"/>
+			</svg>
+		</button>';
 
 	$body_content = preg_replace( '/<img[^>]+>/', $button, $body_content );
 

@@ -97,13 +97,25 @@
   flex-direction:column;
   position:relative;
 }
-.wp-lightbox-container button{
-  background:none;
-  border:none;
+.wp-lightbox-container img{
   cursor:zoom-in;
-  height:100%;
+}
+.wp-lightbox-container img:hover+button{
+  opacity:1;
+}
+.wp-lightbox-container button{
+  background:#000;
+  border:none;
+  border-radius:10%;
+  cursor:zoom-in;
+  height:24px;
+  opacity:0;
+  padding:0;
   position:absolute;
-  width:100%;
+  right:10px;
+  text-align:center;
+  top:10px;
+  width:24px;
   z-index:100;
 }
 .wp-lightbox-container button:focus-visible{
@@ -111,8 +123,15 @@
   outline:5px auto -webkit-focus-ring-color;
   outline-offset:5px;
 }
+.wp-lightbox-container button:hover{
+  cursor:pointer;
+  opacity:1;
+}
+.wp-lightbox-container button:focus{
+  opacity:1;
+}
 .wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){
-  background:none;
+  background:#000;
   border:none;
 }
 
