@@ -17,12 +17,22 @@
 			"gradients": [
 				{
 					"slug": "gradient-1",
-					"gradient": "linear-gradient(to bottom, #A62A0C5C 0%, #F3F0E7 100%)",
-					"name": "Vertical rust to beige"
+					"gradient": "linear-gradient(to bottom, #A62A0C42 0%, #F3F0E7 100%)",
+					"name": "Vertical transparent rust to beige"
 				},
 				{
 					"slug": "gradient-7",
-					"gradient": "linear-gradient(to bottom, #A62A0C5C 50%, #F3F0E7 50%)",
+					"gradient": "linear-gradient(to bottom, #A62A0C42 50%, #F3F0E7 50%)",
+					"name": "Vertical hard transparent rust to beige"
+				},
+				{
+					"slug": "gradient-2",
+					"gradient": "linear-gradient(to bottom, #A62B0C 0%, #F3F0E7 100%)",
+					"name": "Vertical rust to beige"
+				},
+				{
+					"slug": "gradient-8",
+					"gradient": "linear-gradient(to bottom, #A62B0C 50%, #F3F0E7 50%)",
 					"name": "Vertical hard rust to beige"
 				}
 			],
@@ -33,7 +43,7 @@
 					"slug": "base"
 				},
 				{
-					"color": "#EAE4D7",
+					"color": "#ECEADF",
 					"name": "Base / 2",
 					"slug": "base-2"
 				},
@@ -43,57 +53,13 @@
 					"slug": "contrast"
 				}
 			]
-		},
-		"layout": {
-			"contentSize": "620px",
-			"wideSize": "90vw"
-		},
-		"typography": {
-			"fontSizes": [
-				{
-					"fluid": false,
-					"name": "Small",
-					"size": "1rem",
-					"slug": "small"
-				},
-				{
-					"fluid": false,
-					"name": "Medium",
-					"size": "1.15rem",
-					"slug": "medium"
-				},
-				{
-					"fluid": {
-						"min": "1.777rem",
-						"max": "2.3rem"
-					},
-					"name": "Large",
-					"size": "2.3rem",
-					"slug": "large"
-				},
-				{
-					"fluid": {
-						"min": "2.3rem",
-						"max": "3.1rem"
-					},
-					"name": "Extra Large",
-					"size": "2.369rem",
-					"slug": "x-large"
-				},
-				{
-					"fluid": {
-						"min": "3.1rem",
-						"max": "4.2rem"
-					},
-					"name": "Extra Extra Large",
-					"size": "4.2rem",
-					"slug": "xx-large"
-				}
-			]
 		}
 	},
 	"styles": {
 		"blocks": {
+			"core/calendar": {
+				"css": ".wp-block-calendar table:where(:not(.has-text-color)) th{background-color:var(--wp--preset--color--contrast);color:var(--wp--preset--color--base);border-color:var(--wp--preset--color--contrast)} & table:where(:not(.has-text-color)) td{border-color:var(--wp--preset--color--contrast)}"
+			},
 			"core/comment-date": {
 				"color": {
 					"text": "var(--wp--preset--color--contrast)"

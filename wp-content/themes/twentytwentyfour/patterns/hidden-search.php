@@ -1,7 +1,7 @@
 <?php
 /**
- * Title: Hidden Search form
- * Slug: twentytwentyfour/search
+ * Title: Search
+ * Slug: twentytwentyfour/hidden-search
  * Inserter: no
  */
 ?>

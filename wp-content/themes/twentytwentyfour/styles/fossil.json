@@ -4,6 +4,68 @@
 	"title": "Fossil",
 	"settings": {
 		"color": {
+			"gradients": [
+				{
+					"slug": "gradient-1",
+					"gradient": "linear-gradient(to bottom, #E1DFDB 0%, #D6D2CE 100%)",
+					"name": "Vertical linen to beige"
+				},
+				{
+					"slug": "gradient-2",
+					"gradient": "linear-gradient(to bottom, #958D86 0%, #D6D2CE 100%)",
+					"name": "Vertical taupe to beige"
+				},
+				{
+					"slug": "gradient-3",
+					"gradient": "linear-gradient(to bottom, #65574E 0%, #D6D2CE 100%)",
+					"name": "Vertical sable to beige"
+				},
+				{
+					"slug": "gradient-4",
+					"gradient": "linear-gradient(to bottom, #1A1514 0%, #D6D2CE 100%)",
+					"name": "Vertical ebony to beige"
+				},
+				{
+					"slug": "gradient-5",
+					"gradient": "linear-gradient(to bottom, #65574E 0%, #958D86 100%)",
+					"name": "Vertical sable to beige"
+				},
+				{
+					"slug": "gradient-6",
+					"gradient": "linear-gradient(to bottom, #1A1514 0%, #65574E 100%)",
+					"name": "Vertical ebony to sable"
+				},
+				{
+					"slug": "gradient-7",
+					"gradient": "linear-gradient(to bottom, #D6D2CE 50%, #E1DFDB 50%)",
+					"name": "Vertical hard beige to linen"
+				},
+				{
+					"slug": "gradient-8",
+					"gradient": "linear-gradient(to bottom, #958D86 50%, #D6D2CE 50%)",
+					"name": "Vertical hard taupe to beige"
+				},
+				{
+					"slug": "gradient-9",
+					"gradient": "linear-gradient(to bottom, #65574E 50%, #D6D2CE 50%)",
+					"name": "Vertical hard sable to beige"
+				},
+				{
+					"slug": "gradient-10",
+					"gradient": "linear-gradient(to bottom, #1A1514 50%, #D6D2CE 50%)",
+					"name": "Vertical hard ebony to beige"
+				},
+				{
+					"slug": "gradient-11",
+					"gradient": "linear-gradient(to bottom, #65574E 50%, #958D86 50%)",
+					"name": "Vertical hard sable to taupe"
+				},
+				{
+					"slug": "gradient-12",
+					"gradient": "linear-gradient(to bottom, #1A1514 50%, #65574E 50%)",
+					"name": "Vertical hard ebony to sable"
+				}
+			],
 			"palette": [
 				{
 					"color": "#D6D2CE",
@@ -79,6 +141,16 @@
 					"fontFamily": "Cardo",
 					"name": "Cardo",
 					"slug": "body"
+				},
+				{
+					"fontFamily": "-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
+					"name": "System Sans-serif",
+					"slug": "system-sans-serif"
+				},
+				{
+					"fontFamily": "Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+					"name": "System Serif",
+					"slug": "system-serif"
 				}
 			],
 			"fontSizes": [
@@ -126,6 +198,23 @@
 	},
 	"styles": {
 		"blocks": {
+			"core/button": {
+				"variations": {
+					"outline": {
+						"spacing": {
+							"padding": {
+								"bottom": "calc(0.9rem - 2px)",
+								"left": "calc(2rem - 2px)",
+								"right": "calc(2rem - 2px)",
+								"top": "calc(0.9rem - 2px)"
+							}
+						},
+						"border": {
+							"width": "2px"
+						}
+					}
+				}
+			},
 			"core/pullquote": {
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--large)",
@@ -181,9 +270,6 @@
 				":hover": {
 					"color": {
 						"background": "var(--wp--preset--color--contrast)"
-					},
-					"border": {
-						"color": "var(--wp--preset--color--contrast)"
 					}
 				}
 			},
