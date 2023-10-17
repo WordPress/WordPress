@@ -1,7 +1,7 @@
 === Twenty Nineteen ===
 Contributors: wordpressdotorg
 Tags: one-column, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
-Requires at least: 4.9.6
+Requires at least: 4.7
 Tested up to: 6.3
 Requires PHP: 5.2.4
 Stable tag: 2.6
