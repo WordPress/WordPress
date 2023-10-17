@@ -1507,11 +1507,6 @@ pre.wp-block-preformatted {
 	color: currentColor;
 	border-color: currentColor;
 	position: relative;
-	font-weight: 700;
-	font-style: normal;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	letter-spacing: normal;
-	line-height: 1.3;
 }
 
 .wp-block-pullquote blockquote::before {
@@ -1526,13 +1521,19 @@ pre.wp-block-preformatted {
 }
 
 .wp-block-pullquote p {
-	font-family: inherit;
-	font-size: inherit;
-	font-style: inherit;
-	font-weight: inherit;
-	letter-spacing: inherit;
-	line-height: inherit;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 2rem;
+	font-style: normal;
+	font-weight: 700;
+	letter-spacing: normal;
+	line-height: 1.3;
 	margin: 0;
+}
+@media only screen and (min-width: 652px) {
+
+	.wp-block-pullquote p {
+		font-size: 2rem;
+	}
 }
 
 .wp-block-pullquote a {
