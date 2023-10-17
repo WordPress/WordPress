@@ -28,15 +28,7 @@ $credits = wp_credits();
 			</h1>
 		</div>
 
-		<div class="about__header-text">
-			<?php
-			printf(
-				/* translators: %s: Version number. */
-				__( 'WordPress %s was created by a worldwide team of passionate individuals' ),
-				$display_version
-			);
-			?>
-		</div>
+		<div class="about__header-text"></div>
 	</div>
 
 	<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
