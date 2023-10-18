@@ -1062,18 +1062,20 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
 				);
 			}
 
-			$block_content .= traverse_and_serialize_block( $inner_block, $pre_callback, $post_callback );
-
 			if ( is_callable( $post_callback ) ) {
 				$next = count( $block['innerBlocks'] ) - 1 === $block_index
 					? null
 					: $block['innerBlocks'][ $block_index + 1 ];
 
-				$block_content .= call_user_func_array(
+				$post_markup = call_user_func_array(
 					$post_callback,
 					array( &$inner_block, $block, $next )
 				);
 			}
+
+			$block_content .= traverse_and_serialize_block( $inner_block, $pre_callback, $post_callback );
+			$block_content .= isset( $post_markup ) ? $post_markup : '';
+
 			++$block_index;
 		}
 	}
@@ -1135,18 +1137,19 @@ function traverse_and_serialize_blocks( $blocks, $pre_callback = null, $post_cal
 			);
 		}
 
-		$result .= traverse_and_serialize_block( $block, $pre_callback, $post_callback );
-
 		if ( is_callable( $post_callback ) ) {
 			$next = count( $blocks ) - 1 === $index
 				? null
 				: $blocks[ $index + 1 ];
 
-			$result .= call_user_func_array(
+			$post_markup = call_user_func_array(
 				$post_callback,
 				array( &$block, null, $next ) // At the top level, there is no parent block to pass to the callback.
 			);
 		}
+
+		$result .= traverse_and_serialize_block( $block, $pre_callback, $post_callback );
+		$result .= isset( $post_markup ) ? $post_markup : '';
 	}
 
 	return $result;
