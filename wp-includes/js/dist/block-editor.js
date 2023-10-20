@@ -17012,4341 +17012,25 @@ function BlockHTML({
 }
 /* harmony default export */ var block_html = (BlockHTML);
 
+;// CONCATENATED MODULE: ./node_modules/@react-spring/rafz/dist/esm/index.js
+var f=l(),esm_n=e=>c(e,f),m=l();esm_n.write=e=>c(e,m);var d=l();esm_n.onStart=e=>c(e,d);var h=l();esm_n.onFrame=e=>c(e,h);var p=l();esm_n.onFinish=e=>c(e,p);var i=[];esm_n.setTimeout=(e,t)=>{let a=esm_n.now()+t,o=()=>{let F=i.findIndex(z=>z.cancel==o);~F&&i.splice(F,1),u-=~F?1:0},s={time:a,handler:e,cancel:o};return i.splice(w(a),0,s),u+=1,v(),s};var w=e=>~(~i.findIndex(t=>t.time>e)||~i.length);esm_n.cancel=e=>{d.delete(e),h.delete(e),p.delete(e),f.delete(e),m.delete(e)};esm_n.sync=e=>{T=!0,esm_n.batchedUpdates(e),T=!1};esm_n.throttle=e=>{let t;function a(){try{e(...t)}finally{t=null}}function o(...s){t=s,esm_n.onStart(a)}return o.handler=e,o.cancel=()=>{d.delete(a),t=null},o};var y=typeof window<"u"?window.requestAnimationFrame:()=>{};esm_n.use=e=>y=e;esm_n.now=typeof performance<"u"?()=>performance.now():Date.now;esm_n.batchedUpdates=e=>e();esm_n.catch=console.error;esm_n.frameLoop="always";esm_n.advance=()=>{esm_n.frameLoop!=="demand"?console.warn("Cannot call the manual advancement of rafz whilst frameLoop is not set as demand"):x()};var r=-1,u=0,T=!1;function c(e,t){T?(t.delete(e),e(0)):(t.add(e),v())}function v(){r<0&&(r=0,esm_n.frameLoop!=="demand"&&y(b))}function R(){r=-1}function b(){~r&&(y(b),esm_n.batchedUpdates(x))}function x(){let e=r;r=esm_n.now();let t=w(r);if(t&&(Q(i.splice(0,t),a=>a.handler()),u-=t),!u){R();return}d.flush(),f.flush(e?Math.min(64,r-e):16.667),h.flush(),m.flush(),p.flush()}function l(){let e=new Set,t=e;return{add(a){u+=t==e&&!e.has(a)?1:0,e.add(a)},delete(a){return u-=t==e&&e.has(a)?1:0,e.delete(a)},flush(a){t.size&&(e=new Set,u-=t.size,Q(t,o=>o(a)&&e.add(o)),u+=e.size,t=e)}}}function Q(e,t){e.forEach(a=>{try{t(a)}catch(o){esm_n.catch(o)}})}var S={count(){return u},isRunning(){return r>=0},clear(){r=-1,i=[],d=l(),f=l(),h=l(),m=l(),p=l(),u=0}};
+
 // EXTERNAL MODULE: external "React"
 var external_React_ = __webpack_require__(9196);
 var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
-;// CONCATENATED MODULE: ./node_modules/@react-spring/shared/dist/react-spring_shared.modern.mjs
-var __defProp = Object.defineProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
+;// CONCATENATED MODULE: ./node_modules/@react-spring/shared/dist/esm/index.js
+var ze=Object.defineProperty;var Le=(e,t)=>{for(var r in t)ze(e,r,{get:t[r],enumerable:!0})};var esm_p={};Le(esm_p,{assign:()=>U,colors:()=>esm_c,createStringInterpolator:()=>k,skipAnimation:()=>ee,to:()=>J,willAdvance:()=>esm_S});function Y(){}var mt=(e,t,r)=>Object.defineProperty(e,t,{value:r,writable:!0,configurable:!0}),esm_l={arr:Array.isArray,obj:e=>!!e&&e.constructor.name==="Object",fun:e=>typeof e=="function",str:e=>typeof e=="string",num:e=>typeof e=="number",und:e=>e===void 0};function bt(e,t){if(esm_l.arr(e)){if(!esm_l.arr(t)||e.length!==t.length)return!1;for(let r=0;r<e.length;r++)if(e[r]!==t[r])return!1;return!0}return e===t}var Ve=(e,t)=>e.forEach(t);function xt(e,t,r){if(esm_l.arr(e)){for(let n=0;n<e.length;n++)t.call(r,e[n],`${n}`);return}for(let n in e)e.hasOwnProperty(n)&&t.call(r,e[n],n)}var ht=e=>esm_l.und(e)?[]:esm_l.arr(e)?e:[e];function Pe(e,t){if(e.size){let r=Array.from(e);e.clear(),Ve(r,t)}}var yt=(e,...t)=>Pe(e,r=>r(...t)),esm_h=()=>typeof window>"u"||!window.navigator||/ServerSideRendering|^Deno\//.test(window.navigator.userAgent);var k,J,esm_c=null,ee=!1,esm_S=Y,U=e=>{e.to&&(J=e.to),e.now&&(esm_n.now=e.now),e.colors!==void 0&&(esm_c=e.colors),e.skipAnimation!=null&&(ee=e.skipAnimation),e.createStringInterpolator&&(k=e.createStringInterpolator),e.requestAnimationFrame&&esm_n.use(e.requestAnimationFrame),e.batchedUpdates&&(esm_n.batchedUpdates=e.batchedUpdates),e.willAdvance&&(esm_S=e.willAdvance),e.frameLoop&&(esm_n.frameLoop=e.frameLoop)};var E=new Set,esm_u=[],H=[],A=0,qe={get idle(){return!E.size&&!esm_u.length},start(e){A>e.priority?(E.add(e),esm_n.onStart($e)):(te(e),esm_n(B))},advance:B,sort(e){if(A)esm_n.onFrame(()=>qe.sort(e));else{let t=esm_u.indexOf(e);~t&&(esm_u.splice(t,1),re(e))}},clear(){esm_u=[],E.clear()}};function $e(){E.forEach(te),E.clear(),esm_n(B)}function te(e){esm_u.includes(e)||re(e)}function re(e){esm_u.splice(Ge(esm_u,t=>t.priority>e.priority),0,e)}function B(e){let t=H;for(let r=0;r<esm_u.length;r++){let n=esm_u[r];A=n.priority,n.idle||(esm_S(n),n.advance(e),n.idle||t.push(n))}return A=0,H=esm_u,H.length=0,esm_u=t,esm_u.length>0}function Ge(e,t){let r=e.findIndex(t);return r<0?e.length:r}var ne=(e,t,r)=>Math.min(Math.max(r,e),t);var It={transparent:0,aliceblue:4042850303,antiquewhite:4209760255,aqua:16777215,aquamarine:2147472639,azure:4043309055,beige:4126530815,bisque:4293182719,black:255,blanchedalmond:4293643775,blue:65535,blueviolet:2318131967,brown:2771004159,burlywood:3736635391,burntsienna:3934150143,cadetblue:1604231423,chartreuse:2147418367,chocolate:3530104575,coral:4286533887,cornflowerblue:1687547391,cornsilk:4294499583,crimson:3692313855,cyan:16777215,darkblue:35839,darkcyan:9145343,darkgoldenrod:3095792639,darkgray:2846468607,darkgreen:6553855,darkgrey:2846468607,darkkhaki:3182914559,darkmagenta:2332068863,darkolivegreen:1433087999,darkorange:4287365375,darkorchid:2570243327,darkred:2332033279,darksalmon:3918953215,darkseagreen:2411499519,darkslateblue:1211993087,darkslategray:793726975,darkslategrey:793726975,darkturquoise:13554175,darkviolet:2483082239,deeppink:4279538687,deepskyblue:12582911,dimgray:1768516095,dimgrey:1768516095,dodgerblue:512819199,firebrick:2988581631,floralwhite:4294635775,forestgreen:579543807,fuchsia:4278255615,gainsboro:3705462015,ghostwhite:4177068031,gold:4292280575,goldenrod:3668254975,gray:2155905279,green:8388863,greenyellow:2919182335,grey:2155905279,honeydew:4043305215,hotpink:4285117695,indianred:3445382399,indigo:1258324735,ivory:4294963455,khaki:4041641215,lavender:3873897215,lavenderblush:4293981695,lawngreen:2096890111,lemonchiffon:4294626815,lightblue:2916673279,lightcoral:4034953471,lightcyan:3774873599,lightgoldenrodyellow:4210742015,lightgray:3553874943,lightgreen:2431553791,lightgrey:3553874943,lightpink:4290167295,lightsalmon:4288707327,lightseagreen:548580095,lightskyblue:2278488831,lightslategray:2005441023,lightslategrey:2005441023,lightsteelblue:2965692159,lightyellow:4294959359,lime:16711935,limegreen:852308735,linen:4210091775,magenta:4278255615,maroon:2147483903,mediumaquamarine:1724754687,mediumblue:52735,mediumorchid:3126187007,mediumpurple:2473647103,mediumseagreen:1018393087,mediumslateblue:2070474495,mediumspringgreen:16423679,mediumturquoise:1221709055,mediumvioletred:3340076543,midnightblue:421097727,mintcream:4127193855,mistyrose:4293190143,moccasin:4293178879,navajowhite:4292783615,navy:33023,oldlace:4260751103,olive:2155872511,olivedrab:1804477439,orange:4289003775,orangered:4282712319,orchid:3664828159,palegoldenrod:4008225535,palegreen:2566625535,paleturquoise:2951671551,palevioletred:3681588223,papayawhip:4293907967,peachpuff:4292524543,peru:3448061951,pink:4290825215,plum:3718307327,powderblue:2967529215,purple:2147516671,rebeccapurple:1714657791,red:4278190335,rosybrown:3163525119,royalblue:1097458175,saddlebrown:2336560127,salmon:4202722047,sandybrown:4104413439,seagreen:780883967,seashell:4294307583,sienna:2689740287,silver:3233857791,skyblue:2278484991,slateblue:1784335871,slategray:1887473919,slategrey:1887473919,snow:4294638335,springgreen:16744447,steelblue:1182971135,tan:3535047935,teal:8421631,thistle:3636451583,tomato:4284696575,turquoise:1088475391,violet:4001558271,wheat:4125012991,white:4294967295,whitesmoke:4126537215,yellow:4294902015,yellowgreen:2597139199};var esm_d="[-+]?\\d*\\.?\\d+",M=esm_d+"%";function C(...e){return"\\(\\s*("+e.join(")\\s*,\\s*(")+")\\s*\\)"}var oe=new RegExp("rgb"+C(esm_d,esm_d,esm_d)),fe=new RegExp("rgba"+C(esm_d,esm_d,esm_d,esm_d)),ae=new RegExp("hsl"+C(esm_d,M,M)),ie=new RegExp("hsla"+C(esm_d,M,M,esm_d)),se=/^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,ue=/^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,le=/^#([0-9a-fA-F]{6})$/,ce=/^#([0-9a-fA-F]{8})$/;function be(e){let t;return typeof e=="number"?e>>>0===e&&e>=0&&e<=4294967295?e:null:(t=le.exec(e))?parseInt(t[1]+"ff",16)>>>0:esm_c&&esm_c[e]!==void 0?esm_c[e]:(t=oe.exec(e))?(esm_y(t[1])<<24|esm_y(t[2])<<16|esm_y(t[3])<<8|255)>>>0:(t=fe.exec(e))?(esm_y(t[1])<<24|esm_y(t[2])<<16|esm_y(t[3])<<8|me(t[4]))>>>0:(t=se.exec(e))?parseInt(t[1]+t[1]+t[2]+t[2]+t[3]+t[3]+"ff",16)>>>0:(t=ce.exec(e))?parseInt(t[1],16)>>>0:(t=ue.exec(e))?parseInt(t[1]+t[1]+t[2]+t[2]+t[3]+t[3]+t[4]+t[4],16)>>>0:(t=ae.exec(e))?(de(pe(t[1]),z(t[2]),z(t[3]))|255)>>>0:(t=ie.exec(e))?(de(pe(t[1]),z(t[2]),z(t[3]))|me(t[4]))>>>0:null}function esm_j(e,t,r){return r<0&&(r+=1),r>1&&(r-=1),r<1/6?e+(t-e)*6*r:r<1/2?t:r<2/3?e+(t-e)*(2/3-r)*6:e}function de(e,t,r){let n=r<.5?r*(1+t):r+t-r*t,f=2*r-n,o=esm_j(f,n,e+1/3),i=esm_j(f,n,e),s=esm_j(f,n,e-1/3);return Math.round(o*255)<<24|Math.round(i*255)<<16|Math.round(s*255)<<8}function esm_y(e){let t=parseInt(e,10);return t<0?0:t>255?255:t}function pe(e){return(parseFloat(e)%360+360)%360/360}function me(e){let t=parseFloat(e);return t<0?0:t>1?255:Math.round(t*255)}function z(e){let t=parseFloat(e);return t<0?0:t>100?1:t/100}function D(e){let t=be(e);if(t===null)return e;t=t||0;let r=(t&4278190080)>>>24,n=(t&16711680)>>>16,f=(t&65280)>>>8,o=(t&255)/255;return`rgba(${r}, ${n}, ${f}, ${o})`}var W=(e,t,r)=>{if(esm_l.fun(e))return e;if(esm_l.arr(e))return W({range:e,output:t,extrapolate:r});if(esm_l.str(e.output[0]))return k(e);let n=e,f=n.output,o=n.range||[0,1],i=n.extrapolateLeft||n.extrapolate||"extend",s=n.extrapolateRight||n.extrapolate||"extend",x=n.easing||(a=>a);return a=>{let F=He(a,o);return Ue(a,o[F],o[F+1],f[F],f[F+1],x,i,s,n.map)}};function Ue(e,t,r,n,f,o,i,s,x){let a=x?x(e):e;if(a<t){if(i==="identity")return a;i==="clamp"&&(a=t)}if(a>r){if(s==="identity")return a;s==="clamp"&&(a=r)}return n===f?n:t===r?e<=t?n:f:(t===-1/0?a=-a:r===1/0?a=a-t:a=(a-t)/(r-t),a=o(a),n===-1/0?a=-a:f===1/0?a=a+n:a=a*(f-n)+n,a)}function He(e,t){for(var r=1;r<t.length-1&&!(t[r]>=e);++r);return r-1}var Be=(e,t="end")=>r=>{r=t==="end"?Math.min(r,.999):Math.max(r,.001);let n=r*e,f=t==="end"?Math.floor(n):Math.ceil(n);return ne(0,1,f/e)},P=1.70158,L=P*1.525,xe=P+1,he=2*Math.PI/3,ye=2*Math.PI/4.5,V=e=>e<1/2.75?7.5625*e*e:e<2/2.75?7.5625*(e-=1.5/2.75)*e+.75:e<2.5/2.75?7.5625*(e-=2.25/2.75)*e+.9375:7.5625*(e-=2.625/2.75)*e+.984375,Lt={linear:e=>e,easeInQuad:e=>e*e,easeOutQuad:e=>1-(1-e)*(1-e),easeInOutQuad:e=>e<.5?2*e*e:1-Math.pow(-2*e+2,2)/2,easeInCubic:e=>e*e*e,easeOutCubic:e=>1-Math.pow(1-e,3),easeInOutCubic:e=>e<.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2,easeInQuart:e=>e*e*e*e,easeOutQuart:e=>1-Math.pow(1-e,4),easeInOutQuart:e=>e<.5?8*e*e*e*e:1-Math.pow(-2*e+2,4)/2,easeInQuint:e=>e*e*e*e*e,easeOutQuint:e=>1-Math.pow(1-e,5),easeInOutQuint:e=>e<.5?16*e*e*e*e*e:1-Math.pow(-2*e+2,5)/2,easeInSine:e=>1-Math.cos(e*Math.PI/2),easeOutSine:e=>Math.sin(e*Math.PI/2),easeInOutSine:e=>-(Math.cos(Math.PI*e)-1)/2,easeInExpo:e=>e===0?0:Math.pow(2,10*e-10),easeOutExpo:e=>e===1?1:1-Math.pow(2,-10*e),easeInOutExpo:e=>e===0?0:e===1?1:e<.5?Math.pow(2,20*e-10)/2:(2-Math.pow(2,-20*e+10))/2,easeInCirc:e=>1-Math.sqrt(1-Math.pow(e,2)),easeOutCirc:e=>Math.sqrt(1-Math.pow(e-1,2)),easeInOutCirc:e=>e<.5?(1-Math.sqrt(1-Math.pow(2*e,2)))/2:(Math.sqrt(1-Math.pow(-2*e+2,2))+1)/2,easeInBack:e=>xe*e*e*e-P*e*e,easeOutBack:e=>1+xe*Math.pow(e-1,3)+P*Math.pow(e-1,2),easeInOutBack:e=>e<.5?Math.pow(2*e,2)*((L+1)*2*e-L)/2:(Math.pow(2*e-2,2)*((L+1)*(e*2-2)+L)+2)/2,easeInElastic:e=>e===0?0:e===1?1:-Math.pow(2,10*e-10)*Math.sin((e*10-10.75)*he),easeOutElastic:e=>e===0?0:e===1?1:Math.pow(2,-10*e)*Math.sin((e*10-.75)*he)+1,easeInOutElastic:e=>e===0?0:e===1?1:e<.5?-(Math.pow(2,20*e-10)*Math.sin((20*e-11.125)*ye))/2:Math.pow(2,-20*e+10)*Math.sin((20*e-11.125)*ye)/2+1,easeInBounce:e=>1-V(1-e),easeOutBounce:V,easeInOutBounce:e=>e<.5?(1-V(1-2*e))/2:(1+V(2*e-1))/2,steps:Be};var g=Symbol.for("FluidValue.get"),esm_m=Symbol.for("FluidValue.observers");var Pt=e=>Boolean(e&&e[g]),ve=e=>e&&e[g]?e[g]():e,esm_qt=e=>e[esm_m]||null;function je(e,t){e.eventObserved?e.eventObserved(t):e(t)}function $t(e,t){let r=e[esm_m];r&&r.forEach(n=>{je(n,t)})}var esm_ge=class{[g];[esm_m];constructor(t){if(!t&&!(t=this.get))throw Error("Unknown getter");De(this,t)}},De=(e,t)=>Ee(e,g,t);function Gt(e,t){if(e[g]){let r=e[esm_m];r||Ee(e,esm_m,r=new Set),r.has(t)||(r.add(t),e.observerAdded&&e.observerAdded(r.size,t))}return t}function Qt(e,t){let r=e[esm_m];if(r&&r.has(t)){let n=r.size-1;n?r.delete(t):e[esm_m]=null,e.observerRemoved&&e.observerRemoved(n,t)}}var Ee=(e,t,r)=>Object.defineProperty(e,t,{value:r,writable:!0,configurable:!0});var O=/[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,esm_Oe=/(#(?:[0-9a-f]{2}){2,4}|(#[0-9a-f]{3})|(rgb|hsl)a?\((-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))/gi,K=new RegExp(`(${O.source})(%|[a-z]+)`,"i"),we=/rgba\(([0-9\.-]+), ([0-9\.-]+), ([0-9\.-]+), ([0-9\.-]+)\)/gi,esm_b=/var\((--[a-zA-Z0-9-_]+),? ?([a-zA-Z0-9 ()%#.,-]+)?\)/;var N=e=>{let[t,r]=We(e);if(!t||esm_h())return e;let n=window.getComputedStyle(document.documentElement).getPropertyValue(t);if(n)return n.trim();if(r&&r.startsWith("--")){let f=window.getComputedStyle(document.documentElement).getPropertyValue(r);return f||e}else{if(r&&esm_b.test(r))return N(r);if(r)return r}return e},We=e=>{let t=esm_b.exec(e);if(!t)return[,];let[,r,n]=t;return[r,n]};var _,Ke=(e,t,r,n,f)=>`rgba(${Math.round(t)}, ${Math.round(r)}, ${Math.round(n)}, ${f})`,Xt=e=>{_||(_=esm_c?new RegExp(`(${Object.keys(esm_c).join("|")})(?!\\w)`,"g"):/^\b$/);let t=e.output.map(o=>ve(o).replace(esm_b,N).replace(esm_Oe,D).replace(_,D)),r=t.map(o=>o.match(O).map(Number)),f=r[0].map((o,i)=>r.map(s=>{if(!(i in s))throw Error('The arity of each "output" value must be equal');return s[i]})).map(o=>W({...e,output:o}));return o=>{let i=!K.test(t[0])&&t.find(x=>K.test(x))?.replace(O,""),s=0;return t[0].replace(O,()=>`${f[s++](o)}${i||""}`).replace(we,Ke)}};var Z="react-spring: ",Te=e=>{let t=e,r=!1;if(typeof t!="function")throw new TypeError(`${Z}once requires a function parameter`);return(...n)=>{r||(t(...n),r=!0)}},Ne=Te(console.warn);function Jt(){Ne(`${Z}The "interpolate" function is deprecated in v9 (use "to" instead)`)}var _e=Te(console.warn);function er(){_e(`${Z}Directly calling start instead of using the api object is deprecated in v9 (use ".start" instead), this will be removed in later 0.X.0 versions`)}function esm_or(e){return esm_l.str(e)&&(e[0]=="#"||/\d/.test(e)||!esm_h()&&esm_b.test(e)||e in(esm_c||{}))}var esm_v,q=new WeakMap,Ze=e=>e.forEach(({target:t,contentRect:r})=>q.get(t)?.forEach(n=>n(r)));function Fe(e,t){esm_v||typeof ResizeObserver<"u"&&(esm_v=new ResizeObserver(Ze));let r=q.get(t);return r||(r=new Set,q.set(t,r)),r.add(e),esm_v&&esm_v.observe(t),()=>{let n=q.get(t);!n||(n.delete(e),!n.size&&esm_v&&esm_v.unobserve(t))}}var $=new Set,esm_w,Xe=()=>{let e=()=>{$.forEach(t=>t({width:window.innerWidth,height:window.innerHeight}))};return window.addEventListener("resize",e),()=>{window.removeEventListener("resize",e)}},Ie=e=>($.add(e),esm_w||(esm_w=Xe()),()=>{$.delete(e),!$.size&&esm_w&&(esm_w(),esm_w=void 0)});var ke=(e,{container:t=document.documentElement}={})=>t===document.documentElement?Ie(e):Fe(e,t);var Se=(e,t,r)=>t-e===0?1:(r-e)/(t-e);var Ye={x:{length:"Width",position:"Left"},y:{length:"Height",position:"Top"}},esm_G=class{callback;container;info;constructor(t,r){this.callback=t,this.container=r,this.info={time:0,x:this.createAxis(),y:this.createAxis()}}createAxis=()=>({current:0,progress:0,scrollLength:0});updateAxis=t=>{let r=this.info[t],{length:n,position:f}=Ye[t];r.current=this.container[`scroll${f}`],r.scrollLength=this.container["scroll"+n]-this.container["client"+n],r.progress=Se(0,r.scrollLength,r.current)};update=()=>{this.updateAxis("x"),this.updateAxis("y")};sendEvent=()=>{this.callback(this.info)};advance=()=>{this.update(),this.sendEvent()}};var esm_T=new WeakMap,Ae=new WeakMap,X=new WeakMap,Me=e=>e===document.documentElement?window:e,yr=(e,{container:t=document.documentElement}={})=>{let r=X.get(t);r||(r=new Set,X.set(t,r));let n=new esm_G(e,t);if(r.add(n),!esm_T.has(t)){let o=()=>(r?.forEach(s=>s.advance()),!0);esm_T.set(t,o);let i=Me(t);window.addEventListener("resize",o,{passive:!0}),t!==document.documentElement&&Ae.set(t,ke(o,{container:t})),i.addEventListener("scroll",o,{passive:!0})}let f=esm_T.get(t);return Re(f),()=>{Re.cancel(f);let o=X.get(t);if(!o||(o.delete(n),o.size))return;let i=esm_T.get(t);esm_T.delete(t),i&&(Me(t).removeEventListener("scroll",i),window.removeEventListener("resize",i),Ae.get(t)?.())}};function Er(e){let t=Je(null);return t.current===null&&(t.current=e()),t.current}var esm_Q=esm_h()?external_React_.useEffect:external_React_.useLayoutEffect;var Ce=()=>{let e=(0,external_React_.useRef)(!1);return esm_Q(()=>(e.current=!0,()=>{e.current=!1}),[]),e};function Mr(){let e=(0,external_React_.useState)()[1],t=Ce();return()=>{t.current&&e(Math.random())}}function Lr(e,t){let[r]=(0,external_React_.useState)(()=>({inputs:t,result:e()})),n=(0,external_React_.useRef)(),f=n.current,o=f;return o?Boolean(t&&o.inputs&&it(t,o.inputs))||(o={inputs:t,result:e()}):o=r,(0,external_React_.useEffect)(()=>{n.current=o,f==r&&(r.inputs=r.result=void 0)},[o]),o.result}function it(e,t){if(e.length!==t.length)return!1;for(let r=0;r<e.length;r++)if(e[r]!==t[r])return!1;return!0}var $r=e=>(0,external_React_.useEffect)(e,ut),ut=[];function Ur(e){let t=(0,external_React_.useRef)();return (0,external_React_.useEffect)(()=>{t.current=e}),t.current}var Wr=()=>{let[e,t]=dt(null);return esm_Q(()=>{let r=window.matchMedia("(prefers-reduced-motion)"),n=f=>{t(f.matches),U({skipAnimation:f.matches})};return n(r),r.addEventListener("change",n),()=>{r.removeEventListener("change",n)}},[]),e};
 
-// src/globals.ts
-var globals_exports = {};
-__export(globals_exports, {
-  assign: () => react_spring_shared_modern_assign,
-  colors: () => colors,
-  createStringInterpolator: () => createStringInterpolator,
-  skipAnimation: () => skipAnimation,
-  to: () => to,
-  willAdvance: () => willAdvance
-});
+;// CONCATENATED MODULE: ./node_modules/@react-spring/animated/dist/esm/index.js
+var dist_esm_h=Symbol.for("Animated:node"),dist_esm_v=e=>!!e&&e[dist_esm_h]===e,esm_k=e=>e&&e[dist_esm_h],esm_D=(e,t)=>mt(e,dist_esm_h,t),F=e=>e&&e[dist_esm_h]&&e[dist_esm_h].getPayload(),dist_esm_c=class{payload;constructor(){esm_D(this,this)}getPayload(){return this.payload||[]}};var dist_esm_l=class extends dist_esm_c{constructor(r){super();this._value=r;esm_l.num(this._value)&&(this.lastPosition=this._value)}done=!0;elapsedTime;lastPosition;lastVelocity;v0;durationProgress=0;static create(r){return new dist_esm_l(r)}getPayload(){return[this]}getValue(){return this._value}setValue(r,n){return esm_l.num(r)&&(this.lastPosition=r,n&&(r=Math.round(r/n)*n,this.done&&(this.lastPosition=r))),this._value===r?!1:(this._value=r,!0)}reset(){let{done:r}=this;this.done=!1,esm_l.num(this._value)&&(this.elapsedTime=0,this.durationProgress=0,this.lastPosition=this._value,r&&(this.lastVelocity=null),this.v0=null)}};var dist_esm_d=class extends dist_esm_l{_string=null;_toString;constructor(t){super(0),this._toString=W({output:[t,t]})}static create(t){return new dist_esm_d(t)}getValue(){let t=this._string;return t??(this._string=this._toString(this._value))}setValue(t){if(esm_l.str(t)){if(t==this._string)return!1;this._string=t,this._value=1}else if(super.setValue(t))this._string=null;else return!1;return!0}reset(t){t&&(this._toString=W({output:[this.getValue(),t]})),this._value=0,super.reset()}};var esm_f={dependencies:null};var dist_esm_u=class extends dist_esm_c{constructor(r){super();this.source=r;this.setValue(r)}getValue(r){let n={};return xt(this.source,(a,i)=>{dist_esm_v(a)?n[i]=a.getValue(r):Pt(a)?n[i]=ve(a):r||(n[i]=a)}),n}setValue(r){this.source=r,this.payload=this._makePayload(r)}reset(){this.payload&&Ve(this.payload,r=>r.reset())}_makePayload(r){if(r){let n=new Set;return xt(r,this._addToPayload,n),Array.from(n)}}_addToPayload(r){esm_f.dependencies&&Pt(r)&&esm_f.dependencies.add(r);let n=F(r);n&&Ve(n,a=>this.add(a))}};var dist_esm_y=class extends dist_esm_u{constructor(t){super(t)}static create(t){return new dist_esm_y(t)}getValue(){return this.source.map(t=>t.getValue())}setValue(t){let r=this.getPayload();return t.length==r.length?r.map((n,a)=>n.setValue(t[a])).some(Boolean):(super.setValue(t.map(esm_z)),!0)}};function esm_z(e){return(esm_or(e)?dist_esm_d:dist_esm_l).create(e)}function esm_Le(e){let t=esm_k(e);return t?t.constructor:esm_l.arr(e)?dist_esm_y:esm_or(e)?dist_esm_d:dist_esm_l}var esm_x=(e,t)=>{let r=!esm_l.fun(e)||e.prototype&&e.prototype.isReactComponent;return (0,external_React_.forwardRef)((n,a)=>{let i=(0,external_React_.useRef)(null),o=r&&(0,external_React_.useCallback)(s=>{i.current=esm_ae(a,s)},[a]),[m,T]=esm_ne(n,t),W=Mr(),P=()=>{let s=i.current;if(r&&!s)return;(s?t.applyAnimatedValues(s,m.getValue(!0)):!1)===!1&&W()},_=new dist_esm_b(P,T),p=(0,external_React_.useRef)();esm_Q(()=>(p.current=_,Ve(T,s=>Gt(s,_)),()=>{p.current&&(Ve(p.current.deps,s=>Qt(s,p.current)),esm_n.cancel(p.current.update))})),(0,external_React_.useEffect)(P,[]),$r(()=>()=>{let s=p.current;Ve(s.deps,S=>Qt(S,s))});let $=t.getComponentProps(m.getValue());return external_React_.createElement(e,{...$,ref:o})})},dist_esm_b=class{constructor(t,r){this.update=t;this.deps=r}eventObserved(t){t.type=="change"&&esm_n.write(this.update)}};function esm_ne(e,t){let r=new Set;return esm_f.dependencies=r,e.style&&(e={...e,style:t.createAnimatedStyle(e.style)}),e=new dist_esm_u(e),esm_f.dependencies=null,[e,r]}function esm_ae(e,t){return e&&(esm_l.fun(e)?e(t):e.current=t),t}var dist_esm_j=Symbol.for("AnimatedComponent"),esm_Ke=(e,{applyAnimatedValues:t=()=>!1,createAnimatedStyle:r=a=>new dist_esm_u(a),getComponentProps:n=a=>a}={})=>{let a={applyAnimatedValues:t,createAnimatedStyle:r,getComponentProps:n},i=o=>{let m=I(o)||"Anonymous";return esm_l.str(o)?o=i[o]||(i[o]=esm_x(o,a)):o=o[dist_esm_j]||(o[dist_esm_j]=esm_x(o,a)),o.displayName=`Animated(${m})`,o};return xt(e,(o,m)=>{esm_l.arr(e)&&(m=I(o)),i[m]=i(o)}),{animated:i}},I=e=>esm_l.str(e)?e:e&&esm_l.str(e.displayName)?e.displayName:esm_l.fun(e)&&e.name||null;
 
-// ../rafz/dist/react-spring_rafz.modern.mjs
-var updateQueue = makeQueue();
-var raf = (fn) => schedule(fn, updateQueue);
-var writeQueue = makeQueue();
-raf.write = (fn) => schedule(fn, writeQueue);
-var onStartQueue = makeQueue();
-raf.onStart = (fn) => schedule(fn, onStartQueue);
-var onFrameQueue = makeQueue();
-raf.onFrame = (fn) => schedule(fn, onFrameQueue);
-var onFinishQueue = makeQueue();
-raf.onFinish = (fn) => schedule(fn, onFinishQueue);
-var timeouts = [];
-raf.setTimeout = (handler, ms) => {
-  const time = raf.now() + ms;
-  const cancel = () => {
-    const i = timeouts.findIndex((t) => t.cancel == cancel);
-    if (~i)
-      timeouts.splice(i, 1);
-    pendingCount -= ~i ? 1 : 0;
-  };
-  const timeout = { time, handler, cancel };
-  timeouts.splice(findTimeout(time), 0, timeout);
-  pendingCount += 1;
-  start();
-  return timeout;
-};
-var findTimeout = (time) => ~(~timeouts.findIndex((t) => t.time > time) || ~timeouts.length);
-raf.cancel = (fn) => {
-  onStartQueue.delete(fn);
-  onFrameQueue.delete(fn);
-  onFinishQueue.delete(fn);
-  updateQueue.delete(fn);
-  writeQueue.delete(fn);
-};
-raf.sync = (fn) => {
-  sync = true;
-  raf.batchedUpdates(fn);
-  sync = false;
-};
-raf.throttle = (fn) => {
-  let lastArgs;
-  function queuedFn() {
-    try {
-      fn(...lastArgs);
-    } finally {
-      lastArgs = null;
-    }
-  }
-  function throttled(...args) {
-    lastArgs = args;
-    raf.onStart(queuedFn);
-  }
-  throttled.handler = fn;
-  throttled.cancel = () => {
-    onStartQueue.delete(queuedFn);
-    lastArgs = null;
-  };
-  return throttled;
-};
-var nativeRaf = typeof window != "undefined" ? window.requestAnimationFrame : (
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  () => {
-  }
-);
-raf.use = (impl) => nativeRaf = impl;
-raf.now = typeof performance != "undefined" ? () => performance.now() : Date.now;
-raf.batchedUpdates = (fn) => fn();
-raf.catch = console.error;
-raf.frameLoop = "always";
-raf.advance = () => {
-  if (raf.frameLoop !== "demand") {
-    console.warn(
-      "Cannot call the manual advancement of rafz whilst frameLoop is not set as demand"
-    );
-  } else {
-    update();
-  }
-};
-var ts = -1;
-var pendingCount = 0;
-var sync = false;
-function schedule(fn, queue) {
-  if (sync) {
-    queue.delete(fn);
-    fn(0);
-  } else {
-    queue.add(fn);
-    start();
-  }
-}
-function start() {
-  if (ts < 0) {
-    ts = 0;
-    if (raf.frameLoop !== "demand") {
-      nativeRaf(loop);
-    }
-  }
-}
-function stop() {
-  ts = -1;
-}
-function loop() {
-  if (~ts) {
-    nativeRaf(loop);
-    raf.batchedUpdates(update);
-  }
-}
-function update() {
-  const prevTs = ts;
-  ts = raf.now();
-  const count = findTimeout(ts);
-  if (count) {
-    eachSafely(timeouts.splice(0, count), (t) => t.handler());
-    pendingCount -= count;
-  }
-  if (!pendingCount) {
-    stop();
-    return;
-  }
-  onStartQueue.flush();
-  updateQueue.flush(prevTs ? Math.min(64, ts - prevTs) : 16.667);
-  onFrameQueue.flush();
-  writeQueue.flush();
-  onFinishQueue.flush();
-}
-function makeQueue() {
-  let next = /* @__PURE__ */ new Set();
-  let current = next;
-  return {
-    add(fn) {
-      pendingCount += current == next && !next.has(fn) ? 1 : 0;
-      next.add(fn);
-    },
-    delete(fn) {
-      pendingCount -= current == next && next.has(fn) ? 1 : 0;
-      return next.delete(fn);
-    },
-    flush(arg) {
-      if (current.size) {
-        next = /* @__PURE__ */ new Set();
-        pendingCount -= current.size;
-        eachSafely(current, (fn) => fn(arg) && next.add(fn));
-        pendingCount += next.size;
-        current = next;
-      }
-    }
-  };
-}
-function eachSafely(values, each2) {
-  values.forEach((value) => {
-    try {
-      each2(value);
-    } catch (e) {
-      raf.catch(e);
-    }
-  });
-}
-
-// src/helpers.ts
-function noop() {
-}
-var defineHidden = (obj, key, value) => Object.defineProperty(obj, key, { value, writable: true, configurable: true });
-var is = {
-  arr: Array.isArray,
-  obj: (a) => !!a && a.constructor.name === "Object",
-  fun: (a) => typeof a === "function",
-  str: (a) => typeof a === "string",
-  num: (a) => typeof a === "number",
-  und: (a) => a === void 0
-};
-function isEqual(a, b) {
-  if (is.arr(a)) {
-    if (!is.arr(b) || a.length !== b.length)
-      return false;
-    for (let i = 0; i < a.length; i++) {
-      if (a[i] !== b[i])
-        return false;
-    }
-    return true;
-  }
-  return a === b;
-}
-var react_spring_shared_modern_each = (obj, fn) => obj.forEach(fn);
-function eachProp(obj, fn, ctx) {
-  if (is.arr(obj)) {
-    for (let i = 0; i < obj.length; i++) {
-      fn.call(ctx, obj[i], `${i}`);
-    }
-    return;
-  }
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      fn.call(ctx, obj[key], key);
-    }
-  }
-}
-var toArray = (a) => is.und(a) ? [] : is.arr(a) ? a : [a];
-function flush(queue, iterator) {
-  if (queue.size) {
-    const items = Array.from(queue);
-    queue.clear();
-    react_spring_shared_modern_each(items, iterator);
-  }
-}
-var flushCalls = (queue, ...args) => flush(queue, (fn) => fn(...args));
-var isSSR = () => typeof window === "undefined" || !window.navigator || /ServerSideRendering|^Deno\//.test(window.navigator.userAgent);
-
-// src/globals.ts
-var createStringInterpolator;
-var to;
-var colors = null;
-var skipAnimation = false;
-var willAdvance = noop;
-var react_spring_shared_modern_assign = (globals) => {
-  if (globals.to)
-    to = globals.to;
-  if (globals.now)
-    raf.now = globals.now;
-  if (globals.colors !== void 0)
-    colors = globals.colors;
-  if (globals.skipAnimation != null)
-    skipAnimation = globals.skipAnimation;
-  if (globals.createStringInterpolator)
-    createStringInterpolator = globals.createStringInterpolator;
-  if (globals.requestAnimationFrame)
-    raf.use(globals.requestAnimationFrame);
-  if (globals.batchedUpdates)
-    raf.batchedUpdates = globals.batchedUpdates;
-  if (globals.willAdvance)
-    willAdvance = globals.willAdvance;
-  if (globals.frameLoop)
-    raf.frameLoop = globals.frameLoop;
-};
-
-// src/FrameLoop.ts
-var startQueue = /* @__PURE__ */ new Set();
-var currentFrame = [];
-var prevFrame = [];
-var priority = 0;
-var frameLoop = {
-  get idle() {
-    return !startQueue.size && !currentFrame.length;
-  },
-  /** Advance the given animation on every frame until idle. */
-  start(animation) {
-    if (priority > animation.priority) {
-      startQueue.add(animation);
-      raf.onStart(flushStartQueue);
-    } else {
-      startSafely(animation);
-      raf(advance);
-    }
-  },
-  /** Advance all animations by the given time. */
-  advance,
-  /** Call this when an animation's priority changes. */
-  sort(animation) {
-    if (priority) {
-      raf.onFrame(() => frameLoop.sort(animation));
-    } else {
-      const prevIndex = currentFrame.indexOf(animation);
-      if (~prevIndex) {
-        currentFrame.splice(prevIndex, 1);
-        startUnsafely(animation);
-      }
-    }
-  },
-  /**
-   * Clear all animations. For testing purposes.
-   *
-   * ☠️ Never call this from within the frameloop.
-   */
-  clear() {
-    currentFrame = [];
-    startQueue.clear();
-  }
-};
-function flushStartQueue() {
-  startQueue.forEach(startSafely);
-  startQueue.clear();
-  raf(advance);
-}
-function startSafely(animation) {
-  if (!currentFrame.includes(animation))
-    startUnsafely(animation);
-}
-function startUnsafely(animation) {
-  currentFrame.splice(
-    findIndex(currentFrame, (other) => other.priority > animation.priority),
-    0,
-    animation
-  );
-}
-function advance(dt) {
-  const nextFrame = prevFrame;
-  for (let i = 0; i < currentFrame.length; i++) {
-    const animation = currentFrame[i];
-    priority = animation.priority;
-    if (!animation.idle) {
-      willAdvance(animation);
-      animation.advance(dt);
-      if (!animation.idle) {
-        nextFrame.push(animation);
-      }
-    }
-  }
-  priority = 0;
-  prevFrame = currentFrame;
-  prevFrame.length = 0;
-  currentFrame = nextFrame;
-  return currentFrame.length > 0;
-}
-function findIndex(arr, test) {
-  const index = arr.findIndex(test);
-  return index < 0 ? arr.length : index;
-}
-
-// src/clamp.ts
-var clamp = (min, max, v) => Math.min(Math.max(v, min), max);
-
-// src/colors.ts
-var colors2 = {
-  transparent: 0,
-  aliceblue: 4042850303,
-  antiquewhite: 4209760255,
-  aqua: 16777215,
-  aquamarine: 2147472639,
-  azure: 4043309055,
-  beige: 4126530815,
-  bisque: 4293182719,
-  black: 255,
-  blanchedalmond: 4293643775,
-  blue: 65535,
-  blueviolet: 2318131967,
-  brown: 2771004159,
-  burlywood: 3736635391,
-  burntsienna: 3934150143,
-  cadetblue: 1604231423,
-  chartreuse: 2147418367,
-  chocolate: 3530104575,
-  coral: 4286533887,
-  cornflowerblue: 1687547391,
-  cornsilk: 4294499583,
-  crimson: 3692313855,
-  cyan: 16777215,
-  darkblue: 35839,
-  darkcyan: 9145343,
-  darkgoldenrod: 3095792639,
-  darkgray: 2846468607,
-  darkgreen: 6553855,
-  darkgrey: 2846468607,
-  darkkhaki: 3182914559,
-  darkmagenta: 2332068863,
-  darkolivegreen: 1433087999,
-  darkorange: 4287365375,
-  darkorchid: 2570243327,
-  darkred: 2332033279,
-  darksalmon: 3918953215,
-  darkseagreen: 2411499519,
-  darkslateblue: 1211993087,
-  darkslategray: 793726975,
-  darkslategrey: 793726975,
-  darkturquoise: 13554175,
-  darkviolet: 2483082239,
-  deeppink: 4279538687,
-  deepskyblue: 12582911,
-  dimgray: 1768516095,
-  dimgrey: 1768516095,
-  dodgerblue: 512819199,
-  firebrick: 2988581631,
-  floralwhite: 4294635775,
-  forestgreen: 579543807,
-  fuchsia: 4278255615,
-  gainsboro: 3705462015,
-  ghostwhite: 4177068031,
-  gold: 4292280575,
-  goldenrod: 3668254975,
-  gray: 2155905279,
-  green: 8388863,
-  greenyellow: 2919182335,
-  grey: 2155905279,
-  honeydew: 4043305215,
-  hotpink: 4285117695,
-  indianred: 3445382399,
-  indigo: 1258324735,
-  ivory: 4294963455,
-  khaki: 4041641215,
-  lavender: 3873897215,
-  lavenderblush: 4293981695,
-  lawngreen: 2096890111,
-  lemonchiffon: 4294626815,
-  lightblue: 2916673279,
-  lightcoral: 4034953471,
-  lightcyan: 3774873599,
-  lightgoldenrodyellow: 4210742015,
-  lightgray: 3553874943,
-  lightgreen: 2431553791,
-  lightgrey: 3553874943,
-  lightpink: 4290167295,
-  lightsalmon: 4288707327,
-  lightseagreen: 548580095,
-  lightskyblue: 2278488831,
-  lightslategray: 2005441023,
-  lightslategrey: 2005441023,
-  lightsteelblue: 2965692159,
-  lightyellow: 4294959359,
-  lime: 16711935,
-  limegreen: 852308735,
-  linen: 4210091775,
-  magenta: 4278255615,
-  maroon: 2147483903,
-  mediumaquamarine: 1724754687,
-  mediumblue: 52735,
-  mediumorchid: 3126187007,
-  mediumpurple: 2473647103,
-  mediumseagreen: 1018393087,
-  mediumslateblue: 2070474495,
-  mediumspringgreen: 16423679,
-  mediumturquoise: 1221709055,
-  mediumvioletred: 3340076543,
-  midnightblue: 421097727,
-  mintcream: 4127193855,
-  mistyrose: 4293190143,
-  moccasin: 4293178879,
-  navajowhite: 4292783615,
-  navy: 33023,
-  oldlace: 4260751103,
-  olive: 2155872511,
-  olivedrab: 1804477439,
-  orange: 4289003775,
-  orangered: 4282712319,
-  orchid: 3664828159,
-  palegoldenrod: 4008225535,
-  palegreen: 2566625535,
-  paleturquoise: 2951671551,
-  palevioletred: 3681588223,
-  papayawhip: 4293907967,
-  peachpuff: 4292524543,
-  peru: 3448061951,
-  pink: 4290825215,
-  plum: 3718307327,
-  powderblue: 2967529215,
-  purple: 2147516671,
-  rebeccapurple: 1714657791,
-  red: 4278190335,
-  rosybrown: 3163525119,
-  royalblue: 1097458175,
-  saddlebrown: 2336560127,
-  salmon: 4202722047,
-  sandybrown: 4104413439,
-  seagreen: 780883967,
-  seashell: 4294307583,
-  sienna: 2689740287,
-  silver: 3233857791,
-  skyblue: 2278484991,
-  slateblue: 1784335871,
-  slategray: 1887473919,
-  slategrey: 1887473919,
-  snow: 4294638335,
-  springgreen: 16744447,
-  steelblue: 1182971135,
-  tan: 3535047935,
-  teal: 8421631,
-  thistle: 3636451583,
-  tomato: 4284696575,
-  turquoise: 1088475391,
-  violet: 4001558271,
-  wheat: 4125012991,
-  white: 4294967295,
-  whitesmoke: 4126537215,
-  yellow: 4294902015,
-  yellowgreen: 2597139199
-};
-
-// src/colorMatchers.ts
-var NUMBER = "[-+]?\\d*\\.?\\d+";
-var PERCENTAGE = NUMBER + "%";
-function call(...parts) {
-  return "\\(\\s*(" + parts.join(")\\s*,\\s*(") + ")\\s*\\)";
-}
-var rgb = new RegExp("rgb" + call(NUMBER, NUMBER, NUMBER));
-var rgba = new RegExp("rgba" + call(NUMBER, NUMBER, NUMBER, NUMBER));
-var hsl = new RegExp("hsl" + call(NUMBER, PERCENTAGE, PERCENTAGE));
-var hsla = new RegExp(
-  "hsla" + call(NUMBER, PERCENTAGE, PERCENTAGE, NUMBER)
-);
-var hex3 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
-var hex4 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
-var hex6 = /^#([0-9a-fA-F]{6})$/;
-var hex8 = /^#([0-9a-fA-F]{8})$/;
-
-// src/normalizeColor.ts
-function normalizeColor(color) {
-  let match;
-  if (typeof color === "number") {
-    return color >>> 0 === color && color >= 0 && color <= 4294967295 ? color : null;
-  }
-  if (match = hex6.exec(color))
-    return parseInt(match[1] + "ff", 16) >>> 0;
-  if (colors && colors[color] !== void 0) {
-    return colors[color];
-  }
-  if (match = rgb.exec(color)) {
-    return (parse255(match[1]) << 24 | // r
-    parse255(match[2]) << 16 | // g
-    parse255(match[3]) << 8 | // b
-    255) >>> // a
-    0;
-  }
-  if (match = rgba.exec(color)) {
-    return (parse255(match[1]) << 24 | // r
-    parse255(match[2]) << 16 | // g
-    parse255(match[3]) << 8 | // b
-    parse1(match[4])) >>> // a
-    0;
-  }
-  if (match = hex3.exec(color)) {
-    return parseInt(
-      match[1] + match[1] + // r
-      match[2] + match[2] + // g
-      match[3] + match[3] + // b
-      "ff",
-      // a
-      16
-    ) >>> 0;
-  }
-  if (match = hex8.exec(color))
-    return parseInt(match[1], 16) >>> 0;
-  if (match = hex4.exec(color)) {
-    return parseInt(
-      match[1] + match[1] + // r
-      match[2] + match[2] + // g
-      match[3] + match[3] + // b
-      match[4] + match[4],
-      // a
-      16
-    ) >>> 0;
-  }
-  if (match = hsl.exec(color)) {
-    return (hslToRgb(
-      parse360(match[1]),
-      // h
-      parsePercentage(match[2]),
-      // s
-      parsePercentage(match[3])
-      // l
-    ) | 255) >>> // a
-    0;
-  }
-  if (match = hsla.exec(color)) {
-    return (hslToRgb(
-      parse360(match[1]),
-      // h
-      parsePercentage(match[2]),
-      // s
-      parsePercentage(match[3])
-      // l
-    ) | parse1(match[4])) >>> // a
-    0;
-  }
-  return null;
-}
-function hue2rgb(p, q, t) {
-  if (t < 0)
-    t += 1;
-  if (t > 1)
-    t -= 1;
-  if (t < 1 / 6)
-    return p + (q - p) * 6 * t;
-  if (t < 1 / 2)
-    return q;
-  if (t < 2 / 3)
-    return p + (q - p) * (2 / 3 - t) * 6;
-  return p;
-}
-function hslToRgb(h, s, l) {
-  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-  const p = 2 * l - q;
-  const r = hue2rgb(p, q, h + 1 / 3);
-  const g = hue2rgb(p, q, h);
-  const b = hue2rgb(p, q, h - 1 / 3);
-  return Math.round(r * 255) << 24 | Math.round(g * 255) << 16 | Math.round(b * 255) << 8;
-}
-function parse255(str) {
-  const int = parseInt(str, 10);
-  if (int < 0)
-    return 0;
-  if (int > 255)
-    return 255;
-  return int;
-}
-function parse360(str) {
-  const int = parseFloat(str);
-  return (int % 360 + 360) % 360 / 360;
-}
-function parse1(str) {
-  const num = parseFloat(str);
-  if (num < 0)
-    return 0;
-  if (num > 1)
-    return 255;
-  return Math.round(num * 255);
-}
-function parsePercentage(str) {
-  const int = parseFloat(str);
-  if (int < 0)
-    return 0;
-  if (int > 100)
-    return 1;
-  return int / 100;
-}
-
-// src/colorToRgba.ts
-function colorToRgba(input) {
-  let int32Color = normalizeColor(input);
-  if (int32Color === null)
-    return input;
-  int32Color = int32Color || 0;
-  const r = (int32Color & 4278190080) >>> 24;
-  const g = (int32Color & 16711680) >>> 16;
-  const b = (int32Color & 65280) >>> 8;
-  const a = (int32Color & 255) / 255;
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-}
-
-// src/createInterpolator.ts
-var createInterpolator = (range, output, extrapolate) => {
-  if (is.fun(range)) {
-    return range;
-  }
-  if (is.arr(range)) {
-    return createInterpolator({
-      range,
-      output,
-      extrapolate
-    });
-  }
-  if (is.str(range.output[0])) {
-    return createStringInterpolator(range);
-  }
-  const config = range;
-  const outputRange = config.output;
-  const inputRange = config.range || [0, 1];
-  const extrapolateLeft = config.extrapolateLeft || config.extrapolate || "extend";
-  const extrapolateRight = config.extrapolateRight || config.extrapolate || "extend";
-  const easing = config.easing || ((t) => t);
-  return (input) => {
-    const range2 = findRange(input, inputRange);
-    return interpolate(
-      input,
-      inputRange[range2],
-      inputRange[range2 + 1],
-      outputRange[range2],
-      outputRange[range2 + 1],
-      easing,
-      extrapolateLeft,
-      extrapolateRight,
-      config.map
-    );
-  };
-};
-function interpolate(input, inputMin, inputMax, outputMin, outputMax, easing, extrapolateLeft, extrapolateRight, map) {
-  let result = map ? map(input) : input;
-  if (result < inputMin) {
-    if (extrapolateLeft === "identity")
-      return result;
-    else if (extrapolateLeft === "clamp")
-      result = inputMin;
-  }
-  if (result > inputMax) {
-    if (extrapolateRight === "identity")
-      return result;
-    else if (extrapolateRight === "clamp")
-      result = inputMax;
-  }
-  if (outputMin === outputMax)
-    return outputMin;
-  if (inputMin === inputMax)
-    return input <= inputMin ? outputMin : outputMax;
-  if (inputMin === -Infinity)
-    result = -result;
-  else if (inputMax === Infinity)
-    result = result - inputMin;
-  else
-    result = (result - inputMin) / (inputMax - inputMin);
-  result = easing(result);
-  if (outputMin === -Infinity)
-    result = -result;
-  else if (outputMax === Infinity)
-    result = result + outputMin;
-  else
-    result = result * (outputMax - outputMin) + outputMin;
-  return result;
-}
-function findRange(input, inputRange) {
-  for (var i = 1; i < inputRange.length - 1; ++i)
-    if (inputRange[i] >= input)
-      break;
-  return i - 1;
-}
-
-// src/easings.ts
-var steps = (steps2, direction = "end") => (progress2) => {
-  progress2 = direction === "end" ? Math.min(progress2, 0.999) : Math.max(progress2, 1e-3);
-  const expanded = progress2 * steps2;
-  const rounded = direction === "end" ? Math.floor(expanded) : Math.ceil(expanded);
-  return clamp(0, 1, rounded / steps2);
-};
-var c1 = 1.70158;
-var c2 = c1 * 1.525;
-var c3 = c1 + 1;
-var c4 = 2 * Math.PI / 3;
-var c5 = 2 * Math.PI / 4.5;
-var bounceOut = (x) => {
-  const n1 = 7.5625;
-  const d1 = 2.75;
-  if (x < 1 / d1) {
-    return n1 * x * x;
-  } else if (x < 2 / d1) {
-    return n1 * (x -= 1.5 / d1) * x + 0.75;
-  } else if (x < 2.5 / d1) {
-    return n1 * (x -= 2.25 / d1) * x + 0.9375;
-  } else {
-    return n1 * (x -= 2.625 / d1) * x + 0.984375;
-  }
-};
-var easings = {
-  linear: (x) => x,
-  easeInQuad: (x) => x * x,
-  easeOutQuad: (x) => 1 - (1 - x) * (1 - x),
-  easeInOutQuad: (x) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2,
-  easeInCubic: (x) => x * x * x,
-  easeOutCubic: (x) => 1 - Math.pow(1 - x, 3),
-  easeInOutCubic: (x) => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
-  easeInQuart: (x) => x * x * x * x,
-  easeOutQuart: (x) => 1 - Math.pow(1 - x, 4),
-  easeInOutQuart: (x) => x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2,
-  easeInQuint: (x) => x * x * x * x * x,
-  easeOutQuint: (x) => 1 - Math.pow(1 - x, 5),
-  easeInOutQuint: (x) => x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2,
-  easeInSine: (x) => 1 - Math.cos(x * Math.PI / 2),
-  easeOutSine: (x) => Math.sin(x * Math.PI / 2),
-  easeInOutSine: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
-  easeInExpo: (x) => x === 0 ? 0 : Math.pow(2, 10 * x - 10),
-  easeOutExpo: (x) => x === 1 ? 1 : 1 - Math.pow(2, -10 * x),
-  easeInOutExpo: (x) => x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2,
-  easeInCirc: (x) => 1 - Math.sqrt(1 - Math.pow(x, 2)),
-  easeOutCirc: (x) => Math.sqrt(1 - Math.pow(x - 1, 2)),
-  easeInOutCirc: (x) => x < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2,
-  easeInBack: (x) => c3 * x * x * x - c1 * x * x,
-  easeOutBack: (x) => 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2),
-  easeInOutBack: (x) => x < 0.5 ? Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2) / 2 : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2,
-  easeInElastic: (x) => x === 0 ? 0 : x === 1 ? 1 : -Math.pow(2, 10 * x - 10) * Math.sin((x * 10 - 10.75) * c4),
-  easeOutElastic: (x) => x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1,
-  easeInOutElastic: (x) => x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? -(Math.pow(2, 20 * x - 10) * Math.sin((20 * x - 11.125) * c5)) / 2 : Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * c5) / 2 + 1,
-  easeInBounce: (x) => 1 - bounceOut(1 - x),
-  easeOutBounce: bounceOut,
-  easeInOutBounce: (x) => x < 0.5 ? (1 - bounceOut(1 - 2 * x)) / 2 : (1 + bounceOut(2 * x - 1)) / 2,
-  steps
-};
-
-// src/fluids.ts
-var $get = Symbol.for("FluidValue.get");
-var $observers = Symbol.for("FluidValue.observers");
-var hasFluidValue = (arg) => Boolean(arg && arg[$get]);
-var getFluidValue = (arg) => arg && arg[$get] ? arg[$get]() : arg;
-var getFluidObservers = (target) => target[$observers] || null;
-function callFluidObserver(observer2, event) {
-  if (observer2.eventObserved) {
-    observer2.eventObserved(event);
-  } else {
-    observer2(event);
-  }
-}
-function callFluidObservers(target, event) {
-  const observers = target[$observers];
-  if (observers) {
-    observers.forEach((observer2) => {
-      callFluidObserver(observer2, event);
-    });
-  }
-}
-var FluidValue = class {
-  constructor(get) {
-    if (!get && !(get = this.get)) {
-      throw Error("Unknown getter");
-    }
-    setFluidGetter(this, get);
-  }
-};
-$get, $observers;
-var setFluidGetter = (target, get) => setHidden(target, $get, get);
-function addFluidObserver(target, observer2) {
-  if (target[$get]) {
-    let observers = target[$observers];
-    if (!observers) {
-      setHidden(target, $observers, observers = /* @__PURE__ */ new Set());
-    }
-    if (!observers.has(observer2)) {
-      observers.add(observer2);
-      if (target.observerAdded) {
-        target.observerAdded(observers.size, observer2);
-      }
-    }
-  }
-  return observer2;
-}
-function removeFluidObserver(target, observer2) {
-  const observers = target[$observers];
-  if (observers && observers.has(observer2)) {
-    const count = observers.size - 1;
-    if (count) {
-      observers.delete(observer2);
-    } else {
-      target[$observers] = null;
-    }
-    if (target.observerRemoved) {
-      target.observerRemoved(count, observer2);
-    }
-  }
-}
-var setHidden = (target, key, value) => Object.defineProperty(target, key, {
-  value,
-  writable: true,
-  configurable: true
-});
-
-// src/regexs.ts
-var numberRegex = /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
-var colorRegex = /(#(?:[0-9a-f]{2}){2,4}|(#[0-9a-f]{3})|(rgb|hsl)a?\((-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))/gi;
-var unitRegex = new RegExp(`(${numberRegex.source})(%|[a-z]+)`, "i");
-var rgbaRegex = /rgba\(([0-9\.-]+), ([0-9\.-]+), ([0-9\.-]+), ([0-9\.-]+)\)/gi;
-var cssVariableRegex = /var\((--[a-zA-Z0-9-_]+),? ?([a-zA-Z0-9 ()%#.,-]+)?\)/;
-
-// src/variableToRgba.ts
-var variableToRgba = (input) => {
-  const [token, fallback] = parseCSSVariable(input);
-  if (!token || isSSR()) {
-    return input;
-  }
-  const value = window.getComputedStyle(document.documentElement).getPropertyValue(token);
-  if (value) {
-    return value.trim();
-  } else if (fallback && fallback.startsWith("--")) {
-    const value2 = window.getComputedStyle(document.documentElement).getPropertyValue(fallback);
-    if (value2) {
-      return value2;
-    } else {
-      return input;
-    }
-  } else if (fallback && cssVariableRegex.test(fallback)) {
-    return variableToRgba(fallback);
-  } else if (fallback) {
-    return fallback;
-  }
-  return input;
-};
-var parseCSSVariable = (current) => {
-  const match = cssVariableRegex.exec(current);
-  if (!match)
-    return [,];
-  const [, token, fallback] = match;
-  return [token, fallback];
-};
-
-// src/stringInterpolation.ts
-var namedColorRegex;
-var rgbaRound = (_, p1, p2, p3, p4) => `rgba(${Math.round(p1)}, ${Math.round(p2)}, ${Math.round(p3)}, ${p4})`;
-var createStringInterpolator2 = (config) => {
-  if (!namedColorRegex)
-    namedColorRegex = colors ? (
-      // match color names, ignore partial matches
-      new RegExp(`(${Object.keys(colors).join("|")})(?!\\w)`, "g")
-    ) : (
-      // never match
-      /^\b$/
-    );
-  const output = config.output.map((value) => {
-    return getFluidValue(value).replace(cssVariableRegex, variableToRgba).replace(colorRegex, colorToRgba).replace(namedColorRegex, colorToRgba);
-  });
-  const keyframes = output.map((value) => value.match(numberRegex).map(Number));
-  const outputRanges = keyframes[0].map(
-    (_, i) => keyframes.map((values) => {
-      if (!(i in values)) {
-        throw Error('The arity of each "output" value must be equal');
-      }
-      return values[i];
-    })
-  );
-  const interpolators = outputRanges.map(
-    (output2) => createInterpolator({ ...config, output: output2 })
-  );
-  return (input) => {
-    const missingUnit = !unitRegex.test(output[0]) && output.find((value) => unitRegex.test(value))?.replace(numberRegex, "");
-    let i = 0;
-    return output[0].replace(
-      numberRegex,
-      () => `${interpolators[i++](input)}${missingUnit || ""}`
-    ).replace(rgbaRegex, rgbaRound);
-  };
-};
-
-// src/deprecations.ts
-var react_spring_shared_modern_prefix = "react-spring: ";
-var once = (fn) => {
-  const func = fn;
-  let called = false;
-  if (typeof func != "function") {
-    throw new TypeError(`${react_spring_shared_modern_prefix}once requires a function parameter`);
-  }
-  return (...args) => {
-    if (!called) {
-      func(...args);
-      called = true;
-    }
-  };
-};
-var warnInterpolate = once(console.warn);
-function deprecateInterpolate() {
-  warnInterpolate(
-    `${react_spring_shared_modern_prefix}The "interpolate" function is deprecated in v9 (use "to" instead)`
-  );
-}
-var warnDirectCall = once(console.warn);
-function deprecateDirectCall() {
-  warnDirectCall(
-    `${react_spring_shared_modern_prefix}Directly calling start instead of using the api object is deprecated in v9 (use ".start" instead), this will be removed in later 0.X.0 versions`
-  );
-}
-
-// src/isAnimatedString.ts
-function isAnimatedString(value) {
-  return is.str(value) && (value[0] == "#" || /\d/.test(value) || // Do not identify a CSS variable as an AnimatedString if its SSR
-  !isSSR() && cssVariableRegex.test(value) || value in (colors || {}));
-}
-
-// src/dom-events/resize/resizeElement.ts
-var observer;
-var resizeHandlers = /* @__PURE__ */ new WeakMap();
-var handleObservation = (entries) => entries.forEach(({ target, contentRect }) => {
-  return resizeHandlers.get(target)?.forEach((handler) => handler(contentRect));
-});
-function resizeElement(handler, target) {
-  if (!observer) {
-    if (typeof ResizeObserver !== "undefined") {
-      observer = new ResizeObserver(handleObservation);
-    }
-  }
-  let elementHandlers = resizeHandlers.get(target);
-  if (!elementHandlers) {
-    elementHandlers = /* @__PURE__ */ new Set();
-    resizeHandlers.set(target, elementHandlers);
-  }
-  elementHandlers.add(handler);
-  if (observer) {
-    observer.observe(target);
-  }
-  return () => {
-    const elementHandlers2 = resizeHandlers.get(target);
-    if (!elementHandlers2)
-      return;
-    elementHandlers2.delete(handler);
-    if (!elementHandlers2.size && observer) {
-      observer.unobserve(target);
-    }
-  };
-}
-
-// src/dom-events/resize/resizeWindow.ts
-var listeners = /* @__PURE__ */ new Set();
-var cleanupWindowResizeHandler;
-var createResizeHandler = () => {
-  const handleResize = () => {
-    listeners.forEach(
-      (callback) => callback({
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
-    );
-  };
-  window.addEventListener("resize", handleResize);
-  return () => {
-    window.removeEventListener("resize", handleResize);
-  };
-};
-var resizeWindow = (callback) => {
-  listeners.add(callback);
-  if (!cleanupWindowResizeHandler) {
-    cleanupWindowResizeHandler = createResizeHandler();
-  }
-  return () => {
-    listeners.delete(callback);
-    if (!listeners.size && cleanupWindowResizeHandler) {
-      cleanupWindowResizeHandler();
-      cleanupWindowResizeHandler = void 0;
-    }
-  };
-};
-
-// src/dom-events/resize/index.ts
-var react_spring_shared_modern_onResize = (callback, { container = document.documentElement } = {}) => {
-  if (container === document.documentElement) {
-    return resizeWindow(callback);
-  } else {
-    return resizeElement(callback, container);
-  }
-};
-
-// src/progress.ts
-var progress = (min, max, value) => max - min === 0 ? 1 : (value - min) / (max - min);
-
-// src/dom-events/scroll/ScrollHandler.ts
-var SCROLL_KEYS = {
-  x: {
-    length: "Width",
-    position: "Left"
-  },
-  y: {
-    length: "Height",
-    position: "Top"
-  }
-};
-var ScrollHandler = class {
-  constructor(callback, container) {
-    this.createAxis = () => ({
-      current: 0,
-      progress: 0,
-      scrollLength: 0
-    });
-    this.updateAxis = (axisName) => {
-      const axis = this.info[axisName];
-      const { length, position } = SCROLL_KEYS[axisName];
-      axis.current = this.container[`scroll${position}`];
-      axis.scrollLength = this.container["scroll" + length] - this.container["client" + length];
-      axis.progress = progress(0, axis.scrollLength, axis.current);
-    };
-    this.update = () => {
-      this.updateAxis("x");
-      this.updateAxis("y");
-    };
-    this.sendEvent = () => {
-      this.callback(this.info);
-    };
-    this.advance = () => {
-      this.update();
-      this.sendEvent();
-    };
-    this.callback = callback;
-    this.container = container;
-    this.info = {
-      time: 0,
-      x: this.createAxis(),
-      y: this.createAxis()
-    };
-  }
-};
-
-// src/dom-events/scroll/index.ts
-var scrollListeners = /* @__PURE__ */ new WeakMap();
-var resizeListeners = /* @__PURE__ */ new WeakMap();
-var onScrollHandlers = /* @__PURE__ */ new WeakMap();
-var getTarget = (container) => container === document.documentElement ? window : container;
-var react_spring_shared_modern_onScroll = (callback, { container = document.documentElement } = {}) => {
-  let containerHandlers = onScrollHandlers.get(container);
-  if (!containerHandlers) {
-    containerHandlers = /* @__PURE__ */ new Set();
-    onScrollHandlers.set(container, containerHandlers);
-  }
-  const containerHandler = new ScrollHandler(callback, container);
-  containerHandlers.add(containerHandler);
-  if (!scrollListeners.has(container)) {
-    const listener = () => {
-      containerHandlers?.forEach((handler) => handler.advance());
-      return true;
-    };
-    scrollListeners.set(container, listener);
-    const target = getTarget(container);
-    window.addEventListener("resize", listener, { passive: true });
-    if (container !== document.documentElement) {
-      resizeListeners.set(container, react_spring_shared_modern_onResize(listener, { container }));
-    }
-    target.addEventListener("scroll", listener, { passive: true });
-  }
-  const animateScroll = scrollListeners.get(container);
-  raf(animateScroll);
-  return () => {
-    raf.cancel(animateScroll);
-    const containerHandlers2 = onScrollHandlers.get(container);
-    if (!containerHandlers2)
-      return;
-    containerHandlers2.delete(containerHandler);
-    if (containerHandlers2.size)
-      return;
-    const listener = scrollListeners.get(container);
-    scrollListeners.delete(container);
-    if (listener) {
-      getTarget(container).removeEventListener("scroll", listener);
-      window.removeEventListener("resize", listener);
-      resizeListeners.get(container)?.();
-    }
-  };
-};
-
-// src/hooks/useConstant.ts
-
-function react_spring_shared_modern_useConstant(init) {
-  const ref = useRef(null);
-  if (ref.current === null) {
-    ref.current = init();
-  }
-  return ref.current;
-}
-
-// src/hooks/useForceUpdate.ts
-
-
-// src/hooks/useIsMounted.ts
-
-
-// src/hooks/useIsomorphicLayoutEffect.ts
-
-var react_spring_shared_modern_useIsomorphicLayoutEffect = isSSR() ? external_React_.useEffect : external_React_.useLayoutEffect;
-
-// src/hooks/useIsMounted.ts
-var useIsMounted = () => {
-  const isMounted = (0,external_React_.useRef)(false);
-  react_spring_shared_modern_useIsomorphicLayoutEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-  return isMounted;
-};
-
-// src/hooks/useForceUpdate.ts
-function useForceUpdate() {
-  const update2 = (0,external_React_.useState)()[1];
-  const isMounted = useIsMounted();
-  return () => {
-    if (isMounted.current) {
-      update2(Math.random());
-    }
-  };
-}
-
-// src/hooks/useMemoOne.ts
-
-function useMemoOne(getResult, inputs) {
-  const [initial] = (0,external_React_.useState)(
-    () => ({
-      inputs,
-      result: getResult()
-    })
-  );
-  const committed = (0,external_React_.useRef)();
-  const prevCache = committed.current;
-  let cache = prevCache;
-  if (cache) {
-    const useCache = Boolean(
-      inputs && cache.inputs && areInputsEqual(inputs, cache.inputs)
-    );
-    if (!useCache) {
-      cache = {
-        inputs,
-        result: getResult()
-      };
-    }
-  } else {
-    cache = initial;
-  }
-  (0,external_React_.useEffect)(() => {
-    committed.current = cache;
-    if (prevCache == initial) {
-      initial.inputs = initial.result = void 0;
-    }
-  }, [cache]);
-  return cache.result;
-}
-function areInputsEqual(next, prev) {
-  if (next.length !== prev.length) {
-    return false;
-  }
-  for (let i = 0; i < next.length; i++) {
-    if (next[i] !== prev[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-// src/hooks/useOnce.ts
-
-var useOnce = (effect) => (0,external_React_.useEffect)(effect, emptyDeps);
-var emptyDeps = [];
-
-// src/hooks/usePrev.ts
-
-function usePrev(value) {
-  const prevRef = (0,external_React_.useRef)();
-  (0,external_React_.useEffect)(() => {
-    prevRef.current = value;
-  });
-  return prevRef.current;
-}
-
-// src/hooks/useReducedMotion.ts
-
-var useReducedMotion = () => {
-  const [reducedMotion, setReducedMotion] = useState3(null);
-  react_spring_shared_modern_useIsomorphicLayoutEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion)");
-    const handleMediaChange = (e) => {
-      setReducedMotion(e.matches);
-      react_spring_shared_modern_assign({
-        skipAnimation: e.matches
-      });
-    };
-    handleMediaChange(mql);
-    mql.addEventListener("change", handleMediaChange);
-    return () => {
-      mql.removeEventListener("change", handleMediaChange);
-    };
-  }, []);
-  return reducedMotion;
-};
-
-;// CONCATENATED MODULE: ./node_modules/@react-spring/animated/dist/react-spring_animated.modern.mjs
-// src/Animated.ts
-
-var $node = Symbol.for("Animated:node");
-var isAnimated = (value) => !!value && value[$node] === value;
-var getAnimated = (owner) => owner && owner[$node];
-var setAnimated = (owner, node) => defineHidden(owner, $node, node);
-var getPayload = (owner) => owner && owner[$node] && owner[$node].getPayload();
-var Animated = class {
-  constructor() {
-    setAnimated(this, this);
-  }
-  /** Get every `AnimatedValue` used by this node. */
-  getPayload() {
-    return this.payload || [];
-  }
-};
-
-// src/AnimatedValue.ts
-
-var AnimatedValue = class extends Animated {
-  constructor(_value) {
-    super();
-    this._value = _value;
-    this.done = true;
-    this.durationProgress = 0;
-    if (is.num(this._value)) {
-      this.lastPosition = this._value;
-    }
-  }
-  /** @internal */
-  static create(value) {
-    return new AnimatedValue(value);
-  }
-  getPayload() {
-    return [this];
-  }
-  getValue() {
-    return this._value;
-  }
-  setValue(value, step) {
-    if (is.num(value)) {
-      this.lastPosition = value;
-      if (step) {
-        value = Math.round(value / step) * step;
-        if (this.done) {
-          this.lastPosition = value;
-        }
-      }
-    }
-    if (this._value === value) {
-      return false;
-    }
-    this._value = value;
-    return true;
-  }
-  reset() {
-    const { done } = this;
-    this.done = false;
-    if (is.num(this._value)) {
-      this.elapsedTime = 0;
-      this.durationProgress = 0;
-      this.lastPosition = this._value;
-      if (done)
-        this.lastVelocity = null;
-      this.v0 = null;
-    }
-  }
-};
-
-// src/AnimatedString.ts
-
-var AnimatedString = class extends AnimatedValue {
-  constructor(value) {
-    super(0);
-    this._string = null;
-    this._toString = createInterpolator({
-      output: [value, value]
-    });
-  }
-  /** @internal */
-  static create(value) {
-    return new AnimatedString(value);
-  }
-  getValue() {
-    const value = this._string;
-    return value == null ? this._string = this._toString(this._value) : value;
-  }
-  setValue(value) {
-    if (is.str(value)) {
-      if (value == this._string) {
-        return false;
-      }
-      this._string = value;
-      this._value = 1;
-    } else if (super.setValue(value)) {
-      this._string = null;
-    } else {
-      return false;
-    }
-    return true;
-  }
-  reset(goal) {
-    if (goal) {
-      this._toString = createInterpolator({
-        output: [this.getValue(), goal]
-      });
-    }
-    this._value = 0;
-    super.reset();
-  }
-};
-
-// src/AnimatedArray.ts
-
-
-// src/AnimatedObject.ts
-
-
-// src/context.ts
-var TreeContext = { dependencies: null };
-
-// src/AnimatedObject.ts
-var AnimatedObject = class extends Animated {
-  constructor(source) {
-    super();
-    this.source = source;
-    this.setValue(source);
-  }
-  getValue(animated) {
-    const values = {};
-    eachProp(this.source, (source, key) => {
-      if (isAnimated(source)) {
-        values[key] = source.getValue(animated);
-      } else if (hasFluidValue(source)) {
-        values[key] = getFluidValue(source);
-      } else if (!animated) {
-        values[key] = source;
-      }
-    });
-    return values;
-  }
-  /** Replace the raw object data */
-  setValue(source) {
-    this.source = source;
-    this.payload = this._makePayload(source);
-  }
-  reset() {
-    if (this.payload) {
-      react_spring_shared_modern_each(this.payload, (node) => node.reset());
-    }
-  }
-  /** Create a payload set. */
-  _makePayload(source) {
-    if (source) {
-      const payload = /* @__PURE__ */ new Set();
-      eachProp(source, this._addToPayload, payload);
-      return Array.from(payload);
-    }
-  }
-  /** Add to a payload set. */
-  _addToPayload(source) {
-    if (TreeContext.dependencies && hasFluidValue(source)) {
-      TreeContext.dependencies.add(source);
-    }
-    const payload = getPayload(source);
-    if (payload) {
-      react_spring_shared_modern_each(payload, (node) => this.add(node));
-    }
-  }
-};
-
-// src/AnimatedArray.ts
-var AnimatedArray = class extends AnimatedObject {
-  constructor(source) {
-    super(source);
-  }
-  /** @internal */
-  static create(source) {
-    return new AnimatedArray(source);
-  }
-  getValue() {
-    return this.source.map((node) => node.getValue());
-  }
-  setValue(source) {
-    const payload = this.getPayload();
-    if (source.length == payload.length) {
-      return payload.map((node, i) => node.setValue(source[i])).some(Boolean);
-    }
-    super.setValue(source.map(makeAnimated));
-    return true;
-  }
-};
-function makeAnimated(value) {
-  const nodeType = isAnimatedString(value) ? AnimatedString : AnimatedValue;
-  return nodeType.create(value);
-}
-
-// src/getAnimatedType.ts
-
-function getAnimatedType(value) {
-  const parentNode = getAnimated(value);
-  return parentNode ? parentNode.constructor : is.arr(value) ? AnimatedArray : isAnimatedString(value) ? AnimatedString : AnimatedValue;
-}
-
-// src/createHost.ts
-
-
-// src/withAnimated.tsx
-
-
-
-var withAnimated = (Component, host) => {
-  const hasInstance = (
-    // Function components must use "forwardRef" to avoid being
-    // re-rendered on every animation frame.
-    !is.fun(Component) || Component.prototype && Component.prototype.isReactComponent
-  );
-  return (0,external_React_.forwardRef)((givenProps, givenRef) => {
-    const instanceRef = (0,external_React_.useRef)(null);
-    const ref = hasInstance && // eslint-disable-next-line react-hooks/rules-of-hooks
-    (0,external_React_.useCallback)(
-      (value) => {
-        instanceRef.current = updateRef(givenRef, value);
-      },
-      [givenRef]
-    );
-    const [props, deps] = getAnimatedState(givenProps, host);
-    const forceUpdate = useForceUpdate();
-    const callback = () => {
-      const instance = instanceRef.current;
-      if (hasInstance && !instance) {
-        return;
-      }
-      const didUpdate = instance ? host.applyAnimatedValues(instance, props.getValue(true)) : false;
-      if (didUpdate === false) {
-        forceUpdate();
-      }
-    };
-    const observer = new PropsObserver(callback, deps);
-    const observerRef = (0,external_React_.useRef)();
-    react_spring_shared_modern_useIsomorphicLayoutEffect(() => {
-      observerRef.current = observer;
-      react_spring_shared_modern_each(deps, (dep) => addFluidObserver(dep, observer));
-      return () => {
-        if (observerRef.current) {
-          react_spring_shared_modern_each(
-            observerRef.current.deps,
-            (dep) => removeFluidObserver(dep, observerRef.current)
-          );
-          raf.cancel(observerRef.current.update);
-        }
-      };
-    });
-    (0,external_React_.useEffect)(callback, []);
-    useOnce(() => () => {
-      const observer2 = observerRef.current;
-      react_spring_shared_modern_each(observer2.deps, (dep) => removeFluidObserver(dep, observer2));
-    });
-    const usedProps = host.getComponentProps(props.getValue());
-    return /* @__PURE__ */ external_React_.createElement(Component, { ...usedProps, ref });
-  });
-};
-var PropsObserver = class {
-  constructor(update, deps) {
-    this.update = update;
-    this.deps = deps;
-  }
-  eventObserved(event) {
-    if (event.type == "change") {
-      raf.write(this.update);
-    }
-  }
-};
-function getAnimatedState(props, host) {
-  const dependencies = /* @__PURE__ */ new Set();
-  TreeContext.dependencies = dependencies;
-  if (props.style)
-    props = {
-      ...props,
-      style: host.createAnimatedStyle(props.style)
-    };
-  props = new AnimatedObject(props);
-  TreeContext.dependencies = null;
-  return [props, dependencies];
-}
-function updateRef(ref, value) {
-  if (ref) {
-    if (is.fun(ref))
-      ref(value);
-    else
-      ref.current = value;
-  }
-  return value;
-}
-
-// src/createHost.ts
-var cacheKey = Symbol.for("AnimatedComponent");
-var createHost = (components, {
-  applyAnimatedValues = () => false,
-  createAnimatedStyle = (style) => new AnimatedObject(style),
-  getComponentProps = (props) => props
-} = {}) => {
-  const hostConfig = {
-    applyAnimatedValues,
-    createAnimatedStyle,
-    getComponentProps
-  };
-  const animated = (Component) => {
-    const displayName = getDisplayName(Component) || "Anonymous";
-    if (is.str(Component)) {
-      Component = animated[Component] || (animated[Component] = withAnimated(Component, hostConfig));
-    } else {
-      Component = Component[cacheKey] || (Component[cacheKey] = withAnimated(Component, hostConfig));
-    }
-    Component.displayName = `Animated(${displayName})`;
-    return Component;
-  };
-  eachProp(components, (Component, key) => {
-    if (is.arr(components)) {
-      key = getDisplayName(Component);
-    }
-    animated[key] = animated(Component);
-  });
-  return {
-    animated
-  };
-};
-var getDisplayName = (arg) => is.str(arg) ? arg : arg && is.str(arg.displayName) ? arg.displayName : is.fun(arg) && arg.name || null;
-
-;// CONCATENATED MODULE: ./node_modules/@react-spring/core/dist/react-spring_core.modern.mjs
-// src/hooks/useChain.ts
-
-
-// src/helpers.ts
-
-function callProp(value, ...args) {
-  return is.fun(value) ? value(...args) : value;
-}
-var matchProp = (value, key) => value === true || !!(key && value && (is.fun(value) ? value(key) : toArray(value).includes(key)));
-var resolveProp = (prop, key) => is.obj(prop) ? key && prop[key] : prop;
-var getDefaultProp = (props, key) => props.default === true ? props[key] : props.default ? props.default[key] : void 0;
-var noopTransform = (value) => value;
-var getDefaultProps = (props, transform = noopTransform) => {
-  let keys = DEFAULT_PROPS;
-  if (props.default && props.default !== true) {
-    props = props.default;
-    keys = Object.keys(props);
-  }
-  const defaults2 = {};
-  for (const key of keys) {
-    const value = transform(props[key], key);
-    if (!is.und(value)) {
-      defaults2[key] = value;
-    }
-  }
-  return defaults2;
-};
-var DEFAULT_PROPS = [
-  "config",
-  "onProps",
-  "onStart",
-  "onChange",
-  "onPause",
-  "onResume",
-  "onRest"
-];
-var RESERVED_PROPS = {
-  config: 1,
-  from: 1,
-  to: 1,
-  ref: 1,
-  loop: 1,
-  reset: 1,
-  pause: 1,
-  cancel: 1,
-  reverse: 1,
-  immediate: 1,
-  default: 1,
-  delay: 1,
-  onProps: 1,
-  onStart: 1,
-  onChange: 1,
-  onPause: 1,
-  onResume: 1,
-  onRest: 1,
-  onResolve: 1,
-  // Transition props
-  items: 1,
-  trail: 1,
-  sort: 1,
-  expires: 1,
-  initial: 1,
-  enter: 1,
-  update: 1,
-  leave: 1,
-  children: 1,
-  onDestroyed: 1,
-  // Internal props
-  keys: 1,
-  callId: 1,
-  parentId: 1
-};
-function getForwardProps(props) {
-  const forward = {};
-  let count = 0;
-  eachProp(props, (value, prop) => {
-    if (!RESERVED_PROPS[prop]) {
-      forward[prop] = value;
-      count++;
-    }
-  });
-  if (count) {
-    return forward;
-  }
-}
-function inferTo(props) {
-  const to2 = getForwardProps(props);
-  if (to2) {
-    const out = { to: to2 };
-    eachProp(props, (val, key) => key in to2 || (out[key] = val));
-    return out;
-  }
-  return { ...props };
-}
-function computeGoal(value) {
-  value = getFluidValue(value);
-  return is.arr(value) ? value.map(computeGoal) : isAnimatedString(value) ? globals_exports.createStringInterpolator({
-    range: [0, 1],
-    output: [value, value]
-  })(1) : value;
-}
-function hasProps(props) {
-  for (const _ in props)
-    return true;
-  return false;
-}
-function isAsyncTo(to2) {
-  return is.fun(to2) || is.arr(to2) && is.obj(to2[0]);
-}
-function detachRefs(ctrl, ref) {
-  ctrl.ref?.delete(ctrl);
-  ref?.delete(ctrl);
-}
-function replaceRef(ctrl, ref) {
-  if (ref && ctrl.ref !== ref) {
-    ctrl.ref?.delete(ctrl);
-    ref.add(ctrl);
-    ctrl.ref = ref;
-  }
-}
-
-// src/hooks/useChain.ts
-function useChain(refs, timeSteps, timeFrame = 1e3) {
-  useIsomorphicLayoutEffect(() => {
-    if (timeSteps) {
-      let prevDelay = 0;
-      each(refs, (ref, i) => {
-        const controllers = ref.current;
-        if (controllers.length) {
-          let delay = timeFrame * timeSteps[i];
-          if (isNaN(delay))
-            delay = prevDelay;
-          else
-            prevDelay = delay;
-          each(controllers, (ctrl) => {
-            each(ctrl.queue, (props) => {
-              const memoizedDelayProp = props.delay;
-              props.delay = (key) => delay + callProp(memoizedDelayProp || 0, key);
-            });
-          });
-          ref.start();
-        }
-      });
-    } else {
-      let p = Promise.resolve();
-      each(refs, (ref) => {
-        const controllers = ref.current;
-        if (controllers.length) {
-          const queues = controllers.map((ctrl) => {
-            const q = ctrl.queue;
-            ctrl.queue = [];
-            return q;
-          });
-          p = p.then(() => {
-            each(
-              controllers,
-              (ctrl, i) => each(queues[i] || [], (update2) => ctrl.queue.push(update2))
-            );
-            return Promise.all(ref.start());
-          });
-        }
-      });
-    }
-  });
-}
-
-// src/hooks/useSpring.ts
-
-
-// src/hooks/useSprings.ts
-
-
-
-// src/SpringValue.ts
-
-
-
-// src/AnimationConfig.ts
-
-
-// src/constants.ts
-var config = {
-  default: { tension: 170, friction: 26 },
-  gentle: { tension: 120, friction: 14 },
-  wobbly: { tension: 180, friction: 12 },
-  stiff: { tension: 210, friction: 20 },
-  slow: { tension: 280, friction: 60 },
-  molasses: { tension: 280, friction: 120 }
-};
-
-// src/AnimationConfig.ts
-var defaults = {
-  ...config.default,
-  mass: 1,
-  damping: 1,
-  easing: easings.linear,
-  clamp: false
-};
-var AnimationConfig = class {
-  constructor() {
-    /**
-     * The initial velocity of one or more values.
-     *
-     * @default 0
-     */
-    this.velocity = 0;
-    Object.assign(this, defaults);
-  }
-};
-function mergeConfig(config2, newConfig, defaultConfig) {
-  if (defaultConfig) {
-    defaultConfig = { ...defaultConfig };
-    sanitizeConfig(defaultConfig, newConfig);
-    newConfig = { ...defaultConfig, ...newConfig };
-  }
-  sanitizeConfig(config2, newConfig);
-  Object.assign(config2, newConfig);
-  for (const key in defaults) {
-    if (config2[key] == null) {
-      config2[key] = defaults[key];
-    }
-  }
-  let { frequency, damping } = config2;
-  const { mass } = config2;
-  if (!is.und(frequency)) {
-    if (frequency < 0.01)
-      frequency = 0.01;
-    if (damping < 0)
-      damping = 0;
-    config2.tension = Math.pow(2 * Math.PI / frequency, 2) * mass;
-    config2.friction = 4 * Math.PI * damping * mass / frequency;
-  }
-  return config2;
-}
-function sanitizeConfig(config2, props) {
-  if (!is.und(props.decay)) {
-    config2.duration = void 0;
-  } else {
-    const isTensionConfig = !is.und(props.tension) || !is.und(props.friction);
-    if (isTensionConfig || !is.und(props.frequency) || !is.und(props.damping) || !is.und(props.mass)) {
-      config2.duration = void 0;
-      config2.decay = void 0;
-    }
-    if (isTensionConfig) {
-      config2.frequency = void 0;
-    }
-  }
-}
-
-// src/Animation.ts
-var emptyArray = [];
-var Animation = class {
-  constructor() {
-    this.changed = false;
-    this.values = emptyArray;
-    this.toValues = null;
-    this.fromValues = emptyArray;
-    this.config = new AnimationConfig();
-    this.immediate = false;
-  }
-};
-
-// src/scheduleProps.ts
-
-function scheduleProps(callId, { key, props, defaultProps, state, actions }) {
-  return new Promise((resolve, reject) => {
-    let delay;
-    let timeout;
-    let cancel = matchProp(props.cancel ?? defaultProps?.cancel, key);
-    if (cancel) {
-      onStart();
-    } else {
-      if (!is.und(props.pause)) {
-        state.paused = matchProp(props.pause, key);
-      }
-      let pause = defaultProps?.pause;
-      if (pause !== true) {
-        pause = state.paused || matchProp(pause, key);
-      }
-      delay = callProp(props.delay || 0, key);
-      if (pause) {
-        state.resumeQueue.add(onResume);
-        actions.pause();
-      } else {
-        actions.resume();
-        onResume();
-      }
-    }
-    function onPause() {
-      state.resumeQueue.add(onResume);
-      state.timeouts.delete(timeout);
-      timeout.cancel();
-      delay = timeout.time - raf.now();
-    }
-    function onResume() {
-      if (delay > 0 && !globals_exports.skipAnimation) {
-        state.delayed = true;
-        timeout = raf.setTimeout(onStart, delay);
-        state.pauseQueue.add(onPause);
-        state.timeouts.add(timeout);
-      } else {
-        onStart();
-      }
-    }
-    function onStart() {
-      if (state.delayed) {
-        state.delayed = false;
-      }
-      state.pauseQueue.delete(onPause);
-      state.timeouts.delete(timeout);
-      if (callId <= (state.cancelId || 0)) {
-        cancel = true;
-      }
-      try {
-        actions.start({ ...props, callId, cancel }, resolve);
-      } catch (err) {
-        reject(err);
-      }
-    }
-  });
-}
-
-// src/runAsync.ts
-
-
-// src/AnimationResult.ts
-var getCombinedResult = (target, results) => results.length == 1 ? results[0] : results.some((result) => result.cancelled) ? getCancelledResult(target.get()) : results.every((result) => result.noop) ? getNoopResult(target.get()) : getFinishedResult(
-  target.get(),
-  results.every((result) => result.finished)
-);
-var getNoopResult = (value) => ({
-  value,
-  noop: true,
-  finished: true,
-  cancelled: false
-});
-var getFinishedResult = (value, finished, cancelled = false) => ({
-  value,
-  finished,
-  cancelled
-});
-var getCancelledResult = (value) => ({
-  value,
-  cancelled: true,
-  finished: false
-});
-
-// src/runAsync.ts
-function runAsync(to2, props, state, target) {
-  const { callId, parentId, onRest } = props;
-  const { asyncTo: prevTo, promise: prevPromise } = state;
-  if (!parentId && to2 === prevTo && !props.reset) {
-    return prevPromise;
-  }
-  return state.promise = (async () => {
-    state.asyncId = callId;
-    state.asyncTo = to2;
-    const defaultProps = getDefaultProps(
-      props,
-      (value, key) => (
-        // The `onRest` prop is only called when the `runAsync` promise is resolved.
-        key === "onRest" ? void 0 : value
-      )
-    );
-    let preventBail;
-    let bail;
-    const bailPromise = new Promise(
-      (resolve, reject) => (preventBail = resolve, bail = reject)
-    );
-    const bailIfEnded = (bailSignal) => {
-      const bailResult = (
-        // The `cancel` prop or `stop` method was used.
-        callId <= (state.cancelId || 0) && getCancelledResult(target) || // The async `to` prop was replaced.
-        callId !== state.asyncId && getFinishedResult(target, false)
-      );
-      if (bailResult) {
-        bailSignal.result = bailResult;
-        bail(bailSignal);
-        throw bailSignal;
-      }
-    };
-    const animate = (arg1, arg2) => {
-      const bailSignal = new BailSignal();
-      const skipAnimationSignal = new SkipAnimationSignal();
-      return (async () => {
-        if (globals_exports.skipAnimation) {
-          stopAsync(state);
-          skipAnimationSignal.result = getFinishedResult(target, false);
-          bail(skipAnimationSignal);
-          throw skipAnimationSignal;
-        }
-        bailIfEnded(bailSignal);
-        const props2 = is.obj(arg1) ? { ...arg1 } : { ...arg2, to: arg1 };
-        props2.parentId = callId;
-        eachProp(defaultProps, (value, key) => {
-          if (is.und(props2[key])) {
-            props2[key] = value;
-          }
-        });
-        const result2 = await target.start(props2);
-        bailIfEnded(bailSignal);
-        if (state.paused) {
-          await new Promise((resume) => {
-            state.resumeQueue.add(resume);
-          });
-        }
-        return result2;
-      })();
-    };
-    let result;
-    if (globals_exports.skipAnimation) {
-      stopAsync(state);
-      return getFinishedResult(target, false);
-    }
-    try {
-      let animating;
-      if (is.arr(to2)) {
-        animating = (async (queue) => {
-          for (const props2 of queue) {
-            await animate(props2);
-          }
-        })(to2);
-      } else {
-        animating = Promise.resolve(to2(animate, target.stop.bind(target)));
-      }
-      await Promise.all([animating.then(preventBail), bailPromise]);
-      result = getFinishedResult(target.get(), true, false);
-    } catch (err) {
-      if (err instanceof BailSignal) {
-        result = err.result;
-      } else if (err instanceof SkipAnimationSignal) {
-        result = err.result;
-      } else {
-        throw err;
-      }
-    } finally {
-      if (callId == state.asyncId) {
-        state.asyncId = parentId;
-        state.asyncTo = parentId ? prevTo : void 0;
-        state.promise = parentId ? prevPromise : void 0;
-      }
-    }
-    if (is.fun(onRest)) {
-      raf.batchedUpdates(() => {
-        onRest(result, target, target.item);
-      });
-    }
-    return result;
-  })();
-}
-function stopAsync(state, cancelId) {
-  flush(state.timeouts, (t) => t.cancel());
-  state.pauseQueue.clear();
-  state.resumeQueue.clear();
-  state.asyncId = state.asyncTo = state.promise = void 0;
-  if (cancelId)
-    state.cancelId = cancelId;
-}
-var BailSignal = class extends Error {
-  constructor() {
-    super(
-      "An async animation has been interrupted. You see this error because you forgot to use `await` or `.catch(...)` on its returned promise."
-    );
-  }
-};
-var SkipAnimationSignal = class extends Error {
-  constructor() {
-    super("SkipAnimationSignal");
-  }
-};
-
-// src/FrameValue.ts
-
-
-var isFrameValue = (value) => value instanceof FrameValue;
-var nextId = 1;
-var FrameValue = class extends FluidValue {
-  constructor() {
-    super(...arguments);
-    this.id = nextId++;
-    this._priority = 0;
-  }
-  get priority() {
-    return this._priority;
-  }
-  set priority(priority) {
-    if (this._priority != priority) {
-      this._priority = priority;
-      this._onPriorityChange(priority);
-    }
-  }
-  /** Get the current value */
-  get() {
-    const node = getAnimated(this);
-    return node && node.getValue();
-  }
-  /** Create a spring that maps our value to another value */
-  to(...args) {
-    return globals_exports.to(this, args);
-  }
-  /** @deprecated Use the `to` method instead. */
-  interpolate(...args) {
-    deprecateInterpolate();
-    return globals_exports.to(this, args);
-  }
-  toJSON() {
-    return this.get();
-  }
-  observerAdded(count) {
-    if (count == 1)
-      this._attach();
-  }
-  observerRemoved(count) {
-    if (count == 0)
-      this._detach();
-  }
-  /** Called when the first child is added. */
-  _attach() {
-  }
-  /** Called when the last child is removed. */
-  _detach() {
-  }
-  /** Tell our children about our new value */
-  _onChange(value, idle = false) {
-    callFluidObservers(this, {
-      type: "change",
-      parent: this,
-      value,
-      idle
-    });
-  }
-  /** Tell our children about our new priority */
-  _onPriorityChange(priority) {
-    if (!this.idle) {
-      frameLoop.sort(this);
-    }
-    callFluidObservers(this, {
-      type: "priority",
-      parent: this,
-      priority
-    });
-  }
-};
-
-// src/SpringPhase.ts
-var $P = Symbol.for("SpringPhase");
-var HAS_ANIMATED = 1;
-var IS_ANIMATING = 2;
-var IS_PAUSED = 4;
-var hasAnimated = (target) => (target[$P] & HAS_ANIMATED) > 0;
-var isAnimating = (target) => (target[$P] & IS_ANIMATING) > 0;
-var isPaused = (target) => (target[$P] & IS_PAUSED) > 0;
-var setActiveBit = (target, active) => active ? target[$P] |= IS_ANIMATING | HAS_ANIMATED : target[$P] &= ~IS_ANIMATING;
-var setPausedBit = (target, paused) => paused ? target[$P] |= IS_PAUSED : target[$P] &= ~IS_PAUSED;
-
-// src/SpringValue.ts
-var SpringValue = class extends FrameValue {
-  constructor(arg1, arg2) {
-    super();
-    /** The animation state */
-    this.animation = new Animation();
-    /** Some props have customizable default values */
-    this.defaultProps = {};
-    /** The state for `runAsync` calls */
-    this._state = {
-      paused: false,
-      delayed: false,
-      pauseQueue: /* @__PURE__ */ new Set(),
-      resumeQueue: /* @__PURE__ */ new Set(),
-      timeouts: /* @__PURE__ */ new Set()
-    };
-    /** The promise resolvers of pending `start` calls */
-    this._pendingCalls = /* @__PURE__ */ new Set();
-    /** The counter for tracking `scheduleProps` calls */
-    this._lastCallId = 0;
-    /** The last `scheduleProps` call that changed the `to` prop */
-    this._lastToId = 0;
-    this._memoizedDuration = 0;
-    if (!is.und(arg1) || !is.und(arg2)) {
-      const props = is.obj(arg1) ? { ...arg1 } : { ...arg2, from: arg1 };
-      if (is.und(props.default)) {
-        props.default = true;
-      }
-      this.start(props);
-    }
-  }
-  /** Equals true when not advancing on each frame. */
-  get idle() {
-    return !(isAnimating(this) || this._state.asyncTo) || isPaused(this);
-  }
-  get goal() {
-    return getFluidValue(this.animation.to);
-  }
-  get velocity() {
-    const node = getAnimated(this);
-    return node instanceof AnimatedValue ? node.lastVelocity || 0 : node.getPayload().map((node2) => node2.lastVelocity || 0);
-  }
-  /**
-   * When true, this value has been animated at least once.
-   */
-  get hasAnimated() {
-    return hasAnimated(this);
-  }
-  /**
-   * When true, this value has an unfinished animation,
-   * which is either active or paused.
-   */
-  get isAnimating() {
-    return isAnimating(this);
-  }
-  /**
-   * When true, all current and future animations are paused.
-   */
-  get isPaused() {
-    return isPaused(this);
-  }
-  /**
-   *
-   *
-   */
-  get isDelayed() {
-    return this._state.delayed;
-  }
-  /** Advance the current animation by a number of milliseconds */
-  advance(dt) {
-    let idle = true;
-    let changed = false;
-    const anim = this.animation;
-    let { toValues } = anim;
-    const { config: config2 } = anim;
-    const payload = getPayload(anim.to);
-    if (!payload && hasFluidValue(anim.to)) {
-      toValues = toArray(getFluidValue(anim.to));
-    }
-    anim.values.forEach((node2, i) => {
-      if (node2.done)
-        return;
-      const to2 = (
-        // Animated strings always go from 0 to 1.
-        node2.constructor == AnimatedString ? 1 : payload ? payload[i].lastPosition : toValues[i]
-      );
-      let finished = anim.immediate;
-      let position = to2;
-      if (!finished) {
-        position = node2.lastPosition;
-        if (config2.tension <= 0) {
-          node2.done = true;
-          return;
-        }
-        let elapsed = node2.elapsedTime += dt;
-        const from = anim.fromValues[i];
-        const v0 = node2.v0 != null ? node2.v0 : node2.v0 = is.arr(config2.velocity) ? config2.velocity[i] : config2.velocity;
-        let velocity;
-        const precision = config2.precision || (from == to2 ? 5e-3 : Math.min(1, Math.abs(to2 - from) * 1e-3));
-        if (!is.und(config2.duration)) {
-          let p = 1;
-          if (config2.duration > 0) {
-            if (this._memoizedDuration !== config2.duration) {
-              this._memoizedDuration = config2.duration;
-              if (node2.durationProgress > 0) {
-                node2.elapsedTime = config2.duration * node2.durationProgress;
-                elapsed = node2.elapsedTime += dt;
-              }
-            }
-            p = (config2.progress || 0) + elapsed / this._memoizedDuration;
-            p = p > 1 ? 1 : p < 0 ? 0 : p;
-            node2.durationProgress = p;
-          }
-          position = from + config2.easing(p) * (to2 - from);
-          velocity = (position - node2.lastPosition) / dt;
-          finished = p == 1;
-        } else if (config2.decay) {
-          const decay = config2.decay === true ? 0.998 : config2.decay;
-          const e = Math.exp(-(1 - decay) * elapsed);
-          position = from + v0 / (1 - decay) * (1 - e);
-          finished = Math.abs(node2.lastPosition - position) <= precision;
-          velocity = v0 * e;
-        } else {
-          velocity = node2.lastVelocity == null ? v0 : node2.lastVelocity;
-          const restVelocity = config2.restVelocity || precision / 10;
-          const bounceFactor = config2.clamp ? 0 : config2.bounce;
-          const canBounce = !is.und(bounceFactor);
-          const isGrowing = from == to2 ? node2.v0 > 0 : from < to2;
-          let isMoving;
-          let isBouncing = false;
-          const step = 1;
-          const numSteps = Math.ceil(dt / step);
-          for (let n = 0; n < numSteps; ++n) {
-            isMoving = Math.abs(velocity) > restVelocity;
-            if (!isMoving) {
-              finished = Math.abs(to2 - position) <= precision;
-              if (finished) {
-                break;
-              }
-            }
-            if (canBounce) {
-              isBouncing = position == to2 || position > to2 == isGrowing;
-              if (isBouncing) {
-                velocity = -velocity * bounceFactor;
-                position = to2;
-              }
-            }
-            const springForce = -config2.tension * 1e-6 * (position - to2);
-            const dampingForce = -config2.friction * 1e-3 * velocity;
-            const acceleration = (springForce + dampingForce) / config2.mass;
-            velocity = velocity + acceleration * step;
-            position = position + velocity * step;
-          }
-        }
-        node2.lastVelocity = velocity;
-        if (Number.isNaN(position)) {
-          console.warn(`Got NaN while animating:`, this);
-          finished = true;
-        }
-      }
-      if (payload && !payload[i].done) {
-        finished = false;
-      }
-      if (finished) {
-        node2.done = true;
-      } else {
-        idle = false;
-      }
-      if (node2.setValue(position, config2.round)) {
-        changed = true;
-      }
-    });
-    const node = getAnimated(this);
-    const currVal = node.getValue();
-    if (idle) {
-      const finalVal = getFluidValue(anim.to);
-      if ((currVal !== finalVal || changed) && !config2.decay) {
-        node.setValue(finalVal);
-        this._onChange(finalVal);
-      } else if (changed && config2.decay) {
-        this._onChange(currVal);
-      }
-      this._stop();
-    } else if (changed) {
-      this._onChange(currVal);
-    }
-  }
-  /** Set the current value, while stopping the current animation */
-  set(value) {
-    raf.batchedUpdates(() => {
-      this._stop();
-      this._focus(value);
-      this._set(value);
-    });
-    return this;
-  }
-  /**
-   * Freeze the active animation in time, as well as any updates merged
-   * before `resume` is called.
-   */
-  pause() {
-    this._update({ pause: true });
-  }
-  /** Resume the animation if paused. */
-  resume() {
-    this._update({ pause: false });
-  }
-  /** Skip to the end of the current animation. */
-  finish() {
-    if (isAnimating(this)) {
-      const { to: to2, config: config2 } = this.animation;
-      raf.batchedUpdates(() => {
-        this._onStart();
-        if (!config2.decay) {
-          this._set(to2, false);
-        }
-        this._stop();
-      });
-    }
-    return this;
-  }
-  /** Push props into the pending queue. */
-  update(props) {
-    const queue = this.queue || (this.queue = []);
-    queue.push(props);
-    return this;
-  }
-  start(to2, arg2) {
-    let queue;
-    if (!is.und(to2)) {
-      queue = [is.obj(to2) ? to2 : { ...arg2, to: to2 }];
-    } else {
-      queue = this.queue || [];
-      this.queue = [];
-    }
-    return Promise.all(
-      queue.map((props) => {
-        const up = this._update(props);
-        return up;
-      })
-    ).then((results) => getCombinedResult(this, results));
-  }
-  /**
-   * Stop the current animation, and cancel any delayed updates.
-   *
-   * Pass `true` to call `onRest` with `cancelled: true`.
-   */
-  stop(cancel) {
-    const { to: to2 } = this.animation;
-    this._focus(this.get());
-    stopAsync(this._state, cancel && this._lastCallId);
-    raf.batchedUpdates(() => this._stop(to2, cancel));
-    return this;
-  }
-  /** Restart the animation. */
-  reset() {
-    this._update({ reset: true });
-  }
-  /** @internal */
-  eventObserved(event) {
-    if (event.type == "change") {
-      this._start();
-    } else if (event.type == "priority") {
-      this.priority = event.priority + 1;
-    }
-  }
-  /**
-   * Parse the `to` and `from` range from the given `props` object.
-   *
-   * This also ensures the initial value is available to animated components
-   * during the render phase.
-   */
-  _prepareNode(props) {
-    const key = this.key || "";
-    let { to: to2, from } = props;
-    to2 = is.obj(to2) ? to2[key] : to2;
-    if (to2 == null || isAsyncTo(to2)) {
-      to2 = void 0;
-    }
-    from = is.obj(from) ? from[key] : from;
-    if (from == null) {
-      from = void 0;
-    }
-    const range = { to: to2, from };
-    if (!hasAnimated(this)) {
-      if (props.reverse)
-        [to2, from] = [from, to2];
-      from = getFluidValue(from);
-      if (!is.und(from)) {
-        this._set(from);
-      } else if (!getAnimated(this)) {
-        this._set(to2);
-      }
-    }
-    return range;
-  }
-  /** Every update is processed by this method before merging. */
-  _update({ ...props }, isLoop) {
-    const { key, defaultProps } = this;
-    if (props.default)
-      Object.assign(
-        defaultProps,
-        getDefaultProps(
-          props,
-          (value, prop) => /^on/.test(prop) ? resolveProp(value, key) : value
-        )
-      );
-    mergeActiveFn(this, props, "onProps");
-    sendEvent(this, "onProps", props, this);
-    const range = this._prepareNode(props);
-    if (Object.isFrozen(this)) {
-      throw Error(
-        "Cannot animate a `SpringValue` object that is frozen. Did you forget to pass your component to `animated(...)` before animating its props?"
-      );
-    }
-    const state = this._state;
-    return scheduleProps(++this._lastCallId, {
-      key,
-      props,
-      defaultProps,
-      state,
-      actions: {
-        pause: () => {
-          if (!isPaused(this)) {
-            setPausedBit(this, true);
-            flushCalls(state.pauseQueue);
-            sendEvent(
-              this,
-              "onPause",
-              getFinishedResult(this, checkFinished(this, this.animation.to)),
-              this
-            );
-          }
-        },
-        resume: () => {
-          if (isPaused(this)) {
-            setPausedBit(this, false);
-            if (isAnimating(this)) {
-              this._resume();
-            }
-            flushCalls(state.resumeQueue);
-            sendEvent(
-              this,
-              "onResume",
-              getFinishedResult(this, checkFinished(this, this.animation.to)),
-              this
-            );
-          }
-        },
-        start: this._merge.bind(this, range)
-      }
-    }).then((result) => {
-      if (props.loop && result.finished && !(isLoop && result.noop)) {
-        const nextProps = createLoopUpdate(props);
-        if (nextProps) {
-          return this._update(nextProps, true);
-        }
-      }
-      return result;
-    });
-  }
-  /** Merge props into the current animation */
-  _merge(range, props, resolve) {
-    if (props.cancel) {
-      this.stop(true);
-      return resolve(getCancelledResult(this));
-    }
-    const hasToProp = !is.und(range.to);
-    const hasFromProp = !is.und(range.from);
-    if (hasToProp || hasFromProp) {
-      if (props.callId > this._lastToId) {
-        this._lastToId = props.callId;
-      } else {
-        return resolve(getCancelledResult(this));
-      }
-    }
-    const { key, defaultProps, animation: anim } = this;
-    const { to: prevTo, from: prevFrom } = anim;
-    let { to: to2 = prevTo, from = prevFrom } = range;
-    if (hasFromProp && !hasToProp && (!props.default || is.und(to2))) {
-      to2 = from;
-    }
-    if (props.reverse)
-      [to2, from] = [from, to2];
-    const hasFromChanged = !isEqual(from, prevFrom);
-    if (hasFromChanged) {
-      anim.from = from;
-    }
-    from = getFluidValue(from);
-    const hasToChanged = !isEqual(to2, prevTo);
-    if (hasToChanged) {
-      this._focus(to2);
-    }
-    const hasAsyncTo = isAsyncTo(props.to);
-    const { config: config2 } = anim;
-    const { decay, velocity } = config2;
-    if (hasToProp || hasFromProp) {
-      config2.velocity = 0;
-    }
-    if (props.config && !hasAsyncTo) {
-      mergeConfig(
-        config2,
-        callProp(props.config, key),
-        // Avoid calling the same "config" prop twice.
-        props.config !== defaultProps.config ? callProp(defaultProps.config, key) : void 0
-      );
-    }
-    let node = getAnimated(this);
-    if (!node || is.und(to2)) {
-      return resolve(getFinishedResult(this, true));
-    }
-    const reset = (
-      // When `reset` is undefined, the `from` prop implies `reset: true`,
-      // except for declarative updates. When `reset` is defined, there
-      // must exist a value to animate from.
-      is.und(props.reset) ? hasFromProp && !props.default : !is.und(from) && matchProp(props.reset, key)
-    );
-    const value = reset ? from : this.get();
-    const goal = computeGoal(to2);
-    const isAnimatable = is.num(goal) || is.arr(goal) || isAnimatedString(goal);
-    const immediate = !hasAsyncTo && (!isAnimatable || matchProp(defaultProps.immediate || props.immediate, key));
-    if (hasToChanged) {
-      const nodeType = getAnimatedType(to2);
-      if (nodeType !== node.constructor) {
-        if (immediate) {
-          node = this._set(goal);
-        } else
-          throw Error(
-            `Cannot animate between ${node.constructor.name} and ${nodeType.name}, as the "to" prop suggests`
-          );
-      }
-    }
-    const goalType = node.constructor;
-    let started = hasFluidValue(to2);
-    let finished = false;
-    if (!started) {
-      const hasValueChanged = reset || !hasAnimated(this) && hasFromChanged;
-      if (hasToChanged || hasValueChanged) {
-        finished = isEqual(computeGoal(value), goal);
-        started = !finished;
-      }
-      if (!isEqual(anim.immediate, immediate) && !immediate || !isEqual(config2.decay, decay) || !isEqual(config2.velocity, velocity)) {
-        started = true;
-      }
-    }
-    if (finished && isAnimating(this)) {
-      if (anim.changed && !reset) {
-        started = true;
-      } else if (!started) {
-        this._stop(prevTo);
-      }
-    }
-    if (!hasAsyncTo) {
-      if (started || hasFluidValue(prevTo)) {
-        anim.values = node.getPayload();
-        anim.toValues = hasFluidValue(to2) ? null : goalType == AnimatedString ? [1] : toArray(goal);
-      }
-      if (anim.immediate != immediate) {
-        anim.immediate = immediate;
-        if (!immediate && !reset) {
-          this._set(prevTo);
-        }
-      }
-      if (started) {
-        const { onRest } = anim;
-        react_spring_shared_modern_each(ACTIVE_EVENTS, (type) => mergeActiveFn(this, props, type));
-        const result = getFinishedResult(this, checkFinished(this, prevTo));
-        flushCalls(this._pendingCalls, result);
-        this._pendingCalls.add(resolve);
-        if (anim.changed)
-          raf.batchedUpdates(() => {
-            anim.changed = !reset;
-            onRest?.(result, this);
-            if (reset) {
-              callProp(defaultProps.onRest, result);
-            } else {
-              anim.onStart?.(result, this);
-            }
-          });
-      }
-    }
-    if (reset) {
-      this._set(value);
-    }
-    if (hasAsyncTo) {
-      resolve(runAsync(props.to, props, this._state, this));
-    } else if (started) {
-      this._start();
-    } else if (isAnimating(this) && !hasToChanged) {
-      this._pendingCalls.add(resolve);
-    } else {
-      resolve(getNoopResult(value));
-    }
-  }
-  /** Update the `animation.to` value, which might be a `FluidValue` */
-  _focus(value) {
-    const anim = this.animation;
-    if (value !== anim.to) {
-      if (getFluidObservers(this)) {
-        this._detach();
-      }
-      anim.to = value;
-      if (getFluidObservers(this)) {
-        this._attach();
-      }
-    }
-  }
-  _attach() {
-    let priority = 0;
-    const { to: to2 } = this.animation;
-    if (hasFluidValue(to2)) {
-      addFluidObserver(to2, this);
-      if (isFrameValue(to2)) {
-        priority = to2.priority + 1;
-      }
-    }
-    this.priority = priority;
-  }
-  _detach() {
-    const { to: to2 } = this.animation;
-    if (hasFluidValue(to2)) {
-      removeFluidObserver(to2, this);
-    }
-  }
-  /**
-   * Update the current value from outside the frameloop,
-   * and return the `Animated` node.
-   */
-  _set(arg, idle = true) {
-    const value = getFluidValue(arg);
-    if (!is.und(value)) {
-      const oldNode = getAnimated(this);
-      if (!oldNode || !isEqual(value, oldNode.getValue())) {
-        const nodeType = getAnimatedType(value);
-        if (!oldNode || oldNode.constructor != nodeType) {
-          setAnimated(this, nodeType.create(value));
-        } else {
-          oldNode.setValue(value);
-        }
-        if (oldNode) {
-          raf.batchedUpdates(() => {
-            this._onChange(value, idle);
-          });
-        }
-      }
-    }
-    return getAnimated(this);
-  }
-  _onStart() {
-    const anim = this.animation;
-    if (!anim.changed) {
-      anim.changed = true;
-      sendEvent(
-        this,
-        "onStart",
-        getFinishedResult(this, checkFinished(this, anim.to)),
-        this
-      );
-    }
-  }
-  _onChange(value, idle) {
-    if (!idle) {
-      this._onStart();
-      callProp(this.animation.onChange, value, this);
-    }
-    callProp(this.defaultProps.onChange, value, this);
-    super._onChange(value, idle);
-  }
-  // This method resets the animation state (even if already animating) to
-  // ensure the latest from/to range is used, and it also ensures this spring
-  // is added to the frameloop.
-  _start() {
-    const anim = this.animation;
-    getAnimated(this).reset(getFluidValue(anim.to));
-    if (!anim.immediate) {
-      anim.fromValues = anim.values.map((node) => node.lastPosition);
-    }
-    if (!isAnimating(this)) {
-      setActiveBit(this, true);
-      if (!isPaused(this)) {
-        this._resume();
-      }
-    }
-  }
-  _resume() {
-    if (globals_exports.skipAnimation) {
-      this.finish();
-    } else {
-      frameLoop.start(this);
-    }
-  }
-  /**
-   * Exit the frameloop and notify `onRest` listeners.
-   *
-   * Always wrap `_stop` calls with `batchedUpdates`.
-   */
-  _stop(goal, cancel) {
-    if (isAnimating(this)) {
-      setActiveBit(this, false);
-      const anim = this.animation;
-      react_spring_shared_modern_each(anim.values, (node) => {
-        node.done = true;
-      });
-      if (anim.toValues) {
-        anim.onChange = anim.onPause = anim.onResume = void 0;
-      }
-      callFluidObservers(this, {
-        type: "idle",
-        parent: this
-      });
-      const result = cancel ? getCancelledResult(this.get()) : getFinishedResult(this.get(), checkFinished(this, goal ?? anim.to));
-      flushCalls(this._pendingCalls, result);
-      if (anim.changed) {
-        anim.changed = false;
-        sendEvent(this, "onRest", result, this);
-      }
-    }
-  }
-};
-function checkFinished(target, to2) {
-  const goal = computeGoal(to2);
-  const value = computeGoal(target.get());
-  return isEqual(value, goal);
-}
-function createLoopUpdate(props, loop = props.loop, to2 = props.to) {
-  const loopRet = callProp(loop);
-  if (loopRet) {
-    const overrides = loopRet !== true && inferTo(loopRet);
-    const reverse = (overrides || props).reverse;
-    const reset = !overrides || overrides.reset;
-    return createUpdate({
-      ...props,
-      loop,
-      // Avoid updating default props when looping.
-      default: false,
-      // Never loop the `pause` prop.
-      pause: void 0,
-      // For the "reverse" prop to loop as expected, the "to" prop
-      // must be undefined. The "reverse" prop is ignored when the
-      // "to" prop is an array or function.
-      to: !reverse || isAsyncTo(to2) ? to2 : void 0,
-      // Ignore the "from" prop except on reset.
-      from: reset ? props.from : void 0,
-      reset,
-      // The "loop" prop can return a "useSpring" props object to
-      // override any of the original props.
-      ...overrides
-    });
-  }
-}
-function createUpdate(props) {
-  const { to: to2, from } = props = inferTo(props);
-  const keys = /* @__PURE__ */ new Set();
-  if (is.obj(to2))
-    findDefined(to2, keys);
-  if (is.obj(from))
-    findDefined(from, keys);
-  props.keys = keys.size ? Array.from(keys) : null;
-  return props;
-}
-function declareUpdate(props) {
-  const update2 = createUpdate(props);
-  if (is.und(update2.default)) {
-    update2.default = getDefaultProps(update2);
-  }
-  return update2;
-}
-function findDefined(values, keys) {
-  eachProp(values, (value, key) => value != null && keys.add(key));
-}
-var ACTIVE_EVENTS = [
-  "onStart",
-  "onRest",
-  "onChange",
-  "onPause",
-  "onResume"
-];
-function mergeActiveFn(target, props, type) {
-  target.animation[type] = props[type] !== getDefaultProp(props, type) ? resolveProp(props[type], target.key) : void 0;
-}
-function sendEvent(target, type, ...args) {
-  target.animation[type]?.(...args);
-  target.defaultProps[type]?.(...args);
-}
-
-// src/Controller.ts
-
-var BATCHED_EVENTS = ["onStart", "onChange", "onRest"];
-var nextId2 = 1;
-var Controller = class {
-  constructor(props, flush3) {
-    this.id = nextId2++;
-    /** The animated values */
-    this.springs = {};
-    /** The queue of props passed to the `update` method. */
-    this.queue = [];
-    /** The counter for tracking `scheduleProps` calls */
-    this._lastAsyncId = 0;
-    /** The values currently being animated */
-    this._active = /* @__PURE__ */ new Set();
-    /** The values that changed recently */
-    this._changed = /* @__PURE__ */ new Set();
-    /** Equals false when `onStart` listeners can be called */
-    this._started = false;
-    /** State used by the `runAsync` function */
-    this._state = {
-      paused: false,
-      pauseQueue: /* @__PURE__ */ new Set(),
-      resumeQueue: /* @__PURE__ */ new Set(),
-      timeouts: /* @__PURE__ */ new Set()
-    };
-    /** The event queues that are flushed once per frame maximum */
-    this._events = {
-      onStart: /* @__PURE__ */ new Map(),
-      onChange: /* @__PURE__ */ new Map(),
-      onRest: /* @__PURE__ */ new Map()
-    };
-    this._onFrame = this._onFrame.bind(this);
-    if (flush3) {
-      this._flush = flush3;
-    }
-    if (props) {
-      this.start({ default: true, ...props });
-    }
-  }
-  /**
-   * Equals `true` when no spring values are in the frameloop, and
-   * no async animation is currently active.
-   */
-  get idle() {
-    return !this._state.asyncTo && Object.values(this.springs).every((spring) => {
-      return spring.idle && !spring.isDelayed && !spring.isPaused;
-    });
-  }
-  get item() {
-    return this._item;
-  }
-  set item(item) {
-    this._item = item;
-  }
-  /** Get the current values of our springs */
-  get() {
-    const values = {};
-    this.each((spring, key) => values[key] = spring.get());
-    return values;
-  }
-  /** Set the current values without animating. */
-  set(values) {
-    for (const key in values) {
-      const value = values[key];
-      if (!is.und(value)) {
-        this.springs[key].set(value);
-      }
-    }
-  }
-  /** Push an update onto the queue of each value. */
-  update(props) {
-    if (props) {
-      this.queue.push(createUpdate(props));
-    }
-    return this;
-  }
-  /**
-   * Start the queued animations for every spring, and resolve the returned
-   * promise once all queued animations have finished or been cancelled.
-   *
-   * When you pass a queue (instead of nothing), that queue is used instead of
-   * the queued animations added with the `update` method, which are left alone.
-   */
-  start(props) {
-    let { queue } = this;
-    if (props) {
-      queue = toArray(props).map(createUpdate);
-    } else {
-      this.queue = [];
-    }
-    if (this._flush) {
-      return this._flush(this, queue);
-    }
-    prepareKeys(this, queue);
-    return flushUpdateQueue(this, queue);
-  }
-  /** @internal */
-  stop(arg, keys) {
-    if (arg !== !!arg) {
-      keys = arg;
-    }
-    if (keys) {
-      const springs = this.springs;
-      react_spring_shared_modern_each(toArray(keys), (key) => springs[key].stop(!!arg));
-    } else {
-      stopAsync(this._state, this._lastAsyncId);
-      this.each((spring) => spring.stop(!!arg));
-    }
-    return this;
-  }
-  /** Freeze the active animation in time */
-  pause(keys) {
-    if (is.und(keys)) {
-      this.start({ pause: true });
-    } else {
-      const springs = this.springs;
-      react_spring_shared_modern_each(toArray(keys), (key) => springs[key].pause());
-    }
-    return this;
-  }
-  /** Resume the animation if paused. */
-  resume(keys) {
-    if (is.und(keys)) {
-      this.start({ pause: false });
-    } else {
-      const springs = this.springs;
-      react_spring_shared_modern_each(toArray(keys), (key) => springs[key].resume());
-    }
-    return this;
-  }
-  /** Call a function once per spring value */
-  each(iterator) {
-    eachProp(this.springs, iterator);
-  }
-  /** @internal Called at the end of every animation frame */
-  _onFrame() {
-    const { onStart, onChange, onRest } = this._events;
-    const active = this._active.size > 0;
-    const changed = this._changed.size > 0;
-    if (active && !this._started || changed && !this._started) {
-      this._started = true;
-      flush(onStart, ([onStart2, result]) => {
-        result.value = this.get();
-        onStart2(result, this, this._item);
-      });
-    }
-    const idle = !active && this._started;
-    const values = changed || idle && onRest.size ? this.get() : null;
-    if (changed && onChange.size) {
-      flush(onChange, ([onChange2, result]) => {
-        result.value = values;
-        onChange2(result, this, this._item);
-      });
-    }
-    if (idle) {
-      this._started = false;
-      flush(onRest, ([onRest2, result]) => {
-        result.value = values;
-        onRest2(result, this, this._item);
-      });
-    }
-  }
-  /** @internal */
-  eventObserved(event) {
-    if (event.type == "change") {
-      this._changed.add(event.parent);
-      if (!event.idle) {
-        this._active.add(event.parent);
-      }
-    } else if (event.type == "idle") {
-      this._active.delete(event.parent);
-    } else
-      return;
-    raf.onFrame(this._onFrame);
-  }
-};
-function flushUpdateQueue(ctrl, queue) {
-  return Promise.all(queue.map((props) => flushUpdate(ctrl, props))).then(
-    (results) => getCombinedResult(ctrl, results)
-  );
-}
-async function flushUpdate(ctrl, props, isLoop) {
-  const { keys, to: to2, from, loop, onRest, onResolve } = props;
-  const defaults2 = is.obj(props.default) && props.default;
-  if (loop) {
-    props.loop = false;
-  }
-  if (to2 === false)
-    props.to = null;
-  if (from === false)
-    props.from = null;
-  const asyncTo = is.arr(to2) || is.fun(to2) ? to2 : void 0;
-  if (asyncTo) {
-    props.to = void 0;
-    props.onRest = void 0;
-    if (defaults2) {
-      defaults2.onRest = void 0;
-    }
-  } else {
-    react_spring_shared_modern_each(BATCHED_EVENTS, (key) => {
-      const handler = props[key];
-      if (is.fun(handler)) {
-        const queue = ctrl["_events"][key];
-        props[key] = ({ finished, cancelled }) => {
-          const result2 = queue.get(handler);
-          if (result2) {
-            if (!finished)
-              result2.finished = false;
-            if (cancelled)
-              result2.cancelled = true;
-          } else {
-            queue.set(handler, {
-              value: null,
-              finished: finished || false,
-              cancelled: cancelled || false
-            });
-          }
-        };
-        if (defaults2) {
-          defaults2[key] = props[key];
-        }
-      }
-    });
-  }
-  const state = ctrl["_state"];
-  if (props.pause === !state.paused) {
-    state.paused = props.pause;
-    flushCalls(props.pause ? state.pauseQueue : state.resumeQueue);
-  } else if (state.paused) {
-    props.pause = true;
-  }
-  const promises = (keys || Object.keys(ctrl.springs)).map(
-    (key) => ctrl.springs[key].start(props)
-  );
-  const cancel = props.cancel === true || getDefaultProp(props, "cancel") === true;
-  if (asyncTo || cancel && state.asyncId) {
-    promises.push(
-      scheduleProps(++ctrl["_lastAsyncId"], {
-        props,
-        state,
-        actions: {
-          pause: noop,
-          resume: noop,
-          start(props2, resolve) {
-            if (cancel) {
-              stopAsync(state, ctrl["_lastAsyncId"]);
-              resolve(getCancelledResult(ctrl));
-            } else {
-              props2.onRest = onRest;
-              resolve(
-                runAsync(
-                  asyncTo,
-                  props2,
-                  state,
-                  ctrl
-                )
-              );
-            }
-          }
-        }
-      })
-    );
-  }
-  if (state.paused) {
-    await new Promise((resume) => {
-      state.resumeQueue.add(resume);
-    });
-  }
-  const result = getCombinedResult(ctrl, await Promise.all(promises));
-  if (loop && result.finished && !(isLoop && result.noop)) {
-    const nextProps = createLoopUpdate(props, loop, to2);
-    if (nextProps) {
-      prepareKeys(ctrl, [nextProps]);
-      return flushUpdate(ctrl, nextProps, true);
-    }
-  }
-  if (onResolve) {
-    raf.batchedUpdates(() => onResolve(result, ctrl, ctrl.item));
-  }
-  return result;
-}
-function getSprings(ctrl, props) {
-  const springs = { ...ctrl.springs };
-  if (props) {
-    react_spring_shared_modern_each(toArray(props), (props2) => {
-      if (is.und(props2.keys)) {
-        props2 = createUpdate(props2);
-      }
-      if (!is.obj(props2.to)) {
-        props2 = { ...props2, to: void 0 };
-      }
-      prepareSprings(springs, props2, (key) => {
-        return createSpring(key);
-      });
-    });
-  }
-  setSprings(ctrl, springs);
-  return springs;
-}
-function setSprings(ctrl, springs) {
-  eachProp(springs, (spring, key) => {
-    if (!ctrl.springs[key]) {
-      ctrl.springs[key] = spring;
-      addFluidObserver(spring, ctrl);
-    }
-  });
-}
-function createSpring(key, observer) {
-  const spring = new SpringValue();
-  spring.key = key;
-  if (observer) {
-    addFluidObserver(spring, observer);
-  }
-  return spring;
-}
-function prepareSprings(springs, props, create) {
-  if (props.keys) {
-    react_spring_shared_modern_each(props.keys, (key) => {
-      const spring = springs[key] || (springs[key] = create(key));
-      spring["_prepareNode"](props);
-    });
-  }
-}
-function prepareKeys(ctrl, queue) {
-  react_spring_shared_modern_each(queue, (props) => {
-    prepareSprings(ctrl.springs, props, (key) => {
-      return createSpring(key, ctrl);
-    });
-  });
-}
-
-// src/SpringContext.tsx
-
-
-
-var SpringContext = ({
-  children,
-  ...props
-}) => {
-  const inherited = (0,external_React_.useContext)(ctx);
-  const pause = props.pause || !!inherited.pause, immediate = props.immediate || !!inherited.immediate;
-  props = useMemoOne(() => ({ pause, immediate }), [pause, immediate]);
-  const { Provider } = ctx;
-  return /* @__PURE__ */ external_React_.createElement(Provider, { value: props }, children);
-};
-var ctx = makeContext(SpringContext, {});
-SpringContext.Provider = ctx.Provider;
-SpringContext.Consumer = ctx.Consumer;
-function makeContext(target, init) {
-  Object.assign(target, external_React_.createContext(init));
-  target.Provider._context = target;
-  target.Consumer._context = target;
-  return target;
-}
-
-// src/SpringRef.ts
-
-var SpringRef = () => {
-  const current = [];
-  const SpringRef2 = function(props) {
-    deprecateDirectCall();
-    const results = [];
-    react_spring_shared_modern_each(current, (ctrl, i) => {
-      if (is.und(props)) {
-        results.push(ctrl.start());
-      } else {
-        const update2 = _getProps(props, ctrl, i);
-        if (update2) {
-          results.push(ctrl.start(update2));
-        }
-      }
-    });
-    return results;
-  };
-  SpringRef2.current = current;
-  SpringRef2.add = function(ctrl) {
-    if (!current.includes(ctrl)) {
-      current.push(ctrl);
-    }
-  };
-  SpringRef2.delete = function(ctrl) {
-    const i = current.indexOf(ctrl);
-    if (~i)
-      current.splice(i, 1);
-  };
-  SpringRef2.pause = function() {
-    react_spring_shared_modern_each(current, (ctrl) => ctrl.pause(...arguments));
-    return this;
-  };
-  SpringRef2.resume = function() {
-    react_spring_shared_modern_each(current, (ctrl) => ctrl.resume(...arguments));
-    return this;
-  };
-  SpringRef2.set = function(values) {
-    react_spring_shared_modern_each(current, (ctrl, i) => {
-      const update2 = is.fun(values) ? values(i, ctrl) : values;
-      if (update2) {
-        ctrl.set(update2);
-      }
-    });
-  };
-  SpringRef2.start = function(props) {
-    const results = [];
-    react_spring_shared_modern_each(current, (ctrl, i) => {
-      if (is.und(props)) {
-        results.push(ctrl.start());
-      } else {
-        const update2 = this._getProps(props, ctrl, i);
-        if (update2) {
-          results.push(ctrl.start(update2));
-        }
-      }
-    });
-    return results;
-  };
-  SpringRef2.stop = function() {
-    react_spring_shared_modern_each(current, (ctrl) => ctrl.stop(...arguments));
-    return this;
-  };
-  SpringRef2.update = function(props) {
-    react_spring_shared_modern_each(current, (ctrl, i) => ctrl.update(this._getProps(props, ctrl, i)));
-    return this;
-  };
-  const _getProps = function(arg, ctrl, index) {
-    return is.fun(arg) ? arg(index, ctrl) : arg;
-  };
-  SpringRef2._getProps = _getProps;
-  return SpringRef2;
-};
-
-// src/hooks/useSprings.ts
-function useSprings(length, props, deps) {
-  const propsFn = is.fun(props) && props;
-  if (propsFn && !deps)
-    deps = [];
-  const ref = (0,external_React_.useMemo)(
-    () => propsFn || arguments.length == 3 ? SpringRef() : void 0,
-    []
-  );
-  const layoutId = (0,external_React_.useRef)(0);
-  const forceUpdate = useForceUpdate();
-  const state = (0,external_React_.useMemo)(
-    () => ({
-      ctrls: [],
-      queue: [],
-      flush(ctrl, updates2) {
-        const springs2 = getSprings(ctrl, updates2);
-        const canFlushSync = layoutId.current > 0 && !state.queue.length && !Object.keys(springs2).some((key) => !ctrl.springs[key]);
-        return canFlushSync ? flushUpdateQueue(ctrl, updates2) : new Promise((resolve) => {
-          setSprings(ctrl, springs2);
-          state.queue.push(() => {
-            resolve(flushUpdateQueue(ctrl, updates2));
-          });
-          forceUpdate();
-        });
-      }
-    }),
-    []
-  );
-  const ctrls = (0,external_React_.useRef)([...state.ctrls]);
-  const updates = [];
-  const prevLength = usePrev(length) || 0;
-  (0,external_React_.useMemo)(() => {
-    react_spring_shared_modern_each(ctrls.current.slice(length, prevLength), (ctrl) => {
-      detachRefs(ctrl, ref);
-      ctrl.stop(true);
-    });
-    ctrls.current.length = length;
-    declareUpdates(prevLength, length);
-  }, [length]);
-  (0,external_React_.useMemo)(() => {
-    declareUpdates(0, Math.min(prevLength, length));
-  }, deps);
-  function declareUpdates(startIndex, endIndex) {
-    for (let i = startIndex; i < endIndex; i++) {
-      const ctrl = ctrls.current[i] || (ctrls.current[i] = new Controller(null, state.flush));
-      const update2 = propsFn ? propsFn(i, ctrl) : props[i];
-      if (update2) {
-        updates[i] = declareUpdate(update2);
-      }
-    }
-  }
-  const springs = ctrls.current.map((ctrl, i) => getSprings(ctrl, updates[i]));
-  const context = (0,external_React_.useContext)(SpringContext);
-  const prevContext = usePrev(context);
-  const hasContext = context !== prevContext && hasProps(context);
-  react_spring_shared_modern_useIsomorphicLayoutEffect(() => {
-    layoutId.current++;
-    state.ctrls = ctrls.current;
-    const { queue } = state;
-    if (queue.length) {
-      state.queue = [];
-      react_spring_shared_modern_each(queue, (cb) => cb());
-    }
-    react_spring_shared_modern_each(ctrls.current, (ctrl, i) => {
-      ref?.add(ctrl);
-      if (hasContext) {
-        ctrl.start({ default: context });
-      }
-      const update2 = updates[i];
-      if (update2) {
-        replaceRef(ctrl, update2.ref);
-        if (ctrl.ref) {
-          ctrl.queue.push(update2);
-        } else {
-          ctrl.start(update2);
-        }
-      }
-    });
-  });
-  useOnce(() => () => {
-    react_spring_shared_modern_each(state.ctrls, (ctrl) => ctrl.stop(true));
-  });
-  const values = springs.map((x) => ({ ...x }));
-  return ref ? [values, ref] : values;
-}
-
-// src/hooks/useSpring.ts
-function useSpring(props, deps) {
-  const isFn = is.fun(props);
-  const [[values], ref] = useSprings(
-    1,
-    isFn ? props : [props],
-    isFn ? deps || [] : deps
-  );
-  return isFn || arguments.length == 2 ? [values, ref] : values;
-}
-
-// src/hooks/useSpringRef.ts
-
-var initSpringRef = () => SpringRef();
-var useSpringRef = () => useState(initSpringRef)[0];
-
-// src/hooks/useSpringValue.ts
-
-var useSpringValue = (initial, props) => {
-  const springValue = useConstant(() => new SpringValue(initial, props));
-  useOnce2(() => () => {
-    springValue.stop();
-  });
-  return springValue;
-};
-
-// src/hooks/useTrail.ts
-
-function useTrail(length, propsArg, deps) {
-  const propsFn = is10.fun(propsArg) && propsArg;
-  if (propsFn && !deps)
-    deps = [];
-  let reverse = true;
-  let passedRef = void 0;
-  const result = useSprings(
-    length,
-    (i, ctrl) => {
-      const props = propsFn ? propsFn(i, ctrl) : propsArg;
-      passedRef = props.ref;
-      reverse = reverse && props.reverse;
-      return props;
-    },
-    // Ensure the props function is called when no deps exist.
-    // This works around the 3 argument rule.
-    deps || [{}]
-  );
-  useIsomorphicLayoutEffect3(() => {
-    each6(result[1].current, (ctrl, i) => {
-      const parent = result[1].current[i + (reverse ? 1 : -1)];
-      replaceRef(ctrl, passedRef);
-      if (ctrl.ref) {
-        if (parent) {
-          ctrl.update({ to: parent.springs });
-        }
-        return;
-      }
-      if (parent) {
-        ctrl.start({ to: parent.springs });
-      } else {
-        ctrl.start();
-      }
-    });
-  }, deps);
-  if (propsFn || arguments.length == 3) {
-    const ref = passedRef ?? result[1];
-    ref["_getProps"] = (propsArg2, ctrl, i) => {
-      const props = is10.fun(propsArg2) ? propsArg2(i, ctrl) : propsArg2;
-      if (props) {
-        const parent = ref.current[i + (props.reverse ? 1 : -1)];
-        if (parent)
-          props.to = parent.springs;
-        return props;
-      }
-    };
-    return result;
-  }
-  return result[0];
-}
-
-// src/hooks/useTransition.tsx
-
-
-
-function useTransition(data, props, deps) {
-  const propsFn = is11.fun(props) && props;
-  const {
-    reset,
-    sort,
-    trail = 0,
-    expires = true,
-    exitBeforeEnter = false,
-    onDestroyed,
-    ref: propsRef,
-    config: propsConfig
-  } = propsFn ? propsFn() : props;
-  const ref = useMemo2(
-    () => propsFn || arguments.length == 3 ? SpringRef() : void 0,
-    []
-  );
-  const items = toArray4(data);
-  const transitions = [];
-  const usedTransitions = useRef2(null);
-  const prevTransitions = reset ? null : usedTransitions.current;
-  useIsomorphicLayoutEffect4(() => {
-    usedTransitions.current = transitions;
-  });
-  useOnce3(() => {
-    each7(transitions, (t) => {
-      ref?.add(t.ctrl);
-      t.ctrl.ref = ref;
-    });
-    return () => {
-      each7(usedTransitions.current, (t) => {
-        if (t.expired) {
-          clearTimeout(t.expirationId);
-        }
-        detachRefs(t.ctrl, ref);
-        t.ctrl.stop(true);
-      });
-    };
-  });
-  const keys = getKeys(items, propsFn ? propsFn() : props, prevTransitions);
-  const expired = reset && usedTransitions.current || [];
-  useIsomorphicLayoutEffect4(
-    () => each7(expired, ({ ctrl, item, key }) => {
-      detachRefs(ctrl, ref);
-      callProp(onDestroyed, item, key);
-    })
-  );
-  const reused = [];
-  if (prevTransitions)
-    each7(prevTransitions, (t, i) => {
-      if (t.expired) {
-        clearTimeout(t.expirationId);
-        expired.push(t);
-      } else {
-        i = reused[i] = keys.indexOf(t.key);
-        if (~i)
-          transitions[i] = t;
-      }
-    });
-  each7(items, (item, i) => {
-    if (!transitions[i]) {
-      transitions[i] = {
-        key: keys[i],
-        item,
-        phase: "mount" /* MOUNT */,
-        ctrl: new Controller()
-      };
-      transitions[i].ctrl.item = item;
-    }
-  });
-  if (reused.length) {
-    let i = -1;
-    const { leave } = propsFn ? propsFn() : props;
-    each7(reused, (keyIndex, prevIndex) => {
-      const t = prevTransitions[prevIndex];
-      if (~keyIndex) {
-        i = transitions.indexOf(t);
-        transitions[i] = { ...t, item: items[keyIndex] };
-      } else if (leave) {
-        transitions.splice(++i, 0, t);
-      }
-    });
-  }
-  if (is11.fun(sort)) {
-    transitions.sort((a, b) => sort(a.item, b.item));
-  }
-  let delay = -trail;
-  const forceUpdate = useForceUpdate2();
-  const defaultProps = getDefaultProps(props);
-  const changes = /* @__PURE__ */ new Map();
-  const exitingTransitions = useRef2(/* @__PURE__ */ new Map());
-  const forceChange = useRef2(false);
-  each7(transitions, (t, i) => {
-    const key = t.key;
-    const prevPhase = t.phase;
-    const p = propsFn ? propsFn() : props;
-    let to2;
-    let phase;
-    const propsDelay = callProp(p.delay || 0, key);
-    if (prevPhase == "mount" /* MOUNT */) {
-      to2 = p.enter;
-      phase = "enter" /* ENTER */;
-    } else {
-      const isLeave = keys.indexOf(key) < 0;
-      if (prevPhase != "leave" /* LEAVE */) {
-        if (isLeave) {
-          to2 = p.leave;
-          phase = "leave" /* LEAVE */;
-        } else if (to2 = p.update) {
-          phase = "update" /* UPDATE */;
-        } else
-          return;
-      } else if (!isLeave) {
-        to2 = p.enter;
-        phase = "enter" /* ENTER */;
-      } else
-        return;
-    }
-    to2 = callProp(to2, t.item, i);
-    to2 = is11.obj(to2) ? inferTo(to2) : { to: to2 };
-    if (!to2.config) {
-      const config2 = propsConfig || defaultProps.config;
-      to2.config = callProp(config2, t.item, i, phase);
-    }
-    delay += trail;
-    const payload = {
-      ...defaultProps,
-      // we need to add our props.delay value you here.
-      delay: propsDelay + delay,
-      ref: propsRef,
-      immediate: p.immediate,
-      // This prevents implied resets.
-      reset: false,
-      // Merge any phase-specific props.
-      ...to2
-    };
-    if (phase == "enter" /* ENTER */ && is11.und(payload.from)) {
-      const p2 = propsFn ? propsFn() : props;
-      const from = is11.und(p2.initial) || prevTransitions ? p2.from : p2.initial;
-      payload.from = callProp(from, t.item, i);
-    }
-    const { onResolve } = payload;
-    payload.onResolve = (result) => {
-      callProp(onResolve, result);
-      const transitions2 = usedTransitions.current;
-      const t2 = transitions2.find((t3) => t3.key === key);
-      if (!t2)
-        return;
-      if (result.cancelled && t2.phase != "update" /* UPDATE */) {
-        return;
-      }
-      if (t2.ctrl.idle) {
-        const idle = transitions2.every((t3) => t3.ctrl.idle);
-        if (t2.phase == "leave" /* LEAVE */) {
-          const expiry = callProp(expires, t2.item);
-          if (expiry !== false) {
-            const expiryMs = expiry === true ? 0 : expiry;
-            t2.expired = true;
-            if (!idle && expiryMs > 0) {
-              if (expiryMs <= 2147483647)
-                t2.expirationId = setTimeout(forceUpdate, expiryMs);
-              return;
-            }
-          }
-        }
-        if (idle && transitions2.some((t3) => t3.expired)) {
-          exitingTransitions.current.delete(t2);
-          if (exitBeforeEnter) {
-            forceChange.current = true;
-          }
-          forceUpdate();
-        }
-      }
-    };
-    const springs = getSprings(t.ctrl, payload);
-    if (phase === "leave" /* LEAVE */ && exitBeforeEnter) {
-      exitingTransitions.current.set(t, { phase, springs, payload });
-    } else {
-      changes.set(t, { phase, springs, payload });
-    }
-  });
-  const context = useContext3(SpringContext);
-  const prevContext = usePrev2(context);
-  const hasContext = context !== prevContext && hasProps(context);
-  useIsomorphicLayoutEffect4(() => {
-    if (hasContext) {
-      each7(transitions, (t) => {
-        t.ctrl.start({ default: context });
-      });
-    }
-  }, [context]);
-  each7(changes, (_, t) => {
-    if (exitingTransitions.current.size) {
-      const ind = transitions.findIndex((state) => state.key === t.key);
-      transitions.splice(ind, 1);
-    }
-  });
-  useIsomorphicLayoutEffect4(
-    () => {
-      each7(
-        exitingTransitions.current.size ? exitingTransitions.current : changes,
-        ({ phase, payload }, t) => {
-          const { ctrl } = t;
-          t.phase = phase;
-          ref?.add(ctrl);
-          if (hasContext && phase == "enter" /* ENTER */) {
-            ctrl.start({ default: context });
-          }
-          if (payload) {
-            replaceRef(ctrl, payload.ref);
-            if ((ctrl.ref || ref) && !forceChange.current) {
-              ctrl.update(payload);
-            } else {
-              ctrl.start(payload);
-              if (forceChange.current) {
-                forceChange.current = false;
-              }
-            }
-          }
-        }
-      );
-    },
-    reset ? void 0 : deps
-  );
-  const renderTransitions = (render) => /* @__PURE__ */ React2.createElement(React2.Fragment, null, transitions.map((t, i) => {
-    const { springs } = changes.get(t) || t.ctrl;
-    const elem = render({ ...springs }, t.item, t, i);
-    return elem && elem.type ? /* @__PURE__ */ React2.createElement(
-      elem.type,
-      {
-        ...elem.props,
-        key: is11.str(t.key) || is11.num(t.key) ? t.key : t.ctrl.id,
-        ref: elem.ref
-      }
-    ) : elem;
-  }));
-  return ref ? [renderTransitions, ref] : renderTransitions;
-}
-var nextKey = 1;
-function getKeys(items, { key, keys = key }, prevTransitions) {
-  if (keys === null) {
-    const reused = /* @__PURE__ */ new Set();
-    return items.map((item) => {
-      const t = prevTransitions && prevTransitions.find(
-        (t2) => t2.item === item && t2.phase !== "leave" /* LEAVE */ && !reused.has(t2)
-      );
-      if (t) {
-        reused.add(t);
-        return t.key;
-      }
-      return nextKey++;
-    });
-  }
-  return is11.und(keys) ? items : is11.fun(keys) ? items.map(keys) : toArray4(keys);
-}
-
-// src/hooks/useScroll.ts
-
-var useScroll = ({
-  container,
-  ...springOptions
-} = {}) => {
-  const [scrollValues, api] = useSpring(
-    () => ({
-      scrollX: 0,
-      scrollY: 0,
-      scrollXProgress: 0,
-      scrollYProgress: 0,
-      ...springOptions
-    }),
-    []
-  );
-  useIsomorphicLayoutEffect5(() => {
-    const cleanupScroll = onScroll(
-      ({ x, y }) => {
-        api.start({
-          scrollX: x.current,
-          scrollXProgress: x.progress,
-          scrollY: y.current,
-          scrollYProgress: y.progress
-        });
-      },
-      { container: container?.current || void 0 }
-    );
-    return () => {
-      each8(Object.values(scrollValues), (value) => value.stop());
-      cleanupScroll();
-    };
-  }, []);
-  return scrollValues;
-};
-
-// src/hooks/useResize.ts
-
-var useResize = ({
-  container,
-  ...springOptions
-}) => {
-  const [sizeValues, api] = useSpring(
-    () => ({
-      width: 0,
-      height: 0,
-      ...springOptions
-    }),
-    []
-  );
-  useIsomorphicLayoutEffect6(() => {
-    const cleanupScroll = onResize(
-      ({ width, height }) => {
-        api.start({
-          width,
-          height,
-          immediate: sizeValues.width.get() === 0 || sizeValues.height.get() === 0
-        });
-      },
-      { container: container?.current || void 0 }
-    );
-    return () => {
-      each9(Object.values(sizeValues), (value) => value.stop());
-      cleanupScroll();
-    };
-  }, []);
-  return sizeValues;
-};
-
-// src/hooks/useInView.ts
-
-
-var defaultThresholdOptions = {
-  any: 0,
-  all: 1
-};
-function useInView(props, args) {
-  const [isInView, setIsInView] = useState2(false);
-  const ref = useRef3();
-  const propsFn = is12.fun(props) && props;
-  const springsProps = propsFn ? propsFn() : {};
-  const { to: to2 = {}, from = {}, ...restSpringProps } = springsProps;
-  const intersectionArguments = propsFn ? args : props;
-  const [springs, api] = useSpring(() => ({ from, ...restSpringProps }), []);
-  useIsomorphicLayoutEffect7(() => {
-    const element = ref.current;
-    const {
-      root,
-      once,
-      amount = "any",
-      ...restArgs
-    } = intersectionArguments ?? {};
-    if (!element || once && isInView || typeof IntersectionObserver === "undefined")
-      return;
-    const activeIntersections = /* @__PURE__ */ new WeakMap();
-    const onEnter = () => {
-      if (to2) {
-        api.start(to2);
-      }
-      setIsInView(true);
-      const cleanup = () => {
-        if (from) {
-          api.start(from);
-        }
-        setIsInView(false);
-      };
-      return once ? void 0 : cleanup;
-    };
-    const handleIntersection = (entries) => {
-      entries.forEach((entry) => {
-        const onLeave = activeIntersections.get(entry.target);
-        if (entry.isIntersecting === Boolean(onLeave)) {
-          return;
-        }
-        if (entry.isIntersecting) {
-          const newOnLeave = onEnter();
-          if (is12.fun(newOnLeave)) {
-            activeIntersections.set(entry.target, newOnLeave);
-          } else {
-            observer.unobserve(entry.target);
-          }
-        } else if (onLeave) {
-          onLeave();
-          activeIntersections.delete(entry.target);
-        }
-      });
-    };
-    const observer = new IntersectionObserver(handleIntersection, {
-      root: root && root.current || void 0,
-      threshold: typeof amount === "number" || Array.isArray(amount) ? amount : defaultThresholdOptions[amount],
-      ...restArgs
-    });
-    observer.observe(element);
-    return () => observer.unobserve(element);
-  }, [intersectionArguments]);
-  if (propsFn) {
-    return [ref, springs];
-  }
-  return [ref, isInView];
-}
-
-// src/components/Spring.tsx
-function Spring({ children, ...props }) {
-  return children(useSpring(props));
-}
-
-// src/components/Trail.tsx
-
-function Trail({
-  items,
-  children,
-  ...props
-}) {
-  const trails = useTrail(items.length, props);
-  return items.map((item, index) => {
-    const result = children(item, index);
-    return is13.fun(result) ? result(trails[index]) : result;
-  });
-}
-
-// src/components/Transition.tsx
-function Transition({
-  items,
-  children,
-  ...props
-}) {
-  return useTransition(items, props)(children);
-}
-
-// src/interpolate.ts
-
-
-// src/Interpolation.ts
-
-
-var Interpolation = class extends FrameValue {
-  constructor(source, args) {
-    super();
-    this.source = source;
-    /** Equals false when in the frameloop */
-    this.idle = true;
-    /** The inputs which are currently animating */
-    this._active = /* @__PURE__ */ new Set();
-    this.calc = createInterpolator(...args);
-    const value = this._get();
-    const nodeType = getAnimatedType(value);
-    setAnimated(this, nodeType.create(value));
-  }
-  advance(_dt) {
-    const value = this._get();
-    const oldValue = this.get();
-    if (!isEqual(value, oldValue)) {
-      getAnimated(this).setValue(value);
-      this._onChange(value, this.idle);
-    }
-    if (!this.idle && checkIdle(this._active)) {
-      becomeIdle(this);
-    }
-  }
-  _get() {
-    const inputs = is.arr(this.source) ? this.source.map(getFluidValue) : toArray(getFluidValue(this.source));
-    return this.calc(...inputs);
-  }
-  _start() {
-    if (this.idle && !checkIdle(this._active)) {
-      this.idle = false;
-      react_spring_shared_modern_each(getPayload(this), (node) => {
-        node.done = false;
-      });
-      if (globals_exports.skipAnimation) {
-        raf.batchedUpdates(() => this.advance());
-        becomeIdle(this);
-      } else {
-        frameLoop.start(this);
-      }
-    }
-  }
-  // Observe our sources only when we're observed.
-  _attach() {
-    let priority = 1;
-    react_spring_shared_modern_each(toArray(this.source), (source) => {
-      if (hasFluidValue(source)) {
-        addFluidObserver(source, this);
-      }
-      if (isFrameValue(source)) {
-        if (!source.idle) {
-          this._active.add(source);
-        }
-        priority = Math.max(priority, source.priority + 1);
-      }
-    });
-    this.priority = priority;
-    this._start();
-  }
-  // Stop observing our sources once we have no observers.
-  _detach() {
-    react_spring_shared_modern_each(toArray(this.source), (source) => {
-      if (hasFluidValue(source)) {
-        removeFluidObserver(source, this);
-      }
-    });
-    this._active.clear();
-    becomeIdle(this);
-  }
-  /** @internal */
-  eventObserved(event) {
-    if (event.type == "change") {
-      if (event.idle) {
-        this.advance();
-      } else {
-        this._active.add(event.parent);
-        this._start();
-      }
-    } else if (event.type == "idle") {
-      this._active.delete(event.parent);
-    } else if (event.type == "priority") {
-      this.priority = toArray(this.source).reduce(
-        (highest, parent) => Math.max(highest, (isFrameValue(parent) ? parent.priority : 0) + 1),
-        0
-      );
-    }
-  }
-};
-function isIdle(source) {
-  return source.idle !== false;
-}
-function checkIdle(active) {
-  return !active.size || Array.from(active).every(isIdle);
-}
-function becomeIdle(self) {
-  if (!self.idle) {
-    self.idle = true;
-    react_spring_shared_modern_each(getPayload(self), (node) => {
-      node.done = true;
-    });
-    callFluidObservers(self, {
-      type: "idle",
-      parent: self
-    });
-  }
-}
-
-// src/interpolate.ts
-var react_spring_core_modern_to = (source, ...args) => new Interpolation(source, args);
-var react_spring_core_modern_interpolate = (source, ...args) => (deprecateInterpolate2(), new Interpolation(source, args));
-
-// src/globals.ts
-
-globals_exports.assign({
-  createStringInterpolator: createStringInterpolator2,
-  to: (source, args) => new Interpolation(source, args)
-});
-var react_spring_core_modern_update = frameLoop.advance;
-
-// src/index.ts
-
-
+;// CONCATENATED MODULE: ./node_modules/@react-spring/core/dist/esm/index.js
+function esm_I(t,...e){return esm_l.fun(t)?t(...e):t}var esm_te=(t,e)=>t===!0||!!(e&&t&&(esm_l.fun(t)?t(e):ht(t).includes(e))),et=(t,e)=>esm_l.obj(t)?e&&t[e]:t;var esm_ke=(t,e)=>t.default===!0?t[e]:t.default?t.default[e]:void 0,nn=t=>t,dist_esm_ne=(t,e=nn)=>{let n=rn;t.default&&t.default!==!0&&(t=t.default,n=Object.keys(t));let r={};for(let o of n){let s=e(t[o],o);esm_l.und(s)||(r[o]=s)}return r},rn=["config","onProps","onStart","onChange","onPause","onResume","onRest"],on={config:1,from:1,to:1,ref:1,loop:1,reset:1,pause:1,cancel:1,reverse:1,immediate:1,default:1,delay:1,onProps:1,onStart:1,onChange:1,onPause:1,onResume:1,onRest:1,onResolve:1,items:1,trail:1,sort:1,expires:1,initial:1,enter:1,update:1,leave:1,children:1,onDestroyed:1,keys:1,callId:1,parentId:1};function sn(t){let e={},n=0;if(xt(t,(r,o)=>{on[o]||(e[o]=r,n++)}),n)return e}function esm_de(t){let e=sn(t);if(e){let n={to:e};return xt(t,(r,o)=>o in e||(n[o]=r)),n}return{...t}}function esm_me(t){return t=ve(t),esm_l.arr(t)?t.map(esm_me):esm_or(t)?esm_p.createStringInterpolator({range:[0,1],output:[t,t]})(1):t}function esm_Ue(t){for(let e in t)return!0;return!1}function esm_Ee(t){return esm_l.fun(t)||esm_l.arr(t)&&esm_l.obj(t[0])}function esm_xe(t,e){t.ref?.delete(t),e?.delete(t)}function esm_he(t,e){e&&t.ref!==e&&(t.ref?.delete(t),e.add(t),t.ref=e)}function wr(t,e,n=1e3){an(()=>{if(e){let r=0;ge(t,(o,s)=>{let a=o.current;if(a.length){let i=n*e[s];isNaN(i)?i=r:r=i,ge(a,u=>{ge(u.queue,p=>{let f=p.delay;p.delay=d=>i+esm_I(f||0,d)})}),o.start()}})}else{let r=Promise.resolve();ge(t,o=>{let s=o.current;if(s.length){let a=s.map(i=>{let u=i.queue;return i.queue=[],u});r=r.then(()=>(ge(s,(i,u)=>ge(a[u]||[],p=>i.queue.push(p))),Promise.all(o.start())))}})}})}var esm_mt={default:{tension:170,friction:26},gentle:{tension:120,friction:14},wobbly:{tension:180,friction:12},stiff:{tension:210,friction:20},slow:{tension:280,friction:60},molasses:{tension:280,friction:120}};var tt={...esm_mt.default,mass:1,damping:1,easing:Lt.linear,clamp:!1},esm_we=class{tension;friction;frequency;damping;mass;velocity=0;restVelocity;precision;progress;duration;easing;clamp;bounce;decay;round;constructor(){Object.assign(this,tt)}};function gt(t,e,n){n&&(n={...n},esm_ht(n,e),e={...n,...e}),esm_ht(t,e),Object.assign(t,e);for(let a in tt)t[a]==null&&(t[a]=tt[a]);let{mass:r,frequency:o,damping:s}=t;return esm_l.und(o)||(o<.01&&(o=.01),s<0&&(s=0),t.tension=Math.pow(2*Math.PI/o,2)*r,t.friction=4*Math.PI*s*r/o),t}function esm_ht(t,e){if(!esm_l.und(e.decay))t.duration=void 0;else{let n=!esm_l.und(e.tension)||!esm_l.und(e.friction);(n||!esm_l.und(e.frequency)||!esm_l.und(e.damping)||!esm_l.und(e.mass))&&(t.duration=void 0,t.decay=void 0),n&&(t.frequency=void 0)}}var esm_yt=[],dist_esm_Le=class{changed=!1;values=esm_yt;toValues=null;fromValues=esm_yt;to;from;config=new esm_we;immediate=!1};function esm_Me(t,{key:e,props:n,defaultProps:r,state:o,actions:s}){return new Promise((a,i)=>{let u,p,f=esm_te(n.cancel??r?.cancel,e);if(f)b();else{esm_l.und(n.pause)||(o.paused=esm_te(n.pause,e));let c=r?.pause;c!==!0&&(c=o.paused||esm_te(c,e)),u=esm_I(n.delay||0,e),c?(o.resumeQueue.add(m),s.pause()):(s.resume(),m())}function d(){o.resumeQueue.add(m),o.timeouts.delete(p),p.cancel(),u=p.time-esm_n.now()}function m(){u>0&&!esm_p.skipAnimation?(o.delayed=!0,p=esm_n.setTimeout(b,u),o.pauseQueue.add(d),o.timeouts.add(p)):b()}function b(){o.delayed&&(o.delayed=!1),o.pauseQueue.delete(d),o.timeouts.delete(p),t<=(o.cancelId||0)&&(f=!0);try{s.start({...n,callId:t,cancel:f},a)}catch(c){i(c)}}})}var esm_be=(t,e)=>e.length==1?e[0]:e.some(n=>n.cancelled)?esm_q(t.get()):e.every(n=>n.noop)?nt(t.get()):esm_E(t.get(),e.every(n=>n.finished)),nt=t=>({value:t,noop:!0,finished:!0,cancelled:!1}),esm_E=(t,e,n=!1)=>({value:t,finished:e,cancelled:n}),esm_q=t=>({value:t,cancelled:!0,finished:!1});function esm_De(t,e,n,r){let{callId:o,parentId:s,onRest:a}=e,{asyncTo:i,promise:u}=n;return!s&&t===i&&!e.reset?u:n.promise=(async()=>{n.asyncId=o,n.asyncTo=t;let p=dist_esm_ne(e,(l,h)=>h==="onRest"?void 0:l),f,d,m=new Promise((l,h)=>(f=l,d=h)),b=l=>{let h=o<=(n.cancelId||0)&&esm_q(r)||o!==n.asyncId&&esm_E(r,!1);if(h)throw l.result=h,d(l),l},c=(l,h)=>{let g=new esm_Ae,x=new esm_Ne;return(async()=>{if(esm_p.skipAnimation)throw esm_oe(n),x.result=esm_E(r,!1),d(x),x;b(g);let S=esm_l.obj(l)?{...l}:{...h,to:l};S.parentId=o,xt(p,(V,_)=>{esm_l.und(S[_])&&(S[_]=V)});let A=await r.start(S);return b(g),n.paused&&await new Promise(V=>{n.resumeQueue.add(V)}),A})()},P;if(esm_p.skipAnimation)return esm_oe(n),esm_E(r,!1);try{let l;esm_l.arr(t)?l=(async h=>{for(let g of h)await c(g)})(t):l=Promise.resolve(t(c,r.stop.bind(r))),await Promise.all([l.then(f),m]),P=esm_E(r.get(),!0,!1)}catch(l){if(l instanceof esm_Ae)P=l.result;else if(l instanceof esm_Ne)P=l.result;else throw l}finally{o==n.asyncId&&(n.asyncId=s,n.asyncTo=s?i:void 0,n.promise=s?u:void 0)}return esm_l.fun(a)&&esm_n.batchedUpdates(()=>{a(P,r,r.item)}),P})()}function esm_oe(t,e){Pe(t.timeouts,n=>n.cancel()),t.pauseQueue.clear(),t.resumeQueue.clear(),t.asyncId=t.asyncTo=t.promise=void 0,e&&(t.cancelId=e)}var esm_Ae=class extends Error{result;constructor(){super("An async animation has been interrupted. You see this error because you forgot to use `await` or `.catch(...)` on its returned promise.")}},esm_Ne=class extends Error{result;constructor(){super("SkipAnimationSignal")}};var esm_Re=t=>t instanceof esm_X,Sn=1,esm_X=class extends esm_ge{id=Sn++;_priority=0;get priority(){return this._priority}set priority(e){this._priority!=e&&(this._priority=e,this._onPriorityChange(e))}get(){let e=esm_k(this);return e&&e.getValue()}to(...e){return esm_p.to(this,e)}interpolate(...e){return Jt(),esm_p.to(this,e)}toJSON(){return this.get()}observerAdded(e){e==1&&this._attach()}observerRemoved(e){e==0&&this._detach()}_attach(){}_detach(){}_onChange(e,n=!1){$t(this,{type:"change",parent:this,value:e,idle:n})}_onPriorityChange(e){this.idle||qe.sort(this),$t(this,{type:"priority",parent:this,priority:e})}};var esm_se=Symbol.for("SpringPhase"),esm_bt=1,rt=2,ot=4,esm_qe=t=>(t[esm_se]&esm_bt)>0,dist_esm_Q=t=>(t[esm_se]&rt)>0,esm_ye=t=>(t[esm_se]&ot)>0,st=(t,e)=>e?t[esm_se]|=rt|esm_bt:t[esm_se]&=~rt,esm_it=(t,e)=>e?t[esm_se]|=ot:t[esm_se]&=~ot;var esm_ue=class extends esm_X{key;animation=new dist_esm_Le;queue;defaultProps={};_state={paused:!1,delayed:!1,pauseQueue:new Set,resumeQueue:new Set,timeouts:new Set};_pendingCalls=new Set;_lastCallId=0;_lastToId=0;_memoizedDuration=0;constructor(e,n){if(super(),!esm_l.und(e)||!esm_l.und(n)){let r=esm_l.obj(e)?{...e}:{...n,from:e};esm_l.und(r.default)&&(r.default=!0),this.start(r)}}get idle(){return!(dist_esm_Q(this)||this._state.asyncTo)||esm_ye(this)}get goal(){return ve(this.animation.to)}get velocity(){let e=esm_k(this);return e instanceof dist_esm_l?e.lastVelocity||0:e.getPayload().map(n=>n.lastVelocity||0)}get hasAnimated(){return esm_qe(this)}get isAnimating(){return dist_esm_Q(this)}get isPaused(){return esm_ye(this)}get isDelayed(){return this._state.delayed}advance(e){let n=!0,r=!1,o=this.animation,{config:s,toValues:a}=o,i=F(o.to);!i&&Pt(o.to)&&(a=ht(ve(o.to))),o.values.forEach((f,d)=>{if(f.done)return;let m=f.constructor==dist_esm_d?1:i?i[d].lastPosition:a[d],b=o.immediate,c=m;if(!b){if(c=f.lastPosition,s.tension<=0){f.done=!0;return}let P=f.elapsedTime+=e,l=o.fromValues[d],h=f.v0!=null?f.v0:f.v0=esm_l.arr(s.velocity)?s.velocity[d]:s.velocity,g,x=s.precision||(l==m?.005:Math.min(1,Math.abs(m-l)*.001));if(esm_l.und(s.duration))if(s.decay){let S=s.decay===!0?.998:s.decay,A=Math.exp(-(1-S)*P);c=l+h/(1-S)*(1-A),b=Math.abs(f.lastPosition-c)<=x,g=h*A}else{g=f.lastVelocity==null?h:f.lastVelocity;let S=s.restVelocity||x/10,A=s.clamp?0:s.bounce,V=!esm_l.und(A),_=l==m?f.v0>0:l<m,v,w=!1,C=1,$=Math.ceil(e/C);for(let L=0;L<$&&(v=Math.abs(g)>S,!(!v&&(b=Math.abs(m-c)<=x,b)));++L){V&&(w=c==m||c>m==_,w&&(g=-g*A,c=m));let N=-s.tension*1e-6*(c-m),y=-s.friction*.001*g,T=(N+y)/s.mass;g=g+T*C,c=c+g*C}}else{let S=1;s.duration>0&&(this._memoizedDuration!==s.duration&&(this._memoizedDuration=s.duration,f.durationProgress>0&&(f.elapsedTime=s.duration*f.durationProgress,P=f.elapsedTime+=e)),S=(s.progress||0)+P/this._memoizedDuration,S=S>1?1:S<0?0:S,f.durationProgress=S),c=l+s.easing(S)*(m-l),g=(c-f.lastPosition)/e,b=S==1}f.lastVelocity=g,Number.isNaN(c)&&(console.warn("Got NaN while animating:",this),b=!0)}i&&!i[d].done&&(b=!1),b?f.done=!0:n=!1,f.setValue(c,s.round)&&(r=!0)});let u=esm_k(this),p=u.getValue();if(n){let f=ve(o.to);(p!==f||r)&&!s.decay?(u.setValue(f),this._onChange(f)):r&&s.decay&&this._onChange(p),this._stop()}else r&&this._onChange(p)}set(e){return esm_n.batchedUpdates(()=>{this._stop(),this._focus(e),this._set(e)}),this}pause(){this._update({pause:!0})}resume(){this._update({pause:!1})}finish(){if(dist_esm_Q(this)){let{to:e,config:n}=this.animation;esm_n.batchedUpdates(()=>{this._onStart(),n.decay||this._set(e,!1),this._stop()})}return this}update(e){return(this.queue||(this.queue=[])).push(e),this}start(e,n){let r;return esm_l.und(e)?(r=this.queue||[],this.queue=[]):r=[esm_l.obj(e)?e:{...n,to:e}],Promise.all(r.map(o=>this._update(o))).then(o=>esm_be(this,o))}stop(e){let{to:n}=this.animation;return this._focus(this.get()),esm_oe(this._state,e&&this._lastCallId),esm_n.batchedUpdates(()=>this._stop(n,e)),this}reset(){this._update({reset:!0})}eventObserved(e){e.type=="change"?this._start():e.type=="priority"&&(this.priority=e.priority+1)}_prepareNode(e){let n=this.key||"",{to:r,from:o}=e;r=esm_l.obj(r)?r[n]:r,(r==null||esm_Ee(r))&&(r=void 0),o=esm_l.obj(o)?o[n]:o,o==null&&(o=void 0);let s={to:r,from:o};return esm_qe(this)||(e.reverse&&([r,o]=[o,r]),o=ve(o),esm_l.und(o)?esm_k(this)||this._set(r):this._set(o)),s}_update({...e},n){let{key:r,defaultProps:o}=this;e.default&&Object.assign(o,dist_esm_ne(e,(i,u)=>/^on/.test(u)?et(i,r):i)),_t(this,e,"onProps"),esm_Ie(this,"onProps",e,this);let s=this._prepareNode(e);if(Object.isFrozen(this))throw Error("Cannot animate a `SpringValue` object that is frozen. Did you forget to pass your component to `animated(...)` before animating its props?");let a=this._state;return esm_Me(++this._lastCallId,{key:r,props:e,defaultProps:o,state:a,actions:{pause:()=>{esm_ye(this)||(esm_it(this,!0),yt(a.pauseQueue),esm_Ie(this,"onPause",esm_E(this,esm_Ce(this,this.animation.to)),this))},resume:()=>{esm_ye(this)&&(esm_it(this,!1),dist_esm_Q(this)&&this._resume(),yt(a.resumeQueue),esm_Ie(this,"onResume",esm_E(this,esm_Ce(this,this.animation.to)),this))},start:this._merge.bind(this,s)}}).then(i=>{if(e.loop&&i.finished&&!(n&&i.noop)){let u=at(e);if(u)return this._update(u,!0)}return i})}_merge(e,n,r){if(n.cancel)return this.stop(!0),r(esm_q(this));let o=!esm_l.und(e.to),s=!esm_l.und(e.from);if(o||s)if(n.callId>this._lastToId)this._lastToId=n.callId;else return r(esm_q(this));let{key:a,defaultProps:i,animation:u}=this,{to:p,from:f}=u,{to:d=p,from:m=f}=e;s&&!o&&(!n.default||esm_l.und(d))&&(d=m),n.reverse&&([d,m]=[m,d]);let b=!bt(m,f);b&&(u.from=m),m=ve(m);let c=!bt(d,p);c&&this._focus(d);let P=esm_Ee(n.to),{config:l}=u,{decay:h,velocity:g}=l;(o||s)&&(l.velocity=0),n.config&&!P&&gt(l,esm_I(n.config,a),n.config!==i.config?esm_I(i.config,a):void 0);let x=esm_k(this);if(!x||esm_l.und(d))return r(esm_E(this,!0));let S=esm_l.und(n.reset)?s&&!n.default:!esm_l.und(m)&&esm_te(n.reset,a),A=S?m:this.get(),V=esm_me(d),_=esm_l.num(V)||esm_l.arr(V)||esm_or(V),v=!P&&(!_||esm_te(i.immediate||n.immediate,a));if(c){let L=esm_Le(d);if(L!==x.constructor)if(v)x=this._set(V);else throw Error(`Cannot animate between ${x.constructor.name} and ${L.name}, as the "to" prop suggests`)}let w=x.constructor,C=Pt(d),$=!1;if(!C){let L=S||!esm_qe(this)&&b;(c||L)&&($=bt(esm_me(A),V),C=!$),(!bt(u.immediate,v)&&!v||!bt(l.decay,h)||!bt(l.velocity,g))&&(C=!0)}if($&&dist_esm_Q(this)&&(u.changed&&!S?C=!0:C||this._stop(p)),!P&&((C||Pt(p))&&(u.values=x.getPayload(),u.toValues=Pt(d)?null:w==dist_esm_d?[1]:ht(V)),u.immediate!=v&&(u.immediate=v,!v&&!S&&this._set(p)),C)){let{onRest:L}=u;Ve(_n,y=>_t(this,n,y));let N=esm_E(this,esm_Ce(this,p));yt(this._pendingCalls,N),this._pendingCalls.add(r),u.changed&&esm_n.batchedUpdates(()=>{u.changed=!S,L?.(N,this),S?esm_I(i.onRest,N):u.onStart?.(N,this)})}S&&this._set(A),P?r(esm_De(n.to,n,this._state,this)):C?this._start():dist_esm_Q(this)&&!c?this._pendingCalls.add(r):r(nt(A))}_focus(e){let n=this.animation;e!==n.to&&(esm_qt(this)&&this._detach(),n.to=e,esm_qt(this)&&this._attach())}_attach(){let e=0,{to:n}=this.animation;Pt(n)&&(Gt(n,this),esm_Re(n)&&(e=n.priority+1)),this.priority=e}_detach(){let{to:e}=this.animation;Pt(e)&&Qt(e,this)}_set(e,n=!0){let r=ve(e);if(!esm_l.und(r)){let o=esm_k(this);if(!o||!bt(r,o.getValue())){let s=esm_Le(r);!o||o.constructor!=s?esm_D(this,s.create(r)):o.setValue(r),o&&esm_n.batchedUpdates(()=>{this._onChange(r,n)})}}return esm_k(this)}_onStart(){let e=this.animation;e.changed||(e.changed=!0,esm_Ie(this,"onStart",esm_E(this,esm_Ce(this,e.to)),this))}_onChange(e,n){n||(this._onStart(),esm_I(this.animation.onChange,e,this)),esm_I(this.defaultProps.onChange,e,this),super._onChange(e,n)}_start(){let e=this.animation;esm_k(this).reset(ve(e.to)),e.immediate||(e.fromValues=e.values.map(n=>n.lastPosition)),dist_esm_Q(this)||(st(this,!0),esm_ye(this)||this._resume())}_resume(){esm_p.skipAnimation?this.finish():qe.start(this)}_stop(e,n){if(dist_esm_Q(this)){st(this,!1);let r=this.animation;Ve(r.values,s=>{s.done=!0}),r.toValues&&(r.onChange=r.onPause=r.onResume=void 0),$t(this,{type:"idle",parent:this});let o=n?esm_q(this.get()):esm_E(this.get(),esm_Ce(this,e??r.to));yt(this._pendingCalls,o),r.changed&&(r.changed=!1,esm_Ie(this,"onRest",o,this))}}};function esm_Ce(t,e){let n=esm_me(e),r=esm_me(t.get());return bt(r,n)}function at(t,e=t.loop,n=t.to){let r=esm_I(e);if(r){let o=r!==!0&&esm_de(r),s=(o||t).reverse,a=!o||o.reset;return esm_Pe({...t,loop:e,default:!1,pause:void 0,to:!s||esm_Ee(n)?n:void 0,from:a?t.from:void 0,reset:a,...o})}}function esm_Pe(t){let{to:e,from:n}=t=esm_de(t),r=new Set;return esm_l.obj(e)&&Vt(e,r),esm_l.obj(n)&&Vt(n,r),t.keys=r.size?Array.from(r):null,t}function Ot(t){let e=esm_Pe(t);return esm_l.und(e.default)&&(e.default=dist_esm_ne(e)),e}function Vt(t,e){xt(t,(n,r)=>n!=null&&e.add(r))}var _n=["onStart","onRest","onChange","onPause","onResume"];function _t(t,e,n){t.animation[n]=e[n]!==esm_ke(e,n)?et(e[n],t.key):void 0}function esm_Ie(t,e,...n){t.animation[e]?.(...n),t.defaultProps[e]?.(...n)}var Fn=["onStart","onChange","onRest"],kn=1,esm_le=class{id=kn++;springs={};queue=[];ref;_flush;_initialProps;_lastAsyncId=0;_active=new Set;_changed=new Set;_started=!1;_item;_state={paused:!1,pauseQueue:new Set,resumeQueue:new Set,timeouts:new Set};_events={onStart:new Map,onChange:new Map,onRest:new Map};constructor(e,n){this._onFrame=this._onFrame.bind(this),n&&(this._flush=n),e&&this.start({default:!0,...e})}get idle(){return!this._state.asyncTo&&Object.values(this.springs).every(e=>e.idle&&!e.isDelayed&&!e.isPaused)}get item(){return this._item}set item(e){this._item=e}get(){let e={};return this.each((n,r)=>e[r]=n.get()),e}set(e){for(let n in e){let r=e[n];esm_l.und(r)||this.springs[n].set(r)}}update(e){return e&&this.queue.push(esm_Pe(e)),this}start(e){let{queue:n}=this;return e?n=ht(e).map(esm_Pe):this.queue=[],this._flush?this._flush(this,n):(jt(this,n),esm_ze(this,n))}stop(e,n){if(e!==!!e&&(n=e),n){let r=this.springs;Ve(ht(n),o=>r[o].stop(!!e))}else esm_oe(this._state,this._lastAsyncId),this.each(r=>r.stop(!!e));return this}pause(e){if(esm_l.und(e))this.start({pause:!0});else{let n=this.springs;Ve(ht(e),r=>n[r].pause())}return this}resume(e){if(esm_l.und(e))this.start({pause:!1});else{let n=this.springs;Ve(ht(e),r=>n[r].resume())}return this}each(e){xt(this.springs,e)}_onFrame(){let{onStart:e,onChange:n,onRest:r}=this._events,o=this._active.size>0,s=this._changed.size>0;(o&&!this._started||s&&!this._started)&&(this._started=!0,Pe(e,([u,p])=>{p.value=this.get(),u(p,this,this._item)}));let a=!o&&this._started,i=s||a&&r.size?this.get():null;s&&n.size&&Pe(n,([u,p])=>{p.value=i,u(p,this,this._item)}),a&&(this._started=!1,Pe(r,([u,p])=>{p.value=i,u(p,this,this._item)}))}eventObserved(e){if(e.type=="change")this._changed.add(e.parent),e.idle||this._active.add(e.parent);else if(e.type=="idle")this._active.delete(e.parent);else return;esm_n.onFrame(this._onFrame)}};function esm_ze(t,e){return Promise.all(e.map(n=>wt(t,n))).then(n=>esm_be(t,n))}async function wt(t,e,n){let{keys:r,to:o,from:s,loop:a,onRest:i,onResolve:u}=e,p=esm_l.obj(e.default)&&e.default;a&&(e.loop=!1),o===!1&&(e.to=null),s===!1&&(e.from=null);let f=esm_l.arr(o)||esm_l.fun(o)?o:void 0;f?(e.to=void 0,e.onRest=void 0,p&&(p.onRest=void 0)):Ve(Fn,P=>{let l=e[P];if(esm_l.fun(l)){let h=t._events[P];e[P]=({finished:g,cancelled:x})=>{let S=h.get(l);S?(g||(S.finished=!1),x&&(S.cancelled=!0)):h.set(l,{value:null,finished:g||!1,cancelled:x||!1})},p&&(p[P]=e[P])}});let d=t._state;e.pause===!d.paused?(d.paused=e.pause,yt(e.pause?d.pauseQueue:d.resumeQueue)):d.paused&&(e.pause=!0);let m=(r||Object.keys(t.springs)).map(P=>t.springs[P].start(e)),b=e.cancel===!0||esm_ke(e,"cancel")===!0;(f||b&&d.asyncId)&&m.push(esm_Me(++t._lastAsyncId,{props:e,state:d,actions:{pause:Y,resume:Y,start(P,l){b?(esm_oe(d,t._lastAsyncId),l(esm_q(t))):(P.onRest=i,l(esm_De(f,P,d,t)))}}})),d.paused&&await new Promise(P=>{d.resumeQueue.add(P)});let c=esm_be(t,await Promise.all(m));if(a&&c.finished&&!(n&&c.noop)){let P=at(e,a,o);if(P)return jt(t,[P]),wt(t,P,!0)}return u&&esm_n.batchedUpdates(()=>u(c,t,t.item)),c}function esm_e(t,e){let n={...t.springs};return e&&Ve(ht(e),r=>{esm_l.und(r.keys)&&(r=esm_Pe(r)),esm_l.obj(r.to)||(r={...r,to:void 0}),Mt(n,r,o=>esm_Lt(o))}),pt(t,n),n}function pt(t,e){xt(e,(n,r)=>{t.springs[r]||(t.springs[r]=n,Gt(n,t))})}function esm_Lt(t,e){let n=new esm_ue;return n.key=t,e&&Gt(n,e),n}function Mt(t,e,n){e.keys&&Ve(e.keys,r=>{(t[r]||(t[r]=n(r)))._prepareNode(e)})}function jt(t,e){Ve(e,n=>{Mt(t.springs,n,r=>esm_Lt(r,t))})}var esm_H=({children:t,...e})=>{let n=(0,external_React_.useContext)(esm_Ge),r=e.pause||!!n.pause,o=e.immediate||!!n.immediate;e=Lr(()=>({pause:r,immediate:o}),[r,o]);let{Provider:s}=esm_Ge;return external_React_.createElement(s,{value:e},t)},esm_Ge=wn(esm_H,{});esm_H.Provider=esm_Ge.Provider;esm_H.Consumer=esm_Ge.Consumer;function wn(t,e){return Object.assign(t,external_React_.createContext(e)),t.Provider._context=t,t.Consumer._context=t,t}var esm_fe=()=>{let t=[],e=function(r){er();let o=[];return Ve(t,(s,a)=>{if(esm_l.und(r))o.push(s.start());else{let i=n(r,s,a);i&&o.push(s.start(i))}}),o};e.current=t,e.add=function(r){t.includes(r)||t.push(r)},e.delete=function(r){let o=t.indexOf(r);~o&&t.splice(o,1)},e.pause=function(){return Ve(t,r=>r.pause(...arguments)),this},e.resume=function(){return Ve(t,r=>r.resume(...arguments)),this},e.set=function(r){Ve(t,(o,s)=>{let a=esm_l.fun(r)?r(s,o):r;a&&o.set(a)})},e.start=function(r){let o=[];return Ve(t,(s,a)=>{if(esm_l.und(r))o.push(s.start());else{let i=this._getProps(r,s,a);i&&o.push(s.start(i))}}),o},e.stop=function(){return Ve(t,r=>r.stop(...arguments)),this},e.update=function(r){return Ve(t,(o,s)=>o.update(this._getProps(r,o,s))),this};let n=function(r,o,s){return esm_l.fun(r)?r(s,o):r};return e._getProps=n,e};function esm_He(t,e,n){let r=esm_l.fun(e)&&e;r&&!n&&(n=[]);let o=(0,external_React_.useMemo)(()=>r||arguments.length==3?esm_fe():void 0,[]),s=(0,external_React_.useRef)(0),a=Mr(),i=(0,external_React_.useMemo)(()=>({ctrls:[],queue:[],flush(h,g){let x=esm_e(h,g);return s.current>0&&!i.queue.length&&!Object.keys(x).some(A=>!h.springs[A])?esm_ze(h,g):new Promise(A=>{pt(h,x),i.queue.push(()=>{A(esm_ze(h,g))}),a()})}}),[]),u=(0,external_React_.useRef)([...i.ctrls]),p=[],f=Ur(t)||0;(0,external_React_.useMemo)(()=>{Ve(u.current.slice(t,f),h=>{esm_xe(h,o),h.stop(!0)}),u.current.length=t,d(f,t)},[t]),(0,external_React_.useMemo)(()=>{d(0,Math.min(f,t))},n);function d(h,g){for(let x=h;x<g;x++){let S=u.current[x]||(u.current[x]=new esm_le(null,i.flush)),A=r?r(x,S):e[x];A&&(p[x]=Ot(A))}}let m=u.current.map((h,g)=>esm_e(h,p[g])),b=(0,external_React_.useContext)(esm_H),c=Ur(b),P=b!==c&&esm_Ue(b);esm_Q(()=>{s.current++,i.ctrls=u.current;let{queue:h}=i;h.length&&(i.queue=[],Ve(h,g=>g())),Ve(u.current,(g,x)=>{o?.add(g),P&&g.start({default:b});let S=p[x];S&&(esm_he(g,S.ref),g.ref?g.queue.push(S):g.start(S))})}),$r(()=>()=>{Ve(i.ctrls,h=>h.stop(!0))});let l=m.map(h=>({...h}));return o?[l,o]:l}function esm_J(t,e){let n=esm_l.fun(t),[[r],o]=esm_He(1,n?t:[t],n?e||[]:e);return n||arguments.length==2?[r,o]:r}var Gn=()=>esm_fe(),Xo=()=>zn(Gn)[0];var Wo=(t,e)=>{let n=Bn(()=>new esm_ue(t,e));return Kn(()=>()=>{n.stop()}),n};function esm_Qt(t,e,n){let r=qt.fun(e)&&e;r&&!n&&(n=[]);let o=!0,s,a=esm_He(t,(i,u)=>{let p=r?r(i,u):e;return s=p.ref,o=o&&p.reverse,p},n||[{}]);if(Yn(()=>{Xn(a[1].current,(i,u)=>{let p=a[1].current[u+(o?1:-1)];if(esm_he(i,s),i.ref){p&&i.update({to:p.springs});return}p?i.start({to:p.springs}):i.start()})},n),r||arguments.length==3){let i=s??a[1];return i._getProps=(u,p,f)=>{let d=qt.fun(u)?u(f,p):u;if(d){let m=i.current[f+(d.reverse?1:-1)];return m&&(d.to=m.springs),d}},a}return a[0]}function esm_Gt(t,e,n){let r=G.fun(e)&&e,{reset:o,sort:s,trail:a=0,expires:i=!0,exitBeforeEnter:u=!1,onDestroyed:p,ref:f,config:d}=r?r():e,m=Jn(()=>r||arguments.length==3?esm_fe():void 0,[]),b=zt(t),c=[],P=lt(null),l=o?null:P.current;Je(()=>{P.current=c}),$n(()=>(j(c,y=>{m?.add(y.ctrl),y.ctrl.ref=m}),()=>{j(P.current,y=>{y.expired&&clearTimeout(y.expirationId),esm_xe(y.ctrl,m),y.ctrl.stop(!0)})}));let h=tr(b,r?r():e,l),g=o&&P.current||[];Je(()=>j(g,({ctrl:y,item:T,key:F})=>{esm_xe(y,m),esm_I(p,T,F)}));let x=[];if(l&&j(l,(y,T)=>{y.expired?(clearTimeout(y.expirationId),g.push(y)):(T=x[T]=h.indexOf(y.key),~T&&(c[T]=y))}),j(b,(y,T)=>{c[T]||(c[T]={key:h[T],item:y,phase:"mount",ctrl:new esm_le},c[T].ctrl.item=y)}),x.length){let y=-1,{leave:T}=r?r():e;j(x,(F,k)=>{let O=l[k];~F?(y=c.indexOf(O),c[y]={...O,item:b[F]}):T&&c.splice(++y,0,O)})}G.fun(s)&&c.sort((y,T)=>s(y.item,T.item));let S=-a,A=Wn(),V=dist_esm_ne(e),_=new Map,v=lt(new Map),w=lt(!1);j(c,(y,T)=>{let F=y.key,k=y.phase,O=r?r():e,U,D,Jt=esm_I(O.delay||0,F);if(k=="mount")U=O.enter,D="enter";else{let M=h.indexOf(F)<0;if(k!="leave")if(M)U=O.leave,D="leave";else if(U=O.update)D="update";else return;else if(!M)U=O.enter,D="enter";else return}if(U=esm_I(U,y.item,T),U=G.obj(U)?esm_de(U):{to:U},!U.config){let M=d||V.config;U.config=esm_I(M,y.item,T,D)}S+=a;let Z={...V,delay:Jt+S,ref:f,immediate:O.immediate,reset:!1,...U};if(D=="enter"&&G.und(Z.from)){let M=r?r():e,Te=G.und(M.initial)||l?M.from:M.initial;Z.from=esm_I(Te,y.item,T)}let{onResolve:Wt}=Z;Z.onResolve=M=>{esm_I(Wt,M);let Te=P.current,B=Te.find(Fe=>Fe.key===F);if(!!B&&!(M.cancelled&&B.phase!="update")&&B.ctrl.idle){let Fe=Te.every(ee=>ee.ctrl.idle);if(B.phase=="leave"){let ee=esm_I(i,B.item);if(ee!==!1){let Ze=ee===!0?0:ee;if(B.expired=!0,!Fe&&Ze>0){Ze<=2147483647&&(B.expirationId=setTimeout(A,Ze));return}}}Fe&&Te.some(ee=>ee.expired)&&(v.current.delete(B),u&&(w.current=!0),A())}};let ft=esm_e(y.ctrl,Z);D==="leave"&&u?v.current.set(y,{phase:D,springs:ft,payload:Z}):_.set(y,{phase:D,springs:ft,payload:Z})});let C=Hn(esm_H),$=Zn(C),L=C!==$&&esm_Ue(C);Je(()=>{L&&j(c,y=>{y.ctrl.start({default:C})})},[C]),j(_,(y,T)=>{if(v.current.size){let F=c.findIndex(k=>k.key===T.key);c.splice(F,1)}}),Je(()=>{j(v.current.size?v.current:_,({phase:y,payload:T},F)=>{let{ctrl:k}=F;F.phase=y,m?.add(k),L&&y=="enter"&&k.start({default:C}),T&&(esm_he(k,T.ref),(k.ref||m)&&!w.current?k.update(T):(k.start(T),w.current&&(w.current=!1)))})},o?void 0:n);let N=y=>Oe.createElement(Oe.Fragment,null,c.map((T,F)=>{let{springs:k}=_.get(T)||T.ctrl,O=y({...k},T.item,T,F);return O&&O.type?Oe.createElement(O.type,{...O.props,key:G.str(T.key)||G.num(T.key)?T.key:T.ctrl.id,ref:O.ref}):O}));return m?[N,m]:N}var esm_er=1;function tr(t,{key:e,keys:n=e},r){if(n===null){let o=new Set;return t.map(s=>{let a=r&&r.find(i=>i.item===s&&i.phase!=="leave"&&!o.has(i));return a?(o.add(a),a.key):esm_er++})}return G.und(n)?t:G.fun(n)?t.map(n):zt(n)}var hs=({container:t,...e}={})=>{let[n,r]=esm_J(()=>({scrollX:0,scrollY:0,scrollXProgress:0,scrollYProgress:0,...e}),[]);return or(()=>{let o=rr(({x:s,y:a})=>{r.start({scrollX:s.current,scrollXProgress:s.progress,scrollY:a.current,scrollYProgress:a.progress})},{container:t?.current||void 0});return()=>{nr(Object.values(n),s=>s.stop()),o()}},[]),n};var Ps=({container:t,...e})=>{let[n,r]=esm_J(()=>({width:0,height:0,...e}),[]);return ar(()=>{let o=sr(({width:s,height:a})=>{r.start({width:s,height:a,immediate:n.width.get()===0||n.height.get()===0})},{container:t?.current||void 0});return()=>{ir(Object.values(n),s=>s.stop()),o()}},[]),n};var cr={any:0,all:1};function Cs(t,e){let[n,r]=pr(!1),o=ur(),s=Bt.fun(t)&&t,a=s?s():{},{to:i={},from:u={},...p}=a,f=s?e:t,[d,m]=esm_J(()=>({from:u,...p}),[]);return lr(()=>{let b=o.current,{root:c,once:P,amount:l="any",...h}=f??{};if(!b||P&&n||typeof IntersectionObserver>"u")return;let g=new WeakMap,x=()=>(i&&m.start(i),r(!0),P?void 0:()=>{u&&m.start(u),r(!1)}),S=V=>{V.forEach(_=>{let v=g.get(_.target);if(_.isIntersecting!==Boolean(v))if(_.isIntersecting){let w=x();Bt.fun(w)?g.set(_.target,w):A.unobserve(_.target)}else v&&(v(),g.delete(_.target))})},A=new IntersectionObserver(S,{root:c&&c.current||void 0,threshold:typeof l=="number"||Array.isArray(l)?l:cr[l],...h});return A.observe(b),()=>A.unobserve(b)},[f]),s?[o,d]:[o,n]}function qs({children:t,...e}){return t(esm_J(e))}function Bs({items:t,children:e,...n}){let r=esm_Qt(t.length,n);return t.map((o,s)=>{let a=e(o,s);return fr.fun(a)?a(r[s]):a})}function Ys({items:t,children:e,...n}){return esm_Gt(t,n)(e)}var esm_W=class extends esm_X{constructor(n,r){super();this.source=n;this.calc=W(...r);let o=this._get(),s=esm_Le(o);esm_D(this,s.create(o))}key;idle=!0;calc;_active=new Set;advance(n){let r=this._get(),o=this.get();bt(r,o)||(esm_k(this).setValue(r),this._onChange(r,this.idle)),!this.idle&&Yt(this._active)&&ct(this)}_get(){let n=esm_l.arr(this.source)?this.source.map(ve):ht(ve(this.source));return this.calc(...n)}_start(){this.idle&&!Yt(this._active)&&(this.idle=!1,Ve(F(this),n=>{n.done=!1}),esm_p.skipAnimation?(esm_n.batchedUpdates(()=>this.advance()),ct(this)):qe.start(this))}_attach(){let n=1;Ve(ht(this.source),r=>{Pt(r)&&Gt(r,this),esm_Re(r)&&(r.idle||this._active.add(r),n=Math.max(n,r.priority+1))}),this.priority=n,this._start()}_detach(){Ve(ht(this.source),n=>{Pt(n)&&Qt(n,this)}),this._active.clear(),ct(this)}eventObserved(n){n.type=="change"?n.idle?this.advance():(this._active.add(n.parent),this._start()):n.type=="idle"?this._active.delete(n.parent):n.type=="priority"&&(this.priority=ht(this.source).reduce((r,o)=>Math.max(r,(esm_Re(o)?o.priority:0)+1),0))}};function vr(t){return t.idle!==!1}function Yt(t){return!t.size||Array.from(t).every(vr)}function ct(t){t.idle||(t.idle=!0,Ve(F(t),e=>{e.done=!0}),$t(t,{type:"idle",parent:t}))}var esm_ui=(t,...e)=>new esm_W(t,e),pi=(t,...e)=>(Cr(),new esm_W(t,e));esm_p.assign({createStringInterpolator:Xt,to:(t,e)=>new esm_W(t,e)});var di=qe.advance;
 
 ;// CONCATENATED MODULE: external "ReactDOM"
 var external_ReactDOM_namespaceObject = window["ReactDOM"];
-;// CONCATENATED MODULE: ./node_modules/@react-spring/web/dist/react-spring_web.modern.mjs
-// src/index.ts
-
-
-
-
-
-// src/applyAnimatedValues.ts
-var isCustomPropRE = /^--/;
-function dangerousStyleValue(name, value) {
-  if (value == null || typeof value === "boolean" || value === "")
-    return "";
-  if (typeof value === "number" && value !== 0 && !isCustomPropRE.test(name) && !(isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]))
-    return value + "px";
-  return ("" + value).trim();
-}
-var attributeCache = {};
-function applyAnimatedValues(instance, props) {
-  if (!instance.nodeType || !instance.setAttribute) {
-    return false;
-  }
-  const isFilterElement = instance.nodeName === "filter" || instance.parentNode && instance.parentNode.nodeName === "filter";
-  const { style, children, scrollTop, scrollLeft, viewBox, ...attributes } = props;
-  const values = Object.values(attributes);
-  const names = Object.keys(attributes).map(
-    (name) => isFilterElement || instance.hasAttribute(name) ? name : attributeCache[name] || (attributeCache[name] = name.replace(
-      /([A-Z])/g,
-      // Attributes are written in dash case
-      (n) => "-" + n.toLowerCase()
-    ))
-  );
-  if (children !== void 0) {
-    instance.textContent = children;
-  }
-  for (const name in style) {
-    if (style.hasOwnProperty(name)) {
-      const value = dangerousStyleValue(name, style[name]);
-      if (isCustomPropRE.test(name)) {
-        instance.style.setProperty(name, value);
-      } else {
-        instance.style[name] = value;
-      }
-    }
-  }
-  names.forEach((name, i) => {
-    instance.setAttribute(name, values[i]);
-  });
-  if (scrollTop !== void 0) {
-    instance.scrollTop = scrollTop;
-  }
-  if (scrollLeft !== void 0) {
-    instance.scrollLeft = scrollLeft;
-  }
-  if (viewBox !== void 0) {
-    instance.setAttribute("viewBox", viewBox);
-  }
-}
-var isUnitlessNumber = {
-  animationIterationCount: true,
-  borderImageOutset: true,
-  borderImageSlice: true,
-  borderImageWidth: true,
-  boxFlex: true,
-  boxFlexGroup: true,
-  boxOrdinalGroup: true,
-  columnCount: true,
-  columns: true,
-  flex: true,
-  flexGrow: true,
-  flexPositive: true,
-  flexShrink: true,
-  flexNegative: true,
-  flexOrder: true,
-  gridRow: true,
-  gridRowEnd: true,
-  gridRowSpan: true,
-  gridRowStart: true,
-  gridColumn: true,
-  gridColumnEnd: true,
-  gridColumnSpan: true,
-  gridColumnStart: true,
-  fontWeight: true,
-  lineClamp: true,
-  lineHeight: true,
-  opacity: true,
-  order: true,
-  orphans: true,
-  tabSize: true,
-  widows: true,
-  zIndex: true,
-  zoom: true,
-  // SVG-related properties
-  fillOpacity: true,
-  floodOpacity: true,
-  stopOpacity: true,
-  strokeDasharray: true,
-  strokeDashoffset: true,
-  strokeMiterlimit: true,
-  strokeOpacity: true,
-  strokeWidth: true
-};
-var prefixKey = (prefix, key) => prefix + key.charAt(0).toUpperCase() + key.substring(1);
-var prefixes = ["Webkit", "Ms", "Moz", "O"];
-isUnitlessNumber = Object.keys(isUnitlessNumber).reduce((acc, prop) => {
-  prefixes.forEach((prefix) => acc[prefixKey(prefix, prop)] = acc[prop]);
-  return acc;
-}, isUnitlessNumber);
-
-// src/AnimatedStyle.ts
-
-
-var domTransforms = /^(matrix|translate|scale|rotate|skew)/;
-var pxTransforms = /^(translate)/;
-var degTransforms = /^(rotate|skew)/;
-var addUnit = (value, unit) => is.num(value) && value !== 0 ? value + unit : value;
-var isValueIdentity = (value, id) => is.arr(value) ? value.every((v) => isValueIdentity(v, id)) : is.num(value) ? value === id : parseFloat(value) === id;
-var AnimatedStyle = class extends AnimatedObject {
-  constructor({ x, y, z, ...style }) {
-    const inputs = [];
-    const transforms = [];
-    if (x || y || z) {
-      inputs.push([x || 0, y || 0, z || 0]);
-      transforms.push((xyz) => [
-        `translate3d(${xyz.map((v) => addUnit(v, "px")).join(",")})`,
-        // prettier-ignore
-        isValueIdentity(xyz, 0)
-      ]);
-    }
-    eachProp(style, (value, key) => {
-      if (key === "transform") {
-        inputs.push([value || ""]);
-        transforms.push((transform) => [transform, transform === ""]);
-      } else if (domTransforms.test(key)) {
-        delete style[key];
-        if (is.und(value))
-          return;
-        const unit = pxTransforms.test(key) ? "px" : degTransforms.test(key) ? "deg" : "";
-        inputs.push(toArray(value));
-        transforms.push(
-          key === "rotate3d" ? ([x2, y2, z2, deg]) => [
-            `rotate3d(${x2},${y2},${z2},${addUnit(deg, unit)})`,
-            isValueIdentity(deg, 0)
-          ] : (input) => [
-            `${key}(${input.map((v) => addUnit(v, unit)).join(",")})`,
-            isValueIdentity(input, key.startsWith("scale") ? 1 : 0)
-          ]
-        );
-      }
-    });
-    if (inputs.length) {
-      style.transform = new FluidTransform(inputs, transforms);
-    }
-    super(style);
-  }
-};
-var FluidTransform = class extends FluidValue {
-  constructor(inputs, transforms) {
-    super();
-    this.inputs = inputs;
-    this.transforms = transforms;
-    this._value = null;
-  }
-  get() {
-    return this._value || (this._value = this._get());
-  }
-  _get() {
-    let transform = "";
-    let identity = true;
-    react_spring_shared_modern_each(this.inputs, (input, i) => {
-      const arg1 = getFluidValue(input[0]);
-      const [t, id] = this.transforms[i](
-        is.arr(arg1) ? arg1 : input.map(getFluidValue)
-      );
-      transform += " " + t;
-      identity = identity && id;
-    });
-    return identity ? "none" : transform;
-  }
-  // Start observing our inputs once we have an observer.
-  observerAdded(count) {
-    if (count == 1)
-      react_spring_shared_modern_each(
-        this.inputs,
-        (input) => react_spring_shared_modern_each(
-          input,
-          (value) => hasFluidValue(value) && addFluidObserver(value, this)
-        )
-      );
-  }
-  // Stop observing our inputs once we have no observers.
-  observerRemoved(count) {
-    if (count == 0)
-      react_spring_shared_modern_each(
-        this.inputs,
-        (input) => react_spring_shared_modern_each(
-          input,
-          (value) => hasFluidValue(value) && removeFluidObserver(value, this)
-        )
-      );
-  }
-  eventObserved(event) {
-    if (event.type == "change") {
-      this._value = null;
-    }
-    callFluidObservers(this, event);
-  }
-};
-
-// src/primitives.ts
-var primitives = [
-  "a",
-  "abbr",
-  "address",
-  "area",
-  "article",
-  "aside",
-  "audio",
-  "b",
-  "base",
-  "bdi",
-  "bdo",
-  "big",
-  "blockquote",
-  "body",
-  "br",
-  "button",
-  "canvas",
-  "caption",
-  "cite",
-  "code",
-  "col",
-  "colgroup",
-  "data",
-  "datalist",
-  "dd",
-  "del",
-  "details",
-  "dfn",
-  "dialog",
-  "div",
-  "dl",
-  "dt",
-  "em",
-  "embed",
-  "fieldset",
-  "figcaption",
-  "figure",
-  "footer",
-  "form",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "head",
-  "header",
-  "hgroup",
-  "hr",
-  "html",
-  "i",
-  "iframe",
-  "img",
-  "input",
-  "ins",
-  "kbd",
-  "keygen",
-  "label",
-  "legend",
-  "li",
-  "link",
-  "main",
-  "map",
-  "mark",
-  "menu",
-  "menuitem",
-  "meta",
-  "meter",
-  "nav",
-  "noscript",
-  "object",
-  "ol",
-  "optgroup",
-  "option",
-  "output",
-  "p",
-  "param",
-  "picture",
-  "pre",
-  "progress",
-  "q",
-  "rp",
-  "rt",
-  "ruby",
-  "s",
-  "samp",
-  "script",
-  "section",
-  "select",
-  "small",
-  "source",
-  "span",
-  "strong",
-  "style",
-  "sub",
-  "summary",
-  "sup",
-  "table",
-  "tbody",
-  "td",
-  "textarea",
-  "tfoot",
-  "th",
-  "thead",
-  "time",
-  "title",
-  "tr",
-  "track",
-  "u",
-  "ul",
-  "var",
-  "video",
-  "wbr",
-  // SVG
-  "circle",
-  "clipPath",
-  "defs",
-  "ellipse",
-  "foreignObject",
-  "g",
-  "image",
-  "line",
-  "linearGradient",
-  "mask",
-  "path",
-  "pattern",
-  "polygon",
-  "polyline",
-  "radialGradient",
-  "rect",
-  "stop",
-  "svg",
-  "text",
-  "tspan"
-];
-
-// src/index.ts
-
-globals_exports.assign({
-  batchedUpdates: external_ReactDOM_namespaceObject.unstable_batchedUpdates,
-  createStringInterpolator: createStringInterpolator2,
-  colors: colors2
-});
-var host = createHost(primitives, {
-  applyAnimatedValues,
-  createAnimatedStyle: (style) => new AnimatedStyle(style),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getComponentProps: ({ scrollTop, scrollLeft, ...props }) => props
-});
-var animated = host.animated;
+;// CONCATENATED MODULE: ./node_modules/@react-spring/web/dist/esm/index.js
+var dist_esm_k=/^--/;function dist_esm_I(t,e){return e==null||typeof e=="boolean"||e===""?"":typeof e=="number"&&e!==0&&!dist_esm_k.test(t)&&!(web_dist_esm_c.hasOwnProperty(t)&&web_dist_esm_c[t])?e+"px":(""+e).trim()}var web_dist_esm_v={};function esm_V(t,e){if(!t.nodeType||!t.setAttribute)return!1;let r=t.nodeName==="filter"||t.parentNode&&t.parentNode.nodeName==="filter",{style:i,children:s,scrollTop:u,scrollLeft:l,viewBox:a,...n}=e,d=Object.values(n),m=Object.keys(n).map(o=>r||t.hasAttribute(o)?o:web_dist_esm_v[o]||(web_dist_esm_v[o]=o.replace(/([A-Z])/g,p=>"-"+p.toLowerCase())));s!==void 0&&(t.textContent=s);for(let o in i)if(i.hasOwnProperty(o)){let p=dist_esm_I(o,i[o]);dist_esm_k.test(o)?t.style.setProperty(o,p):t.style[o]=p}m.forEach((o,p)=>{t.setAttribute(o,d[p])}),u!==void 0&&(t.scrollTop=u),l!==void 0&&(t.scrollLeft=l),a!==void 0&&t.setAttribute("viewBox",a)}var web_dist_esm_c={animationIterationCount:!0,borderImageOutset:!0,borderImageSlice:!0,borderImageWidth:!0,boxFlex:!0,boxFlexGroup:!0,boxOrdinalGroup:!0,columnCount:!0,columns:!0,flex:!0,flexGrow:!0,flexPositive:!0,flexShrink:!0,flexNegative:!0,flexOrder:!0,gridRow:!0,gridRowEnd:!0,gridRowSpan:!0,gridRowStart:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnSpan:!0,gridColumnStart:!0,fontWeight:!0,lineClamp:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,tabSize:!0,widows:!0,zIndex:!0,zoom:!0,fillOpacity:!0,floodOpacity:!0,stopOpacity:!0,strokeDasharray:!0,strokeDashoffset:!0,strokeMiterlimit:!0,strokeOpacity:!0,strokeWidth:!0},esm_F=(t,e)=>t+e.charAt(0).toUpperCase()+e.substring(1),esm_L=["Webkit","Ms","Moz","O"];web_dist_esm_c=Object.keys(web_dist_esm_c).reduce((t,e)=>(esm_L.forEach(r=>t[esm_F(r,e)]=t[e]),t),web_dist_esm_c);var esm_=/^(matrix|translate|scale|rotate|skew)/,esm_$=/^(translate)/,dist_esm_G=/^(rotate|skew)/,web_dist_esm_y=(t,e)=>esm_l.num(t)&&t!==0?t+e:t,web_dist_esm_h=(t,e)=>esm_l.arr(t)?t.every(r=>web_dist_esm_h(r,e)):esm_l.num(t)?t===e:parseFloat(t)===e,esm_g=class extends dist_esm_u{constructor({x:e,y:r,z:i,...s}){let u=[],l=[];(e||r||i)&&(u.push([e||0,r||0,i||0]),l.push(a=>[`translate3d(${a.map(n=>web_dist_esm_y(n,"px")).join(",")})`,web_dist_esm_h(a,0)])),xt(s,(a,n)=>{if(n==="transform")u.push([a||""]),l.push(d=>[d,d===""]);else if(esm_.test(n)){if(delete s[n],esm_l.und(a))return;let d=esm_$.test(n)?"px":dist_esm_G.test(n)?"deg":"";u.push(ht(a)),l.push(n==="rotate3d"?([m,o,p,O])=>[`rotate3d(${m},${o},${p},${web_dist_esm_y(O,d)})`,web_dist_esm_h(O,0)]:m=>[`${n}(${m.map(o=>web_dist_esm_y(o,d)).join(",")})`,web_dist_esm_h(m,n.startsWith("scale")?1:0)])}}),u.length&&(s.transform=new dist_esm_x(u,l)),super(s)}},dist_esm_x=class extends esm_ge{constructor(r,i){super();this.inputs=r;this.transforms=i}_value=null;get(){return this._value||(this._value=this._get())}_get(){let r="",i=!0;return Ve(this.inputs,(s,u)=>{let l=ve(s[0]),[a,n]=this.transforms[u](esm_l.arr(l)?l:s.map(ve));r+=" "+a,i=i&&n}),i?"none":r}observerAdded(r){r==1&&Ve(this.inputs,i=>Ve(i,s=>Pt(s)&&Gt(s,this)))}observerRemoved(r){r==0&&Ve(this.inputs,i=>Ve(i,s=>Pt(s)&&Qt(s,this)))}eventObserved(r){r.type=="change"&&(this._value=null),$t(this,r)}};var esm_C=["a","abbr","address","area","article","aside","audio","b","base","bdi","bdo","big","blockquote","body","br","button","canvas","caption","cite","code","col","colgroup","data","datalist","dd","del","details","dfn","dialog","div","dl","dt","em","embed","fieldset","figcaption","figure","footer","form","h1","h2","h3","h4","h5","h6","head","header","hgroup","hr","html","i","iframe","img","input","ins","kbd","keygen","label","legend","li","link","main","map","mark","menu","menuitem","meta","meter","nav","noscript","object","ol","optgroup","option","output","p","param","picture","pre","progress","q","rp","rt","ruby","s","samp","script","section","select","small","source","span","strong","style","sub","summary","sup","table","tbody","td","textarea","tfoot","th","thead","time","title","tr","track","u","ul","var","video","wbr","circle","clipPath","defs","ellipse","foreignObject","g","image","line","linearGradient","mask","path","pattern","polygon","polyline","radialGradient","rect","stop","svg","text","tspan"];esm_p.assign({batchedUpdates:external_ReactDOM_namespaceObject.unstable_batchedUpdates,createStringInterpolator:Xt,colors:It});var dist_esm_q=esm_Ke(esm_C,{applyAnimatedValues:esm_V,createAnimatedStyle:t=>new esm_g(t),getComponentProps:({scrollTop:t,scrollLeft:e,...r})=>r}),dist_esm_it=dist_esm_q.animated;
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-moving-animation/index.js
 /**
@@ -21468,7 +17152,7 @@ function useMovingAnimation({
     ref.current.style.zIndex = isSelected ? '1' : '';
     preserveScrollPosition();
   }
-  useSpring({
+  esm_J({
     from: {
       x: transform.x,
       y: transform.y
@@ -23128,7 +18812,7 @@ const withRegistryProvider = (0,external_wp_compose_namespaceObject.createHigher
  * Internal dependencies
  */
 
-const use_block_sync_noop = () => {};
+const noop = () => {};
 
 /**
  * A function to call when the block value has been updated in the block-editor
@@ -23185,8 +18869,8 @@ function useBlockSync({
   clientId = null,
   value: controlledBlocks,
   selection: controlledSelection,
-  onChange = use_block_sync_noop,
-  onInput = use_block_sync_noop
+  onChange = noop,
+  onInput = noop
 }) {
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   const {
@@ -25087,7 +20771,7 @@ function IframeIfReady(props, ref) {
 /* harmony default export */ var iframe = ((0,external_wp_element_namespaceObject.forwardRef)(IframeIfReady));
 
 ;// CONCATENATED MODULE: ./node_modules/colord/index.mjs
-var r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeof r?r.length>0:"number"==typeof r},n=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=Math.pow(10,t)),Math.round(n*r)/n+0},e=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=1),r>n?n:r>t?r:t},u=function(r){return(r=isFinite(r)?r%360:0)>0?r:r+360},a=function(r){return{r:e(r.r,0,255),g:e(r.g,0,255),b:e(r.b,0,255),a:e(r.a)}},o=function(r){return{r:n(r.r),g:n(r.g),b:n(r.b),a:n(r.a,3)}},i=/^#([0-9a-f]{3,8})$/i,s=function(r){var t=r.toString(16);return t.length<2?"0"+t:t},h=function(r){var t=r.r,n=r.g,e=r.b,u=r.a,a=Math.max(t,n,e),o=a-Math.min(t,n,e),i=o?a===t?(n-e)/o:a===n?2+(e-t)/o:4+(t-n)/o:0;return{h:60*(i<0?i+6:i),s:a?o/a*100:0,v:a/255*100,a:u}},b=function(r){var t=r.h,n=r.s,e=r.v,u=r.a;t=t/360*6,n/=100,e/=100;var a=Math.floor(t),o=e*(1-n),i=e*(1-(t-a)*n),s=e*(1-(1-t+a)*n),h=a%6;return{r:255*[e,i,o,o,s,e][h],g:255*[s,e,e,i,o,o][h],b:255*[o,o,s,e,e,i][h],a:u}},g=function(r){return{h:u(r.h),s:e(r.s,0,100),l:e(r.l,0,100),a:e(r.a)}},d=function(r){return{h:n(r.h),s:n(r.s),l:n(r.l),a:n(r.a,3)}},f=function(r){return b((n=(t=r).s,{h:t.h,s:(n*=((e=t.l)<50?e:100-e)/100)>0?2*n/(e+n)*100:0,v:e+n,a:t.a}));var t,n,e},c=function(r){return{h:(t=h(r)).h,s:(u=(200-(n=t.s))*(e=t.v)/100)>0&&u<200?n*e/100/(u<=100?u:200-u)*100:0,l:u/2,a:t.a};var t,n,e,u},l=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,p=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,v=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,m=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,y={string:[[function(r){var t=i.exec(r);return t?(r=t[1]).length<=4?{r:parseInt(r[0]+r[0],16),g:parseInt(r[1]+r[1],16),b:parseInt(r[2]+r[2],16),a:4===r.length?n(parseInt(r[3]+r[3],16)/255,2):1}:6===r.length||8===r.length?{r:parseInt(r.substr(0,2),16),g:parseInt(r.substr(2,2),16),b:parseInt(r.substr(4,2),16),a:8===r.length?n(parseInt(r.substr(6,2),16)/255,2):1}:null:null},"hex"],[function(r){var t=v.exec(r)||m.exec(r);return t?t[2]!==t[4]||t[4]!==t[6]?null:a({r:Number(t[1])/(t[2]?100/255:1),g:Number(t[3])/(t[4]?100/255:1),b:Number(t[5])/(t[6]?100/255:1),a:void 0===t[7]?1:Number(t[7])/(t[8]?100:1)}):null},"rgb"],[function(t){var n=l.exec(t)||p.exec(t);if(!n)return null;var e,u,a=g({h:(e=n[1],u=n[2],void 0===u&&(u="deg"),Number(e)*(r[u]||1)),s:Number(n[3]),l:Number(n[4]),a:void 0===n[5]?1:Number(n[5])/(n[6]?100:1)});return f(a)},"hsl"]],object:[[function(r){var n=r.r,e=r.g,u=r.b,o=r.a,i=void 0===o?1:o;return t(n)&&t(e)&&t(u)?a({r:Number(n),g:Number(e),b:Number(u),a:Number(i)}):null},"rgb"],[function(r){var n=r.h,e=r.s,u=r.l,a=r.a,o=void 0===a?1:a;if(!t(n)||!t(e)||!t(u))return null;var i=g({h:Number(n),s:Number(e),l:Number(u),a:Number(o)});return f(i)},"hsl"],[function(r){var n=r.h,a=r.s,o=r.v,i=r.a,s=void 0===i?1:i;if(!t(n)||!t(a)||!t(o))return null;var h=function(r){return{h:u(r.h),s:e(r.s,0,100),v:e(r.v,0,100),a:e(r.a)}}({h:Number(n),s:Number(a),v:Number(o),a:Number(s)});return b(h)},"hsv"]]},N=function(r,t){for(var n=0;n<t.length;n++){var e=t[n][0](r);if(e)return[e,t[n][1]]}return[null,void 0]},x=function(r){return"string"==typeof r?N(r.trim(),y.string):"object"==typeof r&&null!==r?N(r,y.object):[null,void 0]},I=function(r){return x(r)[1]},M=function(r,t){var n=c(r);return{h:n.h,s:e(n.s+100*t,0,100),l:n.l,a:n.a}},H=function(r){return(299*r.r+587*r.g+114*r.b)/1e3/255},$=function(r,t){var n=c(r);return{h:n.h,s:n.s,l:e(n.l+100*t,0,100),a:n.a}},j=function(){function r(r){this.parsed=x(r)[0],this.rgba=this.parsed||{r:0,g:0,b:0,a:1}}return r.prototype.isValid=function(){return null!==this.parsed},r.prototype.brightness=function(){return n(H(this.rgba),2)},r.prototype.isDark=function(){return H(this.rgba)<.5},r.prototype.isLight=function(){return H(this.rgba)>=.5},r.prototype.toHex=function(){return r=o(this.rgba),t=r.r,e=r.g,u=r.b,i=(a=r.a)<1?s(n(255*a)):"","#"+s(t)+s(e)+s(u)+i;var r,t,e,u,a,i},r.prototype.toRgb=function(){return o(this.rgba)},r.prototype.toRgbString=function(){return r=o(this.rgba),t=r.r,n=r.g,e=r.b,(u=r.a)<1?"rgba("+t+", "+n+", "+e+", "+u+")":"rgb("+t+", "+n+", "+e+")";var r,t,n,e,u},r.prototype.toHsl=function(){return d(c(this.rgba))},r.prototype.toHslString=function(){return r=d(c(this.rgba)),t=r.h,n=r.s,e=r.l,(u=r.a)<1?"hsla("+t+", "+n+"%, "+e+"%, "+u+")":"hsl("+t+", "+n+"%, "+e+"%)";var r,t,n,e,u},r.prototype.toHsv=function(){return r=h(this.rgba),{h:n(r.h),s:n(r.s),v:n(r.v),a:n(r.a,3)};var r},r.prototype.invert=function(){return w({r:255-(r=this.rgba).r,g:255-r.g,b:255-r.b,a:r.a});var r},r.prototype.saturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,r))},r.prototype.desaturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,-r))},r.prototype.grayscale=function(){return w(M(this.rgba,-1))},r.prototype.lighten=function(r){return void 0===r&&(r=.1),w($(this.rgba,r))},r.prototype.darken=function(r){return void 0===r&&(r=.1),w($(this.rgba,-r))},r.prototype.rotate=function(r){return void 0===r&&(r=15),this.hue(this.hue()+r)},r.prototype.alpha=function(r){return"number"==typeof r?w({r:(t=this.rgba).r,g:t.g,b:t.b,a:r}):n(this.rgba.a,3);var t},r.prototype.hue=function(r){var t=c(this.rgba);return"number"==typeof r?w({h:r,s:t.s,l:t.l,a:t.a}):n(t.h)},r.prototype.isEqual=function(r){return this.toHex()===w(r).toHex()},r}(),w=function(r){return r instanceof j?r:new j(r)},S=[],k=function(r){r.forEach(function(r){S.indexOf(r)<0&&(r(j,y),S.push(r))})},E=function(){return new j({r:255*Math.random(),g:255*Math.random(),b:255*Math.random()})};
+var colord_r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeof r?r.length>0:"number"==typeof r},n=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=Math.pow(10,t)),Math.round(n*r)/n+0},e=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=1),r>n?n:r>t?r:t},colord_u=function(r){return(r=isFinite(r)?r%360:0)>0?r:r+360},a=function(r){return{r:e(r.r,0,255),g:e(r.g,0,255),b:e(r.b,0,255),a:e(r.a)}},o=function(r){return{r:n(r.r),g:n(r.g),b:n(r.b),a:n(r.a,3)}},colord_i=/^#([0-9a-f]{3,8})$/i,s=function(r){var t=r.toString(16);return t.length<2?"0"+t:t},colord_h=function(r){var t=r.r,n=r.g,e=r.b,u=r.a,a=Math.max(t,n,e),o=a-Math.min(t,n,e),i=o?a===t?(n-e)/o:a===n?2+(e-t)/o:4+(t-n)/o:0;return{h:60*(i<0?i+6:i),s:a?o/a*100:0,v:a/255*100,a:u}},colord_b=function(r){var t=r.h,n=r.s,e=r.v,u=r.a;t=t/360*6,n/=100,e/=100;var a=Math.floor(t),o=e*(1-n),i=e*(1-(t-a)*n),s=e*(1-(1-t+a)*n),h=a%6;return{r:255*[e,i,o,o,s,e][h],g:255*[s,e,e,i,o,o][h],b:255*[o,o,s,e,e,i][h],a:u}},colord_g=function(r){return{h:colord_u(r.h),s:e(r.s,0,100),l:e(r.l,0,100),a:e(r.a)}},colord_d=function(r){return{h:n(r.h),s:n(r.s),l:n(r.l),a:n(r.a,3)}},colord_f=function(r){return colord_b((n=(t=r).s,{h:t.h,s:(n*=((e=t.l)<50?e:100-e)/100)>0?2*n/(e+n)*100:0,v:e+n,a:t.a}));var t,n,e},colord_c=function(r){return{h:(t=colord_h(r)).h,s:(u=(200-(n=t.s))*(e=t.v)/100)>0&&u<200?n*e/100/(u<=100?u:200-u)*100:0,l:u/2,a:t.a};var t,n,e,u},colord_l=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,colord_p=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,colord_v=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,colord_m=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,colord_y={string:[[function(r){var t=colord_i.exec(r);return t?(r=t[1]).length<=4?{r:parseInt(r[0]+r[0],16),g:parseInt(r[1]+r[1],16),b:parseInt(r[2]+r[2],16),a:4===r.length?n(parseInt(r[3]+r[3],16)/255,2):1}:6===r.length||8===r.length?{r:parseInt(r.substr(0,2),16),g:parseInt(r.substr(2,2),16),b:parseInt(r.substr(4,2),16),a:8===r.length?n(parseInt(r.substr(6,2),16)/255,2):1}:null:null},"hex"],[function(r){var t=colord_v.exec(r)||colord_m.exec(r);return t?t[2]!==t[4]||t[4]!==t[6]?null:a({r:Number(t[1])/(t[2]?100/255:1),g:Number(t[3])/(t[4]?100/255:1),b:Number(t[5])/(t[6]?100/255:1),a:void 0===t[7]?1:Number(t[7])/(t[8]?100:1)}):null},"rgb"],[function(t){var n=colord_l.exec(t)||colord_p.exec(t);if(!n)return null;var e,u,a=colord_g({h:(e=n[1],u=n[2],void 0===u&&(u="deg"),Number(e)*(colord_r[u]||1)),s:Number(n[3]),l:Number(n[4]),a:void 0===n[5]?1:Number(n[5])/(n[6]?100:1)});return colord_f(a)},"hsl"]],object:[[function(r){var n=r.r,e=r.g,u=r.b,o=r.a,i=void 0===o?1:o;return t(n)&&t(e)&&t(u)?a({r:Number(n),g:Number(e),b:Number(u),a:Number(i)}):null},"rgb"],[function(r){var n=r.h,e=r.s,u=r.l,a=r.a,o=void 0===a?1:a;if(!t(n)||!t(e)||!t(u))return null;var i=colord_g({h:Number(n),s:Number(e),l:Number(u),a:Number(o)});return colord_f(i)},"hsl"],[function(r){var n=r.h,a=r.s,o=r.v,i=r.a,s=void 0===i?1:i;if(!t(n)||!t(a)||!t(o))return null;var h=function(r){return{h:colord_u(r.h),s:e(r.s,0,100),v:e(r.v,0,100),a:e(r.a)}}({h:Number(n),s:Number(a),v:Number(o),a:Number(s)});return colord_b(h)},"hsv"]]},colord_N=function(r,t){for(var n=0;n<t.length;n++){var e=t[n][0](r);if(e)return[e,t[n][1]]}return[null,void 0]},colord_x=function(r){return"string"==typeof r?colord_N(r.trim(),colord_y.string):"object"==typeof r&&null!==r?colord_N(r,colord_y.object):[null,void 0]},colord_I=function(r){return colord_x(r)[1]},colord_M=function(r,t){var n=colord_c(r);return{h:n.h,s:e(n.s+100*t,0,100),l:n.l,a:n.a}},colord_H=function(r){return(299*r.r+587*r.g+114*r.b)/1e3/255},colord_$=function(r,t){var n=colord_c(r);return{h:n.h,s:n.s,l:e(n.l+100*t,0,100),a:n.a}},colord_j=function(){function r(r){this.parsed=colord_x(r)[0],this.rgba=this.parsed||{r:0,g:0,b:0,a:1}}return r.prototype.isValid=function(){return null!==this.parsed},r.prototype.brightness=function(){return n(colord_H(this.rgba),2)},r.prototype.isDark=function(){return colord_H(this.rgba)<.5},r.prototype.isLight=function(){return colord_H(this.rgba)>=.5},r.prototype.toHex=function(){return r=o(this.rgba),t=r.r,e=r.g,u=r.b,i=(a=r.a)<1?s(n(255*a)):"","#"+s(t)+s(e)+s(u)+i;var r,t,e,u,a,i},r.prototype.toRgb=function(){return o(this.rgba)},r.prototype.toRgbString=function(){return r=o(this.rgba),t=r.r,n=r.g,e=r.b,(u=r.a)<1?"rgba("+t+", "+n+", "+e+", "+u+")":"rgb("+t+", "+n+", "+e+")";var r,t,n,e,u},r.prototype.toHsl=function(){return colord_d(colord_c(this.rgba))},r.prototype.toHslString=function(){return r=colord_d(colord_c(this.rgba)),t=r.h,n=r.s,e=r.l,(u=r.a)<1?"hsla("+t+", "+n+"%, "+e+"%, "+u+")":"hsl("+t+", "+n+"%, "+e+"%)";var r,t,n,e,u},r.prototype.toHsv=function(){return r=colord_h(this.rgba),{h:n(r.h),s:n(r.s),v:n(r.v),a:n(r.a,3)};var r},r.prototype.invert=function(){return colord_w({r:255-(r=this.rgba).r,g:255-r.g,b:255-r.b,a:r.a});var r},r.prototype.saturate=function(r){return void 0===r&&(r=.1),colord_w(colord_M(this.rgba,r))},r.prototype.desaturate=function(r){return void 0===r&&(r=.1),colord_w(colord_M(this.rgba,-r))},r.prototype.grayscale=function(){return colord_w(colord_M(this.rgba,-1))},r.prototype.lighten=function(r){return void 0===r&&(r=.1),colord_w(colord_$(this.rgba,r))},r.prototype.darken=function(r){return void 0===r&&(r=.1),colord_w(colord_$(this.rgba,-r))},r.prototype.rotate=function(r){return void 0===r&&(r=15),this.hue(this.hue()+r)},r.prototype.alpha=function(r){return"number"==typeof r?colord_w({r:(t=this.rgba).r,g:t.g,b:t.b,a:r}):n(this.rgba.a,3);var t},r.prototype.hue=function(r){var t=colord_c(this.rgba);return"number"==typeof r?colord_w({h:r,s:t.s,l:t.l,a:t.a}):n(t.h)},r.prototype.isEqual=function(r){return this.toHex()===colord_w(r).toHex()},r}(),colord_w=function(r){return r instanceof colord_j?r:new colord_j(r)},colord_S=[],colord_k=function(r){r.forEach(function(r){colord_S.indexOf(r)<0&&(r(colord_j,colord_y),colord_S.push(r))})},colord_E=function(){return new colord_j({r:255*Math.random(),g:255*Math.random(),b:255*Math.random()})};
 
 ;// CONCATENATED MODULE: ./node_modules/colord/plugins/names.mjs
 /* harmony default export */ function names(e,f){var a={white:"#ffffff",bisque:"#ffe4c4",blue:"#0000ff",cadetblue:"#5f9ea0",chartreuse:"#7fff00",chocolate:"#d2691e",coral:"#ff7f50",antiquewhite:"#faebd7",aqua:"#00ffff",azure:"#f0ffff",whitesmoke:"#f5f5f5",papayawhip:"#ffefd5",plum:"#dda0dd",blanchedalmond:"#ffebcd",black:"#000000",gold:"#ffd700",goldenrod:"#daa520",gainsboro:"#dcdcdc",cornsilk:"#fff8dc",cornflowerblue:"#6495ed",burlywood:"#deb887",aquamarine:"#7fffd4",beige:"#f5f5dc",crimson:"#dc143c",cyan:"#00ffff",darkblue:"#00008b",darkcyan:"#008b8b",darkgoldenrod:"#b8860b",darkkhaki:"#bdb76b",darkgray:"#a9a9a9",darkgreen:"#006400",darkgrey:"#a9a9a9",peachpuff:"#ffdab9",darkmagenta:"#8b008b",darkred:"#8b0000",darkorchid:"#9932cc",darkorange:"#ff8c00",darkslateblue:"#483d8b",gray:"#808080",darkslategray:"#2f4f4f",darkslategrey:"#2f4f4f",deeppink:"#ff1493",deepskyblue:"#00bfff",wheat:"#f5deb3",firebrick:"#b22222",floralwhite:"#fffaf0",ghostwhite:"#f8f8ff",darkviolet:"#9400d3",magenta:"#ff00ff",green:"#008000",dodgerblue:"#1e90ff",grey:"#808080",honeydew:"#f0fff0",hotpink:"#ff69b4",blueviolet:"#8a2be2",forestgreen:"#228b22",lawngreen:"#7cfc00",indianred:"#cd5c5c",indigo:"#4b0082",fuchsia:"#ff00ff",brown:"#a52a2a",maroon:"#800000",mediumblue:"#0000cd",lightcoral:"#f08080",darkturquoise:"#00ced1",lightcyan:"#e0ffff",ivory:"#fffff0",lightyellow:"#ffffe0",lightsalmon:"#ffa07a",lightseagreen:"#20b2aa",linen:"#faf0e6",mediumaquamarine:"#66cdaa",lemonchiffon:"#fffacd",lime:"#00ff00",khaki:"#f0e68c",mediumseagreen:"#3cb371",limegreen:"#32cd32",mediumspringgreen:"#00fa9a",lightskyblue:"#87cefa",lightblue:"#add8e6",midnightblue:"#191970",lightpink:"#ffb6c1",mistyrose:"#ffe4e1",moccasin:"#ffe4b5",mintcream:"#f5fffa",lightslategray:"#778899",lightslategrey:"#778899",navajowhite:"#ffdead",navy:"#000080",mediumvioletred:"#c71585",powderblue:"#b0e0e6",palegoldenrod:"#eee8aa",oldlace:"#fdf5e6",paleturquoise:"#afeeee",mediumturquoise:"#48d1cc",mediumorchid:"#ba55d3",rebeccapurple:"#663399",lightsteelblue:"#b0c4de",mediumslateblue:"#7b68ee",thistle:"#d8bfd8",tan:"#d2b48c",orchid:"#da70d6",mediumpurple:"#9370db",purple:"#800080",pink:"#ffc0cb",skyblue:"#87ceeb",springgreen:"#00ff7f",palegreen:"#98fb98",red:"#ff0000",yellow:"#ffff00",slateblue:"#6a5acd",lavenderblush:"#fff0f5",peru:"#cd853f",palevioletred:"#db7093",violet:"#ee82ee",teal:"#008080",slategray:"#708090",slategrey:"#708090",aliceblue:"#f0f8ff",darkseagreen:"#8fbc8f",darkolivegreen:"#556b2f",greenyellow:"#adff2f",seagreen:"#2e8b57",seashell:"#fff5ee",tomato:"#ff6347",silver:"#c0c0c0",sienna:"#a0522d",lavender:"#e6e6fa",lightgreen:"#90ee90",orange:"#ffa500",orangered:"#ff4500",steelblue:"#4682b4",royalblue:"#4169e1",turquoise:"#40e0d0",yellowgreen:"#9acd32",salmon:"#fa8072",saddlebrown:"#8b4513",sandybrown:"#f4a460",rosybrown:"#bc8f8f",darksalmon:"#e9967a",lightgoldenrodyellow:"#fafad2",snow:"#fffafa",lightgrey:"#d3d3d3",lightgray:"#d3d3d3",dimgray:"#696969",dimgrey:"#696969",olivedrab:"#6b8e23",olive:"#808000"},r={};for(var d in a)r[a[d]]=d;var l={};e.prototype.toName=function(f){if(!(this.rgba.a||this.rgba.r||this.rgba.g||this.rgba.b))return"transparent";var d,i,n=r[this.toHex()];if(n)return n;if(null==f?void 0:f.closest){var o=this.toRgb(),t=1/0,b="black";if(!l.length)for(var c in a)l[c]=new e(a[c]).toRgb();for(var g in a){var u=(d=o,i=l[g],Math.pow(d.r-i.r,2)+Math.pow(d.g-i.g,2)+Math.pow(d.b-i.b,2));u<t&&(t=u,b=g)}return b}};f.string.push([function(f){var r=f.toLowerCase(),d="transparent"===r?"#0000":a[r];return d?new e(d).toRgb():null},"name"])}
@@ -26488,7 +22172,7 @@ const transform_styles_transformStyles = (styles, wrapperClassName = '') => {
 
 
 
-k([names, a11y]);
+colord_k([names, a11y]);
 function useDarkThemeBodyClassName(styles, scope) {
   return (0,external_wp_element_namespaceObject.useCallback)(node => {
     if (!node) {
@@ -26515,7 +22199,7 @@ function useDarkThemeBodyClassName(styles, scope) {
     } else {
       backgroundColor = defaultView?.getComputedStyle(canvas, null).getPropertyValue('background-color');
     }
-    const colordBackgroundColor = w(backgroundColor);
+    const colordBackgroundColor = colord_w(backgroundColor);
     // If background is transparent, it should be treated as light color.
     if (colordBackgroundColor.luminance() > 0.5 || colordBackgroundColor.alpha() === 0) {
       body.classList.remove('is-dark-theme');
@@ -35447,7 +31131,7 @@ function BackgroundImagePanel(props) {
  * Internal dependencies
  */
 
-k([names, a11y]);
+colord_k([names, a11y]);
 
 /**
  * Provided an array of color objects as set by the theme or by the editor defaults,
@@ -35511,7 +31195,7 @@ function getColorClassName(colorContextName, colorSlug) {
  * @return {string} String with the color value of the most readable color.
  */
 function getMostReadableColor(colors, colorValue) {
-  const colordColor = w(colorValue);
+  const colordColor = colord_w(colorValue);
   const getColorContrast = ({
     color
   }) => colordColor.contrast(color);
@@ -37284,7 +32968,7 @@ function ColorPanel({
 
 
 
-k([names, a11y]);
+colord_k([names, a11y]);
 function ContrastChecker({
   backgroundColor,
   fallbackBackgroundColor,
@@ -37317,7 +33001,7 @@ function ContrastChecker({
     color: currentLinkColor,
     description: (0,external_wp_i18n_namespaceObject.__)('link color')
   }];
-  const colordBackgroundColor = w(currentBackgroundColor);
+  const colordBackgroundColor = colord_w(currentBackgroundColor);
   const backgroundColorHasTransparency = colordBackgroundColor.alpha() < 1;
   const backgroundColorBrightness = colordBackgroundColor.brightness();
   const isReadableOptions = {
@@ -37331,7 +33015,7 @@ function ContrastChecker({
     if (!item.color) {
       continue;
     }
-    const colordTextColor = w(item.color);
+    const colordTextColor = colord_w(item.color);
     const isColordTextReadable = colordTextColor.isReadable(colordBackgroundColor, isReadableOptions);
     const textHasTransparency = colordTextColor.alpha() < 1;
 
@@ -41569,7 +37253,7 @@ function getValuesFromColors(colors = []) {
     a: []
   };
   colors.forEach(color => {
-    const rgbColor = w(color).toRgb();
+    const rgbColor = colord_w(color).toRgb();
     values.r.push(rgbColor.r / 255);
     values.g.push(rgbColor.g / 255);
     values.b.push(rgbColor.b / 255);
@@ -41964,7 +37648,7 @@ const duotone_EMPTY_ARRAY = [];
 // element to ensure the duotone filter is updated. The check is included at the
 // root of this file as it only needs to be run once per page load.
 const isSafari = window?.navigator.userAgent && window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome') && !window.navigator.userAgent.includes('Chromium');
-k([names]);
+colord_k([names]);
 function useMultiOriginPresets({
   presetSetting,
   defaultSetting
@@ -46388,7 +42072,7 @@ const Appender = (0,external_wp_element_namespaceObject.forwardRef)(({
  * Internal dependencies
  */
 
-const AnimatedTreeGridRow = animated(external_wp_components_namespaceObject.__experimentalTreeGridRow);
+const AnimatedTreeGridRow = dist_esm_it(external_wp_components_namespaceObject.__experimentalTreeGridRow);
 const ListViewLeaf = (0,external_wp_element_namespaceObject.forwardRef)(({
   isSelected,
   position,
@@ -52073,7 +47757,7 @@ function restrictPosition(position, mediaSize, cropSize, zoom, rotation) {
 }
 function restrictPositionCoord(position, mediaSize, cropSize, zoom) {
   var maxPosition = mediaSize * zoom / 2 - cropSize / 2;
-  return index_module_clamp(position, -maxPosition, maxPosition);
+  return clamp(position, -maxPosition, maxPosition);
 }
 function getDistanceBetweenPoints(pointA, pointB) {
   return Math.sqrt(Math.pow(pointA.y - pointB.y, 2) + Math.pow(pointA.x - pointB.x, 2));
@@ -52144,7 +47828,7 @@ function noOp(_max, value) {
 function getInitialCropFromCroppedAreaPercentages(croppedAreaPercentages, mediaSize, rotation, cropSize, minZoom, maxZoom) {
   var mediaBBoxSize = rotateSize(mediaSize.width, mediaSize.height, rotation);
   // This is the inverse process of computeCroppedArea
-  var zoom = index_module_clamp(cropSize.width / mediaBBoxSize.width * (100 / croppedAreaPercentages.width), minZoom, maxZoom);
+  var zoom = clamp(cropSize.width / mediaBBoxSize.width * (100 / croppedAreaPercentages.width), minZoom, maxZoom);
   var crop = {
     x: zoom * mediaBBoxSize.width / 2 - cropSize.width / 2 - mediaBBoxSize.width * zoom * (croppedAreaPercentages.x / 100),
     y: zoom * mediaBBoxSize.height / 2 - cropSize.height / 2 - mediaBBoxSize.height * zoom * (croppedAreaPercentages.y / 100)
@@ -52169,7 +47853,7 @@ function getInitialCropFromCroppedAreaPixels(croppedAreaPixels, mediaSize, rotat
     rotation = 0;
   }
   var mediaNaturalBBoxSize = rotateSize(mediaSize.naturalWidth, mediaSize.naturalHeight, rotation);
-  var zoom = index_module_clamp(getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize), minZoom, maxZoom);
+  var zoom = clamp(getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize), minZoom, maxZoom);
   var cropZoom = cropSize.height > cropSize.width ? cropSize.height / croppedAreaPixels.height : cropSize.width / croppedAreaPixels.width;
   var crop = {
     x: ((mediaNaturalBBoxSize.width - croppedAreaPixels.width) / 2 - croppedAreaPixels.x) * cropZoom,
@@ -52205,7 +47889,7 @@ function rotateSize(width, height, rotation) {
 /**
  * Clamp value between min and max
  */
-function index_module_clamp(value, min, max) {
+function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 /**
@@ -52560,7 +48244,7 @@ var Cropper = /** @class */function (_super) {
         _c = _b.shouldUpdatePosition,
         shouldUpdatePosition = _c === void 0 ? true : _c;
       if (!_this.state.cropSize || !_this.props.onZoomChange) return;
-      var newZoom = index_module_clamp(zoom, _this.props.minZoom, _this.props.maxZoom);
+      var newZoom = clamp(zoom, _this.props.minZoom, _this.props.maxZoom);
       if (shouldUpdatePosition) {
         var zoomPoint = _this.getPointOnContainer(point);
         var zoomTarget = _this.getPointOnMedia(zoomPoint);
@@ -59609,7 +55293,7 @@ const COMMON_PROPS = {
 // By default the toolbar sets the `shift` prop. If the user scrolls the page
 // down the toolbar will stay on screen by adopting a sticky position at the
 // top of the viewport.
-const use_block_toolbar_popover_props_DEFAULT_PROPS = {
+const DEFAULT_PROPS = {
   ...COMMON_PROPS,
   flip: false,
   shift: true
@@ -59639,7 +55323,7 @@ const RESTRICTED_HEIGHT_PROPS = {
  */
 function getProps(contentElement, selectedBlockElement, scrollContainer, toolbarHeight, isSticky) {
   if (!contentElement || !selectedBlockElement) {
-    return use_block_toolbar_popover_props_DEFAULT_PROPS;
+    return DEFAULT_PROPS;
   }
 
   // Get how far the content area has been scrolled.
@@ -59662,7 +55346,7 @@ function getProps(contentElement, selectedBlockElement, scrollContainer, toolbar
 
   // Sticky blocks are treated as if they will never have enough space for the toolbar above.
   if (!isSticky && (hasSpaceForToolbarAbove || isBlockTallerThanViewport)) {
-    return use_block_toolbar_popover_props_DEFAULT_PROPS;
+    return DEFAULT_PROPS;
   }
   return RESTRICTED_HEIGHT_PROPS;
 }
@@ -63712,7 +59396,6 @@ var Enum_KEYFRAMES = '@keyframes'
 var FONT_FACE = '@font-face'
 var COUNTER_STYLE = '@counter-style'
 var FONT_FEATURE_VALUES = '@font-feature-values'
-var LAYER = '@layer'
 
 ;// CONCATENATED MODULE: ./node_modules/stylis/src/Serializer.js
 
@@ -63742,7 +59425,6 @@ function Serializer_serialize (children, callback) {
  */
 function Serializer_stringify (element, index, children, callback) {
 	switch (element.type) {
-		case LAYER: if (element.children.length) break
 		case IMPORT: case Enum_DECLARATION: return element.return = element.return || element.value
 		case COMMENT: return ''
 		case Enum_KEYFRAMES: return element.return = element.value + '{' + Serializer_serialize(element.children, callback) + '}'
@@ -63944,7 +59626,7 @@ function Parser_parse (value, root, parent, rule, rules, rulesets, pseudo, point
 					// \0 }
 					case 0: case 125: scanning = 0
 					// ;
-					case 59 + offset: if (ampersand == -1) characters = Utility_replace(characters, /\f/g, '')
+					case 59 + offset:
 						if (property > 0 && (Utility_strlen(characters) - length))
 							Utility_append(property > 32 ? declaration(characters + ';', rule, parent, length - 1) : declaration(Utility_replace(characters, ' ', '') + ';', rule, parent, length - 2), declarations)
 						break
@@ -63959,8 +59641,8 @@ function Parser_parse (value, root, parent, rule, rules, rulesets, pseudo, point
 								Parser_parse(characters, root, reference, reference, props, rulesets, length, points, children)
 							else
 								switch (atrule === 99 && Utility_charat(characters, 3) === 110 ? 100 : atrule) {
-									// d l m s
-									case 100: case 108: case 109: case 115:
+									// d m s
+									case 100: case 109: case 115:
 										Parser_parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children)
 										break
 									default:
@@ -64197,7 +59879,7 @@ var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm(cache) {
     var unsafePseudoClasses = element.value.match(/(:first|:nth|:nth-last)-child/g);
 
     if (unsafePseudoClasses) {
-      var isNested = !!element.parent; // in nested rules comments become children of the "auto-inserted" rule and that's always the `element.parent`
+      var isNested = element.parent === children[0]; // in nested rules comments become children of the "auto-inserted" rule
       //
       // considering this input:
       // .a {
@@ -64213,7 +59895,7 @@ var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm(cache) {
       //   .b {}
       // }
 
-      var commentContainer = isNested ? element.parent.children : // global rule at the root level
+      var commentContainer = isNested ? children[0].children : // global rule at the root level
       children;
 
       for (var i = commentContainer.length - 1; i >= 0; i--) {
@@ -64513,7 +60195,7 @@ var emotion_cache_browser_esm_createCache = function createCache(options) {
 
   if (false) {}
 
-  if (key === 'css') {
+  if ( key === 'css') {
     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])"); // get SSRed styles out of the way of React's hydration
     // document.head is a safe place to move them to(though note document.head is not necessarily the last place they will be)
     // note this very very intentionally targets all style elements regardless of the key to ensure
@@ -64608,7 +60290,7 @@ var emotion_cache_browser_esm_createCache = function createCache(options) {
   return cache;
 };
 
-
+/* harmony default export */ var emotion_cache_browser_esm = (emotion_cache_browser_esm_createCache);
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/hash/dist/emotion-hash.esm.js
 /* eslint-disable */
@@ -64665,12 +60347,11 @@ function murmur2(str) {
   return ((h ^ h >>> 15) >>> 0).toString(36);
 }
 
-
+/* harmony default export */ var emotion_hash_esm = (murmur2);
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/unitless/dist/emotion-unitless.esm.js
 var unitlessKeys = {
   animationIterationCount: 1,
-  aspectRatio: 1,
   borderImageOutset: 1,
   borderImageSlice: 1,
   borderImageWidth: 1,
@@ -64718,7 +60399,7 @@ var unitlessKeys = {
   strokeWidth: 1
 };
 
-
+/* harmony default export */ var emotion_unitless_esm = (unitlessKeys);
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/serialize/node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
 function emotion_memoize_esm_memoize(fn) {
@@ -64771,7 +60452,7 @@ var processStyleValue = function processStyleValue(key, value) {
       }
   }
 
-  if (unitlessKeys[key] !== 1 && !isCustomProperty(key) && typeof value === 'number' && value !== 0) {
+  if (emotion_unitless_esm[key] !== 1 && !isCustomProperty(key) && typeof value === 'number' && value !== 0) {
     return value + 'px';
   }
 
@@ -64967,7 +60648,7 @@ var emotion_serialize_browser_esm_serializeStyles = function serializeStyles(arg
     match[1];
   }
 
-  var name = murmur2(styles) + identifierName;
+  var name = emotion_hash_esm(styles) + identifierName;
 
   if (false) {}
 
@@ -64983,37 +60664,36 @@ var emotion_serialize_browser_esm_serializeStyles = function serializeStyles(arg
 ;// CONCATENATED MODULE: ./node_modules/@emotion/use-insertion-effect-with-fallbacks/dist/emotion-use-insertion-effect-with-fallbacks.browser.esm.js
 
 
+
 var syncFallback = function syncFallback(create) {
   return create();
 };
 
 var useInsertionEffect = external_React_['useInsertion' + 'Effect'] ? external_React_['useInsertion' + 'Effect'] : false;
-var emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectAlwaysWithSyncFallback = useInsertionEffect || syncFallback;
-var useInsertionEffectWithLayoutFallback = useInsertionEffect || external_React_.useLayoutEffect;
+var emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectAlwaysWithSyncFallback =  useInsertionEffect || syncFallback;
+var useInsertionEffectWithLayoutFallback = (/* unused pure expression or super */ null && (useInsertionEffect || useLayoutEffect));
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-element-c39617d8.browser.esm.js
-
-
-
-
+;// CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-element-6a883da9.browser.esm.js
 
 
 
 
 
 
-var isBrowser = "object" !== 'undefined';
-var emotion_element_c39617d8_browser_esm_hasOwnProperty = {}.hasOwnProperty;
 
-var EmotionCacheContext = /* #__PURE__ */external_React_.createContext( // we're doing this to avoid preconstruct's dead code elimination in this one case
+
+
+var emotion_element_6a883da9_browser_esm_hasOwnProperty = {}.hasOwnProperty;
+
+var EmotionCacheContext = /* #__PURE__ */(0,external_React_.createContext)( // we're doing this to avoid preconstruct's dead code elimination in this one case
 // because this module is primarily intended for the browser and node
 // but it's also required in react native and similar environments sometimes
 // and we could have a special build just for that
 // but this is much easier and the native packages
 // might use a different theme context in the future anyway
-typeof HTMLElement !== 'undefined' ? /* #__PURE__ */emotion_cache_browser_esm_createCache({
+typeof HTMLElement !== 'undefined' ? /* #__PURE__ */emotion_cache_browser_esm({
   key: 'css'
 }) : null);
 
@@ -65033,36 +60713,12 @@ var withEmotionCache = function withEmotionCache(func) {
   });
 };
 
-if (!isBrowser) {
-  withEmotionCache = function withEmotionCache(func) {
-    return function (props) {
-      var cache = (0,external_React_.useContext)(EmotionCacheContext);
-
-      if (cache === null) {
-        // yes, we're potentially creating this on every render
-        // it doesn't actually matter though since it's only on the server
-        // so there will only every be a single render
-        // that could change in the future because of suspense and etc. but for now,
-        // this works and i don't want to optimise for a future thing that we aren't sure about
-        cache = emotion_cache_browser_esm_createCache({
-          key: 'css'
-        });
-        return /*#__PURE__*/external_React_.createElement(EmotionCacheContext.Provider, {
-          value: cache
-        }, func(props, cache));
-      } else {
-        return func(props, cache);
-      }
-    };
-  };
-}
-
-var ThemeContext = /* #__PURE__ */external_React_.createContext({});
+var ThemeContext = /* #__PURE__ */(0,external_React_.createContext)({});
 
 if (false) {}
 
 var useTheme = function useTheme() {
-  return React.useContext(ThemeContext);
+  return useContext(ThemeContext);
 };
 
 var getTheme = function getTheme(outerTheme, theme) {
@@ -65085,13 +60741,13 @@ var createCacheWithTheme = /* #__PURE__ */(/* unused pure expression or super */
   });
 })));
 var ThemeProvider = function ThemeProvider(props) {
-  var theme = React.useContext(ThemeContext);
+  var theme = useContext(ThemeContext);
 
   if (props.theme !== theme) {
     theme = createCacheWithTheme(theme)(props.theme);
   }
 
-  return /*#__PURE__*/React.createElement(ThemeContext.Provider, {
+  return /*#__PURE__*/createElement(ThemeContext.Provider, {
     value: theme
   }, props.children);
 };
@@ -65099,15 +60755,15 @@ function withTheme(Component) {
   var componentName = Component.displayName || Component.name || 'Component';
 
   var render = function render(props, ref) {
-    var theme = React.useContext(ThemeContext);
-    return /*#__PURE__*/React.createElement(Component, _extends({
+    var theme = useContext(ThemeContext);
+    return /*#__PURE__*/createElement(Component, _extends({
       theme: theme,
       ref: ref
     }, props));
   }; // $FlowFixMe
 
 
-  var WithTheme = /*#__PURE__*/React.forwardRef(render);
+  var WithTheme = /*#__PURE__*/forwardRef(render);
   WithTheme.displayName = "WithTheme(" + componentName + ")";
   return hoistNonReactStatics(WithTheme, Component);
 }
@@ -65163,7 +60819,7 @@ var createEmotionProps = function createEmotionProps(type, props) {
   var newProps = {};
 
   for (var key in props) {
-    if (emotion_element_c39617d8_browser_esm_hasOwnProperty.call(props, key)) {
+    if (emotion_element_6a883da9_browser_esm_hasOwnProperty.call(props, key)) {
       newProps[key] = props[key];
     }
   }
@@ -65181,7 +60837,7 @@ var Insertion = function Insertion(_ref) {
       serialized = _ref.serialized,
       isStringTag = _ref.isStringTag;
   registerStyles(cache, serialized, isStringTag);
-  useInsertionEffectAlwaysWithSyncFallback(function () {
+  var rules = useInsertionEffectAlwaysWithSyncFallback(function () {
     return insertStyles(cache, serialized, isStringTag);
   });
 
@@ -65207,7 +60863,7 @@ var Emotion = /* #__PURE__ */(/* unused pure expression or super */ null && (wit
     className = props.className + " ";
   }
 
-  var serialized = serializeStyles(registeredStyles, undefined, React.useContext(ThemeContext));
+  var serialized = serializeStyles(registeredStyles, undefined, useContext(ThemeContext));
 
   if (false) { var labelFromStack; }
 
@@ -65215,28 +60871,26 @@ var Emotion = /* #__PURE__ */(/* unused pure expression or super */ null && (wit
   var newProps = {};
 
   for (var key in props) {
-    if (emotion_element_c39617d8_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || 0)) {
+    if (emotion_element_6a883da9_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || 0)) {
       newProps[key] = props[key];
     }
   }
 
   newProps.ref = ref;
   newProps.className = className;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Insertion, {
+  return /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement(Insertion, {
     cache: cache,
     serialized: serialized,
     isStringTag: typeof WrappedComponent === 'string'
-  }), /*#__PURE__*/React.createElement(WrappedComponent, newProps));
+  }), /*#__PURE__*/createElement(WrappedComponent, newProps));
 })));
 
 if (false) {}
 
-var Emotion$1 = (/* unused pure expression or super */ null && (Emotion));
-
 
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
-var emotion_utils_browser_esm_isBrowser = "object" !== 'undefined';
+var isBrowser = "object" !== 'undefined';
 function emotion_utils_browser_esm_getRegisteredStyles(registered, registeredStyles, classNames) {
   var rawClassName = '';
   classNames.split(' ').forEach(function (className) {
@@ -65260,7 +60914,7 @@ var emotion_utils_browser_esm_registerStyles = function registerStyles(cache, se
   // in node since emotion-server relies on whether a style is in
   // the registered cache to know whether a style is global or not
   // also, note that this check will be dead code eliminated in the browser
-  emotion_utils_browser_esm_isBrowser === false ) && cache.registered[className] === undefined) {
+  isBrowser === false ) && cache.registered[className] === undefined) {
     cache.registered[className] = serialized.styles;
   }
 };
@@ -65272,7 +60926,7 @@ var emotion_utils_browser_esm_insertStyles = function insertStyles(cache, serial
     var current = serialized;
 
     do {
-      cache.insert(serialized === current ? "." + className : '', current, cache.sheet, true);
+      var maybeStyles = cache.insert(serialized === current ? "." + className : '', current, cache.sheet, true);
 
       current = current.next;
     } while (current !== undefined);
@@ -65326,7 +60980,7 @@ var emotion_styled_base_browser_esm_Insertion = function Insertion(_ref) {
       serialized = _ref.serialized,
       isStringTag = _ref.isStringTag;
   emotion_utils_browser_esm_registerStyles(cache, serialized, isStringTag);
-  emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectAlwaysWithSyncFallback(function () {
+  var rules = emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectAlwaysWithSyncFallback(function () {
     return emotion_utils_browser_esm_insertStyles(cache, serialized, isStringTag);
   });
 
@@ -65387,7 +61041,7 @@ var createStyled = function createStyled(tag, options) {
           mergedProps[key] = props[key];
         }
 
-        mergedProps.theme = external_React_.useContext(ThemeContext);
+        mergedProps.theme = (0,external_React_.useContext)(ThemeContext);
       }
 
       if (typeof props.className === 'string') {
@@ -65417,11 +61071,11 @@ var createStyled = function createStyled(tag, options) {
 
       newProps.className = className;
       newProps.ref = ref;
-      return /*#__PURE__*/external_React_.createElement(external_React_.Fragment, null, /*#__PURE__*/external_React_.createElement(emotion_styled_base_browser_esm_Insertion, {
+      return /*#__PURE__*/(0,external_React_.createElement)(external_React_.Fragment, null, /*#__PURE__*/(0,external_React_.createElement)(emotion_styled_base_browser_esm_Insertion, {
         cache: cache,
         serialized: serialized,
         isStringTag: typeof FinalTag === 'string'
-      }), /*#__PURE__*/external_React_.createElement(FinalTag, newProps));
+      }), /*#__PURE__*/(0,external_React_.createElement)(FinalTag, newProps));
     });
     Styled.displayName = identifierName !== undefined ? identifierName : "Styled(" + (typeof baseTag === 'string' ? baseTag : baseTag.displayName || baseTag.name || 'Component') + ")";
     Styled.defaultProps = tag.defaultProps;
@@ -65448,7 +61102,7 @@ var createStyled = function createStyled(tag, options) {
   };
 };
 
-
+/* harmony default export */ var emotion_styled_base_browser_esm = (createStyled);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/dimensions-tool/width-height-tool.js
 
@@ -65463,7 +61117,7 @@ function _EMOTION_STRINGIFIED_CSS_ERROR__() { return "You have tried to stringif
  */
 
 
-const SingleColumnToolsPanelItem = /*#__PURE__*/createStyled(external_wp_components_namespaceObject.__experimentalToolsPanelItem,  true ? {
+const SingleColumnToolsPanelItem = /*#__PURE__*/emotion_styled_base_browser_esm(external_wp_components_namespaceObject.__experimentalToolsPanelItem,  true ? {
   target: "ef8pe3d0"
 } : 0)( true ? {
   name: "957xgf",

@@ -845,48 +845,6 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Gets block pattern cache.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @return array|false Returns an array of patterns if cache is found, otherwise false.
-	 */
-	public function get_pattern_cache() {
-		if ( ! $this->exists() ) {
-			return false;
-		}
-		$pattern_data = get_transient( 'wp_theme_patterns_' . $this->stylesheet );
-		if ( is_array( $pattern_data ) && $pattern_data['version'] === $this->get( 'Version' ) ) {
-			return $pattern_data['patterns'];
-		}
-		return false;
-	}
-
-	/**
-	 * Sets block pattern cache.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @param array $patterns Block patterns data to set in cache.
-	 */
-	public function set_pattern_cache( array $patterns ) {
-		$pattern_data = array(
-			'version'  => $this->get( 'Version' ),
-			'patterns' => $patterns,
-		);
-		set_transient( 'wp_theme_patterns_' . $this->stylesheet, $pattern_data );
-	}
-
-	/**
-	 * Clears block pattern cache.
-	 *
-	 * @since 6.4.0
-	 */
-	public function delete_pattern_cache() {
-		delete_transient( 'wp_theme_patterns_' . $this->stylesheet );
-	}
-
-	/**
 	 * Gets a raw, unformatted theme header.
 	 *
 	 * The header is sanitized, but is not translated, and is not marked up for display.
@@ -1838,6 +1796,213 @@ final class WP_Theme implements ArrayAccess {
 			);
 		}
 		return $this->block_template_folders;
+	}
+
+	/**
+	 * Gets block pattern data for a specified theme.
+	 * Each pattern is defined as a PHP file and defines
+	 * its metadata using plugin-style headers. The minimum required definition is:
+	 *
+	 *     /**
+	 *      * Title: My Pattern
+	 *      * Slug: my-theme/my-pattern
+	 *      *
+	 *
+	 * The output of the PHP source corresponds to the content of the pattern, e.g.:
+	 *
+	 *     <main><p><?php echo "Hello"; ?></p></main>
+	 *
+	 * If applicable, this will collect from both parent and child theme.
+	 *
+	 * Other settable fields include:
+	 *
+	 *     - Description
+	 *     - Viewport Width
+	 *     - Inserter         (yes/no)
+	 *     - Categories       (comma-separated values)
+	 *     - Keywords         (comma-separated values)
+	 *     - Block Types      (comma-separated values)
+	 *     - Post Types       (comma-separated values)
+	 *     - Template Types   (comma-separated values)
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return array Block pattern data.
+	 */
+	public function get_block_patterns() {
+		$can_use_cached = ! wp_is_development_mode( 'theme' );
+
+		$pattern_data = $this->get_pattern_cache();
+		if ( is_array( $pattern_data ) ) {
+			if ( $can_use_cached ) {
+				return $pattern_data;
+			}
+			// If in development mode, clear pattern cache.
+			$this->delete_pattern_cache();
+		}
+
+		$dirpath      = $this->get_stylesheet_directory() . '/patterns/';
+		$pattern_data = array();
+
+		if ( ! file_exists( $dirpath ) ) {
+			if ( $can_use_cached ) {
+				$this->set_pattern_cache( $pattern_data );
+			}
+			return $pattern_data;
+		}
+		$files = glob( $dirpath . '*.php' );
+		if ( ! $files ) {
+			if ( $can_use_cached ) {
+				$this->set_pattern_cache( $pattern_data );
+			}
+			return $pattern_data;
+		}
+
+		$default_headers = array(
+			'title'         => 'Title',
+			'slug'          => 'Slug',
+			'description'   => 'Description',
+			'viewportWidth' => 'Viewport Width',
+			'inserter'      => 'Inserter',
+			'categories'    => 'Categories',
+			'keywords'      => 'Keywords',
+			'blockTypes'    => 'Block Types',
+			'postTypes'     => 'Post Types',
+			'templateTypes' => 'Template Types',
+		);
+
+		$properties_to_parse = array(
+			'categories',
+			'keywords',
+			'blockTypes',
+			'postTypes',
+			'templateTypes',
+		);
+
+		foreach ( $files as $file ) {
+			$pattern = get_file_data( $file, $default_headers );
+
+			if ( empty( $pattern['slug'] ) ) {
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						/* translators: 1: file name. */
+						__( 'Could not register file "%s" as a block pattern ("Slug" field missing)' ),
+						$file
+					),
+					'6.0.0'
+				);
+				continue;
+			}
+
+			if ( ! preg_match( '/^[A-z0-9\/_-]+$/', $pattern['slug'] ) ) {
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						/* translators: 1: file name; 2: slug value found. */
+						__( 'Could not register file "%1$s" as a block pattern (invalid slug "%2$s")' ),
+						$file,
+						$pattern['slug']
+					),
+					'6.0.0'
+				);
+			}
+
+			// Title is a required property.
+			if ( ! $pattern['title'] ) {
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						/* translators: 1: file name. */
+						__( 'Could not register file "%s" as a block pattern ("Title" field missing)' ),
+						$file
+					),
+					'6.0.0'
+				);
+				continue;
+			}
+
+			// For properties of type array, parse data as comma-separated.
+			foreach ( $properties_to_parse as $property ) {
+				if ( ! empty( $pattern[ $property ] ) ) {
+					$pattern[ $property ] = array_filter( wp_parse_list( (string) $pattern[ $property ] ) );
+				} else {
+					unset( $pattern[ $property ] );
+				}
+			}
+
+			// Parse properties of type int.
+			$property = 'viewportWidth';
+			if ( ! empty( $pattern[ $property ] ) ) {
+				$pattern[ $property ] = (int) $pattern[ $property ];
+			} else {
+				unset( $pattern[ $property ] );
+			}
+
+			// Parse properties of type bool.
+			$property = 'inserter';
+			if ( ! empty( $pattern[ $property ] ) ) {
+				$pattern[ $property ] = in_array(
+					strtolower( $pattern[ $property ] ),
+					array( 'yes', 'true' ),
+					true
+				);
+			} else {
+				unset( $pattern[ $property ] );
+			}
+
+			$key = str_replace( $dirpath, '', $file );
+
+			$pattern_data[ $key ] = $pattern;
+		}
+
+		if ( $can_use_cached ) {
+			$this->set_pattern_cache( $pattern_data );
+		}
+
+		return $pattern_data;
+	}
+
+	/**
+	 * Gets block pattern cache.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return array|false Returns an array of patterns if cache is found, otherwise false.
+	 */
+	private function get_pattern_cache() {
+		if ( ! $this->exists() ) {
+			return false;
+		}
+		$pattern_data = wp_cache_get( 'wp_theme_patterns_' . $this->stylesheet );
+		if ( is_array( $pattern_data ) && $pattern_data['version'] === $this->get( 'Version' ) ) {
+			return $pattern_data['patterns'];
+		}
+		return false;
+	}
+
+	/**
+	 * Sets block pattern cache.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param array $patterns Block patterns data to set in cache.
+	 */
+	private function set_pattern_cache( array $patterns ) {
+		$pattern_data = array(
+			'version'  => $this->get( 'Version' ),
+			'patterns' => $patterns,
+		);
+		wp_cache_set( 'wp_theme_patterns_' . $this->stylesheet, $pattern_data );
+	}
+
+	/**
+	 * Clears block pattern cache.
+	 *
+	 * @since 6.4.0
+	 */
+	public function delete_pattern_cache() {
+		wp_cache_delete( 'wp_theme_patterns_' . $this->stylesheet );
 	}
 
 	/**
