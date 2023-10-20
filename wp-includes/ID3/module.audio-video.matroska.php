@@ -292,12 +292,12 @@ class getid3_matroska extends getid3_handler
 						$track_info['display_x']    = (isset($trackarray['DisplayWidth']) ? $trackarray['DisplayWidth'] : $trackarray['PixelWidth']);
 						$track_info['display_y']    = (isset($trackarray['DisplayHeight']) ? $trackarray['DisplayHeight'] : $trackarray['PixelHeight']);
 
-						if (isset($trackarray['PixelCropBottom'])) { $track_info['crop_bottom'] = $trackarray['PixelCropBottom']; }
-						if (isset($trackarray['PixelCropTop']))    { $track_info['crop_top']    = $trackarray['PixelCropTop']; }
-						if (isset($trackarray['PixelCropLeft']))   { $track_info['crop_left']   = $trackarray['PixelCropLeft']; }
-						if (isset($trackarray['PixelCropRight']))  { $track_info['crop_right']  = $trackarray['PixelCropRight']; }
-						if (isset($trackarray['DefaultDuration'])) { $track_info['frame_rate']  = round(1000000000 / $trackarray['DefaultDuration'], 3); }
-						if (isset($trackarray['CodecName']))       { $track_info['codec']       = $trackarray['CodecName']; }
+						if (isset($trackarray['PixelCropBottom']))  { $track_info['crop_bottom'] = $trackarray['PixelCropBottom']; }
+						if (isset($trackarray['PixelCropTop']))     { $track_info['crop_top']    = $trackarray['PixelCropTop']; }
+						if (isset($trackarray['PixelCropLeft']))    { $track_info['crop_left']   = $trackarray['PixelCropLeft']; }
+						if (isset($trackarray['PixelCropRight']))   { $track_info['crop_right']  = $trackarray['PixelCropRight']; }
+						if (!empty($trackarray['DefaultDuration'])) { $track_info['frame_rate']  = round(1000000000 / $trackarray['DefaultDuration'], 3); }
+						if (isset($trackarray['CodecName']))        { $track_info['codec']       = $trackarray['CodecName']; }
 
 						switch ($trackarray['CodecID']) {
 							case 'V_MS/VFW/FOURCC':

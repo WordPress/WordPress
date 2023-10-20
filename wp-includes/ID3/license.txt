@@ -20,7 +20,8 @@ GNU LGPL: https://gnu.org/licenses/lgpl.html                 (v3)
 
 Mozilla MPL: https://www.mozilla.org/MPL/2.0/                (v2)
 
-getID3 Commercial License: https://www.getid3.org/#gCL (payment required)
+getID3 Commercial License: https://www.getid3.org/#gCL
+(no longer available, existing licenses remain valid)
 
 *****************************************************************
 *****************************************************************

@@ -121,10 +121,22 @@ class getid3_lib
 			}
 		}
 		// if integers are 64-bit - no other check required
-		if ($hasINT64 || (($num <= PHP_INT_MAX) && ($num >= PHP_INT_MIN))) { // phpcs:ignore PHPCompatibility.Constants.NewConstants.php_int_minFound
+		if ($hasINT64 || (($num <= PHP_INT_MAX) && ($num >= PHP_INT_MIN))) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Perform a division, guarding against division by zero
+	 *
+	 * @param float|int $numerator
+	 * @param float|int $denominator
+	 * @param float|int $fallback
+	 * @return float|int
+	 */
+	public static function SafeDiv($numerator, $denominator, $fallback = 0) {
+		return $denominator ? $numerator / $denominator : $fallback;
 	}
 
 	/**
@@ -134,7 +146,7 @@ class getid3_lib
 	 */
 	public static function DecimalizeFraction($fraction) {
 		list($numerator, $denominator) = explode('/', $fraction);
-		return $numerator / ($denominator ? $denominator : 1);
+		return (int) $numerator / ($denominator ? $denominator : 1);
 	}
 
 	/**
@@ -871,10 +883,6 @@ class getid3_lib
 	 * @return string
 	 */
 	public static function iconv_fallback_iso88591_utf8($string, $bom=false) {
-		if (function_exists('utf8_encode')) {
-			return utf8_encode($string);
-		}
-		// utf8_encode() unavailable, use getID3()'s iconv_fallback() conversions (possibly PHP is compiled without XML support)
 		$newcharstring = '';
 		if ($bom) {
 			$newcharstring .= "\xEF\xBB\xBF";
@@ -943,10 +951,6 @@ class getid3_lib
 	 * @return string
 	 */
 	public static function iconv_fallback_utf8_iso88591($string) {
-		if (function_exists('utf8_decode')) {
-			return utf8_decode($string);
-		}
-		// utf8_decode() unavailable, use getID3()'s iconv_fallback() conversions (possibly PHP is compiled without XML support)
 		$newcharstring = '';
 		$offset = 0;
 		$stringlength = strlen($string);

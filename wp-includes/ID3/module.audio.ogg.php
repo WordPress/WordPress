@@ -210,8 +210,8 @@ $this->warning('Ogg Theora (v3) not fully supported in this version of getID3 ['
 			$filedataoffset += 20;
 
 			$info['ogg']['skeleton']['fishead']['version']          = $info['ogg']['skeleton']['fishead']['raw']['version_major'].'.'.$info['ogg']['skeleton']['fishead']['raw']['version_minor'];
-			$info['ogg']['skeleton']['fishead']['presentationtime'] = $info['ogg']['skeleton']['fishead']['raw']['presentationtime_numerator'] / $info['ogg']['skeleton']['fishead']['raw']['presentationtime_denominator'];
-			$info['ogg']['skeleton']['fishead']['basetime']         = $info['ogg']['skeleton']['fishead']['raw']['basetime_numerator']         / $info['ogg']['skeleton']['fishead']['raw']['basetime_denominator'];
+			$info['ogg']['skeleton']['fishead']['presentationtime'] = getid3_lib::SafeDiv($info['ogg']['skeleton']['fishead']['raw']['presentationtime_numerator'], $info['ogg']['skeleton']['fishead']['raw']['presentationtime_denominator']);
+			$info['ogg']['skeleton']['fishead']['basetime']         = getid3_lib::SafeDiv($info['ogg']['skeleton']['fishead']['raw']['basetime_numerator'],         $info['ogg']['skeleton']['fishead']['raw']['basetime_denominator']);
 			$info['ogg']['skeleton']['fishead']['utc']              = $info['ogg']['skeleton']['fishead']['raw']['utc'];
 
 
@@ -288,7 +288,7 @@ $this->warning('Ogg Theora (v3) not fully supported in this version of getID3 ['
 				$info['audio']['sample_rate']     = $info['flac']['STREAMINFO']['sample_rate'];
 				$info['audio']['channels']        = $info['flac']['STREAMINFO']['channels'];
 				$info['audio']['bits_per_sample'] = $info['flac']['STREAMINFO']['bits_per_sample'];
-				$info['playtime_seconds']         = $info['flac']['STREAMINFO']['samples_stream'] / $info['flac']['STREAMINFO']['sample_rate'];
+				$info['playtime_seconds']         = getid3_lib::SafeDiv($info['flac']['STREAMINFO']['samples_stream'], $info['flac']['STREAMINFO']['sample_rate']);
 			}
 
 		} else {
@@ -359,7 +359,7 @@ $this->warning('Ogg Theora (v3) not fully supported in this version of getID3 ['
 					return false;
 				}
 				if (!empty($info['audio']['sample_rate'])) {
-					$info['ogg']['bitrate_average'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / ($info['ogg']['samples'] / $info['audio']['sample_rate']);
+					$info['ogg']['bitrate_average'] = (($info['avdataend'] - $info['avdataoffset']) * 8) * $info['audio']['sample_rate'] / $info['ogg']['samples'];
 				}
 			}
 
@@ -534,12 +534,12 @@ $this->warning('Ogg Theora (v3) not fully supported in this version of getID3 ['
 
 		$filedata = $this->fread($this->getid3->fread_buffer_size());
 		$filedataoffset = 0;
-		while ((substr($filedata, $filedataoffset++, 4) != 'OggS')) {
+		while (substr($filedata, $filedataoffset++, 4) != 'OggS') {
 			if (($this->ftell() - $oggheader['page_start_offset']) >= $this->getid3->fread_buffer_size()) {
 				// should be found before here
 				return false;
 			}
-			if ((($filedataoffset + 28) > strlen($filedata)) || (strlen($filedata) < 28)) {
+			if (($filedataoffset + 28) > strlen($filedata)) {
 				if ($this->feof() || (($filedata .= $this->fread($this->getid3->fread_buffer_size())) === '')) {
 					// get some more data, unless eof, in which case fail
 					return false;

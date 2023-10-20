@@ -193,7 +193,7 @@ class getid3_asf extends getid3_handler
 						$info['playtime_seconds'] = ($thisfile_asf_filepropertiesobject['play_duration'] / 10000000) - ($thisfile_asf_filepropertiesobject['preroll'] / 1000);
 
 						//$info['bitrate'] = $thisfile_asf_filepropertiesobject['max_bitrate'];
-						$info['bitrate'] = ((isset($thisfile_asf_filepropertiesobject['filesize']) ? $thisfile_asf_filepropertiesobject['filesize'] : $info['filesize']) * 8) / $info['playtime_seconds'];
+						$info['bitrate'] = getid3_lib::SafeDiv($thisfile_asf_filepropertiesobject['filesize'] * 8, $info['playtime_seconds']);
 					}
 					break;
 
@@ -1066,7 +1066,7 @@ class getid3_asf extends getid3_handler
 								break;
 						}
 
-						if (!empty($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'])) {
+						if (!empty($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'])) { // @phpstan-ignore-line
 							foreach ($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'] as $dummy => $dataarray) {
 								if (isset($dataarray['flags']['stream_number']) && ($dataarray['flags']['stream_number'] == $streamnumber)) {
 									$thisfile_asf_audiomedia_currentstream['bitrate'] = $dataarray['bitrate'];
@@ -1152,7 +1152,7 @@ class getid3_asf extends getid3_handler
 						$videomediaoffset += 4;
 						$thisfile_asf_videomedia_currentstream['format_data']['codec_data']       = substr($streamdata['type_specific_data'], $videomediaoffset);
 
-						if (!empty($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'])) {
+						if (!empty($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'])) { // @phpstan-ignore-line
 							foreach ($thisfile_asf['stream_bitrate_properties_object']['bitrate_records'] as $dummy => $dataarray) {
 								if (isset($dataarray['flags']['stream_number']) && ($dataarray['flags']['stream_number'] == $streamnumber)) {
 									$thisfile_asf_videomedia_currentstream['bitrate'] = $dataarray['bitrate'];

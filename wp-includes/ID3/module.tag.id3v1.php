@@ -66,7 +66,7 @@ class getid3_id3v1 extends getid3_handler
 			if (!empty($ParsedID3v1['genre'])) {
 				unset($ParsedID3v1['genreid']);
 			}
-			if (isset($ParsedID3v1['genre']) && (empty($ParsedID3v1['genre']) || ($ParsedID3v1['genre'] == 'Unknown'))) {
+			if (empty($ParsedID3v1['genre']) || ($ParsedID3v1['genre'] == 'Unknown')) {
 				unset($ParsedID3v1['genre']);
 			}
 

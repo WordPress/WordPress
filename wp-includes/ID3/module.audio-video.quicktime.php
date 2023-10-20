@@ -152,7 +152,7 @@ class getid3_quicktime extends getid3_handler
 					} elseif (strlen($lat_deg) == 4) {  // [+-]DDMM.M
 						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0').$lat_deg_dec / 60);
 					} elseif (strlen($lat_deg) == 6) {  // [+-]DDMMSS.S
-						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval(ltrim(substr($lat_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lat_deg, 4, 2), '0').$lat_deg_dec / 3600);
+						$ISO6709parsed['latitude'] = (($lat_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lat_deg, 0, 2), '0')) + floatval((int) ltrim(substr($lat_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lat_deg, 4, 2), '0').$lat_deg_dec / 3600);
 					}
 
 					if (strlen($lon_deg) == 3) {        // [+-]DDD.D
@@ -160,7 +160,7 @@ class getid3_quicktime extends getid3_handler
 					} elseif (strlen($lon_deg) == 5) {  // [+-]DDDMM.M
 						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0').$lon_deg_dec / 60);
 					} elseif (strlen($lon_deg) == 7) {  // [+-]DDDMMSS.S
-						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval(ltrim(substr($lon_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lon_deg, 4, 2), '0').$lon_deg_dec / 3600);
+						$ISO6709parsed['longitude'] = (($lon_sign == '-') ? -1 : 1) * floatval(ltrim(substr($lon_deg, 0, 2), '0')) + floatval((int) ltrim(substr($lon_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($lon_deg, 4, 2), '0').$lon_deg_dec / 3600);
 					}
 
 					if (strlen($alt_deg) == 3) {        // [+-]DDD.D
@@ -168,7 +168,7 @@ class getid3_quicktime extends getid3_handler
 					} elseif (strlen($alt_deg) == 5) {  // [+-]DDDMM.M
 						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0').$alt_deg_dec / 60);
 					} elseif (strlen($alt_deg) == 7) {  // [+-]DDDMMSS.S
-						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval(ltrim(substr($alt_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($alt_deg, 4, 2), '0').$alt_deg_dec / 3600);
+						$ISO6709parsed['altitude'] = (($alt_sign == '-') ? -1 : 1) * floatval(ltrim(substr($alt_deg, 0, 2), '0')) + floatval((int) ltrim(substr($alt_deg, 2, 2), '0') / 60) + floatval(ltrim(substr($alt_deg, 4, 2), '0').$alt_deg_dec / 3600);
 					}
 
 					foreach (array('latitude', 'longitude', 'altitude') as $key) {
@@ -332,7 +332,7 @@ class getid3_quicktime extends getid3_handler
 							}
 						} elseif (isset($value_array['time_to_sample_table'])) {
 							foreach ($value_array['time_to_sample_table'] as $key2 => $value_array2) {
-								if (isset($value_array2['sample_count']) && isset($value_array2['sample_duration']) && ($value_array2['sample_duration'] > 0)) {
+								if (isset($value_array2['sample_count']) && isset($value_array2['sample_duration']) && ($value_array2['sample_duration'] > 0) && !empty($info['quicktime']['time_scale'])) {
 									$framerate  = round($info['quicktime']['time_scale'] / $value_array2['sample_duration'], 3);
 									$framecount = $value_array2['sample_count'];
 								}
@@ -776,8 +776,8 @@ class getid3_quicktime extends getid3_handler
 
 
 				case 'stsd': // Sample Table Sample Description atom
-					$atom_structure['version']        = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1));
-					$atom_structure['flags_raw']      = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3)); // hardcoded: 0x0000
+					$atom_structure['version']        = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1)); // hardcoded: 0x00
+					$atom_structure['flags_raw']      = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3)); // hardcoded: 0x000000
 					$atom_structure['number_entries'] = getid3_lib::BigEndian2Int(substr($atom_data,  4, 4));
 
 					// see: https://github.com/JamesHeinrich/getID3/issues/111
@@ -805,7 +805,6 @@ class getid3_quicktime extends getid3_handler
 						$stsdEntriesDataOffset += 2;
 						$atom_structure['sample_description_table'][$i]['data']             =                           substr($atom_data, $stsdEntriesDataOffset, ($atom_structure['sample_description_table'][$i]['size'] - 4 - 4 - 6 - 2));
 						$stsdEntriesDataOffset += ($atom_structure['sample_description_table'][$i]['size'] - 4 - 4 - 6 - 2);
-
 						if (substr($atom_structure['sample_description_table'][$i]['data'],  1, 54) == 'application/octet-stream;type=com.parrot.videometadata') {
 							// special handling for apparently-malformed (TextMetaDataSampleEntry?) data for some version of Parrot drones
 							$atom_structure['sample_description_table'][$i]['parrot_frame_metadata']['mime_type']        =       substr($atom_structure['sample_description_table'][$i]['data'],  1, 55);
@@ -893,7 +892,8 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 										break;
 
 									case 'mp4a':
-									default:
+										$atom_structure['sample_description_table'][$i]['subatoms'] = $this->QuicktimeParseContainerAtom(substr($atom_structure['sample_description_table'][$i]['data'], 20), $baseoffset + $stsdEntriesDataOffset - 20 - 16, $atomHierarchy, $ParseAllPossibleAtoms);
+
 										$info['quicktime']['audio']['codec']       = $this->QuicktimeAudioCodecLookup($atom_structure['sample_description_table'][$i]['data_format']);
 										$info['quicktime']['audio']['sample_rate'] = $atom_structure['sample_description_table'][$i]['audio_sample_rate'];
 										$info['quicktime']['audio']['channels']    = $atom_structure['sample_description_table'][$i]['audio_channels'];
@@ -918,6 +918,9 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 												$info['audio']['lossless'] = false;
 												break;
 										}
+										break;
+
+									default:
 										break;
 								}
 								break;
@@ -1666,7 +1669,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 						);
 						$atom_structure['data'] = $atom_data;
 						$atom_structure['image_mime'] = 'image/jpeg';
-						$atom_structure['description'] = isset($descriptions[$atomname]) ? $descriptions[$atomname] : 'Nikon preview image';
+						$atom_structure['description'] = $descriptions[$atomname];
 						$info['quicktime']['comments']['picture'][] = array(
 							'image_mime' => $atom_structure['image_mime'],
 							'data' => $atom_data,
@@ -1683,7 +1686,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 				case 'NCHD': // Nikon:MakerNoteVersion  - https://exiftool.org/TagNames/Nikon.html
 					$makerNoteVersion = '';
 					for ($i = 0, $iMax = strlen($atom_data); $i < $iMax; ++$i) {
-						if (ord($atom_data[$i]) >= 0x00 && ord($atom_data[$i]) <= 0x1F) {
+						if (ord($atom_data[$i]) <= 0x1F) {
 							$makerNoteVersion .= ' '.ord($atom_data[$i]);
 						} else {
 							$makerNoteVersion .= $atom_data[$i];
@@ -2100,6 +2103,97 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					$atom_structure['track_number'] = getid3_lib::BigEndian2Int($atom_data);
 					break;
 
+
+				case 'esds': // Elementary Stream DeScriptor
+					// https://github.com/JamesHeinrich/getID3/issues/414
+					// https://chromium.googlesource.com/chromium/src/media/+/refs/heads/main/formats/mp4/es_descriptor.cc
+					// https://chromium.googlesource.com/chromium/src/media/+/refs/heads/main/formats/mp4/es_descriptor.h
+					$atom_structure['version']   = getid3_lib::BigEndian2Int(substr($atom_data,  0, 1)); // hardcoded: 0x00
+					$atom_structure['flags_raw'] = getid3_lib::BigEndian2Int(substr($atom_data,  1, 3)); // hardcoded: 0x000000
+					$esds_offset = 4;
+
+					$atom_structure['ES_DescrTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					if ($atom_structure['ES_DescrTag'] != 0x03) {
+						$this->warning('expecting esds.ES_DescrTag = 0x03, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_DescrTag']).'), at offset '.$atom_structure['offset']);
+						break;
+					}
+					$atom_structure['ES_DescrSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
+
+					$atom_structure['ES_ID'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 2));
+					$esds_offset += 2;
+					$atom_structure['ES_flagsraw'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					$atom_structure['ES_flags']['stream_dependency'] = (bool) ($atom_structure['ES_flagsraw'] & 0x80);
+					$atom_structure['ES_flags']['url_flag']          = (bool) ($atom_structure['ES_flagsraw'] & 0x40);
+					$atom_structure['ES_flags']['ocr_stream']        = (bool) ($atom_structure['ES_flagsraw'] & 0x20);
+					$atom_structure['ES_stream_priority']            =        ($atom_structure['ES_flagsraw'] & 0x1F);
+					if ($atom_structure['ES_flags']['url_flag']) {
+						$this->warning('Unsupported esds.url_flag enabled at offset '.$atom_structure['offset']);
+						break;
+					}
+					if ($atom_structure['ES_flags']['stream_dependency']) {
+						$atom_structure['ES_dependsOn_ES_ID'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 2));
+						$esds_offset += 2;
+					}
+					if ($atom_structure['ES_flags']['ocr_stream']) {
+						$atom_structure['ES_OCR_ES_Id'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 2));
+						$esds_offset += 2;
+					}
+
+					$atom_structure['ES_DecoderConfigDescrTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					if ($atom_structure['ES_DecoderConfigDescrTag'] != 0x04) {
+						$this->warning('expecting esds.ES_DecoderConfigDescrTag = 0x04, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_DecoderConfigDescrTag']).'), at offset '.$atom_structure['offset']);
+						break;
+					}
+					$atom_structure['ES_DecoderConfigDescrTagSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
+
+					$atom_structure['ES_objectTypeIndication'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					// https://stackoverflow.com/questions/3987850
+					// 0x40 = "Audio ISO/IEC 14496-3"                       = MPEG-4 Audio
+					// 0x67 = "Audio ISO/IEC 13818-7 LowComplexity Profile" = MPEG-2 AAC LC
+					// 0x69 = "Audio ISO/IEC 13818-3"                       = MPEG-2 Backward Compatible Audio (MPEG-2 Layers 1, 2, and 3)
+					// 0x6B = "Audio ISO/IEC 11172-3"                       = MPEG-1 Audio (MPEG-1 Layers 1, 2, and 3)
+
+					$streamTypePlusFlags = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					$atom_structure['ES_streamType'] =        ($streamTypePlusFlags & 0xFC) >> 2;
+					$atom_structure['ES_upStream']   = (bool) ($streamTypePlusFlags & 0x02) >> 1;
+					$atom_structure['ES_bufferSizeDB'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 3));
+					$esds_offset += 3;
+					$atom_structure['ES_maxBitrate'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 4));
+					$esds_offset += 4;
+					$atom_structure['ES_avgBitrate'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 4));
+					$esds_offset += 4;
+					if ($atom_structure['ES_avgBitrate']) {
+						$info['quicktime']['audio']['bitrate'] = $atom_structure['ES_avgBitrate'];
+						$info['audio']['bitrate']              = $atom_structure['ES_avgBitrate'];
+					}
+
+					$atom_structure['ES_DecSpecificInfoTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					if ($atom_structure['ES_DecSpecificInfoTag'] != 0x05) {
+						$this->warning('expecting esds.ES_DecSpecificInfoTag = 0x05, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_DecSpecificInfoTag']).'), at offset '.$atom_structure['offset']);
+						break;
+					}
+					$atom_structure['ES_DecSpecificInfoTagSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
+
+					$atom_structure['ES_DecSpecificInfo'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, $atom_structure['ES_DecSpecificInfoTagSize']));
+					$esds_offset += $atom_structure['ES_DecSpecificInfoTagSize'];
+
+					$atom_structure['ES_SLConfigDescrTag'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, 1));
+					$esds_offset += 1;
+					if ($atom_structure['ES_SLConfigDescrTag'] != 0x06) {
+						$this->warning('expecting esds.ES_SLConfigDescrTag = 0x05, found 0x'.getid3_lib::PrintHexBytes($atom_structure['ES_SLConfigDescrTag']).'), at offset '.$atom_structure['offset']);
+						break;
+					}
+					$atom_structure['ES_SLConfigDescrTagSize'] = $this->quicktime_read_mp4_descr_length($atom_data, $esds_offset);
+
+					$atom_structure['ES_SLConfigDescr'] = getid3_lib::BigEndian2Int(substr($atom_data, $esds_offset, $atom_structure['ES_SLConfigDescrTagSize']));
+					$esds_offset += $atom_structure['ES_SLConfigDescrTagSize'];
+					break;
 
 // AVIF-related - https://docs.rs/avif-parse/0.13.2/src/avif_parse/boxes.rs.html
 				case 'pitm': // Primary ITeM
@@ -2990,6 +3084,7 @@ $this->error('fragmented mp4 files not currently supported');
 		}
 		return array();
 	}
+
 
 	/**
 	 * @param array $info
