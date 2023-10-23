@@ -235,6 +235,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	$button =
 		$img[0]
 		. '<button
+			class="lightbox-trigger"
 			type="button"
 			aria-haspopup="dialog"
 			aria-label="' . esc_attr( $aria_label ) . '"
@@ -243,11 +244,8 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 			data-wp-style--top="context.core.image.imageButtonTop"
 			style="background: #000"
 		>
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-				<path d="M9 5H5V9" stroke="#FFFFFF" stroke-width="1.5"/>
-				<path d="M15 19L19 19L19 15" stroke="#FFFFFF" stroke-width="1.5"/>
-				<path d="M15 5H19V9" stroke="#FFFFFF" stroke-width="1.5"/>
-				<path d="M9 19L5 19L5 15" stroke="#FFFFFF" stroke-width="1.5"/>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+				<Path stroke="#FFFFFF" d="M6 4a2 2 0 0 0-2 2v3h1.5V6a.5.5 0 0 1 .5-.5h3V4H6Zm3 14.5H6a.5.5 0 0 1-.5-.5v-3H4v3a2 2 0 0 0 2 2h3v-1.5Zm6 1.5v-1.5h3a.5.5 0 0 0 .5-.5v-3H20v3a2 2 0 0 1-2 2h-3Zm3-16a2 2 0 0 1 2 2v3h-1.5V6a.5.5 0 0 0-.5-.5h-3V4h3Z" />
 			</svg>
 		</button>';
 
@@ -322,12 +320,13 @@ function block_core_image_render_lightbox( $block_content, $block ) {
             data-wp-on--touchmove="actions.core.image.handleTouchMove"
             data-wp-on--touchend="actions.core.image.handleTouchEnd"
             data-wp-on--click="actions.core.image.hideLightbox"
+            tabindex="-1"
             >
                 <button type="button" aria-label="$close_button_label" style="fill: $close_button_color" class="close-button" data-wp-on--click="actions.core.image.hideLightbox">
                     $close_button_icon
                 </button>
                 <div class="lightbox-image-container">$initial_image_content</div>
-				<div class="lightbox-image-container">$enlarged_image_content</div>
+                <div class="lightbox-image-container">$enlarged_image_content</div>
                 <div class="scrim" style="background-color: $background_color" aria-hidden="true"></div>
         </div>
 HTML;

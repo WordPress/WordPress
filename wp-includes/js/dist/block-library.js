@@ -23861,6 +23861,10 @@ const scaleOptions = [{
   label: (0,external_wp_i18n_namespaceObject._x)('Contain', 'Scale option for dimensions control'),
   help: (0,external_wp_i18n_namespaceObject.__)('Image is contained without distortion.')
 }];
+const disabledClickProps = {
+  onClick: event => event.preventDefault(),
+  'aria-disabled': true
+};
 function image_Image({
   temporaryURL,
   attributes,
@@ -24381,7 +24385,6 @@ function image_Image({
       }
     }
     /* eslint-enable no-lonely-if */
-
     img = (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ResizableBox, {
       style: {
         display: 'block',
@@ -24423,7 +24426,10 @@ function image_Image({
   if (!url && !temporaryURL) {
     return sizeControls;
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !temporaryURL && controls, img, showCaption && (!external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) || isSelected) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !temporaryURL && controls, !!href ? (0,external_wp_element_namespaceObject.createElement)("a", {
+    href: href,
+    ...disabledClickProps
+  }, img) : img, showCaption && (!external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) || isSelected) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
     identifier: "caption",
     className: (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)('caption'),
     ref: captionRef,
