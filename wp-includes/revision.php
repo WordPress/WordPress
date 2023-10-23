@@ -516,10 +516,10 @@ function wp_restore_post_revision( $revision, $fields = null ) {
 /**
  * Restore the revisioned meta values for a post.
  *
+ * @since 6.4.0
+ *
  * @param int $post_id     The ID of the post to restore the meta to.
  * @param int $revision_id The ID of the revision to restore the meta from.
- *
- * @since 6.4.0
  */
 function wp_restore_post_revision_meta( $post_id, $revision_id ) {
 	$post_type = get_post_type( $post_id );
@@ -540,11 +540,11 @@ function wp_restore_post_revision_meta( $post_id, $revision_id ) {
 /**
  * Copy post meta for the given key from one post to another.
  *
+ * @since 6.4.0
+ *
  * @param int    $source_post_id Post ID to copy meta value(s) from.
  * @param int    $target_post_id Post ID to copy meta value(s) to.
  * @param string $meta_key       Meta key to copy.
- *
- * @since 6.4.0
  */
 function _wp_copy_post_meta( $source_post_id, $target_post_id, $meta_key ) {
 
@@ -563,7 +563,6 @@ function _wp_copy_post_meta( $source_post_id, $target_post_id, $meta_key ) {
  * @since 6.4.0
  *
  * @param string $post_type The post type being revisioned.
- *
  * @return array An array of meta keys to be revisioned.
  */
 function wp_post_revision_meta_keys( $post_type ) {
@@ -587,7 +586,7 @@ function wp_post_revision_meta_keys( $post_type ) {
 	 *
 	 * @since 6.4.0
 	 *
-	 * @param array $keys       An array of meta fields to be revisioned.
+	 * @param array  $keys      An array of meta fields to be revisioned.
 	 * @param string $post_type The post type being revisioned.
 	 */
 	return apply_filters( 'wp_post_revision_meta_keys', $wp_revisioned_meta_keys, $post_type );
@@ -596,11 +595,12 @@ function wp_post_revision_meta_keys( $post_type ) {
 /**
  * Check whether revisioned post meta fields have changed.
  *
+ * @since 6.4.0
+ *
  * @param bool    $post_has_changed Whether the post has changed.
  * @param WP_Post $last_revision    The last revision post object.
  * @param WP_Post $post             The post object.
- *
- * @since 6.4.0
+ * @return bool Whether the post has changed.
  */
 function wp_check_revisioned_meta_fields_have_changed( $post_has_changed, WP_Post $last_revision, WP_Post $post ) {
 	foreach ( wp_post_revision_meta_keys( $post->post_type ) as $meta_key ) {
