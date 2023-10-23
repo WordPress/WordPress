@@ -2357,8 +2357,10 @@ const regionsToVdom = dom => {
     const id = region.getAttribute(attrName);
     regions[id] = toVdom(region);
   });
+  const title = dom.querySelector('title')?.innerText;
   return {
-    regions
+    regions,
+    title
   };
 };
 
@@ -2379,6 +2381,9 @@ const renderRegions = page => {
     const fragment = getRegionRootFragment(region);
     B(page.regions[id], fragment);
   });
+  if (page.title) {
+    document.title = page.title;
+  }
 };
 
 // Variable to store the current navigation.

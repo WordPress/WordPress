@@ -10,14 +10,17 @@
  */
 
 const focusableSelectors = ['a[href]', 'input:not([disabled]):not([type="hidden"]):not([aria-hidden])', 'select:not([disabled]):not([aria-hidden])', 'textarea:not([disabled]):not([aria-hidden])', 'button:not([disabled]):not([aria-hidden])', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+
+// This is a fix for Safari in iOS/iPadOS. Without it, Safari doesn't focus out
+// when the user taps in the body. It can be removed once we add an overlay to
+// capture the clicks, instead of relying on the focusout event.
+document.addEventListener('click', () => {});
 const openMenu = (store, menuOpenedOn) => {
   const {
     context,
-    ref,
     selectors
   } = store;
   selectors.core.navigation.menuOpenedBy(store)[menuOpenedOn] = true;
-  context.core.navigation.previousFocus = ref;
   if (context.core.navigation.type === 'overlay') {
     // Add a `has-modal-open` class to the <html> root.
     document.documentElement.classList.add('has-modal-open');
@@ -32,7 +35,7 @@ const closeMenu = (store, menuClosedOn) => {
   // Check if the menu is still open or not.
   if (!selectors.core.navigation.isMenuOpen(store)) {
     if (context.core.navigation.modal?.contains(window.document.activeElement)) {
-      context.core.navigation.previousFocus.focus();
+      context.core.navigation.previousFocus?.focus();
     }
     context.core.navigation.modal = null;
     context.core.navigation.previousFocus = null;
@@ -120,6 +123,11 @@ const closeMenu = (store, menuClosedOn) => {
           closeMenu(store, 'hover');
         },
         openMenuOnClick(store) {
+          const {
+            context,
+            ref
+          } = store;
+          context.core.navigation.previousFocus = ref;
           openMenu(store, 'click');
         },
         closeMenuOnClick(store) {
@@ -131,13 +139,18 @@ const closeMenu = (store, menuClosedOn) => {
         },
         toggleMenuOnClick: store => {
           const {
-            selectors
+            selectors,
+            context,
+            ref
           } = store;
+          // Safari won't send focus to the clicked element, so we need to manually place it: https://bugs.webkit.org/show_bug.cgi?id=22261
+          if (window.document.activeElement !== ref) ref.focus();
           const menuOpenedBy = selectors.core.navigation.menuOpenedBy(store);
           if (menuOpenedBy.click || menuOpenedBy.focus) {
             closeMenu(store, 'click');
             closeMenu(store, 'focus');
           } else {
+            context.core.navigation.previousFocus = ref;
             openMenu(store, 'click');
           }
         },
@@ -178,7 +191,9 @@ const closeMenu = (store, menuClosedOn) => {
           // event.relatedTarget === The element receiving focus (if any)
           // When focusout is outsite the document,
           // `window.document.activeElement` doesn't change.
-          if (!context.core.navigation.modal?.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
+
+          // The event.relatedTarget is null when something outside the navigation menu is clicked. This is only necessary for Safari.
+          if (event.relatedTarget === null || !context.core.navigation.modal?.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
             closeMenu(store, 'click');
             closeMenu(store, 'focus');
           }
