@@ -630,7 +630,16 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 
 	$class_names        = array();
 	$layout_definitions = wp_get_layout_definitions();
-	$container_class    = wp_unique_id( 'wp-container-' );
+
+	/*
+	 * Uses an incremental ID that is independent per prefix to make sure that
+	 * rendering different numbers of blocks doesn't affect the IDs of other
+	 * blocks. Makes the CSS class names stable across paginations
+	 * for features like the enhanced pagination of the Query block.
+	 */
+	$container_class = wp_unique_prefixed_id(
+		'wp-container-' . sanitize_title( $block['blockName'] ) . '-layout-'
+	);
 
 	// Set the correct layout type for blocks using legacy content width.
 	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] || isset( $used_layout['contentSize'] ) && $used_layout['contentSize'] ) {
