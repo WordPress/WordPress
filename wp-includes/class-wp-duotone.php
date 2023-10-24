@@ -1074,7 +1074,7 @@ class WP_Duotone {
 	 * @return string Filtered block content.
 	 */
 	public static function render_duotone_support( $block_content, $block, $wp_block ) {
-		if ( empty( $block_content ) || ! $block['blockName'] ) {
+		if ( ! $block['blockName'] ) {
 			return $block_content;
 		}
 		$duotone_selector = self::get_selector( $wp_block->block_type );
