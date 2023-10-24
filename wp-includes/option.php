@@ -248,17 +248,17 @@ function get_option( $option, $default_value = false ) {
 }
 
 /**
- * Primes specific options into the cache with a single database query.
+ * Loads specific options into the cache with a single database query.
  *
- * Only options that do not already exist in cache will be primed.
+ * Only options that do not already exist in cache will be loaded.
  *
  * @since 6.4.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $options An array of option names to be primed.
+ * @param array $options An array of option names to be loaded.
  */
-function prime_options( $options ) {
+function wp_load_options( $options ) {
 	$alloptions     = wp_load_alloptions();
 	$cached_options = wp_cache_get_multiple( $options, 'options' );
 
@@ -270,7 +270,7 @@ function prime_options( $options ) {
 		}
 	}
 
-	// Bail early if there are no options to be primed.
+	// Bail early if there are no options to be loaded.
 	if ( empty( $options_to_prime ) ) {
 		return;
 	}
@@ -321,26 +321,26 @@ function prime_options( $options ) {
 }
 
 /**
- * Primes all options registered with a specific option group.
+ * Loads all options registered with a specific option group.
  *
  * @since 6.4.0
  *
  * @global array $new_allowed_options
  *
- * @param string $option_group The option group to prime options for.
+ * @param string $option_group The option group to load options for.
  */
-function prime_options_by_group( $option_group ) {
+function wp_load_options_by_group( $option_group ) {
 	global $new_allowed_options;
 
 	if ( isset( $new_allowed_options[ $option_group ] ) ) {
-		prime_options( $new_allowed_options[ $option_group ] );
+		wp_load_options( $new_allowed_options[ $option_group ] );
 	}
 }
 
 /**
  * Retrieves multiple options.
  *
- * Options are primed as necessary first in order to use a single database query at most.
+ * Options are loaded as necessary first in order to use a single database query at most.
  *
  * @since 6.4.0
  *
@@ -348,7 +348,7 @@ function prime_options_by_group( $option_group ) {
  * @return array An array of key-value pairs for the requested options.
  */
 function get_options( $options ) {
-	prime_options( $options );
+	wp_load_options( $options );
 
 	$result = array();
 	foreach ( $options as $option ) {
