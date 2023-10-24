@@ -2410,7 +2410,7 @@ function is_post_publicly_viewable( $post = null ) {
  *                                        Is an alias of `$post__in` in WP_Query. Default empty array.
  *     @type int[]      $exclude          An array of post IDs not to retrieve. Default empty array.
  *     @type bool       $suppress_filters Whether to suppress filters. Default true.
- * }
+ *     @type bool       $get_post_meta 	  Return All post meta data. Default false.
  * @return WP_Post[]|int[] Array of post objects or post IDs.
  */
 function get_posts( $args = null ) {
@@ -2425,6 +2425,7 @@ function get_posts( $args = null ) {
 		'meta_value'       => '',
 		'post_type'        => 'post',
 		'suppress_filters' => true,
+		'get_post_meta' => false
 	);
 
 	$parsed_args = wp_parse_args( $args, $defaults );
@@ -2449,7 +2450,20 @@ function get_posts( $args = null ) {
 	$parsed_args['no_found_rows']       = true;
 
 	$get_posts = new WP_Query();
-	return $get_posts->query( $parsed_args );
+	$get_posts = $get_posts->query($parsed_args);
+
+	if (!empty($parsed_args['get_post_meta'])) {
+		foreach ($get_posts as $post) {
+			$post_meta = [];
+			foreach (get_post_meta($post->ID) as $key => $value) {
+				$post_meta[$key] = $value[0];
+			}
+			$post->meta_data = $post_meta;
+			$get_posts[] = $post;
+		}
+	};
+
+	return $get_posts;
 }
 
 //
