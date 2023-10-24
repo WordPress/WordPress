@@ -9,16 +9,15 @@
  */
 
 /**
- * Register block styles
+ * Register block styles.
  */
 
 if ( ! function_exists( 'twentytwentyfour_block_styles' ) ) :
 	/**
 	 * Register custom block styles
 	 *
-	 * @return void
 	 * @since Twenty Twenty-Four 1.0
-	 *
+	 * @return void
 	 */
 	function twentytwentyfour_block_styles() {
 		/**
@@ -174,9 +173,8 @@ if ( ! function_exists( 'twentytwentyfour_pattern_categories' ) ) :
 	/**
 	 * Register pattern categories
 	 *
-	 * @return void
 	 * @since Twenty Twenty-Four 1.0
-	 *
+	 * @return void
 	 */
 	function twentytwentyfour_pattern_categories() {
 
