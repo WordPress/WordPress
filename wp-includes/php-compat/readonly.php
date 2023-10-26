@@ -4,7 +4,7 @@
  * to `wp_readonly()` in WordPress 5.9.0.
  *
  * In order to avoid PHP parser errors, this function was extracted
- * to this separate file and is only included conditionally on PHP 8.1.
+ * to this separate file and is only included conditionally on PHP < 8.1.
  *
  * Including this file on PHP >= 8.1 results in a fatal error.
  *
