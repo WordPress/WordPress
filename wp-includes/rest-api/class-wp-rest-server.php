@@ -467,22 +467,6 @@ class WP_REST_Server {
 		$this->set_status( $code );
 
 		/**
-		 * Filters whether the REST API request has already been served.
-		 *
-		 * Allow sending the request manually - by returning true, the API result
-		 * will not be sent to the client.
-		 *
-		 * @since 4.4.0
-		 *
-		 * @param bool             $served  Whether the request has already been served.
-		 *                                           Default false.
-		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a `WP_REST_Response`.
-		 * @param WP_REST_Request  $request Request used to generate the response.
-		 * @param WP_REST_Server   $server  Server instance.
-		 */
-		$served = apply_filters( 'rest_pre_serve_request', false, $result, $request, $this );
-
-		/**
 		 * Filters whether to send nocache headers on a REST API request.
 		 *
 		 * @since 4.4.0
@@ -503,6 +487,22 @@ class WP_REST_Server {
 				}
 			}
 		}
+
+		/**
+		 * Filters whether the REST API request has already been served.
+		 *
+		 * Allow sending the request manually - by returning true, the API result
+		 * will not be sent to the client.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param bool             $served  Whether the request has already been served.
+		 *                                           Default false.
+		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a `WP_REST_Response`.
+		 * @param WP_REST_Request  $request Request used to generate the response.
+		 * @param WP_REST_Server   $server  Server instance.
+		 */
+		$served = apply_filters( 'rest_pre_serve_request', false, $result, $request, $this );
 
 		if ( ! $served ) {
 			if ( 'HEAD' === $request->get_method() ) {
