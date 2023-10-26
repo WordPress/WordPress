@@ -521,7 +521,7 @@ add_action( 'init', 'wp_sitemaps_get_server' );
  */
 // Theme.
 add_action( 'setup_theme', 'create_initial_theme_features', 0 );
-add_action( 'setup_theme', '_add_default_theme_supports', 1 );
+add_action( 'after_setup_theme', '_add_default_theme_supports', 1 );
 add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
 add_action( 'wp_head', '_custom_logo_header_styles' );
 add_action( 'plugins_loaded', '_wp_customize_include' );
@@ -718,7 +718,7 @@ add_filter( 'pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug',
 add_action( 'save_post_wp_template_part', 'wp_set_unique_slug_on_create_template_part' );
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link' );
 add_action( 'wp_footer', 'the_block_template_skip_link' ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_block_template_skip_link().
-add_action( 'setup_theme', 'wp_enable_block_templates' );
+add_action( 'after_setup_theme', 'wp_enable_block_templates', 1 );
 add_action( 'wp_loaded', '_add_template_loader_filters' );
 
 // wp_navigation post type.

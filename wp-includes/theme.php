@@ -4335,9 +4335,9 @@ function wp_theme_get_element_class_name( $element ) {
 }
 
 /**
- * Adds default theme supports for block themes when the 'setup_theme' action fires.
+ * Adds default theme supports for block themes when the 'after_setup_theme' action fires.
  *
- * See {@see 'setup_theme'}.
+ * See {@see 'after_setup_theme'}.
  *
  * @since 5.9.0
  * @access private
