@@ -208,6 +208,7 @@ function _block_template_render_title_tag() {
  * @access private
  * @since 5.8.0
  *
+ * @global string   $_wp_current_template_id
  * @global string   $_wp_current_template_content
  * @global WP_Embed $wp_embed
  * @global WP_Query $wp_query
@@ -215,7 +216,7 @@ function _block_template_render_title_tag() {
  * @return string Block template markup.
  */
 function get_the_block_template_html() {
-	global $_wp_current_template_content, $wp_embed, $wp_query;
+	global $_wp_current_template_id, $_wp_current_template_content, $wp_embed, $wp_query;
 
 	if ( ! $_wp_current_template_content ) {
 		if ( is_user_logged_in() ) {
@@ -242,8 +243,18 @@ function get_the_block_template_html() {
 	 * Even if the block template contained a `core/query` and `core/post-template` block referencing the main query
 	 * loop, it would not cause errors since it would use a cloned instance and go through the same loop of a single
 	 * post, within the actual main query loop.
+	 *
+	 * This special logic should be skipped if the current template does not come from the current theme, in which case
+	 * it has been injected by a plugin by hijacking the block template loader mechanism. In that case, entirely custom
+	 * logic may be applied which is unpredictable and therefore safer to omit this special handling on.
 	 */
-	if ( is_singular() && 1 === $wp_query->post_count && have_posts() ) {
+	if (
+		$_wp_current_template_id &&
+		str_starts_with( $_wp_current_template_id, get_stylesheet() . '//' ) &&
+		is_singular() &&
+		1 === $wp_query->post_count &&
+		have_posts()
+	) {
 		while ( have_posts() ) {
 			the_post();
 			$content = do_blocks( $content );
