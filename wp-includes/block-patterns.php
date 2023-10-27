@@ -328,6 +328,17 @@ function _register_remote_theme_patterns() {
  * @access private
  */
 function _register_theme_block_patterns() {
+
+	/*
+	 * During the bootstrap process, a check for active and valid themes is run.
+	 * If no themes are returned, the theme's functions.php file will not be loaded,
+	 * which can lead to errors if patterns expect some variables or constants to
+	 * already be set at this point, so bail early if that is the case.
+	 */
+	if ( empty( wp_get_active_and_valid_themes() ) ) {
+		return;
+	}
+
 	/*
 	 * Register patterns for the active theme. If the theme is a child theme,
 	 * let it override any patterns from the parent theme that shares the same slug.
