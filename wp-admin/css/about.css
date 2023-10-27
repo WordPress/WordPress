@@ -21,7 +21,7 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: #151515;
+	--background: #EAE9E7;
 	--subtle-background: #EAE9E7;
 
 	/* Main text color */
@@ -29,7 +29,7 @@
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #D8613C; /* Link color */
+	--accent-1: #C94C26; /* Link color */
 	--accent-2: #CFCABE; /* Accent background */
 	--accent-3: #f0f0f1; /* hr background */
 	--accent-4: #B1C5A4; /* Light green */
@@ -538,28 +538,30 @@
 	justify-content: end;
 	box-sizing: border-box;
 	padding: var(--gap) 0;
-	min-height: 420px;
+	height: clamp(12.5rem, -1.25rem + 36.67vw, 26.25rem);
 	color: var(--text-light);
-	background: var(--background) url('../images/about-header-about.svg?ver=6.4') no-repeat;
-	background-size: cover;
-	background-position: center;
+	background-image: url('../images/about-header-about.svg?ver=6.4'), url('../images/about-header-background.svg?ver=6.4');
+	background-size: auto 70%, cover;
 	border-radius: 5px;
+	background-repeat: no-repeat;
+	background-position: right 7% center, top left;
+	background-color: var(--background);
 }
 
 .credits-php .about__header {
-	background-image: url('../images/about-header-credits.svg?ver=6.4');
+	background-image: url('../images/about-header-credits.svg?ver=6.4'), url('../images/about-header-background.svg?ver=6.4');
 }
 
 .freedoms-php .about__header {
-	background-image: url('../images/about-header-freedoms.svg?ver=6.4');
+	background-image: url('../images/about-header-freedoms.svg?ver=6.4'), url('../images/about-header-background.svg?ver=6.4');
 }
 
 .privacy-php .about__header {
-	background-image: url('../images/about-header-privacy.svg?ver=6.4');
+	background-image: url('../images/about-header-privacy.svg?ver=6.4'), url('../images/about-header-background.svg?ver=6.4');
 }
 
 .contribute-php .about__header {
-	background-image: url('../images/about-header-contribute.svg?ver=6.4');
+	background-image: url('../images/about-header-contribute.svg?ver=6.4'), url('../images/about-header-background.svg?ver=6.4');
 }
 
 .about__header-image {
@@ -568,8 +570,9 @@
 
 .about__header-title {
 	box-sizing: border-box;
-	margin: 0 calc(var(--gap) + 3rem);
+	margin: 0 calc(var(--gap) + 2rem);
 	padding: 0;
+	max-width: 55%;
 }
 
 .about__header-title h1 {
@@ -581,6 +584,7 @@
 	font-weight: 600;
 }
 
+.about-php .about__header-title h1,
 .credits-php .about__header-title h1,
 .freedoms-php .about__header-title h1,
 .privacy-php .about__header-title h1,
@@ -645,11 +649,8 @@
 }
 
 @media screen and (max-width: 960px) {
-	.about__header-title h1 {
-		/* Fluid font size scales on browser size 600px - 960px. */
-		font-size: clamp(3rem, 13.33vw - 2rem, 6rem);
-	}
 
+	.about-php .about__header-title h1,
 	.credits-php .about__header-title h1,
 	.freedoms-php .about__header-title h1,
 	.privacy-php .about__header-title h1,

@@ -25,7 +25,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="wrap about__container">
 
 	<div class="about__header">
-		<div class="about__header-title" style="max-width: 500px">
+		<div class="about__header-title">
 			<h1>
 				<?php _e( 'The Four Freedoms' ); ?>
 			</h1>
