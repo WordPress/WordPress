@@ -656,7 +656,7 @@ function wp_edit_theme_plugin_file( $args ) {
 /**
  * Returns a filename of a temporary unique file.
  *
- * Please note that the calling function must unlink() this itself.
+ * Please note that the calling function must delete or move the file.
  *
  * The filename is based off the passed parameter or defaults to the current unix timestamp,
  * while the directory can either be passed as well, or by leaving it blank, default to a writable
@@ -1139,7 +1139,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 /**
  * Downloads a URL to a local temporary file using the WordPress HTTP API.
  *
- * Please note that the calling function must unlink() the file.
+ * Please note that the calling function must delete or move the file.
  *
  * @since 2.5.0
  * @since 5.2.0 Signature Verification with SoftFail was added.
@@ -1153,7 +1153,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
  * @return string|WP_Error Filename on success, WP_Error on failure.
  */
 function download_url( $url, $timeout = 300, $signature_verification = false ) {
-	// WARNING: The file is not automatically deleted, the script must unlink() the file.
+	// WARNING: The file is not automatically deleted, the script must delete or move the file.
 	if ( ! $url ) {
 		return new WP_Error( 'http_no_url', __( 'Invalid URL Provided.' ) );
 	}
