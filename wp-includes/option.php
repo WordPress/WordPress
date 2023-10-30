@@ -261,11 +261,19 @@ function get_option( $option, $default_value = false ) {
 function wp_prime_option_caches( $options ) {
 	$alloptions     = wp_load_alloptions();
 	$cached_options = wp_cache_get_multiple( $options, 'options' );
+	$notoptions     = wp_cache_get( 'notoptions', 'options' );
+	if ( ! is_array( $notoptions ) ) {
+		$notoptions = array();
+	}
 
 	// Filter options that are not in the cache.
 	$options_to_prime = array();
 	foreach ( $options as $option ) {
-		if ( ( ! isset( $cached_options[ $option ] ) || ! $cached_options[ $option ] ) && ! isset( $alloptions[ $option ] ) ) {
+		if (
+			( ! isset( $cached_options[ $option ] ) || false === $cached_options[ $option ] )
+			&& ! isset( $alloptions[ $option ] )
+			&& ! isset( $notoptions[ $option ] )
+		) {
 			$options_to_prime[] = $option;
 		}
 	}
@@ -288,7 +296,12 @@ function wp_prime_option_caches( $options ) {
 
 	$options_found = array();
 	foreach ( $results as $result ) {
-		$options_found[ $result->option_name ] = maybe_unserialize( $result->option_value );
+		/*
+		 * The cache is primed with the raw value (i.e. not maybe_unserialized).
+		 *
+		 * `get_option()` will handle unserializing the value as needed.
+		 */
+		$options_found[ $result->option_name ] = $result->option_value;
 	}
 	wp_cache_set_multiple( $options_found, 'options' );
 
@@ -298,12 +311,6 @@ function wp_prime_option_caches( $options ) {
 	}
 
 	$options_not_found = array_diff( $options_to_prime, array_keys( $options_found ) );
-
-	$notoptions = wp_cache_get( 'notoptions', 'options' );
-
-	if ( ! is_array( $notoptions ) ) {
-		$notoptions = array();
-	}
 
 	// Add the options that were not found to the cache.
 	$update_notoptions = false;
