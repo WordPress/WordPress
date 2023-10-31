@@ -780,12 +780,12 @@ function make_before_block_visitor( $hooked_blocks, $context ) {
 	 * Furthermore, prepend the markup for any blocks hooked `before` the given block and as its parent's
 	 * `first_child`, respectively, to the serialized markup for the given block.
 	 *
-	 * @param array $block        The block to inject the theme attribute into, and hooked blocks before.
-	 * @param array $parent_block The parent block of the given block.
-	 * @param array $prev         The previous sibling block of the given block.
+	 * @param array $block        The block to inject the theme attribute into, and hooked blocks before. Passed by reference.
+	 * @param array $parent_block The parent block of the given block. Passed by reference. Default null.
+	 * @param array $prev         The previous sibling block of the given block. Default null.
 	 * @return string The serialized markup for the given block, with the markup for any hooked blocks prepended to it.
 	 */
-	return function ( &$block, $parent_block = null, $prev = null ) use ( $hooked_blocks, $context ) {
+	return function ( &$block, &$parent_block = null, $prev = null ) use ( $hooked_blocks, $context ) {
 		_inject_theme_attribute_in_template_part_block( $block );
 
 		$markup = '';
@@ -853,12 +853,12 @@ function make_after_block_visitor( $hooked_blocks, $context ) {
 	 * Append the markup for any blocks hooked `after` the given block and as its parent's
 	 * `last_child`, respectively, to the serialized markup for the given block.
 	 *
-	 * @param array $block        The block to inject the hooked blocks after.
-	 * @param array $parent_block The parent block of the given block.
-	 * @param array $next         The next sibling block of the given block.
+	 * @param array $block        The block to inject the hooked blocks after. Passed by reference.
+	 * @param array $parent_block The parent block of the given block. Passed by reference. Default null.
+	 * @param array $next         The next sibling block of the given block. Default null.
 	 * @return string The serialized markup for the given block, with the markup for any hooked blocks appended to it.
 	 */
-	return function ( &$block, $parent_block = null, $next = null ) use ( $hooked_blocks, $context ) {
+	return function ( &$block, &$parent_block = null, $next = null ) use ( $hooked_blocks, $context ) {
 		$markup = '';
 
 		$relative_position  = 'after';
@@ -1065,7 +1065,7 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
 
 				$block_content .= call_user_func_array(
 					$pre_callback,
-					array( &$inner_block, $block, $prev )
+					array( &$inner_block, &$block, $prev )
 				);
 			}
 
@@ -1076,7 +1076,7 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
 
 				$post_markup = call_user_func_array(
 					$post_callback,
-					array( &$inner_block, $block, $next )
+					array( &$inner_block, &$block, $next )
 				);
 			}
 
@@ -1131,7 +1131,9 @@ function traverse_and_serialize_block( $block, $pre_callback = null, $post_callb
  * @return string Serialized block markup.
  */
 function traverse_and_serialize_blocks( $blocks, $pre_callback = null, $post_callback = null ) {
-	$result = '';
+	$result       = '';
+	$parent_block = null; // At the top level, there is no parent block to pass to the callbacks; yet the callbacks expect a reference.
+
 	foreach ( $blocks as $index => $block ) {
 		if ( is_callable( $pre_callback ) ) {
 			$prev = 0 === $index
@@ -1140,7 +1142,7 @@ function traverse_and_serialize_blocks( $blocks, $pre_callback = null, $post_cal
 
 			$result .= call_user_func_array(
 				$pre_callback,
-				array( &$block, null, $prev ) // At the top level, there is no parent block to pass to the callback.
+				array( &$block, &$parent_block, $prev )
 			);
 		}
 
@@ -1151,7 +1153,7 @@ function traverse_and_serialize_blocks( $blocks, $pre_callback = null, $post_cal
 
 			$post_markup = call_user_func_array(
 				$post_callback,
-				array( &$block, null, $next ) // At the top level, there is no parent block to pass to the callback.
+				array( &$block, &$parent_block, $next )
 			);
 		}
 
