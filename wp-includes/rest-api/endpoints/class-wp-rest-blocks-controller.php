@@ -78,7 +78,7 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 		$schema = parent::get_item_schema();
 
 		/*
-		 * Allow all contexts to access `title.raw` and `content.raw`. 
+		 * Allow all contexts to access `title.raw` and `content.raw`.
 		 * Clients always need the raw markup of a pattern to do anything useful,
 		 * e.g. parse it or display it in an editor.
 		 */
