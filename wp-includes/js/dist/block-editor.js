@@ -43616,6 +43616,171 @@ function BlockModeToggle({
   }
 }))])(BlockModeToggle));
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-rename/use-block-rename.js
+/**
+ * WordPress dependencies
+ */
+
+function useBlockRename(name) {
+  const metaDataSupport = (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, '__experimentalMetadata', false);
+  const supportsBlockNaming = !!(true === metaDataSupport || metaDataSupport?.name);
+  return {
+    canRename: supportsBlockNaming
+  };
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-rename/is-empty-string.js
+function isEmptyString(testString) {
+  return testString?.trim()?.length === 0;
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-rename/modal.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+function BlockRenameModal({
+  blockName,
+  originalBlockName,
+  onClose,
+  onSave
+}) {
+  const [editedBlockName, setEditedBlockName] = (0,external_wp_element_namespaceObject.useState)(blockName);
+  const nameHasChanged = editedBlockName !== blockName;
+  const nameIsOriginal = editedBlockName === originalBlockName;
+  const nameIsEmpty = isEmptyString(editedBlockName);
+  const isNameValid = nameHasChanged || nameIsOriginal;
+  const autoSelectInputText = event => event.target.select();
+  const dialogDescription = (0,external_wp_compose_namespaceObject.useInstanceId)(BlockRenameModal, `block-editor-rename-modal__description`);
+  const handleSubmit = () => {
+    const message = nameIsOriginal || nameIsEmpty ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
+    (0,external_wp_i18n_namespaceObject.__)('Block name reset to: "%s".'), editedBlockName) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
+    (0,external_wp_i18n_namespaceObject.__)('Block name changed to: "%s".'), editedBlockName);
+
+    // Must be assertive to immediately announce change.
+    (0,external_wp_a11y_namespaceObject.speak)(message, 'assertive');
+    onSave(editedBlockName);
+
+    // Immediate close avoids ability to hit save multiple times.
+    onClose();
+  };
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+    title: (0,external_wp_i18n_namespaceObject.__)('Rename'),
+    onRequestClose: onClose,
+    overlayClassName: "block-editor-block-rename-modal",
+    aria: {
+      describedby: dialogDescription
+    },
+    focusOnMount: "firstContentElement"
+  }, (0,external_wp_element_namespaceObject.createElement)("p", {
+    id: dialogDescription
+  }, (0,external_wp_i18n_namespaceObject.__)('Enter a custom name for this block.')), (0,external_wp_element_namespaceObject.createElement)("form", {
+    onSubmit: e => {
+      e.preventDefault();
+      if (!isNameValid) {
+        return;
+      }
+      handleSubmit();
+    }
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+    spacing: "3"
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {
+    __nextHasNoMarginBottom: true,
+    value: editedBlockName,
+    label: (0,external_wp_i18n_namespaceObject.__)('Block name'),
+    hideLabelFromVision: true,
+    placeholder: originalBlockName,
+    onChange: setEditedBlockName,
+    onFocus: autoSelectInputText
+  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    justify: "right"
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    variant: "tertiary",
+    onClick: onClose
+  }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    "aria-disabled": !isNameValid,
+    variant: "primary",
+    type: "submit"
+  }, (0,external_wp_i18n_namespaceObject.__)('Save'))))));
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-rename/rename-control.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+function BlockRenameControl({
+  clientId
+}) {
+  const [renamingBlock, setRenamingBlock] = (0,external_wp_element_namespaceObject.useState)(false);
+  const {
+    metadata
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getBlockAttributes
+    } = select(store);
+    const _metadata = getBlockAttributes(clientId)?.metadata;
+    return {
+      metadata: _metadata
+    };
+  }, [clientId]);
+  const {
+    updateBlockAttributes
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const customName = metadata?.name;
+  function onChange(newName) {
+    updateBlockAttributes([clientId], {
+      metadata: {
+        ...(metadata && metadata),
+        name: newName
+      }
+    });
+  }
+  const blockInformation = useBlockDisplayInformation(clientId);
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+    onClick: () => {
+      setRenamingBlock(true);
+    },
+    "aria-expanded": renamingBlock,
+    "aria-haspopup": "dialog"
+  }, (0,external_wp_i18n_namespaceObject.__)('Rename')), renamingBlock && (0,external_wp_element_namespaceObject.createElement)(BlockRenameModal, {
+    blockName: customName || '',
+    originalBlockName: blockInformation?.title,
+    onClose: () => setRenamingBlock(false),
+    onSave: newName => {
+      // If the new value is the block's original name (e.g. `Group`)
+      // or it is an empty string then assume the intent is to reset
+      // the value. Therefore reset the metadata.
+      if (newName === blockInformation?.title || isEmptyString(newName)) {
+        newName = undefined;
+      }
+      onChange(newName);
+    }
+  }));
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-settings-menu-controls/index.js
 
 /**
@@ -43629,6 +43794,7 @@ function BlockModeToggle({
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -43659,7 +43825,11 @@ const BlockSettingsMenuControlsSlot = ({
   const {
     canLock
   } = useBlockLock(selectedClientIds[0]);
+  const {
+    canRename
+  } = useBlockRename(selectedBlocks[0]);
   const showLockButton = selectedClientIds.length === 1 && canLock;
+  const showRenameButton = selectedClientIds.length === 1 && canRename;
 
   // Check if current selection of blocks is Groupable or Ungroupable
   // and pass this props down to ConvertToGroupButton.
@@ -43684,6 +43854,8 @@ const BlockSettingsMenuControlsSlot = ({
       ...convertToGroupButtonProps,
       onClose: fillProps?.onClose
     }), showLockButton && (0,external_wp_element_namespaceObject.createElement)(BlockLockMenuItem, {
+      clientId: selectedClientIds[0]
+    }), showRenameButton && (0,external_wp_element_namespaceObject.createElement)(BlockRenameControl, {
       clientId: selectedClientIds[0]
     }), fills, fillProps?.canMove && !fillProps?.onlyBlock && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
       onClick: (0,external_wp_compose_namespaceObject.pipe)(fillProps?.onClose, fillProps?.onMoveTo)
@@ -44225,7 +44397,7 @@ const withBlockHooks = (0,external_wp_compose_namespaceObject.createHigherOrderC
 }, 'withBlockHooks');
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockEdit', 'core/block-hooks/with-inspector-control', withBlockHooks);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/block-rename-ui.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/block-rename.js
 
 /**
  * WordPress dependencies
@@ -44236,142 +44408,28 @@ const withBlockHooks = (0,external_wp_compose_namespaceObject.createHigherOrderC
 
 
 
-
-
 /**
  * Internal dependencies
  */
 
-const emptyString = testString => testString?.trim()?.length === 0;
-function RenameModal({
-  blockName,
-  originalBlockName,
-  onClose,
-  onSave
-}) {
-  const [editedBlockName, setEditedBlockName] = (0,external_wp_element_namespaceObject.useState)(blockName);
-  const nameHasChanged = editedBlockName !== blockName;
-  const nameIsOriginal = editedBlockName === originalBlockName;
-  const nameIsEmpty = emptyString(editedBlockName);
-  const isNameValid = nameHasChanged || nameIsOriginal;
-  const autoSelectInputText = event => event.target.select();
-  const dialogDescription = (0,external_wp_compose_namespaceObject.useInstanceId)(RenameModal, `block-editor-rename-modal__description`);
-  const handleSubmit = () => {
-    const message = nameIsOriginal || nameIsEmpty ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
-    (0,external_wp_i18n_namespaceObject.__)('Block name reset to: "%s".'), editedBlockName) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
-    (0,external_wp_i18n_namespaceObject.__)('Block name changed to: "%s".'), editedBlockName);
-
-    // Must be assertive to immediately announce change.
-    (0,external_wp_a11y_namespaceObject.speak)(message, 'assertive');
-    onSave(editedBlockName);
-
-    // Immediate close avoids ability to hit save multiple times.
-    onClose();
-  };
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Rename'),
-    onRequestClose: onClose,
-    overlayClassName: "block-editor-block-rename-modal",
-    aria: {
-      describedby: dialogDescription
-    },
-    focusOnMount: "firstContentElement"
-  }, (0,external_wp_element_namespaceObject.createElement)("p", {
-    id: dialogDescription
-  }, (0,external_wp_i18n_namespaceObject.__)('Enter a custom name for this block.')), (0,external_wp_element_namespaceObject.createElement)("form", {
-    onSubmit: e => {
-      e.preventDefault();
-      if (!isNameValid) {
-        return;
-      }
-      handleSubmit();
-    }
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    spacing: "3"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {
-    __nextHasNoMarginBottom: true,
-    value: editedBlockName,
-    label: (0,external_wp_i18n_namespaceObject.__)('Block name'),
-    hideLabelFromVision: true,
-    placeholder: originalBlockName,
-    onChange: setEditedBlockName,
-    onFocus: autoSelectInputText
-  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    justify: "right"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    variant: "tertiary",
-    onClick: onClose
-  }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    "aria-disabled": !isNameValid,
-    variant: "primary",
-    type: "submit"
-  }, (0,external_wp_i18n_namespaceObject.__)('Save'))))));
-}
-function BlockRenameControl(props) {
-  const [renamingBlock, setRenamingBlock] = (0,external_wp_element_namespaceObject.useState)(false);
+const withBlockRenameControl = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(BlockEdit => props => {
   const {
-    clientId,
-    customName,
-    onChange
+    name,
+    attributes,
+    setAttributes,
+    isSelected
   } = props;
-  const blockInformation = useBlockDisplayInformation(clientId);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(inspector_controls, {
+  const supportsBlockNaming = (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, 'renaming', true);
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isSelected && supportsBlockNaming && (0,external_wp_element_namespaceObject.createElement)(inspector_controls, {
     group: "advanced"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {
     __nextHasNoMarginBottom: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Block name'),
-    value: customName || '',
-    onChange: onChange
-  })), (0,external_wp_element_namespaceObject.createElement)(block_settings_menu_controls, null, ({
-    selectedClientIds
-  }) => {
-    // Only enabled for single selections.
-    const canRename = selectedClientIds.length === 1 && clientId === selectedClientIds[0];
-
-    // This check ensures the `BlockSettingsMenuControls` fill
-    // doesn't render multiple times and also that it renders for
-    // the block from which the menu was triggered.
-    if (!canRename) {
-      return null;
-    }
-    return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-      onClick: () => {
-        setRenamingBlock(true);
-      },
-      "aria-expanded": renamingBlock,
-      "aria-haspopup": "dialog"
-    }, (0,external_wp_i18n_namespaceObject.__)('Rename'));
-  }), renamingBlock && (0,external_wp_element_namespaceObject.createElement)(RenameModal, {
-    blockName: customName || '',
-    originalBlockName: blockInformation?.title,
-    onClose: () => setRenamingBlock(false),
-    onSave: newName => {
-      // If the new value is the block's original name (e.g. `Group`)
-      // or it is an empty string then assume the intent is to reset
-      // the value. Therefore reset the metadata.
-      if (newName === blockInformation?.title || emptyString(newName)) {
-        newName = undefined;
-      }
-      onChange(newName);
-    }
-  }));
-}
-const withBlockRenameControl = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(BlockEdit => props => {
-  const {
-    clientId,
-    name,
-    attributes,
-    setAttributes
-  } = props;
-  const metaDataSupport = (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, '__experimentalMetadata', false);
-  const supportsBlockNaming = !!(true === metaDataSupport || metaDataSupport?.name);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, supportsBlockNaming && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(BlockRenameControl, {
-    clientId: clientId,
-    customName: attributes?.metadata?.name,
+    value: attributes?.metadata?.name || '',
     onChange: newName => {
       setAttributes({
         metadata: {
-          ...(attributes?.metadata && attributes?.metadata),
+          ...attributes?.metadata,
           name: newName
         }
       });
@@ -60736,6 +60794,7 @@ const ungroup = (0,external_wp_element_namespaceObject.createElement)(external_w
 /* harmony default export */ var library_ungroup = (ungroup);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-block-commands/index.js
+
 /**
  * WordPress dependencies
  */
@@ -60748,6 +60807,7 @@ const ungroup = (0,external_wp_element_namespaceObject.createElement)(external_w
 /**
  * Internal dependencies
  */
+
 
 const useTransformCommands = () => {
   const {
@@ -60817,7 +60877,9 @@ const useTransformCommands = () => {
       name: 'core/block-editor/transform-to-' + name.replace('/', '-'),
       // translators: %s: block title/name.
       label: (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Transform to %s'), title),
-      icon: icon.src,
+      icon: (0,external_wp_element_namespaceObject.createElement)(block_icon, {
+        icon: icon
+      }),
       callback: ({
         close
       }) => {

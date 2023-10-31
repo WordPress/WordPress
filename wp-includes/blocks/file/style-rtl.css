@@ -22,11 +22,6 @@
   margin-bottom:1em;
 }
 
-@media (max-width:768px){
-  .wp-block-file__embed{
-    display:none;
-  }
-}
 :where(.wp-block-file__button){
   border-radius:2em;
   display:inline-block;
