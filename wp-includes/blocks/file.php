@@ -59,7 +59,8 @@ function render_block_core_file( $attributes, $content, $block ) {
 		$processor->next_tag();
 		$processor->set_attribute( 'data-wp-interactive', '' );
 		$processor->next_tag( 'object' );
-		$processor->set_attribute( 'data-wp-style--display', 'selectors.core.file.hasPdfPreview' );
+		$processor->set_attribute( 'data-wp-bind--hidden', '!selectors.core.file.hasPdfPreview' );
+		$processor->set_attribute( 'hidden', true );
 		return $processor->get_updated_html();
 	}
 

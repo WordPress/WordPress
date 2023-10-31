@@ -42521,19 +42521,22 @@ const usePatterns = (clientId, name) => {
 };
 
 /**
- * Hook that returns whether the Query Loop with the given `clientId` contains
- * any third-party block.
+ * Hook that returns a list of unsupported blocks inside the Query Loop with the
+ * given `clientId`.
  *
  * @param {string} clientId The block's client ID.
- * @return {boolean} True if it contains third-party blocks.
+ * @return {string[]} List of block titles.
  */
-const useContainsThirdPartyBlocks = clientId => {
+const useUnsupportedBlockList = clientId => {
   return (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getClientIdsOfDescendants,
       getBlockName
     } = select(external_wp_blockEditor_namespaceObject.store);
-    return getClientIdsOfDescendants(clientId).some(descendantClientId => !getBlockName(descendantClientId).startsWith('core/'));
+    return getClientIdsOfDescendants(clientId).filter(descendantClientId => {
+      const blockName = getBlockName(descendantClientId);
+      return !blockName.startsWith('core/') || blockName === 'core/post-content' || blockName === 'core/template-part' || blockName === 'core/block';
+    });
   }, [clientId]);
 };
 
@@ -43096,6 +43099,7 @@ function StickyControl({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -43105,23 +43109,26 @@ function EnhancedPaginationControl({
   setAttributes,
   clientId
 }) {
-  const enhancedPaginationNotice = (0,external_wp_i18n_namespaceObject.__)("Enhanced pagination doesn't support plugin blocks yet. If you want to enable it, you have to remove all plugin blocks from the Query Loop.");
-  const containsThirdPartyBlocks = useContainsThirdPartyBlocks(clientId);
+  const unsupported = useUnsupportedBlockList(clientId);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
     label: (0,external_wp_i18n_namespaceObject.__)('Enhanced pagination'),
     help: (0,external_wp_i18n_namespaceObject.__)('Browsing between pages won’t require a full page reload.'),
     checked: !!enhancedPagination,
-    disabled: containsThirdPartyBlocks,
+    disabled: unsupported.length,
     onChange: value => {
       setAttributes({
         enhancedPagination: !!value
       });
     }
-  }), containsThirdPartyBlocks && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
+  }), !!unsupported.length && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
     status: "warning",
     isDismissible: false,
     className: "wp-block-query__enhanced-pagination-notice"
-  }, enhancedPaginationNotice));
+  }, (0,external_wp_i18n_namespaceObject.__)("Enhanced pagination doesn't support the following blocks:"), (0,external_wp_element_namespaceObject.createElement)("ul", null, unsupported.map(id => (0,external_wp_element_namespaceObject.createElement)("li", {
+    key: id
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockTitle, {
+    clientId: id
+  })))), (0,external_wp_i18n_namespaceObject.__)('If you want to enable it, you have to remove all unsupported blocks first.')));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/create-new-post-link.js
@@ -43368,7 +43375,7 @@ function QueryInspectorControls(props) {
  * Internal dependencies
  */
 
-const disableEnhancedPaginationDescription = (0,external_wp_i18n_namespaceObject.__)('Plugin blocks are not supported yet. For the enhanced pagination to work, remove the plugin block, then re-enable "Enhanced pagination" in the Query Block settings.');
+const disableEnhancedPaginationDescription = (0,external_wp_i18n_namespaceObject.__)('You have added unsupported blocks. For the enhanced pagination to work, remove them, then re-enable "Enhanced pagination" in the Query Block settings.');
 const modalDescriptionId = 'wp-block-query-enhanced-pagination-modal__description';
 function EnhancedPaginationModal({
   clientId,
@@ -43378,10 +43385,10 @@ function EnhancedPaginationModal({
   setAttributes
 }) {
   const [isOpen, setOpen] = (0,external_wp_element_namespaceObject.useState)(false);
-  const containsThirdPartyBlocks = useContainsThirdPartyBlocks(clientId);
+  const unsupported = useUnsupportedBlockList(clientId);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    setOpen(containsThirdPartyBlocks && enhancedPagination);
-  }, [containsThirdPartyBlocks, enhancedPagination, setOpen]);
+    setOpen(!!unsupported.length && enhancedPagination);
+  }, [unsupported.length, enhancedPagination, setOpen]);
   return isOpen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
     title: (0,external_wp_i18n_namespaceObject.__)('Enhanced pagination will be disabled'),
     className: "wp-block-query__enhanced-pagination-modal",
@@ -55833,7 +55840,6 @@ function TermDescriptionEdit({
 const term_description_metadata = {
   $schema: "https://schemas.wp.org/trunk/block.json",
   apiVersion: 3,
-  __experimental: "fse",
   name: "core/term-description",
   title: "Term Description",
   category: "theme",

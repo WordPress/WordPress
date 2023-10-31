@@ -877,6 +877,10 @@
   z-index:1;
 }
 
+.block-editor-block-rename-modal{
+  z-index:1000001;
+}
+
 .block-editor-block-settings-menu__popover .components-dropdown-menu__menu{
   padding:0;
 }
@@ -3110,10 +3114,6 @@
 
 .typography-block-support-panel .single-column{
   grid-column:span 1;
-}
-
-.block-editor-block-rename-modal{
-  z-index:1000001;
 }
 .block-editor-block-toolbar{
   display:flex;
