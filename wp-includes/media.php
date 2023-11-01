@@ -1248,7 +1248,7 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  * @param int          $attachment_id Image attachment ID.
  * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array of
  *                                    width and height values in pixels (in that order). Default 'medium'.
- * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param array|null   $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
  * @return string|false A 'srcset' value string or false.
  */
@@ -1489,7 +1489,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
  * @param int          $attachment_id Image attachment ID.
  * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array of
  *                                    width and height values in pixels (in that order). Default 'medium'.
- * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param array|null   $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
  * @return string|false A valid source size value for use in a 'sizes' attribute or false.
  */
@@ -1520,8 +1520,8 @@ function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $image
  *
  * @param string|int[] $size          Image size. Accepts any registered image size name, or an array of
  *                                    width and height values in pixels (in that order).
- * @param string       $image_src     Optional. The URL to the image file. Default null.
- * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
+ * @param string|null  $image_src     Optional. The URL to the image file. Default null.
+ * @param array|null   $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
  * @param int          $attachment_id Optional. Image attachment ID. Either `$image_meta` or `$attachment_id`
  *                                    is needed when using the image size name as argument for `$size`. Default 0.
