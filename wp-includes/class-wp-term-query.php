@@ -179,7 +179,7 @@ class WP_Term_Query {
 	 *                                                   Default false.
 	 *     @type string          $cache_domain           Unique cache key to be produced when this query is stored in
 	 *                                                   an object cache. Default 'core'.
-	*      @type bool            $cache_results          Whether to cache term information. Default true.
+	 *     @type bool            $cache_results          Whether to cache term information. Default true.
 	 *     @type bool            $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
 	 *     @type string|string[] $meta_key               Meta key or keys to filter by.
 	 *     @type string|string[] $meta_value             Meta value or values to filter by.
