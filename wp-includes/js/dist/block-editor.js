@@ -62741,12 +62741,12 @@ function ImageSettingsPanel({
   // Global Styles.
   , {
     hasValue: () => !!value?.lightbox,
-    label: (0,external_wp_i18n_namespaceObject.__)('Expand on Click'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Expand on click'),
     onDeselect: resetLightbox,
     isShownByDefault: true,
     panelId: panelId
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Expand on Click'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Expand on click'),
     checked: lightboxChecked,
     onChange: onChangeLightbox
   }))));
