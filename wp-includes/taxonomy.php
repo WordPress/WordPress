@@ -227,7 +227,7 @@ function create_initial_taxonomies() {
 		'wp_pattern_category',
 		array( 'wp_block' ),
 		array(
-			'public'             => true,
+			'public'             => false,
 			'publicly_queryable' => false,
 			'hierarchical'       => false,
 			'labels'             => array(
