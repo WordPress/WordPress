@@ -93,7 +93,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
 		$block = $this->blocks[ $offset ];
 
 		if ( isset( $block ) && is_array( $block ) ) {
-			$block                  = new WP_Block( $block, $this->available_context, $this->registry );
+			$block = new WP_Block( $block, $this->available_context, $this->registry );
+
 			$this->blocks[ $offset ] = $block;
 		}
 

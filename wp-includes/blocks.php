@@ -1970,7 +1970,7 @@ function get_comments_pagination_arrow( $block, $pagination_type = 'next' ) {
  * @return string Filtered content without any HTML on the footnote content and with the sanitized id.
  */
 function _wp_filter_post_meta_footnotes( $footnotes ) {
-	$footnotes_decoded   = json_decode( $footnotes, true );
+	$footnotes_decoded = json_decode( $footnotes, true );
 	if ( ! is_array( $footnotes_decoded ) ) {
 		return '';
 	}

@@ -131,6 +131,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 
 			if ( ! empty( $latest_posts->posts ) ) {
 				$posts = wp_list_sort( $latest_posts->posts, 'post_modified_gmt', 'DESC' );
+
 				$sitemap_entry['lastmod'] = wp_date( DATE_W3C, strtotime( $posts[0]->post_modified_gmt ) );
 			}
 

@@ -2608,7 +2608,7 @@ function gallery_shortcode( $attr ) {
 		}
 	} elseif ( ! empty( $atts['exclude'] ) ) {
 		$post_parent_id = $id;
-		$attachments = get_children(
+		$attachments    = get_children(
 			array(
 				'post_parent'    => $id,
 				'exclude'        => $atts['exclude'],
@@ -2621,7 +2621,7 @@ function gallery_shortcode( $attr ) {
 		);
 	} else {
 		$post_parent_id = $id;
-		$attachments = get_children(
+		$attachments    = get_children(
 			array(
 				'post_parent'    => $id,
 				'post_status'    => 'inherit',
