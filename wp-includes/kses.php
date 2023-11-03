@@ -1536,36 +1536,37 @@ function wp_kses_hair_parse( $attr ) {
 		return array();
 	}
 
-	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	$regex =
-		'(?:'
-		.     '[_a-zA-Z][-_a-zA-Z0-9:.]*' // Attribute name.
-		. '|'
-		.     '\[\[?[^\[\]]+\]\]?'        // Shortcode in the name position implies unfiltered_html.
-		. ')'
-		. '(?:'               // Attribute value.
-		.     '\s*=\s*'       // All values begin with '='.
-		.     '(?:'
-		.         '"[^"]*"'   // Double-quoted.
-		.     '|'
-		.         "'[^']*'"   // Single-quoted.
-		.     '|'
-		.         '[^\s"\']+' // Non-quoted.
-		.         '(?:\s|$)'  // Must have a space.
-		.     ')'
-		. '|'
-		.     '(?:\s|$)'      // If attribute has no value, space is required.
-		. ')'
-		. '\s*';              // Trailing space is optional except as mentioned above.
-	// phpcs:enable
+		'(?:
+				[_a-zA-Z][-_a-zA-Z0-9:.]* # Attribute name.
+			|
+				\[\[?[^\[\]]+\]\]?        # Shortcode in the name position implies unfiltered_html.
+		)
+		(?:                               # Attribute value.
+			\s*=\s*                       # All values begin with "=".
+			(?:
+				"[^"]*"                   # Double-quoted.
+			|
+				\'[^\']*\'                # Single-quoted.
+			|
+				[^\s"\']+                 # Non-quoted.
+				(?:\s|$)                  # Must have a space.
+			)
+		|
+			(?:\s|$)                      # If attribute has no value, space is required.
+		)
+		\s*                               # Trailing space is optional except as mentioned above.
+		';
 
 	/*
 	 * Although it is possible to reduce this procedure to a single regexp,
 	 * we must run that regexp twice to get exactly the expected result.
+	 *
+	 * Note: do NOT remove the `x` modifiers as they are essential for the above regex!
 	 */
 
-	$validation = "%^($regex)+$%";
-	$extraction = "%$regex%";
+	$validation = "%^($regex)+$%x";
+	$extraction = "%$regex%x";
 
 	if ( 1 === preg_match( $validation, $attr ) ) {
 		preg_match_all( $extraction, $attr, $attrarr );
