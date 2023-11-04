@@ -1565,8 +1565,8 @@ function wp_kses_hair_parse( $attr ) {
 	 * Note: do NOT remove the `x` modifiers as they are essential for the above regex!
 	 */
 
-	$validation = "%^($regex)+$%x";
-	$extraction = "%$regex%x";
+	$validation = "/^($regex)+$/x";
+	$extraction = "/$regex/x";
 
 	if ( 1 === preg_match( $validation, $attr ) ) {
 		preg_match_all( $extraction, $attr, $attrarr );
