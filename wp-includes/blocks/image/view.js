@@ -309,18 +309,18 @@ function handleScroll(context) {
               // If it reaches the width first, keep
               // the width and compute the height.
               const referenceHeight = offsetWidth / naturalRatio;
-              context.core.image.imageButtonTop = (offsetHeight - referenceHeight) / 2 + buttonOffsetTop + 10;
-              context.core.image.imageButtonRight = buttonOffsetRight + 10;
+              context.core.image.imageButtonTop = (offsetHeight - referenceHeight) / 2 + buttonOffsetTop + 16;
+              context.core.image.imageButtonRight = buttonOffsetRight + 16;
             } else {
               // If it reaches the height first, keep
               // the height and compute the width.
               const referenceWidth = offsetHeight * naturalRatio;
-              context.core.image.imageButtonTop = buttonOffsetTop + 10;
-              context.core.image.imageButtonRight = (offsetWidth - referenceWidth) / 2 + buttonOffsetRight + 10;
+              context.core.image.imageButtonTop = buttonOffsetTop + 16;
+              context.core.image.imageButtonRight = (offsetWidth - referenceWidth) / 2 + buttonOffsetRight + 16;
             }
           } else {
-            context.core.image.imageButtonTop = buttonOffsetTop + 10;
-            context.core.image.imageButtonRight = buttonOffsetRight + 10;
+            context.core.image.imageButtonTop = buttonOffsetTop + 16;
+            context.core.image.imageButtonRight = buttonOffsetRight + 16;
           }
         },
         setStylesOnResize: ({
