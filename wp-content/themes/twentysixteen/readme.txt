@@ -1,9 +1,9 @@
 === Twenty Sixteen ===
 Contributors: wordpressdotorg
 Requires at least: 4.4
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.2.4
-Version: 3.0
+Version: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog, block-patterns
@@ -71,6 +71,11 @@ Source: https://fontsource.org/fonts/inconsolata
 Image used in screenshot.png: A photo by Austin Schmid (https://unsplash.com/schmidy/), licensed under Creative Commons Zero(http://creativecommons.org/publicdomain/zero/1.0/)
 
 == Changelog ==
+
+= 3.1 =
+* Released: November 7, 2023
+
+https://codex.wordpress.org/Twenty_Sixteen_Theme_Changelog#Version_3.1
 
 = 3.0 =
 * Released: August 8, 2023

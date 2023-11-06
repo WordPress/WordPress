@@ -1,9 +1,9 @@
 === Twenty Twenty-One ===
 Contributors: wordpressdotorg
 Requires at least: 5.3
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 1.9
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,11 @@ LocalStorage is necessary for the setting to work and is only used when a user c
 No data is saved in the database or transferred.
 
 == Changelog ==
+
+= 2.0 =
+* Released: November 7, 2023
+
+https://wordpress.org/documentation/article/twenty-twenty-one-changelog/#Version_2.0
 
 = 1.9 =
 * Released: August 8, 2023

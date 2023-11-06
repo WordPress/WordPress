@@ -1,9 +1,9 @@
 === Twenty Fifteen ===
 Contributors: wordpressdotorg
 Requires at least: 4.1
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.2.4
-Version: 3.5
+Version: 3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
@@ -76,6 +76,11 @@ Source: https://stocksnap.io/photo/purple-yellow-ACF0693B9C
         https://stocksnap.io/photo/sunset-pier-77F43EA43C
 
 == Changelog ==
+
+= 3.6 =
+* Released: November 7, 2023
+
+https://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_3.6
 
 = 3.5 =
 * Released: August 8, 2023
