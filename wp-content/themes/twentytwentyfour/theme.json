@@ -112,11 +112,6 @@
 					"slug": "base-2"
 				},
 				{
-					"color": "#00000025",
-					"name": "Base / Three",
-					"slug": "base-3"
-				},
-				{
 					"color": "#111111",
 					"name": "Contrast",
 					"slug": "contrast"
@@ -785,7 +780,6 @@
 			"background": "var(--wp--preset--color--base)",
 			"text": "var(--wp--preset--color--contrast)"
 		},
-		"css": "a{text-decoration-thickness:0.0625em;text-underline-offset: 0.15em}",
 		"elements": {
 			"button": {
 				":active": {
