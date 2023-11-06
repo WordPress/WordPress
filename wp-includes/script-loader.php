@@ -3355,8 +3355,8 @@ function wp_add_editor_classic_theme_styles( $editor_settings ) {
  *     $js = '<script type="text/javascript">console.log( "hi" );</script>';
  *     'console.error( ... )' === wp_remove_surrounding_empty_script_tags( $js );
  *
- * @private
  * @since 6.4.0
+ * @access private
  *
  * @see wp_print_inline_script_tag()
  * @see wp_get_inline_script_tag()

@@ -64,7 +64,7 @@ function wp_attach_theme_preview_middleware() {
  * @see https://github.com/WordPress/gutenberg/pull/41836.
  *
  * @since 6.3.0
- * @private
+ * @access private
  */
 function wp_block_theme_activate_nonce() {
 	$nonce_handle = 'switch-theme_' . wp_get_theme_preview_path();

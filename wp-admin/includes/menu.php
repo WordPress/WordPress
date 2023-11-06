@@ -13,8 +13,8 @@ if ( is_network_admin() ) {
 	 *
 	 * The hook fires before menus and sub-menus are removed based on user privileges.
 	 *
-	 * @private
 	 * @since 3.1.0
+	 * @access private
 	 */
 	do_action( '_network_admin_menu' );
 } elseif ( is_user_admin() ) {
@@ -24,8 +24,8 @@ if ( is_network_admin() ) {
 	 *
 	 * The hook fires before menus and sub-menus are removed based on user privileges.
 	 *
-	 * @private
 	 * @since 3.1.0
+	 * @access private
 	 */
 	do_action( '_user_admin_menu' );
 } else {
@@ -35,8 +35,8 @@ if ( is_network_admin() ) {
 	 *
 	 * The hook fires before menus and sub-menus are removed based on user privileges.
 	 *
-	 * @private
 	 * @since 2.2.0
+	 * @access private
 	 */
 	do_action( '_admin_menu' );
 }
