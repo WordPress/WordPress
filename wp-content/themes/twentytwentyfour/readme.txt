@@ -16,7 +16,7 @@ Twenty Twenty-Four is designed to be flexible, versatile and applicable to any w
 = 1.0 =
 * Released: November 7, 2023
 
-https://wordpress.org/support/article/twenty-twenty-four-changelog#Version_1.0
+https://wordpress.org/documentation/article/twenty-twenty-four-changelog/#Version_1.0
 
 == Copyright ==
 

@@ -16,11 +16,6 @@
 					"slug": "base-2"
 				},
 				{
-					"color": "#00000025",
-					"name": "Base / Three",
-					"slug": "base-3"
-				},
-				{
 					"color": "#000000",
 					"name": "Contrast",
 					"slug": "contrast"

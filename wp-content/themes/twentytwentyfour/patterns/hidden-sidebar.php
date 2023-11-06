@@ -23,8 +23,8 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:separator {"backgroundColor":"base-3","className":"is-style-wide"} -->
-	<hr class="wp-block-separator has-text-color has-base-3-color has-alpha-channel-opacity has-base-3-background-color has-background is-style-wide" />
+	<!-- wp:separator {"backgroundColor":"contrast","className":"is-style-wide"} -->
+	<hr class="wp-block-separator has-text-color has-contrast-color has-alpha-channel-opacity has-contrast-background-color has-background is-style-wide"/>
 	<!-- /wp:separator -->
 
 	<!-- wp:group {"style":{"spacing":{"blockGap":"16px"}},"layout":{"type":"constrained"}} -->
@@ -37,8 +37,8 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:separator {"backgroundColor":"base-3","className":"is-style-wide"} -->
-	<hr class="wp-block-separator has-text-color has-base-3-color has-alpha-channel-opacity has-base-3-background-color has-background is-style-wide" />
+	<!-- wp:separator {"backgroundColor":"contrast","className":"is-style-wide"} -->
+	<hr class="wp-block-separator has-text-color has-contrast-color has-alpha-channel-opacity has-contrast-background-color has-background is-style-wide"/>
 	<!-- /wp:separator -->
 
 	<!-- wp:group {"style":{"spacing":{"blockGap":"26px"}},"layout":{"type":"constrained"}} -->
@@ -62,8 +62,8 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:separator {"backgroundColor":"base-3","className":"is-style-wide"} -->
-	<hr class="wp-block-separator has-text-color has-base-3-color has-alpha-channel-opacity has-base-3-background-color has-background is-style-wide" />
+	<!-- wp:separator {"backgroundColor":"contrast","className":"is-style-wide"} -->
+	<hr class="wp-block-separator has-text-color has-contrast-color has-alpha-channel-opacity has-contrast-background-color has-background is-style-wide"/>
 	<!-- /wp:separator -->
 
 	<!-- wp:group {"style":{"spacing":{"blockGap":"16px"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
