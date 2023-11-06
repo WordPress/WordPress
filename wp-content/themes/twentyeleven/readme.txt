@@ -1,9 +1,9 @@
 === Twenty Eleven ===
 Contributors: wordpressdotorg
 Requires at least: 3.2
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.2.4
-Stable tag: 4.4
+Stable tag: 4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, block-patterns
@@ -47,6 +47,11 @@ Images
 "People Woman Photo" by Brooke Cagle. CC0. https://stocksnap.io/photo/people-woman-MU7G67710S
 
 == Changelog ==
+
+= 4.5 =
+* Released: November 7, 2023
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_4.5
 
 = 4.4 =
 * Released: August 8, 2023
