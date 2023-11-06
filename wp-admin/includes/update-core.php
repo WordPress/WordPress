@@ -869,6 +869,8 @@ $_old_files = array(
 	'wp-includes/random_compat',
 	// 6.4
 	'wp-includes/navigation-fallback.php',
+	'wp-includes/blocks/navigation/view-modal.min.js',
+	'wp-includes/blocks/navigation/view-modal.js',
 );
 
 /**
