@@ -342,7 +342,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	/**
 	 * Finds the next tag matching the $query.
 	 *
-	 * @TODO: Support matching the class name and tag name.
+	 * @todo Support matching the class name and tag name.
 	 *
 	 * @since 6.4.0
 	 *
@@ -551,9 +551,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * Breadcrumbs start at the outermost parent and descend toward the matched element.
 	 * They always include the entire path from the root HTML node to the matched element.
 	 *
-	 * @TODO: It could be more efficient to expose a generator-based version of this function
-	 *        to avoid creating the array copy on tag iteration. If this is done, it would likely
-	 *        be more useful to walk up the stack when yielding instead of starting at the top.
+	 * @todo It could be more efficient to expose a generator-based version of this function
+	 *       to avoid creating the array copy on tag iteration. If this is done, it would likely
+	 *       be more useful to walk up the stack when yielding instead of starting at the top.
 	 *
 	 * Example
 	 *
