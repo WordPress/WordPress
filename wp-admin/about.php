@@ -241,7 +241,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p style="margin-top:calc(var(--gap) / 2);">
 					<?php
 					printf(
-						/* translators: %s: WordPress Field Guide link. */
+						/* translators: 1: WordPress Field Guide link, 2: WordPress version number. */
 						__( 'Explore the <a href="%1$s">WordPress %2$s Field Guide</a>. Learn about the changes in this release with detailed developer notes to help you build with WordPress.' ),
 						__( 'https://make.wordpress.org/core/2023/10/23/wordpress-6-4-field-guide/' ),
 						'6.4'
