@@ -691,6 +691,21 @@ class wpdb {
 	private $allow_unsafe_unquoted_parameters = true;
 
 	/**
+	 * Whether to use the mysqli extension over mysql. This is no longer used as the mysql
+	 * extension is no longer supported.
+	 *
+	 * Default true.
+	 *
+	 * @since 3.9.0
+	 * @since 6.4.0 This property was removed.
+	 * @since 6.4.1 This property was reinstated and its default value was changed to true.
+	 *              The property is no longer used in core but may be accessed externally.
+	 *
+	 * @var bool
+	 */
+	private $use_mysqli = true;
+
+	/**
 	 * Whether we've managed to successfully connect at some point.
 	 *
 	 * @since 3.9.0
