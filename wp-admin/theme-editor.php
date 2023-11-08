@@ -195,7 +195,7 @@ if ( isset( $_GET['a'] ) ) {
 		__( 'File edited successfully.' ),
 		array(
 			'id'                 => 'message',
-			'is-dismissible'     => true,
+			'dismissible'        => true,
 			'additional_classes' => array( 'updated' ),
 		)
 	);
