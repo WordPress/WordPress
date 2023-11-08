@@ -649,21 +649,8 @@ function bulk_edit_posts( $post_data = null ) {
 		}
 
 		if ( isset( $new_cats ) && in_array( 'category', $tax_names, true ) ) {
-			$cats = (array) wp_get_post_categories( $post_id );
-
-			if (
-				isset( $post_data['indeterminate_post_category'] )
-				&& is_array( $post_data['indeterminate_post_category'] )
-			) {
-				$indeterminate_post_category = $post_data['indeterminate_post_category'];
-			} else {
-				$indeterminate_post_category = array();
-			}
-
-			$indeterminate_cats         = array_intersect( $cats, $indeterminate_post_category );
-			$determinate_cats           = array_diff( $new_cats, $indeterminate_post_category );
-			$post_data['post_category'] = array_unique( array_merge( $indeterminate_cats, $determinate_cats ) );
-
+			$cats                       = (array) wp_get_post_categories( $post_id );
+			$post_data['post_category'] = array_unique( array_merge( $cats, $new_cats ) );
 			unset( $post_data['tax_input']['category'] );
 		}
 
