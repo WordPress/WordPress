@@ -324,7 +324,7 @@ function _register_remote_theme_patterns() {
  * @since 6.0.0
  * @since 6.1.0 The `postTypes` property was added.
  * @since 6.2.0 The `templateTypes` property was added.
- * @since 6.4.0 Uses the `_wp_get_block_patterns` function.
+ * @since 6.4.0 Uses the `WP_Theme::get_block_patterns` method.
  * @access private
  */
 function _register_theme_block_patterns() {
