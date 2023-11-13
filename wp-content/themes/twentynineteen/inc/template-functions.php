@@ -100,7 +100,7 @@ add_filter( 'get_the_archive_title', 'twentynineteen_get_the_archive_title' );
 /**
  * Adds custom 'sizes' attribute to responsive image functionality for post thumbnails.
  *
- * @origin Twenty Nineteen 1.0
+ * @since Twenty Nineteen 1.0
  *
  * @param string[] $attr Array of attribute values for the image markup, keyed by attribute name.
  *                       See wp_get_attachment_image().
@@ -163,7 +163,8 @@ add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
  * Adjustments to menu attributes to support WCAG 2.0 recommendations
  * for flyout and dropdown menus.
  *
- * @ref https://www.w3.org/WAI/tutorials/menus/flyout/
+ * @link https://www.w3.org/WAI/tutorials/menus/flyout/
+ *
  * @param array   $atts {
  *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
  *

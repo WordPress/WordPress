@@ -4,7 +4,7 @@
  *
  * To use this class you must follow these steps for PHP 5.2.6+
  *
- * @contrib http://kevin.vanzonneveld.net/techblog/article/make_ssh_connections_with_php/ - Installation Notes
+ * {@link http://kevin.vanzonneveld.net/techblog/article/make_ssh_connections_with_php/ - Installation Notes}
  *
  * Compile libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now, But many users have found the latest versions work)
  *
