@@ -34463,6 +34463,8 @@ var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 var external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// CONCATENATED MODULE: external ["wp","a11y"]
 var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
+;// CONCATENATED MODULE: external ["wp","keycodes"]
+var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/strings.js
 /**
  * External dependencies
@@ -37233,11 +37235,40 @@ function useOnClickOutside(ref, handler) {
 
 
 
+
+
 /**
  * Internal dependencies
  */
 
 
+const getNodeText = node => {
+  if (node === null) {
+    return '';
+  }
+  switch (typeof node) {
+    case 'string':
+    case 'number':
+      return node.toString();
+      break;
+    case 'boolean':
+      return '';
+      break;
+    case 'object':
+      {
+        if (node instanceof Array) {
+          return node.map(getNodeText).join('');
+        }
+        if ('props' in node) {
+          return getNodeText(node.props.children);
+        }
+        break;
+      }
+    default:
+      return '';
+  }
+  return '';
+};
 const EMPTY_FILTERED_OPTIONS = [];
 function useAutocomplete({
   record,
@@ -37330,11 +37361,24 @@ function useAutocomplete({
     }
     switch (event.key) {
       case 'ArrowUp':
-        setSelectedIndex((selectedIndex === 0 ? filteredOptions.length : selectedIndex) - 1);
-        break;
+        {
+          const newIndex = (selectedIndex === 0 ? filteredOptions.length : selectedIndex) - 1;
+          setSelectedIndex(newIndex);
+          // See the related PR as to why this is necessary: https://github.com/WordPress/gutenberg/pull/54902.
+          if ((0,external_wp_keycodes_namespaceObject.isAppleOS)()) {
+            (0,external_wp_a11y_namespaceObject.speak)(getNodeText(filteredOptions[newIndex].label), 'assertive');
+          }
+          break;
+        }
       case 'ArrowDown':
-        setSelectedIndex((selectedIndex + 1) % filteredOptions.length);
-        break;
+        {
+          const newIndex = (selectedIndex + 1) % filteredOptions.length;
+          setSelectedIndex(newIndex);
+          if ((0,external_wp_keycodes_namespaceObject.isAppleOS)()) {
+            (0,external_wp_a11y_namespaceObject.speak)(getNodeText(filteredOptions[newIndex].label), 'assertive');
+          }
+          break;
+        }
       case 'Escape':
         setAutocompleter(null);
         setAutocompleterUI(null);
@@ -74890,8 +74934,6 @@ const UnconnectedToolsPanelItem = (props, forwardedRef) => {
 const component_ToolsPanelItem = contextConnect(UnconnectedToolsPanelItem, 'ToolsPanelItem');
 /* harmony default export */ var tools_panel_item_component = (component_ToolsPanelItem);
 
-;// CONCATENATED MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/tree-grid/roving-tab-index-context.js
 /**
  * WordPress dependencies

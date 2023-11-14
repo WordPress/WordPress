@@ -45,3 +45,12 @@
   margin:0;
   min-height:40px;
 }
+
+.patterns-rename-pattern-category-modal__validation-message{
+  color:#cc1818;
+}
+@media (min-width:782px){
+  .patterns-rename-pattern-category-modal__validation-message{
+    width:320px;
+  }
+}

@@ -382,7 +382,7 @@ function ReusableBlockConvertButton({
     onChange: setTitle,
     placeholder: (0,external_wp_i18n_namespaceObject.__)('My pattern')
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Synced'),
+    label: (0,external_wp_i18n_namespaceObject._x)('Synced', 'Option that makes an individual pattern synchronized'),
     help: (0,external_wp_i18n_namespaceObject.__)('Editing the pattern will update it anywhere it is used.'),
     checked: !syncType,
     onChange: () => {

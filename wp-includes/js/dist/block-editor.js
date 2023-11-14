@@ -28435,14 +28435,14 @@ function BlockPatternsSyncFilter({
   const shouldDisableNonUserSources = getShouldDisableNonUserSources(category);
   const patternSyncMenuOptions = (0,external_wp_element_namespaceObject.useMemo)(() => [{
     value: SYNC_TYPES.all,
-    label: (0,external_wp_i18n_namespaceObject.__)('All')
+    label: (0,external_wp_i18n_namespaceObject._x)('All', 'Option that shows all patterns')
   }, {
     value: SYNC_TYPES.full,
-    label: (0,external_wp_i18n_namespaceObject.__)('Synced'),
+    label: (0,external_wp_i18n_namespaceObject._x)('Synced', 'Option that shows all synchronized patterns'),
     disabled: shouldDisableSyncFilter
   }, {
     value: SYNC_TYPES.unsynced,
-    label: (0,external_wp_i18n_namespaceObject.__)('Not synced'),
+    label: (0,external_wp_i18n_namespaceObject._x)('Not synced', 'Option that shows all patterns that are not synchronized'),
     disabled: shouldDisableSyncFilter
   }], [shouldDisableSyncFilter]);
   const patternSourceMenuOptions = (0,external_wp_element_namespaceObject.useMemo)(() => [{
@@ -35204,6 +35204,7 @@ const MediaReplaceFlow = ({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -35316,6 +35317,7 @@ function BackgroundImagePanelItem(props) {
     title,
     url
   } = attributes.style?.background?.backgroundImage || {};
+  const replaceContainerRef = (0,external_wp_element_namespaceObject.useRef)();
   const {
     mediaUpload
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -35394,16 +35396,18 @@ function BackgroundImagePanelItem(props) {
       }
     };
   }, []);
+  const hasValue = hasBackgroundImageValue(props);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
     className: "single-column",
-    hasValue: () => hasBackgroundImageValue(props),
+    hasValue: () => hasValue,
     label: (0,external_wp_i18n_namespaceObject.__)('Background image'),
     onDeselect: () => resetBackgroundImage(props),
     isShownByDefault: true,
     resetAllFilter: resetAllFilter,
     panelId: clientId
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "block-editor-hooks__background__inspector-media-replace-container"
+    className: "block-editor-hooks__background__inspector-media-replace-container",
+    ref: replaceContainerRef
   }, (0,external_wp_element_namespaceObject.createElement)(media_replace_flow, {
     mediaId: id,
     mediaURL: url,
@@ -35416,8 +35420,16 @@ function BackgroundImagePanelItem(props) {
       url: url
     }),
     variant: "secondary"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: () => resetBackgroundImage(props)
+  }, hasValue && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+    onClick: () => {
+      const [toggleButton] = external_wp_dom_namespaceObject.focus.tabbable.find(replaceContainerRef.current);
+      // Focus the toggle button and close the dropdown menu.
+      // This ensures similar behaviour as to selecting an image, where the dropdown is
+      // closed and focus is redirected to the dropdown toggle button.
+      toggleButton?.focus();
+      toggleButton?.click();
+      resetBackgroundImage(props);
+    }
   }, (0,external_wp_i18n_namespaceObject.__)('Reset '))), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.DropZone, {
     onFilesDrop: onFilesDrop,
     label: (0,external_wp_i18n_namespaceObject.__)('Drop to upload')
@@ -41782,11 +41794,10 @@ function useMultiOriginColorPresets(settings, {
   return (0,external_wp_element_namespaceObject.useMemo)(() => [...userPresets, ...themePresets, ...(disableDefault ? filters_panel_EMPTY_ARRAY : defaultPresets)], [disableDefault, userPresets, themePresets, defaultPresets]);
 }
 function useHasFiltersPanel(settings) {
-  const hasDuotone = useHasDuotoneControl(settings);
-  return hasDuotone;
+  return useHasDuotoneControl(settings);
 }
 function useHasDuotoneControl(settings) {
-  return settings.color.customDuotone || settings.color.defaultDuotone;
+  return settings.color.customDuotone || settings.color.defaultDuotone || settings.color.duotone.length > 0;
 }
 function FiltersToolsPanel({
   resetAllFilter,
@@ -41867,8 +41878,6 @@ function FiltersPanel({
   };
   const hasDuotone = () => !!value?.filter?.duotone;
   const resetDuotone = () => setDuotone(undefined);
-  const disableCustomColors = !settings?.color?.custom;
-  const disableCustomDuotone = !settings?.color?.customDuotone || colorPalette?.length === 0 && disableCustomColors;
   const resetAllFilter = (0,external_wp_element_namespaceObject.useCallback)(previousValue => {
     return {
       ...previousValue,
@@ -41917,9 +41926,11 @@ function FiltersPanel({
       paddingSize: "medium"
     }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalVStack, null, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('Create a two-tone color effect without losing your original image.')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.DuotonePicker, {
       colorPalette: colorPalette,
-      duotonePalette: duotonePalette,
-      disableCustomColors: disableCustomColors,
-      disableCustomDuotone: disableCustomDuotone,
+      duotonePalette: duotonePalette
+      // TODO: Re-enable both when custom colors are supported for block-level styles.
+      ,
+      disableCustomColors: true,
+      disableCustomDuotone: true,
       value: duotone,
       onChange: setDuotone
     })))
@@ -44419,7 +44430,7 @@ const withBlockRenameControl = (0,external_wp_compose_namespaceObject.createHigh
     setAttributes,
     isSelected
   } = props;
-  const supportsBlockNaming = (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, 'renaming', true);
+  const supportsBlockNaming = (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, '__experimentalMetadata', false);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isSelected && supportsBlockNaming && (0,external_wp_element_namespaceObject.createElement)(inspector_controls, {
     group: "advanced"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {

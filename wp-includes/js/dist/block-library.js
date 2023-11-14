@@ -23670,6 +23670,14 @@ const deprecated_v8 = {
     height,
     ...attributes
   }) {
+    // We need to perform a check here because in cases
+    // where attributes are added dynamically to blocks,
+    // block invalidation overrides the isEligible() method
+    // and forces the migration to run, so it's not guaranteed
+    // that `behaviors` or `behaviors.lightbox` will be defined.
+    if (!attributes.behaviors?.lightbox) {
+      return attributes;
+    }
     const {
       behaviors: {
         lightbox: {
