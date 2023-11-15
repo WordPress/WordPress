@@ -3443,7 +3443,7 @@ function wp_site_icon() {
 
 /**
  * Prints resource hints to browsers for pre-fetching, pre-rendering
- * and pre-connecting to web sites.
+ * and pre-connecting to websites.
  *
  * Gives hints to browsers to prefetch specific pages or render them
  * in the background, to perform DNS lookups or to begin the connection

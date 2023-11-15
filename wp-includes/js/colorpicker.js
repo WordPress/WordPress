@@ -5,7 +5,7 @@
 // NOTICE: You may use this code for any purpose, commercial or
 // private, without any further permission from the author. You may
 // remove this notice from your final code if you wish, however it is
-// appreciated by the author if at least my web site address is kept.
+// appreciated by the author if at least my website address is kept.
 //
 // You may *NOT* re-distribute this code in any way except through its
 // use. That means, you can include it in your product, or your web
