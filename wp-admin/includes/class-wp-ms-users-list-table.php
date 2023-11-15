@@ -383,25 +383,30 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 			$path         = ( '/' === $site->path ) ? '' : $site->path;
 			$site_classes = array( 'site-' . $site->site_id );
+
 			/**
-			 * Filters the span class for a site listing on the mulisite user list table.
+			 * Filters the span class for a site listing on the multisite user list table.
 			 *
 			 * @since 5.2.0
 			 *
-			 * @param string[] $site_classes Array of class names used within the span tag. Default "site-#" with the site's network ID.
+			 * @param string[] $site_classes Array of class names used within the span tag.
+			 *                               Default "site-#" with the site's network ID.
 			 * @param int      $site_id      Site ID.
 			 * @param int      $network_id   Network ID.
 			 * @param WP_User  $user         WP_User object.
 			 */
 			$site_classes = apply_filters( 'ms_user_list_site_class', $site_classes, $site->userblog_id, $site->site_id, $user );
+
 			if ( is_array( $site_classes ) && ! empty( $site_classes ) ) {
 				$site_classes = array_map( 'sanitize_html_class', array_unique( $site_classes ) );
 				echo '<span class="' . esc_attr( implode( ' ', $site_classes ) ) . '">';
 			} else {
 				echo '<span>';
 			}
+
 			echo '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $site->userblog_id ) ) . '">' . str_replace( '.' . get_network()->domain, '', $site->domain . $path ) . '</a>';
 			echo ' <small class="row-actions">';
+
 			$actions         = array();
 			$actions['edit'] = '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $site->userblog_id ) ) . '">' . __( 'Edit' ) . '</a>';
 
