@@ -116,7 +116,7 @@
  *
  * Example:
  *
- *     if ( $tags->next_tag( array( 'class' => 'wp-group-block' ) ) ) {
+ *     if ( $tags->next_tag( array( 'class_name' => 'wp-group-block' ) ) ) {
  *         $tags->set_attribute( 'title', 'This groups the contained content.' );
  *         $tags->remove_attribute( 'data-test-id' );
  *     }
