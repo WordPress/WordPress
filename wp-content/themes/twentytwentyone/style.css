@@ -234,7 +234,6 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 	--branding--title--text-transform: uppercase;
 	--branding--description--font-family: var(--global--font-secondary);
 	--branding--description--font-size: var(--global--font-size-sm);
-	--branding--description--font-family: var(--global--font-secondary);
 	--branding--logo--max-width: 300px;
 	--branding--logo--max-height: 100px;
 	--branding--logo--max-width-mobile: 96px;
