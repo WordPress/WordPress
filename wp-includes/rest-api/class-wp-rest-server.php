@@ -467,17 +467,19 @@ class WP_REST_Server {
 		$this->set_status( $code );
 
 		/**
-		 * Filters whether to send nocache headers on a REST API request.
+		 * Filters whether to send no-cache headers on a REST API request.
 		 *
 		 * @since 4.4.0
-		 * @since 6.3.2 Moved the block to catch the filter added on rest_cookie_check_errors() from rest-api.php
+		 * @since 6.3.2 Moved the block to catch the filter added on rest_cookie_check_errors() from wp-includes/rest-api.php.
 		 *
 		 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
 		 */
 		$send_no_cache_headers = apply_filters( 'rest_send_nocache_headers', is_user_logged_in() );
 
-		// send no cache headers if the $send_no_cache_headers is true
-		// OR if the HTTP_X_HTTP_METHOD_OVERRIDE is used but resulted a 4x response code.
+		/*
+		 * Send no-cache headers if $send_no_cache_headers is true,
+		 * OR if the HTTP_X_HTTP_METHOD_OVERRIDE is used but resulted a 4xx response code.
+		 */
 		if ( $send_no_cache_headers || ( true === $method_overridden && strpos( $code, '4' ) === 0 ) ) {
 			foreach ( wp_get_nocache_headers() as $header => $header_value ) {
 				if ( empty( $header_value ) ) {

@@ -2636,10 +2636,10 @@ function gallery_shortcode( $attr ) {
 	if ( ! empty( $post_parent_id ) ) {
 		$post_parent = get_post( $post_parent_id );
 
-		// terminate the shortcode execution if user cannot read the post or password-protected
-		if (
-		( ! is_post_publicly_viewable( $post_parent->ID ) && ! current_user_can( 'read_post', $post_parent->ID ) )
-		|| post_password_required( $post_parent ) ) {
+		// Terminate the shortcode execution if the user cannot read the post or it is password-protected.
+		if ( ! is_post_publicly_viewable( $post_parent->ID ) && ! current_user_can( 'read_post', $post_parent->ID )
+			|| post_password_required( $post_parent )
+		) {
 			return '';
 		}
 	}
@@ -2979,7 +2979,7 @@ function wp_playlist_shortcode( $attr ) {
 	if ( ! empty( $args['post_parent'] ) ) {
 		$post_parent = get_post( $id );
 
-		// terminate the shortcode execution if user cannot read the post or password-protected
+		// Terminate the shortcode execution if the user cannot read the post or it is password-protected.
 		if ( ! current_user_can( 'read_post', $post_parent->ID ) || post_password_required( $post_parent ) ) {
 			return '';
 		}

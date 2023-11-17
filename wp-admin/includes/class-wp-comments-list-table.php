@@ -662,7 +662,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				current_user_can( 'read_post', $comment->comment_post_ID )
 			)
 		) {
-			// The user has access to the post
+			// The user has access to the post and thus can see comments.
 		} else {
 			return false;
 		}

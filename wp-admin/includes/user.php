@@ -638,7 +638,7 @@ Please click the following link to activate your user account:
  *
  * @since 5.6.0
  * @since 6.2.0 Allow insecure HTTP connections for the local environment.
- * @since 6.3.2 Validates the success and reject URLs to prevent javascript pseudo protocol being executed.
+ * @since 6.3.2 Validates the success and reject URLs to prevent `javascript` pseudo protocol from being executed.
  *
  * @param array   $request {
  *     The array of request data. All arguments are optional and may be empty.
@@ -700,12 +700,11 @@ function wp_is_authorize_application_password_request_valid( $request, $user ) {
 }
 
 /**
- * Validates the redirect URL protocol scheme. The protocol can be anything except http and javascript.
+ * Validates the redirect URL protocol scheme. The protocol can be anything except `http` and `javascript`.
  *
  * @since 6.3.2
  *
- * @param string $url - The redirect URL to be validated.
- *
+ * @param string $url The redirect URL to be validated.
  * @return true|WP_Error True if the redirect URL is valid, a WP_Error object otherwise.
  */
 function wp_is_authorize_application_redirect_url_valid( $url ) {
@@ -728,16 +727,17 @@ function wp_is_authorize_application_redirect_url_valid( $url ) {
 	 *
 	 * @since 6.3.2
 	 *
-	 * @param string[]  $bad_protocols Array of invalid protocols.
-	 * @param string    $url The redirect URL to be validated.
+	 * @param string[] $bad_protocols Array of invalid protocols.
+	 * @param string   $url The redirect URL to be validated.
 	 */
-	$invalid_protocols = array_map( 'strtolower', apply_filters( 'wp_authorize_application_redirect_url_invalid_protocols', $bad_protocols, $url ) );
+	$invalid_protocols = apply_filters( 'wp_authorize_application_redirect_url_invalid_protocols', $bad_protocols, $url );
+	$invalid_protocols = array_map( 'strtolower', $invalid_protocols );
 
 	$scheme   = wp_parse_url( $url, PHP_URL_SCHEME );
 	$host     = wp_parse_url( $url, PHP_URL_HOST );
 	$is_local = 'local' === wp_get_environment_type();
 
-	// validates if the proper URI format is applied to the $url
+	// Validates if the proper URI format is applied to the URL.
 	if ( empty( $host ) || empty( $scheme ) || in_array( strtolower( $scheme ), $invalid_protocols, true ) ) {
 		return new WP_Error(
 			'invalid_redirect_url_format',

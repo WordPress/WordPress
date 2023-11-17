@@ -860,7 +860,7 @@ class WP_List_Table {
 				current_user_can( 'read_post', $post_id )
 			)
 		) {
-			// The user has access to the post and thus can see comments
+			// The user has access to the post and thus can see comments.
 		} else {
 			return false;
 		}
