@@ -828,6 +828,17 @@ class WP_List_Table {
 	 * @param int $pending_comments Number of pending comments.
 	 */
 	protected function comments_bubble( $post_id, $pending_comments ) {
+		$post_object   = get_post( $post_id );
+		$edit_post_cap = $post_object ? 'edit_post' : 'edit_posts';
+
+		if ( ! current_user_can( $edit_post_cap, $post_id )
+			&& ( ! empty( $post_object->post_password )
+				|| ! current_user_can( 'read_post', $post_id ) )
+		) {
+			// The user has no access to the post and thus cannot see the comments.
+			return false;
+		}
+
 		$approved_comments = get_comments_number();
 
 		$approved_comments_number = number_format_i18n( $approved_comments );
@@ -850,20 +861,6 @@ class WP_List_Table {
 			_n( '%s pending comment', '%s pending comments', $pending_comments ),
 			$pending_comments_number
 		);
-
-		$post_object   = get_post( $post_id );
-		$edit_post_cap = $post_object ? 'edit_post' : 'edit_posts';
-		if (
-			current_user_can( $edit_post_cap, $post_id ) ||
-			(
-				empty( $post_object->post_password ) &&
-				current_user_can( 'read_post', $post_id )
-			)
-		) {
-			// The user has access to the post and thus can see comments.
-		} else {
-			return false;
-		}
 
 		if ( ! $approved_comments && ! $pending_comments ) {
 			// No comments at all.

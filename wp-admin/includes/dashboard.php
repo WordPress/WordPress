@@ -1088,7 +1088,13 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 		}
 
 		foreach ( $possible as $comment ) {
-			if ( ! current_user_can( 'read_post', $comment->comment_post_ID ) ) {
+			$comment_post = get_post( $comment->comment_post_ID );
+
+			if ( ! current_user_can( 'edit_post', $comment->comment_post_ID )
+				&& ( ! empty( $comment_post->post_password )
+					|| ! current_user_can( 'read_post', $comment->comment_post_ID ) )
+			) {
+				// The user has no access to the post and thus cannot see the comments.
 				continue;
 			}
 
@@ -1109,16 +1115,7 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 
 		echo '<ul id="the-comment-list" data-wp-lists="list:comment">';
 		foreach ( $comments as $comment ) {
-			$comment_post = get_post( $comment->comment_post_ID );
-			if (
-				current_user_can( 'edit_post', $comment->comment_post_ID ) ||
-				(
-					empty( $comment_post->post_password ) &&
-					current_user_can( 'read_post', $comment->comment_post_ID )
-				)
-			) {
-				_wp_dashboard_recent_comments_row( $comment );
-			}
+			_wp_dashboard_recent_comments_row( $comment );
 		}
 		echo '</ul>';
 

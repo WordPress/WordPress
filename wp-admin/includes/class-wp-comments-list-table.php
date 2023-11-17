@@ -638,7 +638,22 @@ class WP_Comments_List_Table extends WP_List_Table {
 	public function single_row( $item ) {
 		global $post, $comment;
 
+		// Restores the more descriptive, specific name for use within this method.
 		$comment = $item;
+
+		if ( $comment->comment_post_ID > 0 ) {
+			$post = get_post( $comment->comment_post_ID );
+		}
+
+		$edit_post_cap = $post ? 'edit_post' : 'edit_posts';
+
+		if ( ! current_user_can( $edit_post_cap, $comment->comment_post_ID )
+			&& ( ! empty( $post->post_password )
+				|| ! current_user_can( 'read_post', $comment->comment_post_ID ) )
+		) {
+			// The user has no access to the post and thus cannot see the comments.
+			return false;
+		}
 
 		$the_comment_class = wp_get_comment_status( $comment );
 
@@ -648,24 +663,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$the_comment_class = implode( ' ', get_comment_class( $the_comment_class, $comment, $comment->comment_post_ID ) );
 
-		if ( $comment->comment_post_ID > 0 ) {
-			$post = get_post( $comment->comment_post_ID );
-		}
-
 		$this->user_can = current_user_can( 'edit_comment', $comment->comment_ID );
-
-		$edit_post_cap = $post ? 'edit_post' : 'edit_posts';
-		if (
-			current_user_can( $edit_post_cap, $comment->comment_post_ID ) ||
-			(
-				empty( $post->post_password ) &&
-				current_user_can( 'read_post', $comment->comment_post_ID )
-			)
-		) {
-			// The user has access to the post and thus can see comments.
-		} else {
-			return false;
-		}
 
 		echo "<tr id='comment-$comment->comment_ID' class='$the_comment_class'>";
 		$this->single_row_columns( $comment );
