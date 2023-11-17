@@ -378,7 +378,7 @@ function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
  * @param string       $align Part of the class name for aligning the image.
  * @param string|int[] $size  Optional. Image size. Accepts any registered image size name, or an array of
  *                            width and height values in pixels (in that order). Default 'medium'.
- * @return string HTML IMG element for given image attachment?
+ * @return string HTML IMG element for given image attachment.
  */
 function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 
