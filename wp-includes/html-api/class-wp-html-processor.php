@@ -99,12 +99,16 @@
  *
  * The following list specifies the HTML tags that _are_ supported:
  *
+ *  - Containers: ADDRESS, BLOCKQUOTE, DETAILS, DIALOG, DIV, FOOTER, HEADER, MAIN, MENU, SPAN, SUMMARY.
+ *  - Form elements: BUTTON, FIELDSET, SEARCH.
+ *  - Formatting elements: B, BIG, CODE, EM, FONT, I, SMALL, STRIKE, STRONG, TT, U.
+ *  - Heading elements: HGROUP.
  *  - Links: A.
- *  - The formatting elements: B, BIG, CODE, EM, FONT, I, SMALL, STRIKE, STRONG, TT, U.
- *  - Containers: DIV, FIGCAPTION, FIGURE, SPAN.
- *  - Form elements: BUTTON.
+ *  - Lists: DL.
+ *  - Media elements: FIGCAPTION, FIGURE, IMG.
  *  - Paragraph: P.
- *  - Void elements: IMG.
+ *  - Sectioning elements: ARTICLE, ASIDE, NAV, SECTION
+ *  - Deprecated elements: CENTER, DIR
  *
  * ### Supported markup
  *
@@ -621,11 +625,29 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * > "fieldset", "figcaption", "figure", "footer", "header", "hgroup",
 			 * > "main", "menu", "nav", "ol", "p", "search", "section", "summary", "ul"
 			 */
+			case '+ADDRESS':
+			case '+ARTICLE':
+			case '+ASIDE':
 			case '+BLOCKQUOTE':
+			case '+CENTER':
+			case '+DETAILS':
+			case '+DIALOG':
+			case '+DIR':
 			case '+DIV':
+			case '+DL':
+			case '+FIELDSET':
 			case '+FIGCAPTION':
 			case '+FIGURE':
+			case '+FOOTER':
+			case '+HEADER':
+			case '+HGROUP':
+			case '+MAIN':
+			case '+MENU':
+			case '+NAV':
 			case '+P':
+			case '+SEARCH':
+			case '+SECTION':
+			case '+SUMMARY':
 				if ( $this->state->stack_of_open_elements->has_p_in_button_scope() ) {
 					$this->close_a_p_element();
 				}
@@ -639,11 +661,29 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * > "figcaption", "figure", "footer", "header", "hgroup", "listing", "main",
 			 * > "menu", "nav", "ol", "pre", "search", "section", "summary", "ul"
 			 */
+			case '-ADDRESS':
+			case '-ARTICLE':
+			case '-ASIDE':
 			case '-BLOCKQUOTE':
 			case '-BUTTON':
+			case '-CENTER':
+			case '-DETAILS':
+			case '-DIALOG':
+			case '-DIR':
 			case '-DIV':
+			case '-DL':
+			case '-FIELDSET':
 			case '-FIGCAPTION':
 			case '-FIGURE':
+			case '-FOOTER':
+			case '-HEADER':
+			case '-HGROUP':
+			case '-MAIN':
+			case '-MENU':
+			case '-NAV':
+			case '-SEARCH':
+			case '-SECTION':
+			case '-SUMMARY':
 				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name ) ) {
 					// @TODO: Report parse error.
 					// Ignore the token.
