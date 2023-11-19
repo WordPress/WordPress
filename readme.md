@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1 id="logo">
-	<a href="https://wordpress.org/"><img alt="WordPress" src="wp-admin/images/wordpress-logo.png" /></a>
+	<a href="https://wordpress.org/"><img alt="WordPress" src="./wp-admin/images/wordpress-logo.png" /></a>
 </h1>
 <p style="text-align: center">Semantic Personal Publishing Platform</p>
 
