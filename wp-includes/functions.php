@@ -4288,15 +4288,17 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
  *
  * @since 4.1.0
  * @since 5.3.0 No longer handles support for PHP < 5.6.
+ * @since 6.5.0 The `$data` parameter has been renamed to `$value` and
+ *              the `$options` parameter to `$flags` for parity with PHP.
  *
- * @param mixed $data    Variable (usually an array or object) to encode as JSON.
- * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
- * @param int   $depth   Optional. Maximum depth to walk through $data. Must be
- *                       greater than 0. Default 512.
+ * @param mixed $value Variable (usually an array or object) to encode as JSON.
+ * @param int   $flags Optional. Options to be passed to json_encode(). Default 0.
+ * @param int   $depth Optional. Maximum depth to walk through $value. Must be
+ *                     greater than 0. Default 512.
  * @return string|false The JSON encoded string, or false if it cannot be encoded.
  */
-function wp_json_encode( $data, $options = 0, $depth = 512 ) {
-	$json = json_encode( $data, $options, $depth );
+function wp_json_encode( $value, $flags = 0, $depth = 512 ) {
+	$json = json_encode( $value, $flags, $depth );
 
 	// If json_encode() was successful, no need to do more sanity checking.
 	if ( false !== $json ) {
@@ -4304,12 +4306,12 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 	}
 
 	try {
-		$data = _wp_json_sanity_check( $data, $depth );
+		$value = _wp_json_sanity_check( $value, $depth );
 	} catch ( Exception $e ) {
 		return false;
 	}
 
-	return json_encode( $data, $options, $depth );
+	return json_encode( $value, $flags, $depth );
 }
 
 /**
@@ -4323,18 +4325,18 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
  *
  * @throws Exception If depth limit is reached.
  *
- * @param mixed $data  Variable (usually an array or object) to encode as JSON.
- * @param int   $depth Maximum depth to walk through $data. Must be greater than 0.
+ * @param mixed $value Variable (usually an array or object) to encode as JSON.
+ * @param int   $depth Maximum depth to walk through $value. Must be greater than 0.
  * @return mixed The sanitized data that shall be encoded to JSON.
  */
-function _wp_json_sanity_check( $data, $depth ) {
+function _wp_json_sanity_check( $value, $depth ) {
 	if ( $depth < 0 ) {
 		throw new Exception( 'Reached depth limit' );
 	}
 
-	if ( is_array( $data ) ) {
+	if ( is_array( $value ) ) {
 		$output = array();
-		foreach ( $data as $id => $el ) {
+		foreach ( $value as $id => $el ) {
 			// Don't forget to sanitize the ID!
 			if ( is_string( $id ) ) {
 				$clean_id = _wp_json_convert_string( $id );
@@ -4351,9 +4353,9 @@ function _wp_json_sanity_check( $data, $depth ) {
 				$output[ $clean_id ] = $el;
 			}
 		}
-	} elseif ( is_object( $data ) ) {
+	} elseif ( is_object( $value ) ) {
 		$output = new stdClass();
-		foreach ( $data as $id => $el ) {
+		foreach ( $value as $id => $el ) {
 			if ( is_string( $id ) ) {
 				$clean_id = _wp_json_convert_string( $id );
 			} else {
@@ -4368,10 +4370,10 @@ function _wp_json_sanity_check( $data, $depth ) {
 				$output->$clean_id = $el;
 			}
 		}
-	} elseif ( is_string( $data ) ) {
-		return _wp_json_convert_string( $data );
+	} elseif ( is_string( $value ) ) {
+		return _wp_json_convert_string( $value );
 	} else {
-		return $data;
+		return $value;
 	}
 
 	return $output;
@@ -4418,12 +4420,12 @@ function _wp_json_convert_string( $input_string ) {
  *                   has been dropped.
  * @access private
  *
- * @param mixed $data Native representation.
+ * @param mixed $value Native representation.
  * @return bool|int|float|null|string|array Data ready for `json_encode()`.
  */
-function _wp_json_prepare_data( $data ) {
+function _wp_json_prepare_data( $value ) {
 	_deprecated_function( __FUNCTION__, '5.3.0' );
-	return $data;
+	return $value;
 }
 
 /**
@@ -4431,14 +4433,14 @@ function _wp_json_prepare_data( $data ) {
  *
  * @since 3.5.0
  * @since 4.7.0 The `$status_code` parameter was added.
- * @since 5.6.0 The `$options` parameter was added.
+ * @since 5.6.0 The `$flags` parameter was added.
  *
  * @param mixed $response    Variable (usually an array or object) to encode as JSON,
  *                           then print and die.
  * @param int   $status_code Optional. The HTTP status code to output. Default null.
- * @param int   $options     Optional. Options to be passed to json_encode(). Default 0.
+ * @param int   $flags       Optional. Options to be passed to json_encode(). Default 0.
  */
-function wp_send_json( $response, $status_code = null, $options = 0 ) {
+function wp_send_json( $response, $status_code = null, $flags = 0 ) {
 	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 		_doing_it_wrong(
 			__FUNCTION__,
@@ -4459,7 +4461,7 @@ function wp_send_json( $response, $status_code = null, $options = 0 ) {
 		}
 	}
 
-	echo wp_json_encode( $response, $options );
+	echo wp_json_encode( $response, $flags );
 
 	if ( wp_doing_ajax() ) {
 		wp_die(
@@ -4479,46 +4481,46 @@ function wp_send_json( $response, $status_code = null, $options = 0 ) {
  *
  * @since 3.5.0
  * @since 4.7.0 The `$status_code` parameter was added.
- * @since 5.6.0 The `$options` parameter was added.
+ * @since 5.6.0 The `$flags` parameter was added.
  *
- * @param mixed $data        Optional. Data to encode as JSON, then print and die. Default null.
+ * @param mixed $value       Optional. Data to encode as JSON, then print and die. Default null.
  * @param int   $status_code Optional. The HTTP status code to output. Default null.
- * @param int   $options     Optional. Options to be passed to json_encode(). Default 0.
+ * @param int   $flags       Optional. Options to be passed to json_encode(). Default 0.
  */
-function wp_send_json_success( $data = null, $status_code = null, $options = 0 ) {
+function wp_send_json_success( $value = null, $status_code = null, $flags = 0 ) {
 	$response = array( 'success' => true );
 
-	if ( isset( $data ) ) {
-		$response['data'] = $data;
+	if ( isset( $value ) ) {
+		$response['data'] = $value;
 	}
 
-	wp_send_json( $response, $status_code, $options );
+	wp_send_json( $response, $status_code, $flags );
 }
 
 /**
  * Sends a JSON response back to an Ajax request, indicating failure.
  *
- * If the `$data` parameter is a WP_Error object, the errors
+ * If the `$value` parameter is a WP_Error object, the errors
  * within the object are processed and output as an array of error
  * codes and corresponding messages. All other types are output
  * without further processing.
  *
  * @since 3.5.0
- * @since 4.1.0 The `$data` parameter is now processed if a WP_Error object is passed in.
+ * @since 4.1.0 The `$value` parameter is now processed if a WP_Error object is passed in.
  * @since 4.7.0 The `$status_code` parameter was added.
- * @since 5.6.0 The `$options` parameter was added.
+ * @since 5.6.0 The `$flags` parameter was added.
  *
- * @param mixed $data        Optional. Data to encode as JSON, then print and die. Default null.
+ * @param mixed $value       Optional. Data to encode as JSON, then print and die. Default null.
  * @param int   $status_code Optional. The HTTP status code to output. Default null.
- * @param int   $options     Optional. Options to be passed to json_encode(). Default 0.
+ * @param int   $flags       Optional. Options to be passed to json_encode(). Default 0.
  */
-function wp_send_json_error( $data = null, $status_code = null, $options = 0 ) {
+function wp_send_json_error( $value = null, $status_code = null, $flags = 0 ) {
 	$response = array( 'success' => false );
 
-	if ( isset( $data ) ) {
-		if ( is_wp_error( $data ) ) {
+	if ( isset( $value ) ) {
+		if ( is_wp_error( $value ) ) {
 			$result = array();
-			foreach ( $data->errors as $code => $messages ) {
+			foreach ( $value->errors as $code => $messages ) {
 				foreach ( $messages as $message ) {
 					$result[] = array(
 						'code'    => $code,
@@ -4529,11 +4531,11 @@ function wp_send_json_error( $data = null, $status_code = null, $options = 0 ) {
 
 			$response['data'] = $result;
 		} else {
-			$response['data'] = $data;
+			$response['data'] = $value;
 		}
 	}
 
-	wp_send_json( $response, $status_code, $options );
+	wp_send_json( $response, $status_code, $flags );
 }
 
 /**
