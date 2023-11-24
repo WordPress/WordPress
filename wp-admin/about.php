@@ -36,11 +36,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 
 		<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-			<a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'What&#8217;s New' ); ?></a>
-			<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
-			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
-			<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
-			<a href="contribute.php" class="nav-tab"><?php _e( 'Get Involved' ); ?></a>
+			<a title="About" href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e( 'What&#8217;s New' ); ?></a>
+			<a title="Credits" href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
+			<a title="Freedoms" href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
+			<a title="Privacy" href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
+			<a title="Contribute" href="contribute.php" class="nav-tab"><?php _e( 'Get Involved' ); ?></a>
 		</nav>
 
 		<div class="about__section">
@@ -67,7 +67,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: %s: Introduction to Twenty Twenty-Four link. */
-						__( 'Experience the latest advancements in site editing with <a href="%s">Twenty Twenty-Four</a>. Built with three distinct use cases in mind, the versatility of the new default theme makes it an ideal choice for almost any type of website. Dive into its collection of templates and patterns and unlock a world of creative possibilities with just a few tweaks.' ),
+						__( 'Experience the latest advancements in site editing with <a href="%s" title="Twenty Twenty-Four">Twenty Twenty-Four</a>. Built with three distinct use cases in mind, the versatility of the new default theme makes it an ideal choice for almost any type of website. Dive into its collection of templates and patterns and unlock a world of creative possibilities with just a few tweaks.' ),
 						__( 'https://make.wordpress.org/core/2023/08/24/introducing-twenty-twenty-four/' )
 					);
 					?>
@@ -75,7 +75,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-bottom is-edge-to-edge">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/1-Twenty-Twenty-Four.webp" alt="" height="600" width="600" />
+					<img src="https://s.w.org/images/core/6.4/1-Twenty-Twenty-Four.webp" alt="Twenty Twenty Four" height="600" width="600" />
 				</div>
 			</div>
 		</div>
@@ -83,28 +83,28 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-3-columns">
 			<div class="column">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/2-image-lightbox.webp" alt="" height="270" width="270" />
+					<img src="https://s.w.org/images/core/6.4/2-image-lightbox.webp" alt="Image" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Add a lightbox effect to images' ); ?></h3>
 				<p><?php _e( 'Turn lightbox functionality on for interactive, full-screen images with a simple click. Apply it globally or to specific images to customize the viewing experience.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/3-categorize-patterns.webp" alt="" height="270" width="270" />
+					<img src="https://s.w.org/images/core/6.4/3-categorize-patterns.webp" alt="Categorize Patterns" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Categorize and filter patterns' ); ?></h3>
 				<p><?php _e( 'Organize your synced and unsynced patterns with categories. Explore advanced filtering in the Patterns section of the inserter to find them all more intuitively.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/4-command-palette.webp" alt="" height="270" width="270" />
+					<img src="https://s.w.org/images/core/6.4/4-command-palette.webp" alt="Command Palette" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Get more done with the Command Palette' ); ?></h3>
 				<p>
 					<?php
 					printf(
 						/* translators: %s: Command palette improvement link. */
-						__( 'Enjoy <a href="%s">a refreshed design and more commands</a> to find what you\'re looking for, perform tasks efficiently, and save time as you create.' ),
+						__( 'Enjoy <a href="%s" title="Command Palettes">a refreshed design and more commands</a> to find what you\'re looking for, perform tasks efficiently, and save time as you create.' ),
 						__( 'https://make.wordpress.org/core/2023/09/12/core-editor-improvement-commanding-the-command-palette/' )
 					);
 					?>
@@ -115,21 +115,21 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-3-columns">
 			<div class="column">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/5-renaming-groups.webp" alt="" height="270" width="270" />
+					<img src="https://s.w.org/images/core/6.4/5-renaming-groups.webp" alt="Image" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Rename Group blocks' ); ?></h3>
 				<p><?php _e( 'Set custom names for Group blocks to easily organize and differentiate parts of your content. These names will be visible in List View.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/6-image-preview.webp" alt="" height="270" width="270" />
+					<img src="https://s.w.org/images/core/6.4/6-image-preview.webp" alt="Image" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Image previews in List View' ); ?></h3>
 				<p><?php _e( 'New media previews for Gallery and Image blocks in List View let you visualize and locate at a glance where images on your content are.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/7-import-export-patterns.webp" alt="" height="270" width="270" />
+					<img src="https://s.w.org/images/core/6.4/7-import-export-patterns.webp" alt="Patterns" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Share patterns across sites' ); ?></h3>
 				<p><?php _e( 'Need to use your custom patterns on another site? It\'s simple! Import and export them as JSON files from the Site Editor\'s patterns view.' ); ?></p>
@@ -139,7 +139,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns has-subtle-background-color is-wider-left">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/8-captured-toolbar.webp" alt="" height="434" width="536" />
+					<img src="https://s.w.org/images/core/6.4/8-captured-toolbar.webp" alt="Captured Toolbar" height="434" width="536" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -148,7 +148,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: %s: New enhancements link. */
-						__( '<a href="%s">New enhancements</a> ensure your content creation journey is smooth. Find new keyboard shortcuts in List View, refined list merging, and enhanced control over link settings. A revamped and cohesive toolbar experience for Navigation, List, and Quote blocks lets you efficiently work with the tooling options you need.' ),
+						__( '<a href="%s" title="New enhancements">New enhancements</a> ensure your content creation journey is smooth. Find new keyboard shortcuts in List View, refined list merging, and enhanced control over link settings. A revamped and cohesive toolbar experience for Navigation, List, and Quote blocks lets you efficiently work with the tooling options you need.' ),
 						__( 'https://make.wordpress.org/core/2023/10/05/core-editor-improvement-ensuring-excellence-in-the-writing-experience/' )
 					);
 					?>
@@ -163,7 +163,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/9-design-tools.webp" alt="" height="355" width="436" />
+					<img src="https://s.w.org/images/core/6.4/9-design-tools.webp" alt="Design tools" height="355" width="436" />
 				</div>
 			</div>
 		</div>
@@ -171,7 +171,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.4/10-block-hooks.webp" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.4/10-block-hooks.webp" alt="Block Hooks" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -205,7 +205,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-3-columns">
 			<div class="column about__image is-vertically-aligned-top">
-				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.4' ) ); ?>" alt="" height="270" width="270" />
+				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.4' ) ); ?>" alt="Image" height="270" width="270" />
 			</div>
 			<div class="column is-vertically-aligned-center" style="grid-column-end:span 2">
 				<h3>
@@ -221,7 +221,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: 1: Learn WordPress link, 2: Workshops link. */
-						__( '<a href="%1$s">Learn WordPress</a> is a free resource for new and experienced WordPress users. Learn is stocked with how-to videos on using various features in WordPress, <a href="%2$s">interactive workshops</a> for exploring topics in-depth, and lesson plans for diving deep into specific areas of WordPress.' ),
+						__( '<a href="%1$s" title="Learn Wordpress">Learn WordPress</a> is a free resource for new and experienced WordPress users. Learn is stocked with how-to videos on using various features in WordPress, <a href="%2$s" title="Interactive Workshops">interactive workshops</a> for exploring topics in-depth, and lesson plans for diving deep into specific areas of WordPress.' ),
 						'https://learn.wordpress.org/',
 						'https://learn.wordpress.org/online-workshops/'
 					);
@@ -242,7 +242,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: 1: WordPress Field Guide link, 2: WordPress version number. */
-						__( 'Explore the <a href="%1$s">WordPress %2$s Field Guide</a>. Learn about the changes in this release with detailed developer notes to help you build with WordPress.' ),
+						__( 'Explore the <a href="%1$s" title="Wordpress Field Guide">WordPress %2$s Field Guide</a>. Learn about the changes in this release with detailed developer notes to help you build with WordPress.' ),
 						__( 'https://make.wordpress.org/core/2023/10/23/wordpress-6-4-field-guide/' ),
 						'6.4'
 					);
@@ -261,7 +261,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: 1: WordPress Release Notes link, 2: WordPress version number. */
-						__( '<a href="%1$s">Read the WordPress %2$s Release Notes</a> for information on installation, enhancements, fixed issues, release contributors, learning resources, and the list of file changes.' ),
+						__( '<a href="%1$s" title="Release Notes">Read the WordPress %2$s Release Notes</a> for information on installation, enhancements, fixed issues, release contributors, learning resources, and the list of file changes.' ),
 						sprintf(
 							/* translators: %s: WordPress version number. */
 							esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
@@ -280,14 +280,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<?php
 			if ( isset( $_GET['updated'] ) && current_user_can( 'update_core' ) ) {
 				printf(
-					'<a href="%1$s">%2$s</a> | ',
+					'<a href="%1$s" title="Updates">%2$s</a> | ',
 					esc_url( self_admin_url( 'update-core.php' ) ),
 					is_multisite() ? __( 'Go to Updates' ) : __( 'Go to Dashboard &rarr; Updates' )
 				);
 			}
 
 			printf(
-				'<a href="%1$s">%2$s</a>',
+				'<a href="%1$s" title="Dashboard">%2$s</a>',
 				esc_url( self_admin_url() ),
 				is_blog_admin() ? __( 'Go to Dashboard &rarr; Home' ) : __( 'Go to Dashboard' )
 			);
@@ -335,13 +335,13 @@ _n_noop(
 );
 
 /* translators: %s: Documentation URL. */
-__( 'For more information, see <a href="%s">the release notes</a>.' );
+__( 'For more information, see <a href="%s" title="Release Notes">the release notes</a>.' );
 
 /* translators: 1: WordPress version number, 2: Link to update WordPress */
-__( 'Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.' );
+__( 'Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s" title="Update the lates version of Wordpress">update to the latest version of WordPress</a>.' );
 
 /* translators: 1: WordPress version number, 2: Link to update WordPress */
-__( 'Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.' );
+__( 'Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href="%2$s" title="Update the lates version of Wordpress">update to the latest version of WordPress</a>.' );
 
 /* translators: %s: The major version of WordPress for this branch. */
 __( 'This is the final release of WordPress %s' );
