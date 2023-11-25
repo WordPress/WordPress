@@ -3390,7 +3390,15 @@ class WP_Theme_JSON {
 			|| ! is_numeric( $spacing_scale['mediumStep'] )
 			|| ( '+' !== $spacing_scale['operator'] && '*' !== $spacing_scale['operator'] ) ) {
 			if ( ! empty( $spacing_scale ) ) {
-				trigger_error( __( 'Some of the theme.json settings.spacing.spacingScale values are invalid' ), E_USER_NOTICE );
+				trigger_error(
+					sprintf(
+						/* translators: 1: theme.json, 2: settings.spacing.spacingScale */
+						__( 'Some of the %1$s %2$s values are invalid' ),
+						'theme.json',
+						'settings.spacing.spacingScale'
+					),
+					E_USER_NOTICE
+				);
 			}
 			return null;
 		}
