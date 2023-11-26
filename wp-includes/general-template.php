@@ -1715,12 +1715,15 @@ function get_the_archive_title() {
 		$title  = get_the_author();
 		$prefix = _x( 'Author:', 'author archive title prefix' );
 	} elseif ( is_year() ) {
+		/* translators: See https://www.php.net/manual/datetime.format.php */
 		$title  = get_the_date( _x( 'Y', 'yearly archives date format' ) );
 		$prefix = _x( 'Year:', 'date archive title prefix' );
 	} elseif ( is_month() ) {
+		/* translators: See https://www.php.net/manual/datetime.format.php */
 		$title  = get_the_date( _x( 'F Y', 'monthly archives date format' ) );
 		$prefix = _x( 'Month:', 'date archive title prefix' );
 	} elseif ( is_day() ) {
+		/* translators: See https://www.php.net/manual/datetime.format.php */
 		$title  = get_the_date( _x( 'F j, Y', 'daily archives date format' ) );
 		$prefix = _x( 'Day:', 'date archive title prefix' );
 	} elseif ( is_tax( 'post_format' ) ) {
