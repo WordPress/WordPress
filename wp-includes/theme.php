@@ -1437,14 +1437,16 @@ function is_random_header_image( $type = 'any' ) {
 	if ( 'any' === $type ) {
 		if ( 'random-default-image' === $header_image_mod
 			|| 'random-uploaded-image' === $header_image_mod
-			|| ( '' !== get_random_header_image() && empty( $header_image_mod ) )
+			|| ( empty( $header_image_mod ) && '' !== get_random_header_image() )
 		) {
 			return true;
 		}
 	} else {
 		if ( "random-$type-image" === $header_image_mod ) {
 			return true;
-		} elseif ( 'default' === $type && empty( $header_image_mod ) && '' !== get_random_header_image() ) {
+		} elseif ( 'default' === $type
+			&& empty( $header_image_mod ) && '' !== get_random_header_image()
+		) {
 			return true;
 		}
 	}
