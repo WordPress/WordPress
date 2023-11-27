@@ -2553,9 +2553,9 @@ function compression_test() {
  *                                       These key/value attribute pairs will be output as `attribute="value"`,
  *                                       where attribute is the key. Attributes can also be provided as a string,
  *                                       e.g. `id="search-submit"`, though the array format is generally preferred.
- *                                       Default null.
+ *                                       Default empty string.
  */
-function submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = null ) {
+function submit_button( $text = '', $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = '' ) {
 	echo get_submit_button( $text, $type, $name, $wrap, $other_attributes );
 }
 
