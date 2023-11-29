@@ -1119,7 +1119,8 @@ th.action-links {
 }
 
 .wp-filter .search-form.search-plugins select,
-.wp-filter .search-form.search-plugins .wp-filter-search {
+.wp-filter .search-form.search-plugins .wp-filter-search,
+.no-js .wp-filter .search-form.search-plugins .button {
 	display: inline-block;
 	margin-top: 10px;
 	vertical-align: top;
