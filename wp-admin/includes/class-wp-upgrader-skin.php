@@ -240,7 +240,14 @@ class WP_Upgrader_Skin {
 		if ( defined( 'IFRAME_REQUEST' ) ) {
 			echo '<script type="text/javascript">
 					if ( window.postMessage && JSON ) {
-						window.parent.postMessage( JSON.stringify( { action: "decrementUpdateCount", upgradeType: "' . $type . '" } ), window.location.protocol + "//" + window.location.hostname );
+						window.parent.postMessage(
+							JSON.stringify( {
+								action: "decrementUpdateCount",
+								upgradeType: "' . $type . '"
+							} ),
+							window.location.protocol + "//" + window.location.hostname
+								+ ( "" !== window.location.port ? ":" + window.location.port : "" )
+						);
 					}
 				</script>';
 		} else {
