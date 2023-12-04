@@ -843,6 +843,10 @@ function upgrade_all() {
 		upgrade_640();
 	}
 
+	if ( $wp_current_db_version < 57155 ) {
+		upgrade_650();
+	}
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -2346,6 +2350,35 @@ function upgrade_640() {
 		if ( $scheduled ) {
 			wp_clear_scheduled_hook( 'wp_https_detection' );
 		}
+	}
+}
+
+/**
+ * Executes changes made in WordPress 6.5.0.
+ *
+ * @ignore
+ * @since 6.5.0
+ *
+ * @global int  $wp_current_db_version The old (current) database version.
+ * @global wpdb $wpdb                  WordPress database abstraction object.
+ */
+function upgrade_650() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 57155 ) {
+		$stylesheet = get_stylesheet();
+
+		// Set autoload=no for all themes except the current one.
+		$theme_mods_options = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM $wpdb->options WHERE autoload = 'yes' AND option_name != %s AND option_name LIKE %s",
+				"theme_mods_$stylesheet",
+				$wpdb->esc_like( 'theme_mods_' ) . '%'
+			)
+		);
+
+		$autoload = array_fill_keys( $theme_mods_options, 'no' );
+		wp_set_option_autoload_values( $autoload );
 	}
 }
 
