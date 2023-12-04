@@ -840,6 +840,13 @@ function switch_theme( $stylesheet ) {
 	$new_theme->delete_pattern_cache();
 	$old_theme->delete_pattern_cache();
 
+	// Set autoload=no for the old theme, autoload=yes for the switched theme.
+	$theme_mods_options = array(
+		'theme_mods_' . $stylesheet                  => 'yes',
+		'theme_mods_' . $old_theme->get_stylesheet() => 'no',
+	);
+	wp_set_option_autoload_values( $theme_mods_options );
+
 	/**
 	 * Fires after the theme is switched.
 	 *
