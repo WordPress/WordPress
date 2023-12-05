@@ -534,8 +534,8 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	align-items: start;
-	justify-content: end;
+	align-items: flex-start;
+	justify-content: flex-end;
 	box-sizing: border-box;
 	padding: var(--gap) 0;
 	height: clamp(12.5rem, -1.25rem + 36.67vw, 26.25rem);
@@ -1126,7 +1126,7 @@
 }
 
 .about-wrap .is-vertically-aligned-top {
-	align-self: start;
+	align-self: flex-start;
 }
 
 .about-wrap .is-vertically-aligned-center {
