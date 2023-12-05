@@ -127,8 +127,11 @@ foreach ( array_merge( $builtin, $types ) as $ptype ) {
 
 	$menu_icon = 'dashicons-admin-post';
 	if ( is_string( $ptype_obj->menu_icon ) ) {
-		// Special handling for data:image/svg+xml and Dashicons.
-		if ( str_starts_with( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' ) || str_starts_with( $ptype_obj->menu_icon, 'dashicons-' ) ) {
+		// Special handling for an empty div.wp-menu-image, data:image/svg+xml, and Dashicons.
+		if ( 'none' === $ptype_obj->menu_icon || 'div' === $ptype_obj->menu_icon
+			|| str_starts_with( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' )
+			|| str_starts_with( $ptype_obj->menu_icon, 'dashicons-' )
+		) {
 			$menu_icon = $ptype_obj->menu_icon;
 		} else {
 			$menu_icon = esc_url( $ptype_obj->menu_icon );
