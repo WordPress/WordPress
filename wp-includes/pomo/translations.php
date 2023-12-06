@@ -247,7 +247,7 @@ if ( ! class_exists( 'Translations', false ) ) :
 
 		/**
 		 * Adds parentheses to the inner parts of ternary operators in
-		 * plural expressions, because PHP evaluates ternary oerators from left to right
+		 * plural expressions, because PHP evaluates ternary operators from left to right
 		 *
 		 * @deprecated 6.5.0 Use the Plural_Forms class instead.
 		 * @see Plural_Forms
