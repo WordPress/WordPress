@@ -94,4 +94,13 @@ class WP_HTML_Token {
 			call_user_func( $this->on_destroy, $this->bookmark_name );
 		}
 	}
+
+	/**
+	 * Wakeup magic method.
+	 *
+	 * @since 6.4.2
+	 */
+	public function __wakeup() {
+		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
+	}
 }
