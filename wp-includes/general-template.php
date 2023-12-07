@@ -906,17 +906,12 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			break;
 	}
 
-	$url = true;
-
-	if ( ! str_contains( $show, 'url' )
-		&& ! str_contains( $show, 'directory' )
-		&& ! str_contains( $show, 'home' )
-	) {
-		$url = false;
-	}
-
 	if ( 'display' === $filter ) {
-		if ( $url ) {
+		if (
+			str_contains( $show, 'url' )
+			|| str_contains( $show, 'directory' )
+			|| str_contains( $show, 'home' )
+		) {
 			/**
 			 * Filters the URL returned by get_bloginfo().
 			 *
