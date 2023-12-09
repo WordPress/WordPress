@@ -1091,7 +1091,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		if ( in_array( 'content', $fields, true ) ) {
 			$data['content'] = array(
 				/** This filter is documented in wp-includes/comment-template.php */
-				'rendered' => apply_filters( 'comment_text', $comment->comment_content, $comment ),
+				'rendered' => apply_filters( 'comment_text', $comment->comment_content, $comment, array() ),
 				'raw'      => $comment->comment_content,
 			);
 		}
