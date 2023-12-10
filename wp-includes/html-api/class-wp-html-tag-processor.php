@@ -329,6 +329,40 @@ class WP_HTML_Tag_Processor {
 	private $bytes_already_parsed = 0;
 
 	/**
+	 * Byte offset in input document where current token starts.
+	 *
+	 * Example:
+	 *
+	 *     <div id="test">...
+	 *     01234
+	 *     - token starts at 0
+	 *
+	 * @since 6.5.0
+	 *
+	 * @var int|null
+	 */
+	private $token_starts_at;
+
+	/**
+	 * Byte length of current token.
+	 *
+	 * Example:
+	 *
+	 *     <div id="test">...
+	 *     012345678901234
+	 *     - token length is 14 - 0 = 14
+	 *
+	 *     a <!-- comment --> is a token.
+	 *     0123456789 123456789 123456789
+	 *     - token length is 17 - 2 = 15
+	 *
+	 * @since 6.5.0
+	 *
+	 * @var int|null
+	 */
+	private $token_length;
+
+	/**
 	 * Byte offset in input document where current tag name starts.
 	 *
 	 * Example:
@@ -338,6 +372,7 @@ class WP_HTML_Tag_Processor {
 	 *      - tag name starts at 1
 	 *
 	 * @since 6.2.0
+	 *
 	 * @var int|null
 	 */
 	private $tag_name_starts_at;
@@ -352,24 +387,10 @@ class WP_HTML_Tag_Processor {
 	 *      --- tag name length is 3
 	 *
 	 * @since 6.2.0
+	 *
 	 * @var int|null
 	 */
 	private $tag_name_length;
-
-	/**
-	 * Byte offset in input document where current tag token ends.
-	 *
-	 * Example:
-	 *
-	 *     <div id="test">...
-	 *     0         1   |
-	 *     01234567890123456
-	 *      --- tag name ends at 14
-	 *
-	 * @since 6.2.0
-	 * @var int|null
-	 */
-	private $tag_ends_at;
 
 	/**
 	 * Whether the current tag is an opening tag, e.g. <div>, or a closing tag, e.g. </div>.
@@ -388,14 +409,14 @@ class WP_HTML_Tag_Processor {
 	 *     // <div id="test-4" class=outline title="data:text/plain;base64=asdk3nk1j3fo8">
 	 *     //                 ^ parsing will continue from this point.
 	 *     $this->attributes = array(
-	 *         'id' => new WP_HTML_Attribute_Match( 'id', null, 6, 17 )
+	 *         'id' => new WP_HTML_Attribute_Token( 'id', 9, 6, 5, 11, false )
 	 *     );
 	 *
 	 *     // When picking up parsing again, or when asking to find the
 	 *     // `class` attribute we will continue and add to this array.
 	 *     $this->attributes = array(
-	 *         'id'    => new WP_HTML_Attribute_Match( 'id', null, 6, 17 ),
-	 *         'class' => new WP_HTML_Attribute_Match( 'class', 'outline', 18, 32 )
+	 *         'id'    => new WP_HTML_Attribute_Token( 'id', 9, 6, 5, 11, false ),
+	 *         'class' => new WP_HTML_Attribute_Token( 'class', 23, 7, 17, 13, false )
 	 *     );
 	 *
 	 *     // Note that only the `class` attribute value is stored in the index.
@@ -484,9 +505,9 @@ class WP_HTML_Tag_Processor {
 	 *
 	 *     // Replace an attribute stored with a new value, indices
 	 *     // sourced from the lazily-parsed HTML recognizer.
-	 *     $start = $attributes['src']->start;
-	 *     $end   = $attributes['src']->end;
-	 *     $modifications[] = new WP_HTML_Text_Replacement( $start, $end, $new_value );
+	 *     $start  = $attributes['src']->start;
+	 *     $length = $attributes['src']->length;
+	 *     $modifications[] = new WP_HTML_Text_Replacement( $start, $length, $new_value );
 	 *
 	 *     // Correspondingly, something like this will appear in this array.
 	 *     $lexical_updates = array(
@@ -566,7 +587,7 @@ class WP_HTML_Tag_Processor {
 			if ( false === $tag_ends_at ) {
 				return false;
 			}
-			$this->tag_ends_at          = $tag_ends_at;
+			$this->token_length         = $tag_ends_at - $this->token_starts_at;
 			$this->bytes_already_parsed = $tag_ends_at;
 
 			// Finally, check if the parsed tag and its attributes match the search query.
@@ -808,10 +829,7 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		$this->bookmarks[ $name ] = new WP_HTML_Span(
-			$this->tag_name_starts_at - ( $this->is_closing_tag ? 2 : 1 ),
-			$this->tag_ends_at
-		);
+		$this->bookmarks[ $name ] = new WP_HTML_Span( $this->token_starts_at, $this->token_length );
 
 		return true;
 	}
@@ -875,7 +893,7 @@ class WP_HTML_Tag_Processor {
 		while ( false !== $at && $at < $doc_length ) {
 			$at = strpos( $this->html, '</', $at );
 
-			// If there is no possible tag closer then fail.
+			// Fail if there is no possible tag closer.
 			if ( false === $at || ( $at + $tag_length ) >= $doc_length ) {
 				$this->bytes_already_parsed = $doc_length;
 				return false;
@@ -1092,6 +1110,8 @@ class WP_HTML_Tag_Processor {
 			if ( false === $at ) {
 				return false;
 			}
+
+			$this->token_starts_at = $at;
 
 			if ( '/' === $this->html[ $at + 1 ] ) {
 				$this->is_closing_tag = true;
@@ -1381,7 +1401,7 @@ class WP_HTML_Tag_Processor {
 				$value_start,
 				$value_length,
 				$attribute_start,
-				$attribute_end,
+				$attribute_end - $attribute_start,
 				! $has_value
 			);
 
@@ -1396,7 +1416,7 @@ class WP_HTML_Tag_Processor {
 		 * an array when encountering duplicates avoids needless allocations in the
 		 * normative case of parsing tags with no duplicate attributes.
 		 */
-		$duplicate_span = new WP_HTML_Span( $attribute_start, $attribute_end );
+		$duplicate_span = new WP_HTML_Span( $attribute_start, $attribute_end - $attribute_start );
 		if ( null === $this->duplicate_attributes ) {
 			$this->duplicate_attributes = array( $comparable_name => array( $duplicate_span ) );
 		} elseif ( ! array_key_exists( $comparable_name, $this->duplicate_attributes ) ) {
@@ -1424,9 +1444,10 @@ class WP_HTML_Tag_Processor {
 	 */
 	private function after_tag() {
 		$this->get_updated_html();
+		$this->token_starts_at      = null;
+		$this->token_length         = null;
 		$this->tag_name_starts_at   = null;
 		$this->tag_name_length      = null;
-		$this->tag_ends_at          = null;
 		$this->is_closing_tag       = null;
 		$this->attributes           = array();
 		$this->duplicate_attributes = null;
@@ -1606,7 +1627,7 @@ class WP_HTML_Tag_Processor {
 		$bytes_already_copied = 0;
 		$output_buffer        = '';
 		foreach ( $this->lexical_updates as $diff ) {
-			$shift = strlen( $diff->text ) - ( $diff->end - $diff->start );
+			$shift = strlen( $diff->text ) - $diff->length;
 
 			// Adjust the cursor position by however much an update affects it.
 			if ( $diff->start <= $this->bytes_already_parsed ) {
@@ -1620,7 +1641,7 @@ class WP_HTML_Tag_Processor {
 
 			$output_buffer       .= substr( $this->html, $bytes_already_copied, $diff->start - $bytes_already_copied );
 			$output_buffer       .= $diff->text;
-			$bytes_already_copied = $diff->end;
+			$bytes_already_copied = $diff->start + $diff->length;
 		}
 
 		$this->html = $output_buffer . substr( $this->html, $bytes_already_copied );
@@ -1630,6 +1651,8 @@ class WP_HTML_Tag_Processor {
 		 * replacements adjust offsets in the input document.
 		 */
 		foreach ( $this->bookmarks as $bookmark_name => $bookmark ) {
+			$bookmark_end   = $bookmark->start + $bookmark->length;
+
 			/*
 			 * Each lexical update which appears before the bookmark's endpoints
 			 * might shift the offsets for those endpoints. Loop through each change
@@ -1640,28 +1663,30 @@ class WP_HTML_Tag_Processor {
 			$tail_delta = 0;
 
 			foreach ( $this->lexical_updates as $diff ) {
-				if ( $bookmark->start < $diff->start && $bookmark->end < $diff->start ) {
+				$diff_end = $diff->start + $diff->length;
+
+				if ( $bookmark->start < $diff->start && $bookmark_end < $diff->start ) {
 					break;
 				}
 
-				if ( $bookmark->start >= $diff->start && $bookmark->end < $diff->end ) {
+				if ( $bookmark->start >= $diff->start && $bookmark_end < $diff_end ) {
 					$this->release_bookmark( $bookmark_name );
 					continue 2;
 				}
 
-				$delta = strlen( $diff->text ) - ( $diff->end - $diff->start );
+				$delta = strlen( $diff->text ) - $diff->length;
 
 				if ( $bookmark->start >= $diff->start ) {
 					$head_delta += $delta;
 				}
 
-				if ( $bookmark->end >= $diff->end ) {
+				if ( $bookmark_end >= $diff_end ) {
 					$tail_delta += $delta;
 				}
 			}
 
-			$bookmark->start += $head_delta;
-			$bookmark->end   += $tail_delta;
+			$bookmark->start  += $head_delta;
+			$bookmark->length += $tail_delta - $head_delta;
 		}
 
 		$this->lexical_updates = array();
@@ -1743,7 +1768,7 @@ class WP_HTML_Tag_Processor {
 		 * This code should be unreachable, because it implies the two replacements
 		 * start at the same location and contain the same text.
 		 */
-		return $a->end - $b->end;
+		return $a->length - $b->length;
 	}
 
 	/**
@@ -1971,7 +1996,15 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		return '/' === $this->html[ $this->tag_ends_at - 1 ];
+		/*
+		 * The self-closing flag is the solidus at the _end_ of the tag, not the beginning.
+		 *
+		 * Example:
+		 *
+		 *     <figure />
+		 *             ^ this appears one character before the end of the closing ">".
+		 */
+		return '/' === $this->html[ $this->token_starts_at + $this->token_length - 1 ];
 	}
 
 	/**
@@ -2101,7 +2134,7 @@ class WP_HTML_Tag_Processor {
 			$existing_attribute                        = $this->attributes[ $comparable_name ];
 			$this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
 				$existing_attribute->start,
-				$existing_attribute->end,
+				$existing_attribute->length,
 				$updated_attribute
 			);
 		} else {
@@ -2119,7 +2152,7 @@ class WP_HTML_Tag_Processor {
 			 */
 			$this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
 				$this->tag_name_starts_at + $this->tag_name_length,
-				$this->tag_name_starts_at + $this->tag_name_length,
+				0,
 				' ' . $updated_attribute
 			);
 		}
@@ -2194,7 +2227,7 @@ class WP_HTML_Tag_Processor {
 		 */
 		$this->lexical_updates[ $name ] = new WP_HTML_Text_Replacement(
 			$this->attributes[ $name ]->start,
-			$this->attributes[ $name ]->end,
+			$this->attributes[ $name ]->length,
 			''
 		);
 
@@ -2203,7 +2236,7 @@ class WP_HTML_Tag_Processor {
 			foreach ( $this->duplicate_attributes[ $name ] as $attribute_token ) {
 				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
 					$attribute_token->start,
-					$attribute_token->end,
+					$attribute_token->length,
 					''
 				);
 			}
@@ -2289,7 +2322,7 @@ class WP_HTML_Tag_Processor {
 		 * Keep track of the position right before the current tag. This will
 		 * be necessary for reparsing the current tag after updating the HTML.
 		 */
-		$before_current_tag = $this->tag_name_starts_at - 1;
+		$before_current_tag = $this->token_starts_at;
 
 		/*
 		 * 1. Apply the enqueued edits and update all the pointers to reflect those changes.
@@ -2325,7 +2358,7 @@ class WP_HTML_Tag_Processor {
 		}
 
 		$tag_ends_at                = strpos( $this->html, '>', $this->bytes_already_parsed );
-		$this->tag_ends_at          = $tag_ends_at;
+		$this->token_length         = $tag_ends_at - $this->token_starts_at;
 		$this->bytes_already_parsed = $tag_ends_at;
 
 		return $this->html;
