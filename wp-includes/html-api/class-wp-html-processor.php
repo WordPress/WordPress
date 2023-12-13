@@ -102,7 +102,7 @@
  *  - Containers: ADDRESS, BLOCKQUOTE, DETAILS, DIALOG, DIV, FOOTER, HEADER, MAIN, MENU, SPAN, SUMMARY.
  *  - Form elements: BUTTON, FIELDSET, SEARCH.
  *  - Formatting elements: B, BIG, CODE, EM, FONT, I, SMALL, STRIKE, STRONG, TT, U.
- *  - Heading elements: HGROUP.
+ *  - Heading elements: H1, H2, H3, H4, H5, H6, HGROUP.
  *  - Links: A.
  *  - Lists: DL.
  *  - Media elements: FIGCAPTION, FIGURE, IMG.
@@ -695,6 +695,60 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					// @TODO: Record parse error: this error doesn't impact parsing.
 				}
 				$this->state->stack_of_open_elements->pop_until( $tag_name );
+				return true;
+
+			/*
+			 * > A start tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
+			 */
+			case '+H1':
+			case '+H2':
+			case '+H3':
+			case '+H4':
+			case '+H5':
+			case '+H6':
+				if ( $this->state->stack_of_open_elements->has_p_in_button_scope() ) {
+					$this->close_a_p_element();
+				}
+
+				if (
+					in_array(
+						$this->state->stack_of_open_elements->current_node()->node_name,
+						array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ),
+						true
+					)
+				) {
+					// @TODO: Indicate a parse error once it's possible.
+					$this->state->stack_of_open_elements->pop();
+				}
+
+				$this->insert_html_element( $this->state->current_token );
+				return true;
+
+			/*
+			 * > An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
+			 */
+			case '-H1':
+			case '-H2':
+			case '-H3':
+			case '-H4':
+			case '-H5':
+			case '-H6':
+				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( '(internal: H1 through H6 - do not use)' ) ) {
+					/*
+					 * This is a parse error; ignore the token.
+					 *
+					 * @TODO: Indicate a parse error once it's possible.
+					 */
+					return $this->step();
+				}
+
+				$this->generate_implied_end_tags();
+
+				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $tag_name ) {
+					// @TODO: Record parse error: this error doesn't impact parsing.
+				}
+
+				$this->state->stack_of_open_elements->pop_until( '(internal: H1 through H6 - do not use)' );
 				return true;
 
 			/*

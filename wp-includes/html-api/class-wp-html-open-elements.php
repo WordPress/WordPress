@@ -116,6 +116,13 @@ class WP_HTML_Open_Elements {
 				return true;
 			}
 
+			if (
+				'(internal: H1 through H6 - do not use)' === $tag_name &&
+				in_array( $node->node_name, array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true )
+			) {
+				return true;
+			}
+
 			switch ( $node->node_name ) {
 				case 'HTML':
 					return false;
@@ -269,6 +276,13 @@ class WP_HTML_Open_Elements {
 	public function pop_until( $tag_name ) {
 		foreach ( $this->walk_up() as $item ) {
 			$this->pop();
+
+			if (
+				'(internal: H1 through H6 - do not use)' === $tag_name &&
+				in_array( $item->node_name, array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true )
+			) {
+				return true;
+			}
 
 			if ( $tag_name === $item->node_name ) {
 				return true;
