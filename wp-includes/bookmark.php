@@ -11,7 +11,8 @@
  *
  * @since 2.1.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global object $link Current link object.
+ * @global wpdb   $wpdb WordPress database abstraction object.
  *
  * @param int|stdClass $bookmark
  * @param string       $output   Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
@@ -21,11 +22,11 @@
  * @return array|object|null Type returned depends on $output value.
  */
 function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
-	global $wpdb;
+	global $link, $wpdb;
 
 	if ( empty( $bookmark ) ) {
-		if ( isset( $GLOBALS['link'] ) ) {
-			$_bookmark = & $GLOBALS['link'];
+		if ( isset( $link ) ) {
+			$_bookmark = &$link;
 		} else {
 			$_bookmark = null;
 		}
@@ -33,8 +34,8 @@ function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
 		wp_cache_add( $bookmark->link_id, $bookmark, 'bookmark' );
 		$_bookmark = $bookmark;
 	} else {
-		if ( isset( $GLOBALS['link'] ) && ( $GLOBALS['link']->link_id == $bookmark ) ) {
-			$_bookmark = & $GLOBALS['link'];
+		if ( isset( $link ) && ( $link->link_id == $bookmark ) ) {
+			$_bookmark = &$link;
 		} else {
 			$_bookmark = wp_cache_get( $bookmark, 'bookmark' );
 			if ( ! $_bookmark ) {
