@@ -22,11 +22,11 @@
  * @return array|object|null Type returned depends on $output value.
  */
 function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
-	global $link, $wpdb;
+	global $wpdb;
 
 	if ( empty( $bookmark ) ) {
-		if ( isset( $link ) ) {
-			$_bookmark = &$link;
+		if ( isset( $GLOBALS['link'] ) ) {
+			$_bookmark = & $GLOBALS['link'];
 		} else {
 			$_bookmark = null;
 		}
@@ -34,8 +34,8 @@ function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
 		wp_cache_add( $bookmark->link_id, $bookmark, 'bookmark' );
 		$_bookmark = $bookmark;
 	} else {
-		if ( isset( $link ) && ( $link->link_id == $bookmark ) ) {
-			$_bookmark = &$link;
+		if ( isset( $GLOBALS['link'] ) && ( $GLOBALS['link']->link_id == $bookmark ) ) {
+			$_bookmark = & $GLOBALS['link'];
 		} else {
 			$_bookmark = wp_cache_get( $bookmark, 'bookmark' );
 			if ( ! $_bookmark ) {
