@@ -117,13 +117,18 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param int|string|stdClass|WP_User $id      User's ID, a WP_User object, or a user object from the DB.
 	 * @param string                      $name    Optional. User's username
 	 * @param int                         $site_id Optional Site ID, defaults to current site.
 	 */
 	public function __construct( $id = 0, $name = '', $site_id = '' ) {
+		global $wpdb;
+
 		if ( ! isset( self::$back_compat_keys ) ) {
-			$prefix                 = $GLOBALS['wpdb']->prefix;
+			$prefix = $wpdb->prefix;
+
 			self::$back_compat_keys = array(
 				'user_firstname'             => 'first_name',
 				'user_lastname'              => 'last_name',
