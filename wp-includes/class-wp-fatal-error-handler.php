@@ -25,6 +25,8 @@ class WP_Fatal_Error_Handler {
 	 * This method is registered via `register_shutdown_function()`.
 	 *
 	 * @since 5.2.0
+	 *
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
 	 */
 	public function handle() {
 		if ( defined( 'WP_SANDBOX_SCRAPING' ) && WP_SANDBOX_SCRAPING ) {
