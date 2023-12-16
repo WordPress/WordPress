@@ -149,6 +149,8 @@ final class _WP_Editors {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @global WP_Screen $current_screen WordPress current screen object.
+	 *
 	 * @param string $content   Initial content for the editor.
 	 * @param string $editor_id HTML ID for the textarea and TinyMCE and Quicktags instances.
 	 *                          Should not contain square brackets.
