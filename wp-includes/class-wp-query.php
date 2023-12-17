@@ -4661,7 +4661,7 @@ class WP_Query {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @global WP_Query $wp_query WordPress Query object.
+	 * @global WP_Query $wp_the_query WordPress Query object.
 	 *
 	 * @return bool Whether the query is the main query.
 	 */
