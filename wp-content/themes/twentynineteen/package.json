@@ -6,16 +6,20 @@
     "url": "https://core.trac.wordpress.org/"
   },
   "homepage": "https://wordpress.org/themes/twentynineteen/",
+  "engines": {
+    "node": ">=20.10.0",
+    "npm": ">=10.2.3"
+  },
   "devDependencies": {
-    "@wordpress/browserslist-config": "^5.24.0",
-    "autoprefixer": "^10.4.15",
+    "@wordpress/browserslist-config": "^5.31.0",
+    "autoprefixer": "^10.4.16",
     "chokidar-cli": "^3.0.0",
     "node-sass": "^9.0.0",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.29",
-    "postcss-cli": "^10.1.0",
-    "postcss-focus-within": "^8.0.0",
-    "rtlcss": "^4.1.0"
+    "postcss": "^8.4.32",
+    "postcss-cli": "^11.0.0",
+    "postcss-focus-within": "^8.0.1",
+    "rtlcss": "^4.1.1"
   },
   "rtlcssConfig": {
     "options": {

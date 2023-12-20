@@ -12,16 +12,20 @@
 		"url": "https://core.trac.wordpress.org/"
 	},
 	"homepage": "https://wordpress.org/themes/twentytwentyone/",
+	"engines": {
+		"node": ">=20.10.0",
+		"npm": ">=10.2.3"
+	},
 	"devDependencies": {
-		"@wordpress/browserslist-config": "^5.29.0",
-		"@wordpress/eslint-plugin": "^17.3.0",
-		"@wordpress/stylelint-config": "^21.29.0",
+		"@wordpress/browserslist-config": "^5.30.0",
+		"@wordpress/eslint-plugin": "^17.4.0",
+		"@wordpress/stylelint-config": "^21.30.0",
 		"autoprefixer": "^10.4.13",
 		"chokidar-cli": "^3.0.0",
-		"eslint": "^8.33.0",
+		"eslint": "^8.55.0",
 		"minimist": "^1.2.8",
 		"npm-run-all": "^4.1.5",
-		"postcss": "^8.4.31",
+		"postcss": "^8.4.32",
 		"postcss-calc": "^9.0.1",
 		"postcss-cli": "^10.1.0",
 		"postcss-css-variables": "^0.19.0",

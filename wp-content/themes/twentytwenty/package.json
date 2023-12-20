@@ -13,14 +13,18 @@
 	"bugs": {
 		"url": "https://core.trac.wordpress.org/"
 	},
+	"engines": {
+		"node": ">=16",
+		"npm": ">=9.8.1"
+	},
 	"devDependencies": {
-		"@wordpress/browserslist-config": "^5.24.0",
-		"@wordpress/scripts": "^24.6.0",
-		"autoprefixer": "^10.4.15",
-		"concurrently": "^8.2.1",
-		"postcss": "^8.4.29",
-		"postcss-cli": "^10.1.0",
-		"rtlcss": "^4.1.0",
+		"@wordpress/browserslist-config": "^5.31.0",
+		"@wordpress/scripts": "^26.19.0",
+		"autoprefixer": "^10.4.16",
+		"concurrently": "^8.2.2",
+		"postcss": "^8.4.32",
+		"postcss-cli": "^11.0.0",
+		"rtlcss": "^4.1.1",
 		"stylelint-a11y": "^1.2.3"
 	},
 	"browserslist": [
