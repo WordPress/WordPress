@@ -252,7 +252,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$p->state->context_node   = array( 'BODY', array() );
 		$p->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
 
-		// @TODO: Create "fake" bookmarks for non-existent but implied nodes.
+		// @todo Create "fake" bookmarks for non-existent but implied nodes.
 		$p->bookmarks['root-node']    = new WP_HTML_Span( 0, 0 );
 		$p->bookmarks['context-node'] = new WP_HTML_Span( 0, 0 );
 
@@ -506,7 +506,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * When moving on to the next node, therefore, if the bottom-most element
 			 * on the stack is a void element, it must be closed.
 			 *
-			 * @TODO: Once self-closing foreign elements and BGSOUND are supported,
+			 * @todo Once self-closing foreign elements and BGSOUND are supported,
 			 *        they must also be implicitly closed here too. BGSOUND is
 			 *        special since it's only self-closing if the self-closing flag
 			 *        is provided in the opening tag, otherwise it expects a tag closer.
@@ -608,7 +608,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '+BUTTON':
 				if ( $this->state->stack_of_open_elements->has_element_in_scope( 'BUTTON' ) ) {
-					// @TODO: Indicate a parse error once it's possible. This error does not impact the logic here.
+					// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
 					$this->generate_implied_end_tags();
 					$this->state->stack_of_open_elements->pop_until( 'BUTTON' );
 				}
@@ -685,14 +685,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-SECTION':
 			case '-SUMMARY':
 				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name ) ) {
-					// @TODO: Report parse error.
+					// @todo Report parse error.
 					// Ignore the token.
 					return $this->step();
 				}
 
 				$this->generate_implied_end_tags();
 				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $tag_name ) {
-					// @TODO: Record parse error: this error doesn't impact parsing.
+					// @todo Record parse error: this error doesn't impact parsing.
 				}
 				$this->state->stack_of_open_elements->pop_until( $tag_name );
 				return true;
@@ -717,7 +717,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 						true
 					)
 				) {
-					// @TODO: Indicate a parse error once it's possible.
+					// @todo Indicate a parse error once it's possible.
 					$this->state->stack_of_open_elements->pop();
 				}
 
@@ -737,7 +737,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					/*
 					 * This is a parse error; ignore the token.
 					 *
-					 * @TODO: Indicate a parse error once it's possible.
+					 * @todo Indicate a parse error once it's possible.
 					 */
 					return $this->step();
 				}
@@ -745,7 +745,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				$this->generate_implied_end_tags();
 
 				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $tag_name ) {
-					// @TODO: Record parse error: this error doesn't impact parsing.
+					// @todo Record parse error: this error doesn't impact parsing.
 				}
 
 				$this->state->stack_of_open_elements->pop_until( '(internal: H1 through H6 - do not use)' );

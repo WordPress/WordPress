@@ -105,7 +105,7 @@ class WP_HTML_Active_Formatting_Elements {
 		 * > paired such that the two attributes in each pair have identical names, namespaces, and values
 		 * > (the order of the attributes does not matter).
 		 *
-		 * @TODO: Implement the "Noah's Ark clause" to only add up to three of any given kind of formatting elements to the stack.
+		 * @todo Implement the "Noah's Ark clause" to only add up to three of any given kind of formatting elements to the stack.
 		 */
 		// > Add element to the list of active formatting elements.
 		$this->stack[] = $token;
