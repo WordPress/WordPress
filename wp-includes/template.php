@@ -654,8 +654,6 @@ function get_singular_template() {
  *
  * @see get_query_template()
  *
- * @global array $posts
- *
  * @return string Full path to attachment template file.
  */
 function get_attachment_template() {
