@@ -3591,7 +3591,6 @@ function _wp_customize_include() {
  * @since 4.7.0
  * @access private
  *
- * @global wpdb                 $wpdb         WordPress database abstraction object.
  * @global WP_Customize_Manager $wp_customize Customizer instance.
  *
  * @param string  $new_status     New post status.
@@ -3599,7 +3598,7 @@ function _wp_customize_include() {
  * @param WP_Post $changeset_post Changeset post object.
  */
 function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_post ) {
-	global $wp_customize, $wpdb;
+	global $wp_customize;
 
 	$is_publishing_changeset = (
 		'customize_changeset' === $changeset_post->post_type
