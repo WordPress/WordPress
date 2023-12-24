@@ -2875,7 +2875,7 @@ function wp_get_password_hint() {
  *
  * @since 4.4.0
  *
- * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
+ * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
  * @param WP_User $user User to retrieve password reset key for.
  * @return string|WP_Error Password reset key on success. WP_Error on error.
@@ -3047,8 +3047,8 @@ function check_password_reset_key( $key, $login ) {
  * @since 2.5.0
  * @since 5.7.0 Added `$user_login` parameter.
  *
- * @global wpdb         $wpdb       WordPress database abstraction object.
- * @global PasswordHash $wp_hasher  Portable PHP password hashing framework.
+ * @global wpdb         $wpdb      WordPress database abstraction object.
+ * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
  * @param string $user_login Optional. Username to send a password retrieval email for.
  *                           Defaults to `$_POST['user_login']` if not set.
@@ -4817,6 +4817,8 @@ All at ###SITENAME###
  *
  * @since 4.9.6
  *
+ * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
+ *
  * @param int $request_id Request ID.
  * @return string Confirmation key.
  */
@@ -4847,6 +4849,8 @@ function wp_generate_user_request_key( $request_id ) {
  * Validates a user request by comparing the key with the request's key.
  *
  * @since 4.9.6
+ *
+ * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
  * @param string $request_id ID of the request being confirmed.
  * @param string $key        Provided key to validate.

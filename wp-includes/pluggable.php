@@ -2528,7 +2528,7 @@ if ( ! function_exists( 'wp_hash_password' ) ) :
 	 *
 	 * @since 2.5.0
 	 *
-	 * @global PasswordHash $wp_hasher PHPass object
+	 * @global PasswordHash $wp_hasher PHPass object.
 	 *
 	 * @param string $password Plain text user password to hash.
 	 * @return string The hash string of the password.
