@@ -1895,7 +1895,7 @@ class WP_HTML_Tag_Processor {
 		 * replacements adjust offsets in the input document.
 		 */
 		foreach ( $this->bookmarks as $bookmark_name => $bookmark ) {
-			$bookmark_end   = $bookmark->start + $bookmark->length;
+			$bookmark_end = $bookmark->start + $bookmark->length;
 
 			/*
 			 * Each lexical update which appears before the bookmark's endpoints
