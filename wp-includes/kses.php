@@ -2303,6 +2303,7 @@ function kses_init() {
  * @since 6.3.0 Extended support for `filter` to accept a URL and added support for repeat().
  *              Added support for `box-shadow`.
  * @since 6.4.0 Added support for `writing-mode`.
+ * @since 6.5.0 Added support for `background-repeat`.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
@@ -2334,6 +2335,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'background-color',
 			'background-image',
 			'background-position',
+			'background-repeat',
 			'background-size',
 			'background-attachment',
 			'background-blend-mode',
