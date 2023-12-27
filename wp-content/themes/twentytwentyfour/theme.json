@@ -941,12 +941,12 @@
 		{
 			"name": "page-with-sidebar",
 			"postTypes": ["page"],
-			"title": "Page With Sidebar"
+			"title": "Page with Sidebar"
 		},
 		{
 			"name": "page-wide",
 			"postTypes": ["page"],
-			"title": "Page with wide Image"
+			"title": "Page with Wide Image"
 		},
 		{
 			"name": "single-with-sidebar",
