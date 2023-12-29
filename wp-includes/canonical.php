@@ -316,7 +316,9 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 					$redirect['query'] = remove_query_arg( 'year', $redirect['query'] );
 				}
 			}
-		} elseif ( is_author() && ! empty( $_GET['author'] ) && preg_match( '|^[0-9]+$|', $_GET['author'] ) ) {
+		} elseif ( is_author() && ! empty( $_GET['author'] )
+			&& is_string( $_GET['author'] ) && preg_match( '|^[0-9]+$|', $_GET['author'] )
+		) {
 			$author = get_userdata( get_query_var( 'author' ) );
 
 			if ( false !== $author
