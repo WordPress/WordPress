@@ -161,7 +161,7 @@ function determine_locale() {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string $locale The locale.
+	 * @param string $determined_locale The locale.
 	 */
 	return apply_filters( 'determine_locale', $determined_locale );
 }
