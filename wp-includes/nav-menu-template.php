@@ -646,7 +646,7 @@ function _nav_menu_item_id_use_once( $id, $item ) {
  * WordPress 3.0.0 so this needs to allow for cases in which the filter is
  * called without them.
  *
- * @see https://core.trac.wordpress.org/ticket/56926.
+ * @see https://core.trac.wordpress.org/ticket/56926
  *
  * @since 6.2.0
  *
