@@ -23,7 +23,7 @@ For more information about Twenty Eleven please go to https://codex.wordpress.or
 
 == Copyright ==
 
-Twenty Eleven WordPress Theme, Copyright 2011-2023 WordPress.org & Automattic.com
+Twenty Eleven WordPress Theme, Copyright 2011-2024 WordPress.org & Automattic.com
 Twenty Eleven is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

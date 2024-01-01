@@ -54,7 +54,7 @@ https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version
 
 == Copyright ==
 
-Twenty Twenty-Two WordPress Theme, 2021-2023 WordPress.org
+Twenty Twenty-Two WordPress Theme, 2021-2024 WordPress.org
 Twenty Twenty-Two is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify

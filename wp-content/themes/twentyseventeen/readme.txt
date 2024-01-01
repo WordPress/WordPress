@@ -24,7 +24,7 @@ For more information about Twenty Seventeen please go to https://wordpress.org/d
 
 == Copyright ==
 
-Twenty Seventeen WordPress Theme, Copyright 2016-2023 WordPress.org
+Twenty Seventeen WordPress Theme, Copyright 2016-2024 WordPress.org
 Twenty Seventeen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

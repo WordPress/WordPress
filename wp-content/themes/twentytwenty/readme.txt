@@ -101,7 +101,7 @@ Initial release
 
 == Copyright ==
 
-Twenty Twenty WordPress Theme, Copyright 2019-2023 WordPress.org
+Twenty Twenty WordPress Theme, Copyright 2019-2024 WordPress.org
 Twenty Twenty is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -150,7 +150,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Source: WordPress Social Link Block (See wp-includes\blocks\social-link.php)
 
 Code from Twenty Nineteen
-Copyright (c) 2018-2023 WordPress.org
+Copyright (c) 2018-2024 WordPress.org
 License: GPLv2
 Source: https://wordpress.org/themes/twentynineteen/
 Included as part of the following classes and functions:
@@ -160,11 +160,11 @@ Included as part of the following classes and functions:
 - twentytwenty_nav_menu_social_icons()
 
 Code from Twenty Seventeen
-Copyright (c) 2016-2023 WordPress.org
+Copyright (c) 2016-2024 WordPress.org
 License: GPLv2
 Source: https://wordpress.org/themes/twentyseventeen/
 Included as part of the following classes and functions:
 - twentytwenty_unique_id()
 
 Underscores
-https://underscores.me/, (C) 2012-2023 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
+https://underscores.me/, (C) 2012-2024 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
