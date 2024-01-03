@@ -22,7 +22,7 @@
  *         @type array $font_variation {
  *             @type string          $font-family             The font-family property.
  *             @type string|string[] $src                     The URL(s) to each resource containing the font data.
- *             @type string          $font_style              Optional. The font-style property. Default 'normal'.
+ *             @type string          $font-style              Optional. The font-style property. Default 'normal'.
  *             @type string          $font-weight             Optional. The font-weight property. Default '400'.
  *             @type string          $font-display            Optional. The font-display property. Default 'fallback'.
  *             @type string          $ascent-override         Optional. The ascent-override property.
