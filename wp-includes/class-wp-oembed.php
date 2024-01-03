@@ -56,6 +56,8 @@ class WP_oEmbed {
 			'#https?://((m|www)\.)?youtube\.com/shorts/*#i' => array( 'https://www.youtube.com/oembed', true ),
 			'#https?://((m|www)\.)?youtube\.com/live/*#i'  => array( 'https://www.youtube.com/oembed', true ),
 			'#https?://youtu\.be/.*#i'                     => array( 'https://www.youtube.com/oembed', true ),
+			'#https?://www\.?gumlet\.com/watch/*#i'  => array( 'https://api.gumlet.com/v1/oembed', true ),
+			'#https?://play\.gumlet\.io/embed/*#i'  => array( 'https://api.gumlet.com/v1/oembed', true ),
 			'#https?://(.+\.)?vimeo\.com/.*#i'             => array( 'https://vimeo.com/api/oembed.{format}', true ),
 			'#https?://(www\.)?dailymotion\.com/.*#i'      => array( 'https://www.dailymotion.com/services/oembed', true ),
 			'#https?://dai\.ly/.*#i'                       => array( 'https://www.dailymotion.com/services/oembed', true ),
@@ -190,6 +192,7 @@ class WP_oEmbed {
 		 * | Pocket Casts | pocketcasts.com                           | 6.1.0   |
 		 * | Crowdsignal  | crowdsignal.net                           | 6.2.0   |
 		 * | Anghami      | anghami.com                               | 6.3.0   |
+		 * | Gumlet	  | gumelt.com				      | 6.4.0   |
 		 *
 		 * No longer supported providers:
 		 *
