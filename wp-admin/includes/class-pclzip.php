@@ -1854,7 +1854,7 @@
     $p_options[PCLZIP_OPT_TEMP_FILE_THRESHOLD] = floor($v_memory_limit_int*PCLZIP_TEMPORARY_FILE_RATIO);
 
 
-    // ----- Sanity check : No threshold if value lower than 1M
+    // ----- Confidence check : No threshold if value lower than 1M
     if ($p_options[PCLZIP_OPT_TEMP_FILE_THRESHOLD] < 1048576) {
       unset($p_options[PCLZIP_OPT_TEMP_FILE_THRESHOLD]);
     }

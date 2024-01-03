@@ -6,7 +6,7 @@
  * @subpackage Administration
  */
 
-// Sanity check.
+// Confidence check.
 if ( false ) {
 	?>
 <!DOCTYPE html>

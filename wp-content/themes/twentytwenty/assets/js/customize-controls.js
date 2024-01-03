@@ -69,7 +69,7 @@
 		// Get accessible colors for the defined background-color and hue.
 		colors = twentyTwentyColor( backgroundColor, accentHue );
 
-		// Sanity check.
+		// Confidence check.
 		if ( colors.getAccentColor() && 'function' === typeof colors.getAccentColor().toCSS ) {
 			// Update the value for this context.
 			value[ context ] = {

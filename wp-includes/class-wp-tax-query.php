@@ -505,7 +505,7 @@ class WP_Tax_Query {
 	protected function find_compatible_table_alias( $clause, $parent_query ) {
 		$alias = false;
 
-		// Sanity check. Only IN queries use the JOIN syntax.
+		// Confidence check. Only IN queries use the JOIN syntax.
 		if ( ! isset( $clause['operator'] ) || 'IN' !== $clause['operator'] ) {
 			return $alias;
 		}

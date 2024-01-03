@@ -154,7 +154,7 @@ class wpdb {
 	protected $result;
 
 	/**
-	 * Cached column info, for sanity checking data before inserting.
+	 * Cached column info, for confidence checking data before inserting.
 	 *
 	 * @since 4.2.0
 	 *
@@ -172,7 +172,7 @@ class wpdb {
 	protected $table_charset = array();
 
 	/**
-	 * Whether text fields in the current query need to be sanity checked.
+	 * Whether text fields in the current query need to be confidence checked.
 	 *
 	 * @since 4.2.0
 	 *
@@ -1927,7 +1927,7 @@ class wpdb {
 			mysqli_free_result( $this->result );
 			$this->result = null;
 
-			// Sanity check before using the handle.
+			// Confidence check before using the handle.
 			if ( empty( $this->dbh ) || ! ( $this->dbh instanceof mysqli ) ) {
 				return;
 			}
@@ -3516,7 +3516,7 @@ class wpdb {
 			return false;
 		}
 
-		// If any of the columns don't have one of these collations, it needs more sanity checking.
+		// If any of the columns don't have one of these collations, it needs more confidence checking.
 		$safe_collations = array(
 			'utf8_bin',
 			'utf8_general_ci',

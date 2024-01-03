@@ -1300,7 +1300,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		// Find the next model within the collection.
 		nextModel = self.collection.at( self.collection.indexOf( model ) + 1 );
 
-		// Sanity check which also serves as a boundary test.
+		// Confidence check which also serves as a boundary test.
 		if ( nextModel !== undefined ) {
 
 			// We have a new theme...

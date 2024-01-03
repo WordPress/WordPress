@@ -874,7 +874,7 @@ function spawn_cron( $gmt_time = 0 ) {
 		return false;
 	}
 
-	// Sanity check.
+	// Confidence check.
 	$crons = wp_get_ready_cron_jobs();
 	if ( empty( $crons ) ) {
 		return false;

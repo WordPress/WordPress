@@ -472,7 +472,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		}
 
 		$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit( WP_CONTENT_DIR ), $source );
-		if ( ! is_dir( $working_directory ) ) { // Sanity check, if the above fails, let's not prevent installation.
+		if ( ! is_dir( $working_directory ) ) { // Confidence check, if the above fails, let's not prevent installation.
 			return $source;
 		}
 

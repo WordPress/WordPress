@@ -3861,7 +3861,7 @@ function wp_untrash_post_comments( $post = null ) {
 	}
 
 	foreach ( $group_by_status as $status => $comments ) {
-		// Sanity check. This shouldn't happen.
+		// Confidence check. This shouldn't happen.
 		if ( 'post-trashed' === $status ) {
 			$status = '0';
 		}

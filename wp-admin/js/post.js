@@ -1173,7 +1173,7 @@ jQuery( function($) {
 		}
 
 		/**
-		 * When the dragging stopped make sure we return focus and do a sanity check on the height.
+		 * When the dragging stopped make sure we return focus and do a confidence check on the height.
 		 */
 		function endDrag() {
 			var height, toolbarHeight;
@@ -1198,7 +1198,7 @@ jQuery( function($) {
 
 			$document.off( '.wp-editor-resize' );
 
-			// Sanity check: normalize height to stay within acceptable ranges.
+			// Confidence check: normalize height to stay within acceptable ranges.
 			if ( height && height > 50 && height < 5000 ) {
 				setUserSetting( 'ed_size', height );
 			}

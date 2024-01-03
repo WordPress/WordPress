@@ -367,7 +367,7 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 	// Loop blocks.
 	foreach ( $blocks as $block ) {
 
-		// Sanity check.
+		// Confidence check.
 		if ( ! isset( $block['blockName'] ) ) {
 			continue;
 		}

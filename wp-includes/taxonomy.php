@@ -2573,7 +2573,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$tt_id = (int) $wpdb->insert_id;
 
 	/*
-	 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
+	 * Confidence check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
 	 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
 	 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
 	 * are not fired.
