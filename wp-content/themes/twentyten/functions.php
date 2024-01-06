@@ -172,7 +172,7 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 			 */
 			'width'               => apply_filters( 'twentyten_header_image_width', 940 ),
 			/**
-			 * Filters the Twenty Ten defaul header image height.
+			 * Filters the Twenty Ten default header image height.
 			 *
 			 * @since Twenty Ten 1.0
 			 *
