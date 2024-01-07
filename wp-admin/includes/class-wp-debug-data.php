@@ -381,6 +381,14 @@ class WP_Debug_Data {
 
 		// Conditionally add debug information for multisite setups.
 		if ( is_multisite() ) {
+			$site_id = get_current_blog_id();
+
+			$info['wp-core']['fields']['site_id'] = array(
+				'label' => __( 'Site ID' ),
+				'value' => $site_id,
+				'debug' => $site_id,
+			);
+
 			$network_query = new WP_Network_Query();
 			$network_ids   = $network_query->query(
 				array(
