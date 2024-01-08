@@ -100,15 +100,19 @@
  * The following list specifies the HTML tags that _are_ supported:
  *
  *  - Containers: ADDRESS, BLOCKQUOTE, DETAILS, DIALOG, DIV, FOOTER, HEADER, MAIN, MENU, SPAN, SUMMARY.
- *  - Form elements: BUTTON, FIELDSET, SEARCH.
+ *  - Custom elements: All custom elements are supported. :)
+ *  - Form elements: BUTTON, DATALIST, FIELDSET, LABEL, LEGEND, METER, PROGRESS, SEARCH.
  *  - Formatting elements: B, BIG, CODE, EM, FONT, I, SMALL, STRIKE, STRONG, TT, U.
  *  - Heading elements: H1, H2, H3, H4, H5, H6, HGROUP.
  *  - Links: A.
  *  - Lists: DL.
- *  - Media elements: FIGCAPTION, FIGURE, IMG.
+ *  - Media elements: AUDIO, CANVAS, FIGCAPTION, FIGURE, IMG, MAP, PICTURE, VIDEO.
  *  - Paragraph: P.
- *  - Sectioning elements: ARTICLE, ASIDE, NAV, SECTION
- *  - Deprecated elements: CENTER, DIR
+ *  - Phrasing elements: ABBR, BDI, BDO, CITE, DATA, DEL, DFN, INS, MARK, OUTPUT, Q, SAMP, SUB, SUP, TIME, VAR.
+ *  - Sectioning elements: ARTICLE, ASIDE, NAV, SECTION.
+ *  - Templating elements: SLOT.
+ *  - Text decoration: RUBY.
+ *  - Deprecated elements: ACRONYM, BLINK, CENTER, DIR, ISINDEX, MULTICOL, NEXTID, SPACER.
  *
  * ### Supported markup
  *
@@ -830,41 +834,132 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				$this->reconstruct_active_formatting_elements();
 				$this->insert_html_element( $this->state->current_token );
 				return true;
+		}
 
+		/*
+		 * These tags require special handling in the 'in body' insertion mode
+		 * but that handling hasn't yet been implemented.
+		 *
+		 * As the rules for each tag are implemented, the corresponding tag
+		 * name should be removed from this list. An accompanying test should
+		 * help ensure this list is maintained.
+		 *
+		 * @see Tests_HtmlApi_WpHtmlProcessor::test_step_in_body_fails_on_unsupported_tags
+		 *
+		 * Since this switch structure throws a WP_HTML_Unsupported_Exception, it's
+		 * possible to handle "any other start tag" and "any other end tag" below,
+		 * as that guarantees execution doesn't proceed for the unimplemented tags.
+		 *
+		 * @see https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inbody
+		 */
+		switch ( $tag_name ) {
+			case 'APPLET':
+			case 'AREA':
+			case 'BASE':
+			case 'BASEFONT':
+			case 'BGSOUND':
+			case 'BODY':
+			case 'BR':
+			case 'CAPTION':
+			case 'COL':
+			case 'COLGROUP':
+			case 'DD':
+			case 'DT':
+			case 'EMBED':
+			case 'FORM':
+			case 'FRAME':
+			case 'FRAMESET':
+			case 'HEAD':
+			case 'HR':
+			case 'HTML':
+			case 'IFRAME':
+			case 'INPUT':
+			case 'KEYGEN':
+			case 'LI':
+			case 'LINK':
+			case 'LISTING':
+			case 'MARQUEE':
+			case 'MATH':
+			case 'META':
+			case 'NOBR':
+			case 'NOEMBED':
+			case 'NOFRAMES':
+			case 'NOSCRIPT':
+			case 'OBJECT':
+			case 'OL':
+			case 'OPTGROUP':
+			case 'OPTION':
+			case 'PARAM':
+			case 'PLAINTEXT':
+			case 'PRE':
+			case 'RB':
+			case 'RP':
+			case 'RT':
+			case 'RTC':
+			case 'SARCASM':
+			case 'SCRIPT':
+			case 'SELECT':
+			case 'SOURCE':
+			case 'STYLE':
+			case 'SVG':
+			case 'TABLE':
+			case 'TBODY':
+			case 'TD':
+			case 'TEMPLATE':
+			case 'TEXTAREA':
+			case 'TFOOT':
+			case 'TH':
+			case 'THEAD':
+			case 'TITLE':
+			case 'TR':
+			case 'TRACK':
+			case 'UL':
+			case 'WBR':
+			case 'XMP':
+				$this->last_error = self::ERROR_UNSUPPORTED;
+				throw new WP_HTML_Unsupported_Exception( "Cannot process {$tag_name} element." );
+		}
+
+		if ( ! $this->is_tag_closer() ) {
 			/*
 			 * > Any other start tag
 			 */
-			case '+SPAN':
-				$this->reconstruct_active_formatting_elements();
-				$this->insert_html_element( $this->state->current_token );
-				return true;
+			$this->reconstruct_active_formatting_elements();
+			$this->insert_html_element( $this->state->current_token );
+			return true;
+		} else {
+			/*
+			 * > Any other end tag
+			 */
 
 			/*
-			 * Any other end tag
+			 * Find the corresponding tag opener in the stack of open elements, if
+			 * it exists before reaching a special element, which provides a kind
+			 * of boundary in the stack. For example, a `</custom-tag>` should not
+			 * close anything beyond its containing `P` or `DIV` element.
 			 */
-			case '-SPAN':
-				foreach ( $this->state->stack_of_open_elements->walk_up() as $item ) {
-					// > If node is an HTML element with the same tag name as the token, then:
-					if ( $item->node_name === $tag_name ) {
-						$this->generate_implied_end_tags( $tag_name );
-
-						// > If node is not the current node, then this is a parse error.
-
-						$this->state->stack_of_open_elements->pop_until( $tag_name );
-						return true;
-					}
-
-					// > Otherwise, if node is in the special category, then this is a parse error; ignore the token, and return.
-					if ( self::is_special( $item->node_name ) ) {
-						return $this->step();
-					}
+			foreach ( $this->state->stack_of_open_elements->walk_up() as $node ) {
+				if ( $tag_name === $node->node_name ) {
+					break;
 				}
-				// Execution should not reach here; if it does then something went wrong.
-				return false;
 
-			default:
-				$this->last_error = self::ERROR_UNSUPPORTED;
-				throw new WP_HTML_Unsupported_Exception( "Cannot process {$tag_name} element." );
+				if ( self::is_special( $node->node_name ) ) {
+					// This is a parse error, ignore the token.
+					return $this->step();
+				}
+			}
+
+			$this->generate_implied_end_tags( $tag_name );
+			if ( $node !== $this->state->stack_of_open_elements->current_node() ) {
+				// @todo Record parse error: this error doesn't impact parsing.
+			}
+
+			foreach ( $this->state->stack_of_open_elements->walk_up() as $item ) {
+				$this->state->stack_of_open_elements->pop();
+				if ( $node === $item ) {
+					return true;
+				}
+			}
 		}
 	}
 
@@ -1264,7 +1359,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 			// > If formatting element is not in the stack of open elements, then this is a parse error; remove the element from the list, and return.
 			if ( ! $this->state->stack_of_open_elements->contains_node( $formatting_element ) ) {
-				$this->state->active_formatting_elements->remove_node( $formatting_element->bookmark_name );
+				$this->state->active_formatting_elements->remove_node( $formatting_element );
 				return;
 			}
 
