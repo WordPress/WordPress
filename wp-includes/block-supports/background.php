@@ -40,6 +40,7 @@ function wp_register_background_support( $block_type ) {
  * it is also applied to non-server-rendered blocks.
  *
  * @since 6.4.0
+ * @since 6.5.0 Added support for `backgroundPosition` and `backgroundRepeat` output.
  * @access private
  *
  * @param  string $block_content Rendered block content.
@@ -64,9 +65,20 @@ function wp_render_background_support( $block_content, $block ) {
 	$background_image_url    = isset( $block_attributes['style']['background']['backgroundImage']['url'] )
 		? $block_attributes['style']['background']['backgroundImage']['url']
 		: null;
+
+	if ( ! $background_image_source && ! $background_image_url ) {
+		return $block_content;
+	}
+
 	$background_size         = isset( $block_attributes['style']['background']['backgroundSize'] )
 		? $block_attributes['style']['background']['backgroundSize']
 		: 'cover';
+	$background_position     = isset( $block_attributes['style']['background']['backgroundPosition'] )
+		? $block_attributes['style']['background']['backgroundPosition']
+		: null;
+	$background_repeat       = isset( $block_attributes['style']['background']['backgroundRepeat'] )
+		? $block_attributes['style']['background']['backgroundRepeat']
+		: null;
 
 	$background_block_styles = array();
 
@@ -76,8 +88,15 @@ function wp_render_background_support( $block_content, $block ) {
 	) {
 		// Set file based background URL.
 		$background_block_styles['backgroundImage']['url'] = $background_image_url;
-		// Only output the background size when an image url is set.
-		$background_block_styles['backgroundSize'] = $background_size;
+		// Only output the background size and repeat when an image url is set.
+		$background_block_styles['backgroundSize']     = $background_size;
+		$background_block_styles['backgroundRepeat']   = $background_repeat;
+		$background_block_styles['backgroundPosition'] = $background_position;
+
+		// If the background size is set to `contain` and no position is set, set the position to `center`.
+		if ( 'contain' === $background_size && ! isset( $background_position ) ) {
+			$background_block_styles['backgroundPosition'] = 'center';
+		}
 	}
 
 	$styles = wp_style_engine_get_styles( array( 'background' => $background_block_styles ) );
@@ -99,6 +118,7 @@ function wp_render_background_support( $block_content, $block ) {
 
 			$updated_style .= $styles['css'];
 			$tags->set_attribute( 'style', $updated_style );
+			$tags->add_class( 'has-background' );
 		}
 
 		return $tags->get_updated_html();
