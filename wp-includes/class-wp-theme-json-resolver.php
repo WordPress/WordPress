@@ -327,6 +327,11 @@ class WP_Theme_JSON_Resolver {
 				$theme_support_data['settings']['border']['style']  = true;
 				$theme_support_data['settings']['border']['width']  = true;
 			}
+
+			// Allow themes to enable appearance tools via theme_support.
+			if ( current_theme_supports( 'appearance-tools' ) ) {
+				$theme_support_data['settings']['appearanceTools'] = true;
+			}
 		}
 		$with_theme_supports = new WP_Theme_JSON( $theme_support_data );
 		$with_theme_supports->merge( static::$theme );
