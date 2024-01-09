@@ -48,14 +48,11 @@
     opacity:.4;
   }
 }
+:root .block-editor-block-list__layout::selection,:root .has-multi-selection .block-editor-block-list__layout::selection,_::-webkit-full-page-media,_:future{
+  background-color:transparent;
+}
 .block-editor-block-list__layout{
   position:relative;
-}
-.block-editor-block-list__layout::selection{
-  background:transparent;
-}
-.has-multi-selection .block-editor-block-list__layout::selection{
-  background:transparent;
 }
 .block-editor-block-list__layout:where(.block-editor-block-list__block.is-multi-selected:not(.is-partially-selected)){
   border-radius:2px;

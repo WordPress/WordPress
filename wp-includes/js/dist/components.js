@@ -36658,10 +36658,11 @@ const slot_fill_Slot = (0,external_wp_element_namespaceObject.forwardRef)(({
 });
 function Provider({
   children,
+  passthrough = false,
   ...props
 }) {
   const parent = (0,external_wp_element_namespaceObject.useContext)(slot_fill_context);
-  if (!parent.isDefault) {
+  if (!parent.isDefault && passthrough) {
     return children;
   }
   return (0,external_wp_element_namespaceObject.createElement)(provider_SlotFillProvider, {

@@ -8186,6 +8186,7 @@ function getUserPatterns(state) {
     return {
       name: `core/block/${userPattern.id}`,
       id: userPattern.id,
+      type: 'user',
       title: userPattern.title.raw,
       categories: userPattern.wp_pattern_category.map(catId => categories && categories.get(catId) ? categories.get(catId).slug : catId),
       content: userPattern.content.raw,
@@ -23553,7 +23554,9 @@ const ExperimentalBlockEditorProvider = with_registry_provider(props => {
 
   // Syncs the entity provider with changes in the block-editor store.
   useBlockSync(props);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SlotFillProvider, null, (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(BlockRefsProvider, null, children));
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SlotFillProvider, {
+    passthrough: true
+  }, (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(BlockRefsProvider, null, children));
 });
 const BlockEditorProvider = props => {
   return (0,external_wp_element_namespaceObject.createElement)(ExperimentalBlockEditorProvider, {
@@ -27690,14 +27693,14 @@ function BlockPattern({
       }
     }
   }, (0,external_wp_element_namespaceObject.createElement)(WithToolTip, {
-    showTooltip: showTooltip && !pattern.id,
+    showTooltip: showTooltip && !pattern.type === 'user',
     title: pattern.title
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__unstableCompositeItem, {
     role: "option",
     as: "div",
     ...composite,
     className: classnames_default()('block-editor-block-patterns-list__item', {
-      'block-editor-block-patterns-list__list-item-synced': pattern.id && !pattern.syncStatus
+      'block-editor-block-patterns-list__list-item-synced': pattern.type === 'user' && !pattern.syncStatus
     }),
     onClick: () => {
       onClick(pattern, blocks);
@@ -27717,12 +27720,12 @@ function BlockPattern({
     viewportWidth: viewportWidth
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     className: "block-editor-patterns__pattern-details"
-  }, pattern.id && !pattern.syncStatus && (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, pattern.type === 'user' && !pattern.syncStatus && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-patterns__pattern-icon-wrapper"
   }, (0,external_wp_element_namespaceObject.createElement)(build_module_icon, {
     className: "block-editor-patterns__pattern-icon",
     icon: library_symbol
-  })), (!showTooltip || pattern.id) && (0,external_wp_element_namespaceObject.createElement)("div", {
+  })), (!showTooltip || pattern.type === 'user') && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-block-patterns-list__item-title"
   }, pattern.title)), !!pattern.description && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
     id: descriptionId
