@@ -2617,12 +2617,15 @@ function get_theme_starter_content() {
  * @since 5.6.0 The `post-formats` feature warns if no array is passed as the second parameter.
  * @since 5.8.0 The `widgets-block-editor` feature enables the Widgets block editor.
  * @since 6.0.0 The `html5` feature warns if no array is passed as the second parameter.
+ * @since 6.5.0 The `appearance-tools` feature enables a few design tools for blocks,
+ *              see `WP_Theme_JSON::APPEARANCE_TOOLS_OPT_INS` for a complete list.
  *
  * @global array $_wp_theme_features
  *
  * @param string $feature The feature being added. Likely core values include:
  *                          - 'admin-bar'
  *                          - 'align-wide'
+ *                          - 'appearance-tools'
  *                          - 'automatic-feed-links'
  *                          - 'core-block-patterns'
  *                          - 'custom-background'
