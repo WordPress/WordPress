@@ -105,7 +105,7 @@
  *  - Formatting elements: B, BIG, CODE, EM, FONT, I, SMALL, STRIKE, STRONG, TT, U.
  *  - Heading elements: H1, H2, H3, H4, H5, H6, HGROUP.
  *  - Links: A.
- *  - Lists: DL.
+ *  - Lists: DD, DL, DT, LI, OL, LI.
  *  - Media elements: AUDIO, CANVAS, FIGCAPTION, FIGURE, IMG, MAP, PICTURE, VIDEO.
  *  - Paragraph: P.
  *  - Phrasing elements: ABBR, BDI, BDO, CITE, DATA, DEL, DFN, INS, MARK, OUTPUT, Q, SAMP, SUB, SUP, TIME, VAR.
@@ -648,10 +648,12 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '+MAIN':
 			case '+MENU':
 			case '+NAV':
+			case '+OL':
 			case '+P':
 			case '+SEARCH':
 			case '+SECTION':
 			case '+SUMMARY':
+			case '+UL':
 				if ( $this->state->stack_of_open_elements->has_p_in_button_scope() ) {
 					$this->close_a_p_element();
 				}
@@ -685,9 +687,11 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-MAIN':
 			case '-MENU':
 			case '-NAV':
+			case '-OL':
 			case '-SEARCH':
 			case '-SECTION':
 			case '-SUMMARY':
+			case '-UL':
 				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name ) ) {
 					// @todo Report parse error.
 					// Ignore the token.
@@ -753,6 +757,109 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 
 				$this->state->stack_of_open_elements->pop_until( '(internal: H1 through H6 - do not use)' );
+				return true;
+
+			/*
+			 * > A start tag whose tag name is "li"
+			 * > A start tag whose tag name is one of: "dd", "dt"
+			 */
+			case '+DD':
+			case '+DT':
+			case '+LI':
+				$this->state->frameset_ok = false;
+				$node                     = $this->state->stack_of_open_elements->current_node();
+				$is_li                    = 'LI' === $tag_name;
+
+				in_body_list_loop:
+				/*
+				 * The logic for LI and DT/DD is the same except for one point: LI elements _only_
+				 * close other LI elements, but a DT or DD element closes _any_ open DT or DD element.
+				 */
+				if ( $is_li ? 'LI' === $node->node_name : ( 'DD' === $node->node_name || 'DT' === $node->node_name ) ) {
+					$node_name = $is_li ? 'LI' : $node->node_name;
+					$this->generate_implied_end_tags( $node_name );
+					if ( $node_name !== $this->state->stack_of_open_elements->current_node()->node_name ) {
+						// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
+					}
+
+					$this->state->stack_of_open_elements->pop_until( $node_name );
+					goto in_body_list_done;
+				}
+
+				if (
+					'ADDRESS' !== $node->node_name &&
+					'DIV' !== $node->node_name &&
+					'P' !== $node->node_name &&
+					$this->is_special( $node->node_name )
+				) {
+					/*
+					 * > If node is in the special category, but is not an address, div,
+					 * > or p element, then jump to the step labeled done below.
+					 */
+					goto in_body_list_done;
+				} else {
+					/*
+					 * > Otherwise, set node to the previous entry in the stack of open elements
+					 * > and return to the step labeled loop.
+					 */
+					foreach ( $this->state->stack_of_open_elements->walk_up( $node ) as $item ) {
+						$node = $item;
+						break;
+					}
+					goto in_body_list_loop;
+				}
+
+				in_body_list_done:
+				if ( $this->state->stack_of_open_elements->has_p_in_button_scope() ) {
+					$this->close_a_p_element();
+				}
+
+				$this->insert_html_element( $this->state->current_token );
+				return true;
+
+			/*
+			 * > An end tag whose tag name is "li"
+			 * > An end tag whose tag name is one of: "dd", "dt"
+			 */
+			case '-DD':
+			case '-DT':
+			case '-LI':
+				if (
+					/*
+					 * An end tag whose tag name is "li":
+					 * If the stack of open elements does not have an li element in list item scope,
+					 * then this is a parse error; ignore the token.
+					 */
+					(
+						'LI' === $tag_name &&
+						! $this->state->stack_of_open_elements->has_element_in_list_item_scope( 'LI' )
+					) ||
+					/*
+					 * An end tag whose tag name is one of: "dd", "dt":
+					 * If the stack of open elements does not have an element in scope that is an
+					 * HTML element with the same tag name as that of the token, then this is a
+					 * parse error; ignore the token.
+					 */
+					(
+						'LI' !== $tag_name &&
+						! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name )
+					)
+				) {
+					/*
+					 * This is a parse error, ignore the token.
+					 *
+					 * @todo Indicate a parse error once it's possible.
+					 */
+					return $this->step();
+				}
+
+				$this->generate_implied_end_tags( $tag_name );
+
+				if ( $tag_name !== $this->state->stack_of_open_elements->current_node()->node_name ) {
+					// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
+				}
+
+				$this->state->stack_of_open_elements->pop_until( $tag_name );
 				return true;
 
 			/*
@@ -1223,6 +1330,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	private function generate_implied_end_tags( $except_for_this_element = null ) {
 		$elements_with_implied_end_tags = array(
+			'DD',
+			'DT',
+			'LI',
 			'P',
 		);
 
@@ -1248,6 +1358,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	private function generate_implied_end_tags_thoroughly() {
 		$elements_with_implied_end_tags = array(
+			'DD',
+			'DT',
+			'LI',
 			'P',
 		);
 
