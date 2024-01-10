@@ -3866,7 +3866,7 @@
 			var control = this, container, notifications, hasError = false;
 
 			if ( 'undefined' !== typeof console && console.warn ) {
-				console.warn( '[DEPRECATED] wp.customize.Control.prototype.renderNotifications() is deprecated in favor of instantating a wp.customize.Notifications and calling its render() method.' );
+				console.warn( '[DEPRECATED] wp.customize.Control.prototype.renderNotifications() is deprecated in favor of instantiating a wp.customize.Notifications and calling its render() method.' );
 			}
 
 			container = control.getNotificationsContainerElement();
