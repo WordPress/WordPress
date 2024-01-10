@@ -3506,7 +3506,7 @@ function convert_smilies( $text ) {
 		$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // Capture the tags as well as in between.
 		$stop    = count( $textarr ); // Loop stuff.
 
-		// Ignore proessing of specific tags.
+		// Ignore processing of specific tags.
 		$tags_to_ignore       = 'code|pre|style|script|textarea';
 		$ignore_block_element = '';
 

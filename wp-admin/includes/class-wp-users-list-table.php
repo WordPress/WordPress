@@ -163,7 +163,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * with this table.
 	 *
 	 * Provides a list of roles and user count for that role for easy
-	 * Filtersing of the user table.
+	 * filtering of the user table.
 	 *
 	 * @since 3.1.0
 	 *

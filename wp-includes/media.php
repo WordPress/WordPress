@@ -4133,7 +4133,7 @@ function _wp_image_editor_choose( $args = array() ) {
 			! call_user_func( array( $implementation, 'supports_mime_type' ), $args['output_mime_type'] )
 		) {
 			/*
-			 * This implementation supports the imput type but not the output type.
+			 * This implementation supports the input type but not the output type.
 			 * Keep looking to see if we can find an implementation that supports both.
 			 */
 			$supports_input = $implementation;
