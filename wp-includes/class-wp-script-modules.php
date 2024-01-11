@@ -300,9 +300,9 @@ class WP_Script_Modules {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param array $module_ids The identifiers of the modules for which to gather dependencies.
-	 * @param array $import_types       Optional. Import types of dependencies to retrieve: 'static', 'dynamic', or both.
-	 *                                  Default is both.
+	 * @param array $module_ids   The identifiers of the modules for which to gather dependencies.
+	 * @param array $import_types Optional. Import types of dependencies to retrieve: 'static', 'dynamic', or both.
+	 *                            Default is both.
 	 * @return array List of dependencies, keyed by module identifier.
 	 */
 	private function get_dependencies( $module_ids, $import_types = array( 'static', 'dynamic' ) ) {
