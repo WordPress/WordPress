@@ -365,6 +365,8 @@ require ABSPATH . WPINC . '/style-engine/class-wp-style-engine-processor.php';
 require ABSPATH . WPINC . '/fonts/class-wp-font-face-resolver.php';
 require ABSPATH . WPINC . '/fonts/class-wp-font-face.php';
 require ABSPATH . WPINC . '/fonts.php';
+require ABSPATH . WPINC . '/class-wp-script-modules.php';
+require ABSPATH . WPINC . '/script-modules.php';
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 
