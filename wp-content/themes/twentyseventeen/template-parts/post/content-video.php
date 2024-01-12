@@ -46,7 +46,7 @@
 		$video   = false;
 
 		// Only get video from the content if a playlist isn't present.
-	if ( ! str_contains( $content, 'wp-playlist-script' ) ) {
+	if ( false === strpos( $content, 'wp-playlist-script' ) ) {
 		$video = get_media_embedded_in_content( $content, array( 'video', 'object', 'embed', 'iframe' ) );
 	}
 	?>
