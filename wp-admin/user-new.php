@@ -472,7 +472,7 @@ if ( is_multisite() && current_user_can( 'promote_users' ) ) {
 		<th scope="row"><?php _e( 'Skip Confirmation Email' ); ?></th>
 		<td>
 			<input type="checkbox" name="noconfirmation" id="adduser-noconfirmation" value="1" />
-			<label for="adduser-noconfirmation"><?php _e( 'Add the user without sending an email that requires their confirmation.' ); ?></label>
+			<label for="adduser-noconfirmation"><?php _e( 'Add the user without sending an email that requires their confirmation' ); ?></label>
 		</td>
 	</tr>
 	<?php } ?>
@@ -616,7 +616,7 @@ if ( current_user_can( 'create_users' ) ) {
 		<th scope="row"><?php _e( 'Send User Notification' ); ?></th>
 		<td>
 			<input type="checkbox" name="send_user_notification" id="send_user_notification" value="1" <?php checked( $new_user_send_notification ); ?> />
-			<label for="send_user_notification"><?php _e( 'Send the new user an email about their account.' ); ?></label>
+			<label for="send_user_notification"><?php _e( 'Send the new user an email about their account' ); ?></label>
 		</td>
 	</tr>
 	<?php } // End if ! is_multisite(). ?>
@@ -639,7 +639,7 @@ if ( current_user_can( 'create_users' ) ) {
 		<th scope="row"><?php _e( 'Skip Confirmation Email' ); ?></th>
 		<td>
 			<input type="checkbox" name="noconfirmation" id="noconfirmation" value="1" <?php checked( $new_user_ignore_pass ); ?> />
-			<label for="noconfirmation"><?php _e( 'Add the user without sending an email that requires their confirmation.' ); ?></label>
+			<label for="noconfirmation"><?php _e( 'Add the user without sending an email that requires their confirmation' ); ?></label>
 		</td>
 	</tr>
 	<?php } ?>
