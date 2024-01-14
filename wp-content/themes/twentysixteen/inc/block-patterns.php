@@ -54,7 +54,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- /wp:spacer -->
 
             <!-- wp:heading {"level":1,"style":{"typography":{"fontSize":55}}} -->
-            <h1 style="font-size:55px">' . esc_html__( 'Twenty Sixteen' ) . '</h1>
+            <h1 style="font-size:55px">' . esc_html__( 'Twenty Sixteen', 'twentysixteen' ) . '</h1>
             <!-- /wp:heading -->
 
             <!-- wp:spacer {"height":30} -->
