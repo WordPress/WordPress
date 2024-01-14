@@ -131,7 +131,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <h2 class="has-text-align-left has-black-color has-text-color" style="font-size:30px">' . __( 'Strategy', 'twentyseventeen' ) . '</h2>
             <!-- /wp:heading -->
             <!-- wp:paragraph {"align":"left"} -->
-            <p class="has-text-align-left"><a href="#">' . __( 'See Case Study', 'twentysixteen' ) . ' →</a></p>
+            <p class="has-text-align-left"><a href="#">' . __( 'See Case Study', 'twentyseventeen' ) . ' →</a></p>
             <!-- /wp:paragraph --></div></div>
             <!-- /wp:group --></div>
             <!-- /wp:column --></div>
