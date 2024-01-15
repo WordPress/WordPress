@@ -150,6 +150,15 @@ function determine_locale() {
 		( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() )
 	) {
 		$determined_locale = get_user_locale();
+	} elseif (
+		( ! empty( $_REQUEST['language'] ) || isset( $GLOBALS['wp_local_package'] ) )
+		&& wp_installing()
+	) {
+		if ( ! empty( $_REQUEST['language'] ) ) {
+			$determined_locale = sanitize_locale_name( $_REQUEST['language'] );
+		} else {
+			$determined_locale = $GLOBALS['wp_local_package'];
+		}
 	}
 
 	if ( ! $determined_locale ) {
