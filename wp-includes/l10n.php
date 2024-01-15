@@ -1398,15 +1398,21 @@ function translate_user_role( $name, $domain = 'default' ) {
  * @since 3.0.0
  * @since 4.7.0 The results are now filterable with the {@see 'get_available_languages'} filter.
  *
+ * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
+ *
  * @param string $dir A directory to search for language files.
  *                    Default WP_LANG_DIR.
  * @return string[] An array of language codes or an empty array if no languages are present.
  *                  Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
+	global $wp_textdomain_registry;
+
 	$languages = array();
 
-	$lang_files = glob( ( is_null( $dir ) ? WP_LANG_DIR : $dir ) . '/*.mo' );
+	$path       = is_null( $dir ) ? WP_LANG_DIR : $dir;
+	$lang_files = $wp_textdomain_registry->get_language_files_from_path( $path );
+
 	if ( $lang_files ) {
 		foreach ( $lang_files as $lang_file ) {
 			$lang_file = basename( $lang_file, '.mo' );

@@ -51,8 +51,11 @@ class WP_Textdomain_Registry {
 	 * Holds a cached list of available .mo files to improve performance.
 	 *
 	 * @since 6.1.0
+	 * @since 6.5.0 This property is no longer used.
 	 *
 	 * @var array
+	 *
+	 * @deprecated
 	 */
 	protected $cached_mo_files = array();
 
@@ -64,6 +67,18 @@ class WP_Textdomain_Registry {
 	 * @var string[]
 	 */
 	protected $domains_with_translations = array();
+
+	/**
+	 * Initializes the registry.
+	 *
+	 * Hooks into the {@see 'upgrader_process_complete'} filter
+	 * to invalidate MO files caches.
+	 *
+	 * @since 6.5.0
+	 */
+	public function init() {
+		add_action( 'upgrader_process_complete', array( $this, 'invalidate_mo_files_cache' ), 10, 2 );
+	}
 
 	/**
 	 * Returns the languages directory path for a specific domain and locale.
@@ -135,6 +150,106 @@ class WP_Textdomain_Registry {
 	}
 
 	/**
+	 * Retrieves .mo files from the specified path.
+	 *
+	 * Allows early retrieval through the {@see 'pre_get_mo_files_from_path'} filter to optimize
+	 * performance, especially in directories with many files.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $path The directory path to search for .mo files.
+	 * @return array Array of .mo file paths.
+	 */
+	public function get_language_files_from_path( $path ) {
+		$path = trailingslashit( $path );
+
+		/**
+		 * Filters the .mo files retrieved from a specified path before the actual lookup.
+		 *
+		 * Returning a non-null value from the filter will effectively short-circuit
+		 * the MO files lookup, returning that value instead.
+		 *
+		 * This can be useful in situations where the directory contains a large number of files
+		 * and the default glob() function becomes expensive in terms of performance.
+		 *
+		 * @since 6.5.0
+		 *
+		 * @param null|array $mo_files List of .mo files. Default null.
+		 * @param string $path The path from which .mo files are being fetched.
+		 **/
+		$mo_files = apply_filters( 'pre_get_language_files_from_path', null, $path );
+
+		if ( null !== $mo_files ) {
+			return $mo_files;
+		}
+
+		$cache_key = 'cached_mo_files_' . md5( $path );
+		$mo_files  = wp_cache_get( $cache_key, 'translations' );
+
+		if ( false === $mo_files ) {
+			$mo_files = glob( $path . '*.mo' );
+			if ( false === $mo_files ) {
+				$mo_files = array();
+			}
+			wp_cache_set( $cache_key, $mo_files, 'translations' );
+		}
+
+		return $mo_files;
+	}
+
+	/**
+	 * Invalidate the cache for .mo files.
+	 *
+	 * This function deletes the cache entries related to .mo files when triggered
+	 * by specific actions, such as the completion of an upgrade process.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param WP_Upgrader $upgrader   Unused. WP_Upgrader instance. In other contexts this might be a
+	 *                                Theme_Upgrader, Plugin_Upgrader, Core_Upgrade, or Language_Pack_Upgrader instance.
+	 * @param array       $hook_extra {
+	 *     Array of bulk item update data.
+	 *
+	 *     @type string $action       Type of action. Default 'update'.
+	 *     @type string $type         Type of update process. Accepts 'plugin', 'theme', 'translation', or 'core'.
+	 *     @type bool   $bulk         Whether the update process is a bulk update. Default true.
+	 *     @type array  $plugins      Array of the basename paths of the plugins' main files.
+	 *     @type array  $themes       The theme slugs.
+	 *     @type array  $translations {
+	 *         Array of translations update data.
+	 *
+	 *         @type string $language The locale the translation is for.
+	 *         @type string $type     Type of translation. Accepts 'plugin', 'theme', or 'core'.
+	 *         @type string $slug     Text domain the translation is for. The slug of a theme/plugin or
+	 *                                'default' for core translations.
+	 *         @type string $version  The version of a theme, plugin, or core.
+	 *     }
+	 * }
+	 * @return void
+	 */
+	public function invalidate_mo_files_cache( $upgrader, $hook_extra ) {
+		if ( 'translation' !== $hook_extra['type'] || array() === $hook_extra['translations'] ) {
+			return;
+		}
+
+		$translation_types = array_unique( wp_list_pluck( $hook_extra['translations'], 'type' ) );
+
+		foreach ( $translation_types as $type ) {
+			switch ( $type ) {
+				case 'plugin':
+					wp_cache_delete( 'cached_mo_files_' . md5( trailingslashit( WP_LANG_DIR ) . '/plugins/' ), 'translations' );
+					break;
+				case 'theme':
+					wp_cache_delete( 'cached_mo_files_' . md5( trailingslashit( WP_LANG_DIR ) . '/themes/' ), 'translations' );
+					break;
+				default:
+					wp_cache_delete( 'cached_mo_files_' . md5( trailingslashit( WP_LANG_DIR ) ), 'translations' );
+					break;
+			}
+		}
+	}
+
+	/**
 	 * Returns possible language directory paths for a given text domain.
 	 *
 	 * @since 6.2.0
@@ -156,7 +271,7 @@ class WP_Textdomain_Registry {
 	}
 
 	/**
-	 * Gets the path to the language directory for the current locale.
+	 * Gets the path to the language directory for the current domain and locale.
 	 *
 	 * Checks the plugins and themes language directories as well as any
 	 * custom directory set via {@see load_plugin_textdomain()} or {@see load_theme_textdomain()}.
@@ -175,13 +290,11 @@ class WP_Textdomain_Registry {
 		$found_location = false;
 
 		foreach ( $locations as $location ) {
-			if ( ! isset( $this->cached_mo_files[ $location ] ) ) {
-				$this->set_cached_mo_files( $location );
-			}
+			$files = $this->get_language_files_from_path( $location );
 
 			$path = "$location/$domain-$locale.mo";
 
-			foreach ( $this->cached_mo_files[ $location ] as $mo_path ) {
+			foreach ( $files as $mo_path ) {
 				if (
 					! in_array( $domain, $this->domains_with_translations, true ) &&
 					str_starts_with( str_replace( "$location/", '', $mo_path ), "$domain-" )
@@ -214,22 +327,5 @@ class WP_Textdomain_Registry {
 		$this->set( $domain, $locale, false );
 
 		return false;
-	}
-
-	/**
-	 * Reads and caches all available MO files from a given directory.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param string $path Language directory path.
-	 */
-	private function set_cached_mo_files( $path ) {
-		$this->cached_mo_files[ $path ] = array();
-
-		$mo_files = glob( $path . '/*.mo' );
-
-		if ( $mo_files ) {
-			$this->cached_mo_files[ $path ] = $mo_files;
-		}
 	}
 }

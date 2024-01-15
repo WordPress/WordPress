@@ -380,6 +380,7 @@ $GLOBALS['wp_embed'] = new WP_Embed();
  * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
  */
 $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry();
+$GLOBALS['wp_textdomain_registry']->init();
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
