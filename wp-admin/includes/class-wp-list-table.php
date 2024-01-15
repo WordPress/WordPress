@@ -832,7 +832,7 @@ class WP_List_Table {
 		$edit_post_cap = $post_object ? 'edit_post' : 'edit_posts';
 
 		if ( ! current_user_can( $edit_post_cap, $post_id )
-			&& ( ! empty( $post_object->post_password )
+			&& ( post_password_required( $post_id )
 				|| ! current_user_can( 'read_post', $post_id ) )
 		) {
 			// The user has no access to the post and thus cannot see the comments.

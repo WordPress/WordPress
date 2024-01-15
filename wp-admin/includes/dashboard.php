@@ -1088,10 +1088,8 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 		}
 
 		foreach ( $possible as $comment ) {
-			$comment_post = get_post( $comment->comment_post_ID );
-
 			if ( ! current_user_can( 'edit_post', $comment->comment_post_ID )
-				&& ( ! empty( $comment_post->post_password )
+				&& ( post_password_required( $comment->comment_post_ID )
 					|| ! current_user_can( 'read_post', $comment->comment_post_ID ) )
 			) {
 				// The user has no access to the post and thus cannot see the comments.
