@@ -1499,11 +1499,11 @@ All at ###SITENAME###
 	 * Filters the text of the email sent when a change of site admin email address is attempted.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
-	 * ###USERNAME###  The current user's username.
-	 * ###ADMIN_URL### The link to click on to confirm the email change.
-	 * ###EMAIL###     The proposed new site admin email address.
-	 * ###SITENAME###  The name of the site.
-	 * ###SITEURL###   The URL to the site.
+	 *  - ###USERNAME###  The current user's username.
+	 *  - ###ADMIN_URL### The link to click on to confirm the email change.
+	 *  - ###EMAIL###     The proposed new site admin email address.
+	 *  - ###SITENAME###  The name of the site.
+	 *  - ###SITEURL###   The URL to the site.
 	 *
 	 * @since MU (3.0.0)
 	 * @since 4.9.0 This filter is no longer Multisite specific.
