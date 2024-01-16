@@ -46,7 +46,7 @@
 		$audio   = false;
 
 		// Only get audio from the content if a playlist isn't present.
-	if ( ! str_contains( $content, 'wp-playlist-script' ) ) {
+	if ( false === strpos( $content, 'wp-playlist-script' ) ) {
 		$audio = get_media_embedded_in_content( $content, array( 'audio' ) );
 	}
 
