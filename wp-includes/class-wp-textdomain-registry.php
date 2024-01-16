@@ -237,13 +237,13 @@ class WP_Textdomain_Registry {
 		foreach ( $translation_types as $type ) {
 			switch ( $type ) {
 				case 'plugin':
-					wp_cache_delete( 'cached_mo_files_' . md5( WP_LANG_DIR . '/plugins' ), 'translations' );
+					wp_cache_delete( 'cached_mo_files_' . md5( WP_LANG_DIR . '/plugins/' ), 'translations' );
 					break;
 				case 'theme':
-					wp_cache_delete( 'cached_mo_files_' . md5( WP_LANG_DIR . '/themes' ), 'translations' );
+					wp_cache_delete( 'cached_mo_files_' . md5( WP_LANG_DIR . '/themes/' ), 'translations' );
 					break;
 				default:
-					wp_cache_delete( 'cached_mo_files_' . md5( WP_LANG_DIR ), 'translations' );
+					wp_cache_delete( 'cached_mo_files_' . md5( WP_LANG_DIR . '/' ), 'translations' );
 					break;
 			}
 		}
