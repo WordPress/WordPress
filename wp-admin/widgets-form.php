@@ -478,7 +478,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 
 				<?php if ( $is_inactive_widgets ) { ?>
 				<div class="remove-inactive-widgets">
-					<form action="" method="post">
+					<form method="post">
 						<p>
 							<?php
 							$attributes = array( 'id' => 'inactive-widgets-control-remove' );

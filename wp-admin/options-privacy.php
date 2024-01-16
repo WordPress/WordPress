@@ -270,7 +270,7 @@ wp_admin_notice(
 				</label>
 			</th>
 			<td>
-				<form class="wp-create-privacy-page" method="post" action="">
+				<form class="wp-create-privacy-page" method="post">
 					<input type="hidden" name="action" value="create-privacy-page" />
 					<?php
 					wp_nonce_field( 'create-privacy-page' );
@@ -293,7 +293,7 @@ wp_admin_notice(
 				</label>
 			</th>
 			<td>
-				<form method="post" action="">
+				<form method="post">
 					<input type="hidden" name="action" value="set-privacy-page" />
 					<?php
 					wp_dropdown_pages(

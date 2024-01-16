@@ -364,7 +364,7 @@ function login_footer( $input_id = '' ) {
 		if ( ! empty( $languages ) ) {
 			?>
 			<div class="language-switcher">
-				<form id="language-switcher" action="" method="get">
+				<form id="language-switcher" method="get">
 
 					<label for="language-switcher-locales">
 						<span class="dashicons dashicons-translation" aria-hidden="true"></span>
