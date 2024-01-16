@@ -257,7 +257,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 				$errors .= '</ul>';
 			} else {
-				$errors .= '<p>' . $error_message . '</p>';
+				$errors .= '<p>' . $error_list[0] . '</p>';
 			}
 
 			/**
@@ -265,9 +265,10 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 			 *
 			 * @since 2.1.0
 			 *
-			 * @param string $errors Login error message.
+			 * @param string $errors Login error messages.
 			 */
 			$errors = apply_filters( 'login_errors', $errors );
+
 			wp_admin_notice(
 				$errors,
 				array(
@@ -287,6 +288,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 			 * @param string $messages Login messages.
 			 */
 			$messages = apply_filters( 'login_messages', $messages );
+
 			wp_admin_notice(
 				$messages,
 				array(
