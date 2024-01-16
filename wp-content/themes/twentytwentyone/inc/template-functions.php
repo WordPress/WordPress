@@ -445,7 +445,7 @@ function twenty_twenty_one_get_attachment_image_attributes( $attr, $attachment, 
 		return $attr;
 	}
 
-	if ( isset( $attr['class'] ) && str_contains( $attr['class'], 'custom-logo' ) ) {
+	if ( isset( $attr['class'] ) && false !== strpos( $attr['class'], 'custom-logo' ) ) {
 		return $attr;
 	}
 
