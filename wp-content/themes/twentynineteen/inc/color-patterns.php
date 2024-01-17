@@ -72,8 +72,8 @@ function twentynineteen_custom_colors_css() {
 		 * Set background for:
 		 * - featured image :before
 		 * - featured image :before
-		 * - post thumbmail :before
-		 * - post thumbmail :before
+		 * - post thumbnail :before
+		 * - post thumbnail :before
 		 * - Submenu
 		 * - Sticky Post
 		 * - buttons

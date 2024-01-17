@@ -803,7 +803,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	}
 }
 
-/* Seperator */
+/* Separator */
 
 .wp-block-separator {
 	max-width: 100px;
