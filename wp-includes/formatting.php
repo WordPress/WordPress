@@ -4846,8 +4846,8 @@ function wp_make_link_relative( $link ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $option The name of the option.
- * @param string $value  The unsanitized value.
- * @return string Sanitized value.
+ * @param mixed  $value  The unsanitized value.
+ * @return mixed Sanitized value.
  */
 function sanitize_option( $option, $value ) {
 	global $wpdb;
@@ -5119,9 +5119,9 @@ function sanitize_option( $option, $value ) {
 	 * @since 2.3.0
 	 * @since 4.3.0 Added the `$original_value` parameter.
 	 *
-	 * @param string $value          The sanitized option value.
+	 * @param mixed  $value          The sanitized option value.
 	 * @param string $option         The option name.
-	 * @param string $original_value The original value passed to the function.
+	 * @param mixed  $original_value The original value passed to the function.
 	 */
 	return apply_filters( "sanitize_option_{$option}", $value, $option, $original_value );
 }
