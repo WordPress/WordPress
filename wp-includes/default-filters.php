@@ -687,6 +687,7 @@ add_action( 'embed_head', 'wp_print_styles', 20 );
 add_action( 'embed_head', 'wp_robots' );
 add_action( 'embed_head', 'rel_canonical' );
 add_action( 'embed_head', 'locale_stylesheet', 30 );
+add_action( 'enqueue_embed_scripts', 'wp_enqueue_emoji_styles' );
 
 add_action( 'embed_content_meta', 'print_embed_comments_button' );
 add_action( 'embed_content_meta', 'print_embed_sharing_button' );
