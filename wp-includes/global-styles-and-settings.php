@@ -54,7 +54,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 	 * is always fresh from the potential modifications done via hooks
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
-	 * See some of the existing hooks to modify theme.json behaviour:
+	 * See some of the existing hooks to modify theme.json behavior:
 	 * https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain

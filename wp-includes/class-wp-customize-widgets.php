@@ -823,7 +823,7 @@ final class WP_Customize_Widgets {
 		);
 
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
-			unset( $registered_widget['callback'] ); // May not be JSON-serializeable.
+			unset( $registered_widget['callback'] ); // May not be JSON-serializable.
 		}
 
 		$wp_scripts->add_data(
@@ -1308,7 +1308,7 @@ final class WP_Customize_Widgets {
 		);
 
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
-			unset( $registered_widget['callback'] ); // May not be JSON-serializeable.
+			unset( $registered_widget['callback'] ); // May not be JSON-serializable.
 		}
 		wp_print_inline_script_tag(
 			sprintf( 'var _wpWidgetCustomizerPreviewSettings = %s;', wp_json_encode( $settings ) )
