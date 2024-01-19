@@ -128,7 +128,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param WP_REST_REQUEST $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error The parsed details as a response object. WP_Error if there are errors.
 	 */
 	public function parse_url_details( $request ) {

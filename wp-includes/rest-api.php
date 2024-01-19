@@ -209,7 +209,7 @@ function rest_api_register_rewrites() {
  * @since 4.4.0
  */
 function rest_api_default_filters() {
-	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+	if ( wp_is_serving_rest_request() ) {
 		// Deprecated reporting.
 		add_action( 'deprecated_function_run', 'rest_handle_deprecated_function', 10, 3 );
 		add_filter( 'deprecated_function_trigger_error', '__return_false' );
@@ -3388,4 +3388,39 @@ function rest_convert_error_to_response( $error ) {
 	}
 
 	return new WP_REST_Response( $data, $status );
+}
+
+/**
+ * Checks whether a REST API endpoint request is currently being handled.
+ *
+ * This may be a standalone REST API request, or an internal request dispatched from within a regular page load.
+ *
+ * @since 6.5.0
+ *
+ * @global WP_REST_Server $wp_rest_server REST server instance.
+ *
+ * @return bool True if a REST endpoint request is currently being handled, false otherwise.
+ */
+function wp_is_rest_endpoint() {
+	/* @var WP_REST_Server $wp_rest_server */
+	global $wp_rest_server;
+
+	// Check whether this is a standalone REST request.
+	$is_rest_endpoint = wp_is_serving_rest_request();
+	if ( ! $is_rest_endpoint ) {
+		// Otherwise, check whether an internal REST request is currently being handled.
+		$is_rest_endpoint = isset( $wp_rest_server )
+			&& $wp_rest_server->is_dispatching();
+	}
+
+	/**
+	 * Filters whether a REST endpoint request is currently being handled.
+	 *
+	 * This may be a standalone REST API request, or an internal request dispatched from within a regular page load.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param bool $is_request_endpoint Whether a REST endpoint request is currently being handled.
+	 */
+	return (bool) apply_filters( 'wp_is_rest_endpoint', $is_rest_endpoint );
 }

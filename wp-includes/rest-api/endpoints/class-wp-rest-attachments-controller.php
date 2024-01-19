@@ -201,7 +201,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		wp_after_insert_post( $attachment, false, null );
 
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		if ( wp_is_serving_rest_request() ) {
 			/*
 			 * Set a custom header with the attachment_id.
 			 * Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.
@@ -630,7 +630,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			update_post_meta( $new_attachment_id, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
 		}
 
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		if ( wp_is_serving_rest_request() ) {
 			/*
 			 * Set a custom header with the attachment_id.
 			 * Used by the browser/client to resume creating image sub-sizes after a PHP fatal error.

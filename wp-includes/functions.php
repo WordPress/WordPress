@@ -3718,7 +3718,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 * @param callable $callback Callback function name.
 		 */
 		$callback = apply_filters( 'wp_die_json_handler', '_json_wp_die_handler' );
-	} elseif ( defined( 'REST_REQUEST' ) && REST_REQUEST && wp_is_jsonp_request() ) {
+	} elseif ( wp_is_serving_rest_request() && wp_is_jsonp_request() ) {
 		/**
 		 * Filters the callback for killing WordPress execution for JSONP REST requests.
 		 *
@@ -4441,7 +4441,7 @@ function _wp_json_prepare_data( $value ) {
  * @param int   $flags       Optional. Options to be passed to json_encode(). Default 0.
  */
 function wp_send_json( $response, $status_code = null, $flags = 0 ) {
-	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+	if ( wp_is_serving_rest_request() ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
@@ -4697,6 +4697,23 @@ function _mce_set_direction( $mce_init ) {
 	return $mce_init;
 }
 
+/**
+ * Determines whether WordPress is currently serving a REST API request.
+ *
+ * The function relies on the 'REST_REQUEST' global. As such, it only returns true when an actual REST _request_ is
+ * being made. It does not return true when a REST endpoint is hit as part of another request, e.g. for preloading a
+ * REST response. See {@see wp_is_rest_endpoint()} for that purpose.
+ *
+ * This function should not be called until the {@see 'parse_request'} action, as the constant is only defined then,
+ * even for an actual REST request.
+ *
+ * @since 6.5.0
+ *
+ * @return bool True if it's a WordPress REST API request, false otherwise.
+ */
+function wp_is_serving_rest_request() {
+	return defined( 'REST_REQUEST' ) && REST_REQUEST;
+}
 
 /**
  * Converts smiley code to the icon graphic file equivalent.

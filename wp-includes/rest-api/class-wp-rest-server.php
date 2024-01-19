@@ -88,6 +88,14 @@ class WP_REST_Server {
 	protected $embed_cache = array();
 
 	/**
+	 * Stores request objects that are currently being handled.
+	 *
+	 * @since 6.5.0
+	 * @var array
+	 */
+	protected $dispatching_requests = array();
+
+	/**
 	 * Instantiates the REST server.
 	 *
 	 * @since 4.4.0
@@ -983,6 +991,8 @@ class WP_REST_Server {
 	 * @return WP_REST_Response Response returned by the callback.
 	 */
 	public function dispatch( $request ) {
+		$this->dispatching_requests[] = $request;
+
 		/**
 		 * Filters the pre-calculated result of a REST API dispatch request.
 		 *
@@ -1008,6 +1018,7 @@ class WP_REST_Server {
 				$result = $this->error_to_response( $result );
 			}
 
+			array_pop( $this->dispatching_requests );
 			return $result;
 		}
 
@@ -1015,7 +1026,9 @@ class WP_REST_Server {
 		$matched = $this->match_request_to_handler( $request );
 
 		if ( is_wp_error( $matched ) ) {
-			return $this->error_to_response( $matched );
+			$response = $this->error_to_response( $matched );
+			array_pop( $this->dispatching_requests );
+			return $response;
 		}
 
 		list( $route, $handler ) = $matched;
@@ -1040,7 +1053,22 @@ class WP_REST_Server {
 			}
 		}
 
-		return $this->respond_to_request( $request, $route, $handler, $error );
+		$response = $this->respond_to_request( $request, $route, $handler, $error );
+		array_pop( $this->dispatching_requests );
+		return $response;
+	}
+
+	/**
+	 * Returns whether the REST server is currently dispatching / responding to a request.
+	 *
+	 * This may be a standalone REST API request, or an internal request dispatched from within a regular page load.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @return bool Whether the REST server is currently handling a request.
+	 */
+	public function is_dispatching() {
+		return (bool) $this->dispatching_requests;
 	}
 
 	/**

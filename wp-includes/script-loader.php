@@ -2586,7 +2586,7 @@ function wp_should_load_block_editor_scripts_and_styles() {
  * @return bool Whether separate assets will be loaded.
  */
 function wp_should_load_separate_core_block_assets() {
-	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+	if ( is_admin() || is_feed() || wp_is_rest_endpoint() ) {
 		return false;
 	}
 

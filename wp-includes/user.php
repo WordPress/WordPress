@@ -333,6 +333,7 @@ function wp_authenticate_application_password( $input_user, $username, $password
 		return $input_user;
 	}
 
+	// The 'REST_REQUEST' check here may happen too early for the constant to be available.
 	$is_api_request = ( ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
 
 	/**
