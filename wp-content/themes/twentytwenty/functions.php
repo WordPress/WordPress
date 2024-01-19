@@ -182,6 +182,7 @@ require get_template_directory() . '/inc/block-patterns.php';
  * Register and Enqueue Styles.
  *
  * @since Twenty Twenty 1.0
+ * @since Twenty Twenty 2.6 Enqueue the CSS file for the variable font.
  */
 function twentytwenty_register_styles() {
 
@@ -189,6 +190,9 @@ function twentytwenty_register_styles() {
 
 	wp_enqueue_style( 'twentytwenty-style', get_stylesheet_uri(), array(), $theme_version );
 	wp_style_add_data( 'twentytwenty-style', 'rtl', 'replace' );
+
+	// Enqueue the CSS file for the variable font, Inter.
+	wp_enqueue_style( 'twentytwenty-fonts', get_theme_file_uri( '/assets/css/font-inter.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
 
 	// Add output of Customizer settings as inline style.
 	$customizer_css = twentytwenty_get_customizer_css( 'front-end' );
@@ -417,6 +421,7 @@ add_action( 'widgets_init', 'twentytwenty_sidebar_registration' );
  *
  * @since Twenty Twenty 1.0
  * @since Twenty Twenty 2.4 Removed a script related to the obsolete Squared style of Button blocks.
+ * @since Twenty Twenty 2.6 Enqueue the CSS file for the variable font.
  */
 function twentytwenty_block_editor_styles() {
 
@@ -429,6 +434,9 @@ function twentytwenty_block_editor_styles() {
 	if ( $customizer_css ) {
 		wp_add_inline_style( 'twentytwenty-block-editor-styles', $customizer_css );
 	}
+
+	// Enqueue the CSS file for the variable font, Inter.
+	wp_enqueue_style( 'twentytwenty-fonts', get_theme_file_uri( '/assets/css/font-inter.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
 
 	// Add inline style for non-latin fonts.
 	$custom_css = TwentyTwenty_Non_Latin_Languages::get_non_latin_css( 'block-editor' );
@@ -447,11 +455,13 @@ if ( is_admin() && version_compare( $GLOBALS['wp_version'], '6.3', '>=' ) ) {
  * Enqueue classic editor styles.
  *
  * @since Twenty Twenty 1.0
+ * @since Twenty Twenty 2.6 Enqueue the CSS file for the variable font.
  */
 function twentytwenty_classic_editor_styles() {
 
 	$classic_editor_styles = array(
 		'/assets/css/editor-style-classic.css',
+		'/assets/css/font-inter.css'
 	);
 
 	add_editor_style( $classic_editor_styles );
