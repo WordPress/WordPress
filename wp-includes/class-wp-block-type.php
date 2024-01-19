@@ -113,9 +113,18 @@ class WP_Block_Type {
 	 * Block variations.
 	 *
 	 * @since 5.8.0
-	 * @var array[]
+	 * @since 6.5.0 Only accessible through magic getter. null by default.
+	 * @var array[]|null
 	 */
-	public $variations = array();
+	private $variations = null;
+
+	/**
+	 * Block variations callback.
+	 *
+	 * @since 6.5.0
+	 * @var callable|null
+	 */
+	public $variation_callback = null;
 
 	/**
 	 * Custom CSS selectors for theme.json style generation.
@@ -296,6 +305,7 @@ class WP_Block_Type {
 	 *     @type array|null    $supports                 Supported features.
 	 *     @type array|null    $example                  Structured data for the block preview.
 	 *     @type callable|null $render_callback          Block type render callback.
+	 *     @type callable|null $variation_callback       Block type variations callback.
 	 *     @type array|null    $attributes               Block type attributes property schemas.
 	 *     @type string[]      $uses_context             Context values inherited by blocks of this type.
 	 *     @type string[]|null $provides_context         Context provided by blocks of this type.
@@ -325,6 +335,10 @@ class WP_Block_Type {
 	 *                                   null when value not found, or void when unknown property name provided.
 	 */
 	public function __get( $name ) {
+		if ( 'variations' === $name ) {
+			return $this->get_variations();
+		}
+
 		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			return;
 		}
@@ -353,6 +367,10 @@ class WP_Block_Type {
 	 *              or false otherwise.
 	 */
 	public function __isset( $name ) {
+		if ( 'variations' === $name ) {
+			return true;
+		}
+
 		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			return false;
 		}
@@ -372,6 +390,11 @@ class WP_Block_Type {
 	 * @param mixed  $value Property value.
 	 */
 	public function __set( $name, $value ) {
+		if ( 'variations' === $name ) {
+			$this->variations = $value;
+			return;
+		}
+
 		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			$this->{$name} = $value;
 			return;
@@ -539,5 +562,31 @@ class WP_Block_Type {
 		return is_array( $this->attributes ) ?
 			$this->attributes :
 			array();
+	}
+
+	/**
+	 * Get block variations.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @return array[]
+	 */
+	public function get_variations() {
+		if ( ! isset( $this->variations ) ) {
+			$this->variations = array();
+			if ( is_callable( $this->variation_callback ) ) {
+				$this->variations = call_user_func( $this->variation_callback );
+			}
+		}
+
+		/**
+		 * Filters the registered variations for a block type.
+		 *
+		 * @since 6.5.0
+		 *
+		 * @param array         $variations Array of registered variations for a block type.
+		 * @param WP_Block_Type $block_type The full block type object.
+		 */
+		return apply_filters( 'get_block_type_variations', $this->variations, $this );
 	}
 }
