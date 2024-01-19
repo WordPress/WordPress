@@ -461,7 +461,7 @@ function twentytwenty_classic_editor_styles() {
 
 	$classic_editor_styles = array(
 		'/assets/css/editor-style-classic.css',
-		'/assets/css/font-inter.css'
+		'/assets/css/font-inter.css',
 	);
 
 	add_editor_style( $classic_editor_styles );
