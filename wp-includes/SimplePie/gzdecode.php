@@ -250,7 +250,7 @@ class SimplePie_gzdecode
 				}
 
 				// Get the length of the extra field
-				$len = current(unpack('v', substr($this->compressed_data, $this->position, 2)));
+				$len = current(unpack('v', $this->compressed_data, $this->position));
 				$this->position += 2;
 
 				// Check the length of the string is still valid
@@ -315,7 +315,7 @@ class SimplePie_gzdecode
 				if ($this->compressed_size >= $this->min_compressed_size)
 				{
 					// Read the CRC
-					$crc = current(unpack('v', substr($this->compressed_data, $this->position, 2)));
+					$crc = current(unpack('v', $this->compressed_data, $this->position));
 
 					// Check the CRC matches
 					if ((crc32(substr($this->compressed_data, 0, $this->position)) & 0xFFFF) === $crc)
@@ -342,7 +342,7 @@ class SimplePie_gzdecode
 			$this->position = $this->compressed_size - 8;
 
 			// Check CRC of data
-			$crc = current(unpack('V', substr($this->compressed_data, $this->position, 4)));
+			$crc = current(unpack('V', $this->compressed_data, $this->position));
 			$this->position += 4;
 			/*if (extension_loaded('hash') && sprintf('%u', current(unpack('V', hash('crc32b', $this->data)))) !== sprintf('%u', $crc))
 			{
@@ -350,7 +350,7 @@ class SimplePie_gzdecode
 			}*/
 
 			// Check ISIZE of data
-			$isize = current(unpack('V', substr($this->compressed_data, $this->position, 4)));
+			$isize = current(unpack('V', $this->compressed_data, $this->position));
 			$this->position += 4;
 			if (sprintf('%u', strlen($this->data) & 0xFFFFFFFF) !== sprintf('%u', $isize))
 			{

@@ -1001,7 +1001,7 @@ class Requests {
 			$flg = ord(substr($gz_data, 3, 1));
 			if ($flg > 0) {
 				if ($flg & 4) {
-					list($xlen) = unpack('v', substr($gz_data, $i, 2));
+					list($xlen) = unpack('v', $gz_data, $i);
 					$i         += 2 + $xlen;
 				}
 
@@ -1058,7 +1058,7 @@ class Requests {
 			// Offset 28: 2 bytes, optional field length
 			// Offset 30: Filename field, followed by optional field, followed
 			// immediately by data
-			list(, $general_purpose_flag) = unpack('v', substr($gz_data, 6, 2));
+			list(, $general_purpose_flag) = unpack('v', $gz_data, 6);
 
 			// If the file has been compressed on the fly, 0x08 bit is set of
 			// the general purpose field. We can use this to differentiate
@@ -1072,7 +1072,7 @@ class Requests {
 
 			// Determine the first byte of data, based on the above ZIP header
 			// offsets:
-			$first_file_start = array_sum(unpack('v2', substr($gz_data, 26, 4)));
+			$first_file_start = array_sum(unpack('v2', $gz_data, 26));
 			$decompressed     = @gzinflate(substr($gz_data, 30 + $first_file_start));
 			if ($decompressed !== false) {
 				return $decompressed;

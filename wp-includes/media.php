@@ -5587,14 +5587,14 @@ function wp_get_webp_info( $filename ) {
 	switch ( substr( $magic, 12, 4 ) ) {
 		// Lossy WebP.
 		case 'VP8 ':
-			$parts  = unpack( 'v2', substr( $magic, 26, 4 ) );
+			$parts  = unpack( 'v2', $magic, 26 );
 			$width  = (int) ( $parts[1] & 0x3FFF );
 			$height = (int) ( $parts[2] & 0x3FFF );
 			$type   = 'lossy';
 			break;
 		// Lossless WebP.
 		case 'VP8L':
-			$parts  = unpack( 'C4', substr( $magic, 21, 4 ) );
+			$parts  = unpack( 'C4', $magic, 21 );
 			$width  = (int) ( $parts[1] | ( ( $parts[2] & 0x3F ) << 8 ) ) + 1;
 			$height = (int) ( ( ( $parts[2] & 0xC0 ) >> 6 ) | ( $parts[3] << 2 ) | ( ( $parts[4] & 0x03 ) << 10 ) ) + 1;
 			$type   = 'lossless';

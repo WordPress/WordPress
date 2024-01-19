@@ -1755,7 +1755,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 
 				case 'uuid': // user-defined atom often seen containing XML data, also used for potentially many other purposes, only a few specifically handled by getID3 (e.g. 360fly spatial data)
 					//Get the UUID ID in first 16 bytes
-					$uuid_bytes_read = unpack('H8time_low/H4time_mid/H4time_hi/H4clock_seq_hi/H12clock_seq_low', substr($atom_data, 0, 16));
+					$uuid_bytes_read = unpack('H8time_low/H4time_mid/H4time_hi/H4clock_seq_hi/H12clock_seq_low', $atom_data, 0);
 					$atom_structure['uuid_field_id'] = implode('-', $uuid_bytes_read);
 
 					switch ($atom_structure['uuid_field_id']) {   // http://fileformats.archiveteam.org/wiki/Boxes/atoms_format#UUID_boxes
@@ -1781,7 +1781,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 							$atom_structure['title'] = '360Fly Sensor Data';
 
 							//Get the UUID HEADER data
-							$uuid_bytes_read = unpack('vheader_size/vheader_version/vtimescale/vhardware_version/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/', substr($atom_data, 16, 32));
+							$uuid_bytes_read = unpack('vheader_size/vheader_version/vtimescale/vhardware_version/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/', $atom_data, 16);
 							$atom_structure['uuid_header'] = $uuid_bytes_read;
 
 							$start_byte = 48;
@@ -1905,7 +1905,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 						if ((strlen($atom_data) % $GPS_rowsize) == 0) {
 							$atom_structure['gps_toc'] = array();
 							foreach (str_split($atom_data, $GPS_rowsize) as $counter => $datapair) {
-								$atom_structure['gps_toc'][] = unpack('Noffset/Nsize', substr($atom_data, $counter * $GPS_rowsize, $GPS_rowsize));
+								$atom_structure['gps_toc'][] = unpack('Noffset/Nsize', $atom_data, $counter * $GPS_rowsize);
 							}
 
 							$atom_structure['gps_entries'] = array();
