@@ -1002,7 +1002,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 */
 		switch ( $tag_name ) {
 			case 'APPLET':
-			case 'AREA':
 			case 'BASE':
 			case 'BASEFONT':
 			case 'BGSOUND':
@@ -1010,8 +1009,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'CAPTION':
 			case 'COL':
 			case 'COLGROUP':
-			case 'DD':
-			case 'DT':
 			case 'FORM':
 			case 'FRAME':
 			case 'FRAMESET':
@@ -1019,7 +1016,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'HTML':
 			case 'IFRAME':
 			case 'INPUT':
-			case 'LI':
 			case 'LINK':
 			case 'MARQUEE':
 			case 'MATH':
@@ -1029,7 +1025,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'NOFRAMES':
 			case 'NOSCRIPT':
 			case 'OBJECT':
-			case 'OL':
 			case 'OPTGROUP':
 			case 'OPTION':
 			case 'PARAM':
@@ -1055,7 +1050,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'TITLE':
 			case 'TR':
 			case 'TRACK':
-			case 'UL':
 			case 'XMP':
 				$this->last_error = self::ERROR_UNSUPPORTED;
 				throw new WP_HTML_Unsupported_Exception( "Cannot process {$tag_name} element." );
@@ -1709,15 +1703,19 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		return (
 			'AREA' === $tag_name ||
 			'BASE' === $tag_name ||
+			'BASEFONT' === $tag_name || // Obsolete but still treated as void.
+			'BGSOUND' === $tag_name || // Obsolete but still treated as void.
 			'BR' === $tag_name ||
 			'COL' === $tag_name ||
 			'EMBED' === $tag_name ||
+			'FRAME' === $tag_name ||
 			'HR' === $tag_name ||
 			'IMG' === $tag_name ||
 			'INPUT' === $tag_name ||
 			'LINK' === $tag_name ||
 			'KEYGEN' === $tag_name || // Obsolete but still treated as void.
 			'META' === $tag_name ||
+			'PARAM' === $tag_name || // Obsolete but still treated as void.
 			'SOURCE' === $tag_name ||
 			'TRACK' === $tag_name ||
 			'WBR' === $tag_name
