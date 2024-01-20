@@ -53,8 +53,9 @@ require_once ABSPATH . WPINC . '/plugin.php';
  * If not already configured, `$blog_id` will default to 1 in a single site
  * configuration. In multisite, it will be overridden by default in ms-settings.php.
  *
- * @global int $blog_id
  * @since 2.0.0
+ *
+ * @global int $blog_id
  */
 global $blog_id;
 
@@ -116,8 +117,9 @@ require ABSPATH . WPINC . '/class-wp-error.php';
 require ABSPATH . WPINC . '/pomo/mo.php';
 
 /**
- * @global wpdb $wpdb WordPress database abstraction object.
  * @since 0.71
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 global $wpdb;
 // Include the wpdb class and, if present, a db.php database drop-in.
@@ -524,8 +526,9 @@ do_action( 'sanitize_comment_cookies' );
 /**
  * WordPress Query object
  *
- * @global WP_Query $wp_the_query WordPress Query object.
  * @since 2.0.0
+ *
+ * @global WP_Query $wp_the_query WordPress Query object.
  */
 $GLOBALS['wp_the_query'] = new WP_Query();
 
@@ -533,40 +536,45 @@ $GLOBALS['wp_the_query'] = new WP_Query();
  * Holds the reference to {@see $wp_the_query}.
  * Use this global for WordPress queries
  *
- * @global WP_Query $wp_query WordPress Query object.
  * @since 1.5.0
+ *
+ * @global WP_Query $wp_query WordPress Query object.
  */
 $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 
 /**
  * Holds the WordPress Rewrite object for creating pretty URLs
  *
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  * @since 1.5.0
+ *
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
 $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
 /**
  * WordPress Object
  *
- * @global WP $wp Current WordPress environment instance.
  * @since 2.0.0
+ *
+ * @global WP $wp Current WordPress environment instance.
  */
 $GLOBALS['wp'] = new WP();
 
 /**
  * WordPress Widget Factory Object
  *
- * @global WP_Widget_Factory $wp_widget_factory
  * @since 2.8.0
+ *
+ * @global WP_Widget_Factory $wp_widget_factory
  */
 $GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
 
 /**
  * WordPress User Roles
  *
- * @global WP_Roles $wp_roles WordPress role management object.
  * @since 2.0.0
+ *
+ * @global WP_Roles $wp_roles WordPress role management object.
  */
 $GLOBALS['wp_roles'] = new WP_Roles();
 
@@ -593,8 +601,9 @@ unset( $locale_file );
 /**
  * WordPress Locale object for loading locale domain date and various strings.
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
  * @since 2.1.0
+ *
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
  */
 $GLOBALS['wp_locale'] = new WP_Locale();
 
