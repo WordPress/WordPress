@@ -2144,6 +2144,11 @@ div.action-links,
 		padding: 10px 9px; /* reset from other list tables that have a label at this width */
 	}
 
+	#wpbody-content .wp-list-table.plugins .plugin-deleted-tr td,
+	#wpbody-content .wp-list-table.plugins .no-items td {
+		display: table-cell;
+	}
+
 	/* Plugin description hidden via Screen Options */
 	#wpbody-content .wp-list-table.plugins .desc.hidden {
 		display: none;
