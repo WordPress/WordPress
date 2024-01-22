@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Twenty Theme: Block Patterns
+ * Twenty Seventeen Theme: Block Patterns
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen

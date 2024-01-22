@@ -32,7 +32,7 @@ get_header();
 							/**
 							 * Filters the default twentynineteen image attachment size.
 							 *
-							 * @since Twenty Sixteen 1.0
+							 * @since Twenty Nineteen 1.0
 							 *
 							 * @param string $image_size Image size. Default 'large'.
 							 */
