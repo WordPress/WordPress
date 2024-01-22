@@ -3079,26 +3079,25 @@ final class WP_Customize_Manager {
 			return false;
 		}
 
-		$previous_status = $post->post_status;
-
 		/** This filter is documented in wp-includes/post.php */
-		$check = apply_filters( 'pre_trash_post', null, $post, $previous_status );
+		$check = apply_filters( 'pre_trash_post', null, $post );
 		if ( null !== $check ) {
 			return $check;
 		}
 
 		/** This action is documented in wp-includes/post.php */
-		do_action( 'wp_trash_post', $post_id, $previous_status );
+		do_action( 'wp_trash_post', $post_id );
 
-		add_post_meta( $post_id, '_wp_trash_meta_status', $previous_status );
+		add_post_meta( $post_id, '_wp_trash_meta_status', $post->post_status );
 		add_post_meta( $post_id, '_wp_trash_meta_time', time() );
 
+		$old_status = $post->post_status;
 		$new_status = 'trash';
 		$wpdb->update( $wpdb->posts, array( 'post_status' => $new_status ), array( 'ID' => $post->ID ) );
 		clean_post_cache( $post->ID );
 
 		$post->post_status = $new_status;
-		wp_transition_post_status( $new_status, $previous_status, $post );
+		wp_transition_post_status( $new_status, $old_status, $post );
 
 		/** This action is documented in wp-includes/post.php */
 		do_action( "edit_post_{$post->post_type}", $post->ID, $post );
@@ -3120,7 +3119,7 @@ final class WP_Customize_Manager {
 		wp_trash_post_comments( $post_id );
 
 		/** This action is documented in wp-includes/post.php */
-		do_action( 'trashed_post', $post_id, $previous_status );
+		do_action( 'trashed_post', $post_id );
 
 		return $post;
 	}

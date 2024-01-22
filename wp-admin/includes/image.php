@@ -863,51 +863,22 @@ function wp_read_image_metadata( $file ) {
 			$exif = array();
 		}
 
-		$exif_description = '';
-		$exif_usercomment = '';
 		if ( ! empty( $exif['ImageDescription'] ) ) {
-			$exif_description = trim( $exif['ImageDescription'] );
-		}
-
-		if ( ! empty( $exif['COMPUTED']['UserComment'] ) ) {
-			$exif_usercomment = trim( $exif['COMPUTED']['UserComment'] );
-		}
-
-		if ( $exif_description ) {
 			mbstring_binary_safe_encoding();
-			$description_length = strlen( $exif_description );
+			$description_length = strlen( $exif['ImageDescription'] );
 			reset_mbstring_encoding();
+
 			if ( empty( $meta['title'] ) && $description_length < 80 ) {
 				// Assume the title is stored in ImageDescription.
-				$meta['title'] = $exif_description;
+				$meta['title'] = trim( $exif['ImageDescription'] );
 			}
 
-			// If both user comments and description are present.
-			if ( empty( $meta['caption'] ) && $exif_description && $exif_usercomment ) {
-				if ( ! empty( $meta['title'] ) && $exif_description === $meta['title'] ) {
-					$caption = $exif_usercomment;
-				} else {
-					if ( $exif_description === $exif_usercomment ) {
-						$caption = $exif_description;
-					} else {
-						$caption = trim( $exif_description . ' ' . $exif_usercomment );
-					}
-				}
-				$meta['caption'] = $caption;
-			}
-
-			if ( empty( $meta['caption'] ) && $exif_usercomment ) {
-				$meta['caption'] = $exif_usercomment;
+			if ( empty( $meta['caption'] ) && ! empty( $exif['COMPUTED']['UserComment'] ) ) {
+				$meta['caption'] = trim( $exif['COMPUTED']['UserComment'] );
 			}
 
 			if ( empty( $meta['caption'] ) ) {
-				$meta['caption'] = $exif_description;
-			}
-		} elseif ( empty( $meta['caption'] ) && $exif_usercomment ) {
-			$meta['caption']    = $exif_usercomment;
-			$description_length = strlen( $exif_usercomment );
-			if ( empty( $meta['title'] ) && $description_length < 80 ) {
-				$meta['title'] = trim( $exif_usercomment );
+				$meta['caption'] = trim( $exif['ImageDescription'] );
 			}
 		} elseif ( empty( $meta['caption'] ) && ! empty( $exif['Comments'] ) ) {
 			$meta['caption'] = trim( $exif['Comments'] );

@@ -1370,8 +1370,6 @@ function retrieve_widgets( $theme_changed = false ) {
  * @since 4.9.0
  * @since 4.9.2 Always tries to restore widget assignments from previous data, not just if sidebars needed mapping.
  *
- * @global array $wp_registered_sidebars The registered sidebars.
- *
  * @param array $existing_sidebars_widgets List of sidebars and their widget instance IDs.
  * @return array Mapped sidebars widgets.
  */
@@ -1545,8 +1543,6 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
  * Compares a list of sidebars with their widgets against an allowed list.
  *
  * @since 4.9.0
- *
- * @global array $wp_registered_widgets
  *
  * @param array $sidebars_widgets   List of sidebars and their widget instance IDs.
  * @param array $allowed_widget_ids Optional. List of widget IDs to compare against. Default: Registered widgets.
@@ -1972,9 +1968,6 @@ function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
  *
  * @since 5.8.0
  *
- * @global array $wp_registered_widgets
- * @global array $wp_registered_sidebars
- *
  * @param string $widget_id Widget ID.
  * @param string $sidebar_id Sidebar ID.
  * @return string
@@ -2040,8 +2033,6 @@ function wp_render_widget( $widget_id, $sidebar_id ) {
  * Calls the control callback of a widget and returns the output.
  *
  * @since 5.8.0
- *
- * @global array $wp_registered_widget_controls
  *
  * @param string $id Widget ID.
  * @return string|null

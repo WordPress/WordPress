@@ -344,8 +344,6 @@ class WP_Theme_JSON {
 	 * @since 6.3.0 Added support for `typography.textColumns`, removed `layout.definitions`.
 	 * @since 6.4.0 Added support for `layout.allowEditing`, `background.backgroundImage`,
 	 *              `typography.writingMode`, `lightbox.enabled` and `lightbox.allowEditing`.
-	 * @since 6.5.0 Added support for `layout.allowCustomContentAndWideSize` and
-	 *              `background.backgroundSize`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -353,7 +351,6 @@ class WP_Theme_JSON {
 		'useRootPaddingAwareAlignments' => null,
 		'background'                    => array(
 			'backgroundImage' => null,
-			'backgroundSize'  => null,
 		),
 		'border'                        => array(
 			'color'  => null,
@@ -383,10 +380,9 @@ class WP_Theme_JSON {
 			'minHeight' => null,
 		),
 		'layout'                        => array(
-			'contentSize'                   => null,
-			'wideSize'                      => null,
-			'allowEditing'                  => null,
-			'allowCustomContentAndWideSize' => null,
+			'contentSize'  => null,
+			'wideSize'     => null,
+			'allowEditing' => null,
 		),
 		'lightbox'                      => array(
 			'enabled'      => null,
@@ -575,12 +571,10 @@ class WP_Theme_JSON {
 	 * @since 6.0.0
 	 * @since 6.2.0 Added `dimensions.minHeight` and `position.sticky`.
 	 * @since 6.4.0 Added `background.backgroundImage`.
-	 * @since 6.5.0 Added `background.backgroundSize`.
 	 * @var array
 	 */
 	const APPEARANCE_TOOLS_OPT_INS = array(
 		array( 'background', 'backgroundImage' ),
-		array( 'background', 'backgroundSize' ),
 		array( 'border', 'color' ),
 		array( 'border', 'radius' ),
 		array( 'border', 'style' ),
@@ -3396,15 +3390,7 @@ class WP_Theme_JSON {
 			|| ! is_numeric( $spacing_scale['mediumStep'] )
 			|| ( '+' !== $spacing_scale['operator'] && '*' !== $spacing_scale['operator'] ) ) {
 			if ( ! empty( $spacing_scale ) ) {
-				trigger_error(
-					sprintf(
-						/* translators: 1: theme.json, 2: settings.spacing.spacingScale */
-						__( 'Some of the %1$s %2$s values are invalid' ),
-						'theme.json',
-						'settings.spacing.spacingScale'
-					),
-					E_USER_NOTICE
-				);
+				trigger_error( __( 'Some of the theme.json settings.spacing.spacingScale values are invalid' ), E_USER_NOTICE );
 			}
 			return null;
 		}

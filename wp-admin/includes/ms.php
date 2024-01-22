@@ -305,9 +305,7 @@ function upload_space_setting( $id ) {
 	<tr>
 		<th><label for="blog-upload-space-number"><?php _e( 'Site Upload Space Quota' ); ?></label></th>
 		<td>
-			<input type="number" step="1" min="0" style="width: 100px"
-				name="option[blog_upload_space]" id="blog-upload-space-number"
-				aria-describedby="blog-upload-space-desc" value="<?php echo esc_attr( $quota ); ?>" />
+			<input type="number" step="1" min="0" style="width: 100px" name="option[blog_upload_space]" id="blog-upload-space-number" aria-describedby="blog-upload-space-desc" value="<?php echo $quota; ?>" />
 			<span id="blog-upload-space-desc"><span class="screen-reader-text">
 				<?php
 				/* translators: Hidden accessibility text. */

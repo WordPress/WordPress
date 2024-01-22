@@ -292,7 +292,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	outline-offset: -4px;
 }
 
-/* Separator */
+/* Seperator */
 
 hr.wp-block-separator {
 	border: 0;

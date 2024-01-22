@@ -1499,11 +1499,11 @@ All at ###SITENAME###
 	 * Filters the text of the email sent when a change of site admin email address is attempted.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
-	 *  - ###USERNAME###  The current user's username.
-	 *  - ###ADMIN_URL### The link to click on to confirm the email change.
-	 *  - ###EMAIL###     The proposed new site admin email address.
-	 *  - ###SITENAME###  The name of the site.
-	 *  - ###SITEURL###   The URL to the site.
+	 * ###USERNAME###  The current user's username.
+	 * ###ADMIN_URL### The link to click on to confirm the email change.
+	 * ###EMAIL###     The proposed new site admin email address.
+	 * ###SITENAME###  The name of the site.
+	 * ###SITEURL###   The URL to the site.
 	 *
 	 * @since MU (3.0.0)
 	 * @since 4.9.0 This filter is no longer Multisite specific.
@@ -1531,22 +1531,15 @@ All at ###SITENAME###
 		$site_title = parse_url( home_url(), PHP_URL_HOST );
 	}
 
-	$subject = sprintf(
-		/* translators: New admin email address notification email subject. %s: Site title. */
-		__( '[%s] New Admin Email Address' ),
-		$site_title
+	wp_mail(
+		$value,
+		sprintf(
+			/* translators: New admin email address notification email subject. %s: Site title. */
+			__( '[%s] New Admin Email Address' ),
+			$site_title
+		),
+		$content
 	);
-
-	/**
-	 * Filters the subject of the email sent when a change of site admin email address is attempted.
-	 *
-	 * @since 6.5.0
-	 *
-	 * @param string $subject Subject of the email.
-	 */
-	$subject = apply_filters( 'new_admin_email_subject', $subject );
-
-	wp_mail( $value, $subject, $content );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();

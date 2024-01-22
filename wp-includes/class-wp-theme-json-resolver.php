@@ -312,6 +312,9 @@ class WP_Theme_JSON_Resolver {
 			}
 			$theme_support_data['settings']['color']['defaultGradients'] = $default_gradients;
 
+			// Classic themes without a theme.json don't support global duotone.
+			$theme_support_data['settings']['color']['defaultDuotone'] = false;
+
 			// Allow themes to enable link color setting via theme_support.
 			if ( current_theme_supports( 'link-color' ) ) {
 				$theme_support_data['settings']['color']['link'] = true;
@@ -323,11 +326,6 @@ class WP_Theme_JSON_Resolver {
 				$theme_support_data['settings']['border']['radius'] = true;
 				$theme_support_data['settings']['border']['style']  = true;
 				$theme_support_data['settings']['border']['width']  = true;
-			}
-
-			// Allow themes to enable appearance tools via theme_support.
-			if ( current_theme_supports( 'appearance-tools' ) ) {
-				$theme_support_data['settings']['appearanceTools'] = true;
 			}
 		}
 		$with_theme_supports = new WP_Theme_JSON( $theme_support_data );

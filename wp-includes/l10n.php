@@ -150,15 +150,6 @@ function determine_locale() {
 		( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() )
 	) {
 		$determined_locale = get_user_locale();
-	} elseif (
-		( ! empty( $_REQUEST['language'] ) || isset( $GLOBALS['wp_local_package'] ) )
-		&& wp_installing()
-	) {
-		if ( ! empty( $_REQUEST['language'] ) ) {
-			$determined_locale = sanitize_locale_name( $_REQUEST['language'] );
-		} else {
-			$determined_locale = $GLOBALS['wp_local_package'];
-		}
 	}
 
 	if ( ! $determined_locale ) {
@@ -170,7 +161,7 @@ function determine_locale() {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string $determined_locale The locale.
+	 * @param string $locale The locale.
 	 */
 	return apply_filters( 'determine_locale', $determined_locale );
 }
@@ -1398,21 +1389,15 @@ function translate_user_role( $name, $domain = 'default' ) {
  * @since 3.0.0
  * @since 4.7.0 The results are now filterable with the {@see 'get_available_languages'} filter.
  *
- * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
- *
  * @param string $dir A directory to search for language files.
  *                    Default WP_LANG_DIR.
  * @return string[] An array of language codes or an empty array if no languages are present.
  *                  Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
-	global $wp_textdomain_registry;
-
 	$languages = array();
 
-	$path       = is_null( $dir ) ? WP_LANG_DIR : $dir;
-	$lang_files = $wp_textdomain_registry->get_language_files_from_path( $path );
-
+	$lang_files = glob( ( is_null( $dir ) ? WP_LANG_DIR : $dir ) . '/*.mo' );
 	if ( $lang_files ) {
 		foreach ( $lang_files as $lang_file ) {
 			$lang_file = basename( $lang_file, '.mo' );

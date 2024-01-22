@@ -673,11 +673,9 @@ class WP_Duotone {
 
 			if ( null === $color ) {
 				$error_message = sprintf(
-					/* translators: 1: Duotone colors, 2: theme.json, 3: settings.color.duotone */
-					__( '"%1$s" in %2$s %3$s is not a hex or rgb string.' ),
-					$color_str,
-					'theme.json',
-					'settings.color.duotone'
+					/* translators: %s: duotone colors */
+					__( '"%s" in theme.json settings.color.duotone is not a hex or rgb string.' ),
+					$color_str
 				);
 				_doing_it_wrong( __METHOD__, $error_message, '6.3.0' );
 			} else {
@@ -902,10 +900,9 @@ class WP_Duotone {
 		$global_styles_presets = self::get_all_global_styles_presets();
 		if ( ! array_key_exists( $filter_id, $global_styles_presets ) ) {
 			$error_message = sprintf(
-				/* translators: 1: Duotone filter ID, 2: theme.json */
-				__( 'The duotone id "%1$s" is not registered in %2$s settings' ),
-				$filter_id,
-				'theme.json'
+				/* translators: %s: duotone filter ID */
+				__( 'The duotone id "%s" is not registered in theme.json settings' ),
+				$filter_id
 			);
 			_doing_it_wrong( __METHOD__, $error_message, '6.3.0' );
 			return;

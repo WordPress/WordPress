@@ -1027,7 +1027,7 @@ class WP_Query {
 		}
 
 		if ( ! ( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed
-				|| ( wp_is_serving_rest_request() && $this->is_main_query() )
+				|| ( defined( 'REST_REQUEST' ) && REST_REQUEST && $this->is_main_query() )
 				|| $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots || $this->is_favicon ) ) {
 			$this->is_home = true;
 		}
@@ -4661,7 +4661,7 @@ class WP_Query {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @global WP_Query $wp_the_query WordPress Query object.
+	 * @global WP_Query $wp_query WordPress Query object.
 	 *
 	 * @return bool Whether the query is the main query.
 	 */

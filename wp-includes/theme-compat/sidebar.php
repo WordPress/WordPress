@@ -56,7 +56,6 @@ _deprecated_file(
 						/* translators: 1: Site link, 2: Archive date. */
 						__( 'You are currently browsing the %1$s blog archives for the day %2$s.' ),
 						sprintf( '<a href="%1$s/">%2$s</a>', get_bloginfo( 'url' ), get_bloginfo( 'name' ) ),
-						/* translators: Daily archives date format. See https://www.php.net/manual/datetime.format.php */
 						get_the_time( __( 'l, F jS, Y' ) )
 					);
 				?>
@@ -69,7 +68,6 @@ _deprecated_file(
 						/* translators: 1: Site link, 2: Archive month. */
 						__( 'You are currently browsing the %1$s blog archives for %2$s.' ),
 						sprintf( '<a href="%1$s/">%2$s</a>', get_bloginfo( 'url' ), get_bloginfo( 'name' ) ),
-						/* translators: Monthly archives date format. See https://www.php.net/manual/datetime.format.php */
 						get_the_time( __( 'F, Y' ) )
 					);
 				?>

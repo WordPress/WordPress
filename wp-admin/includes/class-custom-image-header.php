@@ -47,13 +47,11 @@ class Custom_Image_Header {
 	private $updated;
 
 	/**
-	 * Constructor - Registers administration header callback.
+	 * Constructor - Register administration header callback.
 	 *
 	 * @since 2.1.0
-	 *
-	 * @param callable $admin_header_callback    Administration header callback.
-	 * @param callable $admin_image_div_callback Optional. Custom image div output callback.
-	 *                                           Default empty string.
+	 * @param callable $admin_header_callback
+	 * @param callable $admin_image_div_callback Optional custom image div output callback.
 	 */
 	public function __construct( $admin_header_callback, $admin_image_div_callback = '' ) {
 		$this->admin_header_callback    = $admin_header_callback;

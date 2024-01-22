@@ -1173,7 +1173,7 @@ jQuery( function($) {
 		}
 
 		/**
-		 * When the dragging stopped make sure we return focus and do a confidence check on the height.
+		 * When the dragging stopped make sure we return focus and do a sanity check on the height.
 		 */
 		function endDrag() {
 			var height, toolbarHeight;
@@ -1198,7 +1198,7 @@ jQuery( function($) {
 
 			$document.off( '.wp-editor-resize' );
 
-			// Confidence check: normalize height to stay within acceptable ranges.
+			// Sanity check: normalize height to stay within acceptable ranges.
 			if ( height && height > 50 && height < 5000 ) {
 				setUserSetting( 'ed_size', height );
 			}
@@ -1303,6 +1303,8 @@ jQuery( function($) {
 
 		// Clear the selection and move focus back to the trigger.
 		event.clearSelection();
+		// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
+		triggerElement.trigger( 'focus' );
 
 		// Show success visual feedback.
 		clearTimeout( copyAttachmentURLSuccessTimeout );

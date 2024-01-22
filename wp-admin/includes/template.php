@@ -2118,17 +2118,14 @@ function _admin_search_query() {
  *
  * @global string    $hook_suffix
  * @global string    $admin_body_class
- * @global string    $body_id
  * @global WP_Locale $wp_locale        WordPress date and time locale object.
  *
  * @param string $title      Optional. Title of the Iframe page. Default empty.
  * @param bool   $deprecated Not used.
  */
 function iframe_header( $title = '', $deprecated = false ) {
-	global $hook_suffix, $admin_body_class, $body_id, $wp_locale;
-
 	show_admin_bar( false );
-
+	global $hook_suffix, $admin_body_class, $wp_locale;
 	$admin_body_class = preg_replace( '/[^a-z0-9_-]+/i', '-', $hook_suffix );
 
 	$current_screen = get_current_screen();
@@ -2182,7 +2179,10 @@ var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?
 	?>
 </head>
 	<?php
-	$admin_body_id = isset( $body_id ) ? 'id="' . $body_id . '" ' : '';
+	/**
+	 * @global string $body_id
+	 */
+	$admin_body_id = isset( $GLOBALS['body_id'] ) ? 'id="' . $GLOBALS['body_id'] . '" ' : '';
 
 	/** This filter is documented in wp-admin/admin-header.php */
 	$admin_body_classes = apply_filters( 'admin_body_class', '' );
@@ -2553,9 +2553,9 @@ function compression_test() {
  *                                       These key/value attribute pairs will be output as `attribute="value"`,
  *                                       where attribute is the key. Attributes can also be provided as a string,
  *                                       e.g. `id="search-submit"`, though the array format is generally preferred.
- *                                       Default empty string.
+ *                                       Default null.
  */
-function submit_button( $text = '', $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = '' ) {
+function submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = null ) {
 	echo get_submit_button( $text, $type, $name, $wrap, $other_attributes );
 }
 

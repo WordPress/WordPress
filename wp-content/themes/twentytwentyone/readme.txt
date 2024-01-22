@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: 5.3
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 2.1
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,11 +29,6 @@ LocalStorage is necessary for the setting to work and is only used when a user c
 No data is saved in the database or transferred.
 
 == Changelog ==
-
-= 2.1 =
-* Released: January 16, 2024
-
-https://wordpress.org/documentation/article/twenty-twenty-one-changelog/#Version_2.1
 
 = 2.0 =
 * Released: November 7, 2023
@@ -92,7 +87,7 @@ https://wordpress.org/documentation/article/twenty-twenty-one-changelog/#Version
 
 == Copyright ==
 
-Twenty Twenty-One WordPress Theme, 2020-2024 WordPress.org
+Twenty Twenty-One WordPress Theme, 2020-2023 WordPress.org
 Twenty Twenty-One is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -110,19 +105,19 @@ Twenty Twenty-One is derived from Seedlet, (C) 2020 Automattic, Inc.
 
 Twenty Twenty-One is also based on:
 
-Twenty Nineteen. 2018-2024 WordPress.org
+Twenty Nineteen. 2018-2023 WordPress.org
 Twenty Nineteen is distributed under the terms of the GNU GPL v2 or later.
 
-Twenty Seventeen. Copyright (C) 2016-2024 WordPress.org
+Twenty Seventeen. Copyright (C) 2016-2023 WordPress.org
 Twenty Seventeen is distributed under the terms of the GNU GPL v2 or later.
 
-Twenty Sixteen. Copyright (C) 2015-2024 WordPress.org
+Twenty Sixteen. Copyright (C) 2015-2023 WordPress.org
 Twenty Sixteen is distributed under the terms of the GNU GPL v2 or later.
 
-Twenty Twenty. Copyright (C) 2020-2024 WordPress.org
+Twenty Twenty. Copyright (C) 2020-2023 WordPress.org
 Twenty Twenty is distributed under the terms of the GNU GPL v2 or later.
 
-Underscores https://underscores.me/, Copyright (C) 2012-2024 Automattic, Inc.
+Underscores https://underscores.me/, Copyright (C) 2012-2023 Automattic, Inc.
 Underscores is distributed under the terms of the GNU GPL v2 or later.
 
 Normalizing styles have been helped along thanks to the fine work of

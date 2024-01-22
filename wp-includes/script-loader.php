@@ -110,7 +110,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'react-dom'                   => '18.2.0',
 		'regenerator-runtime'         => '0.14.0',
 		'moment'                      => '2.29.4',
-		'lodash'                      => '4.17.21',
+		'lodash'                      => '4.17.19',
 		'wp-polyfill-fetch'           => '3.6.17',
 		'wp-polyfill-formdata'        => '4.0.10',
 		'wp-polyfill-node-contains'   => '4.8.0',
@@ -1881,8 +1881,6 @@ function wp_prototype_before_jquery( $js_array ) {
  * These localizations require information that may not be loaded even by init.
  *
  * @since 2.5.0
- *
- * @global array $shortcode_tags
  */
 function wp_just_in_time_script_localization() {
 
@@ -2586,7 +2584,7 @@ function wp_should_load_block_editor_scripts_and_styles() {
  * @return bool Whether separate assets will be loaded.
  */
 function wp_should_load_separate_core_block_assets() {
-	if ( is_admin() || is_feed() || wp_is_rest_endpoint() ) {
+	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 		return false;
 	}
 

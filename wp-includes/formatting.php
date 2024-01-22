@@ -3506,7 +3506,7 @@ function convert_smilies( $text ) {
 		$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // Capture the tags as well as in between.
 		$stop    = count( $textarr ); // Loop stuff.
 
-		// Ignore processing of specific tags.
+		// Ignore proessing of specific tags.
 		$tags_to_ignore       = 'code|pre|style|script|textarea';
 		$ignore_block_element = '';
 
@@ -4846,8 +4846,8 @@ function wp_make_link_relative( $link ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $option The name of the option.
- * @param mixed  $value  The unsanitized value.
- * @return mixed Sanitized value.
+ * @param string $value  The unsanitized value.
+ * @return string Sanitized value.
  */
 function sanitize_option( $option, $value ) {
 	global $wpdb;
@@ -5119,9 +5119,9 @@ function sanitize_option( $option, $value ) {
 	 * @since 2.3.0
 	 * @since 4.3.0 Added the `$original_value` parameter.
 	 *
-	 * @param mixed  $value          The sanitized option value.
+	 * @param string $value          The sanitized option value.
 	 * @param string $option         The option name.
-	 * @param mixed  $original_value The original value passed to the function.
+	 * @param string $original_value The original value passed to the function.
 	 */
 	return apply_filters( "sanitize_option_{$option}", $value, $option, $original_value );
 }

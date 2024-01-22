@@ -54,7 +54,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 	 * is always fresh from the potential modifications done via hooks
 	 * that can use dynamic data (modify the stylesheet depending on some option,
 	 * settings depending on user permissions, etc.).
-	 * See some of the existing hooks to modify theme.json behavior:
+	 * See some of the existing hooks to modify theme.json behaviour:
 	 * https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
 	 *
 	 * A different alternative considered was to invalidate the cache upon certain
@@ -222,13 +222,7 @@ function wp_get_global_stylesheet( $types = array() ) {
 		 * @see wp_add_global_styles_for_blocks
 		 */
 		$origins = array( 'default', 'theme', 'custom' );
-		/*
-		 * If the theme doesn't have theme.json but supports both appearance tools and color palette,
-		 * the 'theme' origin should be included so color palette presets are also output.
-		 */
-		if ( ! $supports_theme_json && ( current_theme_supports( 'appearance-tools' ) || current_theme_supports( 'border' ) ) && current_theme_supports( 'editor-color-palette' ) ) {
-			$origins = array( 'default', 'theme' );
-		} elseif ( ! $supports_theme_json ) {
+		if ( ! $supports_theme_json ) {
 			$origins = array( 'default' );
 		}
 		$styles_rest = $tree->get_stylesheet( $types, $origins );

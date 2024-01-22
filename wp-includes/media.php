@@ -378,7 +378,7 @@ function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
  * @param string       $align Part of the class name for aligning the image.
  * @param string|int[] $size  Optional. Image size. Accepts any registered image size name, or an array of
  *                            width and height values in pixels (in that order). Default 'medium'.
- * @return string HTML IMG element for given image attachment.
+ * @return string HTML IMG element for given image attachment?
  */
 function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 
@@ -2117,13 +2117,6 @@ function wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id 
 		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id );
 
 		if ( $size_array ) {
-			// If the width is enforced through style (e.g. in an inline image), calculate the dimension attributes.
-			$style_width = preg_match( '/style="width:\s*(\d+)px;"/', $image, $match_width ) ? (int) $match_width[1] : 0;
-			if ( $style_width ) {
-				$size_array[1] = (int) round( $size_array[1] * $style_width / $size_array[0] );
-				$size_array[0] = $style_width;
-			}
-
 			$hw = trim( image_hwstring( $size_array[0], $size_array[1] ) );
 			return str_replace( '<img', "<img {$hw}", $image );
 		}
@@ -2643,10 +2636,10 @@ function gallery_shortcode( $attr ) {
 	if ( ! empty( $post_parent_id ) ) {
 		$post_parent = get_post( $post_parent_id );
 
-		// Terminate the shortcode execution if the user cannot read the post or it is password-protected.
-		if ( ! is_post_publicly_viewable( $post_parent->ID ) && ! current_user_can( 'read_post', $post_parent->ID )
-			|| post_password_required( $post_parent )
-		) {
+		// terminate the shortcode execution if user cannot read the post or password-protected
+		if (
+		( ! is_post_publicly_viewable( $post_parent->ID ) && ! current_user_can( 'read_post', $post_parent->ID ) )
+		|| post_password_required( $post_parent ) ) {
 			return '';
 		}
 	}
@@ -2986,7 +2979,7 @@ function wp_playlist_shortcode( $attr ) {
 	if ( ! empty( $args['post_parent'] ) ) {
 		$post_parent = get_post( $id );
 
-		// Terminate the shortcode execution if the user cannot read the post or it is password-protected.
+		// terminate the shortcode execution if user cannot read the post or password-protected
 		if ( ! current_user_can( 'read_post', $post_parent->ID ) || post_password_required( $post_parent ) ) {
 			return '';
 		}
@@ -4140,7 +4133,7 @@ function _wp_image_editor_choose( $args = array() ) {
 			! call_user_func( array( $implementation, 'supports_mime_type' ), $args['output_mime_type'] )
 		) {
 			/*
-			 * This implementation supports the input type but not the output type.
+			 * This implementation supports the imput type but not the output type.
 			 * Keep looking to see if we can find an implementation that supports both.
 			 */
 			$supports_input = $implementation;

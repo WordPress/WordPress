@@ -23,7 +23,6 @@
  * @since 6.1.0
  * @since 6.3.0 Added support for text-columns.
  * @since 6.4.0 Added support for background.backgroundImage.
- * @since 6.5.0 Added support for background.backgroundPosition and background.backgroundRepeat.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -49,26 +48,14 @@ final class WP_Style_Engine {
 	 */
 	const BLOCK_STYLE_DEFINITIONS_METADATA = array(
 		'background' => array(
-			'backgroundImage'    => array(
+			'backgroundImage' => array(
 				'property_keys' => array(
 					'default' => 'background-image',
 				),
 				'value_func'    => array( self::class, 'get_url_or_value_css_declaration' ),
 				'path'          => array( 'background', 'backgroundImage' ),
 			),
-			'backgroundPosition' => array(
-				'property_keys' => array(
-					'default' => 'background-position',
-				),
-				'path'          => array( 'background', 'backgroundPosition' ),
-			),
-			'backgroundRepeat'   => array(
-				'property_keys' => array(
-					'default' => 'background-repeat',
-				),
-				'path'          => array( 'background', 'backgroundRepeat' ),
-			),
-			'backgroundSize'     => array(
+			'backgroundSize'  => array(
 				'property_keys' => array(
 					'default' => 'background-size',
 				),
@@ -228,9 +215,6 @@ final class WP_Style_Engine {
 					'default' => 'font-size',
 				),
 				'path'          => array( 'typography', 'fontSize' ),
-				'css_vars'      => array(
-					'font-size' => '--wp--preset--font-size--$slug',
-				),
 				'classnames'    => array(
 					'has-$slug-font-size' => 'font-size',
 				),
@@ -238,9 +222,6 @@ final class WP_Style_Engine {
 			'fontFamily'     => array(
 				'property_keys' => array(
 					'default' => 'font-family',
-				),
-				'css_vars'      => array(
-					'font-family' => '--wp--preset--font-family--$slug',
 				),
 				'path'          => array( 'typography', 'fontFamily' ),
 				'classnames'    => array(

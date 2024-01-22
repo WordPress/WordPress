@@ -20,13 +20,10 @@
 
 						<p class="footer-copyright">&copy;
 							<?php
-							/* translators: Copyright date format, see https://www.php.net/manual/datetime.format.php */
-							$date_format = _x( 'Y', 'copyright date format', 'twentytwenty' );
-							if ( function_exists( 'wp_date' ) ) {
-								echo wp_date( $date_format );
-							} else {
-								echo date_i18n( $date_format );
-							}
+							echo date_i18n(
+								/* translators: Copyright date format, see https://www.php.net/manual/datetime.format.php */
+								_x( 'Y', 'copyright date format', 'twentytwenty' )
+							);
 							?>
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
 						</p><!-- .footer-copyright -->

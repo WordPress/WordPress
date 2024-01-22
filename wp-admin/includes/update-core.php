@@ -1008,7 +1008,7 @@ $_new_bundled_files = array(
  * Upgrades the core of WordPress.
  *
  * This will create a .maintenance file at the base of the WordPress directory
- * to ensure that people can not access the website, when the files are being
+ * to ensure that people can not access the web site, when the files are being
  * copied to their locations.
  *
  * The files in the `$_old_files` list will be removed and the new files
@@ -1093,7 +1093,7 @@ function update_core( $from, $to ) {
 	 */
 	apply_filters( 'update_feedback', __( 'Verifying the unpacked files&#8230;' ) );
 
-	// Confidence check the unzipped distribution.
+	// Sanity check the unzipped distribution.
 	$distro = '';
 	$roots  = array( '/wordpress/', '/wordpress-mu/' );
 

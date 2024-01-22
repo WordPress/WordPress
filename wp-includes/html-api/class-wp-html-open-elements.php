@@ -116,20 +116,13 @@ class WP_HTML_Open_Elements {
 				return true;
 			}
 
-			if (
-				'(internal: H1 through H6 - do not use)' === $tag_name &&
-				in_array( $node->node_name, array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true )
-			) {
-				return true;
-			}
-
 			switch ( $node->node_name ) {
 				case 'HTML':
 					return false;
 			}
 
 			if ( in_array( $node->node_name, $termination_list, true ) ) {
-				return false;
+				return true;
 			}
 		}
 
@@ -166,22 +159,18 @@ class WP_HTML_Open_Elements {
 	 * Returns whether a particular element is in list item scope.
 	 *
 	 * @since 6.4.0
-	 * @since 6.5.0 Implemented: no longer throws on every invocation.
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-list-item-scope
+	 *
+	 * @throws WP_HTML_Unsupported_Exception Always until this function is implemented.
 	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
 	public function has_element_in_list_item_scope( $tag_name ) {
-		return $this->has_element_in_specific_scope(
-			$tag_name,
-			array(
-				// There are more elements that belong here which aren't currently supported.
-				'OL',
-				'UL',
-			)
-		);
+		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on list item scope.' );
+
+		return false; // The linter requires this unreachable code until the function is implemented and can return.
 	}
 
 	/**
@@ -281,13 +270,6 @@ class WP_HTML_Open_Elements {
 		foreach ( $this->walk_up() as $item ) {
 			$this->pop();
 
-			if (
-				'(internal: H1 through H6 - do not use)' === $tag_name &&
-				in_array( $item->node_name, array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true )
-			) {
-				return true;
-			}
-
 			if ( $tag_name === $item->node_name ) {
 				return true;
 			}
@@ -379,22 +361,10 @@ class WP_HTML_Open_Elements {
 	 * see WP_HTML_Open_Elements::walk_down().
 	 *
 	 * @since 6.4.0
-	 * @since 6.5.0 Accepts $above_this_node to start traversal above a given node, if it exists.
-	 *
-	 * @param ?WP_HTML_Token $above_this_node Start traversing above this node, if provided and if the node exists.
 	 */
-	public function walk_up( $above_this_node = null ) {
-		$has_found_node = null === $above_this_node;
-
+	public function walk_up() {
 		for ( $i = count( $this->stack ) - 1; $i >= 0; $i-- ) {
-			$node = $this->stack[ $i ];
-
-			if ( ! $has_found_node ) {
-				$has_found_node = $node === $above_this_node;
-				continue;
-			}
-
-			yield $node;
+			yield $this->stack[ $i ];
 		}
 	}
 
