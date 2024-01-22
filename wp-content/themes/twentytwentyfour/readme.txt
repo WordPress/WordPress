@@ -33,7 +33,33 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
+
+This theme bundles the following third-party resources:
+
+=== Fonts ===
+
+Cardo Font
+Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: http://scholarsfonts.net
+
+Instrument Sans Font
+Copyright 2022 The Instrument Sans Project Authors.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/Instrument/instrument-sans
+
+Inter Font
+Copyright 2020 The Inter Project Authors.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/rsms/inter
+
+Jost Font
+Copyright 2020 The Jost Project Authors.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://github.com/indestructible-type/Jost
+
 === Images ===
+
 License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 
 museum.webp - https://www.rawpixel.com/image/3297419/free-photo-image-interior-hallway-architecture
