@@ -241,6 +241,7 @@ function create_initial_taxonomies() {
 			'show_in_nav_menus'  => false,
 			'show_in_rest'       => true,
 			'show_admin_column'  => true,
+			'show_tagcloud'      => false,
 		)
 	);
 }
