@@ -151,11 +151,13 @@ final class WP_Translation_Controller {
 		}
 
 		if ( null !== $locale ) {
-			foreach ( $this->loaded_translations[ $locale ][ $textdomain ] as $i => $moe ) {
-				if ( $file === $moe || $file === $moe->get_file() ) {
-					unset( $this->loaded_translations[ $locale ][ $textdomain ][ $i ] );
-					unset( $this->loaded_files[ $moe->get_file() ][ $locale ][ $textdomain ] );
-					return true;
+			if ( isset( $this->loaded_translations[ $locale ][ $textdomain ] ) ) {
+				foreach ( $this->loaded_translations[ $locale ][ $textdomain ] as $i => $moe ) {
+					if ( $file === $moe || $file === $moe->get_file() ) {
+						unset( $this->loaded_translations[ $locale ][ $textdomain ][ $i ] );
+						unset( $this->loaded_files[ $moe->get_file() ][ $locale ][ $textdomain ] );
+						return true;
+					}
 				}
 			}
 
@@ -163,6 +165,10 @@ final class WP_Translation_Controller {
 		}
 
 		foreach ( $this->loaded_translations as $l => $domains ) {
+			if ( ! isset( $domains[ $textdomain ] ) ) {
+				continue;
+			}
+
 			foreach ( $domains[ $textdomain ] as $i => $moe ) {
 				if ( $file === $moe || $file === $moe->get_file() ) {
 					unset( $this->loaded_translations[ $l ][ $textdomain ][ $i ] );
@@ -185,17 +191,20 @@ final class WP_Translation_Controller {
 	 * @return bool True on success, false otherwise.
 	 */
 	public function unload_textdomain( string $textdomain = 'default', string $locale = null ): bool {
+		$unloaded = false;
+
 		if ( null !== $locale ) {
-			foreach ( $this->loaded_translations[ $locale ][ $textdomain ] as $moe ) {
-				unset( $this->loaded_files[ $moe->get_file() ][ $locale ][ $textdomain ] );
+			if ( isset( $this->loaded_translations[ $locale ][ $textdomain ] ) ) {
+				$unloaded = true;
+				foreach ( $this->loaded_translations[ $locale ][ $textdomain ] as $moe ) {
+					unset( $this->loaded_files[ $moe->get_file() ][ $locale ][ $textdomain ] );
+				}
 			}
 
 			unset( $this->loaded_translations[ $locale ][ $textdomain ] );
 
-			return true;
+			return $unloaded;
 		}
-
-		$unloaded = false;
 
 		foreach ( $this->loaded_translations as $l => $domains ) {
 			if ( ! isset( $domains[ $textdomain ] ) ) {
