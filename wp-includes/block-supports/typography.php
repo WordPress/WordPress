@@ -398,6 +398,7 @@ function wp_get_typography_value_and_unit( $raw_value, $options = array() ) {
  *
  * @since 6.1.0
  * @since 6.3.0 Checks for unsupported min/max viewport values that cause invalid clamp values.
+ * @since 6.5.0 Returns early when min and max viewport subtraction is zero to avoid division by zero.
  * @access private
  *
  * @param array $args {
@@ -468,12 +469,18 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
 		return null;
 	}
 
+	// Calculates the linear factor denominator. If it's 0, we cannot calculate a fluid value.
+	$linear_factor_denominator = $maximum_viewport_width['value'] - $minimum_viewport_width['value'];
+	if ( empty( $linear_factor_denominator ) ) {
+		return null;
+	}
+
 	/*
 	 * Build CSS rule.
 	 * Borrowed from https://websemantics.uk/tools/responsive-font-calculator/.
 	 */
 	$view_port_width_offset = round( $minimum_viewport_width['value'] / 100, 3 ) . $font_size_unit;
-	$linear_factor          = 100 * ( ( $maximum_font_size['value'] - $minimum_font_size['value'] ) / ( $maximum_viewport_width['value'] - $minimum_viewport_width['value'] ) );
+	$linear_factor          = 100 * ( ( $maximum_font_size['value'] - $minimum_font_size['value'] ) / ( $linear_factor_denominator ) );
 	$linear_factor_scaled   = round( $linear_factor * $scale_factor, 3 );
 	$linear_factor_scaled   = empty( $linear_factor_scaled ) ? 1 : $linear_factor_scaled;
 	$fluid_target_font_size = implode( '', $minimum_font_size_rem ) . " + ((1vw - $view_port_width_offset) * $linear_factor_scaled)";
