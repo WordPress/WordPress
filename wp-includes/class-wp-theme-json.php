@@ -1070,6 +1070,7 @@ class WP_Theme_JSON {
 			foreach ( $style_nodes as &$node ) {
 				$node['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
 			}
+			unset( $node );
 		}
 
 		if ( ! empty( $options['root_selector'] ) ) {
