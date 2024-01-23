@@ -106,7 +106,7 @@
  *  - Heading elements: H1, H2, H3, H4, H5, H6, HGROUP.
  *  - Links: A.
  *  - Lists: DD, DL, DT, LI, OL, LI.
- *  - Media elements: AUDIO, CANVAS, EMBED, FIGCAPTION, FIGURE, IMG, MAP, PICTURE, VIDEO.
+ *  - Media elements: AUDIO, CANVAS, EMBED, FIGCAPTION, FIGURE, IMG, MAP, PARAM, PICTURE, SOURCE, VIDEO, TRACK.
  *  - Paragraph: BR, P.
  *  - Phrasing elements: AREA, ABBR, BDI, BDO, CITE, DATA, DEL, DFN, INS, MARK, OUTPUT, Q, SAMP, SUB, SUP, TIME, VAR.
  *  - Sectioning elements: ARTICLE, ASIDE, HR, NAV, SECTION.
@@ -982,6 +982,15 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				$this->insert_html_element( $this->state->current_token );
 				$this->state->frameset_ok = false;
 				return true;
+
+			/*
+			 * > A start tag whose tag name is one of: "param", "source", "track"
+			 */
+			case '+PARAM':
+			case '+SOURCE':
+			case '+TRACK':
+				$this->insert_html_element( $this->state->current_token );
+				return true;
 		}
 
 		/*
@@ -1027,7 +1036,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'OBJECT':
 			case 'OPTGROUP':
 			case 'OPTION':
-			case 'PARAM':
 			case 'PLAINTEXT':
 			case 'RB':
 			case 'RP':
@@ -1036,7 +1044,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'SARCASM':
 			case 'SCRIPT':
 			case 'SELECT':
-			case 'SOURCE':
 			case 'STYLE':
 			case 'SVG':
 			case 'TABLE':
@@ -1049,7 +1056,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'THEAD':
 			case 'TITLE':
 			case 'TR':
-			case 'TRACK':
 			case 'XMP':
 				$this->last_error = self::ERROR_UNSUPPORTED;
 				throw new WP_HTML_Unsupported_Exception( "Cannot process {$tag_name} element." );
@@ -1712,8 +1718,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			'HR' === $tag_name ||
 			'IMG' === $tag_name ||
 			'INPUT' === $tag_name ||
-			'LINK' === $tag_name ||
 			'KEYGEN' === $tag_name || // Obsolete but still treated as void.
+			'LINK' === $tag_name ||
 			'META' === $tag_name ||
 			'PARAM' === $tag_name || // Obsolete but still treated as void.
 			'SOURCE' === $tag_name ||
