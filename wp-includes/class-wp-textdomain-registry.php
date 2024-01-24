@@ -225,7 +225,6 @@ class WP_Textdomain_Registry {
 	 *         @type string $version  The version of a theme, plugin, or core.
 	 *     }
 	 * }
-	 * @return void
 	 */
 	public function invalidate_mo_files_cache( $upgrader, $hook_extra ) {
 		if (

@@ -284,7 +284,6 @@ abstract class WP_Translation_File {
 	 */
 	abstract protected function parse_file();
 
-
 	/**
 	 * Exports translation contents as a string.
 	 *

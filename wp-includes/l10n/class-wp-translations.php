@@ -80,8 +80,8 @@ class WP_Translations {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param string $original    Original string to translate from MO file. Might contain
-	 *                            0x04 as context separator or 0x00 as singular/plural separator.
+	 * @param string $original     Original string to translate from MO file. Might contain
+	 *                             0x04 as context separator or 0x00 as singular/plural separator.
 	 * @param string $translations Translation strings from MO file.
 	 * @return Translation_Entry Entry instance.
 	 */
