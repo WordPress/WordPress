@@ -23315,6 +23315,17 @@ const image_deprecated_v6 = {
       }
     }
   },
+  migrate(attributes) {
+    const {
+      height,
+      width
+    } = attributes;
+    return {
+      ...attributes,
+      width: typeof width === 'number' ? `${width}px` : width,
+      height: typeof height === 'number' ? `${height}px` : height
+    };
+  },
   save({
     attributes
   }) {
@@ -23670,6 +23681,14 @@ const deprecated_v8 = {
     height,
     ...attributes
   }) {
+    // We need to perform a check here because in cases
+    // where attributes are added dynamically to blocks,
+    // block invalidation overrides the isEligible() method
+    // and forces the migration to run, so it's not guaranteed
+    // that `behaviors` or `behaviors.lightbox` will be defined.
+    if (!attributes.behaviors?.lightbox) {
+      return attributes;
+    }
     const {
       behaviors: {
         lightbox: {
@@ -23861,9 +23880,29 @@ const scaleOptions = [{
   label: (0,external_wp_i18n_namespaceObject._x)('Contain', 'Scale option for dimensions control'),
   help: (0,external_wp_i18n_namespaceObject.__)('Image is contained without distortion.')
 }];
-const disabledClickProps = {
-  onClick: event => event.preventDefault(),
-  'aria-disabled': true
+
+// If the image has a href, wrap in an <a /> tag to trigger any inherited link element styles.
+const ImageWrapper = ({
+  href,
+  children
+}) => {
+  if (!href) {
+    return children;
+  }
+  return (0,external_wp_element_namespaceObject.createElement)("a", {
+    href: href,
+    onClick: event => event.preventDefault(),
+    "aria-disabled": true,
+    style: {
+      // When the Image block is linked,
+      // it's wrapped with a disabled <a /> tag.
+      // Restore cursor style so it doesn't appear 'clickable'
+      // and remove pointer events. Safari needs the display property.
+      pointerEvents: 'none',
+      cursor: 'default',
+      display: 'inline'
+    }
+  }, children);
 };
 function image_Image({
   temporaryURL,
@@ -24315,7 +24354,9 @@ function image_Image({
   // So we try using the imageRef width first and fallback to clientWidth.
   const fallbackClientWidth = imageRef.current?.width || clientWidth;
   if (canEditImage && isEditingImage) {
-    img = (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalImageEditor, {
+    img = (0,external_wp_element_namespaceObject.createElement)(ImageWrapper, {
+      href: href
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalImageEditor, {
       id: id,
       url: url,
       width: numericWidth,
@@ -24328,7 +24369,7 @@ function image_Image({
         setIsEditingImage(false);
       },
       borderProps: isRounded ? undefined : borderProps
-    });
+    }));
   } else if (!isResizable) {
     img = (0,external_wp_element_namespaceObject.createElement)("div", {
       style: {
@@ -24336,7 +24377,9 @@ function image_Image({
         height,
         aspectRatio
       }
-    }, img);
+    }, (0,external_wp_element_namespaceObject.createElement)(ImageWrapper, {
+      href: href
+    }, img));
   } else {
     const numericRatio = aspectRatio && evalAspectRatio(aspectRatio);
     const customRatio = numericWidth / numericHeight;
@@ -24421,15 +24464,14 @@ function image_Image({
         });
       },
       resizeRatio: align === 'center' ? 2 : 1
-    }, img);
+    }, (0,external_wp_element_namespaceObject.createElement)(ImageWrapper, {
+      href: href
+    }, img));
   }
   if (!url && !temporaryURL) {
     return sizeControls;
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !temporaryURL && controls, !!href ? (0,external_wp_element_namespaceObject.createElement)("a", {
-    href: href,
-    ...disabledClickProps
-  }, img) : img, showCaption && (!external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) || isSelected) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !temporaryURL && controls, img, showCaption && (!external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) || isSelected) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
     identifier: "caption",
     className: (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)('caption'),
     ref: captionRef,

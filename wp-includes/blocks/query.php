@@ -44,11 +44,15 @@ function render_block_core_query( $attributes, $content, $block ) {
 			$block->block_type->supports['interactivity'] = true;
 
 			// Add a div to announce messages using `aria-live`.
-			$last_div_position = strripos( $content, '</div>' );
+			$html_tag = 'div';
+			if ( ! empty( $attributes['tagName'] ) ) {
+				$html_tag = esc_attr( $attributes['tagName'] );
+			}
+			$last_tag_position = strripos( $content, '</' . $html_tag . '>' );
 			$content           = substr_replace(
 				$content,
 				'<div
-					class="wp-block-query__enhanced-pagination-navigation-announce screen-reader-text"
+					class="screen-reader-text"
 					aria-live="polite"
 					data-wp-text="context.core.query.message"
 				></div>
@@ -57,7 +61,7 @@ function render_block_core_query( $attributes, $content, $block ) {
 					data-wp-class--start-animation="selectors.core.query.startAnimation"
 					data-wp-class--finish-animation="selectors.core.query.finishAnimation"
 				></div>',
-				$last_div_position,
+				$last_tag_position,
 				0
 			);
 		}

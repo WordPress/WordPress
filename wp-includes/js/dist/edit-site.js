@@ -21402,14 +21402,7 @@ function ScreenBlock({
     inheritedValue: inheritedStyleWithLayout,
     value: styleWithLayout,
     onChange: setStyle,
-    settings: {
-      ...settings,
-      color: {
-        ...settings.color,
-        customDuotone: false //TO FIX: Custom duotone only works on the block level right now
-      }
-    },
-
+    settings: settings,
     includeLayoutControls: true
   }), hasImageSettingsPanel && (0,external_wp_element_namespaceObject.createElement)(ImageSettingsPanel, {
     onChange: onChangeLightbox,
@@ -35975,7 +35968,6 @@ function DuplicateMenuItem({
 
 
 
-
 /**
  * WordPress dependencies
  */
@@ -35997,6 +35989,27 @@ function DuplicateMenuItem({
 
 
 
+
+/**
+ * Downloads a file.
+ * Also used in packages/list-reusable-blocks/src/utils/file.js.
+ *
+ * @param {string} fileName    File Name.
+ * @param {string} content     File Content.
+ * @param {string} contentType File mime type.
+ */
+function grid_item_download(fileName, content, contentType) {
+  const file = new window.Blob([content], {
+    type: contentType
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 const {
   useGlobalStyle: grid_item_useGlobalStyle
 } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
@@ -36066,7 +36079,7 @@ function GridItem({
       content: item.patternBlock.content.raw,
       syncStatus: item.patternBlock.wp_pattern_sync_status
     };
-    return download_default()(JSON.stringify(json, null, 2), `${paramCase(item.title || item.name)}.json`, 'application/json');
+    return grid_item_download(`${paramCase(item.title || item.name)}.json`, JSON.stringify(json, null, 2), 'application/json');
   };
 
   // Only custom patterns or custom template parts can be renamed or deleted.
@@ -36306,9 +36319,9 @@ const {
   useHistory: patterns_list_useHistory
 } = unlock(external_wp_router_namespaceObject.privateApis);
 const SYNC_FILTERS = {
-  all: (0,external_wp_i18n_namespaceObject.__)('All'),
-  [PATTERN_SYNC_TYPES.full]: (0,external_wp_i18n_namespaceObject.__)('Synced'),
-  [PATTERN_SYNC_TYPES.unsynced]: (0,external_wp_i18n_namespaceObject.__)('Not synced')
+  all: (0,external_wp_i18n_namespaceObject._x)('All', 'Option that shows all patterns'),
+  [PATTERN_SYNC_TYPES.full]: (0,external_wp_i18n_namespaceObject._x)('Synced', 'Option that shows all synchronized patterns'),
+  [PATTERN_SYNC_TYPES.unsynced]: (0,external_wp_i18n_namespaceObject._x)('Not synced', 'Option that shows all patterns that are not synchronized')
 };
 const SYNC_DESCRIPTIONS = {
   all: '',
