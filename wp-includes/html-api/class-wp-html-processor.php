@@ -150,17 +150,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	const MAX_BOOKMARKS = 100;
 
 	/**
-	 * Static query for instructing the Tag Processor to visit every token.
-	 *
-	 * @access private
-	 *
-	 * @since 6.4.0
-	 *
-	 * @var array
-	 */
-	const VISIT_EVERYTHING = array( 'tag_closers' => 'visit' );
-
-	/**
 	 * Holds the working state of the parser, including the stack of
 	 * open elements and the stack of active formatting elements.
 	 *
@@ -425,6 +414,30 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	}
 
 	/**
+	 * Ensures internal accounting is maintained for HTML semantic rules while
+	 * the underlying Tag Processor class is seeking to a bookmark.
+	 *
+	 * This doesn't currently have a way to represent non-tags and doesn't process
+	 * semantic rules for text nodes. For access to the raw tokens consider using
+	 * WP_HTML_Tag_Processor instead.
+	 *
+	 * @since 6.5.0 Added for internal support; do not use.
+	 *
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	public function next_token() {
+		$found_a_token = parent::next_token();
+
+		if ( '#tag' === $this->get_token_type() ) {
+			$this->step( self::REPROCESS_CURRENT_NODE );
+		}
+
+		return $found_a_token;
+	}
+
+	/**
 	 * Indicates if the currently-matched tag matches the given breadcrumbs.
 	 *
 	 * A "*" represents a single tag wildcard, where any tag matches, but not no tags.
@@ -520,7 +533,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				$this->state->stack_of_open_elements->pop();
 			}
 
-			parent::next_tag( self::VISIT_EVERYTHING );
+			while ( parent::next_token() && '#tag' !== $this->get_token_type() ) {
+				continue;
+			}
 		}
 
 		// Finish stepping when there are no more tokens in the document.
