@@ -101,18 +101,18 @@
  *
  *  - Containers: ADDRESS, BLOCKQUOTE, DETAILS, DIALOG, DIV, FOOTER, HEADER, MAIN, MENU, SPAN, SUMMARY.
  *  - Custom elements: All custom elements are supported. :)
- *  - Form elements: BUTTON, DATALIST, FIELDSET, LABEL, LEGEND, METER, PROGRESS, SEARCH.
+ *  - Form elements: BUTTON, DATALIST, FIELDSET, INPUT, LABEL, LEGEND, METER, PROGRESS, SEARCH.
  *  - Formatting elements: B, BIG, CODE, EM, FONT, I, PRE, SMALL, STRIKE, STRONG, TT, U, WBR.
  *  - Heading elements: H1, H2, H3, H4, H5, H6, HGROUP.
  *  - Links: A.
- *  - Lists: DD, DL, DT, LI, OL, LI.
- *  - Media elements: AUDIO, CANVAS, EMBED, FIGCAPTION, FIGURE, IMG, MAP, PARAM, PICTURE, SOURCE, VIDEO, TRACK.
+ *  - Lists: DD, DL, DT, LI, OL, UL.
+ *  - Media elements: AUDIO, CANVAS, EMBED, FIGCAPTION, FIGURE, IMG, MAP, PICTURE, SOURCE, TRACK, VIDEO.
  *  - Paragraph: BR, P.
- *  - Phrasing elements: AREA, ABBR, BDI, BDO, CITE, DATA, DEL, DFN, INS, MARK, OUTPUT, Q, SAMP, SUB, SUP, TIME, VAR.
+ *  - Phrasing elements: ABBR, AREA, BDI, BDO, CITE, DATA, DEL, DFN, INS, MARK, OUTPUT, Q, SAMP, SUB, SUP, TIME, VAR.
  *  - Sectioning elements: ARTICLE, ASIDE, HR, NAV, SECTION.
  *  - Templating elements: SLOT.
  *  - Text decoration: RUBY.
- *  - Deprecated elements: ACRONYM, BLINK, CENTER, DIR, ISINDEX, KEYGEN, LISTING, MULTICOL, NEXTID, SPACER.
+ *  - Deprecated elements: ACRONYM, BLINK, CENTER, DIR, ISINDEX, KEYGEN, LISTING, MULTICOL, NEXTID, PARAM, SPACER.
  *
  * ### Supported markup
  *
@@ -973,6 +973,23 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				return true;
 
 			/*
+			 * > A start tag whose tag name is "input"
+			 */
+			case '+INPUT':
+				$this->reconstruct_active_formatting_elements();
+				$this->insert_html_element( $this->state->current_token );
+				$type_attribute = $this->get_attribute( 'type' );
+				/*
+				 * > If the token does not have an attribute with the name "type", or if it does,
+				 * > but that attribute's value is not an ASCII case-insensitive match for the
+				 * > string "hidden", then: set the frameset-ok flag to "not ok".
+				 */
+				if ( ! is_string( $type_attribute ) || 'hidden' !== strtolower( $type_attribute ) ) {
+					$this->state->frameset_ok = false;
+				}
+				return true;
+
+			/*
 			 * > A start tag whose tag name is "hr"
 			 */
 			case '+HR':
@@ -1024,7 +1041,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'HEAD':
 			case 'HTML':
 			case 'IFRAME':
-			case 'INPUT':
 			case 'LINK':
 			case 'MARQUEE':
 			case 'MATH':
