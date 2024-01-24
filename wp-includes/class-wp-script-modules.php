@@ -89,15 +89,12 @@ class WP_Script_Modules {
 				'version'      => $version,
 				'enqueue'      => isset( $this->enqueued_before_registered[ $id ] ),
 				'dependencies' => $dependencies,
-				'enqueued'     => false,
-				'preloaded'    => false,
 			);
 		}
 	}
 
 	/**
-	 * Marks the script module to be enqueued in the page the next time
-	 * `print_enqueued_script_modules` is called.
+	 * Marks the script module to be enqueued in the page.
 	 *
 	 * If a src is provided and the script module has not been registered yet, it
 	 * will be registered.
@@ -158,54 +155,34 @@ class WP_Script_Modules {
 	 * Adds the hooks to print the import map, enqueued script modules and script
 	 * module preloads.
 	 *
-	 * It adds the actions to print the enqueued script modules and script module
-	 * preloads to both `wp_head` and `wp_footer` because in classic themes, the
-	 * script modules used by the theme and plugins will likely be able to be
-	 * printed in the `head`, but the ones used by the blocks will need to be
-	 * enqueued in the `footer`.
-	 *
-	 * As all script modules are deferred and dependencies are handled by the
-	 * browser, the order of the script modules is not important, but it's still
-	 * better to print the ones that are available when the `wp_head` is rendered,
-	 * so the browser starts downloading those as soon as possible.
-	 *
-	 * The import map is also printed in the footer to be able to include the
-	 * dependencies of all the script modules, including the ones printed in the
+	 * In classic themes, the script modules used by the blocks are not yet known
+	 * when the `wp_head` actions is fired, so it needs to print everything in the
 	 * footer.
 	 *
 	 * @since 6.5.0
 	 */
 	public function add_hooks() {
-		add_action( 'wp_head', array( $this, 'print_enqueued_script_modules' ) );
-		add_action( 'wp_head', array( $this, 'print_script_module_preloads' ) );
-		add_action( 'wp_footer', array( $this, 'print_enqueued_script_modules' ) );
-		add_action( 'wp_footer', array( $this, 'print_script_module_preloads' ) );
-		add_action( 'wp_footer', array( $this, 'print_import_map' ) );
+		$position = wp_is_block_theme() ? 'wp_head' : 'wp_footer';
+		add_action( $position, array( $this, 'print_import_map' ) );
+		add_action( $position, array( $this, 'print_enqueued_script_modules' ) );
+		add_action( $position, array( $this, 'print_script_module_preloads' ) );
 	}
 
 	/**
 	 * Prints the enqueued script modules using script tags with type="module"
 	 * attributes.
 	 *
-	 * If a enqueued script module has already been printed, it will not be
-	 * printed again on subsequent calls to this function.
-	 *
 	 * @since 6.5.0
 	 */
 	public function print_enqueued_script_modules() {
 		foreach ( $this->get_marked_for_enqueue() as $id => $script_module ) {
-			if ( false === $script_module['enqueued'] ) {
-				// Mark it as enqueued so it doesn't get enqueued again.
-				$this->registered[ $id ]['enqueued'] = true;
-
-				wp_print_script_tag(
-					array(
-						'type' => 'module',
-						'src'  => $this->get_versioned_src( $script_module ),
-						'id'   => $id . '-js-module',
-					)
-				);
-			}
+			wp_print_script_tag(
+				array(
+					'type' => 'module',
+					'src'  => $this->get_versioned_src( $script_module ),
+					'id'   => $id . '-js-module',
+				)
+			);
 		}
 	}
 
@@ -213,19 +190,14 @@ class WP_Script_Modules {
 	 * Prints the the static dependencies of the enqueued script modules using
 	 * link tags with rel="modulepreload" attributes.
 	 *
-	 * If a script module is marked for enqueue, it will not be preloaded. If a
-	 * preloaded script module has already been printed, it will not be printed
-	 * again on subsequent calls to this function.
+	 * If a script module is marked for enqueue, it will not be preloaded.
 	 *
 	 * @since 6.5.0
 	 */
 	public function print_script_module_preloads() {
 		foreach ( $this->get_dependencies( array_keys( $this->get_marked_for_enqueue() ), array( 'static' ) ) as $id => $script_module ) {
-			// Don't preload if it's marked for enqueue or has already been preloaded.
-			if ( true !== $script_module['enqueue'] && false === $script_module['preloaded'] ) {
-				// Mark it as preloaded so it doesn't get preloaded again.
-				$this->registered[ $id ]['preloaded'] = true;
-
+			// Don't preload if it's marked for enqueue.
+			if ( true !== $script_module['enqueue'] ) {
 				echo sprintf(
 					'<link rel="modulepreload" href="%s" id="%s">',
 					esc_url( $this->get_versioned_src( $script_module ) ),
