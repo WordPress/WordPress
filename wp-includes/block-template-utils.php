@@ -251,7 +251,7 @@ function _get_block_templates_paths( $base_directory ) {
  * @param string $template_type 'wp_template' or 'wp_template_part'.
  * @param string $slug          Template slug.
  * @return array|null {
- *    Array with template metadata if $template_type is one of 'wp_template' or 'wp_template_part'.
+ *    Array with template metadata if $template_type is one of 'wp_template' or 'wp_template_part',
  *    null otherwise.
  *
  *    @type string   $slug      Template slug.
