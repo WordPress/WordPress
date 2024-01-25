@@ -53,7 +53,7 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * Exports all entries to PO format
 		 *
-		 * @return string sequence of mgsgid/msgstr PO strings, doesn't containt newline at the end
+		 * @return string sequence of msgid/msgstr PO strings, doesn't contain a newline at the end
 		 */
 		public function export_entries() {
 			// TODO: Sorting.
@@ -64,7 +64,7 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * Exports the whole PO file as a string
 		 *
 		 * @param bool $include_headers whether to include the headers in the export
-		 * @return string ready for inclusion in PO file string for headers and all the enrtries
+		 * @return string ready for inclusion in PO file string for headers and all the entries
 		 */
 		public function export( $include_headers = true ) {
 			$res = '';
@@ -127,7 +127,7 @@ if ( ! class_exists( 'PO', false ) ) :
 			$input_string = str_replace( array_keys( $replaces ), array_values( $replaces ), $input_string );
 
 			$po = $quote . implode( "{$slash}n{$quote}{$newline}{$quote}", explode( $newline, $input_string ) ) . $quote;
-			// Add empty string on first line for readbility.
+			// Add empty string on first line for readability.
 			if ( str_contains( $input_string, $newline ) &&
 				( substr_count( $input_string, $newline ) > 1 || substr( $input_string, -strlen( $newline ) ) !== $newline ) ) {
 				$po = "$quote$quote$newline$po";
@@ -141,7 +141,7 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * Gives back the original string from a PO-formatted string
 		 *
 		 * @param string $input_string PO-formatted string
-		 * @return string enascaped string
+		 * @return string unescaped string
 		 */
 		public static function unpoify( $input_string ) {
 			$escapes               = array(
