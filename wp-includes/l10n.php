@@ -797,7 +797,7 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 		$locale = determine_locale();
 	}
 
-	$i18n_controller = WP_Translation_Controller::instance();
+	$i18n_controller = WP_Translation_Controller::get_instance();
 
 	// Ensures the correct locale is set as the current one, in case it was filtered.
 	$i18n_controller->set_locale( $locale );
@@ -911,7 +911,7 @@ function unload_textdomain( $domain, $reloadable = false ) {
 
 	// Since multiple locales are supported, reloadable text domains don't actually need to be unloaded.
 	if ( ! $reloadable ) {
-		WP_Translation_Controller::instance()->unload_textdomain( $domain );
+		WP_Translation_Controller::get_instance()->unload_textdomain( $domain );
 	}
 
 	if ( isset( $l10n[ $domain ] ) ) {

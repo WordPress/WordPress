@@ -283,7 +283,7 @@ class WP_Locale_Switcher {
 
 		$wp_locale = new WP_Locale();
 
-		WP_Translation_Controller::instance()->set_locale( $locale );
+		WP_Translation_Controller::get_instance()->set_locale( $locale );
 
 		/**
 		 * Fires when the locale is switched to or restored.

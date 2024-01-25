@@ -42,20 +42,28 @@ final class WP_Translation_Controller {
 	protected $loaded_files = array();
 
 	/**
-	 * Returns the WP_Translation_Controller singleton.
+	 * Container for the main instance of the class.
+	 *
+	 * @since 6.5.0
+	 * @var WP_Translation_Controller|null
+	 */
+	private static $instance = null;
+
+	/**
+	 * Utility method to retrieve the main instance of the class.
+	 *
+	 * The instance will be created if it does not exist yet.
 	 *
 	 * @since 6.5.0
 	 *
 	 * @return WP_Translation_Controller
 	 */
-	public static function instance(): WP_Translation_Controller {
-		static $instance;
-
-		if ( ! $instance ) {
-			$instance = new self();
+	public static function get_instance(): WP_Translation_Controller {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
