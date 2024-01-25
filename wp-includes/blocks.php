@@ -839,6 +839,8 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		/**
 		 * Filters the parsed block array for a given hooked block.
 		 *
+		 * The dynamic portion of the hook name, `$hooked_block_type`, refers to the block type name of the specific hooked block.
+		 *
 		 * @since 6.5.0
 		 *
 		 * @param array                   $parsed_hooked_block The parsed block array for the given hooked block type.
