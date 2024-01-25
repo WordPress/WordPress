@@ -63,6 +63,7 @@
  *     @type string $DomainPath  Plugin's relative directory path to .mo files.
  *     @type bool   $Network     Whether the plugin can only be activated network-wide.
  *     @type string $RequiresWP  Minimum required version of WordPress.
+ *     @type string $TestedWP    Latest supported version of WordPress.
  *     @type string $RequiresPHP Minimum required version of PHP.
  *     @type string $UpdateURI   ID of the plugin for update purposes, should be a URI.
  *     @type string $Title       Title of the plugin and link to the plugin's site (if set).
@@ -82,6 +83,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 		'DomainPath'  => 'Domain Path',
 		'Network'     => 'Network',
 		'RequiresWP'  => 'Requires at least',
+		'TestedWP'    => 'Tested up to',
 		'RequiresPHP' => 'Requires PHP',
 		'UpdateURI'   => 'Update URI',
 		// Site Wide Only is deprecated in favor of Network.
