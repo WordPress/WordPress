@@ -136,6 +136,20 @@ function _register_core_block_patterns_and_categories() {
 		)
 	);
 	register_block_pattern_category(
+		'videos',
+		array(
+			'label'       => _x( 'Videos', 'Block pattern category' ),
+			'description' => __( 'Different layouts containing videos.' ),
+		)
+	);
+	register_block_pattern_category(
+		'audio',
+		array(
+			'label'       => _x( 'Audio', 'Block pattern category' ),
+			'description' => __( 'Different layouts containing audio.' ),
+		)
+	);
+	register_block_pattern_category(
 		'posts',
 		array(
 			'label'       => _x( 'Posts', 'Block pattern category' ),
