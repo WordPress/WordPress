@@ -548,13 +548,23 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	$is_attachment_redirect = false;
 
 	if ( is_attachment() && ! get_option( 'wp_attachment_pages_enabled' ) ) {
-		$attachment_id = get_query_var( 'attachment_id' );
+		$attachment_id        = get_query_var( 'attachment_id' );
+		$attachment_post      = get_post( $attachment_id );
+		$attachment_parent_id = $attachment_post ? $attachment_post->post_parent : 0;
 
-		if ( current_user_can( 'read_post', $attachment_id ) ) {
-			$redirect_url = wp_get_attachment_url( $attachment_id );
-
-			$is_attachment_redirect = true;
+		$attachment_url = wp_get_attachment_url( $attachment_id );
+		if ( $attachment_url !== $redirect_url ) {
+			/*
+			* If an attachment is attached to a post, it inherits the parent post's status. Fetch the
+			* parent post to check its status later.
+			*/
+			if ( $attachment_parent_id ) {
+				$redirect_obj = get_post( $attachment_parent_id );
+			}
+			$redirect_url = $attachment_url;
 		}
+
+		$is_attachment_redirect = true;
 	}
 
 	$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
