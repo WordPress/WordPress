@@ -70,13 +70,13 @@ function wp_render_background_support( $block_content, $block ) {
 		return $block_content;
 	}
 
-	$background_size         = isset( $block_attributes['style']['background']['backgroundSize'] )
+	$background_size     = isset( $block_attributes['style']['background']['backgroundSize'] )
 		? $block_attributes['style']['background']['backgroundSize']
 		: 'cover';
-	$background_position     = isset( $block_attributes['style']['background']['backgroundPosition'] )
+	$background_position = isset( $block_attributes['style']['background']['backgroundPosition'] )
 		? $block_attributes['style']['background']['backgroundPosition']
 		: null;
-	$background_repeat       = isset( $block_attributes['style']['background']['backgroundRepeat'] )
+	$background_repeat   = isset( $block_attributes['style']['background']['backgroundRepeat'] )
 		? $block_attributes['style']['background']['backgroundRepeat']
 		: null;
 
