@@ -2834,18 +2834,18 @@ function wp_print_script_tag( $attributes ) {
 }
 
 /**
- * Wraps inline JavaScript in `<script>` tag.
+ * Constructs an inline script tag.
  *
  * It is possible to inject attributes in the `<script>` tag via the  {@see 'wp_script_attributes'}  filter.
  * Automatically injects type attribute if needed.
  *
  * @since 5.7.0
  *
- * @param string $javascript Inline JavaScript code.
+ * @param string $data       Data for script tag: JavaScript, importmap, speculationrules, etc.
  * @param array  $attributes Optional. Key-value pairs representing `<script>` tag attributes.
  * @return string String containing inline JavaScript code wrapped around `<script>` tag.
  */
-function wp_get_inline_script_tag( $javascript, $attributes = array() ) {
+function wp_get_inline_script_tag( $data, $attributes = array() ) {
 	$is_html5 = current_theme_supports( 'html5', 'script' ) || is_admin();
 	if ( ! isset( $attributes['type'] ) && ! $is_html5 ) {
 		// Keep the type attribute as the first for legacy reasons (it has always been this way in core).
@@ -2899,13 +2899,13 @@ function wp_get_inline_script_tag( $javascript, $attributes = array() ) {
 		 * Note: it's only necessary to escape the closing `]]>` because
 		 * an additional `<![CDATA[` leaves the contents unchanged.
 		 */
-		$javascript = str_replace( ']]>', ']]]]><![CDATA[>', $javascript );
+		$data = str_replace( ']]>', ']]]]><![CDATA[>', $data );
 
 		// Wrap the entire escaped script inside a CDATA section.
-		$javascript = sprintf( "/* <![CDATA[ */\n%s\n/* ]]> */", $javascript );
+		$data = sprintf( "/* <![CDATA[ */\n%s\n/* ]]> */", $data );
 	}
 
-	$javascript = "\n" . trim( $javascript, "\n\r " ) . "\n";
+	$data = "\n" . trim( $data, "\n\r " ) . "\n";
 
 	/**
 	 * Filters attributes to be added to a script tag.
@@ -2915,26 +2915,26 @@ function wp_get_inline_script_tag( $javascript, $attributes = array() ) {
 	 * @param array  $attributes Key-value pairs representing `<script>` tag attributes.
 	 *                           Only the attribute name is added to the `<script>` tag for
 	 *                           entries with a boolean value, and that are true.
-	 * @param string $javascript Inline JavaScript code.
+	 * @param string $data       Inline data.
 	 */
-	$attributes = apply_filters( 'wp_inline_script_attributes', $attributes, $javascript );
+	$attributes = apply_filters( 'wp_inline_script_attributes', $attributes, $data );
 
-	return sprintf( "<script%s>%s</script>\n", wp_sanitize_script_attributes( $attributes ), $javascript );
+	return sprintf( "<script%s>%s</script>\n", wp_sanitize_script_attributes( $attributes ), $data );
 }
 
 /**
- * Prints inline JavaScript wrapped in `<script>` tag.
+ * Prints an inline script tag.
  *
  * It is possible to inject attributes in the `<script>` tag via the  {@see 'wp_script_attributes'}  filter.
  * Automatically injects type attribute if needed.
  *
  * @since 5.7.0
  *
- * @param string $javascript Inline JavaScript code.
+ * @param string $data       Data for script tag: JavaScript, importmap, speculationrules, etc.
  * @param array  $attributes Optional. Key-value pairs representing `<script>` tag attributes.
  */
-function wp_print_inline_script_tag( $javascript, $attributes = array() ) {
-	echo wp_get_inline_script_tag( $javascript, $attributes );
+function wp_print_inline_script_tag( $data, $attributes = array() ) {
+	echo wp_get_inline_script_tag( $data, $attributes );
 }
 
 /**
