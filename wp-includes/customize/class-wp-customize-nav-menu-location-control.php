@@ -77,7 +77,7 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 			<select <?php $this->link(); ?>>
 				<?php
 				foreach ( $this->choices as $value => $label ) :
-					echo '<option value="' . esc_attr( $value ) . '"' . selected( $this->value(), $value, false ) . '>' . $label . '</option>';
+					echo '<option value="' . esc_attr( $value ) . '"' . selected( $this->value(), $value, false ) . '>' . esc_html( $label ) . '</option>';
 				endforeach;
 				?>
 			</select>
