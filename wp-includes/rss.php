@@ -631,6 +631,9 @@ function _response_to_rss ($resp) {
  * Set up constants with default values, unless user overrides.
  *
  * @since 1.5.0
+ * 
+ * @global string $wp_version The WordPress version string.
+ * 
  * @package External
  * @subpackage MagpieRSS
  */
