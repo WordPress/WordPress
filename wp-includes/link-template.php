@@ -4768,7 +4768,7 @@ function get_the_privacy_policy_link( $before = '', $after = '' ) {
  * By default the list of internal hosts is comprised of the host name of
  * the site's home_url() (as parsed by wp_parse_url()).
  *
- * This list is used when determining if a specificed URL is a link to a page on
+ * This list is used when determining if a specified URL is a link to a page on
  * the site itself or a link offsite (to an external host). This is used, for
  * example, when determining if the "nofollow" attribute should be applied to a
  * link.
