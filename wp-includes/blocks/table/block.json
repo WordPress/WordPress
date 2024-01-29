@@ -12,10 +12,9 @@
 			"default": false
 		},
 		"caption": {
-			"type": "string",
-			"source": "html",
-			"selector": "figcaption",
-			"default": ""
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "figcaption"
 		},
 		"head": {
 			"type": "array",
@@ -30,8 +29,8 @@
 					"selector": "td,th",
 					"query": {
 						"content": {
-							"type": "string",
-							"source": "html"
+							"type": "rich-text",
+							"source": "rich-text"
 						},
 						"tag": {
 							"type": "string",
@@ -75,8 +74,8 @@
 					"selector": "td,th",
 					"query": {
 						"content": {
-							"type": "string",
-							"source": "html"
+							"type": "rich-text",
+							"source": "rich-text"
 						},
 						"tag": {
 							"type": "string",
@@ -120,8 +119,8 @@
 					"selector": "td,th",
 					"query": {
 						"content": {
-							"type": "string",
-							"source": "html"
+							"type": "rich-text",
+							"source": "rich-text"
 						},
 						"tag": {
 							"type": "string",

@@ -249,44 +249,13 @@ const getAttachmentsCollection = ids => {
   });
 };
 class MediaUpload extends external_wp_element_namespaceObject.Component {
-  constructor({
-    allowedTypes,
-    gallery = false,
-    unstableFeaturedImageFlow = false,
-    modalClass,
-    multiple = false,
-    title = (0,external_wp_i18n_namespaceObject.__)('Select or Upload Media')
-  }) {
+  constructor() {
     super(...arguments);
     this.openModal = this.openModal.bind(this);
     this.onOpen = this.onOpen.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onClose = this.onClose.bind(this);
-    const {
-      wp
-    } = window;
-    if (gallery) {
-      this.buildAndSetGalleryFrame();
-    } else {
-      const frameConfig = {
-        title,
-        multiple
-      };
-      if (!!allowedTypes) {
-        frameConfig.library = {
-          type: allowedTypes
-        };
-      }
-      this.frame = wp.media(frameConfig);
-    }
-    if (modalClass) {
-      this.frame.$el.addClass(modalClass);
-    }
-    if (unstableFeaturedImageFlow) {
-      this.buildAndSetFeatureImageFrame();
-    }
-    this.initializeListeners();
   }
   initializeListeners() {
     // When an image is selected in the media frame...
@@ -372,7 +341,7 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     wp.media.frame = this.frame;
   }
   componentWillUnmount() {
-    this.frame.remove();
+    this.frame?.remove();
   }
   onUpdate(selections) {
     const {
@@ -462,9 +431,38 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     }
   }
   openModal() {
-    if (this.props.gallery) {
+    const {
+      allowedTypes,
+      gallery = false,
+      unstableFeaturedImageFlow = false,
+      modalClass,
+      multiple = false,
+      title = (0,external_wp_i18n_namespaceObject.__)('Select or Upload Media')
+    } = this.props;
+    const {
+      wp
+    } = window;
+    if (gallery) {
       this.buildAndSetGalleryFrame();
+    } else {
+      const frameConfig = {
+        title,
+        multiple
+      };
+      if (!!allowedTypes) {
+        frameConfig.library = {
+          type: allowedTypes
+        };
+      }
+      this.frame = wp.media(frameConfig);
     }
+    if (modalClass) {
+      this.frame.$el.addClass(modalClass);
+    }
+    if (unstableFeaturedImageFlow) {
+      this.buildAndSetFeatureImageFrame();
+    }
+    this.initializeListeners();
     this.frame.open();
   }
   render() {

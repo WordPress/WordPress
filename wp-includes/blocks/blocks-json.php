@@ -75,8 +75,8 @@
         '__experimentalRole' => 'content'
       ),
       'caption' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'figcaption',
         '__experimentalRole' => 'content'
       ),
@@ -154,7 +154,11 @@
       'alignWide' => false,
       'spacing' => array(
         'margin' => true,
-        'padding' => true
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
       ),
       '__experimentalBorder' => array(
         '__experimentalSkipSerialization' => true,
@@ -192,12 +196,16 @@
     'attributes' => array(
       'ref' => array(
         'type' => 'number'
+      ),
+      'overrides' => array(
+        'type' => 'object'
       )
     ),
     'supports' => array(
       'customClassName' => false,
       'html' => false,
-      'inserter' => false
+      'inserter' => false,
+      'renaming' => false
     )
   ),
   'button' => array(
@@ -214,6 +222,9 @@
       'link'
     ),
     'textdomain' => 'default',
+    'usesContext' => array(
+      'pattern/overrides'
+    ),
     'attributes' => array(
       'tagName' => array(
         'type' => 'string',
@@ -245,8 +256,8 @@
         '__experimentalRole' => 'content'
       ),
       'text' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'a,button',
         '__experimentalRole' => 'content'
       ),
@@ -516,8 +527,8 @@
     'textdomain' => 'default',
     'attributes' => array(
       'content' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'code',
         '__unstablePreserveWhiteSpace' => true
       )
@@ -1314,7 +1325,7 @@
     'ancestor' => array(
       'core/comments'
     ),
-    'description' => 'Displays a title with the number of comments',
+    'description' => 'Displays a title with the number of comments.',
     'textdomain' => 'default',
     'usesContext' => array(
       'postId',
@@ -1397,9 +1408,6 @@
       ),
       'alt' => array(
         'type' => 'string',
-        'source' => 'attribute',
-        'selector' => 'img',
-        'attribute' => 'alt',
         'default' => ''
       ),
       'hasParallax' => array(
@@ -1419,6 +1427,9 @@
       ),
       'customOverlayColor' => array(
         'type' => 'string'
+      ),
+      'isUserOverlayColor' => array(
+        'type' => 'boolean'
       ),
       'backgroundType' => array(
         'type' => 'string',
@@ -1508,6 +1519,9 @@
         ),
         'enableContrastChecker' => false
       ),
+      'dimensions' => array(
+        'aspectRatio' => true
+      ),
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
@@ -1548,8 +1562,8 @@
         'default' => false
       ),
       'summary' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'summary'
       )
     ),
@@ -1615,8 +1629,8 @@
         '__experimentalRole' => 'content'
       ),
       'caption' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'figcaption',
         '__experimentalRole' => 'content'
       ),
@@ -1679,8 +1693,8 @@
         'attribute' => 'id'
       ),
       'fileName' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'a:not([download])'
       ),
       'textLinkHref' => array(
@@ -1700,8 +1714,8 @@
         'default' => true
       ),
       'downloadButtonText' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'a[download]'
       ),
       'displayPreview' => array(
@@ -1730,7 +1744,6 @@
       ),
       'interactivity' => true
     ),
-    'viewScript' => 'file:./view.min.js',
     'editorStyle' => 'wp-block-file-editor',
     'style' => 'wp-block-file'
   ),
@@ -1740,7 +1753,7 @@
     'name' => 'core/footnotes',
     'title' => 'Footnotes',
     'category' => 'text',
-    'description' => '',
+    'description' => 'Display footnotes added to the page.',
     'keywords' => array(
       'references'
     ),
@@ -1774,6 +1787,7 @@
       'html' => false,
       'multiple' => false,
       'reusable' => false,
+      'inserter' => false,
       'spacing' => array(
         'margin' => true,
         'padding' => true,
@@ -1873,8 +1887,8 @@
             'attribute' => 'data-id'
           ),
           'caption' => array(
-            'type' => 'string',
-            'source' => 'html',
+            'type' => 'rich-text',
+            'source' => 'rich-text',
             'selector' => '.blocks-gallery-item__caption'
           )
         )
@@ -1903,13 +1917,17 @@
         'maximum' => 8
       ),
       'caption' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => '.blocks-gallery-caption'
       ),
       'imageCrop' => array(
         'type' => 'boolean',
         'default' => true
+      ),
+      'randomOrder' => array(
+        'type' => 'boolean',
+        'default' => false
       ),
       'fixedHeight' => array(
         'type' => 'boolean',
@@ -2018,7 +2036,6 @@
       '__experimentalOnEnter' => true,
       '__experimentalOnMerge' => true,
       '__experimentalSettings' => true,
-      '__experimentalMetadata' => true,
       'align' => array(
         'wide',
         'full'
@@ -2027,7 +2044,11 @@
       'ariaLabel' => true,
       'html' => false,
       'background' => array(
-        'backgroundImage' => true
+        'backgroundImage' => true,
+        'backgroundSize' => true,
+        '__experimentalDefaultControls' => array(
+          'backgroundImage' => true
+        )
       ),
       'color' => array(
         'gradients' => true,
@@ -2052,6 +2073,7 @@
         )
       ),
       'dimensions' => array(
+        'aspectRatio' => true,
         'minHeight' => true
       ),
       '__experimentalBorder' => array(
@@ -2101,15 +2123,17 @@
       'subtitle'
     ),
     'textdomain' => 'default',
+    'usesContext' => array(
+      'pattern/overrides'
+    ),
     'attributes' => array(
       'textAlign' => array(
         'type' => 'string'
       ),
       'content' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'h1,h2,h3,h4,h5,h6',
-        'default' => '',
         '__experimentalRole' => 'content'
       ),
       'level' => array(
@@ -2154,9 +2178,7 @@
         '__experimentalTextDecoration' => true,
         '__experimentalWritingMode' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'fontAppearance' => true,
-          'textTransform' => true
+          'fontSize' => true
         )
       ),
       '__unstablePasteTextInline' => true,
@@ -2243,7 +2265,8 @@
     'usesContext' => array(
       'allowResize',
       'imageCrop',
-      'fixedHeight'
+      'fixedHeight',
+      'pattern/overrides'
     ),
     'description' => 'Insert an image to make a visual statement.',
     'keywords' => array(
@@ -2253,9 +2276,6 @@
     ),
     'textdomain' => 'default',
     'attributes' => array(
-      'align' => array(
-        'type' => 'string'
-      ),
       'url' => array(
         'type' => 'string',
         'source' => 'attribute',
@@ -2272,8 +2292,8 @@
         '__experimentalRole' => 'content'
       ),
       'caption' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'figcaption',
         '__experimentalRole' => 'content'
       ),
@@ -2339,6 +2359,14 @@
       )
     ),
     'supports' => array(
+      'interactivity' => true,
+      'align' => array(
+        'left',
+        'center',
+        'right',
+        'wide',
+        'full'
+      ),
       'anchor' => true,
       'color' => array(
         'text' => false,
@@ -2377,8 +2405,7 @@
       )
     ),
     'editorStyle' => 'wp-block-image-editor',
-    'style' => 'wp-block-image',
-    'viewScript' => 'file:./view.min.js'
+    'style' => 'wp-block-image'
   ),
   'latest-comments' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2559,6 +2586,7 @@
     'style' => 'wp-block-latest-posts'
   ),
   'legacy-widget' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
     'name' => 'core/legacy-widget',
     'title' => 'Legacy Widget',
@@ -2686,16 +2714,23 @@
         'type' => 'string'
       ),
       'content' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'li',
-        'default' => '',
         '__experimentalRole' => 'content'
       )
     ),
     'supports' => array(
       'className' => false,
       '__experimentalSelector' => 'li',
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
+      ),
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
@@ -2736,6 +2771,14 @@
     ),
     'supports' => array(
       'className' => true,
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
+      ),
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
@@ -2904,7 +2947,7 @@
       ),
       'originalContent' => array(
         'type' => 'string',
-        'source' => 'html'
+        'source' => 'raw'
       )
     ),
     'supports' => array(
@@ -3101,9 +3144,9 @@
           )
         )
       ),
-      'interactivity' => true
+      'interactivity' => true,
+      'renaming' => false
     ),
-    'viewScript' => 'file:./view.min.js',
     'editorStyle' => 'wp-block-navigation-editor',
     'style' => 'wp-block-navigation'
   ),
@@ -3182,7 +3225,8 @@
         '__experimentalDefaultControls' => array(
           'fontSize' => true
         )
-      )
+      ),
+      'renaming' => false
     ),
     'editorStyle' => 'wp-block-navigation-link-editor',
     'style' => 'wp-block-navigation-link'
@@ -3403,17 +3447,17 @@
     ),
     'textdomain' => 'default',
     'usesContext' => array(
-      'postId'
+      'postId',
+      'pattern/overrides'
     ),
     'attributes' => array(
       'align' => array(
         'type' => 'string'
       ),
       'content' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'p',
-        'default' => '',
         '__experimentalRole' => 'content'
       ),
       'dropCap' => array(
@@ -3442,7 +3486,6 @@
           'text' => true
         )
       ),
-      '__experimentalConnections' => true,
       'spacing' => array(
         'margin' => true,
         'padding' => true,
@@ -3480,7 +3523,8 @@
     'description' => 'Show a block pattern.',
     'supports' => array(
       'html' => false,
-      'inserter' => false
+      'inserter' => false,
+      'renaming' => false
     ),
     'textdomain' => 'default',
     'attributes' => array(
@@ -3934,6 +3978,10 @@
       ),
       'customGradient' => array(
         'type' => 'string'
+      ),
+      'useFirstImageFromPost' => array(
+        'type' => 'boolean',
+        'default' => false
       )
     ),
     'usesContext' => array(
@@ -4005,7 +4053,17 @@
       'arrow' => array(
         'type' => 'string',
         'default' => 'none'
+      ),
+      'inSameTerm' => array(
+        'type' => 'boolean'
+      ),
+      'taxonomy' => array(
+        'type' => 'string',
+        'default' => ''
       )
+    ),
+    'usesContext' => array(
+      'postType'
     ),
     'supports' => array(
       'reusable' => false,
@@ -4044,7 +4102,6 @@
     'usesContext' => array(
       'queryId',
       'query',
-      'queryContext',
       'displayLayout',
       'templateSlug',
       'previewPostType',
@@ -4218,9 +4275,7 @@
         '__experimentalTextDecoration' => true,
         '__experimentalLetterSpacing' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'fontAppearance' => true,
-          'textTransform' => true
+          'fontSize' => true
         )
       )
     ),
@@ -4236,10 +4291,9 @@
     'textdomain' => 'default',
     'attributes' => array(
       'content' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'pre',
-        'default' => '',
         '__unstablePreserveWhiteSpace' => true,
         '__experimentalRole' => 'content'
       )
@@ -4283,16 +4337,15 @@
     'textdomain' => 'default',
     'attributes' => array(
       'value' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'p',
         '__experimentalRole' => 'content'
       ),
       'citation' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'cite',
-        'default' => '',
         '__experimentalRole' => 'content'
       ),
       'textAlign' => array(
@@ -4316,6 +4369,10 @@
           'text' => true
         )
       ),
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true
+      ),
       'typography' => array(
         'fontSize' => true,
         'lineHeight' => true,
@@ -4326,8 +4383,7 @@
         '__experimentalTextDecoration' => true,
         '__experimentalLetterSpacing' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'fontAppearance' => true
+          'fontSize' => true
         )
       ),
       '__experimentalBorder' => array(
@@ -4413,8 +4469,7 @@
       'layout' => true
     ),
     'editorStyle' => 'wp-block-query-editor',
-    'style' => 'wp-block-query',
-    'viewScript' => 'file:./view.min.js'
+    'style' => 'wp-block-query'
   ),
   'query-no-results' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4577,7 +4632,7 @@
     'parent' => array(
       'core/query-pagination'
     ),
-    'description' => 'Displays a list of page numbers for pagination',
+    'description' => 'Displays a list of page numbers for pagination.',
     'textdomain' => 'default',
     'attributes' => array(
       'midSize' => array(
@@ -4719,9 +4774,7 @@
         '__experimentalTextTransform' => true,
         '__experimentalTextDecoration' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'fontAppearance' => true,
-          'textTransform' => true
+          'fontSize' => true
         )
       )
     ),
@@ -4749,10 +4802,9 @@
         '__experimentalRole' => 'content'
       ),
       'citation' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'cite',
-        'default' => '',
         '__experimentalRole' => 'content'
       ),
       'align' => array(
@@ -4774,8 +4826,7 @@
         '__experimentalTextDecoration' => true,
         '__experimentalLetterSpacing' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'fontAppearance' => true
+          'fontSize' => true
         )
       ),
       'color' => array(
@@ -4786,6 +4837,12 @@
           'background' => true,
           'text' => true
         )
+      ),
+      'layout' => array(
+        'allowEditing' => false
+      ),
+      'spacing' => array(
+        'blockGap' => true
       )
     ),
     'styles' => array(
@@ -4965,10 +5022,6 @@
           
         )
       ),
-      'buttonBehavior' => array(
-        'type' => 'string',
-        'default' => 'expand-searchfield'
-      ),
       'isSearchFieldHidden' => array(
         'type' => 'boolean',
         'default' => false
@@ -5017,7 +5070,6 @@
       ),
       'html' => false
     ),
-    'viewScript' => 'file:./view.min.js',
     'editorStyle' => 'wp-block-search-editor',
     'style' => 'wp-block-search'
   ),
@@ -5283,11 +5335,7 @@
         '__experimentalFontWeight' => true,
         '__experimentalLetterSpacing' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'lineHeight' => true,
-          'fontAppearance' => true,
-          'letterSpacing' => true,
-          'textTransform' => true
+          'fontSize' => true
         )
       )
     ),
@@ -5496,10 +5544,9 @@
         'default' => false
       ),
       'caption' => array(
-        'type' => 'string',
-        'source' => 'html',
-        'selector' => 'figcaption',
-        'default' => ''
+        'type' => 'rich-text',
+        'source' => 'rich-text',
+        'selector' => 'figcaption'
       ),
       'head' => array(
         'type' => 'array',
@@ -5518,8 +5565,8 @@
             'selector' => 'td,th',
             'query' => array(
               'content' => array(
-                'type' => 'string',
-                'source' => 'html'
+                'type' => 'rich-text',
+                'source' => 'rich-text'
               ),
               'tag' => array(
                 'type' => 'string',
@@ -5567,8 +5614,8 @@
             'selector' => 'td,th',
             'query' => array(
               'content' => array(
-                'type' => 'string',
-                'source' => 'html'
+                'type' => 'rich-text',
+                'source' => 'rich-text'
               ),
               'tag' => array(
                 'type' => 'string',
@@ -5616,8 +5663,8 @@
             'selector' => 'td,th',
             'query' => array(
               'content' => array(
-                'type' => 'string',
-                'source' => 'html'
+                'type' => 'rich-text',
+                'source' => 'rich-text'
               ),
               'tag' => array(
                 'type' => 'string',
@@ -5794,7 +5841,8 @@
     'supports' => array(
       'align' => true,
       'html' => false,
-      'reusable' => false
+      'reusable' => false,
+      'renaming' => false
     ),
     'editorStyle' => 'wp-block-template-part-editor'
   ),
@@ -5900,10 +5948,9 @@
     'textdomain' => 'default',
     'attributes' => array(
       'content' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'pre',
-        'default' => '',
         '__unstablePreserveWhiteSpace' => true,
         '__experimentalRole' => 'content'
       ),
@@ -5931,8 +5978,7 @@
         '__experimentalTextTransform' => true,
         '__experimentalTextDecoration' => true,
         '__experimentalDefaultControls' => array(
-          'fontSize' => true,
-          'fontAppearance' => true
+          'fontSize' => true
         )
       ),
       'spacing' => array(
@@ -5972,8 +6018,8 @@
         'attribute' => 'autoplay'
       ),
       'caption' => array(
-        'type' => 'string',
-        'source' => 'html',
+        'type' => 'rich-text',
+        'source' => 'rich-text',
         'selector' => 'figcaption',
         '__experimentalRole' => 'content'
       ),
@@ -6053,6 +6099,7 @@
     'style' => 'wp-block-video'
   ),
   'widget-group' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
     'name' => 'core/widget-group',
     'category' => 'widgets',

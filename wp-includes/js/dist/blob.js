@@ -37,6 +37,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createBlobURL: function() { return /* binding */ createBlobURL; },
+/* harmony export */   downloadBlob: function() { return /* binding */ downloadBlob; },
 /* harmony export */   getBlobByURL: function() { return /* binding */ getBlobByURL; },
 /* harmony export */   getBlobTypeByURL: function() { return /* binding */ getBlobTypeByURL; },
 /* harmony export */   isBlobURL: function() { return /* binding */ isBlobURL; },
@@ -110,6 +111,47 @@ function isBlobURL(url) {
     return false;
   }
   return url.indexOf('blob:') === 0;
+}
+
+/**
+ * Downloads a file, e.g., a text or readable stream, in the browser.
+ * Appropriate for downloading smaller file sizes, e.g., < 5 MB.
+ *
+ * Example usage:
+ *
+ * ```js
+ * 	const fileContent = JSON.stringify(
+ * 		{
+ * 			"title": "My Post",
+ * 		},
+ * 		null,
+ * 		2
+ * 	);
+ * 	const filename = 'file.json';
+ *
+ * 	downloadBlob( filename, fileContent, 'application/json' );
+ * ```
+ *
+ * @param {string}   filename    File name.
+ * @param {BlobPart} content     File content (BufferSource | Blob | string).
+ * @param {string}   contentType (Optional) File mime type. Default is `''`.
+ */
+function downloadBlob(filename, content, contentType = '') {
+  if (!filename || !content) {
+    return;
+  }
+  const file = new window.Blob([content], {
+    type: contentType
+  });
+  const url = window.URL.createObjectURL(file);
+  const anchorElement = document.createElement('a');
+  anchorElement.href = url;
+  anchorElement.download = filename;
+  anchorElement.style.display = 'none';
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  document.body.removeChild(anchorElement);
+  window.URL.revokeObjectURL(url);
 }
 
 (window.wp = window.wp || {}).blob = __webpack_exports__;

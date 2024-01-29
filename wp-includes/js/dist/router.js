@@ -42,6 +42,8 @@ __webpack_require__.d(__webpack_exports__, {
   privateApis: function() { return /* reexport */ privateApis; }
 });
 
+;// CONCATENATED MODULE: external "React"
+var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","element"]
 var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
@@ -917,9 +919,9 @@ function RouterProvider({
       setLocation(getLocationWithParams(updatedLocation));
     });
   }, []);
-  return (0,external_wp_element_namespaceObject.createElement)(HistoryContext.Provider, {
+  return (0,external_React_namespaceObject.createElement)(HistoryContext.Provider, {
     value: build_module_history
-  }, (0,external_wp_element_namespaceObject.createElement)(RoutesContext.Provider, {
+  }, (0,external_React_namespaceObject.createElement)(RoutesContext.Provider, {
     value: location
   }, children));
 }

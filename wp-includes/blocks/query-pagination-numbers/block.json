@@ -5,7 +5,7 @@
 	"title": "Page Numbers",
 	"category": "theme",
 	"parent": [ "core/query-pagination" ],
-	"description": "Displays a list of page numbers for pagination",
+	"description": "Displays a list of page numbers for pagination.",
 	"textdomain": "default",
 	"attributes": {
 		"midSize": {

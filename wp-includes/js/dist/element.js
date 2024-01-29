@@ -91,6 +91,7 @@ __webpack_require__.d(__webpack_exports__, {
   Component: function() { return /* reexport */ external_React_namespaceObject.Component; },
   Fragment: function() { return /* reexport */ external_React_namespaceObject.Fragment; },
   Platform: function() { return /* reexport */ platform; },
+  PureComponent: function() { return /* reexport */ external_React_namespaceObject.PureComponent; },
   RawHTML: function() { return /* reexport */ RawHTML; },
   StrictMode: function() { return /* reexport */ external_React_namespaceObject.StrictMode; },
   Suspense: function() { return /* reexport */ external_React_namespaceObject.Suspense; },
@@ -141,7 +142,11 @@ var external_React_namespaceObject = window["React"];
  */
 
 
-/** @typedef {import('./react').WPElement} WPElement */
+/**
+ * Object containing a React element.
+ *
+ * @typedef {import('react').ReactElement} Element
+ */
 
 let indoc, offset, output, stack;
 
@@ -167,17 +172,17 @@ const tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
  *
  * @typedef Frame
  *
- * @property {WPElement}   element            A parent element which may still have
- * @property {number}      tokenStart         Offset at which parent element first
- *                                            appears.
- * @property {number}      tokenLength        Length of string marking start of parent
- *                                            element.
- * @property {number}      [prevOffset]       Running offset at which parsing should
- *                                            continue.
- * @property {number}      [leadingTextStart] Offset at which last closing element
- *                                            finished, used for finding text between
- *                                            elements.
- * @property {WPElement[]} children           Children.
+ * @property {Element}   element            A parent element which may still have
+ * @property {number}    tokenStart         Offset at which parent element first
+ *                                          appears.
+ * @property {number}    tokenLength        Length of string marking start of parent
+ *                                          element.
+ * @property {number}    [prevOffset]       Running offset at which parsing should
+ *                                          continue.
+ * @property {number}    [leadingTextStart] Offset at which last closing element
+ *                                          finished, used for finding text between
+ *                                          elements.
+ * @property {Element[]} children           Children.
  */
 
 /**
@@ -187,17 +192,17 @@ const tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
  * parsed.
  *
  * @private
- * @param {WPElement} element            A parent element which may still have
- *                                       nested children not yet parsed.
- * @param {number}    tokenStart         Offset at which parent element first
- *                                       appears.
- * @param {number}    tokenLength        Length of string marking start of parent
- *                                       element.
- * @param {number}    [prevOffset]       Running offset at which parsing should
- *                                       continue.
- * @param {number}    [leadingTextStart] Offset at which last closing element
- *                                       finished, used for finding text between
- *                                       elements.
+ * @param {Element} element            A parent element which may still have
+ *                                     nested children not yet parsed.
+ * @param {number}  tokenStart         Offset at which parent element first
+ *                                     appears.
+ * @param {number}  tokenLength        Length of string marking start of parent
+ *                                     element.
+ * @param {number}  [prevOffset]       Running offset at which parsing should
+ *                                     continue.
+ * @param {number}  [leadingTextStart] Offset at which last closing element
+ *                                     finished, used for finding text between
+ *                                     elements.
  *
  * @return {Frame} The stack frame tracking parse progress.
  */
@@ -233,11 +238,11 @@ function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextSt
  * }
  * ```
  *
- * @param {string}                    interpolatedString The interpolation string to be parsed.
- * @param {Record<string, WPElement>} conversionMap      The map used to convert the string to
- *                                                       a react element.
+ * @param {string}                  interpolatedString The interpolation string to be parsed.
+ * @param {Record<string, Element>} conversionMap      The map used to convert the string to
+ *                                                     a react element.
  * @throws {TypeError}
- * @return {WPElement}  A wp element.
+ * @return {Element}  A wp element.
  */
 const createInterpolateElement = (interpolatedString, conversionMap) => {
   indoc = interpolatedString;
@@ -246,7 +251,7 @@ const createInterpolateElement = (interpolatedString, conversionMap) => {
   stack = [];
   tokenizer.lastIndex = 0;
   if (!isValidConversionMap(conversionMap)) {
-    throw new TypeError('The conversionMap provided is not valid. It must be an object with values that are WPElements');
+    throw new TypeError('The conversionMap provided is not valid. It must be an object with values that are React Elements');
   }
   do {
     // twiddle our thumbs
@@ -258,7 +263,7 @@ const createInterpolateElement = (interpolatedString, conversionMap) => {
  * Validate conversion map.
  *
  * A map is considered valid if it's an object and every value in the object
- * is a WPElement
+ * is a React Element
  *
  * @private
  *
@@ -451,19 +456,19 @@ function closeOuterElement(endOffset) {
 /**
  * Object containing a React element.
  *
- * @typedef {import('react').ReactElement} WPElement
+ * @typedef {import('react').ReactElement} Element
  */
 
 /**
  * Object containing a React component.
  *
- * @typedef {import('react').ComponentType} WPComponent
+ * @typedef {import('react').ComponentType} ComponentType
  */
 
 /**
  * Object containing a React synthetic event.
  *
- * @typedef {import('react').SyntheticEvent} WPSyntheticEvent
+ * @typedef {import('react').SyntheticEvent} SyntheticEvent
  */
 
 /**
@@ -481,10 +486,10 @@ function closeOuterElement(endOffset) {
 /**
  * Creates a copy of an element with extended props.
  *
- * @param {WPElement} element Element
- * @param {?Object}   props   Props to apply to cloned element
+ * @param {Element} element Element
+ * @param {?Object} props   Props to apply to cloned element
  *
- * @return {WPElement} Cloned element.
+ * @return {Element} Cloned element.
  */
 
 
@@ -510,9 +515,9 @@ function closeOuterElement(endOffset) {
  * @param {Object}             props    Element properties, either attribute
  *                                      set to apply to DOM node or values to
  *                                      pass through to element creator
- * @param {...WPElement}       children Descendant elements
+ * @param {...Element}         children Descendant elements
  *
- * @return {WPElement} Element.
+ * @return {Element} Element.
  */
 
 
@@ -534,7 +539,7 @@ function closeOuterElement(endOffset) {
  * @param {Function} forwarder Function passed `props` and `ref`, expected to
  *                             return an element.
  *
- * @return {WPComponent} Enhanced component.
+ * @return {Component} Enhanced component.
  */
 
 
@@ -544,11 +549,11 @@ function closeOuterElement(endOffset) {
 
 
 /**
- * Checks if an object is a valid WPElement.
+ * Checks if an object is a valid React Element.
  *
  * @param {Object} objectToCheck The object to be checked.
  *
- * @return {boolean} true if objectToTest is a valid WPElement and false otherwise.
+ * @return {boolean} true if objectToTest is a valid React Element and false otherwise.
  */
 
 
@@ -653,6 +658,11 @@ function closeOuterElement(endOffset) {
 
 
 /**
+ * @see https://reactjs.org/docs/react-api.html#reactpurecomponent
+ */
+
+
+/**
  * Concatenate two or more React children objects.
  *
  * @param {...?Object} childrenArguments Array of children arguments (array of arrays/strings/objects) to concatenate.
@@ -715,16 +725,16 @@ var client = __webpack_require__(4470);
  *
  * @see https://github.com/facebook/react/issues/10309#issuecomment-318433235
  *
- * @param {import('./react').WPElement} child     Any renderable child, such as an element,
- *                                                string, or fragment.
- * @param {HTMLElement}                 container DOM node into which element should be rendered.
+ * @param {import('react').ReactElement} child     Any renderable child, such as an element,
+ *                                                 string, or fragment.
+ * @param {HTMLElement}                  container DOM node into which element should be rendered.
  */
 
 
 /**
  * Finds the dom node of a React component.
  *
- * @param {import('./react').WPComponent} component Component's instance.
+ * @param {import('react').ComponentType} component Component's instance.
  */
 
 
@@ -1422,7 +1432,7 @@ function RawHTML({
 
 
 
-/** @typedef {import('./react').WPElement} WPElement */
+/** @typedef {import('react').ReactElement} ReactElement */
 
 const {
   Provider,
@@ -1742,15 +1752,15 @@ function renderNativeComponent(type, props, context, legacyContext = {}) {
   return '<' + type + attributes + '>' + content + '</' + type + '>';
 }
 
-/** @typedef {import('./react').WPComponent} WPComponent */
+/** @typedef {import('react').ComponentType} ComponentType */
 
 /**
  * Serializes a non-native component type to string.
  *
- * @param {WPComponent} Component       Component type to serialize.
- * @param {Object}      props           Props object.
- * @param {Object}      [context]       Context object.
- * @param {Object}      [legacyContext] Legacy context object.
+ * @param {ComponentType} Component       Component type to serialize.
+ * @param {Object}        props           Props object.
+ * @param {Object}        [context]       Context object.
+ * @param {Object}        [legacyContext] Legacy context object.
  *
  * @return {string} Serialized element
  */

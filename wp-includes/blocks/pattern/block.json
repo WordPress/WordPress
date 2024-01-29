@@ -7,7 +7,8 @@
 	"description": "Show a block pattern.",
 	"supports": {
 		"html": false,
-		"inserter": false
+		"inserter": false,
+		"renaming": false
 	},
 	"textdomain": "default",
 	"attributes": {

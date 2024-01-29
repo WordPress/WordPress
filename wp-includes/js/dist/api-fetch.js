@@ -553,19 +553,32 @@ const mediaUploadMiddleware = (options, next) => {
  * This appends a `wp_theme_preview` parameter to the REST API request URL if
  * the admin URL contains a `theme` GET parameter.
  *
+ * If the REST API request URL has contained the `wp_theme_preview` parameter as `''`,
+ * then bypass this middleware.
+ *
  * @param {Record<string, any>} themePath
  * @return {import('../types').APIFetchMiddleware} Preloading middleware.
  */
 const createThemePreviewMiddleware = themePath => (options, next) => {
-  if (typeof options.url === 'string' && !(0,external_wp_url_namespaceObject.hasQueryArg)(options.url, 'wp_theme_preview')) {
-    options.url = (0,external_wp_url_namespaceObject.addQueryArgs)(options.url, {
-      wp_theme_preview: themePath
-    });
+  if (typeof options.url === 'string') {
+    const wpThemePreview = (0,external_wp_url_namespaceObject.getQueryArg)(options.url, 'wp_theme_preview');
+    if (wpThemePreview === undefined) {
+      options.url = (0,external_wp_url_namespaceObject.addQueryArgs)(options.url, {
+        wp_theme_preview: themePath
+      });
+    } else if (wpThemePreview === '') {
+      options.url = (0,external_wp_url_namespaceObject.removeQueryArgs)(options.url, 'wp_theme_preview');
+    }
   }
-  if (typeof options.path === 'string' && !(0,external_wp_url_namespaceObject.hasQueryArg)(options.path, 'wp_theme_preview')) {
-    options.path = (0,external_wp_url_namespaceObject.addQueryArgs)(options.path, {
-      wp_theme_preview: themePath
-    });
+  if (typeof options.path === 'string') {
+    const wpThemePreview = (0,external_wp_url_namespaceObject.getQueryArg)(options.path, 'wp_theme_preview');
+    if (wpThemePreview === undefined) {
+      options.path = (0,external_wp_url_namespaceObject.addQueryArgs)(options.path, {
+        wp_theme_preview: themePath
+      });
+    } else if (wpThemePreview === '') {
+      options.path = (0,external_wp_url_namespaceObject.removeQueryArgs)(options.path, 'wp_theme_preview');
+    }
   }
   return next(options);
 };

@@ -202,10 +202,15 @@ button.wp-block-navigation-item__content{
 
 .wp-block-navigation-item.open-on-click .wp-block-navigation-submenu__toggle{
   padding-left:.85em;
+  padding-right:0;
 }
 .wp-block-navigation-item.open-on-click .wp-block-navigation-submenu__toggle+.wp-block-navigation__submenu-icon{
   margin-right:-.6em;
   pointer-events:none;
+}
+
+.wp-block-navigation-item.open-on-click button.wp-block-navigation-item__content:not(.wp-block-navigation-submenu__toggle){
+  padding:0;
 }
 .wp-block-navigation .wp-block-page-list,.wp-block-navigation__container,.wp-block-navigation__responsive-close,.wp-block-navigation__responsive-container,.wp-block-navigation__responsive-container-content,.wp-block-navigation__responsive-dialog{
   gap:inherit;
@@ -358,20 +363,18 @@ button.wp-block-navigation-item__content{
   left:auto;
   right:auto;
 }
-@media (min-width:600px){
-  .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open){
-    background-color:inherit;
-    display:block;
-    position:relative;
-    width:100%;
-    z-index:auto;
-  }
-  .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) .wp-block-navigation__responsive-container-close{
-    display:none;
-  }
-  .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container{
-    right:0;
-  }
+:not(.is-collapsed)>.wp-block-navigation__responsive-container:not(.is-menu-open){
+  background-color:inherit;
+  display:block;
+  position:relative;
+  width:100%;
+  z-index:auto;
+}
+:not(.is-collapsed)>.wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__responsive-container-close{
+  display:none;
+}
+:not(.is-collapsed)>.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container.wp-block-navigation__submenu-container{
+  right:0;
 }
 
 .wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open{
@@ -413,10 +416,8 @@ button.wp-block-navigation-item__content{
   font-size:inherit;
   font-weight:inherit;
 }
-@media (min-width:600px){
-  .wp-block-navigation__responsive-container-open:not(.always-shown){
-    display:none;
-  }
+:not(.is-collapsed)>.wp-block-navigation__responsive-container-open{
+  display:none;
 }
 
 .wp-block-navigation__responsive-container-close{

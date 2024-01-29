@@ -8,10 +8,9 @@
 	"textdomain": "default",
 	"attributes": {
 		"content": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "pre",
-			"default": "",
 			"__unstablePreserveWhiteSpace": true,
 			"__experimentalRole": "content"
 		}

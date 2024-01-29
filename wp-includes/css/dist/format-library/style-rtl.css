@@ -47,20 +47,8 @@
   color:#cc1818;
 }
 
-.components-inline-color-popover .components-popover__content .components-tab-panel__tab-content{
+.format-library__inline-color-popover [role=tabpanel]{
   padding:16px;
-}
-.components-inline-color-popover .components-popover__content .components-color-palette{
-  margin-top:.6rem;
-}
-.components-inline-color-popover .components-popover__content .components-base-control__title{
-  color:#191e23;
-  display:block;
-  font-weight:600;
-  margin-bottom:16px;
-}
-.components-inline-color-popover .components-popover__content .component-color-indicator{
-  vertical-align:text-bottom;
 }
 
 .block-editor-format-toolbar__language-popover .components-popover__content{

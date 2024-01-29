@@ -23,7 +23,8 @@
 	"supports": {
 		"align": true,
 		"html": false,
-		"reusable": false
+		"reusable": false,
+		"renaming": false
 	},
 	"editorStyle": "wp-block-template-part-editor"
 }

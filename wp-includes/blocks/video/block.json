@@ -15,8 +15,8 @@
 			"attribute": "autoplay"
 		},
 		"caption": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "figcaption",
 			"__experimentalRole": "content"
 		},

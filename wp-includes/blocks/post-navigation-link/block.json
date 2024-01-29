@@ -28,8 +28,16 @@
 		"arrow": {
 			"type": "string",
 			"default": "none"
+		},
+		"inSameTerm": {
+			"type": "boolean"
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": ""
 		}
 	},
+	"usesContext": [ "postType" ],
 	"supports": {
 		"reusable": false,
 		"html": false,

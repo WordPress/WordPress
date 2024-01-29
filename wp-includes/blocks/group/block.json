@@ -24,13 +24,16 @@
 		"__experimentalOnEnter": true,
 		"__experimentalOnMerge": true,
 		"__experimentalSettings": true,
-		"__experimentalMetadata": true,
 		"align": [ "wide", "full" ],
 		"anchor": true,
 		"ariaLabel": true,
 		"html": false,
 		"background": {
-			"backgroundImage": true
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
 		},
 		"color": {
 			"gradients": true,
@@ -52,6 +55,7 @@
 			}
 		},
 		"dimensions": {
+			"aspectRatio": true,
 			"minHeight": true
 		},
 		"__experimentalBorder": {

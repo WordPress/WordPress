@@ -3,6 +3,9 @@
   width:-moz-fit-content;
   width:fit-content;
 }
-.wp-block-read-more:not([style*=text-decoration]),.wp-block-read-more:not([style*=text-decoration]):active,.wp-block-read-more:not([style*=text-decoration]):focus{
+.wp-block-read-more:where(:not([style*=text-decoration])){
+  text-decoration:none;
+}
+.wp-block-read-more:where(:not([style*=text-decoration])):active,.wp-block-read-more:where(:not([style*=text-decoration])):focus{
   text-decoration:none;
 }

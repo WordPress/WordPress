@@ -147,6 +147,8 @@ __webpack_require__.d(__webpack_exports__, {
   "default": function() { return /* binding */ build_module; }
 });
 
+;// CONCATENATED MODULE: external "React"
+var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","element"]
 var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","data"]
@@ -221,7 +223,7 @@ function removeBlockSupportAttributes(attributes) {
 function DefaultEmptyResponsePlaceholder({
   className
 }) {
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
+  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
     className: className
   }, (0,external_wp_i18n_namespaceObject.__)('Block rendered as empty.'));
 }
@@ -232,7 +234,7 @@ function DefaultErrorResponsePlaceholder({
   const errorMessage = (0,external_wp_i18n_namespaceObject.sprintf)(
   // translators: %s: error message describing the problem
   (0,external_wp_i18n_namespaceObject.__)('Error loading block: %s'), response.errorMsg);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
+  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
     className: className
   }, errorMessage);
 }
@@ -240,11 +242,11 @@ function DefaultLoadingResponsePlaceholder({
   children,
   showLoader
 }) {
-  return (0,external_wp_element_namespaceObject.createElement)("div", {
+  return (0,external_React_namespaceObject.createElement)("div", {
     style: {
       position: 'relative'
     }
-  }, showLoader && (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, showLoader && (0,external_React_namespaceObject.createElement)("div", {
     style: {
       position: 'absolute',
       top: '50%',
@@ -252,7 +254,7 @@ function DefaultLoadingResponsePlaceholder({
       marginTop: '-9px',
       marginLeft: '-9px'
     }
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null)), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null)), (0,external_React_namespaceObject.createElement)("div", {
     style: {
       opacity: showLoader ? '0.3' : 1
     }
@@ -355,25 +357,25 @@ function ServerSideRender(props) {
   const hasEmptyResponse = response === '';
   const hasError = response?.error;
   if (isLoading) {
-    return (0,external_wp_element_namespaceObject.createElement)(LoadingResponsePlaceholder, {
+    return (0,external_React_namespaceObject.createElement)(LoadingResponsePlaceholder, {
       ...props,
       showLoader: showLoader
-    }, hasResponse && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
+    }, hasResponse && (0,external_React_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
       className: className
     }, response));
   }
   if (hasEmptyResponse || !hasResponse) {
-    return (0,external_wp_element_namespaceObject.createElement)(EmptyResponsePlaceholder, {
+    return (0,external_React_namespaceObject.createElement)(EmptyResponsePlaceholder, {
       ...props
     });
   }
   if (hasError) {
-    return (0,external_wp_element_namespaceObject.createElement)(ErrorResponsePlaceholder, {
+    return (0,external_React_namespaceObject.createElement)(ErrorResponsePlaceholder, {
       response: response,
       ...props
     });
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
+  return (0,external_React_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
     className: className
   }, response);
 }
@@ -427,7 +429,7 @@ const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)
       ...urlQueryArgs
     };
   }, [currentPostId, urlQueryArgs]);
-  return (0,external_wp_element_namespaceObject.createElement)(ServerSideRender, {
+  return (0,external_React_namespaceObject.createElement)(ServerSideRender, {
     urlQueryArgs: newUrlQueryArgs,
     ...props
   });

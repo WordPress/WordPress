@@ -66,6 +66,13 @@
   min-width:48px;
   width:100%;
 }
+.wp-block-post-featured-image>a{
+  cursor:default;
+}
+.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-button,.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-placeholder__instructions,.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-placeholder__label{
+  opacity:1;
+  pointer-events:auto;
+}
 
 div[data-type="core/post-featured-image"] img{
   display:block;

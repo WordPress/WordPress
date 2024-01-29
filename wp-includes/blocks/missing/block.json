@@ -15,7 +15,7 @@
 		},
 		"originalContent": {
 			"type": "string",
-			"source": "html"
+			"source": "raw"
 		}
 	},
 	"supports": {

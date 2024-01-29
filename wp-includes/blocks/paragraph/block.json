@@ -7,16 +7,15 @@
 	"description": "Start with the basic building block of all narrative.",
 	"keywords": [ "text" ],
 	"textdomain": "default",
-	"usesContext": [ "postId" ],
+	"usesContext": [ "postId", "pattern/overrides" ],
 	"attributes": {
 		"align": {
 			"type": "string"
 		},
 		"content": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "p",
-			"default": "",
 			"__experimentalRole": "content"
 		},
 		"dropCap": {
@@ -42,7 +41,6 @@
 				"text": true
 			}
 		},
-		"__experimentalConnections": true,
 		"spacing": {
 			"margin": true,
 			"padding": true,

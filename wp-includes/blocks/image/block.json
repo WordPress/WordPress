@@ -4,14 +4,16 @@
 	"name": "core/image",
 	"title": "Image",
 	"category": "media",
-	"usesContext": [ "allowResize", "imageCrop", "fixedHeight" ],
+	"usesContext": [
+		"allowResize",
+		"imageCrop",
+		"fixedHeight",
+		"pattern/overrides"
+	],
 	"description": "Insert an image to make a visual statement.",
 	"keywords": [ "img", "photo", "picture" ],
 	"textdomain": "default",
 	"attributes": {
-		"align": {
-			"type": "string"
-		},
 		"url": {
 			"type": "string",
 			"source": "attribute",
@@ -28,8 +30,8 @@
 			"__experimentalRole": "content"
 		},
 		"caption": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "figcaption",
 			"__experimentalRole": "content"
 		},
@@ -95,6 +97,8 @@
 		}
 	},
 	"supports": {
+		"interactivity": true,
+		"align": [ "left", "center", "right", "wide", "full" ],
 		"anchor": true,
 		"color": {
 			"text": false,
@@ -130,6 +134,5 @@
 		{ "name": "rounded", "label": "Rounded" }
 	],
 	"editorStyle": "wp-block-image-editor",
-	"style": "wp-block-image",
-	"viewScript": "file:./view.min.js"
+	"style": "wp-block-image"
 }

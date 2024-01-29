@@ -49,6 +49,8 @@ var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
+;// CONCATENATED MODULE: external "React"
+var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","element"]
 var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
@@ -525,50 +527,8 @@ function paramCase(input, options) {
 ;// CONCATENATED MODULE: external ["wp","apiFetch"]
 var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js
-/**
- * Downloads a file.
- *
- * @param {string} fileName    File Name.
- * @param {string} content     File Content.
- * @param {string} contentType File mime type.
- */
-function download(fileName, content, contentType) {
-  const file = new window.Blob([content], {
-    type: contentType
-  });
-
-  // IE11 can't use the click to download technique
-  // we use a specific IE11 technique instead.
-  if (window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(file, fileName);
-  } else {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-}
-
-/**
- * Reads the textual content of the given file.
- *
- * @param {File} file File.
- * @return {Promise<string>}  Content of the file.
- */
-function readTextFile(file) {
-  const reader = new window.FileReader();
-  return new Promise(resolve => {
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsText(file);
-  });
-}
-
+;// CONCATENATED MODULE: external ["wp","blob"]
+var external_wp_blob_namespaceObject = window["wp"]["blob"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/export.js
 /**
  * External dependencies
@@ -607,7 +567,7 @@ async function exportReusableBlock(id) {
     syncStatus
   }, null, 2);
   const fileName = paramCase(title) + '.json';
-  download(fileName, fileContent, 'application/json');
+  (0,external_wp_blob_namespaceObject.downloadBlob)(fileName, fileContent, 'application/json');
 }
 /* harmony default export */ var utils_export = (exportReusableBlock);
 
@@ -615,6 +575,23 @@ async function exportReusableBlock(id) {
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: external ["wp","components"]
 var external_wp_components_namespaceObject = window["wp"]["components"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js
+/**
+ * Reads the textual content of the given file.
+ *
+ * @param {File} file File.
+ * @return {Promise<string>}  Content of the file.
+ */
+function readTextFile(file) {
+  const reader = new window.FileReader();
+  return new Promise(resolve => {
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.readAsText(file);
+  });
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/import.js
 /**
  * WordPress dependencies
@@ -725,21 +702,21 @@ function ImportForm({
   const onDismissError = () => {
     setError(null);
   };
-  return (0,external_wp_element_namespaceObject.createElement)("form", {
+  return (0,external_React_namespaceObject.createElement)("form", {
     className: "list-reusable-blocks-import-form",
     onSubmit: onSubmit,
     ref: formRef
-  }, error && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
+  }, error && (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
     status: "error",
     onRemove: () => onDismissError()
-  }, error), (0,external_wp_element_namespaceObject.createElement)("label", {
+  }, error), (0,external_React_namespaceObject.createElement)("label", {
     htmlFor: inputId,
     className: "list-reusable-blocks-import-form__label"
-  }, (0,external_wp_i18n_namespaceObject.__)('File')), (0,external_wp_element_namespaceObject.createElement)("input", {
+  }, (0,external_wp_i18n_namespaceObject.__)('File')), (0,external_React_namespaceObject.createElement)("input", {
     id: inputId,
     type: "file",
     onChange: onChangeFile
-  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+  }), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     type: "submit",
     isBusy: isLoading,
     disabled: !file || isLoading,
@@ -765,7 +742,7 @@ function ImportForm({
 function ImportDropdown({
   onUpload
 }) {
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Dropdown, {
+  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Dropdown, {
     popoverProps: {
       placement: 'bottom-start'
     },
@@ -773,14 +750,14 @@ function ImportDropdown({
     renderToggle: ({
       isOpen,
       onToggle
-    }) => (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    }) => (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
       "aria-expanded": isOpen,
       onClick: onToggle,
       variant: "primary"
     }, (0,external_wp_i18n_namespaceObject.__)('Import from JSON')),
     renderContent: ({
       onClose
-    }) => (0,external_wp_element_namespaceObject.createElement)(import_form, {
+    }) => (0,external_React_namespaceObject.createElement)(import_form, {
       onUpload: (0,external_wp_compose_namespaceObject.pipe)(onClose, onUpload)
     })
   });
@@ -829,7 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.createElement('div');
   container.className = 'list-reusable-blocks__container';
   button.parentNode.insertBefore(container, button);
-  (0,external_wp_element_namespaceObject.createRoot)(container).render((0,external_wp_element_namespaceObject.createElement)(import_dropdown, {
+  (0,external_wp_element_namespaceObject.createRoot)(container).render((0,external_React_namespaceObject.createElement)(import_dropdown, {
     onUpload: showNotice
   }));
 });

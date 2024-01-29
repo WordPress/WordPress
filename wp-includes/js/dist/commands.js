@@ -327,8 +327,8 @@ __webpack_require__.d(private_actions_namespaceObject, {
   setContext: function() { return setContext; }
 });
 
-;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+;// CONCATENATED MODULE: external "React"
+var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -344,8 +344,6 @@ function _extends() {
   };
   return _extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: external "React"
-var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/primitive/dist/index.module.js
 function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEventHandler, { checkForDefaultPrevented: checkForDefaultPrevented = true  } = {}) {
     return function handleEvent(event) {
@@ -3209,6 +3207,8 @@ var classnames = __webpack_require__(4403);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","data"]
 var external_wp_data_namespaceObject = window["wp"]["data"];
+;// CONCATENATED MODULE: external ["wp","element"]
+var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","components"]
@@ -3255,10 +3255,10 @@ var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
  * WordPress dependencies
  */
 
-const search = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+const search = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
-}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
+}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"
 }));
 /* harmony default export */ var library_search = (search);
@@ -3389,6 +3389,7 @@ const reducer = (0,external_wp_data_namespaceObject.combineReducers)({
  * @property {string=}     context     Command context.
  * @property {JSX.Element} icon        Command icon.
  * @property {Function}    callback    Command callback.
+ * @property {boolean}     disabled    Whether to disable the command.
  */
 
 /**
@@ -3400,9 +3401,10 @@ const reducer = (0,external_wp_data_namespaceObject.combineReducers)({
  *
  * @typedef {Object} WPCommandLoaderConfig
  *
- * @property {string}              name    Command loader name.
- * @property {string=}             context Command loader context.
- * @property {WPCommandLoaderHook} hook    Command loader hook.
+ * @property {string}              name     Command loader name.
+ * @property {string=}             context  Command loader context.
+ * @property {WPCommandLoaderHook} hook     Command loader hook.
+ * @property {boolean}             disabled Whether to disable the command loader.
  */
 
 /**
@@ -3881,8 +3883,6 @@ const STORE_NAME = 'core/commands';
 /**
  * Store definition for the commands namespace.
  *
- * See how the Commands Store is being used in components like [site-hub](https://github.com/WordPress/gutenberg/blob/HEAD/packages/edit-site/src/components/site-hub/index.js#L23) and [document-actions](https://github.com/WordPress/gutenberg/blob/HEAD/packages/edit-post/src/components/header/document-actions/index.js#L14).
- *
  * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
  *
  * @type {Object}
@@ -3945,23 +3945,23 @@ function CommandMenuLoader({
   if (!commands.length) {
     return null;
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(Le.List, null, commands.map(command => {
+  return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(Le.List, null, commands.map(command => {
     var _command$searchLabel;
-    return (0,external_wp_element_namespaceObject.createElement)(Le.Item, {
+    return (0,external_React_namespaceObject.createElement)(Le.Item, {
       key: command.name,
       value: (_command$searchLabel = command.searchLabel) !== null && _command$searchLabel !== void 0 ? _command$searchLabel : command.label,
       onSelect: () => command.callback({
         close
       }),
       id: command.name
-    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
       alignment: "left",
       className: classnames_default()('commands-command-menu__item', {
         'has-icon': command.icon
       })
-    }, command.icon && (0,external_wp_element_namespaceObject.createElement)(icon, {
+    }, command.icon && (0,external_React_namespaceObject.createElement)(icon, {
       icon: command.icon
-    }), (0,external_wp_element_namespaceObject.createElement)("span", null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextHighlight, {
+    }), (0,external_React_namespaceObject.createElement)("span", null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.TextHighlight, {
       text: command.label,
       highlight: search
     }))));
@@ -3986,7 +3986,7 @@ function CommandMenuLoaderWrapper({
       setKey(prevKey => prevKey + 1);
     }
   }, [hook]);
-  return (0,external_wp_element_namespaceObject.createElement)(CommandMenuLoader, {
+  return (0,external_React_namespaceObject.createElement)(CommandMenuLoader, {
     key: key,
     hook: currentLoader.current,
     search: search,
@@ -4016,27 +4016,27 @@ function CommandMenuGroup({
   if (!commands.length && !loaders.length) {
     return null;
   }
-  return (0,external_wp_element_namespaceObject.createElement)(Le.Group, null, commands.map(command => {
+  return (0,external_React_namespaceObject.createElement)(Le.Group, null, commands.map(command => {
     var _command$searchLabel2;
-    return (0,external_wp_element_namespaceObject.createElement)(Le.Item, {
+    return (0,external_React_namespaceObject.createElement)(Le.Item, {
       key: command.name,
       value: (_command$searchLabel2 = command.searchLabel) !== null && _command$searchLabel2 !== void 0 ? _command$searchLabel2 : command.label,
       onSelect: () => command.callback({
         close
       }),
       id: command.name
-    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
       alignment: "left",
       className: classnames_default()('commands-command-menu__item', {
         'has-icon': command.icon
       })
-    }, command.icon && (0,external_wp_element_namespaceObject.createElement)(icon, {
+    }, command.icon && (0,external_React_namespaceObject.createElement)(icon, {
       icon: command.icon
-    }), (0,external_wp_element_namespaceObject.createElement)("span", null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextHighlight, {
+    }), (0,external_React_namespaceObject.createElement)("span", null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.TextHighlight, {
       text: command.label,
       highlight: search
     }))));
-  }), loaders.map(loader => (0,external_wp_element_namespaceObject.createElement)(CommandMenuLoaderWrapper, {
+  }), loaders.map(loader => (0,external_React_namespaceObject.createElement)(CommandMenuLoaderWrapper, {
     key: loader.name,
     hook: loader.hook,
     search: search,
@@ -4061,7 +4061,7 @@ function CommandInput({
       commandMenuInput.current.focus();
     }
   }, [isOpen]);
-  return (0,external_wp_element_namespaceObject.createElement)(Le.Input, {
+  return (0,external_React_namespaceObject.createElement)(Le.Input, {
     ref: commandMenuInput,
     value: search,
     onValueChange: setSearch,
@@ -4132,30 +4132,30 @@ function CommandMenu() {
     }
   };
   const isLoading = Object.values(loaders).some(Boolean);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
     className: "commands-command-menu",
     overlayClassName: "commands-command-menu__overlay",
     onRequestClose: closeAndReset,
     __experimentalHideHeader: true
-  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, (0,external_React_namespaceObject.createElement)("div", {
     className: "commands-command-menu__container"
-  }, (0,external_wp_element_namespaceObject.createElement)(Le, {
+  }, (0,external_React_namespaceObject.createElement)(Le, {
     label: (0,external_wp_i18n_namespaceObject.__)('Command palette'),
     onKeyDown: onKeyDown
-  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, (0,external_React_namespaceObject.createElement)("div", {
     className: "commands-command-menu__header"
-  }, (0,external_wp_element_namespaceObject.createElement)(icon, {
+  }, (0,external_React_namespaceObject.createElement)(icon, {
     icon: library_search
-  }), (0,external_wp_element_namespaceObject.createElement)(CommandInput, {
+  }), (0,external_React_namespaceObject.createElement)(CommandInput, {
     search: search,
     setSearch: setSearch,
     isOpen: isOpen
-  })), (0,external_wp_element_namespaceObject.createElement)(Le.List, null, search && !isLoading && (0,external_wp_element_namespaceObject.createElement)(Le.Empty, null, (0,external_wp_i18n_namespaceObject.__)('No results found.')), (0,external_wp_element_namespaceObject.createElement)(CommandMenuGroup, {
+  })), (0,external_React_namespaceObject.createElement)(Le.List, null, search && !isLoading && (0,external_React_namespaceObject.createElement)(Le.Empty, null, (0,external_wp_i18n_namespaceObject.__)('No results found.')), (0,external_React_namespaceObject.createElement)(CommandMenuGroup, {
     search: search,
     setLoader: setLoader,
     close: closeAndReset,
     isContextual: true
-  }), search && (0,external_wp_element_namespaceObject.createElement)(CommandMenuGroup, {
+  }), search && (0,external_React_namespaceObject.createElement)(CommandMenuGroup, {
     search: search,
     setLoader: setLoader,
     close: closeAndReset
@@ -4258,6 +4258,9 @@ function useCommand(command) {
     currentCallback.current = command.callback;
   }, [command.callback]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (command.disabled) {
+      return;
+    }
     registerCommand({
       name: command.name,
       context: command.context,
@@ -4269,7 +4272,7 @@ function useCommand(command) {
     return () => {
       unregisterCommand(command.name);
     };
-  }, [command.name, command.label, command.searchLabel, command.icon, command.context, registerCommand, unregisterCommand]);
+  }, [command.name, command.label, command.searchLabel, command.icon, command.context, command.disabled, registerCommand, unregisterCommand]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/hooks/use-command-loader.js
@@ -4359,6 +4362,9 @@ function useCommandLoader(loader) {
     unregisterCommandLoader
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (loader.disabled) {
+      return;
+    }
     registerCommandLoader({
       name: loader.name,
       hook: loader.hook,
@@ -4367,7 +4373,7 @@ function useCommandLoader(loader) {
     return () => {
       unregisterCommandLoader(loader.name);
     };
-  }, [loader.name, loader.hook, loader.context, registerCommandLoader, unregisterCommandLoader]);
+  }, [loader.name, loader.hook, loader.context, loader.disabled, registerCommandLoader, unregisterCommandLoader]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/index.js

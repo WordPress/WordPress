@@ -19,6 +19,14 @@
 	},
 	"supports": {
 		"className": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

@@ -43,10 +43,6 @@
 			"type": "object",
 			"default": {}
 		},
-		"buttonBehavior": {
-			"type": "string",
-			"default": "expand-searchfield"
-		},
 		"isSearchFieldHidden": {
 			"type": "boolean",
 			"default": false
@@ -91,7 +87,6 @@
 		},
 		"html": false
 	},
-	"viewScript": "file:./view.min.js",
 	"editorStyle": "wp-block-search-editor",
 	"style": "wp-block-search"
 }

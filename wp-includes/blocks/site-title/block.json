@@ -56,11 +56,7 @@
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"lineHeight": true,
-				"fontAppearance": true,
-				"letterSpacing": true,
-				"textTransform": true
+				"fontSize": true
 			}
 		}
 	},

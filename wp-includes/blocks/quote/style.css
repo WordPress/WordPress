@@ -15,3 +15,6 @@
   font-size:1.125em;
   text-align:right;
 }
+.wp-block-quote>cite{
+  display:block;
+}

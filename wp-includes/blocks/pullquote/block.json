@@ -8,16 +8,15 @@
 	"textdomain": "default",
 	"attributes": {
 		"value": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "p",
 			"__experimentalRole": "content"
 		},
 		"citation": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "cite",
-			"default": "",
 			"__experimentalRole": "content"
 		},
 		"textAlign": {
@@ -36,6 +35,10 @@
 				"text": true
 			}
 		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -46,8 +49,7 @@
 			"__experimentalTextDecoration": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"fontAppearance": true
+				"fontSize": true
 			}
 		},
 		"__experimentalBorder": {

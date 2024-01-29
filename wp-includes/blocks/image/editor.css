@@ -12,8 +12,11 @@
 .wp-block-image.wp-block-image.is-selected .components-placeholder .components-placeholder__illustration{
   display:none;
 }
-.wp-block-image.wp-block-image.is-selected .components-placeholder:before{
+.wp-block-image.wp-block-image .block-bindings-media-placeholder-message,.wp-block-image.wp-block-image.is-selected .components-placeholder:before{
   opacity:0;
+}
+.wp-block-image.wp-block-image.is-selected .block-bindings-media-placeholder-message{
+  opacity:1;
 }
 .wp-block-image.wp-block-image .components-button,.wp-block-image.wp-block-image .components-placeholder__instructions,.wp-block-image.wp-block-image .components-placeholder__label{
   transition:none;

@@ -51,6 +51,10 @@
 		},
 		"customGradient": {
 			"type": "string"
+		},
+		"useFirstImageFromPost": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],

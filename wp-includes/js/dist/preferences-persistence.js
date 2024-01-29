@@ -802,13 +802,49 @@ function convertComplementaryAreas(state) {
   }, state);
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences-persistence/build-module/migrations/preferences-package-data/convert-editor-settings.js
+/**
+ * Internal dependencies
+ */
+
+function convertEditorSettings(data) {
+  var _newData$coreEditPo, _newData$coreEditSi;
+  let newData = data;
+  const settingsToMoveToCore = ['allowRightClickOverrides', 'distractionFree', 'editorMode', 'fixedToolbar', 'focusMode', 'hiddenBlockTypes', 'inactivePanels', 'keepCaretInsideBlock', 'mostUsedBlocks', 'openPanels', 'showBlockBreadcrumbs', 'showIconLabels', 'showListViewByDefault'];
+  settingsToMoveToCore.forEach(setting => {
+    if (data?.['core/edit-post']?.[setting] !== undefined) {
+      newData = {
+        ...newData,
+        core: {
+          ...newData?.core,
+          [setting]: data['core/edit-post'][setting]
+        }
+      };
+      delete newData['core/edit-post'][setting];
+    }
+    if (data?.['core/edit-site']?.[setting] !== undefined) {
+      delete newData['core/edit-site'][setting];
+    }
+  });
+  if (Object.keys((_newData$coreEditPo = newData?.['core/edit-post']) !== null && _newData$coreEditPo !== void 0 ? _newData$coreEditPo : {})?.length === 0) {
+    delete newData['core/edit-post'];
+  }
+  if (Object.keys((_newData$coreEditSi = newData?.['core/edit-site']) !== null && _newData$coreEditSi !== void 0 ? _newData$coreEditSi : {})?.length === 0) {
+    delete newData['core/edit-site'];
+  }
+  return newData;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences-persistence/build-module/migrations/preferences-package-data/index.js
 /**
  * Internal dependencies
  */
 
+
 function convertPreferencesPackageData(data) {
-  return convertComplementaryAreas(data);
+  let newData = convertComplementaryAreas(data);
+  newData = convertEditorSettings(newData);
+  return newData;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences-persistence/build-module/index.js

@@ -19,9 +19,6 @@
 		},
 		"alt": {
 			"type": "string",
-			"source": "attribute",
-			"selector": "img",
-			"attribute": "alt",
 			"default": ""
 		},
 		"hasParallax": {
@@ -41,6 +38,9 @@
 		},
 		"customOverlayColor": {
 			"type": "string"
+		},
+		"isUserOverlayColor": {
+			"type": "boolean"
 		},
 		"backgroundType": {
 			"type": "string",
@@ -113,6 +113,9 @@
 			"background": false,
 			"__experimentalSkipSerialization": [ "gradients" ],
 			"enableContrastChecker": false
+		},
+		"dimensions": {
+			"aspectRatio": true
 		},
 		"typography": {
 			"fontSize": true,

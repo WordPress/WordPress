@@ -132,9 +132,9 @@ function reducer(state = {}, action) {
  * @example
  *
  *```js
+ * import { useEffect } from 'react';
  * import { store as keyboardShortcutsStore } from '@wordpress/keyboard-shortcuts';
  * import { useSelect, useDispatch } from '@wordpress/data';
- * import { useEffect } from '@wordpress/element';
  * import { __ } from '@wordpress/i18n';
  *
  * const ExampleComponent = () => {
@@ -194,9 +194,9 @@ function registerShortcut({
  * @example
  *
  *```js
+ * import { useEffect } from 'react';
  * import { store as keyboardShortcutsStore } from '@wordpress/keyboard-shortcuts';
  * import { useSelect, useDispatch } from '@wordpress/data';
- * import { useEffect } from '@wordpress/element';
  * import { __ } from '@wordpress/i18n';
  *
  * const ExampleComponent = () => {
@@ -1039,6 +1039,8 @@ function useShortcut(name, callback, {
   }, [name, isDisabled, shortcuts]);
 }
 
+;// CONCATENATED MODULE: external "React"
+var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/components/shortcut-provider.js
 
 /**
@@ -1061,7 +1063,7 @@ const {
  *
  * @param {Object} props Props to pass to `div`.
  *
- * @return {import('@wordpress/element').WPElement} Component.
+ * @return {Element} Component.
  */
 function ShortcutProvider(props) {
   const [keyboardShortcuts] = (0,external_wp_element_namespaceObject.useState)(() => new Set());
@@ -1073,9 +1075,9 @@ function ShortcutProvider(props) {
   }
 
   /* eslint-disable jsx-a11y/no-static-element-interactions */
-  return (0,external_wp_element_namespaceObject.createElement)(Provider, {
+  return (0,external_React_namespaceObject.createElement)(Provider, {
     value: keyboardShortcuts
-  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, (0,external_React_namespaceObject.createElement)("div", {
     ...props,
     onKeyDown: onKeyDown
   }));

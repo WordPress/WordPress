@@ -8,6 +8,7 @@
 	"description": "Prompt visitors to take action with a button-style link.",
 	"keywords": [ "link" ],
 	"textdomain": "default",
+	"usesContext": [ "pattern/overrides" ],
 	"attributes": {
 		"tagName": {
 			"type": "string",
@@ -36,8 +37,8 @@
 			"__experimentalRole": "content"
 		},
 		"text": {
-			"type": "string",
-			"source": "html",
+			"type": "rich-text",
+			"source": "rich-text",
 			"selector": "a,button",
 			"__experimentalRole": "content"
 		},

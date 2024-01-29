@@ -1,11 +1,20 @@
 .wp-block-pullquote{
   box-sizing:border-box;
   overflow-wrap:break-word;
-  padding:3em 0;
+  padding:4em 0;
   text-align:center;
 }
 .wp-block-pullquote blockquote,.wp-block-pullquote cite,.wp-block-pullquote p{
   color:inherit;
+}
+.wp-block-pullquote blockquote{
+  margin:0;
+}
+.wp-block-pullquote p{
+  margin-top:0;
+}
+.wp-block-pullquote p:last-child{
+  margin-bottom:0;
 }
 .wp-block-pullquote.alignleft,.wp-block-pullquote.alignright{
   max-width:420px;

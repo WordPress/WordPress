@@ -4,7 +4,7 @@
 	"name": "core/footnotes",
 	"title": "Footnotes",
 	"category": "text",
-	"description": "",
+	"description": "Display footnotes added to the page.",
 	"keywords": [ "references" ],
 	"textdomain": "default",
 	"usesContext": [ "postId", "postType" ],
@@ -33,6 +33,7 @@
 		"html": false,
 		"multiple": false,
 		"reusable": false,
+		"inserter": false,
 		"spacing": {
 			"margin": true,
 			"padding": true,

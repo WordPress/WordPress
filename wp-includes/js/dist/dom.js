@@ -1686,7 +1686,7 @@ const embeddedContentSchema = {
     attributes: ['data', 'type', 'name', 'usemap', 'form', 'width', 'height']
   },
   video: {
-    attributes: ['src', 'poster', 'preload', 'autoplay', 'mediagroup', 'loop', 'muted', 'controls', 'width', 'height']
+    attributes: ['src', 'poster', 'preload', 'playsinline', 'autoplay', 'mediagroup', 'loop', 'muted', 'controls', 'width', 'height']
   }
 };
 

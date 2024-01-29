@@ -33,10 +33,8 @@ function render_block_core_calendar( $attributes ) {
 			str_contains( $permalink_structure, '%monthnum%' ) &&
 			str_contains( $permalink_structure, '%year%' )
 		) {
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
 			$monthnum = $attributes['month'];
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
-			$year = $attributes['year'];
+			$year     = $attributes['year'];
 		}
 	}
 
@@ -70,10 +68,8 @@ function render_block_core_calendar( $attributes ) {
 		$calendar
 	);
 
-	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
 	$monthnum = $previous_monthnum;
-	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
-	$year = $previous_year;
+	$year     = $previous_year;
 
 	return $output;
 }
