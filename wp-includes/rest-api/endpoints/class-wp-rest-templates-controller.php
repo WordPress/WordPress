@@ -759,8 +759,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	/**
 	 * Returns the source from where the template originally comes from.
 	 *
-	 * @access private
-	 * @internal
+	 * @since 6.5.0
 	 *
 	 * @param WP_Block_Template $template_object Template instance.
 	 * @return string                            Original source of the template one of theme, plugin, site, or user.
@@ -808,8 +807,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	/**
 	 * Returns a human readable text for the author of the template.
 	 *
-	 * @access private
-	 * @internal
+	 * @since 6.5.0
 	 *
 	 * @param WP_Block_Template $template_object Template instance.
 	 * @return string                            Human readable text for the author.
