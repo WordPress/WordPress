@@ -10,7 +10,7 @@
  */
 
 /**
- * Core class used for interacting with block binding sources.
+ * Core class used for interacting with block bindings sources.
  *
  *  @since 6.5.0
  */
@@ -20,7 +20,6 @@ final class WP_Block_Bindings_Registry {
 	 * Holds the registered block bindings sources, keyed by source identifier.
 	 *
 	 * @since 6.5.0
-	 *
 	 * @var array
 	 */
 	private $sources = array();
@@ -34,7 +33,7 @@ final class WP_Block_Bindings_Registry {
 	private static $instance = null;
 
 	/**
-	 * Registers a new block binding source.
+	 * Registers a new block bindings source.
 	 *
 	 * Sources are used to override block's original attributes with a value
 	 * coming from the source. Once a source is registered, it can be used by a
@@ -66,7 +65,7 @@ final class WP_Block_Bindings_Registry {
 		if ( ! is_string( $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
-				__( 'Block binding source name must be a string.' ),
+				__( 'Block bindings source name must be a string.' ),
 				'6.5.0'
 			);
 			return false;
@@ -75,7 +74,7 @@ final class WP_Block_Bindings_Registry {
 		if ( preg_match( '/[A-Z]+/', $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
-				__( 'Block binding source names must not contain uppercase characters.' ),
+				__( 'Block bindings source names must not contain uppercase characters.' ),
 				'6.5.0'
 			);
 			return false;
@@ -85,7 +84,7 @@ final class WP_Block_Bindings_Registry {
 		if ( ! preg_match( $name_matcher, $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
-				__( 'Block binding source names must contain a namespace prefix. Example: my-plugin/my-custom-source' ),
+				__( 'Block bindings source names must contain a namespace prefix. Example: my-plugin/my-custom-source' ),
 				'6.5.0'
 			);
 			return false;
@@ -94,8 +93,8 @@ final class WP_Block_Bindings_Registry {
 		if ( $this->is_registered( $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
-				/* translators: %s: Block binding source name. */
-				sprintf( __( 'Block binding source "%s" already registered.' ), $source_name ),
+				/* translators: %s: Block bindings source name. */
+				sprintf( __( 'Block bindings source "%s" already registered.' ), $source_name ),
 				'6.5.0'
 			);
 			return false;
@@ -112,18 +111,18 @@ final class WP_Block_Bindings_Registry {
 	}
 
 	/**
-	 * Unregisters a block binding source.
+	 * Unregisters a block bindings source.
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param string $source_name Block binding source name including namespace.
-	 * @return array|false The unregistred block binding source on success and `false` otherwise.
+	 * @param string $source_name Block bindings source name including namespace.
+	 * @return array|false The unregistred block bindings source on success and `false` otherwise.
 	 */
 	public function unregister( $source_name ) {
 		if ( ! $this->is_registered( $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
-				/* translators: %s: Block binding source name. */
+				/* translators: %s: Block bindings source name. */
 				sprintf( __( 'Block binding "%s" not found.' ), $source_name ),
 				'6.5.0'
 			);
@@ -153,7 +152,7 @@ final class WP_Block_Bindings_Registry {
 	 * @since 6.5.0
 	 *
 	 * @param string $source_name The name of the source.
-	 * @return array|null The registered block binding source, or `null` if it is not registered.
+	 * @return array|null The registered block bindings source, or `null` if it is not registered.
 	 */
 	public function get_registered( $source_name ) {
 		if ( ! $this->is_registered( $source_name ) ) {
@@ -164,12 +163,12 @@ final class WP_Block_Bindings_Registry {
 	}
 
 	/**
-	 * Checks if a block binding source is registered.
+	 * Checks if a block bindings source is registered.
 	 *
 	 * @since 6.5.0
 	 *
 	 * @param string $source_name The name of the source.
-	 * @return bool `true` if the block binding source is registered, `false` otherwise.
+	 * @return bool `true` if the block bindings source is registered, `false` otherwise.
 	 */
 	public function is_registered( $source_name ) {
 		return isset( $this->sources[ $source_name ] );
