@@ -599,13 +599,11 @@ function populate_options( array $options = array() ) {
 			$autoload = 'yes';
 		}
 
-		if ( is_array( $value ) ) {
-			$value = serialize( $value );
-		}
-
 		if ( ! empty( $insert ) ) {
 			$insert .= ', ';
 		}
+
+		$value = maybe_serialize( sanitize_option( $option, $value ) );
 
 		$insert .= $wpdb->prepare( '(%s, %s, %s)', $option, $value, $autoload );
 	}
