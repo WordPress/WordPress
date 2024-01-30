@@ -151,6 +151,10 @@ if ( isset( $_GET['action'] ) ) {
 
 		check_admin_referer( 'plugin-upload' );
 
+		if ( isset( $_FILES['pluginzip']['name'] ) && ! str_ends_with( strtolower( $_FILES['pluginzip']['name'] ), '.zip' ) ) {
+			wp_die( __( 'Only .zip archives may be uploaded.' ) );
+		}
+
 		$file_upload = new File_Upload_Upgrader( 'pluginzip', 'package' );
 
 		$title        = __( 'Upload Plugin' );
@@ -292,6 +296,10 @@ if ( isset( $_GET['action'] ) ) {
 		}
 
 		check_admin_referer( 'theme-upload' );
+
+		if ( isset( $_FILES['themezip']['name'] ) && ! str_ends_with( strtolower( $_FILES['themezip']['name'] ), '.zip' ) ) {
+			wp_die( __( 'Only .zip archives may be uploaded.' ) );
+		}
 
 		$file_upload = new File_Upload_Upgrader( 'themezip', 'package' );
 
