@@ -5,6 +5,58 @@
  * @package WordPress
  */
 
+/*
+	These next two functions are in this file due to compat.php having `__autoload`
+	in it and the PHP linter auto failing on it.
+*/
+
+if ( ! function_exists( 'str_starts_with' ) ) {
+	/**
+	 * Polyfill for `str_starts_with()` function added in PHP 8.0.
+	 *
+	 * Performs a case-sensitive check indicating if
+	 * the haystack begins with needle.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $haystack The string to search in.
+	 * @param string $needle   The substring to search for in the `$haystack`.
+	 * @return bool True if `$haystack` starts with `$needle`, otherwise false.
+	 */
+	function str_starts_with( $haystack, $needle ) {
+		if ( '' === $needle ) {
+			return true;
+		}
+
+		return 0 === strpos( $haystack, $needle );
+	}
+}
+
+if ( ! function_exists( 'str_ends_with' ) ) {
+	/**
+	 * Polyfill for `str_ends_with()` function added in PHP 8.0.
+	 *
+	 * Performs a case-sensitive check indicating if
+	 * the haystack ends with needle.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $haystack The string to search in.
+	 * @param string $needle   The substring to search for in the `$haystack`.
+	 * @return bool True if `$haystack` ends with `$needle`, otherwise false.
+	 */
+	function str_ends_with( $haystack, $needle ) {
+		if ( '' === $haystack ) {
+			return '' === $needle;
+		}
+
+		$len = strlen( $needle );
+
+		return substr( $haystack, -$len, $len ) === $needle;
+	}
+}
+
+
 require( ABSPATH . WPINC . '/option.php' );
 
 /**
@@ -2357,7 +2409,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		} else {
 			if ( $type !== $real_mime ) {
 				/*
-				 * Everything else including image/* and application/*: 
+				 * Everything else including image/* and application/*:
 				 * If the real content type doesn't match the file extension, assume it's dangerous.
 				 */
 				$type = $ext = false;
@@ -2366,7 +2418,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		}
 	}
 
-	// The mime type must be allowed 
+	// The mime type must be allowed
 	if ( $type ) {
 		$allowed = get_allowed_mime_types();
 
