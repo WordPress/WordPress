@@ -409,12 +409,16 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$files = array(
 				$remote_destination . $language_update->language . '.po',
 				$remote_destination . $language_update->language . '.mo',
+				$remote_destination . $language_update->language . '.l10n.php',
 				$remote_destination . 'admin-' . $language_update->language . '.po',
 				$remote_destination . 'admin-' . $language_update->language . '.mo',
+				$remote_destination . 'admin-' . $language_update->language . '.l10n.php',
 				$remote_destination . 'admin-network-' . $language_update->language . '.po',
 				$remote_destination . 'admin-network-' . $language_update->language . '.mo',
+				$remote_destination . 'admin-network-' . $language_update->language . '.l10n.php',
 				$remote_destination . 'continents-cities-' . $language_update->language . '.po',
 				$remote_destination . 'continents-cities-' . $language_update->language . '.mo',
+				$remote_destination . 'continents-cities-' . $language_update->language . '.l10n.php',
 			);
 
 			$json_translation_files = glob( $language_directory . $language_update->language . '-*.json' );
@@ -427,6 +431,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$files = array(
 				$remote_destination . $language_update->slug . '-' . $language_update->language . '.po',
 				$remote_destination . $language_update->slug . '-' . $language_update->language . '.mo',
+				$remote_destination . $language_update->slug . '-' . $language_update->language . '.l10n.php',
 			);
 
 			$language_directory     = $language_directory . $language_update->type . 's/';
