@@ -213,7 +213,7 @@ abstract class WP_Translation_File {
 		 * are used, the entry key will have the format "ProductNULProducts".
 		 * Fall back to looking up just "Product" to support this edge case.
 		 */
-		foreach( $this->entries as $key => $value ) {
+		foreach ( $this->entries as $key => $value ) {
 			if ( str_starts_with( $key, $text . "\0" ) ) {
 				$parts = explode( "\0", $value );
 				return $parts[0];
