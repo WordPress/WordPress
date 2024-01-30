@@ -186,6 +186,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $fields_update;
 		}
 
+		$terms_update = $this->handle_terms( $attachment_id, $request );
+
+		if ( is_wp_error( $terms_update ) ) {
+			return $terms_update;
+		}
+
 		$request->set_param( 'context', 'edit' );
 
 		/**
