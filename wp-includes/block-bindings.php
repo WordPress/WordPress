@@ -48,7 +48,7 @@ function register_block_bindings_source( $source_name, array $source_properties 
  * @since 6.5.0
  *
  * @param string $source_name Block bindings source name including namespace.
- * @return array|false The unregistred block bindings source on success and `false` otherwise.
+ * @return array|false The unregistered block bindings source on success and `false` otherwise.
  */
 function unregister_block_bindings_source( $source_name ) {
 	return WP_Block_Bindings_Registry::get_instance()->unregister( $source_name );

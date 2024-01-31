@@ -116,7 +116,7 @@ final class WP_Block_Bindings_Registry {
 	 * @since 6.5.0
 	 *
 	 * @param string $source_name Block bindings source name including namespace.
-	 * @return array|false The unregistred block bindings source on success and `false` otherwise.
+	 * @return array|false The unregistered block bindings source on success and `false` otherwise.
 	 */
 	public function unregister( $source_name ) {
 		if ( ! $this->is_registered( $source_name ) ) {
