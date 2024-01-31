@@ -203,24 +203,7 @@ abstract class WP_Translation_File {
 			$this->parse_file();
 		}
 
-		if ( isset( $this->entries[ $text ] ) ) {
-			return $this->entries[ $text ];
-		}
-
-		/*
-		 * Handle cases where a pluralized string is only used as a singular one.
-		 * For example, when both __( 'Product' ) and _n( 'Product', 'Products' )
-		 * are used, the entry key will have the format "ProductNULProducts".
-		 * Fall back to looking up just "Product" to support this edge case.
-		 */
-		foreach ( $this->entries as $key => $value ) {
-			if ( str_starts_with( $key, $text . "\0" ) ) {
-				$parts = explode( "\0", $value );
-				return $parts[0];
-			}
-		}
-
-		return false;
+		return $this->entries[ $text ] ?? false;
 	}
 
 	/**
