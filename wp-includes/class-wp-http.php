@@ -467,9 +467,9 @@ class WP_Http {
 						return null !== $attr;
 					}
 				);
-				$cookie_jar[ $value->name ] = new WpOrg\Requests\Cookie( $value->name, $value->value, $attributes, array( 'host-only' => $value->host_only ) );
+				$cookie_jar[ $value->name ] = new WpOrg\Requests\Cookie( (string) $value->name, $value->value, $attributes, array( 'host-only' => $value->host_only ) );
 			} elseif ( is_scalar( $value ) ) {
-				$cookie_jar[ $name ] = new WpOrg\Requests\Cookie( $name, (string) $value );
+				$cookie_jar[ $name ] = new WpOrg\Requests\Cookie( (string) $name, (string) $value );
 			}
 		}
 
