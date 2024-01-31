@@ -235,6 +235,14 @@ class WP_Block_Type {
 	public $style_handles = array();
 
 	/**
+	 * Block type front end only style handles.
+	 *
+	 * @since 6.5.0
+	 * @var string[]
+	 */
+	public $view_style_handles = array();
+
+	/**
 	 * Deprecated block type properties for script and style handles.
 	 *
 	 * @since 6.1.0
@@ -278,6 +286,7 @@ class WP_Block_Type {
 	 *              Deprecated the `editor_script`, `script`, `view_script`, `editor_style`, and `style` properties.
 	 * @since 6.3.0 Added the `selectors` property.
 	 * @since 6.4.0 Added the `block_hooks` property.
+	 * @since 6.5.0 Added the `view_style_handles` property.
 	 *
 	 * @see register_block_type()
 	 *
@@ -315,6 +324,7 @@ class WP_Block_Type {
 	 *     @type string[]      $view_script_handles      Block type front end only script handles.
 	 *     @type string[]      $editor_style_handles     Block type editor only style handles.
 	 *     @type string[]      $style_handles            Block type front end and editor style handles.
+	 *     @type string[]      $view_style_handles       Block type front end only style handles.
 	 * }
 	 */
 	public function __construct( $block_type, $args = array() ) {

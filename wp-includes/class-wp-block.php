@@ -280,6 +280,12 @@ class WP_Block {
 			}
 		}
 
+		if ( ( ! empty( $this->block_type->view_style_handles ) ) ) {
+			foreach ( $this->block_type->view_style_handles as $view_style_handle ) {
+				wp_enqueue_style( $view_style_handle );
+			}
+		}
+
 		/**
 		 * Filters the content of a single block.
 		 *

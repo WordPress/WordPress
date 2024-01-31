@@ -292,6 +292,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 				'view_script_handles',
 				'editor_style_handles',
 				'style_handles',
+				'view_style_handles',
 				'variations',
 				'block_hooks',
 			),
@@ -594,6 +595,16 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 				),
 				'style_handles'         => array(
 					'description' => __( 'Public facing and editor style handles.' ),
+					'type'        => array( 'array' ),
+					'default'     => array(),
+					'items'       => array(
+						'type' => 'string',
+					),
+					'context'     => array( 'embed', 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'view_style_handles'    => array(
+					'description' => __( 'Public facing style handles.' ),
 					'type'        => array( 'array' ),
 					'default'     => array(),
 					'items'       => array(

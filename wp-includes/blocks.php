@@ -64,6 +64,7 @@ function generate_block_asset_handle( $block_name, $field_name, $index = 0 ) {
 		'viewScript'   => 'view-script',
 		'editorStyle'  => 'editor-style',
 		'style'        => 'style',
+		'viewStyle'    => 'view-style',
 	);
 	$asset_handle   = str_replace( '/', '-', $block_name ) .
 		'-' . $field_mappings[ $field_name ];
@@ -326,6 +327,7 @@ function get_block_metadata_i18n_schema() {
  * @since 6.1.0 Added support for `render` field.
  * @since 6.3.0 Added `selectors` field.
  * @since 6.4.0 Added support for `blockHooks` field.
+ * @since 6.5.0 Added support for `viewStyle` field.
  *
  * @param string $file_or_folder Path to the JSON file with metadata definition for
  *                               the block or path to the folder where the `block.json` file is located.
@@ -503,6 +505,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 	$style_fields = array(
 		'editorStyle' => 'editor_style_handles',
 		'style'       => 'style_handles',
+		'viewStyle'   => 'view_style_handles',
 	);
 	foreach ( $style_fields as $metadata_field_name => $settings_field_name ) {
 		if ( ! empty( $settings[ $metadata_field_name ] ) ) {
