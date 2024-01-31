@@ -1,48 +1,48 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -51,54 +51,54 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  __unstableStripHTML: function() { return /* reexport */ stripHTML; },
-  computeCaretRect: function() { return /* reexport */ computeCaretRect; },
-  documentHasSelection: function() { return /* reexport */ documentHasSelection; },
-  documentHasTextSelection: function() { return /* reexport */ documentHasTextSelection; },
-  documentHasUncollapsedSelection: function() { return /* reexport */ documentHasUncollapsedSelection; },
-  focus: function() { return /* binding */ build_module_focus; },
-  getFilesFromDataTransfer: function() { return /* reexport */ getFilesFromDataTransfer; },
-  getOffsetParent: function() { return /* reexport */ getOffsetParent; },
-  getPhrasingContentSchema: function() { return /* reexport */ getPhrasingContentSchema; },
-  getRectangleFromRange: function() { return /* reexport */ getRectangleFromRange; },
-  getScrollContainer: function() { return /* reexport */ getScrollContainer; },
-  insertAfter: function() { return /* reexport */ insertAfter; },
-  isEmpty: function() { return /* reexport */ isEmpty; },
-  isEntirelySelected: function() { return /* reexport */ isEntirelySelected; },
-  isFormElement: function() { return /* reexport */ isFormElement; },
-  isHorizontalEdge: function() { return /* reexport */ isHorizontalEdge; },
-  isNumberInput: function() { return /* reexport */ isNumberInput; },
-  isPhrasingContent: function() { return /* reexport */ isPhrasingContent; },
-  isRTL: function() { return /* reexport */ isRTL; },
-  isTextContent: function() { return /* reexport */ isTextContent; },
-  isTextField: function() { return /* reexport */ isTextField; },
-  isVerticalEdge: function() { return /* reexport */ isVerticalEdge; },
-  placeCaretAtHorizontalEdge: function() { return /* reexport */ placeCaretAtHorizontalEdge; },
-  placeCaretAtVerticalEdge: function() { return /* reexport */ placeCaretAtVerticalEdge; },
-  remove: function() { return /* reexport */ remove; },
-  removeInvalidHTML: function() { return /* reexport */ removeInvalidHTML; },
-  replace: function() { return /* reexport */ replace; },
-  replaceTag: function() { return /* reexport */ replaceTag; },
-  safeHTML: function() { return /* reexport */ safeHTML; },
-  unwrap: function() { return /* reexport */ unwrap; },
-  wrap: function() { return /* reexport */ wrap; }
+  __unstableStripHTML: () => (/* reexport */ stripHTML),
+  computeCaretRect: () => (/* reexport */ computeCaretRect),
+  documentHasSelection: () => (/* reexport */ documentHasSelection),
+  documentHasTextSelection: () => (/* reexport */ documentHasTextSelection),
+  documentHasUncollapsedSelection: () => (/* reexport */ documentHasUncollapsedSelection),
+  focus: () => (/* binding */ build_module_focus),
+  getFilesFromDataTransfer: () => (/* reexport */ getFilesFromDataTransfer),
+  getOffsetParent: () => (/* reexport */ getOffsetParent),
+  getPhrasingContentSchema: () => (/* reexport */ getPhrasingContentSchema),
+  getRectangleFromRange: () => (/* reexport */ getRectangleFromRange),
+  getScrollContainer: () => (/* reexport */ getScrollContainer),
+  insertAfter: () => (/* reexport */ insertAfter),
+  isEmpty: () => (/* reexport */ isEmpty),
+  isEntirelySelected: () => (/* reexport */ isEntirelySelected),
+  isFormElement: () => (/* reexport */ isFormElement),
+  isHorizontalEdge: () => (/* reexport */ isHorizontalEdge),
+  isNumberInput: () => (/* reexport */ isNumberInput),
+  isPhrasingContent: () => (/* reexport */ isPhrasingContent),
+  isRTL: () => (/* reexport */ isRTL),
+  isTextContent: () => (/* reexport */ isTextContent),
+  isTextField: () => (/* reexport */ isTextField),
+  isVerticalEdge: () => (/* reexport */ isVerticalEdge),
+  placeCaretAtHorizontalEdge: () => (/* reexport */ placeCaretAtHorizontalEdge),
+  placeCaretAtVerticalEdge: () => (/* reexport */ placeCaretAtVerticalEdge),
+  remove: () => (/* reexport */ remove),
+  removeInvalidHTML: () => (/* reexport */ removeInvalidHTML),
+  replace: () => (/* reexport */ replace),
+  replaceTag: () => (/* reexport */ replaceTag),
+  safeHTML: () => (/* reexport */ safeHTML),
+  unwrap: () => (/* reexport */ unwrap),
+  wrap: () => (/* reexport */ wrap)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/focusable.js
 var focusable_namespaceObject = {};
 __webpack_require__.r(focusable_namespaceObject);
 __webpack_require__.d(focusable_namespaceObject, {
-  find: function() { return find; }
+  find: () => (find)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/tabbable.js
 var tabbable_namespaceObject = {};
 __webpack_require__.r(tabbable_namespaceObject);
 __webpack_require__.d(tabbable_namespaceObject, {
-  find: function() { return tabbable_find; },
-  findNext: function() { return findNext; },
-  findPrevious: function() { return findPrevious; },
-  isTabbableIndex: function() { return isTabbableIndex; }
+  find: () => (tabbable_find),
+  findNext: () => (findNext),
+  findPrevious: () => (findPrevious),
+  isTabbableIndex: () => (isTabbableIndex)
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/focusable.js
@@ -1199,7 +1199,7 @@ function isHorizontalEdge(container, isReverse) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
+const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-number-input.js
 /**

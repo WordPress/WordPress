@@ -1,50 +1,38 @@
-/******/ (function() { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
+import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "@wordpress/interactivity";
+/******/ // The require scope
+/******/ var __webpack_require__ = {};
+/******/ 
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__webpack_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 			}
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	}();
-/******/ 	
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  actions: function() { return /* binding */ actions; },
-  state: function() { return /* binding */ state; }
+  N: () => (/* binding */ actions),
+  S: () => (/* binding */ state)
 });
 
-;// CONCATENATED MODULE: external ["wp","interactivity"]
-var external_wp_interactivity_namespaceObject = window["wp"]["interactivity"];
+;// CONCATENATED MODULE: external "@wordpress/interactivity"
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+const interactivity_namespaceObject = x({ ["directivePrefix"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.directivePrefix, ["getRegionRootFragment"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getRegionRootFragment, ["render"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.render, ["store"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store, ["toVdom"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.toVdom });
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity-router/build-module/index.js
 /**
  * WordPress dependencies
@@ -82,10 +70,10 @@ const fetchPage = async (url, {
 // `router-region` directive.
 const regionsToVdom = dom => {
   const regions = {};
-  const attrName = `data-${external_wp_interactivity_namespaceObject.directivePrefix}-router-region`;
+  const attrName = `data-${interactivity_namespaceObject.directivePrefix}-router-region`;
   dom.querySelectorAll(`[${attrName}]`).forEach(region => {
     const id = region.getAttribute(attrName);
-    regions[id] = (0,external_wp_interactivity_namespaceObject.toVdom)(region);
+    regions[id] = (0,interactivity_namespaceObject.toVdom)(region);
   });
   const title = dom.querySelector('title')?.innerText;
   return {
@@ -96,11 +84,11 @@ const regionsToVdom = dom => {
 
 // Render all interactive regions contained in the given page.
 const renderRegions = page => {
-  const attrName = `data-${external_wp_interactivity_namespaceObject.directivePrefix}-router-region`;
+  const attrName = `data-${interactivity_namespaceObject.directivePrefix}-router-region`;
   document.querySelectorAll(`[${attrName}]`).forEach(region => {
     const id = region.getAttribute(attrName);
-    const fragment = (0,external_wp_interactivity_namespaceObject.getRegionRootFragment)(region);
-    (0,external_wp_interactivity_namespaceObject.render)(page.regions[id], fragment);
+    const fragment = (0,interactivity_namespaceObject.getRegionRootFragment)(region);
+    (0,interactivity_namespaceObject.render)(page.regions[id], fragment);
   });
   if (page.title) {
     document.title = page.title;
@@ -127,7 +115,7 @@ pages.set(cleanUrl(window.location), Promise.resolve(regionsToVdom(document)));
 const {
   state,
   actions
-} = (0,external_wp_interactivity_namespaceObject.store)('core/router', {
+} = (0,interactivity_namespaceObject.store)('core/router', {
   actions: {
     /**
      * Navigates to the specified page.
@@ -198,6 +186,6 @@ const {
   }
 });
 
-(window.wp = window.wp || {}).interactivityRouter = __webpack_exports__;
-/******/ })()
-;
+var __webpack_exports__actions = __webpack_exports__.N;
+var __webpack_exports__state = __webpack_exports__.S;
+export { __webpack_exports__actions as actions, __webpack_exports__state as state };

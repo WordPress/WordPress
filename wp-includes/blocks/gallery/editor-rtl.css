@@ -65,7 +65,7 @@ figure.wp-block-gallery .components-spinner{
   box-shadow:0 0 0 1px #fff inset, 0 0 0 3px var(--wp-admin-theme-color) inset;
   content:"";
   left:0;
-  outline:2px solid transparent;
+  outline:2px solid #0000;
   pointer-events:none;
   position:absolute;
   right:0;
@@ -104,7 +104,7 @@ figure.wp-block-gallery .components-spinner{
   }
 }
 .block-library-gallery-item__inline-menu:hover{
-  box-shadow:0 .7px 1px rgba(0,0,0,.1),0 1.2px 1.7px -.2px rgba(0,0,0,.1),0 2.3px 3.3px -.5px rgba(0,0,0,.1);
+  box-shadow:0 .7px 1px #0000001a,0 1.2px 1.7px -.2px #0000001a,0 2.3px 3.3px -.5px #0000001a;
 }
 @media (min-width:600px){
   .columns-7 .block-library-gallery-item__inline-menu,.columns-8 .block-library-gallery-item__inline-menu{

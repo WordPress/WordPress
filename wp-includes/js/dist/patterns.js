@@ -1,36 +1,36 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -39,29 +39,29 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  privateApis: function() { return /* reexport */ privateApis; },
-  store: function() { return /* reexport */ store; }
+  privateApis: () => (/* reexport */ privateApis),
+  store: () => (/* reexport */ store)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/patterns/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  convertSyncedPatternToStatic: function() { return convertSyncedPatternToStatic; },
-  createPattern: function() { return createPattern; },
-  createPatternFromFile: function() { return createPatternFromFile; },
-  setEditingPattern: function() { return setEditingPattern; }
+  convertSyncedPatternToStatic: () => (convertSyncedPatternToStatic),
+  createPattern: () => (createPattern),
+  createPatternFromFile: () => (createPatternFromFile),
+  setEditingPattern: () => (setEditingPattern)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/patterns/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  isEditingPattern: function() { return selectors_isEditingPattern; }
+  isEditingPattern: () => (selectors_isEditingPattern)
 });
 
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/store/reducer.js
 /**
  * WordPress dependencies
@@ -76,18 +76,18 @@ function isEditingPattern(state = {}, action) {
   }
   return state;
 }
-/* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   isEditingPattern
 }));
 
 ;// CONCATENATED MODULE: external ["wp","blocks"]
-var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
+const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","coreData"]
-var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
+const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
+const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/constants.js
 /**
  * WordPress dependencies
@@ -248,7 +248,7 @@ function selectors_isEditingPattern(state, clientId) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
-var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/lock-unlock.js
 /**
  * WordPress dependencies
@@ -300,17 +300,17 @@ unlock(store).registerPrivateActions(actions_namespaceObject);
 unlock(store).registerPrivateSelectors(selectors_namespaceObject);
 
 ;// CONCATENATED MODULE: external "React"
-var external_React_namespaceObject = window["React"];
+const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","components"]
-var external_wp_components_namespaceObject = window["wp"]["components"];
+const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","notices"]
-var external_wp_notices_namespaceObject = window["wp"]["notices"];
+const external_wp_notices_namespaceObject = window["wp"]["notices"];
 ;// CONCATENATED MODULE: external ["wp","compose"]
-var external_wp_compose_namespaceObject = window["wp"]["compose"];
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
-var external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
+const external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/category-selector.js
 
 /**
@@ -739,7 +739,7 @@ function RenamePatternModal({
 }
 
 ;// CONCATENATED MODULE: external ["wp","primitives"]
-var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/symbol.js
 
 /**
@@ -752,7 +752,7 @@ const symbol = (0,external_React_namespaceObject.createElement)(external_wp_prim
 }, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-1 1.4l-5.6 5.6c-.1.1-.3.1-.4 0l-5.6-5.6c-.1-.1-.1-.3 0-.4l5.6-5.6s.1-.1.2-.1.1 0 .2.1l5.6 5.6c.1.1.1.3 0 .4zm-16.6-.4L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z"
 }));
-/* harmony default export */ var library_symbol = (symbol);
+/* harmony default export */ const library_symbol = (symbol);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/pattern-convert-button.js
 
@@ -878,7 +878,7 @@ function PatternConvertButton({
 }
 
 ;// CONCATENATED MODULE: external ["wp","url"]
-var external_wp_url_namespaceObject = window["wp"]["url"];
+const external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/patterns-manage-button.js
 
 /**
@@ -945,7 +945,7 @@ function PatternsManageButton({
     href: managePatternsUrl
   }, (0,external_wp_i18n_namespaceObject.__)('Manage patterns')));
 }
-/* harmony default export */ var patterns_manage_button = (PatternsManageButton);
+/* harmony default export */ const patterns_manage_button = (PatternsManageButton);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/index.js
 
@@ -975,7 +975,7 @@ function PatternsMenuItems({
 }
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
-var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
+const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/rename-pattern-category-modal.js
 
 /**
@@ -1178,8 +1178,8 @@ function PartialSyncingControls({
   setAttributes
 }) {
   const syncedAttributes = PARTIAL_SYNCING_SUPPORTED_BLOCKS[name];
-  const attributeSources = Object.keys(syncedAttributes).map(attributeName => attributes.metadata?.bindings?.[attributeName]?.source?.name);
-  const isConnectedToOtherSources = attributeSources.every(source => source && source !== 'pattern_attributes');
+  const attributeSources = Object.keys(syncedAttributes).map(attributeName => attributes.metadata?.bindings?.[attributeName]?.source);
+  const isConnectedToOtherSources = attributeSources.every(source => source && source !== 'core/pattern-overrides');
 
   // Render nothing if all supported attributes are connected to other sources.
   if (isConnectedToOtherSources) {
@@ -1191,7 +1191,7 @@ function PartialSyncingControls({
     };
     if (!isChecked) {
       for (const attributeName of Object.keys(syncedAttributes)) {
-        if (updatedBindings[attributeName]?.source?.name === 'pattern_attributes') {
+        if (updatedBindings[attributeName]?.source === 'core/pattern-overrides') {
           delete updatedBindings[attributeName];
         }
       }
@@ -1209,9 +1209,7 @@ function PartialSyncingControls({
     for (const attributeName of Object.keys(syncedAttributes)) {
       if (!updatedBindings[attributeName]) {
         updatedBindings[attributeName] = {
-          source: {
-            name: 'pattern_attributes'
-          }
+          source: 'core/pattern-overrides'
         };
       }
     }
@@ -1240,13 +1238,13 @@ function PartialSyncingControls({
   }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, null, (0,external_wp_i18n_namespaceObject.__)('Pattern overrides')), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     __nextHasNoMarginBottom: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Allow instance overrides'),
-    checked: attributeSources.some(source => source === 'pattern_attributes'),
+    checked: attributeSources.some(source => source === 'core/pattern-overrides'),
     onChange: isChecked => {
       updateBindings(isChecked);
     }
   })));
 }
-/* harmony default export */ var partial_syncing_controls = (PartialSyncingControls);
+/* harmony default export */ const partial_syncing_controls = (PartialSyncingControls);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/private-apis.js
 /**

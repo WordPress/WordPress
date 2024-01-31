@@ -1,8 +1,8 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 2591:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /* eslint eslint-comments/no-unlimited-disable: 0 */
 /* eslint-disable */
@@ -4077,7 +4077,7 @@
 /***/ }),
 
 /***/ 5723:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /* eslint eslint-comments/no-unlimited-disable: 0 */
 /* eslint-disable */
@@ -7038,7 +7038,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ }),
 
 /***/ 4403:
-/***/ (function(module, exports) {
+/***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	Copyright (c) 2018 Jed Watson.
@@ -7104,7 +7104,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ }),
 
 /***/ 4827:
-/***/ (function(module) {
+/***/ ((module) => {
 
 // This code has been refactored for 140 bytes
 // You can see the original here: https://github.com/twolfson/computedStyle/blob/04cd1da2e30fa45844f95f5cb1ac898e9b9ef050/lib/computedStyle.js
@@ -7138,7 +7138,7 @@ module.exports = computedStyle;
 /***/ }),
 
 /***/ 1919:
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -7279,7 +7279,7 @@ module.exports = deepmerge_1;
 /***/ }),
 
 /***/ 9894:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 // Load in dependencies
 var computedStyle = __webpack_require__(4827);
@@ -7383,7 +7383,7 @@ module.exports = lineHeight;
 /***/ }),
 
 /***/ 5372:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 /**
@@ -7456,7 +7456,7 @@ module.exports = function() {
 /***/ }),
 
 /***/ 2652:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -7475,7 +7475,7 @@ if (false) { var throwOnDirectAccess, ReactIs; } else {
 /***/ }),
 
 /***/ 9567:
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 /**
@@ -7629,7 +7629,7 @@ exports.TextareaAutosize = React.forwardRef(function (props, ref) {
 /***/ }),
 
 /***/ 773:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 var __webpack_unused_export__;
@@ -7642,7 +7642,7 @@ exports.Z = TextareaAutosize_1.TextareaAutosize;
 /***/ }),
 
 /***/ 4793:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var characterMap = {
 	"À": "A",
@@ -8130,7 +8130,7 @@ module.exports.remove = removeAccents;
 /***/ }),
 
 /***/ 9196:
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 module.exports = window["React"];
@@ -8165,189 +8165,189 @@ module.exports = window["React"];
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  PluginMoreMenuItem: function() { return /* reexport */ plugin_more_menu_item; },
-  PluginSidebar: function() { return /* reexport */ PluginSidebarEditSite; },
-  PluginSidebarMoreMenuItem: function() { return /* reexport */ PluginSidebarMoreMenuItem; },
-  PluginTemplateSettingPanel: function() { return /* reexport */ plugin_template_setting_panel; },
-  initializeEditor: function() { return /* binding */ initializeEditor; },
-  reinitializeEditor: function() { return /* binding */ reinitializeEditor; },
-  store: function() { return /* reexport */ store_store; }
+  PluginMoreMenuItem: () => (/* reexport */ plugin_more_menu_item),
+  PluginSidebar: () => (/* reexport */ PluginSidebarEditSite),
+  PluginSidebarMoreMenuItem: () => (/* reexport */ PluginSidebarMoreMenuItem),
+  PluginTemplateSettingPanel: () => (/* reexport */ plugin_template_setting_panel),
+  initializeEditor: () => (/* binding */ initializeEditor),
+  reinitializeEditor: () => (/* binding */ reinitializeEditor),
+  store: () => (/* reexport */ store_store)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/interface/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  closeModal: function() { return closeModal; },
-  disableComplementaryArea: function() { return disableComplementaryArea; },
-  enableComplementaryArea: function() { return enableComplementaryArea; },
-  openModal: function() { return openModal; },
-  pinItem: function() { return pinItem; },
-  setDefaultComplementaryArea: function() { return setDefaultComplementaryArea; },
-  setFeatureDefaults: function() { return setFeatureDefaults; },
-  setFeatureValue: function() { return setFeatureValue; },
-  toggleFeature: function() { return toggleFeature; },
-  unpinItem: function() { return unpinItem; }
+  closeModal: () => (closeModal),
+  disableComplementaryArea: () => (disableComplementaryArea),
+  enableComplementaryArea: () => (enableComplementaryArea),
+  openModal: () => (openModal),
+  pinItem: () => (pinItem),
+  setDefaultComplementaryArea: () => (setDefaultComplementaryArea),
+  setFeatureDefaults: () => (setFeatureDefaults),
+  setFeatureValue: () => (setFeatureValue),
+  toggleFeature: () => (toggleFeature),
+  unpinItem: () => (unpinItem)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/interface/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  getActiveComplementaryArea: function() { return getActiveComplementaryArea; },
-  isComplementaryAreaLoading: function() { return isComplementaryAreaLoading; },
-  isFeatureActive: function() { return isFeatureActive; },
-  isItemPinned: function() { return isItemPinned; },
-  isModalActive: function() { return isModalActive; }
+  getActiveComplementaryArea: () => (getActiveComplementaryArea),
+  isComplementaryAreaLoading: () => (isComplementaryAreaLoading),
+  isFeatureActive: () => (isFeatureActive),
+  isItemPinned: () => (isItemPinned),
+  isModalActive: () => (isModalActive)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-site/build-module/store/private-actions.js
 var private_actions_namespaceObject = {};
 __webpack_require__.r(private_actions_namespaceObject);
 __webpack_require__.d(private_actions_namespaceObject, {
-  removeTemplates: function() { return removeTemplates; },
-  setCanvasMode: function() { return setCanvasMode; },
-  setEditorCanvasContainerView: function() { return setEditorCanvasContainerView; }
+  removeTemplates: () => (removeTemplates),
+  setCanvasMode: () => (setCanvasMode),
+  setEditorCanvasContainerView: () => (setEditorCanvasContainerView)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-site/build-module/store/actions.js
 var store_actions_namespaceObject = {};
 __webpack_require__.r(store_actions_namespaceObject);
 __webpack_require__.d(store_actions_namespaceObject, {
-  __experimentalSetPreviewDeviceType: function() { return __experimentalSetPreviewDeviceType; },
-  addTemplate: function() { return addTemplate; },
-  closeGeneralSidebar: function() { return closeGeneralSidebar; },
-  openGeneralSidebar: function() { return openGeneralSidebar; },
-  openNavigationPanelToMenu: function() { return openNavigationPanelToMenu; },
-  removeTemplate: function() { return removeTemplate; },
-  revertTemplate: function() { return revertTemplate; },
-  setEditedEntity: function() { return setEditedEntity; },
-  setEditedPostContext: function() { return setEditedPostContext; },
-  setHasPageContentFocus: function() { return setHasPageContentFocus; },
-  setHomeTemplateId: function() { return setHomeTemplateId; },
-  setIsInserterOpened: function() { return setIsInserterOpened; },
-  setIsListViewOpened: function() { return setIsListViewOpened; },
-  setIsNavigationPanelOpened: function() { return setIsNavigationPanelOpened; },
-  setIsSaveViewOpened: function() { return setIsSaveViewOpened; },
-  setNavigationMenu: function() { return setNavigationMenu; },
-  setNavigationPanelActiveMenu: function() { return setNavigationPanelActiveMenu; },
-  setPage: function() { return setPage; },
-  setTemplate: function() { return setTemplate; },
-  setTemplatePart: function() { return setTemplatePart; },
-  switchEditorMode: function() { return switchEditorMode; },
-  toggleDistractionFree: function() { return toggleDistractionFree; },
-  toggleFeature: function() { return actions_toggleFeature; },
-  updateSettings: function() { return updateSettings; }
+  __experimentalSetPreviewDeviceType: () => (__experimentalSetPreviewDeviceType),
+  addTemplate: () => (addTemplate),
+  closeGeneralSidebar: () => (closeGeneralSidebar),
+  openGeneralSidebar: () => (openGeneralSidebar),
+  openNavigationPanelToMenu: () => (openNavigationPanelToMenu),
+  removeTemplate: () => (removeTemplate),
+  revertTemplate: () => (revertTemplate),
+  setEditedEntity: () => (setEditedEntity),
+  setEditedPostContext: () => (setEditedPostContext),
+  setHasPageContentFocus: () => (setHasPageContentFocus),
+  setHomeTemplateId: () => (setHomeTemplateId),
+  setIsInserterOpened: () => (setIsInserterOpened),
+  setIsListViewOpened: () => (setIsListViewOpened),
+  setIsNavigationPanelOpened: () => (setIsNavigationPanelOpened),
+  setIsSaveViewOpened: () => (setIsSaveViewOpened),
+  setNavigationMenu: () => (setNavigationMenu),
+  setNavigationPanelActiveMenu: () => (setNavigationPanelActiveMenu),
+  setPage: () => (setPage),
+  setTemplate: () => (setTemplate),
+  setTemplatePart: () => (setTemplatePart),
+  switchEditorMode: () => (switchEditorMode),
+  toggleDistractionFree: () => (toggleDistractionFree),
+  toggleFeature: () => (actions_toggleFeature),
+  updateSettings: () => (updateSettings)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-site/build-module/store/selectors.js
 var store_selectors_namespaceObject = {};
 __webpack_require__.r(store_selectors_namespaceObject);
 __webpack_require__.d(store_selectors_namespaceObject, {
-  __experimentalGetInsertionPoint: function() { return __experimentalGetInsertionPoint; },
-  __experimentalGetPreviewDeviceType: function() { return __experimentalGetPreviewDeviceType; },
-  getCanUserCreateMedia: function() { return getCanUserCreateMedia; },
-  getCurrentTemplateNavigationPanelSubMenu: function() { return getCurrentTemplateNavigationPanelSubMenu; },
-  getCurrentTemplateTemplateParts: function() { return getCurrentTemplateTemplateParts; },
-  getEditedPostContext: function() { return getEditedPostContext; },
-  getEditedPostId: function() { return getEditedPostId; },
-  getEditedPostType: function() { return getEditedPostType; },
-  getEditorMode: function() { return getEditorMode; },
-  getHomeTemplateId: function() { return getHomeTemplateId; },
-  getNavigationPanelActiveMenu: function() { return getNavigationPanelActiveMenu; },
-  getPage: function() { return getPage; },
-  getReusableBlocks: function() { return getReusableBlocks; },
-  getSettings: function() { return getSettings; },
-  hasPageContentFocus: function() { return hasPageContentFocus; },
-  isFeatureActive: function() { return selectors_isFeatureActive; },
-  isInserterOpened: function() { return isInserterOpened; },
-  isListViewOpened: function() { return isListViewOpened; },
-  isNavigationOpened: function() { return isNavigationOpened; },
-  isPage: function() { return isPage; },
-  isSaveViewOpened: function() { return isSaveViewOpened; }
+  __experimentalGetInsertionPoint: () => (__experimentalGetInsertionPoint),
+  __experimentalGetPreviewDeviceType: () => (__experimentalGetPreviewDeviceType),
+  getCanUserCreateMedia: () => (getCanUserCreateMedia),
+  getCurrentTemplateNavigationPanelSubMenu: () => (getCurrentTemplateNavigationPanelSubMenu),
+  getCurrentTemplateTemplateParts: () => (getCurrentTemplateTemplateParts),
+  getEditedPostContext: () => (getEditedPostContext),
+  getEditedPostId: () => (getEditedPostId),
+  getEditedPostType: () => (getEditedPostType),
+  getEditorMode: () => (getEditorMode),
+  getHomeTemplateId: () => (getHomeTemplateId),
+  getNavigationPanelActiveMenu: () => (getNavigationPanelActiveMenu),
+  getPage: () => (getPage),
+  getReusableBlocks: () => (getReusableBlocks),
+  getSettings: () => (getSettings),
+  hasPageContentFocus: () => (hasPageContentFocus),
+  isFeatureActive: () => (selectors_isFeatureActive),
+  isInserterOpened: () => (isInserterOpened),
+  isListViewOpened: () => (isListViewOpened),
+  isNavigationOpened: () => (isNavigationOpened),
+  isPage: () => (isPage),
+  isSaveViewOpened: () => (isSaveViewOpened)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-site/build-module/store/private-selectors.js
 var private_selectors_namespaceObject = {};
 __webpack_require__.r(private_selectors_namespaceObject);
 __webpack_require__.d(private_selectors_namespaceObject, {
-  getCanvasMode: function() { return getCanvasMode; },
-  getEditorCanvasContainerView: function() { return getEditorCanvasContainerView; }
+  getCanvasMode: () => (getCanvasMode),
+  getEditorCanvasContainerView: () => (getEditorCanvasContainerView)
 });
 
 // EXTERNAL MODULE: external "React"
 var external_React_ = __webpack_require__(9196);
 ;// CONCATENATED MODULE: external ["wp","blocks"]
-var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
+const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","blockLibrary"]
-var external_wp_blockLibrary_namespaceObject = window["wp"]["blockLibrary"];
+const external_wp_blockLibrary_namespaceObject = window["wp"]["blockLibrary"];
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
+const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","editor"]
-var external_wp_editor_namespaceObject = window["wp"]["editor"];
+const external_wp_editor_namespaceObject = window["wp"]["editor"];
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(4403);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","components"]
-var external_wp_components_namespaceObject = window["wp"]["components"];
+const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
-var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
 
 /**
@@ -8360,7 +8360,7 @@ const check = (0,external_React_.createElement)(external_wp_primitives_namespace
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"
 }));
-/* harmony default export */ var library_check = (check);
+/* harmony default export */ const library_check = (check);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
 
@@ -8374,7 +8374,7 @@ const starFilled = (0,external_React_.createElement)(external_wp_primitives_name
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z"
 }));
-/* harmony default export */ var star_filled = (starFilled);
+/* harmony default export */ const star_filled = (starFilled);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
 
@@ -8390,12 +8390,12 @@ const starEmpty = (0,external_React_.createElement)(external_wp_primitives_names
   d: "M9.706 8.646a.25.25 0 01-.188.137l-4.626.672a.25.25 0 00-.139.427l3.348 3.262a.25.25 0 01.072.222l-.79 4.607a.25.25 0 00.362.264l4.138-2.176a.25.25 0 01.233 0l4.137 2.175a.25.25 0 00.363-.263l-.79-4.607a.25.25 0 01.072-.222l3.347-3.262a.25.25 0 00-.139-.427l-4.626-.672a.25.25 0 01-.188-.137l-2.069-4.192a.25.25 0 00-.448 0L9.706 8.646zM12 7.39l-.948 1.921a1.75 1.75 0 01-1.317.957l-2.12.308 1.534 1.495c.412.402.6.982.503 1.55l-.362 2.11 1.896-.997a1.75 1.75 0 011.629 0l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39z",
   clipRule: "evenodd"
 }));
-/* harmony default export */ var star_empty = (starEmpty);
+/* harmony default export */ const star_empty = (starEmpty);
 
 ;// CONCATENATED MODULE: external ["wp","viewport"]
-var external_wp_viewport_namespaceObject = window["wp"]["viewport"];
+const external_wp_viewport_namespaceObject = window["wp"]["viewport"];
 ;// CONCATENATED MODULE: external ["wp","preferences"]
-var external_wp_preferences_namespaceObject = window["wp"]["preferences"];
+const external_wp_preferences_namespaceObject = window["wp"]["preferences"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
 
 /**
@@ -8408,7 +8408,7 @@ const closeSmall = (0,external_React_.createElement)(external_wp_primitives_name
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
 }));
-/* harmony default export */ var close_small = (closeSmall);
+/* harmony default export */ const close_small = (closeSmall);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/actions.js
 /**
@@ -8740,7 +8740,7 @@ function activeModal(state = null, action) {
   }
   return state;
 }
-/* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   complementaryAreas,
   activeModal
 }));
@@ -8785,13 +8785,13 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 (0,external_wp_data_namespaceObject.register)(store);
 
 ;// CONCATENATED MODULE: external ["wp","plugins"]
-var external_wp_plugins_namespaceObject = window["wp"]["plugins"];
+const external_wp_plugins_namespaceObject = window["wp"]["plugins"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-context/index.js
 /**
  * WordPress dependencies
  */
 
-/* harmony default export */ var complementary_area_context = ((0,external_wp_plugins_namespaceObject.withPluginContext)((context, ownProps) => {
+/* harmony default export */ const complementary_area_context = ((0,external_wp_plugins_namespaceObject.withPluginContext)((context, ownProps) => {
   return {
     icon: ownProps.icon || context.icon,
     identifier: ownProps.identifier || `${context.name}/${ownProps.name}`
@@ -8839,7 +8839,7 @@ function ComplementaryAreaToggle({
     ...props
   });
 }
-/* harmony default export */ var complementary_area_toggle = (complementary_area_context(ComplementaryAreaToggle));
+/* harmony default export */ const complementary_area_toggle = (complementary_area_context(ComplementaryAreaToggle));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-header/index.js
 
@@ -8876,7 +8876,7 @@ const ComplementaryAreaHeader = ({
     tabIndex: -1
   }, children, toggleButton));
 };
-/* harmony default export */ var complementary_area_header = (ComplementaryAreaHeader);
+/* harmony default export */ const complementary_area_header = (ComplementaryAreaHeader);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/action-item/index.js
 
@@ -8950,7 +8950,7 @@ function ActionItem({
   });
 }
 ActionItem.Slot = ActionItemSlot;
-/* harmony default export */ var action_item = (ActionItem);
+/* harmony default export */ const action_item = (ActionItem);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area-more-menu-item/index.js
 
@@ -9032,7 +9032,7 @@ function PinnedItemsSlot({
   }, fills));
 }
 PinnedItems.Slot = PinnedItemsSlot;
-/* harmony default export */ var pinned_items = (PinnedItems);
+/* harmony default export */ const pinned_items = (PinnedItems);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/complementary-area/index.js
 
@@ -9225,10 +9225,10 @@ function ComplementaryArea({
 }
 const ComplementaryAreaWrapped = complementary_area_context(ComplementaryArea);
 ComplementaryAreaWrapped.Slot = ComplementaryAreaSlot;
-/* harmony default export */ var complementary_area = (ComplementaryAreaWrapped);
+/* harmony default export */ const complementary_area = (ComplementaryAreaWrapped);
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
-var external_wp_compose_namespaceObject = window["wp"]["compose"];
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/navigable-region/index.js
 
 /**
@@ -9379,7 +9379,7 @@ function InterfaceSkeleton({
     ariaLabel: mergedLabels.footer
   }, footer));
 }
-/* harmony default export */ var interface_skeleton = ((0,external_wp_element_namespaceObject.forwardRef)(InterfaceSkeleton));
+/* harmony default export */ const interface_skeleton = ((0,external_wp_element_namespaceObject.forwardRef)(InterfaceSkeleton));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
 
@@ -9393,7 +9393,7 @@ const moreVertical = (0,external_React_.createElement)(external_wp_primitives_na
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M13 19h-2v-2h2v2zm0-6h-2v-2h2v2zm0-6h-2V5h2v2z"
 }));
-/* harmony default export */ var more_vertical = (moreVertical);
+/* harmony default export */ const more_vertical = (moreVertical);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/more-menu-dropdown/index.js
 
@@ -9450,11 +9450,11 @@ function MoreMenuDropdown({
 
 
 ;// CONCATENATED MODULE: external ["wp","widgets"]
-var external_wp_widgets_namespaceObject = window["wp"]["widgets"];
+const external_wp_widgets_namespaceObject = window["wp"]["widgets"];
 ;// CONCATENATED MODULE: external ["wp","hooks"]
-var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
+const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: external ["wp","mediaUtils"]
-var external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
+const external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/hooks/components.js
 /**
  * WordPress dependencies
@@ -9464,11 +9464,11 @@ var external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.MediaUpload', 'core/edit-site/components/media-upload', () => external_wp_mediaUtils_namespaceObject.MediaUpload);
 
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
+const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: external ["wp","notices"]
-var external_wp_notices_namespaceObject = window["wp"]["notices"];
+const external_wp_notices_namespaceObject = window["wp"]["notices"];
 ;// CONCATENATED MODULE: external ["wp","coreData"]
-var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
+const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: ./node_modules/colord/index.mjs
 var r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeof r?r.length>0:"number"==typeof r},n=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=Math.pow(10,t)),Math.round(n*r)/n+0},e=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=1),r>n?n:r>t?r:t},u=function(r){return(r=isFinite(r)?r%360:0)>0?r:r+360},a=function(r){return{r:e(r.r,0,255),g:e(r.g,0,255),b:e(r.b,0,255),a:e(r.a)}},o=function(r){return{r:n(r.r),g:n(r.g),b:n(r.b),a:n(r.a,3)}},i=/^#([0-9a-f]{3,8})$/i,s=function(r){var t=r.toString(16);return t.length<2?"0"+t:t},h=function(r){var t=r.r,n=r.g,e=r.b,u=r.a,a=Math.max(t,n,e),o=a-Math.min(t,n,e),i=o?a===t?(n-e)/o:a===n?2+(e-t)/o:4+(t-n)/o:0;return{h:60*(i<0?i+6:i),s:a?o/a*100:0,v:a/255*100,a:u}},b=function(r){var t=r.h,n=r.s,e=r.v,u=r.a;t=t/360*6,n/=100,e/=100;var a=Math.floor(t),o=e*(1-n),i=e*(1-(t-a)*n),s=e*(1-(1-t+a)*n),h=a%6;return{r:255*[e,i,o,o,s,e][h],g:255*[s,e,e,i,o,o][h],b:255*[o,o,s,e,e,i][h],a:u}},g=function(r){return{h:u(r.h),s:e(r.s,0,100),l:e(r.l,0,100),a:e(r.a)}},d=function(r){return{h:n(r.h),s:n(r.s),l:n(r.l),a:n(r.a,3)}},f=function(r){return b((n=(t=r).s,{h:t.h,s:(n*=((e=t.l)<50?e:100-e)/100)>0?2*n/(e+n)*100:0,v:e+n,a:t.a}));var t,n,e},c=function(r){return{h:(t=h(r)).h,s:(u=(200-(n=t.s))*(e=t.v)/100)>0&&u<200?n*e/100/(u<=100?u:200-u)*100:0,l:u/2,a:t.a};var t,n,e,u},l=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,colord_p=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,v=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,m=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,y={string:[[function(r){var t=i.exec(r);return t?(r=t[1]).length<=4?{r:parseInt(r[0]+r[0],16),g:parseInt(r[1]+r[1],16),b:parseInt(r[2]+r[2],16),a:4===r.length?n(parseInt(r[3]+r[3],16)/255,2):1}:6===r.length||8===r.length?{r:parseInt(r.substr(0,2),16),g:parseInt(r.substr(2,2),16),b:parseInt(r.substr(4,2),16),a:8===r.length?n(parseInt(r.substr(6,2),16)/255,2):1}:null:null},"hex"],[function(r){var t=v.exec(r)||m.exec(r);return t?t[2]!==t[4]||t[4]!==t[6]?null:a({r:Number(t[1])/(t[2]?100/255:1),g:Number(t[3])/(t[4]?100/255:1),b:Number(t[5])/(t[6]?100/255:1),a:void 0===t[7]?1:Number(t[7])/(t[8]?100:1)}):null},"rgb"],[function(t){var n=l.exec(t)||colord_p.exec(t);if(!n)return null;var e,u,a=g({h:(e=n[1],u=n[2],void 0===u&&(u="deg"),Number(e)*(r[u]||1)),s:Number(n[3]),l:Number(n[4]),a:void 0===n[5]?1:Number(n[5])/(n[6]?100:1)});return f(a)},"hsl"]],object:[[function(r){var n=r.r,e=r.g,u=r.b,o=r.a,i=void 0===o?1:o;return t(n)&&t(e)&&t(u)?a({r:Number(n),g:Number(e),b:Number(u),a:Number(i)}):null},"rgb"],[function(r){var n=r.h,e=r.s,u=r.l,a=r.a,o=void 0===a?1:a;if(!t(n)||!t(e)||!t(u))return null;var i=g({h:Number(n),s:Number(e),l:Number(u),a:Number(o)});return f(i)},"hsl"],[function(r){var n=r.h,a=r.s,o=r.v,i=r.a,s=void 0===i?1:i;if(!t(n)||!t(a)||!t(o))return null;var h=function(r){return{h:u(r.h),s:e(r.s,0,100),v:e(r.v,0,100),a:e(r.a)}}({h:Number(n),s:Number(a),v:Number(o),a:Number(s)});return b(h)},"hsv"]]},N=function(r,t){for(var n=0;n<t.length;n++){var e=t[n][0](r);if(e)return[e,t[n][1]]}return[null,void 0]},x=function(r){return"string"==typeof r?N(r.trim(),y.string):"object"==typeof r&&null!==r?N(r,y.object):[null,void 0]},I=function(r){return x(r)[1]},M=function(r,t){var n=c(r);return{h:n.h,s:e(n.s+100*t,0,100),l:n.l,a:n.a}},H=function(r){return(299*r.r+587*r.g+114*r.b)/1e3/255},$=function(r,t){var n=c(r);return{h:n.h,s:n.s,l:e(n.l+100*t,0,100),a:n.a}},j=function(){function r(r){this.parsed=x(r)[0],this.rgba=this.parsed||{r:0,g:0,b:0,a:1}}return r.prototype.isValid=function(){return null!==this.parsed},r.prototype.brightness=function(){return n(H(this.rgba),2)},r.prototype.isDark=function(){return H(this.rgba)<.5},r.prototype.isLight=function(){return H(this.rgba)>=.5},r.prototype.toHex=function(){return r=o(this.rgba),t=r.r,e=r.g,u=r.b,i=(a=r.a)<1?s(n(255*a)):"","#"+s(t)+s(e)+s(u)+i;var r,t,e,u,a,i},r.prototype.toRgb=function(){return o(this.rgba)},r.prototype.toRgbString=function(){return r=o(this.rgba),t=r.r,n=r.g,e=r.b,(u=r.a)<1?"rgba("+t+", "+n+", "+e+", "+u+")":"rgb("+t+", "+n+", "+e+")";var r,t,n,e,u},r.prototype.toHsl=function(){return d(c(this.rgba))},r.prototype.toHslString=function(){return r=d(c(this.rgba)),t=r.h,n=r.s,e=r.l,(u=r.a)<1?"hsla("+t+", "+n+"%, "+e+"%, "+u+")":"hsl("+t+", "+n+"%, "+e+"%)";var r,t,n,e,u},r.prototype.toHsv=function(){return r=h(this.rgba),{h:n(r.h),s:n(r.s),v:n(r.v),a:n(r.a,3)};var r},r.prototype.invert=function(){return w({r:255-(r=this.rgba).r,g:255-r.g,b:255-r.b,a:r.a});var r},r.prototype.saturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,r))},r.prototype.desaturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,-r))},r.prototype.grayscale=function(){return w(M(this.rgba,-1))},r.prototype.lighten=function(r){return void 0===r&&(r=.1),w($(this.rgba,r))},r.prototype.darken=function(r){return void 0===r&&(r=.1),w($(this.rgba,-r))},r.prototype.rotate=function(r){return void 0===r&&(r=15),this.hue(this.hue()+r)},r.prototype.alpha=function(r){return"number"==typeof r?w({r:(t=this.rgba).r,g:t.g,b:t.b,a:r}):n(this.rgba.a,3);var t},r.prototype.hue=function(r){var t=c(this.rgba);return"number"==typeof r?w({h:r,s:t.s,l:t.l,a:t.a}):n(t.h)},r.prototype.isEqual=function(r){return this.toHex()===w(r).toHex()},r}(),w=function(r){return r instanceof j?r:new j(r)},S=[],k=function(r){r.forEach(function(r){S.indexOf(r)<0&&(r(j,y),S.push(r))})},E=function(){return new j({r:255*Math.random(),g:255*Math.random(),b:255*Math.random()})};
 
@@ -9476,7 +9476,7 @@ var r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeo
 var a11y_o=function(o){var t=o/255;return t<.04045?t/12.92:Math.pow((t+.055)/1.055,2.4)},a11y_t=function(t){return.2126*a11y_o(t.r)+.7152*a11y_o(t.g)+.0722*a11y_o(t.b)};/* harmony default export */ function a11y(o){o.prototype.luminance=function(){return o=a11y_t(this.rgba),void 0===(r=2)&&(r=0),void 0===n&&(n=Math.pow(10,r)),Math.round(n*o)/n+0;var o,r,n},o.prototype.contrast=function(r){void 0===r&&(r="#FFF");var n,a,i,e,v,u,d,c=r instanceof o?r:new o(r);return e=this.rgba,v=c.toRgb(),u=a11y_t(e),d=a11y_t(v),n=u>d?(u+.05)/(d+.05):(d+.05)/(u+.05),void 0===(a=2)&&(a=0),void 0===i&&(i=Math.pow(10,a)),Math.floor(i*n)/i+0},o.prototype.isReadable=function(o,t){return void 0===o&&(o="#FFF"),void 0===t&&(t={}),this.contrast(o)>=(e=void 0===(i=(r=t).size)?"normal":i,"AAA"===(a=void 0===(n=r.level)?"AA":n)&&"normal"===e?7:"AA"===a&&"large"===e?3:4.5);var r,n,a,i,e}}
 
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
-var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/lock-unlock.js
 /**
  * WordPress dependencies
@@ -9922,9 +9922,9 @@ const withPushChangesToGlobalStyles = (0,external_wp_compose_namespaceObject.cre
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockEdit', 'core/edit-site/push-changes-to-global-styles', withPushChangesToGlobalStyles);
 
 ;// CONCATENATED MODULE: external ["wp","router"]
-var external_wp_router_namespaceObject = window["wp"]["router"];
+const external_wp_router_namespaceObject = window["wp"]["router"];
 ;// CONCATENATED MODULE: external ["wp","url"]
-var external_wp_url_namespaceObject = window["wp"]["url"];
+const external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/utils/is-previewing-theme.js
 /**
  * WordPress dependencies
@@ -9958,7 +9958,7 @@ const {
 } = unlock(external_wp_router_namespaceObject.privateApis);
 function getPostLinkProps(history, params = {}, state, shouldReplace = false) {
   function onClick(event) {
-    event.preventDefault();
+    event?.preventDefault();
     if (shouldReplace) {
       history.replace(params, state);
     } else {
@@ -10002,7 +10002,7 @@ function Link({
 }
 
 ;// CONCATENATED MODULE: external ["wp","patterns"]
-var external_wp_patterns_namespaceObject = window["wp"]["patterns"];
+const external_wp_patterns_namespaceObject = window["wp"]["patterns"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/utils/constants.js
 /**
  * WordPress dependencies
@@ -10311,7 +10311,7 @@ function editorCanvasContainerView(state = undefined, action) {
   }
   return state;
 }
-/* harmony default export */ var store_reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ const store_reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   settings,
   editedPost,
   saveViewPanel,
@@ -10320,10 +10320,10 @@ function editorCanvasContainerView(state = undefined, action) {
 }));
 
 ;// CONCATENATED MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
+const external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","a11y"]
-var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
+const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/store/constants.js
 /**
  * The identifier for the data store.
@@ -10354,7 +10354,7 @@ function isTemplateRevertable(template) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
-var external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
+const external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/store/private-actions.js
 /**
  * WordPress dependencies
@@ -11573,11 +11573,11 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
 unlock(store_store).registerPrivateActions(private_actions_namespaceObject);
 
 ;// CONCATENATED MODULE: external ["wp","keyboardShortcuts"]
-var external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
+const external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
 ;// CONCATENATED MODULE: external ["wp","commands"]
-var external_wp_commands_namespaceObject = window["wp"]["commands"];
+const external_wp_commands_namespaceObject = window["wp"]["commands"];
 ;// CONCATENATED MODULE: external ["wp","coreCommands"]
-var external_wp_coreCommands_namespaceObject = window["wp"]["coreCommands"];
+const external_wp_coreCommands_namespaceObject = window["wp"]["coreCommands"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/navigation.js
 
 /**
@@ -11590,7 +11590,7 @@ const navigation = (0,external_React_.createElement)(external_wp_primitives_name
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 4c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 14.5c-3.6 0-6.5-2.9-6.5-6.5S8.4 5.5 12 5.5s6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5zM9 16l4.5-3L15 8.4l-4.5 3L9 16z"
 }));
-/* harmony default export */ var library_navigation = (navigation);
+/* harmony default export */ const library_navigation = (navigation);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/styles.js
 
@@ -11604,7 +11604,7 @@ const styles = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 4c-4.4 0-8 3.6-8 8v.1c0 4.1 3.2 7.5 7.2 7.9h.8c4.4 0 8-3.6 8-8s-3.6-8-8-8zm0 15V5c3.9 0 7 3.1 7 7s-3.1 7-7 7z"
 }));
-/* harmony default export */ var library_styles = (styles);
+/* harmony default export */ const library_styles = (styles);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/page.js
 
@@ -11620,7 +11620,7 @@ const page = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M17 4H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM7 5.5h10a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5Z"
 }));
-/* harmony default export */ var library_page = (page);
+/* harmony default export */ const library_page = (page);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/layout.js
 
@@ -11634,7 +11634,7 @@ const layout = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M18 5.5H6a.5.5 0 00-.5.5v3h13V6a.5.5 0 00-.5-.5zm.5 5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
 }));
-/* harmony default export */ var library_layout = (layout);
+/* harmony default export */ const library_layout = (layout);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/symbol.js
 
@@ -11648,7 +11648,7 @@ const symbol = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-1 1.4l-5.6 5.6c-.1.1-.3.1-.4 0l-5.6-5.6c-.1-.1-.1-.3 0-.4l5.6-5.6s.1-.1.2-.1.1 0 .2.1l5.6 5.6c.1.1.1.3 0 .4zm-16.6-.4L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z"
 }));
-/* harmony default export */ var library_symbol = (symbol);
+/* harmony default export */ const library_symbol = (symbol);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-right.js
 
@@ -11662,7 +11662,7 @@ const chevronRight = (0,external_React_.createElement)(external_wp_primitives_na
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z"
 }));
-/* harmony default export */ var chevron_right = (chevronRight);
+/* harmony default export */ const chevron_right = (chevronRight);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-left.js
 
@@ -11676,7 +11676,7 @@ const chevronLeft = (0,external_React_.createElement)(external_wp_primitives_nam
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z"
 }));
-/* harmony default export */ var chevron_left = (chevronLeft);
+/* harmony default export */ const chevron_left = (chevronLeft);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-button/index.js
 
@@ -11829,7 +11829,7 @@ function icon_Icon({
     ref
   });
 }
-/* harmony default export */ var build_module_icon = ((0,external_wp_element_namespaceObject.forwardRef)(icon_Icon));
+/* harmony default export */ const build_module_icon = ((0,external_wp_element_namespaceObject.forwardRef)(icon_Icon));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-left-small.js
 
@@ -11843,7 +11843,7 @@ const chevronLeftSmall = (0,external_React_.createElement)(external_wp_primitive
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m13.1 16-3.4-4 3.4-4 1.1 1-2.6 3 2.6 3-1.1 1z"
 }));
-/* harmony default export */ var chevron_left_small = (chevronLeftSmall);
+/* harmony default export */ const chevron_left_small = (chevronLeftSmall);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-right-small.js
 
@@ -11857,7 +11857,7 @@ const chevronRightSmall = (0,external_React_.createElement)(external_wp_primitiv
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M10.8622 8.04053L14.2805 12.0286L10.8622 16.0167L9.72327 15.0405L12.3049 12.0286L9.72327 9.01672L10.8622 8.04053Z"
 }));
-/* harmony default export */ var chevron_right_small = (chevronRightSmall);
+/* harmony default export */ const chevron_right_small = (chevronRightSmall);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-item/index.js
 
@@ -11912,7 +11912,7 @@ const seen = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M3.99961 13C4.67043 13.3354 4.6703 13.3357 4.67017 13.3359L4.67298 13.3305C4.67621 13.3242 4.68184 13.3135 4.68988 13.2985C4.70595 13.2686 4.7316 13.2218 4.76695 13.1608C4.8377 13.0385 4.94692 12.8592 5.09541 12.6419C5.39312 12.2062 5.84436 11.624 6.45435 11.0431C7.67308 9.88241 9.49719 8.75 11.9996 8.75C14.502 8.75 16.3261 9.88241 17.5449 11.0431C18.1549 11.624 18.6061 12.2062 18.9038 12.6419C19.0523 12.8592 19.1615 13.0385 19.2323 13.1608C19.2676 13.2218 19.2933 13.2686 19.3093 13.2985C19.3174 13.3135 19.323 13.3242 19.3262 13.3305L19.3291 13.3359C19.3289 13.3357 19.3288 13.3354 19.9996 13C20.6704 12.6646 20.6703 12.6643 20.6701 12.664L20.6697 12.6632L20.6688 12.6614L20.6662 12.6563L20.6583 12.6408C20.6517 12.6282 20.6427 12.6108 20.631 12.5892C20.6078 12.5459 20.5744 12.4852 20.5306 12.4096C20.4432 12.2584 20.3141 12.0471 20.1423 11.7956C19.7994 11.2938 19.2819 10.626 18.5794 9.9569C17.1731 8.61759 14.9972 7.25 11.9996 7.25C9.00203 7.25 6.82614 8.61759 5.41987 9.9569C4.71736 10.626 4.19984 11.2938 3.85694 11.7956C3.68511 12.0471 3.55605 12.2584 3.4686 12.4096C3.42484 12.4852 3.39142 12.5459 3.36818 12.5892C3.35656 12.6108 3.34748 12.6282 3.34092 12.6408L3.33297 12.6563L3.33041 12.6614L3.32948 12.6632L3.32911 12.664C3.32894 12.6643 3.32879 12.6646 3.99961 13ZM11.9996 16C13.9326 16 15.4996 14.433 15.4996 12.5C15.4996 10.567 13.9326 9 11.9996 9C10.0666 9 8.49961 10.567 8.49961 12.5C8.49961 14.433 10.0666 16 11.9996 16Z"
 }));
-/* harmony default export */ var library_seen = (seen);
+/* harmony default export */ const library_seen = (seen);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/pencil.js
 
@@ -11926,7 +11926,7 @@ const pencil = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m19 7-3-3-8.5 8.5-1 4 4-1L19 7Zm-7 11.5H5V20h7v-1.5Z"
 }));
-/* harmony default export */ var library_pencil = (pencil);
+/* harmony default export */ const library_pencil = (pencil);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/edit.js
 /**
@@ -11934,10 +11934,10 @@ const pencil = (0,external_React_.createElement)(external_wp_primitives_namespac
  */
 
 
-/* harmony default export */ var edit = (library_pencil);
+/* harmony default export */ const edit = (library_pencil);
 
 ;// CONCATENATED MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
+const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 // EXTERNAL MODULE: ./node_modules/deepmerge/dist/cjs.js
 var cjs = __webpack_require__(1919);
 var cjs_default = /*#__PURE__*/__webpack_require__.n(cjs);
@@ -12361,7 +12361,7 @@ const StylesPreview = ({
     }
   }, label))))));
 };
-/* harmony default export */ var preview = (StylesPreview);
+/* harmony default export */ const preview = (StylesPreview);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/style-variations-container.js
 
@@ -12597,7 +12597,7 @@ function ResizableEditor({
     }
   }, children);
 }
-/* harmony default export */ var resizable_editor = (ResizableEditor);
+/* harmony default export */ const resizable_editor = (ResizableEditor);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/editor-canvas-container/index.js
 
@@ -12720,7 +12720,7 @@ function useHasEditorCanvasContainer() {
   return !!fills?.length;
 }
 EditorCanvasContainer.Slot = EditorCanvasContainerSlot;
-/* harmony default export */ var editor_canvas_container = (EditorCanvasContainer);
+/* harmony default export */ const editor_canvas_container = (EditorCanvasContainer);
 
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/style-book/index.js
@@ -13092,7 +13092,7 @@ const Example = ({
     renderAppender: false
   })))))));
 };
-/* harmony default export */ var style_book = (StyleBook);
+/* harmony default export */ const style_book = (StyleBook);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-revisions/use-global-styles-revisions.js
 /**
@@ -13224,7 +13224,7 @@ function useGlobalStylesRevisions({
 }
 
 ;// CONCATENATED MODULE: external ["wp","date"]
-var external_wp_date_namespaceObject = window["wp"]["date"];
+const external_wp_date_namespaceObject = window["wp"]["date"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/backup.js
 
 /**
@@ -13237,7 +13237,7 @@ const backup = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M5.5 12h1.75l-2.5 3-2.5-3H4a8 8 0 113.134 6.35l.907-1.194A6.5 6.5 0 105.5 12zm9.53 1.97l-2.28-2.28V8.5a.75.75 0 00-1.5 0V12a.747.747 0 00.218.529l1.282-.84-1.28.842 2.5 2.5a.75.75 0 101.06-1.061z"
 }));
-/* harmony default export */ var library_backup = (backup);
+/* harmony default export */ const library_backup = (backup);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-details-panel/sidebar-navigation-screen-details-panel-label.js
 
@@ -13647,7 +13647,7 @@ const home = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 4L4 7.9V20h16V7.9L12 4zm6.5 14.5H14V13h-4v5.5H5.5V8.8L12 5.7l6.5 3.1v9.7z"
 }));
-/* harmony default export */ var library_home = (home);
+/* harmony default export */ const library_home = (home);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/verse.js
 
@@ -13661,7 +13661,7 @@ const verse = (0,external_React_.createElement)(external_wp_primitives_namespace
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M17.8 2l-.9.3c-.1 0-3.6 1-5.2 2.1C10 5.5 9.3 6.5 8.9 7.1c-.6.9-1.7 4.7-1.7 6.3l-.9 2.3c-.2.4 0 .8.4 1 .1 0 .2.1.3.1.3 0 .6-.2.7-.5l.6-1.5c.3 0 .7-.1 1.2-.2.7-.1 1.4-.3 2.2-.5.8-.2 1.6-.5 2.4-.8.7-.3 1.4-.7 1.9-1.2s.8-1.2 1-1.9c.2-.7.3-1.6.4-2.4.1-.8.1-1.7.2-2.5 0-.8.1-1.5.2-2.1V2zm-1.9 5.6c-.1.8-.2 1.5-.3 2.1-.2.6-.4 1-.6 1.3-.3.3-.8.6-1.4.9-.7.3-1.4.5-2.2.8-.6.2-1.3.3-1.8.4L15 7.5c.3-.3.6-.7 1-1.1 0 .4 0 .8-.1 1.2zM6 20h8v-1.5H6V20z"
 }));
-/* harmony default export */ var library_verse = (verse);
+/* harmony default export */ const library_verse = (verse);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/pin.js
 
@@ -13675,7 +13675,7 @@ const pin = (0,external_React_.createElement)(external_wp_primitives_namespaceOb
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m21.5 9.1-6.6-6.6-4.2 5.6c-1.2-.1-2.4.1-3.6.7-.1 0-.1.1-.2.1-.5.3-.9.6-1.2.9l3.7 3.7-5.7 5.7v1.1h1.1l5.7-5.7 3.7 3.7c.4-.4.7-.8.9-1.2.1-.1.1-.2.2-.3.6-1.1.8-2.4.6-3.6l5.6-4.1zm-7.3 3.5.1.9c.1.9 0 1.8-.4 2.6l-6-6c.8-.4 1.7-.5 2.6-.4l.9.1L15 4.9 19.1 9l-4.9 3.6z"
 }));
-/* harmony default export */ var library_pin = (pin);
+/* harmony default export */ const library_pin = (pin);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/archive.js
 
@@ -13691,7 +13691,7 @@ const archive = (0,external_React_.createElement)(external_wp_primitives_namespa
   clipRule: "evenodd",
   d: "M11.934 7.406a1 1 0 0 0 .914.594H19a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5h5.764a.5.5 0 0 1 .447.276l.723 1.63Zm1.064-1.216a.5.5 0 0 0 .462.31H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.764a2 2 0 0 1 1.789 1.106l.445 1.084ZM8.5 10.5h7V12h-7v-1.5Zm7 3.5h-7v1.5h7V14Z"
 }));
-/* harmony default export */ var library_archive = (archive);
+/* harmony default export */ const library_archive = (archive);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/search.js
 
@@ -13705,7 +13705,7 @@ const search = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"
 }));
-/* harmony default export */ var library_search = (search);
+/* harmony default export */ const library_search = (search);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/not-found.js
 
@@ -13719,7 +13719,7 @@ const notFound = (0,external_React_.createElement)(external_wp_primitives_namesp
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M19 5H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm.5 12c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V7c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v10zm-11-7.6h-.7l-3.1 4.3h2.8V15h1v-1.3h.7v-.8h-.7V9.4zm-.9 3.5H6.3l1.2-1.7v1.7zm5.6-3.2c-.4-.2-.8-.4-1.2-.4-.5 0-.9.1-1.2.4-.4.2-.6.6-.8 1-.2.4-.3.9-.3 1.5s.1 1.1.3 1.6c.2.4.5.8.8 1 .4.2.8.4 1.2.4.5 0 .9-.1 1.2-.4.4-.2.6-.6.8-1 .2-.4.3-1 .3-1.6 0-.6-.1-1.1-.3-1.5-.1-.5-.4-.8-.8-1zm0 3.6c-.1.3-.3.5-.5.7-.2.1-.4.2-.7.2-.3 0-.5-.1-.7-.2-.2-.1-.4-.4-.5-.7-.1-.3-.2-.7-.2-1.2 0-.7.1-1.2.4-1.5.3-.3.6-.5 1-.5s.7.2 1 .5c.3.3.4.8.4 1.5-.1.5-.1.9-.2 1.2zm5-3.9h-.7l-3.1 4.3h2.8V15h1v-1.3h.7v-.8h-.7V9.4zm-1 3.5H16l1.2-1.7v1.7z"
 }));
-/* harmony default export */ var not_found = (notFound);
+/* harmony default export */ const not_found = (notFound);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/list.js
 
@@ -13733,7 +13733,7 @@ const list = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M4 4v1.5h16V4H4zm8 8.5h8V11h-8v1.5zM4 20h16v-1.5H4V20zm4-8c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2z"
 }));
-/* harmony default export */ var library_list = (list);
+/* harmony default export */ const library_list = (list);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/category.js
 
@@ -13749,7 +13749,7 @@ const category = (0,external_React_.createElement)(external_wp_primitives_namesp
   fillRule: "evenodd",
   clipRule: "evenodd"
 }));
-/* harmony default export */ var library_category = (category);
+/* harmony default export */ const library_category = (category);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/comment-author-avatar.js
 
@@ -13765,7 +13765,7 @@ const commentAuthorAvatar = (0,external_React_.createElement)(external_wp_primit
   d: "M7.25 16.437a6.5 6.5 0 1 1 9.5 0V16A2.75 2.75 0 0 0 14 13.25h-4A2.75 2.75 0 0 0 7.25 16v.437Zm1.5 1.193a6.47 6.47 0 0 0 3.25.87 6.47 6.47 0 0 0 3.25-.87V16c0-.69-.56-1.25-1.25-1.25h-4c-.69 0-1.25.56-1.25 1.25v1.63ZM4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm10-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z",
   clipRule: "evenodd"
 }));
-/* harmony default export */ var comment_author_avatar = (commentAuthorAvatar);
+/* harmony default export */ const comment_author_avatar = (commentAuthorAvatar);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/block-meta.js
 
@@ -13781,7 +13781,7 @@ const blockMeta = (0,external_React_.createElement)(external_wp_primitives_names
   d: "M8.95 11.25H4v1.5h4.95v4.5H13V18c0 1.1.9 2 2 2h3c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2h-3c-1.1 0-2 .9-2 2v.75h-2.55v-7.5H13V9c0 1.1.9 2 2 2h3c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3c-1.1 0-2 .9-2 2v.75H8.95v4.5ZM14.5 15v3c0 .3.2.5.5.5h3c.3 0 .5-.2.5-.5v-3c0-.3-.2-.5-.5-.5h-3c-.3 0-.5.2-.5.5Zm0-6V6c0-.3.2-.5.5-.5h3c.3 0 .5.2.5.5v3c0 .3-.2.5-.5.5h-3c-.3 0-.5-.2-.5-.5Z",
   clipRule: "evenodd"
 }));
-/* harmony default export */ var block_meta = (blockMeta);
+/* harmony default export */ const block_meta = (blockMeta);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/calendar.js
 
@@ -13795,7 +13795,7 @@ const calendar = (0,external_React_.createElement)(external_wp_primitives_namesp
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm.5 16c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V7h15v12zM9 10H7v2h2v-2zm0 4H7v2h2v-2zm4-4h-2v2h2v-2zm4 0h-2v2h2v-2zm-4 4h-2v2h2v-2zm4 0h-2v2h2v-2z"
 }));
-/* harmony default export */ var library_calendar = (calendar);
+/* harmony default export */ const library_calendar = (calendar);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/tag.js
 
@@ -13809,7 +13809,7 @@ const tag = (0,external_React_.createElement)(external_wp_primitives_namespaceOb
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M4.75 4a.75.75 0 0 0-.75.75v7.826c0 .2.08.39.22.53l6.72 6.716a2.313 2.313 0 0 0 3.276-.001l5.61-5.611-.531-.53.532.528a2.315 2.315 0 0 0 0-3.264L13.104 4.22a.75.75 0 0 0-.53-.22H4.75ZM19 12.576a.815.815 0 0 1-.236.574l-5.61 5.611a.814.814 0 0 1-1.153 0L5.5 12.264V5.5h6.763l6.5 6.502a.816.816 0 0 1 .237.574ZM8.75 9.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
 }));
-/* harmony default export */ var library_tag = (tag);
+/* harmony default export */ const library_tag = (tag);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/media.js
 
@@ -13827,7 +13827,7 @@ const media = (0,external_React_.createElement)(external_wp_primitives_namespace
   clipRule: "evenodd",
   d: "m5 3c-1.10457 0-2 .89543-2 2v14c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954 2-2v-14c0-1.10457-.8954-2-2-2zm14 1.5h-14c-.27614 0-.5.22386-.5.5v10.7072l3.62953-2.6465c.25108-.1831.58905-.1924.84981-.0234l2.92666 1.8969 3.5712-3.4719c.2911-.2831.7545-.2831 1.0456 0l2.9772 2.8945v-9.3568c0-.27614-.2239-.5-.5-.5zm-14.5 14.5v-1.4364l4.09643-2.987 2.99567 1.9417c.2936.1903.6798.1523.9307-.0917l3.4772-3.3806 3.4772 3.3806.0228-.0234v2.5968c0 .2761-.2239.5-.5.5h-14c-.27614 0-.5-.2239-.5-.5z"
 }));
-/* harmony default export */ var library_media = (media);
+/* harmony default export */ const library_media = (media);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
 
@@ -13841,7 +13841,7 @@ const plus = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"
 }));
-/* harmony default export */ var library_plus = (plus);
+/* harmony default export */ const library_plus = (plus);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/post.js
 
@@ -13855,7 +13855,7 @@ const post = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m7.3 9.7 1.4 1.4c.2-.2.3-.3.4-.5 0 0 0-.1.1-.1.3-.5.4-1.1.3-1.6L12 7 9 4 7.2 6.5c-.6-.1-1.1 0-1.6.3 0 0-.1 0-.1.1-.3.1-.4.2-.6.4l1.4 1.4L4 11v1h1l2.3-2.3zM4 20h9v-1.5H4V20zm0-5.5V16h16v-1.5H4z"
 }));
-/* harmony default export */ var library_post = (post);
+/* harmony default export */ const library_post = (post);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/add-new-template/utils.js
 /**
@@ -14583,7 +14583,7 @@ function AddCustomTemplateModalContent({
     onSelect: onSelect
   })));
 }
-/* harmony default export */ var add_custom_template_modal_content = (AddCustomTemplateModalContent);
+/* harmony default export */ const add_custom_template_modal_content = (AddCustomTemplateModalContent);
 
 ;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
@@ -14927,7 +14927,7 @@ function __disposeResources(env) {
   return next();
 }
 
-/* harmony default export */ var tslib_es6 = ({
+/* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
@@ -15116,7 +15116,7 @@ function AddCustomGenericTemplateModalContent({
     "aria-disabled": isBusy
   }, (0,external_wp_i18n_namespaceObject.__)('Create')))));
 }
-/* harmony default export */ var add_custom_generic_template_modal_content = (AddCustomGenericTemplateModalContent);
+/* harmony default export */ const add_custom_generic_template_modal_content = (AddCustomGenericTemplateModalContent);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/add-new-template/template-actions-loading-screen.js
 
@@ -15761,7 +15761,7 @@ const plugins = (0,external_React_.createElement)(external_wp_primitives_namespa
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M10.5 4v4h3V4H15v4h1.5a1 1 0 011 1v4l-3 4v2a1 1 0 01-1 1h-3a1 1 0 01-1-1v-2l-3-4V9a1 1 0 011-1H9V4h1.5zm.5 12.5v2h2v-2l3-4v-3H8v3l3 4z"
 }));
-/* harmony default export */ var library_plugins = (plugins);
+/* harmony default export */ const library_plugins = (plugins);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/globe.js
 
@@ -15775,7 +15775,7 @@ const globe = (0,external_React_.createElement)(external_wp_primitives_namespace
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 3.3c-4.8 0-8.8 3.9-8.8 8.8 0 4.8 3.9 8.8 8.8 8.8 4.8 0 8.8-3.9 8.8-8.8s-4-8.8-8.8-8.8zm6.5 5.5h-2.6C15.4 7.3 14.8 6 14 5c2 .6 3.6 2 4.5 3.8zm.7 3.2c0 .6-.1 1.2-.2 1.8h-2.9c.1-.6.1-1.2.1-1.8s-.1-1.2-.1-1.8H19c.2.6.2 1.2.2 1.8zM12 18.7c-1-.7-1.8-1.9-2.3-3.5h4.6c-.5 1.6-1.3 2.9-2.3 3.5zm-2.6-4.9c-.1-.6-.1-1.1-.1-1.8 0-.6.1-1.2.1-1.8h5.2c.1.6.1 1.1.1 1.8s-.1 1.2-.1 1.8H9.4zM4.8 12c0-.6.1-1.2.2-1.8h2.9c-.1.6-.1 1.2-.1 1.8 0 .6.1 1.2.1 1.8H5c-.2-.6-.2-1.2-.2-1.8zM12 5.3c1 .7 1.8 1.9 2.3 3.5H9.7c.5-1.6 1.3-2.9 2.3-3.5zM10 5c-.8 1-1.4 2.3-1.8 3.8H5.5C6.4 7 8 5.6 10 5zM5.5 15.3h2.6c.4 1.5 1 2.8 1.8 3.7-1.8-.6-3.5-2-4.4-3.7zM14 19c.8-1 1.4-2.2 1.8-3.7h2.6C17.6 17 16 18.4 14 19z"
 }));
-/* harmony default export */ var library_globe = (globe);
+/* harmony default export */ const library_globe = (globe);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/list/added-by.js
 
@@ -16369,7 +16369,7 @@ const file = (0,external_React_.createElement)(external_wp_primitives_namespaceO
   clipRule: "evenodd",
   d: "M12.848 8a1 1 0 0 1-.914-.594l-.723-1.63a.5.5 0 0 0-.447-.276H5a.5.5 0 0 0-.5.5v11.5a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 .5-.5v-9A.5.5 0 0 0 19 8h-6.152Zm.612-1.5a.5.5 0 0 1-.462-.31l-.445-1.084A2 2 0 0 0 10.763 4H5a2 2 0 0 0-2 2v11.5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-5.54Z"
 }));
-/* harmony default export */ var library_file = (file);
+/* harmony default export */ const library_file = (file);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/symbol-filled.js
 
@@ -16383,7 +16383,7 @@ const symbolFilled = (0,external_React_.createElement)(external_wp_primitives_na
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-17.6 1L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z"
 }));
-/* harmony default export */ var symbol_filled = (symbolFilled);
+/* harmony default export */ const symbol_filled = (symbolFilled);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/upload.js
 
@@ -16397,7 +16397,7 @@ const upload = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M18.5 15v3.5H13V6.7l4.5 4.1 1-1.1-6.2-5.8-5.8 5.8 1 1.1 4-4v11.7h-6V15H4v5h16v-5z"
 }));
-/* harmony default export */ var library_upload = (upload);
+/* harmony default export */ const library_upload = (upload);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/utils/template-part-create.js
 /**
@@ -17318,7 +17318,7 @@ const usePatterns = (categoryType, categoryId, {
     };
   }, [categoryId, categoryType, search, syncStatus]);
 };
-/* harmony default export */ var use_patterns = (usePatterns);
+/* harmony default export */ const use_patterns = (usePatterns);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-patterns/use-pattern-categories.js
 /**
@@ -18030,7 +18030,7 @@ const chevronUp = (0,external_React_.createElement)(external_wp_primitives_names
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z"
 }));
-/* harmony default export */ var chevron_up = (chevronUp);
+/* harmony default export */ const chevron_up = (chevronUp);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-down.js
 
@@ -18044,7 +18044,7 @@ const chevronDown = (0,external_React_.createElement)(external_wp_primitives_nam
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z"
 }));
-/* harmony default export */ var chevron_down = (chevronDown);
+/* harmony default export */ const chevron_down = (chevronDown);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sync-state-with-url/use-sync-path-with-url.js
 /**
@@ -19467,7 +19467,7 @@ const blockTable = (0,external_React_.createElement)(external_wp_primitives_name
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 4.5h14c.3 0 .5.2.5.5v3.5h-15V5c0-.3.2-.5.5-.5zm8 5.5h6.5v3.5H13V10zm-1.5 3.5h-7V10h7v3.5zm-7 5.5v-4h7v4.5H5c-.3 0-.5-.2-.5-.5zm14.5.5h-6V15h6.5v4c0 .3-.2.5-.5.5z"
 }));
-/* harmony default export */ var block_table = (blockTable);
+/* harmony default export */ const block_table = (blockTable);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/format-list-bullets-rtl.js
 
@@ -19481,7 +19481,7 @@ const formatListBulletsRTL = (0,external_React_.createElement)(external_wp_primi
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M4 8.8h8.9V7.2H4v1.6zm0 7h8.9v-1.5H4v1.5zM18 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
 }));
-/* harmony default export */ var format_list_bullets_rtl = (formatListBulletsRTL);
+/* harmony default export */ const format_list_bullets_rtl = (formatListBulletsRTL);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/format-list-bullets.js
 
@@ -19495,7 +19495,7 @@ const formatListBullets = (0,external_React_.createElement)(external_wp_primitiv
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M11.1 15.8H20v-1.5h-8.9v1.5zm0-8.6v1.5H20V7.2h-8.9zM6 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
 }));
-/* harmony default export */ var format_list_bullets = (formatListBullets);
+/* harmony default export */ const format_list_bullets = (formatListBullets);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/unseen.js
 
@@ -19509,7 +19509,7 @@ const unseen = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M4.67 10.664s-2.09 1.11-2.917 1.582l.494.87 1.608-.914.002.002c.343.502.86 1.17 1.563 1.84.348.33.742.663 1.185.976L5.57 16.744l.858.515 1.02-1.701a9.1 9.1 0 0 0 4.051 1.18V19h1v-2.263a9.1 9.1 0 0 0 4.05-1.18l1.021 1.7.858-.514-1.034-1.723c.442-.313.837-.646 1.184-.977.703-.669 1.22-1.337 1.563-1.839l.002-.003 1.61.914.493-.87c-1.75-.994-2.918-1.58-2.918-1.58l-.003.005a8.29 8.29 0 0 1-.422.689 10.097 10.097 0 0 1-1.36 1.598c-1.218 1.16-3.042 2.293-5.544 2.293-2.503 0-4.327-1.132-5.546-2.293a10.099 10.099 0 0 1-1.359-1.599 8.267 8.267 0 0 1-.422-.689l-.003-.005Z"
 }));
-/* harmony default export */ var library_unseen = (unseen);
+/* harmony default export */ const library_unseen = (unseen);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/funnel.js
 
@@ -19523,7 +19523,7 @@ const funnel = (0,external_React_.createElement)(external_wp_primitives_namespac
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M10 17.5H14V16H10V17.5ZM6 6V7.5H18V6H6ZM8 12.5H16V11H8V12.5Z"
 }));
-/* harmony default export */ var library_funnel = (funnel);
+/* harmony default export */ const library_funnel = (funnel);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/lock-unlock.js
 /**
@@ -20125,7 +20125,7 @@ function ViewTable({
       width: 20,
       minWidth: 20
     }
-  }, (0,external_React_.createElement)("span", {
+  }, (0,external_React_.createElement)("div", {
     className: "dataviews-view-table__cell-content-wrapper"
   }, (0,external_React_.createElement)(SingleSelectionCheckbox, {
     id: getItemId(item) || index,
@@ -20142,7 +20142,7 @@ function ViewTable({
       minWidth: field.minWidth || undefined,
       maxWidth: field.maxWidth || undefined
     }
-  }, (0,external_React_.createElement)("span", {
+  }, (0,external_React_.createElement)("div", {
     className: classnames_default()('dataviews-view-table__cell-content-wrapper', {
       'dataviews-view-table__primary-field': primaryField?.id === field.id
     })
@@ -20161,7 +20161,7 @@ function ViewTable({
     id: tableNoticeId
   }, !hasData && (0,external_React_.createElement)("p", null, isLoading ? (0,external_wp_i18n_namespaceObject.__)('Loading…') : (0,external_wp_i18n_namespaceObject.__)('No results'))));
 }
-/* harmony default export */ var view_table = (ViewTable);
+/* harmony default export */ const view_table = (ViewTable);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/view-grid.js
 
@@ -20249,7 +20249,7 @@ const info = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 3.2c-4.8 0-8.8 3.9-8.8 8.8 0 4.8 3.9 8.8 8.8 8.8 4.8 0 8.8-3.9 8.8-8.8 0-4.8-4-8.8-8.8-8.8zm0 16c-4 0-7.2-3.3-7.2-7.2C4.8 8 8 4.8 12 4.8s7.2 3.3 7.2 7.2c0 4-3.2 7.2-7.2 7.2zM11 17h2v-6h-2v6zm0-8h2V7h-2v2z"
 }));
-/* harmony default export */ var library_info = (info);
+/* harmony default export */ const library_info = (info);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/view-list.js
 
@@ -21117,7 +21117,7 @@ const trash = (0,external_React_.createElement)(external_wp_primitives_namespace
   clipRule: "evenodd",
   d: "M12 5.5A2.25 2.25 0 0 0 9.878 7h4.244A2.251 2.251 0 0 0 12 5.5ZM12 4a3.751 3.751 0 0 0-3.675 3H5v1.5h1.27l.818 8.997a2.75 2.75 0 0 0 2.739 2.501h4.347a2.75 2.75 0 0 0 2.738-2.5L17.73 8.5H19V7h-3.325A3.751 3.751 0 0 0 12 4Zm4.224 4.5H7.776l.806 8.861a1.25 1.25 0 0 0 1.245 1.137h4.347a1.25 1.25 0 0 0 1.245-1.137l.805-8.861Z"
 }));
-/* harmony default export */ var library_trash = (trash);
+/* harmony default export */ const library_trash = (trash);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-dataviews/default-views.js
 /**
@@ -21627,11 +21627,11 @@ function SidebarNavigationScreenPagesDataViews() {
 }
 
 ;// CONCATENATED MODULE: external ["wp","dom"]
-var external_wp_dom_namespaceObject = window["wp"]["dom"];
+const external_wp_dom_namespaceObject = window["wp"]["dom"];
 ;// CONCATENATED MODULE: external ["wp","escapeHtml"]
-var external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
+const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// CONCATENATED MODULE: external ["wp","wordcount"]
-var external_wp_wordcount_namespaceObject = window["wp"]["wordcount"];
+const external_wp_wordcount_namespaceObject = window["wp"]["wordcount"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-page/status-label.js
 
 /**
@@ -22084,7 +22084,7 @@ function Sidebar() {
     initialPath: initialPath.current
   }, (0,external_React_.createElement)(SidebarScreens, null)), (0,external_React_.createElement)(SaveHub, null));
 }
-/* harmony default export */ var sidebar = ((0,external_wp_element_namespaceObject.memo)(Sidebar));
+/* harmony default export */ const sidebar = ((0,external_wp_element_namespaceObject.memo)(Sidebar));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/error-boundary/warning.js
 
@@ -22170,7 +22170,7 @@ const next = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M6.6 6L5.4 7l4.5 5-4.5 5 1.1 1 5.5-6-5.4-6zm6 0l-1.1 1 4.5 5-4.5 5 1.1 1 5.5-6-5.5-6z"
 }));
-/* harmony default export */ var library_next = (next);
+/* harmony default export */ const library_next = (next);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/previous.js
 
@@ -22184,7 +22184,7 @@ const previous = (0,external_React_.createElement)(external_wp_primitives_namesp
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M11.6 7l-1.1-1L5 12l5.5 6 1.1-1L7 12l4.6-5zm6 0l-1.1-1-5.5 6 5.5 6 1.1-1-4.6-5 4.6-5z"
 }));
-/* harmony default export */ var library_previous = (previous);
+/* harmony default export */ const library_previous = (previous);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
 
@@ -22198,7 +22198,7 @@ const external = (0,external_React_.createElement)(external_wp_primitives_namesp
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z"
 }));
-/* harmony default export */ var library_external = (external);
+/* harmony default export */ const library_external = (external);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/keyboard-shortcut-help-modal/config.js
 /**
@@ -22510,7 +22510,7 @@ ToolsMoreMenuGroup.Slot = ({
 }) => (0,external_React_.createElement)(Slot, {
   fillProps: fillProps
 }, fills => fills && fills.length > 0);
-/* harmony default export */ var tools_more_menu_group = (ToolsMoreMenuGroup);
+/* harmony default export */ const tools_more_menu_group = (ToolsMoreMenuGroup);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/download.js
 
@@ -22524,10 +22524,10 @@ const download = (0,external_React_.createElement)(external_wp_primitives_namesp
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M18 11.3l-1-1.1-4 4V3h-1.5v11.3L7 10.2l-1 1.1 6.2 5.8 5.8-5.8zm.5 3.7v3.5h-13V15H4v5h16v-5h-1.5z"
 }));
-/* harmony default export */ var library_download = (download);
+/* harmony default export */ const library_download = (download);
 
 ;// CONCATENATED MODULE: external ["wp","blob"]
-var external_wp_blob_namespaceObject = window["wp"]["blob"];
+const external_wp_blob_namespaceObject = window["wp"]["blob"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/header-edit-mode/more-menu/site-export.js
 
 /**
@@ -22703,7 +22703,7 @@ function ModeSwitcher() {
     onSelect: switchEditorMode
   }));
 }
-/* harmony default export */ var mode_switcher = (ModeSwitcher);
+/* harmony default export */ const mode_switcher = (ModeSwitcher);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/header-edit-mode/more-menu/index.js
 
@@ -22835,7 +22835,7 @@ const chevronUpDown = (0,external_React_.createElement)(external_wp_primitives_n
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m12 20-4.5-3.6-.9 1.2L12 22l5.5-4.4-.9-1.2L12 20zm0-16 4.5 3.6.9-1.2L12 2 6.5 6.4l.9 1.2L12 4z"
 }));
-/* harmony default export */ var chevron_up_down = (chevronUpDown);
+/* harmony default export */ const chevron_up_down = (chevronUpDown);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/header-edit-mode/document-tools/index.js
 
@@ -23067,7 +23067,7 @@ const wordpress = (0,external_React_.createElement)(external_wp_primitives_names
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M20 10c0-5.51-4.49-10-10-10C4.48 0 0 4.49 0 10c0 5.52 4.48 10 10 10 5.51 0 10-4.48 10-10zM7.78 15.37L4.37 6.22c.55-.02 1.17-.08 1.17-.08.5-.06.44-1.13-.06-1.11 0 0-1.45.11-2.37.11-.18 0-.37 0-.58-.01C4.12 2.69 6.87 1.11 10 1.11c2.33 0 4.45.87 6.05 2.34-.68-.11-1.65.39-1.65 1.58 0 .74.45 1.36.9 2.1.35.61.55 1.36.55 2.46 0 1.49-1.4 5-1.4 5l-3.03-8.37c.54-.02.82-.17.82-.17.5-.05.44-1.25-.06-1.22 0 0-1.44.12-2.38.12-.87 0-2.33-.12-2.33-.12-.5-.03-.56 1.2-.06 1.22l.92.08 1.26 3.41zM17.41 10c.24-.64.74-1.87.43-4.25.7 1.29 1.05 2.71 1.05 4.25 0 3.29-1.73 6.24-4.4 7.78.97-2.59 1.94-5.2 2.92-7.78zM6.1 18.09C3.12 16.65 1.11 13.53 1.11 10c0-1.3.23-2.48.72-3.59C3.25 10.3 4.67 14.2 6.1 18.09zm4.03-6.63l2.58 6.98c-.86.29-1.76.45-2.71.45-.79 0-1.57-.11-2.29-.33.81-2.38 1.62-4.74 2.42-7.1z"
 }));
-/* harmony default export */ var library_wordpress = (wordpress);
+/* harmony default export */ const library_wordpress = (wordpress);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/site-icon/index.js
 
@@ -23118,7 +23118,7 @@ function SiteIcon({
     className: classnames_default()(className, 'edit-site-site-icon')
   }, icon);
 }
-/* harmony default export */ var site_icon = (SiteIcon);
+/* harmony default export */ const site_icon = (SiteIcon);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/site-hub/index.js
 
@@ -23300,7 +23300,7 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)(({
     shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primary('k')
   })));
 });
-/* harmony default export */ var site_hub = (SiteHub);
+/* harmony default export */ const site_hub = (SiteHub);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/resizable-frame/index.js
 
@@ -23560,7 +23560,7 @@ function ResizableFrame({
     style: innerContentStyle
   }, children));
 }
-/* harmony default export */ var resizable_frame = (ResizableFrame);
+/* harmony default export */ const resizable_frame = (ResizableFrame);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sync-state-with-url/use-sync-canvas-mode-with-url.js
 /**
@@ -23923,7 +23923,7 @@ function KeyboardShortcutsRegister() {
   }, [registerShortcut]);
   return null;
 }
-/* harmony default export */ var register = (KeyboardShortcutsRegister);
+/* harmony default export */ const register = (KeyboardShortcutsRegister);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/keyboard-shortcuts/global.js
 /**
@@ -23956,7 +23956,7 @@ function KeyboardShortcutsGlobal() {
   });
   return null;
 }
-/* harmony default export */ var global = (KeyboardShortcutsGlobal);
+/* harmony default export */ const global = (KeyboardShortcutsGlobal);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/help.js
 
@@ -23970,7 +23970,7 @@ const help = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 4.75a7.25 7.25 0 100 14.5 7.25 7.25 0 000-14.5zM3.25 12a8.75 8.75 0 1117.5 0 8.75 8.75 0 01-17.5 0zM12 8.75a1.5 1.5 0 01.167 2.99c-.465.052-.917.44-.917 1.01V14h1.5v-.845A3 3 0 109 10.25h1.5a1.5 1.5 0 011.5-1.5zM11.25 15v1.5h1.5V15h-1.5z"
 }));
-/* harmony default export */ var library_help = (help);
+/* harmony default export */ const library_help = (help);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/rotate-right.js
 
@@ -23984,7 +23984,7 @@ const rotateRight = (0,external_React_.createElement)(external_wp_primitives_nam
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M15.1 4.8l-3-2.5V4c-4.4 0-8 3.6-8 8 0 3.7 2.5 6.9 6 7.7.3.1.6.1 1 .2l.2-1.5c-.4 0-.7-.1-1.1-.2l-.1.2v-.2c-2.6-.8-4.5-3.3-4.5-6.2 0-3.6 2.9-6.5 6.5-6.5v1.8l3-2.5zM20 11c-.2-1.4-.7-2.7-1.6-3.8l-1.2.8c.7.9 1.1 2 1.3 3.1L20 11zm-1.5 1.8c-.1.5-.2 1.1-.4 1.6s-.5 1-.8 1.5l1.2.9c.4-.5.8-1.1 1-1.8s.5-1.3.5-2l-1.5-.2zm-5.6 5.6l.2 1.5c1.4-.2 2.7-.7 3.8-1.6l-.9-1.1c-.9.7-2 1.1-3.1 1.2z"
 }));
-/* harmony default export */ var rotate_right = (rotateRight);
+/* harmony default export */ const rotate_right = (rotateRight);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/rotate-left.js
 
@@ -23998,7 +23998,7 @@ const rotateLeft = (0,external_React_.createElement)(external_wp_primitives_name
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M12 4V2.2L9 4.8l3 2.5V5.5c3.6 0 6.5 2.9 6.5 6.5 0 2.9-1.9 5.3-4.5 6.2v.2l-.1-.2c-.4.1-.7.2-1.1.2l.2 1.5c.3 0 .6-.1 1-.2 3.5-.9 6-4 6-7.7 0-4.4-3.6-8-8-8zm-7.9 7l1.5.2c.1-1.2.5-2.3 1.2-3.2l-1.1-.9C4.8 8.2 4.3 9.6 4.1 11zm1.5 1.8l-1.5.2c.1.7.3 1.4.5 2 .3.7.6 1.3 1 1.8l1.2-.8c-.3-.5-.6-1-.8-1.5s-.4-1.1-.4-1.7zm1.5 5.5c1.1.9 2.4 1.4 3.8 1.6l.2-1.5c-1.1-.1-2.2-.5-3.1-1.2l-.9 1.1z"
 }));
-/* harmony default export */ var rotate_left = (rotateLeft);
+/* harmony default export */ const rotate_left = (rotateLeft);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/brush.js
 
@@ -24012,7 +24012,7 @@ const brush = (0,external_React_.createElement)(external_wp_primitives_namespace
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M4 20h8v-1.5H4V20zM18.9 3.5c-.6-.6-1.5-.6-2.1 0l-7.2 7.2c-.4-.1-.7 0-1.1.1-.5.2-1.5.7-1.9 2.2-.4 1.7-.8 2.2-1.1 2.7-.1.1-.2.3-.3.4l-.6 1.1H6c2 0 3.4-.4 4.7-1.4.8-.6 1.2-1.4 1.3-2.3 0-.3 0-.5-.1-.7L19 5.7c.5-.6.5-1.6-.1-2.2zM9.7 14.7c-.7.5-1.5.8-2.4 1 .2-.5.5-1.2.8-2.3.2-.6.4-1 .8-1.1.5-.1 1 .1 1.3.3.2.2.3.5.2.8 0 .3-.1.9-.7 1.3z"
 }));
-/* harmony default export */ var library_brush = (brush);
+/* harmony default export */ const library_brush = (brush);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/utils/get-is-list-page.js
 /**
@@ -24358,7 +24358,7 @@ const code = (0,external_React_.createElement)(external_wp_primitives_namespaceO
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M20.8 10.7l-4.3-4.3-1.1 1.1 4.3 4.3c.1.1.1.3 0 .4l-4.3 4.3 1.1 1.1 4.3-4.3c.7-.8.7-1.9 0-2.6zM4.2 11.8l4.3-4.3-1-1-4.3 4.3c-.7.7-.7 1.8 0 2.5l4.3 4.3 1.1-1.1-4.3-4.3c-.2-.1-.2-.3-.1-.4z"
 }));
-/* harmony default export */ var library_code = (code);
+/* harmony default export */ const library_code = (code);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/drawer-left.js
 
@@ -24376,7 +24376,7 @@ const drawerLeft = (0,external_React_.createElement)(external_wp_primitives_name
   clipRule: "evenodd",
   d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM8.5 18.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h2.5v13zm10-.5c0 .3-.2.5-.5.5h-8v-13h8c.3 0 .5.2.5.5v12z"
 }));
-/* harmony default export */ var drawer_left = (drawerLeft);
+/* harmony default export */ const drawer_left = (drawerLeft);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/drawer-right.js
 
@@ -24394,7 +24394,7 @@ const drawerRight = (0,external_React_.createElement)(external_wp_primitives_nam
   clipRule: "evenodd",
   d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-4 14.5H6c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h8v13zm4.5-.5c0 .3-.2.5-.5.5h-2.5v-13H18c.3 0 .5.2.5.5v12z"
 }));
-/* harmony default export */ var drawer_right = (drawerRight);
+/* harmony default export */ const drawer_right = (drawerRight);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
 
@@ -24408,7 +24408,7 @@ const blockDefault = (0,external_React_.createElement)(external_wp_primitives_na
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M19 8h-1V6h-5v2h-2V6H6v2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm.5 10c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-8c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v8z"
 }));
-/* harmony default export */ var block_default = (blockDefault);
+/* harmony default export */ const block_default = (blockDefault);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/keyboard.js
 
@@ -24424,7 +24424,7 @@ const keyboard = (0,external_React_.createElement)(external_wp_primitives_namesp
 }), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m18.5 6.5h-13a.5.5 0 0 0 -.5.5v9.5a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9.5a.5.5 0 0 0 -.5-.5zm-13-1.5h13a2 2 0 0 1 2 2v9.5a2 2 0 0 1 -2 2h-13a2 2 0 0 1 -2-2v-9.5a2 2 0 0 1 2-2z"
 }));
-/* harmony default export */ var library_keyboard = (keyboard);
+/* harmony default export */ const library_keyboard = (keyboard);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/list-view.js
 
@@ -24438,7 +24438,7 @@ const listView = (0,external_React_.createElement)(external_wp_primitives_namesp
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M3 6h11v1.5H3V6Zm3.5 5.5h11V13h-11v-1.5ZM21 17H10v1.5h11V17Z"
 }));
-/* harmony default export */ var list_view = (listView);
+/* harmony default export */ const list_view = (listView);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/pattern-modal/rename.js
 
@@ -24575,6 +24575,7 @@ function PatternModal() {
 
 
 
+
 const {
   useHistory: use_edit_mode_commands_useHistory
 } = unlock(external_wp_router_namespaceObject.privateApis);
@@ -24585,21 +24586,30 @@ function usePageContentFocusCommands() {
   const {
     isPage,
     canvasMode,
-    renderingMode
+    templateId,
+    currentPostType
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       isPage: _isPage,
       getCanvasMode
     } = unlock(select(store_store));
     const {
-      getRenderingMode
+      getCurrentPostType,
+      getCurrentTemplateId
     } = select(external_wp_editor_namespaceObject.store);
     return {
       isPage: _isPage(),
       canvasMode: getCanvasMode(),
-      renderingMode: getRenderingMode()
+      templateId: getCurrentTemplateId(),
+      currentPostType: getCurrentPostType()
     };
   }, []);
+  const {
+    onClick: editTemplate
+  } = useLink({
+    postType: 'wp_template',
+    postId: templateId
+  });
   const {
     setRenderingMode
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
@@ -24610,7 +24620,7 @@ function usePageContentFocusCommands() {
     };
   }
   const commands = [];
-  if (renderingMode !== 'template-only') {
+  if (currentPostType !== 'wp_template') {
     commands.push({
       name: 'core/switch-to-template-focus',
       /* translators: %1$s: template title */
@@ -24619,7 +24629,7 @@ function usePageContentFocusCommands() {
       callback: ({
         close
       }) => {
-        setRenderingMode('template-only');
+        editTemplate();
         close();
       }
     });
@@ -24687,7 +24697,7 @@ function useManipulateDocumentCommands() {
     revertTemplate
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const history = use_edit_mode_commands_useHistory();
-  const isEditingPage = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).isPage() && select(external_wp_editor_namespaceObject.store).getRenderingMode() !== 'template-only', []);
+  const isEditingPage = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).isPage() && select(external_wp_editor_namespaceObject.store).getCurrentPostType() !== 'wp_template', []);
   if (!isLoaded) {
     return {
       isLoading: true,
@@ -25175,7 +25185,7 @@ const typography = (0,external_React_.createElement)(external_wp_primitives_name
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M6.9 7L3 17.8h1.7l1-2.8h4.1l1 2.8h1.7L8.6 7H6.9zm-.7 6.6l1.5-4.3 1.5 4.3h-3zM21.6 17c-.1.1-.2.2-.3.2-.1.1-.2.1-.4.1s-.3-.1-.4-.2c-.1-.1-.1-.3-.1-.6V12c0-.5 0-1-.1-1.4-.1-.4-.3-.7-.5-1-.2-.2-.5-.4-.9-.5-.4 0-.8-.1-1.3-.1s-1 .1-1.4.2c-.4.1-.7.3-1 .4-.2.2-.4.3-.6.5-.1.2-.2.4-.2.7 0 .3.1.5.2.8.2.2.4.3.8.3.3 0 .6-.1.8-.3.2-.2.3-.4.3-.7 0-.3-.1-.5-.2-.7-.2-.2-.4-.3-.6-.4.2-.2.4-.3.7-.4.3-.1.6-.1.8-.1.3 0 .6 0 .8.1.2.1.4.3.5.5.1.2.2.5.2.9v1.1c0 .3-.1.5-.3.6-.2.2-.5.3-.9.4-.3.1-.7.3-1.1.4-.4.1-.8.3-1.1.5-.3.2-.6.4-.8.7-.2.3-.3.7-.3 1.2 0 .6.2 1.1.5 1.4.3.4.9.5 1.6.5.5 0 1-.1 1.4-.3.4-.2.8-.6 1.1-1.1 0 .4.1.7.3 1 .2.3.6.4 1.2.4.4 0 .7-.1.9-.2.2-.1.5-.3.7-.4h-.3zm-3-.9c-.2.4-.5.7-.8.8-.3.2-.6.2-.8.2-.4 0-.6-.1-.9-.3-.2-.2-.3-.6-.3-1.1 0-.5.1-.9.3-1.2s.5-.5.8-.7c.3-.2.7-.3 1-.5.3-.1.6-.3.7-.6v3.4z"
 }));
-/* harmony default export */ var library_typography = (typography);
+/* harmony default export */ const library_typography = (typography);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/color.js
 
@@ -25189,7 +25199,7 @@ const color = (0,external_React_.createElement)(external_wp_primitives_namespace
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M17.2 10.9c-.5-1-1.2-2.1-2.1-3.2-.6-.9-1.3-1.7-2.1-2.6L12 4l-1 1.1c-.6.9-1.3 1.7-2 2.6-.8 1.2-1.5 2.3-2 3.2-.6 1.2-1 2.2-1 3 0 3.4 2.7 6.1 6.1 6.1s6.1-2.7 6.1-6.1c0-.8-.3-1.8-1-3zm-5.1 7.6c-2.5 0-4.6-2.1-4.6-4.6 0-.3.1-1 .8-2.3.5-.9 1.1-1.9 2-3.1.7-.9 1.3-1.7 1.8-2.3.7.8 1.3 1.6 1.8 2.3.8 1.1 1.5 2.2 2 3.1.7 1.3.8 2 .8 2.3 0 2.5-2.1 4.6-4.6 4.6z"
 }));
-/* harmony default export */ var library_color = (color);
+/* harmony default export */ const library_color = (color);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/root-menu.js
 
@@ -25234,7 +25244,7 @@ function RootMenu() {
     "aria-label": (0,external_wp_i18n_namespaceObject.__)('Layout styles')
   }, (0,external_wp_i18n_namespaceObject.__)('Layout'))));
 }
-/* harmony default export */ var root_menu = (RootMenu);
+/* harmony default export */ const root_menu = (RootMenu);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-root.js
 
@@ -25320,7 +25330,7 @@ function ScreenRoot() {
     icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_left : chevron_right
   })))))));
 }
-/* harmony default export */ var screen_root = (ScreenRoot);
+/* harmony default export */ const screen_root = (ScreenRoot);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/variations-panel.js
 
@@ -25408,7 +25418,7 @@ function ScreenHeader({
     className: "edit-site-global-styles-header__description"
   }, description));
 }
-/* harmony default export */ var header = (ScreenHeader);
+/* harmony default export */ const header = (ScreenHeader);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-block-list.js
 
@@ -25550,7 +25560,7 @@ function ScreenBlockList() {
     filterValue: deferredFilterValue
   }));
 }
-/* harmony default export */ var screen_block_list = (ScreenBlockList);
+/* harmony default export */ const screen_block_list = (ScreenBlockList);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/block-preview-panel.js
 
@@ -25611,7 +25621,7 @@ const BlockPreviewPanel = ({
     }]
   })));
 };
-/* harmony default export */ var block_preview_panel = (BlockPreviewPanel);
+/* harmony default export */ const block_preview_panel = (BlockPreviewPanel);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/subtitle.js
 
@@ -25628,7 +25638,7 @@ function Subtitle({
     level: level !== null && level !== void 0 ? level : 2
   }, children);
 }
-/* harmony default export */ var subtitle = (Subtitle);
+/* harmony default export */ const subtitle = (Subtitle);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-block.js
 
@@ -25907,7 +25917,7 @@ function ScreenBlock({
     inheritedValue: inheritedStyle
   })));
 }
-/* harmony default export */ var screen_block = (ScreenBlock);
+/* harmony default export */ const screen_block = (ScreenBlock);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/typogrphy-elements.js
 
@@ -25995,7 +26005,7 @@ function TypographyElements() {
     label: (0,external_wp_i18n_namespaceObject.__)('Buttons')
   })));
 }
-/* harmony default export */ var typogrphy_elements = (TypographyElements);
+/* harmony default export */ const typogrphy_elements = (TypographyElements);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/resolvers.js
 /**
@@ -26054,7 +26064,7 @@ async function fetchUninstallFontFamily(fontFamilyId) {
 }
 async function fetchFontCollections() {
   const config = {
-    path: FONT_COLLECTIONS_URL,
+    path: `${FONT_COLLECTIONS_URL}?_fields=slug,name,description`,
     method: 'GET'
   };
   return await external_wp_apiFetch_default()(config);
@@ -26310,20 +26320,19 @@ function makeFontFacesFormData(font) {
     const fontFacesFormData = font.fontFace.map((face, faceIndex) => {
       const formData = new FormData();
       if (face.file) {
-        // Slugified file name because the it might contain spaces or characters treated differently on the server.
-        const fileId = `file-${faceIndex}`;
-        // Add the files to the formData
-        formData.append(fileId, face.file, face.file.name);
-        // remove the file object from the face object the file is referenced in src
-        const {
-          file,
-          ...faceWithoutFileProperty
-        } = face;
-        const fontFaceSettings = {
-          ...faceWithoutFileProperty,
-          src: fileId
-        };
-        formData.append('font_face_settings', JSON.stringify(fontFaceSettings));
+        // Normalize to an array, since face.file may be a single file or an array of files.
+        const files = Array.isArray(face.file) ? face.file : [face.file];
+        const src = [];
+        files.forEach((file, key) => {
+          // Slugified file name because the it might contain spaces or characters treated differently on the server.
+          const fileId = `file-${faceIndex}-${key}`;
+          // Add the files to the formData
+          formData.append(fileId, file, file.name);
+          src.push(fileId);
+        });
+        face.src = src.length === 1 ? src[0] : src;
+        delete face.file;
+        formData.append('font_face_settings', JSON.stringify(face));
       } else {
         formData.append('font_face_settings', JSON.stringify(face));
       }
@@ -26364,23 +26373,26 @@ async function batchInstallFontFaces(fontFamilyId, fontFacesData) {
 /*
  * Downloads a font face asset from a URL to the client and returns a File object.
  */
-async function downloadFontFaceAsset(url) {
-  return fetch(new Request(url)).then(response => {
-    if (!response.ok) {
-      throw new Error(`Error downloading font face asset from ${url}. Server responded with status: ${response.status}`);
-    }
-    return response.blob();
-  }).then(blob => {
-    const filename = url.split('/').pop();
-    const file = new File([blob], filename, {
-      type: blob.type
+async function downloadFontFaceAssets(src) {
+  // Normalize to an array, since `src` could be a string or array.
+  src = Array.isArray(src) ? src : [src];
+  const files = await Promise.all(src.map(async url => {
+    return fetch(new Request(url)).then(response => {
+      if (!response.ok) {
+        throw new Error(`Error downloading font face asset from ${url}. Server responded with status: ${response.status}`);
+      }
+      return response.blob();
+    }).then(blob => {
+      const filename = url.split('/').pop();
+      const file = new File([blob], filename, {
+        type: blob.type
+      });
+      return file;
     });
-    return file;
-  }).catch(error => {
-    // eslint-disable-next-line no-console
-    console.error(`Error downloading font face asset from ${url}:`, error);
-    throw error;
-  });
+  }));
+
+  // If we only have one file return it (not the array).  Otherwise return all of them in the array.
+  return files.length === 1 ? files[0] : files;
 }
 
 /*
@@ -26526,9 +26538,19 @@ function FontLibraryProvider({
   const fontFamiliesHasChanges = !!globalStyles?.edits?.settings?.typography?.fontFamilies;
   const [isInstalling, setIsInstalling] = (0,external_wp_element_namespaceObject.useState)(false);
   const [refreshKey, setRefreshKey] = (0,external_wp_element_namespaceObject.useState)(0);
+  const [notice, setNotice] = (0,external_wp_element_namespaceObject.useState)(null);
   const refreshLibrary = () => {
     setRefreshKey(Date.now());
   };
+
+  // Reset notice on dismiss.
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (notice) {
+      notice.onRemove = () => {
+        setNotice(null);
+      };
+    }
+  }, [notice, setNotice]);
   const {
     records: libraryPosts = [],
     isResolving: isResolvingLibrary,
@@ -26576,6 +26598,8 @@ function FontLibraryProvider({
     }
   }, [modalTabOpen]);
   const handleSetLibraryFontSelected = font => {
+    setNotice(null);
+
     // If font is null, reset the selected font
     if (!font) {
       setLibraryFontSelected(null);
@@ -26815,6 +26839,8 @@ function FontLibraryProvider({
       modalTabOpen,
       toggleModal,
       refreshLibrary,
+      notice,
+      setNotice,
       saveFontFamilies,
       fontFamiliesHasChanges,
       isResolvingLibrary,
@@ -26825,7 +26851,7 @@ function FontLibraryProvider({
     }
   }, children);
 }
-/* harmony default export */ var context = (FontLibraryProvider);
+/* harmony default export */ const context = (FontLibraryProvider);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/tab-panel-layout.js
 
@@ -26837,6 +26863,7 @@ function FontLibraryProvider({
 function TabPanelLayout({
   title,
   description,
+  notice,
   handleBack,
   children,
   footer
@@ -26861,13 +26888,20 @@ function TabPanelLayout({
     level: 2,
     size: 13,
     className: "edit-site-global-styles-header"
-  }, title)), description && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, null, description)), (0,external_React_.createElement)("div", {
+  }, title)), description && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, null, description), notice && (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexBlock, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+    margin: 1
+  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Notice, {
+    status: notice.type,
+    onRemove: notice.onRemove
+  }, notice.message), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+    margin: 1
+  }))), (0,external_React_.createElement)("div", {
     className: "font-library-modal__tabpanel-layout__main"
   }, children), footer && (0,external_React_.createElement)("div", {
     className: "font-library-modal__tabpanel-layout__footer"
   }, footer)));
 }
-/* harmony default export */ var tab_panel_layout = (TabPanelLayout);
+/* harmony default export */ const tab_panel_layout = (TabPanelLayout);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/fonts-grid.js
 
@@ -26918,7 +26952,7 @@ function FontsGrid({
     }, child);
   }))));
 }
-/* harmony default export */ var fonts_grid = (FontsGrid);
+/* harmony default export */ const fonts_grid = (FontsGrid);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/font-demo.js
 
@@ -26986,7 +27020,7 @@ function FontFaceDemo({
       }
     };
     loadAsset();
-  }, [fontFace, isIntersecting, loadFontFaceAsset]);
+  }, [fontFace, isIntersecting, loadFontFaceAsset, isPreviewImage]);
   return (0,external_React_.createElement)("div", {
     ref: ref
   }, isPreviewImage ? (0,external_React_.createElement)("img", {
@@ -26998,7 +27032,7 @@ function FontFaceDemo({
     style: textDemoStyle
   }, text));
 }
-/* harmony default export */ var font_demo = (FontFaceDemo);
+/* harmony default export */ const font_demo = (FontFaceDemo);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/library-font-variant.js
 
@@ -27023,7 +27057,7 @@ function LibraryFontVariant({
     isFontActivated,
     toggleActivateFont
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
-  const isIstalled = font?.fontFace?.length > 0 ? isFontActivated(font.slug, face.fontStyle, face.fontWeight, font.source) : isFontActivated(font.slug, null, null, font.source);
+  const isInstalled = font?.fontFace?.length > 0 ? isFontActivated(font.slug, face.fontStyle, face.fontWeight, font.source) : isFontActivated(font.slug, null, null, font.source);
   const handleToggleActivation = () => {
     if (font?.fontFace?.length > 0) {
       toggleActivateFont(font, face);
@@ -27047,14 +27081,14 @@ function LibraryFontVariant({
     fontFace: face,
     text: displayName
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
-    checked: isIstalled,
+    checked: isInstalled,
     onChange: handleToggleActivation,
     __nextHasNoMarginBottom: true,
     id: checkboxId,
     label: false
   })));
 }
-/* harmony default export */ var library_font_variant = (LibraryFontVariant);
+/* harmony default export */ const library_font_variant = (LibraryFontVariant);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/utils/sort-font-faces.js
 function getNumericFontWeight(value) {
@@ -27121,7 +27155,7 @@ function LibraryFontDetails({
     margin: 8
   }));
 }
-/* harmony default export */ var library_font_details = (LibraryFontDetails);
+/* harmony default export */ const library_font_details = (LibraryFontDetails);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/font-card.js
 
@@ -27174,7 +27208,7 @@ function FontCard({
     icon: chevron_right
   })))));
 }
-/* harmony default export */ var font_card = (FontCard);
+/* harmony default export */ const font_card = (FontCard);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/library-font-card.js
 
@@ -27206,7 +27240,7 @@ function LibraryFontCard({
     ...props
   });
 }
-/* harmony default export */ var library_font_card = (LibraryFontCard);
+/* harmony default export */ const library_font_card = (LibraryFontCard);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/confirm-delete-dialog.js
 
@@ -27230,7 +27264,7 @@ function ConfirmDeleteDialog({
   }, font && (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Name of the font. */
   (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete "%s" font and all its variants and assets?'), font.name));
 }
-/* harmony default export */ var confirm_delete_dialog = (ConfirmDeleteDialog);
+/* harmony default export */ const confirm_delete_dialog = (ConfirmDeleteDialog);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/installed-fonts.js
 
@@ -27262,7 +27296,9 @@ function InstalledFonts() {
     handleSetLibraryFontSelected,
     refreshLibrary,
     uninstallFontFamily,
-    isResolvingLibrary
+    isResolvingLibrary,
+    notice,
+    setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = (0,external_wp_element_namespaceObject.useState)(false);
   const handleUnselectFont = () => {
@@ -27271,8 +27307,8 @@ function InstalledFonts() {
   const handleSelectFont = font => {
     handleSetLibraryFontSelected(font);
   };
-  const [notice, setNotice] = (0,external_wp_element_namespaceObject.useState)(null);
   const handleConfirmUninstall = async () => {
+    setNotice(null);
     try {
       await uninstallFontFamily(libraryFontSelected);
       setNotice({
@@ -27303,19 +27339,10 @@ function InstalledFonts() {
     refreshLibrary();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Reset notice after 5 seconds
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (notice) {
-      const timeout = setTimeout(() => {
-        setNotice(null);
-      }, 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [notice]);
   return (0,external_React_.createElement)(tab_panel_layout, {
     title: libraryFontSelected?.name || '',
     description: tabDescription,
+    notice: notice,
     handleBack: !!libraryFontSelected && handleUnselectFont,
     footer: (0,external_React_.createElement)(Footer, {
       shouldDisplayDeleteButton: shouldDisplayDeleteButton,
@@ -27326,17 +27353,11 @@ function InstalledFonts() {
     isConfirmDeleteOpen: isConfirmDeleteOpen,
     handleConfirmUninstall: handleConfirmUninstall,
     handleCancelUninstall: handleCancelUninstall
-  }), notice && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+  }), !libraryFontSelected && (0,external_React_.createElement)(external_React_.Fragment, null, isResolvingLibrary && (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 2
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Notice, {
-    isDismissible: false,
-    status: notice.type,
-    className: "font-library-modal__font-collection__notice"
-  }, notice.message)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 4
-  })), !libraryFontSelected && (0,external_React_.createElement)(external_React_.Fragment, null, isResolvingLibrary && (0,external_React_.createElement)(external_wp_components_namespaceObject.Spinner, null), baseCustomFonts.length > 0 && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Spinner, null), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 2
-  }), (0,external_React_.createElement)(fonts_grid, null, baseCustomFonts.map(font => (0,external_React_.createElement)(library_font_card, {
+  })), baseCustomFonts.length > 0 && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(fonts_grid, null, baseCustomFonts.map(font => (0,external_React_.createElement)(library_font_card, {
     font: font,
     key: font.slug,
     onClick: () => {
@@ -27379,7 +27400,7 @@ function Footer({
     onClick: saveFontFamilies
   }, (0,external_wp_i18n_namespaceObject.__)('Update')));
 }
-/* harmony default export */ var installed_fonts = (InstalledFonts);
+/* harmony default export */ const installed_fonts = (InstalledFonts);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/utils/filter-fonts.js
 /**
@@ -27461,7 +27482,7 @@ function CollectionFontVariant({
     label: false
   })));
 }
-/* harmony default export */ var collection_font_variant = (CollectionFontVariant);
+/* harmony default export */ const collection_font_variant = (CollectionFontVariant);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/utils/fonts-outline.js
 function getFontsOutline(fonts) {
@@ -27521,7 +27542,7 @@ function CollectionFontDetails({
     margin: 8
   }));
 }
-/* harmony default export */ var collection_font_details = (CollectionFontDetails);
+/* harmony default export */ const collection_font_details = (CollectionFontDetails);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/google-fonts-confirm-dialog.js
 
@@ -27533,7 +27554,7 @@ function CollectionFontDetails({
 function GoogleFontsConfirmDialog() {
   const handleConfirm = () => {
     // eslint-disable-next-line no-undef
-    window.localStorage.setItem('wp-font-library-default-font-collection-permission', 'true');
+    window.localStorage.setItem('wp-font-library-google-fonts-permission', 'true');
     window.dispatchEvent(new Event('storage'));
   };
   return (0,external_React_.createElement)("div", {
@@ -27555,7 +27576,7 @@ function GoogleFontsConfirmDialog() {
     onClick: handleConfirm
   }, (0,external_wp_i18n_namespaceObject.__)('Allow access to Google Fonts')))));
 }
-/* harmony default export */ var google_fonts_confirm_dialog = (GoogleFontsConfirmDialog);
+/* harmony default export */ const google_fonts_confirm_dialog = (GoogleFontsConfirmDialog);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/font-collection.js
 
@@ -27589,11 +27610,10 @@ function FontCollection({
   slug
 }) {
   var _selectedCollection$c;
-  const requiresPermission = slug === 'default-font-collection';
+  const requiresPermission = slug === 'google-fonts';
   const getGoogleFontsPermissionFromStorage = () => {
-    return window.localStorage.getItem('wp-font-library-default-font-collection-permission') === 'true';
+    return window.localStorage.getItem('wp-font-library-google-fonts-permission') === 'true';
   };
-  const [notice, setNotice] = (0,external_wp_element_namespaceObject.useState)(null);
   const [selectedFont, setSelectedFont] = (0,external_wp_element_namespaceObject.useState)(null);
   const [fontsToInstall, setFontsToInstall] = (0,external_wp_element_namespaceObject.useState)([]);
   const [filters, setFilters] = (0,external_wp_element_namespaceObject.useState)({});
@@ -27601,7 +27621,9 @@ function FontCollection({
   const {
     collections,
     getFontCollection,
-    installFont
+    installFont,
+    notice,
+    setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   const selectedCollection = collections.find(collection => collection.slug === slug);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -27618,35 +27640,24 @@ function FontCollection({
         await getFontCollection(slug);
         resetFilters();
       } catch (e) {
-        setNotice({
-          type: 'error',
-          message: e?.message,
-          duration: 0 // Don't auto-hide.
-        });
+        if (!notice) {
+          setNotice({
+            type: 'error',
+            message: e?.message
+          });
+        }
       }
     };
-
     fetchFontCollection();
-  }, [slug, getFontCollection]);
+  }, [slug, getFontCollection, setNotice, notice]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setSelectedFont(null);
     setNotice(null);
-  }, [slug]);
+  }, [slug, setNotice]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // If the selected fonts change, reset the selected fonts to install
     setFontsToInstall([]);
   }, [selectedFont]);
-
-  // Reset notice after 5 seconds
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (notice && notice?.duration !== 0) {
-      var _notice$duration;
-      const timeout = setTimeout(() => {
-        setNotice(null);
-      }, (_notice$duration = notice.duration) !== null && _notice$duration !== void 0 ? _notice$duration : 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [notice]);
   const collectionFonts = (0,external_wp_element_namespaceObject.useMemo)(() => {
     var _selectedCollection$f;
     return (_selectedCollection$f = selectedCollection?.font_families) !== null && _selectedCollection$f !== void 0 ? _selectedCollection$f : [];
@@ -27688,12 +27699,13 @@ function FontCollection({
     setFontsToInstall([]);
   };
   const handleInstall = async () => {
+    setNotice(null);
     const fontFamily = fontsToInstall[0];
     try {
       if (fontFamily?.fontFace) {
         await Promise.all(fontFamily.fontFace.map(async fontFace => {
           if (fontFace.src) {
-            fontFace.file = await downloadFontFaceAsset(fontFace.src);
+            fontFace.file = await downloadFontFaceAssets(fontFace.src);
           }
         }));
       }
@@ -27723,21 +27735,14 @@ function FontCollection({
   return (0,external_React_.createElement)(tab_panel_layout, {
     title: !selectedFont ? selectedCollection.name : selectedFont.name,
     description: !selectedFont ? selectedCollection.description : (0,external_wp_i18n_namespaceObject.__)('Select font variants to install.'),
+    notice: notice,
     handleBack: !!selectedFont && handleUnselectFont,
     footer: fontsToInstall.length > 0 && (0,external_React_.createElement)(font_collection_Footer, {
       handleInstall: handleInstall
     })
   }, renderConfirmDialog && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 8
-  }), (0,external_React_.createElement)(google_fonts_confirm_dialog, null)), notice && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 2
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Notice, {
-    isDismissible: false,
-    status: notice.type,
-    className: "font-library-modal__font-collection__notice"
-  }, notice.message)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 2
-  })), !renderConfirmDialog && !selectedFont && (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalInputControl, {
+  }), (0,external_React_.createElement)(google_fonts_confirm_dialog, null)), !renderConfirmDialog && !selectedFont && (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalInputControl, {
     value: filters.search,
     placeholder: (0,external_wp_i18n_namespaceObject.__)('Font name…'),
     label: (0,external_wp_i18n_namespaceObject.__)('Search'),
@@ -27785,7 +27790,7 @@ function font_collection_Footer({
     disabled: isInstalling
   }, (0,external_wp_i18n_namespaceObject.__)('Install')));
 }
-/* harmony default export */ var font_collection = (FontCollection);
+/* harmony default export */ const font_collection = (FontCollection);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/edit-site/lib/unbrotli.js
 var unbrotli = __webpack_require__(5723);
@@ -31643,7 +31648,7 @@ function makeFamiliesFromFaces(fontFaces) {
   return Object.values(fontFamiliesObject);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/local-fonts.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/upload-fonts.js
 
 /**
  * WordPress dependencies
@@ -31661,14 +31666,16 @@ function makeFamiliesFromFaces(fontFaces) {
 
 
 
+
 const {
-  ProgressBar: local_fonts_ProgressBar
+  ProgressBar: upload_fonts_ProgressBar
 } = unlock(external_wp_components_namespaceObject.privateApis);
-function LocalFonts() {
+function UploadFonts() {
   const {
-    installFont
+    installFont,
+    notice,
+    setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
-  const [notice, setNotice] = (0,external_wp_element_namespaceObject.useState)(null);
   const [isUploading, setIsUploading] = (0,external_wp_element_namespaceObject.useState)(false);
   const supportedFormats = ALLOWED_FILE_EXTENSIONS.slice(0, -1).map(extension => `.${extension}`).join(', ') + ` ${(0,external_wp_i18n_namespaceObject.__)('and')} .${ALLOWED_FILE_EXTENSIONS.slice(-1)}`;
   const handleDropZone = files => {
@@ -31677,16 +31684,6 @@ function LocalFonts() {
   const onFilesUpload = event => {
     handleFilesUpload(event.target.files);
   };
-
-  // Reset notice after 5 seconds
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (notice) {
-      const timeout = setTimeout(() => {
-        setNotice(null);
-      }, 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [notice]);
 
   /**
    * Filters the selected files to only allow the ones with the allowed extensions
@@ -31730,7 +31727,7 @@ function LocalFonts() {
       await loadFontFaceInBrowser(fontFaceData, fontFaceData.file, 'all');
       return fontFaceData;
     }));
-    await handleInstall(fontFacesLoaded);
+    handleInstall(fontFacesLoaded);
   };
 
   // Create a function to read the file as array buffer
@@ -31798,13 +31795,15 @@ function LocalFonts() {
     }
     setIsUploading(false);
   };
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 16
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.DropZone, {
+  return (0,external_React_.createElement)(tab_panel_layout, {
+    notice: notice
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.DropZone, {
     onFilesDrop: handleDropZone
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
     className: "font-library-modal__local-fonts"
-  }, !isUploading && (0,external_React_.createElement)(external_wp_components_namespaceObject.FormFileUpload, {
+  }, isUploading && (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)("div", {
+    className: "font-library-modal__upload-area"
+  }, (0,external_React_.createElement)(upload_fonts_ProgressBar, null))), !isUploading && (0,external_React_.createElement)(external_wp_components_namespaceObject.FormFileUpload, {
     accept: ALLOWED_FILE_EXTENSIONS.map(ext => `.${ext}`).join(','),
     multiple: true,
     onChange: onFilesUpload,
@@ -31814,40 +31813,14 @@ function LocalFonts() {
       className: "font-library-modal__upload-area",
       onClick: openFileDialog
     }, (0,external_React_.createElement)("span", null, (0,external_wp_i18n_namespaceObject.__)('Upload font')))
-  }), isUploading && (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)("div", {
-    className: "font-library-modal__upload-area"
-  }, (0,external_React_.createElement)(local_fonts_ProgressBar, null))), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 2
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     className: "font-library-modal__upload-area__text"
   }, (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: supported font formats: ex: .ttf, .woff and .woff2 */
-  (0,external_wp_i18n_namespaceObject.__)('Uploaded fonts appear in your library and can be used in your theme. Supported formats: %s.'), supportedFormats)), !isUploading && notice && (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 2
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Notice, {
-    isDismissible: false,
-    status: notice.type,
-    className: "font-library-modal__upload-area__notice"
-  }, notice.message))));
+  (0,external_wp_i18n_namespaceObject.__)('Uploaded fonts appear in your library and can be used in your theme. Supported formats: %s.'), supportedFormats))));
 }
-/* harmony default export */ var local_fonts = (LocalFonts);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/upload-fonts.js
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-function UploadFonts() {
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 8
-  }), (0,external_React_.createElement)(local_fonts, null));
-}
-/* harmony default export */ var upload_fonts = (UploadFonts);
+/* harmony default export */ const upload_fonts = (UploadFonts);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/index.js
 
@@ -31881,16 +31854,22 @@ const tabsFromCollections = collections => collections.map(({
   name
 }) => ({
   id: slug,
-  title: collections.length === 1 && slug === 'default-font-collection' ? (0,external_wp_i18n_namespaceObject.__)('Install Fonts') : name
+  title: collections.length === 1 && slug === 'google-fonts' ? (0,external_wp_i18n_namespaceObject.__)('Install Fonts') : name
 }));
 function FontLibraryModal({
   onRequestClose,
   initialTabId = 'installed-fonts'
 }) {
   const {
-    collections
+    collections,
+    setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   const tabs = [...DEFAULT_TABS, ...tabsFromCollections(collections || [])];
+
+  // Reset notice when new tab is selected.
+  const onSelect = () => {
+    setNotice(null);
+  };
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.Modal, {
     title: (0,external_wp_i18n_namespaceObject.__)('Fonts'),
     onRequestClose: onRequestClose,
@@ -31899,7 +31878,8 @@ function FontLibraryModal({
   }, (0,external_React_.createElement)("div", {
     className: "font-library-modal__tabs"
   }, (0,external_React_.createElement)(font_library_modal_Tabs, {
-    initialTabId: initialTabId
+    initialTabId: initialTabId,
+    onSelect: onSelect
   }, (0,external_React_.createElement)(font_library_modal_Tabs.TabList, null, tabs.map(({
     id,
     title
@@ -31929,7 +31909,7 @@ function FontLibraryModal({
     }, contents);
   }))));
 }
-/* harmony default export */ var font_library_modal = (FontLibraryModal);
+/* harmony default export */ const font_library_modal = (FontLibraryModal);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-family-item.js
 
@@ -31969,7 +31949,7 @@ function FontFamilyItem({
   }, (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %d: Number of font variants. */
   (0,external_wp_i18n_namespaceObject._n)('%d variant', '%d variants', variantsCount), variantsCount))));
 }
-/* harmony default export */ var font_family_item = (FontFamilyItem);
+/* harmony default export */ const font_family_item = (FontFamilyItem);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-families.js
 
@@ -32025,7 +32005,7 @@ function FontFamilies() {
     font: font
   }))) : (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('No fonts installed.'))));
 }
-/* harmony default export */ var font_families = (({
+/* harmony default export */ const font_families = (({
   ...props
 }) => (0,external_React_.createElement)(context, null, (0,external_React_.createElement)(FontFamilies, {
   ...props
@@ -32058,7 +32038,7 @@ function ScreenTypography() {
     spacing: 6
   }, fontLibraryEnabled && (0,external_React_.createElement)(font_families, null), (0,external_React_.createElement)(typogrphy_elements, null))));
 }
-/* harmony default export */ var screen_typography = (ScreenTypography);
+/* harmony default export */ const screen_typography = (ScreenTypography);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/typography-panel.js
 
@@ -32244,7 +32224,7 @@ function ScreenTypographyElement({
     headingLevel: headingLevel
   }));
 }
-/* harmony default export */ var screen_typography_element = (ScreenTypographyElement);
+/* harmony default export */ const screen_typography_element = (ScreenTypographyElement);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/shuffle.js
 
@@ -32258,7 +32238,7 @@ const shuffle = (0,external_React_.createElement)(external_wp_primitives_namespa
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M17.192 6.75L15.47 5.03l1.06-1.06 3.537 3.53-3.537 3.53-1.06-1.06 1.723-1.72h-3.19c-.602 0-.993.202-1.28.498-.309.319-.538.792-.695 1.383-.13.488-.222 1.023-.296 1.508-.034.664-.116 1.413-.303 2.117-.193.721-.513 1.467-1.068 2.04-.575.594-1.359.954-2.357.954H4v-1.5h4.003c.601 0 .993-.202 1.28-.498.308-.319.538-.792.695-1.383.149-.557.216-1.093.288-1.662l.039-.31a9.653 9.653 0 0 1 .272-1.653c.193-.722.513-1.467 1.067-2.04.576-.594 1.36-.954 2.358-.954h3.19zM8.004 6.75c.8 0 1.46.23 1.988.628a6.24 6.24 0 0 0-.684 1.396 1.725 1.725 0 0 0-.024-.026c-.287-.296-.679-.498-1.28-.498H4v-1.5h4.003zM12.699 14.726c-.161.459-.38.94-.684 1.396.527.397 1.188.628 1.988.628h3.19l-1.722 1.72 1.06 1.06L20.067 16l-3.537-3.53-1.06 1.06 1.723 1.72h-3.19c-.602 0-.993-.202-1.28-.498a1.96 1.96 0 0 1-.024-.026z"
 }));
-/* harmony default export */ var library_shuffle = (shuffle);
+/* harmony default export */ const library_shuffle = (shuffle);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/color-indicator-wrapper.js
 
@@ -32280,7 +32260,7 @@ function ColorIndicatorWrapper({
     ...props
   });
 }
-/* harmony default export */ var color_indicator_wrapper = (ColorIndicatorWrapper);
+/* harmony default export */ const color_indicator_wrapper = (ColorIndicatorWrapper);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/palette.js
 
@@ -32345,7 +32325,7 @@ function Palette({
     onClick: randomizeThemeColors
   }, (0,external_wp_i18n_namespaceObject.__)('Randomize colors')));
 }
-/* harmony default export */ var palette = (Palette);
+/* harmony default export */ const palette = (Palette);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-colors.js
 
@@ -32391,7 +32371,7 @@ function ScreenColors() {
     settings: settings
   }))));
 }
-/* harmony default export */ var screen_colors = (ScreenColors);
+/* harmony default export */ const screen_colors = (ScreenColors);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/color-palette-panel.js
 
@@ -32574,7 +32554,7 @@ function ScreenColorPalette({
     name: name
   }))));
 }
-/* harmony default export */ var screen_color_palette = (ScreenColorPalette);
+/* harmony default export */ const screen_color_palette = (ScreenColorPalette);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/dimensions-panel.js
 
@@ -32684,7 +32664,7 @@ function ScreenLayout() {
     title: (0,external_wp_i18n_namespaceObject.__)('Layout')
   }), hasDimensionsPanel && (0,external_React_.createElement)(DimensionsPanel, null));
 }
-/* harmony default export */ var screen_layout = (ScreenLayout);
+/* harmony default export */ const screen_layout = (ScreenLayout);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-style-variations.js
 
@@ -32747,7 +32727,7 @@ function ScreenStyleVariations() {
     className: "edit-site-global-styles-screen-style-variations"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.CardBody, null, (0,external_React_.createElement)(StyleVariationsContainer, null))));
 }
-/* harmony default export */ var screen_style_variations = (ScreenStyleVariations);
+/* harmony default export */ const screen_style_variations = (ScreenStyleVariations);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-css.js
 
@@ -32789,7 +32769,7 @@ function ScreenCSS() {
     inheritedValue: inheritedStyle
   })));
 }
-/* harmony default export */ var screen_css = (ScreenCSS);
+/* harmony default export */ const screen_css = (ScreenCSS);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/revisions/index.js
 
@@ -32860,7 +32840,7 @@ function Revisions({
     renderAppender: false
   })))));
 }
-/* harmony default export */ var components_revisions = (Revisions);
+/* harmony default export */ const components_revisions = (Revisions);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/screen-revisions/revisions-buttons.js
 
@@ -33030,7 +33010,7 @@ function RevisionsButtons({
     }, isReset ? (0,external_wp_i18n_namespaceObject.__)('Reset to defaults') : (0,external_wp_i18n_namespaceObject.__)('Apply'))));
   }));
 }
-/* harmony default export */ var revisions_buttons = (RevisionsButtons);
+/* harmony default export */ const revisions_buttons = (RevisionsButtons);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/pagination/index.js
 
@@ -33258,7 +33238,7 @@ function ScreenRevisions() {
     onCancel: () => setIsLoadingRevisionWithUnsavedChanges(false)
   }, (0,external_wp_i18n_namespaceObject.__)('Any unsaved changes will be lost when you apply this revision.')));
 }
-/* harmony default export */ var screen_revisions = (ScreenRevisions);
+/* harmony default export */ const screen_revisions = (ScreenRevisions);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/ui.js
 
@@ -33521,7 +33501,7 @@ function GlobalStylesUI() {
   })), 'style-book' === editorCanvasContainerView && (0,external_React_.createElement)(GlobalStylesStyleBook, null), (0,external_React_.createElement)(GlobalStylesActionMenu, null), (0,external_React_.createElement)(GlobalStylesBlockLink, null), (0,external_React_.createElement)(GlobalStylesEditorCanvasContainerLink, null));
 }
 
-/* harmony default export */ var ui = (GlobalStylesUI);
+/* harmony default export */ const ui = (GlobalStylesUI);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/index.js
 
@@ -33685,47 +33665,18 @@ const SIDEBAR_BLOCK = 'edit-site/block-inspector';
  */
 
 
-
-
 const SettingsHeader = ({
   sidebarName
 }) => {
-  const {
-    isEditingPage,
-    entityType
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEditedPostType,
-      isPage
-    } = select(store_store);
-    const {
-      getRenderingMode
-    } = select(external_wp_editor_namespaceObject.store);
-    return {
-      isEditingPage: isPage() && getRenderingMode() !== 'template-only',
-      entityType: getEditedPostType()
-    };
-  });
-  const entityLabel = POST_TYPE_LABELS[entityType] || POST_TYPE_LABELS[constants_TEMPLATE_POST_TYPE];
+  const postTypeLabel = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_editor_namespaceObject.store).getPostTypeLabel(), []);
   const {
     enableComplementaryArea
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const openTemplateSettings = () => enableComplementaryArea(constants_STORE_NAME, SIDEBAR_TEMPLATE);
   const openBlockSettings = () => enableComplementaryArea(constants_STORE_NAME, SIDEBAR_BLOCK);
-  let templateAriaLabel;
-  if (isEditingPage) {
-    templateAriaLabel = sidebarName === SIDEBAR_TEMPLATE ?
-    // translators: ARIA label for the Template sidebar tab, selected.
-    (0,external_wp_i18n_namespaceObject.__)('Page (selected)') :
-    // translators: ARIA label for the Template Settings Sidebar tab, not selected.
-    (0,external_wp_i18n_namespaceObject.__)('Page');
-  } else {
-    templateAriaLabel = sidebarName === SIDEBAR_TEMPLATE ?
-    // translators: ARIA label for the Template sidebar tab, selected.
-    (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('%s (selected)'), entityLabel) :
-    // translators: ARIA label for the Template Settings Sidebar tab, not selected.
-    entityLabel;
-  }
+  const documentAriaLabel = sidebarName === SIDEBAR_TEMPLATE ?
+  // translators: ARIA label for the Template sidebar tab, selected.
+  (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('%s (selected)'), postTypeLabel) : postTypeLabel;
 
   /* Use a list so screen readers will announce how many tabs there are. */
   return (0,external_React_.createElement)("ul", null, (0,external_React_.createElement)("li", null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
@@ -33733,9 +33684,9 @@ const SettingsHeader = ({
     className: classnames_default()('edit-site-sidebar-edit-mode__panel-tab', {
       'is-active': sidebarName === SIDEBAR_TEMPLATE
     }),
-    "aria-label": templateAriaLabel,
-    "data-label": isEditingPage ? (0,external_wp_i18n_namespaceObject.__)('Page') : entityLabel
-  }, isEditingPage ? (0,external_wp_i18n_namespaceObject.__)('Page') : entityLabel)), (0,external_React_.createElement)("li", null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    "aria-label": documentAriaLabel,
+    "data-label": postTypeLabel
+  }, postTypeLabel)), (0,external_React_.createElement)("li", null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
     onClick: openBlockSettings,
     className: classnames_default()('edit-site-sidebar-edit-mode__panel-tab', {
       'is-active': sidebarName === SIDEBAR_BLOCK
@@ -33748,7 +33699,7 @@ const SettingsHeader = ({
     "data-label": (0,external_wp_i18n_namespaceObject.__)('Block')
   }, (0,external_wp_i18n_namespaceObject.__)('Block'))));
 };
-/* harmony default export */ var settings_header = (SettingsHeader);
+/* harmony default export */ const settings_header = (SettingsHeader);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-edit-mode/sidebar-card/index.js
 
@@ -34458,14 +34409,13 @@ PluginTemplateSettingPanel.Slot = plugin_template_setting_panel_Slot;
  *
  * @return {Component} The component to be rendered.
  */
-/* harmony default export */ var plugin_template_setting_panel = (PluginTemplateSettingPanel);
+/* harmony default export */ const plugin_template_setting_panel = (PluginTemplateSettingPanel);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-edit-mode/index.js
 
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -34507,7 +34457,7 @@ function SidebarComplementaryAreaFills() {
       isEditorSidebarOpened: _isEditorSidebarOpened,
       hasBlockSelection: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
       supportsGlobalStyles: !settings?.supportsTemplatePartsMode,
-      isEditingPage: select(store_store).isPage() && select(external_wp_editor_namespaceObject.store).getRenderingMode() !== 'template-only'
+      isEditingPage: select(store_store).isPage()
     };
   }, []);
   const {
@@ -34734,7 +34684,7 @@ function KeyboardShortcutsEditMode() {
   });
   return null;
 }
-/* harmony default export */ var edit_mode = (KeyboardShortcutsEditMode);
+/* harmony default export */ const edit_mode = (KeyboardShortcutsEditMode);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/welcome-guide/image.js
 
@@ -34971,9 +34921,9 @@ function WelcomeGuideTemplate() {
       isPage
     } = select(store_store);
     const {
-      getRenderingMode
+      getCurrentPostType
     } = select(external_wp_editor_namespaceObject.store);
-    return isTemplateActive && !isEditorActive && isPage() && getRenderingMode() === 'template-only';
+    return isTemplateActive && !isEditorActive && isPage() && getCurrentPostType() === 'wp_template';
   }, []);
   if (!isVisible) {
     return null;
@@ -35360,7 +35310,7 @@ const arrowLeft = (0,external_React_.createElement)(external_wp_primitives_names
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M20 11.2H6.8l3.7-3.7-1-1L3.9 12l5.6 5.5 1-1-3.7-3.7H20z"
 }));
-/* harmony default export */ var arrow_left = (arrowLeft);
+/* harmony default export */ const arrow_left = (arrowLeft);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/back-button.js
 
@@ -35387,9 +35337,8 @@ function BackButton() {
   const isTemplatePart = location.params.postType === TEMPLATE_PART_POST_TYPE;
   const isNavigationMenu = location.params.postType === NAVIGATION_POST_TYPE;
   const isPattern = location.params.postType === PATTERN_TYPES.user;
-  const previousTemplateId = location.state?.fromTemplateId;
-  const isFocusMode = isTemplatePart || isNavigationMenu || isPattern;
-  if (!isFocusMode || !previousTemplateId && !isPattern) {
+  const isFocusMode = location.params.focusMode || isTemplatePart || isNavigationMenu || isPattern;
+  if (!isFocusMode) {
     return null;
   }
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
@@ -35400,7 +35349,7 @@ function BackButton() {
     }
   }, (0,external_wp_i18n_namespaceObject.__)('Back'));
 }
-/* harmony default export */ var back_button = (BackButton);
+/* harmony default export */ const back_button = (BackButton);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/editor-canvas.js
 
@@ -35518,7 +35467,7 @@ function EditorCanvas({
     }
   }, children);
 }
-/* harmony default export */ var editor_canvas = (EditorCanvas);
+/* harmony default export */ const editor_canvas = (EditorCanvas);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/use-post-link-props.js
 /**
@@ -35537,7 +35486,11 @@ const {
 function usePostLinkProps() {
   const history = use_post_link_props_useHistory();
   return (params, state) => {
-    return getPostLinkProps(history, params, state);
+    return getPostLinkProps(history, {
+      ...params,
+      focusMode: true,
+      canvas: 'edit'
+    }, state);
   };
 }
 
@@ -35714,10 +35667,15 @@ function useSiteEditorSettings() {
 
 
 
+
+const {
+  useLocation: site_editor_canvas_useLocation
+} = unlock(external_wp_router_namespaceObject.privateApis);
 function SiteEditorCanvas() {
+  const location = site_editor_canvas_useLocation();
   const {
     templateType,
-    isFocusMode,
+    isFocusableEntity,
     isViewMode
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
@@ -35727,10 +35685,11 @@ function SiteEditorCanvas() {
     const _templateType = getEditedPostType();
     return {
       templateType: _templateType,
-      isFocusMode: FOCUSABLE_ENTITIES.includes(_templateType),
+      isFocusableEntity: FOCUSABLE_ENTITIES.includes(_templateType),
       isViewMode: getCanvasMode() === 'view'
     };
   }, []);
+  const isFocusMode = location.params.focusMode || isFocusableEntity;
   const [resizeObserver, sizes] = (0,external_wp_compose_namespaceObject.useResizeObserver)();
   const settings = useSiteEditorSettings();
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('small', '<');
@@ -35982,13 +35941,13 @@ function Editor({
     contextPost,
     editorMode,
     canvasMode,
-    renderingMode,
     blockEditorMode,
     isRightSidebarOpen,
     isInserterOpen,
     isListViewOpen,
     showIconLabels,
-    showBlockBreadcrumbs
+    showBlockBreadcrumbs,
+    postTypeLabel
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       get
@@ -36008,9 +35967,9 @@ function Editor({
       getEntityRecord
     } = select(external_wp_coreData_namespaceObject.store);
     const {
-      getRenderingMode,
       isInserterOpened,
-      isListViewOpened
+      isListViewOpened,
+      getPostTypeLabel
     } = select(external_wp_editor_namespaceObject.store);
     const _context = getEditedPostContext();
 
@@ -36021,13 +35980,13 @@ function Editor({
       contextPost: _context?.postId ? getEntityRecord('postType', _context.postType, _context.postId) : undefined,
       editorMode: getEditorMode(),
       canvasMode: getCanvasMode(),
-      renderingMode: getRenderingMode(),
       blockEditorMode: __unstableGetEditorMode(),
       isInserterOpen: isInserterOpened(),
       isListViewOpen: isListViewOpened(),
       isRightSidebarOpen: getActiveComplementaryArea(store_store.name),
       showBlockBreadcrumbs: get('core', 'showBlockBreadcrumbs'),
-      showIconLabels: get('core', 'showIconLabels')
+      showIconLabels: get('core', 'showIconLabels'),
+      postTypeLabel: getPostTypeLabel()
     };
   }, []);
   const isViewMode = canvasMode === 'view';
@@ -36079,7 +36038,7 @@ function Editor({
       scope: "core/edit-site"
     })),
     footer: shouldShowBlockBreadcrumbs && (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockBreadcrumb, {
-      rootLabelText: postWithTemplate && renderingMode !== 'template-only' ? (0,external_wp_i18n_namespaceObject.__)('Page') : (0,external_wp_i18n_namespaceObject.__)('Template')
+      rootLabelText: postTypeLabel
     }),
     labels: {
       ...interfaceLabels,
@@ -36168,7 +36127,7 @@ const pagination_Pagination = (0,external_wp_element_namespaceObject.memo)(funct
     tooltipPosition: "top"
   })));
 });
-/* harmony default export */ var pagination = (pagination_Pagination);
+/* harmony default export */ const pagination = (pagination_Pagination);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/settings.js
 
@@ -36184,7 +36143,7 @@ const settings_settings = (0,external_React_.createElement)(external_wp_primitiv
 }), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "m19 15h-2.128c-.3089-.8739-1.1423-1.5-2.122-1.5s-1.8131.6261-2.122 1.5h-7.628v1.5h7.628c.3089.8739 1.1423 1.5 2.122 1.5s1.8131-.6261 2.122-1.5h2.128z"
 }));
-/* harmony default export */ var library_settings = (settings_settings);
+/* harmony default export */ const library_settings = (settings_settings);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/view-actions.js
 
@@ -36378,7 +36337,7 @@ const ViewActions = (0,external_wp_element_namespaceObject.memo)(function ViewAc
     onChangeView: onChangeView
   })));
 });
-/* harmony default export */ var view_actions = (ViewActions);
+/* harmony default export */ const view_actions = (ViewActions);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/filter-summary.js
 
@@ -36746,7 +36705,7 @@ const Filters = (0,external_wp_element_namespaceObject.memo)(function Filters({
   }
   return filterComponents;
 });
-/* harmony default export */ var filters = (Filters);
+/* harmony default export */ const filters = (Filters);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/search.js
 
@@ -36787,7 +36746,7 @@ const Search = (0,external_wp_element_namespaceObject.memo)(function Search({
     size: "compact"
   });
 });
-/* harmony default export */ var build_module_search = (Search);
+/* harmony default export */ const build_module_search = (Search);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/bulk-actions.js
 
@@ -37438,7 +37397,7 @@ function Media({
     alt: media.alt_text
   });
 }
-/* harmony default export */ var components_media = (Media);
+/* harmony default export */ const components_media = (Media);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/page-pages/index.js
 
@@ -37870,7 +37829,7 @@ const header_header = (0,external_React_.createElement)(external_wp_primitives_n
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M18.5 10.5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
 }));
-/* harmony default export */ var library_header = (header_header);
+/* harmony default export */ const library_header = (header_header);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/footer.js
 
@@ -37885,7 +37844,7 @@ const footer = (0,external_React_.createElement)(external_wp_primitives_namespac
   fillRule: "evenodd",
   d: "M18 5.5h-8v8h8.5V6a.5.5 0 00-.5-.5zm-9.5 8h-3V6a.5.5 0 01.5-.5h2.5v8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
 }));
-/* harmony default export */ var library_footer = (footer);
+/* harmony default export */ const library_footer = (footer);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/lock-small.js
 
@@ -37901,10 +37860,10 @@ const lockSmall = (0,external_React_.createElement)(external_wp_primitives_names
   clipRule: "evenodd",
   d: "M15 11h-.2V9c0-1.5-1.2-2.8-2.8-2.8S9.2 7.5 9.2 9v2H9c-.6 0-1 .4-1 1v4c0 .6.4 1 1 1h6c.6 0 1-.4 1-1v-4c0-.6-.4-1-1-1zm-1.8 0h-2.5V9c0-.7.6-1.2 1.2-1.2s1.2.6 1.2 1.2v2z"
 }));
-/* harmony default export */ var lock_small = (lockSmall);
+/* harmony default export */ const lock_small = (lockSmall);
 
 ;// CONCATENATED MODULE: external ["wp","reusableBlocks"]
-var external_wp_reusableBlocks_namespaceObject = window["wp"]["reusableBlocks"];
+const external_wp_reusableBlocks_namespaceObject = window["wp"]["reusableBlocks"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/page-patterns/dataviews-pattern-actions.js
 
 /**
@@ -40068,7 +40027,7 @@ function PluginSidebarMoreMenuItem(props) {
  *
  * @return {Component} The component to be rendered.
  */
-/* harmony default export */ var plugin_more_menu_item = ((0,external_wp_compose_namespaceObject.compose)((0,external_wp_plugins_namespaceObject.withPluginContext)((context, ownProps) => {
+/* harmony default export */ const plugin_more_menu_item = ((0,external_wp_compose_namespaceObject.compose)((0,external_wp_plugins_namespaceObject.withPluginContext)((context, ownProps) => {
   var _ownProps$as;
   return {
     as: (_ownProps$as = ownProps.as) !== null && _ownProps$as !== void 0 ? _ownProps$as : external_wp_components_namespaceObject.MenuItem,
@@ -40172,7 +40131,8 @@ function reinitializeEditor() {
 
 
 
-}();
+})();
+
 (window.wp = window.wp || {}).editSite = __webpack_exports__;
 /******/ })()
 ;

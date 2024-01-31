@@ -23,7 +23,7 @@
 }
 .nux-dot-tip:before{
   animation:nux-pulse 1.6s cubic-bezier(.17, .67, .92, .62) infinite;
-  background:rgba(0,115,156,.9);
+  background:#00739ce6;
   height:24px;
   opacity:.9;
   right:-12px;
@@ -40,7 +40,7 @@
 }
 @keyframes nux-pulse{
   to{
-    background:rgba(0,115,156,0);
+    background:#00739c00;
     transform:scale(1);
   }
 }

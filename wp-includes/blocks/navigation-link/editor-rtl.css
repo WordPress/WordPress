@@ -39,7 +39,7 @@
 }
 .wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text span{
   --wp-underline-color:var(--wp-admin-theme-color);
-  background-image:linear-gradient(-45deg, transparent 20%, var(--wp-underline-color) 30%, var(--wp-underline-color) 36%, transparent 46%), linear-gradient(-135deg, transparent 54%, var(--wp-underline-color) 64%, var(--wp-underline-color) 70%, transparent 80%);
+  background-image:linear-gradient(-45deg, #0000 20%, var(--wp-underline-color) 30%, var(--wp-underline-color) 36%, #0000 46%), linear-gradient(-135deg, #0000 54%, var(--wp-underline-color) 64%, var(--wp-underline-color) 70%, #0000 80%);
   background-position:100% 100%;
   background-repeat:repeat-x;
   background-size:6px 3px;

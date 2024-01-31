@@ -4,21 +4,21 @@ import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "
 /******/ 
 /************************************************************************/
 /******/ /* webpack/runtime/define property getters */
-/******/ !function() {
+/******/ (() => {
 /******/ 	// define getter functions for harmony exports
-/******/ 	__webpack_require__.d = function(exports, definition) {
+/******/ 	__webpack_require__.d = (exports, definition) => {
 /******/ 		for(var key in definition) {
 /******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 			}
 /******/ 		}
 /******/ 	};
-/******/ }();
+/******/ })();
 /******/ 
 /******/ /* webpack/runtime/hasOwnProperty shorthand */
-/******/ !function() {
-/******/ 	__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ }();
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
 /******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -26,7 +26,7 @@ var __webpack_exports__ = {};
 ;// CONCATENATED MODULE: external "@wordpress/interactivity"
 var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
 var y = x => () => x
-var interactivity_namespaceObject = x({ ["getContext"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext, ["getElement"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement, ["store"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store });
+const interactivity_namespaceObject = x({ ["getContext"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext, ["getElement"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement, ["store"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store });
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/constants.js
 const DEFAULT_BLOCK = {
   name: 'core/navigation-link'
@@ -46,6 +46,7 @@ const PRELOADED_NAVIGATION_MENUS_QUERY = {
 };
 const SELECT_NAVIGATION_MENUS_ARGS = ['postType', 'wp_navigation', PRELOADED_NAVIGATION_MENUS_QUERY];
 const NAVIGATION_MOBILE_COLLAPSE = '600px';
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/view.js
 /**
  * WordPress dependencies
@@ -245,3 +246,4 @@ const {
     }
   }
 });
+

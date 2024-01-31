@@ -13,7 +13,7 @@
   background-color:#000;
 }
 .wp-block-cover .has-background-dim.has-background-gradient,.wp-block-cover-image .has-background-dim.has-background-gradient{
-  background-color:transparent;
+  background-color:initial;
 }
 .wp-block-cover-image.has-background-dim:before,.wp-block-cover.has-background-dim:before{
   background-color:inherit;

@@ -2073,7 +2073,6 @@
         )
       ),
       'dimensions' => array(
-        'aspectRatio' => true,
         'minHeight' => true
       ),
       '__experimentalBorder' => array(

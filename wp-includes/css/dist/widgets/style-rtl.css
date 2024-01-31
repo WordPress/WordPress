@@ -52,7 +52,7 @@
   font-weight:400;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=date],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=datetime-local],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=datetime],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=email],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=month],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=number],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=password],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=search],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=tel],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=text],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=time],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=url],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=week],.wp-block-legacy-widget__edit-form .widget-inside.widget-inside select{
-  background-color:transparent;
+  background-color:initial;
   border:1px solid #757575;
   border-radius:3px;
   box-shadow:none;

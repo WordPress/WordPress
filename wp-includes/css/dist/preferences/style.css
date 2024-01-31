@@ -66,7 +66,7 @@
 }
 .preferences__tabs-tab[role=tab]:focus:not(:disabled){
   box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline:2px solid transparent;
+  outline:2px solid #0000;
 }
 .preferences__tabs-tab:focus-visible:before{
   content:none;

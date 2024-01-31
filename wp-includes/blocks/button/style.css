@@ -74,7 +74,7 @@
 }
 
 .wp-block-button .wp-block-button__link:where(.is-style-outline):not(.has-background),.wp-block-button:where(.is-style-outline)>.wp-block-button__link:not(.has-background){
-  background-color:transparent;
+  background-color:initial;
   background-image:none;
 }
 

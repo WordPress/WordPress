@@ -1,36 +1,36 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -39,32 +39,32 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  store: function() { return /* reexport */ store; }
+  store: () => (/* reexport */ store)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/notices/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  createErrorNotice: function() { return createErrorNotice; },
-  createInfoNotice: function() { return createInfoNotice; },
-  createNotice: function() { return createNotice; },
-  createSuccessNotice: function() { return createSuccessNotice; },
-  createWarningNotice: function() { return createWarningNotice; },
-  removeAllNotices: function() { return removeAllNotices; },
-  removeNotice: function() { return removeNotice; },
-  removeNotices: function() { return removeNotices; }
+  createErrorNotice: () => (createErrorNotice),
+  createInfoNotice: () => (createInfoNotice),
+  createNotice: () => (createNotice),
+  createSuccessNotice: () => (createSuccessNotice),
+  createWarningNotice: () => (createWarningNotice),
+  removeAllNotices: () => (removeAllNotices),
+  removeNotice: () => (removeNotice),
+  removeNotices: () => (removeNotices)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/notices/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  getNotices: function() { return getNotices; }
+  getNotices: () => (getNotices)
 });
 
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/utils/on-sub-key.js
 /**
  * Higher-order reducer creator which creates a combined reducer object, keyed
@@ -93,7 +93,7 @@ const onSubKey = actionProperty => reducer => (state = {}, action) => {
     [key]: nextKeyState
   };
 };
-/* harmony default export */ var on_sub_key = (onSubKey);
+/* harmony default export */ const on_sub_key = (onSubKey);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/reducer.js
 /**
@@ -132,7 +132,7 @@ const notices = on_sub_key('context')((state = [], action) => {
   }
   return state;
 });
-/* harmony default export */ var reducer = (notices);
+/* harmony default export */ const reducer = (notices);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/constants.js
 /**

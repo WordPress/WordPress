@@ -1,8 +1,8 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 1517:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Selection = wp.media.model.Selection,
 	Library = wp.media.controller.Library,
@@ -112,7 +112,7 @@ module.exports = CollectionAdd;
 /***/ }),
 
 /***/ 1817:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
@@ -281,7 +281,7 @@ module.exports = CollectionEdit;
 /***/ }),
 
 /***/ 2288:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	Cropper;
@@ -458,7 +458,7 @@ module.exports = Cropper;
 /***/ }),
 
 /***/ 6934:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Controller = wp.media.controller,
 	CustomizeImageCropper;
@@ -518,7 +518,7 @@ module.exports = CustomizeImageCropper;
 /***/ }),
 
 /***/ 7658:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	EditImage;
@@ -617,7 +617,7 @@ module.exports = EditImage;
 /***/ }),
 
 /***/ 9067:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	$ = Backbone.$,
@@ -762,7 +762,7 @@ module.exports = Embed;
 /***/ }),
 
 /***/ 5095:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Attachment = wp.media.model.Attachment,
 	Library = wp.media.controller.Library,
@@ -890,7 +890,7 @@ module.exports = FeaturedImage;
 /***/ }),
 
 /***/ 7323:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Selection = wp.media.model.Selection,
 	Library = wp.media.controller.Library,
@@ -1004,7 +1004,7 @@ module.exports = GalleryAdd;
 /***/ }),
 
 /***/ 6328:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
@@ -1180,7 +1180,7 @@ module.exports = GalleryEdit;
 /***/ }),
 
 /***/ 3849:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var State = wp.media.controller.State,
 	Library = wp.media.controller.Library,
@@ -1249,7 +1249,7 @@ module.exports = ImageDetails;
 /***/ }),
 
 /***/ 9024:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	getUserSetting = window.getUserSetting,
@@ -1551,7 +1551,7 @@ module.exports = Library;
 /***/ }),
 
 /***/ 3742:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.controller.MediaLibrary
@@ -1608,7 +1608,7 @@ module.exports = MediaLibrary;
 /***/ }),
 
 /***/ 4903:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.controller.Region
@@ -1789,7 +1789,7 @@ module.exports = Region;
 /***/ }),
 
 /***/ 8493:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
@@ -1914,7 +1914,7 @@ module.exports = ReplaceImage;
 /***/ }),
 
 /***/ 5274:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Controller = wp.media.controller,
 	SiteIconCropper;
@@ -1970,7 +1970,7 @@ module.exports = SiteIconCropper;
 /***/ }),
 
 /***/ 5466:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.controller.StateMachine
@@ -2113,7 +2113,7 @@ module.exports = StateMachine;
 /***/ }),
 
 /***/ 5826:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.controller.State
@@ -2361,7 +2361,7 @@ module.exports = State;
 /***/ }),
 
 /***/ 3526:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.selectionSync
@@ -2436,7 +2436,7 @@ module.exports = selectionSync;
 /***/ }),
 
 /***/ 8093:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	AttachmentCompat;
@@ -2530,7 +2530,7 @@ module.exports = AttachmentCompat;
 /***/ }),
 
 /***/ 4906:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var $ = jQuery,
 	AttachmentFilters;
@@ -2614,7 +2614,7 @@ module.exports = AttachmentFilters;
 /***/ }),
 
 /***/ 2868:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	All;
@@ -2732,7 +2732,7 @@ module.exports = All;
 /***/ }),
 
 /***/ 9663:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	DateFilter;
@@ -2780,7 +2780,7 @@ module.exports = DateFilter;
 /***/ }),
 
 /***/ 7040:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
 	Uploaded;
@@ -2862,7 +2862,7 @@ module.exports = Uploaded;
 /***/ }),
 
 /***/ 5019:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	$ = jQuery,
@@ -3459,7 +3459,7 @@ module.exports = Attachment;
 /***/ }),
 
 /***/ 7274:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /* global ClipboardJS */
 var Attachment = wp.media.view.Attachment,
@@ -3744,7 +3744,7 @@ module.exports = Details;
 /***/ }),
 
 /***/ 4640:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Attachment.EditLibrary
@@ -3769,7 +3769,7 @@ module.exports = EditLibrary;
 /***/ }),
 
 /***/ 1009:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Attachment.EditSelection
@@ -3795,7 +3795,7 @@ module.exports = EditSelection;
 /***/ }),
 
 /***/ 9254:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Attachment.Library
@@ -3820,7 +3820,7 @@ module.exports = Library;
 /***/ }),
 
 /***/ 9003:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Attachment.Selection
@@ -3849,7 +3849,7 @@ module.exports = Selection;
 /***/ }),
 
 /***/ 8408:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	$ = jQuery,
@@ -4319,7 +4319,7 @@ module.exports = Attachments;
 /***/ }),
 
 /***/ 9239:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	mediaTrash = wp.media.view.settings.mediaTrash,
@@ -5061,7 +5061,7 @@ module.exports = AttachmentsBrowser;
 /***/ }),
 
 /***/ 1223:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Attachments = wp.media.view.Attachments,
 	Selection;
@@ -5098,7 +5098,7 @@ module.exports = Selection;
 /***/ }),
 
 /***/ 4094:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var $ = Backbone.$,
 	ButtonGroup;
@@ -5151,7 +5151,7 @@ module.exports = ButtonGroup;
 /***/ }),
 
 /***/ 3157:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Button
@@ -5244,7 +5244,7 @@ module.exports = Button;
 /***/ }),
 
 /***/ 7137:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	UploaderStatus = wp.media.view.UploaderStatus,
@@ -5346,7 +5346,7 @@ module.exports = Cropper;
 /***/ }),
 
 /***/ 5970:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	EditImage;
@@ -5404,7 +5404,7 @@ module.exports = EditImage;
 /***/ }),
 
 /***/ 5138:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Embed
@@ -5475,7 +5475,7 @@ module.exports = Embed;
 /***/ }),
 
 /***/ 1338:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
 	EmbedImage;
@@ -5515,7 +5515,7 @@ module.exports = EmbedImage;
 /***/ }),
 
 /***/ 6959:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var $ = jQuery,
 	EmbedLink;
@@ -5619,7 +5619,7 @@ module.exports = EmbedLink;
 /***/ }),
 
 /***/ 4848:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	$ = jQuery,
@@ -5696,7 +5696,7 @@ module.exports = EmbedUrl;
 /***/ }),
 
 /***/ 6557:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var $ = jQuery;
 
@@ -6064,7 +6064,7 @@ module.exports = FocusManager;
 /***/ }),
 
 /***/ 3647:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Frame
@@ -6237,7 +6237,7 @@ module.exports = Frame;
 /***/ }),
 
 /***/ 9142:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Select = wp.media.view.MediaFrame.Select,
 	l10n = wp.media.view.l10n,
@@ -6422,7 +6422,7 @@ module.exports = ImageDetails;
 /***/ }),
 
 /***/ 9075:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Select = wp.media.view.MediaFrame.Select,
 	Library = wp.media.controller.Library,
@@ -7178,7 +7178,7 @@ module.exports = Post;
 /***/ }),
 
 /***/ 8719:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MediaFrame = wp.media.view.MediaFrame,
 	l10n = wp.media.view.l10n,
@@ -7367,7 +7367,7 @@ module.exports = Select;
 /***/ }),
 
 /***/ 7990:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Heading
@@ -7408,7 +7408,7 @@ module.exports = Heading;
 /***/ }),
 
 /***/ 6217:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Iframe
@@ -7439,7 +7439,7 @@ module.exports = Iframe;
 /***/ }),
 
 /***/ 7598:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
 	$ = jQuery,
@@ -7613,7 +7613,7 @@ module.exports = ImageDetails;
 /***/ }),
 
 /***/ 6644:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Label
@@ -7646,7 +7646,7 @@ module.exports = Label;
 /***/ }),
 
 /***/ 4861:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Frame = wp.media.view.Frame,
 	l10n = wp.media.view.l10n,
@@ -8010,7 +8010,7 @@ module.exports = MediaFrame;
 /***/ }),
 
 /***/ 917:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MenuItem;
 
@@ -8086,7 +8086,7 @@ module.exports = MenuItem;
 /***/ }),
 
 /***/ 2596:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var MenuItem = wp.media.view.MenuItem,
 	PriorityList = wp.media.view.PriorityList,
@@ -8234,7 +8234,7 @@ module.exports = Menu;
 /***/ }),
 
 /***/ 3939:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var $ = jQuery,
 	Modal;
@@ -8461,7 +8461,7 @@ module.exports = Modal;
 /***/ }),
 
 /***/ 1993:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.PriorityList
@@ -8565,7 +8565,7 @@ module.exports = PriorityList;
 /***/ }),
 
 /***/ 9484:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.RouterItem
@@ -8596,7 +8596,7 @@ module.exports = RouterItem;
 /***/ }),
 
 /***/ 1562:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Menu = wp.media.view.Menu,
 	Router;
@@ -8645,7 +8645,7 @@ module.exports = Router;
 /***/ }),
 
 /***/ 4556:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Search;
 
@@ -8698,7 +8698,7 @@ module.exports = Search;
 /***/ }),
 
 /***/ 6191:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var _n = wp.i18n._n,
 	sprintf = wp.i18n.sprintf,
@@ -8791,7 +8791,7 @@ module.exports = Selection;
 /***/ }),
 
 /***/ 859:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	$ = Backbone.$,
@@ -8924,7 +8924,7 @@ module.exports = Settings;
 /***/ }),
 
 /***/ 2176:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Settings = wp.media.view.Settings,
 	AttachmentDisplay;
@@ -9023,7 +9023,7 @@ module.exports = AttachmentDisplay;
 /***/ }),
 
 /***/ 6872:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Settings.Gallery
@@ -9047,7 +9047,7 @@ module.exports = Gallery;
 /***/ }),
 
 /***/ 8488:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Settings.Playlist
@@ -9071,7 +9071,7 @@ module.exports = Playlist;
 /***/ }),
 
 /***/ 9799:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Sidebar
@@ -9094,7 +9094,7 @@ module.exports = Sidebar;
 /***/ }),
 
 /***/ 5187:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.view,
 	SiteIconCropper;
@@ -9144,7 +9144,7 @@ module.exports = SiteIconCropper;
 /***/ }),
 
 /***/ 8260:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	$ = jQuery,
@@ -9207,7 +9207,7 @@ module.exports = SiteIconPreview;
 /***/ }),
 
 /***/ 2234:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.Spinner
@@ -9267,7 +9267,7 @@ module.exports = Spinner;
 /***/ }),
 
 /***/ 9510:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	Toolbar;
@@ -9436,7 +9436,7 @@ module.exports = Toolbar;
 /***/ }),
 
 /***/ 7128:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Select = wp.media.view.Toolbar.Select,
 	l10n = wp.media.view.l10n,
@@ -9480,7 +9480,7 @@ module.exports = Embed;
 /***/ }),
 
 /***/ 6850:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var Toolbar = wp.media.view.Toolbar,
 	l10n = wp.media.view.l10n,
@@ -9557,7 +9557,7 @@ module.exports = Select;
 /***/ }),
 
 /***/ 841:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	l10n = wp.media.view.l10n,
@@ -9789,7 +9789,7 @@ module.exports = EditorUploader;
 /***/ }),
 
 /***/ 6353:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	UploaderInline;
@@ -9939,7 +9939,7 @@ module.exports = UploaderInline;
 /***/ }),
 
 /***/ 9411:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.view.UploaderStatusError
@@ -9962,7 +9962,7 @@ module.exports = UploaderStatusError;
 /***/ }),
 
 /***/ 2894:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var View = wp.media.View,
 	UploaderStatus;
@@ -10114,7 +10114,7 @@ module.exports = UploaderStatus;
 /***/ }),
 
 /***/ 5823:
-/***/ (function(module) {
+/***/ ((module) => {
 
 var $ = jQuery,
 	UploaderWindow;
@@ -10232,7 +10232,7 @@ module.exports = UploaderWindow;
 /***/ }),
 
 /***/ 487:
-/***/ (function(module) {
+/***/ ((module) => {
 
 /**
  * wp.media.View
@@ -10335,7 +10335,7 @@ module.exports = View;
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-!function() {
+(() => {
 /**
  * @output wp-includes/js/media-views.js
  */
@@ -10491,6 +10491,7 @@ media.view.EditImage = __webpack_require__( 5970 );
 media.view.Spinner = __webpack_require__( 2234 );
 media.view.Heading = __webpack_require__( 7990 );
 
-}();
+})();
+
 /******/ })()
 ;

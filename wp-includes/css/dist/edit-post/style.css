@@ -481,10 +481,10 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   content:attr(aria-label);
 }
 .edit-post-header__dropdown .components-button.has-icon[aria-disabled=true],.show-icon-labels .edit-post-header .components-button.has-icon[aria-disabled=true],.show-icon-labels.interface-pinned-items .components-button.has-icon[aria-disabled=true]{
-  background-color:transparent;
+  background-color:initial;
 }
 .edit-post-header__dropdown .is-tertiary:active,.show-icon-labels .edit-post-header .is-tertiary:active,.show-icon-labels.interface-pinned-items .is-tertiary:active{
-  background-color:transparent;
+  background-color:initial;
   box-shadow:0 0 0 1.5px var(--wp-admin-theme-color);
 }
 .edit-post-header__dropdown .components-button.has-icon.button-toggle svg,.edit-post-header__dropdown .edit-post-fullscreen-mode-close.has-icon svg,.show-icon-labels .edit-post-header .components-button.has-icon.button-toggle svg,.show-icon-labels .edit-post-header .edit-post-fullscreen-mode-close.has-icon svg,.show-icon-labels.interface-pinned-items .components-button.has-icon.button-toggle svg,.show-icon-labels.interface-pinned-items .edit-post-fullscreen-mode-close.has-icon svg{
@@ -573,7 +573,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .is-distraction-free .edit-post-header{
   -webkit-backdrop-filter:blur(20px) !important;
           backdrop-filter:blur(20px) !important;
-  background-color:hsla(0,0%,100%,.9);
+  background-color:#ffffffe6;
   border-bottom:1px solid #e0e0e0;
   position:absolute;
   width:100%;
@@ -645,7 +645,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
     box-shadow:none;
   }
   .edit-post-fullscreen-mode-close.components-button:focus:before{
-    box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) hsla(0,0%,100%,.1), inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+    box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) #ffffff1a, inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   }
 }
 .edit-post-fullscreen-mode-close.components-button .edit-post-fullscreen-mode-close_site-icon{
@@ -813,12 +813,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   z-index:100000;
 }
 
-.interface-interface-skeleton__sidebar:focus .edit-post-layout__toggle-sidebar-panel,.interface-interface-skeleton__sidebar:focus-within .edit-post-layout__toggle-sidebar-panel{
-  bottom:0;
-  top:auto;
-}
-
-.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel{
+.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__sidebar:focus .edit-post-layout__toggle-sidebar-panel,.interface-interface-skeleton__sidebar:focus-within .edit-post-layout__toggle-sidebar-panel{
   bottom:0;
   top:auto;
 }
@@ -831,7 +826,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   position:relative;
 }
 .edit-post-meta-boxes-area .inside,.edit-post-meta-boxes-area__container{
-  box-sizing:content-box;
+  box-sizing:initial;
 }
 .edit-post-meta-boxes-area input,.edit-post-meta-boxes-area textarea{
   box-sizing:border-box;
@@ -869,7 +864,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
   width:44px;
 }
 .edit-post-meta-boxes-area.is-loading:before{
-  background:transparent;
+  background:#0000;
   bottom:0;
   content:"";
   left:0;
@@ -978,7 +973,7 @@ h2.edit-post-template-summary__title{
 }
 
 .edit-post-text-editor__toolbar{
-  background:hsla(0,0%,100%,.8);
+  background:#fffc;
   display:flex;
   left:0;
   padding:4px 12px;

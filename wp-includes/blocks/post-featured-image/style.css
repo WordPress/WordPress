@@ -26,7 +26,7 @@
 }
 
 .wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-gradient{
-  background-color:transparent;
+  background-color:initial;
 }
 .wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-0{
   opacity:0;

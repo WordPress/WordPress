@@ -4,7 +4,7 @@
   text-align:center;
 }
 .is-dark-theme .wp-block-audio figcaption{
-  color:hsla(0,0%,100%,.65);
+  color:#ffffffa6;
 }
 
 .wp-block-audio{
@@ -24,7 +24,7 @@
   text-align:center;
 }
 .is-dark-theme .wp-block-embed figcaption{
-  color:hsla(0,0%,100%,.65);
+  color:#ffffffa6;
 }
 
 .wp-block-embed{
@@ -37,7 +37,7 @@
   text-align:center;
 }
 .is-dark-theme .blocks-gallery-caption{
-  color:hsla(0,0%,100%,.65);
+  color:#ffffffa6;
 }
 
 .wp-block-image figcaption{
@@ -46,7 +46,7 @@
   text-align:center;
 }
 .is-dark-theme .wp-block-image figcaption{
-  color:hsla(0,0%,100%,.65);
+  color:#ffffffa6;
 }
 
 .wp-block-image{
@@ -140,7 +140,7 @@
   text-align:center;
 }
 .is-dark-theme .wp-block-table figcaption{
-  color:hsla(0,0%,100%,.65);
+  color:#ffffffa6;
 }
 
 .wp-block-video figcaption{
@@ -149,7 +149,7 @@
   text-align:center;
 }
 .is-dark-theme .wp-block-video figcaption{
-  color:hsla(0,0%,100%,.65);
+  color:#ffffffa6;
 }
 
 .wp-block-video{

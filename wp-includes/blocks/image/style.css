@@ -107,7 +107,7 @@
   align-items:center;
   -webkit-backdrop-filter:blur(16px) saturate(180%);
           backdrop-filter:blur(16px) saturate(180%);
-  background-color:rgba(90,90,90,.25);
+  background-color:#5a5a5a40;
   border:none;
   border-radius:4px;
   cursor:zoom-in;
@@ -125,7 +125,7 @@
   z-index:100;
 }
 .wp-lightbox-container button:focus-visible{
-  outline:3px auto rgba(90,90,90,.25);
+  outline:3px auto #5a5a5a40;
   outline:3px auto -webkit-focus-ring-color;
   outline-offset:3px;
 }
@@ -137,7 +137,7 @@
   opacity:1;
 }
 .wp-lightbox-container button:focus,.wp-lightbox-container button:hover,.wp-lightbox-container button:not(:hover):not(:active):not(.has-background){
-  background-color:rgba(90,90,90,.25);
+  background-color:#5a5a5a40;
   border:none;
 }
 

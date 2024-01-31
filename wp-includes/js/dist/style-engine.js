@@ -1,36 +1,36 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -39,8 +39,8 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  compileCSS: function() { return /* binding */ compileCSS; },
-  getCSSRules: function() { return /* binding */ getCSSRules; }
+  compileCSS: () => (/* binding */ compileCSS),
+  getCSSRules: () => (/* binding */ getCSSRules)
 });
 
 ;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
@@ -385,7 +385,7 @@ function __disposeResources(env) {
   return next();
 }
 
-/* harmony default export */ var tslib_es6 = ({
+/* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
@@ -743,7 +743,7 @@ const borderLeft = {
   name: 'borderLeft',
   generate: createBorderEdgeGenerateFunction('left')
 };
-/* harmony default export */ var border = ([color, borderStyle, width, radius, borderTop, borderRight, borderBottom, borderLeft]);
+/* harmony default export */ const border = ([color, borderStyle, width, radius, borderTop, borderRight, borderBottom, borderLeft]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/background.js
 /**
@@ -757,7 +757,7 @@ const background = {
     return generateRule(style, options, ['color', 'background'], 'backgroundColor');
   }
 };
-/* harmony default export */ var color_background = (background);
+/* harmony default export */ const color_background = (background);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/gradient.js
 /**
@@ -771,7 +771,7 @@ const gradient = {
     return generateRule(style, options, ['color', 'gradient'], 'background');
   }
 };
-/* harmony default export */ var color_gradient = (gradient);
+/* harmony default export */ const color_gradient = (gradient);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/text.js
 /**
@@ -785,7 +785,7 @@ const text_text = {
     return generateRule(style, options, ['color', 'text'], 'color');
   }
 };
-/* harmony default export */ var color_text = (text_text);
+/* harmony default export */ const color_text = (text_text);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/index.js
 /**
@@ -794,7 +794,7 @@ const text_text = {
 
 
 
-/* harmony default export */ var styles_color = ([color_text, color_gradient, color_background]);
+/* harmony default export */ const styles_color = ([color_text, color_gradient, color_background]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/dimensions/index.js
 /**
@@ -814,7 +814,7 @@ const aspectRatio = {
     return generateRule(style, options, ['dimensions', 'aspectRatio'], 'aspectRatio');
   }
 };
-/* harmony default export */ var dimensions = ([minHeight, aspectRatio]);
+/* harmony default export */ const dimensions = ([minHeight, aspectRatio]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/background/index.js
 /**
@@ -879,7 +879,7 @@ const backgroundSize = {
     return styleRules;
   }
 };
-/* harmony default export */ var styles_background = ([backgroundImage, backgroundRepeat, backgroundSize]);
+/* harmony default export */ const styles_background = ([backgroundImage, backgroundRepeat, backgroundSize]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/shadow/index.js
 /**
@@ -893,7 +893,7 @@ const shadow = {
     return generateRule(style, options, ['shadow'], 'boxShadow');
   }
 };
-/* harmony default export */ var styles_shadow = ([shadow]);
+/* harmony default export */ const styles_shadow = ([shadow]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/outline/index.js
 /**
@@ -925,7 +925,7 @@ const outline_width = {
     return generateRule(style, options, path, ruleKey);
   }
 };
-/* harmony default export */ var outline = ([outline_color, outlineStyle, offset, outline_width]);
+/* harmony default export */ const outline = ([outline_color, outlineStyle, offset, outline_width]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/spacing/padding.js
 /**
@@ -942,7 +942,7 @@ const padding = {
     });
   }
 };
-/* harmony default export */ var spacing_padding = (padding);
+/* harmony default export */ const spacing_padding = (padding);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/spacing/margin.js
 /**
@@ -959,7 +959,7 @@ const margin = {
     });
   }
 };
-/* harmony default export */ var spacing_margin = (margin);
+/* harmony default export */ const spacing_margin = (margin);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/spacing/index.js
 /**
@@ -967,7 +967,7 @@ const margin = {
  */
 
 
-/* harmony default export */ var spacing = ([spacing_margin, spacing_padding]);
+/* harmony default export */ const spacing = ([spacing_margin, spacing_padding]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/typography/index.js
 /**
@@ -1035,7 +1035,7 @@ const writingMode = {
     return generateRule(style, options, ['typography', 'writingMode'], 'writingMode');
   }
 };
-/* harmony default export */ var typography = ([fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textColumns, textDecoration, textTransform, writingMode]);
+/* harmony default export */ const typography = ([fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textColumns, textDecoration, textTransform, writingMode]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/index.js
 /**

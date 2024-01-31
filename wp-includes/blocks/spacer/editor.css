@@ -10,10 +10,10 @@
 }
 
 .block-library-spacer__resize-container.has-show-handle,.wp-block-spacer.is-hovered .block-library-spacer__resize-container,.wp-block-spacer.is-selected.custom-sizes-disabled{
-  background:rgba(0,0,0,.1);
+  background:#0000001a;
 }
 .is-dark-theme .block-library-spacer__resize-container.has-show-handle,.is-dark-theme .wp-block-spacer.is-hovered .block-library-spacer__resize-container,.is-dark-theme .wp-block-spacer.is-selected.custom-sizes-disabled{
-  background:hsla(0,0%,100%,.15);
+  background:#ffffff26;
 }
 
 .block-library-spacer__resize-container{

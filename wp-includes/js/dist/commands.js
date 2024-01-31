@@ -1,8 +1,8 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 4403:
-/***/ (function(module, exports) {
+/***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	Copyright (c) 2018 Jed Watson.
@@ -68,7 +68,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ }),
 
 /***/ 8670:
-/***/ (function(module) {
+/***/ ((module) => {
 
 // The scores are arranged so that a continuous match of characters will
 // result in a total score of 1.
@@ -237,98 +237,98 @@ module.exports = commandScore;
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		__webpack_require__.nc = undefined;
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  CommandMenu: function() { return /* reexport */ CommandMenu; },
-  privateApis: function() { return /* reexport */ privateApis; },
-  store: function() { return /* reexport */ store; },
-  useCommand: function() { return /* reexport */ useCommand; },
-  useCommandLoader: function() { return /* reexport */ useCommandLoader; }
+  CommandMenu: () => (/* reexport */ CommandMenu),
+  privateApis: () => (/* reexport */ privateApis),
+  store: () => (/* reexport */ store),
+  useCommand: () => (/* reexport */ useCommand),
+  useCommandLoader: () => (/* reexport */ useCommandLoader)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  close: function() { return actions_close; },
-  open: function() { return actions_open; },
-  registerCommand: function() { return registerCommand; },
-  registerCommandLoader: function() { return registerCommandLoader; },
-  unregisterCommand: function() { return unregisterCommand; },
-  unregisterCommandLoader: function() { return unregisterCommandLoader; }
+  close: () => (actions_close),
+  open: () => (actions_open),
+  registerCommand: () => (registerCommand),
+  registerCommandLoader: () => (registerCommandLoader),
+  unregisterCommand: () => (unregisterCommand),
+  unregisterCommandLoader: () => (unregisterCommandLoader)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  getCommandLoaders: function() { return getCommandLoaders; },
-  getCommands: function() { return getCommands; },
-  getContext: function() { return getContext; },
-  isOpen: function() { return selectors_isOpen; }
+  getCommandLoaders: () => (getCommandLoaders),
+  getCommands: () => (getCommands),
+  getContext: () => (getContext),
+  isOpen: () => (selectors_isOpen)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/private-actions.js
 var private_actions_namespaceObject = {};
 __webpack_require__.r(private_actions_namespaceObject);
 __webpack_require__.d(private_actions_namespaceObject, {
-  setContext: function() { return setContext; }
+  setContext: () => (setContext)
 });
 
 ;// CONCATENATED MODULE: external "React"
-var external_React_namespaceObject = window["React"];
+const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -639,7 +639,7 @@ function $71cd76cc60e0454e$var$useUncontrolledState({ defaultProp: defaultProp ,
 
 
 ;// CONCATENATED MODULE: external "ReactDOM"
-var external_ReactDOM_namespaceObject = window["ReactDOM"];
+const external_ReactDOM_namespaceObject = window["ReactDOM"];
 var external_ReactDOM_default = /*#__PURE__*/__webpack_require__.n(external_ReactDOM_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/@radix-ui/react-slot/dist/index.module.js
 
@@ -1946,7 +1946,7 @@ function __disposeResources(env) {
   return next();
 }
 
-/* harmony default export */ var tslib_es6 = ({
+/* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
@@ -2663,7 +2663,7 @@ function RemoveScrollSideCar(props) {
 
 
 
-/* harmony default export */ var sidecar = (exportSidecar(effectCar, RemoveScrollSideCar));
+/* harmony default export */ const sidecar = (exportSidecar(effectCar, RemoveScrollSideCar));
 
 ;// CONCATENATED MODULE: ./node_modules/@radix-ui/react-dialog/node_modules/react-remove-scroll/dist/es2015/Combination.js
 
@@ -2672,7 +2672,7 @@ function RemoveScrollSideCar(props) {
 
 var ReactRemoveScroll = external_React_namespaceObject.forwardRef(function (props, ref) { return (external_React_namespaceObject.createElement(RemoveScroll, __assign({}, props, { ref: ref, sideCar: sidecar }))); });
 ReactRemoveScroll.classNames = RemoveScroll.classNames;
-/* harmony default export */ var Combination = (ReactRemoveScroll);
+/* harmony default export */ const Combination = (ReactRemoveScroll);
 
 ;// CONCATENATED MODULE: ./node_modules/aria-hidden/dist/es2015/index.js
 var getDefaultParent = function (originalTarget) {
@@ -3206,15 +3206,15 @@ var ue='[cmdk-list-sizer=""]',M='[cmdk-group=""]',N='[cmdk-group-items=""]',de='
 var classnames = __webpack_require__(4403);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","components"]
-var external_wp_components_namespaceObject = window["wp"]["components"];
+const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","keyboardShortcuts"]
-var external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
+const external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
 /**
  * WordPress dependencies
@@ -3245,10 +3245,10 @@ function Icon({
     ref
   });
 }
-/* harmony default export */ var icon = ((0,external_wp_element_namespaceObject.forwardRef)(Icon));
+/* harmony default export */ const icon = ((0,external_wp_element_namespaceObject.forwardRef)(Icon));
 
 ;// CONCATENATED MODULE: external ["wp","primitives"]
-var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/search.js
 
 /**
@@ -3261,7 +3261,7 @@ const search = (0,external_React_namespaceObject.createElement)(external_wp_prim
 }, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"
 }));
-/* harmony default export */ var library_search = (search);
+/* harmony default export */ const library_search = (search);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/store/reducer.js
 /**
@@ -3373,7 +3373,7 @@ const reducer = (0,external_wp_data_namespaceObject.combineReducers)({
   isOpen,
   context
 });
-/* harmony default export */ var store_reducer = (reducer);
+/* harmony default export */ const store_reducer = (reducer);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/store/actions.js
 /** @typedef {import('@wordpress/keycodes').WPKeycodeModifier} WPKeycodeModifier */
@@ -3853,7 +3853,7 @@ function setContext(context) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
-var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/commands/build-module/lock-unlock.js
 /**
  * WordPress dependencies
@@ -4383,7 +4383,8 @@ function useCommandLoader(loader) {
 
 
 
-}();
+})();
+
 (window.wp = window.wp || {}).commands = __webpack_exports__;
 /******/ })()
 ;

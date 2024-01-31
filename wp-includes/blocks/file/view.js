@@ -4,21 +4,21 @@ import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "
 /******/ 
 /************************************************************************/
 /******/ /* webpack/runtime/define property getters */
-/******/ !function() {
+/******/ (() => {
 /******/ 	// define getter functions for harmony exports
-/******/ 	__webpack_require__.d = function(exports, definition) {
+/******/ 	__webpack_require__.d = (exports, definition) => {
 /******/ 		for(var key in definition) {
 /******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 			}
 /******/ 		}
 /******/ 	};
-/******/ }();
+/******/ })();
 /******/ 
 /******/ /* webpack/runtime/hasOwnProperty shorthand */
-/******/ !function() {
-/******/ 	__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ }();
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
 /******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -26,7 +26,7 @@ var __webpack_exports__ = {};
 ;// CONCATENATED MODULE: external "@wordpress/interactivity"
 var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
 var y = x => () => x
-var interactivity_namespaceObject = x({ ["store"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store });
+const interactivity_namespaceObject = x({ ["store"]: () => __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store });
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/utils/index.js
 /**
  * Uses a combination of user agent matching and feature detection to determine whether
@@ -73,6 +73,7 @@ const createActiveXObject = type => {
   }
   return ax;
 };
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/view.js
 /**
  * WordPress dependencies
@@ -89,3 +90,4 @@ const createActiveXObject = type => {
     }
   }
 });
+

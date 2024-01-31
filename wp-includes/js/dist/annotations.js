@@ -1,36 +1,36 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -39,33 +39,33 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  store: function() { return /* reexport */ store; }
+  store: () => (/* reexport */ store)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  __experimentalGetAllAnnotationsForBlock: function() { return __experimentalGetAllAnnotationsForBlock; },
-  __experimentalGetAnnotations: function() { return __experimentalGetAnnotations; },
-  __experimentalGetAnnotationsForBlock: function() { return __experimentalGetAnnotationsForBlock; },
-  __experimentalGetAnnotationsForRichText: function() { return __experimentalGetAnnotationsForRichText; }
+  __experimentalGetAllAnnotationsForBlock: () => (__experimentalGetAllAnnotationsForBlock),
+  __experimentalGetAnnotations: () => (__experimentalGetAnnotations),
+  __experimentalGetAnnotationsForBlock: () => (__experimentalGetAnnotationsForBlock),
+  __experimentalGetAnnotationsForRichText: () => (__experimentalGetAnnotationsForRichText)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/annotations/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  __experimentalAddAnnotation: function() { return __experimentalAddAnnotation; },
-  __experimentalRemoveAnnotation: function() { return __experimentalRemoveAnnotation; },
-  __experimentalRemoveAnnotationsBySource: function() { return __experimentalRemoveAnnotationsBySource; },
-  __experimentalUpdateAnnotationRange: function() { return __experimentalUpdateAnnotationRange; }
+  __experimentalAddAnnotation: () => (__experimentalAddAnnotation),
+  __experimentalRemoveAnnotation: () => (__experimentalRemoveAnnotation),
+  __experimentalRemoveAnnotationsBySource: () => (__experimentalRemoveAnnotationsBySource),
+  __experimentalUpdateAnnotationRange: () => (__experimentalUpdateAnnotationRange)
 });
 
 ;// CONCATENATED MODULE: external ["wp","richText"]
-var external_wp_richText_namespaceObject = window["wp"]["richText"];
+const external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/constants.js
 /**
  * The identifier for the data store.
@@ -265,9 +265,9 @@ const {
 (0,external_wp_richText_namespaceObject.registerFormatType)(format_name, settings);
 
 ;// CONCATENATED MODULE: external ["wp","hooks"]
-var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
+const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/block/index.js
 /**
  * WordPress dependencies
@@ -400,7 +400,7 @@ function annotations(state = {}, action) {
   }
   return state;
 }
-/* harmony default export */ var reducer = (annotations);
+/* harmony default export */ const reducer = (annotations);
 
 ;// CONCATENATED MODULE: ./node_modules/rememo/rememo.js
 
@@ -782,7 +782,7 @@ function __experimentalGetAnnotations(state) {
 
 ;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/native.js
 const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-/* harmony default export */ var esm_browser_native = ({
+/* harmony default export */ const esm_browser_native = ({
   randomUUID
 });
 ;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/rng.js
@@ -837,7 +837,7 @@ function stringify(arr, offset = 0) {
   return uuid;
 }
 
-/* harmony default export */ var esm_browser_stringify = ((/* unused pure expression or super */ null && (stringify)));
+/* harmony default export */ const esm_browser_stringify = ((/* unused pure expression or super */ null && (stringify)));
 ;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/v4.js
 
 
@@ -867,7 +867,7 @@ function v4(options, buf, offset) {
   return unsafeStringify(rnds);
 }
 
-/* harmony default export */ var esm_browser_v4 = (v4);
+/* harmony default export */ const esm_browser_v4 = (v4);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/actions.js
 /**
  * External dependencies
