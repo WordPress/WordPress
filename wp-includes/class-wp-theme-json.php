@@ -204,10 +204,12 @@ class WP_Theme_JSON {
 	 * @since 6.2.0 Added `outline-*`, and `min-height` properties.
 	 * @since 6.3.0 Added `column-count` property.
 	 * @since 6.4.0 Added `writing-mode` property.
+	 * @since 6.5.0 Added `aspect-ratio` property.
 	 *
 	 * @var array
 	 */
 	const PROPERTIES_METADATA = array(
+		'aspect-ratio'                      => array( 'dimensions', 'aspectRatio' ),
 		'background'                        => array( 'color', 'gradient' ),
 		'background-color'                  => array( 'color', 'background' ),
 		'border-radius'                     => array( 'border', 'radius' ),
@@ -344,8 +346,8 @@ class WP_Theme_JSON {
 	 * @since 6.3.0 Added support for `typography.textColumns`, removed `layout.definitions`.
 	 * @since 6.4.0 Added support for `layout.allowEditing`, `background.backgroundImage`,
 	 *              `typography.writingMode`, `lightbox.enabled` and `lightbox.allowEditing`.
-	 * @since 6.5.0 Added support for `layout.allowCustomContentAndWideSize` and
-	 *              `background.backgroundSize`.
+	 * @since 6.5.0 Added support for `layout.allowCustomContentAndWideSize`,
+	 *              `background.backgroundSize` and `dimensions.aspectRatio`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -380,7 +382,8 @@ class WP_Theme_JSON {
 		),
 		'custom'                        => null,
 		'dimensions'                    => array(
-			'minHeight' => null,
+			'aspectRatio' => null,
+			'minHeight'   => null,
 		),
 		'layout'                        => array(
 			'contentSize'                   => null,
@@ -438,6 +441,7 @@ class WP_Theme_JSON {
 	 *              updated `blockGap` to be allowed at any level.
 	 * @since 6.2.0 Added `outline`, and `minHeight` properties.
 	 * @since 6.3.0 Added support for `typography.textColumns`.
+	 * @since 6.5.0 Added support for `dimensions.aspectRatio`.
 	 *
 	 * @var array
 	 */
@@ -458,7 +462,8 @@ class WP_Theme_JSON {
 			'text'       => null,
 		),
 		'dimensions' => array(
-			'minHeight' => null,
+			'aspectRatio' => null,
+			'minHeight'   => null,
 		),
 		'filter'     => array(
 			'duotone' => null,
@@ -575,7 +580,7 @@ class WP_Theme_JSON {
 	 * @since 6.0.0
 	 * @since 6.2.0 Added `dimensions.minHeight` and `position.sticky`.
 	 * @since 6.4.0 Added `background.backgroundImage`.
-	 * @since 6.5.0 Added `background.backgroundSize`.
+	 * @since 6.5.0 Added `background.backgroundSize` and `dimensions.aspectRatio`.
 	 * @var array
 	 */
 	const APPEARANCE_TOOLS_OPT_INS = array(
@@ -589,6 +594,7 @@ class WP_Theme_JSON {
 		array( 'color', 'heading' ),
 		array( 'color', 'button' ),
 		array( 'color', 'caption' ),
+		array( 'dimensions', 'aspectRatio' ),
 		array( 'dimensions', 'minHeight' ),
 		array( 'position', 'sticky' ),
 		array( 'spacing', 'blockGap' ),
@@ -1921,6 +1927,7 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 * @since 5.9.0 Added the `$settings` and `$properties` parameters.
 	 * @since 6.1.0 Added `$theme_json`, `$selector`, and `$use_root_padding` parameters.
+	 * @since 6.5.0 Output a `min-height: unset` rule when `aspect-ratio` is set.
 	 *
 	 * @param array   $styles Styles to process.
 	 * @param array   $settings Theme settings.
@@ -1990,6 +1997,15 @@ class WP_Theme_JSON {
 				 * and therefore the original $value will be returned.
 				 */
 				$value = wp_get_typography_font_size_value( array( 'size' => $value ) );
+			}
+
+			if ( 'aspect-ratio' === $css_property ) {
+				// For aspect ratio to work, other dimensions rules must be unset.
+				// This ensures that a fixed height does not override the aspect ratio.
+				$declarations[] = array(
+					'name'  => 'min-height',
+					'value' => 'unset',
+				);
 			}
 
 			$declarations[] = array(

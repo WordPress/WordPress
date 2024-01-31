@@ -23,7 +23,8 @@
  * @since 6.1.0
  * @since 6.3.0 Added support for text-columns.
  * @since 6.4.0 Added support for background.backgroundImage.
- * @since 6.5.0 Added support for background.backgroundPosition and background.backgroundRepeat.
+ * @since 6.5.0 Added support for background.backgroundPosition,
+ *              background.backgroundRepeat and dimensions.aspectRatio.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -190,7 +191,16 @@ final class WP_Style_Engine {
 			),
 		),
 		'dimensions' => array(
-			'minHeight' => array(
+			'aspectRatio' => array(
+				'property_keys' => array(
+					'default' => 'aspect-ratio',
+				),
+				'path'          => array( 'dimensions', 'aspectRatio' ),
+				'classnames'    => array(
+					'has-aspect-ratio' => true,
+				),
+			),
+			'minHeight'   => array(
 				'property_keys' => array(
 					'default' => 'min-height',
 				),
