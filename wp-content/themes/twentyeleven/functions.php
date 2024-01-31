@@ -562,7 +562,7 @@ add_filter( 'wp_page_menu_args', 'twentyeleven_page_menu_args' );
 /**
  * Register sidebars and widgetized areas.
  *
- * Also register the default Epherma widget.
+ * Also register the default Ephemera widget.
  *
  * @since Twenty Eleven 1.0
  */
