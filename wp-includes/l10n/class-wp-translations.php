@@ -95,15 +95,10 @@ class WP_Translations {
 			$entry->context = $parts[0];
 		}
 
-		// Look for plural original.
-		$parts           = explode( "\0", $original );
-		$entry->singular = $parts[0];
-		if ( isset( $parts[1] ) ) {
-			$entry->is_plural = true;
-			$entry->plural    = $parts[1];
-		}
-
+		$entry->singular     = $original;
 		$entry->translations = explode( "\0", $translations );
+		$entry->is_plural    = count( $entry->translations ) > 1;
+
 		return $entry;
 	}
 

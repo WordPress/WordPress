@@ -28,12 +28,8 @@ class WP_Translation_File_PHP extends WP_Translation_File {
 		}
 
 		if ( isset( $result['messages'] ) && is_array( $result['messages'] ) ) {
-			foreach ( $result['messages'] as $singular => $translations ) {
-				if ( is_array( $translations ) ) {
-					$this->entries[ $singular ] = implode( "\0", $translations );
-				} elseif ( is_string( $translations ) ) {
-					$this->entries[ $singular ] = $translations;
-				}
+			foreach ( $result['messages'] as $original => $translation ) {
+				$this->entries[ (string) $original ] = $translation;
 			}
 			unset( $result['messages'] );
 		}

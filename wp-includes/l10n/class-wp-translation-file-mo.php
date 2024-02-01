@@ -161,7 +161,15 @@ class WP_Translation_File_MO extends WP_Translation_File {
 					$this->headers[ strtolower( $name ) ] = $value;
 				}
 			} else {
-				$this->entries[ (string) $original ] = $translation;
+				/*
+				 * In MO files, the key normally contains both singular and plural versions.
+				 * However, this just adds the singular string for lookup,
+				 * which caters for cases where both __( 'Product' ) and _n( 'Product', 'Products' )
+				 * are used and the translation is expected to be the same for both.
+				 */
+				$parts = explode( "\0", (string) $original );
+
+				$this->entries[ $parts[0] ] = $translation;
 			}
 		}
 
