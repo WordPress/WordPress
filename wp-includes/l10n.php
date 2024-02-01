@@ -789,10 +789,6 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 	 */
 	$mofile = apply_filters( 'load_textdomain_mofile', $mofile, $domain );
 
-	if ( ! is_readable( $mofile ) ) {
-		return false;
-	}
-
 	if ( ! $locale ) {
 		$locale = determine_locale();
 	}
@@ -817,13 +813,13 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 		$preferred_format = 'php';
 	}
 
-	$translation_files = array( $mofile );
+	$translation_files = array();
+
 	if ( 'mo' !== $preferred_format ) {
-		array_unshift(
-			$translation_files,
-			substr_replace( $mofile, ".l10n.$preferred_format", - strlen( '.mo' ) )
-		);
+		$translation_files[] = substr_replace( $mofile, ".l10n.$preferred_format", - strlen( '.mo' ) );
 	}
+
+	$translation_files[] = $mofile;
 
 	foreach ( $translation_files as $file ) {
 		/**
@@ -857,7 +853,7 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 		}
 	}
 
-	return true;
+	return false;
 }
 
 /**
