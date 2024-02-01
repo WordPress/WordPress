@@ -1762,7 +1762,8 @@ class WP_HTML_Tag_Processor {
 					'T' === $html[ $this->token_starts_at + 6 ] &&
 					'A' === $html[ $this->token_starts_at + 7 ] &&
 					'[' === $html[ $this->token_starts_at + 8 ] &&
-					']' === $html[ $closer_at - 1 ]
+					']' === $html[ $closer_at - 1 ] &&
+					']' === $html[ $closer_at - 2 ]
 				) {
 					$this->parser_state    = self::STATE_COMMENT;
 					$this->comment_type    = self::COMMENT_AS_CDATA_LOOKALIKE;
