@@ -192,6 +192,204 @@ class WP_Block {
 	}
 
 	/**
+	 * Processes the block bindings in block's attributes.
+	 *
+	 * A block might contain bindings in its attributes. Bindings are mappings
+	 * between an attribute of the block and a source. A "source" is a function
+	 * registered with `register_block_bindings_source()` that defines how to
+	 * retrieve a value from outside the block, e.g. from post meta.
+	 *
+	 * This function will process those bindings and replace the HTML with the value of the binding.
+	 * The value is retrieved from the source of the binding.
+	 *
+	 * ### Example
+	 *
+	 * The "bindings" property for an Image block might look like this:
+	 *
+	 * ```json
+	 * {
+	 *   "metadata": {
+	 *     "bindings": {
+	 *       "title": {
+	 *         "source": "post_meta",
+	 *         "args": { "key": "text_custom_field" }
+	 *       },
+	 *       "url": {
+	 *         "source": "post_meta",
+	 *         "args": { "key": "url_custom_field" }
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 * ```
+	 *
+	 * The above example will replace the `title` and `url` attributes of the Image
+	 * block with the values of the `text_custom_field` and `url_custom_field` post meta.
+	 *
+	 * @access private
+	 * @since 6.5.0
+	 *
+	 * @param string   $block_content Block content.
+	 * @param array    $block The full block, including name and attributes.
+	 */
+	private function process_block_bindings( $block_content ) {
+		$block = $this->parsed_block;
+
+		// Allowed blocks that support block bindings.
+		// TODO: Look for a mechanism to opt-in for this. Maybe adding a property to block attributes?
+		$allowed_blocks = array(
+			'core/paragraph' => array( 'content' ),
+			'core/heading'   => array( 'content' ),
+			'core/image'     => array( 'url', 'title', 'alt' ),
+			'core/button'    => array( 'url', 'text' ),
+		);
+
+		// If the block doesn't have the bindings property, isn't one of the allowed
+		// block types, or the bindings property is not an array, return the block content.
+		if ( ! isset( $block['attrs']['metadata']['bindings'] ) ||
+				! is_array( $block['attrs']['metadata']['bindings'] ) ||
+				! isset( $allowed_blocks[ $this->name ] )
+				) {
+			return $block_content;
+		}
+
+		$block_bindings_sources = get_all_registered_block_bindings_sources();
+		$modified_block_content = $block_content;
+		foreach ( $block['attrs']['metadata']['bindings'] as $binding_attribute => $binding_source ) {
+			// If the attribute is not in the list, process next attribute.
+			if ( ! in_array( $binding_attribute, $allowed_blocks[ $this->name ], true ) ) {
+				continue;
+			}
+			// If no source is provided, or that source is not registered, process next attribute.
+			if ( ! isset( $binding_source['source'] ) || ! is_string( $binding_source['source'] ) || ! isset( $block_bindings_sources[ $binding_source['source'] ] ) ) {
+				continue;
+			}
+
+			$source_callback = $block_bindings_sources[ $binding_source['source'] ]['get_value_callback'];
+			// Get the value based on the source.
+			if ( ! isset( $binding_source['args'] ) ) {
+				$source_args = array();
+			} else {
+				$source_args = $binding_source['args'];
+			}
+			$source_value = call_user_func_array( $source_callback, array( $source_args, $this, $binding_attribute ) );
+			// If the value is null, process next attribute.
+			if ( is_null( $source_value ) ) {
+				continue;
+			}
+
+			// Process the HTML based on the block and the attribute.
+			$modified_block_content = $this->replace_html( $modified_block_content, $this->name, $binding_attribute, $source_value );
+		}
+		return $modified_block_content;
+	}
+
+	/**
+	 * Depending on the block attributes, replace the HTML based on the value returned by the source.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $block_content Block content.
+	 * @param string $block_name The name of the block to process.
+	 * @param string $block_attr The attribute of the block we want to process.
+	 * @param string $source_value The value used to replace the HTML.
+	 */
+	private function replace_html( string $block_content, string $block_name, string $block_attr, string $source_value ) {
+		$block_type = $this->block_type;
+		if ( null === $block_type || ! isset( $block_type->attributes[ $block_attr ] ) ) {
+			return $block_content;
+		}
+
+		// Depending on the attribute source, the processing will be different.
+		switch ( $block_type->attributes[ $block_attr ]['source'] ) {
+			case 'html':
+			case 'rich-text':
+				$block_reader = new WP_HTML_Tag_Processor( $block_content );
+
+				// TODO: Support for CSS selectors whenever they are ready in the HTML API.
+				// In the meantime, support comma-separated selectors by exploding them into an array.
+				$selectors = explode( ',', $block_type->attributes[ $block_attr ]['selector'] );
+				// Add a bookmark to the first tag to be able to iterate over the selectors.
+				$block_reader->next_tag();
+				$block_reader->set_bookmark( 'iterate-selectors' );
+
+				// TODO: This shouldn't be needed when the `set_inner_html` function is ready.
+				// Store the parent tag and its attributes to be able to restore them later in the button.
+				// The button block has a wrapper while the paragraph and heading blocks don't.
+				if ( 'core/button' === $block_name ) {
+					$button_wrapper                 = $block_reader->get_tag();
+					$button_wrapper_attribute_names = $block_reader->get_attribute_names_with_prefix( '' );
+					$button_wrapper_attrs           = array();
+					foreach ( $button_wrapper_attribute_names as $name ) {
+						$button_wrapper_attrs[ $name ] = $block_reader->get_attribute( $name );
+					}
+				}
+
+				foreach ( $selectors as $selector ) {
+					// If the parent tag, or any of its children, matches the selector, replace the HTML.
+					if ( strcasecmp( $block_reader->get_tag( $selector ), $selector ) === 0 || $block_reader->next_tag(
+						array(
+							'tag_name' => $selector,
+						)
+					) ) {
+						$block_reader->release_bookmark( 'iterate-selectors' );
+
+						// TODO: Use `set_inner_html` method whenever it's ready in the HTML API.
+						// Until then, it is hardcoded for the paragraph, heading, and button blocks.
+						// Store the tag and its attributes to be able to restore them later.
+						$selector_attribute_names = $block_reader->get_attribute_names_with_prefix( '' );
+						$selector_attrs           = array();
+						foreach ( $selector_attribute_names as $name ) {
+							$selector_attrs[ $name ] = $block_reader->get_attribute( $name );
+						}
+						$selector_markup = "<$selector>" . wp_kses_post( $source_value ) . "</$selector>";
+						$amended_content = new WP_HTML_Tag_Processor( $selector_markup );
+						$amended_content->next_tag();
+						foreach ( $selector_attrs as $attribute_key => $attribute_value ) {
+							$amended_content->set_attribute( $attribute_key, $attribute_value );
+						}
+						if ( 'core/paragraph' === $block_name || 'core/heading' === $block_name ) {
+							return $amended_content->get_updated_html();
+						}
+						if ( 'core/button' === $block_name ) {
+							$button_markup  = "<$button_wrapper>{$amended_content->get_updated_html()}</$button_wrapper>";
+							$amended_button = new WP_HTML_Tag_Processor( $button_markup );
+							$amended_button->next_tag();
+							foreach ( $button_wrapper_attrs as $attribute_key => $attribute_value ) {
+								$amended_button->set_attribute( $attribute_key, $attribute_value );
+							}
+							return $amended_button->get_updated_html();
+						}
+					} else {
+						$block_reader->seek( 'iterate-selectors' );
+					}
+				}
+				$block_reader->release_bookmark( 'iterate-selectors' );
+				return $block_content;
+
+			case 'attribute':
+				$amended_content = new WP_HTML_Tag_Processor( $block_content );
+				if ( ! $amended_content->next_tag(
+					array(
+						// TODO: build the query from CSS selector.
+						'tag_name' => $block_type->attributes[ $block_attr ]['selector'],
+					)
+				) ) {
+					return $block_content;
+				}
+				$amended_content->set_attribute( $block_type->attributes[ $block_attr ]['attribute'], esc_attr( $source_value ) );
+				return $amended_content->get_updated_html();
+				break;
+
+			default:
+				return $block_content;
+				break;
+		}
+		return;
+	}
+
+
+	/**
 	 * Generates the render output for the block.
 	 *
 	 * @since 5.5.0
@@ -285,6 +483,10 @@ class WP_Block {
 				wp_enqueue_style( $view_style_handle );
 			}
 		}
+
+		// Process the block bindings for this block, if any are registered. This
+		// will replace the block content with the value from a registered binding source.
+		$block_content = $this->process_block_bindings( $block_content );
 
 		/**
 		 * Filters the content of a single block.
