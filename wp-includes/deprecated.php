@@ -6239,3 +6239,60 @@ function the_block_template_skip_link() {
 	</script>
 	<?php
 }
+
+/**
+ * Ensure that the view script has the `wp-interactivity` dependency.
+ *
+ * @since 6.4.0
+ * @deprecated 6.5.0
+ *
+ * @global WP_Scripts $wp_scripts
+ */
+function block_core_query_ensure_interactivity_dependency() {
+	_deprecated_function( __FUNCTION__, '6.5.0', 'wp_register_script_module' );
+	global $wp_scripts;
+	if (
+		isset( $wp_scripts->registered['wp-block-query-view'] ) &&
+		! in_array( 'wp-interactivity', $wp_scripts->registered['wp-block-query-view']->deps, true )
+	) {
+		$wp_scripts->registered['wp-block-query-view']->deps[] = 'wp-interactivity';
+	}
+}
+
+/**
+ * Ensure that the view script has the `wp-interactivity` dependency.
+ *
+ * @since 6.4.0
+ * @deprecated 6.5.0
+ *
+ * @global WP_Scripts $wp_scripts
+ */
+function block_core_file_ensure_interactivity_dependency() {
+	_deprecated_function( __FUNCTION__, '6.5.0', 'wp_register_script_module' );
+	global $wp_scripts;
+	if (
+		isset( $wp_scripts->registered['wp-block-file-view'] ) &&
+		! in_array( 'wp-interactivity', $wp_scripts->registered['wp-block-file-view']->deps, true )
+	) {
+		$wp_scripts->registered['wp-block-file-view']->deps[] = 'wp-interactivity';
+	}
+}
+
+/**
+ * Ensures that the view script has the `wp-interactivity` dependency.
+ *
+ * @since 6.4.0
+ * @deprecated 6.5.0
+ *
+ * @global WP_Scripts $wp_scripts
+ */
+function block_core_image_ensure_interactivity_dependency() {
+	_deprecated_function( __FUNCTION__, '6.5.0', 'wp_register_script_module' );
+	global $wp_scripts;
+	if (
+		isset( $wp_scripts->registered['wp-block-image-view'] ) &&
+		! in_array( 'wp-interactivity', $wp_scripts->registered['wp-block-image-view']->deps, true )
+	) {
+		$wp_scripts->registered['wp-block-image-view']->deps[] = 'wp-interactivity';
+	}
+}
