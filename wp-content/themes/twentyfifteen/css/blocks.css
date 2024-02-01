@@ -470,7 +470,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	}
 }
 
-/* Seperators */
+/* Separators */
 
 .wp-block-separator {
 	border: 0;
