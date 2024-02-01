@@ -431,7 +431,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$found_a_token = parent::next_token();
 
 		if ( '#tag' === $this->get_token_type() ) {
-			$this->step( self::REPROCESS_CURRENT_NODE );
+			$this->step( self::PROCESS_CURRENT_NODE );
 		}
 
 		return $found_a_token;
@@ -513,7 +513,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		if ( self::PROCESS_NEXT_NODE === $node_to_process ) {
+		if ( self::REPROCESS_CURRENT_NODE !== $node_to_process ) {
 			/*
 			 * Void elements still hop onto the stack of open elements even though
 			 * there's no corresponding closing tag. This is important for managing
@@ -532,7 +532,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			if ( $top_node && self::is_void( $top_node->node_name ) ) {
 				$this->state->stack_of_open_elements->pop();
 			}
+		}
 
+		if ( self::PROCESS_NEXT_NODE === $node_to_process ) {
 			while ( parent::next_token() && '#tag' !== $this->get_token_type() ) {
 				continue;
 			}
@@ -1780,6 +1782,15 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @var string
 	 */
 	const REPROCESS_CURRENT_NODE = 'reprocess-current-node';
+
+	/**
+	 * Indicates that the current HTML token should be processed without advancing the parser.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @var string
+	 */
+	const PROCESS_CURRENT_NODE = 'process-current-node';
 
 	/**
 	 * Indicates that the parser encountered unsupported markup and has bailed.
