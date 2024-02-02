@@ -69,6 +69,14 @@ class WP_Block_Type {
 	public $ancestor = null;
 
 	/**
+	 * Limits which block types can be inserted as children of this block type.
+	 *
+	 * @since 6.5.0
+	 * @var string[]|null
+	 */
+	public $allowed_blocks = null;
+
+	/**
 	 * Block type icon.
 	 *
 	 * @since 5.5.0
@@ -303,6 +311,7 @@ class WP_Block_Type {
 	 *                                                   available when nested within the specified blocks.
 	 *     @type string[]|null $ancestor                 Setting ancestor makes a block available only inside the specified
 	 *                                                   block types at any position of the ancestor's block subtree.
+	 *     @type string[]|null $allowed_blocks           Limits which block types can be inserted as children of this block type.
 	 *     @type string|null   $icon                     Block type icon.
 	 *     @type string        $description              A detailed block type description.
 	 *     @type string[]      $keywords                 Additional keywords to produce block type as

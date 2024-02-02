@@ -327,7 +327,7 @@ function get_block_metadata_i18n_schema() {
  * @since 6.1.0 Added support for `render` field.
  * @since 6.3.0 Added `selectors` field.
  * @since 6.4.0 Added support for `blockHooks` field.
- * @since 6.5.0 Added support for `viewStyle` field.
+ * @since 6.5.0 Added support for `allowedBlocks` and `viewStyle` fields.
  *
  * @param string $file_or_folder Path to the JSON file with metadata definition for
  *                               the block or path to the folder where the `block.json` file is located.
@@ -424,6 +424,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 		'styles'          => 'styles',
 		'variations'      => 'variations',
 		'example'         => 'example',
+		'allowedBlocks'   => 'allowed_blocks',
 	);
 	$textdomain        = ! empty( $metadata['textdomain'] ) ? $metadata['textdomain'] : null;
 	$i18n_schema       = get_block_metadata_i18n_schema();
