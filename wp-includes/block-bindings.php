@@ -19,10 +19,10 @@
  *
  * @since 6.5.0
  *
- * @param string   $source_name       The name of the source. It must be a string containing a namespace prefix, i.e.
- *                                    `my-plugin/my-custom-source`. It must only contain lowercase alphanumeric
- *                                    characters, the forward slash `/` and dashes.
- * @param array    $source_properties {
+ * @param string $source_name       The name of the source. It must be a string containing a namespace prefix, i.e.
+ *                                  `my-plugin/my-custom-source`. It must only contain lowercase alphanumeric
+ *                                  characters, the forward slash `/` and dashes.
+ * @param array  $source_properties {
  *     The array of arguments that are used to register a source.
  *
  *     @type string   $label              The label of the source.
@@ -40,7 +40,7 @@
  * }
  * @return array|false Source when the registration was successful, or `false` on failure.
  */
-function register_block_bindings_source( $source_name, array $source_properties ) {
+function register_block_bindings_source( string $source_name, array $source_properties ) {
 	return WP_Block_Bindings_Registry::get_instance()->register( $source_name, $source_properties );
 }
 
@@ -52,7 +52,7 @@ function register_block_bindings_source( $source_name, array $source_properties 
  * @param string $source_name Block bindings source name including namespace.
  * @return array|false The unregistered block bindings source on success and `false` otherwise.
  */
-function unregister_block_bindings_source( $source_name ) {
+function unregister_block_bindings_source( string $source_name ) {
 	return WP_Block_Bindings_Registry::get_instance()->unregister( $source_name );
 }
 
@@ -65,4 +65,16 @@ function unregister_block_bindings_source( $source_name ) {
  */
 function get_all_registered_block_bindings_sources() {
 	return WP_Block_Bindings_Registry::get_instance()->get_all_registered();
+}
+
+/**
+ * Retrieves a registered block bindings source.
+ *
+ * @since 6.5.0
+ *
+ * @param string $source_name The name of the source.
+ * @return array|null The registered block bindings source, or `null` if it is not registered.
+ */
+function get_block_bindings_source( string $source_name ) {
+	return WP_Block_Bindings_Registry::get_instance()->get_registered( $source_name );
 }

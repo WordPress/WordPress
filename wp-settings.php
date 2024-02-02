@@ -344,6 +344,8 @@ require ABSPATH . WPINC . '/class-wp-block-parser.php';
 require ABSPATH . WPINC . '/class-wp-classic-to-block-menu-converter.php';
 require ABSPATH . WPINC . '/class-wp-navigation-fallback.php';
 require ABSPATH . WPINC . '/block-bindings.php';
+require ABSPATH . WPINC . '/block-bindings/pattern-overrides.php';
+require ABSPATH . WPINC . '/block-bindings/post-meta.php';
 require ABSPATH . WPINC . '/blocks.php';
 require ABSPATH . WPINC . '/blocks/index.php';
 require ABSPATH . WPINC . '/block-editor.php';
@@ -376,8 +378,6 @@ require ABSPATH . WPINC . '/fonts/class-wp-font-face.php';
 require ABSPATH . WPINC . '/fonts.php';
 require ABSPATH . WPINC . '/class-wp-script-modules.php';
 require ABSPATH . WPINC . '/script-modules.php';
-require ABSPATH . WPINC . '/block-bindings/sources/post-meta.php';
-require ABSPATH . WPINC . '/block-bindings/sources/pattern.php';
 require ABSPATH . WPINC . '/interactivity-api.php';
 
 wp_script_modules()->add_hooks();

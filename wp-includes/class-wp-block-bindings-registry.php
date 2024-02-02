@@ -57,13 +57,13 @@ final class WP_Block_Bindings_Registry {
 	 *                                                                              used to look up the override value,
 	 *                                                                              i.e. {"key": "foo"}.
 	 *                                            - @param WP_Block $block_instance The block instance.
-	 *                                            - @param string   $attribute_name The name of an attribute .
+	 *                                            - @param string   $attribute_name The name of the target attribute.
 	 *                                        The callback has a mixed return type; it may return a string to override
 	 *                                        the block's original value, null, false to remove an attribute, etc.
 	 * }
 	 * @return array|false Source when the registration was successful, or `false` on failure.
 	 */
-	public function register( $source_name, array $source_properties ) {
+	public function register( string $source_name, array $source_properties ) {
 		if ( ! is_string( $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
@@ -120,7 +120,7 @@ final class WP_Block_Bindings_Registry {
 	 * @param string $source_name Block bindings source name including namespace.
 	 * @return array|false The unregistered block bindings source on success and `false` otherwise.
 	 */
-	public function unregister( $source_name ) {
+	public function unregister( string $source_name ) {
 		if ( ! $this->is_registered( $source_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
@@ -156,7 +156,7 @@ final class WP_Block_Bindings_Registry {
 	 * @param string $source_name The name of the source.
 	 * @return array|null The registered block bindings source, or `null` if it is not registered.
 	 */
-	public function get_registered( $source_name ) {
+	public function get_registered( string $source_name ) {
 		if ( ! $this->is_registered( $source_name ) ) {
 			return null;
 		}
