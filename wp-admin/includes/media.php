@@ -2198,6 +2198,11 @@ function media_upload_form( $errors = null ) {
 		$plupload_init['webp_upload_error'] = true;
 	}
 
+	// Check if AVIF images can be edited.
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/avif' ) ) ) {
+		$plupload_init['avif_upload_error'] = true;
+	}
+
 	/**
 	 * Filters the default Plupload settings.
 	 *

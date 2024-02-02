@@ -1250,6 +1250,7 @@ We hope you enjoy your new site. Thanks!
 		'png',
 		'gif',
 		'webp',
+		'avif',
 		// Video.
 		'mov',
 		'avi',

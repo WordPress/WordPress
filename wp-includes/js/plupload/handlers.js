@@ -608,6 +608,11 @@ jQuery( document ).ready( function( $ ) {
 					wpQueueError( pluploadL10n.noneditable_image );
 					up.removeFile( file );
 					return;
+				} else if ( file.type === 'image/avif' && up.settings.avif_upload_error ) {
+					// Disallow uploading of AVIF images if the server cannot edit them.
+					wpQueueError( pluploadL10n.noneditable_image );
+					up.removeFile( file );
+					return;
 				}
 
 				fileQueued( file );

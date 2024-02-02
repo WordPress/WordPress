@@ -529,3 +529,13 @@ if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
 if ( ! defined( 'IMG_WEBP' ) ) {
 	define( 'IMG_WEBP', IMAGETYPE_WEBP );
 }
+
+// IMAGETYPE_AVIF constant is only defined in PHP 8.x or later.
+if ( ! defined( 'IMAGETYPE_AVIF' ) ) {
+	define( 'IMAGETYPE_AVIF', 19 );
+}
+
+// IMG_AVIF constant is only defined in PHP 8.x or later.
+if ( ! defined( 'IMG_AVIF' ) ) {
+	define( 'IMG_AVIF', IMAGETYPE_AVIF );
+}

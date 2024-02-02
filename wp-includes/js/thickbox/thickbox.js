@@ -76,7 +76,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 	   		baseURL = url;
 	   }
 
-	   var urlString = /\.jpg$|\.jpeg$|\.png$|\.gif$|\.bmp$|\.webp$/;
+	   var urlString = /\.jpg$|\.jpeg$|\.png$|\.gif$|\.bmp$|\.webp$|\.avif$/;
 	   var urlType = baseURL.toLowerCase().match(urlString);
 
 		if(urlType == '.jpg' ||
@@ -84,7 +84,8 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			urlType == '.png' ||
 			urlType == '.gif' ||
 			urlType == '.bmp' ||
-			urlType == '.webp'
+			urlType == '.webp' ||
+			urlType == '.avif'
 		){//code to show images
 
 			TB_PrevCaption = "";
