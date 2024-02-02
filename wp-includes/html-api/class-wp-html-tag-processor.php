@@ -2335,6 +2335,7 @@ class WP_HTML_Tag_Processor {
 
 		// Point this tag processor before the sought tag opener and consume it.
 		$this->bytes_already_parsed = $this->bookmarks[ $bookmark_name ]->start;
+		$this->parser_state         = self::STATE_READY;
 		return $this->next_token();
 	}
 
