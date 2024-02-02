@@ -22,10 +22,6 @@ textarea {
 	resize: vertical;
 }
 
-label {
-	cursor: pointer;
-}
-
 input,
 select {
 	margin: 0 1px;
@@ -287,8 +283,10 @@ textarea.disabled {
 
 input[type="file"]:disabled,
 input[type="file"].disabled,
+input[type="file"][aria-disabled="true"],
 input[type="range"]:disabled,
-input[type="range"].disabled {
+input[type="range"].disabled,
+input[type="range"][aria-disabled="true"] {
 	background: none;
 	box-shadow: none;
 	cursor: default;
@@ -296,13 +294,16 @@ input[type="range"].disabled {
 
 input[type="checkbox"]:disabled,
 input[type="checkbox"].disabled,
+input[type="checkbox"][aria-disabled="true"],
 input[type="radio"]:disabled,
 input[type="radio"].disabled,
+input[type="radio"][aria-disabled="true"],
 input[type="checkbox"]:disabled:checked:before,
 input[type="checkbox"].disabled:checked:before,
 input[type="radio"]:disabled:checked:before,
 input[type="radio"].disabled:checked:before {
 	opacity: 0.7;
+	cursor: default;
 }
 
 /*------------------------------------------------------------------------------
@@ -354,6 +355,10 @@ input[type="radio"].disabled:checked:before {
 	text-shadow: 0 1px 0 #fff;
 	cursor: default;
 	transform: none;
+}
+
+.wp-core-ui select[aria-disabled="true"] {
+	cursor: default;
 }
 
 /* Reset Firefox inner outline that appears on :focus. */

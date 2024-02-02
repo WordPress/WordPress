@@ -186,6 +186,11 @@ TABLE OF CONTENTS:
 	transform: none !important;
 }
 
+.wp-core-ui .button[aria-disabled="true"],
+.wp-core-ui .button-secondary[aria-disabled="true"] {
+	cursor: default;
+}
+
 /* Buttons that look like links, for a cross of good semantics with the visual */
 .wp-core-ui .button-link {
 	margin: 0;
@@ -281,6 +286,10 @@ TABLE OF CONTENTS:
 	border-color: #dcdcde !important;
 	box-shadow: none !important;
 	text-shadow: none !important;
+	cursor: default;
+}
+
+.wp-core-ui .button-primary[aria-disabled="true"] {
 	cursor: default;
 }
 
