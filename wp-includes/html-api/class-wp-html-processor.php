@@ -548,7 +548,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$this->state->current_token = new WP_HTML_Token(
 			$this->bookmark_tag(),
 			$this->get_tag(),
-			$this->is_tag_closer(),
+			$this->has_self_closing_flag(),
 			$this->release_internal_bookmark_on_destruct
 		);
 
