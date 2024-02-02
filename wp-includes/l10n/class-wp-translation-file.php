@@ -247,7 +247,7 @@ abstract class WP_Translation_File {
 	 * @param string $header Plural-Forms header string.
 	 * @return string Plural forms expression.
 	 */
-	protected function get_plural_expression_from_header( $header ) {
+	protected function get_plural_expression_from_header( string $header ): string {
 		if ( preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches ) ) {
 			return trim( $matches[2] );
 		}
