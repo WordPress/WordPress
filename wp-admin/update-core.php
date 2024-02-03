@@ -42,7 +42,7 @@ function list_core_update( $update ) {
 
 	if ( 'en_US' === $update->locale && 'en_US' === get_locale() ) {
 		$version_string = $update->current;
-	} elseif ( 'en_US' === $update->locale && $update->packages->partial && $wp_version == $update->partial_version ) {
+	} elseif ( 'en_US' === $update->locale && $update->packages->partial && $wp_version === $update->partial_version ) {
 		$updates = get_core_updates();
 		if ( $updates && 1 === count( $updates ) ) {
 			// If the only available update is a partial builds, it doesn't need a language-specific version string.
@@ -179,9 +179,9 @@ function list_core_update( $update ) {
 	}
 	echo '</p>';
 
-	if ( 'en_US' !== $update->locale && ( ! isset( $wp_local_package ) || $wp_local_package != $update->locale ) ) {
+	if ( 'en_US' !== $update->locale && ( ! isset( $wp_local_package ) || $wp_local_package !== $update->locale ) ) {
 		echo '<p class="hint">' . __( 'This localized version contains both the translation and various other localization fixes.' ) . '</p>';
-	} elseif ( 'en_US' === $update->locale && 'en_US' !== get_locale() && ( ! $update->packages->partial && $wp_version == $update->partial_version ) ) {
+	} elseif ( 'en_US' === $update->locale && 'en_US' !== get_locale() && ( ! $update->packages->partial && $wp_version === $update->partial_version ) ) {
 		// Partial builds don't need language-specific warnings.
 		echo '<p class="hint">' . sprintf(
 			/* translators: %s: WordPress version. */
