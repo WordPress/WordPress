@@ -1564,6 +1564,37 @@ function wp_trusted_keys() {
 }
 
 /**
+ * Determines whether the given file is a valid ZIP file.
+ *
+ * This function does not test to ensure that a file exists. Non-existent files
+ * are not valid ZIPs, so those will also return false.
+ *
+ * @since 6.4.4
+ *
+ * @param string $file Full path to the ZIP file.
+ * @return bool Whether the file is a valid ZIP file.
+ */
+function wp_zip_file_is_valid( $file ) {
+	/** This filter is documented in wp-admin/includes/file.php */
+	if ( class_exists( 'ZipArchive', false ) && apply_filters( 'unzip_file_use_ziparchive', true ) ) {
+		$archive          = new ZipArchive();
+		$archive_is_valid = $archive->open( $file, ZipArchive::CHECKCONS );
+		if ( true === $archive_is_valid ) {
+			$archive->close();
+			return true;
+		}
+	}
+
+	// Fall through to PclZip if ZipArchive is not available, or encountered an error opening the file.
+	require_once ABSPATH . 'wp-admin/includes/class-pclzip.php';
+
+	$archive          = new PclZip( $file );
+	$archive_is_valid = is_array( $archive->properties() );
+
+	return $archive_is_valid;
+}
+
+/**
  * Unzips a specified ZIP file to a location on the filesystem via the WordPress
  * Filesystem Abstraction.
  *
