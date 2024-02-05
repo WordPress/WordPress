@@ -525,33 +525,6 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Gets unaliased dependencies.
-	 *
-	 * An alias is a dependency whose src is false. It is used as a way to bundle multiple dependencies in a single
-	 * handle. This in effect flattens an alias dependency tree.
-	 *
-	 * @since 6.3.0
-	 *
-	 * @param string[] $deps Dependency handles.
-	 * @return string[] Unaliased handles.
-	 */
-	private function get_unaliased_deps( array $deps ) {
-		$flattened = array();
-		foreach ( $deps as $dep ) {
-			if ( ! isset( $this->registered[ $dep ] ) ) {
-				continue;
-			}
-
-			if ( $this->registered[ $dep ]->src ) {
-				$flattened[] = $dep;
-			} elseif ( $this->registered[ $dep ]->deps ) {
-				array_push( $flattened, ...$this->get_unaliased_deps( $this->registered[ $dep ]->deps ) );
-			}
-		}
-		return $flattened;
-	}
-
-	/**
 	 * Gets tags for inline scripts registered for a specific handle.
 	 *
 	 * @since 6.3.0
