@@ -525,6 +525,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			// Remove any HTML from the description.
 			$description = strip_tags( $plugin['short_description'] );
 
+			$description .= $this->get_dependencies_notice( $plugin );
+
 			/**
 			 * Filters the plugin card description on the Add Plugins screen.
 			 *
@@ -555,102 +557,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			$action_links = array();
 
-			if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
-				$status = install_plugin_install_status( $plugin );
-
-				switch ( $status['status'] ) {
-					case 'install':
-						if ( $status['url'] ) {
-							if ( $compatible_php && $compatible_wp ) {
-								$action_links[] = sprintf(
-									'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
-									esc_attr( $plugin['slug'] ),
-									esc_url( $status['url'] ),
-									/* translators: %s: Plugin name and version. */
-									esc_attr( sprintf( _x( 'Install %s now', 'plugin' ), $name ) ),
-									esc_attr( $name ),
-									__( 'Install Now' )
-								);
-							} else {
-								$action_links[] = sprintf(
-									'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-									_x( 'Cannot Install', 'plugin' )
-								);
-							}
-						}
-						break;
-
-					case 'update_available':
-						if ( $status['url'] ) {
-							if ( $compatible_php && $compatible_wp ) {
-								$action_links[] = sprintf(
-									'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
-									esc_attr( $status['file'] ),
-									esc_attr( $plugin['slug'] ),
-									esc_url( $status['url'] ),
-									/* translators: %s: Plugin name and version. */
-									esc_attr( sprintf( _x( 'Update %s now', 'plugin' ), $name ) ),
-									esc_attr( $name ),
-									__( 'Update Now' )
-								);
-							} else {
-								$action_links[] = sprintf(
-									'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-									_x( 'Cannot Update', 'plugin' )
-								);
-							}
-						}
-						break;
-
-					case 'latest_installed':
-					case 'newer_installed':
-						if ( is_plugin_active( $status['file'] ) ) {
-							$action_links[] = sprintf(
-								'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-								_x( 'Active', 'plugin' )
-							);
-						} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
-							if ( $compatible_php && $compatible_wp ) {
-								$button_text = __( 'Activate' );
-								/* translators: %s: Plugin name. */
-								$button_label = _x( 'Activate %s', 'plugin' );
-								$activate_url = add_query_arg(
-									array(
-										'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
-										'action'   => 'activate',
-										'plugin'   => $status['file'],
-									),
-									network_admin_url( 'plugins.php' )
-								);
-
-								if ( is_network_admin() ) {
-									$button_text = __( 'Network Activate' );
-									/* translators: %s: Plugin name. */
-									$button_label = _x( 'Network Activate %s', 'plugin' );
-									$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
-								}
-
-								$action_links[] = sprintf(
-									'<a href="%1$s" class="button activate-now" aria-label="%2$s">%3$s</a>',
-									esc_url( $activate_url ),
-									esc_attr( sprintf( $button_label, $plugin['name'] ) ),
-									$button_text
-								);
-							} else {
-								$action_links[] = sprintf(
-									'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-									_x( 'Cannot Activate', 'plugin' )
-								);
-							}
-						} else {
-							$action_links[] = sprintf(
-								'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-								_x( 'Installed', 'plugin' )
-							);
-						}
-						break;
-				}
-			}
+			$action_links[] = wp_get_plugin_action_button( $name, $plugin, $compatible_php, $compatible_wp );
 
 			$details_link = self_admin_url(
 				'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
@@ -827,5 +734,91 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		if ( ! empty( $group ) ) {
 			echo '</div></div>';
 		}
+	}
+
+	/**
+	 * Returns a notice containing a list of dependencies required by the plugin.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param array  $plugin_data An array of plugin data. See {@see plugins_api()}
+	 *                            for the list of possible values.
+	 * @return string A notice containing a list of dependencies required by the plugin,
+	 *                or an empty string if none is required.
+	 */
+	protected function get_dependencies_notice( $plugin_data ) {
+		if ( empty( $plugin_data['requires_plugins'] ) ) {
+			return '';
+		}
+
+		$no_name_markup  = '<div class="plugin-dependency"><span class="plugin-dependency-name">%s</span></div>';
+		$has_name_markup = '<div class="plugin-dependency"><span class="plugin-dependency-name">%s</span> %s</div>';
+
+		$dependencies_list = '';
+		foreach ( $plugin_data['requires_plugins'] as $dependency ) {
+			$dependency_data = WP_Plugin_Dependencies::get_dependency_data( $dependency );
+
+			if (
+				false !== $dependency_data &&
+				! empty( $dependency_data['name'] ) &&
+				! empty( $dependency_data['slug'] ) &&
+				! empty( $dependency_data['version'] )
+			) {
+				$more_details_link  = $this->get_more_details_link( $dependency_data['name'], $dependency_data['slug'] );
+				$dependencies_list .= sprintf( $has_name_markup, esc_html( $dependency_data['name'] ), $more_details_link );
+				continue;
+			}
+
+			$result = plugins_api( 'plugin_information', array( 'slug' => $dependency ) );
+
+			if ( ! empty( $result->name ) ) {
+				$more_details_link  = $this->get_more_details_link( $result->name, $result->slug );
+				$dependencies_list .= sprintf( $has_name_markup, esc_html( $result->name ), $more_details_link );
+				continue;
+			}
+
+			$dependencies_list .= sprintf( $no_name_markup, esc_html( $dependency ) );
+		}
+
+		$dependencies_notice = sprintf(
+			'<div class="plugin-dependencies"><p class="plugin-dependencies-explainer-text">%s</p> %s</div>',
+			'<strong>' . __( 'Additional plugins are required' ) . '</strong>',
+			$dependencies_list
+		);
+
+		return $dependencies_notice;
+	}
+
+	/**
+	 * Creates a 'More details' link for the plugin.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $name The plugin's name.
+	 * @param string $slug The plugin's slug.
+	 * @return string The 'More details' link for the plugin.
+	 */
+	protected function get_more_details_link( $name, $slug ) {
+		$url = add_query_arg(
+			array(
+				'tab'       => 'plugin-information',
+				'plugin'    => $slug,
+				'TB_iframe' => 'true',
+				'width'     => '600',
+				'height'    => '550',
+			),
+			network_admin_url( 'plugin-install.php' )
+		);
+
+		$more_details_link = sprintf(
+			'<a href="%1$s" class="more-details-link thickbox open-plugin-details-modal" aria-label="%2$s" data-title="%3$s">%4$s</a>',
+			esc_url( $url ),
+			/* translators: %s: Plugin name. */
+			sprintf( __( 'More information about %s' ), esc_html( $name ) ),
+			esc_attr( $name ),
+			__( 'More Details' )
+		);
+
+		return $more_details_link;
 	}
 }

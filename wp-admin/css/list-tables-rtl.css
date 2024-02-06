@@ -586,8 +586,7 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	z-index: 1;
 }
 
-.check-column input:where(:not(:disabled)):hover,
-.check-column:hover input:where(:not(:disabled)) {
+.check-column .label-covers-full-cell:hover + input:not(:disabled) {
 	box-shadow: 0 0 0 1px #2271b1;
 }
 
@@ -1549,10 +1548,96 @@ div.action-links,
 	line-height: 1.3;
 }
 
-.plugin-card .name,
 .plugin-card .desc {
-	margin-right: 148px; /* icon + margin */
-	margin-left: 128px; /* action links + margin */
+	margin-inline: 0;
+}
+
+.plugin-card .name, .plugin-card .desc > p {
+	margin-right: 148px;
+}
+
+@media (min-width: 1101px) {
+	.plugin-card .name, .plugin-card .desc > p {
+		margin-left: 128px;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 781px) {
+	.plugin-card .name, .plugin-card .desc > p {
+		margin-left: 128px;
+	}
+}
+
+.plugin-card .column-description {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.plugin-card .column-description > p {
+	margin-top: 0;
+}
+
+.plugin-card .column-description .authors {
+	order: 1;
+}
+
+.plugin-card .column-description .plugin-dependencies {
+	order: 2;
+}
+
+.plugin-card .column-description p:empty {
+	display: none;
+}
+
+.plugin-card .plugin-dependencies {
+	background-color: #e5f5fa;
+	border-right: 3px solid #72aee6;
+	margin-bottom: .5em;
+	padding: 15px;
+}
+
+.plugin-card .plugin-dependencies-explainer-text {
+	margin-block: 0;
+}
+
+.plugin-card .plugin-dependency {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: .5em;
+	column-gap: 1%;
+	row-gap: .5em;
+}
+
+.plugin-card .plugin-dependency:nth-child(2),
+.plugin-card .plugin-dependency:last-child {
+	margin-top: 1em;
+}
+
+.plugin-card .plugin-dependency-name {
+	flex-basis: 74%;
+}
+
+.plugin-card .plugin-dependency .more-details-link {
+	margin-right: auto;
+}
+
+.rtl .plugin-card .plugin-dependency .more-details-link {
+	margin-left: auto;
+}
+
+@media (max-width: 939px) {
+	.plugin-card .plugin-dependency-name {
+		flex-basis: 69%;
+	}
+	.plugin-card .plugin-dependency .more-details-link {
+	}
+}
+
+.plugins #the-list .required-by,
+.plugins #the-list .requires {
+	margin-top: 1em;
 }
 
 .plugin-card .action-links {

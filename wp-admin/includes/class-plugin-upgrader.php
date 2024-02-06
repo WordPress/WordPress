@@ -155,6 +155,12 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
+		$all_plugin_data = get_option( 'plugin_data', array() );
+		$plugin_file     = $this->new_plugin_data['file'];
+		unset( $this->new_plugin_data['file'] );
+		$all_plugin_data[ $plugin_file ] = $this->new_plugin_data;
+		update_option( 'plugin_data', $all_plugin_data );
+
 		if ( $parsed_args['overwrite_package'] ) {
 			/**
 			 * Fires when the upgrader has successfully overwritten a currently installed
@@ -482,7 +488,16 @@ class Plugin_Upgrader extends WP_Upgrader {
 			foreach ( $files as $file ) {
 				$info = get_plugin_data( $file, false, false );
 				if ( ! empty( $info['Name'] ) ) {
-					$this->new_plugin_data = $info;
+					$basename = basename( $file );
+					$dirname  = basename( dirname( $file ) );
+
+					if ( '.' === $dirname ) {
+						$plugin_file = $basename;
+					} else {
+						$plugin_file = "$dirname/$basename";
+					}
+					$this->new_plugin_data         = ( $info );
+					$this->new_plugin_data['file'] = $plugin_file;
 					break;
 				}
 			}

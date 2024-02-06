@@ -739,6 +739,9 @@ if ( isset( $_GET['error'] ) ) {
 }
 ?>
 
+<?php WP_Plugin_Dependencies::display_admin_notice_for_unmet_dependencies(); ?>
+<?php WP_Plugin_Dependencies::display_admin_notice_for_deactivated_dependents(); ?>
+<?php WP_Plugin_Dependencies::display_admin_notice_for_circular_dependencies(); ?>
 <div class="wrap">
 <h1 class="wp-heading-inline">
 <?php

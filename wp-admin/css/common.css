@@ -1500,6 +1500,22 @@ div.error {
 	background-color: #f0f6fc;
 }
 
+#plugin-information-footer .update-now:not(.button-disabled):before {
+	color: #d63638;
+	content: "\f463";
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	margin: -3px 5px 0 -2px;
+	speak: never;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	vertical-align: middle;
+}
+
+#plugin-information-footer .notice {
+    margin-top: -5px;
+}
+
 .update-message p:before,
 .updating-message p:before,
 .updated-message p:before,
@@ -1507,7 +1523,9 @@ div.error {
 .button.updating-message:before,
 .button.updated-message:before,
 .button.installed:before,
-.button.installing:before {
+.button.installing:before,
+.button.activating-message:before,
+.button.activated-message:before {
 	display: inline-block;
 	font: normal 20px/1 'dashicons';
 	-webkit-font-smoothing: antialiased;
@@ -1544,7 +1562,8 @@ div.error {
 .updating-message p:before,
 .import-php .updating-message:before,
 .button.updating-message:before,
-.button.installing:before {
+.button.installing:before,
+.button.activating-message:before {
 	color: #d63638;
 	content: "\f463";
 }
@@ -1554,6 +1573,7 @@ div.error {
 .import-php .updating-message:before,
 .button.updating-message:before,
 .button.installing:before,
+.button.activating-message:before,
 .plugins .column-auto-updates .dashicons-update.spin,
 .theme-overlay .theme-autoupdate .dashicons-update.spin {
 	animation: rotation 2s infinite linear;
@@ -1564,6 +1584,7 @@ div.error {
 	.import-php .updating-message:before,
 	.button.updating-message:before,
 	.button.installing:before,
+	.button.activating-message:before,
 	.plugins .column-auto-updates .dashicons-update.spin,
 	.theme-overlay .theme-autoupdate .dashicons-update.spin {
 		animation: none;
@@ -1577,7 +1598,8 @@ div.error {
 /* Updated icon (check mark). */
 .updated-message p:before,
 .installed p:before,
-.button.updated-message:before {
+.button.updated-message:before,
+.button.activated-message:before {
 	color: #68de7c;
 	content: "\f147";
 }
@@ -1662,19 +1684,37 @@ p.auto-update-status {
 .button.updating-message:before,
 .button.updated-message:before,
 .button.installed:before,
-.button.installing:before {
+.button.installing:before,
+.button.activated-message:before,
+.button.activating-message:before {
 	margin: 3px 5px 0 -2px;
 }
 
-.button-primary.updating-message:before {
+#plugin-information-footer .button.installed:before,
+#plugin-information-footer .button.installing:before,
+#plugin-information-footer .button.updating-message:before,
+#plugin-information-footer .button.updated-message:before,
+#plugin-information-footer .button.activated-message:before,
+#plugin-information-footer .button.activating-message:before {
+	margin: 9px 5px 0 -2px;
+}
+
+#plugin-information-footer .button.update-now.updating-message:before {
+	margin: -3px 5px 0 -2px;
+}
+
+.button-primary.updating-message:before,
+.button-primary.activating-message:before {
 	color: #fff;
 }
 
-.button-primary.updated-message:before {
+.button-primary.updated-message:before,
+.button-primary.activated-message:before {
 	color: #9ec2e6;
 }
 
-.button.updated-message {
+.button.updated-message,
+.button.activated-message {
 	transition-property: border, background, color;
 	transition-duration: .05s;
 	transition-timing-function: ease-in-out;

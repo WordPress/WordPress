@@ -986,6 +986,7 @@ function wp_get_active_and_valid_plugins() {
 
 	$network_plugins = is_multisite() ? wp_get_active_network_plugins() : false;
 
+	$invalid_plugins = array();
 	foreach ( $active_plugins as $plugin ) {
 		if ( ! validate_file( $plugin )                     // $plugin must validate as file.
 			&& str_ends_with( $plugin, '.php' )             // $plugin must end with '.php'.
@@ -994,6 +995,20 @@ function wp_get_active_and_valid_plugins() {
 			&& ( ! $network_plugins || ! in_array( WP_PLUGIN_DIR . '/' . $plugin, $network_plugins, true ) )
 		) {
 			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
+		} else {
+			$invalid_plugins[] = $plugin;
+		}
+	}
+
+	if ( ! empty( $invalid_plugins ) ) {
+		$all_plugin_data = get_option( 'plugin_data', array() );
+
+		if ( ! empty( $all_plugin_data ) ) {
+			foreach ( $invalid_plugins as $invalid_plugin ) {
+				unset( $all_plugin_data[ $invalid_plugin ] );
+			}
+
+			update_option( 'plugin_data', $all_plugin_data );
 		}
 	}
 
@@ -1190,6 +1205,7 @@ function is_protected_ajax_action() {
 		'search-install-plugins', // Searching for a plugin in the plugin install screen.
 		'update-plugin',          // Update an existing plugin.
 		'update-theme',           // Update an existing theme.
+		'activate-plugin',        // Activating an existing plugin.
 	);
 
 	/**

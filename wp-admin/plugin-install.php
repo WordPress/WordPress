@@ -134,6 +134,10 @@ get_current_screen()->set_screen_reader_content(
  * WordPress Administration Template Header.
  */
 require_once ABSPATH . 'wp-admin/admin-header.php';
+
+WP_Plugin_Dependencies::display_admin_notice_for_unmet_dependencies();
+WP_Plugin_Dependencies::display_admin_notice_for_deactivated_dependents();
+WP_Plugin_Dependencies::display_admin_notice_for_circular_dependencies();
 ?>
 <div class="wrap <?php echo esc_attr( "plugin-install-tab-$tab" ); ?>">
 <h1 class="wp-heading-inline">

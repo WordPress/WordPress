@@ -3359,7 +3359,7 @@ function wp_get_image_mime( $file ) {
 		 * specification and the AV1-AVIF spec, see https://aomediacodec.github.io/av1-avif/v1.1.0.html#brands.
 		 */
 
-		 // Divide the header string into 4 byte groups.
+		// Divide the header string into 4 byte groups.
 		$magic = str_split( $magic, 8 );
 
 		if (
