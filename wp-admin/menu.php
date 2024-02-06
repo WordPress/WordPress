@@ -205,10 +205,12 @@ if ( ! is_multisite() && current_user_can( 'update_themes' ) ) {
 
 if ( wp_is_block_theme() ) {
 	$submenu['themes.php'][6] = array( _x( 'Editor', 'site editor menu item' ), 'edit_theme_options', 'site-editor.php' );
+} else {
+	$submenu['themes.php'][6] = array( __( 'Patterns', 'site editor menu item' ), 'edit_theme_options', 'edit.php?post_type=wp_block' );
 }
 
 if ( ! wp_is_block_theme() && current_theme_supports( 'block-template-parts' ) ) {
-	$submenu['themes.php'][6] = array(
+	$submenu['themes.php'][7] = array(
 		__( 'Template Parts' ),
 		'edit_theme_options',
 		'site-editor.php?path=/wp_template_part/all',
@@ -220,7 +222,7 @@ $customize_url = add_query_arg( 'return', urlencode( remove_query_arg( wp_remova
 // Hide Customize link on block themes unless a plugin or theme
 // is using 'customize_register' to add a setting.
 if ( ! wp_is_block_theme() || has_action( 'customize_register' ) ) {
-	$position = ( wp_is_block_theme() || current_theme_supports( 'block-template-parts' ) ) ? 7 : 6;
+	$position = ! wp_is_block_theme() && current_theme_supports( 'block-template-parts' ) ? 8 : 7;
 
 	$submenu['themes.php'][ $position ] = array( __( 'Customize' ), 'customize', esc_url( $customize_url ), '', 'hide-if-no-customize' );
 }

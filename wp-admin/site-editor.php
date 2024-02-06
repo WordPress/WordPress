@@ -19,16 +19,19 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 	);
 }
 
-if ( ! ( current_theme_supports( 'block-template-parts' ) || wp_is_block_theme() ) ) {
-	wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
-}
-
 $is_template_part        = isset( $_GET['postType'] ) && 'wp_template_part' === sanitize_key( $_GET['postType'] );
 $is_template_part_path   = isset( $_GET['path'] ) && 'wp_template_partall' === sanitize_key( $_GET['path'] );
 $is_template_part_editor = $is_template_part || $is_template_part_path;
+$is_patterns             = isset( $_GET['postType'] ) && 'wp_block' === sanitize_key( $_GET['postType'] );
+$is_patterns_path        = isset( $_GET['path'] ) && 'patterns' === sanitize_key( $_GET['path'] );
+$is_patterns_editor      = $is_patterns || $is_patterns_path;
 
-if ( ! wp_is_block_theme() && ! $is_template_part_editor ) {
-	wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
+if ( ! wp_is_block_theme() ) {
+	if ( ! current_theme_supports( 'block-template-parts' ) && $is_template_part_editor ) {
+		wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
+	} elseif ( ! $is_patterns_editor && ! $is_template_part_editor ) {
+		wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
+	}
 }
 
 // Used in the HTML title tag.
