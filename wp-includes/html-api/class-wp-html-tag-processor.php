@@ -1528,20 +1528,26 @@ class WP_HTML_Tag_Processor {
 
 			if ( $at > $was_at ) {
 				/*
-				 * A "<" has been found in the document. That may be the start of another node, or
-				 * it may be an "ivalid-first-character-of-tag-name" error. If this is not the start
-				 * of another node the "<" should be included in this text node and another
-				 * termination point should be found for the text node.
+				 * A "<" normally starts a new HTML tag or syntax token, but in cases where the
+				 * following character can't produce a valid token, the "<" is instead treated
+				 * as plaintext and the parser should skip over it. This avoids a problem when
+				 * following earlier practices of typing emoji with text, e.g. "<3". This
+				 * should be a heart, not a tag. It's supposed to be rendered, not hidden.
+				 *
+				 * At this point the parser checks if this is one of those cases and if it is
+				 * will continue searching for the next "<" in search of a token boundary.
 				 *
 				 * @see https://html.spec.whatwg.org/#tag-open-state
 				 */
 				if ( strlen( $html ) > $at + 1 ) {
 					$next_character  = $html[ $at + 1 ];
-					$at_another_node =
+					$at_another_node = (
 						'!' === $next_character ||
 						'/' === $next_character ||
 						'?' === $next_character ||
-						( 'A' <= $next_character && $next_character <= 'z' );
+						( 'A' <= $next_character && $next_character <= 'Z' ) ||
+						( 'a' <= $next_character && $next_character <= 'z' )
+					);
 					if ( ! $at_another_node ) {
 						++$at;
 						continue;
