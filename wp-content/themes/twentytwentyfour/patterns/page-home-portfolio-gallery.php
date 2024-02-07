@@ -2,7 +2,7 @@
 /**
  * Title: Portfolio home image gallery
  * Slug: twentytwentyfour/page-home-gallery
- * Categories: page
+ * Categories: twentytwentyfour_page
  * Keywords: starter
  * Block Types: core/post-content
  * Post Types: page, wp_template

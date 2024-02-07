@@ -2,7 +2,7 @@
 /**
  * Title: RSVP landing
  * Slug: twentytwentyfour/page-rsvp-landing
- * Categories: page
+ * Categories: twentytwentyfour_page
  * Keywords: starter
  * Block Types: core/post-content
  * Post Types: page, wp_template

@@ -2,7 +2,7 @@
 /**
  * Title: About
  * Slug: twentytwentyfour/page-about-business
- * Categories: page
+ * Categories: twentytwentyfour_page
  * Keywords: starter
  * Block Types: core/post-content
  * Post Types: page, wp_template
