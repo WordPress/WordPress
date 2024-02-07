@@ -795,9 +795,7 @@
 					},
 					"outline": {
 						"color": "var(--wp--preset--color--contrast)",
-						"offset": "2px",
-						"style": "dotted",
-						"width": "1px"
+						"offset": "2px"
 					},
 					"border": {
 						"color": "var(--wp--preset--color--contrast-2)"
@@ -908,7 +906,8 @@
 			"fontStyle": "normal",
 			"fontWeight": "400",
 			"lineHeight": "1.55"
-		}
+		},
+		"css": ".wp-site-blocks *:focus{outline-width:2px;outline-style:solid}"
 	},
 	"templateParts": [
 		{
