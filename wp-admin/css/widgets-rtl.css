@@ -337,9 +337,9 @@
 }
 
 .sidebar-name .handlediv:focus .toggle-indicator:before {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .sidebar-name h2,

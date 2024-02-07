@@ -46,12 +46,10 @@
 }
 
 .media-frame a:focus {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
 	color: #043959;
 	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 .media-frame a.button {
@@ -650,12 +648,10 @@
 }
 
 .media-menu .media-menu-item:focus {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
 	color: #043959;
 	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 .media-menu .separator {
@@ -705,12 +701,10 @@
 }
 
 .media-router .media-menu-item:focus {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
 	color: #043959;
 	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 .media-router .active,
@@ -2018,8 +2012,8 @@
 
 .wp-core-ui.media-modal .image-editor .imgedit-help-toggle:focus {
 	color: #2271b1;
-	border-color: #4f94d4;
-	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -2135,8 +2129,8 @@
 }
 
 .mejs-container:focus {
-	outline: 1px solid #4f94d4;
-	box-shadow: 0 0 2px 1px rgba(79, 148, 212, 0.8);
+	outline: 1px solid #2271b1;
+	box-shadow: 0 0 0 2px #2271b1;
 }
 
 .image-details .media-modal {

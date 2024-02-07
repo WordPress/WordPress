@@ -87,8 +87,9 @@
 
 .mce-window-head .mce-close:focus .mce-i-remove,
 div.mce-tab:focus {
-	box-shadow: 0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .mce-window .mce-window-head .mce-dragh {
@@ -113,7 +114,9 @@ div.mce-tab:focus {
 .mce-checkbox:focus i.mce-i-checkbox,
 #wp-link .query-results:focus {
 	border-color: #4f94d4;
-	box-shadow: 0 0 2px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .mce-window .mce-wp-help {
@@ -409,10 +412,10 @@ div.mce-path {
 .qt-dfw:hover,
 .qt-dfw:focus {
 	background: #f6f7f7;
-	border-color: #50575e;
 	color: #1d2327;
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
-	outline: none;
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-active,
@@ -420,7 +423,6 @@ div.mce-path {
 .qt-dfw.active {
 	background: #f0f0f1;
 	border-color: #50575e;
-	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.3);
 }
 
 .mce-btn.mce-active,
@@ -532,12 +534,13 @@ div.mce-path {
 	direction: ltr;
 	background: #fff;
 	border: 1px solid #dcdcde;
-	box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, 0.2);
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:hover,
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:focus {
-	border-color: #c3c4c7;
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .mce-panel .mce-btn i.mce-caret {
@@ -635,9 +638,9 @@ div.mce-menubar {
 
 .mce-menubar .mce-menubtn:focus {
 	color: #043959;
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 div.mce-menu .mce-menu-item-sep,
@@ -1131,10 +1134,9 @@ i.mce-i-wp_code:before {
 }
 
 .wp-switch-editor:focus {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
-	outline: none;
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 	color: #1d2327;
 }
 
@@ -1445,10 +1447,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link-close:focus {
-	outline: none;
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;

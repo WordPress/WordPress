@@ -1567,10 +1567,9 @@ p.customize-section-description {
 }
 
 .customize-control-header .choice:focus {
-	outline: none;
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 3px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .customize-control-header .uploaded div:last-child > .choice {
@@ -2680,9 +2679,9 @@ body.adding-widget .add-new-widget:before,
 
 #available-widgets-filter .clear-results:focus,
 #available-menu-items-search .clear-results:focus {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #available-menu-items-search .search-icon:after,

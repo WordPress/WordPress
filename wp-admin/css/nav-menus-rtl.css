@@ -104,7 +104,7 @@ ul.add-menu-item-tabs li {
 
 #nav-menu-bulk-actions-bottom {
 	margin: 1em 0;
-	margin: calc( 1em + 9px ) 0 ; 
+	margin: calc( 1em + 9px ) 0;
 }
 
 .bulk-actions input.button {
@@ -733,9 +733,9 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 .nav-menus-php .item-edit:focus:before {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 /* Menu editing */
@@ -992,7 +992,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 @media only screen and (min-width: 783px) {
     @supports (position: sticky) and (scroll-margin-bottom: 130px) {
-		
+
 		#nav-menu-footer {
                 position: sticky;
 				bottom: 0;

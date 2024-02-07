@@ -262,8 +262,10 @@
 }
 
 th .comment-grey-bubble {
-	height: 16px;
 	width: 16px;
+	/* Make sure the link clickable area fills the entire table header. */
+	position: relative;
+	top: 2px;
 }
 
 th .comment-grey-bubble:before {
@@ -344,7 +346,6 @@ table.fixed {
 
 .fixed .column-comments {
 	width: 5.5em;
-	padding: 8px 0;
 	text-align: right;
 }
 
@@ -538,9 +539,9 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 }
 
 .wp-list-table .toggle-row:focus:before {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-list-table .toggle-row:active {
@@ -650,9 +651,11 @@ th.sorted a {
 	padding: 8px;
 }
 
-.fixed .column-comments.sortable a,
-.fixed .column-comments.sorted a {
-	padding: 8px 0;
+th.sortable a:focus,
+th.sorted a:focus {
+	box-shadow: inset 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 th.sortable a span,

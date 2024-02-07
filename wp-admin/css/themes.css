@@ -176,12 +176,14 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme .more-details:focus {
-	box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
+	box-shadow: 0 0 0 2px #2271b1;
 }
 
 .theme-browser .theme.focus {
-	border-color: #4f94d4;
-	box-shadow: 0 0 2px rgba(79, 148, 212, 0.8);
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .theme-browser .theme.focus .more-details {
@@ -1586,9 +1588,9 @@ body.full-overlay-active {
 
 .wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-arrow,
 .wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-full-overlay .collapse-sidebar-label {

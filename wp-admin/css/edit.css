@@ -1293,8 +1293,9 @@ div.tabs-panel-inactive {
 }
 
 div.tabs-panel-active:focus {
-	box-shadow: inset 0 0 0 1px #4f94d4, inset 0 0 2px 1px rgba(79, 148, 212, 0.8);
-	outline: 0 none;
+	box-shadow: inset 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #front-page-warning,

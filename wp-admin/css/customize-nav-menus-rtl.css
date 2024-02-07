@@ -272,7 +272,7 @@
 .customize-screen-options-toggle:focus,
 #customize-controls .customize-info .customize-help-toggle:focus {
 	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 .customize-screen-options-toggle:before {
@@ -865,9 +865,9 @@ li.assigned-to-menu-location .add-new-menu-item {
 .menu-delete:focus,
 .menu-item-bar .item-delete:focus:before,
 #available-menu-items .item-add:focus:before {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 

@@ -679,6 +679,13 @@ fieldset label,
 	border-color: #68de7c;
 }
 
+#pass1:focus,
+#pass1-text:focus {
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
 .pw-weak {
 	display: none;
 }

@@ -279,11 +279,9 @@ a:focus .media-icon img,
 a:focus .plugin-icon,
 .wp-person a:focus .gravatar {
 	color: #043959;
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
-		/* Only visible in Windows High Contrast mode */
-		outline: 1px solid transparent;
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #adminmenu a:focus {
@@ -844,9 +842,9 @@ img.emoji {
 }
 
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .key-labels label {
@@ -1460,10 +1458,9 @@ div.error p,
 }
 
 .notice-dismiss:focus {
-	outline: none;
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .notice-success,
@@ -1804,8 +1801,10 @@ p.auto-update-status {
 }
 
 #screen-meta-links .show-settings:focus {
-	border-color: #4f94d4;
-	box-shadow: 0 0 3px rgba(34, 113, 177, 0.8);
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 #screen-meta-links .show-settings:active {
@@ -2143,8 +2142,8 @@ html.wp-toolbar {
 .postbox .handle-order-higher,
 .postbox .handle-order-lower,
 .postbox .handlediv {
-	width: 36px;
-	height: 36px;
+	width: 1.62rem;
+	height: 1.62rem;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -3186,11 +3185,10 @@ img {
 .postbox .handle-order-higher:focus,
 .postbox .handle-order-lower:focus,
 .postbox .handlediv:focus {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: inset 0 0 0 2px #2271b1;
+	border-radius: 50%;
 	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 .postbox .handle-order-higher:focus .order-higher-indicator::before,
@@ -3289,12 +3287,17 @@ img {
 [role="treeitem"] {
 	outline: 0;
 }
+
+[role="treeitem"] a:focus,
 [role="treeitem"] .folder-label.focus {
 	color: #043959;
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	/* Reset default focus style. */
+	box-shadow: none;
+	/* Use an inset outline instead, so it's visible also over the current file item. */
+	outline: 2px solid #2271b1;
+	outline-offset: -2px;
 }
+
 [role="treeitem"].hover,
 [role="treeitem"] .folder-label.hover {
 	background-color: #f0f0f1;
@@ -3436,6 +3439,10 @@ img {
 	text-decoration: none;
 }
 
+#templateside li.current-file > a {
+	padding-bottom: 0;
+}
+
 #templateside li:not(.howto) > a:first-of-type {
 	padding-top: 0;
 }
@@ -3521,13 +3528,13 @@ img {
 .accordion-section-title:hover:after {
 	color: #1d2327;
 	/* Only visible in Windows High Contrast mode */
-	outline: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 .widget-top .widget-action:focus .toggle-indicator:before {
-	box-shadow:
-		0 0 0 1px #4f94d4,
-		0 0 2px 1px rgba(79, 148, 212, 0.8);
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .control-section .accordion-section-title:after,
