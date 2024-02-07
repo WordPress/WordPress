@@ -141,7 +141,7 @@ class WP_Font_Utils {
 	 * The schema structure should mirror the data tree. Each value provided in the
 	 * schema should be a callable that will be applied to sanitize the corresponding
 	 * value in the data tree. Keys that are in the data tree, but not present in the
-	 * schema, will be removed in the santized data. Nested arrays are traversed recursively.
+	 * schema, will be removed in the sanitized data. Nested arrays are traversed recursively.
 	 *
 	 * @since 6.5.0
 	 *
