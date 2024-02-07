@@ -567,14 +567,14 @@ function create_initial_post_types() {
 	register_post_type(
 		'wp_font_family',
 		array(
-			'labels'       => array(
+			'labels'                         => array(
 				'name'          => __( 'Font Families' ),
 				'singular_name' => __( 'Font Family' ),
 			),
-			'public'       => false,
-			'_builtin'     => true, /* internal use only. don't use this when registering your own post type. */
-			'hierarchical' => false,
-			'capabilities' => array(
+			'public'                         => false,
+			'_builtin'                       => true, /* internal use only. don't use this when registering your own post type. */
+			'hierarchical'                   => false,
+			'capabilities'                   => array(
 				'read'                   => 'edit_theme_options',
 				'read_private_posts'     => 'edit_theme_options',
 				'create_posts'           => 'edit_theme_options',
@@ -586,24 +586,28 @@ function create_initial_post_types() {
 				'delete_others_posts'    => 'edit_theme_options',
 				'delete_published_posts' => 'edit_theme_options',
 			),
-			'map_meta_cap' => true,
-			'query_var'    => false,
-			'show_in_rest' => false,
-			'rewrite'      => false,
+			'map_meta_cap'                   => true,
+			'query_var'                      => false,
+			'rewrite'                        => false,
+			'show_in_rest'                   => true,
+			'rest_base'                      => 'font-families',
+			'rest_controller_class'          => 'WP_REST_Font_Families_Controller',
+			// Disable autosave endpoints for font families.
+			'autosave_rest_controller_class' => 'stdClass',
 		)
 	);
 
 	register_post_type(
 		'wp_font_face',
 		array(
-			'labels'       => array(
+			'labels'                         => array(
 				'name'          => __( 'Font Faces' ),
 				'singular_name' => __( 'Font Face' ),
 			),
-			'public'       => false,
-			'_builtin'     => true, /* internal use only. don't use this when registering your own post type. */
-			'hierarchical' => false,
-			'capabilities' => array(
+			'public'                         => false,
+			'_builtin'                       => true, /* internal use only. don't use this when registering your own post type. */
+			'hierarchical'                   => false,
+			'capabilities'                   => array(
 				'read'                   => 'edit_theme_options',
 				'read_private_posts'     => 'edit_theme_options',
 				'create_posts'           => 'edit_theme_options',
@@ -615,10 +619,14 @@ function create_initial_post_types() {
 				'delete_others_posts'    => 'edit_theme_options',
 				'delete_published_posts' => 'edit_theme_options',
 			),
-			'map_meta_cap' => true,
-			'query_var'    => false,
-			'show_in_rest' => false,
-			'rewrite'      => false,
+			'map_meta_cap'                   => true,
+			'query_var'                      => false,
+			'rewrite'                        => false,
+			'show_in_rest'                   => true,
+			'rest_base'                      => 'font-families/(?P<font_family_id>[\d]+)/font-faces',
+			'rest_controller_class'          => 'WP_REST_Font_Faces_Controller',
+			// Disable autosave endpoints for font faces.
+			'autosave_rest_controller_class' => 'stdClass',
 		)
 	);
 

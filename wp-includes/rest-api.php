@@ -391,6 +391,10 @@ function create_initial_rest_routes() {
 	// Navigation Fallback.
 	$controller = new WP_REST_Navigation_Fallback_Controller();
 	$controller->register_routes();
+
+	// Font Collections.
+	$font_collections_controller = new WP_REST_Font_Collections_Controller();
+	$font_collections_controller->register_routes();
 }
 
 /**

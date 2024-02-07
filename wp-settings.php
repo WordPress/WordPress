@@ -310,6 +310,9 @@ require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-widgets-controller.
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-templates-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-url-details-controller.php';
 require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-navigation-fallback-controller.php';
+require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-font-families-controller.php';
+require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-font-faces-controller.php';
+require ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-font-collections-controller.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-comment-meta-fields.php';
 require ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-post-meta-fields.php';
