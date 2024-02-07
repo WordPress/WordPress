@@ -823,11 +823,12 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 	 *
 	 * @since 6.4.0
 	 *
-	 * @param string[]                $hooked_block_types The list of hooked block types.
-	 * @param string                  $relative_position  The relative position of the hooked blocks.
-	 *                                                    Can be one of 'before', 'after', 'first_child', or 'last_child'.
-	 * @param string                  $anchor_block_type  The anchor block type.
-	 * @param WP_Block_Template|array $context            The block template, template part, or pattern that the anchor block belongs to.
+	 * @param string[]                        $hooked_block_types The list of hooked block types.
+	 * @param string                          $relative_position  The relative position of the hooked blocks.
+	 *                                                            Can be one of 'before', 'after', 'first_child', or 'last_child'.
+	 * @param string                          $anchor_block_type  The anchor block type.
+	 * @param WP_Block_Template|WP_Post|array $context            The block template, template part, `wp_navigation` post type,
+	 *                                                            or pattern that the anchor block belongs to.
 	 */
 	$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 
@@ -847,10 +848,11 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		 *
 		 * @since 6.5.0
 		 *
-		 * @param array                   $parsed_hooked_block The parsed block array for the given hooked block type.
-		 * @param string                  $relative_position   The relative position of the hooked block.
-		 * @param array                   $parsed_anchor_block The anchor block, in parsed block array format.
-		 * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
+		 * @param array                           $parsed_hooked_block The parsed block array for the given hooked block type.
+		 * @param string                          $relative_position   The relative position of the hooked block.
+		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
+		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, `wp_navigation` post type,
+		 *                                                             or pattern that the anchor block belongs to.
 		 */
 		$parsed_hooked_block = apply_filters( "hooked_block_{$hooked_block_type}", $parsed_hooked_block, $relative_position, $parsed_anchor_block, $context );
 
@@ -874,8 +876,9 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
  * @since 6.4.0
  * @access private
  *
- * @param array                   $hooked_blocks An array of blocks hooked to another given block.
- * @param WP_Block_Template|array $context       A block template, template part, or pattern that the blocks belong to.
+ * @param array                           $hooked_blocks An array of blocks hooked to another given block.
+ * @param WP_Block_Template|WP_Post|array $context       A block template, template part, `wp_navigation` post object,
+ *                                                       or pattern that the blocks belong to.
  * @return callable A function that returns the serialized markup for the given block,
  *                  including the markup for any hooked blocks before it.
  */
@@ -920,8 +923,9 @@ function make_before_block_visitor( $hooked_blocks, $context ) {
  * @since 6.4.0
  * @access private
  *
- * @param array                   $hooked_blocks An array of blocks hooked to another block.
- * @param WP_Block_Template|array $context       A block template, template part, or pattern that the blocks belong to.
+ * @param array                           $hooked_blocks An array of blocks hooked to another block.
+ * @param WP_Block_Template|WP_Post|array $context       A block template, template part, `wp_navigation` post object,
+ *                                                       or pattern that the blocks belong to.
  * @return callable A function that returns the serialized markup for the given block,
  *                  including the markup for any hooked blocks after it.
  */
