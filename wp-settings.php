@@ -332,6 +332,7 @@ require ABSPATH . WPINC . '/sitemaps/class-wp-sitemaps-stylesheet.php';
 require ABSPATH . WPINC . '/sitemaps/providers/class-wp-sitemaps-posts.php';
 require ABSPATH . WPINC . '/sitemaps/providers/class-wp-sitemaps-taxonomies.php';
 require ABSPATH . WPINC . '/sitemaps/providers/class-wp-sitemaps-users.php';
+require ABSPATH . WPINC . '/class-wp-block-bindings-source.php';
 require ABSPATH . WPINC . '/class-wp-block-bindings-registry.php';
 require ABSPATH . WPINC . '/class-wp-block-editor-context.php';
 require ABSPATH . WPINC . '/class-wp-block-type.php';

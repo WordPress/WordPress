@@ -270,9 +270,8 @@ class WP_Block {
 				continue;
 			}
 
-			$source_callback = $block_binding_source['get_value_callback'];
-			$source_args     = ! empty( $block_binding['args'] ) && is_array( $block_binding['args'] ) ? $block_binding['args'] : array();
-			$source_value    = call_user_func_array( $source_callback, array( $source_args, $this, $attribute_name ) );
+			$source_args  = ! empty( $block_binding['args'] ) && is_array( $block_binding['args'] ) ? $block_binding['args'] : array();
+			$source_value = $block_binding_source->get_value( $source_args, $this, $attribute_name );
 
 			// If the value is not null, process the HTML based on the block and the attribute.
 			if ( ! is_null( $source_value ) ) {
