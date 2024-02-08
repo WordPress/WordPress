@@ -385,9 +385,12 @@ require ABSPATH . WPINC . '/fonts/class-wp-font-utils.php';
 require ABSPATH . WPINC . '/fonts.php';
 require ABSPATH . WPINC . '/class-wp-script-modules.php';
 require ABSPATH . WPINC . '/script-modules.php';
-require ABSPATH . WPINC . '/interactivity-api.php';
+require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api.php';
+require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api-directives-processor.php';
+require ABSPATH . WPINC . '/interactivity-api/interactivity-api.php';
 
 wp_script_modules()->add_hooks();
+wp_interactivity()->add_hooks();
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 
