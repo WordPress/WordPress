@@ -35,6 +35,11 @@ final class WP_Block_Bindings_Registry {
 	/**
 	 * Registers a new block bindings source.
 	 *
+	 * This is a low-level method. For most use cases, it is recommended to use
+	 * the `register_block_bindings_source()` function instead.
+	 *
+	 * @see register_block_bindings_source()
+	 *
 	 * Sources are used to override block's original attributes with a value
 	 * coming from the source. Once a source is registered, it can be used by a
 	 * block by setting its `metadata.bindings` attribute to a value that refers
