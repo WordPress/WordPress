@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'Page layout with image and text', 'twentytwentytwo' ),
-	'categories' => array( 'pages' ),
+	'categories' => array( 'twentytwentytwo_pages' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--large, 8rem)","bottom":"2rem"}}},"layout":{"inherit":true}} -->
 				<div class="wp-block-group alignfull" style="padding-top:var(--wp--custom--spacing--large, 8rem);padding-bottom:2rem"><!-- wp:heading {"align":"wide","style":{"typography":{"fontSize":"clamp(4rem, 8vw, 7.5rem)","lineHeight":"1.15","fontWeight":"300"}}} -->
 					<h2 class="alignwide" style="font-size:clamp(4rem, 8vw, 7.5rem);font-weight:300;line-height:1.15">' . wp_kses_post( __( '<em>Watching Birds </em><br><em>in the Garden</em>', 'twentytwentytwo' ) ) . '</h2>

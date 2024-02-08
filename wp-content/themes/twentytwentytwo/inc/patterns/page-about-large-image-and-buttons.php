@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'About page with large image and buttons', 'twentytwentytwo' ),
-	'categories' => array( 'pages', 'buttons' ),
+	'categories' => array( 'twentytwentytwo_pages', 'buttons' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull" style="padding-top:var(--wp--custom--spacing--small, 1.25rem);padding-bottom:var(--wp--custom--spacing--small, 1.25rem)"><!-- wp:image {"align":"wide","width":2100,"height":1260,"sizeSlug":"full","linkDestination":"none"} -->
 					<figure class="wp-block-image alignwide size-full is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-gray-b.jpg" alt="" width="2100" height="1260"/></figure>

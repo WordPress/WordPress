@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'About page links (dark)', 'twentytwentytwo' ),
-	'categories' => array( 'pages', 'buttons' ),
+	'categories' => array( 'twentytwentytwo_pages', 'buttons' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|background"}}},"spacing":{"padding":{"top":"10rem","bottom":"10rem"}}},"backgroundColor":"primary","textColor":"background","layout":{"inherit":false,"contentSize":"400px"}} -->
 					<div class="wp-block-group alignfull has-background-color has-primary-background-color has-text-color has-background has-link-color" style="padding-top:10rem;padding-bottom:10rem;"><!-- wp:group -->
 					<div class="wp-block-group">
