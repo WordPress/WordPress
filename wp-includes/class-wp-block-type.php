@@ -227,6 +227,14 @@ class WP_Block_Type {
 	public $view_script_handles = array();
 
 	/**
+	 * Block type front end only script module IDs.
+	 *
+	 * @since 6.5.0
+	 * @var string[]
+	 */
+	public $view_script_module_ids = array();
+
+	/**
 	 * Block type editor only style handles.
 	 *
 	 * @since 6.1.0
