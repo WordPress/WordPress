@@ -1038,17 +1038,15 @@ function admin_color_scheme_picker( $user_id ) {
 				<input type="hidden" class="css_url" value="<?php echo esc_url( $color_info->url ); ?>" />
 				<input type="hidden" class="icon_colors" value="<?php echo esc_attr( wp_json_encode( array( 'icons' => $color_info->icon_colors ) ) ); ?>" />
 				<label for="admin_color_<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
-				<table class="color-palette">
-					<tr>
-					<?php
-					foreach ( $color_info->colors as $html_color ) {
-						?>
-						<td style="background-color: <?php echo esc_attr( $html_color ); ?>">&nbsp;</td>
-						<?php
-					}
+				<div class="color-palette">
+				<?php
+				foreach ( $color_info->colors as $html_color ) {
 					?>
-					</tr>
-				</table>
+					<div class="color-palette-shade" style="background-color: <?php echo esc_attr( $html_color ); ?>">&nbsp;</div>
+					<?php
+				}
+				?>
+				</div>
 			</div>
 			<?php
 

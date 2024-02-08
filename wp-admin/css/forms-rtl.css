@@ -934,11 +934,14 @@ table.form-table td .updated p {
 }
 
 .color-palette {
+	display: table;
 	width: 100%;
 	border-spacing: 0;
 	border-collapse: collapse;
 }
+.color-palette .color-palette-shade,
 .color-palette td {
+	display: table-cell;
 	height: 20px;
 	padding: 0;
 	border: none;
@@ -1602,12 +1605,15 @@ table.form-table td .updated p {
 		margin-bottom: 0;
 	}
 
+	.form-table .color-palette .color-palette-shade,
 	.form-table .color-palette td {
 		display: table-cell;
 		width: 15px;
+		height: 30px;
+		padding: 0;
 	}
 
-	.form-table table.color-palette {
+	.form-table .color-palette {
 		margin-left: 10px;
 	}
 
