@@ -419,6 +419,8 @@ function wp_default_packages_inline_scripts( $scripts ) {
 		$timezone_abbr = $timezone_date->format( 'T' );
 	}
 
+	$gmt_offset = get_option( 'gmt_offset', 0 );
+
 	$scripts->add_inline_script(
 		'wp-date',
 		sprintf(
@@ -475,9 +477,10 @@ function wp_default_packages_inline_scripts( $scripts ) {
 						'datetimeAbbreviated' => __( 'M j, Y g:i a' ),
 					),
 					'timezone' => array(
-						'offset' => (float) get_option( 'gmt_offset', 0 ),
-						'string' => $timezone_string,
-						'abbr'   => $timezone_abbr,
+						'offset'          => (float) $gmt_offset,
+						'offsetFormatted' => str_replace( array( '.25', '.5', '.75' ), array( ':15', ':30', ':45' ), (string) $gmt_offset ),
+						'string'          => $timezone_string,
+						'abbr'            => $timezone_abbr,
 					),
 				)
 			)
