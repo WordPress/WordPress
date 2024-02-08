@@ -1572,7 +1572,11 @@ function wp_dashboard_primary() {
 			 *
 			 * @param string $link The widget's secondary link URL.
 			 */
-			'link'         => apply_filters( 'dashboard_secondary_link', __( 'https://planet.wordpress.org/' ) ),
+			'link'         => apply_filters(
+				'dashboard_secondary_link',
+				/* translators: Link to the Planet website of the locale. */
+				__( 'https://planet.wordpress.org/' )
+			),
 
 			/**
 			 * Filters the secondary feed URL for the 'WordPress Events and News' dashboard widget.
@@ -1581,7 +1585,11 @@ function wp_dashboard_primary() {
 			 *
 			 * @param string $url The widget's secondary feed URL.
 			 */
-			'url'          => apply_filters( 'dashboard_secondary_feed', __( 'https://planet.wordpress.org/feed/' ) ),
+			'url'          => apply_filters(
+				'dashboard_secondary_feed',
+				/* translators: Link to the Planet feed of the locale. */
+				__( 'https://planet.wordpress.org/feed/' )
+			),
 
 			/**
 			 * Filters the secondary link title for the 'WordPress Events and News' dashboard widget.
