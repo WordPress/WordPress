@@ -124,12 +124,13 @@ function get_block_asset_url( $path ) {
 
 /**
  * Finds a script handle for the selected block metadata field. It detects
- * when a path to file was provided and finds a corresponding asset file
- * with details necessary to register the script under automatically
+ * when a path to file was provided and optionally finds a corresponding asset
+ * file with details necessary to register the script under automatically
  * generated handle name. It returns unprocessed script handle otherwise.
  *
  * @since 5.5.0
  * @since 6.1.0 Added `$index` parameter.
+ * @since 6.5.0 The asset file is optional.
  *
  * @param array  $metadata   Block metadata.
  * @param string $field_name Field name to pick from metadata.
@@ -163,21 +164,6 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		realpath( $script_asset_raw_path )
 	);
 
-	if ( empty( $script_asset_path ) ) {
-		_doing_it_wrong(
-			__FUNCTION__,
-			sprintf(
-				/* translators: 1: Asset file location, 2: Field name, 3: Block name.  */
-				__( 'The asset file (%1$s) for the "%2$s" defined in "%3$s" block definition is missing.' ),
-				$script_asset_raw_path,
-				$field_name,
-				$metadata['name']
-			),
-			'5.5.0'
-		);
-		return false;
-	}
-
 	$script_path_norm = wp_normalize_path( realpath( $path . '/' . $script_path ) );
 	$script_uri       = get_block_asset_url( $script_path_norm );
 
@@ -186,7 +172,8 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		$script_args['strategy'] = 'defer';
 	}
 
-	$script_asset        = require $script_asset_path;
+	// Asset file for blocks is optional. See https://core.trac.wordpress.org/ticket/60460.
+	$script_asset        = ! empty( $script_asset_path ) ? require $script_asset_path : array();
 	$script_dependencies = isset( $script_asset['dependencies'] ) ? $script_asset['dependencies'] : array();
 	$result              = wp_register_script(
 		$script_handle,
