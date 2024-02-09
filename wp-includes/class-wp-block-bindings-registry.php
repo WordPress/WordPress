@@ -212,6 +212,25 @@ final class WP_Block_Bindings_Registry {
 	}
 
 	/**
+	 * Wakeup magic method.
+	 *
+	 * @since 6.5.0
+	 */
+	public function __wakeup() {
+		if ( ! $this->sources ) {
+			return;
+		}
+		if ( ! is_array( $this->sources ) ) {
+			throw new UnexpectedValueException();
+		}
+		foreach ( $this->sources as $value ) {
+			if ( ! $value instanceof WP_Block_Bindings_Source ) {
+				throw new UnexpectedValueException();
+			}
+		}
+	}
+
+	/**
 	 * Utility method to retrieve the main instance of the class.
 	 *
 	 * The instance will be created if it does not exist yet.

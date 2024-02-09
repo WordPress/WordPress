@@ -413,7 +413,7 @@ class WP_Block {
 		// Process the block bindings and get attributes updated with the values from the sources.
 		$computed_attributes = $this->process_block_bindings();
 		if ( ! empty( $computed_attributes ) ) {
-			// Merge the computed attributes with the original attributes
+			// Merge the computed attributes with the original attributes.
 			$this->attributes = array_merge( $this->attributes, $computed_attributes );
 		}
 
