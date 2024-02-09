@@ -178,6 +178,8 @@ window.wp = window.wp || {};
 	 */
 	setBulk : function(){
 		var te = '', type = this.type, c = true;
+		var checkedPosts = $( 'tbody th.check-column input[type="checkbox"]:checked' );
+		var categories = {};
 		this.revert();
 
 		$( '#bulk-edit td' ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
@@ -216,6 +218,44 @@ window.wp = window.wp || {};
 
 		// Populate the list of items to bulk edit.
 		$( '#bulk-titles' ).html( '<ul id="bulk-titles-list" role="list">' + te + '</ul>' );
+
+		// Gather up some statistics on which of these checked posts are in which categories.
+		checkedPosts.each( function() {
+			var id      = $( this ).val();
+			var checked = $( '#category_' + id ).text().split( ',' );
+
+			checked.map( function( cid ) {
+				categories[ cid ] || ( categories[ cid ] = 0 );
+				// Just record that this category is checked.
+				categories[ cid ]++;
+			} );
+		} );
+
+		// Compute initial states.
+		$( '.inline-edit-categories input[name="post_category[]"]' ).each( function() {
+			if ( categories[ $( this ).val() ] == checkedPosts.length ) {
+				// If the number of checked categories matches the number of selected posts, then all posts are in this category.
+				$( this ).prop( 'checked', true );
+			} else if ( categories[ $( this ).val() ] > 0 ) {
+				// If the number is less than the number of selected posts, then it's indeterminate.
+				$( this ).prop( 'indeterminate', true );
+				if ( ! $( this ).parent().find( 'input[name="indeterminate_post_category[]"]' ).length ) {
+					// Get the term label text.
+					var label = $( this ).parent().text();
+					// Set indeterminate states for the backend. Add accessible text for indeterminate inputs. 
+					$( this ).after( '<input type="hidden" name="indeterminate_post_category[]" value="' + $( this ).val() + '">' ).attr( 'aria-label', label.trim() + ': ' + wp.i18n.__( 'Some selected posts have this category' ) );
+				}
+			}
+		} );
+
+		$( '.inline-edit-categories input[name="post_category[]"]:indeterminate' ).on( 'change', function() {
+			// Remove accessible label text. Remove the indeterminate flags as there was a specific state change.
+			$( this ).removeAttr( 'aria-label' ).parent().find( 'input[name="indeterminate_post_category[]"]' ).remove();
+		} );
+
+		$( '.inline-edit-save button' ).on( 'click', function() {
+			$( '.inline-edit-categories input[name="post_category[]"]' ).prop( 'indeterminate', false );
+		} );
 
 		/**
 		 * Binds on click events to handle the list of items to bulk edit.
