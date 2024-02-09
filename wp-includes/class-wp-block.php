@@ -192,15 +192,15 @@ class WP_Block {
 	}
 
 	/**
-	 * Processes the block bindings in block's attributes.
+	 * Processes the block bindings and updates the block attributes with the values from the sources.
 	 *
 	 * A block might contain bindings in its attributes. Bindings are mappings
 	 * between an attribute of the block and a source. A "source" is a function
 	 * registered with `register_block_bindings_source()` that defines how to
 	 * retrieve a value from outside the block, e.g. from post meta.
 	 *
-	 * This function will process those bindings and replace the HTML with the value of the binding.
-	 * The value is retrieved from the source of the binding.
+	 * This function will process those bindings and update the block's attributes
+	 * with the values coming from the bindings.
 	 *
 	 * ### Example
 	 *
@@ -228,12 +228,12 @@ class WP_Block {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param string $block_content Block content.
-	 * @param array  $block         The full block, including name and attributes.
-	 * @return string The modified block content.
+	 * @return array The computed block attributes for the provided block bindings.
 	 */
-	private function process_block_bindings( $block_content ) {
+	private function process_block_bindings() {
 		$parsed_block = $this->parsed_block;
+
+		$computed_attributes = array();
 
 		// Allowed blocks that support block bindings.
 		// TODO: Look for a mechanism to opt-in for this. Maybe adding a property to block attributes?
@@ -251,10 +251,9 @@ class WP_Block {
 			empty( $parsed_block['attrs']['metadata']['bindings'] ) ||
 			! is_array( $parsed_block['attrs']['metadata']['bindings'] )
 		) {
-			return $block_content;
+			return $computed_attributes;
 		}
 
-		$modified_block_content = $block_content;
 		foreach ( $parsed_block['attrs']['metadata']['bindings'] as $attribute_name => $block_binding ) {
 			// If the attribute is not in the allowed list, process next attribute.
 			if ( ! in_array( $attribute_name, $allowed_blocks[ $this->name ], true ) ) {
@@ -275,11 +274,11 @@ class WP_Block {
 
 			// If the value is not null, process the HTML based on the block and the attribute.
 			if ( ! is_null( $source_value ) ) {
-				$modified_block_content = $this->replace_html( $modified_block_content, $attribute_name, $source_value );
+				$computed_attributes[ $attribute_name ] = $source_value;
 			}
 		}
 
-		return $modified_block_content;
+		return $computed_attributes;
 	}
 
 	/**
@@ -391,6 +390,7 @@ class WP_Block {
 	 * Generates the render output for the block.
 	 *
 	 * @since 5.5.0
+	 * @since 6.5.0 Added block bindings processing.
 	 *
 	 * @global WP_Post $post Global post object.
 	 *
@@ -409,6 +409,13 @@ class WP_Block {
 				'dynamic' => true,
 			)
 		);
+
+		// Process the block bindings and get attributes updated with the values from the sources.
+		$computed_attributes = $this->process_block_bindings();
+		if ( ! empty( $computed_attributes ) ) {
+			// Merge the computed attributes with the original attributes
+			$this->attributes = array_merge( $this->attributes, $computed_attributes );
+		}
 
 		$is_dynamic    = $options['dynamic'] && $this->name && null !== $this->block_type && $this->block_type->is_dynamic();
 		$block_content = '';
@@ -442,6 +449,12 @@ class WP_Block {
 
 					++$index;
 				}
+			}
+		}
+
+		if ( ! empty( $computed_attributes ) && ! empty( $block_content ) ) {
+			foreach ( $computed_attributes as $attribute_name => $source_value ) {
+				$block_content = $this->replace_html( $block_content, $attribute_name, $source_value );
 			}
 		}
 
@@ -487,10 +500,6 @@ class WP_Block {
 				wp_enqueue_style( $view_style_handle );
 			}
 		}
-
-		// Process the block bindings for this block, if any are registered. This
-		// will replace the block content with the value from a registered binding source.
-		$block_content = $this->process_block_bindings( $block_content );
 
 		/**
 		 * Filters the content of a single block.
