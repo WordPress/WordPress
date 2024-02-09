@@ -241,7 +241,7 @@ class WP_Block {
 			'core/paragraph' => array( 'content' ),
 			'core/heading'   => array( 'content' ),
 			'core/image'     => array( 'url', 'title', 'alt' ),
-			'core/button'    => array( 'url', 'text' ),
+			'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
 		);
 
 		// If the block doesn't have the bindings property, isn't one of the allowed
