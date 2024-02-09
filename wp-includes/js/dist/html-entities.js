@@ -89,8 +89,7 @@ function decodeEntities(html) {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
    */
-  return (/** @type {string} */decoded
-  );
+  return /** @type {string} */decoded;
 }
 
 (window.wp = window.wp || {}).htmlEntities = __webpack_exports__;

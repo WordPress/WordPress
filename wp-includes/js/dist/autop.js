@@ -458,8 +458,7 @@ function removep(html) {
   // Restore preserved tags.
   if (preserve.length) {
     html = html.replace(/<wp-preserve>/g, () => {
-      return (/** @type {string} */preserve.shift()
-      );
+      return /** @type {string} */preserve.shift();
     });
   }
   return html;

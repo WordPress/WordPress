@@ -209,9 +209,9 @@
   z-index:999999;
 }
 
-.customize-control-sidebar_block_editor,.customize-widgets-layout__inspector,.customize-widgets-popover{
+.customize-control-sidebar_block_editor,.customize-widgets-layout__inspector{
   box-sizing:border-box;
 }
-.customize-control-sidebar_block_editor *,.customize-control-sidebar_block_editor :after,.customize-control-sidebar_block_editor :before,.customize-widgets-layout__inspector *,.customize-widgets-layout__inspector :after,.customize-widgets-layout__inspector :before,.customize-widgets-popover *,.customize-widgets-popover :after,.customize-widgets-popover :before{
+.customize-control-sidebar_block_editor *,.customize-control-sidebar_block_editor :after,.customize-control-sidebar_block_editor :before,.customize-widgets-layout__inspector *,.customize-widgets-layout__inspector :after,.customize-widgets-layout__inspector :before{
   box-sizing:inherit;
 }

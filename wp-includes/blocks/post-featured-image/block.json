@@ -81,6 +81,9 @@
 		"spacing": {
 			"margin": true,
 			"padding": true
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-post-featured-image-editor",

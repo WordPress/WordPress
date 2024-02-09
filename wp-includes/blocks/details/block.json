@@ -58,6 +58,9 @@
 		},
 		"layout": {
 			"allowEditing": false
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-details-editor",

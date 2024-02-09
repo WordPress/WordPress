@@ -98,7 +98,9 @@
 			}
 		},
 		"reusable": false,
-		"shadow": true,
+		"shadow": {
+			"__experimentalSkipSerialization": true
+		},
 		"spacing": {
 			"__experimentalSkipSerialization": true,
 			"padding": [ "horizontal", "vertical" ],
@@ -119,7 +121,10 @@
 				"width": true
 			}
 		},
-		"__experimentalSelector": ".wp-block-button .wp-block-button__link"
+		"__experimentalSelector": ".wp-block-button .wp-block-button__link",
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"styles": [
 		{ "name": "fill", "label": "Fill", "isDefault": true },

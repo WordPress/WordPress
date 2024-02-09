@@ -55,6 +55,9 @@
 			"width": true,
 			"color": true,
 			"style": true
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-verse",

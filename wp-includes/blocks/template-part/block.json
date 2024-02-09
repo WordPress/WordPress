@@ -24,7 +24,10 @@
 		"align": true,
 		"html": false,
 		"reusable": false,
-		"renaming": false
+		"renaming": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"editorStyle": "wp-block-template-part-editor"
 }

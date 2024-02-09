@@ -29,9 +29,6 @@
 			"type": "string",
 			"default": "none"
 		},
-		"inSameTerm": {
-			"type": "boolean"
-		},
 		"taxonomy": {
 			"type": "string",
 			"default": ""
@@ -57,6 +54,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-post-navigation-link"

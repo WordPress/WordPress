@@ -61,7 +61,10 @@
 			}
 		},
 		"__unstablePasteTextInline": true,
-		"__experimentalSlashInserter": true
+		"__experimentalSlashInserter": true,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"editorStyle": "wp-block-heading-editor",
 	"style": "wp-block-heading"

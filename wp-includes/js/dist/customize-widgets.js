@@ -1307,7 +1307,6 @@ const ShortcutList = ({
   ...shortcut
 }))))
 /* eslint-enable jsx-a11y/no-redundant-roles */;
-
 const ShortcutSection = ({
   title,
   shortcuts,

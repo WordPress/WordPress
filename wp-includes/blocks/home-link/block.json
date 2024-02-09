@@ -36,6 +36,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-home-link-editor",

@@ -851,6 +851,12 @@ const backgroundImage = {
     return styleRules;
   }
 };
+const backgroundPosition = {
+  name: 'backgroundRepeat',
+  generate: (style, options) => {
+    return generateRule(style, options, ['background', 'backgroundPosition'], 'backgroundPosition');
+  }
+};
 const backgroundRepeat = {
   name: 'backgroundRepeat',
   generate: (style, options) => {
@@ -879,7 +885,7 @@ const backgroundSize = {
     return styleRules;
   }
 };
-/* harmony default export */ const styles_background = ([backgroundImage, backgroundRepeat, backgroundSize]);
+/* harmony default export */ const styles_background = ([backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/shadow/index.js
 /**

@@ -168,7 +168,7 @@
   color:#fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-patreon{
-  background-color:#ff424d;
+  background-color:#000;
   color:#fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-pinterest{
@@ -326,7 +326,7 @@
   color:#f6405f;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-patreon{
-  color:#ff424d;
+  color:#000;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-pinterest{
   color:#e60122;

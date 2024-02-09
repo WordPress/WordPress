@@ -99,9 +99,6 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 		}
 	}
 
-	$in_same_term = isset( $attributes['inSameTerm'] ) ? $attributes['inSameTerm'] : false;
-	$taxonomy     = isset( $attributes['taxonomy'] ) && $in_same_term ? $attributes['taxonomy'] : '';
-
 	/*
 	 * The dynamic portion of the function name, `$navigation_type`,
 	 * Refers to the type of adjacency, 'next' or 'previous'.
@@ -111,8 +108,8 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 	 */
 	$get_link_function = "get_{$navigation_type}_post_link";
 
-	if ( $in_same_term ) {
-		$content = $get_link_function( $format, $link, $in_same_term, '', $taxonomy );
+	if ( ! empty( $attributes['taxonomy'] ) ) {
+		$content = $get_link_function( $format, $link, true, '', $attributes['taxonomy'] );
 	} else {
 		$content = $get_link_function( $format, $link );
 	}

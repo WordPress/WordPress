@@ -132,6 +132,9 @@
 		},
 		"layout": {
 			"allowJustification": false
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-cover-editor",

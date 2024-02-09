@@ -4,6 +4,7 @@
 	"name": "core/buttons",
 	"title": "Buttons",
 	"category": "design",
+	"allowedBlocks": [ "core/button" ],
 	"description": "Prompt visitors to take action with a group of button-style links.",
 	"keywords": [ "link" ],
 	"textdomain": "default",
@@ -38,6 +39,9 @@
 			"default": {
 				"type": "flex"
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-buttons-editor",

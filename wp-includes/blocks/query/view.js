@@ -77,45 +77,19 @@ const isValidEvent = event => event.button === 0 &&
 // Download.
 !event.shiftKey && !event.defaultPrevented;
 (0,interactivity_namespaceObject.store)('core/query', {
-  state: {
-    get startAnimation() {
-      return (0,interactivity_namespaceObject.getContext)().animation === 'start';
-    },
-    get finishAnimation() {
-      return (0,interactivity_namespaceObject.getContext)().animation === 'finish';
-    }
-  },
   actions: {
     *navigate(event) {
       const ctx = (0,interactivity_namespaceObject.getContext)();
       const {
         ref
       } = (0,interactivity_namespaceObject.getElement)();
-      const {
-        queryRef
-      } = ctx;
-      const isDisabled = queryRef?.dataset.wpNavigationDisabled;
-      if (isValidLink(ref) && isValidEvent(event) && !isDisabled) {
+      const queryRef = ref.closest('.wp-block-query[data-wp-router-region]');
+      if (isValidLink(ref) && isValidEvent(event)) {
         event.preventDefault();
-
-        // Don't announce the navigation immediately, wait 400 ms.
-        const timeout = setTimeout(() => {
-          ctx.message = ctx.loadingText;
-          ctx.animation = 'start';
-        }, 400);
         const {
           actions
         } = yield Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 978));
         yield actions.navigate(ref.href);
-
-        // Dismiss loading message if it hasn't been added yet.
-        clearTimeout(timeout);
-
-        // Announce that the page has been loaded. If the message is the
-        // same, we use a no-break space similar to the @wordpress/a11y
-        // package: https://github.com/WordPress/gutenberg/blob/c395242b8e6ee20f8b06c199e4fc2920d7018af1/packages/a11y/src/filter-message.js#L20-L26
-        ctx.message = ctx.loadedText + (ctx.message === ctx.loadedText ? '\u00A0' : '');
-        ctx.animation = 'finish';
         ctx.url = ref.href;
 
         // Focus the first anchor of the Query block.
@@ -125,13 +99,9 @@ const isValidEvent = event => event.button === 0 &&
     },
     *prefetch() {
       const {
-        queryRef
-      } = (0,interactivity_namespaceObject.getContext)();
-      const {
         ref
       } = (0,interactivity_namespaceObject.getElement)();
-      const isDisabled = queryRef?.dataset.wpNavigationDisabled;
-      if (isValidLink(ref) && !isDisabled) {
+      if (isValidLink(ref)) {
         const {
           actions
         } = yield Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 978));
@@ -153,15 +123,10 @@ const isValidEvent = event => event.button === 0 &&
         } = yield Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 978));
         yield actions.prefetch(ref.href);
       }
-    },
-    setQueryRef() {
-      const ctx = (0,interactivity_namespaceObject.getContext)();
-      const {
-        ref
-      } = (0,interactivity_namespaceObject.getElement)();
-      ctx.queryRef = ref;
     }
   }
+}, {
+  lock: true
 });
 
 })();

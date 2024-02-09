@@ -20,7 +20,10 @@
 		"customClassName": false,
 		"className": false,
 		"html": false,
-		"multiple": false
+		"multiple": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"editorStyle": "wp-block-more-editor"
 }

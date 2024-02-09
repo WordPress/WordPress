@@ -8,7 +8,10 @@
 	"supports": {
 		"html": false,
 		"inserter": false,
-		"renaming": false
+		"renaming": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"textdomain": "default",
 	"attributes": {

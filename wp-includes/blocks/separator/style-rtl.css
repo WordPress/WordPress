@@ -1,8 +1,7 @@
 @charset "UTF-8";
 .wp-block-separator{
-  border:1px solid;
-  border-left:none;
-  border-right:none;
+  border:none;
+  border-top:2px solid;
 }
 .wp-block-separator.is-style-dots{
   background:none !important;

@@ -116,7 +116,8 @@ const PARTIAL_SYNCING_SUPPORTED_BLOCKS = {
   'core/button': {
     text: (0,external_wp_i18n_namespaceObject.__)('Text'),
     url: (0,external_wp_i18n_namespaceObject.__)('URL'),
-    linkTarget: (0,external_wp_i18n_namespaceObject.__)('Link Target')
+    linkTarget: (0,external_wp_i18n_namespaceObject.__)('Link Target'),
+    rel: (0,external_wp_i18n_namespaceObject.__)('Link Relationship')
   },
   'core/image': {
     url: (0,external_wp_i18n_namespaceObject.__)('URL'),
@@ -1246,10 +1247,66 @@ function PartialSyncingControls({
 }
 /* harmony default export */ const partial_syncing_controls = (PartialSyncingControls);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/reset-overrides-control.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+function recursivelyFindBlockWithId(blocks, id) {
+  for (const block of blocks) {
+    if (block.attributes.metadata?.id === id) {
+      return block;
+    }
+    const found = recursivelyFindBlockWithId(block.innerBlocks, id);
+    if (found) {
+      return found;
+    }
+  }
+}
+function ResetOverridesControl(props) {
+  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
+  const id = props.attributes.metadata?.id;
+  const patternWithOverrides = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    if (!id) {
+      return undefined;
+    }
+    const {
+      getBlockParentsByBlockName,
+      getBlocksByClientId
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    const patternBlock = getBlocksByClientId(getBlockParentsByBlockName(props.clientId, 'core/block'))[0];
+    if (!patternBlock?.attributes.content?.[id]) {
+      return undefined;
+    }
+    return patternBlock;
+  }, [props.clientId, id]);
+  const resetOverrides = async () => {
+    var _editedRecord$blocks;
+    const editedRecord = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getEditedEntityRecord('postType', 'wp_block', patternWithOverrides.attributes.ref);
+    const blocks = (_editedRecord$blocks = editedRecord.blocks) !== null && _editedRecord$blocks !== void 0 ? _editedRecord$blocks : (0,external_wp_blocks_namespaceObject.parse)(editedRecord.content);
+    const block = recursivelyFindBlockWithId(blocks, id);
+    props.setAttributes(block.attributes);
+  };
+  return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
+    group: "other"
+  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
+    onClick: resetOverrides,
+    disabled: !patternWithOverrides,
+    __experimentalIsFocusable: true
+  }, (0,external_wp_i18n_namespaceObject.__)('Reset'))));
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/private-apis.js
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -1268,6 +1325,7 @@ lock(privateApis, {
   PatternsMenuItems: PatternsMenuItems,
   RenamePatternCategoryModal: RenamePatternCategoryModal,
   PartialSyncingControls: partial_syncing_controls,
+  ResetOverridesControl: ResetOverridesControl,
   PATTERN_TYPES: PATTERN_TYPES,
   PATTERN_DEFAULT_CATEGORY: PATTERN_DEFAULT_CATEGORY,
   PATTERN_USER_CATEGORY: PATTERN_USER_CATEGORY,

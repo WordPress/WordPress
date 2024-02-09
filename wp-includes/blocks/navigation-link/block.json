@@ -5,6 +5,11 @@
 	"title": "Custom Link",
 	"category": "design",
 	"parent": [ "core/navigation" ],
+	"allowedBlocks": [
+		"core/navigation-link",
+		"core/navigation-submenu",
+		"core/page-list"
+	],
 	"description": "Add a page, link, or another item to your navigation.",
 	"textdomain": "default",
 	"attributes": {
@@ -72,7 +77,10 @@
 				"fontSize": true
 			}
 		},
-		"renaming": false
+		"renaming": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"editorStyle": "wp-block-navigation-link-editor",
 	"style": "wp-block-navigation-link"

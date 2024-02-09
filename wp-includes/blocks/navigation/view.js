@@ -31,7 +31,6 @@ const interactivity_namespaceObject = x({ ["getContext"]: () => __WEBPACK_EXTERN
 const DEFAULT_BLOCK = {
   name: 'core/navigation-link'
 };
-const ALLOWED_BLOCKS = (/* unused pure expression or super */ null && (['core/navigation-link', 'core/search', 'core/social-links', 'core/page-list', 'core/spacer', 'core/home-link', 'core/site-title', 'core/site-logo', 'core/navigation-submenu', 'core/loginout', 'core/buttons']));
 const PRIORITIZED_INSERTER_BLOCKS = (/* unused pure expression or super */ null && (['core/navigation-link/page', 'core/navigation-link']));
 
 // These parameters must be kept aligned with those in
@@ -245,5 +244,7 @@ const {
       };
     }
   }
+}, {
+  lock: true
 });
 

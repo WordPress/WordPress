@@ -46,7 +46,20 @@ function render_block_core_block( $attributes ) {
 	$content = $wp_embed->run_shortcode( $reusable_block->post_content );
 	$content = $wp_embed->autoembed( $content );
 
-	$has_pattern_overrides = isset( $attributes['overrides'] );
+	// Back compat, the content attribute was previously named overrides and
+	// had a slightly different format. For blocks that have not been migrated,
+	// also convert the format here so that the provided `pattern/overrides`
+	// context is correct.
+	if ( isset( $attributes['overrides'] ) && ! isset( $attributes['content'] ) ) {
+		$migrated_content = array();
+		foreach ( $attributes['overrides'] as $id => $values ) {
+			$migrated_content[ $id ] = array(
+				'values' => $values,
+			);
+		}
+		$attributes['content'] = $migrated_content;
+	}
+	$has_pattern_overrides = isset( $attributes['content'] );
 
 	/**
 	 * We set the `pattern/overrides` context through the `render_block_context`
@@ -55,7 +68,7 @@ function render_block_core_block( $attributes ) {
 	 */
 	if ( $has_pattern_overrides ) {
 		$filter_block_context = static function ( $context ) use ( $attributes ) {
-			$context['pattern/overrides'] = $attributes['overrides'];
+			$context['pattern/overrides'] = $attributes['content'];
 			return $context;
 		};
 		add_filter( 'render_block_context', $filter_block_context, 1 );

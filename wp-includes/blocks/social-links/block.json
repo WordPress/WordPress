@@ -4,6 +4,7 @@
 	"name": "core/social-links",
 	"title": "Social Icons",
 	"category": "widgets",
+	"allowedBlocks": [ "core/social-link" ],
 	"description": "Display icons linking to your social media profiles or sites.",
 	"keywords": [ "links" ],
 	"textdomain": "default",
@@ -77,6 +78,9 @@
 				"margin": true,
 				"padding": false
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"styles": [

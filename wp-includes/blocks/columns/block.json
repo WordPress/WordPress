@@ -4,6 +4,7 @@
 	"name": "core/columns",
 	"title": "Columns",
 	"category": "design",
+	"allowedBlocks": [ "core/column" ],
 	"description": "Display content in multiple columns, with blocks added to each column.",
 	"textdomain": "default",
 	"attributes": {
@@ -78,7 +79,11 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
-		}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		},
+		"shadow": true
 	},
 	"editorStyle": "wp-block-columns-editor",
 	"style": "wp-block-columns"

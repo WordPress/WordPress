@@ -772,8 +772,7 @@ function getOffsetParent(node) {
   }
 
   // offsetParent is undocumented/draft.
-  return (/** @type {Node & { offsetParent: Node }} */closestElement.offsetParent
-  );
+  return /** @type {Node & { offsetParent: Node }} */closestElement.offsetParent;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-input-or-text-area.js
@@ -1108,7 +1107,7 @@ function isEdge(container, isReverse, onlyVertical = false) {
     }
     return container.value.length === container.selectionStart;
   }
-  if (! /** @type {HTMLElement} */container.isContentEditable) {
+  if (!( /** @type {HTMLElement} */container.isContentEditable)) {
     return true;
   }
   const {
@@ -1568,8 +1567,7 @@ function isEmpty(element) {
       } else if (!element.hasChildNodes()) {
         return true;
       }
-      return (/** @type {Element[]} */Array.from(element.childNodes).every(isEmpty)
-      );
+      return /** @type {Element[]} */Array.from(element.childNodes).every(isEmpty);
     default:
       return true;
   }

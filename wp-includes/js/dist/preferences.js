@@ -375,6 +375,7 @@ function PreferenceToggleMenuItem({
   messageActivated,
   messageDeactivated,
   shortcut,
+  handleToggling = true,
   onToggle = () => null,
   disabled = false
 }) {
@@ -398,7 +399,9 @@ function PreferenceToggleMenuItem({
     isSelected: isActive,
     onClick: () => {
       onToggle();
-      toggle(scope, name);
+      if (handleToggling) {
+        toggle(scope, name);
+      }
       speakMessage();
     },
     role: "menuitemcheckbox",

@@ -43,6 +43,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-site-tagline-editor"

@@ -52,6 +52,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-query-title"

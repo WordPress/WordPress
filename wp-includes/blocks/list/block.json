@@ -4,6 +4,7 @@
 	"name": "core/list",
 	"title": "List",
 	"category": "text",
+	"allowedBlocks": [ "core/list-item" ],
 	"description": "Create a bulleted or numbered list.",
 	"keywords": [ "bullet list", "ordered list", "numbered list" ],
 	"textdomain": "default",
@@ -70,7 +71,10 @@
 		"__unstablePasteTextInline": true,
 		"__experimentalSelector": "ol,ul",
 		"__experimentalOnMerge": true,
-		"__experimentalSlashInserter": true
+		"__experimentalSlashInserter": true,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"editorStyle": "wp-block-list-editor",
 	"style": "wp-block-list"

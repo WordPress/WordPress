@@ -48,6 +48,9 @@
 			"__experimentalDefaultControls": {
 				"blockGap": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-post-template",

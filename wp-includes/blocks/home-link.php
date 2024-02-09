@@ -129,7 +129,10 @@ function block_core_home_link_build_li_wrapper_attributes( $context ) {
  */
 function render_block_core_home_link( $attributes, $content, $block ) {
 	if ( empty( $attributes['label'] ) ) {
-		return '';
+		// Using a fallback for the label attribute allows rendering the block even if no attributes have been set,
+		// e.g. when using the block as a hooked block.
+		// Note that the fallback value needs to be kept in sync with the one set in `edit.js` (upon first loading the block in the editor).
+		$attributes['label'] = __( 'Home' );
 	}
 	$aria_current = '';
 

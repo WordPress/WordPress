@@ -3395,11 +3395,10 @@ function withGlobalEvents(eventTypesToHandlers) {
         });
       }
       handleEvent( /** @type {any} */event) {
-        const handler = eventTypesToHandlers[/** @type {keyof GlobalEventHandlersEventMap} */
+        const handler = eventTypesToHandlers[( /** @type {keyof GlobalEventHandlersEventMap} */
         event.type
 
-        /* eslint-enable jsdoc/no-undefined-types */];
-
+        /* eslint-enable jsdoc/no-undefined-types */)];
         if (typeof this.wrappedRef[handler] === 'function') {
           this.wrappedRef[handler](event);
         }
@@ -3611,8 +3610,6 @@ function withState(initialState = {}) {
   }, 'withState');
 }
 
-;// CONCATENATED MODULE: external ["wp","keycodes"]
-const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: external ["wp","dom"]
 const external_wp_dom_namespaceObject = window["wp"]["dom"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-ref-effect/index.js
@@ -3661,7 +3658,6 @@ function useRefEffect(callback, dependencies) {
  */
 
 
-
 /**
  * Internal dependencies
  */
@@ -3692,11 +3688,11 @@ function useConstrainedTabbing() {
   return useRefEffect(( /** @type {HTMLElement} */node) => {
     function onKeyDown( /** @type {KeyboardEvent} */event) {
       const {
-        keyCode,
+        key,
         shiftKey,
         target
       } = event;
-      if (keyCode !== external_wp_keycodes_namespaceObject.TAB) {
+      if (key !== 'Tab') {
         return;
       }
       const action = shiftKey ? 'findPrevious' : 'findNext';
@@ -3891,6 +3887,8 @@ function useCopyToClipboard(text, onSuccess) {
   }, []);
 }
 
+;// CONCATENATED MODULE: external ["wp","keycodes"]
+const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-focus-on-mount/index.js
 /**
  * WordPress dependencies
@@ -4353,6 +4351,9 @@ function useMergeRefs(refs) {
  */
 function useDialog(options) {
   const currentOptions = (0,external_wp_element_namespaceObject.useRef)();
+  const {
+    constrainTabbing = options.focusOnMount !== false
+  } = options;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     currentOptions.current = options;
   }, Object.values(options));
@@ -4380,7 +4381,7 @@ function useDialog(options) {
       }
     });
   }, []);
-  return [useMergeRefs([options.focusOnMount !== false ? constrainedTabbingRef : null, options.focusOnMount !== false ? focusReturnRef : null, options.focusOnMount !== false ? focusOnMountRef : null, closeOnEscapeRef]), {
+  return [useMergeRefs([constrainTabbing ? constrainedTabbingRef : null, options.focusOnMount !== false ? focusReturnRef : null, options.focusOnMount !== false ? focusOnMountRef : null, closeOnEscapeRef]), {
     ...focusOutsideProps,
     tabIndex: -1
   }];
@@ -5244,14 +5245,13 @@ function useAsyncList(list, config = {
 function useWarnOnChange(object, prefix = 'Change detection') {
   const previousValues = usePrevious(object);
   Object.entries(previousValues !== null && previousValues !== void 0 ? previousValues : []).forEach(([key, value]) => {
-    if (value !== object[/** @type {keyof typeof object} */key]) {
+    if (value !== object[( /** @type {keyof typeof object} */key)]) {
       // eslint-disable-next-line no-console
-      console.warn(`${prefix}: ${key} key changed:`, value, object[/** @type {keyof typeof object} */key]
+      console.warn(`${prefix}: ${key} key changed:`, value, object[( /** @type {keyof typeof object} */key)]
       /* eslint-enable jsdoc/check-types */);
     }
   });
 }
-
 /* harmony default export */ const use_warn_on_change = (useWarnOnChange);
 
 ;// CONCATENATED MODULE: ./node_modules/use-memo-one/dist/use-memo-one.esm.js

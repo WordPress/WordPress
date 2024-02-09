@@ -7641,6 +7641,39 @@ exports.Z = TextareaAutosize_1.TextareaAutosize;
 
 /***/ }),
 
+/***/ 2455:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+var __webpack_unused_export__;
+/**
+ * @license React
+ * react-jsx-runtime.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+var f=__webpack_require__(9196),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
+function q(c,a,g){var b,d={},e=null,h=null;void 0!==g&&(e=""+g);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(h=a.ref);for(b in a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}__webpack_unused_export__=l;exports.jsx=q;__webpack_unused_export__=q;
+
+
+/***/ }),
+
+/***/ 7557:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+if (true) {
+  module.exports = __webpack_require__(2455);
+} else {}
+
+
+/***/ }),
+
 /***/ 4793:
 /***/ ((module) => {
 
@@ -8129,6 +8162,38 @@ module.exports.remove = removeAccents;
 
 /***/ }),
 
+/***/ 7755:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+/**
+ * @license React
+ * use-sync-external-store-shim.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+var e=__webpack_require__(9196);function h(a,b){return a===b&&(0!==a||1/a===1/b)||a!==a&&b!==b}var k="function"===typeof Object.is?Object.is:h,l=e.useState,m=e.useEffect,n=e.useLayoutEffect,p=e.useDebugValue;function q(a,b){var d=b(),f=l({inst:{value:d,getSnapshot:b}}),c=f[0].inst,g=f[1];n(function(){c.value=d;c.getSnapshot=b;r(c)&&g({inst:c})},[a,d,b]);m(function(){r(c)&&g({inst:c});return a(function(){r(c)&&g({inst:c})})},[a]);p(d);return d}
+function r(a){var b=a.getSnapshot;a=a.value;try{var d=b();return!k(a,d)}catch(f){return!0}}function t(a,b){return b()}var u="undefined"===typeof window||"undefined"===typeof window.document||"undefined"===typeof window.document.createElement?t:q;exports.useSyncExternalStore=void 0!==e.useSyncExternalStore?e.useSyncExternalStore:u;
+
+
+/***/ }),
+
+/***/ 635:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+if (true) {
+  module.exports = __webpack_require__(7755);
+} else {}
+
+
+/***/ }),
+
 /***/ 9196:
 /***/ ((module) => {
 
@@ -8173,6 +8238,36 @@ module.exports = window["React"];
 /******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -8326,6 +8421,7 @@ __webpack_require__.d(private_selectors_namespaceObject, {
 
 // EXTERNAL MODULE: external "React"
 var external_React_ = __webpack_require__(9196);
+var external_React_namespaceObject = /*#__PURE__*/__webpack_require__.t(external_React_, 2);
 ;// CONCATENATED MODULE: external ["wp","blocks"]
 const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","blockLibrary"]
@@ -9956,7 +10052,8 @@ function currentlyPreviewingTheme() {
 const {
   useHistory
 } = unlock(external_wp_router_namespaceObject.privateApis);
-function getPostLinkProps(history, params = {}, state, shouldReplace = false) {
+function useLink(params, state, shouldReplace = false) {
+  const history = useHistory();
   function onClick(event) {
     event?.preventDefault();
     if (shouldReplace) {
@@ -9978,10 +10075,6 @@ function getPostLinkProps(history, params = {}, state, shouldReplace = false) {
     href: newUrl,
     onClick
   };
-}
-function useLink(params, state, shouldReplace) {
-  const history = useHistory();
-  return getPostLinkProps(history, params, state, shouldReplace);
 }
 function Link({
   params = {},
@@ -10864,7 +10957,6 @@ const revertTemplate = (template, {
     }, {
       undoIgnore: true // Required to merge this edit with the last undo level.
     });
-
     const blocks = (0,external_wp_blocks_namespaceObject.parse)(fileTemplate?.content?.raw);
     registry.dispatch(external_wp_coreData_namespaceObject.store).editEntityRecord('postType', template.type, fileTemplate.id, {
       content: serializeBlocks,
@@ -10973,6 +11065,9 @@ const toggleDistractionFree = () => ({
   registry
 }) => {
   const isDistractionFree = registry.select(external_wp_preferences_namespaceObject.store).get('core', 'distractionFree');
+  if (isDistractionFree) {
+    registry.dispatch(external_wp_preferences_namespaceObject.store).set('core', 'fixedToolbar', false);
+  }
   if (!isDistractionFree) {
     registry.batch(() => {
       registry.dispatch(external_wp_preferences_namespaceObject.store).set('core', 'fixedToolbar', true);
@@ -10989,7 +11084,10 @@ const toggleDistractionFree = () => ({
       actions: [{
         label: (0,external_wp_i18n_namespaceObject.__)('Undo'),
         onClick: () => {
-          registry.dispatch(external_wp_preferences_namespaceObject.store).toggle('core', 'distractionFree');
+          registry.batch(() => {
+            registry.dispatch(external_wp_preferences_namespaceObject.store).set('core', 'fixedToolbar', isDistractionFree ? true : false);
+            registry.dispatch(external_wp_preferences_namespaceObject.store).toggle('core', 'distractionFree');
+          });
         }
       }]
     });
@@ -16984,7 +17082,6 @@ function extractWords(input = '') {
     // One lowercase or digit, followed by one uppercase.
     /([\p{Lu}\p{Lt}])([\p{Lu}\p{Lt}][\p{Ll}\p{Lo}])/gu // One uppercase followed by one uppercase and one lowercase.
     ],
-
     stripRegexp: /(\p{C}|\p{P}|\p{S})+/giu // Anything that's not a punctuation, symbol or control/format character.
   }).split(' ').filter(Boolean);
 }
@@ -18723,7 +18820,7 @@ function usePatternDetails(postType, postId) {
   if (postType === PATTERN_TYPES.user || postType === TEMPLATE_PART_POST_TYPE) {
     details.push({
       label: (0,external_wp_i18n_namespaceObject.__)('Syncing'),
-      value: record.wp_pattern_sync_status === PATTERN_SYNC_TYPES.unsynced ? (0,external_wp_i18n_namespaceObject.__)('Not synced') : (0,external_wp_i18n_namespaceObject.__)('Fully synced')
+      value: record.wp_pattern_sync_status === PATTERN_SYNC_TYPES.unsynced ? (0,external_wp_i18n_namespaceObject._x)('Not synced', 'Text that indicates that the pattern is not synchronized') : (0,external_wp_i18n_namespaceObject._x)('Synced', 'Text that indicates that the pattern is synchronized')
     });
     if (record.wp_pattern_category?.length === 0) {
       details.push({
@@ -19497,6 +19594,20 @@ const formatListBullets = (0,external_React_.createElement)(external_wp_primitiv
 }));
 /* harmony default export */ const format_list_bullets = (formatListBullets);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/funnel.js
+
+/**
+ * WordPress dependencies
+ */
+
+const funnel = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M10 17.5H14V16H10V17.5ZM6 6V7.5H18V6H6ZM8 12.5H16V11H8V12.5Z"
+}));
+/* harmony default export */ const library_funnel = (funnel);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/unseen.js
 
 /**
@@ -19511,19 +19622,53 @@ const unseen = (0,external_React_.createElement)(external_wp_primitives_namespac
 }));
 /* harmony default export */ const library_unseen = (unseen);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/funnel.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/single-selection-checkbox.js
 
 /**
  * WordPress dependencies
  */
 
-const funnel = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M10 17.5H14V16H10V17.5ZM6 6V7.5H18V6H6ZM8 12.5H16V11H8V12.5Z"
-}));
-/* harmony default export */ const library_funnel = (funnel);
+
+function SingleSelectionCheckbox({
+  selection,
+  onSelectionChange,
+  item,
+  data,
+  getItemId,
+  primaryField
+}) {
+  const id = getItemId(item);
+  const isSelected = selection.includes(id);
+  let selectionLabel;
+  if (primaryField?.getValue && item) {
+    // eslint-disable-next-line @wordpress/valid-sprintf
+    selectionLabel = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: item title. */
+    isSelected ? (0,external_wp_i18n_namespaceObject.__)('Deselect item: %s') : (0,external_wp_i18n_namespaceObject.__)('Select item: %s'), primaryField.getValue({
+      item
+    }));
+  } else {
+    selectionLabel = isSelected ? (0,external_wp_i18n_namespaceObject.__)('Select a new item') : (0,external_wp_i18n_namespaceObject.__)('Deselect item');
+  }
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
+    className: "dataviews-view-table-selection-checkbox",
+    __nextHasNoMarginBottom: true,
+    checked: isSelected,
+    label: selectionLabel,
+    onChange: () => {
+      if (!isSelected) {
+        onSelectionChange(data.filter(_item => {
+          const itemId = getItemId?.(_item);
+          return itemId === id || selection.includes(itemId);
+        }));
+      } else {
+        onSelectionChange(data.filter(_item => {
+          const itemId = getItemId?.(_item);
+          return itemId !== id && selection.includes(itemId);
+        }));
+      }
+    }
+  });
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/lock-unlock.js
 /**
@@ -19714,70 +19859,81 @@ function CompactItemActions({
   }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/dropdown-menu-helper.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
+;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/utils.js
 /**
  * Internal dependencies
  */
 
-const {
-  DropdownMenuItemV2: dropdown_menu_helper_DropdownMenuItem
-} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
-const radioCheck = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Circle, {
-  cx: 12,
-  cy: 12,
-  r: 3
-}));
 
 /**
- * A custom implementation of a radio menu item using the standard menu item
- * component, which allows deselecting selected values.
+ * Helper util to sort data by text fields, when sorting is done client side.
+ *
+ * @param {Object}   params            Function params.
+ * @param {Object[]} params.data       Data to sort.
+ * @param {Object}   params.view       Current view object.
+ * @param {Object[]} params.fields     Array of available fields.
+ * @param {string[]} params.textFields Array of the field ids to sort.
+ *
+ * @return {Object[]} Sorted data.
  */
-const DropdownMenuRadioItemCustom = (0,external_wp_element_namespaceObject.forwardRef)(function DropdownMenuRadioItemCustom({
-  checked,
-  name,
-  value,
-  hideOnClick,
-  onChange,
-  onClick,
-  ...props
-}, ref) {
-  const onClickHandler = e => {
-    onClick?.(e);
-    onChange?.({
-      ...e,
-      target: {
-        ...e.target,
-        value
-      }
+const sortByTextFields = ({
+  data,
+  view,
+  fields,
+  textFields
+}) => {
+  const sortedData = [...data];
+  const fieldId = view.sort.field;
+  if (textFields.includes(fieldId)) {
+    const fieldToSort = fields.find(field => {
+      return field.id === fieldId;
     });
+    sortedData.sort((a, b) => {
+      var _fieldToSort$getValue, _fieldToSort$getValue2;
+      const valueA = (_fieldToSort$getValue = fieldToSort.getValue({
+        item: a
+      })) !== null && _fieldToSort$getValue !== void 0 ? _fieldToSort$getValue : '';
+      const valueB = (_fieldToSort$getValue2 = fieldToSort.getValue({
+        item: b
+      })) !== null && _fieldToSort$getValue2 !== void 0 ? _fieldToSort$getValue2 : '';
+      return view.sort.direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+    });
+  }
+  return sortedData;
+};
+
+/**
+ * Helper util to get the paginated data and the paginateInfo needed,
+ * when pagination is done client side.
+ *
+ * @param {Object}   params      Function params.
+ * @param {Object[]} params.data Available data.
+ * @param {Object}   params.view Current view object.
+ *
+ * @return {Object} Paginated data and paginationInfo.
+ */
+function getPaginationResults({
+  data,
+  view
+}) {
+  const start = (view.page - 1) * view.perPage;
+  const totalItems = data?.length || 0;
+  data = data?.slice(start, start + view.perPage);
+  return {
+    data,
+    paginationInfo: {
+      totalItems,
+      totalPages: Math.ceil(totalItems / view.perPage)
+    }
   };
-  return (0,external_React_.createElement)(dropdown_menu_helper_DropdownMenuItem, {
-    ref: ref,
-    role: "menuitemradio",
-    name: name,
-    "aria-checked": checked,
-    hideOnClick: !!hideOnClick,
-    prefix: checked ? (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-      icon: radioCheck
-    }) : (0,external_React_.createElement)("span", {
-      className: "dataviews-filters__custom-menu-radio-item-prefix",
-      "aria-hidden": "true"
-    }),
-    onClick: onClickHandler,
-    ...props
-  });
-});
+}
+const sanitizeOperators = field => {
+  let operators = field.filterBy?.operators;
+  if (!operators || !Array.isArray(operators)) {
+    operators = Object.keys(OPERATORS);
+  }
+  return operators.filter(operator => Object.keys(OPERATORS).includes(operator));
+};
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/view-table.js
 
@@ -19802,50 +19958,43 @@ const DropdownMenuRadioItemCustom = (0,external_wp_element_namespaceObject.forwa
 
 
 
+
 const {
   DropdownMenuV2: view_table_DropdownMenu,
   DropdownMenuGroupV2: view_table_DropdownMenuGroup,
   DropdownMenuItemV2: view_table_DropdownMenuItem,
   DropdownMenuRadioItemV2: DropdownMenuRadioItem,
-  DropdownMenuSeparatorV2: DropdownMenuSeparator,
   DropdownMenuItemLabelV2: view_table_DropdownMenuItemLabel,
-  DropdownMenuItemHelpTextV2: DropdownMenuItemHelpText
+  DropdownMenuSeparatorV2: DropdownMenuSeparator
 } = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
+function WithSeparators({
+  children
+}) {
+  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
+    key: i
+  }, i > 0 && (0,external_React_.createElement)(DropdownMenuSeparator, null), child));
+}
 const sortArrows = {
   asc: '↑',
   desc: '↓'
-};
-const sanitizeOperators = field => {
-  let operators = field.filterBy?.operators;
-  if (!operators || !Array.isArray(operators)) {
-    operators = Object.keys(OPERATORS);
-  }
-  return operators.filter(operator => Object.keys(OPERATORS).includes(operator));
 };
 const HeaderMenu = (0,external_wp_element_namespaceObject.forwardRef)(function HeaderMenu({
   field,
   view,
   onChangeView,
-  onHide
+  onHide,
+  setOpenedFilter
 }, ref) {
   const isHidable = field.enableHiding !== false;
   const isSortable = field.enableSorting !== false;
   const isSorted = view.sort?.field === field.id;
-  let filter, filterInView, activeElement, activeOperator, otherFilters;
   const operators = sanitizeOperators(field);
-  if (field.type === constants_ENUMERATION_TYPE && operators.length > 0) {
-    filter = {
-      field: field.id,
-      operators,
-      elements: field.elements || []
-    };
-    filterInView = view.filters.find(f => f.field === filter.field);
-    otherFilters = view.filters.filter(f => f.field !== filter.field);
-    activeElement = filter.elements.find(element => element.value === filterInView?.value);
-    activeOperator = filterInView?.operator || filter.operators[0];
-  }
-  const isFilterable = !!filter;
-  if (!isSortable && !isHidable && !isFilterable) {
+  // Filter can be added:
+  // 1. If the field is not already part of a view's filters.
+  // 2. If the field meets the type and operator requirements.
+  // 3. If it's not primary. If it is, it should be already visible.
+  const canAddFilter = !view.filters?.some(_filter => field.id === _filter.field) && field.type === constants_ENUMERATION_TYPE && !!operators.length && !field.filterBy?.isPrimary;
+  if (!isSortable && !isHidable && !canAddFilter) {
     return field.header;
   }
   return (0,external_React_.createElement)(view_table_DropdownMenu, {
@@ -19885,7 +20034,23 @@ const HeaderMenu = (0,external_wp_element_namespaceObject.forwardRef)(function H
         });
       }
     }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, info.label));
-  })), isHidable && (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+  })), canAddFilter && (0,external_React_.createElement)(view_table_DropdownMenuGroup, null, (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+    prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: library_funnel
+    }),
+    onClick: () => {
+      setOpenedFilter(field.id);
+      onChangeView({
+        ...view,
+        page: 1,
+        filters: [...(view.filters || []), {
+          field: field.id,
+          value: undefined,
+          operator: operators[0]
+        }]
+      });
+    }
+  }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Add filter')))), isHidable && (0,external_React_.createElement)(view_table_DropdownMenuItem, {
     prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
       icon: library_unseen
     }),
@@ -19896,67 +20061,8 @@ const HeaderMenu = (0,external_wp_element_namespaceObject.forwardRef)(function H
         hiddenFields: view.hiddenFields.concat(field.id)
       });
     }
-  }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Hide'))), isFilterable && (0,external_React_.createElement)(view_table_DropdownMenuGroup, null, (0,external_React_.createElement)(view_table_DropdownMenu, {
-    key: filter.field,
-    trigger: (0,external_React_.createElement)(view_table_DropdownMenuItem, {
-      prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-        icon: library_funnel
-      }),
-      suffix: activeElement && (0,external_React_.createElement)("span", {
-        "aria-hidden": "true"
-      }, activeOperator in OPERATORS && `${OPERATORS[activeOperator].label} `, activeElement?.label)
-    }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Filter by')))
-  }, (0,external_React_.createElement)(WithSeparators, null, (0,external_React_.createElement)(view_table_DropdownMenuGroup, null, filter.elements.map(element => {
-    const isActive = activeElement?.value === element.value;
-    return (0,external_React_.createElement)(DropdownMenuRadioItemCustom, {
-      key: element.value,
-      name: `view-table-${filter.field}`,
-      value: element.value,
-      checked: isActive,
-      onClick: () => {
-        onChangeView({
-          ...view,
-          page: 1,
-          filters: [...otherFilters, {
-            field: filter.field,
-            operator: activeOperator,
-            value: isActive ? undefined : element.value
-          }]
-        });
-      }
-    }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, element.label), !!element.description && (0,external_React_.createElement)(DropdownMenuItemHelpText, null, element.description));
-  })), filter.operators.length > 1 && (0,external_React_.createElement)(view_table_DropdownMenu, {
-    trigger: (0,external_React_.createElement)(view_table_DropdownMenuItem, {
-      suffix: (0,external_React_.createElement)("span", {
-        "aria-hidden": "true"
-      }, OPERATORS[activeOperator]?.label)
-    }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Conditions')))
-  }, Object.entries(OPERATORS).map(([operator, {
-    label,
-    key
-  }]) => (0,external_React_.createElement)(DropdownMenuRadioItem, {
-    key: key,
-    name: `view-table-${filter.field}-conditions`,
-    value: operator,
-    checked: activeOperator === operator,
-    onChange: e => onChangeView({
-      ...view,
-      page: 1,
-      filters: [...otherFilters, {
-        field: filter.field,
-        operator: e.target.value,
-        value: filterInView?.value
-      }]
-    })
-  }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, label)))))))));
+  }, (0,external_React_.createElement)(view_table_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Hide')))));
 });
-function WithSeparators({
-  children
-}) {
-  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
-    key: i
-  }, i > 0 && (0,external_React_.createElement)(DropdownMenuSeparator, null), child));
-}
 function BulkSelectionCheckbox({
   selection,
   onSelectionChange,
@@ -19978,46 +20084,6 @@ function BulkSelectionCheckbox({
     label: areAllSelected ? (0,external_wp_i18n_namespaceObject.__)('Deselect all') : (0,external_wp_i18n_namespaceObject.__)('Select all')
   });
 }
-function SingleSelectionCheckbox({
-  selection,
-  onSelectionChange,
-  item,
-  data,
-  getItemId,
-  primaryField
-}) {
-  const id = getItemId(item);
-  const isSelected = selection.includes(id);
-  let selectionLabel;
-  if (primaryField?.getValue && item) {
-    // eslint-disable-next-line @wordpress/valid-sprintf
-    selectionLabel = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: item title. */
-    isSelected ? (0,external_wp_i18n_namespaceObject.__)('Deselect item: %s') : (0,external_wp_i18n_namespaceObject.__)('Select item: %s'), primaryField.getValue({
-      item
-    }));
-  } else {
-    selectionLabel = isSelected ? (0,external_wp_i18n_namespaceObject.__)('Select a new item') : (0,external_wp_i18n_namespaceObject.__)('Deselect item');
-  }
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
-    className: "dataviews-view-table-selection-checkbox",
-    __nextHasNoMarginBottom: true,
-    checked: isSelected,
-    label: selectionLabel,
-    onChange: () => {
-      if (!isSelected) {
-        onSelectionChange(data.filter(_item => {
-          const itemId = getItemId?.(_item);
-          return itemId === id || selection.includes(itemId);
-        }));
-      } else {
-        onSelectionChange(data.filter(_item => {
-          const itemId = getItemId?.(_item);
-          return itemId !== id && selection.includes(itemId);
-        }));
-      }
-    }
-  });
-}
 function ViewTable({
   view,
   onChangeView,
@@ -20028,7 +20094,8 @@ function ViewTable({
   isLoading = false,
   deferredRendering,
   selection,
-  onSelectionChange
+  onSelectionChange,
+  setOpenedFilter
 }) {
   const hasBulkActions = actions?.some(action => action.supportsBulk);
   const headerMenuRefs = (0,external_wp_element_namespaceObject.useRef)(new Map());
@@ -20108,7 +20175,8 @@ function ViewTable({
     field: field,
     view: view,
     onChangeView: onChangeView,
-    onHide: onHide
+    onHide: onHide,
+    setOpenedFilter: setOpenedFilter
   }))), !!actions?.length && (0,external_React_.createElement)("th", {
     "data-field-id": "actions",
     className: "dataviews-view-table__actions-column"
@@ -20166,8 +20234,14 @@ function ViewTable({
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/view-grid.js
 
 /**
+ * External dependencies
+ */
+
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -20175,30 +20249,49 @@ function ViewTable({
  * Internal dependencies
  */
 
-function ViewGrid({
+
+function GridItem({
+  selection,
   data,
-  fields,
-  view,
-  actions,
+  onSelectionChange,
   getItemId,
-  deferredRendering
+  item,
+  actions,
+  mediaField,
+  primaryField,
+  visibleFields
 }) {
-  const mediaField = fields.find(field => field.id === view.layout.mediaField);
-  const primaryField = fields.find(field => field.id === view.layout.primaryField);
-  const visibleFields = fields.filter(field => !view.hiddenFields.includes(field.id) && ![view.layout.mediaField, view.layout.primaryField].includes(field.id));
-  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data, {
-    step: 3
-  });
-  const usedData = deferredRendering ? shownData : data;
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
-    gap: 6,
-    columns: 2,
-    alignment: "top",
-    className: "dataviews-view-grid"
-  }, usedData.map(item => (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+  const [hasNoPointerEvents, setHasNoPointerEvents] = (0,external_wp_element_namespaceObject.useState)(false);
+  const id = getItemId(item);
+  const isSelected = selection.includes(id);
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
     spacing: 0,
-    key: getItemId(item),
-    className: "dataviews-view-grid__card"
+    key: id,
+    className: classnames_default()('dataviews-view-grid__card', {
+      'is-selected': isSelected,
+      'has-no-pointer-events': hasNoPointerEvents
+    }),
+    onMouseDown: event => {
+      if (event.ctrlKey || event.metaKey) {
+        setHasNoPointerEvents(true);
+        if (!isSelected) {
+          onSelectionChange(data.filter(_item => {
+            const itemId = getItemId?.(_item);
+            return itemId === id || selection.includes(itemId);
+          }));
+        } else {
+          onSelectionChange(data.filter(_item => {
+            const itemId = getItemId?.(_item);
+            return itemId !== id && selection.includes(itemId);
+          }));
+        }
+      }
+    },
+    onClick: () => {
+      if (hasNoPointerEvents) {
+        setHasNoPointerEvents(false);
+      }
+    }
   }, (0,external_React_.createElement)("div", {
     className: "dataviews-view-grid__media"
   }, mediaField?.render({
@@ -20206,7 +20299,15 @@ function ViewGrid({
   })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "space-between",
     className: "dataviews-view-grid__title-actions"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+  }, (0,external_React_.createElement)(SingleSelectionCheckbox, {
+    id: id,
+    item: item,
+    selection: selection,
+    onSelectionChange: onSelectionChange,
+    getItemId: getItemId,
+    data: data,
+    primaryField: primaryField
+  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     className: "dataviews-view-grid__primary-field"
   }, primaryField?.render({
     item
@@ -20234,7 +20335,44 @@ function ViewGrid({
     }, (0,external_React_.createElement)("div", {
       className: "dataviews-view-grid__field-value"
     }, renderedValue)));
-  })))));
+  })));
+}
+function ViewGrid({
+  data,
+  fields,
+  view,
+  actions,
+  getItemId,
+  deferredRendering,
+  selection,
+  onSelectionChange
+}) {
+  const mediaField = fields.find(field => field.id === view.layout.mediaField);
+  const primaryField = fields.find(field => field.id === view.layout.primaryField);
+  const visibleFields = fields.filter(field => !view.hiddenFields.includes(field.id) && ![view.layout.mediaField, view.layout.primaryField].includes(field.id));
+  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data, {
+    step: 3
+  });
+  const usedData = deferredRendering ? shownData : data;
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
+    gap: 6,
+    columns: 2,
+    alignment: "top",
+    className: "dataviews-view-grid"
+  }, usedData.map(item => {
+    return (0,external_React_.createElement)(GridItem, {
+      key: getItemId(item),
+      selection: selection,
+      data: data,
+      onSelectionChange: onSelectionChange,
+      getItemId: getItemId,
+      item: item,
+      actions: actions,
+      mediaField: mediaField,
+      primaryField: primaryField,
+      visibleFields: visibleFields
+    });
+  }));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/info.js
@@ -20320,7 +20458,8 @@ function ViewList({
       onClick: () => onSelectionChange([item])
     }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
       spacing: 3,
-      justify: "start"
+      justify: "start",
+      alignment: "flex-start"
     }, (0,external_React_.createElement)("div", {
       className: "dataviews-view-list__media-wrapper"
     }, mediaField?.render({
@@ -21157,12 +21296,12 @@ const DEFAULT_PAGE_BASE = {
   // better to keep track of the hidden ones.
   hiddenFields: ['date', 'featured-image'],
   layout: {
-    ...DEFAULT_CONFIG_PER_VIEW_TYPE[LAYOUT_LIST]
+    ...DEFAULT_CONFIG_PER_VIEW_TYPE[LAYOUT_TABLE]
   }
 };
 const DEFAULT_VIEWS = {
   page: [{
-    title: (0,external_wp_i18n_namespaceObject.__)('All'),
+    title: (0,external_wp_i18n_namespaceObject._x)('All', 'pages'),
     slug: 'all',
     view: DEFAULT_PAGE_BASE
   }, {
@@ -22398,7 +22537,6 @@ const ShortcutList = ({
   ...shortcut
 }))))
 /* eslint-enable jsx-a11y/no-redundant-roles */;
-
 const ShortcutSection = ({
   title,
   shortcuts,
@@ -22733,28 +22871,18 @@ function ModeSwitcher() {
 function MoreMenu({
   showIconLabels
 }) {
-  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const {
-    closeGeneralSidebar
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const {
-    setIsInserterOpened,
-    setIsListViewOpened
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
   const {
     openModal
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
     set: setPreference
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_preferences_namespaceObject.store);
-  const toggleDistractionFree = () => {
-    registry.batch(() => {
-      setPreference('core', 'fixedToolbar', true);
-      setIsInserterOpened(false);
-      setIsListViewOpened(false);
-      closeGeneralSidebar();
-    });
-  };
+  const isBlockBasedTheme = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    return select(external_wp_coreData_namespaceObject.store).getCurrentTheme().is_block_theme;
+  }, []);
+  const {
+    toggleDistractionFree
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const turnOffDistractionFree = () => {
     setPreference('core', 'distractionFree', false);
   };
@@ -22780,9 +22908,10 @@ function MoreMenu({
   }), (0,external_React_.createElement)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
     scope: "core",
     name: "distractionFree",
-    onToggle: toggleDistractionFree,
     label: (0,external_wp_i18n_namespaceObject.__)('Distraction free'),
     info: (0,external_wp_i18n_namespaceObject.__)('Write with calmness'),
+    handleToggling: false,
+    onToggle: toggleDistractionFree,
     messageActivated: (0,external_wp_i18n_namespaceObject.__)('Distraction free mode activated'),
     messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Distraction free mode deactivated'),
     shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('\\')
@@ -22802,7 +22931,7 @@ function MoreMenu({
     }
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuGroup, {
     label: (0,external_wp_i18n_namespaceObject.__)('Tools')
-  }, (0,external_React_.createElement)(SiteExport, null), (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
+  }, isBlockBasedTheme && (0,external_React_.createElement)(SiteExport, null), (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: () => openModal(KEYBOARD_SHORTCUT_HELP_MODAL_NAME),
     shortcut: external_wp_keycodes_namespaceObject.displayShortcut.access('h')
   }, (0,external_wp_i18n_namespaceObject.__)('Keyboard shortcuts')), (0,external_React_.createElement)(WelcomeGuideMenuItem, null), (0,external_React_.createElement)(CopyContentMenuItem, null), (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
@@ -23111,8 +23240,8 @@ function SiteIcon({
     src: siteIconUrl
   }) : (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
     className: "edit-site-site-icon__icon",
-    size: "48px",
-    icon: library_wordpress
+    icon: library_wordpress,
+    size: 48
   });
   return (0,external_React_.createElement)("div", {
     className: classnames_default()(className, 'edit-site-site-icon')
@@ -25698,7 +25827,6 @@ const {
   useGlobalSetting: screen_block_useGlobalSetting,
   useSettingsForBlockElement: screen_block_useSettingsForBlockElement,
   useHasColorPanel: screen_block_useHasColorPanel,
-  useHasEffectsPanel,
   useHasFiltersPanel,
   useHasImageSettingsPanel,
   useGlobalStyle: screen_block_useGlobalStyle,
@@ -25706,7 +25834,6 @@ const {
   ColorPanel: StylesColorPanel,
   TypographyPanel: StylesTypographyPanel,
   DimensionsPanel: StylesDimensionsPanel,
-  EffectsPanel: StylesEffectsPanel,
   FiltersPanel: StylesFiltersPanel,
   ImageSettingsPanel,
   AdvancedPanel: StylesAdvancedPanel
@@ -25750,7 +25877,6 @@ function ScreenBlock({
   const hasColorPanel = screen_block_useHasColorPanel(settings);
   const hasBorderPanel = screen_block_useHasBorderPanel(settings);
   const hasDimensionsPanel = screen_block_useHasDimensionsPanel(settings);
-  const hasEffectsPanel = useHasEffectsPanel(settings);
   const hasFiltersPanel = useHasFiltersPanel(settings);
   const hasImageSettingsPanel = useHasImageSettingsPanel(name, userSettings, settings);
   const hasVariationsPanel = !!blockVariations?.length && !variation;
@@ -25890,12 +26016,6 @@ function ScreenBlock({
     value: style,
     onChange: onChangeBorders,
     settings: settings
-  }), hasEffectsPanel && (0,external_React_.createElement)(StylesEffectsPanel, {
-    inheritedValue: inheritedStyleWithLayout,
-    value: styleWithLayout,
-    onChange: setStyle,
-    settings: settings,
-    includeLayoutControls: true
   }), hasFiltersPanel && (0,external_React_.createElement)(StylesFiltersPanel, {
     inheritedValue: inheritedStyleWithLayout,
     value: styleWithLayout,
@@ -26006,6 +26126,22 @@ function TypographyElements() {
   })));
 }
 /* harmony default export */ const typogrphy_elements = (TypographyElements);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/settings.js
+
+/**
+ * WordPress dependencies
+ */
+
+const settings_settings = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "m19 7.5h-7.628c-.3089-.87389-1.1423-1.5-2.122-1.5-.97966 0-1.81309.62611-2.12197 1.5h-2.12803v1.5h2.12803c.30888.87389 1.14231 1.5 2.12197 1.5.9797 0 1.8131-.62611 2.122-1.5h7.628z"
+}), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "m19 15h-2.128c-.3089-.8739-1.1423-1.5-2.122-1.5s-1.8131.6261-2.122 1.5h-7.628v1.5h7.628c.3089.8739 1.1423 1.5 2.122 1.5s1.8131-.6261 2.122-1.5h2.128z"
+}));
+/* harmony default export */ const library_settings = (settings_settings);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/resolvers.js
 /**
@@ -26317,7 +26453,10 @@ function makeFontFamilyFormData(fontFamily) {
 }
 function makeFontFacesFormData(font) {
   if (font?.fontFace) {
-    const fontFacesFormData = font.fontFace.map((face, faceIndex) => {
+    const fontFacesFormData = font.fontFace.map((item, faceIndex) => {
+      const face = {
+        ...item
+      };
       const formData = new FormData();
       if (face.file) {
         // Normalize to an array, since face.file may be a single file or an array of files.
@@ -26860,6 +26999,7 @@ function FontLibraryProvider({
  */
 
 
+
 function TabPanelLayout({
   title,
   description,
@@ -26883,7 +27023,8 @@ function TabPanelLayout({
     variant: "tertiary",
     onClick: handleBack,
     icon: chevron_left,
-    size: "small"
+    size: "small",
+    label: (0,external_wp_i18n_namespaceObject.__)('Back')
   }), title && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
     level: 2,
     size: 13,
@@ -26991,17 +27132,11 @@ function FontFaceDemo({
   const isPreviewImage = previewUrl && previewUrl.match(/\.(png|jpg|jpeg|gif|svg)$/i);
   const faceStyles = getFacePreviewStyle(fontFace);
   const textDemoStyle = {
-    whiteSpace: 'nowrap',
-    flexShrink: 0,
     fontSize: '18px',
+    lineHeight: 1,
     opacity: isAssetLoaded ? '1' : '0',
-    transition: 'opacity 0.3s ease-in-out',
     ...faceStyles,
     ...style
-  };
-  const imageDemoStyle = {
-    height: '23px',
-    width: 'auto'
   };
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     const observer = new window.IntersectionObserver(([entry]) => {
@@ -27027,9 +27162,10 @@ function FontFaceDemo({
     src: previewUrl,
     loading: "lazy",
     alt: text,
-    style: imageDemoStyle
+    className: "font-library-modal__font-variant_demo-image"
   }) : (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
-    style: textDemoStyle
+    style: textDemoStyle,
+    className: "font-library-modal__font-variant_demo-text"
   }, text));
 }
 /* harmony default export */ const font_demo = (FontFaceDemo);
@@ -27070,23 +27206,24 @@ function LibraryFontVariant({
     kebabCase
   } = unlock(external_wp_components_namespaceObject.privateApis);
   const checkboxId = kebabCase(`${font.slug}-${getFontFaceVariantName(face)}`);
-  return (0,external_React_.createElement)("label", {
-    className: "font-library-modal__library-font-variant",
-    htmlFor: checkboxId
+  return (0,external_React_.createElement)("div", {
+    className: "font-library-modal__library-font-variant"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, {
-    justify: "space-between",
+    justify: "flex-start",
     align: "center",
     gap: "1rem"
-  }, (0,external_React_.createElement)(font_demo, {
-    fontFace: face,
-    text: displayName
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     checked: isInstalled,
     onChange: handleToggleActivation,
     __nextHasNoMarginBottom: true,
-    id: checkboxId,
-    label: false
-  })));
+    id: checkboxId
+  }), (0,external_React_.createElement)("label", {
+    htmlFor: checkboxId
+  }, (0,external_React_.createElement)(font_demo, {
+    fontFace: face,
+    text: displayName,
+    onClick: handleToggleActivation
+  }))));
 }
 /* harmony default export */ const library_font_variant = (LibraryFontVariant);
 
@@ -27204,7 +27341,8 @@ function FontCard({
     justify: "flex-end"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     className: "font-library-modal__font-card__count"
-  }, variantsText || variantsCount + ' ' + (0,external_wp_i18n_namespaceObject._n)('variant', 'variants', variantsCount))), (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+  }, variantsText || (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %d: Number of font variants. */
+  (0,external_wp_i18n_namespaceObject._n)('%d variant', '%d variants', variantsCount), variantsCount))), (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
     icon: chevron_right
   })))));
 }
@@ -27232,7 +27370,7 @@ function LibraryFontCard({
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   const variantsInstalled = font?.fontFace?.length > 0 ? font.fontFace.length : 1;
   const variantsActive = getFontFacesActivated(font.slug, font.source).length;
-  const variantsText = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$d: Active font variants, %2$d: Total font variants */
+  const variantsText = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Active font variants, 2: Total font variants. */
   (0,external_wp_i18n_namespaceObject.__)('%1$s/%2$s variants active'), variantsActive, variantsInstalled);
   return (0,external_React_.createElement)(font_card, {
     font: font,
@@ -27390,14 +27528,16 @@ function Footer({
     isInstalling
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    justify: "space-between"
+    justify: "flex-end"
   }, isInstalling && (0,external_React_.createElement)(ProgressBar, null), (0,external_React_.createElement)("div", null, shouldDisplayDeleteButton && (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    isDestructive: true,
     variant: "tertiary",
     onClick: handleUninstallClick
   }, (0,external_wp_i18n_namespaceObject.__)('Delete'))), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    disabled: !fontFamiliesHasChanges,
     variant: "primary",
-    onClick: saveFontFamilies
+    onClick: saveFontFamilies,
+    disabled: !fontFamiliesHasChanges,
+    __experimentalIsFocusable: true
   }, (0,external_wp_i18n_namespaceObject.__)('Update')));
 }
 /* harmony default export */ const installed_fonts = (InstalledFonts);
@@ -27464,23 +27604,24 @@ function CollectionFontVariant({
     kebabCase
   } = unlock(external_wp_components_namespaceObject.privateApis);
   const checkboxId = kebabCase(`${font.slug}-${getFontFaceVariantName(face)}`);
-  return (0,external_React_.createElement)("label", {
-    className: "font-library-modal__library-font-variant",
-    htmlFor: checkboxId
+  return (0,external_React_.createElement)("div", {
+    className: "font-library-modal__library-font-variant"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, {
-    justify: "space-between",
+    justify: "flex-start",
     align: "center",
     gap: "1rem"
-  }, (0,external_React_.createElement)(font_demo, {
-    fontFace: face,
-    text: displayName
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     checked: selected,
     onChange: handleToggleActivation,
     __nextHasNoMarginBottom: true,
-    id: checkboxId,
-    label: false
-  })));
+    id: checkboxId
+  }), (0,external_React_.createElement)("label", {
+    htmlFor: checkboxId
+  }, (0,external_React_.createElement)(font_demo, {
+    fontFace: face,
+    text: displayName,
+    onClick: handleToggleActivation
+  }))));
 }
 /* harmony default export */ const collection_font_variant = (CollectionFontVariant);
 
@@ -27569,7 +27710,7 @@ function GoogleFontsConfirmDialog() {
     margin: 3
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     as: "p"
-  }, (0,external_wp_i18n_namespaceObject.__)('You can alternatively upload files directly on the Library tab.')), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+  }, (0,external_wp_i18n_namespaceObject.__)('You can alternatively upload files directly on the Upload tab.')), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 6
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
     variant: "primary",
@@ -27604,7 +27745,7 @@ function GoogleFontsConfirmDialog() {
 
 const DEFAULT_CATEGORY = {
   slug: 'all',
-  name: (0,external_wp_i18n_namespaceObject.__)('All')
+  name: (0,external_wp_i18n_namespaceObject._x)('All', 'font categories')
 };
 function FontCollection({
   slug
@@ -27737,8 +27878,9 @@ function FontCollection({
     description: !selectedFont ? selectedCollection.description : (0,external_wp_i18n_namespaceObject.__)('Select font variants to install.'),
     notice: notice,
     handleBack: !!selectedFont && handleUnselectFont,
-    footer: fontsToInstall.length > 0 && (0,external_React_.createElement)(font_collection_Footer, {
-      handleInstall: handleInstall
+    footer: (0,external_React_.createElement)(font_collection_Footer, {
+      handleInstall: handleInstall,
+      isDisabled: fontsToInstall.length === 0
     })
   }, renderConfirmDialog && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 8
@@ -27776,7 +27918,8 @@ function FontCollection({
   }))));
 }
 function font_collection_Footer({
-  handleInstall
+  handleInstall,
+  isDisabled
 }) {
   const {
     isInstalling
@@ -27787,7 +27930,8 @@ function font_collection_Footer({
     variant: "primary",
     onClick: handleInstall,
     isBusy: isInstalling,
-    disabled: isInstalling
+    disabled: isDisabled || isInstalling,
+    __experimentalIsFocusable: true
   }, (0,external_wp_i18n_namespaceObject.__)('Install')));
 }
 /* harmony default export */ const font_collection = (FontCollection);
@@ -31677,7 +31821,6 @@ function UploadFonts() {
     setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   const [isUploading, setIsUploading] = (0,external_wp_element_namespaceObject.useState)(false);
-  const supportedFormats = ALLOWED_FILE_EXTENSIONS.slice(0, -1).map(extension => `.${extension}`).join(', ') + ` ${(0,external_wp_i18n_namespaceObject.__)('and')} .${ALLOWED_FILE_EXTENSIONS.slice(-1)}`;
   const handleDropZone = files => {
     handleFilesUpload(files);
   };
@@ -31706,10 +31849,8 @@ function UploadFonts() {
         uniqueFilenames.add(file.name);
         return true; // Keep file if the extension is allowed
       }
-
       return false; // Discard file extension not allowed
     });
-
     if (allowedFiles.length > 0) {
       loadFiles(allowedFiles);
     }
@@ -31812,13 +31953,12 @@ function UploadFonts() {
     }) => (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
       className: "font-library-modal__upload-area",
       onClick: openFileDialog
-    }, (0,external_React_.createElement)("span", null, (0,external_wp_i18n_namespaceObject.__)('Upload font')))
+    }, (0,external_wp_i18n_namespaceObject.__)('Upload font'))
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 2
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     className: "font-library-modal__upload-area__text"
-  }, (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: supported font formats: ex: .ttf, .woff and .woff2 */
-  (0,external_wp_i18n_namespaceObject.__)('Uploaded fonts appear in your library and can be used in your theme. Supported formats: %s.'), supportedFormats))));
+  }, (0,external_wp_i18n_namespaceObject.__)('Uploaded fonts appear in your library and can be used in your theme. Supported formats: .tff, .otf, .woff, and .woff2.'))));
 }
 /* harmony default export */ const upload_fonts = (UploadFonts);
 
@@ -31978,7 +32118,7 @@ function FontFamilies() {
   const hasFonts = 0 < customFonts.length || 0 < themeFonts.length;
   return (0,external_React_.createElement)(external_React_.Fragment, null, !!modalTabOpen && (0,external_React_.createElement)(font_library_modal, {
     onRequestClose: () => toggleModal(),
-    initialTabName: modalTabOpen
+    initialTabId: modalTabOpen
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
     spacing: 3
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
@@ -31992,7 +32132,7 @@ function FontFamilies() {
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
     onClick: () => toggleModal('installed-fonts'),
     "aria-label": (0,external_wp_i18n_namespaceObject.__)('Manage fonts'),
-    icon: library_typography,
+    icon: library_settings,
     size: 'small'
   })))), hasFonts ? (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, {
     isBordered: true,
@@ -32003,7 +32143,11 @@ function FontFamilies() {
   })), themeFonts.map(font => (0,external_React_.createElement)(font_family_item, {
     key: font.slug,
     font: font
-  }))) : (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('No fonts installed.'))));
+  }))) : (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('No fonts installed.'), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    className: "edit-site-global-styles-font-families__add-fonts",
+    variant: "secondary",
+    onClick: () => toggleModal('upload-fonts')
+  }, (0,external_wp_i18n_namespaceObject.__)('Add fonts')))));
 }
 /* harmony default export */ const font_families = (({
   ...props
@@ -32197,10 +32341,8 @@ function ScreenTypographyElement({
     size: "__unstable-large",
     __nextHasNoMarginBottom: true
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
-    value: "heading"
-    /* translators: 'All' refers to selecting all heading levels 
-    and applying the same style to h1-h6. */,
-    label: (0,external_wp_i18n_namespaceObject.__)('All')
+    value: "heading",
+    label: (0,external_wp_i18n_namespaceObject._x)('All', 'heading levels')
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
     value: "h1",
     label: (0,external_wp_i18n_namespaceObject.__)('H1')
@@ -32881,7 +33023,7 @@ function ChangesSummary({
   return (0,external_React_.createElement)("span", {
     "data-testid": "global-styles-revision-changes",
     className: "edit-site-global-styles-screen-revisions__changes"
-  }, changes.join(', '));
+  }, changes.join(', '), ".");
 }
 
 /**
@@ -33647,11 +33789,6 @@ const SIDEBAR_BLOCK = 'edit-site/block-inspector';
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-edit-mode/settings-header/index.js
 
 /**
- * External dependencies
- */
-
-
-/**
  * WordPress dependencies
  */
 
@@ -33665,41 +33802,26 @@ const SIDEBAR_BLOCK = 'edit-site/block-inspector';
  */
 
 
-const SettingsHeader = ({
-  sidebarName
-}) => {
+const {
+  Tabs: settings_header_Tabs
+} = unlock(external_wp_components_namespaceObject.privateApis);
+const SettingsHeader = (_, ref) => {
   const postTypeLabel = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_editor_namespaceObject.store).getPostTypeLabel(), []);
-  const {
-    enableComplementaryArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  const openTemplateSettings = () => enableComplementaryArea(constants_STORE_NAME, SIDEBAR_TEMPLATE);
-  const openBlockSettings = () => enableComplementaryArea(constants_STORE_NAME, SIDEBAR_BLOCK);
-  const documentAriaLabel = sidebarName === SIDEBAR_TEMPLATE ?
-  // translators: ARIA label for the Template sidebar tab, selected.
-  (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('%s (selected)'), postTypeLabel) : postTypeLabel;
-
-  /* Use a list so screen readers will announce how many tabs there are. */
-  return (0,external_React_.createElement)("ul", null, (0,external_React_.createElement)("li", null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    onClick: openTemplateSettings,
-    className: classnames_default()('edit-site-sidebar-edit-mode__panel-tab', {
-      'is-active': sidebarName === SIDEBAR_TEMPLATE
-    }),
-    "aria-label": documentAriaLabel,
-    "data-label": postTypeLabel
-  }, postTypeLabel)), (0,external_React_.createElement)("li", null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    onClick: openBlockSettings,
-    className: classnames_default()('edit-site-sidebar-edit-mode__panel-tab', {
-      'is-active': sidebarName === SIDEBAR_BLOCK
-    }),
-    "aria-label": sidebarName === SIDEBAR_BLOCK ?
-    // translators: ARIA label for the Block Settings Sidebar tab, selected.
-    (0,external_wp_i18n_namespaceObject.__)('Block (selected)') :
-    // translators: ARIA label for the Block Settings Sidebar tab, not selected.
-    (0,external_wp_i18n_namespaceObject.__)('Block'),
-    "data-label": (0,external_wp_i18n_namespaceObject.__)('Block')
-  }, (0,external_wp_i18n_namespaceObject.__)('Block'))));
+  return (0,external_React_.createElement)(settings_header_Tabs.TabList, {
+    ref: ref
+  }, (0,external_React_.createElement)(settings_header_Tabs.Tab, {
+    tabId: SIDEBAR_TEMPLATE
+    // Used for focus management in the SettingsSidebar component.
+    ,
+    "data-tab-id": SIDEBAR_TEMPLATE
+  }, postTypeLabel), (0,external_React_.createElement)(settings_header_Tabs.Tab, {
+    tabId: SIDEBAR_BLOCK
+    // Used for focus management in the SettingsSidebar component.
+    ,
+    "data-tab-id": SIDEBAR_BLOCK
+  }, (0,external_wp_i18n_namespaceObject.__)('Block')));
 };
-/* harmony default export */ const settings_header = (SettingsHeader);
+/* harmony default export */ const settings_header = ((0,external_wp_element_namespaceObject.forwardRef)(SettingsHeader));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-edit-mode/sidebar-card/index.js
 
@@ -34424,6 +34546,7 @@ PluginTemplateSettingPanel.Slot = plugin_template_setting_panel_Slot;
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -34436,28 +34559,94 @@ PluginTemplateSettingPanel.Slot = plugin_template_setting_panel_Slot;
 
 
 
+
+const {
+  Tabs: sidebar_edit_mode_Tabs
+} = unlock(external_wp_components_namespaceObject.privateApis);
 const {
   Slot: InspectorSlot,
   Fill: InspectorFill
 } = (0,external_wp_components_namespaceObject.createSlotFill)('EditSiteSidebarInspector');
 const SidebarInspectorFill = InspectorFill;
+const FillContents = ({
+  sidebarName,
+  isEditingPage,
+  supportsGlobalStyles
+}) => {
+  const tabListRef = (0,external_wp_element_namespaceObject.useRef)(null);
+  // Because `DefaultSidebar` renders a `ComplementaryArea`, we
+  // need to forward the `Tabs` context so it can be passed through the
+  // underlying slot/fill.
+  const tabsContextValue = (0,external_wp_element_namespaceObject.useContext)(sidebar_edit_mode_Tabs.Context);
+
+  // This effect addresses a race condition caused by tabbing from the last
+  // block in the editor into the settings sidebar. Without this effect, the
+  // selected tab and browser focus can become separated in an unexpected way.
+  // (e.g the "block" tab is focused, but the "post" tab is selected).
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    const tabsElements = Array.from(tabListRef.current?.querySelectorAll('[role="tab"]') || []);
+    const selectedTabElement = tabsElements.find(
+    // We are purposefully using a custom `data-tab-id` attribute here
+    // because we don't want rely on any assumptions about `Tabs`
+    // component internals.
+    element => element.getAttribute('data-tab-id') === sidebarName);
+    const activeElement = selectedTabElement?.ownerDocument.activeElement;
+    const tabsHasFocus = tabsElements.some(element => {
+      return activeElement && activeElement.id === element.id;
+    });
+    if (tabsHasFocus && selectedTabElement && selectedTabElement.id !== activeElement?.id) {
+      selectedTabElement?.focus();
+    }
+  }, [sidebarName]);
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(DefaultSidebar, {
+    identifier: sidebarName,
+    title: (0,external_wp_i18n_namespaceObject.__)('Settings'),
+    icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? drawer_left : drawer_right,
+    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close Settings'),
+    header: (0,external_React_.createElement)(sidebar_edit_mode_Tabs.Context.Provider, {
+      value: tabsContextValue
+    }, (0,external_React_.createElement)(settings_header, {
+      ref: tabListRef
+    })),
+    headerClassName: "edit-site-sidebar-edit-mode__panel-tabs"
+    // This classname is added so we can apply a corrective negative
+    // margin to the panel.
+    // see https://github.com/WordPress/gutenberg/pull/55360#pullrequestreview-1737671049
+    ,
+    className: "edit-site-sidebar__panel"
+  }, (0,external_React_.createElement)(sidebar_edit_mode_Tabs.Context.Provider, {
+    value: tabsContextValue
+  }, (0,external_React_.createElement)(sidebar_edit_mode_Tabs.TabPanel, {
+    tabId: SIDEBAR_TEMPLATE,
+    focusable: false
+  }, isEditingPage ? (0,external_React_.createElement)(PagePanels, null) : (0,external_React_.createElement)(TemplatePanel, null), (0,external_React_.createElement)(plugin_template_setting_panel.Slot, null)), (0,external_React_.createElement)(sidebar_edit_mode_Tabs.TabPanel, {
+    tabId: SIDEBAR_BLOCK,
+    focusable: false
+  }, (0,external_React_.createElement)(InspectorSlot, {
+    bubblesVirtually: true
+  })))), supportsGlobalStyles && (0,external_React_.createElement)(GlobalStylesSidebar, null));
+};
 function SidebarComplementaryAreaFills() {
   const {
     sidebar,
     isEditorSidebarOpened,
     hasBlockSelection,
     supportsGlobalStyles,
-    isEditingPage
+    isEditingPage,
+    isEditorOpen
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const _sidebar = select(store).getActiveComplementaryArea(constants_STORE_NAME);
     const _isEditorSidebarOpened = [SIDEBAR_BLOCK, SIDEBAR_TEMPLATE].includes(_sidebar);
-    const settings = select(store_store).getSettings();
+    const {
+      getCanvasMode
+    } = unlock(select(store_store));
     return {
       sidebar: _sidebar,
       isEditorSidebarOpened: _isEditorSidebarOpened,
       hasBlockSelection: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
-      supportsGlobalStyles: !settings?.supportsTemplatePartsMode,
-      isEditingPage: select(store_store).isPage()
+      supportsGlobalStyles: select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.is_block_theme,
+      isEditingPage: select(store_store).isPage(),
+      isEditorOpen: getCanvasMode() === 'edit'
     };
   }, []);
   const {
@@ -34481,18 +34670,31 @@ function SidebarComplementaryAreaFills() {
   if (!isEditorSidebarOpened) {
     sidebarName = hasBlockSelection ? SIDEBAR_BLOCK : SIDEBAR_TEMPLATE;
   }
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(DefaultSidebar, {
-    identifier: sidebarName,
-    title: (0,external_wp_i18n_namespaceObject.__)('Settings'),
-    icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? drawer_left : drawer_right,
-    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close Settings'),
-    header: (0,external_React_.createElement)(settings_header, {
-      sidebarName: sidebarName
-    }),
-    headerClassName: "edit-site-sidebar-edit-mode__panel-tabs"
-  }, sidebarName === SIDEBAR_TEMPLATE && (0,external_React_.createElement)(external_React_.Fragment, null, isEditingPage ? (0,external_React_.createElement)(PagePanels, null) : (0,external_React_.createElement)(TemplatePanel, null), (0,external_React_.createElement)(plugin_template_setting_panel.Slot, null)), sidebarName === SIDEBAR_BLOCK && (0,external_React_.createElement)(InspectorSlot, {
-    bubblesVirtually: true
-  })), supportsGlobalStyles && (0,external_React_.createElement)(GlobalStylesSidebar, null));
+
+  // `newSelectedTabId` could technically be falsey if no tab is selected (i.e.
+  // the initial render) or when we don't want a tab displayed (i.e. the
+  // sidebar is closed). These cases should both be covered by the `!!` check
+  // below, so we shouldn't need any additional falsey handling.
+  const onTabSelect = (0,external_wp_element_namespaceObject.useCallback)(newSelectedTabId => {
+    if (!!newSelectedTabId) {
+      enableComplementaryArea(constants_STORE_NAME, newSelectedTabId);
+    }
+  }, [enableComplementaryArea]);
+  return (0,external_React_.createElement)(sidebar_edit_mode_Tabs
+  // Due to how this component is controlled (via a value from the
+  // edit-site store), when the sidebar closes the currently selected
+  // tab can't be found. This causes the component to continuously reset
+  // the selection to `null` in an infinite loop. Proactively setting
+  // the selected tab to `null` avoids that.
+  , {
+    selectedTabId: isEditorOpen && isEditorSidebarOpened ? sidebarName : null,
+    onSelect: onTabSelect,
+    selectOnMove: false
+  }, (0,external_React_.createElement)(FillContents, {
+    sidebarName: sidebarName,
+    isEditingPage: isEditingPage,
+    supportsGlobalStyles: supportsGlobalStyles
+  }));
 }
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
@@ -35298,59 +35500,6 @@ function CanvasLoader({
   })));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/arrow-left.js
-
-/**
- * WordPress dependencies
- */
-
-const arrowLeft = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M20 11.2H6.8l3.7-3.7-1-1L3.9 12l5.6 5.5 1-1-3.7-3.7H20z"
-}));
-/* harmony default export */ const arrow_left = (arrowLeft);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/back-button.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-const {
-  useLocation: back_button_useLocation,
-  useHistory: back_button_useHistory
-} = unlock(external_wp_router_namespaceObject.privateApis);
-function BackButton() {
-  const location = back_button_useLocation();
-  const history = back_button_useHistory();
-  const isTemplatePart = location.params.postType === TEMPLATE_PART_POST_TYPE;
-  const isNavigationMenu = location.params.postType === NAVIGATION_POST_TYPE;
-  const isPattern = location.params.postType === PATTERN_TYPES.user;
-  const isFocusMode = location.params.focusMode || isTemplatePart || isNavigationMenu || isPattern;
-  if (!isFocusMode) {
-    return null;
-  }
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "edit-site-visual-editor__back-button",
-    icon: arrow_left,
-    onClick: () => {
-      history.back();
-    }
-  }, (0,external_wp_i18n_namespaceObject.__)('Back'));
-}
-/* harmony default export */ const back_button = (BackButton);
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/editor-canvas.js
 
 /**
@@ -35469,29 +35618,30 @@ function EditorCanvas({
 }
 /* harmony default export */ const editor_canvas = (EditorCanvas);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/use-post-link-props.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/use-navigate-to-entity-record.js
 /**
  * WordPress dependencies
  */
+
 
 
 /**
  * Internal dependencies
  */
 
-
 const {
-  useHistory: use_post_link_props_useHistory
+  useHistory: use_navigate_to_entity_record_useHistory
 } = unlock(external_wp_router_namespaceObject.privateApis);
-function usePostLinkProps() {
-  const history = use_post_link_props_useHistory();
-  return (params, state) => {
-    return getPostLinkProps(history, {
+function useNavigateToEntityRecord() {
+  const history = use_navigate_to_entity_record_useHistory();
+  const onNavigateToEntityRecord = (0,external_wp_element_namespaceObject.useCallback)(params => {
+    history.push({
       ...params,
       focusMode: true,
       canvas: 'edit'
-    }, state);
-  };
+    });
+  }, [history]);
+  return onNavigateToEntityRecord;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/block-editor/use-site-editor-settings.js
@@ -35503,15 +35653,22 @@ function usePostLinkProps() {
 
 
 
+
+
 /**
  * Internal dependencies
  */
 
 
 
+
 const {
   useBlockEditorSettings
 } = unlock(external_wp_editor_namespaceObject.privateApis);
+const {
+  useLocation: use_site_editor_settings_useLocation,
+  useHistory: use_site_editor_settings_useHistory
+} = unlock(external_wp_router_namespaceObject.privateApis);
 function useArchiveLabel(templateSlug) {
   const taxonomyMatches = templateSlug?.match(/^(category|tag|taxonomy-([^-]+))$|^(((category|tag)|taxonomy-([^-]+))-(.+))$/);
   let taxonomy;
@@ -35578,8 +35735,24 @@ function useArchiveLabel(templateSlug) {
     };
   }, [authorSlug, isAuthor, taxonomy, term]);
 }
+function useNavigateToPreviousEntityRecord() {
+  const location = use_site_editor_settings_useLocation();
+  const previousLocation = (0,external_wp_compose_namespaceObject.usePrevious)(location);
+  const history = use_site_editor_settings_useHistory();
+  const goBack = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const isFocusMode = location.params.focusMode || location.params.postId && FOCUSABLE_ENTITIES.includes(location.params.postType);
+    const didComeFromEditorCanvas = previousLocation?.params.postId && previousLocation?.params.postType && previousLocation?.params.canvas === 'edit';
+    const showBackButton = isFocusMode && didComeFromEditorCanvas;
+    return showBackButton ? () => history.back() : undefined;
+    // Disable reason: previousLocation changes when the component updates for any reason, not
+    // just when location changes. Until this is fixed we can't add it to deps. See
+    // https://github.com/WordPress/gutenberg/pull/58710#discussion_r1479219465.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, history]);
+  return goBack;
+}
 function useSpecificEditorSettings() {
-  const getPostLinkProps = usePostLinkProps();
+  const onNavigateToEntityRecord = useNavigateToEntityRecord();
   const {
     templateSlug,
     canvasMode,
@@ -35609,6 +35782,7 @@ function useSpecificEditorSettings() {
   }, []);
   const archiveLabels = useArchiveLabel(templateSlug);
   const defaultRenderingMode = postWithTemplate ? 'template-locked' : 'all';
+  const onNavigateToPreviousEntityRecord = useNavigateToPreviousEntityRecord();
   const defaultEditorSettings = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return {
       ...settings,
@@ -35616,12 +35790,13 @@ function useSpecificEditorSettings() {
       supportsTemplateMode: true,
       focusMode: canvasMode !== 'view',
       defaultRenderingMode,
-      getPostLinkProps,
+      onNavigateToEntityRecord,
+      onNavigateToPreviousEntityRecord,
       // I wonder if they should be set in the post editor too
       __experimentalArchiveTitleTypeLabel: archiveLabels.archiveTypeLabel,
       __experimentalArchiveTitleNameLabel: archiveLabels.archiveNameLabel
     };
-  }, [settings, canvasMode, defaultRenderingMode, getPostLinkProps, archiveLabels.archiveTypeLabel, archiveLabels.archiveNameLabel]);
+  }, [settings, canvasMode, defaultRenderingMode, onNavigateToEntityRecord, onNavigateToPreviousEntityRecord, archiveLabels.archiveTypeLabel, archiveLabels.archiveNameLabel]);
   return defaultEditorSettings;
 }
 function useSiteEditorSettings() {
@@ -35667,7 +35842,6 @@ function useSiteEditorSettings() {
 
 
 
-
 const {
   useLocation: site_editor_canvas_useLocation
 } = unlock(external_wp_router_namespaceObject.privateApis);
@@ -35695,7 +35869,9 @@ function SiteEditorCanvas() {
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('small', '<');
   const enableResizing = isFocusMode && !isViewMode &&
   // Disable resizing in mobile viewport.
-  !isMobileViewport;
+  !isMobileViewport &&
+  // Disable resizing when editing a template in focus mode.
+  templateType !== constants_TEMPLATE_POST_TYPE;
   const isTemplateTypeNavigation = templateType === NAVIGATION_POST_TYPE;
   const isNavigationFocusMode = isTemplateTypeNavigation && isFocusMode;
   const forceFullHeight = isNavigationFocusMode;
@@ -35706,7 +35882,7 @@ function SiteEditorCanvas() {
       'is-focus-mode': isFocusMode || !!editorCanvasView,
       'is-view-mode': isViewMode
     })
-  }, (0,external_React_.createElement)(back_button, null), (0,external_React_.createElement)(resizable_editor, {
+  }, (0,external_React_.createElement)(resizable_editor, {
     enableResizing: enableResizing,
     height: sizes.height && !forceFullHeight ? sizes.height : '100%'
   }, (0,external_React_.createElement)(editor_canvas, {
@@ -35801,7 +35977,6 @@ function ConvertToTemplatePart({
     // The modal and this component will be unmounted because of `replaceBlocks` above,
     // so no need to call `closeModal` or `onClose`.
   };
-
   return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
     icon: symbol_filled,
     onClick: () => {
@@ -35922,7 +36097,8 @@ const interfaceLabels = {
 const blockRemovalRules = {
   'core/query': (0,external_wp_i18n_namespaceObject.__)('Query Loop displays a list of posts or pages.'),
   'core/post-content': (0,external_wp_i18n_namespaceObject.__)('Post Content displays the content of a post or page.'),
-  'core/post-template': (0,external_wp_i18n_namespaceObject.__)('Post Template displays each post or page in a Query Loop.')
+  'core/post-template': (0,external_wp_i18n_namespaceObject.__)('Post Template displays each post or page in a Query Loop.'),
+  'bindings/core/pattern-overrides': (0,external_wp_i18n_namespaceObject.__)('Blocks from synced patterns that can have overriden content.')
 };
 function Editor({
   isLoading
@@ -35945,6 +36121,7 @@ function Editor({
     isRightSidebarOpen,
     isInserterOpen,
     isListViewOpen,
+    isDistractionFree,
     showIconLabels,
     showBlockBreadcrumbs,
     postTypeLabel
@@ -35984,6 +36161,7 @@ function Editor({
       isInserterOpen: isInserterOpened(),
       isListViewOpen: isListViewOpened(),
       isRightSidebarOpen: getActiveComplementaryArea(store_store.name),
+      isDistractionFree: get('core', 'distractionFree'),
       showBlockBreadcrumbs: get('core', 'showBlockBreadcrumbs'),
       showIconLabels: get('core', 'showIconLabels'),
       postTypeLabel: getPostTypeLabel()
@@ -35992,7 +36170,7 @@ function Editor({
   const isViewMode = canvasMode === 'view';
   const isEditMode = canvasMode === 'edit';
   const showVisualEditor = isViewMode || editorMode === 'visual';
-  const shouldShowBlockBreadcrumbs = showBlockBreadcrumbs && isEditMode && showVisualEditor && blockEditorMode !== 'zoom-out';
+  const shouldShowBlockBreadcrumbs = !isDistractionFree && showBlockBreadcrumbs && isEditMode && showVisualEditor && blockEditorMode !== 'zoom-out';
   const shouldShowInserter = isEditMode && showVisualEditor && isInserterOpen;
   const shouldShowListView = isEditMode && showVisualEditor && isListViewOpen;
   const secondarySidebarLabel = isListViewOpen ? (0,external_wp_i18n_namespaceObject.__)('List View') : (0,external_wp_i18n_namespaceObject.__)('Block Library');
@@ -36022,7 +36200,7 @@ function Editor({
     settings: settings,
     useSubRegistry: false
   }, (0,external_React_.createElement)(SidebarComplementaryAreaFills, null), isEditMode && (0,external_React_.createElement)(StartTemplateOptions, null), (0,external_React_.createElement)(interface_skeleton, {
-    isDistractionFree: true,
+    isDistractionFree: isDistractionFree,
     enableRegionNavigation: false,
     className: classnames_default()('edit-site-editor__interface-skeleton', {
       'show-icon-labels': showIconLabels
@@ -36129,22 +36307,6 @@ const pagination_Pagination = (0,external_wp_element_namespaceObject.memo)(funct
 });
 /* harmony default export */ const pagination = (pagination_Pagination);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/settings.js
-
-/**
- * WordPress dependencies
- */
-
-const settings_settings = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "m19 7.5h-7.628c-.3089-.87389-1.1423-1.5-2.122-1.5-.97966 0-1.81309.62611-2.12197 1.5h-2.12803v1.5h2.12803c.30888.87389 1.14231 1.5 2.12197 1.5.9797 0 1.8131-.62611 2.122-1.5h7.628z"
-}), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "m19 15h-2.128c-.3089-.8739-1.1423-1.5-2.122-1.5s-1.8131.6261-2.122 1.5h-7.628v1.5h7.628c.3089.8739 1.1423 1.5 2.122 1.5s1.8131-.6261 2.122-1.5h2.128z"
-}));
-/* harmony default export */ const library_settings = (settings_settings);
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/view-actions.js
 
 /**
@@ -36213,7 +36375,7 @@ function PageSizeMenu({
       suffix: (0,external_React_.createElement)("span", {
         "aria-hidden": "true"
       }, view.perPage)
-    }, (0,external_React_.createElement)(view_actions_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Rows per page')))
+    }, (0,external_React_.createElement)(view_actions_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Items per page')))
   }, PAGE_SIZE_VALUES.map(size => {
     return (0,external_React_.createElement)(view_actions_DropdownMenuRadioItem, {
       key: size,
@@ -36339,11 +36501,5098 @@ const ViewActions = (0,external_wp_element_namespaceObject.memo)(function ViewAc
 });
 /* harmony default export */ const view_actions = (ViewActions);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/filter-summary.js
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/4R3V3JGP.js
+"use client";
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var _4R3V3JGP_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var _4R3V3JGP_spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/4R3V3JGP.js
+"use client";
+var _4R3V3JGP_defProp = Object.defineProperty;
+var _4R3V3JGP_defProps = Object.defineProperties;
+var _4R3V3JGP_getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var _4R3V3JGP_getOwnPropSymbols = Object.getOwnPropertySymbols;
+var _4R3V3JGP_hasOwnProp = Object.prototype.hasOwnProperty;
+var _4R3V3JGP_propIsEnum = Object.prototype.propertyIsEnumerable;
+var _4R3V3JGP_defNormalProp = (obj, key, value) => key in obj ? _4R3V3JGP_defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var _chunks_4R3V3JGP_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (_4R3V3JGP_hasOwnProp.call(b, prop))
+      _4R3V3JGP_defNormalProp(a, prop, b[prop]);
+  if (_4R3V3JGP_getOwnPropSymbols)
+    for (var prop of _4R3V3JGP_getOwnPropSymbols(b)) {
+      if (_4R3V3JGP_propIsEnum.call(b, prop))
+        _4R3V3JGP_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var _chunks_4R3V3JGP_spreadProps = (a, b) => _4R3V3JGP_defProps(a, _4R3V3JGP_getOwnPropDescs(b));
+var _4R3V3JGP_objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (_4R3V3JGP_hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && _4R3V3JGP_getOwnPropSymbols)
+    for (var prop of _4R3V3JGP_getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && _4R3V3JGP_propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/Y3OOHFCN.js
+"use client";
+
+
+// src/utils/misc.ts
+function Y3OOHFCN_noop(..._) {
+}
+function shallowEqual(a, b) {
+  if (a === b)
+    return true;
+  if (!a)
+    return false;
+  if (!b)
+    return false;
+  if (typeof a !== "object")
+    return false;
+  if (typeof b !== "object")
+    return false;
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  const { length } = aKeys;
+  if (bKeys.length !== length)
+    return false;
+  for (const key of aKeys) {
+    if (a[key] !== b[key]) {
+      return false;
+    }
+  }
+  return true;
+}
+function Y3OOHFCN_applyState(argument, currentValue) {
+  if (isUpdater(argument)) {
+    const value = isLazyValue(currentValue) ? currentValue() : currentValue;
+    return argument(value);
+  }
+  return argument;
+}
+function isUpdater(argument) {
+  return typeof argument === "function";
+}
+function isLazyValue(value) {
+  return typeof value === "function";
+}
+function Y3OOHFCN_isObject(arg) {
+  return typeof arg === "object" && arg != null;
+}
+function isEmpty(arg) {
+  if (Array.isArray(arg))
+    return !arg.length;
+  if (Y3OOHFCN_isObject(arg))
+    return !Object.keys(arg).length;
+  if (arg == null)
+    return true;
+  if (arg === "")
+    return true;
+  return false;
+}
+function isInteger(arg) {
+  if (typeof arg === "number") {
+    return Math.floor(arg) === arg;
+  }
+  return String(Math.floor(Number(arg))) === arg;
+}
+function Y3OOHFCN_hasOwnProperty(object, prop) {
+  if (typeof Object.hasOwn === "function") {
+    return Object.hasOwn(object, prop);
+  }
+  return Object.prototype.hasOwnProperty.call(object, prop);
+}
+function chain(...fns) {
+  return (...args) => {
+    for (const fn of fns) {
+      if (typeof fn === "function") {
+        fn(...args);
+      }
+    }
+  };
+}
+function cx(...args) {
+  return args.filter(Boolean).join(" ") || void 0;
+}
+function normalizeString(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+function omit(object, keys) {
+  const result = _chunks_4R3V3JGP_spreadValues({}, object);
+  for (const key of keys) {
+    if (Y3OOHFCN_hasOwnProperty(result, key)) {
+      delete result[key];
+    }
+  }
+  return result;
+}
+function pick(object, paths) {
+  const result = {};
+  for (const key of paths) {
+    if (Y3OOHFCN_hasOwnProperty(object, key)) {
+      result[key] = object[key];
+    }
+  }
+  return result;
+}
+function identity(value) {
+  return value;
+}
+function beforePaint(cb = Y3OOHFCN_noop) {
+  const raf = requestAnimationFrame(cb);
+  return () => cancelAnimationFrame(raf);
+}
+function afterPaint(cb = Y3OOHFCN_noop) {
+  let raf = requestAnimationFrame(() => {
+    raf = requestAnimationFrame(cb);
+  });
+  return () => cancelAnimationFrame(raf);
+}
+function invariant(condition, message) {
+  if (condition)
+    return;
+  if (typeof message !== "string")
+    throw new Error("Invariant failed");
+  throw new Error(message);
+}
+function getKeys(obj) {
+  return Object.keys(obj);
+}
+function isFalsyBooleanCallback(booleanOrCallback, ...args) {
+  const result = typeof booleanOrCallback === "function" ? booleanOrCallback(...args) : booleanOrCallback;
+  if (result == null)
+    return false;
+  return !result;
+}
+function disabledFromProps(props) {
+  return props.disabled || props["aria-disabled"] === true || props["aria-disabled"] === "true";
+}
+function defaultValue(...values) {
+  for (const value of values) {
+    if (value !== void 0)
+      return value;
+  }
+  return void 0;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/XM66DUTO.js
+"use client";
+
+
+// src/utils/misc.ts
+
+
+function setRef(ref, value) {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref) {
+    ref.current = value;
+  }
+}
+function isValidElementWithRef(element) {
+  if (!element)
+    return false;
+  if (!(0,external_React_.isValidElement)(element))
+    return false;
+  if (!("ref" in element))
+    return false;
+  return true;
+}
+function getRefProperty(element) {
+  if (!isValidElementWithRef(element))
+    return null;
+  return element.ref;
+}
+function mergeProps(base, overrides) {
+  const props = _4R3V3JGP_spreadValues({}, base);
+  for (const key in overrides) {
+    if (!Y3OOHFCN_hasOwnProperty(overrides, key))
+      continue;
+    if (key === "className") {
+      const prop = "className";
+      props[prop] = base[prop] ? `${base[prop]} ${overrides[prop]}` : overrides[prop];
+      continue;
+    }
+    if (key === "style") {
+      const prop = "style";
+      props[prop] = base[prop] ? _4R3V3JGP_spreadValues(_4R3V3JGP_spreadValues({}, base[prop]), overrides[prop]) : overrides[prop];
+      continue;
+    }
+    const overrideValue = overrides[key];
+    if (typeof overrideValue === "function" && key.startsWith("on")) {
+      const baseValue = base[key];
+      if (typeof baseValue === "function") {
+        props[key] = (...args) => {
+          overrideValue(...args);
+          baseValue(...args);
+        };
+        continue;
+      }
+    }
+    props[key] = overrideValue;
+  }
+  return props;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/DLOEKDPY.js
+"use client";
+
+// src/utils/dom.ts
+var DLOEKDPY_canUseDOM = checkIsBrowser();
+function checkIsBrowser() {
+  var _a;
+  return typeof window !== "undefined" && !!((_a = window.document) == null ? void 0 : _a.createElement);
+}
+function DLOEKDPY_getDocument(node) {
+  return node ? node.ownerDocument || node : document;
+}
+function getWindow(node) {
+  return DLOEKDPY_getDocument(node).defaultView || window;
+}
+function DLOEKDPY_getActiveElement(node, activeDescendant = false) {
+  const { activeElement } = DLOEKDPY_getDocument(node);
+  if (!(activeElement == null ? void 0 : activeElement.nodeName)) {
+    return null;
+  }
+  if (DLOEKDPY_isFrame(activeElement) && activeElement.contentDocument) {
+    return DLOEKDPY_getActiveElement(
+      activeElement.contentDocument.body,
+      activeDescendant
+    );
+  }
+  if (activeDescendant) {
+    const id = activeElement.getAttribute("aria-activedescendant");
+    if (id) {
+      const element = DLOEKDPY_getDocument(activeElement).getElementById(id);
+      if (element) {
+        return element;
+      }
+    }
+  }
+  return activeElement;
+}
+function contains(parent, child) {
+  return parent === child || parent.contains(child);
+}
+function DLOEKDPY_isFrame(element) {
+  return element.tagName === "IFRAME";
+}
+function isButton(element) {
+  const tagName = element.tagName.toLowerCase();
+  if (tagName === "button")
+    return true;
+  if (tagName === "input" && element.type) {
+    return buttonInputTypes.indexOf(element.type) !== -1;
+  }
+  return false;
+}
+var buttonInputTypes = [
+  "button",
+  "color",
+  "file",
+  "image",
+  "reset",
+  "submit"
+];
+function matches(element, selectors) {
+  if ("matches" in element) {
+    return element.matches(selectors);
+  }
+  if ("msMatchesSelector" in element) {
+    return element.msMatchesSelector(selectors);
+  }
+  return element.webkitMatchesSelector(selectors);
+}
+function isVisible(element) {
+  const htmlElement = element;
+  return htmlElement.offsetWidth > 0 || htmlElement.offsetHeight > 0 || element.getClientRects().length > 0;
+}
+function DLOEKDPY_closest(element, selectors) {
+  if ("closest" in element)
+    return element.closest(selectors);
+  do {
+    if (matches(element, selectors))
+      return element;
+    element = element.parentElement || element.parentNode;
+  } while (element !== null && element.nodeType === 1);
+  return null;
+}
+function DLOEKDPY_isTextField(element) {
+  try {
+    const isTextInput = element instanceof HTMLInputElement && element.selectionStart !== null;
+    const isTextArea = element.tagName === "TEXTAREA";
+    return isTextInput || isTextArea || false;
+  } catch (error) {
+    return false;
+  }
+}
+function getPopupRole(element, fallback) {
+  const allowedPopupRoles = ["dialog", "menu", "listbox", "tree", "grid"];
+  const role = element == null ? void 0 : element.getAttribute("role");
+  if (role && allowedPopupRoles.indexOf(role) !== -1) {
+    return role;
+  }
+  return fallback;
+}
+function getPopupItemRole(element, fallback) {
+  var _a;
+  const itemRoleByPopupRole = {
+    menu: "menuitem",
+    listbox: "option",
+    tree: "treeitem",
+    grid: "gridcell"
+  };
+  const popupRole = getPopupRole(element);
+  if (!popupRole)
+    return fallback;
+  const key = popupRole;
+  return (_a = itemRoleByPopupRole[key]) != null ? _a : fallback;
+}
+function getTextboxSelection(element) {
+  let start = 0;
+  let end = 0;
+  if (DLOEKDPY_isTextField(element)) {
+    start = element.selectionStart || 0;
+    end = element.selectionEnd || 0;
+  } else if (element.isContentEditable) {
+    const selection = DLOEKDPY_getDocument(element).getSelection();
+    if ((selection == null ? void 0 : selection.rangeCount) && selection.anchorNode && contains(element, selection.anchorNode) && selection.focusNode && contains(element, selection.focusNode)) {
+      const range = selection.getRangeAt(0);
+      const nextRange = range.cloneRange();
+      nextRange.selectNodeContents(element);
+      nextRange.setEnd(range.startContainer, range.startOffset);
+      start = nextRange.toString().length;
+      nextRange.setEnd(range.endContainer, range.endOffset);
+      end = nextRange.toString().length;
+    }
+  }
+  return { start, end };
+}
+function scrollIntoViewIfNeeded(element, arg) {
+  if (isPartiallyHidden(element) && "scrollIntoView" in element) {
+    element.scrollIntoView(arg);
+  }
+}
+function getScrollingElement(element) {
+  if (!element)
+    return null;
+  if (element.clientHeight && element.scrollHeight > element.clientHeight) {
+    const { overflowY } = getComputedStyle(element);
+    const isScrollable = overflowY !== "visible" && overflowY !== "hidden";
+    if (isScrollable)
+      return element;
+  } else if (element.clientWidth && element.scrollWidth > element.clientWidth) {
+    const { overflowX } = getComputedStyle(element);
+    const isScrollable = overflowX !== "visible" && overflowX !== "hidden";
+    if (isScrollable)
+      return element;
+  }
+  return getScrollingElement(element.parentElement) || document.scrollingElement || document.body;
+}
+function isPartiallyHidden(element) {
+  const elementRect = element.getBoundingClientRect();
+  const scroller = getScrollingElement(element);
+  if (!scroller)
+    return false;
+  const scrollerRect = scroller.getBoundingClientRect();
+  const isHTML = scroller.tagName === "HTML";
+  const scrollerTop = isHTML ? scrollerRect.top + scroller.scrollTop : scrollerRect.top;
+  const scrollerBottom = isHTML ? scroller.clientHeight : scrollerRect.bottom;
+  const scrollerLeft = isHTML ? scrollerRect.left + scroller.scrollLeft : scrollerRect.left;
+  const scrollerRight = isHTML ? scroller.clientWidth : scrollerRect.right;
+  const top = elementRect.top < scrollerTop;
+  const left = elementRect.left < scrollerLeft;
+  const bottom = elementRect.bottom > scrollerBottom;
+  const right = elementRect.right > scrollerRight;
+  return top || left || bottom || right;
+}
+function setSelectionRange(element, ...args) {
+  if (/text|search|password|tel|url/i.test(element.type)) {
+    element.setSelectionRange(...args);
+  }
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/MHPO2BXA.js
+"use client";
+
+
+// src/utils/platform.ts
+function isTouchDevice() {
+  return DLOEKDPY_canUseDOM && !!navigator.maxTouchPoints;
+}
+function isApple() {
+  if (!DLOEKDPY_canUseDOM)
+    return false;
+  return /mac|iphone|ipad|ipod/i.test(navigator.platform);
+}
+function isSafari() {
+  return DLOEKDPY_canUseDOM && isApple() && /apple/i.test(navigator.vendor);
+}
+function isFirefox() {
+  return DLOEKDPY_canUseDOM && /firefox\//i.test(navigator.userAgent);
+}
+function isMac() {
+  return canUseDOM && navigator.platform.startsWith("Mac") && !isTouchDevice();
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/utils/events.js
+"use client";
+
+
+
+
+// src/utils/events.ts
+function isPortalEvent(event) {
+  return Boolean(
+    event.currentTarget && !contains(event.currentTarget, event.target)
+  );
+}
+function isSelfTarget(event) {
+  return event.target === event.currentTarget;
+}
+function isOpeningInNewTab(event) {
+  const element = event.currentTarget;
+  if (!element)
+    return false;
+  const isAppleDevice = isApple();
+  if (isAppleDevice && !event.metaKey)
+    return false;
+  if (!isAppleDevice && !event.ctrlKey)
+    return false;
+  const tagName = element.tagName.toLowerCase();
+  if (tagName === "a")
+    return true;
+  if (tagName === "button" && element.type === "submit")
+    return true;
+  if (tagName === "input" && element.type === "submit")
+    return true;
+  return false;
+}
+function isDownloading(event) {
+  const element = event.currentTarget;
+  if (!element)
+    return false;
+  const tagName = element.tagName.toLowerCase();
+  if (!event.altKey)
+    return false;
+  if (tagName === "a")
+    return true;
+  if (tagName === "button" && element.type === "submit")
+    return true;
+  if (tagName === "input" && element.type === "submit")
+    return true;
+  return false;
+}
+function fireEvent(element, type, eventInit) {
+  const event = new Event(type, eventInit);
+  return element.dispatchEvent(event);
+}
+function fireBlurEvent(element, eventInit) {
+  const event = new FocusEvent("blur", eventInit);
+  const defaultAllowed = element.dispatchEvent(event);
+  const bubbleInit = _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, eventInit), { bubbles: true });
+  element.dispatchEvent(new FocusEvent("focusout", bubbleInit));
+  return defaultAllowed;
+}
+function fireFocusEvent(element, eventInit) {
+  const event = new FocusEvent("focus", eventInit);
+  const defaultAllowed = element.dispatchEvent(event);
+  const bubbleInit = __spreadProps(__spreadValues({}, eventInit), { bubbles: true });
+  element.dispatchEvent(new FocusEvent("focusin", bubbleInit));
+  return defaultAllowed;
+}
+function fireKeyboardEvent(element, type, eventInit) {
+  const event = new KeyboardEvent(type, eventInit);
+  return element.dispatchEvent(event);
+}
+function fireClickEvent(element, eventInit) {
+  const event = new MouseEvent("click", eventInit);
+  return element.dispatchEvent(event);
+}
+function isFocusEventOutside(event, container) {
+  const containerElement = container || event.currentTarget;
+  const relatedTarget = event.relatedTarget;
+  return !relatedTarget || !contains(containerElement, relatedTarget);
+}
+function queueBeforeEvent(element, type, callback) {
+  const raf = requestAnimationFrame(() => {
+    element.removeEventListener(type, callImmediately, true);
+    callback();
+  });
+  const callImmediately = () => {
+    cancelAnimationFrame(raf);
+    callback();
+  };
+  element.addEventListener(type, callImmediately, {
+    once: true,
+    capture: true
+  });
+  return raf;
+}
+function addGlobalEventListener(type, listener, options, scope = window) {
+  const children = [];
+  try {
+    scope.document.addEventListener(type, listener, options);
+    for (const frame of Array.from(scope.frames)) {
+      children.push(addGlobalEventListener(type, listener, options, frame));
+    }
+  } catch (e) {
+  }
+  const removeEventListener = () => {
+    try {
+      scope.document.removeEventListener(type, listener, options);
+    } catch (e) {
+    }
+    children.forEach((remove) => remove());
+  };
+  return removeEventListener;
+}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/6O5OEQGF.js
+"use client";
+
+
+
+// src/utils/hooks.ts
+
+
+
+
+
+var _React = _4R3V3JGP_spreadValues({}, external_React_namespaceObject);
+var useReactId = _React.useId;
+var useReactDeferredValue = _React.useDeferredValue;
+var useReactInsertionEffect = _React.useInsertionEffect;
+var useSafeLayoutEffect = DLOEKDPY_canUseDOM ? external_React_.useLayoutEffect : external_React_.useEffect;
+function useInitialValue(value) {
+  const [initialValue] = useState(value);
+  return initialValue;
+}
+function useLazyValue(init) {
+  const ref = useRef();
+  if (ref.current === void 0) {
+    ref.current = init();
+  }
+  return ref.current;
+}
+function useLiveRef(value) {
+  const ref = (0,external_React_.useRef)(value);
+  useSafeLayoutEffect(() => {
+    ref.current = value;
+  });
+  return ref;
+}
+function usePreviousValue(value) {
+  const [previousValue, setPreviousValue] = useState(value);
+  if (value !== previousValue) {
+    setPreviousValue(value);
+  }
+  return previousValue;
+}
+function useEvent(callback) {
+  const ref = (0,external_React_.useRef)(() => {
+    throw new Error("Cannot call an event handler while rendering.");
+  });
+  if (useReactInsertionEffect) {
+    useReactInsertionEffect(() => {
+      ref.current = callback;
+    });
+  } else {
+    ref.current = callback;
+  }
+  return (0,external_React_.useCallback)((...args) => {
+    var _a;
+    return (_a = ref.current) == null ? void 0 : _a.call(ref, ...args);
+  }, []);
+}
+function useMergeRefs(...refs) {
+  return (0,external_React_.useMemo)(() => {
+    if (!refs.some(Boolean))
+      return;
+    return (value) => {
+      refs.forEach((ref) => setRef(ref, value));
+    };
+  }, refs);
+}
+function useRefId(ref, deps) {
+  const [id, setId] = useState(void 0);
+  useSafeLayoutEffect(() => {
+    var _a;
+    setId((_a = ref == null ? void 0 : ref.current) == null ? void 0 : _a.id);
+  }, deps);
+  return id;
+}
+function useId(defaultId) {
+  if (useReactId) {
+    const reactId = useReactId();
+    if (defaultId)
+      return defaultId;
+    return reactId;
+  }
+  const [id, setId] = (0,external_React_.useState)(defaultId);
+  useSafeLayoutEffect(() => {
+    if (defaultId || id)
+      return;
+    const random = Math.random().toString(36).substr(2, 6);
+    setId(`id-${random}`);
+  }, [defaultId, id]);
+  return defaultId || id;
+}
+function useDeferredValue(value) {
+  if (useReactDeferredValue) {
+    return useReactDeferredValue(value);
+  }
+  const [deferredValue, setDeferredValue] = useState(value);
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setDeferredValue(value));
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return deferredValue;
+}
+function useTagName(refOrElement, type) {
+  const stringOrUndefined = (type2) => {
+    if (typeof type2 !== "string")
+      return;
+    return type2;
+  };
+  const [tagName, setTagName] = (0,external_React_.useState)(() => stringOrUndefined(type));
+  useSafeLayoutEffect(() => {
+    const element = refOrElement && "current" in refOrElement ? refOrElement.current : refOrElement;
+    setTagName((element == null ? void 0 : element.tagName.toLowerCase()) || stringOrUndefined(type));
+  }, [refOrElement, type]);
+  return tagName;
+}
+function useAttribute(refOrElement, attributeName, defaultValue) {
+  const [attribute, setAttribute] = (0,external_React_.useState)(defaultValue);
+  useSafeLayoutEffect(() => {
+    const element = refOrElement && "current" in refOrElement ? refOrElement.current : refOrElement;
+    const value = element == null ? void 0 : element.getAttribute(attributeName);
+    if (value == null)
+      return;
+    setAttribute(value);
+  }, [refOrElement, attributeName]);
+  return attribute;
+}
+function useUpdateEffect(effect, deps) {
+  const mounted = (0,external_React_.useRef)(false);
+  (0,external_React_.useEffect)(() => {
+    if (mounted.current) {
+      return effect();
+    }
+    mounted.current = true;
+  }, deps);
+  (0,external_React_.useEffect)(
+    () => () => {
+      mounted.current = false;
+    },
+    []
+  );
+}
+function useUpdateLayoutEffect(effect, deps) {
+  const mounted = (0,external_React_.useRef)(false);
+  useSafeLayoutEffect(() => {
+    if (mounted.current) {
+      return effect();
+    }
+    mounted.current = true;
+  }, deps);
+  useSafeLayoutEffect(
+    () => () => {
+      mounted.current = false;
+    },
+    []
+  );
+}
+function useControlledState(defaultState, state, setState) {
+  const [localState, setLocalState] = useState(defaultState);
+  const nextState = state !== void 0 ? state : localState;
+  const stateRef = useLiveRef(state);
+  const setStateRef = useLiveRef(setState);
+  const nextStateRef = useLiveRef(nextState);
+  const setNextState = useCallback((prevValue) => {
+    const setStateProp = setStateRef.current;
+    if (setStateProp) {
+      if (isSetNextState(setStateProp)) {
+        setStateProp(prevValue);
+      } else {
+        const nextValue = applyState(prevValue, nextStateRef.current);
+        nextStateRef.current = nextValue;
+        setStateProp(nextValue);
+      }
+    }
+    if (stateRef.current === void 0) {
+      setLocalState(prevValue);
+    }
+  }, []);
+  defineSetNextState(setNextState);
+  return [nextState, setNextState];
+}
+var SET_NEXT_STATE = Symbol("setNextState");
+function isSetNextState(arg) {
+  return arg[SET_NEXT_STATE] === true;
+}
+function defineSetNextState(arg) {
+  if (!isSetNextState(arg)) {
+    Object.defineProperty(arg, SET_NEXT_STATE, { value: true });
+  }
+}
+function useForceUpdate() {
+  return (0,external_React_.useReducer)(() => [], []);
+}
+function useBooleanEvent(booleanOrCallback) {
+  return useEvent(
+    typeof booleanOrCallback === "function" ? booleanOrCallback : () => booleanOrCallback
+  );
+}
+function useWrapElement(props, callback, deps = []) {
+  const wrapElement = (0,external_React_.useCallback)(
+    (element) => {
+      if (props.wrapElement) {
+        element = props.wrapElement(element);
+      }
+      return callback(element);
+    },
+    [...deps, props.wrapElement]
+  );
+  return _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), { wrapElement });
+}
+function usePortalRef(portalProp = false, portalRefProp) {
+  const [portalNode, setPortalNode] = useState(null);
+  const portalRef = useMergeRefs(setPortalNode, portalRefProp);
+  const domReady = !portalProp || portalNode;
+  return { portalRef, portalNode, domReady };
+}
+function useMetadataProps(props, key, value) {
+  const parent = props.onLoadedMetadataCapture;
+  const onLoadedMetadataCapture = (0,external_React_.useMemo)(() => {
+    return Object.assign(() => {
+    }, _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, parent), { [key]: value }));
+  }, [parent, key, value]);
+  return [parent == null ? void 0 : parent[key], { onLoadedMetadataCapture }];
+}
+function useIsMouseMoving() {
+  (0,external_React_.useEffect)(() => {
+    addGlobalEventListener("mousemove", setMouseMoving, true);
+    addGlobalEventListener("mousedown", resetMouseMoving, true);
+    addGlobalEventListener("mouseup", resetMouseMoving, true);
+    addGlobalEventListener("keydown", resetMouseMoving, true);
+    addGlobalEventListener("scroll", resetMouseMoving, true);
+  }, []);
+  const isMouseMoving = useEvent(() => mouseMoving);
+  return isMouseMoving;
+}
+var mouseMoving = false;
+var previousScreenX = 0;
+var previousScreenY = 0;
+function hasMouseMovement(event) {
+  const movementX = event.movementX || event.screenX - previousScreenX;
+  const movementY = event.movementY || event.screenY - previousScreenY;
+  previousScreenX = event.screenX;
+  previousScreenY = event.screenY;
+  return movementX || movementY || "production" === "test";
+}
+function setMouseMoving(event) {
+  if (!hasMouseMovement(event))
+    return;
+  mouseMoving = true;
+}
+function resetMouseMoving() {
+  mouseMoving = false;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/EAHJFCU4.js
+"use client";
+
+
+
+// src/utils/store.ts
+function getInternal(store, key) {
+  const internals = store.__unstableInternals;
+  invariant(internals, "Invalid store");
+  return internals[key];
+}
+function createStore(initialState, ...stores) {
+  let state = initialState;
+  let prevStateBatch = state;
+  let lastUpdate = Symbol();
+  let destroy = Y3OOHFCN_noop;
+  const instances = /* @__PURE__ */ new Set();
+  const updatedKeys = /* @__PURE__ */ new Set();
+  const setups = /* @__PURE__ */ new Set();
+  const listeners = /* @__PURE__ */ new Set();
+  const batchListeners = /* @__PURE__ */ new Set();
+  const disposables = /* @__PURE__ */ new WeakMap();
+  const listenerKeys = /* @__PURE__ */ new WeakMap();
+  const storeSetup = (callback) => {
+    setups.add(callback);
+    return () => setups.delete(callback);
+  };
+  const storeInit = () => {
+    const initialized = instances.size;
+    const instance = Symbol();
+    instances.add(instance);
+    const maybeDestroy = () => {
+      instances.delete(instance);
+      if (instances.size)
+        return;
+      destroy();
+    };
+    if (initialized)
+      return maybeDestroy;
+    const desyncs = getKeys(state).map(
+      (key) => chain(
+        ...stores.map((store) => {
+          var _a;
+          const storeState = (_a = store == null ? void 0 : store.getState) == null ? void 0 : _a.call(store);
+          if (!storeState)
+            return;
+          if (!Y3OOHFCN_hasOwnProperty(storeState, key))
+            return;
+          return sync(store, [key], (state2) => {
+            setState(
+              key,
+              state2[key],
+              // @ts-expect-error - Not public API. This is just to prevent
+              // infinite loops.
+              true
+            );
+          });
+        })
+      )
+    );
+    const teardowns = [];
+    setups.forEach((setup2) => teardowns.push(setup2()));
+    const cleanups = stores.map(init);
+    destroy = chain(...desyncs, ...teardowns, ...cleanups);
+    return maybeDestroy;
+  };
+  const sub = (keys, listener, set = listeners) => {
+    set.add(listener);
+    listenerKeys.set(listener, keys);
+    return () => {
+      var _a;
+      (_a = disposables.get(listener)) == null ? void 0 : _a();
+      disposables.delete(listener);
+      listenerKeys.delete(listener);
+      set.delete(listener);
+    };
+  };
+  const storeSubscribe = (keys, listener) => sub(keys, listener);
+  const storeSync = (keys, listener) => {
+    disposables.set(listener, listener(state, state));
+    return sub(keys, listener);
+  };
+  const storeBatch = (keys, listener) => {
+    disposables.set(listener, listener(state, prevStateBatch));
+    return sub(keys, listener, batchListeners);
+  };
+  const storePick = (keys) => createStore(pick(state, keys), finalStore);
+  const storeOmit = (keys) => createStore(omit(state, keys), finalStore);
+  const getState = () => state;
+  const setState = (key, value, fromStores = false) => {
+    if (!Y3OOHFCN_hasOwnProperty(state, key))
+      return;
+    const nextValue = Y3OOHFCN_applyState(value, state[key]);
+    if (nextValue === state[key])
+      return;
+    if (!fromStores) {
+      stores.forEach((store) => {
+        var _a;
+        (_a = store == null ? void 0 : store.setState) == null ? void 0 : _a.call(store, key, nextValue);
+      });
+    }
+    const prevState = state;
+    state = _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, state), { [key]: nextValue });
+    const thisUpdate = Symbol();
+    lastUpdate = thisUpdate;
+    updatedKeys.add(key);
+    const run = (listener, prev, uKeys) => {
+      var _a;
+      const keys = listenerKeys.get(listener);
+      const updated = (k) => uKeys ? uKeys.has(k) : k === key;
+      if (!keys || keys.some(updated)) {
+        (_a = disposables.get(listener)) == null ? void 0 : _a();
+        disposables.set(listener, listener(state, prev));
+      }
+    };
+    listeners.forEach((listener) => {
+      run(listener, prevState);
+    });
+    queueMicrotask(() => {
+      if (lastUpdate !== thisUpdate)
+        return;
+      const snapshot = state;
+      batchListeners.forEach((listener) => {
+        run(listener, prevStateBatch, updatedKeys);
+      });
+      prevStateBatch = snapshot;
+      updatedKeys.clear();
+    });
+  };
+  const finalStore = {
+    getState,
+    setState,
+    __unstableInternals: {
+      setup: storeSetup,
+      init: storeInit,
+      subscribe: storeSubscribe,
+      sync: storeSync,
+      batch: storeBatch,
+      pick: storePick,
+      omit: storeOmit
+    }
+  };
+  return finalStore;
+}
+function setup(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "setup")(...args);
+}
+function init(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "init")(...args);
+}
+function subscribe(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "subscribe")(...args);
+}
+function sync(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "sync")(...args);
+}
+function batch(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "batch")(...args);
+}
+function omit2(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "omit")(...args);
+}
+function pick2(store, ...args) {
+  if (!store)
+    return;
+  return getInternal(store, "pick")(...args);
+}
+function mergeStore(...stores) {
+  const initialState = stores.reduce((state, store2) => {
+    var _a;
+    const nextState = (_a = store2 == null ? void 0 : store2.getState) == null ? void 0 : _a.call(store2);
+    if (!nextState)
+      return state;
+    return _chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues({}, state), nextState);
+  }, {});
+  const store = createStore(initialState, ...stores);
+  return store;
+}
+function throwOnConflictingProps(props, store) {
+  if (true)
+    return;
+  if (!store)
+    return;
+  const defaultKeys = Object.entries(props).filter(([key, value]) => key.startsWith("default") && value !== void 0).map(([key]) => {
+    var _a;
+    const stateKey = key.replace("default", "");
+    return `${((_a = stateKey[0]) == null ? void 0 : _a.toLowerCase()) || ""}${stateKey.slice(1)}`;
+  });
+  if (!defaultKeys.length)
+    return;
+  const storeState = store.getState();
+  const conflictingProps = defaultKeys.filter(
+    (key) => Y3OOHFCN_hasOwnProperty(storeState, key)
+  );
+  if (!conflictingProps.length)
+    return;
+  throw new Error(
+    `Passing a store prop in conjunction with a default state is not supported.
+
+const store = useSelectStore();
+<SelectProvider store={store} defaultValue="Apple" />
+                ^             ^
+
+Instead, pass the default state to the topmost store:
+
+const store = useSelectStore({ defaultValue: "Apple" });
+<SelectProvider store={store} />
+
+See https://github.com/ariakit/ariakit/pull/2745 for more details.
+
+If there's a particular need for this, please submit a feature request at https://github.com/ariakit/ariakit
+`
+  );
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/use-sync-external-store/shim/index.js
+var shim = __webpack_require__(635);
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/EKQEJRUF.js
+"use client";
+
+
+
+// src/utils/store.tsx
+
+
+
+
+var { useSyncExternalStore } = shim;
+var noopSubscribe = () => () => {
+};
+function useStoreState(store, keyOrSelector = identity) {
+  const storeSubscribe = external_React_.useCallback(
+    (callback) => {
+      if (!store)
+        return noopSubscribe();
+      return subscribe(store, null, callback);
+    },
+    [store]
+  );
+  const getSnapshot = () => {
+    const key = typeof keyOrSelector === "string" ? keyOrSelector : null;
+    const selector = typeof keyOrSelector === "function" ? keyOrSelector : null;
+    const state = store == null ? void 0 : store.getState();
+    if (selector)
+      return selector(state);
+    if (!state)
+      return;
+    if (!key)
+      return;
+    if (!Y3OOHFCN_hasOwnProperty(state, key))
+      return;
+    return state[key];
+  };
+  return useSyncExternalStore(storeSubscribe, getSnapshot, getSnapshot);
+}
+function useStoreProps(store, props, key, setKey) {
+  const value = Y3OOHFCN_hasOwnProperty(props, key) ? props[key] : void 0;
+  const setValue = setKey ? props[setKey] : void 0;
+  const propsRef = useLiveRef({ value, setValue });
+  useSafeLayoutEffect(() => {
+    return sync(store, [key], (state, prev) => {
+      const { value: value2, setValue: setValue2 } = propsRef.current;
+      if (!setValue2)
+        return;
+      if (state[key] === prev[key])
+        return;
+      if (state[key] === value2)
+        return;
+      setValue2(state[key]);
+    });
+  }, [store, key]);
+  useSafeLayoutEffect(() => {
+    if (value === void 0)
+      return;
+    store.setState(key, value);
+    return batch(store, [key], () => {
+      if (value === void 0)
+        return;
+      store.setState(key, value);
+    });
+  });
+}
+function EKQEJRUF_useStore(createStore, props) {
+  const [store, setStore] = external_React_.useState(() => createStore(props));
+  useSafeLayoutEffect(() => init(store), [store]);
+  const useState2 = external_React_.useCallback(
+    (keyOrSelector) => useStoreState(store, keyOrSelector),
+    [store]
+  );
+  const memoizedStore = external_React_.useMemo(
+    () => _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, store), { useState: useState2 }),
+    [store, useState2]
+  );
+  const updateStore = useEvent(() => {
+    setStore((store2) => createStore(_4R3V3JGP_spreadValues(_4R3V3JGP_spreadValues({}, props), store2.getState())));
+  });
+  return [memoizedStore, updateStore];
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/Y6GYTNQ2.js
+"use client";
+
+
+
+// src/collection/collection-store.ts
+
+function useCollectionStoreProps(store, update, props) {
+  useUpdateEffect(update, [props.store]);
+  useStoreProps(store, props, "items", "setItems");
+  return store;
+}
+function useCollectionStore(props = {}) {
+  const [store, update] = useStore(Core.createCollectionStore, props);
+  return useCollectionStoreProps(store, update, props);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/7GBW5FLS.js
+"use client";
+
+
+
+// src/composite/composite-store.ts
+
+function useCompositeStoreProps(store, update, props) {
+  store = useCollectionStoreProps(store, update, props);
+  useStoreProps(store, props, "activeId", "setActiveId");
+  useStoreProps(store, props, "includesBaseElement");
+  useStoreProps(store, props, "virtualFocus");
+  useStoreProps(store, props, "orientation");
+  useStoreProps(store, props, "rtl");
+  useStoreProps(store, props, "focusLoop");
+  useStoreProps(store, props, "focusWrap");
+  useStoreProps(store, props, "focusShift");
+  return store;
+}
+function _7GBW5FLS_useCompositeStore(props = {}) {
+  const [store, update] = useStore(Core.createCompositeStore, props);
+  return useCompositeStoreProps(store, update, props);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/SFCBA2JZ.js
+"use client";
+
+
+
+// src/disclosure/disclosure-store.ts
+
+function useDisclosureStoreProps(store, update, props) {
+  useUpdateEffect(update, [props.store, props.disclosure]);
+  useStoreProps(store, props, "open", "setOpen");
+  useStoreProps(store, props, "mounted", "setMounted");
+  useStoreProps(store, props, "animated");
+  return store;
+}
+function useDisclosureStore(props = {}) {
+  const [store, update] = useStore(Core.createDisclosureStore, props);
+  return useDisclosureStoreProps(store, update, props);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/ZSELSBRM.js
+"use client";
+
+
+
+// src/dialog/dialog-store.ts
+
+function useDialogStoreProps(store, update, props) {
+  return useDisclosureStoreProps(store, update, props);
+}
+function useDialogStore(props = {}) {
+  const [store, update] = useStore(Core.createDialogStore, props);
+  return useDialogStoreProps(store, update, props);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/MG4P3223.js
+"use client";
+
+
+
+
+// src/popover/popover-store.ts
+
+function usePopoverStoreProps(store, update, props) {
+  useUpdateEffect(update, [props.popover]);
+  store = useDialogStoreProps(store, update, props);
+  useStoreProps(store, props, "placement");
+  return store;
+}
+function usePopoverStore(props = {}) {
+  const [store, update] = useStore(Core.createPopoverStore, props);
+  return usePopoverStoreProps(store, update, props);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/Z5IGYIPT.js
+"use client";
+
+
+
+
+// src/disclosure/disclosure-store.ts
+function createDisclosureStore(props = {}) {
+  const store = mergeStore(
+    props.store,
+    omit2(props.disclosure, ["contentElement", "disclosureElement"])
+  );
+  throwOnConflictingProps(props, store);
+  const syncState = store == null ? void 0 : store.getState();
+  const open = defaultValue(
+    props.open,
+    syncState == null ? void 0 : syncState.open,
+    props.defaultOpen,
+    false
+  );
+  const animated = defaultValue(props.animated, syncState == null ? void 0 : syncState.animated, false);
+  const initialState = {
+    open,
+    animated,
+    animating: !!animated && open,
+    mounted: open,
+    contentElement: defaultValue(syncState == null ? void 0 : syncState.contentElement, null),
+    disclosureElement: defaultValue(syncState == null ? void 0 : syncState.disclosureElement, null)
+  };
+  const disclosure = createStore(initialState, store);
+  setup(
+    disclosure,
+    () => sync(disclosure, ["animated", "animating"], (state) => {
+      if (state.animated)
+        return;
+      disclosure.setState("animating", false);
+    })
+  );
+  setup(
+    disclosure,
+    () => subscribe(disclosure, ["open"], () => {
+      if (!disclosure.getState().animated)
+        return;
+      disclosure.setState("animating", true);
+    })
+  );
+  setup(
+    disclosure,
+    () => sync(disclosure, ["open", "animating"], (state) => {
+      disclosure.setState("mounted", state.open || state.animating);
+    })
+  );
+  return _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, disclosure), {
+    setOpen: (value) => disclosure.setState("open", value),
+    show: () => disclosure.setState("open", true),
+    hide: () => disclosure.setState("open", false),
+    toggle: () => disclosure.setState("open", (open2) => !open2),
+    stopAnimation: () => disclosure.setState("animating", false),
+    setContentElement: (value) => disclosure.setState("contentElement", value),
+    setDisclosureElement: (value) => disclosure.setState("disclosureElement", value)
+  });
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/SX2XFD6A.js
+"use client";
+
+
+// src/dialog/dialog-store.ts
+function createDialogStore(props = {}) {
+  return createDisclosureStore(props);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/AF6IUUFN.js
+"use client";
+
+
+
+
+
+// src/popover/popover-store.ts
+function createPopoverStore(_a = {}) {
+  var _b = _a, {
+    popover: otherPopover
+  } = _b, props = _4R3V3JGP_objRest(_b, [
+    "popover"
+  ]);
+  const store = mergeStore(
+    props.store,
+    omit2(otherPopover, [
+      "arrowElement",
+      "anchorElement",
+      "contentElement",
+      "popoverElement",
+      "disclosureElement"
+    ])
+  );
+  throwOnConflictingProps(props, store);
+  const syncState = store == null ? void 0 : store.getState();
+  const dialog = createDialogStore(_chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, props), { store }));
+  const placement = defaultValue(
+    props.placement,
+    syncState == null ? void 0 : syncState.placement,
+    "bottom"
+  );
+  const initialState = _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, dialog.getState()), {
+    placement,
+    currentPlacement: placement,
+    anchorElement: defaultValue(syncState == null ? void 0 : syncState.anchorElement, null),
+    popoverElement: defaultValue(syncState == null ? void 0 : syncState.popoverElement, null),
+    arrowElement: defaultValue(syncState == null ? void 0 : syncState.arrowElement, null),
+    rendered: Symbol("rendered")
+  });
+  const popover = createStore(initialState, dialog, store);
+  return _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues({}, dialog), popover), {
+    setAnchorElement: (element) => popover.setState("anchorElement", element),
+    setPopoverElement: (element) => popover.setState("popoverElement", element),
+    setArrowElement: (element) => popover.setState("arrowElement", element),
+    render: () => popover.setState("rendered", Symbol("rendered"))
+  });
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/22K762VQ.js
+"use client";
+
+
+
+
+
+// src/collection/collection-store.ts
+function isElementPreceding(a, b) {
+  return Boolean(
+    b.compareDocumentPosition(a) & Node.DOCUMENT_POSITION_PRECEDING
+  );
+}
+function sortBasedOnDOMPosition(items) {
+  const pairs = items.map((item, index) => [index, item]);
+  let isOrderDifferent = false;
+  pairs.sort(([indexA, a], [indexB, b]) => {
+    const elementA = a.element;
+    const elementB = b.element;
+    if (elementA === elementB)
+      return 0;
+    if (!elementA || !elementB)
+      return 0;
+    if (isElementPreceding(elementA, elementB)) {
+      if (indexA > indexB) {
+        isOrderDifferent = true;
+      }
+      return -1;
+    }
+    if (indexA < indexB) {
+      isOrderDifferent = true;
+    }
+    return 1;
+  });
+  if (isOrderDifferent) {
+    return pairs.map(([_, item]) => item);
+  }
+  return items;
+}
+function getCommonParent(items) {
+  var _a;
+  const firstItem = items.find((item) => !!item.element);
+  const lastItem = [...items].reverse().find((item) => !!item.element);
+  let parentElement = (_a = firstItem == null ? void 0 : firstItem.element) == null ? void 0 : _a.parentElement;
+  while (parentElement && (lastItem == null ? void 0 : lastItem.element)) {
+    const parent = parentElement;
+    if (lastItem && parent.contains(lastItem.element)) {
+      return parentElement;
+    }
+    parentElement = parentElement.parentElement;
+  }
+  return DLOEKDPY_getDocument(parentElement).body;
+}
+function getPrivateStore(store) {
+  return store == null ? void 0 : store.__unstablePrivateStore;
+}
+function createCollectionStore(props = {}) {
+  var _a;
+  throwOnConflictingProps(props, props.store);
+  const syncState = (_a = props.store) == null ? void 0 : _a.getState();
+  const items = defaultValue(
+    props.items,
+    syncState == null ? void 0 : syncState.items,
+    props.defaultItems,
+    []
+  );
+  const itemsMap = new Map(items.map((item) => [item.id, item]));
+  const initialState = {
+    items,
+    renderedItems: defaultValue(syncState == null ? void 0 : syncState.renderedItems, [])
+  };
+  const syncPrivateStore = getPrivateStore(props.store);
+  const privateStore = createStore(
+    { items, renderedItems: initialState.renderedItems },
+    syncPrivateStore
+  );
+  const collection = createStore(initialState, props.store);
+  const sortItems = (renderedItems) => {
+    const sortedItems = sortBasedOnDOMPosition(renderedItems);
+    privateStore.setState("renderedItems", sortedItems);
+    collection.setState("renderedItems", sortedItems);
+  };
+  setup(collection, () => init(privateStore));
+  setup(privateStore, () => {
+    return batch(privateStore, ["items"], (state) => {
+      collection.setState("items", state.items);
+    });
+  });
+  setup(privateStore, () => {
+    return batch(privateStore, ["renderedItems"], (state) => {
+      let firstRun = true;
+      let raf = requestAnimationFrame(() => {
+        const { renderedItems } = collection.getState();
+        if (state.renderedItems === renderedItems)
+          return;
+        sortItems(state.renderedItems);
+      });
+      if (typeof IntersectionObserver !== "function") {
+        return () => cancelAnimationFrame(raf);
+      }
+      const ioCallback = () => {
+        if (firstRun) {
+          firstRun = false;
+          return;
+        }
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => sortItems(state.renderedItems));
+      };
+      const root = getCommonParent(state.renderedItems);
+      const observer = new IntersectionObserver(ioCallback, { root });
+      for (const item of state.renderedItems) {
+        if (!item.element)
+          continue;
+        observer.observe(item.element);
+      }
+      return () => {
+        cancelAnimationFrame(raf);
+        observer.disconnect();
+      };
+    });
+  });
+  const mergeItem = (item, setItems, canDeleteFromMap = false) => {
+    let prevItem;
+    setItems((items2) => {
+      const index = items2.findIndex(({ id }) => id === item.id);
+      const nextItems = items2.slice();
+      if (index !== -1) {
+        prevItem = items2[index];
+        const nextItem = _chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues({}, prevItem), item);
+        nextItems[index] = nextItem;
+        itemsMap.set(item.id, nextItem);
+      } else {
+        nextItems.push(item);
+        itemsMap.set(item.id, item);
+      }
+      return nextItems;
+    });
+    const unmergeItem = () => {
+      setItems((items2) => {
+        if (!prevItem) {
+          if (canDeleteFromMap) {
+            itemsMap.delete(item.id);
+          }
+          return items2.filter(({ id }) => id !== item.id);
+        }
+        const index = items2.findIndex(({ id }) => id === item.id);
+        if (index === -1)
+          return items2;
+        const nextItems = items2.slice();
+        nextItems[index] = prevItem;
+        itemsMap.set(item.id, prevItem);
+        return nextItems;
+      });
+    };
+    return unmergeItem;
+  };
+  const registerItem = (item) => mergeItem(
+    item,
+    (getItems) => privateStore.setState("items", getItems),
+    true
+  );
+  return _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, collection), {
+    registerItem,
+    renderItem: (item) => chain(
+      registerItem(item),
+      mergeItem(
+        item,
+        (getItems) => privateStore.setState("renderedItems", getItems)
+      )
+    ),
+    item: (id) => {
+      if (!id)
+        return null;
+      let item = itemsMap.get(id);
+      if (!item) {
+        const { items: items2 } = collection.getState();
+        item = items2.find((item2) => item2.id === id);
+        if (item) {
+          itemsMap.set(id, item);
+        }
+      }
+      return item || null;
+    },
+    // @ts-expect-error Internal
+    __unstablePrivateStore: privateStore
+  });
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/7PRQYBBV.js
+"use client";
+
+// src/utils/array.ts
+function toArray(arg) {
+  if (Array.isArray(arg)) {
+    return arg;
+  }
+  return typeof arg !== "undefined" ? [arg] : [];
+}
+function addItemToArray(array, item, index = -1) {
+  if (!(index in array)) {
+    return [...array, item];
+  }
+  return [...array.slice(0, index), item, ...array.slice(index)];
+}
+function flatten2DArray(array) {
+  const flattened = [];
+  for (const row of array) {
+    flattened.push(...row);
+  }
+  return flattened;
+}
+function reverseArray(array) {
+  return array.slice().reverse();
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/__chunks/IERTEJ3A.js
+"use client";
+
+
+
+
+
+
+// src/composite/composite-store.ts
+var NULL_ITEM = { id: null };
+function findFirstEnabledItem(items, excludeId) {
+  return items.find((item) => {
+    if (excludeId) {
+      return !item.disabled && item.id !== excludeId;
+    }
+    return !item.disabled;
+  });
+}
+function getEnabledItems(items, excludeId) {
+  return items.filter((item) => {
+    if (excludeId) {
+      return !item.disabled && item.id !== excludeId;
+    }
+    return !item.disabled;
+  });
+}
+function getOppositeOrientation(orientation) {
+  if (orientation === "vertical")
+    return "horizontal";
+  if (orientation === "horizontal")
+    return "vertical";
+  return;
+}
+function getItemsInRow(items, rowId) {
+  return items.filter((item) => item.rowId === rowId);
+}
+function flipItems(items, activeId, shouldInsertNullItem = false) {
+  const index = items.findIndex((item) => item.id === activeId);
+  return [
+    ...items.slice(index + 1),
+    ...shouldInsertNullItem ? [NULL_ITEM] : [],
+    ...items.slice(0, index)
+  ];
+}
+function groupItemsByRows(items) {
+  const rows = [];
+  for (const item of items) {
+    const row = rows.find((currentRow) => {
+      var _a;
+      return ((_a = currentRow[0]) == null ? void 0 : _a.rowId) === item.rowId;
+    });
+    if (row) {
+      row.push(item);
+    } else {
+      rows.push([item]);
+    }
+  }
+  return rows;
+}
+function getMaxRowLength(array) {
+  let maxLength = 0;
+  for (const { length } of array) {
+    if (length > maxLength) {
+      maxLength = length;
+    }
+  }
+  return maxLength;
+}
+function createEmptyItem(rowId) {
+  return {
+    id: "__EMPTY_ITEM__",
+    disabled: true,
+    rowId
+  };
+}
+function normalizeRows(rows, activeId, focusShift) {
+  const maxLength = getMaxRowLength(rows);
+  for (const row of rows) {
+    for (let i = 0; i < maxLength; i += 1) {
+      const item = row[i];
+      if (!item || focusShift && item.disabled) {
+        const isFirst = i === 0;
+        const previousItem = isFirst && focusShift ? findFirstEnabledItem(row) : row[i - 1];
+        row[i] = previousItem && activeId !== previousItem.id && focusShift ? previousItem : createEmptyItem(previousItem == null ? void 0 : previousItem.rowId);
+      }
+    }
+  }
+  return rows;
+}
+function verticalizeItems(items) {
+  const rows = groupItemsByRows(items);
+  const maxLength = getMaxRowLength(rows);
+  const verticalized = [];
+  for (let i = 0; i < maxLength; i += 1) {
+    for (const row of rows) {
+      const item = row[i];
+      if (item) {
+        verticalized.push(_chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, item), {
+          // If there's no rowId, it means that it's not a grid composite, but
+          // a single row instead. So, instead of verticalizing it, that is,
+          // assigning a different rowId based on the column index, we keep it
+          // undefined so they will be part of the same row. This is useful
+          // when using up/down on one-dimensional composites.
+          rowId: item.rowId ? `${i}` : void 0
+        }));
+      }
+    }
+  }
+  return verticalized;
+}
+function createCompositeStore(props = {}) {
+  var _a;
+  const syncState = (_a = props.store) == null ? void 0 : _a.getState();
+  const collection = createCollectionStore(props);
+  const activeId = defaultValue(
+    props.activeId,
+    syncState == null ? void 0 : syncState.activeId,
+    props.defaultActiveId
+  );
+  const initialState = _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, collection.getState()), {
+    activeId,
+    baseElement: defaultValue(syncState == null ? void 0 : syncState.baseElement, null),
+    includesBaseElement: defaultValue(
+      props.includesBaseElement,
+      syncState == null ? void 0 : syncState.includesBaseElement,
+      activeId === null
+    ),
+    moves: defaultValue(syncState == null ? void 0 : syncState.moves, 0),
+    orientation: defaultValue(
+      props.orientation,
+      syncState == null ? void 0 : syncState.orientation,
+      "both"
+    ),
+    rtl: defaultValue(props.rtl, syncState == null ? void 0 : syncState.rtl, false),
+    virtualFocus: defaultValue(
+      props.virtualFocus,
+      syncState == null ? void 0 : syncState.virtualFocus,
+      false
+    ),
+    focusLoop: defaultValue(props.focusLoop, syncState == null ? void 0 : syncState.focusLoop, false),
+    focusWrap: defaultValue(props.focusWrap, syncState == null ? void 0 : syncState.focusWrap, false),
+    focusShift: defaultValue(props.focusShift, syncState == null ? void 0 : syncState.focusShift, false)
+  });
+  const composite = createStore(initialState, collection, props.store);
+  setup(
+    composite,
+    () => sync(composite, ["renderedItems", "activeId"], (state) => {
+      composite.setState("activeId", (activeId2) => {
+        var _a2;
+        if (activeId2 !== void 0)
+          return activeId2;
+        return (_a2 = findFirstEnabledItem(state.renderedItems)) == null ? void 0 : _a2.id;
+      });
+    })
+  );
+  const getNextId = (items, orientation, hasNullItem, skip) => {
+    var _a2, _b;
+    const { activeId: activeId2, rtl, focusLoop, focusWrap, includesBaseElement } = composite.getState();
+    const isHorizontal = orientation !== "vertical";
+    const isRTL = rtl && isHorizontal;
+    const allItems = isRTL ? reverseArray(items) : items;
+    if (activeId2 == null) {
+      return (_a2 = findFirstEnabledItem(allItems)) == null ? void 0 : _a2.id;
+    }
+    const activeItem = allItems.find((item) => item.id === activeId2);
+    if (!activeItem) {
+      return (_b = findFirstEnabledItem(allItems)) == null ? void 0 : _b.id;
+    }
+    const isGrid = !!activeItem.rowId;
+    const activeIndex = allItems.indexOf(activeItem);
+    const nextItems = allItems.slice(activeIndex + 1);
+    const nextItemsInRow = getItemsInRow(nextItems, activeItem.rowId);
+    if (skip !== void 0) {
+      const nextEnabledItemsInRow = getEnabledItems(nextItemsInRow, activeId2);
+      const nextItem2 = nextEnabledItemsInRow.slice(skip)[0] || // If we can't find an item, just return the last one.
+      nextEnabledItemsInRow[nextEnabledItemsInRow.length - 1];
+      return nextItem2 == null ? void 0 : nextItem2.id;
+    }
+    const oppositeOrientation = getOppositeOrientation(
+      // If it's a grid and orientation is not set, it's a next/previous call,
+      // which is inherently horizontal. up/down will call next with orientation
+      // set to vertical by default (see below on up/down methods).
+      isGrid ? orientation || "horizontal" : orientation
+    );
+    const canLoop = focusLoop && focusLoop !== oppositeOrientation;
+    const canWrap = isGrid && focusWrap && focusWrap !== oppositeOrientation;
+    hasNullItem = hasNullItem || !isGrid && canLoop && includesBaseElement;
+    if (canLoop) {
+      const loopItems = canWrap && !hasNullItem ? allItems : getItemsInRow(allItems, activeItem.rowId);
+      const sortedItems = flipItems(loopItems, activeId2, hasNullItem);
+      const nextItem2 = findFirstEnabledItem(sortedItems, activeId2);
+      return nextItem2 == null ? void 0 : nextItem2.id;
+    }
+    if (canWrap) {
+      const nextItem2 = findFirstEnabledItem(
+        // We can use nextItems, which contains all the next items, including
+        // items from other rows, to wrap between rows. However, if there is a
+        // null item (the composite container), we'll only use the next items in
+        // the row. So moving next from the last item will focus on the
+        // composite container. On grid composites, horizontal navigation never
+        // focuses on the composite container, only vertical.
+        hasNullItem ? nextItemsInRow : nextItems,
+        activeId2
+      );
+      const nextId = hasNullItem ? (nextItem2 == null ? void 0 : nextItem2.id) || null : nextItem2 == null ? void 0 : nextItem2.id;
+      return nextId;
+    }
+    const nextItem = findFirstEnabledItem(nextItemsInRow, activeId2);
+    if (!nextItem && hasNullItem) {
+      return null;
+    }
+    return nextItem == null ? void 0 : nextItem.id;
+  };
+  return _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues({}, collection), composite), {
+    setBaseElement: (element) => composite.setState("baseElement", element),
+    setActiveId: (id) => composite.setState("activeId", id),
+    move: (id) => {
+      if (id === void 0)
+        return;
+      composite.setState("activeId", id);
+      composite.setState("moves", (moves) => moves + 1);
+    },
+    first: () => {
+      var _a2;
+      return (_a2 = findFirstEnabledItem(composite.getState().renderedItems)) == null ? void 0 : _a2.id;
+    },
+    last: () => {
+      var _a2;
+      return (_a2 = findFirstEnabledItem(reverseArray(composite.getState().renderedItems))) == null ? void 0 : _a2.id;
+    },
+    next: (skip) => {
+      const { renderedItems, orientation } = composite.getState();
+      return getNextId(renderedItems, orientation, false, skip);
+    },
+    previous: (skip) => {
+      var _a2;
+      const { renderedItems, orientation, includesBaseElement } = composite.getState();
+      const isGrid = !!((_a2 = findFirstEnabledItem(renderedItems)) == null ? void 0 : _a2.rowId);
+      const hasNullItem = !isGrid && includesBaseElement;
+      return getNextId(
+        reverseArray(renderedItems),
+        orientation,
+        hasNullItem,
+        skip
+      );
+    },
+    down: (skip) => {
+      const {
+        activeId: activeId2,
+        renderedItems,
+        focusShift,
+        focusLoop,
+        includesBaseElement
+      } = composite.getState();
+      const shouldShift = focusShift && !skip;
+      const verticalItems = verticalizeItems(
+        flatten2DArray(
+          normalizeRows(groupItemsByRows(renderedItems), activeId2, shouldShift)
+        )
+      );
+      const canLoop = focusLoop && focusLoop !== "horizontal";
+      const hasNullItem = canLoop && includesBaseElement;
+      return getNextId(verticalItems, "vertical", hasNullItem, skip);
+    },
+    up: (skip) => {
+      const { activeId: activeId2, renderedItems, focusShift, includesBaseElement } = composite.getState();
+      const shouldShift = focusShift && !skip;
+      const verticalItems = verticalizeItems(
+        reverseArray(
+          flatten2DArray(
+            normalizeRows(
+              groupItemsByRows(renderedItems),
+              activeId2,
+              shouldShift
+            )
+          )
+        )
+      );
+      const hasNullItem = includesBaseElement;
+      return getNextId(verticalItems, "vertical", hasNullItem, skip);
+    }
+  });
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/combobox/combobox-store.js
+"use client";
+
+
+
+
+
+
+
+
+
+
+
+
+// src/combobox/combobox-store.ts
+var isSafariOnMobile = isSafari() && isTouchDevice();
+function createComboboxStore(props = {}) {
+  var _a;
+  throwOnConflictingProps(props, props.store);
+  const syncState = (_a = props.store) == null ? void 0 : _a.getState();
+  const activeId = defaultValue(
+    props.activeId,
+    syncState == null ? void 0 : syncState.activeId,
+    props.defaultActiveId,
+    null
+  );
+  const composite = createCompositeStore(_chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, props), {
+    activeId,
+    includesBaseElement: defaultValue(
+      props.includesBaseElement,
+      syncState == null ? void 0 : syncState.includesBaseElement,
+      true
+    ),
+    orientation: defaultValue(
+      props.orientation,
+      syncState == null ? void 0 : syncState.orientation,
+      "vertical"
+    ),
+    focusLoop: defaultValue(props.focusLoop, syncState == null ? void 0 : syncState.focusLoop, true),
+    focusWrap: defaultValue(props.focusWrap, syncState == null ? void 0 : syncState.focusWrap, true),
+    virtualFocus: defaultValue(
+      props.virtualFocus,
+      syncState == null ? void 0 : syncState.virtualFocus,
+      !isSafariOnMobile
+    )
+  }));
+  const popover = createPopoverStore(_chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues({}, props), {
+    placement: defaultValue(
+      props.placement,
+      syncState == null ? void 0 : syncState.placement,
+      "bottom-start"
+    )
+  }));
+  const value = defaultValue(
+    props.value,
+    syncState == null ? void 0 : syncState.value,
+    props.defaultValue,
+    ""
+  );
+  const selectedValue = defaultValue(
+    props.selectedValue,
+    syncState == null ? void 0 : syncState.selectedValue,
+    props.defaultSelectedValue,
+    ""
+  );
+  const multiSelectable = Array.isArray(selectedValue);
+  const initialState = _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues({}, composite.getState()), popover.getState()), {
+    value,
+    selectedValue,
+    resetValueOnSelect: defaultValue(
+      props.resetValueOnSelect,
+      syncState == null ? void 0 : syncState.resetValueOnSelect,
+      multiSelectable
+    ),
+    resetValueOnHide: defaultValue(
+      props.resetValueOnHide,
+      syncState == null ? void 0 : syncState.resetValueOnHide,
+      multiSelectable
+    ),
+    activeValue: syncState == null ? void 0 : syncState.activeValue
+  });
+  const combobox = createStore(initialState, composite, popover, props.store);
+  setup(
+    combobox,
+    () => sync(combobox, ["resetValueOnHide", "mounted"], (state) => {
+      if (!state.resetValueOnHide)
+        return;
+      if (state.mounted)
+        return;
+      combobox.setState("value", value);
+    })
+  );
+  setup(
+    combobox,
+    () => sync(combobox, ["resetValueOnSelect", "selectedValue"], (state) => {
+      if (!state.resetValueOnSelect)
+        return;
+      combobox.setState("value", value);
+    })
+  );
+  setup(
+    combobox,
+    () => batch(combobox, ["mounted"], (state) => {
+      if (state.mounted)
+        return;
+      combobox.setState("activeId", activeId);
+      combobox.setState("moves", 0);
+    })
+  );
+  setup(
+    combobox,
+    () => sync(combobox, ["moves", "activeId"], (state, prevState) => {
+      if (state.moves === prevState.moves) {
+        combobox.setState("activeValue", void 0);
+      }
+    })
+  );
+  setup(
+    combobox,
+    () => batch(combobox, ["moves", "renderedItems"], (state, prev) => {
+      if (state.moves === prev.moves)
+        return;
+      const { activeId: activeId2 } = combobox.getState();
+      const activeItem = composite.item(activeId2);
+      combobox.setState("activeValue", activeItem == null ? void 0 : activeItem.value);
+    })
+  );
+  return _chunks_4R3V3JGP_spreadProps(_chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues(_chunks_4R3V3JGP_spreadValues({}, popover), composite), combobox), {
+    setValue: (value2) => combobox.setState("value", value2),
+    setSelectedValue: (selectedValue2) => combobox.setState("selectedValue", selectedValue2)
+  });
+}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/ZKJ2WLF7.js
+"use client";
+
+
+
+
+// src/combobox/combobox-store.ts
+
+function useComboboxStoreProps(store, update, props) {
+  store = usePopoverStoreProps(store, update, props);
+  store = useCompositeStoreProps(store, update, props);
+  useStoreProps(store, props, "value", "setValue");
+  useStoreProps(store, props, "selectedValue", "setSelectedValue");
+  useStoreProps(store, props, "resetValueOnHide");
+  useStoreProps(store, props, "resetValueOnSelect");
+  return store;
+}
+function useComboboxStore(props = {}) {
+  const [store, update] = EKQEJRUF_useStore(createComboboxStore, props);
+  return useComboboxStoreProps(store, update, props);
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
+var jsx_runtime = __webpack_require__(7557);
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/3ORBWXWF.js
+"use client";
+
+
+
+
+// src/utils/system.tsx
+
+
+
+function isRenderProp(children) {
+  return typeof children === "function";
+}
+function forwardRef2(render) {
+  const Role = React.forwardRef((props, ref) => render(__spreadProps(__spreadValues({}, props), { ref })));
+  Role.displayName = render.displayName || render.name;
+  return Role;
+}
+function memo2(Component, propsAreEqual) {
+  const Role = React.memo(Component, propsAreEqual);
+  Role.displayName = Component.displayName || Component.name;
+  return Role;
+}
+function createComponent(render) {
+  const Role = (props, ref) => render(_4R3V3JGP_spreadValues({ ref }, props));
+  return external_React_.forwardRef(Role);
+}
+function createMemoComponent(render) {
+  const Role = createComponent(render);
+  return external_React_.memo(Role);
+}
+function _3ORBWXWF_createElement(Type, props) {
+  const _a = props, { as: As, wrapElement, render } = _a, rest = __objRest(_a, ["as", "wrapElement", "render"]);
+  let element;
+  const mergedRef = useMergeRefs(props.ref, getRefProperty(render));
+  if (false) {}
+  if (As && typeof As !== "string") {
+    element = /* @__PURE__ */ (0,jsx_runtime.jsx)(As, _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, rest), { render }));
+  } else if (external_React_.isValidElement(render)) {
+    const renderProps = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, render.props), { ref: mergedRef });
+    element = external_React_.cloneElement(render, mergeProps(rest, renderProps));
+  } else if (render) {
+    element = render(rest);
+  } else if (isRenderProp(props.children)) {
+    if (false) {}
+    const _b = rest, { children } = _b, otherProps = __objRest(_b, ["children"]);
+    element = props.children(otherProps);
+  } else if (As) {
+    element = /* @__PURE__ */ (0,jsx_runtime.jsx)(As, _4R3V3JGP_spreadValues({}, rest));
+  } else {
+    element = /* @__PURE__ */ (0,jsx_runtime.jsx)(Type, _4R3V3JGP_spreadValues({}, rest));
+  }
+  if (wrapElement) {
+    return wrapElement(element);
+  }
+  return element;
+}
+function createHook(useProps) {
+  const useRole = (props = {}) => {
+    const htmlProps = useProps(props);
+    const copy = {};
+    for (const prop in htmlProps) {
+      if (Y3OOHFCN_hasOwnProperty(htmlProps, prop) && htmlProps[prop] !== void 0) {
+        copy[prop] = htmlProps[prop];
+      }
+    }
+    return copy;
+  };
+  return useRole;
+}
+function createStoreContext(providers = [], scopedProviders = []) {
+  const context = external_React_.createContext(void 0);
+  const scopedContext = external_React_.createContext(void 0);
+  const useContext2 = () => external_React_.useContext(context);
+  const useScopedContext = (onlyScoped = false) => {
+    const scoped = external_React_.useContext(scopedContext);
+    const store = useContext2();
+    if (onlyScoped)
+      return scoped;
+    return scoped || store;
+  };
+  const useProviderContext = () => {
+    const scoped = external_React_.useContext(scopedContext);
+    const store = useContext2();
+    if (scoped && scoped === store)
+      return;
+    return store;
+  };
+  const ContextProvider = (props) => {
+    return providers.reduceRight(
+      (children, Provider) => /* @__PURE__ */ (0,jsx_runtime.jsx)(Provider, _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), { children })),
+      /* @__PURE__ */ (0,jsx_runtime.jsx)(context.Provider, _4R3V3JGP_spreadValues({}, props))
+    );
+  };
+  const ScopedContextProvider = (props) => {
+    return /* @__PURE__ */ (0,jsx_runtime.jsx)(ContextProvider, _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), { children: scopedProviders.reduceRight(
+      (children, Provider) => /* @__PURE__ */ (0,jsx_runtime.jsx)(Provider, _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), { children })),
+      /* @__PURE__ */ (0,jsx_runtime.jsx)(scopedContext.Provider, _4R3V3JGP_spreadValues({}, props))
+    ) }));
+  };
+  return {
+    context,
+    scopedContext,
+    useContext: useContext2,
+    useScopedContext,
+    useProviderContext,
+    ContextProvider,
+    ScopedContextProvider
+  };
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/4UUKJZ4V.js
+"use client";
+
+
+// src/collection/collection-context.tsx
+var ctx = createStoreContext();
+var useCollectionContext = ctx.useContext;
+var useCollectionScopedContext = ctx.useScopedContext;
+var useCollectionProviderContext = ctx.useProviderContext;
+var CollectionContextProvider = ctx.ContextProvider;
+var CollectionScopedContextProvider = ctx.ScopedContextProvider;
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/IB7YUKH5.js
+"use client";
+
+
+
+// src/composite/composite-context.tsx
+
+var IB7YUKH5_ctx = createStoreContext(
+  [CollectionContextProvider],
+  [CollectionScopedContextProvider]
+);
+var useCompositeContext = IB7YUKH5_ctx.useContext;
+var useCompositeScopedContext = IB7YUKH5_ctx.useScopedContext;
+var useCompositeProviderContext = IB7YUKH5_ctx.useProviderContext;
+var CompositeContextProvider = IB7YUKH5_ctx.ContextProvider;
+var CompositeScopedContextProvider = IB7YUKH5_ctx.ScopedContextProvider;
+var CompositeItemContext = (0,external_React_.createContext)(
+  void 0
+);
+var CompositeRowContext = (0,external_React_.createContext)(
+  void 0
+);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/OAYFXAQ2.js
+"use client";
+
+
+// src/disclosure/disclosure-context.tsx
+var OAYFXAQ2_ctx = createStoreContext();
+var useDisclosureContext = OAYFXAQ2_ctx.useContext;
+var useDisclosureScopedContext = OAYFXAQ2_ctx.useScopedContext;
+var useDisclosureProviderContext = OAYFXAQ2_ctx.useProviderContext;
+var DisclosureContextProvider = OAYFXAQ2_ctx.ContextProvider;
+var DisclosureScopedContextProvider = OAYFXAQ2_ctx.ScopedContextProvider;
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/G6BJYYBK.js
+"use client";
+
+
+
+// src/dialog/dialog-context.tsx
+
+var G6BJYYBK_ctx = createStoreContext(
+  [DisclosureContextProvider],
+  [DisclosureScopedContextProvider]
+);
+var useDialogContext = G6BJYYBK_ctx.useContext;
+var useDialogScopedContext = G6BJYYBK_ctx.useScopedContext;
+var useDialogProviderContext = G6BJYYBK_ctx.useProviderContext;
+var DialogContextProvider = G6BJYYBK_ctx.ContextProvider;
+var DialogScopedContextProvider = G6BJYYBK_ctx.ScopedContextProvider;
+var DialogHeadingContext = (0,external_React_.createContext)(void 0);
+var DialogDescriptionContext = (0,external_React_.createContext)(void 0);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/7H5KSHHF.js
+"use client";
+
+
+
+// src/popover/popover-context.tsx
+var _7H5KSHHF_ctx = createStoreContext(
+  [DialogContextProvider],
+  [DialogScopedContextProvider]
+);
+var usePopoverContext = _7H5KSHHF_ctx.useContext;
+var usePopoverScopedContext = _7H5KSHHF_ctx.useScopedContext;
+var usePopoverProviderContext = _7H5KSHHF_ctx.useProviderContext;
+var PopoverContextProvider = _7H5KSHHF_ctx.ContextProvider;
+var PopoverScopedContextProvider = _7H5KSHHF_ctx.ScopedContextProvider;
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/W76OTZCC.js
+"use client";
+
+
+
+
+// src/combobox/combobox-context.tsx
+
+var W76OTZCC_ctx = createStoreContext(
+  [PopoverContextProvider, CompositeContextProvider],
+  [PopoverScopedContextProvider, CompositeScopedContextProvider]
+);
+var useComboboxContext = W76OTZCC_ctx.useContext;
+var useComboboxScopedContext = W76OTZCC_ctx.useScopedContext;
+var useComboboxProviderContext = W76OTZCC_ctx.useProviderContext;
+var ComboboxContextProvider = W76OTZCC_ctx.ContextProvider;
+var ComboboxScopedContextProvider = W76OTZCC_ctx.ScopedContextProvider;
+var ComboboxItemValueContext = (0,external_React_.createContext)(
+  void 0
+);
+var ComboboxItemCheckedContext = (0,external_React_.createContext)(false);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/combobox/combobox-provider.js
+"use client";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// src/combobox/combobox-provider.tsx
+
+function ComboboxProvider(props = {}) {
+  const store = useComboboxStore(props);
+  return /* @__PURE__ */ (0,jsx_runtime.jsx)(ComboboxContextProvider, { value: store, children: props.children });
+}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/combobox/combobox-label.js
+"use client";
+
+
+
+
+
+
+
+
+
+
+
+// src/combobox/combobox-label.ts
+
+var useComboboxLabel = createHook(
+  (_a) => {
+    var _b = _a, { store } = _b, props = __objRest(_b, ["store"]);
+    const context = useComboboxProviderContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const comboboxId = store.useState((state) => {
+      var _a2;
+      return (_a2 = state.baseElement) == null ? void 0 : _a2.id;
+    });
+    props = _4R3V3JGP_spreadValues({
+      htmlFor: comboboxId
+    }, props);
+    return props;
+  }
+);
+var ComboboxLabel = createMemoComponent(
+  (props) => {
+    const htmlProps = useComboboxLabel(props);
+    return _3ORBWXWF_createElement("label", htmlProps);
+  }
+);
+if (false) {}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/JCH6MLL2.js
+"use client";
+
+
+
+
+
+// src/popover/popover-anchor.ts
+var usePopoverAnchor = createHook(
+  (_a) => {
+    var _b = _a, { store } = _b, props = __objRest(_b, ["store"]);
+    const context = usePopoverProviderContext();
+    store = store || context;
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), {
+      ref: useMergeRefs(store == null ? void 0 : store.setAnchorElement, props.ref)
+    });
+    return props;
+  }
+);
+var PopoverAnchor = createComponent((props) => {
+  const htmlProps = usePopoverAnchor(props);
+  return _3ORBWXWF_createElement("div", htmlProps);
+});
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/3IEDWLST.js
+"use client";
+
+// src/composite/utils.ts
+
+var _3IEDWLST_NULL_ITEM = { id: null };
+function _3IEDWLST_flipItems(items, activeId, shouldInsertNullItem = false) {
+  const index = items.findIndex((item) => item.id === activeId);
+  return [
+    ...items.slice(index + 1),
+    ...shouldInsertNullItem ? [_3IEDWLST_NULL_ITEM] : [],
+    ...items.slice(0, index)
+  ];
+}
+function _3IEDWLST_findFirstEnabledItem(items, excludeId) {
+  return items.find((item) => {
+    if (excludeId) {
+      return !item.disabled && item.id !== excludeId;
+    }
+    return !item.disabled;
+  });
+}
+function getEnabledItem(store, id) {
+  if (!id)
+    return null;
+  return store.item(id) || null;
+}
+function _3IEDWLST_groupItemsByRows(items) {
+  const rows = [];
+  for (const item of items) {
+    const row = rows.find((currentRow) => {
+      var _a;
+      return ((_a = currentRow[0]) == null ? void 0 : _a.rowId) === item.rowId;
+    });
+    if (row) {
+      row.push(item);
+    } else {
+      rows.push([item]);
+    }
+  }
+  return rows;
+}
+function selectTextField(element, collapseToEnd = false) {
+  if (isTextField(element)) {
+    element.setSelectionRange(
+      collapseToEnd ? element.value.length : 0,
+      element.value.length
+    );
+  } else if (element.isContentEditable) {
+    const selection = getDocument(element).getSelection();
+    selection == null ? void 0 : selection.selectAllChildren(element);
+    if (collapseToEnd) {
+      selection == null ? void 0 : selection.collapseToEnd();
+    }
+  }
+}
+var FOCUS_SILENTLY = Symbol("FOCUS_SILENTLY");
+function focusSilently(element) {
+  element[FOCUS_SILENTLY] = true;
+  element.focus({ preventScroll: true });
+}
+function silentlyFocused(element) {
+  const isSilentlyFocused = element[FOCUS_SILENTLY];
+  delete element[FOCUS_SILENTLY];
+  return isSilentlyFocused;
+}
+function isItem(store, element, exclude) {
+  if (!element)
+    return false;
+  if (element === exclude)
+    return false;
+  const item = store.item(element.id);
+  if (!item)
+    return false;
+  if (exclude && item.element === exclude)
+    return false;
+  return true;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/SHA3WOPI.js
+"use client";
+
+// src/focusable/focusable-context.ts
+
+var FocusableContext = (0,external_React_.createContext)(true);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/core/esm/utils/focus.js
+"use client";
+
+
+
+// src/utils/focus.ts
+var selector = "input:not([type='hidden']):not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], button:not([disabled]), [tabindex], iframe, object, embed, area[href], audio[controls], video[controls], [contenteditable]:not([contenteditable='false'])";
+function hasNegativeTabIndex(element) {
+  const tabIndex = parseInt(element.getAttribute("tabindex") || "0", 10);
+  return tabIndex < 0;
+}
+function isFocusable(element) {
+  if (!matches(element, selector))
+    return false;
+  if (!isVisible(element))
+    return false;
+  if (DLOEKDPY_closest(element, "[inert]"))
+    return false;
+  return true;
+}
+function isTabbable(element) {
+  if (!isFocusable(element))
+    return false;
+  if (hasNegativeTabIndex(element))
+    return false;
+  if (!("form" in element))
+    return true;
+  if (!element.form)
+    return true;
+  if (element.checked)
+    return true;
+  if (element.type !== "radio")
+    return true;
+  const radioGroup = element.form.elements.namedItem(element.name);
+  if (!radioGroup)
+    return true;
+  if (!("length" in radioGroup))
+    return true;
+  const activeElement = getActiveElement(element);
+  if (!activeElement)
+    return true;
+  if (activeElement === element)
+    return true;
+  if (!("form" in activeElement))
+    return true;
+  if (activeElement.form !== element.form)
+    return true;
+  if (activeElement.name !== element.name)
+    return true;
+  return false;
+}
+function getAllFocusableIn(container, includeContainer) {
+  const elements = Array.from(
+    container.querySelectorAll(selector)
+  );
+  if (includeContainer) {
+    elements.unshift(container);
+  }
+  const focusableElements = elements.filter(isFocusable);
+  focusableElements.forEach((element, i) => {
+    if (isFrame(element) && element.contentDocument) {
+      const frameBody = element.contentDocument.body;
+      focusableElements.splice(i, 1, ...getAllFocusableIn(frameBody));
+    }
+  });
+  return focusableElements;
+}
+function getAllFocusable(includeBody) {
+  return getAllFocusableIn(document.body, includeBody);
+}
+function getFirstFocusableIn(container, includeContainer) {
+  const [first] = getAllFocusableIn(container, includeContainer);
+  return first || null;
+}
+function getFirstFocusable(includeBody) {
+  return getFirstFocusableIn(document.body, includeBody);
+}
+function getAllTabbableIn(container, includeContainer, fallbackToFocusable) {
+  const elements = Array.from(
+    container.querySelectorAll(selector)
+  );
+  const tabbableElements = elements.filter(isTabbable);
+  if (includeContainer && isTabbable(container)) {
+    tabbableElements.unshift(container);
+  }
+  tabbableElements.forEach((element, i) => {
+    if (isFrame(element) && element.contentDocument) {
+      const frameBody = element.contentDocument.body;
+      const allFrameTabbable = getAllTabbableIn(
+        frameBody,
+        false,
+        fallbackToFocusable
+      );
+      tabbableElements.splice(i, 1, ...allFrameTabbable);
+    }
+  });
+  if (!tabbableElements.length && fallbackToFocusable) {
+    return elements;
+  }
+  return tabbableElements;
+}
+function getAllTabbable(fallbackToFocusable) {
+  return getAllTabbableIn(document.body, false, fallbackToFocusable);
+}
+function getFirstTabbableIn(container, includeContainer, fallbackToFocusable) {
+  const [first] = getAllTabbableIn(
+    container,
+    includeContainer,
+    fallbackToFocusable
+  );
+  return first || null;
+}
+function getFirstTabbable(fallbackToFocusable) {
+  return getFirstTabbableIn(document.body, false, fallbackToFocusable);
+}
+function getLastTabbableIn(container, includeContainer, fallbackToFocusable) {
+  const allTabbable = getAllTabbableIn(
+    container,
+    includeContainer,
+    fallbackToFocusable
+  );
+  return allTabbable[allTabbable.length - 1] || null;
+}
+function getLastTabbable(fallbackToFocusable) {
+  return getLastTabbableIn(document.body, false, fallbackToFocusable);
+}
+function getNextTabbableIn(container, includeContainer, fallbackToFirst, fallbackToFocusable) {
+  const activeElement = getActiveElement(container);
+  const allFocusable = getAllFocusableIn(container, includeContainer);
+  const activeIndex = allFocusable.indexOf(activeElement);
+  const nextFocusableElements = allFocusable.slice(activeIndex + 1);
+  return nextFocusableElements.find(isTabbable) || (fallbackToFirst ? allFocusable.find(isTabbable) : null) || (fallbackToFocusable ? nextFocusableElements[0] : null) || null;
+}
+function getNextTabbable(fallbackToFirst, fallbackToFocusable) {
+  return getNextTabbableIn(
+    document.body,
+    false,
+    fallbackToFirst,
+    fallbackToFocusable
+  );
+}
+function getPreviousTabbableIn(container, includeContainer, fallbackToLast, fallbackToFocusable) {
+  const activeElement = getActiveElement(container);
+  const allFocusable = getAllFocusableIn(container, includeContainer).reverse();
+  const activeIndex = allFocusable.indexOf(activeElement);
+  const previousFocusableElements = allFocusable.slice(activeIndex + 1);
+  return previousFocusableElements.find(isTabbable) || (fallbackToLast ? allFocusable.find(isTabbable) : null) || (fallbackToFocusable ? previousFocusableElements[0] : null) || null;
+}
+function getPreviousTabbable(fallbackToFirst, fallbackToFocusable) {
+  return getPreviousTabbableIn(
+    document.body,
+    false,
+    fallbackToFirst,
+    fallbackToFocusable
+  );
+}
+function getClosestFocusable(element) {
+  while (element && !isFocusable(element)) {
+    element = closest(element, selector);
+  }
+  return element || null;
+}
+function hasFocus(element) {
+  const activeElement = DLOEKDPY_getActiveElement(element);
+  if (!activeElement)
+    return false;
+  if (activeElement === element)
+    return true;
+  const activeDescendant = activeElement.getAttribute("aria-activedescendant");
+  if (!activeDescendant)
+    return false;
+  return activeDescendant === element.id;
+}
+function hasFocusWithin(element) {
+  const activeElement = DLOEKDPY_getActiveElement(element);
+  if (!activeElement)
+    return false;
+  if (contains(element, activeElement))
+    return true;
+  const activeDescendant = activeElement.getAttribute("aria-activedescendant");
+  if (!activeDescendant)
+    return false;
+  if (!("id" in element))
+    return false;
+  if (activeDescendant === element.id)
+    return true;
+  return !!element.querySelector(`#${CSS.escape(activeDescendant)}`);
+}
+function focusIfNeeded(element) {
+  if (!hasFocusWithin(element) && isFocusable(element)) {
+    element.focus();
+  }
+}
+function disableFocus(element) {
+  var _a;
+  const currentTabindex = (_a = element.getAttribute("tabindex")) != null ? _a : "";
+  element.setAttribute("data-tabindex", currentTabindex);
+  element.setAttribute("tabindex", "-1");
+}
+function disableFocusIn(container, includeContainer) {
+  const tabbableElements = getAllTabbableIn(container, includeContainer);
+  tabbableElements.forEach(disableFocus);
+}
+function restoreFocusIn(container) {
+  const elements = container.querySelectorAll("[data-tabindex]");
+  const restoreTabIndex = (element) => {
+    const tabindex = element.getAttribute("data-tabindex");
+    element.removeAttribute("data-tabindex");
+    if (tabindex) {
+      element.setAttribute("tabindex", tabindex);
+    } else {
+      element.removeAttribute("tabindex");
+    }
+  };
+  if (container.hasAttribute("data-tabindex")) {
+    restoreTabIndex(container);
+  }
+  elements.forEach(restoreTabIndex);
+}
+function focusIntoView(element, options) {
+  if (!("scrollIntoView" in element)) {
+    element.focus();
+  } else {
+    element.focus({ preventScroll: true });
+    element.scrollIntoView(_chunks_4R3V3JGP_spreadValues({ block: "nearest", inline: "nearest" }, options));
+  }
+}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/KK7H3W2B.js
+"use client";
+
+
+
+
+
+// src/focusable/focusable.ts
+
+
+
+
+
+
+var isSafariBrowser = isSafari();
+var alwaysFocusVisibleInputTypes = [
+  "text",
+  "search",
+  "url",
+  "tel",
+  "email",
+  "password",
+  "number",
+  "date",
+  "month",
+  "week",
+  "time",
+  "datetime",
+  "datetime-local"
+];
+function isAlwaysFocusVisible(element) {
+  const { tagName, readOnly, type } = element;
+  if (tagName === "TEXTAREA" && !readOnly)
+    return true;
+  if (tagName === "SELECT" && !readOnly)
+    return true;
+  if (tagName === "INPUT" && !readOnly) {
+    return alwaysFocusVisibleInputTypes.includes(type);
+  }
+  if (element.isContentEditable)
+    return true;
+  return false;
+}
+function isAlwaysFocusVisibleDelayed(element) {
+  const role = element.getAttribute("role");
+  if (role !== "combobox")
+    return false;
+  return !!element.dataset.name;
+}
+function getLabels(element) {
+  if ("labels" in element) {
+    return element.labels;
+  }
+  return null;
+}
+function isNativeCheckboxOrRadio(element) {
+  const tagName = element.tagName.toLowerCase();
+  if (tagName === "input" && element.type) {
+    return element.type === "radio" || element.type === "checkbox";
+  }
+  return false;
+}
+function isNativeTabbable(tagName) {
+  if (!tagName)
+    return true;
+  return tagName === "button" || tagName === "input" || tagName === "select" || tagName === "textarea" || tagName === "a";
+}
+function supportsDisabledAttribute(tagName) {
+  if (!tagName)
+    return true;
+  return tagName === "button" || tagName === "input" || tagName === "select" || tagName === "textarea";
+}
+function getTabIndex(focusable, trulyDisabled, nativeTabbable, supportsDisabled, tabIndexProp) {
+  if (!focusable) {
+    return tabIndexProp;
+  }
+  if (trulyDisabled) {
+    if (nativeTabbable && !supportsDisabled) {
+      return -1;
+    }
+    return;
+  }
+  if (nativeTabbable) {
+    return tabIndexProp;
+  }
+  return tabIndexProp || 0;
+}
+function useDisableEvent(onEvent, disabled) {
+  return useEvent((event) => {
+    onEvent == null ? void 0 : onEvent(event);
+    if (event.defaultPrevented)
+      return;
+    if (disabled) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  });
+}
+var isKeyboardModality = true;
+function onGlobalMouseDown(event) {
+  const target = event.target;
+  if (target && "hasAttribute" in target) {
+    if (!target.hasAttribute("data-focus-visible")) {
+      isKeyboardModality = false;
+    }
+  }
+}
+function onGlobalKeyDown(event) {
+  if (event.metaKey)
+    return;
+  if (event.ctrlKey)
+    return;
+  if (event.altKey)
+    return;
+  isKeyboardModality = true;
+}
+var useFocusable = createHook(
+  (_a) => {
+    var _b = _a, {
+      focusable = true,
+      accessibleWhenDisabled,
+      autoFocus,
+      onFocusVisible
+    } = _b, props = __objRest(_b, [
+      "focusable",
+      "accessibleWhenDisabled",
+      "autoFocus",
+      "onFocusVisible"
+    ]);
+    const ref = (0,external_React_.useRef)(null);
+    (0,external_React_.useEffect)(() => {
+      if (!focusable)
+        return;
+      addGlobalEventListener("mousedown", onGlobalMouseDown, true);
+      addGlobalEventListener("keydown", onGlobalKeyDown, true);
+    }, [focusable]);
+    if (isSafariBrowser) {
+      (0,external_React_.useEffect)(() => {
+        if (!focusable)
+          return;
+        const element = ref.current;
+        if (!element)
+          return;
+        if (!isNativeCheckboxOrRadio(element))
+          return;
+        const labels = getLabels(element);
+        if (!labels)
+          return;
+        const onMouseUp = () => queueMicrotask(() => element.focus());
+        labels.forEach((label) => label.addEventListener("mouseup", onMouseUp));
+        return () => {
+          labels.forEach(
+            (label) => label.removeEventListener("mouseup", onMouseUp)
+          );
+        };
+      }, [focusable]);
+    }
+    const disabled = focusable && disabledFromProps(props);
+    const trulyDisabled = !!disabled && !accessibleWhenDisabled;
+    const [focusVisible, setFocusVisible] = (0,external_React_.useState)(false);
+    (0,external_React_.useEffect)(() => {
+      if (!focusable)
+        return;
+      if (trulyDisabled && focusVisible) {
+        setFocusVisible(false);
+      }
+    }, [focusable, trulyDisabled, focusVisible]);
+    (0,external_React_.useEffect)(() => {
+      if (!focusable)
+        return;
+      if (!focusVisible)
+        return;
+      const element = ref.current;
+      if (!element)
+        return;
+      if (typeof IntersectionObserver === "undefined")
+        return;
+      const observer = new IntersectionObserver(() => {
+        if (!isFocusable(element)) {
+          setFocusVisible(false);
+        }
+      });
+      observer.observe(element);
+      return () => observer.disconnect();
+    }, [focusable, focusVisible]);
+    const onKeyPressCapture = useDisableEvent(
+      props.onKeyPressCapture,
+      disabled
+    );
+    const onMouseDownCapture = useDisableEvent(
+      props.onMouseDownCapture,
+      disabled
+    );
+    const onClickCapture = useDisableEvent(props.onClickCapture, disabled);
+    const onMouseDownProp = props.onMouseDown;
+    const onMouseDown = useEvent((event) => {
+      onMouseDownProp == null ? void 0 : onMouseDownProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!focusable)
+        return;
+      const element = event.currentTarget;
+      if (!isSafariBrowser)
+        return;
+      if (isPortalEvent(event))
+        return;
+      if (!isButton(element) && !isNativeCheckboxOrRadio(element))
+        return;
+      let receivedFocus = false;
+      const onFocus = () => {
+        receivedFocus = true;
+      };
+      const options = { capture: true, once: true };
+      element.addEventListener("focusin", onFocus, options);
+      queueBeforeEvent(element, "mouseup", () => {
+        element.removeEventListener("focusin", onFocus, true);
+        if (receivedFocus)
+          return;
+        focusIfNeeded(element);
+      });
+    });
+    const handleFocusVisible = (event, currentTarget) => {
+      if (currentTarget) {
+        event.currentTarget = currentTarget;
+      }
+      if (!focusable)
+        return;
+      const element = event.currentTarget;
+      if (!element)
+        return;
+      if (!hasFocus(element))
+        return;
+      onFocusVisible == null ? void 0 : onFocusVisible(event);
+      if (event.defaultPrevented)
+        return;
+      setFocusVisible(true);
+    };
+    const onKeyDownCaptureProp = props.onKeyDownCapture;
+    const onKeyDownCapture = useEvent(
+      (event) => {
+        onKeyDownCaptureProp == null ? void 0 : onKeyDownCaptureProp(event);
+        if (event.defaultPrevented)
+          return;
+        if (!focusable)
+          return;
+        if (focusVisible)
+          return;
+        if (event.metaKey)
+          return;
+        if (event.altKey)
+          return;
+        if (event.ctrlKey)
+          return;
+        if (!isSelfTarget(event))
+          return;
+        const element = event.currentTarget;
+        queueMicrotask(() => handleFocusVisible(event, element));
+      }
+    );
+    const onFocusCaptureProp = props.onFocusCapture;
+    const onFocusCapture = useEvent((event) => {
+      onFocusCaptureProp == null ? void 0 : onFocusCaptureProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!focusable)
+        return;
+      if (!isSelfTarget(event)) {
+        setFocusVisible(false);
+        return;
+      }
+      const element = event.currentTarget;
+      const applyFocusVisible = () => handleFocusVisible(event, element);
+      if (isKeyboardModality || isAlwaysFocusVisible(event.target)) {
+        queueMicrotask(applyFocusVisible);
+      } else if (isAlwaysFocusVisibleDelayed(event.target)) {
+        queueBeforeEvent(event.target, "focusout", applyFocusVisible);
+      } else {
+        setFocusVisible(false);
+      }
+    });
+    const onBlurProp = props.onBlur;
+    const onBlur = useEvent((event) => {
+      onBlurProp == null ? void 0 : onBlurProp(event);
+      if (!focusable)
+        return;
+      if (!isFocusEventOutside(event))
+        return;
+      setFocusVisible(false);
+    });
+    const autoFocusOnShow = (0,external_React_.useContext)(FocusableContext);
+    const autoFocusRef = useEvent((element) => {
+      if (!focusable)
+        return;
+      if (!autoFocus)
+        return;
+      if (!element)
+        return;
+      if (!autoFocusOnShow)
+        return;
+      queueMicrotask(() => {
+        if (hasFocus(element))
+          return;
+        if (!isFocusable(element))
+          return;
+        element.focus();
+      });
+    });
+    const tagName = useTagName(ref, props.as);
+    const nativeTabbable = focusable && isNativeTabbable(tagName);
+    const supportsDisabled = focusable && supportsDisabledAttribute(tagName);
+    const style = trulyDisabled ? _4R3V3JGP_spreadValues({ pointerEvents: "none" }, props.style) : props.style;
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      "data-focus-visible": focusable && focusVisible ? "" : void 0,
+      "data-autofocus": autoFocus ? true : void 0,
+      "aria-disabled": disabled ? true : void 0
+    }, props), {
+      ref: useMergeRefs(ref, autoFocusRef, props.ref),
+      style,
+      tabIndex: getTabIndex(
+        focusable,
+        trulyDisabled,
+        nativeTabbable,
+        supportsDisabled,
+        props.tabIndex
+      ),
+      disabled: supportsDisabled && trulyDisabled ? true : void 0,
+      // TODO: Test Focusable contentEditable.
+      contentEditable: disabled ? void 0 : props.contentEditable,
+      onKeyPressCapture,
+      onClickCapture,
+      onMouseDownCapture,
+      onMouseDown,
+      onKeyDownCapture,
+      onFocusCapture,
+      onBlur
+    });
+    return props;
+  }
+);
+var Focusable = createComponent((props) => {
+  props = useFocusable(props);
+  return _3ORBWXWF_createElement("div", props);
+});
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/7QTPYGNZ.js
+"use client";
+
+
+
+
+
+
+
+// src/composite/composite.tsx
+
+
+
+
+
+
+
+function isGrid(items) {
+  return items.some((item) => !!item.rowId);
+}
+function isPrintableKey(event) {
+  const target = event.target;
+  if (target && !DLOEKDPY_isTextField(target))
+    return false;
+  return event.key.length === 1 && !event.ctrlKey && !event.metaKey;
+}
+function isModifierKey(event) {
+  return event.key === "Shift" || event.key === "Control" || event.key === "Alt" || event.key === "Meta";
+}
+function useKeyboardEventProxy(store, onKeyboardEvent, previousElementRef) {
+  return useEvent((event) => {
+    var _a;
+    onKeyboardEvent == null ? void 0 : onKeyboardEvent(event);
+    if (event.defaultPrevented)
+      return;
+    if (event.isPropagationStopped())
+      return;
+    if (!isSelfTarget(event))
+      return;
+    if (isModifierKey(event))
+      return;
+    if (isPrintableKey(event))
+      return;
+    const state = store.getState();
+    const activeElement = (_a = getEnabledItem(store, state.activeId)) == null ? void 0 : _a.element;
+    if (!activeElement)
+      return;
+    const _b = event, { view } = _b, eventInit = __objRest(_b, ["view"]);
+    const previousElement = previousElementRef == null ? void 0 : previousElementRef.current;
+    if (activeElement !== previousElement) {
+      activeElement.focus();
+    }
+    if (!fireKeyboardEvent(activeElement, event.type, eventInit)) {
+      event.preventDefault();
+    }
+    if (event.currentTarget.contains(activeElement)) {
+      event.stopPropagation();
+    }
+  });
+}
+function findFirstEnabledItemInTheLastRow(items) {
+  return _3IEDWLST_findFirstEnabledItem(
+    flatten2DArray(reverseArray(_3IEDWLST_groupItemsByRows(items)))
+  );
+}
+function useScheduleFocus(store) {
+  const [scheduled, setScheduled] = (0,external_React_.useState)(false);
+  const schedule = (0,external_React_.useCallback)(() => setScheduled(true), []);
+  const activeItem = store.useState(
+    (state) => getEnabledItem(store, state.activeId)
+  );
+  (0,external_React_.useEffect)(() => {
+    const activeElement = activeItem == null ? void 0 : activeItem.element;
+    if (!scheduled)
+      return;
+    if (!activeElement)
+      return;
+    setScheduled(false);
+    activeElement.focus({ preventScroll: true });
+  }, [activeItem, scheduled]);
+  return schedule;
+}
+var useComposite = createHook(
+  (_a) => {
+    var _b = _a, {
+      store,
+      composite = true,
+      focusOnMove = composite,
+      moveOnKeyPress = true
+    } = _b, props = __objRest(_b, [
+      "store",
+      "composite",
+      "focusOnMove",
+      "moveOnKeyPress"
+    ]);
+    const context = useCompositeProviderContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const previousElementRef = (0,external_React_.useRef)(null);
+    const scheduleFocus = useScheduleFocus(store);
+    const moves = store.useState("moves");
+    (0,external_React_.useEffect)(() => {
+      var _a2;
+      if (!store)
+        return;
+      if (!moves)
+        return;
+      if (!composite)
+        return;
+      if (!focusOnMove)
+        return;
+      const { activeId: activeId2 } = store.getState();
+      const itemElement = (_a2 = getEnabledItem(store, activeId2)) == null ? void 0 : _a2.element;
+      if (!itemElement)
+        return;
+      focusIntoView(itemElement);
+    }, [store, moves, composite, focusOnMove]);
+    useSafeLayoutEffect(() => {
+      if (!store)
+        return;
+      if (!moves)
+        return;
+      if (!composite)
+        return;
+      const { baseElement, activeId: activeId2 } = store.getState();
+      const isSelfAcive = activeId2 === null;
+      if (!isSelfAcive)
+        return;
+      if (!baseElement)
+        return;
+      const previousElement = previousElementRef.current;
+      previousElementRef.current = null;
+      if (previousElement) {
+        fireBlurEvent(previousElement, { relatedTarget: baseElement });
+      }
+      if (!hasFocus(baseElement)) {
+        baseElement.focus();
+      }
+    }, [store, moves, composite]);
+    const activeId = store.useState("activeId");
+    const virtualFocus = store.useState("virtualFocus");
+    useSafeLayoutEffect(() => {
+      var _a2;
+      if (!store)
+        return;
+      if (!composite)
+        return;
+      if (!virtualFocus)
+        return;
+      const previousElement = previousElementRef.current;
+      previousElementRef.current = null;
+      if (!previousElement)
+        return;
+      const activeElement = (_a2 = getEnabledItem(store, activeId)) == null ? void 0 : _a2.element;
+      const relatedTarget = activeElement || DLOEKDPY_getActiveElement(previousElement);
+      if (relatedTarget === previousElement)
+        return;
+      fireBlurEvent(previousElement, { relatedTarget });
+    }, [store, activeId, virtualFocus, composite]);
+    const onKeyDownCapture = useKeyboardEventProxy(
+      store,
+      props.onKeyDownCapture,
+      previousElementRef
+    );
+    const onKeyUpCapture = useKeyboardEventProxy(
+      store,
+      props.onKeyUpCapture,
+      previousElementRef
+    );
+    const onFocusCaptureProp = props.onFocusCapture;
+    const onFocusCapture = useEvent((event) => {
+      onFocusCaptureProp == null ? void 0 : onFocusCaptureProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!store)
+        return;
+      const { virtualFocus: virtualFocus2 } = store.getState();
+      if (!virtualFocus2)
+        return;
+      const previousActiveElement = event.relatedTarget;
+      const isSilentlyFocused = silentlyFocused(event.currentTarget);
+      if (isSelfTarget(event) && isSilentlyFocused) {
+        event.stopPropagation();
+        previousElementRef.current = previousActiveElement;
+      }
+    });
+    const onFocusProp = props.onFocus;
+    const onFocus = useEvent((event) => {
+      onFocusProp == null ? void 0 : onFocusProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!composite)
+        return;
+      if (!store)
+        return;
+      const { relatedTarget } = event;
+      const { virtualFocus: virtualFocus2 } = store.getState();
+      if (virtualFocus2) {
+        if (isSelfTarget(event) && !isItem(store, relatedTarget)) {
+          queueMicrotask(scheduleFocus);
+        }
+      } else if (isSelfTarget(event)) {
+        store.setActiveId(null);
+      }
+    });
+    const onBlurCaptureProp = props.onBlurCapture;
+    const onBlurCapture = useEvent((event) => {
+      var _a2;
+      onBlurCaptureProp == null ? void 0 : onBlurCaptureProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!store)
+        return;
+      const { virtualFocus: virtualFocus2, activeId: activeId2 } = store.getState();
+      if (!virtualFocus2)
+        return;
+      const activeElement = (_a2 = getEnabledItem(store, activeId2)) == null ? void 0 : _a2.element;
+      const nextActiveElement = event.relatedTarget;
+      const nextActiveElementIsItem = isItem(store, nextActiveElement);
+      const previousElement = previousElementRef.current;
+      previousElementRef.current = null;
+      if (isSelfTarget(event) && nextActiveElementIsItem) {
+        if (nextActiveElement === activeElement) {
+          if (previousElement && previousElement !== nextActiveElement) {
+            fireBlurEvent(previousElement, event);
+          }
+        } else if (activeElement) {
+          fireBlurEvent(activeElement, event);
+        } else if (previousElement) {
+          fireBlurEvent(previousElement, event);
+        }
+        event.stopPropagation();
+      } else {
+        const targetIsItem = isItem(store, event.target);
+        if (!targetIsItem && activeElement) {
+          fireBlurEvent(activeElement, event);
+        }
+      }
+    });
+    const onKeyDownProp = props.onKeyDown;
+    const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
+    const onKeyDown = useEvent((event) => {
+      var _a2;
+      onKeyDownProp == null ? void 0 : onKeyDownProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!store)
+        return;
+      if (!isSelfTarget(event))
+        return;
+      const { orientation, items, renderedItems, activeId: activeId2 } = store.getState();
+      const activeItem = getEnabledItem(store, activeId2);
+      if ((_a2 = activeItem == null ? void 0 : activeItem.element) == null ? void 0 : _a2.isConnected)
+        return;
+      const isVertical = orientation !== "horizontal";
+      const isHorizontal = orientation !== "vertical";
+      const grid = isGrid(renderedItems);
+      const isHorizontalKey = event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "Home" || event.key === "End";
+      if (isHorizontalKey && DLOEKDPY_isTextField(event.currentTarget))
+        return;
+      const up = () => {
+        if (grid) {
+          const item = items && findFirstEnabledItemInTheLastRow(items);
+          return item == null ? void 0 : item.id;
+        }
+        return store == null ? void 0 : store.last();
+      };
+      const keyMap = {
+        ArrowUp: (grid || isVertical) && up,
+        ArrowRight: (grid || isHorizontal) && store.first,
+        ArrowDown: (grid || isVertical) && store.first,
+        ArrowLeft: (grid || isHorizontal) && store.last,
+        Home: store.first,
+        End: store.last,
+        PageUp: store.first,
+        PageDown: store.last
+      };
+      const action = keyMap[event.key];
+      if (action) {
+        const id = action();
+        if (id !== void 0) {
+          if (!moveOnKeyPressProp(event))
+            return;
+          event.preventDefault();
+          store.move(id);
+        }
+      }
+    });
+    props = useWrapElement(
+      props,
+      (element) => /* @__PURE__ */ (0,jsx_runtime.jsx)(CompositeContextProvider, { value: store, children: element }),
+      [store]
+    );
+    const activeDescendant = store.useState((state) => {
+      var _a2;
+      if (!store)
+        return;
+      if (!composite)
+        return;
+      if (!state.virtualFocus)
+        return;
+      return (_a2 = getEnabledItem(store, state.activeId)) == null ? void 0 : _a2.id;
+    });
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      "aria-activedescendant": activeDescendant
+    }, props), {
+      ref: useMergeRefs(composite ? store.setBaseElement : null, props.ref),
+      onKeyDownCapture,
+      onKeyUpCapture,
+      onFocusCapture,
+      onFocus,
+      onBlurCapture,
+      onKeyDown
+    });
+    const focusable = store.useState(
+      (state) => composite && (state.virtualFocus || state.activeId === null)
+    );
+    props = useFocusable(_4R3V3JGP_spreadValues({ focusable }, props));
+    return props;
+  }
+);
+var _7QTPYGNZ_Composite = createComponent((props) => {
+  const htmlProps = useComposite(props);
+  return _3ORBWXWF_createElement("div", htmlProps);
+});
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: external "ReactDOM"
+const external_ReactDOM_namespaceObject = window["ReactDOM"];
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/combobox/combobox.js
+"use client";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// src/combobox/combobox.ts
+
+
+
+
+
+
+function isFirstItemAutoSelected(items, activeValue, autoSelect) {
+  if (!autoSelect)
+    return false;
+  const firstItem = items.find((item) => !item.disabled && item.value);
+  return (firstItem == null ? void 0 : firstItem.value) === activeValue;
+}
+function hasCompletionString(value, activeValue) {
+  if (!activeValue)
+    return false;
+  if (value == null)
+    return false;
+  value = normalizeString(value);
+  return activeValue.length > value.length && activeValue.toLowerCase().indexOf(value.toLowerCase()) === 0;
+}
+function isInputEvent(event) {
+  return event.type === "input";
+}
+function isAriaAutoCompleteValue(value) {
+  return value === "inline" || value === "list" || value === "both" || value === "none";
+}
+var useCombobox = createHook(
+  (_a) => {
+    var _b = _a, {
+      store,
+      focusable = true,
+      autoSelect: autoSelectProp = false,
+      getAutoSelectId,
+      showOnChange = true,
+      setValueOnChange = true,
+      showOnMouseDown = true,
+      setValueOnClick = true,
+      showOnKeyDown = true,
+      moveOnKeyPress = true,
+      autoComplete = "list"
+    } = _b, props = __objRest(_b, [
+      "store",
+      "focusable",
+      "autoSelect",
+      "getAutoSelectId",
+      "showOnChange",
+      "setValueOnChange",
+      "showOnMouseDown",
+      "setValueOnClick",
+      "showOnKeyDown",
+      "moveOnKeyPress",
+      "autoComplete"
+    ]);
+    const context = useComboboxProviderContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const ref = (0,external_React_.useRef)(null);
+    const [valueUpdated, forceValueUpdate] = useForceUpdate();
+    const canAutoSelectRef = (0,external_React_.useRef)(false);
+    const composingRef = (0,external_React_.useRef)(false);
+    const autoSelect = store.useState(
+      (state) => !!autoSelectProp && state.virtualFocus
+    );
+    const inline = autoComplete === "inline" || autoComplete === "both";
+    const [canInline, setCanInline] = (0,external_React_.useState)(inline);
+    useUpdateLayoutEffect(() => {
+      if (!inline)
+        return;
+      setCanInline(true);
+    }, [inline]);
+    const storeValue = store.useState("value");
+    const activeValue = store.useState(
+      (state) => inline && canInline ? state.activeValue : void 0
+    );
+    const items = store.useState("renderedItems");
+    const open = store.useState("open");
+    const contentElement = store.useState("contentElement");
+    const value = (0,external_React_.useMemo)(() => {
+      if (!inline)
+        return storeValue;
+      if (!canInline)
+        return storeValue;
+      const firstItemAutoSelected = isFirstItemAutoSelected(
+        items,
+        activeValue,
+        autoSelect
+      );
+      if (firstItemAutoSelected) {
+        if (hasCompletionString(storeValue, activeValue)) {
+          const slice = (activeValue == null ? void 0 : activeValue.slice(storeValue.length)) || "";
+          return storeValue + slice;
+        }
+        return storeValue;
+      }
+      return activeValue || storeValue;
+    }, [inline, canInline, items, activeValue, autoSelect, storeValue]);
+    (0,external_React_.useEffect)(() => {
+      const element = ref.current;
+      if (!element)
+        return;
+      const onCompositeItemMove = () => setCanInline(true);
+      element.addEventListener("combobox-item-move", onCompositeItemMove);
+      return () => {
+        element.removeEventListener("combobox-item-move", onCompositeItemMove);
+      };
+    }, []);
+    (0,external_React_.useEffect)(() => {
+      if (!inline)
+        return;
+      if (!canInline)
+        return;
+      if (!activeValue)
+        return;
+      const firstItemAutoSelected = isFirstItemAutoSelected(
+        items,
+        activeValue,
+        autoSelect
+      );
+      if (!firstItemAutoSelected)
+        return;
+      if (!hasCompletionString(storeValue, activeValue))
+        return;
+      queueMicrotask(() => {
+        const element = ref.current;
+        if (!element)
+          return;
+        setSelectionRange(element, storeValue.length, activeValue.length);
+      });
+    }, [
+      valueUpdated,
+      inline,
+      canInline,
+      activeValue,
+      items,
+      autoSelect,
+      storeValue
+    ]);
+    const scrollingElementRef = (0,external_React_.useRef)(null);
+    const getAutoSelectIdProp = useEvent(getAutoSelectId);
+    const autoSelectIdRef = (0,external_React_.useRef)(null);
+    (0,external_React_.useEffect)(() => {
+      if (!open)
+        return;
+      if (!contentElement)
+        return;
+      const scrollingElement = getScrollingElement(contentElement);
+      if (!scrollingElement)
+        return;
+      scrollingElementRef.current = scrollingElement;
+      const onWheel = () => {
+        canAutoSelectRef.current = false;
+      };
+      const onScroll = () => {
+        if (!store)
+          return;
+        if (!canAutoSelectRef.current)
+          return;
+        const { activeId } = store.getState();
+        if (activeId === null)
+          return;
+        if (activeId === autoSelectIdRef.current)
+          return;
+        canAutoSelectRef.current = false;
+      };
+      const options = { passive: true, capture: true };
+      scrollingElement.addEventListener("wheel", onWheel, options);
+      scrollingElement.addEventListener("scroll", onScroll, options);
+      return () => {
+        scrollingElement.removeEventListener("wheel", onWheel, true);
+        scrollingElement.removeEventListener("scroll", onScroll, true);
+      };
+    }, [open, contentElement, store]);
+    useSafeLayoutEffect(() => {
+      if (!storeValue)
+        return;
+      if (composingRef.current)
+        return;
+      canAutoSelectRef.current = true;
+    }, [storeValue]);
+    useSafeLayoutEffect(() => {
+      if (open)
+        return;
+      canAutoSelectRef.current = false;
+    }, [open]);
+    const resetValueOnSelect = store.useState("resetValueOnSelect");
+    useUpdateEffect(() => {
+      var _a2;
+      const canAutoSelect = canAutoSelectRef.current;
+      if (!store)
+        return;
+      if ((!autoSelect || !canAutoSelect) && !resetValueOnSelect)
+        return;
+      const { baseElement, contentElement: contentElement2, activeId } = store.getState();
+      if (baseElement && !hasFocus(baseElement))
+        return;
+      if (contentElement2 == null ? void 0 : contentElement2.hasAttribute("data-placing")) {
+        const observer = new MutationObserver(forceValueUpdate);
+        observer.observe(contentElement2, { attributeFilter: ["data-placing"] });
+        return () => observer.disconnect();
+      }
+      if (autoSelect && canAutoSelect) {
+        const userAutoSelectId = getAutoSelectIdProp(items);
+        const autoSelectId = userAutoSelectId !== void 0 ? userAutoSelectId : store.first();
+        autoSelectIdRef.current = autoSelectId;
+        store.move(autoSelectId != null ? autoSelectId : null);
+      } else {
+        const element = (_a2 = store.item(activeId)) == null ? void 0 : _a2.element;
+        if (element && "scrollIntoView" in element) {
+          element.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+      }
+      return;
+    }, [
+      store,
+      valueUpdated,
+      storeValue,
+      autoSelect,
+      resetValueOnSelect,
+      getAutoSelectIdProp,
+      items
+    ]);
+    (0,external_React_.useEffect)(() => {
+      if (!inline)
+        return;
+      const combobox = ref.current;
+      if (!combobox)
+        return;
+      const elements = [combobox, contentElement].filter(
+        (value2) => !!value2
+      );
+      const onBlur2 = (event) => {
+        if (elements.every((el) => isFocusEventOutside(event, el))) {
+          store == null ? void 0 : store.setValue(value);
+        }
+      };
+      elements.forEach((el) => el.addEventListener("focusout", onBlur2));
+      return () => {
+        elements.forEach((el) => el.removeEventListener("focusout", onBlur2));
+      };
+    }, [inline, contentElement, store, value]);
+    const onChangeProp = props.onChange;
+    const showOnChangeProp = useBooleanEvent(showOnChange);
+    const setValueOnChangeProp = useBooleanEvent(setValueOnChange);
+    const onChange = useEvent((event) => {
+      onChangeProp == null ? void 0 : onChangeProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!store)
+        return;
+      const { value: value2, selectionStart, selectionEnd } = event.target;
+      const nativeEvent = event.nativeEvent;
+      canAutoSelectRef.current = true;
+      if (isInputEvent(nativeEvent)) {
+        if (nativeEvent.isComposing) {
+          canAutoSelectRef.current = false;
+          composingRef.current = true;
+        }
+        if (inline) {
+          const textInserted = nativeEvent.inputType === "insertText" || nativeEvent.inputType === "insertCompositionText";
+          const caretAtEnd = selectionStart === value2.length;
+          setCanInline(textInserted && caretAtEnd);
+        }
+      }
+      if (setValueOnChangeProp(event)) {
+        const isSameValue = value2 === store.getState().value;
+        (0,external_ReactDOM_namespaceObject.flushSync)(() => store == null ? void 0 : store.setValue(value2));
+        setSelectionRange(event.currentTarget, selectionStart, selectionEnd);
+        if (inline && autoSelect && isSameValue) {
+          forceValueUpdate();
+        }
+      }
+      if (showOnChangeProp(event)) {
+        store.show();
+      }
+      if (!autoSelect || !canAutoSelectRef.current) {
+        store.setActiveId(null);
+      }
+    });
+    const onCompositionEndProp = props.onCompositionEnd;
+    const onCompositionEnd = useEvent(
+      (event) => {
+        canAutoSelectRef.current = true;
+        composingRef.current = false;
+        onCompositionEndProp == null ? void 0 : onCompositionEndProp(event);
+        if (event.defaultPrevented)
+          return;
+        if (!autoSelect)
+          return;
+        forceValueUpdate();
+      }
+    );
+    const onMouseDownProp = props.onMouseDown;
+    const setValueOnClickProp = useBooleanEvent(setValueOnClick);
+    const showOnMouseDownProp = useBooleanEvent(showOnMouseDown);
+    const onMouseDown = useEvent((event) => {
+      onMouseDownProp == null ? void 0 : onMouseDownProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (event.button)
+        return;
+      if (event.ctrlKey)
+        return;
+      if (!store)
+        return;
+      store.setActiveId(null);
+      if (setValueOnClickProp(event)) {
+        store.setValue(value);
+      }
+      if (showOnMouseDownProp(event)) {
+        queueBeforeEvent(event.currentTarget, "mouseup", store.show);
+      }
+    });
+    const onKeyDownProp = props.onKeyDown;
+    const showOnKeyDownProp = useBooleanEvent(showOnKeyDown);
+    const onKeyDown = useEvent(
+      (event) => {
+        onKeyDownProp == null ? void 0 : onKeyDownProp(event);
+        if (!event.repeat) {
+          canAutoSelectRef.current = false;
+        }
+        if (event.defaultPrevented)
+          return;
+        if (event.ctrlKey)
+          return;
+        if (event.altKey)
+          return;
+        if (event.shiftKey)
+          return;
+        if (event.metaKey)
+          return;
+        if (!store)
+          return;
+        const { open: open2, activeId } = store.getState();
+        if (open2)
+          return;
+        if (activeId !== null)
+          return;
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          if (showOnKeyDownProp(event)) {
+            event.preventDefault();
+            store.show();
+          }
+        }
+      }
+    );
+    const onBlurProp = props.onBlur;
+    const onBlur = useEvent((event) => {
+      canAutoSelectRef.current = false;
+      onBlurProp == null ? void 0 : onBlurProp(event);
+      if (event.defaultPrevented)
+        return;
+    });
+    const id = useId(props.id);
+    const ariaAutoComplete = isAriaAutoCompleteValue(autoComplete) ? autoComplete : void 0;
+    const isActiveItem = store.useState((state) => state.activeId === null);
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      id,
+      role: "combobox",
+      "aria-autocomplete": ariaAutoComplete,
+      "aria-haspopup": getPopupRole(contentElement, "listbox"),
+      "aria-expanded": open,
+      "aria-controls": contentElement == null ? void 0 : contentElement.id,
+      "data-active-item": isActiveItem || void 0,
+      value
+    }, props), {
+      ref: useMergeRefs(ref, props.ref),
+      onChange,
+      onCompositionEnd,
+      onMouseDown,
+      onKeyDown,
+      onBlur
+    });
+    props = useComposite(_4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      store,
+      focusable
+    }, props), {
+      // Enable inline autocomplete when the user moves from the combobox input
+      // to an item.
+      moveOnKeyPress: (event) => {
+        if (isFalsyBooleanCallback(moveOnKeyPress, event))
+          return false;
+        if (inline)
+          setCanInline(true);
+        return true;
+      }
+    }));
+    props = usePopoverAnchor(_4R3V3JGP_spreadValues({ store }, props));
+    return _4R3V3JGP_spreadValues({ autoComplete: "off" }, props);
+  }
+);
+var Combobox = createComponent((props) => {
+  const htmlProps = useCombobox(props);
+  return _3ORBWXWF_createElement("input", htmlProps);
+});
+if (false) {}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/CLE7NTOY.js
+"use client";
+
+
+
+
+
+
+
+// src/disclosure/disclosure-content.tsx
+
+
+
+function afterTimeout(timeoutMs, cb) {
+  const timeoutId = setTimeout(cb, timeoutMs);
+  return () => clearTimeout(timeoutId);
+}
+function CLE7NTOY_afterPaint(cb) {
+  let raf = requestAnimationFrame(() => {
+    raf = requestAnimationFrame(cb);
+  });
+  return () => cancelAnimationFrame(raf);
+}
+function parseCSSTime(...times) {
+  return times.join(", ").split(", ").reduce((longestTime, currentTimeString) => {
+    const currentTime = parseFloat(currentTimeString || "0s") * 1e3;
+    if (currentTime > longestTime)
+      return currentTime;
+    return longestTime;
+  }, 0);
+}
+function isHidden(mounted, hidden, alwaysVisible) {
+  return !alwaysVisible && hidden !== false && (!mounted || !!hidden);
+}
+var useDisclosureContent = createHook(
+  (_a) => {
+    var _b = _a, { store, alwaysVisible } = _b, props = __objRest(_b, ["store", "alwaysVisible"]);
+    const context = useDisclosureProviderContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const id = useId(props.id);
+    const [transition, setTransition] = (0,external_React_.useState)(null);
+    const open = store.useState("open");
+    const mounted = store.useState("mounted");
+    const animated = store.useState("animated");
+    const contentElement = store.useState("contentElement");
+    useSafeLayoutEffect(() => {
+      if (!animated)
+        return;
+      if (!(contentElement == null ? void 0 : contentElement.isConnected)) {
+        setTransition(null);
+        return;
+      }
+      return CLE7NTOY_afterPaint(() => {
+        setTransition(open ? "enter" : "leave");
+      });
+    }, [animated, contentElement, open]);
+    useSafeLayoutEffect(() => {
+      if (!store)
+        return;
+      if (!animated)
+        return;
+      if (!contentElement)
+        return;
+      if (!transition)
+        return;
+      if (transition === "enter" && !open)
+        return;
+      if (transition === "leave" && open)
+        return;
+      if (typeof animated === "number") {
+        const timeoutMs2 = animated;
+        return afterTimeout(timeoutMs2, store.stopAnimation);
+      }
+      const {
+        transitionDuration,
+        animationDuration,
+        transitionDelay,
+        animationDelay
+      } = getComputedStyle(contentElement);
+      const delay = parseCSSTime(transitionDelay, animationDelay);
+      const duration = parseCSSTime(transitionDuration, animationDuration);
+      const timeoutMs = delay + duration;
+      if (!timeoutMs)
+        return;
+      return afterTimeout(timeoutMs, store.stopAnimation);
+    }, [store, animated, contentElement, open, transition]);
+    props = useWrapElement(
+      props,
+      (element) => /* @__PURE__ */ (0,jsx_runtime.jsx)(DialogScopedContextProvider, { value: store, children: element }),
+      [store]
+    );
+    const hidden = isHidden(mounted, props.hidden, alwaysVisible);
+    const style = hidden ? _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props.style), { display: "none" }) : props.style;
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      id,
+      "data-enter": transition === "enter" ? "" : void 0,
+      "data-leave": transition === "leave" ? "" : void 0,
+      hidden
+    }, props), {
+      ref: useMergeRefs(id ? store.setContentElement : null, props.ref),
+      style
+    });
+    return props;
+  }
+);
+var DisclosureContentImpl = createComponent(
+  (props) => {
+    const htmlProps = useDisclosureContent(props);
+    return _3ORBWXWF_createElement("div", htmlProps);
+  }
+);
+var DisclosureContent = createComponent(
+  (_a) => {
+    var _b = _a, { unmountOnHide } = _b, props = __objRest(_b, ["unmountOnHide"]);
+    const context = useDisclosureProviderContext();
+    const store = props.store || context;
+    const mounted = useStoreState(
+      store,
+      (state) => !unmountOnHide || (state == null ? void 0 : state.mounted)
+    );
+    if (mounted === false)
+      return null;
+    return /* @__PURE__ */ (0,jsx_runtime.jsx)(DisclosureContentImpl, _4R3V3JGP_spreadValues({}, props));
+  }
+);
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/ZEXNX5JH.js
+"use client";
+
+
+
+
+
+
+
+// src/combobox/combobox-list.tsx
+
+
+
+
+var useComboboxList = createHook(
+  (_a) => {
+    var _b = _a, { store, focusable = true, alwaysVisible } = _b, props = __objRest(_b, ["store", "focusable", "alwaysVisible"]);
+    const context = useComboboxProviderContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const ref = (0,external_React_.useRef)(null);
+    const id = useId(props.id);
+    const onKeyDownProp = props.onKeyDown;
+    const onKeyDown = useEvent((event) => {
+      onKeyDownProp == null ? void 0 : onKeyDownProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (event.key === "Escape") {
+        store == null ? void 0 : store.move(null);
+      }
+    });
+    const restoreVirtualFocus = (0,external_React_.useRef)(false);
+    const onFocusVisibleProp = props.onFocusVisible;
+    const onFocusVisible = useEvent((event) => {
+      onFocusVisibleProp == null ? void 0 : onFocusVisibleProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (event.type !== "focus")
+        return;
+      if (!store)
+        return;
+      const { virtualFocus } = store.getState();
+      if (!virtualFocus)
+        return;
+      const { relatedTarget, currentTarget } = event;
+      if (relatedTarget && currentTarget.contains(relatedTarget))
+        return;
+      restoreVirtualFocus.current = true;
+      store.setState("virtualFocus", false);
+    });
+    const onBlurProp = props.onBlur;
+    const onBlur = useEvent((event) => {
+      onBlurProp == null ? void 0 : onBlurProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!restoreVirtualFocus.current)
+        return;
+      if (!isFocusEventOutside(event))
+        return;
+      restoreVirtualFocus.current = false;
+      store == null ? void 0 : store.setState("virtualFocus", true);
+    });
+    props = useWrapElement(
+      props,
+      (element) => /* @__PURE__ */ (0,jsx_runtime.jsx)(ComboboxScopedContextProvider, { value: store, children: element }),
+      [store]
+    );
+    const mounted = store.useState("mounted");
+    const hidden = isHidden(mounted, props.hidden, alwaysVisible);
+    const style = hidden ? _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props.style), { display: "none" }) : props.style;
+    const multiSelectable = store.useState(
+      (state) => Array.isArray(state.selectedValue)
+    );
+    const role = useAttribute(ref, "role", props.role);
+    const isCompositeRole = role === "listbox" || role === "tree" || role === "grid";
+    const ariaMultiSelectable = isCompositeRole ? multiSelectable || void 0 : void 0;
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      id,
+      hidden,
+      role: "listbox",
+      tabIndex: focusable ? -1 : void 0,
+      "aria-multiselectable": ariaMultiSelectable
+    }, props), {
+      ref: useMergeRefs(id ? store.setContentElement : null, ref, props.ref),
+      style,
+      onKeyDown,
+      onFocusVisible,
+      onBlur
+    });
+    props = useFocusable(_4R3V3JGP_spreadValues({ focusable }, props));
+    return props;
+  }
+);
+var ComboboxList = createComponent((props) => {
+  const htmlProps = useComboboxList(props);
+  return _3ORBWXWF_createElement("div", htmlProps);
+});
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/G6ONQ5EH.js
+"use client";
+
+
+
+
+
+// src/composite/composite-hover.ts
+
+
+
+
+function getMouseDestination(event) {
+  const relatedTarget = event.relatedTarget;
+  if ((relatedTarget == null ? void 0 : relatedTarget.nodeType) === Node.ELEMENT_NODE) {
+    return relatedTarget;
+  }
+  return null;
+}
+function hoveringInside(event) {
+  const nextElement = getMouseDestination(event);
+  if (!nextElement)
+    return false;
+  return contains(event.currentTarget, nextElement);
+}
+var G6ONQ5EH_symbol = Symbol("composite-hover");
+function movingToAnotherItem(event) {
+  let dest = getMouseDestination(event);
+  if (!dest)
+    return false;
+  do {
+    if (Y3OOHFCN_hasOwnProperty(dest, G6ONQ5EH_symbol) && dest[G6ONQ5EH_symbol])
+      return true;
+    dest = dest.parentElement;
+  } while (dest);
+  return false;
+}
+var useCompositeHover = createHook(
+  (_a) => {
+    var _b = _a, {
+      store,
+      focusOnHover = true,
+      blurOnHoverEnd = !!focusOnHover
+    } = _b, props = __objRest(_b, [
+      "store",
+      "focusOnHover",
+      "blurOnHoverEnd"
+    ]);
+    const context = useCompositeContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const isMouseMoving = useIsMouseMoving();
+    const onMouseMoveProp = props.onMouseMove;
+    const focusOnHoverProp = useBooleanEvent(focusOnHover);
+    const onMouseMove = useEvent((event) => {
+      onMouseMoveProp == null ? void 0 : onMouseMoveProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!isMouseMoving())
+        return;
+      if (!focusOnHoverProp(event))
+        return;
+      if (!hasFocusWithin(event.currentTarget)) {
+        const baseElement = store == null ? void 0 : store.getState().baseElement;
+        if (baseElement && !hasFocus(baseElement)) {
+          baseElement.focus();
+        }
+      }
+      store == null ? void 0 : store.setActiveId(event.currentTarget.id);
+    });
+    const onMouseLeaveProp = props.onMouseLeave;
+    const blurOnHoverEndProp = useBooleanEvent(blurOnHoverEnd);
+    const onMouseLeave = useEvent((event) => {
+      var _a2;
+      onMouseLeaveProp == null ? void 0 : onMouseLeaveProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!isMouseMoving())
+        return;
+      if (hoveringInside(event))
+        return;
+      if (movingToAnotherItem(event))
+        return;
+      if (!focusOnHoverProp(event))
+        return;
+      if (!blurOnHoverEndProp(event))
+        return;
+      store == null ? void 0 : store.setActiveId(null);
+      (_a2 = store == null ? void 0 : store.getState().baseElement) == null ? void 0 : _a2.focus();
+    });
+    const ref = (0,external_React_.useCallback)((element) => {
+      if (!element)
+        return;
+      element[G6ONQ5EH_symbol] = true;
+    }, []);
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), {
+      ref: useMergeRefs(ref, props.ref),
+      onMouseMove,
+      onMouseLeave
+    });
+    return props;
+  }
+);
+var CompositeHover = createMemoComponent(
+  (props) => {
+    const htmlProps = useCompositeHover(props);
+    return _3ORBWXWF_createElement("div", htmlProps);
+  }
+);
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/NWCBQ4CV.js
+"use client";
+
+
+
+
+
+// src/command/command.ts
+
+
+
+
+
+function isNativeClick(event) {
+  if (!event.isTrusted)
+    return false;
+  const element = event.currentTarget;
+  if (event.key === "Enter") {
+    return isButton(element) || element.tagName === "SUMMARY" || element.tagName === "A";
+  }
+  if (event.key === " ") {
+    return isButton(element) || element.tagName === "SUMMARY" || element.tagName === "INPUT" || element.tagName === "SELECT";
+  }
+  return false;
+}
+var NWCBQ4CV_symbol = Symbol("command");
+var useCommand = createHook(
+  (_a) => {
+    var _b = _a, { clickOnEnter = true, clickOnSpace = true } = _b, props = __objRest(_b, ["clickOnEnter", "clickOnSpace"]);
+    const ref = (0,external_React_.useRef)(null);
+    const tagName = useTagName(ref, props.as);
+    const type = props.type;
+    const [isNativeButton, setIsNativeButton] = (0,external_React_.useState)(
+      () => !!tagName && isButton({ tagName, type })
+    );
+    (0,external_React_.useEffect)(() => {
+      if (!ref.current)
+        return;
+      setIsNativeButton(isButton(ref.current));
+    }, []);
+    const [active, setActive] = (0,external_React_.useState)(false);
+    const activeRef = (0,external_React_.useRef)(false);
+    const disabled = disabledFromProps(props);
+    const [isDuplicate, metadataProps] = useMetadataProps(props, NWCBQ4CV_symbol, true);
+    const onKeyDownProp = props.onKeyDown;
+    const onKeyDown = useEvent((event) => {
+      onKeyDownProp == null ? void 0 : onKeyDownProp(event);
+      const element = event.currentTarget;
+      if (event.defaultPrevented)
+        return;
+      if (isDuplicate)
+        return;
+      if (disabled)
+        return;
+      if (!isSelfTarget(event))
+        return;
+      if (DLOEKDPY_isTextField(element))
+        return;
+      if (element.isContentEditable)
+        return;
+      const isEnter = clickOnEnter && event.key === "Enter";
+      const isSpace = clickOnSpace && event.key === " ";
+      const shouldPreventEnter = event.key === "Enter" && !clickOnEnter;
+      const shouldPreventSpace = event.key === " " && !clickOnSpace;
+      if (shouldPreventEnter || shouldPreventSpace) {
+        event.preventDefault();
+        return;
+      }
+      if (isEnter || isSpace) {
+        const nativeClick = isNativeClick(event);
+        if (isEnter) {
+          if (!nativeClick) {
+            event.preventDefault();
+            const _a2 = event, { view } = _a2, eventInit = __objRest(_a2, ["view"]);
+            const click = () => fireClickEvent(element, eventInit);
+            if (isFirefox()) {
+              queueBeforeEvent(element, "keyup", click);
+            } else {
+              queueMicrotask(click);
+            }
+          }
+        } else if (isSpace) {
+          activeRef.current = true;
+          if (!nativeClick) {
+            event.preventDefault();
+            setActive(true);
+          }
+        }
+      }
+    });
+    const onKeyUpProp = props.onKeyUp;
+    const onKeyUp = useEvent((event) => {
+      onKeyUpProp == null ? void 0 : onKeyUpProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (isDuplicate)
+        return;
+      if (disabled)
+        return;
+      if (event.metaKey)
+        return;
+      const isSpace = clickOnSpace && event.key === " ";
+      if (activeRef.current && isSpace) {
+        activeRef.current = false;
+        if (!isNativeClick(event)) {
+          event.preventDefault();
+          setActive(false);
+          const element = event.currentTarget;
+          const _a2 = event, { view } = _a2, eventInit = __objRest(_a2, ["view"]);
+          queueMicrotask(() => fireClickEvent(element, eventInit));
+        }
+      }
+    });
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues(_4R3V3JGP_spreadValues({
+      "data-active": active ? "" : void 0,
+      type: isNativeButton ? "button" : void 0
+    }, metadataProps), props), {
+      ref: useMergeRefs(ref, props.ref),
+      onKeyDown,
+      onKeyUp
+    });
+    props = useFocusable(props);
+    return props;
+  }
+);
+var Command = createComponent((props) => {
+  props = useCommand(props);
+  return _3ORBWXWF_createElement("button", props);
+});
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/UH3I23HL.js
+"use client";
+
+
+
+
+
+// src/collection/collection-item.ts
+
+
+var useCollectionItem = createHook(
+  (_a) => {
+    var _b = _a, {
+      store,
+      shouldRegisterItem = true,
+      getItem = identity,
+      element: element
+    } = _b, props = __objRest(_b, [
+      "store",
+      "shouldRegisterItem",
+      "getItem",
+      // @ts-expect-error This prop may come from a collection renderer.
+      "element"
+    ]);
+    const context = useCollectionContext();
+    store = store || context;
+    const id = useId(props.id);
+    const ref = (0,external_React_.useRef)(element);
+    (0,external_React_.useEffect)(() => {
+      const element2 = ref.current;
+      if (!id)
+        return;
+      if (!element2)
+        return;
+      if (!shouldRegisterItem)
+        return;
+      const item = getItem({ id, element: element2 });
+      return store == null ? void 0 : store.renderItem(item);
+    }, [id, shouldRegisterItem, getItem, store]);
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), {
+      ref: useMergeRefs(ref, props.ref)
+    });
+    return props;
+  }
+);
+var CollectionItem = createComponent(
+  (props) => {
+    const htmlProps = useCollectionItem(props);
+    return _3ORBWXWF_createElement("div", htmlProps);
+  }
+);
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/QZLXIDNP.js
+"use client";
+
+
+
+
+
+
+
+
+
+// src/composite/composite-item.tsx
+
+
+
+
+
+function isEditableElement(element) {
+  if (element.isContentEditable)
+    return true;
+  if (DLOEKDPY_isTextField(element))
+    return true;
+  return element.tagName === "INPUT" && !isButton(element);
+}
+function getNextPageOffset(scrollingElement, pageUp = false) {
+  const height = scrollingElement.clientHeight;
+  const { top } = scrollingElement.getBoundingClientRect();
+  const pageSize = Math.max(height * 0.875, height - 40) * 1.5;
+  const pageOffset = pageUp ? height - pageSize + top : pageSize + top;
+  if (scrollingElement.tagName === "HTML") {
+    return pageOffset + scrollingElement.scrollTop;
+  }
+  return pageOffset;
+}
+function getItemOffset(itemElement, pageUp = false) {
+  const { top } = itemElement.getBoundingClientRect();
+  if (pageUp) {
+    return top + itemElement.clientHeight;
+  }
+  return top;
+}
+function findNextPageItemId(element, store, next, pageUp = false) {
+  var _a;
+  if (!store)
+    return;
+  if (!next)
+    return;
+  const { renderedItems } = store.getState();
+  const scrollingElement = getScrollingElement(element);
+  if (!scrollingElement)
+    return;
+  const nextPageOffset = getNextPageOffset(scrollingElement, pageUp);
+  let id;
+  let prevDifference;
+  for (let i = 0; i < renderedItems.length; i += 1) {
+    const previousId = id;
+    id = next(i);
+    if (!id)
+      break;
+    if (id === previousId)
+      continue;
+    const itemElement = (_a = getEnabledItem(store, id)) == null ? void 0 : _a.element;
+    if (!itemElement)
+      continue;
+    const itemOffset = getItemOffset(itemElement, pageUp);
+    const difference = itemOffset - nextPageOffset;
+    const absDifference = Math.abs(difference);
+    if (pageUp && difference <= 0 || !pageUp && difference >= 0) {
+      if (prevDifference !== void 0 && prevDifference < absDifference) {
+        id = previousId;
+      }
+      break;
+    }
+    prevDifference = absDifference;
+  }
+  return id;
+}
+function targetIsAnotherItem(event, store) {
+  if (isSelfTarget(event))
+    return false;
+  return isItem(store, event.target);
+}
+function useRole(ref, props) {
+  const roleProp = props.role;
+  const [role, setRole] = (0,external_React_.useState)(roleProp);
+  useSafeLayoutEffect(() => {
+    const element = ref.current;
+    if (!element)
+      return;
+    setRole(element.getAttribute("role") || roleProp);
+  }, [roleProp]);
+  return role;
+}
+function requiresAriaSelected(role) {
+  return role === "option" || role === "treeitem";
+}
+function supportsAriaSelected(role) {
+  if (role === "option")
+    return true;
+  if (role === "tab")
+    return true;
+  if (role === "treeitem")
+    return true;
+  if (role === "gridcell")
+    return true;
+  if (role === "row")
+    return true;
+  if (role === "columnheader")
+    return true;
+  if (role === "rowheader")
+    return true;
+  return false;
+}
+var useCompositeItem = createHook(
+  (_a) => {
+    var _b = _a, {
+      store,
+      rowId: rowIdProp,
+      preventScrollOnKeyDown = false,
+      moveOnKeyPress = true,
+      tabbable = false,
+      getItem: getItemProp,
+      "aria-setsize": ariaSetSizeProp,
+      "aria-posinset": ariaPosInSetProp
+    } = _b, props = __objRest(_b, [
+      "store",
+      "rowId",
+      "preventScrollOnKeyDown",
+      "moveOnKeyPress",
+      "tabbable",
+      "getItem",
+      "aria-setsize",
+      "aria-posinset"
+    ]);
+    const context = useCompositeContext();
+    store = store || context;
+    const id = useId(props.id);
+    const ref = (0,external_React_.useRef)(null);
+    const row = (0,external_React_.useContext)(CompositeRowContext);
+    const rowId = useStoreState(store, (state) => {
+      if (rowIdProp)
+        return rowIdProp;
+      if (!state)
+        return;
+      if (!(row == null ? void 0 : row.baseElement))
+        return;
+      if (row.baseElement !== state.baseElement)
+        return;
+      return row.id;
+    });
+    const disabled = disabledFromProps(props);
+    const trulyDisabled = disabled && !props.accessibleWhenDisabled;
+    const getItem = (0,external_React_.useCallback)(
+      (item) => {
+        const nextItem = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, item), {
+          id: id || item.id,
+          rowId,
+          disabled: !!trulyDisabled
+        });
+        if (getItemProp) {
+          return getItemProp(nextItem);
+        }
+        return nextItem;
+      },
+      [id, rowId, trulyDisabled, getItemProp]
+    );
+    const onFocusProp = props.onFocus;
+    const hasFocusedComposite = (0,external_React_.useRef)(false);
+    const onFocus = useEvent((event) => {
+      onFocusProp == null ? void 0 : onFocusProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (isPortalEvent(event))
+        return;
+      if (!id)
+        return;
+      if (!store)
+        return;
+      const { activeId, virtualFocus: virtualFocus2, baseElement: baseElement2 } = store.getState();
+      if (targetIsAnotherItem(event, store))
+        return;
+      if (activeId !== id) {
+        store.setActiveId(id);
+      }
+      if (!virtualFocus2)
+        return;
+      if (!isSelfTarget(event))
+        return;
+      if (isEditableElement(event.currentTarget))
+        return;
+      if (!(baseElement2 == null ? void 0 : baseElement2.isConnected))
+        return;
+      hasFocusedComposite.current = true;
+      const fromComposite = event.relatedTarget === baseElement2 || isItem(store, event.relatedTarget);
+      if (fromComposite) {
+        focusSilently(baseElement2);
+      } else {
+        baseElement2.focus();
+      }
+    });
+    const onBlurCaptureProp = props.onBlurCapture;
+    const onBlurCapture = useEvent((event) => {
+      onBlurCaptureProp == null ? void 0 : onBlurCaptureProp(event);
+      if (event.defaultPrevented)
+        return;
+      const state = store == null ? void 0 : store.getState();
+      if ((state == null ? void 0 : state.virtualFocus) && hasFocusedComposite.current) {
+        hasFocusedComposite.current = false;
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
+    const onKeyDownProp = props.onKeyDown;
+    const preventScrollOnKeyDownProp = useBooleanEvent(preventScrollOnKeyDown);
+    const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
+    const onKeyDown = useEvent((event) => {
+      onKeyDownProp == null ? void 0 : onKeyDownProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (!isSelfTarget(event))
+        return;
+      if (!store)
+        return;
+      const { currentTarget } = event;
+      const state = store.getState();
+      const item = store.item(id);
+      const isGrid = !!(item == null ? void 0 : item.rowId);
+      const isVertical = state.orientation !== "horizontal";
+      const isHorizontal = state.orientation !== "vertical";
+      const canHomeEnd = () => {
+        if (isGrid)
+          return true;
+        if (isHorizontal)
+          return true;
+        if (!state.baseElement)
+          return true;
+        if (!DLOEKDPY_isTextField(state.baseElement))
+          return true;
+        return false;
+      };
+      const keyMap = {
+        ArrowUp: (isGrid || isVertical) && store.up,
+        ArrowRight: (isGrid || isHorizontal) && store.next,
+        ArrowDown: (isGrid || isVertical) && store.down,
+        ArrowLeft: (isGrid || isHorizontal) && store.previous,
+        Home: () => {
+          if (!canHomeEnd())
+            return;
+          if (!isGrid || event.ctrlKey) {
+            return store == null ? void 0 : store.first();
+          }
+          return store == null ? void 0 : store.previous(-1);
+        },
+        End: () => {
+          if (!canHomeEnd())
+            return;
+          if (!isGrid || event.ctrlKey) {
+            return store == null ? void 0 : store.last();
+          }
+          return store == null ? void 0 : store.next(-1);
+        },
+        PageUp: () => {
+          return findNextPageItemId(currentTarget, store, store == null ? void 0 : store.up, true);
+        },
+        PageDown: () => {
+          return findNextPageItemId(currentTarget, store, store == null ? void 0 : store.down);
+        }
+      };
+      const action = keyMap[event.key];
+      if (action) {
+        const nextId = action();
+        if (preventScrollOnKeyDownProp(event) || nextId !== void 0) {
+          if (!moveOnKeyPressProp(event))
+            return;
+          event.preventDefault();
+          store.move(nextId);
+        }
+      }
+    });
+    const baseElement = useStoreState(
+      store,
+      (state) => (state == null ? void 0 : state.baseElement) || void 0
+    );
+    const providerValue = (0,external_React_.useMemo)(
+      () => ({ id, baseElement }),
+      [id, baseElement]
+    );
+    props = useWrapElement(
+      props,
+      (element) => /* @__PURE__ */ (0,jsx_runtime.jsx)(CompositeItemContext.Provider, { value: providerValue, children: element }),
+      [providerValue]
+    );
+    const isActiveItem = useStoreState(
+      store,
+      (state) => !!state && state.activeId === id
+    );
+    const virtualFocus = useStoreState(store, "virtualFocus");
+    const role = useRole(ref, props);
+    let ariaSelected;
+    if (isActiveItem) {
+      if (requiresAriaSelected(role)) {
+        ariaSelected = true;
+      } else if (virtualFocus && supportsAriaSelected(role)) {
+        ariaSelected = true;
+      }
+    }
+    const ariaSetSize = useStoreState(store, (state) => {
+      if (ariaSetSizeProp != null)
+        return ariaSetSizeProp;
+      if (!state)
+        return;
+      if (!(row == null ? void 0 : row.ariaSetSize))
+        return;
+      if (row.baseElement !== state.baseElement)
+        return;
+      return row.ariaSetSize;
+    });
+    const ariaPosInSet = useStoreState(store, (state) => {
+      if (ariaPosInSetProp != null)
+        return ariaPosInSetProp;
+      if (!state)
+        return;
+      if (!(row == null ? void 0 : row.ariaPosInSet))
+        return;
+      if (row.baseElement !== state.baseElement)
+        return;
+      const itemsInRow = state.renderedItems.filter(
+        (item) => item.rowId === rowId
+      );
+      return row.ariaPosInSet + itemsInRow.findIndex((item) => item.id === id);
+    });
+    const isTabbable = useStoreState(store, (state) => {
+      if (!(state == null ? void 0 : state.renderedItems.length))
+        return true;
+      if (state.virtualFocus)
+        return false;
+      if (tabbable)
+        return true;
+      return state.activeId === id;
+    });
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      id,
+      "aria-selected": ariaSelected,
+      "data-active-item": isActiveItem ? "" : void 0
+    }, props), {
+      ref: useMergeRefs(ref, props.ref),
+      tabIndex: isTabbable ? props.tabIndex : -1,
+      onFocus,
+      onBlurCapture,
+      onKeyDown
+    });
+    props = useCommand(props);
+    props = useCollectionItem(_4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      store
+    }, props), {
+      getItem,
+      shouldRegisterItem: !!id ? props.shouldRegisterItem : false
+    }));
+    return _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, props), {
+      "aria-setsize": ariaSetSize,
+      "aria-posinset": ariaPosInSet
+    });
+  }
+);
+var QZLXIDNP_CompositeItem = createMemoComponent(
+  (props) => {
+    const htmlProps = useCompositeItem(props);
+    return _3ORBWXWF_createElement("button", htmlProps);
+  }
+);
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/combobox/combobox-item.js
+"use client";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// src/combobox/combobox-item.tsx
+
+
+
+
+
+
+function isSelected(storeValue, itemValue) {
+  if (itemValue == null)
+    return;
+  if (storeValue == null)
+    return false;
+  if (Array.isArray(storeValue)) {
+    return storeValue.includes(itemValue);
+  }
+  return storeValue === itemValue;
+}
+var useComboboxItem = createHook(
+  (_a) => {
+    var _b = _a, {
+      store,
+      value,
+      hideOnClick,
+      selectValueOnClick = true,
+      setValueOnClick,
+      focusOnHover = false,
+      moveOnKeyPress = true,
+      getItem: getItemProp
+    } = _b, props = __objRest(_b, [
+      "store",
+      "value",
+      "hideOnClick",
+      "selectValueOnClick",
+      "setValueOnClick",
+      "focusOnHover",
+      "moveOnKeyPress",
+      "getItem"
+    ]);
+    const context = useComboboxScopedContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const getItem = (0,external_React_.useCallback)(
+      (item) => {
+        const nextItem = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({}, item), { value });
+        if (getItemProp) {
+          return getItemProp(nextItem);
+        }
+        return nextItem;
+      },
+      [value, getItemProp]
+    );
+    const multiSelectable = store.useState(
+      (state) => Array.isArray(state.selectedValue)
+    );
+    setValueOnClick = setValueOnClick != null ? setValueOnClick : !multiSelectable;
+    hideOnClick = hideOnClick != null ? hideOnClick : value != null && !multiSelectable;
+    const onClickProp = props.onClick;
+    const setValueOnClickProp = useBooleanEvent(setValueOnClick);
+    const selectValueOnClickProp = useBooleanEvent(selectValueOnClick);
+    const hideOnClickProp = useBooleanEvent(hideOnClick);
+    const onClick = useEvent((event) => {
+      onClickProp == null ? void 0 : onClickProp(event);
+      if (event.defaultPrevented)
+        return;
+      if (isDownloading(event))
+        return;
+      if (isOpeningInNewTab(event))
+        return;
+      if (value != null) {
+        if (selectValueOnClickProp(event)) {
+          store == null ? void 0 : store.setSelectedValue((prevValue) => {
+            if (!Array.isArray(prevValue))
+              return value;
+            if (prevValue.includes(value)) {
+              return prevValue.filter((v) => v !== value);
+            }
+            return [...prevValue, value];
+          });
+        }
+        if (setValueOnClickProp(event)) {
+          store == null ? void 0 : store.setValue(value);
+        }
+      }
+      if (hideOnClickProp(event)) {
+        store == null ? void 0 : store.move(null);
+        store == null ? void 0 : store.hide();
+      }
+    });
+    const onKeyDownProp = props.onKeyDown;
+    const onKeyDown = useEvent((event) => {
+      onKeyDownProp == null ? void 0 : onKeyDownProp(event);
+      if (event.defaultPrevented)
+        return;
+      const baseElement = store == null ? void 0 : store.getState().baseElement;
+      if (!baseElement)
+        return;
+      if (hasFocus(baseElement))
+        return;
+      const printable = event.key.length === 1;
+      if (printable || event.key === "Backspace" || event.key === "Delete") {
+        queueMicrotask(() => baseElement.focus());
+        if (DLOEKDPY_isTextField(baseElement)) {
+          store == null ? void 0 : store.setValue(baseElement.value);
+        }
+      }
+    });
+    const selected = store.useState(
+      (state) => isSelected(state.selectedValue, value)
+    );
+    if (multiSelectable && selected != null) {
+      props = _4R3V3JGP_spreadValues({
+        "aria-selected": selected
+      }, props);
+    }
+    props = useWrapElement(
+      props,
+      (element) => /* @__PURE__ */ (0,jsx_runtime.jsx)(ComboboxItemValueContext.Provider, { value, children: /* @__PURE__ */ (0,jsx_runtime.jsx)(ComboboxItemCheckedContext.Provider, { value: selected != null ? selected : false, children: element }) }),
+      [value, selected]
+    );
+    const contentElement = store.useState("contentElement");
+    props = _4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      role: getPopupItemRole(contentElement),
+      children: value
+    }, props), {
+      onClick,
+      onKeyDown
+    });
+    const moveOnKeyPressProp = useBooleanEvent(moveOnKeyPress);
+    props = useCompositeItem(_4R3V3JGP_spreadProps(_4R3V3JGP_spreadValues({
+      store
+    }, props), {
+      getItem,
+      // Dispatch a custom event on the combobox input when moving to an item
+      // with the keyboard so the Combobox component can enable inline
+      // autocompletion.
+      moveOnKeyPress: (event) => {
+        if (!moveOnKeyPressProp(event))
+          return false;
+        const moveEvent = new Event("combobox-item-move");
+        const baseElement = store == null ? void 0 : store.getState().baseElement;
+        baseElement == null ? void 0 : baseElement.dispatchEvent(moveEvent);
+        return true;
+      }
+    }));
+    props = useCompositeHover(_4R3V3JGP_spreadValues({ store, focusOnHover }, props));
+    return props;
+  }
+);
+var ComboboxItem = createMemoComponent(
+  (props) => {
+    const htmlProps = useComboboxItem(props);
+    return _3ORBWXWF_createElement("div", htmlProps);
+  }
+);
+if (false) {}
+
+
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/combobox/combobox-item-value.js
+"use client";
+
+
+
+
+
+
+
+
+
+
+
+// src/combobox/combobox-item-value.tsx
+
+
+
+function normalizeValue(value) {
+  return normalizeString(value).toLowerCase();
+}
+function splitValue(itemValue, userValue) {
+  userValue = normalizeValue(userValue);
+  let index = normalizeValue(itemValue).indexOf(userValue);
+  const parts = [];
+  while (index !== -1) {
+    if (index !== 0) {
+      parts.push(
+        /* @__PURE__ */ (0,jsx_runtime.jsx)("span", { "data-autocomplete-value": "", children: itemValue.substr(0, index) }, parts.length)
+      );
+    }
+    parts.push(
+      /* @__PURE__ */ (0,jsx_runtime.jsx)("span", { "data-user-value": "", children: itemValue.substr(index, userValue.length) }, parts.length)
+    );
+    itemValue = itemValue.substr(index + userValue.length);
+    index = normalizeValue(itemValue).indexOf(userValue);
+  }
+  if (itemValue) {
+    parts.push(
+      /* @__PURE__ */ (0,jsx_runtime.jsx)("span", { "data-autocomplete-value": "", children: itemValue }, parts.length)
+    );
+  }
+  return parts;
+}
+var useComboboxItemValue = createHook(
+  (_a) => {
+    var _b = _a, { store, value } = _b, props = __objRest(_b, ["store", "value"]);
+    const context = useComboboxScopedContext();
+    store = store || context;
+    const itemContext = (0,external_React_.useContext)(ComboboxItemValueContext);
+    const itemValue = value != null ? value : itemContext;
+    invariant(
+      store,
+       false && 0
+    );
+    const stateValue = store.useState(
+      (state) => itemValue && state.value ? state.value : void 0
+    );
+    const children = (0,external_React_.useMemo)(
+      () => itemValue && stateValue ? splitValue(itemValue, stateValue) : itemValue,
+      [itemValue, stateValue]
+    );
+    props = _4R3V3JGP_spreadValues({
+      children
+    }, props);
+    return props;
+  }
+);
+var ComboboxItemValue = createComponent(
+  (props) => {
+    const htmlProps = useComboboxItemValue(props);
+    return _3ORBWXWF_createElement("span", htmlProps);
+  }
+);
+if (false) {}
+
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/search-widget.js
+
+/**
+ * External dependencies
+ */
+// eslint-disable-next-line no-restricted-imports
+
+
 
 /**
  * WordPress dependencies
  */
+
+
+
+
+
+const radioCheck = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Circle, {
+  cx: 12,
+  cy: 12,
+  r: 3
+}));
+function search_widget_normalizeSearchInput(input = '') {
+  return remove_accents_default()(input.trim().toLowerCase());
+}
+function SearchWidget({
+  filter,
+  view,
+  onChangeView
+}) {
+  const [searchValue, setSearchValue] = (0,external_wp_element_namespaceObject.useState)('');
+  const deferredSearchValue = (0,external_wp_element_namespaceObject.useDeferredValue)(searchValue);
+  const selectedFilter = view.filters.find(_filter => _filter.field === filter.field);
+  const selectedValues = selectedFilter?.value;
+  const matches = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const normalizedSearch = search_widget_normalizeSearchInput(deferredSearchValue);
+    return filter.elements.filter(item => search_widget_normalizeSearchInput(item.label).includes(normalizedSearch));
+  }, [filter.elements, deferredSearchValue]);
+  return (0,external_React_.createElement)(ComboboxProvider, {
+    value: searchValue,
+    setSelectedValue: value => {
+      const currentFilter = view.filters.find(_filter => _filter.field === filter.field);
+      const newFilters = currentFilter ? [...view.filters.map(_filter => {
+        if (_filter.field === filter.field) {
+          return {
+            ..._filter,
+            operator: currentFilter.operator || filter.operators[0],
+            value
+          };
+        }
+        return _filter;
+      })] : [...view.filters, {
+        field: filter.field,
+        operator: filter.operators[0],
+        value
+      }];
+      onChangeView({
+        ...view,
+        page: 1,
+        filters: newFilters
+      });
+    },
+    setValue: setSearchValue
+  }, (0,external_React_.createElement)("div", {
+    className: "dataviews-search-widget-filter-combobox__wrapper"
+  }, (0,external_React_.createElement)(ComboboxLabel, {
+    render: (0,external_React_.createElement)(external_wp_components_namespaceObject.VisuallyHidden, null)
+  }, (0,external_wp_i18n_namespaceObject.__)('Search items')), (0,external_React_.createElement)(Combobox, {
+    autoSelect: "always",
+    placeholder: (0,external_wp_i18n_namespaceObject.__)('Search'),
+    className: "dataviews-search-widget-filter-combobox__input"
+  }), (0,external_React_.createElement)("div", {
+    className: "dataviews-search-widget-filter-combobox__icon"
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+    icon: library_search
+  }))), (0,external_React_.createElement)(ComboboxList, {
+    className: "dataviews-search-widget-filter-combobox-list",
+    alwaysVisible: true
+  }, matches.map(element => {
+    return (0,external_React_.createElement)(ComboboxItem, {
+      key: element.value,
+      value: element.value,
+      className: "dataviews-search-widget-filter-combobox-item",
+      hideOnClick: false,
+      setValueOnClick: false,
+      focusOnHover: true
+    }, (0,external_React_.createElement)("span", {
+      className: "dataviews-search-widget-filter-combobox-item-check"
+    }, selectedValues === element.value && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: radioCheck
+    })), (0,external_React_.createElement)("span", null, (0,external_React_.createElement)(ComboboxItemValue, {
+      className: "dataviews-search-widget-filter-combobox-item-value",
+      value: element.label
+    }), !!element.description && (0,external_React_.createElement)("span", {
+      className: "dataviews-search-widget-filter-combobox-item-description"
+    }, element.description)));
+  }), !matches.length && (0,external_React_.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('No results found'))));
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/filter-summary.js
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
 
 
 
@@ -36354,15 +41603,6 @@ const ViewActions = (0,external_wp_element_namespaceObject.memo)(function ViewAc
  */
 
 
-
-const {
-  DropdownMenuV2: filter_summary_DropdownMenu,
-  DropdownMenuGroupV2: filter_summary_DropdownMenuGroup,
-  DropdownMenuItemV2: filter_summary_DropdownMenuItem,
-  DropdownMenuSeparatorV2: filter_summary_DropdownMenuSeparator,
-  DropdownMenuItemLabelV2: filter_summary_DropdownMenuItemLabel,
-  DropdownMenuItemHelpTextV2: filter_summary_DropdownMenuItemHelpText
-} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
 const FilterText = ({
   activeElement,
   filterInView,
@@ -36371,92 +41611,197 @@ const FilterText = ({
   if (activeElement === undefined) {
     return filter.name;
   }
+  const filterTextWrappers = {
+    Span1: (0,external_React_.createElement)("span", {
+      className: "dataviews-filter-summary__filter-text-name"
+    }),
+    Span2: (0,external_React_.createElement)("span", {
+      className: "dataviews-filter-summary__filter-text-value"
+    })
+  };
   if (activeElement !== undefined && filterInView?.operator === constants_OPERATOR_IN) {
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: Filter value. e.g.: "Author is Admin". */
-    (0,external_wp_i18n_namespaceObject.__)('%1$s is %2$s'), filter.name, activeElement.label);
+    return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: Filter value. e.g.: "Author is Admin". */
+    (0,external_wp_i18n_namespaceObject.__)('<Span1>%1$s </Span1><Span2>is %2$s</Span2>'), filter.name, activeElement.label), filterTextWrappers);
   }
   if (activeElement !== undefined && filterInView?.operator === constants_OPERATOR_NOT_IN) {
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: Filter value. e.g.: "Author is not Admin". */
-    (0,external_wp_i18n_namespaceObject.__)('%1$s is not %2$s'), filter.name, activeElement.label);
+    return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: Filter value. e.g.: "Author is not Admin". */
+    (0,external_wp_i18n_namespaceObject.__)('<Span1>%1$s </Span1><Span2>is not %2$s</Span2>'), filter.name, activeElement.label), filterTextWrappers);
   }
   return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name e.g.: "Unknown status for Author". */
   (0,external_wp_i18n_namespaceObject.__)('Unknown status for %1$s'), filter.name);
 };
-function filter_summary_WithSeparators({
-  children
-}) {
-  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
-    key: i
-  }, i > 0 && (0,external_React_.createElement)(filter_summary_DropdownMenuSeparator, null), child));
-}
-function FilterSummary({
+function OperatorSelector({
   filter,
   view,
   onChangeView
 }) {
+  const operatorOptions = filter.operators?.map(operator => ({
+    value: operator,
+    label: OPERATORS[operator]?.label
+  }));
+  const currentFilter = view.filters.find(_filter => _filter.field === filter.field);
+  const value = currentFilter?.operator || filter.operators[0];
+  return operatorOptions.length > 1 && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    spacing: 2,
+    justify: "flex-start",
+    className: "dataviews-filter-summary__operators-container"
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, {
+    className: "dataviews-filter-summary__operators-filter-name"
+  }, filter.name), (0,external_React_.createElement)(external_wp_components_namespaceObject.SelectControl, {
+    label: (0,external_wp_i18n_namespaceObject.__)('Conditions'),
+    value: value,
+    options: operatorOptions,
+    onChange: newValue => {
+      const newFilters = currentFilter ? [...view.filters.map(_filter => {
+        if (_filter.field === filter.field) {
+          return {
+            ..._filter,
+            operator: newValue
+          };
+        }
+        return _filter;
+      })] : [...view.filters, {
+        field: filter.field,
+        operator: newValue
+      }];
+      onChangeView({
+        ...view,
+        page: 1,
+        filters: newFilters
+      });
+    },
+    size: "small",
+    __nextHasNoMarginBottom: true,
+    hideLabelFromVision: true
+  }));
+}
+function ResetFilter({
+  filter,
+  view,
+  onChangeView,
+  addFilterRef
+}) {
+  const isDisabled = filter.isPrimary && view.filters.find(_filter => _filter.field === filter.field)?.value === undefined;
+  return (0,external_React_.createElement)("div", {
+    className: "dataviews-filter-summary__reset"
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    disabled: isDisabled,
+    __experimentalIsFocusable: true,
+    size: "compact",
+    variant: "tertiary",
+    style: {
+      justifyContent: 'center',
+      width: '100%'
+    },
+    onClick: () => {
+      onChangeView({
+        ...view,
+        page: 1,
+        filters: view.filters.filter(_filter => _filter.field !== filter.field)
+      });
+      // If the filter is not primary and can be removed, it will be added
+      // back to the available filters from `Add filter` component.
+      if (!filter.isPrimary) {
+        addFilterRef.current?.focus();
+      }
+    }
+  }, filter.isPrimary ? (0,external_wp_i18n_namespaceObject.__)('Reset') : (0,external_wp_i18n_namespaceObject.__)('Remove')));
+}
+function FilterSummary({
+  addFilterRef,
+  openedFilter,
+  ...commonProps
+}) {
+  const toggleRef = (0,external_wp_element_namespaceObject.useRef)();
+  const {
+    filter,
+    view,
+    onChangeView
+  } = commonProps;
   const filterInView = view.filters.find(f => f.field === filter.field);
-  const otherFilters = view.filters.filter(f => f.field !== filter.field);
   const activeElement = filter.elements.find(element => element.value === filterInView?.value);
-  const activeOperator = filterInView?.operator || filter.operators[0];
-  return (0,external_React_.createElement)(filter_summary_DropdownMenu, {
-    key: filter.field,
-    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-      variant: "tertiary",
-      size: "compact",
-      label: filter.name
+  const isPrimary = filter.isPrimary;
+  const hasValues = filterInView?.value !== undefined;
+  const canResetOrRemove = !isPrimary || hasValues;
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.Dropdown, {
+    defaultOpen: openedFilter === filter.field,
+    contentClassName: "dataviews-filter-summary__popover",
+    popoverProps: {
+      placement: 'bottom-start',
+      role: 'dialog'
+    },
+    onClose: () => {
+      toggleRef.current?.focus();
+    },
+    renderToggle: ({
+      isOpen,
+      onToggle
+    }) => (0,external_React_.createElement)("div", {
+      className: "dataviews-filter-summary__chip-container"
+    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Tooltip, {
+      text: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. */
+      (0,external_wp_i18n_namespaceObject.__)('Filter by: %1$s'), filter.name.toLowerCase()),
+      placement: "top"
+    }, (0,external_React_.createElement)("div", {
+      className: classnames_default()('dataviews-filter-summary__chip', {
+        'has-reset': canResetOrRemove,
+        'has-values': hasValues
+      }),
+      role: "button",
+      tabIndex: 0,
+      onClick: onToggle,
+      onKeyDown: event => {
+        if ([external_wp_keycodes_namespaceObject.ENTER, external_wp_keycodes_namespaceObject.SPACE].includes(event.keyCode)) {
+          onToggle();
+          event.preventDefault();
+        }
+      },
+      "aria-pressed": isOpen,
+      "aria-expanded": isOpen,
+      ref: toggleRef
     }, (0,external_React_.createElement)(FilterText, {
       activeElement: activeElement,
       filterInView: filterInView,
       filter: filter
-    }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-      icon: chevron_down,
-      style: {
-        flexShrink: 0
+    }))), canResetOrRemove && (0,external_React_.createElement)(external_wp_components_namespaceObject.Tooltip, {
+      text: isPrimary ? (0,external_wp_i18n_namespaceObject.__)('Reset') : (0,external_wp_i18n_namespaceObject.__)('Remove'),
+      placement: "top"
+    }, (0,external_React_.createElement)("button", {
+      className: classnames_default()('dataviews-filter-summary__chip-remove', {
+        'has-values': hasValues
+      }),
+      onClick: () => {
+        onChangeView({
+          ...view,
+          page: 1,
+          filters: view.filters.filter(_filter => _filter.field !== filter.field)
+        });
+        // If the filter is not primary and can be removed, it will be added
+        // back to the available filters from `Add filter` component.
+        if (!isPrimary) {
+          addFilterRef.current?.focus();
+        } else {
+          // If is primary, focus the toggle button.
+          toggleRef.current?.focus();
+        }
       }
-    }))
-  }, (0,external_React_.createElement)(filter_summary_WithSeparators, null, (0,external_React_.createElement)(filter_summary_DropdownMenuGroup, null, filter.elements.map(element => {
-    const isActive = activeElement?.value === element.value;
-    return (0,external_React_.createElement)(DropdownMenuRadioItemCustom, {
-      key: element.value,
-      name: `filter-summary-${filter.field}`,
-      value: element.value,
-      checked: isActive,
-      onClick: () => onChangeView({
-        ...view,
-        page: 1,
-        filters: [...otherFilters, {
-          field: filter.field,
-          operator: activeOperator,
-          value: isActive ? undefined : element.value
-        }]
-      })
-    }, (0,external_React_.createElement)(filter_summary_DropdownMenuItemLabel, null, element.label), !!element.description && (0,external_React_.createElement)(filter_summary_DropdownMenuItemHelpText, null, element.description));
-  })), filter.operators.length > 1 && (0,external_React_.createElement)(filter_summary_DropdownMenu, {
-    trigger: (0,external_React_.createElement)(filter_summary_DropdownMenuItem, {
-      suffix: (0,external_React_.createElement)("span", {
-        "aria-hidden": "true"
-      }, OPERATORS[activeOperator]?.label)
-    }, (0,external_React_.createElement)(filter_summary_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Conditions')))
-  }, Object.entries(OPERATORS).map(([operator, {
-    label,
-    key
-  }]) => (0,external_React_.createElement)(DropdownMenuRadioItemCustom, {
-    key: key,
-    name: `filter-summary-${filter.field}-conditions`,
-    value: operator,
-    checked: activeOperator === operator,
-    onChange: e => {
-      onChangeView({
-        ...view,
-        page: 1,
-        filters: [...otherFilters, {
-          field: filter.field,
-          operator: e.target.value,
-          value: filterInView?.value
-        }]
-      });
+    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: close_small
+    })))),
+    renderContent: () => {
+      return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+        spacing: 0,
+        justify: "flex-start"
+      }, (0,external_React_.createElement)(OperatorSelector, {
+        ...commonProps
+      }), (0,external_React_.createElement)(SearchWidget, {
+        ...commonProps
+      }), (0,external_React_.createElement)(ResetFilter, {
+        ...commonProps,
+        addFilterRef: addFilterRef
+      }));
     }
-  }, (0,external_React_.createElement)(filter_summary_DropdownMenuItemLabel, null, label))))));
+  });
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/add-filter.js
@@ -36473,135 +41818,52 @@ function FilterSummary({
  * Internal dependencies
  */
 
-
-
 const {
   DropdownMenuV2: add_filter_DropdownMenu,
-  DropdownMenuGroupV2: add_filter_DropdownMenuGroup,
   DropdownMenuItemV2: add_filter_DropdownMenuItem,
-  DropdownMenuRadioItemV2: add_filter_DropdownMenuRadioItem,
-  DropdownMenuSeparatorV2: add_filter_DropdownMenuSeparator,
-  DropdownMenuItemLabelV2: add_filter_DropdownMenuItemLabel,
-  DropdownMenuItemHelpTextV2: add_filter_DropdownMenuItemHelpText
+  DropdownMenuItemLabelV2: add_filter_DropdownMenuItemLabel
 } = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
-function add_filter_WithSeparators({
-  children
-}) {
-  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
-    key: i
-  }, i > 0 && (0,external_React_.createElement)(add_filter_DropdownMenuSeparator, null), child));
-}
 function AddFilter({
   filters,
   view,
-  onChangeView
-}) {
-  if (filters.length === 0) {
+  onChangeView,
+  setOpenedFilter
+}, ref) {
+  if (!filters.length || filters.every(({
+    isPrimary
+  }) => isPrimary)) {
     return null;
   }
-  const filterCount = view.filters.reduce((acc, filter) => {
-    if (filter.value !== undefined) {
-      return acc + 1;
-    }
-    return acc;
-  }, 0);
+  const inactiveFilters = filters.filter(filter => !filter.isVisible);
   return (0,external_React_.createElement)(add_filter_DropdownMenu, {
     trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
       __experimentalIsFocusable: true,
-      label: (0,external_wp_i18n_namespaceObject.__)('Filters'),
       size: "compact",
-      icon: library_funnel,
-      className: "dataviews-filters-button"
-    }, view.type === constants_LAYOUT_LIST && filterCount > 0 ? (0,external_React_.createElement)("span", {
-      className: "dataviews-filters-count"
-    }, filterCount) : null),
-    style: {
-      minWidth: '230px'
-    }
-  }, (0,external_React_.createElement)(add_filter_WithSeparators, null, (0,external_React_.createElement)(add_filter_DropdownMenuGroup, null, filters.map(filter => {
-    const filterInView = view.filters.find(f => f.field === filter.field);
-    const otherFilters = view.filters.filter(f => f.field !== filter.field);
-    const activeElement = filter.elements.find(element => element.value === filterInView?.value);
-    const activeOperator = filterInView?.operator || filter.operators[0];
-    return (0,external_React_.createElement)(add_filter_DropdownMenu, {
+      icon: library_plus,
+      className: "dataviews-filters-button",
+      variant: "tertiary",
+      disabled: !inactiveFilters.length,
+      ref: ref
+    }, (0,external_wp_i18n_namespaceObject.__)('Add filter'))
+  }, inactiveFilters.map(filter => {
+    return (0,external_React_.createElement)(add_filter_DropdownMenuItem, {
       key: filter.field,
-      trigger: (0,external_React_.createElement)(add_filter_DropdownMenuItem, {
-        suffix: activeElement && (0,external_React_.createElement)("span", {
-          "aria-hidden": "true"
-        }, activeOperator in OPERATORS && `${OPERATORS[activeOperator].label} `, activeElement.label)
-      }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, filter.name)),
-      style: {
-        minWidth: '200px'
-      }
-    }, (0,external_React_.createElement)(add_filter_WithSeparators, null, (0,external_React_.createElement)(add_filter_DropdownMenuGroup, null, filter.elements.map(element => {
-      const isActive = activeElement?.value === element.value;
-      return (0,external_React_.createElement)(DropdownMenuRadioItemCustom, {
-        key: element.value,
-        name: `add-filter-${filter.field}`,
-        value: element.value,
-        checked: isActive,
-        onChange: e => {
-          onChangeView({
-            ...view,
-            page: 1,
-            filters: [...otherFilters, {
-              field: filter.field,
-              operator: activeOperator,
-              value: isActive ? undefined : e.target.value
-            }]
-          });
-        }
-      }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, element.label), !!element.description && (0,external_React_.createElement)(add_filter_DropdownMenuItemHelpText, null, element.description));
-    })), filter.operators.length > 1 && (0,external_React_.createElement)(add_filter_DropdownMenu, {
-      trigger: (0,external_React_.createElement)(add_filter_DropdownMenuItem, {
-        suffix: (0,external_React_.createElement)("span", {
-          "aria-hidden": "true"
-        }, OPERATORS[activeOperator]?.label)
-      }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Conditions')))
-    }, Object.entries(OPERATORS).map(([operator, {
-      label,
-      key
-    }]) => (0,external_React_.createElement)(add_filter_DropdownMenuRadioItem, {
-      key: key,
-      name: `add-filter-${filter.field}-conditions`,
-      value: operator,
-      checked: activeOperator === operator,
-      onChange: e => {
+      onClick: () => {
+        setOpenedFilter(filter.field);
         onChangeView({
           ...view,
           page: 1,
-          filters: [...otherFilters, {
+          filters: [...(view.filters || []), {
             field: filter.field,
-            operator: e.target.value,
-            value: filterInView?.value
+            value: undefined,
+            operator: filter.operators[0]
           }]
         });
       }
-    }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, label)))), (0,external_React_.createElement)(add_filter_DropdownMenuItem, {
-      key: 'reset-filter-' + filter.name,
-      disabled: !activeElement,
-      hideOnClick: false,
-      onClick: () => {
-        onChangeView({
-          ...view,
-          page: 1,
-          filters: view.filters.filter(f => f.field !== filter.field)
-        });
-      }
-    }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. e.g.: "Reset Author". */
-    (0,external_wp_i18n_namespaceObject.__)('Reset %1$s'), filter.name.toLowerCase())))));
-  })), (0,external_React_.createElement)(add_filter_DropdownMenuItem, {
-    disabled: view.search === '' && view.filters?.length === 0,
-    hideOnClick: false,
-    onClick: () => {
-      onChangeView({
-        ...view,
-        page: 1,
-        filters: []
-      });
-    }
-  }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, (0,external_wp_i18n_namespaceObject.__)('Reset filters')))));
+    }, (0,external_React_.createElement)(add_filter_DropdownMenuItemLabel, null, filter.name));
+  }));
 }
+/* harmony default export */ const add_filter = ((0,external_wp_element_namespaceObject.forwardRef)(AddFilter));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/reset-filters.js
 
@@ -36610,12 +41872,15 @@ function AddFilter({
  */
 
 
-function ResetFilter({
+function reset_filters_ResetFilter({
+  filters,
   view,
   onChangeView
 }) {
+  const isPrimary = field => filters.some(_filter => _filter.field === field && _filter.isPrimary);
+  const isDisabled = !view.search && !view.filters?.some(_filter => _filter.value !== undefined || !isPrimary(_filter.field));
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    disabled: view.search === '' && view.filters?.length === 0,
+    disabled: isDisabled,
     __experimentalIsFocusable: true,
     size: "compact",
     variant: "tertiary",
@@ -36644,24 +41909,21 @@ function ResetFilter({
 
 
 
-const filters_sanitizeOperators = field => {
-  let operators = field.filterBy?.operators;
-  if (!operators || !Array.isArray(operators)) {
-    operators = [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN];
-  }
-  return operators.filter(operator => [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN].includes(operator));
-};
+
 const Filters = (0,external_wp_element_namespaceObject.memo)(function Filters({
   fields,
   view,
-  onChangeView
+  onChangeView,
+  openedFilter,
+  setOpenedFilter
 }) {
+  const addFilterRef = (0,external_wp_element_namespaceObject.useRef)();
   const filters = [];
   fields.forEach(field => {
     if (!field.type) {
       return;
     }
-    const operators = filters_sanitizeOperators(field);
+    const operators = sanitizeOperators(field);
     if (operators.length === 0) {
       return;
     }
@@ -36670,35 +41932,53 @@ const Filters = (0,external_wp_element_namespaceObject.memo)(function Filters({
         if (!field.elements?.length) {
           return;
         }
+        const isPrimary = !!field.filterBy?.isPrimary;
         filters.push({
           field: field.id,
           name: field.header,
           elements: field.elements,
           operators,
-          isVisible: view.filters.some(f => f.field === field.id && [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN].includes(f.operator))
+          isVisible: isPrimary || view.filters.some(f => f.field === field.id && [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN].includes(f.operator)),
+          isPrimary
         });
     }
   });
-  const addFilter = (0,external_React_.createElement)(AddFilter, {
+  // Sort filters by primary property. We need the primary filters to be first.
+  // Then we sort by name.
+  filters.sort((a, b) => {
+    if (a.isPrimary && !b.isPrimary) {
+      return -1;
+    }
+    if (!a.isPrimary && b.isPrimary) {
+      return 1;
+    }
+    return a.name.localeCompare(b.name);
+  });
+  const addFilter = (0,external_React_.createElement)(add_filter, {
     key: "add-filter",
     filters: filters,
     view: view,
-    onChangeView: onChangeView
+    onChangeView: onChangeView,
+    ref: addFilterRef,
+    setOpenedFilter: setOpenedFilter
   });
-  const filterComponents = [addFilter, ...filters.map(filter => {
-    if (!filter.isVisible || view.type === constants_LAYOUT_LIST) {
+  const filterComponents = [...filters.map(filter => {
+    if (!filter.isVisible) {
       return null;
     }
     return (0,external_React_.createElement)(FilterSummary, {
       key: filter.field,
       filter: filter,
       view: view,
-      onChangeView: onChangeView
+      onChangeView: onChangeView,
+      addFilterRef: addFilterRef,
+      openedFilter: openedFilter
     });
-  })];
-  if (filterComponents.length > 1 && view.type !== constants_LAYOUT_LIST) {
-    filterComponents.push((0,external_React_.createElement)(ResetFilter, {
+  }), addFilter];
+  if (filterComponents.length > 1) {
+    filterComponents.push((0,external_React_.createElement)(reset_filters_ResetFilter, {
       key: "reset-filters",
+      filters: filters,
       view: view,
       onChangeView: onChangeView
     }));
@@ -36736,7 +42016,7 @@ const Search = (0,external_wp_element_namespaceObject.memo)(function Search({
       search: debouncedSearch
     });
   }, [debouncedSearch]);
-  const searchLabel = label || (0,external_wp_i18n_namespaceObject.__)('Filter list');
+  const searchLabel = label || (0,external_wp_i18n_namespaceObject.__)('Search');
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.SearchControl, {
     __nextHasNoMarginBottom: true,
     onChange: setSearch,
@@ -36921,17 +42201,18 @@ function DataViews({
   deferredRendering = false
 }) {
   const [selection, setSelection] = (0,external_wp_element_namespaceObject.useState)([]);
+  const [openedFilter, setOpenedFilter] = (0,external_wp_element_namespaceObject.useState)(null);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (selection.length > 0 && selection.some(id => !data.some(item => item.id === id))) {
-      const newSelection = selection.filter(id => data.some(item => item.id === id));
+    if (selection.length > 0 && selection.some(id => !data.some(item => getItemId(item) === id))) {
+      const newSelection = selection.filter(id => data.some(item => getItemId(item) === id));
       setSelection(newSelection);
-      onSelectionChange(data.filter(item => newSelection.includes(item.id)));
+      onSelectionChange(data.filter(item => newSelection.includes(getItemId(item))));
     }
-  }, [selection, data, onSelectionChange]);
+  }, [selection, data, getItemId, onSelectionChange]);
   const onSetSelection = (0,external_wp_element_namespaceObject.useCallback)(items => {
-    setSelection(items.map(item => item.id));
+    setSelection(items.map(item => getItemId(item)));
     onSelectionChange(items);
-  }, [setSelection, onSelectionChange]);
+  }, [setSelection, getItemId, onSelectionChange]);
   const ViewComponent = VIEW_LAYOUTS.find(v => v.type === view.type).component;
   const _fields = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return fields.map(field => ({
@@ -36942,23 +42223,17 @@ function DataViews({
   return (0,external_React_.createElement)("div", {
     className: "dataviews-wrapper"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    spacing: 0,
+    spacing: 3,
     justify: "flex-start"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     alignment: "flex-start",
-    className: "dataviews-filters__view-actions"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "start",
-    wrap: true
+    className: "dataviews-filters__view-actions"
   }, search && (0,external_React_.createElement)(build_module_search, {
     label: searchLabel,
     view: view,
     onChangeView: onChangeView
-  }), (0,external_React_.createElement)(filters, {
-    fields: _fields,
-    view: view,
-    onChangeView: onChangeView
-  })), view.type === constants_LAYOUT_TABLE && (0,external_React_.createElement)(BulkActions, {
+  }), [constants_LAYOUT_TABLE, constants_LAYOUT_GRID].includes(view.type) && (0,external_React_.createElement)(BulkActions, {
     actions: actions,
     data: data,
     onSelectionChange: onSetSelection,
@@ -36969,6 +42244,16 @@ function DataViews({
     view: view,
     onChangeView: onChangeView,
     supportedLayouts: supportedLayouts
+  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    justify: "start",
+    className: "dataviews-filters__container",
+    wrap: true
+  }, (0,external_React_.createElement)(filters, {
+    fields: _fields,
+    view: view,
+    onChangeView: onChangeView,
+    openedFilter: openedFilter,
+    setOpenedFilter: setOpenedFilter
   })), (0,external_React_.createElement)(ViewComponent, {
     fields: _fields,
     view: view,
@@ -36980,7 +42265,8 @@ function DataViews({
     onSelectionChange: onSetSelection,
     onDetailsChange: onDetailsChange,
     selection: selection,
-    deferredRendering: deferredRendering
+    deferredRendering: deferredRendering,
+    setOpenedFilter: setOpenedFilter
   }), (0,external_React_.createElement)(pagination, {
     view: view,
     onChangeView: onChangeView,
@@ -37402,6 +42688,11 @@ function Media({
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/page-pages/index.js
 
 /**
+ * External dependencies
+ */
+
+
+/**
  * WordPress dependencies
  */
 
@@ -37448,7 +42739,10 @@ function useView(postType) {
     if (isCustom === 'false' && layout) {
       return {
         ...defaultView,
-        type: layout
+        type: layout,
+        layout: {
+          ...(DEFAULT_CONFIG_PER_VIEW_TYPE[layout] || {})
+        }
       };
     }
     return defaultView;
@@ -37542,20 +42836,23 @@ function FeaturedImage({
     canvas: 'edit'
   });
   const hasMedia = !!item.featured_media;
-  return (0,external_React_.createElement)("span", {
-    className: {
+  const size = viewType === LAYOUT_GRID ? ['large', 'full', 'medium', 'thumbnail'] : ['thumbnail', 'medium', 'large', 'full'];
+  const media = hasMedia ? (0,external_React_.createElement)(components_media, {
+    className: "edit-site-page-pages__featured-image",
+    id: item.featured_media,
+    size: size
+  }) : null;
+  if (viewType === LAYOUT_LIST) {
+    return media;
+  }
+  return (0,external_React_.createElement)("button", {
+    className: classnames_default()('page-pages-preview-field__button', {
       'edit-site-page-pages__media-wrapper': viewType === LAYOUT_TABLE
-    }
-  }, (0,external_React_.createElement)("button", {
-    className: "page-pages-preview-field__button",
+    }),
     type: "button",
     onClick: onClick,
     "aria-label": item.title?.rendered || (0,external_wp_i18n_namespaceObject.__)('(no title)')
-  }, hasMedia && (0,external_React_.createElement)(components_media, {
-    className: "edit-site-page-pages__featured-image",
-    id: item.featured_media,
-    size: viewType === LAYOUT_GRID ? ['large', 'full', 'medium', 'thumbnail'] : ['thumbnail', 'medium', 'large', 'full']
-  })));
+  }, media);
 }
 function PagePages() {
   const postType = 'page';
@@ -37628,7 +42925,8 @@ function PagePages() {
       item: item,
       viewType: view.type
     }),
-    enableSorting: false
+    enableSorting: false,
+    width: '1%'
   }, {
     header: (0,external_wp_i18n_namespaceObject.__)('Title'),
     id: 'title',
@@ -37646,7 +42944,7 @@ function PagePages() {
         }
       }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered) || (0,external_wp_i18n_namespaceObject.__)('(no title)')) : (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered) || (0,external_wp_i18n_namespaceObject.__)('(no title)');
     },
-    maxWidth: 400,
+    maxWidth: 300,
     enableHiding: false
   }, {
     header: (0,external_wp_i18n_namespaceObject.__)('Author'),
@@ -37751,70 +43049,6 @@ function PagePages() {
     onSelectionChange: onSelectionChange,
     supportedLayouts: SUPPORTED_LAYOUTS
   }));
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/utils.js
-/**
- * Helper util to sort data by text fields, when sorting is done client side.
- *
- * @param {Object}   params            Function params.
- * @param {Object[]} params.data       Data to sort.
- * @param {Object}   params.view       Current view object.
- * @param {Object[]} params.fields     Array of available fields.
- * @param {string[]} params.textFields Array of the field ids to sort.
- *
- * @return {Object[]} Sorted data.
- */
-const sortByTextFields = ({
-  data,
-  view,
-  fields,
-  textFields
-}) => {
-  const sortedData = [...data];
-  const fieldId = view.sort.field;
-  if (textFields.includes(fieldId)) {
-    const fieldToSort = fields.find(field => {
-      return field.id === fieldId;
-    });
-    sortedData.sort((a, b) => {
-      var _fieldToSort$getValue, _fieldToSort$getValue2;
-      const valueA = (_fieldToSort$getValue = fieldToSort.getValue({
-        item: a
-      })) !== null && _fieldToSort$getValue !== void 0 ? _fieldToSort$getValue : '';
-      const valueB = (_fieldToSort$getValue2 = fieldToSort.getValue({
-        item: b
-      })) !== null && _fieldToSort$getValue2 !== void 0 ? _fieldToSort$getValue2 : '';
-      return view.sort.direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
-    });
-  }
-  return sortedData;
-};
-
-/**
- * Helper util to get the paginated data and the paginateInfo needed,
- * when pagination is done client side.
- *
- * @param {Object}   params      Function params.
- * @param {Object[]} params.data Available data.
- * @param {Object}   params.view Current view object.
- *
- * @return {Object} Paginated data and paginationInfo.
- */
-function getPaginationResults({
-  data,
-  view
-}) {
-  const start = (view.page - 1) * view.perPage;
-  const totalItems = data?.length || 0;
-  data = data?.slice(start, start + view.perPage);
-  return {
-    data,
-    paginationInfo: {
-      totalItems,
-      totalPages: Math.ceil(totalItems / view.perPage)
-    }
-  };
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/header.js
@@ -38003,11 +43237,12 @@ const deleteAction = {
     return canDeleteOrReset(item) && !hasThemeFile;
   },
   hideModalHeader: true,
+  supportsBulk: true,
   RenderModal: ({
     items,
-    closeModal
+    closeModal,
+    onPerform
   }) => {
-    const [item] = items;
     const {
       __experimentalDeleteReusableBlock
     } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_reusableBlocks_namespaceObject.store);
@@ -38016,31 +43251,91 @@ const deleteAction = {
       createSuccessNotice
     } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
     const {
-      removeTemplate
-    } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+      removeTemplates
+    } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store_store));
     const deletePattern = async () => {
-      try {
-        await __experimentalDeleteReusableBlock(item.id);
-        createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-        // translators: %s: The pattern's title e.g. 'Call to action'.
-        (0,external_wp_i18n_namespaceObject.__)('"%s" deleted.'), item.title), {
+      const promiseResult = await Promise.allSettled(items.map(item => {
+        return __experimentalDeleteReusableBlock(item.id);
+      }));
+      // If all the promises were fulfilled with success.
+      if (promiseResult.every(({
+        status
+      }) => status === 'fulfilled')) {
+        let successMessage;
+        if (promiseResult.length === 1) {
+          successMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The posts's title. */
+          (0,external_wp_i18n_namespaceObject.__)('"%s" deleted.'), items[0].title);
+        } else {
+          successMessage = (0,external_wp_i18n_namespaceObject.__)('The patterns were deleted.');
+        }
+        createSuccessNotice(successMessage, {
           type: 'snackbar',
-          id: 'edit-site-patterns-success'
+          id: 'edit-site-page-trashed'
         });
-      } catch (error) {
-        const errorMessage = error.message && error.code !== 'unknown_error' ? error.message : (0,external_wp_i18n_namespaceObject.__)('An error occurred while deleting the pattern.');
-        createErrorNotice(errorMessage, {
-          type: 'snackbar',
-          id: 'edit-site-patterns-error'
-        });
+      } else {
+        // If there was at lease one failure.
+        let errorMessage;
+        // If we were trying to delete a single pattern.
+        if (promiseResult.length === 1) {
+          if (promiseResult[0].reason?.message) {
+            errorMessage = promiseResult[0].reason.message;
+          } else {
+            errorMessage = (0,external_wp_i18n_namespaceObject.__)('An error occurred while deleting the pattern.');
+          }
+          // If we were trying to delete multiple patterns.
+        } else {
+          const errorMessages = new Set();
+          const failedPromises = promiseResult.filter(({
+            status
+          }) => status === 'rejected');
+          for (const failedPromise of failedPromises) {
+            if (failedPromise.reason?.message) {
+              errorMessages.add(failedPromise.reason.message);
+            }
+          }
+          if (errorMessages.size === 0) {
+            errorMessage = (0,external_wp_i18n_namespaceObject.__)('An error occurred while deleting the patterns.');
+          } else if (errorMessages.size === 1) {
+            errorMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: an error message */
+            (0,external_wp_i18n_namespaceObject.__)('An error occurred while deleting the patterns: %s'), [...errorMessages][0]);
+          } else {
+            errorMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: a list of comma separated error messages */
+            (0,external_wp_i18n_namespaceObject.__)('Some errors occurred while deleting the patterns: %s'), [...errorMessages].join(','));
+          }
+          createErrorNotice(errorMessage, {
+            type: 'snackbar'
+          });
+        }
       }
     };
-    const deleteItem = () => item.type === TEMPLATE_PART_POST_TYPE ? removeTemplate(item) : deletePattern();
+    const deleteItem = () => {
+      if (items[0].type === TEMPLATE_PART_POST_TYPE) {
+        removeTemplates(items);
+      } else {
+        deletePattern();
+      }
+      if (onPerform) {
+        onPerform();
+      }
+      closeModal();
+    };
+    let questionMessage;
+    if (items.length === 1) {
+      questionMessage = (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: %s: The page's title.
+      (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete "%s"?'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(items[0].title || items[0].name));
+    } else if (items.length > 1 && items[0].type === TEMPLATE_PART_POST_TYPE) {
+      questionMessage = (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: %d: The number of template parts (2 or more).
+      (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete %d template parts?'), items.length);
+    } else {
+      questionMessage = (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: %d: The number of patterns (2 or more).
+      (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete %d patterns?'), items.length);
+    }
     return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
       spacing: "5"
-    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, null, (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: %s: The pattern or template part's title e.g. 'Call to action'.
-    (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete "%s"?'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title || item.name))), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, null, questionMessage), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
       justify: "right"
     }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
       variant: "tertiary",
@@ -38658,7 +43953,8 @@ function DataviewsPatterns() {
         type: ENUMERATION_TYPE,
         elements: SYNC_FILTERS,
         filterBy: {
-          operators: [OPERATOR_IN]
+          operators: [OPERATOR_IN],
+          isPrimary: true
         },
         enableSorting: false
       });
@@ -39135,7 +44431,9 @@ function page_templates_template_parts_Preview({
     style: {
       backgroundColor
     }
-  }, (0,external_React_.createElement)("button", {
+  }, viewType === LAYOUT_LIST && !isEmpty && (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockPreview, {
+    blocks: blocks
+  }), viewType !== LAYOUT_LIST && (0,external_React_.createElement)("button", {
     className: "page-templates-preview-field__button",
     type: "button",
     onClick: onClick,
@@ -39155,9 +44453,11 @@ function PageTemplatesTemplateParts({
     layout
   } = params;
   const defaultView = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const usedType = window?.__experimentalAdminViews ? layout !== null && layout !== void 0 ? layout : page_templates_template_parts_DEFAULT_VIEW.type : page_templates_template_parts_DEFAULT_VIEW.type;
     return {
       ...page_templates_template_parts_DEFAULT_VIEW,
-      type: window?.__experimentalAdminViews ? layout !== null && layout !== void 0 ? layout : page_templates_template_parts_DEFAULT_VIEW.type : page_templates_template_parts_DEFAULT_VIEW.type,
+      type: usedType,
+      layout: page_templates_template_parts_defaultConfigPerViewType[usedType],
       filters: activeView !== 'all' ? [{
         field: 'author',
         operator: 'in',
@@ -39272,7 +44572,6 @@ function PageTemplatesTemplateParts({
           item: item
         });
       },
-      enableHiding: false,
       type: ENUMERATION_TYPE,
       elements: authors,
       width: '1%'
@@ -39655,7 +44954,6 @@ function Layout() {
           delayChildren: 0.8
         } // How long to wait before the header exits
       },
-
       isDistractionFreeHovering: {
         opacity: 1,
         transition: {
@@ -39664,7 +44962,6 @@ function Layout() {
           delayChildren: 0.2
         } // How long to wait before the header shows
       },
-
       view: {
         opacity: 1
       },

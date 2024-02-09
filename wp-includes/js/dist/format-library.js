@@ -415,20 +415,6 @@ const italic = {
 const external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
 const external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/link-off.js
-
-/**
- * WordPress dependencies
- */
-
-const linkOff = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M17.031 4.703 15.576 4l-1.56 3H14v.03l-2.324 4.47H9.5V13h1.396l-1.502 2.889h-.95a3.694 3.694 0 0 1 0-7.389H10V7H8.444a5.194 5.194 0 1 0 0 10.389h.17L7.5 19.53l1.416.719L15.049 8.5h.507a3.694 3.694 0 0 1 0 7.39H14v1.5h1.556a5.194 5.194 0 0 0 .273-10.383l1.202-2.304Z"
-}));
-/* harmony default export */ const link_off = (linkOff);
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/link.js
 
 /**
@@ -674,9 +660,9 @@ const LINK_SETTINGS = [...external_wp_blockEditor_namespaceObject.__experimental
 function InlineLinkUI({
   isActive,
   activeAttributes,
-  addingLink,
   value,
   onChange,
+  onFocusOutside,
   stopAddingLink,
   contentRef
 }) {
@@ -729,65 +715,61 @@ function InlineLinkUI({
       nofollow: nextValue.nofollow
     });
     const newText = nextValue.title || newUrl;
+
+    // Scenario: we have any active text selection or an active format.
+    let newValue;
     if ((0,external_wp_richText_namespaceObject.isCollapsed)(value) && !isActive) {
       // Scenario: we don't have any actively selected text or formats.
-      const toInsert = (0,external_wp_richText_namespaceObject.applyFormat)((0,external_wp_richText_namespaceObject.create)({
-        text: newText
-      }), linkFormat, 0, newText.length);
-      onChange((0,external_wp_richText_namespaceObject.insert)(value, toInsert));
+      const inserted = (0,external_wp_richText_namespaceObject.insert)(value, newText);
+      newValue = (0,external_wp_richText_namespaceObject.applyFormat)(inserted, linkFormat, value.start, value.end + newText.length);
+    } else if (newText === richTextText) {
+      newValue = (0,external_wp_richText_namespaceObject.applyFormat)(value, linkFormat);
     } else {
-      // Scenario: we have any active text selection or an active format.
-      let newValue;
-      if (newText === richTextText) {
-        // If we're not updating the text then ignore.
-        newValue = (0,external_wp_richText_namespaceObject.applyFormat)(value, linkFormat);
-      } else {
-        // Create new RichText value for the new text in order that we
-        // can apply formats to it.
-        newValue = (0,external_wp_richText_namespaceObject.create)({
-          text: newText
-        });
+      // Scenario: Editing an existing link.
 
-        // Apply the new Link format to this new text value.
-        newValue = (0,external_wp_richText_namespaceObject.applyFormat)(newValue, linkFormat, 0, newText.length);
+      // Create new RichText value for the new text in order that we
+      // can apply formats to it.
+      newValue = (0,external_wp_richText_namespaceObject.create)({
+        text: newText
+      });
+      // Apply the new Link format to this new text value.
+      newValue = (0,external_wp_richText_namespaceObject.applyFormat)(newValue, linkFormat, 0, newText.length);
 
-        // Get the boundaries of the active link format.
-        const boundary = getFormatBoundary(value, {
-          type: 'core/link'
-        });
+      // Get the boundaries of the active link format.
+      const boundary = getFormatBoundary(value, {
+        type: 'core/link'
+      });
 
-        // Split the value at the start of the active link format.
-        // Passing "start" as the 3rd parameter is required to ensure
-        // the second half of the split value is split at the format's
-        // start boundary and avoids relying on the value's "end" property
-        // which may not correspond correctly.
-        const [valBefore, valAfter] = (0,external_wp_richText_namespaceObject.split)(value, boundary.start, boundary.start);
+      // Split the value at the start of the active link format.
+      // Passing "start" as the 3rd parameter is required to ensure
+      // the second half of the split value is split at the format's
+      // start boundary and avoids relying on the value's "end" property
+      // which may not correspond correctly.
+      const [valBefore, valAfter] = (0,external_wp_richText_namespaceObject.split)(value, boundary.start, boundary.start);
 
-        // Update the original (full) RichTextValue replacing the
-        // target text with the *new* RichTextValue containing:
-        // 1. The new text content.
-        // 2. The new link format.
-        // As "replace" will operate on the first match only, it is
-        // run only against the second half of the value which was
-        // split at the active format's boundary. This avoids a bug
-        // with incorrectly targetted replacements.
-        // See: https://github.com/WordPress/gutenberg/issues/41771.
-        // Note original formats will be lost when applying this change.
-        // That is expected behaviour.
-        // See: https://github.com/WordPress/gutenberg/pull/33849#issuecomment-936134179.
-        const newValAfter = (0,external_wp_richText_namespaceObject.replace)(valAfter, richTextText, newValue);
-        newValue = (0,external_wp_richText_namespaceObject.concat)(valBefore, newValAfter);
-      }
-      onChange(newValue);
+      // Update the original (full) RichTextValue replacing the
+      // target text with the *new* RichTextValue containing:
+      // 1. The new text content.
+      // 2. The new link format.
+      // As "replace" will operate on the first match only, it is
+      // run only against the second half of the value which was
+      // split at the active format's boundary. This avoids a bug
+      // with incorrectly targetted replacements.
+      // See: https://github.com/WordPress/gutenberg/issues/41771.
+      // Note original formats will be lost when applying this change.
+      // That is expected behaviour.
+      // See: https://github.com/WordPress/gutenberg/pull/33849#issuecomment-936134179.
+      const newValAfter = (0,external_wp_richText_namespaceObject.replace)(valAfter, richTextText, newValue);
+      newValue = (0,external_wp_richText_namespaceObject.concat)(valBefore, newValAfter);
     }
+    onChange(newValue);
 
     // Focus should only be returned to the rich text on submit if this link is not
     // being created for the first time. If it is then focus should remain within the
     // Link UI because it should remain open for the user to modify the link they have
     // just created.
     if (!isNewLink) {
-      const returnFocusToRichText = true;
-      stopAddingLink(returnFocusToRichText);
+      stopAddingLink();
     }
     if (!isValidHref(newUrl)) {
       (0,external_wp_a11y_namespaceObject.speak)((0,external_wp_i18n_namespaceObject.__)('Warning: the link has been inserted but may have errors. Please test it.'), 'assertive');
@@ -809,15 +791,17 @@ function InlineLinkUI({
   //  This caches the last truthy value of the selection anchor reference.
   // This ensures the Popover is positioned correctly on initial submission of the link.
   const cachedRect = (0,external_wp_blockEditor_namespaceObject.useCachedTruthy)(popoverAnchor.getBoundingClientRect());
-  popoverAnchor.getBoundingClientRect = () => cachedRect;
 
-  // Focus should only be moved into the Popover when the Link is being created or edited.
-  // When the Link is in "preview" mode focus should remain on the rich text because at
-  // this point the Link dialog is informational only and thus the user should be able to
-  // continue editing the rich text.
-  // Ref used because the focusOnMount prop shouldn't evolve during render of a Popover
-  // otherwise it causes a render of the content.
-  const focusOnMount = (0,external_wp_element_namespaceObject.useRef)(addingLink ? 'firstElement' : false);
+  // If the link is not active (i.e. it is a new link) then we need to
+  // override the getBoundingClientRect method on the anchor element
+  // to return the cached value of the selection represented by the text
+  // that the user selected to be linked.
+  // If the link is active (i.e. it is an existing link) then we allow
+  // the default behaviour of the popover anchor to be used. This will get
+  // the anchor based on the `<a>` element in the rich text.
+  if (!isActive) {
+    popoverAnchor.getBoundingClientRect = () => cachedRect;
+  }
   async function handleCreate(pageTitle) {
     const page = await createPageEntity({
       title: pageTitle,
@@ -839,9 +823,8 @@ function InlineLinkUI({
   }
   return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
     anchor: popoverAnchor,
-    focusOnMount: focusOnMount.current,
     onClose: stopAddingLink,
-    onFocusOutside: () => stopAddingLink(false),
+    onFocusOutside: onFocusOutside,
     placement: "bottom",
     offset: 10,
     shift: true
@@ -849,7 +832,6 @@ function InlineLinkUI({
     value: linkValue,
     onChange: onChangeLink,
     onRemove: removeLink,
-    forceIsEditingLink: addingLink,
     hasRichPreviews: true,
     createSuggestion: createPageEntity && handleCreate,
     withCreateSuggestion: userCanCreatePages,
@@ -921,16 +903,51 @@ function link_Edit({
   contentRef
 }) {
   const [addingLink, setAddingLink] = (0,external_wp_element_namespaceObject.useState)(false);
-  function addLink() {
+  // We only need to store the button element that opened the popover. We can ignore the other states, as they will be handled by the onFocus prop to return to the rich text field.
+  const [openedBy, setOpenedBy] = (0,external_wp_element_namespaceObject.useState)(null);
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    const editableContentElement = contentRef.current;
+    if (!editableContentElement) {
+      return;
+    }
+
+    // Close the Link popover if there is no active selection
+    // after the link was added - this can happen if the user
+    // adds a link without any text selected.
+    // We assume that if there is no active selection after
+    // link insertion there are no active formats.
+    if (!value.activeFormats) {
+      editableContentElement.focus();
+      setAddingLink(false);
+      return;
+    }
+    function handleClick(event) {
+      // There is a situation whereby there is an existing link in the rich text
+      // and the user clicks on the leftmost edge of that link and fails to activate
+      // the link format, but the click event still fires on the `<a>` element.
+      // This causes the `addingLink` state to be set to `true` and the link UI
+      // to be rendered in "creating" mode. We need to check isActive to see if
+      // we have an active link format.
+      if (event.target.tagName !== 'A' || !isActive) {
+        return;
+      }
+      setAddingLink(true);
+    }
+    editableContentElement.addEventListener('click', handleClick);
+    return () => {
+      editableContentElement.removeEventListener('click', handleClick);
+    };
+  }, [contentRef, isActive, addingLink, value]);
+  function addLink(target) {
     const text = (0,external_wp_richText_namespaceObject.getTextContent)((0,external_wp_richText_namespaceObject.slice)(value));
-    if (text && (0,external_wp_url_namespaceObject.isURL)(text) && isValidHref(text)) {
+    if (!isActive && text && (0,external_wp_url_namespaceObject.isURL)(text) && isValidHref(text)) {
       onChange((0,external_wp_richText_namespaceObject.applyFormat)(value, {
         type: link_name,
         attributes: {
           url: text
         }
       }));
-    } else if (text && (0,external_wp_url_namespaceObject.isEmail)(text)) {
+    } else if (!isActive && text && (0,external_wp_url_namespaceObject.isEmail)(text)) {
       onChange((0,external_wp_richText_namespaceObject.applyFormat)(value, {
         type: link_name,
         attributes: {
@@ -938,14 +955,48 @@ function link_Edit({
         }
       }));
     } else {
+      if (target) {
+        setOpenedBy(target);
+      }
       setAddingLink(true);
     }
   }
-  function stopAddingLink(returnFocus = true) {
+
+  /**
+   * Runs when the popover is closed via escape keypress, unlinking the selected text,
+   * but _not_ on a click outside the popover. onFocusOutside handles that.
+   */
+  function stopAddingLink() {
+    // Don't let the click handler on the toolbar button trigger again.
+
+    // There are two places for us to return focus to on Escape keypress:
+    // 1. The rich text field.
+    // 2. The toolbar button.
+
+    // The toolbar button is the only one we need to handle returning focus to.
+    // Otherwise, we rely on the passed in onFocus to return focus to the rich text field.
+
+    // Close the popover
     setAddingLink(false);
-    if (returnFocus) {
+    // Return focus to the toolbar button or the rich text field
+    if (openedBy?.tagName === 'BUTTON') {
+      openedBy.focus();
+    } else {
       onFocus();
     }
+    // Remove the openedBy state
+    setOpenedBy(null);
+  }
+
+  // Test for this:
+  // 1. Click on the link button
+  // 2. Click the Options button in the top right of header
+  // 3. Focus should be in the dropdown of the Options button
+  // 4. Press Escape
+  // 5. Focus should be on the Options button
+  function onFocusOutside() {
+    setAddingLink(false);
+    setOpenedBy(null);
   }
   function onRemoveFormat() {
     onChange((0,external_wp_richText_namespaceObject.removeFormat)(value, link_name));
@@ -959,29 +1010,21 @@ function link_Edit({
     type: "primaryShift",
     character: "k",
     onUse: onRemoveFormat
-  }), isActive && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextToolbarButton, {
-    name: "link",
-    icon: link_off,
-    title: (0,external_wp_i18n_namespaceObject.__)('Unlink'),
-    onClick: onRemoveFormat,
-    isActive: isActive,
-    shortcutType: "primaryShift",
-    shortcutCharacter: "k",
-    "aria-haspopup": "true",
-    "aria-expanded": addingLink || isActive
-  }), !isActive && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextToolbarButton, {
+  }), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextToolbarButton, {
     name: "link",
     icon: library_link,
-    title: link_title,
-    onClick: addLink,
-    isActive: isActive,
+    title: isActive ? (0,external_wp_i18n_namespaceObject.__)('Link') : link_title,
+    onClick: event => {
+      addLink(event.currentTarget);
+    },
+    isActive: isActive || addingLink,
     shortcutType: "primary",
     shortcutCharacter: "k",
     "aria-haspopup": "true",
-    "aria-expanded": addingLink || isActive
-  }), (addingLink || isActive) && (0,external_React_namespaceObject.createElement)(inline, {
-    addingLink: addingLink,
+    "aria-expanded": addingLink
+  }), addingLink && (0,external_React_namespaceObject.createElement)(inline, {
     stopAddingLink: stopAddingLink,
+    onFocusOutside: onFocusOutside,
     isActive: isActive,
     activeAttributes: activeAttributes,
     value: value,

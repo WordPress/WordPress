@@ -104,5 +104,7 @@ const {
       }
     }
   }
+}, {
+  lock: true
 });
 

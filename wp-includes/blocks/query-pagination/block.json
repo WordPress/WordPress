@@ -4,7 +4,12 @@
 	"name": "core/query-pagination",
 	"title": "Pagination",
 	"category": "theme",
-	"parent": [ "core/query" ],
+	"ancestor": [ "core/query" ],
+	"allowedBlocks": [
+		"core/query-pagination-previous",
+		"core/query-pagination-numbers",
+		"core/query-pagination-next"
+	],
 	"description": "Displays a paginated navigation to next/previous set of posts, when applicable.",
 	"textdomain": "default",
 	"attributes": {
@@ -54,6 +59,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-query-pagination-editor",

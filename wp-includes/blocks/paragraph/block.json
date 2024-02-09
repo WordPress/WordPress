@@ -64,7 +64,10 @@
 			}
 		},
 		"__experimentalSelector": "p",
-		"__unstablePasteTextInline": true
+		"__unstablePasteTextInline": true,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	},
 	"editorStyle": "wp-block-paragraph-editor",
 	"style": "wp-block-paragraph"

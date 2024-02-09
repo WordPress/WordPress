@@ -262,6 +262,8 @@ const styles = (0,external_React_namespaceObject.createElement)(external_wp_prim
 }));
 /* harmony default export */ const library_styles = (styles);
 
+;// CONCATENATED MODULE: external ["wp","compose"]
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-commands/build-module/utils/order-entity-records-by-search.js
 function orderEntityRecordsBySearch(records = [], search = '') {
   if (!Array.isArray(records) || !records.length) {
@@ -296,6 +298,7 @@ function orderEntityRecordsBySearch(records = [], search = '') {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -312,29 +315,41 @@ const icons = {
   wp_template: library_layout,
   wp_template_part: symbol_filled
 };
+function useDebouncedValue(value) {
+  const [debouncedValue, setDebouncedValue] = (0,external_wp_element_namespaceObject.useState)('');
+  const debounced = (0,external_wp_compose_namespaceObject.useDebounce)(setDebouncedValue, 250);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    debounced(value);
+    return () => debounced.cancel();
+  }, [debounced, value]);
+  return debouncedValue;
+}
 const getNavigationCommandLoaderPerPostType = postType => function useNavigationCommandLoader({
   search
 }) {
   const history = site_editor_navigation_commands_useHistory();
   const isBlockBasedTheme = useIsBlockBasedTheme();
+  const delayedSearch = useDebouncedValue(search);
   const {
     records,
     isLoading
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEntityRecords
-    } = select(external_wp_coreData_namespaceObject.store);
+    if (!delayedSearch) {
+      return {
+        isLoading: false
+      };
+    }
     const query = {
-      search: !!search ? search : undefined,
+      search: delayedSearch,
       per_page: 10,
-      orderby: search ? 'relevance' : 'date',
+      orderby: 'relevance',
       status: ['publish', 'future', 'draft', 'pending', 'private']
     };
     return {
-      records: getEntityRecords('postType', postType, query),
+      records: select(external_wp_coreData_namespaceObject.store).getEntityRecords('postType', postType, query),
       isLoading: !select(external_wp_coreData_namespaceObject.store).hasFinishedResolution('getEntityRecords', ['postType', postType, query])
     };
-  }, [search]);
+  }, [delayedSearch]);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return (records !== null && records !== void 0 ? records : []).map(record => {
       const command = {

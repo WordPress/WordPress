@@ -2215,7 +2215,6 @@ const isSavingWidgetAreas = (0,external_wp_data_namespaceObject.createRegistrySe
   }
   const widgetIds = [...Object.keys(select(constants_STORE_NAME).getWidgets()), undefined // account for new widgets without an ID
   ];
-
   for (const id of widgetIds) {
     const isSaving = select(external_wp_coreData_namespaceObject.store).isSavingEntityRecord('root', 'widget', id);
     if (isSaving) {
@@ -3211,11 +3210,6 @@ function WidgetAreas({
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/sidebar/index.js
 
 /**
- * External dependencies
- */
-
-
-/**
  * WordPress dependencies
  */
 
@@ -3240,29 +3234,74 @@ const WIDGET_AREAS_IDENTIFIER = 'edit-widgets/block-areas';
  */
 
 
-function ComplementaryAreaTab({
-  identifier,
-  label,
-  isActive
+
+const {
+  Tabs
+} = unlock(external_wp_components_namespaceObject.privateApis);
+function SidebarHeader({
+  selectedWidgetAreaBlock
+}) {
+  return (0,external_React_namespaceObject.createElement)(Tabs.TabList, null, (0,external_React_namespaceObject.createElement)(Tabs.Tab, {
+    tabId: WIDGET_AREAS_IDENTIFIER
+  }, selectedWidgetAreaBlock ? selectedWidgetAreaBlock.attributes.name : (0,external_wp_i18n_namespaceObject.__)('Widget Areas')), (0,external_React_namespaceObject.createElement)(Tabs.Tab, {
+    tabId: BLOCK_INSPECTOR_IDENTIFIER
+  }, (0,external_wp_i18n_namespaceObject.__)('Block')));
+}
+function SidebarContent({
+  hasSelectedNonAreaBlock,
+  currentArea,
+  isGeneralSidebarOpen,
+  selectedWidgetAreaBlock
 }) {
   const {
     enableComplementaryArea
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    onClick: () => enableComplementaryArea(store_store.name, identifier),
-    className: classnames_default()('edit-widgets-sidebar__panel-tab', {
-      'is-active': isActive
-    }),
-    "aria-label": isActive ?
-    // translators: %s: sidebar label e.g: "Widget Areas".
-    (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('%s (selected)'), label) : label,
-    "data-label": label
-  }, label);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (hasSelectedNonAreaBlock && currentArea === WIDGET_AREAS_IDENTIFIER && isGeneralSidebarOpen) {
+      enableComplementaryArea('core/edit-widgets', BLOCK_INSPECTOR_IDENTIFIER);
+    }
+    if (!hasSelectedNonAreaBlock && currentArea === BLOCK_INSPECTOR_IDENTIFIER && isGeneralSidebarOpen) {
+      enableComplementaryArea('core/edit-widgets', WIDGET_AREAS_IDENTIFIER);
+    }
+    // We're intentionally leaving `currentArea` and `isGeneralSidebarOpen`
+    // out of the dep array because we want this effect to run based on
+    // block selection changes, not sidebar state changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasSelectedNonAreaBlock, enableComplementaryArea]);
+  const tabsContextValue = (0,external_wp_element_namespaceObject.useContext)(Tabs.Context);
+  return (0,external_React_namespaceObject.createElement)(complementary_area, {
+    className: "edit-widgets-sidebar",
+    header: (0,external_React_namespaceObject.createElement)(Tabs.Context.Provider, {
+      value: tabsContextValue
+    }, (0,external_React_namespaceObject.createElement)(SidebarHeader, {
+      selectedWidgetAreaBlock: selectedWidgetAreaBlock
+    })),
+    headerClassName: "edit-widgets-sidebar__panel-tabs"
+    /* translators: button label text should, if possible, be under 16 characters. */,
+    title: (0,external_wp_i18n_namespaceObject.__)('Settings'),
+    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close Settings'),
+    scope: "core/edit-widgets",
+    identifier: currentArea,
+    icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? drawer_left : drawer_right,
+    isActiveByDefault: SIDEBAR_ACTIVE_BY_DEFAULT
+  }, (0,external_React_namespaceObject.createElement)(Tabs.Context.Provider, {
+    value: tabsContextValue
+  }, (0,external_React_namespaceObject.createElement)(Tabs.TabPanel, {
+    tabId: WIDGET_AREAS_IDENTIFIER,
+    focusable: false
+  }, (0,external_React_namespaceObject.createElement)(WidgetAreas, {
+    selectedWidgetAreaId: selectedWidgetAreaBlock?.attributes.id
+  })), (0,external_React_namespaceObject.createElement)(Tabs.TabPanel, {
+    tabId: BLOCK_INSPECTOR_IDENTIFIER,
+    focusable: false
+  }, hasSelectedNonAreaBlock ? (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockInspector, null) :
+  // Pretend that Widget Areas are part of the UI by not
+  // showing the Block Inspector when one is selected.
+  (0,external_React_namespaceObject.createElement)("span", {
+    className: "block-editor-block-inspector__no-blocks"
+  }, (0,external_wp_i18n_namespaceObject.__)('No block selected.')))));
 }
 function Sidebar() {
-  const {
-    enableComplementaryArea
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
     currentArea,
     hasSelectedNonAreaBlock,
@@ -3302,44 +3341,35 @@ function Sidebar() {
       selectedWidgetAreaBlock: widgetAreaBlock
     };
   }, []);
+  const {
+    enableComplementaryArea
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
 
-  // currentArea, and isGeneralSidebarOpen are intentionally left out from the dependencies,
-  // because we want to run the effect when a block is selected/unselected and not when the sidebar state changes.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (hasSelectedNonAreaBlock && currentArea === WIDGET_AREAS_IDENTIFIER && isGeneralSidebarOpen) {
-      enableComplementaryArea('core/edit-widgets', BLOCK_INSPECTOR_IDENTIFIER);
+  // `newSelectedTabId` could technically be falsey if no tab is selected (i.e.
+  // the initial render) or when we don't want a tab displayed (i.e. the
+  // sidebar is closed). These cases should both be covered by the `!!` check
+  // below, so we shouldn't need any additional falsey handling.
+  const onTabSelect = (0,external_wp_element_namespaceObject.useCallback)(newSelectedTabId => {
+    if (!!newSelectedTabId) {
+      enableComplementaryArea(store_store.name, newSelectedTabId);
     }
-    if (!hasSelectedNonAreaBlock && currentArea === BLOCK_INSPECTOR_IDENTIFIER && isGeneralSidebarOpen) {
-      enableComplementaryArea('core/edit-widgets', WIDGET_AREAS_IDENTIFIER);
-    }
-  }, [hasSelectedNonAreaBlock, enableComplementaryArea]);
-  return (0,external_React_namespaceObject.createElement)(complementary_area, {
-    className: "edit-widgets-sidebar",
-    header: (0,external_React_namespaceObject.createElement)("ul", null, (0,external_React_namespaceObject.createElement)("li", null, (0,external_React_namespaceObject.createElement)(ComplementaryAreaTab, {
-      identifier: WIDGET_AREAS_IDENTIFIER,
-      label: selectedWidgetAreaBlock ? selectedWidgetAreaBlock.attributes.name : (0,external_wp_i18n_namespaceObject.__)('Widget Areas'),
-      isActive: currentArea === WIDGET_AREAS_IDENTIFIER
-    })), (0,external_React_namespaceObject.createElement)("li", null, (0,external_React_namespaceObject.createElement)(ComplementaryAreaTab, {
-      identifier: BLOCK_INSPECTOR_IDENTIFIER,
-      label: (0,external_wp_i18n_namespaceObject.__)('Block'),
-      isActive: currentArea === BLOCK_INSPECTOR_IDENTIFIER
-    }))),
-    headerClassName: "edit-widgets-sidebar__panel-tabs"
-    /* translators: button label text should, if possible, be under 16 characters. */,
-    title: (0,external_wp_i18n_namespaceObject.__)('Settings'),
-    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close Settings'),
-    scope: "core/edit-widgets",
-    identifier: currentArea,
-    icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? drawer_left : drawer_right,
-    isActiveByDefault: SIDEBAR_ACTIVE_BY_DEFAULT
-  }, currentArea === WIDGET_AREAS_IDENTIFIER && (0,external_React_namespaceObject.createElement)(WidgetAreas, {
-    selectedWidgetAreaId: selectedWidgetAreaBlock?.attributes.id
-  }), currentArea === BLOCK_INSPECTOR_IDENTIFIER && (hasSelectedNonAreaBlock ? (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockInspector, null) :
-  // Pretend that Widget Areas are part of the UI by not
-  // showing the Block Inspector when one is selected.
-  (0,external_React_namespaceObject.createElement)("span", {
-    className: "block-editor-block-inspector__no-blocks"
-  }, (0,external_wp_i18n_namespaceObject.__)('No block selected.'))));
+  }, [enableComplementaryArea]);
+  return (0,external_React_namespaceObject.createElement)(Tabs
+  // Due to how this component is controlled (via a value from the
+  // `interfaceStore`), when the sidebar closes the currently selected
+  // tab can't be found. This causes the component to continuously reset
+  // the selection to `null` in an infinite loop. Proactively setting
+  // the selected tab to `null` avoids that.
+  , {
+    selectedTabId: isGeneralSidebarOpen ? currentArea : null,
+    onSelect: onTabSelect,
+    selectOnMove: false
+  }, (0,external_React_namespaceObject.createElement)(SidebarContent, {
+    hasSelectedNonAreaBlock: hasSelectedNonAreaBlock,
+    currentArea: currentArea,
+    isGeneralSidebarOpen: isGeneralSidebarOpen,
+    selectedWidgetAreaBlock: selectedWidgetAreaBlock
+  }));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
@@ -3607,12 +3637,12 @@ function SaveButton() {
   const {
     saveEditedWidgetAreas
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  const isDisabled = isSaving || !hasEditedWidgetAreaIds;
   return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     variant: "primary",
     isBusy: isSaving,
-    "aria-disabled": isSaving,
-    onClick: isSaving ? undefined : saveEditedWidgetAreas,
-    disabled: !hasEditedWidgetAreaIds
+    "aria-disabled": isDisabled,
+    onClick: isDisabled ? undefined : saveEditedWidgetAreas
   }, isSaving ? (0,external_wp_i18n_namespaceObject.__)('Saving…') : (0,external_wp_i18n_namespaceObject.__)('Update'));
 }
 /* harmony default export */ const save_button = (SaveButton);
@@ -3830,7 +3860,6 @@ const ShortcutList = ({
   ...shortcut
 }))))
 /* eslint-enable jsx-a11y/no-redundant-roles */;
-
 const ShortcutSection = ({
   title,
   shortcuts,
@@ -4057,6 +4086,9 @@ function Header() {
 
 
 
+
+// Last three notices. Slices from the tail end of the list.
+const MAX_VISIBLE_NOTICES = -3;
 function Notices() {
   const {
     removeNotice
@@ -4078,7 +4110,7 @@ function Notices() {
   }) => !isDismissible && type === 'default');
   const snackbarNotices = notices.filter(({
     type
-  }) => type === 'snackbar');
+  }) => type === 'snackbar').slice(MAX_VISIBLE_NOTICES);
   return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.NoticeList, {
     notices: nonDismissibleNotices,
     className: "edit-widgets-notices__pinned"

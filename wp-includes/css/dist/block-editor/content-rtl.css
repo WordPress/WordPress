@@ -231,21 +231,33 @@
   top:1px;
 }
 
-.block-editor-block-list__block:hover .block-editor-block-list__block.is-editing-disabled>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected):after,.block-editor-block-list__block:hover:has(>.block-editor-block-list__block.is-editing-disabled)>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected):after,.is-template-locked:hover .block-editor-block-list__block.is-editing-disabled>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected):after,.is-template-locked:hover:has(>.block-editor-block-list__block.is-editing-disabled)>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected):after{
-  border-style:dotted;
-  border:1px dotted var(--wp-admin-theme-color);
-  border-radius:1px;
-  bottom:1px;
+@keyframes block-editor-has-editable-outline__fade-out-animation{
+  0%{
+    border-color:rgba(var(--wp-admin-theme-color--rgb), 1);
+  }
+  to{
+    border-color:rgba(var(--wp-admin-theme-color--rgb), 0);
+  }
+}
+.is-root-container:not([inert]) .block-editor-block-list__block.has-editable-outline:after{
+  animation:block-editor-has-editable-outline__fade-out-animation .3s ease-out;
+  animation-delay:1s;
+  animation-fill-mode:forwards;
+  border:1px dotted rgba(var(--wp-admin-theme-color--rgb), 1);
+  border-radius:2px;
+  bottom:0;
   content:"";
-  left:1px;
+  left:0;
   pointer-events:none;
   position:absolute;
-  right:1px;
-  top:1px;
+  right:0;
+  top:0;
 }
-.block-editor-block-list__block:hover .block-editor-block-list__block.is-editing-disabled>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected).is-hovered:after,.block-editor-block-list__block:hover:has(>.block-editor-block-list__block.is-editing-disabled)>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected).is-hovered:after,.is-template-locked:hover .block-editor-block-list__block.is-editing-disabled>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected).is-hovered:after,.is-template-locked:hover:has(>.block-editor-block-list__block.is-editing-disabled)>.block-editor-block-list__block:not(.is-editing-disabled):not(.is-selected):not(.has-child-selected).is-hovered:after{
-  background:rgba(var(--wp-admin-theme-color--rgb), .1);
-  border:none;
+@media (prefers-reduced-motion:reduce){
+  .is-root-container:not([inert]) .block-editor-block-list__block.has-editable-outline:after{
+    animation-delay:0s;
+    animation-duration:1ms;
+  }
 }
 
 .is-focus-mode .block-editor-block-list__block:not(.has-child-selected){

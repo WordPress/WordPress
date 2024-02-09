@@ -50,6 +50,9 @@
 			"__experimentalDefaultControls": {
 				"width": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-read-more"

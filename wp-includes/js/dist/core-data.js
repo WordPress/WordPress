@@ -4707,10 +4707,7 @@ function getEntitiesByKind(state, kind) {
  *
  * @return Array of entities with config matching kind.
  */
-function getEntitiesConfig(state, kind) {
-  return state.entities.config.filter(entity => entity.kind === kind);
-}
-
+const getEntitiesConfig = rememo((state, kind) => state.entities.config.filter(entity => entity.kind === kind), (state, kind) => state.entities.config);
 /**
  * Returns the entity config given its kind and name.
  *
@@ -5811,7 +5808,6 @@ const fetchLinkSuggestions = async (search, searchOptions = {}, settings = {}) =
     }).catch(() => []) // Fail by returning no results.
     );
   }
-
   if (!type || type === 'term') {
     queries.push(external_wp_apiFetch_default()({
       path: (0,external_wp_url_namespaceObject.addQueryArgs)('/wp/v2/search', {
@@ -5834,7 +5830,6 @@ const fetchLinkSuggestions = async (search, searchOptions = {}, settings = {}) =
     }).catch(() => []) // Fail by returning no results.
     );
   }
-
   if (!disablePostFormats && (!type || type === 'post-format')) {
     queries.push(external_wp_apiFetch_default()({
       path: (0,external_wp_url_namespaceObject.addQueryArgs)('/wp/v2/search', {
@@ -5857,7 +5852,6 @@ const fetchLinkSuggestions = async (search, searchOptions = {}, settings = {}) =
     }).catch(() => []) // Fail by returning no results.
     );
   }
-
   if (!type || type === 'attachment') {
     queries.push(external_wp_apiFetch_default()({
       path: (0,external_wp_url_namespaceObject.addQueryArgs)('/wp/v2/media', {
@@ -5877,7 +5871,6 @@ const fetchLinkSuggestions = async (search, searchOptions = {}, settings = {}) =
     }).catch(() => []) // Fail by returning no results.
     );
   }
-
   return Promise.all(queries).then(results => {
     return results.reduce(( /** @type {WPLinkSearchResult[]} */accumulator, current) => accumulator.concat(current),
     // Flatten list.
@@ -7065,7 +7058,7 @@ function updateFootnotesFromMeta(blocks, meta) {
       if (typeof value !== 'string' && !(value instanceof external_wp_richText_namespaceObject.RichTextData)) {
         continue;
       }
-      const richTextValue = typeof value === 'string' ? external_wp_richText_namespaceObject.RichTextData.fromHTMLString(value) : value;
+      const richTextValue = typeof value === 'string' ? external_wp_richText_namespaceObject.RichTextData.fromHTMLString(value) : new external_wp_richText_namespaceObject.RichTextData(value);
       richTextValue.replacements.forEach(replacement => {
         if (replacement.type === 'core/footnote') {
           const id = replacement.attributes['data-fn'];
@@ -7252,6 +7245,7 @@ function useEntityProp(kind, name, prop, _id) {
   }, [editEntityRecord, kind, name, id, prop]);
   return [value, setValue, fullValue];
 }
+const parsedBlocksCache = new WeakMap();
 
 /**
  * Hook that returns block content getters and setters for
@@ -7276,6 +7270,10 @@ function useEntityBlockEditor(kind, name, {
 } = {}) {
   const providerId = useEntityId(kind, name);
   const id = _id !== null && _id !== void 0 ? _id : providerId;
+  const {
+    getEntityRecord,
+    getEntityRecordEdits
+  } = (0,external_wp_data_namespaceObject.useSelect)(STORE_NAME);
   const {
     content,
     editedBlocks,
@@ -7305,8 +7303,22 @@ function useEntityBlockEditor(kind, name, {
     if (editedBlocks) {
       return editedBlocks;
     }
-    return content && typeof content !== 'function' ? (0,external_wp_blocks_namespaceObject.parse)(content) : EMPTY_ARRAY;
-  }, [id, editedBlocks, content]);
+    if (!content || typeof content === 'function') {
+      return EMPTY_ARRAY;
+    }
+
+    // If there's an edit, cache the parsed blocks by the edit.
+    // If not, cache by the original enity record.
+    const edits = getEntityRecordEdits(kind, name, id);
+    const isUnedited = !edits || !Object.keys(edits).length;
+    const cackeKey = isUnedited ? getEntityRecord(kind, name, id) : edits;
+    let _blocks = parsedBlocksCache.get(cackeKey);
+    if (!_blocks) {
+      _blocks = (0,external_wp_blocks_namespaceObject.parse)(content);
+      parsedBlocksCache.set(cackeKey, _blocks);
+    }
+    return _blocks;
+  }, [kind, name, id, editedBlocks, content, getEntityRecord, getEntityRecordEdits]);
   const updateFootnotes = (0,external_wp_element_namespaceObject.useCallback)(_blocks => updateFootnotesFromMeta(_blocks, meta), [meta]);
   const onChange = (0,external_wp_element_namespaceObject.useCallback)((newBlocks, options) => {
     const noChange = blocks === newBlocks;

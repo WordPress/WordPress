@@ -109,16 +109,16 @@ function render_block_core_template_part( $attributes ) {
 	// is set in `wp_debug_mode()`.
 	$is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
-	if ( is_null( $content ) && $is_debug ) {
-		if ( ! isset( $attributes['slug'] ) ) {
-			// If there is no slug this is a placeholder and we dont want to return any message.
-			return;
+	if ( is_null( $content ) ) {
+		if ( $is_debug && isset( $attributes['slug'] ) ) {
+			return sprintf(
+				/* translators: %s: Template part slug. */
+				__( 'Template part has been deleted or is unavailable: %s' ),
+				$attributes['slug']
+			);
 		}
-		return sprintf(
-			/* translators: %s: Template part slug. */
-			__( 'Template part has been deleted or is unavailable: %s' ),
-			$attributes['slug']
-		);
+
+		return '';
 	}
 
 	if ( isset( $seen_ids[ $template_part_id ] ) ) {

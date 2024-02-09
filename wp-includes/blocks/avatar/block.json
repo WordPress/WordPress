@@ -50,6 +50,9 @@
 			"text": false,
 			"background": false,
 			"__experimentalDuotone": "img"
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"selectors": {

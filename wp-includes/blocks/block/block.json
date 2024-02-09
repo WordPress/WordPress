@@ -4,14 +4,14 @@
 	"name": "core/block",
 	"title": "Pattern",
 	"category": "reusable",
-	"description": "Create and save content to reuse across your site. Update the pattern, and the changes apply everywhere it’s used.",
+	"description": "Reuse this design across your site.",
 	"keywords": [ "reusable" ],
 	"textdomain": "default",
 	"attributes": {
 		"ref": {
 			"type": "number"
 		},
-		"overrides": {
+		"content": {
 			"type": "object"
 		}
 	},
@@ -19,6 +19,9 @@
 		"customClassName": false,
 		"html": false,
 		"inserter": false,
-		"renaming": false
+		"renaming": false,
+		"interactivity": {
+			"clientNavigation": true
+		}
 	}
 }

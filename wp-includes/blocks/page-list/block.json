@@ -4,6 +4,7 @@
 	"name": "core/page-list",
 	"title": "Page List",
 	"category": "widgets",
+	"allowedBlocks": [ "core/page-list-item" ],
 	"description": "Display a list of all pages.",
 	"keywords": [ "menu", "navigation" ],
 	"textdomain": "default",
@@ -47,6 +48,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"editorStyle": "wp-block-page-list-editor",

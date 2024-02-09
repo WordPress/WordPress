@@ -1211,9 +1211,10 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
 
 /**
  * @typedef TimezoneConfig
- * @property {string} offset Offset setting.
- * @property {string} string The timezone as a string (e.g., `'America/Los_Angeles'`).
- * @property {string} abbr   Abbreviation for the timezone.
+ * @property {string} offset          Offset setting.
+ * @property {string} offsetFormatted Offset setting with decimals formatted to minutes.
+ * @property {string} string          The timezone as a string (e.g., `'America/Los_Angeles'`).
+ * @property {string} abbr            Abbreviation for the timezone.
  */
 
 /* eslint-disable jsdoc/valid-types */
@@ -1243,8 +1244,8 @@ const WP_ZONE = 'WP';
 // See: https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC
 const VALID_UTC_OFFSET = /^[+-][0-1][0-9](:?[0-9][0-9])?$/;
 
-// Changes made here will likely need to be made in `lib/client-assets.php` as
-// well because it uses the `setSettings()` function to change these settings.
+// Changes made here will likely need to be synced with Core in the file
+// src/wp-includes/script-loader.php in `wp_default_packages_inline_scripts()`.
 /** @type {DateSettings} */
 let settings = {
   l10n: {
@@ -1285,6 +1286,7 @@ let settings = {
   },
   timezone: {
     offset: '0',
+    offsetFormatted: '0',
     string: '',
     abbr: ''
   }
@@ -1583,7 +1585,7 @@ function format(dateFormat, dateValue = new Date()) {
       continue;
     }
     if (char in formatMap) {
-      const formatter = formatMap[/** @type {keyof formatMap} */char];
+      const formatter = formatMap[( /** @type {keyof formatMap} */char)];
       if (typeof formatter !== 'string') {
         // If the format is a function, call it.
         newFormat.push('[' + formatter(momentDate) + ']');
