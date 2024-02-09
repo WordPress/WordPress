@@ -634,6 +634,13 @@ Description: Used to style blocks in the editor.
 	margin-bottom: 16px;
 }
 
+/* Avatar & Post Author */
+
+.editor-styles-wrapper .avatar,
+.wp-block-post-author__avatar img {
+	border-radius: 50%;
+}
+
 /*--------------------------------------------------------------
 7.0 Blocks - Colors
 --------------------------------------------------------------*/
