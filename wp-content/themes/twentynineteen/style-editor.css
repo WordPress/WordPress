@@ -1605,3 +1605,9 @@ ul.wp-block-archives li ul,
   padding-right: 0;
   width: 100%;
 }
+
+/** === Post Author Block === */
+.avatar,
+.wp-block-post-author__avatar img {
+  border-radius: 100%;
+}

@@ -1021,3 +1021,10 @@ $group-block-background__padding: $font__size_base;
 		width: 100%;
 	}
 }
+
+/** === Post Author Block === */
+
+.avatar,
+.wp-block-post-author__avatar img {
+	border-radius: 100%;
+}
