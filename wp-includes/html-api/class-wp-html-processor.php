@@ -1237,6 +1237,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether the internal cursor was successfully moved to the bookmark's location.
 	 */
 	public function seek( $bookmark_name ) {
+		// Flush any pending updates to the document before beginning.
+		$this->get_updated_html();
+
 		$actual_bookmark_name = "_{$bookmark_name}";
 		$processor_started_at = $this->state->current_token
 			? $this->bookmarks[ $this->state->current_token->bookmark_name ]->start
@@ -1246,7 +1249,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		switch ( $direction ) {
 			case 'forward':
-				// When moving forwards, re-parse the document until reaching the same location as the original bookmark.
+				// When moving forwards, reparse the document until reaching the same location as the original bookmark.
 				while ( $this->step() ) {
 					if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
 						return true;
@@ -1366,6 +1369,18 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	public function set_bookmark( $bookmark_name ) {
 		return parent::set_bookmark( "_{$bookmark_name}" );
+	}
+
+	/**
+	 * Checks whether a bookmark with the given name exists.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $bookmark_name Name to identify a bookmark that potentially exists.
+	 * @return bool Whether that bookmark exists.
+	 */
+	public function has_bookmark( $bookmark_name ) {
+		return parent::has_bookmark( "_{$bookmark_name}" );
 	}
 
 	/*
