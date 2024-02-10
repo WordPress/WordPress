@@ -222,6 +222,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	font-size: 12px;
 	font-weight: 700;
 	line-height: 1.5;
+	margin-top: 2em;
 	padding: 0.7917em 1.5em;
 	text-transform: uppercase;
 	vertical-align: baseline;
