@@ -504,7 +504,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 				$element = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $element );
 			}
 
-			// Looks like we found some crazy unfiltered HTML. Skipping it for confidence.
+			// Looks like we found some unexpected unfiltered HTML. Skipping it for confidence.
 			$element = strtr( $element, $trans );
 			continue;
 		}

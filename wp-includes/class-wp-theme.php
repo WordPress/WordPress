@@ -507,7 +507,7 @@ final class WP_Theme implements ArrayAccess {
 				}
 				return;
 			}
-			// Set the parent. Pass the current instance so we can do the crazy checks above and assess errors.
+			// Set the parent. Pass the current instance so we can do the checks above and assess errors.
 			$this->parent = new WP_Theme( $this->template, isset( $theme_root_template ) ? $theme_root_template : $this->theme_root, $this );
 		}
 

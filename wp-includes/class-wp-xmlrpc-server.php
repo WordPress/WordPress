@@ -6939,7 +6939,19 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->pingback_error( 48, __( 'The pingback has already been registered.' ) );
 		}
 
-		// Very stupid, but gives time to the 'from' server to publish!
+		/*
+		 * The remote site may have sent the pingback before it finished publishing its own content
+		 * containing this pingback URL. If that happens then it won't be immediately possible to fetch
+		 * the pinging post; adding a small delay reduces the likelihood of this happening.
+		 *
+		 * While there are more robust methods than calling `sleep()` here (because `sleep()` merely
+		 * mitigates the risk of requesting the remote post before it's available), this is effective
+		 * enough for most cases and avoids introducing more complexity into this code.
+		 *
+		 * One way to improve the reliability of this code might be to add failure-handling to the remote
+		 * fetch and retry up to a set number of times if it receives a 404. This could also handle 401 and
+		 * 403 responses to differentiate the "does not exist" failure from the "may not access" failure.
+		 */
 		sleep( 1 );
 
 		$remote_ip = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
