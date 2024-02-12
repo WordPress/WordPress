@@ -850,6 +850,7 @@
 	height: 100%;
 }
 
+.options-general-php .crop-content.site-icon,
 .wp-customizer:not(.mobile) .media-frame-content .crop-content.site-icon {
 	margin-left: 300px;
 }
@@ -2561,6 +2562,10 @@
 		width: 230px;
 	}
 
+	.options-general-php .crop-content.site-icon {
+		margin-left: 262px;
+	}
+
 	.attachments-browser .attachments,
 	.attachments-browser .uploader-inline,
 	.attachments-browser .media-toolbar,
@@ -2826,6 +2831,10 @@
 
 	.media-modal-backdrop {
 		position: fixed;
+	}
+
+	.options-general-php .crop-content.site-icon {
+		margin-left: 0;
 	}
 
 	.media-sidebar {

@@ -8,6 +8,7 @@
 	overflow: hidden;
 	position: relative;
 	max-width: 180px;
+	float: right;
 }
 
 .site-icon-preview .favicon,
@@ -52,4 +53,21 @@
 
 .customize-control-site_icon .app-icon-preview {
 	margin-top: 9px;
+}
+
+.site-icon-section button.reset {
+	color: #b32d2e;
+	text-decoration: none;
+	border-color: transparent;
+	box-shadow: none;
+	background: transparent;
+	margin: 0 10px;
+}
+
+.site-icon-section button.reset:focus,
+.site-icon-section button.reset:hover {
+	background: #b32d2e;
+	color: #fff;
+	border-color: #b32d2e;
+	box-shadow: 0 0 0 1px #b32d2e;
 }

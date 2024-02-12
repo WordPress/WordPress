@@ -789,6 +789,42 @@ ul#add-to-blog-users {
 	outline: 2px solid transparent;
 }
 
+.button-add-site-icon{
+	width: 100%;
+	cursor: pointer;
+	text-align: center;
+	border: 1px dashed #c3c4c7;
+	box-sizing: border-box;
+	padding: 9px 0;
+	line-height: 1.6;
+	max-width: 270px;
+}
+
+.button-add-site-icon:focus,
+.button-add-site-icon:hover{
+	background: white;
+}
+
+.site-icon-section .favicon-preview{
+	float: left;
+}
+.site-icon-section .app-icon-preview{
+	float: left;
+	margin: 0 20px;
+}
+
+.site-icon-section .site-icon-preview img{
+	max-width: 100%;
+}
+
+.button-ad-site-icon:focus{
+	background-color: #fff;
+	border-color: #3582c4;
+	border-style: solid;
+	box-shadow: 0 0 0 1px #3582c4;
+	outline: 2px solid transparent;
+}
+
 /*------------------------------------------------------------------------------
   15.0 - Comments Screen
 ------------------------------------------------------------------------------*/
