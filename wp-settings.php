@@ -499,28 +499,18 @@ if ( ! is_multisite() && wp_is_fatal_error_handler_enabled() ) {
 }
 
 // Load active plugins.
-$all_plugin_data    = get_option( 'plugin_data', array() );
-$failed_plugins     = array();
-$update_plugin_data = false;
+$all_plugin_data = get_option( 'plugin_data', array() );
+$failed_plugins  = array();
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
-	$plugin_file = str_replace( trailingslashit( WP_PLUGIN_DIR ), '', $plugin );
-	if ( ! isset( $all_plugin_data[ $plugin_file ] ) ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		$all_plugin_data[ $plugin_file ] = get_plugin_data( WP_PLUGIN_DIR . "/$plugin_file" );
-
-		$update_plugin_data = true;
-	}
-
-	$plugin_headers   = $all_plugin_data[ $plugin_file ];
-	$errors           = array();
-	$requirements     = array(
-		'requires'         => ! empty( $plugin_headers['RequiresWP'] ) ? $plugin_headers['RequiresWP'] : '',
-		'requires_php'     => ! empty( $plugin_headers['RequiresPHP'] ) ? $plugin_headers['RequiresPHP'] : '',
-		'requires_plugins' => ! empty( $plugin_headers['RequiresPlugins'] ) ? $plugin_headers['RequiresPlugins'] : '',
+	$plugin_file    = str_replace( trailingslashit( WP_PLUGIN_DIR ), '', $plugin );
+	$plugin_headers = $all_plugin_data[ $plugin_file ];
+	$errors         = array();
+	$requirements   = array(
+		'requires'     => ! empty( $plugin_headers['RequiresWP'] ) ? $plugin_headers['RequiresWP'] : '',
+		'requires_php' => ! empty( $plugin_headers['RequiresPHP'] ) ? $plugin_headers['RequiresPHP'] : '',
 	);
-	$compatible_wp    = is_wp_version_compatible( $requirements['requires'] );
-	$compatible_php   = is_php_version_compatible( $requirements['requires_php'] );
-	$dependencies_met = ! WP_Plugin_Dependencies::has_unmet_dependencies( $plugin_file );
+	$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
+	$compatible_php = is_php_version_compatible( $requirements['requires_php'] );
 
 	$php_update_message = '</p><p>' . sprintf(
 		/* translators: %s: URL to Update PHP page. */
@@ -532,14 +522,6 @@ foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
 
 	if ( $annotation ) {
 		$php_update_message .= '</p><p><em>' . $annotation . '</em>';
-	}
-
-	if ( ! $dependencies_met ) {
-		$errors[] = sprintf(
-			/* translators: %s: The plugin's name. */
-			_x( '%s has unmet dependencies.', 'plugin' ),
-			$plugin_headers['Name']
-		);
 	}
 
 	if ( ! $compatible_wp && ! $compatible_php ) {
@@ -600,10 +582,6 @@ foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
 	do_action( 'plugin_loaded', $plugin );
 }
 unset( $plugin, $_wp_plugin_file );
-
-if ( $update_plugin_data ) {
-	update_option( 'plugin_data', $all_plugin_data );
-}
 
 if ( ! empty( $failed_plugins ) ) {
 	add_action(

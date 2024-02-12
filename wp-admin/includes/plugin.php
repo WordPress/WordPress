@@ -360,7 +360,10 @@ function get_plugins( $plugin_folder = '' ) {
 
 	$cache_plugins[ $plugin_folder ] = $wp_plugins;
 	wp_cache_set( 'plugins', $cache_plugins, 'plugins' );
-	update_option( 'plugin_data', $new_plugin_data );
+
+	if ( ! wp_installing() ) {
+		update_option( 'plugin_data', $new_plugin_data );
+	}
 
 	return $wp_plugins;
 }
