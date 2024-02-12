@@ -4746,6 +4746,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 
 		if ( ! this.collection.length ) {
 			this.toolbar.get( 'spinner' ).show();
+			this.toolbar.$( '.media-bg-overlay' ).show();
 			this.dfd = this.collection.more().done( function() {
 				if ( ! view.collection.length ) {
 					noItemsView.$el.removeClass( 'hidden' );
@@ -4753,10 +4754,12 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 					noItemsView.$el.addClass( 'hidden' );
 				}
 				view.toolbar.get( 'spinner' ).hide();
+				view.toolbar.$( '.media-bg-overlay' ).hide();
 			} );
 		} else {
 			noItemsView.$el.addClass( 'hidden' );
 			view.toolbar.get( 'spinner' ).hide();
+			this.toolbar.$( '.media-bg-overlay' ).hide();
 		}
 	},
 
@@ -9299,10 +9302,12 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 		// The toolbar is composed of two `PriorityList` views.
 		this.primary   = new wp.media.view.PriorityList();
 		this.secondary = new wp.media.view.PriorityList();
+		this.tertiary  = new wp.media.view.PriorityList();
 		this.primary.$el.addClass('media-toolbar-primary search-form');
 		this.secondary.$el.addClass('media-toolbar-secondary');
+		this.tertiary.$el.addClass('media-bg-overlay');
 
-		this.views.set([ this.secondary, this.primary ]);
+		this.views.set([ this.secondary, this.primary, this.tertiary ]);
 
 		if ( this.options.items ) {
 			this.set( this.options.items, { silent: true });
@@ -9393,6 +9398,7 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 		delete this._views[ id ];
 		this.primary.unset( id, options );
 		this.secondary.unset( id, options );
+		this.tertiary.unset( id, options );
 
 		if ( ! options || ! options.silent ) {
 			this.refresh();

@@ -2815,6 +2815,34 @@
 		font-size: 14px;
 		line-height: 2.71428571;
 	}
+
+	.media-frame .wp-filter .media-toolbar-secondary {
+		position: unset;
+	}
+	
+	.media-frame .media-toolbar-secondary .spinner {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		right: 0;
+		left: 0;
+		z-index: 9;
+	}
+	
+	.media-bg-overlay {
+		content: '';
+		background: #ffffff;
+		width: 100%;
+		height: 100%;
+		display: hidden;
+		position: absolute;
+		right: 0;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		opacity: 0.6;
+	}
 }
 
 /* Responsive on portrait and landscape */
