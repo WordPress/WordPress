@@ -504,6 +504,11 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			$filename = $this->generate_filename( null, null, $extension );
 		}
 
+		if ( function_exists( 'imageinterlace' ) ) {
+			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			imageinterlace( $image, apply_filters( 'image_save_progressive', false, $mime_type ) );
+		}
+
 		if ( 'image/gif' === $mime_type ) {
 			if ( ! $this->make_image( $filename, 'imagegif', array( $image, $filename ) ) ) {
 				return new WP_Error( 'image_save_error', __( 'Image Editor Save Failed' ) );

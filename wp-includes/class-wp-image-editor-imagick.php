@@ -489,10 +489,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 					$this->image->setImageDepth( 8 );
 				}
 			}
-
-			if ( is_callable( array( $this->image, 'setInterlaceScheme' ) ) && defined( 'Imagick::INTERLACE_NO' ) ) {
-				$this->image->setInterlaceScheme( Imagick::INTERLACE_NO );
-			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'image_resize_error', $e->getMessage() );
 		}
@@ -825,6 +821,23 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
 		}
 
+		if ( method_exists( $this->image, 'setInterlaceScheme' ) && method_exists( $this->image, 'getInterlaceScheme' ) && defined( 'Imagick::INTERLACE_PLANE' ) ) {
+			$orig_interlace = $this->image->getInterlaceScheme();
+			/**
+			 * Filters whether to output progressive images (if available).
+			 *
+			 * @since 6.5.0
+			 *
+			 * @param bool   $interlace Whether to use progressive images for output if available. Default false.
+			 * @param string $mime_type The mime type being saved.
+			 */
+			if ( apply_filters( 'image_save_progressive', false, $mime_type ) ) {
+				$this->image->setInterlaceScheme( Imagick::INTERLACE_PLANE ); // True - line interlace output.
+			} else {
+				$this->image->setInterlaceScheme( Imagick::INTERLACE_NO ); // False - no interlace output.
+			}
+		}
+
 		$write_image_result = $this->write_image( $this->image, $filename );
 		if ( is_wp_error( $write_image_result ) ) {
 			return $write_image_result;
@@ -833,6 +846,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		try {
 			// Reset original format.
 			$this->image->setImageFormat( $orig_format );
+			if ( isset( $orig_interlace ) ) {
+				$this->image->setInterlaceScheme( $orig_interlace );
+			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
 		}
