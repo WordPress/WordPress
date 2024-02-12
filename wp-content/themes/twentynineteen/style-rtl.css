@@ -5484,17 +5484,19 @@ body.page .main-navigation {
   width: 100%;
 }
 
+.entry .entry-content .wp-block-buttons {
+  line-height: 1.2;
+}
+
 .entry .entry-content .wp-block-button .wp-block-button__link {
   transition: background 150ms ease-in-out;
   border: none;
   font-size: 0.88889em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  line-height: 1.2;
   box-sizing: border-box;
   font-weight: bold;
   text-decoration: none;
   padding: 0.76rem 1rem;
-  outline: none;
   outline: none;
 }
 

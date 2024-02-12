@@ -379,10 +379,13 @@ figcaption,
 
 /** === Button === */
 
+.wp-block-buttons {
+	line-height: $font__line-height-heading;
+}
+
 .wp-block-button {
 
 	.wp-block-button__link {
-		line-height:inherit;
 		@include font-family( $font__heading );
 		font-size: $font__size-sm;
 		font-weight: bold;
