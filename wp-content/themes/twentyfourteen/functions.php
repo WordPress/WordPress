@@ -81,7 +81,7 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		$font_stylesheet = str_replace(
 			array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
 			'',
-			twentyfourteen_font_url()
+			(string) twentyfourteen_font_url()
 		);
 		add_editor_style( array( 'css/editor-style.css', $font_stylesheet, 'genericons/genericons.css' ) );
 

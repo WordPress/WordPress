@@ -147,7 +147,7 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 		$font_stylesheet = str_replace(
 			array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
 			'',
-			twentysixteen_fonts_url()
+			(string) twentysixteen_fonts_url()
 		);
 		add_editor_style( array( 'css/editor-style.css', $font_stylesheet ) );
 

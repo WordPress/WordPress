@@ -120,7 +120,7 @@ function twentyseventeen_setup() {
 	$font_stylesheet = str_replace(
 		array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
 		'',
-		twentyseventeen_fonts_url()
+		(string) twentyseventeen_fonts_url()
 	);
 	add_editor_style( array( 'assets/css/editor-style.css', $font_stylesheet ) );
 
