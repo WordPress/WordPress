@@ -112,3 +112,14 @@ function wp_enqueue_script_module( string $id, string $src = '', array $deps = a
 function wp_dequeue_script_module( string $id ) {
 	wp_script_modules()->dequeue( $id );
 }
+
+/**
+ * Deregisters the script module.
+ *
+ * @since 6.5.0
+ *
+ * @param string $id The identifier of the script module.
+ */
+function wp_deregister_script_module( string $id ) {
+	wp_script_modules()->deregister( $id );
+}

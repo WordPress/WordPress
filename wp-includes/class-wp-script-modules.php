@@ -152,6 +152,18 @@ class WP_Script_Modules {
 	}
 
 	/**
+	 * Removes a registered script module.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param string $id The identifier of the script module.
+	 */
+	public function deregister( string $id ) {
+		unset( $this->registered[ $id ] );
+		unset( $this->enqueued_before_registered[ $id ] );
+	}
+
+	/**
 	 * Adds the hooks to print the import map, enqueued script modules and script
 	 * module preloads.
 	 *
