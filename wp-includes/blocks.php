@@ -191,7 +191,7 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
  *
  * @since 5.5.0
  * @since 6.1.0 Added `$index` parameter.
- * @since 6.5.0 The asset file is optional.
+ * @since 6.5.0 The asset file is optional. Added script handle support in the asset file.
  *
  * @param array  $metadata   Block metadata.
  * @param string $field_name Field name to pick from metadata.
@@ -205,42 +205,49 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		return false;
 	}
 
-	$script_handle = $metadata[ $field_name ];
-	if ( is_array( $script_handle ) ) {
-		if ( empty( $script_handle[ $index ] ) ) {
+	$script_handle_or_path = $metadata[ $field_name ];
+	if ( is_array( $script_handle_or_path ) ) {
+		if ( empty( $script_handle_or_path[ $index ] ) ) {
 			return false;
 		}
-		$script_handle = $script_handle[ $index ];
+		$script_handle_or_path = $script_handle_or_path[ $index ];
 	}
 
-	$script_path = remove_block_asset_path_prefix( $script_handle );
-	if ( $script_handle === $script_path ) {
-		return $script_handle;
+	$script_path = remove_block_asset_path_prefix( $script_handle_or_path );
+	if ( $script_handle_or_path === $script_path ) {
+		return $script_handle_or_path;
 	}
 
 	$path                  = dirname( $metadata['file'] );
 	$script_asset_raw_path = $path . '/' . substr_replace( $script_path, '.asset.php', - strlen( '.js' ) );
-	$script_handle         = generate_block_asset_handle( $metadata['name'], $field_name, $index );
 	$script_asset_path     = wp_normalize_path(
 		realpath( $script_asset_raw_path )
 	);
 
-	$script_path_norm = wp_normalize_path( realpath( $path . '/' . $script_path ) );
-	$script_uri       = get_block_asset_url( $script_path_norm );
+	// Asset file for blocks is optional. See https://core.trac.wordpress.org/ticket/60460.
+	$script_asset = ! empty( $script_asset_path ) ? require $script_asset_path : array();
+	$script_handle = isset( $script_asset['handle'] ) ?
+		$script_asset['handle'] :
+		generate_block_asset_handle( $metadata['name'], $field_name, $index );
+	if ( wp_script_is( $script_handle, 'registered' ) ) {
+		return $script_handle;
+	}
 
-	$script_args = array();
+	$script_path_norm    = wp_normalize_path( realpath( $path . '/' . $script_path ) );
+	$script_uri          = get_block_asset_url( $script_path_norm );
+	$script_dependencies = isset( $script_asset['dependencies'] ) ? $script_asset['dependencies'] : array();
+	$block_version       = isset( $metadata['version'] ) ? $metadata['version'] : false;
+	$script_version      = isset( $script_asset['version'] ) ? $script_asset['version'] : $block_version;
+	$script_args         = array();
 	if ( 'viewScript' === $field_name && $script_uri ) {
 		$script_args['strategy'] = 'defer';
 	}
 
-	// Asset file for blocks is optional. See https://core.trac.wordpress.org/ticket/60460.
-	$script_asset        = ! empty( $script_asset_path ) ? require $script_asset_path : array();
-	$script_dependencies = isset( $script_asset['dependencies'] ) ? $script_asset['dependencies'] : array();
-	$result              = wp_register_script(
+	$result = wp_register_script(
 		$script_handle,
 		$script_uri,
 		$script_dependencies,
-		isset( $script_asset['version'] ) ? $script_asset['version'] : false,
+		$script_version,
 		$script_args
 	);
 	if ( ! $result ) {
