@@ -2377,6 +2377,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'comments',
 				'revisions',
 				'custom-fields',
+				'thumbnail',
 			),
 		);
 

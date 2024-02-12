@@ -171,6 +171,14 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			update_post_meta( $attachment_id, '_wp_attachment_image_alt', sanitize_text_field( $request['alt_text'] ) );
 		}
 
+		if ( ! empty( $schema['properties']['featured_media'] ) && isset( $request['featured_media'] ) ) {
+			$thumbnail_update = $this->handle_featured_media( $request['featured_media'], $attachment_id );
+
+			if ( is_wp_error( $thumbnail_update ) ) {
+				return $thumbnail_update;
+			}
+		}
+
 		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
 			$meta_update = $this->meta->update_value( $request['meta'], $attachment_id );
 
@@ -323,6 +331,43 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	}
 
 	/**
+	 * Determines the featured media based on a request param.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param int $featured_media Featured Media ID.
+	 * @param int $post_id        Post ID.
+	 * @return bool|WP_Error Whether the post thumbnail was successfully deleted, otherwise WP_Error.
+	 */
+	protected function handle_featured_media( $featured_media, $post_id ) {
+		$post_type         = get_post_type( $post_id );
+		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
+
+		// Similar check as in wp_insert_post().
+		if ( ! $thumbnail_support && get_post_mime_type( $post_id ) ) {
+			if ( wp_attachment_is( 'audio', $post_id ) ) {
+				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
+			} elseif ( wp_attachment_is( 'video', $post_id ) ) {
+				$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
+			}
+		}
+
+		if ( $thumbnail_support ) {
+			return parent::handle_featured_media( $featured_media, $post_id );
+		}
+
+		return new WP_Error(
+			'rest_no_featured_media',
+			sprintf(
+				/* translators: %s: attachment mime type */
+				__( 'This site does not support post thumbnails on attachments with MIME type %s.' ),
+				get_post_mime_type( $post_id )
+			),
+			array( 'status' => 400 )
+		);
+	}
+
+	/**
 	 * Updates a single attachment.
 	 *
 	 * @since 4.7.0
@@ -354,6 +399,14 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		$attachment = get_post( $request['id'] );
+
+		if ( ! empty( $schema['properties']['featured_media'] ) && isset( $request['featured_media'] ) ) {
+			$thumbnail_update = $this->handle_featured_media( $request['featured_media'], $attachment->ID );
+
+			if ( is_wp_error( $thumbnail_update ) ) {
+				return $thumbnail_update;
+			}
+		}
 
 		$fields_update = $this->update_additional_fields_for_object( $attachment, $request );
 
