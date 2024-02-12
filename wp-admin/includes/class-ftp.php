@@ -483,7 +483,7 @@ class ftp_base {
 			$this->PushError("restore", "cannot restore in ASCII mode");
 			return FALSE;
 		}
-		if(!$this->_exec("REST ".$from, "resore")) return FALSE;
+		if(!$this->_exec("REST ".$from, "restore")) return FALSE;
 		if(!$this->_checkCode()) return FALSE;
 		return TRUE;
 	}
