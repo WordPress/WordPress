@@ -510,6 +510,10 @@
 	border-color: #dcd7ca;
 }
 
+.editor-styles-wrapper .wp-block-table table:where(.has-text-color) * {
+	border-color: currentColor;
+}
+
 .editor-styles-wrapper .wp-block-table tr {
 	border: none;
 }
