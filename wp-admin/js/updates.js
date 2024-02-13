@@ -478,7 +478,8 @@
 	wp.updates.updatePlugin = function( args ) {
 		var $updateRow, $card, $message, message,
 			$adminBarUpdates = $( '#wp-admin-bar-updates' ),
-			buttonText = __( 'Updating...' );
+			buttonText = __( 'Updating...' ),
+			isPluginInstall = 'plugin-install' === pagenow || 'plugin-install-network' === pagenow;
 
 		args = _.extend( {
 			success: wp.updates.updatePluginSuccess,
@@ -493,7 +494,7 @@
  				_x( 'Updating %s...', 'plugin' ),
 				$updateRow.find( '.plugin-title strong' ).text()
 			);
-		} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
+		} else if ( isPluginInstall ) {
 			$card    = $( '.plugin-card-' + args.slug + ', #plugin-information-footer' );
 			$message = $card.find( '.update-now' ).addClass( 'updating-message' );
 			message    = sprintf(
@@ -518,7 +519,7 @@
 
 		$document.trigger( 'wp-plugin-updating', args );
 
-		if ( 'plugin-information-footer' === $card.attr('id' ) ) {
+		if ( isPluginInstall && 'plugin-information-footer' === $card.attr( 'id' ) ) {
 			wp.updates.setCardButtonStatus(
 				{
 					status: 'updating-plugin',
