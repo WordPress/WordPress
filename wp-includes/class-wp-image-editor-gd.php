@@ -505,7 +505,14 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		}
 
 		if ( function_exists( 'imageinterlace' ) ) {
-			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			/**
+			 * Filters whether to output progressive images (if available).
+			 *
+			 * @since 6.5.0
+			 *
+			 * @param bool   $interlace Whether to use progressive images for output if available. Default false.
+			 * @param string $mime_type The mime type being saved.
+			 */
 			imageinterlace( $image, apply_filters( 'image_save_progressive', false, $mime_type ) );
 		}
 
