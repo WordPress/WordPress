@@ -837,8 +837,10 @@ function switch_theme( $stylesheet ) {
 	update_option( 'theme_switched', $old_theme->get_stylesheet() );
 
 	// Clear pattern caches.
-	$new_theme->delete_pattern_cache();
-	$old_theme->delete_pattern_cache();
+	if ( ! is_multisite() ) {
+		$new_theme->delete_pattern_cache();
+		$old_theme->delete_pattern_cache();
+	}
 
 	// Set autoload=no for the old theme, autoload=yes for the switched theme.
 	$theme_mods_options = array(
