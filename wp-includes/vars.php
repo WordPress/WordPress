@@ -113,42 +113,42 @@ $is_IE = ( $is_macIE || $is_winIE );
 // Server detection.
 
 /**
- * Whether the server software is Apache or something else
+ * Whether the server software is Apache or something else.
  *
  * @global bool $is_apache
  */
 $is_apache = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Apache' ) || str_contains( $_SERVER['SERVER_SOFTWARE'], 'LiteSpeed' ) );
 
 /**
- * Whether the server software is Nginx or something else
+ * Whether the server software is Nginx or something else.
  *
  * @global bool $is_nginx
  */
 $is_nginx = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) );
 
 /**
- * Whether the server software is Caddy or something else
+ * Whether the server software is Caddy or something else.
  *
  * @global bool $is_caddy
  */
 $is_caddy = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Caddy' ) );
 
 /**
- * Whether the server software is IIS or something else
+ * Whether the server software is IIS or something else.
  *
  * @global bool $is_IIS
  */
 $is_IIS = ! $is_apache && ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS' ) || str_contains( $_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer' ) );
 
 /**
- * Whether the server software is IIS 7.X or greater
+ * Whether the server software is IIS 7.X or greater.
  *
  * @global bool $is_iis7
  */
 $is_iis7 = $is_IIS && (int) substr( $_SERVER['SERVER_SOFTWARE'], strpos( $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/' ) + 14 ) >= 7;
 
 /**
- * Test if the current browser runs on a mobile device (smart phone, tablet, etc.)
+ * Test if the current browser runs on a mobile device (smart phone, tablet, etc.).
  *
  * @since 3.4.0
  * @since 6.4.0 Added checking for the Sec-CH-UA-Mobile request header.
