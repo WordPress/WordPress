@@ -1432,3 +1432,39 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
 	$template_hierarchy[] = 'index';
 	return $template_hierarchy;
 }
+/**
+ * Inject ignoredHookedBlocks metadata attributes into a template or template part.
+ *
+ * Given a `wp_template` or `wp_template_part` post object, locate all blocks that have
+ * hooked blocks, and inject a `metadata.ignoredHookedBlocks` attribute into the anchor
+ * blocks to reflect the latter.
+ *
+ * @param WP_Post $post A post object with post type set to `wp_template` or `wp_template_part`.
+ * @return WP_Post The updated post object.
+ */
+function inject_ignored_hooked_blocks_metadata_attributes( $post ) {
+	$hooked_blocks = get_hooked_blocks();
+	if ( empty( $hooked_blocks ) && ! has_filter( 'hooked_block_types' ) ) {
+		return;
+	}
+
+	// At this point, the post has already been created.
+	// We need to build the corresponding `WP_Block_Template` object as context argument for the visitor.
+	// To that end, we need to suppress hooked blocks from getting inserted into the template.
+	add_filter( 'hooked_block_types', '__return_empty_array', 99999, 0 );
+	$template = _build_block_template_result_from_post( $post );
+	remove_filter( 'hooked_block_types', '__return_empty_array', 99999 );
+
+	$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template, 'set_ignored_hooked_blocks_metadata' );
+	$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template, 'set_ignored_hooked_blocks_metadata' );
+
+	$blocks  = parse_blocks( $template->content );
+	$content = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+
+	wp_update_post(
+		array(
+			'ID'            => $post->ID,
+			'post_content'  => $content,
+		)
+	);
+}
