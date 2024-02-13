@@ -4051,6 +4051,10 @@ function _json_wp_die_handler( $message, $title = '', $args = array() ) {
 		'additional_errors' => $parsed_args['additional_errors'],
 	);
 
+	if ( isset( $parsed_args['error_data'] ) ) {
+		$data['data']['error'] = $parsed_args['error_data'];
+	}
+
 	if ( ! headers_sent() ) {
 		header( "Content-Type: application/json; charset={$parsed_args['charset']}" );
 		if ( null !== $parsed_args['response'] ) {
@@ -4088,6 +4092,10 @@ function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
 		),
 		'additional_errors' => $parsed_args['additional_errors'],
 	);
+
+	if ( isset( $parsed_args['error_data'] ) ) {
+		$data['data']['error'] = $parsed_args['error_data'];
+	}
 
 	if ( ! headers_sent() ) {
 		header( "Content-Type: application/javascript; charset={$parsed_args['charset']}" );
@@ -4265,6 +4273,9 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
 			}
 			if ( empty( $title ) && is_array( $errors[0]['data'] ) && ! empty( $errors[0]['data']['title'] ) ) {
 				$title = $errors[0]['data']['title'];
+			}
+			if ( WP_DEBUG_DISPLAY && is_array( $errors[0]['data'] ) && ! empty( $errors[0]['data']['error'] ) ) {
+				$args['error_data'] = $errors[0]['data']['error'];
 			}
 
 			unset( $errors[0] );
