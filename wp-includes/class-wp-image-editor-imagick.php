@@ -827,7 +827,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		) {
 			$orig_interlace = $this->image->getInterlaceScheme();
 
-			/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
+			/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
 			if ( apply_filters( 'image_save_progressive', false, $mime_type ) ) {
 				$this->image->setInterlaceScheme( Imagick::INTERLACE_PLANE ); // True - line interlace output.
 			} else {
