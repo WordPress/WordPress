@@ -743,6 +743,13 @@ class WP_REST_Server {
 						continue;
 					}
 
+					if ( empty( $request['per_page'] ) ) {
+						$matched = $this->match_request_to_handler( $request );
+						if ( ! is_wp_error( $matched ) && isset( $matched[1]['args']['per_page']['maximum'] ) ) {
+							$request['per_page'] = (int) $matched[1]['args']['per_page']['maximum'];
+						}
+					}
+
 					// Embedded resources get passed context=embed.
 					if ( empty( $request['context'] ) ) {
 						$request['context'] = 'embed';
