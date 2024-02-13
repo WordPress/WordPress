@@ -61,7 +61,6 @@
 	border-color: transparent;
 	box-shadow: none;
 	background: transparent;
-	margin: 0 10px;
 }
 
 .site-icon-section button.reset:focus,
@@ -70,4 +69,10 @@
 	color: #fff;
 	border-color: #b32d2e;
 	box-shadow: 0 0 0 1px #b32d2e;
+}
+
+.site-icon-section .action-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }

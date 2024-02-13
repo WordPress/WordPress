@@ -125,14 +125,14 @@ $tagline_description = sprintf(
 		<div class="favicon-preview">
 			<img src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" alt="">
 			<div class="favicon">
-				<img src="<?php site_icon_url(); ?>" alt="Preview as a browser icon">
+				<img src="<?php site_icon_url(); ?>" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>">
 			</div>
 			<span class="browser-title" aria-hidden="true"><?php echo get_bloginfo( 'name' ); ?></span>
 		</div>
-		<img class="app-icon-preview" src="<?php site_icon_url(); ?>" alt="Preview as an app icon">
+		<img class="app-icon-preview" src="<?php site_icon_url(); ?>" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>">
 	</div>
 	<input type="hidden" name="site_icon" id="site_icon_hidden_field" value="<?php form_option( 'site_icon' ); ?>" />
-	<p>
+	<div class="action-buttons">
 		<button type="button"
 			id="choose-from-library-link"
 			type="button"
@@ -158,12 +158,12 @@ $tagline_description = sprintf(
 		>
 			<?php _e( 'Remove Site Icon' ); ?>
 		</button>
-	</p>
+	</div>
 
-	<p class="description" id="site-icon-description">
+	<p class="description">
 		<?php _e( 'Site Icons are what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. Upload one here!' ); ?>
 	</p>
-	<p class="description" id="site-icon-further-description">
+	<p class="description">
 		<?php
 			/* translators: %s: Site Icon size in pixels. */
 			printf( __( 'Site Icons should be square and at least %s pixels.' ), '<strong>512 &times; 512</strong>' );
