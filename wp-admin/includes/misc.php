@@ -39,11 +39,12 @@ function got_mod_rewrite() {
  * @since 3.7.0
  *
  * @global bool $is_nginx
+ * @global bool $is_caddy
  *
  * @return bool Whether the server supports URL rewriting.
  */
 function got_url_rewrite() {
-	$got_url_rewrite = ( got_mod_rewrite() || $GLOBALS['is_nginx'] || iis7_supports_permalinks() );
+	$got_url_rewrite = ( got_mod_rewrite() || $GLOBALS['is_nginx'] || $GLOBALS['is_caddy'] || iis7_supports_permalinks() );
 
 	/**
 	 * Filters whether URL rewriting is available.

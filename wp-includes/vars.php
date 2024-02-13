@@ -17,7 +17,7 @@
 
 global $pagenow,
 	$is_lynx, $is_gecko, $is_winIE, $is_macIE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone, $is_IE, $is_edge,
-	$is_apache, $is_IIS, $is_iis7, $is_nginx;
+	$is_apache, $is_IIS, $is_iis7, $is_nginx, $is_caddy;
 
 // On which page are we?
 if ( is_admin() ) {
@@ -125,6 +125,13 @@ $is_apache = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Apache' ) || str_cont
  * @global bool $is_nginx
  */
 $is_nginx = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) );
+
+/**
+ * Whether the server software is Caddy or something else
+ *
+ * @global bool $is_caddy
+ */
+$is_caddy = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Caddy' ) );
 
 /**
  * Whether the server software is IIS or something else
