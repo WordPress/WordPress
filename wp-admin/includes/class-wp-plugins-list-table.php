@@ -1080,7 +1080,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$checkbox_id = 'checkbox_' . md5( $plugin_file );
 		$disabled    = '';
 
-		if ( $has_active_dependents || $has_unmet_dependencies ) {
+		if ( $has_dependents || $has_unmet_dependencies ) {
 			$disabled = 'disabled';
 		}
 
