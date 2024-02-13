@@ -686,6 +686,11 @@ class WP_Plugin_Dependencies {
 			);
 		}
 
+		// Bail early if there are no dependents to deactivate.
+		if ( empty( $dependents_to_deactivate ) ) {
+			return;
+		}
+
 		$dependents_to_deactivate = array_unique( $dependents_to_deactivate );
 
 		deactivate_plugins( $dependents_to_deactivate );
