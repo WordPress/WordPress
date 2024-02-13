@@ -7,6 +7,10 @@
 	color: currentColor;
 	border-color: currentColor;
 	position: relative;
+	font-size: var(--pullquote--font-size);
+	font-style: var(--pullquote--font-style);
+	font-weight: 700;
+	letter-spacing: var(--pullquote--letter-spacing);
 
 	blockquote::before {
 		color: currentColor;
@@ -21,12 +25,16 @@
 
 	p {
 		font-family: var(--pullquote--font-family);
-		font-size: var(--pullquote--font-size);
-		font-style: var(--pullquote--font-style);
-		font-weight: 700;
-		letter-spacing: var(--pullquote--letter-spacing);
-		line-height: var(--pullquote--line-height);
+		font-size: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		letter-spacing: inherit;
+		line-height: inherit;
 		margin: 0;
+	}
+
+	&:where(:not([style*="line-height"])) p {
+		line-height: var(--pullquote--line-height);
 	}
 
 	a {
