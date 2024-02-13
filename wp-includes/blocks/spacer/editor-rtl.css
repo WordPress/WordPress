@@ -27,5 +27,6 @@
   content:none;
 }
 .block-library-spacer__resize-container.resize-horizontal{
+  height:100% !important;
   margin-bottom:0;
 }

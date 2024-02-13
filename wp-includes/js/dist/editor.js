@@ -1704,10 +1704,22 @@ const {
   unlock
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/editor');
 
-;// CONCATENATED MODULE: external ["wp","coreData"]
-const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/bindings/pattern-overrides.js
+/**
+ * WordPress dependencies
+ */
+
+/* harmony default export */ const pattern_overrides = ({
+  name: 'core/pattern-overrides',
+  label: (0,external_wp_i18n_namespaceObject._x)('Pattern Overrides', 'block bindings source'),
+  useSource: null,
+  lockAttributesEditing: false
+});
+
+;// CONCATENATED MODULE: external ["wp","coreData"]
+const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/defaults.js
 /**
  * WordPress dependencies
@@ -2004,7 +2016,7 @@ function editorSettings(state = EDITOR_SETTINGS_DEFAULTS, action) {
   }
   return state;
 }
-function renderingMode(state = 'all', action) {
+function renderingMode(state = 'post-only', action) {
   switch (action.type) {
     case 'SET_RENDERING_MODE':
       return action.mode;
@@ -4792,7 +4804,7 @@ function updateEditorSettings(settings) {
  * -   `post-only`: This mode extracts the post blocks from the template and renders only those. The idea is to allow the user to edit the post/page in isolation without the wrapping template.
  * -   `template-locked`: This mode renders both the template and the post blocks but the template blocks are locked and can't be edited. The post blocks are editable.
  *
- * @param {string} mode Mode (one of 'post-only', 'template-locked' or 'all').
+ * @param {string} mode Mode (one of 'post-only' or 'template-locked').
  */
 const setRenderingMode = mode => ({
   dispatch,
@@ -5268,7 +5280,7 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
 
 /* harmony default export */ const post_meta = ({
   name: 'core/post-meta',
-  label: (0,external_wp_i18n_namespaceObject.__)('Post Meta'),
+  label: (0,external_wp_i18n_namespaceObject._x)('Post Meta', 'block bindings source'),
   useSource(props, sourceAttributes) {
     const {
       getCurrentPostType
@@ -5297,8 +5309,7 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
       placeholder: metaKey,
       useValue: [metaValue, updateMetaValue]
     };
-  },
-  lockAttributesEditing: true
+  }
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/bindings/index.js
@@ -5312,9 +5323,11 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
  */
 
 
+
 const {
   registerBlockBindingsSource
 } = unlock((0,external_wp_data_namespaceObject.dispatch)(external_wp_blockEditor_namespaceObject.store));
+registerBlockBindingsSource(pattern_overrides);
 registerBlockBindingsSource(post_meta);
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
@@ -15523,6 +15536,12 @@ const {
 const editor_canvas_noop = () => {};
 
 /**
+ * These post types have a special editor where they don't allow you to fill the title
+ * and they don't apply the layout styles.
+ */
+const DESIGN_POST_TYPES = ['wp_block', 'wp_template', 'wp_navigation', 'wp_template_part'];
+
+/**
  * Given an array of nested blocks, find the first Post Content
  * block inside it, recursing through any nesting levels,
  * and return its attributes.
@@ -15569,7 +15588,8 @@ function EditorCanvas({
     wrapperBlockName,
     wrapperUniqueId,
     deviceType,
-    showEditorPadding
+    showEditorPadding,
+    isDesignPostType
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getCurrentPostId,
@@ -15589,7 +15609,7 @@ function EditorCanvas({
     let _wrapperBlockName;
     if (postTypeSlug === 'wp_block') {
       _wrapperBlockName = 'core/block';
-    } else if (!_renderingMode === 'post-only') {
+    } else if (_renderingMode === 'post-only') {
       _wrapperBlockName = 'core/post-content';
     }
     const editorSettings = getEditorSettings();
@@ -15601,6 +15621,7 @@ function EditorCanvas({
     return {
       renderingMode: _renderingMode,
       postContentAttributes: editorSettings.postContentAttributes,
+      isDesignPostType: DESIGN_POST_TYPES.includes(postTypeSlug),
       // Post template fetch returns a 404 on classic themes, which
       // messes with e2e tests, so check it's a block theme first.
       editedPostTemplate: postType?.viewable && supportsTemplateMode && canEditTemplate ? template : undefined,
@@ -15631,7 +15652,7 @@ function EditorCanvas({
   // fallbackLayout is used if there is no Post Content,
   // and for Post Title.
   const fallbackLayout = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (renderingMode !== 'post-only') {
+    if (renderingMode !== 'post-only' || isDesignPostType) {
       return {
         type: 'default'
       };
@@ -15648,7 +15669,7 @@ function EditorCanvas({
     return {
       type: 'default'
     };
-  }, [renderingMode, themeSupportsLayout, globalLayoutSettings]);
+  }, [renderingMode, themeSupportsLayout, globalLayoutSettings, isDesignPostType]);
   const newestPostContentAttributes = (0,external_wp_element_namespaceObject.useMemo)(() => {
     if (!editedPostTemplate?.content && !editedPostTemplate?.blocks && postContentAttributes) {
       return postContentAttributes;
@@ -15736,7 +15757,7 @@ function EditorCanvas({
         ...deviceStyles
       }
     }
-  }, themeSupportsLayout && !themeHasDisabledLayoutStyles && renderingMode === 'post-only' && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(LayoutStyle, {
+  }, themeSupportsLayout && !themeHasDisabledLayoutStyles && renderingMode === 'post-only' && !isDesignPostType && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(LayoutStyle, {
     selector: ".editor-editor-canvas__post-title-wrapper",
     layout: fallbackLayout
   }), (0,external_React_.createElement)(LayoutStyle, {
@@ -15747,7 +15768,7 @@ function EditorCanvas({
   }), postContentLayoutStyles && (0,external_React_.createElement)(LayoutStyle, {
     layout: postContentLayout,
     css: postContentLayoutStyles
-  })), renderingMode === 'post-only' && (0,external_React_.createElement)("div", {
+  })), renderingMode === 'post-only' && !isDesignPostType && (0,external_React_.createElement)("div", {
     className: classnames_default()('editor-editor-canvas__post-title-wrapper',
     // The following class is only here for backward comapatibility
     // some themes might be using it to style the post title.
@@ -15767,7 +15788,7 @@ function EditorCanvas({
     blockName: wrapperBlockName,
     uniqueId: wrapperUniqueId
   }, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
-    className: classnames_default()(className, 'is-' + deviceType.toLowerCase() + '-preview', renderingMode !== 'post-only' ? 'wp-site-blocks' : `${blockListLayoutClass} wp-block-post-content` // Ensure root level blocks receive default/flow blockGap styling rules.
+    className: classnames_default()(className, 'is-' + deviceType.toLowerCase() + '-preview', renderingMode !== 'post-only' || isDesignPostType ? 'wp-site-blocks' : `${blockListLayoutClass} wp-block-post-content` // Ensure root level blocks receive default/flow blockGap styling rules.
     ),
     layout: blockListLayout,
     dropZoneElement:

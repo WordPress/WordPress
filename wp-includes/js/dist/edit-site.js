@@ -26681,15 +26681,6 @@ function FontLibraryProvider({
   const refreshLibrary = () => {
     setRefreshKey(Date.now());
   };
-
-  // Reset notice on dismiss.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (notice) {
-      notice.onRemove = () => {
-        setNotice(null);
-      };
-    }
-  }, [notice, setNotice]);
   const {
     records: libraryPosts = [],
     isResolving: isResolvingLibrary,
@@ -27000,6 +26991,12 @@ function FontLibraryProvider({
 
 
 
+
+
+/**
+ * Internal dependencies
+ */
+
 function TabPanelLayout({
   title,
   description,
@@ -27008,6 +27005,9 @@ function TabPanelLayout({
   children,
   footer
 }) {
+  const {
+    setNotice
+  } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   return (0,external_React_.createElement)("div", {
     className: "font-library-modal__tabpanel-layout"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
@@ -27033,7 +27033,7 @@ function TabPanelLayout({
     margin: 1
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Notice, {
     status: notice.type,
-    onRemove: notice.onRemove
+    onRemove: () => setNotice(null)
   }, notice.message), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 1
   }))), (0,external_React_.createElement)("div", {
@@ -31853,6 +31853,12 @@ function UploadFonts() {
     });
     if (allowedFiles.length > 0) {
       loadFiles(allowedFiles);
+    } else {
+      setNotice({
+        type: 'error',
+        message: (0,external_wp_i18n_namespaceObject.__)('No fonts found to install.')
+      });
+      setIsUploading(false);
     }
   };
 
@@ -35214,17 +35220,15 @@ function useStartPatterns(fallbackContent) {
       getEditedPostId
     } = select(store_store);
     const {
-      getEntityRecord
+      getEntityRecord,
+      getBlockPatterns
     } = select(external_wp_coreData_namespaceObject.store);
     const postId = getEditedPostId();
     const postType = getEditedPostType();
     const record = getEntityRecord('postType', postType, postId);
-    const {
-      getSettings
-    } = select(external_wp_blockEditor_namespaceObject.store);
     return {
       slug: record.slug,
-      patterns: getSettings().__experimentalBlockPatterns
+      patterns: getBlockPatterns()
     };
   }, []);
   const currentThemeStylesheet = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getCurrentTheme().stylesheet);
@@ -35781,7 +35785,7 @@ function useSpecificEditorSettings() {
     };
   }, []);
   const archiveLabels = useArchiveLabel(templateSlug);
-  const defaultRenderingMode = postWithTemplate ? 'template-locked' : 'all';
+  const defaultRenderingMode = postWithTemplate ? 'template-locked' : 'post-only';
   const onNavigateToPreviousEntityRecord = useNavigateToPreviousEntityRecord();
   const defaultEditorSettings = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return {
@@ -41675,38 +41679,6 @@ function OperatorSelector({
     hideLabelFromVision: true
   }));
 }
-function ResetFilter({
-  filter,
-  view,
-  onChangeView,
-  addFilterRef
-}) {
-  const isDisabled = filter.isPrimary && view.filters.find(_filter => _filter.field === filter.field)?.value === undefined;
-  return (0,external_React_.createElement)("div", {
-    className: "dataviews-filter-summary__reset"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    disabled: isDisabled,
-    __experimentalIsFocusable: true,
-    size: "compact",
-    variant: "tertiary",
-    style: {
-      justifyContent: 'center',
-      width: '100%'
-    },
-    onClick: () => {
-      onChangeView({
-        ...view,
-        page: 1,
-        filters: view.filters.filter(_filter => _filter.field !== filter.field)
-      });
-      // If the filter is not primary and can be removed, it will be added
-      // back to the available filters from `Add filter` component.
-      if (!filter.isPrimary) {
-        addFilterRef.current?.focus();
-      }
-    }
-  }, filter.isPrimary ? (0,external_wp_i18n_namespaceObject.__)('Reset') : (0,external_wp_i18n_namespaceObject.__)('Remove')));
-}
 function FilterSummary({
   addFilterRef,
   openedFilter,
@@ -41796,9 +41768,6 @@ function FilterSummary({
         ...commonProps
       }), (0,external_React_.createElement)(SearchWidget, {
         ...commonProps
-      }), (0,external_React_.createElement)(ResetFilter, {
-        ...commonProps,
-        addFilterRef: addFilterRef
       }));
     }
   });
@@ -41872,7 +41841,7 @@ function AddFilter({
  */
 
 
-function reset_filters_ResetFilter({
+function ResetFilter({
   filters,
   view,
   onChangeView
@@ -41976,7 +41945,7 @@ const Filters = (0,external_wp_element_namespaceObject.memo)(function Filters({
     });
   }), addFilter];
   if (filterComponents.length > 1) {
-    filterComponents.push((0,external_React_.createElement)(reset_filters_ResetFilter, {
+    filterComponents.push((0,external_React_.createElement)(ResetFilter, {
       key: "reset-filters",
       filters: filters,
       view: view,

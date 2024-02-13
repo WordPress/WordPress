@@ -5081,7 +5081,7 @@ function ButtonEdit(props) {
       getBlockBindingsSource
     } = unlock(select(external_wp_blockEditor_namespaceObject.store));
     return {
-      lockUrlControls: !!metadata?.bindings?.url && getBlockBindingsSource(metadata?.bindings?.url?.source)?.lockAttributesEditing === true
+      lockUrlControls: !!metadata?.bindings?.url && getBlockBindingsSource(metadata?.bindings?.url?.source)?.lockAttributesEditing
     };
   }, [isSelected]);
   return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)("div", {
@@ -25988,13 +25988,13 @@ function image_Image({
     } = metadata?.bindings || {};
     const hasParentPattern = getBlockParentsByBlockName(clientId, 'core/block').length > 0;
     return {
-      lockUrlControls: !!urlBinding && getBlockBindingsSource(urlBinding?.source)?.lockAttributesEditing === true,
+      lockUrlControls: !!urlBinding && getBlockBindingsSource(urlBinding?.source)?.lockAttributesEditing,
       lockHrefControls:
       // Disable editing the link of the URL if the image is inside a pattern instance.
       // This is a temporary solution until we support overriding the link on the frontend.
       hasParentPattern,
-      lockAltControls: !!altBinding && getBlockBindingsSource(altBinding?.source)?.lockAttributesEditing === true,
-      lockTitleControls: !!titleBinding && getBlockBindingsSource(titleBinding?.source)?.lockAttributesEditing === true
+      lockAltControls: !!altBinding && getBlockBindingsSource(altBinding?.source)?.lockAttributesEditing,
+      lockTitleControls: !!titleBinding && getBlockBindingsSource(titleBinding?.source)?.lockAttributesEditing
     };
   }, [clientId, isSingleSelected, metadata?.bindings]);
   const controls = (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
@@ -26548,7 +26548,7 @@ function ImageEdit({
       getBlockBindingsSource
     } = unlock(select(external_wp_blockEditor_namespaceObject.store));
     return {
-      lockUrlControls: !!metadata?.bindings?.url && getBlockBindingsSource(metadata?.bindings?.url?.source)?.lockAttributesEditing === true
+      lockUrlControls: !!metadata?.bindings?.url && getBlockBindingsSource(metadata?.bindings?.url?.source)?.lockAttributesEditing
     };
   }, [isSingleSelected]);
   const placeholder = content => {
@@ -53885,10 +53885,13 @@ const SpacerEdit = ({
   } = context;
   const {
     orientation: parentOrientation,
-    type
+    type,
+    default: {
+      type: defaultType
+    } = {}
   } = parentLayout || {};
   // Check if the spacer is inside a flex container.
-  const isFlexLayout = type === 'flex';
+  const isFlexLayout = type === 'flex' || !type && defaultType === 'flex';
   // If the spacer is inside a flex container, it should either inherit the orientation
   // of the parent or use the flex default orientation.
   const inheritedOrientation = !parentOrientation && isFlexLayout ? 'horizontal' : parentOrientation || orientation;

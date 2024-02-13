@@ -3470,7 +3470,7 @@ const isEditingTemplate = (0,external_wp_data_namespaceObject.createRegistrySele
     since: '6.5',
     alternative: `select( 'core/editor' ).getRenderingMode`
   });
-  return select(external_wp_editor_namespaceObject.store).getRenderingMode() !== 'post-only';
+  return select(external_wp_editor_namespaceObject.store).getCurrentPostType() !== 'post-only';
 });
 
 /**
@@ -7299,18 +7299,17 @@ function Editor({
   const {
     updatePreferredStyleVariations
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const defaultRenderingMode = currentPost.postType === 'wp_template' ? 'all' : 'post-only';
   const editorSettings = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     ...settings,
     onNavigateToEntityRecord,
     onNavigateToPreviousEntityRecord,
-    defaultRenderingMode,
+    defaultRenderingMode: 'post-only',
     __experimentalPreferredStyleVariations: {
       value: preferredStyleVariations,
       onChange: updatePreferredStyleVariations
     },
     hasInlineToolbar
-  }), [settings, hasInlineToolbar, preferredStyleVariations, updatePreferredStyleVariations, onNavigateToEntityRecord, onNavigateToPreviousEntityRecord, defaultRenderingMode]);
+  }), [settings, hasInlineToolbar, preferredStyleVariations, updatePreferredStyleVariations, onNavigateToEntityRecord, onNavigateToPreviousEntityRecord]);
   if (!post) {
     return null;
   }
@@ -7654,7 +7653,7 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
    * so that common filters in the block library are not overwritten.
    */
   (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromInserter', (canInsert, blockType) => {
-    if ((0,external_wp_data_namespaceObject.select)(external_wp_editor_namespaceObject.store).getRenderingMode() === 'post-only' && blockType.name === 'core/template-part') {
+    if (blockType.name === 'core/template-part') {
       return false;
     }
     return canInsert;
@@ -7669,7 +7668,7 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
   (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removePostContentFromInserter', (canInsert, blockType, rootClientId, {
     getBlockParentsByBlockName
   }) => {
-    if ((0,external_wp_data_namespaceObject.select)(external_wp_editor_namespaceObject.store).getRenderingMode() === 'post-only' && blockType.name === 'core/post-content') {
+    if (blockType.name === 'core/post-content') {
       return getBlockParentsByBlockName(rootClientId, 'core/query').length > 0;
     }
     return canInsert;

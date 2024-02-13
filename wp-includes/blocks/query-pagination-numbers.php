@@ -91,14 +91,17 @@ function render_block_core_query_pagination_numbers( $attributes, $content, $blo
 	}
 
 	if ( $enhanced_pagination ) {
-		$p = new WP_HTML_Tag_Processor( $content );
+		$p         = new WP_HTML_Tag_Processor( $content );
+		$tag_index = 0;
 		while ( $p->next_tag(
-			array(
-				'tag_name'   => 'a',
-				'class_name' => 'page-numbers',
-			)
+			array( 'class_name' => 'page-numbers' )
 		) ) {
-			$p->set_attribute( 'data-wp-on--click', 'core/query::actions.navigate' );
+			if ( null === $p->get_attribute( 'data-wp-key' ) ) {
+				$p->set_attribute( 'data-wp-key', 'index-' . $tag_index++ );
+			}
+			if ( 'A' === $p->get_tag() ) {
+				$p->set_attribute( 'data-wp-on--click', 'core/query::actions.navigate' );
+			}
 		}
 		$content = $p->get_updated_html();
 	}

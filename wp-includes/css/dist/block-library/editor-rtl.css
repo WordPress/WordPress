@@ -2383,6 +2383,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   content:none;
 }
 .block-library-spacer__resize-container.resize-horizontal{
+  height:100% !important;
   margin-bottom:0;
 }
 

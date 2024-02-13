@@ -1919,13 +1919,6 @@ iframe[name=editor-canvas].has-editor-padding{
   top:0;
 }
 
-.block-editor-link-control__drawer{
-  display:flex;
-  flex-basis:100%;
-  flex-direction:column;
-  order:30;
-}
-
 .block-editor-link-control__drawer-inner{
   display:flex;
   flex-basis:100%;
@@ -2716,15 +2709,8 @@ iframe[name=editor-canvas].has-editor-padding{
 }
 @media (min-width:600px){
   .block-editor-block-list__block .block-editor-url-input input[type=text],.block-editor-url-input input[type=text],.components-popover .block-editor-url-input input[type=text]{
-    width:300px;
-  }
-}
-.block-editor-block-list__block .block-editor-url-input input[type=text]:not(:focus),.block-editor-url-input input[type=text]:not(:focus),.components-popover .block-editor-url-input input[type=text]:not(:focus){
-  border-color:#0000;
-}
-@media (min-width:600px){
-  .block-editor-block-list__block .block-editor-url-input input[type=text],.block-editor-url-input input[type=text],.components-popover .block-editor-url-input input[type=text]{
     font-size:13px;
+    width:300px;
   }
 }
 .block-editor-block-list__block .block-editor-url-input input[type=text]::-ms-clear,.block-editor-url-input input[type=text]::-ms-clear,.components-popover .block-editor-url-input input[type=text]::-ms-clear{

@@ -10957,12 +10957,13 @@ function lastFocus(state = false, action) {
 }
 function blockBindingsSources(state = {}, action) {
   if (action.type === 'REGISTER_BLOCK_BINDINGS_SOURCE') {
+    var _action$lockAttribute;
     return {
       ...state,
       [action.sourceName]: {
         label: action.sourceLabel,
         useSource: action.useSource,
-        lockAttributesEditing: action.lockAttributesEditing
+        lockAttributesEditing: (_action$lockAttribute = action.lockAttributesEditing) !== null && _action$lockAttribute !== void 0 ? _action$lockAttribute : true
       }
     };
   }
@@ -34175,7 +34176,7 @@ const createEditFunctionWithBindingsAttribute = () => (0,external_wp_compose_nam
   if (updatedAttributes?.metadata?.bindings) {
     Object.entries(updatedAttributes.metadata.bindings).forEach(([attributeName, settings]) => {
       const source = getBlockBindingsSource(settings.source);
-      if (source) {
+      if (source && source.useSource) {
         // Second argument (`updateMetaValue`) will be used to update the value in the future.
         const {
           placeholder,
@@ -58718,35 +58719,6 @@ function findSelection(blocks) {
   }
   return [];
 }
-
-/**
- * An input rule that replaces two spaces with an en space, and an en space
- * followed by a space with an em space.
- *
- * @param {Object} value Value to replace spaces in.
- *
- * @return {Object} Value with spaces replaced.
- */
-function replacePrecedingSpaces(value) {
-  if (!(0,external_wp_richText_namespaceObject.isCollapsed)(value)) {
-    return value;
-  }
-  const {
-    text,
-    start
-  } = value;
-  const lastTwoCharacters = text.slice(start - 2, start);
-
-  // Replace two spaces with an em space.
-  if (lastTwoCharacters === '  ') {
-    return (0,external_wp_richText_namespaceObject.insert)(value, '\u2002', start - 2, start);
-  }
-  // Replace an en space followed by a space with an em space.
-  else if (lastTwoCharacters === '\u2002 ') {
-    return (0,external_wp_richText_namespaceObject.insert)(value, '\u2003', start - 2, start);
-  }
-  return value;
-}
 function useInputRules(props) {
   const {
     __unstableMarkLastChangeAsPersistent,
@@ -58826,7 +58798,7 @@ function useInputRules(props) {
           accumlator = __unstableInputRule(accumlator);
         }
         return accumlator;
-      }, preventEventDiscovery(replacePrecedingSpaces(value)));
+      }, preventEventDiscovery(value));
       if (transformed !== value) {
         __unstableMarkLastChangeAsPersistent();
         onChange({

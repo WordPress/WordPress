@@ -671,16 +671,22 @@ function InlineLinkUI({
   // Get the text content minus any HTML tags.
   const richTextText = richLinkTextValue.text;
   const {
+    selectionChange
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+  const {
     createPageEntity,
-    userCanCreatePages
+    userCanCreatePages,
+    selectionStart
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getSettings
+      getSettings,
+      getSelectionStart
     } = select(external_wp_blockEditor_namespaceObject.store);
     const _settings = getSettings();
     return {
       createPageEntity: _settings.__experimentalCreatePageEntity,
-      userCanCreatePages: _settings.__experimentalUserCanCreatePages
+      userCanCreatePages: _settings.__experimentalUserCanCreatePages,
+      selectionStart: getSelectionStart()
     };
   }, []);
   const linkValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
@@ -721,7 +727,20 @@ function InlineLinkUI({
     if ((0,external_wp_richText_namespaceObject.isCollapsed)(value) && !isActive) {
       // Scenario: we don't have any actively selected text or formats.
       const inserted = (0,external_wp_richText_namespaceObject.insert)(value, newText);
-      newValue = (0,external_wp_richText_namespaceObject.applyFormat)(inserted, linkFormat, value.start, value.end + newText.length);
+      newValue = (0,external_wp_richText_namespaceObject.applyFormat)(inserted, linkFormat, value.start, value.start + newText.length);
+      onChange(newValue);
+
+      // Close the Link UI.
+      stopAddingLink();
+
+      // Move the selection to the end of the inserted link outside of the format boundary
+      // so the user can continue typing after the link.
+      selectionChange({
+        clientId: selectionStart.clientId,
+        identifier: selectionStart.attributeKey,
+        start: value.start + newText.length + 1
+      });
+      return;
     } else if (newText === richTextText) {
       newValue = (0,external_wp_richText_namespaceObject.applyFormat)(value, linkFormat);
     } else {
@@ -781,27 +800,11 @@ function InlineLinkUI({
   }
   const popoverAnchor = (0,external_wp_richText_namespaceObject.useAnchor)({
     editableContentElement: contentRef.current,
-    settings: build_module_link_link
+    settings: {
+      ...build_module_link_link,
+      isActive
+    }
   });
-
-  //  As you change the link by interacting with the Link UI
-  //  the return value of document.getSelection jumps to the field you're editing,
-  //  not the highlighted text. Given that useAnchor uses document.getSelection,
-  //  it will return null, since it can't find the <mark> element within the Link UI.
-  //  This caches the last truthy value of the selection anchor reference.
-  // This ensures the Popover is positioned correctly on initial submission of the link.
-  const cachedRect = (0,external_wp_blockEditor_namespaceObject.useCachedTruthy)(popoverAnchor.getBoundingClientRect());
-
-  // If the link is not active (i.e. it is a new link) then we need to
-  // override the getBoundingClientRect method on the anchor element
-  // to return the cached value of the selection represented by the text
-  // that the user selected to be linked.
-  // If the link is active (i.e. it is an existing link) then we allow
-  // the default behaviour of the popover anchor to be used. This will get
-  // the anchor based on the `<a>` element in the rich text.
-  if (!isActive) {
-    popoverAnchor.getBoundingClientRect = () => cachedRect;
-  }
   async function handleCreate(pageTitle) {
     const page = await createPageEntity({
       title: pageTitle,
@@ -910,17 +913,6 @@ function link_Edit({
     if (!editableContentElement) {
       return;
     }
-
-    // Close the Link popover if there is no active selection
-    // after the link was added - this can happen if the user
-    // adds a link without any text selected.
-    // We assume that if there is no active selection after
-    // link insertion there are no active formats.
-    if (!value.activeFormats) {
-      editableContentElement.focus();
-      setAddingLink(false);
-      return;
-    }
     function handleClick(event) {
       // There is a situation whereby there is an existing link in the rich text
       // and the user clicks on the leftmost edge of that link and fails to activate
@@ -937,7 +929,7 @@ function link_Edit({
     return () => {
       editableContentElement.removeEventListener('click', handleClick);
     };
-  }, [contentRef, isActive, addingLink, value]);
+  }, [contentRef, isActive]);
   function addLink(target) {
     const text = (0,external_wp_richText_namespaceObject.getTextContent)((0,external_wp_richText_namespaceObject.slice)(value));
     if (!isActive && text && (0,external_wp_url_namespaceObject.isURL)(text) && isValidHref(text)) {
@@ -1368,22 +1360,16 @@ function InlineColorUI({
   value,
   onChange,
   onClose,
-  contentRef
+  contentRef,
+  isActive
 }) {
   const popoverAnchor = (0,external_wp_richText_namespaceObject.useAnchor)({
     editableContentElement: contentRef.current,
-    settings: text_color_textColor
+    settings: {
+      ...text_color_textColor,
+      isActive
+    }
   });
-
-  /*
-   As you change the text color by typing a HEX value into a field,
-   the return value of document.getSelection jumps to the field you're editing,
-   not the highlighted text. Given that useAnchor uses document.getSelection,
-   it will return null, since it can't find the <mark> element within the HEX input.
-   This caches the last truthy value of the selection anchor reference.
-   */
-  const cachedRect = (0,external_wp_blockEditor_namespaceObject.useCachedTruthy)(popoverAnchor.getBoundingClientRect());
-  popoverAnchor.getBoundingClientRect = () => cachedRect;
   return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
     onClose: onClose,
     className: "format-library__inline-color-popover",
@@ -1482,7 +1468,8 @@ function TextColorEdit({
     activeAttributes: activeAttributes,
     value: value,
     onChange: onChange,
-    contentRef: contentRef
+    contentRef: contentRef,
+    isActive: isActive
   }));
 }
 const text_color_textColor = {

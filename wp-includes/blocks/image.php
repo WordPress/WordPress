@@ -159,7 +159,7 @@ function block_core_image_render_lightbox( $block_content, $block ) {
 	$figure_class_names = $p->get_attribute( 'class' );
 	$figure_styles      = $p->get_attribute( 'style' );
 	$p->add_class( 'wp-lightbox-container' );
-	$p->set_attribute( 'data-wp-interactive', '{"namespace":"core/image"}' );
+	$p->set_attribute( 'data-wp-interactive', 'core/image' );
 	$p->set_attribute(
 		'data-wp-context',
 		wp_json_encode(
@@ -240,7 +240,7 @@ function block_core_image_print_lightbox_overlay() {
 	echo <<<HTML
 		<div 
 			class="wp-lightbox-overlay zoom"
-			data-wp-interactive='{"namespace":"core/image"}'
+			data-wp-interactive="core/image"
 			data-wp-context='{}'
 			data-wp-bind--role="state.roleAttribute"
 			data-wp-bind--aria-label="state.currentImage.ariaLabel"

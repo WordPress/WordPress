@@ -53,7 +53,7 @@ function render_block_core_file( $attributes, $content ) {
 
 		$processor = new WP_HTML_Tag_Processor( $content );
 		$processor->next_tag();
-		$processor->set_attribute( 'data-wp-interactive', '{"namespace":"core/file"}' );
+		$processor->set_attribute( 'data-wp-interactive', 'core/file' );
 		$processor->next_tag( 'object' );
 		$processor->set_attribute( 'data-wp-bind--hidden', '!state.hasPdfPreview' );
 		$processor->set_attribute( 'hidden', true );

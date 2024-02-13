@@ -918,11 +918,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   color:#757575;
 }
 
-.dataviews-filter-summary__reset{
-  border-top:1px solid #e0e0e0;
-  padding:4px;
-}
-
 .dataviews-filter-summary__chip-container{
   position:relative;
   white-space:pre-wrap;

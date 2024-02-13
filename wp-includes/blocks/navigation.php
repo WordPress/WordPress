@@ -557,19 +557,17 @@ class WP_Navigation_Block_Renderer {
 			return '';
 		}
 		// When adding to this array be mindful of security concerns.
-		$nav_element_context    = wp_json_encode(
+		$nav_element_context    = data_wp_context(
 			array(
 				'overlayOpenedBy' => array(),
 				'type'            => 'overlay',
 				'roleAttribute'   => '',
 				'ariaLabel'       => __( 'Menu' ),
-			),
-			JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP
+			)
 		);
 		$nav_element_directives = '
-			data-wp-interactive=\'{"namespace":"core/navigation"}\'
-			data-wp-context=\'' . $nav_element_context . '\'
-		';
+		 data-wp-interactive="core/navigation"'
+		. $nav_element_context;
 
 		/*
 		* When the navigation's 'overlayMenu' attribute is set to 'always', JavaScript
@@ -780,7 +778,7 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 		)
 	) ) {
 		// Add directives to the parent `<li>`.
-		$tags->set_attribute( 'data-wp-interactive', '{ "namespace": "core/navigation" }' );
+		$tags->set_attribute( 'data-wp-interactive', 'core/navigation' );
 		$tags->set_attribute( 'data-wp-context', '{ "submenuOpenedBy": {}, "type": "submenu" }' );
 		$tags->set_attribute( 'data-wp-watch', 'callbacks.initMenu' );
 		$tags->set_attribute( 'data-wp-on--focusout', 'actions.handleMenuFocusout' );

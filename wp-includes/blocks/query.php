@@ -49,7 +49,7 @@ function render_block_core_query( $attributes, $content, $block ) {
 		$p = new WP_HTML_Tag_Processor( $content );
 		if ( $p->next_tag() ) {
 			// Add the necessary directives.
-			$p->set_attribute( 'data-wp-interactive', '{"namespace":"core/query"}' );
+			$p->set_attribute( 'data-wp-interactive', 'core/query' );
 			$p->set_attribute( 'data-wp-router-region', 'query-' . $attributes['queryId'] );
 			$p->set_attribute( 'data-wp-init', 'callbacks.setQueryRef' );
 			$p->set_attribute( 'data-wp-context', '{}' );

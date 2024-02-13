@@ -3041,10 +3041,13 @@ function useAnchorRef({
   }, [activeFormat, value.start, value.end, tagName, className]);
 }
 
+;// CONCATENATED MODULE: external ["wp","compose"]
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-anchor.js
 /**
  * WordPress dependencies
  */
+
 
 
 /** @typedef {import('../register-format-type').WPFormat} WPFormat */
@@ -3167,39 +3170,29 @@ function useAnchor({
 }) {
   const {
     tagName,
-    className
+    className,
+    isActive
   } = settings;
   const [anchor, setAnchor] = (0,external_wp_element_namespaceObject.useState)(() => getAnchor(editableContentElement, tagName, className));
+  const wasActive = (0,external_wp_compose_namespaceObject.usePrevious)(isActive);
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
     if (!editableContentElement) return;
     const {
       ownerDocument
     } = editableContentElement;
-    function callback() {
+    if (editableContentElement === ownerDocument.activeElement ||
+    // When a link is created, we need to attach the popover to the newly created anchor.
+    !wasActive && isActive ||
+    // Sometimes we're _removing_ an active anchor, such as the inline color popover.
+    // When we add the color, it switches from a virtual anchor to a `<mark>` element.
+    // When we _remove_ the color, it switches from a `<mark>` element to a virtual anchor.
+    wasActive && !isActive) {
       setAnchor(getAnchor(editableContentElement, tagName, className));
     }
-    function attach() {
-      ownerDocument.addEventListener('selectionchange', callback);
-    }
-    function detach() {
-      ownerDocument.removeEventListener('selectionchange', callback);
-    }
-    if (editableContentElement === ownerDocument.activeElement) {
-      attach();
-    }
-    editableContentElement.addEventListener('focusin', attach);
-    editableContentElement.addEventListener('focusout', detach);
-    return () => {
-      detach();
-      editableContentElement.removeEventListener('focusin', attach);
-      editableContentElement.removeEventListener('focusout', detach);
-    };
-  }, [editableContentElement, tagName, className]);
+  }, [editableContentElement, tagName, className, isActive, wasActive]);
   return anchor;
 }
 
-;// CONCATENATED MODULE: external ["wp","compose"]
-const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-default-style.js
 /**
  * WordPress dependencies
