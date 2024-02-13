@@ -913,6 +913,7 @@ final class WP_Post_Type {
 	 * Will only instantiate the controller class once per request.
 	 *
 	 * @since 6.4.0
+	 * @since 6.5.0 Prevents autosave class instantiation for wp_global_styles post types.
 	 *
 	 * @return WP_REST_Controller|null The controller instance, or null if the post type
 	 *                                 is set not to show in rest.
@@ -922,7 +923,7 @@ final class WP_Post_Type {
 			return null;
 		}
 
-		if ( 'attachment' === $this->name ) {
+		if ( in_array( $this->name, array( 'attachment', 'wp_global_styles' ), true ) ) {
 			return null;
 		}
 
