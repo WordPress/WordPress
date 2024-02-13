@@ -10,14 +10,25 @@
 /**
  * Base Global Styles REST API Controller.
  */
-class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
+class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
+
 	/**
-	 * Whether the controller supports batching.
+	 * Post type.
 	 *
-	 * @since 6.5.0
-	 * @var array
+	 * @since 5.9.0
+	 * @var string
 	 */
-	protected $allow_batch = array( 'v1' => false );
+	protected $post_type;
+
+	/**
+	 * Constructor.
+	 * @since 5.9.0
+	 */
+	public function __construct() {
+		$this->namespace = 'wp/v2';
+		$this->rest_base = 'global-styles';
+		$this->post_type = 'wp_global_styles';
+	}
 
 	/**
 	 * Registers the controllers routes.
@@ -183,8 +194,26 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	 * @param WP_Post $post Post object.
 	 * @return bool Whether the post can be read.
 	 */
-	public function check_read_permission( $post ) {
+	protected function check_read_permission( $post ) {
 		return current_user_can( 'read_post', $post->ID );
+	}
+
+	/**
+	 * Returns the given global styles config.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param WP_REST_Request $request The request instance.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function get_item( $request ) {
+		$post = $this->get_post( $request['id'] );
+		if ( is_wp_error( $post ) ) {
+			return $post;
+		}
+
+		return $this->prepare_item_for_response( $post, $request );
 	}
 
 	/**
@@ -210,6 +239,55 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Checks if a global style can be edited.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return bool Whether the post can be edited.
+	 */
+	protected function check_update_permission( $post ) {
+		return current_user_can( 'edit_post', $post->ID );
+	}
+
+	/**
+	 * Updates a single global style config.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function update_item( $request ) {
+		$post_before = $this->get_post( $request['id'] );
+		if ( is_wp_error( $post_before ) ) {
+			return $post_before;
+		}
+
+		$changes = $this->prepare_item_for_database( $request );
+		if ( is_wp_error( $changes ) ) {
+			return $changes;
+		}
+
+		$result = wp_update_post( wp_slash( (array) $changes ), true, false );
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		$post          = get_post( $request['id'] );
+		$fields_update = $this->update_additional_fields_for_object( $post, $request );
+		if ( is_wp_error( $fields_update ) ) {
+			return $fields_update;
+		}
+
+		wp_after_insert_post( $post, true, $post_before );
+
+		$response = $this->prepare_item_for_response( $post, $request );
+
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -329,7 +407,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 			$links = $this->prepare_links( $post->ID );
 			$response->add_links( $links );
 			if ( ! empty( $links['self']['href'] ) ) {
-				$actions = $this->get_available_actions( $post, $request );
+				$actions = $this->get_available_actions();
 				$self    = $links['self']['href'];
 				foreach ( $actions as $rel ) {
 					$response->add_link( $rel, $self );
@@ -353,11 +431,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
 
 		$links = array(
-			'self'  => array(
+			'self' => array(
 				'href' => rest_url( trailingslashit( $base ) . $id ),
-			),
-			'about' => array(
-				'href' => rest_url( 'wp/v2/types/' . $this->post_type ),
 			),
 		);
 
@@ -379,16 +454,13 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 5.9.0
 	 * @since 6.2.0 Added 'edit-css' action.
-	 * @since 6.5.0 Added $post and $request parameters.
 	 *
-	 * @param WP_Post         $post    Post object.
-	 * @param WP_REST_Request $request Request object.
 	 * @return array List of link relations.
 	 */
-	protected function get_available_actions( $post, $request ) {
+	protected function get_available_actions() {
 		$rels = array();
 
-		$post_type = get_post_type_object( $post->post_type );
+		$post_type = get_post_type_object( $this->post_type );
 		if ( current_user_can( $post_type->cap->publish_posts ) ) {
 			$rels[] = 'https://api.w.org/action-publish';
 		}
@@ -398,6 +470,21 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 		}
 
 		return $rels;
+	}
+
+	/**
+	 * Overwrites the default protected title format.
+	 *
+	 * By default, WordPress will show password protected posts with a title of
+	 * "Protected: %s", as the REST API communicates the protected status of a post
+	 * in a machine readable format, we remove the "Protected: " prefix.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return string Protected title format.
+	 */
+	public function protected_title_format() {
+		return '%s';
 	}
 
 	/**

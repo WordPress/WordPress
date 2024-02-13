@@ -323,6 +323,14 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Block_Types_Controller();
 	$controller->register_routes();
 
+	// Global Styles revisions.
+	$controller = new WP_REST_Global_Styles_Revisions_Controller();
+	$controller->register_routes();
+
+	// Global Styles.
+	$controller = new WP_REST_Global_Styles_Controller();
+	$controller->register_routes();
+
 	// Settings.
 	$controller = new WP_REST_Settings_Controller();
 	$controller->register_routes();

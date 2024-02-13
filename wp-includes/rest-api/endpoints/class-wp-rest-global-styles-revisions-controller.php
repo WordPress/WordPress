@@ -14,14 +14,14 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Controller {
+class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Controller {
 	/**
-	 * Parent controller.
+	 * Parent post type.
 	 *
-	 * @since 6.5.0
-	 * @var WP_REST_Controller
+	 * @since 6.3.0
+	 * @var string
 	 */
-	private $parent_controller;
+	protected $parent_post_type;
 
 	/**
 	 * The base of the parent controller's route.
@@ -35,23 +35,12 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	 * Constructor.
 	 *
 	 * @since 6.3.0
-	 * @since 6.5.0 Extends class from WP_REST_Revisions_Controller.
-	 *
-	 * @param string $parent_post_type Post type of the parent.
 	 */
-	public function __construct( $parent_post_type ) {
-		parent::__construct( $parent_post_type );
-		$post_type_object  = get_post_type_object( $parent_post_type );
-		$parent_controller = $post_type_object->get_rest_controller();
-
-		if ( ! $parent_controller ) {
-			$parent_controller = new WP_REST_Global_Styles_Controller( $parent_post_type );
-		}
-
-		$this->parent_controller = $parent_controller;
-		$this->rest_base         = 'revisions';
-		$this->parent_base       = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
-		$this->namespace         = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
+	public function __construct() {
+		$this->parent_post_type = 'wp_global_styles';
+		$this->rest_base        = 'revisions';
+		$this->parent_base      = 'global-styles';
+		$this->namespace        = 'wp/v2';
 	}
 
 	/**
@@ -74,7 +63,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
 					'args'                => $this->get_collection_params(),
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
@@ -106,6 +95,29 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
+	}
+
+	/**
+	 * Retrieves the query params for collections.
+	 *
+	 * Inherits from WP_REST_Controller::get_collection_params(),
+	 * also reflects changes to return value WP_REST_Revisions_Controller::get_collection_params().
+	 *
+	 * @since 6.3.0
+	 *
+	 * @return array Collection parameters.
+	 */
+	public function get_collection_params() {
+		$collection_params                       = parent::get_collection_params();
+		$collection_params['context']['default'] = 'view';
+		$collection_params['offset']             = array(
+			'description' => __( 'Offset the result set by a specific number of items.' ),
+			'type'        => 'integer',
+		);
+		unset( $collection_params['search'] );
+		unset( $collection_params['per_page']['default'] );
+
+		return $collection_params;
 	}
 
 	/**
@@ -257,6 +269,80 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	}
 
 	/**
+	 * Retrieves one global styles revision from the collection.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function get_item( $request ) {
+		$parent = $this->get_parent( $request['parent'] );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
+		}
+
+		$revision = $this->get_revision( $request['id'] );
+		if ( is_wp_error( $revision ) ) {
+			return $revision;
+		}
+
+		$response = $this->prepare_item_for_response( $revision, $request );
+		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * Gets the global styles revision, if the ID is valid.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param int $id Supplied ID.
+	 * @return WP_Post|WP_Error Revision post object if ID is valid, WP_Error otherwise.
+	 */
+	protected function get_revision( $id ) {
+		$error = new WP_Error(
+			'rest_post_invalid_id',
+			__( 'Invalid global styles revision ID.' ),
+			array( 'status' => 404 )
+		);
+
+		if ( (int) $id <= 0 ) {
+			return $error;
+		}
+
+		$revision = get_post( (int) $id );
+		if ( empty( $revision ) || empty( $revision->ID ) || 'revision' !== $revision->post_type ) {
+			return $error;
+		}
+
+		return $revision;
+	}
+
+	/**
+	 * Checks the post_date_gmt or modified_gmt and prepare any post or
+	 * modified date for single post output.
+	 *
+	 * Duplicate of WP_REST_Revisions_Controller::prepare_date_response.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param string      $date_gmt GMT publication time.
+	 * @param string|null $date     Optional. Local publication time. Default null.
+	 * @return string|null ISO8601/RFC3339 formatted datetime, otherwise null.
+	 */
+	protected function prepare_date_response( $date_gmt, $date = null ) {
+		if ( '0000-00-00 00:00:00' === $date_gmt ) {
+			return null;
+		}
+
+		if ( isset( $date ) ) {
+			return mysql_to_rfc3339( $date );
+		}
+
+		return mysql_to_rfc3339( $date_gmt );
+	}
+
+	/**
 	 * Prepares the revision for the REST response.
 	 *
 	 * @since 6.3.0
@@ -325,7 +411,6 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	 * Retrieves the revision's schema, conforming to JSON Schema.
 	 *
 	 * @since 6.3.0
-	 * @since 6.5.0 Merged parent and parent controller schema data.
 	 *
 	 * @return array Item schema data.
 	 */
@@ -334,15 +419,70 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 			return $this->add_additional_fields_schema( $this->schema );
 		}
 
-		$schema               = parent::get_item_schema();
-		$parent_schema        = $this->parent_controller->get_item_schema();
-		$schema['properties'] = array_merge( $schema['properties'], $parent_schema['properties'] );
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => "{$this->parent_post_type}-revision",
+			'type'       => 'object',
+			// Base properties for every revision.
+			'properties' => array(
 
-		unset( $schema['properties']['guid'] );
-		unset( $schema['properties']['slug'] );
-		unset( $schema['properties']['meta'] );
-		unset( $schema['properties']['content'] );
-		unset( $schema['properties']['title'] );
+				/*
+				 * Adds settings and styles from the WP_REST_Revisions_Controller item fields.
+				 * Leaves out GUID as global styles shouldn't be accessible via URL.
+				 */
+				'author'       => array(
+					'description' => __( 'The ID for the author of the revision.' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'date'         => array(
+					'description' => __( "The date the revision was published, in the site's timezone." ),
+					'type'        => 'string',
+					'format'      => 'date-time',
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'date_gmt'     => array(
+					'description' => __( 'The date the revision was published, as GMT.' ),
+					'type'        => 'string',
+					'format'      => 'date-time',
+					'context'     => array( 'view', 'edit' ),
+				),
+				'id'           => array(
+					'description' => __( 'Unique identifier for the revision.' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'modified'     => array(
+					'description' => __( "The date the revision was last modified, in the site's timezone." ),
+					'type'        => 'string',
+					'format'      => 'date-time',
+					'context'     => array( 'view', 'edit' ),
+				),
+				'modified_gmt' => array(
+					'description' => __( 'The date the revision was last modified, as GMT.' ),
+					'type'        => 'string',
+					'format'      => 'date-time',
+					'context'     => array( 'view', 'edit' ),
+				),
+				'parent'       => array(
+					'description' => __( 'The ID for the parent of the revision.' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+
+				// Adds settings and styles from the WP_REST_Global_Styles_Controller parent schema.
+				'styles'       => array(
+					'description' => __( 'Global styles.' ),
+					'type'        => array( 'object' ),
+					'context'     => array( 'view', 'edit' ),
+				),
+				'settings'     => array(
+					'description' => __( 'Global settings.' ),
+					'type'        => array( 'object' ),
+					'context'     => array( 'view', 'edit' ),
+				),
+			),
+		);
 
 		$this->schema = $schema;
 
@@ -350,20 +490,62 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	}
 
 	/**
-	 * Retrieves the query params for collections.
-	 * Removes params that are not supported by global styles revisions.
+	 * Checks if a given request has access to read a single global style.
 	 *
-	 * @since 6.5.0
+	 * @since 6.3.0
 	 *
-	 * @return array Collection parameters.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
-	public function get_collection_params() {
-		$query_params = parent::get_collection_params();
-		unset( $query_params['exclude'] );
-		unset( $query_params['include'] );
-		unset( $query_params['search'] );
-		unset( $query_params['order'] );
-		unset( $query_params['orderby'] );
-		return $query_params;
+	public function get_item_permissions_check( $request ) {
+		$post = $this->get_parent( $request['parent'] );
+		if ( is_wp_error( $post ) ) {
+			return $post;
+		}
+
+		/*
+		 * The same check as WP_REST_Global_Styles_Controller::get_item_permissions_check.
+		 */
+		if ( ! current_user_can( 'read_post', $post->ID ) ) {
+			return new WP_Error(
+				'rest_cannot_view',
+				__( 'Sorry, you are not allowed to view revisions for this global style.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets the parent post, if the ID is valid.
+	 *
+	 * Duplicate of WP_REST_Revisions_Controller::get_parent.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param int $parent_post_id Supplied ID.
+	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+	 */
+	protected function get_parent( $parent_post_id ) {
+		$error = new WP_Error(
+			'rest_post_invalid_parent',
+			__( 'Invalid post parent ID.' ),
+			array( 'status' => 404 )
+		);
+
+		if ( (int) $parent_post_id <= 0 ) {
+			return $error;
+		}
+
+		$parent_post = get_post( (int) $parent_post_id );
+
+		if ( empty( $parent_post ) || empty( $parent_post->ID )
+			|| $this->parent_post_type !== $parent_post->post_type
+		) {
+			return $error;
+		}
+
+		return $parent_post;
 	}
 }
