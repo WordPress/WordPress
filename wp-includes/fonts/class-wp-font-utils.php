@@ -231,8 +231,8 @@ class WP_Font_Utils {
 		return array(
 			'otf'   => 'application/vnd.ms-opentype',
 			'ttf'   => PHP_VERSION_ID >= 70400 ? 'font/sfnt' : $php_7_ttf_mime_type,
-			'woff'  => PHP_VERSION_ID >= 80100 ? 'font/woff' : 'application/font-woff',
-			'woff2' => PHP_VERSION_ID >= 80100 ? 'font/woff2' : 'application/font-woff2',
+			'woff'  => PHP_VERSION_ID >= 80112 ? 'font/woff' : 'application/font-woff',
+			'woff2' => PHP_VERSION_ID >= 80112 ? 'font/woff2' : 'application/font-woff2',
 		);
 	}
 }
