@@ -6879,7 +6879,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 						}
 
 						$ext = strtolower( substr( $file, -4 ) );
-						if ( ! in_array( $ext, array( '.png', '.gif', '.jpg' ), true ) ) {
+						if ( ! in_array( $ext, array( '.svg', '.png', '.gif', '.jpg' ), true ) ) {
 							if ( is_dir( "$dir/$file" ) ) {
 								$dirs[ "$dir/$file" ] = "$uri/$file";
 							}
