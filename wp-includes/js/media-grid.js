@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 5817:
+/***/ 659:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -36,7 +36,7 @@ module.exports = EditAttachmentMetadata;
 
 /***/ }),
 
-/***/ 9525:
+/***/ 2429:
 /***/ ((module) => {
 
 /**
@@ -110,7 +110,7 @@ module.exports = Router;
 
 /***/ }),
 
-/***/ 7433:
+/***/ 1312:
 /***/ ((module) => {
 
 var Details = wp.media.view.Attachment.Details,
@@ -159,7 +159,7 @@ module.exports = TwoColumn;
 
 /***/ }),
 
-/***/ 5562:
+/***/ 5806:
 /***/ ((module) => {
 
 var Button = wp.media.view.Button,
@@ -213,7 +213,7 @@ module.exports = DeleteSelectedPermanently;
 
 /***/ }),
 
-/***/ 471:
+/***/ 6606:
 /***/ ((module) => {
 
 var Button = wp.media.view.Button,
@@ -274,7 +274,7 @@ module.exports = DeleteSelected;
 
 /***/ }),
 
-/***/ 6767:
+/***/ 682:
 /***/ ((module) => {
 
 
@@ -358,7 +358,7 @@ module.exports = SelectModeToggle;
 
 /***/ }),
 
-/***/ 9157:
+/***/ 8521:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -400,7 +400,7 @@ module.exports = Details;
 
 /***/ }),
 
-/***/ 5169:
+/***/ 1003:
 /***/ ((module) => {
 
 var Frame = wp.media.view.Frame,
@@ -682,7 +682,7 @@ module.exports = EditAttachments;
 
 /***/ }),
 
-/***/ 4817:
+/***/ 8359:
 /***/ ((module) => {
 
 var MediaFrame = wp.media.view.MediaFrame,
@@ -1012,15 +1012,15 @@ var __webpack_exports__ = {};
 
 var media = wp.media;
 
-media.controller.EditAttachmentMetadata = __webpack_require__( 5817 );
-media.view.MediaFrame.Manage = __webpack_require__( 4817 );
-media.view.Attachment.Details.TwoColumn = __webpack_require__( 7433 );
-media.view.MediaFrame.Manage.Router = __webpack_require__( 9525 );
-media.view.EditImage.Details = __webpack_require__( 9157 );
-media.view.MediaFrame.EditAttachments = __webpack_require__( 5169 );
-media.view.SelectModeToggleButton = __webpack_require__( 6767 );
-media.view.DeleteSelectedButton = __webpack_require__( 471 );
-media.view.DeleteSelectedPermanentlyButton = __webpack_require__( 5562 );
+media.controller.EditAttachmentMetadata = __webpack_require__( 659 );
+media.view.MediaFrame.Manage = __webpack_require__( 8359 );
+media.view.Attachment.Details.TwoColumn = __webpack_require__( 1312 );
+media.view.MediaFrame.Manage.Router = __webpack_require__( 2429 );
+media.view.EditImage.Details = __webpack_require__( 8521 );
+media.view.MediaFrame.EditAttachments = __webpack_require__( 1003 );
+media.view.SelectModeToggleButton = __webpack_require__( 682 );
+media.view.DeleteSelectedButton = __webpack_require__( 6606 );
+media.view.DeleteSelectedPermanentlyButton = __webpack_require__( 5806 );
 
 })();
 

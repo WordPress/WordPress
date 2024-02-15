@@ -2,13 +2,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 5360:
+/***/ 6689:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createUndoManager: () => (/* binding */ createUndoManager)
 /* harmony export */ });
-/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9127);
+/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(923);
 /* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * WordPress dependencies
@@ -184,7 +184,7 @@ function createUndoManager() {
 
 /***/ }),
 
-/***/ 2167:
+/***/ 3249:
 /***/ ((module) => {
 
 
@@ -498,7 +498,7 @@ module.exports = EquivalentKeyMap;
 
 /***/ }),
 
-/***/ 5619:
+/***/ 7734:
 /***/ ((module) => {
 
 
@@ -577,7 +577,7 @@ module.exports = function equal(a, b) {
 
 /***/ }),
 
-/***/ 9127:
+/***/ 923:
 /***/ ((module) => {
 
 module.exports = window["wp"]["isShallowEqual"];
@@ -807,12 +807,12 @@ __webpack_require__.d(resolvers_namespaceObject, {
 ;// CONCATENATED MODULE: external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
 // EXTERNAL MODULE: ./node_modules/fast-deep-equal/es6/index.js
-var es6 = __webpack_require__(5619);
+var es6 = __webpack_require__(7734);
 var es6_default = /*#__PURE__*/__webpack_require__.n(es6);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
 // EXTERNAL MODULE: ./node_modules/@wordpress/undo-manager/build-module/index.js
-var build_module = __webpack_require__(5360);
+var build_module = __webpack_require__(6689);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/if-matching-action.js
 /** @typedef {import('../types').AnyFunction} AnyFunction */
 
@@ -4446,7 +4446,7 @@ function isShallowEqual(a, b, fromIndex) {
 }
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(2167);
+var equivalent_key_map = __webpack_require__(3249);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/selectors.js
 /**

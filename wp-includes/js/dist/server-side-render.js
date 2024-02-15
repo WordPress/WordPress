@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 5619:
+/***/ 7734:
 /***/ ((module) => {
 
 
@@ -154,7 +154,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
 // EXTERNAL MODULE: ./node_modules/fast-deep-equal/es6/index.js
-var es6 = __webpack_require__(5619);
+var es6 = __webpack_require__(7734);
 var es6_default = /*#__PURE__*/__webpack_require__.n(es6);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];

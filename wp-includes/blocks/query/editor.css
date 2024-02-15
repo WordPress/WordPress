@@ -7,9 +7,9 @@
 }
 
 .block-library-query__pattern-selection-content .block-editor-block-patterns-list{
-  grid-gap:8px;
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
+  grid-gap:8px;
 }
 .block-library-query__pattern-selection-content .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item{
   margin-bottom:0;

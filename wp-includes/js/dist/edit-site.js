@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 2591:
+/***/ 4660:
 /***/ ((module) => {
 
 /* eslint eslint-comments/no-unlimited-disable: 0 */
@@ -4076,7 +4076,7 @@
 
 /***/ }),
 
-/***/ 5723:
+/***/ 8572:
 /***/ ((module) => {
 
 /* eslint eslint-comments/no-unlimited-disable: 0 */
@@ -6748,7 +6748,7 @@
 
 /***/ }),
 
-/***/ 6411:
+/***/ 4306:
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -7037,7 +7037,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 4403:
+/***/ 5755:
 /***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -7103,7 +7103,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 4827:
+/***/ 6109:
 /***/ ((module) => {
 
 // This code has been refactored for 140 bytes
@@ -7137,7 +7137,7 @@ module.exports = computedStyle;
 
 /***/ }),
 
-/***/ 1919:
+/***/ 66:
 /***/ ((module) => {
 
 "use strict";
@@ -7278,11 +7278,11 @@ module.exports = deepmerge_1;
 
 /***/ }),
 
-/***/ 9894:
+/***/ 461:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 // Load in dependencies
-var computedStyle = __webpack_require__(4827);
+var computedStyle = __webpack_require__(6109);
 
 /**
  * Calculate the `line-height` of a given node
@@ -7382,7 +7382,7 @@ module.exports = lineHeight;
 
 /***/ }),
 
-/***/ 5372:
+/***/ 628:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -7395,7 +7395,7 @@ module.exports = lineHeight;
 
 
 
-var ReactPropTypesSecret = __webpack_require__(9567);
+var ReactPropTypesSecret = __webpack_require__(4067);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -7455,7 +7455,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 2652:
+/***/ 5826:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /**
@@ -7468,13 +7468,13 @@ module.exports = function() {
 if (false) { var throwOnDirectAccess, ReactIs; } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(5372)();
+  module.exports = __webpack_require__(628)();
 }
 
 
 /***/ }),
 
-/***/ 9567:
+/***/ 4067:
 /***/ ((module) => {
 
 "use strict";
@@ -7494,7 +7494,7 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ 5438:
+/***/ 4462:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -7527,10 +7527,10 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 exports.__esModule = true;
-var React = __webpack_require__(9196);
-var PropTypes = __webpack_require__(2652);
-var autosize = __webpack_require__(6411);
-var _getLineHeight = __webpack_require__(9894);
+var React = __webpack_require__(1609);
+var PropTypes = __webpack_require__(5826);
+var autosize = __webpack_require__(4306);
+var _getLineHeight = __webpack_require__(461);
 var getLineHeight = _getLineHeight;
 var RESIZED = "autosize:resized";
 /**
@@ -7628,20 +7628,20 @@ exports.TextareaAutosize = React.forwardRef(function (props, ref) {
 
 /***/ }),
 
-/***/ 773:
+/***/ 4132:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = true;
-var TextareaAutosize_1 = __webpack_require__(5438);
-exports.Z = TextareaAutosize_1.TextareaAutosize;
+var TextareaAutosize_1 = __webpack_require__(4462);
+exports.A = TextareaAutosize_1.TextareaAutosize;
 
 
 /***/ }),
 
-/***/ 2455:
+/***/ 3394:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -7655,26 +7655,26 @@ var __webpack_unused_export__;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var f=__webpack_require__(9196),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
+var f=__webpack_require__(1609),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
 function q(c,a,g){var b,d={},e=null,h=null;void 0!==g&&(e=""+g);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(h=a.ref);for(b in a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}__webpack_unused_export__=l;exports.jsx=q;__webpack_unused_export__=q;
 
 
 /***/ }),
 
-/***/ 7557:
+/***/ 4922:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
 if (true) {
-  module.exports = __webpack_require__(2455);
+  module.exports = __webpack_require__(3394);
 } else {}
 
 
 /***/ }),
 
-/***/ 4793:
+/***/ 9681:
 /***/ ((module) => {
 
 var characterMap = {
@@ -8162,7 +8162,7 @@ module.exports.remove = removeAccents;
 
 /***/ }),
 
-/***/ 7755:
+/***/ 8477:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -8175,26 +8175,26 @@ module.exports.remove = removeAccents;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var e=__webpack_require__(9196);function h(a,b){return a===b&&(0!==a||1/a===1/b)||a!==a&&b!==b}var k="function"===typeof Object.is?Object.is:h,l=e.useState,m=e.useEffect,n=e.useLayoutEffect,p=e.useDebugValue;function q(a,b){var d=b(),f=l({inst:{value:d,getSnapshot:b}}),c=f[0].inst,g=f[1];n(function(){c.value=d;c.getSnapshot=b;r(c)&&g({inst:c})},[a,d,b]);m(function(){r(c)&&g({inst:c});return a(function(){r(c)&&g({inst:c})})},[a]);p(d);return d}
+var e=__webpack_require__(1609);function h(a,b){return a===b&&(0!==a||1/a===1/b)||a!==a&&b!==b}var k="function"===typeof Object.is?Object.is:h,l=e.useState,m=e.useEffect,n=e.useLayoutEffect,p=e.useDebugValue;function q(a,b){var d=b(),f=l({inst:{value:d,getSnapshot:b}}),c=f[0].inst,g=f[1];n(function(){c.value=d;c.getSnapshot=b;r(c)&&g({inst:c})},[a,d,b]);m(function(){r(c)&&g({inst:c});return a(function(){r(c)&&g({inst:c})})},[a]);p(d);return d}
 function r(a){var b=a.getSnapshot;a=a.value;try{var d=b();return!k(a,d)}catch(f){return!0}}function t(a,b){return b()}var u="undefined"===typeof window||"undefined"===typeof window.document||"undefined"===typeof window.document.createElement?t:q;exports.useSyncExternalStore=void 0!==e.useSyncExternalStore?e.useSyncExternalStore:u;
 
 
 /***/ }),
 
-/***/ 635:
+/***/ 422:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
 if (true) {
-  module.exports = __webpack_require__(7755);
+  module.exports = __webpack_require__(8477);
 } else {}
 
 
 /***/ }),
 
-/***/ 9196:
+/***/ 1609:
 /***/ ((module) => {
 
 "use strict";
@@ -8420,7 +8420,7 @@ __webpack_require__.d(private_selectors_namespaceObject, {
 });
 
 // EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(9196);
+var external_React_ = __webpack_require__(1609);
 var external_React_namespaceObject = /*#__PURE__*/__webpack_require__.t(external_React_, 2);
 ;// CONCATENATED MODULE: external ["wp","blocks"]
 const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
@@ -8436,7 +8436,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","editor"]
 const external_wp_editor_namespaceObject = window["wp"]["editor"];
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(4403);
+var classnames = __webpack_require__(5755);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","components"]
 const external_wp_components_namespaceObject = window["wp"]["components"];
@@ -12037,7 +12037,7 @@ const pencil = (0,external_React_.createElement)(external_wp_primitives_namespac
 ;// CONCATENATED MODULE: external ["wp","keycodes"]
 const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 // EXTERNAL MODULE: ./node_modules/deepmerge/dist/cjs.js
-var cjs = __webpack_require__(1919);
+var cjs = __webpack_require__(66);
 var cjs_default = /*#__PURE__*/__webpack_require__.n(cjs);
 ;// CONCATENATED MODULE: ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
@@ -17048,7 +17048,7 @@ function isShallowEqual(a, b, fromIndex) {
 }
 
 // EXTERNAL MODULE: ./node_modules/remove-accents/index.js
-var remove_accents = __webpack_require__(4793);
+var remove_accents = __webpack_require__(9681);
 var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/page-patterns/search-items.js
 /**
@@ -27937,10 +27937,10 @@ function font_collection_Footer({
 /* harmony default export */ const font_collection = (FontCollection);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/edit-site/lib/unbrotli.js
-var unbrotli = __webpack_require__(5723);
+var unbrotli = __webpack_require__(8572);
 var unbrotli_default = /*#__PURE__*/__webpack_require__.n(unbrotli);
 // EXTERNAL MODULE: ./node_modules/@wordpress/edit-site/lib/inflate.js
-var inflate = __webpack_require__(2591);
+var inflate = __webpack_require__(4660);
 var inflate_default = /*#__PURE__*/__webpack_require__.n(inflate);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/lib/lib-font.browser.js
 /* eslint eslint-comments/no-unlimited-disable: 0 */
@@ -34704,7 +34704,7 @@ function SidebarComplementaryAreaFills() {
 }
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var lib = __webpack_require__(773);
+var lib = __webpack_require__(4132);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/code-editor/index.js
 
 /**
@@ -34791,7 +34791,7 @@ function CodeEditor() {
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
     as: "label",
     htmlFor: `code-editor-text-area-${instanceId}`
-  }, (0,external_wp_i18n_namespaceObject.__)('Type text or HTML')), (0,external_React_.createElement)(lib/* default */.Z, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Type text or HTML')), (0,external_React_.createElement)(lib/* default */.A, {
     autoComplete: "off",
     dir: "auto",
     value: realContent,
@@ -37585,7 +37585,7 @@ If there's a particular need for this, please submit a feature request at https:
 
 
 // EXTERNAL MODULE: ./node_modules/use-sync-external-store/shim/index.js
-var shim = __webpack_require__(635);
+var shim = __webpack_require__(422);
 ;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/EKQEJRUF.js
 "use client";
 
@@ -38565,7 +38565,7 @@ function useComboboxStore(props = {}) {
 
 
 // EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
-var jsx_runtime = __webpack_require__(7557);
+var jsx_runtime = __webpack_require__(4922);
 ;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/3ORBWXWF.js
 "use client";
 

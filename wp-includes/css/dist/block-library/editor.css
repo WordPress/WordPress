@@ -280,11 +280,11 @@ html :where(.wp-block-column){
 }
 
 .wp-block-comment-author-avatar__placeholder{
-  stroke:currentColor;
-  stroke-dasharray:3;
   border:1px dashed;
   height:100%;
   width:100%;
+  stroke:currentColor;
+  stroke-dasharray:3;
 }
 
 .wp-block[data-align=center]>.wp-block-comments-pagination{
@@ -658,10 +658,10 @@ html :where(.wp-block-column){
   padding:10px;
 }
 .wp-block-freeform.block-library-rich-text__tinymce .wpview .wpview-error{
-  word-wrap:break-word;
   border:1px solid #ddd;
   margin:0;
   padding:1em 0;
+  word-wrap:break-word;
 }
 .wp-block-freeform.block-library-rich-text__tinymce .wpview .wpview-error p{
   margin:0;
@@ -1617,8 +1617,8 @@ figure.wp-block-image:not(.wp-block){
   padding:0 6px 0 0;
 }
 .wp-block-navigation-placeholder__actions__indicator svg{
-  fill:currentColor;
   margin-right:4px;
+  fill:currentColor;
 }
 
 .wp-block-navigation .components-placeholder.is-medium .components-placeholder__fieldset{
@@ -2562,9 +2562,9 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 }
 
 .block-library-query__pattern-selection-content .block-editor-block-patterns-list{
-  grid-gap:8px;
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
+  grid-gap:8px;
 }
 .block-library-query__pattern-selection-content .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item{
   margin-bottom:0;

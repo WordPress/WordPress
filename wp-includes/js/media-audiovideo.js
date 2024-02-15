@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 6045:
+/***/ 1206:
 /***/ ((module) => {
 
 var State = wp.media.controller.State,
@@ -41,7 +41,7 @@ module.exports = AudioDetails;
 
 /***/ }),
 
-/***/ 580:
+/***/ 5039:
 /***/ ((module) => {
 
 /**
@@ -81,7 +81,7 @@ module.exports = VideoDetails;
 
 /***/ }),
 
-/***/ 6615:
+/***/ 241:
 /***/ ((module) => {
 
 /**
@@ -130,7 +130,7 @@ module.exports = PostMedia;
 
 /***/ }),
 
-/***/ 1764:
+/***/ 3713:
 /***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaDetails,
@@ -175,7 +175,7 @@ module.exports = AudioDetails;
 
 /***/ }),
 
-/***/ 5262:
+/***/ 175:
 /***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
@@ -258,7 +258,7 @@ module.exports = AudioDetails;
 
 /***/ }),
 
-/***/ 6445:
+/***/ 741:
 /***/ ((module) => {
 
 var Select = wp.media.view.MediaFrame.Select,
@@ -395,7 +395,7 @@ module.exports = MediaDetails;
 
 /***/ }),
 
-/***/ 2075:
+/***/ 8646:
 /***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
@@ -538,7 +538,7 @@ module.exports = VideoDetails;
 
 /***/ }),
 
-/***/ 8867:
+/***/ 9467:
 /***/ ((module) => {
 
 /* global MediaElementPlayer */
@@ -713,7 +713,7 @@ module.exports = MediaDetails;
 
 /***/ }),
 
-/***/ 7697:
+/***/ 5836:
 /***/ ((module) => {
 
 var MediaDetails = wp.media.view.MediaDetails,
@@ -1068,15 +1068,15 @@ wp.media.video = {
 	}
 };
 
-media.model.PostMedia = __webpack_require__( 6615 );
-media.controller.AudioDetails = __webpack_require__( 6045 );
-media.controller.VideoDetails = __webpack_require__( 580 );
-media.view.MediaFrame.MediaDetails = __webpack_require__( 6445 );
-media.view.MediaFrame.AudioDetails = __webpack_require__( 5262 );
-media.view.MediaFrame.VideoDetails = __webpack_require__( 2075 );
-media.view.MediaDetails = __webpack_require__( 8867 );
-media.view.AudioDetails = __webpack_require__( 1764 );
-media.view.VideoDetails = __webpack_require__( 7697 );
+media.model.PostMedia = __webpack_require__( 241 );
+media.controller.AudioDetails = __webpack_require__( 1206 );
+media.controller.VideoDetails = __webpack_require__( 5039 );
+media.view.MediaFrame.MediaDetails = __webpack_require__( 741 );
+media.view.MediaFrame.AudioDetails = __webpack_require__( 175 );
+media.view.MediaFrame.VideoDetails = __webpack_require__( 8646 );
+media.view.MediaDetails = __webpack_require__( 9467 );
+media.view.AudioDetails = __webpack_require__( 3713 );
+media.view.VideoDetails = __webpack_require__( 5836 );
 
 })();
 

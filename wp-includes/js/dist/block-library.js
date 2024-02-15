@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 7078:
+/***/ 2321:
 /***/ ((module) => {
 
 /**
@@ -23,7 +23,7 @@ module.exports = function isBlockMetadataExperimental(metadata) {
 
 /***/ }),
 
-/***/ 3827:
+/***/ 1668:
 /***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -144,7 +144,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 4403:
+/***/ 5755:
 /***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -210,7 +210,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ 5619:
+/***/ 7734:
 /***/ ((module) => {
 
 "use strict";
@@ -290,7 +290,7 @@ module.exports = function equal(a, b) {
 
 /***/ }),
 
-/***/ 4793:
+/***/ 9681:
 /***/ ((module) => {
 
 var characterMap = {
@@ -2100,7 +2100,7 @@ const commentAuthorAvatar = (0,external_React_namespaceObject.createElement)(ext
 /* harmony default export */ const comment_author_avatar = (commentAuthorAvatar);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(4403);
+var classnames = __webpack_require__(5755);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","url"]
 const external_wp_url_namespaceObject = window["wp"]["url"];
@@ -2610,7 +2610,7 @@ const external_wp_blob_namespaceObject = window["wp"]["blob"];
 ;// CONCATENATED MODULE: external ["wp","notices"]
 const external_wp_notices_namespaceObject = window["wp"]["notices"];
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
-var dedupe = __webpack_require__(3827);
+var dedupe = __webpack_require__(1668);
 var dedupe_default = /*#__PURE__*/__webpack_require__.n(dedupe);
 ;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
 /**
@@ -18188,7 +18188,7 @@ const form_init = () => {
 };
 
 // EXTERNAL MODULE: ./node_modules/remove-accents/index.js
-var remove_accents = __webpack_require__(4793);
+var remove_accents = __webpack_require__(9681);
 var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 ;// CONCATENATED MODULE: external ["wp","dom"]
 const external_wp_dom_namespaceObject = window["wp"]["dom"];
@@ -56355,7 +56355,7 @@ function linearToNestedHeadingList(headingList) {
 }
 
 // EXTERNAL MODULE: ./node_modules/fast-deep-equal/es6/index.js
-var es6 = __webpack_require__(5619);
+var es6 = __webpack_require__(7734);
 var es6_default = /*#__PURE__*/__webpack_require__.n(es6);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/table-of-contents/hooks.js
 /**
@@ -60651,7 +60651,7 @@ const footnotes_init = () => {
 };
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/block-library/build-module/utils/is-block-metadata-experimental.js
-var is_block_metadata_experimental = __webpack_require__(7078);
+var is_block_metadata_experimental = __webpack_require__(2321);
 var is_block_metadata_experimental_default = /*#__PURE__*/__webpack_require__.n(is_block_metadata_experimental);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/index.js
 /**

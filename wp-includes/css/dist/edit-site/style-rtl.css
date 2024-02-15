@@ -755,15 +755,15 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 .dataviews-view-table-selection-checkbox label{
-  clip:rect(0, 0, 0, 0);
-  border:0;
   height:1px;
   margin:-1px;
   overflow:hidden;
   padding:0;
   position:absolute;
-  white-space:nowrap;
   width:1px;
+  clip:rect(0, 0, 0, 0);
+  border:0;
+  white-space:nowrap;
 }
 
 .dataviews-filters__custom-menu-radio-item-prefix{
@@ -2348,9 +2348,9 @@ body.is-fullscreen-mode .edit-site-list-header{
   color:#fff;
 }
 .edit-site-patterns__pattern-title .edit-site-patterns__pattern-icon{
-  fill:#fff;
   background:var(--wp-block-synced-color);
   border-radius:4px;
+  fill:#fff;
 }
 .edit-site-patterns__pattern-title .edit-site-patterns__pattern-lock-icon{
   fill:currentcolor;
@@ -3525,8 +3525,8 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   background:none;
 }
 .edit-site-sidebar-navigation-screen-details-footer .edit-site-sidebar-navigation-screen-details-footer__icon{
-  fill:#949494;
   margin-right:auto;
+  fill:#949494;
 }
 
 .sidebar-navigation__more-menu .components-button{
@@ -3586,10 +3586,10 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   display:contents;
 }
 .edit-site-sidebar-navigation-screen-page__status svg{
-  fill:#f0b849;
   height:16px;
   margin-left:8px;
   width:16px;
+  fill:#f0b849;
 }
 .edit-site-sidebar-navigation-screen-page__status.has-future-status svg,.edit-site-sidebar-navigation-screen-page__status.has-publish-status svg{
   fill:#4ab866;

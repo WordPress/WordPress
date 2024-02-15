@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 5619:
+/***/ 7734:
 /***/ ((module) => {
 
 "use strict";
@@ -81,7 +81,7 @@ module.exports = function equal(a, b) {
 
 /***/ }),
 
-/***/ 4821:
+/***/ 5373:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -104,20 +104,20 @@ exports.isValidElementType=function(a){return"string"===typeof a||"function"===t
 
 /***/ }),
 
-/***/ 338:
+/***/ 8529:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
 if (true) {
-  module.exports = __webpack_require__(4821);
+  module.exports = __webpack_require__(5373);
 } else {}
 
 
 /***/ }),
 
-/***/ 4793:
+/***/ 9681:
 /***/ ((module) => {
 
 var characterMap = {
@@ -605,7 +605,7 @@ module.exports.remove = removeAccents;
 
 /***/ }),
 
-/***/ 7308:
+/***/ 1030:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.9.1 - 02-11-2019 */
@@ -8411,7 +8411,7 @@ function isShallowEqual(a, b, fromIndex) {
 }
 
 // EXTERNAL MODULE: ./node_modules/remove-accents/index.js
-var remove_accents = __webpack_require__(4793);
+var remove_accents = __webpack_require__(9681);
 var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
@@ -9413,7 +9413,7 @@ function isPlainObject(o) {
 
 
 // EXTERNAL MODULE: ./node_modules/react-is/index.js
-var react_is = __webpack_require__(338);
+var react_is = __webpack_require__(8529);
 ;// CONCATENATED MODULE: external ["wp","hooks"]
 const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/process-block-type.js
@@ -11771,7 +11771,7 @@ function tokenize(input, options) {
 
 
 // EXTERNAL MODULE: ./node_modules/fast-deep-equal/es6/index.js
-var es6 = __webpack_require__(5619);
+var es6 = __webpack_require__(7734);
 var es6_default = /*#__PURE__*/__webpack_require__.n(es6);
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
 const external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
@@ -15012,7 +15012,7 @@ function divNormaliser(node) {
 }
 
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
-var showdown = __webpack_require__(7308);
+var showdown = __webpack_require__(1030);
 var showdown_default = /*#__PURE__*/__webpack_require__.n(showdown);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js
 /**

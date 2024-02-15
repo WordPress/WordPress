@@ -1,14 +1,14 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 5360:
+/***/ 6689:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createUndoManager: () => (/* binding */ createUndoManager)
 /* harmony export */ });
-/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9127);
+/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(923);
 /* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * WordPress dependencies
@@ -184,7 +184,7 @@ function createUndoManager() {
 
 /***/ }),
 
-/***/ 8294:
+/***/ 3758:
 /***/ (function(module) {
 
 /*!
@@ -1075,7 +1075,7 @@ module.exports.TinyEmitter = E;
 
 /***/ }),
 
-/***/ 7973:
+/***/ 1933:
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -2141,7 +2141,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
-/***/ 5538:
+/***/ 5760:
 /***/ (() => {
 
 /**
@@ -2194,7 +2194,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
 
 /***/ }),
 
-/***/ 9127:
+/***/ 923:
 /***/ ((module) => {
 
 "use strict";
@@ -3241,7 +3241,7 @@ function ifCondition(predicate) {
 /* harmony default export */ const if_condition = (ifCondition);
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
-var external_wp_isShallowEqual_ = __webpack_require__(9127);
+var external_wp_isShallowEqual_ = __webpack_require__(923);
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
 ;// CONCATENATED MODULE: external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
@@ -3743,7 +3743,7 @@ function useConstrainedTabbing() {
 /* harmony default export */ const use_constrained_tabbing = (useConstrainedTabbing);
 
 // EXTERNAL MODULE: ./node_modules/clipboard/dist/clipboard.js
-var dist_clipboard = __webpack_require__(8294);
+var dist_clipboard = __webpack_require__(3758);
 var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-copy-on-click/index.js
 /**
@@ -4559,10 +4559,10 @@ function useDragging({
 }
 
 // EXTERNAL MODULE: ./node_modules/mousetrap/mousetrap.js
-var mousetrap_mousetrap = __webpack_require__(7973);
+var mousetrap_mousetrap = __webpack_require__(1933);
 var mousetrap_default = /*#__PURE__*/__webpack_require__.n(mousetrap_mousetrap);
 // EXTERNAL MODULE: ./node_modules/mousetrap/plugins/global-bind/mousetrap-global-bind.js
-var mousetrap_global_bind = __webpack_require__(5538);
+var mousetrap_global_bind = __webpack_require__(5760);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-keyboard-shortcut/index.js
 /**
  * External dependencies
@@ -4737,7 +4737,7 @@ const useReducedMotion = () => useMediaQuery('(prefers-reduced-motion: reduce)')
 /* harmony default export */ const use_reduced_motion = (useReducedMotion);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/undo-manager/build-module/index.js
-var build_module = __webpack_require__(5360);
+var build_module = __webpack_require__(6689);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-state-with-history/index.js
 /**
  * WordPress dependencies

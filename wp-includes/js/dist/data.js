@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 1919:
+/***/ 66:
 /***/ ((module) => {
 
 
@@ -142,7 +142,7 @@ module.exports = deepmerge_1;
 
 /***/ }),
 
-/***/ 2167:
+/***/ 3249:
 /***/ ((module) => {
 
 
@@ -1363,7 +1363,7 @@ function applyMiddleware() {
 
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
-var equivalent_key_map = __webpack_require__(2167);
+var equivalent_key_map = __webpack_require__(3249);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 ;// CONCATENATED MODULE: external ["wp","reduxRoutine"]
 const external_wp_reduxRoutine_namespaceObject = window["wp"]["reduxRoutine"];
@@ -3525,7 +3525,7 @@ function is_plain_object_isPlainObject(o) {
 
 
 // EXTERNAL MODULE: ./node_modules/deepmerge/dist/cjs.js
-var cjs = __webpack_require__(1919);
+var cjs = __webpack_require__(66);
 var cjs_default = /*#__PURE__*/__webpack_require__.n(cjs);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/persistence/storage/object.js
 let objectStorage;

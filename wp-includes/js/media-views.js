@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 1517:
+/***/ 7145:
 /***/ ((module) => {
 
 var Selection = wp.media.model.Selection,
@@ -111,7 +111,7 @@ module.exports = CollectionAdd;
 
 /***/ }),
 
-/***/ 1817:
+/***/ 8612:
 /***/ ((module) => {
 
 var Library = wp.media.controller.Library,
@@ -280,7 +280,7 @@ module.exports = CollectionEdit;
 
 /***/ }),
 
-/***/ 2288:
+/***/ 5422:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -457,7 +457,7 @@ module.exports = Cropper;
 
 /***/ }),
 
-/***/ 6934:
+/***/ 9660:
 /***/ ((module) => {
 
 var Controller = wp.media.controller,
@@ -517,7 +517,7 @@ module.exports = CustomizeImageCropper;
 
 /***/ }),
 
-/***/ 7658:
+/***/ 5663:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -616,7 +616,7 @@ module.exports = EditImage;
 
 /***/ }),
 
-/***/ 9067:
+/***/ 4910:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -761,7 +761,7 @@ module.exports = Embed;
 
 /***/ }),
 
-/***/ 5095:
+/***/ 1169:
 /***/ ((module) => {
 
 var Attachment = wp.media.model.Attachment,
@@ -889,7 +889,7 @@ module.exports = FeaturedImage;
 
 /***/ }),
 
-/***/ 7323:
+/***/ 7127:
 /***/ ((module) => {
 
 var Selection = wp.media.model.Selection,
@@ -1003,7 +1003,7 @@ module.exports = GalleryAdd;
 
 /***/ }),
 
-/***/ 6328:
+/***/ 2038:
 /***/ ((module) => {
 
 var Library = wp.media.controller.Library,
@@ -1179,7 +1179,7 @@ module.exports = GalleryEdit;
 
 /***/ }),
 
-/***/ 3849:
+/***/ 705:
 /***/ ((module) => {
 
 var State = wp.media.controller.State,
@@ -1248,7 +1248,7 @@ module.exports = ImageDetails;
 
 /***/ }),
 
-/***/ 9024:
+/***/ 472:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -1550,7 +1550,7 @@ module.exports = Library;
 
 /***/ }),
 
-/***/ 3742:
+/***/ 8065:
 /***/ ((module) => {
 
 /**
@@ -1607,7 +1607,7 @@ module.exports = MediaLibrary;
 
 /***/ }),
 
-/***/ 4903:
+/***/ 9875:
 /***/ ((module) => {
 
 /**
@@ -1788,7 +1788,7 @@ module.exports = Region;
 
 /***/ }),
 
-/***/ 8493:
+/***/ 2275:
 /***/ ((module) => {
 
 var Library = wp.media.controller.Library,
@@ -1913,7 +1913,7 @@ module.exports = ReplaceImage;
 
 /***/ }),
 
-/***/ 5274:
+/***/ 6172:
 /***/ ((module) => {
 
 var Controller = wp.media.controller,
@@ -1969,7 +1969,7 @@ module.exports = SiteIconCropper;
 
 /***/ }),
 
-/***/ 5466:
+/***/ 6150:
 /***/ ((module) => {
 
 /**
@@ -2112,7 +2112,7 @@ module.exports = StateMachine;
 
 /***/ }),
 
-/***/ 5826:
+/***/ 5694:
 /***/ ((module) => {
 
 /**
@@ -2360,7 +2360,7 @@ module.exports = State;
 
 /***/ }),
 
-/***/ 3526:
+/***/ 4181:
 /***/ ((module) => {
 
 /**
@@ -2435,7 +2435,7 @@ module.exports = selectionSync;
 
 /***/ }),
 
-/***/ 8093:
+/***/ 2982:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -2529,7 +2529,7 @@ module.exports = AttachmentCompat;
 
 /***/ }),
 
-/***/ 4906:
+/***/ 7709:
 /***/ ((module) => {
 
 var $ = jQuery,
@@ -2613,7 +2613,7 @@ module.exports = AttachmentFilters;
 
 /***/ }),
 
-/***/ 2868:
+/***/ 7349:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -2731,7 +2731,7 @@ module.exports = All;
 
 /***/ }),
 
-/***/ 9663:
+/***/ 6472:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -2779,7 +2779,7 @@ module.exports = DateFilter;
 
 /***/ }),
 
-/***/ 7040:
+/***/ 1368:
 /***/ ((module) => {
 
 var l10n = wp.media.view.l10n,
@@ -2861,7 +2861,7 @@ module.exports = Uploaded;
 
 /***/ }),
 
-/***/ 5019:
+/***/ 4075:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -3458,7 +3458,7 @@ module.exports = Attachment;
 
 /***/ }),
 
-/***/ 7274:
+/***/ 6090:
 /***/ ((module) => {
 
 /* global ClipboardJS */
@@ -3743,7 +3743,7 @@ module.exports = Details;
 
 /***/ }),
 
-/***/ 4640:
+/***/ 5232:
 /***/ ((module) => {
 
 /**
@@ -3768,7 +3768,7 @@ module.exports = EditLibrary;
 
 /***/ }),
 
-/***/ 1009:
+/***/ 4593:
 /***/ ((module) => {
 
 /**
@@ -3794,7 +3794,7 @@ module.exports = EditSelection;
 
 /***/ }),
 
-/***/ 9254:
+/***/ 3443:
 /***/ ((module) => {
 
 /**
@@ -3819,7 +3819,7 @@ module.exports = Library;
 
 /***/ }),
 
-/***/ 9003:
+/***/ 3962:
 /***/ ((module) => {
 
 /**
@@ -3848,7 +3848,7 @@ module.exports = Selection;
 
 /***/ }),
 
-/***/ 8408:
+/***/ 8142:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -4318,7 +4318,7 @@ module.exports = Attachments;
 
 /***/ }),
 
-/***/ 9239:
+/***/ 6829:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -5063,7 +5063,7 @@ module.exports = AttachmentsBrowser;
 
 /***/ }),
 
-/***/ 1223:
+/***/ 3479:
 /***/ ((module) => {
 
 var Attachments = wp.media.view.Attachments,
@@ -5100,7 +5100,7 @@ module.exports = Selection;
 
 /***/ }),
 
-/***/ 4094:
+/***/ 168:
 /***/ ((module) => {
 
 var $ = Backbone.$,
@@ -5153,7 +5153,7 @@ module.exports = ButtonGroup;
 
 /***/ }),
 
-/***/ 3157:
+/***/ 846:
 /***/ ((module) => {
 
 /**
@@ -5246,7 +5246,7 @@ module.exports = Button;
 
 /***/ }),
 
-/***/ 7137:
+/***/ 7637:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -5348,7 +5348,7 @@ module.exports = Cropper;
 
 /***/ }),
 
-/***/ 5970:
+/***/ 6126:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -5406,7 +5406,7 @@ module.exports = EditImage;
 
 /***/ }),
 
-/***/ 5138:
+/***/ 5741:
 /***/ ((module) => {
 
 /**
@@ -5477,7 +5477,7 @@ module.exports = Embed;
 
 /***/ }),
 
-/***/ 1338:
+/***/ 2395:
 /***/ ((module) => {
 
 var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
@@ -5517,7 +5517,7 @@ module.exports = EmbedImage;
 
 /***/ }),
 
-/***/ 6959:
+/***/ 8232:
 /***/ ((module) => {
 
 var $ = jQuery,
@@ -5621,7 +5621,7 @@ module.exports = EmbedLink;
 
 /***/ }),
 
-/***/ 4848:
+/***/ 7327:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -5698,7 +5698,7 @@ module.exports = EmbedUrl;
 
 /***/ }),
 
-/***/ 6557:
+/***/ 718:
 /***/ ((module) => {
 
 var $ = jQuery;
@@ -6066,7 +6066,7 @@ module.exports = FocusManager;
 
 /***/ }),
 
-/***/ 3647:
+/***/ 1061:
 /***/ ((module) => {
 
 /**
@@ -6239,7 +6239,7 @@ module.exports = Frame;
 
 /***/ }),
 
-/***/ 9142:
+/***/ 5424:
 /***/ ((module) => {
 
 var Select = wp.media.view.MediaFrame.Select,
@@ -6424,7 +6424,7 @@ module.exports = ImageDetails;
 
 /***/ }),
 
-/***/ 9075:
+/***/ 4274:
 /***/ ((module) => {
 
 var Select = wp.media.view.MediaFrame.Select,
@@ -7180,7 +7180,7 @@ module.exports = Post;
 
 /***/ }),
 
-/***/ 8719:
+/***/ 455:
 /***/ ((module) => {
 
 var MediaFrame = wp.media.view.MediaFrame,
@@ -7369,7 +7369,7 @@ module.exports = Select;
 
 /***/ }),
 
-/***/ 7990:
+/***/ 170:
 /***/ ((module) => {
 
 /**
@@ -7410,7 +7410,7 @@ module.exports = Heading;
 
 /***/ }),
 
-/***/ 6217:
+/***/ 1982:
 /***/ ((module) => {
 
 /**
@@ -7441,7 +7441,7 @@ module.exports = Iframe;
 
 /***/ }),
 
-/***/ 7598:
+/***/ 2650:
 /***/ ((module) => {
 
 var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
@@ -7615,7 +7615,7 @@ module.exports = ImageDetails;
 
 /***/ }),
 
-/***/ 6644:
+/***/ 4338:
 /***/ ((module) => {
 
 /**
@@ -7648,7 +7648,7 @@ module.exports = Label;
 
 /***/ }),
 
-/***/ 4861:
+/***/ 2836:
 /***/ ((module) => {
 
 var Frame = wp.media.view.Frame,
@@ -8012,7 +8012,7 @@ module.exports = MediaFrame;
 
 /***/ }),
 
-/***/ 917:
+/***/ 9013:
 /***/ ((module) => {
 
 var MenuItem;
@@ -8088,7 +8088,7 @@ module.exports = MenuItem;
 
 /***/ }),
 
-/***/ 2596:
+/***/ 1:
 /***/ ((module) => {
 
 var MenuItem = wp.media.view.MenuItem,
@@ -8236,7 +8236,7 @@ module.exports = Menu;
 
 /***/ }),
 
-/***/ 3939:
+/***/ 2621:
 /***/ ((module) => {
 
 var $ = jQuery,
@@ -8463,7 +8463,7 @@ module.exports = Modal;
 
 /***/ }),
 
-/***/ 1993:
+/***/ 8815:
 /***/ ((module) => {
 
 /**
@@ -8567,7 +8567,7 @@ module.exports = PriorityList;
 
 /***/ }),
 
-/***/ 9484:
+/***/ 6327:
 /***/ ((module) => {
 
 /**
@@ -8598,7 +8598,7 @@ module.exports = RouterItem;
 
 /***/ }),
 
-/***/ 1562:
+/***/ 4783:
 /***/ ((module) => {
 
 var Menu = wp.media.view.Menu,
@@ -8647,7 +8647,7 @@ module.exports = Router;
 
 /***/ }),
 
-/***/ 4556:
+/***/ 2102:
 /***/ ((module) => {
 
 var Search;
@@ -8700,7 +8700,7 @@ module.exports = Search;
 
 /***/ }),
 
-/***/ 6191:
+/***/ 8282:
 /***/ ((module) => {
 
 var _n = wp.i18n._n,
@@ -8793,7 +8793,7 @@ module.exports = Selection;
 
 /***/ }),
 
-/***/ 859:
+/***/ 1915:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -8926,7 +8926,7 @@ module.exports = Settings;
 
 /***/ }),
 
-/***/ 2176:
+/***/ 7656:
 /***/ ((module) => {
 
 var Settings = wp.media.view.Settings,
@@ -9025,7 +9025,7 @@ module.exports = AttachmentDisplay;
 
 /***/ }),
 
-/***/ 6872:
+/***/ 7266:
 /***/ ((module) => {
 
 /**
@@ -9049,7 +9049,7 @@ module.exports = Gallery;
 
 /***/ }),
 
-/***/ 8488:
+/***/ 2356:
 /***/ ((module) => {
 
 /**
@@ -9073,7 +9073,7 @@ module.exports = Playlist;
 
 /***/ }),
 
-/***/ 9799:
+/***/ 1992:
 /***/ ((module) => {
 
 /**
@@ -9096,7 +9096,7 @@ module.exports = Sidebar;
 
 /***/ }),
 
-/***/ 5187:
+/***/ 443:
 /***/ ((module) => {
 
 var View = wp.media.view,
@@ -9146,7 +9146,7 @@ module.exports = SiteIconCropper;
 
 /***/ }),
 
-/***/ 8260:
+/***/ 7810:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -9209,7 +9209,7 @@ module.exports = SiteIconPreview;
 
 /***/ }),
 
-/***/ 2234:
+/***/ 9141:
 /***/ ((module) => {
 
 /**
@@ -9269,7 +9269,7 @@ module.exports = Spinner;
 
 /***/ }),
 
-/***/ 9510:
+/***/ 5275:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -9441,7 +9441,7 @@ module.exports = Toolbar;
 
 /***/ }),
 
-/***/ 7128:
+/***/ 397:
 /***/ ((module) => {
 
 var Select = wp.media.view.Toolbar.Select,
@@ -9485,7 +9485,7 @@ module.exports = Embed;
 
 /***/ }),
 
-/***/ 6850:
+/***/ 9458:
 /***/ ((module) => {
 
 var Toolbar = wp.media.view.Toolbar,
@@ -9562,7 +9562,7 @@ module.exports = Select;
 
 /***/ }),
 
-/***/ 841:
+/***/ 3674:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -9794,7 +9794,7 @@ module.exports = EditorUploader;
 
 /***/ }),
 
-/***/ 6353:
+/***/ 1753:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -9944,7 +9944,7 @@ module.exports = UploaderInline;
 
 /***/ }),
 
-/***/ 9411:
+/***/ 6442:
 /***/ ((module) => {
 
 /**
@@ -9967,7 +9967,7 @@ module.exports = UploaderStatusError;
 
 /***/ }),
 
-/***/ 2894:
+/***/ 8197:
 /***/ ((module) => {
 
 var View = wp.media.View,
@@ -10119,7 +10119,7 @@ module.exports = UploaderStatus;
 
 /***/ }),
 
-/***/ 5823:
+/***/ 8291:
 /***/ ((module) => {
 
 var $ = jQuery,
@@ -10237,7 +10237,7 @@ module.exports = UploaderWindow;
 
 /***/ }),
 
-/***/ 487:
+/***/ 4747:
 /***/ ((module) => {
 
 /**
@@ -10419,83 +10419,83 @@ media.transition = function( selector, sensitivity ) {
 	return deferred.promise();
 };
 
-media.controller.Region = __webpack_require__( 4903 );
-media.controller.StateMachine = __webpack_require__( 5466 );
-media.controller.State = __webpack_require__( 5826 );
+media.controller.Region = __webpack_require__( 9875 );
+media.controller.StateMachine = __webpack_require__( 6150 );
+media.controller.State = __webpack_require__( 5694 );
 
-media.selectionSync = __webpack_require__( 3526 );
-media.controller.Library = __webpack_require__( 9024 );
-media.controller.ImageDetails = __webpack_require__( 3849 );
-media.controller.GalleryEdit = __webpack_require__( 6328 );
-media.controller.GalleryAdd = __webpack_require__( 7323 );
-media.controller.CollectionEdit = __webpack_require__( 1817 );
-media.controller.CollectionAdd = __webpack_require__( 1517 );
-media.controller.FeaturedImage = __webpack_require__( 5095 );
-media.controller.ReplaceImage = __webpack_require__( 8493 );
-media.controller.EditImage = __webpack_require__( 7658 );
-media.controller.MediaLibrary = __webpack_require__( 3742 );
-media.controller.Embed = __webpack_require__( 9067 );
-media.controller.Cropper = __webpack_require__( 2288 );
-media.controller.CustomizeImageCropper = __webpack_require__( 6934 );
-media.controller.SiteIconCropper = __webpack_require__( 5274 );
+media.selectionSync = __webpack_require__( 4181 );
+media.controller.Library = __webpack_require__( 472 );
+media.controller.ImageDetails = __webpack_require__( 705 );
+media.controller.GalleryEdit = __webpack_require__( 2038 );
+media.controller.GalleryAdd = __webpack_require__( 7127 );
+media.controller.CollectionEdit = __webpack_require__( 8612 );
+media.controller.CollectionAdd = __webpack_require__( 7145 );
+media.controller.FeaturedImage = __webpack_require__( 1169 );
+media.controller.ReplaceImage = __webpack_require__( 2275 );
+media.controller.EditImage = __webpack_require__( 5663 );
+media.controller.MediaLibrary = __webpack_require__( 8065 );
+media.controller.Embed = __webpack_require__( 4910 );
+media.controller.Cropper = __webpack_require__( 5422 );
+media.controller.CustomizeImageCropper = __webpack_require__( 9660 );
+media.controller.SiteIconCropper = __webpack_require__( 6172 );
 
-media.View = __webpack_require__( 487 );
-media.view.Frame = __webpack_require__( 3647 );
-media.view.MediaFrame = __webpack_require__( 4861 );
-media.view.MediaFrame.Select = __webpack_require__( 8719 );
-media.view.MediaFrame.Post = __webpack_require__( 9075 );
-media.view.MediaFrame.ImageDetails = __webpack_require__( 9142 );
-media.view.Modal = __webpack_require__( 3939 );
-media.view.FocusManager = __webpack_require__( 6557 );
-media.view.UploaderWindow = __webpack_require__( 5823 );
-media.view.EditorUploader = __webpack_require__( 841 );
-media.view.UploaderInline = __webpack_require__( 6353 );
-media.view.UploaderStatus = __webpack_require__( 2894 );
-media.view.UploaderStatusError = __webpack_require__( 9411 );
-media.view.Toolbar = __webpack_require__( 9510 );
-media.view.Toolbar.Select = __webpack_require__( 6850 );
-media.view.Toolbar.Embed = __webpack_require__( 7128 );
-media.view.Button = __webpack_require__( 3157 );
-media.view.ButtonGroup = __webpack_require__( 4094 );
-media.view.PriorityList = __webpack_require__( 1993 );
-media.view.MenuItem = __webpack_require__( 917 );
-media.view.Menu = __webpack_require__( 2596 );
-media.view.RouterItem = __webpack_require__( 9484 );
-media.view.Router = __webpack_require__( 1562 );
-media.view.Sidebar = __webpack_require__( 9799 );
-media.view.Attachment = __webpack_require__( 5019 );
-media.view.Attachment.Library = __webpack_require__( 9254 );
-media.view.Attachment.EditLibrary = __webpack_require__( 4640 );
-media.view.Attachments = __webpack_require__( 8408 );
-media.view.Search = __webpack_require__( 4556 );
-media.view.AttachmentFilters = __webpack_require__( 4906 );
-media.view.DateFilter = __webpack_require__( 9663 );
-media.view.AttachmentFilters.Uploaded = __webpack_require__( 7040 );
-media.view.AttachmentFilters.All = __webpack_require__( 2868 );
-media.view.AttachmentsBrowser = __webpack_require__( 9239 );
-media.view.Selection = __webpack_require__( 6191 );
-media.view.Attachment.Selection = __webpack_require__( 9003 );
-media.view.Attachments.Selection = __webpack_require__( 1223 );
-media.view.Attachment.EditSelection = __webpack_require__( 1009 );
-media.view.Settings = __webpack_require__( 859 );
-media.view.Settings.AttachmentDisplay = __webpack_require__( 2176 );
-media.view.Settings.Gallery = __webpack_require__( 6872 );
-media.view.Settings.Playlist = __webpack_require__( 8488 );
-media.view.Attachment.Details = __webpack_require__( 7274 );
-media.view.AttachmentCompat = __webpack_require__( 8093 );
-media.view.Iframe = __webpack_require__( 6217 );
-media.view.Embed = __webpack_require__( 5138 );
-media.view.Label = __webpack_require__( 6644 );
-media.view.EmbedUrl = __webpack_require__( 4848 );
-media.view.EmbedLink = __webpack_require__( 6959 );
-media.view.EmbedImage = __webpack_require__( 1338 );
-media.view.ImageDetails = __webpack_require__( 7598 );
-media.view.Cropper = __webpack_require__( 7137 );
-media.view.SiteIconCropper = __webpack_require__( 5187 );
-media.view.SiteIconPreview = __webpack_require__( 8260 );
-media.view.EditImage = __webpack_require__( 5970 );
-media.view.Spinner = __webpack_require__( 2234 );
-media.view.Heading = __webpack_require__( 7990 );
+media.View = __webpack_require__( 4747 );
+media.view.Frame = __webpack_require__( 1061 );
+media.view.MediaFrame = __webpack_require__( 2836 );
+media.view.MediaFrame.Select = __webpack_require__( 455 );
+media.view.MediaFrame.Post = __webpack_require__( 4274 );
+media.view.MediaFrame.ImageDetails = __webpack_require__( 5424 );
+media.view.Modal = __webpack_require__( 2621 );
+media.view.FocusManager = __webpack_require__( 718 );
+media.view.UploaderWindow = __webpack_require__( 8291 );
+media.view.EditorUploader = __webpack_require__( 3674 );
+media.view.UploaderInline = __webpack_require__( 1753 );
+media.view.UploaderStatus = __webpack_require__( 8197 );
+media.view.UploaderStatusError = __webpack_require__( 6442 );
+media.view.Toolbar = __webpack_require__( 5275 );
+media.view.Toolbar.Select = __webpack_require__( 9458 );
+media.view.Toolbar.Embed = __webpack_require__( 397 );
+media.view.Button = __webpack_require__( 846 );
+media.view.ButtonGroup = __webpack_require__( 168 );
+media.view.PriorityList = __webpack_require__( 8815 );
+media.view.MenuItem = __webpack_require__( 9013 );
+media.view.Menu = __webpack_require__( 1 );
+media.view.RouterItem = __webpack_require__( 6327 );
+media.view.Router = __webpack_require__( 4783 );
+media.view.Sidebar = __webpack_require__( 1992 );
+media.view.Attachment = __webpack_require__( 4075 );
+media.view.Attachment.Library = __webpack_require__( 3443 );
+media.view.Attachment.EditLibrary = __webpack_require__( 5232 );
+media.view.Attachments = __webpack_require__( 8142 );
+media.view.Search = __webpack_require__( 2102 );
+media.view.AttachmentFilters = __webpack_require__( 7709 );
+media.view.DateFilter = __webpack_require__( 6472 );
+media.view.AttachmentFilters.Uploaded = __webpack_require__( 1368 );
+media.view.AttachmentFilters.All = __webpack_require__( 7349 );
+media.view.AttachmentsBrowser = __webpack_require__( 6829 );
+media.view.Selection = __webpack_require__( 8282 );
+media.view.Attachment.Selection = __webpack_require__( 3962 );
+media.view.Attachments.Selection = __webpack_require__( 3479 );
+media.view.Attachment.EditSelection = __webpack_require__( 4593 );
+media.view.Settings = __webpack_require__( 1915 );
+media.view.Settings.AttachmentDisplay = __webpack_require__( 7656 );
+media.view.Settings.Gallery = __webpack_require__( 7266 );
+media.view.Settings.Playlist = __webpack_require__( 2356 );
+media.view.Attachment.Details = __webpack_require__( 6090 );
+media.view.AttachmentCompat = __webpack_require__( 2982 );
+media.view.Iframe = __webpack_require__( 1982 );
+media.view.Embed = __webpack_require__( 5741 );
+media.view.Label = __webpack_require__( 4338 );
+media.view.EmbedUrl = __webpack_require__( 7327 );
+media.view.EmbedLink = __webpack_require__( 8232 );
+media.view.EmbedImage = __webpack_require__( 2395 );
+media.view.ImageDetails = __webpack_require__( 2650 );
+media.view.Cropper = __webpack_require__( 7637 );
+media.view.SiteIconCropper = __webpack_require__( 443 );
+media.view.SiteIconPreview = __webpack_require__( 7810 );
+media.view.EditImage = __webpack_require__( 6126 );
+media.view.Spinner = __webpack_require__( 9141 );
+media.view.Heading = __webpack_require__( 170 );
 
 })();
 

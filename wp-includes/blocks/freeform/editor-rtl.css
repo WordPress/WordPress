@@ -122,10 +122,10 @@
   padding:10px;
 }
 .wp-block-freeform.block-library-rich-text__tinymce .wpview .wpview-error{
-  word-wrap:break-word;
   border:1px solid #ddd;
   margin:0;
   padding:1em 0;
+  word-wrap:break-word;
 }
 .wp-block-freeform.block-library-rich-text__tinymce .wpview .wpview-error p{
   margin:0;

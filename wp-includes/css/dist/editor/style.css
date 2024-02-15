@@ -114,8 +114,8 @@
   margin:0 8px;
 }
 .editor-block-manager__checklist-item .block-editor-block-icon{
-  fill:#1e1e1e;
   margin-right:10px;
+  fill:#1e1e1e;
 }
 
 .editor-block-manager__results{
@@ -944,9 +944,9 @@
   color:#757575;
 }
 .editor-post-saved-state svg{
-  fill:currentColor;
   display:inline-block;
   flex:0 0 auto;
+  fill:currentColor;
   margin-right:8px;
 }
 @media (min-width:600px){

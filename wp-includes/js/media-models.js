@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 7727:
+/***/ 3343:
 /***/ ((module) => {
 
 var $ = Backbone.$,
@@ -177,7 +177,7 @@ module.exports = Attachment;
 
 /***/ }),
 
-/***/ 6940:
+/***/ 8266:
 /***/ ((module) => {
 
 /**
@@ -785,7 +785,7 @@ module.exports = Attachments;
 
 /***/ }),
 
-/***/ 5927:
+/***/ 9104:
 /***/ ((module) => {
 
 /**
@@ -946,7 +946,7 @@ module.exports = PostImage;
 
 /***/ }),
 
-/***/ 4009:
+/***/ 1288:
 /***/ ((module) => {
 
 var Attachments = wp.media.model.Attachments,
@@ -1257,7 +1257,7 @@ module.exports = Query;
 
 /***/ }),
 
-/***/ 6584:
+/***/ 4134:
 /***/ ((module) => {
 
 var Attachments = wp.media.model.Attachments,
@@ -1460,12 +1460,12 @@ l10n = media.model.l10n = window._wpMediaModelsL10n || {};
 media.model.settings = l10n.settings || {};
 delete l10n.settings;
 
-Attachment = media.model.Attachment = __webpack_require__( 7727 );
-Attachments = media.model.Attachments = __webpack_require__( 6940 );
+Attachment = media.model.Attachment = __webpack_require__( 3343 );
+Attachments = media.model.Attachments = __webpack_require__( 8266 );
 
-media.model.Query = __webpack_require__( 4009 );
-media.model.PostImage = __webpack_require__( 5927 );
-media.model.Selection = __webpack_require__( 6584 );
+media.model.Query = __webpack_require__( 1288 );
+media.model.PostImage = __webpack_require__( 9104 );
+media.model.Selection = __webpack_require__( 4134 );
 
 /**
  * ========================================================================

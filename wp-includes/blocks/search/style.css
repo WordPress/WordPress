@@ -6,9 +6,9 @@
   line-height:0;
 }
 .wp-block-search__button svg{
-  fill:currentColor;
   min-height:24px;
   min-width:24px;
+  fill:currentColor;
   vertical-align:text-bottom;
 }
 

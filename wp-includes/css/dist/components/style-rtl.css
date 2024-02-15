@@ -442,15 +442,15 @@ p+.components-button.is-tertiary{
   border-color:var(--wp-admin-theme-color);
 }
 .components-checkbox-control__input[type=checkbox][aria-checked=mixed]:before{
-  speak:none;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
   content:"";
   display:inline-block;
   float:right;
   font:normal 30px/1 dashicons;
   vertical-align:middle;
   width:16px;
+  speak:none;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 @media (min-width:782px){
   .components-checkbox-control__input[type=checkbox][aria-checked=mixed]:before{
@@ -566,7 +566,7 @@ svg.components-checkbox-control__checked,svg.components-checkbox-control__indete
 }
 
 .components-circular-option-picker__option-wrapper:before{
-  background:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' fill='none'%3E%3Cpath fill='%23555D65' d='M6 8V6H4v2h2zm2 0V6h2v2H8zm2 8H8v-2h2v2zm2 0v-2h2v2h-2zm0 2v-2h-2v2H8v2h2v-2h2zm2 0v2h-2v-2h2zm2 0h-2v-2h2v2z'/%3E%3Cpath fill='%23555D65' fill-rule='evenodd' d='M18 18h2v-2h-2v-2h2v-2h-2v-2h2V8h-2v2h-2V8h-2v2h2v2h-2v2h2v2h2v2zm-2-4v-2h2v2h-2z' clip-rule='evenodd'/%3E%3Cpath fill='%23555D65' d='M18 18v2h-2v-2h2z'/%3E%3Cpath fill='%23555D65' fill-rule='evenodd' d='M8 10V8H6v2H4v2h2v2H4v2h2v2H4v2h2v2H4v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2v2h-2V4h-2v2h-2V4h-2v2h-2V4h-2v2h2v2h-2v2H8zm0 2v-2H6v2h2zm2 0v-2h2v2h-2zm0 2v-2H8v2H6v2h2v2H6v2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h-2v2h-2V6h-2v2h-2v2h2v2h-2v2h-2z' clip-rule='evenodd'/%3E%3Cpath fill='%23555D65' fill-rule='evenodd' d='M4 0H2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2h2V0h-2v2h-2V0h-2v2h-2V0h-2v2h-2V0h-2v2h-2V0h-2v2H8V0H6v2H4V0zm0 4V2H2v2h2zm2 0V2h2v2H6zm0 2V4H4v2H2v2h2v2H2v2h2v2H2v2h2v2H2v2h2v2H2v2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2h-2v2h-2V2h-2v2h-2V2h-2v2h-2V2h-2v2H8v2H6z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' fill='none'%3E%3Cpath fill='%23555D65' d='M6 8V6H4v2zm2 0V6h2v2zm2 8H8v-2h2zm2 0v-2h2v2zm0 2v-2h-2v2H8v2h2v-2zm2 0v2h-2v-2zm2 0h-2v-2h2z'/%3E%3Cpath fill='%23555D65' fill-rule='evenodd' d='M18 18h2v-2h-2v-2h2v-2h-2v-2h2V8h-2v2h-2V8h-2v2h2v2h-2v2h2v2h2zm-2-4v-2h2v2z' clip-rule='evenodd'/%3E%3Cpath fill='%23555D65' d='M18 18v2h-2v-2z'/%3E%3Cpath fill='%23555D65' fill-rule='evenodd' d='M8 10V8H6v2H4v2h2v2H4v2h2v2H4v2h2v2H4v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2v2h-2V4h-2v2h-2V4h-2v2h-2V4h-2v2h2v2h-2v2zm0 2v-2H6v2zm2 0v-2h2v2zm0 2v-2H8v2H6v2h2v2H6v2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h-2v2h-2V6h-2v2h-2v2h2v2h-2v2z' clip-rule='evenodd'/%3E%3Cpath fill='%23555D65' fill-rule='evenodd' d='M4 0H2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v2H0v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2h2V0h-2v2h-2V0h-2v2h-2V0h-2v2h-2V0h-2v2h-2V0h-2v2H8V0H6v2H4zm0 4V2H2v2zm2 0V2h2v2zm0 2V4H4v2H2v2h2v2H2v2h2v2H2v2h2v2H2v2h2v2H2v2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2v2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2h-2v2h-2V2h-2v2h-2V2h-2v2h-2V2h-2v2H8v2z' clip-rule='evenodd'/%3E%3C/svg%3E");
   border-radius:50%;
   bottom:1px;
   content:"";
@@ -1036,9 +1036,9 @@ body.is-dragging-components-draggable{
 }
 
 .components-drop-zone__content-icon{
-  fill:currentColor;
   line-height:0;
   margin:0 auto 8px;
+  fill:currentColor;
   pointer-events:none;
 }
 
@@ -1977,12 +1977,12 @@ body.is-dragging-components-draggable{
   box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
 }
 .components-panel__body-toggle.components-button .components-panel__arrow{
-  fill:currentColor;
   color:#1e1e1e;
   left:16px;
   position:absolute;
   top:50%;
   transform:translateY(-50%);
+  fill:currentColor;
   transition:color .1s ease-in-out;
 }
 @media (prefers-reduced-motion:reduce){
@@ -2036,20 +2036,20 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 
 .components-placeholder.components-placeholder{
+  box-sizing:border-box;
+  color:#1e1e1e;
+  font-size:13px;
+  margin:0;
+  padding:1em;
+  position:relative;
+  text-align:right;
+  width:100%;
   -moz-font-smoothing:subpixel-antialiased;
   -webkit-font-smoothing:subpixel-antialiased;
   background-color:#fff;
   border-radius:2px;
   box-shadow:inset 0 0 0 1px #1e1e1e;
-  box-sizing:border-box;
-  color:#1e1e1e;
-  font-size:13px;
-  margin:0;
   outline:1px solid #0000;
-  padding:1em;
-  position:relative;
-  text-align:right;
-  width:100%;
 }
 @supports (position:sticky){
   .components-placeholder.components-placeholder{
@@ -2076,8 +2076,8 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   margin-bottom:16px;
 }
 .components-placeholder__label .block-editor-block-icon,.components-placeholder__label .dashicon,.components-placeholder__label>svg{
-  fill:currentColor;
   margin-left:12px;
+  fill:currentColor;
 }
 @media (forced-colors:active){
   .components-placeholder__label .block-editor-block-icon,.components-placeholder__label .dashicon,.components-placeholder__label>svg{
@@ -2237,15 +2237,15 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 
 .components-placeholder__illustration{
-  stroke:currentColor;
   box-sizing:initial;
   height:100%;
-  opacity:.25;
   position:absolute;
   right:50%;
   top:50%;
   transform:translate(50%, -50%);
   width:100%;
+  stroke:currentColor;
+  opacity:.25;
 }
 
 .components-popover{
@@ -2623,8 +2623,8 @@ body.lockscroll,html.lockscroll{
 }
 
 .components-select-control__input{
-  -webkit-tap-highlight-color:rgba(0, 0, 0, 0) !important;
   outline:0;
+  -webkit-tap-highlight-color:rgba(0, 0, 0, 0) !important;
 }
 
 @media (max-width:782px){
@@ -2836,8 +2836,8 @@ body.lockscroll,html.lockscroll{
   display:flex;
 }
 .components-tip svg{
-  fill:#f0b849;
   align-self:center;
+  fill:#f0b849;
   flex-shrink:0;
   margin-left:16px;
 }

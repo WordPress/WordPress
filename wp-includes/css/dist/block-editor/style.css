@@ -326,9 +326,9 @@ iframe[name=editor-canvas].has-editor-padding{
   padding:12px 0 12px 32px;
 }
 .block-editor-block-lock-modal__checklist-item .block-editor-block-lock-modal__lock-icon{
-  fill:#1e1e1e;
   flex-shrink:0;
   margin-right:12px;
+  fill:#1e1e1e;
 }
 .block-editor-block-lock-modal__checklist-item:hover{
   background-color:#f0f0f0;
@@ -2524,8 +2524,8 @@ iframe[name=editor-canvas].has-editor-padding{
   max-width:255px;
 }
 .block-editor-media-flow__error .components-with-notices-ui .components-notice__content{
-  word-wrap:break-word;
   overflow:hidden;
+  word-wrap:break-word;
 }
 .block-editor-media-flow__error .components-with-notices-ui .components-notice__dismiss{
   position:absolute;
@@ -2588,9 +2588,8 @@ iframe[name=editor-canvas].has-editor-padding{
 }
 
 .block-editor-responsive-block-control .components-base-control__help{
-  clip:rect(1px, 1px, 1px, 1px);
-  word-wrap:normal !important;
   border:0;
+  clip:rect(1px, 1px, 1px, 1px);
   -webkit-clip-path:inset(50%);
           clip-path:inset(50%);
   height:1px;
@@ -2599,6 +2598,7 @@ iframe[name=editor-canvas].has-editor-padding{
   padding:0;
   position:absolute;
   width:1px;
+  word-wrap:normal !important;
 }
 
 .components-popover.block-editor-rich-text__inline-format-toolbar{
@@ -3243,11 +3243,11 @@ iframe[name=editor-canvas].has-editor-padding{
   width:0 !important;
 }
 .show-icon-labels .block-editor-block-parent-selector .block-editor-block-parent-selector__button{
-  text-wrap:nowrap;
   border-bottom-right-radius:0;
   border-top-right-radius:0;
   padding-left:12px;
   padding-right:12px;
+  text-wrap:nowrap;
 }
 .show-icon-labels .block-editor-block-parent-selector .block-editor-block-parent-selector__button .block-editor-block-icon{
   width:0;
@@ -3666,9 +3666,9 @@ iframe[name=editor-canvas].has-editor-padding{
 }
 
 .block-editor-inserter__quick-inserter-patterns .block-editor-block-patterns-list{
-  grid-gap:8px;
   display:grid;
   grid-template-columns:1fr 1fr;
+  grid-gap:8px;
 }
 .block-editor-inserter__quick-inserter-patterns .block-editor-block-patterns-list .block-editor-block-patterns-list__list-item{
   margin-bottom:0;
@@ -3735,8 +3735,8 @@ iframe[name=editor-canvas].has-editor-padding{
   width:380px;
 }
 .block-editor-block-patterns-explorer .block-editor-block-patterns-list{
-  grid-gap:32px;
   display:grid;
+  grid-gap:32px;
   grid-template-columns:repeat(1, 1fr);
   margin-bottom:16px;
 }

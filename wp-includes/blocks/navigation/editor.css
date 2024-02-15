@@ -249,8 +249,8 @@
   padding:0 6px 0 0;
 }
 .wp-block-navigation-placeholder__actions__indicator svg{
-  fill:currentColor;
   margin-right:4px;
+  fill:currentColor;
 }
 
 .wp-block-navigation .components-placeholder.is-medium .components-placeholder__fieldset{

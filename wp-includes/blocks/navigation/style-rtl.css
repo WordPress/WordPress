@@ -1,10 +1,10 @@
 .wp-block-navigation{
+  position:relative;
   --navigation-layout-justification-setting:flex-start;
   --navigation-layout-direction:row;
   --navigation-layout-wrap:wrap;
   --navigation-layout-justify:flex-start;
   --navigation-layout-align:center;
-  position:relative;
 }
 .wp-block-navigation ul{
   margin-bottom:0;
@@ -57,8 +57,8 @@
   width:.6em;
 }
 .wp-block-navigation .wp-block-navigation__submenu-icon svg{
-  stroke:currentColor;
   display:inline-block;
+  stroke:currentColor;
   height:inherit;
   margin-top:.075em;
   width:inherit;

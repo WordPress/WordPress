@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 124:
+/***/ 2058:
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -495,7 +495,7 @@ function memize(fn, options) {
 
 
 // EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(124);
+var sprintf = __webpack_require__(2058);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/sprintf.js
 /**

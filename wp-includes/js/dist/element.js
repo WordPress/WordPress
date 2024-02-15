@@ -2,21 +2,21 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 4470:
+/***/ 4140:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 
-var m = __webpack_require__(1850);
+var m = __webpack_require__(5795);
 if (true) {
-  exports.s = m.createRoot;
-  exports.a = m.hydrateRoot;
+  exports.H = m.createRoot;
+  exports.c = m.hydrateRoot;
 } else { var i; }
 
 
 /***/ }),
 
-/***/ 1850:
+/***/ 5795:
 /***/ ((module) => {
 
 module.exports = window["ReactDOM"];
@@ -102,12 +102,12 @@ __webpack_require__.d(__webpack_exports__, {
   createInterpolateElement: () => (/* reexport */ create_interpolate_element),
   createPortal: () => (/* reexport */ external_ReactDOM_.createPortal),
   createRef: () => (/* reexport */ external_React_namespaceObject.createRef),
-  createRoot: () => (/* reexport */ client/* createRoot */.s),
+  createRoot: () => (/* reexport */ client/* createRoot */.H),
   findDOMNode: () => (/* reexport */ external_ReactDOM_.findDOMNode),
   flushSync: () => (/* reexport */ external_ReactDOM_.flushSync),
   forwardRef: () => (/* reexport */ external_React_namespaceObject.forwardRef),
   hydrate: () => (/* reexport */ external_ReactDOM_.hydrate),
-  hydrateRoot: () => (/* reexport */ client/* hydrateRoot */.a),
+  hydrateRoot: () => (/* reexport */ client/* hydrateRoot */.c),
   isEmptyElement: () => (/* reexport */ isEmptyElement),
   isValidElement: () => (/* reexport */ external_React_namespaceObject.isValidElement),
   lazy: () => (/* reexport */ external_React_namespaceObject.lazy),
@@ -710,9 +710,9 @@ function switchChildrenNodeName(children, nodeName) {
 }
 
 // EXTERNAL MODULE: external "ReactDOM"
-var external_ReactDOM_ = __webpack_require__(1850);
+var external_ReactDOM_ = __webpack_require__(5795);
 // EXTERNAL MODULE: ./node_modules/react-dom/client.js
-var client = __webpack_require__(4470);
+var client = __webpack_require__(4140);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
 /**
  * External dependencies
