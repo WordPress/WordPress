@@ -1076,7 +1076,7 @@ function wp_recovery_mode_nag() {
  *
  * @since 5.5.0
  *
- * @param string $type The type of update being checked: 'theme' or 'plugin'.
+ * @param string $type The type of update being checked: Either 'theme' or 'plugin'.
  * @return bool True if auto-updates are enabled for `$type`, false otherwise.
  */
 function wp_is_auto_update_enabled_for_type( $type ) {
@@ -1116,7 +1116,7 @@ function wp_is_auto_update_enabled_for_type( $type ) {
  *
  * @since 5.6.0
  *
- * @param string    $type   The type of update being checked: 'theme' or 'plugin'.
+ * @param string    $type   The type of update being checked: Either 'theme' or 'plugin'.
  * @param bool|null $update Whether to update. The value of null is internally used
  *                          to detect whether nothing has hooked into this filter.
  * @param object    $item   The update offer.

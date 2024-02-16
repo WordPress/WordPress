@@ -937,10 +937,10 @@ final class WP_Customize_Nav_Menus {
 	 * @param array $postarr {
 	 *     Post array. Note that post_status is overridden to be `auto-draft`.
 	 *
-	 * @var string $post_title   Post title. Required.
-	 * @var string $post_type    Post type. Required.
-	 * @var string $post_name    Post name.
-	 * @var string $post_content Post content.
+	 *     @type string $post_title   Post title. Required.
+	 *     @type string $post_type    Post type. Required.
+	 *     @type string $post_name    Post name.
+	 *     @type string $post_content Post content.
 	 * }
 	 * @return WP_Post|WP_Error Inserted auto-draft post object or error.
 	 */

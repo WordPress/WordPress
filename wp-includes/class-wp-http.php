@@ -611,7 +611,7 @@ class WP_Http {
 	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
-	 *                        A WP_Error instance upon error.
+	 *                        A WP_Error instance upon error. See WP_Http::response() for details.
 	 */
 	public function post( $url, $args = array() ) {
 		$defaults    = array( 'method' => 'POST' );
@@ -629,7 +629,7 @@ class WP_Http {
 	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
-	 *                        A WP_Error instance upon error.
+	 *                        A WP_Error instance upon error. See WP_Http::response() for details.
 	 */
 	public function get( $url, $args = array() ) {
 		$defaults    = array( 'method' => 'GET' );
@@ -647,7 +647,7 @@ class WP_Http {
 	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
-	 *                        A WP_Error instance upon error.
+	 *                        A WP_Error instance upon error. See WP_Http::response() for details.
 	 */
 	public function head( $url, $args = array() ) {
 		$defaults    = array( 'method' => 'HEAD' );

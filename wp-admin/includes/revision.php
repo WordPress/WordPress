@@ -85,7 +85,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		 * @param string  $field          The current revision field.
 		 * @param WP_Post $compare_from   The revision post object to compare to or from.
 		 * @param string  $context        The context of whether the current revision is the old
-		 *                                or the new one. Values are 'to' or 'from'.
+		 *                                or the new one. Either 'to' or 'from'.
 		 */
 		$content_from = $compare_from ? apply_filters( "_wp_post_revision_field_{$field}", $compare_from->$field, $field, $compare_from, 'from' ) : '';
 

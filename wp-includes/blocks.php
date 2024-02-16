@@ -1757,6 +1757,7 @@ function block_version( $content ) {
  * @param array  $style_properties Array containing the properties of the style name, label,
  *                                 style_handle (name of the stylesheet to be enqueued),
  *                                 inline_style (string containing the CSS to be added).
+ *                                 See WP_Block_Styles_Registry::register().
  * @return bool True if the block style was registered with success and false otherwise.
  */
 function register_block_style( $block_name, $style_properties ) {

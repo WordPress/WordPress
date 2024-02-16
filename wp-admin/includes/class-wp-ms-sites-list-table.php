@@ -302,7 +302,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	/**
 	 * @global string $mode List table view mode.
 	 *
-	 * @param string $which The location of the pagination nav markup: 'top' or 'bottom'.
+	 * @param string $which The location of the pagination nav markup: Either 'top' or 'bottom'.
 	 */
 	protected function pagination( $which ) {
 		global $mode;
@@ -319,7 +319,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
+	 * @param string $which The location of the extra table nav markup: Either 'top' or 'bottom'.
 	 */
 	protected function extra_tablenav( $which ) {
 		?>
@@ -333,7 +333,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			 *
 			 * @since 5.3.0
 			 *
-			 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
+			 * @param string $which The location of the extra table nav markup: Either 'top' or 'bottom'.
 			 */
 			do_action( 'restrict_manage_sites', $which );
 
@@ -353,7 +353,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		 *
 		 * @since 5.3.0
 		 *
-		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
+		 * @param string $which The location of the extra table nav markup: Either 'top' or 'bottom'.
 		 */
 		do_action( 'manage_sites_extra_tablenav', $which );
 	}

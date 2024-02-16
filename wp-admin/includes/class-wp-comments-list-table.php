@@ -437,7 +437,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @since 5.6.0 The `$which` parameter was added.
 		 *
 		 * @param string $comment_status The comment status name. Default 'All'.
-		 * @param string $which          The location of the extra table nav markup: 'top' or 'bottom'.
+		 * @param string $which          The location of the extra table nav markup: Either 'top' or 'bottom'.
 		 */
 		do_action( 'manage_comments_nav', $comment_status, $which );
 

@@ -1319,7 +1319,7 @@ function _wp_render_title_tag() {
  * @param string $sep         Optional. How to separate the various items within the page title.
  *                            Default '&raquo;'.
  * @param bool   $display     Optional. Whether to display or retrieve title. Default true.
- * @param string $seplocation Optional. Location of the separator ('left' or 'right').
+ * @param string $seplocation Optional. Location of the separator (either 'left' or 'right').
  * @return string|void String when `$display` is false, nothing otherwise.
  */
 function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
@@ -1439,7 +1439,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 *
 	 * @param string $title       Page title.
 	 * @param string $sep         Title separator.
-	 * @param string $seplocation Location of the separator ('left' or 'right').
+	 * @param string $seplocation Location of the separator (either 'left' or 'right').
 	 */
 	$title = apply_filters( 'wp_title', $title, $sep, $seplocation );
 
@@ -3463,7 +3463,7 @@ function wp_resource_hints() {
 		$unique_urls = array();
 
 		/**
-		 * Filters domains and URLs for resource hints of relation type.
+		 * Filters domains and URLs for resource hints of the given relation type.
 		 *
 		 * @since 4.6.0
 		 * @since 4.7.0 The `$urls` parameter accepts arrays of specific HTML attributes
@@ -3483,8 +3483,8 @@ function wp_resource_hints() {
 		 *         @type string $type        Type of the resource (`text/html`, `text/css`, etc).
 		 *     }
 		 * }
-		 * @param string $relation_type The relation type the URLs are printed for,
-		 *                              e.g. 'preconnect' or 'prerender'.
+		 * @param string $relation_type The relation type the URLs are printed for. One of
+		 *                              'dns-prefetch', 'preconnect', 'prefetch', or 'prerender'.
 		 */
 		$urls = apply_filters( 'wp_resource_hints', $urls, $relation_type );
 
@@ -3757,12 +3757,12 @@ function user_can_richedit() {
 /**
  * Finds out which editor should be displayed by default.
  *
- * Works out which of the two editors to display as the current editor for a
+ * Works out which of the editors to display as the current editor for a
  * user. The 'html' setting is for the "Text" editor tab.
  *
  * @since 2.5.0
  *
- * @return string Either 'tinymce', or 'html', or 'test'
+ * @return string Either 'tinymce', 'html', or 'test'
  */
 function wp_default_editor() {
 	$r = user_can_richedit() ? 'tinymce' : 'html'; // Defaults.

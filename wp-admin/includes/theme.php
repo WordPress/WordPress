@@ -448,7 +448,7 @@ function get_theme_feature_list( $api = true ) {
  *
  * @since 2.8.0
  *
- * @param string       $action API action to perform: 'query_themes', 'theme_information',
+ * @param string       $action API action to perform: Accepts 'query_themes', 'theme_information',
  *                             'hot_tags' or 'feature_list'.
  * @param array|object $args   {
  *     Optional. Array or object of arguments to serialize for the Themes API. Default empty array.

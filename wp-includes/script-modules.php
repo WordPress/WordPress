@@ -44,7 +44,7 @@ function wp_script_modules(): WP_Script_Modules {
  * @param array             $deps     {
  *                                        Optional. List of dependencies.
  *
- *                                        @type string|array $0... {
+ *                                        @type string|array ...$0 {
  *                                            An array of script module identifiers of the dependencies of this script
  *                                            module. The dependencies can be strings or arrays. If they are arrays,
  *                                            they need an `id` key with the script module identifier, and can contain
@@ -81,7 +81,7 @@ function wp_register_script_module( string $id, string $src, array $deps = array
  * @param array             $deps     {
  *                                        Optional. List of dependencies.
  *
- *                                        @type string|array $0... {
+ *                                        @type string|array ...$0 {
  *                                            An array of script module identifiers of the dependencies of this script
  *                                            module. The dependencies can be strings or arrays. If they are arrays,
  *                                            they need an `id` key with the script module identifier, and can contain

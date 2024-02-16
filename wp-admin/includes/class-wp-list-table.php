@@ -564,7 +564,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string $which The location of the bulk actions: 'top' or 'bottom'.
+	 * @param string $which The location of the bulk actions: Either 'top' or 'bottom'.
 	 *                      This is designated as optional for backward compatibility.
 	 */
 	protected function bulk_actions( $which = '' ) {
@@ -1012,7 +1012,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string $which
+	 * @param string $which The location of the pagination: Either 'top' or 'bottom'.
 	 */
 	protected function pagination( $which ) {
 		if ( empty( $this->_pagination_args ) ) {
@@ -1663,7 +1663,7 @@ class WP_List_Table {
 	 * Generates the table navigation above or below the table
 	 *
 	 * @since 3.1.0
-	 * @param string $which
+	 * @param string $which The location of the navigation: Either 'top' or 'bottom'.
 	 */
 	protected function display_tablenav( $which ) {
 		if ( 'top' === $which ) {

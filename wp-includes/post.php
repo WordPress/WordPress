@@ -1600,7 +1600,7 @@ function get_post_type_object( $post_type ) {
  *
  * @param array|string $args     Optional. An array of key => value arguments to match against
  *                               the post type objects. Default empty array.
- * @param string       $output   Optional. The type of output to return. Accepts post type 'names'
+ * @param string       $output   Optional. The type of output to return. Either 'names'
  *                               or 'objects'. Default 'names'.
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements

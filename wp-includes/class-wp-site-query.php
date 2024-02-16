@@ -158,11 +158,11 @@ class WP_Site_Query {
 	 *     @type string          $path                   Limit results to those affiliated with a given path. Default empty.
 	 *     @type string[]        $path__in               Array of paths to include affiliated sites for. Default empty.
 	 *     @type string[]        $path__not_in           Array of paths to exclude affiliated sites for. Default empty.
-	 *     @type int             $public                 Limit results to public sites. Accepts '1' or '0'. Default empty.
-	 *     @type int             $archived               Limit results to archived sites. Accepts '1' or '0'. Default empty.
-	 *     @type int             $mature                 Limit results to mature sites. Accepts '1' or '0'. Default empty.
-	 *     @type int             $spam                   Limit results to spam sites. Accepts '1' or '0'. Default empty.
-	 *     @type int             $deleted                Limit results to deleted sites. Accepts '1' or '0'. Default empty.
+	 *     @type int             $public                 Limit results to public sites. Accepts 1 or 0. Default empty.
+	 *     @type int             $archived               Limit results to archived sites. Accepts 1 or 0. Default empty.
+	 *     @type int             $mature                 Limit results to mature sites. Accepts 1 or 0. Default empty.
+	 *     @type int             $spam                   Limit results to spam sites. Accepts 1 or 0. Default empty.
+	 *     @type int             $deleted                Limit results to deleted sites. Accepts 1 or 0. Default empty.
 	 *     @type int             $lang_id                Limit results to a language ID. Default empty.
 	 *     @type string[]        $lang__in               Array of language IDs to include affiliated sites for. Default empty.
 	 *     @type string[]        $lang__not_in           Array of language IDs to exclude affiliated sites for. Default empty.

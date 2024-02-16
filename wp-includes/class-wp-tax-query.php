@@ -202,7 +202,7 @@ class WP_Tax_Query {
 	 * @since 4.1.0
 	 *
 	 * @param string $relation Raw relation key from the query argument.
-	 * @return string Sanitized relation ('AND' or 'OR').
+	 * @return string Sanitized relation. Either 'AND' or 'OR'.
 	 */
 	public function sanitize_relation( $relation ) {
 		if ( 'OR' === strtoupper( $relation ) ) {

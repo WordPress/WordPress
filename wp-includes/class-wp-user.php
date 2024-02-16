@@ -191,7 +191,7 @@ class WP_User {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string     $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
+	 * @param string     $field The field to query against: Accepts 'id', 'ID', 'slug', 'email' or 'login'.
 	 * @param string|int $value The field value.
 	 * @return object|false Raw user object.
 	 */
