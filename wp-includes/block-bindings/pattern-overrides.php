@@ -39,6 +39,7 @@ function _register_block_bindings_pattern_overrides_source() {
 		array(
 			'label'              => _x( 'Pattern Overrides', 'block bindings source' ),
 			'get_value_callback' => '_block_bindings_pattern_overrides_get_value',
+			'uses_context'       => array( 'pattern/overrides' ),
 		)
 	);
 }

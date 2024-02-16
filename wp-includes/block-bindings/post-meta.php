@@ -13,22 +13,20 @@
  * @since 6.5.0
  * @access private
  *
- * @param array $source_args Array containing source arguments used to look up the override value.
- *                           Example: array( "key" => "foo" ).
+ * @param array    $source_args    Array containing source arguments used to look up the override value.
+ *                                 Example: array( "key" => "foo" ).
+ * @param WP_Block $block_instance The block instance.
  * @return mixed The value computed for the source.
  */
-function _block_bindings_post_meta_get_value( array $source_args ) {
-	if ( ! isset( $source_args['key'] ) ) {
+function _block_bindings_post_meta_get_value( array $source_args, $block_instance ) {
+	if ( empty( $source_args['key'] ) ) {
 		return null;
 	}
 
-	// Use the postId attribute if available.
-	if ( isset( $source_args['postId'] ) ) {
-		$post_id = $source_args['postId'];
-	} else {
-		// $block_instance->context['postId'] is not available in the Image block.
-		$post_id = get_the_ID();
+	if ( empty( $block_instance->context['postId'] ) ) {
+		return null;
 	}
+	$post_id = $block_instance->context['postId'];
 
 	// If a post isn't public, we need to prevent unauthorized users from accessing the post meta.
 	$post = get_post( $post_id );
@@ -51,6 +49,7 @@ function _register_block_bindings_post_meta_source() {
 		array(
 			'label'              => _x( 'Post Meta', 'block bindings source' ),
 			'get_value_callback' => '_block_bindings_post_meta_get_value',
+			'uses_context'       => array( 'postId', 'postType' ),
 		)
 	);
 }

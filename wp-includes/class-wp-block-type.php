@@ -180,7 +180,7 @@ class WP_Block_Type {
 	 * @since 5.5.0
 	 * @var string[]
 	 */
-	public $uses_context = array();
+	private $uses_context = array();
 
 	/**
 	 * Context provided by blocks of this type.
@@ -366,6 +366,10 @@ class WP_Block_Type {
 			return $this->get_variations();
 		}
 
+		if ( 'uses_context' === $name ) {
+			return $this->get_uses_context();
+		}
+
 		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			return;
 		}
@@ -394,7 +398,7 @@ class WP_Block_Type {
 	 *              or false otherwise.
 	 */
 	public function __isset( $name ) {
-		if ( 'variations' === $name ) {
+		if ( in_array( $name, array( 'variations', 'uses_context' ), true ) ) {
 			return true;
 		}
 
@@ -417,11 +421,6 @@ class WP_Block_Type {
 	 * @param mixed  $value Property value.
 	 */
 	public function __set( $name, $value ) {
-		if ( 'variations' === $name ) {
-			$this->variations = $value;
-			return;
-		}
-
 		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			$this->{$name} = $value;
 			return;
@@ -615,5 +614,24 @@ class WP_Block_Type {
 		 * @param WP_Block_Type $block_type The full block type object.
 		 */
 		return apply_filters( 'get_block_type_variations', $this->variations, $this );
+	}
+
+	/**
+	 * Get block uses context.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @return array[]
+	 */
+	public function get_uses_context() {
+		/**
+		 * Filters the registered uses context for a block type.
+		 *
+		 * @since 6.5.0
+		 *
+		 * @param array         $uses_context Array of registered uses context for a block type.
+		 * @param WP_Block_Type $block_type   The full block type object.
+		 */
+		return apply_filters( 'get_block_type_uses_context', $this->uses_context, $this );
 	}
 }
