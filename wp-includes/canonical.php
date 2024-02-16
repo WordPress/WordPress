@@ -949,6 +949,9 @@ function redirect_guess_404_permalink() {
 	}
 
 	if ( get_query_var( 'name' ) ) {
+		$publicly_viewable_statuses   = array_filter( get_post_stati(), 'is_post_status_viewable' );
+		$publicly_viewable_post_types = array_filter( get_post_types( array( 'exclude_from_search' => false ) ), 'is_post_type_viewable' );
+
 		/**
 		 * Filters whether to perform a strict guess for a 404 redirect.
 		 *
@@ -969,12 +972,19 @@ function redirect_guess_404_permalink() {
 		// If any of post_type, year, monthnum, or day are set, use them to refine the query.
 		if ( get_query_var( 'post_type' ) ) {
 			if ( is_array( get_query_var( 'post_type' ) ) ) {
+				$post_types = array_intersect( get_query_var( 'post_type' ), $publicly_viewable_post_types );
+				if ( empty( $post_types ) ) {
+					return false;
+				}
 				$where .= " AND post_type IN ('" . join( "', '", esc_sql( get_query_var( 'post_type' ) ) ) . "')";
 			} else {
+				if ( ! in_array( get_query_var( 'post_type' ), $publicly_viewable_post_types, true ) ) {
+					return false;
+				}
 				$where .= $wpdb->prepare( ' AND post_type = %s', get_query_var( 'post_type' ) );
 			}
 		} else {
-			$where .= " AND post_type IN ('" . implode( "', '", get_post_types( array( 'public' => true ) ) ) . "')";
+			$where .= " AND post_type IN ('" . implode( "', '", esc_sql( $publicly_viewable_post_types ) ) . "')";
 		}
 
 		if ( get_query_var( 'year' ) ) {
@@ -987,7 +997,6 @@ function redirect_guess_404_permalink() {
 			$where .= $wpdb->prepare( ' AND DAYOFMONTH(post_date) = %d', get_query_var( 'day' ) );
 		}
 
-		$publicly_viewable_statuses = array_filter( get_post_stati(), 'is_post_status_viewable' );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$post_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE $where AND post_status IN ('" . implode( "', '", esc_sql( $publicly_viewable_statuses ) ) . "')" );
 
