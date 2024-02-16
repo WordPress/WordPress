@@ -36,7 +36,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
 	}
 
 	/**
-	 * Searches the object type content for a given search request.
+	 * Searches terms for a given search request.
 	 *
 	 * @since 5.6.0
 	 *
@@ -44,7 +44,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
 	 * @return array {
 	 *     Associative array containing found IDs and total count for the matching search results.
 	 *
-	 *     @type int[]               $ids   Found IDs.
+	 *     @type int[]               $ids   Found term IDs.
 	 *     @type string|int|WP_Error $total Numeric string containing the number of terms in that
 	 *                                      taxonomy, 0 if there are no results, or WP_Error if
 	 *                                      the requested taxonomy does not exist.
@@ -79,7 +79,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
 		}
 
 		/**
-		 * Filters the query arguments for a REST API search request.
+		 * Filters the query arguments for a REST API term search request.
 		 *
 		 * Enables adding extra arguments or setting defaults for a term search request.
 		 *
@@ -110,13 +110,20 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
 	}
 
 	/**
-	 * Prepares the search result for a given ID.
+	 * Prepares the search result for a given term ID.
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param int   $id     Item ID.
-	 * @param array $fields Fields to include for the item.
-	 * @return array Associative array containing all fields for the item.
+	 * @param int   $id     Term ID.
+	 * @param array $fields Fields to include for the term.
+	 * @return array {
+	 *     Associative array containing fields for the term based on the `$fields` parameter.
+	 *
+	 *     @type int    $id    Optional. Term ID.
+	 *     @type string $title Optional. Term name.
+	 *     @type string $url   Optional. Term permalink URL.
+	 *     @type string $type  Optional. Term taxonomy name.
+	 * }
 	 */
 	public function prepare_item( $id, array $fields ) {
 		$term = get_term( $id );
