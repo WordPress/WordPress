@@ -7,8 +7,8 @@
 			"duotone": [
 				{
 					"colors": [
-						"#FF3C00",
-						"#F4F0E6"
+						"#D73301",
+						"#F9F8F5"
 					],
 					"slug": "duotone-2",
 					"name": "Orange and white"
@@ -78,12 +78,12 @@
 			],
 			"palette": [
 				{
-					"color": "#F4F0E6",
+					"color": "#F9F8F5",
 					"name": "Base",
 					"slug": "base"
 				},
 				{
-					"color": "#FF3C00",
+					"color": "#D73301",
 					"name": "Contrast / 2",
 					"slug": "contrast-2"
 				},
