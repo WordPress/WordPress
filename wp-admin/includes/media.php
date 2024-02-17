@@ -2832,7 +2832,7 @@ function media_upload_library_form( $errors ) {
 				'format'    => '',
 				'prev_text' => __( '&laquo;' ),
 				'next_text' => __( '&raquo;' ),
-				'total'     => ceil( $wp_query->found_posts / 10 ),
+				'total'     => (int) ceil( $wp_query->found_posts / 10 ),
 				'current'   => $q['paged'],
 			)
 		);

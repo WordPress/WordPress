@@ -319,7 +319,7 @@ class WP_List_Table {
 		);
 
 		if ( ! $args['total_pages'] && $args['per_page'] > 0 ) {
-			$args['total_pages'] = ceil( $args['total_items'] / $args['per_page'] );
+			$args['total_pages'] = (int) ceil( $args['total_items'] / $args['per_page'] );
 		}
 
 		// Redirect if page number is invalid and headers are not already sent.

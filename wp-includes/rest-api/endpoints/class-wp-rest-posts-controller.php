@@ -403,7 +403,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$total_posts = $count_query->found_posts;
 		}
 
-		$max_pages = ceil( $total_posts / (int) $posts_query->query_vars['posts_per_page'] );
+		$max_pages = (int) ceil( $total_posts / (int) $posts_query->query_vars['posts_per_page'] );
 
 		if ( $page > $max_pages && $total_posts > 0 ) {
 			return new WP_Error(

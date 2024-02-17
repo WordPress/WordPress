@@ -470,7 +470,7 @@ class WP_Comment_Query {
 		}
 
 		if ( $this->found_comments && $this->query_vars['number'] ) {
-			$this->max_num_pages = ceil( $this->found_comments / $this->query_vars['number'] );
+			$this->max_num_pages = (int) ceil( $this->found_comments / $this->query_vars['number'] );
 		}
 
 		// If querying for a count only, there's nothing more to do.

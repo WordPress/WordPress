@@ -73,7 +73,7 @@ function wp_embed_defaults( $url = '' ) {
 		$width = 500;
 	}
 
-	$height = min( ceil( $width * 1.5 ), 1000 );
+	$height = min( (int) ceil( $width * 1.5 ), 1000 );
 
 	/**
 	 * Filters the default array of embed dimensions.
@@ -577,7 +577,7 @@ function get_oembed_response_data( $post, $width ) {
 	);
 
 	$width  = min( max( $min_max_width['min'], $width ), $min_max_width['max'] );
-	$height = max( ceil( $width / 16 * 9 ), 200 );
+	$height = max( (int) ceil( $width / 16 * 9 ), 200 );
 
 	$data = array(
 		'version'       => '1.0',

@@ -3624,7 +3624,7 @@ class WP_Query {
 		$this->found_posts = (int) apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
 
 		if ( ! empty( $limits ) ) {
-			$this->max_num_pages = ceil( $this->found_posts / $q['posts_per_page'] );
+			$this->max_num_pages = (int) ceil( $this->found_posts / $q['posts_per_page'] );
 		}
 	}
 

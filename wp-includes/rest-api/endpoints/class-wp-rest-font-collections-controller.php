@@ -77,7 +77,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 		$page        = $request['page'];
 		$per_page    = $request['per_page'];
 		$total_items = count( $collections_all );
-		$max_pages   = ceil( $total_items / $per_page );
+		$max_pages   = (int) ceil( $total_items / $per_page );
 
 		if ( $page > $max_pages && $total_items > 0 ) {
 			return new WP_Error(

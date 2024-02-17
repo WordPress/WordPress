@@ -308,7 +308,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			}
 
 			if ( $revisions_query->query_vars['posts_per_page'] > 0 ) {
-				$max_pages = ceil( $total_revisions / (int) $revisions_query->query_vars['posts_per_page'] );
+				$max_pages = (int) ceil( $total_revisions / (int) $revisions_query->query_vars['posts_per_page'] );
 			} else {
 				$max_pages = $total_revisions > 0 ? 1 : 0;
 			}
