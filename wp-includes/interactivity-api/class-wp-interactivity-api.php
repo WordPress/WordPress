@@ -235,9 +235,14 @@ final class WP_Interactivity_API {
 		while ( $p->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
 			$tag_name = $p->get_tag();
 
+			/*
+			 * Directives inside SVG and MATH tags are not processed,
+			 * as they are not compatible with the Tag Processor yet.
+			 * We still process the rest of the HTML.
+			 */
 			if ( 'SVG' === $tag_name || 'MATH' === $tag_name ) {
-				$unbalanced = true;
-				break;
+				$p->skip_to_tag_closer();
+				continue;
 			}
 
 			if ( $p->is_tag_closer() ) {

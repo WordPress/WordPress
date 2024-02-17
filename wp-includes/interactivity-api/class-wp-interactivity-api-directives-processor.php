@@ -181,6 +181,39 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 	}
 
 	/**
+	 * Skips processing the content between tags.
+	 *
+	 * It positions the cursor in the closer tag of the foreign element, if it
+	 * exists.
+	 *
+	 * This function is intended to skip processing SVG and MathML inner content
+	 * instead of bailing out the whole processing.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @access private
+	 *
+	 * @return bool Whether the foreign content was successfully skipped.
+	 */
+	public function skip_to_tag_closer(): bool {
+		$depth    = 1;
+		$tag_name = $this->get_tag();
+		while ( $depth > 0 && $this->next_tag(
+			array(
+				'tag_name'    => $tag_name,
+				'tag_closers' => 'visit',
+			)
+		) ) {
+			if ( $this->has_self_closing_flag() ) {
+				continue;
+			}
+			$depth += $this->is_tag_closer() ? -1 : 1;
+		}
+
+		return 0 === $depth;
+	}
+
+	/**
 	 * Finds the matching closing tag for an opening tag.
 	 *
 	 * When called while the processor is on an open tag, it traverses the HTML
