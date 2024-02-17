@@ -799,14 +799,14 @@ CSS;
 		echo <<<HTML
 			<div
 				class="wp-interactivity-router-loading-bar"
-				data-wp-interactive='{"namespace":"core/router"}'
+				data-wp-interactive="core/router"
 				data-wp-class--start-animation="state.navigation.hasStarted"
 				data-wp-class--finish-animation="state.navigation.hasFinished"
 			></div>
 			<div
 				class="screen-reader-text"
 				aria-live="polite"
-				data-wp-interactive='{"namespace":"core/router"}'
+				data-wp-interactive="core/router"
 				data-wp-text="state.navigation.message"
 			></div>
 HTML;
