@@ -340,7 +340,6 @@ define('SIMPLEPIE_NAMESPACE_RSS_10_MODULES_CONTENT', 'http://purl.org/rss/1.0/mo
 
 /**
  * RSS 2.0 Namespace
- * (I know, but I'm certain it will confuse people less with support.)
  */
 define('SIMPLEPIE_NAMESPACE_RSS_20', '');
 
@@ -1205,12 +1204,12 @@ class SimplePie
 	}
 
 	/**
-	 * Set options to make SP as fast as possible
+	 * Set options to make SimplePie as fast as possible.
 	 *
-	 * Forgoes a substantial amount of data sanitization in favor of speed. This
-	 * turns SimplePie into an dumb parser of feeds.
+	 * Forgoes a substantial amount of data sanitization in favor of speed.
+	 * This turns SimplePie into a less clever parser of feeds.
 	 *
-	 * @param bool $set Whether to set them or not
+	 * @param bool $set Whether to set them or not.
 	 */
 	public function set_stupidly_fast($set = false)
 	{
