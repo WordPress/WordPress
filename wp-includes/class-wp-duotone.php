@@ -209,10 +209,7 @@ class WP_Duotone {
 			'rad'  => 360 / ( M_PI * 2 ),
 		);
 
-		$factor = $angle_units[ $unit ];
-		if ( ! $factor ) {
-			$factor = 1;
-		}
+		$factor = isset( $angle_units[ $unit ] ) ? $angle_units[ $unit ] : 1;
 
 		return (float) $value * $factor;
 	}
