@@ -98,6 +98,9 @@
 		var urlRegex2 = /^https?:\/\/[^\/]+\.[^\/]+($|\/)/i;
 		var speak = ( typeof window.wp !== 'undefined' && window.wp.a11y && window.wp.a11y.speak ) ? window.wp.a11y.speak : function() {};
 		var hasLinkError = false;
+		var __ = window.wp.i18n.__;
+		var _n = window.wp.i18n._n;
+		var sprintf = window.wp.i18n.sprintf;
 
 		function getSelectedLink() {
 			var href, html,
@@ -457,15 +460,17 @@
 							my: 'left top+2'
 						},
 						messages: {
-							noResults: ( typeof window.uiAutocompleteL10n !== 'undefined' ) ? window.uiAutocompleteL10n.noResults : '',
+							noResults: __( 'No results found.' ) ,
 							results: function( number ) {
-								if ( typeof window.uiAutocompleteL10n !== 'undefined' ) {
-									if ( number > 1 ) {
-										return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
-									}
-
-									return window.uiAutocompleteL10n.oneResult;
-								}
+								return sprintf(
+									/* translators: %d: Number of search results found. */
+									_n(
+										'%d result found. Use up and down arrow keys to navigate.',
+										'%d results found. Use up and down arrow keys to navigate.',
+										number
+									),
+									number
+								);
 							}
 						}
 					} ).autocomplete( 'instance' )._renderItem = function( ul, item ) {

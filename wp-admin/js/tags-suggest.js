@@ -4,12 +4,11 @@
  * @output wp-admin/js/tags-suggest.js
  */
 ( function( $ ) {
-	if ( typeof window.uiAutocompleteL10n === 'undefined' ) {
-		return;
-	}
-
 	var tempID = 0;
 	var separator = wp.i18n._x( ',', 'tag delimiter' ) || ',';
+	var __ = wp.i18n.__,
+	    _n = wp.i18n._n,
+	    sprintf = wp.i18n.sprintf;
 
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
@@ -139,13 +138,17 @@
 				collision: 'none'
 			},
 			messages: {
-				noResults: window.uiAutocompleteL10n.noResults,
+				noResults: __( 'No results found.' ),
 				results: function( number ) {
-					if ( number > 1 ) {
-						return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
-					}
-
-					return window.uiAutocompleteL10n.oneResult;
+					return sprintf(
+						/* translators: %d: Number of search results found. */
+						_n(
+							'%d result found. Use up and down arrow keys to navigate.',
+							'%d results found. Use up and down arrow keys to navigate.',
+							number
+						),
+						number
+					);
 				}
 			}
 		}, options );

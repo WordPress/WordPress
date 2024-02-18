@@ -932,20 +932,6 @@ function wp_default_scripts( $scripts ) {
 	$scripts->add( 'jquery-ui-position', false, array( 'jquery-ui-core' ), '1.13.2', 1 );
 	$scripts->add( 'jquery-ui-widget', false, array( 'jquery-ui-core' ), '1.13.2', 1 );
 
-	// Strings for 'jquery-ui-autocomplete' live region messages.
-	did_action( 'init' ) && $scripts->localize(
-		'jquery-ui-autocomplete',
-		'uiAutocompleteL10n',
-		array(
-			'noResults'    => __( 'No results found.' ),
-			/* translators: Number of results found when using jQuery UI Autocomplete. */
-			'oneResult'    => __( '1 result found. Use up and down arrow keys to navigate.' ),
-			/* translators: %d: Number of results found when using jQuery UI Autocomplete. */
-			'manyResults'  => __( '%d results found. Use up and down arrow keys to navigate.' ),
-			'itemSelected' => __( 'Item selected.' ),
-		)
-	);
-
 	// Deprecated, not used in core, most functionality is included in jQuery 1.3.
 	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array( 'jquery' ), '4.3.0', 1 );
 
@@ -1247,7 +1233,8 @@ function wp_default_scripts( $scripts ) {
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", array( 'hoverintent-js' ), false, 1 );
 
-	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
+	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'common', 'jquery', 'wp-a11y', 'wp-i18n' ), false, 1 );
+	$scripts->set_translations( 'wplink' );
 	did_action( 'init' ) && $scripts->localize(
 		'wplink',
 		'wpLinkL10n',
@@ -1425,7 +1412,7 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add( 'tags-box', "/wp-admin/js/tags-box$suffix.js", array( 'jquery', 'tags-suggest' ), false, 1 );
 		$scripts->set_translations( 'tags-box' );
 
-		$scripts->add( 'tags-suggest', "/wp-admin/js/tags-suggest$suffix.js", array( 'jquery-ui-autocomplete', 'wp-a11y' ), false, 1 );
+		$scripts->add( 'tags-suggest', "/wp-admin/js/tags-suggest$suffix.js", array( 'common', 'jquery-ui-autocomplete', 'wp-a11y', 'wp-i18n' ), false, 1 );
 		$scripts->set_translations( 'tags-suggest' );
 
 		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box', 'underscore', 'word-count', 'wp-a11y', 'wp-sanitize', 'clipboard' ), false, 1 );
