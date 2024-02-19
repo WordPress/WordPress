@@ -147,26 +147,26 @@ function shortcode_exists( $tag ) {
  * @return bool Whether the passed content contains the given shortcode.
  */
 function has_shortcode( $content, $tag ) {
-	if ( ! str_contains( $content, '[' ) ) {
-		return false;
-	}
+      if ( $content === null || ! str_contains( $content, '[' ) ) {
+          return false;
+      }
 
-	if ( shortcode_exists( $tag ) ) {
-		preg_match_all( '/' . get_shortcode_regex() . '/', $content, $matches, PREG_SET_ORDER );
-		if ( empty( $matches ) ) {
-			return false;
-		}
+      if ( shortcode_exists( $tag ) ) {
+          preg_match_all( '/' . get_shortcode_regex() . '/', $content, $matches, PREG_SET_ORDER );
+          if ( empty( $matches ) ) {
+              return false;
+          }
 
-		foreach ( $matches as $shortcode ) {
-			if ( $tag === $shortcode[2] ) {
-				return true;
-			} elseif ( ! empty( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
-				return true;
-			}
-		}
-	}
-	return false;
-}
+          foreach ( $matches as $shortcode ) {
+              if ( $tag === $shortcode[2] ) {
+                  return true;
+              } elseif ( ! empty( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
+                  return true;
+              }
+          }
+      }
+      return false;
+  }
 
 /**
  * Returns a list of registered shortcode names found in the given content.
