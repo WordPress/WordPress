@@ -390,8 +390,8 @@ require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api-directi
 require ABSPATH . WPINC . '/interactivity-api/interactivity-api.php';
 require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
 
-wp_script_modules()->add_hooks();
-wp_interactivity()->add_hooks();
+add_action( 'after_setup_theme', array( wp_script_modules(), 'add_hooks' ) );
+add_action( 'after_setup_theme', array( wp_interactivity(), 'add_hooks' ) );
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 
