@@ -895,20 +895,35 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		/**
 		 * Filters the parsed block array for a given hooked block.
 		 *
-		 * The dynamic portion of the hook name, `$hooked_block_type`, refers to the block type name of the specific hooked block.
-		 *
 		 * @since 6.5.0
 		 *
 		 * @param array                           $parsed_hooked_block The parsed block array for the given hooked block type.
+		 * @param string                          $hooked_block_type   The hooked block type name.
 		 * @param string                          $relative_position   The relative position of the hooked block.
 		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
 		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, `wp_navigation` post type,
 		 *                                                             or pattern that the anchor block belongs to.
 		 */
-		$parsed_hooked_block = apply_filters( "hooked_block_{$hooked_block_type}", $parsed_hooked_block, $relative_position, $parsed_anchor_block, $context );
+		$parsed_hooked_block = apply_filters( 'hooked_block', $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
 
-		// It's possible that the `hooked_block_{$hooked_block_type}` filter returned a block of a different type,
-		// so we explicitly look for the original `$hooked_block_type` in the `ignoredHookedBlocks` metadata.
+		/**
+		 * Filters the parsed block array for a given hooked block.
+		 *
+		 * The dynamic portion of the hook name, `$hooked_block_type`, refers to the block type name of the specific hooked block.
+		 *
+		 * @since 6.5.0
+		 *
+		 * @param array                           $parsed_hooked_block The parsed block array for the given hooked block type.
+		 * @param string                          $hooked_block_type   The hooked block type name.
+		 * @param string                          $relative_position   The relative position of the hooked block.
+		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
+		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, `wp_navigation` post type,
+		 *                                                             or pattern that the anchor block belongs to.
+		 */
+		$parsed_hooked_block = apply_filters( "hooked_block_{$hooked_block_type}", $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
+
+		// It's possible that the filter returned a block of a different type, so we explicitly
+		// look for the original `$hooked_block_type` in the `ignoredHookedBlocks` metadata.
 		if (
 			! isset( $parsed_anchor_block['attrs']['metadata']['ignoredHookedBlocks'] ) ||
 			! in_array( $hooked_block_type, $parsed_anchor_block['attrs']['metadata']['ignoredHookedBlocks'], true )
