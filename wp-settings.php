@@ -388,6 +388,7 @@ require ABSPATH . WPINC . '/script-modules.php';
 require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api.php';
 require ABSPATH . WPINC . '/interactivity-api/class-wp-interactivity-api-directives-processor.php';
 require ABSPATH . WPINC . '/interactivity-api/interactivity-api.php';
+require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
 
 wp_script_modules()->add_hooks();
 wp_interactivity()->add_hooks();
@@ -418,12 +419,6 @@ if ( is_multisite() ) {
 wp_plugin_directory_constants();
 
 $GLOBALS['wp_plugin_paths'] = array();
-
-// Load and initialize WP_Plugin_Dependencies.
-require_once ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
-if ( ! defined( 'WP_RUN_CORE_TESTS' ) ) {
-	WP_Plugin_Dependencies::initialize();
-}
 
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
@@ -499,85 +494,7 @@ if ( ! is_multisite() && wp_is_fatal_error_handler_enabled() ) {
 }
 
 // Load active plugins.
-$all_plugin_data    = get_option( 'plugin_data', array() );
-$failed_plugins     = array();
-$plugins_dir_strlen = strlen( trailingslashit( WP_PLUGIN_DIR ) );
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
-	$plugin_file = substr( $plugin, $plugins_dir_strlen );
-
-	/*
-	 * Skip any plugins that have not been added to the 'plugin_data' option yet.
-	 *
-	 * Some plugin files may be added locally and activated, but will not yet be
-	 * added to the 'plugin_data' option. This causes the 'active_plugins' option
-	 * and the 'plugin_data' option to be temporarily out of sync until the next
-	 * call to `get_plugins()`.
-	 */
-	if ( isset( $all_plugin_data[ $plugin_file ] ) ) {
-		$plugin_headers = $all_plugin_data[ $plugin_file ];
-		$errors         = array();
-		$requirements   = array(
-			'requires'     => ! empty( $plugin_headers['RequiresWP'] ) ? $plugin_headers['RequiresWP'] : '',
-			'requires_php' => ! empty( $plugin_headers['RequiresPHP'] ) ? $plugin_headers['RequiresPHP'] : '',
-		);
-		$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
-		$compatible_php = is_php_version_compatible( $requirements['requires_php'] );
-
-		$php_update_message = '</p><p>' . sprintf(
-			/* translators: %s: URL to Update PHP page. */
-			__( '<a href="%s">Learn more about updating PHP</a>.' ),
-			esc_url( wp_get_update_php_url() )
-		);
-
-		$annotation = wp_get_update_php_annotation();
-
-		if ( $annotation ) {
-			$php_update_message .= '</p><p><em>' . $annotation . '</em>';
-		}
-
-		if ( ! $compatible_wp && ! $compatible_php ) {
-			$errors[] = sprintf(
-				/* translators: 1: Current WordPress version, 2: Current PHP version, 3: Plugin name, 4: Required WordPress version, 5: Required PHP version. */
-				_x( '<strong>Error:</strong> Current versions of WordPress (%1$s) and PHP (%2$s) do not meet minimum requirements for %3$s. The plugin requires WordPress %4$s and PHP %5$s.', 'plugin' ),
-				get_bloginfo( 'version' ),
-				PHP_VERSION,
-				$plugin_headers['Name'],
-				$requirements['requires'],
-				$requirements['requires_php']
-			) . $php_update_message;
-		} elseif ( ! $compatible_php ) {
-			$errors[] = sprintf(
-				/* translators: 1: Current PHP version, 2: Plugin name, 3: Required PHP version. */
-				_x( '<strong>Error:</strong> Current PHP version (%1$s) does not meet minimum requirements for %2$s. The plugin requires PHP %3$s.', 'plugin' ),
-				PHP_VERSION,
-				$plugin_headers['Name'],
-				$requirements['requires_php']
-			) . $php_update_message;
-		} elseif ( ! $compatible_wp ) {
-			$errors[] = sprintf(
-				/* translators: 1: Current WordPress version, 2: Plugin name, 3: Required WordPress version. */
-				_x( '<strong>Error:</strong> Current WordPress version (%1$s) does not meet minimum requirements for %2$s. The plugin requires WordPress %3$s.', 'plugin' ),
-				get_bloginfo( 'version' ),
-				$plugin_headers['Name'],
-				$requirements['requires']
-			);
-		}
-
-		if ( ! empty( $errors ) ) {
-			$failed_plugins[ $plugin_file ] = '';
-			foreach ( $errors as $error ) {
-				$failed_plugins[ $plugin_file ] .= wp_get_admin_notice(
-					$error,
-					array(
-						'type'        => 'error',
-						'dismissible' => true,
-					)
-				);
-			}
-			continue;
-		}
-	}
-
 	wp_register_plugin_realpath( $plugin );
 
 	$_wp_plugin_file = $plugin;
@@ -594,20 +511,6 @@ foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
 	do_action( 'plugin_loaded', $plugin );
 }
 unset( $plugin, $_wp_plugin_file );
-
-if ( ! empty( $failed_plugins ) ) {
-	add_action(
-		'admin_notices',
-		function () use ( $failed_plugins ) {
-			global $pagenow;
-
-			if ( 'index.php' === $pagenow || 'plugins.php' === $pagenow ) {
-				echo implode( '', $failed_plugins );
-			}
-		}
-	);
-}
-unset( $failed_plugins );
 
 // Load pluggable functions.
 require ABSPATH . WPINC . '/pluggable.php';

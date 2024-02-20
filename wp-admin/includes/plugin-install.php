@@ -927,7 +927,7 @@ function wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible
 
 	// Determine the status of plugin dependencies.
 	$installed_plugins                   = get_plugins();
-	$active_plugins                      = get_option( 'active_plugins' );
+	$active_plugins                      = get_option( 'active_plugins', array() );
 	$plugin_dependencies_count           = count( $requires_plugins );
 	$installed_plugin_dependencies_count = 0;
 	$active_plugin_dependencies_count    = 0;

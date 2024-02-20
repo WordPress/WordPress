@@ -333,7 +333,6 @@ function get_plugins( $plugin_folder = '' ) {
 		return $wp_plugins;
 	}
 
-	$new_plugin_data = array();
 	foreach ( $plugin_files as $plugin_file ) {
 		if ( ! is_readable( "$plugin_root/$plugin_file" ) ) {
 			continue;
@@ -346,13 +345,6 @@ function get_plugins( $plugin_folder = '' ) {
 			continue;
 		}
 
-		$new_plugin_file = str_replace(
-			trailingslashit( WP_PLUGIN_DIR ),
-			'',
-			"$plugin_root/$plugin_file"
-		);
-
-		$new_plugin_data[ $new_plugin_file ]           = $plugin_data;
 		$wp_plugins[ plugin_basename( $plugin_file ) ] = $plugin_data;
 	}
 
@@ -360,10 +352,6 @@ function get_plugins( $plugin_folder = '' ) {
 
 	$cache_plugins[ $plugin_folder ] = $wp_plugins;
 	wp_cache_set( 'plugins', $cache_plugins, 'plugins' );
-
-	if ( ! wp_installing() ) {
-		update_option( 'plugin_data', $new_plugin_data );
-	}
 
 	return $wp_plugins;
 }
@@ -975,7 +963,6 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 	$plugins_dir = trailingslashit( $plugins_dir );
 
 	$plugin_translations = wp_get_installed_translations( 'plugins' );
-	$all_plugin_data     = get_option( 'plugin_data', array() );
 
 	$errors = array();
 
@@ -1020,7 +1007,6 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 			$errors[] = $plugin_file;
 			continue;
 		}
-		unset( $all_plugin_data[ $plugin_file ] );
 
 		$plugin_slug = dirname( $plugin_file );
 
@@ -1069,7 +1055,6 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 		return new WP_Error( 'could_not_remove_plugin', sprintf( $message, implode( ', ', $errors ) ) );
 	}
-	update_option( 'plugin_data', $all_plugin_data );
 
 	return true;
 }
@@ -1213,6 +1198,8 @@ function validate_plugin_requirements( $plugin ) {
 			) . '</p>'
 		);
 	}
+
+	WP_Plugin_Dependencies::initialize();
 
 	if ( WP_Plugin_Dependencies::has_unmet_dependencies( $plugin ) ) {
 		$dependencies       = WP_Plugin_Dependencies::get_dependencies( $plugin );
