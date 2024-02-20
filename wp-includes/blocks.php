@@ -897,7 +897,7 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		 *
 		 * @since 6.5.0
 		 *
-		 * @param array                           $parsed_hooked_block The parsed block array for the given hooked block type.
+		 * @param array|null                      $parsed_hooked_block The parsed block array for the given hooked block type, or null to suppress the block.
 		 * @param string                          $hooked_block_type   The hooked block type name.
 		 * @param string                          $relative_position   The relative position of the hooked block.
 		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
@@ -913,7 +913,7 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		 *
 		 * @since 6.5.0
 		 *
-		 * @param array                           $parsed_hooked_block The parsed block array for the given hooked block type.
+		 * @param array|null                      $parsed_hooked_block The parsed block array for the given hooked block type, or null to suppress the block.
 		 * @param string                          $hooked_block_type   The hooked block type name.
 		 * @param string                          $relative_position   The relative position of the hooked block.
 		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
@@ -921,6 +921,10 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		 *                                                             or pattern that the anchor block belongs to.
 		 */
 		$parsed_hooked_block = apply_filters( "hooked_block_{$hooked_block_type}", $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
+
+		if ( null === $parsed_hooked_block ) {
+			continue;
+		}
 
 		// It's possible that the filter returned a block of a different type, so we explicitly
 		// look for the original `$hooked_block_type` in the `ignoredHookedBlocks` metadata.
@@ -960,6 +964,25 @@ function set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_po
 	$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
 	if ( empty( $hooked_block_types ) ) {
 		return '';
+	}
+
+	foreach ( $hooked_block_types as $index => $hooked_block_type ) {
+		$parsed_hooked_block = array(
+			'blockName'    => $hooked_block_type,
+			'attrs'        => array(),
+			'innerBlocks'  => array(),
+			'innerContent' => array(),
+		);
+
+		/** This filter is documented in wp-includes/blocks.php */
+		$parsed_hooked_block = apply_filters( 'hooked_block', $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
+
+		/** This filter is documented in wp-includes/blocks.php */
+		$parsed_hooked_block = apply_filters( "hooked_block_{$hooked_block_type}", $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
+
+		if ( null === $parsed_hooked_block ) {
+			unset( $hooked_block_types[ $index ] );
+		}
 	}
 
 	$previously_ignored_hooked_blocks = isset( $parsed_anchor_block['attrs']['metadata']['ignoredHookedBlocks'] )
