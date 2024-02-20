@@ -424,7 +424,7 @@ function network_step1( $errors = false ) {
  * @param false|WP_Error $errors Optional. Error object. Default false.
  */
 function network_step2( $errors = false ) {
-	global $wpdb, $is_nginx;
+	global $wpdb, $is_nginx, $is_nginx_unit;
 
 	$hostname          = get_clean_basedomain();
 	$slashed_home      = trailingslashit( get_option( 'home' ) );
@@ -698,7 +698,17 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 		);
 		echo '</p></li>';
 
-	else : // End $is_nginx. Construct an .htaccess file instead:
+	elseif ( $is_nginx_unit ) : // End $is_nginx, check for NGINX Unit:
+
+		echo '<li><p>';
+		printf(
+			/* translators: %s: Documentation URL. */
+			__( 'It seems your network is running within Nginx UNIT. <a href="%s">Learn more about further configuration</a>.' ),
+			__( 'https://wordpress.org/documentation/article/nginx-unit/' )
+		);
+		echo '</p></li>';
+
+	else : // End $is_nginx_unit. Construct an .htaccess file instead:
 
 		$ms_files_rewriting = '';
 		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
