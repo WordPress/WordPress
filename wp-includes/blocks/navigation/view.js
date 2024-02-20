@@ -29,33 +29,9 @@ var x = (y) => {
 } 
 var y = (x) => (() => (x))
 const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["getElement"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store) });
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/constants.js
-const DEFAULT_BLOCK = {
-  name: 'core/navigation-link'
-};
-const PRIORITIZED_INSERTER_BLOCKS = (/* unused pure expression or super */ null && (['core/navigation-link/page', 'core/navigation-link']));
-
-// These parameters must be kept aligned with those in
-// lib/compat/wordpress-6.3/navigation-block-preloading.php
-// and
-// edit-site/src/components/sidebar-navigation-screen-navigation-menus/constants.js
-const PRELOADED_NAVIGATION_MENUS_QUERY = {
-  per_page: 100,
-  status: ['publish', 'draft'],
-  order: 'desc',
-  orderby: 'date'
-};
-const SELECT_NAVIGATION_MENUS_ARGS = ['postType', 'wp_navigation', PRELOADED_NAVIGATION_MENUS_QUERY];
-const NAVIGATION_MOBILE_COLLAPSE = '600px';
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/view.js
 /**
  * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
  */
 
 const focusableSelectors = ['a[href]', 'input:not([disabled]):not([type="hidden"]):not([aria-hidden])', 'select:not([disabled]):not([aria-hidden])', 'textarea:not([disabled]):not([aria-hidden])', 'button:not([disabled]):not([aria-hidden])', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
@@ -226,24 +202,6 @@ const {
         const focusableElements = ref.querySelectorAll(focusableSelectors);
         focusableElements?.[0]?.focus();
       }
-    },
-    initNav() {
-      const context = (0,interactivity_namespaceObject.getContext)();
-      const mediaQuery = window.matchMedia(`(max-width: ${NAVIGATION_MOBILE_COLLAPSE})`);
-
-      // Run once to set the initial state.
-      context.isCollapsed = mediaQuery.matches;
-      function handleCollapse(event) {
-        context.isCollapsed = event.matches;
-      }
-
-      // Run on resize to update the state.
-      mediaQuery.addEventListener('change', handleCollapse);
-
-      // Remove the listener when the component is unmounted.
-      return () => {
-        mediaQuery.removeEventListener('change', handleCollapse);
-      };
     }
   }
 }, {

@@ -277,8 +277,10 @@
   min-height:1px;
   min-width:1px;
 }
-.is-collapsed .wp-block-navigation__responsive-container:not(.is-menu-open) .components-button.wp-block-navigation__responsive-container-close{
-  display:none;
+@media (min-width:600px){
+  .wp-block-navigation__responsive-container:not(.is-menu-open) .components-button.wp-block-navigation__responsive-container-close{
+    display:none;
+  }
 }
 
 .wp-block-navigation__responsive-container.is-menu-open{

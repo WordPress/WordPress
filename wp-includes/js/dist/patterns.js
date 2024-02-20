@@ -120,6 +120,7 @@ const PARTIAL_SYNCING_SUPPORTED_BLOCKS = {
     rel: (0,external_wp_i18n_namespaceObject.__)('Link Relationship')
   },
   'core/image': {
+    id: (0,external_wp_i18n_namespaceObject.__)('Image ID'),
     url: (0,external_wp_i18n_namespaceObject.__)('URL'),
     title: (0,external_wp_i18n_namespaceObject.__)('Title'),
     alt: (0,external_wp_i18n_namespaceObject.__)('Alt Text')

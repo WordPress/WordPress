@@ -1627,7 +1627,7 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
 .edit-site-global-styles-screen-revisions__revision-item.is-selected:before{
   background:var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
 }
-.edit-site-global-styles-screen-revisions__revision-item.is-selected .edit-site-global-styles-screen-revisions__applied-text,.edit-site-global-styles-screen-revisions__revision-item.is-selected .edit-site-global-styles-screen-revisions__changes,.edit-site-global-styles-screen-revisions__revision-item.is-selected .edit-site-global-styles-screen-revisions__meta{
+.edit-site-global-styles-screen-revisions__revision-item.is-selected .edit-site-global-styles-screen-revisions__applied-text,.edit-site-global-styles-screen-revisions__revision-item.is-selected .edit-site-global-styles-screen-revisions__changes>li,.edit-site-global-styles-screen-revisions__revision-item.is-selected .edit-site-global-styles-screen-revisions__meta{
   color:#1e1e1e;
 }
 .edit-site-global-styles-screen-revisions__revision-item:after{
@@ -1647,7 +1647,7 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
   display:block;
   height:auto;
   outline-offset:-2px;
-  padding:12px 12px 8px 40px;
+  padding:12px 12px 4px 40px;
   position:relative;
   width:100%;
   z-index:1;
@@ -1655,7 +1655,7 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
 
 .edit-site-global-styles-screen-revisions__applied-text,.edit-site-global-styles-screen-revisions__apply-button.is-primary{
   align-self:flex-start;
-  margin:0 12px 12px 40px;
+  margin:4px 12px 12px 40px;
 }
 
 .edit-site-global-styles-screen-revisions__applied-text,.edit-site-global-styles-screen-revisions__changes,.edit-site-global-styles-screen-revisions__meta{
@@ -1675,14 +1675,15 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
   text-transform:uppercase;
 }
 
-.edit-site-global-styles-screen-revisions__changes,.edit-site-global-styles-screen-revisions__meta{
+.edit-site-global-styles-screen-revisions__meta{
   align-items:flex-start;
   display:flex;
   justify-content:start;
+  margin-bottom:4px;
   text-align:left;
   width:100%;
 }
-.edit-site-global-styles-screen-revisions__changes img,.edit-site-global-styles-screen-revisions__meta img{
+.edit-site-global-styles-screen-revisions__meta img{
   border-radius:100%;
   height:16px;
   margin-right:8px;
@@ -1694,10 +1695,13 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
 }
 
 .edit-site-global-styles-screen-revisions__changes{
-  color:#1e1e1e;
   line-height:1.4;
-  margin-bottom:4px;
+  list-style:disc;
+  margin-left:12px;
   text-align:left;
+}
+.edit-site-global-styles-screen-revisions__changes li{
+  margin-bottom:4px;
 }
 
 .edit-site-global-styles-screen-revisions__pagination.edit-site-global-styles-screen-revisions__pagination{
@@ -2648,7 +2652,6 @@ body.is-fullscreen-mode .edit-site-list-header{
 }
 .edit-site-change-status__content .edit-site-change-status__options label .components-text{
   display:block;
-  margin-left:26px;
 }
 .edit-site-change-status__content .edit-site-change-status__password-legend{
   margin-bottom:8px;

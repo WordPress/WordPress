@@ -128,3 +128,7 @@ figure.wp-block-image:not(.wp-block){
   padding-right:0;
   width:36px;
 }
+
+.wp-block-image__toolbar_content_textarea{
+  width:250px;
+}

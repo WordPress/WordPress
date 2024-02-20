@@ -21301,7 +21301,7 @@ const DEFAULT_PAGE_BASE = {
 };
 const DEFAULT_VIEWS = {
   page: [{
-    title: (0,external_wp_i18n_namespaceObject._x)('All', 'pages'),
+    title: (0,external_wp_i18n_namespaceObject.__)('All pages'),
     slug: 'all',
     view: DEFAULT_PAGE_BASE
   }, {
@@ -21678,91 +21678,6 @@ function DataViewsSidebarContent() {
     type: type,
     isCustom: "true"
   }));
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-pages-dataviews/index.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-const sidebar_navigation_screen_pages_dataviews_PageItem = ({
-  postType = 'page',
-  postId,
-  ...props
-}) => {
-  const linkInfo = useLink({
-    postType,
-    postId
-  }, {
-    backPath: '/page'
-  });
-  return (0,external_React_.createElement)(SidebarNavigationItem, {
-    ...linkInfo,
-    ...props
-  });
-};
-function SidebarNavigationScreenPagesDataViews() {
-  const {
-    records: templateRecords
-  } = (0,external_wp_coreData_namespaceObject.useEntityRecords)('postType', constants_TEMPLATE_POST_TYPE, {
-    per_page: -1
-  });
-  const {
-    frontPage,
-    postsPage
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEntityRecord
-    } = select(external_wp_coreData_namespaceObject.store);
-    const siteSettings = getEntityRecord('root', 'site');
-    return {
-      frontPage: siteSettings?.page_on_front,
-      postsPage: siteSettings?.page_for_posts
-    };
-  }, []);
-  const templates = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!templateRecords) {
-      return [];
-    }
-    const isHomePageBlog = frontPage === postsPage;
-    const homeTemplate = templateRecords?.find(template => template.slug === 'front-page') || templateRecords?.find(template => template.slug === 'home') || templateRecords?.find(template => template.slug === 'index');
-    return [isHomePageBlog ? homeTemplate : null, ...templateRecords?.filter(({
-      slug
-    }) => ['404', 'search'].includes(slug))].filter(Boolean);
-  }, [templateRecords, frontPage, postsPage]);
-  return (0,external_React_.createElement)(SidebarNavigationScreen, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Pages'),
-    description: (0,external_wp_i18n_namespaceObject.__)('Browse and manage pages.'),
-    content: (0,external_React_.createElement)(DataViewsSidebarContent, null),
-    backPath: "/page",
-    footer: (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-      spacing: 0
-    }, templates?.map(item => (0,external_React_.createElement)(sidebar_navigation_screen_pages_dataviews_PageItem, {
-      postType: constants_TEMPLATE_POST_TYPE,
-      postId: item.id,
-      key: item.id,
-      icon: library_layout,
-      withChevron: true
-    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalTruncate, {
-      numberOfLines: 1
-    }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered || (0,external_wp_i18n_namespaceObject.__)('(no title)'))))))
-  });
 }
 
 ;// CONCATENATED MODULE: external ["wp","dom"]
@@ -22155,9 +22070,11 @@ function SidebarNavigationScreenPage({
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -22199,7 +22116,10 @@ function SidebarScreens() {
     path: "/page"
   }, (0,external_React_.createElement)(SidebarNavigationScreenPages, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/pages"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenPagesDataViews, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreen, {
+    title: (0,external_wp_i18n_namespaceObject.__)('Pages'),
+    content: (0,external_React_.createElement)(DataViewsSidebarContent, null)
+  })), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/page/:postId"
   }, (0,external_React_.createElement)(SidebarNavigationScreenPage, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template)"
@@ -24752,8 +24672,8 @@ function usePageContentFocusCommands() {
   if (currentPostType !== 'wp_template') {
     commands.push({
       name: 'core/switch-to-template-focus',
-      /* translators: %1$s: template title */
-      label: (0,external_wp_i18n_namespaceObject.sprintf)('Edit template: %s', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title)),
+      label: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: template title */
+      (0,external_wp_i18n_namespaceObject.__)('Edit template: %s'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title)),
       icon: library_layout,
       callback: ({
         close
@@ -24835,9 +24755,9 @@ function useManipulateDocumentCommands() {
   }
   const commands = [];
   if (isTemplateRevertable(template) && !isEditingPage) {
-    const label = template.type === constants_TEMPLATE_POST_TYPE ? /* translators: %1$s: template title */
-    (0,external_wp_i18n_namespaceObject.sprintf)('Reset template: %s', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title)) : /* translators: %1$s: template part title */
-    (0,external_wp_i18n_namespaceObject.sprintf)('Reset template part: %s', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title));
+    const label = template.type === constants_TEMPLATE_POST_TYPE ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: template title */
+    (0,external_wp_i18n_namespaceObject.__)('Reset template: %s'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title)) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: template part title */
+    (0,external_wp_i18n_namespaceObject.__)('Reset template part: %s'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title));
     commands.push({
       name: 'core/reset-template',
       label,
@@ -24851,9 +24771,9 @@ function useManipulateDocumentCommands() {
     });
   }
   if (isTemplateRemovable(template) && !isEditingPage) {
-    const label = template.type === constants_TEMPLATE_POST_TYPE ? /* translators: %1$s: template title */
-    (0,external_wp_i18n_namespaceObject.sprintf)('Delete template: %s', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title)) : /* translators: %1$s: template part title */
-    (0,external_wp_i18n_namespaceObject.sprintf)('Delete template part: %s', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title));
+    const label = template.type === constants_TEMPLATE_POST_TYPE ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: template title */
+    (0,external_wp_i18n_namespaceObject.__)('Delete template: %s'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title)) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: template part title */
+    (0,external_wp_i18n_namespaceObject.__)('Delete template part: %s'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title));
     const path = template.type === constants_TEMPLATE_POST_TYPE ? '/wp_template' : '/wp_template_part/all';
     commands.push({
       name: 'core/remove-template',
@@ -26262,16 +26182,71 @@ function extractFontWeights(fontFaces) {
   });
   return result;
 }
+
+/*
+ * Format the font family to use in the CSS font-family property of a CSS rule.
+ *
+ * The input can be a string with the font family name or a string with multiple font family names separated by commas.
+ * It follows the recommendations from the CSS Fonts Module Level 4.
+ * https://www.w3.org/TR/css-fonts-4/#font-family-prop
+ *
+ * @param {string} input - The font family.
+ * @return {string} The formatted font family.
+ *
+ * Example:
+ * formatFontFamily( "Open Sans, Font+Name, sans-serif" ) => '"Open Sans", "Font+Name", sans-serif'
+ * formatFontFamily( "'Open Sans', generic(kai), sans-serif" ) => '"Open Sans", sans-serif'
+ * formatFontFamily( "DotGothic16, Slabo 27px, serif" ) => '"DotGothic16","Slabo 27px",serif'
+ * formatFontFamily( "Mine's, Moe's Typography" ) => `"mine's","Moe's Typography"`
+ */
 function formatFontFamily(input) {
-  return input.split(',').map(font => {
-    font = font.trim(); // Remove any leading or trailing white spaces
-    // If the font doesn't start with quotes and contains a space, then wrap in quotes.
-    // Check that string starts with a single or double quote and not a space
-    if (!(font.startsWith('"') || font.startsWith("'")) && font.indexOf(' ') !== -1) {
-      return `"${font}"`;
+  // Matches strings that are not exclusively alphabetic characters or hyphens, and do not exactly follow the pattern generic(alphabetic characters or hyphens).
+  const regex = /^(?!generic\([ a-zA-Z\-]+\)$)(?!^[a-zA-Z\-]+$).+/;
+  const output = input.trim();
+  const formatItem = item => {
+    item = item.trim();
+    if (item.match(regex)) {
+      // removes leading and trailing quotes.
+      item = item.replace(/^["']|["']$/g, '');
+      return `"${item}"`;
     }
-    return font; // Return font as is if no transformation is needed
-  }).join(', ');
+    return item;
+  };
+  if (output.includes(',')) {
+    return output.split(',').map(formatItem).filter(item => item !== '').join(', ');
+  }
+  return formatItem(output);
+}
+
+/*
+ * Format the font face name to use in the font-family property of a font face.
+ *
+ * The input can be a string with the font face name or a string with multiple font face names separated by commas.
+ * It removes the leading and trailing quotes from the font face name.
+ *
+ * @param {string} input - The font face name.
+ * @return {string} The formatted font face name.
+ *
+ * Example:
+ * formatFontFaceName("Open Sans") => "Open Sans"
+ * formatFontFaceName("'Open Sans', sans-serif") => "Open Sans"
+ * formatFontFaceName(", 'Open Sans', 'Helvetica Neue', sans-serif") => "Open Sans"
+ */
+function formatFontFaceName(input) {
+  let output = input.trim();
+  if (output.includes(',')) {
+    output = output.split(',')
+    // finds the first item that is not an empty string.
+    .find(item => item.trim() !== '').trim();
+  }
+  // removes leading and trailing quotes.
+  output = output.replace(/^["']|["']$/g, '');
+
+  // Firefox needs the font name to be wrapped in double quotes meanwhile other browsers don't.
+  if (window.navigator.userAgent.toLowerCase().includes('firefox')) {
+    output = `"${output}"`;
+  }
+  return output;
 }
 function getFamilyPreviewStyle(family) {
   const style = {
@@ -26402,7 +26377,7 @@ async function loadFontFaceInBrowser(fontFace, source, addTo = 'all') {
   } else {
     return;
   }
-  const newFont = new window.FontFace(formatFontFamily(fontFace.fontFamily), dataSource, {
+  const newFont = new window.FontFace(formatFontFaceName(fontFace.fontFamily), dataSource, {
     style: fontFace.fontStyle,
     weight: fontFace.fontWeight
   });
@@ -26895,7 +26870,7 @@ function FontLibraryProvider({
       if (font.fontFace) {
         font.fontFace.forEach(face => {
           // Load font faces just in the iframe because they already are in the document.
-          loadFontFaceInBrowser(face, getDisplaySrcFromFontFace(face.src), 'iframe');
+          loadFontFaceInBrowser(face, getDisplaySrcFromFontFace(face.src), 'all');
         });
       }
     });
@@ -31776,13 +31751,25 @@ var vmtx$1 = Object.freeze( { __proto__: null, vmtx: vmtx } );
 /* eslint-enable */
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/utils/make-families-from-faces.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+const {
+  kebabCase: make_families_from_faces_kebabCase
+} = unlock(external_wp_components_namespaceObject.privateApis);
 function makeFamiliesFromFaces(fontFaces) {
   const fontFamiliesObject = fontFaces.reduce((acc, item) => {
     if (!acc[item.fontFamily]) {
       acc[item.fontFamily] = {
         name: item.fontFamily,
         fontFamily: item.fontFamily,
-        slug: item.fontFamily.replace(/\s+/g, '-').toLowerCase(),
+        slug: make_families_from_faces_kebabCase(item.fontFamily.toLowerCase()),
         fontFace: []
       };
     }
@@ -33022,14 +33009,15 @@ function ChangesSummary({
   const changes = getGlobalStylesChanges(revision, previousRevision, {
     maxResults: 7
   });
-  const changesLength = changes.length;
-  if (!changesLength) {
+  if (!changes.length) {
     return null;
   }
-  return (0,external_React_.createElement)("span", {
+  return (0,external_React_.createElement)("ul", {
     "data-testid": "global-styles-revision-changes",
     className: "edit-site-global-styles-screen-revisions__changes"
-  }, changes.join(', '), ".");
+  }, changes.map(change => (0,external_React_.createElement)("li", {
+    key: change
+  }, change)));
 }
 
 /**
@@ -33152,6 +33140,7 @@ function RevisionsButtons({
       className: "edit-site-global-styles-screen-revisions__applied-text"
     }, (0,external_wp_i18n_namespaceObject.__)('These styles are already applied to your site.')) : (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
       disabled: areStylesEqual,
+      size: "compact",
       variant: "primary",
       className: "edit-site-global-styles-screen-revisions__apply-button",
       onClick: onApplyRevision
@@ -42642,13 +42631,13 @@ function Media({
     record: media
   } = (0,external_wp_coreData_namespaceObject.useEntityRecord)('root', 'media', id);
   const currentSize = size.find(s => !!media?.media_details?.sizes[s]);
-  const mediaDetails = media?.media_details?.sizes[currentSize];
-  if (!mediaDetails) {
+  const mediaUrl = media?.media_details?.sizes[currentSize]?.source_url || media?.source_url;
+  if (!mediaUrl) {
     return null;
   }
   return (0,external_React_.createElement)("img", {
     ...props,
-    src: mediaDetails.source_url,
+    src: mediaUrl,
     alt: media.alt_text
   });
 }

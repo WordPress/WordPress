@@ -460,9 +460,14 @@
   font-size:13px;
 }
 
-.entities-saved-states__change-summary{
+.entities-saved-states__changes{
   color:#757575;
   font-size:12px;
+  list-style:disc;
+  margin:8px 16px 0;
+}
+.entities-saved-states__changes li{
+  margin-bottom:4px;
 }
 
 .editor-error-boundary{

@@ -234,9 +234,6 @@
       'link'
     ),
     'textdomain' => 'default',
-    'usesContext' => array(
-      'pattern/overrides'
-    ),
     'attributes' => array(
       'tagName' => array(
         'type' => 'string',
@@ -2218,9 +2215,6 @@
       'subtitle'
     ),
     'textdomain' => 'default',
-    'usesContext' => array(
-      'pattern/overrides'
-    ),
     'attributes' => array(
       'textAlign' => array(
         'type' => 'string'
@@ -2369,8 +2363,7 @@
     'usesContext' => array(
       'allowResize',
       'imageCrop',
-      'fixedHeight',
-      'pattern/overrides'
+      'fixedHeight'
     ),
     'description' => 'Insert an image to make a visual statement.',
     'keywords' => array(
@@ -3621,8 +3614,7 @@
     ),
     'textdomain' => 'default',
     'usesContext' => array(
-      'postId',
-      'pattern/overrides'
+      'postId'
     ),
     'attributes' => array(
       'align' => array(

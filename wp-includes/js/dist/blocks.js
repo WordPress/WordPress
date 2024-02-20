@@ -5828,7 +5828,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   __EXPERIMENTAL_ELEMENTS: () => (/* reexport */ __EXPERIMENTAL_ELEMENTS),
-  __EXPERIMENTAL_PATHS_WITH_MERGE: () => (/* reexport */ __EXPERIMENTAL_PATHS_WITH_MERGE),
+  __EXPERIMENTAL_PATHS_WITH_OVERRIDE: () => (/* reexport */ __EXPERIMENTAL_PATHS_WITH_OVERRIDE),
   __EXPERIMENTAL_STYLE_PROPERTY: () => (/* reexport */ __EXPERIMENTAL_STYLE_PROPERTY),
   __experimentalCloneSanitizedBlock: () => (/* reexport */ __experimentalCloneSanitizedBlock),
   __experimentalGetAccessibleBlockLabel: () => (/* reexport */ getAccessibleBlockLabel),
@@ -6740,11 +6740,14 @@ const __EXPERIMENTAL_ELEMENTS = {
   caption: '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
   cite: 'cite'
 };
-const __EXPERIMENTAL_PATHS_WITH_MERGE = {
+
+// These paths may have three origins, custom, theme, and default,
+// and are expected to override other origins with custom, theme,
+// and default priority.
+const __EXPERIMENTAL_PATHS_WITH_OVERRIDE = {
   'color.duotone': true,
   'color.gradients': true,
   'color.palette': true,
-  'typography.fontFamilies': true,
   'typography.fontSizes': true,
   'spacing.spacingSizes': true
 };

@@ -6607,9 +6607,11 @@ function GlobalStylesDescription({
   const globalStylesChanges = getGlobalStylesChanges(currentEditorGlobalStyles, savedRecord, {
     maxResults: 10
   });
-  return globalStylesChanges.length ? (0,external_React_.createElement)(external_wp_components_namespaceObject.PanelRow, {
-    className: "entities-saved-states__change-summary"
-  }, globalStylesChanges.join(', '), ".") : null;
+  return globalStylesChanges.length ? (0,external_React_.createElement)("ul", {
+    className: "entities-saved-states__changes"
+  }, globalStylesChanges.map(change => (0,external_React_.createElement)("li", {
+    key: change
+  }, change))) : null;
 }
 function EntityDescription({
   record,

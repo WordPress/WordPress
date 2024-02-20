@@ -1271,6 +1271,10 @@ figure.wp-block-image:not(.wp-block){
   width:36px;
 }
 
+.wp-block-image__toolbar_content_textarea{
+  width:250px;
+}
+
 .wp-block-latest-posts{
   padding-right:2.5em;
 }
@@ -1647,8 +1651,10 @@ figure.wp-block-image:not(.wp-block){
   min-height:1px;
   min-width:1px;
 }
-.is-collapsed .wp-block-navigation__responsive-container:not(.is-menu-open) .components-button.wp-block-navigation__responsive-container-close{
-  display:none;
+@media (min-width:600px){
+  .wp-block-navigation__responsive-container:not(.is-menu-open) .components-button.wp-block-navigation__responsive-container-close{
+    display:none;
+  }
 }
 
 .wp-block-navigation__responsive-container.is-menu-open{

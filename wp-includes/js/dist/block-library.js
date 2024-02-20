@@ -5283,7 +5283,6 @@ const button_metadata = {
   description: "Prompt visitors to take action with a button-style link.",
   keywords: ["link"],
   textdomain: "default",
-  usesContext: ["pattern/overrides"],
   attributes: {
     tagName: {
       type: "string",
@@ -23928,7 +23927,6 @@ const heading_metadata = {
   description: "Introduce new sections and organize content to help visitors (and search engines) understand the structure of your content.",
   keywords: ["title", "subtitle"],
   textdomain: "default",
-  usesContext: ["pattern/overrides"],
   attributes: {
     textAlign: {
       type: "string"
@@ -25634,6 +25632,7 @@ const TOOLSPANEL_DROPDOWNMENU_PROPS = {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -25772,6 +25771,7 @@ function image_Image({
   const [externalBlob, setExternalBlob] = (0,external_wp_element_namespaceObject.useState)();
   const clientWidth = useClientWidth(containerRef, [align]);
   const hasNonContentControls = blockEditingMode === 'default';
+  const isContentOnlyMode = blockEditingMode === 'contentOnly';
   const isResizable = allowResize && hasNonContentControls && !isWideAligned && isLargeViewport;
   const imageSizeOptions = imageSizes.filter(({
     slug
@@ -26033,7 +26033,71 @@ function image_Image({
     onClick: uploadExternal,
     icon: library_upload,
     label: (0,external_wp_i18n_namespaceObject.__)('Upload to Media Library')
-  }))), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToolsPanel, {
+  }))), isContentOnlyMode &&
+  // Add some extra controls for content attributes when content only mode is active.
+  // With content only mode active, the inspector is hidden, so users need another way
+  // to edit these attributes.
+  (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
+    group: "other"
+  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Dropdown, {
+    popoverProps: {
+      position: 'bottom right'
+    },
+    renderToggle: ({
+      isOpen,
+      onToggle
+    }) => (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
+      onClick: onToggle,
+      "aria-haspopup": "true",
+      "aria-expanded": isOpen,
+      onKeyDown: event => {
+        if (!isOpen && event.keyCode === external_wp_keycodes_namespaceObject.DOWN) {
+          event.preventDefault();
+          onToggle();
+        }
+      }
+    }, (0,external_wp_i18n_namespaceObject._x)('Alt', 'Alternative text for an image. Block toolbar label, a low character count is preferred.')),
+    renderContent: () => (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.TextareaControl, {
+      className: "wp-block-image__toolbar_content_textarea",
+      label: (0,external_wp_i18n_namespaceObject.__)('Alternative text'),
+      value: alt || '',
+      onChange: updateAlt,
+      disabled: lockAltControls,
+      help: lockAltControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+        href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
+      }, (0,external_wp_i18n_namespaceObject.__)('Describe the purpose of the image.')), (0,external_React_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Leave empty if decorative.')),
+      __nextHasNoMarginBottom: true
+    })
+  }), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Dropdown, {
+    popoverProps: {
+      position: 'bottom right'
+    },
+    renderToggle: ({
+      isOpen,
+      onToggle
+    }) => (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
+      onClick: onToggle,
+      "aria-haspopup": "true",
+      "aria-expanded": isOpen,
+      onKeyDown: event => {
+        if (!isOpen && event.keyCode === external_wp_keycodes_namespaceObject.DOWN) {
+          event.preventDefault();
+          onToggle();
+        }
+      }
+    }, (0,external_wp_i18n_namespaceObject.__)('Title')),
+    renderContent: () => (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.TextControl, {
+      className: "wp-block-image__toolbar_content_textarea",
+      __nextHasNoMarginBottom: true,
+      label: (0,external_wp_i18n_namespaceObject.__)('Title attribute'),
+      value: title || '',
+      onChange: onSetTitle,
+      disabled: lockTitleControls,
+      help: lockTitleControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Describe the role of this image on the page.'), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+        href: "https://www.w3.org/TR/html52/dom.html#the-title-attribute"
+      }, (0,external_wp_i18n_namespaceObject.__)('(Note: many devices and browsers do not display this text.)')))
+    })
+  })), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToolsPanel, {
     label: (0,external_wp_i18n_namespaceObject.__)('Settings'),
     resetAll: resetAll,
     dropdownMenuProps: TOOLSPANEL_DROPDOWNMENU_PROPS
@@ -26048,7 +26112,7 @@ function image_Image({
     label: (0,external_wp_i18n_namespaceObject.__)('Alternative text'),
     value: alt || '',
     onChange: updateAlt,
-    disabled: lockAltControls,
+    readOnly: lockAltControls,
     help: lockAltControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
       href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
     }, (0,external_wp_i18n_namespaceObject.__)('Describe the purpose of the image.')), (0,external_React_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Leave empty if decorative.')),
@@ -26064,7 +26128,7 @@ function image_Image({
     label: (0,external_wp_i18n_namespaceObject.__)('Title attribute'),
     value: title || '',
     onChange: onSetTitle,
-    disabled: lockTitleControls,
+    readOnly: lockTitleControls,
     help: lockTitleControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Describe the role of this image on the page.'), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
       href: "https://www.w3.org/TR/html52/dom.html#the-title-attribute"
     }, (0,external_wp_i18n_namespaceObject.__)('(Note: many devices and browsers do not display this text.)')))
@@ -26889,7 +26953,7 @@ const image_metadata = {
   name: "core/image",
   title: "Image",
   category: "media",
-  usesContext: ["allowResize", "imageCrop", "fixedHeight", "pattern/overrides"],
+  usesContext: ["allowResize", "imageCrop", "fixedHeight"],
   description: "Insert an image to make a visual statement.",
   keywords: ["img", "photo", "picture"],
   textdomain: "default",
@@ -32085,7 +32149,6 @@ const PRELOADED_NAVIGATION_MENUS_QUERY = {
   orderby: 'date'
 };
 const SELECT_NAVIGATION_MENUS_ARGS = ['postType', 'wp_navigation', PRELOADED_NAVIGATION_MENUS_QUERY];
-const NAVIGATION_MOBILE_COLLAPSE = '600px';
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-navigation-menu.js
 /**
@@ -34472,7 +34535,6 @@ function AccessibleMenuDescription({
 
 
 
-
 function Navigation({
   attributes,
   setAttributes,
@@ -34639,8 +34701,6 @@ function Navigation({
   const textDecoration = attributes.style?.typography?.textDecoration;
   const hasBlockOverlay = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).__unstableHasActiveBlockOverlayActive(clientId), [clientId]);
   const isResponsive = 'never' !== overlayMenu;
-  const isMobileBreakPoint = (0,external_wp_compose_namespaceObject.useMediaQuery)(`(max-width: ${NAVIGATION_MOBILE_COLLAPSE})`);
-  const isCollapsed = 'mobile' === overlayMenu && isMobileBreakPoint || 'always' === overlayMenu;
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     ref: navRef,
     className: classnames_default()(className, {
@@ -34651,7 +34711,6 @@ function Navigation({
       'is-vertical': orientation === 'vertical',
       'no-wrap': flexWrap === 'nowrap',
       'is-responsive': isResponsive,
-      'is-collapsed': isCollapsed,
       'has-text-color': !!textColor.color || !!textColor?.class,
       [(0,external_wp_blockEditor_namespaceObject.getColorClassName)('color', textColor?.slug)]: !!textColor?.slug,
       'has-background': !!backgroundColor.color || backgroundColor.class,
@@ -39004,7 +39063,7 @@ const {
   description: "Start with the basic building block of all narrative.",
   keywords: ["text"],
   textdomain: "default",
-  usesContext: ["postId", "pattern/overrides"],
+  usesContext: ["postId"],
   attributes: {
     align: {
       type: "string"
@@ -39120,7 +39179,7 @@ const paragraph_metadata = {
   description: "Start with the basic building block of all narrative.",
   keywords: ["text"],
   textdomain: "default",
-  usesContext: ["postId", "pattern/overrides"],
+  usesContext: ["postId"],
   attributes: {
     align: {
       type: "string"

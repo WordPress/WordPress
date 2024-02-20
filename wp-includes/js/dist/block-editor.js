@@ -14109,6 +14109,11 @@ const privateRemoveBlocks = (clientIds, selectPrevious = true, forceRemove = fal
         blockNamesForPrompt.add(blockName);
       }
       if (rules['bindings/core/pattern-overrides']) {
+        const parentPatternBlocks = select.getBlockParentsByBlockName(clientId, 'core/block');
+        // We only need to run this check when editing the original pattern, not pattern instances.
+        if (parentPatternBlocks?.length > 0) {
+          continue;
+        }
         const blockAttributes = select.getBlockAttributes(clientId);
         if (blockAttributes?.metadata?.bindings && JSON.stringify(blockAttributes.metadata.bindings).includes('core/pattern-overrides')) {
           blockNamesForPrompt.add(blockName);
@@ -14576,12 +14581,24 @@ const mergeCache = new WeakMap();
 /**
  * For settings like `color.palette`, which have a value that is an object
  * with `default`, `theme`, `custom`, with field values that are arrays of
+ * items, returns the one with the highest priority among these three arrays.
+ * @param {Object} value Object to extract from
+ * @return {Array} Array of items extracted from the three origins
+ */
+function overrideOrigins(value) {
+  var _ref, _value$custom;
+  return (_ref = (_value$custom = value.custom) !== null && _value$custom !== void 0 ? _value$custom : value.theme) !== null && _ref !== void 0 ? _ref : value.default;
+}
+
+/**
+ * For settings like `color.palette`, which have a value that is an object
+ * with `default`, `theme`, `custom`, with field values that are arrays of
  * items, see if any of the three origins have values.
  *
  * @param {Object} value Object to check
  * @return {boolean} Whether the object has values in any of the three origins
  */
-function hasMergedOrigins(value) {
+function hasOriginValue(value) {
   return ['default', 'theme', 'custom'].some(key => value?.[key]?.length);
 }
 function getBlockSettings(state, clientId, ...paths) {
@@ -14633,8 +14650,8 @@ function getBlockSettings(state, clientId, ...paths) {
 
     // Return if the setting was found in either the block instance or the store.
     if (result !== undefined) {
-      if (external_wp_blocks_namespaceObject.__EXPERIMENTAL_PATHS_WITH_MERGE[normalizedPath]) {
-        return mergeOrigins(result);
+      if (external_wp_blocks_namespaceObject.__EXPERIMENTAL_PATHS_WITH_OVERRIDE[normalizedPath]) {
+        return overrideOrigins(result);
       }
       return result;
     }
@@ -17918,7 +17935,7 @@ function useStyleOverride({
  * @return {Object} Settings object.
  */
 function useBlockSettings(name, parentLayout) {
-  const [backgroundImage, backgroundSize, fontFamilies, fontSizes, customFontSize, fontStyle, fontWeight, lineHeight, textColumns, textDecoration, writingMode, textTransform, letterSpacing, padding, margin, blockGap, spacingSizes, units, aspectRatio, minHeight, layout, borderColor, borderRadius, borderStyle, borderWidth, customColorsEnabled, customColors, customDuotone, themeColors, defaultColors, defaultPalette, defaultDuotone, userDuotonePalette, themeDuotonePalette, defaultDuotonePalette, userGradientPalette, themeGradientPalette, defaultGradientPalette, defaultGradients, areCustomGradientsEnabled, isBackgroundEnabled, isLinkEnabled, isTextEnabled, isHeadingEnabled, isButtonEnabled, shadow] = use_settings_useSettings('background.backgroundImage', 'background.backgroundSize', 'typography.fontFamilies', 'typography.fontSizes', 'typography.customFontSize', 'typography.fontStyle', 'typography.fontWeight', 'typography.lineHeight', 'typography.textColumns', 'typography.textDecoration', 'typography.writingMode', 'typography.textTransform', 'typography.letterSpacing', 'spacing.padding', 'spacing.margin', 'spacing.blockGap', 'spacing.spacingSizes', 'spacing.units', 'dimensions.aspectRatio', 'dimensions.minHeight', 'layout', 'border.color', 'border.radius', 'border.style', 'border.width', 'color.custom', 'color.palette.custom', 'color.customDuotone', 'color.palette.theme', 'color.palette.default', 'color.defaultPalette', 'color.defaultDuotone', 'color.duotone.custom', 'color.duotone.theme', 'color.duotone.default', 'color.gradients.custom', 'color.gradients.theme', 'color.gradients.default', 'color.defaultGradients', 'color.customGradient', 'color.background', 'color.link', 'color.text', 'color.heading', 'color.button', 'shadow');
+  const [backgroundImage, backgroundSize, customFontFamilies, defaultFontFamilies, themeFontFamilies, customFontSizes, defaultFontSizes, themeFontSizes, customFontSize, fontStyle, fontWeight, lineHeight, textColumns, textDecoration, writingMode, textTransform, letterSpacing, padding, margin, blockGap, spacingSizes, units, aspectRatio, minHeight, layout, borderColor, borderRadius, borderStyle, borderWidth, customColorsEnabled, customColors, customDuotone, themeColors, defaultColors, defaultPalette, defaultDuotone, userDuotonePalette, themeDuotonePalette, defaultDuotonePalette, userGradientPalette, themeGradientPalette, defaultGradientPalette, defaultGradients, areCustomGradientsEnabled, isBackgroundEnabled, isLinkEnabled, isTextEnabled, isHeadingEnabled, isButtonEnabled, shadow] = use_settings_useSettings('background.backgroundImage', 'background.backgroundSize', 'typography.fontFamilies.custom', 'typography.fontFamilies.default', 'typography.fontFamilies.theme', 'typography.fontSizes.custom', 'typography.fontSizes.default', 'typography.fontSizes.theme', 'typography.customFontSize', 'typography.fontStyle', 'typography.fontWeight', 'typography.lineHeight', 'typography.textColumns', 'typography.textDecoration', 'typography.writingMode', 'typography.textTransform', 'typography.letterSpacing', 'spacing.padding', 'spacing.margin', 'spacing.blockGap', 'spacing.spacingSizes', 'spacing.units', 'dimensions.aspectRatio', 'dimensions.minHeight', 'layout', 'border.color', 'border.radius', 'border.style', 'border.width', 'color.custom', 'color.palette.custom', 'color.customDuotone', 'color.palette.theme', 'color.palette.default', 'color.defaultPalette', 'color.defaultDuotone', 'color.duotone.custom', 'color.duotone.theme', 'color.duotone.default', 'color.gradients.custom', 'color.gradients.theme', 'color.gradients.default', 'color.defaultGradients', 'color.customGradient', 'color.background', 'color.link', 'color.text', 'color.heading', 'color.button', 'shadow');
   const rawSettings = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return {
       background: {
@@ -17955,10 +17972,14 @@ function useBlockSettings(name, parentLayout) {
       },
       typography: {
         fontFamilies: {
-          custom: fontFamilies
+          custom: customFontFamilies,
+          default: defaultFontFamilies,
+          theme: themeFontFamilies
         },
         fontSizes: {
-          custom: fontSizes
+          custom: customFontSizes,
+          default: defaultFontSizes,
+          theme: themeFontSizes
         },
         customFontSize,
         fontStyle,
@@ -17993,7 +18014,7 @@ function useBlockSettings(name, parentLayout) {
       parentLayout,
       shadow
     };
-  }, [backgroundImage, backgroundSize, fontFamilies, fontSizes, customFontSize, fontStyle, fontWeight, lineHeight, textColumns, textDecoration, textTransform, letterSpacing, writingMode, padding, margin, blockGap, spacingSizes, units, aspectRatio, minHeight, layout, parentLayout, borderColor, borderRadius, borderStyle, borderWidth, customColorsEnabled, customColors, customDuotone, themeColors, defaultColors, defaultPalette, defaultDuotone, userDuotonePalette, themeDuotonePalette, defaultDuotonePalette, userGradientPalette, themeGradientPalette, defaultGradientPalette, defaultGradients, areCustomGradientsEnabled, isBackgroundEnabled, isLinkEnabled, isTextEnabled, isHeadingEnabled, isButtonEnabled, shadow]);
+  }, [backgroundImage, backgroundSize, customFontFamilies, defaultFontFamilies, themeFontFamilies, customFontSizes, defaultFontSizes, themeFontSizes, customFontSize, fontStyle, fontWeight, lineHeight, textColumns, textDecoration, textTransform, letterSpacing, writingMode, padding, margin, blockGap, spacingSizes, units, aspectRatio, minHeight, layout, parentLayout, borderColor, borderRadius, borderStyle, borderWidth, customColorsEnabled, customColors, customDuotone, themeColors, defaultColors, defaultPalette, defaultDuotone, userDuotonePalette, themeDuotonePalette, defaultDuotonePalette, userGradientPalette, themeGradientPalette, defaultGradientPalette, defaultGradients, areCustomGradientsEnabled, isBackgroundEnabled, isLinkEnabled, isTextEnabled, isHeadingEnabled, isButtonEnabled, shadow]);
   return useSettingsForBlockElement(rawSettings, name);
 }
 function createBlockEditFilter(features) {
@@ -25345,6 +25366,7 @@ function BorderPanel({
   name,
   defaultControls = border_panel_DEFAULT_CONTROLS
 }) {
+  var _settings$shadow$pres, _overrideOrigins;
   const colors = useColorsPerOrigin(settings);
   const decodeValue = (0,external_wp_element_namespaceObject.useCallback)(rawValue => getValueFromVariable({
     settings
@@ -25402,10 +25424,10 @@ function BorderPanel({
 
   // Shadow
   const shadow = decodeValue(inheritedValue?.shadow);
-  const shadowPresets = settings?.shadow?.presets;
-  const mergedShadowPresets = shadowPresets ? mergeOrigins(shadowPresets) : [];
+  const shadowPresets = (_settings$shadow$pres = settings?.shadow?.presets) !== null && _settings$shadow$pres !== void 0 ? _settings$shadow$pres : {};
+  const overriddenShadowPresets = (_overrideOrigins = overrideOrigins(shadowPresets)) !== null && _overrideOrigins !== void 0 ? _overrideOrigins : [];
   const setShadow = newValue => {
-    const slug = mergedShadowPresets?.find(({
+    const slug = overriddenShadowPresets?.find(({
       shadow: shadowName
     }) => shadowName === newValue)?.slug;
     onChange(setImmutably(value, ['shadow'], slug ? `var:preset|shadow|${slug}` : newValue || undefined));
@@ -27982,10 +28004,10 @@ function useHasTypographyPanel(settings) {
   return hasFontFamily || hasLineHeight || hasFontAppearance || hasLetterSpacing || hasTextTransform || hasFontSize || hasTextDecoration || hasWritingMode || hasTextColumns;
 }
 function useHasFontSizeControl(settings) {
-  return hasMergedOrigins(settings?.typography?.fontSizes) || settings?.typography?.customFontSize;
+  return hasOriginValue(settings?.typography?.fontSizes) || settings?.typography?.customFontSize;
 }
 function useHasFontFamilyControl(settings) {
-  return hasMergedOrigins(settings?.typography?.fontFamilies);
+  return hasOriginValue(settings?.typography?.fontFamilies);
 }
 function useHasLineHeightControl(settings) {
   return settings?.typography?.lineHeight;
@@ -28018,10 +28040,11 @@ function useHasTextColumnsControl(settings) {
   return settings?.typography?.textColumns;
 }
 function getUniqueFontSizesBySlug(settings) {
-  const fontSizes = settings?.typography?.fontSizes;
-  const mergedFontSizes = fontSizes ? mergeOrigins(fontSizes) : [];
+  var _settings$typography$, _overrideOrigins;
+  const fontSizes = (_settings$typography$ = settings?.typography?.fontSizes) !== null && _settings$typography$ !== void 0 ? _settings$typography$ : {};
+  const overriddenFontSizes = (_overrideOrigins = overrideOrigins(fontSizes)) !== null && _overrideOrigins !== void 0 ? _overrideOrigins : [];
   const uniqueSizes = [];
-  for (const currentSize of mergedFontSizes) {
+  for (const currentSize of overriddenFontSizes) {
     if (!uniqueSizes.some(({
       slug
     }) => slug === currentSize.slug)) {
@@ -28068,13 +28091,14 @@ function TypographyPanel({
   panelId,
   defaultControls = typography_panel_DEFAULT_CONTROLS
 }) {
+  var _settings$typography$2;
   const decodeValue = rawValue => getValueFromVariable({
     settings
   }, '', rawValue);
 
   // Font Family
   const hasFontFamilyEnabled = useHasFontFamilyControl(settings);
-  const fontFamilies = settings?.typography?.fontFamilies;
+  const fontFamilies = (_settings$typography$2 = settings?.typography?.fontFamilies) !== null && _settings$typography$2 !== void 0 ? _settings$typography$2 : {};
   const mergedFontFamilies = fontFamilies ? mergeOrigins(fontFamilies) : [];
   const fontFamily = decodeValue(inheritedValue?.typography?.fontFamily);
   const setFontFamily = newValue => {
@@ -34226,23 +34250,6 @@ function shimAttributeSource(settings) {
   return settings;
 }
 (0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/editor/custom-sources-backwards-compatibility/shim-attribute-source', shimAttributeSource);
-
-// Add the context to all blocks.
-(0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/block-bindings-ui', (settings, name) => {
-  if (!(name in BLOCK_BINDINGS_ALLOWED_BLOCKS)) {
-    return settings;
-  }
-  const contextItems = ['postId', 'postType', 'queryId'];
-  const usesContextArray = settings.usesContext;
-  const oldUsesContextArray = new Set(usesContextArray);
-  contextItems.forEach(item => {
-    if (!oldUsesContextArray.has(item)) {
-      usesContextArray.push(item);
-    }
-  });
-  settings.usesContext = usesContextArray;
-  return settings;
-});
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/use-border-props.js
 /**
@@ -40499,13 +40506,16 @@ function Iframe({
     src: src,
     title: (0,external_wp_i18n_namespaceObject.__)('Editor canvas'),
     onKeyDown: event => {
+      if (props.onKeyDown) {
+        props.onKeyDown(event);
+      }
       // If the event originates from inside the iframe, it means
       // it bubbled through the portal, but only with React
       // events. We need to to bubble native events as well,
       // though by doing so we also trigger another React event,
       // so we need to stop the propagation of this event to avoid
       // duplication.
-      if (event.currentTarget.ownerDocument !== event.target.ownerDocument) {
+      else if (event.currentTarget.ownerDocument !== event.target.ownerDocument) {
         event.stopPropagation();
         bubbleEvent(event, window.KeyboardEvent, event.currentTarget);
       }
@@ -58939,6 +58949,7 @@ function useEnter(props) {
             content: _value.text
           })]);
           __unstableMarkAutomaticChange();
+          return;
         }
       }
       const {
@@ -63953,8 +63964,8 @@ const translationMap = {
   h4: (0,external_wp_i18n_namespaceObject.__)('H4'),
   h5: (0,external_wp_i18n_namespaceObject.__)('H5'),
   h6: (0,external_wp_i18n_namespaceObject.__)('H6'),
-  'settings.color': (0,external_wp_i18n_namespaceObject.__)('Color settings'),
-  'settings.typography': (0,external_wp_i18n_namespaceObject.__)('Typography settings'),
+  'settings.color': (0,external_wp_i18n_namespaceObject.__)('Color'),
+  'settings.typography': (0,external_wp_i18n_namespaceObject.__)('Typography'),
   'styles.color': (0,external_wp_i18n_namespaceObject.__)('Colors'),
   'styles.spacing': (0,external_wp_i18n_namespaceObject.__)('Spacing'),
   'styles.typography': (0,external_wp_i18n_namespaceObject.__)('Typography')
@@ -63983,10 +63994,7 @@ function getTranslation(key) {
     return blockName || keyArray[1];
   }
   if (keyArray?.[0] === 'elements') {
-    const elementName = translationMap[keyArray[1]] || keyArray[1];
-    return (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: %s: element name, e.g., heading button, link, caption.
-    (0,external_wp_i18n_namespaceObject.__)('%s element'), elementName);
+    return translationMap[keyArray[1]] || keyArray[1];
   }
   return undefined;
 }
@@ -64029,7 +64037,7 @@ function deepCompare(changedObject, originalObject, parentPath = '') {
  *
  * @param {Object} next     The changed object to compare.
  * @param {Object} previous The original object to compare against.
- * @return {string[]}                        An array of translated changes.
+ * @return {Array[]}        A 2-dimensional array of tuples: [ "group", "translated change" ].
  */
 function getGlobalStylesChangelist(next, previous) {
   const cacheKey = JSON.stringify({
@@ -64073,11 +64081,11 @@ function getGlobalStylesChangelist(next, previous) {
   const result = [...new Set(changedValueTree)]
   /*
    * Translate the keys.
-   * Remove duplicate or empty translations.
+   * Remove empty translations.
    */.reduce((acc, curr) => {
     const translation = getTranslation(curr);
-    if (translation && !acc.includes(translation)) {
-      acc.push(translation);
+    if (translation) {
+      acc.push([curr.split('.')[0], translation]);
     }
     return acc;
   }, []);
@@ -64086,30 +64094,69 @@ function getGlobalStylesChangelist(next, previous) {
 }
 
 /**
- * From a getGlobalStylesChangelist() result, returns a truncated array of translated changes.
- * Appends a translated string indicating the number of changes that were truncated.
+ * From a getGlobalStylesChangelist() result, returns an array of translated global styles changes, grouped by type.
+ * The types are 'blocks', 'elements', 'settings', and 'styles'.
  *
  * @param {Object}              next     The changed object to compare.
  * @param {Object}              previous The original object to compare against.
  * @param {{maxResults:number}} options  Options. maxResults: results to return before truncating.
- * @return {string[]}                        An array of translated changes.
+ * @return {string[]}                    An array of translated changes.
  */
 function getGlobalStylesChanges(next, previous, options = {}) {
-  const changes = getGlobalStylesChangelist(next, previous);
-  const changesLength = changes.length;
+  let changeList = getGlobalStylesChangelist(next, previous);
+  const changesLength = changeList.length;
   const {
     maxResults
   } = options;
-
-  // Truncate to `n` results if necessary.
-  if (!!maxResults && changesLength && changesLength > maxResults) {
-    const deleteCount = changesLength - maxResults;
-    const andMoreText = (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: %d: number of global styles changes that are not displayed in the UI.
-    (0,external_wp_i18n_namespaceObject._n)('…and %d more change', '…and %d more changes', deleteCount), deleteCount);
-    changes.splice(maxResults, deleteCount, andMoreText);
+  if (changesLength) {
+    // Truncate to `n` results if necessary.
+    if (!!maxResults && changesLength > maxResults) {
+      changeList = changeList.slice(0, maxResults);
+    }
+    return Object.entries(changeList.reduce((acc, curr) => {
+      const group = acc[curr[0]] || [];
+      if (!group.includes(curr[1])) {
+        acc[curr[0]] = [...group, curr[1]];
+      }
+      return acc;
+    }, {})).map(([key, changeValues]) => {
+      const changeValuesLength = changeValues.length;
+      const joinedChangesValue = changeValues.join((0,external_wp_i18n_namespaceObject.__)(', '));
+      switch (key) {
+        case 'blocks':
+          {
+            return (0,external_wp_i18n_namespaceObject.sprintf)(
+            // translators: %s: a list of block names separated by a comma.
+            (0,external_wp_i18n_namespaceObject._n)('%s block.', '%s blocks.', changeValuesLength), joinedChangesValue);
+          }
+        case 'elements':
+          {
+            return (0,external_wp_i18n_namespaceObject.sprintf)(
+            // translators: %s: a list of element names separated by a comma.
+            (0,external_wp_i18n_namespaceObject._n)('%s element.', '%s elements.', changeValuesLength), joinedChangesValue);
+          }
+        case 'settings':
+          {
+            return (0,external_wp_i18n_namespaceObject.sprintf)(
+            // translators: %s: a list of theme.json setting labels separated by a comma.
+            (0,external_wp_i18n_namespaceObject.__)('%s settings.'), joinedChangesValue);
+          }
+        case 'styles':
+          {
+            return (0,external_wp_i18n_namespaceObject.sprintf)(
+            // translators: %s: a list of theme.json top-level styles labels separated by a comma.
+            (0,external_wp_i18n_namespaceObject.__)('%s styles.'), joinedChangesValue);
+          }
+        default:
+          {
+            return (0,external_wp_i18n_namespaceObject.sprintf)(
+            // translators: %s: a list of global styles changes separated by a comma.
+            (0,external_wp_i18n_namespaceObject.__)('%s.'), joinedChangesValue);
+          }
+      }
+    });
   }
-  return changes;
+  return get_global_styles_changes_EMPTY_ARRAY;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/global-styles/index.js
