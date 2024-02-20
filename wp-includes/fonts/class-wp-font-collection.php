@@ -219,8 +219,10 @@ final class WP_Font_Collection {
 				array(
 					'font_family_settings' => array(
 						'name'       => 'sanitize_text_field',
-						'slug'       => 'sanitize_title',
-						'fontFamily' => 'sanitize_text_field',
+						'slug'       => static function ( $value ) {
+							return _wp_to_kebab_case( sanitize_title( $value ) );
+						},
+						'fontFamily' => 'WP_Font_Utils::sanitize_font_family',
 						'preview'    => 'sanitize_url',
 						'fontFace'   => array(
 							array(
