@@ -769,6 +769,7 @@ __webpack_require__.d(build_module_selectors_namespaceObject, {
 var private_selectors_namespaceObject = {};
 __webpack_require__.r(private_selectors_namespaceObject);
 __webpack_require__.d(private_selectors_namespaceObject, {
+  getBlockPatternsForPostType: () => (getBlockPatternsForPostType),
   getNavigationFallbackId: () => (getNavigationFallbackId),
   getUndoManager: () => (getUndoManager)
 });
@@ -5622,8 +5623,19 @@ const getRevision = rememo((state, kind, name, recordKey, revisionKey, query) =>
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/private-selectors.js
 /**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
  * Internal dependencies
  */
+
 
 /**
  * Returns the previous edit from the current undo offset
@@ -5646,6 +5658,9 @@ function getUndoManager(state) {
 function getNavigationFallbackId(state) {
   return state.navigationFallbackId;
 }
+const getBlockPatternsForPostType = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => rememo((state, postType) => select(STORE_NAME).getBlockPatterns().filter(({
+  postTypes
+}) => !postTypes || Array.isArray(postTypes) && postTypes.includes(postType)), () => [select(STORE_NAME).getBlockPatterns()]));
 
 ;// CONCATENATED MODULE: ./node_modules/camel-case/dist.es2015/index.js
 

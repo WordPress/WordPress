@@ -14687,9 +14687,11 @@ function mediaUpload({
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -14823,13 +14825,7 @@ function useBlockEditorSettings(settings, postType, postId) {
     keepCaretInsideBlock,
     mediaUpload: hasUploadPermissions ? mediaUpload : undefined,
     __experimentalBlockPatterns: blockPatterns,
-    __experimentalFetchBlockPatterns: async () => {
-      return (await (0,external_wp_coreData_namespaceObject.fetchBlockPatterns)()).filter(({
-        postTypes
-      }) => {
-        return !postTypes || Array.isArray(postTypes) && postTypes.includes(postType);
-      });
-    },
+    [unlock(external_wp_blockEditor_namespaceObject.privateApis).selectBlockPatternsKey]: select => unlock(select(external_wp_coreData_namespaceObject.store)).getBlockPatternsForPostType(postType),
     __experimentalReusableBlocks: reusableBlocks,
     __experimentalBlockPatternCategories: blockPatternCategories,
     __experimentalUserPatternCategories: userPatternCategories,
@@ -15941,6 +15937,7 @@ function DocumentTools({
     setIsListViewOpened
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const {
+    isDistractionFree,
     isInserterOpened,
     isListViewOpen,
     listViewShortcut,
@@ -15967,7 +15964,8 @@ function DocumentTools({
       listViewShortcut: getShortcutRepresentation('core/editor/toggle-list-view'),
       listViewToggleRef: getListViewToggleRef(),
       hasFixedToolbar: getSettings().hasFixedToolbar,
-      showIconLabels: get('core', 'showIconLabels')
+      showIconLabels: get('core', 'showIconLabels'),
+      isDistractionFree: get('core', 'distractionFree')
     };
   }, []);
   const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
@@ -16033,7 +16031,7 @@ function DocumentTools({
       showTooltip: !showIconLabels,
       variant: showIconLabels ? 'tertiary' : undefined,
       size: "compact"
-    }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+    }), !isDistractionFree && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
       as: external_wp_components_namespaceObject.Button,
       className: "editor-document-tools__document-overview-toggle",
       icon: list_view,

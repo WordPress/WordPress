@@ -7059,7 +7059,7 @@ function Layout({
     }
   }), (0,external_React_namespaceObject.createElement)(EditPostPreferencesModal, null), (0,external_React_namespaceObject.createElement)(keyboard_shortcut_help_modal, null), (0,external_React_namespaceObject.createElement)(WelcomeGuide, null), (0,external_React_namespaceObject.createElement)(external_wp_editor_namespaceObject.PostSyncStatusModal, null), (0,external_React_namespaceObject.createElement)(StartPageOptions, null), (0,external_React_namespaceObject.createElement)(external_wp_plugins_namespaceObject.PluginArea, {
     onError: onPluginAreaError
-  }), (0,external_React_namespaceObject.createElement)(settings_sidebar, null));
+  }), !isDistractionFree && (0,external_React_namespaceObject.createElement)(settings_sidebar, null));
 }
 /* harmony default export */ const components_layout = (Layout);
 
@@ -7067,6 +7067,7 @@ function Layout({
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -7086,16 +7087,23 @@ function Layout({
 const useBlockSelectionListener = postId => {
   const {
     hasBlockSelection,
-    isEditorSidebarOpened
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    hasBlockSelection: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
-    isEditorSidebarOpened: select(constants_STORE_NAME).isEditorSidebarOpened()
-  }), [postId]);
+    isEditorSidebarOpened,
+    isDistractionFree
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      get
+    } = select(external_wp_preferences_namespaceObject.store);
+    return {
+      hasBlockSelection: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
+      isEditorSidebarOpened: select(constants_STORE_NAME).isEditorSidebarOpened(),
+      isDistractionFree: get('core', 'distractionFree')
+    };
+  }, [postId]);
   const {
     openGeneralSidebar
   } = (0,external_wp_data_namespaceObject.useDispatch)(constants_STORE_NAME);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!isEditorSidebarOpened) {
+    if (!isEditorSidebarOpened || isDistractionFree) {
       return;
     }
     if (hasBlockSelection) {
@@ -7609,6 +7617,7 @@ const {
  *                               unsaved changes prompt).
  */
 function initializeEditor(id, postType, postId, settings, initialEdits) {
+  const isMediumOrBigger = window.matchMedia('(min-width: 782px)').matches;
   const target = document.getElementById(id);
   const root = (0,external_wp_element_namespaceObject.createRoot)(target);
   (0,external_wp_data_namespaceObject.dispatch)(external_wp_preferences_namespaceObject.store).setDefaults('core/edit-post', {
@@ -7634,7 +7643,8 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
 
   // Check if the block list view should be open by default.
   // If `distractionFree` mode is enabled, the block list view should not be open.
-  if ((0,external_wp_data_namespaceObject.select)(external_wp_preferences_namespaceObject.store).get('core', 'showListViewByDefault') && !(0,external_wp_data_namespaceObject.select)(external_wp_preferences_namespaceObject.store).get('core', 'distractionFree')) {
+  // This behavior is disabled for small viewports.
+  if (isMediumOrBigger && (0,external_wp_data_namespaceObject.select)(external_wp_preferences_namespaceObject.store).get('core', 'showListViewByDefault') && !(0,external_wp_data_namespaceObject.select)(external_wp_preferences_namespaceObject.store).get('core', 'distractionFree')) {
     (0,external_wp_data_namespaceObject.dispatch)(external_wp_editor_namespaceObject.store).setIsListViewOpened(true);
   }
   (0,external_wp_blockLibrary_namespaceObject.registerCoreBlocks)();

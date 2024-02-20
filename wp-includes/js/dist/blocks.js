@@ -5859,7 +5859,6 @@ __webpack_require__.d(__webpack_exports__, {
   getDefaultBlockName: () => (/* reexport */ getDefaultBlockName),
   getFreeformContentHandlerName: () => (/* reexport */ getFreeformContentHandlerName),
   getGroupingBlockName: () => (/* reexport */ getGroupingBlockName),
-  getHookedBlocks: () => (/* reexport */ getHookedBlocks),
   getPhrasingContentSchema: () => (/* reexport */ deprecatedGetPhrasingContentSchema),
   getPossibleBlockTransformations: () => (/* reexport */ getPossibleBlockTransformations),
   getSaveContent: () => (/* reexport */ getSaveContent),
@@ -5921,7 +5920,6 @@ __webpack_require__.d(selectors_namespaceObject, {
   getDefaultBlockVariation: () => (getDefaultBlockVariation),
   getFreeformFallbackBlockName: () => (getFreeformFallbackBlockName),
   getGroupingBlockName: () => (selectors_getGroupingBlockName),
-  getHookedBlocks: () => (selectors_getHookedBlocks),
   getUnregisteredFallbackBlockName: () => (getUnregisteredFallbackBlockName),
   hasBlockSupport: () => (selectors_hasBlockSupport),
   hasChildBlocks: () => (selectors_hasChildBlocks),
@@ -7269,21 +7267,6 @@ function hasBlockSupport(nameOrType, feature, defaultSupports) {
 }
 
 /**
- * Returns the hooked blocks for a given anchor block.
- *
- * Given an anchor block name, returns an object whose keys are relative positions,
- * and whose values are arrays of block names that are hooked to the anchor block
- * at that relative position.
- *
- * @param {string} name Anchor block name.
- *
- * @return {Object} Lists of hooked block names for each relative position.
- */
-function getHookedBlocks(name) {
-  return (0,external_wp_data_namespaceObject.select)(store).getHookedBlocks(name);
-}
-
-/**
  * Determines whether or not the given block is a reusable block. This is a
  * special block type that is used to point to a global block stored via the
  * API.
@@ -8543,62 +8526,6 @@ const selectors_getBlockTypes = rememo(state => Object.values(state.blockTypes),
 function selectors_getBlockType(state, name) {
   return state.blockTypes[name];
 }
-
-/**
- * Returns the hooked blocks for a given anchor block.
- *
- * Given an anchor block name, returns an object whose keys are relative positions,
- * and whose values are arrays of block names that are hooked to the anchor block
- * at that relative position.
- *
- * @param {Object} state     Data state.
- * @param {string} blockName Anchor block type name.
- *
- * @example
- * ```js
- * import { store as blocksStore } from '@wordpress/blocks';
- * import { useSelect } from '@wordpress/data';
- *
- * const ExampleComponent = () => {
- *     const hookedBlockNames = useSelect( ( select ) =>
- *         select( blocksStore ).getHookedBlocks( 'core/navigation' ),
- *         []
- *     );
- *
- *     return (
- *         <ul>
- *             { Object.keys( hookedBlockNames ).length &&
- *                 Object.keys( hookedBlockNames ).map( ( relativePosition ) => (
- *                     <li key={ relativePosition }>{ relativePosition }>
- *                         <ul>
- *                             { hookedBlockNames[ relativePosition ].map( ( hookedBlock ) => (
- *                                 <li key={ hookedBlock }>{ hookedBlock }</li>
- *                             ) ) }
- *                         </ul>
- *                     </li>
- *             ) ) }
- *         </ul>
- *     );
- * };
- * ```
- *
- * @return {Object} Lists of hooked block names for each relative position.
- */
-const selectors_getHookedBlocks = rememo((state, blockName) => {
-  const hookedBlockTypes = selectors_getBlockTypes(state).filter(({
-    blockHooks
-  }) => blockHooks && blockName in blockHooks);
-  let hookedBlocks = {};
-  for (const blockType of hookedBlockTypes) {
-    var _hookedBlocks$relativ;
-    const relativePosition = blockType.blockHooks[blockName];
-    hookedBlocks = {
-      ...hookedBlocks,
-      [relativePosition]: [...((_hookedBlocks$relativ = hookedBlocks[relativePosition]) !== null && _hookedBlocks$relativ !== void 0 ? _hookedBlocks$relativ : []), blockType.name]
-    };
-  }
-  return hookedBlocks;
-}, state => [state.blockTypes]);
 
 /**
  * Returns block styles by block name.
@@ -15584,25 +15511,6 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
     };
     const normalizedAttributes = normalizeAttributes((_blockType$attributes = blockType?.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}, attributes);
     let [blockName, blockAttributes] = convertLegacyBlockNameAndAttributes(name, normalizedAttributes);
-    const ignoredHookedBlocks = [...new Set(Object.values(getHookedBlocks(blockName)).flat())];
-    if (ignoredHookedBlocks.length) {
-      const {
-        metadata = {},
-        ...otherAttributes
-      } = blockAttributes;
-      const {
-        ignoredHookedBlocks: ignoredHookedBlocksFromTemplate = [],
-        ...otherMetadata
-      } = metadata;
-      const newIgnoredHookedBlocks = [...new Set([...ignoredHookedBlocks, ...ignoredHookedBlocksFromTemplate])];
-      blockAttributes = {
-        metadata: {
-          ignoredHookedBlocks: newIgnoredHookedBlocks,
-          ...otherMetadata
-        },
-        ...otherAttributes
-      };
-    }
 
     // If a Block is undefined at this point, use the core/missing block as
     // a placeholder for a better user experience.

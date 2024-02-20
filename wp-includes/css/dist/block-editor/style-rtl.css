@@ -1427,16 +1427,6 @@ iframe[name=editor-canvas].has-editor-padding{
   font-family:Menlo,Consolas,monaco,monospace;
 }
 
-.block-editor-global-styles-advanced-panel__custom-css-validation-wrapper{
-  bottom:16px;
-  left:24px;
-  position:absolute;
-}
-
-.block-editor-global-styles-advanced-panel__custom-css-validation-icon{
-  fill:#cc1818;
-}
-
 .block-editor-height-control{
   border:0;
   margin:0;

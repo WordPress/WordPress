@@ -10474,6 +10474,7 @@ const setCanvasMode = mode => ({
   registry,
   dispatch
 }) => {
+  const isMediumOrBigger = window.matchMedia('(min-width: 782px)').matches;
   registry.dispatch(external_wp_blockEditor_namespaceObject.store).__unstableSetEditorMode('edit');
   dispatch({
     type: 'SET_CANVAS_MODE',
@@ -10481,7 +10482,8 @@ const setCanvasMode = mode => ({
   });
   // Check if the block list view should be open by default.
   // If `distractionFree` mode is enabled, the block list view should not be open.
-  if (mode === 'edit' && registry.select(external_wp_preferences_namespaceObject.store).get('core', 'showListViewByDefault') && !registry.select(external_wp_preferences_namespaceObject.store).get('core', 'distractionFree')) {
+  // This behavior is disabled for small viewports.
+  if (isMediumOrBigger && mode === 'edit' && registry.select(external_wp_preferences_namespaceObject.store).get('core', 'showListViewByDefault') && !registry.select(external_wp_preferences_namespaceObject.store).get('core', 'distractionFree')) {
     registry.dispatch(external_wp_editor_namespaceObject.store).setIsListViewOpened(true);
   } else {
     registry.dispatch(external_wp_editor_namespaceObject.store).setIsListViewOpened(false);
@@ -16693,6 +16695,199 @@ function CreateTemplatePartModalContents({
   }, confirmLabel))));
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/add-new-pattern/index.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const {
+  useHistory: add_new_pattern_useHistory,
+  useLocation: add_new_pattern_useLocation
+} = unlock(external_wp_router_namespaceObject.privateApis);
+const {
+  CreatePatternModal,
+  useAddPatternCategory
+} = unlock(external_wp_patterns_namespaceObject.privateApis);
+function AddNewPattern() {
+  const history = add_new_pattern_useHistory();
+  const {
+    params
+  } = add_new_pattern_useLocation();
+  const [showPatternModal, setShowPatternModal] = (0,external_wp_element_namespaceObject.useState)(false);
+  const [showTemplatePartModal, setShowTemplatePartModal] = (0,external_wp_element_namespaceObject.useState)(false);
+  const isBlockBasedTheme = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    return select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.is_block_theme;
+  }, []);
+  const {
+    createPatternFromFile
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_patterns_namespaceObject.store));
+  const {
+    createSuccessNotice,
+    createErrorNotice
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
+  const patternUploadInputRef = (0,external_wp_element_namespaceObject.useRef)();
+  function handleCreatePattern({
+    pattern,
+    categoryId
+  }) {
+    setShowPatternModal(false);
+    history.push({
+      postId: pattern.id,
+      postType: PATTERN_TYPES.user,
+      categoryType: PATTERN_TYPES.theme,
+      categoryId,
+      canvas: 'edit'
+    });
+  }
+  function handleCreateTemplatePart(templatePart) {
+    setShowTemplatePartModal(false);
+
+    // Navigate to the created template part editor.
+    history.push({
+      postId: templatePart.id,
+      postType: TEMPLATE_PART_POST_TYPE,
+      canvas: 'edit'
+    });
+  }
+  function handleError() {
+    setShowPatternModal(false);
+    setShowTemplatePartModal(false);
+  }
+  const controls = [{
+    icon: library_symbol,
+    onClick: () => setShowPatternModal(true),
+    title: (0,external_wp_i18n_namespaceObject.__)('Create pattern')
+  }];
+  if (isBlockBasedTheme) {
+    controls.push({
+      icon: symbol_filled,
+      onClick: () => setShowTemplatePartModal(true),
+      title: (0,external_wp_i18n_namespaceObject.__)('Create template part')
+    });
+  }
+  controls.push({
+    icon: library_upload,
+    onClick: () => {
+      patternUploadInputRef.current.click();
+    },
+    title: (0,external_wp_i18n_namespaceObject.__)('Import pattern from JSON')
+  });
+  const {
+    categoryMap,
+    findOrCreateTerm
+  } = useAddPatternCategory();
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.DropdownMenu, {
+    controls: controls,
+    toggleProps: {
+      as: SidebarButton
+    },
+    icon: library_plus,
+    label: (0,external_wp_i18n_namespaceObject.__)('Create pattern')
+  }), showPatternModal && (0,external_React_.createElement)(CreatePatternModal, {
+    onClose: () => setShowPatternModal(false),
+    onSuccess: handleCreatePattern,
+    onError: handleError
+  }), showTemplatePartModal && (0,external_React_.createElement)(CreateTemplatePartModal, {
+    closeModal: () => setShowTemplatePartModal(false),
+    blocks: [],
+    onCreate: handleCreateTemplatePart,
+    onError: handleError
+  }), (0,external_React_.createElement)("input", {
+    type: "file",
+    accept: ".json",
+    hidden: true,
+    ref: patternUploadInputRef,
+    onChange: async event => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        let currentCategoryId;
+        // When we're not handling template parts, we should
+        // add or create the proper pattern category.
+        if (params.categoryType !== TEMPLATE_PART_POST_TYPE) {
+          const currentCategory = categoryMap.values().find(term => term.name === params.categoryId);
+          if (!!currentCategory) {
+            currentCategoryId = currentCategory.id || (await findOrCreateTerm(currentCategory.label));
+          }
+        }
+        const pattern = await createPatternFromFile(file, currentCategoryId ? [currentCategoryId] : undefined);
+
+        // Navigate to the All patterns category for the newly created pattern
+        // if we're not on that page already and if we're not in the `my-patterns`
+        // category.
+        if (!currentCategoryId && params.categoryId !== 'my-patterns') {
+          history.push({
+            path: `/patterns`,
+            categoryType: PATTERN_TYPES.theme,
+            categoryId: PATTERN_DEFAULT_CATEGORY
+          });
+        }
+        createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
+        // translators: %s: The imported pattern's title.
+        (0,external_wp_i18n_namespaceObject.__)('Imported "%s" from JSON.'), pattern.title.raw), {
+          type: 'snackbar',
+          id: 'import-pattern-success'
+        });
+      } catch (err) {
+        createErrorNotice(err.message, {
+          type: 'snackbar',
+          id: 'import-pattern-error'
+        });
+      } finally {
+        event.target.value = '';
+      }
+    }
+  }));
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-patterns/category-item.js
+
+/**
+ * Internal dependencies
+ */
+
+
+function CategoryItem({
+  count,
+  icon,
+  id,
+  isActive,
+  label,
+  type
+}) {
+  const linkInfo = useLink({
+    path: '/patterns',
+    categoryType: type,
+    categoryId: id
+  });
+  if (!count) {
+    return;
+  }
+  return (0,external_React_.createElement)(SidebarNavigationItem, {
+    ...linkInfo,
+    icon: icon,
+    suffix: (0,external_React_.createElement)("span", null, count),
+    "aria-current": isActive ? 'true' : undefined
+  }, label);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-patterns/use-default-pattern-categories.js
 /**
  * WordPress dependencies
@@ -17292,6 +17487,9 @@ const selectThemePatterns = rememo(select => {
   const {
     getSettings
   } = unlock(select(store_store));
+  const {
+    getIsResolving
+  } = select(external_wp_coreData_namespaceObject.store);
   const settings = getSettings();
   const blockPatterns = (_settings$__experimen = settings.__experimentalAdditionalBlockPatterns) !== null && _settings$__experimen !== void 0 ? _settings$__experimen : settings.__experimentalBlockPatterns;
   const restBlockPatterns = select(external_wp_coreData_namespaceObject.store).getBlockPatterns();
@@ -17305,15 +17503,17 @@ const selectThemePatterns = rememo(select => {
   }));
   return {
     patterns,
-    isResolving: false
+    isResolving: getIsResolving('getBlockPatterns')
   };
-}, select => [select(external_wp_coreData_namespaceObject.store).getBlockPatterns(), unlock(select(store_store)).getSettings()]);
+}, select => [select(external_wp_coreData_namespaceObject.store).getBlockPatterns(), select(external_wp_coreData_namespaceObject.store).getIsResolving('getBlockPatterns'), unlock(select(store_store)).getSettings()]);
 const selectPatterns = rememo((select, categoryId, syncStatus, search = '') => {
   const {
-    patterns: themePatterns
+    patterns: themePatterns,
+    isResolving: isResolvingThemePatterns
   } = selectThemePatterns(select);
   const {
-    patterns: userPatterns
+    patterns: userPatterns,
+    isResolving: isResolvingUserPatterns
   } = selectUserPatterns(select);
   let patterns = [...(themePatterns || []), ...(userPatterns || [])];
   if (syncStatus) {
@@ -17335,7 +17535,7 @@ const selectPatterns = rememo((select, categoryId, syncStatus, search = '') => {
   }
   return {
     patterns,
-    isResolving: false
+    isResolving: isResolvingThemePatterns || isResolvingUserPatterns
   };
 }, select => [selectThemePatterns(select), selectUserPatterns(select)]);
 
@@ -17514,189 +17714,6 @@ function usePatternCategories() {
     patternCategories,
     hasPatterns: !!patternCategories.length
   };
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/add-new-pattern/index.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-const {
-  useHistory: add_new_pattern_useHistory,
-  useLocation: add_new_pattern_useLocation
-} = unlock(external_wp_router_namespaceObject.privateApis);
-const {
-  CreatePatternModal
-} = unlock(external_wp_patterns_namespaceObject.privateApis);
-function AddNewPattern() {
-  const history = add_new_pattern_useHistory();
-  const {
-    params
-  } = add_new_pattern_useLocation();
-  const [showPatternModal, setShowPatternModal] = (0,external_wp_element_namespaceObject.useState)(false);
-  const [showTemplatePartModal, setShowTemplatePartModal] = (0,external_wp_element_namespaceObject.useState)(false);
-  const isBlockBasedTheme = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.is_block_theme;
-  }, []);
-  const {
-    createPatternFromFile
-  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_patterns_namespaceObject.store));
-  const {
-    createSuccessNotice,
-    createErrorNotice
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
-  const patternUploadInputRef = (0,external_wp_element_namespaceObject.useRef)();
-  const {
-    patternCategories
-  } = usePatternCategories();
-  function handleCreatePattern({
-    pattern,
-    categoryId
-  }) {
-    setShowPatternModal(false);
-    history.push({
-      postId: pattern.id,
-      postType: PATTERN_TYPES.user,
-      categoryType: PATTERN_TYPES.theme,
-      categoryId,
-      canvas: 'edit'
-    });
-  }
-  function handleCreateTemplatePart(templatePart) {
-    setShowTemplatePartModal(false);
-
-    // Navigate to the created template part editor.
-    history.push({
-      postId: templatePart.id,
-      postType: TEMPLATE_PART_POST_TYPE,
-      canvas: 'edit'
-    });
-  }
-  function handleError() {
-    setShowPatternModal(false);
-    setShowTemplatePartModal(false);
-  }
-  const controls = [{
-    icon: library_symbol,
-    onClick: () => setShowPatternModal(true),
-    title: (0,external_wp_i18n_namespaceObject.__)('Create pattern')
-  }];
-  if (isBlockBasedTheme) {
-    controls.push({
-      icon: symbol_filled,
-      onClick: () => setShowTemplatePartModal(true),
-      title: (0,external_wp_i18n_namespaceObject.__)('Create template part')
-    });
-  }
-  controls.push({
-    icon: library_upload,
-    onClick: () => {
-      patternUploadInputRef.current.click();
-    },
-    title: (0,external_wp_i18n_namespaceObject.__)('Import pattern from JSON')
-  });
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.DropdownMenu, {
-    controls: controls,
-    toggleProps: {
-      as: SidebarButton
-    },
-    icon: library_plus,
-    label: (0,external_wp_i18n_namespaceObject.__)('Create pattern')
-  }), showPatternModal && (0,external_React_.createElement)(CreatePatternModal, {
-    onClose: () => setShowPatternModal(false),
-    onSuccess: handleCreatePattern,
-    onError: handleError
-  }), showTemplatePartModal && (0,external_React_.createElement)(CreateTemplatePartModal, {
-    closeModal: () => setShowTemplatePartModal(false),
-    blocks: [],
-    onCreate: handleCreateTemplatePart,
-    onError: handleError
-  }), (0,external_React_.createElement)("input", {
-    type: "file",
-    accept: ".json",
-    hidden: true,
-    ref: patternUploadInputRef,
-    onChange: async event => {
-      const file = event.target.files?.[0];
-      if (!file) return;
-      try {
-        const currentCategoryId = params.categoryType !== TEMPLATE_PART_POST_TYPE && patternCategories.find(category => category.name === params.categoryId)?.id;
-        const pattern = await createPatternFromFile(file, currentCategoryId ? [currentCategoryId] : undefined);
-
-        // Navigate to the All patterns category for the newly created pattern
-        // if we're not on that page already.
-        if (!currentCategoryId) {
-          history.push({
-            path: `/patterns`,
-            categoryType: PATTERN_TYPES.theme,
-            categoryId: PATTERN_DEFAULT_CATEGORY
-          });
-        }
-        createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-        // translators: %s: The imported pattern's title.
-        (0,external_wp_i18n_namespaceObject.__)('Imported "%s" from JSON.'), pattern.title.raw), {
-          type: 'snackbar',
-          id: 'import-pattern-success'
-        });
-      } catch (err) {
-        createErrorNotice(err.message, {
-          type: 'snackbar',
-          id: 'import-pattern-error'
-        });
-      } finally {
-        event.target.value = '';
-      }
-    }
-  }));
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-patterns/category-item.js
-
-/**
- * Internal dependencies
- */
-
-
-function CategoryItem({
-  count,
-  icon,
-  id,
-  isActive,
-  label,
-  type
-}) {
-  const linkInfo = useLink({
-    path: '/patterns',
-    categoryType: type,
-    categoryId: id
-  });
-  if (!count) {
-    return;
-  }
-  return (0,external_React_.createElement)(SidebarNavigationItem, {
-    ...linkInfo,
-    icon: icon,
-    suffix: (0,external_React_.createElement)("span", null, count),
-    "aria-current": isActive ? 'true' : undefined
-  }, label);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-patterns/use-template-part-areas.js
@@ -20245,6 +20262,7 @@ function ViewTable({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -20342,6 +20360,7 @@ function ViewGrid({
   fields,
   view,
   actions,
+  isLoading,
   getItemId,
   deferredRendering,
   selection,
@@ -20354,11 +20373,13 @@ function ViewGrid({
     step: 3
   });
   const usedData = deferredRendering ? shownData : data;
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
+  const hasData = !!usedData?.length;
+  return (0,external_React_.createElement)(external_React_.Fragment, null, hasData && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
     gap: 6,
     columns: 2,
     alignment: "top",
-    className: "dataviews-view-grid"
+    className: "dataviews-view-grid",
+    "aria-busy": isLoading
   }, usedData.map(item => {
     return (0,external_React_.createElement)(GridItem, {
       key: getItemId(item),
@@ -20372,7 +20393,12 @@ function ViewGrid({
       primaryField: primaryField,
       visibleFields: visibleFields
     });
-  }));
+  })), !hasData && (0,external_React_.createElement)("div", {
+    className: classnames_default()({
+      'dataviews-loading': isLoading,
+      'dataviews-no-results': !isLoading
+    })
+  }, (0,external_React_.createElement)("p", null, isLoading ? (0,external_wp_i18n_namespaceObject.__)('Loading…') : (0,external_wp_i18n_namespaceObject.__)('No results'))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/info.js
@@ -21090,6 +21116,7 @@ function AddNewPageModal({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -21120,6 +21147,7 @@ const PageItem = ({
   });
 };
 function SidebarNavigationScreenPages() {
+  const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
   const {
     records: pages,
     isResolving: isLoadingPages
@@ -21235,7 +21263,7 @@ function SidebarNavigationScreenPages() {
       withChevron: true
     }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalTruncate, {
       numberOfLines: 1
-    }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered || (0,external_wp_i18n_namespaceObject.__)('(no title)'))))), (0,external_React_.createElement)(SidebarNavigationItem, {
+    }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered || (0,external_wp_i18n_namespaceObject.__)('(no title)'))))), !isMobileViewport && (0,external_React_.createElement)(SidebarNavigationItem, {
       className: "edit-site-sidebar-navigation-screen-pages__see-all",
       ...pagesLink
     }, (0,external_wp_i18n_namespaceObject.__)('Manage all pages')))
@@ -22071,6 +22099,7 @@ function SidebarNavigationScreenPage({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -22104,6 +22133,7 @@ function SidebarScreenWrapper({
 }
 function SidebarScreens() {
   useSyncPathWithURL();
+  const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
   return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/"
   }, (0,external_React_.createElement)(SidebarNavigationScreenMain, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
@@ -22123,7 +22153,7 @@ function SidebarScreens() {
     path: "/page/:postId"
   }, (0,external_React_.createElement)(SidebarNavigationScreenPage, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template)"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenTemplates, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenTemplates, null)), !isMobileViewport && (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/patterns"
   }, (0,external_React_.createElement)(SidebarNavigationScreenPatterns, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template|wp_template_part)/all"
@@ -25643,7 +25673,7 @@ const BlockPreviewPanel = ({
     return (0,external_wp_blocks_namespaceObject.getBlockFromExample)(name, example);
   }, [name, blockExample, variation]);
   const viewportWidth = (_blockExample$viewpor = blockExample?.viewportWidth) !== null && _blockExample$viewpor !== void 0 ? _blockExample$viewpor : null;
-  const previewHeight = '150px';
+  const previewHeight = 150;
   if (!blockExample) {
     return null;
   }
@@ -25663,7 +25693,7 @@ const BlockPreviewPanel = ({
     additionalStyles: [{
       css: `
 								body{
-									min-height:${previewHeight};
+									min-height:${previewHeight}px;
 									display:flex;align-items:center;justify-content:center;
 								}
 							`
@@ -27019,57 +27049,6 @@ function TabPanelLayout({
 }
 /* harmony default export */ const tab_panel_layout = (TabPanelLayout);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/fonts-grid.js
-
-/**
- * WordPress dependencies
- */
-
-
-function FontsGrid({
-  title,
-  children,
-  pageSize = 32
-}) {
-  const [lastItem, setLastItem] = (0,external_wp_element_namespaceObject.useState)(null);
-  const [page, setPage] = (0,external_wp_element_namespaceObject.useState)(1);
-  const itemsLimit = page * pageSize;
-  const items = children.slice(0, itemsLimit);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (lastItem) {
-      const observer = new window.IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          setPage(prevPage => prevPage + 1);
-        }
-      });
-      observer.observe(lastItem);
-      return () => observer.disconnect();
-    }
-  }, [lastItem]);
-  return (0,external_React_.createElement)("div", {
-    className: "font-library-modal__fonts-grid"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    spacing: 0
-  }, title && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
-    className: "font-library-modal__subtitle"
-  }, title), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 2
-  })), (0,external_React_.createElement)("div", {
-    className: "font-library-modal__fonts-grid__main"
-  }, items.map((child, i) => {
-    if (i === itemsLimit - 1) {
-      return (0,external_React_.createElement)("div", {
-        key: child.key,
-        ref: setLastItem
-      }, child);
-    }
-    return (0,external_React_.createElement)("div", {
-      key: child.key
-    }, child);
-  }))));
-}
-/* harmony default export */ const fonts_grid = (FontsGrid);
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/font-demo.js
 
 /**
@@ -27397,7 +27376,6 @@ function ConfirmDeleteDialog({
 
 
 
-
 const {
   ProgressBar
 } = unlock(external_wp_components_namespaceObject.privateApis);
@@ -27470,23 +27448,27 @@ function InstalledFonts() {
     margin: 2
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Spinner, null), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 2
-  })), baseCustomFonts.length > 0 && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(fonts_grid, null, baseCustomFonts.map(font => (0,external_React_.createElement)(library_font_card, {
+  })), baseCustomFonts.length > 0 && (0,external_React_.createElement)(external_React_.Fragment, null, baseCustomFonts.map(font => (0,external_React_.createElement)(library_font_card, {
+    font: font,
+    key: font.slug,
+    onClick: () => {
+      handleSelectFont(font);
+    }
+  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+    margin: 8
+  })), baseThemeFonts.length > 0 && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
+    className: "font-library-modal__subtitle"
+  }, (0,external_wp_i18n_namespaceObject.__)('Theme Fonts')), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+    margin: 2
+  }), baseThemeFonts.map(font => (0,external_React_.createElement)(library_font_card, {
     font: font,
     key: font.slug,
     onClick: () => {
       handleSelectFont(font);
     }
   }))), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 8
-  })), baseThemeFonts.length > 0 && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(fonts_grid, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Theme Fonts')
-  }, baseThemeFonts.map(font => (0,external_React_.createElement)(library_font_card, {
-    font: font,
-    key: font.slug,
-    onClick: () => {
-      handleSelectFont(font);
-    }
-  }))))), libraryFontSelected && (0,external_React_.createElement)(library_font_details, {
+    margin: 16
+  })), libraryFontSelected && (0,external_React_.createElement)(library_font_details, {
     font: libraryFontSelected,
     isConfirmDeleteOpen: isConfirmDeleteOpen,
     handleConfirmUninstall: handleConfirmUninstall,
@@ -27655,7 +27637,7 @@ function CollectionFontDetails({
     // If the font has no fontFace, we want to check if the font is in the outline
     fontToInstallOutline)
   }))), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    margin: 8
+    margin: 16
   }));
 }
 /* harmony default export */ const collection_font_details = (CollectionFontDetails);
@@ -27677,7 +27659,7 @@ function GoogleFontsConfirmDialog() {
     className: "font-library__google-fonts-confirm"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Card, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.CardBody, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     as: "h3"
-  }, "Connect to Google Fonts"), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Connect to Google Fonts')), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 6
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     as: "p"
@@ -27717,7 +27699,6 @@ function GoogleFontsConfirmDialog() {
 
 
 
-
 const DEFAULT_CATEGORY = {
   slug: 'all',
   name: (0,external_wp_i18n_namespaceObject._x)('All', 'font categories')
@@ -27732,6 +27713,7 @@ function FontCollection({
   };
   const [selectedFont, setSelectedFont] = (0,external_wp_element_namespaceObject.useState)(null);
   const [fontsToInstall, setFontsToInstall] = (0,external_wp_element_namespaceObject.useState)([]);
+  const [page, setPage] = (0,external_wp_element_namespaceObject.useState)(1);
   const [filters, setFilters] = (0,external_wp_element_namespaceObject.useState)({});
   const [renderConfirmDialog, setRenderConfirmDialog] = (0,external_wp_element_namespaceObject.useState)(requiresPermission && !getGoogleFontsPermissionFromStorage());
   const {
@@ -27781,27 +27763,39 @@ function FontCollection({
   const collectionCategories = (_selectedCollection$c = selectedCollection?.categories) !== null && _selectedCollection$c !== void 0 ? _selectedCollection$c : [];
   const categories = [DEFAULT_CATEGORY, ...collectionCategories];
   const fonts = (0,external_wp_element_namespaceObject.useMemo)(() => filterFonts(collectionFonts, filters), [collectionFonts, filters]);
+
+  // NOTE: The height of the font library modal unavailable to use for rendering font family items is roughly 417px
+  // The height of each font family item is 61px.
+  const pageSize = Math.floor((window.innerHeight - 417) / 61);
+  const totalPages = Math.ceil(fonts.length / pageSize);
+  const itemsStart = (page - 1) * pageSize;
+  const itemsLimit = page * pageSize;
+  const items = fonts.slice(itemsStart, itemsLimit);
   const handleCategoryFilter = category => {
     setFilters({
       ...filters,
       category
     });
+    setPage(1);
   };
   const handleUpdateSearchInput = value => {
     setFilters({
       ...filters,
       search: value
     });
+    setPage(1);
   };
   const debouncedUpdateSearchInput = (0,external_wp_compose_namespaceObject.debounce)(handleUpdateSearchInput, 300);
   const resetFilters = () => {
     setFilters({});
+    setPage(1);
   };
   const resetSearch = () => {
     setFilters({
       ...filters,
       search: ''
     });
+    setPage(1);
   };
   const handleUnselectFont = () => {
     setSelectedFont(null);
@@ -27848,15 +27842,25 @@ function FontCollection({
     }
     resetFontsToInstall();
   };
+  let footerComponent = null;
+  if (selectedFont) {
+    footerComponent = (0,external_React_.createElement)(InstallFooter, {
+      handleInstall: handleInstall,
+      isDisabled: fontsToInstall.length === 0
+    });
+  } else if (!renderConfirmDialog && totalPages > 1) {
+    footerComponent = (0,external_React_.createElement)(PaginationFooter, {
+      page: page,
+      totalPages: totalPages,
+      setPage: setPage
+    });
+  }
   return (0,external_React_.createElement)(tab_panel_layout, {
     title: !selectedFont ? selectedCollection.name : selectedFont.name,
     description: !selectedFont ? selectedCollection.description : (0,external_wp_i18n_namespaceObject.__)('Select font variants to install.'),
     notice: notice,
     handleBack: !!selectedFont && handleUnselectFont,
-    footer: (0,external_React_.createElement)(font_collection_Footer, {
-      handleInstall: handleInstall,
-      isDisabled: fontsToInstall.length === 0
-    })
+    footer: footerComponent
   }, renderConfirmDialog && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 8
   }), (0,external_React_.createElement)(google_fonts_confirm_dialog, null)), !renderConfirmDialog && !selectedFont && (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalInputControl, {
@@ -27884,7 +27888,9 @@ function FontCollection({
     font: selectedFont,
     handleToggleVariant: handleToggleVariant,
     fontToInstallOutline: fontToInstallOutline
-  }), !renderConfirmDialog && !selectedFont && (0,external_React_.createElement)(fonts_grid, null, fonts.map(font => (0,external_React_.createElement)(font_card, {
+  }), !renderConfirmDialog && !selectedFont && (0,external_React_.createElement)("div", {
+    className: "font-library-modal__fonts-grid__main"
+  }, items.map(font => (0,external_React_.createElement)(font_card, {
     key: font.font_family_settings.slug,
     font: font.font_family_settings,
     onClick: () => {
@@ -27892,7 +27898,60 @@ function FontCollection({
     }
   }))));
 }
-function font_collection_Footer({
+function PaginationFooter({
+  page,
+  totalPages,
+  setPage
+}) {
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, {
+    justify: "center"
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    label: (0,external_wp_i18n_namespaceObject.__)('First page'),
+    size: "compact",
+    onClick: () => setPage(1),
+    disabled: page === 1,
+    __experimentalIsFocusable: true
+  }, (0,external_React_.createElement)("span", null, "\xAB")), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    label: (0,external_wp_i18n_namespaceObject.__)('Previous page'),
+    size: "compact",
+    onClick: () => setPage(page - 1),
+    disabled: page === 1,
+    __experimentalIsFocusable: true
+  }, (0,external_React_.createElement)("span", null, "\u2039")), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    justify: "flex-start",
+    expanded: false,
+    spacing: 2
+  }, (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)(
+  // translators: %s: Total number of pages.
+  (0,external_wp_i18n_namespaceObject._x)('Page <CurrenPageControl /> of %s', 'paging'), totalPages), {
+    CurrenPageControl: (0,external_React_.createElement)(external_wp_components_namespaceObject.SelectControl, {
+      "aria-label": (0,external_wp_i18n_namespaceObject.__)('Current page'),
+      value: page,
+      options: [...Array(totalPages)].map((e, i) => {
+        return {
+          label: i + 1,
+          value: i + 1
+        };
+      }),
+      onChange: newPage => setPage(parseInt(newPage)),
+      size: 'compact',
+      __nextHasNoMarginBottom: true
+    })
+  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    label: (0,external_wp_i18n_namespaceObject.__)('Next page'),
+    size: "compact",
+    onClick: () => setPage(page + 1),
+    disabled: page === totalPages,
+    __experimentalIsFocusable: true
+  }, (0,external_React_.createElement)("span", null, "\u203A")), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    label: (0,external_wp_i18n_namespaceObject.__)('Last page'),
+    size: "compact",
+    onClick: () => setPage(totalPages),
+    disabled: page === totalPages,
+    __experimentalIsFocusable: true
+  }, (0,external_React_.createElement)("span", null, "\xBB")));
+}
+function InstallFooter({
   handleInstall,
   isDisabled
 }) {
@@ -36205,7 +36264,7 @@ function Editor({
       rules: blockRemovalRules
     }), (0,external_React_.createElement)(PatternModal, null)), editorMode === 'text' && isEditMode && (0,external_React_.createElement)(CodeEditor, null), isEditMode && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(edit_mode, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.EditorKeyboardShortcutsRegister, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.EditorKeyboardShortcuts, null))),
     secondarySidebar: isEditMode && (shouldShowInserter && (0,external_React_.createElement)(InserterSidebar, null) || shouldShowListView && (0,external_React_.createElement)(ListViewSidebar, null)),
-    sidebar: isEditMode && isRightSidebarOpen && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(complementary_area.Slot, {
+    sidebar: !isDistractionFree && isEditMode && isRightSidebarOpen && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(complementary_area.Slot, {
       scope: "core/edit-site"
     })),
     footer: shouldShowBlockBreadcrumbs && (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockBreadcrumb, {
@@ -44607,6 +44666,7 @@ function PageTemplatesTemplateParts({
     setView(newView);
   }, [view.type, setView, history, params]);
   return (0,external_React_.createElement)(Page, {
+    className: "edit-site-page-template-template-parts-dataviews",
     title: postType === constants_TEMPLATE_POST_TYPE ? (0,external_wp_i18n_namespaceObject.__)('Templates') : (0,external_wp_i18n_namespaceObject.__)('Template Parts'),
     actions: postType === constants_TEMPLATE_POST_TYPE ? (0,external_React_.createElement)(AddNewTemplate, {
       templateType: postType,
@@ -44659,8 +44719,13 @@ function useLayoutAreas() {
     postId,
     path,
     layout,
-    isCustom
+    isCustom,
+    canvas
   } = params !== null && params !== void 0 ? params : {};
+
+  // Note: Since "sidebar" is not yet supported here,
+  // returning undefined from "mobile" means show the sidebar.
+
   // Regular page
   if (path === '/page') {
     return {
@@ -44668,7 +44733,10 @@ function useLayoutAreas() {
         content: undefined,
         preview: (0,external_React_.createElement)(Editor, {
           isLoading: isSiteEditorLoading
-        })
+        }),
+        mobile: canvas === 'edit' ? (0,external_React_.createElement)(Editor, {
+          isLoading: isSiteEditorLoading
+        }) : undefined
       },
       widths: {
         content: undefined
@@ -44699,7 +44767,10 @@ function useLayoutAreas() {
       areas: {
         preview: (0,external_React_.createElement)(Editor, {
           isLoading: isSiteEditorLoading
-        })
+        }),
+        mobile: canvas === 'edit' ? (0,external_React_.createElement)(Editor, {
+          isLoading: isSiteEditorLoading
+        }) : undefined
       }
     };
   }
@@ -44713,6 +44784,9 @@ function useLayoutAreas() {
         }),
         preview: isListLayout && (0,external_React_.createElement)(Editor, {
           isLoading: isSiteEditorLoading
+        }),
+        mobile: (0,external_React_.createElement)(PageTemplatesTemplateParts, {
+          postType: constants_TEMPLATE_POST_TYPE
         })
       },
       widths: {
@@ -44730,6 +44804,9 @@ function useLayoutAreas() {
         }),
         preview: isListLayout && (0,external_React_.createElement)(Editor, {
           isLoading: isSiteEditorLoading
+        }),
+        mobile: (0,external_React_.createElement)(PageTemplatesTemplateParts, {
+          postType: TEMPLATE_PART_POST_TYPE
         })
       },
       widths: {
@@ -44742,7 +44819,8 @@ function useLayoutAreas() {
   if (path === '/patterns') {
     return {
       areas: {
-        content: (0,external_React_.createElement)(DataviewsPatterns, null)
+        content: (0,external_React_.createElement)(DataviewsPatterns, null),
+        mobile: (0,external_React_.createElement)(DataviewsPatterns, null)
       }
     };
   }
@@ -44752,7 +44830,10 @@ function useLayoutAreas() {
     areas: {
       preview: (0,external_React_.createElement)(Editor, {
         isLoading: isSiteEditorLoading
-      })
+      }),
+      mobile: canvas === 'edit' ? (0,external_React_.createElement)(Editor, {
+        isLoading: isSiteEditorLoading
+      }) : undefined
     }
   };
 }
@@ -44971,7 +45052,7 @@ function Layout() {
     }
   }, (0,external_React_.createElement)(HeaderEditMode, null)))), (0,external_React_.createElement)("div", {
     className: "edit-site-layout__content"
-  }, (0,external_React_.createElement)(NavigableRegion, {
+  }, (!isMobileViewport || isMobileViewport && !areas.mobile) && (0,external_React_.createElement)(NavigableRegion, {
     ariaLabel: (0,external_wp_i18n_namespaceObject.__)('Navigation'),
     className: "edit-site-layout__sidebar-region"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableAnimatePresence, null, canvasMode === 'view' && (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
@@ -44992,12 +45073,17 @@ function Layout() {
       ease: 'easeOut'
     },
     className: "edit-site-layout__sidebar"
-  }, (0,external_React_.createElement)(sidebar, null)))), (0,external_React_.createElement)(SavePanel, null), areas.content && canvasMode !== 'edit' && (0,external_React_.createElement)("div", {
+  }, (0,external_React_.createElement)(sidebar, null)))), (0,external_React_.createElement)(SavePanel, null), isMobileViewport && areas.mobile && (0,external_React_.createElement)("div", {
+    className: "edit-site-layout__mobile",
+    style: {
+      maxWidth: widths?.content
+    }
+  }, areas.mobile), !isMobileViewport && areas.content && canvasMode !== 'edit' && (0,external_React_.createElement)("div", {
     className: "edit-site-layout__area",
     style: {
       maxWidth: widths?.content
     }
-  }, areas.content), areas.preview && (0,external_React_.createElement)("div", {
+  }, areas.content), !isMobileViewport && areas.preview && (0,external_React_.createElement)("div", {
     className: "edit-site-layout__canvas-container"
   }, canvasResizer, !!canvasSize.width && (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
     whileHover: canvasMode === 'view' ? {

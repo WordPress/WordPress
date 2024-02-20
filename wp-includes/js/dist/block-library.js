@@ -5077,11 +5077,9 @@ function ButtonEdit(props) {
     if (!isSelected) {
       return {};
     }
-    const {
-      getBlockBindingsSource
-    } = unlock(select(external_wp_blockEditor_namespaceObject.store));
+    const blockBindingsSource = unlock(select(external_wp_blockEditor_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
     return {
-      lockUrlControls: !!metadata?.bindings?.url && getBlockBindingsSource(metadata?.bindings?.url?.source)?.lockAttributesEditing
+      lockUrlControls: !!metadata?.bindings?.url && (!blockBindingsSource || blockBindingsSource?.lockAttributesEditing)
     };
   }, [isSelected]);
   return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)("div", {
@@ -25987,14 +25985,17 @@ function image_Image({
       title: titleBinding
     } = metadata?.bindings || {};
     const hasParentPattern = getBlockParentsByBlockName(clientId, 'core/block').length > 0;
+    const urlBindingSource = getBlockBindingsSource(urlBinding?.source);
+    const altBindingSource = getBlockBindingsSource(altBinding?.source);
+    const titleBindingSource = getBlockBindingsSource(titleBinding?.source);
     return {
-      lockUrlControls: !!urlBinding && getBlockBindingsSource(urlBinding?.source)?.lockAttributesEditing,
+      lockUrlControls: !!urlBinding && (!urlBindingSource || urlBindingSource?.lockAttributesEditing),
       lockHrefControls:
       // Disable editing the link of the URL if the image is inside a pattern instance.
       // This is a temporary solution until we support overriding the link on the frontend.
       hasParentPattern,
-      lockAltControls: !!altBinding && getBlockBindingsSource(altBinding?.source)?.lockAttributesEditing,
-      lockTitleControls: !!titleBinding && getBlockBindingsSource(titleBinding?.source)?.lockAttributesEditing
+      lockAltControls: !!altBinding && (!altBindingSource || altBindingSource?.lockAttributesEditing),
+      lockTitleControls: !!titleBinding && (!titleBindingSource || titleBindingSource?.lockAttributesEditing)
     };
   }, [clientId, isSingleSelected, metadata?.bindings]);
   const controls = (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
@@ -26608,11 +26609,9 @@ function ImageEdit({
     if (!isSingleSelected) {
       return {};
     }
-    const {
-      getBlockBindingsSource
-    } = unlock(select(external_wp_blockEditor_namespaceObject.store));
+    const blockBindingsSource = unlock(select(external_wp_blockEditor_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
     return {
-      lockUrlControls: !!metadata?.bindings?.url && getBlockBindingsSource(metadata?.bindings?.url?.source)?.lockAttributesEditing
+      lockUrlControls: !!metadata?.bindings?.url && (!blockBindingsSource || blockBindingsSource?.lockAttributesEditing)
     };
   }, [isSingleSelected]);
   const placeholder = content => {

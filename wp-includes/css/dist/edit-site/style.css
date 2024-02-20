@@ -2388,6 +2388,14 @@ body.is-fullscreen-mode .edit-site-list-header{
 .edit-site-patterns__pagination .components-button.is-tertiary:hover:not(:disabled){
   background-color:#757575;
 }
+.edit-site-page-patterns-dataviews{
+  margin-top:60px;
+}
+@media (min-width:782px){
+  .edit-site-page-patterns-dataviews{
+    margin-top:0;
+  }
+}
 .edit-site-page-patterns-dataviews .page-patterns-preview-field{
   border-radius:3px 3px 0 0;
   display:flex;
@@ -2435,6 +2443,9 @@ body.is-fullscreen-mode .edit-site-list-header{
   text-overflow:ellipsis;
   white-space:nowrap;
   width:100%;
+}
+.edit-site-page-patterns-dataviews .dataviews-pagination{
+  z-index:2;
 }
 
 .dataviews-action-modal__duplicate-pattern [role=dialog]>[role=document]{
@@ -2511,6 +2522,10 @@ body.is-fullscreen-mode .edit-site-list-header{
 
 .page-templates-description{
   white-space:normal;
+}
+
+.edit-site-page-template-template-parts-dataviews .dataviews-pagination{
+  z-index:2;
 }
 
 .edit-site-table-wrapper{
@@ -3090,6 +3105,12 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   overflow:hidden;
 }
 
+.edit-site-layout__mobile{
+  position:relative;
+  width:100%;
+  z-index:2;
+}
+
 .edit-site-layout__canvas-container{
   flex-grow:1;
   position:relative;
@@ -3140,7 +3161,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   border-radius:0;
 }
 
-.edit-site-layout__canvas .interface-interface-skeleton,.edit-site-template-pages-preview .interface-interface-skeleton{
+.edit-site-layout__canvas .interface-interface-skeleton,.edit-site-layout__mobile .interface-interface-skeleton,.edit-site-template-pages-preview .interface-interface-skeleton{
   min-height:100% !important;
   position:relative !important;
 }
@@ -4040,9 +4061,8 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   width:100%;
 }
 
-.font-library-modal__fonts-grid .font-library-modal__fonts-grid__main{
-  display:flex;
-  flex-direction:column;
+.font-library-modal__tabpanel-layout .components-base-control__field{
+  margin-bottom:0;
 }
 
 .font-library-modal__font-card{
