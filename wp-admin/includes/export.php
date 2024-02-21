@@ -144,6 +144,52 @@ function export_wp( $args = array() ) {
 	// Grab a snapshot of post IDs, just in case it changes during the export.
 	$post_ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} $join WHERE $where" );
 
+	// Get IDs for the attachments of each post, unless all content is already being exported.
+	if ( ! in_array( $args['content'], array( 'all', 'attachment' ), true ) ) {
+		// Array to hold all additional IDs (attachments and thumbnails).
+		$additional_ids = array();
+
+		// Create a copy of the post IDs array to avoid modifying the original array.
+		$processing_ids = $post_ids;
+
+		while ( $next_posts = array_splice( $processing_ids, 0, 20 ) ) {
+			$posts_in     = array_map( 'absint', $next_posts );
+			$placeholders = array_fill( 0, count( $posts_in ), '%d' );
+
+			// Create a string for the placeholders.
+			$in_placeholder = implode( ',', $placeholders );
+
+			// Prepare the SQL statement for attachment ids.
+			$attachment_ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"
+				SELECT ID
+				FROM $wpdb->posts
+				WHERE post_parent IN ($in_placeholder) AND post_type = 'attachment'
+					",
+					$posts_in
+				)
+			);
+
+			$thumbnails_ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"
+				SELECT meta_value
+				FROM $wpdb->postmeta
+				WHERE $wpdb->postmeta.post_id IN ($in_placeholder)
+				AND $wpdb->postmeta.meta_key = '_thumbnail_id'
+					",
+					$posts_in
+				)
+			);
+
+			$additional_ids = array_merge( $additional_ids, $attachment_ids, $thumbnails_ids );
+		}
+
+		// Merge the additional IDs back with the original post IDs after processing all posts
+		$post_ids = array_unique( array_merge( $post_ids, $additional_ids ) );
+	}
+
 	/*
 	 * Get the requested terms ready, empty unless posts filtered by category
 	 * or all content.
