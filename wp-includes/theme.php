@@ -153,11 +153,17 @@ function wp_clean_themes_cache( $clear_update_cache = true ) {
  * Whether a child theme is in use.
  *
  * @since 3.0.0
+ * @since 6.5.0 Makes use of global template variables.
+ *
+ * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
+ * @global string $wp_template_path   Path to current theme's template directory.
  *
  * @return bool True if a child theme is in use, false otherwise.
  */
 function is_child_theme() {
-	return get_template_directory() !== get_stylesheet_directory();
+	global $wp_stylesheet_path, $wp_template_path;
+
+	return $wp_stylesheet_path !== $wp_template_path;
 }
 
 /**
@@ -835,6 +841,14 @@ function switch_theme( $stylesheet ) {
 	}
 
 	update_option( 'theme_switched', $old_theme->get_stylesheet() );
+
+	/*
+	 * Reset template globals when switching themes outside of a switched blog
+	 * context to ensure templates will be loaded from the new theme.
+	 */
+	if ( ! is_multisite() || ! ms_is_switched() ) {
+		wp_set_template_globals();
+	}
 
 	// Clear pattern caches.
 	if ( ! is_multisite() ) {

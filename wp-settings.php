@@ -608,8 +608,9 @@ $GLOBALS['wp_roles'] = new WP_Roles();
  */
 do_action( 'setup_theme' );
 
-// Define the template related constants.
+// Define the template related constants and globals.
 wp_templating_constants();
+wp_set_template_globals();
 
 // Load the default text localization domain.
 load_default_textdomain();

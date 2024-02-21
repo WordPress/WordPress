@@ -1046,12 +1046,14 @@ function wp_skip_paused_plugins( array $plugins ) {
  * @since 5.1.0
  * @access private
  *
- * @global string $pagenow The filename of the current screen.
+ * @global string $pagenow            The filename of the current screen.
+ * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
+ * @global string $wp_template_path   Path to current theme's template directory.
  *
  * @return string[] Array of absolute paths to theme directories.
  */
 function wp_get_active_and_valid_themes() {
-	global $pagenow;
+	global $pagenow, $wp_stylesheet_path, $wp_template_path;
 
 	$themes = array();
 
@@ -1059,14 +1061,11 @@ function wp_get_active_and_valid_themes() {
 		return $themes;
 	}
 
-	$stylesheet_path = get_stylesheet_directory();
-	$template_path   = get_template_directory();
-
-	if ( $template_path !== $stylesheet_path ) {
-		$themes[] = $stylesheet_path;
+	if ( is_child_theme() ) {
+		$themes[] = $wp_stylesheet_path;
 	}
 
-	$themes[] = $template_path;
+	$themes[] = $wp_template_path;
 
 	/*
 	 * Remove themes from the list of active themes when we're on an endpoint
