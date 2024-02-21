@@ -1591,14 +1591,6 @@ div.action-links,
 	margin-top: 0;
 }
 
-.plugin-card .column-description .authors {
-	order: 1;
-}
-
-.plugin-card .column-description .plugin-dependencies {
-	order: 2;
-}
-
 .plugin-card .column-description p:empty {
 	display: none;
 }
@@ -1643,8 +1635,6 @@ div.action-links,
 @media (max-width: 939px) {
 	.plugin-card .plugin-dependency-name {
 		flex-basis: 69%;
-	}
-	.plugin-card .plugin-dependency .more-details-link {
 	}
 }
 
