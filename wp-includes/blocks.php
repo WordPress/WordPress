@@ -106,7 +106,7 @@ function get_block_asset_url( $path ) {
 
 	$template = get_template();
 	if ( ! isset( $template_paths_norm[ $template ] ) ) {
-		$template_paths_norm[ $template ] = wp_normalize_path( get_template_directory() );
+		$template_paths_norm[ $template ] = wp_normalize_path( realpath( get_template_directory() ) );
 	}
 
 	if ( str_starts_with( $path, trailingslashit( $template_paths_norm[ $template ] ) ) ) {
@@ -116,7 +116,7 @@ function get_block_asset_url( $path ) {
 	if ( is_child_theme() ) {
 		$stylesheet = get_stylesheet();
 		if ( ! isset( $template_paths_norm[ $stylesheet ] ) ) {
-			$template_paths_norm[ $stylesheet ] = wp_normalize_path( get_stylesheet_directory() );
+			$template_paths_norm[ $stylesheet ] = wp_normalize_path( realpath( get_stylesheet_directory() ) );
 		}
 
 		if ( str_starts_with( $path, trailingslashit( $template_paths_norm[ $stylesheet ] ) ) ) {
