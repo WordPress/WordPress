@@ -37,15 +37,14 @@ class WP_Font_Library {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param string $slug         Font collection slug.
-	 * @param array  $data_or_file Font collection data array or a path/URL to a JSON file
-	 *                             containing the font collection.
-	 *                             See {@see wp_register_font_collection()} for the supported fields.
+	 * @param string $slug Font collection slug. May only contain alphanumeric characters, dashes,
+	 *                     and underscores. See sanitize_title().
+	 * @param array  $args Font collection data. See wp_register_font_collection() for information on accepted arguments.
 	 * @return WP_Font_Collection|WP_Error A font collection if it was registered successfully,
 	 *                                     or WP_Error object on failure.
 	 */
-	public function register_font_collection( $slug, $data_or_file ) {
-		$new_collection = new WP_Font_Collection( $slug, $data_or_file );
+	public function register_font_collection( string $slug, array $args ) {
+		$new_collection = new WP_Font_Collection( $slug, $args );
 
 		if ( $this->is_collection_registered( $new_collection->slug ) ) {
 			$error_message = sprintf(
@@ -72,7 +71,7 @@ class WP_Font_Library {
 	 * @param string $slug Font collection slug.
 	 * @return bool True if the font collection was unregistered successfully and false otherwise.
 	 */
-	public function unregister_font_collection( $slug ) {
+	public function unregister_font_collection( string $slug ) {
 		if ( ! $this->is_collection_registered( $slug ) ) {
 			_doing_it_wrong(
 				__METHOD__,
@@ -94,7 +93,7 @@ class WP_Font_Library {
 	 * @param string $slug Font collection slug.
 	 * @return bool True if the font collection is registered and false otherwise.
 	 */
-	private function is_collection_registered( $slug ) {
+	private function is_collection_registered( string $slug ) {
 		return array_key_exists( $slug, $this->collections );
 	}
 
@@ -117,7 +116,7 @@ class WP_Font_Library {
 	 * @param string $slug Font collection slug.
 	 * @return WP_Font_Collection|null Font collection object, or null if the font collection doesn't exist.
 	 */
-	public function get_font_collection( $slug ) {
+	public function get_font_collection( string $slug ) {
 		if ( $this->is_collection_registered( $slug ) ) {
 			return $this->collections[ $slug ];
 		}

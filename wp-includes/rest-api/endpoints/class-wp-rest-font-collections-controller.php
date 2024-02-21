@@ -104,7 +104,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $items );
 
 		$response->header( 'X-WP-Total', (int) $total_items );
-		$response->header( 'X-WP-TotalPages', (int) $max_pages );
+		$response->header( 'X-WP-TotalPages', $max_pages );
 
 		$request_params = $request->get_query_params();
 		$collection_url = rest_url( $this->namespace . '/' . $this->rest_base );
