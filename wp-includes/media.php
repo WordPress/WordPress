@@ -972,14 +972,22 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 		$src = false;
 
 		if ( $icon ) {
-			$src = wp_mime_type_icon( $attachment_id );
+			$src = wp_mime_type_icon( $attachment_id, '.svg' );
 
 			if ( $src ) {
 				/** This filter is documented in wp-includes/post.php */
 				$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
 
-				$src_file               = $icon_dir . '/' . wp_basename( $src );
+				$src_file = $icon_dir . '/' . wp_basename( $src );
 				list( $width, $height ) = wp_getimagesize( $src_file );
+				$ext      = strtolower( substr( $src_file, -4 ) );
+				if ( '.svg' === $ext ) {
+					// SVG does not have true dimensions, so this assigns width and height directly.
+					$width  = 48;
+					$height = 64;
+				} else {
+					list( $width, $height ) = wp_getimagesize( $src_file );
+				}
 			}
 		}
 
@@ -3067,7 +3075,7 @@ function wp_playlist_shortcode( $attr ) {
 				list( $src, $width, $height ) = wp_get_attachment_image_src( $thumb_id, 'thumbnail' );
 				$track['thumb']               = compact( 'src', 'width', 'height' );
 			} else {
-				$src            = wp_mime_type_icon( $attachment->ID );
+				$src            = wp_mime_type_icon( $attachment->ID, '.svg' );
 				$width          = 48;
 				$height         = 64;
 				$track['image'] = compact( 'src', 'width', 'height' );
@@ -4339,7 +4347,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'mime'          => $attachment->post_mime_type,
 		'type'          => $type,
 		'subtype'       => $subtype,
-		'icon'          => wp_mime_type_icon( $attachment->ID ),
+		'icon'          => wp_mime_type_icon( $attachment->ID, '.svg' ),
 		'dateFormatted' => mysql2date( __( 'F j, Y' ), $attachment->post_date ),
 		'nonces'        => array(
 			'update' => false,
@@ -4510,7 +4518,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
 			$response['thumb']            = compact( 'src', 'width', 'height' );
 		} else {
-			$src               = wp_mime_type_icon( $attachment->ID );
+			$src               = wp_mime_type_icon( $attachment->ID, '.svg' );
 			$width             = 48;
 			$height            = 64;
 			$response['image'] = compact( 'src', 'width', 'height' );

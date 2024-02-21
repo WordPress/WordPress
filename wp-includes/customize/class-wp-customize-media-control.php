@@ -99,7 +99,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 					'id'    => 1,
 					'url'   => $this->setting->default,
 					'type'  => $type,
-					'icon'  => wp_mime_type_icon( $type ),
+					'icon'  => wp_mime_type_icon( $type, '.svg' ),
 					'title' => wp_basename( $this->setting->default ),
 				);
 
