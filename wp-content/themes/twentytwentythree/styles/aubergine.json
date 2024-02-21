@@ -86,8 +86,8 @@
 					"size": "10rem",
 					"slug": "xx-large",
 					"fluid": {
-						"min": "4rem",
-						"max": "20rem"
+						"min": "10rem",
+						"max": "16.3rem"
 					}
 				}
 			]
