@@ -3353,7 +3353,7 @@ function wp_add_editor_classic_theme_styles( $editor_settings ) {
  * This is a helper meant to be used for literal script tag construction
  * within `wp_get_inline_script_tag()` or `wp_print_inline_script_tag()`.
  * It removes the literal values of "<script>" and "</script>" from
- * around an inline script after trimming whitespace. Typlically this
+ * around an inline script after trimming whitespace. Typically this
  * is used in conjunction with output buffering, where `ob_get_clean()`
  * is passed as the `$contents` argument.
  *
