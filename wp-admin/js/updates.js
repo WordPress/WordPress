@@ -3260,7 +3260,7 @@
 				$message.text( message.text );
 			}
 
-			if ( 'undefined' === typeof message.action || 'undefined' === typeof message.data.slug ) {
+			if ( 'undefined' === typeof message.action ) {
 				return;
 			}
 
@@ -3274,6 +3274,10 @@
 
 				case 'install-plugin':
 				case 'update-plugin':
+					if ( 'undefined' === typeof message.data || 'undefined' === typeof message.data.slug ) {
+						return;
+					}
+
 					message.data = wp.updates._addCallbacks( message.data, message.action );
 
 					wp.updates.queue.push( message );
