@@ -362,7 +362,7 @@ function get_shortcode_regex( $tagnames = null ) {
 		.         '\\[\\/\\2\\]'             // Closing shortcode tag.
 		.     ')?'
 		. ')'
-		. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]].
+		. '(\\]?)';                          // 6: Optional second closing bracket for escaping shortcodes: [[tag]].
 	// phpcs:enable
 }
 
@@ -385,7 +385,7 @@ function get_shortcode_regex( $tagnames = null ) {
  *     @type string $3 Shortcode arguments list.
  *     @type string $4 Optional self closing slash.
  *     @type string $5 Content of a shortcode when it wraps some content.
- *     @type string $6 Optional second closing brocket for escaping shortcodes.
+ *     @type string $6 Optional second closing bracket for escaping shortcodes.
  * }
  * @return string Shortcode output.
  */
