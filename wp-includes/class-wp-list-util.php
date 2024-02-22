@@ -165,9 +165,13 @@ class WP_List_Util {
 			 */
 			foreach ( $this->output as $key => $value ) {
 				if ( is_object( $value ) ) {
-					$newlist[ $key ] = $value->$field;
+					if ( property_exists( $value, $field ) ) {
+						$newlist[ $key ] = $value->$field;
+					}
 				} elseif ( is_array( $value ) ) {
-					$newlist[ $key ] = $value[ $field ];
+					if ( array_key_exists( $field, $value ) ) {
+						$newlist[ $key ] = $value[ $field ];
+					}
 				} else {
 					_doing_it_wrong(
 						__METHOD__,
@@ -188,16 +192,20 @@ class WP_List_Util {
 		 */
 		foreach ( $this->output as $value ) {
 			if ( is_object( $value ) ) {
-				if ( isset( $value->$index_key ) ) {
-					$newlist[ $value->$index_key ] = $value->$field;
-				} else {
-					$newlist[] = $value->$field;
+				if ( property_exists( $value, $field ) ) {
+					if ( property_exists( $value, $index_key ) ) {
+						$newlist[ $value->$index_key ] = $value->$field;
+					} else {
+						$newlist[] = $value->$field;
+					}
 				}
 			} elseif ( is_array( $value ) ) {
-				if ( isset( $value[ $index_key ] ) ) {
-					$newlist[ $value[ $index_key ] ] = $value[ $field ];
-				} else {
-					$newlist[] = $value[ $field ];
+				if ( array_key_exists( $field, $value ) ) {
+					if ( array_key_exists( $index_key, $value ) ) {
+						$newlist[ $value[ $index_key ] ] = $value[ $field ];
+					} else {
+						$newlist[] = $value[ $field ];
+					}
 				}
 			} else {
 				_doing_it_wrong(
