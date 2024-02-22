@@ -1377,9 +1377,9 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 	 *
 	 * @global bool $is_IIS
 	 *
-	 * @param string $location      The path or URL to redirect to.
-	 * @param int    $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
-	 * @param string $x_redirect_by Optional. The application doing the redirect. Default 'WordPress'.
+	 * @param string       $location      The path or URL to redirect to.
+	 * @param int          $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+	 * @param string|false $x_redirect_by Optional. The application doing the redirect or false to omit. Default 'WordPress'.
 	 * @return bool False if the redirect was canceled, true otherwise.
 	 */
 	function wp_redirect( $location, $status = 302, $x_redirect_by = 'WordPress' ) {
@@ -1426,9 +1426,9 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 		 *
 		 * @since 5.1.0
 		 *
-		 * @param string $x_redirect_by The application doing the redirect.
-		 * @param int    $status        Status code to use.
-		 * @param string $location      The path to redirect to.
+		 * @param string|false $x_redirect_by The application doing the redirect or false to omit the header.
+		 * @param int          $status        Status code to use.
+		 * @param string       $location      The path to redirect to.
 		 */
 		$x_redirect_by = apply_filters( 'x_redirect_by', $x_redirect_by, $status, $location );
 		if ( is_string( $x_redirect_by ) ) {
@@ -1520,9 +1520,9 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 	 * @since 2.3.0
 	 * @since 5.1.0 The return value from wp_redirect() is now passed on, and the `$x_redirect_by` parameter was added.
 	 *
-	 * @param string $location      The path or URL to redirect to.
-	 * @param int    $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
-	 * @param string $x_redirect_by Optional. The application doing the redirect. Default 'WordPress'.
+	 * @param string       $location      The path or URL to redirect to.
+	 * @param int          $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+	 * @param string|false $x_redirect_by Optional. The application doing the redirect or false to omit. Default 'WordPress'.
 	 * @return bool False if the redirect was canceled, true otherwise.
 	 */
 	function wp_safe_redirect( $location, $status = 302, $x_redirect_by = 'WordPress' ) {
