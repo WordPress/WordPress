@@ -1688,6 +1688,15 @@ p.auto-update-status {
 	margin: 3px -2px 0 5px;
 }
 
+#plugin-information-footer .button {
+	padding: 0 14px;
+	line-height: 2.71428571; /* 38px */
+	font-size: 14px;
+	vertical-align: middle;
+	min-height: 40px;
+	margin-bottom: 4px;
+}
+
 #plugin-information-footer .button.installed:before,
 #plugin-information-footer .button.installing:before,
 #plugin-information-footer .button.updating-message:before,
