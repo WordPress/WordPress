@@ -236,7 +236,7 @@ class WP_Block {
 		$supported_block_attributes = array(
 			'core/paragraph' => array( 'content' ),
 			'core/heading'   => array( 'content' ),
-			'core/image'     => array( 'url', 'title', 'alt' ),
+			'core/image'     => array( 'id', 'url', 'title', 'alt' ),
 			'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
 		);
 
@@ -289,7 +289,7 @@ class WP_Block {
 	 */
 	private function replace_html( string $block_content, string $attribute_name, $source_value ) {
 		$block_type = $this->block_type;
-		if ( ! isset( $block_type->attributes[ $attribute_name ] ) ) {
+		if ( ! isset( $block_type->attributes[ $attribute_name ]['source'] ) ) {
 			return $block_content;
 		}
 
