@@ -8763,6 +8763,14 @@ function is_wp_version_compatible( $required ) {
 	// Strip off any -alpha, -RC, -beta, -src suffixes.
 	list( $version ) = explode( '-', $wp_version );
 
+	if ( is_string( $required ) ) {
+		$trimmed = trim( $required );
+
+		if ( substr_count( $trimmed, '.' ) > 1 && str_ends_with( $trimmed, '.0' ) ) {
+			$required = substr( $trimmed, 0, -2 );
+		}
+	}
+
 	return empty( $required ) || version_compare( $version, $required, '>=' );
 }
 
