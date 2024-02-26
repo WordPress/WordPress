@@ -25,7 +25,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</h1>
 		</div>
 
-		<div class="about__header-text"></div>
+		<div class="about__header-text">
+			<?php _e( 'Be the future of WordPress' ); ?>
+		</div>
 	</div>
 
 	<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
@@ -38,7 +40,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<div class="about__section has-2-columns is-wider-right">
 		<div class="column">
-			<img src="<?php echo esc_url( admin_url( 'images/contribute-main.svg?ver=6.4' ) ); ?>" alt="" width="290" height="290" />
+			<img src="<?php echo esc_url( admin_url( 'images/contribute-main.svg?ver=6.5' ) ); ?>" alt="" width="290" height="290" />
 		</div>
 		<div class="column is-vertically-aligned-center">
 			<p><?php _e( 'Do you use WordPress for work, for personal projects, or even just for fun? You can help shape the long-term success of the open source project that powers millions of websites around the world.' ); ?></p>
@@ -54,7 +56,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<div class="about__section has-2-columns is-wider-left">
 		<div class="column is-vertically-aligned-center">
-			<h3><?php _e( 'No-code contribution' ); ?></h3>
+			<h2 class="is-smaller-heading"><?php _e( 'No-code contribution' ); ?></h2>
 			<p><?php _e( 'WordPress may thrive on technical contributions, but you don&#8217;t have to code to contribute. Here are some of the ways you can make an impact without writing a single line of code:' ); ?></p>
 			<ul>
 				<li><?php _e( '<strong>Share</strong> your knowledge in the WordPress support forums.' ); ?></li>
@@ -70,15 +72,15 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</ul>
 		</div>
 		<div class="column">
-			<img src="<?php echo esc_url( admin_url( 'images/contribute-no-code.svg?ver=6.4' ) ); ?>" alt="" width="290" height="290" />
+			<img src="<?php echo esc_url( admin_url( 'images/contribute-no-code.svg?ver=6.5' ) ); ?>" alt="" width="290" height="290" />
 		</div>
 	</div>
 	<div class="about__section has-2-columns is-wider-right">
 		<div class="column">
-			<img src="<?php echo esc_url( admin_url( 'images/contribute-code.svg?ver=6.4' ) ); ?>" alt="" width="290" height="290" />
+			<img src="<?php echo esc_url( admin_url( 'images/contribute-code.svg?ver=6.5' ) ); ?>" alt="" width="290" height="290" />
 		</div>
 		<div class="column is-vertically-aligned-center">
-			<h3><?php _e( 'Code-based contribution' ); ?></h3>
+			<h2 class="is-smaller-heading"><?php _e( 'Code-based contribution' ); ?></h2>
 			<p><?php _e( 'If you do code, or want to learn how, you can contribute technically in numerous ways:' ); ?></p>
 			<ul>
 				<li><?php _e( '<strong>Find</strong> and report bugs in the WordPress core software.' ); ?></li>
@@ -94,7 +96,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 	</div>
 
-	<div class="about__section is-feature has-accent-4-background-color">
+	<div class="about__section is-feature has-subtle-background-color">
 		<div class="column">
 			<h2><?php _e( 'Shape the future of the web with WordPress' ); ?></h2>
 			<p><?php _e( 'Finding the area that aligns with your skills and interests is the first step toward meaningful contribution. With more than 20 Make WordPress teams working on different parts of the open source WordPress project, there&#8217;s a place for everyone, no matter what your skill set is.' ); ?></p>
