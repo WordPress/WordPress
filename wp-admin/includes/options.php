@@ -36,6 +36,7 @@ function options_general_add_js() {
 <script type="text/javascript">
 	jQuery( function($) {
 		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first(),
+			$siteIconPreview = $('#site-icon-preview-site-title'),
 			homeURL = ( <?php echo wp_json_encode( get_home_url() ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
 
 		$( '#blogname' ).on( 'input', function() {
@@ -47,6 +48,7 @@ function options_general_add_js() {
 			}
 
 			$siteName.text( title );
+			$siteIconPreview.text( title );
 		});
 
 		$( 'input[name="date_format"]' ).on( 'click', function() {

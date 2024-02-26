@@ -790,7 +790,7 @@ ul#add-to-blog-users {
 	outline: 2px solid transparent;
 }
 
-.button-add-site-icon{
+.button-add-site-icon {
 	width: 100%;
 	cursor: pointer;
 	text-align: center;
@@ -802,23 +802,23 @@ ul#add-to-blog-users {
 }
 
 .button-add-site-icon:focus,
-.button-add-site-icon:hover{
-	background: white;
+.button-add-site-icon:hover {
+	background: #fff;
 }
 
-.site-icon-section .favicon-preview{
+.site-icon-section .favicon-preview {
 	float: right;
 }
-.site-icon-section .app-icon-preview{
+.site-icon-section .app-icon-preview {
 	float: right;
 	margin: 0 20px;
 }
 
-.site-icon-section .site-icon-preview img{
+.site-icon-section .site-icon-preview img {
 	max-width: 100%;
 }
 
-.button-ad-site-icon:focus{
+.button-add-site-icon:focus {
 	background-color: #fff;
 	border-color: #3582c4;
 	border-style: solid;
