@@ -420,6 +420,24 @@ figcaption,
 	}
 }
 
+.wp-block-search {
+	.wp-block-search__button {
+		@include font-family( $font__heading );
+		font-size: $font__size-sm;
+		font-weight: bold;
+		border-radius: 5px;
+	
+		&:not(.has-text-color) {
+			color: #fff;
+		}
+
+		&:not(.has-background-color) {
+			background: $color__background-button;
+		}
+	}
+}
+
+
 /** === Blockquote === */
 
 .wp-block-quote {

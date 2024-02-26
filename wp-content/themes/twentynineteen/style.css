@@ -5526,11 +5526,19 @@ body.page .main-navigation {
   cursor: pointer;
 }
 
+.entry .entry-content .wp-block-button .wp-block-button__link:hover:not(.has-background) {
+  background: #111;
+}
+
 .entry .entry-content .wp-block-button .wp-block-button__link:focus {
   color: white;
   background: #111;
   outline: thin dotted;
   outline-offset: -4px;
+}
+
+.entry .entry-content .wp-block-button .wp-block-button__link:focus:not(.has-background) {
+  background: #111;
 }
 
 .entry .entry-content .wp-block-button:not(.is-style-squared) .wp-block-button__link {

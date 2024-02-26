@@ -193,6 +193,9 @@
 				color: white;
 				background: $color__background-button-hover;
 				cursor: pointer;
+				&:not(.has-background) {
+					background: $color__background-button-hover;
+				}
 			}
 
 			&:focus {
@@ -200,6 +203,9 @@
 				background: $color__background-button-hover;
 				outline: thin dotted;
 				outline-offset: -4px;
+				&:not(.has-background) {
+					background: $color__background-button-hover;
+				}
 			}
 		}
 

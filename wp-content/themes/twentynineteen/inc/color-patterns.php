@@ -212,35 +212,35 @@ function twentynineteen_custom_colors_css() {
 		 * - links
 		 * - blockquote
 		 * - pullquote (solid color)
-		 * - buttons
+		 * - buttons, including buttons in the file and search blocks.
 		 */
 		.editor-styles-wrapper .wp-block a,
-		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color),
-		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline:hover .wp-block-button__link:not(.has-text-color),
-		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline:focus .wp-block-button__link:not(.has-text-color),
-		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline:active .wp-block-button__link:not(.has-text-color),
-		.editor-styles-wrapper .wp-block .wp-block-file .wp-block-file__textlink {
+		.editor-styles-wrapper .wp-block .wp-block-file .wp-block-file__textlink, /* Before 5.8 */
+		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color), /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color),
+		/* Before 5.8, the following hover style is needed to override the default color when the block is selected. */
+		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline:hover .wp-block-button__link:not(.has-text-color) {
 			color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
 		.editor-styles-wrapper .wp-block.wp-block-quote:not(.is-large):not(.is-style-large),
-		.editor-styles-wrapper .wp-block .wp-block-freeform blockquote {
+		.editor-styles-wrapper .wp-block .wp-block-freeform blockquote, /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-freeform blockquote {
 			border-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
-		.editor-styles-wrapper .wp-block.wp-block-pullquote.is-style-solid-color:not(.has-background-color) {
-			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
-		}
-
+		/* Pullquote: The solid color variation was removed in 5.9, the CSS is kept for backwards compatibility. */
+		.editor-styles-wrapper .wp-block .wp-block-pullquote.is-style-solid-color:not(.has-background-color), /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-pullquote.is-style-solid-color:not(.has-background-color),
+		.editor-styles-wrapper .wp-block .wp-block-file .wp-block-file__button, /* Before 5.8, and when the block is aligned. */
 		.editor-styles-wrapper .wp-block.wp-block-file .wp-block-file__button,
 		.editor-styles-wrapper .wp-block .wp-block-button:not(.is-style-outline) .wp-block-button__link,
-		.editor-styles-wrapper .wp-block .wp-block-button:not(.is-style-outline) .wp-block-button__link:active,
-		.editor-styles-wrapper .wp-block .wp-block-button:not(.is-style-outline) .wp-block-button__link:focus,
-		.editor-styles-wrapper .wp-block .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover {
+		.editor-styles-wrapper .wp-block .wp-block-search .wp-block-search__button, /* Before 5.8, and when the block is aligned. */
+		.editor-styles-wrapper .wp-block.wp-block-search .wp-block-search__button {
 			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
-		/* Hover colors */
+		/* Link hover colors */
 		.editor-styles-wrapper .wp-block a:hover,
 		.editor-styles-wrapper .wp-block a:active,
 		.editor-styles-wrapper .wp-block.wp-block-file .wp-block-file__textlink:hover {
@@ -248,6 +248,7 @@ function twentynineteen_custom_colors_css() {
 		}
 
 		/* Do not overwrite solid color pullquote or cover links */
+		.editor-styles-wrapper .wp-block .wp-block-pullquote.is-style-solid-color a,  /* Before 5.8 */
 		.editor-styles-wrapper .wp-block.wp-block-pullquote.is-style-solid-color a,
 		.editor-styles-wrapper .wp-block.wp-block-cover a {
 			color: inherit;
