@@ -60,7 +60,7 @@ function wp_load_press_this() {
 					'<a href="%1$s" class="install-now" data-slug="%2$s" data-name="%2$s" aria-label="%3$s">%3$s</a>',
 					esc_url( $url ),
 					esc_attr( $plugin_slug ),
-					__( 'Install Now' )
+					_x( 'Install Now', 'plugin' )
 				);
 			} else {
 				$action = sprintf(

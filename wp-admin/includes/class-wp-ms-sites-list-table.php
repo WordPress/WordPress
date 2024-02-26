@@ -756,7 +756,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 							'activateblog_' . $blog['blog_id']
 						)
 					),
-					__( 'Activate' )
+					_x( 'Activate', 'site' )
 				);
 			} else {
 				$actions['deactivate'] = sprintf(

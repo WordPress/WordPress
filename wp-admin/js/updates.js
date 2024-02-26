@@ -957,7 +957,7 @@
 		$document.trigger( 'wp-check-plugin-dependencies-success', response );
 
 		if ( 'plugins-network' === pagenow ) {
-			buttonText = _x( 'Network Activate' );
+			buttonText = _x( 'Network Activate', 'plugin' );
 			ariaLabel  = sprintf(
 				/* translators: %s: Plugin name. */
 				_x( 'Network Activate %s', 'plugin' ),
@@ -1013,7 +1013,7 @@
 	 */
 	wp.updates.checkPluginDependenciesError = function( response ) {
 		var $message = $( '.plugin-card-' + response.slug + ', #plugin-information-footer' ).find( '.install-now' ),
-			buttonText = __( 'Activate' ),
+			buttonText = _x( 'Activate', 'plugin' ),
 			ariaLabel = sprintf(
 				/* translators: 1: Plugin name, 2. The reason the plugin cannot be activated. */
 				_x( 'Cannot activate %1$s. %2$s', 'plugin' ),
@@ -1087,7 +1087,7 @@
 					slug: args.slug,
 					removeClasses: 'installed updated-message button-primary',
 					addClasses: 'activating-message',
-					text: _x( 'Activating...', 'plugin' ),
+					text: __( 'Activating...' ),
 					ariaLabel: sprintf(
 						/* translators: %s: Plugin name. */
 						_x( 'Activating %s', 'plugin' ),
@@ -1300,7 +1300,7 @@
 					pluginName
 				)
 			)
-			.text( __( 'Install Now' ) );
+			.text( _x( 'Install Now', 'plugin' ) );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
@@ -1454,7 +1454,7 @@
 				$itemsCount.text(
 					sprintf(
 						/* translators: %s: The remaining number of plugins. */
-						_nx( '%s item', '%s items', 'plugin/plugins', remainingCount ),
+						_nx( '%s item', '%s items', remainingCount, 'plugin/plugins'  ),
 						remainingCount
 					)
 				);
@@ -1803,7 +1803,7 @@
 								response.themeName
 							)
 						)
-						.text( __( 'Activate' ) );
+						.text( _x( 'Activate', 'theme' ) );
 				}
 			}
 
@@ -2625,7 +2625,7 @@
 
 					$message
 						.removeClass( 'updating-message' )
-						.text( __( 'Install Now' ) );
+						.text( _x( 'Install Now', 'plugin' ) );
 
 					wp.a11y.speak( __( 'Update canceled.' ) );
 				} );
@@ -2663,7 +2663,7 @@
 						$activateButton.data( 'name' )
 					)
 				)
-				.text( _x( 'Activating...', 'plugin' ) );
+				.text( __( 'Activating...' ) );
 
 			wp.updates.activatePlugin(
 				{
@@ -2706,7 +2706,7 @@
 								pluginName
 							)
 						)
-						.text( __( 'Install Now' ) );
+						.text( _x( 'Install Now', 'plugin' ) );
 
 					wp.a11y.speak( __( 'Update canceled.' ) );
 				} );

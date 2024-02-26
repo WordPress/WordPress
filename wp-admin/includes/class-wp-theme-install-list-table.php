@@ -333,7 +333,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 					esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ),
 					/* translators: %s: Theme name. */
 					esc_attr( sprintf( _x( 'Install %s', 'theme' ), $name ) ),
-					__( 'Install Now' )
+					_x( 'Install Now', 'theme' )
 				);
 				break;
 		}
