@@ -31,7 +31,7 @@
 
 		topMenuItems = adminBar.querySelectorAll( 'li.menupop' );
 		allMenuItems = adminBar.querySelectorAll( '.ab-item' );
-		adminBarLogout = document.getElementById( 'wp-admin-bar-logout' );
+		adminBarLogout = document.querySelector( '#wp-admin-bar-logout a' );
 		adminBarSearchForm = document.getElementById( 'adminbarsearch' );
 		shortlink = document.getElementById( 'wp-admin-bar-get-shortlink' );
 		skipLink = adminBar.querySelector( '.screen-reader-shortcut' );
@@ -149,7 +149,8 @@
 	function toggleHoverIfEnter( event ) {
 		var wrapper;
 
-		if ( event.which !== 13 ) {
+		// Follow link if pressing Ctrl and/or Shift with Enter (opening in a new tab or window).
+		if ( event.which !== 13 || event.ctrlKey || event.shiftKey ) {
 			return;
 		}
 
@@ -336,6 +337,11 @@
 
 			element.className += className;
 		}
+
+		var menuItemToggle = element.querySelector( 'a' );
+		if ( className === 'hover' && menuItemToggle && menuItemToggle.hasAttribute( 'aria-expanded' ) ) {
+			menuItemToggle.setAttribute( 'aria-expanded', 'true' );
+		}
 	}
 
 	/**
@@ -365,6 +371,11 @@
 			}
 
 			element.className = classes.replace( /^[\s]+|[\s]+$/g, '' );
+		}
+
+		var menuItemToggle = element.querySelector( 'a' );
+		if ( className === 'hover' && menuItemToggle && menuItemToggle.hasAttribute( 'aria-expanded' ) ) {
+			menuItemToggle.setAttribute( 'aria-expanded', 'false' );
 		}
 	}
 

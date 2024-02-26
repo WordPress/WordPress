@@ -447,6 +447,11 @@ html:lang(he-il) .rtl #wpadminbar * {
 	background: none;
 }
 
+#wpadminbar #wp-admin-bar-user-info a {
+	display: grid;
+	row-gap: 12px;
+}
+
 #wp-admin-bar-user-info .avatar {
 	position: absolute;
 	left: -72px;
