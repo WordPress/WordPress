@@ -13,13 +13,13 @@
  * @since 6.4.0
  *
  * @param array[][] $fonts {
- *     Optional. The font-families and their font variations. Default empty array.
+ *     Optional. The font-families and their font faces. Default empty array.
  *
- *     @type string $font-family => array[] $variations {
- *         Optional. An associated array of font variations for this font-family.
- *         Each variation has the following structure.
+ *     @type array {
+ *         An indexed or associative (keyed by font-family) array of font variations for this font-family.
+ *         Each font face has the following structure.
  *
- *         @type array $font_variation {
+ *         @type array {
  *             @type string          $font-family             The font-family property.
  *             @type string|string[] $src                     The URL(s) to each resource containing the font data.
  *             @type string          $font-style              Optional. The font-style property. Default 'normal'.
