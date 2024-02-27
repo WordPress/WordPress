@@ -45,13 +45,16 @@ final class WP_Block_Patterns_Registry {
 	 * @since 5.8.0 Added support for the `blockTypes` property.
 	 * @since 6.1.0 Added support for the `postTypes` property.
 	 * @since 6.2.0 Added support for the `templateTypes` property.
+	 * @since 6.5.0 Added support for the `filePath` property.
 	 *
 	 * @param string $pattern_name       Block pattern name including namespace.
 	 * @param array  $pattern_properties {
 	 *     List of properties for the block pattern.
 	 *
 	 *     @type string   $title         Required. A human-readable title for the pattern.
-	 *     @type string   $content       Required. Block HTML markup for the pattern.
+	 *     @type string   $content       Optional. Block HTML markup for the pattern.
+	 *                                   If not provided, the content will be retrieved from the `filePath` if set.
+	 *                                   If both `content` and `filePath` are not set, the pattern will not be registered.
 	 *     @type string   $description   Optional. Visually hidden text used to describe the pattern
 	 *                                   in the inserter. A description is optional, but is strongly
 	 *                                   encouraged when the title does not fully describe what the
@@ -79,6 +82,7 @@ final class WP_Block_Patterns_Registry {
 	 *                                   of the post types passed on the array. For all the other post types
 	 *                                   not part of the array the pattern is not available at all.
 	 *     @type string[] $templateTypes Optional. An array of template types where the pattern fits.
+	 *     @type string   $filePath      Optional. The full path to the file containing the block pattern content.
 	 * }
 	 * @return bool True if the pattern was registered with success and false otherwise.
 	 */
@@ -101,7 +105,7 @@ final class WP_Block_Patterns_Registry {
 			return false;
 		}
 
-		if ( ! isset( $pattern_properties['file_path'] ) ) {
+		if ( ! isset( $pattern_properties['filePath'] ) ) {
 			if ( ! isset( $pattern_properties['content'] ) || ! is_string( $pattern_properties['content'] ) ) {
 				_doing_it_wrong(
 					__METHOD__,
@@ -194,11 +198,11 @@ final class WP_Block_Patterns_Registry {
 		} else {
 			$patterns = &$this->registered_patterns;
 		}
-		if ( ! isset( $patterns[ $pattern_name ]['content'] ) && isset( $patterns[ $pattern_name ]['file_path'] ) ) {
+		if ( ! isset( $patterns[ $pattern_name ]['content'] ) && isset( $patterns[ $pattern_name ]['filePath'] ) ) {
 			ob_start();
-			include $patterns[ $pattern_name ]['file_path'];
+			include $patterns[ $pattern_name ]['filePath'];
 			$patterns[ $pattern_name ]['content'] = ob_get_clean();
-			unset( $patterns[ $pattern_name ]['file_path'] );
+			unset( $patterns[ $pattern_name ]['filePath'] );
 		}
 		return $patterns[ $pattern_name ]['content'];
 	}
