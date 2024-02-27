@@ -241,7 +241,7 @@ class WP_Term_Query {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string|array $query WP_Term_Query arguments. See WP_Term_Query::__construct()
+	 * @param string|array $query WP_Term_Query arguments. See WP_Term_Query::__construct() for accepted arguments.
 	 */
 	public function parse_query( $query = '' ) {
 		if ( empty( $query ) ) {
