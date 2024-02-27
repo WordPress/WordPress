@@ -458,6 +458,12 @@ p+.components-button.is-tertiary{
     font-size:21px;
   }
 }
+.components-checkbox-control__input[type=checkbox]:disabled,.components-checkbox-control__input[type=checkbox][aria-disabled=true]{
+  background:#f0f0f0;
+  border-color:#ddd;
+  cursor:default;
+  opacity:1;
+}
 @media (min-width:600px){
   .components-checkbox-control__input[type=checkbox]{
     height:20px;

@@ -8681,7 +8681,6 @@ __webpack_require__.d(private_actions_namespaceObject, {
   ensureDefaultBlock: () => (ensureDefaultBlock),
   hideBlockInterface: () => (hideBlockInterface),
   privateRemoveBlocks: () => (privateRemoveBlocks),
-  registerBlockBindingsSource: () => (registerBlockBindingsSource),
   setBlockRemovalRules: () => (setBlockRemovalRules),
   setLastFocus: () => (setLastFocus),
   setOpenedBlockSettingsMenu: () => (setOpenedBlockSettingsMenu),
@@ -8697,9 +8696,7 @@ __webpack_require__.d(private_actions_namespaceObject, {
 var private_selectors_namespaceObject = {};
 __webpack_require__.r(private_selectors_namespaceObject);
 __webpack_require__.d(private_selectors_namespaceObject, {
-  getAllBlockBindingsSources: () => (getAllBlockBindingsSources),
   getAllPatterns: () => (getAllPatterns),
-  getBlockBindingsSource: () => (getBlockBindingsSource),
   getBlockRemovalRules: () => (getBlockRemovalRules),
   getBlockSettings: () => (getBlockSettings),
   getBlockWithoutAttributes: () => (getBlockWithoutAttributes),
@@ -8808,6 +8805,7 @@ __webpack_require__.d(global_styles_namespaceObject, {
   useGlobalStylesOutputWithConfig: () => (useGlobalStylesOutputWithConfig),
   useGlobalStylesReset: () => (useGlobalStylesReset),
   useHasBorderPanel: () => (useHasBorderPanel),
+  useHasBorderPanelControls: () => (useHasBorderPanelControls),
   useHasColorPanel: () => (useHasColorPanel),
   useHasDimensionsPanel: () => (useHasDimensionsPanel),
   useHasFiltersPanel: () => (useHasFiltersPanel),
@@ -8837,6 +8835,7 @@ const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 const mayDisplayControlsKey = Symbol('mayDisplayControls');
 const mayDisplayParentControlsKey = Symbol('mayDisplayParentControls');
 const blockEditingModeKey = Symbol('blockEditingMode');
+const blockBindingsKey = Symbol('blockBindings');
 const DEFAULT_BLOCK_EDIT_CONTEXT = {
   name: '',
   isSelected: false
@@ -10952,20 +10951,6 @@ function lastFocus(state = false, action) {
   }
   return state;
 }
-function blockBindingsSources(state = {}, action) {
-  if (action.type === 'REGISTER_BLOCK_BINDINGS_SOURCE') {
-    var _action$lockAttribute;
-    return {
-      ...state,
-      [action.sourceName]: {
-        label: action.sourceLabel,
-        useSource: action.useSource,
-        lockAttributesEditing: (_action$lockAttribute = action.lockAttributesEditing) !== null && _action$lockAttribute !== void 0 ? _action$lockAttribute : true
-      }
-    };
-  }
-  return state;
-}
 const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   blocks,
   isDragging,
@@ -10996,8 +10981,7 @@ const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   removalPromptData,
   blockRemovalRules,
   openedBlockSettingsMenu,
-  registeredInserterMediaCategories,
-  blockBindingsSources
+  registeredInserterMediaCategories
 });
 function withAutomaticChangeReset(reducer) {
   return (state, action) => {
@@ -14331,15 +14315,6 @@ function stopEditingAsBlocks(clientId) {
     dispatch.__unstableSetTemporarilyEditingAsBlocks();
   };
 }
-function registerBlockBindingsSource(source) {
-  return {
-    type: 'REGISTER_BLOCK_BINDINGS_SOURCE',
-    sourceName: source.name,
-    sourceLabel: source.label,
-    useSource: source.useSource,
-    lockAttributesEditing: source.lockAttributesEditing
-  };
-}
 
 /**
  * Returns an action object used in signalling that the user has begun to drag.
@@ -14925,12 +14900,6 @@ const getAllPatterns = (0,external_wp_data_namespaceObject.createRegistrySelecto
  */
 function getLastFocus(state) {
   return state.lastFocus;
-}
-function getAllBlockBindingsSources(state) {
-  return state.blockBindingsSources;
-}
-function getBlockBindingsSource(state, sourceName) {
-  return state.blockBindingsSources[sourceName];
 }
 
 /**
@@ -23227,6 +23196,7 @@ function useRemoteUrlData(url) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -23239,6 +23209,8 @@ function LinkPreview({
   hasUnlinkControl = false,
   onRemove
 }) {
+  const showIconLabels = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_preferences_namespaceObject.store).get('core', 'showIconLabels'), []);
+
   // Avoid fetching if rich previews are not desired.
   const showRichPreviews = hasRichPreviews ? value?.url : null;
   const {
@@ -23325,7 +23297,7 @@ function LinkPreview({
     // Translators: %s is a placeholder for the link URL and an optional colon, (if a Link URL is present).
     (0,external_wp_i18n_namespaceObject.__)('Copy link%s'),
     // Ends up looking like "Copy link: https://example.com".
-    isEmptyURL ? '' : ': ' + value.url),
+    isEmptyURL || showIconLabels ? '' : ': ' + value.url),
     ref: ref,
     disabled: isEmptyURL,
     size: "compact"
@@ -25143,19 +25115,31 @@ const shadow = (0,external_React_.createElement)(external_wp_primitives_namespac
 
 
 
+
+
 /**
  * External dependencies
  */
 
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Shared reference to an empty array for cases where it is important to avoid
+ * returning a new array reference on every invocation.
+ *
+ * @type {Array}
+ */
+const shadow_panel_components_EMPTY_ARRAY = [];
 function ShadowPopoverContainer({
   shadow,
   onShadowChange,
   settings
 }) {
-  const defaultShadows = settings?.shadow?.presets?.default || [];
-  const themeShadows = settings?.shadow?.presets?.theme || [];
-  const defaultPresetsEnabled = settings?.shadow?.defaultPresets;
-  const shadows = [...(defaultPresetsEnabled ? defaultShadows : []), ...themeShadows];
+  const shadows = useShadowPresets(settings);
   return (0,external_React_.createElement)("div", {
     className: "block-editor-global-styles__shadow-popover-container"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
@@ -25166,18 +25150,28 @@ function ShadowPopoverContainer({
     presets: shadows,
     activeShadow: shadow,
     onSelect: onShadowChange
-  })));
+  }), (0,external_React_.createElement)("div", {
+    className: "block-editor-global-styles__clear-shadow"
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    variant: "tertiary",
+    onClick: () => onShadowChange(undefined)
+  }, (0,external_wp_i18n_namespaceObject.__)('Clear')))));
 }
 function ShadowPresets({
   presets,
   activeShadow,
   onSelect
 }) {
-  return !presets ? null : (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
-    columns: 6,
-    gap: 0,
-    align: "center",
-    justify: "center"
+  const {
+    CompositeV2: Composite,
+    useCompositeStoreV2: useCompositeStore
+  } = unlock(external_wp_components_namespaceObject.privateApis);
+  const compositeStore = useCompositeStore();
+  return !presets ? null : (0,external_React_.createElement)(Composite, {
+    store: compositeStore,
+    role: "listbox",
+    className: "block-editor-global-styles__shadow__list",
+    "aria-label": (0,external_wp_i18n_namespaceObject.__)('Drop shadows')
   }, presets.map(({
     name,
     slug,
@@ -25186,29 +25180,42 @@ function ShadowPresets({
     key: slug,
     label: name,
     isActive: shadow === activeShadow,
+    type: slug === 'unset' ? 'unset' : 'preset',
     onSelect: () => onSelect(shadow === activeShadow ? undefined : shadow),
     shadow: shadow
   })));
 }
 function ShadowIndicator({
+  type,
   label,
   isActive,
   onSelect,
   shadow
 }) {
-  return (0,external_React_.createElement)("div", {
-    className: "block-editor-global-styles__shadow-indicator-wrapper"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "block-editor-global-styles__shadow-indicator",
-    onClick: onSelect,
-    label: label,
-    style: {
-      boxShadow: shadow
-    },
-    showTooltip: true
-  }, isActive && (0,external_React_.createElement)(build_module_icon, {
-    icon: library_check
-  })));
+  const {
+    CompositeItemV2: CompositeItem
+  } = unlock(external_wp_components_namespaceObject.privateApis);
+  return (0,external_React_.createElement)(CompositeItem, {
+    role: "option",
+    "aria-label": label,
+    "aria-selected": isActive,
+    className: classnames_default()('block-editor-global-styles__shadow__item', {
+      'is-active': isActive
+    }),
+    render: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+      className: classnames_default()('block-editor-global-styles__shadow-indicator', {
+        unset: type === 'unset'
+      }),
+      onClick: onSelect,
+      label: label,
+      style: {
+        boxShadow: shadow
+      },
+      showTooltip: true
+    }, isActive && (0,external_React_.createElement)(build_module_icon, {
+      icon: library_check
+    }))
+  });
 }
 function ShadowPopover({
   shadow,
@@ -25256,6 +25263,29 @@ function renderShadowToggle() {
     }), (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_wp_i18n_namespaceObject.__)('Drop shadow'))));
   };
 }
+function useShadowPresets(settings) {
+  return (0,external_wp_element_namespaceObject.useMemo)(() => {
+    var _settings$shadow$pres;
+    if (!settings?.shadow) {
+      return shadow_panel_components_EMPTY_ARRAY;
+    }
+    const defaultPresetsEnabled = settings?.shadow?.defaultPresets;
+    const {
+      default: defaultShadows,
+      theme: themeShadows
+    } = (_settings$shadow$pres = settings?.shadow?.presets) !== null && _settings$shadow$pres !== void 0 ? _settings$shadow$pres : {};
+    const unsetShadow = {
+      name: (0,external_wp_i18n_namespaceObject.__)('Unset'),
+      slug: 'unset',
+      shadow: 'none'
+    };
+    const shadowPresets = [...(defaultPresetsEnabled && defaultShadows || shadow_panel_components_EMPTY_ARRAY), ...(themeShadows || shadow_panel_components_EMPTY_ARRAY)];
+    if (shadowPresets.length) {
+      shadowPresets.unshift(unsetShadow);
+    }
+    return shadowPresets;
+  }, [settings]);
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/global-styles/border-panel.js
 
@@ -25276,12 +25306,19 @@ function renderShadowToggle() {
 
 
 
-function useHasShadowControl(settings) {
-  return !!settings?.shadow;
-}
 function useHasBorderPanel(settings) {
-  const controls = [useHasBorderColorControl(settings), useHasBorderRadiusControl(settings), useHasBorderStyleControl(settings), useHasBorderWidthControl(settings), useHasShadowControl(settings)];
+  const controls = Object.values(useHasBorderPanelControls(settings));
   return controls.some(Boolean);
+}
+function useHasBorderPanelControls(settings) {
+  const controls = {
+    hasBorderColor: useHasBorderColorControl(settings),
+    hasBorderRadius: useHasBorderRadiusControl(settings),
+    hasBorderStyle: useHasBorderStyleControl(settings),
+    hasBorderWidth: useHasBorderWidthControl(settings),
+    hasShadow: useHasShadowControl(settings)
+  };
+  return controls;
 }
 function useHasBorderColorControl(settings) {
   return settings?.border?.color;
@@ -25294,6 +25331,10 @@ function useHasBorderStyleControl(settings) {
 }
 function useHasBorderWidthControl(settings) {
   return settings?.border?.width;
+}
+function useHasShadowControl(settings) {
+  const shadows = useShadowPresets(settings);
+  return !!settings?.shadow && shadows.length > 0;
 }
 function BorderToolsPanel({
   resetAllFilter,
@@ -25441,10 +25482,11 @@ function BorderPanel({
     };
   }, []);
   const showBorderByDefault = defaultControls?.color || defaultControls?.width;
-  const label = getBorderPanelLabel({
+  const hasBorderControl = showBorderColor || showBorderStyle || showBorderWidth || showBorderRadius;
+  const label = useBorderPanelLabel({
     blockName: name,
     hasShadowControl,
-    hasBorderControl: showBorderColor || showBorderStyle || showBorderWidth || showBorderRadius
+    hasBorderControl
   });
   return (0,external_React_.createElement)(Wrapper, {
     resetAllFilter: resetAllFilter,
@@ -25487,9 +25529,9 @@ function BorderPanel({
     onDeselect: resetShadow,
     isShownByDefault: defaultControls.shadow,
     panelId: panelId
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, {
+  }, hasBorderControl ? (0,external_React_.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, {
     as: "legend"
-  }, (0,external_wp_i18n_namespaceObject.__)('Shadow')), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Shadow')) : null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, {
     isBordered: true,
     isSeparated: true
   }, (0,external_React_.createElement)(ShadowPopover, {
@@ -25700,16 +25742,18 @@ function hasBorderSupport(blockName, feature = 'any') {
  * @return {boolean} Whether there is support.
  */
 function hasShadowSupport(blockName) {
-  return (0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockName, SHADOW_SUPPORT_KEY);
+  return hasBlockSupport(blockName, SHADOW_SUPPORT_KEY);
 }
-function getBorderPanelLabel({
+function useBorderPanelLabel({
   blockName,
   hasBorderControl,
   hasShadowControl
 } = {}) {
+  const settings = useBlockSettings(blockName);
+  const controls = useHasBorderPanelControls(settings);
   if (!hasBorderControl && !hasShadowControl && blockName) {
-    hasBorderControl = hasBorderSupport(blockName);
-    hasShadowControl = hasShadowSupport(blockName);
+    hasBorderControl = controls?.hasBorderColor || controls?.hasBorderStyle || controls?.hasBorderWidth || controls?.hasBorderRadius;
+    hasShadowControl = controls?.hasShadow;
   }
   if (hasBorderControl && hasShadowControl) {
     return (0,external_wp_i18n_namespaceObject.__)('Border & Shadow');
@@ -33912,19 +33956,19 @@ function BlockHooksControlPure({
     innerBlocksLength
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getBlock,
+      getBlocks,
       getBlockIndex,
       getBlockRootClientId
     } = select(store);
     return {
       blockIndex: getBlockIndex(clientId),
-      innerBlocksLength: getBlock(clientId)?.innerBlocks?.length,
+      innerBlocksLength: getBlocks(clientId)?.length,
       rootClientId: getBlockRootClientId(clientId)
     };
   }, [clientId]);
   const hookedBlockClientIds = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getBlock,
+      getBlocks,
       getGlobalBlockCount
     } = select(store);
     const _hookedBlockClientIds = hookedBlocksForCurrentBlock.reduce((clientIds, block) => {
@@ -33941,14 +33985,14 @@ function BlockHooksControlPure({
           // Any of the current block's siblings (with the right block type) qualifies
           // as a hooked block (inserted `before` or `after` the current one), as the block
           // might've been automatically inserted and then moved around a bit by the user.
-          candidates = getBlock(rootClientId)?.innerBlocks;
+          candidates = getBlocks(rootClientId);
           break;
         case 'first_child':
         case 'last_child':
           // Any of the current block's child blocks (with the right block type) qualifies
           // as a hooked first or last child block, as the block might've been automatically
           // inserted and then moved around a bit by the user.
-          candidates = getBlock(clientId).innerBlocks;
+          candidates = getBlocks(clientId);
           break;
       }
       const hookedBlock = candidates?.find(candidate => candidate.name === block.name);
@@ -34010,7 +34054,9 @@ function BlockHooksControlPure({
     className: "block-editor-hooks__block-hooks",
     title: (0,external_wp_i18n_namespaceObject.__)('Plugins'),
     initialOpen: true
-  }, Object.keys(groupedHookedBlocks).map(vendor => {
+  }, (0,external_React_.createElement)("p", {
+    className: "block-editor-hooks__block-hooks-helptext"
+  }, (0,external_wp_i18n_namespaceObject.__)('Manage the inclusion of blocks added automatically by plugins.')), Object.keys(groupedHookedBlocks).map(vendor => {
     return (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
       key: vendor
     }, (0,external_React_.createElement)("h3", null, vendor), groupedHookedBlocks[vendor].map(block => {
@@ -34159,16 +34205,14 @@ const createEditFunctionWithBindingsAttribute = () => (0,external_wp_compose_nam
     clientId,
     name: blockName
   } = useBlockEditContext();
-  const {
-    getBlockBindingsSource
-  } = unlock((0,external_wp_data_namespaceObject.useSelect)(store));
+  const blockBindingsSources = unlock((0,external_wp_data_namespaceObject.useSelect)(external_wp_blocks_namespaceObject.store)).getAllBlockBindingsSources();
   const {
     getBlockAttributes
   } = (0,external_wp_data_namespaceObject.useSelect)(store);
   const updatedAttributes = getBlockAttributes(clientId);
   if (updatedAttributes?.metadata?.bindings) {
     Object.entries(updatedAttributes.metadata.bindings).forEach(([attributeName, settings]) => {
-      const source = getBlockBindingsSource(settings.source);
+      const source = blockBindingsSources[settings.source];
       if (source && source.useSource) {
         // Second argument (`updateMetaValue`) will be used to update the value in the future.
         const {
@@ -36096,8 +36140,12 @@ function BlockEdit({
     __unstableLayoutClassNames
   } = props;
   const {
-    layout = null
+    layout = null,
+    metadata = {}
   } = attributes;
+  const {
+    bindings
+  } = metadata;
   const layoutSupport = (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, 'layout', false) || (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, '__experimentalLayout', false);
   return (0,external_React_.createElement)(Provider
   // It is important to return the same object if props haven't
@@ -36114,8 +36162,9 @@ function BlockEdit({
       // usage outside of the package (this context is exposed).
       [mayDisplayControlsKey]: mayDisplayControls,
       [mayDisplayParentControlsKey]: mayDisplayParentControls,
-      [blockEditingModeKey]: blockEditingMode
-    }), [name, isSelected, clientId, layoutSupport, layout, __unstableLayoutClassNames, mayDisplayControls, mayDisplayParentControls, blockEditingMode])
+      [blockEditingModeKey]: blockEditingMode,
+      [blockBindingsKey]: bindings
+    }), [name, isSelected, clientId, layoutSupport, layout, __unstableLayoutClassNames, mayDisplayControls, mayDisplayParentControls, blockEditingMode, bindings])
   }, (0,external_React_.createElement)(block_edit_edit, {
     ...props
   }));
@@ -40893,6 +40942,8 @@ function BlockPreview({
   const originalSettings = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getSettings(), []);
   const settings = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     ...originalSettings,
+    focusMode: false,
+    // Disable "Spotlight mode".
     __unstableIsPreviewMode: true
   }), [originalSettings]);
   const renderedBlocks = (0,external_wp_element_namespaceObject.useMemo)(() => Array.isArray(blocks) ? blocks : [blocks], [blocks]);
@@ -40947,6 +40998,8 @@ function useBlockPreview({
     ...originalSettings,
     styles: undefined,
     // Clear styles included by the parent settings, as they are already output by the parent's EditorStyles.
+    focusMode: false,
+    // Disable "Spotlight mode".
     __unstableIsPreviewMode: true
   }), [originalSettings]);
   const disabledRef = (0,external_wp_compose_namespaceObject.useDisabled)();
@@ -58881,6 +58934,9 @@ function useEnter(props) {
   propsRef.current = props;
   return (0,external_wp_compose_namespaceObject.useRefEffect)(element => {
     function onKeyDown(event) {
+      if (event.target.contentEditable !== 'true') {
+        return;
+      }
       if (event.defaultPrevented) {
         return;
       }
@@ -59501,6 +59557,7 @@ function withDeprecations(Component) {
 
 
 
+
 const keyboardShortcutContext = (0,external_wp_element_namespaceObject.createContext)();
 const inputEventContext = (0,external_wp_element_namespaceObject.createContext)();
 
@@ -59560,15 +59617,18 @@ function RichTextWrapper({
   __unstableDisableFormats: disableFormats,
   disableLineBreaks,
   __unstableAllowPrefixTransformations,
+  disableEditing,
   ...props
 }, forwardedRef) {
   props = removeNativeProps(props);
   const anchorRef = (0,external_wp_element_namespaceObject.useRef)();
+  const context = useBlockEditContext();
   const {
     clientId,
     isSelected: isBlockSelected,
     name: blockName
-  } = useBlockEditContext();
+  } = context;
+  const blockBindings = context[blockBindingsKey];
   const selector = select => {
     // Avoid subscribing to the block editor store if the block is not
     // selected.
@@ -59579,26 +59639,35 @@ function RichTextWrapper({
     }
     const {
       getSelectionStart,
-      getSelectionEnd,
-      getBlockAttributes
+      getSelectionEnd
     } = select(store);
     const selectionStart = getSelectionStart();
     const selectionEnd = getSelectionEnd();
-    const blockBindings = getBlockAttributes(clientId)?.metadata?.bindings;
     let isSelected;
     if (originalIsSelected === undefined) {
       isSelected = selectionStart.clientId === clientId && selectionEnd.clientId === clientId && selectionStart.attributeKey === identifier;
     } else if (originalIsSelected) {
       isSelected = selectionStart.clientId === clientId;
     }
-
+    return {
+      selectionStart: isSelected ? selectionStart.offset : undefined,
+      selectionEnd: isSelected ? selectionEnd.offset : undefined,
+      isSelected
+    };
+  };
+  const {
+    selectionStart,
+    selectionEnd,
+    isSelected
+  } = (0,external_wp_data_namespaceObject.useSelect)(selector, [clientId, identifier, originalIsSelected, isBlockSelected]);
+  const disableBoundBlocks = (0,external_wp_data_namespaceObject.useSelect)(select => {
     // Disable Rich Text editing if block bindings specify that.
-    let shouldDisableEditing = false;
+    let _disableBoundBlocks = false;
     if (blockBindings && blockName in BLOCK_BINDINGS_ALLOWED_BLOCKS) {
       const blockTypeAttributes = (0,external_wp_blocks_namespaceObject.getBlockType)(blockName).attributes;
       const {
         getBlockBindingsSource
-      } = unlock(select(store));
+      } = unlock(select(external_wp_blocks_namespaceObject.store));
       for (const [attribute, args] of Object.entries(blockBindings)) {
         if (blockTypeAttributes?.[attribute]?.source !== 'rich-text') {
           break;
@@ -59607,24 +59676,14 @@ function RichTextWrapper({
         // If the source is not defined, or if its value of `lockAttributesEditing` is `true`, disable it.
         const blockBindingsSource = getBlockBindingsSource(args.source);
         if (!blockBindingsSource || blockBindingsSource.lockAttributesEditing) {
-          shouldDisableEditing = true;
+          _disableBoundBlocks = true;
           break;
         }
       }
     }
-    return {
-      selectionStart: isSelected ? selectionStart.offset : undefined,
-      selectionEnd: isSelected ? selectionEnd.offset : undefined,
-      isSelected,
-      shouldDisableEditing
-    };
-  };
-  const {
-    selectionStart,
-    selectionEnd,
-    isSelected,
-    shouldDisableEditing
-  } = (0,external_wp_data_namespaceObject.useSelect)(selector, [clientId, identifier, originalIsSelected, isBlockSelected]);
+    return _disableBoundBlocks;
+  }, [blockBindings, blockName]);
+  const shouldDisableEditing = disableEditing || disableBoundBlocks;
   const {
     getSelectionStart,
     getSelectionEnd,
@@ -59820,16 +59879,32 @@ function RichTextWrapper({
     "data-wp-block-attribute-key": identifier
   }));
 }
-const ForwardedRichTextContainer = withDeprecations((0,external_wp_element_namespaceObject.forwardRef)(RichTextWrapper));
-ForwardedRichTextContainer.Content = Content;
-ForwardedRichTextContainer.isEmpty = value => {
+
+// This is the private API for the RichText component.
+// It allows access to all props, not just the public ones.
+const PrivateRichText = withDeprecations((0,external_wp_element_namespaceObject.forwardRef)(RichTextWrapper));
+PrivateRichText.Content = Content;
+PrivateRichText.isEmpty = value => {
   return !value || value.length === 0;
 };
 
+// This is the public API for the RichText component.
+// We wrap the PrivateRichText component to hide some props from the public API.
 /**
  * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md
  */
-/* harmony default export */ const rich_text = (ForwardedRichTextContainer);
+const PublicForwardedRichTextContainer = (0,external_wp_element_namespaceObject.forwardRef)((props, ref) => {
+  return (0,external_React_.createElement)(PrivateRichText, {
+    ref: ref,
+    ...props,
+    disableEditing: false
+  });
+});
+PublicForwardedRichTextContainer.Content = Content;
+PublicForwardedRichTextContainer.isEmpty = value => {
+  return !value || value.length === 0;
+};
+/* harmony default export */ const rich_text = (PublicForwardedRichTextContainer);
 
 
 
@@ -61047,7 +61122,7 @@ const StylesTab = ({
   clientId,
   hasBlockStyles
 }) => {
-  const borderPanelLabel = getBorderPanelLabel({
+  const borderPanelLabel = useBorderPanelLabel({
     blockName
   });
   return (0,external_React_.createElement)(external_React_.Fragment, null, hasBlockStyles && (0,external_React_.createElement)("div", null, (0,external_React_.createElement)(external_wp_components_namespaceObject.PanelBody, {
@@ -61460,6 +61535,9 @@ const BlockInspector = ({
   // and its parent, and only enable it if the parent is controlling
   // its children blocks.
   const blockInspectorAnimationSettings = useBlockInspectorAnimationSettings(blockType, selectedBlockClientId);
+  const borderPanelLabel = useBorderPanelLabel({
+    blockName: selectedBlockName
+  });
   if (count > 1) {
     return (0,external_React_.createElement)("div", {
       className: "block-editor-block-inspector"
@@ -61477,9 +61555,7 @@ const BlockInspector = ({
       label: (0,external_wp_i18n_namespaceObject.__)('Dimensions')
     }), (0,external_React_.createElement)(inspector_controls.Slot, {
       group: "border",
-      label: getBorderPanelLabel({
-        blockName: selectedBlockName
-      })
+      label: borderPanelLabel
     }), (0,external_React_.createElement)(inspector_controls.Slot, {
       group: "styles"
     })));
@@ -61557,7 +61633,7 @@ const BlockInspectorSingleBlock = ({
     return blockStyles && blockStyles.length > 0;
   }, [blockName]);
   const blockInformation = useBlockDisplayInformation(clientId);
-  const borderPanelLabel = getBorderPanelLabel({
+  const borderPanelLabel = useBorderPanelLabel({
     blockName
   });
   return (0,external_React_.createElement)("div", {
@@ -67121,6 +67197,7 @@ function ResolutionTool({
 
 
 
+
 /**
  * Private @wordpress/block-editor APIs.
  */
@@ -67150,7 +67227,8 @@ lock(privateApis, {
   useReusableBlocksRenameHint: useReusableBlocksRenameHint,
   usesContextKey: usesContextKey,
   useFlashEditableBlocks: useFlashEditableBlocks,
-  selectBlockPatternsKey: selectBlockPatternsKey
+  selectBlockPatternsKey: selectBlockPatternsKey,
+  PrivateRichText: PrivateRichText
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/index.js

@@ -554,14 +554,18 @@ class WP_Navigation_Block_Renderer {
 		// When adding to this array be mindful of security concerns.
 		$nav_element_context    = data_wp_context(
 			array(
-				'overlayOpenedBy' => array(),
+				'overlayOpenedBy' => array(
+					'click' => false,
+					'hover' => false,
+					'focus' => false,
+				),
 				'type'            => 'overlay',
 				'roleAttribute'   => '',
 				'ariaLabel'       => __( 'Menu' ),
 			)
 		);
 		$nav_element_directives = '
-		 data-wp-interactive="core/navigation"'
+		 data-wp-interactive="core/navigation" '
 		. $nav_element_context;
 
 		return $nav_element_directives;
@@ -764,7 +768,7 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 	) ) {
 		// Add directives to the parent `<li>`.
 		$tags->set_attribute( 'data-wp-interactive', 'core/navigation' );
-		$tags->set_attribute( 'data-wp-context', '{ "submenuOpenedBy": {}, "type": "submenu" }' );
+		$tags->set_attribute( 'data-wp-context', '{ "submenuOpenedBy": { "click": false, "hover": false, "focus": false }, "type": "submenu" }' );
 		$tags->set_attribute( 'data-wp-watch', 'callbacks.initMenu' );
 		$tags->set_attribute( 'data-wp-on--focusout', 'actions.handleMenuFocusout' );
 		$tags->set_attribute( 'data-wp-on--keydown', 'actions.handleMenuKeydown' );

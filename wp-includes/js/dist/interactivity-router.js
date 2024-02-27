@@ -45,7 +45,10 @@ const {
   getRegionRootFragment,
   initialVdom,
   toVdom,
-  render
+  render,
+  parseInitialData,
+  populateInitialData,
+  batch
 } = (0,interactivity_namespaceObject.privateApis)('I acknowledge that using private APIs means my theme or plugin will inevitably break in the next version of WordPress.');
 
 // The cache of visited and prefetched pages.
@@ -87,23 +90,28 @@ const regionsToVdom = (dom, {
     regions[id] = vdom?.has(region) ? vdom.get(region) : toVdom(region);
   });
   const title = dom.querySelector('title')?.innerText;
+  const initialData = parseInitialData(dom);
   return {
     regions,
-    title
+    title,
+    initialData
   };
 };
 
 // Render all interactive regions contained in the given page.
 const renderRegions = page => {
-  const attrName = `data-${directivePrefix}-router-region`;
-  document.querySelectorAll(`[${attrName}]`).forEach(region => {
-    const id = region.getAttribute(attrName);
-    const fragment = getRegionRootFragment(region);
-    render(page.regions[id], fragment);
+  batch(() => {
+    populateInitialData(page.initialData);
+    const attrName = `data-${directivePrefix}-router-region`;
+    document.querySelectorAll(`[${attrName}]`).forEach(region => {
+      const id = region.getAttribute(attrName);
+      const fragment = getRegionRootFragment(region);
+      render(page.regions[id], fragment);
+    });
+    if (page.title) {
+      document.title = page.title;
+    }
   });
-  if (page.title) {
-    document.title = page.title;
-  }
 };
 
 /**
@@ -216,7 +224,7 @@ const {
       // (e.g., by clicking another link in the meantime). If so, bail
       // out, and let the newer execution to update the HTML.
       if (navigatingTo !== href) return;
-      if (page) {
+      if (page && !page.initialData?.config?.['core/router']?.clientNavigationDisabled) {
         renderRegions(page);
         window.history[options.replace ? 'replaceState' : 'pushState']({}, '', href);
 

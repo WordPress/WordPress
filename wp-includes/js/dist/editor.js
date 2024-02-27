@@ -1688,8 +1688,8 @@ __webpack_require__.d(private_selectors_namespaceObject, {
   getListViewToggleRef: () => (getListViewToggleRef)
 });
 
-;// CONCATENATED MODULE: external ["wp","blockEditor"]
-const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
+;// CONCATENATED MODULE: external ["wp","blocks"]
+const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
@@ -1720,6 +1720,8 @@ const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 
 ;// CONCATENATED MODULE: external ["wp","coreData"]
 const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
+;// CONCATENATED MODULE: external ["wp","blockEditor"]
+const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/defaults.js
 /**
  * WordPress dependencies
@@ -2425,8 +2427,6 @@ function isShallowEqual(a, b, fromIndex) {
 	return /** @type {S & EnhancedSelector} */ (callSelector);
 }
 
-;// CONCATENATED MODULE: external ["wp","blocks"]
-const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","date"]
 const external_wp_date_namespaceObject = window["wp"]["date"];
 ;// CONCATENATED MODULE: external ["wp","url"]
@@ -5326,7 +5326,7 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
 
 const {
   registerBlockBindingsSource
-} = unlock((0,external_wp_data_namespaceObject.dispatch)(external_wp_blockEditor_namespaceObject.store));
+} = unlock((0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store));
 registerBlockBindingsSource(pattern_overrides);
 registerBlockBindingsSource(post_meta);
 
@@ -14853,44 +14853,43 @@ function useBlockEditorSettings(settings, postType, postId) {
 }
 /* harmony default export */ const use_block_editor_settings = (useBlockEditorSettings);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/provider/constants.js
-const PAGE_CONTENT_BLOCK_TYPES = ['core/post-title', 'core/post-featured-image', 'core/post-content'];
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/provider/disable-non-page-content-blocks.js
-
 /**
  * WordPress dependencies
  */
 
 
 
-
-/**
- * Internal dependencies
- */
-
-function DisableBlock({
-  clientId
-}) {
-  const isDescendentOfQueryLoop = (0,external_wp_data_namespaceObject.useSelect)(select => {
+const PAGE_CONTENT_BLOCKS = ['core/post-title', 'core/post-featured-image', 'core/post-content'];
+function useDisableNonPageContentBlocks() {
+  const contentIds = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getBlockParentsByBlockName
+      getBlocksByName,
+      getBlockParents,
+      getBlockName
     } = select(external_wp_blockEditor_namespaceObject.store);
-    return getBlockParentsByBlockName(clientId, 'core/query').length !== 0;
-  }, [clientId]);
-  const mode = isDescendentOfQueryLoop ? undefined : 'contentOnly';
+    return getBlocksByName(PAGE_CONTENT_BLOCKS).filter(clientId => getBlockParents(clientId).every(parentClientId => {
+      const parentBlockName = getBlockName(parentClientId);
+      return parentBlockName !== 'core/query' && !PAGE_CONTENT_BLOCKS.includes(parentBlockName);
+    }));
+  }, []);
   const {
     setBlockEditingMode,
     unsetBlockEditingMode
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (mode) {
-      setBlockEditingMode(clientId, mode);
-      return () => {
-        unsetBlockEditingMode(clientId);
-      };
+    setBlockEditingMode('', 'disabled'); // Disable editing at the root level.
+
+    for (const contentId of contentIds) {
+      setBlockEditingMode(contentId, 'contentOnly'); // Re-enable each content block.
     }
-  }, [clientId, mode, setBlockEditingMode, unsetBlockEditingMode]);
+    return () => {
+      unsetBlockEditingMode('');
+      for (const contentId of contentIds) {
+        unsetBlockEditingMode(contentId);
+      }
+    };
+  }, [contentIds, setBlockEditingMode, unsetBlockEditingMode]);
 }
 
 /**
@@ -14898,16 +14897,7 @@ function DisableBlock({
  * page content to be edited.
  */
 function DisableNonPageContentBlocks() {
-  (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)('disabled');
-  const clientIds = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return select(external_wp_blockEditor_namespaceObject.store).getBlocksByName(PAGE_CONTENT_BLOCK_TYPES);
-  }, []);
-  return clientIds.map(clientId => {
-    return (0,external_React_.createElement)(DisableBlock, {
-      key: clientId,
-      clientId: clientId
-    });
-  });
+  useDisableNonPageContentBlocks();
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/provider/navigation-block-editing-mode.js

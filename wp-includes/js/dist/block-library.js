@@ -3200,6 +3200,14 @@ const caption = (0,external_React_namespaceObject.createElement)(external_wp_pri
 
 
 
+
+/**
+ * Internal dependencies
+ */
+
+const {
+  PrivateRichText: RichText
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function Caption({
   key = 'caption',
   attributes,
@@ -3209,12 +3217,13 @@ function Caption({
   placeholder = (0,external_wp_i18n_namespaceObject.__)('Add caption'),
   label = (0,external_wp_i18n_namespaceObject.__)('Caption text'),
   showToolbarButton = true,
-  className
+  className,
+  disableEditing
 }) {
   const caption = attributes[key];
   const prevCaption = (0,external_wp_compose_namespaceObject.usePrevious)(caption);
-  const isCaptionEmpty = external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption);
-  const isPrevCaptionEmpty = external_wp_blockEditor_namespaceObject.RichText.isEmpty(prevCaption);
+  const isCaptionEmpty = RichText.isEmpty(caption);
+  const isPrevCaptionEmpty = RichText.isEmpty(prevCaption);
   const [showCaption, setShowCaption] = (0,external_wp_element_namespaceObject.useState)(!isCaptionEmpty);
 
   // We need to show the caption when changes come from
@@ -3250,7 +3259,7 @@ function Caption({
     icon: library_caption,
     isPressed: showCaption,
     label: showCaption ? (0,external_wp_i18n_namespaceObject.__)('Remove caption') : (0,external_wp_i18n_namespaceObject.__)('Add caption')
-  })), showCaption && (!external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) || isSelected) && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText, {
+  })), showCaption && (!RichText.isEmpty(caption) || isSelected) && (0,external_React_namespaceObject.createElement)(RichText, {
     identifier: key,
     tagName: "figcaption",
     className: classnames_default()(className, (0,external_wp_blockEditor_namespaceObject.__experimentalGetElementClassName)('caption')),
@@ -3262,7 +3271,8 @@ function Caption({
       caption: value
     }),
     inlineToolbar: true,
-    __unstableOnSplitAtEnd: () => insertBlocksAfter((0,external_wp_blocks_namespaceObject.createBlock)((0,external_wp_blocks_namespaceObject.getDefaultBlockName)()))
+    __unstableOnSplitAtEnd: () => insertBlocksAfter((0,external_wp_blocks_namespaceObject.createBlock)((0,external_wp_blocks_namespaceObject.getDefaultBlockName)())),
+    disableEditing: disableEditing
   }));
 }
 
@@ -5077,7 +5087,7 @@ function ButtonEdit(props) {
     if (!isSelected) {
       return {};
     }
-    const blockBindingsSource = unlock(select(external_wp_blockEditor_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
+    const blockBindingsSource = unlock(select(external_wp_blocks_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
     return {
       lockUrlControls: !!metadata?.bindings?.url && (!blockBindingsSource || blockBindingsSource?.lockAttributesEditing)
     };
@@ -5563,11 +5573,68 @@ const buttons_deprecated_deprecated = [{
 
 ;// CONCATENATED MODULE: external ["wp","richText"]
 const external_wp_richText_namespaceObject = window["wp"]["richText"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/utils/get-transformed-metadata.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Transform the metadata attribute with only the values and bindings specified by each transform.
+ * Returns `undefined` if the input metadata is falsy.
+ *
+ * @param {Object}   metadata         Original metadata attribute from the block that is being transformed.
+ * @param {Object}   newBlockName     Name of the final block after the transformation.
+ * @param {Function} bindingsCallback Optional callback to transform the `bindings` property object.
+ * @return {Object|undefined} New metadata object only with the relevant properties.
+ */
+function getTransformedMetadata(metadata, newBlockName, bindingsCallback) {
+  if (!metadata) {
+    return;
+  }
+  const {
+    supports
+  } = (0,external_wp_blocks_namespaceObject.getBlockType)(newBlockName);
+  // Fixed until an opt-in mechanism is implemented.
+  const BLOCK_BINDINGS_SUPPORTED_BLOCKS = ['core/paragraph', 'core/heading', 'core/image', 'core/button'];
+  // The metadata properties that should be preserved after the transform.
+  const transformSupportedProps = [];
+  // If it support bindings, and there is a transform bindings callback, add the `id` and `bindings` properties.
+  if (BLOCK_BINDINGS_SUPPORTED_BLOCKS.includes(newBlockName) && bindingsCallback) {
+    transformSupportedProps.push('id', 'bindings');
+  }
+  // If it support block naming (true by default), add the `name` property.
+  if (supports.renaming !== false) {
+    transformSupportedProps.push('name');
+  }
+
+  // Return early if no supported properties.
+  if (!transformSupportedProps.length) {
+    return;
+  }
+  const newMetadata = Object.entries(metadata).reduce((obj, [prop, value]) => {
+    // If prop is not supported, don't add it to the new metadata object.
+    if (!transformSupportedProps.includes(prop)) {
+      return obj;
+    }
+    obj[prop] = prop === 'bindings' ? bindingsCallback(value) : value;
+    return obj;
+  }, {});
+
+  // Return undefined if object is empty.
+  return Object.keys(newMetadata).length ? newMetadata : undefined;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/buttons/transforms.js
 /**
  * WordPress dependencies
  */
 
+
+
+/**
+ * Internal dependencies
+ */
 
 const transforms_transforms = {
   from: [{
@@ -5590,7 +5657,11 @@ const transforms_transforms = {
     (0,external_wp_blocks_namespaceObject.createBlock)('core/buttons', {},
     // Loop the selected buttons.
     buttons.map(attributes => {
-      const element = (0,external_wp_richText_namespaceObject.__unstableCreateElement)(document, attributes.content);
+      const {
+        content,
+        metadata
+      } = attributes;
+      const element = (0,external_wp_richText_namespaceObject.__unstableCreateElement)(document, content);
       // Remove any HTML tags.
       const text = element.innerText || '';
       // Get first url.
@@ -5599,7 +5670,12 @@ const transforms_transforms = {
       // Create singular button in the buttons block.
       return (0,external_wp_blocks_namespaceObject.createBlock)('core/button', {
         text,
-        url
+        url,
+        metadata: getTransformedMetadata(metadata, 'core/button', ({
+          content: contentBinding
+        }) => ({
+          text: contentBinding
+        }))
       });
     })),
     isMatch: paragraphs => {
@@ -6860,6 +6936,11 @@ function code_save_save({
  */
 
 
+
+/**
+ * Internal dependencies
+ */
+
 const code_transforms_transforms = {
   from: [{
     type: 'enter',
@@ -6869,15 +6950,18 @@ const code_transforms_transforms = {
     type: 'block',
     blocks: ['core/paragraph'],
     transform: ({
-      content
+      content,
+      metadata
     }) => (0,external_wp_blocks_namespaceObject.createBlock)('core/code', {
-      content
+      content,
+      metadata: getTransformedMetadata(metadata, 'core/code')
     })
   }, {
     type: 'block',
     blocks: ['core/html'],
     transform: ({
-      content: text
+      content: text,
+      metadata
     }) => {
       return (0,external_wp_blocks_namespaceObject.createBlock)('core/code', {
         // The HTML is plain text (with plain line breaks), so
@@ -6886,7 +6970,8 @@ const code_transforms_transforms = {
           value: (0,external_wp_richText_namespaceObject.create)({
             text
           })
-        })
+        }),
+        metadata: getTransformedMetadata(metadata, 'core/code')
       });
     }
   }, {
@@ -6908,9 +6993,11 @@ const code_transforms_transforms = {
     type: 'block',
     blocks: ['core/paragraph'],
     transform: ({
-      content
+      content,
+      metadata
     }) => (0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {
-      content
+      content,
+      metadata: getTransformedMetadata(metadata, 'core/paragraph')
     })
   }]
 };
@@ -13151,7 +13238,7 @@ function CoverInspectorControls({
     isShownByDefault: true,
     panelId: clientId
   }, (0,external_React_namespaceObject.createElement)(CoverHeightInput, {
-    value: minHeight,
+    value: attributes?.style?.dimensions?.aspectRatio ? '' : minHeight,
     unit: minHeightUnit,
     onChange: newMinHeight => setAttributes({
       minHeight: newMinHeight,
@@ -13215,6 +13302,10 @@ function CoverInspectorControls({
  * Internal dependencies
  */
 
+
+const {
+  cleanEmptyObject: block_controls_cleanEmptyObject
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function CoverBlockControls({
   attributes,
   setAttributes,
@@ -13235,7 +13326,7 @@ function CoverBlockControls({
   } = currentSettings;
   const [prevMinHeightValue, setPrevMinHeightValue] = (0,external_wp_element_namespaceObject.useState)(minHeight);
   const [prevMinHeightUnit, setPrevMinHeightUnit] = (0,external_wp_element_namespaceObject.useState)(minHeightUnit);
-  const isMinFullHeight = minHeightUnit === 'vh' && minHeight === 100;
+  const isMinFullHeight = minHeightUnit === 'vh' && minHeight === 100 && !attributes?.style?.dimensions?.aspectRatio;
   const toggleMinFullHeight = () => {
     if (isMinFullHeight) {
       // If there aren't previous values, take the default ones.
@@ -13255,10 +13346,17 @@ function CoverBlockControls({
     setPrevMinHeightValue(minHeight);
     setPrevMinHeightUnit(minHeightUnit);
 
-    // Set full height.
+    // Set full height, and clear any aspect ratio value.
     return setAttributes({
       minHeight: 100,
-      minHeightUnit: 'vh'
+      minHeightUnit: 'vh',
+      style: block_controls_cleanEmptyObject({
+        ...attributes?.style,
+        dimensions: {
+          ...attributes?.style?.dimensions,
+          aspectRatio: undefined // Reset aspect ratio when minHeight is set.
+        }
+      })
     });
   };
   return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
@@ -23827,6 +23925,7 @@ function getLevelFromHeadingNodeName(nodeName) {
  * Internal dependencies
  */
 
+
 const heading_transforms_transforms = {
   from: [{
     type: 'block',
@@ -23835,11 +23934,17 @@ const heading_transforms_transforms = {
     transform: attributes => attributes.map(({
       content,
       anchor,
-      align: textAlign
+      align: textAlign,
+      metadata
     }) => (0,external_wp_blocks_namespaceObject.createBlock)('core/heading', {
       content,
       anchor,
-      textAlign
+      textAlign,
+      metadata: getTransformedMetadata(metadata, 'core/heading', ({
+        content: contentBinding
+      }) => ({
+        content: contentBinding
+      }))
     }))
   }, {
     type: 'raw',
@@ -23894,10 +23999,16 @@ const heading_transforms_transforms = {
     blocks: ['core/paragraph'],
     transform: attributes => attributes.map(({
       content,
-      textAlign: align
+      textAlign: align,
+      metadata
     }) => (0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {
       content,
-      align
+      align,
+      metadata: getTransformedMetadata(metadata, 'core/paragraph', ({
+        content: contentBinding
+      }) => ({
+        content: contentBinding
+      }))
     }))
   }]
 };
@@ -25970,13 +26081,16 @@ function image_Image({
     lockUrlControls = false,
     lockHrefControls = false,
     lockAltControls = false,
-    lockTitleControls = false
+    lockTitleControls = false,
+    lockCaption = false
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (!isSingleSelected) {
       return {};
     }
     const {
-      getBlockBindingsSource,
+      getBlockBindingsSource
+    } = unlock(select(external_wp_blocks_namespaceObject.store));
+    const {
       getBlockParentsByBlockName
     } = unlock(select(external_wp_blockEditor_namespaceObject.store));
     const {
@@ -25993,6 +26107,10 @@ function image_Image({
       lockHrefControls:
       // Disable editing the link of the URL if the image is inside a pattern instance.
       // This is a temporary solution until we support overriding the link on the frontend.
+      hasParentPattern,
+      lockCaption:
+      // Disable editing the caption if the image is inside a pattern instance.
+      // This is a temporary solution until we support overriding the caption on the frontend.
       hasParentPattern,
       lockAltControls: !!altBinding && (!altBindingSource || altBindingSource?.lockAttributesEditing),
       lockTitleControls: !!titleBinding && (!titleBindingSource || titleBindingSource?.lockAttributesEditing)
@@ -26301,7 +26419,8 @@ function image_Image({
     isSelected: isSingleSelected,
     insertBlocksAfter: insertBlocksAfter,
     label: (0,external_wp_i18n_namespaceObject.__)('Image caption text'),
-    showToolbarButton: isSingleSelected && hasNonContentControls
+    showToolbarButton: isSingleSelected && hasNonContentControls,
+    disableEditing: lockCaption
   }));
 }
 
@@ -26315,6 +26434,7 @@ function image_Image({
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -26609,7 +26729,7 @@ function ImageEdit({
     if (!isSingleSelected) {
       return {};
     }
-    const blockBindingsSource = unlock(select(external_wp_blockEditor_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
+    const blockBindingsSource = unlock(select(external_wp_blocks_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
     return {
       lockUrlControls: !!metadata?.bindings?.url && (!blockBindingsSource || blockBindingsSource?.lockAttributesEditing)
     };
@@ -41735,6 +41855,7 @@ function PostFeaturedImageEdit({
     }
   });
   const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalUseBorderProps)(attributes);
+  const blockEditingMode = (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)();
   const placeholder = content => {
     return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
       className: classnames_default()('block-editor-media-placeholder', borderProps.className),
@@ -41759,7 +41880,11 @@ function PostFeaturedImageEdit({
       type: 'snackbar'
     });
   };
-  const controls = (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(dimension_controls, {
+  const controls = blockEditingMode === 'default' && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(overlay, {
+    attributes: attributes,
+    setAttributes: setAttributes,
+    clientId: clientId
+  }), (0,external_React_namespaceObject.createElement)(dimension_controls, {
     clientId: clientId,
     attributes: attributes,
     setAttributes: setAttributes,
@@ -41808,11 +41933,7 @@ function PostFeaturedImageEdit({
       href: postPermalink,
       target: linkTarget,
       ...disabledClickProps
-    }, placeholder()) : placeholder(), (0,external_React_namespaceObject.createElement)(overlay, {
-      attributes: attributes,
-      setAttributes: setAttributes,
-      clientId: clientId
-    })));
+    }, placeholder()) : placeholder()));
   }
   const label = (0,external_wp_i18n_namespaceObject.__)('Add a featured image');
   const imageStyles = {
@@ -41886,11 +42007,7 @@ function PostFeaturedImageEdit({
     href: postPermalink,
     target: linkTarget,
     ...disabledClickProps
-  }, image) : image, (0,external_React_namespaceObject.createElement)(overlay, {
-    attributes: attributes,
-    setAttributes: setAttributes,
-    clientId: clientId
-  })));
+  }, image) : image));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-featured-image/index.js
@@ -43226,7 +43343,7 @@ function PostTitleEdit({
       }
     }));
   }
-  return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, blockEditingMode === 'default' && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
+  return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, blockEditingMode === 'default' && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
     group: "block"
   }, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.HeadingLevelDropdown, {
     value: level,
@@ -43263,7 +43380,7 @@ function PostTitleEdit({
     onChange: newRel => setAttributes({
       rel: newRel
     })
-  })))), titleElement);
+  }))))), titleElement);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-title/deprecated.js

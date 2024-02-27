@@ -482,7 +482,8 @@
   display:flex;
   justify-content:center;
   min-height:430px;
-  overflow-x:clip;
+  overflow:hidden;
+  overflow:clip;
   padding:1em;
   position:relative;
 }
@@ -2684,8 +2685,10 @@ ul.wp-block-rss.is-grid li{
   line-height:0;
 }
 .wp-block-search__button svg{
+  height:1.25em;
   min-height:24px;
   min-width:24px;
+  width:1.25em;
   fill:currentColor;
   vertical-align:text-bottom;
 }

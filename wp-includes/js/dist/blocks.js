@@ -5931,6 +5931,8 @@ __webpack_require__.d(selectors_namespaceObject, {
 var private_selectors_namespaceObject = {};
 __webpack_require__.r(private_selectors_namespaceObject);
 __webpack_require__.d(private_selectors_namespaceObject, {
+  getAllBlockBindingsSources: () => (getAllBlockBindingsSources),
+  getBlockBindingsSource: () => (getBlockBindingsSource),
   getBootstrappedBlockType: () => (getBootstrappedBlockType),
   getSupportedStyles: () => (getSupportedStyles),
   getUnprocessedBlockTypes: () => (getUnprocessedBlockTypes)
@@ -5963,7 +5965,8 @@ var private_actions_namespaceObject = {};
 __webpack_require__.r(private_actions_namespaceObject);
 __webpack_require__.d(private_actions_namespaceObject, {
   addBootstrappedBlockType: () => (addBootstrappedBlockType),
-  addUnprocessedBlockType: () => (addUnprocessedBlockType)
+  addUnprocessedBlockType: () => (addUnprocessedBlockType),
+  registerBlockBindingsSource: () => (registerBlockBindingsSource)
 });
 
 ;// CONCATENATED MODULE: external ["wp","data"]
@@ -8084,6 +8087,20 @@ function collections(state = {}, action) {
   }
   return state;
 }
+function blockBindingsSources(state = {}, action) {
+  if (action.type === 'REGISTER_BLOCK_BINDINGS_SOURCE') {
+    var _action$lockAttribute;
+    return {
+      ...state,
+      [action.sourceName]: {
+        label: action.sourceLabel,
+        useSource: action.useSource,
+        lockAttributesEditing: (_action$lockAttribute = action.lockAttributesEditing) !== null && _action$lockAttribute !== void 0 ? _action$lockAttribute : true
+      }
+    };
+  }
+  return state;
+}
 /* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   bootstrappedBlockTypes,
   unprocessedBlockTypes,
@@ -8095,7 +8112,8 @@ function collections(state = {}, action) {
   unregisteredFallbackBlockName,
   groupingBlockName,
   categories,
-  collections
+  collections,
+  blockBindingsSources
 }));
 
 ;// CONCATENATED MODULE: ./node_modules/rememo/rememo.js
@@ -9303,6 +9321,29 @@ function getUnprocessedBlockTypes(state) {
   return state.unprocessedBlockTypes;
 }
 
+/**
+ * Returns all the block bindings sources registered.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {Object} All the registered sources and their properties.
+ */
+function getAllBlockBindingsSources(state) {
+  return state.blockBindingsSources;
+}
+
+/**
+ * Returns a specific block bindings source.
+ *
+ * @param {Object} state      Data state.
+ * @param {string} sourceName Name of the source to get.
+ *
+ * @return {Object} The specific block binding source and its properties.
+ */
+function getBlockBindingsSource(state, sourceName) {
+  return state.blockBindingsSources[sourceName];
+}
+
 ;// CONCATENATED MODULE: external ["wp","deprecated"]
 const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
@@ -9828,6 +9869,21 @@ function addUnprocessedBlockType(name, blockType) {
       return;
     }
     dispatch.addBlockTypes(processedBlockType);
+  };
+}
+
+/**
+ * Register new block bindings source.
+ *
+ * @param {string} source Name of the source to register.
+ */
+function registerBlockBindingsSource(source) {
+  return {
+    type: 'REGISTER_BLOCK_BINDINGS_SOURCE',
+    sourceName: source.name,
+    sourceLabel: source.label,
+    useSource: source.useSource,
+    lockAttributesEditing: source.lockAttributesEditing
   };
 }
 

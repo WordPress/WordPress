@@ -5,7 +5,8 @@
   display:flex;
   justify-content:center;
   min-height:430px;
-  overflow-x:clip;
+  overflow:hidden;
+  overflow:clip;
   padding:1em;
   position:relative;
 }

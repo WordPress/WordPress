@@ -392,19 +392,12 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .dataviews-filters__view-actions{
   padding:12px 32px 0;
 }
-.dataviews-filters__view-actions .components-search-control{
-  flex-grow:1;
-}
 .dataviews-filters__view-actions .components-search-control .components-base-control__field{
   max-width:240px;
 }
 
 .dataviews-filters__container{
-  padding:0 32px;
-}
-
-.dataviews-filters__view-actions.components-h-stack{
-  align-items:center;
+  padding-right:32px;
 }
 
 .dataviews-filters-button{
@@ -421,6 +414,13 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   margin-top:auto;
   padding:12px 32px;
   position:sticky;
+}
+
+.dataviews-pagination__page-selection{
+  color:#1e1e1e;
+  font-size:11px;
+  font-weight:500;
+  text-transform:uppercase;
 }
 
 .dataviews-filters-options{
@@ -484,10 +484,10 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .dataviews-view-table tr:hover{
   background-color:#f8f8f8;
 }
-.dataviews-view-table tr .components-checkbox-control__input{
+.dataviews-view-table tr .components-checkbox-control__input.components-checkbox-control__input{
   opacity:0;
 }
-.dataviews-view-table tr .components-checkbox-control__input:checked,.dataviews-view-table tr .components-checkbox-control__input:focus,.dataviews-view-table tr .components-checkbox-control__input:indeterminate,.dataviews-view-table tr:focus-within .components-checkbox-control__input,.dataviews-view-table tr:hover .components-checkbox-control__input{
+.dataviews-view-table tr .components-checkbox-control__input.components-checkbox-control__input:checked,.dataviews-view-table tr .components-checkbox-control__input.components-checkbox-control__input:focus,.dataviews-view-table tr .components-checkbox-control__input.components-checkbox-control__input:indeterminate,.dataviews-view-table tr:focus-within .components-checkbox-control__input,.dataviews-view-table tr:hover .components-checkbox-control__input{
   opacity:1;
 }
 .dataviews-view-table tr.is-selected{
@@ -544,6 +544,9 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .dataviews-view-table .dataviews-view-table__actions-column{
   width:1%;
+}
+.dataviews-view-table:has(tr.is-selected) .components-checkbox-control__input{
+  opacity:1;
 }
 
 .dataviews-view-grid__primary-field,.dataviews-view-list__primary-field,.dataviews-view-table__primary-field{
@@ -937,7 +940,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .dataviews-filter-summary__chip-container .dataviews-filter-summary__chip.has-reset{
   padding-inline-end:28px;
 }
-.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip:focus-visible,.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip:hover{
+.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip:focus-visible,.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip:hover,.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip[aria-expanded=true]{
   background:#e0e0e0;
   color:#1e1e1e;
 }
@@ -945,8 +948,8 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   background:rgba(var(--wp-admin-theme-color--rgb), .04);
   color:var(--wp-admin-theme-color);
 }
-.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip.has-values:hover{
-  background:rgba(var(--wp-admin-theme-color--rgb), .08);
+.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip.has-values:hover,.dataviews-filter-summary__chip-container .dataviews-filter-summary__chip.has-values[aria-expanded=true]{
+  background:rgba(var(--wp-admin-theme-color--rgb), .12);
 }
 .dataviews-filter-summary__chip-container .dataviews-filter-summary__chip:focus-visible{
   box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
@@ -4050,7 +4053,13 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   font-weight:500;
   text-transform:uppercase;
 }
+.font-library-modal .components-navigator-screen{
+  padding:3px;
+}
 
+.font-library-modal__tabpanel-layout{
+  margin-top:32px;
+}
 .font-library-modal__tabpanel-layout .font-library-modal__tabpanel-layout__footer{
   background-color:#fff;
   border-top:1px solid #ddd;
@@ -4072,17 +4081,14 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   padding:16px;
   width:100%;
 }
+.font-library-modal__font-card:hover{
+  background-color:#f0f0f0;
+}
 .font-library-modal__font-card .font-library-modal__font-card__name{
   font-weight:700;
 }
 .font-library-modal__font-card .font-library-modal__font-card__count{
   color:#757575;
-}
-
-.font-library-modal__library-font-variant{
-  border:1px solid #e0e0e0;
-  margin-top:-1px;
-  padding:16px;
 }
 
 .font-library-modal__font-variant_demo-image{
@@ -4142,13 +4148,14 @@ button.font-library-modal__upload-area{
   align-items:center;
   display:flex;
   justify-content:center;
+  margin-top:64px;
 }
 .font-library__google-fonts-confirm h3{
   font-size:1.4rem;
 }
 .font-library__google-fonts-confirm .components-card{
-  max-width:350px;
-  min-width:250px;
+  max-width:400px;
+  min-width:350px;
   width:50%;
 }
 

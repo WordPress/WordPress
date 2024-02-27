@@ -86,13 +86,7 @@ const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
 const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
-;// CONCATENATED MODULE: external ["wp","i18n"]
-const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/constants.js
-/**
- * WordPress dependencies
- */
-
 const PATTERN_TYPES = {
   theme: 'pattern',
   user: 'wp_block'
@@ -107,24 +101,10 @@ const PATTERN_SYNC_TYPES = {
 
 // TODO: This should not be hardcoded. Maybe there should be a config and/or an UI.
 const PARTIAL_SYNCING_SUPPORTED_BLOCKS = {
-  'core/paragraph': {
-    content: (0,external_wp_i18n_namespaceObject.__)('Content')
-  },
-  'core/heading': {
-    content: (0,external_wp_i18n_namespaceObject.__)('Content')
-  },
-  'core/button': {
-    text: (0,external_wp_i18n_namespaceObject.__)('Text'),
-    url: (0,external_wp_i18n_namespaceObject.__)('URL'),
-    linkTarget: (0,external_wp_i18n_namespaceObject.__)('Link Target'),
-    rel: (0,external_wp_i18n_namespaceObject.__)('Link Relationship')
-  },
-  'core/image': {
-    id: (0,external_wp_i18n_namespaceObject.__)('Image ID'),
-    url: (0,external_wp_i18n_namespaceObject.__)('URL'),
-    title: (0,external_wp_i18n_namespaceObject.__)('Title'),
-    alt: (0,external_wp_i18n_namespaceObject.__)('Alt Text')
-  }
+  'core/paragraph': ['content'],
+  'core/heading': ['content'],
+  'core/button': ['text', 'url', 'linkTarget', 'rel'],
+  'core/image': ['id', 'url', 'title', 'alt']
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/store/actions.js
@@ -305,6 +285,8 @@ unlock(store).registerPrivateSelectors(selectors_namespaceObject);
 const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","components"]
 const external_wp_components_namespaceObject = window["wp"]["components"];
+;// CONCATENATED MODULE: external ["wp","i18n"]
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","notices"]
@@ -1203,7 +1185,7 @@ function PartialSyncingControls({
   setAttributes
 }) {
   const syncedAttributes = PARTIAL_SYNCING_SUPPORTED_BLOCKS[name];
-  const attributeSources = Object.keys(syncedAttributes).map(attributeName => attributes.metadata?.bindings?.[attributeName]?.source);
+  const attributeSources = syncedAttributes.map(attributeName => attributes.metadata?.bindings?.[attributeName]?.source);
   const isConnectedToOtherSources = attributeSources.every(source => source && source !== 'core/pattern-overrides');
 
   // Render nothing if all supported attributes are connected to other sources.
@@ -1215,7 +1197,7 @@ function PartialSyncingControls({
       ...attributes?.metadata?.bindings
     };
     if (!isChecked) {
-      for (const attributeName of Object.keys(syncedAttributes)) {
+      for (const attributeName of syncedAttributes) {
         if (updatedBindings[attributeName]?.source === 'core/pattern-overrides') {
           delete updatedBindings[attributeName];
         }
@@ -1231,7 +1213,7 @@ function PartialSyncingControls({
       });
       return;
     }
-    for (const attributeName of Object.keys(syncedAttributes)) {
+    for (const attributeName of syncedAttributes) {
       if (!updatedBindings[attributeName]) {
         updatedBindings[attributeName] = {
           source: 'core/pattern-overrides'
@@ -1315,7 +1297,12 @@ function ResetOverridesControl(props) {
     const editedRecord = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getEditedEntityRecord('postType', 'wp_block', patternWithOverrides.attributes.ref);
     const blocks = (_editedRecord$blocks = editedRecord.blocks) !== null && _editedRecord$blocks !== void 0 ? _editedRecord$blocks : (0,external_wp_blocks_namespaceObject.parse)(editedRecord.content);
     const block = recursivelyFindBlockWithId(blocks, id);
-    props.setAttributes(block.attributes);
+    const newAttributes = Object.assign(
+    // Reset every existing attribute to undefined.
+    Object.fromEntries(Object.keys(props.attributes).map(key => [key, undefined])),
+    // Then assign the original attributes.
+    block.attributes);
+    props.setAttributes(newAttributes);
   };
   return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
     group: "other"

@@ -3470,7 +3470,7 @@ const isEditingTemplate = (0,external_wp_data_namespaceObject.createRegistrySele
     since: '6.5',
     alternative: `select( 'core/editor' ).getRenderingMode`
   });
-  return select(external_wp_editor_namespaceObject.store).getCurrentPostType() !== 'post-only';
+  return select(external_wp_editor_namespaceObject.store).getCurrentPostType() === 'wp_template';
 });
 
 /**
@@ -4845,7 +4845,7 @@ function Header({
   const blockToolbarRef = (0,external_wp_element_namespaceObject.useRef)();
   const {
     isTextEditor,
-    hasBlockSelection,
+    blockSelectionStart,
     hasActiveMetaboxes,
     hasFixedToolbar,
     isPublishSidebarOpened,
@@ -4860,7 +4860,7 @@ function Header({
     } = select(store_store);
     return {
       isTextEditor: getEditorMode() === 'text',
-      hasBlockSelection: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
+      blockSelectionStart: select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
       hasActiveMetaboxes: select(store_store).hasMetaBoxes(),
       hasHistory: !!select(external_wp_editor_namespaceObject.store).getEditorSettings().onNavigateToPreviousEntityRecord,
       isPublishSidebarOpened: select(store_store).isPublishSidebarOpened(),
@@ -4869,12 +4869,13 @@ function Header({
     };
   }, []);
   const [isBlockToolsCollapsed, setIsBlockToolsCollapsed] = (0,external_wp_element_namespaceObject.useState)(true);
+  const hasBlockSelection = !!blockSelectionStart;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // If we have a new block selection, show the block tools
-    if (hasBlockSelection) {
+    if (blockSelectionStart) {
       setIsBlockToolsCollapsed(false);
     }
-  }, [hasBlockSelection]);
+  }, [blockSelectionStart]);
   return (0,external_React_namespaceObject.createElement)("div", {
     className: "edit-post-header"
   }, (0,external_React_namespaceObject.createElement)(main_dashboard_button.Slot, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
@@ -4897,7 +4898,7 @@ function Header({
     disableBlockTools: isTextEditor
   }), hasFixedToolbar && isLargeViewport && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)("div", {
     className: classnames_default()('selected-block-tools-wrapper', {
-      'is-collapsed': isBlockToolsCollapsed
+      'is-collapsed': isBlockToolsCollapsed || !hasBlockSelection
     })
   }, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
     hideDragHandle: true
