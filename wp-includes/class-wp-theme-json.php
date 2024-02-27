@@ -3857,12 +3857,18 @@ class WP_Theme_JSON {
 	 * Replaces CSS variables with their values in place.
 	 *
 	 * @since 6.3.0
+	 * @since 6.5.0 Check for empty style before processing its value.
+	 *
 	 * @param array $styles CSS declarations to convert.
 	 * @param array $values key => value pairs to use for replacement.
 	 * @return array
 	 */
 	private static function convert_variables_to_value( $styles, $values ) {
 		foreach ( $styles as $key => $style ) {
+			if ( empty( $style ) ) {
+				continue;
+			}
+
 			if ( is_array( $style ) ) {
 				$styles[ $key ] = self::convert_variables_to_value( $style, $values );
 				continue;
