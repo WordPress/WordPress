@@ -694,7 +694,7 @@ class WP_Plugin_Dependencies {
 
 			self::$dependency_api_data[ $slug ] = (array) $information;
 			// plugins_api() returns 'name' not 'Name'.
-			self::$dependency_api_data[ $information->slug ]['Name'] = self::$dependency_api_data[ $information->slug ]['name'];
+			self::$dependency_api_data[ $slug ]['Name'] = self::$dependency_api_data[ $slug ]['name'];
 			set_site_transient( 'wp_plugin_dependencies_plugin_data', self::$dependency_api_data, 0 );
 		}
 
