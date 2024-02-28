@@ -2810,10 +2810,6 @@ class WP_HTML_Tag_Processor {
 
 		$decoded = html_entity_decode( $text, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE );
 
-		if ( empty( $decoded ) ) {
-			return '';
-		}
-
 		/*
 		 * TEXTAREA skips a leading newline, but this newline may appear not only as the
 		 * literal character `\n`, but also as a character reference, such as in the
