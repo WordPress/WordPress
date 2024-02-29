@@ -149,7 +149,7 @@ function wp_interactivity_config( string $store_namespace, array $config = array
  *
  * Example:
  *
- *     <div <?php echo wp_interactivity_data_wp_context( array( 'isOpen' => true, 'count' => 0 ) ); ?>>
+ *     <div <?php echo data_wp_context( array( 'isOpen' => true, 'count' => 0 ) ); ?>>
  *
  * @since 6.5.0
  *
@@ -158,7 +158,7 @@ function wp_interactivity_config( string $store_namespace, array $config = array
  * @return string A complete `data-wp-context` directive with a JSON encoded value representing the context array and
  *                the store namespace if specified.
  */
-function wp_interactivity_data_wp_context( array $context, string $store_namespace = '' ): string {
+function data_wp_context( array $context, string $store_namespace = '' ): string {
 	return 'data-wp-context=\'' .
 		( $store_namespace ? $store_namespace . '::' : '' ) .
 		( empty( $context ) ? '{}' : wp_json_encode( $context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) ) .
