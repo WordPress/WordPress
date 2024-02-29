@@ -268,6 +268,7 @@ window.wp = window.wp || {};
 				$prev = $this.parent().prev().children( '.ntdelbutton' ),
 				$next = $this.parent().next().children( '.ntdelbutton' );
 
+			$( 'input#cb-select-all-1, input#cb-select-all-2' ).prop( 'checked', false );
 			$( 'table.widefat input[value="' + id + '"]' ).prop( 'checked', false );
 			$( '#_' + id ).parent().remove();
 			wp.a11y.speak( wp.i18n.__( 'Item removed.' ), 'assertive' );
