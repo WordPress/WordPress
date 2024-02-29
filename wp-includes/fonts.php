@@ -96,16 +96,6 @@ function wp_unregister_font_collection( string $slug ) {
  *
  * @since 6.5.0
  *
- * @param array $defaults {
- *     Array of information about the upload directory.
- *
- *     @type string       $path    Base directory and subdirectory or full path to the fonts upload directory.
- *     @type string       $url     Base URL and subdirectory or absolute URL to the fonts upload directory.
- *     @type string       $subdir  Subdirectory
- *     @type string       $basedir Path without subdir.
- *     @type string       $baseurl URL path without subdir.
- *     @type string|false $error   False or error message.
- * }
  * @return array $defaults {
  *     Array of information about the upload directory.
  *
@@ -117,19 +107,20 @@ function wp_unregister_font_collection( string $slug ) {
  *     @type string|false $error   False or error message.
  * }
  */
-function wp_get_font_dir( $defaults = array() ) {
+function wp_get_font_dir() {
 	$site_path = '';
 	if ( is_multisite() && ! ( is_main_network() && is_main_site() ) ) {
 		$site_path = '/sites/' . get_current_blog_id();
 	}
 
-	// Sets the defaults.
-	$defaults['path']    = path_join( WP_CONTENT_DIR, 'fonts' ) . $site_path;
-	$defaults['url']     = untrailingslashit( content_url( 'fonts' ) ) . $site_path;
-	$defaults['subdir']  = '';
-	$defaults['basedir'] = path_join( WP_CONTENT_DIR, 'fonts' ) . $site_path;
-	$defaults['baseurl'] = untrailingslashit( content_url( 'fonts' ) ) . $site_path;
-	$defaults['error']   = false;
+	$defaults = array(
+		'path'    => path_join( WP_CONTENT_DIR, 'fonts' ) . $site_path,
+		'url'     => untrailingslashit( content_url( 'fonts' ) ) . $site_path,
+		'subdir'  => '',
+		'basedir' => path_join( WP_CONTENT_DIR, 'fonts' ) . $site_path,
+		'baseurl' => untrailingslashit( content_url( 'fonts' ) ) . $site_path,
+		'error'   => false,
+	);
 
 	/**
 	 * Filters the fonts directory data.
