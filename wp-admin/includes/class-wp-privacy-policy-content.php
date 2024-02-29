@@ -466,7 +466,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Who we are' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'Who we are' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -494,7 +494,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Comments' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'Comments' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -507,7 +507,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Media' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'Media' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -525,7 +525,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Cookies' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'Cookies' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -543,7 +543,7 @@ final class WP_Privacy_Policy_Content {
 
 		if ( ! $description ) {
 			/* translators: Default privacy policy heading. */
-			$strings[] = '<h2>' . __( 'Embedded content from other websites' ) . '</h2>';
+			$strings[] = '<h2 class="wp-block-heading">' . __( 'Embedded content from other websites' ) . '</h2>';
 			/* translators: Default privacy policy text. */
 			$strings[] = '<p>' . $suggested_text . __( 'Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.' ) . '</p>';
 			/* translators: Default privacy policy text. */
@@ -560,7 +560,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Who we share your data with' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'Who we share your data with' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -573,7 +573,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'How long we retain your data' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'How long we retain your data' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -586,7 +586,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'What rights you have over your data' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'What rights you have over your data' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -597,7 +597,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Where your data is sent' ) . '</h2>';
+		$strings[] = '<h2 class="wp-block-heading">' . __( 'Where your data is sent' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */
@@ -662,11 +662,11 @@ final class WP_Privacy_Policy_Content {
 		if ( $blocks ) {
 			foreach ( $strings as $key => $string ) {
 				if ( str_starts_with( $string, '<p>' ) ) {
-					$strings[ $key ] = '<!-- wp:paragraph -->' . $string . '<!-- /wp:paragraph -->';
+					$strings[ $key ] = "<!-- wp:paragraph -->\n" . $string . "\n<!-- /wp:paragraph -->\n";
 				}
 
-				if ( str_starts_with( $string, '<h2>' ) ) {
-					$strings[ $key ] = '<!-- wp:heading -->' . $string . '<!-- /wp:heading -->';
+				if ( str_starts_with( $string, '<h2 ' ) ) {
+					$strings[ $key ] = "<!-- wp:heading -->\n" . $string . "\n<!-- /wp:heading -->\n";
 				}
 			}
 		}
