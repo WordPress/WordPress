@@ -907,7 +907,7 @@
 			"fontWeight": "400",
 			"lineHeight": "1.55"
 		},
-		"css": ".wp-site-blocks *:focus{outline-width:2px;outline-style:solid}"
+		"css": ":where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}"
 	},
 	"templateParts": [
 		{
