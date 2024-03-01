@@ -1664,6 +1664,8 @@
 			$reorderNav = control.container.find( '.menu-item-reorder-nav' );
 			$reorderNav.find( '.menus-move-up, .menus-move-down, .menus-move-left, .menus-move-right' ).on( 'click', function() {
 				var moveBtn = $( this );
+				control.params.depth = control.getDepth();
+
 				moveBtn.focus();
 
 				var isMoveUp = moveBtn.is( '.menus-move-up' ),
@@ -1677,8 +1679,19 @@
 					control.moveDown();
 				} else if ( isMoveLeft ) {
 					control.moveLeft();
+					if ( 1 === control.params.depth ) {
+						control.container.find( '.is-submenu' ).hide();
+					} else {
+						control.container.find( '.is-submenu' ).show();
+					}
 				} else if ( isMoveRight ) {
 					control.moveRight();
+					control.params.depth += 1;
+					if ( 0 === control.params.depth ) {
+						control.container.find( '.is-submenu' ).hide();
+					} else {
+						control.container.find( '.is-submenu' ).show();
+					}
 				}
 
 				moveBtn.focus(); // Re-focus after the container was moved.
