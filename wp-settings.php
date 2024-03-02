@@ -130,8 +130,14 @@ global $wpdb;
 // Include the wpdb class and, if present, a db.php database drop-in.
 require_wp_db();
 
-// Set the database table prefix and the format specifiers for database table columns.
+/**
+ * @since 3.3.0
+ *
+ * @global string $table_prefix The database table prefix.
+ */
 $GLOBALS['table_prefix'] = $table_prefix;
+
+// Set the database table prefix and the format specifiers for database table columns.
 wp_set_wpdb_vars();
 
 // Start the WordPress object cache, or an external object cache if the drop-in is present.
@@ -393,6 +399,11 @@ require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';
 add_action( 'after_setup_theme', array( wp_script_modules(), 'add_hooks' ) );
 add_action( 'after_setup_theme', array( wp_interactivity(), 'add_hooks' ) );
 
+/**
+ * @since 3.3.0
+ *
+ * @global WP_Embed $wp_embed WordPress Embed object.
+ */
 $GLOBALS['wp_embed'] = new WP_Embed();
 
 /**
@@ -418,6 +429,11 @@ if ( is_multisite() ) {
 // Define must-use plugin directory constants, which may be overridden in the sunrise.php drop-in.
 wp_plugin_directory_constants();
 
+/**
+ * @since 3.9.0
+ *
+ * @global array $wp_plugin_paths
+ */
 $GLOBALS['wp_plugin_paths'] = array();
 
 // Load must-use plugins.
