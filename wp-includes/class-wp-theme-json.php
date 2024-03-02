@@ -1065,19 +1065,10 @@ class WP_Theme_JSON {
 				continue;
 			}
 
-			// Check if the value is an array and requires further processing.
-			if ( is_array( $value ) && is_array( $schema[ $key ] ) ) {
-				// Determine if it is an associative or indexed array.
-				$schema_is_assoc = self::is_assoc( $value );
-
-				if ( $schema_is_assoc ) {
-					// If associative, process as a single object.
-					$tree[ $key ] = self::remove_keys_not_in_schema( $value, $schema[ $key ] );
-
-					if ( empty( $tree[ $key ] ) ) {
-						unset( $tree[ $key ] );
-					}
-				} else {
+			if ( is_array( $schema[ $key ] ) ) {
+				if ( ! is_array( $value ) ) {
+					unset( $tree[ $key ] );
+				} elseif ( wp_is_numeric_array( $value ) ) {
 					// If indexed, process each item in the array.
 					foreach ( $value as $item_key => $item_value ) {
 						if ( isset( $schema[ $key ][0] ) && is_array( $schema[ $key ][0] ) ) {
@@ -1087,27 +1078,17 @@ class WP_Theme_JSON {
 							$tree[ $key ][ $item_key ] = $item_value;
 						}
 					}
+				} else {
+					// If associative, process as a single object.
+					$tree[ $key ] = self::remove_keys_not_in_schema( $value, $schema[ $key ] );
+
+					if ( empty( $tree[ $key ] ) ) {
+						unset( $tree[ $key ] );
+					}
 				}
-			} elseif ( is_array( $schema[ $key ] ) && ! is_array( $tree[ $key ] ) ) {
-				unset( $tree[ $key ] );
 			}
 		}
-
 		return $tree;
-	}
-
-	/**
-	 * Checks if the given array is associative.
-	 *
-	 * @since 6.5.0
-	 * @param array $data The array to check.
-	 * @return bool True if the array is associative, false otherwise.
-	 */
-	protected static function is_assoc( $data ) {
-		if ( array() === $data ) {
-			return false;
-		}
-		return array_keys( $data ) !== range( 0, count( $data ) - 1 );
 	}
 
 	/**
