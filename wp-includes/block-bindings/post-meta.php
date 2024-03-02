@@ -34,6 +34,19 @@ function _block_bindings_post_meta_get_value( array $source_args, $block_instanc
 		return null;
 	}
 
+	// Check if the meta field is protected.
+	if ( is_protected_meta( $source_args['key'], 'post' ) ) {
+		return null;
+	}
+
+	// Check if the meta field is registered to be shown in REST.
+	$meta_keys = get_registered_meta_keys( 'post', $block_instance->context['postType'] );
+	// Add fields registered for all subtypes.
+	$meta_keys = array_merge( $meta_keys, get_registered_meta_keys( 'post', '' ) );
+	if ( empty( $meta_keys[ $source_args['key'] ]['show_in_rest'] ) ) {
+		return null;
+	}
+
 	return get_post_meta( $post_id, $source_args['key'], true );
 }
 
