@@ -1077,7 +1077,7 @@ endif;
 		/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
 		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
-		$attachment = $this->create_attachment_object( $cropped, $attachment_id );
+		$attachment = wp_copy_parent_attachment_properties( $cropped, $attachment_id, 'custom-header' );
 
 		if ( ! empty( $_POST['create-new-attachment'] ) ) {
 			unset( $attachment['ID'] );
@@ -1314,12 +1314,14 @@ endif;
 	 * Creates an attachment 'object'.
 	 *
 	 * @since 3.9.0
+	 * @deprecated 6.5.0
 	 *
 	 * @param string $cropped              Cropped image URL.
 	 * @param int    $parent_attachment_id Attachment ID of parent image.
 	 * @return array An array with attachment object data.
 	 */
 	final public function create_attachment_object( $cropped, $parent_attachment_id ) {
+		_deprecated_function( __METHOD__, '6.5.0', 'wp_copy_parent_attachment_properties()' );
 		$parent     = get_post( $parent_attachment_id );
 		$parent_url = wp_get_attachment_url( $parent->ID );
 		$url        = str_replace( wp_basename( $parent_url ), wp_basename( $cropped ), $parent_url );
@@ -1421,7 +1423,7 @@ endif;
 		/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
 		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
-		$attachment = $this->create_attachment_object( $cropped, $attachment_id );
+		$attachment = wp_copy_parent_attachment_properties( $cropped, $attachment_id, 'custom-header' );
 
 		$previous = $this->get_previous_crop( $attachment );
 

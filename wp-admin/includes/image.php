@@ -483,6 +483,62 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 }
 
 /**
+ * Copy parent attachment properties to newly cropped image.
+ *
+ * @since 6.5.0
+ *
+ * @param string $cropped              Path to the cropped image file.
+ * @param int    $parent_attachment_id Parent file Attachment ID.
+ * @param string $context              Control calling the function.
+ * @return array Properties of attachment.
+ */
+function wp_copy_parent_attachment_properties( $cropped, $parent_attachment_id, $context = '' ) {
+	$parent          = get_post( $parent_attachment_id );
+	$parent_url      = wp_get_attachment_url( $parent->ID );
+	$parent_basename = wp_basename( $parent_url );
+	$url             = str_replace( wp_basename( $parent_url ), wp_basename( $cropped ), $parent_url );
+
+	$size       = wp_getimagesize( $cropped );
+	$image_type = $size ? $size['mime'] : 'image/jpeg';
+
+	$sanitized_post_title = sanitize_file_name( $parent->post_title );
+	$use_original_title   = (
+		( '' !== trim( $parent->post_title ) ) &&
+		/*
+		 * Check if the original image has a title other than the "filename" default,
+		 * meaning the image had a title when originally uploaded or its title was edited.
+		 */
+		( $parent_basename !== $sanitized_post_title ) &&
+		( pathinfo( $parent_basename, PATHINFO_FILENAME ) !== $sanitized_post_title )
+	);
+	$use_original_description = ( '' !== trim( $parent->post_content ) );
+
+	$attachment = array(
+		'post_title'     => $use_original_title ? $parent->post_title : wp_basename( $cropped ),
+		'post_content'   => $use_original_description ? $parent->post_content : $url,
+		'post_mime_type' => $image_type,
+		'guid'           => $url,
+		'context'        => $context,
+	);
+
+	// Copy the image caption attribute (post_excerpt field) from the original image.
+	if ( '' !== trim( $parent->post_excerpt ) ) {
+		$attachment['post_excerpt'] = $parent->post_excerpt;
+	}
+
+	// Copy the image alt text attribute from the original image.
+	if ( '' !== trim( $parent->_wp_attachment_image_alt ) ) {
+		$attachment['meta_input'] = array(
+			'_wp_attachment_image_alt' => wp_slash( $parent->_wp_attachment_image_alt ),
+		);
+	}
+
+	$attachment['post_parent'] = $parent_attachment_id;
+
+	return $attachment;
+}
+
+/**
  * Generates attachment meta data and create image sub-sizes for images.
  *
  * @since 2.1.0
