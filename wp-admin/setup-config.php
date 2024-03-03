@@ -116,6 +116,10 @@ function setup_config_display_header( $body_classes = array() ) {
 	<?php
 } // End function setup_config_display_header();
 
+/**
+ * @global string    $wp_local_package Locale code of the package.
+ * @global WP_Locale $wp_locale        WordPress date and time locale object.
+ */
 $language = '';
 if ( ! empty( $_REQUEST['language'] ) ) {
 	$language = preg_replace( '/[^a-zA-Z0-9_]/', '', $_REQUEST['language'] );
