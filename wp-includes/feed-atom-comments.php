@@ -69,7 +69,10 @@ do_action( 'rss_tag_pre', 'atom-comments' );
 <?php
 while ( have_comments() ) :
 	the_comment();
-	$comment_post    = get_post( $comment->comment_post_ID );
+	$comment_post = get_post( $comment->comment_post_ID );
+	/**
+	 * @global WP_Post $post Global post object.
+	 */
 	$GLOBALS['post'] = $comment_post;
 	?>
 	<entry>

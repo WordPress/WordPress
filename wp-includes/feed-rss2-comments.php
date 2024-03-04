@@ -72,7 +72,10 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 
 	while ( have_comments() ) :
 		the_comment();
-		$comment_post    = get_post( $comment->comment_post_ID );
+		$comment_post = get_post( $comment->comment_post_ID );
+		/**
+		 * @global WP_Post $post Global post object.
+		 */
 		$GLOBALS['post'] = $comment_post;
 		?>
 	<item>
