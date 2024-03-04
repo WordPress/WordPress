@@ -455,6 +455,10 @@ border color while dragging a file over the uploader drop area */
 	position: relative;
 }
 
+.post-type-attachment .wp-filter select {
+	margin: 0 0 0 6px;
+}
+
 /**
  * Media Library grid view
  */
