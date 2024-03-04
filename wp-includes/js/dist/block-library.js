@@ -26081,7 +26081,9 @@ function image_Image({
     lockUrlControls = false,
     lockHrefControls = false,
     lockAltControls = false,
+    lockAltControlsMessage,
     lockTitleControls = false,
+    lockTitleControlsMessage,
     lockCaption = false
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (!isSingleSelected) {
@@ -26113,7 +26115,11 @@ function image_Image({
       // This is a temporary solution until we support overriding the caption on the frontend.
       hasParentPattern,
       lockAltControls: !!altBinding && (!altBindingSource || altBindingSource?.lockAttributesEditing),
-      lockTitleControls: !!titleBinding && (!titleBindingSource || titleBindingSource?.lockAttributesEditing)
+      lockAltControlsMessage: altBindingSource?.label ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Label of the bindings source. */
+      (0,external_wp_i18n_namespaceObject.__)('Connected to %s'), altBindingSource.label) : (0,external_wp_i18n_namespaceObject.__)('Connected to dynamic data'),
+      lockTitleControls: !!titleBinding && (!titleBindingSource || titleBindingSource?.lockAttributesEditing),
+      lockTitleControlsMessage: titleBindingSource?.label ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Label of the bindings source. */
+      (0,external_wp_i18n_namespaceObject.__)('Connected to %s'), titleBindingSource.label) : (0,external_wp_i18n_namespaceObject.__)('Connected to dynamic data')
     };
   }, [clientId, isSingleSelected, metadata?.bindings]);
   const controls = (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
@@ -26182,7 +26188,7 @@ function image_Image({
       value: alt || '',
       onChange: updateAlt,
       disabled: lockAltControls,
-      help: lockAltControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+      help: lockAltControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, lockAltControlsMessage) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
         href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
       }, (0,external_wp_i18n_namespaceObject.__)('Describe the purpose of the image.')), (0,external_React_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Leave empty if decorative.')),
       __nextHasNoMarginBottom: true
@@ -26212,7 +26218,7 @@ function image_Image({
       value: title || '',
       onChange: onSetTitle,
       disabled: lockTitleControls,
-      help: lockTitleControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Describe the role of this image on the page.'), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+      help: lockTitleControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, lockTitleControlsMessage) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Describe the role of this image on the page.'), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
         href: "https://www.w3.org/TR/html52/dom.html#the-title-attribute"
       }, (0,external_wp_i18n_namespaceObject.__)('(Note: many devices and browsers do not display this text.)')))
     })
@@ -26232,7 +26238,7 @@ function image_Image({
     value: alt || '',
     onChange: updateAlt,
     readOnly: lockAltControls,
-    help: lockAltControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+    help: lockAltControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, lockAltControlsMessage) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
       href: "https://www.w3.org/WAI/tutorials/images/decision-tree"
     }, (0,external_wp_i18n_namespaceObject.__)('Describe the purpose of the image.')), (0,external_React_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Leave empty if decorative.')),
     __nextHasNoMarginBottom: true
@@ -26248,7 +26254,7 @@ function image_Image({
     value: title || '',
     onChange: onSetTitle,
     readOnly: lockTitleControls,
-    help: lockTitleControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Describe the role of this image on the page.'), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+    help: lockTitleControls ? (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, lockTitleControlsMessage) : (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Describe the role of this image on the page.'), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ExternalLink, {
       href: "https://www.w3.org/TR/html52/dom.html#the-title-attribute"
     }, (0,external_wp_i18n_namespaceObject.__)('(Note: many devices and browsers do not display this text.)')))
   })));
@@ -26724,14 +26730,17 @@ function ImageEdit({
 
   // Much of this description is duplicated from MediaPlaceholder.
   const {
-    lockUrlControls = false
+    lockUrlControls = false,
+    lockUrlControlsMessage
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (!isSingleSelected) {
       return {};
     }
     const blockBindingsSource = unlock(select(external_wp_blocks_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
     return {
-      lockUrlControls: !!metadata?.bindings?.url && (!blockBindingsSource || blockBindingsSource?.lockAttributesEditing)
+      lockUrlControls: !!metadata?.bindings?.url && (!blockBindingsSource || blockBindingsSource?.lockAttributesEditing),
+      lockUrlControlsMessage: blockBindingsSource?.label ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Label of the bindings source. */
+      (0,external_wp_i18n_namespaceObject.__)('Connected to %s'), blockBindingsSource.label) : (0,external_wp_i18n_namespaceObject.__)('Connected to dynamic data')
     };
   }, [isSingleSelected]);
   const placeholder = content => {
@@ -26753,7 +26762,7 @@ function ImageEdit({
       }
     }, lockUrlControls ? (0,external_React_namespaceObject.createElement)("span", {
       className: 'block-bindings-media-placeholder-message'
-    }, (0,external_wp_i18n_namespaceObject.__)('Connected to a custom field')) : content);
+    }, lockUrlControlsMessage) : content);
   };
   return (0,external_React_namespaceObject.createElement)("figure", {
     ...blockProps
@@ -29317,39 +29326,6 @@ function useOutdentListItem() {
   }, []);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list-item/hooks/use-copy.js
-/**
- * WordPress dependencies
- */
-
-
-
-function useCopy(clientId) {
-  const {
-    getBlockRootClientId,
-    getBlockName,
-    getBlockAttributes
-  } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blockEditor_namespaceObject.store);
-  return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
-    function onCopy(event) {
-      // The event propagates through all nested lists, so don't override
-      // when copying nested list items.
-      if (event.clipboardData.getData('__unstableWrapperBlockName')) {
-        return;
-      }
-      const rootClientId = getBlockRootClientId(clientId);
-      event.clipboardData.setData('__unstableWrapperBlockName', getBlockName(rootClientId));
-      event.clipboardData.setData('__unstableWrapperBlockAttributes', JSON.stringify(getBlockAttributes(rootClientId)));
-    }
-    node.addEventListener('copy', onCopy);
-    node.addEventListener('cut', onCopy);
-    return () => {
-      node.removeEventListener('copy', onCopy);
-      node.removeEventListener('cut', onCopy);
-    };
-  }, []);
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list-item/hooks/use-enter.js
 /**
  * WordPress dependencies
@@ -29718,9 +29694,7 @@ function ListItemEdit({
     placeholder,
     content
   } = attributes;
-  const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
-    ref: useCopy(clientId)
-  });
+  const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
   const innerBlocksProps = (0,external_wp_blockEditor_namespaceObject.useInnerBlocksProps)(blockProps, {
     renderAppender: false,
     __unstableDisableDropZone: true
@@ -29792,6 +29766,7 @@ const list_item_transforms_transforms = {
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -29849,6 +29824,7 @@ const list_item_metadata = {
 
 
 
+
 const {
   name: list_item_name
 } = list_item_metadata;
@@ -29863,7 +29839,8 @@ const list_item_settings = {
       content: attributes.content + attributesToMerge.content
     };
   },
-  transforms: list_item_transforms
+  transforms: list_item_transforms,
+  [unlock(external_wp_blockEditor_namespaceObject.privateApis).requiresWrapperOnCopy]: true
 };
 const list_item_init = () => initBlock({
   name: list_item_name,
@@ -48837,6 +48814,23 @@ const {
   PARTIAL_SYNCING_SUPPORTED_BLOCKS
 } = unlock(external_wp_patterns_namespaceObject.privateApis);
 const fullAlignments = ['full', 'wide', 'left', 'right'];
+function getLegacyIdMap(blocks, content, nameCount = {}) {
+  let idToClientIdMap = {};
+  for (const block of blocks) {
+    if (block?.innerBlocks?.length) {
+      idToClientIdMap = {
+        ...idToClientIdMap,
+        ...getLegacyIdMap(block.innerBlocks, content, nameCount)
+      };
+    }
+    const id = block.attributes.metadata?.id;
+    const clientId = block.clientId;
+    if (id && content?.[id]) {
+      idToClientIdMap[clientId] = id;
+    }
+  }
+  return idToClientIdMap;
+}
 const useInferredLayout = (blocks, parentLayout) => {
   const initialInferredAlignmentRef = (0,external_wp_element_namespaceObject.useRef)();
   return (0,external_wp_element_namespaceObject.useMemo)(() => {
@@ -48873,23 +48867,26 @@ function hasOverridableBlocks(blocks) {
 function getOverridableAttributes(block) {
   return Object.entries(block.attributes.metadata.bindings).filter(([, binding]) => binding.source === 'core/pattern-overrides').map(([attributeKey]) => attributeKey);
 }
-function applyInitialContentValuesToInnerBlocks(blocks, content = {}, defaultValues) {
+function applyInitialContentValuesToInnerBlocks(blocks, content = {}, defaultValues, legacyIdMap) {
   return blocks.map(block => {
-    const innerBlocks = applyInitialContentValuesToInnerBlocks(block.innerBlocks, content, defaultValues);
-    const blockId = block.attributes.metadata?.id;
-    if (!hasOverridableAttributes(block) || !blockId) return {
-      ...block,
-      innerBlocks
-    };
+    var _legacyIdMap$block$cl;
+    const innerBlocks = applyInitialContentValuesToInnerBlocks(block.innerBlocks, content, defaultValues, legacyIdMap);
+    const metadataName = (_legacyIdMap$block$cl = legacyIdMap?.[block.clientId]) !== null && _legacyIdMap$block$cl !== void 0 ? _legacyIdMap$block$cl : block.attributes.metadata?.name;
+    if (!metadataName || !hasOverridableAttributes(block)) {
+      return {
+        ...block,
+        innerBlocks
+      };
+    }
     const attributes = getOverridableAttributes(block);
     const newAttributes = {
       ...block.attributes
     };
     for (const attributeKey of attributes) {
-      var _defaultValues$blockI;
-      (_defaultValues$blockI = defaultValues[blockId]) !== null && _defaultValues$blockI !== void 0 ? _defaultValues$blockI : defaultValues[blockId] = {};
-      defaultValues[blockId][attributeKey] = block.attributes[attributeKey];
-      const contentValues = content[blockId]?.values;
+      var _defaultValues$metada;
+      (_defaultValues$metada = defaultValues[metadataName]) !== null && _defaultValues$metada !== void 0 ? _defaultValues$metada : defaultValues[metadataName] = {};
+      defaultValues[metadataName][attributeKey] = block.attributes[attributeKey];
+      const contentValues = content[metadataName];
       if (contentValues?.[attributeKey] !== undefined) {
         newAttributes[attributeKey] = contentValues[attributeKey];
       }
@@ -48907,25 +48904,27 @@ function isAttributeEqual(attribute1, attribute2) {
   }
   return attribute1 === attribute2;
 }
-function getContentValuesFromInnerBlocks(blocks, defaultValues) {
+function getContentValuesFromInnerBlocks(blocks, defaultValues, legacyIdMap) {
   /** @type {Record<string, { values: Record<string, unknown>}>} */
   const content = {};
   for (const block of blocks) {
+    var _legacyIdMap$block$cl2;
     if (block.name === block_name) continue;
-    Object.assign(content, getContentValuesFromInnerBlocks(block.innerBlocks, defaultValues));
-    const blockId = block.attributes.metadata?.id;
-    if (!hasOverridableAttributes(block) || !blockId) continue;
+    if (block.innerBlocks.length) {
+      Object.assign(content, getContentValuesFromInnerBlocks(block.innerBlocks, defaultValues, legacyIdMap));
+    }
+    const metadataName = (_legacyIdMap$block$cl2 = legacyIdMap?.[block.clientId]) !== null && _legacyIdMap$block$cl2 !== void 0 ? _legacyIdMap$block$cl2 : block.attributes.metadata?.name;
+    if (!metadataName || !hasOverridableAttributes(block)) {
+      continue;
+    }
     const attributes = getOverridableAttributes(block);
     for (const attributeKey of attributes) {
-      if (!isAttributeEqual(block.attributes[attributeKey], defaultValues[blockId][attributeKey])) {
-        var _content$blockId;
-        (_content$blockId = content[blockId]) !== null && _content$blockId !== void 0 ? _content$blockId : content[blockId] = {
-          values: {},
-          blockName: block.name
-        };
+      if (!isAttributeEqual(block.attributes[attributeKey], defaultValues?.[metadataName]?.[attributeKey])) {
+        var _content$metadataName;
+        (_content$metadataName = content[metadataName]) !== null && _content$metadataName !== void 0 ? _content$metadataName : content[metadataName] = {};
         // TODO: We need a way to represent `undefined` in the serialized overrides.
         // Also see: https://github.com/WordPress/gutenberg/pull/57249#discussion_r1452987871
-        content[blockId].values[attributeKey] = block.attributes[attributeKey] === undefined ?
+        content[metadataName][attributeKey] = block.attributes[attributeKey] === undefined ?
         // TODO: We use an empty string to represent undefined for now until
         // we support a richer format for overrides and the block binding API.
         // Currently only the `linkTarget` attribute of `core/button` is affected.
@@ -49018,16 +49017,19 @@ function ReusableBlockEdit({
       (_editedRecord$blocks$ = editedRecord.blocks?.map(block => (0,external_wp_blocks_namespaceObject.cloneBlock)(block))) !== null && _editedRecord$blocks$ !== void 0 ? _editedRecord$blocks$ : editedRecord.content && typeof editedRecord.content !== 'function' ? (0,external_wp_blocks_namespaceObject.parse)(editedRecord.content) : []
     );
   }, [editedRecord.blocks, editedRecord.content]);
+  const legacyIdMap = (0,external_wp_element_namespaceObject.useRef)({});
 
   // Apply the initial overrides from the pattern block to the inner blocks.
   (0,external_wp_element_namespaceObject.useEffect)(() => {
+    // Build a map of clientIds to the old nano id system to provide back compat.
+    legacyIdMap.current = getLegacyIdMap(initialBlocks, initialContent.current);
     defaultContent.current = {};
     const originalEditingMode = getBlockEditingMode(patternClientId);
     // Replace the contents of the blocks with the overrides.
     registry.batch(() => {
       setBlockEditingMode(patternClientId, 'default');
       syncDerivedUpdates(() => {
-        replaceInnerBlocks(patternClientId, applyInitialContentValuesToInnerBlocks(initialBlocks, initialContent.current, defaultContent.current));
+        replaceInnerBlocks(patternClientId, applyInitialContentValuesToInnerBlocks(initialBlocks, initialContent.current, defaultContent.current, legacyIdMap.current));
       });
       setBlockEditingMode(patternClientId, originalEditingMode);
     });
@@ -49063,7 +49065,7 @@ function ReusableBlockEdit({
         prevBlocks = blocks;
         syncDerivedUpdates(() => {
           setAttributes({
-            content: getContentValuesFromInnerBlocks(blocks, defaultContent.current)
+            content: getContentValuesFromInnerBlocks(blocks, defaultContent.current, legacyIdMap.current)
           });
         });
       }
@@ -49106,7 +49108,73 @@ function ReusableBlockEdit({
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/block/deprecated.js
-// v1: Migrate and rename the `overrides` attribute to the `content` attribute.
+const isObject = obj => typeof obj === 'object' && !Array.isArray(obj) && obj !== null;
+
+// v2: Migrate to a more condensed version of the 'content' attribute attribute.
+const block_deprecated_v2 = {
+  attributes: {
+    ref: {
+      type: 'number'
+    },
+    content: {
+      type: 'object'
+    }
+  },
+  supports: {
+    customClassName: false,
+    html: false,
+    inserter: false,
+    renaming: false
+  },
+  // Force this deprecation to run whenever there's a values sub-property that's an object.
+  //
+  // This could fail in the future if a block ever has binding to a `values` attribute.
+  // Some extra protection is added to ensure `values` is an object, but this only reduces
+  // the likelihood, it doesn't solve it completely.
+  isEligible({
+    content
+  }) {
+    return !!content && Object.keys(content).every(contentKey => content[contentKey].values && isObject(content[contentKey].values));
+  },
+  /*
+   * Old attribute format:
+   * content: {
+   *     "V98q_x": {
+   * 	   		// The attribute values are now stored as a 'values' sub-property.
+   *         values: { content: 'My content value' },
+   * 	       // ... additional metadata, like the block name can be stored here.
+   *     }
+   * }
+   *
+   * New attribute format:
+   * content: {
+   *     "V98q_x": {
+   *         content: 'My content value',
+   *     }
+   * }
+   */
+  migrate(attributes) {
+    const {
+      content,
+      ...retainedAttributes
+    } = attributes;
+    if (content && Object.keys(content).length) {
+      const updatedContent = {
+        ...content
+      };
+      for (const contentKey in content) {
+        updatedContent[contentKey] = content[contentKey].values;
+      }
+      return {
+        ...retainedAttributes,
+        content: updatedContent
+      };
+    }
+    return attributes;
+  }
+};
+
+// v1: Rename the `overrides` attribute to the `content` attribute.
 const block_deprecated_v1 = {
   attributes: {
     ref: {
@@ -49133,16 +49201,12 @@ const block_deprecated_v1 = {
    * overrides: {
    *     // An key is an id that represents a block.
    *     // The values are the attribute values of the block.
-   *     "V98q_x": { content: 'dwefwefwefwe' }
+   *     "V98q_x": { content: 'My content value' }
    * }
    *
    * New attribute format:
    * content: {
-   *     "V98q_x": {
-   * 	   		// The attribute values are now stored as a 'values' sub-property.
-   *         values: { content: 'dwefwefwefwe' },
-   * 	       // ... additional metadata, like the block name can be stored here.
-   *     }
+   *     "V98q_x": { content: 'My content value' }
    * }
    *
    */
@@ -49153,9 +49217,7 @@ const block_deprecated_v1 = {
     } = attributes;
     const content = {};
     Object.keys(overrides).forEach(id => {
-      content[id] = {
-        values: overrides[id]
-      };
+      content[id] = overrides[id];
     });
     return {
       ...retainedAttributes,
@@ -49163,7 +49225,7 @@ const block_deprecated_v1 = {
     };
   }
 };
-/* harmony default export */ const block_deprecated = ([block_deprecated_v1]);
+/* harmony default export */ const block_deprecated = ([block_deprecated_v2, block_deprecated_v1]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/block/index.js
 /**
@@ -51006,11 +51068,16 @@ const SiteLogo = ({
       });
     }
   }, imgWrapper);
+
+  // Support the previous location for the Site Icon settings. To be removed
+  // when the required WP core version for Gutenberg is >= 6.5.0.
+  const shouldUseNewUrl = !window?.__experimentalUseCustomizerSiteLogoUrl;
+  const siteIconSettingsUrl = shouldUseNewUrl ? siteUrl + '/wp-admin/options-general.php' : siteUrl + '/wp-admin/customize.php?autofocus[section]=title_tagline';
   const syncSiteIconHelpText = (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('Site Icons are what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. To use a custom icon that is different from your site logo, use the <a>Site Icon settings</a>.'), {
     a:
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     (0,external_React_namespaceObject.createElement)("a", {
-      href: siteUrl + '/wp-admin/customize.php?autofocus[section]=title_tagline',
+      href: siteIconSettingsUrl,
       target: "_blank",
       rel: "noopener noreferrer"
     })
@@ -51045,7 +51112,7 @@ const SiteLogo = ({
     checked: linkTarget === '_blank'
   })), canUserEdit && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
     __nextHasNoMarginBottom: true,
-    label: (0,external_wp_i18n_namespaceObject.__)('Use as site icon'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Use as Site Icon'),
     onChange: value => {
       setAttributes({
         shouldSyncIcon: value

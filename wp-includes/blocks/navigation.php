@@ -552,7 +552,7 @@ class WP_Navigation_Block_Renderer {
 			return '';
 		}
 		// When adding to this array be mindful of security concerns.
-		$nav_element_context    = data_wp_context(
+		$nav_element_context    = wp_interactivity_data_wp_context(
 			array(
 				'overlayOpenedBy' => array(
 					'click' => false,

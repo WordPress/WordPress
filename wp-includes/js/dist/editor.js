@@ -5307,7 +5307,8 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
     };
     return {
       placeholder: metaKey,
-      useValue: [metaValue, updateMetaValue]
+      value: metaValue,
+      updateValue: updateMetaValue
     };
   }
 });
@@ -5500,7 +5501,7 @@ function setDefaultCompleters(completers = []) {
 
 ;// CONCATENATED MODULE: external ["wp","patterns"]
 const external_wp_patterns_namespaceObject = window["wp"]["patterns"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/hooks/pattern-partial-syncing.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/hooks/pattern-overrides.js
 
 /**
  * WordPress dependencies
@@ -5517,7 +5518,7 @@ const external_wp_patterns_namespaceObject = window["wp"]["patterns"];
 
 
 const {
-  PartialSyncingControls,
+  useSetPatternBindings,
   ResetOverridesControl,
   PATTERN_TYPES,
   PARTIAL_SYNCING_SUPPORTED_BLOCKS
@@ -5532,14 +5533,21 @@ const {
  *
  * @return {Component} Wrapped component.
  */
-const withPartialSyncingControls = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(BlockEdit => props => {
+const withPatternOverrideControls = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(BlockEdit => props => {
   const isSupportedBlock = Object.keys(PARTIAL_SYNCING_SUPPORTED_BLOCKS).includes(props.name);
   return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(BlockEdit, {
+    ...props
+  }), isSupportedBlock && (0,external_React_.createElement)(BindingUpdater, {
     ...props
   }), props.isSelected && isSupportedBlock && (0,external_React_.createElement)(ControlsWithStoreSubscription, {
     ...props
   }));
 });
+function BindingUpdater(props) {
+  const postType = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getCurrentPostType(), []);
+  useSetPatternBindings(props, postType);
+  return null;
+}
 
 // Split into a separate component to avoid a store subscription
 // on every block.
@@ -5548,15 +5556,12 @@ function ControlsWithStoreSubscription(props) {
   const isEditingPattern = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getCurrentPostType() === PATTERN_TYPES.user, []);
   const bindings = props.attributes.metadata?.bindings;
   const hasPatternBindings = !!bindings && Object.values(bindings).some(binding => binding.source === 'core/pattern-overrides');
-  const shouldShowPartialSyncingControls = isEditingPattern && blockEditingMode === 'default';
-  const shouldShowResetOverridesControl = !isEditingPattern && !!props.attributes.metadata?.id && blockEditingMode !== 'disabled' && hasPatternBindings;
-  return (0,external_React_.createElement)(external_React_.Fragment, null, shouldShowPartialSyncingControls && (0,external_React_.createElement)(PartialSyncingControls, {
-    ...props
-  }), shouldShowResetOverridesControl && (0,external_React_.createElement)(ResetOverridesControl, {
+  const shouldShowResetOverridesControl = !isEditingPattern && !!props.attributes.metadata?.name && blockEditingMode !== 'disabled' && hasPatternBindings;
+  return (0,external_React_.createElement)(external_React_.Fragment, null, shouldShowResetOverridesControl && (0,external_React_.createElement)(ResetOverridesControl, {
     ...props
   }));
 }
-(0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockEdit', 'core/editor/with-partial-syncing-controls', withPartialSyncingControls);
+(0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockEdit', 'core/editor/with-pattern-override-controls', withPatternOverrideControls);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/hooks/index.js
 /**

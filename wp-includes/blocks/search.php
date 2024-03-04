@@ -179,7 +179,7 @@ function render_block_core_search( $attributes ) {
 	if ( $is_expandable_searchfield ) {
 		$aria_label_expanded  = __( 'Submit Search' );
 		$aria_label_collapsed = __( 'Expand search field' );
-		$form_context         = data_wp_context(
+		$form_context         = wp_interactivity_data_wp_context(
 			array(
 				'isSearchInputVisible' => $open_by_default,
 				'inputId'              => $input_id,

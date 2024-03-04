@@ -8,6 +8,7 @@
   --wp-admin-border-width-focus:2px;
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
+  --wp-bound-block-color:#9747ff;
 }
 @media (min-resolution:192dpi){
   :root{
@@ -554,7 +555,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   display:block;
   font-size:13px;
   font-weight:500;
-  overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
   width:100%;
@@ -570,6 +570,11 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .dataviews-view-grid__primary-field a:hover,.dataviews-view-list__primary-field a:hover,.dataviews-view-table__primary-field a:hover{
   color:#1e1e1e;
+}
+.dataviews-view-grid__primary-field a:focus,.dataviews-view-list__primary-field a:focus,.dataviews-view-table__primary-field a:focus{
+  border-radius:2px;
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color, #007cba);
+  color:var(--wp-admin-theme-color--rgb);
 }
 .dataviews-view-grid__primary-field button.components-button.is-link,.dataviews-view-list__primary-field button.components-button.is-link,.dataviews-view-table__primary-field button.components-button.is-link{
   color:inherit;

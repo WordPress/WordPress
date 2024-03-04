@@ -19672,10 +19672,13 @@ function SingleSelectionCheckbox({
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     className: "dataviews-view-table-selection-checkbox",
     __nextHasNoMarginBottom: true,
-    checked: isSelected,
     label: selectionLabel,
-    disabled: disabled,
+    "aria-disabled": disabled,
+    checked: isSelected,
     onChange: () => {
+      if (disabled) {
+        return;
+      }
       if (!isSelected) {
         onSelectionChange(data.filter(_item => {
           const itemId = getItemId?.(_item);
@@ -23883,7 +23886,8 @@ function ResizableFrame({
     onResizeStop: handleResizeStop,
     className: classnames_default()('edit-site-resizable-frame__inner', {
       'is-resizing': isResizing
-    })
+    }),
+    showHandle: false // Do not show the default handle, as we're using a custom one.
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
     className: "edit-site-resizable-frame__inner-content",
     animate: {
@@ -26674,7 +26678,14 @@ async function loadFontFaceInBrowser(fontFace, source, addTo = 'all') {
     iframeDocument.fonts.add(loadedFace);
   }
 }
-function getDisplaySrcFromFontFace(input, urlPrefix) {
+
+/**
+ * Retrieves the display source from a font face src.
+ *
+ * @param {string|string[]} input - The font face src.
+ * @return {string|undefined} The display source or undefined if the input is invalid.
+ */
+function getDisplaySrcFromFontFace(input) {
   if (!input) {
     return;
   }
@@ -26684,9 +26695,9 @@ function getDisplaySrcFromFontFace(input, urlPrefix) {
   } else {
     src = input;
   }
-  // If it is a theme font, we need to make the url absolute
-  if (src.startsWith('file:.') && urlPrefix) {
-    src = src.replace('file:.', urlPrefix);
+  // It's expected theme fonts will already be loaded in the browser.
+  if (src.startsWith('file:.')) {
+    return;
   }
   if (!isUrlEncoded(src)) {
     src = encodeURI(src);
@@ -27010,18 +27021,6 @@ function FontLibraryProvider({
 
   // Demo
   const [loadedFontUrls] = (0,external_wp_element_namespaceObject.useState)(new Set());
-
-  // Theme data
-  const {
-    site,
-    currentTheme
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return {
-      site: select(external_wp_coreData_namespaceObject.store).getSite(),
-      currentTheme: select(external_wp_coreData_namespaceObject.store).getCurrentTheme()
-    };
-  });
-  const themeUrl = site?.url + '/wp-content/themes/' + currentTheme?.stylesheet;
   const getAvailableFontsOutline = availableFontFamilies => {
     const outline = availableFontFamilies.reduce((acc, font) => {
       const availableFontFaces = font?.fontFace && font.fontFace?.length > 0 ? font?.fontFace.map(face => `${face.fontStyle + face.fontWeight}`) : ['normal400']; // If the font doesn't have fontFace, we assume it is a system font and we add the defaults: normal 400
@@ -27049,59 +27048,65 @@ function FontLibraryProvider({
   const getFontFacesActivated = (slug, source) => {
     return getActivatedFontsOutline(source)[slug] || [];
   };
-  async function installFont(fontFamilyToInstall) {
+  async function installFonts(fontFamiliesToInstall) {
     setIsInstalling(true);
     try {
-      // Get the font family if it already exists.
-      let installedFontFamily = await fetchGetFontFamilyBySlug(fontFamilyToInstall.slug);
+      const fontFamiliesToActivate = [];
+      let installationErrors = [];
+      for (const fontFamilyToInstall of fontFamiliesToInstall) {
+        let isANewFontFamily = false;
 
-      // Otherwise create it.
-      if (!installedFontFamily) {
-        // Prepare font family form data to install.
-        installedFontFamily = await fetchInstallFontFamily(makeFontFamilyFormData(fontFamilyToInstall));
+        // Get the font family if it already exists.
+        let installedFontFamily = await fetchGetFontFamilyBySlug(fontFamilyToInstall.slug);
+
+        // Otherwise create it.
+        if (!installedFontFamily) {
+          isANewFontFamily = true;
+          // Prepare font family form data to install.
+          installedFontFamily = await fetchInstallFontFamily(makeFontFamilyFormData(fontFamilyToInstall));
+        }
+
+        // Collect font faces that have already been installed (to be activated later)
+        const alreadyInstalledFontFaces = installedFontFamily.fontFace && fontFamilyToInstall.fontFace ? installedFontFamily.fontFace.filter(fontFaceToInstall => checkFontFaceInstalled(fontFaceToInstall, fontFamilyToInstall.fontFace)) : [];
+
+        // Filter out Font Faces that have already been installed (so that they are not re-installed)
+        if (installedFontFamily.fontFace && fontFamilyToInstall.fontFace) {
+          fontFamilyToInstall.fontFace = fontFamilyToInstall.fontFace.filter(fontFaceToInstall => !checkFontFaceInstalled(fontFaceToInstall, installedFontFamily.fontFace));
+        }
+
+        // Install the fonts (upload the font files to the server and create the post in the database).
+        let sucessfullyInstalledFontFaces = [];
+        let unsucessfullyInstalledFontFaces = [];
+        if (fontFamilyToInstall?.fontFace?.length > 0) {
+          const response = await batchInstallFontFaces(installedFontFamily.id, makeFontFacesFormData(fontFamilyToInstall));
+          sucessfullyInstalledFontFaces = response?.successes;
+          unsucessfullyInstalledFontFaces = response?.errors;
+        }
+
+        // Use the sucessfully installed font faces
+        // As well as any font faces that were already installed (those will be activated)
+        if (sucessfullyInstalledFontFaces?.length > 0 || alreadyInstalledFontFaces?.length > 0) {
+          fontFamilyToInstall.fontFace = [...sucessfullyInstalledFontFaces, ...alreadyInstalledFontFaces];
+          fontFamiliesToActivate.push(fontFamilyToInstall);
+        } else if (isANewFontFamily) {
+          // If the font family is new, delete it to avoid having font families without font faces.
+          await fetchUninstallFontFamily(installedFontFamily.id);
+        }
+        installationErrors = installationErrors.concat(unsucessfullyInstalledFontFaces);
       }
+      if (fontFamiliesToActivate.length > 0) {
+        // Activate the font family (add the font family to the global styles).
+        activateCustomFontFamilies(fontFamiliesToActivate);
 
-      // Collect font faces that have already been installed (to be activated later)
-      const alreadyInstalledFontFaces = installedFontFamily.fontFace && fontFamilyToInstall.fontFace ? installedFontFamily.fontFace.filter(fontFaceToInstall => checkFontFaceInstalled(fontFaceToInstall, fontFamilyToInstall.fontFace)) : [];
-
-      // Filter out Font Faces that have already been installed (so that they are not re-installed)
-      if (installedFontFamily.fontFace && fontFamilyToInstall.fontFace) {
-        fontFamilyToInstall.fontFace = fontFamilyToInstall.fontFace.filter(fontFaceToInstall => !checkFontFaceInstalled(fontFaceToInstall, installedFontFamily.fontFace));
+        // Save the global styles to the database.
+        await saveSpecifiedEntityEdits('root', 'globalStyles', globalStylesId, ['settings.typography.fontFamilies']);
+        refreshLibrary();
       }
-
-      // Install the fonts (upload the font files to the server and create the post in the database).
-      let sucessfullyInstalledFontFaces = [];
-      let unsucessfullyInstalledFontFaces = [];
-      if (fontFamilyToInstall?.fontFace?.length > 0) {
-        const response = await batchInstallFontFaces(installedFontFamily.id, makeFontFacesFormData(fontFamilyToInstall));
-        sucessfullyInstalledFontFaces = response?.successes;
-        unsucessfullyInstalledFontFaces = response?.errors;
-      }
-      const detailedErrorMessage = unsucessfullyInstalledFontFaces.reduce((errorMessageCollection, error) => {
-        return `${errorMessageCollection} ${error.message}`;
-      }, '');
-
-      // If there were no successes and nothing already installed then we don't need to activate anything and can bounce now.
-      if (fontFamilyToInstall?.fontFace?.length > 0 && sucessfullyInstalledFontFaces.length === 0 && alreadyInstalledFontFaces.length === 0) {
+      if (installationErrors.length > 0) {
         throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Specific error message returned from server. */
-        (0,external_wp_i18n_namespaceObject.__)('No font faces were installed. %s'), detailedErrorMessage));
-      }
-
-      // Use the sucessfully installed font faces
-      // As well as any font faces that were already installed (those will be activated)
-      if (sucessfullyInstalledFontFaces?.length > 0 || alreadyInstalledFontFaces?.length > 0) {
-        fontFamilyToInstall.fontFace = [...sucessfullyInstalledFontFaces, ...alreadyInstalledFontFaces];
-      }
-
-      // Activate the font family (add the font family to the global styles).
-      activateCustomFontFamilies([fontFamilyToInstall]);
-
-      // Save the global styles to the database.
-      saveSpecifiedEntityEdits('root', 'globalStyles', globalStylesId, ['settings.typography.fontFamilies']);
-      refreshLibrary();
-      if (unsucessfullyInstalledFontFaces.length > 0) {
-        throw new Error((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Specific error message returned from server. */
-        (0,external_wp_i18n_namespaceObject.__)('Some font faces were installed. There were some errors. %s'), detailedErrorMessage));
+        (0,external_wp_i18n_namespaceObject.__)('There were some errors installing fonts. %s'), installationErrors.reduce((errorMessageCollection, error) => {
+          return `${errorMessageCollection} ${error.message}`;
+        }, '')));
       }
     } finally {
       setIsInstalling(false);
@@ -27143,11 +27148,10 @@ function FontLibraryProvider({
   };
   const activateCustomFontFamilies = fontsToAdd => {
     // Merge the existing custom fonts with the new fonts.
-    const newCustomFonts = mergeFontFamilies(fontFamilies?.custom, fontsToAdd);
     // Activate the fonts by set the new custom fonts array.
     setFontFamilies({
       ...fontFamilies,
-      custom: newCustomFonts
+      custom: mergeFontFamilies(fontFamilies?.custom, fontsToAdd)
     });
     // Add custom fonts to the browser.
     fontsToAdd.forEach(font => {
@@ -27176,7 +27180,7 @@ function FontLibraryProvider({
     // If the font doesn't have a src, don't load it.
     if (!fontFace.src) return;
     // Get the src of the font.
-    const src = getDisplaySrcFromFontFace(fontFace.src, themeUrl);
+    const src = getDisplaySrcFromFontFace(fontFace.src);
     // If the font is already loaded, don't load it again.
     if (!src || loadedFontUrls.has(src)) return;
     // Load the font in the browser.
@@ -27221,7 +27225,7 @@ function FontLibraryProvider({
       isFontActivated,
       getFontFacesActivated,
       loadFontFaceAsset,
-      installFont,
+      installFonts,
       uninstallFontFamily,
       toggleActivateFont,
       getAvailableFontsOutline,
@@ -27485,6 +27489,8 @@ function sortFontFaces(faces) {
 
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -27513,7 +27519,14 @@ function InstalledFonts() {
     setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = (0,external_wp_element_namespaceObject.useState)(false);
-  const shouldDisplayDeleteButton = !!libraryFontSelected && libraryFontSelected?.source !== 'theme';
+  const customFontFamilyId = libraryFontSelected?.source === 'custom' && libraryFontSelected?.id;
+  const canUserDelete = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      canUser
+    } = select(external_wp_coreData_namespaceObject.store);
+    return customFontFamilyId && canUser('delete', 'font-families', customFontFamilyId);
+  }, [customFontFamilyId]);
+  const shouldDisplayDeleteButton = !!libraryFontSelected && libraryFontSelected?.source !== 'theme' && canUserDelete;
   const handleUninstallClick = () => {
     setIsConfirmDeleteOpen(true);
   };
@@ -27858,7 +27871,7 @@ function FontCollection({
   const {
     collections,
     getFontCollection,
-    installFont,
+    installFonts,
     isInstalling,
     notice,
     setNotice
@@ -27971,7 +27984,7 @@ function FontCollection({
       return;
     }
     try {
-      await installFont(fontFamily);
+      await installFonts([fontFamily]);
       setNotice({
         type: 'success',
         message: (0,external_wp_i18n_namespaceObject.__)('Fonts were installed successfully.')
@@ -28025,10 +28038,10 @@ function FontCollection({
     path: "/"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "space-between"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
     level: 2,
     size: 13
-  }, selectedCollection.name), (0,external_React_.createElement)(ActionsComponent, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, null, selectedCollection.description), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+  }, selectedCollection.name), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, null, selectedCollection.description)), (0,external_React_.createElement)(ActionsComponent, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
     margin: 4
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalInputControl, {
     value: filters.search,
@@ -32051,7 +32064,7 @@ const {
 } = unlock(external_wp_components_namespaceObject.privateApis);
 function UploadFonts() {
   const {
-    installFont,
+    installFonts,
     notice,
     setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
@@ -32155,16 +32168,8 @@ function UploadFonts() {
    */
   const handleInstall = async fontFaces => {
     const fontFamilies = makeFamiliesFromFaces(fontFaces);
-    if (fontFamilies.length > 1) {
-      setNotice({
-        type: 'error',
-        message: (0,external_wp_i18n_namespaceObject.__)('Variants from only one font family can be uploaded at a time.')
-      });
-      setIsUploading(false);
-      return;
-    }
     try {
-      await installFont(fontFamilies[0]);
+      await installFonts(fontFamilies);
       setNotice({
         type: 'success',
         message: (0,external_wp_i18n_namespaceObject.__)('Fonts were installed successfully.')
@@ -32215,6 +32220,8 @@ function UploadFonts() {
 
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -32226,13 +32233,14 @@ function UploadFonts() {
 const {
   Tabs: font_library_modal_Tabs
 } = unlock(external_wp_components_namespaceObject.privateApis);
-const DEFAULT_TABS = [{
+const DEFAULT_TAB = {
   id: 'installed-fonts',
   title: (0,external_wp_i18n_namespaceObject.__)('Library')
-}, {
+};
+const UPLOAD_TAB = {
   id: 'upload-fonts',
   title: (0,external_wp_i18n_namespaceObject.__)('Upload')
-}];
+};
 const tabsFromCollections = collections => collections.map(({
   slug,
   name
@@ -32248,7 +32256,17 @@ function FontLibraryModal({
     collections,
     setNotice
   } = (0,external_wp_element_namespaceObject.useContext)(FontLibraryContext);
-  const tabs = [...DEFAULT_TABS, ...tabsFromCollections(collections || [])];
+  const canUserCreate = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      canUser
+    } = select(external_wp_coreData_namespaceObject.store);
+    return canUser('create', 'font-families');
+  }, []);
+  const tabs = [DEFAULT_TAB];
+  if (canUserCreate) {
+    tabs.push(UPLOAD_TAB);
+    tabs.push(...tabsFromCollections(collections || []));
+  }
 
   // Reset notice when new tab is selected.
   const onSelect = () => {

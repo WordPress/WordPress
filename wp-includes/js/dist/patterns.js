@@ -1125,53 +1125,10 @@ function RenamePatternCategoryModal({
   }, (0,external_wp_i18n_namespaceObject.__)('Save'))))));
 }
 
-;// CONCATENATED MODULE: ./node_modules/nanoid/index.browser.js
-
-let random = bytes => crypto.getRandomValues(new Uint8Array(bytes))
-let customRandom = (alphabet, defaultSize, getRandom) => {
-  let mask = (2 << (Math.log(alphabet.length - 1) / Math.LN2)) - 1
-  let step = -~((1.6 * mask * defaultSize) / alphabet.length)
-  return (size = defaultSize) => {
-    let id = ''
-    while (true) {
-      let bytes = getRandom(step)
-      let j = step
-      while (j--) {
-        id += alphabet[bytes[j] & mask] || ''
-        if (id.length === size) return id
-      }
-    }
-  }
-}
-let customAlphabet = (alphabet, size = 21) =>
-  customRandom(alphabet, size, random)
-let nanoid = (size = 21) =>
-  crypto.getRandomValues(new Uint8Array(size)).reduce((id, byte) => {
-    byte &= 63
-    if (byte < 36) {
-      id += byte.toString(36)
-    } else if (byte < 62) {
-      id += (byte - 26).toString(36).toUpperCase()
-    } else if (byte > 62) {
-      id += '-'
-    } else {
-      id += '_'
-    }
-    return id
-  }, '')
-
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/partial-syncing-controls.js
-
-/**
- * External dependencies
- */
-
-
+;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/use-set-pattern-bindings.js
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -1179,79 +1136,79 @@ let nanoid = (size = 21) =>
  * Internal dependencies
  */
 
-function PartialSyncingControls({
+function removeBindings(bindings, syncedAttributes) {
+  let updatedBindings = {};
+  for (const attributeName of syncedAttributes) {
+    // Omit any pattern override bindings from the `updatedBindings` object.
+    if (bindings?.[attributeName]?.source !== 'core/pattern-overrides' && bindings?.[attributeName]?.source !== undefined) {
+      updatedBindings[attributeName] = bindings[attributeName];
+    }
+  }
+  if (!Object.keys(updatedBindings).length) {
+    updatedBindings = undefined;
+  }
+  return updatedBindings;
+}
+function addBindings(bindings, syncedAttributes) {
+  const updatedBindings = {
+    ...bindings
+  };
+  for (const attributeName of syncedAttributes) {
+    if (!bindings?.[attributeName]) {
+      updatedBindings[attributeName] = {
+        source: 'core/pattern-overrides'
+      };
+    }
+  }
+  return updatedBindings;
+}
+function useSetPatternBindings({
   name,
   attributes,
   setAttributes
-}) {
-  const syncedAttributes = PARTIAL_SYNCING_SUPPORTED_BLOCKS[name];
-  const attributeSources = syncedAttributes.map(attributeName => attributes.metadata?.bindings?.[attributeName]?.source);
-  const isConnectedToOtherSources = attributeSources.every(source => source && source !== 'core/pattern-overrides');
+}, currentPostType) {
+  var _attributes$metadata$, _usePrevious;
+  const metadataName = (_attributes$metadata$ = attributes?.metadata?.name) !== null && _attributes$metadata$ !== void 0 ? _attributes$metadata$ : '';
+  const prevMetadataName = (_usePrevious = (0,external_wp_compose_namespaceObject.usePrevious)(metadataName)) !== null && _usePrevious !== void 0 ? _usePrevious : '';
+  const bindings = attributes?.metadata?.bindings;
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    // Bindings should only be created when editing a wp_block post type,
+    // and also when there's a change to the user-given name for the block.
+    if (currentPostType !== 'wp_block' || metadataName === prevMetadataName) {
+      return;
+    }
+    const syncedAttributes = PARTIAL_SYNCING_SUPPORTED_BLOCKS[name];
+    const attributeSources = syncedAttributes.map(attributeName => attributes.metadata?.bindings?.[attributeName]?.source);
+    const isConnectedToOtherSources = attributeSources.every(source => source && source !== 'core/pattern-overrides');
 
-  // Render nothing if all supported attributes are connected to other sources.
-  if (isConnectedToOtherSources) {
-    return null;
-  }
-  function updateBindings(isChecked) {
-    let updatedBindings = {
-      ...attributes?.metadata?.bindings
-    };
-    if (!isChecked) {
-      for (const attributeName of syncedAttributes) {
-        if (updatedBindings[attributeName]?.source === 'core/pattern-overrides') {
-          delete updatedBindings[attributeName];
-        }
-      }
-      if (!Object.keys(updatedBindings).length) {
-        updatedBindings = undefined;
-      }
+    // Avoid overwriting other (e.g. meta) bindings.
+    if (isConnectedToOtherSources) {
+      return;
+    }
+
+    // The user-given name for the block was deleted, remove the bindings.
+    if (!metadataName?.length && prevMetadataName?.length) {
+      const updatedBindings = removeBindings(bindings, syncedAttributes);
       setAttributes({
         metadata: {
           ...attributes.metadata,
           bindings: updatedBindings
         }
       });
-      return;
     }
-    for (const attributeName of syncedAttributes) {
-      if (!updatedBindings[attributeName]) {
-        updatedBindings[attributeName] = {
-          source: 'core/pattern-overrides'
-        };
-      }
-    }
-    if (typeof attributes.metadata?.id === 'string') {
+
+    // The user-given name for the block was set, set the bindings.
+    if (!prevMetadataName?.length && metadataName.length) {
+      const updatedBindings = addBindings(bindings, syncedAttributes);
       setAttributes({
         metadata: {
           ...attributes.metadata,
           bindings: updatedBindings
         }
       });
-      return;
     }
-    const id = nanoid(6);
-    setAttributes({
-      metadata: {
-        ...attributes.metadata,
-        id,
-        bindings: updatedBindings
-      }
-    });
-  }
-  return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, {
-    group: "advanced"
-  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl, {
-    __nextHasNoMarginBottom: true
-  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, null, (0,external_wp_i18n_namespaceObject.__)('Pattern overrides')), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
-    __nextHasNoMarginBottom: true,
-    label: (0,external_wp_i18n_namespaceObject.__)('Allow instance overrides'),
-    checked: attributeSources.some(source => source === 'core/pattern-overrides'),
-    onChange: isChecked => {
-      updateBindings(isChecked);
-    }
-  })));
+  }, [bindings, prevMetadataName, metadataName, currentPostType, name, attributes.metadata, setAttributes]);
 }
-/* harmony default export */ const partial_syncing_controls = (PartialSyncingControls);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/reset-overrides-control.js
 
@@ -1264,12 +1221,12 @@ function PartialSyncingControls({
 
 
 
-function recursivelyFindBlockWithId(blocks, id) {
+function recursivelyFindBlockWithName(blocks, name) {
   for (const block of blocks) {
-    if (block.attributes.metadata?.id === id) {
+    if (block.attributes.metadata?.name === name) {
       return block;
     }
-    const found = recursivelyFindBlockWithId(block.innerBlocks, id);
+    const found = recursivelyFindBlockWithName(block.innerBlocks, name);
     if (found) {
       return found;
     }
@@ -1277,9 +1234,9 @@ function recursivelyFindBlockWithId(blocks, id) {
 }
 function ResetOverridesControl(props) {
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const id = props.attributes.metadata?.id;
+  const name = props.attributes.metadata?.name;
   const patternWithOverrides = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    if (!id) {
+    if (!name) {
       return undefined;
     }
     const {
@@ -1287,16 +1244,16 @@ function ResetOverridesControl(props) {
       getBlocksByClientId
     } = select(external_wp_blockEditor_namespaceObject.store);
     const patternBlock = getBlocksByClientId(getBlockParentsByBlockName(props.clientId, 'core/block'))[0];
-    if (!patternBlock?.attributes.content?.[id]) {
+    if (!patternBlock?.attributes.content?.[name]) {
       return undefined;
     }
     return patternBlock;
-  }, [props.clientId, id]);
+  }, [props.clientId, name]);
   const resetOverrides = async () => {
     var _editedRecord$blocks;
     const editedRecord = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getEditedEntityRecord('postType', 'wp_block', patternWithOverrides.attributes.ref);
     const blocks = (_editedRecord$blocks = editedRecord.blocks) !== null && _editedRecord$blocks !== void 0 ? _editedRecord$blocks : (0,external_wp_blocks_namespaceObject.parse)(editedRecord.content);
-    const block = recursivelyFindBlockWithId(blocks, id);
+    const block = recursivelyFindBlockWithName(blocks, name);
     const newAttributes = Object.assign(
     // Reset every existing attribute to undefined.
     Object.fromEntries(Object.keys(props.attributes).map(key => [key, undefined])),
@@ -1336,7 +1293,7 @@ lock(privateApis, {
   RenamePatternModal: RenamePatternModal,
   PatternsMenuItems: PatternsMenuItems,
   RenamePatternCategoryModal: RenamePatternCategoryModal,
-  PartialSyncingControls: partial_syncing_controls,
+  useSetPatternBindings: useSetPatternBindings,
   ResetOverridesControl: ResetOverridesControl,
   useAddPatternCategory: useAddPatternCategory,
   PATTERN_TYPES: PATTERN_TYPES,
