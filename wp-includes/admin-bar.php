@@ -139,7 +139,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 				__( 'About WordPress' ) .
 			'</span>',
 		'href'  => $about_url,
-		'meta' => array(
+		'meta'  => array(
 			'menu_title' => __( 'About WordPress' ),
 		),
 	);
@@ -286,7 +286,9 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 			'href'   => $profile_url,
 			'meta'   => array(
 				'class'      => $class,
+				/* translators: %s: Current user's display name. */
 				'menu_title' => sprintf( __( 'Howdy, %s' ), $current_user->display_name ),
+				'tabindex'   => ( false !== $profile_url ) ? '' : 0,
 			),
 		)
 	);
@@ -329,7 +331,9 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 		$user_info .= "<span class='username'>{$current_user->user_login}</span>";
 	}
 
-	$user_info .= "<span class='edit-profile'>" . __( 'Edit Profile' ) . '</span>';
+	if ( false !== $profile_url ) {
+		$user_info .= "<span class='display-name edit-profile'>" . __( 'Edit Profile' ) . '</span>';
+	}
 
 	$wp_admin_bar->add_node(
 		array(
@@ -389,7 +393,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 			'id'    => 'site-name',
 			'title' => $title,
 			'href'  => ( is_admin() || ! current_user_can( 'read' ) ) ? home_url( '/' ) : admin_url(),
-			'meta' => array(
+			'meta'  => array(
 				'menu_title' => $title,
 			),
 		)
@@ -990,7 +994,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 			'id'    => 'new-content',
 			'title' => $title,
 			'href'  => admin_url( current( array_keys( $actions ) ) ),
-			'meta' => array(
+			'meta'  => array(
 				'menu_title' => _x( 'New', 'admin bar menu group label' ),
 			),
 		)

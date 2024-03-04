@@ -187,7 +187,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar.nojs .quicklinks .menupop:hover ul li .ab-item,
 #wpadminbar .shortlink-input {
 	line-height: 2;
-	height: 26px;
+	height: 1.625rem;
 	white-space: nowrap;
 	min-width: 140px;
 }
@@ -447,11 +447,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	background: none;
 }
 
-#wpadminbar #wp-admin-bar-user-info a {
-	display: grid;
-	row-gap: 12px;
-}
-
 #wp-admin-bar-user-info .avatar {
 	position: absolute;
 	left: -72px;
@@ -468,7 +463,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar #wp-admin-bar-user-info span {
 	background: none;
 	padding: 0;
-	height: 18px;
+	height: 1.125rem;
 }
 
 #wpadminbar #wp-admin-bar-user-info .display-name,
