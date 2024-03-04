@@ -38,7 +38,7 @@ class WP_Query {
 	 * Taxonomy query, as passed to get_tax_sql().
 	 *
 	 * @since 3.1.0
-	 * @var WP_Tax_Query A taxonomy query instance.
+	 * @var WP_Tax_Query|null A taxonomy query instance.
 	 */
 	public $tax_query;
 
