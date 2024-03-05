@@ -2456,6 +2456,8 @@ function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0
+ * 
+ * @global WP_Paused_Extensions_Storage $_paused_plugins
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
  * @return bool True, if in the list of paused plugins. False, if not in the list.
@@ -2478,6 +2480,8 @@ function is_plugin_paused( $plugin ) {
  * Gets the error that was recorded for a paused plugin.
  *
  * @since 5.2.0
+ * 
+ * @global WP_Paused_Extensions_Storage $_paused_plugins
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
  * @return array|false Array of error information as returned by `error_get_last()`,
@@ -2553,7 +2557,8 @@ function resume_plugin( $plugin, $redirect = '' ) {
  *
  * @since 5.2.0
  *
- * @global string $pagenow The filename of the current screen.
+ * @global string                       $pagenow         The filename of the current screen.
+ * @global WP_Paused_Extensions_Storage $_paused_plugins
  */
 function paused_plugins_notice() {
 	if ( 'plugins.php' === $GLOBALS['pagenow'] ) {

@@ -1110,6 +1110,8 @@ function customize_themes_print_templates() {
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0
+ * 
+ * @global WP_Paused_Extensions_Storage $_paused_themes
  *
  * @param string $theme Path to the theme directory relative to the themes directory.
  * @return bool True, if in the list of paused themes. False, not in the list.
@@ -1130,6 +1132,8 @@ function is_theme_paused( $theme ) {
  * Gets the error that was recorded for a paused theme.
  *
  * @since 5.2.0
+ * 
+ * @global WP_Paused_Extensions_Storage $_paused_themes
  *
  * @param string $theme Path to the theme directory relative to the themes
  *                      directory.
@@ -1221,7 +1225,8 @@ function resume_theme( $theme, $redirect = '' ) {
  *
  * @since 5.2.0
  *
- * @global string $pagenow The filename of the current screen.
+ * @global string                       $pagenow        The filename of the current screen.
+ * @global WP_Paused_Extensions_Storage $_paused_themes
  */
 function paused_themes_notice() {
 	if ( 'themes.php' === $GLOBALS['pagenow'] ) {
