@@ -1110,7 +1110,7 @@ function customize_themes_print_templates() {
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0
- * 
+ *
  * @global WP_Paused_Extensions_Storage $_paused_themes
  *
  * @param string $theme Path to the theme directory relative to the themes directory.
@@ -1132,7 +1132,7 @@ function is_theme_paused( $theme ) {
  * Gets the error that was recorded for a paused theme.
  *
  * @since 5.2.0
- * 
+ *
  * @global WP_Paused_Extensions_Storage $_paused_themes
  *
  * @param string $theme Path to the theme directory relative to the themes

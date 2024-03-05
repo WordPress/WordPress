@@ -2456,7 +2456,7 @@ function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 5.2.0
- * 
+ *
  * @global WP_Paused_Extensions_Storage $_paused_plugins
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
@@ -2480,7 +2480,7 @@ function is_plugin_paused( $plugin ) {
  * Gets the error that was recorded for a paused plugin.
  *
  * @since 5.2.0
- * 
+ *
  * @global WP_Paused_Extensions_Storage $_paused_plugins
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
