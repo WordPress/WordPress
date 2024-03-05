@@ -1463,8 +1463,8 @@ function inject_ignored_hooked_blocks_metadata_attributes( $post ) {
 
 	wp_update_post(
 		array(
-			'ID'            => $post->ID,
-			'post_content'  => $content,
+			'ID'           => $post->ID,
+			'post_content' => $content,
 		)
 	);
 }
