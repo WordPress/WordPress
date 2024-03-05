@@ -241,15 +241,15 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return null;
 		}
 
-		$p                        = new self( $html, self::CONSTRUCTOR_UNLOCK_CODE );
-		$p->state->context_node   = array( 'BODY', array() );
-		$p->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
+		$processor                        = new self( $html, self::CONSTRUCTOR_UNLOCK_CODE );
+		$processor->state->context_node   = array( 'BODY', array() );
+		$processor->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
 
 		// @todo Create "fake" bookmarks for non-existent but implied nodes.
-		$p->bookmarks['root-node']    = new WP_HTML_Span( 0, 0 );
-		$p->bookmarks['context-node'] = new WP_HTML_Span( 0, 0 );
+		$processor->bookmarks['root-node']    = new WP_HTML_Span( 0, 0 );
+		$processor->bookmarks['context-node'] = new WP_HTML_Span( 0, 0 );
 
-		$p->state->stack_of_open_elements->push(
+		$processor->state->stack_of_open_elements->push(
 			new WP_HTML_Token(
 				'root-node',
 				'HTML',
@@ -257,15 +257,15 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			)
 		);
 
-		$p->state->stack_of_open_elements->push(
+		$processor->state->stack_of_open_elements->push(
 			new WP_HTML_Token(
 				'context-node',
-				$p->state->context_node[0],
+				$processor->state->context_node[0],
 				false
 			)
 		);
 
-		return $p;
+		return $processor;
 	}
 
 	/**
@@ -1226,6 +1226,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	/**
 	 * Moves the internal cursor in the HTML Processor to a given bookmark's location.
 	 *
+	 * Be careful! Seeking backwards to a previous location resets the parser to the
+	 * start of the document and reparses the entire contents up until it finds the
+	 * sought-after bookmarked location.
+	 *
 	 * In order to prevent accidental infinite loops, there's a
 	 * maximum limit on the number of times seek() can be called.
 	 *
@@ -1247,44 +1251,73 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$bookmark_starts_at   = $this->bookmarks[ $actual_bookmark_name ]->start;
 		$direction            = $bookmark_starts_at > $processor_started_at ? 'forward' : 'backward';
 
-		switch ( $direction ) {
-			case 'forward':
-				// When moving forwards, reparse the document until reaching the same location as the original bookmark.
-				while ( $this->step() ) {
-					if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
-						return true;
-					}
+		/*
+		 * If seeking backwards, it's possible that the sought-after bookmark exists within an element
+		 * which has been closed before the current cursor; in other words, it has already been removed
+		 * from the stack of open elements. This means that it's insufficient to simply pop off elements
+		 * from the stack of open elements which appear after the bookmarked location and then jump to
+		 * that location, as the elements which were open before won't be re-opened.
+		 *
+		 * In order to maintain consistency, the HTML Processor rewinds to the start of the document
+		 * and reparses everything until it finds the sought-after bookmark.
+		 *
+		 * There are potentially better ways to do this: cache the parser state for each bookmark and
+		 * restore it when seeking; store an immutable and idempotent register of where elements open
+		 * and close.
+		 *
+		 * If caching the parser state it will be essential to properly maintain the cached stack of
+		 * open elements and active formatting elements when modifying the document. This could be a
+		 * tedious and time-consuming process as well, and so for now will not be performed.
+		 *
+		 * It may be possible to track bookmarks for where elements open and close, and in doing so
+		 * be able to quickly recalculate breadcrumbs for any element in the document. It may even
+		 * be possible to remove the stack of open elements and compute it on the fly this way.
+		 * If doing this, the parser would need to track the opening and closing locations for all
+		 * tokens in the breadcrumb path for any and all bookmarks. By utilizing bookmarks themselves
+		 * this list could be automatically maintained while modifying the document. Finding the
+		 * breadcrumbs would then amount to traversing that list from the start until the token
+		 * being inspected. Once an element closes, if there are no bookmarks pointing to locations
+		 * within that element, then all of these locations may be forgotten to save on memory use
+		 * and computation time.
+		 */
+		if ( 'backward' === $direction ) {
+			/*
+			 * Instead of clearing the parser state and starting fresh, calling the stack methods
+			 * maintains the proper flags in the parser.
+			 */
+			foreach ( $this->state->stack_of_open_elements->walk_up() as $item ) {
+				if ( 'context-node' === $item->bookmark_name ) {
+					break;
 				}
 
-				return false;
+				$this->state->stack_of_open_elements->remove_node( $item );
+			}
 
-			case 'backward':
-				/*
-				 * When moving backwards, clear out all existing stack entries which appear after the destination
-				 * bookmark. These could be stored for later retrieval, but doing so would require additional
-				 * memory overhead and also demand that references and bookmarks are updated as the document
-				 * changes. In time this could be a valuable optimization, but it's okay to give up that
-				 * optimization in exchange for more CPU time to recompute the stack, to re-parse the
-				 * document that may have already been parsed once.
-				 */
-				foreach ( $this->state->stack_of_open_elements->walk_up() as $item ) {
-					if ( $bookmark_starts_at >= $this->bookmarks[ $item->bookmark_name ]->start ) {
-						break;
-					}
-
-					$this->state->stack_of_open_elements->remove_node( $item );
+			foreach ( $this->state->active_formatting_elements->walk_up() as $item ) {
+				if ( 'context-node' === $item->bookmark_name ) {
+					break;
 				}
 
-				foreach ( $this->state->active_formatting_elements->walk_up() as $item ) {
-					if ( $bookmark_starts_at >= $this->bookmarks[ $item->bookmark_name ]->start ) {
-						break;
-					}
+				$this->state->active_formatting_elements->remove_node( $item );
+			}
 
-					$this->state->active_formatting_elements->remove_node( $item );
-				}
-
-				return parent::seek( $actual_bookmark_name );
+			parent::seek( 'context-node' );
+			$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
+			$this->state->frameset_ok    = true;
 		}
+
+		// When moving forwards, reparse the document until reaching the same location as the original bookmark.
+		if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
+			return true;
+		}
+
+		while ( $this->step() ) {
+			if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
