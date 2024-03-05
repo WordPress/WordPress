@@ -5199,7 +5199,7 @@ final class WP_Customize_Manager {
 					'label'       => __( 'Site Icon' ),
 					'description' => sprintf(
 						/* translators: %s: Site Icon size in pixels. */
-						'<p>' . __( 'Site Icons are what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. They should be square and at least %s pixels.' ) . '</p>',
+						'<p>' . __( 'The Site Icon is what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. It should be square and at least %s pixels.' ) . '</p>',
 						'<code>512 &times; 512</code>'
 					),
 					'section'     => 'title_tagline',
