@@ -673,8 +673,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<p><?php echo $description; ?></p>
 					<p class="authors"><?php echo $author; ?></p>
 				</div>
-				<?php echo $this->get_dependencies_notice( $plugin ); ?>
 			</div>
+			<?php
+			$dependencies_notice = $this->get_dependencies_notice( $plugin );
+			if ( ! empty( $dependencies_notice ) ) {
+				echo $dependencies_notice;
+			}
+			?>
 			<div class="plugin-card-bottom">
 				<div class="vers column-rating">
 					<?php
@@ -780,7 +785,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 
 		$dependencies_notice = sprintf(
-			'<div class="plugin-dependencies"><p class="plugin-dependencies-explainer-text">%s</p> %s</div>',
+			'<div class="plugin-dependencies notice notice-alt notice-info inline"><p class="plugin-dependencies-explainer-text">%s</p> %s</div>',
 			'<strong>' . __( 'Additional plugins are required' ) . '</strong>',
 			$dependencies_list
 		);

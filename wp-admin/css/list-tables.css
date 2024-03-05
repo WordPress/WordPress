@@ -1595,10 +1595,8 @@ div.action-links,
 	display: none;
 }
 
-.plugin-card .plugin-dependencies {
-	background-color: #e5f5fa;
-	border-left: 3px solid #72aee6;
-	margin-bottom: .5em;
+.plugin-card .notice.plugin-dependencies {
+	margin: auto 20px 20px;
 	padding: 15px;
 }
 
