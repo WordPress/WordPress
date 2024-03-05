@@ -1202,26 +1202,55 @@ function validate_plugin_requirements( $plugin ) {
 	WP_Plugin_Dependencies::initialize();
 
 	if ( WP_Plugin_Dependencies::has_unmet_dependencies( $plugin ) ) {
-		$dependencies       = WP_Plugin_Dependencies::get_dependencies( $plugin );
-		$unmet_dependencies = array();
+		$dependency_names       = WP_Plugin_Dependencies::get_dependency_names( $plugin );
+		$unmet_dependencies     = array();
+		$unmet_dependency_names = array();
 
-		foreach ( $dependencies as $dependency ) {
+		foreach ( $dependency_names as $dependency => $dependency_name ) {
 			$dependency_file = WP_Plugin_Dependencies::get_dependency_filepath( $dependency );
 
 			if ( false === $dependency_file ) {
-				$unmet_dependencies['not_installed'][] = $dependency;
+				$unmet_dependencies['not_installed'][ $dependency ] = $dependency_name;
+				$unmet_dependency_names[]                           = $dependency_name;
 			} elseif ( is_plugin_inactive( $dependency_file ) ) {
-				$unmet_dependencies['inactive'][] = $dependency;
+				$unmet_dependencies['inactive'][ $dependency ] = $dependency_name;
+				$unmet_dependency_names[]                      = $dependency_name;
 			}
+		}
+
+		$error_message = sprintf(
+			/* translators: 1: Plugin name, 2: Number of plugins, 3: A comma-separated list of plugin names. */
+			_n(
+				'<strong>Error:</strong> %1$s requires %2$d plugin to be installed and activated: %3$s.',
+				'<strong>Error:</strong> %1$s requires %2$d plugins to be installed and activated: %3$s.',
+				count( $unmet_dependency_names )
+			),
+			$plugin_headers['Name'],
+			count( $unmet_dependency_names ),
+			implode( wp_get_list_item_separator(), $unmet_dependency_names )
+		);
+
+		if ( is_multisite() ) {
+			if ( current_user_can( 'manage_network_plugins' ) ) {
+				$error_message .= ' ' . sprintf(
+					/* translators: %s: Link to the plugins page. */
+					__( '<a href="%s">Manage plugins</a>.' ),
+					esc_url( network_admin_url( 'plugins.php' ) )
+				);
+			} else {
+				$error_message .= ' ' . __( 'Please contact your network administrator.' );
+			}
+		} else {
+			$error_message .= ' ' . sprintf(
+				/* translators: %s: Link to the plugins page. */
+				__( '<a href="%s">Manage plugins</a>.' ),
+				esc_url( admin_url( 'plugins.php' ) )
+			);
 		}
 
 		return new WP_Error(
 			'plugin_missing_dependencies',
-			'<p>' . sprintf(
-				/* translators: %s: Plugin name. */
-				_x( '<strong>Error:</strong> %s requires plugins that are not installed or activated.', 'plugin' ),
-				$plugin_headers['Name']
-			) . '</p>',
+			"<p>{$error_message}</p>",
 			$unmet_dependencies
 		);
 	}
