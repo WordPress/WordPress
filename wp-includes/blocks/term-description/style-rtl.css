@@ -1,9 +1,0 @@
-:where(.wp-block-term-description){
-  margin-bottom:var(--wp--style--block-gap);
-  margin-top:var(--wp--style--block-gap);
-}
-
-.wp-block-term-description p{
-  margin-bottom:0;
-  margin-top:0;
-}
