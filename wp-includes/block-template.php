@@ -210,8 +210,8 @@ function _block_template_render_title_tag() {
  *
  * @global string   $_wp_current_template_id
  * @global string   $_wp_current_template_content
- * @global WP_Embed $wp_embed
- * @global WP_Query $wp_query
+ * @global WP_Embed $wp_embed                     WordPress Embed object.
+ * @global WP_Query $wp_query                     WordPress Query object.
  *
  * @return string Block template markup.
  */
