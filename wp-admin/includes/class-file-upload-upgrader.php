@@ -72,7 +72,24 @@ class File_Upload_Upgrader {
 			if ( 'pluginzip' === $form || 'themezip' === $form ) {
 				if ( ! wp_zip_file_is_valid( $file['file'] ) ) {
 					wp_delete_file( $file['file'] );
-					wp_die( __( 'Incompatible Archive.' ) );
+
+					if ( 'pluginzip' === $form ) {
+						$plugins_page = sprintf(
+							'<a href="%s">%s</a>',
+							self_admin_url( 'plugin-install.php' ),
+							__( 'Return to the Plugin Installer' )
+						);
+						wp_die( __( 'Incompatible Archive.' ) . '<br />' . $plugins_page );
+					}
+
+					if ( 'themezip' === $form ) {
+						$themes_page = sprintf(
+							'<a href="%s" target="_parent">%s</a>',
+							self_admin_url( 'theme-install.php' ),
+							__( 'Return to the Theme Installer' )
+						);
+						wp_die( __( 'Incompatible Archive.' ) . '<br />' . $themes_page );
+					}
 				}
 			}
 
