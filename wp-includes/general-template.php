@@ -3579,6 +3579,7 @@ function wp_preload_resources() {
 	 * Filters domains and URLs for resource preloads.
 	 *
 	 * @since 6.1.0
+	 * @since 6.6.0 Added the `$fetchpriority` attribute.
 	 *
 	 * @param array  $preload_resources {
 	 *     Array of resources and their attributes, or URLs to print for resource preloads.
@@ -3586,14 +3587,15 @@ function wp_preload_resources() {
 	 *     @type array ...$0 {
 	 *         Array of resource attributes.
 	 *
-	 *         @type string $href        URL to include in resource preloads. Required.
-	 *         @type string $as          How the browser should treat the resource
-	 *                                   (`script`, `style`, `image`, `document`, etc).
-	 *         @type string $crossorigin Indicates the CORS policy of the specified resource.
-	 *         @type string $type        Type of the resource (`text/html`, `text/css`, etc).
-	 *         @type string $media       Accepts media types or media queries. Allows responsive preloading.
-	 *         @type string $imagesizes  Responsive source size to the source Set.
-	 *         @type string $imagesrcset Responsive image sources to the source set.
+	 *         @type string $href          URL to include in resource preloads. Required.
+	 *         @type string $as            How the browser should treat the resource
+	 *                                     (`script`, `style`, `image`, `document`, etc).
+	 *         @type string $crossorigin   Indicates the CORS policy of the specified resource.
+	 *         @type string $type          Type of the resource (`text/html`, `text/css`, etc).
+	 *         @type string $media         Accepts media types or media queries. Allows responsive preloading.
+	 *         @type string $imagesizes    Responsive source size to the source Set.
+	 *         @type string $imagesrcset   Responsive image sources to the source set.
+	 *         @type string $fetchpriority Fetchpriority value for the resource.
 	 *     }
 	 * }
 	 */
@@ -3641,7 +3643,7 @@ function wp_preload_resources() {
 			}
 
 			// Ignore non-supported attributes.
-			$non_supported_attributes = array( 'as', 'crossorigin', 'href', 'imagesrcset', 'imagesizes', 'type', 'media' );
+			$non_supported_attributes = array( 'as', 'crossorigin', 'href', 'imagesrcset', 'imagesizes', 'type', 'media', 'fetchpriority' );
 			if ( ! in_array( $resource_key, $non_supported_attributes, true ) && ! is_numeric( $resource_key ) ) {
 				continue;
 			}
