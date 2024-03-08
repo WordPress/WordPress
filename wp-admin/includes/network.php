@@ -694,7 +694,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'It seems your network is running with Nginx web server. <a href="%s">Learn more about further configuration</a>.' ),
-			__( 'https://wordpress.org/documentation/article/nginx/' )
+			__( 'https://developer.wordpress.org/advanced-administration/server/web-server/nginx/' )
 		);
 		echo '</p></li>';
 

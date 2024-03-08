@@ -32,8 +32,8 @@ if ( ! is_multisite() ) {
 		'<p>' . sprintf(
 			/* translators: %s: Documentation URL. */
 			__( 'Though the terms refer to two different concepts, in practice, they can be the same address or different. For example, you can have the core WordPress installation files in the root directory (<code>https://example.com</code>), in which case the two URLs would be the same. Or the <a href="%s">WordPress files can be in a subdirectory</a> (<code>https://example.com/wordpress</code>). In that case, the WordPress URL and the site URL would be different.' ),
-			__( 'https://wordpress.org/documentation/article/giving-wordpress-its-own-directory/' )
-		) . '</p>' .
+			__( 'https://developer.wordpress.org/advanced-administration/server/wordpress-in-directory/' )
+			) . '</p>' .
 		'<p>' . sprintf(
 			/* translators: 1: http://, 2: https:// */
 			__( 'Both WordPress URL and site URL can start with either %1$s or %2$s. A URL starting with %2$s requires an SSL certificate, so be sure that you have one before changing to %2$s. With %2$s, a padlock will appear next to the address in the browser address bar. Both %2$s and the padlock signal that your site meets some basic security requirements, which can build trust with your visitors and with search engines.' ),
@@ -235,7 +235,7 @@ if ( ! is_multisite() ) {
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'Enter the same address here unless you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
-			__( 'https://wordpress.org/documentation/article/giving-wordpress-its-own-directory/' )
+			__( 'https://developer.wordpress.org/advanced-administration/server/wordpress-in-directory/' )
 		);
 		?>
 </p>

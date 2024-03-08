@@ -323,7 +323,7 @@ endif;
 			printf(
 				/* translators: %s: Documentation URL. */
 				__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
-				__( 'https://wordpress.org/documentation/article/changing-file-permissions/' )
+				__( 'https://developer.wordpress.org/advanced-administration/server/file-permissions/' )
 			);
 			?>
 		</p>

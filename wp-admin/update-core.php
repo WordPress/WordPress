@@ -258,7 +258,7 @@ function core_upgrade_preamble() {
 		$message = sprintf(
 			/* translators: 1: Documentation on WordPress backups, 2: Documentation on updating WordPress. */
 			__( '<strong>Important:</strong> Before updating, please <a href="%1$s">back up your database and files</a>. For help with updates, visit the <a href="%2$s">Updating WordPress</a> documentation page.' ),
-			__( 'https://wordpress.org/documentation/article/wordpress-backups/' ),
+			__( 'https://developer.wordpress.org/advanced-administration/security/backup/' ),
 			__( 'https://wordpress.org/documentation/article/updating-wordpress/' )
 		);
 		wp_admin_notice(
@@ -1045,7 +1045,7 @@ if ( current_user_can( 'update_themes' ) || current_user_can( 'update_plugins' )
 		)
 	);
 
-	$help_sidebar_rollback = '<p>' . __( '<a href="https://wordpress.org/documentation/article/common-wordpress-errors/">Common Errors</a>' ) . '</p>';
+	$help_sidebar_rollback = '<p>' . __( '<a href="https://developer.wordpress.org/advanced-administration/wordpress/common-errors/">Common Errors</a>' ) . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
