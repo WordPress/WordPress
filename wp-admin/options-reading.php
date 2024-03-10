@@ -32,7 +32,7 @@ get_current_screen()->add_help_tab(
 			'<p>' . sprintf(
 				/* translators: %s: Documentation URL. */
 				__( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or an excerpt. <a href="%s">Learn more about feeds</a>.' ),
-				__( 'https://wordpress.org/documentation/article/wordpress-feeds/' )
+				__( 'https://developer.wordpress.org/advanced-administration/wordpress/feeds/' )
 			) . '</p>' .
 			'<p>' . __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ) . '</p>',
 	)
@@ -197,7 +197,7 @@ else :
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'Your theme determines how content is displayed in browsers. <a href="%s">Learn more about feeds</a>.' ),
-			__( 'https://wordpress.org/documentation/article/wordpress-feeds/' )
+			__( 'https://developer.wordpress.org/advanced-administration/wordpress/feeds/' )
 		);
 		?>
 	</p>
