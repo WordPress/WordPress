@@ -1432,39 +1432,48 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
 	$template_hierarchy[] = 'index';
 	return $template_hierarchy;
 }
+
 /**
  * Inject ignoredHookedBlocks metadata attributes into a template or template part.
  *
- * Given a `wp_template` or `wp_template_part` post object, locate all blocks that have
+ * Given an object that represents a `wp_template` or `wp_template_part` post object
+ * prepared for inserting or updating the database, locate all blocks that have
  * hooked blocks, and inject a `metadata.ignoredHookedBlocks` attribute into the anchor
  * blocks to reflect the latter.
  *
- * @param WP_Post $post A post object with post type set to `wp_template` or `wp_template_part`.
- * @return WP_Post The updated post object.
+ * @since 6.5.0
+ * @access private
+ *
+ * @param stdClass        $post    An object representing a template or template part
+ *                                 prepared for inserting or updating the database.
+ * @param WP_REST_Request $request Request object.
+ * @return stdClass The updated object representing a template or template part.
  */
-function inject_ignored_hooked_blocks_metadata_attributes( $post ) {
+function inject_ignored_hooked_blocks_metadata_attributes( $post, $request ) {
+	$filter_name = current_filter();
+	if ( ! str_starts_with( $filter_name, 'rest_pre_insert_' ) ) {
+		return $post;
+	}
+	$post_type = str_replace( 'rest_pre_insert_', '', $filter_name );
+
 	$hooked_blocks = get_hooked_blocks();
 	if ( empty( $hooked_blocks ) && ! has_filter( 'hooked_block_types' ) ) {
-		return;
+		return $post;
 	}
 
 	// At this point, the post has already been created.
 	// We need to build the corresponding `WP_Block_Template` object as context argument for the visitor.
 	// To that end, we need to suppress hooked blocks from getting inserted into the template.
 	add_filter( 'hooked_block_types', '__return_empty_array', 99999, 0 );
-	$template = _build_block_template_result_from_post( $post );
+	$template = $request['id'] ? get_block_template( $request['id'], $post_type ) : null;
 	remove_filter( 'hooked_block_types', '__return_empty_array', 99999 );
 
 	$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template, 'set_ignored_hooked_blocks_metadata' );
 	$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template, 'set_ignored_hooked_blocks_metadata' );
 
-	$blocks  = parse_blocks( $template->content );
+	$blocks  = parse_blocks( $post->post_content );
 	$content = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
 
-	wp_update_post(
-		array(
-			'ID'           => $post->ID,
-			'post_content' => $content,
-		)
-	);
+	$post->post_content = $content;
+	return $post;
 }

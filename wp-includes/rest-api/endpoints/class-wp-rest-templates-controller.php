@@ -619,7 +619,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 			$changes->post_author = $post_author;
 		}
 
-		return $changes;
+		/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
+		return apply_filters( "rest_pre_insert_{$this->post_type}", $changes, $request );
 	}
 
 	/**
