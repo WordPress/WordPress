@@ -1105,6 +1105,7 @@ function isEqualUntil(a, b, index) {
 }
 function toTree({
   value,
+  preserveWhiteSpace,
   createEmpty,
   append,
   getLastChild,
@@ -1220,7 +1221,7 @@ function toTree({
       }
       // Ensure pointer is text node.
       pointer = append(getParent(pointer), '');
-    } else if (character === '\n') {
+    } else if (!preserveWhiteSpace && character === '\n') {
       pointer = append(getParent(pointer), {
         type: 'br',
         attributes: isEditableTree ? {
@@ -1279,16 +1280,19 @@ function toTree({
 /**
  * Create an HTML string from a Rich Text value.
  *
- * @param {Object}        $1       Named argements.
- * @param {RichTextValue} $1.value Rich text value.
+ * @param {Object}        $1                      Named argements.
+ * @param {RichTextValue} $1.value                Rich text value.
+ * @param {boolean}       [$1.preserveWhiteSpace] Preserves newlines if true.
  *
  * @return {string} HTML string.
  */
 function toHTMLString({
-  value
+  value,
+  preserveWhiteSpace
 }) {
   const tree = toTree({
     value,
+    preserveWhiteSpace,
     createEmpty,
     append,
     getLastChild,
@@ -1536,9 +1540,12 @@ class RichTextData {
   }
   // We could expose `toHTMLElement` at some point as well, but we'd only use
   // it internally.
-  toHTMLString() {
+  toHTMLString({
+    preserveWhiteSpace
+  } = {}) {
     return this.originalHTML || toHTMLString({
-      value: this.#value
+      value: this.#value,
+      preserveWhiteSpace
     });
   }
   valueOf() {
@@ -3178,6 +3185,15 @@ function useAnchor({
   const wasActive = (0,external_wp_compose_namespaceObject.usePrevious)(isActive);
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
     if (!editableContentElement) return;
+    function callback() {
+      setAnchor(getAnchor(editableContentElement, tagName, className));
+    }
+    function attach() {
+      ownerDocument.addEventListener('selectionchange', callback);
+    }
+    function detach() {
+      ownerDocument.removeEventListener('selectionchange', callback);
+    }
     const {
       ownerDocument
     } = editableContentElement;
@@ -3189,7 +3205,15 @@ function useAnchor({
     // When we _remove_ the color, it switches from a `<mark>` element to a virtual anchor.
     wasActive && !isActive) {
       setAnchor(getAnchor(editableContentElement, tagName, className));
+      attach();
     }
+    editableContentElement.addEventListener('focusin', attach);
+    editableContentElement.addEventListener('focusout', detach);
+    return () => {
+      detach();
+      editableContentElement.removeEventListener('focusin', attach);
+      editableContentElement.removeEventListener('focusout', detach);
+    };
   }, [editableContentElement, tagName, className, isActive, wasActive]);
   return anchor;
 }
@@ -4037,7 +4061,8 @@ function useRichText({
       };
       if (typeof value === 'string') {
         _value.current = toHTMLString({
-          value: newRecord
+          value: newRecord,
+          preserveWhiteSpace
         });
       } else {
         _value.current = new RichTextData(newRecord);

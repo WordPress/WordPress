@@ -1132,9 +1132,12 @@ function RenamePatternCategoryModal({
 
 
 
+
+
 /**
  * Internal dependencies
  */
+
 
 function removeBindings(bindings, syncedAttributes) {
   let updatedBindings = {};
@@ -1168,13 +1171,22 @@ function useSetPatternBindings({
   setAttributes
 }, currentPostType) {
   var _attributes$metadata$, _usePrevious;
+  const hasPatternOverridesSource = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getBlockBindingsSource
+    } = unlock(select(external_wp_blocks_namespaceObject.store));
+
+    // For editing link to the site editor if the theme and user permissions support it.
+    return !!getBlockBindingsSource('core/pattern-overrides');
+  }, []);
   const metadataName = (_attributes$metadata$ = attributes?.metadata?.name) !== null && _attributes$metadata$ !== void 0 ? _attributes$metadata$ : '';
   const prevMetadataName = (_usePrevious = (0,external_wp_compose_namespaceObject.usePrevious)(metadataName)) !== null && _usePrevious !== void 0 ? _usePrevious : '';
   const bindings = attributes?.metadata?.bindings;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // Bindings should only be created when editing a wp_block post type,
     // and also when there's a change to the user-given name for the block.
-    if (currentPostType !== 'wp_block' || metadataName === prevMetadataName) {
+    // Also check that the pattern overrides source is registered.
+    if (!hasPatternOverridesSource || currentPostType !== 'wp_block' || metadataName === prevMetadataName) {
       return;
     }
     const syncedAttributes = PARTIAL_SYNCING_SUPPORTED_BLOCKS[name];
@@ -1207,7 +1219,7 @@ function useSetPatternBindings({
         }
       });
     }
-  }, [bindings, prevMetadataName, metadataName, currentPostType, name, attributes.metadata, setAttributes]);
+  }, [hasPatternOverridesSource, bindings, prevMetadataName, metadataName, currentPostType, name, attributes.metadata, setAttributes]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/reset-overrides-control.js

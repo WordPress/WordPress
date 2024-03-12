@@ -6926,7 +6926,9 @@ function code_save_save({
     // prevent embedding in PHP. Ideally checks for the code block,
     // or pre/code tags, should be made on the PHP side?
     ,
-    value: utils_escape(attributes.content.toString())
+    value: utils_escape(typeof attributes.content === 'string' ? attributes.content : attributes.content.toHTMLString({
+      preserveWhiteSpace: true
+    }))
   }));
 }
 
@@ -32473,7 +32475,7 @@ function NavigationMenuSelector({
 }) {
   /* translators: %s: The name of a menu. */
   const createActionLabel = (0,external_wp_i18n_namespaceObject.__)("Create from '%s'");
-  const [isCreatingMenu, setIsCreatingMenu] = (0,external_wp_element_namespaceObject.useState)(false);
+  const [isUpdatingMenuRef, setIsUpdatingMenuRef] = (0,external_wp_element_namespaceObject.useState)(false);
   actionLabel = actionLabel || createActionLabel;
   const {
     menus: classicMenus
@@ -32496,10 +32498,11 @@ function NavigationMenuSelector({
       return {
         value: id,
         label,
-        ariaLabel: (0,external_wp_i18n_namespaceObject.sprintf)(actionLabel, label)
+        ariaLabel: (0,external_wp_i18n_namespaceObject.sprintf)(actionLabel, label),
+        disabled: isUpdatingMenuRef || isResolvingNavigationMenus || !hasResolvedNavigationMenus
       };
     }) || [];
-  }, [navigationMenus, actionLabel]);
+  }, [navigationMenus, actionLabel, isResolvingNavigationMenus, hasResolvedNavigationMenus, isUpdatingMenuRef]);
   const hasNavigationMenus = !!navigationMenus?.length;
   const hasClassicMenus = !!classicMenus?.length;
   const showNavigationMenus = !!canSwitchNavigationMenu;
@@ -32508,7 +32511,7 @@ function NavigationMenuSelector({
   const noBlockMenus = !hasNavigationMenus && hasResolvedNavigationMenus;
   const menuUnavailable = hasResolvedNavigationMenus && currentMenuId === null;
   let selectorLabel = '';
-  if (isCreatingMenu || isResolvingNavigationMenus) {
+  if (isResolvingNavigationMenus) {
     selectorLabel = (0,external_wp_i18n_namespaceObject.__)('Loading…');
   } else if (noMenuSelected || noBlockMenus || menuUnavailable) {
     // Note: classic Menus may be available.
@@ -32518,10 +32521,10 @@ function NavigationMenuSelector({
     selectorLabel = currentTitle;
   }
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (isCreatingMenu && (createNavigationMenuIsSuccess || createNavigationMenuIsError)) {
-      setIsCreatingMenu(false);
+    if (isUpdatingMenuRef && (createNavigationMenuIsSuccess || createNavigationMenuIsError)) {
+      setIsUpdatingMenuRef(false);
     }
-  }, [hasResolvedNavigationMenus, createNavigationMenuIsSuccess, canUserCreateNavigationMenu, createNavigationMenuIsError, isCreatingMenu, menuUnavailable, noBlockMenus, noMenuSelected]);
+  }, [hasResolvedNavigationMenus, createNavigationMenuIsSuccess, canUserCreateNavigationMenu, createNavigationMenuIsError, isUpdatingMenuRef, menuUnavailable, noBlockMenus, noMenuSelected]);
   const NavigationMenuSelectorDropdown = (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.DropdownMenu, {
     label: selectorLabel,
     icon: more_vertical,
@@ -32535,35 +32538,35 @@ function NavigationMenuSelector({
   }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItemsChoice, {
     value: currentMenuId,
     onSelect: menuId => {
-      setIsCreatingMenu(true);
       onSelectNavigationMenu(menuId);
       onClose();
     },
-    choices: menuChoices,
-    disabled: isCreatingMenu
+    choices: menuChoices
   })), showClassicMenus && hasClassicMenus && (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, {
     label: (0,external_wp_i18n_namespaceObject.__)('Import Classic Menus')
   }, classicMenus?.map(menu => {
     const label = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(menu.name);
     return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-      onClick: () => {
-        setIsCreatingMenu(true);
-        onSelectClassicMenu(menu);
+      onClick: async () => {
+        setIsUpdatingMenuRef(true);
+        await onSelectClassicMenu(menu);
+        setIsUpdatingMenuRef(false);
         onClose();
       },
       key: menu.id,
       "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)(createActionLabel, label),
-      disabled: isCreatingMenu
+      disabled: isUpdatingMenuRef || isResolvingNavigationMenus || !hasResolvedNavigationMenus
     }, label);
   })), canUserCreateNavigationMenu && (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, {
     label: (0,external_wp_i18n_namespaceObject.__)('Tools')
   }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    disabled: isCreatingMenu,
-    onClick: () => {
+    onClick: async () => {
+      setIsUpdatingMenuRef(true);
+      await onCreateNew();
+      setIsUpdatingMenuRef(false);
       onClose();
-      onCreateNew();
-      setIsCreatingMenu(true);
-    }
+    },
+    disabled: isUpdatingMenuRef || isResolvingNavigationMenus || !hasResolvedNavigationMenus
   }, (0,external_wp_i18n_namespaceObject.__)('Create new menu')))));
   return NavigationMenuSelectorDropdown;
 }
@@ -34697,8 +34700,8 @@ function Navigation({
     isSuccess: createNavigationMenuIsSuccess,
     isError: createNavigationMenuIsError
   } = useCreateNavigationMenu(clientId);
-  const createUntitledEmptyNavigationMenu = () => {
-    createNavigationMenu('');
+  const createUntitledEmptyNavigationMenu = async () => {
+    await createNavigationMenu('');
   };
   const {
     hasUncontrolledInnerBlocks,
@@ -48981,7 +48984,8 @@ function ReusableBlockEdit({
     userCanEdit,
     getBlockEditingMode,
     onNavigateToEntityRecord,
-    editingMode
+    editingMode,
+    hasPatternOverridesSource
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       canUser
@@ -48991,6 +48995,9 @@ function ReusableBlockEdit({
       getSettings,
       getBlockEditingMode: _getBlockEditingMode
     } = select(external_wp_blockEditor_namespaceObject.store);
+    const {
+      getBlockBindingsSource
+    } = unlock(select(external_wp_blocks_namespaceObject.store));
     const blocks = getBlocks(patternClientId);
     const canEdit = canUser('update', 'blocks', ref);
 
@@ -49000,7 +49007,8 @@ function ReusableBlockEdit({
       userCanEdit: canEdit,
       getBlockEditingMode: _getBlockEditingMode,
       onNavigateToEntityRecord: getSettings().onNavigateToEntityRecord,
-      editingMode: _getBlockEditingMode(patternClientId)
+      editingMode: _getBlockEditingMode(patternClientId),
+      hasPatternOverridesSource: !!getBlockBindingsSource('core/pattern-overrides')
     };
   }, [patternClientId, ref]);
 
@@ -49008,9 +49016,9 @@ function ReusableBlockEdit({
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setBlockEditMode(setBlockEditingMode, innerBlocks,
     // Disable editing if the pattern itself is disabled.
-    editingMode === 'disabled' ? 'disabled' : undefined);
-  }, [editingMode, innerBlocks, setBlockEditingMode]);
-  const canOverrideBlocks = (0,external_wp_element_namespaceObject.useMemo)(() => hasOverridableBlocks(innerBlocks), [innerBlocks]);
+    editingMode === 'disabled' || !hasPatternOverridesSource ? 'disabled' : undefined);
+  }, [editingMode, innerBlocks, setBlockEditingMode, hasPatternOverridesSource]);
+  const canOverrideBlocks = (0,external_wp_element_namespaceObject.useMemo)(() => hasPatternOverridesSource && hasOverridableBlocks(innerBlocks), [hasPatternOverridesSource, innerBlocks]);
   const initialBlocks = (0,external_wp_element_namespaceObject.useMemo)(() => {
     var _editedRecord$blocks$;
     return (// Clone the blocks to generate new client IDs.
@@ -49029,11 +49037,12 @@ function ReusableBlockEdit({
     registry.batch(() => {
       setBlockEditingMode(patternClientId, 'default');
       syncDerivedUpdates(() => {
-        replaceInnerBlocks(patternClientId, applyInitialContentValuesToInnerBlocks(initialBlocks, initialContent.current, defaultContent.current, legacyIdMap.current));
+        const blocks = hasPatternOverridesSource ? applyInitialContentValuesToInnerBlocks(initialBlocks, initialContent.current, defaultContent.current, legacyIdMap.current) : initialBlocks;
+        replaceInnerBlocks(patternClientId, blocks);
       });
       setBlockEditingMode(patternClientId, originalEditingMode);
     });
-  }, [__unstableMarkNextChangeAsNotPersistent, patternClientId, initialBlocks, replaceInnerBlocks, registry, getBlockEditingMode, setBlockEditingMode, syncDerivedUpdates]);
+  }, [hasPatternOverridesSource, __unstableMarkNextChangeAsNotPersistent, patternClientId, initialBlocks, replaceInnerBlocks, registry, getBlockEditingMode, setBlockEditingMode, syncDerivedUpdates]);
   const {
     alignment,
     layout
@@ -49055,6 +49064,9 @@ function ReusableBlockEdit({
   // Sync the `content` attribute from the updated blocks to the pattern block.
   // `syncDerivedUpdates` is used here to avoid creating an additional undo level.
   (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!hasPatternOverridesSource) {
+      return;
+    }
     const {
       getBlocks
     } = registry.select(external_wp_blockEditor_namespaceObject.store);
@@ -49070,7 +49082,7 @@ function ReusableBlockEdit({
         });
       }
     }, external_wp_blockEditor_namespaceObject.store);
-  }, [syncDerivedUpdates, patternClientId, registry, setAttributes]);
+  }, [hasPatternOverridesSource, syncDerivedUpdates, patternClientId, registry, setAttributes]);
   const handleEditOriginal = () => {
     onNavigateToEntityRecord({
       postId: ref,

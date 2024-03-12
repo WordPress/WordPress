@@ -36899,6 +36899,10 @@ function useMovingAnimation({
     });
     return () => {
       controller.stop();
+      controller.set({
+        x: 0,
+        y: 0
+      });
     };
   }, [previous, prevRect, clientId, isTyping, getGlobalBlockCount, isBlockSelected, isFirstMultiSelectedBlock, isBlockMultiSelected, isAncestorMultiSelected]);
   return ref;
@@ -50741,7 +50745,7 @@ const connection = (0,external_React_.createElement)(external_wp_primitives_name
   height: "24",
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg",
-  "fill-rule": "evenodd"
+  fillRule: "evenodd"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M5 19L8 16L5 19Z"
 }), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
@@ -63925,19 +63929,19 @@ function useGlobalStylesOutputWithConfig(mergedConfig = {}) {
   });
   const blockContext = (0,external_wp_element_namespaceObject.useContext)(block_context);
   const isTemplate = blockContext?.templateSlug !== undefined;
-  const getBlockStyles = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return select(external_wp_blocks_namespaceObject.store).getBlockStyles;
-  }, []);
+  const {
+    getBlockStyles
+  } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blocks_namespaceObject.store);
   return (0,external_wp_element_namespaceObject.useMemo)(() => {
-    var _mergedConfig$styles$;
+    var _updatedConfig$styles;
     if (!mergedConfig?.styles || !mergedConfig?.settings) {
       return [];
     }
-    mergedConfig = updateConfigWithSeparator(mergedConfig);
+    const updatedConfig = updateConfigWithSeparator(mergedConfig);
     const blockSelectors = getBlockSelectors((0,external_wp_blocks_namespaceObject.getBlockTypes)(), getBlockStyles);
-    const customProperties = toCustomProperties(mergedConfig, blockSelectors);
-    const globalStyles = toStyles(mergedConfig, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport, disableLayoutStyles, isTemplate);
-    const svgs = toSvgFilters(mergedConfig, blockSelectors);
+    const customProperties = toCustomProperties(updatedConfig, blockSelectors);
+    const globalStyles = toStyles(updatedConfig, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport, disableLayoutStyles, isTemplate);
+    const svgs = toSvgFilters(updatedConfig, blockSelectors);
     const styles = [{
       css: customProperties,
       isGlobalStyles: true
@@ -63947,7 +63951,7 @@ function useGlobalStylesOutputWithConfig(mergedConfig = {}) {
     },
     // Load custom CSS in own stylesheet so that any invalid CSS entered in the input won't break all the global styles in the editor.
     {
-      css: (_mergedConfig$styles$ = mergedConfig.styles.css) !== null && _mergedConfig$styles$ !== void 0 ? _mergedConfig$styles$ : '',
+      css: (_updatedConfig$styles = updatedConfig.styles.css) !== null && _updatedConfig$styles !== void 0 ? _updatedConfig$styles : '',
       isGlobalStyles: true
     }, {
       assets: svgs,
@@ -63959,16 +63963,16 @@ function useGlobalStylesOutputWithConfig(mergedConfig = {}) {
     // If there are, get the block selector and push the selector together with
     // the CSS value to the 'stylesheets' array.
     (0,external_wp_blocks_namespaceObject.getBlockTypes)().forEach(blockType => {
-      if (mergedConfig.styles.blocks[blockType.name]?.css) {
+      if (updatedConfig.styles.blocks[blockType.name]?.css) {
         const selector = blockSelectors[blockType.name].selector;
         styles.push({
-          css: processCSSNesting(mergedConfig.styles.blocks[blockType.name]?.css, selector),
+          css: processCSSNesting(updatedConfig.styles.blocks[blockType.name]?.css, selector),
           isGlobalStyles: true
         });
       }
     });
-    return [styles, mergedConfig.settings];
-  }, [hasBlockGapSupport, hasFallbackGapSupport, mergedConfig, disableLayoutStyles]);
+    return [styles, updatedConfig.settings];
+  }, [hasBlockGapSupport, hasFallbackGapSupport, mergedConfig, disableLayoutStyles, isTemplate, getBlockStyles]);
 }
 
 /**
