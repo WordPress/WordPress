@@ -426,7 +426,7 @@ class WP_Plugin_Dependencies {
 			wp_admin_notice(
 				sprintf(
 					'<p>%1$s</p><ul>%2$s</ul><p>%3$s</p>',
-					__( 'These plugins cannot be activated because their requirements are invalid. ' ),
+					__( 'These plugins cannot be activated because their requirements are invalid.' ),
 					$circular_dependency_lines,
 					__( 'Please contact the plugin authors for more information.' )
 				),
