@@ -72,28 +72,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Override specific content in synced patterns' ); ?></h3>
-				<p><?php _e( 'Keep your design consistent while bringing more flexibility to the content within. Choose to override content for Paragraph, Image, Heading, and Button blocks and make specified changes in each instance of a synced pattern. Use it for templated pieces with recurring elements to frame unique content, like recipes, testimonials, or case studies. You can expect more blocks to gain this option in future releases.' ); ?></p>
+				<h3><?php _e( 'Get more details from your style revisions' ); ?></h3>
+				<p><?php _e( 'Work through creative projects with a more comprehensive picture of what&#8217;s been done—and what you can fall back on. Get details like time stamps, quick summaries, and a paginated list of total revisions. View revisions from the Style Book to see changes outside of what you&#8217;re working on. Revisions are also now available for templates and template parts.' ); ?></p>
 			</div>
-			<div class="column is-vertically-aligned-center">
-				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.5/2-patterns-override-content.webp" alt="" height="436" width="436" />
-				</div>
-			</div>
-		</div>
-
-		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
 					<img src="https://s.w.org/images/core/6.5/3-style-revisions.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
-			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Get more details from your style revisions' ); ?></h3>
-				<p><?php _e( 'Work through creative projects with a more comprehensive picture of what&#8217;s been done—and what you can fall back on. Get details like time stamps, quick summaries, and a paginated list of total revisions. View revisions from the Style Book to see changes outside of what you&#8217;re working on. Revisions are also now available for templates and template parts.' ); ?></p>
-			</div>
 		</div>
-		
+
 		<div class="about__section has-3-columns">
 			<div class="column">
 				<div class="about__image">
@@ -260,7 +248,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: 1: WordPress Field Guide link, 2: WordPress version number. */
 						__( 'Explore the <a href="%1$s">WordPress %2$s Field Guide</a>. Learn about the changes in this release with detailed developer notes to help you build with WordPress.' ),
-						( '#' ),
+						esc_url( __( 'https://make.wordpress.org/core/wordpress-6-5-field-guide/' ) ),
 						'6.5'
 					);
 					?>
