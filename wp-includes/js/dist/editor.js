@@ -1414,7 +1414,6 @@ __webpack_require__.d(__webpack_exports__, {
   PostStickyCheck: () => (/* reexport */ PostStickyCheck),
   PostSwitchToDraftButton: () => (/* reexport */ PostSwitchToDraftButton),
   PostSyncStatus: () => (/* reexport */ PostSyncStatus),
-  PostSyncStatusModal: () => (/* reexport */ PostSyncStatusModal),
   PostTaxonomies: () => (/* reexport */ post_taxonomies),
   PostTaxonomiesCheck: () => (/* reexport */ PostTaxonomiesCheck),
   PostTaxonomiesFlatTermSelector: () => (/* reexport */ FlatTermSelector),
@@ -5328,8 +5327,8 @@ unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
 const {
   registerBlockBindingsSource
 } = unlock((0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store));
-registerBlockBindingsSource(pattern_overrides);
 registerBlockBindingsSource(post_meta);
+if (false) {}
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
@@ -13062,18 +13061,11 @@ function PostSwitchToDraftButton() {
 
 
 
-
-
-
 /**
  * Internal dependencies
  */
 
 
-
-const {
-  ReusableBlocksRenameHint
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function PostSyncStatus() {
   const {
     syncStatus,
@@ -13099,70 +13091,6 @@ function PostSyncStatus() {
   }, (0,external_React_.createElement)("div", {
     className: "editor-post-sync-status__value"
   }, syncStatus === 'unsynced' ? (0,external_wp_i18n_namespaceObject._x)('Not synced', 'Text that indicates that the pattern is not synchronized') : (0,external_wp_i18n_namespaceObject._x)('Synced', 'Text that indicates that the pattern is synchronized')));
-}
-function PostSyncStatusModal() {
-  const {
-    editPost
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
-  const [isModalOpen, setIsModalOpen] = (0,external_wp_element_namespaceObject.useState)(false);
-  const [syncType, setSyncType] = (0,external_wp_element_namespaceObject.useState)(undefined);
-  const {
-    postType,
-    isNewPost
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEditedPostAttribute,
-      isCleanNewPost
-    } = select(store_store);
-    return {
-      postType: getEditedPostAttribute('type'),
-      isNewPost: isCleanNewPost()
-    };
-  }, []);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (isNewPost && postType === 'wp_block') {
-      setIsModalOpen(true);
-    }
-    // We only want the modal to open when the page is first loaded.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const setSyncStatus = () => {
-    editPost({
-      meta: {
-        wp_pattern_sync_status: syncType
-      }
-    });
-  };
-  if (postType !== 'wp_block' || !isNewPost) {
-    return null;
-  }
-  return (0,external_React_.createElement)(external_React_.Fragment, null, isModalOpen && (0,external_React_.createElement)(external_wp_components_namespaceObject.Modal, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Set pattern sync status'),
-    onRequestClose: () => {
-      setIsModalOpen(false);
-    },
-    overlayClassName: "reusable-blocks-menu-items__convert-modal"
-  }, (0,external_React_.createElement)("form", {
-    onSubmit: event => {
-      event.preventDefault();
-      setIsModalOpen(false);
-      setSyncStatus();
-    }
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    spacing: "5"
-  }, (0,external_React_.createElement)(ReusableBlocksRenameHint, null), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToggleControl, {
-    label: (0,external_wp_i18n_namespaceObject._x)('Synced', 'Option that makes an individual pattern synchronized'),
-    help: (0,external_wp_i18n_namespaceObject.__)('Sync this pattern across multiple locations.'),
-    checked: !syncType,
-    onChange: () => {
-      setSyncType(!syncType ? 'unsynced' : undefined);
-    }
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    justify: "right"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    variant: "primary",
-    type: "submit"
-  }, (0,external_wp_i18n_namespaceObject.__)('Create')))))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-taxonomies/index.js
