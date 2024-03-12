@@ -175,7 +175,15 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					</svg>
 				</div>
 				<h3 style="margin-top:calc(var(--gap) * 0.75);margin-bottom:calc(var(--gap) * 0.5)"><?php _e( 'Explore improvements to the plugin experience' ); ?></h3>
-				<p><?php _e( 'There&#8217;s now an easier way to manage plugin dependencies. Plugin authors can supply a new <code>Requires Plugins</code> header with a comma-separated list of required plugin slugs, presenting users with links to install and activate those plugins first.' ); ?></p>
+				<p>
+					<?php
+					printf(
+						/* translators: %s: Requires Plugins */
+						__( 'There&#8217;s now an easier way to manage plugin dependencies. Plugin authors can supply a new %s header with a comma-separated list of required plugin slugs, presenting users with links to install and activate those plugins first.' ),
+						'<code>Requires Plugins</code>'
+					);
+					?>
+				</p>
 			</div>
 		</div>
 
