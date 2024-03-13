@@ -361,6 +361,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	public function next_tag( $query = null ) {
 		if ( null === $query ) {
 			while ( $this->step() ) {
+				if ( '#tag' !== $this->get_token_type() ) {
+					continue;
+				}
+
 				if ( ! $this->is_tag_closer() ) {
 					return true;
 				}
@@ -384,6 +388,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		if ( ! ( array_key_exists( 'breadcrumbs', $query ) && is_array( $query['breadcrumbs'] ) ) ) {
 			while ( $this->step() ) {
+				if ( '#tag' !== $this->get_token_type() ) {
+					continue;
+				}
+
 				if ( ! $this->is_tag_closer() ) {
 					return true;
 				}
@@ -405,6 +413,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		$match_offset = isset( $query['match_offset'] ) ? (int) $query['match_offset'] : 1;
 
 		while ( $match_offset > 0 && $this->step() ) {
+			if ( '#tag' !== $this->get_token_type() ) {
+				continue;
+			}
+
 			if ( $this->matches_breadcrumbs( $breadcrumbs ) && 0 === --$match_offset ) {
 				return true;
 			}
@@ -428,13 +440,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool
 	 */
 	public function next_token() {
-		$found_a_token = parent::next_token();
-
-		if ( '#tag' === $this->get_token_type() ) {
-			$this->step( self::PROCESS_CURRENT_NODE );
-		}
-
-		return $found_a_token;
+		return $this->step();
 	}
 
 	/**
@@ -463,10 +469,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether the currently-matched tag is found at the given nested structure.
 	 */
 	public function matches_breadcrumbs( $breadcrumbs ) {
-		if ( ! $this->get_tag() ) {
-			return false;
-		}
-
 		// Everything matches when there are zero constraints.
 		if ( 0 === count( $breadcrumbs ) ) {
 			return true;
@@ -529,25 +531,35 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 *        is provided in the opening tag, otherwise it expects a tag closer.
 			 */
 			$top_node = $this->state->stack_of_open_elements->current_node();
-			if ( $top_node && self::is_void( $top_node->node_name ) ) {
+			if (
+				$top_node && (
+					// Void elements.
+					self::is_void( $top_node->node_name ) ||
+					// Comments, text nodes, and other atomic tokens.
+					'#' === $top_node->node_name[0] ||
+					// Doctype declarations.
+					'html' === $top_node->node_name
+				)
+			) {
 				$this->state->stack_of_open_elements->pop();
 			}
 		}
 
 		if ( self::PROCESS_NEXT_NODE === $node_to_process ) {
-			while ( parent::next_token() && '#tag' !== $this->get_token_type() ) {
-				continue;
-			}
+			parent::next_token();
 		}
 
 		// Finish stepping when there are no more tokens in the document.
-		if ( null === $this->get_tag() ) {
+		if (
+			WP_HTML_Tag_Processor::STATE_INCOMPLETE_INPUT === $this->parser_state ||
+			WP_HTML_Tag_Processor::STATE_COMPLETE === $this->parser_state
+		) {
 			return false;
 		}
 
 		$this->state->current_token = new WP_HTML_Token(
-			$this->bookmark_tag(),
-			$this->get_tag(),
+			$this->bookmark_token(),
+			$this->get_token_name(),
 			$this->has_self_closing_flag(),
 			$this->release_internal_bookmark_on_destruct
 		);
@@ -591,10 +603,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string[]|null Array of tag names representing path to matched node, if matched, otherwise NULL.
 	 */
 	public function get_breadcrumbs() {
-		if ( ! $this->get_tag() ) {
-			return null;
-		}
-
 		$breadcrumbs = array();
 		foreach ( $this->state->stack_of_open_elements->walk_down() as $stack_item ) {
 			$breadcrumbs[] = $stack_item->node_name;
@@ -619,11 +627,61 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether an element was found.
 	 */
 	private function step_in_body() {
-		$tag_name = $this->get_tag();
-		$op_sigil = $this->is_tag_closer() ? '-' : '+';
-		$op       = "{$op_sigil}{$tag_name}";
+		$token_name = $this->get_token_name();
+		$token_type = $this->get_token_type();
+		$op_sigil   = '#tag' === $token_type ? ( $this->is_tag_closer() ? '-' : '+' ) : '';
+		$op         = "{$op_sigil}{$token_name}";
 
 		switch ( $op ) {
+			case '#comment':
+			case '#funky-comment':
+			case '#presumptuous-tag':
+				$this->insert_html_element( $this->state->current_token );
+				return true;
+
+			case '#text':
+				$this->reconstruct_active_formatting_elements();
+
+				$current_token = $this->bookmarks[ $this->state->current_token->bookmark_name ];
+
+				/*
+				 * > A character token that is U+0000 NULL
+				 *
+				 * Any successive sequence of NULL bytes is ignored and won't
+				 * trigger active format reconstruction. Therefore, if the text
+				 * only comprises NULL bytes then the token should be ignored
+				 * here, but if there are any other characters in the stream
+				 * the active formats should be reconstructed.
+				 */
+				if (
+					1 <= $current_token->length &&
+					"\x00" === $this->html[ $current_token->start ] &&
+					strspn( $this->html, "\x00", $current_token->start, $current_token->length ) === $current_token->length
+				) {
+					// Parse error: ignore the token.
+					return $this->step();
+				}
+
+				/*
+				 * Whitespace-only text does not affect the frameset-ok flag.
+				 * It is probably inter-element whitespace, but it may also
+				 * contain character references which decode only to whitespace.
+				 */
+				$text = $this->get_modifiable_text();
+				if ( strlen( $text ) !== strspn( $text, " \t\n\f\r" ) ) {
+					$this->state->frameset_ok = false;
+				}
+
+				$this->insert_html_element( $this->state->current_token );
+				return true;
+
+			case 'html':
+				/*
+				 * > A DOCTYPE token
+				 * > Parse error. Ignore the token.
+				 */
+				return $this->step();
+
 			/*
 			 * > A start tag whose tag name is "button"
 			 */
@@ -711,17 +769,17 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-SECTION':
 			case '-SUMMARY':
 			case '-UL':
-				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name ) ) {
+				if ( ! $this->state->stack_of_open_elements->has_element_in_scope( $token_name ) ) {
 					// @todo Report parse error.
 					// Ignore the token.
 					return $this->step();
 				}
 
 				$this->generate_implied_end_tags();
-				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $tag_name ) {
+				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $token_name ) {
 					// @todo Record parse error: this error doesn't impact parsing.
 				}
-				$this->state->stack_of_open_elements->pop_until( $tag_name );
+				$this->state->stack_of_open_elements->pop_until( $token_name );
 				return true;
 
 			/*
@@ -783,7 +841,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 				$this->generate_implied_end_tags();
 
-				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $tag_name ) {
+				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $token_name ) {
 					// @todo Record parse error: this error doesn't impact parsing.
 				}
 
@@ -799,7 +857,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '+LI':
 				$this->state->frameset_ok = false;
 				$node                     = $this->state->stack_of_open_elements->current_node();
-				$is_li                    = 'LI' === $tag_name;
+				$is_li                    = 'LI' === $token_name;
 
 				in_body_list_loop:
 				/*
@@ -862,7 +920,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					 * then this is a parse error; ignore the token.
 					 */
 					(
-						'LI' === $tag_name &&
+						'LI' === $token_name &&
 						! $this->state->stack_of_open_elements->has_element_in_list_item_scope( 'LI' )
 					) ||
 					/*
@@ -872,8 +930,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					 * parse error; ignore the token.
 					 */
 					(
-						'LI' !== $tag_name &&
-						! $this->state->stack_of_open_elements->has_element_in_scope( $tag_name )
+						'LI' !== $token_name &&
+						! $this->state->stack_of_open_elements->has_element_in_scope( $token_name )
 					)
 				) {
 					/*
@@ -884,13 +942,13 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					return $this->step();
 				}
 
-				$this->generate_implied_end_tags( $tag_name );
+				$this->generate_implied_end_tags( $token_name );
 
-				if ( $tag_name !== $this->state->stack_of_open_elements->current_node()->node_name ) {
+				if ( $token_name !== $this->state->stack_of_open_elements->current_node()->node_name ) {
 					// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
 				}
 
-				$this->state->stack_of_open_elements->pop_until( $tag_name );
+				$this->state->stack_of_open_elements->pop_until( $token_name );
 				return true;
 
 			/*
@@ -1043,7 +1101,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 *
 		 * @see https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inbody
 		 */
-		switch ( $tag_name ) {
+		switch ( $token_name ) {
 			case 'APPLET':
 			case 'BASE':
 			case 'BASEFONT':
@@ -1091,7 +1149,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case 'TR':
 			case 'XMP':
 				$this->last_error = self::ERROR_UNSUPPORTED;
-				throw new WP_HTML_Unsupported_Exception( "Cannot process {$tag_name} element." );
+				throw new WP_HTML_Unsupported_Exception( "Cannot process {$token_name} element." );
 		}
 
 		if ( ! $this->is_tag_closer() ) {
@@ -1113,7 +1171,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 * close anything beyond its containing `P` or `DIV` element.
 			 */
 			foreach ( $this->state->stack_of_open_elements->walk_up() as $node ) {
-				if ( $tag_name === $node->node_name ) {
+				if ( $token_name === $node->node_name ) {
 					break;
 				}
 
@@ -1123,7 +1181,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 			}
 
-			$this->generate_implied_end_tags( $tag_name );
+			$this->generate_implied_end_tags( $token_name );
 			if ( $node !== $this->state->stack_of_open_elements->current_node() ) {
 				// @todo Record parse error: this error doesn't impact parsing.
 			}
@@ -1142,19 +1200,16 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 
 	/**
-	 * Creates a new bookmark for the currently-matched tag and returns the generated name.
+	 * Creates a new bookmark for the currently-matched token and returns the generated name.
 	 *
 	 * @since 6.4.0
+	 * @since 6.5.0 Renamed from bookmark_tag() to bookmark_token().
 	 *
 	 * @throws Exception When unable to allocate requested bookmark.
 	 *
 	 * @return string|false Name of created bookmark, or false if unable to create.
 	 */
-	private function bookmark_tag() {
-		if ( ! $this->get_tag() ) {
-			return false;
-		}
-
+	private function bookmark_token() {
 		if ( ! parent::set_bookmark( ++$this->bookmark_counter ) ) {
 			$this->last_error = self::ERROR_EXCEEDED_MAX_BOOKMARKS;
 			throw new Exception( 'could not allocate bookmark' );
