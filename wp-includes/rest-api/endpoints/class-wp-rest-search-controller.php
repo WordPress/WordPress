@@ -395,7 +395,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 	protected function get_search_handler( $request ) {
 		$type = $request->get_param( self::PROP_TYPE );
 
-		if ( ! $type || ! isset( $this->search_handlers[ $type ] ) ) {
+		if ( ! $type || ! is_string( $type ) || ! isset( $this->search_handlers[ $type ] ) ) {
 			return new WP_Error(
 				'rest_search_invalid_type',
 				__( 'Invalid type parameter.' ),
