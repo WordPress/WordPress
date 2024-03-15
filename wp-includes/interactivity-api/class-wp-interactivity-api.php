@@ -591,7 +591,13 @@ final class WP_Interactivity_API {
 				$attribute_value = $p->get_attribute( $attribute_name );
 				$result          = $this->evaluate( $attribute_value, end( $namespace_stack ), end( $context_stack ) );
 
-				if ( null !== $result && ( false !== $result || '-' === $bound_attribute[4] ) ) {
+				if (
+					null !== $result &&
+					(
+						false !== $result ||
+						( strlen( $bound_attribute ) > 5 && '-' === $bound_attribute[4] )
+					)
+				) {
 					/*
 					 * If the result of the evaluation is a boolean and the attribute is
 					 * `aria-` or `data-, convert it to a string "true" or "false". It
@@ -599,7 +605,10 @@ final class WP_Interactivity_API {
 					 * replicate what Preact will later do in the client:
 					 * https://github.com/preactjs/preact/blob/ea49f7a0f9d1ff2c98c0bdd66aa0cbc583055246/src/diff/props.js#L131C24-L136
 					 */
-					if ( is_bool( $result ) && '-' === $bound_attribute[4] ) {
+					if (
+						is_bool( $result ) &&
+						( strlen( $bound_attribute ) > 5 && '-' === $bound_attribute[4] )
+					) {
 						$result = $result ? 'true' : 'false';
 					}
 					$p->set_attribute( $bound_attribute, $result );
