@@ -140,20 +140,36 @@ final class WP_Interactivity_API {
 	 * @since 6.5.0
 	 */
 	public function print_client_interactivity_data() {
-		$store      = array();
-		$has_state  = ! empty( $this->state_data );
-		$has_config = ! empty( $this->config_data );
+		if ( empty( $this->state_data ) && empty( $this->config_data ) ) {
+			return;
+		}
 
-		if ( $has_state || $has_config ) {
-			if ( $has_config ) {
-				$store['config'] = $this->config_data;
+		$interactivity_data = array();
+
+		$config = array();
+		foreach ( $this->config_data as $key => $value ) {
+			if ( ! empty( $value ) ) {
+				$config[ $key ] = $value;
 			}
-			if ( $has_state ) {
-				$store['state'] = $this->state_data;
+		}
+		if ( ! empty( $config ) ) {
+			$interactivity_data['config'] = $config;
+		}
+
+		$state = array();
+		foreach ( $this->state_data as $key => $value ) {
+			if ( ! empty( $value ) ) {
+				$state[ $key ] = $value;
 			}
+		}
+		if ( ! empty( $state ) ) {
+			$interactivity_data['state'] = $state;
+		}
+
+		if ( ! empty( $interactivity_data ) ) {
 			wp_print_inline_script_tag(
 				wp_json_encode(
-					$store,
+					$interactivity_data,
 					JSON_HEX_TAG | JSON_HEX_AMP
 				),
 				array(
