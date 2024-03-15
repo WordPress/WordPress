@@ -192,7 +192,7 @@ function twentytwenty_register_styles() {
 	wp_style_add_data( 'twentytwenty-style', 'rtl', 'replace' );
 
 	// Enqueue the CSS file for the variable font, Inter.
-	wp_enqueue_style( 'twentytwenty-fonts', get_theme_file_uri( '/assets/css/font-inter.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
+	wp_enqueue_style( 'twentytwenty-fonts', get_theme_file_uri( '/assets/css/font-inter.css' ), array(), $theme_version, 'all' );
 
 	// Add output of Customizer settings as inline style.
 	$customizer_css = twentytwenty_get_customizer_css( 'front-end' );
@@ -425,8 +425,10 @@ add_action( 'widgets_init', 'twentytwenty_sidebar_registration' );
  */
 function twentytwenty_block_editor_styles() {
 
+	$theme_version = wp_get_theme()->get( 'Version' );
+
 	// Enqueue the editor styles.
-	wp_enqueue_style( 'twentytwenty-block-editor-styles', get_theme_file_uri( '/assets/css/editor-style-block.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
+	wp_enqueue_style( 'twentytwenty-block-editor-styles', get_theme_file_uri( '/assets/css/editor-style-block.css' ), array(), $theme_version, 'all' );
 	wp_style_add_data( 'twentytwenty-block-editor-styles', 'rtl', 'replace' );
 
 	// Add inline style from the Customizer.
@@ -436,7 +438,7 @@ function twentytwenty_block_editor_styles() {
 	}
 
 	// Enqueue the CSS file for the variable font, Inter.
-	wp_enqueue_style( 'twentytwenty-fonts', get_theme_file_uri( '/assets/css/font-inter.css' ), array(), wp_get_theme()->get( 'Version' ), 'all' );
+	wp_enqueue_style( 'twentytwenty-fonts', get_theme_file_uri( '/assets/css/font-inter.css' ), array(), $theme_version, 'all' );
 
 	// Add inline style for non-latin fonts.
 	$custom_css = TwentyTwenty_Non_Latin_Languages::get_non_latin_css( 'block-editor' );
