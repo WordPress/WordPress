@@ -6868,6 +6868,7 @@ function wp_mime_type_icon( $mime = 0, $preferred_ext = '.png' ) {
 			 */
 			$dirs       = apply_filters( 'icon_dirs', array( $icon_dir => $icon_dir_uri ) );
 			$icon_files = array();
+			$all_icons  = array();
 			while ( $dirs ) {
 				$keys = array_keys( $dirs );
 				$dir  = array_shift( $keys );
@@ -6887,12 +6888,17 @@ function wp_mime_type_icon( $mime = 0, $preferred_ext = '.png' ) {
 							}
 							continue;
 						}
+						$all_icons[ "$dir/$file" ] = "$uri/$file";
 						if ( $ext === $preferred_ext ) {
 							$icon_files[ "$dir/$file" ] = "$uri/$file";
 						}
 					}
 					closedir( $dh );
 				}
+			}
+			// If directory only contained icons of a non-preferred format, return those.
+			if ( empty( $icon_files ) ) {
+				$icon_files = $all_icons;
 			}
 			wp_cache_add( 'icon_files', $icon_files, 'default', 600 );
 		}
