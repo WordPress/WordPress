@@ -191,7 +191,7 @@ class WP_Script_Modules {
 			wp_print_script_tag(
 				array(
 					'type' => 'module',
-					'src'  => $this->get_versioned_src( $script_module ),
+					'src'  => $this->get_src( $id ),
 					'id'   => $id . '-js-module',
 				)
 			);
@@ -212,7 +212,7 @@ class WP_Script_Modules {
 			if ( true !== $script_module['enqueue'] ) {
 				echo sprintf(
 					'<link rel="modulepreload" href="%s" id="%s">',
-					esc_url( $this->get_versioned_src( $script_module ) ),
+					esc_url( $this->get_src( $id ) ),
 					esc_attr( $id . '-js-modulepreload' )
 				);
 			}
@@ -264,7 +264,7 @@ class WP_Script_Modules {
 	private function get_import_map(): array {
 		$imports = array();
 		foreach ( $this->get_dependencies( array_keys( $this->get_marked_for_enqueue() ) ) as $id => $script_module ) {
-			$imports[ $id ] = $this->get_versioned_src( $script_module );
+			$imports[ $id ] = $this->get_src( $id );
 		}
 		return array( 'imports' => $imports );
 	}
@@ -331,19 +331,33 @@ class WP_Script_Modules {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param array $script_module The script module.
+	 * @param string $id The script module identifier.
 	 * @return string The script module src with a version if relevant.
 	 */
-	private function get_versioned_src( array $script_module ): string {
-		$args = array();
+	private function get_src( string $id ): string {
+		if ( ! isset( $this->registered[ $id ] ) ) {
+			return '';
+		}
+
+		$script_module = $this->registered[ $id ];
+		$src           = $script_module['src'];
+
 		if ( false === $script_module['version'] ) {
-			$args['ver'] = get_bloginfo( 'version' );
+			$src = add_query_arg( 'ver', get_bloginfo( 'version' ), $src );
 		} elseif ( null !== $script_module['version'] ) {
-			$args['ver'] = $script_module['version'];
+			$src = add_query_arg( 'ver', $script_module['version'], $src );
 		}
-		if ( $args ) {
-			return add_query_arg( $args, $script_module['src'] );
-		}
-		return $script_module['src'];
+
+		/**
+		 * Filters the script module source.
+		 *
+		 * @since 6.5.0
+		 *
+		 * @param string $src Module source url.
+		 * @param string $id  Module identifier.
+		 */
+		$src = apply_filters( 'script_module_loader_src', $src, $id );
+
+		return $src;
 	}
 }
