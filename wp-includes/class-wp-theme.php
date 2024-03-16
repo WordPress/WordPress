@@ -352,7 +352,7 @@ final class WP_Theme implements ArrayAccess {
 			 */
 			$default_theme_slug = array_search( $this->headers['Name'], self::$default_themes, true );
 			if ( $default_theme_slug ) {
-				if ( basename( $this->stylesheet ) != $default_theme_slug ) {
+				if ( basename( $this->stylesheet ) !== $default_theme_slug ) {
 					$this->headers['Name'] .= '/' . $this->stylesheet;
 				}
 			}
@@ -417,7 +417,10 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		// If we got our data from cache, we can assume that 'template' is pointing to the right place.
-		if ( ! is_array( $cache ) && $this->template != $this->stylesheet && ! file_exists( $this->theme_root . '/' . $this->template . '/index.php' ) ) {
+		if ( ! is_array( $cache )
+			&& $this->template !== $this->stylesheet
+			&& ! file_exists( $this->theme_root . '/' . $this->template . '/index.php' )
+		) {
 			/*
 			 * If we're in a directory of themes inside /themes, look for the parent nearby.
 			 * wp-content/themes/directory-of-themes/*
@@ -425,7 +428,9 @@ final class WP_Theme implements ArrayAccess {
 			$parent_dir  = dirname( $this->stylesheet );
 			$directories = search_theme_directories();
 
-			if ( '.' !== $parent_dir && file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' ) ) {
+			if ( '.' !== $parent_dir
+				&& file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' )
+			) {
 				$this->template = $parent_dir . '/' . $this->template;
 			} elseif ( $directories && isset( $directories[ $this->template ] ) ) {
 				/*
@@ -460,9 +465,9 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		// Set the parent, if we're a child theme.
-		if ( $this->template != $this->stylesheet ) {
+		if ( $this->template !== $this->stylesheet ) {
 			// If we are a parent, then there is a problem. Only two generations allowed! Cancel things out.
-			if ( $_child instanceof WP_Theme && $_child->template == $this->stylesheet ) {
+			if ( $_child instanceof WP_Theme && $_child->template === $this->stylesheet ) {
 				$_child->parent = null;
 				$_child->errors = new WP_Error(
 					'theme_parent_invalid',
@@ -484,7 +489,7 @@ final class WP_Theme implements ArrayAccess {
 					)
 				);
 				// The two themes actually reference each other with the Template header.
-				if ( $_child->stylesheet == $this->template ) {
+				if ( $_child->stylesheet === $this->template ) {
 					$this->errors = new WP_Error(
 						'theme_parent_invalid',
 						sprintf(
@@ -1714,7 +1719,7 @@ final class WP_Theme implements ArrayAccess {
 			return (array) apply_filters( 'site_allowed_themes', $allowed_themes[ $blog_id ], $blog_id );
 		}
 
-		$current = get_current_blog_id() == $blog_id;
+		$current = get_current_blog_id() === $blog_id;
 
 		if ( $current ) {
 			$allowed_themes[ $blog_id ] = get_option( 'allowedthemes' );
