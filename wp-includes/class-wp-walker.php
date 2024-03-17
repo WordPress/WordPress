@@ -147,7 +147,7 @@ class Walker {
 		$this->start_el( $output, $element, $depth, ...array_values( $args ) );
 
 		// Descend only when the depth is right and there are children for this element.
-		if ( ( 0 == $max_depth || $max_depth > $depth + 1 ) && isset( $children_elements[ $id ] ) ) {
+		if ( ( 0 === $max_depth || $max_depth > $depth + 1 ) && isset( $children_elements[ $id ] ) ) {
 
 			foreach ( $children_elements[ $id ] as $child ) {
 
@@ -199,7 +199,7 @@ class Walker {
 		$parent_field = $this->db_fields['parent'];
 
 		// Flat display.
-		if ( -1 == $max_depth ) {
+		if ( -1 === $max_depth ) {
 			$empty_array = array();
 			foreach ( $elements as $e ) {
 				$this->display_element( $e, $empty_array, 1, 0, $args, $output );
@@ -235,7 +235,7 @@ class Walker {
 			$top_level_elements = array();
 			$children_elements  = array();
 			foreach ( $elements as $e ) {
-				if ( $root->$parent_field == $e->$parent_field ) {
+				if ( $root->$parent_field === $e->$parent_field ) {
 					$top_level_elements[] = $e;
 				} else {
 					$children_elements[ $e->$parent_field ][] = $e;
@@ -251,7 +251,7 @@ class Walker {
 		 * If we are displaying all levels, and remaining children_elements is not empty,
 		 * then we got orphans, which should be displayed regardless.
 		 */
-		if ( ( 0 == $max_depth ) && count( $children_elements ) > 0 ) {
+		if ( ( 0 === $max_depth ) && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans ) {
 				foreach ( $orphans as $op ) {
@@ -294,14 +294,14 @@ class Walker {
 		$parent_field = $this->db_fields['parent'];
 
 		$count = -1;
-		if ( -1 == $max_depth ) {
+		if ( -1 === $max_depth ) {
 			$total_top = count( $elements );
 		}
 		if ( $page_num < 1 || $per_page < 0 ) {
 			// No paging.
 			$paging = false;
 			$start  = 0;
-			if ( -1 == $max_depth ) {
+			if ( -1 === $max_depth ) {
 				$end = $total_top;
 			}
 			$this->max_pages = 1;
@@ -309,13 +309,13 @@ class Walker {
 			$paging = true;
 			$start  = ( (int) $page_num - 1 ) * (int) $per_page;
 			$end    = $start + $per_page;
-			if ( -1 == $max_depth ) {
+			if ( -1 === $max_depth ) {
 				$this->max_pages = (int) ceil( $total_top / $per_page );
 			}
 		}
 
 		// Flat display.
-		if ( -1 == $max_depth ) {
+		if ( -1 === $max_depth ) {
 			if ( ! empty( $args[0]['reverse_top_level'] ) ) {
 				$elements = array_reverse( $elements );
 				$oldstart = $start;
