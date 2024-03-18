@@ -278,7 +278,7 @@ class Walker_Comment extends Walker {
 		$commenter          = wp_get_current_commenter();
 		$show_pending_links = ! empty( $commenter['comment_author'] );
 
-		if ( $comment && '0' == $comment->comment_approved && ! $show_pending_links ) {
+		if ( $comment && '0' === $comment->comment_approved && ! $show_pending_links ) {
 			$comment_text = wp_kses( $comment_text, array() );
 		}
 
@@ -320,14 +320,14 @@ class Walker_Comment extends Walker {
 		<?php endif; ?>
 		<div class="comment-author vcard">
 			<?php
-			if ( 0 != $args['avatar_size'] ) {
+			if ( 0 !== $args['avatar_size'] ) {
 				echo get_avatar( $comment, $args['avatar_size'] );
 			}
 			?>
 			<?php
 			$comment_author = get_comment_author_link( $comment );
 
-			if ( '0' == $comment->comment_approved && ! $show_pending_links ) {
+			if ( '0' === $comment->comment_approved && ! $show_pending_links ) {
 				$comment_author = get_comment_author( $comment );
 			}
 
@@ -338,7 +338,7 @@ class Walker_Comment extends Walker {
 			);
 			?>
 		</div>
-		<?php if ( '0' == $comment->comment_approved ) : ?>
+		<?php if ( '0' === $comment->comment_approved ) : ?>
 		<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
 		<br />
 		<?php endif; ?>
@@ -423,14 +423,14 @@ class Walker_Comment extends Walker {
 				<footer class="comment-meta">
 					<div class="comment-author vcard">
 						<?php
-						if ( 0 != $args['avatar_size'] ) {
+						if ( 0 !== $args['avatar_size'] ) {
 							echo get_avatar( $comment, $args['avatar_size'] );
 						}
 						?>
 						<?php
 						$comment_author = get_comment_author_link( $comment );
 
-						if ( '0' == $comment->comment_approved && ! $show_pending_links ) {
+						if ( '0' === $comment->comment_approved && ! $show_pending_links ) {
 							$comment_author = get_comment_author( $comment );
 						}
 
@@ -460,7 +460,7 @@ class Walker_Comment extends Walker {
 						?>
 					</div><!-- .comment-metadata -->
 
-					<?php if ( '0' == $comment->comment_approved ) : ?>
+					<?php if ( '0' === $comment->comment_approved ) : ?>
 					<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
 					<?php endif; ?>
 				</footer><!-- .comment-meta -->
@@ -470,7 +470,7 @@ class Walker_Comment extends Walker {
 				</div><!-- .comment-content -->
 
 				<?php
-				if ( '1' == $comment->comment_approved || $show_pending_links ) {
+				if ( '1' === $comment->comment_approved || $show_pending_links ) {
 					comment_reply_link(
 						array_merge(
 							$args,
