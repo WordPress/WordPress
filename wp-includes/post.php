@@ -3555,6 +3555,19 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	/**
 	 * Fires immediately before a post is deleted from the database.
 	 *
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to
+	 * the post type slug.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param int     $postid Post ID.
+	 * @param WP_Post $post   Post object.
+	 */
+	do_action( "delete_post_{$post->post_type}", $postid, $post );
+
+	/**
+	 * Fires immediately before a post is deleted from the database.
+	 *
 	 * @since 1.2.0
 	 * @since 5.5.0 Added the `$post` parameter.
 	 *
@@ -3567,6 +3580,19 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	if ( ! $result ) {
 		return false;
 	}
+
+	/**
+	 * Fires immediately after a post is deleted from the database.
+	 *
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to
+	 * the post type slug.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param int     $postid Post ID.
+	 * @param WP_Post $post   Post object.
+	 */
+	do_action( "deleted_post_{$post->post_type}", $postid, $post );
 
 	/**
 	 * Fires immediately after a post is deleted from the database.
