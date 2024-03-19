@@ -3578,10 +3578,10 @@ function wp_delete_post( $post_id = 0, $force_delete = false ) {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @param int     $postid Post ID.
-	 * @param WP_Post $post   Post object.
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
 	 */
-	do_action( "delete_post_{$post->post_type}", $postid, $post );
+	do_action( "delete_post_{$post->post_type}", $post_id, $post );
 
 	/**
 	 * Fires immediately before a post is deleted from the database.
@@ -3607,10 +3607,10 @@ function wp_delete_post( $post_id = 0, $force_delete = false ) {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @param int     $postid Post ID.
-	 * @param WP_Post $post   Post object.
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
 	 */
-	do_action( "deleted_post_{$post->post_type}", $postid, $post );
+	do_action( "deleted_post_{$post->post_type}", $post_id, $post );
 
 	/**
 	 * Fires immediately after a post is deleted from the database.
