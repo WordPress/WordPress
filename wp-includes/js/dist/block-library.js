@@ -24121,14 +24121,15 @@ const heading_settings = {
       level
     } = attributes;
     const customName = attributes?.metadata?.name;
+    const hasContent = content?.length > 0;
 
     // In the list view, use the block's content as the label.
     // If the content is empty, fall back to the default label.
-    if (context === 'list-view' && (customName || content)) {
-      return attributes?.metadata?.name || content;
+    if (context === 'list-view' && (customName || hasContent)) {
+      return customName || content;
     }
     if (context === 'accessibility') {
-      return !content || content.length === 0 ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. %s: heading level. */
+      return !hasContent ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. %s: heading level. */
       (0,external_wp_i18n_namespaceObject.__)('Level %s. Empty.'), level) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. 1: heading level. 2: heading content. */
       (0,external_wp_i18n_namespaceObject.__)('Level %1$s. %2$s'), level, content);
     }
@@ -34830,12 +34831,7 @@ function Navigation({
   const [detectedOverlayBackgroundColor, setDetectedOverlayBackgroundColor] = (0,external_wp_element_namespaceObject.useState)();
   const [detectedOverlayColor, setDetectedOverlayColor] = (0,external_wp_element_namespaceObject.useState)();
   const onSelectClassicMenu = async classicMenu => {
-    const navMenu = await convertClassicMenu(classicMenu.id, classicMenu.name, 'draft');
-    if (navMenu) {
-      handleUpdateMenu(navMenu.id, {
-        focusNavigationBlock: true
-      });
-    }
+    return convertClassicMenu(classicMenu.id, classicMenu.name, 'draft');
   };
   const onSelectNavigationMenu = menuId => {
     handleUpdateMenu(menuId);
@@ -34862,11 +34858,14 @@ function Navigation({
     }
     if (classicMenuConversionStatus === CLASSIC_MENU_CONVERSION_SUCCESS) {
       showClassicMenuConversionNotice((0,external_wp_i18n_namespaceObject.__)('Classic menu imported successfully.'));
+      handleUpdateMenu(createNavigationMenuPost?.id, {
+        focusNavigationBlock: true
+      });
     }
     if (classicMenuConversionStatus === CLASSIC_MENU_CONVERSION_ERROR) {
       showClassicMenuConversionNotice((0,external_wp_i18n_namespaceObject.__)('Classic menu import failed.'));
     }
-  }, [classicMenuConversionStatus, classicMenuConversionError, hideClassicMenuConversionNotice, showClassicMenuConversionNotice]);
+  }, [classicMenuConversionStatus, classicMenuConversionError, hideClassicMenuConversionNotice, showClassicMenuConversionNotice, createNavigationMenuPost?.id, handleUpdateMenu]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!enableContrastChecking) {
       return;
@@ -35132,16 +35131,14 @@ function Navigation({
   }), (0,external_React_namespaceObject.createElement)(manage_menus_button, {
     disabled: isManageMenusButtonDisabled,
     className: "wp-block-navigation-manage-menus-button"
-  })), isLoading && (0,external_React_namespaceObject.createElement)(TagName, {
-    ...blockProps
-  }, (0,external_React_namespaceObject.createElement)("div", {
+  })), (0,external_React_namespaceObject.createElement)(TagName, {
+    ...blockProps,
+    "aria-describedby": !isPlaceholder && !isLoading ? accessibleDescriptionId : undefined
+  }, isLoading && (0,external_React_namespaceObject.createElement)("div", {
     className: "wp-block-navigation__loading-indicator-container"
   }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, {
     className: "wp-block-navigation__loading-indicator"
-  }))), !isLoading && (0,external_React_namespaceObject.createElement)(TagName, {
-    ...blockProps,
-    "aria-describedby": !isPlaceholder ? accessibleDescriptionId : undefined
-  }, (0,external_React_namespaceObject.createElement)(AccessibleMenuDescription, {
+  })), !isLoading && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(AccessibleMenuDescription, {
     id: accessibleDescriptionId
   }), (0,external_React_namespaceObject.createElement)(ResponsiveWrapper, {
     id: clientId,
@@ -35158,7 +35155,7 @@ function Navigation({
     hasCustomPlaceholder: !!CustomPlaceholder,
     templateLock: templateLock,
     orientation: orientation
-  })))));
+  }))))));
 }
 /* harmony default export */ const navigation_edit = ((0,external_wp_blockEditor_namespaceObject.withColors)({
   textColor: 'color'
@@ -36238,6 +36235,7 @@ function NavigationLinkEdit({
   } = getColors(context, !isTopLevelLink);
   function onKeyDown(event) {
     if (external_wp_keycodes_namespaceObject.isKeyboardEvent.primary(event, 'k') || (!url || isDraft || isInvalid) && event.keyCode === external_wp_keycodes_namespaceObject.ENTER) {
+      event.preventDefault();
       setIsLinkOpen(true);
     }
   }
@@ -37064,6 +37062,7 @@ function NavigationSubmenuEdit({
   } = getColors(context, parentCount > 0);
   function onKeyDown(event) {
     if (external_wp_keycodes_namespaceObject.isKeyboardEvent.primary(event, 'k')) {
+      event.preventDefault();
       setIsLinkOpen(true);
     }
   }

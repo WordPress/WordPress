@@ -265,7 +265,7 @@ function store(namespace, {
       storeLocks.set(namespace, lock);
     }
     const rawStore = {
-      state: deepsignal_module_g(state),
+      state: deepsignal_module_g(isObject(state) ? state : {}),
       ...block
     };
     const proxiedStore = new Proxy(rawStore, handlers);
@@ -496,8 +496,14 @@ const directive = (name, callback, {
 
 // Resolve the path to some property of the store object.
 const resolve = (path, namespace) => {
+  let resolvedStore = stores.get(namespace);
+  if (typeof resolvedStore === 'undefined') {
+    resolvedStore = store(namespace, undefined, {
+      lock: universalUnlock
+    });
+  }
   let current = {
-    ...stores.get(namespace),
+    ...resolvedStore,
     context: getScope().context[namespace]
   };
   path.split('.').forEach(p => current = current[p]);

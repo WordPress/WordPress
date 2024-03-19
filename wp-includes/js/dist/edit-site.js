@@ -26533,6 +26533,9 @@ function formatFontFamily(input) {
  * formatFontFaceName(", 'Open Sans', 'Helvetica Neue', sans-serif") => "Open Sans"
  */
 function formatFontFaceName(input) {
+  if (!input) {
+    return '';
+  }
   let output = input.trim();
   if (output.includes(',')) {
     output = output.split(',')
@@ -26703,7 +26706,7 @@ async function loadFontFaceInBrowser(fontFace, source, addTo = 'all') {
 function unloadFontFaceInBrowser(fontFace, removeFrom = 'all') {
   const unloadFontFace = fonts => {
     fonts.forEach(f => {
-      if (f.family === formatFontFaceName(fontFace.fontFamily) && f.weight === fontFace.fontWeight && f.style === fontFace.fontStyle) {
+      if (f.family === formatFontFaceName(fontFace?.fontFamily) && f.weight === fontFace?.fontWeight && f.style === fontFace?.fontStyle) {
         fonts.delete(f);
       }
     });
@@ -27126,8 +27129,15 @@ function FontLibraryProvider({
         if (sucessfullyInstalledFontFaces?.length > 0 || alreadyInstalledFontFaces?.length > 0) {
           fontFamilyToInstall.fontFace = [...sucessfullyInstalledFontFaces, ...alreadyInstalledFontFaces];
           fontFamiliesToActivate.push(fontFamilyToInstall);
-        } else if (isANewFontFamily) {
-          // If the font family is new, delete it to avoid having font families without font faces.
+        }
+
+        // If it's a system font but was installed successfully, activate it.
+        if (installedFontFamily && !fontFamilyToInstall?.fontFace?.length) {
+          fontFamiliesToActivate.push(installedFontFamily);
+        }
+
+        // If the font family is new and is not a system font, delete it to avoid having font families without font faces.
+        if (isANewFontFamily && fontFamilyToInstall?.fontFace?.length > 0 && sucessfullyInstalledFontFaces?.length === 0) {
           await fetchUninstallFontFamily(installedFontFamily.id);
         }
         installationErrors = installationErrors.concat(unsucessfullyInstalledFontFaces);
@@ -27218,9 +27228,9 @@ function FontLibraryProvider({
       ...fontFamilies,
       [font.source]: newFonts
     });
-    const isFaceActivated = isFontActivated(font.slug, face.fontStyle, face.fontWeight, font.source);
+    const isFaceActivated = isFontActivated(font.slug, face?.fontStyle, face?.fontWeight, font.source);
     if (isFaceActivated) {
-      loadFontFaceInBrowser(face, getDisplaySrcFromFontFace(face.src), 'all');
+      loadFontFaceInBrowser(face, getDisplaySrcFromFontFace(face?.src), 'all');
     } else {
       unloadFontFaceInBrowser(face, 'all');
     }
