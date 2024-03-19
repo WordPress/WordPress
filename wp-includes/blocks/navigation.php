@@ -135,9 +135,9 @@ class WP_Navigation_Block_Renderer {
 			if ( static::does_block_need_a_list_item_wrapper( $inner_block ) ) {
 				return '<li class="wp-block-navigation-item">' . $inner_block_content . '</li>';
 			}
-
-			return $inner_block_content;
 		}
+
+		return $inner_block_content;
 	}
 
 	/**
@@ -1464,6 +1464,14 @@ function block_core_navigation_set_ignored_hooked_blocks_metadata( $inner_blocks
  * @return stdClass The updated post object.
  */
 function block_core_navigation_update_ignore_hooked_blocks_meta( $post ) {
+	/*
+	 * In this scenario the user has likely tried to create a navigation via the REST API.
+	 * In which case we won't have a post ID to work with and store meta against.
+	 */
+	if ( empty( $post->ID ) ) {
+		return $post;
+	}
+
 	/*
 	 * We run the Block Hooks mechanism to inject the `metadata.ignoredHookedBlocks` attribute into
 	 * all anchor blocks. For the root level, we create a mock Navigation and extract them from there.
