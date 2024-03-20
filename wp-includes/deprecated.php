@@ -996,11 +996,11 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
 
-		if ( $row->link_image != null && $show_images ) {
+		if ( '' != $row->link_image && $show_images ) {
 			if ( str_contains( $row->link_image, 'http' ) )
-				$output .= "<img src=\"$row->link_image\" $alt $title />";
+				$output .= '<img src="' . $row->link_image . '"' . $alt . $title . ' />';
 			else // If it's a relative path.
-				$output .= "<img src=\"" . get_option('siteurl') . "$row->link_image\" $alt $title />";
+				$output .= '<img src="' . get_option('siteurl') . $row->link_image . '"' . $alt . $title . ' />';
 		} else {
 			$output .= $name;
 		}
