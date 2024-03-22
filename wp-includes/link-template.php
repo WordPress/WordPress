@@ -391,7 +391,7 @@ function get_post_permalink( $post = 0, $leavename = false, $sample = false ) {
 function get_page_link( $post = false, $leavename = false, $sample = false ) {
 	$post = get_post( $post );
 
-	if ( 'page' === get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $post->ID ) {
+	if ( 'page' === get_option( 'show_on_front' ) && (int) get_option( 'page_on_front' ) === $post->ID ) {
 		$link = home_url( '/' );
 	} else {
 		$link = _get_page_link( $post, $leavename, $sample );
@@ -701,7 +701,7 @@ function get_feed_link( $feed = '' ) {
 			$permalink = $wp_rewrite->get_comment_feed_permastruct();
 		}
 
-		if ( get_default_feed() == $feed ) {
+		if ( get_default_feed() === $feed ) {
 			$feed = '';
 		}
 
@@ -763,7 +763,7 @@ function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 	$unattached = 'attachment' === $post->post_type && 0 === (int) $post->post_parent;
 
 	if ( get_option( 'permalink_structure' ) ) {
-		if ( 'page' === get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $post_id ) {
+		if ( 'page' === get_option( 'show_on_front' ) && (int) get_option( 'page_on_front' ) === $post_id ) {
 			$url = _get_page_link( $post_id );
 		} else {
 			$url = get_permalink( $post_id );
@@ -777,7 +777,7 @@ function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 			$url = add_query_arg( 'attachment_id', $post_id, $url );
 		} else {
 			$url = trailingslashit( $url ) . 'feed';
-			if ( get_default_feed() != $feed ) {
+			if ( get_default_feed() !== $feed ) {
 				$url .= "/$feed";
 			}
 			$url = user_trailingslashit( $url, 'single_feed' );
@@ -879,7 +879,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 		$link = home_url( "?feed=$feed&amp;author=" . $author_id );
 	} else {
 		$link = get_author_posts_url( $author_id );
-		if ( get_default_feed() == $feed ) {
+		if ( get_default_feed() === $feed ) {
 			$feed_link = 'feed';
 		} else {
 			$feed_link = "feed/$feed";
@@ -962,7 +962,7 @@ function get_term_feed_link( $term, $taxonomy = '', $feed = '' ) {
 		}
 	} else {
 		$link = get_term_link( $term, $term->taxonomy );
-		if ( get_default_feed() == $feed ) {
+		if ( get_default_feed() === $feed ) {
 			$feed_link = 'feed';
 		} else {
 			$feed_link = "feed/$feed";
@@ -1374,7 +1374,7 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 	if ( get_option( 'permalink_structure' ) && is_array( $post_type_obj->rewrite ) && $post_type_obj->rewrite['feeds'] ) {
 		$link  = trailingslashit( $link );
 		$link .= 'feed/';
-		if ( $feed != $default_feed ) {
+		if ( $feed !== $default_feed ) {
 			$link .= "$feed/";
 		}
 	} else {
@@ -1737,7 +1737,7 @@ function get_edit_user_link( $user_id = null ) {
 		return '';
 	}
 
-	if ( get_current_user_id() == $user->ID ) {
+	if ( get_current_user_id() === $user->ID ) {
 		$link = get_edit_profile_url( $user->ID );
 	} else {
 		$link = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
@@ -3056,12 +3056,13 @@ function _navigation_markup( $links, $css_class = 'posts-navigation', $screen_re
 function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 	global $wp_rewrite;
 
-	$pagenum = (int) $pagenum;
+	$pagenum  = (int) $pagenum;
+	$max_page = (int) $max_page;
 
 	$result = get_permalink();
 
 	if ( 'newest' === get_option( 'default_comments_page' ) ) {
-		if ( $pagenum != $max_page ) {
+		if ( $pagenum !== $max_page ) {
 			if ( $wp_rewrite->using_permalinks() ) {
 				$result = user_trailingslashit( trailingslashit( $result ) . $wp_rewrite->comments_pagination_base . '-' . $pagenum, 'commentpaged' );
 			} else {
@@ -4154,7 +4155,9 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 	if ( ! empty( $post_id ) ) {
 		$post_type = get_post_type_object( $post->post_type );
 
-		if ( 'page' === $post->post_type && get_option( 'page_on_front' ) == $post->ID && 'page' === get_option( 'show_on_front' ) ) {
+		if ( 'page' === $post->post_type
+			&& 'page' === get_option( 'show_on_front' ) && (int) get_option( 'page_on_front' ) === $post->ID
+		) {
 			$shortlink = home_url( '/' );
 		} elseif ( $post_type && $post_type->public ) {
 			$shortlink = home_url( '?p=' . $post_id );
