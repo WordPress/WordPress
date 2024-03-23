@@ -66,7 +66,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'Add and manage fonts across your site' ); ?></h3>
-				<p><?php _e( 'The new Font Library puts you in control of an essential piece of your site&#8217;s design—typography—without coding or extra steps. Effortlessly install, remove, and activate local and Google Fonts across your site regardless of your active theme. The ability to include custom typography collections gives site creators and publishers even more choice.' ); ?></p>
+				<p><?php _e( 'The new Font Library puts you in control of an essential piece of your site&#8217;s design—typography—without coding or extra steps. Effortlessly install, remove, and activate local and Google Fonts across your site for any block theme. The ability to include custom typography collections gives site creators and publishers even more choice.' ); ?></p>
 			</div>
 		</div>
 
@@ -112,7 +112,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<img src="https://s.w.org/images/core/6.5/7-data-views.webp" alt="" height="270" width="270" />
 				</div>
 				<h3 class="is-smaller-heading" style="margin-bottom:calc(var(--gap) / 4);"><?php _e( 'Discover new Data Views' ); ?></h3>
-				<p><?php _e( 'Make fast, informed changes with data views for pages, templates, patterns, and template parts. Arrange data in a table or grid view and enjoy a new UI for toggling fields and making bulk changes.' ); ?></p>
+				<p><?php _e( 'Find and organize your data however you like with data views for pages, templates, patterns, and template parts. Arrange it in a table or grid view with the option to toggle fields and make bulk changes.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
@@ -180,7 +180,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Requires Plugins */
 						__( 'There&#8217;s now an easier way to manage plugin dependencies. Plugin authors can supply a new %s header with a comma-separated list of required plugin slugs, presenting users with links to install and activate those plugins first.' ),
-						'<code>Requires Plugins</code>'
+						'<code lang="en">Requires Plugins</code>'
 					);
 					?>
 				</p>
@@ -200,7 +200,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					</svg>
 				</div>
 				<h3 style="margin-top:calc(var(--gap) * 0.75);margin-bottom:calc(var(--gap) * 0.5)"><?php _e( 'Performance updates' ); ?></h3>
-				<p><?php _e( 'This release includes 110+ performance updates, with an impressive increase in speed and efficiency across the Post Editor and Site Editor. Loading, input processing, and Site Editor navigation each see an increase in speed between two to six times faster than before. Translated sites see up to 25% improvement in load time for this release.' ); ?></p>
+				<p><?php _e( 'This release includes 110+ performance updates, with an impressive increase in speed and efficiency across the Post Editor and Site Editor. Loading is over two times faster than in 6.4, with input processing speed up to five times faster than the previous release. Translated sites see up to 25% improvement in load time for this release.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">

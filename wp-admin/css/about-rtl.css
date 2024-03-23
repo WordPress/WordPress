@@ -514,6 +514,10 @@
 	display: none !important;
 }
 
+.about__container code {
+	font-size: inherit;
+}
+
 .about__section {
 	font-size: 1.125rem;
 	line-height: 1.55;
