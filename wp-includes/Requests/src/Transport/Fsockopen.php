@@ -144,7 +144,15 @@ final class Fsockopen implements Transport {
 				$verifyname                          = false;
 			}
 
-			stream_context_set_option($context, ['ssl' => $context_options]);
+			// Handle the PHP 8.4 deprecation (PHP 9.0 removal) of the function signature we use for stream_context_set_option().
+			// Ref: https://wiki.php.net/rfc/deprecate_functions_with_overloaded_signatures#stream_context_set_option
+			if (function_exists('stream_context_set_options')) {
+				// PHP 8.3+.
+				stream_context_set_options($context, ['ssl' => $context_options]);
+			} else {
+				// PHP < 8.3.
+				stream_context_set_option($context, ['ssl' => $context_options]);
+			}
 		} else {
 			$remote_socket = 'tcp://' . $host;
 		}
