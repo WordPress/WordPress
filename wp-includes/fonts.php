@@ -167,17 +167,12 @@ function _wp_filter_font_directory( $font_dir ) {
 		return $font_dir;
 	}
 
-	$site_path = '';
-	if ( is_multisite() && ! ( is_main_network() && is_main_site() ) ) {
-		$site_path = '/sites/' . get_current_blog_id();
-	}
-
 	$font_dir = array(
-		'path'    => path_join( WP_CONTENT_DIR, 'fonts' ) . $site_path,
-		'url'     => untrailingslashit( content_url( 'fonts' ) ) . $site_path,
+		'path'    => untrailingslashit( $font_dir['basedir'] ) . '/fonts',
+		'url'     => untrailingslashit( $font_dir['baseurl'] ) . '/fonts',
 		'subdir'  => '',
-		'basedir' => path_join( WP_CONTENT_DIR, 'fonts' ) . $site_path,
-		'baseurl' => untrailingslashit( content_url( 'fonts' ) ) . $site_path,
+		'basedir' => untrailingslashit( $font_dir['basedir'] ) . '/fonts',
+		'baseurl' => untrailingslashit( $font_dir['baseurl'] ) . '/fonts',
 		'error'   => false,
 	);
 
