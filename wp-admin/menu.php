@@ -206,7 +206,7 @@ if ( ! is_multisite() && current_user_can( 'update_themes' ) ) {
 if ( wp_is_block_theme() ) {
 	$submenu['themes.php'][6] = array( _x( 'Editor', 'site editor menu item' ), 'edit_theme_options', 'site-editor.php' );
 } else {
-	$submenu['themes.php'][6] = array( __( 'Patterns' ), 'edit_theme_options', 'edit.php?post_type=wp_block' );
+	$submenu['themes.php'][6] = array( _x( 'Patterns', 'patterns menu item' ), 'edit_theme_options', 'edit.php?post_type=wp_block' );
 }
 
 if ( ! wp_is_block_theme() && current_theme_supports( 'block-template-parts' ) ) {
