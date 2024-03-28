@@ -391,10 +391,10 @@ function twentysixteen_scripts() {
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20201208' );
 
 	// Theme stylesheet.
-	wp_enqueue_style( 'twentysixteen-style', get_stylesheet_uri(), array(), '20231107' );
+	wp_enqueue_style( 'twentysixteen-style', get_stylesheet_uri(), array(), '20240402' );
 
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentysixteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentysixteen-style' ), '20231016' );
+	wp_enqueue_style( 'twentysixteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentysixteen-style' ), '20240117' );
 
 	// Load the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentysixteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentysixteen-style' ), '20170530' );
@@ -452,7 +452,7 @@ add_action( 'wp_enqueue_scripts', 'twentysixteen_scripts' );
  */
 function twentysixteen_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentysixteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20230628' );
+	wp_enqueue_style( 'twentysixteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240209' );
 	// Add custom fonts.
 	$font_version = ( 0 === strpos( (string) twentysixteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
 	wp_enqueue_style( 'twentysixteen-fonts', twentysixteen_fonts_url(), array(), $font_version );
