@@ -49267,7 +49267,7 @@ const BlockSwitcher = ({
         invalidBlocks: true
       };
     }
-    const rootClientId = getBlockRootClientId(clientIds);
+    const rootClientId = getBlockRootClientId(Array.isArray(clientIds) ? clientIds[0] : clientIds);
     const [{
       name: firstBlockName
     }] = _blocks;
