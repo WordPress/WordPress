@@ -26792,8 +26792,26 @@ function makeFontFacesFormData(font) {
   }
 }
 async function batchInstallFontFaces(fontFamilyId, fontFacesData) {
-  const promises = fontFacesData.map(faceData => fetchInstallFontFace(fontFamilyId, faceData));
-  const responses = await Promise.allSettled(promises);
+  const responses = [];
+
+  /*
+   * Uses the same response format as Promise.allSettled, but executes requests in sequence to work
+   * around a race condition that can cause an error when the fonts directory doesn't exist yet.
+   */
+  for (const faceData of fontFacesData) {
+    try {
+      const response = await fetchInstallFontFace(fontFamilyId, faceData);
+      responses.push({
+        status: 'fulfilled',
+        value: response
+      });
+    } catch (error) {
+      responses.push({
+        status: 'rejected',
+        reason: error
+      });
+    }
+  }
   const results = {
     errors: [],
     successes: []
@@ -27021,12 +27039,23 @@ function FontLibraryProvider({
   // Library Fonts
   const [modalTabOpen, setModalTabOpen] = (0,external_wp_element_namespaceObject.useState)(false);
   const [libraryFontSelected, setLibraryFontSelected] = (0,external_wp_element_namespaceObject.useState)(null);
-  const baseThemeFonts = baseFontFamilies?.theme ? baseFontFamilies.theme.map(f => setUIValuesNeeded(f, {
-    source: 'theme'
-  })).sort((a, b) => a.name.localeCompare(b.name)) : [];
+
+  // Themes Fonts are the fonts defined in the global styles (database persisted theme.json data).
   const themeFonts = fontFamilies?.theme ? fontFamilies.theme.map(f => setUIValuesNeeded(f, {
     source: 'theme'
   })).sort((a, b) => a.name.localeCompare(b.name)) : [];
+  const themeFontsSlugs = new Set(themeFonts.map(f => f.slug));
+
+  /*
+   * Base Theme Fonts are the fonts defined in the theme.json *file*.
+   *
+   * Uses the fonts from global styles + the ones from the theme.json file that hasn't repeated slugs.
+   * Avoids incosistencies with the fonts listed in the font library modal as base (unactivated).
+   * These inconsistencies can happen when the active theme fonts in global styles aren't defined in theme.json file as when a theme style variation is applied.
+   */
+  const baseThemeFonts = baseFontFamilies?.theme ? themeFonts.concat(baseFontFamilies.theme.filter(f => !themeFontsSlugs.has(f.slug)).map(f => setUIValuesNeeded(f, {
+    source: 'theme'
+  })).sort((a, b) => a.name.localeCompare(b.name))) : [];
   const customFonts = fontFamilies?.custom ? fontFamilies.custom.map(f => setUIValuesNeeded(f, {
     source: 'custom'
   })).sort((a, b) => a.name.localeCompare(b.name)) : [];
@@ -27046,7 +27075,7 @@ function FontLibraryProvider({
       setLibraryFontSelected(null);
       return;
     }
-    const fonts = font.source === 'theme' ? baseThemeFonts : baseCustomFonts;
+    const fonts = font.source === 'theme' ? themeFonts : baseCustomFonts;
 
     // Tries to find the font in the installed fonts
     const fontSelected = fonts.find(f => f.slug === font.slug);
@@ -27127,8 +27156,10 @@ function FontLibraryProvider({
         // Use the sucessfully installed font faces
         // As well as any font faces that were already installed (those will be activated)
         if (sucessfullyInstalledFontFaces?.length > 0 || alreadyInstalledFontFaces?.length > 0) {
-          fontFamilyToInstall.fontFace = [...sucessfullyInstalledFontFaces, ...alreadyInstalledFontFaces];
-          fontFamiliesToActivate.push(fontFamilyToInstall);
+          // Use font data from REST API not from client to ensure
+          // correct font information is used.
+          installedFontFamily.fontFace = [...sucessfullyInstalledFontFaces];
+          fontFamiliesToActivate.push(installedFontFamily);
         }
 
         // If it's a system font but was installed successfully, activate it.
@@ -27200,14 +27231,30 @@ function FontLibraryProvider({
     }
   };
   const activateCustomFontFamilies = fontsToAdd => {
-    // Merge the existing custom fonts with the new fonts.
+    // Removes the id from the families and faces to avoid saving that to global styles post content.
+    const fontsToActivate = fontsToAdd.map(({
+      id: _familyDbId,
+      fontFace,
+      ...font
+    }) => ({
+      ...font,
+      ...(fontFace && fontFace.length > 0 ? {
+        fontFace: fontFace.map(({
+          id: _faceDbId,
+          ...face
+        }) => face)
+      } : {})
+    }));
+
     // Activate the fonts by set the new custom fonts array.
     setFontFamilies({
       ...fontFamilies,
-      custom: mergeFontFamilies(fontFamilies?.custom, fontsToAdd)
+      // Merge the existing custom fonts with the new fonts.
+      custom: mergeFontFamilies(fontFamilies?.custom, fontsToActivate)
     });
+
     // Add custom fonts to the browser.
-    fontsToAdd.forEach(font => {
+    fontsToActivate.forEach(font => {
       if (font.fontFace) {
         font.fontFace.forEach(face => {
           // Load font faces just in the iframe because they already are in the document.

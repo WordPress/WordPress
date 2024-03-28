@@ -1472,6 +1472,14 @@ function block_core_navigation_update_ignore_hooked_blocks_meta( $post ) {
 		return $post;
 	}
 
+	/**
+	 * Skip meta generation when consumers intentionally update specific Navigation fields
+	 * and omit the content update.
+	 */
+	if ( ! isset( $post->post_content ) ) {
+		return $post;
+	}
+
 	/*
 	 * We run the Block Hooks mechanism to inject the `metadata.ignoredHookedBlocks` attribute into
 	 * all anchor blocks. For the root level, we create a mock Navigation and extract them from there.
