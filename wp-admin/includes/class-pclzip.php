@@ -48,7 +48,7 @@
   // 0 : PclZip Class integrated error handling
   // 1 : PclError external library error handling. By enabling this
   //     you must ensure that you have included PclError library.
-  // [2,...] : reserved for futur use
+  // [2,...] : reserved for future use
   if (!defined('PCLZIP_ERROR_EXTERNAL')) {
     define( 'PCLZIP_ERROR_EXTERNAL', 0 );
   }
@@ -166,7 +166,7 @@
   define( 'PCLZIP_CB_POST_EXTRACT', 78002 );
   define( 'PCLZIP_CB_PRE_ADD', 78003 );
   define( 'PCLZIP_CB_POST_ADD', 78004 );
-  /* For futur use
+  /* For future use
   define( 'PCLZIP_CB_PRE_LIST', 78005 );
   define( 'PCLZIP_CB_POST_LIST', 78006 );
   define( 'PCLZIP_CB_PRE_DELETE', 78007 );
@@ -1364,12 +1364,12 @@
   // Function : privCheckFormat()
   // Description :
   //   This method check that the archive exists and is a valid zip archive.
-  //   Several level of check exists. (futur)
+  //   Several level of check exists. (future)
   // Parameters :
   //   $p_level : Level of check. Default 0.
   //              0 : Check the first bytes (magic codes) (default value))
-  //              1 : 0 + Check the central directory (futur)
-  //              2 : 1 + Check each file header (futur)
+  //              1 : 0 + Check the central directory (future)
+  //              2 : 1 + Check each file header (future)
   // Return Values :
   //   true on success,
   //   false on error, the error code is set.
@@ -1748,7 +1748,7 @@
         case PCLZIP_CB_POST_EXTRACT :
         case PCLZIP_CB_PRE_ADD :
         case PCLZIP_CB_POST_ADD :
-        /* for futur use
+        /* for future use
         case PCLZIP_CB_PRE_DELETE :
         case PCLZIP_CB_POST_DELETE :
         case PCLZIP_CB_PRE_LIST :
