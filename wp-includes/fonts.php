@@ -140,20 +140,10 @@ function wp_font_dir( $create_dir = true ) {
 }
 
 /**
- * Returns the font directory for use by the font library.
+ * A callback function for use in the {@see 'upload_dir'} filter.
  *
- * This function is a callback for the {@see 'upload_dir'} filter. It is not
- * intended to be called directly. Use wp_get_font_dir() instead.
- *
- * The function can be used when extending the font library to modify the upload
- * destination for font files via the upload_dir filter. The recommended way to
- * do this is:
- *
- * ```php
- * add_filter( 'upload_dir', '_wp_filter_font_directory' );
- * // Your code to upload or sideload a font file.
- * remove_filter( 'upload_dir', '_wp_filter_font_directory' );
- * ```
+ * This function is intended for internal use only and should not be used by plugins and themes.
+ * Use wp_get_font_dir() instead.
  *
  * @since 6.5.0
  * @access private
