@@ -2946,7 +2946,7 @@ function _make_url_clickable_cb( $matches ) {
 
 	if ( ')' === $matches[3] && strpos( $url, '(' ) ) {
 		/*
-		 * If the trailing character is a closing parethesis, and the URL has an opening parenthesis in it,
+		 * If the trailing character is a closing parenthesis, and the URL has an opening parenthesis in it,
 		 * add the closing parenthesis to the URL. Then we can let the parenthesis balancer do its thing below.
 		 */
 		$url   .= $matches[3];
@@ -3105,7 +3105,7 @@ function make_clickable( $text ) {
 		// Long strings might contain expensive edge cases...
 		if ( 10000 < strlen( $piece ) ) {
 			// ...break it up.
-			foreach ( _split_str_by_whitespace( $piece, 2100 ) as $chunk ) { // 2100: Extra room for scheme and leading and trailing paretheses.
+			foreach ( _split_str_by_whitespace( $piece, 2100 ) as $chunk ) { // 2100: Extra room for scheme and leading and trailing parentheses.
 				if ( 2101 < strlen( $chunk ) ) {
 					$r .= $chunk; // Too big, no whitespace: bail.
 				} else {
@@ -3121,12 +3121,12 @@ function make_clickable( $text ) {
 					[\\w]{1,20}+://                                # Scheme and hier-part prefix.
 					(?=\S{1,2000}\s)                               # Limit to URLs less than about 2000 characters long.
 					[\\w\\x80-\\xff#%\\~/@\\[\\]*(+=&$-]*+         # Non-punctuation URL character.
-					(?:                                            # Unroll the Loop: Only allow puctuation URL character if followed by a non-punctuation URL character.
+					(?:                                            # Unroll the Loop: Only allow punctuation URL character if followed by a non-punctuation URL character.
 						[\'.,;:!?)]                                    # Punctuation URL character.
 						[\\w\\x80-\\xff#%\\~/@\\[\\]*(+=&$-]++         # Non-punctuation URL character.
 					)*
 				)
-				(\)?)                                          # 3: Trailing closing parenthesis (for parethesis balancing post processing).
+				(\)?)                                          # 3: Trailing closing parenthesis (for parenthesis balancing post processing).
 			~xS';
 			/*
 			 * The regex is a non-anchored pattern and does not have a single fixed starting character.
