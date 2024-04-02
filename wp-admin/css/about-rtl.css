@@ -1281,24 +1281,6 @@
 	margin: 0.6em 0;
 }
 
-.freedoms-php .column .freedoms-image {
-	background-image: url('../images/freedoms.png');
-	background-size: 100%;
-	padding-top: 100%;
-}
-
-.freedoms-php .column:nth-of-type(2) .freedoms-image {
-	background-position: 100% 34%;
-}
-
-.freedoms-php .column:nth-of-type(3) .freedoms-image {
-	background-position: 100% 66%;
-}
-
-.freedoms-php .column:nth-of-type(4) .freedoms-image {
-	background-position: 100% 100%;
-}
-
 /*------------------------------------------------------------------------------
   x.5.0 - Legacy About Styles: Media Queries
 ------------------------------------------------------------------------------*/
