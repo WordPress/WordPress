@@ -16,7 +16,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			onChange={ onChangeContent }
 			allowedFormats={ [ 'core/bold', 'core/italic' ] }
 			value={ attributes.content }
-			placeholder={ __( 'Write your text...' ) }
+			placeholder={ __( 'Write your texts...' ) }
 		/>
 	);
 }
