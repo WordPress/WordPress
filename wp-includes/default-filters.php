@@ -286,6 +286,7 @@ foreach (
 }
 
 // Misc filters.
+add_filter( 'wp_default_autoload_value', 'wp_filter_default_autoload_value_via_option_size', 10, 4 );
 add_filter( 'option_ping_sites', 'privacy_ping_filter' );
 add_filter( 'option_blog_charset', '_wp_specialchars' ); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop.
 add_filter( 'option_blog_charset', '_canonical_charset' );

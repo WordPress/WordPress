@@ -392,16 +392,16 @@ function wp_set_option_autoload_values( array $options ) {
 	}
 
 	$grouped_options = array(
-		'yes' => array(),
-		'no'  => array(),
+		'on'  => array(),
+		'off' => array(),
 	);
 	$results         = array();
 	foreach ( $options as $option => $autoload ) {
 		wp_protect_special_option( $option ); // Ensure only valid options can be passed.
-		if ( 'no' === $autoload || false === $autoload ) { // Sanitize autoload value and categorize accordingly.
-			$grouped_options['no'][] = $option;
+		if ( 'off' === $autoload || 'no' === $autoload || false === $autoload ) { // Sanitize autoload value and categorize accordingly.
+			$grouped_options['off'][] = $option;
 		} else {
-			$grouped_options['yes'][] = $option;
+			$grouped_options['on'][] = $option;
 		}
 		$results[ $option ] = false; // Initialize result value.
 	}
@@ -465,19 +465,19 @@ function wp_set_option_autoload_values( array $options ) {
 	}
 
 	/*
-	 * If any options were changed to 'yes', delete their individual caches, and delete 'alloptions' cache so that it
+	 * If any options were changed to 'on', delete their individual caches, and delete 'alloptions' cache so that it
 	 * is refreshed as needed.
-	 * If no options were changed to 'yes' but any options were changed to 'no', delete them from the 'alloptions'
-	 * cache. This is not necessary when options were changed to 'yes', since in that situation the entire cache is
+	 * If no options were changed to 'on' but any options were changed to 'no', delete them from the 'alloptions'
+	 * cache. This is not necessary when options were changed to 'on', since in that situation the entire cache is
 	 * deleted anyway.
 	 */
-	if ( $grouped_options['yes'] ) {
-		wp_cache_delete_multiple( $grouped_options['yes'], 'options' );
+	if ( $grouped_options['on'] ) {
+		wp_cache_delete_multiple( $grouped_options['on'], 'options' );
 		wp_cache_delete( 'alloptions', 'options' );
-	} elseif ( $grouped_options['no'] ) {
+	} elseif ( $grouped_options['off'] ) {
 		$alloptions = wp_load_alloptions( true );
 
-		foreach ( $grouped_options['no'] as $option ) {
+		foreach ( $grouped_options['off'] as $option ) {
 			if ( isset( $alloptions[ $option ] ) ) {
 				unset( $alloptions[ $option ] );
 			}
@@ -606,7 +606,8 @@ function wp_load_alloptions( $force_cache = false ) {
 
 	if ( ! $alloptions ) {
 		$suppress      = $wpdb->suppress_errors();
-		$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'" );
+		$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options WHERE autoload IN ( '" . implode( "', '", wp_autoload_values_to_autoload() ) . "' )" );
+
 		if ( ! $alloptions_db ) {
 			$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
 		}
@@ -705,17 +706,21 @@ function wp_load_core_site_options( $network_id = null ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string      $option   Name of the option to update. Expected to not be SQL-escaped.
- * @param mixed       $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
- * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. For existing options,
- *                              `$autoload` can only be updated using `update_option()` if `$value` is also changed.
- *                              Accepts 'yes'|true to enable or 'no'|false to disable.
- *                              Autoloading too many options can lead to performance problems, especially if the
- *                              options are not frequently used. For options which are accessed across several places
- *                              in the frontend, it is recommended to autoload them, by using 'yes'|true.
- *                              For options which are accessed only on few specific URLs, it is recommended
- *                              to not autoload them, by using 'no'|false. For non-existent options, the default value
- *                              is 'yes'. Default null.
+ * @param string    $option   Name of the option to update. Expected to not be SQL-escaped.
+ * @param mixed     $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
+ * @param bool|null $autoload Optional. Whether to load the option when WordPress starts up.
+ *                            Accepts a boolean, or `null` to stick with the initial value or, if no initial value is set,
+ *                            to leave the decision up to default heuristics in WordPress.
+ *                            For existing options,
+ *                            `$autoload` can only be updated using `update_option()` if `$value` is also changed.
+ *                            For backward compatibility 'yes' and 'no' are also accepted.
+ *                            Autoloading too many options can lead to performance problems, especially if the
+ *                            options are not frequently used. For options which are accessed across several places
+ *                            in the frontend, it is recommended to autoload them, by using true.
+ *                            For options which are accessed only on few specific URLs, it is recommended
+ *                            to not autoload them, by using false.
+ *                            For non-existent options, the default is null, which means WordPress will determine
+ *                            the autoload value.
  * @return bool True if the value was updated, false otherwise.
  */
 function update_option( $option, $value, $autoload = null ) {
@@ -801,11 +806,6 @@ function update_option( $option, $value, $autoload = null ) {
 
 	/** This filter is documented in wp-includes/option.php */
 	if ( apply_filters( "default_option_{$option}", false, $option, false ) === $old_value ) {
-		// Default setting for new options is 'yes'.
-		if ( null === $autoload ) {
-			$autoload = 'yes';
-		}
-
 		return add_option( $option, $value, '', $autoload );
 	}
 
@@ -827,7 +827,17 @@ function update_option( $option, $value, $autoload = null ) {
 	);
 
 	if ( null !== $autoload ) {
-		$update_args['autoload'] = ( 'no' === $autoload || false === $autoload ) ? 'no' : 'yes';
+		$update_args['autoload'] = wp_determine_option_autoload_value( $option, $value, $serialized_value, $autoload );
+	} else {
+		// Retrieve the current autoload value to reevaluate it in case it was set automatically.
+		$raw_autoload = $wpdb->get_var( $wpdb->prepare( "SELECT autoload FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
+		$allow_values = array( 'auto-on', 'auto-off', 'auto' );
+		if ( in_array( $raw_autoload, $allow_values, true ) ) {
+			$autoload = wp_determine_option_autoload_value( $option, $value, $serialized_value, $autoload );
+			if ( $autoload !== $raw_autoload ) {
+				$update_args['autoload'] = $autoload;
+			}
+		}
 	}
 
 	$result = $wpdb->update( $wpdb->options, $update_args, array( 'option_name' => $option ) );
@@ -853,7 +863,7 @@ function update_option( $option, $value, $autoload = null ) {
 			} else {
 				wp_cache_set( $option, $serialized_value, 'options' );
 			}
-		} elseif ( 'yes' === $update_args['autoload'] ) {
+		} elseif ( in_array( $update_args['autoload'], wp_autoload_values_to_autoload(), true ) ) {
 			// Delete the individual cache, then set in alloptions cache.
 			wp_cache_delete( $option, 'options' );
 
@@ -915,23 +925,26 @@ function update_option( $option, $value, $autoload = null ) {
  * options the same as the ones which are protected.
  *
  * @since 1.0.0
+ * @since 6.6.0 The $autoload parameter's default value was changed to null.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string      $option     Name of the option to add. Expected to not be SQL-escaped.
- * @param mixed       $value      Optional. Option value. Must be serializable if non-scalar.
- *                                Expected to not be SQL-escaped.
- * @param string      $deprecated Optional. Description. Not used anymore.
- * @param string|bool $autoload   Optional. Whether to load the option when WordPress starts up.
- *                                Accepts 'yes'|true to enable or 'no'|false to disable.
- *                                Autoloading too many options can lead to performance problems, especially if the
- *                                options are not frequently used. For options which are accessed across several places
- *                                in the frontend, it is recommended to autoload them, by using 'yes'|true.
- *                                For options which are accessed only on few specific URLs, it is recommended
- *                                to not autoload them, by using 'no'|false. Default 'yes'.
+ * @param string    $option     Name of the option to add. Expected to not be SQL-escaped.
+ * @param mixed     $value      Optional. Option value. Must be serializable if non-scalar.
+ *                              Expected to not be SQL-escaped.
+ * @param string    $deprecated Optional. Description. Not used anymore.
+ * @param bool|null $autoload   Optional. Whether to load the option when WordPress starts up.
+ *                              Accepts a boolean, or `null` to leave the decision up to default heuristics in WordPress.
+ *                              For backward compatibility 'yes' and 'no' are also accepted.
+ *                              Autoloading too many options can lead to performance problems, especially if the
+ *                              options are not frequently used. For options which are accessed across several places
+ *                              in the frontend, it is recommended to autoload them, by using 'yes'|true.
+ *                              For options which are accessed only on few specific URLs, it is recommended
+ *                              to not autoload them, by using false.
+ *                              Default is null, which means WordPress will determine the autoload value.
  * @return bool True if the option was added, false otherwise.
  */
-function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
+function add_option( $option, $value = '', $deprecated = '', $autoload = null ) {
 	global $wpdb;
 
 	if ( ! empty( $deprecated ) ) {
@@ -991,7 +1004,8 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	}
 
 	$serialized_value = maybe_serialize( $value );
-	$autoload         = ( 'no' === $autoload || false === $autoload ) ? 'no' : 'yes';
+
+	$autoload = wp_determine_option_autoload_value( $option, $value, $serialized_value, $autoload );
 
 	/**
 	 * Fires before an option is added.
@@ -1009,7 +1023,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	}
 
 	if ( ! wp_installing() ) {
-		if ( 'yes' === $autoload ) {
+		if ( in_array( $autoload, wp_autoload_values_to_autoload(), true ) ) {
 			$alloptions            = wp_load_alloptions( true );
 			$alloptions[ $option ] = $serialized_value;
 			wp_cache_set( 'alloptions', $alloptions, 'options' );
@@ -1093,7 +1107,7 @@ function delete_option( $option ) {
 	$result = $wpdb->delete( $wpdb->options, array( 'option_name' => $option ) );
 
 	if ( ! wp_installing() ) {
-		if ( 'yes' === $row->autoload ) {
+		if ( in_array( $row->autoload, wp_autoload_values_to_autoload(), true ) ) {
 			$alloptions = wp_load_alloptions( true );
 
 			if ( is_array( $alloptions ) && isset( $alloptions[ $option ] ) ) {
@@ -1131,6 +1145,96 @@ function delete_option( $option ) {
 	}
 
 	return false;
+}
+
+/**
+ *  Determines the appropriate autoload value for an option based on input.
+ *
+ *  This function checks the provided autoload value and returns a standardized value
+ *  ('on', 'off', 'auto-on', 'auto-off', or 'auto') based on specific conditions.
+ *
+ * If no explicit autoload value is provided, the function will check for certain heuristics around the given option.
+ * It will return `auto-on` to indicate autoloading, `auto-off` to indicate not autoloading, or `auto` if no clear
+ * decision could be made.
+ *
+ * @since 6.6.0
+ * @access private
+ *
+ * @param string $option          The name of the option.
+ * @param mixed $value            The value of the option to check its autoload value.
+ * @param mixed $serialized_value The serialized value of the option to check its autoload value.
+ * @param bool|null $autoload     The autoload value to check.
+ *                                Accepts 'on'|true to enable or 'off'|false to disable, or
+ *                                'auto-on', 'auto-off', or 'auto' for internal purposes.
+ *                                Any other autoload value will be forced to either 'auto-on',
+ *                                'auto-off', or 'auto'.
+ *                                'yes' and 'no' are supported for backward compatibility.
+ * @return string Returns the original $autoload value if explicit, or 'auto-on', 'auto-off',
+ *                or 'auto' depending on default heuristics.
+ */
+function wp_determine_option_autoload_value( $option, $value, $serialized_value, $autoload ) {
+
+	// Check if autoload is a boolean.
+	if ( is_bool( $autoload ) ) {
+		return $autoload ? 'on' : 'off';
+	}
+
+	switch ( $autoload ) {
+		case 'on':
+		case 'yes':
+			return 'on';
+		case 'off':
+		case 'no':
+			return 'off';
+	}
+
+	/**
+	 * Allows to determine the default autoload value for an option where no explicit value is passed.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param bool|null $autoload The default autoload value to set. Returning true will be set as 'auto-on' in the
+	 *                            database, false will be set as 'auto-off', and null will be set as 'auto'.
+	 * @param string    $option   The passed option name.
+	 * @param mixed     $value    The passed option value to be saved.
+	 */
+	$autoload = apply_filters( 'wp_default_autoload_value', null, $option, $value, $serialized_value );
+	if ( is_bool( $autoload ) ) {
+		return $autoload ? 'auto-on' : 'auto-off';
+	}
+
+	return 'auto';
+}
+
+/**
+ * Filters the default autoload value to disable autoloading if the option value is too large.
+ *
+ * @since 6.6.0
+ * @access private
+ *
+ * @param bool|null $autoload         The default autoload value to set.
+ * @param string    $option           The passed option name.
+ * @param mixed     $value            The passed option value to be saved.
+ * @param mixed     $serialized_value The passed option value to be saved, in serialized form.
+ * @return bool|null Potentially modified $default.
+ */
+function wp_filter_default_autoload_value_via_option_size( $autoload, $option, $value, $serialized_value ) {
+	/**
+	 * Filters the maximum size of option value in bytes.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param int    $max_option_size The option-size threshold, in bytes. Default 150000.
+	 * @param string $option          The name of the option.
+	 */
+	$max_option_size = (int) apply_filters( 'wp_max_autoloaded_option_size', 150000, $option );
+	$size            = ! empty( $serialized_value ) ? strlen( $serialized_value ) : 0;
+
+	if ( $size > $max_option_size ) {
+		return false;
+	}
+
+	return $autoload;
 }
 
 /**
@@ -2923,4 +3027,29 @@ function filter_default_option( $default_value, $option, $passed_default ) {
 	}
 
 	return $registered[ $option ]['default'];
+}
+
+/**
+ * Returns the values that trigger autoloading from the options table.
+ *
+ * @since 6.6.0
+ *
+ * @return array The values that trigger autoloading.
+ */
+function wp_autoload_values_to_autoload() {
+	$autoload_values = array( 'yes', 'on', 'auto-on', 'auto' );
+
+	/**
+	 * Filters the autoload values that should be considered for autoloading from the options table.
+	 *
+	 * The filter can only be used to remove autoload values from the default list.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param array $autoload_values Autoload values used to autoload option.
+	 *                               Default list contains 'yes', 'on', 'auto-on', and 'auto'.
+	 */
+	$filtered_values = apply_filters( 'wp_autoload_values_to_autoload', $autoload_values );
+
+	return array_intersect( $filtered_values, $autoload_values );
 }
