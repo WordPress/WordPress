@@ -3146,7 +3146,7 @@ add_shortcode( 'playlist', 'wp_playlist_shortcode' );
  */
 function wp_mediaelement_fallback( $url ) {
 	/**
-	 * Filters the Mediaelement fallback output for no-JS.
+	 * Filters the MediaElement fallback output for no-JS.
 	 *
 	 * @since 3.6.0
 	 *
