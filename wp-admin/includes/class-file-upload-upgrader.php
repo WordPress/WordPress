@@ -70,24 +70,7 @@ class File_Upload_Upgrader {
 			}
 
 			if ( 'pluginzip' === $form || 'themezip' === $form ) {
-				$archive_is_valid = false;
-
-				/** This filter is documented in wp-admin/includes/file.php */
-				if ( class_exists( 'ZipArchive', false ) && apply_filters( 'unzip_file_use_ziparchive', true ) ) {
-					$archive          = new ZipArchive();
-					$archive_is_valid = $archive->open( $file['file'], ZIPARCHIVE::CHECKCONS );
-
-					if ( true === $archive_is_valid ) {
-						$archive->close();
-					}
-				} else {
-					require_once ABSPATH . 'wp-admin/includes/class-pclzip.php';
-
-					$archive          = new PclZip( $file['file'] );
-					$archive_is_valid = is_array( $archive->properties() );
-				}
-
-				if ( true !== $archive_is_valid ) {
+				if ( ! wp_zip_file_is_valid( $file['file'] ) ) {
 					wp_delete_file( $file['file'] );
 					wp_die( __( 'Incompatible Archive.' ) );
 				}
