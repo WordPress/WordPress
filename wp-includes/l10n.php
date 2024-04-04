@@ -1189,7 +1189,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 		$relative = trim( $relative, '/' );
 		$relative = explode( '/', $relative );
 
-		$languages_path = WP_LANG_DIR . '/' . $relative[0];
+		$languages_path = WP_LANG_DIR . '/plugins';
 
 		$relative = array_slice( $relative, 2 ); // Remove plugins/<plugin name> or themes/<theme name>.
 		$relative = implode( '/', $relative );
