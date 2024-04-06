@@ -342,7 +342,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return true|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
-		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) ) {
+		if ( ( $this->size['width'] === $max_w ) && ( $this->size['height'] === $max_h ) ) {
 			return true;
 		}
 
