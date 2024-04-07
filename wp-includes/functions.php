@@ -1347,6 +1347,7 @@ function wp( $query_vars = '' ) {
  * @since 3.9.0 Added status codes 418, 428, 429, 431, and 511.
  * @since 4.5.0 Added status codes 308, 421, and 451.
  * @since 5.1.0 Added status code 103.
+ * @since 6.5.0 Added status code 425.
  *
  * @global array $wp_header_to_desc
  *
@@ -1408,6 +1409,7 @@ function get_status_header_desc( $code ) {
 			422 => 'Unprocessable Entity',
 			423 => 'Locked',
 			424 => 'Failed Dependency',
+			425 => 'Too Early',
 			426 => 'Upgrade Required',
 			428 => 'Precondition Required',
 			429 => 'Too Many Requests',

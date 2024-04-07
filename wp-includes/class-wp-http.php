@@ -77,6 +77,7 @@ class WP_Http {
 	const UNPROCESSABLE_ENTITY            = 422;
 	const LOCKED                          = 423;
 	const FAILED_DEPENDENCY               = 424;
+	const TOO_EARLY                       = 425;
 	const UPGRADE_REQUIRED                = 426;
 	const PRECONDITION_REQUIRED           = 428;
 	const TOO_MANY_REQUESTS               = 429;
