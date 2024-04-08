@@ -1397,13 +1397,16 @@ function wp_generate_block_templates_export_file() {
  */
 function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '' ) {
 	if ( 'index' === $slug ) {
-		return array( 'index' );
+		/** This filter is documented in wp-includes/template.php */
+		return apply_filters( 'index_template_hierarchy', array( 'index' ) );
 	}
 	if ( $is_custom ) {
-		return array( 'page', 'singular', 'index' );
+		/** This filter is documented in wp-includes/template.php */
+		return apply_filters( 'page_template_hierarchy', array( 'page', 'singular', 'index' ) );
 	}
 	if ( 'front-page' === $slug ) {
-		return array( 'front-page', 'home', 'index' );
+		/** This filter is documented in wp-includes/template.php */
+		return apply_filters( 'frontpage_template_hierarchy', array( 'front-page', 'home', 'index' ) );
 	}
 
 	$matches = array();
@@ -1469,6 +1472,18 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
 		$template_hierarchy[] = 'singular';
 	}
 	$template_hierarchy[] = 'index';
+
+	$template_type = '';
+	if ( ! empty( $template_prefix ) ) {
+		list( $template_type ) = explode( '-', $template_prefix );
+	} else {
+		list( $template_type ) = explode( '-', $slug );
+	}
+	$valid_template_types = array( '404', 'archive', 'attachment', 'author', 'category', 'date', 'embed', 'frontpage', 'home', 'index', 'page', 'paged', 'privacypolicy', 'search', 'single', 'singular', 'tag', 'taxonomy' );
+	if ( in_array( $template_type, $valid_template_types ) ) {
+		/** This filter is documented in wp-includes/template.php */
+		return apply_filters( "{$template_type}_template_hierarchy", $template_hierarchy );
+	}
 	return $template_hierarchy;
 }
 
