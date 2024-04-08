@@ -1480,7 +1480,7 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
 		list( $template_type ) = explode( '-', $slug );
 	}
 	$valid_template_types = array( '404', 'archive', 'attachment', 'author', 'category', 'date', 'embed', 'frontpage', 'home', 'index', 'page', 'paged', 'privacypolicy', 'search', 'single', 'singular', 'tag', 'taxonomy' );
-	if ( in_array( $template_type, $valid_template_types ) ) {
+	if ( in_array( $template_type, $valid_template_types, true ) ) {
 		/** This filter is documented in wp-includes/template.php */
 		return apply_filters( "{$template_type}_template_hierarchy", $template_hierarchy );
 	}
