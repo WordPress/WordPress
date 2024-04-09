@@ -151,7 +151,8 @@ const {
     },
     handleMenuFocusout(event) {
       const {
-        modal
+        modal,
+        type
       } = (0,interactivity_namespaceObject.getContext)();
       // If focus is outside modal, and in the document, close menu
       // event.target === The element losing focus
@@ -160,7 +161,7 @@ const {
       // `window.document.activeElement` doesn't change.
 
       // The event.relatedTarget is null when something outside the navigation menu is clicked. This is only necessary for Safari.
-      if (event.relatedTarget === null || !modal?.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
+      if (event.relatedTarget === null || !modal?.contains(event.relatedTarget) && event.target !== window.document.activeElement && type === 'submenu') {
         actions.closeMenu('click');
         actions.closeMenu('focus');
       }

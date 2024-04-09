@@ -49,7 +49,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 			$label = '';
 			if ( '_blank' === $attributes['linkTarget'] ) {
 				// translators: %s is the Author name.
-				$label = 'aria-label="' . sprintf( esc_attr__( '(%s author archive, opens in a new tab)' ), $author_name ) . '"';
+				$label = 'aria-label="' . esc_attr( sprintf( __( '(%s author archive, opens in a new tab)' ), $author_name ) ) . '"';
 			}
 			// translators: %1$s: Author archive link. %2$s: Link target. %3$s Aria label. %4$s Avatar image.
 			$avatar_block = sprintf( '<a href="%1$s" target="%2$s" %3$s class="wp-block-avatar__link">%4$s</a>', esc_url( get_author_posts_url( $author_id ) ), esc_attr( $attributes['linkTarget'] ), $label, $avatar_block );
@@ -76,7 +76,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 		$label = '';
 		if ( '_blank' === $attributes['linkTarget'] ) {
 			// translators: %s is the Comment Author name.
-			$label = 'aria-label="' . sprintf( esc_attr__( '(%s website link, opens in a new tab)' ), $comment->comment_author ) . '"';
+			$label = 'aria-label="' . esc_attr( sprintf( __( '(%s website link, opens in a new tab)' ), $comment->comment_author ) ) . '"';
 		}
 		// translators: %1$s: Comment Author website link. %2$s: Link target. %3$s Aria label. %4$s Avatar image.
 		$avatar_block = sprintf( '<a href="%1$s" target="%2$s" %3$s class="wp-block-avatar__link">%4$s</a>', esc_url( $comment->comment_author_url ), esc_attr( $attributes['linkTarget'] ), $label, $avatar_block );

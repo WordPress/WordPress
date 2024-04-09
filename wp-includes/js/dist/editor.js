@@ -15925,7 +15925,7 @@ function DocumentTools({
       variant: "unstyled"
     }, (0,external_React_.createElement)("div", {
       className: "editor-document-tools__left"
-    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+    }, !isDistractionFree && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
       ref: inserterButton,
       as: external_wp_components_namespaceObject.Button,
       className: "editor-document-tools__inserter-toggle",
