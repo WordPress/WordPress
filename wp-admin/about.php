@@ -53,7 +53,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 							'<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs.',
 							12
 						),
-						'6.5.1',
+						'6.5.2',
 						'12'
 					);
 					?>
@@ -64,7 +64,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						sprintf(
 							/* translators: %s: WordPress version. */
 							esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
-							sanitize_title( '6.5.1' )
+							sanitize_title( '6.5.2' )
 						)
 					);
 					?>
