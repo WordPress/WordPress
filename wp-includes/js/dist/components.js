@@ -1,72 +1,6 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 4403:
-/***/ (function(module, exports) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	Copyright (c) 2018 Jed Watson.
-	Licensed under the MIT License (MIT), see
-	http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-	var nativeCodeString = '[native code]';
-
-	function classNames() {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				if (arg.length) {
-					var inner = classNames.apply(null, arg);
-					if (inner) {
-						classes.push(inner);
-					}
-				}
-			} else if (argType === 'object') {
-				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-					classes.push(arg.toString());
-					continue;
-				}
-
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
-
-
-/***/ }),
-
 /***/ 1345:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
@@ -2281,6 +2215,89 @@ if (true) {
 "use strict";
 module.exports = window["React"];
 
+/***/ }),
+
+/***/ 7153:
+/***/ (function(module, exports) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = '';
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (arg) {
+				classes = appendClass(classes, parseValue(arg));
+			}
+		}
+
+		return classes;
+	}
+
+	function parseValue (arg) {
+		if (typeof arg === 'string' || typeof arg === 'number') {
+			return arg;
+		}
+
+		if (typeof arg !== 'object') {
+			return '';
+		}
+
+		if (Array.isArray(arg)) {
+			return classNames.apply(null, arg);
+		}
+
+		if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+			return arg.toString();
+		}
+
+		var classes = '';
+
+		for (var key in arg) {
+			if (hasOwn.call(arg, key) && arg[key]) {
+				classes = appendClass(classes, key);
+			}
+		}
+
+		return classes;
+	}
+
+	function appendClass (value, newClass) {
+		if (!newClass) {
+			return value;
+		}
+	
+		if (value) {
+			return value + ' ' + newClass;
+		}
+	
+		return value + newClass;
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
 /***/ })
 
 /******/ 	});
@@ -2604,7 +2621,7 @@ function extends_extends() {
 ;// CONCATENATED MODULE: external ["wp","element"]
 var external_wp_element_namespaceObject = window["wp"]["element"];
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(4403);
+var classnames = __webpack_require__(7153);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
@@ -5086,6 +5103,11 @@ var CompositeItem = createComponent({
 
 
 ;// CONCATENATED MODULE: ./node_modules/@floating-ui/utils/dist/floating-ui.utils.mjs
+/**
+ * Custom positioning reference element.
+ * @see https://floating-ui.com/docs/virtual-elements
+ */
+
 const floating_ui_utils_sides = (/* unused pure expression or super */ null && (['top', 'right', 'bottom', 'left']));
 const alignments = (/* unused pure expression or super */ null && (['start', 'end']));
 const floating_ui_utils_placements = /*#__PURE__*/(/* unused pure expression or super */ null && (floating_ui_utils_sides.reduce((acc, side) => acc.concat(side, side + "-" + alignments[0], side + "-" + alignments[1]), [])));
@@ -5273,7 +5295,7 @@ function computeCoordsFromPlacement(_ref, placement, rtl) {
 
 /**
  * Computes the `x` and `y` coordinates that will place the floating element
- * next to a reference element when it is given a certain positioning strategy.
+ * next to a given reference element.
  *
  * This export does not have any `platform` interface logic. You will need to
  * write one for the platform you are using Floating UI with.
@@ -5351,7 +5373,6 @@ const computePosition = async (reference, floating, config) => {
         } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
       }
       i = -1;
-      continue;
     }
   }
   return {
@@ -5414,6 +5435,7 @@ async function detectOverflow(state, options) {
     y: 1
   };
   const elementClientRect = floating_ui_utils_rectToClientRect(platform.convertOffsetParentRelativeRectToViewportRelativeRect ? await platform.convertOffsetParentRelativeRectToViewportRelativeRect({
+    elements,
     rect,
     offsetParent,
     strategy
@@ -5492,7 +5514,7 @@ const arrow = options => ({
     // to point to nothing for an aligned placement, adjust the offset of the
     // floating element itself. To ensure `shift()` continues to take action,
     // a single reset is performed when this is true.
-    const shouldAddOffset = !middlewareData.arrow && floating_ui_utils_getAlignment(placement) != null && center != offset && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
+    const shouldAddOffset = !middlewareData.arrow && floating_ui_utils_getAlignment(placement) != null && center !== offset && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
     const alignmentOffset = shouldAddOffset ? center < min$1 ? center - min$1 : center - max : 0;
     return {
       [axis]: coords[axis] + alignmentOffset,
@@ -5617,7 +5639,7 @@ const autoPlacement = function (options) {
  * clipping boundary. Alternative to `autoPlacement`.
  * @see https://floating-ui.com/docs/flip
  */
-const floating_ui_core_flip = function (options) {
+const flip = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -5928,6 +5950,7 @@ const inline = function (options) {
 
 // For type backwards-compatibility, the `OffsetOptions` type was also
 // Derivable.
+
 async function convertValueToCoords(state, options) {
   const {
     placement,
@@ -5941,8 +5964,6 @@ async function convertValueToCoords(state, options) {
   const mainAxisMulti = ['left', 'top'].includes(side) ? -1 : 1;
   const crossAxisMulti = rtl && isVertical ? -1 : 1;
   const rawValue = floating_ui_utils_evaluate(options, state);
-
-  // eslint-disable-next-line prefer-const
   let {
     mainAxis,
     crossAxis,
@@ -5984,15 +6005,27 @@ const offset = function (options) {
     name: 'offset',
     options,
     async fn(state) {
+      var _middlewareData$offse, _middlewareData$arrow;
       const {
         x,
-        y
+        y,
+        placement,
+        middlewareData
       } = state;
       const diffCoords = await convertValueToCoords(state, options);
+
+      // If the placement is the same and the arrow caused an alignment offset
+      // then we don't need to change the positioning coordinates.
+      if (placement === ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse.placement) && (_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) {
+        return {};
+      }
       return {
         x: x + diffCoords.x,
         y: y + diffCoords.y,
-        data: diffCoords
+        data: {
+          ...diffCoords,
+          placement
+        }
       };
     }
   };
@@ -6003,7 +6036,7 @@ const offset = function (options) {
  * keep it in view when it will overflow the clipping boundary.
  * @see https://floating-ui.com/docs/shift
  */
-const floating_ui_core_shift = function (options) {
+const shift = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -6224,7 +6257,7 @@ const size = function (options) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@floating-ui/utils/dom/dist/floating-ui.utils.dom.mjs
+;// CONCATENATED MODULE: ./node_modules/@floating-ui/utils/dist/floating-ui.utils.dom.mjs
 function getNodeName(node) {
   if (isNode(node)) {
     return (node.nodeName || '').toLowerCase();
@@ -6236,7 +6269,7 @@ function getNodeName(node) {
 }
 function floating_ui_utils_dom_getWindow(node) {
   var _node$ownerDocument;
-  return (node == null ? void 0 : (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
+  return (node == null || (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
 }
 function getDocumentElement(node) {
   var _ref;
@@ -6462,8 +6495,9 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
   if (domElement) {
     const win = floating_ui_utils_dom_getWindow(domElement);
     const offsetWin = offsetParent && isElement(offsetParent) ? floating_ui_utils_dom_getWindow(offsetParent) : offsetParent;
-    let currentIFrame = win.frameElement;
-    while (currentIFrame && offsetParent && offsetWin !== win) {
+    let currentWin = win;
+    let currentIFrame = currentWin.frameElement;
+    while (currentIFrame && offsetParent && offsetWin !== currentWin) {
       const iframeScale = getScale(currentIFrame);
       const iframeRect = currentIFrame.getBoundingClientRect();
       const css = floating_ui_utils_dom_getComputedStyle(currentIFrame);
@@ -6475,7 +6509,8 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
       height *= iframeScale.y;
       x += left;
       y += top;
-      currentIFrame = floating_ui_utils_dom_getWindow(currentIFrame).frameElement;
+      currentWin = floating_ui_utils_dom_getWindow(currentIFrame);
+      currentIFrame = currentWin.frameElement;
     }
   }
   return floating_ui_utils_rectToClientRect({
@@ -6486,15 +6521,28 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
   });
 }
 
+const topLayerSelectors = [':popover-open', ':modal'];
+function isTopLayer(floating) {
+  return topLayerSelectors.some(selector => {
+    try {
+      return floating.matches(selector);
+    } catch (e) {
+      return false;
+    }
+  });
+}
+
 function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
   let {
+    elements,
     rect,
     offsetParent,
     strategy
   } = _ref;
-  const isOffsetParentAnElement = isHTMLElement(offsetParent);
+  const isFixed = strategy === 'fixed';
   const documentElement = getDocumentElement(offsetParent);
-  if (offsetParent === documentElement) {
+  const topLayer = elements ? isTopLayer(elements.floating) : false;
+  if (offsetParent === documentElement || topLayer && isFixed) {
     return rect;
   }
   let scroll = {
@@ -6503,7 +6551,8 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
   };
   let scale = createCoords(1);
   const offsets = createCoords(0);
-  if (isOffsetParentAnElement || !isOffsetParentAnElement && strategy !== 'fixed') {
+  const isOffsetParentAnElement = isHTMLElement(offsetParent);
+  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
     if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
       scroll = getNodeScroll(offsetParent);
     }
@@ -6684,7 +6733,14 @@ function getClippingRect(_ref) {
 }
 
 function getDimensions(element) {
-  return getCssDimensions(element);
+  const {
+    width,
+    height
+  } = getCssDimensions(element);
+  return {
+    width,
+    height
+  };
 }
 
 function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
@@ -6709,9 +6765,11 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
       offsets.x = getWindowScrollBarX(documentElement);
     }
   }
+  const x = rect.left + scroll.scrollLeft - offsets.x;
+  const y = rect.top + scroll.scrollTop - offsets.y;
   return {
-    x: rect.left + scroll.scrollLeft - offsets.x,
-    y: rect.top + scroll.scrollTop - offsets.y,
+    x,
+    y,
     width: rect.width,
     height: rect.height
   };
@@ -6731,7 +6789,7 @@ function getTrueOffsetParent(element, polyfill) {
 // such as table ancestors and cross browser bugs.
 function getOffsetParent(element, polyfill) {
   const window = floating_ui_utils_dom_getWindow(element);
-  if (!isHTMLElement(element)) {
+  if (!isHTMLElement(element) || isTopLayer(element)) {
     return window;
   }
   let offsetParent = getTrueOffsetParent(element, polyfill);
@@ -6744,20 +6802,15 @@ function getOffsetParent(element, polyfill) {
   return offsetParent || getContainingBlock(element) || window;
 }
 
-const getElementRects = async function (_ref) {
-  let {
-    reference,
-    floating,
-    strategy
-  } = _ref;
+const getElementRects = async function (data) {
   const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
   const getDimensionsFn = this.getDimensions;
   return {
-    reference: getRectRelativeToOffsetParent(reference, await getOffsetParentFn(floating), strategy),
+    reference: getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
     floating: {
       x: 0,
       y: 0,
-      ...(await getDimensionsFn(floating))
+      ...(await getDimensionsFn(data.floating))
     }
   };
 };
@@ -6785,8 +6838,9 @@ function observeMove(element, onMove) {
   let timeoutId;
   const root = getDocumentElement(element);
   function cleanup() {
+    var _io;
     clearTimeout(timeoutId);
-    io && io.disconnect();
+    (_io = io) == null || _io.disconnect();
     io = null;
   }
   function refresh(skip, threshold) {
@@ -6892,7 +6946,8 @@ function autoUpdate(reference, floating, update, options) {
         resizeObserver.unobserve(floating);
         cancelAnimationFrame(reobserveFrame);
         reobserveFrame = requestAnimationFrame(() => {
-          resizeObserver && resizeObserver.observe(floating);
+          var _resizeObserver;
+          (_resizeObserver = resizeObserver) == null || _resizeObserver.observe(floating);
         });
       }
       update();
@@ -6917,12 +6972,13 @@ function autoUpdate(reference, floating, update, options) {
   }
   update();
   return () => {
+    var _resizeObserver2;
     ancestors.forEach(ancestor => {
       ancestorScroll && ancestor.removeEventListener('scroll', update);
       ancestorResize && ancestor.removeEventListener('resize', update);
     });
-    cleanupIo && cleanupIo();
-    resizeObserver && resizeObserver.disconnect();
+    cleanupIo == null || cleanupIo();
+    (_resizeObserver2 = resizeObserver) == null || _resizeObserver2.disconnect();
     resizeObserver = null;
     if (animationFrame) {
       cancelAnimationFrame(frameId);
@@ -6931,9 +6987,65 @@ function autoUpdate(reference, floating, update, options) {
 }
 
 /**
+ * Optimizes the visibility of the floating element by choosing the placement
+ * that has the most space available automatically, without needing to specify a
+ * preferred placement. Alternative to `flip`.
+ * @see https://floating-ui.com/docs/autoPlacement
+ */
+const floating_ui_dom_autoPlacement = (/* unused pure expression or super */ null && (autoPlacement$1));
+
+/**
+ * Optimizes the visibility of the floating element by shifting it in order to
+ * keep it in view when it will overflow the clipping boundary.
+ * @see https://floating-ui.com/docs/shift
+ */
+const floating_ui_dom_shift = shift;
+
+/**
+ * Optimizes the visibility of the floating element by flipping the `placement`
+ * in order to keep it in view when the preferred placement(s) will overflow the
+ * clipping boundary. Alternative to `autoPlacement`.
+ * @see https://floating-ui.com/docs/flip
+ */
+const floating_ui_dom_flip = flip;
+
+/**
+ * Provides data that allows you to change the size of the floating element —
+ * for instance, prevent it from overflowing the clipping boundary or match the
+ * width of the reference element.
+ * @see https://floating-ui.com/docs/size
+ */
+const floating_ui_dom_size = size;
+
+/**
+ * Provides data to hide the floating element in applicable situations, such as
+ * when it is not in the same clipping context as the reference element.
+ * @see https://floating-ui.com/docs/hide
+ */
+const floating_ui_dom_hide = (/* unused pure expression or super */ null && (hide$1));
+
+/**
+ * Provides data to position an inner element of the floating element so that it
+ * appears centered to the reference element.
+ * @see https://floating-ui.com/docs/arrow
+ */
+const floating_ui_dom_arrow = arrow;
+
+/**
+ * Provides improved positioning for inline reference elements that can span
+ * over multiple lines, such as hyperlinks or range selections.
+ * @see https://floating-ui.com/docs/inline
+ */
+const floating_ui_dom_inline = (/* unused pure expression or super */ null && (inline$1));
+
+/**
+ * Built-in `limiter` that will stop `shift()` at a certain point.
+ */
+const floating_ui_dom_limitShift = (/* unused pure expression or super */ null && (limitShift$1));
+
+/**
  * Computes the `x` and `y` coordinates that will place the floating element
- * next to a reference element when it is given a certain CSS positioning
- * strategy.
+ * next to a given reference element.
  */
 const floating_ui_dom_computePosition = (reference, floating, options) => {
   // This caches the expensive `getClippingElementAncestors` function so that
@@ -7172,7 +7284,7 @@ const floating_ui_react_dom_esm_arrow = options => {
     fn(args) {
       if (isRef(element)) {
         if (element.current != null) {
-          return arrow({
+          return floating_ui_dom_arrow({
             element: element.current,
             padding
           }).fn(args);
@@ -7180,7 +7292,7 @@ const floating_ui_react_dom_esm_arrow = options => {
 
         return {};
       } else if (element) {
-        return arrow({
+        return floating_ui_dom_arrow({
           element,
           padding
         }).fn(args);
@@ -19037,7 +19149,7 @@ var emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectWi
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-element-c39617d8.browser.esm.js
+;// CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-element-43c6fea0.browser.esm.js
 
 
 
@@ -19048,8 +19160,8 @@ var emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectWi
 
 
 
-var emotion_element_c39617d8_browser_esm_isBrowser = "object" !== 'undefined';
-var emotion_element_c39617d8_browser_esm_hasOwnProperty = {}.hasOwnProperty;
+var emotion_element_43c6fea0_browser_esm_isBrowser = "object" !== 'undefined';
+var emotion_element_43c6fea0_browser_esm_hasOwn = {}.hasOwnProperty;
 
 var EmotionCacheContext = /* #__PURE__ */external_React_.createContext( // we're doing this to avoid preconstruct's dead code elimination in this one case
 // because this module is primarily intended for the browser and node
@@ -19068,7 +19180,7 @@ var __unsafe_useEmotionCache = function useEmotionCache() {
   return (0,external_React_.useContext)(EmotionCacheContext);
 };
 
-var emotion_element_c39617d8_browser_esm_withEmotionCache = function withEmotionCache(func) {
+var emotion_element_43c6fea0_browser_esm_withEmotionCache = function withEmotionCache(func) {
   // $FlowFixMe
   return /*#__PURE__*/(0,external_React_.forwardRef)(function (props, ref) {
     // the cache will never be null in the browser
@@ -19077,8 +19189,8 @@ var emotion_element_c39617d8_browser_esm_withEmotionCache = function withEmotion
   });
 };
 
-if (!emotion_element_c39617d8_browser_esm_isBrowser) {
-  emotion_element_c39617d8_browser_esm_withEmotionCache = function withEmotionCache(func) {
+if (!emotion_element_43c6fea0_browser_esm_isBrowser) {
+  emotion_element_43c6fea0_browser_esm_withEmotionCache = function withEmotionCache(func) {
     return function (props) {
       var cache = (0,external_React_.useContext)(EmotionCacheContext);
 
@@ -19101,12 +19213,12 @@ if (!emotion_element_c39617d8_browser_esm_isBrowser) {
   };
 }
 
-var emotion_element_c39617d8_browser_esm_ThemeContext = /* #__PURE__ */external_React_.createContext({});
+var emotion_element_43c6fea0_browser_esm_ThemeContext = /* #__PURE__ */external_React_.createContext({});
 
 if (false) {}
 
 var useTheme = function useTheme() {
-  return React.useContext(emotion_element_c39617d8_browser_esm_ThemeContext);
+  return React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
 };
 
 var getTheme = function getTheme(outerTheme, theme) {
@@ -19129,13 +19241,13 @@ var createCacheWithTheme = /* #__PURE__ */(/* unused pure expression or super */
   });
 })));
 var ThemeProvider = function ThemeProvider(props) {
-  var theme = React.useContext(emotion_element_c39617d8_browser_esm_ThemeContext);
+  var theme = React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
 
   if (props.theme !== theme) {
     theme = createCacheWithTheme(theme)(props.theme);
   }
 
-  return /*#__PURE__*/React.createElement(emotion_element_c39617d8_browser_esm_ThemeContext.Provider, {
+  return /*#__PURE__*/React.createElement(emotion_element_43c6fea0_browser_esm_ThemeContext.Provider, {
     value: theme
   }, props.children);
 };
@@ -19143,7 +19255,7 @@ function withTheme(Component) {
   var componentName = Component.displayName || Component.name || 'Component';
 
   var render = function render(props, ref) {
-    var theme = React.useContext(emotion_element_c39617d8_browser_esm_ThemeContext);
+    var theme = React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
     return /*#__PURE__*/React.createElement(Component, _extends({
       theme: theme,
       ref: ref
@@ -19201,13 +19313,13 @@ var getLabelFromStackTrace = function getLabelFromStackTrace(stackTrace) {
 
 var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
 var labelPropName = '__EMOTION_LABEL_PLEASE_DO_NOT_USE__';
-var emotion_element_c39617d8_browser_esm_createEmotionProps = function createEmotionProps(type, props) {
+var emotion_element_43c6fea0_browser_esm_createEmotionProps = function createEmotionProps(type, props) {
   if (false) {}
 
   var newProps = {};
 
   for (var key in props) {
-    if (emotion_element_c39617d8_browser_esm_hasOwnProperty.call(props, key)) {
+    if (emotion_element_43c6fea0_browser_esm_hasOwn.call(props, key)) {
       newProps[key] = props[key];
     }
   }
@@ -19232,7 +19344,7 @@ var Insertion = function Insertion(_ref) {
   return null;
 };
 
-var emotion_element_c39617d8_browser_esm_Emotion = /* #__PURE__ */(/* unused pure expression or super */ null && (emotion_element_c39617d8_browser_esm_withEmotionCache(function (props, cache, ref) {
+var emotion_element_43c6fea0_browser_esm_Emotion = /* #__PURE__ */(/* unused pure expression or super */ null && (emotion_element_43c6fea0_browser_esm_withEmotionCache(function (props, cache, ref) {
   var cssProp = props.css; // so that using `css` from `emotion` and passing the result to the css prop works
   // not passing the registered cache to serializeStyles because it would
   // make certain babel optimisations not possible
@@ -19251,7 +19363,7 @@ var emotion_element_c39617d8_browser_esm_Emotion = /* #__PURE__ */(/* unused pur
     className = props.className + " ";
   }
 
-  var serialized = serializeStyles(registeredStyles, undefined, React.useContext(emotion_element_c39617d8_browser_esm_ThemeContext));
+  var serialized = serializeStyles(registeredStyles, undefined, React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext));
 
   if (false) { var labelFromStack; }
 
@@ -19259,7 +19371,7 @@ var emotion_element_c39617d8_browser_esm_Emotion = /* #__PURE__ */(/* unused pur
   var newProps = {};
 
   for (var key in props) {
-    if (emotion_element_c39617d8_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || 0)) {
+    if (emotion_element_43c6fea0_browser_esm_hasOwn.call(props, key) && key !== 'css' && key !== typePropName && ( true || 0)) {
       newProps[key] = props[key];
     }
   }
@@ -19275,7 +19387,7 @@ var emotion_element_c39617d8_browser_esm_Emotion = /* #__PURE__ */(/* unused pur
 
 if (false) {}
 
-var Emotion$1 = (/* unused pure expression or super */ null && (emotion_element_c39617d8_browser_esm_Emotion));
+var Emotion$1 = (/* unused pure expression or super */ null && (emotion_element_43c6fea0_browser_esm_Emotion));
 
 
 
@@ -19770,7 +19882,7 @@ const visuallyHidden = {
 ;// CONCATENATED MODULE: ./node_modules/@emotion/is-prop-valid/dist/emotion-is-prop-valid.esm.js
 
 
-var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
+var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|disableRemotePlayback|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
 
 var isPropValid = /* #__PURE__ */memoize(function (prop) {
   return reactPropsRegex.test(prop) || prop.charCodeAt(0) === 111
@@ -19877,7 +19989,7 @@ var createStyled = function createStyled(tag, options) {
     } // $FlowFixMe: we need to cast StatelessFunctionalComponent to our PrivateStyledComponent class
 
 
-    var Styled = emotion_element_c39617d8_browser_esm_withEmotionCache(function (props, cache, ref) {
+    var Styled = emotion_element_43c6fea0_browser_esm_withEmotionCache(function (props, cache, ref) {
       var FinalTag = shouldUseAs && props.as || baseTag;
       var className = '';
       var classInterpolations = [];
@@ -19890,7 +20002,7 @@ var createStyled = function createStyled(tag, options) {
           mergedProps[key] = props[key];
         }
 
-        mergedProps.theme = external_React_.useContext(emotion_element_c39617d8_browser_esm_ThemeContext);
+        mergedProps.theme = external_React_.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
       }
 
       if (typeof props.className === 'string') {
@@ -22703,7 +22815,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
       };
     }
 
-  }, offset(offsetProp), computedFlipProp ? floating_ui_core_flip() : undefined, computedResizeProp ? size({
+  }, offset(offsetProp), computedFlipProp ? floating_ui_dom_flip() : undefined, computedResizeProp ? floating_ui_dom_size({
     apply(sizeProps) {
       var _refs$floating$curren;
 
@@ -22719,7 +22831,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
       });
     }
 
-  }) : undefined, shift ? floating_ui_core_shift({
+  }) : undefined, shift ? floating_ui_dom_shift({
     crossAxis: true,
     limiter: limit_shift_limitShift(),
     padding: 1 // Necessary to avoid flickering at the edge of the viewport.
@@ -23336,7 +23448,7 @@ var hoist_non_react_statics_cjs = __webpack_require__(1281);
 
 var pkg = {
 	name: "@emotion/react",
-	version: "11.11.1",
+	version: "11.11.4",
 	main: "dist/emotion-react.cjs.js",
 	module: "dist/emotion-react.esm.js",
 	browser: {
@@ -23409,7 +23521,7 @@ var pkg = {
 		"@babel/runtime": "^7.18.3",
 		"@emotion/babel-plugin": "^11.11.0",
 		"@emotion/cache": "^11.11.0",
-		"@emotion/serialize": "^1.1.2",
+		"@emotion/serialize": "^1.1.3",
 		"@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
 		"@emotion/utils": "^1.2.1",
 		"@emotion/weak-memoize": "^0.3.1",
@@ -23425,7 +23537,7 @@ var pkg = {
 	},
 	devDependencies: {
 		"@definitelytyped/dtslint": "0.0.112",
-		"@emotion/css": "11.11.0",
+		"@emotion/css": "11.11.2",
 		"@emotion/css-prettifier": "1.1.3",
 		"@emotion/server": "11.11.0",
 		"@emotion/styled": "11.11.0",
@@ -23469,7 +23581,7 @@ var pkg = {
 var jsx = function jsx(type, props) {
   var args = arguments;
 
-  if (props == null || !hasOwnProperty.call(props, 'css')) {
+  if (props == null || !hasOwn.call(props, 'css')) {
     // $FlowFixMe
     return React.createElement.apply(undefined, args);
   }
@@ -36244,7 +36356,7 @@ function getExpandedFallbackPlacements(placement) {
   return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
 }
 
-function flip(_ref) {
+function flip_flip(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -36368,7 +36480,7 @@ function flip(_ref) {
   name: 'flip',
   enabled: true,
   phase: 'main',
-  fn: flip,
+  fn: flip_flip,
   requiresIfExists: ['offset'],
   data: {
     _skip: false
@@ -51168,26 +51280,6 @@ function StableCustomSelectControl(props) {
 ;// CONCATENATED MODULE: ./node_modules/use-lilius/build/index.es.js
 
 
-function toInteger(dirtyNumber) {
-  if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
-    return NaN;
-  }
-
-  var number = Number(dirtyNumber);
-
-  if (isNaN(number)) {
-    return number;
-  }
-
-  return number < 0 ? Math.ceil(number) : Math.floor(number);
-}
-
-function requiredArgs(required, args) {
-  if (args.length < required) {
-    throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
-  }
-}
-
 /**
  * @name toDate
  * @category Common Helpers
@@ -51204,9 +51296,11 @@ function requiredArgs(required, args) {
  *
  * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
  *
- * @param {Date|Number} argument - the value to convert
- * @returns {Date} the parsed date in the local time zone
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param argument - The value to convert
+ *
+ * @returns The parsed date in the local time zone
  *
  * @example
  * // Clone the date:
@@ -51218,25 +51312,65 @@ function requiredArgs(required, args) {
  * const result = toDate(1392098430000)
  * //=> Tue Feb 11 2014 11:30:30
  */
-
 function toDate(argument) {
-  requiredArgs(1, arguments);
-  var argStr = Object.prototype.toString.call(argument); // Clone the date
+  const argStr = Object.prototype.toString.call(argument);
 
-  if (argument instanceof Date || typeof argument === 'object' && argStr === '[object Date]') {
+  // Clone the date
+  if (
+    argument instanceof Date ||
+    (typeof argument === "object" && argStr === "[object Date]")
+  ) {
     // Prevent the date to lose the milliseconds when passed to new Date() in IE10
-    return new Date(argument.getTime());
-  } else if (typeof argument === 'number' || argStr === '[object Number]') {
+    return new argument.constructor(+argument);
+  } else if (
+    typeof argument === "number" ||
+    argStr === "[object Number]" ||
+    typeof argument === "string" ||
+    argStr === "[object String]"
+  ) {
+    // TODO: Can we get rid of as?
     return new Date(argument);
   } else {
-    if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
-      // eslint-disable-next-line no-console
-      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments"); // eslint-disable-next-line no-console
-
-      console.warn(new Error().stack);
-    }
-
+    // TODO: Can we get rid of as?
     return new Date(NaN);
+  }
+}
+
+/**
+ * @name constructFrom
+ * @category Generic Helpers
+ * @summary Constructs a date using the reference date and the value
+ *
+ * @description
+ * The function constructs a new date using the constructor from the reference
+ * date and the given value. It helps to build generic functions that accept
+ * date extensions.
+ *
+ * It defaults to `Date` if the passed reference date is a number or a string.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The reference date to take constructor from
+ * @param value - The value to create the date
+ *
+ * @returns Date initialized using the given date and value
+ *
+ * @example
+ * import { constructFrom } from 'date-fns'
+ *
+ * // A function that clones a date preserving the original type
+ * function cloneDate<DateType extends Date(date: DateType): DateType {
+ *   return constructFrom(
+ *     date, // Use contrustor from the given date
+ *     date.getTime() // Use the date value to create a new date
+ *   )
+ * }
+ */
+function constructFrom(date, value) {
+  if (date instanceof Date) {
+    return new date.constructor(value);
+  } else {
+    return new Date(value);
   }
 }
 
@@ -51248,33 +51382,27 @@ function toDate(argument) {
  * @description
  * Add the specified number of days to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of days to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} - the new date with the days added
- * @throws {TypeError} - 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of days to be added.
+ *
+ * @returns The new date with the days added
  *
  * @example
  * // Add 10 days to 1 September 2014:
  * const result = addDays(new Date(2014, 8, 1), 10)
  * //=> Thu Sep 11 2014 00:00:00
  */
-
-function addDays(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var amount = toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
+function addDays(date, amount) {
+  const _date = toDate(date);
+  if (isNaN(amount)) return constructFrom(date, NaN);
   if (!amount) {
     // If 0 days, no-op to avoid changing times in the hour before end of DST
-    return date;
+    return _date;
   }
-
-  date.setDate(date.getDate() + amount);
-  return date;
+  _date.setDate(_date.getDate() + amount);
+  return _date;
 }
 
 /**
@@ -51285,32 +51413,32 @@ function addDays(dirtyDate, dirtyAmount) {
  * @description
  * Add the specified number of months to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the months added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of months to be added.
+ *
+ * @returns The new date with the months added
  *
  * @example
  * // Add 5 months to 1 September 2014:
  * const result = addMonths(new Date(2014, 8, 1), 5)
  * //=> Sun Feb 01 2015 00:00:00
+ *
+ * // Add one month to 30 January 2023:
+ * const result = addMonths(new Date(2023, 0, 30), 1)
+ * //=> Tue Feb 28 2023 00:00:00
  */
-
-function addMonths(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var amount = toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
+function addMonths(date, amount) {
+  const _date = toDate(date);
+  if (isNaN(amount)) return constructFrom(date, NaN);
   if (!amount) {
     // If 0 months, no-op to avoid changing times in the hour before end of DST
-    return date;
+    return _date;
   }
+  const dayOfMonth = _date.getDate();
 
-  var dayOfMonth = date.getDate(); // The JS Date object supports date math by accepting out-of-bounds values for
+  // The JS Date object supports date math by accepting out-of-bounds values for
   // month, day, etc. For example, new Date(2020, 0, 0) returns 31 Dec 2019 and
   // new Date(2020, 13, 1) returns 1 Feb 2021.  This is *almost* the behavior we
   // want except that dates will wrap around the end of a month, meaning that
@@ -51318,11 +51446,9 @@ function addMonths(dirtyDate, dirtyAmount) {
   // we'll default to the end of the desired month by adding 1 to the desired
   // month and using a date of 0 to back up one day to the end of the desired
   // month.
-
-  var endOfDesiredMonth = new Date(date.getTime());
-  endOfDesiredMonth.setMonth(date.getMonth() + amount + 1, 0);
-  var daysInMonth = endOfDesiredMonth.getDate();
-
+  const endOfDesiredMonth = constructFrom(date, _date.getTime());
+  endOfDesiredMonth.setMonth(_date.getMonth() + amount + 1, 0);
+  const daysInMonth = endOfDesiredMonth.getDate();
   if (dayOfMonth >= daysInMonth) {
     // If we're already at the end of the month, then this is the correct date
     // and we're done.
@@ -51335,15 +51461,24 @@ function addMonths(dirtyDate, dirtyAmount) {
     // the last day of the month and its local time was in the hour skipped or
     // repeated next to a DST transition.  So we use `date` instead which is
     // guaranteed to still have the original time.
-    date.setFullYear(endOfDesiredMonth.getFullYear(), endOfDesiredMonth.getMonth(), dayOfMonth);
-    return date;
+    _date.setFullYear(
+      endOfDesiredMonth.getFullYear(),
+      endOfDesiredMonth.getMonth(),
+      dayOfMonth,
+    );
+    return _date;
   }
 }
 
-var index_es_defaultOptions = {};
+let index_es_defaultOptions = {};
+
 function getDefaultOptions() {
   return index_es_defaultOptions;
 }
+
+/**
+ * The {@link startOfWeek} function options.
+ */
 
 /**
  * @name startOfWeek
@@ -51354,13 +51489,12 @@ function getDefaultOptions() {
  * Return the start of a week for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the start of a week
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of a week
  *
  * @example
  * // The start of a week for 2 September 2014 11:55:00:
@@ -51372,24 +51506,22 @@ function getDefaultOptions() {
  * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Mon Sep 01 2014 00:00:00
  */
+function startOfWeek(date, options) {
+  const defaultOptions = getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
 
-function startOfWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+  const _date = toDate(date);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
 
-  requiredArgs(1, arguments);
-  var defaultOptions = getDefaultOptions();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate(dirtyDate);
-  var day = date.getDay();
-  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-  date.setDate(date.getDate() - diff);
-  date.setHours(0, 0, 0, 0);
-  return date;
+  _date.setDate(_date.getDate() - diff);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
 
 /**
@@ -51401,21 +51533,21 @@ function startOfWeek(dirtyDate, options) {
  * Return the start of a day for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the start of a day
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a day
  *
  * @example
  * // The start of a day for 2 September 2014 11:55:00:
  * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 02 2014 00:00:00
  */
-
-function startOfDay(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  date.setHours(0, 0, 0, 0);
-  return date;
+function startOfDay(date) {
+  const _date = toDate(date);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
 
 /**
@@ -51426,22 +51558,21 @@ function startOfDay(dirtyDate) {
  * @description
  * Add the specified number of week to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of weeks to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the weeks added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of weeks to be added.
+ *
+ * @returns The new date with the weeks added
  *
  * @example
  * // Add 4 weeks to 1 September 2014:
  * const result = addWeeks(new Date(2014, 8, 1), 4)
  * //=> Mon Sep 29 2014 00:00:00
  */
-
-function addWeeks(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  var days = amount * 7;
-  return addDays(dirtyDate, days);
+function addWeeks(date, amount) {
+  const days = amount * 7;
+  return addDays(date, days);
 }
 
 /**
@@ -51452,21 +51583,20 @@ function addWeeks(dirtyDate, dirtyAmount) {
  * @description
  * Add the specified number of years to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of years to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the years added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of years to be added.
+ *
+ * @returns The new date with the years added
  *
  * @example
  * // Add 5 years to 1 September 2014:
  * const result = addYears(new Date(2014, 8, 1), 5)
  * //=> Sun Sep 01 2019 00:00:00
  */
-
-function addYears(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addMonths(dirtyDate, amount * 12);
+function addYears(date, amount) {
+  return addMonths(date, amount * 12);
 }
 
 /**
@@ -51478,24 +51608,28 @@ function addYears(dirtyDate, dirtyAmount) {
  * Return the end of a month for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the end of a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The end of a month
  *
  * @example
  * // The end of a month for 2 September 2014 11:55:00:
  * const result = endOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 30 2014 23:59:59.999
  */
-
-function endOfMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  var month = date.getMonth();
-  date.setFullYear(date.getFullYear(), month + 1, 0);
-  date.setHours(23, 59, 59, 999);
-  return date;
+function endOfMonth(date) {
+  const _date = toDate(date);
+  const month = _date.getMonth();
+  _date.setFullYear(_date.getFullYear(), month + 1, 0);
+  _date.setHours(23, 59, 59, 999);
+  return _date;
 }
+
+/**
+ * The {@link eachDayOfInterval} function options.
+ */
 
 /**
  * @name eachDayOfInterval
@@ -51505,14 +51639,12 @@ function endOfMonth(dirtyDate) {
  * @description
  * Return the array of dates within the specified time interval.
  *
- * @param {Interval} interval - the interval. See [Interval]{@link https://date-fns.org/docs/Interval}
- * @param {Object} [options] - an object with options.
- * @param {Number} [options.step=1] - the step to increment by. The value should be more than 1.
- * @returns {Date[]} the array with starts of days from the day of the interval start to the day of the interval end
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.step` must be a number greater than 1
- * @throws {RangeError} The start of an interval cannot be after its end
- * @throws {RangeError} Date in interval cannot be `Invalid Date`
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param interval - The interval.
+ * @param options - An object with options.
+ *
+ * @returns The array with starts of days from the day of the interval start to the day of the interval end
  *
  * @example
  * // Each day between 6 October 2014 and 10 October 2014:
@@ -51528,34 +51660,36 @@ function endOfMonth(dirtyDate) {
  * //   Fri Oct 10 2014 00:00:00
  * // ]
  */
+function eachDayOfInterval(interval, options) {
+  const startDate = toDate(interval.start);
+  const endDate = toDate(interval.end);
 
-function eachDayOfInterval(dirtyInterval, options) {
-  var _options$step;
+  let reversed = +startDate > +endDate;
+  const endTime = reversed ? +startDate : +endDate;
+  const currentDate = reversed ? endDate : startDate;
+  currentDate.setHours(0, 0, 0, 0);
 
-  requiredArgs(1, arguments);
-  var interval = dirtyInterval || {};
-  var startDate = toDate(interval.start);
-  var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
-
-  if (!(startDate.getTime() <= endTime)) {
-    throw new RangeError('Invalid interval');
+  let step = options?.step ?? 1;
+  if (!step) return [];
+  if (step < 0) {
+    step = -step;
+    reversed = !reversed;
   }
 
-  var dates = [];
-  var currentDate = startDate;
-  currentDate.setHours(0, 0, 0, 0);
-  var step = Number((_options$step = options === null || options === void 0 ? void 0 : options.step) !== null && _options$step !== void 0 ? _options$step : 1);
-  if (step < 1 || isNaN(step)) throw new RangeError('`options.step` must be a number greater than 1');
+  const dates = [];
 
-  while (currentDate.getTime() <= endTime) {
+  while (+currentDate <= endTime) {
     dates.push(toDate(currentDate));
     currentDate.setDate(currentDate.getDate() + step);
     currentDate.setHours(0, 0, 0, 0);
   }
 
-  return dates;
+  return reversed ? dates.reverse() : dates;
 }
+
+/**
+ * The {@link eachMonthOfInterval} function options.
+ */
 
 /**
  * @name eachMonthOfInterval
@@ -51565,11 +51699,11 @@ function eachDayOfInterval(dirtyInterval, options) {
  * @description
  * Return the array of months within the specified time interval.
  *
- * @param {Interval} interval - the interval. See [Interval]{@link https://date-fns.org/docs/Interval}
- * @returns {Date[]} the array with starts of months from the month of the interval start to the month of the interval end
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} The start of an interval cannot be after its end
- * @throws {RangeError} Date in interval cannot be `Invalid Date`
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param interval - The interval
+ *
+ * @returns The array with starts of months from the month of the interval start to the month of the interval end
  *
  * @example
  * // Each month between 6 February 2014 and 10 August 2014:
@@ -51587,30 +51721,36 @@ function eachDayOfInterval(dirtyInterval, options) {
  * //   Fri Aug 01 2014 00:00:00
  * // ]
  */
+function eachMonthOfInterval(interval, options) {
+  const startDate = toDate(interval.start);
+  const endDate = toDate(interval.end);
 
-function eachMonthOfInterval(dirtyInterval) {
-  requiredArgs(1, arguments);
-  var interval = dirtyInterval || {};
-  var startDate = toDate(interval.start);
-  var endDate = toDate(interval.end);
-  var endTime = endDate.getTime();
-  var dates = []; // Throw an exception if start date is after end date or if any date is `Invalid Date`
-
-  if (!(startDate.getTime() <= endTime)) {
-    throw new RangeError('Invalid interval');
-  }
-
-  var currentDate = startDate;
+  let reversed = +startDate > +endDate;
+  const endTime = reversed ? +startDate : +endDate;
+  const currentDate = reversed ? endDate : startDate;
   currentDate.setHours(0, 0, 0, 0);
   currentDate.setDate(1);
 
-  while (currentDate.getTime() <= endTime) {
-    dates.push(toDate(currentDate));
-    currentDate.setMonth(currentDate.getMonth() + 1);
+  let step = options?.step ?? 1;
+  if (!step) return [];
+  if (step < 0) {
+    step = -step;
+    reversed = !reversed;
   }
 
-  return dates;
+  const dates = [];
+
+  while (+currentDate <= endTime) {
+    dates.push(toDate(currentDate));
+    currentDate.setMonth(currentDate.getMonth() + step);
+  }
+
+  return reversed ? dates.reverse() : dates;
 }
+
+/**
+ * The {@link eachWeekOfInterval} function options.
+ */
 
 /**
  * @name eachWeekOfInterval
@@ -51620,15 +51760,12 @@ function eachMonthOfInterval(dirtyInterval) {
  * @description
  * Return the array of weeks within the specified time interval.
  *
- * @param {Interval} interval - the interval. See [Interval]{@link https://date-fns.org/docs/Interval}
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date[]} the array with starts of weeks from the week of the interval start to the week of the interval end
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be 0, 1, ..., 6
- * @throws {RangeError} The start of an interval cannot be after its end
- * @throws {RangeError} Date in interval cannot be `Invalid Date`
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param interval - The interval.
+ * @param options - An object with options.
+ *
+ * @returns The array with starts of weeks from the week of the interval start to the week of the interval end
  *
  * @example
  * // Each week within interval 6 October 2014 - 23 November 2014:
@@ -51647,35 +51784,42 @@ function eachMonthOfInterval(dirtyInterval) {
  * //   Sun Nov 23 2014 00:00:00
  * // ]
  */
+function eachWeekOfInterval(interval, options) {
+  const startDate = toDate(interval.start);
+  const endDate = toDate(interval.end);
 
-function eachWeekOfInterval(dirtyInterval, options) {
-  requiredArgs(1, arguments);
-  var interval = dirtyInterval || {};
-  var startDate = toDate(interval.start);
-  var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  let reversed = +startDate > +endDate;
+  const startDateWeek = reversed
+    ? startOfWeek(endDate, options)
+    : startOfWeek(startDate, options);
+  const endDateWeek = reversed
+    ? startOfWeek(startDate, options)
+    : startOfWeek(endDate, options);
 
-  if (!(startDate.getTime() <= endTime)) {
-    throw new RangeError('Invalid interval');
-  }
-
-  var startDateWeek = startOfWeek(startDate, options);
-  var endDateWeek = startOfWeek(endDate, options); // Some timezones switch DST at midnight, making start of day unreliable in these timezones, 3pm is a safe bet
-
+  // Some timezones switch DST at midnight, making start of day unreliable in these timezones, 3pm is a safe bet
   startDateWeek.setHours(15);
   endDateWeek.setHours(15);
-  endTime = endDateWeek.getTime();
-  var weeks = [];
-  var currentWeek = startDateWeek;
 
-  while (currentWeek.getTime() <= endTime) {
-    currentWeek.setHours(0);
-    weeks.push(toDate(currentWeek));
-    currentWeek = addWeeks(currentWeek, 1);
-    currentWeek.setHours(15);
+  const endTime = +endDateWeek.getTime();
+  let currentDate = startDateWeek;
+
+  let step = options?.step ?? 1;
+  if (!step) return [];
+  if (step < 0) {
+    step = -step;
+    reversed = !reversed;
   }
 
-  return weeks;
+  const dates = [];
+
+  while (+currentDate <= endTime) {
+    currentDate.setHours(0);
+    dates.push(toDate(currentDate));
+    currentDate = addWeeks(currentDate, step);
+    currentDate.setHours(15);
+  }
+
+  return reversed ? dates.reverse() : dates;
 }
 
 /**
@@ -51687,23 +51831,27 @@ function eachWeekOfInterval(dirtyInterval, options) {
  * Return the start of a month for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the start of a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a month
  *
  * @example
  * // The start of a month for 2 September 2014 11:55:00:
  * const result = startOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Mon Sep 01 2014 00:00:00
  */
-
-function startOfMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  date.setDate(1);
-  date.setHours(0, 0, 0, 0);
-  return date;
+function startOfMonth(date) {
+  const _date = toDate(date);
+  _date.setDate(1);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
+
+/**
+ * The {@link endOfWeek} function options.
+ */
 
 /**
  * @name endOfWeek
@@ -51714,13 +51862,12 @@ function startOfMonth(dirtyDate) {
  * Return the end of a week for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the end of a week
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The end of a week
  *
  * @example
  * // The end of a week for 2 September 2014 11:55:00:
@@ -51732,23 +51879,22 @@ function startOfMonth(dirtyDate) {
  * const result = endOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Sun Sep 07 2014 23:59:59.999
  */
-function endOfWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+function endOfWeek(date, options) {
+  const defaultOptions = getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
 
-  requiredArgs(1, arguments);
-  var defaultOptions = getDefaultOptions();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  const _date = toDate(date);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
 
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate(dirtyDate);
-  var day = date.getDay();
-  var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
-  date.setDate(date.getDate() + diff);
-  date.setHours(23, 59, 59, 999);
-  return date;
+  _date.setDate(_date.getDate() + diff);
+  _date.setHours(23, 59, 59, 999);
+  return _date;
 }
 
 /**
@@ -51759,22 +51905,22 @@ function endOfWeek(dirtyDate, options) {
  * @description
  * Get the number of days in a month of the given date.
  *
- * @param {Date|Number} date - the given date
- * @returns {Number} the number of days in a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ *
+ * @returns The number of days in a month
  *
  * @example
  * // How many days are in February 2000?
  * const result = getDaysInMonth(new Date(2000, 1))
  * //=> 29
  */
-
-function getDaysInMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  var year = date.getFullYear();
-  var monthIndex = date.getMonth();
-  var lastDayOfMonth = new Date(0);
+function getDaysInMonth(date) {
+  const _date = toDate(date);
+  const year = _date.getFullYear();
+  const monthIndex = _date.getMonth();
+  const lastDayOfMonth = constructFrom(date, 0);
   lastDayOfMonth.setFullYear(year, monthIndex + 1, 0);
   lastDayOfMonth.setHours(0, 0, 0, 0);
   return lastDayOfMonth.getDate();
@@ -51788,22 +51934,22 @@ function getDaysInMonth(dirtyDate) {
  * @description
  * Is the first date after the second one?
  *
- * @param {Date|Number} date - the date that should be after the other one to return true
- * @param {Date|Number} dateToCompare - the date to compare with
- * @returns {Boolean} the first date is after the second date
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date that should be after the other one to return true
+ * @param dateToCompare - The date to compare with
+ *
+ * @returns The first date is after the second date
  *
  * @example
  * // Is 10 July 1989 after 11 February 1987?
  * const result = isAfter(new Date(1989, 6, 10), new Date(1987, 1, 11))
  * //=> true
  */
-
-function isAfter(dirtyDate, dirtyDateToCompare) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var dateToCompare = toDate(dirtyDateToCompare);
-  return date.getTime() > dateToCompare.getTime();
+function isAfter(date, dateToCompare) {
+  const _date = toDate(date);
+  const _dateToCompare = toDate(dateToCompare);
+  return _date.getTime() > _dateToCompare.getTime();
 }
 
 /**
@@ -51814,22 +51960,22 @@ function isAfter(dirtyDate, dirtyDateToCompare) {
  * @description
  * Is the first date before the second one?
  *
- * @param {Date|Number} date - the date that should be before the other one to return true
- * @param {Date|Number} dateToCompare - the date to compare with
- * @returns {Boolean} the first date is before the second date
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date that should be before the other one to return true
+ * @param dateToCompare - The date to compare with
+ *
+ * @returns The first date is before the second date
  *
  * @example
  * // Is 10 July 1989 before 11 February 1987?
  * const result = isBefore(new Date(1989, 6, 10), new Date(1987, 1, 11))
  * //=> false
  */
-
-function isBefore(dirtyDate, dirtyDateToCompare) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var dateToCompare = toDate(dirtyDateToCompare);
-  return date.getTime() < dateToCompare.getTime();
+function isBefore(date, dateToCompare) {
+  const _date = toDate(date);
+  const _dateToCompare = toDate(dateToCompare);
+  return +_date < +_dateToCompare;
 }
 
 /**
@@ -51840,10 +51986,12 @@ function isBefore(dirtyDate, dirtyDateToCompare) {
  * @description
  * Are the given dates equal?
  *
- * @param {Date|Number} dateLeft - the first date to compare
- * @param {Date|Number} dateRight - the second date to compare
- * @returns {Boolean} the dates are equal
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param dateLeft - The first date to compare
+ * @param dateRight - The second date to compare
+ *
+ * @returns The dates are equal
  *
  * @example
  * // Are 2 July 2014 06:30:45.000 and 2 July 2014 06:30:45.500 equal?
@@ -51853,12 +52001,10 @@ function isBefore(dirtyDate, dirtyDateToCompare) {
  * )
  * //=> false
  */
-
-function isEqual(dirtyLeftDate, dirtyRightDate) {
-  requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyLeftDate);
-  var dateRight = toDate(dirtyRightDate);
-  return dateLeft.getTime() === dateRight.getTime();
+function isEqual(leftDate, rightDate) {
+  const _dateLeft = toDate(leftDate);
+  const _dateRight = toDate(rightDate);
+  return +_dateLeft === +_dateRight;
 }
 
 /**
@@ -51869,31 +52015,31 @@ function isEqual(dirtyLeftDate, dirtyRightDate) {
  * @description
  * Set the month to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} month - the month of the new date
- * @returns {Date} the new date with the month set
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param month - The month index to set (0-11)
+ *
+ * @returns The new date with the month set
  *
  * @example
  * // Set February to 1 September 2014:
  * const result = setMonth(new Date(2014, 8, 1), 1)
  * //=> Sat Feb 01 2014 00:00:00
  */
+function setMonth(date, month) {
+  const _date = toDate(date);
+  const year = _date.getFullYear();
+  const day = _date.getDate();
 
-function setMonth(dirtyDate, dirtyMonth) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var month = toInteger(dirtyMonth);
-  var year = date.getFullYear();
-  var day = date.getDate();
-  var dateWithDesiredMonth = new Date(0);
+  const dateWithDesiredMonth = constructFrom(date, 0);
   dateWithDesiredMonth.setFullYear(year, month, 15);
   dateWithDesiredMonth.setHours(0, 0, 0, 0);
-  var daysInMonth = getDaysInMonth(dateWithDesiredMonth); // Set the last day of the new month
+  const daysInMonth = getDaysInMonth(dateWithDesiredMonth);
+  // Set the last day of the new month
   // if the original date was the last day of the longer month
-
-  date.setMonth(month, Math.min(day, daysInMonth));
-  return date;
+  _date.setMonth(month, Math.min(day, daysInMonth));
+  return _date;
 }
 
 /**
@@ -51911,18 +52057,12 @@ function setMonth(dirtyDate, dirtyMonth) {
  * to use native `Date#setX` methods. If you use this function, you may not want to include the
  * other `setX` functions that date-fns provides if you are concerned about the bundle size.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Object} values - an object with options
- * @param {Number} [values.year] - the number of years to be set
- * @param {Number} [values.month] - the number of months to be set
- * @param {Number} [values.date] - the number of days to be set
- * @param {Number} [values.hours] - the number of hours to be set
- * @param {Number} [values.minutes] - the number of minutes to be set
- * @param {Number} [values.seconds] - the number of seconds to be set
- * @param {Number} [values.milliseconds] - the number of milliseconds to be set
- * @returns {Date} the new date with options set
- * @throws {TypeError} 2 arguments required
- * @throws {RangeError} `values` must be an object
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param values - The date values to be set
+ *
+ * @returns The new date with options set
  *
  * @example
  * // Transform 1 September 2014 into 20 October 2015 in a single line:
@@ -51934,48 +52074,44 @@ function setMonth(dirtyDate, dirtyMonth) {
  * const result = set(new Date(2014, 8, 1, 1, 23, 45), { hours: 12 })
  * //=> Mon Sep 01 2014 12:23:45
  */
-function set(dirtyDate, values) {
-  requiredArgs(2, arguments);
 
-  if (typeof values !== 'object' || values === null) {
-    throw new RangeError('values parameter must be an object');
-  }
+function set(date, values) {
+  let _date = toDate(date);
 
-  var date = toDate(dirtyDate); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
-
-  if (isNaN(date.getTime())) {
-    return new Date(NaN);
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
+  if (isNaN(+_date)) {
+    return constructFrom(date, NaN);
   }
 
   if (values.year != null) {
-    date.setFullYear(values.year);
+    _date.setFullYear(values.year);
   }
 
   if (values.month != null) {
-    date = setMonth(date, values.month);
+    _date = setMonth(_date, values.month);
   }
 
   if (values.date != null) {
-    date.setDate(toInteger(values.date));
+    _date.setDate(values.date);
   }
 
   if (values.hours != null) {
-    date.setHours(toInteger(values.hours));
+    _date.setHours(values.hours);
   }
 
   if (values.minutes != null) {
-    date.setMinutes(toInteger(values.minutes));
+    _date.setMinutes(values.minutes);
   }
 
   if (values.seconds != null) {
-    date.setSeconds(toInteger(values.seconds));
+    _date.setSeconds(values.seconds);
   }
 
   if (values.milliseconds != null) {
-    date.setMilliseconds(toInteger(values.milliseconds));
+    _date.setMilliseconds(values.milliseconds);
   }
 
-  return date;
+  return _date;
 }
 
 /**
@@ -51986,28 +52122,28 @@ function set(dirtyDate, values) {
  * @description
  * Set the year to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} year - the year of the new date
- * @returns {Date} the new date with the year set
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param year - The year of the new date
+ *
+ * @returns The new date with the year set
  *
  * @example
  * // Set year 2013 to 1 September 2014:
  * const result = setYear(new Date(2014, 8, 1), 2013)
  * //=> Sun Sep 01 2013 00:00:00
  */
+function setYear(date, year) {
+  const _date = toDate(date);
 
-function setYear(dirtyDate, dirtyYear) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var year = toInteger(dirtyYear); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
-
-  if (isNaN(date.getTime())) {
-    return new Date(NaN);
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
+  if (isNaN(+_date)) {
+    return constructFrom(date, NaN);
   }
 
-  date.setFullYear(year);
-  return date;
+  _date.setFullYear(year);
+  return _date;
 }
 
 /**
@@ -52019,17 +52155,13 @@ function setYear(dirtyDate, dirtyYear) {
  * @description
  * Return the start of today.
  *
- * > ⚠️ Please note that this function is not present in the FP submodule as
- * > it uses `Date.now()` internally hence impure and can't be safely curried.
- *
- * @returns {Date} the start of today
+ * @returns The start of today
  *
  * @example
  * // If today is 6 October 2014:
  * const result = startOfToday()
  * //=> Mon Oct 6 2014 00:00:00
  */
-
 function startOfToday() {
   return startOfDay(Date.now());
 }
@@ -52042,21 +52174,20 @@ function startOfToday() {
  * @description
  * Subtract the specified number of months from the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the months subtracted
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of months to be subtracted.
+ *
+ * @returns The new date with the months subtracted
  *
  * @example
  * // Subtract 5 months from 1 February 2015:
  * const result = subMonths(new Date(2015, 1, 1), 5)
  * //=> Mon Sep 01 2014 00:00:00
  */
-
-function subMonths(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addMonths(dirtyDate, -amount);
+function subMonths(date, amount) {
+  return addMonths(date, -amount);
 }
 
 /**
@@ -52067,21 +52198,20 @@ function subMonths(dirtyDate, dirtyAmount) {
  * @description
  * Subtract the specified number of years from the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of years to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the years subtracted
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of years to be subtracted.
+ *
+ * @returns The new date with the years subtracted
  *
  * @example
  * // Subtract 5 years from 1 September 2014:
  * const result = subYears(new Date(2014, 8, 1), 5)
  * //=> Tue Sep 01 2009 00:00:00
  */
-
-function subYears(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addYears(dirtyDate, -amount);
+function subYears(date, amount) {
+  return addYears(date, -amount);
 }
 
 var Month;
@@ -52213,7 +52343,7 @@ function _typeof(o) {
   }, _typeof(o);
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/requiredArgs/index.js
-function requiredArgs_requiredArgs(required, args) {
+function requiredArgs(required, args) {
   if (args.length < required) {
     throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
   }
@@ -52252,7 +52382,7 @@ function requiredArgs_requiredArgs(required, args) {
  * //=> Tue Feb 11 2014 11:30:30
  */
 function toDate_toDate(argument) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var argStr = Object.prototype.toString.call(argument);
 
   // Clone the date
@@ -52293,13 +52423,13 @@ function toDate_toDate(argument) {
  * //=> Tue Sep 02 2014 00:00:00
  */
 function startOfDay_startOfDay(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   date.setHours(0, 0, 0, 0);
   return date;
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/toInteger/index.js
-function toInteger_toInteger(dirtyNumber) {
+function toInteger(dirtyNumber) {
   if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
     return NaN;
   }
@@ -52332,9 +52462,9 @@ function toInteger_toInteger(dirtyNumber) {
  * //=> Sun Feb 01 2015 00:00:00
  */
 function addMonths_addMonths(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var date = toDate_toDate(dirtyDate);
-  var amount = toInteger_toInteger(dirtyAmount);
+  var amount = toInteger(dirtyAmount);
   if (isNaN(amount)) {
     return new Date(NaN);
   }
@@ -52394,8 +52524,8 @@ function addMonths_addMonths(dirtyDate, dirtyAmount) {
  * //=> Mon Sep 01 2014 00:00:00
  */
 function subMonths_subMonths(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
+  requiredArgs(2, arguments);
+  var amount = toInteger(dirtyAmount);
   return addMonths_addMonths(dirtyDate, -amount);
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isDate/index.js
@@ -52434,7 +52564,7 @@ function subMonths_subMonths(dirtyDate, dirtyAmount) {
  * //=> false
  */
 function isDate(value) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   return value instanceof Date || _typeof(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isValid/index.js
@@ -52473,7 +52603,7 @@ function isDate(value) {
  * //=> false
  */
 function isValid(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   if (!isDate(dirtyDate) && typeof dirtyDate !== 'number') {
     return false;
   }
@@ -52503,9 +52633,9 @@ function isValid(dirtyDate) {
  * //=> Thu Jul 10 2014 12:45:30.750
  */
 function addMilliseconds(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var timestamp = toDate_toDate(dirtyDate).getTime();
-  var amount = toInteger_toInteger(dirtyAmount);
+  var amount = toInteger(dirtyAmount);
   return new Date(timestamp + amount);
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/subMilliseconds/index.js
@@ -52531,8 +52661,8 @@ function addMilliseconds(dirtyDate, dirtyAmount) {
  * //=> Thu Jul 10 2014 12:45:29.250
  */
 function subMilliseconds(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
+  requiredArgs(2, arguments);
+  var amount = toInteger(dirtyAmount);
   return addMilliseconds(dirtyDate, -amount);
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCDayOfYear/index.js
@@ -52540,7 +52670,7 @@ function subMilliseconds(dirtyDate, dirtyAmount) {
 
 var MILLISECONDS_IN_DAY = 86400000;
 function getUTCDayOfYear(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   var timestamp = date.getTime();
   date.setUTCMonth(0, 1);
@@ -52553,7 +52683,7 @@ function getUTCDayOfYear(dirtyDate) {
 
 
 function startOfUTCISOWeek(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var weekStartsOn = 1;
   var date = toDate_toDate(dirtyDate);
   var day = date.getUTCDay();
@@ -52567,7 +52697,7 @@ function startOfUTCISOWeek(dirtyDate) {
 
 
 function getUTCISOWeekYear(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   var year = date.getUTCFullYear();
   var fourthOfJanuaryOfNextYear = new Date(0);
@@ -52591,7 +52721,7 @@ function getUTCISOWeekYear(dirtyDate) {
 
 
 function startOfUTCISOWeekYear(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var year = getUTCISOWeekYear(dirtyDate);
   var fourthOfJanuary = new Date(0);
   fourthOfJanuary.setUTCFullYear(year, 0, 4);
@@ -52606,7 +52736,7 @@ function startOfUTCISOWeekYear(dirtyDate) {
 
 var MILLISECONDS_IN_WEEK = 604800000;
 function getUTCISOWeek(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   var diff = startOfUTCISOWeek(date).getTime() - startOfUTCISOWeekYear(date).getTime();
 
@@ -52630,9 +52760,9 @@ function setDefaultOptions(newOptions) {
 
 function startOfUTCWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var defaultOptions = defaultOptions_getDefaultOptions();
-  var weekStartsOn = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
   // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
@@ -52653,11 +52783,11 @@ function startOfUTCWeek(dirtyDate, options) {
 
 function getUTCWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   var year = date.getUTCFullYear();
   var defaultOptions = defaultOptions_getDefaultOptions();
-  var firstWeekContainsDate = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
+  var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
 
   // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
   if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
@@ -52687,9 +52817,9 @@ function getUTCWeekYear(dirtyDate, options) {
 
 function startOfUTCWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var defaultOptions = defaultOptions_getDefaultOptions();
-  var firstWeekContainsDate = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
+  var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
   var year = getUTCWeekYear(dirtyDate, options);
   var firstWeek = new Date(0);
   firstWeek.setUTCFullYear(year, 0, firstWeekContainsDate);
@@ -52704,7 +52834,7 @@ function startOfUTCWeekYear(dirtyDate, options) {
 
 var getUTCWeek_MILLISECONDS_IN_WEEK = 604800000;
 function getUTCWeek(dirtyDate, options) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   var diff = startOfUTCWeek(date, options).getTime() - startOfUTCWeekYear(date, options).getTime();
 
@@ -54515,17 +54645,17 @@ var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
 
 function format(dirtyDate, dirtyFormatStr, options) {
   var _ref, _options$locale, _ref2, _ref3, _ref4, _options$firstWeekCon, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2, _ref5, _ref6, _ref7, _options$weekStartsOn, _options$locale3, _options$locale3$opti, _defaultOptions$local3, _defaultOptions$local4;
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var formatStr = String(dirtyFormatStr);
   var defaultOptions = defaultOptions_getDefaultOptions();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : defaultLocale;
-  var firstWeekContainsDate = toInteger_toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1);
+  var firstWeekContainsDate = toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1);
 
   // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
   if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
     throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
   }
-  var weekStartsOn = toInteger_toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0);
+  var weekStartsOn = toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0);
 
   // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
@@ -54620,7 +54750,7 @@ function cleanEscapedString(input) {
  * //=> false
  */
 function isSameMonth(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var dateLeft = toDate_toDate(dirtyDateLeft);
   var dateRight = toDate_toDate(dirtyDateRight);
   return dateLeft.getFullYear() === dateRight.getFullYear() && dateLeft.getMonth() === dateRight.getMonth();
@@ -54650,7 +54780,7 @@ function isSameMonth(dirtyDateLeft, dirtyDateRight) {
  * //=> false
  */
 function isEqual_isEqual(dirtyLeftDate, dirtyRightDate) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var dateLeft = toDate_toDate(dirtyLeftDate);
   var dateRight = toDate_toDate(dirtyRightDate);
   return dateLeft.getTime() === dateRight.getTime();
@@ -54687,7 +54817,7 @@ function isEqual_isEqual(dirtyLeftDate, dirtyRightDate) {
  * //=> false
  */
 function isSameDay(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var dateLeftStartOfDay = startOfDay_startOfDay(dirtyDateLeft);
   var dateRightStartOfDay = startOfDay_startOfDay(dirtyDateRight);
   return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime();
@@ -54715,9 +54845,9 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
  * //=> Thu Sep 11 2014 00:00:00
  */
 function addDays_addDays(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var date = toDate_toDate(dirtyDate);
-  var amount = toInteger_toInteger(dirtyAmount);
+  var amount = toInteger(dirtyAmount);
   if (isNaN(amount)) {
     return new Date(NaN);
   }
@@ -54751,8 +54881,8 @@ function addDays_addDays(dirtyDate, dirtyAmount) {
  * //=> Mon Sep 29 2014 00:00:00
  */
 function addWeeks_addWeeks(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
+  requiredArgs(2, arguments);
+  var amount = toInteger(dirtyAmount);
   var days = amount * 7;
   return addDays_addDays(dirtyDate, days);
 }
@@ -54779,8 +54909,8 @@ function addWeeks_addWeeks(dirtyDate, dirtyAmount) {
  * //=> Mon Aug 04 2014 00:00:00
  */
 function subWeeks(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
+  requiredArgs(2, arguments);
+  var amount = toInteger(dirtyAmount);
   return addWeeks_addWeeks(dirtyDate, -amount);
 }
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/startOfWeek/index.js
@@ -54817,9 +54947,9 @@ function subWeeks(dirtyDate, dirtyAmount) {
  */
 function startOfWeek_startOfWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var defaultOptions = defaultOptions_getDefaultOptions();
-  var weekStartsOn = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
   // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
@@ -54866,9 +54996,9 @@ function startOfWeek_startOfWeek(dirtyDate, options) {
  */
 function endOfWeek_endOfWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var defaultOptions = defaultOptions_getDefaultOptions();
-  var weekStartsOn = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
   // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
@@ -55267,7 +55397,7 @@ function getDayLabel(date, isSelected, numEvents) {
  * //=> Mon Dec 01 2014 22:15:00
  */
 function startOfMinute(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   date.setSeconds(0, 0);
   return date;
@@ -55293,7 +55423,7 @@ function startOfMinute(dirtyDate) {
  * //=> 29
  */
 function getDaysInMonth_getDaysInMonth(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  requiredArgs(1, arguments);
   var date = toDate_toDate(dirtyDate);
   var year = date.getFullYear();
   var monthIndex = date.getMonth();
@@ -55326,9 +55456,9 @@ function getDaysInMonth_getDaysInMonth(dirtyDate) {
  * //=> Sat Feb 01 2014 00:00:00
  */
 function setMonth_setMonth(dirtyDate, dirtyMonth) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var date = toDate_toDate(dirtyDate);
-  var month = toInteger_toInteger(dirtyMonth);
+  var month = toInteger(dirtyMonth);
   var year = date.getFullYear();
   var day = date.getDate();
   var dateWithDesiredMonth = new Date(0);
@@ -55385,7 +55515,7 @@ function setMonth_setMonth(dirtyDate, dirtyMonth) {
  * //=> Mon Sep 01 2014 12:23:45
  */
 function set_set(dirtyDate, values) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   if (_typeof(values) !== 'object' || values === null) {
     throw new RangeError('values parameter must be an object');
   }
@@ -55402,19 +55532,19 @@ function set_set(dirtyDate, values) {
     date = setMonth_setMonth(date, values.month);
   }
   if (values.date != null) {
-    date.setDate(toInteger_toInteger(values.date));
+    date.setDate(toInteger(values.date));
   }
   if (values.hours != null) {
-    date.setHours(toInteger_toInteger(values.hours));
+    date.setHours(toInteger(values.hours));
   }
   if (values.minutes != null) {
-    date.setMinutes(toInteger_toInteger(values.minutes));
+    date.setMinutes(toInteger(values.minutes));
   }
   if (values.seconds != null) {
-    date.setSeconds(toInteger_toInteger(values.seconds));
+    date.setSeconds(toInteger(values.seconds));
   }
   if (values.milliseconds != null) {
-    date.setMilliseconds(toInteger_toInteger(values.milliseconds));
+    date.setMilliseconds(toInteger(values.milliseconds));
   }
   return date;
 }
@@ -55441,9 +55571,9 @@ function set_set(dirtyDate, values) {
  * //=> Mon Sep 01 2014 04:30:00
  */
 function setHours(dirtyDate, dirtyHours) {
-  requiredArgs_requiredArgs(2, arguments);
+  requiredArgs(2, arguments);
   var date = toDate_toDate(dirtyDate);
-  var hours = toInteger_toInteger(dirtyHours);
+  var hours = toInteger(dirtyHours);
   date.setHours(hours);
   return date;
 }
