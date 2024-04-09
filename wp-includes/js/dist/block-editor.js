@@ -42439,11 +42439,13 @@ function PatternsListHeader({
 function PatternList({
   searchValue,
   selectedCategory,
-  patternCategories
+  patternCategories,
+  rootClientId
 }) {
   const container = (0,external_wp_element_namespaceObject.useRef)();
   const debouncedSpeak = (0,external_wp_compose_namespaceObject.useDebounce)(external_wp_a11y_namespaceObject.speak, 500);
   const [destinationRootClientId, onInsertBlocks] = use_insertion_point({
+    rootClientId,
     shouldFocusBlock: true
   });
   const [patterns,, onClickPattern] = use_patterns_state(onInsertBlocks, destinationRootClientId);
@@ -42589,7 +42591,8 @@ function PatternsExplorer({
     searchValue: searchValue,
     selectedCategory: selectedCategory,
     patternCategories: patternCategories,
-    patternSourceFilter: patternSourceFilter
+    patternSourceFilter: patternSourceFilter,
+    rootClientId: rootClientId
   }));
 }
 function PatternsExplorerModal({
@@ -60705,7 +60708,8 @@ const ImageURLInputUI = ({
   rel,
   showLightboxSetting,
   lightboxEnabled,
-  onSetLightbox
+  onSetLightbox,
+  resetLightbox
 }) => {
   const [isOpen, setIsOpen] = (0,external_wp_element_namespaceObject.useState)(false);
   // Use internal state instead of a ref to make sure that the component
@@ -60866,8 +60870,52 @@ const ImageURLInputUI = ({
     onChange: onSetLinkClass
   }));
   const linkEditorValue = urlInput !== null ? urlInput : url;
-  const showLinkEditor = (!linkEditorValue && !lightboxEnabled) === true;
+  const hideLightboxPanel = !lightboxEnabled || lightboxEnabled && !showLightboxSetting;
+  const showLinkEditor = !linkEditorValue && hideLightboxPanel;
   const urlLabel = (getLinkDestinations().find(destination => destination.linkDestination === linkDestination) || {}).title;
+  const PopoverChildren = () => {
+    if (lightboxEnabled && showLightboxSetting && !url && !isEditingLink) {
+      return (0,external_React_.createElement)("div", {
+        className: "block-editor-url-popover__expand-on-click"
+      }, (0,external_React_.createElement)(build_module_icon, {
+        icon: library_fullscreen
+      }), (0,external_React_.createElement)("div", {
+        className: "text"
+      }, (0,external_React_.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('Expand on click')), (0,external_React_.createElement)("p", {
+        className: "description"
+      }, (0,external_wp_i18n_namespaceObject.__)('Scales the image with a lightbox effect'))), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+        icon: link_off,
+        label: (0,external_wp_i18n_namespaceObject.__)('Disable expand on click'),
+        onClick: () => {
+          onSetLightbox(false);
+        },
+        size: "compact"
+      }));
+    } else if (!url || isEditingLink) {
+      return (0,external_React_.createElement)(url_popover.LinkEditor, {
+        className: "block-editor-format-toolbar__link-container-content",
+        value: linkEditorValue,
+        onChangeInputValue: setUrlInput,
+        onSubmit: onSubmitLinkChange(),
+        autocompleteRef: autocompleteRef
+      });
+    } else if (url && !isEditingLink) {
+      return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(url_popover.LinkViewer, {
+        className: "block-editor-format-toolbar__link-container-content",
+        url: url,
+        onEditLinkClick: startEditLink,
+        urlLabel: urlLabel
+      }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+        icon: link_off,
+        label: (0,external_wp_i18n_namespaceObject.__)('Remove link'),
+        onClick: () => {
+          onLinkRemove();
+          resetLightbox();
+        },
+        size: "compact"
+      }));
+    }
+  };
   return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     icon: library_link,
     className: "components-toolbar__control",
@@ -60875,13 +60923,13 @@ const ImageURLInputUI = ({
     "aria-expanded": isOpen,
     onClick: openLinkUI,
     ref: setPopoverAnchor,
-    isActive: !!url || lightboxEnabled
+    isActive: !!url || lightboxEnabled && showLightboxSetting
   }), isOpen && (0,external_React_.createElement)(url_popover, {
     ref: wrapperRef,
     anchor: popoverAnchor,
     onFocusOutside: onFocusOutside(),
     onClose: closeLinkUI,
-    renderSettings: !lightboxEnabled ? () => advancedOptions : null,
+    renderSettings: hideLightboxPanel ? () => advancedOptions : null,
     additionalControls: showLinkEditor && (0,external_React_.createElement)(external_wp_components_namespaceObject.NavigableMenu, null, getLinkDestinations().map(link => (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
       key: link.linkDestination,
       icon: link.icon,
@@ -60908,38 +60956,7 @@ const ImageURLInputUI = ({
       }
     }, (0,external_wp_i18n_namespaceObject.__)('Expand on click'))),
     offset: 13
-  }, (!url || isEditingLink) && !lightboxEnabled && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(url_popover.LinkEditor, {
-    className: "block-editor-format-toolbar__link-container-content",
-    value: linkEditorValue,
-    onChangeInputValue: setUrlInput,
-    onSubmit: onSubmitLinkChange(),
-    autocompleteRef: autocompleteRef
-  })), url && !isEditingLink && !lightboxEnabled && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(url_popover.LinkViewer, {
-    className: "block-editor-format-toolbar__link-container-content",
-    url: url,
-    onEditLinkClick: startEditLink,
-    urlLabel: urlLabel
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    icon: link_off,
-    label: (0,external_wp_i18n_namespaceObject.__)('Remove link'),
-    onClick: onLinkRemove,
-    size: "compact"
-  })), !url && !isEditingLink && lightboxEnabled && (0,external_React_.createElement)("div", {
-    className: "block-editor-url-popover__expand-on-click"
-  }, (0,external_React_.createElement)(build_module_icon, {
-    icon: library_fullscreen
-  }), (0,external_React_.createElement)("div", {
-    className: "text"
-  }, (0,external_React_.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('Expand on click')), (0,external_React_.createElement)("p", {
-    className: "description"
-  }, (0,external_wp_i18n_namespaceObject.__)('Scales the image with a lightbox effect'))), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    icon: link_off,
-    label: (0,external_wp_i18n_namespaceObject.__)('Disable expand on click'),
-    onClick: () => {
-      onSetLightbox(false);
-    },
-    size: "compact"
-  }))));
+  }, PopoverChildren()));
 };
 
 
@@ -62395,12 +62412,12 @@ const DeprecatedExperimentalRecursionProvider = props => {
     ...props
   });
 };
-const DeprecatedExperimentalUseHasRecursion = props => {
+const DeprecatedExperimentalUseHasRecursion = (...args) => {
   external_wp_deprecated_default()('wp.blockEditor.__experimentalUseHasRecursion', {
     since: '6.5',
     alternative: 'wp.blockEditor.useHasRecursion'
   });
-  return useHasRecursion(...props);
+  return useHasRecursion(...args);
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js

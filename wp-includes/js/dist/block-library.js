@@ -25964,6 +25964,23 @@ function image_Image({
       });
     }
   }
+  function resetLightbox() {
+    // When deleting a link from an image while lightbox settings
+    // are enabled by default, we should disable the lightbox,
+    // otherwise the resulting UX looks like a mistake.
+    // See https://github.com/WordPress/gutenberg/pull/59890/files#r1532286123.
+    if (lightboxSetting?.enabled && lightboxSetting?.allowEditing) {
+      setAttributes({
+        lightbox: {
+          enabled: false
+        }
+      });
+    } else {
+      setAttributes({
+        lightbox: undefined
+      });
+    }
+  }
   function onSetTitle(value) {
     // This is the HTML title attribute, separate from the media object
     // title.
@@ -26031,7 +26048,10 @@ function image_Image({
     availableUnits: ['px']
   });
   const [lightboxSetting] = (0,external_wp_blockEditor_namespaceObject.useSettings)('lightbox');
-  const showLightboxSetting = !!lightbox || lightboxSetting?.allowEditing === true;
+  const showLightboxSetting =
+  // If a block-level override is set, we should give users the option to
+  // remove that override, even if the lightbox UI is disabled in the settings.
+  !!lightbox && lightbox?.enabled !== lightboxSetting?.enabled || lightboxSetting?.allowEditing;
   const lightboxChecked = !!lightbox?.enabled || !lightbox && !!lightboxSetting?.enabled;
   const dimensionsControl = (0,external_React_namespaceObject.createElement)(DimensionsTool, {
     value: {
@@ -26138,7 +26158,8 @@ function image_Image({
     rel: rel,
     showLightboxSetting: showLightboxSetting,
     lightboxEnabled: lightboxChecked,
-    onSetLightbox: onSetLightbox
+    onSetLightbox: onSetLightbox,
+    resetLightbox: resetLightbox
   }), allowCrop && (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     onClick: () => setIsEditingImage(true),
     icon: library_crop,
@@ -45021,7 +45042,15 @@ const useUnsupportedBlocks = clientId => {
     const blocks = {};
     getClientIdsOfDescendants(clientId).forEach(descendantClientId => {
       const blockName = getBlockName(descendantClientId);
-      if (!blockName.startsWith('core/')) {
+      /*
+       * Client side navigation can be true in two states:
+       *  - supports.interactivity = true;
+       *  - supports.interactivity.clientNavigation = true;
+       */
+      const blockSupportsInteractivity = Object.is((0,external_wp_blocks_namespaceObject.getBlockSupport)(blockName, 'interactivity'), true);
+      const blockSupportsInteractivityClientNavigation = (0,external_wp_blocks_namespaceObject.getBlockSupport)(blockName, 'interactivity.clientNavigation');
+      const blockInteractivity = blockSupportsInteractivity || blockSupportsInteractivityClientNavigation;
+      if (!blockInteractivity) {
         blocks.hasBlocksFromPlugins = true;
       } else if (blockName === 'core/post-content') {
         blocks.hasPostContentBlock = true;
@@ -45897,7 +45926,7 @@ function EnhancedPaginationModal({
   };
   let notice = (0,external_wp_i18n_namespaceObject.__)('If you still want to prevent full page reloads, remove that block, then disable "Force page reload" again in the Query Block settings.');
   if (hasBlocksFromPlugins) {
-    notice = (0,external_wp_i18n_namespaceObject.__)('Currently, avoiding full page reloads is not possible when blocks from plugins are present inside the Query block.') + ' ' + notice;
+    notice = (0,external_wp_i18n_namespaceObject.__)('Currently, avoiding full page reloads is not possible when non-interactive or non-clientNavigation compatible blocks from plugins are present inside the Query block.') + ' ' + notice;
   } else if (hasPostContentBlock) {
     notice = (0,external_wp_i18n_namespaceObject.__)('Currently, avoiding full page reloads is not possible when a Content block is present inside the Query block.') + ' ' + notice;
   }
@@ -48945,6 +48974,30 @@ function setBlockEditMode(setEditMode, blocks, mode) {
     block.name === block_name ? 'disabled' : mode);
   });
 }
+function RecursionWarning() {
+  const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
+  return (0,external_React_namespaceObject.createElement)("div", {
+    ...blockProps
+  }, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Block cannot be rendered inside itself.')));
+}
+
+// Wrap the main Edit function for the pattern block with a recursion wrapper
+// that allows short-circuiting rendering as early as possible, before any
+// of the other effects in the block edit have run.
+function ReusableBlockEditRecursionWrapper(props) {
+  const {
+    ref
+  } = props.attributes;
+  const hasAlreadyRendered = (0,external_wp_blockEditor_namespaceObject.useHasRecursion)(ref);
+  if (hasAlreadyRendered) {
+    return (0,external_React_namespaceObject.createElement)(RecursionWarning, null);
+  }
+  return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RecursionProvider, {
+    uniqueId: ref
+  }, (0,external_React_namespaceObject.createElement)(ReusableBlockEdit, {
+    ...props
+  }));
+}
 function ReusableBlockEdit({
   name,
   attributes: {
@@ -48956,7 +49009,6 @@ function ReusableBlockEdit({
   setAttributes
 }) {
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const hasAlreadyRendered = (0,external_wp_blockEditor_namespaceObject.useHasRecursion)(ref);
   const {
     record,
     editedRecord,
@@ -49094,18 +49146,13 @@ function ReusableBlockEdit({
     }
   };
   let children = null;
-  if (hasAlreadyRendered) {
-    children = (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Block cannot be rendered inside itself.'));
-  }
   if (isMissing) {
     children = (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Block has been deleted or is unavailable.'));
   }
   if (!hasResolved) {
     children = (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null));
   }
-  return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RecursionProvider, {
-    uniqueId: ref
-  }, userCanEdit && onNavigateToEntityRecord && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
+  return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, userCanEdit && onNavigateToEntityRecord && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     onClick: handleEditOriginal
   }, (0,external_wp_i18n_namespaceObject.__)('Edit original')))), canOverrideBlocks && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     onClick: resetContent,
@@ -49286,7 +49333,7 @@ const {
 
 const block_settings = {
   deprecated: block_deprecated,
-  edit: ReusableBlockEdit,
+  edit: ReusableBlockEditRecursionWrapper,
   icon: library_symbol,
   __experimentalLabel: ({
     ref
