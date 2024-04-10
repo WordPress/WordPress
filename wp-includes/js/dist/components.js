@@ -1738,7 +1738,7 @@ module.exports = defineProperties;
 
 /***/ }),
 
-/***/ 8110:
+/***/ 7767:
 /***/ (function(module) {
 
 "use strict";
@@ -1768,7 +1768,7 @@ module.exports = function contains(other) {
 
 /***/ }),
 
-/***/ 6789:
+/***/ 8950:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
@@ -1776,7 +1776,7 @@ module.exports = function contains(other) {
 
 var define = __webpack_require__(9170);
 
-var implementation = __webpack_require__(8110);
+var implementation = __webpack_require__(7767);
 var getPolyfill = __webpack_require__(8267);
 var polyfill = getPolyfill();
 var shim = __webpack_require__(714);
@@ -1802,7 +1802,7 @@ module.exports = boundContains;
 "use strict";
 
 
-var implementation = __webpack_require__(8110);
+var implementation = __webpack_require__(7767);
 
 module.exports = function getPolyfill() {
 	if (typeof document !== 'undefined') {
@@ -3001,7 +3001,7 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 
 /***/ }),
 
-/***/ 5371:
+/***/ 5077:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
@@ -5134,7 +5134,7 @@ module.exports = now;
 
 /***/ }),
 
-/***/ 8172:
+/***/ 3372:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 var debounce = __webpack_require__(6897),
@@ -6468,7 +6468,7 @@ var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _moment = __webpack_require__(6292);
 
@@ -6950,7 +6950,7 @@ var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _moment = __webpack_require__(6292);
 
@@ -6962,7 +6962,7 @@ var _getPhrasePropTypes = __webpack_require__(2893);
 
 var _getPhrasePropTypes2 = _interopRequireDefault(_getPhrasePropTypes);
 
-var _CalendarWeek = __webpack_require__(4604);
+var _CalendarWeek = __webpack_require__(7160);
 
 var _CalendarWeek2 = _interopRequireDefault(_CalendarWeek);
 
@@ -7356,7 +7356,7 @@ var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _moment = __webpack_require__(6292);
 
@@ -7887,7 +7887,7 @@ exports["default"] = (0, _reactWithStyles.withStyles)(function (_ref) {
 
 /***/ }),
 
-/***/ 4604:
+/***/ 7160:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -8081,7 +8081,7 @@ var _reactMomentProptypes2 = _interopRequireDefault(_reactMomentProptypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _moment = __webpack_require__(6292);
 
@@ -8588,13 +8588,13 @@ var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowComp
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _moment = __webpack_require__(6292);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _throttle = __webpack_require__(8172);
+var _throttle = __webpack_require__(3372);
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
@@ -10167,7 +10167,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _defaultPhrases = __webpack_require__(6030);
 
@@ -10674,7 +10674,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 var _defaultPhrases = __webpack_require__(6030);
 
@@ -12034,7 +12034,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _airbnbPropTypes = __webpack_require__(4882);
 
-var _reactWithStyles = __webpack_require__(3576);
+var _reactWithStyles = __webpack_require__(9459);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -13812,7 +13812,7 @@ var _object = __webpack_require__(5861);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _document = __webpack_require__(6789);
+var _document = __webpack_require__(8950);
 
 var _document2 = _interopRequireDefault(_document);
 
@@ -14094,7 +14094,7 @@ var _arrayPrototype = __webpack_require__(116);
 
 var _arrayPrototype2 = _interopRequireDefault(_arrayPrototype);
 
-var _globalCache = __webpack_require__(5371);
+var _globalCache = __webpack_require__(5077);
 
 var _globalCache2 = _interopRequireDefault(_globalCache);
 
@@ -14359,7 +14359,7 @@ exports["default"] = {
 
 /***/ }),
 
-/***/ 3576:
+/***/ 9459:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -14712,7 +14712,7 @@ var $TypeError = GetIntrinsic('%TypeError%');
 var ArrayCreate = __webpack_require__(3665);
 var Get = __webpack_require__(6448);
 var IsArray = __webpack_require__(5971);
-var IsConstructor = __webpack_require__(4065);
+var IsConstructor = __webpack_require__(5176);
 var IsIntegralNumber = __webpack_require__(485);
 var Type = __webpack_require__(9747);
 
@@ -15133,7 +15133,7 @@ module.exports = __webpack_require__(4363);
 
 /***/ }),
 
-/***/ 4065:
+/***/ 5176:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
@@ -15245,7 +15245,7 @@ module.exports = $preventExtensions
 
 
 var abs = __webpack_require__(13);
-var floor = __webpack_require__(5127);
+var floor = __webpack_require__(961);
 var Type = __webpack_require__(9747);
 
 var $isNaN = __webpack_require__(3234);
@@ -15443,7 +15443,7 @@ module.exports = function ToBoolean(value) { return !!value; };
 
 
 var abs = __webpack_require__(13);
-var floor = __webpack_require__(5127);
+var floor = __webpack_require__(961);
 var ToNumber = __webpack_require__(5541);
 
 var $isNaN = __webpack_require__(3234);
@@ -15719,7 +15719,7 @@ module.exports = function abs(x) {
 
 /***/ }),
 
-/***/ 5127:
+/***/ 961:
 /***/ (function(module) {
 
 "use strict";
@@ -17072,7 +17072,7 @@ function normalizePropsAreEqual(propsAreEqual) {
 
 
 
-function createComponent_forwardRef(component) {
+function forwardRef(component) {
   return /*#__PURE__*/(0,external_React_.forwardRef)(component);
 }
 
@@ -17140,7 +17140,7 @@ function createComponent(_ref) {
 
   if (false) {}
 
-  Comp = createComponent_forwardRef(Comp);
+  Comp = forwardRef(Comp);
 
   if (shouldMemo) {
     Comp = memo(Comp, propsAreEqual && normalizePropsAreEqual(propsAreEqual));
@@ -19746,7 +19746,7 @@ var Utility_assign = Object.assign
  * @return {number}
  */
 function hash (value, length) {
-	return (((((((length << 2) ^ Utility_charat(value, 0)) << 2) ^ Utility_charat(value, 1)) << 2) ^ Utility_charat(value, 2)) << 2) ^ Utility_charat(value, 3)
+	return Utility_charat(value, 0) ^ 45 ? (((((((length << 2) ^ Utility_charat(value, 0)) << 2) ^ Utility_charat(value, 1)) << 2) ^ Utility_charat(value, 2)) << 2) ^ Utility_charat(value, 3) : 0
 }
 
 /**
@@ -19762,7 +19762,7 @@ function trim (value) {
  * @param {RegExp} pattern
  * @return {string?}
  */
-function match (value, pattern) {
+function Utility_match (value, pattern) {
 	return (value = pattern.exec(value)) ? value[0] : value
 }
 
@@ -19772,7 +19772,7 @@ function match (value, pattern) {
  * @param {string} replacement
  * @return {string}
  */
-function replace (value, pattern, replacement) {
+function Utility_replace (value, pattern, replacement) {
 	return value.replace(pattern, replacement)
 }
 
@@ -19866,7 +19866,7 @@ function node (value, root, parent, type, props, children, length) {
  * @param {object} props
  * @return {object}
  */
-function copy (root, props) {
+function Tokenizer_copy (root, props) {
 	return Utility_assign(node('', null, null, '', null, null, 0), root, {length: -root.length}, props)
 }
 
@@ -20087,13 +20087,13 @@ function identifier (index) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/stylis/src/Enum.js
-var MS = '-ms-'
-var MOZ = '-moz-'
-var WEBKIT = '-webkit-'
+var Enum_MS = '-ms-'
+var Enum_MOZ = '-moz-'
+var Enum_WEBKIT = '-webkit-'
 
 var COMMENT = 'comm'
 var Enum_RULESET = 'rule'
-var DECLARATION = 'decl'
+var Enum_DECLARATION = 'decl'
 
 var PAGE = '@page'
 var MEDIA = '@media'
@@ -20103,10 +20103,11 @@ var VIEWPORT = '@viewport'
 var SUPPORTS = '@supports'
 var DOCUMENT = '@document'
 var NAMESPACE = '@namespace'
-var KEYFRAMES = '@keyframes'
+var Enum_KEYFRAMES = '@keyframes'
 var FONT_FACE = '@font-face'
 var COUNTER_STYLE = '@counter-style'
 var FONT_FEATURE_VALUES = '@font-feature-values'
+var LAYER = '@layer'
 
 ;// CONCATENATED MODULE: ./node_modules/stylis/src/Serializer.js
 
@@ -20117,7 +20118,7 @@ var FONT_FEATURE_VALUES = '@font-feature-values'
  * @param {function} callback
  * @return {string}
  */
-function serialize (children, callback) {
+function Serializer_serialize (children, callback) {
 	var output = ''
 	var length = Utility_sizeof(children)
 
@@ -20136,134 +20137,14 @@ function serialize (children, callback) {
  */
 function stringify (element, index, children, callback) {
 	switch (element.type) {
-		case IMPORT: case DECLARATION: return element.return = element.return || element.value
+		case LAYER: if (element.children.length) break
+		case IMPORT: case Enum_DECLARATION: return element.return = element.return || element.value
 		case COMMENT: return ''
-		case KEYFRAMES: return element.return = element.value + '{' + serialize(element.children, callback) + '}'
+		case Enum_KEYFRAMES: return element.return = element.value + '{' + Serializer_serialize(element.children, callback) + '}'
 		case Enum_RULESET: element.value = element.props.join(',')
 	}
 
-	return Utility_strlen(children = serialize(element.children, callback)) ? element.return = element.value + '{' + children + '}' : ''
-}
-
-;// CONCATENATED MODULE: ./node_modules/stylis/src/Prefixer.js
-
-
-
-/**
- * @param {string} value
- * @param {number} length
- * @return {string}
- */
-function prefix (value, length) {
-	switch (hash(value, length)) {
-		// color-adjust
-		case 5103:
-			return WEBKIT + 'print-' + value + value
-		// animation, animation-(delay|direction|duration|fill-mode|iteration-count|name|play-state|timing-function)
-		case 5737: case 4201: case 3177: case 3433: case 1641: case 4457: case 2921:
-		// text-decoration, filter, clip-path, backface-visibility, column, box-decoration-break
-		case 5572: case 6356: case 5844: case 3191: case 6645: case 3005:
-		// mask, mask-image, mask-(mode|clip|size), mask-(repeat|origin), mask-position, mask-composite,
-		case 6391: case 5879: case 5623: case 6135: case 4599: case 4855:
-		// background-clip, columns, column-(count|fill|gap|rule|rule-color|rule-style|rule-width|span|width)
-		case 4215: case 6389: case 5109: case 5365: case 5621: case 3829:
-			return WEBKIT + value + value
-		// appearance, user-select, transform, hyphens, text-size-adjust
-		case 5349: case 4246: case 4810: case 6968: case 2756:
-			return WEBKIT + value + MOZ + value + MS + value + value
-		// flex, flex-direction
-		case 6828: case 4268:
-			return WEBKIT + value + MS + value + value
-		// order
-		case 6165:
-			return WEBKIT + value + MS + 'flex-' + value + value
-		// align-items
-		case 5187:
-			return WEBKIT + value + replace(value, /(\w+).+(:[^]+)/, WEBKIT + 'box-$1$2' + MS + 'flex-$1$2') + value
-		// align-self
-		case 5443:
-			return WEBKIT + value + MS + 'flex-item-' + replace(value, /flex-|-self/, '') + value
-		// align-content
-		case 4675:
-			return WEBKIT + value + MS + 'flex-line-pack' + replace(value, /align-content|flex-|-self/, '') + value
-		// flex-shrink
-		case 5548:
-			return WEBKIT + value + MS + replace(value, 'shrink', 'negative') + value
-		// flex-basis
-		case 5292:
-			return WEBKIT + value + MS + replace(value, 'basis', 'preferred-size') + value
-		// flex-grow
-		case 6060:
-			return WEBKIT + 'box-' + replace(value, '-grow', '') + WEBKIT + value + MS + replace(value, 'grow', 'positive') + value
-		// transition
-		case 4554:
-			return WEBKIT + replace(value, /([^-])(transform)/g, '$1' + WEBKIT + '$2') + value
-		// cursor
-		case 6187:
-			return replace(replace(replace(value, /(zoom-|grab)/, WEBKIT + '$1'), /(image-set)/, WEBKIT + '$1'), value, '') + value
-		// background, background-image
-		case 5495: case 3959:
-			return replace(value, /(image-set\([^]*)/, WEBKIT + '$1' + '$`$1')
-		// justify-content
-		case 4968:
-			return replace(replace(value, /(.+:)(flex-)?(.*)/, WEBKIT + 'box-pack:$3' + MS + 'flex-pack:$3'), /s.+-b[^;]+/, 'justify') + WEBKIT + value + value
-		// (margin|padding)-inline-(start|end)
-		case 4095: case 3583: case 4068: case 2532:
-			return replace(value, /(.+)-inline(.+)/, WEBKIT + '$1$2') + value
-		// (min|max)?(width|height|inline-size|block-size)
-		case 8116: case 7059: case 5753: case 5535:
-		case 5445: case 5701: case 4933: case 4677:
-		case 5533: case 5789: case 5021: case 4765:
-			// stretch, max-content, min-content, fill-available
-			if (Utility_strlen(value) - 1 - length > 6)
-				switch (Utility_charat(value, length + 1)) {
-					// (m)ax-content, (m)in-content
-					case 109:
-						// -
-						if (Utility_charat(value, length + 4) !== 45)
-							break
-					// (f)ill-available, (f)it-content
-					case 102:
-						return replace(value, /(.+:)(.+)-([^]+)/, '$1' + WEBKIT + '$2-$3' + '$1' + MOZ + (Utility_charat(value, length + 3) == 108 ? '$3' : '$2-$3')) + value
-					// (s)tretch
-					case 115:
-						return ~indexof(value, 'stretch') ? prefix(replace(value, 'stretch', 'fill-available'), length) + value : value
-				}
-			break
-		// position: sticky
-		case 4949:
-			// (s)ticky?
-			if (Utility_charat(value, length + 1) !== 115)
-				break
-		// display: (flex|inline-flex)
-		case 6444:
-			switch (Utility_charat(value, Utility_strlen(value) - 3 - (~indexof(value, '!important') && 10))) {
-				// stic(k)y
-				case 107:
-					return replace(value, ':', ':' + WEBKIT) + value
-				// (inline-)?fl(e)x
-				case 101:
-					return replace(value, /(.+:)([^;!]+)(;|!.+)?/, '$1' + WEBKIT + (Utility_charat(value, 14) === 45 ? 'inline-' : '') + 'box$3' + '$1' + WEBKIT + '$2$3' + '$1' + MS + '$2box$3') + value
-			}
-			break
-		// writing-mode
-		case 5936:
-			switch (Utility_charat(value, length + 11)) {
-				// vertical-l(r)
-				case 114:
-					return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, 'tb') + value
-				// vertical-r(l)
-				case 108:
-					return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, 'tb-rl') + value
-				// horizontal(-)tb
-				case 45:
-					return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, 'lr') + value
-			}
-
-			return WEBKIT + value + MS + value + value
-	}
-
-	return value
+	return Utility_strlen(children = Serializer_serialize(element.children, callback)) ? element.return = element.value + '{' + children + '}' : ''
 }
 
 ;// CONCATENATED MODULE: ./node_modules/stylis/src/Middleware.js
@@ -20312,13 +20193,13 @@ function prefixer (element, index, children, callback) {
 	if (element.length > -1)
 		if (!element.return)
 			switch (element.type) {
-				case DECLARATION: element.return = prefix(element.value, element.length)
-					break
+				case DECLARATION: element.return = prefix(element.value, element.length, children)
+					return
 				case KEYFRAMES:
 					return serialize([copy(element, {value: replace(element.value, '@', '@' + WEBKIT)})], callback)
-				case Enum_RULESET:
+				case RULESET:
 					if (element.length)
-						return Utility_combine(element.props, function (value) {
+						return combine(element.props, function (value) {
 							switch (match(value, /(::plac\w+|:read-\w+)/)) {
 								// :read-(only|write)
 								case ':read-only': case ':read-write':
@@ -20422,8 +20303,8 @@ function parse (value, root, parent, rule, rules, rulesets, pseudo, points, decl
 		switch (previous = character, character = next()) {
 			// (
 			case 40:
-				if (previous != 108 && characters.charCodeAt(length - 1) == 58) {
-					if (indexof(characters += replace(delimit(character), '&', '&\f'), '&\f') != -1)
+				if (previous != 108 && Utility_charat(characters, length - 1) == 58) {
+					if (indexof(characters += Utility_replace(delimit(character), '&', '&\f'), '&\f') != -1)
 						ampersand = -1
 					break
 				}
@@ -20458,9 +20339,9 @@ function parse (value, root, parent, rule, rules, rulesets, pseudo, points, decl
 					// \0 }
 					case 0: case 125: scanning = 0
 					// ;
-					case 59 + offset:
+					case 59 + offset: if (ampersand == -1) characters = Utility_replace(characters, /\f/g, '')
 						if (property > 0 && (Utility_strlen(characters) - length))
-							Utility_append(property > 32 ? declaration(characters + ';', rule, parent, length - 1) : declaration(replace(characters, ' ', '') + ';', rule, parent, length - 2), declarations)
+							Utility_append(property > 32 ? declaration(characters + ';', rule, parent, length - 1) : declaration(Utility_replace(characters, ' ', '') + ';', rule, parent, length - 2), declarations)
 						break
 					// @ ;
 					case 59: characters += ';'
@@ -20472,9 +20353,9 @@ function parse (value, root, parent, rule, rules, rulesets, pseudo, points, decl
 							if (offset === 0)
 								parse(characters, root, reference, reference, props, rulesets, length, points, children)
 							else
-								switch (atrule) {
-									// d m s
-									case 100: case 109: case 115:
+								switch (atrule === 99 && Utility_charat(characters, 3) === 110 ? 100 : atrule) {
+									// d l m s
+									case 100: case 108: case 109: case 115:
 										parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children)
 										break
 									default:
@@ -20542,7 +20423,7 @@ function ruleset (value, root, parent, index, offset, rules, points, type, props
 
 	for (var i = 0, j = 0, k = 0; i < index; ++i)
 		for (var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i])), z = value; x < size; ++x)
-			if (z = trim(j > 0 ? rule[x] + ' ' + y : replace(y, /&\f/g, rule[x])))
+			if (z = trim(j > 0 ? rule[x] + ' ' + y : Utility_replace(y, /&\f/g, rule[x])))
 				props[k++] = z
 
 	return node(value, root, parent, offset === 0 ? Enum_RULESET : type, props, children, length)
@@ -20566,7 +20447,7 @@ function comment (value, root, parent) {
  * @return {object}
  */
 function declaration (value, root, parent, length) {
-	return node(value, root, parent, DECLARATION, Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length)
+	return node(value, root, parent, Enum_DECLARATION, Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length)
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/cache/dist/emotion-cache.browser.esm.js
@@ -20711,7 +20592,7 @@ var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm(cache) {
     var unsafePseudoClasses = element.value.match(/(:first|:nth|:nth-last)-child/g);
 
     if (unsafePseudoClasses) {
-      var isNested = element.parent === children[0]; // in nested rules comments become children of the "auto-inserted" rule
+      var isNested = !!element.parent; // in nested rules comments become children of the "auto-inserted" rule and that's always the `element.parent`
       //
       // considering this input:
       // .a {
@@ -20727,16 +20608,16 @@ var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm(cache) {
       //   .b {}
       // }
 
-      var commentContainer = isNested ? children[0].children : // global rule at the root level
+      var commentContainer = isNested ? element.parent.children : // global rule at the root level
       children;
 
-      for (var i = 0; i < commentContainer.length; i++) {
+      for (var i = commentContainer.length - 1; i >= 0; i--) {
         var node = commentContainer[i];
 
-        if (node.line > element.line) {
+        if (node.line < element.line) {
           break;
         } // it is quite weird but comments are *usually* put at `column: element.column - 1`
-        // so we seek for the node that is later than the rule's `element` and check the previous element
+        // so we seek *from the end* for the node that is earlier than the rule's `element` and check that
         // this will also match inputs like this:
         // .a {
         //   /* comm */
@@ -20753,10 +20634,8 @@ var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm(cache) {
         // TODO: consider changing this comment placement in the next major version
 
 
-        if (node.column > element.column) {
-          var previousNode = commentContainer[i - 1];
-
-          if (isIgnoringComment(previousNode)) {
+        if (node.column < element.column) {
+          if (isIgnoringComment(node)) {
             return;
           }
 
@@ -20810,14 +20689,226 @@ var incorrectImportAlarm = function incorrectImportAlarm(element, index, childre
   }
 };
 
-var defaultStylisPlugins = [prefixer];
+/* eslint-disable no-fallthrough */
+
+function emotion_cache_browser_esm_prefix(value, length) {
+  switch (hash(value, length)) {
+    // color-adjust
+    case 5103:
+      return Enum_WEBKIT + 'print-' + value + value;
+    // animation, animation-(delay|direction|duration|fill-mode|iteration-count|name|play-state|timing-function)
+
+    case 5737:
+    case 4201:
+    case 3177:
+    case 3433:
+    case 1641:
+    case 4457:
+    case 2921: // text-decoration, filter, clip-path, backface-visibility, column, box-decoration-break
+
+    case 5572:
+    case 6356:
+    case 5844:
+    case 3191:
+    case 6645:
+    case 3005: // mask, mask-image, mask-(mode|clip|size), mask-(repeat|origin), mask-position, mask-composite,
+
+    case 6391:
+    case 5879:
+    case 5623:
+    case 6135:
+    case 4599:
+    case 4855: // background-clip, columns, column-(count|fill|gap|rule|rule-color|rule-style|rule-width|span|width)
+
+    case 4215:
+    case 6389:
+    case 5109:
+    case 5365:
+    case 5621:
+    case 3829:
+      return Enum_WEBKIT + value + value;
+    // appearance, user-select, transform, hyphens, text-size-adjust
+
+    case 5349:
+    case 4246:
+    case 4810:
+    case 6968:
+    case 2756:
+      return Enum_WEBKIT + value + Enum_MOZ + value + Enum_MS + value + value;
+    // flex, flex-direction
+
+    case 6828:
+    case 4268:
+      return Enum_WEBKIT + value + Enum_MS + value + value;
+    // order
+
+    case 6165:
+      return Enum_WEBKIT + value + Enum_MS + 'flex-' + value + value;
+    // align-items
+
+    case 5187:
+      return Enum_WEBKIT + value + Utility_replace(value, /(\w+).+(:[^]+)/, Enum_WEBKIT + 'box-$1$2' + Enum_MS + 'flex-$1$2') + value;
+    // align-self
+
+    case 5443:
+      return Enum_WEBKIT + value + Enum_MS + 'flex-item-' + Utility_replace(value, /flex-|-self/, '') + value;
+    // align-content
+
+    case 4675:
+      return Enum_WEBKIT + value + Enum_MS + 'flex-line-pack' + Utility_replace(value, /align-content|flex-|-self/, '') + value;
+    // flex-shrink
+
+    case 5548:
+      return Enum_WEBKIT + value + Enum_MS + Utility_replace(value, 'shrink', 'negative') + value;
+    // flex-basis
+
+    case 5292:
+      return Enum_WEBKIT + value + Enum_MS + Utility_replace(value, 'basis', 'preferred-size') + value;
+    // flex-grow
+
+    case 6060:
+      return Enum_WEBKIT + 'box-' + Utility_replace(value, '-grow', '') + Enum_WEBKIT + value + Enum_MS + Utility_replace(value, 'grow', 'positive') + value;
+    // transition
+
+    case 4554:
+      return Enum_WEBKIT + Utility_replace(value, /([^-])(transform)/g, '$1' + Enum_WEBKIT + '$2') + value;
+    // cursor
+
+    case 6187:
+      return Utility_replace(Utility_replace(Utility_replace(value, /(zoom-|grab)/, Enum_WEBKIT + '$1'), /(image-set)/, Enum_WEBKIT + '$1'), value, '') + value;
+    // background, background-image
+
+    case 5495:
+    case 3959:
+      return Utility_replace(value, /(image-set\([^]*)/, Enum_WEBKIT + '$1' + '$`$1');
+    // justify-content
+
+    case 4968:
+      return Utility_replace(Utility_replace(value, /(.+:)(flex-)?(.*)/, Enum_WEBKIT + 'box-pack:$3' + Enum_MS + 'flex-pack:$3'), /s.+-b[^;]+/, 'justify') + Enum_WEBKIT + value + value;
+    // (margin|padding)-inline-(start|end)
+
+    case 4095:
+    case 3583:
+    case 4068:
+    case 2532:
+      return Utility_replace(value, /(.+)-inline(.+)/, Enum_WEBKIT + '$1$2') + value;
+    // (min|max)?(width|height|inline-size|block-size)
+
+    case 8116:
+    case 7059:
+    case 5753:
+    case 5535:
+    case 5445:
+    case 5701:
+    case 4933:
+    case 4677:
+    case 5533:
+    case 5789:
+    case 5021:
+    case 4765:
+      // stretch, max-content, min-content, fill-available
+      if (Utility_strlen(value) - 1 - length > 6) switch (Utility_charat(value, length + 1)) {
+        // (m)ax-content, (m)in-content
+        case 109:
+          // -
+          if (Utility_charat(value, length + 4) !== 45) break;
+        // (f)ill-available, (f)it-content
+
+        case 102:
+          return Utility_replace(value, /(.+:)(.+)-([^]+)/, '$1' + Enum_WEBKIT + '$2-$3' + '$1' + Enum_MOZ + (Utility_charat(value, length + 3) == 108 ? '$3' : '$2-$3')) + value;
+        // (s)tretch
+
+        case 115:
+          return ~indexof(value, 'stretch') ? emotion_cache_browser_esm_prefix(Utility_replace(value, 'stretch', 'fill-available'), length) + value : value;
+      }
+      break;
+    // position: sticky
+
+    case 4949:
+      // (s)ticky?
+      if (Utility_charat(value, length + 1) !== 115) break;
+    // display: (flex|inline-flex)
+
+    case 6444:
+      switch (Utility_charat(value, Utility_strlen(value) - 3 - (~indexof(value, '!important') && 10))) {
+        // stic(k)y
+        case 107:
+          return Utility_replace(value, ':', ':' + Enum_WEBKIT) + value;
+        // (inline-)?fl(e)x
+
+        case 101:
+          return Utility_replace(value, /(.+:)([^;!]+)(;|!.+)?/, '$1' + Enum_WEBKIT + (Utility_charat(value, 14) === 45 ? 'inline-' : '') + 'box$3' + '$1' + Enum_WEBKIT + '$2$3' + '$1' + Enum_MS + '$2box$3') + value;
+      }
+
+      break;
+    // writing-mode
+
+    case 5936:
+      switch (Utility_charat(value, length + 11)) {
+        // vertical-l(r)
+        case 114:
+          return Enum_WEBKIT + value + Enum_MS + Utility_replace(value, /[svh]\w+-[tblr]{2}/, 'tb') + value;
+        // vertical-r(l)
+
+        case 108:
+          return Enum_WEBKIT + value + Enum_MS + Utility_replace(value, /[svh]\w+-[tblr]{2}/, 'tb-rl') + value;
+        // horizontal(-)tb
+
+        case 45:
+          return Enum_WEBKIT + value + Enum_MS + Utility_replace(value, /[svh]\w+-[tblr]{2}/, 'lr') + value;
+      }
+
+      return Enum_WEBKIT + value + Enum_MS + value + value;
+  }
+
+  return value;
+}
+
+var emotion_cache_browser_esm_prefixer = function prefixer(element, index, children, callback) {
+  if (element.length > -1) if (!element["return"]) switch (element.type) {
+    case Enum_DECLARATION:
+      element["return"] = emotion_cache_browser_esm_prefix(element.value, element.length);
+      break;
+
+    case Enum_KEYFRAMES:
+      return Serializer_serialize([Tokenizer_copy(element, {
+        value: Utility_replace(element.value, '@', '@' + Enum_WEBKIT)
+      })], callback);
+
+    case Enum_RULESET:
+      if (element.length) return Utility_combine(element.props, function (value) {
+        switch (Utility_match(value, /(::plac\w+|:read-\w+)/)) {
+          // :read-(only|write)
+          case ':read-only':
+          case ':read-write':
+            return Serializer_serialize([Tokenizer_copy(element, {
+              props: [Utility_replace(value, /:(read-\w+)/, ':' + Enum_MOZ + '$1')]
+            })], callback);
+          // :placeholder
+
+          case '::placeholder':
+            return Serializer_serialize([Tokenizer_copy(element, {
+              props: [Utility_replace(value, /:(plac\w+)/, ':' + Enum_WEBKIT + 'input-$1')]
+            }), Tokenizer_copy(element, {
+              props: [Utility_replace(value, /:(plac\w+)/, ':' + Enum_MOZ + '$1')]
+            }), Tokenizer_copy(element, {
+              props: [Utility_replace(value, /:(plac\w+)/, Enum_MS + 'input-$1')]
+            })], callback);
+        }
+
+        return '';
+      });
+  }
+};
+
+var defaultStylisPlugins = [emotion_cache_browser_esm_prefixer];
 
 var createCache = function createCache(options) {
   var key = options.key;
 
   if (false) {}
 
-  if ( key === 'css') {
+  if (key === 'css') {
     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])"); // get SSRed styles out of the way of React's hydration
     // document.head is a safe place to move them to(though note document.head is not necessarily the last place they will be)
     // note this very very intentionally targets all style elements regardless of the key to ensure
@@ -20877,7 +20968,7 @@ var createCache = function createCache(options) {
     var serializer = middleware(omnipresentPlugins.concat(stylisPlugins, finalizingPlugins));
 
     var stylis = function stylis(styles) {
-      return serialize(compile(styles), serializer);
+      return Serializer_serialize(compile(styles), serializer);
     };
 
     _insert = function insert(selector, serialized, sheet, shouldCache) {
@@ -20912,7 +21003,7 @@ var createCache = function createCache(options) {
   return cache;
 };
 
-/* harmony default export */ var emotion_cache_browser_esm = (createCache);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/hash/dist/emotion-hash.esm.js
 /* eslint-disable */
@@ -20969,11 +21060,12 @@ function murmur2(str) {
   return ((h ^ h >>> 15) >>> 0).toString(36);
 }
 
-/* harmony default export */ var emotion_hash_esm = (murmur2);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/unitless/dist/emotion-unitless.esm.js
 var unitlessKeys = {
   animationIterationCount: 1,
+  aspectRatio: 1,
   borderImageOutset: 1,
   borderImageSlice: 1,
   borderImageWidth: 1,
@@ -21021,7 +21113,7 @@ var unitlessKeys = {
   strokeWidth: 1
 };
 
-/* harmony default export */ var emotion_unitless_esm = (unitlessKeys);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
 function memoize(fn) {
@@ -21032,7 +21124,7 @@ function memoize(fn) {
   };
 }
 
-/* harmony default export */ var emotion_memoize_esm = (memoize);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/serialize/dist/emotion-serialize.browser.esm.js
 
@@ -21052,7 +21144,7 @@ var isProcessableValue = function isProcessableValue(value) {
   return value != null && typeof value !== 'boolean';
 };
 
-var processStyleName = /* #__PURE__ */emotion_memoize_esm(function (styleName) {
+var processStyleName = /* #__PURE__ */memoize(function (styleName) {
   return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, '-$&').toLowerCase();
 });
 
@@ -21074,7 +21166,7 @@ var processStyleValue = function processStyleValue(key, value) {
       }
   }
 
-  if (emotion_unitless_esm[key] !== 1 && !isCustomProperty(key) && typeof value === 'number' && value !== 0) {
+  if (unitlessKeys[key] !== 1 && !isCustomProperty(key) && typeof value === 'number' && value !== 0) {
     return value + 'px';
   }
 
@@ -21270,7 +21362,7 @@ var emotion_serialize_browser_esm_serializeStyles = function serializeStyles(arg
     match[1];
   }
 
-  var name = emotion_hash_esm(styles) + identifierName;
+  var name = murmur2(styles) + identifierName;
 
   if (false) {}
 
@@ -21283,7 +21375,20 @@ var emotion_serialize_browser_esm_serializeStyles = function serializeStyles(arg
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-element-cbed451f.browser.esm.js
+;// CONCATENATED MODULE: ./node_modules/@emotion/use-insertion-effect-with-fallbacks/dist/emotion-use-insertion-effect-with-fallbacks.browser.esm.js
+
+
+var syncFallback = function syncFallback(create) {
+  return create();
+};
+
+var useInsertionEffect = external_React_['useInsertion' + 'Effect'] ? external_React_['useInsertion' + 'Effect'] : false;
+var emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectAlwaysWithSyncFallback = useInsertionEffect || syncFallback;
+var emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectWithLayoutFallback = useInsertionEffect || external_React_.useLayoutEffect;
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-element-43c6fea0.browser.esm.js
 
 
 
@@ -21293,15 +21398,17 @@ var emotion_serialize_browser_esm_serializeStyles = function serializeStyles(arg
 
 
 
-var emotion_element_cbed451f_browser_esm_hasOwnProperty = {}.hasOwnProperty;
 
-var EmotionCacheContext = /* #__PURE__ */(0,external_React_.createContext)( // we're doing this to avoid preconstruct's dead code elimination in this one case
+var isBrowser = "object" !== 'undefined';
+var emotion_element_43c6fea0_browser_esm_hasOwn = {}.hasOwnProperty;
+
+var EmotionCacheContext = /* #__PURE__ */external_React_.createContext( // we're doing this to avoid preconstruct's dead code elimination in this one case
 // because this module is primarily intended for the browser and node
 // but it's also required in react native and similar environments sometimes
 // and we could have a special build just for that
 // but this is much easier and the native packages
 // might use a different theme context in the future anyway
-typeof HTMLElement !== 'undefined' ? /* #__PURE__ */emotion_cache_browser_esm({
+typeof HTMLElement !== 'undefined' ? /* #__PURE__ */createCache({
   key: 'css'
 }) : null);
 
@@ -21312,7 +21419,7 @@ var __unsafe_useEmotionCache = function useEmotionCache() {
   return (0,external_React_.useContext)(EmotionCacheContext);
 };
 
-var emotion_element_cbed451f_browser_esm_withEmotionCache = function withEmotionCache(func) {
+var emotion_element_43c6fea0_browser_esm_withEmotionCache = function withEmotionCache(func) {
   // $FlowFixMe
   return /*#__PURE__*/(0,external_React_.forwardRef)(function (props, ref) {
     // the cache will never be null in the browser
@@ -21321,12 +21428,36 @@ var emotion_element_cbed451f_browser_esm_withEmotionCache = function withEmotion
   });
 };
 
-var emotion_element_cbed451f_browser_esm_ThemeContext = /* #__PURE__ */(0,external_React_.createContext)({});
+if (!isBrowser) {
+  emotion_element_43c6fea0_browser_esm_withEmotionCache = function withEmotionCache(func) {
+    return function (props) {
+      var cache = (0,external_React_.useContext)(EmotionCacheContext);
+
+      if (cache === null) {
+        // yes, we're potentially creating this on every render
+        // it doesn't actually matter though since it's only on the server
+        // so there will only every be a single render
+        // that could change in the future because of suspense and etc. but for now,
+        // this works and i don't want to optimise for a future thing that we aren't sure about
+        cache = createCache({
+          key: 'css'
+        });
+        return /*#__PURE__*/external_React_.createElement(EmotionCacheContext.Provider, {
+          value: cache
+        }, func(props, cache));
+      } else {
+        return func(props, cache);
+      }
+    };
+  };
+}
+
+var emotion_element_43c6fea0_browser_esm_ThemeContext = /* #__PURE__ */external_React_.createContext({});
 
 if (false) {}
 
 var useTheme = function useTheme() {
-  return useContext(emotion_element_cbed451f_browser_esm_ThemeContext);
+  return React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
 };
 
 var getTheme = function getTheme(outerTheme, theme) {
@@ -21349,13 +21480,13 @@ var createCacheWithTheme = /* #__PURE__ */(/* unused pure expression or super */
   });
 })));
 var ThemeProvider = function ThemeProvider(props) {
-  var theme = useContext(emotion_element_cbed451f_browser_esm_ThemeContext);
+  var theme = React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
 
   if (props.theme !== theme) {
     theme = createCacheWithTheme(theme)(props.theme);
   }
 
-  return /*#__PURE__*/createElement(emotion_element_cbed451f_browser_esm_ThemeContext.Provider, {
+  return /*#__PURE__*/React.createElement(emotion_element_43c6fea0_browser_esm_ThemeContext.Provider, {
     value: theme
   }, props.children);
 };
@@ -21363,15 +21494,15 @@ function withTheme(Component) {
   var componentName = Component.displayName || Component.name || 'Component';
 
   var render = function render(props, ref) {
-    var theme = useContext(emotion_element_cbed451f_browser_esm_ThemeContext);
-    return /*#__PURE__*/createElement(Component, _extends({
+    var theme = React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
+    return /*#__PURE__*/React.createElement(Component, _extends({
       theme: theme,
       ref: ref
     }, props));
   }; // $FlowFixMe
 
 
-  var WithTheme = /*#__PURE__*/forwardRef(render);
+  var WithTheme = /*#__PURE__*/React.forwardRef(render);
   WithTheme.displayName = "WithTheme(" + componentName + ")";
   return hoistNonReactStatics(WithTheme, Component);
 }
@@ -21419,23 +21550,15 @@ var getLabelFromStackTrace = function getLabelFromStackTrace(stackTrace) {
   return undefined;
 };
 
-var useInsertionEffect = external_React_['useInsertion' + 'Effect'] ? external_React_['useInsertion' + 'Effect'] : function useInsertionEffect(create) {
-  create();
-};
-function emotion_element_cbed451f_browser_esm_useInsertionEffectMaybe(create) {
-
-  useInsertionEffect(create);
-}
-
 var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
 var labelPropName = '__EMOTION_LABEL_PLEASE_DO_NOT_USE__';
-var emotion_element_cbed451f_browser_esm_createEmotionProps = function createEmotionProps(type, props) {
+var emotion_element_43c6fea0_browser_esm_createEmotionProps = function createEmotionProps(type, props) {
   if (false) {}
 
   var newProps = {};
 
   for (var key in props) {
-    if (emotion_element_cbed451f_browser_esm_hasOwnProperty.call(props, key)) {
+    if (emotion_element_43c6fea0_browser_esm_hasOwn.call(props, key)) {
       newProps[key] = props[key];
     }
   }
@@ -21453,14 +21576,14 @@ var Insertion = function Insertion(_ref) {
       serialized = _ref.serialized,
       isStringTag = _ref.isStringTag;
   registerStyles(cache, serialized, isStringTag);
-  var rules = emotion_element_cbed451f_browser_esm_useInsertionEffectMaybe(function () {
+  useInsertionEffectAlwaysWithSyncFallback(function () {
     return insertStyles(cache, serialized, isStringTag);
   });
 
   return null;
 };
 
-var emotion_element_cbed451f_browser_esm_Emotion = /* #__PURE__ */(/* unused pure expression or super */ null && (emotion_element_cbed451f_browser_esm_withEmotionCache(function (props, cache, ref) {
+var emotion_element_43c6fea0_browser_esm_Emotion = /* #__PURE__ */(/* unused pure expression or super */ null && (emotion_element_43c6fea0_browser_esm_withEmotionCache(function (props, cache, ref) {
   var cssProp = props.css; // so that using `css` from `emotion` and passing the result to the css prop works
   // not passing the registered cache to serializeStyles because it would
   // make certain babel optimisations not possible
@@ -21479,7 +21602,7 @@ var emotion_element_cbed451f_browser_esm_Emotion = /* #__PURE__ */(/* unused pur
     className = props.className + " ";
   }
 
-  var serialized = serializeStyles(registeredStyles, undefined, useContext(emotion_element_cbed451f_browser_esm_ThemeContext));
+  var serialized = serializeStyles(registeredStyles, undefined, React.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext));
 
   if (false) { var labelFromStack; }
 
@@ -21487,26 +21610,28 @@ var emotion_element_cbed451f_browser_esm_Emotion = /* #__PURE__ */(/* unused pur
   var newProps = {};
 
   for (var key in props) {
-    if (emotion_element_cbed451f_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || 0)) {
+    if (emotion_element_43c6fea0_browser_esm_hasOwn.call(props, key) && key !== 'css' && key !== typePropName && ( true || 0)) {
       newProps[key] = props[key];
     }
   }
 
   newProps.ref = ref;
   newProps.className = className;
-  return /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement(Insertion, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Insertion, {
     cache: cache,
     serialized: serialized,
     isStringTag: typeof WrappedComponent === 'string'
-  }), /*#__PURE__*/createElement(WrappedComponent, newProps));
+  }), /*#__PURE__*/React.createElement(WrappedComponent, newProps));
 })));
 
 if (false) {}
 
+var Emotion$1 = (/* unused pure expression or super */ null && (emotion_element_43c6fea0_browser_esm_Emotion));
+
 
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
-var isBrowser = "object" !== 'undefined';
+var emotion_utils_browser_esm_isBrowser = "object" !== 'undefined';
 function emotion_utils_browser_esm_getRegisteredStyles(registered, registeredStyles, classNames) {
   var rawClassName = '';
   classNames.split(' ').forEach(function (className) {
@@ -21530,7 +21655,7 @@ var emotion_utils_browser_esm_insertStyles = function insertStyles(cache, serial
   // in node since emotion-server relies on whether a style is in
   // the registered cache to know whether a style is global or not
   // also, note that this check will be dead code eliminated in the browser
-  isBrowser === false ) && cache.registered[className] === undefined) {
+  emotion_utils_browser_esm_isBrowser === false ) && cache.registered[className] === undefined) {
     cache.registered[className] = serialized.styles;
   }
 
@@ -21548,7 +21673,7 @@ var emotion_utils_browser_esm_insertStyles = function insertStyles(cache, serial
 
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/css/node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
-var emotion_utils_browser_esm_isBrowser = "object" !== 'undefined';
+var dist_emotion_utils_browser_esm_isBrowser = "object" !== 'undefined';
 function dist_emotion_utils_browser_esm_getRegisteredStyles(registered, registeredStyles, classNames) {
   var rawClassName = '';
   classNames.split(' ').forEach(function (className) {
@@ -21572,7 +21697,7 @@ var emotion_utils_browser_esm_registerStyles = function registerStyles(cache, se
   // in node since emotion-server relies on whether a style is in
   // the registered cache to know whether a style is global or not
   // also, note that this check will be dead code eliminated in the browser
-  emotion_utils_browser_esm_isBrowser === false ) && cache.registered[className] === undefined) {
+  dist_emotion_utils_browser_esm_isBrowser === false ) && cache.registered[className] === undefined) {
     cache.registered[className] = serialized.styles;
   }
 };
@@ -21584,7 +21709,7 @@ var dist_emotion_utils_browser_esm_insertStyles = function insertStyles(cache, s
     var current = serialized;
 
     do {
-      var maybeStyles = cache.insert(serialized === current ? "." + className : '', current, cache.sheet, true);
+      cache.insert(serialized === current ? "." + className : '', current, cache.sheet, true);
 
       current = current.next;
     } while (current !== undefined);
@@ -21616,7 +21741,7 @@ function merge(registered, css, className) {
 }
 
 var createEmotion = function createEmotion(options) {
-  var cache = emotion_cache_browser_esm(options); // $FlowFixMe
+  var cache = createCache(options); // $FlowFixMe
 
   cache.sheet.speedy = function (value) {
     if (false) {}
@@ -21735,7 +21860,7 @@ var emotion_css_create_instance_esm_classnames = function classnames(args) {
   return cls;
 };
 
-/* harmony default export */ var emotion_css_create_instance_esm = (createEmotion);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/css/dist/emotion-css.esm.js
 
@@ -21743,7 +21868,7 @@ var emotion_css_create_instance_esm_classnames = function classnames(args) {
 
 
 
-var _createEmotion = emotion_css_create_instance_esm({
+var _createEmotion = createEmotion({
   key: 'css'
 }),
     flush = _createEmotion.flush,
@@ -22025,9 +22150,9 @@ const visuallyHidden = {
 ;// CONCATENATED MODULE: ./node_modules/@emotion/is-prop-valid/dist/emotion-is-prop-valid.esm.js
 
 
-var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
+var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|disableRemotePlayback|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
 
-var isPropValid = /* #__PURE__ */emotion_memoize_esm(function (prop) {
+var isPropValid = /* #__PURE__ */memoize(function (prop) {
   return reactPropsRegex.test(prop) || prop.charCodeAt(0) === 111
   /* o */
   && prop.charCodeAt(1) === 110
@@ -22037,10 +22162,10 @@ var isPropValid = /* #__PURE__ */emotion_memoize_esm(function (prop) {
 /* Z+1 */
 );
 
-/* harmony default export */ var emotion_is_prop_valid_esm = (isPropValid);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@emotion/styled/node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
-var dist_emotion_utils_browser_esm_isBrowser = "object" !== 'undefined';
+var utils_dist_emotion_utils_browser_esm_isBrowser = "object" !== 'undefined';
 function utils_dist_emotion_utils_browser_esm_getRegisteredStyles(registered, registeredStyles, classNames) {
   var rawClassName = '';
   classNames.split(' ').forEach(function (className) {
@@ -22064,7 +22189,7 @@ var dist_emotion_utils_browser_esm_registerStyles = function registerStyles(cach
   // in node since emotion-server relies on whether a style is in
   // the registered cache to know whether a style is global or not
   // also, note that this check will be dead code eliminated in the browser
-  dist_emotion_utils_browser_esm_isBrowser === false ) && cache.registered[className] === undefined) {
+  utils_dist_emotion_utils_browser_esm_isBrowser === false ) && cache.registered[className] === undefined) {
     cache.registered[className] = serialized.styles;
   }
 };
@@ -22076,7 +22201,7 @@ var utils_dist_emotion_utils_browser_esm_insertStyles = function insertStyles(ca
     var current = serialized;
 
     do {
-      var maybeStyles = cache.insert(serialized === current ? "." + className : '', current, cache.sheet, true);
+      cache.insert(serialized === current ? "." + className : '', current, cache.sheet, true);
 
       current = current.next;
     } while (current !== undefined);
@@ -22094,7 +22219,7 @@ var utils_dist_emotion_utils_browser_esm_insertStyles = function insertStyles(ca
 
 
 
-var testOmitPropsOnStringTag = emotion_is_prop_valid_esm;
+var testOmitPropsOnStringTag = isPropValid;
 
 var testOmitPropsOnComponent = function testOmitPropsOnComponent(key) {
   return key !== 'theme';
@@ -22123,14 +22248,6 @@ var composeShouldForwardProps = function composeShouldForwardProps(tag, options,
   return shouldForwardProp;
 };
 
-var emotion_styled_base_browser_esm_useInsertionEffect = external_React_['useInsertion' + 'Effect'] ? external_React_['useInsertion' + 'Effect'] : function useInsertionEffect(create) {
-  create();
-};
-function emotion_styled_base_browser_esm_useInsertionEffectMaybe(create) {
-
-  emotion_styled_base_browser_esm_useInsertionEffect(create);
-}
-
 var emotion_styled_base_browser_esm_ILLEGAL_ESCAPE_SEQUENCE_ERROR = "You have illegal escape sequence in your template literal, most likely inside content's property value.\nBecause you write your CSS inside a JavaScript string you actually have to do double escaping, so for example \"content: '\\00d7';\" should become \"content: '\\\\00d7';\".\nYou can read more about this here:\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#ES2018_revision_of_illegal_escape_sequences";
 
 var emotion_styled_base_browser_esm_Insertion = function Insertion(_ref) {
@@ -22138,7 +22255,7 @@ var emotion_styled_base_browser_esm_Insertion = function Insertion(_ref) {
       serialized = _ref.serialized,
       isStringTag = _ref.isStringTag;
   dist_emotion_utils_browser_esm_registerStyles(cache, serialized, isStringTag);
-  var rules = emotion_styled_base_browser_esm_useInsertionEffectMaybe(function () {
+  emotion_use_insertion_effect_with_fallbacks_browser_esm_useInsertionEffectAlwaysWithSyncFallback(function () {
     return utils_dist_emotion_utils_browser_esm_insertStyles(cache, serialized, isStringTag);
   });
 
@@ -22186,7 +22303,7 @@ var createStyled = function createStyled(tag, options) {
     } // $FlowFixMe: we need to cast StatelessFunctionalComponent to our PrivateStyledComponent class
 
 
-    var Styled = emotion_element_cbed451f_browser_esm_withEmotionCache(function (props, cache, ref) {
+    var Styled = emotion_element_43c6fea0_browser_esm_withEmotionCache(function (props, cache, ref) {
       var FinalTag = shouldUseAs && props.as || baseTag;
       var className = '';
       var classInterpolations = [];
@@ -22199,7 +22316,7 @@ var createStyled = function createStyled(tag, options) {
           mergedProps[key] = props[key];
         }
 
-        mergedProps.theme = (0,external_React_.useContext)(emotion_element_cbed451f_browser_esm_ThemeContext);
+        mergedProps.theme = external_React_.useContext(emotion_element_43c6fea0_browser_esm_ThemeContext);
       }
 
       if (typeof props.className === 'string') {
@@ -22229,11 +22346,11 @@ var createStyled = function createStyled(tag, options) {
 
       newProps.className = className;
       newProps.ref = ref;
-      return /*#__PURE__*/(0,external_React_.createElement)(external_React_.Fragment, null, /*#__PURE__*/(0,external_React_.createElement)(emotion_styled_base_browser_esm_Insertion, {
+      return /*#__PURE__*/external_React_.createElement(external_React_.Fragment, null, /*#__PURE__*/external_React_.createElement(emotion_styled_base_browser_esm_Insertion, {
         cache: cache,
         serialized: serialized,
         isStringTag: typeof FinalTag === 'string'
-      }), /*#__PURE__*/(0,external_React_.createElement)(FinalTag, newProps));
+      }), /*#__PURE__*/external_React_.createElement(FinalTag, newProps));
     });
     Styled.displayName = identifierName !== undefined ? identifierName : "Styled(" + (typeof baseTag === 'string' ? baseTag : baseTag.displayName || baseTag.name || 'Component') + ")";
     Styled.defaultProps = tag.defaultProps;
@@ -22260,7 +22377,7 @@ var createStyled = function createStyled(tag, options) {
   };
 };
 
-/* harmony default export */ var emotion_styled_base_browser_esm = (createStyled);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/view/component.js
 
@@ -22289,7 +22406,7 @@ var createStyled = function createStyled(tag, options) {
  * @type {import('../ui/context').WordPressComponent<'div', { children?: import('react').ReactNode }, true>}
  */
 // @ts-ignore
-const View = emotion_styled_base_browser_esm("div",  true ? {
+const View = createStyled("div",  true ? {
   target: "em57xhy0"
 } : 0)( true ? "" : 0);
 
@@ -22995,7 +23112,7 @@ const memoizedCreateCacheWithContainer = memize_default()(container => {
   }
 
   uuidCache.add(key);
-  return emotion_cache_browser_esm({
+  return createCache({
     container,
     key
   });
@@ -24339,7 +24456,7 @@ var hoist_non_react_statics_cjs = __webpack_require__(1281);
 
 var pkg = {
 	name: "@emotion/react",
-	version: "11.10.0",
+	version: "11.11.4",
 	main: "dist/emotion-react.cjs.js",
 	module: "dist/emotion-react.esm.js",
 	browser: {
@@ -24352,6 +24469,7 @@ var pkg = {
 				browser: "./dist/emotion-react.browser.esm.js",
 				"default": "./dist/emotion-react.esm.js"
 			},
+			"import": "./dist/emotion-react.cjs.mjs",
 			"default": "./dist/emotion-react.cjs.js"
 		},
 		"./jsx-runtime": {
@@ -24360,6 +24478,7 @@ var pkg = {
 				browser: "./jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js",
 				"default": "./jsx-runtime/dist/emotion-react-jsx-runtime.esm.js"
 			},
+			"import": "./jsx-runtime/dist/emotion-react-jsx-runtime.cjs.mjs",
 			"default": "./jsx-runtime/dist/emotion-react-jsx-runtime.cjs.js"
 		},
 		"./_isolated-hnrs": {
@@ -24368,6 +24487,7 @@ var pkg = {
 				browser: "./_isolated-hnrs/dist/emotion-react-_isolated-hnrs.browser.esm.js",
 				"default": "./_isolated-hnrs/dist/emotion-react-_isolated-hnrs.esm.js"
 			},
+			"import": "./_isolated-hnrs/dist/emotion-react-_isolated-hnrs.cjs.mjs",
 			"default": "./_isolated-hnrs/dist/emotion-react-_isolated-hnrs.cjs.js"
 		},
 		"./jsx-dev-runtime": {
@@ -24376,11 +24496,18 @@ var pkg = {
 				browser: "./jsx-dev-runtime/dist/emotion-react-jsx-dev-runtime.browser.esm.js",
 				"default": "./jsx-dev-runtime/dist/emotion-react-jsx-dev-runtime.esm.js"
 			},
+			"import": "./jsx-dev-runtime/dist/emotion-react-jsx-dev-runtime.cjs.mjs",
 			"default": "./jsx-dev-runtime/dist/emotion-react-jsx-dev-runtime.cjs.js"
 		},
 		"./package.json": "./package.json",
 		"./types/css-prop": "./types/css-prop.d.ts",
-		"./macro": "./macro.js"
+		"./macro": {
+			types: {
+				"import": "./macro.d.mts",
+				"default": "./macro.d.ts"
+			},
+			"default": "./macro.js"
+		}
 	},
 	types: "types/index.d.ts",
 	files: [
@@ -24390,9 +24517,7 @@ var pkg = {
 		"jsx-dev-runtime",
 		"_isolated-hnrs",
 		"types/*.d.ts",
-		"macro.js",
-		"macro.d.ts",
-		"macro.js.flow"
+		"macro.*"
 	],
 	sideEffects: false,
 	author: "Emotion Contributors",
@@ -24402,32 +24527,28 @@ var pkg = {
 	},
 	dependencies: {
 		"@babel/runtime": "^7.18.3",
-		"@emotion/babel-plugin": "^11.10.0",
-		"@emotion/cache": "^11.10.0",
-		"@emotion/serialize": "^1.1.0",
-		"@emotion/utils": "^1.2.0",
-		"@emotion/weak-memoize": "^0.3.0",
+		"@emotion/babel-plugin": "^11.11.0",
+		"@emotion/cache": "^11.11.0",
+		"@emotion/serialize": "^1.1.3",
+		"@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
+		"@emotion/utils": "^1.2.1",
+		"@emotion/weak-memoize": "^0.3.1",
 		"hoist-non-react-statics": "^3.3.1"
 	},
 	peerDependencies: {
-		"@babel/core": "^7.0.0",
 		react: ">=16.8.0"
 	},
 	peerDependenciesMeta: {
-		"@babel/core": {
-			optional: true
-		},
 		"@types/react": {
 			optional: true
 		}
 	},
 	devDependencies: {
-		"@babel/core": "^7.18.5",
 		"@definitelytyped/dtslint": "0.0.112",
-		"@emotion/css": "11.10.0",
-		"@emotion/css-prettifier": "1.1.0",
-		"@emotion/server": "11.10.0",
-		"@emotion/styled": "11.10.0",
+		"@emotion/css": "11.11.2",
+		"@emotion/css-prettifier": "1.1.3",
+		"@emotion/server": "11.11.0",
+		"@emotion/styled": "11.11.0",
 		"html-tag-names": "^1.1.2",
 		react: "16.14.0",
 		"svg-tag-names": "^1.1.1",
@@ -24453,7 +24574,13 @@ var pkg = {
 			],
 			extra: {
 				"./types/css-prop": "./types/css-prop.d.ts",
-				"./macro": "./macro.js"
+				"./macro": {
+					types: {
+						"import": "./macro.d.mts",
+						"default": "./macro.d.ts"
+					},
+					"default": "./macro.js"
+				}
 			}
 		}
 	}
@@ -24462,9 +24589,9 @@ var pkg = {
 var jsx = function jsx(type, props) {
   var args = arguments;
 
-  if (props == null || !hasOwnProperty.call(props, 'css')) {
+  if (props == null || !hasOwn.call(props, 'css')) {
     // $FlowFixMe
-    return createElement.apply(undefined, args);
+    return React.createElement.apply(undefined, args);
   }
 
   var argsLength = args.length;
@@ -24477,10 +24604,9 @@ var jsx = function jsx(type, props) {
   } // $FlowFixMe
 
 
-  return createElement.apply(null, createElementArgArray);
+  return React.createElement.apply(null, createElementArgArray);
 };
 
-var emotion_react_browser_esm_useInsertionEffect = external_React_['useInsertion' + 'Effect'] ? external_React_['useInsertion' + 'Effect'] : external_React_.useLayoutEffect;
 var warnedAboutCssPropForGlobal = false; // maintain place over rerenders.
 // initial render from browser, insertBefore context.sheet.tags[0] or if a style hasn't been inserted there yet, appendChild
 // initial client-side render from SSR, use place of hydrating tag
@@ -24489,14 +24615,42 @@ var Global = /* #__PURE__ */(/* unused pure expression or super */ null && (with
   if (false) {}
 
   var styles = props.styles;
-  var serialized = serializeStyles([styles], undefined, useContext(ThemeContext));
+  var serialized = serializeStyles([styles], undefined, React.useContext(ThemeContext));
+
+  if (!isBrowser$1) {
+    var _ref;
+
+    var serializedNames = serialized.name;
+    var serializedStyles = serialized.styles;
+    var next = serialized.next;
+
+    while (next !== undefined) {
+      serializedNames += ' ' + next.name;
+      serializedStyles += next.styles;
+      next = next.next;
+    }
+
+    var shouldCache = cache.compat === true;
+    var rules = cache.insert("", {
+      name: serializedNames,
+      styles: serializedStyles
+    }, cache.sheet, shouldCache);
+
+    if (shouldCache) {
+      return null;
+    }
+
+    return /*#__PURE__*/React.createElement("style", (_ref = {}, _ref["data-emotion"] = cache.key + "-global " + serializedNames, _ref.dangerouslySetInnerHTML = {
+      __html: rules
+    }, _ref.nonce = cache.sheet.nonce, _ref));
+  } // yes, i know these hooks are used conditionally
   // but it is based on a constant that will never change at runtime
   // it's effectively like having two implementations and switching them out
   // so it's not actually breaking anything
 
 
-  var sheetRef = useRef();
-  emotion_react_browser_esm_useInsertionEffect(function () {
+  var sheetRef = React.useRef();
+  useInsertionEffectWithLayoutFallback(function () {
     var key = cache.key + "-global"; // use case of https://github.com/emotion-js/emotion/issues/2675
 
     var sheet = new cache.sheet.constructor({
@@ -24525,7 +24679,7 @@ var Global = /* #__PURE__ */(/* unused pure expression or super */ null && (with
       sheet.flush();
     };
   }, [cache]);
-  emotion_react_browser_esm_useInsertionEffect(function () {
+  useInsertionEffectWithLayoutFallback(function () {
     var sheetRefCurrent = sheetRef.current;
     var sheet = sheetRefCurrent[0],
         rehydrating = sheetRefCurrent[1];
@@ -24639,10 +24793,10 @@ function emotion_react_browser_esm_merge(registered, css, className) {
 var emotion_react_browser_esm_Insertion = function Insertion(_ref) {
   var cache = _ref.cache,
       serializedArr = _ref.serializedArr;
-  var rules = useInsertionEffectMaybe(function () {
+  useInsertionEffectAlwaysWithSyncFallback(function () {
 
     for (var i = 0; i < serializedArr.length; i++) {
-      var res = insertStyles(cache, serializedArr[i], false);
+      insertStyles(cache, serializedArr[i], false);
     }
   });
 
@@ -24680,11 +24834,11 @@ var ClassNames = /* #__PURE__ */(/* unused pure expression or super */ null && (
   var content = {
     css: css,
     cx: cx,
-    theme: useContext(ThemeContext)
+    theme: React.useContext(ThemeContext)
   };
   var ele = props.children(content);
   hasRendered = true;
-  return /*#__PURE__*/createElement(Fragment, null, /*#__PURE__*/createElement(emotion_react_browser_esm_Insertion, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(emotion_react_browser_esm_Insertion, {
     cache: cache,
     serializedArr: serializedArr
   }), ele);
@@ -24692,7 +24846,7 @@ var ClassNames = /* #__PURE__ */(/* unused pure expression or super */ null && (
 
 if (false) {}
 
-if (false) { var globalKey, globalContext, isJest, emotion_react_browser_esm_isBrowser; }
+if (false) { var globalKey, globalContext, isTestEnv, emotion_react_browser_esm_isBrowser; }
 
 
 
@@ -24976,10 +25130,10 @@ const rootSize = _ref2 => {
   return /*#__PURE__*/emotion_react_browser_esm_css("grid-template-rows:repeat( 3, calc( ", size, "px / 3 ) );width:", size, "px;" + ( true ? "" : 0),  true ? "" : 0);
 };
 
-const Root = emotion_styled_base_browser_esm("div",  true ? {
+const Root = createStyled("div",  true ? {
   target: "e1od1u4s3"
 } : 0)(rootBase, ";border:1px solid transparent;cursor:pointer;grid-template-columns:auto;", rootSize, ";" + ( true ? "" : 0));
-const Row = emotion_styled_base_browser_esm("div",  true ? {
+const Row = createStyled("div",  true ? {
   target: "e1od1u4s2"
 } : 0)( true ? {
   name: "1x5gbbj",
@@ -24999,10 +25153,10 @@ const pointActive = _ref3 => {
 const pointBase = props => {
   return /*#__PURE__*/emotion_react_browser_esm_css("background:currentColor;box-sizing:border-box;display:grid;margin:auto;transition:all 120ms linear;", reduceMotion('transition'), " ", pointActive(props), ";" + ( true ? "" : 0),  true ? "" : 0);
 };
-const Point = emotion_styled_base_browser_esm("span",  true ? {
+const Point = createStyled("span",  true ? {
   target: "e1od1u4s1"
 } : 0)("height:6px;width:6px;", pointBase, ";" + ( true ? "" : 0));
-const Cell = emotion_styled_base_browser_esm("span",  true ? {
+const Cell = createStyled("span",  true ? {
   target: "e1od1u4s0"
 } : 0)( true ? {
   name: "rjf3ub",
@@ -26718,13 +26872,13 @@ const rootPointerEvents = _ref => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const Wrapper = createStyled("div",  true ? {
   target: "elqsdmc2"
 } : 0)( true ? {
   name: "ogl07i",
   styles: "box-sizing:border-box;padding:2px"
 } : 0);
-const alignment_matrix_control_icon_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const alignment_matrix_control_icon_styles_Root = createStyled("div",  true ? {
   target: "elqsdmc1"
 } : 0)("transform-origin:top left;height:100%;width:100%;", rootBase, ";", alignment_matrix_control_icon_styles_rootSize, ";", rootPointerEvents, ";" + ( true ? "" : 0));
 
@@ -26736,7 +26890,7 @@ const alignment_matrix_control_icon_styles_pointActive = _ref2 => {
   return /*#__PURE__*/emotion_react_browser_esm_css("box-shadow:", boxShadow, ";color:currentColor;*:hover>&{color:currentColor;}" + ( true ? "" : 0),  true ? "" : 0);
 };
 
-const alignment_matrix_control_icon_styles_Point = emotion_styled_base_browser_esm("span",  true ? {
+const alignment_matrix_control_icon_styles_Point = createStyled("span",  true ? {
   target: "elqsdmc0"
 } : 0)("height:2px;width:2px;", pointBase, ";", alignment_matrix_control_icon_styles_pointActive, ";" + ( true ? "" : 0));
 const alignment_matrix_control_icon_styles_Cell = Cell;
@@ -37883,7 +38037,7 @@ const rootLabelPositionStyles = _ref8 => {
   }
 };
 
-const input_control_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const input_control_styles_Root = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "em5sgkm7"
 } : 0)("position:relative;border-radius:2px;padding-top:0;", rootFocusedStyles, " ", rootLabelPositionStyles, ";" + ( true ? "" : 0));
 
@@ -37934,7 +38088,7 @@ const containerWidthStyles = _ref11 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const Container = emotion_styled_base_browser_esm("div",  true ? {
+const Container = createStyled("div",  true ? {
   target: "em5sgkm6"
 } : 0)("align-items:center;box-sizing:border-box;border-radius:inherit;display:flex;flex:1;position:relative;", containerDisabledStyles, " ", containerMarginStyles, " ", containerWidthStyles, ";" + ( true ? "" : 0));
 
@@ -38015,7 +38169,7 @@ const dragStyles = _ref15 => {
 // https://github.com/WordPress/gutenberg/issues/18483
 
 
-const Input = emotion_styled_base_browser_esm("input",  true ? {
+const Input = createStyled("input",  true ? {
   target: "em5sgkm5"
 } : 0)("&&&{background-color:transparent;box-sizing:border-box;border:none;box-shadow:none!important;color:", COLORS.black, ";display:block;font-family:inherit;margin:0;outline:none;width:100%;", dragStyles, " ", disabledStyles, " ", fontSizeStyles, " ", sizeStyles, " &::-webkit-input-placeholder{line-height:normal;}}" + ( true ? "" : 0));
 
@@ -38037,14 +38191,14 @@ const labelMargin = _ref16 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const BaseLabel = /*#__PURE__*/emotion_styled_base_browser_esm(text_component,  true ? {
+const BaseLabel = /*#__PURE__*/createStyled(text_component,  true ? {
   target: "em5sgkm4"
 } : 0)("&&&{box-sizing:border-box;color:currentColor;display:block;padding-top:0;padding-bottom:0;max-width:100%;z-index:1;", labelMargin, " overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}" + ( true ? "" : 0));
 
 const Label = props => (0,external_wp_element_namespaceObject.createElement)(BaseLabel, extends_extends({}, props, {
   as: "label"
 }));
-const LabelWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_item_component,  true ? {
+const LabelWrapper = /*#__PURE__*/createStyled(flex_item_component,  true ? {
   target: "em5sgkm3"
 } : 0)( true ? {
   name: "1b6uupn",
@@ -38075,18 +38229,18 @@ const backdropFocusedStyles = _ref17 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const BackdropUI = emotion_styled_base_browser_esm("div",  true ? {
+const BackdropUI = createStyled("div",  true ? {
   target: "em5sgkm2"
 } : 0)("&&&{box-sizing:border-box;border-radius:inherit;bottom:0;left:0;margin:0;padding:0;pointer-events:none;position:absolute;right:0;top:0;", backdropFocusedStyles, " ", rtl({
   paddingLeft: 2
 }), ";}" + ( true ? "" : 0));
-const Prefix = emotion_styled_base_browser_esm("span",  true ? {
+const Prefix = createStyled("span",  true ? {
   target: "em5sgkm1"
 } : 0)( true ? {
   name: "pvvbxf",
   styles: "box-sizing:border-box;display:block"
 } : 0);
-const Suffix = emotion_styled_base_browser_esm("span",  true ? {
+const Suffix = createStyled("span",  true ? {
   target: "em5sgkm0"
 } : 0)( true ? {
   name: "jgf79h",
@@ -38250,8 +38404,8 @@ function InputBase(_ref, ref) {
 }
 /* harmony default export */ var input_base = ((0,external_wp_element_namespaceObject.forwardRef)(InputBase));
 
-;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/maths-b2a210f4.esm.js
-function maths_b2a210f4_esm_clamp(v, min, max) {
+;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/maths-0ab39ae9.esm.js
+function maths_0ab39ae9_esm_clamp(v, min, max) {
   return Math.max(min, Math.min(v, max));
 }
 const V = {
@@ -38259,34 +38413,27 @@ const V = {
     if (v === undefined) v = fallback;
     return Array.isArray(v) ? v : [v, v];
   },
-
   add(v1, v2) {
     return [v1[0] + v2[0], v1[1] + v2[1]];
   },
-
   sub(v1, v2) {
     return [v1[0] - v2[0], v1[1] - v2[1]];
   },
-
   addTo(v1, v2) {
     v1[0] += v2[0];
     v1[1] += v2[1];
   },
-
   subTo(v1, v2) {
     v1[0] -= v2[0];
     v1[1] -= v2[1];
   }
-
 };
-
 function rubberband(distance, dimension, constant) {
   if (dimension === 0 || Math.abs(dimension) === Infinity) return Math.pow(distance, constant * 5);
   return distance * dimension * constant / (dimension + constant * distance);
 }
-
 function rubberbandIfOutOfBounds(position, min, max, constant = 0.15) {
-  if (constant === 0) return maths_b2a210f4_esm_clamp(position, min, max);
+  if (constant === 0) return maths_0ab39ae9_esm_clamp(position, min, max);
   if (position < min) return -rubberband(min - position, max - min, constant) + min;
   if (position > max) return +rubberband(position - max, max - min, constant) + max;
   return position;
@@ -38298,10 +38445,27 @@ function computeRubberband(bounds, [Vx, Vy], [Rx, Ry]) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-aeda4790.esm.js
+;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-fe213e88.esm.js
 
 
-function actions_aeda4790_esm_defineProperty(obj, key, value) {
+function _toPrimitive(input, hint) {
+  if (typeof input !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (typeof res !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return typeof key === "symbol" ? key : String(key);
+}
+
+function actions_fe213e88_esm_defineProperty(obj, key, value) {
+  key = _toPropertyKey(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -38312,34 +38476,29 @@ function actions_aeda4790_esm_defineProperty(obj, key, value) {
   } else {
     obj[key] = value;
   }
-
   return obj;
 }
 
-function actions_aeda4790_esm_ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
+function actions_fe213e88_esm_ownKeys(e, r) {
+  var t = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
+    var o = Object.getOwnPropertySymbols(e);
+    r && (o = o.filter(function (r) {
+      return Object.getOwnPropertyDescriptor(e, r).enumerable;
+    })), t.push.apply(t, o);
   }
-
-  return keys;
+  return t;
 }
-
-function actions_aeda4790_esm_objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? actions_aeda4790_esm_ownKeys(Object(source), !0).forEach(function (key) {
-      actions_aeda4790_esm_defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : actions_aeda4790_esm_ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+function actions_fe213e88_esm_objectSpread2(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {};
+    r % 2 ? actions_fe213e88_esm_ownKeys(Object(t), !0).forEach(function (r) {
+      actions_fe213e88_esm_defineProperty(e, r, t[r]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : actions_fe213e88_esm_ownKeys(Object(t)).forEach(function (r) {
+      Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
     });
   }
-
-  return target;
+  return e;
 }
 
 const EVENT_TYPE_MAP = {
@@ -38364,18 +38523,14 @@ const EVENT_TYPE_MAP = {
     end: 'end'
   }
 };
-
 function capitalize(string) {
   if (!string) return '';
   return string[0].toUpperCase() + string.slice(1);
 }
-
 const actionsWithoutCaptureSupported = ['enter', 'leave'];
-
 function hasCapture(capture = false, actionKey) {
   return capture && !actionsWithoutCaptureSupported.includes(actionKey);
 }
-
 function toHandlerProp(device, action = '', capture = false) {
   const deviceProps = EVENT_TYPE_MAP[device];
   const actionKey = deviceProps ? deviceProps[action] || action : action;
@@ -38408,36 +38563,34 @@ function getPointerType(event) {
   if ('pointerType' in event) return event.pointerType;
   return 'mouse';
 }
-
 function getCurrentTargetTouchList(event) {
   return Array.from(event.touches).filter(e => {
     var _event$currentTarget, _event$currentTarget$;
-
-    return e.target === event.currentTarget || ((_event$currentTarget = event.currentTarget) === null || _event$currentTarget === void 0 ? void 0 : (_event$currentTarget$ = _event$currentTarget.contains) === null || _event$currentTarget$ === void 0 ? void 0 : _event$currentTarget$.call(_event$currentTarget, e.target));
+    return e.target === event.currentTarget || ((_event$currentTarget = event.currentTarget) === null || _event$currentTarget === void 0 || (_event$currentTarget$ = _event$currentTarget.contains) === null || _event$currentTarget$ === void 0 ? void 0 : _event$currentTarget$.call(_event$currentTarget, e.target));
   });
 }
-
 function getTouchList(event) {
   return event.type === 'touchend' || event.type === 'touchcancel' ? event.changedTouches : event.targetTouches;
 }
-
 function getValueEvent(event) {
   return isTouch(event) ? getTouchList(event)[0] : event;
 }
-
 function distanceAngle(P1, P2) {
-  const dx = P2.clientX - P1.clientX;
-  const dy = P2.clientY - P1.clientY;
-  const cx = (P2.clientX + P1.clientX) / 2;
-  const cy = (P2.clientY + P1.clientY) / 2;
-  const distance = Math.hypot(dx, dy);
-  const angle = -(Math.atan2(dx, dy) * 180) / Math.PI;
-  const origin = [cx, cy];
-  return {
-    angle,
-    distance,
-    origin
-  };
+  try {
+    const dx = P2.clientX - P1.clientX;
+    const dy = P2.clientY - P1.clientY;
+    const cx = (P2.clientX + P1.clientX) / 2;
+    const cy = (P2.clientY + P1.clientY) / 2;
+    const distance = Math.hypot(dx, dy);
+    const angle = -(Math.atan2(dx, dy) * 180) / Math.PI;
+    const origin = [cx, cy];
+    return {
+      angle,
+      distance,
+      origin
+    };
+  } catch (_unused) {}
+  return null;
 }
 function touchIds(event) {
   return getCurrentTargetTouchList(event).map(touch => touch.identifier);
@@ -38462,7 +38615,6 @@ function wheelValues(event) {
     deltaY,
     deltaMode
   } = event;
-
   if (deltaMode === 1) {
     deltaX *= LINE_HEIGHT;
     deltaY *= LINE_HEIGHT;
@@ -38470,12 +38622,10 @@ function wheelValues(event) {
     deltaX *= PAGE_HEIGHT;
     deltaY *= PAGE_HEIGHT;
   }
-
   return [deltaX, deltaY];
 }
 function scrollValues(event) {
   var _ref, _ref2;
-
   const {
     scrollX,
     scrollY,
@@ -38487,7 +38637,6 @@ function scrollValues(event) {
 function getEventDetails(event) {
   const payload = {};
   if ('buttons' in event) payload.buttons = event.buttons;
-
   if ('shiftKey' in event) {
     const {
       shiftKey,
@@ -38502,7 +38651,6 @@ function getEventDetails(event) {
       ctrlKey
     });
   }
-
   return payload;
 }
 
@@ -38519,11 +38667,9 @@ function chain(...fns) {
   if (fns.length === 1) return fns[0];
   return function () {
     let result;
-
     for (const fn of fns) {
       result = fn.apply(this, arguments) || result;
     }
-
     return result;
   };
 }
@@ -38537,7 +38683,6 @@ class Engine {
     this.ctrl = ctrl;
     this.args = args;
     this.key = key;
-
     if (!this.state) {
       this.state = {};
       this.computeValues([0, 0]);
@@ -38546,39 +38691,30 @@ class Engine {
       this.reset();
     }
   }
-
   get state() {
     return this.ctrl.state[this.key];
   }
-
   set state(state) {
     this.ctrl.state[this.key] = state;
   }
-
   get shared() {
     return this.ctrl.state.shared;
   }
-
   get eventStore() {
     return this.ctrl.gestureEventStores[this.key];
   }
-
   get timeoutStore() {
     return this.ctrl.gestureTimeoutStores[this.key];
   }
-
   get config() {
     return this.ctrl.config[this.key];
   }
-
   get sharedConfig() {
     return this.ctrl.config.shared;
   }
-
   get handler() {
     return this.ctrl.handlers[this.key];
   }
-
   reset() {
     const {
       state,
@@ -38597,7 +38733,7 @@ class Engine {
     state.args = args;
     state.axis = undefined;
     state.memo = undefined;
-    state.elapsedTime = 0;
+    state.elapsedTime = state.timeDelta = 0;
     state.direction = [0, 0];
     state.distance = [0, 0];
     state.overflow = [0, 0];
@@ -38607,11 +38743,9 @@ class Engine {
     state.delta = [0, 0];
     state.timeStamp = 0;
   }
-
   start(event) {
     const state = this.state;
     const config = this.config;
-
     if (!state._active) {
       this.reset();
       this.computeInitial();
@@ -38620,23 +38754,19 @@ class Engine {
       state.currentTarget = event.currentTarget;
       state.lastOffset = config.from ? call(config.from, state) : state.offset;
       state.offset = state.lastOffset;
+      state.startTime = state.timeStamp = event.timeStamp;
     }
-
-    state.startTime = state.timeStamp = event.timeStamp;
   }
-
   computeValues(values) {
     const state = this.state;
     state._values = values;
     state.values = this.config.transform(values);
   }
-
   computeInitial() {
     const state = this.state;
     state._initial = state._values;
     state.initial = state.values;
   }
-
   compute(event) {
     const {
       state,
@@ -38645,7 +38775,6 @@ class Engine {
     } = this;
     state.args = this.args;
     let dt = 0;
-
     if (event) {
       state.event = event;
       if (config.preventDefault && event.cancelable) state.event.preventDefault();
@@ -38658,13 +38787,10 @@ class Engine {
       state.timeStamp = event.timeStamp;
       state.elapsedTime = state.timeStamp - state.startTime;
     }
-
     if (state._active) {
       const _absoluteDelta = state._delta.map(Math.abs);
-
       V.addTo(state._distance, _absoluteDelta);
     }
-
     if (this.axisIntent) this.axisIntent(event);
     const [_m0, _m1] = state._movement;
     const [t0, t1] = config.threshold;
@@ -38672,7 +38798,6 @@ class Engine {
       _step,
       values
     } = state;
-
     if (config.hasCustomTransform) {
       if (_step[0] === false) _step[0] = Math.abs(_m0) >= t0 && values[0];
       if (_step[1] === false) _step[1] = Math.abs(_m1) >= t1 && values[1];
@@ -38680,11 +38805,9 @@ class Engine {
       if (_step[0] === false) _step[0] = Math.abs(_m0) >= t0 && Math.sign(_m0) * t0;
       if (_step[1] === false) _step[1] = Math.abs(_m1) >= t1 && Math.sign(_m1) * t1;
     }
-
     state.intentional = _step[0] !== false || _step[1] !== false;
     if (!state.intentional) return;
     const movement = [0, 0];
-
     if (config.hasCustomTransform) {
       const [v0, v1] = values;
       movement[0] = _step[0] !== false ? v0 - _step[0] : 0;
@@ -38693,27 +38816,22 @@ class Engine {
       movement[0] = _step[0] !== false ? _m0 - _step[0] : 0;
       movement[1] = _step[1] !== false ? _m1 - _step[1] : 0;
     }
-
     if (this.restrictToAxis && !state._blocked) this.restrictToAxis(movement);
     const previousOffset = state.offset;
     const gestureIsActive = state._active && !state._blocked || state.active;
-
     if (gestureIsActive) {
       state.first = state._active && !state.active;
       state.last = !state._active && state.active;
       state.active = shared[this.ingKey] = state._active;
-
       if (event) {
         if (state.first) {
           if ('bounds' in config) state._bounds = call(config.bounds, state);
           if (this.setup) this.setup();
         }
-
         state.movement = movement;
         this.computeOffset();
       }
     }
-
     const [ox, oy] = state.offset;
     const [[x0, x1], [y0, y1]] = state._bounds;
     state.overflow = [ox < x0 ? -1 : ox > x1 ? 1 : 0, oy < y0 ? -1 : oy > y1 ? 1 : 0];
@@ -38723,105 +38841,86 @@ class Engine {
     state.offset = computeRubberband(state._bounds, state.offset, rubberband);
     state.delta = V.sub(state.offset, previousOffset);
     this.computeMovement();
-
     if (gestureIsActive && (!state.last || dt > BEFORE_LAST_KINEMATICS_DELAY)) {
       state.delta = V.sub(state.offset, previousOffset);
       const absoluteDelta = state.delta.map(Math.abs);
       V.addTo(state.distance, absoluteDelta);
       state.direction = state.delta.map(Math.sign);
       state._direction = state._delta.map(Math.sign);
-
       if (!state.first && dt > 0) {
         state.velocity = [absoluteDelta[0] / dt, absoluteDelta[1] / dt];
+        state.timeDelta = dt;
       }
     }
   }
-
   emit() {
     const state = this.state;
     const shared = this.shared;
     const config = this.config;
     if (!state._active) this.clean();
     if ((state._blocked || !state.intentional) && !state._force && !config.triggerAllEvents) return;
-    const memo = this.handler(actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, shared), state), {}, {
+    const memo = this.handler(actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, shared), state), {}, {
       [this.aliasKey]: state.values
     }));
     if (memo !== undefined) state.memo = memo;
   }
-
   clean() {
     this.eventStore.clean();
     this.timeoutStore.clean();
   }
-
 }
 
 function selectAxis([dx, dy], threshold) {
   const absDx = Math.abs(dx);
   const absDy = Math.abs(dy);
-
   if (absDx > absDy && absDx > threshold) {
     return 'x';
   }
-
   if (absDy > absDx && absDy > threshold) {
     return 'y';
   }
-
   return undefined;
 }
-
 class CoordinatesEngine extends Engine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "aliasKey", 'xy');
+    actions_fe213e88_esm_defineProperty(this, "aliasKey", 'xy');
   }
-
   reset() {
     super.reset();
     this.state.axis = undefined;
   }
-
   init() {
     this.state.offset = [0, 0];
     this.state.lastOffset = [0, 0];
   }
-
   computeOffset() {
     this.state.offset = V.add(this.state.lastOffset, this.state.movement);
   }
-
   computeMovement() {
     this.state.movement = V.sub(this.state.offset, this.state.lastOffset);
   }
-
   axisIntent(event) {
     const state = this.state;
     const config = this.config;
-
     if (!state.axis && event) {
       const threshold = typeof config.axisThreshold === 'object' ? config.axisThreshold[getPointerType(event)] : config.axisThreshold;
       state.axis = selectAxis(state._movement, threshold);
     }
-
     state._blocked = (config.lockDirection || !!config.axis) && !state.axis || !!config.axis && config.axis !== state.axis;
   }
-
   restrictToAxis(v) {
     if (this.config.axis || this.config.lockDirection) {
       switch (this.state.axis) {
         case 'x':
           v[1] = 0;
           break;
-
         case 'y':
           v[0] = 0;
           break;
       }
     }
   }
-
 }
 
 const identity = v => v;
@@ -38830,80 +38929,62 @@ const commonConfigResolver = {
   enabled(value = true) {
     return value;
   },
-
   eventOptions(value, _k, config) {
-    return actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, config.shared.eventOptions), value);
+    return actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, config.shared.eventOptions), value);
   },
-
   preventDefault(value = false) {
     return value;
   },
-
   triggerAllEvents(value = false) {
     return value;
   },
-
   rubberband(value = 0) {
     switch (value) {
       case true:
         return [DEFAULT_RUBBERBAND, DEFAULT_RUBBERBAND];
-
       case false:
         return [0, 0];
-
       default:
         return V.toVector(value);
     }
   },
-
   from(value) {
     if (typeof value === 'function') return value;
     if (value != null) return V.toVector(value);
   },
-
   transform(value, _k, config) {
     const transform = value || config.shared.transform;
     this.hasCustomTransform = !!transform;
-
     if (false) {}
-
     return transform || identity;
   },
-
   threshold(value) {
     return V.toVector(value, 0);
   }
-
 };
-
 if (false) {}
 
 const DEFAULT_AXIS_THRESHOLD = 0;
-const coordinatesConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, commonConfigResolver), {}, {
+const coordinatesConfigResolver = actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, commonConfigResolver), {}, {
   axis(_v, _k, {
     axis
   }) {
     this.lockDirection = axis === 'lock';
     if (!this.lockDirection) return axis;
   },
-
   axisThreshold(value = DEFAULT_AXIS_THRESHOLD) {
     return value;
   },
-
   bounds(value = {}) {
     if (typeof value === 'function') {
       return state => coordinatesConfigResolver.bounds(value(state));
     }
-
     if ('current' in value) {
       return () => value.current;
     }
-
     if (typeof HTMLElement === 'function' && value instanceof HTMLElement) {
       return value;
     }
-
     const {
       left = -Infinity,
       right = Infinity,
@@ -38912,23 +38993,19 @@ const coordinatesConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aed
     } = value;
     return [[left, right], [top, bottom]];
   }
-
 });
 
-const DISPLACEMENT = 10;
 const KEYS_DELTA_MAP = {
-  ArrowRight: (factor = 1) => [DISPLACEMENT * factor, 0],
-  ArrowLeft: (factor = 1) => [-DISPLACEMENT * factor, 0],
-  ArrowUp: (factor = 1) => [0, -DISPLACEMENT * factor],
-  ArrowDown: (factor = 1) => [0, DISPLACEMENT * factor]
+  ArrowRight: (displacement, factor = 1) => [displacement * factor, 0],
+  ArrowLeft: (displacement, factor = 1) => [-1 * displacement * factor, 0],
+  ArrowUp: (displacement, factor = 1) => [0, -1 * displacement * factor],
+  ArrowDown: (displacement, factor = 1) => [0, displacement * factor]
 };
 class DragEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "ingKey", 'dragging');
+    actions_fe213e88_esm_defineProperty(this, "ingKey", 'dragging');
   }
-
   reset() {
     super.reset();
     const state = this.state;
@@ -38942,13 +39019,10 @@ class DragEngine extends CoordinatesEngine {
     state.canceled = false;
     state.cancel = this.cancel.bind(this);
   }
-
   setup() {
     const state = this.state;
-
     if (state._bounds instanceof HTMLElement) {
       const boundRect = state._bounds.getBoundingClientRect();
-
       const targetRect = state.currentTarget.getBoundingClientRect();
       const _bounds = {
         left: boundRect.left - targetRect.left + state.offset[0],
@@ -38959,7 +39033,6 @@ class DragEngine extends CoordinatesEngine {
       state._bounds = coordinatesConfigResolver.bounds(_bounds);
     }
   }
-
   cancel() {
     const state = this.state;
     if (state.canceled) return;
@@ -38970,28 +39043,23 @@ class DragEngine extends CoordinatesEngine {
       this.emit();
     }, 0);
   }
-
   setActive() {
     this.state._active = this.state._pointerActive || this.state._keyboardActive;
   }
-
   clean() {
     this.pointerClean();
     this.state._pointerActive = false;
     this.state._keyboardActive = false;
     super.clean();
   }
-
   pointerDown(event) {
     const config = this.config;
     const state = this.state;
     if (event.buttons != null && (Array.isArray(config.pointerButtons) ? !config.pointerButtons.includes(event.buttons) : config.pointerButtons !== -1 && config.pointerButtons !== event.buttons)) return;
     const ctrlIds = this.ctrl.setEventIds(event);
-
     if (config.pointerCapture) {
       event.target.setPointerCapture(event.pointerId);
     }
-
     if (ctrlIds && ctrlIds.size > 1 && state._pointerActive) return;
     this.start(event);
     this.setupPointer(event);
@@ -38999,13 +39067,11 @@ class DragEngine extends CoordinatesEngine {
     state._pointerActive = true;
     this.computeValues(pointerValues(event));
     this.computeInitial();
-
     if (config.preventScrollAxis && getPointerType(event) !== 'mouse') {
       state._active = false;
       this.setupScrollPrevention(event);
     } else if (config.delay > 0) {
       this.setupDelayTrigger(event);
-
       if (config.triggerAllEvents) {
         this.compute(event);
         this.emit();
@@ -39014,7 +39080,6 @@ class DragEngine extends CoordinatesEngine {
       this.startPointerDrag(event);
     }
   }
-
   startPointerDrag(event) {
     const state = this.state;
     state._active = true;
@@ -39023,34 +39088,27 @@ class DragEngine extends CoordinatesEngine {
     this.compute(event);
     this.emit();
   }
-
   pointerMove(event) {
     const state = this.state;
     const config = this.config;
     if (!state._pointerActive) return;
-    if (state.type === event.type && event.timeStamp === state.timeStamp) return;
     const id = pointerId(event);
     if (state._pointerId !== undefined && id !== state._pointerId) return;
-
     const _values = pointerValues(event);
-
     if (document.pointerLockElement === event.target) {
       state._delta = [event.movementX, event.movementY];
     } else {
       state._delta = V.sub(_values, state._values);
       this.computeValues(_values);
     }
-
     V.addTo(state._movement, state._delta);
     this.compute(event);
-
     if (state._delayed && state.intentional) {
       this.timeoutStore.remove('dragDelay');
       state.active = false;
       this.startPointerDrag(event);
       return;
     }
-
     if (config.preventScrollAxis && !state._preventScroll) {
       if (state.axis) {
         if (state.axis === config.preventScrollAxis || config.preventScrollAxis === 'xy') {
@@ -39066,13 +39124,10 @@ class DragEngine extends CoordinatesEngine {
         return;
       }
     }
-
     this.emit();
   }
-
   pointerUp(event) {
     this.ctrl.setEventIds(event);
-
     try {
       if (this.config.pointerCapture && event.target.hasPointerCapture(event.pointerId)) {
         ;
@@ -39081,7 +39136,6 @@ class DragEngine extends CoordinatesEngine {
     } catch (_unused) {
       if (false) {}
     }
-
     const state = this.state;
     const config = this.config;
     if (!state._active || !state._pointerActive) return;
@@ -39092,62 +39146,52 @@ class DragEngine extends CoordinatesEngine {
     this.compute(event);
     const [dx, dy] = state._distance;
     state.tap = dx <= config.tapsThreshold && dy <= config.tapsThreshold;
-
     if (state.tap && config.filterTaps) {
       state._force = true;
     } else {
-      const [dirx, diry] = state.direction;
-      const [vx, vy] = state.velocity;
-      const [mx, my] = state.movement;
+      const [_dx, _dy] = state._delta;
+      const [_mx, _my] = state._movement;
       const [svx, svy] = config.swipe.velocity;
       const [sx, sy] = config.swipe.distance;
       const sdt = config.swipe.duration;
-
       if (state.elapsedTime < sdt) {
-        if (Math.abs(vx) > svx && Math.abs(mx) > sx) state.swipe[0] = dirx;
-        if (Math.abs(vy) > svy && Math.abs(my) > sy) state.swipe[1] = diry;
+        const _vx = Math.abs(_dx / state.timeDelta);
+        const _vy = Math.abs(_dy / state.timeDelta);
+        if (_vx > svx && Math.abs(_mx) > sx) state.swipe[0] = Math.sign(_dx);
+        if (_vy > svy && Math.abs(_my) > sy) state.swipe[1] = Math.sign(_dy);
       }
     }
-
     this.emit();
   }
-
   pointerClick(event) {
     if (!this.state.tap && event.detail > 0) {
       event.preventDefault();
       event.stopPropagation();
     }
   }
-
   setupPointer(event) {
     const config = this.config;
     const device = config.device;
-
     if (false) {}
-
     if (config.pointerLock) {
       event.currentTarget.requestPointerLock();
     }
-
     if (!config.pointerCapture) {
       this.eventStore.add(this.sharedConfig.window, device, 'change', this.pointerMove.bind(this));
       this.eventStore.add(this.sharedConfig.window, device, 'end', this.pointerUp.bind(this));
       this.eventStore.add(this.sharedConfig.window, device, 'cancel', this.pointerUp.bind(this));
     }
   }
-
   pointerClean() {
     if (this.config.pointerLock && document.pointerLockElement === this.state.currentTarget) {
       document.exitPointerLock();
     }
   }
-
   preventScroll(event) {
     if (this.state._preventScroll && event.cancelable) {
       event.preventDefault();
     }
   }
-
   setupScrollPrevention(event) {
     this.state._preventScroll = false;
     persistEvent(event);
@@ -39158,7 +39202,6 @@ class DragEngine extends CoordinatesEngine {
     this.eventStore.add(this.sharedConfig.window, 'touch', 'cancel', remove);
     this.timeoutStore.add('startPointerDrag', this.startPointerDrag.bind(this), this.config.preventScrollDelay, event);
   }
-
   setupDelayTrigger(event) {
     this.state._delayed = true;
     this.timeoutStore.add('dragDelay', () => {
@@ -39166,22 +39209,19 @@ class DragEngine extends CoordinatesEngine {
       this.startPointerDrag(event);
     }, this.config.delay);
   }
-
   keyDown(event) {
     const deltaFn = KEYS_DELTA_MAP[event.key];
-
     if (deltaFn) {
       const state = this.state;
       const factor = event.shiftKey ? 10 : event.altKey ? 0.1 : 1;
       this.start(event);
-      state._delta = deltaFn(factor);
+      state._delta = deltaFn(this.config.keyboardDisplacement, factor);
       state._keyboardActive = true;
       V.addTo(state._movement, state._delta);
       this.compute(event);
       this.emit();
     }
   }
-
   keyUp(event) {
     if (!(event.key in KEYS_DELTA_MAP)) return;
     this.state._keyboardActive = false;
@@ -39189,23 +39229,19 @@ class DragEngine extends CoordinatesEngine {
     this.compute(event);
     this.emit();
   }
-
   bind(bindFunction) {
     const device = this.config.device;
     bindFunction(device, 'start', this.pointerDown.bind(this));
-
     if (this.config.pointerCapture) {
       bindFunction(device, 'change', this.pointerMove.bind(this));
       bindFunction(device, 'end', this.pointerUp.bind(this));
       bindFunction(device, 'cancel', this.pointerUp.bind(this));
       bindFunction('lostPointerCapture', '', this.pointerUp.bind(this));
     }
-
     if (this.config.keys) {
       bindFunction('key', 'down', this.keyDown.bind(this));
       bindFunction('key', 'up', this.keyUp.bind(this));
     }
-
     if (this.config.filterTaps) {
       bindFunction('click', '', this.pointerClick.bind(this), {
         capture: true,
@@ -39213,31 +39249,24 @@ class DragEngine extends CoordinatesEngine {
       });
     }
   }
-
 }
-
 function persistEvent(event) {
   'persist' in event && typeof event.persist === 'function' && event.persist();
 }
 
-const actions_aeda4790_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
-
-function actions_aeda4790_esm_supportsTouchEvents() {
-  return actions_aeda4790_esm_isBrowser && 'ontouchstart' in window;
+const actions_fe213e88_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
+function actions_fe213e88_esm_supportsTouchEvents() {
+  return actions_fe213e88_esm_isBrowser && 'ontouchstart' in window;
 }
-
 function isTouchScreen() {
-  return actions_aeda4790_esm_supportsTouchEvents() || actions_aeda4790_esm_isBrowser && window.navigator.maxTouchPoints > 1;
+  return actions_fe213e88_esm_supportsTouchEvents() || actions_fe213e88_esm_isBrowser && window.navigator.maxTouchPoints > 1;
 }
-
-function actions_aeda4790_esm_supportsPointerEvents() {
-  return actions_aeda4790_esm_isBrowser && 'onpointerdown' in window;
+function actions_fe213e88_esm_supportsPointerEvents() {
+  return actions_fe213e88_esm_isBrowser && 'onpointerdown' in window;
 }
-
 function supportsPointerLock() {
-  return actions_aeda4790_esm_isBrowser && 'exitPointerLock' in window.document;
+  return actions_fe213e88_esm_isBrowser && 'exitPointerLock' in window.document;
 }
-
 function supportsGestureEvents() {
   try {
     return 'constructor' in GestureEvent;
@@ -39245,13 +39274,12 @@ function supportsGestureEvents() {
     return false;
   }
 }
-
 const SUPPORT = {
-  isBrowser: actions_aeda4790_esm_isBrowser,
+  isBrowser: actions_fe213e88_esm_isBrowser,
   gesture: supportsGestureEvents(),
-  touch: isTouchScreen(),
+  touch: actions_fe213e88_esm_supportsTouchEvents(),
   touchscreen: isTouchScreen(),
-  pointer: actions_aeda4790_esm_supportsPointerEvents(),
+  pointer: actions_fe213e88_esm_supportsPointerEvents(),
   pointerLock: supportsPointerLock()
 };
 
@@ -39260,12 +39288,13 @@ const DEFAULT_DRAG_DELAY = 180;
 const DEFAULT_SWIPE_VELOCITY = 0.5;
 const DEFAULT_SWIPE_DISTANCE = 50;
 const DEFAULT_SWIPE_DURATION = 250;
+const DEFAULT_KEYBOARD_DISPLACEMENT = 10;
 const DEFAULT_DRAG_AXIS_THRESHOLD = {
   mouse: 0,
   touch: 0,
   pen: 8
 };
-const dragConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const dragConfigResolver = actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   device(_v, _k, {
     pointer: {
       touch = false,
@@ -39280,7 +39309,6 @@ const dragConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_e
     if (SUPPORT.touch) return 'touch';
     return 'mouse';
   },
-
   preventScrollAxis(value, _k, {
     preventScroll
   }) {
@@ -39288,21 +39316,17 @@ const dragConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_e
     if (!SUPPORT.touchscreen || preventScroll === false) return undefined;
     return value ? value : preventScroll !== undefined ? 'y' : undefined;
   },
-
   pointerCapture(_v, _k, {
     pointer: {
       capture = true,
-      buttons = 1
+      buttons = 1,
+      keys = true
     } = {}
   }) {
     this.pointerButtons = buttons;
+    this.keys = keys;
     return !this.pointerLock && this.device === 'pointer' && capture;
   },
-
-  keys(value = true) {
-    return value;
-  },
-
   threshold(value, _k, {
     filterTaps = false,
     tapsThreshold = 3,
@@ -39313,7 +39337,6 @@ const dragConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_e
     this.tapsThreshold = tapsThreshold;
     return threshold;
   },
-
   swipe({
     velocity = DEFAULT_SWIPE_VELOCITY,
     distance = DEFAULT_SWIPE_DISTANCE,
@@ -39325,46 +39348,51 @@ const dragConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_e
       duration
     };
   },
-
   delay(value = 0) {
     switch (value) {
       case true:
         return DEFAULT_DRAG_DELAY;
-
       case false:
         return 0;
-
       default:
         return value;
     }
   },
-
   axisThreshold(value) {
     if (!value) return DEFAULT_DRAG_AXIS_THRESHOLD;
-    return actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, DEFAULT_DRAG_AXIS_THRESHOLD), value);
+    return actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, DEFAULT_DRAG_AXIS_THRESHOLD), value);
+  },
+  keyboardDisplacement(value = DEFAULT_KEYBOARD_DISPLACEMENT) {
+    return value;
   }
-
 });
-
 if (false) {}
+
+function clampStateInternalMovementToBounds(state) {
+  const [ox, oy] = state.overflow;
+  const [dx, dy] = state._delta;
+  const [dirx, diry] = state._direction;
+  if (ox < 0 && dx > 0 && dirx < 0 || ox > 0 && dx < 0 && dirx > 0) {
+    state._movement[0] = state._movementBound[0];
+  }
+  if (oy < 0 && dy > 0 && diry < 0 || oy > 0 && dy < 0 && diry > 0) {
+    state._movement[1] = state._movementBound[1];
+  }
+}
 
 const SCALE_ANGLE_RATIO_INTENT_DEG = 30;
 const PINCH_WHEEL_RATIO = 100;
 class PinchEngine extends Engine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "ingKey", 'pinching');
-
-    actions_aeda4790_esm_defineProperty(this, "aliasKey", 'da');
+    actions_fe213e88_esm_defineProperty(this, "ingKey", 'pinching');
+    actions_fe213e88_esm_defineProperty(this, "aliasKey", 'da');
   }
-
   init() {
     this.state.offset = [1, 0];
     this.state.lastOffset = [1, 0];
     this.state._pointerEvents = new Map();
   }
-
   reset() {
     super.reset();
     const state = this.state;
@@ -39373,21 +39401,18 @@ class PinchEngine extends Engine {
     state.cancel = this.cancel.bind(this);
     state.turns = 0;
   }
-
   computeOffset() {
     const {
       type,
       movement,
       lastOffset
     } = this.state;
-
     if (type === 'wheel') {
       this.state.offset = V.add(movement, lastOffset);
     } else {
       this.state.offset = [(1 + movement[0]) * lastOffset[0], movement[1] + lastOffset[1]];
     }
   }
-
   computeMovement() {
     const {
       offset,
@@ -39395,23 +39420,19 @@ class PinchEngine extends Engine {
     } = this.state;
     this.state.movement = [offset[0] / lastOffset[0], offset[1] - lastOffset[1]];
   }
-
   axisIntent() {
     const state = this.state;
     const [_m0, _m1] = state._movement;
-
     if (!state.axis) {
       const axisMovementDifference = Math.abs(_m0) * SCALE_ANGLE_RATIO_INTENT_DEG - Math.abs(_m1);
       if (axisMovementDifference < 0) state.axis = 'angle';else if (axisMovementDifference > 0) state.axis = 'scale';
     }
   }
-
   restrictToAxis(v) {
     if (this.config.lockDirection) {
       if (this.state.axis === 'scale') v[1] = 0;else if (this.state.axis === 'angle') v[0] = 0;
     }
   }
-
   cancel() {
     const state = this.state;
     if (state.canceled) return;
@@ -39422,23 +39443,20 @@ class PinchEngine extends Engine {
       this.emit();
     }, 0);
   }
-
   touchStart(event) {
     this.ctrl.setEventIds(event);
     const state = this.state;
     const ctrlTouchIds = this.ctrl.touchIds;
-
     if (state._active) {
       if (state._touchIds.every(id => ctrlTouchIds.has(id))) return;
     }
-
     if (ctrlTouchIds.size < 2) return;
     this.start(event);
     state._touchIds = Array.from(ctrlTouchIds).slice(0, 2);
     const payload = touchDistanceAngle(event, state._touchIds);
+    if (!payload) return;
     this.pinchStart(event, payload);
   }
-
   pointerStart(event) {
     if (event.buttons != null && event.buttons % 2 !== 1) return;
     this.ctrl.setEventIds(event);
@@ -39446,21 +39464,18 @@ class PinchEngine extends Engine {
     const state = this.state;
     const _pointerEvents = state._pointerEvents;
     const ctrlPointerIds = this.ctrl.pointerIds;
-
     if (state._active) {
       if (Array.from(_pointerEvents.keys()).every(id => ctrlPointerIds.has(id))) return;
     }
-
     if (_pointerEvents.size < 2) {
       _pointerEvents.set(event.pointerId, event);
     }
-
     if (state._pointerEvents.size < 2) return;
     this.start(event);
     const payload = distanceAngle(...Array.from(_pointerEvents.values()));
+    if (!payload) return;
     this.pinchStart(event, payload);
   }
-
   pinchStart(event, payload) {
     const state = this.state;
     state.origin = payload.origin;
@@ -39469,25 +39484,22 @@ class PinchEngine extends Engine {
     this.compute(event);
     this.emit();
   }
-
   touchMove(event) {
     if (!this.state._active) return;
     const payload = touchDistanceAngle(event, this.state._touchIds);
+    if (!payload) return;
     this.pinchMove(event, payload);
   }
-
   pointerMove(event) {
     const _pointerEvents = this.state._pointerEvents;
-
     if (_pointerEvents.has(event.pointerId)) {
       _pointerEvents.set(event.pointerId, event);
     }
-
     if (!this.state._active) return;
     const payload = distanceAngle(...Array.from(_pointerEvents.values()));
+    if (!payload) return;
     this.pinchMove(event, payload);
   }
-
   pinchMove(event, payload) {
     const state = this.state;
     const prev_a = state._values[1];
@@ -39501,39 +39513,31 @@ class PinchEngine extends Engine {
     this.compute(event);
     this.emit();
   }
-
   touchEnd(event) {
     this.ctrl.setEventIds(event);
     if (!this.state._active) return;
-
     if (this.state._touchIds.some(id => !this.ctrl.touchIds.has(id))) {
       this.state._active = false;
       this.compute(event);
       this.emit();
     }
   }
-
   pointerEnd(event) {
     const state = this.state;
     this.ctrl.setEventIds(event);
-
     try {
       event.target.releasePointerCapture(event.pointerId);
     } catch (_unused) {}
-
     if (state._pointerEvents.has(event.pointerId)) {
       state._pointerEvents.delete(event.pointerId);
     }
-
     if (!state._active) return;
-
     if (state._pointerEvents.size < 2) {
       state._active = false;
       this.compute(event);
       this.emit();
     }
   }
-
   gestureStart(event) {
     if (event.cancelable) event.preventDefault();
     const state = this.state;
@@ -39544,7 +39548,6 @@ class PinchEngine extends Engine {
     this.compute(event);
     this.emit();
   }
-
   gestureMove(event) {
     if (event.cancelable) event.preventDefault();
     if (!this.state._active) return;
@@ -39557,70 +39560,62 @@ class PinchEngine extends Engine {
     this.compute(event);
     this.emit();
   }
-
   gestureEnd(event) {
     if (!this.state._active) return;
     this.state._active = false;
     this.compute(event);
     this.emit();
   }
-
   wheel(event) {
     const modifierKey = this.config.modifierKey;
-    if (modifierKey && !event[modifierKey]) return;
+    if (modifierKey && (Array.isArray(modifierKey) ? !modifierKey.find(k => event[k]) : !event[modifierKey])) return;
     if (!this.state._active) this.wheelStart(event);else this.wheelChange(event);
     this.timeoutStore.add('wheelEnd', this.wheelEnd.bind(this));
   }
-
   wheelStart(event) {
     this.start(event);
     this.wheelChange(event);
   }
-
   wheelChange(event) {
     const isR3f = ('uv' in event);
-
     if (!isR3f) {
       if (event.cancelable) {
         event.preventDefault();
       }
-
       if (false) {}
     }
-
     const state = this.state;
     state._delta = [-wheelValues(event)[1] / PINCH_WHEEL_RATIO * state.offset[0], 0];
     V.addTo(state._movement, state._delta);
+    clampStateInternalMovementToBounds(state);
     this.state.origin = [event.clientX, event.clientY];
     this.compute(event);
     this.emit();
   }
-
   wheelEnd() {
     if (!this.state._active) return;
     this.state._active = false;
     this.compute();
     this.emit();
   }
-
   bind(bindFunction) {
     const device = this.config.device;
-
     if (!!device) {
       bindFunction(device, 'start', this[device + 'Start'].bind(this));
       bindFunction(device, 'change', this[device + 'Move'].bind(this));
       bindFunction(device, 'end', this[device + 'End'].bind(this));
       bindFunction(device, 'cancel', this[device + 'End'].bind(this));
+      bindFunction('lostPointerCapture', '', this[device + 'End'].bind(this));
     }
-
-    bindFunction('wheel', '', this.wheel.bind(this), {
-      passive: false
-    });
+    if (this.config.pinchOnWheel) {
+      bindFunction('wheel', '', this.wheel.bind(this), {
+        passive: false
+      });
+    }
   }
-
 }
 
-const pinchConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, commonConfigResolver), {}, {
+const pinchConfigResolver = actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, commonConfigResolver), {}, {
   device(_v, _k, {
     shared,
     pointer: {
@@ -39630,13 +39625,11 @@ const pinchConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_
     const sharedConfig = shared;
     if (sharedConfig.target && !SUPPORT.touch && SUPPORT.gesture) return 'gesture';
     if (SUPPORT.touch && touch) return 'touch';
-
     if (SUPPORT.touchscreen) {
       if (SUPPORT.pointer) return 'pointer';
       if (SUPPORT.touch) return 'touch';
     }
   },
-
   bounds(_v, _k, {
     scaleBounds = {},
     angleBounds = {}
@@ -39648,7 +39641,6 @@ const pinchConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_
       });
       return [D.min, D.max];
     };
-
     const _angleBounds = state => {
       const A = assignDefault(call(angleBounds, state), {
         min: -Infinity,
@@ -39656,37 +39648,33 @@ const pinchConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_
       });
       return [A.min, A.max];
     };
-
     if (typeof scaleBounds !== 'function' && typeof angleBounds !== 'function') return [_scaleBounds(), _angleBounds()];
     return state => [_scaleBounds(state), _angleBounds(state)];
   },
-
   threshold(value, _k, config) {
     this.lockDirection = config.axis === 'lock';
     const threshold = V.toVector(value, this.lockDirection ? [0.1, 3] : 0);
     return threshold;
   },
-
   modifierKey(value) {
     if (value === undefined) return 'ctrlKey';
     return value;
+  },
+  pinchOnWheel(value = true) {
+    return value;
   }
-
 });
 
 class MoveEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "ingKey", 'moving');
+    actions_fe213e88_esm_defineProperty(this, "ingKey", 'moving');
   }
-
   move(event) {
     if (this.config.mouseOnly && event.pointerType !== 'mouse') return;
     if (!this.state._active) this.moveStart(event);else this.moveChange(event);
     this.timeoutStore.add('moveEnd', this.moveEnd.bind(this));
   }
-
   moveStart(event) {
     this.start(event);
     this.computeValues(pointerValues(event));
@@ -39694,7 +39682,6 @@ class MoveEngine extends CoordinatesEngine {
     this.computeInitial();
     this.emit();
   }
-
   moveChange(event) {
     if (!this.state._active) return;
     const values = pointerValues(event);
@@ -39705,38 +39692,32 @@ class MoveEngine extends CoordinatesEngine {
     this.compute(event);
     this.emit();
   }
-
   moveEnd(event) {
     if (!this.state._active) return;
     this.state._active = false;
     this.compute(event);
     this.emit();
   }
-
   bind(bindFunction) {
     bindFunction('pointer', 'change', this.move.bind(this));
     bindFunction('pointer', 'leave', this.moveEnd.bind(this));
   }
-
 }
 
-const moveConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const moveConfigResolver = actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   mouseOnly: (value = true) => value
 });
 
 class ScrollEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "ingKey", 'scrolling');
+    actions_fe213e88_esm_defineProperty(this, "ingKey", 'scrolling');
   }
-
   scroll(event) {
     if (!this.state._active) this.start(event);
     this.scrollChange(event);
     this.timeoutStore.add('scrollEnd', this.scrollEnd.bind(this));
   }
-
   scrollChange(event) {
     if (event.cancelable) event.preventDefault();
     const state = this.state;
@@ -39747,18 +39728,15 @@ class ScrollEngine extends CoordinatesEngine {
     this.compute(event);
     this.emit();
   }
-
   scrollEnd() {
     if (!this.state._active) return;
     this.state._active = false;
     this.compute();
     this.emit();
   }
-
   bind(bindFunction) {
     bindFunction('scroll', '', this.scroll.bind(this));
   }
-
 }
 
 const scrollConfigResolver = coordinatesConfigResolver;
@@ -39766,47 +39744,30 @@ const scrollConfigResolver = coordinatesConfigResolver;
 class WheelEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "ingKey", 'wheeling');
+    actions_fe213e88_esm_defineProperty(this, "ingKey", 'wheeling');
   }
-
   wheel(event) {
     if (!this.state._active) this.start(event);
     this.wheelChange(event);
     this.timeoutStore.add('wheelEnd', this.wheelEnd.bind(this));
   }
-
   wheelChange(event) {
     const state = this.state;
     state._delta = wheelValues(event);
     V.addTo(state._movement, state._delta);
-    const [ox, oy] = state.overflow;
-    const [dx, dy] = state._delta;
-    const [dirx, diry] = state._direction;
-
-    if (ox < 0 && dx > 0 && dirx < 0 || ox > 0 && dx < 0 && dirx > 0) {
-      state._movement[0] = state._movementBound[0];
-    }
-
-    if (oy < 0 && dy > 0 && diry < 0 || oy > 0 && dy < 0 && diry > 0) {
-      state._movement[1] = state._movementBound[1];
-    }
-
+    clampStateInternalMovementToBounds(state);
     this.compute(event);
     this.emit();
   }
-
   wheelEnd() {
     if (!this.state._active) return;
     this.state._active = false;
     this.compute();
     this.emit();
   }
-
   bind(bindFunction) {
     bindFunction('wheel', '', this.wheel.bind(this));
   }
-
 }
 
 const wheelConfigResolver = coordinatesConfigResolver;
@@ -39814,10 +39775,8 @@ const wheelConfigResolver = coordinatesConfigResolver;
 class HoverEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
-
-    actions_aeda4790_esm_defineProperty(this, "ingKey", 'hovering');
+    actions_fe213e88_esm_defineProperty(this, "ingKey", 'hovering');
   }
-
   enter(event) {
     if (this.config.mouseOnly && event.pointerType !== 'mouse') return;
     this.start(event);
@@ -39825,7 +39784,6 @@ class HoverEngine extends CoordinatesEngine {
     this.compute(event);
     this.emit();
   }
-
   leave(event) {
     if (this.config.mouseOnly && event.pointerType !== 'mouse') return;
     const state = this.state;
@@ -39838,50 +39796,48 @@ class HoverEngine extends CoordinatesEngine {
     state.delta = state.movement;
     this.emit();
   }
-
   bind(bindFunction) {
     bindFunction('pointer', 'enter', this.enter.bind(this));
     bindFunction('pointer', 'leave', this.leave.bind(this));
   }
-
 }
 
-const hoverConfigResolver = actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const hoverConfigResolver = actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   mouseOnly: (value = true) => value
 });
 
-const actions_aeda4790_esm_EngineMap = new Map();
+const actions_fe213e88_esm_EngineMap = new Map();
 const ConfigResolverMap = new Map();
-function actions_aeda4790_esm_registerAction(action) {
-  actions_aeda4790_esm_EngineMap.set(action.key, action.engine);
+function actions_fe213e88_esm_registerAction(action) {
+  actions_fe213e88_esm_EngineMap.set(action.key, action.engine);
   ConfigResolverMap.set(action.key, action.resolver);
 }
-const actions_aeda4790_esm_dragAction = {
+const actions_fe213e88_esm_dragAction = {
   key: 'drag',
   engine: DragEngine,
   resolver: dragConfigResolver
 };
-const actions_aeda4790_esm_hoverAction = {
+const actions_fe213e88_esm_hoverAction = {
   key: 'hover',
   engine: HoverEngine,
   resolver: hoverConfigResolver
 };
-const actions_aeda4790_esm_moveAction = {
+const actions_fe213e88_esm_moveAction = {
   key: 'move',
   engine: MoveEngine,
   resolver: moveConfigResolver
 };
-const actions_aeda4790_esm_pinchAction = {
+const actions_fe213e88_esm_pinchAction = {
   key: 'pinch',
   engine: PinchEngine,
   resolver: pinchConfigResolver
 };
-const actions_aeda4790_esm_scrollAction = {
+const actions_fe213e88_esm_scrollAction = {
   key: 'scroll',
   engine: ScrollEngine,
   resolver: scrollConfigResolver
 };
-const actions_aeda4790_esm_wheelAction = {
+const actions_fe213e88_esm_wheelAction = {
   key: 'wheel',
   engine: WheelEngine,
   resolver: wheelConfigResolver
@@ -39898,13 +39854,11 @@ function use_gesture_core_esm_objectWithoutPropertiesLoose(source, excluded) {
   var target = {};
   var sourceKeys = Object.keys(source);
   var key, i;
-
   for (i = 0; i < sourceKeys.length; i++) {
     key = sourceKeys[i];
     if (excluded.indexOf(key) >= 0) continue;
     target[key] = source[key];
   }
-
   return target;
 }
 
@@ -39912,10 +39866,8 @@ function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
   var target = use_gesture_core_esm_objectWithoutPropertiesLoose(source, excluded);
   var key, i;
-
   if (Object.getOwnPropertySymbols) {
     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
     for (i = 0; i < sourceSymbolKeys.length; i++) {
       key = sourceSymbolKeys[i];
       if (excluded.indexOf(key) >= 0) continue;
@@ -39923,7 +39875,6 @@ function _objectWithoutProperties(source, excluded) {
       target[key] = source[key];
     }
   }
-
   return target;
 }
 
@@ -39932,18 +39883,14 @@ const sharedConfigResolver = {
     if (value) {
       return () => 'current' in value ? value.current : value;
     }
-
     return undefined;
   },
-
   enabled(value = true) {
     return value;
   },
-
   window(value = SUPPORT.isBrowser ? window : undefined) {
     return value;
   },
-
   eventOptions({
     passive = true,
     capture = false
@@ -39953,158 +39900,120 @@ const sharedConfigResolver = {
       capture
     };
   },
-
   transform(value) {
     return value;
   }
-
 };
 
 const _excluded = ["target", "eventOptions", "window", "enabled", "transform"];
 function resolveWith(config = {}, resolvers) {
   const result = {};
-
   for (const [key, resolver] of Object.entries(resolvers)) {
     switch (typeof resolver) {
       case 'function':
         if (false) {} else {
           result[key] = resolver.call(result, config[key], key, config);
         }
-
         break;
-
       case 'object':
         result[key] = resolveWith(config[key], resolver);
         break;
-
       case 'boolean':
         if (resolver) result[key] = config[key];
         break;
     }
   }
-
   return result;
 }
-function use_gesture_core_esm_parse(config, gestureKey) {
-  const _ref = config,
-        {
-    target,
-    eventOptions,
-    window,
-    enabled,
-    transform
-  } = _ref,
-        rest = _objectWithoutProperties(_ref, _excluded);
-
-  const _config = {
-    shared: resolveWith({
+function use_gesture_core_esm_parse(newConfig, gestureKey, _config = {}) {
+  const _ref = newConfig,
+    {
       target,
       eventOptions,
       window,
       enabled,
       transform
-    }, sharedConfigResolver)
-  };
-
+    } = _ref,
+    rest = _objectWithoutProperties(_ref, _excluded);
+  _config.shared = resolveWith({
+    target,
+    eventOptions,
+    window,
+    enabled,
+    transform
+  }, sharedConfigResolver);
   if (gestureKey) {
     const resolver = ConfigResolverMap.get(gestureKey);
-    _config[gestureKey] = resolveWith(actions_aeda4790_esm_objectSpread2({
+    _config[gestureKey] = resolveWith(actions_fe213e88_esm_objectSpread2({
       shared: _config.shared
     }, rest), resolver);
   } else {
     for (const key in rest) {
       const resolver = ConfigResolverMap.get(key);
-
       if (resolver) {
-        _config[key] = resolveWith(actions_aeda4790_esm_objectSpread2({
+        _config[key] = resolveWith(actions_fe213e88_esm_objectSpread2({
           shared: _config.shared
         }, rest[key]), resolver);
       } else if (false) {}
     }
   }
-
   return _config;
 }
 
 class EventStore {
   constructor(ctrl, gestureKey) {
-    actions_aeda4790_esm_defineProperty(this, "_listeners", new Set());
-
+    actions_fe213e88_esm_defineProperty(this, "_listeners", new Set());
     this._ctrl = ctrl;
     this._gestureKey = gestureKey;
   }
-
   add(element, device, action, handler, options) {
     const listeners = this._listeners;
     const type = toDomEventType(device, action);
-
     const _options = this._gestureKey ? this._ctrl.config[this._gestureKey].eventOptions : {};
-
-    const eventOptions = actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, _options), options);
-
+    const eventOptions = actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, _options), options);
     element.addEventListener(type, handler, eventOptions);
-
     const remove = () => {
       element.removeEventListener(type, handler, eventOptions);
       listeners.delete(remove);
     };
-
     listeners.add(remove);
     return remove;
   }
-
   clean() {
     this._listeners.forEach(remove => remove());
-
     this._listeners.clear();
   }
-
 }
 
 class TimeoutStore {
   constructor() {
-    actions_aeda4790_esm_defineProperty(this, "_timeouts", new Map());
+    actions_fe213e88_esm_defineProperty(this, "_timeouts", new Map());
   }
-
   add(key, callback, ms = 140, ...args) {
     this.remove(key);
-
     this._timeouts.set(key, window.setTimeout(callback, ms, ...args));
   }
-
   remove(key) {
     const timeout = this._timeouts.get(key);
-
     if (timeout) window.clearTimeout(timeout);
   }
-
   clean() {
     this._timeouts.forEach(timeout => void window.clearTimeout(timeout));
-
     this._timeouts.clear();
   }
-
 }
 
 class Controller {
   constructor(handlers) {
-    actions_aeda4790_esm_defineProperty(this, "gestures", new Set());
-
-    actions_aeda4790_esm_defineProperty(this, "_targetEventStore", new EventStore(this));
-
-    actions_aeda4790_esm_defineProperty(this, "gestureEventStores", {});
-
-    actions_aeda4790_esm_defineProperty(this, "gestureTimeoutStores", {});
-
-    actions_aeda4790_esm_defineProperty(this, "handlers", {});
-
-    actions_aeda4790_esm_defineProperty(this, "config", {});
-
-    actions_aeda4790_esm_defineProperty(this, "pointerIds", new Set());
-
-    actions_aeda4790_esm_defineProperty(this, "touchIds", new Set());
-
-    actions_aeda4790_esm_defineProperty(this, "state", {
+    actions_fe213e88_esm_defineProperty(this, "gestures", new Set());
+    actions_fe213e88_esm_defineProperty(this, "_targetEventStore", new EventStore(this));
+    actions_fe213e88_esm_defineProperty(this, "gestureEventStores", {});
+    actions_fe213e88_esm_defineProperty(this, "gestureTimeoutStores", {});
+    actions_fe213e88_esm_defineProperty(this, "handlers", {});
+    actions_fe213e88_esm_defineProperty(this, "config", {});
+    actions_fe213e88_esm_defineProperty(this, "pointerIds", new Set());
+    actions_fe213e88_esm_defineProperty(this, "touchIds", new Set());
+    actions_fe213e88_esm_defineProperty(this, "state", {
       shared: {
         shiftKey: false,
         metaKey: false,
@@ -40112,10 +40021,8 @@ class Controller {
         altKey: false
       }
     });
-
     resolveGestures(this, handlers);
   }
-
   setEventIds(event) {
     if (isTouch(event)) {
       this.touchIds = new Set(touchIds(event));
@@ -40125,89 +40032,71 @@ class Controller {
       return this.pointerIds;
     }
   }
-
   applyHandlers(handlers, nativeHandlers) {
     this.handlers = handlers;
     this.nativeHandlers = nativeHandlers;
   }
-
   applyConfig(config, gestureKey) {
-    this.config = use_gesture_core_esm_parse(config, gestureKey);
+    this.config = use_gesture_core_esm_parse(config, gestureKey, this.config);
   }
-
   clean() {
     this._targetEventStore.clean();
-
     for (const key of this.gestures) {
       this.gestureEventStores[key].clean();
       this.gestureTimeoutStores[key].clean();
     }
   }
-
   effect() {
     if (this.config.shared.target) this.bind();
     return () => this._targetEventStore.clean();
   }
-
   bind(...args) {
     const sharedConfig = this.config.shared;
     const props = {};
     let target;
-
     if (sharedConfig.target) {
       target = sharedConfig.target();
       if (!target) return;
     }
-
     if (sharedConfig.enabled) {
       for (const gestureKey of this.gestures) {
         const gestureConfig = this.config[gestureKey];
         const bindFunction = bindToProps(props, gestureConfig.eventOptions, !!target);
-
         if (gestureConfig.enabled) {
-          const Engine = actions_aeda4790_esm_EngineMap.get(gestureKey);
+          const Engine = actions_fe213e88_esm_EngineMap.get(gestureKey);
           new Engine(this, args, gestureKey).bind(bindFunction);
         }
       }
-
       const nativeBindFunction = bindToProps(props, sharedConfig.eventOptions, !!target);
-
       for (const eventKey in this.nativeHandlers) {
-        nativeBindFunction(eventKey, '', event => this.nativeHandlers[eventKey](actions_aeda4790_esm_objectSpread2(actions_aeda4790_esm_objectSpread2({}, this.state.shared), {}, {
+        nativeBindFunction(eventKey, '', event => this.nativeHandlers[eventKey](actions_fe213e88_esm_objectSpread2(actions_fe213e88_esm_objectSpread2({}, this.state.shared), {}, {
           event,
           args
         })), undefined, true);
       }
     }
-
     for (const handlerProp in props) {
       props[handlerProp] = chain(...props[handlerProp]);
     }
-
     if (!target) return props;
-
     for (const handlerProp in props) {
       const {
         device,
         capture,
         passive
       } = parseProp(handlerProp);
-
       this._targetEventStore.add(target, device, '', props[handlerProp], {
         capture,
         passive
       });
     }
   }
-
 }
-
 function setupGesture(ctrl, gestureKey) {
   ctrl.gestures.add(gestureKey);
   ctrl.gestureEventStores[gestureKey] = new EventStore(ctrl, gestureKey);
   ctrl.gestureTimeoutStores[gestureKey] = new TimeoutStore();
 }
-
 function resolveGestures(ctrl, internalHandlers) {
   if (internalHandlers.drag) setupGesture(ctrl, 'drag');
   if (internalHandlers.wheel) setupGesture(ctrl, 'wheel');
@@ -40216,10 +40105,8 @@ function resolveGestures(ctrl, internalHandlers) {
   if (internalHandlers.pinch) setupGesture(ctrl, 'pinch');
   if (internalHandlers.hover) setupGesture(ctrl, 'hover');
 }
-
 const bindToProps = (props, eventOptions, withPassiveOption) => (device, action, handler, options = {}, isNative = false) => {
   var _options$capture, _options$passive;
-
   const capture = (_options$capture = options.capture) !== null && _options$capture !== void 0 ? _options$capture : eventOptions.capture;
   const passive = (_options$passive = options.passive) !== null && _options$passive !== void 0 ? _options$passive : eventOptions.passive;
   let handlerProp = isNative ? device : toHandlerProp(device, action, capture);
@@ -40229,12 +40116,10 @@ const bindToProps = (props, eventOptions, withPassiveOption) => (device, action,
 };
 
 const RE_NOT_NATIVE = /^on(Drag|Wheel|Scroll|Move|Pinch|Hover)/;
-
 function sortHandlers(_handlers) {
   const native = {};
   const handlers = {};
   const actions = new Set();
-
   for (let key in _handlers) {
     if (RE_NOT_NATIVE.test(key)) {
       actions.add(RegExp.lastMatch);
@@ -40243,22 +40128,16 @@ function sortHandlers(_handlers) {
       native[key] = _handlers[key];
     }
   }
-
   return [handlers, native, actions];
 }
-
 function registerGesture(actions, handlers, handlerKey, key, internalHandlers, config) {
   if (!actions.has(handlerKey)) return;
-
   if (!EngineMap.has(key)) {
     if (false) {}
-
     return;
   }
-
   const startKey = handlerKey + 'Start';
   const endKey = handlerKey + 'End';
-
   const fn = state => {
     let memo = undefined;
     if (state.first && startKey in handlers) handlers[startKey](state);
@@ -40266,11 +40145,9 @@ function registerGesture(actions, handlers, handlerKey, key, internalHandlers, c
     if (state.last && endKey in handlers) handlers[endKey](state);
     return memo;
   };
-
   internalHandlers[key] = fn;
   config[key] = config[key] || {};
 }
-
 function use_gesture_core_esm_parseMergedHandlers(mergedHandlers, mergedConfig) {
   const [handlers, nativeHandlers, actions] = sortHandlers(mergedHandlers);
   const internalHandlers = {};
@@ -40305,16 +40182,14 @@ function useRecognizers(handlers, config = {}, gestureKey, nativeHandlers) {
   external_React_default().useEffect(() => {
     return ctrl.clean.bind(ctrl);
   }, []);
-
   if (config.target === undefined) {
     return ctrl.bind.bind(ctrl);
   }
-
   return undefined;
 }
 
 function use_gesture_react_esm_useDrag(handler, config) {
-  actions_aeda4790_esm_registerAction(actions_aeda4790_esm_dragAction);
+  actions_fe213e88_esm_registerAction(actions_fe213e88_esm_dragAction);
   return useRecognizers({
     drag: handler
   }, config || {}, 'drag');
@@ -40349,7 +40224,7 @@ function useMove(handler, config) {
 }
 
 function useHover(handler, config) {
-  actions_aeda4790_esm_registerAction(actions_aeda4790_esm_hoverAction);
+  actions_fe213e88_esm_registerAction(actions_fe213e88_esm_hoverAction);
   return useRecognizers({
     hover: handler
   }, config || {}, 'hover');
@@ -41069,19 +40944,19 @@ function angle_picker_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "
 
 const CIRCLE_SIZE = 32;
 const INNER_CIRCLE_SIZE = 3;
-const angle_picker_control_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const angle_picker_control_styles_Root = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "e65ony43"
 } : 0)("margin-bottom:", space(2), ";" + ( true ? "" : 0));
-const CircleRoot = emotion_styled_base_browser_esm("div",  true ? {
+const CircleRoot = createStyled("div",  true ? {
   target: "e65ony42"
 } : 0)("border-radius:50%;border:", config_values.borderWidth, " solid ", COLORS.ui.border, ";box-sizing:border-box;cursor:grab;height:", CIRCLE_SIZE, "px;overflow:hidden;width:", CIRCLE_SIZE, "px;" + ( true ? "" : 0));
-const CircleIndicatorWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const CircleIndicatorWrapper = createStyled("div",  true ? {
   target: "e65ony41"
 } : 0)( true ? {
   name: "1bhd2sw",
   styles: "box-sizing:border-box;position:relative;width:100%;height:100%"
 } : 0);
-const CircleIndicator = emotion_styled_base_browser_esm("div",  true ? {
+const CircleIndicator = createStyled("div",  true ? {
   target: "e65ony40"
 } : 0)("background:", COLORS.admin.theme, ";border-radius:50%;border:", INNER_CIRCLE_SIZE, "px solid ", COLORS.admin.theme, ";bottom:0;box-sizing:border-box;display:block;height:0px;left:0;margin:auto;position:absolute;right:0;top:-", CIRCLE_SIZE / 2, "px;width:0px;" + ( true ? "" : 0));
 
@@ -41965,7 +41840,7 @@ function base_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
 
 
 
-const base_control_styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const base_control_styles_Wrapper = createStyled("div",  true ? {
   target: "ej5x27r4"
 } : 0)("font-family:", font('default.fontFamily'), ";font-size:", font('default.fontSize'), ";" + ( true ? "" : 0));
 
@@ -41976,11 +41851,11 @@ const deprecatedMarginField = _ref2 => {
   return !__nextHasNoMarginBottom && /*#__PURE__*/emotion_react_browser_esm_css("margin-bottom:", space(2), ";" + ( true ? "" : 0),  true ? "" : 0);
 };
 
-const StyledField = emotion_styled_base_browser_esm("div",  true ? {
+const StyledField = createStyled("div",  true ? {
   target: "ej5x27r3"
 } : 0)(deprecatedMarginField, " .components-panel__row &{margin-bottom:inherit;}" + ( true ? "" : 0));
 const labelStyles = /*#__PURE__*/emotion_react_browser_esm_css("display:inline-block;margin-bottom:", space(2), ";" + ( true ? "" : 0),  true ? "" : 0);
-const StyledLabel = emotion_styled_base_browser_esm("label",  true ? {
+const StyledLabel = createStyled("label",  true ? {
   target: "ej5x27r2"
 } : 0)(labelStyles, ";" + ( true ? "" : 0));
 
@@ -41996,10 +41871,10 @@ const deprecatedMarginHelp = _ref3 => {
   return !__nextHasNoMarginBottom && base_control_styles_ref;
 };
 
-const StyledHelp = emotion_styled_base_browser_esm("p",  true ? {
+const StyledHelp = createStyled("p",  true ? {
   target: "ej5x27r1"
 } : 0)("margin-top:", space(2), ";margin-bottom:0;font-size:", font('helpText.fontSize'), ";font-style:normal;color:", COLORS.mediumGray.text, ";", deprecatedMarginHelp, ";" + ( true ? "" : 0));
-const StyledVisualLabel = emotion_styled_base_browser_esm("span",  true ? {
+const StyledVisualLabel = createStyled("span",  true ? {
   target: "ej5x27r0"
 } : 0)(labelStyles, ";" + ( true ? "" : 0));
 
@@ -42400,7 +42275,7 @@ const htmlArrowStyles = _ref2 => {
   return number_control_styles_ref;
 };
 
-const number_control_styles_Input = /*#__PURE__*/emotion_styled_base_browser_esm(input_control,  true ? {
+const number_control_styles_Input = /*#__PURE__*/createStyled(input_control,  true ? {
   target: "ep48uk90"
 } : 0)(htmlArrowStyles, ";" + ( true ? "" : 0));
 
@@ -42791,7 +42666,7 @@ function unit_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
  */
 
 
-const unit_control_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const unit_control_styles_Root = createStyled("div",  true ? {
   target: "e1bagdl33"
 } : 0)( true ? {
   name: "100d0a9",
@@ -42832,17 +42707,17 @@ const arrowStyles = _ref3 => {
 // https://github.com/WordPress/gutenberg/issues/18483
 
 
-const ValueInput = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
+const ValueInput = /*#__PURE__*/createStyled(number_control,  true ? {
   target: "e1bagdl32"
 } : 0)("&&&{input{appearance:none;-moz-appearance:textfield;display:block;width:100%;", arrowStyles, ";", paddingStyles, ";}}" + ( true ? "" : 0));
 const baseUnitLabelStyles = /*#__PURE__*/emotion_react_browser_esm_css("appearance:none;background:transparent;border-radius:2px;border:none;box-sizing:border-box;color:", COLORS.darkGray[500], ";display:block;font-size:8px;letter-spacing:-0.5px;outline:none;padding:2px 1px;text-align-last:center;text-transform:uppercase;width:20px;", rtl({
   borderTopLeftRadius: 0,
   borderBottomLeftRadius: 0
 })(), ";" + ( true ? "" : 0),  true ? "" : 0);
-const UnitLabel = emotion_styled_base_browser_esm("div",  true ? {
+const UnitLabel = createStyled("div",  true ? {
   target: "e1bagdl31"
 } : 0)("&&&{pointer-events:none;", baseUnitLabelStyles, ";}" + ( true ? "" : 0));
-const UnitSelect = emotion_styled_base_browser_esm("select",  true ? {
+const UnitSelect = createStyled("select",  true ? {
   target: "e1bagdl30"
 } : 0)("&&&{", baseUnitLabelStyles, ";cursor:pointer;border:1px solid transparent;height:100%;&:hover{background-color:", COLORS.lightGray[300], ";}&:focus{border-color:", COLORS.ui.borderFocus, ";outline:2px solid transparent;outline-offset:0;}&:disabled{cursor:initial;&:hover{background-color:transparent;}}}" + ( true ? "" : 0));
 
@@ -43569,10 +43444,10 @@ const sizePaddings = _ref4 => {
 // https://github.com/WordPress/gutenberg/issues/18483
 
 
-const Select = emotion_styled_base_browser_esm("select",  true ? {
+const Select = createStyled("select",  true ? {
   target: "e1mv6sxx1"
 } : 0)("&&&{appearance:none;background:transparent;box-sizing:border-box;border:none;box-shadow:none!important;color:", COLORS.black, ";display:block;font-family:inherit;margin:0;width:100%;", select_control_styles_disabledStyles, ";", select_control_styles_fontSizeStyles, ";", select_control_styles_sizeStyles, ";", sizePaddings, ";}" + ( true ? "" : 0));
-const DownArrowWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const DownArrowWrapper = createStyled("div",  true ? {
   target: "e1mv6sxx0"
 } : 0)("align-items:center;bottom:0;box-sizing:border-box;display:flex;padding:0 4px;pointer-events:none;position:absolute;top:0;", rtl({
   right: 0
@@ -43951,7 +43826,7 @@ const rangeHeight = () => /*#__PURE__*/emotion_react_browser_esm_css({
 },  true ? "" : 0,  true ? "" : 0);
 
 const thumbSize = 12;
-const range_control_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const range_control_styles_Root = createStyled("div",  true ? {
   target: "exqw8y214"
 } : 0)( true ? {
   name: "17z6zai",
@@ -43976,15 +43851,15 @@ const wrapperMargin = _ref5 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const range_control_styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const range_control_styles_Wrapper = createStyled("div",  true ? {
   target: "exqw8y213"
 } : 0)("box-sizing:border-box;color:", COLORS.blue.medium.focus, ";display:block;flex:1;position:relative;width:100%;", wrapperColor, ";", rangeHeight, ";", wrapperMargin, ";" + ( true ? "" : 0));
-const BeforeIconWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const BeforeIconWrapper = createStyled("span",  true ? {
   target: "exqw8y212"
 } : 0)("margin-top:", railHeight, "px;", rtl({
   marginRight: 6
 }), ";" + ( true ? "" : 0));
-const AfterIconWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const AfterIconWrapper = createStyled("span",  true ? {
   target: "exqw8y211"
 } : 0)("margin-top:", railHeight, "px;", rtl({
   marginLeft: 6
@@ -44006,7 +43881,7 @@ const railBackgroundColor = _ref6 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const Rail = emotion_styled_base_browser_esm("span",  true ? {
+const Rail = createStyled("span",  true ? {
   target: "exqw8y210"
 } : 0)("background-color:", COLORS.lightGray[600], ";box-sizing:border-box;left:0;pointer-events:none;right:0;display:block;height:", railHeight, "px;position:absolute;margin-top:", (rangeHeightValue - railHeight) / 2, "px;top:0;border-radius:", railHeight, "px;", railBackgroundColor, ";" + ( true ? "" : 0));
 
@@ -44026,10 +43901,10 @@ const trackBackgroundColor = _ref7 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const Track = emotion_styled_base_browser_esm("span",  true ? {
+const Track = createStyled("span",  true ? {
   target: "exqw8y29"
 } : 0)("background-color:currentColor;border-radius:", railHeight, "px;box-sizing:border-box;height:", railHeight, "px;pointer-events:none;display:block;position:absolute;margin-top:", (rangeHeightValue - railHeight) / 2, "px;top:0;", trackBackgroundColor, ";" + ( true ? "" : 0));
-const MarksWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const MarksWrapper = createStyled("span",  true ? {
   target: "exqw8y28"
 } : 0)( true ? {
   name: "1xuuvmv",
@@ -44052,7 +43927,7 @@ const markFill = _ref8 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const Mark = emotion_styled_base_browser_esm("span",  true ? {
+const Mark = createStyled("span",  true ? {
   target: "exqw8y27"
 } : 0)("box-sizing:border-box;height:", thumbSize, "px;left:0;position:absolute;top:-4px;width:1px;", markFill, ";" + ( true ? "" : 0));
 
@@ -44065,7 +43940,7 @@ const markLabelFill = _ref9 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const MarkLabel = emotion_styled_base_browser_esm("span",  true ? {
+const MarkLabel = createStyled("span",  true ? {
   target: "exqw8y26"
 } : 0)("box-sizing:border-box;color:", COLORS.lightGray[600], ";left:0;font-size:11px;position:absolute;top:12px;transform:translateX( -50% );white-space:nowrap;", markLabelFill, ";" + ( true ? "" : 0));
 
@@ -44081,7 +43956,7 @@ const thumbColor = _ref10 => {
   return disabled ? /*#__PURE__*/emotion_react_browser_esm_css("background-color:", COLORS.lightGray[800], ";" + ( true ? "" : 0),  true ? "" : 0) : range_control_styles_ref3;
 };
 
-const ThumbWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const ThumbWrapper = createStyled("span",  true ? {
   target: "exqw8y25"
 } : 0)("align-items:center;box-sizing:border-box;display:flex;height:", thumbSize, "px;justify-content:center;margin-top:", (rangeHeightValue - thumbSize) / 2, "px;outline:0;pointer-events:none;position:absolute;top:0;user-select:none;width:", thumbSize, "px;border-radius:50%;", thumbColor, ";", rtl({
   marginLeft: -10
@@ -44098,10 +43973,10 @@ const thumbFocus = _ref11 => {
   return isFocused ? /*#__PURE__*/emotion_react_browser_esm_css("&::before{content:' ';position:absolute;background-color:var( --wp-admin-theme-color );opacity:0.4;border-radius:50%;height:", thumbSize + 8, "px;width:", thumbSize + 8, "px;top:-4px;left:-4px;}" + ( true ? "" : 0),  true ? "" : 0) : '';
 };
 
-const Thumb = emotion_styled_base_browser_esm("span",  true ? {
+const Thumb = createStyled("span",  true ? {
   target: "exqw8y24"
 } : 0)("align-items:center;border-radius:50%;box-sizing:border-box;height:100%;outline:0;position:absolute;user-select:none;width:100%;", thumbColor, ";", thumbFocus, ";" + ( true ? "" : 0));
-const InputRange = emotion_styled_base_browser_esm("input",  true ? {
+const InputRange = createStyled("input",  true ? {
   target: "exqw8y23"
 } : 0)("box-sizing:border-box;cursor:pointer;display:block;height:100%;left:0;margin:0 -", thumbSize / 2, "px;opacity:0;outline:none;position:absolute;right:0;top:0;width:calc( 100% + ", thumbSize, "px );" + ( true ? "" : 0));
 
@@ -44137,7 +44012,7 @@ const tooltipPosition = _ref13 => {
   return range_control_styles_ref;
 };
 
-const range_control_styles_Tooltip = emotion_styled_base_browser_esm("span",  true ? {
+const range_control_styles_Tooltip = createStyled("span",  true ? {
   target: "exqw8y22"
 } : 0)("background:rgba( 0, 0, 0, 0.8 );border-radius:2px;box-sizing:border-box;color:white;display:inline-block;font-size:12px;min-width:32px;opacity:0;padding:4px 8px;pointer-events:none;position:absolute;text-align:center;transition:opacity 120ms ease;user-select:none;line-height:1.4;", tooltipShow, ";", tooltipPosition, ";", reduceMotion('transition'), ";", rtl({
   transform: 'translateX(-50%)'
@@ -44146,12 +44021,12 @@ const range_control_styles_Tooltip = emotion_styled_base_browser_esm("span",  tr
 }), ";" + ( true ? "" : 0)); // @todo: Refactor RangeControl with latest HStack configuration
 // @wordpress/components/ui/hstack.
 
-const InputNumber = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
+const InputNumber = /*#__PURE__*/createStyled(number_control,  true ? {
   target: "exqw8y21"
 } : 0)("box-sizing:border-box;display:inline-block;font-size:13px;margin-top:0;width:", space(16), "!important;input[type='number']&{", rangeHeight, ";}", rtl({
   marginLeft: `${space(4)} !important`
 }), ";" + ( true ? "" : 0));
-const ActionRightWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const ActionRightWrapper = createStyled("span",  true ? {
   target: "exqw8y20"
 } : 0)("box-sizing:border-box;display:block;margin-top:0;button,button.is-small{margin-left:0;", rangeHeight, ";}", rtl({
   marginLeft: 8
@@ -44728,13 +44603,13 @@ function color_picker_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
 
 
 
-const NumberControlWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
+const NumberControlWrapper = /*#__PURE__*/createStyled(number_control,  true ? {
   target: "ez9hsf46"
 } : 0)(Container, "{width:", space(24), ";}" + ( true ? "" : 0));
-const styles_SelectControl = /*#__PURE__*/emotion_styled_base_browser_esm(select_control,  true ? {
+const styles_SelectControl = /*#__PURE__*/createStyled(select_control,  true ? {
   target: "ez9hsf45"
 } : 0)("margin-left:", space(-2), ";width:5em;", BackdropUI, "{display:none;}" + ( true ? "" : 0));
-const styles_RangeControl = /*#__PURE__*/emotion_styled_base_browser_esm(range_control,  true ? {
+const styles_RangeControl = /*#__PURE__*/createStyled(range_control,  true ? {
   target: "ez9hsf44"
 } : 0)("flex:1;", StyledField, "{margin-bottom:0;}" + ( true ? "" : 0)); // All inputs should be the same height so this should be changed at the component level.
 // That involves changing heights of multiple input types probably buttons too etc.
@@ -44750,16 +44625,16 @@ const interactiveHueStyles = `
 	width: calc( 100% - ${space(2)} );
 	margin-left: ${space(1)};
 }`;
-const AuxiliaryColorArtefactWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const AuxiliaryColorArtefactWrapper = createStyled("div",  true ? {
   target: "ez9hsf43"
 } : 0)("padding:", space(2), " ", space(4), ";" + ( true ? "" : 0));
-const ColorfulWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const ColorfulWrapper = createStyled("div",  true ? {
   target: "ez9hsf42"
 } : 0)("width:216px;.react-colorful{display:flex;flex-direction:column;align-items:center;width:216px;height:auto;}.react-colorful__saturation{width:100%;border-radius:0;height:216px;margin-bottom:", space(4), ";border-bottom:none;}.react-colorful__hue,.react-colorful__alpha{width:184px;height:16px;border-radius:16px;margin-bottom:", space(2), ";}.react-colorful__pointer{height:16px;width:16px;border:none;box-shadow:0 0 2px 0 rgba( 0, 0, 0, 0.25 );outline:2px solid transparent;}.react-colorful__pointer-fill{box-shadow:inset 0 0 0 ", config_values.borderWidthFocus, " #fff;}", interactiveHueStyles, " ", StyledField, "{margin-bottom:0;}", inputHeightStyle, ";" + ( true ? "" : 0));
-const DetailsControlButton = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
+const DetailsControlButton = /*#__PURE__*/createStyled(build_module_button,  true ? {
   target: "ez9hsf41"
 } : 0)("&&&&&{min-width:", space(6), ";padding:0;}" + ( true ? "" : 0));
-const ColorHexInputControl = /*#__PURE__*/emotion_styled_base_browser_esm(input_control,  true ? {
+const ColorHexInputControl = /*#__PURE__*/createStyled(input_control,  true ? {
   target: "ez9hsf40"
 } : 0)( true ? {
   name: "1287a6j",
@@ -44811,7 +44686,7 @@ var round = Math.round;
 function getUAString() {
   var uaData = navigator.userAgentData;
 
-  if (uaData != null && uaData.brands) {
+  if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {
     return uaData.brands.map(function (item) {
       return item.brand + "/" + item.version;
     }).join(' ');
@@ -45279,13 +45154,6 @@ function mergeByName(modifiers) {
 
 
 
-
-
-
-
-
-var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
-var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
 var DEFAULT_OPTIONS = {
   placement: 'bottom',
   modifiers: [],
@@ -45347,11 +45215,7 @@ function popperGenerator(generatorOptions) {
 
         state.orderedModifiers = orderedModifiers.filter(function (m) {
           return m.enabled;
-        }); // Validate the provided modifiers so that the consumer will get warned
-        // if one of the modifiers is invalid for any reason
-
-        if (false) { var _getComputedStyle, marginTop, marginRight, marginBottom, marginLeft, flipModifier, modifiers; }
-
+        });
         runModifierEffects();
         return instance.update();
       },
@@ -45371,8 +45235,6 @@ function popperGenerator(generatorOptions) {
         // anymore
 
         if (!areValidElements(reference, popper)) {
-          if (false) {}
-
           return;
         } // Store the reference and popper rects to be read by modifiers
 
@@ -45395,11 +45257,8 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers.forEach(function (modifier) {
           return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
         });
-        var __debug_loops__ = 0;
 
         for (var index = 0; index < state.orderedModifiers.length; index++) {
-          if (false) {}
-
           if (state.reset === true) {
             state.reset = false;
             index = -1;
@@ -45437,8 +45296,6 @@ function popperGenerator(generatorOptions) {
     };
 
     if (!areValidElements(reference, popper)) {
-      if (false) {}
-
       return instance;
     }
 
@@ -45453,11 +45310,11 @@ function popperGenerator(generatorOptions) {
     // one.
 
     function runModifierEffects() {
-      state.orderedModifiers.forEach(function (_ref3) {
-        var name = _ref3.name,
-            _ref3$options = _ref3.options,
-            options = _ref3$options === void 0 ? {} : _ref3$options,
-            effect = _ref3.effect;
+      state.orderedModifiers.forEach(function (_ref) {
+        var name = _ref.name,
+            _ref$options = _ref.options,
+            options = _ref$options === void 0 ? {} : _ref$options,
+            effect = _ref.effect;
 
         if (typeof effect === 'function') {
           var cleanupFn = effect({
@@ -45666,10 +45523,9 @@ var unsetSides = {
 // Zooming can change the DPR, but it seems to report a value that will
 // cleanly divide the values into the appropriate subpixels.
 
-function roundOffsetsByDPR(_ref) {
+function roundOffsetsByDPR(_ref, win) {
   var x = _ref.x,
       y = _ref.y;
-  var win = window;
   var dpr = win.devicePixelRatio || 1;
   return {
     x: round(x * dpr) / dpr || 0,
@@ -45752,7 +45608,7 @@ function mapToStyles(_ref2) {
   var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
     x: x,
     y: y
-  }) : {
+  }, getWindow_getWindow(popper)) : {
     x: x,
     y: y
   };
@@ -45778,9 +45634,6 @@ function computeStyles(_ref5) {
       adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
       _options$roundOffsets = options.roundOffsets,
       roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-
-  if (false) { var transitionProperty; }
-
   var commonStyles = {
     placement: getBasePlacement(state.placement),
     variation: getVariation(state.placement),
@@ -46264,8 +46117,6 @@ function computeAutoPlacement(state, options) {
 
   if (allowedPlacements.length === 0) {
     allowedPlacements = placements;
-
-    if (false) {}
   } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
 
 
@@ -46595,7 +46446,6 @@ function preventOverflow(_ref) {
 
 
 
-
  // eslint-disable-next-line import/no-unused-modules
 
 var toPaddingObject = function toPaddingObject(padding, state) {
@@ -46661,11 +46511,7 @@ function arrow_effect(_ref2) {
     }
   }
 
-  if (false) {}
-
   if (!contains_contains(state.elements.popper, arrowElement)) {
-    if (false) {}
-
     return;
   }
 
@@ -47632,14 +47478,14 @@ function tooltip_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have trie
 
 
 const TooltipContent = /*#__PURE__*/emotion_react_browser_esm_css("z-index:", z_index_Tooltip, ";box-sizing:border-box;opacity:0;outline:none;transform-origin:top center;transition:opacity ", config_values.transitionDurationFastest, " ease;&[data-enter]{opacity:1;}" + ( true ? "" : 0),  true ? "" : 0);
-const TooltipPopoverView = emotion_styled_base_browser_esm("div",  true ? {
+const TooltipPopoverView = createStyled("div",  true ? {
   target: "e7tfjmw1"
 } : 0)("background:rgba( 0, 0, 0, 0.8 );border-radius:2px;box-shadow:0 0 0 1px rgba( 255, 255, 255, 0.04 );color:", COLORS.white, ";padding:4px 8px;" + ( true ? "" : 0));
 const noOutline =  true ? {
   name: "12mkfdx",
   styles: "outline:none"
 } : 0;
-const TooltipShortcut = /*#__PURE__*/emotion_styled_base_browser_esm(shortcut_component,  true ? {
+const TooltipShortcut = /*#__PURE__*/createStyled(shortcut_component,  true ? {
   target: "e7tfjmw0"
 } : 0)("display:inline-block;margin-left:", space(1), ";" + ( true ? "" : 0));
 
@@ -48836,7 +48682,7 @@ function color_palette_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You hav
  * Internal dependencies
  */
 
-const ColorHeading = /*#__PURE__*/emotion_styled_base_browser_esm(heading_component,  true ? {
+const ColorHeading = /*#__PURE__*/createStyled(heading_component,  true ? {
   target: "e1uu5br00"
 } : 0)( true ? {
   name: "13lxv2o",
@@ -50784,34 +50630,34 @@ function box_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have 
 
 
 
-const box_control_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const box_control_styles_Root = createStyled("div",  true ? {
   target: "e7pk0lh6"
 } : 0)( true ? {
   name: "14bvcyk",
   styles: "box-sizing:border-box;max-width:235px;padding-bottom:12px;width:100%"
 } : 0);
-const Header = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const Header = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "e7pk0lh5"
 } : 0)("color:", COLORS.ui.label, ";margin-bottom:8px;" + ( true ? "" : 0));
-const HeaderControlWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const HeaderControlWrapper = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "e7pk0lh4"
 } : 0)( true ? {
   name: "aujtid",
   styles: "min-height:30px;gap:0"
 } : 0);
-const UnitControlWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const UnitControlWrapper = createStyled("div",  true ? {
   target: "e7pk0lh3"
 } : 0)( true ? {
   name: "112jwab",
   styles: "box-sizing:border-box;max-width:80px"
 } : 0);
-const LayoutContainer = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const LayoutContainer = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "e7pk0lh2"
 } : 0)( true ? {
   name: "xy18ro",
   styles: "justify-content:center;padding-top:8px"
 } : 0);
-const Layout = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const Layout = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "e7pk0lh1"
 } : 0)( true ? {
   name: "3tw5wk",
@@ -50867,7 +50713,7 @@ const unitControlMarginStyles = _ref4 => {
   })();
 };
 
-const box_control_styles_UnitControl = /*#__PURE__*/emotion_styled_base_browser_esm(unit_control,  true ? {
+const box_control_styles_UnitControl = /*#__PURE__*/createStyled(unit_control,  true ? {
   target: "e7pk0lh0"
 } : 0)("max-width:60px;", unitControlBorderRadiusStyles, ";", unitControlMarginStyles, ";" + ( true ? "" : 0));
 
@@ -51523,13 +51369,13 @@ function box_control_icon_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You 
  * External dependencies
  */
 
-const box_control_icon_styles_Root = emotion_styled_base_browser_esm("span",  true ? {
+const box_control_icon_styles_Root = createStyled("span",  true ? {
   target: "eaw9yqk8"
 } : 0)( true ? {
   name: "1w884gc",
   styles: "box-sizing:border-box;display:block;width:24px;height:24px;position:relative;padding:4px"
 } : 0);
-const Viewbox = emotion_styled_base_browser_esm("span",  true ? {
+const Viewbox = createStyled("span",  true ? {
   target: "eaw9yqk7"
 } : 0)( true ? {
   name: "i6vjox",
@@ -51546,43 +51392,43 @@ const strokeFocus = _ref => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const Stroke = emotion_styled_base_browser_esm("span",  true ? {
+const Stroke = createStyled("span",  true ? {
   target: "eaw9yqk6"
 } : 0)("box-sizing:border-box;display:block;pointer-events:none;position:absolute;", strokeFocus, ";" + ( true ? "" : 0));
 
-const VerticalStroke = /*#__PURE__*/emotion_styled_base_browser_esm(Stroke,  true ? {
+const VerticalStroke = /*#__PURE__*/createStyled(Stroke,  true ? {
   target: "eaw9yqk5"
 } : 0)( true ? {
   name: "1k2w39q",
   styles: "bottom:3px;top:3px;width:2px"
 } : 0);
 
-const HorizontalStroke = /*#__PURE__*/emotion_styled_base_browser_esm(Stroke,  true ? {
+const HorizontalStroke = /*#__PURE__*/createStyled(Stroke,  true ? {
   target: "eaw9yqk4"
 } : 0)( true ? {
   name: "1q9b07k",
   styles: "height:2px;left:3px;right:3px"
 } : 0);
 
-const TopStroke = /*#__PURE__*/emotion_styled_base_browser_esm(HorizontalStroke,  true ? {
+const TopStroke = /*#__PURE__*/createStyled(HorizontalStroke,  true ? {
   target: "eaw9yqk3"
 } : 0)( true ? {
   name: "abcix4",
   styles: "top:0"
 } : 0);
-const RightStroke = /*#__PURE__*/emotion_styled_base_browser_esm(VerticalStroke,  true ? {
+const RightStroke = /*#__PURE__*/createStyled(VerticalStroke,  true ? {
   target: "eaw9yqk2"
 } : 0)( true ? {
   name: "1wf8jf",
   styles: "right:0"
 } : 0);
-const BottomStroke = /*#__PURE__*/emotion_styled_base_browser_esm(HorizontalStroke,  true ? {
+const BottomStroke = /*#__PURE__*/createStyled(HorizontalStroke,  true ? {
   target: "eaw9yqk1"
 } : 0)( true ? {
   name: "8tapst",
   styles: "bottom:0"
 } : 0);
-const LeftStroke = /*#__PURE__*/emotion_styled_base_browser_esm(VerticalStroke,  true ? {
+const LeftStroke = /*#__PURE__*/createStyled(VerticalStroke,  true ? {
   target: "eaw9yqk0"
 } : 0)( true ? {
   name: "1ode3cm",
@@ -51698,10 +51544,10 @@ const containerPositionStyles = _ref2 => {
   return box_control_visualizer_styles_ref;
 };
 
-const box_control_visualizer_styles_Container = emotion_styled_base_browser_esm("div",  true ? {
+const box_control_visualizer_styles_Container = createStyled("div",  true ? {
   target: "e1df9b4q5"
 } : 0)("box-sizing:border-box;position:relative;", containerPositionStyles, ";" + ( true ? "" : 0));
-const Side = emotion_styled_base_browser_esm("div",  true ? {
+const Side = createStyled("div",  true ? {
   target: "e1df9b4q4"
 } : 0)("box-sizing:border-box;background:", COLORS.blue.wordpress[700], ";background:", COLORS.ui.theme, ";filter:brightness( 1 );opacity:0;position:absolute;pointer-events:none;transition:opacity 120ms linear;z-index:1;", _ref3 => {
   let {
@@ -51711,24 +51557,24 @@ const Side = emotion_styled_base_browser_esm("div",  true ? {
 		opacity: 0.3;
 	`;
 }, ";" + ( true ? "" : 0));
-const TopView = /*#__PURE__*/emotion_styled_base_browser_esm(Side,  true ? {
+const TopView = /*#__PURE__*/createStyled(Side,  true ? {
   target: "e1df9b4q3"
 } : 0)( true ? {
   name: "5i97ct",
   styles: "top:0;left:0;right:0"
 } : 0);
-const RightView = /*#__PURE__*/emotion_styled_base_browser_esm(Side,  true ? {
+const RightView = /*#__PURE__*/createStyled(Side,  true ? {
   target: "e1df9b4q2"
 } : 0)("top:0;bottom:0;", rtl({
   right: 0
 }), ";" + ( true ? "" : 0));
-const BottomView = /*#__PURE__*/emotion_styled_base_browser_esm(Side,  true ? {
+const BottomView = /*#__PURE__*/createStyled(Side,  true ? {
   target: "e1df9b4q1"
 } : 0)( true ? {
   name: "8cxke2",
   styles: "bottom:0;left:0;right:0"
 } : 0);
-const LeftView = /*#__PURE__*/emotion_styled_base_browser_esm(Side,  true ? {
+const LeftView = /*#__PURE__*/createStyled(Side,  true ? {
   target: "e1df9b4q0"
 } : 0)("top:0;bottom:0;", rtl({
   left: 0
@@ -52944,7 +52790,7 @@ const renderSize = _ref5 => {
   },  true ? "" : 0,  true ? "" : 0);
 };
 
-const DividerView = emotion_styled_base_browser_esm("hr",  true ? {
+const DividerView = createStyled("hr",  true ? {
   target: "e19on6iw0"
 } : 0)("border:0;margin:0;", renderDisplay, " ", renderBorder, " ", renderSize, " ", renderMargin, ";" + ( true ? "" : 0));
 
@@ -54465,13 +54311,13 @@ function custom_gradient_picker_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return
  * Internal dependencies
  */
 
-const SelectWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_block_component,  true ? {
+const SelectWrapper = /*#__PURE__*/createStyled(flex_block_component,  true ? {
   target: "e99xvul1"
 } : 0)( true ? {
   name: "1gvx10y",
   styles: "flex-grow:5"
 } : 0);
-const AccessoryWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_block_component,  true ? {
+const AccessoryWrapper = /*#__PURE__*/createStyled(flex_block_component,  true ? {
   target: "e99xvul0"
 } : 0)( true ? {
   name: "1gvx10y",
@@ -55168,37 +55014,37 @@ function palette_edit_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
 
 
 
-const IndicatorStyled = /*#__PURE__*/emotion_styled_base_browser_esm(CircularOptionPicker.Option,  true ? {
+const IndicatorStyled = /*#__PURE__*/createStyled(CircularOptionPicker.Option,  true ? {
   target: "e5bw3229"
 } : 0)("width:", space(6), ";height:", space(6), ";pointer-events:none;" + ( true ? "" : 0));
-const NameInputControl = /*#__PURE__*/emotion_styled_base_browser_esm(input_control,  true ? {
+const NameInputControl = /*#__PURE__*/createStyled(input_control,  true ? {
   target: "e5bw3228"
 } : 0)(Container, "{background:", COLORS.gray[100], ";border-radius:", config_values.controlBorderRadius, ";}", Input, Input, Input, Input, "{height:", space(8), ";}", BackdropUI, BackdropUI, BackdropUI, "{border-color:transparent;box-shadow:none;}" + ( true ? "" : 0));
-const PaletteItem = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
+const PaletteItem = /*#__PURE__*/createStyled(component,  true ? {
   target: "e5bw3227"
 } : 0)("padding:3px 0 3px ", space(3), ";height:calc( 40px - ", config_values.borderWidth, " );border:1px solid ", config_values.surfaceBorderColor, ";border-bottom-color:transparent;&:first-of-type{border-top-left-radius:", config_values.controlBorderRadius, ";border-top-right-radius:", config_values.controlBorderRadius, ";}&:last-of-type{border-bottom-left-radius:", config_values.controlBorderRadius, ";border-bottom-right-radius:", config_values.controlBorderRadius, ";border-bottom-color:", config_values.surfaceBorderColor, ";}&.is-selected+&{border-top-color:transparent;}&.is-selected{border-color:", COLORS.blue.wordpress[700], ";}" + ( true ? "" : 0));
-const NameContainer = emotion_styled_base_browser_esm("div",  true ? {
+const NameContainer = createStyled("div",  true ? {
   target: "e5bw3226"
 } : 0)("line-height:", space(8), ";margin-left:", space(2), ";margin-right:", space(2), ";white-space:nowrap;overflow:hidden;", PaletteItem, ":hover &{color:var( --wp-admin-theme-color, ", COLORS.blue.wordpress[700], " );}" + ( true ? "" : 0));
-const PaletteHeading = /*#__PURE__*/emotion_styled_base_browser_esm(heading_component,  true ? {
+const PaletteHeading = /*#__PURE__*/createStyled(heading_component,  true ? {
   target: "e5bw3225"
 } : 0)("text-transform:uppercase;line-height:", space(6), ";font-weight:500;&&&{font-size:11px;margin-bottom:0;}" + ( true ? "" : 0));
-const PaletteActionsContainer = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
+const PaletteActionsContainer = /*#__PURE__*/createStyled(component,  true ? {
   target: "e5bw3224"
 } : 0)("height:", space(6), ";display:flex;" + ( true ? "" : 0));
-const PaletteHStackHeader = /*#__PURE__*/emotion_styled_base_browser_esm(h_stack_component,  true ? {
+const PaletteHStackHeader = /*#__PURE__*/createStyled(h_stack_component,  true ? {
   target: "e5bw3223"
 } : 0)("margin-bottom:", space(2), ";" + ( true ? "" : 0));
-const PaletteEditStyles = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
+const PaletteEditStyles = /*#__PURE__*/createStyled(component,  true ? {
   target: "e5bw3222"
 } : 0)( true ? {
   name: "u6wnko",
   styles: "&&&{.components-button.has-icon{min-width:0;padding:0;}}"
 } : 0);
-const DoneButton = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
+const DoneButton = /*#__PURE__*/createStyled(build_module_button,  true ? {
   target: "e5bw3221"
 } : 0)("&&{color:", COLORS.ui.theme, ";}" + ( true ? "" : 0));
-const RemoveButton = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
+const RemoveButton = /*#__PURE__*/createStyled(build_module_button,  true ? {
   target: "e5bw3220"
 } : 0)("&&{margin-top:", space(1), ";}" + ( true ? "" : 0));
 
@@ -56267,8 +56113,9 @@ var prop_types = __webpack_require__(2652);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 // EXTERNAL MODULE: ./node_modules/downshift/node_modules/react-is/index.js
 var react_is = __webpack_require__(2797);
-;// CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/dist/index.module.js
-function index_module_t(t){return"object"==typeof t&&null!=t&&1===t.nodeType}function index_module_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function index_module_n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return index_module_e(r.overflowY,n)||index_module_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function index_module_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}/* harmony default export */ function index_module(e,i){var o=window,l=i.scrollMode,d=i.block,u=i.inline,h=i.boundary,a=i.skipOverflowHiddenElements,c="function"==typeof h?h:function(t){return t!==h};if(!index_module_t(e))throw new TypeError("Invalid target");for(var f=document.scrollingElement||document.documentElement,s=[],p=e;index_module_t(p)&&c(p);){if((p=p.parentElement)===f){s.push(p);break}null!=p&&p===document.body&&index_module_n(p)&&!index_module_n(document.documentElement)||null!=p&&index_module_n(p,a)&&s.push(p)}for(var m=o.visualViewport?o.visualViewport.width:innerWidth,g=o.visualViewport?o.visualViewport.height:innerHeight,w=window.scrollX||pageXOffset,v=window.scrollY||pageYOffset,W=e.getBoundingClientRect(),b=W.height,H=W.width,y=W.top,E=W.right,M=W.bottom,V=W.left,x="start"===d||"nearest"===d?y:"end"===d?M:y+b/2,I="center"===u?V+H/2:"end"===u?E:V,C=[],T=0;T<s.length;T++){var k=s[T],B=k.getBoundingClientRect(),D=B.height,O=B.width,R=B.top,X=B.right,Y=B.bottom,L=B.left;if("if-needed"===l&&y>=0&&V>=0&&M<=g&&E<=m&&y>=R&&M<=Y&&V>=L&&E<=X)return C;var S=getComputedStyle(k),j=parseInt(S.borderLeftWidth,10),q=parseInt(S.borderTopWidth,10),z=parseInt(S.borderRightWidth,10),A=parseInt(S.borderBottomWidth,10),F=0,G=0,J="offsetWidth"in k?k.offsetWidth-k.clientWidth-j-z:0,K="offsetHeight"in k?k.offsetHeight-k.clientHeight-q-A:0;if(f===k)F="start"===d?x:"end"===d?x-g:"nearest"===d?index_module_r(v,v+g,g,q,A,v+x,v+x+b,b):x-g/2,G="start"===u?I:"center"===u?I-m/2:"end"===u?I-m:index_module_r(w,w+m,m,j,z,w+I,w+I+H,H),F=Math.max(0,F+v),G=Math.max(0,G+w);else{F="start"===d?x-R-q:"end"===d?x-Y+A+K:"nearest"===d?index_module_r(R,Y,D,q,A+K,x,x+b,b):x-(R+D/2)+K/2,G="start"===u?I-L-j:"center"===u?I-(L+O/2)+J/2:"end"===u?I-X+z+J:index_module_r(L,X,O,j,z+J,I,I+H,H);var N=k.scrollLeft,P=k.scrollTop;x+=P-(F=Math.max(0,Math.min(P+F,k.scrollHeight-D+K))),I+=N-(G=Math.max(0,Math.min(N+G,k.scrollWidth-O+J)))}C.push({el:k,top:F,left:G})}return C}
+;// CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/dist/index.mjs
+function dist_t(t){return"object"==typeof t&&null!=t&&1===t.nodeType}function dist_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function dist_n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return dist_e(r.overflowY,n)||dist_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function dist_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}var compute_scroll_into_view_dist_i=function(e,i){var o=window,l=i.scrollMode,d=i.block,f=i.inline,h=i.boundary,u=i.skipOverflowHiddenElements,s="function"==typeof h?h:function(t){return t!==h};if(!dist_t(e))throw new TypeError("Invalid target");for(var a,c,g=document.scrollingElement||document.documentElement,p=[],m=e;dist_t(m)&&s(m);){if((m=null==(c=(a=m).parentElement)?a.getRootNode().host||null:c)===g){p.push(m);break}null!=m&&m===document.body&&dist_n(m)&&!dist_n(document.documentElement)||null!=m&&dist_n(m,u)&&p.push(m)}for(var w=o.visualViewport?o.visualViewport.width:innerWidth,v=o.visualViewport?o.visualViewport.height:innerHeight,W=window.scrollX||pageXOffset,H=window.scrollY||pageYOffset,b=e.getBoundingClientRect(),y=b.height,E=b.width,M=b.top,V=b.right,x=b.bottom,I=b.left,C="start"===d||"nearest"===d?M:"end"===d?x:M+y/2,R="center"===f?I+E/2:"end"===f?V:I,T=[],k=0;k<p.length;k++){var B=p[k],D=B.getBoundingClientRect(),O=D.height,X=D.width,Y=D.top,L=D.right,S=D.bottom,j=D.left;if("if-needed"===l&&M>=0&&I>=0&&x<=v&&V<=w&&M>=Y&&x<=S&&I>=j&&V<=L)return T;var N=getComputedStyle(B),q=parseInt(N.borderLeftWidth,10),z=parseInt(N.borderTopWidth,10),A=parseInt(N.borderRightWidth,10),F=parseInt(N.borderBottomWidth,10),G=0,J=0,K="offsetWidth"in B?B.offsetWidth-B.clientWidth-q-A:0,P="offsetHeight"in B?B.offsetHeight-B.clientHeight-z-F:0,Q="offsetWidth"in B?0===B.offsetWidth?0:X/B.offsetWidth:0,U="offsetHeight"in B?0===B.offsetHeight?0:O/B.offsetHeight:0;if(g===B)G="start"===d?C:"end"===d?C-v:"nearest"===d?dist_r(H,H+v,v,z,F,H+C,H+C+y,y):C-v/2,J="start"===f?R:"center"===f?R-w/2:"end"===f?R-w:dist_r(W,W+w,w,q,A,W+R,W+R+E,E),G=Math.max(0,G+H),J=Math.max(0,J+W);else{G="start"===d?C-Y-z:"end"===d?C-S+F+P:"nearest"===d?dist_r(Y,S,O,z,F+P,C,C+y,y):C-(Y+O/2)+P/2,J="start"===f?R-j-q:"center"===f?R-(j+X/2)+K/2:"end"===f?R-L+A+K:dist_r(j,L,X,q,A+K,R,R+E,E);var Z=B.scrollLeft,$=B.scrollTop;C+=$-(G=Math.max(0,Math.min($+G/U,B.scrollHeight-O/U+P))),R+=Z-(J=Math.max(0,Math.min(Z+J/Q,B.scrollWidth-X/Q+K)))}T.push({el:B,top:G,left:J})}return T};
+//# sourceMappingURL=index.mjs.map
 
 ;// CONCATENATED MODULE: ./node_modules/downshift/dist/downshift.esm.js
 
@@ -56304,7 +56151,7 @@ function scrollIntoView(node, menuNode) {
     return;
   }
 
-  const actions = index_module(node, {
+  const actions = compute_scroll_into_view_dist_i(node, {
     boundary: menuNode,
     block: 'nearest',
     scrollMode: 'if-needed'
@@ -56452,7 +56299,7 @@ function getA11yStatusMessage$1(_ref2) {
   }
 
   if (resultCount !== previousResultCount) {
-    return resultCount + " result" + (resultCount === 1 ? ' is' : 's are') + " available, use up and down arrow keys to navigate. Press Enter key to select.";
+    return `${resultCount} result${resultCount === 1 ? ' is' : 's are'} available, use up and down arrow keys to navigate. Press Enter key to select.`;
   }
 
   return '';
@@ -56508,7 +56355,7 @@ function getElementProps(element) {
 
 function requiredProp(fnName, propName) {
   // eslint-disable-next-line no-console
-  console.error("The property \"" + propName + "\" is required in \"" + fnName + "\"");
+  console.error(`The property "${propName}" is required in "${fnName}"`);
 }
 
 const stateKeys = ['highlightedIndex', 'inputValue', 'isOpen', 'selectedItem', 'type'];
@@ -56578,7 +56425,7 @@ function normalizeArrowKey(event) {
   /* istanbul ignore next (ie) */
 
   if (keyCode >= 37 && keyCode <= 40 && key.indexOf('Arrow') !== 0) {
-    return "Arrow" + key;
+    return `Arrow${key}`;
   }
 
   return key;
@@ -56805,12 +56652,12 @@ const Downshift = /*#__PURE__*/(() => {
 
       super(_props);
       _this = this;
-      this.id = this.props.id || "downshift-" + generateId();
-      this.menuId = this.props.menuId || this.id + "-menu";
-      this.labelId = this.props.labelId || this.id + "-label";
-      this.inputId = this.props.inputId || this.id + "-input";
+      this.id = this.props.id || `downshift-${generateId()}`;
+      this.menuId = this.props.menuId || `${this.id}-menu`;
+      this.labelId = this.props.labelId || `${this.id}-label`;
+      this.inputId = this.props.inputId || `${this.id}-input`;
 
-      this.getItemId = this.props.getItemId || (index => this.id + "-item-" + index);
+      this.getItemId = this.props.getItemId || (index => `${this.id}-item-${index}`);
 
       this.input = null;
       this.items = [];
@@ -57868,7 +57715,7 @@ function validateGetMenuPropsCalledCorrectly(node, _ref3) {
 
   if (!node) {
     // eslint-disable-next-line no-console
-    console.error("downshift: The ref prop \"" + refKey + "\" from getMenuProps was not applied correctly on your menu element.");
+    console.error(`downshift: The ref prop "${refKey}" from getMenuProps was not applied correctly on your menu element.`);
   }
 }
 
@@ -57884,12 +57731,12 @@ function validateGetRootPropsCalledCorrectly(element, _ref4) {
     console.error('downshift: You returned a non-DOM element. You must specify a refKey in getRootProps');
   } else if (!isComposite && refKeySpecified) {
     // eslint-disable-next-line no-console
-    console.error("downshift: You returned a DOM element. You should not specify a refKey in getRootProps. You specified \"" + refKey + "\"");
+    console.error(`downshift: You returned a DOM element. You should not specify a refKey in getRootProps. You specified "${refKey}"`);
   }
 
   if (!isForwardRef(element) && !getElementProps(element)[refKey]) {
     // eslint-disable-next-line no-console
-    console.error("downshift: You must apply the ref prop \"" + refKey + "\" from getRootProps onto your root element.");
+    console.error(`downshift: You must apply the ref prop "${refKey}" from getRootProps onto your root element.`);
   }
 }
 
@@ -57927,7 +57774,7 @@ function invokeOnChangeHandler(key, action, state, newState) {
     props,
     type
   } = action;
-  const handler = "on" + capitalizeString(key) + "Change";
+  const handler = `on${capitalizeString(key)}Change`;
 
   if (props[handler] && newState[key] !== undefined && newState[key] !== state[key]) {
     props[handler]({
@@ -57961,7 +57808,7 @@ function getA11ySelectionMessage(selectionParameters) {
     selectedItem,
     itemToString: itemToStringLocal
   } = selectionParameters;
-  return selectedItem ? itemToStringLocal(selectedItem) + " has been selected." : '';
+  return selectedItem ? `${itemToStringLocal(selectedItem)} has been selected.` : '';
 }
 /**
  * Debounced call for updating the a11y message.
@@ -57976,7 +57823,7 @@ const downshift_esm_useIsomorphicLayoutEffect = typeof window !== 'undefined' &&
 
 function useElementIds(_ref) {
   let {
-    id = "downshift-" + generateId(),
+    id = `downshift-${generateId()}`,
     labelId,
     menuId,
     getItemId,
@@ -57984,11 +57831,11 @@ function useElementIds(_ref) {
     inputId
   } = _ref;
   const elementIdsRef = (0,external_React_.useRef)({
-    labelId: labelId || id + "-label",
-    menuId: menuId || id + "-menu",
-    getItemId: getItemId || (index => id + "-item-" + index),
-    toggleButtonId: toggleButtonId || id + "-toggle-button",
-    inputId: inputId || id + "-input"
+    labelId: labelId || `${id}-label`,
+    menuId: menuId || `${id}-menu`,
+    getItemId: getItemId || (index => `${id}-item-${index}`),
+    toggleButtonId: toggleButtonId || `${id}-toggle-button`,
+    inputId: inputId || `${id}-input`
   });
   return elementIdsRef.current;
 }
@@ -58014,7 +57861,7 @@ function isAcceptedCharacterKey(key) {
 }
 
 function capitalizeString(string) {
-  return "" + string.slice(0, 1).toUpperCase() + string.slice(1);
+  return `${string.slice(0, 1).toUpperCase()}${string.slice(1)}`;
 }
 
 function useLatestRef(val) {
@@ -58099,7 +57946,7 @@ function getDefaultValue$1(props, propKey, defaultStateValues) {
     defaultStateValues = dropdownDefaultStateValues;
   }
 
-  const defaultValue = props["default" + capitalizeString(propKey)];
+  const defaultValue = props[`default${capitalizeString(propKey)}`];
 
   if (defaultValue !== undefined) {
     return defaultValue;
@@ -58119,7 +57966,7 @@ function getInitialValue$1(props, propKey, defaultStateValues) {
     return value;
   }
 
-  const initialValue = props["initial" + capitalizeString(propKey)];
+  const initialValue = props[`initial${capitalizeString(propKey)}`];
 
   if (initialValue !== undefined) {
     return initialValue;
@@ -58324,7 +58171,7 @@ function downshiftCommonReducer(state, action, stateChangeTypes) {
   switch (type) {
     case stateChangeTypes.ItemMouseMove:
       changes = {
-        highlightedIndex: action.index
+        highlightedIndex: action.disabled ? -1 : action.index
       };
       break;
 
@@ -58539,7 +58386,7 @@ function downshiftSelectReducer(state, action) {
     case ToggleButtonKeyDownCharacter:
       {
         const lowercasedKey = action.key;
-        const inputValue = "" + state.inputValue + lowercasedKey;
+        const inputValue = `${state.inputValue}${lowercasedKey}`;
         const itemIndex = getItemIndexByCharacterKey({
           keysSoFar: inputValue,
           highlightedIndex: state.selectedItem ? props.items.indexOf(state.selectedItem) : -1,
@@ -58610,7 +58457,7 @@ function downshiftSelectReducer(state, action) {
     case MenuKeyDownCharacter:
       {
         const lowercasedKey = action.key;
-        const inputValue = "" + state.inputValue + lowercasedKey;
+        const inputValue = `${state.inputValue}${lowercasedKey}`;
         const highlightedIndex = getItemIndexByCharacterKey({
           keysSoFar: inputValue,
           highlightedIndex: state.highlightedIndex,
@@ -59049,7 +58896,7 @@ function useSelect(userProps) {
       id: elementIds.toggleButtonId,
       'aria-haspopup': 'listbox',
       'aria-expanded': latest.current.state.isOpen,
-      'aria-labelledby': elementIds.labelId + " " + elementIds.toggleButtonId,
+      'aria-labelledby': `${elementIds.labelId} ${elementIds.toggleButtonId}`,
       ...rest
     };
 
@@ -59069,6 +58916,7 @@ function useSelect(userProps) {
       onClick,
       refKey = 'ref',
       ref,
+      disabled,
       ...rest
     } = _temp5 === void 0 ? {} : _temp5;
     const {
@@ -59084,7 +58932,8 @@ function useSelect(userProps) {
       shouldScrollRef.current = false;
       dispatch({
         type: ItemMouseMove$1,
-        index
+        index,
+        disabled
       });
     };
 
@@ -59102,8 +58951,9 @@ function useSelect(userProps) {
     }
 
     const itemProps = {
+      disabled,
       role: 'option',
-      'aria-selected': "" + (itemIndex === latestState.highlightedIndex),
+      'aria-selected': `${itemIndex === latestState.highlightedIndex}`,
       id: elementIds.getItemId(itemIndex),
       [refKey]: handleRefs(ref, itemNode => {
         if (itemNode) {
@@ -59113,11 +58963,11 @@ function useSelect(userProps) {
       ...rest
     };
 
-    if (!rest.disabled) {
-      itemProps.onMouseMove = callAllEventHandlers(onMouseMove, itemHandleMouseMove);
+    if (!disabled) {
       itemProps.onClick = callAllEventHandlers(onClick, itemHandleClick);
     }
 
+    itemProps.onMouseMove = callAllEventHandlers(onMouseMove, itemHandleMouseMove);
     return itemProps;
   }, [dispatch, latest, shouldScrollRef, elementIds]);
   return {
@@ -59572,10 +59422,11 @@ function useCombobox(userProps) {
       });
     },
 
-    Escape() {
+    Escape(event) {
       const latestState = latest.current.state;
 
       if (latestState.isOpen || latestState.inputValue || latestState.selectedItem || latestState.highlightedIndex > -1) {
+        event.preventDefault();
         dispatch({
           type: InputKeyDownEscape
         });
@@ -59637,8 +59488,10 @@ function useCombobox(userProps) {
       refKey = 'ref',
       ref,
       onMouseMove,
+      onMouseDown,
       onClick,
       onPress,
+      disabled,
       ...rest
     } = _temp3 === void 0 ? {} : _temp3;
     const {
@@ -59662,7 +59515,8 @@ function useCombobox(userProps) {
       shouldScrollRef.current = false;
       dispatch({
         type: ItemMouseMove,
-        index
+        index,
+        disabled
       });
     };
 
@@ -59671,11 +59525,9 @@ function useCombobox(userProps) {
         type: ItemClick,
         index
       });
-
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
     };
+
+    const itemHandleMouseDown = e => e.preventDefault();
 
     return {
       [refKey]: handleRefs(ref, itemNode => {
@@ -59683,13 +59535,15 @@ function useCombobox(userProps) {
           itemRefs.current[elementIds.getItemId(itemIndex)] = itemNode;
         }
       }),
+      disabled,
       role: 'option',
-      'aria-selected': "" + (itemIndex === latestState.highlightedIndex),
+      'aria-selected': `${itemIndex === latestState.highlightedIndex}`,
       id: elementIds.getItemId(itemIndex),
-      ...(!rest.disabled && {
-        onMouseMove: callAllEventHandlers(onMouseMove, itemHandleMouseMove),
+      ...(!disabled && {
         [onSelectKey]: callAllEventHandlers(customClickHandler, itemHandleClick)
       }),
+      onMouseMove: callAllEventHandlers(onMouseMove, itemHandleMouseMove),
+      onMouseDown: callAllEventHandlers(onMouseDown, itemHandleMouseDown),
       ...rest
     };
   }, [dispatch, latest, shouldScrollRef, elementIds]);
@@ -59970,7 +59824,7 @@ function getA11yRemovalMessage(selectionParameters) {
     removedSelectedItem,
     itemToString: itemToStringLocal
   } = selectionParameters;
-  return itemToStringLocal(removedSelectedItem) + " has been removed.";
+  return `${itemToStringLocal(removedSelectedItem)} has been removed.`;
 }
 
 const propTypes = {
@@ -61331,7 +61185,7 @@ function disabled_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tri
 /**
  * External dependencies
  */
-const StyledWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const StyledWrapper = createStyled("div",  true ? {
   target: "e1ac3xxk0"
 } : 0)( true ? {
   name: "u2jump",
@@ -62519,7 +62373,7 @@ function external_link_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You hav
  * WordPress dependencies
  */
 
-const StyledIcon = /*#__PURE__*/emotion_styled_base_browser_esm(icons_build_module_icon,  true ? {
+const StyledIcon = /*#__PURE__*/createStyled(icons_build_module_icon,  true ? {
   target: "etxm6pv0"
 } : 0)( true ? {
   name: "rvs7bx",
@@ -64078,10 +63932,10 @@ var Popover_Popover = createComponent({
 
 
 
-const FlyoutContentView = /*#__PURE__*/emotion_styled_base_browser_esm(Popover_Popover,  true ? {
+const FlyoutContentView = /*#__PURE__*/createStyled(Popover_Popover,  true ? {
   target: "e1vtu5161"
 } : 0)("z-index:", Flyout, ";box-sizing:border-box;opacity:0;outline:none;position:relative;transform-origin:center center;transition:opacity ", config_values.transitionDurationFastest, " linear;width:100%;&[data-enter]{opacity:1;}&::before,&::after{display:none;}" + ( true ? "" : 0));
-const CardView = /*#__PURE__*/emotion_styled_base_browser_esm(card_component,  true ? {
+const CardView = /*#__PURE__*/createStyled(card_component,  true ? {
   target: "e1vtu5160"
 } : 0)(card_body_component.selector, "{max-height:80vh;}" + ( true ? "" : 0));
 
@@ -64287,34 +64141,34 @@ function focal_point_picker_style_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You
 
 
 
-const MediaWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const MediaWrapper = createStyled("div",  true ? {
   target: "e11wezi78"
 } : 0)( true ? {
   name: "1g31405",
   styles: "background-color:transparent;box-sizing:border-box;text-align:center;width:100%"
 } : 0);
-const MediaContainer = emotion_styled_base_browser_esm("div",  true ? {
+const MediaContainer = createStyled("div",  true ? {
   target: "e11wezi77"
 } : 0)( true ? {
   name: "v0nrlz",
   styles: "align-items:center;box-sizing:border-box;box-shadow:0 0 0 1px rgba( 0, 0, 0, 0.2 );cursor:pointer;display:inline-flex;justify-content:center;margin:auto;position:relative;height:100%;img,video{box-sizing:border-box;display:block;height:auto;margin:0;max-height:100%;max-width:100%;pointer-events:none;user-select:none;width:auto;}"
 } : 0);
-const MediaPlaceholder = emotion_styled_base_browser_esm("div",  true ? {
+const MediaPlaceholder = createStyled("div",  true ? {
   target: "e11wezi76"
 } : 0)("background:", COLORS.lightGray[300], ";box-sizing:border-box;height:170px;max-width:280px;min-width:200px;width:100%;" + ( true ? "" : 0));
-const focal_point_picker_style_UnitControl = /*#__PURE__*/emotion_styled_base_browser_esm(unit_control,  true ? {
+const focal_point_picker_style_UnitControl = /*#__PURE__*/createStyled(unit_control,  true ? {
   target: "e11wezi75"
 } : 0)( true ? {
   name: "1pzk433",
   styles: "width:100px"
 } : 0);
-const ControlWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+const ControlWrapper = /*#__PURE__*/createStyled(flex_component,  true ? {
   target: "e11wezi74"
 } : 0)( true ? {
   name: "ox4xcy",
   styles: "max-width:320px;padding:1em 0"
 } : 0);
-const GridView = emotion_styled_base_browser_esm("div",  true ? {
+const GridView = createStyled("div",  true ? {
   target: "e11wezi73"
 } : 0)("box-sizing:border-box;left:50%;opacity:0;overflow:hidden;pointer-events:none;position:absolute;top:50%;transform:translate3d( -50%, -50%, 0 );transition:opacity 120ms linear;z-index:1;", _ref => {
   let {
@@ -64324,19 +64178,19 @@ const GridView = emotion_styled_base_browser_esm("div",  true ? {
 		opacity: 1;
 	`;
 }, ";" + ( true ? "" : 0));
-const GridLine = emotion_styled_base_browser_esm("div",  true ? {
+const GridLine = createStyled("div",  true ? {
   target: "e11wezi72"
 } : 0)( true ? {
   name: "1sy4ch9",
   styles: "box-sizing:border-box;background:white;box-shadow:0 0 2px rgba( 0, 0, 0, 0.6 );position:absolute;opacity:0.4;transform:translateZ( 0 )"
 } : 0);
-const GridLineX = /*#__PURE__*/emotion_styled_base_browser_esm(GridLine,  true ? {
+const GridLineX = /*#__PURE__*/createStyled(GridLine,  true ? {
   target: "e11wezi71"
 } : 0)( true ? {
   name: "1qp910y",
   styles: "height:1px;left:0;right:0"
 } : 0);
-const GridLineY = /*#__PURE__*/emotion_styled_base_browser_esm(GridLine,  true ? {
+const GridLineY = /*#__PURE__*/createStyled(GridLine,  true ? {
   target: "e11wezi70"
 } : 0)( true ? {
   name: "1oz3zka",
@@ -64476,7 +64330,7 @@ function focal_point_style_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have t
  */
 
 
-const FocalPointWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const FocalPointWrapper = createStyled("div",  true ? {
   target: "eas61re3"
 } : 0)("background-color:transparent;box-sizing:border-box;cursor:grab;height:30px;margin:-15px 0 0 -15px;opacity:0.8;position:absolute;user-select:none;width:30px;will-change:transform;z-index:10000;", _ref => {
   let {
@@ -64484,19 +64338,19 @@ const FocalPointWrapper = emotion_styled_base_browser_esm("div",  true ? {
   } = _ref;
   return isDragging && 'cursor: grabbing;';
 }, ";" + ( true ? "" : 0));
-const PointerIconSVG = /*#__PURE__*/emotion_styled_base_browser_esm(external_wp_primitives_namespaceObject.SVG,  true ? {
+const PointerIconSVG = /*#__PURE__*/createStyled(external_wp_primitives_namespaceObject.SVG,  true ? {
   target: "eas61re2"
 } : 0)( true ? {
   name: "qkx60y",
   styles: "display:block;height:100%;left:0;position:absolute;top:0;width:100%"
 } : 0);
-const PointerIconPathOutline = /*#__PURE__*/emotion_styled_base_browser_esm(external_wp_primitives_namespaceObject.Path,  true ? {
+const PointerIconPathOutline = /*#__PURE__*/createStyled(external_wp_primitives_namespaceObject.Path,  true ? {
   target: "eas61re1"
 } : 0)( true ? {
   name: "1b3qpiw",
   styles: "fill:white"
 } : 0);
-const PointerIconPathFill = /*#__PURE__*/emotion_styled_base_browser_esm(external_wp_primitives_namespaceObject.Path,  true ? {
+const PointerIconPathFill = /*#__PURE__*/createStyled(external_wp_primitives_namespaceObject.Path,  true ? {
   target: "eas61re0"
 } : 0)("fill:", COLORS.blue.wordpress[700], ";fill:", COLORS.ui.theme, ";" + ( true ? "" : 0));
 
@@ -65217,7 +65071,7 @@ const toggle_group_control_styles_block =  true ? {
   name: "7whenc",
   styles: "display:flex;width:100%"
 } : 0;
-const BackdropView = emotion_styled_base_browser_esm("div",  true ? {
+const BackdropView = createStyled("div",  true ? {
   target: "eakva830"
 } : 0)("background:", COLORS.gray[900], ";border-radius:", config_values.controlBorderRadius, ";box-shadow:", config_values.toggleGroupControlBackdropBoxShadow, ";left:0;position:absolute;top:2px;bottom:2px;transition:transform ", config_values.transitionDurationFast, " ease;", reduceMotion('transition'), " z-index:1;" + ( true ? "" : 0));
 
@@ -65625,7 +65479,7 @@ function toggle_group_control_option_base_styles_EMOTION_STRINGIFIED_CSS_ERROR_(
  * Internal dependencies
  */
 
-const LabelView = emotion_styled_base_browser_esm("div",  true ? {
+const LabelView = createStyled("div",  true ? {
   target: "et6ln9s1"
 } : 0)( true ? {
   name: "sln1fl",
@@ -65637,7 +65491,7 @@ const labelBlock =  true ? {
 } : 0;
 const buttonView = /*#__PURE__*/emotion_react_browser_esm_css("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.controlBorderRadius, ";color:", COLORS.gray[700], ";fill:currentColor;cursor:pointer;display:flex;font-family:inherit;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;", reduceMotion('transition'), " user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&:active{background:", config_values.toggleGroupControlBackgroundColor, ";}" + ( true ? "" : 0),  true ? "" : 0);
 const buttonActive = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.white, ";&:active{background:transparent;}" + ( true ? "" : 0),  true ? "" : 0);
-const ButtonContentView = emotion_styled_base_browser_esm("div",  true ? {
+const ButtonContentView = createStyled("div",  true ? {
   target: "et6ln9s0"
 } : 0)("font-size:", config_values.fontSize, ";line-height:1;" + ( true ? "" : 0));
 const separatorActive =  true ? {
@@ -67723,53 +67577,53 @@ function navigation_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have t
 
 
 
-const NavigationUI = emotion_styled_base_browser_esm("div",  true ? {
+const NavigationUI = createStyled("div",  true ? {
   target: "ejwewyf11"
 } : 0)("width:100%;box-sizing:border-box;padding:0 ", space(4), ";overflow:hidden;" + ( true ? "" : 0));
-const MenuUI = emotion_styled_base_browser_esm("div",  true ? {
+const MenuUI = createStyled("div",  true ? {
   target: "ejwewyf10"
 } : 0)("margin-top:", space(6), ";margin-bottom:", space(6), ";display:flex;flex-direction:column;ul{padding:0;margin:0;list-style:none;}.components-navigation__back-button{margin-bottom:", space(6), ";}.components-navigation__group+.components-navigation__group{margin-top:", space(6), ";}" + ( true ? "" : 0));
-const MenuBackButtonUI = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
+const MenuBackButtonUI = /*#__PURE__*/createStyled(build_module_button,  true ? {
   target: "ejwewyf9"
 } : 0)( true ? {
   name: "26l0q2",
   styles: "&.is-tertiary{color:inherit;opacity:0.7;&:hover:not( :disabled ){opacity:1;box-shadow:none;color:inherit;}&:active:not( :disabled ){background:transparent;opacity:1;color:inherit;}}"
 } : 0);
-const MenuTitleUI = emotion_styled_base_browser_esm("div",  true ? {
+const MenuTitleUI = createStyled("div",  true ? {
   target: "ejwewyf8"
 } : 0)( true ? {
   name: "1aubja5",
   styles: "overflow:hidden;width:100%"
 } : 0);
-const MenuTitleActionsUI = emotion_styled_base_browser_esm("span",  true ? {
+const MenuTitleActionsUI = createStyled("span",  true ? {
   target: "ejwewyf7"
 } : 0)("height:", space(6), ";.components-button.is-small{color:inherit;opacity:0.7;margin-right:", space(1), ";padding:0;&:active:not( :disabled ){background:none;opacity:1;color:inherit;}&:hover:not( :disabled ){box-shadow:none;opacity:1;color:inherit;}}" + ( true ? "" : 0));
-const MenuTitleSearchUI = /*#__PURE__*/emotion_styled_base_browser_esm(search_control,  true ? {
+const MenuTitleSearchUI = /*#__PURE__*/createStyled(search_control,  true ? {
   target: "ejwewyf6"
 } : 0)( true ? {
   name: "za3n3e",
   styles: "input[type='search'].components-search-control__input{margin:0;background:#303030;color:#fff;&:focus{background:#434343;color:#fff;}&::placeholder{color:rgba( 255, 255, 255, 0.6 );}}svg{fill:white;}.components-button.has-icon{padding:0;min-width:auto;}"
 } : 0);
-const GroupTitleUI = /*#__PURE__*/emotion_styled_base_browser_esm(heading_component,  true ? {
+const GroupTitleUI = /*#__PURE__*/createStyled(heading_component,  true ? {
   target: "ejwewyf5"
 } : 0)("min-height:", space(12), ";align-items:center;color:inherit;display:flex;justify-content:space-between;margin-bottom:", space(2), ";padding:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? `${space(1)} ${space(4)} ${space(1)} ${space(2)}` : `${space(1)} ${space(2)} ${space(1)} ${space(4)}`, ";" + ( true ? "" : 0));
-const ItemBaseUI = emotion_styled_base_browser_esm("li",  true ? {
+const ItemBaseUI = createStyled("li",  true ? {
   target: "ejwewyf4"
 } : 0)("border-radius:2px;color:inherit;margin-bottom:0;>button,>a.components-button,>a{width:100%;color:inherit;opacity:0.7;padding:", space(2), " ", space(4), ";", rtl({
   textAlign: 'left'
 }, {
   textAlign: 'right'
 }), " &:hover,&:focus:not( [aria-disabled='true'] ):active,&:active:not( [aria-disabled='true'] ):active{color:inherit;opacity:1;}}&.is-active{background-color:", UI.theme, ";color:", BASE.white, ";>button,>a{color:", BASE.white, ";opacity:1;}}>svg path{color:", G2.lightGray.ui, ";}" + ( true ? "" : 0));
-const ItemUI = emotion_styled_base_browser_esm("div",  true ? {
+const ItemUI = createStyled("div",  true ? {
   target: "ejwewyf3"
 } : 0)("display:flex;align-items:center;height:auto;min-height:40px;margin:0;padding:", space(1.5), " ", space(4), ";font-weight:400;line-height:20px;width:100%;color:inherit;opacity:0.7;" + ( true ? "" : 0));
-const ItemIconUI = emotion_styled_base_browser_esm("span",  true ? {
+const ItemIconUI = createStyled("span",  true ? {
   target: "ejwewyf2"
 } : 0)("display:flex;margin-right:", space(2), ";" + ( true ? "" : 0));
-const ItemBadgeUI = emotion_styled_base_browser_esm("span",  true ? {
+const ItemBadgeUI = createStyled("span",  true ? {
   target: "ejwewyf1"
 } : 0)("margin-left:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? '0' : space(2), ";margin-right:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? space(2) : '0', ";display:inline-flex;padding:", space(1), " ", space(3), ";border-radius:2px;animation:fade-in 250ms ease-out;@keyframes fade-in{from{opacity:0;}to{opacity:1;}}", reduceMotion('animation'), ";" + ( true ? "" : 0));
-const ItemTitleUI = /*#__PURE__*/emotion_styled_base_browser_esm(text_component,  true ? {
+const ItemTitleUI = /*#__PURE__*/createStyled(text_component,  true ? {
   target: "ejwewyf0"
 } : 0)(() => (0,external_wp_i18n_namespaceObject.isRTL)() ? 'margin-left: auto;' : 'margin-right: auto;', " font-size:14px;line-height:20px;color:inherit;" + ( true ? "" : 0));
 
@@ -71163,24 +71017,24 @@ function resize_tooltip_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You ha
  */
 
 
-const resize_tooltip_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const resize_tooltip_styles_Root = createStyled("div",  true ? {
   target: "ekdag503"
 } : 0)( true ? {
   name: "1cd7zoc",
   styles: "bottom:0;box-sizing:border-box;left:0;pointer-events:none;position:absolute;right:0;top:0"
 } : 0);
-const TooltipWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const TooltipWrapper = createStyled("div",  true ? {
   target: "ekdag502"
 } : 0)( true ? {
   name: "ajymcs",
   styles: "align-items:center;box-sizing:border-box;display:inline-flex;justify-content:center;opacity:0;pointer-events:none;transition:opacity 120ms linear"
 } : 0);
-const resize_tooltip_styles_Tooltip = emotion_styled_base_browser_esm("div",  true ? {
+const resize_tooltip_styles_Tooltip = createStyled("div",  true ? {
   target: "ekdag501"
 } : 0)("background:", COLORS.ui.border, ";border-radius:2px;box-sizing:border-box;font-size:12px;color:", COLORS.ui.textDark, ";padding:4px 8px;position:relative;" + ( true ? "" : 0)); // TODO: Resolve need to use &&& to increase specificity
 // https://github.com/WordPress/gutenberg/issues/18483
 
-const LabelText = /*#__PURE__*/emotion_styled_base_browser_esm(text_component,  true ? {
+const LabelText = /*#__PURE__*/createStyled(text_component,  true ? {
   target: "ekdag500"
 } : 0)("&&&{color:", COLORS.ui.textDark, ";display:block;font-size:13px;line-height:1.4;white-space:nowrap;}" + ( true ? "" : 0));
 
@@ -71935,17 +71789,17 @@ const spinAnimation = emotion_react_browser_esm_keyframes`
 		transform: rotate(360deg);
 	}
  `;
-const StyledSpinner = emotion_styled_base_browser_esm("svg",  true ? {
+const StyledSpinner = createStyled("svg",  true ? {
   target: "e1bj2jdf2"
 } : 0)("width:", config_values.spinnerSize, "px;height:", config_values.spinnerSize, "px;display:inline-block;margin:5px 11px 0;position:relative;color:var( --wp-admin-theme-color );overflow:visible;" + ( true ? "" : 0));
 const commonPathProps =  true ? {
   name: "9s4963",
   styles: "fill:transparent;stroke-width:1.5px"
 } : 0;
-const SpinnerTrack = emotion_styled_base_browser_esm("circle",  true ? {
+const SpinnerTrack = createStyled("circle",  true ? {
   target: "e1bj2jdf1"
 } : 0)(commonPathProps, ";stroke:", COLORS.gray[300], ";" + ( true ? "" : 0));
-const SpinnerIndicator = emotion_styled_base_browser_esm("path",  true ? {
+const SpinnerIndicator = createStyled("path",  true ? {
   target: "e1bj2jdf0"
 } : 0)(commonPathProps, ";stroke:currentColor;stroke-linecap:round;transform-origin:50% 50%;animation:1.4s linear infinite both ", spinAnimation, ";" + ( true ? "" : 0));
 
@@ -72281,7 +72135,7 @@ const inputControl = /*#__PURE__*/emotion_react_browser_esm_css("font-family:", 
  * Internal dependencies
  */
 
-const StyledTextarea = emotion_styled_base_browser_esm("textarea",  true ? {
+const StyledTextarea = createStyled("textarea",  true ? {
   target: "ebk7yr50"
 } : 0)("width:100%;", inputControl, ";" + ( true ? "" : 0));
 
@@ -74283,13 +74137,13 @@ function z_stack_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have trie
  * Internal dependencies
  */
 
-const ZStackView = emotion_styled_base_browser_esm("div",  true ? {
+const ZStackView = createStyled("div",  true ? {
   target: "ebn2ljm1"
 } : 0)( true ? {
   name: "5ob2ly",
   styles: "display:flex;position:relative"
 } : 0);
-const ZStackChildView = emotion_styled_base_browser_esm("div",  true ? {
+const ZStackChildView = createStyled("div",  true ? {
   target: "ebn2ljm0"
 } : 0)(_ref => {
   let {
