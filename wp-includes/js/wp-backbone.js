@@ -310,7 +310,7 @@ window.wp = window.wp || {};
 		 * @since 3.6.0
 		 *
 		 * @param {Object}  options        Options for call.
-		 * @param {boolean} options.silent If true, `unset` wil *not* be triggered on
+		 * @param {boolean} options.silent If true, `unset` will *not* be triggered on
 		 *                                 the master views' parent.
 		 *
 		 * @return {wp.Backbone.Subviews} The current Subviews instance.

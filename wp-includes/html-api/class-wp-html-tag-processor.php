@@ -2071,7 +2071,7 @@ class WP_HTML_Tag_Processor {
 		/*
 		 * Purge updates if there are too many. The actual count isn't
 		 * scientific, but a few values from 100 to a few thousand were
-		 * tests to find a practially-useful limit.
+		 * tests to find a practically-useful limit.
 		 *
 		 * If the update queue grows too big, then the Tag Processor
 		 * will spend more time iterating through them and lose the

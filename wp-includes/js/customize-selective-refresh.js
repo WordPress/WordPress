@@ -429,7 +429,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			}
 
 			/* jshint ignore:start */
-			self.orginalDocumentWrite = document.write;
+			self.originalDocumentWrite = document.write;
 			document.write = function() {
 				throw new Error( self.data.l10n.badDocumentWrite );
 			};
@@ -473,8 +473,8 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				partial.fallback( error, [ placement ] );
 			}
 			/* jshint ignore:start */
-			document.write = self.orginalDocumentWrite;
-			self.orginalDocumentWrite = null;
+			document.write = self.originalDocumentWrite;
+			self.originalDocumentWrite = null;
 			/* jshint ignore:end */
 
 			partial.createEditShortcutForPlacement( placement );
@@ -673,7 +673,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 	self._pendingPartialRequests = {};
 
 	/**
-	 * Timeout ID for the current requesr, or null if no request is current.
+	 * Timeout ID for the current request, or null if no request is current.
 	 *
 	 * @since 4.5.0
 	 * @type {number|null}

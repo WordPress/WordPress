@@ -9333,7 +9333,7 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 		}
 	},
 	/**
-	 * @return {wp.media.view.Toolbar} Returns itsef to allow chaining
+	 * @return {wp.media.view.Toolbar} Returns itself to allow chaining
 	 */
 	dispose: function() {
 		if ( this.selection ) {

@@ -2893,7 +2893,7 @@ class WP_Theme_JSON {
 
 	/**
 	 * Returns the default slugs for all the presets in an associative array
-	 * whose keys are the preset paths and the leafs is the list of slugs.
+	 * whose keys are the preset paths and the leaves is the list of slugs.
 	 *
 	 * For example:
 	 *

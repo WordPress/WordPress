@@ -331,7 +331,7 @@ twentytwenty.intrinsicRatioVideos = {
 		} );
 	}
 
-}; // twentytwenty.instrinsicRatioVideos
+}; // twentytwenty.intrinsicRatioVideos
 
 /*	-----------------------------------------------------------------------------------------------
 	Modal Menu

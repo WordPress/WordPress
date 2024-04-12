@@ -3562,7 +3562,7 @@ function _wp_customize_include() {
 	$changeset_uuid = false;
 
 	/*
-	 * Set initially fo false since defaults to true for back-compat;
+	 * Set initially to false since defaults to true for back-compat;
 	 * can be overridden via the customize_changeset_branching filter.
 	 */
 	$branching = false;

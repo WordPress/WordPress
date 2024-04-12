@@ -265,7 +265,7 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * Gets a list of unique shortcodes or shortcode-look-alikes in the content.
+		 * Gets a list of unique shortcodes or shortcode-lookalikes in the content.
 		 *
 		 * @param {string} content The content we want to scan for shortcodes.
 		 */
@@ -561,7 +561,7 @@ window.wp = window.wp || {};
 		 * By default TinyMCE wraps loose inline tags in a `<p>`.
 		 * When removing selection markers an empty `<p>` may be left behind, remove it.
 		 *
-		 * @param {Object} $marker The marker to be removed from the editor DOM, wrapped in an instnce of `editor.$`
+		 * @param {Object} $marker The marker to be removed from the editor DOM, wrapped in an instance of `editor.$`
 		 */
 		function removeSelectionMarker( $marker ) {
 			var $markerParent = $marker.parent();

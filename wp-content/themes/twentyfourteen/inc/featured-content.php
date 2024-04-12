@@ -179,7 +179,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Return an array with IDs of posts maked as sticky.
+	 * Return an array with IDs of posts marked as sticky.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
