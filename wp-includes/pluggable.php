@@ -617,7 +617,7 @@ if ( ! function_exists( 'wp_authenticate' ) ) :
 		 */
 		$user = apply_filters( 'authenticate', null, $username, $password );
 
-		if ( null === $user ) {
+		if ( null === $user || false === $user ) {
 			/*
 			 * TODO: What should the error message be? (Or would these even happen?)
 			 * Only needed if all authentication handlers fail to return anything.
