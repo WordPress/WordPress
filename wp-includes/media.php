@@ -5499,7 +5499,7 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  * @param array  $image_info Optional. Extended image information (passed by reference).
  * @return array|false Array of image information or false on failure.
  */
-function wp_getimagesize( $filename, array &$image_info = null ) {
+function wp_getimagesize( $filename, ?array &$image_info = null ) {
 	// Don't silence errors when in debug mode, unless running unit tests.
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG
 		&& ! defined( 'WP_RUN_CORE_TESTS' )
