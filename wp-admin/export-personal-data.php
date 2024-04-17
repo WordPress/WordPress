@@ -56,7 +56,7 @@ get_current_screen()->add_help_tab(
 		'content' =>
 					'<p>' . __( 'Many plugins may collect or store personal data either in the WordPress database or remotely. Any Export Personal Data request should include data from plugins as well.' ) . '</p>' .
 					$privacy_policy_guide .
-					'<p>' . __( 'If you are a plugin author, you can learn more about <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/">how to add support for the Personal Data Exporter to a plugin</a>.' ) . '</p>',
+					'<p>' . __( 'If you are a plugin author, you can learn more about <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/">how to add the Personal Data Exporter to a plugin</a>.' ) . '</p>',
 	)
 );
 
