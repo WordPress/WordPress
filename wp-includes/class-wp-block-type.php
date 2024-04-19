@@ -297,7 +297,7 @@ class WP_Block_Type {
 	 * @since 5.8.0 Added the `variations` property.
 	 * @since 5.9.0 Added the `view_script` property.
 	 * @since 6.0.0 Added the `ancestor` property.
-	 * @since 6.1.0 Added the `editor_script_handles`, `script_handles`, `view_script_handles,
+	 * @since 6.1.0 Added the `editor_script_handles`, `script_handles`, `view_script_handles`,
 	 *              `editor_style_handles`, and `style_handles` properties.
 	 *              Deprecated the `editor_script`, `script`, `view_script`, `editor_style`, and `style` properties.
 	 * @since 6.3.0 Added the `selectors` property.
