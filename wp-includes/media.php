@@ -2127,7 +2127,7 @@ function wp_img_tag_add_width_and_height_attr( $image, $context, $attachment_id 
 		$image_meta = wp_get_attachment_metadata( $attachment_id );
 		$size_array = wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id );
 
-		if ( $size_array ) {
+		if ( $size_array && $size_array[0] && $size_array[1] ) {
 			// If the width is enforced through style (e.g. in an inline image), calculate the dimension attributes.
 			$style_width = preg_match( '/style="width:\s*(\d+)px;"/', $image, $match_width ) ? (int) $match_width[1] : 0;
 			if ( $style_width ) {
