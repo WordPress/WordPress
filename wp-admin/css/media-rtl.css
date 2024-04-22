@@ -1125,7 +1125,7 @@ border color while dragging a file over the uploader drop area */
 .imgedit-panel-tools > .imgedit-menu {
 	display: flex;
 	column-gap: 4px;
-	align-items: start;
+	align-items: flex-start;
 	flex-wrap: wrap;
 }
 
