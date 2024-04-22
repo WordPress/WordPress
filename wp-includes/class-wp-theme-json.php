@@ -1227,7 +1227,7 @@ class WP_Theme_JSON {
 			);
 
 			foreach ( $base_styles_nodes as $base_style_node ) {
-				$stylesheet .= $this->get_layout_styles( $base_style_node );
+				$stylesheet .= $this->get_layout_styles( $base_style_node, $types );
 			}
 		}
 
@@ -1389,11 +1389,13 @@ class WP_Theme_JSON {
 	 * @since 6.1.0
 	 * @since 6.3.0 Reduced specificity for layout margin rules.
 	 * @since 6.5.1 Only output rules referencing content and wide sizes when values exist.
+	 * @since 6.5.3 Add types parameter to check if only base layout styles are needed.
 	 *
 	 * @param array $block_metadata Metadata about the block to get styles for.
+	 * @param array $types Optional. Types of styles to output. If empty, all styles will be output.
 	 * @return string Layout styles for the block.
 	 */
-	protected function get_layout_styles( $block_metadata ) {
+	protected function get_layout_styles( $block_metadata, $types = array() ) {
 		$block_rules = '';
 		$block_type  = null;
 
@@ -1542,6 +1544,11 @@ class WP_Theme_JSON {
 
 					foreach ( $base_style_rules as $base_style_rule ) {
 						$declarations = array();
+
+						// Skip outputting base styles for flow and constrained layout types if theme doesn't support theme.json. The 'base-layout-styles' type flags this.
+						if ( in_array( 'base-layout-styles', $types, true ) && ( 'default' === $layout_definition['name'] || 'constrained' === $layout_definition['name'] ) ) {
+							continue;
+						}
 
 						if (
 							isset( $base_style_rule['selector'] ) &&
