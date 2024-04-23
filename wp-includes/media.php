@@ -5593,12 +5593,12 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
  *
  * @param string $filename Path to an AVIF file.
  * @return array {
- *    An array of AVIF image information.
+ *     An array of AVIF image information.
  *
- *    @type int|false $width        Image width on success, false on failure.
- *    @type int|false $height       Image height on success, false on failure.
- *    @type int|false $bit_depth    Image bit depth on success, false on failure.
- *    @type int|false $num_channels Image number of channels on success, false on failure.
+ *     @type int|false $width        Image width on success, false on failure.
+ *     @type int|false $height       Image height on success, false on failure.
+ *     @type int|false $bit_depth    Image bit depth on success, false on failure.
+ *     @type int|false $num_channels Image number of channels on success, false on failure.
  * }
  */
 function wp_get_avif_info( $filename ) {
