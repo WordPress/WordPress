@@ -729,7 +729,7 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
  * It is self-sufficient in that it only uses information passed as arguments; it does not
  * query the database for additional information.
  *
- * @since 6.5.1
+ * @since 6.5.3
  * @access private
  *
  * @param WP_Post $post  Template post.
@@ -1505,7 +1505,7 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
  */
 function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated = null ) {
 	if ( null !== $deprecated ) {
-		_deprecated_argument( __FUNCTION__, '6.5.1' );
+		_deprecated_argument( __FUNCTION__, '6.5.3' );
 	}
 
 	$hooked_blocks = get_hooked_blocks();
