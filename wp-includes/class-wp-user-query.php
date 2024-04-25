@@ -199,13 +199,13 @@ class WP_User_Query {
 	 *                                                - 'include'
 	 *                                                - 'user_login' (or 'login')
 	 *                                                - 'login__in'
-	 *                                                - 'user_nicename' (or 'nicename'),
+	 *                                                - 'user_nicename' (or 'nicename')
 	 *                                                - 'nicename__in'
 	 *                                                - 'user_email (or 'email')
-	 *                                                - 'user_url' (or 'url'),
+	 *                                                - 'user_url' (or 'url')
 	 *                                                - 'user_registered' (or 'registered')
 	 *                                                - 'post_count'
-	 *                                                - 'meta_value',
+	 *                                                - 'meta_value'
 	 *                                                - 'meta_value_num'
 	 *                                                - The value of `$meta_key`
 	 *                                                - An array key of `$meta_query`
