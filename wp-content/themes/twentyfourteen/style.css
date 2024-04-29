@@ -256,7 +256,7 @@ q:after {
 
 blockquote {
 	color: #767676;
-	font-size: inherit;
+	font-size: 19px;
 	font-style: italic;
 	font-weight: 300;
 	line-height: 1.2631578947;

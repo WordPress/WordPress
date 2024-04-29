@@ -371,6 +371,19 @@ p.has-drop-cap:not(:focus)::first-letter {
 	border: 0;
 }
 
+.wp-block-pullquote[class*="-font-size"] blockquote,
+.wp-block-pullquote[style*="font-size"] blockquote {
+	font-size: inherit;
+}
+
+.wp-block-pullquote[style*="font-style"] blockquote {
+	font-style: inherit;
+}
+
+.wp-block-pullquote[style*="font-weight"] blockquote {
+	font-weight: inherit;
+}
+
 .wp-block-pullquote .wp-block-pullquote__citation {
 	color: #2b2b2b;
 	font-size: 16px;
