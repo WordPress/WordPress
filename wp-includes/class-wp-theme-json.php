@@ -1392,7 +1392,7 @@ class WP_Theme_JSON {
 	 * @since 6.5.3 Add types parameter to check if only base layout styles are needed.
 	 *
 	 * @param array $block_metadata Metadata about the block to get styles for.
-	 * @param array $types Optional. Types of styles to output. If empty, all styles will be output.
+	 * @param array $types          Optional. Types of styles to output. If empty, all styles will be output.
 	 * @return string Layout styles for the block.
 	 */
 	protected function get_layout_styles( $block_metadata, $types = array() ) {
