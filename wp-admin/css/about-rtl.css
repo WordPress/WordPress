@@ -586,7 +586,7 @@
 .privacy-php .about__header-title h1,
 .contribute-php .about__header-title h1 {
 	/* Fluid font size scales on browser size 960px - 1200px. */
-	font-size: clamp(2rem, 10vw - 3rem, 4rem);
+	font-size: clamp(2rem, 20vw - 9rem, 4rem);
 }
 
 .about__header-text {
@@ -656,7 +656,7 @@
 	.privacy-php .about__header-title h1,
 	.contribute-php .about__header-title h1 {
 		/* Fluid font size scales on browser size 600px - 960px. */
-		font-size: clamp(3rem, 6.67vw - 0.5rem, 4.5rem);
+		font-size: clamp(2rem, 20vw - 9rem, 4rem);
 	}
 
 	.about__header-navigation .nav-tab {
