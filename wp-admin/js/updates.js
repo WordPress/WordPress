@@ -2938,13 +2938,41 @@
 
 				wp.updates.adminNotice = wp.template( 'wp-bulk-updates-admin-notice' );
 
+				var successMessage = null;
+
+				if ( success ) {
+					if ( 'plugin' === response.update ) {
+						successMessage = sprintf(
+							/* translators: %s: Number of plugins. */
+							_n( '%s plugin successfully updated.', '%s plugins successfully updated.', success ),
+							success
+						);
+					} else {
+						successMessage = sprintf(
+							/* translators: %s: Number of themes. */
+							_n( '%s theme successfully updated.', '%s themes successfully updated.', success ),
+							success
+						);
+					}
+				}
+
+				var errorMessage = null;
+
+				if ( error ) {
+					errorMessage = sprintf(
+						/* translators: %s: Number of failed updates. */
+						_n( '%s update failed.', '%s updates failed.', error ),
+						error
+					);
+				}
+
 				wp.updates.addAdminNotice( {
 					id:            'bulk-action-notice',
 					className:     'bulk-action-notice',
-					successes:     success,
-					errors:        error,
-					errorMessages: errorMessages,
-					type:          response.update
+					successMessage: successMessage,
+					errorMessage:   errorMessage,
+					errorMessages:  errorMessages,
+					type:           response.update
 				} );
 
 				$bulkActionNotice = $( '#bulk-action-notice' ).on( 'click', 'button', function() {
