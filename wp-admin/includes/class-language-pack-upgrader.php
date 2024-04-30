@@ -332,15 +332,22 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		// Check that the folder contains a valid language.
 		$files = $wp_filesystem->dirlist( $remote_source );
 
-		// Check to see if a .po and .mo exist in the folder.
-		$po = false;
-		$mo = false;
+		// Check to see if the expected files exist in the folder.
+		$po  = false;
+		$mo  = false;
+		$php = false;
 		foreach ( (array) $files as $file => $filedata ) {
 			if ( str_ends_with( $file, '.po' ) ) {
 				$po = true;
 			} elseif ( str_ends_with( $file, '.mo' ) ) {
 				$mo = true;
+			} elseif ( str_ends_with( $file, '.l10n.php' ) ) {
+				$php = true;
 			}
+		}
+
+		if ( $php ) {
+			return $source;
 		}
 
 		if ( ! $mo || ! $po ) {
@@ -348,10 +355,11 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				'incompatible_archive_pomo',
 				$this->strings['incompatible_archive'],
 				sprintf(
-					/* translators: 1: .po, 2: .mo */
-					__( 'The language pack is missing either the %1$s or %2$s files.' ),
+					/* translators: 1: .po, 2: .mo, 3: .l10n.php */
+					__( 'The language pack is missing either the %1$s, %2$s, or %3$s files.' ),
 					'<code>.po</code>',
-					'<code>.mo</code>'
+					'<code>.mo</code>',
+					'<code>.l10n.php</code>'
 				)
 			);
 		}
