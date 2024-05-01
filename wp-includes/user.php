@@ -3255,9 +3255,9 @@ function retrieve_password( $user_login = null ) {
 	 *     @type string $message The body of the email.
 	 *     @type string $headers The headers of the email.
 	 * }
-	 * @type string  $key        The activation key.
-	 * @type string  $user_login The username for the user.
-	 * @type WP_User $user_data  WP_User object.
+	 * @param string  $key        The activation key.
+	 * @param string  $user_login The username for the user.
+	 * @param WP_User $user_data  WP_User object.
 	 */
 	$notification_email = apply_filters( 'retrieve_password_notification_email', $defaults, $key, $user_login, $user_data );
 

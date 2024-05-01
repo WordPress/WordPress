@@ -3325,12 +3325,12 @@ class WP_Site_Health {
 	 * @since 6.1.0
 	 *
 	 * @return WP_Error|array {
-	 *    Page cache detail or else a WP_Error if unable to determine.
+	 *     Page cache detail or else a WP_Error if unable to determine.
 	 *
-	 *    @type string   $status                 Page cache status. Good, Recommended or Critical.
-	 *    @type bool     $advanced_cache_present Whether page cache plugin is available or not.
-	 *    @type string[] $headers                Client caching response headers detected.
-	 *    @type float    $response_time          Response time of site.
+	 *     @type string   $status                 Page cache status. Good, Recommended or Critical.
+	 *     @type bool     $advanced_cache_present Whether page cache plugin is available or not.
+	 *     @type string[] $headers                Client caching response headers detected.
+	 *     @type float    $response_time          Response time of site.
 	 * }
 	 */
 	private function get_page_cache_detail() {
