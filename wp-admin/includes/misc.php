@@ -575,7 +575,6 @@ function update_home_siteurl( $old_value, $value ) {
 	}
 }
 
-
 /**
  * Resets global variables based on $_GET and $_POST.
  *

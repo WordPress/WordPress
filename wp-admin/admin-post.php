@@ -29,7 +29,7 @@ nocache_headers();
 /** This action is documented in wp-admin/admin.php */
 do_action( 'admin_init' );
 
-$action = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+$action = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
 
 // Reject invalid parameters.
 if ( ! is_scalar( $action ) ) {

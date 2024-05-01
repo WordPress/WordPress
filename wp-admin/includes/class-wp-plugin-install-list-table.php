@@ -92,7 +92,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		global $tabs, $tab, $paged, $type, $term;
 
-		wp_reset_vars( array( 'tab' ) );
+		$tab = ! empty( $_REQUEST['tab'] ) ? sanitize_text_field( $_REQUEST['tab'] ) : '';
 
 		$paged = $this->get_pagenum();
 
