@@ -221,8 +221,8 @@ class WP_Font_Utils {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param mixed $value     The value to sanitize.
-	 * @param mixed $sanitizer The sanitizer function to apply.
+	 * @param mixed    $value     The value to sanitize.
+	 * @param callable $sanitizer The sanitizer function to apply.
 	 * @return mixed The sanitized value.
 	 */
 	private static function apply_sanitizer( $value, $sanitizer ) {

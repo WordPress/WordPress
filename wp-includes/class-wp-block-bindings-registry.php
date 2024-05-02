@@ -79,7 +79,7 @@ final class WP_Block_Bindings_Registry {
 	 *     The array of arguments that are used to register a source.
 	 *
 	 *     @type string   $label                   The label of the source.
-	 *     @type callback $get_value_callback      A callback executed when the source is processed during block rendering.
+	 *     @type callable $get_value_callback      A callback executed when the source is processed during block rendering.
 	 *                                             The callback should have the following signature:
 	 *
 	 *                                             `function ($source_args, $block_instance,$attribute_name): mixed`
