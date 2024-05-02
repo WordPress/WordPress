@@ -36,7 +36,7 @@ final class WP_Block_Bindings_Registry {
 	 * Supported source properties that can be passed to the registered source.
 	 *
 	 * @since 6.5.0
-	 * @var array
+	 * @var string[]
 	 */
 	private $allowed_source_properties = array(
 		'label',
@@ -48,7 +48,7 @@ final class WP_Block_Bindings_Registry {
 	 * Supported blocks that can use the block bindings API.
 	 *
 	 * @since 6.5.0
-	 * @var array
+	 * @var string[]
 	 */
 	private $supported_blocks = array(
 		'core/paragraph',
@@ -90,7 +90,7 @@ final class WP_Block_Bindings_Registry {
 	 *                                                 - @param string   $attribute_name The name of the target attribute.
 	 *                                             The callback has a mixed return type; it may return a string to override
 	 *                                             the block's original value, null, false to remove an attribute, etc.
-	 *     @type array    $uses_context (optional) Array of values to add to block `uses_context` needed by the source.
+	 *     @type string[] $uses_context (optional) Array of values to add to block `uses_context` needed by the source.
 	 * }
 	 * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
 	 */

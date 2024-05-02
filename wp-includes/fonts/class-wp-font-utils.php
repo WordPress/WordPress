@@ -244,7 +244,7 @@ class WP_Font_Utils {
 	 *
 	 * @access private
 	 *
-	 * @return array A collection of mime types keyed by file extension.
+	 * @return string[] A collection of mime types keyed by file extension.
 	 */
 	public static function get_allowed_font_mime_types() {
 		$php_7_ttf_mime_type = PHP_VERSION_ID >= 70300 ? 'application/font-sfnt' : 'application/x-font-ttf';

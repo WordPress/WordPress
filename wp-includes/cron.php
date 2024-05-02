@@ -659,8 +659,9 @@ function wp_unschedule_hook( $hook, $wp_error = false ) {
 	 * process, causing the function to return the filtered value instead.
 	 *
 	 * For plugins replacing wp-cron, return the number of events successfully
-	 * unscheduled (zero if no events were registered with the hook) or false
-	 * if unscheduling one or more events fails.
+	 * unscheduled (zero if no events were registered with the hook). If unscheduling
+	 * one or more events fails then return either a WP_Error object or false depending
+	 * on the value of the `$wp_error` parameter.
 	 *
 	 * @since 5.1.0
 	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
@@ -1047,14 +1048,14 @@ function _wp_cron() {
  * one is 'interval' and the other is 'display'.
  *
  * The 'interval' is a number in seconds of when the cron job should run.
- * So for 'hourly' the time is `HOUR_IN_SECONDS` (60 * 60 or 3600). For 'monthly',
- * the value would be `MONTH_IN_SECONDS` (30 * 24 * 60 * 60 or 2592000).
+ * So for 'hourly' the time is `HOUR_IN_SECONDS` (`60 * 60` or `3600`). For 'monthly',
+ * the value would be `MONTH_IN_SECONDS` (`30 * 24 * 60 * 60` or `2592000`).
  *
  * The 'display' is the description. For the 'monthly' key, the 'display'
  * would be `__( 'Once Monthly' )`.
  *
- * For your plugin, you will be passed an array. You can easily add your
- * schedule by doing the following.
+ * For your plugin, you will be passed an array. You can add your
+ * schedule by doing the following:
  *
  *     // Filter parameter variable name is 'array'.
  *     $array['monthly'] = array(

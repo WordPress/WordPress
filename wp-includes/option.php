@@ -3034,7 +3034,7 @@ function filter_default_option( $default_value, $option, $passed_default ) {
  *
  * @since 6.6.0
  *
- * @return array The values that trigger autoloading.
+ * @return string[] The values that trigger autoloading.
  */
 function wp_autoload_values_to_autoload() {
 	$autoload_values = array( 'yes', 'on', 'auto-on', 'auto' );
@@ -3046,7 +3046,7 @@ function wp_autoload_values_to_autoload() {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @param array $autoload_values Autoload values used to autoload option.
+	 * @param string[] $autoload_values Autoload values used to autoload option.
 	 *                               Default list contains 'yes', 'on', 'auto-on', and 'auto'.
 	 */
 	$filtered_values = apply_filters( 'wp_autoload_values_to_autoload', $autoload_values );
