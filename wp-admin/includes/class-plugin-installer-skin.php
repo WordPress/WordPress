@@ -24,6 +24,12 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	private $is_downgrading = false;
 
 	/**
+	 * Constructor.
+	 *
+	 * Sets up the plugin installer skin.
+	 *
+	 * @since 2.8.0
+	 *
 	 * @param array $args
 	 */
 	public function __construct( $args = array() ) {
