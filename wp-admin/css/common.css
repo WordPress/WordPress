@@ -1513,6 +1513,25 @@ div.error {
     margin-top: -5px;
 }
 
+#plugin-information-footer #plugin-activated-successfully {
+	margin-bottom: 0;
+}
+
+#plugin-information-footer #plugin-activated-successfully p {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+}
+
+#plugin-information-footer #plugin-activated-successfully .refresh-page {
+	flex-grow: 0;
+	line-height: 2.15384615;
+	min-height: 0;
+	margin-bottom: 0;
+}
+
 .update-message p:before,
 .updating-message p:before,
 .updated-message p:before,

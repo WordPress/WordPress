@@ -1105,21 +1105,33 @@
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param {Object} response             Response from the server.
-	 * @param {string} response.slug        Slug of the activated plugin.
-	 * @param {string} response.pluginName  Name of the activated plugin.
-	 * @param {string} response.plugin      The plugin file, relative to the plugins directory.
+	 * @param {Object} response            Response from the server.
+	 * @param {string} response.slug       Slug of the activated plugin.
+	 * @param {string} response.pluginName Name of the activated plugin.
+	 * @param {string} response.plugin     The plugin file, relative to the plugins directory.
 	 */
 	wp.updates.activatePluginSuccess = function( response ) {
 		var $message = $( '.plugin-card-' + response.slug + ', #plugin-information-footer' ).find( '.activating-message' ),
+			isInModal = 'plugin-information-footer' === $message.parent().attr( 'id' ),
 			buttonText = _x( 'Activated!', 'plugin' ),
 			ariaLabel = sprintf(
 				/* translators: %s: The plugin name. */
 				'%s activated successfully.',
 				response.pluginName
-			);
+			),
+			noticeData = {
+				id: 'plugin-activated-successfully',
+				className: 'notice-success',
+				message: sprintf(
+					/* translators: %s: The refresh link's attributes. */
+					__( 'Plugin activated. Some changes may not occur until you refresh the page. <a %s>Refresh Now</a>' ),
+					'href="#" class="button button-secondary refresh-page"'
+				),
+				slug: response.slug
+			},
+			noticeTarget;
 
-		wp.a11y.speak( __( 'Activation completed successfully.' ) );
+		wp.a11y.speak( __( 'Activation completed successfully. Some changes may not occur until you refresh the page.' ) );
 		$document.trigger( 'wp-plugin-activate-success', response );
 
 		$message
@@ -1128,7 +1140,7 @@
 			.attr( 'aria-label', ariaLabel )
 			.text( buttonText );
 
-		if ( 'plugin-information-footer' === $message.parent().attr( 'id' ) ) {
+		if ( isInModal ) {
 			wp.updates.setCardButtonStatus(
 				{
 					status: 'activated-plugin',
@@ -1139,13 +1151,26 @@
 					ariaLabel: ariaLabel
 				}
 			);
+
+			// Add a notice to the modal's footer.
+			$message.replaceWith( wp.updates.adminNotice( noticeData ) );
+
+			// Send notice information back to the parent screen.
+			noticeTarget = window.parent === window ? null : window.parent;
+			$.support.postMessage = !! window.postMessage;
+			if ( false !== $.support.postMessage && null !== noticeTarget && -1 === window.parent.location.pathname.indexOf( 'index.php' ) ) {
+				noticeTarget.postMessage(
+					JSON.stringify( noticeData ),
+					window.location.origin
+				);
+			}
+		} else {
+			// Add a notice to the top of the screen.
+			wp.updates.addAdminNotice( noticeData );
 		}
 
 		setTimeout( function() {
-			$message.removeClass( 'activated-message' )
-			.text( _x( 'Active', 'plugin' ) );
-
-			if ( 'plugin-information-footer' === $message.parent().attr( 'id' ) ) {
+			if ( isInModal ) {
 				wp.updates.setCardButtonStatus(
 					{
 						status: 'plugin-active',
@@ -1159,6 +1184,8 @@
 						)
 					}
 				);
+			} else {
+				$message.removeClass( 'activated-message' ).text( _x( 'Active', 'plugin' ) );
 			}
 		}, 1000 );
 	};
@@ -3226,6 +3253,11 @@
 				return;
 			}
 
+			if ( 'undefined' !== typeof message.id && 'plugin-activated-successfully' === message.id ) {
+				wp.updates.addAdminNotice( message );
+				return;
+			}
+
 			if (
 				'undefined' !== typeof message.status &&
 				'undefined' !== typeof message.slug &&
@@ -3458,5 +3490,22 @@
 				} );
 			}
 		);
+
+		/**
+		 * Click handler for page refresh link.
+		 *
+		 * @since 6.5.3
+		 *
+		 * @param {Event} event Event interface.
+		 */
+		$document.on( 'click', '.refresh-page', function( event ) {
+			event.preventDefault();
+
+			if ( window.parent === window ) {
+				window.location.reload();
+			} else {
+				window.parent.location.reload();
+			}
+		} );
 	} );
 })( jQuery, window.wp, window._wpUpdatesSettings );
