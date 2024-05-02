@@ -1201,7 +1201,17 @@ function get_comment_delimited_block_content( $block_name, $block_attributes, $b
  *
  * @since 5.3.1
  *
- * @param array $block A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ * @param array $block {
+ *     A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ *
+ *     @type string   $blockName    Name of block.
+ *     @type array    $attrs        Attributes from block comment delimiters.
+ *     @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+ *                                  have the same structure as this one.
+ *     @type string   $innerHTML    HTML from inside block comment delimiters.
+ *     @type array    $innerContent List of string fragments and null markers where
+ *                                  inner blocks were found.
+ * }
  * @return string String of rendered HTML.
  */
 function serialize_block( $block ) {
@@ -1229,7 +1239,21 @@ function serialize_block( $block ) {
  *
  * @since 5.3.1
  *
- * @param array[] $blocks An array of representative arrays of parsed block objects. See serialize_block().
+ * @param array[] $blocks {
+ *     Array of block structures.
+ *
+ *     @type array ...$0 {
+ *         A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ *
+ *         @type string   $blockName    Name of block.
+ *         @type array    $attrs        Attributes from block comment delimiters.
+ *         @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+ *                                      have the same structure as this one.
+ *         @type string   $innerHTML    HTML from inside block comment delimiters.
+ *         @type array    $innerContent List of string fragments and null markers where
+ *                                      inner blocks were found.
+ *     }
+ * }
  * @return string String of rendered HTML.
  */
 function serialize_blocks( $blocks ) {
@@ -1638,7 +1662,17 @@ function _excerpt_render_inner_blocks( $parsed_block, $allowed_blocks ) {
  *
  * @global WP_Post $post The post to edit.
  *
- * @param array $parsed_block A single parsed block object.
+ * @param array $parsed_block {
+ *     A representative array of the block being rendered. See WP_Block_Parser_Block.
+ *
+ *     @type string   $blockName    Name of block.
+ *     @type array    $attrs        Attributes from block comment delimiters.
+ *     @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+ *                                  have the same structure as this one.
+ *     @type string   $innerHTML    HTML from inside block comment delimiters.
+ *     @type array    $innerContent List of string fragments and null markers where
+ *                                  inner blocks were found.
+ * }
  * @return string String of rendered HTML.
  */
 function render_block( $parsed_block ) {
@@ -1652,7 +1686,17 @@ function render_block( $parsed_block ) {
 	 * @since 5.9.0 The `$parent_block` parameter was added.
 	 *
 	 * @param string|null   $pre_render   The pre-rendered content. Default null.
-	 * @param array         $parsed_block The block being rendered.
+	 * @param array         $parsed_block {
+	 *     A representative array of the block being rendered. See WP_Block_Parser_Block.
+	 *
+	 *     @type string   $blockName    Name of block.
+	 *     @type array    $attrs        Attributes from block comment delimiters.
+	 *     @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+	 *                                  have the same structure as this one.
+	 *     @type string   $innerHTML    HTML from inside block comment delimiters.
+	 *     @type array    $innerContent List of string fragments and null markers where
+	 *                                  inner blocks were found.
+	 * }
 	 * @param WP_Block|null $parent_block If this is a nested block, a reference to the parent block.
 	 */
 	$pre_render = apply_filters( 'pre_render_block', null, $parsed_block, $parent_block );
@@ -1668,8 +1712,29 @@ function render_block( $parsed_block ) {
 	 * @since 5.1.0
 	 * @since 5.9.0 The `$parent_block` parameter was added.
 	 *
-	 * @param array         $parsed_block The block being rendered.
-	 * @param array         $source_block An un-modified copy of $parsed_block, as it appeared in the source content.
+	 * @param array         $parsed_block {
+	 *     A representative array of the block being rendered. See WP_Block_Parser_Block.
+	 *
+	 *     @type string   $blockName    Name of block.
+	 *     @type array    $attrs        Attributes from block comment delimiters.
+	 *     @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+	 *                                  have the same structure as this one.
+	 *     @type string   $innerHTML    HTML from inside block comment delimiters.
+	 *     @type array    $innerContent List of string fragments and null markers where
+	 *                                  inner blocks were found.
+	 * }
+	 * @param array         $source_block {
+	 *     An un-modified copy of `$parsed_block`, as it appeared in the source content.
+	 *     See WP_Block_Parser_Block.
+	 *
+	 *     @type string   $blockName    Name of block.
+	 *     @type array    $attrs        Attributes from block comment delimiters.
+	 *     @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+	 *                                  have the same structure as this one.
+	 *     @type string   $innerHTML    HTML from inside block comment delimiters.
+	 *     @type array    $innerContent List of string fragments and null markers where
+	 *                                  inner blocks were found.
+	 * }
 	 * @param WP_Block|null $parent_block If this is a nested block, a reference to the parent block.
 	 */
 	$parsed_block = apply_filters( 'render_block_data', $parsed_block, $source_block, $parent_block );
@@ -1695,7 +1760,17 @@ function render_block( $parsed_block ) {
 	 * @since 5.9.0 The `$parent_block` parameter was added.
 	 *
 	 * @param array         $context      Default context.
-	 * @param array         $parsed_block Block being rendered, filtered by `render_block_data`.
+	 * @param array         $parsed_block {
+	 *     A representative array of the block being rendered. See WP_Block_Parser_Block.
+	 *
+	 *     @type string   $blockName    Name of block.
+	 *     @type array    $attrs        Attributes from block comment delimiters.
+	 *     @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+	 *                                  have the same structure as this one.
+	 *     @type string   $innerHTML    HTML from inside block comment delimiters.
+	 *     @type array    $innerContent List of string fragments and null markers where
+	 *                                  inner blocks were found.
+	 * }
 	 * @param WP_Block|null $parent_block If this is a nested block, a reference to the parent block.
 	 */
 	$context = apply_filters( 'render_block_context', $context, $parsed_block, $parent_block );
@@ -1711,7 +1786,21 @@ function render_block( $parsed_block ) {
  * @since 5.0.0
  *
  * @param string $content Post content.
- * @return array[] Array of parsed block objects.
+ * @return array[] {
+ *     Array of block structures.
+ *
+ *     @type array ...$0 {
+ *         A representative array of a single parsed block object. See WP_Block_Parser_Block.
+ *
+ *         @type string   $blockName    Name of block.
+ *         @type array    $attrs        Attributes from block comment delimiters.
+ *         @type array[]  $innerBlocks  List of inner blocks. An array of arrays that
+ *                                      have the same structure as this one.
+ *         @type string   $innerHTML    HTML from inside block comment delimiters.
+ *         @type array    $innerContent List of string fragments and null markers where
+ *                                      inner blocks were found.
+ *     }
+ * }
  */
 function parse_blocks( $content ) {
 	/**

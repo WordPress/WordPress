@@ -53,7 +53,19 @@ function get_block_theme_folders( $theme_stylesheet = null ) {
  *
  * @since 5.9.0
  *
- * @return array[] The supported template part area values.
+ * @return array[] {
+ *     The allowed template part area values.
+ *
+ *     @type array ...$0 {
+ *         Data for the allowed template part area.
+ *
+ *         @type string $area        Template part area name.
+ *         @type string $label       Template part area label.
+ *         @type string $description Template part area description.
+ *         @type string $icon        Template part area icon.
+ *         @type string $area_tag    Template part area tag.
+ *     }
+ * }
  */
 function get_allowed_block_template_part_areas() {
 	$default_area_definitions = array(
@@ -91,7 +103,19 @@ function get_allowed_block_template_part_areas() {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param array[] $default_area_definitions An array of supported area objects.
+	 * @param array[] $default_area_definitions {
+	 *     The allowed template part area values.
+	 *
+	 *     @type array ...$0 {
+	 *         Data for the template part area.
+	 *
+	 *         @type string $area        Template part area name.
+	 *         @type string $label       Template part area label.
+	 *         @type string $description Template part area description.
+	 *         @type string $icon        Template part area icon.
+	 *         @type string $area_tag    Template part area tag.
+	 *     }
+	 * }
 	 */
 	return apply_filters( 'default_wp_template_part_areas', $default_area_definitions );
 }
@@ -103,7 +127,16 @@ function get_allowed_block_template_part_areas() {
  *
  * @since 5.9.0
  *
- * @return array[] The default template types.
+ * @return array[] {
+ *     The default template types.
+ *
+ *     @type array ...$0 {
+ *         Data for the template type.
+ *
+ *         @type string $title       Template type title.
+ *         @type string $description Template type description.
+ *    }
+ * }
  */
 function get_default_block_template_types() {
 	$default_template_types = array(
@@ -178,7 +211,16 @@ function get_default_block_template_types() {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param array[] $default_template_types An array of template types, formatted as [ slug => [ title, description ] ].
+	 * @param array[] $default_template_types {
+	 *     The default template types.
+	 *
+	 *     @type array ...$0 {
+	 *         Data for the template type.
+	 *
+	 *         @type string $title       Template type title.
+	 *         @type string $description Template type description.
+	 *    }
+	 * }
 	 */
 	return apply_filters( 'default_template_types', $default_template_types );
 }

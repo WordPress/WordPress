@@ -113,7 +113,16 @@ class WP_Block {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array                  $block             Array of parsed block properties.
+	 * @param array                  $block             {
+	 *     A representative array of a single parsed block object. See WP_Block_Parser_Block.
+	 *
+	 *     @type string   $blockName    Name of block.
+	 *     @type array    $attrs        Attributes from block comment delimiters.
+	 *     @type array    $innerBlocks  List of inner blocks. An array of arrays that
+	 *                                  have the same structure as this one.
+	 *     @type string   $innerHTML    HTML from inside block comment delimiters.
+	 *     @type array    $innerContent List of string fragments and null markers where inner blocks were found.
+	 * }
 	 * @param array                  $available_context Optional array of ancestry context values.
 	 * @param WP_Block_Type_Registry $registry          Optional block type registry.
 	 */
