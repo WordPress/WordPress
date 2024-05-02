@@ -4053,6 +4053,7 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   border-bottom:none;
 }
 .font-library-modal .components-modal__content{
+  margin-bottom:70px;
   padding-top:0;
 }
 .font-library-modal .font-library-modal__subtitle{
@@ -4071,6 +4072,7 @@ body:has(.edit-site-resizable-frame__inner.is-resizing){
   background-color:#fff;
   border-top:1px solid #ddd;
   bottom:32px;
+  height:70px;
   margin:0 -32px -32px;
   padding:16px 32px;
   position:absolute;
