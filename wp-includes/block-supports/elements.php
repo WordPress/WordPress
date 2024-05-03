@@ -20,24 +20,6 @@ function wp_get_elements_class_name( $block ) {
 }
 
 /**
- * Updates the block content with elements class names.
- *
- * @deprecated 6.6.0 Generation of element class name is handled via `render_block_data` filter.
- *
- * @since 5.8.0
- * @since 6.4.0 Added support for button and heading element styling.
- * @access private
- *
- * @param string $block_content Rendered block content.
- * @param array  $block         Block object.
- * @return string Filtered block content.
- */
-function wp_render_elements_support( $block_content, $block ) {
-	_deprecated_function( __FUNCTION__, '6.6.0', 'wp_render_elements_class_name' );
-	return $block_content;
-}
-
-/**
  * Determines whether an elements class name should be added to the block.
  *
  * @since 6.6.0
@@ -134,7 +116,7 @@ function wp_render_elements_support_styles( $parsed_block ) {
 	 * `render_block_data` filter in 6.6.0 to avoid filtered attributes
 	 * breaking the application of the elements CSS class.
 	 *
-	 * @see https://github.com/WordPress/gutenberg/pull/59535.
+	 * @see https://github.com/WordPress/gutenberg/pull/59535
 	 *
 	 * The change in filter means, the argument types for this function
 	 * have changed and require deprecating.
@@ -259,7 +241,6 @@ function wp_render_elements_support_styles( $parsed_block ) {
  *
  * @param  string $block_content Rendered block content.
  * @param  array  $block         Block object.
- *
  * @return string                Filtered block content.
  */
 function wp_render_elements_class_name( $block_content, $block ) {
