@@ -118,8 +118,20 @@ if ( isset( $_GET['action'] ) ) {
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $site_action . '_' . $id, '_wpnonce', false ); ?>
-					<p><?php printf( $manage_actions[ $site_action ], $site_address ); ?></p>
-					<?php submit_button( __( 'Confirm' ), 'primary' ); ?>
+					<?php
+					if ( 'deleteblog' === $site_action ) {
+						$submit = __( 'Delete this site permanently' );
+						?>
+						<div class="notice notice-warning inline">
+							<p><?php _e( 'Deleting a site is a permanent action that cannot be undone. This will delete the entire site and its uploads directory.' ); ?>
+						</div>
+						<?php
+					} else {
+						$submit = __( 'Confirm' );
+					}
+					?>
+					<p><?php printf( $manage_actions[ $site_action ], "<strong>{$site_address}</strong>" ); ?></p>
+					<?php submit_button( $submit, 'primary' ); ?>
 				</form>
 			</div>
 		<?php
