@@ -586,9 +586,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   border-bottom:none;
 }
 .is-distraction-free .edit-post-header{
-  -webkit-backdrop-filter:blur(20px) !important;
-          backdrop-filter:blur(20px) !important;
-  background-color:#ffffffe6;
+  background-color:#fff;
   border-bottom:1px solid #e0e0e0;
   position:absolute;
   width:100%;
@@ -596,7 +594,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .is-distraction-free .edit-post-header>.edit-post-header__settings>.edit-post-header__post-preview-button{
   visibility:hidden;
 }
-.is-distraction-free .edit-post-header>.edit-post-header__settings>.editor-preview-dropdown,.is-distraction-free .edit-post-header>.edit-post-header__settings>.interface-pinned-items,.is-distraction-free .edit-post-header>.edit-post-header__toolbar .editor-document-tools__document-overview-toggle,.is-distraction-free .edit-post-header>.edit-post-header__toolbar .editor-document-tools__inserter-toggle{
+.is-distraction-free .edit-post-header>.edit-post-header__settings>.editor-preview-dropdown,.is-distraction-free .edit-post-header>.edit-post-header__settings>.interface-pinned-items,.is-distraction-free .edit-post-header>.edit-post-header__toolbar .editor-document-tools__document-overview-toggle{
   display:none;
 }
 .is-distraction-free .interface-interface-skeleton__header:focus-within{

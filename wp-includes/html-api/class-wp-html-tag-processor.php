@@ -1629,7 +1629,7 @@ class WP_HTML_Tag_Processor {
 			 * `<!` transitions to markup declaration open state
 			 * https://html.spec.whatwg.org/multipage/parsing.html#markup-declaration-open-state
 			 */
-			if ( '!' === $html[ $at + 1 ] ) {
+			if ( ! $this->is_closing_tag && '!' === $html[ $at + 1 ] ) {
 				/*
 				 * `<!--` transitions to a comment state – apply further comment rules.
 				 * https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
@@ -1809,6 +1809,12 @@ class WP_HTML_Tag_Processor {
 			 * See https://html.spec.whatwg.org/#parse-error-missing-end-tag-name
 			 */
 			if ( '>' === $html[ $at + 1 ] ) {
+				// `<>` is interpreted as plaintext.
+				if ( ! $this->is_closing_tag ) {
+					++$at;
+					continue;
+				}
+
 				$this->parser_state         = self::STATE_PRESUMPTUOUS_TAG;
 				$this->token_length         = $at + 2 - $this->token_starts_at;
 				$this->bytes_already_parsed = $at + 2;
@@ -1819,7 +1825,7 @@ class WP_HTML_Tag_Processor {
 			 * `<?` transitions to a bogus comment state – skip to the nearest >
 			 * See https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
 			 */
-			if ( '?' === $html[ $at + 1 ] ) {
+			if ( ! $this->is_closing_tag && '?' === $html[ $at + 1 ] ) {
 				$closer_at = strpos( $html, '>', $at + 2 );
 				if ( false === $closer_at ) {
 					$this->parser_state = self::STATE_INCOMPLETE_INPUT;
@@ -1891,7 +1897,7 @@ class WP_HTML_Tag_Processor {
 					return false;
 				}
 
-				$closer_at = strpos( $html, '>', $at + 3 );
+				$closer_at = strpos( $html, '>', $at + 2 );
 				if ( false === $closer_at ) {
 					$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
@@ -2071,7 +2077,7 @@ class WP_HTML_Tag_Processor {
 		/*
 		 * Purge updates if there are too many. The actual count isn't
 		 * scientific, but a few values from 100 to a few thousand were
-		 * tests to find a practially-useful limit.
+		 * tests to find a practically-useful limit.
 		 *
 		 * If the update queue grows too big, then the Tag Processor
 		 * will spend more time iterating through them and lose the

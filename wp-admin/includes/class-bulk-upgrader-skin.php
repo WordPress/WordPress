@@ -16,13 +16,30 @@
  * @see WP_Upgrader_Skin
  */
 class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
-	public $in_loop = false;
+
 	/**
+	 * Whether the bulk update process has started.
+	 *
+	 * @since 3.0.0
+	 * @var bool
+	 */
+	public $in_loop = false;
+
+	/**
+	 * Stores an error message about the update.
+	 *
+	 * @since 3.0.0
 	 * @var string|false
 	 */
 	public $error = false;
 
 	/**
+	 * Constructor.
+	 *
+	 * Sets up the generic skin for the Bulk Upgrader classes.
+	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $args
 	 */
 	public function __construct( $args = array() ) {
@@ -36,6 +53,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Sets up the strings used in the update process.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add_strings() {
 		$this->upgrader->strings['skin_upgrade_start'] = __( 'The update process is starting. This process may take a while on some hosts, so please be patient.' );
@@ -49,6 +69,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Displays a message about the update.
+	 *
+	 * @since 3.0.0
 	 * @since 5.9.0 Renamed `$string` (a PHP reserved keyword) to `$feedback` for PHP 8 named parameter support.
 	 *
 	 * @param string $feedback Message data.
@@ -77,18 +100,27 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Displays the header before the update process.
+	 *
+	 * @since 3.0.0
 	 */
 	public function header() {
 		// Nothing. This will be displayed within an iframe.
 	}
 
 	/**
+	 * Displays the footer following the update process.
+	 *
+	 * @since 3.0.0
 	 */
 	public function footer() {
 		// Nothing. This will be displayed within an iframe.
 	}
 
 	/**
+	 * Displays an error message about the update.
+	 *
+	 * @since 3.0.0
 	 * @since 5.9.0 Renamed `$error` to `$errors` for PHP 8 named parameter support.
 	 *
 	 * @param string|WP_Error $errors Errors.
@@ -113,18 +145,28 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Displays the header before the bulk update process.
+	 *
+	 * @since 3.0.0
 	 */
 	public function bulk_header() {
 		$this->feedback( 'skin_upgrade_start' );
 	}
 
 	/**
+	 * Displays the footer following the bulk update process.
+	 *
+	 * @since 3.0.0
 	 */
 	public function bulk_footer() {
 		$this->feedback( 'skin_upgrade_end' );
 	}
 
 	/**
+	 * Performs an action before a bulk update.
+	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $title
 	 */
 	public function before( $title = '' ) {
@@ -137,6 +179,10 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Performs an action following a bulk update.
+	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $title
 	 */
 	public function after( $title = '' ) {
@@ -172,6 +218,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Resets the properties used in the update process.
+	 *
+	 * @since 3.0.0
 	 */
 	public function reset() {
 		$this->in_loop = false;
@@ -179,6 +228,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Flushes all output buffers.
+	 *
+	 * @since 3.0.0
 	 */
 	public function flush_output() {
 		wp_ob_end_flush_all();

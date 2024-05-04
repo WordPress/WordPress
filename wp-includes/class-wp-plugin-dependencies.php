@@ -553,8 +553,6 @@ class WP_Plugin_Dependencies {
 	 * Reads and stores dependency slugs from a plugin's 'Requires Plugins' header.
 	 *
 	 * @since 6.5.0
-	 *
-	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 */
 	protected static function read_dependencies_from_plugin_headers() {
 		self::$dependencies     = array();

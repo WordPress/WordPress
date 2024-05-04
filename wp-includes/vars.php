@@ -127,11 +127,11 @@ $is_apache = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Apache' ) || str_cont
 $is_nginx = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) );
 
 /**
- * Whether the server software is Caddy or something else.
+ * Whether the server software is Caddy / FrankenPHP or something else.
  *
  * @global bool $is_caddy
  */
-$is_caddy = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Caddy' ) );
+$is_caddy = ( str_contains( $_SERVER['SERVER_SOFTWARE'], 'Caddy' ) || str_contains( $_SERVER['SERVER_SOFTWARE'], 'FrankenPHP' ) );
 
 /**
  * Whether the server software is IIS or something else.

@@ -97,6 +97,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$get_item_args = array(
 			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 		);
+		if ( isset( $schema['properties']['excerpt'] ) ) {
+			$get_item_args['excerpt_length'] = array(
+				'description' => __( 'Override the default excerpt length.' ),
+				'type'        => 'integer',
+			);
+		}
 		if ( isset( $schema['properties']['password'] ) ) {
 			$get_item_args['password'] = array(
 				'description' => __( 'The password for the post if it is password protected.' ),
@@ -1872,6 +1878,19 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( rest_is_field_included( 'excerpt', $fields ) ) {
+			if ( isset( $request['excerpt_length'] ) ) {
+				$excerpt_length          = $request['excerpt_length'];
+				$override_excerpt_length = static function () use ( $excerpt_length ) {
+					return $excerpt_length;
+				};
+
+				add_filter(
+					'excerpt_length',
+					$override_excerpt_length,
+					20
+				);
+			}
+
 			/** This filter is documented in wp-includes/post-template.php */
 			$excerpt = apply_filters( 'get_the_excerpt', $post->post_excerpt, $post );
 
@@ -1883,6 +1902,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'rendered'  => post_password_required( $post ) ? '' : $excerpt,
 				'protected' => (bool) $post->post_password,
 			);
+
+			if ( isset( $override_excerpt_length ) ) {
+				remove_filter(
+					'excerpt_length',
+					$override_excerpt_length,
+					20
+				);
+			}
 		}
 
 		if ( $has_password_filter ) {

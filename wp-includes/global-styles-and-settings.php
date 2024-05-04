@@ -329,7 +329,7 @@ function wp_add_global_styles_for_blocks() {
 			if ( str_starts_with( $metadata['name'], 'core/' ) ) {
 				$block_name   = str_replace( 'core/', '', $metadata['name'] );
 				$block_handle = 'wp-block-' . $block_name;
-				if ( in_array( $block_handle, $wp_styles->queue ) ) {
+				if ( in_array( $block_handle, $wp_styles->queue, true ) ) {
 					wp_add_inline_style( $stylesheet_handle, $block_css );
 				}
 			} else {
@@ -344,7 +344,7 @@ function wp_add_global_styles_for_blocks() {
 				if ( str_starts_with( $block_name, 'core/' ) ) {
 					$block_name   = str_replace( 'core/', '', $block_name );
 					$block_handle = 'wp-block-' . $block_name;
-					if ( in_array( $block_handle, $wp_styles->queue ) ) {
+					if ( in_array( $block_handle, $wp_styles->queue, true ) ) {
 						wp_add_inline_style( $stylesheet_handle, $block_css );
 					}
 				} else {

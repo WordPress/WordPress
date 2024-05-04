@@ -92,7 +92,7 @@ jQuery( function($) {
 				setTimeout( function(){
 					// Request the widget content.
 					p.load( ajaxurl + '?action=dashboard-widgets&widget=' + id + '&pagenow=' + pagenow, '', function() {
-						// Hide the parent and slide it out for visual fancyness.
+						// Hide the parent and slide it out for visual fanciness.
 						p.hide().slideDown('normal', function(){
 							$(this).css('display', '');
 						});

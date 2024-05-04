@@ -44,11 +44,7 @@ if ( 'category' === $taxonomy ) {
 	do_action_deprecated( 'edit_tag_form_pre', array( $tag ), '3.0.0', '{$taxonomy}_pre_edit_form' );
 }
 
-/**
- * Use with caution, see https://developer.wordpress.org/reference/functions/wp_reset_vars/
- */
-wp_reset_vars( array( 'wp_http_referer' ) );
-
+$wp_http_referer = ! empty( $_REQUEST['wp_http_referer'] ) ? sanitize_text_field( $_REQUEST['wp_http_referer'] ) : '';
 $wp_http_referer = remove_query_arg( array( 'action', 'message', 'tag_ID' ), $wp_http_referer );
 
 // Also used by Edit Tags.

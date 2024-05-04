@@ -23,7 +23,8 @@ $title       = __( 'Settings' );
 $this_file   = 'options.php';
 $parent_file = 'options-general.php';
 
-wp_reset_vars( array( 'action', 'option_page' ) );
+$action      = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
+$option_page = ! empty( $_REQUEST['option_page'] ) ? sanitize_text_field( $_REQUEST['option_page'] ) : '';
 
 $capability = 'manage_options';
 

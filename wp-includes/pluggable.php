@@ -30,7 +30,7 @@ if ( ! function_exists( 'wp_set_current_user' ) ) :
 		// If `$id` matches the current user, there is nothing to do.
 		if ( isset( $current_user )
 		&& ( $current_user instanceof WP_User )
-		&& ( $id == $current_user->ID )
+		&& ( $id === $current_user->ID )
 		&& ( null !== $id )
 		) {
 			return $current_user;
@@ -617,7 +617,7 @@ if ( ! function_exists( 'wp_authenticate' ) ) :
 		 */
 		$user = apply_filters( 'authenticate', null, $username, $password );
 
-		if ( null == $user ) {
+		if ( null === $user || false === $user ) {
 			/*
 			 * TODO: What should the error message be? (Or would these even happen?)
 			 * Only needed if all authentication handlers fail to return anything.
@@ -1093,7 +1093,7 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 		setcookie( $auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true );
 		setcookie( $auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure, true );
 		setcookie( LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true );
-		if ( COOKIEPATH != SITECOOKIEPATH ) {
+		if ( COOKIEPATH !== SITECOOKIEPATH ) {
 			setcookie( LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true );
 		}
 	}
@@ -1315,7 +1315,7 @@ if ( ! function_exists( 'check_ajax_referer' ) ) :
 	 *                   False if the nonce is invalid.
 	 */
 	function check_ajax_referer( $action = -1, $query_arg = false, $stop = true ) {
-		if ( -1 == $action ) {
+		if ( -1 === $action ) {
 			_doing_it_wrong( __FUNCTION__, __( 'You should specify an action to be verified by using the first parameter.' ), '4.7.0' );
 		}
 
@@ -1698,12 +1698,12 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 		$notify_author = apply_filters( 'comment_notification_notify_author', false, $comment->comment_ID );
 
 		// The comment was left by the author.
-		if ( $author && ! $notify_author && $comment->user_id == $post->post_author ) {
+		if ( $author && ! $notify_author && (int) $comment->user_id === (int) $post->post_author ) {
 			unset( $emails[ $author->user_email ] );
 		}
 
 		// The author moderated a comment on their own post.
-		if ( $author && ! $notify_author && get_current_user_id() == $post->post_author ) {
+		if ( $author && ! $notify_author && get_current_user_id() === (int) $post->post_author ) {
 			unset( $emails[ $author->user_email ] );
 		}
 

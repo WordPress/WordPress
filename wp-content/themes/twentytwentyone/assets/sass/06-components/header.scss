@@ -173,7 +173,7 @@
 						margin-top: calc(0px - var(--button--padding-vertical) + (0.25 * var(--global--spacing-unit)));
 
 						#primary-mobile-menu {
-							// The 4.5px here is to offset the icon size horizontallly
+							// The 4.5px here is to offset the icon size horizontally
 							// (the icon's width is larger than the path's width and has extra space on the sides).
 							padding-left: calc(var(--global--spacing-horizontal) * 0.6 - 4.5px);
 							padding-right: calc(var(--global--spacing-horizontal) * 0.6 - 4.5px);

@@ -1799,7 +1799,7 @@
 						section.closeDetails();
 					} else {
 
-						// Escape from the inifinite scroll list.
+						// Escape from the infinite scroll list.
 						section.headerContainer.find( '.customize-themes-section-title' ).focus();
 					}
 					event.stopPropagation(); // Prevent section from being collapsed.
@@ -7199,7 +7199,7 @@
 			} ) );
 
 			/**
-			 * Return whether the pubish settings section should be active.
+			 * Return whether the publish settings section should be active.
 			 *
 			 * @return {boolean} Is section active.
 			 */

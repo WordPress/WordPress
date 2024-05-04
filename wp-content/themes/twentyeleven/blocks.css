@@ -192,7 +192,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-pullquote__citation,
 .wp-block-pullquote cite,
 .wp-block-pullquote footer {
-	color: #141412;
+	color: inherit;
 }
 
 .wp-block-pullquote.alignleft {

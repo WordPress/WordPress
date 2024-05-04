@@ -81,7 +81,7 @@ abstract class WP_Translation_File {
 	 * @param string|null $filetype Optional. File type. Default inferred from file name.
 	 * @return false|WP_Translation_File
 	 */
-	public static function create( string $file, string $filetype = null ) {
+	public static function create( string $file, ?string $filetype = null ) {
 		if ( ! is_readable( $file ) ) {
 			return false;
 		}

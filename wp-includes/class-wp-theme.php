@@ -1972,6 +1972,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Gets block pattern cache.
 	 *
 	 * @since 6.4.0
+	 * @since 6.6.0 Uses transients to cache regardless of site environment.
 	 *
 	 * @return array|false Returns an array of patterns if cache is found, otherwise false.
 	 */
@@ -1979,7 +1980,9 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! $this->exists() ) {
 			return false;
 		}
-		$pattern_data = wp_cache_get( 'wp_theme_patterns_' . $this->stylesheet, 'theme_files' );
+
+		$pattern_data = get_site_transient( 'wp_theme_files_patterns-' . $this->cache_hash );
+
 		if ( is_array( $pattern_data ) && $pattern_data['version'] === $this->get( 'Version' ) ) {
 			return $pattern_data['patterns'];
 		}
@@ -1990,6 +1993,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Sets block pattern cache.
 	 *
 	 * @since 6.4.0
+	 * @since 6.6.0 Uses transients to cache regardless of site environment.
 	 *
 	 * @param array $patterns Block patterns data to set in cache.
 	 */
@@ -1998,16 +2002,43 @@ final class WP_Theme implements ArrayAccess {
 			'version'  => $this->get( 'Version' ),
 			'patterns' => $patterns,
 		);
-		wp_cache_set( 'wp_theme_patterns_' . $this->stylesheet, $pattern_data, 'theme_files' );
+
+		/**
+		 * Filters the cache expiration time for theme files.
+		 *
+		 * @since 6.6.0
+		 *
+		 * @param int    $cache_expiration Cache expiration time in seconds.
+		 * @param string $cache_type       Type of cache being set.
+		 */
+		$cache_expiration = (int) apply_filters( 'wp_theme_files_cache_ttl', self::$cache_expiration, 'theme_block_patterns' );
+
+		// We don't want to cache patterns infinitely.
+		if ( $cache_expiration <= 0 ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					/* translators: %1$s: The filter name.*/
+					__( 'The %1$s filter must return an integer value greater than 0.' ),
+					'<code>wp_theme_files_cache_ttl</code>'
+				),
+				'6.6.0'
+			);
+
+			$cache_expiration = self::$cache_expiration;
+		}
+
+		set_site_transient( 'wp_theme_files_patterns-' . $this->cache_hash, $pattern_data, $cache_expiration );
 	}
 
 	/**
 	 * Clears block pattern cache.
 	 *
 	 * @since 6.4.0
+	 * @since 6.6.0 Uses transients to cache regardless of site environment.
 	 */
 	public function delete_pattern_cache() {
-		wp_cache_delete( 'wp_theme_patterns_' . $this->stylesheet, 'theme_files' );
+		delete_site_transient( 'wp_theme_files_patterns-' . $this->cache_hash );
 	}
 
 	/**

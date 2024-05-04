@@ -244,7 +244,7 @@ function wp_embed_handler_youtube( $matches, $attr, $url, $rawattr ) {
 	$embed = $wp_embed->autoembed( sprintf( 'https://youtube.com/watch?v=%s', urlencode( $matches[2] ) ) );
 
 	/**
-	 * Filters the YoutTube embed output.
+	 * Filters the YouTube embed output.
 	 *
 	 * @since 4.0.0
 	 *

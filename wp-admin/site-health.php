@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
-wp_reset_vars( array( 'action' ) );
+$action = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
 
 $tabs = array(
 	/* translators: Tab heading for Site Health Status page. */

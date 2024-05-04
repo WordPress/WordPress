@@ -123,7 +123,7 @@ class WP_Meta_Query {
 	 *                                            - 'NOT IN'
 	 *                                            - 'REGEXP'
 	 *                                            - 'NOT REGEXP'
-	 *                                            - 'RLIKE',
+	 *                                            - 'RLIKE'
 	 *                                            - 'EXISTS' (alias of '=')
 	 *                                            - 'NOT EXISTS' (alias of '!=')
 	 *                                            Default is 'IN' when `$key` is an array, '=' otherwise.
@@ -132,7 +132,7 @@ class WP_Meta_Query {
 	 *                                            comparisons. Default is ''.
 	 *         @type string|string[] $value       Meta value or values to filter by.
 	 *         @type string          $compare     MySQL operator used for comparing the $value. Accepts:
-	 *                                            - '=',
+	 *                                            - '='
 	 *                                            - '!='
 	 *                                            - '>'
 	 *                                            - '>='

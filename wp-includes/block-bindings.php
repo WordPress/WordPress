@@ -76,7 +76,7 @@
  *     The array of arguments that are used to register a source.
  *
  *     @type string   $label                   The label of the source.
- *     @type callback $get_value_callback      A callback executed when the source is processed during block rendering.
+ *     @type callable $get_value_callback      A callback executed when the source is processed during block rendering.
  *                                             The callback should have the following signature:
  *
  *                                             `function ($source_args, $block_instance,$attribute_name): mixed`
@@ -87,7 +87,7 @@
  *                                                 - @param string   $attribute_name The name of an attribute .
  *                                             The callback has a mixed return type; it may return a string to override
  *                                             the block's original value, null, false to remove an attribute, etc.
- *     @type array    $uses_context (optional) Array of values to add to block `uses_context` needed by the source.
+ *     @type string[] $uses_context (optional) Array of values to add to block `uses_context` needed by the source.
  * }
  * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
  */

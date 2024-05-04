@@ -319,10 +319,8 @@ function get_plugins( $plugin_folder = '' ) {
 
 					closedir( $plugins_subdir );
 				}
-			} else {
-				if ( str_ends_with( $file, '.php' ) ) {
-					$plugin_files[] = $file;
-				}
+			} elseif ( str_ends_with( $file, '.php' ) ) {
+				$plugin_files[] = $file;
 			}
 		}
 

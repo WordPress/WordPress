@@ -320,7 +320,6 @@ textarea.wp-embed-share-input {
 html[dir="rtl"] .wp-embed-featured-image.square {
 	float: right;
 	margin-right: 0;
-
 	margin-left: 20px;
 }
 
@@ -338,9 +337,6 @@ html[dir="rtl"] .wp-embed-site-icon {
 
 html[dir="rtl"] .wp-embed-meta {
 	text-align: left;
-}
-
-html[dir="rtl"] .wp-embed-footer {
 }
 
 html[dir="rtl"] .wp-embed-share {

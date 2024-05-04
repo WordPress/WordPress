@@ -56,7 +56,10 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
-wp_reset_vars( array( 'action', 'error', 'file', 'theme' ) );
+$action = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
+$theme  = ! empty( $_REQUEST['theme'] ) ? sanitize_text_field( $_REQUEST['theme'] ) : '';
+$file   = ! empty( $_REQUEST['file'] ) ? sanitize_text_field( $_REQUEST['file'] ) : '';
+$error  = ! empty( $_REQUEST['error'] );
 
 if ( $theme ) {
 	$stylesheet = $theme;

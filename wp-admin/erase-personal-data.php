@@ -55,8 +55,8 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Plugin Data' ),
 		'content' =>
 					'<p>' . __( 'Many plugins may collect or store personal data either in the WordPress database or remotely. Any Erase Personal Data request should delete data from plugins as well.' ) . '</p>' .
-					'<p>' . __( 'If you are a plugin author, you can <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-to-your-plugin/" target="_blank">learn more about how to add support for the Personal Data Eraser to a plugin here</a>.' ) . '</p>' .
-					$privacy_policy_guide,
+					$privacy_policy_guide .
+					'<p>' . __( 'If you are a plugin author, you can learn more about <a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-to-your-plugin/">how to add the Personal Data Eraser to a plugin</a>.' ) . '</p>',
 	)
 );
 

@@ -513,6 +513,10 @@
 	display: none !important;
 }
 
+.about__container code {
+	font-size: inherit;
+}
+
 .about__section {
 	font-size: 1.125rem;
 	line-height: 1.55;
@@ -581,7 +585,7 @@
 .privacy-php .about__header-title h1,
 .contribute-php .about__header-title h1 {
 	/* Fluid font size scales on browser size 960px - 1200px. */
-	font-size: clamp(2rem, 10vw - 3rem, 4rem);
+	font-size: clamp(2rem, 20vw - 9rem, 4rem);
 }
 
 .about__header-text {
@@ -651,7 +655,7 @@
 	.privacy-php .about__header-title h1,
 	.contribute-php .about__header-title h1 {
 		/* Fluid font size scales on browser size 600px - 960px. */
-		font-size: clamp(3rem, 6.67vw - 0.5rem, 4.5rem);
+		font-size: clamp(2rem, 20vw - 9rem, 4rem);
 	}
 
 	.about__header-navigation .nav-tab {
@@ -1274,24 +1278,6 @@
 .freedoms-php .about-wrap ol p {
 	font-weight: 400;
 	margin: 0.6em 0;
-}
-
-.freedoms-php .column .freedoms-image {
-	background-image: url('../images/freedoms.png');
-	background-size: 100%;
-	padding-top: 100%;
-}
-
-.freedoms-php .column:nth-of-type(2) .freedoms-image {
-	background-position: 0 34%;
-}
-
-.freedoms-php .column:nth-of-type(3) .freedoms-image {
-	background-position: 0 66%;
-}
-
-.freedoms-php .column:nth-of-type(4) .freedoms-image {
-	background-position: 0 100%;
 }
 
 /*------------------------------------------------------------------------------

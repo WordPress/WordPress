@@ -34,7 +34,7 @@ function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
 		wp_cache_add( $bookmark->link_id, $bookmark, 'bookmark' );
 		$_bookmark = $bookmark;
 	} else {
-		if ( isset( $GLOBALS['link'] ) && ( $GLOBALS['link']->link_id == $bookmark ) ) {
+		if ( isset( $GLOBALS['link'] ) && ( $GLOBALS['link']->link_id === $bookmark ) ) {
 			$_bookmark = & $GLOBALS['link'];
 		} else {
 			$_bookmark = wp_cache_get( $bookmark, 'bookmark' );
@@ -307,7 +307,7 @@ function get_bookmarks( $args = '' ) {
 	$query  = "SELECT * $length $recently_updated_test $get_updated FROM $wpdb->links $join WHERE 1=1 $visible $category_query";
 	$query .= " $exclusions $inclusions $search";
 	$query .= " ORDER BY $orderby $order";
-	if ( -1 != $parsed_args['limit'] ) {
+	if ( -1 !== $parsed_args['limit'] ) {
 		$query .= ' LIMIT ' . absint( $parsed_args['limit'] );
 	}
 

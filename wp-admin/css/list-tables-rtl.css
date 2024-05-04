@@ -905,7 +905,7 @@ tr:hover .row-actions,
 
 tr.inline-edit-row td {
 	padding: 0;
-	/* Prevents the focus style on .inline-edit-wrapper from being cutted-off */
+	/* Prevents the focus style on .inline-edit-wrapper from being cut-off */
 	position: relative;
 }
 

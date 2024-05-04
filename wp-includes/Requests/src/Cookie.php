@@ -470,11 +470,17 @@ class Cookie {
 	 * @param \WpOrg\Requests\Iri|null $origin URI for comparing cookie origins
 	 * @param int|null $time Reference time for expiration calculation
 	 * @return array
+	 *
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $origin argument is not null or an instance of the Iri class.
 	 */
-	public static function parse_from_headers(Headers $headers, Iri $origin = null, $time = null) {
+	public static function parse_from_headers(Headers $headers, $origin = null, $time = null) {
 		$cookie_headers = $headers->getValues('Set-Cookie');
 		if (empty($cookie_headers)) {
 			return [];
+		}
+
+		if ($origin !== null && !($origin instanceof Iri)) {
+			throw InvalidArgument::create(2, '$origin', Iri::class . ' or null', gettype($origin));
 		}
 
 		$cookies = [];

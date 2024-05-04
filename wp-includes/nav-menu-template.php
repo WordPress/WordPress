@@ -341,9 +341,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				if ( is_array( $terms ) ) {
 					$possible_object_parents = array_merge( $possible_object_parents, $terms );
 					$term_to_ancestor        = array();
-					foreach ( (array) $term_hierarchy as $anc => $descs ) {
-						foreach ( (array) $descs as $desc ) {
-							$term_to_ancestor[ $desc ] = $anc;
+					foreach ( (array) $term_hierarchy as $ancestor => $descendents ) {
+						foreach ( (array) $descendents as $desc ) {
+							$term_to_ancestor[ $desc ] = $ancestor;
 						}
 					}
 
@@ -365,9 +365,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	} elseif ( ! empty( $queried_object->taxonomy ) && is_taxonomy_hierarchical( $queried_object->taxonomy ) ) {
 		$term_hierarchy   = _get_term_hierarchy( $queried_object->taxonomy );
 		$term_to_ancestor = array();
-		foreach ( (array) $term_hierarchy as $anc => $descs ) {
-			foreach ( (array) $descs as $desc ) {
-				$term_to_ancestor[ $desc ] = $anc;
+		foreach ( (array) $term_hierarchy as $ancestor => $descendents ) {
+			foreach ( (array) $descendents as $desc ) {
+				$term_to_ancestor[ $desc ] = $ancestor;
 			}
 		}
 		$desc = $queried_object->term_id;
@@ -430,13 +430,13 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		) {
 			$classes[]                   = 'current-menu-item';
 			$menu_items[ $key ]->current = true;
-			$_anc_id                     = (int) $menu_item->db_id;
+			$ancestor_id                 = (int) $menu_item->db_id;
 
 			while (
-				( $_anc_id = (int) get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) )
-				&& ! in_array( $_anc_id, $active_ancestor_item_ids, true )
+				( $ancestor_id = (int) get_post_meta( $ancestor_id, '_menu_item_menu_item_parent', true ) )
+				&& ! in_array( $ancestor_id, $active_ancestor_item_ids, true )
 			) {
-				$active_ancestor_item_ids[] = $_anc_id;
+				$active_ancestor_item_ids[] = $ancestor_id;
 			}
 
 			if ( 'post_type' === $menu_item->type && 'page' === $menu_item->object ) {
@@ -457,13 +457,13 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		) {
 			$classes[]                   = 'current-menu-item';
 			$menu_items[ $key ]->current = true;
-			$_anc_id                     = (int) $menu_item->db_id;
+			$ancestor_id                 = (int) $menu_item->db_id;
 
 			while (
-				( $_anc_id = (int) get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) )
-				&& ! in_array( $_anc_id, $active_ancestor_item_ids, true )
+				( $ancestor_id = (int) get_post_meta( $ancestor_id, '_menu_item_menu_item_parent', true ) )
+				&& ! in_array( $ancestor_id, $active_ancestor_item_ids, true )
 			) {
-				$active_ancestor_item_ids[] = $_anc_id;
+				$active_ancestor_item_ids[] = $ancestor_id;
 			}
 
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
@@ -494,13 +494,13 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			if ( $raw_item_url && in_array( $item_url, $matches, true ) ) {
 				$classes[]                   = 'current-menu-item';
 				$menu_items[ $key ]->current = true;
-				$_anc_id                     = (int) $menu_item->db_id;
+				$ancestor_id                 = (int) $menu_item->db_id;
 
 				while (
-					( $_anc_id = (int) get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) )
-					&& ! in_array( $_anc_id, $active_ancestor_item_ids, true )
+					( $ancestor_id = (int) get_post_meta( $ancestor_id, '_menu_item_menu_item_parent', true ) )
+					&& ! in_array( $ancestor_id, $active_ancestor_item_ids, true )
 				) {
-					$active_ancestor_item_ids[] = $_anc_id;
+					$active_ancestor_item_ids[] = $ancestor_id;
 				}
 
 				if ( in_array( home_url(), array( untrailingslashit( $current_url ), untrailingslashit( $_indexless_current ) ), true ) ) {

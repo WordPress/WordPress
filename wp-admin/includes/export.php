@@ -401,7 +401,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @param int[] $post_ids Optional. Array of post IDs to filter the query by.
 	 */
-	function wxr_authors_list( array $post_ids = null ) {
+	function wxr_authors_list( ?array $post_ids = null ) {
 		global $wpdb;
 
 		if ( ! empty( $post_ids ) ) {

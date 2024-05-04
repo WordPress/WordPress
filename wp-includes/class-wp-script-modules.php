@@ -18,7 +18,7 @@ class WP_Script_Modules {
 	 * Holds the registered script modules, keyed by script module identifier.
 	 *
 	 * @since 6.5.0
-	 * @var array
+	 * @var array[]
 	 */
 	private $registered = array();
 
@@ -274,7 +274,7 @@ class WP_Script_Modules {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @return array Script modules marked for enqueue, keyed by script module identifier.
+	 * @return array[] Script modules marked for enqueue, keyed by script module identifier.
 	 */
 	private function get_marked_for_enqueue(): array {
 		$enqueued = array();
@@ -296,11 +296,10 @@ class WP_Script_Modules {
 	 *
 	 * @since 6.5.0
 	 *
-
 	 * @param string[] $ids          The identifiers of the script modules for which to gather dependencies.
-	 * @param array    $import_types Optional. Import types of dependencies to retrieve: 'static', 'dynamic', or both.
+	 * @param string[] $import_types Optional. Import types of dependencies to retrieve: 'static', 'dynamic', or both.
 	 *                               Default is both.
-	 * @return array List of dependencies, keyed by script module identifier.
+	 * @return array[] List of dependencies, keyed by script module identifier.
 	 */
 	private function get_dependencies( array $ids, array $import_types = array( 'static', 'dynamic' ) ) {
 		return array_reduce(
@@ -353,7 +352,7 @@ class WP_Script_Modules {
 		 *
 		 * @since 6.5.0
 		 *
-		 * @param string $src Module source url.
+		 * @param string $src Module source URL.
 		 * @param string $id  Module identifier.
 		 */
 		$src = apply_filters( 'script_module_loader_src', $src, $id );

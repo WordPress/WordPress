@@ -325,9 +325,10 @@ function wp_cookie_constants() {
 
 	/**
 	 * @since 2.0.0
+	 * @since 6.6.0 The value has changed from false to an empty string.
 	 */
 	if ( ! defined( 'COOKIE_DOMAIN' ) ) {
-		define( 'COOKIE_DOMAIN', false );
+		define( 'COOKIE_DOMAIN', '' );
 	}
 
 	if ( ! defined( 'RECOVERY_MODE_COOKIE' ) ) {

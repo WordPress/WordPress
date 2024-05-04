@@ -556,7 +556,7 @@ function wp_print_plugin_file_tree( $tree, $label = '', $level = 2, $size = 1, $
 }
 
 /**
- * Flushes rewrite rules if siteurl, home or page_on_front changed.
+ * Flushes rewrite rules if `siteurl`, `home` or `page_on_front` changed.
  *
  * @since 2.1.0
  *
@@ -575,13 +575,12 @@ function update_home_siteurl( $old_value, $value ) {
 	}
 }
 
-
 /**
- * Resets global variables based on $_GET and $_POST.
+ * Resets global variables based on `$_GET` and `$_POST`.
  *
  * This function resets global variables based on the names passed
- * in the $vars array to the value of $_POST[$var] or $_GET[$var] or ''
- * if neither is defined.
+ * in the `$vars` array to the value of `$_POST[$var]` or `$_GET[$var]` or an
+ * empty string if neither is defined.
  *
  * @since 2.0.0
  *
@@ -755,7 +754,7 @@ function set_screen_options() {
 				/**
 				 * Filters a screen option value before it is set.
 				 *
-				 * The filter can also be used to modify non-standard [items]_per_page
+				 * The filter can also be used to modify non-standard `[items]_per_page`
 				 * settings. See the parent function for a full list of standard options.
 				 *
 				 * Returning false from the filter will skip saving the current option.
@@ -1305,7 +1304,7 @@ function wp_refresh_metabox_loader_nonces( $response, $data ) {
 }
 
 /**
- * Adds the latest Heartbeat and REST-API nonce to the Heartbeat response.
+ * Adds the latest Heartbeat and REST API nonce to the Heartbeat response.
  *
  * @since 5.0.0
  *
@@ -1399,11 +1398,11 @@ function wp_admin_canonical_url() {
 	$filtered_url = remove_query_arg( $removable_query_args, $current_url );
 
 	/**
-	 * Filters the admin canonical url value.
+	 * Filters the admin canonical URL value.
 	 *
 	 * @since 6.5.0
 	 *
-	 * @param string $filtered_url The admin canonical url value.
+	 * @param string $filtered_url The admin canonical URL value.
 	 */
 	$filtered_url = apply_filters( 'wp_admin_canonical_url', $filtered_url );
 	?>
@@ -1647,8 +1646,8 @@ function wp_check_php_version() {
 
 	$response['is_lower_than_future_minimum'] = false;
 
-	// The minimum supported PHP version will be updated to 7.2. Check if the current version is lower.
-	if ( version_compare( $version, '7.2', '<' ) ) {
+	// The minimum supported PHP version will be updated to 7.4 in the future. Check if the current version is lower.
+	if ( version_compare( $version, '7.4', '<' ) ) {
 		$response['is_lower_than_future_minimum'] = true;
 
 		// Force showing of warnings.

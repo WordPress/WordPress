@@ -315,6 +315,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: inherit;
 }
 
+.editor-styles-wrapper .wp-block-table[style*="font-size"] *,
+.editor-styles-wrapper .wp-block-table[class*="-font-size"] * {
+	font-size: inherit;
+}
+
 .editor-block-list__block .wp-block-table th {
 	border: 0;
 	font-size: 11px;

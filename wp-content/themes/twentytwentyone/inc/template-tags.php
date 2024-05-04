@@ -110,7 +110,7 @@ if ( ! function_exists( 'twenty_twenty_one_entry_meta_footer' ) ) {
 				}
 
 				$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
-				if ( $tags_list ) {
+				if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 					printf(
 						/* translators: %s: List of tags. */
 						'<span class="tags-links">' . esc_html__( 'Tagged %s', 'twentytwentyone' ) . '</span>',
@@ -152,7 +152,7 @@ if ( ! function_exists( 'twenty_twenty_one_entry_meta_footer' ) ) {
 				}
 
 				$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
-				if ( $tags_list ) {
+				if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 					printf(
 						/* translators: %s: List of tags. */
 						'<span class="tags-links">' . esc_html__( 'Tagged %s', 'twentytwentyone' ) . '</span>',
