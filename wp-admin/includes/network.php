@@ -148,26 +148,8 @@ function network_step1( $errors = false ) {
 		die();
 	}
 
-	$hostname  = get_clean_basedomain();
-	$has_ports = strstr( $hostname, ':' );
-	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ), true ) ) ) {
-		wp_admin_notice(
-			'<strong>' . __( 'Error:' ) . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ),
-			array(
-				'additional_classes' => array( 'error' ),
-			)
-		);
-
-		echo '<p>' . sprintf(
-			/* translators: %s: Port number. */
-			__( 'You cannot use port numbers such as %s.' ),
-			'<code>' . $has_ports . '</code>'
-		) . '</p>';
-		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Go to Dashboard' ) . '</a>';
-		echo '</div>';
-		require_once ABSPATH . 'wp-admin/admin-footer.php';
-		die();
-	}
+	// Strip standard port from hostname.
+	$hostname = preg_replace( '/(?::80|:443)$/', '', get_clean_basedomain() );
 
 	echo '<form method="post">';
 

@@ -627,12 +627,13 @@ function get_oembed_response_data_for_url( $url, $args ) {
 			wp_parse_url( $url ),
 			array(
 				'host' => '',
+				'port' => null,
 				'path' => '/',
 			)
 		);
 
 		$qv = array(
-			'domain'                 => $url_parts['host'],
+			'domain'                 => $url_parts['host'] . ( $url_parts['port'] ? ':' . $url_parts['port'] : '' ),
 			'path'                   => '/',
 			'update_site_meta_cache' => false,
 		);
