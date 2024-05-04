@@ -1839,10 +1839,18 @@ class WP_Site_Health {
 			$result['description'] = __( 'Could not determine available disk space for updates.' );
 			$result['status']      = 'recommended';
 		} elseif ( $available_space < 20 * MB_IN_BYTES ) {
-			$result['description'] = __( 'Available disk space is critically low, less than 20 MB available. Proceed with caution, updates may fail.' );
+			$result['description'] = sprintf(
+				/* translators: %s: Available disk space in MB or GB. */
+				__( 'Available disk space is critically low, less than %s available. Proceed with caution, updates may fail.' ),
+				size_format( 20 * MB_IN_BYTES )
+			);
 			$result['status']      = 'critical';
 		} elseif ( $available_space < 100 * MB_IN_BYTES ) {
-			$result['description'] = __( 'Available disk space is low, less than 100 MB available.' );
+			$result['description'] = sprintf(
+				/* translators: %s: Available disk space in MB or GB. */
+				__( 'Available disk space is low, less than %s available.' ),
+				size_format( 100 * MB_IN_BYTES )
+			);
 			$result['status']      = 'recommended';
 		}
 
