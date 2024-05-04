@@ -833,11 +833,13 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 		 * the file path could be for an MO or PHP file.
 		 *
 		 * @since 6.5.0
+		 * @since 6.6.0 Added the `$locale` parameter.
 		 *
 		 * @param string $file   Path to the translation file to load.
 		 * @param string $domain The text domain.
+		 * @param string $locale The locale.
 		 */
-		$file = (string) apply_filters( 'load_translation_file', $file, $domain );
+		$file = (string) apply_filters( 'load_translation_file', $file, $domain, $locale );
 
 		$success = $i18n_controller->load_file( $file, $domain, $locale );
 
