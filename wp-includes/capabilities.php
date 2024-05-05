@@ -1088,10 +1088,8 @@ function is_super_admin( $user_id = false ) {
 		if ( is_array( $super_admins ) && in_array( $user->user_login, $super_admins, true ) ) {
 			return true;
 		}
-	} else {
-		if ( $user->has_cap( 'delete_users' ) ) {
-			return true;
-		}
+	} elseif ( $user->has_cap( 'delete_users' ) ) {
+		return true;
 	}
 
 	return false;
