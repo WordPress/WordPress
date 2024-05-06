@@ -289,10 +289,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	font-style: italic;
 }
 
-.edit-post-visual-editor .wp-block-pullquote {
-	margin: 0;
-}
-
 .wp-block-pullquote .wp-block-pullquote__citation,
 .wp-block-pullquote cite {
 	font-size: 14px;
