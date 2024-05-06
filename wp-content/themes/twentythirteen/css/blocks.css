@@ -290,6 +290,11 @@ body:not(.sidebar) .wp-block-cover > .wp-block-cover__inner-container > * {
 	border-top: 1px solid #ededed;
 }
 
+.wp-block-table[style*="font-size"] *,
+.wp-block-table[class*="-font-size"] * {
+        font-size: inherit;
+}
+
 body:not(.sidebar) .wp-block-table.alignwide,
 body:not(.sidebar) .wp-block-table.alignfull {
 	width: 100%;

@@ -331,6 +331,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0;
 }
 
+.editor-styles-wrapper .wp-block-table[style*="font-size"] *,
+.editor-styles-wrapper .wp-block-table[class*="-font-size"] * {
+        font-size: inherit;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
