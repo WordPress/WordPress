@@ -4,6 +4,7 @@
  * Slug: twentytwentyfour/banner-project-description
  * Categories: featured, banner, about, portfolio
  * Viewport width: 1400
+ * Description: Project description section with title, paragraph, and an image.
  */
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"},"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"backgroundColor":"accent-2","layout":{"type":"constrained"}} -->

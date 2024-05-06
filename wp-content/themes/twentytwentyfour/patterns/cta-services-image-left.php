@@ -4,6 +4,7 @@
  * Slug: twentytwentyfour/cta-services-image-left
  * Categories: call-to-action, banner, featured, services
  * Viewport width: 1400
+ * Description: An image, title, paragraph and a CTA button to describe services.
  */
 ?>
 

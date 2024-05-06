@@ -4,6 +4,7 @@
  * Slug: twentytwentyfour/text-feature-grid-3-col
  * Categories: text, about
  * Viewport width: 1400
+ * Description: A feature grid of 2 rows and 3 columns with headings and text.
  */
 ?>
 

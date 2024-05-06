@@ -4,6 +4,7 @@
  * Slug: twentytwentyfour/gallery-project-layout
  * Categories: gallery, featured, portfolio
  * Viewport width: 1600
+ * Description: A gallery section with a project layout with 2 images.
  */
 ?>
 

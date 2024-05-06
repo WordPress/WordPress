@@ -3,6 +3,7 @@
  * Title: Full screen image
  * Slug: twentytwentyfour/gallery-full-screen-image
  * Categories: gallery, portfolio
+ * Description: A cover image section that covers the entire width.
  */
 ?>
 

@@ -4,6 +4,7 @@
  * Slug: twentytwentyfour/posts-list
  * Categories: query, posts
  * Block Types: core/query
+ * Description: A list of posts without images, 1 column.
  */
 ?>
 
