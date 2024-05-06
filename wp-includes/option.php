@@ -1412,10 +1412,10 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		$transient_option  = '_transient_' . $transient;
 
 		if ( false === get_option( $transient_option ) ) {
-			$autoload = 'yes';
+			$autoload = 'on';
 			if ( $expiration ) {
-				$autoload = 'no';
-				add_option( $transient_timeout, time() + $expiration, '', 'no' );
+				$autoload = 'off';
+				add_option( $transient_timeout, time() + $expiration, '', 'off' );
 			}
 			$result = add_option( $transient_option, $value, '', $autoload );
 		} else {
@@ -1428,8 +1428,8 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 			if ( $expiration ) {
 				if ( false === get_option( $transient_timeout ) ) {
 					delete_option( $transient_option );
-					add_option( $transient_timeout, time() + $expiration, '', 'no' );
-					$result = add_option( $transient_option, $value, '', 'no' );
+					add_option( $transient_timeout, time() + $expiration, '', 'off' );
+					$result = add_option( $transient_option, $value, '', 'off' );
 					$update = false;
 				} else {
 					update_option( $transient_timeout, time() + $expiration );
@@ -2017,7 +2017,7 @@ function add_network_option( $network_id, $option, $value ) {
 	$notoptions_key = "$network_id:notoptions";
 
 	if ( ! is_multisite() ) {
-		$result = add_option( $option, $value, '', 'no' );
+		$result = add_option( $option, $value, '', 'off' );
 	} else {
 		$cache_key = "$network_id:$option";
 
@@ -2263,7 +2263,7 @@ function update_network_option( $network_id, $option, $value ) {
 	}
 
 	if ( ! is_multisite() ) {
-		$result = update_option( $option, $value, 'no' );
+		$result = update_option( $option, $value, 'off' );
 	} else {
 		$value = sanitize_option( $option, $value );
 

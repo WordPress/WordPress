@@ -192,7 +192,7 @@ function wp_ajax_wp_compression_test() {
 		if ( is_multisite() ) {
 			update_site_option( 'can_compress_scripts', 0 );
 		} else {
-			update_option( 'can_compress_scripts', 0, 'yes' );
+			update_option( 'can_compress_scripts', 0, 'on' );
 		}
 		wp_die( 0 );
 	}
@@ -231,7 +231,7 @@ function wp_ajax_wp_compression_test() {
 			if ( is_multisite() ) {
 				update_site_option( 'can_compress_scripts', 0 );
 			} else {
-				update_option( 'can_compress_scripts', 0, 'yes' );
+				update_option( 'can_compress_scripts', 0, 'on' );
 			}
 		} elseif ( 'yes' === $_GET['test'] ) {
 			check_ajax_referer( 'update_can_compress_scripts' );
@@ -239,7 +239,7 @@ function wp_ajax_wp_compression_test() {
 			if ( is_multisite() ) {
 				update_site_option( 'can_compress_scripts', 1 );
 			} else {
-				update_option( 'can_compress_scripts', 1, 'yes' );
+				update_option( 'can_compress_scripts', 1, 'on' );
 			}
 		}
 	}

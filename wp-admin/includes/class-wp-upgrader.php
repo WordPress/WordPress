@@ -1016,7 +1016,7 @@ class WP_Upgrader {
 		$lock_option = $lock_name . '.lock';
 
 		// Try to lock.
-		$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_option, time() ) );
+		$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'off') /* LOCK */", $lock_option, time() ) );
 
 		if ( ! $lock_result ) {
 			$lock_result = get_option( $lock_option );
