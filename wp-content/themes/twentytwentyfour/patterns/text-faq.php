@@ -16,45 +16,48 @@
 
 	<!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide">
-		<!-- wp:separator {"backgroundColor":"base","className":"is-style-wide"} -->
-		<hr class="wp-block-separator has-text-color has-base-color has-alpha-channel-opacity has-base-background-color has-background is-style-wide"/>
+		<!-- wp:separator {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"backgroundColor":"base","className":"is-style-wide"} -->
+		<hr class="wp-block-separator has-text-color has-base-color has-alpha-channel-opacity has-base-background-color has-background is-style-wide" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--30)"/>
+		<!-- /wp:separator -->
+		<!-- wp:heading {"level":3,"align":"wide","style":{"elements":{"link":{"color":{"text":"var:preset|color|base-2"}}}},"textColor":"base-2"} -->
+		<h3 class="wp-block-heading alignwide has-base-2-color has-text-color has-link-color"><?php echo esc_html_x( 'What is your process working in smaller projects?', 'Question in the FAQ pattern', 'twentytwentyfour' ); ?></h3>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
+		<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Answer in the FAQ pattern', 'twentytwentyfour' ); ?></p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:separator {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"backgroundColor":"base","className":"is-style-wide"} -->
+		<hr class="wp-block-separator has-text-color has-base-color has-alpha-channel-opacity has-base-background-color has-background is-style-wide" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--30)"/>
 		<!-- /wp:separator -->
 
-		<!-- wp:details {"style":{"spacing":{"margin":{"top":"0"}},"border":{"top":{"width":"0px","style":"none"},"right":{"width":"0px","style":"none"},"bottom":{"color":"var:preset|color|base","style":"solid","width":"1px"},"left":{"width":"0px","style":"none"}}},"className":"is-style-arrow-icon-details","fontSize":"medium"} -->
-		<details class="wp-block-details is-style-arrow-icon-details has-medium-font-size" style="border-top-style:none;border-top-width:0px;border-right-style:none;border-right-width:0px;border-bottom-color:var(--wp--preset--color--base);border-bottom-style:solid;border-bottom-width:1px;border-left-style:none;border-left-width:0px;margin-top:0">
-			<summary><?php echo esc_html_x( 'What is your process working in smaller projects?', 'Question on the details block', 'twentytwentyfour' ); ?></summary>
-			<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
-			<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Hidden answer on the details block', 'twentytwentyfour' ); ?></p>
-			<!-- /wp:paragraph -->
-		</details>
-		<!-- /wp:details -->
+		<!-- wp:heading {"level":3,"align":"wide","style":{"elements":{"link":{"color":{"text":"var:preset|color|base-2"}}}},"textColor":"base-2"} -->
+		<h3 class="wp-block-heading alignwide has-base-2-color has-text-color has-link-color"><?php echo esc_html_x( 'Who is behind Études?', 'Question in the FAQ pattern', 'twentytwentyfour' ); ?></h3>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
+		<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Answer in the FAQ pattern', 'twentytwentyfour' ); ?></p>
+		<!-- /wp:paragraph -->
 
-		<!-- wp:details {"style":{"spacing":{"margin":{"top":"0"}},"border":{"top":{"width":"0px","style":"none"},"right":{"width":"0px","style":"none"},"bottom":{"color":"var:preset|color|base","style":"solid","width":"1px"},"left":{"width":"0px","style":"none"}}},"className":"is-style-arrow-icon-details","fontSize":"medium"} -->
-		<details class="wp-block-details is-style-arrow-icon-details has-medium-font-size" style="border-top-style:none;border-top-width:0px;border-right-style:none;border-right-width:0px;border-bottom-color:var(--wp--preset--color--base);border-bottom-style:solid;border-bottom-width:1px;border-left-style:none;border-left-width:0px;margin-top:0">
-			<summary><?php echo esc_html_x( 'Who is behind Études?', 'Question on the details block', 'twentytwentyfour' ); ?></summary>
-			<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
-			<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Hidden answer on the details block', 'twentytwentyfour' ); ?></p>
-			<!-- /wp:paragraph -->
-		</details>
-		<!-- /wp:details -->
+		<!-- wp:separator {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"backgroundColor":"base","className":"is-style-wide"} -->
+		<hr class="wp-block-separator has-text-color has-base-color has-alpha-channel-opacity has-base-background-color has-background is-style-wide" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--30)"/>
+		<!-- /wp:separator -->
 
-		<!-- wp:details {"style":{"spacing":{"margin":{"top":"0"}},"border":{"top":{"width":"0px","style":"none"},"right":{"width":"0px","style":"none"},"bottom":{"color":"var:preset|color|base","style":"solid","width":"1px"},"left":{"width":"0px","style":"none"}}},"className":"is-style-arrow-icon-details","fontSize":"medium"} -->
-		<details class="wp-block-details is-style-arrow-icon-details has-medium-font-size" style="border-top-style:none;border-top-width:0px;border-right-style:none;border-right-width:0px;border-bottom-color:var(--wp--preset--color--base);border-bottom-style:solid;border-bottom-width:1px;border-left-style:none;border-left-width:0px;margin-top:0">
-			<summary><?php echo esc_html_x( 'I\'d like to get to meet fellow architects, how can I do that?', 'Question on the details block', 'twentytwentyfour' ); ?></summary>
-			<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
-			<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Hidden answer on the details block', 'twentytwentyfour' ); ?></p>
-			<!-- /wp:paragraph -->
-		</details>
-		<!-- /wp:details -->
+		<!-- wp:heading {"level":3,"align":"wide","style":{"elements":{"link":{"color":{"text":"var:preset|color|base-2"}}}},"textColor":"base-2"} -->
+		<h3 class="wp-block-heading alignwide has-base-2-color has-text-color has-link-color"><?php echo esc_html_x( 'I\'d like to get to meet fellow architects, how can I do that?', 'Question in the FAQ pattern', 'twentytwentyfour' ); ?></h3>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
+		<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Answer in the FAQ pattern', 'twentytwentyfour' ); ?></p>
+		<!-- /wp:paragraph -->
 
-		<!-- wp:details {"style":{"spacing":{"margin":{"top":"0"}},"border":{"top":{"width":"0px","style":"none"},"right":{"width":"0px","style":"none"},"bottom":{"color":"var:preset|color|base","style":"solid","width":"1px"},"left":{"width":"0px","style":"none"}}},"className":"is-style-arrow-icon-details","fontSize":"medium"} -->
-		<details class="wp-block-details is-style-arrow-icon-details has-medium-font-size" style="border-top-style:none;border-top-width:0px;border-right-style:none;border-right-width:0px;border-bottom-color:var(--wp--preset--color--base);border-bottom-style:solid;border-bottom-width:1px;border-left-style:none;border-left-width:0px;margin-top:0">
-			<summary><?php echo esc_html_x( 'Can I apply to be a part of the team or work as a contractor?', 'Question on the details block', 'twentytwentyfour' ); ?></summary>
-			<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
-			<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Hidden answer on the details block', 'twentytwentyfour' ); ?></p>
-			<!-- /wp:paragraph -->
-		</details>
-		<!-- /wp:details -->
+		<!-- wp:separator {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"backgroundColor":"base","className":"is-style-wide"} -->
+		<hr class="wp-block-separator has-text-color has-base-color has-alpha-channel-opacity has-base-background-color has-background is-style-wide" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:var(--wp--preset--spacing--30)"/>
+		<!-- /wp:separator -->
+
+		<!-- wp:heading {"level":3,"align":"wide","style":{"elements":{"link":{"color":{"text":"var:preset|color|base-2"}}}},"textColor":"base-2"} -->
+		<h3 class="wp-block-heading alignwide has-base-2-color has-text-color has-link-color"><?php echo esc_html_x( 'Can I apply to be a part of the team or work as a contractor?', 'Question in the FAQ pattern', 'twentytwentyfour' ); ?></h3>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph {"placeholder":"Type / to add a hidden block","style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast-1"}}}},"textColor":"contrast-1"} -->
+		<p class="has-contrast-1-color has-text-color has-link-color"><?php echo esc_html_x( 'Études offers comprehensive consulting, management, design, and research solutions. Our vision is to be at the forefront of architectural innovation, fostering a global community of architects and enthusiasts united by a passion for creating spaces. Every architectural endeavor is an opportunity to shape the future.', 'Answer in the FAQ pattern', 'twentytwentyfour' ); ?></p>
+		<!-- /wp:paragraph -->
 
 		<!-- wp:spacer {"height":"var:preset|spacing|10","style":{"spacing":{"margin":{"top":"var:preset|spacing|10","bottom":"0"}}}} -->
 		<div style="margin-top:var(--wp--preset--spacing--10);margin-bottom:0;height:var(--wp--preset--spacing--10)" aria-hidden="true" class="wp-block-spacer"></div>
