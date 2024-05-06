@@ -182,15 +182,14 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
 
 	/* Remove image filters from featured image */
 	.image-filters-enabled {
-
-		*:after {
-			display: none !important;
-		}
-
-		.site-header.featured-image .site-featured-image:before {
+		.entry .post-thumbnail:after,
+		.site-header.featured-image .site-featured-image:before,
+		.site-header.featured-image .site-featured-image:after,
+		.site-header.featured-image:after {
 			display: none;
 		}
 
+		.entry .post-thumbnail .post-thumbnail-inner,
 		.site-header.featured-image .site-featured-image .post-thumbnail img {
 			filter: none;
 		}
