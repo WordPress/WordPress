@@ -150,12 +150,13 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
     margin-top: 1rem;
   }
   /* Remove image filters from featured image */
-  .image-filters-enabled *:after {
-    display: none !important;
-  }
-  .image-filters-enabled .site-header.featured-image .site-featured-image:before {
+  .image-filters-enabled .entry .post-thumbnail:after,
+  .image-filters-enabled .site-header.featured-image .site-featured-image:before,
+  .image-filters-enabled .site-header.featured-image .site-featured-image:after,
+  .image-filters-enabled .site-header.featured-image:after {
     display: none;
   }
+  .image-filters-enabled .entry .post-thumbnail .post-thumbnail-inner,
   .image-filters-enabled .site-header.featured-image .site-featured-image .post-thumbnail img {
     filter: none;
   }
