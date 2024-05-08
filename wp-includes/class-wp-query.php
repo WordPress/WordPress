@@ -2264,6 +2264,9 @@ class WP_Query {
 					$post_type = 'any';
 				} elseif ( count( $post_type ) === 1 ) {
 					$post_type = $post_type[0];
+				} else {
+					// Sort post types to ensure same cache key generation.
+					sort( $post_type );
 				}
 
 				$post_status_join = true;
@@ -2542,6 +2545,8 @@ class WP_Query {
 				$post_type_where = " AND {$wpdb->posts}.post_type IN ('" . implode( "', '", array_map( 'esc_sql', $in_search_post_types ) ) . "')";
 			}
 		} elseif ( ! empty( $post_type ) && is_array( $post_type ) ) {
+			// Sort post types to ensure same cache key generation.
+			sort( $post_type );
 			$post_type_where = " AND {$wpdb->posts}.post_type IN ('" . implode( "', '", esc_sql( $post_type ) ) . "')";
 		} elseif ( ! empty( $post_type ) ) {
 			$post_type_where  = $wpdb->prepare( " AND {$wpdb->posts}.post_type = %s", $post_type );
@@ -2647,7 +2652,7 @@ class WP_Query {
 			}
 
 			if ( ! empty( $queried_post_types ) ) {
-
+				sort( $queried_post_types );
 				$status_type_clauses = array();
 
 				foreach ( $queried_post_types as $queried_post_type ) {
@@ -3104,14 +3109,24 @@ class WP_Query {
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 		}
 
-		// Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wordpress.org/ticket/56841.
+		/*
+		 * Beginning of the string is on a new line to prevent leading whitespace.
+		 *
+		 * The additional indentation of subsequent lines is to ensure the SQL
+		 * queries are identical to those generated when splitting queries. This
+		 * improves caching of the query by ensuring the same cache key is
+		 * generated for the same database queries functionally.
+		 *
+		 * See https://core.trac.wordpress.org/ticket/56841.
+		 * See https://github.com/WordPress/wordpress-develop/pull/6393#issuecomment-2088217429
+		 */
 		$old_request =
 			"SELECT $found_rows $distinct $fields
-			 FROM {$wpdb->posts} $join
-			 WHERE 1=1 $where
-			 $groupby
-			 $orderby
-			 $limits";
+					 FROM {$wpdb->posts} $join
+					 WHERE 1=1 $where
+					 $groupby
+					 $orderby
+					 $limits";
 
 		$this->request = $old_request;
 
@@ -4856,6 +4871,32 @@ class WP_Query {
 			$args['suppress_filters']
 		);
 
+		if ( empty( $args['post_type'] ) ) {
+			if ( $this->is_attachment ) {
+				$args['post_type'] = 'attachment';
+			} elseif ( $this->is_page ) {
+				$args['post_type'] = 'page';
+			} else {
+				$args['post_type'] = 'post';
+			}
+		} elseif ( 'any' === $args['post_type'] ) {
+			$args['post_type'] = array_values( get_post_types( array( 'exclude_from_search' => false ) ) );
+		}
+		$args['post_type'] = (array) $args['post_type'];
+		// Sort post types to ensure same cache key generation.
+		sort( $args['post_type'] );
+
+		if ( isset( $args['post_status'] ) ) {
+			$args['post_status'] = (array) $args['post_status'];
+			// Sort post status to ensure same cache key generation.
+			sort( $args['post_status'] );
+		}
+
+		// Add a default orderby value of date to ensure same cache key generation.
+		if ( ! isset( $q['orderby'] ) ) {
+			$args['orderby'] = 'date';
+		}
+
 		$placeholder = $wpdb->placeholder_escape();
 		array_walk_recursive(
 			$args,
@@ -4873,6 +4914,8 @@ class WP_Query {
 				}
 			}
 		);
+
+		ksort( $args );
 
 		// Replace wpdb placeholder in the SQL statement used by the cache key.
 		$sql = $wpdb->remove_placeholder_escape( $sql );
