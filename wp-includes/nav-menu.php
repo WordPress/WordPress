@@ -280,7 +280,7 @@ function wp_delete_nav_menu( $menu ) {
 	// Remove this menu from any locations.
 	$locations = get_nav_menu_locations();
 	foreach ( $locations as $location => $menu_id ) {
-		if ( $menu_id == $menu->term_id ) {
+		if ( $menu_id === $menu->term_id ) {
 			$locations[ $location ] = 0;
 		}
 	}
@@ -331,7 +331,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		$_possible_existing &&
 		! is_wp_error( $_possible_existing ) &&
 		isset( $_possible_existing->term_id ) &&
-		$_possible_existing->term_id != $menu_id
+		$_possible_existing->term_id !== $menu_id
 	) {
 		return new WP_Error(
 			'menu_exists',
@@ -458,12 +458,22 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	$args = wp_parse_args( $menu_item_data, $defaults );
 
-	if ( 0 == $menu_id ) {
+	if ( 0 === $menu_id ) {
 		$args['menu-item-position'] = 1;
-	} elseif ( 0 == (int) $args['menu-item-position'] ) {
-		$menu_items                 = 0 == $menu_id ? array() : (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
-		$last_item                  = array_pop( $menu_items );
-		$args['menu-item-position'] = ( $last_item && isset( $last_item->menu_order ) ) ? 1 + $last_item->menu_order : count( $menu_items );
+	} elseif ( 0 === (int) $args['menu-item-position'] ) {
+		$menu_items = array();
+
+		if ( 0 !== $menu_id ) {
+			$menu_items = (array) wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'publish,draft' ) );
+		}
+
+		$last_item = array_pop( $menu_items );
+
+		if ( $last_item && isset( $last_item->menu_order ) ) {
+			$args['menu-item-position'] = 1 + $last_item->menu_order;
+		} else {
+			$args['menu-item-position'] = count( $menu_items );
+		}
 	}
 
 	$original_parent = 0 < $menu_item_db_id ? get_post_field( 'post_parent', $menu_item_db_id ) : 0;
@@ -522,7 +532,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		$post['post_date'] = $post_date;
 	}
 
-	$update = 0 != $menu_item_db_id;
+	$update = 0 !== $menu_item_db_id;
 
 	// New menu item. Default is draft status.
 	if ( ! $update ) {
@@ -582,7 +592,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	update_post_meta( $menu_item_db_id, '_menu_item_xfn', $args['menu-item-xfn'] );
 	update_post_meta( $menu_item_db_id, '_menu_item_url', sanitize_url( $args['menu-item-url'] ) );
 
-	if ( 0 == $menu_id ) {
+	if ( 0 === $menu_id ) {
 		update_post_meta( $menu_item_db_id, '_menu_item_orphaned', (string) time() );
 	} elseif ( get_post_meta( $menu_item_db_id, '_menu_item_orphaned' ) ) {
 		delete_post_meta( $menu_item_db_id, '_menu_item_orphaned' );
@@ -1059,7 +1069,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 			} elseif (
 				'taxonomy' === $object_type &&
 				'taxonomy' === $menu_item_type &&
-				get_post_meta( $menu_item->ID, '_menu_item_object', true ) == $taxonomy
+				get_post_meta( $menu_item->ID, '_menu_item_object', true ) === $taxonomy
 			) {
 				$menu_item_ids[] = (int) $menu_item->ID;
 			}
@@ -1146,7 +1156,7 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 			continue;
 		}
 		foreach ( $items as $item ) {
-			if ( $post->ID == $item->object_id ) {
+			if ( $post->ID === (int) $item->object_id ) {
 				continue 2;
 			}
 		}
