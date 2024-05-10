@@ -208,6 +208,9 @@ final class WP_Interactivity_API {
 	public function add_hooks() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_script_modules' ) );
 		add_action( 'wp_footer', array( $this, 'print_client_interactivity_data' ) );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_script_modules' ) );
+		add_action( 'admin_print_footer_scripts', array( $this, 'print_client_interactivity_data' ) );
 	}
 
 	/**
