@@ -1679,13 +1679,15 @@ function register_and_do_post_meta_boxes( $post ) {
 		add_meta_box( 'commentstatusdiv', __( 'Discussion' ), 'post_comment_status_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
 	}
 
-	$stati = get_post_stati( array( 'public' => true ) );
-	if ( empty( $stati ) ) {
-		$stati = array( 'publish' );
-	}
-	$stati[] = 'private';
+	$statuses = get_post_stati( array( 'public' => true ) );
 
-	if ( in_array( get_post_status( $post ), $stati, true ) ) {
+	if ( empty( $statuses ) ) {
+		$statuses = array( 'publish' );
+	}
+
+	$statuses[] = 'private';
+
+	if ( in_array( get_post_status( $post ), $statuses, true ) ) {
 		/*
 		 * If the post type support comments, or the post has comments,
 		 * allow the Comments meta box.

@@ -238,8 +238,8 @@ function export_date_options( $post_type = 'post' ) {
 		<select name="post_status" id="post-status">
 			<option value="0"><?php _e( 'All' ); ?></option>
 			<?php
-			$post_stati = get_post_stati( array( 'internal' => false ), 'objects' );
-			foreach ( $post_stati as $status ) :
+			$post_statuses = get_post_stati( array( 'internal' => false ), 'objects' );
+			foreach ( $post_statuses as $status ) :
 				?>
 			<option value="<?php echo esc_attr( $status->name ); ?>"><?php echo esc_html( $status->label ); ?></option>
 			<?php endforeach; ?>
@@ -289,7 +289,7 @@ function export_date_options( $post_type = 'post' ) {
 		<label for="page-status" class="label-responsive"><?php _e( 'Status:' ); ?></label>
 		<select name="page_status" id="page-status">
 			<option value="0"><?php _e( 'All' ); ?></option>
-			<?php foreach ( $post_stati as $status ) : ?>
+			<?php foreach ( $post_statuses as $status ) : ?>
 			<option value="<?php echo esc_attr( $status->name ); ?>"><?php echo esc_html( $status->label ); ?></option>
 			<?php endforeach; ?>
 		</select>
