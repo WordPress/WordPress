@@ -901,6 +901,7 @@ class WP_Upgrader {
 		$this->skin->set_result( $result );
 
 		if ( is_wp_error( $result ) ) {
+			// An automatic plugin update will have already performed its rollback.
 			if ( ! empty( $options['hook_extra']['temp_backup'] ) ) {
 				$this->temp_restores[] = $options['hook_extra']['temp_backup'];
 
@@ -909,8 +910,12 @@ class WP_Upgrader {
 				 * Actions running on `shutdown` are immune to PHP timeouts,
 				 * so in case the failure was due to a PHP timeout,
 				 * it will still be able to properly restore the previous version.
+				 *
+				 * Zero arguments are accepted as a string can sometimes be passed
+				 * internally during actions, causing an error because
+				 * `WP_Upgrader::restore_temp_backup()` expects an array.
 				 */
-				add_action( 'shutdown', array( $this, 'restore_temp_backup' ) );
+				add_action( 'shutdown', array( $this, 'restore_temp_backup' ), 10, 0 );
 			}
 			$this->skin->error( $result );
 
@@ -983,15 +988,25 @@ class WP_Upgrader {
 	 */
 	public function maintenance_mode( $enable = false ) {
 		global $wp_filesystem;
+
+		if ( ! $wp_filesystem ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
 		$file = $wp_filesystem->abspath() . '.maintenance';
 		if ( $enable ) {
-			$this->skin->feedback( 'maintenance_start' );
+			if ( ! wp_doing_cron() ) {
+				$this->skin->feedback( 'maintenance_start' );
+			}
 			// Create maintenance file to signal that we are upgrading.
 			$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
 			$wp_filesystem->delete( $file );
 			$wp_filesystem->put_contents( $file, $maintenance_string, FS_CHMOD_FILE );
 		} elseif ( ! $enable && $wp_filesystem->exists( $file ) ) {
-			$this->skin->feedback( 'maintenance_end' );
+			if ( ! wp_doing_cron() ) {
+				$this->skin->feedback( 'maintenance_end' );
+			}
 			$wp_filesystem->delete( $file );
 		}
 	}
@@ -1133,17 +1148,33 @@ class WP_Upgrader {
 	 * Restores the plugin or theme from temporary backup.
 	 *
 	 * @since 6.3.0
+	 * @since 6.6.0 Added the `$temp_backups` parameter.
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
+	 * @param array[] $temp_backups {
+	 *     Optional. An array of temporary backups.
+	 *
+	 *     @type array ...$0 {
+	 *         Information about the backup.
+	 *
+	 *         @type string $dir  The temporary backup location in the upgrade-temp-backup directory.
+	 *         @type string $slug The item's slug.
+	 *         @type string $src  The directory where the original is stored. For example, `WP_PLUGIN_DIR`.
+	 *     }
+	 * }
 	 * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
 	 */
-	public function restore_temp_backup() {
+	public function restore_temp_backup( array $temp_backups = array() ) {
 		global $wp_filesystem;
 
 		$errors = new WP_Error();
 
-		foreach ( $this->temp_restores as $args ) {
+		if ( empty( $temp_backups ) ) {
+			$temp_backups = $this->temp_restores;
+		}
+
+		foreach ( $temp_backups as $args ) {
 			if ( empty( $args['slug'] ) || empty( $args['src'] ) || empty( $args['dir'] ) ) {
 				return false;
 			}
@@ -1186,17 +1217,33 @@ class WP_Upgrader {
 	 * Deletes a temporary backup.
 	 *
 	 * @since 6.3.0
+	 * @since 6.6.0 Added the `$temp_backups` parameter.
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
+	 * @param array[] $temp_backups {
+	 *     Optional. An array of temporary backups.
+	 *
+	 *     @type array ...$0 {
+	 *         Information about the backup.
+	 *
+	 *         @type string $dir  The temporary backup location in the upgrade-temp-backup directory.
+	 *         @type string $slug The item's slug.
+	 *         @type string $src  The directory where the original is stored. For example, `WP_PLUGIN_DIR`.
+	 *     }
+	 * }
 	 * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
 	 */
-	public function delete_temp_backup() {
+	public function delete_temp_backup( array $temp_backups = array() ) {
 		global $wp_filesystem;
 
 		$errors = new WP_Error();
 
-		foreach ( $this->temp_backups as $args ) {
+		if ( empty( $temp_backups ) ) {
+			$temp_backups = $this->temp_backups;
+		}
+
+		foreach ( $temp_backups as $args ) {
 			if ( empty( $args['slug'] ) || empty( $args['dir'] ) ) {
 				return false;
 			}
