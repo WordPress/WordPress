@@ -95,11 +95,6 @@
 			} );
 		}
 
-		if ( skipLink ) {
-			// Focus the target of skip link after pressing Enter.
-			skipLink.addEventListener( 'keydown', focusTargetAfterEnter );
-		}
-
 		if ( shortlink ) {
 			shortlink.addEventListener( 'click', clickShortlink );
 		}
@@ -170,35 +165,6 @@
 			removeClass( wrapper, 'hover' );
 		} else {
 			addClass( wrapper, 'hover' );
-		}
-	}
-
-	/**
-	 * Focus the target of skip link after pressing Enter.
-	 *
-	 * @since 5.3.1
-	 *
-	 * @param {Event} event The keydown event.
-	 */
-	function focusTargetAfterEnter( event ) {
-		var id, userAgent;
-
-		if ( event.which !== 13 ) {
-			return;
-		}
-
-		id = event.target.getAttribute( 'href' );
-		userAgent = navigator.userAgent.toLowerCase();
-
-		if ( userAgent.indexOf( 'applewebkit' ) > -1 && id && id.charAt( 0 ) === '#' ) {
-			setTimeout( function() {
-				var target = document.getElementById( id.replace( '#', '' ) );
-
-				if ( target ) {
-					target.setAttribute( 'tabIndex', '0' );
-					target.focus();
-				}
-			}, 100 );
 		}
 	}
 
