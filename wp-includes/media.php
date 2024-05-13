@@ -2198,14 +2198,6 @@ function wp_img_tag_add_srcset_and_sizes_attr( $image, $context, $attachment_id 
  */
 function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
 	/*
-	 * Iframes with fallback content (see `wp_filter_oembed_result()`) should not be lazy-loaded because they are
-	 * visually hidden initially.
-	 */
-	if ( str_contains( $iframe, ' data-secret="' ) ) {
-		return $iframe;
-	}
-
-	/*
 	 * Get loading attribute value to use. This must occur before the conditional check below so that even iframes that
 	 * are ineligible for being lazy-loaded are considered.
 	 */
