@@ -18,7 +18,7 @@ $breakpoint_xxl: 1024px;
 @mixin media( $res ) {
 
 	@if mobile-only == $res {
-		@media only screen and (max-width: #{$breakpoint_sm - 1}) {
+		@media only screen and (max-width: #{$breakpoint_sm - 0.02}) {
 			@content;
 		}
 	}
@@ -30,7 +30,7 @@ $breakpoint_xxl: 1024px;
 	}
 
 	@if tablet-only == $res {
-		@media only screen and (max-width: #{$breakpoint_md - 1}) {
+		@media only screen and (max-width: #{$breakpoint_md - 0.02}) {
 			@content;
 		}
 	}
@@ -42,7 +42,7 @@ $breakpoint_xxl: 1024px;
 	}
 
 	@if laptop-only == $res {
-		@media only screen and (max-width: #{$breakpoint_lg - 1}) {
+		@media only screen and (max-width: #{$breakpoint_lg - 0.02}) {
 			@content;
 		}
 	}
@@ -54,7 +54,7 @@ $breakpoint_xxl: 1024px;
 	}
 
 	@if desktop-only == $res {
-		@media only screen and (max-width: #{$breakpoint_xl - 1}) {
+		@media only screen and (max-width: #{$breakpoint_xl - 0.02}) {
 			@content;
 		}
 	}
@@ -66,7 +66,7 @@ $breakpoint_xxl: 1024px;
 	}
 
 	@if wide-only == $res {
-		@media only screen and (max-width: #{$breakpoint_xxl - 1}) {
+		@media only screen and (max-width: #{$breakpoint_xxl - 0.02}) {
 			@content;
 		}
 	}

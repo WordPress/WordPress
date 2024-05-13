@@ -381,7 +381,7 @@ blockquote footer {
 	font-size: var(--global--font-size-xs);
 	font-style: var(--quote--font-style-cite);
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: 481.98px) {
 
 	blockquote {
 		padding-left: calc(0.5 * var(--global--spacing-horizontal));
@@ -1626,7 +1626,7 @@ pre.wp-block-preformatted {
 	line-height: var(--quote--line-height-large);
 	margin-right: 10px;
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: 481.98px) {
 
 	.wp-block-quote.is-large,
 	.wp-block-quote.is-style-large {
@@ -1649,7 +1649,7 @@ pre.wp-block-preformatted {
 		right: 0;
 	}
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: 481.98px) {
 
 	.wp-block-quote {
 		padding-left: calc(0.5 * var(--global--spacing-horizontal));
