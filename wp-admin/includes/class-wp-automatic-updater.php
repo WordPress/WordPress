@@ -446,12 +446,15 @@ class WP_Automatic_Updater {
 			$allow_relaxed_file_ownership = true;
 		}
 
+		$is_debug = WP_DEBUG && WP_DEBUG_LOG;
 		if ( 'plugin' === $type ) {
 			$was_active = is_plugin_active( $upgrader_item );
-			error_log( '    Upgrading plugin ' . var_export( $item->slug, true ) . '...' );
+			if ( $is_debug ) {
+				error_log( '    Upgrading plugin ' . var_export( $item->slug, true ) . '...' );
+			}
 		}
 
-		if ( 'theme' === $type ) {
+		if ( 'theme' === $type && $is_debug ) {
 			error_log( '    Upgrading theme ' . var_export( $item->theme, true ) . '...' );
 		}
 
@@ -520,14 +523,18 @@ class WP_Automatic_Updater {
 			}
 		}
 
-		if ( 'theme' === $type ) {
+		$is_debug = WP_DEBUG && WP_DEBUG_LOG;
+
+		if ( 'theme' === $type && $is_debug ) {
 			error_log( '    Theme ' . var_export( $item->theme, true ) . ' has been upgraded.' );
 		}
 
 		if ( 'plugin' === $type ) {
-			error_log( '    Plugin ' . var_export( $item->slug, true ) . ' has been upgraded.' );
-			if ( is_plugin_inactive( $upgrader_item ) ) {
-				error_log( '    ' . var_export( $upgrader_item, true ) . ' is inactive and will not be checked for fatal errors.' );
+			if ( $is_debug ) {
+				error_log( '    Plugin ' . var_export( $item->slug, true ) . ' has been upgraded.' );
+				if ( is_plugin_inactive( $upgrader_item ) ) {
+					error_log( '    ' . var_export( $upgrader_item, true ) . ' is inactive and will not be checked for fatal errors.' );
+				}
 			}
 
 			if ( $was_active && ! is_wp_error( $upgrade_result ) ) {
@@ -596,8 +603,10 @@ class WP_Automatic_Updater {
 					 * to this location rather than to the fatal error, which will
 					 * appear above this entry in the log file.
 					 */
-					error_log( '    ' . implode( "\n", $upgrade_result->get_error_messages() ) );
-				} else {
+					if ( $is_debug ) {
+						error_log( '    ' . implode( "\n", $upgrade_result->get_error_messages() ) );
+					}
+				} elseif ( $is_debug ) {
 					error_log( '    The update for ' . var_export( $item->slug, true ) . ' has no fatal errors.' );
 				}
 			}
@@ -634,7 +643,11 @@ class WP_Automatic_Updater {
 			return;
 		}
 
-		error_log( 'Automatic updates starting...' );
+		$is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
+
+		if ( $is_debug ) {
+			error_log( 'Automatic updates starting...' );
+		}
 
 		// Don't automatically run these things, as we'll handle it ourselves.
 		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
@@ -646,7 +659,9 @@ class WP_Automatic_Updater {
 		wp_update_plugins(); // Check for plugin updates.
 		$plugin_updates = get_site_transient( 'update_plugins' );
 		if ( $plugin_updates && ! empty( $plugin_updates->response ) ) {
-			error_log( '  Automatic plugin updates starting...' );
+			if ( $is_debug ) {
+				error_log( '  Automatic plugin updates starting...' );
+			}
 
 			foreach ( $plugin_updates->response as $plugin ) {
 				$this->update( 'plugin', $plugin );
@@ -655,14 +670,18 @@ class WP_Automatic_Updater {
 			// Force refresh of plugin update information.
 			wp_clean_plugins_cache();
 
-			error_log( '  Automatic plugin updates complete.' );
+			if ( $is_debug ) {
+				error_log( '  Automatic plugin updates complete.' );
+			}
 		}
 
 		// Next, those themes we all love.
 		wp_update_themes();  // Check for theme updates.
 		$theme_updates = get_site_transient( 'update_themes' );
 		if ( $theme_updates && ! empty( $theme_updates->response ) ) {
-			error_log( '  Automatic theme updates starting...' );
+			if ( $is_debug ) {
+				error_log( '  Automatic theme updates starting...' );
+			}
 
 			foreach ( $theme_updates->response as $theme ) {
 				$this->update( 'theme', (object) $theme );
@@ -670,10 +689,14 @@ class WP_Automatic_Updater {
 			// Force refresh of theme update information.
 			wp_clean_themes_cache();
 
-			error_log( '  Automatic theme updates complete.' );
+			if ( $is_debug ) {
+				error_log( '  Automatic theme updates complete.' );
+			}
 		}
 
-		error_log( 'Automatic updates complete.' );
+		if ( $is_debug ) {
+			error_log( 'Automatic updates complete.' );
+		}
 
 		// Next, process any core update.
 		wp_version_check(); // Check for core updates.
@@ -1734,7 +1757,10 @@ Thanks! -- The WordPress Team"
 		// Time to wait for loopback request to finish.
 		$timeout = 50; // 50 seconds.
 
-		error_log( '    Scraping home page...' );
+		$is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
+		if ( $is_debug ) {
+			error_log( '    Scraping home page...' );
+		}
 
 		$needle_start = "###### wp_scraping_result_start:$scrape_key ######";
 		$needle_end   = "###### wp_scraping_result_end:$scrape_key ######";
@@ -1742,12 +1768,16 @@ Thanks! -- The WordPress Team"
 		$response     = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout', 'sslverify' ) );
 
 		if ( is_wp_error( $response ) ) {
-			error_log( 'Loopback request failed: ' . $response->get_error_message() );
+			if ( $is_debug ) {
+				error_log( 'Loopback request failed: ' . $response->get_error_message() );
+			}
 			return true;
 		}
 
 		// If this outputs `true` in the log, it means there were no fatal errors detected.
-		error_log( var_export( substr( $response['body'], strpos( $response['body'], '###### wp_scraping_result_start:' ) ), true ) );
+		if ( $is_debug ) {
+			error_log( var_export( substr( $response['body'], strpos( $response['body'], '###### wp_scraping_result_start:' ) ), true ) );
+		}
 
 		$body                   = wp_remote_retrieve_body( $response );
 		$scrape_result_position = strpos( $body, $needle_start );
