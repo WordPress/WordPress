@@ -790,7 +790,7 @@ do_action( 'pre_current_active_plugins', $plugins['all'] );
 <?php $wp_list_table->views(); ?>
 
 <form class="search-form search-plugins" method="get">
-<?php $wp_list_table->search_box( __( 'Search Installed Plugins' ), 'plugin' ); ?>
+<?php $wp_list_table->search_box( __( 'Search installed plugins' ), 'plugin' ); ?>
 </form>
 
 <form method="post" id="bulk-action-form">

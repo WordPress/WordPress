@@ -635,15 +635,12 @@ class WP_Customize_Control {
 						printf( __( '+ %s' ), get_post_type_object( 'page' )->labels->add_new_item );
 						?>
 					</button>
-					<div class="new-content-item">
-						<label for="create-input-<?php echo esc_attr( $this->id ); ?>"><span class="screen-reader-text">
-							<?php
-							/* translators: Hidden accessibility text. */
-							_e( 'New page title' );
-							?>
-						</span></label>
-						<input type="text" id="create-input-<?php echo esc_attr( $this->id ); ?>" class="create-item-input" placeholder="<?php esc_attr_e( 'New page title&hellip;' ); ?>">
-						<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
+					<div class="new-content-item-wrapper">
+						<label for="create-input-<?php echo esc_attr( $this->id ); ?>"><?php _e( 'New page title' ); ?></label>
+						<div class="new-content-item">
+							<input type="text" id="create-input-<?php echo esc_attr( $this->id ); ?>" class="create-item-input" >
+							<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
+						</div>
 					</div>
 				<?php endif; ?>
 				<?php

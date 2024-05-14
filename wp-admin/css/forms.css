@@ -720,8 +720,13 @@ fieldset label,
 }
 
 p.search-box {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	column-gap: 0.5rem;
+	position: relative;
 	float: right;
-	margin: 0;
+	margin: 11px 0;
 }
 
 .network-admin.themes-php p.search-box {

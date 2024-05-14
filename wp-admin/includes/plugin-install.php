@@ -320,6 +320,8 @@ function install_search_form( $deprecated = true ) {
 	?>
 	<form class="search-form search-plugins" method="get">
 		<input type="hidden" name="tab" value="search" />
+		<label for="search-plugins"><?php _e( 'Search Plugins' ); ?></label>
+		<input type="search" name="s" id="search-plugins" value="<?php echo esc_attr( $term ); ?>" class="wp-filter-search" />
 		<label class="screen-reader-text" for="typeselector">
 			<?php
 			/* translators: Hidden accessibility text. */
@@ -331,13 +333,6 @@ function install_search_form( $deprecated = true ) {
 			<option value="author"<?php selected( 'author', $type ); ?>><?php _e( 'Author' ); ?></option>
 			<option value="tag"<?php selected( 'tag', $type ); ?>><?php _ex( 'Tag', 'Plugin Installer' ); ?></option>
 		</select>
-		<label class="screen-reader-text" for="search-plugins">
-			<?php
-			/* translators: Hidden accessibility text. */
-			_e( 'Search Plugins' );
-			?>
-		</label>
-		<input type="search" name="s" id="search-plugins" value="<?php echo esc_attr( $term ); ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search plugins...' ); ?>" />
 		<?php submit_button( __( 'Search Plugins' ), 'hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form>
 	<?php

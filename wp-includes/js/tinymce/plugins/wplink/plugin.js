@@ -56,19 +56,19 @@
 		renderHtml: function() {
 			return (
 				'<div id="' + this._id + '" class="wp-link-input">' +
-					'<input type="text" value="" placeholder="' + tinymce.translate( 'Paste URL or type to search' ) + '" />' +
+					'<label for="' + this._id + '_label">' + tinymce.translate( 'Paste URL or type to search' ) + '</label><input id="' + this._id + '_label" type="text" value="" />' +
 					'<input type="text" style="display:none" value="" />' +
 				'</div>'
 			);
 		},
 		setURL: function( url ) {
-			this.getEl().firstChild.value = url;
+			this.getEl().firstChild.nextSibling.value = url;
 		},
 		getURL: function() {
-			return tinymce.trim( this.getEl().firstChild.value );
+			return tinymce.trim( this.getEl().firstChild.nextSibling.value );
 		},
 		getLinkText: function() {
-			var text = this.getEl().firstChild.nextSibling.value;
+			var text = this.getEl().firstChild.nextSibling.nextSibling.value;
 
 			if ( ! tinymce.trim( text ) ) {
 				return '';
@@ -77,7 +77,7 @@
 			return text.replace( /[\r\n\t ]+/g, ' ' );
 		},
 		reset: function() {
-			var urlInput = this.getEl().firstChild;
+			var urlInput = this.getEl().firstChild.nextSibling;
 
 			urlInput.value = '';
 			urlInput.nextSibling.value = '';
@@ -394,7 +394,7 @@
 			type: 'WPLinkInput',
 			onPostRender: function() {
 				var element = this.getEl(),
-					input = element.firstChild,
+					input = element.firstChild.nextSibling,
 					$input, cache, last;
 
 				inputInstance = this;
@@ -438,7 +438,7 @@
 						},
 						select: function( event, ui ) {
 							$input.val( ui.item.permalink );
-							$( element.firstChild.nextSibling ).val( ui.item.title );
+							$( element.firstChild.nextSibling.nextSibling ).val( ui.item.title );
 
 							if ( 9 === event.keyCode && typeof window.wpLinkL10n !== 'undefined' ) {
 								// Audible confirmation message when a link has been selected.

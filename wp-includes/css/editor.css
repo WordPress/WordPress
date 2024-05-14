@@ -1737,10 +1737,20 @@ div.wp-link-preview a.wplink-url-error {
 	color: #d63638;
 }
 
+.mce-inline-toolbar-grp div.mce-flow-layout-item > div {
+	display: flex;
+	align-items: flex-end;
+}
+
 div.wp-link-input {
 	float: left;
 	margin: 2px;
 	max-width: 694px;
+}
+
+div.wp-link-input label {
+	margin-bottom: 4px;
+	display: block;
 }
 
 div.wp-link-input input {

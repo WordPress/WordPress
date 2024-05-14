@@ -557,7 +557,7 @@
 
 #available-menu-items .accordion-section-title .no-items,
 #available-menu-items .cannot-expand .accordion-section-title .spinner,
-#available-menu-items .cannot-expand .accordion-section-title > button {
+#available-menu-items .cannot-expand .accordion-section-title > button:not(#available-menu-items-search button.is-visible) {
 	display: none;
 }
 
@@ -581,7 +581,7 @@
 }
 
 #available-menu-items .accordion-section-content .available-menu-items-list {
-	margin: 0 0 45px;
+	margin: 0 0 64px;
 	padding: 1px 15px 15px;
 }
 
@@ -680,7 +680,7 @@
 
 #available-menu-items-search .spinner {
 	position: absolute;
-	top: 20px; /* 13 container padding +1 input margin +6 ( ( 32 input height - 20 spinner height ) / 2 ) */
+	bottom: 20px; /* 13 container padding +1 input margin +6 ( ( 32 input height - 20 spinner height ) / 2 ) */
 	right: 21px;
 	margin: 0 !important;
 }
@@ -689,7 +689,7 @@
 #available-menu-items #available-menu-items-search .accordion-section-content {
 	position: absolute;
 	left: 0;
-	top: 60px; /* below title div / search input */
+	top: 75px; /* below title div / search input */
 	bottom: 0; /* 100% height that still triggers lazy load */
 	max-height: none;
 	width: 100%;
@@ -878,6 +878,6 @@ li.assigned-to-menu-location .add-new-menu-item {
 
 @media screen and (max-width: 640px) {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
-		top: 130px;
+		top: 146px;
 	}
 }

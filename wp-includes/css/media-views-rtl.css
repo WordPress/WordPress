@@ -1210,6 +1210,7 @@
 	display: flex;
 	align-items: center;
 	column-gap: .5rem;
+	margin: 11px 0;
 }
 
 .mode-grid .attachments-browser .media-toolbar-mode-select .media-toolbar-primary {
@@ -2803,7 +2804,8 @@
 	}
 
 	.mode-grid .attachments-browser .media-toolbar-primary {
-		display: flex;
+		display: grid;
+		grid-template-columns: auto 1fr;
 	}
 
 	.mode-grid .attachments-browser .media-toolbar-primary input[type="search"] {

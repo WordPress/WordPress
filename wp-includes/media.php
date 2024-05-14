@@ -4825,7 +4825,7 @@ function wp_enqueue_media( $args = array() ) {
 		'apply'                       => __( 'Apply' ),
 		'filterByDate'                => __( 'Filter by date' ),
 		'filterByType'                => __( 'Filter by type' ),
-		'searchLabel'                 => __( 'Search' ),
+		'searchLabel'                 => __( 'Search media' ),
 		'searchMediaLabel'            => __( 'Search media' ),          // Backward compatibility pre-5.3.
 		'searchMediaPlaceholder'      => __( 'Search media items...' ), // Placeholder (no ellipsis), backward compatibility pre-5.3.
 		/* translators: %d: Number of attachments found in a search. */

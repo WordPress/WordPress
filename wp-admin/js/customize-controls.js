@@ -1917,7 +1917,7 @@
 			section.contentContainer.on( 'click', '.feature-filter-toggle', function( e ) {
 				var $themeContainer = $( '.customize-themes-full-container' ),
 					$filterToggle = $( e.currentTarget );
-				section.filtersHeight = $filterToggle.parent().next( '.filter-drawer' ).height();
+				section.filtersHeight = $filterToggle.parents( '.themes-filter-bar' ).next( '.filter-drawer' ).height();
 
 				if ( 0 < $themeContainer.scrollTop() ) {
 					$themeContainer.animate( { scrollTop: 0 }, 400 );
@@ -1932,7 +1932,7 @@
 					.attr( 'aria-expanded', function( i, attr ) {
 						return 'true' === attr ? 'false' : 'true';
 					})
-					.parent().next( '.filter-drawer' ).slideToggle( 180, 'linear' );
+					.parents( '.themes-filter-bar' ).next( '.filter-drawer' ).slideToggle( 180, 'linear' );
 
 				if ( $filterToggle.hasClass( 'open' ) ) {
 					var marginOffset = 1018 < window.innerWidth ? 50 : 76;
@@ -3739,7 +3739,7 @@
 		ready: function() {
 			var control = this, newItem;
 			if ( 'dropdown-pages' === control.params.type && control.params.allow_addition ) {
-				newItem = control.container.find( '.new-content-item' );
+				newItem = control.container.find( '.new-content-item-wrapper' );
 				newItem.hide(); // Hide in JS to preserve flex display when showing.
 				control.container.on( 'click', '.add-new-toggle', function( e ) {
 					$( e.currentTarget ).slideUp( 180 );
@@ -4085,7 +4085,7 @@
 			}
 
 			toggle = control.container.find( '.add-new-toggle' );
-			container = control.container.find( '.new-content-item' );
+			container = control.container.find( '.new-content-item-wrapper' );
 			input = control.container.find( '.create-item-input' );
 			title = input.val();
 			select = control.container.find( 'select' );

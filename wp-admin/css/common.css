@@ -1090,7 +1090,9 @@ th.action-links {
 
 .wp-filter .search-form {
 	float: right;
-	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	column-gap: .5rem;
 }
 
 .wp-filter .search-form input[type="search"] {
@@ -1119,7 +1121,6 @@ th.action-links {
 .wp-filter .search-form.search-plugins .wp-filter-search,
 .no-js .wp-filter .search-form.search-plugins .button {
 	display: inline-block;
-	margin-top: 10px;
 	vertical-align: top;
 }
 
@@ -1359,6 +1360,11 @@ th.action-links {
 		float: none; /* Remove float from media-views.css */
 		position: relative;
 		max-width: 100%;
+	}
+	.wp-filter .search-form {
+		margin: 11px 0;
+		flex-wrap: wrap;
+		row-gap: 10px;
 	}
 }
 
@@ -4151,7 +4157,6 @@ img {
 	}
 
 	.wp-filter .search-form input[type="search"] {
-		width: 100%;
 		font-size: 1rem;
 	}
 
@@ -4204,6 +4209,10 @@ img {
 	.nav-tab-active:focus,
 	.nav-tab-active:focus:active {
 		border-bottom: 1px solid #c3c4c7;
+	}
+
+	.wp-filter .search-form.search-plugins label {
+		width: 100%;
 	}
 }
 
