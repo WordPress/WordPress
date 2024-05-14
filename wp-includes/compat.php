@@ -91,7 +91,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different
 	 * charset just use built-in substr().
 	 */
-	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
+	if ( ! is_utf8_charset( $encoding ) ) {
 		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
 	}
 
@@ -176,7 +176,7 @@ function _mb_strlen( $str, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different charset
 	 * just use built-in strlen().
 	 */
-	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
+	if ( ! is_utf8_charset( $encoding ) ) {
 		return strlen( $str );
 	}
 

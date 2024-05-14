@@ -160,7 +160,7 @@ $allowed_options['privacy'] = array();
 
 $mail_options = array( 'mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass' );
 
-if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
+if ( ! is_utf8_charset() ) {
 	$allowed_options['reading'][] = 'blog_charset';
 }
 
