@@ -491,7 +491,7 @@
 			return __( 'Your new password has not been saved.' );
 		}
 		if ( originalFormContent !== $form.serialize() && ! isSubmitting ) {
-			return __( 'Changes that you made may not be saved.' );
+			return __( 'The changes you made will be lost if you navigate away from this page.' );
 		}
 	});
 
