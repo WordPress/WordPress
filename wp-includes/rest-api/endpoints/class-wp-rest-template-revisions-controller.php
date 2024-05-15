@@ -156,15 +156,15 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
 	}
 
 	/**
-	 * Gets the parent post, if the ID is valid.
+	 * Gets the parent post, if the template ID is valid.
 	 *
 	 * @since 6.4.0
 	 *
-	 * @param int $parent_post_id Supplied ID.
+	 * @param string $parent_template_id Supplied ID.
 	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
 	 */
-	protected function get_parent( $parent_post_id ) {
-		$template = get_block_template( $parent_post_id, $this->parent_post_type );
+	protected function get_parent( $parent_template_id ) {
+		$template = get_block_template( $parent_template_id, $this->parent_post_type );
 
 		if ( ! $template ) {
 			return new WP_Error(
