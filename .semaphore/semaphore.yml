@@ -29,7 +29,7 @@ blocks:
         - name: Initialize Docker Swarm
           commands:
             - docker swarm init
-            - sleep 5
+            - sleep 20
         - name: Verify Swarm Initialization
           commands:
             - docker node ls
