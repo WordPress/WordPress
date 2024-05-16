@@ -29,6 +29,10 @@ blocks:
         - name: Initialize Docker Swarm
           commands:
             - docker swarm init
+            - sleep 5
+        - name: Verify Swarm Initialization
+          commands:
+            - docker node ls
         - name: Create MySQL Root Password Secret
           commands:
             - openssl rand -base64 20 | docker secret create mysql_root_password -
