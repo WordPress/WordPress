@@ -5,14 +5,15 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: Install Dependencies
+  - name: Setup WordPress and MySQL
     task:
       prologue:
         commands:
-          - echo "Installing dependencies..."
+          - 'echo "Installing dependencies, setting up Docker Swarm, generating secrets, and creating services..."'
       jobs:
-        - name: Install Docker
+        - name: 'Install Docker, Setup Swarm, Generate Secrets, and Create Services'
           commands:
+            - echo "Installing Docker..."
             - sudo apt-get update
             - sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
             - 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
@@ -20,25 +21,12 @@ blocks:
             - sudo apt-get update
             - sudo apt-get install -y docker-ce
             - 'sudo chown $USER:$USER /var/run/docker.sock'
-  - name: Setup Docker Swarm and Secrets
-    task:
-      prologue:
-        commands:
-          - echo "Setting up Docker Swarm and secrets..."
-          - docker swarm init
-      jobs:
-        - name: Create Docker Secrets
-          commands:
+            - echo "Setting up Docker Swarm..."
+            - docker swarm init
+            - echo "Generating Docker secrets..."
             - openssl rand -base64 20 | docker secret create mysql_root_password -
             - openssl rand -base64 20 | docker secret create mysql_password -
-  - name: Create MySQL Service
-    task:
-      prologue:
-        commands:
-          - echo "Creating MySQL service..."
-      jobs:
-        - name: Setup MySQL Service
-          commands:
+            - echo "Creating MySQL service..."
             - docker network create -d overlay mysql_private
             - |
               docker service create \
@@ -53,14 +41,7 @@ blocks:
                 -e MYSQL_USER="wordpress" \
                 -e MYSQL_DATABASE="wordpress" \
                 mysql:latest
-  - name: Create WordPress Service
-    task:
-      prologue:
-        commands:
-          - echo "Creating WordPress service..."
-      jobs:
-        - name: Setup WordPress Service
-          commands:
+            - echo "Creating WordPress service..."
             - |
               docker service create \
                 --name wordpress \
@@ -74,13 +55,6 @@ blocks:
                 -e WORDPRESS_DB_HOST="mysql:3306" \
                 -e WORDPRESS_DB_NAME="wordpress" \
                 wordpress:latest
-  - name: Verify and Test
-    task:
-      prologue:
-        commands:
-          - echo "Verifying services..."
-      jobs:
-        - name: Verify Services
-          commands:
+            - echo "Verifying services..."
             - docker service ls
             - docker service ps wordpress
