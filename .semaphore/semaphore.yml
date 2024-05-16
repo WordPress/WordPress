@@ -20,13 +20,13 @@ blocks:
             - sudo apt-get update
             - sudo apt-get install -y docker-ce
             - 'sudo chown $USER:$USER /var/run/docker.sock'
-  - name: Generate Docker Secrets
+  - name: Initialize Docker Swarm and Generate Docker Secrets
     task:
       prologue:
         commands:
-          - echo "Generating Docker secrets..."
+          - echo "Initializing Docker Swarm and generating Docker secrets..."
       jobs:
-        - name: Start docker swarm
+        - name: Initialize Docker Swarm
           commands:
             - docker swarm init
         - name: Create MySQL Root Password Secret
