@@ -32,8 +32,6 @@ blocks:
             - openssl rand -base64 20 | docker secret create mysql_root_password -
             - openssl rand -base64 20 | docker secret create mysql_password -
   - name: Create MySQL Service
-    depends_on:
-      - Setup Docker Swarm and Secrets
     task:
       prologue:
         commands:
