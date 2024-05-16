@@ -943,7 +943,7 @@ function wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible
 	$all_plugin_dependencies_active    = $active_plugin_dependencies_count === $plugin_dependencies_count;
 
 	sprintf(
-		'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
+		'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s" role="button">%s</a>',
 		esc_attr( $data->slug ),
 		esc_url( $status['url'] ),
 		/* translators: %s: Plugin name and version. */
@@ -958,7 +958,7 @@ function wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible
 				if ( $status['url'] ) {
 					if ( $compatible_php && $compatible_wp && $all_plugin_dependencies_installed && ! empty( $data->download_link ) ) {
 						$button = sprintf(
-							'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
+							'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s" role="button">%s</a>',
 							esc_attr( $data->slug ),
 							esc_url( $status['url'] ),
 							/* translators: %s: Plugin name and version. */
@@ -979,7 +979,7 @@ function wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible
 				if ( $status['url'] ) {
 					if ( $compatible_php && $compatible_wp ) {
 						$button = sprintf(
-							'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
+							'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s" role="button">%s</a>',
 							esc_attr( $status['file'] ),
 							esc_attr( $data->slug ),
 							esc_url( $status['url'] ),
@@ -1026,7 +1026,7 @@ function wp_get_plugin_action_button( $name, $data, $compatible_php, $compatible
 						}
 
 						$button = sprintf(
-							'<a href="%1$s" data-name="%2$s" data-slug="%3$s" data-plugin="%4$s" class="button button-primary activate-now" aria-label="%5$s">%6$s</a>',
+							'<a href="%1$s" data-name="%2$s" data-slug="%3$s" data-plugin="%4$s" class="button button-primary activate-now" aria-label="%5$s" role="button">%6$s</a>',
 							esc_url( $activate_url ),
 							esc_attr( $name ),
 							esc_attr( $data->slug ),
