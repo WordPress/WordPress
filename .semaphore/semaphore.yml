@@ -20,20 +20,9 @@ blocks:
             - sudo apt-get update
             - sudo apt-get install -y docker-ce
             - 'sudo chown $USER:$USER /var/run/docker.sock'
-    dependencies: []
-  - name: Initialize Docker Swarm
-    task:
-      prologue:
-        commands:
-          - echo "Initializing Docker Swarm..."
-      jobs:
-        - name: Initialize Swarm
-          commands:
-            - docker swarm init
-            - docker node ls
-    dependencies:
-      - Install Dependencies
   - name: Generate Docker Secrets
+    depends_on:
+      - Install Dependencies
     task:
       prologue:
         commands:
@@ -46,9 +35,9 @@ blocks:
         - name: Create WordPress Database Password Secret
           commands:
             - openssl rand -base64 20 | docker secret create mysql_password -
-    dependencies:
-      - Initialize Docker Swarm
   - name: Create MySQL Service
+    depends_on:
+      - Generate Docker Secrets
     task:
       prologue:
         commands:
@@ -58,9 +47,9 @@ blocks:
           commands:
             - docker network create -d overlay mysql_private
             - 'docker service create \ --name mysql \ --replicas 1 \ --network mysql_private \ --mount type=volume,source=mydata,destination=/var/lib/mysql \ --secret source=mysql_root_password,target=mysql_root_password \ --secret source=mysql_password,target=mysql_password \ -e MYSQL_ROOT_PASSWORD_FILE="/run/secrets/mysql_root_password" \ -e MYSQL_PASSWORD_FILE="/run/secrets/mysql_password" \ -e MYSQL_USER="wordpress" \ -e MYSQL_DATABASE="wordpress" \ mysql:latest'
-    dependencies:
-      - Generate Docker Secrets
   - name: Create WordPress Service
+    depends_on:
+      - Create MySQL Service
     task:
       prologue:
         commands:
@@ -69,9 +58,9 @@ blocks:
         - name: Setup WordPress Service
           commands:
             - 'docker service create \ --name wordpress \ --replicas 1 \ --network mysql_private \ --publish published=30000,target=80 \ --mount type=volume,source=wpdata,destination=/var/www/html \ --secret source=mysql_password,target=wp_db_password \ -e WORDPRESS_DB_USER="wordpress" \ -e WORDPRESS_DB_PASSWORD_FILE="/run/secrets/wp_db_password" \ -e WORDPRESS_DB_HOST="mysql:3306" \ -e WORDPRESS_DB_NAME="wordpress" \ wordpress:latest'
-    dependencies:
-      - Create MySQL Service
   - name: Verify and Test
+    depends_on:
+      - Create WordPress Service
     task:
       prologue:
         commands:
@@ -81,5 +70,3 @@ blocks:
           commands:
             - docker service ls
             - docker service ps wordpress
-    dependencies:
-      - Create WordPress Service
