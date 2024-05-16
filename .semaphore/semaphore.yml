@@ -21,8 +21,6 @@ blocks:
             - sudo apt-get install -y docker-ce
             - 'sudo chown $USER:$USER /var/run/docker.sock'
   - name: Setup Docker Swarm and Secrets
-    depends_on:
-      - Install Dependencies
     task:
       prologue:
         commands:
@@ -58,8 +56,6 @@ blocks:
                 -e MYSQL_DATABASE="wordpress" \
                 mysql:latest
   - name: Create WordPress Service
-    depends_on:
-      - Create MySQL Service
     task:
       prologue:
         commands:
@@ -81,8 +77,6 @@ blocks:
                 -e WORDPRESS_DB_NAME="wordpress" \
                 wordpress:latest
   - name: Verify and Test
-    depends_on:
-      - Create WordPress Service
     task:
       prologue:
         commands:
