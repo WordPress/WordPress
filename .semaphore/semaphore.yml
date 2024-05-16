@@ -38,10 +38,10 @@ blocks:
       prologue:
         commands:
           - echo "Generating Docker secrets..."
+          - docker swarm init
       jobs:
         - name: Create MySQL Root Password Secret
           commands:
-            - docker swarm init
             - openssl rand -base64 20 | docker secret create mysql_root_password -
         - name: Create WordPress Database Password Secret
           commands:
