@@ -26,6 +26,9 @@ blocks:
         commands:
           - echo "Generating Docker secrets..."
       jobs:
+        - name: Start docker swarm
+          commands:
+            - docker swarm init
         - name: Create MySQL Root Password Secret
           commands:
             - openssl rand -base64 20 | docker secret create mysql_root_password -
