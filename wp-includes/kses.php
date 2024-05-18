@@ -2441,11 +2441,13 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'grid-auto-columns',
 			'grid-column-start',
 			'grid-column-end',
+			'grid-column',
 			'grid-column-gap',
 			'grid-template-rows',
 			'grid-auto-rows',
 			'grid-row-start',
 			'grid-row-end',
+			'grid-row',
 			'grid-row-gap',
 			'grid-gap',
 
@@ -2475,6 +2477,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'z-index',
 			'box-shadow',
 			'aspect-ratio',
+			'container-type',
 
 			// Custom CSS properties.
 			'--*',
