@@ -5079,9 +5079,6 @@ function get_post_galleries( $post, $html = true ) {
 				$srcs = array();
 
 				$shortcode_attrs = shortcode_parse_atts( $shortcode[3] );
-				if ( ! is_array( $shortcode_attrs ) ) {
-					$shortcode_attrs = array();
-				}
 
 				// Specify the post ID of the gallery we're viewing if the shortcode doesn't reference another post already.
 				if ( ! isset( $shortcode_attrs['id'] ) ) {
