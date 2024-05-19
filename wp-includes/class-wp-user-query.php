@@ -142,6 +142,7 @@ class WP_User_Query {
 	 * @since 5.1.0 Introduced the 'meta_compare_key' parameter.
 	 * @since 5.3.0 Introduced the 'meta_type_key' parameter.
 	 * @since 5.9.0 Added 'capability', 'capability__in', and 'capability__not_in' parameters.
+	 *              Deprecated the 'who' parameter.
 	 * @since 6.3.0 Added 'cache_results' parameter.
 	 *
 	 * @global wpdb     $wpdb     WordPress database abstraction object.
@@ -151,13 +152,13 @@ class WP_User_Query {
 	 *     Optional. Array or string of query parameters.
 	 *
 	 *     @type int             $blog_id             The site ID. Default is the current site.
-	 *     @type string|string[] $role                An array or a comma-separated list of role names that users must match
-	 *                                                to be included in results. Note that this is an inclusive list: users
-	 *                                                must match *each* role. Default empty.
-	 *     @type string[]        $role__in            An array of role names. Matched users must have at least one of these
-	 *                                                roles. Default empty array.
-	 *     @type string[]        $role__not_in        An array of role names to exclude. Users matching one or more of these
-	 *                                                roles will not be included in results. Default empty array.
+	 *     @type string|string[] $role                An array or a comma-separated list of role names that users
+	 *                                                must match to be included in results. Note that this is
+	 *                                                an inclusive list: users must match *each* role. Default empty.
+	 *     @type string[]        $role__in            An array of role names. Matched users must have at least one
+	 *                                                of these roles. Default empty array.
+	 *     @type string[]        $role__not_in        An array of role names to exclude. Users matching one or more
+	 *                                                of these roles will not be included in results. Default empty array.
 	 *     @type string|string[] $meta_key            Meta key or keys to filter by.
 	 *     @type string|string[] $meta_value          Meta value or values to filter by.
 	 *     @type string          $meta_compare        MySQL operator used for comparing the meta value.
@@ -170,19 +171,19 @@ class WP_User_Query {
 	 *                                                See WP_Meta_Query::__construct() for accepted values and default value.
 	 *     @type array           $meta_query          An associative array of WP_Meta_Query arguments.
 	 *                                                See WP_Meta_Query::__construct() for accepted values.
-	 *     @type string|string[] $capability          An array or a comma-separated list of capability names that users must match
-	 *                                                to be included in results. Note that this is an inclusive list: users
-	 *                                                must match *each* capability.
-	 *                                                Does NOT work for capabilities not in the database or filtered via {@see 'map_meta_cap'}.
-	 *                                                Default empty.
-	 *     @type string[]        $capability__in      An array of capability names. Matched users must have at least one of these
-	 *                                                capabilities.
-	 *                                                Does NOT work for capabilities not in the database or filtered via {@see 'map_meta_cap'}.
-	 *                                                Default empty array.
-	 *     @type string[]        $capability__not_in  An array of capability names to exclude. Users matching one or more of these
-	 *                                                capabilities will not be included in results.
-	 *                                                Does NOT work for capabilities not in the database or filtered via {@see 'map_meta_cap'}.
-	 *                                                Default empty array.
+	 *     @type string|string[] $capability          An array or a comma-separated list of capability names that users
+	 *                                                must match to be included in results. Note that this is
+	 *                                                an inclusive list: users must match *each* capability.
+	 *                                                Does NOT work for capabilities not in the database or filtered
+	 *                                                via {@see 'map_meta_cap'}. Default empty.
+	 *     @type string[]        $capability__in      An array of capability names. Matched users must have at least one
+	 *                                                of these capabilities.
+	 *                                                Does NOT work for capabilities not in the database or filtered
+	 *                                                via {@see 'map_meta_cap'}. Default empty array.
+	 *     @type string[]        $capability__not_in  An array of capability names to exclude. Users matching one or more
+	 *                                                of these capabilities will not be included in results.
+	 *                                                Does NOT work for capabilities not in the database or filtered
+	 *                                                via {@see 'map_meta_cap'}. Default empty array.
 	 *     @type int[]           $include             An array of user IDs to include. Default empty array.
 	 *     @type int[]           $exclude             An array of user IDs to exclude. Default empty array.
 	 *     @type string          $search              Search keyword. Searches for possible string matches on columns.
@@ -242,7 +243,8 @@ class WP_User_Query {
 	 *                                                - 'all' for all fields and loads user meta.
 	 *                                                - 'all_with_meta' Deprecated. Use 'all'.
 	 *                                                Default 'all'.
-	 *     @type string          $who                 Type of users to query. Accepts 'authors'.
+	 *     @type string          $who                 Deprecated, use `$capability` instead.
+	 *                                                Type of users to query. Accepts 'authors'.
 	 *                                                Default empty (all users).
 	 *     @type bool|string[]   $has_published_posts Pass an array of post types to filter results to users who have
 	 *                                                published posts in those post types. `true` is an alias for all
