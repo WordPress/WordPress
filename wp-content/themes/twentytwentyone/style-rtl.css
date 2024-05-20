@@ -2757,7 +2757,7 @@ dd {
 	right: var(--global--spacing-horizontal);
 	border-style: solid;
 	border-color: var(--primary-nav--border-color) transparent;
-	border-width: 0 7px 10px 7px;
+	border-width: 0 7px 10px;
 }
 
 .wp-block-navigation > .wp-block-navigation__container > .has-child > .wp-block-navigation__container:after {
@@ -4338,7 +4338,7 @@ h1.page-title {
 .comment-meta .comment-metadata {
 	color: var(--global--color-primary);
 	font-size: var(--global--font-size-xs);
-	padding: 8px 0 9px 0;
+	padding: 8px 0 9px;
 }
 
 .comment-meta .comment-metadata .edit-link {
@@ -4798,7 +4798,7 @@ h1.page-title {
 		right: var(--global--spacing-horizontal);
 		border-style: solid;
 		border-color: var(--primary-nav--border-color) transparent;
-		border-width: 0 7px 10px 7px;
+		border-width: 0 7px 10px;
 	}
 
 	.primary-navigation > div > .menu-wrapper > li > .sub-menu:after {

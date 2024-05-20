@@ -2924,7 +2924,7 @@ dd {
 	left: 25px;
 	border-style: solid;
 	border-color: #28303d transparent;
-	border-width: 0 7px 10px 7px;
+	border-width: 0 7px 10px;
 }
 
 .wp-block-navigation > .wp-block-navigation__container > .has-child > .wp-block-navigation__container:after {
@@ -4830,7 +4830,7 @@ h1.page-title {
 .comment-meta .comment-metadata {
 	color: #28303d;
 	font-size: 1rem;
-	padding: 8px 0 9px 0;
+	padding: 8px 0 9px;
 }
 
 .comment-meta .comment-metadata .edit-link {
@@ -5291,7 +5291,7 @@ h1.page-title {
 		left: 25px;
 		border-style: solid;
 		border-color: #28303d transparent;
-		border-width: 0 7px 10px 7px;
+		border-width: 0 7px 10px;
 	}
 
 	.primary-navigation > div > .menu-wrapper > li > .sub-menu:after {
@@ -5832,7 +5832,7 @@ h1.page-title {
 @media only screen and (min-width: 822px) {
 
 	.comments-pagination {
-		margin: 90px auto 120px auto;
+		margin: 90px auto 120px;
 	}
 }
 

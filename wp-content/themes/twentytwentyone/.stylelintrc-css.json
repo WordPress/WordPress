@@ -19,6 +19,7 @@
 		"number-leading-zero": null,
 		"no-descending-specificity": null,
 		"length-zero-no-unit": [true, {"ignore": ["custom-properties"]}],
+		"shorthand-property-no-redundant-values": true,
 		"value-keyword-case": ["lower", {
 			"ignoreKeywords": ["currentColor"]
 		}]

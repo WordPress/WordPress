@@ -43,7 +43,7 @@ body {
 
 /* Simplify the pullquotes and pull styles */
 .one-column.singular .entry-meta .edit-link a {
-	right: 0px;
+	right: 0;
 	left: auto;
 }
 /* Make sure we have room for our comment avatars */
@@ -188,7 +188,7 @@ a.assistive-text:focus {
 	font-family: Arial, sans-serif;
 }
 .wp-caption .wp-caption-text {
-	padding: 10px 40px 5px 0px;
+	padding: 10px 40px 5px 0;
 }
 .wp-caption .wp-caption-text:before {
 	margin-right: 0;
@@ -515,7 +515,7 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	}
 	.singular .entry-meta .edit-link a {
 		left: auto;
-		right: 0px;
+		right: 0;
 	}
 	/* Make sure we have room for our comment avatars */
 	.commentlist > li.comment,

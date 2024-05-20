@@ -553,9 +553,9 @@
 			display: block;
 		}
 
-		// If an image does not have a left/center/right alignment, 
-		// it's a direct child of .wp-block-image.  If it has no other 
-		// alignment added, we want to make sure the image and its 
+		// If an image does not have a left/center/right alignment,
+		// it's a direct child of .wp-block-image.  If it has no other
+		// alignment added, we want to make sure the image and its
 		// caption do not extend beyond the width of the text column.
 		&:not(.alignwide):not(.alignfull) > img,
 		&:not(.alignwide):not(.alignfull) > a > img,
@@ -840,7 +840,7 @@
 	//! Group
 	.wp-block-group {
 
-		// When the Group block is standard/wide, we need to prevent full-aligned 
+		// When the Group block is standard/wide, we need to prevent full-aligned
 		// child blocks from expanding out of their container.
 		&:not(.alignfull) > .wp-block-group__inner-container > .alignfull,
 		&:not(.alignfull) > .wp-block-group__inner-container > .wp-block-image > img {
@@ -881,7 +881,7 @@
 				}
 			}
 
-			// If the Group block is full-width, it does not need this extra padding. 
+			// If the Group block is full-width, it does not need this extra padding.
 			&.alignfull {
 				padding-left: 0;
 				padding-right: 0;
@@ -896,7 +896,7 @@
 			&:not(.alignfull) > .wp-block-group__inner-container > .alignfull {
 				width: 100%;
 				max-width: 100%;
-				
+
 				@include media(tablet) {
 					width: calc( 100% + #{$size__spacing-unit * 2} );
 					max-width: calc( 100% + #{$size__spacing-unit * 2} );
@@ -904,7 +904,6 @@
 				}
 			}
 		}
-		
 	}
 
 	//! Latest Comments

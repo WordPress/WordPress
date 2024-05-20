@@ -1458,8 +1458,8 @@ ul.wp-block-archives li ul,
   padding: 0.5rem;
   text-align: left;
   text-align: center;
-  -webkit-margin-start: 0px;
-  margin-inline-start: 0px;
+  -webkit-margin-start: 0;
+  margin-inline-start: 0;
 }
 
 .wp-block-freeform {
