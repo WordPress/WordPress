@@ -3404,17 +3404,7 @@ p > video {
 	}
 
 	.site-footer .social-navigation {
-		margin: 0;
-		-webkit-order: 2;
-		-ms-flex-order: 2;
-		order: 2;
-	}
-
-	.site-info {
-		margin: 0.538461538em auto 0.538461538em 0;
-		-webkit-order: 1;
-		-ms-flex-order: 1;
-		order: 1;
+		width: 100%;
 	}
 
 	.no-sidebar .content-area {

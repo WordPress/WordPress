@@ -637,10 +637,6 @@ body:not(.search-results) .entry-summary .alignleft {
 		margin-left: 0;
 	}
 
-	.site-info {
-		margin: 0.538461538em 0 0.538461538em auto;
-	}
-
 	.no-sidebar .entry-header,
 	.no-sidebar .entry-content,
 	.no-sidebar .entry-summary,
