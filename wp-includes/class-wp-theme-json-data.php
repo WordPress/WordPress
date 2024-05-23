@@ -69,4 +69,15 @@ class WP_Theme_JSON_Data {
 	public function get_data() {
 		return $this->theme_json->get_raw_data();
 	}
+
+	/**
+	 * Returns theme JSON object.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return WP_Theme_JSON The theme JSON structure stored in this data object.
+	 */
+	public function get_theme_json() {
+		return $this->theme_json;
+	}
 }
