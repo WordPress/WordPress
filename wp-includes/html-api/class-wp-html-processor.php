@@ -624,6 +624,35 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	}
 
 	/**
+	 * Returns the nesting depth of the current location in the document.
+	 *
+	 * Example:
+	 *
+	 *     $processor = WP_HTML_Processor::create_fragment( '<div><p></p></div>' );
+	 *     // The processor starts in the BODY context, meaning it has depth from the start: HTML > BODY.
+	 *     2 === $processor->get_current_depth();
+	 *
+	 *     // Opening the DIV element increases the depth.
+	 *     $processor->next_token();
+	 *     3 === $processor->get_current_depth();
+	 *
+	 *     // Opening the P element increases the depth.
+	 *     $processor->next_token();
+	 *     4 === $processor->get_current_depth();
+	 *
+	 *     // The P element is closed during `next_token()` so the depth is decreased to reflect that.
+	 *     $processor->next_token();
+	 *     3 === $processor->get_current_depth();
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return int Nesting-depth of current location in the document.
+	 */
+	public function get_current_depth() {
+		return $this->state->stack_of_open_elements->count();
+	}
+
+	/**
 	 * Parses next element in the 'in body' insertion mode.
 	 *
 	 * This internal function performs the 'in body' insertion mode
