@@ -8,6 +8,8 @@
 /**
  * Renders the `core/post-terms` block on the server.
  *
+ * @since 5.8.0
+ *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.
  * @param WP_Block $block      Block instance.
@@ -61,6 +63,8 @@ function render_block_core_post_terms( $attributes, $content, $block ) {
 /**
  * Returns the available variations for the `core/post-terms` block.
  *
+ * @since 6.5.0
+ *
  * @return array The available variations for the block.
  */
 function block_core_post_terms_build_variations() {
@@ -110,6 +114,8 @@ function block_core_post_terms_build_variations() {
 
 /**
  * Registers the `core/post-terms` block on the server.
+ *
+ * @since 5.8.0
  */
 function register_block_core_post_terms() {
 	register_block_type_from_metadata(

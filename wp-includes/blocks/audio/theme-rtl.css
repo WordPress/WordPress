@@ -7,6 +7,6 @@
   color:#ffffffa6;
 }
 
-.wp-block-audio{
+:where(.wp-block-audio){
   margin:0 0 1em;
 }

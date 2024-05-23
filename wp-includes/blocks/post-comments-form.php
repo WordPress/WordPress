@@ -8,6 +8,8 @@
 /**
  * Renders the `core/post-comments-form` block on the server.
  *
+ * @since 6.0.0
+ *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.
  * @param WP_Block $block      Block instance.
@@ -54,6 +56,8 @@ function render_block_core_post_comments_form( $attributes, $content, $block ) {
 
 /**
  * Registers the `core/post-comments-form` block on the server.
+ *
+ * @since 6.0.0
  */
 function register_block_core_post_comments_form() {
 	register_block_type_from_metadata(
@@ -67,6 +71,8 @@ add_action( 'init', 'register_block_core_post_comments_form' );
 
 /**
  * Use the button block classes for the form-submit button.
+ *
+ * @since 6.0.0
  *
  * @param array $fields The default comment form arguments.
  *

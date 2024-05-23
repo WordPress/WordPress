@@ -14,6 +14,8 @@
  * Would be transformed to:
  *  <h2 class="align-left wp-block-heading">Hello World</h2>
  *
+ * @since 6.2.0
+ *
  * @param array  $attributes Attributes of the block being rendered.
  * @param string $content Content of the block being rendered.
  *
@@ -39,6 +41,8 @@ function block_core_heading_render( $attributes, $content ) {
 
 /**
  * Registers the `core/heading` block on server.
+ *
+ * @since 6.2.0
  */
 function register_block_core_heading() {
 	register_block_type_from_metadata(

@@ -8,6 +8,8 @@
 /**
  * Renders the `core/social-link` block on server.
  *
+ * @since 5.4.0
+ *
  * @param Array    $attributes The block attributes.
  * @param String   $content    InnerBlocks content of the Block.
  * @param WP_Block $block      Block object.
@@ -17,10 +19,12 @@
 function render_block_core_social_link( $attributes, $content, $block ) {
 	$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
 
-	$service     = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
-	$url         = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
-	$label       = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
-	$rel         = ( isset( $attributes['rel'] ) ) ? $attributes['rel'] : '';
+	$text = ! empty( $attributes['label'] ) ? trim( $attributes['label'] ) : '';
+
+	$service     = isset( $attributes['service'] ) ? $attributes['service'] : 'Icon';
+	$url         = isset( $attributes['url'] ) ? $attributes['url'] : false;
+	$text        = $text ? $text : block_core_social_link_get_name( $service );
+	$rel         = isset( $attributes['rel'] ) ? $attributes['rel'] : '';
 	$show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
 
 	// Don't render a link if there is no URL set.
@@ -55,9 +59,8 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 	$link  = '<li ' . $wrapper_attributes . '>';
 	$link .= '<a href="' . esc_url( $url ) . '" class="wp-block-social-link-anchor">';
 	$link .= $icon;
-	$link .= '<span class="wp-block-social-link-label' . ( $show_labels ? '' : ' screen-reader-text' ) . '">';
-	$link .= esc_html( $label );
-	$link .= '</span></a></li>';
+	$link .= '<span class="wp-block-social-link-label' . ( $show_labels ? '' : ' screen-reader-text' ) . '">' . esc_html( $text ) . '</span>';
+	$link .= '</a></li>';
 
 	$processor = new WP_HTML_Tag_Processor( $link );
 	$processor->next_tag( 'a' );
@@ -72,6 +75,8 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 
 /**
  * Registers the `core/social-link` blocks.
+ *
+ * @since 5.4.0
  */
 function register_block_core_social_link() {
 	register_block_type_from_metadata(
@@ -86,6 +91,8 @@ add_action( 'init', 'register_block_core_social_link' );
 
 /**
  * Returns the SVG for social link.
+ *
+ * @since 5.4.0
  *
  * @param string $service The service icon.
  *
@@ -103,6 +110,8 @@ function block_core_social_link_get_icon( $service ) {
 /**
  * Returns the brand name for social link.
  *
+ * @since 5.4.0
+ *
  * @param string $service The service icon.
  *
  * @return string Brand label.
@@ -118,6 +127,8 @@ function block_core_social_link_get_name( $service ) {
 
 /**
  * Returns the SVG for social link.
+ *
+ * @since 5.4.0
  *
  * @param string $service The service slug to extract data from.
  * @param string $field The field ('name', 'icon', etc) to extract for a service.
@@ -224,7 +235,7 @@ function block_core_social_link_services( $service = '', $field = '' ) {
 		),
 		'medium'        => array(
 			'name' => 'Medium',
-			'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M20.962,7.257l-5.457,8.867l-3.923-6.375l3.126-5.08c0.112-0.182,0.319-0.286,0.527-0.286c0.05,0,0.1,0.008,0.149,0.02 c0.039,0.01,0.078,0.023,0.114,0.041l5.43,2.715l0.006,0.003c0.004,0.002,0.007,0.006,0.011,0.008 C20.971,7.191,20.98,7.227,20.962,7.257z M9.86,8.592v5.783l5.14,2.57L9.86,8.592z M15.772,17.331l4.231,2.115 C20.554,19.721,21,19.529,21,19.016V8.835L15.772,17.331z M8.968,7.178L3.665,4.527C3.569,4.479,3.478,4.456,3.395,4.456 C3.163,4.456,3,4.636,3,4.938v11.45c0,0.306,0.224,0.669,0.498,0.806l4.671,2.335c0.12,0.06,0.234,0.088,0.337,0.088 c0.29,0,0.494-0.225,0.494-0.602V7.231C9,7.208,8.988,7.188,8.968,7.178z"></path></svg>',
+			'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M13.2,12c0,3-2.4,5.4-5.3,5.4S2.6,15,2.6,12s2.4-5.4,5.3-5.4S13.2,9,13.2,12 M19.1,12c0,2.8-1.2,5-2.7,5s-2.7-2.3-2.7-5s1.2-5,2.7-5C17.9,7,19.1,9.2,19.1,12 M21.4,12c0,2.5-0.4,4.5-0.9,4.5c-0.5,0-0.9-2-0.9-4.5s0.4-4.5,0.9-4.5C21,7.5,21.4,9.5,21.4,12"></path></svg>',
 		),
 		'patreon'       => array(
 			'name' => 'Patreon',
@@ -240,7 +251,7 @@ function block_core_social_link_services( $service = '', $field = '' ) {
 		),
 		'reddit'        => array(
 			'name' => 'Reddit',
-			'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M22 12.068a2.184 2.184 0 0 0-2.186-2.186c-.592 0-1.13.233-1.524.609-1.505-1.075-3.566-1.774-5.86-1.864l1.004-4.695 3.261.699A1.56 1.56 0 1 0 18.255 3c-.61-.001-1.147.357-1.398.877l-3.638-.77a.382.382 0 0 0-.287.053.348.348 0 0 0-.161.251l-1.112 5.233c-2.33.072-4.426.77-5.95 1.864a2.201 2.201 0 0 0-1.523-.61 2.184 2.184 0 0 0-.896 4.176c-.036.215-.053.43-.053.663 0 3.37 3.924 6.111 8.763 6.111s8.763-2.724 8.763-6.11c0-.216-.017-.449-.053-.664A2.207 2.207 0 0 0 22 12.068Zm-15.018 1.56a1.56 1.56 0 0 1 3.118 0c0 .86-.699 1.558-1.559 1.558-.86.018-1.559-.699-1.559-1.559Zm8.728 4.139c-1.076 1.075-3.119 1.147-3.71 1.147-.61 0-2.652-.09-3.71-1.147a.4.4 0 0 1 0-.573.4.4 0 0 1 .574 0c.68.68 2.114.914 3.136.914 1.022 0 2.473-.233 3.136-.914a.4.4 0 0 1 .574 0 .436.436 0 0 1 0 .573Zm-.287-2.563a1.56 1.56 0 0 1 0-3.118c.86 0 1.56.699 1.56 1.56 0 .841-.7 1.558-1.56 1.558Z"></path></svg>',
+			'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M5.27 9.221A2.775 2.775 0 0 0 2.498 11.993a2.785 2.785 0 0 0 1.6 2.511 5.337 5.337 0 0 0 2.374 4.11 9.386 9.386 0 0 0 5.539 1.7 9.386 9.386 0 0 0 5.541-1.7 5.331 5.331 0 0 0 2.372-4.114 2.787 2.787 0 0 0 1.583-2.5 2.775 2.775 0 0 0-2.772-2.772 2.742 2.742 0 0 0-1.688.574 9.482 9.482 0 0 0-4.637-1.348v-.008a2.349 2.349 0 0 1 2.011-2.316 1.97 1.97 0 0 0 1.926 1.521 1.98 1.98 0 0 0 1.978-1.978 1.98 1.98 0 0 0-1.978-1.978 1.985 1.985 0 0 0-1.938 1.578 3.183 3.183 0 0 0-2.849 3.172v.011a9.463 9.463 0 0 0-4.59 1.35 2.741 2.741 0 0 0-1.688-.574Zm6.736 9.1a3.162 3.162 0 0 1-2.921-1.944.215.215 0 0 1 .014-.2.219.219 0 0 1 .168-.106 27.327 27.327 0 0 1 2.74-.133 27.357 27.357 0 0 1 2.74.133.219.219 0 0 1 .168.106.215.215 0 0 1 .014.2 3.158 3.158 0 0 1-2.921 1.944Zm3.743-3.157a1.265 1.265 0 0 1-1.4-1.371 1.954 1.954 0 0 1 .482-1.442 1.15 1.15 0 0 1 .842-.379 1.7 1.7 0 0 1 1.49 1.777 1.323 1.323 0 0 1-.325 1.015 1.476 1.476 0 0 1-1.089.4Zm-7.485 0a1.476 1.476 0 0 1-1.086-.4 1.323 1.323 0 0 1-.325-1.016 1.7 1.7 0 0 1 1.49-1.777 1.151 1.151 0 0 1 .843.379 1.951 1.951 0 0 1 .481 1.441 1.276 1.276 0 0 1-1.403 1.373Z"></path></svg>',
 		),
 		'share'         => array(
 			'name' => 'Share Icon',
@@ -332,6 +343,8 @@ function block_core_social_link_services( $service = '', $field = '' ) {
 /**
  * Returns CSS styles for icon and icon background colors.
  *
+ * @since 5.7.0
+ *
  * @param array $context Block context passed to Social Link.
  *
  * @return string Inline CSS styles for link's icon and background colors.
@@ -352,6 +365,8 @@ function block_core_social_link_get_color_styles( $context ) {
 
 /**
  * Returns CSS classes for icon and icon background colors.
+ *
+ * @since 6.3.0
  *
  * @param array $context Block context passed to Social Sharing Link.
  *

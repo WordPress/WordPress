@@ -2,15 +2,6 @@
   display:inline;
 }
 
-.wp-block-rss__placeholder-form>*{
-  margin-bottom:8px;
-}
-@media (min-width:782px){
-  .wp-block-rss__placeholder-form>*{
-    margin-bottom:0;
-  }
-}
 .wp-block-rss__placeholder-form .wp-block-rss__placeholder-input{
-  flex:1;
-  min-width:80%;
+  flex:1 1 auto;
 }

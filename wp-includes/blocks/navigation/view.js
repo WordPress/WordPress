@@ -110,7 +110,9 @@ const {
         ref
       } = (0,interactivity_namespaceObject.getElement)();
       // Safari won't send focus to the clicked element, so we need to manually place it: https://bugs.webkit.org/show_bug.cgi?id=22261
-      if (window.document.activeElement !== ref) ref.focus();
+      if (window.document.activeElement !== ref) {
+        ref.focus();
+      }
       const {
         menuOpenedBy
       } = state;

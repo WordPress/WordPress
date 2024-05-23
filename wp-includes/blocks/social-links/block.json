@@ -5,7 +5,7 @@
 	"title": "Social Icons",
 	"category": "widgets",
 	"allowedBlocks": [ "core/social-link" ],
-	"description": "Display icons linking to your social media profiles or sites.",
+	"description": "Display icons linking to your social profiles or sites.",
 	"keywords": [ "links" ],
 	"textdomain": "default",
 	"attributes": {

@@ -1,6 +1,3 @@
-.wp-block-table{
-  margin:0 0 1em;
-}
 .wp-block-table td,.wp-block-table th{
   word-break:normal;
 }
@@ -11,4 +8,8 @@
 }
 .is-dark-theme .wp-block-table figcaption{
   color:#ffffffa6;
+}
+
+:where(.wp-block-table){
+  margin:0 0 1em;
 }

@@ -9,6 +9,8 @@
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the navigation markup in the front-end.
  *
+ * @since 5.9.0
+ *
  * @param  array $context     Navigation block context.
  * @param  array $attributes  Block attributes.
  * @param  bool  $is_sub_menu Whether the link is part of a sub-menu.
@@ -79,6 +81,8 @@ function block_core_navigation_link_build_css_colors( $context, $attributes, $is
  * Build an array with CSS classes and inline styles defining the font sizes
  * which will be applied to the navigation markup in the front-end.
  *
+ * @since 5.9.0
+ *
  * @param  array $context Navigation block context.
  * @return array Font size CSS classes and inline styles.
  */
@@ -113,6 +117,8 @@ function block_core_navigation_link_build_css_font_sizes( $context ) {
 /**
  * Returns the top-level submenu SVG chevron icon.
  *
+ * @since 5.9.0
+ *
  * @return string
  */
 function block_core_navigation_link_render_submenu_icon() {
@@ -121,6 +127,8 @@ function block_core_navigation_link_render_submenu_icon() {
 
 /**
  * Decodes a url if it's encoded, returning the same url if not.
+ *
+ * @since 6.2.0
  *
  * @param string $url The url to decode.
  *
@@ -152,6 +160,8 @@ function block_core_navigation_link_maybe_urldecode( $url ) {
 
 /**
  * Renders the `core/navigation-link` block.
+ *
+ * @since 5.9.0
  *
  * @param array    $attributes The block attributes.
  * @param string   $content    The saved content.
@@ -187,6 +197,13 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 	$has_submenu = count( $block->inner_blocks ) > 0;
 	$kind        = empty( $attributes['kind'] ) ? 'post_type' : str_replace( '-', '_', $attributes['kind'] );
 	$is_active   = ! empty( $attributes['id'] ) && get_queried_object_id() === (int) $attributes['id'] && ! empty( get_queried_object()->$kind );
+
+	if ( is_post_type_archive() ) {
+		$queried_archive_link = get_post_type_archive_link( get_queried_object()->name );
+		if ( $attributes['url'] === $queried_archive_link ) {
+			$is_active = true;
+		}
+	}
 
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
@@ -268,6 +285,8 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 
 /**
  * Returns a navigation link variation
+ *
+ * @since 5.9.0
  *
  * @param WP_Taxonomy|WP_Post_Type $entity post type or taxonomy entity.
  * @param string                   $kind string of value 'taxonomy' or 'post-type'.
@@ -390,6 +409,8 @@ function block_core_navigation_link_build_variations() {
 
 /**
  * Registers the navigation link block.
+ *
+ * @since 5.9.0
  *
  * @uses render_block_core_navigation_link()
  * @throws WP_Error An WP_Error exception parsing the block definition.

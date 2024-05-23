@@ -8,6 +8,11 @@
 /**
  * Renders the 'core/widget-group' block.
  *
+ * @since 5.9.0
+ *
+ * @global array      $wp_registered_sidebars
+ * @global int|string $_sidebar_being_rendered
+ *
  * @param array    $attributes The block attributes.
  * @param string   $content The block content.
  * @param WP_Block $block The block.
@@ -42,6 +47,8 @@ function render_block_core_widget_group( $attributes, $content, $block ) {
 
 /**
  * Registers the 'core/widget-group' block.
+ *
+ * @since 5.9.0
  */
 function register_block_core_widget_group() {
 	register_block_type_from_metadata(
@@ -59,6 +66,10 @@ add_action( 'init', 'register_block_core_widget_group' );
  * it. This lets us get to the current sidebar in
  * render_block_core_widget_group().
  *
+ * @since 5.9.0
+ *
+ * @global int|string $_sidebar_being_rendered
+ *
  * @param int|string $index       Index, name, or ID of the dynamic sidebar.
  */
 function note_sidebar_being_rendered( $index ) {
@@ -70,6 +81,10 @@ add_action( 'dynamic_sidebar_before', 'note_sidebar_being_rendered' );
 /**
  * Clear whatever we set in note_sidebar_being_rendered() after WordPress
  * finishes rendering a sidebar.
+ *
+ * @since 5.9.0
+ *
+ * @global int|string $_sidebar_being_rendered
  */
 function discard_sidebar_being_rendered() {
 	global $_sidebar_being_rendered;

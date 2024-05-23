@@ -1,13 +1,16 @@
+:where(.wp-block-cover-image,.wp-block-cover){
+  min-height:430px;
+  padding:1em;
+}
+
 .wp-block-cover,.wp-block-cover-image{
   align-items:center;
   background-position:50%;
   box-sizing:border-box;
   display:flex;
   justify-content:center;
-  min-height:430px;
   overflow:hidden;
   overflow:clip;
-  padding:1em;
   position:relative;
 }
 .wp-block-cover .has-background-dim:not([class*=-background-color]),.wp-block-cover-image .has-background-dim:not([class*=-background-color]),.wp-block-cover-image.has-background-dim:not([class*=-background-color]),.wp-block-cover.has-background-dim:not([class*=-background-color]){

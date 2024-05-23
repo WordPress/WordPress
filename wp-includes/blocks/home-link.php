@@ -9,6 +9,8 @@
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the home link markup in the front-end.
  *
+ * @since 6.0.0
+ *
  * @param  array $context home link block context.
  * @return array Colors CSS classes and inline styles.
  */
@@ -61,6 +63,8 @@ function block_core_home_link_build_css_colors( $context ) {
  * Build an array with CSS classes and inline styles defining the font sizes
  * which will be applied to the home link markup in the front-end.
  *
+ * @since 6.0.0
+ *
  * @param  array $context Home link block context.
  * @return array Font size CSS classes and inline styles.
  */
@@ -87,6 +91,8 @@ function block_core_home_link_build_css_font_sizes( $context ) {
 
 /**
  * Builds an array with classes and style for the li wrapper
+ *
+ * @since 6.0.0
  *
  * @param  array $context    Home link block context.
  * @return string The li wrapper attributes.
@@ -121,6 +127,8 @@ function block_core_home_link_build_li_wrapper_attributes( $context ) {
 /**
  * Renders the `core/home-link` block.
  *
+ * @since 6.0.0
+ *
  * @param array    $attributes The block attributes.
  * @param string   $content    The saved content.
  * @param WP_Block $block      The parsed block.
@@ -154,6 +162,8 @@ function render_block_core_home_link( $attributes, $content, $block ) {
 
 /**
  * Register the home block
+ *
+ * @since 6.0.0
  *
  * @uses render_block_core_home_link()
  * @throws WP_Error An WP_Error exception parsing the block definition.

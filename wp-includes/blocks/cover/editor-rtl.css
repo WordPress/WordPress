@@ -17,9 +17,17 @@
 .wp-block-cover.components-placeholder h2{
   color:inherit;
 }
+.wp-block-cover.is-transient{
+  position:relative;
+}
 .wp-block-cover.is-transient:before{
   background-color:#fff;
+  content:"";
+  height:100%;
   opacity:.3;
+  position:absolute;
+  width:100%;
+  z-index:1;
 }
 .wp-block-cover .components-spinner{
   margin:0;

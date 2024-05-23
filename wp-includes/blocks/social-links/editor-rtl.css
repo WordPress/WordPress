@@ -2,9 +2,6 @@
   display:inline-block;
   margin-right:8px;
 }
-.wp-block-social-links.wp-block-social-links{
-  background:none;
-}
 
 .wp-social-link:hover{
   transform:none;
@@ -60,7 +57,6 @@
   margin-bottom:auto;
   margin-top:auto;
   min-height:24px;
-  order:2;
   padding-left:8px;
 }
 

@@ -186,9 +186,7 @@ function isValidFocusableArea(element) {
 function find(context, {
   sequential = false
 } = {}) {
-  /* eslint-disable jsdoc/no-undefined-types */
   /** @type {NodeListOf<HTMLElement>} */
-  /* eslint-enable jsdoc/no-undefined-types */
   const elements = context.querySelectorAll(buildSelector(sequential));
   return Array.from(elements).filter(element => {
     if (!isVisible(element)) {
@@ -238,7 +236,7 @@ function isTabbableIndex(element) {
   return getTabIndex(element) !== -1;
 }
 
-/** @typedef {Element & { type?: string, checked?: boolean, name?: string }} MaybeHTMLInputElement */
+/** @typedef {HTMLElement & { type?: string, checked?: boolean, name?: string }} MaybeHTMLInputElement */
 
 /**
  * Returns a stateful reducer function which constructs a filtered array of
@@ -289,10 +287,10 @@ function createStatefulCollapseRadioGroup() {
  * sort where equal tabIndex should be left in order of their occurrence in the
  * document.
  *
- * @param {Element} element Element.
- * @param {number}  index   Array index of element.
+ * @param {HTMLElement} element Element.
+ * @param {number}      index   Array index of element.
  *
- * @return {{ element: Element, index: number }} Mapped object with element, index.
+ * @return {{ element: HTMLElement, index: number }} Mapped object with element, index.
  */
 function mapElementToObjectTabbable(element, index) {
   return {
@@ -305,9 +303,9 @@ function mapElementToObjectTabbable(element, index) {
  * An array map callback, returning an element of the given mapped object's
  * element value.
  *
- * @param {{ element: Element }} object Mapped object with element.
+ * @param {{ element: HTMLElement }} object Mapped object with element.
  *
- * @return {Element} Mapped object element.
+ * @return {HTMLElement} Mapped object element.
  */
 function mapObjectTabbableToElement(object) {
   return object.element;
@@ -318,8 +316,8 @@ function mapObjectTabbableToElement(object) {
  *
  * @see mapElementToObjectTabbable
  *
- * @param {{ element: Element, index: number }} a First object to compare.
- * @param {{ element: Element, index: number }} b Second object to compare.
+ * @param {{ element: HTMLElement, index: number }} a First object to compare.
+ * @param {{ element: HTMLElement, index: number }} b Second object to compare.
  *
  * @return {number} Comparator result.
  */
@@ -335,9 +333,9 @@ function compareObjectTabbables(a, b) {
 /**
  * Givin focusable elements, filters out tabbable element.
  *
- * @param {Element[]} focusables Focusable elements to filter.
+ * @param {HTMLElement[]} focusables Focusable elements to filter.
  *
- * @return {Element[]} Tabbable elements.
+ * @return {HTMLElement[]} Tabbable elements.
  */
 function filterTabbable(focusables) {
   return focusables.filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement).reduce(createStatefulCollapseRadioGroup(), []);
@@ -345,7 +343,7 @@ function filterTabbable(focusables) {
 
 /**
  * @param {Element} context
- * @return {Element[]} Tabbable elements within the context.
+ * @return {HTMLElement[]} Tabbable elements within the context.
  */
 function tabbable_find(context) {
   return filterTabbable(find(context));
@@ -357,15 +355,12 @@ function tabbable_find(context) {
  * @param {Element} element The focusable element before which to look. Defaults
  *                          to the active element.
  *
- * @return {Element|undefined} Preceding tabbable element.
+ * @return {HTMLElement|undefined} Preceding tabbable element.
  */
 function findPrevious(element) {
-  return filterTabbable(find(element.ownerDocument.body)).reverse().find(focusable => {
-    return (
-      // eslint-disable-next-line no-bitwise
-      element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_PRECEDING
-    );
-  });
+  return filterTabbable(find(element.ownerDocument.body)).reverse().find(focusable =>
+  // eslint-disable-next-line no-bitwise
+  element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_PRECEDING);
 }
 
 /**
@@ -374,15 +369,12 @@ function findPrevious(element) {
  * @param {Element} element The focusable element after which to look. Defaults
  *                          to the active element.
  *
- * @return {Element|undefined} Next tabbable element.
+ * @return {HTMLElement|undefined} Next tabbable element.
  */
 function findNext(element) {
-  return filterTabbable(find(element.ownerDocument.body)).find(focusable => {
-    return (
-      // eslint-disable-next-line no-bitwise
-      element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_FOLLOWING
-    );
-  });
+  return filterTabbable(find(element.ownerDocument.body)).find(focusable =>
+  // eslint-disable-next-line no-bitwise
+  element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_FOLLOWING);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/utils/assert-is-defined.js
@@ -440,10 +432,18 @@ function getRectangleFromRange(range) {
       left,
       right
     } of filteredRects) {
-      if (top < furthestTop) furthestTop = top;
-      if (bottom > furthestBottom) furthestBottom = bottom;
-      if (left < furthestLeft) furthestLeft = left;
-      if (right > furthestRight) furthestRight = right;
+      if (top < furthestTop) {
+        furthestTop = top;
+      }
+      if (bottom > furthestBottom) {
+        furthestBottom = bottom;
+      }
+      if (left < furthestLeft) {
+        furthestLeft = left;
+      }
+      if (right > furthestRight) {
+        furthestRight = right;
+      }
     }
     return new window.DOMRect(furthestLeft, furthestTop, furthestRight - furthestLeft, furthestBottom - furthestTop);
   }
@@ -1107,7 +1107,7 @@ function isEdge(container, isReverse, onlyVertical = false) {
     }
     return container.value.length === container.selectionStart;
   }
-  if (!( /** @type {HTMLElement} */container.isContentEditable)) {
+  if (!container.isContentEditable) {
     return true;
   }
   const {
@@ -1317,7 +1317,9 @@ function placeCaretAtEdge(container, isReverse, x) {
     return;
   }
   const range = scrollIfNoRange(container, isReverse, () => getRange(container, isReverse, x));
-  if (!range) return;
+  if (!range) {
+    return;
+  }
   const {
     ownerDocument
   } = container;

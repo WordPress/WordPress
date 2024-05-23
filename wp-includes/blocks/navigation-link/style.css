@@ -18,11 +18,3 @@
   margin-left:8px;
   text-transform:uppercase;
 }
-
-.components-popover-pointer-events-trap{
-  background-color:initial;
-  cursor:pointer;
-  inset:0;
-  position:fixed;
-  z-index:1000000;
-}

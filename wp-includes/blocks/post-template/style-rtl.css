@@ -5,9 +5,6 @@
   max-width:100%;
   padding:0;
 }
-.wp-block-post-template.wp-block-post-template{
-  background:none;
-}
 .wp-block-post-template.is-flex-container{
   display:flex;
   flex-direction:row;

@@ -29,6 +29,7 @@
 		"align": [ "wide", "full" ],
 		"anchor": true,
 		"className": true,
+		"splitting": true,
 		"color": {
 			"gradients": true,
 			"link": true,

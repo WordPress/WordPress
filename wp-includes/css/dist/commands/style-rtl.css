@@ -8,7 +8,7 @@
   --wp-admin-border-width-focus:2px;
   --wp-block-synced-color:#7a00df;
   --wp-block-synced-color--rgb:122, 0, 223;
-  --wp-bound-block-color:#9747ff;
+  --wp-bound-block-color:var(--wp-block-synced-color);
 }
 @media (min-resolution:192dpi){
   :root{
@@ -19,14 +19,14 @@
 .commands-command-menu{
   border-radius:4px;
   margin:auto;
-  max-width:420px;
+  max-width:400px;
   position:relative;
-  top:calc(15% + 60px);
+  top:calc(5% + 60px);
   width:calc(100% - 32px);
 }
 @media (min-width:600px){
   .commands-command-menu{
-    top:15%;
+    top:calc(10% + 60px);
   }
 }
 .commands-command-menu .components-modal__content{
@@ -42,7 +42,7 @@
 .commands-command-menu__header{
   align-items:center;
   display:flex;
-  padding-right:16px;
+  padding:0 16px;
 }
 .commands-command-menu__header .components-button{
   border:1px solid #949494;
@@ -64,11 +64,11 @@
   border:none;
   border-radius:0;
   color:#1e1e1e;
-  font-size:16px;
+  font-size:15px;
   line-height:28px;
   margin:0;
   outline:none;
-  padding:16px 8px 16px 16px;
+  padding:16px 4px;
   width:100%;
 }
 .commands-command-menu__container [cmdk-input]::placeholder{
@@ -85,7 +85,6 @@
   cursor:pointer;
   display:flex;
   font-size:13px;
-  min-height:40px;
 }
 .commands-command-menu__container [cmdk-item]:active,.commands-command-menu__container [cmdk-item][aria-selected=true]{
   background:var(--wp-admin-theme-color);
@@ -102,7 +101,8 @@
   fill:#1e1e1e;
 }
 .commands-command-menu__container [cmdk-item]>div{
-  padding:8px 40px 8px 8px;
+  min-height:40px;
+  padding:4px 40px 4px 4px;
 }
 .commands-command-menu__container [cmdk-item]>.has-icon{
   padding-right:8px;
@@ -111,8 +111,11 @@
   max-height:368px;
   overflow:auto;
 }
+.commands-command-menu__container [cmdk-root]>[cmdk-list] [cmdk-list-sizer]>[cmdk-group]:last-child [cmdk-group-items]:not(:empty){
+  padding-bottom:8px;
+}
 .commands-command-menu__container [cmdk-root]>[cmdk-list] [cmdk-list-sizer]>[cmdk-group]>[cmdk-group-items]:not(:empty){
-  padding:0 8px 8px;
+  padding:0 8px;
 }
 .commands-command-menu__container [cmdk-empty]{
   align-items:center;

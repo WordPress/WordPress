@@ -1,39 +1,39 @@
-figure.wp-block-gallery{
+:where(figure.wp-block-gallery){
   display:block;
 }
-figure.wp-block-gallery>.blocks-gallery-caption{
+:where(figure.wp-block-gallery)>.blocks-gallery-caption{
   flex:0 0 100%;
 }
-figure.wp-block-gallery>.blocks-gallery-media-placeholder-wrapper{
+:where(figure.wp-block-gallery)>.blocks-gallery-media-placeholder-wrapper{
   flex-basis:100%;
 }
-figure.wp-block-gallery .wp-block-image .components-notice.is-error{
+:where(figure.wp-block-gallery) .wp-block-image .components-notice.is-error{
   display:block;
 }
-figure.wp-block-gallery .wp-block-image .components-notice__content{
+:where(figure.wp-block-gallery) .wp-block-image .components-notice__content{
   margin:4px 0;
 }
-figure.wp-block-gallery .wp-block-image .components-notice__dismiss{
+:where(figure.wp-block-gallery) .wp-block-image .components-notice__dismiss{
   left:5px;
   position:absolute;
   top:0;
 }
-figure.wp-block-gallery .block-editor-media-placeholder.is-appender .components-placeholder__label{
+:where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .components-placeholder__label{
   display:none;
 }
-figure.wp-block-gallery .block-editor-media-placeholder.is-appender .block-editor-media-placeholder__button{
+:where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .block-editor-media-placeholder__button{
   margin-bottom:0;
 }
-figure.wp-block-gallery .block-editor-media-placeholder{
+:where(figure.wp-block-gallery) .block-editor-media-placeholder{
   margin:0;
 }
-figure.wp-block-gallery .block-editor-media-placeholder .components-placeholder__label{
+:where(figure.wp-block-gallery) .block-editor-media-placeholder .components-placeholder__label{
   display:flex;
 }
-figure.wp-block-gallery .block-editor-media-placeholder figcaption{
+:where(figure.wp-block-gallery) .block-editor-media-placeholder figcaption{
   z-index:2;
 }
-figure.wp-block-gallery .components-spinner{
+:where(figure.wp-block-gallery) .components-spinner{
   margin-right:-9px;
   margin-top:-9px;
   position:absolute;

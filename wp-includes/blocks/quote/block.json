@@ -22,7 +22,7 @@
 			"selector": "cite",
 			"__experimentalRole": "content"
 		},
-		"align": {
+		"textAlign": {
 			"type": "string"
 		}
 	},

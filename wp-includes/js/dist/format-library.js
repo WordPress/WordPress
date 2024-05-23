@@ -196,10 +196,9 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
  */
 
 const keyboardReturn = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "-2 -2 24 24"
+  xmlns: "http://www.w3.org/2000/svg"
 }, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M6.734 16.106l2.176-2.38-1.093-1.028-3.846 4.158 3.846 4.157 1.093-1.027-2.176-2.38h2.811c1.125 0 2.25.03 3.374 0 1.428-.001 3.362-.25 4.963-1.277 1.66-1.065 2.868-2.906 2.868-5.859 0-2.479-1.327-4.896-3.65-5.93-1.82-.813-3.044-.8-4.806-.788l-.567.002v1.5c.184 0 .368 0 .553-.002 1.82-.007 2.704-.014 4.21.657 1.854.827 2.76 2.657 2.76 4.561 0 2.472-.973 3.824-2.178 4.596-1.258.807-2.864 1.04-4.163 1.04h-.02c-1.115.03-2.229 0-3.344 0H6.734z"
+  d: "m6.734 16.106 2.176-2.38-1.093-1.028-3.846 4.158 3.846 4.158 1.093-1.028-2.176-2.38h2.811c1.125 0 2.25.03 3.374 0 1.428-.001 3.362-.25 4.963-1.277 1.66-1.065 2.868-2.906 2.868-5.859 0-2.479-1.327-4.896-3.65-5.93-1.82-.813-3.044-.8-4.806-.788l-.567.002v1.5c.184 0 .368 0 .553-.002 1.82-.007 2.704-.014 4.21.657 1.854.827 2.76 2.657 2.76 4.561 0 2.472-.973 3.824-2.178 4.596-1.258.807-2.864 1.04-4.163 1.04h-.02c-1.115.03-2.229 0-3.344 0H6.734Z"
 }));
 /* harmony default export */ const keyboard_return = (keyboardReturn);
 
@@ -516,8 +515,12 @@ function createLinkFormat({
       url
     }
   };
-  if (type) format.attributes.type = type;
-  if (id) format.attributes.id = id;
+  if (type) {
+    format.attributes.type = type;
+  }
+  if (id) {
+    format.attributes.id = id;
+  }
   if (opensInNewWindow) {
     format.attributes.target = '_blank';
     format.attributes.rel = format.attributes.rel ? format.attributes.rel + ' noreferrer noopener' : 'noreferrer noopener';
@@ -827,10 +830,11 @@ function InlineLinkUI({
   }
   return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
     anchor: popoverAnchor,
+    animate: false,
     onClose: stopAddingLink,
     onFocusOutside: onFocusOutside,
     placement: "bottom",
-    offset: 10,
+    offset: 8,
     shift: true,
     focusOnMount: focusOnMount,
     constrainTabbing: true
@@ -908,35 +912,16 @@ function link_Edit({
   onFocus,
   contentRef
 }) {
-  const [editingLink, setEditingLink] = (0,external_wp_element_namespaceObject.useState)(false);
-  const [creatingLink, setCreatingLink] = (0,external_wp_element_namespaceObject.useState)(false);
+  const [addingLink, setAddingLink] = (0,external_wp_element_namespaceObject.useState)(false);
 
   // We only need to store the button element that opened the popover. We can ignore the other states, as they will be handled by the onFocus prop to return to the rich text field.
   const [openedBy, setOpenedBy] = (0,external_wp_element_namespaceObject.useState)(null);
-
-  // Manages whether the Link UI popover should autofocus when shown.
-  const [shouldAutoFocus, setShouldAutoFocus] = (0,external_wp_element_namespaceObject.useState)(true);
-  function setIsEditingLink(isEditing, {
-    autoFocus = true
-  } = {}) {
-    setEditingLink(isEditing);
-    setShouldAutoFocus(autoFocus);
-  }
-  function setIsCreatingLink(isCreating) {
-    // Don't add a new link if there is already an active link.
-    // The two states are mutually exclusive.
-    if (isCreating === true && isActive) {
-      return;
-    }
-    setCreatingLink(isCreating);
-  }
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // When the link becomes inactive (i.e. isActive is false), reset the editingLink state
     // and the creatingLink state. This means that if the Link UI is displayed and the link
     // becomes inactive (e.g. used arrow keys to move cursor outside of link bounds), the UI will close.
     if (!isActive) {
-      setEditingLink(false);
-      setCreatingLink(false);
+      setAddingLink(false);
     }
   }, [isActive]);
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
@@ -951,14 +936,16 @@ function link_Edit({
       // This causes the `editingLink` state to be set to `true` and the link UI
       // to be rendered in "creating" mode. We need to check isActive to see if
       // we have an active link format.
-      if (!event.target.closest('[contenteditable] a') ||
+      const link = event.target.closest('[contenteditable] a');
+      if (!link ||
       // other formats (e.g. bold) may be nested within the link.
       !isActive) {
-        setIsEditingLink(false);
         return;
       }
-      setIsEditingLink(true, {
-        autoFocus: false
+      setAddingLink(true);
+      setOpenedBy({
+        el: link,
+        action: 'click'
       });
     }
     editableContentElement.addEventListener('click', handleClick);
@@ -967,7 +954,6 @@ function link_Edit({
     };
   }, [contentRef, isActive]);
   function addLink(target) {
-    setShouldAutoFocus(true);
     const text = (0,external_wp_richText_namespaceObject.getTextContent)((0,external_wp_richText_namespaceObject.slice)(value));
     if (!isActive && text && (0,external_wp_url_namespaceObject.isURL)(text) && isValidHref(text)) {
       onChange((0,external_wp_richText_namespaceObject.applyFormat)(value, {
@@ -985,13 +971,12 @@ function link_Edit({
       }));
     } else {
       if (target) {
-        setOpenedBy(target);
+        setOpenedBy({
+          el: target,
+          action: null // We don't need to distinguish between click or keyboard here
+        });
       }
-      if (!isActive) {
-        setIsCreatingLink(true);
-      } else {
-        setIsEditingLink(true);
-      }
+      setAddingLink(true);
     }
   }
 
@@ -1010,12 +995,11 @@ function link_Edit({
     // Otherwise, we rely on the passed in onFocus to return focus to the rich text field.
 
     // Close the popover
-    setIsEditingLink(false);
-    setIsCreatingLink(false);
+    setAddingLink(false);
 
     // Return focus to the toolbar button or the rich text field
-    if (openedBy?.tagName === 'BUTTON') {
-      openedBy.focus();
+    if (openedBy?.el?.tagName === 'BUTTON') {
+      openedBy.el.focus();
     } else {
       onFocus();
     }
@@ -1030,15 +1014,16 @@ function link_Edit({
   // 4. Press Escape
   // 5. Focus should be on the Options button
   function onFocusOutside() {
-    setIsEditingLink(false);
-    setIsCreatingLink(false);
+    setAddingLink(false);
     setOpenedBy(null);
   }
   function onRemoveFormat() {
     onChange((0,external_wp_richText_namespaceObject.removeFormat)(value, link_name));
     (0,external_wp_a11y_namespaceObject.speak)((0,external_wp_i18n_namespaceObject.__)('Link removed.'), 'assertive');
   }
-  const isEditingActiveLink = editingLink && isActive;
+
+  // Only autofocus if we have clicked a link within the editor
+  const shouldAutoFocus = !(openedBy?.el?.tagName === 'A' && openedBy?.action === 'click');
   return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextShortcut, {
     type: "primary",
     character: "k",
@@ -1054,12 +1039,12 @@ function link_Edit({
     onClick: event => {
       addLink(event.currentTarget);
     },
-    isActive: isActive || editingLink,
+    isActive: isActive || addingLink,
     shortcutType: "primary",
     shortcutCharacter: "k",
     "aria-haspopup": "true",
-    "aria-expanded": editingLink
-  }), (isEditingActiveLink || creatingLink) && (0,external_React_namespaceObject.createElement)(inline, {
+    "aria-expanded": addingLink
+  }), addingLink && (0,external_React_namespaceObject.createElement)(inline, {
     stopAddingLink: stopAddingLink,
     onFocusOutside: onFocusOutside,
     isActive: isActive,
@@ -1315,8 +1300,12 @@ function parseCSS(css = '') {
   return css.split(';').reduce((accumulator, rule) => {
     if (rule) {
       const [property, value] = rule.split(':');
-      if (property === 'color') accumulator.color = value;
-      if (property === 'background-color' && value !== transparentValue) accumulator.backgroundColor = value;
+      if (property === 'color') {
+        accumulator.color = value;
+      }
+      if (property === 'background-color' && value !== transparentValue) {
+        accumulator.backgroundColor = value;
+      }
     }
     return accumulator;
   }, {});
@@ -1370,8 +1359,12 @@ function setColors(value, name, colorSettings, colors) {
       styles.push(['color', color].join(':'));
     }
   }
-  if (styles.length) attributes.style = styles.join(';');
-  if (classNames.length) attributes.class = classNames.join(' ');
+  if (styles.length) {
+    attributes.style = styles.join(';');
+  }
+  if (classNames.length) {
+    attributes.class = classNames.join(' ');
+  }
   return (0,external_wp_richText_namespaceObject.applyFormat)(value, {
     type: name,
     attributes
@@ -1723,6 +1716,15 @@ const help = (0,external_React_namespaceObject.createElement)(external_wp_primit
 
 const unknown_name = 'core/unknown';
 const unknown_title = (0,external_wp_i18n_namespaceObject.__)('Clear Unknown Formatting');
+function selectionContainsUnknownFormats(value) {
+  if ((0,external_wp_richText_namespaceObject.isCollapsed)(value)) {
+    return false;
+  }
+  const selectedValue = (0,external_wp_richText_namespaceObject.slice)(value);
+  return selectedValue.formats.some(formats => {
+    return formats.some(format => format.type === unknown_name);
+  });
+}
 const unknown = {
   name: unknown_name,
   title: unknown_title,
@@ -1734,16 +1736,12 @@ const unknown = {
     onChange,
     onFocus
   }) {
+    if (!isActive && !selectionContainsUnknownFormats(value)) {
+      return null;
+    }
     function onClick() {
       onChange((0,external_wp_richText_namespaceObject.removeFormat)(value, unknown_name));
       onFocus();
-    }
-    const selectedValue = (0,external_wp_richText_namespaceObject.slice)(value);
-    const hasUnknownFormats = selectedValue.formats.some(formats => {
-      return formats.some(format => format.type === unknown_name);
-    });
-    if (!isActive && !hasUnknownFormats) {
-      return null;
     }
     return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextToolbarButton, {
       name: "unknown",
@@ -1877,6 +1875,36 @@ function InlineLanguageUI({
   }))));
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/non-breaking-space/index.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+const non_breaking_space_name = 'core/non-breaking-space';
+const non_breaking_space_title = (0,external_wp_i18n_namespaceObject.__)('Non breaking space');
+const nonBreakingSpace = {
+  name: non_breaking_space_name,
+  title: non_breaking_space_title,
+  tagName: 'nbsp',
+  className: null,
+  edit({
+    value,
+    onChange
+  }) {
+    function addNonBreakingSpace() {
+      onChange((0,external_wp_richText_namespaceObject.insert)(value, '\u00a0'));
+    }
+    return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextShortcut, {
+      type: "primaryShift",
+      character: " ",
+      onUse: addNonBreakingSpace
+    });
+  }
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/default-formats.js
 /**
  * Internal dependencies
@@ -1894,7 +1922,8 @@ function InlineLanguageUI({
 
 
 
-/* harmony default export */ const default_formats = ([bold, code_code, image_image, italic, build_module_link_link, strikethrough, underline, text_color_textColor, subscript_subscript, superscript_superscript, keyboard, unknown, language_language]);
+
+/* harmony default export */ const default_formats = ([bold, code_code, image_image, italic, build_module_link_link, strikethrough, underline, text_color_textColor, subscript_subscript, superscript_superscript, keyboard, unknown, language_language, nonBreakingSpace]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/index.js
 /**

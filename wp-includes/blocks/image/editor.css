@@ -96,6 +96,9 @@ figure.wp-block-image:not(.wp-block){
   position:relative;
   width:100%;
 }
+.wp-block-image__crop-area .reactEasyCrop_Container{
+  pointer-events:auto;
+}
 .wp-block-image__crop-area .reactEasyCrop_Container .reactEasyCrop_Image{
   border:none;
   border-radius:0;

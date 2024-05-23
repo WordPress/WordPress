@@ -73,6 +73,16 @@
   width:0 !important;
 }
 
+:where(.wp-block-search__input){
+  font-family:inherit;
+  font-size:inherit;
+  font-style:inherit;
+  font-weight:inherit;
+  letter-spacing:inherit;
+  line-height:inherit;
+  text-transform:inherit;
+}
+
 :where(.wp-block-search__button-inside .wp-block-search__inside-wrapper){
   border:1px solid #949494;
   box-sizing:border-box;

@@ -891,8 +891,12 @@ function getPathAndQueryString(url) {
   const path = getPath(url);
   const queryString = getQueryString(url);
   let value = '/';
-  if (path) value += path;
-  if (queryString) value += `?${queryString}`;
+  if (path) {
+    value += path;
+  }
+  if (queryString) {
+    value += `?${queryString}`;
+  }
   return value;
 }
 
@@ -1326,6 +1330,9 @@ function cleanForSlug(string) {
  */
 function getFilename(url) {
   let filename;
+  if (!url) {
+    return;
+  }
   try {
     filename = new URL(url, 'http://example.com').pathname.split('/').pop();
   } catch (error) {}

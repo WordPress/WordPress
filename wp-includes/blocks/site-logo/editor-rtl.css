@@ -13,13 +13,23 @@
 .wp-block-site-logo .custom-logo-link:focus{
   box-shadow:none;
 }
-.wp-block-site-logo .custom-logo-link.is-transient img{
-  opacity:.3;
-}
 .wp-block-site-logo img{
   display:block;
   height:auto;
   max-width:100%;
+}
+.wp-block-site-logo.is-transient{
+  position:relative;
+}
+.wp-block-site-logo.is-transient img{
+  opacity:.3;
+}
+.wp-block-site-logo.is-transient .components-spinner{
+  margin:0;
+  position:absolute;
+  right:50%;
+  top:50%;
+  transform:translate(50%, -50%);
 }
 
 .wp-block-site-logo.wp-block-site-logo.is-default-size .components-placeholder{
@@ -53,6 +63,7 @@
   display:flex;
   height:48px;
   justify-content:center;
+  margin:auto;
   padding:0;
   position:relative;
   width:48px;

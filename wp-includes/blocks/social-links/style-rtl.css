@@ -160,7 +160,7 @@
   color:#fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-medium{
-  background-color:#02ab6c;
+  background-color:#000;
   color:#fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-meetup{
@@ -320,7 +320,7 @@
   color:#3288d4;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-medium{
-  color:#02ab6c;
+  color:#000;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-meetup{
   color:#f6405f;

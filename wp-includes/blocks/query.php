@@ -51,8 +51,8 @@ function render_block_core_query( $attributes, $content, $block ) {
 			// Add the necessary directives.
 			$p->set_attribute( 'data-wp-interactive', 'core/query' );
 			$p->set_attribute( 'data-wp-router-region', 'query-' . $attributes['queryId'] );
-			$p->set_attribute( 'data-wp-init', 'callbacks.setQueryRef' );
 			$p->set_attribute( 'data-wp-context', '{}' );
+			$p->set_attribute( 'data-wp-key', $attributes['queryId'] );
 			$content = $p->get_updated_html();
 		}
 	}
@@ -77,6 +77,8 @@ function render_block_core_query( $attributes, $content, $block ) {
 
 /**
  * Registers the `core/query` block on the server.
+ *
+ * @since 5.8.0
  */
 function register_block_core_query() {
 	register_block_type_from_metadata(

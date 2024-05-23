@@ -13,7 +13,7 @@
   (global = global || self, factory(global.React = {}));
 }(this, (function (exports) { 'use strict';
 
-  var ReactVersion = '18.2.0';
+  var ReactVersion = '18.3.1';
 
   // ATTENTION
   // When adding new symbols to this file,
@@ -3311,6 +3311,7 @@
   exports.StrictMode = REACT_STRICT_MODE_TYPE;
   exports.Suspense = REACT_SUSPENSE_TYPE;
   exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals$1;
+  exports.act = act;
   exports.cloneElement = cloneElement$1;
   exports.createContext = createContext;
   exports.createElement = createElement$1;

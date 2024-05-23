@@ -8,6 +8,8 @@
 /**
  * When the `core/file` block is rendering, check if we need to enqueue the `wp-block-file-view` script.
  *
+ * @since 5.8.0
+ *
  * @param array    $attributes The block attributes.
  * @param string   $content    The block content.
  * @param WP_Block $block      The parsed block.
@@ -15,27 +17,6 @@
  * @return string Returns the block content.
  */
 function render_block_core_file( $attributes, $content ) {
-	// Update object's aria-label attribute if present in block HTML.
-	// Match an aria-label attribute from an object tag.
-	$pattern = '@<object.+(?<attribute>aria-label="(?<filename>[^"]+)?")@i';
-	$content = preg_replace_callback(
-		$pattern,
-		static function ( $matches ) {
-			$filename     = ! empty( $matches['filename'] ) ? $matches['filename'] : '';
-			$has_filename = ! empty( $filename ) && 'PDF embed' !== $filename;
-			$label        = $has_filename ?
-				sprintf(
-					/* translators: %s: filename. */
-					__( 'Embed of %s.' ),
-					$filename
-				)
-				: __( 'PDF embed' );
-
-			return str_replace( $matches['attribute'], sprintf( 'aria-label="%s"', $label ), $matches[0] );
-		},
-		$content
-	);
-
 	// If it's interactive, enqueue the script module and add the directives.
 	if ( ! empty( $attributes['displayPreview'] ) ) {
 		$suffix = wp_scripts_get_suffix();
@@ -57,6 +38,19 @@ function render_block_core_file( $attributes, $content ) {
 		$processor->next_tag( 'object' );
 		$processor->set_attribute( 'data-wp-bind--hidden', '!state.hasPdfPreview' );
 		$processor->set_attribute( 'hidden', true );
+
+		$filename     = $processor->get_attribute( 'aria-label' );
+		$has_filename = ! empty( $filename ) && 'PDF embed' !== $filename;
+		$label        = $has_filename ? sprintf(
+			/* translators: %s: filename. */
+			__( 'Embed of %s.' ),
+			$filename
+		) : __( 'PDF embed' );
+
+		// Update object's aria-label attribute if present in block HTML.
+		// Match an aria-label attribute from an object tag.
+		$processor->set_attribute( 'aria-label', $label );
+
 		return $processor->get_updated_html();
 	}
 
@@ -65,6 +59,8 @@ function render_block_core_file( $attributes, $content ) {
 
 /**
  * Registers the `core/file` block on server.
+ *
+ * @since 5.8.0
  */
 function register_block_core_file() {
 	register_block_type_from_metadata(

@@ -23,6 +23,7 @@
   display:flex;
   height:48px;
   justify-content:center;
+  margin:auto;
   padding:0;
   position:relative;
   width:48px;
@@ -72,6 +73,18 @@
 .wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-button,.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-placeholder__instructions,.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-placeholder__label{
   opacity:1;
   pointer-events:auto;
+}
+.wp-block-post-featured-image.is-transient{
+  position:relative;
+}
+.wp-block-post-featured-image.is-transient img{
+  opacity:.3;
+}
+.wp-block-post-featured-image.is-transient .components-spinner{
+  position:absolute;
+  right:50%;
+  top:50%;
+  transform:translate(50%, -50%);
 }
 
 div[data-type="core/post-featured-image"] img{

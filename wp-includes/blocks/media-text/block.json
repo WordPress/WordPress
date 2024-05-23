@@ -92,8 +92,13 @@
 		},
 		"allowedBlocks": {
 			"type": "array"
+		},
+		"useFeaturedImage": {
+			"type": "boolean",
+			"default": false
 		}
 	},
+	"usesContext": [ "postId", "postType" ],
 	"supports": {
 		"anchor": true,
 		"align": [ "wide", "full" ],

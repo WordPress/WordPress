@@ -290,7 +290,7 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
  */
 
 const withDeprecatedKeys = originalGet => (state, scope, name) => {
-  const settingsToMoveToCore = ['allowRightClickOverrides', 'distractionFree', 'editorMode', 'fixedToolbar', 'focusMode', 'hiddenBlockTypes', 'inactivePanels', 'keepCaretInsideBlock', 'mostUsedBlocks', 'openPanels', 'showBlockBreadcrumbs', 'showIconLabels', 'showListViewByDefault'];
+  const settingsToMoveToCore = ['allowRightClickOverrides', 'distractionFree', 'editorMode', 'fixedToolbar', 'focusMode', 'hiddenBlockTypes', 'inactivePanels', 'keepCaretInsideBlock', 'mostUsedBlocks', 'openPanels', 'showBlockBreadcrumbs', 'showIconLabels', 'showListViewByDefault', 'isPublishSidebarEnabled', 'isComplementaryAreaVisible', 'pinnedItems'];
   if (settingsToMoveToCore.includes(name) && ['core/edit-post', 'core/edit-site'].includes(scope)) {
     external_wp_deprecated_default()(`wp.data.select( 'core/preferences' ).get( '${scope}', '${name}' )`, {
       since: '6.5',
@@ -652,7 +652,7 @@ function PreferencesModalTabs({
     modalContent = (0,external_React_namespaceObject.createElement)("div", {
       className: "preferences__tabs"
     }, (0,external_React_namespaceObject.createElement)(Tabs, {
-      initialTabId: activeMenu !== PREFERENCES_MENU ? activeMenu : undefined,
+      defaultTabId: activeMenu !== PREFERENCES_MENU ? activeMenu : undefined,
       onSelect: setActiveMenu,
       orientation: "vertical"
     }, (0,external_React_namespaceObject.createElement)(Tabs.TabList, {
@@ -701,7 +701,7 @@ function PreferencesModalTabs({
         gap: "6"
       }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorBackButton, {
         icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_right : chevron_left,
-        "aria-label": (0,external_wp_i18n_namespaceObject.__)('Navigate to the previous view')
+        label: (0,external_wp_i18n_namespaceObject.__)('Back')
       }), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
         size: "16"
       }, section.tabLabel)), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CardBody, null, section.content)));

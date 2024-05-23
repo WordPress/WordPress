@@ -1967,7 +1967,7 @@ function CompactList({
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/plugins/installed-blocks-pre-publish-panel/index.js
-var _window$wp$editPost;
+var _window$wp$editor;
 
 /**
  * WordPress dependencies
@@ -1982,11 +1982,11 @@ var _window$wp$editPost;
 
 
 
-// We shouldn't import the edit-post package directly
-// because it would include the wp-edit-post in all pages loading the block-directory script.
+// We shouldn't import the editor package directly
+// because it would include the wp-editor in all pages loading the block-directory script.
 const {
   PluginPrePublishPanel
-} = (_window$wp$editPost = window?.wp?.editPost) !== null && _window$wp$editPost !== void 0 ? _window$wp$editPost : {};
+} = (_window$wp$editor = window?.wp?.editor) !== null && _window$wp$editor !== void 0 ? _window$wp$editor : {};
 function InstalledBlocksPrePublishPanel() {
   const newBlockTypes = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getNewBlockTypes(), []);
   if (!newBlockTypes.length) {

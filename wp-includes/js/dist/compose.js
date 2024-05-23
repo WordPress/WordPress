@@ -2288,6 +2288,7 @@ __webpack_require__.d(__webpack_exports__, {
   createHigherOrderComponent: () => (/* reexport */ createHigherOrderComponent),
   debounce: () => (/* reexport */ debounce),
   ifCondition: () => (/* reexport */ if_condition),
+  observableMap: () => (/* reexport */ observableMap),
   pipe: () => (/* reexport */ higher_order_pipe),
   pure: () => (/* reexport */ higher_order_pure),
   throttle: () => (/* reexport */ throttle),
@@ -2306,6 +2307,7 @@ __webpack_require__.d(__webpack_exports__, {
   useKeyboardShortcut: () => (/* reexport */ use_keyboard_shortcut),
   useMediaQuery: () => (/* reexport */ useMediaQuery),
   useMergeRefs: () => (/* reexport */ useMergeRefs),
+  useObservableValue: () => (/* reexport */ useObservableValue),
   usePrevious: () => (/* reexport */ usePrevious),
   useReducedMotion: () => (/* reexport */ use_reduced_motion),
   useRefEffect: () => (/* reexport */ useRefEffect),
@@ -3111,6 +3113,59 @@ const throttle = (func, wait, options) => {
   });
 };
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/utils/observable-map/index.js
+/**
+ * A constructor (factory) for `ObservableMap`, a map-like key/value data structure
+ * where the individual entries are observable: using the `subscribe` method, you can
+ * subscribe to updates for a particular keys. Each subscriber always observes one
+ * specific key and is not notified about any unrelated changes (for different keys)
+ * in the `ObservableMap`.
+ *
+ * @template K The type of the keys in the map.
+ * @template V The type of the values in the map.
+ * @return   A new instance of the `ObservableMap` type.
+ */
+function observableMap() {
+  const map = new Map();
+  const listeners = new Map();
+  function callListeners(name) {
+    const list = listeners.get(name);
+    if (!list) {
+      return;
+    }
+    for (const listener of list) {
+      listener();
+    }
+  }
+  return {
+    get(name) {
+      return map.get(name);
+    },
+    set(name, value) {
+      map.set(name, value);
+      callListeners(name);
+    },
+    delete(name) {
+      map.delete(name);
+      callListeners(name);
+    },
+    subscribe(name, listener) {
+      let list = listeners.get(name);
+      if (!list) {
+        list = new Set();
+        listeners.set(name, list);
+      }
+      list.add(listener);
+      return () => {
+        list.delete(listener);
+        if (list.size === 0) {
+          listeners.delete(name);
+        }
+      };
+    }
+  };
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/pipe.js
 /**
  * Parts of this source were derived and modified from lodash,
@@ -3470,7 +3525,9 @@ function createId(object) {
  */
 function useInstanceId(object, prefix, preferredId) {
   return (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (preferredId) return preferredId;
+    if (preferredId) {
+      return preferredId;
+    }
     const id = createId(object);
     return prefix ? `${prefix}-${id}` : id;
   }, [object, preferredId, prefix]);
@@ -3706,7 +3763,6 @@ function useConstrainedTabbing() {
       // See https://github.com/WordPress/gutenberg/issues/46041.
       if ( /** @type {HTMLElement} */target.contains(nextElement)) {
         event.preventDefault();
-        /** @type {HTMLElement} */
         nextElement?.focus();
         return;
       }
@@ -3959,7 +4015,7 @@ function useFocusOnMount(focusOnMount = 'firstElement') {
       timerId.current = setTimeout(() => {
         const firstTabbable = external_wp_dom_namespaceObject.focus.tabbable.find(node)[0];
         if (firstTabbable) {
-          setFocus( /** @type {HTMLElement} */firstTabbable);
+          setFocus(firstTabbable);
         }
       }, 0);
       return;
@@ -4651,6 +4707,7 @@ shortcuts, callback, {
  * WordPress dependencies
  */
 
+const matchMediaCache = new Map();
 
 /**
  * A new MediaQueryList object for the media query
@@ -4659,8 +4716,17 @@ shortcuts, callback, {
  * @return {MediaQueryList|null} A new object for the media query
  */
 function getMediaQueryList(query) {
-  if (query && typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
-    return window.matchMedia(query);
+  if (!query) {
+    return null;
+  }
+  let match = matchMediaCache.get(query);
+  if (match) {
+    return match;
+  }
+  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    match = window.matchMedia(query);
+    matchMediaCache.set(query, match);
+    return match;
   }
   return null;
 }
@@ -4971,6 +5037,10 @@ function useResolvedElement(subscriber, refOrElement) {
     callSubscriber();
   }, [callSubscriber]);
 }
+
+// Declaring my own type here instead of using the one provided by TS (available since 4.2.2), because this way I'm not
+// forcing consumers to use a specific TS version.
+
 // We're only using the first element of the size sequences, until future versions of the spec solidify on how
 // exactly it'll be used for fragments in multi-column scenarios:
 // From the spec:
@@ -5633,11 +5703,15 @@ function useFocusableIframe() {
     const {
       ownerDocument
     } = element;
-    if (!ownerDocument) return;
+    if (!ownerDocument) {
+      return;
+    }
     const {
       defaultView
     } = ownerDocument;
-    if (!defaultView) return;
+    if (!defaultView) {
+      return;
+    }
 
     /**
      * Checks whether the iframe is the activeElement, inferring that it has
@@ -5791,12 +5865,41 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
   return [fixedListWindow, setFixedListWindow];
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-observable-value/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+/**
+ * React hook that lets you observe an entry in an `ObservableMap`. The hook returns the
+ * current value corresponding to the key, or `undefined` when there is no value stored.
+ * It also observes changes to the value and triggers an update of the calling component
+ * in case the value changes.
+ *
+ * @template K    The type of the keys in the map.
+ * @template V    The type of the values in the map.
+ * @param    map  The `ObservableMap` to observe.
+ * @param    name The map key to observe.
+ * @return   The value corresponding to the map key requested.
+ */
+function useObservableValue(map, name) {
+  const [subscribe, getValue] = (0,external_wp_element_namespaceObject.useMemo)(() => [listener => map.subscribe(name, listener), () => map.get(name)], [map, name]);
+  return (0,external_wp_element_namespaceObject.useSyncExternalStore)(subscribe, getValue, getValue);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
 // The `createHigherOrderComponent` helper and helper types.
 
 // The `debounce` helper and its types.
 
 // The `throttle` helper and its types.
+
+// The `ObservableMap` data structure
 
 
 // The `compose` and `pipe` helpers (inspired by `flowRight` and `flow` from Lodash).
@@ -5812,6 +5915,7 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
 
 
 // Hooks.
+
 
 
 

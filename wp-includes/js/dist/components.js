@@ -1,72 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 5755:
-/***/ ((module, exports) => {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	Copyright (c) 2018 Jed Watson.
-	Licensed under the MIT License (MIT), see
-	http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-	var nativeCodeString = '[native code]';
-
-	function classNames() {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				if (arg.length) {
-					var inner = classNames.apply(null, arg);
-					if (inner) {
-						classes.push(inner);
-					}
-				}
-			} else if (argType === 'object') {
-				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-					classes.push(arg.toString());
-					continue;
-				}
-
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
-
-
-/***/ }),
-
 /***/ 66:
 /***/ ((module) => {
 
@@ -205,598 +139,6 @@ var deepmerge_1 = deepmerge;
 
 module.exports = deepmerge_1;
 
-
-/***/ }),
-
-/***/ 1637:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-var util = __webpack_require__(3062);
-
-function scrollIntoView(elem, container, config) {
-  config = config || {};
-  // document 归一化到 window
-  if (container.nodeType === 9) {
-    container = util.getWindow(container);
-  }
-
-  var allowHorizontalScroll = config.allowHorizontalScroll;
-  var onlyScrollIfNeeded = config.onlyScrollIfNeeded;
-  var alignWithTop = config.alignWithTop;
-  var alignWithLeft = config.alignWithLeft;
-  var offsetTop = config.offsetTop || 0;
-  var offsetLeft = config.offsetLeft || 0;
-  var offsetBottom = config.offsetBottom || 0;
-  var offsetRight = config.offsetRight || 0;
-
-  allowHorizontalScroll = allowHorizontalScroll === undefined ? true : allowHorizontalScroll;
-
-  var isWin = util.isWindow(container);
-  var elemOffset = util.offset(elem);
-  var eh = util.outerHeight(elem);
-  var ew = util.outerWidth(elem);
-  var containerOffset = undefined;
-  var ch = undefined;
-  var cw = undefined;
-  var containerScroll = undefined;
-  var diffTop = undefined;
-  var diffBottom = undefined;
-  var win = undefined;
-  var winScroll = undefined;
-  var ww = undefined;
-  var wh = undefined;
-
-  if (isWin) {
-    win = container;
-    wh = util.height(win);
-    ww = util.width(win);
-    winScroll = {
-      left: util.scrollLeft(win),
-      top: util.scrollTop(win)
-    };
-    // elem 相对 container 可视视窗的距离
-    diffTop = {
-      left: elemOffset.left - winScroll.left - offsetLeft,
-      top: elemOffset.top - winScroll.top - offsetTop
-    };
-    diffBottom = {
-      left: elemOffset.left + ew - (winScroll.left + ww) + offsetRight,
-      top: elemOffset.top + eh - (winScroll.top + wh) + offsetBottom
-    };
-    containerScroll = winScroll;
-  } else {
-    containerOffset = util.offset(container);
-    ch = container.clientHeight;
-    cw = container.clientWidth;
-    containerScroll = {
-      left: container.scrollLeft,
-      top: container.scrollTop
-    };
-    // elem 相对 container 可视视窗的距离
-    // 注意边框, offset 是边框到根节点
-    diffTop = {
-      left: elemOffset.left - (containerOffset.left + (parseFloat(util.css(container, 'borderLeftWidth')) || 0)) - offsetLeft,
-      top: elemOffset.top - (containerOffset.top + (parseFloat(util.css(container, 'borderTopWidth')) || 0)) - offsetTop
-    };
-    diffBottom = {
-      left: elemOffset.left + ew - (containerOffset.left + cw + (parseFloat(util.css(container, 'borderRightWidth')) || 0)) + offsetRight,
-      top: elemOffset.top + eh - (containerOffset.top + ch + (parseFloat(util.css(container, 'borderBottomWidth')) || 0)) + offsetBottom
-    };
-  }
-
-  if (diffTop.top < 0 || diffBottom.top > 0) {
-    // 强制向上
-    if (alignWithTop === true) {
-      util.scrollTop(container, containerScroll.top + diffTop.top);
-    } else if (alignWithTop === false) {
-      util.scrollTop(container, containerScroll.top + diffBottom.top);
-    } else {
-      // 自动调整
-      if (diffTop.top < 0) {
-        util.scrollTop(container, containerScroll.top + diffTop.top);
-      } else {
-        util.scrollTop(container, containerScroll.top + diffBottom.top);
-      }
-    }
-  } else {
-    if (!onlyScrollIfNeeded) {
-      alignWithTop = alignWithTop === undefined ? true : !!alignWithTop;
-      if (alignWithTop) {
-        util.scrollTop(container, containerScroll.top + diffTop.top);
-      } else {
-        util.scrollTop(container, containerScroll.top + diffBottom.top);
-      }
-    }
-  }
-
-  if (allowHorizontalScroll) {
-    if (diffTop.left < 0 || diffBottom.left > 0) {
-      // 强制向上
-      if (alignWithLeft === true) {
-        util.scrollLeft(container, containerScroll.left + diffTop.left);
-      } else if (alignWithLeft === false) {
-        util.scrollLeft(container, containerScroll.left + diffBottom.left);
-      } else {
-        // 自动调整
-        if (diffTop.left < 0) {
-          util.scrollLeft(container, containerScroll.left + diffTop.left);
-        } else {
-          util.scrollLeft(container, containerScroll.left + diffBottom.left);
-        }
-      }
-    } else {
-      if (!onlyScrollIfNeeded) {
-        alignWithLeft = alignWithLeft === undefined ? true : !!alignWithLeft;
-        if (alignWithLeft) {
-          util.scrollLeft(container, containerScroll.left + diffTop.left);
-        } else {
-          util.scrollLeft(container, containerScroll.left + diffBottom.left);
-        }
-      }
-    }
-  }
-}
-
-module.exports = scrollIntoView;
-
-/***/ }),
-
-/***/ 5428:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-module.exports = __webpack_require__(1637);
-
-/***/ }),
-
-/***/ 3062:
-/***/ ((module) => {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var RE_NUM = /[\-+]?(?:\d*\.|)\d+(?:[eE][\-+]?\d+|)/.source;
-
-function getClientPosition(elem) {
-  var box = undefined;
-  var x = undefined;
-  var y = undefined;
-  var doc = elem.ownerDocument;
-  var body = doc.body;
-  var docElem = doc && doc.documentElement;
-  // 根据 GBS 最新数据，A-Grade Browsers 都已支持 getBoundingClientRect 方法，不用再考虑传统的实现方式
-  box = elem.getBoundingClientRect();
-
-  // 注：jQuery 还考虑减去 docElem.clientLeft/clientTop
-  // 但测试发现，这样反而会导致当 html 和 body 有边距/边框样式时，获取的值不正确
-  // 此外，ie6 会忽略 html 的 margin 值，幸运地是没有谁会去设置 html 的 margin
-
-  x = box.left;
-  y = box.top;
-
-  // In IE, most of the time, 2 extra pixels are added to the top and left
-  // due to the implicit 2-pixel inset border.  In IE6/7 quirks mode and
-  // IE6 standards mode, this border can be overridden by setting the
-  // document element's border to zero -- thus, we cannot rely on the
-  // offset always being 2 pixels.
-
-  // In quirks mode, the offset can be determined by querying the body's
-  // clientLeft/clientTop, but in standards mode, it is found by querying
-  // the document element's clientLeft/clientTop.  Since we already called
-  // getClientBoundingRect we have already forced a reflow, so it is not
-  // too expensive just to query them all.
-
-  // ie 下应该减去窗口的边框吧，毕竟默认 absolute 都是相对窗口定位的
-  // 窗口边框标准是设 documentElement ,quirks 时设置 body
-  // 最好禁止在 body 和 html 上边框 ，但 ie < 9 html 默认有 2px ，减去
-  // 但是非 ie 不可能设置窗口边框，body html 也不是窗口 ,ie 可以通过 html,body 设置
-  // 标准 ie 下 docElem.clientTop 就是 border-top
-  // ie7 html 即窗口边框改变不了。永远为 2
-  // 但标准 firefox/chrome/ie9 下 docElem.clientTop 是窗口边框，即使设了 border-top 也为 0
-
-  x -= docElem.clientLeft || body.clientLeft || 0;
-  y -= docElem.clientTop || body.clientTop || 0;
-
-  return {
-    left: x,
-    top: y
-  };
-}
-
-function getScroll(w, top) {
-  var ret = w['page' + (top ? 'Y' : 'X') + 'Offset'];
-  var method = 'scroll' + (top ? 'Top' : 'Left');
-  if (typeof ret !== 'number') {
-    var d = w.document;
-    // ie6,7,8 standard mode
-    ret = d.documentElement[method];
-    if (typeof ret !== 'number') {
-      // quirks mode
-      ret = d.body[method];
-    }
-  }
-  return ret;
-}
-
-function getScrollLeft(w) {
-  return getScroll(w);
-}
-
-function getScrollTop(w) {
-  return getScroll(w, true);
-}
-
-function getOffset(el) {
-  var pos = getClientPosition(el);
-  var doc = el.ownerDocument;
-  var w = doc.defaultView || doc.parentWindow;
-  pos.left += getScrollLeft(w);
-  pos.top += getScrollTop(w);
-  return pos;
-}
-function _getComputedStyle(elem, name, computedStyle_) {
-  var val = '';
-  var d = elem.ownerDocument;
-  var computedStyle = computedStyle_ || d.defaultView.getComputedStyle(elem, null);
-
-  // https://github.com/kissyteam/kissy/issues/61
-  if (computedStyle) {
-    val = computedStyle.getPropertyValue(name) || computedStyle[name];
-  }
-
-  return val;
-}
-
-var _RE_NUM_NO_PX = new RegExp('^(' + RE_NUM + ')(?!px)[a-z%]+$', 'i');
-var RE_POS = /^(top|right|bottom|left)$/;
-var CURRENT_STYLE = 'currentStyle';
-var RUNTIME_STYLE = 'runtimeStyle';
-var LEFT = 'left';
-var PX = 'px';
-
-function _getComputedStyleIE(elem, name) {
-  // currentStyle maybe null
-  // http://msdn.microsoft.com/en-us/library/ms535231.aspx
-  var ret = elem[CURRENT_STYLE] && elem[CURRENT_STYLE][name];
-
-  // 当 width/height 设置为百分比时，通过 pixelLeft 方式转换的 width/height 值
-  // 一开始就处理了! CUSTOM_STYLE.height,CUSTOM_STYLE.width ,cssHook 解决@2011-08-19
-  // 在 ie 下不对，需要直接用 offset 方式
-  // borderWidth 等值也有问题，但考虑到 borderWidth 设为百分比的概率很小，这里就不考虑了
-
-  // From the awesome hack by Dean Edwards
-  // http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291
-  // If we're not dealing with a regular pixel number
-  // but a number that has a weird ending, we need to convert it to pixels
-  // exclude left right for relativity
-  if (_RE_NUM_NO_PX.test(ret) && !RE_POS.test(name)) {
-    // Remember the original values
-    var style = elem.style;
-    var left = style[LEFT];
-    var rsLeft = elem[RUNTIME_STYLE][LEFT];
-
-    // prevent flashing of content
-    elem[RUNTIME_STYLE][LEFT] = elem[CURRENT_STYLE][LEFT];
-
-    // Put in the new values to get a computed value out
-    style[LEFT] = name === 'fontSize' ? '1em' : ret || 0;
-    ret = style.pixelLeft + PX;
-
-    // Revert the changed values
-    style[LEFT] = left;
-
-    elem[RUNTIME_STYLE][LEFT] = rsLeft;
-  }
-  return ret === '' ? 'auto' : ret;
-}
-
-var getComputedStyleX = undefined;
-if (typeof window !== 'undefined') {
-  getComputedStyleX = window.getComputedStyle ? _getComputedStyle : _getComputedStyleIE;
-}
-
-function each(arr, fn) {
-  for (var i = 0; i < arr.length; i++) {
-    fn(arr[i]);
-  }
-}
-
-function isBorderBoxFn(elem) {
-  return getComputedStyleX(elem, 'boxSizing') === 'border-box';
-}
-
-var BOX_MODELS = ['margin', 'border', 'padding'];
-var CONTENT_INDEX = -1;
-var PADDING_INDEX = 2;
-var BORDER_INDEX = 1;
-var MARGIN_INDEX = 0;
-
-function swap(elem, options, callback) {
-  var old = {};
-  var style = elem.style;
-  var name = undefined;
-
-  // Remember the old values, and insert the new ones
-  for (name in options) {
-    if (options.hasOwnProperty(name)) {
-      old[name] = style[name];
-      style[name] = options[name];
-    }
-  }
-
-  callback.call(elem);
-
-  // Revert the old values
-  for (name in options) {
-    if (options.hasOwnProperty(name)) {
-      style[name] = old[name];
-    }
-  }
-}
-
-function getPBMWidth(elem, props, which) {
-  var value = 0;
-  var prop = undefined;
-  var j = undefined;
-  var i = undefined;
-  for (j = 0; j < props.length; j++) {
-    prop = props[j];
-    if (prop) {
-      for (i = 0; i < which.length; i++) {
-        var cssProp = undefined;
-        if (prop === 'border') {
-          cssProp = prop + which[i] + 'Width';
-        } else {
-          cssProp = prop + which[i];
-        }
-        value += parseFloat(getComputedStyleX(elem, cssProp)) || 0;
-      }
-    }
-  }
-  return value;
-}
-
-/**
- * A crude way of determining if an object is a window
- * @member util
- */
-function isWindow(obj) {
-  // must use == for ie8
-  /* eslint eqeqeq:0 */
-  return obj != null && obj == obj.window;
-}
-
-var domUtils = {};
-
-each(['Width', 'Height'], function (name) {
-  domUtils['doc' + name] = function (refWin) {
-    var d = refWin.document;
-    return Math.max(
-    // firefox chrome documentElement.scrollHeight< body.scrollHeight
-    // ie standard mode : documentElement.scrollHeight> body.scrollHeight
-    d.documentElement['scroll' + name],
-    // quirks : documentElement.scrollHeight 最大等于可视窗口多一点？
-    d.body['scroll' + name], domUtils['viewport' + name](d));
-  };
-
-  domUtils['viewport' + name] = function (win) {
-    // pc browser includes scrollbar in window.innerWidth
-    var prop = 'client' + name;
-    var doc = win.document;
-    var body = doc.body;
-    var documentElement = doc.documentElement;
-    var documentElementProp = documentElement[prop];
-    // 标准模式取 documentElement
-    // backcompat 取 body
-    return doc.compatMode === 'CSS1Compat' && documentElementProp || body && body[prop] || documentElementProp;
-  };
-});
-
-/*
- 得到元素的大小信息
- @param elem
- @param name
- @param {String} [extra]  'padding' : (css width) + padding
- 'border' : (css width) + padding + border
- 'margin' : (css width) + padding + border + margin
- */
-function getWH(elem, name, extra) {
-  if (isWindow(elem)) {
-    return name === 'width' ? domUtils.viewportWidth(elem) : domUtils.viewportHeight(elem);
-  } else if (elem.nodeType === 9) {
-    return name === 'width' ? domUtils.docWidth(elem) : domUtils.docHeight(elem);
-  }
-  var which = name === 'width' ? ['Left', 'Right'] : ['Top', 'Bottom'];
-  var borderBoxValue = name === 'width' ? elem.offsetWidth : elem.offsetHeight;
-  var computedStyle = getComputedStyleX(elem);
-  var isBorderBox = isBorderBoxFn(elem, computedStyle);
-  var cssBoxValue = 0;
-  if (borderBoxValue == null || borderBoxValue <= 0) {
-    borderBoxValue = undefined;
-    // Fall back to computed then un computed css if necessary
-    cssBoxValue = getComputedStyleX(elem, name);
-    if (cssBoxValue == null || Number(cssBoxValue) < 0) {
-      cssBoxValue = elem.style[name] || 0;
-    }
-    // Normalize '', auto, and prepare for extra
-    cssBoxValue = parseFloat(cssBoxValue) || 0;
-  }
-  if (extra === undefined) {
-    extra = isBorderBox ? BORDER_INDEX : CONTENT_INDEX;
-  }
-  var borderBoxValueOrIsBorderBox = borderBoxValue !== undefined || isBorderBox;
-  var val = borderBoxValue || cssBoxValue;
-  if (extra === CONTENT_INDEX) {
-    if (borderBoxValueOrIsBorderBox) {
-      return val - getPBMWidth(elem, ['border', 'padding'], which, computedStyle);
-    }
-    return cssBoxValue;
-  }
-  if (borderBoxValueOrIsBorderBox) {
-    var padding = extra === PADDING_INDEX ? -getPBMWidth(elem, ['border'], which, computedStyle) : getPBMWidth(elem, ['margin'], which, computedStyle);
-    return val + (extra === BORDER_INDEX ? 0 : padding);
-  }
-  return cssBoxValue + getPBMWidth(elem, BOX_MODELS.slice(extra), which, computedStyle);
-}
-
-var cssShow = {
-  position: 'absolute',
-  visibility: 'hidden',
-  display: 'block'
-};
-
-// fix #119 : https://github.com/kissyteam/kissy/issues/119
-function getWHIgnoreDisplay(elem) {
-  var val = undefined;
-  var args = arguments;
-  // in case elem is window
-  // elem.offsetWidth === undefined
-  if (elem.offsetWidth !== 0) {
-    val = getWH.apply(undefined, args);
-  } else {
-    swap(elem, cssShow, function () {
-      val = getWH.apply(undefined, args);
-    });
-  }
-  return val;
-}
-
-function css(el, name, v) {
-  var value = v;
-  if ((typeof name === 'undefined' ? 'undefined' : _typeof(name)) === 'object') {
-    for (var i in name) {
-      if (name.hasOwnProperty(i)) {
-        css(el, i, name[i]);
-      }
-    }
-    return undefined;
-  }
-  if (typeof value !== 'undefined') {
-    if (typeof value === 'number') {
-      value += 'px';
-    }
-    el.style[name] = value;
-    return undefined;
-  }
-  return getComputedStyleX(el, name);
-}
-
-each(['width', 'height'], function (name) {
-  var first = name.charAt(0).toUpperCase() + name.slice(1);
-  domUtils['outer' + first] = function (el, includeMargin) {
-    return el && getWHIgnoreDisplay(el, name, includeMargin ? MARGIN_INDEX : BORDER_INDEX);
-  };
-  var which = name === 'width' ? ['Left', 'Right'] : ['Top', 'Bottom'];
-
-  domUtils[name] = function (elem, val) {
-    if (val !== undefined) {
-      if (elem) {
-        var computedStyle = getComputedStyleX(elem);
-        var isBorderBox = isBorderBoxFn(elem);
-        if (isBorderBox) {
-          val += getPBMWidth(elem, ['padding', 'border'], which, computedStyle);
-        }
-        return css(elem, name, val);
-      }
-      return undefined;
-    }
-    return elem && getWHIgnoreDisplay(elem, name, CONTENT_INDEX);
-  };
-});
-
-// 设置 elem 相对 elem.ownerDocument 的坐标
-function setOffset(elem, offset) {
-  // set position first, in-case top/left are set even on static elem
-  if (css(elem, 'position') === 'static') {
-    elem.style.position = 'relative';
-  }
-
-  var old = getOffset(elem);
-  var ret = {};
-  var current = undefined;
-  var key = undefined;
-
-  for (key in offset) {
-    if (offset.hasOwnProperty(key)) {
-      current = parseFloat(css(elem, key)) || 0;
-      ret[key] = current + offset[key] - old[key];
-    }
-  }
-  css(elem, ret);
-}
-
-module.exports = _extends({
-  getWindow: function getWindow(node) {
-    var doc = node.ownerDocument || node;
-    return doc.defaultView || doc.parentWindow;
-  },
-  offset: function offset(el, value) {
-    if (typeof value !== 'undefined') {
-      setOffset(el, value);
-    } else {
-      return getOffset(el);
-    }
-  },
-
-  isWindow: isWindow,
-  each: each,
-  css: css,
-  clone: function clone(obj) {
-    var ret = {};
-    for (var i in obj) {
-      if (obj.hasOwnProperty(i)) {
-        ret[i] = obj[i];
-      }
-    }
-    var overflow = obj.overflow;
-    if (overflow) {
-      for (var i in obj) {
-        if (obj.hasOwnProperty(i)) {
-          ret.overflow[i] = obj.overflow[i];
-        }
-      }
-    }
-    return ret;
-  },
-  scrollLeft: function scrollLeft(w, v) {
-    if (isWindow(w)) {
-      if (v === undefined) {
-        return getScrollLeft(w);
-      }
-      window.scrollTo(v, getScrollTop(w));
-    } else {
-      if (v === undefined) {
-        return w.scrollLeft;
-      }
-      w.scrollLeft = v;
-    }
-  },
-  scrollTop: function scrollTop(w, v) {
-    if (isWindow(w)) {
-      if (v === undefined) {
-        return getScrollTop(w);
-      }
-      window.scrollTo(getScrollLeft(w), v);
-    } else {
-      if (v === undefined) {
-        return w.scrollTop;
-      }
-      w.scrollTop = v;
-    }
-  },
-
-  viewportWidth: 0,
-  viewportHeight: 0
-}, domUtils);
 
 /***/ }),
 
@@ -2546,7 +1888,7 @@ __webpack_require__.d(__webpack_exports__, {
   TextControl: () => (/* reexport */ text_control),
   TextHighlight: () => (/* reexport */ text_highlight),
   TextareaControl: () => (/* reexport */ textarea_control),
-  TimePicker: () => (/* reexport */ time),
+  TimePicker: () => (/* reexport */ date_time_time),
   Tip: () => (/* reexport */ build_module_tip),
   ToggleControl: () => (/* reexport */ toggle_control),
   Toolbar: () => (/* reexport */ toolbar),
@@ -2672,9 +2014,8 @@ const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 var external_React_ = __webpack_require__(1609);
 var external_React_namespaceObject = /*#__PURE__*/__webpack_require__.t(external_React_, 2);
 var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
-// EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(5755);
-var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+;// CONCATENATED MODULE: ./node_modules/clsx/dist/clsx.mjs
+function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f)}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ const dist_clsx = (clsx);
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","compose"]
@@ -4691,7 +4032,7 @@ function init(store, ...args) {
     return;
   return getInternal(store, "init")(...args);
 }
-function EAHJFCU4_subscribe(store, ...args) {
+function subscribe(store, ...args) {
   if (!store)
     return;
   return getInternal(store, "subscribe")(...args);
@@ -4786,7 +4127,7 @@ function useStoreState(store, keyOrSelector = identity) {
     (callback) => {
       if (!store)
         return noopSubscribe();
-      return EAHJFCU4_subscribe(store, null, callback);
+      return subscribe(store, null, callback);
     },
     [store]
   );
@@ -5266,7 +4607,7 @@ function createDisclosureStore(props = {}) {
   );
   setup(
     disclosure,
-    () => EAHJFCU4_subscribe(disclosure, ["open"], () => {
+    () => subscribe(disclosure, ["open"], () => {
       if (!disclosure.getState().animated)
         return;
       disclosure.setState("animating", true);
@@ -13971,7 +13312,7 @@ var createEmotion = function createEmotion(options) {
       args[_key4] = arguments[_key4];
     }
 
-    return merge(cache.registered, css, emotion_css_create_instance_esm_classnames(args));
+    return merge(cache.registered, css, classnames(args));
   };
 
   return {
@@ -13997,7 +13338,7 @@ var createEmotion = function createEmotion(options) {
   };
 };
 
-var emotion_css_create_instance_esm_classnames = function classnames(args) {
+var classnames = function classnames(args) {
   var cls = '';
 
   for (var i = 0; i < args.length; i++) {
@@ -14275,7 +13616,9 @@ function _contextConnect(Component, namespace, options) {
  * @return The connected namespaces.
  */
 function getConnectNamespace(Component) {
-  if (!Component) return [];
+  if (!Component) {
+    return [];
+  }
   let namespaces = [];
 
   // @ts-ignore internal property
@@ -14299,7 +13642,9 @@ function getConnectNamespace(Component) {
  * @param match     The namespace to check.
  */
 function hasConnectNamespace(Component, match) {
-  if (!Component) return false;
+  if (!Component) {
+    return false;
+  }
   if (typeof match === 'string') {
     return getConnectNamespace(Component).includes(match);
   }
@@ -14542,9 +13887,33 @@ var createStyled = function createStyled(tag, options) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/view/component.js
 
+
 /**
  * External dependencies
  */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+const PolymorphicDiv = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
+  target: "e19lxcc00"
+} : 0)( true ? "" : 0);
+function UnforwardedView({
+  as,
+  ...restProps
+}, ref) {
+  return (0,external_React_.createElement)(PolymorphicDiv, {
+    as: as,
+    ref: ref,
+    ...restProps
+  });
+}
 
 /**
  * `View` is a core component that renders everything in the library.
@@ -14562,11 +13931,9 @@ var createStyled = function createStyled(tag, options) {
  * }
  * ```
  */
-const View = emotion_styled_base_browser_esm("div",  true ? {
-  target: "e19lxcc00"
-} : 0)( true ? "" : 0);
-View.selector = '.components-view';
-View.displayName = 'View';
+const View = Object.assign((0,external_wp_element_namespaceObject.forwardRef)(UnforwardedView), {
+  selector: '.components-view'
+});
 /* harmony default export */ const component = (View);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/component.js
@@ -14672,7 +14039,9 @@ function normalize(value) {
  */
 function getItemId(prefixId, value) {
   const normalized = normalize(value);
-  if (!normalized) return;
+  if (!normalized) {
+    return;
+  }
   const id = normalized.replace(' ', '-');
   return `${prefixId}-${id}`;
 }
@@ -14698,7 +14067,9 @@ function getItemValue(prefixId, id) {
  */
 function getAlignmentIndex(alignment = 'center') {
   const normalized = normalize(alignment);
-  if (!normalized) return undefined;
+  if (!normalized) {
+    return undefined;
+  }
   const index = ALIGNMENTS.indexOf(normalized);
   return index > -1 ? index : undefined;
 }
@@ -15160,35 +14531,6 @@ const COLORS = Object.freeze({
 });
 /* harmony default export */ const colors_values = ((/* unused pure expression or super */ null && (COLORS)));
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/reduce-motion.js
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- *
- * @param {'transition' | 'animation' | string} [prop='transition'] CSS Property name
- * @return {string} Generated CSS code for the reduced style
- */
-function reduceMotion(prop = 'transition') {
-  let style;
-  switch (prop) {
-    case 'transition':
-      style = 'transition-duration: 0ms;';
-      break;
-    case 'animation':
-      style = 'animation-duration: 1ms;';
-      break;
-    default:
-      style = `
-				animation-duration: 1ms;
-				transition-duration: 0ms;
-			`;
-  }
-  return `
-		@media ( prefers-reduced-motion: reduce ) {
-			${style};
-		}
-	`;
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/alignment-matrix-control/styles/alignment-matrix-control-styles.js
 
 function _EMOTION_STRINGIFIED_CSS_ERROR__() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
@@ -15214,10 +14556,10 @@ const rootSize = ({
 }) => {
   return /*#__PURE__*/emotion_react_browser_esm_css("grid-template-rows:repeat( 3, calc( ", size, "px / 3 ) );width:", size, "px;" + ( true ? "" : 0),  true ? "" : 0);
 };
-const Root = emotion_styled_base_browser_esm("div",  true ? {
+const Root = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ecapk1j3"
 } : 0)(rootBase, ";border:1px solid transparent;cursor:pointer;grid-template-columns:auto;", rootSize, ";" + ( true ? "" : 0));
-const Row = emotion_styled_base_browser_esm("div",  true ? {
+const Row = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ecapk1j2"
 } : 0)( true ? {
   name: "1x5gbbj",
@@ -15232,12 +14574,12 @@ const pointActive = ({
   return /*#__PURE__*/emotion_react_browser_esm_css("box-shadow:", boxShadow, ";color:", pointColor, ";*:hover>&{color:", pointColorHover, ";}" + ( true ? "" : 0),  true ? "" : 0);
 };
 const pointBase = props => {
-  return /*#__PURE__*/emotion_react_browser_esm_css("background:currentColor;box-sizing:border-box;display:grid;margin:auto;transition:all 120ms linear;", reduceMotion('transition'), " ", pointActive(props), ";" + ( true ? "" : 0),  true ? "" : 0);
+  return /*#__PURE__*/emotion_react_browser_esm_css("background:currentColor;box-sizing:border-box;display:grid;margin:auto;@media not ( prefers-reduced-motion ){transition:all 120ms linear;}", pointActive(props), ";" + ( true ? "" : 0),  true ? "" : 0);
 };
-const Point = emotion_styled_base_browser_esm("span",  true ? {
+const Point = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "ecapk1j1"
 } : 0)("height:6px;width:6px;", pointBase, ";" + ( true ? "" : 0));
-const Cell = emotion_styled_base_browser_esm("span",  true ? {
+const Cell = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "ecapk1j0"
 } : 0)( true ? {
   name: "rjf3ub",
@@ -16244,13 +15586,13 @@ const rootPointerEvents = ({
     pointerEvents: disablePointerEvents ? 'none' : undefined
   },  true ? "" : 0,  true ? "" : 0);
 };
-const Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const Wrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "erowt52"
 } : 0)( true ? {
   name: "ogl07i",
   styles: "box-sizing:border-box;padding:2px"
 } : 0);
-const alignment_matrix_control_icon_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const alignment_matrix_control_icon_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "erowt51"
 } : 0)("transform-origin:top left;height:100%;width:100%;", rootBase, ";", alignment_matrix_control_icon_styles_rootSize, ";", rootPointerEvents, ";" + ( true ? "" : 0));
 const alignment_matrix_control_icon_styles_pointActive = ({
@@ -16259,7 +15601,7 @@ const alignment_matrix_control_icon_styles_pointActive = ({
   const boxShadow = isActive ? `0 0 0 1px currentColor` : null;
   return /*#__PURE__*/emotion_react_browser_esm_css("box-shadow:", boxShadow, ";color:currentColor;*:hover>&{color:currentColor;}" + ( true ? "" : 0),  true ? "" : 0);
 };
-const alignment_matrix_control_icon_styles_Point = emotion_styled_base_browser_esm("span",  true ? {
+const alignment_matrix_control_icon_styles_Point = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "erowt50"
 } : 0)("height:2px;width:2px;", pointBase, ";", alignment_matrix_control_icon_styles_pointActive, ";" + ( true ? "" : 0));
 const alignment_matrix_control_icon_styles_Cell = Cell;
@@ -16287,7 +15629,7 @@ function AlignmentMatrixControlIcon({
 }) {
   const alignIndex = getAlignmentIndex(value);
   const scale = (size / BASE_SIZE).toFixed(2);
-  const classes = classnames_default()('component-alignment-matrix-control-icon', className);
+  const classes = dist_clsx('component-alignment-matrix-control-icon', className);
   const styles = {
     ...style,
     transform: `scale(${scale})`
@@ -16366,12 +15708,14 @@ function AlignmentMatrixControl({
     activeId: getItemId(baseId, value),
     setActiveId: nextActiveId => {
       const nextValue = getItemValue(baseId, nextActiveId);
-      if (nextValue) onChange?.(nextValue);
+      if (nextValue) {
+        onChange?.(nextValue);
+      }
     },
     rtl: (0,external_wp_i18n_namespaceObject.isRTL)()
   });
   const activeId = compositeStore.useState('activeId');
-  const classes = classnames_default()('component-alignment-matrix-control', className);
+  const classes = dist_clsx('component-alignment-matrix-control', className);
   return (0,external_React_.createElement)(Composite, {
     store: compositeStore,
     render: (0,external_React_.createElement)(Root, {
@@ -16426,7 +15770,7 @@ function getDefaultOrigin(type) {
  */
 function getAnimateClassName(options) {
   if (options.type === 'loading') {
-    return classnames_default()('components-animate__loading');
+    return dist_clsx('components-animate__loading');
   }
   const {
     type,
@@ -16434,13 +15778,13 @@ function getAnimateClassName(options) {
   } = options;
   if (type === 'appear') {
     const [yAxis, xAxis = 'center'] = origin.split(' ');
-    return classnames_default()('components-animate__appear', {
+    return dist_clsx('components-animate__appear', {
       ['is-from-' + xAxis]: xAxis !== 'center',
       ['is-from-' + yAxis]: yAxis !== 'middle'
     });
   }
   if (type === 'slide-in') {
-    return classnames_default()('components-animate__slide-in', 'is-from-' + origin);
+    return dist_clsx('components-animate__slide-in', 'is-from-' + origin);
   }
   return undefined;
 }
@@ -16527,7 +15871,213 @@ const LazyContext = (0,external_React_.createContext)({ strict: false });
 
 
 
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/camel-to-dash.mjs
+/**
+ * Convert camelCase to dash-case properties.
+ */
+const camelToDash = (str) => str.replace(/([a-z])([A-Z])/gu, "$1-$2").toLowerCase();
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/optimized-appear/data-id.mjs
+
+
+const optimizedAppearDataId = "framerAppearId";
+const optimizedAppearDataAttribute = "data-" + camelToDash(optimizedAppearDataId);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/GlobalConfig.mjs
+const MotionGlobalConfig = {
+    skipAnimations: false,
+    useManualTiming: false,
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/render-step.mjs
+class Queue {
+    constructor() {
+        this.order = [];
+        this.scheduled = new Set();
+    }
+    add(process) {
+        if (!this.scheduled.has(process)) {
+            this.scheduled.add(process);
+            this.order.push(process);
+            return true;
+        }
+    }
+    remove(process) {
+        const index = this.order.indexOf(process);
+        if (index !== -1) {
+            this.order.splice(index, 1);
+            this.scheduled.delete(process);
+        }
+    }
+    clear() {
+        this.order.length = 0;
+        this.scheduled.clear();
+    }
+}
+function createRenderStep(runNextFrame) {
+    /**
+     * We create and reuse two queues, one to queue jobs for the current frame
+     * and one for the next. We reuse to avoid triggering GC after x frames.
+     */
+    let thisFrame = new Queue();
+    let nextFrame = new Queue();
+    let numToRun = 0;
+    /**
+     * Track whether we're currently processing jobs in this step. This way
+     * we can decide whether to schedule new jobs for this frame or next.
+     */
+    let isProcessing = false;
+    let flushNextFrame = false;
+    /**
+     * A set of processes which were marked keepAlive when scheduled.
+     */
+    const toKeepAlive = new WeakSet();
+    const step = {
+        /**
+         * Schedule a process to run on the next frame.
+         */
+        schedule: (callback, keepAlive = false, immediate = false) => {
+            const addToCurrentFrame = immediate && isProcessing;
+            const queue = addToCurrentFrame ? thisFrame : nextFrame;
+            if (keepAlive)
+                toKeepAlive.add(callback);
+            if (queue.add(callback) && addToCurrentFrame && isProcessing) {
+                // If we're adding it to the currently running queue, update its measured size
+                numToRun = thisFrame.order.length;
+            }
+            return callback;
+        },
+        /**
+         * Cancel the provided callback from running on the next frame.
+         */
+        cancel: (callback) => {
+            nextFrame.remove(callback);
+            toKeepAlive.delete(callback);
+        },
+        /**
+         * Execute all schedule callbacks.
+         */
+        process: (frameData) => {
+            /**
+             * If we're already processing we've probably been triggered by a flushSync
+             * inside an existing process. Instead of executing, mark flushNextFrame
+             * as true and ensure we flush the following frame at the end of this one.
+             */
+            if (isProcessing) {
+                flushNextFrame = true;
+                return;
+            }
+            isProcessing = true;
+            [thisFrame, nextFrame] = [nextFrame, thisFrame];
+            // Clear the next frame queue
+            nextFrame.clear();
+            // Execute this frame
+            numToRun = thisFrame.order.length;
+            if (numToRun) {
+                for (let i = 0; i < numToRun; i++) {
+                    const callback = thisFrame.order[i];
+                    if (toKeepAlive.has(callback)) {
+                        step.schedule(callback);
+                        runNextFrame();
+                    }
+                    callback(frameData);
+                }
+            }
+            isProcessing = false;
+            if (flushNextFrame) {
+                flushNextFrame = false;
+                step.process(frameData);
+            }
+        },
+    };
+    return step;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/batcher.mjs
+
+
+
+const stepsOrder = [
+    "read", // Read
+    "resolveKeyframes", // Write/Read/Write/Read
+    "update", // Compute
+    "preRender", // Compute
+    "render", // Write
+    "postRender", // Compute
+];
+const maxElapsed = 40;
+function createRenderBatcher(scheduleNextBatch, allowKeepAlive) {
+    let runNextFrame = false;
+    let useDefaultElapsed = true;
+    const state = {
+        delta: 0,
+        timestamp: 0,
+        isProcessing: false,
+    };
+    const steps = stepsOrder.reduce((acc, key) => {
+        acc[key] = createRenderStep(() => (runNextFrame = true));
+        return acc;
+    }, {});
+    const processStep = (stepId) => {
+        steps[stepId].process(state);
+    };
+    const processBatch = () => {
+        const timestamp = MotionGlobalConfig.useManualTiming
+            ? state.timestamp
+            : performance.now();
+        runNextFrame = false;
+        state.delta = useDefaultElapsed
+            ? 1000 / 60
+            : Math.max(Math.min(timestamp - state.timestamp, maxElapsed), 1);
+        state.timestamp = timestamp;
+        state.isProcessing = true;
+        stepsOrder.forEach(processStep);
+        state.isProcessing = false;
+        if (runNextFrame && allowKeepAlive) {
+            useDefaultElapsed = false;
+            scheduleNextBatch(processBatch);
+        }
+    };
+    const wake = () => {
+        runNextFrame = true;
+        useDefaultElapsed = true;
+        if (!state.isProcessing) {
+            scheduleNextBatch(processBatch);
+        }
+    };
+    const schedule = stepsOrder.reduce((acc, key) => {
+        const step = steps[key];
+        acc[key] = (process, keepAlive = false, immediate = false) => {
+            if (!runNextFrame)
+                wake();
+            return step.schedule(process, keepAlive, immediate);
+        };
+        return acc;
+    }, {});
+    const cancel = (process) => stepsOrder.forEach((key) => steps[key].cancel(process));
+    return { schedule, cancel, state, steps };
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/microtask.mjs
+
+
+const { schedule: microtask, cancel: cancelMicrotask } = createRenderBatcher(queueMicrotask, false);
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
+
+
 
 
 
@@ -16565,11 +16115,12 @@ function useVisualElement(Component, visualState, props, createVisualElement) {
      * Cache this value as we want to know whether HandoffAppearAnimations
      * was present on initial render - it will be deleted after this.
      */
-    const canHandoff = (0,external_React_.useRef)(Boolean(window.HandoffAppearAnimations));
+    const wantsHandoff = (0,external_React_.useRef)(Boolean(props[optimizedAppearDataAttribute] &&
+        !window.HandoffComplete));
     useIsomorphicLayoutEffect(() => {
         if (!visualElement)
             return;
-        visualElement.render();
+        microtask.render(visualElement.render);
         /**
          * Ideally this function would always run in a useEffect.
          *
@@ -16580,7 +16131,7 @@ function useVisualElement(Component, visualState, props, createVisualElement) {
          * So if we detect a situtation where optimised appear animations
          * are running, we use useLayoutEffect to trigger animations.
          */
-        if (canHandoff.current && visualElement.animationState) {
+        if (wantsHandoff.current && visualElement.animationState) {
             visualElement.animationState.animateChanges();
         }
     });
@@ -16588,16 +16139,14 @@ function useVisualElement(Component, visualState, props, createVisualElement) {
         if (!visualElement)
             return;
         visualElement.updateFeatures();
-        if (!canHandoff.current && visualElement.animationState) {
+        if (!wantsHandoff.current && visualElement.animationState) {
             visualElement.animationState.animateChanges();
         }
-        /**
-         * Once we've handed off animations we can delete HandoffAppearAnimations
-         * so components added after the initial render can animate changes
-         * in useEffect vs useLayoutEffect.
-         */
-        window.HandoffAppearAnimations = undefined;
-        canHandoff.current = false;
+        if (wantsHandoff.current) {
+            wantsHandoff.current = false;
+            // This ensures all future calls to animateChanges() will run in useEffect
+            window.HandoffComplete = true;
+        }
     });
     return visualElement;
 }
@@ -16606,7 +16155,8 @@ function useVisualElement(Component, visualState, props, createVisualElement) {
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/is-ref-object.mjs
 function isRefObject(ref) {
-    return (typeof ref === "object" &&
+    return (ref &&
+        typeof ref === "object" &&
         Object.prototype.hasOwnProperty.call(ref, "current"));
 }
 
@@ -16659,7 +16209,9 @@ function isVariantLabel(v) {
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/is-animation-controls.mjs
 function isAnimationControls(v) {
-    return typeof v === "object" && typeof v.start === "function";
+    return (v !== null &&
+        typeof v === "object" &&
+        typeof v.start === "function");
 }
 
 
@@ -16857,9 +16409,7 @@ function motion_createMotionComponent({ preloadedFeatures, createVisualElement, 
          * The mount order and hierarchy is specific to ensure our element ref
          * is hydrated by the time features fire their effects.
          */
-        return (external_React_.createElement(MotionContext.Provider, { value: context },
-            MeasureLayout && context.visualElement ? (external_React_.createElement(MeasureLayout, { visualElement: context.visualElement, ...configAndProps })) : null,
-            useRender(Component, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, context.visualElement)));
+        return ((0,jsx_runtime.jsxs)(MotionContext.Provider, { value: context, children: [MeasureLayout && context.visualElement ? ((0,jsx_runtime.jsx)(MeasureLayout, { visualElement: context.visualElement, ...configAndProps })) : null, useRender(Component, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, context.visualElement)] }));
     }
     const ForwardRefComponent = (0,external_React_.forwardRef)(MotionComponent);
     ForwardRefComponent[motionComponentSymbol] = Component;
@@ -16982,7 +16532,7 @@ function isSVGComponent(Component) {
         /**
          * If it contains a capital letter, it's an SVG component
          */
-        /[A-Z]/.test(Component)) {
+        /[A-Z]/u.test(Component)) {
         return true;
     }
     return false;
@@ -17096,8 +16646,15 @@ function buildTransform(transform, { enableHardwareAcceleration = true, allowTra
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/is-css-variable.mjs
 const checkStringStartsWith = (token) => (key) => typeof key === "string" && key.startsWith(token);
 const isCSSVariableName = checkStringStartsWith("--");
-const isCSSVariableToken = checkStringStartsWith("var(--");
-const cssVariableRegex = /var\s*\(\s*--[\w-]+(\s*,\s*(?:(?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)+)?\s*\)/g;
+const startsAsVariableToken = checkStringStartsWith("var(--");
+const isCSSVariableToken = (value) => {
+    const startsWithToken = startsAsVariableToken(value);
+    if (!startsWithToken)
+        return false;
+    // Ensure any comments are stripped from the value as this can harm performance of the regex.
+    return singleCssVariableRegex.test(value.split("/*")[0].trim());
+};
+const singleCssVariableRegex = /var\(--(?:[\w-]+\s*|[\w-]+\s*,(?:\s*[^)(\s]|\s*\((?:[^)(]|\([^)(]*\))*\))+\s*)\)$/iu;
 
 
 
@@ -17114,7 +16671,13 @@ const getValueAsType = (value, type) => {
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/clamp.mjs
-const clamp_clamp = (min, max, v) => Math.min(Math.max(v, min), max);
+const clamp_clamp = (min, max, v) => {
+    if (v > max)
+        return max;
+    if (v < min)
+        return min;
+    return v;
+};
 
 
 
@@ -17145,9 +16708,9 @@ const scale = {
 // If this number is a decimal, make it just five decimal places
 // to avoid exponents
 const sanitize = (v) => Math.round(v * 100000) / 100000;
-const floatRegex = /(-)?([\d]*\.?[\d])+/g;
-const colorRegex = /(#[0-9a-f]{3,8}|(rgb|hsl)a?\((-?[\d\.]+%?[,\s]+){2}(-?[\d\.]+%?)\s*[\,\/]?\s*[\d\.]*%?\))/gi;
-const singleColorRegex = /^(#[0-9a-f]{3,8}|(rgb|hsl)a?\((-?[\d\.]+%?[,\s]+){2}(-?[\d\.]+%?)\s*[\,\/]?\s*[\d\.]*%?\))$/i;
+const floatRegex = /-?(?:\d+(?:\.\d+)?|\.\d+)/gu;
+const colorRegex = /(?:#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\))/giu;
+const singleColorRegex = /^(?:#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\))$/iu;
 function isString(v) {
     return typeof v === "string";
 }
@@ -17251,6 +16814,8 @@ const numberValueTypes = {
     originZ: px,
     // Misc
     zIndex: type_int_int,
+    backgroundPositionX: px,
+    backgroundPositionY: px,
     // SVG
     fillOpacity: alpha,
     strokeOpacity: alpha,
@@ -17374,7 +16939,7 @@ function useStyle(props, visualState, isStatic) {
      */
     copyRawValuesOnly(style, styleProp, props);
     Object.assign(style, useInitialMotionValues(props, visualState, isStatic));
-    return props.transformValues ? props.transformValues(style) : style;
+    return style;
 }
 function useHTMLProps(props, visualState, isStatic) {
     // The `any` isn't ideal but it is the type of createElement props argument
@@ -17421,12 +16986,8 @@ const validMotionProps = new Set([
     "variants",
     "transition",
     "transformTemplate",
-    "transformValues",
     "custom",
     "inherit",
-    "onLayoutAnimationStart",
-    "onLayoutAnimationComplete",
-    "onLayoutMeasure",
     "onBeforeLayoutMeasure",
     "onAnimationStart",
     "onAnimationComplete",
@@ -17443,6 +17004,7 @@ const validMotionProps = new Set([
     "onHoverEnd",
     "onViewportEnter",
     "onViewportLeave",
+    "globalTapTarget",
     "ignoreStrict",
     "viewport",
 ]);
@@ -17460,6 +17022,7 @@ function isValidMotionProp(key) {
         key.startsWith("layout") ||
         key.startsWith("onTap") ||
         key.startsWith("onPan") ||
+        key.startsWith("onLayout") ||
         validMotionProps.has(key));
 }
 
@@ -17515,8 +17078,10 @@ function filterProps(props, isDom, forwardMotionProps) {
             (forwardMotionProps === true && isValidMotionProp(key)) ||
             (!isDom && !isValidMotionProp(key)) ||
             // If trying to use native HTML drag events, forward drag listeners
-            (props["draggable"] && key.startsWith("onDrag"))) {
-            filteredProps[key] = props[key];
+            (props["draggable"] &&
+                key.startsWith("onDrag"))) {
+            filteredProps[key] =
+                props[key];
         }
     }
     return filteredProps;
@@ -17688,11 +17253,9 @@ function createUseRender(forwardMotionProps = false) {
             : useHTMLProps;
         const visualProps = useVisualProps(props, latestValues, isStatic, Component);
         const filteredProps = filterProps(props, typeof Component === "string", forwardMotionProps);
-        const elementProps = {
-            ...filteredProps,
-            ...visualProps,
-            ref,
-        };
+        const elementProps = Component !== external_React_.Fragment
+            ? { ...filteredProps, ...visualProps, ref }
+            : {};
         /**
          * If component has been handed a motion value as its child,
          * memoise its initial value and render that. Subsequent updates
@@ -17707,14 +17270,6 @@ function createUseRender(forwardMotionProps = false) {
     };
     return useRender;
 }
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/camel-to-dash.mjs
-/**
- * Convert camelCase to dash-case properties.
- */
-const camelToDash = (str) => str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 
 
 
@@ -17779,13 +17334,16 @@ function renderSVG(element, renderState, _styleProp, projection) {
 
 
 
-function scrapeMotionValuesFromProps(props, prevProps) {
+function scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+    var _a;
     const { style } = props;
     const newValues = {};
     for (const key in style) {
         if (isMotionValue(style[key]) ||
-            (prevProps.style && isMotionValue(prevProps.style[key])) ||
-            isForcedMotionValue(key, props)) {
+            (prevProps.style &&
+                isMotionValue(prevProps.style[key])) ||
+            isForcedMotionValue(key, props) ||
+            ((_a = visualElement === null || visualElement === void 0 ? void 0 : visualElement.getValue(key)) === null || _a === void 0 ? void 0 : _a.liveStyle) !== undefined) {
             newValues[key] = style[key];
         }
     }
@@ -17799,10 +17357,11 @@ function scrapeMotionValuesFromProps(props, prevProps) {
 
 
 
-function scrape_motion_values_scrapeMotionValuesFromProps(props, prevProps) {
-    const newValues = scrapeMotionValuesFromProps(props, prevProps);
+function scrape_motion_values_scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+    const newValues = scrapeMotionValuesFromProps(props, prevProps, visualElement);
     for (const key in props) {
-        if (isMotionValue(props[key]) || isMotionValue(prevProps[key])) {
+        if (isMotionValue(props[key]) ||
+            isMotionValue(prevProps[key])) {
             const targetKey = transformPropOrder.indexOf(key) !== -1
                 ? "attr" + key.charAt(0).toUpperCase() + key.substring(1)
                 : key;
@@ -17815,12 +17374,21 @@ function scrape_motion_values_scrapeMotionValuesFromProps(props, prevProps) {
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/utils/resolve-variants.mjs
-function resolveVariantFromProps(props, definition, custom, currentValues = {}, currentVelocity = {}) {
+function getValueState(visualElement) {
+    const state = [{}, {}];
+    visualElement === null || visualElement === void 0 ? void 0 : visualElement.values.forEach((value, key) => {
+        state[0][key] = value.get();
+        state[1][key] = value.getVelocity();
+    });
+    return state;
+}
+function resolveVariantFromProps(props, definition, custom, visualElement) {
     /**
      * If the variant definition is a function, resolve.
      */
     if (typeof definition === "function") {
-        definition = definition(custom !== undefined ? custom : props.custom, currentValues, currentVelocity);
+        const [current, velocity] = getValueState(visualElement);
+        definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
     }
     /**
      * If the variant definition is a variant label, or
@@ -17835,7 +17403,8 @@ function resolveVariantFromProps(props, definition, custom, currentValues = {}, 
      * If so, resolve. This can only have returned a valid target object.
      */
     if (typeof definition === "function") {
-        definition = definition(custom !== undefined ? custom : props.custom, currentValues, currentVelocity);
+        const [current, velocity] = getValueState(visualElement);
+        definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
     }
     return definition;
 }
@@ -17988,174 +17557,6 @@ const noop_noop = (any) => any;
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/render-step.mjs
-class Queue {
-    constructor() {
-        this.order = [];
-        this.scheduled = new Set();
-    }
-    add(process) {
-        if (!this.scheduled.has(process)) {
-            this.scheduled.add(process);
-            this.order.push(process);
-            return true;
-        }
-    }
-    remove(process) {
-        const index = this.order.indexOf(process);
-        if (index !== -1) {
-            this.order.splice(index, 1);
-            this.scheduled.delete(process);
-        }
-    }
-    clear() {
-        this.order.length = 0;
-        this.scheduled.clear();
-    }
-}
-function createRenderStep(runNextFrame) {
-    /**
-     * We create and reuse two queues, one to queue jobs for the current frame
-     * and one for the next. We reuse to avoid triggering GC after x frames.
-     */
-    let thisFrame = new Queue();
-    let nextFrame = new Queue();
-    let numToRun = 0;
-    /**
-     * Track whether we're currently processing jobs in this step. This way
-     * we can decide whether to schedule new jobs for this frame or next.
-     */
-    let isProcessing = false;
-    let flushNextFrame = false;
-    /**
-     * A set of processes which were marked keepAlive when scheduled.
-     */
-    const toKeepAlive = new WeakSet();
-    const step = {
-        /**
-         * Schedule a process to run on the next frame.
-         */
-        schedule: (callback, keepAlive = false, immediate = false) => {
-            const addToCurrentFrame = immediate && isProcessing;
-            const queue = addToCurrentFrame ? thisFrame : nextFrame;
-            if (keepAlive)
-                toKeepAlive.add(callback);
-            if (queue.add(callback) && addToCurrentFrame && isProcessing) {
-                // If we're adding it to the currently running queue, update its measured size
-                numToRun = thisFrame.order.length;
-            }
-            return callback;
-        },
-        /**
-         * Cancel the provided callback from running on the next frame.
-         */
-        cancel: (callback) => {
-            nextFrame.remove(callback);
-            toKeepAlive.delete(callback);
-        },
-        /**
-         * Execute all schedule callbacks.
-         */
-        process: (frameData) => {
-            /**
-             * If we're already processing we've probably been triggered by a flushSync
-             * inside an existing process. Instead of executing, mark flushNextFrame
-             * as true and ensure we flush the following frame at the end of this one.
-             */
-            if (isProcessing) {
-                flushNextFrame = true;
-                return;
-            }
-            isProcessing = true;
-            [thisFrame, nextFrame] = [nextFrame, thisFrame];
-            // Clear the next frame queue
-            nextFrame.clear();
-            // Execute this frame
-            numToRun = thisFrame.order.length;
-            if (numToRun) {
-                for (let i = 0; i < numToRun; i++) {
-                    const callback = thisFrame.order[i];
-                    callback(frameData);
-                    if (toKeepAlive.has(callback)) {
-                        step.schedule(callback);
-                        runNextFrame();
-                    }
-                }
-            }
-            isProcessing = false;
-            if (flushNextFrame) {
-                flushNextFrame = false;
-                step.process(frameData);
-            }
-        },
-    };
-    return step;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/batcher.mjs
-
-
-const stepsOrder = [
-    "prepare",
-    "read",
-    "update",
-    "preRender",
-    "render",
-    "postRender",
-];
-const maxElapsed = 40;
-function createRenderBatcher(scheduleNextBatch, allowKeepAlive) {
-    let runNextFrame = false;
-    let useDefaultElapsed = true;
-    const state = {
-        delta: 0,
-        timestamp: 0,
-        isProcessing: false,
-    };
-    const steps = stepsOrder.reduce((acc, key) => {
-        acc[key] = createRenderStep(() => (runNextFrame = true));
-        return acc;
-    }, {});
-    const processStep = (stepId) => steps[stepId].process(state);
-    const processBatch = () => {
-        const timestamp = performance.now();
-        runNextFrame = false;
-        state.delta = useDefaultElapsed
-            ? 1000 / 60
-            : Math.max(Math.min(timestamp - state.timestamp, maxElapsed), 1);
-        state.timestamp = timestamp;
-        state.isProcessing = true;
-        stepsOrder.forEach(processStep);
-        state.isProcessing = false;
-        if (runNextFrame && allowKeepAlive) {
-            useDefaultElapsed = false;
-            scheduleNextBatch(processBatch);
-        }
-    };
-    const wake = () => {
-        runNextFrame = true;
-        useDefaultElapsed = true;
-        if (!state.isProcessing) {
-            scheduleNextBatch(processBatch);
-        }
-    };
-    const schedule = stepsOrder.reduce((acc, key) => {
-        const step = steps[key];
-        acc[key] = (process, keepAlive = false, immediate = false) => {
-            if (!runNextFrame)
-                wake();
-            return step.schedule(process, keepAlive, immediate);
-        };
-        return acc;
-    }, {});
-    const cancel = (process) => stepsOrder.forEach((key) => steps[key].cancel(process));
-    return { schedule, cancel, state, steps };
-}
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/frame.mjs
 
 
@@ -18275,8 +17676,8 @@ const isPrimaryPointer = (event) => {
 function extractEventInfo(event, pointType = "page") {
     return {
         point: {
-            x: event[pointType + "X"],
-            y: event[pointType + "Y"],
+            x: event[`${pointType}X`],
+            y: event[`${pointType}Y`],
         },
     };
 }
@@ -18383,17 +17784,18 @@ class Feature {
 
 
 function addHoverEvent(node, isActive) {
-    const eventName = "pointer" + (isActive ? "enter" : "leave");
-    const callbackName = "onHover" + (isActive ? "Start" : "End");
+    const eventName = isActive ? "pointerenter" : "pointerleave";
+    const callbackName = isActive ? "onHoverStart" : "onHoverEnd";
     const handleEvent = (event, info) => {
-        if (event.type === "touch" || isDragActive())
+        if (event.pointerType === "touch" || isDragActive())
             return;
         const props = node.getProps();
         if (node.animationState && props.whileHover) {
             node.animationState.setActive("whileHover", isActive);
         }
-        if (props[callbackName]) {
-            frame_frame.update(() => props[callbackName](event, info));
+        const callback = props[callbackName];
+        if (callback) {
+            frame_frame.postRender(() => callback(event, info));
         }
     };
     return addPointerEvent(node.current, eventName, handleEvent, {
@@ -18498,26 +17900,33 @@ class PressGesture extends Feature {
         this.removeEndListeners = noop_noop;
         this.removeAccessibleListeners = noop_noop;
         this.startPointerPress = (startEvent, startInfo) => {
-            this.removeEndListeners();
             if (this.isPressing)
                 return;
+            this.removeEndListeners();
             const props = this.node.getProps();
             const endPointerPress = (endEvent, endInfo) => {
                 if (!this.checkPressEnd())
                     return;
-                const { onTap, onTapCancel } = this.node.getProps();
-                frame_frame.update(() => {
-                    /**
-                     * We only count this as a tap gesture if the event.target is the same
-                     * as, or a child of, this component's element
-                     */
+                const { onTap, onTapCancel, globalTapTarget } = this.node.getProps();
+                /**
+                 * We only count this as a tap gesture if the event.target is the same
+                 * as, or a child of, this component's element
+                 */
+                const handler = !globalTapTarget &&
                     !isNodeOrChild(this.node.current, endEvent.target)
-                        ? onTapCancel && onTapCancel(endEvent, endInfo)
-                        : onTap && onTap(endEvent, endInfo);
-                });
+                    ? onTapCancel
+                    : onTap;
+                if (handler) {
+                    frame_frame.update(() => handler(endEvent, endInfo));
+                }
             };
-            const removePointerUpListener = addPointerEvent(window, "pointerup", endPointerPress, { passive: !(props.onTap || props["onPointerUp"]) });
-            const removePointerCancelListener = addPointerEvent(window, "pointercancel", (cancelEvent, cancelInfo) => this.cancelPress(cancelEvent, cancelInfo), { passive: !(props.onTapCancel || props["onPointerCancel"]) });
+            const removePointerUpListener = addPointerEvent(window, "pointerup", endPointerPress, {
+                passive: !(props.onTap || props["onPointerUp"]),
+            });
+            const removePointerCancelListener = addPointerEvent(window, "pointercancel", (cancelEvent, cancelInfo) => this.cancelPress(cancelEvent, cancelInfo), {
+                passive: !(props.onTapCancel ||
+                    props["onPointerCancel"]),
+            });
             this.removeEndListeners = pipe(removePointerUpListener, removePointerCancelListener);
             this.startPress(startEvent, startInfo);
         };
@@ -18531,7 +17940,7 @@ class PressGesture extends Feature {
                     fireSyntheticPointerEvent("up", (event, info) => {
                         const { onTap } = this.node.getProps();
                         if (onTap) {
-                            frame_frame.update(() => onTap(event, info));
+                            frame_frame.postRender(() => onTap(event, info));
                         }
                     });
                 };
@@ -18561,7 +17970,7 @@ class PressGesture extends Feature {
             this.node.animationState.setActive("whileTap", true);
         }
         if (onTapStart) {
-            frame_frame.update(() => onTapStart(event, info));
+            frame_frame.postRender(() => onTapStart(event, info));
         }
     }
     checkPressEnd() {
@@ -18578,12 +17987,15 @@ class PressGesture extends Feature {
             return;
         const { onTapCancel } = this.node.getProps();
         if (onTapCancel) {
-            frame_frame.update(() => onTapCancel(event, info));
+            frame_frame.postRender(() => onTapCancel(event, info));
         }
     }
     mount() {
         const props = this.node.getProps();
-        const removePointerListener = addPointerEvent(this.node.current, "pointerdown", this.startPointerPress, { passive: !(props.onTapStart || props["onPointerStart"]) });
+        const removePointerListener = addPointerEvent(props.globalTapTarget ? window : this.node.current, "pointerdown", this.startPointerPress, {
+            passive: !(props.onTapStart ||
+                props["onPointerStart"]),
+        });
         const removeFocusListener = addDomEvent(this.node.current, "focus", this.startAccessiblePress);
         this.removeStartListeners = pipe(removePointerListener, removeFocusListener);
     }
@@ -18763,43 +18175,10 @@ function shallowCompare(next, prev) {
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/utils/resolve-dynamic-variants.mjs
 
 
-/**
- * Creates an object containing the latest state of every MotionValue on a VisualElement
- */
-function getCurrent(visualElement) {
-    const current = {};
-    visualElement.values.forEach((value, key) => (current[key] = value.get()));
-    return current;
-}
-/**
- * Creates an object containing the latest velocity of every MotionValue on a VisualElement
- */
-function getVelocity(visualElement) {
-    const velocity = {};
-    visualElement.values.forEach((value, key) => (velocity[key] = value.getVelocity()));
-    return velocity;
-}
 function resolveVariant(visualElement, definition, custom) {
     const props = visualElement.getProps();
-    return resolveVariantFromProps(props, definition, custom !== undefined ? custom : props.custom, getCurrent(visualElement), getVelocity(visualElement));
+    return resolveVariantFromProps(props, definition, custom !== undefined ? custom : props.custom, visualElement);
 }
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/optimized-appear/data-id.mjs
-
-
-const optimizedAppearDataId = "framerAppearId";
-const optimizedAppearDataAttribute = "data-" + camelToDash(optimizedAppearDataId);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/errors.mjs
-
-
-let warning = noop_noop;
-let errors_invariant = noop_noop;
-if (false) {}
 
 
 
@@ -18815,6 +18194,65 @@ const millisecondsToSeconds = (milliseconds) => milliseconds / 1000;
 
 
 
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/default-transitions.mjs
+
+
+const underDampedSpring = {
+    type: "spring",
+    stiffness: 500,
+    damping: 25,
+    restSpeed: 10,
+};
+const criticallyDampedSpring = (target) => ({
+    type: "spring",
+    stiffness: 550,
+    damping: target === 0 ? 2 * Math.sqrt(550) : 30,
+    restSpeed: 10,
+});
+const keyframesTransition = {
+    type: "keyframes",
+    duration: 0.8,
+};
+/**
+ * Default easing curve is a slightly shallower version of
+ * the default browser easing curve.
+ */
+const ease = {
+    type: "keyframes",
+    ease: [0.25, 0.1, 0.35, 1],
+    duration: 0.3,
+};
+const getDefaultTransition = (valueKey, { keyframes }) => {
+    if (keyframes.length > 2) {
+        return keyframesTransition;
+    }
+    else if (transformProps.has(valueKey)) {
+        return valueKey.startsWith("scale")
+            ? criticallyDampedSpring(keyframes[1])
+            : underDampedSpring;
+    }
+    return ease;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/transitions.mjs
+/**
+ * Decide whether a transition is defined on a given Transition.
+ * This filters out orchestration options and returns true
+ * if any options are left.
+ */
+function isTransitionDefined({ when, delay: _delay, delayChildren, staggerChildren, staggerDirection, repeat, repeatType, repeatDelay, from, elapsed, ...transition }) {
+    return !!Object.keys(transition).length;
+}
+function getValueTransition(transition, key) {
+    return (transition[key] ||
+        transition["default"] ||
+        transition);
+}
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/use-instant-transition-state.mjs
 const instantAnimationState = {
     current: false,
@@ -18822,226 +18260,405 @@ const instantAnimationState = {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/utils/is-bezier-definition.mjs
-const isBezierDefinition = (easing) => Array.isArray(easing) && typeof easing[0] === "number";
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/waapi/easing.mjs
-
-
-function isWaapiSupportedEasing(easing) {
-    return Boolean(!easing ||
-        (typeof easing === "string" && supportedWaapiEasing[easing]) ||
-        isBezierDefinition(easing) ||
-        (Array.isArray(easing) && easing.every(isWaapiSupportedEasing)));
-}
-const cubicBezierAsString = ([a, b, c, d]) => `cubic-bezier(${a}, ${b}, ${c}, ${d})`;
-const supportedWaapiEasing = {
-    linear: "linear",
-    ease: "ease",
-    easeIn: "ease-in",
-    easeOut: "ease-out",
-    easeInOut: "ease-in-out",
-    circIn: cubicBezierAsString([0, 0.65, 0.55, 1]),
-    circOut: cubicBezierAsString([0.55, 0, 1, 0.45]),
-    backIn: cubicBezierAsString([0.31, 0.01, 0.66, -0.59]),
-    backOut: cubicBezierAsString([0.33, 1.53, 0.69, 0.99]),
-};
-function mapEasingToNativeEasing(easing) {
-    if (!easing)
-        return undefined;
-    return isBezierDefinition(easing)
-        ? cubicBezierAsString(easing)
-        : Array.isArray(easing)
-            ? easing.map(mapEasingToNativeEasing)
-            : supportedWaapiEasing[easing];
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/waapi/index.mjs
-
-
-function animateStyle(element, valueName, keyframes, { delay = 0, duration, repeat = 0, repeatType = "loop", ease, times, } = {}) {
-    const keyframeOptions = { [valueName]: keyframes };
-    if (times)
-        keyframeOptions.offset = times;
-    const easing = mapEasingToNativeEasing(ease);
-    /**
-     * If this is an easing array, apply to keyframes, not animation as a whole
-     */
-    if (Array.isArray(easing))
-        keyframeOptions.easing = easing;
-    return element.animate(keyframeOptions, {
-        delay,
-        duration,
-        easing: !Array.isArray(easing) ? easing : "linear",
-        fill: "both",
-        iterations: repeat + 1,
-        direction: repeatType === "reverse" ? "alternate" : "normal",
-    });
-}
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/waapi/utils/get-final-keyframe.mjs
-function getFinalKeyframe(keyframes, { repeat, repeatType = "loop" }) {
+const isNotNull = (value) => value !== null;
+function getFinalKeyframe(keyframes, { repeat, repeatType = "loop" }, finalKeyframe) {
+    const resolvedKeyframes = keyframes.filter(isNotNull);
     const index = repeat && repeatType !== "loop" && repeat % 2 === 1
         ? 0
-        : keyframes.length - 1;
-    return keyframes[index];
+        : resolvedKeyframes.length - 1;
+    return !index || finalKeyframe === undefined
+        ? resolvedKeyframes[index]
+        : finalKeyframe;
 }
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/cubic-bezier.mjs
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/frameloop/sync-time.mjs
 
 
-/*
-  Bezier function generator
-  This has been modified from Gaëtan Renaudeau's BezierEasing
-  https://github.com/gre/bezier-easing/blob/master/src/index.js
-  https://github.com/gre/bezier-easing/blob/master/LICENSE
-  
-  I've removed the newtonRaphsonIterate algo because in benchmarking it
-  wasn't noticiably faster than binarySubdivision, indeed removing it
-  usually improved times, depending on the curve.
-  I also removed the lookup table, as for the added bundle size and loop we're
-  only cutting ~4 or so subdivision iterations. I bumped the max iterations up
-  to 12 to compensate and this still tended to be faster for no perceivable
-  loss in accuracy.
-  Usage
-    const easeOut = cubicBezier(.17,.67,.83,.67);
-    const x = easeOut(0.5); // returns 0.627...
-*/
-// Returns x(t) given t, x1, and x2, or y(t) given t, y1, and y2.
-const calcBezier = (t, a1, a2) => (((1.0 - 3.0 * a2 + 3.0 * a1) * t + (3.0 * a2 - 6.0 * a1)) * t + 3.0 * a1) *
-    t;
-const subdivisionPrecision = 0.0000001;
-const subdivisionMaxIterations = 12;
-function binarySubdivide(x, lowerBound, upperBound, mX1, mX2) {
-    let currentX;
-    let currentT;
-    let i = 0;
-    do {
-        currentT = lowerBound + (upperBound - lowerBound) / 2.0;
-        currentX = calcBezier(currentT, mX1, mX2) - x;
-        if (currentX > 0.0) {
-            upperBound = currentT;
+
+let now;
+function clearTime() {
+    now = undefined;
+}
+/**
+ * An eventloop-synchronous alternative to performance.now().
+ *
+ * Ensures that time measurements remain consistent within a synchronous context.
+ * Usually calling performance.now() twice within the same synchronous context
+ * will return different values which isn't useful for animations when we're usually
+ * trying to sync animations to the same frame.
+ */
+const time = {
+    now: () => {
+        if (now === undefined) {
+            time.set(frameData.isProcessing || MotionGlobalConfig.useManualTiming
+                ? frameData.timestamp
+                : performance.now());
+        }
+        return now;
+    },
+    set: (newTime) => {
+        now = newTime;
+        queueMicrotask(clearTime);
+    },
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/is-zero-value-string.mjs
+/**
+ * Check if the value is a zero value string like "0px" or "0%"
+ */
+const isZeroValueString = (v) => /^0[^.\s]+$/u.test(v);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/is-none.mjs
+
+
+function isNone(value) {
+    if (typeof value === "number") {
+        return value === 0;
+    }
+    else if (value !== null) {
+        return value === "none" || value === "0" || isZeroValueString(value);
+    }
+    else {
+        return true;
+    }
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/errors.mjs
+
+
+let warning = noop_noop;
+let errors_invariant = noop_noop;
+if (false) {}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/is-numerical-string.mjs
+/**
+ * Check if value is a numerical string, ie a string that is purely a number eg "100" or "-100.1"
+ */
+const isNumericalString = (v) => /^-?(?:\d+(?:\.\d+)?|\.\d+)$/u.test(v);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/css-variables-conversion.mjs
+
+
+
+
+/**
+ * Parse Framer's special CSS variable format into a CSS token and a fallback.
+ *
+ * ```
+ * `var(--foo, #fff)` => [`--foo`, '#fff']
+ * ```
+ *
+ * @param current
+ */
+const splitCSSVariableRegex = 
+// eslint-disable-next-line redos-detector/no-unsafe-regex -- false positive, as it can match a lot of words
+/^var\(--(?:([\w-]+)|([\w-]+), ?([a-zA-Z\d ()%#.,-]+))\)/u;
+function parseCSSVariable(current) {
+    const match = splitCSSVariableRegex.exec(current);
+    if (!match)
+        return [,];
+    const [, token1, token2, fallback] = match;
+    return [`--${token1 !== null && token1 !== void 0 ? token1 : token2}`, fallback];
+}
+const maxDepth = 4;
+function getVariableValue(current, element, depth = 1) {
+    errors_invariant(depth <= maxDepth, `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`);
+    const [token, fallback] = parseCSSVariable(current);
+    // No CSS variable detected
+    if (!token)
+        return;
+    // Attempt to read this CSS variable off the element
+    const resolved = window.getComputedStyle(element).getPropertyValue(token);
+    if (resolved) {
+        const trimmed = resolved.trim();
+        return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
+    }
+    return isCSSVariableToken(fallback)
+        ? getVariableValue(fallback, element, depth + 1)
+        : fallback;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/unit-conversion.mjs
+
+
+
+
+const positionalKeys = new Set([
+    "width",
+    "height",
+    "top",
+    "left",
+    "right",
+    "bottom",
+    "x",
+    "y",
+    "translateX",
+    "translateY",
+]);
+const isNumOrPxType = (v) => v === number || v === px;
+const getPosFromMatrix = (matrix, pos) => parseFloat(matrix.split(", ")[pos]);
+const getTranslateFromMatrix = (pos2, pos3) => (_bbox, { transform }) => {
+    if (transform === "none" || !transform)
+        return 0;
+    const matrix3d = transform.match(/^matrix3d\((.+)\)$/u);
+    if (matrix3d) {
+        return getPosFromMatrix(matrix3d[1], pos3);
+    }
+    else {
+        const matrix = transform.match(/^matrix\((.+)\)$/u);
+        if (matrix) {
+            return getPosFromMatrix(matrix[1], pos2);
         }
         else {
-            lowerBound = currentT;
+            return 0;
         }
-    } while (Math.abs(currentX) > subdivisionPrecision &&
-        ++i < subdivisionMaxIterations);
-    return currentT;
-}
-function cubicBezier(mX1, mY1, mX2, mY2) {
-    // If this is a linear gradient, return linear easing
-    if (mX1 === mY1 && mX2 === mY2)
-        return noop_noop;
-    const getTForX = (aX) => binarySubdivide(aX, 0, 1, mX1, mX2);
-    // If animation is at start/end, return t without easing
-    return (t) => t === 0 || t === 1 ? t : calcBezier(getTForX(t), mY1, mY2);
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/ease.mjs
-
-
-const easeIn = cubicBezier(0.42, 0, 1, 1);
-const easeOut = cubicBezier(0, 0, 0.58, 1);
-const easeInOut = cubicBezier(0.42, 0, 0.58, 1);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/utils/is-easing-array.mjs
-const isEasingArray = (ease) => {
-    return Array.isArray(ease) && typeof ease[0] !== "number";
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/modifiers/mirror.mjs
-// Accepts an easing function and returns a new one that outputs mirrored values for
-// the second half of the animation. Turns easeIn into easeInOut.
-const mirrorEasing = (easing) => (p) => p <= 0.5 ? easing(2 * p) / 2 : (2 - easing(2 * (1 - p))) / 2;
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/modifiers/reverse.mjs
-// Accepts an easing function and returns a new one that outputs reversed values.
-// Turns easeIn into easeOut.
-const reverseEasing = (easing) => (p) => 1 - easing(1 - p);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/circ.mjs
-
-
-
-const circIn = (p) => 1 - Math.sin(Math.acos(p));
-const circOut = reverseEasing(circIn);
-const circInOut = mirrorEasing(circOut);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/back.mjs
-
-
-
-
-const backOut = cubicBezier(0.33, 1.53, 0.69, 0.99);
-const backIn = reverseEasing(backOut);
-const backInOut = mirrorEasing(backIn);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/anticipate.mjs
-
-
-const anticipate = (p) => (p *= 2) < 1 ? 0.5 * backIn(p) : 0.5 * (2 - Math.pow(2, -10 * (p - 1)));
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/utils/map.mjs
-
-
-
-
-
-
-
-
-const easingLookup = {
-    linear: noop_noop,
-    easeIn: easeIn,
-    easeInOut: easeInOut,
-    easeOut: easeOut,
-    circIn: circIn,
-    circInOut: circInOut,
-    circOut: circOut,
-    backIn: backIn,
-    backInOut: backInOut,
-    backOut: backOut,
-    anticipate: anticipate,
-};
-const easingDefinitionToFunction = (definition) => {
-    if (Array.isArray(definition)) {
-        // If cubic bezier definition, create bezier curve
-        errors_invariant(definition.length === 4, `Cubic bezier arrays must contain four numerical values.`);
-        const [x1, y1, x2, y2] = definition;
-        return cubicBezier(x1, y1, x2, y2);
     }
-    else if (typeof definition === "string") {
-        // Else lookup from table
-        errors_invariant(easingLookup[definition] !== undefined, `Invalid easing type '${definition}'`);
-        return easingLookup[definition];
-    }
-    return definition;
 };
+const transformKeys = new Set(["x", "y", "z"]);
+const nonTranslationalTransformKeys = transformPropOrder.filter((key) => !transformKeys.has(key));
+function removeNonTranslationalTransform(visualElement) {
+    const removedTransforms = [];
+    nonTranslationalTransformKeys.forEach((key) => {
+        const value = visualElement.getValue(key);
+        if (value !== undefined) {
+            removedTransforms.push([key, value.get()]);
+            value.set(key.startsWith("scale") ? 1 : 0);
+        }
+    });
+    return removedTransforms;
+}
+const positionalValues = {
+    // Dimensions
+    width: ({ x }, { paddingLeft = "0", paddingRight = "0" }) => x.max - x.min - parseFloat(paddingLeft) - parseFloat(paddingRight),
+    height: ({ y }, { paddingTop = "0", paddingBottom = "0" }) => y.max - y.min - parseFloat(paddingTop) - parseFloat(paddingBottom),
+    top: (_bbox, { top }) => parseFloat(top),
+    left: (_bbox, { left }) => parseFloat(left),
+    bottom: ({ y }, { top }) => parseFloat(top) + (y.max - y.min),
+    right: ({ x }, { left }) => parseFloat(left) + (x.max - x.min),
+    // Transform
+    x: getTranslateFromMatrix(4, 13),
+    y: getTranslateFromMatrix(5, 14),
+};
+// Alias translate longform names
+positionalValues.translateX = positionalValues.x;
+positionalValues.translateY = positionalValues.y;
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/test.mjs
+/**
+ * Tests a provided value against a ValueType
+ */
+const testValueType = (v) => (type) => type.test(v);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/type-auto.mjs
+/**
+ * ValueType for "auto"
+ */
+const auto = {
+    test: (v) => v === "auto",
+    parse: (v) => v,
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/dimensions.mjs
+
+
+
+
+
+/**
+ * A list of value types commonly used for dimensions
+ */
+const dimensionValueTypes = [number, px, percent, degrees, vw, vh, auto];
+/**
+ * Tests a dimensional value against the list of dimension ValueTypes
+ */
+const findDimensionValueType = (v) => dimensionValueTypes.find(testValueType(v));
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/utils/KeyframesResolver.mjs
+
+
+
+const toResolve = new Set();
+let isScheduled = false;
+let anyNeedsMeasurement = false;
+function measureAllKeyframes() {
+    if (anyNeedsMeasurement) {
+        const resolversToMeasure = Array.from(toResolve).filter((resolver) => resolver.needsMeasurement);
+        const elementsToMeasure = new Set(resolversToMeasure.map((resolver) => resolver.element));
+        const transformsToRestore = new Map();
+        /**
+         * Write pass
+         * If we're measuring elements we want to remove bounding box-changing transforms.
+         */
+        elementsToMeasure.forEach((element) => {
+            const removedTransforms = removeNonTranslationalTransform(element);
+            if (!removedTransforms.length)
+                return;
+            transformsToRestore.set(element, removedTransforms);
+            element.render();
+        });
+        // Read
+        resolversToMeasure.forEach((resolver) => resolver.measureInitialState());
+        // Write
+        elementsToMeasure.forEach((element) => {
+            element.render();
+            const restore = transformsToRestore.get(element);
+            if (restore) {
+                restore.forEach(([key, value]) => {
+                    var _a;
+                    (_a = element.getValue(key)) === null || _a === void 0 ? void 0 : _a.set(value);
+                });
+            }
+        });
+        // Read
+        resolversToMeasure.forEach((resolver) => resolver.measureEndState());
+        // Write
+        resolversToMeasure.forEach((resolver) => {
+            if (resolver.suspendedScrollY !== undefined) {
+                window.scrollTo(0, resolver.suspendedScrollY);
+            }
+        });
+    }
+    anyNeedsMeasurement = false;
+    isScheduled = false;
+    toResolve.forEach((resolver) => resolver.complete());
+    toResolve.clear();
+}
+function readAllKeyframes() {
+    toResolve.forEach((resolver) => {
+        resolver.readKeyframes();
+        if (resolver.needsMeasurement) {
+            anyNeedsMeasurement = true;
+        }
+    });
+}
+function flushKeyframeResolvers() {
+    readAllKeyframes();
+    measureAllKeyframes();
+}
+class KeyframeResolver {
+    constructor(unresolvedKeyframes, onComplete, name, motionValue, element, isAsync = false) {
+        /**
+         * Track whether this resolver has completed. Once complete, it never
+         * needs to attempt keyframe resolution again.
+         */
+        this.isComplete = false;
+        /**
+         * Track whether this resolver is async. If it is, it'll be added to the
+         * resolver queue and flushed in the next frame. Resolvers that aren't going
+         * to trigger read/write thrashing don't need to be async.
+         */
+        this.isAsync = false;
+        /**
+         * Track whether this resolver needs to perform a measurement
+         * to resolve its keyframes.
+         */
+        this.needsMeasurement = false;
+        /**
+         * Track whether this resolver is currently scheduled to resolve
+         * to allow it to be cancelled and resumed externally.
+         */
+        this.isScheduled = false;
+        this.unresolvedKeyframes = [...unresolvedKeyframes];
+        this.onComplete = onComplete;
+        this.name = name;
+        this.motionValue = motionValue;
+        this.element = element;
+        this.isAsync = isAsync;
+    }
+    scheduleResolve() {
+        this.isScheduled = true;
+        if (this.isAsync) {
+            toResolve.add(this);
+            if (!isScheduled) {
+                isScheduled = true;
+                frame_frame.read(readAllKeyframes);
+                frame_frame.resolveKeyframes(measureAllKeyframes);
+            }
+        }
+        else {
+            this.readKeyframes();
+            this.complete();
+        }
+    }
+    readKeyframes() {
+        const { unresolvedKeyframes, name, element, motionValue } = this;
+        /**
+         * If a keyframe is null, we hydrate it either by reading it from
+         * the instance, or propagating from previous keyframes.
+         */
+        for (let i = 0; i < unresolvedKeyframes.length; i++) {
+            if (unresolvedKeyframes[i] === null) {
+                /**
+                 * If the first keyframe is null, we need to find its value by sampling the element
+                 */
+                if (i === 0) {
+                    const currentValue = motionValue === null || motionValue === void 0 ? void 0 : motionValue.get();
+                    const finalKeyframe = unresolvedKeyframes[unresolvedKeyframes.length - 1];
+                    if (currentValue !== undefined) {
+                        unresolvedKeyframes[0] = currentValue;
+                    }
+                    else if (element && name) {
+                        const valueAsRead = element.readValue(name, finalKeyframe);
+                        if (valueAsRead !== undefined && valueAsRead !== null) {
+                            unresolvedKeyframes[0] = valueAsRead;
+                        }
+                    }
+                    if (unresolvedKeyframes[0] === undefined) {
+                        unresolvedKeyframes[0] = finalKeyframe;
+                    }
+                    if (motionValue && currentValue === undefined) {
+                        motionValue.set(unresolvedKeyframes[0]);
+                    }
+                }
+                else {
+                    unresolvedKeyframes[i] = unresolvedKeyframes[i - 1];
+                }
+            }
+        }
+    }
+    setFinalKeyframe() { }
+    measureInitialState() { }
+    renderEndStyles() { }
+    measureEndState() { }
+    complete() {
+        this.isComplete = true;
+        this.onComplete(this.unresolvedKeyframes, this.finalKeyframe);
+        toResolve.delete(this);
+    }
+    cancel() {
+        if (!this.isComplete) {
+            this.isScheduled = false;
+            toResolve.delete(this);
+        }
+    }
+    resume() {
+        if (!this.isComplete)
+            this.scheduleResolve();
+    }
+}
 
 
 
@@ -19193,122 +18810,7 @@ const color = {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix.mjs
-/*
-  Value in range from progress
-
-  Given a lower limit and an upper limit, we return the value within
-  that range as expressed by progress (usually a number from 0 to 1)
-
-  So progress = 0.5 would change
-
-  from -------- to
-
-  to
-
-  from ---- to
-
-  E.g. from = 10, to = 20, progress = 0.5 => 15
-
-  @param [number]: Lower limit of range
-  @param [number]: Upper limit of range
-  @param [number]: The progress between lower and upper limits expressed 0-1
-  @return [number]: Value as calculated from progress within range (not limited within range)
-*/
-const mix = (from, to, progress) => -progress * from + progress * to + from;
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/hsla-to-rgba.mjs
-// Adapted from https://gist.github.com/mjackson/5311256
-function hueToRgb(p, q, t) {
-    if (t < 0)
-        t += 1;
-    if (t > 1)
-        t -= 1;
-    if (t < 1 / 6)
-        return p + (q - p) * 6 * t;
-    if (t < 1 / 2)
-        return q;
-    if (t < 2 / 3)
-        return p + (q - p) * (2 / 3 - t) * 6;
-    return p;
-}
-function hslaToRgba({ hue, saturation, lightness, alpha }) {
-    hue /= 360;
-    saturation /= 100;
-    lightness /= 100;
-    let red = 0;
-    let green = 0;
-    let blue = 0;
-    if (!saturation) {
-        red = green = blue = lightness;
-    }
-    else {
-        const q = lightness < 0.5
-            ? lightness * (1 + saturation)
-            : lightness + saturation - lightness * saturation;
-        const p = 2 * lightness - q;
-        red = hueToRgb(p, q, hue + 1 / 3);
-        green = hueToRgb(p, q, hue);
-        blue = hueToRgb(p, q, hue - 1 / 3);
-    }
-    return {
-        red: Math.round(red * 255),
-        green: Math.round(green * 255),
-        blue: Math.round(blue * 255),
-        alpha,
-    };
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix-color.mjs
-
-
-
-
-
-
-
-// Linear color space blending
-// Explained https://www.youtube.com/watch?v=LKnqECcg6Gw
-// Demonstrated http://codepen.io/osublake/pen/xGVVaN
-const mixLinearColor = (from, to, v) => {
-    const fromExpo = from * from;
-    return Math.sqrt(Math.max(0, v * (to * to - fromExpo) + fromExpo));
-};
-const colorTypes = [hex, rgba, hsla];
-const getColorType = (v) => colorTypes.find((type) => type.test(v));
-function asRGBA(color) {
-    const type = getColorType(color);
-    errors_invariant(Boolean(type), `'${color}' is not an animatable color. Use the equivalent color code instead.`);
-    let model = type.parse(color);
-    if (type === hsla) {
-        // TODO Remove this cast - needed since Framer Motion's stricter typing
-        model = hslaToRgba(model);
-    }
-    return model;
-}
-const mixColor = (from, to) => {
-    const fromRGBA = asRGBA(from);
-    const toRGBA = asRGBA(to);
-    const blended = { ...fromRGBA };
-    return (v) => {
-        blended.red = mixLinearColor(fromRGBA.red, toRGBA.red, v);
-        blended.green = mixLinearColor(fromRGBA.green, toRGBA.green, v);
-        blended.blue = mixLinearColor(fromRGBA.blue, toRGBA.blue, v);
-        blended.alpha = mix(fromRGBA.alpha, toRGBA.alpha, v);
-        return rgba.transform(blended);
-    };
-};
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/value/types/complex/index.mjs
-
-
-
 
 
 
@@ -19320,65 +18822,66 @@ function test(v) {
             (((_b = v.match(colorRegex)) === null || _b === void 0 ? void 0 : _b.length) || 0) >
             0);
 }
-const cssVarTokeniser = {
-    regex: cssVariableRegex,
-    countKey: "Vars",
-    token: "${v}",
-    parse: noop_noop,
-};
-const colorTokeniser = {
-    regex: colorRegex,
-    countKey: "Colors",
-    token: "${c}",
-    parse: color.parse,
-};
-const numberTokeniser = {
-    regex: floatRegex,
-    countKey: "Numbers",
-    token: "${n}",
-    parse: number.parse,
-};
-function tokenise(info, { regex, countKey, token, parse }) {
-    const matches = info.tokenised.match(regex);
-    if (!matches)
-        return;
-    info["num" + countKey] = matches.length;
-    info.tokenised = info.tokenised.replace(regex, token);
-    info.values.push(...matches.map(parse));
-}
+const NUMBER_TOKEN = "number";
+const COLOR_TOKEN = "color";
+const VAR_TOKEN = "var";
+const VAR_FUNCTION_TOKEN = "var(";
+const SPLIT_TOKEN = "${}";
+// this regex consists of the `singleCssVariableRegex|rgbHSLValueRegex|digitRegex`
+const complexRegex = /var\s*\(\s*--(?:[\w-]+\s*|[\w-]+\s*,(?:\s*[^)(\s]|\s*\((?:[^)(]|\([^)(]*\))*\))+\s*)\)|#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\)|-?(?:\d+(?:\.\d+)?|\.\d+)/giu;
 function analyseComplexValue(value) {
     const originalValue = value.toString();
-    const info = {
-        value: originalValue,
-        tokenised: originalValue,
-        values: [],
-        numVars: 0,
-        numColors: 0,
-        numNumbers: 0,
+    const values = [];
+    const indexes = {
+        color: [],
+        number: [],
+        var: [],
     };
-    if (info.value.includes("var(--"))
-        tokenise(info, cssVarTokeniser);
-    tokenise(info, colorTokeniser);
-    tokenise(info, numberTokeniser);
-    return info;
+    const types = [];
+    let i = 0;
+    const tokenised = originalValue.replace(complexRegex, (parsedValue) => {
+        if (color.test(parsedValue)) {
+            indexes.color.push(i);
+            types.push(COLOR_TOKEN);
+            values.push(color.parse(parsedValue));
+        }
+        else if (parsedValue.startsWith(VAR_FUNCTION_TOKEN)) {
+            indexes.var.push(i);
+            types.push(VAR_TOKEN);
+            values.push(parsedValue);
+        }
+        else {
+            indexes.number.push(i);
+            types.push(NUMBER_TOKEN);
+            values.push(parseFloat(parsedValue));
+        }
+        ++i;
+        return SPLIT_TOKEN;
+    });
+    const split = tokenised.split(SPLIT_TOKEN);
+    return { values, split, indexes, types };
 }
 function parseComplexValue(v) {
     return analyseComplexValue(v).values;
 }
 function createTransformer(source) {
-    const { values, numColors, numVars, tokenised } = analyseComplexValue(source);
-    const numValues = values.length;
+    const { split, types } = analyseComplexValue(source);
+    const numSections = split.length;
     return (v) => {
-        let output = tokenised;
-        for (let i = 0; i < numValues; i++) {
-            if (i < numVars) {
-                output = output.replace(cssVarTokeniser.token, v[i]);
-            }
-            else if (i < numVars + numColors) {
-                output = output.replace(colorTokeniser.token, color.transform(v[i]));
-            }
-            else {
-                output = output.replace(numberTokeniser.token, sanitize(v[i]));
+        let output = "";
+        for (let i = 0; i < numSections; i++) {
+            output += split[i];
+            if (v[i] !== undefined) {
+                const type = types[i];
+                if (type === NUMBER_TOKEN) {
+                    output += sanitize(v[i]);
+                }
+                else if (type === COLOR_TOKEN) {
+                    output += color.transform(v[i]);
+                }
+                else {
+                    output += v[i];
+                }
             }
         }
         return output;
@@ -19399,267 +18902,416 @@ const complex = {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix-complex.mjs
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/value/types/complex/filter.mjs
 
 
 
-
-
-
-
-const mixImmediate = (origin, target) => (p) => `${p > 0 ? target : origin}`;
-function getMixer(origin, target) {
-    if (typeof origin === "number") {
-        return (v) => mix(origin, target, v);
-    }
-    else if (color.test(origin)) {
-        return mixColor(origin, target);
-    }
-    else {
-        return origin.startsWith("var(")
-            ? mixImmediate(origin, target)
-            : mixComplex(origin, target);
-    }
-}
-const mixArray = (from, to) => {
-    const output = [...from];
-    const numValues = output.length;
-    const blendValue = from.map((fromThis, i) => getMixer(fromThis, to[i]));
-    return (v) => {
-        for (let i = 0; i < numValues; i++) {
-            output[i] = blendValue[i](v);
-        }
-        return output;
-    };
-};
-const mixObject = (origin, target) => {
-    const output = { ...origin, ...target };
-    const blendValue = {};
-    for (const key in output) {
-        if (origin[key] !== undefined && target[key] !== undefined) {
-            blendValue[key] = getMixer(origin[key], target[key]);
-        }
-    }
-    return (v) => {
-        for (const key in blendValue) {
-            output[key] = blendValue[key](v);
-        }
-        return output;
-    };
-};
-const mixComplex = (origin, target) => {
-    const template = complex.createTransformer(target);
-    const originStats = analyseComplexValue(origin);
-    const targetStats = analyseComplexValue(target);
-    const canInterpolate = originStats.numVars === targetStats.numVars &&
-        originStats.numColors === targetStats.numColors &&
-        originStats.numNumbers >= targetStats.numNumbers;
-    if (canInterpolate) {
-        return pipe(mixArray(originStats.values, targetStats.values), template);
-    }
-    else {
-        warning(true, `Complex values '${origin}' and '${target}' too different to mix. Ensure all colors are of the same type, and that each contains the same quantity of number and color values. Falling back to instant transition.`);
-        return mixImmediate(origin, target);
-    }
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/progress.mjs
-/*
-  Progress within given range
-
-  Given a lower limit and an upper limit, we return the progress
-  (expressed as a number 0-1) represented by the given value, and
-  limit that progress to within 0-1.
-
-  @param [number]: Lower limit
-  @param [number]: Upper limit
-  @param [number]: Value to find progress within given range
-  @return [number]: Progress of value within range as expressed 0-1
-*/
-const progress = (from, to, value) => {
-    const toFromDifference = to - from;
-    return toFromDifference === 0 ? 1 : (value - from) / toFromDifference;
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/interpolate.mjs
-
-
-
-
-
-
-
-
-
-
-const mixNumber = (from, to) => (p) => mix(from, to, p);
-function detectMixerFactory(v) {
-    if (typeof v === "number") {
-        return mixNumber;
-    }
-    else if (typeof v === "string") {
-        return color.test(v) ? mixColor : mixComplex;
-    }
-    else if (Array.isArray(v)) {
-        return mixArray;
-    }
-    else if (typeof v === "object") {
-        return mixObject;
-    }
-    return mixNumber;
-}
-function createMixers(output, ease, customMixer) {
-    const mixers = [];
-    const mixerFactory = customMixer || detectMixerFactory(output[0]);
-    const numMixers = output.length - 1;
-    for (let i = 0; i < numMixers; i++) {
-        let mixer = mixerFactory(output[i], output[i + 1]);
-        if (ease) {
-            const easingFunction = Array.isArray(ease) ? ease[i] || noop_noop : ease;
-            mixer = pipe(easingFunction, mixer);
-        }
-        mixers.push(mixer);
-    }
-    return mixers;
-}
 /**
- * Create a function that maps from a numerical input array to a generic output array.
- *
- * Accepts:
- *   - Numbers
- *   - Colors (hex, hsl, hsla, rgb, rgba)
- *   - Complex (combinations of one or more numbers or strings)
- *
- * ```jsx
- * const mixColor = interpolate([0, 1], ['#fff', '#000'])
- *
- * mixColor(0.5) // 'rgba(128, 128, 128, 1)'
- * ```
- *
- * TODO Revist this approach once we've moved to data models for values,
- * probably not needed to pregenerate mixer functions.
- *
- * @public
+ * Properties that should default to 1 or 100%
  */
-function interpolate(input, output, { clamp: isClamp = true, ease, mixer } = {}) {
-    const inputLength = input.length;
-    errors_invariant(inputLength === output.length, "Both input and output ranges must be the same length");
-    /**
-     * If we're only provided a single input, we can just make a function
-     * that returns the output.
-     */
-    if (inputLength === 1)
-        return () => output[0];
-    // If input runs highest -> lowest, reverse both arrays
-    if (input[0] > input[inputLength - 1]) {
-        input = [...input].reverse();
-        output = [...output].reverse();
+const maxDefaults = new Set(["brightness", "contrast", "saturate", "opacity"]);
+function applyDefaultFilter(v) {
+    const [name, value] = v.slice(0, -1).split("(");
+    if (name === "drop-shadow")
+        return v;
+    const [number] = value.match(floatRegex) || [];
+    if (!number)
+        return v;
+    const unit = value.replace(number, "");
+    let defaultValue = maxDefaults.has(name) ? 1 : 0;
+    if (number !== value)
+        defaultValue *= 100;
+    return name + "(" + defaultValue + unit + ")";
+}
+const functionRegex = /\b([a-z-]*)\(.*?\)/gu;
+const filter = {
+    ...complex,
+    getAnimatableNone: (v) => {
+        const functions = v.match(functionRegex);
+        return functions ? functions.map(applyDefaultFilter).join(" ") : v;
+    },
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/defaults.mjs
+
+
+
+
+/**
+ * A map of default value types for common values
+ */
+const defaultValueTypes = {
+    ...numberValueTypes,
+    // Color props
+    color: color,
+    backgroundColor: color,
+    outlineColor: color,
+    fill: color,
+    stroke: color,
+    // Border props
+    borderColor: color,
+    borderTopColor: color,
+    borderRightColor: color,
+    borderBottomColor: color,
+    borderLeftColor: color,
+    filter: filter,
+    WebkitFilter: filter,
+};
+/**
+ * Gets the default ValueType for the provided value key
+ */
+const getDefaultValueType = (key) => defaultValueTypes[key];
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/animatable-none.mjs
+
+
+
+
+function animatable_none_getAnimatableNone(key, value) {
+    let defaultValueType = getDefaultValueType(key);
+    if (defaultValueType !== filter)
+        defaultValueType = complex;
+    // If value is not recognised as animatable, ie "none", create an animatable version origin based on the target
+    return defaultValueType.getAnimatableNone
+        ? defaultValueType.getAnimatableNone(value)
+        : undefined;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/html/utils/make-none-animatable.mjs
+
+
+
+/**
+ * If we encounter keyframes like "none" or "0" and we also have keyframes like
+ * "#fff" or "200px 200px" we want to find a keyframe to serve as a template for
+ * the "none" keyframes. In this case "#fff" or "200px 200px" - then these get turned into
+ * zero equivalents, i.e. "#fff0" or "0px 0px".
+ */
+const invalidTemplates = new Set(["auto", "none", "0"]);
+function makeNoneKeyframesAnimatable(unresolvedKeyframes, noneKeyframeIndexes, name) {
+    let i = 0;
+    let animatableTemplate = undefined;
+    while (i < unresolvedKeyframes.length && !animatableTemplate) {
+        const keyframe = unresolvedKeyframes[i];
+        if (typeof keyframe === "string" &&
+            !invalidTemplates.has(keyframe) &&
+            analyseComplexValue(keyframe).values.length) {
+            animatableTemplate = unresolvedKeyframes[i];
+        }
+        i++;
     }
-    const mixers = createMixers(output, ease, mixer);
-    const numMixers = mixers.length;
-    const interpolator = (v) => {
-        let i = 0;
-        if (numMixers > 1) {
-            for (; i < input.length - 2; i++) {
-                if (v < input[i + 1])
-                    break;
+    if (animatableTemplate && name) {
+        for (const noneIndex of noneKeyframeIndexes) {
+            unresolvedKeyframes[noneIndex] = animatable_none_getAnimatableNone(name, animatableTemplate);
+        }
+    }
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/DOMKeyframesResolver.mjs
+
+
+
+
+
+
+
+
+class DOMKeyframesResolver extends KeyframeResolver {
+    constructor(unresolvedKeyframes, onComplete, name, motionValue) {
+        super(unresolvedKeyframes, onComplete, name, motionValue, motionValue === null || motionValue === void 0 ? void 0 : motionValue.owner, true);
+    }
+    readKeyframes() {
+        const { unresolvedKeyframes, element, name } = this;
+        if (!element.current)
+            return;
+        super.readKeyframes();
+        /**
+         * If any keyframe is a CSS variable, we need to find its value by sampling the element
+         */
+        for (let i = 0; i < unresolvedKeyframes.length; i++) {
+            const keyframe = unresolvedKeyframes[i];
+            if (typeof keyframe === "string" && isCSSVariableToken(keyframe)) {
+                const resolved = getVariableValue(keyframe, element.current);
+                if (resolved !== undefined) {
+                    unresolvedKeyframes[i] = resolved;
+                }
+                if (i === unresolvedKeyframes.length - 1) {
+                    this.finalKeyframe = keyframe;
+                }
             }
         }
-        const progressInRange = progress(input[i], input[i + 1], v);
-        return mixers[i](progressInRange);
-    };
-    return isClamp
-        ? (v) => interpolator(clamp_clamp(input[0], input[inputLength - 1], v))
-        : interpolator;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/offsets/fill.mjs
-
-
-
-function fillOffset(offset, remaining) {
-    const min = offset[offset.length - 1];
-    for (let i = 1; i <= remaining; i++) {
-        const offsetProgress = progress(0, remaining, i);
-        offset.push(mix(min, 1, offsetProgress));
+        /**
+         * Resolve "none" values. We do this potentially twice - once before and once after measuring keyframes.
+         * This could be seen as inefficient but it's a trade-off to avoid measurements in more situations, which
+         * have a far bigger performance impact.
+         */
+        this.resolveNoneKeyframes();
+        /**
+         * Check to see if unit type has changed. If so schedule jobs that will
+         * temporarily set styles to the destination keyframes.
+         * Skip if we have more than two keyframes or this isn't a positional value.
+         * TODO: We can throw if there are multiple keyframes and the value type changes.
+         */
+        if (!positionalKeys.has(name) || unresolvedKeyframes.length !== 2) {
+            return;
+        }
+        const [origin, target] = unresolvedKeyframes;
+        const originType = findDimensionValueType(origin);
+        const targetType = findDimensionValueType(target);
+        /**
+         * Either we don't recognise these value types or we can animate between them.
+         */
+        if (originType === targetType)
+            return;
+        /**
+         * If both values are numbers or pixels, we can animate between them by
+         * converting them to numbers.
+         */
+        if (isNumOrPxType(originType) && isNumOrPxType(targetType)) {
+            for (let i = 0; i < unresolvedKeyframes.length; i++) {
+                const value = unresolvedKeyframes[i];
+                if (typeof value === "string") {
+                    unresolvedKeyframes[i] = parseFloat(value);
+                }
+            }
+        }
+        else {
+            /**
+             * Else, the only way to resolve this is by measuring the element.
+             */
+            this.needsMeasurement = true;
+        }
+    }
+    resolveNoneKeyframes() {
+        const { unresolvedKeyframes, name } = this;
+        const noneKeyframeIndexes = [];
+        for (let i = 0; i < unresolvedKeyframes.length; i++) {
+            if (isNone(unresolvedKeyframes[i])) {
+                noneKeyframeIndexes.push(i);
+            }
+        }
+        if (noneKeyframeIndexes.length) {
+            makeNoneKeyframesAnimatable(unresolvedKeyframes, noneKeyframeIndexes, name);
+        }
+    }
+    measureInitialState() {
+        const { element, unresolvedKeyframes, name } = this;
+        if (!element.current)
+            return;
+        if (name === "height") {
+            this.suspendedScrollY = window.pageYOffset;
+        }
+        this.measuredOrigin = positionalValues[name](element.measureViewportBox(), window.getComputedStyle(element.current));
+        unresolvedKeyframes[0] = this.measuredOrigin;
+        // Set final key frame to measure after next render
+        const measureKeyframe = unresolvedKeyframes[unresolvedKeyframes.length - 1];
+        if (measureKeyframe !== undefined) {
+            element.getValue(name, measureKeyframe).jump(measureKeyframe, false);
+        }
+    }
+    measureEndState() {
+        var _a;
+        const { element, name, unresolvedKeyframes } = this;
+        if (!element.current)
+            return;
+        const value = element.getValue(name);
+        value && value.jump(this.measuredOrigin, false);
+        const finalKeyframeIndex = unresolvedKeyframes.length - 1;
+        const finalKeyframe = unresolvedKeyframes[finalKeyframeIndex];
+        unresolvedKeyframes[finalKeyframeIndex] = positionalValues[name](element.measureViewportBox(), window.getComputedStyle(element.current));
+        if (finalKeyframe !== null && this.finalKeyframe === undefined) {
+            this.finalKeyframe = finalKeyframe;
+        }
+        // If we removed transform values, reapply them before the next render
+        if ((_a = this.removedTransforms) === null || _a === void 0 ? void 0 : _a.length) {
+            this.removedTransforms.forEach(([unsetTransformName, unsetTransformValue]) => {
+                element
+                    .getValue(unsetTransformName)
+                    .set(unsetTransformValue);
+            });
+        }
+        this.resolveNoneKeyframes();
     }
 }
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/offsets/default.mjs
-
-
-function defaultOffset(arr) {
-    const offset = [0];
-    fillOffset(offset, arr.length - 1);
-    return offset;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/offsets/time.mjs
-function convertOffsetToTimes(offset, duration) {
-    return offset.map((o) => o * duration);
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/generators/keyframes.mjs
-
-
-
-
-
-
-
-function defaultEasing(values, easing) {
-    return values.map(() => easing || easeInOut).splice(0, values.length - 1);
-}
-function keyframes_keyframes({ duration = 300, keyframes: keyframeValues, times, ease = "easeInOut", }) {
-    /**
-     * Easing functions can be externally defined as strings. Here we convert them
-     * into actual functions.
-     */
-    const easingFunctions = isEasingArray(ease)
-        ? ease.map(easingDefinitionToFunction)
-        : easingDefinitionToFunction(ease);
-    /**
-     * This is the Iterator-spec return value. We ensure it's mutable rather than using a generator
-     * to reduce GC during animation.
-     */
-    const state = {
-        done: false,
-        value: keyframeValues[0],
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/memo.mjs
+function memo(callback) {
+    let result;
+    return () => {
+        if (result === undefined)
+            result = callback();
+        return result;
     };
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/is-animatable.mjs
+
+
+/**
+ * Check if a value is animatable. Examples:
+ *
+ * ✅: 100, "100px", "#fff"
+ * ❌: "block", "url(2.jpg)"
+ * @param value
+ *
+ * @internal
+ */
+const isAnimatable = (value, name) => {
+    // If the list of keys tat might be non-animatable grows, replace with Set
+    if (name === "zIndex")
+        return false;
+    // If it's a number or a keyframes array, we can animate it. We might at some point
+    // need to do a deep isAnimatable check of keyframes, or let Popmotion handle this,
+    // but for now lets leave it like this for performance reasons
+    if (typeof value === "number" || Array.isArray(value))
+        return true;
+    if (typeof value === "string" && // It's animatable if we have a string
+        (complex.test(value) || value === "0") && // And it contains numbers and/or colors
+        !value.startsWith("url(") // Unless it starts with "url("
+    ) {
+        return true;
+    }
+    return false;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/utils/can-animate.mjs
+
+
+
+function hasKeyframesChanged(keyframes) {
+    const current = keyframes[0];
+    if (keyframes.length === 1)
+        return true;
+    for (let i = 0; i < keyframes.length; i++) {
+        if (keyframes[i] !== current)
+            return true;
+    }
+}
+function canAnimate(keyframes, name, type, velocity) {
     /**
-     * Create a times array based on the provided 0-1 offsets
+     * Check if we're able to animate between the start and end keyframes,
+     * and throw a warning if we're attempting to animate between one that's
+     * animatable and another that isn't.
      */
-    const absoluteTimes = convertOffsetToTimes(
-    // Only use the provided offsets if they're the correct length
-    // TODO Maybe we should warn here if there's a length mismatch
-    times && times.length === keyframeValues.length
-        ? times
-        : defaultOffset(keyframeValues), duration);
-    const mapTimeToKeyframe = interpolate(absoluteTimes, keyframeValues, {
-        ease: Array.isArray(easingFunctions)
-            ? easingFunctions
-            : defaultEasing(keyframeValues, easingFunctions),
-    });
-    return {
-        calculatedDuration: duration,
-        next: (t) => {
-            state.value = mapTimeToKeyframe(t);
-            state.done = t >= duration;
-            return state;
-        },
-    };
+    const originKeyframe = keyframes[0];
+    if (originKeyframe === null)
+        return false;
+    /**
+     * These aren't traditionally animatable but we do support them.
+     * In future we could look into making this more generic or replacing
+     * this function with mix() === mixImmediate
+     */
+    if (name === "display" || name === "visibility")
+        return true;
+    const targetKeyframe = keyframes[keyframes.length - 1];
+    const isOriginAnimatable = isAnimatable(originKeyframe, name);
+    const isTargetAnimatable = isAnimatable(targetKeyframe, name);
+    warning(isOriginAnimatable === isTargetAnimatable, `You are trying to animate ${name} from "${originKeyframe}" to "${targetKeyframe}". ${originKeyframe} is not an animatable value - to enable this animation set ${originKeyframe} to a value animatable to ${targetKeyframe} via the \`style\` property.`);
+    // Always skip if any of these are true
+    if (!isOriginAnimatable || !isTargetAnimatable) {
+        return false;
+    }
+    return hasKeyframesChanged(keyframes) || (type === "spring" && velocity);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/BaseAnimation.mjs
+
+
+
+
+
+class BaseAnimation {
+    constructor({ autoplay = true, delay = 0, type = "keyframes", repeat = 0, repeatDelay = 0, repeatType = "loop", ...options }) {
+        // Track whether the animation has been stopped. Stopped animations won't restart.
+        this.isStopped = false;
+        this.hasAttemptedResolve = false;
+        this.options = {
+            autoplay,
+            delay,
+            type,
+            repeat,
+            repeatDelay,
+            repeatType,
+            ...options,
+        };
+        this.updateFinishedPromise();
+    }
+    /**
+     * A getter for resolved data. If keyframes are not yet resolved, accessing
+     * this.resolved will synchronously flush all pending keyframe resolvers.
+     * This is a deoptimisation, but at its worst still batches read/writes.
+     */
+    get resolved() {
+        if (!this._resolved && !this.hasAttemptedResolve) {
+            flushKeyframeResolvers();
+        }
+        return this._resolved;
+    }
+    /**
+     * A method to be called when the keyframes resolver completes. This method
+     * will check if its possible to run the animation and, if not, skip it.
+     * Otherwise, it will call initPlayback on the implementing class.
+     */
+    onKeyframesResolved(keyframes, finalKeyframe) {
+        this.hasAttemptedResolve = true;
+        const { name, type, velocity, delay, onComplete, onUpdate, isGenerator, } = this.options;
+        /**
+         * If we can't animate this value with the resolved keyframes
+         * then we should complete it immediately.
+         */
+        if (!isGenerator && !canAnimate(keyframes, name, type, velocity)) {
+            // Finish immediately
+            if (instantAnimationState.current || !delay) {
+                onUpdate === null || onUpdate === void 0 ? void 0 : onUpdate(getFinalKeyframe(keyframes, this.options, finalKeyframe));
+                onComplete === null || onComplete === void 0 ? void 0 : onComplete();
+                this.resolveFinishedPromise();
+                return;
+            }
+            // Finish after a delay
+            else {
+                this.options.duration = 0;
+            }
+        }
+        const resolvedAnimation = this.initPlayback(keyframes, finalKeyframe);
+        if (resolvedAnimation === false)
+            return;
+        this._resolved = {
+            keyframes,
+            finalKeyframe,
+            ...resolvedAnimation,
+        };
+        this.onPostResolved();
+    }
+    onPostResolved() { }
+    /**
+     * Allows the returned animation to be awaited or promise-chained. Currently
+     * resolves when the animation finishes at all but in a future update could/should
+     * reject if its cancels.
+     */
+    then(resolve, reject) {
+        return this.currentFinishedPromise.then(resolve, reject);
+    }
+    updateFinishedPromise() {
+        this.currentFinishedPromise = new Promise((resolve) => {
+            this.resolveFinishedPromise = resolve;
+        });
+    }
 }
 
 
@@ -19805,7 +19457,6 @@ function getSpringOptions(options) {
         springOptions = {
             ...springOptions,
             ...derived,
-            velocity: 0.0,
             mass: 1.0,
         };
         springOptions.isResolvedFromDuration = true;
@@ -19820,8 +19471,11 @@ function spring({ keyframes, restDelta, restSpeed, ...options }) {
      * to reduce GC during animation.
      */
     const state = { done: false, value: origin };
-    const { stiffness, damping, mass, velocity, duration, isResolvedFromDuration, } = getSpringOptions(options);
-    const initialVelocity = velocity ? -millisecondsToSeconds(velocity) : 0.0;
+    const { stiffness, damping, mass, duration, velocity, isResolvedFromDuration, } = getSpringOptions({
+        ...options,
+        velocity: -millisecondsToSeconds(options.velocity || 0),
+    });
+    const initialVelocity = velocity || 0.0;
     const dampingRatio = damping / (2 * Math.sqrt(stiffness * mass));
     const initialDelta = target - origin;
     const undampedAngularFreq = millisecondsToSeconds(Math.sqrt(stiffness / mass));
@@ -19959,7 +19613,7 @@ function inertia({ keyframes, velocity = 0.0, power = 0.8, timeConstant = 325, b
         timeReachedBoundary = t;
         spring$1 = spring({
             keyframes: [state.value, nearestBoundary(state.value)],
-            velocity: calcGeneratorVelocity(calcLatest, t, state.value),
+            velocity: calcGeneratorVelocity(calcLatest, t, state.value), // TODO: This should be passing * 1000
             damping: bounceDamping,
             stiffness: bounceStiffness,
             restDelta,
@@ -19986,7 +19640,7 @@ function inertia({ keyframes, velocity = 0.0, power = 0.8, timeConstant = 325, b
              * If we have a spring and the provided t is beyond the moment the friction
              * animation crossed the min/max boundary, use the spring.
              */
-            if (timeReachedBoundary !== undefined && t > timeReachedBoundary) {
+            if (timeReachedBoundary !== undefined && t >= timeReachedBoundary) {
                 return spring$1.next(t - timeReachedBoundary);
             }
             else {
@@ -19999,21 +19653,582 @@ function inertia({ keyframes, velocity = 0.0, power = 0.8, timeConstant = 325, b
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/js/driver-frameloop.mjs
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/cubic-bezier.mjs
 
 
-const frameloopDriver = (update) => {
-    const passTimestamp = ({ timestamp }) => update(timestamp);
+/*
+  Bezier function generator
+  This has been modified from Gaëtan Renaudeau's BezierEasing
+  https://github.com/gre/bezier-easing/blob/master/src/index.js
+  https://github.com/gre/bezier-easing/blob/master/LICENSE
+  
+  I've removed the newtonRaphsonIterate algo because in benchmarking it
+  wasn't noticiably faster than binarySubdivision, indeed removing it
+  usually improved times, depending on the curve.
+  I also removed the lookup table, as for the added bundle size and loop we're
+  only cutting ~4 or so subdivision iterations. I bumped the max iterations up
+  to 12 to compensate and this still tended to be faster for no perceivable
+  loss in accuracy.
+  Usage
+    const easeOut = cubicBezier(.17,.67,.83,.67);
+    const x = easeOut(0.5); // returns 0.627...
+*/
+// Returns x(t) given t, x1, and x2, or y(t) given t, y1, and y2.
+const calcBezier = (t, a1, a2) => (((1.0 - 3.0 * a2 + 3.0 * a1) * t + (3.0 * a2 - 6.0 * a1)) * t + 3.0 * a1) *
+    t;
+const subdivisionPrecision = 0.0000001;
+const subdivisionMaxIterations = 12;
+function binarySubdivide(x, lowerBound, upperBound, mX1, mX2) {
+    let currentX;
+    let currentT;
+    let i = 0;
+    do {
+        currentT = lowerBound + (upperBound - lowerBound) / 2.0;
+        currentX = calcBezier(currentT, mX1, mX2) - x;
+        if (currentX > 0.0) {
+            upperBound = currentT;
+        }
+        else {
+            lowerBound = currentT;
+        }
+    } while (Math.abs(currentX) > subdivisionPrecision &&
+        ++i < subdivisionMaxIterations);
+    return currentT;
+}
+function cubicBezier(mX1, mY1, mX2, mY2) {
+    // If this is a linear gradient, return linear easing
+    if (mX1 === mY1 && mX2 === mY2)
+        return noop_noop;
+    const getTForX = (aX) => binarySubdivide(aX, 0, 1, mX1, mX2);
+    // If animation is at start/end, return t without easing
+    return (t) => t === 0 || t === 1 ? t : calcBezier(getTForX(t), mY1, mY2);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/ease.mjs
+
+
+const easeIn = cubicBezier(0.42, 0, 1, 1);
+const easeOut = cubicBezier(0, 0, 0.58, 1);
+const easeInOut = cubicBezier(0.42, 0, 0.58, 1);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/utils/is-easing-array.mjs
+const isEasingArray = (ease) => {
+    return Array.isArray(ease) && typeof ease[0] !== "number";
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/modifiers/mirror.mjs
+// Accepts an easing function and returns a new one that outputs mirrored values for
+// the second half of the animation. Turns easeIn into easeInOut.
+const mirrorEasing = (easing) => (p) => p <= 0.5 ? easing(2 * p) / 2 : (2 - easing(2 * (1 - p))) / 2;
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/modifiers/reverse.mjs
+// Accepts an easing function and returns a new one that outputs reversed values.
+// Turns easeIn into easeOut.
+const reverseEasing = (easing) => (p) => 1 - easing(1 - p);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/circ.mjs
+
+
+
+const circIn = (p) => 1 - Math.sin(Math.acos(p));
+const circOut = reverseEasing(circIn);
+const circInOut = mirrorEasing(circIn);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/back.mjs
+
+
+
+
+const backOut = cubicBezier(0.33, 1.53, 0.69, 0.99);
+const backIn = reverseEasing(backOut);
+const backInOut = mirrorEasing(backIn);
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/anticipate.mjs
+
+
+const anticipate = (p) => (p *= 2) < 1 ? 0.5 * backIn(p) : 0.5 * (2 - Math.pow(2, -10 * (p - 1)));
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/utils/map.mjs
+
+
+
+
+
+
+
+
+const easingLookup = {
+    linear: noop_noop,
+    easeIn: easeIn,
+    easeInOut: easeInOut,
+    easeOut: easeOut,
+    circIn: circIn,
+    circInOut: circInOut,
+    circOut: circOut,
+    backIn: backIn,
+    backInOut: backInOut,
+    backOut: backOut,
+    anticipate: anticipate,
+};
+const easingDefinitionToFunction = (definition) => {
+    if (Array.isArray(definition)) {
+        // If cubic bezier definition, create bezier curve
+        errors_invariant(definition.length === 4, `Cubic bezier arrays must contain four numerical values.`);
+        const [x1, y1, x2, y2] = definition;
+        return cubicBezier(x1, y1, x2, y2);
+    }
+    else if (typeof definition === "string") {
+        // Else lookup from table
+        errors_invariant(easingLookup[definition] !== undefined, `Invalid easing type '${definition}'`);
+        return easingLookup[definition];
+    }
+    return definition;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/progress.mjs
+/*
+  Progress within given range
+
+  Given a lower limit and an upper limit, we return the progress
+  (expressed as a number 0-1) represented by the given value, and
+  limit that progress to within 0-1.
+
+  @param [number]: Lower limit
+  @param [number]: Upper limit
+  @param [number]: Value to find progress within given range
+  @return [number]: Progress of value within range as expressed 0-1
+*/
+const progress = (from, to, value) => {
+    const toFromDifference = to - from;
+    return toFromDifference === 0 ? 1 : (value - from) / toFromDifference;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix/number.mjs
+/*
+  Value in range from progress
+
+  Given a lower limit and an upper limit, we return the value within
+  that range as expressed by progress (usually a number from 0 to 1)
+
+  So progress = 0.5 would change
+
+  from -------- to
+
+  to
+
+  from ---- to
+
+  E.g. from = 10, to = 20, progress = 0.5 => 15
+
+  @param [number]: Lower limit of range
+  @param [number]: Upper limit of range
+  @param [number]: The progress between lower and upper limits expressed 0-1
+  @return [number]: Value as calculated from progress within range (not limited within range)
+*/
+const mixNumber = (from, to, progress) => {
+    return from + (to - from) * progress;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/hsla-to-rgba.mjs
+// Adapted from https://gist.github.com/mjackson/5311256
+function hueToRgb(p, q, t) {
+    if (t < 0)
+        t += 1;
+    if (t > 1)
+        t -= 1;
+    if (t < 1 / 6)
+        return p + (q - p) * 6 * t;
+    if (t < 1 / 2)
+        return q;
+    if (t < 2 / 3)
+        return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+}
+function hslaToRgba({ hue, saturation, lightness, alpha }) {
+    hue /= 360;
+    saturation /= 100;
+    lightness /= 100;
+    let red = 0;
+    let green = 0;
+    let blue = 0;
+    if (!saturation) {
+        red = green = blue = lightness;
+    }
+    else {
+        const q = lightness < 0.5
+            ? lightness * (1 + saturation)
+            : lightness + saturation - lightness * saturation;
+        const p = 2 * lightness - q;
+        red = hueToRgb(p, q, hue + 1 / 3);
+        green = hueToRgb(p, q, hue);
+        blue = hueToRgb(p, q, hue - 1 / 3);
+    }
     return {
-        start: () => frame_frame.update(passTimestamp, true),
-        stop: () => cancelFrame(passTimestamp),
-        /**
-         * If we're processing this frame we can use the
-         * framelocked timestamp to keep things in sync.
-         */
-        now: () => frameData.isProcessing ? frameData.timestamp : performance.now(),
+        red: Math.round(red * 255),
+        green: Math.round(green * 255),
+        blue: Math.round(blue * 255),
+        alpha,
+    };
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix/color.mjs
+
+
+
+
+
+
+
+// Linear color space blending
+// Explained https://www.youtube.com/watch?v=LKnqECcg6Gw
+// Demonstrated http://codepen.io/osublake/pen/xGVVaN
+const mixLinearColor = (from, to, v) => {
+    const fromExpo = from * from;
+    const expo = v * (to * to - fromExpo) + fromExpo;
+    return expo < 0 ? 0 : Math.sqrt(expo);
+};
+const colorTypes = [hex, rgba, hsla];
+const getColorType = (v) => colorTypes.find((type) => type.test(v));
+function asRGBA(color) {
+    const type = getColorType(color);
+    errors_invariant(Boolean(type), `'${color}' is not an animatable color. Use the equivalent color code instead.`);
+    let model = type.parse(color);
+    if (type === hsla) {
+        // TODO Remove this cast - needed since Framer Motion's stricter typing
+        model = hslaToRgba(model);
+    }
+    return model;
+}
+const mixColor = (from, to) => {
+    const fromRGBA = asRGBA(from);
+    const toRGBA = asRGBA(to);
+    const blended = { ...fromRGBA };
+    return (v) => {
+        blended.red = mixLinearColor(fromRGBA.red, toRGBA.red, v);
+        blended.green = mixLinearColor(fromRGBA.green, toRGBA.green, v);
+        blended.blue = mixLinearColor(fromRGBA.blue, toRGBA.blue, v);
+        blended.alpha = mixNumber(fromRGBA.alpha, toRGBA.alpha, v);
+        return rgba.transform(blended);
     };
 };
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix/visibility.mjs
+const invisibleValues = new Set(["none", "hidden"]);
+/**
+ * Returns a function that, when provided a progress value between 0 and 1,
+ * will return the "none" or "hidden" string only when the progress is that of
+ * the origin or target.
+ */
+function mixVisibility(origin, target) {
+    if (invisibleValues.has(origin)) {
+        return (p) => (p <= 0 ? origin : target);
+    }
+    else {
+        return (p) => (p >= 1 ? target : origin);
+    }
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix/complex.mjs
+
+
+
+
+
+
+
+
+
+function mixImmediate(a, b) {
+    return (p) => (p > 0 ? b : a);
+}
+function complex_mixNumber(a, b) {
+    return (p) => mixNumber(a, b, p);
+}
+function getMixer(a) {
+    if (typeof a === "number") {
+        return complex_mixNumber;
+    }
+    else if (typeof a === "string") {
+        return isCSSVariableToken(a)
+            ? mixImmediate
+            : color.test(a)
+                ? mixColor
+                : mixComplex;
+    }
+    else if (Array.isArray(a)) {
+        return mixArray;
+    }
+    else if (typeof a === "object") {
+        return color.test(a) ? mixColor : mixObject;
+    }
+    return mixImmediate;
+}
+function mixArray(a, b) {
+    const output = [...a];
+    const numValues = output.length;
+    const blendValue = a.map((v, i) => getMixer(v)(v, b[i]));
+    return (p) => {
+        for (let i = 0; i < numValues; i++) {
+            output[i] = blendValue[i](p);
+        }
+        return output;
+    };
+}
+function mixObject(a, b) {
+    const output = { ...a, ...b };
+    const blendValue = {};
+    for (const key in output) {
+        if (a[key] !== undefined && b[key] !== undefined) {
+            blendValue[key] = getMixer(a[key])(a[key], b[key]);
+        }
+    }
+    return (v) => {
+        for (const key in blendValue) {
+            output[key] = blendValue[key](v);
+        }
+        return output;
+    };
+}
+function matchOrder(origin, target) {
+    var _a;
+    const orderedOrigin = [];
+    const pointers = { color: 0, var: 0, number: 0 };
+    for (let i = 0; i < target.values.length; i++) {
+        const type = target.types[i];
+        const originIndex = origin.indexes[type][pointers[type]];
+        const originValue = (_a = origin.values[originIndex]) !== null && _a !== void 0 ? _a : 0;
+        orderedOrigin[i] = originValue;
+        pointers[type]++;
+    }
+    return orderedOrigin;
+}
+const mixComplex = (origin, target) => {
+    const template = complex.createTransformer(target);
+    const originStats = analyseComplexValue(origin);
+    const targetStats = analyseComplexValue(target);
+    const canInterpolate = originStats.indexes.var.length === targetStats.indexes.var.length &&
+        originStats.indexes.color.length === targetStats.indexes.color.length &&
+        originStats.indexes.number.length >= targetStats.indexes.number.length;
+    if (canInterpolate) {
+        if ((invisibleValues.has(origin) &&
+            !targetStats.values.length) ||
+            (invisibleValues.has(target) &&
+                !originStats.values.length)) {
+            return mixVisibility(origin, target);
+        }
+        return pipe(mixArray(matchOrder(originStats, targetStats), targetStats.values), template);
+    }
+    else {
+        warning(true, `Complex values '${origin}' and '${target}' too different to mix. Ensure all colors are of the same type, and that each contains the same quantity of number and color values. Falling back to instant transition.`);
+        return mixImmediate(origin, target);
+    }
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/mix/index.mjs
+
+
+
+function mix(from, to, p) {
+    if (typeof from === "number" &&
+        typeof to === "number" &&
+        typeof p === "number") {
+        return mixNumber(from, to, p);
+    }
+    const mixer = getMixer(from);
+    return mixer(from, to);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/interpolate.mjs
+
+
+
+
+
+
+
+function createMixers(output, ease, customMixer) {
+    const mixers = [];
+    const mixerFactory = customMixer || mix;
+    const numMixers = output.length - 1;
+    for (let i = 0; i < numMixers; i++) {
+        let mixer = mixerFactory(output[i], output[i + 1]);
+        if (ease) {
+            const easingFunction = Array.isArray(ease) ? ease[i] || noop_noop : ease;
+            mixer = pipe(easingFunction, mixer);
+        }
+        mixers.push(mixer);
+    }
+    return mixers;
+}
+/**
+ * Create a function that maps from a numerical input array to a generic output array.
+ *
+ * Accepts:
+ *   - Numbers
+ *   - Colors (hex, hsl, hsla, rgb, rgba)
+ *   - Complex (combinations of one or more numbers or strings)
+ *
+ * ```jsx
+ * const mixColor = interpolate([0, 1], ['#fff', '#000'])
+ *
+ * mixColor(0.5) // 'rgba(128, 128, 128, 1)'
+ * ```
+ *
+ * TODO Revist this approach once we've moved to data models for values,
+ * probably not needed to pregenerate mixer functions.
+ *
+ * @public
+ */
+function interpolate(input, output, { clamp: isClamp = true, ease, mixer } = {}) {
+    const inputLength = input.length;
+    errors_invariant(inputLength === output.length, "Both input and output ranges must be the same length");
+    /**
+     * If we're only provided a single input, we can just make a function
+     * that returns the output.
+     */
+    if (inputLength === 1)
+        return () => output[0];
+    if (inputLength === 2 && input[0] === input[1])
+        return () => output[1];
+    // If input runs highest -> lowest, reverse both arrays
+    if (input[0] > input[inputLength - 1]) {
+        input = [...input].reverse();
+        output = [...output].reverse();
+    }
+    const mixers = createMixers(output, ease, mixer);
+    const numMixers = mixers.length;
+    const interpolator = (v) => {
+        let i = 0;
+        if (numMixers > 1) {
+            for (; i < input.length - 2; i++) {
+                if (v < input[i + 1])
+                    break;
+            }
+        }
+        const progressInRange = progress(input[i], input[i + 1], v);
+        return mixers[i](progressInRange);
+    };
+    return isClamp
+        ? (v) => interpolator(clamp_clamp(input[0], input[inputLength - 1], v))
+        : interpolator;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/offsets/fill.mjs
+
+
+
+function fillOffset(offset, remaining) {
+    const min = offset[offset.length - 1];
+    for (let i = 1; i <= remaining; i++) {
+        const offsetProgress = progress(0, remaining, i);
+        offset.push(mixNumber(min, 1, offsetProgress));
+    }
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/offsets/default.mjs
+
+
+function defaultOffset(arr) {
+    const offset = [0];
+    fillOffset(offset, arr.length - 1);
+    return offset;
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/offsets/time.mjs
+function convertOffsetToTimes(offset, duration) {
+    return offset.map((o) => o * duration);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/generators/keyframes.mjs
+
+
+
+
+
+
+
+function defaultEasing(values, easing) {
+    return values.map(() => easing || easeInOut).splice(0, values.length - 1);
+}
+function keyframes_keyframes({ duration = 300, keyframes: keyframeValues, times, ease = "easeInOut", }) {
+    /**
+     * Easing functions can be externally defined as strings. Here we convert them
+     * into actual functions.
+     */
+    const easingFunctions = isEasingArray(ease)
+        ? ease.map(easingDefinitionToFunction)
+        : easingDefinitionToFunction(ease);
+    /**
+     * This is the Iterator-spec return value. We ensure it's mutable rather than using a generator
+     * to reduce GC during animation.
+     */
+    const state = {
+        done: false,
+        value: keyframeValues[0],
+    };
+    /**
+     * Create a times array based on the provided 0-1 offsets
+     */
+    const absoluteTimes = convertOffsetToTimes(
+    // Only use the provided offsets if they're the correct length
+    // TODO Maybe we should warn here if there's a length mismatch
+    times && times.length === keyframeValues.length
+        ? times
+        : defaultOffset(keyframeValues), duration);
+    const mapTimeToKeyframe = interpolate(absoluteTimes, keyframeValues, {
+        ease: Array.isArray(easingFunctions)
+            ? easingFunctions
+            : defaultEasing(keyframeValues, easingFunctions),
+    });
+    return {
+        calculatedDuration: duration,
+        next: (t) => {
+            state.value = mapTimeToKeyframe(t);
+            state.done = t >= duration;
+            return state;
+        },
+    };
+}
 
 
 
@@ -20036,7 +20251,26 @@ function calcGeneratorDuration(generator) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/js/index.mjs
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/drivers/driver-frameloop.mjs
+
+
+
+const frameloopDriver = (update) => {
+    const passTimestamp = ({ timestamp }) => update(timestamp);
+    return {
+        start: () => frame_frame.update(passTimestamp, true),
+        stop: () => cancelFrame(passTimestamp),
+        /**
+         * If we're processing this frame we can use the
+         * framelocked timestamp to keep things in sync.
+         */
+        now: () => (frameData.isProcessing ? frameData.timestamp : time.now()),
+    };
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/MainThreadAnimation.mjs
 
 
 
@@ -20046,117 +20280,187 @@ function calcGeneratorDuration(generator) {
 
 
 
-const types = {
+
+
+
+
+
+const generators = {
     decay: inertia,
     inertia: inertia,
     tween: keyframes_keyframes,
     keyframes: keyframes_keyframes,
     spring: spring,
 };
+const percentToProgress = (percent) => percent / 100;
 /**
- * Animate a single value on the main thread.
- *
- * This function is written, where functionality overlaps,
- * to be largely spec-compliant with WAAPI to allow fungibility
- * between the two.
+ * Animation that runs on the main thread. Designed to be WAAPI-spec in the subset of
+ * features we expose publically. Mostly the compatibility is to ensure visual identity
+ * between both WAAPI and main thread animations.
  */
-function animateValue({ autoplay = true, delay = 0, driver = frameloopDriver, keyframes: keyframes$1, type = "keyframes", repeat = 0, repeatDelay = 0, repeatType = "loop", onPlay, onStop, onComplete, onUpdate, ...options }) {
-    let speed = 1;
-    let hasStopped = false;
-    let resolveFinishedPromise;
-    let currentFinishedPromise;
-    /**
-     * Resolve the current Promise every time we enter the
-     * finished state. This is WAAPI-compatible behaviour.
-     */
-    const updateFinishedPromise = () => {
-        currentFinishedPromise = new Promise((resolve) => {
-            resolveFinishedPromise = resolve;
-        });
-    };
-    // Create the first finished promise
-    updateFinishedPromise();
-    let animationDriver;
-    const generatorFactory = types[type] || keyframes_keyframes;
-    /**
-     * If this isn't the keyframes generator and we've been provided
-     * strings as keyframes, we need to interpolate these.
-     * TODO: Support velocity for units and complex value types/
-     */
-    let mapNumbersToKeyframes;
-    if (generatorFactory !== keyframes_keyframes &&
-        typeof keyframes$1[0] !== "number") {
-        mapNumbersToKeyframes = interpolate([0, 100], keyframes$1, {
-            clamp: false,
-        });
-        keyframes$1 = [0, 100];
+class MainThreadAnimation extends BaseAnimation {
+    constructor({ KeyframeResolver: KeyframeResolver$1 = KeyframeResolver, ...options }) {
+        super(options);
+        /**
+         * The time at which the animation was paused.
+         */
+        this.holdTime = null;
+        /**
+         * The time at which the animation was started.
+         */
+        this.startTime = null;
+        /**
+         * The time at which the animation was cancelled.
+         */
+        this.cancelTime = null;
+        /**
+         * The current time of the animation.
+         */
+        this.currentTime = 0;
+        /**
+         * Playback speed as a factor. 0 would be stopped, -1 reverse and 2 double speed.
+         */
+        this.playbackSpeed = 1;
+        /**
+         * The state of the animation to apply when the animation is resolved. This
+         * allows calls to the public API to control the animation before it is resolved,
+         * without us having to resolve it first.
+         */
+        this.pendingPlayState = "running";
+        this.state = "idle";
+        /**
+         * This method is bound to the instance to fix a pattern where
+         * animation.stop is returned as a reference from a useEffect.
+         */
+        this.stop = () => {
+            this.resolver.cancel();
+            this.isStopped = true;
+            if (this.state === "idle")
+                return;
+            this.teardown();
+            const { onStop } = this.options;
+            onStop && onStop();
+        };
+        const { name, motionValue, keyframes } = this.options;
+        const onResolved = (resolvedKeyframes, finalKeyframe) => this.onKeyframesResolved(resolvedKeyframes, finalKeyframe);
+        if (name && motionValue && motionValue.owner) {
+            this.resolver = motionValue.owner.resolveKeyframes(keyframes, onResolved, name, motionValue);
+        }
+        else {
+            this.resolver = new KeyframeResolver$1(keyframes, onResolved, name, motionValue);
+        }
+        this.resolver.scheduleResolve();
     }
-    const generator = generatorFactory({ ...options, keyframes: keyframes$1 });
-    let mirroredGenerator;
-    if (repeatType === "mirror") {
-        mirroredGenerator = generatorFactory({
-            ...options,
-            keyframes: [...keyframes$1].reverse(),
-            velocity: -(options.velocity || 0),
-        });
+    initPlayback(keyframes$1) {
+        const { type = "keyframes", repeat = 0, repeatDelay = 0, repeatType, velocity = 0, } = this.options;
+        const generatorFactory = generators[type] || keyframes_keyframes;
+        /**
+         * If our generator doesn't support mixing numbers, we need to replace keyframes with
+         * [0, 100] and then make a function that maps that to the actual keyframes.
+         *
+         * 100 is chosen instead of 1 as it works nicer with spring animations.
+         */
+        let mapPercentToKeyframes;
+        let mirroredGenerator;
+        if (generatorFactory !== keyframes_keyframes &&
+            typeof keyframes$1[0] !== "number") {
+            if (false) {}
+            mapPercentToKeyframes = pipe(percentToProgress, mix(keyframes$1[0], keyframes$1[1]));
+            keyframes$1 = [0, 100];
+        }
+        const generator = generatorFactory({ ...this.options, keyframes: keyframes$1 });
+        /**
+         * If we have a mirror repeat type we need to create a second generator that outputs the
+         * mirrored (not reversed) animation and later ping pong between the two generators.
+         */
+        if (repeatType === "mirror") {
+            mirroredGenerator = generatorFactory({
+                ...this.options,
+                keyframes: [...keyframes$1].reverse(),
+                velocity: -velocity,
+            });
+        }
+        /**
+         * If duration is undefined and we have repeat options,
+         * we need to calculate a duration from the generator.
+         *
+         * We set it to the generator itself to cache the duration.
+         * Any timeline resolver will need to have already precalculated
+         * the duration by this step.
+         */
+        if (generator.calculatedDuration === null) {
+            generator.calculatedDuration = calcGeneratorDuration(generator);
+        }
+        const { calculatedDuration } = generator;
+        const resolvedDuration = calculatedDuration + repeatDelay;
+        const totalDuration = resolvedDuration * (repeat + 1) - repeatDelay;
+        return {
+            generator,
+            mirroredGenerator,
+            mapPercentToKeyframes,
+            calculatedDuration,
+            resolvedDuration,
+            totalDuration,
+        };
     }
-    let playState = "idle";
-    let holdTime = null;
-    let startTime = null;
-    let cancelTime = null;
-    /**
-     * If duration is undefined and we have repeat options,
-     * we need to calculate a duration from the generator.
-     *
-     * We set it to the generator itself to cache the duration.
-     * Any timeline resolver will need to have already precalculated
-     * the duration by this step.
-     */
-    if (generator.calculatedDuration === null && repeat) {
-        generator.calculatedDuration = calcGeneratorDuration(generator);
+    onPostResolved() {
+        const { autoplay = true } = this.options;
+        this.play();
+        if (this.pendingPlayState === "paused" || !autoplay) {
+            this.pause();
+        }
+        else {
+            this.state = this.pendingPlayState;
+        }
     }
-    const { calculatedDuration } = generator;
-    let resolvedDuration = Infinity;
-    let totalDuration = Infinity;
-    if (calculatedDuration !== null) {
-        resolvedDuration = calculatedDuration + repeatDelay;
-        totalDuration = resolvedDuration * (repeat + 1) - repeatDelay;
-    }
-    let currentTime = 0;
-    const tick = (timestamp) => {
-        if (startTime === null)
-            return;
+    tick(timestamp, sample = false) {
+        const { resolved } = this;
+        // If the animations has failed to resolve, return the final keyframe.
+        if (!resolved) {
+            const { keyframes } = this.options;
+            return { done: true, value: keyframes[keyframes.length - 1] };
+        }
+        const { finalKeyframe, generator, mirroredGenerator, mapPercentToKeyframes, keyframes, calculatedDuration, totalDuration, resolvedDuration, } = resolved;
+        if (this.startTime === null)
+            return generator.next(0);
+        const { delay, repeat, repeatType, repeatDelay, onUpdate } = this.options;
         /**
          * requestAnimationFrame timestamps can come through as lower than
          * the startTime as set by performance.now(). Here we prevent this,
          * though in the future it could be possible to make setting startTime
          * a pending operation that gets resolved here.
          */
-        if (speed > 0)
-            startTime = Math.min(startTime, timestamp);
-        if (speed < 0)
-            startTime = Math.min(timestamp - totalDuration / speed, startTime);
-        if (holdTime !== null) {
-            currentTime = holdTime;
+        if (this.speed > 0) {
+            this.startTime = Math.min(this.startTime, timestamp);
+        }
+        else if (this.speed < 0) {
+            this.startTime = Math.min(timestamp - totalDuration / this.speed, this.startTime);
+        }
+        // Update currentTime
+        if (sample) {
+            this.currentTime = timestamp;
+        }
+        else if (this.holdTime !== null) {
+            this.currentTime = this.holdTime;
         }
         else {
             // Rounding the time because floating point arithmetic is not always accurate, e.g. 3000.367 - 1000.367 =
             // 2000.0000000000002. This is a problem when we are comparing the currentTime with the duration, for
             // example.
-            currentTime = Math.round(timestamp - startTime) * speed;
+            this.currentTime =
+                Math.round(timestamp - this.startTime) * this.speed;
         }
         // Rebase on delay
-        const timeWithoutDelay = currentTime - delay * (speed >= 0 ? 1 : -1);
-        const isInDelayPhase = speed >= 0 ? timeWithoutDelay < 0 : timeWithoutDelay > totalDuration;
-        currentTime = Math.max(timeWithoutDelay, 0);
-        /**
-         * If this animation has finished, set the current time
-         * to the total duration.
-         */
-        if (playState === "finished" && holdTime === null) {
-            currentTime = totalDuration;
+        const timeWithoutDelay = this.currentTime - delay * (this.speed >= 0 ? 1 : -1);
+        const isInDelayPhase = this.speed >= 0
+            ? timeWithoutDelay < 0
+            : timeWithoutDelay > totalDuration;
+        this.currentTime = Math.max(timeWithoutDelay, 0);
+        // If this animation has finished, set the current time  to the total duration.
+        if (this.state === "finished" && this.holdTime === null) {
+            this.currentTime = totalDuration;
         }
-        let elapsed = currentTime;
+        let elapsed = this.currentTime;
         let frameGenerator = generator;
         if (repeat) {
             /**
@@ -20164,7 +20468,7 @@ function animateValue({ autoplay = true, delay = 0, driver = frameloopDriver, ke
              * than duration we'll get values like 2.5 (midway through the
              * third iteration)
              */
-            const progress = currentTime / resolvedDuration;
+            const progress = Math.min(this.currentTime, totalDuration) / resolvedDuration;
             /**
              * Get the current iteration (0 indexed). For instance the floor of
              * 2.5 is 2.
@@ -20187,8 +20491,8 @@ function animateValue({ autoplay = true, delay = 0, driver = frameloopDriver, ke
             /**
              * Reverse progress if we're not running in "normal" direction
              */
-            const iterationIsOdd = Boolean(currentIteration % 2);
-            if (iterationIsOdd) {
+            const isOddIteration = Boolean(currentIteration % 2);
+            if (isOddIteration) {
                 if (repeatType === "reverse") {
                     iterationProgress = 1 - iterationProgress;
                     if (repeatDelay) {
@@ -20199,11 +20503,7 @@ function animateValue({ autoplay = true, delay = 0, driver = frameloopDriver, ke
                     frameGenerator = mirroredGenerator;
                 }
             }
-            let p = clamp_clamp(0, 1, iterationProgress);
-            if (currentTime > totalDuration) {
-                p = repeatType === "reverse" && iterationIsOdd ? 1 : 0;
-            }
-            elapsed = p * resolvedDuration;
+            elapsed = clamp_clamp(0, 1, iterationProgress) * resolvedDuration;
         }
         /**
          * If we're in negative time, set state as the initial keyframe.
@@ -20211,149 +20511,222 @@ function animateValue({ autoplay = true, delay = 0, driver = frameloopDriver, ke
          * instantly.
          */
         const state = isInDelayPhase
-            ? { done: false, value: keyframes$1[0] }
+            ? { done: false, value: keyframes[0] }
             : frameGenerator.next(elapsed);
-        if (mapNumbersToKeyframes) {
-            state.value = mapNumbersToKeyframes(state.value);
+        if (mapPercentToKeyframes) {
+            state.value = mapPercentToKeyframes(state.value);
         }
         let { done } = state;
         if (!isInDelayPhase && calculatedDuration !== null) {
-            done = speed >= 0 ? currentTime >= totalDuration : currentTime <= 0;
+            done =
+                this.speed >= 0
+                    ? this.currentTime >= totalDuration
+                    : this.currentTime <= 0;
         }
-        const isAnimationFinished = holdTime === null &&
-            (playState === "finished" || (playState === "running" && done));
+        const isAnimationFinished = this.holdTime === null &&
+            (this.state === "finished" || (this.state === "running" && done));
+        if (isAnimationFinished && finalKeyframe !== undefined) {
+            state.value = getFinalKeyframe(keyframes, this.options, finalKeyframe);
+        }
         if (onUpdate) {
             onUpdate(state.value);
         }
         if (isAnimationFinished) {
-            finish();
+            this.finish();
         }
         return state;
-    };
-    const stopAnimationDriver = () => {
-        animationDriver && animationDriver.stop();
-        animationDriver = undefined;
-    };
-    const cancel = () => {
-        playState = "idle";
-        stopAnimationDriver();
-        resolveFinishedPromise();
-        updateFinishedPromise();
-        startTime = cancelTime = null;
-    };
-    const finish = () => {
-        playState = "finished";
-        onComplete && onComplete();
-        stopAnimationDriver();
-        resolveFinishedPromise();
-    };
-    const play = () => {
-        if (hasStopped)
+    }
+    get duration() {
+        const { resolved } = this;
+        return resolved ? millisecondsToSeconds(resolved.calculatedDuration) : 0;
+    }
+    get time() {
+        return millisecondsToSeconds(this.currentTime);
+    }
+    set time(newTime) {
+        newTime = secondsToMilliseconds(newTime);
+        this.currentTime = newTime;
+        if (this.holdTime !== null || this.speed === 0) {
+            this.holdTime = newTime;
+        }
+        else if (this.driver) {
+            this.startTime = this.driver.now() - newTime / this.speed;
+        }
+    }
+    get speed() {
+        return this.playbackSpeed;
+    }
+    set speed(newSpeed) {
+        const hasChanged = this.playbackSpeed !== newSpeed;
+        this.playbackSpeed = newSpeed;
+        if (hasChanged) {
+            this.time = millisecondsToSeconds(this.currentTime);
+        }
+    }
+    play() {
+        if (!this.resolver.isScheduled) {
+            this.resolver.resume();
+        }
+        if (!this._resolved) {
+            this.pendingPlayState = "running";
             return;
-        if (!animationDriver)
-            animationDriver = driver(tick);
-        const now = animationDriver.now();
+        }
+        if (this.isStopped)
+            return;
+        const { driver = frameloopDriver, onPlay } = this.options;
+        if (!this.driver) {
+            this.driver = driver((timestamp) => this.tick(timestamp));
+        }
         onPlay && onPlay();
-        if (holdTime !== null) {
-            startTime = now - holdTime;
+        const now = this.driver.now();
+        if (this.holdTime !== null) {
+            this.startTime = now - this.holdTime;
         }
-        else if (!startTime || playState === "finished") {
-            startTime = now;
+        else if (!this.startTime || this.state === "finished") {
+            this.startTime = now;
         }
-        if (playState === "finished") {
-            updateFinishedPromise();
+        if (this.state === "finished") {
+            this.updateFinishedPromise();
         }
-        cancelTime = startTime;
-        holdTime = null;
+        this.cancelTime = this.startTime;
+        this.holdTime = null;
         /**
          * Set playState to running only after we've used it in
          * the previous logic.
          */
-        playState = "running";
-        animationDriver.start();
-    };
-    if (autoplay) {
-        play();
+        this.state = "running";
+        this.driver.start();
     }
-    const controls = {
-        then(resolve, reject) {
-            return currentFinishedPromise.then(resolve, reject);
-        },
-        get time() {
-            return millisecondsToSeconds(currentTime);
-        },
-        set time(newTime) {
-            newTime = secondsToMilliseconds(newTime);
-            currentTime = newTime;
-            if (holdTime !== null || !animationDriver || speed === 0) {
-                holdTime = newTime;
-            }
-            else {
-                startTime = animationDriver.now() - newTime / speed;
-            }
-        },
-        get duration() {
-            const duration = generator.calculatedDuration === null
-                ? calcGeneratorDuration(generator)
-                : generator.calculatedDuration;
-            return millisecondsToSeconds(duration);
-        },
-        get speed() {
-            return speed;
-        },
-        set speed(newSpeed) {
-            if (newSpeed === speed || !animationDriver)
-                return;
-            speed = newSpeed;
-            controls.time = millisecondsToSeconds(currentTime);
-        },
-        get state() {
-            return playState;
-        },
-        play,
-        pause: () => {
-            playState = "paused";
-            holdTime = currentTime;
-        },
-        stop: () => {
-            hasStopped = true;
-            if (playState === "idle")
-                return;
-            playState = "idle";
-            onStop && onStop();
-            cancel();
-        },
-        cancel: () => {
-            if (cancelTime !== null)
-                tick(cancelTime);
-            cancel();
-        },
-        complete: () => {
-            playState = "finished";
-        },
-        sample: (elapsed) => {
-            startTime = 0;
-            return tick(elapsed);
-        },
-    };
-    return controls;
+    pause() {
+        var _a;
+        if (!this._resolved) {
+            this.pendingPlayState = "paused";
+            return;
+        }
+        this.state = "paused";
+        this.holdTime = (_a = this.currentTime) !== null && _a !== void 0 ? _a : 0;
+    }
+    complete() {
+        if (this.state !== "running") {
+            this.play();
+        }
+        this.pendingPlayState = this.state = "finished";
+        this.holdTime = null;
+    }
+    finish() {
+        this.teardown();
+        this.state = "finished";
+        const { onComplete } = this.options;
+        onComplete && onComplete();
+    }
+    cancel() {
+        if (this.cancelTime !== null) {
+            this.tick(this.cancelTime);
+        }
+        this.teardown();
+        this.updateFinishedPromise();
+    }
+    teardown() {
+        this.state = "idle";
+        this.stopDriver();
+        this.resolveFinishedPromise();
+        this.updateFinishedPromise();
+        this.startTime = this.cancelTime = null;
+        this.resolver.cancel();
+    }
+    stopDriver() {
+        if (!this.driver)
+            return;
+        this.driver.stop();
+        this.driver = undefined;
+    }
+    sample(time) {
+        this.startTime = 0;
+        return this.tick(time, true);
+    }
+}
+// Legacy interface
+function animateValue(options) {
+    return new MainThreadAnimation(options);
 }
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/memo.mjs
-function memo(callback) {
-    let result;
-    return () => {
-        if (result === undefined)
-            result = callback();
-        return result;
-    };
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/easing/utils/is-bezier-definition.mjs
+const isBezierDefinition = (easing) => Array.isArray(easing) && typeof easing[0] === "number";
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/waapi/easing.mjs
+
+
+function isWaapiSupportedEasing(easing) {
+    return Boolean(!easing ||
+        (typeof easing === "string" && easing in supportedWaapiEasing) ||
+        isBezierDefinition(easing) ||
+        (Array.isArray(easing) && easing.every(isWaapiSupportedEasing)));
+}
+const cubicBezierAsString = ([a, b, c, d]) => `cubic-bezier(${a}, ${b}, ${c}, ${d})`;
+const supportedWaapiEasing = {
+    linear: "linear",
+    ease: "ease",
+    easeIn: "ease-in",
+    easeOut: "ease-out",
+    easeInOut: "ease-in-out",
+    circIn: cubicBezierAsString([0, 0.65, 0.55, 1]),
+    circOut: cubicBezierAsString([0.55, 0, 1, 0.45]),
+    backIn: cubicBezierAsString([0.31, 0.01, 0.66, -0.59]),
+    backOut: cubicBezierAsString([0.33, 1.53, 0.69, 0.99]),
+};
+function mapEasingToNativeEasingWithDefault(easing) {
+    return (mapEasingToNativeEasing(easing) ||
+        supportedWaapiEasing.easeOut);
+}
+function mapEasingToNativeEasing(easing) {
+    if (!easing) {
+        return undefined;
+    }
+    else if (isBezierDefinition(easing)) {
+        return cubicBezierAsString(easing);
+    }
+    else if (Array.isArray(easing)) {
+        return easing.map(mapEasingToNativeEasingWithDefault);
+    }
+    else {
+        return supportedWaapiEasing[easing];
+    }
 }
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/waapi/create-accelerated-animation.mjs
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/waapi/index.mjs
+
+
+function animateStyle(element, valueName, keyframes, { delay = 0, duration = 300, repeat = 0, repeatType = "loop", ease, times, } = {}) {
+    const keyframeOptions = { [valueName]: keyframes };
+    if (times)
+        keyframeOptions.offset = times;
+    const easing = mapEasingToNativeEasing(ease);
+    /**
+     * If this is an easing array, apply to keyframes, not animation as a whole
+     */
+    if (Array.isArray(easing))
+        keyframeOptions.easing = easing;
+    return element.animate(keyframeOptions, {
+        delay,
+        duration,
+        easing: !Array.isArray(easing) ? easing : "linear",
+        fill: "both",
+        iterations: repeat + 1,
+        direction: repeatType === "reverse" ? "alternate" : "normal",
+    });
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/AcceleratedAnimation.mjs
+
+
 
 
 
@@ -20372,7 +20745,9 @@ const acceleratedValues = new Set([
     "clipPath",
     "filter",
     "transform",
-    "backgroundColor",
+    // TODO: Can be accelerated but currently disabled until https://issues.chromium.org/issues/41491098 is resolved
+    // or until we implement support for linear() easing.
+    // "background-color"
 ]);
 /**
  * 10ms is chosen here as it strikes a balance between smooth
@@ -20384,453 +20759,264 @@ const sampleDelta = 10; //ms
  * Implement a practical max duration for keyframe generation
  * to prevent infinite loops
  */
-const create_accelerated_animation_maxDuration = 20000;
-const requiresPregeneratedKeyframes = (valueName, options) => options.type === "spring" ||
-    valueName === "backgroundColor" ||
-    !isWaapiSupportedEasing(options.ease);
-function createAcceleratedAnimation(value, valueName, { onUpdate, onComplete, ...options }) {
-    const canAccelerateAnimation = supportsWaapi() &&
-        acceleratedValues.has(valueName) &&
-        !options.repeatDelay &&
-        options.repeatType !== "mirror" &&
-        options.damping !== 0 &&
-        options.type !== "inertia";
-    if (!canAccelerateAnimation)
-        return false;
+const AcceleratedAnimation_maxDuration = 20000;
+/**
+ * Check if an animation can run natively via WAAPI or requires pregenerated keyframes.
+ * WAAPI doesn't support spring or function easings so we run these as JS animation before
+ * handing off.
+ */
+function requiresPregeneratedKeyframes(options) {
+    return (options.type === "spring" ||
+        options.name === "backgroundColor" ||
+        !isWaapiSupportedEasing(options.ease));
+}
+function pregenerateKeyframes(keyframes, options) {
     /**
-     * TODO: Unify with js/index
+     * Create a main-thread animation to pregenerate keyframes.
+     * We sample this at regular intervals to generate keyframes that we then
+     * linearly interpolate between.
      */
-    let hasStopped = false;
-    let resolveFinishedPromise;
-    let currentFinishedPromise;
-    /**
-     * Resolve the current Promise every time we enter the
-     * finished state. This is WAAPI-compatible behaviour.
-     */
-    const updateFinishedPromise = () => {
-        currentFinishedPromise = new Promise((resolve) => {
-            resolveFinishedPromise = resolve;
-        });
-    };
-    // Create the first finished promise
-    updateFinishedPromise();
-    let { keyframes, duration = 300, ease, times } = options;
-    /**
-     * If this animation needs pre-generated keyframes then generate.
-     */
-    if (requiresPregeneratedKeyframes(valueName, options)) {
-        const sampleAnimation = animateValue({
-            ...options,
-            repeat: 0,
-            delay: 0,
-        });
-        let state = { done: false, value: keyframes[0] };
-        const pregeneratedKeyframes = [];
-        /**
-         * Bail after 20 seconds of pre-generated keyframes as it's likely
-         * we're heading for an infinite loop.
-         */
-        let t = 0;
-        while (!state.done && t < create_accelerated_animation_maxDuration) {
-            state = sampleAnimation.sample(t);
-            pregeneratedKeyframes.push(state.value);
-            t += sampleDelta;
-        }
-        times = undefined;
-        keyframes = pregeneratedKeyframes;
-        duration = t - sampleDelta;
-        ease = "linear";
-    }
-    const animation = animateStyle(value.owner.current, valueName, keyframes, {
+    const sampleAnimation = new MainThreadAnimation({
         ...options,
-        duration,
-        /**
-         * This function is currently not called if ease is provided
-         * as a function so the cast is safe.
-         *
-         * However it would be possible for a future refinement to port
-         * in easing pregeneration from Motion One for browsers that
-         * support the upcoming `linear()` easing function.
-         */
-        ease: ease,
-        times,
+        keyframes,
+        repeat: 0,
+        delay: 0,
+        isGenerator: true,
     });
+    let state = { done: false, value: keyframes[0] };
+    const pregeneratedKeyframes = [];
     /**
-     * WAAPI animations don't resolve startTime synchronously. But a blocked
-     * thread could delay the startTime resolution by a noticeable amount.
-     * For synching handoff animations with the new Motion animation we want
-     * to ensure startTime is synchronously set.
+     * Bail after 20 seconds of pre-generated keyframes as it's likely
+     * we're heading for an infinite loop.
      */
-    if (options.syncStart) {
-        animation.startTime = frameData.isProcessing
-            ? frameData.timestamp
-            : document.timeline
-                ? document.timeline.currentTime
-                : performance.now();
+    let t = 0;
+    while (!state.done && t < AcceleratedAnimation_maxDuration) {
+        state = sampleAnimation.sample(t);
+        pregeneratedKeyframes.push(state.value);
+        t += sampleDelta;
     }
-    const cancelAnimation = () => animation.cancel();
-    const safeCancel = () => {
-        frame_frame.update(cancelAnimation);
-        resolveFinishedPromise();
-        updateFinishedPromise();
+    return {
+        times: undefined,
+        keyframes: pregeneratedKeyframes,
+        duration: t - sampleDelta,
+        ease: "linear",
     };
+}
+class AcceleratedAnimation extends BaseAnimation {
+    constructor(options) {
+        super(options);
+        const { name, motionValue, keyframes } = this.options;
+        this.resolver = new DOMKeyframesResolver(keyframes, (resolvedKeyframes, finalKeyframe) => this.onKeyframesResolved(resolvedKeyframes, finalKeyframe), name, motionValue);
+        this.resolver.scheduleResolve();
+    }
+    initPlayback(keyframes, finalKeyframe) {
+        var _a;
+        let { duration = 300, times, ease, type, motionValue, name, } = this.options;
+        /**
+         * If element has since been unmounted, return false to indicate
+         * the animation failed to initialised.
+         */
+        if (!((_a = motionValue.owner) === null || _a === void 0 ? void 0 : _a.current)) {
+            return false;
+        }
+        /**
+         * If this animation needs pre-generated keyframes then generate.
+         */
+        if (requiresPregeneratedKeyframes(this.options)) {
+            const { onComplete, onUpdate, motionValue, ...options } = this.options;
+            const pregeneratedAnimation = pregenerateKeyframes(keyframes, options);
+            keyframes = pregeneratedAnimation.keyframes;
+            // If this is a very short animation, ensure we have
+            // at least two keyframes to animate between as older browsers
+            // can't animate between a single keyframe.
+            if (keyframes.length === 1) {
+                keyframes[1] = keyframes[0];
+            }
+            duration = pregeneratedAnimation.duration;
+            times = pregeneratedAnimation.times;
+            ease = pregeneratedAnimation.ease;
+            type = "keyframes";
+        }
+        const animation = animateStyle(motionValue.owner.current, name, keyframes, { ...this.options, duration, times, ease });
+        // Override the browser calculated startTime with one synchronised to other JS
+        // and WAAPI animations starting this event loop.
+        animation.startTime = time.now();
+        if (this.pendingTimeline) {
+            animation.timeline = this.pendingTimeline;
+            this.pendingTimeline = undefined;
+        }
+        else {
+            /**
+             * Prefer the `onfinish` prop as it's more widely supported than
+             * the `finished` promise.
+             *
+             * Here, we synchronously set the provided MotionValue to the end
+             * keyframe. If we didn't, when the WAAPI animation is finished it would
+             * be removed from the element which would then revert to its old styles.
+             */
+            animation.onfinish = () => {
+                const { onComplete } = this.options;
+                motionValue.set(getFinalKeyframe(keyframes, this.options, finalKeyframe));
+                onComplete && onComplete();
+                this.cancel();
+                this.resolveFinishedPromise();
+            };
+        }
+        return {
+            animation,
+            duration,
+            times,
+            type,
+            ease,
+            keyframes: keyframes,
+        };
+    }
+    get duration() {
+        const { resolved } = this;
+        if (!resolved)
+            return 0;
+        const { duration } = resolved;
+        return millisecondsToSeconds(duration);
+    }
+    get time() {
+        const { resolved } = this;
+        if (!resolved)
+            return 0;
+        const { animation } = resolved;
+        return millisecondsToSeconds(animation.currentTime || 0);
+    }
+    set time(newTime) {
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        const { animation } = resolved;
+        animation.currentTime = secondsToMilliseconds(newTime);
+    }
+    get speed() {
+        const { resolved } = this;
+        if (!resolved)
+            return 1;
+        const { animation } = resolved;
+        return animation.playbackRate;
+    }
+    set speed(newSpeed) {
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        const { animation } = resolved;
+        animation.playbackRate = newSpeed;
+    }
+    get state() {
+        const { resolved } = this;
+        if (!resolved)
+            return "idle";
+        const { animation } = resolved;
+        return animation.playState;
+    }
     /**
-     * Prefer the `onfinish` prop as it's more widely supported than
-     * the `finished` promise.
-     *
-     * Here, we synchronously set the provided MotionValue to the end
-     * keyframe. If we didn't, when the WAAPI animation is finished it would
-     * be removed from the element which would then revert to its old styles.
+     * Replace the default DocumentTimeline with another AnimationTimeline.
+     * Currently used for scroll animations.
      */
-    animation.onfinish = () => {
-        value.set(getFinalKeyframe(keyframes, options));
-        onComplete && onComplete();
-        safeCancel();
-    };
-    /**
-     * Animation interrupt callback.
-     */
-    const controls = {
-        then(resolve, reject) {
-            return currentFinishedPromise.then(resolve, reject);
-        },
-        attachTimeline(timeline) {
+    attachTimeline(timeline) {
+        if (!this._resolved) {
+            this.pendingTimeline = timeline;
+        }
+        else {
+            const { resolved } = this;
+            if (!resolved)
+                return noop_noop;
+            const { animation } = resolved;
             animation.timeline = timeline;
             animation.onfinish = null;
-            return noop_noop;
-        },
-        get time() {
-            return millisecondsToSeconds(animation.currentTime || 0);
-        },
-        set time(newTime) {
-            animation.currentTime = secondsToMilliseconds(newTime);
-        },
-        get speed() {
-            return animation.playbackRate;
-        },
-        set speed(newSpeed) {
-            animation.playbackRate = newSpeed;
-        },
-        get duration() {
-            return millisecondsToSeconds(duration);
-        },
-        play: () => {
-            if (hasStopped)
-                return;
-            animation.play();
-            /**
-             * Cancel any pending cancel tasks
-             */
-            cancelFrame(cancelAnimation);
-        },
-        pause: () => animation.pause(),
-        stop: () => {
-            hasStopped = true;
-            if (animation.playState === "idle")
-                return;
-            /**
-             * WAAPI doesn't natively have any interruption capabilities.
-             *
-             * Rather than read commited styles back out of the DOM, we can
-             * create a renderless JS animation and sample it twice to calculate
-             * its current value, "previous" value, and therefore allow
-             * Motion to calculate velocity for any subsequent animation.
-             */
-            const { currentTime } = animation;
-            if (currentTime) {
-                const sampleAnimation = animateValue({
-                    ...options,
-                    autoplay: false,
-                });
-                value.setWithVelocity(sampleAnimation.sample(currentTime - sampleDelta).value, sampleAnimation.sample(currentTime).value, sampleDelta);
-            }
-            safeCancel();
-        },
-        complete: () => animation.finish(),
-        cancel: safeCancel,
-    };
-    return controls;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/animators/instant.mjs
-
-
-
-function createInstantAnimation({ keyframes, delay, onUpdate, onComplete, }) {
-    const setValue = () => {
-        onUpdate && onUpdate(keyframes[keyframes.length - 1]);
-        onComplete && onComplete();
+        }
+        return noop_noop;
+    }
+    play() {
+        if (this.isStopped)
+            return;
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        const { animation } = resolved;
+        if (animation.playState === "finished") {
+            this.updateFinishedPromise();
+        }
+        animation.play();
+    }
+    pause() {
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        const { animation } = resolved;
+        animation.pause();
+    }
+    stop() {
+        this.resolver.cancel();
+        this.isStopped = true;
+        if (this.state === "idle")
+            return;
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        const { animation, keyframes, duration, type, ease, times } = resolved;
+        if (animation.playState === "idle" ||
+            animation.playState === "finished") {
+            return;
+        }
         /**
-         * TODO: As this API grows it could make sense to always return
-         * animateValue. This will be a bigger project as animateValue
-         * is frame-locked whereas this function resolves instantly.
-         * This is a behavioural change and also has ramifications regarding
-         * assumptions within tests.
+         * WAAPI doesn't natively have any interruption capabilities.
+         *
+         * Rather than read commited styles back out of the DOM, we can
+         * create a renderless JS animation and sample it twice to calculate
+         * its current value, "previous" value, and therefore allow
+         * Motion to calculate velocity for any subsequent animation.
          */
-        return {
-            time: 0,
-            speed: 1,
-            duration: 0,
-            play: (noop_noop),
-            pause: (noop_noop),
-            stop: (noop_noop),
-            then: (resolve) => {
-                resolve();
-                return Promise.resolve();
-            },
-            cancel: (noop_noop),
-            complete: (noop_noop),
-        };
-    };
-    return delay
-        ? animateValue({
-            keyframes: [0, 1],
-            duration: 0,
-            delay,
-            onComplete: setValue,
-        })
-        : setValue();
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/default-transitions.mjs
-
-
-const underDampedSpring = {
-    type: "spring",
-    stiffness: 500,
-    damping: 25,
-    restSpeed: 10,
-};
-const criticallyDampedSpring = (target) => ({
-    type: "spring",
-    stiffness: 550,
-    damping: target === 0 ? 2 * Math.sqrt(550) : 30,
-    restSpeed: 10,
-});
-const keyframesTransition = {
-    type: "keyframes",
-    duration: 0.8,
-};
-/**
- * Default easing curve is a slightly shallower version of
- * the default browser easing curve.
- */
-const ease = {
-    type: "keyframes",
-    ease: [0.25, 0.1, 0.35, 1],
-    duration: 0.3,
-};
-const getDefaultTransition = (valueKey, { keyframes }) => {
-    if (keyframes.length > 2) {
-        return keyframesTransition;
-    }
-    else if (transformProps.has(valueKey)) {
-        return valueKey.startsWith("scale")
-            ? criticallyDampedSpring(keyframes[1])
-            : underDampedSpring;
-    }
-    return ease;
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/is-animatable.mjs
-
-
-/**
- * Check if a value is animatable. Examples:
- *
- * ✅: 100, "100px", "#fff"
- * ❌: "block", "url(2.jpg)"
- * @param value
- *
- * @internal
- */
-const isAnimatable = (key, value) => {
-    // If the list of keys tat might be non-animatable grows, replace with Set
-    if (key === "zIndex")
-        return false;
-    // If it's a number or a keyframes array, we can animate it. We might at some point
-    // need to do a deep isAnimatable check of keyframes, or let Popmotion handle this,
-    // but for now lets leave it like this for performance reasons
-    if (typeof value === "number" || Array.isArray(value))
-        return true;
-    if (typeof value === "string" && // It's animatable if we have a string
-        (complex.test(value) || value === "0") && // And it contains numbers and/or colors
-        !value.startsWith("url(") // Unless it starts with "url("
-    ) {
-        return true;
-    }
-    return false;
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/value/types/complex/filter.mjs
-
-
-
-/**
- * Properties that should default to 1 or 100%
- */
-const maxDefaults = new Set(["brightness", "contrast", "saturate", "opacity"]);
-function applyDefaultFilter(v) {
-    const [name, value] = v.slice(0, -1).split("(");
-    if (name === "drop-shadow")
-        return v;
-    const [number] = value.match(floatRegex) || [];
-    if (!number)
-        return v;
-    const unit = value.replace(number, "");
-    let defaultValue = maxDefaults.has(name) ? 1 : 0;
-    if (number !== value)
-        defaultValue *= 100;
-    return name + "(" + defaultValue + unit + ")";
-}
-const functionRegex = /([a-z-]*)\(.*?\)/g;
-const filter = {
-    ...complex,
-    getAnimatableNone: (v) => {
-        const functions = v.match(functionRegex);
-        return functions ? functions.map(applyDefaultFilter).join(" ") : v;
-    },
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/defaults.mjs
-
-
-
-
-/**
- * A map of default value types for common values
- */
-const defaultValueTypes = {
-    ...numberValueTypes,
-    // Color props
-    color: color,
-    backgroundColor: color,
-    outlineColor: color,
-    fill: color,
-    stroke: color,
-    // Border props
-    borderColor: color,
-    borderTopColor: color,
-    borderRightColor: color,
-    borderBottomColor: color,
-    borderLeftColor: color,
-    filter: filter,
-    WebkitFilter: filter,
-};
-/**
- * Gets the default ValueType for the provided value key
- */
-const getDefaultValueType = (key) => defaultValueTypes[key];
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/animatable-none.mjs
-
-
-
-
-function animatable_none_getAnimatableNone(key, value) {
-    let defaultValueType = getDefaultValueType(key);
-    if (defaultValueType !== filter)
-        defaultValueType = complex;
-    // If value is not recognised as animatable, ie "none", create an animatable version origin based on the target
-    return defaultValueType.getAnimatableNone
-        ? defaultValueType.getAnimatableNone(value)
-        : undefined;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/is-zero-value-string.mjs
-/**
- * Check if the value is a zero value string like "0px" or "0%"
- */
-const isZeroValueString = (v) => /^0[^.\s]+$/.test(v);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/is-none.mjs
-
-
-function isNone(value) {
-    if (typeof value === "number") {
-        return value === 0;
-    }
-    else if (value !== null) {
-        return value === "none" || value === "0" || isZeroValueString(value);
-    }
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/keyframes.mjs
-
-
-
-
-function getKeyframes(value, valueName, target, transition) {
-    const isTargetAnimatable = isAnimatable(valueName, target);
-    let keyframes;
-    if (Array.isArray(target)) {
-        keyframes = [...target];
-    }
-    else {
-        keyframes = [null, target];
-    }
-    const defaultOrigin = transition.from !== undefined ? transition.from : value.get();
-    let animatableTemplateValue = undefined;
-    const noneKeyframeIndexes = [];
-    for (let i = 0; i < keyframes.length; i++) {
-        /**
-         * Fill null/wildcard keyframes
-         */
-        if (keyframes[i] === null) {
-            keyframes[i] = i === 0 ? defaultOrigin : keyframes[i - 1];
+        if (this.time) {
+            const { motionValue, onUpdate, onComplete, ...options } = this.options;
+            const sampleAnimation = new MainThreadAnimation({
+                ...options,
+                keyframes,
+                duration,
+                type,
+                ease,
+                times,
+                isGenerator: true,
+            });
+            const sampleTime = secondsToMilliseconds(this.time);
+            motionValue.setWithVelocity(sampleAnimation.sample(sampleTime - sampleDelta).value, sampleAnimation.sample(sampleTime).value, sampleDelta);
         }
-        if (isNone(keyframes[i])) {
-            noneKeyframeIndexes.push(i);
-        }
-        // TODO: Clean this conditional, it works for now
-        if (typeof keyframes[i] === "string" &&
-            keyframes[i] !== "none" &&
-            keyframes[i] !== "0") {
-            animatableTemplateValue = keyframes[i];
-        }
+        this.cancel();
     }
-    if (isTargetAnimatable &&
-        noneKeyframeIndexes.length &&
-        animatableTemplateValue) {
-        for (let i = 0; i < noneKeyframeIndexes.length; i++) {
-            const index = noneKeyframeIndexes[i];
-            keyframes[index] = animatable_none_getAnimatableNone(valueName, animatableTemplateValue);
-        }
+    complete() {
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        resolved.animation.finish();
     }
-    return keyframes;
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/utils/transitions.mjs
-/**
- * Decide whether a transition is defined on a given Transition.
- * This filters out orchestration options and returns true
- * if any options are left.
- */
-function isTransitionDefined({ when, delay: _delay, delayChildren, staggerChildren, staggerDirection, repeat, repeatType, repeatDelay, from, elapsed, ...transition }) {
-    return !!Object.keys(transition).length;
-}
-function getValueTransition(transition, key) {
-    return transition[key] || transition["default"] || transition;
+    cancel() {
+        const { resolved } = this;
+        if (!resolved)
+            return;
+        resolved.animation.cancel();
+    }
+    static supports(options) {
+        const { motionValue, name, repeatDelay, repeatType, damping, type } = options;
+        return (supportsWaapi() &&
+            name &&
+            acceleratedValues.has(name) &&
+            motionValue &&
+            motionValue.owner &&
+            motionValue.owner.current instanceof HTMLElement &&
+            /**
+             * If we're outputting values to onUpdate then we can't use WAAPI as there's
+             * no way to read the value from WAAPI every frame.
+             */
+            !motionValue.owner.getProps().onUpdate &&
+            !repeatDelay &&
+            repeatType !== "mirror" &&
+            damping !== 0 &&
+            type !== "inertia");
+    }
 }
 
 
@@ -20846,96 +21032,102 @@ function getValueTransition(transition, key) {
 
 
 
-
-const animateMotionValue = (valueName, value, target, transition = {}) => {
-    return (onComplete) => {
-        const valueTransition = getValueTransition(transition, valueName) || {};
-        /**
-         * Most transition values are currently completely overwritten by value-specific
-         * transitions. In the future it'd be nicer to blend these transitions. But for now
-         * delay actually does inherit from the root transition if not value-specific.
-         */
-        const delay = valueTransition.delay || transition.delay || 0;
-        /**
-         * Elapsed isn't a public transition option but can be passed through from
-         * optimized appear effects in milliseconds.
-         */
-        let { elapsed = 0 } = transition;
-        elapsed = elapsed - secondsToMilliseconds(delay);
-        const keyframes = getKeyframes(value, valueName, target, valueTransition);
-        /**
-         * Check if we're able to animate between the start and end keyframes,
-         * and throw a warning if we're attempting to animate between one that's
-         * animatable and another that isn't.
-         */
-        const originKeyframe = keyframes[0];
-        const targetKeyframe = keyframes[keyframes.length - 1];
-        const isOriginAnimatable = isAnimatable(valueName, originKeyframe);
-        const isTargetAnimatable = isAnimatable(valueName, targetKeyframe);
-        warning(isOriginAnimatable === isTargetAnimatable, `You are trying to animate ${valueName} from "${originKeyframe}" to "${targetKeyframe}". ${originKeyframe} is not an animatable value - to enable this animation set ${originKeyframe} to a value animatable to ${targetKeyframe} via the \`style\` property.`);
-        let options = {
-            keyframes,
-            velocity: value.getVelocity(),
-            ease: "easeOut",
-            ...valueTransition,
-            delay: -elapsed,
-            onUpdate: (v) => {
-                value.set(v);
-                valueTransition.onUpdate && valueTransition.onUpdate(v);
-            },
-            onComplete: () => {
-                onComplete();
-                valueTransition.onComplete && valueTransition.onComplete();
-            },
-        };
-        /**
-         * If there's no transition defined for this value, we can generate
-         * unqiue transition settings for this value.
-         */
-        if (!isTransitionDefined(valueTransition)) {
-            options = {
-                ...options,
-                ...getDefaultTransition(valueName, options),
-            };
-        }
-        /**
-         * Both WAAPI and our internal animation functions use durations
-         * as defined by milliseconds, while our external API defines them
-         * as seconds.
-         */
-        if (options.duration) {
-            options.duration = secondsToMilliseconds(options.duration);
-        }
-        if (options.repeatDelay) {
-            options.repeatDelay = secondsToMilliseconds(options.repeatDelay);
-        }
-        if (!isOriginAnimatable ||
-            !isTargetAnimatable ||
-            instantAnimationState.current ||
-            valueTransition.type === false) {
-            /**
-             * If we can't animate this value, or the global instant animation flag is set,
-             * or this is simply defined as an instant transition, return an instant transition.
-             */
-            return createInstantAnimation(instantAnimationState.current
-                ? { ...options, delay: 0 }
-                : options);
-        }
-        /**
-         * Animate via WAAPI if possible.
-         */
-        if (value.owner &&
-            value.owner.current instanceof HTMLElement &&
-            !value.owner.getProps().onUpdate) {
-            const acceleratedAnimation = createAcceleratedAnimation(value, valueName, options);
-            if (acceleratedAnimation)
-                return acceleratedAnimation;
-        }
-        /**
-         * If we didn't create an accelerated animation, create a JS animation
-         */
-        return animateValue(options);
+const animateMotionValue = (name, value, target, transition = {}, element, isHandoff) => (onComplete) => {
+    const valueTransition = getValueTransition(transition, name) || {};
+    /**
+     * Most transition values are currently completely overwritten by value-specific
+     * transitions. In the future it'd be nicer to blend these transitions. But for now
+     * delay actually does inherit from the root transition if not value-specific.
+     */
+    const delay = valueTransition.delay || transition.delay || 0;
+    /**
+     * Elapsed isn't a public transition option but can be passed through from
+     * optimized appear effects in milliseconds.
+     */
+    let { elapsed = 0 } = transition;
+    elapsed = elapsed - secondsToMilliseconds(delay);
+    let options = {
+        keyframes: Array.isArray(target) ? target : [null, target],
+        ease: "easeOut",
+        velocity: value.getVelocity(),
+        ...valueTransition,
+        delay: -elapsed,
+        onUpdate: (v) => {
+            value.set(v);
+            valueTransition.onUpdate && valueTransition.onUpdate(v);
+        },
+        onComplete: () => {
+            onComplete();
+            valueTransition.onComplete && valueTransition.onComplete();
+        },
+        name,
+        motionValue: value,
+        element: isHandoff ? undefined : element,
     };
+    /**
+     * If there's no transition defined for this value, we can generate
+     * unqiue transition settings for this value.
+     */
+    if (!isTransitionDefined(valueTransition)) {
+        options = {
+            ...options,
+            ...getDefaultTransition(name, options),
+        };
+    }
+    /**
+     * Both WAAPI and our internal animation functions use durations
+     * as defined by milliseconds, while our external API defines them
+     * as seconds.
+     */
+    if (options.duration) {
+        options.duration = secondsToMilliseconds(options.duration);
+    }
+    if (options.repeatDelay) {
+        options.repeatDelay = secondsToMilliseconds(options.repeatDelay);
+    }
+    if (options.from !== undefined) {
+        options.keyframes[0] = options.from;
+    }
+    let shouldSkip = false;
+    if (options.type === false ||
+        (options.duration === 0 && !options.repeatDelay)) {
+        options.duration = 0;
+        if (options.delay === 0) {
+            shouldSkip = true;
+        }
+    }
+    if (instantAnimationState.current ||
+        MotionGlobalConfig.skipAnimations) {
+        shouldSkip = true;
+        options.duration = 0;
+        options.delay = 0;
+    }
+    /**
+     * If we can or must skip creating the animation, and apply only
+     * the final keyframe, do so. We also check once keyframes are resolved but
+     * this early check prevents the need to create an animation at all.
+     */
+    if (shouldSkip && !isHandoff && value.get() !== undefined) {
+        const finalKeyframe = getFinalKeyframe(options.keyframes, valueTransition);
+        if (finalKeyframe !== undefined) {
+            frame_frame.update(() => {
+                options.onUpdate(finalKeyframe);
+                options.onComplete();
+            });
+            return;
+        }
+    }
+    /**
+     * Animate via WAAPI if possible. If this is a handoff animation, the optimised animation will be running via
+     * WAAPI. Therefore, this animation must be JS to ensure it runs "under" the
+     * optimised animation.
+     */
+    if (!isHandoff && AcceleratedAnimation.supports(options)) {
+        return new AcceleratedAnimation(options);
+    }
+    else {
+        return new MainThreadAnimation(options);
+    }
 };
 
 
@@ -20946,14 +21138,6 @@ const animateMotionValue = (valueName, value, target, transition = {}) => {
 function isWillChangeMotionValue(value) {
     return Boolean(isMotionValue(value) && value.add);
 }
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/is-numerical-string.mjs
-/**
- * Check if value is a numerical string, ie a string that is purely a number eg "100" or "-100.1"
- */
-const isNumericalString = (v) => /^\-?\d*\.?\d+$/.test(v);
 
 
 
@@ -21028,6 +21212,12 @@ class SubscriptionManager {
 
 
 
+
+/**
+ * Maximum time between the value of two frames, beyond which we
+ * assume the velocity has since been 0.
+ */
+const MAX_VELOCITY_DELTA = 30;
 const isFloat = (value) => {
     return !isNaN(parseFloat(value));
 };
@@ -21053,19 +21243,7 @@ class MotionValue {
          * This will be replaced by the build step with the latest version number.
          * When MotionValues are provided to motion components, warn if versions are mixed.
          */
-        this.version = "10.16.4";
-        /**
-         * Duration, in milliseconds, since last updating frame.
-         *
-         * @internal
-         */
-        this.timeDelta = 0;
-        /**
-         * Timestamp of the last time this `MotionValue` was updated.
-         *
-         * @internal
-         */
-        this.lastUpdated = 0;
+        this.version = "11.2.6";
         /**
          * Tracks whether this value can output a velocity. Currently this is only true
          * if the value is numerical, but we might be able to widen the scope here and support
@@ -21073,64 +21251,46 @@ class MotionValue {
          *
          * @internal
          */
-        this.canTrackVelocity = false;
+        this.canTrackVelocity = null;
         /**
          * An object containing a SubscriptionManager for each active event.
          */
         this.events = {};
         this.updateAndNotify = (v, render = true) => {
+            const currentTime = time.now();
+            /**
+             * If we're updating the value during another frame or eventloop
+             * than the previous frame, then the we set the previous frame value
+             * to current.
+             */
+            if (this.updatedAt !== currentTime) {
+                this.setPrevFrameValue();
+            }
             this.prev = this.current;
-            this.current = v;
-            // Update timestamp
-            const { delta, timestamp } = frameData;
-            if (this.lastUpdated !== timestamp) {
-                this.timeDelta = delta;
-                this.lastUpdated = timestamp;
-                frame_frame.postRender(this.scheduleVelocityCheck);
-            }
+            this.setCurrent(v);
             // Update update subscribers
-            if (this.prev !== this.current && this.events.change) {
+            if (this.current !== this.prev && this.events.change) {
                 this.events.change.notify(this.current);
-            }
-            // Update velocity subscribers
-            if (this.events.velocityChange) {
-                this.events.velocityChange.notify(this.getVelocity());
             }
             // Update render subscribers
             if (render && this.events.renderRequest) {
                 this.events.renderRequest.notify(this.current);
             }
         };
-        /**
-         * Schedule a velocity check for the next frame.
-         *
-         * This is an instanced and bound function to prevent generating a new
-         * function once per frame.
-         *
-         * @internal
-         */
-        this.scheduleVelocityCheck = () => frame_frame.postRender(this.velocityCheck);
-        /**
-         * Updates `prev` with `current` if the value hasn't been updated this frame.
-         * This ensures velocity calculations return `0`.
-         *
-         * This is an instanced and bound function to prevent generating a new
-         * function once per frame.
-         *
-         * @internal
-         */
-        this.velocityCheck = ({ timestamp }) => {
-            if (timestamp !== this.lastUpdated) {
-                this.prev = this.current;
-                if (this.events.velocityChange) {
-                    this.events.velocityChange.notify(this.getVelocity());
-                }
-            }
-        };
         this.hasAnimated = false;
-        this.prev = this.current = init;
-        this.canTrackVelocity = isFloat(this.current);
+        this.setCurrent(init);
         this.owner = options.owner;
+    }
+    setCurrent(current) {
+        this.current = current;
+        this.updatedAt = time.now();
+        if (this.canTrackVelocity === null && current !== undefined) {
+            this.canTrackVelocity = isFloat(this.current);
+        }
+    }
+    setPrevFrameValue(prevFrameValue = this.current) {
+        this.prevFrameValue = prevFrameValue;
+        this.prevUpdatedAt = this.updatedAt;
     }
     /**
      * Adds a function that will be notified when the `MotionValue` is updated.
@@ -21236,17 +21396,19 @@ class MotionValue {
     }
     setWithVelocity(prev, current, delta) {
         this.set(current);
-        this.prev = prev;
-        this.timeDelta = delta;
+        this.prev = undefined;
+        this.prevFrameValue = prev;
+        this.prevUpdatedAt = this.updatedAt - delta;
     }
     /**
      * Set the state of the `MotionValue`, stopping any active animations,
      * effects, and resets velocity to `0`.
      */
-    jump(v) {
+    jump(v, endAnimation = true) {
         this.updateAndNotify(v);
         this.prev = v;
-        this.stop();
+        this.prevUpdatedAt = this.prevFrameValue = undefined;
+        endAnimation && this.stop();
         if (this.stopPassiveEffect)
             this.stopPassiveEffect();
     }
@@ -21277,12 +21439,16 @@ class MotionValue {
      * @public
      */
     getVelocity() {
-        // This could be isFloat(this.prev) && isFloat(this.current), but that would be wasteful
-        return this.canTrackVelocity
-            ? // These casts could be avoided if parseFloat would be typed better
-                velocityPerSecond(parseFloat(this.current) -
-                    parseFloat(this.prev), this.timeDelta)
-            : 0;
+        const currentTime = time.now();
+        if (!this.canTrackVelocity ||
+            this.prevFrameValue === undefined ||
+            currentTime - this.updatedAt > MAX_VELOCITY_DELTA) {
+            return 0;
+        }
+        const delta = Math.min(this.updatedAt - this.prevUpdatedAt, MAX_VELOCITY_DELTA);
+        // Casts because of parseFloat's poor typing
+        return velocityPerSecond(parseFloat(this.current) -
+            parseFloat(this.prevFrameValue), delta);
     }
     /**
      * Registers a new animation to control this `MotionValue`. Only one
@@ -21359,65 +21525,7 @@ function motionValue(init, options) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/test.mjs
-/**
- * Tests a provided value against a ValueType
- */
-const testValueType = (v) => (type) => type.test(v);
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/type-auto.mjs
-/**
- * ValueType for "auto"
- */
-const auto = {
-    test: (v) => v === "auto",
-    parse: (v) => v,
-};
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/dimensions.mjs
-
-
-
-
-
-/**
- * A list of value types commonly used for dimensions
- */
-const dimensionValueTypes = [number, px, percent, degrees, vw, vh, auto];
-/**
- * Tests a dimensional value against the list of dimension ValueTypes
- */
-const findDimensionValueType = (v) => dimensionValueTypes.find(testValueType(v));
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/find.mjs
-
-
-
-
-
-/**
- * A list of all ValueTypes
- */
-const valueTypes = [...dimensionValueTypes, color, complex];
-/**
- * Tests a value against the list of ValueTypes
- */
-const findValueType = (v) => valueTypes.find(testValueType(v));
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/utils/setters.mjs
-
-
-
-
-
 
 
 
@@ -21436,109 +21544,18 @@ function setMotionValue(visualElement, key, value) {
 }
 function setTarget(visualElement, definition) {
     const resolved = resolveVariant(visualElement, definition);
-    let { transitionEnd = {}, transition = {}, ...target } = resolved ? visualElement.makeTargetAnimatable(resolved, false) : {};
+    let { transitionEnd = {}, transition = {}, ...target } = resolved || {};
     target = { ...target, ...transitionEnd };
     for (const key in target) {
         const value = resolveFinalValueInKeyframes(target[key]);
         setMotionValue(visualElement, key, value);
     }
 }
-function setVariants(visualElement, variantLabels) {
-    const reversedLabels = [...variantLabels].reverse();
-    reversedLabels.forEach((key) => {
-        const variant = visualElement.getVariant(key);
-        variant && setTarget(visualElement, variant);
-        if (visualElement.variantChildren) {
-            visualElement.variantChildren.forEach((child) => {
-                setVariants(child, variantLabels);
-            });
-        }
-    });
-}
-function setValues(visualElement, definition) {
-    if (Array.isArray(definition)) {
-        return setVariants(visualElement, definition);
-    }
-    else if (typeof definition === "string") {
-        return setVariants(visualElement, [definition]);
-    }
-    else {
-        setTarget(visualElement, definition);
-    }
-}
-function checkTargetForNewValues(visualElement, target, origin) {
-    var _a, _b;
-    const newValueKeys = Object.keys(target).filter((key) => !visualElement.hasValue(key));
-    const numNewValues = newValueKeys.length;
-    if (!numNewValues)
-        return;
-    for (let i = 0; i < numNewValues; i++) {
-        const key = newValueKeys[i];
-        const targetValue = target[key];
-        let value = null;
-        /**
-         * If the target is a series of keyframes, we can use the first value
-         * in the array. If this first value is null, we'll still need to read from the DOM.
-         */
-        if (Array.isArray(targetValue)) {
-            value = targetValue[0];
-        }
-        /**
-         * If the target isn't keyframes, or the first keyframe was null, we need to
-         * first check if an origin value was explicitly defined in the transition as "from",
-         * if not read the value from the DOM. As an absolute fallback, take the defined target value.
-         */
-        if (value === null) {
-            value = (_b = (_a = origin[key]) !== null && _a !== void 0 ? _a : visualElement.readValue(key)) !== null && _b !== void 0 ? _b : target[key];
-        }
-        /**
-         * If value is still undefined or null, ignore it. Preferably this would throw,
-         * but this was causing issues in Framer.
-         */
-        if (value === undefined || value === null)
-            continue;
-        if (typeof value === "string" &&
-            (isNumericalString(value) || isZeroValueString(value))) {
-            // If this is a number read as a string, ie "0" or "200", convert it to a number
-            value = parseFloat(value);
-        }
-        else if (!findValueType(value) && complex.test(targetValue)) {
-            value = animatable_none_getAnimatableNone(key, targetValue);
-        }
-        visualElement.addValue(key, motionValue(value, { owner: visualElement }));
-        if (origin[key] === undefined) {
-            origin[key] = value;
-        }
-        if (value !== null)
-            visualElement.setBaseTarget(key, value);
-    }
-}
-function getOriginFromTransition(key, transition) {
-    if (!transition)
-        return;
-    const valueTransition = transition[key] || transition["default"] || transition;
-    return valueTransition.from;
-}
-function getOrigin(target, transition, visualElement) {
-    const origin = {};
-    for (const key in target) {
-        const transitionOrigin = getOriginFromTransition(key, transition);
-        if (transitionOrigin !== undefined) {
-            origin[key] = transitionOrigin;
-        }
-        else {
-            const value = visualElement.getValue(key);
-            if (value) {
-                origin[key] = value.get();
-            }
-        }
-    }
-    return origin;
-}
 
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/animation/interfaces/visual-element-target.mjs
+
 
 
 
@@ -21557,8 +21574,9 @@ function shouldBlockAnimation({ protectedKeys, needsAnimating }, key) {
     needsAnimating[key] = false;
     return shouldBlock;
 }
-function animateTarget(visualElement, definition, { delay = 0, transitionOverride, type } = {}) {
-    let { transition = visualElement.getDefaultTransition(), transitionEnd, ...target } = visualElement.makeTargetAnimatable(definition);
+function animateTarget(visualElement, targetAndTransition, { delay = 0, transitionOverride, type } = {}) {
+    var _a;
+    let { transition = visualElement.getDefaultTransition(), transitionEnd, ...target } = targetAndTransition;
     const willChange = visualElement.getValue("willChange");
     if (transitionOverride)
         transition = transitionOverride;
@@ -21567,10 +21585,9 @@ function animateTarget(visualElement, definition, { delay = 0, transitionOverrid
         visualElement.animationState &&
         visualElement.animationState.getState()[type];
     for (const key in target) {
-        const value = visualElement.getValue(key);
+        const value = visualElement.getValue(key, (_a = visualElement.latestValues[key]) !== null && _a !== void 0 ? _a : null);
         const valueTarget = target[key];
-        if (!value ||
-            valueTarget === undefined ||
+        if (valueTarget === undefined ||
             (animationTypeState &&
                 shouldBlockAnimation(animationTypeState, key))) {
             continue;
@@ -21578,32 +21595,41 @@ function animateTarget(visualElement, definition, { delay = 0, transitionOverrid
         const valueTransition = {
             delay,
             elapsed: 0,
-            ...transition,
+            ...getValueTransition(transition || {}, key),
         };
         /**
          * If this is the first time a value is being animated, check
          * to see if we're handling off from an existing animation.
          */
-        if (window.HandoffAppearAnimations && !value.hasAnimated) {
-            const appearId = visualElement.getProps()[optimizedAppearDataAttribute];
+        let isHandoff = false;
+        if (window.HandoffAppearAnimations) {
+            const props = visualElement.getProps();
+            const appearId = props[optimizedAppearDataAttribute];
             if (appearId) {
-                valueTransition.elapsed = window.HandoffAppearAnimations(appearId, key, value, frame_frame);
-                valueTransition.syncStart = true;
+                const elapsed = window.HandoffAppearAnimations(appearId, key, value, frame_frame);
+                if (elapsed !== null) {
+                    valueTransition.elapsed = elapsed;
+                    isHandoff = true;
+                }
             }
         }
         value.start(animateMotionValue(key, value, valueTarget, visualElement.shouldReduceMotion && transformProps.has(key)
             ? { type: false }
-            : valueTransition));
+            : valueTransition, visualElement, isHandoff));
         const animation = value.animation;
-        if (isWillChangeMotionValue(willChange)) {
-            willChange.add(key);
-            animation.then(() => willChange.remove(key));
+        if (animation) {
+            if (isWillChangeMotionValue(willChange)) {
+                willChange.add(key);
+                animation.then(() => willChange.remove(key));
+            }
+            animations.push(animation);
         }
-        animations.push(animation);
     }
     if (transitionEnd) {
         Promise.all(animations).then(() => {
-            transitionEnd && setTarget(visualElement, transitionEnd);
+            frame_frame.update(() => {
+                transitionEnd && setTarget(visualElement, transitionEnd);
+            });
         });
     }
     return animations;
@@ -21616,7 +21642,10 @@ function animateTarget(visualElement, definition, { delay = 0, transitionOverrid
 
 
 function animateVariant(visualElement, variant, options = {}) {
-    const resolved = resolveVariant(visualElement, variant, options.custom);
+    var _a;
+    const resolved = resolveVariant(visualElement, variant, options.type === "exit"
+        ? (_a = visualElement.presenceContext) === null || _a === void 0 ? void 0 : _a.custom
+        : undefined);
     let { transition = visualElement.getDefaultTransition() || {} } = resolved || {};
     if (options.transitionOverride) {
         transition = options.transitionOverride;
@@ -21681,6 +21710,7 @@ function sortByTreeOrder(a, b) {
 
 
 
+
 function animateVisualElement(visualElement, definition, options = {}) {
     visualElement.notify("AnimationStart", definition);
     let animation;
@@ -21697,7 +21727,11 @@ function animateVisualElement(visualElement, definition, options = {}) {
             : definition;
         animation = Promise.all(animateTarget(visualElement, resolvedDefinition, options));
     }
-    return animation.then(() => visualElement.notify("AnimationComplete", definition));
+    return animation.then(() => {
+        frame_frame.postRender(() => {
+            visualElement.notify("AnimationComplete", definition);
+        });
+    });
 }
 
 
@@ -21724,8 +21758,11 @@ function createAnimationState(visualElement) {
      * This function will be used to reduce the animation definitions for
      * each active animation type into an object of resolved values for it.
      */
-    const buildResolvedTypeValues = (acc, definition) => {
-        const resolved = resolveVariant(visualElement, definition);
+    const buildResolvedTypeValues = (type) => (acc, definition) => {
+        var _a;
+        const resolved = resolveVariant(visualElement, definition, type === "exit"
+            ? (_a = visualElement.presenceContext) === null || _a === void 0 ? void 0 : _a.custom
+            : undefined);
         if (resolved) {
             const { transition, transitionEnd, ...target } = resolved;
             acc = { ...acc, ...target, ...transitionEnd };
@@ -21749,7 +21786,7 @@ function createAnimationState(visualElement) {
      * 3. Determine if any values have been removed from a type and figure out
      *    what to animate those to.
      */
-    function animateChanges(options, changedActiveType) {
+    function animateChanges(changedActiveType) {
         const props = visualElement.getProps();
         const context = visualElement.getVariantContext(true) || {};
         /**
@@ -21782,7 +21819,9 @@ function createAnimationState(visualElement) {
         for (let i = 0; i < numAnimationTypes; i++) {
             const type = reversePriorityOrder[i];
             const typeState = state[type];
-            const prop = props[type] !== undefined ? props[type] : context[type];
+            const prop = props[type] !== undefined
+                ? props[type]
+                : context[type];
             const propIsVariant = isVariantLabel(prop);
             /**
              * If this type has *just* changed isActive status, set activeDelta
@@ -21797,7 +21836,9 @@ function createAnimationState(visualElement) {
              *
              * TODO: Can probably change this to a !isControllingVariants check
              */
-            let isInherited = prop === context[type] && prop !== props[type] && propIsVariant;
+            let isInherited = prop === context[type] &&
+                prop !== props[type] &&
+                propIsVariant;
             /**
              *
              */
@@ -21836,6 +21877,7 @@ function createAnimationState(visualElement) {
                     propIsVariant) ||
                 // If we removed a higher-priority variant (i is in reverse order)
                 (i > removedVariantIndex && propIsVariant);
+            let handledRemovedValues = false;
             /**
              * As animations can be set as variant lists, variants or target objects, we
              * coerce everything to an array if it isn't one already
@@ -21845,7 +21887,7 @@ function createAnimationState(visualElement) {
              * Build an object of all the resolved values. We'll use this in the subsequent
              * animateChanges calls to determine whether a value has changed.
              */
-            let resolvedValues = definitionList.reduce(buildResolvedTypeValues, {});
+            let resolvedValues = definitionList.reduce(buildResolvedTypeValues(type), {});
             if (activeDelta === false)
                 resolvedValues = {};
             /**
@@ -21864,8 +21906,14 @@ function createAnimationState(visualElement) {
             };
             const markToAnimate = (key) => {
                 shouldAnimateType = true;
-                removedKeys.delete(key);
+                if (removedKeys.has(key)) {
+                    handledRemovedValues = true;
+                    removedKeys.delete(key);
+                }
                 typeState.needsAnimating[key] = true;
+                const motionValue = visualElement.getValue(key);
+                if (motionValue)
+                    motionValue.liveStyle = false;
             };
             for (const key in allKeys) {
                 const next = resolvedValues[key];
@@ -21876,24 +21924,15 @@ function createAnimationState(visualElement) {
                 /**
                  * If the value has changed, we probably want to animate it.
                  */
-                if (next !== prev) {
-                    /**
-                     * If both values are keyframes, we need to shallow compare them to
-                     * detect whether any value has changed. If it has, we animate it.
-                     */
-                    if (isKeyframesTarget(next) && isKeyframesTarget(prev)) {
-                        if (!shallowCompare(next, prev) || variantDidChange) {
-                            markToAnimate(key);
-                        }
-                        else {
-                            /**
-                             * If it hasn't changed, we want to ensure it doesn't animate by
-                             * adding it to the list of protected keys.
-                             */
-                            typeState.protectedKeys[key] = true;
-                        }
-                    }
-                    else if (next !== undefined) {
+                let valueHasChanged = false;
+                if (isKeyframesTarget(next) && isKeyframesTarget(prev)) {
+                    valueHasChanged = !shallowCompare(next, prev);
+                }
+                else {
+                    valueHasChanged = next !== prev;
+                }
+                if (valueHasChanged) {
+                    if (next !== undefined && next !== null) {
                         // If next is defined and doesn't equal prev, it needs animating
                         markToAnimate(key);
                     }
@@ -21934,13 +21973,11 @@ function createAnimationState(visualElement) {
             }
             /**
              * If this is an inherited prop we want to hard-block animations
-             * TODO: Test as this should probably still handle animations triggered
-             * by removed values?
              */
-            if (shouldAnimateType && !isInherited) {
+            if (shouldAnimateType && (!isInherited || handledRemovedValues)) {
                 animations.push(...definitionList.map((animation) => ({
                     animation: animation,
-                    options: { type, ...options },
+                    options: { type },
                 })));
             }
         }
@@ -21953,15 +21990,17 @@ function createAnimationState(visualElement) {
             const fallbackAnimation = {};
             removedKeys.forEach((key) => {
                 const fallbackTarget = visualElement.getBaseTarget(key);
-                if (fallbackTarget !== undefined) {
-                    fallbackAnimation[key] = fallbackTarget;
-                }
+                const motionValue = visualElement.getValue(key);
+                if (motionValue)
+                    motionValue.liveStyle = true;
+                // @ts-expect-error - @mattgperry to figure if we should do something here
+                fallbackAnimation[key] = fallbackTarget !== null && fallbackTarget !== void 0 ? fallbackTarget : null;
             });
             animations.push({ animation: fallbackAnimation });
         }
         let shouldAnimate = Boolean(animations.length);
         if (isInitialRender &&
-            props.initial === false &&
+            (props.initial === false || props.initial === props.animate) &&
             !visualElement.manuallyAnimateOnMount) {
             shouldAnimate = false;
         }
@@ -21971,7 +22010,7 @@ function createAnimationState(visualElement) {
     /**
      * Change whether a certain animation type is active.
      */
-    function setActive(type, isActive, options) {
+    function setActive(type, isActive) {
         var _a;
         // If the active state hasn't changed, we can safely do nothing here
         if (state[type].isActive === isActive)
@@ -21979,7 +22018,7 @@ function createAnimationState(visualElement) {
         // Propagate active change to children
         (_a = visualElement.variantChildren) === null || _a === void 0 ? void 0 : _a.forEach((child) => { var _a; return (_a = child.animationState) === null || _a === void 0 ? void 0 : _a.setActive(type, isActive); });
         state[type].isActive = isActive;
-        const animations = animateChanges(options, type);
+        const animations = animateChanges(type);
         for (const key in state) {
             state[key].protectedKeys = {};
         }
@@ -22075,12 +22114,12 @@ class ExitAnimationFeature extends Feature {
     update() {
         if (!this.node.presenceContext)
             return;
-        const { isPresent, onExitComplete, custom } = this.node.presenceContext;
+        const { isPresent, onExitComplete } = this.node.presenceContext;
         const { isPresent: prevIsPresent } = this.node.prevPresenceContext || {};
         if (!this.node.animationState || isPresent === prevIsPresent) {
             return;
         }
-        const exitAnimation = this.node.animationState.setActive("exit", !isPresent, { custom: custom !== null && custom !== void 0 ? custom : this.node.getProps().custom });
+        const exitAnimation = this.node.animationState.setActive("exit", !isPresent);
         if (onExitComplete && !isPresent) {
             exitAnimation.then(() => onExitComplete(this.id));
         }
@@ -22135,7 +22174,7 @@ function distance2D(a, b) {
  * @internal
  */
 class PanSession {
-    constructor(event, handlers, { transformPagePoint } = {}) {
+    constructor(event, handlers, { transformPagePoint, contextWindow, dragSnapToOrigin = false } = {}) {
         /**
          * @internal
          */
@@ -22152,6 +22191,10 @@ class PanSession {
          * @internal
          */
         this.handlers = {};
+        /**
+         * @internal
+         */
+        this.contextWindow = window;
         this.updatePoint = () => {
             if (!(this.lastMoveEvent && this.lastMoveEventInfo))
                 return;
@@ -22181,9 +22224,11 @@ class PanSession {
         };
         this.handlePointerUp = (event, info) => {
             this.end();
+            const { onEnd, onSessionEnd, resumeAnimation } = this.handlers;
+            if (this.dragSnapToOrigin)
+                resumeAnimation && resumeAnimation();
             if (!(this.lastMoveEvent && this.lastMoveEventInfo))
                 return;
-            const { onEnd, onSessionEnd } = this.handlers;
             const panInfo = getPanInfo(event.type === "pointercancel"
                 ? this.lastMoveEventInfo
                 : transformPoint(info, this.transformPagePoint), this.history);
@@ -22195,8 +22240,10 @@ class PanSession {
         // If we have more than one touch, don't start detecting this gesture
         if (!isPrimaryPointer(event))
             return;
+        this.dragSnapToOrigin = dragSnapToOrigin;
         this.handlers = handlers;
         this.transformPagePoint = transformPagePoint;
+        this.contextWindow = contextWindow || window;
         const info = extractEventInfo(event);
         const initialInfo = transformPoint(info, this.transformPagePoint);
         const { point } = initialInfo;
@@ -22205,7 +22252,7 @@ class PanSession {
         const { onSessionStart } = handlers;
         onSessionStart &&
             onSessionStart(event, getPanInfo(initialInfo, this.history));
-        this.removeListeners = pipe(addPointerEvent(window, "pointermove", this.handlePointerMove), addPointerEvent(window, "pointerup", this.handlePointerUp), addPointerEvent(window, "pointercancel", this.handlePointerUp));
+        this.removeListeners = pipe(addPointerEvent(this.contextWindow, "pointermove", this.handlePointerMove), addPointerEvent(this.contextWindow, "pointerup", this.handlePointerUp), addPointerEvent(this.contextWindow, "pointercancel", this.handlePointerUp));
     }
     updateHandlers(handlers) {
         this.handlers = handlers;
@@ -22226,7 +22273,7 @@ function getPanInfo({ point }, history) {
         point,
         delta: subtractPoint(point, lastDevicePoint(history)),
         offset: subtractPoint(point, startDevicePoint(history)),
-        velocity: PanSession_getVelocity(history, 0.1),
+        velocity: getVelocity(history, 0.1),
     };
 }
 function startDevicePoint(history) {
@@ -22235,7 +22282,7 @@ function startDevicePoint(history) {
 function lastDevicePoint(history) {
     return history[history.length - 1];
 }
-function PanSession_getVelocity(history, timeDelta) {
+function getVelocity(history, timeDelta) {
     if (history.length < 2) {
         return { x: 0, y: 0 };
     }
@@ -22283,12 +22330,12 @@ function isNear(value, target = 0, maxDistance = 0.01) {
 }
 function calcAxisDelta(delta, source, target, origin = 0.5) {
     delta.origin = origin;
-    delta.originPoint = mix(source.min, source.max, delta.origin);
+    delta.originPoint = mixNumber(source.min, source.max, delta.origin);
     delta.scale = calcLength(target) / calcLength(source);
     if (isNear(delta.scale, 1, 0.0001) || isNaN(delta.scale))
         delta.scale = 1;
     delta.translate =
-        mix(target.min, target.max, delta.origin) - delta.originPoint;
+        mixNumber(target.min, target.max, delta.origin) - delta.originPoint;
     if (isNear(delta.translate) || isNaN(delta.translate))
         delta.translate = 0;
 }
@@ -22329,11 +22376,15 @@ function calcRelativePosition(target, layout, parent) {
 function applyConstraints(point, { min, max }, elastic) {
     if (min !== undefined && point < min) {
         // If we have a min point defined, and this is outside of that, constrain
-        point = elastic ? mix(min, point, elastic.min) : Math.max(point, min);
+        point = elastic
+            ? mixNumber(min, point, elastic.min)
+            : Math.max(point, min);
     }
     else if (max !== undefined && point > max) {
         // If we have a max point defined, and this is outside of that, constrain
-        point = elastic ? mix(max, point, elastic.max) : Math.min(point, max);
+        point = elastic
+            ? mixNumber(max, point, elastic.max)
+            : Math.min(point, max);
     }
     return point;
 }
@@ -22518,7 +22569,9 @@ function hasTransform(values) {
         values.z ||
         values.rotate ||
         values.rotateX ||
-        values.rotateY);
+        values.rotateY ||
+        values.skewX ||
+        values.skewY);
 }
 function has2DTranslate(values) {
     return is2DTranslate(values.x) || is2DTranslate(values.y);
@@ -22634,7 +22687,7 @@ function translateAxis(axis, distance) {
  */
 function transformAxis(axis, transforms, [key, scaleKey, originKey]) {
     const axisOrigin = transforms[originKey] !== undefined ? transforms[originKey] : 0.5;
-    const originPoint = mix(axis.min, axis.max, axisOrigin);
+    const originPoint = mixNumber(axis.min, axis.max, axisOrigin);
     // Apply the axis delta to the final axis
     applyAxisDelta(axis, transforms[key], transforms[scaleKey], originPoint, transforms.scale);
 }
@@ -22672,7 +22725,16 @@ function measurePageBox(element, rootProjectionNode, transformPagePoint) {
 
 
 
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/get-context-window.mjs
+// Fixes https://github.com/framer/motion/issues/2270
+const getContextWindow = ({ current }) => {
+    return current ? current.ownerDocument.defaultView : null;
+};
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/gestures/drag/VisualElementDragControls.mjs
+
 
 
 
@@ -22724,9 +22786,10 @@ class VisualElementDragControls {
         if (presenceContext && presenceContext.isPresent === false)
             return;
         const onSessionStart = (event) => {
-            // Stop any animations on both axis values immediately. This allows the user to throw and catch
+            const { dragSnapToOrigin } = this.getProps();
+            // Stop or pause any animations on both axis values immediately. This allows the user to throw and catch
             // the component.
-            this.stopAnimation();
+            dragSnapToOrigin ? this.pauseAnimation() : this.stopAnimation();
             if (snapToCursor) {
                 this.snapToCursor(extractEventInfo(event, "page").point);
             }
@@ -22771,7 +22834,7 @@ class VisualElementDragControls {
             });
             // Fire onDragStart event
             if (onDragStart) {
-                frame_frame.update(() => onDragStart(event, info), false, true);
+                frame_frame.postRender(() => onDragStart(event, info));
             }
             const { animationState } = this.visualElement;
             animationState && animationState.setActive("whileDrag", true);
@@ -22809,12 +22872,23 @@ class VisualElementDragControls {
             onDrag && onDrag(event, info);
         };
         const onSessionEnd = (event, info) => this.stop(event, info);
+        const resumeAnimation = () => eachAxis((axis) => {
+            var _a;
+            return this.getAnimationState(axis) === "paused" &&
+                ((_a = this.getAxisMotionValue(axis).animation) === null || _a === void 0 ? void 0 : _a.play());
+        });
+        const { dragSnapToOrigin } = this.getProps();
         this.panSession = new PanSession(originEvent, {
             onSessionStart,
             onStart,
             onMove,
             onSessionEnd,
-        }, { transformPagePoint: this.visualElement.getTransformPagePoint() });
+            resumeAnimation,
+        }, {
+            transformPagePoint: this.visualElement.getTransformPagePoint(),
+            dragSnapToOrigin,
+            contextWindow: getContextWindow(this.visualElement),
+        });
     }
     stop(event, info) {
         const isDragging = this.isDragging;
@@ -22825,7 +22899,7 @@ class VisualElementDragControls {
         this.startAnimation(velocity);
         const { onDragEnd } = this.getProps();
         if (onDragEnd) {
-            frame_frame.update(() => onDragEnd(event, info));
+            frame_frame.postRender(() => onDragEnd(event, info));
         }
     }
     cancel() {
@@ -22857,8 +22931,12 @@ class VisualElementDragControls {
         axisValue.set(next);
     }
     resolveConstraints() {
+        var _a;
         const { dragConstraints, dragElastic } = this.getProps();
-        const { layout } = this.visualElement.projection || {};
+        const layout = this.visualElement.projection &&
+            !this.visualElement.projection.layout
+            ? this.visualElement.projection.measure(false)
+            : (_a = this.visualElement.projection) === null || _a === void 0 ? void 0 : _a.layout;
         const prevConstraints = this.constraints;
         if (dragConstraints && isRefObject(dragConstraints)) {
             if (!this.constraints) {
@@ -22883,7 +22961,8 @@ class VisualElementDragControls {
             this.constraints &&
             !this.hasMutatedConstraints) {
             eachAxis((axis) => {
-                if (this.getAxisMotionValue(axis)) {
+                if (this.constraints !== false &&
+                    this.getAxisMotionValue(axis)) {
                     this.constraints[axis] = rebaseAxisConstraints(layout.layoutBox[axis], this.constraints[axis]);
                 }
             });
@@ -22953,10 +23032,17 @@ class VisualElementDragControls {
     }
     startAxisValueAnimation(axis, transition) {
         const axisValue = this.getAxisMotionValue(axis);
-        return axisValue.start(animateMotionValue(axis, axisValue, 0, transition));
+        return axisValue.start(animateMotionValue(axis, axisValue, 0, transition, this.visualElement));
     }
     stopAnimation() {
         eachAxis((axis) => this.getAxisMotionValue(axis).stop());
+    }
+    pauseAnimation() {
+        eachAxis((axis) => { var _a; return (_a = this.getAxisMotionValue(axis).animation) === null || _a === void 0 ? void 0 : _a.pause(); });
+    }
+    getAnimationState(axis) {
+        var _a;
+        return (_a = this.getAxisMotionValue(axis).animation) === null || _a === void 0 ? void 0 : _a.state;
     }
     /**
      * Drag works differently depending on which props are provided.
@@ -22965,12 +23051,14 @@ class VisualElementDragControls {
      * - Otherwise, we apply the delta to the x/y motion values.
      */
     getAxisMotionValue(axis) {
-        const dragKey = "_drag" + axis.toUpperCase();
+        const dragKey = `_drag${axis.toUpperCase()}`;
         const props = this.visualElement.getProps();
         const externalMotionValue = props[dragKey];
         return externalMotionValue
             ? externalMotionValue
-            : this.visualElement.getValue(axis, (props.initial ? props.initial[axis] : undefined) || 0);
+            : this.visualElement.getValue(axis, (props.initial
+                ? props.initial[axis]
+                : undefined) || 0);
     }
     snapToCursor(point) {
         eachAxis((axis) => {
@@ -22982,7 +23070,7 @@ class VisualElementDragControls {
             const axisValue = this.getAxisMotionValue(axis);
             if (projection && projection.layout) {
                 const { min, max } = projection.layout.layoutBox[axis];
-                axisValue.set(point[axis] - mix(min, max, 0.5));
+                axisValue.set(point[axis] - mixNumber(min, max, 0.5));
             }
         });
     }
@@ -23010,7 +23098,7 @@ class VisualElementDragControls {
         const boxProgress = { x: 0, y: 0 };
         eachAxis((axis) => {
             const axisValue = this.getAxisMotionValue(axis);
-            if (axisValue) {
+            if (axisValue && this.constraints !== false) {
                 const latest = axisValue.get();
                 boxProgress[axis] = constraints_calcOrigin({ min: latest, max: latest }, this.constraints[axis]);
             }
@@ -23037,7 +23125,7 @@ class VisualElementDragControls {
              */
             const axisValue = this.getAxisMotionValue(axis);
             const { min, max } = this.constraints[axis];
-            axisValue.set(mix(min, max, boxProgress[axis]));
+            axisValue.set(mixNumber(min, max, boxProgress[axis]));
         });
     }
     addListeners() {
@@ -23167,9 +23255,10 @@ class DragGesture extends Feature {
 
 
 
+
 const asyncHandler = (handler) => (event, info) => {
     if (handler) {
-        frame_frame.update(() => handler(event, info));
+        frame_frame.postRender(() => handler(event, info));
     }
 };
 class PanGesture extends Feature {
@@ -23178,7 +23267,10 @@ class PanGesture extends Feature {
         this.removePointerDownListener = noop_noop;
     }
     onPointerDown(pointerDownEvent) {
-        this.session = new PanSession(pointerDownEvent, this.createPanHandlers(), { transformPagePoint: this.node.getTransformPagePoint() });
+        this.session = new PanSession(pointerDownEvent, this.createPanHandlers(), {
+            transformPagePoint: this.node.getTransformPagePoint(),
+            contextWindow: getContextWindow(this.node),
+        });
     }
     createPanHandlers() {
         const { onPanSessionStart, onPanStart, onPan, onPanEnd } = this.node.getProps();
@@ -23189,7 +23281,7 @@ class PanGesture extends Feature {
             onEnd: (event, info) => {
                 delete this.session;
                 if (onPanEnd) {
-                    frame_frame.update(() => onPanEnd(event, info));
+                    frame_frame.postRender(() => onPanEnd(event, info));
                 }
             },
         };
@@ -23364,7 +23456,7 @@ const correctBoxShadow = {
          * We could potentially improve the outcome of this by incorporating the ratio between
          * the two scales.
          */
-        const averageScale = mix(xScale, yScale, 0.5);
+        const averageScale = mixNumber(xScale, yScale, 0.5);
         // Blur
         if (typeof shadow[2 + offset] === "number")
             shadow[2 + offset] /= averageScale;
@@ -23378,6 +23470,8 @@ const correctBoxShadow = {
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs
+
+
 
 
 
@@ -23460,7 +23554,7 @@ class MeasureLayoutWithContext extends external_React_.Component {
         const { projection } = this.props.visualElement;
         if (projection) {
             projection.root.didUpdate();
-            queueMicrotask(() => {
+            microtask.postRender(() => {
                 if (!projection.currentAnimation && projection.isLead()) {
                     this.safeToRemove();
                 }
@@ -23489,7 +23583,7 @@ class MeasureLayoutWithContext extends external_React_.Component {
 function MeasureLayout(props) {
     const [isPresent, safeToRemove] = usePresence();
     const layoutGroup = (0,external_React_.useContext)(LayoutGroupContext);
-    return (external_React_.createElement(MeasureLayoutWithContext, { ...props, layoutGroup: layoutGroup, switchLayoutGroup: (0,external_React_.useContext)(SwitchLayoutGroupContext), isPresent: isPresent, safeToRemove: safeToRemove }));
+    return ((0,jsx_runtime.jsx)(MeasureLayoutWithContext, { ...props, layoutGroup: layoutGroup, switchLayoutGroup: (0,external_React_.useContext)(SwitchLayoutGroupContext), isPresent: isPresent, safeToRemove: safeToRemove }));
 }
 const defaultScaleCorrectors = {
     borderRadius: {
@@ -23523,13 +23617,13 @@ const asNumber = (value) => typeof value === "string" ? parseFloat(value) : valu
 const isPx = (value) => typeof value === "number" || px.test(value);
 function mixValues(target, follow, lead, progress, shouldCrossfadeOpacity, isOnlyMember) {
     if (shouldCrossfadeOpacity) {
-        target.opacity = mix(0, 
+        target.opacity = mixNumber(0, 
         // TODO Reinstate this if only child
         lead.opacity !== undefined ? lead.opacity : 1, easeCrossfadeIn(progress));
-        target.opacityExit = mix(follow.opacity !== undefined ? follow.opacity : 1, 0, easeCrossfadeOut(progress));
+        target.opacityExit = mixNumber(follow.opacity !== undefined ? follow.opacity : 1, 0, easeCrossfadeOut(progress));
     }
     else if (isOnlyMember) {
-        target.opacity = mix(follow.opacity !== undefined ? follow.opacity : 1, lead.opacity !== undefined ? lead.opacity : 1, progress);
+        target.opacity = mixNumber(follow.opacity !== undefined ? follow.opacity : 1, lead.opacity !== undefined ? lead.opacity : 1, progress);
     }
     /**
      * Mix border radius
@@ -23546,7 +23640,7 @@ function mixValues(target, follow, lead, progress, shouldCrossfadeOpacity, isOnl
             leadRadius === 0 ||
             isPx(followRadius) === isPx(leadRadius);
         if (canMix) {
-            target[borderLabel] = Math.max(mix(asNumber(followRadius), asNumber(leadRadius), progress), 0);
+            target[borderLabel] = Math.max(mixNumber(asNumber(followRadius), asNumber(leadRadius), progress), 0);
             if (percent.test(leadRadius) || percent.test(followRadius)) {
                 target[borderLabel] += "%";
             }
@@ -23559,7 +23653,7 @@ function mixValues(target, follow, lead, progress, shouldCrossfadeOpacity, isOnl
      * Mix rotation
      */
     if (follow.rotate || lead.rotate) {
-        target.rotate = mix(follow.rotate || 0, lead.rotate || 0, progress);
+        target.rotate = mixNumber(follow.rotate || 0, lead.rotate || 0, progress);
     }
 }
 function getRadius(values, radiusName) {
@@ -23649,12 +23743,12 @@ function removePointDelta(point, translate, scale, originPoint, boxScale) {
 function removeAxisDelta(axis, translate = 0, scale = 1, origin = 0.5, boxScale, originAxis = axis, sourceAxis = axis) {
     if (percent.test(translate)) {
         translate = parseFloat(translate);
-        const relativeProgress = mix(sourceAxis.min, sourceAxis.max, translate / 100);
+        const relativeProgress = mixNumber(sourceAxis.min, sourceAxis.max, translate / 100);
         translate = relativeProgress - sourceAxis.min;
     }
     if (typeof translate !== "number")
         return;
-    let originPoint = mix(originAxis.min, originAxis.max, origin);
+    let originPoint = mixNumber(originAxis.min, originAxis.max, origin);
     if (axis === originAxis)
         originPoint -= translate;
     axis.min = removePointDelta(axis.min, translate, scale, originPoint, boxScale);
@@ -23835,8 +23929,9 @@ function buildProjectionTransform(delta, treeScale, latestTransform) {
      */
     const xTranslate = delta.x.translate / treeScale.x;
     const yTranslate = delta.y.translate / treeScale.y;
-    if (xTranslate || yTranslate) {
-        transform = `translate3d(${xTranslate}px, ${yTranslate}px, 0) `;
+    const zTranslate = (latestTransform === null || latestTransform === void 0 ? void 0 : latestTransform.z) || 0;
+    if (xTranslate || yTranslate || zTranslate) {
+        transform = `translate3d(${xTranslate}px, ${yTranslate}px, ${zTranslate}px) `;
     }
     /**
      * Apply scale correction for the tree transform.
@@ -23846,13 +23941,19 @@ function buildProjectionTransform(delta, treeScale, latestTransform) {
         transform += `scale(${1 / treeScale.x}, ${1 / treeScale.y}) `;
     }
     if (latestTransform) {
-        const { rotate, rotateX, rotateY } = latestTransform;
+        const { transformPerspective, rotate, rotateX, rotateY, skewX, skewY } = latestTransform;
+        if (transformPerspective)
+            transform = `perspective(${transformPerspective}px) ${transform}`;
         if (rotate)
             transform += `rotate(${rotate}deg) `;
         if (rotateX)
             transform += `rotateX(${rotateX}deg) `;
         if (rotateY)
             transform += `rotateY(${rotateY}deg) `;
+        if (skewX)
+            transform += `skewX(${skewX}deg) `;
+        if (skewY)
+            transform += `skewY(${skewY}deg) `;
     }
     /**
      * Apply scale to match the size of the element to the size we want it.
@@ -23902,11 +24003,12 @@ class FlatTree {
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/delay.mjs
 
 
+
 /**
  * Timeout defined in ms
  */
 function delay(callback, timeout) {
-    const start = performance.now();
+    const start = time.now();
     const checkElapsed = ({ timestamp }) => {
         const elapsed = timestamp - start;
         if (elapsed >= timeout) {
@@ -23976,7 +24078,10 @@ function animateSingleValue(value, keyframes, options) {
 
 
 
+
+
 const transformAxes = ["", "X", "Y", "Z"];
+const hiddenVisibility = { visibility: "hidden" };
 /**
  * We use 1000 as the animation target as 0-1000 maps better to pixels than 0-1
  * which has a noticeable difference in spring animations
@@ -23993,6 +24098,17 @@ const projectionFrameData = {
     resolvedTargetDeltas: 0,
     recalculatedProjection: 0,
 };
+function resetDistortingTransform(key, visualElement, values, sharedAnimationValues) {
+    const { latestValues } = visualElement;
+    // Record the distorting transform and then temporarily set it to 0
+    if (latestValues[key]) {
+        values[key] = latestValues[key];
+        visualElement.setStaticValue(key, 0);
+        if (sharedAnimationValues) {
+            sharedAnimationValues[key] = 0;
+        }
+    }
+}
 function createProjectionNode({ attachResizeListener, defaultParent, measureScroll, checkIsScrollRoot, resetTransform, }) {
     return class ProjectionNode {
         constructor(latestValues = {}, parent = defaultParent === null || defaultParent === void 0 ? void 0 : defaultParent()) {
@@ -24084,6 +24200,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
             this.hasTreeAnimated = false;
             // Note: Currently only running on root node
             this.updateScheduled = false;
+            this.projectionUpdateScheduled = false;
             this.checkUpdateFailed = () => {
                 if (this.isUpdating) {
                     this.isUpdating = false;
@@ -24096,6 +24213,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
              * the next step.
              */
             this.updateProjection = () => {
+                this.projectionUpdateScheduled = false;
                 /**
                  * Reset debug counts. Manually resetting rather than creating a new
                  * object each frame.
@@ -24271,7 +24389,16 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
             if (this.isUpdateBlocked())
                 return;
             this.isUpdating = true;
-            this.nodes && this.nodes.forEach(resetRotation);
+            /**
+             * If we're running optimised appear animations then these must be
+             * cancelled before measuring the DOM. This is so we can measure
+             * the true layout of the element rather than the WAAPI animation
+             * which will be unaffected by the resetSkewAndRotate step.
+             */
+            if (window.HandoffCancelAllAnimations) {
+                window.HandoffCancelAllAnimations();
+            }
+            this.nodes && this.nodes.forEach(resetSkewAndRotation);
             this.animationId++;
         }
         getTransformTemplate() {
@@ -24342,7 +24469,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
              * we could leave this to the following requestAnimationFrame but this seems
              * to leave a flash of incorrectly styled content.
              */
-            const now = performance.now();
+            const now = time.now();
             frameData.delta = clamp_clamp(0, 1000 / 60, now - frameData.timestamp);
             frameData.timestamp = now;
             frameData.isProcessing = true;
@@ -24354,7 +24481,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
         didUpdate() {
             if (!this.updateScheduled) {
                 this.updateScheduled = true;
-                queueMicrotask(() => this.update());
+                microtask.read(() => this.update());
             }
         }
         clearAllSnapshots() {
@@ -24362,7 +24489,10 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
             this.sharedNodes.forEach(removeLeadSnapshots);
         }
         scheduleUpdateProjection() {
-            frame_frame.preRender(this.updateProjection, false, true);
+            if (!this.projectionUpdateScheduled) {
+                this.projectionUpdateScheduled = true;
+                frame_frame.preRender(this.updateProjection, false, true);
+            }
         }
         scheduleCheckAfterUnmount() {
             /**
@@ -24633,9 +24763,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
              * a relativeParent. This will allow a component to perform scale correction
              * even if no animation has started.
              */
-            // TODO If this is unsuccessful this currently happens every frame
             if (!this.targetDelta && !this.relativeTarget) {
-                // TODO: This is a semi-repetition of further down this function, make DRY
                 const relativeParent = this.getClosestProjectingParent();
                 if (relativeParent &&
                     relativeParent.layout &&
@@ -24805,6 +24933,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
                 !lead.target &&
                 (this.treeScale.x !== 1 || this.treeScale.y !== 1)) {
                 lead.target = lead.layout.layoutBox;
+                lead.targetWithTransforms = createBox();
             }
             const { target } = lead;
             if (!target) {
@@ -25068,65 +25197,68 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
                 return false;
             }
         }
-        resetRotation() {
+        resetSkewAndRotation() {
             const { visualElement } = this.options;
             if (!visualElement)
                 return;
-            // If there's no detected rotation values, we can early return without a forced render.
-            let hasRotate = false;
+            // If there's no detected skew or rotation values, we can early return without a forced render.
+            let hasDistortingTransform = false;
             /**
              * An unrolled check for rotation values. Most elements don't have any rotation and
              * skipping the nested loop and new object creation is 50% faster.
              */
             const { latestValues } = visualElement;
-            if (latestValues.rotate ||
+            if (latestValues.z ||
+                latestValues.rotate ||
                 latestValues.rotateX ||
                 latestValues.rotateY ||
-                latestValues.rotateZ) {
-                hasRotate = true;
+                latestValues.rotateZ ||
+                latestValues.skewX ||
+                latestValues.skewY) {
+                hasDistortingTransform = true;
             }
-            // If there's no rotation values, we don't need to do any more.
-            if (!hasRotate)
+            // If there's no distorting values, we don't need to do any more.
+            if (!hasDistortingTransform)
                 return;
             const resetValues = {};
-            // Check the rotate value of all axes and reset to 0
-            for (let i = 0; i < transformAxes.length; i++) {
-                const key = "rotate" + transformAxes[i];
-                // Record the rotation and then temporarily set it to 0
-                if (latestValues[key]) {
-                    resetValues[key] = latestValues[key];
-                    visualElement.setStaticValue(key, 0);
-                }
+            if (latestValues.z) {
+                resetDistortingTransform("z", visualElement, resetValues, this.animationValues);
             }
-            // Force a render of this element to apply the transform with all rotations
+            // Check the skew and rotate value of all axes and reset to 0
+            for (let i = 0; i < transformAxes.length; i++) {
+                resetDistortingTransform(`rotate${transformAxes[i]}`, visualElement, resetValues, this.animationValues);
+                resetDistortingTransform(`skew${transformAxes[i]}`, visualElement, resetValues, this.animationValues);
+            }
+            // Force a render of this element to apply the transform with all skews and rotations
             // set to 0.
             visualElement.render();
             // Put back all the values we reset
             for (const key in resetValues) {
                 visualElement.setStaticValue(key, resetValues[key]);
+                if (this.animationValues) {
+                    this.animationValues[key] = resetValues[key];
+                }
             }
             // Schedule a render for the next frame. This ensures we won't visually
             // see the element with the reset rotate value applied.
             visualElement.scheduleRender();
         }
-        getProjectionStyles(styleProp = {}) {
+        getProjectionStyles(styleProp) {
             var _a, _b;
-            // TODO: Return lifecycle-persistent object
-            const styles = {};
             if (!this.instance || this.isSVG)
-                return styles;
+                return undefined;
             if (!this.isVisible) {
-                return { visibility: "hidden" };
+                return hiddenVisibility;
             }
-            else {
-                styles.visibility = "";
-            }
+            const styles = {
+                visibility: "",
+            };
             const transformTemplate = this.getTransformTemplate();
             if (this.needsReset) {
                 this.needsReset = false;
                 styles.opacity = "";
                 styles.pointerEvents =
-                    resolveMotionValue(styleProp.pointerEvents) || "";
+                    resolveMotionValue(styleProp === null || styleProp === void 0 ? void 0 : styleProp.pointerEvents) || "";
                 styles.transform = transformTemplate
                     ? transformTemplate(this.latestValues, "")
                     : "none";
@@ -25141,7 +25273,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
                             ? this.latestValues.opacity
                             : 1;
                     emptyStyles.pointerEvents =
-                        resolveMotionValue(styleProp.pointerEvents) || "";
+                        resolveMotionValue(styleProp === null || styleProp === void 0 ? void 0 : styleProp.pointerEvents) || "";
                 }
                 if (this.hasProjected && !hasTransform(this.latestValues)) {
                     emptyStyles.transform = transformTemplate
@@ -25219,7 +25351,7 @@ function createProjectionNode({ attachResizeListener, defaultParent, measureScro
             if (this.options.layoutId) {
                 styles.pointerEvents =
                     lead === this
-                        ? resolveMotionValue(styleProp.pointerEvents) || ""
+                        ? resolveMotionValue(styleProp === null || styleProp === void 0 ? void 0 : styleProp.pointerEvents) || ""
                         : "none";
             }
             return styles;
@@ -25391,21 +25523,21 @@ function resolveTargetDelta(node) {
 function calcProjection(node) {
     node.calcProjection();
 }
-function resetRotation(node) {
-    node.resetRotation();
+function resetSkewAndRotation(node) {
+    node.resetSkewAndRotation();
 }
 function removeLeadSnapshots(stack) {
     stack.removeLeadSnapshot();
 }
 function mixAxisDelta(output, delta, p) {
-    output.translate = mix(delta.translate, 0, p);
-    output.scale = mix(delta.scale, 1, p);
+    output.translate = mixNumber(delta.translate, 0, p);
+    output.scale = mixNumber(delta.scale, 1, p);
     output.origin = delta.origin;
     output.originPoint = delta.originPoint;
 }
 function mixAxis(output, from, to, p) {
-    output.min = mix(from.min, to.min, p);
-    output.max = mix(from.max, to.max, p);
+    output.min = mixNumber(from.min, to.min, p);
+    output.max = mixNumber(from.max, to.max, p);
 }
 function mixBox(output, from, to, p) {
     mixAxis(output.x, from.x, to.x, p);
@@ -25419,6 +25551,7 @@ const defaultLayoutTransition = {
     ease: [0.4, 0, 0.1, 1],
 };
 const userAgentContains = (string) => typeof navigator !== "undefined" &&
+    navigator.userAgent &&
     navigator.userAgent.toLowerCase().includes(string);
 /**
  * Measured bounding boxes must be rounded in Safari and
@@ -25508,346 +25641,6 @@ const drag = {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/css-variables-conversion.mjs
-
-
-
-
-/**
- * Parse Framer's special CSS variable format into a CSS token and a fallback.
- *
- * ```
- * `var(--foo, #fff)` => [`--foo`, '#fff']
- * ```
- *
- * @param current
- */
-const splitCSSVariableRegex = /var\((--[a-zA-Z0-9-_]+),? ?([a-zA-Z0-9 ()%#.,-]+)?\)/;
-function parseCSSVariable(current) {
-    const match = splitCSSVariableRegex.exec(current);
-    if (!match)
-        return [,];
-    const [, token, fallback] = match;
-    return [token, fallback];
-}
-const maxDepth = 4;
-function getVariableValue(current, element, depth = 1) {
-    errors_invariant(depth <= maxDepth, `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`);
-    const [token, fallback] = parseCSSVariable(current);
-    // No CSS variable detected
-    if (!token)
-        return;
-    // Attempt to read this CSS variable off the element
-    const resolved = window.getComputedStyle(element).getPropertyValue(token);
-    if (resolved) {
-        const trimmed = resolved.trim();
-        return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
-    }
-    else if (isCSSVariableToken(fallback)) {
-        // The fallback might itself be a CSS variable, in which case we attempt to resolve it too.
-        return getVariableValue(fallback, element, depth + 1);
-    }
-    else {
-        return fallback;
-    }
-}
-/**
- * Resolve CSS variables from
- *
- * @internal
- */
-function resolveCSSVariables(visualElement, { ...target }, transitionEnd) {
-    const element = visualElement.current;
-    if (!(element instanceof Element))
-        return { target, transitionEnd };
-    // If `transitionEnd` isn't `undefined`, clone it. We could clone `target` and `transitionEnd`
-    // only if they change but I think this reads clearer and this isn't a performance-critical path.
-    if (transitionEnd) {
-        transitionEnd = { ...transitionEnd };
-    }
-    // Go through existing `MotionValue`s and ensure any existing CSS variables are resolved
-    visualElement.values.forEach((value) => {
-        const current = value.get();
-        if (!isCSSVariableToken(current))
-            return;
-        const resolved = getVariableValue(current, element);
-        if (resolved)
-            value.set(resolved);
-    });
-    // Cycle through every target property and resolve CSS variables. Currently
-    // we only read single-var properties like `var(--foo)`, not `calc(var(--foo) + 20px)`
-    for (const key in target) {
-        const current = target[key];
-        if (!isCSSVariableToken(current))
-            continue;
-        const resolved = getVariableValue(current, element);
-        if (!resolved)
-            continue;
-        // Clone target if it hasn't already been
-        target[key] = resolved;
-        if (!transitionEnd)
-            transitionEnd = {};
-        // If the user hasn't already set this key on `transitionEnd`, set it to the unresolved
-        // CSS variable. This will ensure that after the animation the component will reflect
-        // changes in the value of the CSS variable.
-        if (transitionEnd[key] === undefined) {
-            transitionEnd[key] = current;
-        }
-    }
-    return { target, transitionEnd };
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/unit-conversion.mjs
-
-
-
-
-
-
-
-
-const positionalKeys = new Set([
-    "width",
-    "height",
-    "top",
-    "left",
-    "right",
-    "bottom",
-    "x",
-    "y",
-    "translateX",
-    "translateY",
-]);
-const isPositionalKey = (key) => positionalKeys.has(key);
-const hasPositionalKey = (target) => {
-    return Object.keys(target).some(isPositionalKey);
-};
-const isNumOrPxType = (v) => v === number || v === px;
-const getPosFromMatrix = (matrix, pos) => parseFloat(matrix.split(", ")[pos]);
-const getTranslateFromMatrix = (pos2, pos3) => (_bbox, { transform }) => {
-    if (transform === "none" || !transform)
-        return 0;
-    const matrix3d = transform.match(/^matrix3d\((.+)\)$/);
-    if (matrix3d) {
-        return getPosFromMatrix(matrix3d[1], pos3);
-    }
-    else {
-        const matrix = transform.match(/^matrix\((.+)\)$/);
-        if (matrix) {
-            return getPosFromMatrix(matrix[1], pos2);
-        }
-        else {
-            return 0;
-        }
-    }
-};
-const transformKeys = new Set(["x", "y", "z"]);
-const nonTranslationalTransformKeys = transformPropOrder.filter((key) => !transformKeys.has(key));
-function removeNonTranslationalTransform(visualElement) {
-    const removedTransforms = [];
-    nonTranslationalTransformKeys.forEach((key) => {
-        const value = visualElement.getValue(key);
-        if (value !== undefined) {
-            removedTransforms.push([key, value.get()]);
-            value.set(key.startsWith("scale") ? 1 : 0);
-        }
-    });
-    // Apply changes to element before measurement
-    if (removedTransforms.length)
-        visualElement.render();
-    return removedTransforms;
-}
-const positionalValues = {
-    // Dimensions
-    width: ({ x }, { paddingLeft = "0", paddingRight = "0" }) => x.max - x.min - parseFloat(paddingLeft) - parseFloat(paddingRight),
-    height: ({ y }, { paddingTop = "0", paddingBottom = "0" }) => y.max - y.min - parseFloat(paddingTop) - parseFloat(paddingBottom),
-    top: (_bbox, { top }) => parseFloat(top),
-    left: (_bbox, { left }) => parseFloat(left),
-    bottom: ({ y }, { top }) => parseFloat(top) + (y.max - y.min),
-    right: ({ x }, { left }) => parseFloat(left) + (x.max - x.min),
-    // Transform
-    x: getTranslateFromMatrix(4, 13),
-    y: getTranslateFromMatrix(5, 14),
-};
-// Alias translate longform names
-positionalValues.translateX = positionalValues.x;
-positionalValues.translateY = positionalValues.y;
-const convertChangedValueTypes = (target, visualElement, changedKeys) => {
-    const originBbox = visualElement.measureViewportBox();
-    const element = visualElement.current;
-    const elementComputedStyle = getComputedStyle(element);
-    const { display } = elementComputedStyle;
-    const origin = {};
-    // If the element is currently set to display: "none", make it visible before
-    // measuring the target bounding box
-    if (display === "none") {
-        visualElement.setStaticValue("display", target.display || "block");
-    }
-    /**
-     * Record origins before we render and update styles
-     */
-    changedKeys.forEach((key) => {
-        origin[key] = positionalValues[key](originBbox, elementComputedStyle);
-    });
-    // Apply the latest values (as set in checkAndConvertChangedValueTypes)
-    visualElement.render();
-    const targetBbox = visualElement.measureViewportBox();
-    changedKeys.forEach((key) => {
-        // Restore styles to their **calculated computed style**, not their actual
-        // originally set style. This allows us to animate between equivalent pixel units.
-        const value = visualElement.getValue(key);
-        value && value.jump(origin[key]);
-        target[key] = positionalValues[key](targetBbox, elementComputedStyle);
-    });
-    return target;
-};
-const checkAndConvertChangedValueTypes = (visualElement, target, origin = {}, transitionEnd = {}) => {
-    target = { ...target };
-    transitionEnd = { ...transitionEnd };
-    const targetPositionalKeys = Object.keys(target).filter(isPositionalKey);
-    // We want to remove any transform values that could affect the element's bounding box before
-    // it's measured. We'll reapply these later.
-    let removedTransformValues = [];
-    let hasAttemptedToRemoveTransformValues = false;
-    const changedValueTypeKeys = [];
-    targetPositionalKeys.forEach((key) => {
-        const value = visualElement.getValue(key);
-        if (!visualElement.hasValue(key))
-            return;
-        let from = origin[key];
-        let fromType = findDimensionValueType(from);
-        const to = target[key];
-        let toType;
-        // TODO: The current implementation of this basically throws an error
-        // if you try and do value conversion via keyframes. There's probably
-        // a way of doing this but the performance implications would need greater scrutiny,
-        // as it'd be doing multiple resize-remeasure operations.
-        if (isKeyframesTarget(to)) {
-            const numKeyframes = to.length;
-            const fromIndex = to[0] === null ? 1 : 0;
-            from = to[fromIndex];
-            fromType = findDimensionValueType(from);
-            for (let i = fromIndex; i < numKeyframes; i++) {
-                /**
-                 * Don't allow wildcard keyframes to be used to detect
-                 * a difference in value types.
-                 */
-                if (to[i] === null)
-                    break;
-                if (!toType) {
-                    toType = findDimensionValueType(to[i]);
-                    errors_invariant(toType === fromType ||
-                        (isNumOrPxType(fromType) && isNumOrPxType(toType)), "Keyframes must be of the same dimension as the current value");
-                }
-                else {
-                    errors_invariant(findDimensionValueType(to[i]) === toType, "All keyframes must be of the same type");
-                }
-            }
-        }
-        else {
-            toType = findDimensionValueType(to);
-        }
-        if (fromType !== toType) {
-            // If they're both just number or px, convert them both to numbers rather than
-            // relying on resize/remeasure to convert (which is wasteful in this situation)
-            if (isNumOrPxType(fromType) && isNumOrPxType(toType)) {
-                const current = value.get();
-                if (typeof current === "string") {
-                    value.set(parseFloat(current));
-                }
-                if (typeof to === "string") {
-                    target[key] = parseFloat(to);
-                }
-                else if (Array.isArray(to) && toType === px) {
-                    target[key] = to.map(parseFloat);
-                }
-            }
-            else if ((fromType === null || fromType === void 0 ? void 0 : fromType.transform) &&
-                (toType === null || toType === void 0 ? void 0 : toType.transform) &&
-                (from === 0 || to === 0)) {
-                // If one or the other value is 0, it's safe to coerce it to the
-                // type of the other without measurement
-                if (from === 0) {
-                    value.set(toType.transform(from));
-                }
-                else {
-                    target[key] = fromType.transform(to);
-                }
-            }
-            else {
-                // If we're going to do value conversion via DOM measurements, we first
-                // need to remove non-positional transform values that could affect the bbox measurements.
-                if (!hasAttemptedToRemoveTransformValues) {
-                    removedTransformValues =
-                        removeNonTranslationalTransform(visualElement);
-                    hasAttemptedToRemoveTransformValues = true;
-                }
-                changedValueTypeKeys.push(key);
-                transitionEnd[key] =
-                    transitionEnd[key] !== undefined
-                        ? transitionEnd[key]
-                        : target[key];
-                value.jump(to);
-            }
-        }
-    });
-    if (changedValueTypeKeys.length) {
-        const scrollY = changedValueTypeKeys.indexOf("height") >= 0
-            ? window.pageYOffset
-            : null;
-        const convertedTarget = convertChangedValueTypes(target, visualElement, changedValueTypeKeys);
-        // If we removed transform values, reapply them before the next render
-        if (removedTransformValues.length) {
-            removedTransformValues.forEach(([key, value]) => {
-                visualElement.getValue(key).set(value);
-            });
-        }
-        // Reapply original values
-        visualElement.render();
-        // Restore scroll position
-        if (is_browser_isBrowser && scrollY !== null) {
-            window.scrollTo({ top: scrollY });
-        }
-        return { target: convertedTarget, transitionEnd };
-    }
-    else {
-        return { target, transitionEnd };
-    }
-};
-/**
- * Convert value types for x/y/width/height/top/left/bottom/right
- *
- * Allows animation between `'auto'` -> `'100%'` or `0` -> `'calc(50% - 10vw)'`
- *
- * @internal
- */
-function unitConversion(visualElement, target, origin, transitionEnd) {
-    return hasPositionalKey(target)
-        ? checkAndConvertChangedValueTypes(visualElement, target, origin, transitionEnd)
-        : { target, transitionEnd };
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/utils/parse-dom-variant.mjs
-
-
-
-/**
- * Parse a DOM variant to make it animatable. This involves resolving CSS variables
- * and ensuring animations like "20%" => "calc(50vw)" are performed in pixels.
- */
-const parseDomVariant = (visualElement, target, origin, transitionEnd) => {
-    const resolved = resolveCSSVariables(visualElement, target, transitionEnd);
-    target = resolved.target;
-    transitionEnd = resolved.transitionEnd;
-    return unitConversion(visualElement, target, origin, transitionEnd);
-};
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/reduced-motion/state.mjs
 // Does this device prefer reduced motion? Returns `null` server-side.
 const prefersReducedMotion = { current: null };
@@ -25920,8 +25713,12 @@ function updateMotionValuesFromProps(element, next, prev) {
              */
             if (element.hasValue(key)) {
                 const existingValue = element.getValue(key);
-                // TODO: Only update values that aren't being animated or even looked at
-                !existingValue.hasAnimated && existingValue.set(nextValue);
+                if (existingValue.liveStyle === true) {
+                    existingValue.jump(nextValue);
+                }
+                else if (!existingValue.hasAnimated) {
+                    existingValue.set(nextValue);
+                }
             }
             else {
                 const latestValue = element.getStaticValue(key);
@@ -25944,7 +25741,30 @@ const visualElementStore = new WeakMap();
 
 
 
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/dom/value-types/find.mjs
+
+
+
+
+
+/**
+ * A list of all ValueTypes
+ */
+const valueTypes = [...dimensionValueTypes, color, complex];
+/**
+ * Tests a value against the list of ValueTypes
+ */
+const findValueType = (v) => valueTypes.find(testValueType(v));
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/render/VisualElement.mjs
+
+
+
+
+
+
 
 
 
@@ -25977,12 +25797,36 @@ const propEventHandlers = [
     "LayoutAnimationComplete",
 ];
 const numVariantProps = variantProps.length;
+function getClosestProjectingNode(visualElement) {
+    if (!visualElement)
+        return undefined;
+    return visualElement.options.allowProjection !== false
+        ? visualElement.projection
+        : getClosestProjectingNode(visualElement.parent);
+}
 /**
  * A VisualElement is an imperative abstraction around UI elements such as
  * HTMLElement, SVGElement, Three.Object3D etc.
  */
 class VisualElement {
-    constructor({ parent, props, presenceContext, reducedMotionConfig, visualState, }, options = {}) {
+    /**
+     * This method takes React props and returns found MotionValues. For example, HTML
+     * MotionValues will be found within the style prop, whereas for Three.js within attribute arrays.
+     *
+     * This isn't an abstract method as it needs calling in the constructor, but it is
+     * intended to be one.
+     */
+    scrapeMotionValuesFromProps(_props, _prevProps, _visualElement) {
+        return {};
+    }
+    constructor({ parent, props, presenceContext, reducedMotionConfig, blockInitialAnimation, visualState, }, options = {}) {
+        this.resolveKeyframes = (keyframes, 
+        // We use an onComplete callback here rather than a Promise as a Promise
+        // resolution is a microtask and we want to retain the ability to force
+        // the resolution of keyframes synchronously.
+        onComplete, name, value) => {
+            return new this.KeyframeResolver(keyframes, onComplete, name, value, this);
+        };
         /**
          * A reference to the current underlying Instance, e.g. a HTMLElement
          * or Three.Mesh etc.
@@ -26011,6 +25855,7 @@ class VisualElement {
          * value might be provided externally by the component via props.
          */
         this.values = new Map();
+        this.KeyframeResolver = KeyframeResolver;
         /**
          * Cleanup functions for active features (hover/tap/exit etc)
          */
@@ -26055,6 +25900,7 @@ class VisualElement {
         this.depth = parent ? parent.depth + 1 : 0;
         this.reducedMotionConfig = reducedMotionConfig;
         this.options = options;
+        this.blockInitialAnimation = Boolean(blockInitialAnimation);
         this.isControllingVariants = isControllingVariants(props);
         this.isVariantNode = isVariantNode(props);
         if (this.isVariantNode) {
@@ -26071,7 +25917,7 @@ class VisualElement {
          * Doing so will break some tests but this isn't neccessarily a breaking change,
          * more a reflection of the test.
          */
-        const { willChange, ...initialMotionValues } = this.scrapeMotionValuesFromProps(props, {});
+        const { willChange, ...initialMotionValues } = this.scrapeMotionValuesFromProps(props, {}, this);
         for (const key in initialMotionValues) {
             const value = initialMotionValues[key];
             if (latestValues[key] !== undefined && isMotionValue(value)) {
@@ -26081,16 +25927,6 @@ class VisualElement {
                 }
             }
         }
-    }
-    /**
-     * This method takes React props and returns found MotionValues. For example, HTML
-     * MotionValues will be found within the style prop, whereas for Three.js within attribute arrays.
-     *
-     * This isn't an abstract method as it needs calling in the constructor, but it is
-     * intended to be one.
-     */
-    scrapeMotionValuesFromProps(_props, _prevProps) {
-        return {};
     }
     mount(instance) {
         this.current = instance;
@@ -26117,6 +25953,7 @@ class VisualElement {
         this.update(this.props, this.presenceContext);
     }
     unmount() {
+        var _a;
         visualElementStore.delete(this.current);
         this.projection && this.projection.unmount();
         cancelFrame(this.notifyUpdate);
@@ -26128,7 +25965,7 @@ class VisualElement {
             this.events[key].clear();
         }
         for (const key in this.features) {
-            this.features[key].unmount();
+            (_a = this.features[key]) === null || _a === void 0 ? void 0 : _a.unmount();
         }
         this.current = null;
     }
@@ -26136,8 +25973,7 @@ class VisualElement {
         const valueIsTransform = transformProps.has(key);
         const removeOnChange = value.on("change", (latestValue) => {
             this.latestValues[key] = latestValue;
-            this.props.onUpdate &&
-                frame_frame.update(this.notifyUpdate, false, true);
+            this.props.onUpdate && frame_frame.preRender(this.notifyUpdate);
             if (valueIsTransform && this.projection) {
                 this.projection.isTransformDirty = true;
             }
@@ -26146,6 +25982,8 @@ class VisualElement {
         this.valueSubscriptions.set(key, () => {
             removeOnChange();
             removeOnRenderRequest();
+            if (value.owner)
+                value.stop();
         });
     }
     sortNodePosition(other) {
@@ -26181,9 +26019,13 @@ class VisualElement {
                 }
             }
         }
-        if (!this.projection && ProjectionNodeConstructor) {
-            this.projection = new ProjectionNodeConstructor(this.latestValues, this.parent && this.parent.projection);
+        if ((this.type === "html" || this.type === "svg") &&
+            !this.projection &&
+            ProjectionNodeConstructor) {
             const { layoutId, layout, drag, dragConstraints, layoutScroll, layoutRoot, } = renderedProps;
+            this.projection = new ProjectionNodeConstructor(this.latestValues, renderedProps["data-framer-portal-id"]
+                ? undefined
+                : getClosestProjectingNode(this.parent));
             this.projection.setOptions({
                 layoutId,
                 layout,
@@ -26238,16 +26080,6 @@ class VisualElement {
         this.latestValues[key] = value;
     }
     /**
-     * Make a target animatable by Popmotion. For instance, if we're
-     * trying to animate width from 100px to 100vw we need to measure 100vw
-     * in pixels to determine what we really need to animate to. This is also
-     * pluggable to support Framer's custom value types like Color,
-     * and CSS variables.
-     */
-    makeTargetAnimatable(target, canMutate = true) {
-        return this.makeTargetAnimatableFromInstance(target, this.props, canMutate);
-    }
-    /**
      * Update the provided props. Ensure any newly-added motion values are
      * added to our map, old ones removed, and listeners updated.
      */
@@ -26268,12 +26100,13 @@ class VisualElement {
                 this.propEventSubscriptions[key]();
                 delete this.propEventSubscriptions[key];
             }
-            const listener = props["on" + key];
+            const listenerName = ("on" + key);
+            const listener = props[listenerName];
             if (listener) {
                 this.propEventSubscriptions[key] = this.on(key, listener);
             }
         }
-        this.prevMotionValues = updateMotionValuesFromProps(this, this.scrapeMotionValuesFromProps(props, this.prevProps), this.prevMotionValues);
+        this.prevMotionValues = updateMotionValuesFromProps(this, this.scrapeMotionValuesFromProps(props, this.prevProps, this), this.prevMotionValues);
         if (this.handleChildMotionValue) {
             this.handleChildMotionValue();
         }
@@ -26342,12 +26175,14 @@ class VisualElement {
      */
     addValue(key, value) {
         // Remove existing value if it exists
-        if (value !== this.values.get(key)) {
-            this.removeValue(key);
+        const existingValue = this.values.get(key);
+        if (value !== existingValue) {
+            if (existingValue)
+                this.removeValue(key);
             this.bindToMotionValue(key, value);
+            this.values.set(key, value);
+            this.latestValues[key] = value.get();
         }
-        this.values.set(key, value);
-        this.latestValues[key] = value.get();
     }
     /**
      * Remove a motion value and unbind any active subscriptions.
@@ -26374,7 +26209,7 @@ class VisualElement {
         }
         let value = this.values.get(key);
         if (value === undefined && defaultValue !== undefined) {
-            value = motionValue(defaultValue, { owner: this });
+            value = motionValue(defaultValue === null ? undefined : defaultValue, { owner: this });
             this.addValue(key, value);
         }
         return value;
@@ -26384,11 +26219,23 @@ class VisualElement {
      * we need to check for it in our state and as a last resort read it
      * directly from the instance (which might have performance implications).
      */
-    readValue(key) {
+    readValue(key, target) {
         var _a;
-        return this.latestValues[key] !== undefined || !this.current
+        let value = this.latestValues[key] !== undefined || !this.current
             ? this.latestValues[key]
             : (_a = this.getBaseTargetFromProps(this.props, key)) !== null && _a !== void 0 ? _a : this.readValueFromInstance(this.current, key, this.options);
+        if (value !== undefined && value !== null) {
+            if (typeof value === "string" &&
+                (isNumericalString(value) || isZeroValueString(value))) {
+                // If this is a number read as a string, ie "0" or "200", convert it to a number
+                value = parseFloat(value);
+            }
+            else if (!findValueType(value) && complex.test(target)) {
+                value = animatable_none_getAnimatableNone(key, target);
+            }
+            this.setBaseTarget(key, isMotionValue(value) ? value.get() : value);
+        }
+        return isMotionValue(value) ? value.get() : value;
     }
     /**
      * Set the base target to later animate back to. This is currently
@@ -26404,9 +26251,13 @@ class VisualElement {
     getBaseTarget(key) {
         var _a;
         const { initial } = this.props;
-        const valueFromInitial = typeof initial === "string" || typeof initial === "object"
-            ? (_a = resolveVariantFromProps(this.props, initial)) === null || _a === void 0 ? void 0 : _a[key]
-            : undefined;
+        let valueFromInitial;
+        if (typeof initial === "string" || typeof initial === "object") {
+            const variant = resolveVariantFromProps(this.props, initial, (_a = this.presenceContext) === null || _a === void 0 ? void 0 : _a.custom);
+            if (variant) {
+                valueFromInitial = variant[key];
+            }
+        }
         /**
          * If this value still exists in the current initial variant, read that.
          */
@@ -26448,8 +26299,11 @@ class VisualElement {
 
 
 
-
 class DOMVisualElement extends VisualElement {
+    constructor() {
+        super(...arguments);
+        this.KeyframeResolver = DOMKeyframesResolver;
+    }
     sortInstanceNodePosition(a, b) {
         /**
          * compareDocumentPosition returns a bitmask, by using the bitwise &
@@ -26459,36 +26313,13 @@ class DOMVisualElement extends VisualElement {
         return a.compareDocumentPosition(b) & 2 ? 1 : -1;
     }
     getBaseTargetFromProps(props, key) {
-        return props.style ? props.style[key] : undefined;
+        return props.style
+            ? props.style[key]
+            : undefined;
     }
     removeValueFromRenderState(key, { vars, style }) {
         delete vars[key];
         delete style[key];
-    }
-    makeTargetAnimatableFromInstance({ transition, transitionEnd, ...target }, { transformValues }, isMounted) {
-        let origin = getOrigin(target, transition || {}, this);
-        /**
-         * If Framer has provided a function to convert `Color` etc value types, convert them
-         */
-        if (transformValues) {
-            if (transitionEnd)
-                transitionEnd = transformValues(transitionEnd);
-            if (target)
-                target = transformValues(target);
-            if (origin)
-                origin = transformValues(origin);
-        }
-        if (isMounted) {
-            checkTargetForNewValues(this, target, origin);
-            const parsed = parseDomVariant(this, target, origin, transitionEnd);
-            transitionEnd = parsed.transitionEnd;
-            target = parsed.target;
-        }
-        return {
-            transition,
-            transitionEnd,
-            ...target,
-        };
     }
 }
 
@@ -26509,6 +26340,10 @@ function HTMLVisualElement_getComputedStyle(element) {
     return window.getComputedStyle(element);
 }
 class HTMLVisualElement extends DOMVisualElement {
+    constructor() {
+        super(...arguments);
+        this.type = "html";
+    }
     readValueFromInstance(instance, key) {
         if (transformProps.has(key)) {
             const defaultType = getDefaultValueType(key);
@@ -26528,8 +26363,8 @@ class HTMLVisualElement extends DOMVisualElement {
     build(renderState, latestValues, options, props) {
         buildHTMLStyles(renderState, latestValues, options, props.transformTemplate);
     }
-    scrapeMotionValuesFromProps(props, prevProps) {
-        return scrapeMotionValuesFromProps(props, prevProps);
+    scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+        return scrapeMotionValuesFromProps(props, prevProps, visualElement);
     }
     handleChildMotionValue() {
         if (this.childSubscription) {
@@ -26566,6 +26401,7 @@ class HTMLVisualElement extends DOMVisualElement {
 class SVGVisualElement extends DOMVisualElement {
     constructor() {
         super(...arguments);
+        this.type = "svg";
         this.isSVGTag = false;
     }
     getBaseTargetFromProps(props, key) {
@@ -26582,8 +26418,8 @@ class SVGVisualElement extends DOMVisualElement {
     measureInstanceViewportBox() {
         return createBox();
     }
-    scrapeMotionValuesFromProps(props, prevProps) {
-        return scrape_motion_values_scrapeMotionValuesFromProps(props, prevProps);
+    scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+        return scrape_motion_values_scrapeMotionValuesFromProps(props, prevProps, visualElement);
     }
     build(renderState, latestValues, options, props) {
         buildSVGAttrs(renderState, latestValues, options, this.isSVGTag, props.transformTemplate);
@@ -26604,10 +26440,14 @@ class SVGVisualElement extends DOMVisualElement {
 
 
 
+
 const create_visual_element_createDomVisualElement = (Component, options) => {
     return isSVGComponent(Component)
         ? new SVGVisualElement(options, { enableHardwareAcceleration: false })
-        : new HTMLVisualElement(options, { enableHardwareAcceleration: true });
+        : new HTMLVisualElement(options, {
+            allowProjection: Component !== external_React_.Fragment,
+            enableHardwareAcceleration: true,
+        });
 };
 
 
@@ -26711,6 +26551,8 @@ function use_force_update_useForceUpdate() {
 
 
 
+
+
 /**
  * Measurement functionality has to be within a separate component
  * to leverage snapshot lifecycle.
@@ -26744,6 +26586,7 @@ function PopChild({ children, isPresent }) {
         top: 0,
         left: 0,
     });
+    const { nonce } = (0,external_React_.useContext)(MotionConfigContext);
     /**
      * We create and inject a style block so we can apply this explicit
      * sizing in a non-destructive manner by just deleting the style block.
@@ -26759,6 +26602,8 @@ function PopChild({ children, isPresent }) {
             return;
         ref.current.dataset.motionPopId = id;
         const style = document.createElement("style");
+        if (nonce)
+            style.nonce = nonce;
         document.head.appendChild(style);
         if (style.sheet) {
             style.sheet.insertRule(`
@@ -26775,12 +26620,13 @@ function PopChild({ children, isPresent }) {
             document.head.removeChild(style);
         };
     }, [isPresent]);
-    return (external_React_.createElement(PopChildMeasure, { isPresent: isPresent, childRef: ref, sizeRef: size }, external_React_.cloneElement(children, { ref })));
+    return ((0,jsx_runtime.jsx)(PopChildMeasure, { isPresent: isPresent, childRef: ref, sizeRef: size, children: external_React_.cloneElement(children, { ref }) }));
 }
 
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs
+
 
 
 
@@ -26813,7 +26659,7 @@ const PresenceChild = ({ children, initial, isPresent, onExitComplete, custom, p
      * we want to make a new context value to ensure they get re-rendered
      * so they can detect that layout change.
      */
-    presenceAffectsLayout ? undefined : [isPresent]);
+    presenceAffectsLayout ? [Math.random()] : [isPresent]);
     (0,external_React_.useMemo)(() => {
         presenceChildren.forEach((_, key) => presenceChildren.set(key, false));
     }, [isPresent]);
@@ -26828,9 +26674,9 @@ const PresenceChild = ({ children, initial, isPresent, onExitComplete, custom, p
             onExitComplete();
     }, [isPresent]);
     if (mode === "popLayout") {
-        children = external_React_.createElement(PopChild, { isPresent: isPresent }, children);
+        children = (0,jsx_runtime.jsx)(PopChild, { isPresent: isPresent, children: children });
     }
-    return (external_React_.createElement(PresenceContext_PresenceContext.Provider, { value: context }, children));
+    return ((0,jsx_runtime.jsx)(PresenceContext_PresenceContext.Provider, { value: context, children: children }));
 };
 function newChildrenMap() {
     return new Map();
@@ -26936,7 +26782,7 @@ const AnimatePresence = ({ children, custom, initial = true, onExitComplete, exi
         exitingChildren.clear();
     });
     if (isInitialRender.current) {
-        return (external_React_.createElement(external_React_.Fragment, null, childrenToRender.map((child) => (external_React_.createElement(PresenceChild, { key: getChildKey(child), isPresent: true, initial: initial ? undefined : false, presenceAffectsLayout: presenceAffectsLayout, mode: mode }, child)))));
+        return ((0,jsx_runtime.jsx)(jsx_runtime.Fragment, { children: childrenToRender.map((child) => ((0,jsx_runtime.jsx)(PresenceChild, { isPresent: true, initial: initial ? undefined : false, presenceAffectsLayout: presenceAffectsLayout, mode: mode, children: child }, getChildKey(child)))) }));
     }
     // If this is a subsequent render, deal with entering and exiting children
     childrenToRender = [...childrenToRender];
@@ -26970,21 +26816,32 @@ const AnimatePresence = ({ children, custom, initial = true, onExitComplete, exi
         let exitingComponent = component;
         if (!exitingComponent) {
             const onExit = () => {
-                allChildren.delete(key);
+                // clean up the exiting children map
                 exitingChildren.delete(key);
-                // Remove this child from the present children
-                const removeIndex = presentChildren.current.findIndex((presentChild) => presentChild.key === key);
-                presentChildren.current.splice(removeIndex, 1);
+                // compute the keys of children that were rendered once but are no longer present
+                // this could happen in case of too many fast consequent renderings
+                // @link https://github.com/framer/motion/issues/2023
+                const leftOverKeys = Array.from(allChildren.keys()).filter((childKey) => !targetKeys.includes(childKey));
+                // clean up the all children map
+                leftOverKeys.forEach((leftOverKey) => allChildren.delete(leftOverKey));
+                // make sure to render only the children that are actually visible
+                presentChildren.current = filteredChildren.filter((presentChild) => {
+                    const presentChildKey = getChildKey(presentChild);
+                    return (
+                    // filter out the node exiting
+                    presentChildKey === key ||
+                        // filter out the leftover children
+                        leftOverKeys.includes(presentChildKey));
+                });
                 // Defer re-rendering until all exiting children have indeed left
                 if (!exitingChildren.size) {
-                    presentChildren.current = filteredChildren;
                     if (isMounted.current === false)
                         return;
                     forceRender();
                     onExitComplete && onExitComplete();
                 }
             };
-            exitingComponent = (external_React_.createElement(PresenceChild, { key: getChildKey(child), isPresent: false, onExitComplete: onExit, custom: custom, presenceAffectsLayout: presenceAffectsLayout, mode: mode }, child));
+            exitingComponent = ((0,jsx_runtime.jsx)(PresenceChild, { isPresent: false, onExitComplete: onExit, custom: custom, presenceAffectsLayout: presenceAffectsLayout, mode: mode, children: child }, getChildKey(child)));
             exitingChildren.set(key, exitingComponent);
         }
         childrenToRender.splice(insertionIndex, 0, exitingComponent);
@@ -26993,12 +26850,12 @@ const AnimatePresence = ({ children, custom, initial = true, onExitComplete, exi
     // the same tree between renders
     childrenToRender = childrenToRender.map((child) => {
         const key = child.key;
-        return exitingChildren.has(key) ? (child) : (external_React_.createElement(PresenceChild, { key: getChildKey(child), isPresent: true, presenceAffectsLayout: presenceAffectsLayout, mode: mode }, child));
+        return exitingChildren.has(key) ? (child) : ((0,jsx_runtime.jsx)(PresenceChild, { isPresent: true, presenceAffectsLayout: presenceAffectsLayout, mode: mode, children: child }, getChildKey(child)));
     });
     if (false) {}
-    return (external_React_.createElement(external_React_.Fragment, null, exitingChildren.size
-        ? childrenToRender
-        : childrenToRender.map((child) => (0,external_React_.cloneElement)(child))));
+    return ((0,jsx_runtime.jsx)(jsx_runtime.Fragment, { children: exitingChildren.size
+            ? childrenToRender
+            : childrenToRender.map((child) => (0,external_React_.cloneElement)(child)) }));
 };
 
 
@@ -27045,7 +26902,9 @@ function useResponsiveValue(values, options = {}) {
   const index = useBreakpointIndex(options);
 
   // Allow calling the function with a "normal" value without having to check on the outside.
-  if (!Array.isArray(values) && typeof values !== 'function') return values;
+  if (!Array.isArray(values) && typeof values !== 'function') {
+    return values;
+  }
   const array = values || [];
 
   /* eslint-disable jsdoc/no-undefined-types */
@@ -27433,11 +27292,11 @@ function rtl(ltrStyles = {}, rtlStyles) {
   return () => {
     if (rtlStyles) {
       // @ts-ignore: `css` types are wrong, it can accept an object: https://emotion.sh/docs/object-styles#with-css
-      return (0,external_wp_i18n_namespaceObject.isRTL)() ? /*#__PURE__*/emotion_react_browser_esm_css(rtlStyles,  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css(ltrStyles,  true ? "" : 0);
+      return (0,external_wp_i18n_namespaceObject.isRTL)() ? /*#__PURE__*/emotion_react_browser_esm_css(rtlStyles,  true ? "" : 0,  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css(ltrStyles,  true ? "" : 0,  true ? "" : 0);
     }
 
     // @ts-ignore: `css` types are wrong, it can accept an object: https://emotion.sh/docs/object-styles#with-css
-    return (0,external_wp_i18n_namespaceObject.isRTL)() ? /*#__PURE__*/emotion_react_browser_esm_css(convertLTRToRTL(ltrStyles),  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css(ltrStyles,  true ? "" : 0);
+    return (0,external_wp_i18n_namespaceObject.isRTL)() ? /*#__PURE__*/emotion_react_browser_esm_css(convertLTRToRTL(ltrStyles),  true ? "" : 0,  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css(ltrStyles,  true ? "" : 0,  true ? "" : 0);
   };
 }
 
@@ -27812,7 +27671,10 @@ function useTruncate(props) {
   }) : children;
   const shouldTruncate = !!childrenAsText && ellipsizeMode === TRUNCATE_TYPE.auto;
   const classes = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    const truncateLines = /*#__PURE__*/emotion_react_browser_esm_css("-webkit-box-orient:vertical;-webkit-line-clamp:", numberOfLines, ";display:-webkit-box;overflow:hidden;" + ( true ? "" : 0),  true ? "" : 0);
+    // The `word-break: break-all` property first makes sure a text line
+    // breaks even when it contains 'unbreakable' content such as long URLs.
+    // See https://github.com/WordPress/gutenberg/issues/60860.
+    const truncateLines = /*#__PURE__*/emotion_react_browser_esm_css(numberOfLines === 1 ? 'word-break: break-all;' : '', " -webkit-box-orient:vertical;-webkit-line-clamp:", numberOfLines, ";display:-webkit-box;overflow:hidden;" + ( true ? "" : 0),  true ? "" : 0);
     return cx(shouldTruncate && !numberOfLines && Truncate, shouldTruncate && !!numberOfLines && truncateLines, className);
   }, [className, cx, numberOfLines, shouldTruncate]);
   return {
@@ -27823,7 +27685,7 @@ function useTruncate(props) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/colord/index.mjs
-var r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeof r?r.length>0:"number"==typeof r},colord_n=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=Math.pow(10,t)),Math.round(n*r)/n+0},colord_e=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=1),r>n?n:r>t?r:t},u=function(r){return(r=isFinite(r)?r%360:0)>0?r:r+360},colord_a=function(r){return{r:colord_e(r.r,0,255),g:colord_e(r.g,0,255),b:colord_e(r.b,0,255),a:colord_e(r.a)}},colord_o=function(r){return{r:colord_n(r.r),g:colord_n(r.g),b:colord_n(r.b),a:colord_n(r.a,3)}},i=/^#([0-9a-f]{3,8})$/i,s=function(r){var t=r.toString(16);return t.length<2?"0"+t:t},h=function(r){var t=r.r,n=r.g,e=r.b,u=r.a,a=Math.max(t,n,e),o=a-Math.min(t,n,e),i=o?a===t?(n-e)/o:a===n?2+(e-t)/o:4+(t-n)/o:0;return{h:60*(i<0?i+6:i),s:a?o/a*100:0,v:a/255*100,a:u}},b=function(r){var t=r.h,n=r.s,e=r.v,u=r.a;t=t/360*6,n/=100,e/=100;var a=Math.floor(t),o=e*(1-n),i=e*(1-(t-a)*n),s=e*(1-(1-t+a)*n),h=a%6;return{r:255*[e,i,o,o,s,e][h],g:255*[s,e,e,i,o,o][h],b:255*[o,o,s,e,e,i][h],a:u}},g=function(r){return{h:u(r.h),s:colord_e(r.s,0,100),l:colord_e(r.l,0,100),a:colord_e(r.a)}},d=function(r){return{h:colord_n(r.h),s:colord_n(r.s),l:colord_n(r.l),a:colord_n(r.a,3)}},f=function(r){return b((n=(t=r).s,{h:t.h,s:(n*=((e=t.l)<50?e:100-e)/100)>0?2*n/(e+n)*100:0,v:e+n,a:t.a}));var t,n,e},c=function(r){return{h:(t=h(r)).h,s:(u=(200-(n=t.s))*(e=t.v)/100)>0&&u<200?n*e/100/(u<=100?u:200-u)*100:0,l:u/2,a:t.a};var t,n,e,u},l=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,p=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,v=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,m=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,y={string:[[function(r){var t=i.exec(r);return t?(r=t[1]).length<=4?{r:parseInt(r[0]+r[0],16),g:parseInt(r[1]+r[1],16),b:parseInt(r[2]+r[2],16),a:4===r.length?colord_n(parseInt(r[3]+r[3],16)/255,2):1}:6===r.length||8===r.length?{r:parseInt(r.substr(0,2),16),g:parseInt(r.substr(2,2),16),b:parseInt(r.substr(4,2),16),a:8===r.length?colord_n(parseInt(r.substr(6,2),16)/255,2):1}:null:null},"hex"],[function(r){var t=v.exec(r)||m.exec(r);return t?t[2]!==t[4]||t[4]!==t[6]?null:colord_a({r:Number(t[1])/(t[2]?100/255:1),g:Number(t[3])/(t[4]?100/255:1),b:Number(t[5])/(t[6]?100/255:1),a:void 0===t[7]?1:Number(t[7])/(t[8]?100:1)}):null},"rgb"],[function(t){var n=l.exec(t)||p.exec(t);if(!n)return null;var e,u,a=g({h:(e=n[1],u=n[2],void 0===u&&(u="deg"),Number(e)*(r[u]||1)),s:Number(n[3]),l:Number(n[4]),a:void 0===n[5]?1:Number(n[5])/(n[6]?100:1)});return f(a)},"hsl"]],object:[[function(r){var n=r.r,e=r.g,u=r.b,o=r.a,i=void 0===o?1:o;return t(n)&&t(e)&&t(u)?colord_a({r:Number(n),g:Number(e),b:Number(u),a:Number(i)}):null},"rgb"],[function(r){var n=r.h,e=r.s,u=r.l,a=r.a,o=void 0===a?1:a;if(!t(n)||!t(e)||!t(u))return null;var i=g({h:Number(n),s:Number(e),l:Number(u),a:Number(o)});return f(i)},"hsl"],[function(r){var n=r.h,a=r.s,o=r.v,i=r.a,s=void 0===i?1:i;if(!t(n)||!t(a)||!t(o))return null;var h=function(r){return{h:u(r.h),s:colord_e(r.s,0,100),v:colord_e(r.v,0,100),a:colord_e(r.a)}}({h:Number(n),s:Number(a),v:Number(o),a:Number(s)});return b(h)},"hsv"]]},N=function(r,t){for(var n=0;n<t.length;n++){var e=t[n][0](r);if(e)return[e,t[n][1]]}return[null,void 0]},x=function(r){return"string"==typeof r?N(r.trim(),y.string):"object"==typeof r&&null!==r?N(r,y.object):[null,void 0]},I=function(r){return x(r)[1]},M=function(r,t){var n=c(r);return{h:n.h,s:colord_e(n.s+100*t,0,100),l:n.l,a:n.a}},H=function(r){return(299*r.r+587*r.g+114*r.b)/1e3/255},$=function(r,t){var n=c(r);return{h:n.h,s:n.s,l:colord_e(n.l+100*t,0,100),a:n.a}},j=function(){function r(r){this.parsed=x(r)[0],this.rgba=this.parsed||{r:0,g:0,b:0,a:1}}return r.prototype.isValid=function(){return null!==this.parsed},r.prototype.brightness=function(){return colord_n(H(this.rgba),2)},r.prototype.isDark=function(){return H(this.rgba)<.5},r.prototype.isLight=function(){return H(this.rgba)>=.5},r.prototype.toHex=function(){return r=colord_o(this.rgba),t=r.r,e=r.g,u=r.b,i=(a=r.a)<1?s(colord_n(255*a)):"","#"+s(t)+s(e)+s(u)+i;var r,t,e,u,a,i},r.prototype.toRgb=function(){return colord_o(this.rgba)},r.prototype.toRgbString=function(){return r=colord_o(this.rgba),t=r.r,n=r.g,e=r.b,(u=r.a)<1?"rgba("+t+", "+n+", "+e+", "+u+")":"rgb("+t+", "+n+", "+e+")";var r,t,n,e,u},r.prototype.toHsl=function(){return d(c(this.rgba))},r.prototype.toHslString=function(){return r=d(c(this.rgba)),t=r.h,n=r.s,e=r.l,(u=r.a)<1?"hsla("+t+", "+n+"%, "+e+"%, "+u+")":"hsl("+t+", "+n+"%, "+e+"%)";var r,t,n,e,u},r.prototype.toHsv=function(){return r=h(this.rgba),{h:colord_n(r.h),s:colord_n(r.s),v:colord_n(r.v),a:colord_n(r.a,3)};var r},r.prototype.invert=function(){return w({r:255-(r=this.rgba).r,g:255-r.g,b:255-r.b,a:r.a});var r},r.prototype.saturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,r))},r.prototype.desaturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,-r))},r.prototype.grayscale=function(){return w(M(this.rgba,-1))},r.prototype.lighten=function(r){return void 0===r&&(r=.1),w($(this.rgba,r))},r.prototype.darken=function(r){return void 0===r&&(r=.1),w($(this.rgba,-r))},r.prototype.rotate=function(r){return void 0===r&&(r=15),this.hue(this.hue()+r)},r.prototype.alpha=function(r){return"number"==typeof r?w({r:(t=this.rgba).r,g:t.g,b:t.b,a:r}):colord_n(this.rgba.a,3);var t},r.prototype.hue=function(r){var t=c(this.rgba);return"number"==typeof r?w({h:r,s:t.s,l:t.l,a:t.a}):colord_n(t.h)},r.prototype.isEqual=function(r){return this.toHex()===w(r).toHex()},r}(),w=function(r){return r instanceof j?r:new j(r)},S=[],k=function(r){r.forEach(function(r){S.indexOf(r)<0&&(r(j,y),S.push(r))})},E=function(){return new j({r:255*Math.random(),g:255*Math.random(),b:255*Math.random()})};
+var colord_r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeof r?r.length>0:"number"==typeof r},colord_n=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=Math.pow(10,t)),Math.round(n*r)/n+0},colord_e=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=1),r>n?n:r>t?r:t},u=function(r){return(r=isFinite(r)?r%360:0)>0?r:r+360},colord_a=function(r){return{r:colord_e(r.r,0,255),g:colord_e(r.g,0,255),b:colord_e(r.b,0,255),a:colord_e(r.a)}},colord_o=function(r){return{r:colord_n(r.r),g:colord_n(r.g),b:colord_n(r.b),a:colord_n(r.a,3)}},i=/^#([0-9a-f]{3,8})$/i,s=function(r){var t=r.toString(16);return t.length<2?"0"+t:t},h=function(r){var t=r.r,n=r.g,e=r.b,u=r.a,a=Math.max(t,n,e),o=a-Math.min(t,n,e),i=o?a===t?(n-e)/o:a===n?2+(e-t)/o:4+(t-n)/o:0;return{h:60*(i<0?i+6:i),s:a?o/a*100:0,v:a/255*100,a:u}},b=function(r){var t=r.h,n=r.s,e=r.v,u=r.a;t=t/360*6,n/=100,e/=100;var a=Math.floor(t),o=e*(1-n),i=e*(1-(t-a)*n),s=e*(1-(1-t+a)*n),h=a%6;return{r:255*[e,i,o,o,s,e][h],g:255*[s,e,e,i,o,o][h],b:255*[o,o,s,e,e,i][h],a:u}},g=function(r){return{h:u(r.h),s:colord_e(r.s,0,100),l:colord_e(r.l,0,100),a:colord_e(r.a)}},d=function(r){return{h:colord_n(r.h),s:colord_n(r.s),l:colord_n(r.l),a:colord_n(r.a,3)}},f=function(r){return b((n=(t=r).s,{h:t.h,s:(n*=((e=t.l)<50?e:100-e)/100)>0?2*n/(e+n)*100:0,v:e+n,a:t.a}));var t,n,e},c=function(r){return{h:(t=h(r)).h,s:(u=(200-(n=t.s))*(e=t.v)/100)>0&&u<200?n*e/100/(u<=100?u:200-u)*100:0,l:u/2,a:t.a};var t,n,e,u},l=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,p=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,v=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,m=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,y={string:[[function(r){var t=i.exec(r);return t?(r=t[1]).length<=4?{r:parseInt(r[0]+r[0],16),g:parseInt(r[1]+r[1],16),b:parseInt(r[2]+r[2],16),a:4===r.length?colord_n(parseInt(r[3]+r[3],16)/255,2):1}:6===r.length||8===r.length?{r:parseInt(r.substr(0,2),16),g:parseInt(r.substr(2,2),16),b:parseInt(r.substr(4,2),16),a:8===r.length?colord_n(parseInt(r.substr(6,2),16)/255,2):1}:null:null},"hex"],[function(r){var t=v.exec(r)||m.exec(r);return t?t[2]!==t[4]||t[4]!==t[6]?null:colord_a({r:Number(t[1])/(t[2]?100/255:1),g:Number(t[3])/(t[4]?100/255:1),b:Number(t[5])/(t[6]?100/255:1),a:void 0===t[7]?1:Number(t[7])/(t[8]?100:1)}):null},"rgb"],[function(t){var n=l.exec(t)||p.exec(t);if(!n)return null;var e,u,a=g({h:(e=n[1],u=n[2],void 0===u&&(u="deg"),Number(e)*(colord_r[u]||1)),s:Number(n[3]),l:Number(n[4]),a:void 0===n[5]?1:Number(n[5])/(n[6]?100:1)});return f(a)},"hsl"]],object:[[function(r){var n=r.r,e=r.g,u=r.b,o=r.a,i=void 0===o?1:o;return t(n)&&t(e)&&t(u)?colord_a({r:Number(n),g:Number(e),b:Number(u),a:Number(i)}):null},"rgb"],[function(r){var n=r.h,e=r.s,u=r.l,a=r.a,o=void 0===a?1:a;if(!t(n)||!t(e)||!t(u))return null;var i=g({h:Number(n),s:Number(e),l:Number(u),a:Number(o)});return f(i)},"hsl"],[function(r){var n=r.h,a=r.s,o=r.v,i=r.a,s=void 0===i?1:i;if(!t(n)||!t(a)||!t(o))return null;var h=function(r){return{h:u(r.h),s:colord_e(r.s,0,100),v:colord_e(r.v,0,100),a:colord_e(r.a)}}({h:Number(n),s:Number(a),v:Number(o),a:Number(s)});return b(h)},"hsv"]]},N=function(r,t){for(var n=0;n<t.length;n++){var e=t[n][0](r);if(e)return[e,t[n][1]]}return[null,void 0]},x=function(r){return"string"==typeof r?N(r.trim(),y.string):"object"==typeof r&&null!==r?N(r,y.object):[null,void 0]},I=function(r){return x(r)[1]},M=function(r,t){var n=c(r);return{h:n.h,s:colord_e(n.s+100*t,0,100),l:n.l,a:n.a}},H=function(r){return(299*r.r+587*r.g+114*r.b)/1e3/255},$=function(r,t){var n=c(r);return{h:n.h,s:n.s,l:colord_e(n.l+100*t,0,100),a:n.a}},j=function(){function r(r){this.parsed=x(r)[0],this.rgba=this.parsed||{r:0,g:0,b:0,a:1}}return r.prototype.isValid=function(){return null!==this.parsed},r.prototype.brightness=function(){return colord_n(H(this.rgba),2)},r.prototype.isDark=function(){return H(this.rgba)<.5},r.prototype.isLight=function(){return H(this.rgba)>=.5},r.prototype.toHex=function(){return r=colord_o(this.rgba),t=r.r,e=r.g,u=r.b,i=(a=r.a)<1?s(colord_n(255*a)):"","#"+s(t)+s(e)+s(u)+i;var r,t,e,u,a,i},r.prototype.toRgb=function(){return colord_o(this.rgba)},r.prototype.toRgbString=function(){return r=colord_o(this.rgba),t=r.r,n=r.g,e=r.b,(u=r.a)<1?"rgba("+t+", "+n+", "+e+", "+u+")":"rgb("+t+", "+n+", "+e+")";var r,t,n,e,u},r.prototype.toHsl=function(){return d(c(this.rgba))},r.prototype.toHslString=function(){return r=d(c(this.rgba)),t=r.h,n=r.s,e=r.l,(u=r.a)<1?"hsla("+t+", "+n+"%, "+e+"%, "+u+")":"hsl("+t+", "+n+"%, "+e+"%)";var r,t,n,e,u},r.prototype.toHsv=function(){return r=h(this.rgba),{h:colord_n(r.h),s:colord_n(r.s),v:colord_n(r.v),a:colord_n(r.a,3)};var r},r.prototype.invert=function(){return w({r:255-(r=this.rgba).r,g:255-r.g,b:255-r.b,a:r.a});var r},r.prototype.saturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,r))},r.prototype.desaturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,-r))},r.prototype.grayscale=function(){return w(M(this.rgba,-1))},r.prototype.lighten=function(r){return void 0===r&&(r=.1),w($(this.rgba,r))},r.prototype.darken=function(r){return void 0===r&&(r=.1),w($(this.rgba,-r))},r.prototype.rotate=function(r){return void 0===r&&(r=15),this.hue(this.hue()+r)},r.prototype.alpha=function(r){return"number"==typeof r?w({r:(t=this.rgba).r,g:t.g,b:t.b,a:r}):colord_n(this.rgba.a,3);var t},r.prototype.hue=function(r){var t=c(this.rgba);return"number"==typeof r?w({h:r,s:t.s,l:t.l,a:t.a}):colord_n(t.h)},r.prototype.isEqual=function(r){return this.toHex()===w(r).toHex()},r}(),w=function(r){return r instanceof j?r:new j(r)},S=[],k=function(r){r.forEach(function(r){S.indexOf(r)<0&&(r(j,y),S.push(r))})},E=function(){return new j({r:255*Math.random(),g:255*Math.random(),b:255*Math.random()})};
 
 ;// CONCATENATED MODULE: ./node_modules/colord/plugins/names.mjs
 /* harmony default export */ function names(e,f){var a={white:"#ffffff",bisque:"#ffe4c4",blue:"#0000ff",cadetblue:"#5f9ea0",chartreuse:"#7fff00",chocolate:"#d2691e",coral:"#ff7f50",antiquewhite:"#faebd7",aqua:"#00ffff",azure:"#f0ffff",whitesmoke:"#f5f5f5",papayawhip:"#ffefd5",plum:"#dda0dd",blanchedalmond:"#ffebcd",black:"#000000",gold:"#ffd700",goldenrod:"#daa520",gainsboro:"#dcdcdc",cornsilk:"#fff8dc",cornflowerblue:"#6495ed",burlywood:"#deb887",aquamarine:"#7fffd4",beige:"#f5f5dc",crimson:"#dc143c",cyan:"#00ffff",darkblue:"#00008b",darkcyan:"#008b8b",darkgoldenrod:"#b8860b",darkkhaki:"#bdb76b",darkgray:"#a9a9a9",darkgreen:"#006400",darkgrey:"#a9a9a9",peachpuff:"#ffdab9",darkmagenta:"#8b008b",darkred:"#8b0000",darkorchid:"#9932cc",darkorange:"#ff8c00",darkslateblue:"#483d8b",gray:"#808080",darkslategray:"#2f4f4f",darkslategrey:"#2f4f4f",deeppink:"#ff1493",deepskyblue:"#00bfff",wheat:"#f5deb3",firebrick:"#b22222",floralwhite:"#fffaf0",ghostwhite:"#f8f8ff",darkviolet:"#9400d3",magenta:"#ff00ff",green:"#008000",dodgerblue:"#1e90ff",grey:"#808080",honeydew:"#f0fff0",hotpink:"#ff69b4",blueviolet:"#8a2be2",forestgreen:"#228b22",lawngreen:"#7cfc00",indianred:"#cd5c5c",indigo:"#4b0082",fuchsia:"#ff00ff",brown:"#a52a2a",maroon:"#800000",mediumblue:"#0000cd",lightcoral:"#f08080",darkturquoise:"#00ced1",lightcyan:"#e0ffff",ivory:"#fffff0",lightyellow:"#ffffe0",lightsalmon:"#ffa07a",lightseagreen:"#20b2aa",linen:"#faf0e6",mediumaquamarine:"#66cdaa",lemonchiffon:"#fffacd",lime:"#00ff00",khaki:"#f0e68c",mediumseagreen:"#3cb371",limegreen:"#32cd32",mediumspringgreen:"#00fa9a",lightskyblue:"#87cefa",lightblue:"#add8e6",midnightblue:"#191970",lightpink:"#ffb6c1",mistyrose:"#ffe4e1",moccasin:"#ffe4b5",mintcream:"#f5fffa",lightslategray:"#778899",lightslategrey:"#778899",navajowhite:"#ffdead",navy:"#000080",mediumvioletred:"#c71585",powderblue:"#b0e0e6",palegoldenrod:"#eee8aa",oldlace:"#fdf5e6",paleturquoise:"#afeeee",mediumturquoise:"#48d1cc",mediumorchid:"#ba55d3",rebeccapurple:"#663399",lightsteelblue:"#b0c4de",mediumslateblue:"#7b68ee",thistle:"#d8bfd8",tan:"#d2b48c",orchid:"#da70d6",mediumpurple:"#9370db",purple:"#800080",pink:"#ffc0cb",skyblue:"#87ceeb",springgreen:"#00ff7f",palegreen:"#98fb98",red:"#ff0000",yellow:"#ffff00",slateblue:"#6a5acd",lavenderblush:"#fff0f5",peru:"#cd853f",palevioletred:"#db7093",violet:"#ee82ee",teal:"#008080",slategray:"#708090",slategrey:"#708090",aliceblue:"#f0f8ff",darkseagreen:"#8fbc8f",darkolivegreen:"#556b2f",greenyellow:"#adff2f",seagreen:"#2e8b57",seashell:"#fff5ee",tomato:"#ff6347",silver:"#c0c0c0",sienna:"#a0522d",lavender:"#e6e6fa",lightgreen:"#90ee90",orange:"#ffa500",orangered:"#ff4500",steelblue:"#4682b4",royalblue:"#4169e1",turquoise:"#40e0d0",yellowgreen:"#9acd32",salmon:"#fa8072",saddlebrown:"#8b4513",sandybrown:"#f4a460",rosybrown:"#bc8f8f",darksalmon:"#e9967a",lightgoldenrodyellow:"#fafad2",snow:"#fffafa",lightgrey:"#d3d3d3",lightgray:"#d3d3d3",dimgray:"#696969",dimgrey:"#696969",olivedrab:"#6b8e23",olive:"#808000"},r={};for(var d in a)r[a[d]]=d;var l={};e.prototype.toName=function(f){if(!(this.rgba.a||this.rgba.r||this.rgba.g||this.rgba.b))return"transparent";var d,i,n=r[this.toHex()];if(n)return n;if(null==f?void 0:f.closest){var o=this.toRgb(),t=1/0,b="black";if(!l.length)for(var c in a)l[c]=new e(a[c]).toRgb();for(var g in a){var u=(d=o,i=l[g],Math.pow(d.r-i.r,2)+Math.pow(d.g-i.g,2)+Math.pow(d.b-i.b,2));u<t&&(t=u,b=g)}return b}};f.string.push([function(f){var r=f.toLowerCase(),d="transparent"===r?"#0000":a[r];return d?new e(d).toRgb():null},"name"])}
@@ -27859,7 +27721,9 @@ function colors_rgba(hexValue = '', alpha = 1) {
  * @return {HTMLDivElement | undefined} The HTML element for color computation.
  */
 function getColorComputationNode() {
-  if (typeof document === 'undefined') return;
+  if (typeof document === 'undefined') {
+    return;
+  }
   if (!colorComputationNode) {
     // Create a temporary element for style computation.
     const el = document.createElement('div');
@@ -27877,7 +27741,9 @@ function getColorComputationNode() {
  * @return {boolean} Whether the value is a valid color.
  */
 function isColor(value) {
-  if (typeof value !== 'string') return false;
+  if (typeof value !== 'string') {
+    return false;
+  }
   const test = w(value);
   return test.isValid();
 }
@@ -27891,14 +27757,24 @@ function isColor(value) {
  * @return {string} The computed background color.
  */
 function _getComputedBackgroundColor(backgroundColor) {
-  if (typeof backgroundColor !== 'string') return '';
-  if (isColor(backgroundColor)) return backgroundColor;
-  if (!backgroundColor.includes('var(')) return '';
-  if (typeof document === 'undefined') return '';
+  if (typeof backgroundColor !== 'string') {
+    return '';
+  }
+  if (isColor(backgroundColor)) {
+    return backgroundColor;
+  }
+  if (!backgroundColor.includes('var(')) {
+    return '';
+  }
+  if (typeof document === 'undefined') {
+    return '';
+  }
 
   // Attempts to gracefully handle CSS variables color values.
   const el = getColorComputationNode();
-  if (!el) return '';
+  if (!el) {
+    return '';
+  }
   el.style.background = backgroundColor;
   // Grab the style.
   const computedColor = window?.getComputedStyle(el).background;
@@ -27989,7 +27865,7 @@ const TOGGLE_GROUP_CONTROL_PROPS = {
   fontSizeMobile: '15px',
   fontSizeSmall: 'calc(0.92 * 13px)',
   fontSizeXSmall: 'calc(0.75 * 13px)',
-  fontLineHeightBase: '1.2',
+  fontLineHeightBase: '1.4',
   fontWeight: 'normal',
   fontWeightHeading: '600',
   gridBase: '4px',
@@ -28026,7 +27902,7 @@ function text_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried t
  * Internal dependencies
  */
 
-const Text = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.gray[900], ";line-height:", config_values.fontLineHeightBase, ";margin:0;" + ( true ? "" : 0),  true ? "" : 0);
+const Text = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.gray[900], ";line-height:", config_values.fontLineHeightBase, ";margin:0;text-wrap:pretty;" + ( true ? "" : 0),  true ? "" : 0);
 const styles_block =  true ? {
   name: "4zleql",
   styles: "display:block"
@@ -28125,8 +28001,12 @@ function createHighlighterText({
   unhighlightClassName = '',
   unhighlightStyle
 }) {
-  if (!children) return null;
-  if (typeof children !== 'string') return children;
+  if (!children) {
+    return null;
+  }
+  if (typeof children !== 'string') {
+    return children;
+  }
   const textToHighlight = children;
   const chunks = (0,dist.findAll)({
     autoEscape,
@@ -28207,7 +28087,9 @@ function getFontSize(size = BASE_FONT_SIZE) {
   }
   if (typeof size !== 'number') {
     const parsed = parseFloat(size);
-    if (Number.isNaN(parsed)) return size;
+    if (Number.isNaN(parsed)) {
+      return size;
+    }
     size = parsed;
   }
   const ratio = `(${size} / ${BASE_FONT_SIZE})`;
@@ -28233,8 +28115,12 @@ function getHeadingFontSize(size = 3) {
 
 
 function getLineHeight(adjustLineHeightForInnerControls, lineHeight) {
-  if (lineHeight) return lineHeight;
-  if (!adjustLineHeightForInnerControls) return;
+  if (lineHeight) {
+    return lineHeight;
+  }
+  if (!adjustLineHeightForInnerControls) {
+    return;
+  }
   let value = `calc(${config_values.controlHeight} + ${space(2)})`;
   switch (adjustLineHeightForInnerControls) {
     case 'large':
@@ -28452,23 +28338,46 @@ function input_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You hav
  */
 
 
+/**
+ * Internal dependencies
+ */
 
 
 
 
-var _ref2 =  true ? {
-  name: "1739oy8",
-  styles: "z-index:1"
-} : 0;
-const rootFocusedStyles = ({
-  isFocused
-}) => {
-  if (!isFocused) return '';
-  return _ref2;
-};
-const input_control_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+
+const Prefix = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "em5sgkm7"
-} : 0)("box-sizing:border-box;position:relative;border-radius:2px;padding-top:0;", rootFocusedStyles, ";" + ( true ? "" : 0));
+} : 0)( true ? {
+  name: "pvvbxf",
+  styles: "box-sizing:border-box;display:block"
+} : 0);
+const Suffix = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
+  target: "em5sgkm6"
+} : 0)( true ? {
+  name: "jgf79h",
+  styles: "align-items:center;align-self:stretch;box-sizing:border-box;display:flex"
+} : 0);
+const backdropBorderColor = ({
+  disabled,
+  isBorderless
+}) => {
+  if (isBorderless) {
+    return 'transparent';
+  }
+  if (disabled) {
+    return COLORS.ui.borderDisabled;
+  }
+  return COLORS.ui.border;
+};
+const BackdropUI = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
+  target: "em5sgkm5"
+} : 0)("&&&{box-sizing:border-box;border-color:", backdropBorderColor, ";border-radius:inherit;border-style:solid;border-width:1px;bottom:0;left:0;margin:0;padding:0;pointer-events:none;position:absolute;right:0;top:0;", rtl({
+  paddingLeft: 2
+}), ";}" + ( true ? "" : 0));
+const input_control_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
+  target: "em5sgkm4"
+} : 0)("box-sizing:border-box;position:relative;border-radius:2px;padding-top:0;&:focus-within:not( :has( :is( ", Prefix, ", ", Suffix, " ):focus-within ) ){z-index:1;", BackdropUI, "{border-color:", COLORS.ui.borderFocus, ";box-shadow:", config_values.controlBoxShadowFocus, ";outline:2px solid transparent;outline-offset:-2px;}}" + ( true ? "" : 0));
 const containerDisabledStyles = ({
   disabled
 }) => {
@@ -28485,8 +28394,12 @@ const containerWidthStyles = ({
   __unstableInputWidth,
   labelPosition
 }) => {
-  if (!__unstableInputWidth) return input_control_styles_ref;
-  if (labelPosition === 'side') return '';
+  if (!__unstableInputWidth) {
+    return input_control_styles_ref;
+  }
+  if (labelPosition === 'side') {
+    return '';
+  }
   if (labelPosition === 'edge') {
     return /*#__PURE__*/emotion_react_browser_esm_css({
       flex: `0 0 ${__unstableInputWidth}`
@@ -28496,13 +28409,15 @@ const containerWidthStyles = ({
     width: __unstableInputWidth
   },  true ? "" : 0,  true ? "" : 0);
 };
-const Container = emotion_styled_base_browser_esm("div",  true ? {
-  target: "em5sgkm6"
+const Container = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
+  target: "em5sgkm3"
 } : 0)("align-items:center;box-sizing:border-box;border-radius:inherit;display:flex;flex:1;position:relative;", containerDisabledStyles, " ", containerWidthStyles, ";" + ( true ? "" : 0));
 const disabledStyles = ({
   disabled
 }) => {
-  if (!disabled) return '';
+  if (!disabled) {
+    return '';
+  }
   return /*#__PURE__*/emotion_react_browser_esm_css({
     color: COLORS.ui.textDisabled
   },  true ? "" : 0,  true ? "" : 0);
@@ -28518,7 +28433,9 @@ const fontSizeStyles = ({
   };
   const fontSize = sizes[size] || sizes.default;
   const fontSizeMobile = '16px';
-  if (!fontSize) return '';
+  if (!fontSize) {
+    return '';
+  }
   return /*#__PURE__*/emotion_react_browser_esm_css("font-size:", fontSizeMobile, ";@media ( min-width: 600px ){font-size:", fontSize, ";}" + ( true ? "" : 0),  true ? "" : 0);
 };
 const getSizeConfig = ({
@@ -28591,66 +28508,21 @@ const dragStyles = ({
 // TODO: Resolve need to use &&& to increase specificity
 // https://github.com/WordPress/gutenberg/issues/18483
 
-const Input = emotion_styled_base_browser_esm("input",  true ? {
-  target: "em5sgkm5"
+const Input = /*#__PURE__*/emotion_styled_base_browser_esm("input",  true ? {
+  target: "em5sgkm2"
 } : 0)("&&&{background-color:transparent;box-sizing:border-box;border:none;box-shadow:none!important;color:", COLORS.theme.foreground, ";display:block;font-family:inherit;margin:0;outline:none;width:100%;", dragStyles, " ", disabledStyles, " ", fontSizeStyles, " ", sizeStyles, " ", customPaddings, " &::-webkit-input-placeholder{line-height:normal;}}" + ( true ? "" : 0));
 const BaseLabel = /*#__PURE__*/emotion_styled_base_browser_esm(text_component,  true ? {
-  target: "em5sgkm4"
+  target: "em5sgkm1"
 } : 0)("&&&{", baseLabelTypography, ";box-sizing:border-box;display:block;padding-top:0;padding-bottom:0;max-width:100%;z-index:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}" + ( true ? "" : 0));
 const Label = props => (0,external_React_.createElement)(BaseLabel, {
   ...props,
   as: "label"
 });
 const LabelWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_item_component,  true ? {
-  target: "em5sgkm3"
+  target: "em5sgkm0"
 } : 0)( true ? {
   name: "1b6uupn",
   styles: "max-width:calc( 100% - 10px )"
-} : 0);
-const backdropFocusedStyles = ({
-  disabled,
-  isBorderless,
-  isFocused
-}) => {
-  let borderColor = isBorderless ? 'transparent' : COLORS.ui.border;
-  let boxShadow;
-  let outline;
-  let outlineOffset;
-  if (isFocused) {
-    borderColor = COLORS.ui.borderFocus;
-    boxShadow = config_values.controlBoxShadowFocus;
-    // Windows High Contrast mode will show this outline, but not the box-shadow.
-    outline = `2px solid transparent`;
-    outlineOffset = `-2px`;
-  }
-  if (disabled) {
-    borderColor = isBorderless ? 'transparent' : COLORS.ui.borderDisabled;
-  }
-  return /*#__PURE__*/emotion_react_browser_esm_css({
-    boxShadow,
-    borderColor,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    outline,
-    outlineOffset
-  },  true ? "" : 0,  true ? "" : 0);
-};
-const BackdropUI = emotion_styled_base_browser_esm("div",  true ? {
-  target: "em5sgkm2"
-} : 0)("&&&{box-sizing:border-box;border-radius:inherit;bottom:0;left:0;margin:0;padding:0;pointer-events:none;position:absolute;right:0;top:0;", backdropFocusedStyles, " ", rtl({
-  paddingLeft: 2
-}), ";}" + ( true ? "" : 0));
-const Prefix = emotion_styled_base_browser_esm("span",  true ? {
-  target: "em5sgkm1"
-} : 0)( true ? {
-  name: "pvvbxf",
-  styles: "box-sizing:border-box;display:block"
-} : 0);
-const Suffix = emotion_styled_base_browser_esm("span",  true ? {
-  target: "em5sgkm0"
-} : 0)( true ? {
-  name: "jgf79h",
-  styles: "align-items:center;align-self:stretch;box-sizing:border-box;display:flex"
 } : 0);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/input-control/backdrop.js
@@ -28665,15 +28537,13 @@ const Suffix = emotion_styled_base_browser_esm("span",  true ? {
 
 function Backdrop({
   disabled = false,
-  isBorderless = false,
-  isFocused = false
+  isBorderless = false
 }) {
   return (0,external_React_.createElement)(BackdropUI, {
     "aria-hidden": "true",
     className: "components-input-control__backdrop",
     disabled: disabled,
-    isBorderless: isBorderless,
-    isFocused: isFocused
+    isBorderless: isBorderless
   });
 }
 const MemoizedBackdrop = (0,external_wp_element_namespaceObject.memo)(Backdrop);
@@ -28692,7 +28562,9 @@ function label_Label({
   htmlFor,
   ...props
 }) {
-  if (!children) return null;
+  if (!children) {
+    return null;
+  }
   if (hideLabelFromVision) {
     return (0,external_React_.createElement)(visually_hidden_component, {
       as: "label",
@@ -28775,7 +28647,6 @@ function InputBase(props, ref) {
     labelPosition,
     id: idProp,
     isBorderless = false,
-    isFocused = false,
     label,
     prefix,
     size = 'default',
@@ -28808,8 +28679,6 @@ function InputBase(props, ref) {
       ...getUIFlexProps(labelPosition),
       className: className,
       gap: 2,
-      isFocused: isFocused,
-      labelPosition: labelPosition,
       ref: ref
     }, (0,external_React_.createElement)(label_Label, {
       className: "components-input-control__label",
@@ -28830,8 +28699,7 @@ function InputBase(props, ref) {
       className: "components-input-control__suffix"
     }, suffix)), (0,external_React_.createElement)(backdrop, {
       disabled: disabled,
-      isBorderless: isBorderless,
-      isFocused: isFocused
+      isBorderless: isBorderless
     })))
   );
 }
@@ -28878,7 +28746,7 @@ function computeRubberband(bounds, [Vx, Vy], [Rx, Ry]) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-b1cc53c2.esm.js
+;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-fe213e88.esm.js
 
 
 function _toPrimitive(input, hint) {
@@ -28912,26 +28780,26 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
+function ownKeys(e, r) {
+  var t = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
+    var o = Object.getOwnPropertySymbols(e);
+    r && (o = o.filter(function (r) {
+      return Object.getOwnPropertyDescriptor(e, r).enumerable;
+    })), t.push.apply(t, o);
   }
-  return keys;
+  return t;
 }
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+function _objectSpread2(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {};
+    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+      _defineProperty(e, r, t[r]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+      Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
     });
   }
-  return target;
+  return e;
 }
 
 const EVENT_TYPE_MAP = {
@@ -28999,7 +28867,7 @@ function getPointerType(event) {
 function getCurrentTargetTouchList(event) {
   return Array.from(event.touches).filter(e => {
     var _event$currentTarget, _event$currentTarget$;
-    return e.target === event.currentTarget || ((_event$currentTarget = event.currentTarget) === null || _event$currentTarget === void 0 ? void 0 : (_event$currentTarget$ = _event$currentTarget.contains) === null || _event$currentTarget$ === void 0 ? void 0 : _event$currentTarget$.call(_event$currentTarget, e.target));
+    return e.target === event.currentTarget || ((_event$currentTarget = event.currentTarget) === null || _event$currentTarget === void 0 || (_event$currentTarget$ = _event$currentTarget.contains) === null || _event$currentTarget$ === void 0 ? void 0 : _event$currentTarget$.call(_event$currentTarget, e.target));
   });
 }
 function getTouchList(event) {
@@ -29009,18 +28877,21 @@ function getValueEvent(event) {
   return isTouch(event) ? getTouchList(event)[0] : event;
 }
 function distanceAngle(P1, P2) {
-  const dx = P2.clientX - P1.clientX;
-  const dy = P2.clientY - P1.clientY;
-  const cx = (P2.clientX + P1.clientX) / 2;
-  const cy = (P2.clientY + P1.clientY) / 2;
-  const distance = Math.hypot(dx, dy);
-  const angle = -(Math.atan2(dx, dy) * 180) / Math.PI;
-  const origin = [cx, cy];
-  return {
-    angle,
-    distance,
-    origin
-  };
+  try {
+    const dx = P2.clientX - P1.clientX;
+    const dy = P2.clientY - P1.clientY;
+    const cx = (P2.clientX + P1.clientX) / 2;
+    const cy = (P2.clientY + P1.clientY) / 2;
+    const distance = Math.hypot(dx, dy);
+    const angle = -(Math.atan2(dx, dy) * 180) / Math.PI;
+    const origin = [cx, cy];
+    return {
+      angle,
+      distance,
+      origin
+    };
+  } catch (_unused) {}
+  return null;
 }
 function touchIds(event) {
   return getCurrentTargetTouchList(event).map(touch => touch.identifier);
@@ -29091,9 +28962,9 @@ function call(v, ...args) {
     return v;
   }
 }
-function actions_b1cc53c2_esm_noop() {}
-function actions_b1cc53c2_esm_chain(...fns) {
-  if (fns.length === 0) return actions_b1cc53c2_esm_noop;
+function actions_fe213e88_esm_noop() {}
+function actions_fe213e88_esm_chain(...fns) {
+  if (fns.length === 0) return actions_fe213e88_esm_noop;
   if (fns.length === 1) return fns[0];
   return function () {
     let result;
@@ -29163,7 +29034,7 @@ class Engine {
     state.args = args;
     state.axis = undefined;
     state.memo = undefined;
-    state.elapsedTime = 0;
+    state.elapsedTime = state.timeDelta = 0;
     state.direction = [0, 0];
     state.distance = [0, 0];
     state.overflow = [0, 0];
@@ -29184,8 +29055,8 @@ class Engine {
       state.currentTarget = event.currentTarget;
       state.lastOffset = config.from ? call(config.from, state) : state.offset;
       state.offset = state.lastOffset;
+      state.startTime = state.timeStamp = event.timeStamp;
     }
-    state.startTime = state.timeStamp = event.timeStamp;
   }
   computeValues(values) {
     const state = this.state;
@@ -29279,6 +29150,7 @@ class Engine {
       state._direction = state._delta.map(Math.sign);
       if (!state.first && dt > 0) {
         state.velocity = [absoluteDelta[0] / dt, absoluteDelta[1] / dt];
+        state.timeDelta = dt;
       }
     }
   }
@@ -29352,7 +29224,7 @@ class CoordinatesEngine extends Engine {
   }
 }
 
-const actions_b1cc53c2_esm_identity = v => v;
+const actions_fe213e88_esm_identity = v => v;
 const DEFAULT_RUBBERBAND = 0.15;
 const commonConfigResolver = {
   enabled(value = true) {
@@ -29385,7 +29257,7 @@ const commonConfigResolver = {
     const transform = value || config.shared.transform;
     this.hasCustomTransform = !!transform;
     if (false) {}
-    return transform || actions_b1cc53c2_esm_identity;
+    return transform || actions_fe213e88_esm_identity;
   },
   threshold(value) {
     return V.toVector(value, 0);
@@ -29521,7 +29393,6 @@ class DragEngine extends CoordinatesEngine {
     const state = this.state;
     const config = this.config;
     if (!state._pointerActive) return;
-    if (state.type === event.type && event.timeStamp === state.timeStamp) return;
     const id = pointerId(event);
     if (state._pointerId !== undefined && id !== state._pointerId) return;
     const _values = pointerValues(event);
@@ -29579,15 +29450,16 @@ class DragEngine extends CoordinatesEngine {
     if (state.tap && config.filterTaps) {
       state._force = true;
     } else {
-      const [dirx, diry] = state.direction;
-      const [vx, vy] = state.velocity;
-      const [mx, my] = state.movement;
+      const [_dx, _dy] = state._delta;
+      const [_mx, _my] = state._movement;
       const [svx, svy] = config.swipe.velocity;
       const [sx, sy] = config.swipe.distance;
       const sdt = config.swipe.duration;
       if (state.elapsedTime < sdt) {
-        if (Math.abs(vx) > svx && Math.abs(mx) > sx) state.swipe[0] = dirx;
-        if (Math.abs(vy) > svy && Math.abs(my) > sy) state.swipe[1] = diry;
+        const _vx = Math.abs(_dx / state.timeDelta);
+        const _vy = Math.abs(_dy / state.timeDelta);
+        if (_vx > svx && Math.abs(_mx) > sx) state.swipe[0] = Math.sign(_dx);
+        if (_vy > svy && Math.abs(_my) > sy) state.swipe[1] = Math.sign(_dy);
       }
     }
     this.emit();
@@ -29683,18 +29555,18 @@ function persistEvent(event) {
   'persist' in event && typeof event.persist === 'function' && event.persist();
 }
 
-const actions_b1cc53c2_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
+const actions_fe213e88_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
 function supportsTouchEvents() {
-  return actions_b1cc53c2_esm_isBrowser && 'ontouchstart' in window;
+  return actions_fe213e88_esm_isBrowser && 'ontouchstart' in window;
 }
 function isTouchScreen() {
-  return supportsTouchEvents() || actions_b1cc53c2_esm_isBrowser && window.navigator.maxTouchPoints > 1;
+  return supportsTouchEvents() || actions_fe213e88_esm_isBrowser && window.navigator.maxTouchPoints > 1;
 }
 function supportsPointerEvents() {
-  return actions_b1cc53c2_esm_isBrowser && 'onpointerdown' in window;
+  return actions_fe213e88_esm_isBrowser && 'onpointerdown' in window;
 }
 function supportsPointerLock() {
-  return actions_b1cc53c2_esm_isBrowser && 'exitPointerLock' in window.document;
+  return actions_fe213e88_esm_isBrowser && 'exitPointerLock' in window.document;
 }
 function supportsGestureEvents() {
   try {
@@ -29704,9 +29576,9 @@ function supportsGestureEvents() {
   }
 }
 const SUPPORT = {
-  isBrowser: actions_b1cc53c2_esm_isBrowser,
+  isBrowser: actions_fe213e88_esm_isBrowser,
   gesture: supportsGestureEvents(),
-  touch: isTouchScreen(),
+  touch: supportsTouchEvents(),
   touchscreen: isTouchScreen(),
   pointer: supportsPointerEvents(),
   pointerLock: supportsPointerLock()
@@ -29883,6 +29755,7 @@ class PinchEngine extends Engine {
     this.start(event);
     state._touchIds = Array.from(ctrlTouchIds).slice(0, 2);
     const payload = touchDistanceAngle(event, state._touchIds);
+    if (!payload) return;
     this.pinchStart(event, payload);
   }
   pointerStart(event) {
@@ -29901,6 +29774,7 @@ class PinchEngine extends Engine {
     if (state._pointerEvents.size < 2) return;
     this.start(event);
     const payload = distanceAngle(...Array.from(_pointerEvents.values()));
+    if (!payload) return;
     this.pinchStart(event, payload);
   }
   pinchStart(event, payload) {
@@ -29914,6 +29788,7 @@ class PinchEngine extends Engine {
   touchMove(event) {
     if (!this.state._active) return;
     const payload = touchDistanceAngle(event, this.state._touchIds);
+    if (!payload) return;
     this.pinchMove(event, payload);
   }
   pointerMove(event) {
@@ -29923,6 +29798,7 @@ class PinchEngine extends Engine {
     }
     if (!this.state._active) return;
     const payload = distanceAngle(...Array.from(_pointerEvents.values()));
+    if (!payload) return;
     this.pinchMove(event, payload);
   }
   pinchMove(event, payload) {
@@ -29993,7 +29869,7 @@ class PinchEngine extends Engine {
   }
   wheel(event) {
     const modifierKey = this.config.modifierKey;
-    if (modifierKey && !event[modifierKey]) return;
+    if (modifierKey && (Array.isArray(modifierKey) ? !modifierKey.find(k => event[k]) : !event[modifierKey])) return;
     if (!this.state._active) this.wheelStart(event);else this.wheelChange(event);
     this.timeoutStore.add('wheelEnd', this.wheelEnd.bind(this));
   }
@@ -30030,6 +29906,7 @@ class PinchEngine extends Engine {
       bindFunction(device, 'change', this[device + 'Move'].bind(this));
       bindFunction(device, 'end', this[device + 'End'].bind(this));
       bindFunction(device, 'cancel', this[device + 'End'].bind(this));
+      bindFunction('lostPointerCapture', '', this[device + 'End'].bind(this));
     }
     if (this.config.pinchOnWheel) {
       bindFunction('wheel', '', this.wheel.bind(this), {
@@ -30230,38 +30107,38 @@ const hoverConfigResolver = _objectSpread2(_objectSpread2({}, coordinatesConfigR
   mouseOnly: (value = true) => value
 });
 
-const actions_b1cc53c2_esm_EngineMap = new Map();
+const actions_fe213e88_esm_EngineMap = new Map();
 const ConfigResolverMap = new Map();
-function actions_b1cc53c2_esm_registerAction(action) {
-  actions_b1cc53c2_esm_EngineMap.set(action.key, action.engine);
+function actions_fe213e88_esm_registerAction(action) {
+  actions_fe213e88_esm_EngineMap.set(action.key, action.engine);
   ConfigResolverMap.set(action.key, action.resolver);
 }
-const actions_b1cc53c2_esm_dragAction = {
+const actions_fe213e88_esm_dragAction = {
   key: 'drag',
   engine: DragEngine,
   resolver: dragConfigResolver
 };
-const actions_b1cc53c2_esm_hoverAction = {
+const actions_fe213e88_esm_hoverAction = {
   key: 'hover',
   engine: HoverEngine,
   resolver: hoverConfigResolver
 };
-const actions_b1cc53c2_esm_moveAction = {
+const actions_fe213e88_esm_moveAction = {
   key: 'move',
   engine: MoveEngine,
   resolver: moveConfigResolver
 };
-const actions_b1cc53c2_esm_pinchAction = {
+const actions_fe213e88_esm_pinchAction = {
   key: 'pinch',
   engine: PinchEngine,
   resolver: pinchConfigResolver
 };
-const actions_b1cc53c2_esm_scrollAction = {
+const actions_fe213e88_esm_scrollAction = {
   key: 'scroll',
   engine: ScrollEngine,
   resolver: scrollConfigResolver
 };
-const actions_b1cc53c2_esm_wheelAction = {
+const actions_fe213e88_esm_wheelAction = {
   key: 'wheel',
   engine: WheelEngine,
   resolver: wheelConfigResolver
@@ -30487,7 +30364,7 @@ class Controller {
         const gestureConfig = this.config[gestureKey];
         const bindFunction = bindToProps(props, gestureConfig.eventOptions, !!target);
         if (gestureConfig.enabled) {
-          const Engine = actions_b1cc53c2_esm_EngineMap.get(gestureKey);
+          const Engine = actions_fe213e88_esm_EngineMap.get(gestureKey);
           new Engine(this, args, gestureKey).bind(bindFunction);
         }
       }
@@ -30500,7 +30377,7 @@ class Controller {
       }
     }
     for (const handlerProp in props) {
-      props[handlerProp] = actions_b1cc53c2_esm_chain(...props[handlerProp]);
+      props[handlerProp] = actions_fe213e88_esm_chain(...props[handlerProp]);
     }
     if (!target) return props;
     for (const handlerProp in props) {
@@ -30613,7 +30490,7 @@ function useRecognizers(handlers, config = {}, gestureKey, nativeHandlers) {
 }
 
 function useDrag(handler, config) {
-  actions_b1cc53c2_esm_registerAction(actions_b1cc53c2_esm_dragAction);
+  actions_fe213e88_esm_registerAction(actions_fe213e88_esm_dragAction);
   return useRecognizers({
     drag: handler
   }, config || {}, 'drag');
@@ -30741,10 +30618,14 @@ function useDraft(props) {
       current: previousValue
     } = refPreviousValue;
     refPreviousValue.current = props.value;
-    if (draft.value !== undefined && !draft.isStale) setDraft({
-      ...draft,
-      isStale: true
-    });else if (draft.isStale && props.value !== previousValue) setDraft({});
+    if (draft.value !== undefined && !draft.isStale) {
+      setDraft({
+        ...draft,
+        isStale: true
+      });
+    } else if (draft.isStale && props.value !== previousValue) {
+      setDraft({});
+    }
   }, [props.value, draft]);
   const onChange = (nextValue, extra) => {
     // Mutates the draft value to avoid an extra effect run.
@@ -31037,6 +30918,35 @@ function useInputControlStateReducer(stateReducer = initialStateReducer, initial
   };
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/with-ignore-ime-events.js
+/**
+ * A higher-order function that wraps a keydown event handler to ensure it is not an IME event.
+ *
+ * In CJK languages, an IME (Input Method Editor) is used to input complex characters.
+ * During an IME composition, keydown events (e.g. Enter or Escape) can be fired
+ * which are intended to control the IME and not the application.
+ * These events should be ignored by any application logic.
+ *
+ * @param keydownHandler The keydown event handler to execute after ensuring it was not an IME event.
+ *
+ * @return A wrapped version of the given event handler that ignores IME events.
+ */
+function withIgnoreIMEEvents(keydownHandler) {
+  return event => {
+    const {
+      isComposing
+    } = 'nativeEvent' in event ? event.nativeEvent : event;
+    if (isComposing ||
+    // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
+    // is `isComposing=false`, even though it's technically still part of the composition.
+    // These can only be detected by keyCode.
+    event.keyCode === 229) {
+      return;
+    }
+    keydownHandler(event);
+  };
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/input-control/input-field.js
 
 /**
@@ -31054,6 +30964,7 @@ function useInputControlStateReducer(stateReducer = initialStateReducer, initial
 
 
 
+
 const input_field_noop = () => {};
 function InputField({
   disabled = false,
@@ -31061,18 +30972,15 @@ function InputField({
   dragThreshold = 10,
   id,
   isDragEnabled = false,
-  isFocused,
   isPressEnterToChange = false,
   onBlur = input_field_noop,
   onChange = input_field_noop,
   onDrag = input_field_noop,
   onDragEnd = input_field_noop,
   onDragStart = input_field_noop,
-  onFocus = input_field_noop,
   onKeyDown = input_field_noop,
   onValidate = input_field_noop,
   size = 'default',
-  setIsFocused,
   stateReducer = state => state,
   value: valueProp,
   type,
@@ -31106,7 +31014,6 @@ function InputField({
   const dragCursor = useDragCursor(isDragging, dragDirection);
   const handleOnBlur = event => {
     onBlur(event);
-    setIsFocused?.(false);
 
     /**
      * If isPressEnterToChange is set, this commits the value to
@@ -31116,10 +31023,6 @@ function InputField({
       wasDirtyOnBlur.current = true;
       handleOnCommit(event);
     }
-  };
-  const handleOnFocus = event => {
-    onFocus(event);
-    setIsFocused?.(true);
   };
   const handleOnChange = event => {
     const nextValue = event.target.value;
@@ -31179,7 +31082,9 @@ function InputField({
       ...dragProps.event,
       target
     };
-    if (!distance) return;
+    if (!distance) {
+      return;
+    }
     event.stopPropagation();
 
     /**
@@ -31229,8 +31134,7 @@ function InputField({
     id: id,
     onBlur: handleOnBlur,
     onChange: handleOnChange,
-    onFocus: handleOnFocus,
-    onKeyDown: handleOnKeyDown,
+    onKeyDown: withIgnoreIMEEvents(handleOnKeyDown),
     onMouseDown: handleOnMouseDown,
     ref: ref,
     inputSize: size
@@ -31293,7 +31197,7 @@ function base_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
  */
 
 
-const base_control_styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const base_control_styles_Wrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ej5x27r4"
 } : 0)("font-family:", font('default.fontFamily'), ";font-size:", font('default.fontSize'), ";", boxSizingReset, ";" + ( true ? "" : 0));
 const deprecatedMarginField = ({
@@ -31301,11 +31205,11 @@ const deprecatedMarginField = ({
 }) => {
   return !__nextHasNoMarginBottom && /*#__PURE__*/emotion_react_browser_esm_css("margin-bottom:", space(2), ";" + ( true ? "" : 0),  true ? "" : 0);
 };
-const StyledField = emotion_styled_base_browser_esm("div",  true ? {
+const StyledField = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ej5x27r3"
 } : 0)(deprecatedMarginField, " .components-panel__row &{margin-bottom:inherit;}" + ( true ? "" : 0));
 const labelStyles = /*#__PURE__*/emotion_react_browser_esm_css(baseLabelTypography, ";display:inline-block;margin-bottom:", space(2), ";padding:0;" + ( true ? "" : 0),  true ? "" : 0);
-const StyledLabel = emotion_styled_base_browser_esm("label",  true ? {
+const StyledLabel = /*#__PURE__*/emotion_styled_base_browser_esm("label",  true ? {
   target: "ej5x27r2"
 } : 0)(labelStyles, ";" + ( true ? "" : 0));
 var base_control_styles_ref =  true ? {
@@ -31317,10 +31221,10 @@ const deprecatedMarginHelp = ({
 }) => {
   return !__nextHasNoMarginBottom && base_control_styles_ref;
 };
-const StyledHelp = emotion_styled_base_browser_esm("p",  true ? {
+const StyledHelp = /*#__PURE__*/emotion_styled_base_browser_esm("p",  true ? {
   target: "ej5x27r1"
 } : 0)("margin-top:", space(2), ";margin-bottom:0;font-size:", font('helpText.fontSize'), ";font-style:normal;color:", COLORS.gray[700], ";", deprecatedMarginHelp, ";" + ( true ? "" : 0));
-const StyledVisualLabel = emotion_styled_base_browser_esm("span",  true ? {
+const StyledVisualLabel = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "ej5x27r0"
 } : 0)(labelStyles, ";" + ( true ? "" : 0));
 
@@ -31418,7 +31322,7 @@ const VisualLabel = ({
 }) => {
   return (0,external_React_.createElement)(StyledVisualLabel, {
     ...props,
-    className: classnames_default()('components-base-control__label', className)
+    className: dist_clsx('components-base-control__label', className)
   }, children);
 };
 const BaseControl = Object.assign(contextConnectWithoutRef(UnconnectedBaseControl, 'BaseControl'), {
@@ -31476,19 +31380,15 @@ function UnforwardedInputControl(props, ref) {
     value,
     ...restProps
   } = useDeprecated36pxDefaultSizeProp(props);
-  const [isFocused, setIsFocused] = (0,external_wp_element_namespaceObject.useState)(false);
   const id = input_control_useUniqueId(idProp);
-  const classes = classnames_default()('components-input-control', className);
+  const classes = dist_clsx('components-input-control', className);
   const draftHookProps = useDraft({
     value,
     onBlur: restProps.onBlur,
     onChange
   });
-
-  // ARIA descriptions can only contain plain text, so fall back to aria-details if not.
-  const helpPropName = typeof help === 'string' ? 'aria-describedby' : 'aria-details';
   const helpProp = !!help ? {
-    [helpPropName]: `${id}__help`
+    'aria-describedby': `${id}__help`
   } : {};
   return (0,external_React_.createElement)(base_control, {
     className: classes,
@@ -31502,7 +31402,6 @@ function UnforwardedInputControl(props, ref) {
     gap: 3,
     hideLabelFromVision: hideLabelFromVision,
     id: id,
-    isFocused: isFocused,
     justify: "left",
     label: label,
     labelPosition: labelPosition,
@@ -31517,14 +31416,12 @@ function UnforwardedInputControl(props, ref) {
     className: "components-input-control__input",
     disabled: disabled,
     id: id,
-    isFocused: isFocused,
     isPressEnterToChange: isPressEnterToChange,
     onKeyDown: onKeyDown,
     onValidate: onValidate,
     paddingInlineStart: prefix ? space(2) : undefined,
     paddingInlineEnd: suffix ? space(2) : undefined,
     ref: ref,
-    setIsFocused: setIsFocused,
     size: size,
     stateReducer: stateReducer,
     ...draftHookProps
@@ -31537,7 +31434,7 @@ function UnforwardedInputControl(props, ref) {
  *
  * ```jsx
  * import { __experimentalInputControl as InputControl } from '@wordpress/components';
- * import { useState } from '@wordpress/compose';
+ * import { useState } from 'react';
  *
  * const Example = () => {
  *   const [ value, setValue ] = useState( '' );
@@ -31694,7 +31591,7 @@ function button_useDeprecatedProps({
   let computedSize = size;
   let computedVariant = variant;
   const newProps = {
-    // @TODO Mark `isPressed` as deprecated
+    // @todo Mark `isPressed` as deprecated
     'aria-pressed': isPressed
   };
   if (isSmall) {
@@ -31715,10 +31612,9 @@ function button_useDeprecatedProps({
   }
   if (isDefault) {
     var _computedVariant4;
-    external_wp_deprecated_default()('Button isDefault prop', {
+    external_wp_deprecated_default()('wp.components.Button `isDefault` prop', {
       since: '5.4',
-      alternative: 'variant="secondary"',
-      version: '6.2'
+      alternative: 'variant="secondary"'
     });
     (_computedVariant4 = computedVariant) !== null && _computedVariant4 !== void 0 ? _computedVariant4 : computedVariant = 'secondary';
   }
@@ -31772,7 +31668,7 @@ function UnforwardedButton(props, ref) {
   // Tooltip should not considered as a child
   children?.[0]?.props?.className !== 'components-tooltip';
   const truthyAriaPressedValues = [true, 'true', 'mixed'];
-  const classes = classnames_default()('components-button', className, {
+  const classes = dist_clsx('components-button', className, {
     'is-next-40px-default-size': __next40pxDefaultSize,
     'is-secondary': variant === 'secondary',
     'is-primary': variant === 'primary',
@@ -31838,10 +31734,10 @@ function UnforwardedButton(props, ref) {
   const elementChildren = (0,external_React_.createElement)(external_React_.Fragment, null, icon && iconPosition === 'left' && (0,external_React_.createElement)(build_module_icon, {
     icon: icon,
     size: iconSize
-  }), text && (0,external_React_.createElement)(external_React_.Fragment, null, text), icon && iconPosition === 'right' && (0,external_React_.createElement)(build_module_icon, {
+  }), text && (0,external_React_.createElement)(external_React_.Fragment, null, text), children, icon && iconPosition === 'right' && (0,external_React_.createElement)(build_module_icon, {
     icon: icon,
     size: iconSize
-  }), children);
+  }));
   const element = Tag === 'a' ? (0,external_React_.createElement)("a", {
     ...anchorProps,
     ...additionalProps,
@@ -32140,7 +32036,9 @@ function getAlignmentProps(alignment, direction = 'row') {
  * @return An array of available children.
  */
 function getValidChildren(children) {
-  if (typeof children === 'string') return [children];
+  if (typeof children === 'string') {
+    return [children];
+  }
   return external_wp_element_namespaceObject.Children.toArray(children).filter(child => (0,external_wp_element_namespaceObject.isValidElement)(child));
 }
 
@@ -32189,7 +32087,12 @@ function useHStack(props) {
     ...otherProps,
     gap: spacing
   };
-  const flexProps = useFlex(propsForFlex);
+
+  // Omit `isColumn` because it's not used in HStack.
+  const {
+    isColumn,
+    ...flexProps
+  } = useFlex(propsForFlex);
   return flexProps;
 }
 
@@ -32304,7 +32207,7 @@ function UnforwardedNumberControl(props, forwardedRef) {
     return isStepAny ? '' + Math.min(max, Math.max(min, ensureNumber(value))) : '' + roundClamp(value, min, max, stepOverride !== null && stepOverride !== void 0 ? stepOverride : baseStep);
   };
   const autoComplete = typeProp === 'number' ? 'off' : undefined;
-  const classes = classnames_default()('components-number-control', className);
+  const classes = dist_clsx('components-number-control', className);
   const cx = useCx();
   const spinButtonClasses = cx(size === 'small' && styles.smallSpinButtons);
   const spinValue = (value, direction, event) => {
@@ -32464,16 +32367,16 @@ function angle_picker_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "
 
 const CIRCLE_SIZE = 32;
 const INNER_CIRCLE_SIZE = 6;
-const CircleRoot = emotion_styled_base_browser_esm("div",  true ? {
+const CircleRoot = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eln3bjz3"
 } : 0)("border-radius:50%;border:", config_values.borderWidth, " solid ", COLORS.ui.border, ";box-sizing:border-box;cursor:grab;height:", CIRCLE_SIZE, "px;overflow:hidden;width:", CIRCLE_SIZE, "px;:active{cursor:grabbing;}" + ( true ? "" : 0));
-const CircleIndicatorWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const CircleIndicatorWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eln3bjz2"
 } : 0)( true ? {
   name: "1r307gh",
   styles: "box-sizing:border-box;position:relative;width:100%;height:100%;:focus-visible{outline:none;}"
 } : 0);
-const CircleIndicator = emotion_styled_base_browser_esm("div",  true ? {
+const CircleIndicator = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eln3bjz1"
 } : 0)("background:", COLORS.theme.accent, ";border-radius:50%;box-sizing:border-box;display:block;left:50%;top:4px;transform:translateX( -50% );position:absolute;width:", INNER_CIRCLE_SIZE, "px;height:", INNER_CIRCLE_SIZE, "px;" + ( true ? "" : 0));
 const UnitText = /*#__PURE__*/emotion_styled_base_browser_esm(text_component,  true ? {
@@ -32614,7 +32517,7 @@ function UnforwardedAnglePickerControl(props, ref) {
     const inputValue = unprocessedValue !== undefined && unprocessedValue !== '' ? parseInt(unprocessedValue, 10) : 0;
     onChange(inputValue);
   };
-  const classes = classnames_default()('components-angle-picker-control', className);
+  const classes = dist_clsx('components-angle-picker-control', className);
   const unitText = (0,external_React_.createElement)(UnitText, null, "\xB0");
   const [prefixedUnitText, suffixedUnitText] = (0,external_wp_i18n_namespaceObject.isRTL)() ? [unitText, null] : [null, unitText];
   return (0,external_React_.createElement)(flex_component, {
@@ -32683,63 +32586,18 @@ const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
  */
 
 
-const ALL_UNICODE_DASH_CHARACTERS = new RegExp(`[${[
-// - (hyphen-minus)
-'\u002d',
-// ~ (tilde)
-'\u007e',
-// ­ (soft hyphen)
-'\u00ad',
-// ֊ (armenian hyphen)
-'\u058a',
-// ־ (hebrew punctuation maqaf)
-'\u05be',
-// ᐀ (canadian syllabics hyphen)
-'\u1400',
-// ᠆ (mongolian todo soft hyphen)
-'\u1806',
-// ‐ (hyphen)
-'\u2010',
-// non-breaking hyphen)
-'\u2011',
-// ‒ (figure dash)
-'\u2012',
-// – (en dash)
-'\u2013',
-// — (em dash)
-'\u2014',
-// ― (horizontal bar)
-'\u2015',
-// ⁓ (swung dash)
-'\u2053',
-// superscript minus)
-'\u207b',
-// subscript minus)
-'\u208b',
-// − (minus sign)
-'\u2212',
-// ⸗ (double oblique hyphen)
-'\u2e17',
-// ⸺ (two-em dash)
-'\u2e3a',
-// ⸻ (three-em dash)
-'\u2e3b',
-// 〜 (wave dash)
-'\u301c',
-// 〰 (wavy dash)
-'\u3030',
-// ゠ (katakana-hiragana double hyphen)
-'\u30a0',
-// ︱ (presentation form for vertical em dash)
-'\ufe31',
-// ︲ (presentation form for vertical en dash)
-'\ufe32',
-// ﹘ (small em dash)
-'\ufe58',
-// ﹣ (small hyphen-minus)
-'\ufe63',
-// － (fullwidth hyphen-minus)
-'\uff0d'].join('')}]`, 'g');
+
+/**
+ * All unicode characters that we consider "dash-like":
+ * - `\u007e`: ~ (tilde)
+ * - `\u00ad`: ­ (soft hyphen)
+ * - `\u2053`: ⁓ (swung dash)
+ * - `\u207b`: ⁻ (superscript minus)
+ * - `\u208b`: ₋ (subscript minus)
+ * - `\u2212`: − (minus sign)
+ * - `\\p{Pd}`: any other Unicode dash character
+ */
+const ALL_UNICODE_DASH_CHARACTERS = new RegExp(/[\u007e\u00ad\u2053\u207b\u208b\u2212\p{Pd}]/gu);
 const normalizeTextString = value => {
   return remove_accents_default()(value).toLocaleLowerCase().replace(ALL_UNICODE_DASH_CHARACTERS, '-');
 };
@@ -33150,53 +33008,6 @@ function useFloating(options) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs
-
-
-
-
-
-/**
- * A hook that returns `true` if we should be using reduced motion based on the current device's Reduced Motion setting.
- *
- * This can be used to implement changes to your UI based on Reduced Motion. For instance, replacing motion-sickness inducing
- * `x`/`y` animations with `opacity`, disabling the autoplay of background videos, or turning off parallax motion.
- *
- * It will actively respond to changes and re-render your components with the latest setting.
- *
- * ```jsx
- * export function Sidebar({ isOpen }) {
- *   const shouldReduceMotion = useReducedMotion()
- *   const closedX = shouldReduceMotion ? 0 : "-100%"
- *
- *   return (
- *     <motion.div animate={{
- *       opacity: isOpen ? 1 : 0,
- *       x: isOpen ? 0 : closedX
- *     }} />
- *   )
- * }
- * ```
- *
- * @return boolean
- *
- * @public
- */
-function useReducedMotion() {
-    /**
-     * Lazy initialisation of prefersReducedMotion
-     */
-    !hasReducedMotionListener.current && initPrefersReducedMotion();
-    const [shouldReduceMotion] = (0,external_React_.useState)(prefersReducedMotion.current);
-    if (false) {}
-    /**
-     * TODO See if people miss automatically updating shouldReduceMotion setting
-     */
-    return shouldReduceMotion;
-}
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
 
 /**
@@ -33291,874 +33102,12 @@ function ScrollLock() {
 }
 /* harmony default export */ const scroll_lock = (ScrollLock);
 
-;// CONCATENATED MODULE: ./node_modules/proxy-compare/dist/index.modern.js
-const index_modern_e=Symbol(),index_modern_t=Symbol(),index_modern_r=Symbol();let index_modern_n=(e,t)=>new Proxy(e,t);const index_modern_o=Object.getPrototypeOf,index_modern_s=new WeakMap,index_modern_c=e=>e&&(index_modern_s.has(e)?index_modern_s.get(e):index_modern_o(e)===Object.prototype||index_modern_o(e)===Array.prototype),index_modern_l=e=>"object"==typeof e&&null!==e,index_modern_a=new WeakMap,index_modern_f=e=>e[index_modern_r]||e,index_modern_i=(s,l,p)=>{if(!index_modern_c(s))return s;const y=index_modern_f(s),u=(e=>Object.isFrozen(e)||Object.values(Object.getOwnPropertyDescriptors(e)).some(e=>!e.writable))(y);let g=p&&p.get(y);return g&&g[1].f===u||(g=((n,o)=>{const s={f:o};let c=!1;const l=(t,r)=>{if(!c){let o=s.a.get(n);o||(o=new Set,s.a.set(n,o)),r&&o.has(index_modern_e)||o.add(t)}},a={get:(e,t)=>t===index_modern_r?n:(l(t),index_modern_i(e[t],s.a,s.c)),has:(e,r)=>r===index_modern_t?(c=!0,s.a.delete(n),!0):(l(r),r in e),getOwnPropertyDescriptor:(e,t)=>(l(t,!0),Object.getOwnPropertyDescriptor(e,t)),ownKeys:t=>(l(index_modern_e),Reflect.ownKeys(t))};return o&&(a.set=a.deleteProperty=()=>!1),[a,s]})(y,u),g[1].p=index_modern_n(u?(e=>{let t=index_modern_a.get(e);if(!t){if(Array.isArray(e))t=Array.from(e);else{const r=Object.getOwnPropertyDescriptors(e);Object.values(r).forEach(e=>{e.configurable=!0}),t=Object.create(index_modern_o(e),r)}index_modern_a.set(e,t)}return t})(y):y,g[0]),p&&p.set(y,g)),g[1].a=l,g[1].c=p,g[1].p},index_modern_p=(e,t)=>{const r=Reflect.ownKeys(e),n=Reflect.ownKeys(t);return r.length!==n.length||r.some((e,t)=>e!==n[t])},index_modern_y=(t,r,n,o)=>{if(Object.is(t,r))return!1;if(!index_modern_l(t)||!index_modern_l(r))return!0;const s=n.get(index_modern_f(t));if(!s)return!0;if(o){const e=o.get(t);if(e&&e.n===r)return e.g;o.set(t,{n:r,g:!1})}let c=null;for(const l of s){const s=l===index_modern_e?index_modern_p(t,r):index_modern_y(t[l],r[l],n,o);if(!0!==s&&!1!==s||(c=s),c)break}return null===c&&(c=!0),o&&o.set(t,{n:r,g:c}),c},index_modern_u=e=>!!index_modern_c(e)&&index_modern_t in e,index_modern_g=e=>index_modern_c(e)&&e[index_modern_r]||null,index_modern_b=(e,t=!0)=>{index_modern_s.set(e,t)},O=(e,t)=>{const r=[],n=new WeakSet,o=(e,s)=>{if(n.has(e))return;index_modern_l(e)&&n.add(e);const c=index_modern_l(e)&&t.get(index_modern_f(e));c?c.forEach(t=>{o(e[t],s?[...s,t]:[t])}):s&&r.push(s)};return o(e),r},index_modern_w=e=>{index_modern_n=e};
-
-;// CONCATENATED MODULE: ./node_modules/valtio/esm/vanilla.js
-
-
-const vanilla_isObject = (x) => typeof x === "object" && x !== null;
-const refSet = /* @__PURE__ */ new WeakSet();
-const VERSION =  true ? Symbol("VERSION") : 0;
-const LISTENERS =  true ? Symbol("LISTENERS") : 0;
-const SNAPSHOT =  true ? Symbol("SNAPSHOT") : 0;
-const buildProxyFunction = (objectIs = Object.is, newProxy = (target, handler) => new Proxy(target, handler), canProxy = (x) => vanilla_isObject(x) && !refSet.has(x) && (Array.isArray(x) || !(Symbol.iterator in x)) && !(x instanceof WeakMap) && !(x instanceof WeakSet) && !(x instanceof Error) && !(x instanceof Number) && !(x instanceof Date) && !(x instanceof String) && !(x instanceof RegExp) && !(x instanceof ArrayBuffer), PROMISE_RESULT =  true ? Symbol("PROMISE_RESULT") : 0, PROMISE_ERROR =  true ? Symbol("PROMISE_ERROR") : 0, snapshotCache = /* @__PURE__ */ new WeakMap(), createSnapshot = (version, target, receiver) => {
-  const cache = snapshotCache.get(receiver);
-  if ((cache == null ? void 0 : cache[0]) === version) {
-    return cache[1];
-  }
-  const snapshot2 = Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target));
-  index_modern_b(snapshot2, true);
-  snapshotCache.set(receiver, [version, snapshot2]);
-  Reflect.ownKeys(target).forEach((key) => {
-    const value = Reflect.get(target, key, receiver);
-    if (refSet.has(value)) {
-      index_modern_b(value, false);
-      snapshot2[key] = value;
-    } else if (value instanceof Promise) {
-      if (PROMISE_RESULT in value) {
-        snapshot2[key] = value[PROMISE_RESULT];
-      } else {
-        const errorOrPromise = value[PROMISE_ERROR] || value;
-        Object.defineProperty(snapshot2, key, {
-          get() {
-            if (PROMISE_RESULT in value) {
-              return value[PROMISE_RESULT];
-            }
-            throw errorOrPromise;
-          }
-        });
-      }
-    } else if (value == null ? void 0 : value[LISTENERS]) {
-      snapshot2[key] = value[SNAPSHOT];
-    } else {
-      snapshot2[key] = value;
-    }
-  });
-  return Object.freeze(snapshot2);
-}, proxyCache = /* @__PURE__ */ new WeakMap(), versionHolder = [1], proxyFunction2 = (initialObject) => {
-  if (!vanilla_isObject(initialObject)) {
-    throw new Error("object required");
-  }
-  const found = proxyCache.get(initialObject);
-  if (found) {
-    return found;
-  }
-  let version = versionHolder[0];
-  const listeners = /* @__PURE__ */ new Set();
-  const notifyUpdate = (op, nextVersion = ++versionHolder[0]) => {
-    if (version !== nextVersion) {
-      version = nextVersion;
-      listeners.forEach((listener) => listener(op, nextVersion));
-    }
-  };
-  const propListeners = /* @__PURE__ */ new Map();
-  const getPropListener = (prop) => {
-    let propListener = propListeners.get(prop);
-    if (!propListener) {
-      propListener = (op, nextVersion) => {
-        const newOp = [...op];
-        newOp[1] = [prop, ...newOp[1]];
-        notifyUpdate(newOp, nextVersion);
-      };
-      propListeners.set(prop, propListener);
-    }
-    return propListener;
-  };
-  const popPropListener = (prop) => {
-    const propListener = propListeners.get(prop);
-    propListeners.delete(prop);
-    return propListener;
-  };
-  const baseObject = Array.isArray(initialObject) ? [] : Object.create(Object.getPrototypeOf(initialObject));
-  const handler = {
-    get(target, prop, receiver) {
-      if (prop === VERSION) {
-        return version;
-      }
-      if (prop === LISTENERS) {
-        return listeners;
-      }
-      if (prop === SNAPSHOT) {
-        return createSnapshot(version, target, receiver);
-      }
-      return Reflect.get(target, prop, receiver);
-    },
-    deleteProperty(target, prop) {
-      const prevValue = Reflect.get(target, prop);
-      const childListeners = prevValue == null ? void 0 : prevValue[LISTENERS];
-      if (childListeners) {
-        childListeners.delete(popPropListener(prop));
-      }
-      const deleted = Reflect.deleteProperty(target, prop);
-      if (deleted) {
-        notifyUpdate(["delete", [prop], prevValue]);
-      }
-      return deleted;
-    },
-    set(target, prop, value, receiver) {
-      var _a;
-      const hasPrevValue = Reflect.has(target, prop);
-      const prevValue = Reflect.get(target, prop, receiver);
-      if (hasPrevValue && objectIs(prevValue, value)) {
-        return true;
-      }
-      const childListeners = prevValue == null ? void 0 : prevValue[LISTENERS];
-      if (childListeners) {
-        childListeners.delete(popPropListener(prop));
-      }
-      if (vanilla_isObject(value)) {
-        value = index_modern_g(value) || value;
-      }
-      let nextValue;
-      if ((_a = Object.getOwnPropertyDescriptor(target, prop)) == null ? void 0 : _a.set) {
-        nextValue = value;
-      } else if (value instanceof Promise) {
-        nextValue = value.then((v) => {
-          nextValue[PROMISE_RESULT] = v;
-          notifyUpdate(["resolve", [prop], v]);
-          return v;
-        }).catch((e) => {
-          nextValue[PROMISE_ERROR] = e;
-          notifyUpdate(["reject", [prop], e]);
-        });
-      } else if (value == null ? void 0 : value[LISTENERS]) {
-        nextValue = value;
-        nextValue[LISTENERS].add(getPropListener(prop));
-      } else if (canProxy(value)) {
-        nextValue = vanilla_proxy(value);
-        nextValue[LISTENERS].add(getPropListener(prop));
-      } else {
-        nextValue = value;
-      }
-      Reflect.set(target, prop, nextValue, receiver);
-      notifyUpdate(["set", [prop], value, prevValue]);
-      return true;
-    }
-  };
-  const proxyObject = newProxy(baseObject, handler);
-  proxyCache.set(initialObject, proxyObject);
-  Reflect.ownKeys(initialObject).forEach((key) => {
-    const desc = Object.getOwnPropertyDescriptor(
-      initialObject,
-      key
-    );
-    if (desc.get || desc.set) {
-      Object.defineProperty(baseObject, key, desc);
-    } else {
-      proxyObject[key] = initialObject[key];
-    }
-  });
-  return proxyObject;
-}) => [
-  proxyFunction2,
-  refSet,
-  VERSION,
-  LISTENERS,
-  SNAPSHOT,
-  objectIs,
-  newProxy,
-  canProxy,
-  PROMISE_RESULT,
-  PROMISE_ERROR,
-  snapshotCache,
-  createSnapshot,
-  proxyCache,
-  versionHolder
-];
-const [proxyFunction] = buildProxyFunction();
-function vanilla_proxy(initialObject = {}) {
-  return proxyFunction(initialObject);
-}
-function vanilla_getVersion(proxyObject) {
-  return vanilla_isObject(proxyObject) ? proxyObject[VERSION] : void 0;
-}
-function vanilla_subscribe(proxyObject, callback, notifyInSync) {
-  if ( true && !(proxyObject == null ? void 0 : proxyObject[LISTENERS])) {
-    console.warn("Please use proxy object");
-  }
-  let promise;
-  const ops = [];
-  const listener = (op) => {
-    ops.push(op);
-    if (notifyInSync) {
-      callback(ops.splice(0));
-      return;
-    }
-    if (!promise) {
-      promise = Promise.resolve().then(() => {
-        promise = void 0;
-        callback(ops.splice(0));
-      });
-    }
-  };
-  proxyObject[LISTENERS].add(listener);
-  return () => {
-    proxyObject[LISTENERS].delete(listener);
-  };
-}
-function vanilla_snapshot(proxyObject) {
-  if ( true && !(proxyObject == null ? void 0 : proxyObject[SNAPSHOT])) {
-    console.warn("Please use proxy object");
-  }
-  return proxyObject[SNAPSHOT];
-}
-function vanilla_ref(obj) {
-  refSet.add(obj);
-  return obj;
-}
-const unstable_buildProxyFunction = (/* unused pure expression or super */ null && (buildProxyFunction));
-
-
-
-;// CONCATENATED MODULE: ./node_modules/valtio/esm/index.js
-
-
-
-
-
-
-const { useSyncExternalStore: esm_useSyncExternalStore } = shim;
-const useAffectedDebugValue = (state, affected) => {
-  const pathList = (0,external_React_.useRef)();
-  (0,external_React_.useEffect)(() => {
-    pathList.current = O(state, affected);
-  });
-  (0,external_React_.useDebugValue)(pathList.current);
-};
-function useSnapshot(proxyObject, options) {
-  const notifyInSync = options == null ? void 0 : options.sync;
-  const lastSnapshot = (0,external_React_.useRef)();
-  const lastAffected = (0,external_React_.useRef)();
-  let inRender = true;
-  const currSnapshot = esm_useSyncExternalStore(
-    (0,external_React_.useCallback)(
-      (callback) => {
-        const unsub = vanilla_subscribe(proxyObject, callback, notifyInSync);
-        callback();
-        return unsub;
-      },
-      [proxyObject, notifyInSync]
-    ),
-    () => {
-      const nextSnapshot = vanilla_snapshot(proxyObject);
-      try {
-        if (!inRender && lastSnapshot.current && lastAffected.current && !index_modern_y(
-          lastSnapshot.current,
-          nextSnapshot,
-          lastAffected.current,
-          /* @__PURE__ */ new WeakMap()
-        )) {
-          return lastSnapshot.current;
-        }
-      } catch (e) {
-      }
-      return nextSnapshot;
-    },
-    () => vanilla_snapshot(proxyObject)
-  );
-  inRender = false;
-  const currAffected = /* @__PURE__ */ new WeakMap();
-  (0,external_React_.useEffect)(() => {
-    lastSnapshot.current = currSnapshot;
-    lastAffected.current = currAffected;
-  });
-  if (true) {
-    useAffectedDebugValue(currSnapshot, currAffected);
-  }
-  const proxyCache = (0,external_React_.useMemo)(() => /* @__PURE__ */ new WeakMap(), []);
-  return index_modern_i(currSnapshot, currAffected, proxyCache);
-}
-
-
-
-;// CONCATENATED MODULE: ./node_modules/valtio/esm/utils.js
-
-
-function subscribeKey(proxyObject, key, callback, notifyInSync) {
-  return subscribe(
-    proxyObject,
-    (ops) => {
-      if (ops.some((op) => op[1][0] === key)) {
-        callback(proxyObject[key]);
-      }
-    },
-    notifyInSync
-  );
-}
-
-let currentCleanups;
-function watch(callback, options) {
-  let alive = true;
-  const cleanups = /* @__PURE__ */ new Set();
-  const subscriptions = /* @__PURE__ */ new Map();
-  const cleanup = () => {
-    if (alive) {
-      alive = false;
-      cleanups.forEach((clean) => clean());
-      cleanups.clear();
-      subscriptions.forEach((unsubscribe) => unsubscribe());
-      subscriptions.clear();
-    }
-  };
-  const revalidate = () => {
-    if (!alive) {
-      return;
-    }
-    cleanups.forEach((clean) => clean());
-    cleanups.clear();
-    const proxiesToSubscribe = /* @__PURE__ */ new Set();
-    const parent = currentCleanups;
-    currentCleanups = cleanups;
-    try {
-      const cleanupReturn = callback((proxyObject) => {
-        proxiesToSubscribe.add(proxyObject);
-        return proxyObject;
-      });
-      if (cleanupReturn) {
-        cleanups.add(cleanupReturn);
-      }
-    } finally {
-      currentCleanups = parent;
-    }
-    subscriptions.forEach((unsubscribe, proxyObject) => {
-      if (proxiesToSubscribe.has(proxyObject)) {
-        proxiesToSubscribe.delete(proxyObject);
-      } else {
-        subscriptions.delete(proxyObject);
-        unsubscribe();
-      }
-    });
-    proxiesToSubscribe.forEach((proxyObject) => {
-      const unsubscribe = subscribe(proxyObject, revalidate, options == null ? void 0 : options.sync);
-      subscriptions.set(proxyObject, unsubscribe);
-    });
-  };
-  if (currentCleanups) {
-    currentCleanups.add(cleanup);
-  }
-  revalidate();
-  return cleanup;
-}
-
-const DEVTOOLS = Symbol();
-function devtools(proxyObject, options) {
-  if (typeof options === "string") {
-    console.warn(
-      "string name option is deprecated, use { name }. https://github.com/pmndrs/valtio/pull/400"
-    );
-    options = { name: options };
-  }
-  const { enabled, name = "" } = options || {};
-  let extension;
-  try {
-    extension = (enabled != null ? enabled : (/* unsupported import.meta.env */ undefined && 0) !== "production") && window.__REDUX_DEVTOOLS_EXTENSION__;
-  } catch {
-  }
-  if (!extension) {
-    if ( true && enabled) {
-      console.warn("[Warning] Please install/enable Redux devtools extension");
-    }
-    return;
-  }
-  let isTimeTraveling = false;
-  const devtools2 = extension.connect({ name });
-  const unsub1 = subscribe(proxyObject, (ops) => {
-    const action = ops.filter(([_, path]) => path[0] !== DEVTOOLS).map(([op, path]) => `${op}:${path.map(String).join(".")}`).join(", ");
-    if (!action) {
-      return;
-    }
-    if (isTimeTraveling) {
-      isTimeTraveling = false;
-    } else {
-      const snapWithoutDevtools = Object.assign({}, snapshot(proxyObject));
-      delete snapWithoutDevtools[DEVTOOLS];
-      devtools2.send(
-        {
-          type: action,
-          updatedAt: new Date().toLocaleString()
-        },
-        snapWithoutDevtools
-      );
-    }
-  });
-  const unsub2 = devtools2.subscribe((message) => {
-    var _a, _b, _c, _d, _e, _f;
-    if (message.type === "ACTION" && message.payload) {
-      try {
-        Object.assign(proxyObject, JSON.parse(message.payload));
-      } catch (e) {
-        console.error(
-          "please dispatch a serializable value that JSON.parse() and proxy() support\n",
-          e
-        );
-      }
-    }
-    if (message.type === "DISPATCH" && message.state) {
-      if (((_a = message.payload) == null ? void 0 : _a.type) === "JUMP_TO_ACTION" || ((_b = message.payload) == null ? void 0 : _b.type) === "JUMP_TO_STATE") {
-        isTimeTraveling = true;
-        const state = JSON.parse(message.state);
-        Object.assign(proxyObject, state);
-      }
-      proxyObject[DEVTOOLS] = message;
-    } else if (message.type === "DISPATCH" && ((_c = message.payload) == null ? void 0 : _c.type) === "COMMIT") {
-      devtools2.init(snapshot(proxyObject));
-    } else if (message.type === "DISPATCH" && ((_d = message.payload) == null ? void 0 : _d.type) === "IMPORT_STATE") {
-      const actions = (_e = message.payload.nextLiftedState) == null ? void 0 : _e.actionsById;
-      const computedStates = ((_f = message.payload.nextLiftedState) == null ? void 0 : _f.computedStates) || [];
-      isTimeTraveling = true;
-      computedStates.forEach(({ state }, index) => {
-        const action = actions[index] || "No action found";
-        Object.assign(proxyObject, state);
-        if (index === 0) {
-          devtools2.init(snapshot(proxyObject));
-        } else {
-          devtools2.send(action, snapshot(proxyObject));
-        }
-      });
-    }
-  });
-  devtools2.init(snapshot(proxyObject));
-  return () => {
-    unsub1();
-    unsub2 == null ? void 0 : unsub2();
-  };
-}
-
-const sourceObjectMap = /* @__PURE__ */ new WeakMap();
-const derivedObjectMap = /* @__PURE__ */ new WeakMap();
-const markPending = (sourceObject, callback) => {
-  const sourceObjectEntry = sourceObjectMap.get(sourceObject);
-  if (sourceObjectEntry) {
-    sourceObjectEntry[0].forEach((subscription) => {
-      const { d: derivedObject } = subscription;
-      if (sourceObject !== derivedObject) {
-        markPending(derivedObject);
-      }
-    });
-    ++sourceObjectEntry[2];
-    if (callback) {
-      sourceObjectEntry[3].add(callback);
-    }
-  }
-};
-const checkPending = (sourceObject, callback) => {
-  const sourceObjectEntry = sourceObjectMap.get(sourceObject);
-  if (sourceObjectEntry == null ? void 0 : sourceObjectEntry[2]) {
-    sourceObjectEntry[3].add(callback);
-    return true;
-  }
-  return false;
-};
-const unmarkPending = (sourceObject) => {
-  const sourceObjectEntry = sourceObjectMap.get(sourceObject);
-  if (sourceObjectEntry) {
-    --sourceObjectEntry[2];
-    if (!sourceObjectEntry[2]) {
-      sourceObjectEntry[3].forEach((callback) => callback());
-      sourceObjectEntry[3].clear();
-    }
-    sourceObjectEntry[0].forEach((subscription) => {
-      const { d: derivedObject } = subscription;
-      if (sourceObject !== derivedObject) {
-        unmarkPending(derivedObject);
-      }
-    });
-  }
-};
-const addSubscription = (subscription) => {
-  const { s: sourceObject, d: derivedObject } = subscription;
-  let derivedObjectEntry = derivedObjectMap.get(derivedObject);
-  if (!derivedObjectEntry) {
-    derivedObjectEntry = [/* @__PURE__ */ new Set()];
-    derivedObjectMap.set(subscription.d, derivedObjectEntry);
-  }
-  derivedObjectEntry[0].add(subscription);
-  let sourceObjectEntry = sourceObjectMap.get(sourceObject);
-  if (!sourceObjectEntry) {
-    const subscriptions = /* @__PURE__ */ new Set();
-    const unsubscribe = vanilla_subscribe(
-      sourceObject,
-      (ops) => {
-        subscriptions.forEach((subscription2) => {
-          const {
-            d: derivedObject2,
-            c: callback,
-            n: notifyInSync,
-            i: ignoreKeys
-          } = subscription2;
-          if (sourceObject === derivedObject2 && ops.every(
-            (op) => op[1].length === 1 && ignoreKeys.includes(op[1][0])
-          )) {
-            return;
-          }
-          if (subscription2.p) {
-            return;
-          }
-          markPending(sourceObject, callback);
-          if (notifyInSync) {
-            unmarkPending(sourceObject);
-          } else {
-            subscription2.p = Promise.resolve().then(() => {
-              delete subscription2.p;
-              unmarkPending(sourceObject);
-            });
-          }
-        });
-      },
-      true
-    );
-    sourceObjectEntry = [subscriptions, unsubscribe, 0, /* @__PURE__ */ new Set()];
-    sourceObjectMap.set(sourceObject, sourceObjectEntry);
-  }
-  sourceObjectEntry[0].add(subscription);
-};
-const removeSubscription = (subscription) => {
-  const { s: sourceObject, d: derivedObject } = subscription;
-  const derivedObjectEntry = derivedObjectMap.get(derivedObject);
-  derivedObjectEntry == null ? void 0 : derivedObjectEntry[0].delete(subscription);
-  if ((derivedObjectEntry == null ? void 0 : derivedObjectEntry[0].size) === 0) {
-    derivedObjectMap.delete(derivedObject);
-  }
-  const sourceObjectEntry = sourceObjectMap.get(sourceObject);
-  if (sourceObjectEntry) {
-    const [subscriptions, unsubscribe] = sourceObjectEntry;
-    subscriptions.delete(subscription);
-    if (!subscriptions.size) {
-      unsubscribe();
-      sourceObjectMap.delete(sourceObject);
-    }
-  }
-};
-const listSubscriptions = (derivedObject) => {
-  const derivedObjectEntry = derivedObjectMap.get(derivedObject);
-  if (derivedObjectEntry) {
-    return Array.from(derivedObjectEntry[0]);
-  }
-  return [];
-};
-const unstable_deriveSubscriptions = {
-  add: addSubscription,
-  remove: removeSubscription,
-  list: listSubscriptions
-};
-function derive(derivedFns, options) {
-  const proxyObject = (options == null ? void 0 : options.proxy) || proxy({});
-  const notifyInSync = !!(options == null ? void 0 : options.sync);
-  const derivedKeys = Object.keys(derivedFns);
-  derivedKeys.forEach((key) => {
-    if (Object.getOwnPropertyDescriptor(proxyObject, key)) {
-      throw new Error("object property already defined");
-    }
-    const fn = derivedFns[key];
-    let lastDependencies = null;
-    const evaluate = () => {
-      if (lastDependencies) {
-        if (Array.from(lastDependencies).map(([p]) => checkPending(p, evaluate)).some((isPending) => isPending)) {
-          return;
-        }
-        if (Array.from(lastDependencies).every(
-          ([p, entry]) => getVersion(p) === entry.v
-        )) {
-          return;
-        }
-      }
-      const dependencies = /* @__PURE__ */ new Map();
-      const get = (p) => {
-        dependencies.set(p, { v: getVersion(p) });
-        return p;
-      };
-      const value = fn(get);
-      const subscribeToDependencies = () => {
-        dependencies.forEach((entry, p) => {
-          var _a;
-          const lastSubscription = (_a = lastDependencies == null ? void 0 : lastDependencies.get(p)) == null ? void 0 : _a.s;
-          if (lastSubscription) {
-            entry.s = lastSubscription;
-          } else {
-            const subscription = {
-              s: p,
-              d: proxyObject,
-              k: key,
-              c: evaluate,
-              n: notifyInSync,
-              i: derivedKeys
-            };
-            addSubscription(subscription);
-            entry.s = subscription;
-          }
-        });
-        lastDependencies == null ? void 0 : lastDependencies.forEach((entry, p) => {
-          if (!dependencies.has(p) && entry.s) {
-            removeSubscription(entry.s);
-          }
-        });
-        lastDependencies = dependencies;
-      };
-      if (value instanceof Promise) {
-        value.finally(subscribeToDependencies);
-      } else {
-        subscribeToDependencies();
-      }
-      proxyObject[key] = value;
-    };
-    evaluate();
-  });
-  return proxyObject;
-}
-function underive(proxyObject, options) {
-  const keysToDelete = (options == null ? void 0 : options.delete) ? /* @__PURE__ */ new Set() : null;
-  listSubscriptions(proxyObject).forEach((subscription) => {
-    const { k: key } = subscription;
-    if (!(options == null ? void 0 : options.keys) || options.keys.includes(key)) {
-      removeSubscription(subscription);
-      if (keysToDelete) {
-        keysToDelete.add(key);
-      }
-    }
-  });
-  if (keysToDelete) {
-    keysToDelete.forEach((key) => {
-      delete proxyObject[key];
-    });
-  }
-}
-
-function addComputed_DEPRECATED(proxyObject, computedFns_FAKE, targetObject = proxyObject) {
-  console.warn(
-    "addComputed is deprecated. Please consider using `derive` or `proxyWithComputed` instead. Falling back to emulation with derive. https://github.com/pmndrs/valtio/pull/201"
-  );
-  const derivedFns = {};
-  Object.keys(computedFns_FAKE).forEach((key) => {
-    derivedFns[key] = (get) => computedFns_FAKE[key](get(proxyObject));
-  });
-  return derive(derivedFns, { proxy: targetObject });
-}
-
-function proxyWithComputed(initialObject, computedFns) {
-  Object.keys(computedFns).forEach((key) => {
-    if (Object.getOwnPropertyDescriptor(initialObject, key)) {
-      throw new Error("object property already defined");
-    }
-    const computedFn = computedFns[key];
-    const { get, set } = typeof computedFn === "function" ? { get: computedFn } : computedFn;
-    const desc = {};
-    desc.get = () => get(snapshot(proxyObject));
-    if (set) {
-      desc.set = (newValue) => set(proxyObject, newValue);
-    }
-    Object.defineProperty(initialObject, key, desc);
-  });
-  const proxyObject = proxy(initialObject);
-  return proxyObject;
-}
-
-const utils_isObject = (x) => typeof x === "object" && x !== null;
-const deepClone = (obj) => {
-  if (!utils_isObject(obj)) {
-    return obj;
-  }
-  const baseObject = Array.isArray(obj) ? [] : Object.create(Object.getPrototypeOf(obj));
-  Reflect.ownKeys(obj).forEach((key) => {
-    baseObject[key] = deepClone(obj[key]);
-  });
-  return baseObject;
-};
-function proxyWithHistory(initialValue, skipSubscribe = false) {
-  const proxyObject = proxy({
-    value: initialValue,
-    history: ref({
-      wip: void 0,
-      snapshots: [],
-      index: -1
-    }),
-    canUndo: () => proxyObject.history.index > 0,
-    undo: () => {
-      if (proxyObject.canUndo()) {
-        proxyObject.value = proxyObject.history.wip = deepClone(
-          proxyObject.history.snapshots[--proxyObject.history.index]
-        );
-      }
-    },
-    canRedo: () => proxyObject.history.index < proxyObject.history.snapshots.length - 1,
-    redo: () => {
-      if (proxyObject.canRedo()) {
-        proxyObject.value = proxyObject.history.wip = deepClone(
-          proxyObject.history.snapshots[++proxyObject.history.index]
-        );
-      }
-    },
-    saveHistory: () => {
-      proxyObject.history.snapshots.splice(proxyObject.history.index + 1);
-      proxyObject.history.snapshots.push(snapshot(proxyObject).value);
-      ++proxyObject.history.index;
-    },
-    subscribe: () => subscribe(proxyObject, (ops) => {
-      if (ops.every(
-        (op) => op[1][0] === "value" && (op[0] !== "set" || op[2] !== proxyObject.history.wip)
-      )) {
-        proxyObject.saveHistory();
-      }
-    })
-  });
-  proxyObject.saveHistory();
-  if (!skipSubscribe) {
-    proxyObject.subscribe();
-  }
-  return proxyObject;
-}
-
-function proxySet(initialValues) {
-  const set = proxy({
-    data: Array.from(new Set(initialValues)),
-    has(value) {
-      return this.data.indexOf(value) !== -1;
-    },
-    add(value) {
-      let hasProxy = false;
-      if (typeof value === "object" && value !== null) {
-        hasProxy = this.data.indexOf(proxy(value)) !== -1;
-      }
-      if (this.data.indexOf(value) === -1 && !hasProxy) {
-        this.data.push(value);
-      }
-      return this;
-    },
-    delete(value) {
-      const index = this.data.indexOf(value);
-      if (index === -1) {
-        return false;
-      }
-      this.data.splice(index, 1);
-      return true;
-    },
-    clear() {
-      this.data.splice(0);
-    },
-    get size() {
-      return this.data.length;
-    },
-    forEach(cb) {
-      this.data.forEach((value) => {
-        cb(value, value, this);
-      });
-    },
-    get [Symbol.toStringTag]() {
-      return "Set";
-    },
-    toJSON() {
-      return {};
-    },
-    [Symbol.iterator]() {
-      return this.data[Symbol.iterator]();
-    },
-    values() {
-      return this.data.values();
-    },
-    keys() {
-      return this.data.values();
-    },
-    entries() {
-      return new Set(this.data).entries();
-    }
-  });
-  Object.defineProperties(set, {
-    data: {
-      enumerable: false
-    },
-    size: {
-      enumerable: false
-    },
-    toJSON: {
-      enumerable: false
-    }
-  });
-  Object.seal(set);
-  return set;
-}
-
-function proxyMap(entries) {
-  const map = vanilla_proxy({
-    data: Array.from(entries || []),
-    has(key) {
-      return this.data.some((p) => p[0] === key);
-    },
-    set(key, value) {
-      const record = this.data.find((p) => p[0] === key);
-      if (record) {
-        record[1] = value;
-      } else {
-        this.data.push([key, value]);
-      }
-      return this;
-    },
-    get(key) {
-      var _a;
-      return (_a = this.data.find((p) => p[0] === key)) == null ? void 0 : _a[1];
-    },
-    delete(key) {
-      const index = this.data.findIndex((p) => p[0] === key);
-      if (index === -1) {
-        return false;
-      }
-      this.data.splice(index, 1);
-      return true;
-    },
-    clear() {
-      this.data.splice(0);
-    },
-    get size() {
-      return this.data.length;
-    },
-    toJSON() {
-      return {};
-    },
-    forEach(cb) {
-      this.data.forEach((p) => {
-        cb(p[1], p[0], this);
-      });
-    },
-    keys() {
-      return this.data.map((p) => p[0]).values();
-    },
-    values() {
-      return this.data.map((p) => p[1]).values();
-    },
-    entries() {
-      return new Map(this.data).entries();
-    },
-    get [Symbol.toStringTag]() {
-      return "Map";
-    },
-    [Symbol.iterator]() {
-      return this.entries();
-    }
-  });
-  Object.defineProperties(map, {
-    data: {
-      enumerable: false
-    },
-    size: {
-      enumerable: false
-    },
-    toJSON: {
-      enumerable: false
-    }
-  });
-  Object.seal(map);
-  return map;
-}
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/slot-fill-context.js
-/**
- * External dependencies
- */
-
 /**
  * WordPress dependencies
  */
+
+
 
 
 /**
@@ -34166,8 +33115,8 @@ function proxyMap(entries) {
  */
 
 const initialContextValue = {
-  slots: proxyMap(),
-  fills: proxyMap(),
+  slots: (0,external_wp_compose_namespaceObject.observableMap)(),
+  fills: (0,external_wp_compose_namespaceObject.observableMap)(),
   registerSlot: () => {
      true ? external_wp_warning_default()('Components must be wrapped within `SlotFillProvider`. ' + 'See https://developer.wordpress.org/block-editor/components/slot-fill/') : 0;
   },
@@ -34183,13 +33132,9 @@ const SlotFillContext = (0,external_wp_element_namespaceObject.createContext)(in
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/use-slot.js
 /**
- * External dependencies
- */
-
-
-/**
  * WordPress dependencies
  */
+
 
 
 /**
@@ -34198,13 +33143,7 @@ const SlotFillContext = (0,external_wp_element_namespaceObject.createContext)(in
 
 function useSlot(name) {
   const registry = (0,external_wp_element_namespaceObject.useContext)(slot_fill_context);
-  const slots = useSnapshot(registry.slots, {
-    sync: true
-  });
-  // The important bit here is that the `useSnapshot` call ensures that the
-  // hook only causes a re-render if the slot with the given name changes,
-  // not any other slot.
-  const slot = slots.get(name);
+  const slot = (0,external_wp_compose_namespaceObject.useObservableValue)(registry.slots, name);
   const api = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     updateSlot: fillProps => registry.updateSlot(name, fillProps),
     unregisterSlot: ref => registry.unregisterSlot(name, ref),
@@ -34689,14 +33628,9 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/slot-fill-provider.js
 
 /**
- * External dependencies
- */
-
-
-
-/**
  * WordPress dependencies
  */
+
 
 
 
@@ -34705,15 +33639,15 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
  */
 
 function createSlotRegistry() {
-  const slots = proxyMap();
-  const fills = proxyMap();
+  const slots = (0,external_wp_compose_namespaceObject.observableMap)();
+  const fills = (0,external_wp_compose_namespaceObject.observableMap)();
   const registerSlot = (name, ref, fillProps) => {
     const slot = slots.get(name);
-    slots.set(name, vanilla_ref({
+    slots.set(name, {
       ...slot,
       ref: ref || slot?.ref,
       fillProps: fillProps || slot?.fillProps || {}
-    }));
+    });
   };
   const unregisterSlot = (name, ref) => {
     // Make sure we're not unregistering a slot registered by another element
@@ -34738,14 +33672,14 @@ function createSlotRegistry() {
     }
   };
   const registerFill = (name, ref) => {
-    fills.set(name, vanilla_ref([...(fills.get(name) || []), ref]));
+    fills.set(name, [...(fills.get(name) || []), ref]);
   };
   const unregisterFill = (name, ref) => {
     const fillsForName = fills.get(name);
     if (!fillsForName) {
       return;
     }
-    fills.set(name, vanilla_ref(fillsForName.filter(fillRef => fillRef !== ref)));
+    fills.set(name, fillsForName.filter(fillRef => fillRef !== ref));
   };
   return {
     slots,
@@ -34975,7 +33909,9 @@ function overlayMiddlewares() {
       } = (_elements$floating = elements.floating) !== null && _elements$floating !== void 0 ? _elements$floating : {};
 
       // Only HTMLElement instances have the `style` property.
-      if (!(firstElementChild instanceof HTMLElement)) return;
+      if (!(firstElementChild instanceof HTMLElement)) {
+        return;
+      }
 
       // Reduce the height of the popover to the available space.
       Object.assign(firstElementChild.style, {
@@ -35054,7 +33990,7 @@ const getPopoverFallbackContainer = () => {
   }
   return container;
 };
-const UnconnectedPopover = (props, forwardedRef) => {
+const UnforwardedPopover = (props, forwardedRef) => {
   const {
     animate = true,
     headerTitle,
@@ -35141,7 +34077,9 @@ const UnconnectedPopover = (props, forwardedRef) => {
       } = (_refs$floating$curren = refs.floating.current) !== null && _refs$floating$curren !== void 0 ? _refs$floating$curren : {};
 
       // Only HTMLElement instances have the `style` property.
-      if (!(firstElementChild instanceof HTMLElement)) return;
+      if (!(firstElementChild instanceof HTMLElement)) {
+        return;
+      }
 
       // Reduce the height of the popover to the available space.
       Object.assign(firstElementChild.style, {
@@ -35233,7 +34171,7 @@ const UnconnectedPopover = (props, forwardedRef) => {
     x: computePopoverPosition(x),
     y: computePopoverPosition(y)
   };
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
   const shouldAnimate = animate && !isExpanded && !shouldReduceMotion;
   const [animationFinished, setAnimationFinished] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
@@ -35255,33 +34193,8 @@ const UnconnectedPopover = (props, forwardedRef) => {
   // When Floating UI has finished positioning and Framer Motion has finished animating
   // the popover, add the `is-positioned` class to signal that all transitions have finished.
   const isPositioned = (!shouldAnimate || animationFinished) && x !== null && y !== null;
-
-  // In case a `ColorPicker` component is rendered as a child of `Popover`,
-  // the `Popover` component can be notified of when the user is dragging
-  // parts of the `ColorPicker` UI (this is possible because the `ColorPicker`
-  // component exposes the `onPickerDragStart` and `onPickerDragEnd` props
-  // via internal context).
-  // While the user is performing a pointer drag, the `Popover` will render
-  // a transparent backdrop element that will serve as a "pointer events trap",
-  // making sure that no pointer events reach any potential `iframe` element
-  // underneath (like, for example, the editor canvas in the WordPress editor).
-  const [showBackdrop, setShowBackdrop] = (0,external_wp_element_namespaceObject.useState)(false);
-  const contextValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
-    ColorPicker: {
-      onPickerDragStart() {
-        setShowBackdrop(true);
-      },
-      onPickerDragEnd() {
-        setShowBackdrop(false);
-      }
-    }
-  }), []);
-  let content = (0,external_React_.createElement)(external_React_.Fragment, null, showBackdrop && (0,external_React_.createElement)("div", {
-    className: "components-popover-pointer-events-trap",
-    "aria-hidden": "true",
-    onClick: () => setShowBackdrop(false)
-  }), (0,external_React_.createElement)(motion.div, {
-    className: classnames_default()('components-popover', className, {
+  let content = (0,external_React_.createElement)(motion.div, {
+    className: dist_clsx(className, {
       'is-expanded': isExpanded,
       'is-positioned': isPositioned,
       // Use the 'alternate' classname for 'toolbar' variant for back compat.
@@ -35302,16 +34215,14 @@ const UnconnectedPopover = (props, forwardedRef) => {
     onClick: onClose
   })), (0,external_React_.createElement)("div", {
     className: "components-popover__content"
-  }, (0,external_React_.createElement)(ContextSystemProvider, {
-    value: contextValue
-  }, children)), hasArrow && (0,external_React_.createElement)("div", {
+  }, children), hasArrow && (0,external_React_.createElement)("div", {
     ref: arrowCallbackRef,
     className: ['components-popover__arrow', `is-${computedPlacement.split('-')[0]}`].join(' '),
     style: {
       left: typeof arrowData?.x !== 'undefined' && Number.isFinite(arrowData.x) ? `${arrowData.x}px` : '',
       top: typeof arrowData?.y !== 'undefined' && Number.isFinite(arrowData.y) ? `${arrowData.y}px` : ''
     }
-  }, (0,external_React_.createElement)(ArrowTriangle, null))));
+  }, (0,external_React_.createElement)(ArrowTriangle, null)));
   const shouldRenderWithinSlot = slot.ref && !inline;
   const hasAnchor = anchorRef || anchorRect || anchor;
   if (shouldRenderWithinSlot) {
@@ -35354,7 +34265,7 @@ const UnconnectedPopover = (props, forwardedRef) => {
  * ```
  *
  */
-const popover_Popover = contextConnect(UnconnectedPopover, 'Popover');
+const popover_Popover = contextConnect(UnforwardedPopover, 'Popover');
 function PopoverSlot({
   name = SLOT_NAME
 }, ref) {
@@ -35417,7 +34328,9 @@ function getAutoCompleterUI(autocompleter) {
     const [needsA11yCompat, setNeedsA11yCompat] = (0,external_wp_element_namespaceObject.useState)(false);
     const popoverRef = (0,external_wp_element_namespaceObject.useRef)(null);
     const popoverRefs = (0,external_wp_compose_namespaceObject.useMergeRefs)([popoverRef, (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
-      if (!contentRef.current) return;
+      if (!contentRef.current) {
+        return;
+      }
 
       // If the popover is rendered in a different document than
       // the content, we need to duplicate the options list in the
@@ -35465,7 +34378,7 @@ function getAutoCompleterUI(autocompleter) {
       role: "option",
       "aria-selected": index === selectedIndex,
       disabled: option.isDisabled,
-      className: classnames_default()('components-autocomplete__result', className, {
+      className: dist_clsx('components-autocomplete__result', className, {
         'is-selected': index === selectedIndex
       }),
       onClick: () => onSelect(option)
@@ -35523,6 +34436,7 @@ function useOnClickOutside(ref, handler) {
 /**
  * Internal dependencies
  */
+
 
 
 const getNodeText = node => {
@@ -35633,13 +34547,7 @@ function useAutocomplete({
     if (filteredOptions.length === 0) {
       return;
     }
-    if (event.defaultPrevented ||
-    // Ignore keydowns from IMEs
-    event.isComposing ||
-    // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
-    // is `isComposing=false`, even though it's technically still part of the composition.
-    // These can only be detected by keyCode.
-    event.keyCode === 229) {
+    if (event.defaultPrevented) {
       return;
     }
     switch (event.key) {
@@ -35694,7 +34602,9 @@ function useAutocomplete({
   }, [record]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!textContent) {
-      if (autocompleter) reset();
+      if (autocompleter) {
+        reset();
+      }
       return;
     }
 
@@ -35706,7 +34616,9 @@ function useAutocomplete({
       return triggerIndex > lastTriggerIndex ? currentCompleter : lastTrigger;
     }, null);
     if (!completer) {
-      if (autocompleter) reset();
+      if (autocompleter) {
+        reset();
+      }
       return;
     }
     const {
@@ -35721,7 +34633,9 @@ function useAutocomplete({
     // significantly. This could happen, for example, if `matchingWhileBackspacing`
     // is true and one of the "words" end up being too long. If that's the case,
     // it will be caught by this guard.
-    if (tooDistantFromTrigger) return;
+    if (tooDistantFromTrigger) {
+      return;
+    }
     const mismatch = filteredOptions.length === 0;
     const wordsFromTrigger = textWithoutTrigger.split(/\s/);
     // We need to allow the effect to run when not backspacing and if there
@@ -35743,20 +34657,28 @@ function useAutocomplete({
     // if the user presses backspace here, it will show the completion popup again.
     const matchingWhileBackspacing = backspacing.current && wordsFromTrigger.length <= 3;
     if (mismatch && !(matchingWhileBackspacing || hasOneTriggerWord)) {
-      if (autocompleter) reset();
+      if (autocompleter) {
+        reset();
+      }
       return;
     }
     const textAfterSelection = (0,external_wp_richText_namespaceObject.getTextContent)((0,external_wp_richText_namespaceObject.slice)(record, undefined, (0,external_wp_richText_namespaceObject.getTextContent)(record).length));
     if (allowContext && !allowContext(textContent.slice(0, triggerIndex), textAfterSelection)) {
-      if (autocompleter) reset();
+      if (autocompleter) {
+        reset();
+      }
       return;
     }
     if (/^\s/.test(textWithoutTrigger) || /\s\s+$/.test(textWithoutTrigger)) {
-      if (autocompleter) reset();
+      if (autocompleter) {
+        reset();
+      }
       return;
     }
     if (!/[\u0000-\uFFFF]*$/.test(textWithoutTrigger)) {
-      if (autocompleter) reset();
+      if (autocompleter) {
+        reset();
+      }
       return;
     }
     const safeTrigger = escapeRegExp(completer.triggerPrefix);
@@ -35783,7 +34705,7 @@ function useAutocomplete({
   return {
     listBoxId,
     activeId,
-    onKeyDown: handleKeyDown,
+    onKeyDown: withIgnoreIMEEvents(handleKeyDown),
     popover: hasSelection && AutocompleterUI && (0,external_React_.createElement)(AutocompleterUI, {
       className: className,
       filterValue: filterValue,
@@ -35886,9 +34808,6 @@ function useBaseControlProps(props) {
     ...restProps
   } = props;
   const uniqueId = (0,external_wp_compose_namespaceObject.useInstanceId)(base_control, 'wp-components-base-control', preferredId);
-
-  // ARIA descriptions can only contain plain text, so fall back to aria-details if not.
-  const helpPropName = typeof help === 'string' ? 'aria-describedby' : 'aria-details';
   return {
     baseControlProps: {
       id: uniqueId,
@@ -35898,7 +34817,7 @@ function useBaseControlProps(props) {
     controlProps: {
       id: uniqueId,
       ...(!!help ? {
-        [helpPropName]: `${uniqueId}__help`
+        'aria-describedby': `${uniqueId}__help`
       } : {})
     }
   };
@@ -36235,7 +35154,7 @@ const LayoutGroup = ({ children, id, inherit = true }) => {
         };
     }
     const memoizedContext = (0,external_React_.useMemo)(() => ({ ...context.current, forceRender }), [key]);
-    return (external_React_.createElement(LayoutGroupContext.Provider, { value: memoizedContext }, children));
+    return ((0,jsx_runtime.jsx)(LayoutGroupContext.Provider, { value: memoizedContext, children: children }));
 };
 
 
@@ -36264,13 +35183,13 @@ var styles_ref =  true ? {
   name: "1aqh2c7",
   styles: "min-height:40px;padding:3px"
 } : 0;
-var styles_ref2 =  true ? {
+var _ref2 =  true ? {
   name: "1ndywgm",
   styles: "min-height:36px;padding:2px"
 } : 0;
 const toggleGroupControlSize = size => {
   const styles = {
-    default: styles_ref2,
+    default: _ref2,
     '__unstable-large': styles_ref
   };
   return styles[size];
@@ -36279,7 +35198,7 @@ const toggle_group_control_styles_block =  true ? {
   name: "7whenc",
   styles: "display:flex;width:100%"
 } : 0;
-const VisualLabelWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const VisualLabelWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eakva830"
 } : 0)( true ? {
   name: "zjik7",
@@ -36880,7 +35799,7 @@ function toggle_group_control_option_base_styles_EMOTION_STRINGIFIED_CSS_ERROR_(
  * Internal dependencies
  */
 
-const LabelView = emotion_styled_base_browser_esm("div",  true ? {
+const LabelView = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "et6ln9s1"
 } : 0)( true ? {
   name: "sln1fl",
@@ -36895,12 +35814,12 @@ const buttonView = ({
   isIcon,
   isPressed,
   size
-}) => /*#__PURE__*/emotion_react_browser_esm_css("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.controlBorderRadius, ";color:", COLORS.gray[700], ";fill:currentColor;cursor:pointer;display:flex;font-family:inherit;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;", reduceMotion('transition'), " user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&:active{background:", config_values.toggleGroupControlBackgroundColor, ";}", isDeselectable && deselectable, " ", isIcon && isIconStyles({
+}) => /*#__PURE__*/emotion_react_browser_esm_css("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.controlBorderRadius, ";color:", COLORS.gray[700], ";fill:currentColor;cursor:pointer;display:flex;font-family:inherit;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;@media not ( prefers-reduced-motion ){transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;}user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&:active{background:", config_values.toggleGroupControlBackgroundColor, ";}", isDeselectable && deselectable, " ", isIcon && isIconStyles({
   size
 }), " ", isPressed && pressed, ";" + ( true ? "" : 0),  true ? "" : 0);
 const pressed = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.white, ";&:active{background:transparent;}" + ( true ? "" : 0),  true ? "" : 0);
 const deselectable = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.gray[900], ";&:focus{box-shadow:inset 0 0 0 1px ", COLORS.white, ",0 0 0 ", config_values.borderWidthFocus, " ", COLORS.theme.accent, ";outline:2px solid transparent;}" + ( true ? "" : 0),  true ? "" : 0);
-const ButtonContentView = emotion_styled_base_browser_esm("div",  true ? {
+const ButtonContentView = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "et6ln9s0"
 } : 0)("display:flex;font-size:", config_values.fontSize, ";line-height:1;" + ( true ? "" : 0));
 const isIconStyles = ({
@@ -36962,7 +35881,7 @@ const WithToolTip = ({
   return (0,external_React_.createElement)(external_React_.Fragment, null, children);
 };
 function ToggleGroupControlOptionBase(props, forwardedRef) {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
   const toggleGroupControlContext = useToggleGroupControlContext();
   const id = (0,external_wp_compose_namespaceObject.useInstanceId)(ToggleGroupControlOptionBase, toggleGroupControlContext.baseId || 'toggle-group-control-option-base');
   const buttonProps = useContextSystem({
@@ -37023,17 +35942,22 @@ function ToggleGroupControlOptionBase(props, forwardedRef) {
       ...commonProps,
       onFocus: event => {
         onFocusProp?.(event);
-        if (event.defaultPrevented) return;
+        if (event.defaultPrevented) {
+          return;
+        }
         toggleGroupControlContext.setValue(value);
       }
     }),
     value: value
   }, (0,external_React_.createElement)(component_ButtonContentView, null, children))), isPressed ? (0,external_React_.createElement)(motion.div, {
+    layout: true,
+    layoutRoot: true
+  }, (0,external_React_.createElement)(motion.div, {
     className: backdropClasses,
     transition: shouldReduceMotion ? REDUCED_MOTION_TRANSITION_CONFIG : undefined,
     role: "presentation",
     layoutId: LAYOUT_ID
-  }) : null);
+  })) : null);
 }
 
 /**
@@ -37198,7 +36122,7 @@ function UnforwardedColorIndicator(props, forwardedRef) {
     ...additionalProps
   } = props;
   return (0,external_React_.createElement)("span", {
-    className: classnames_default()('component-color-indicator', className),
+    className: dist_clsx('component-color-indicator', className),
     style: {
       background: colorValue
     },
@@ -37335,7 +36259,7 @@ const UnconnectedDropdown = (props, forwardedRef) => {
     anchor: !popoverPropsHaveAnchor ? fallbackPopoverAnchor : undefined,
     variant: variant,
     ...popoverProps,
-    className: classnames_default()('components-dropdown__content', popoverProps?.className, contentClassName)
+    className: dist_clsx('components-dropdown__content', popoverProps?.className, contentClassName)
   }, renderContent(args)));
 };
 
@@ -37421,7 +36345,9 @@ const InputControlSuffixWrapper = contextConnect(UnconnectedInputControlSuffixWr
 const select_control_styles_disabledStyles = ({
   disabled
 }) => {
-  if (!disabled) return '';
+  if (!disabled) {
+    return '';
+  }
   return /*#__PURE__*/emotion_react_browser_esm_css({
     color: COLORS.ui.textDisabled
   },  true ? "" : 0,  true ? "" : 0);
@@ -37504,10 +36430,10 @@ const overflowStyles = ({
 // TODO: Resolve need to use &&& to increase specificity
 // https://github.com/WordPress/gutenberg/issues/18483
 
-const Select = emotion_styled_base_browser_esm("select",  true ? {
+const Select = /*#__PURE__*/emotion_styled_base_browser_esm("select",  true ? {
   target: "e1mv6sxx2"
 } : 0)("&&&{appearance:none;background:transparent;box-sizing:border-box;border:none;box-shadow:none!important;color:", COLORS.gray[900], ";display:block;font-family:inherit;margin:0;width:100%;max-width:none;cursor:pointer;white-space:nowrap;text-overflow:ellipsis;", select_control_styles_disabledStyles, ";", fontSizeStyles, ";", select_control_styles_sizeStyles, ";", sizePaddings, ";", overflowStyles, ";}" + ( true ? "" : 0));
-const DownArrowWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const DownArrowWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1mv6sxx1"
 } : 0)("margin-inline-end:", space(-1), ";line-height:0;" + ( true ? "" : 0));
 const InputControlSuffixWrapperWithClickThrough = /*#__PURE__*/emotion_styled_base_browser_esm(input_suffix_wrapper,  true ? {
@@ -37602,7 +36528,6 @@ const SelectControlChevronDown = () => {
 
 
 
-const select_control_noop = () => {};
 function select_control_useUniqueId(idProp) {
   const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(SelectControl);
   const id = `inspector-select-control-${instanceId}`;
@@ -37617,9 +36542,7 @@ function UnforwardedSelectControl(props, ref) {
     id: idProp,
     label,
     multiple = false,
-    onBlur = select_control_noop,
     onChange,
-    onFocus = select_control_noop,
     options = [],
     size = 'default',
     value: valueProp,
@@ -37631,20 +36554,13 @@ function UnforwardedSelectControl(props, ref) {
     __nextHasNoMarginBottom = false,
     ...restProps
   } = useDeprecated36pxDefaultSizeProp(props);
-  const [isFocused, setIsFocused] = (0,external_wp_element_namespaceObject.useState)(false);
   const id = select_control_useUniqueId(idProp);
   const helpId = help ? `${id}__help` : undefined;
 
   // Disable reason: A select with an onchange throws a warning.
-  if (!options?.length && !children) return null;
-  const handleOnBlur = event => {
-    onBlur(event);
-    setIsFocused(false);
-  };
-  const handleOnFocus = event => {
-    onFocus(event);
-    setIsFocused(true);
-  };
+  if (!options?.length && !children) {
+    return null;
+  }
   const handleOnChange = event => {
     if (props.multiple) {
       const selectedOptions = Array.from(event.target.options).filter(({
@@ -37662,7 +36578,7 @@ function UnforwardedSelectControl(props, ref) {
       event
     });
   };
-  const classes = classnames_default()('components-select-control', className);
+  const classes = dist_clsx('components-select-control', className);
   return (0,external_React_.createElement)(base_control, {
     help: help,
     id: id,
@@ -37672,7 +36588,6 @@ function UnforwardedSelectControl(props, ref) {
     disabled: disabled,
     hideLabelFromVision: hideLabelFromVision,
     id: id,
-    isFocused: isFocused,
     label: label,
     size: size,
     suffix: suffix || !multiple && (0,external_React_.createElement)(select_control_chevron_down, null),
@@ -37687,9 +36602,7 @@ function UnforwardedSelectControl(props, ref) {
     disabled: disabled,
     id: id,
     multiple: multiple,
-    onBlur: handleOnBlur,
     onChange: handleOnChange,
-    onFocus: handleOnFocus,
     ref: ref,
     selectSize: size,
     value: valueProp
@@ -37900,7 +36813,7 @@ const deprecatedHeight = ({
 }) => !__next40pxDefaultSize && /*#__PURE__*/emotion_react_browser_esm_css({
   minHeight: rangeHeightValue
 },  true ? "" : 0,  true ? "" : 0);
-const range_control_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const range_control_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1epgpqk14"
 } : 0)("-webkit-tap-highlight-color:transparent;align-items:center;display:flex;justify-content:flex-start;padding:0;position:relative;touch-action:none;width:100%;min-height:40px;", deprecatedHeight, ";" + ( true ? "" : 0));
 const wrapperColor = ({
@@ -37919,15 +36832,15 @@ const wrapperMargin = ({
   }
   return '';
 };
-const range_control_styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const range_control_styles_Wrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1epgpqk13"
 } : 0)("display:block;flex:1;position:relative;width:100%;", wrapperColor, ";", rangeHeight, ";", wrapperMargin, ";" + ( true ? "" : 0));
-const BeforeIconWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const BeforeIconWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk12"
 } : 0)("display:flex;margin-top:", railHeight, "px;", rtl({
   marginRight: 6
 }), ";" + ( true ? "" : 0));
-const AfterIconWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const AfterIconWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk11"
 } : 0)("display:flex;margin-top:", railHeight, "px;", rtl({
   marginLeft: 6
@@ -37944,7 +36857,7 @@ const railBackgroundColor = ({
     background
   },  true ? "" : 0,  true ? "" : 0);
 };
-const Rail = emotion_styled_base_browser_esm("span",  true ? {
+const Rail = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk10"
 } : 0)("background-color:", COLORS.gray[300], ";left:0;pointer-events:none;right:0;display:block;height:", railHeight, "px;position:absolute;margin-top:", (rangeHeightValue - railHeight) / 2, "px;top:0;border-radius:", railHeight, "px;", railBackgroundColor, ";" + ( true ? "" : 0));
 const trackBackgroundColor = ({
@@ -37959,10 +36872,10 @@ const trackBackgroundColor = ({
     background
   },  true ? "" : 0,  true ? "" : 0);
 };
-const Track = emotion_styled_base_browser_esm("span",  true ? {
+const Track = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk9"
 } : 0)("background-color:currentColor;border-radius:", railHeight, "px;height:", railHeight, "px;pointer-events:none;display:block;position:absolute;margin-top:", (rangeHeightValue - railHeight) / 2, "px;top:0;", trackBackgroundColor, ";" + ( true ? "" : 0));
-const MarksWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const MarksWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk8"
 } : 0)( true ? {
   name: "l7tjj5",
@@ -37980,7 +36893,7 @@ const markFill = ({
     backgroundColor
   },  true ? "" : 0,  true ? "" : 0);
 };
-const Mark = emotion_styled_base_browser_esm("span",  true ? {
+const Mark = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk7"
 } : 0)("height:", thumbSize, "px;left:0;position:absolute;top:-4px;width:1px;", markFill, ";" + ( true ? "" : 0));
 const markLabelFill = ({
@@ -37990,13 +36903,13 @@ const markLabelFill = ({
     color: isFilled ? COLORS.gray[700] : COLORS.gray[300]
   },  true ? "" : 0,  true ? "" : 0);
 };
-const MarkLabel = emotion_styled_base_browser_esm("span",  true ? {
+const MarkLabel = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk6"
 } : 0)("color:", COLORS.gray[300], ";left:0;font-size:11px;position:absolute;top:12px;transform:translateX( -50% );white-space:nowrap;", markLabelFill, ";" + ( true ? "" : 0));
 const thumbColor = ({
   disabled
 }) => disabled ? /*#__PURE__*/emotion_react_browser_esm_css("background-color:", COLORS.gray[400], ";" + ( true ? "" : 0),  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css("background-color:", COLORS.theme.accent, ";" + ( true ? "" : 0),  true ? "" : 0);
-const ThumbWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const ThumbWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk5"
 } : 0)("align-items:center;display:flex;height:", thumbSize, "px;justify-content:center;margin-top:", (rangeHeightValue - thumbSize) / 2, "px;outline:0;pointer-events:none;position:absolute;top:0;user-select:none;width:", thumbSize, "px;border-radius:50%;", thumbColor, ";", rtl({
   marginLeft: -10
@@ -38010,10 +36923,10 @@ const thumbFocus = ({
 }) => {
   return isFocused ? /*#__PURE__*/emotion_react_browser_esm_css("&::before{content:' ';position:absolute;background-color:", COLORS.theme.accent, ";opacity:0.4;border-radius:50%;height:", thumbSize + 8, "px;width:", thumbSize + 8, "px;top:-4px;left:-4px;}" + ( true ? "" : 0),  true ? "" : 0) : '';
 };
-const Thumb = emotion_styled_base_browser_esm("span",  true ? {
+const Thumb = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk4"
 } : 0)("align-items:center;border-radius:50%;height:100%;outline:0;position:absolute;user-select:none;width:100%;", thumbColor, ";", thumbFocus, ";" + ( true ? "" : 0));
-const InputRange = emotion_styled_base_browser_esm("input",  true ? {
+const InputRange = /*#__PURE__*/emotion_styled_base_browser_esm("input",  true ? {
   target: "e1epgpqk3"
 } : 0)("box-sizing:border-box;cursor:pointer;display:block;height:100%;left:0;margin:0 -", thumbSize / 2, "px;opacity:0;outline:none;position:absolute;right:0;top:0;width:calc( 100% + ", thumbSize, "px );" + ( true ? "" : 0));
 const tooltipShow = ({
@@ -38040,22 +36953,22 @@ const tooltipPosition = ({
   }
   return range_control_styles_ref;
 };
-const range_control_styles_Tooltip = emotion_styled_base_browser_esm("span",  true ? {
+const range_control_styles_Tooltip = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk2"
-} : 0)("background:rgba( 0, 0, 0, 0.8 );border-radius:2px;color:white;display:inline-block;font-size:12px;min-width:32px;opacity:0;padding:4px 8px;pointer-events:none;position:absolute;text-align:center;transition:opacity 120ms ease;user-select:none;line-height:1.4;", tooltipShow, ";", tooltipPosition, ";", reduceMotion('transition'), ";", rtl({
+} : 0)("background:rgba( 0, 0, 0, 0.8 );border-radius:2px;color:white;display:inline-block;font-size:12px;min-width:32px;opacity:0;padding:4px 8px;pointer-events:none;position:absolute;text-align:center;user-select:none;line-height:1.4;@media not ( prefers-reduced-motion ){transition:opacity 120ms ease;}", tooltipShow, ";", tooltipPosition, ";", rtl({
   transform: 'translateX(-50%)'
 }, {
   transform: 'translateX(50%)'
 }), ";" + ( true ? "" : 0));
 
-// @todo: Refactor RangeControl with latest HStack configuration
+// @todo Refactor RangeControl with latest HStack configuration
 // @see: packages/components/src/h-stack
 const InputNumber = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
   target: "e1epgpqk1"
 } : 0)("display:inline-block;font-size:13px;margin-top:0;input[type='number']&{", rangeHeight, ";}", rtl({
   marginLeft: `${space(4)} !important`
 }), ";" + ( true ? "" : 0));
-const ActionRightWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const ActionRightWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1epgpqk0"
 } : 0)("display:block;margin-top:0;button,button.is-small{margin-left:0;", rangeHeight, ";}", rtl({
   marginLeft: 8
@@ -38112,8 +37025,8 @@ function RangeMark(props) {
     style = {},
     ...otherProps
   } = props;
-  const classes = classnames_default()('components-range-control__mark', isFilled && 'is-filled', className);
-  const labelClasses = classnames_default()('components-range-control__mark-label', isFilled && 'is-filled');
+  const classes = dist_clsx('components-range-control__mark', isFilled && 'is-filled', className);
+  const labelClasses = dist_clsx('components-range-control__mark-label', isFilled && 'is-filled');
   return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(Mark, {
     ...otherProps,
     "aria-hidden": "true",
@@ -38205,7 +37118,7 @@ function useMarks({
     const count = 1 + Math.round(range / step);
     while (count > marks.push({
       value: step * marks.length + min
-    }));
+    })) {}
   }
   const placedMarks = [];
   marks.forEach((mark, index) => {
@@ -38260,7 +37173,7 @@ function SimpleTooltip(props) {
     inputRef,
     tooltipPosition
   });
-  const classes = classnames_default()('components-simple-tooltip', className);
+  const classes = dist_clsx('components-simple-tooltip', className);
   const styles = {
     ...style,
     zIndex
@@ -38386,8 +37299,8 @@ function UnforwardedRangeControl(props, forwardedRef) {
   const rangeFillValue = isValueReset ? (max - min) / 2 + min : value;
   const fillValue = isValueReset ? 50 : (value - min) / (max - min) * 100;
   const fillValueOffset = `${math_clamp(fillValue, 0, 100)}%`;
-  const classes = classnames_default()('components-range-control', className);
-  const wrapperClasses = classnames_default()('components-range-control__wrapper', !!marks && 'is-marked');
+  const classes = dist_clsx('components-range-control', className);
+  const wrapperClasses = dist_clsx('components-range-control__wrapper', !!marks && 'is-marked');
   const id = (0,external_wp_compose_namespaceObject.useInstanceId)(UnforwardedRangeControl, 'inspector-range-control');
   const describedBy = !!help ? `${id}__help` : undefined;
   const enableTooltip = hasTooltip !== false && Number.isFinite(value);
@@ -38599,13 +37512,12 @@ const RangeControl = (0,external_wp_element_namespaceObject.forwardRef)(Unforwar
 
 
 
-
 const NumberControlWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
   target: "ez9hsf47"
-} : 0)(Container, "{width:", space(24), ";}" + ( true ? "" : 0));
+} : 0)("width:", space(24), ";" + ( true ? "" : 0));
 const styles_SelectControl = /*#__PURE__*/emotion_styled_base_browser_esm(select_control,  true ? {
   target: "ez9hsf46"
-} : 0)("margin-left:", space(-2), ";width:5em;select:not( :focus )~", BackdropUI, BackdropUI, BackdropUI, "{border-color:transparent;}" + ( true ? "" : 0));
+} : 0)("margin-left:", space(-2), ";width:5em;" + ( true ? "" : 0));
 const styles_RangeControl = /*#__PURE__*/emotion_styled_base_browser_esm(range_control,  true ? {
   target: "ez9hsf45"
 } : 0)("flex:1;margin-right:", space(2), ";" + ( true ? "" : 0));
@@ -38616,7 +37528,7 @@ const interactiveHueStyles = `
 	width: calc( 100% - ${space(2)} );
 	margin-left: ${space(1)};
 }`;
-const AuxiliaryColorArtefactWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const AuxiliaryColorArtefactWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ez9hsf44"
 } : 0)("padding-top:", space(2), ";padding-right:0;padding-left:0;padding-bottom:0;" + ( true ? "" : 0));
 const AuxiliaryColorArtefactHStackHeader = /*#__PURE__*/emotion_styled_base_browser_esm(h_stack_component,  true ? {
@@ -38625,7 +37537,7 @@ const AuxiliaryColorArtefactHStackHeader = /*#__PURE__*/emotion_styled_base_brow
 const ColorInputWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
   target: "ez9hsf42"
 } : 0)("padding-top:", space(4), ";padding-left:", space(4), ";padding-right:", space(3), ";padding-bottom:", space(5), ";" + ( true ? "" : 0));
-const ColorfulWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const ColorfulWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ez9hsf41"
 } : 0)(boxSizingReset, ";width:216px;.react-colorful{display:flex;flex-direction:column;align-items:center;width:216px;height:auto;}.react-colorful__saturation{width:100%;border-radius:0;height:216px;margin-bottom:", space(4), ";border-bottom:none;}.react-colorful__hue,.react-colorful__alpha{width:184px;height:16px;border-radius:16px;margin-bottom:", space(2), ";}.react-colorful__pointer{height:16px;width:16px;border:none;box-shadow:0 0 2px 0 rgba( 0, 0, 0, 0.25 );outline:2px solid transparent;}.react-colorful__pointer-fill{box-shadow:inset 0 0 0 ", config_values.borderWidthFocus, " #fff;}", interactiveHueStyles, ";" + ( true ? "" : 0));
 const CopyButton = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
@@ -38980,7 +37892,9 @@ const HexInput = ({
   enableAlpha
 }) => {
   const handleChange = nextValue => {
-    if (!nextValue) return;
+    if (!nextValue) {
+      return;
+    }
     const hexValue = nextValue.startsWith('#') ? nextValue : '#' + nextValue;
     onChange(w(hexValue));
   };
@@ -39052,7 +37966,7 @@ const ColorInput = ({
 };
 
 ;// CONCATENATED MODULE: ./node_modules/react-colorful/dist/index.mjs
-function dist_u(){return(dist_u=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e}).apply(this,arguments)}function dist_c(e,r){if(null==e)return{};var t,n,o={},a=Object.keys(e);for(n=0;n<a.length;n++)r.indexOf(t=a[n])>=0||(o[t]=e[t]);return o}function dist_i(e){var t=(0,external_React_.useRef)(e),n=(0,external_React_.useRef)(function(e){t.current&&t.current(e)});return t.current=e,n.current}var dist_s=function(e,r,t){return void 0===r&&(r=0),void 0===t&&(t=1),e>t?t:e<r?r:e},dist_f=function(e){return"touches"in e},dist_v=function(e){return e&&e.ownerDocument.defaultView||self},dist_d=function(e,r,t){var n=e.getBoundingClientRect(),o=dist_f(r)?function(e,r){for(var t=0;t<e.length;t++)if(e[t].identifier===r)return e[t];return e[0]}(r.touches,t):r;return{left:dist_s((o.pageX-(n.left+dist_v(e).pageXOffset))/n.width),top:dist_s((o.pageY-(n.top+dist_v(e).pageYOffset))/n.height)}},dist_h=function(e){!dist_f(e)&&e.preventDefault()},dist_m=external_React_.memo(function(o){var a=o.onMove,l=o.onKey,s=dist_c(o,["onMove","onKey"]),m=(0,external_React_.useRef)(null),g=dist_i(a),p=dist_i(l),b=(0,external_React_.useRef)(null),_=(0,external_React_.useRef)(!1),x=(0,external_React_.useMemo)(function(){var e=function(e){dist_h(e),(dist_f(e)?e.touches.length>0:e.buttons>0)&&m.current?g(dist_d(m.current,e,b.current)):t(!1)},r=function(){return t(!1)};function t(t){var n=_.current,o=dist_v(m.current),a=t?o.addEventListener:o.removeEventListener;a(n?"touchmove":"mousemove",e),a(n?"touchend":"mouseup",r)}return[function(e){var r=e.nativeEvent,n=m.current;if(n&&(dist_h(r),!function(e,r){return r&&!dist_f(e)}(r,_.current)&&n)){if(dist_f(r)){_.current=!0;var o=r.changedTouches||[];o.length&&(b.current=o[0].identifier)}n.focus(),g(dist_d(n,r,b.current)),t(!0)}},function(e){var r=e.which||e.keyCode;r<37||r>40||(e.preventDefault(),p({left:39===r?.05:37===r?-.05:0,top:40===r?.05:38===r?-.05:0}))},t]},[p,g]),C=x[0],E=x[1],H=x[2];return (0,external_React_.useEffect)(function(){return H},[H]),external_React_.createElement("div",dist_u({},s,{onTouchStart:C,onMouseDown:C,className:"react-colorful__interactive",ref:m,onKeyDown:E,tabIndex:0,role:"slider"}))}),dist_g=function(e){return e.filter(Boolean).join(" ")},dist_p=function(r){var t=r.color,n=r.left,o=r.top,a=void 0===o?.5:o,l=dist_g(["react-colorful__pointer",r.className]);return external_React_.createElement("div",{className:l,style:{top:100*a+"%",left:100*n+"%"}},external_React_.createElement("div",{className:"react-colorful__pointer-fill",style:{backgroundColor:t}}))},dist_b=function(e,r,t){return void 0===r&&(r=0),void 0===t&&(t=Math.pow(10,r)),Math.round(t*e)/t},_={grad:.9,turn:360,rad:360/(2*Math.PI)},dist_x=function(e){return L(C(e))},C=function(e){return"#"===e[0]&&(e=e.substring(1)),e.length<6?{r:parseInt(e[0]+e[0],16),g:parseInt(e[1]+e[1],16),b:parseInt(e[2]+e[2],16),a:4===e.length?dist_b(parseInt(e[3]+e[3],16)/255,2):1}:{r:parseInt(e.substring(0,2),16),g:parseInt(e.substring(2,4),16),b:parseInt(e.substring(4,6),16),a:8===e.length?dist_b(parseInt(e.substring(6,8),16)/255,2):1}},dist_E=function(e,r){return void 0===r&&(r="deg"),Number(e)*(_[r]||1)},dist_H=function(e){var r=/hsla?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(e);return r?dist_N({h:dist_E(r[1],r[2]),s:Number(r[3]),l:Number(r[4]),a:void 0===r[5]?1:Number(r[5])/(r[6]?100:1)}):{h:0,s:0,v:0,a:1}},dist_M=dist_H,dist_N=function(e){var r=e.s,t=e.l;return{h:e.h,s:(r*=(t<50?t:100-t)/100)>0?2*r/(t+r)*100:0,v:t+r,a:e.a}},dist_w=function(e){return K(dist_I(e))},dist_y=function(e){var r=e.s,t=e.v,n=e.a,o=(200-r)*t/100;return{h:dist_b(e.h),s:dist_b(o>0&&o<200?r*t/100/(o<=100?o:200-o)*100:0),l:dist_b(o/2),a:dist_b(n,2)}},q=function(e){var r=dist_y(e);return"hsl("+r.h+", "+r.s+"%, "+r.l+"%)"},dist_k=function(e){var r=dist_y(e);return"hsla("+r.h+", "+r.s+"%, "+r.l+"%, "+r.a+")"},dist_I=function(e){var r=e.h,t=e.s,n=e.v,o=e.a;r=r/360*6,t/=100,n/=100;var a=Math.floor(r),l=n*(1-t),u=n*(1-(r-a)*t),c=n*(1-(1-r+a)*t),i=a%6;return{r:dist_b(255*[n,u,l,l,c,n][i]),g:dist_b(255*[c,n,n,u,l,l][i]),b:dist_b(255*[l,l,c,n,n,u][i]),a:dist_b(o,2)}},dist_O=function(e){var r=/hsva?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(e);return r?A({h:dist_E(r[1],r[2]),s:Number(r[3]),v:Number(r[4]),a:void 0===r[5]?1:Number(r[5])/(r[6]?100:1)}):{h:0,s:0,v:0,a:1}},dist_j=dist_O,z=function(e){var r=/rgba?\(?\s*(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(e);return r?L({r:Number(r[1])/(r[2]?100/255:1),g:Number(r[3])/(r[4]?100/255:1),b:Number(r[5])/(r[6]?100/255:1),a:void 0===r[7]?1:Number(r[7])/(r[8]?100:1)}):{h:0,s:0,v:0,a:1}},B=z,D=function(e){var r=e.toString(16);return r.length<2?"0"+r:r},K=function(e){var r=e.r,t=e.g,n=e.b,o=e.a,a=o<1?D(dist_b(255*o)):"";return"#"+D(r)+D(t)+D(n)+a},L=function(e){var r=e.r,t=e.g,n=e.b,o=e.a,a=Math.max(r,t,n),l=a-Math.min(r,t,n),u=l?a===r?(t-n)/l:a===t?2+(n-r)/l:4+(r-t)/l:0;return{h:dist_b(60*(u<0?u+6:u)),s:dist_b(a?l/a*100:0),v:dist_b(a/255*100),a:o}},A=function(e){return{h:dist_b(e.h),s:dist_b(e.s),v:dist_b(e.v),a:dist_b(e.a,2)}},dist_S=external_React_.memo(function(r){var t=r.hue,n=r.onChange,o=dist_g(["react-colorful__hue",r.className]);return external_React_.createElement("div",{className:o},external_React_.createElement(dist_m,{onMove:function(e){n({h:360*e.left})},onKey:function(e){n({h:dist_s(t+360*e.left,0,360)})},"aria-label":"Hue","aria-valuenow":dist_b(t),"aria-valuemax":"360","aria-valuemin":"0"},external_React_.createElement(dist_p,{className:"react-colorful__hue-pointer",left:t/360,color:q({h:t,s:100,v:100,a:1})})))}),T=external_React_.memo(function(r){var t=r.hsva,n=r.onChange,o={backgroundColor:q({h:t.h,s:100,v:100,a:1})};return external_React_.createElement("div",{className:"react-colorful__saturation",style:o},external_React_.createElement(dist_m,{onMove:function(e){n({s:100*e.left,v:100-100*e.top})},onKey:function(e){n({s:dist_s(t.s+100*e.left,0,100),v:dist_s(t.v-100*e.top,0,100)})},"aria-label":"Color","aria-valuetext":"Saturation "+dist_b(t.s)+"%, Brightness "+dist_b(t.v)+"%"},external_React_.createElement(dist_p,{className:"react-colorful__saturation-pointer",top:1-t.v/100,left:t.s/100,color:q(t)})))}),F=function(e,r){if(e===r)return!0;for(var t in e)if(e[t]!==r[t])return!1;return!0},P=function(e,r){return e.replace(/\s/g,"")===r.replace(/\s/g,"")},X=function(e,r){return e.toLowerCase()===r.toLowerCase()||F(C(e),C(r))};function Y(e,t,l){var u=dist_i(l),c=(0,external_React_.useState)(function(){return e.toHsva(t)}),s=c[0],f=c[1],v=(0,external_React_.useRef)({color:t,hsva:s});(0,external_React_.useEffect)(function(){if(!e.equal(t,v.current.color)){var r=e.toHsva(t);v.current={hsva:r,color:t},f(r)}},[t,e]),(0,external_React_.useEffect)(function(){var r;F(s,v.current.hsva)||e.equal(r=e.fromHsva(s),v.current.color)||(v.current={hsva:s,color:r},u(r))},[s,e,u]);var d=(0,external_React_.useCallback)(function(e){f(function(r){return Object.assign({},r,e)})},[]);return[s,d]}var R,dist_V="undefined"!=typeof window?external_React_.useLayoutEffect:external_React_.useEffect,dist_$=function(){return R||( true?__webpack_require__.nc:0)},G=function(e){R=e},J=new Map,Q=function(e){dist_V(function(){var r=e.current?e.current.ownerDocument:document;if(void 0!==r&&!J.has(r)){var t=r.createElement("style");t.innerHTML='.react-colorful{position:relative;display:flex;flex-direction:column;width:200px;height:200px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}.react-colorful__saturation{position:relative;flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(0deg,#000,transparent),linear-gradient(90deg,#fff,hsla(0,0%,100%,0))}.react-colorful__alpha-gradient,.react-colorful__pointer-fill{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;border-radius:inherit}.react-colorful__alpha-gradient,.react-colorful__saturation{box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}.react-colorful__alpha,.react-colorful__hue{position:relative;height:24px}.react-colorful__hue{background:linear-gradient(90deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red)}.react-colorful__last-control{border-radius:0 0 8px 8px}.react-colorful__interactive{position:absolute;left:0;top:0;right:0;bottom:0;border-radius:inherit;outline:none;touch-action:none}.react-colorful__pointer{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}.react-colorful__interactive:focus .react-colorful__pointer{transform:translate(-50%,-50%) scale(1.1)}.react-colorful__alpha,.react-colorful__alpha-pointer{background-color:#fff;background-image:url(\'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>\')}.react-colorful__saturation-pointer{z-index:3}.react-colorful__hue-pointer{z-index:2}',J.set(r,t);var n=dist_$();n&&t.setAttribute("nonce",n),r.head.appendChild(t)}},[])},U=function(t){var n=t.className,o=t.colorModel,a=t.color,l=void 0===a?o.defaultColor:a,i=t.onChange,s=dist_c(t,["className","colorModel","color","onChange"]),f=(0,external_React_.useRef)(null);Q(f);var v=Y(o,l,i),d=v[0],h=v[1],m=dist_g(["react-colorful",n]);return external_React_.createElement("div",dist_u({},s,{ref:f,className:m}),external_React_.createElement(T,{hsva:d,onChange:h}),external_React_.createElement(dist_S,{hue:d.h,onChange:h,className:"react-colorful__last-control"}))},W={defaultColor:"000",toHsva:dist_x,fromHsva:function(e){return dist_w({h:e.h,s:e.s,v:e.v,a:1})},equal:X},Z=function(r){return e.createElement(U,dist_u({},r,{colorModel:W}))},ee=function(r){var t=r.className,n=r.hsva,o=r.onChange,a={backgroundImage:"linear-gradient(90deg, "+dist_k(Object.assign({},n,{a:0}))+", "+dist_k(Object.assign({},n,{a:1}))+")"},l=dist_g(["react-colorful__alpha",t]),u=dist_b(100*n.a);return external_React_.createElement("div",{className:l},external_React_.createElement("div",{className:"react-colorful__alpha-gradient",style:a}),external_React_.createElement(dist_m,{onMove:function(e){o({a:e.left})},onKey:function(e){o({a:dist_s(n.a+e.left)})},"aria-label":"Alpha","aria-valuetext":u+"%","aria-valuenow":u,"aria-valuemin":"0","aria-valuemax":"100"},external_React_.createElement(dist_p,{className:"react-colorful__alpha-pointer",left:n.a,color:dist_k(n)})))},re=function(t){var n=t.className,o=t.colorModel,a=t.color,l=void 0===a?o.defaultColor:a,i=t.onChange,s=dist_c(t,["className","colorModel","color","onChange"]),f=(0,external_React_.useRef)(null);Q(f);var v=Y(o,l,i),d=v[0],h=v[1],m=dist_g(["react-colorful",n]);return external_React_.createElement("div",dist_u({},s,{ref:f,className:m}),external_React_.createElement(T,{hsva:d,onChange:h}),external_React_.createElement(dist_S,{hue:d.h,onChange:h}),external_React_.createElement(ee,{hsva:d,onChange:h,className:"react-colorful__last-control"}))},te={defaultColor:"0001",toHsva:dist_x,fromHsva:dist_w,equal:X},ne=function(r){return e.createElement(re,dist_u({},r,{colorModel:te}))},oe={defaultColor:{h:0,s:0,l:0,a:1},toHsva:dist_N,fromHsva:dist_y,equal:F},ae=function(r){return e.createElement(re,dist_u({},r,{colorModel:oe}))},le={defaultColor:"hsla(0, 0%, 0%, 1)",toHsva:dist_H,fromHsva:dist_k,equal:P},ue=function(r){return e.createElement(re,dist_u({},r,{colorModel:le}))},ce={defaultColor:{h:0,s:0,l:0},toHsva:function(e){return dist_N({h:e.h,s:e.s,l:e.l,a:1})},fromHsva:function(e){return{h:(r=dist_y(e)).h,s:r.s,l:r.l};var r},equal:F},ie=function(r){return e.createElement(U,dist_u({},r,{colorModel:ce}))},se={defaultColor:"hsl(0, 0%, 0%)",toHsva:dist_M,fromHsva:q,equal:P},fe=function(r){return e.createElement(U,dist_u({},r,{colorModel:se}))},ve={defaultColor:{h:0,s:0,v:0,a:1},toHsva:function(e){return e},fromHsva:A,equal:F},de=function(r){return e.createElement(re,dist_u({},r,{colorModel:ve}))},he={defaultColor:"hsva(0, 0%, 0%, 1)",toHsva:dist_O,fromHsva:function(e){var r=A(e);return"hsva("+r.h+", "+r.s+"%, "+r.v+"%, "+r.a+")"},equal:P},me=function(r){return e.createElement(re,dist_u({},r,{colorModel:he}))},ge={defaultColor:{h:0,s:0,v:0},toHsva:function(e){return{h:e.h,s:e.s,v:e.v,a:1}},fromHsva:function(e){var r=A(e);return{h:r.h,s:r.s,v:r.v}},equal:F},pe=function(r){return e.createElement(U,dist_u({},r,{colorModel:ge}))},be={defaultColor:"hsv(0, 0%, 0%)",toHsva:dist_j,fromHsva:function(e){var r=A(e);return"hsv("+r.h+", "+r.s+"%, "+r.v+"%)"},equal:P},_e=function(r){return e.createElement(U,dist_u({},r,{colorModel:be}))},xe={defaultColor:{r:0,g:0,b:0,a:1},toHsva:L,fromHsva:dist_I,equal:F},Ce=function(r){return e.createElement(re,dist_u({},r,{colorModel:xe}))},Ee={defaultColor:"rgba(0, 0, 0, 1)",toHsva:z,fromHsva:function(e){var r=dist_I(e);return"rgba("+r.r+", "+r.g+", "+r.b+", "+r.a+")"},equal:P},He=function(r){return external_React_.createElement(re,dist_u({},r,{colorModel:Ee}))},Me={defaultColor:{r:0,g:0,b:0},toHsva:function(e){return L({r:e.r,g:e.g,b:e.b,a:1})},fromHsva:function(e){return{r:(r=dist_I(e)).r,g:r.g,b:r.b};var r},equal:F},Ne=function(r){return e.createElement(U,dist_u({},r,{colorModel:Me}))},we={defaultColor:"rgb(0, 0, 0)",toHsva:B,fromHsva:function(e){var r=dist_I(e);return"rgb("+r.r+", "+r.g+", "+r.b+")"},equal:P},ye=function(r){return external_React_.createElement(U,dist_u({},r,{colorModel:we}))},qe=/^#?([0-9A-F]{3,8})$/i,ke=function(r){var t=r.color,l=void 0===t?"":t,s=r.onChange,f=r.onBlur,v=r.escape,d=r.validate,h=r.format,m=r.process,g=dist_c(r,["color","onChange","onBlur","escape","validate","format","process"]),p=o(function(){return v(l)}),b=p[0],_=p[1],x=dist_i(s),C=dist_i(f),E=a(function(e){var r=v(e.target.value);_(r),d(r)&&x(m?m(r):r)},[v,m,d,x]),H=a(function(e){d(e.target.value)||_(v(l)),C(e)},[l,v,d,C]);return n(function(){_(v(l))},[l,v]),e.createElement("input",dist_u({},g,{value:h?h(b):b,spellCheck:"false",onChange:E,onBlur:H}))},Ie=function(e){return"#"+e},Oe=function(r){var t=r.prefixed,n=r.alpha,o=dist_c(r,["prefixed","alpha"]),l=a(function(e){return e.replace(/([^0-9A-F]+)/gi,"").substring(0,n?8:6)},[n]),i=a(function(e){return function(e,r){var t=qe.exec(e),n=t?t[1].length:0;return 3===n||6===n||!!r&&4===n||!!r&&8===n}(e,n)},[n]);return e.createElement(ke,dist_u({},o,{escape:l,format:t?Ie:void 0,process:Ie,validate:i}))};
+function dist_u(){return(dist_u=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e}).apply(this,arguments)}function dist_c(e,r){if(null==e)return{};var t,n,o={},a=Object.keys(e);for(n=0;n<a.length;n++)r.indexOf(t=a[n])>=0||(o[t]=e[t]);return o}function dist_i(e){var t=(0,external_React_.useRef)(e),n=(0,external_React_.useRef)(function(e){t.current&&t.current(e)});return t.current=e,n.current}var dist_s=function(e,r,t){return void 0===r&&(r=0),void 0===t&&(t=1),e>t?t:e<r?r:e},dist_f=function(e){return"touches"in e},dist_v=function(e){return e&&e.ownerDocument.defaultView||self},dist_d=function(e,r,t){var n=e.getBoundingClientRect(),o=dist_f(r)?function(e,r){for(var t=0;t<e.length;t++)if(e[t].identifier===r)return e[t];return e[0]}(r.touches,t):r;return{left:dist_s((o.pageX-(n.left+dist_v(e).pageXOffset))/n.width),top:dist_s((o.pageY-(n.top+dist_v(e).pageYOffset))/n.height)}},dist_h=function(e){!dist_f(e)&&e.preventDefault()},dist_m=external_React_.memo(function(o){var a=o.onMove,l=o.onKey,s=dist_c(o,["onMove","onKey"]),m=(0,external_React_.useRef)(null),g=dist_i(a),p=dist_i(l),b=(0,external_React_.useRef)(null),_=(0,external_React_.useRef)(!1),x=(0,external_React_.useMemo)(function(){var e=function(e){dist_h(e),(dist_f(e)?e.touches.length>0:e.buttons>0)&&m.current?g(dist_d(m.current,e,b.current)):t(!1)},r=function(){return t(!1)};function t(t){var n=_.current,o=dist_v(m.current),a=t?o.addEventListener:o.removeEventListener;a(n?"touchmove":"mousemove",e),a(n?"touchend":"mouseup",r)}return[function(e){var r=e.nativeEvent,n=m.current;if(n&&(dist_h(r),!function(e,r){return r&&!dist_f(e)}(r,_.current)&&n)){if(dist_f(r)){_.current=!0;var o=r.changedTouches||[];o.length&&(b.current=o[0].identifier)}n.focus(),g(dist_d(n,r,b.current)),t(!0)}},function(e){var r=e.which||e.keyCode;r<37||r>40||(e.preventDefault(),p({left:39===r?.05:37===r?-.05:0,top:40===r?.05:38===r?-.05:0}))},t]},[p,g]),C=x[0],E=x[1],H=x[2];return (0,external_React_.useEffect)(function(){return H},[H]),external_React_.createElement("div",dist_u({},s,{onTouchStart:C,onMouseDown:C,className:"react-colorful__interactive",ref:m,onKeyDown:E,tabIndex:0,role:"slider"}))}),dist_g=function(e){return e.filter(Boolean).join(" ")},dist_p=function(r){var t=r.color,n=r.left,o=r.top,a=void 0===o?.5:o,l=dist_g(["react-colorful__pointer",r.className]);return external_React_.createElement("div",{className:l,style:{top:100*a+"%",left:100*n+"%"}},external_React_.createElement("div",{className:"react-colorful__pointer-fill",style:{backgroundColor:t}}))},dist_b=function(e,r,t){return void 0===r&&(r=0),void 0===t&&(t=Math.pow(10,r)),Math.round(t*e)/t},_={grad:.9,turn:360,rad:360/(2*Math.PI)},dist_x=function(e){return L(C(e))},C=function(e){return"#"===e[0]&&(e=e.substring(1)),e.length<6?{r:parseInt(e[0]+e[0],16),g:parseInt(e[1]+e[1],16),b:parseInt(e[2]+e[2],16),a:4===e.length?dist_b(parseInt(e[3]+e[3],16)/255,2):1}:{r:parseInt(e.substring(0,2),16),g:parseInt(e.substring(2,4),16),b:parseInt(e.substring(4,6),16),a:8===e.length?dist_b(parseInt(e.substring(6,8),16)/255,2):1}},dist_E=function(e,r){return void 0===r&&(r="deg"),Number(e)*(_[r]||1)},dist_H=function(e){var r=/hsla?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(e);return r?dist_N({h:dist_E(r[1],r[2]),s:Number(r[3]),l:Number(r[4]),a:void 0===r[5]?1:Number(r[5])/(r[6]?100:1)}):{h:0,s:0,v:0,a:1}},dist_M=dist_H,dist_N=function(e){var r=e.s,t=e.l;return{h:e.h,s:(r*=(t<50?t:100-t)/100)>0?2*r/(t+r)*100:0,v:t+r,a:e.a}},dist_w=function(e){return K(dist_I(e))},dist_y=function(e){var r=e.s,t=e.v,n=e.a,o=(200-r)*t/100;return{h:dist_b(e.h),s:dist_b(o>0&&o<200?r*t/100/(o<=100?o:200-o)*100:0),l:dist_b(o/2),a:dist_b(n,2)}},q=function(e){var r=dist_y(e);return"hsl("+r.h+", "+r.s+"%, "+r.l+"%)"},dist_k=function(e){var r=dist_y(e);return"hsla("+r.h+", "+r.s+"%, "+r.l+"%, "+r.a+")"},dist_I=function(e){var r=e.h,t=e.s,n=e.v,o=e.a;r=r/360*6,t/=100,n/=100;var a=Math.floor(r),l=n*(1-t),u=n*(1-(r-a)*t),c=n*(1-(1-r+a)*t),i=a%6;return{r:dist_b(255*[n,u,l,l,c,n][i]),g:dist_b(255*[c,n,n,u,l,l][i]),b:dist_b(255*[l,l,c,n,n,u][i]),a:dist_b(o,2)}},O=function(e){var r=/hsva?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(e);return r?A({h:dist_E(r[1],r[2]),s:Number(r[3]),v:Number(r[4]),a:void 0===r[5]?1:Number(r[5])/(r[6]?100:1)}):{h:0,s:0,v:0,a:1}},dist_j=O,z=function(e){var r=/rgba?\(?\s*(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?[,\s]+(-?\d*\.?\d+)(%)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i.exec(e);return r?L({r:Number(r[1])/(r[2]?100/255:1),g:Number(r[3])/(r[4]?100/255:1),b:Number(r[5])/(r[6]?100/255:1),a:void 0===r[7]?1:Number(r[7])/(r[8]?100:1)}):{h:0,s:0,v:0,a:1}},B=z,D=function(e){var r=e.toString(16);return r.length<2?"0"+r:r},K=function(e){var r=e.r,t=e.g,n=e.b,o=e.a,a=o<1?D(dist_b(255*o)):"";return"#"+D(r)+D(t)+D(n)+a},L=function(e){var r=e.r,t=e.g,n=e.b,o=e.a,a=Math.max(r,t,n),l=a-Math.min(r,t,n),u=l?a===r?(t-n)/l:a===t?2+(n-r)/l:4+(r-t)/l:0;return{h:dist_b(60*(u<0?u+6:u)),s:dist_b(a?l/a*100:0),v:dist_b(a/255*100),a:o}},A=function(e){return{h:dist_b(e.h),s:dist_b(e.s),v:dist_b(e.v),a:dist_b(e.a,2)}},dist_S=external_React_.memo(function(r){var t=r.hue,n=r.onChange,o=dist_g(["react-colorful__hue",r.className]);return external_React_.createElement("div",{className:o},external_React_.createElement(dist_m,{onMove:function(e){n({h:360*e.left})},onKey:function(e){n({h:dist_s(t+360*e.left,0,360)})},"aria-label":"Hue","aria-valuenow":dist_b(t),"aria-valuemax":"360","aria-valuemin":"0"},external_React_.createElement(dist_p,{className:"react-colorful__hue-pointer",left:t/360,color:q({h:t,s:100,v:100,a:1})})))}),T=external_React_.memo(function(r){var t=r.hsva,n=r.onChange,o={backgroundColor:q({h:t.h,s:100,v:100,a:1})};return external_React_.createElement("div",{className:"react-colorful__saturation",style:o},external_React_.createElement(dist_m,{onMove:function(e){n({s:100*e.left,v:100-100*e.top})},onKey:function(e){n({s:dist_s(t.s+100*e.left,0,100),v:dist_s(t.v-100*e.top,0,100)})},"aria-label":"Color","aria-valuetext":"Saturation "+dist_b(t.s)+"%, Brightness "+dist_b(t.v)+"%"},external_React_.createElement(dist_p,{className:"react-colorful__saturation-pointer",top:1-t.v/100,left:t.s/100,color:q(t)})))}),F=function(e,r){if(e===r)return!0;for(var t in e)if(e[t]!==r[t])return!1;return!0},P=function(e,r){return e.replace(/\s/g,"")===r.replace(/\s/g,"")},X=function(e,r){return e.toLowerCase()===r.toLowerCase()||F(C(e),C(r))};function Y(e,t,l){var u=dist_i(l),c=(0,external_React_.useState)(function(){return e.toHsva(t)}),s=c[0],f=c[1],v=(0,external_React_.useRef)({color:t,hsva:s});(0,external_React_.useEffect)(function(){if(!e.equal(t,v.current.color)){var r=e.toHsva(t);v.current={hsva:r,color:t},f(r)}},[t,e]),(0,external_React_.useEffect)(function(){var r;F(s,v.current.hsva)||e.equal(r=e.fromHsva(s),v.current.color)||(v.current={hsva:s,color:r},u(r))},[s,e,u]);var d=(0,external_React_.useCallback)(function(e){f(function(r){return Object.assign({},r,e)})},[]);return[s,d]}var R,dist_V="undefined"!=typeof window?external_React_.useLayoutEffect:external_React_.useEffect,dist_$=function(){return R||( true?__webpack_require__.nc:0)},G=function(e){R=e},J=new Map,Q=function(e){dist_V(function(){var r=e.current?e.current.ownerDocument:document;if(void 0!==r&&!J.has(r)){var t=r.createElement("style");t.innerHTML='.react-colorful{position:relative;display:flex;flex-direction:column;width:200px;height:200px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}.react-colorful__saturation{position:relative;flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(0deg,#000,transparent),linear-gradient(90deg,#fff,hsla(0,0%,100%,0))}.react-colorful__alpha-gradient,.react-colorful__pointer-fill{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;border-radius:inherit}.react-colorful__alpha-gradient,.react-colorful__saturation{box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}.react-colorful__alpha,.react-colorful__hue{position:relative;height:24px}.react-colorful__hue{background:linear-gradient(90deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red)}.react-colorful__last-control{border-radius:0 0 8px 8px}.react-colorful__interactive{position:absolute;left:0;top:0;right:0;bottom:0;border-radius:inherit;outline:none;touch-action:none}.react-colorful__pointer{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}.react-colorful__interactive:focus .react-colorful__pointer{transform:translate(-50%,-50%) scale(1.1)}.react-colorful__alpha,.react-colorful__alpha-pointer{background-color:#fff;background-image:url(\'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>\')}.react-colorful__saturation-pointer{z-index:3}.react-colorful__hue-pointer{z-index:2}',J.set(r,t);var n=dist_$();n&&t.setAttribute("nonce",n),r.head.appendChild(t)}},[])},U=function(t){var n=t.className,o=t.colorModel,a=t.color,l=void 0===a?o.defaultColor:a,i=t.onChange,s=dist_c(t,["className","colorModel","color","onChange"]),f=(0,external_React_.useRef)(null);Q(f);var v=Y(o,l,i),d=v[0],h=v[1],m=dist_g(["react-colorful",n]);return external_React_.createElement("div",dist_u({},s,{ref:f,className:m}),external_React_.createElement(T,{hsva:d,onChange:h}),external_React_.createElement(dist_S,{hue:d.h,onChange:h,className:"react-colorful__last-control"}))},W={defaultColor:"000",toHsva:dist_x,fromHsva:function(e){return dist_w({h:e.h,s:e.s,v:e.v,a:1})},equal:X},Z=function(r){return e.createElement(U,dist_u({},r,{colorModel:W}))},ee=function(r){var t=r.className,n=r.hsva,o=r.onChange,a={backgroundImage:"linear-gradient(90deg, "+dist_k(Object.assign({},n,{a:0}))+", "+dist_k(Object.assign({},n,{a:1}))+")"},l=dist_g(["react-colorful__alpha",t]),u=dist_b(100*n.a);return external_React_.createElement("div",{className:l},external_React_.createElement("div",{className:"react-colorful__alpha-gradient",style:a}),external_React_.createElement(dist_m,{onMove:function(e){o({a:e.left})},onKey:function(e){o({a:dist_s(n.a+e.left)})},"aria-label":"Alpha","aria-valuetext":u+"%","aria-valuenow":u,"aria-valuemin":"0","aria-valuemax":"100"},external_React_.createElement(dist_p,{className:"react-colorful__alpha-pointer",left:n.a,color:dist_k(n)})))},re=function(t){var n=t.className,o=t.colorModel,a=t.color,l=void 0===a?o.defaultColor:a,i=t.onChange,s=dist_c(t,["className","colorModel","color","onChange"]),f=(0,external_React_.useRef)(null);Q(f);var v=Y(o,l,i),d=v[0],h=v[1],m=dist_g(["react-colorful",n]);return external_React_.createElement("div",dist_u({},s,{ref:f,className:m}),external_React_.createElement(T,{hsva:d,onChange:h}),external_React_.createElement(dist_S,{hue:d.h,onChange:h}),external_React_.createElement(ee,{hsva:d,onChange:h,className:"react-colorful__last-control"}))},te={defaultColor:"0001",toHsva:dist_x,fromHsva:dist_w,equal:X},ne=function(r){return e.createElement(re,dist_u({},r,{colorModel:te}))},oe={defaultColor:{h:0,s:0,l:0,a:1},toHsva:dist_N,fromHsva:dist_y,equal:F},ae=function(r){return e.createElement(re,dist_u({},r,{colorModel:oe}))},le={defaultColor:"hsla(0, 0%, 0%, 1)",toHsva:dist_H,fromHsva:dist_k,equal:P},ue=function(r){return e.createElement(re,dist_u({},r,{colorModel:le}))},ce={defaultColor:{h:0,s:0,l:0},toHsva:function(e){return dist_N({h:e.h,s:e.s,l:e.l,a:1})},fromHsva:function(e){return{h:(r=dist_y(e)).h,s:r.s,l:r.l};var r},equal:F},ie=function(r){return e.createElement(U,dist_u({},r,{colorModel:ce}))},se={defaultColor:"hsl(0, 0%, 0%)",toHsva:dist_M,fromHsva:q,equal:P},fe=function(r){return e.createElement(U,dist_u({},r,{colorModel:se}))},ve={defaultColor:{h:0,s:0,v:0,a:1},toHsva:function(e){return e},fromHsva:A,equal:F},de=function(r){return e.createElement(re,dist_u({},r,{colorModel:ve}))},he={defaultColor:"hsva(0, 0%, 0%, 1)",toHsva:O,fromHsva:function(e){var r=A(e);return"hsva("+r.h+", "+r.s+"%, "+r.v+"%, "+r.a+")"},equal:P},me=function(r){return e.createElement(re,dist_u({},r,{colorModel:he}))},ge={defaultColor:{h:0,s:0,v:0},toHsva:function(e){return{h:e.h,s:e.s,v:e.v,a:1}},fromHsva:function(e){var r=A(e);return{h:r.h,s:r.s,v:r.v}},equal:F},pe=function(r){return e.createElement(U,dist_u({},r,{colorModel:ge}))},be={defaultColor:"hsv(0, 0%, 0%)",toHsva:dist_j,fromHsva:function(e){var r=A(e);return"hsv("+r.h+", "+r.s+"%, "+r.v+"%)"},equal:P},_e=function(r){return e.createElement(U,dist_u({},r,{colorModel:be}))},xe={defaultColor:{r:0,g:0,b:0,a:1},toHsva:L,fromHsva:dist_I,equal:F},Ce=function(r){return e.createElement(re,dist_u({},r,{colorModel:xe}))},Ee={defaultColor:"rgba(0, 0, 0, 1)",toHsva:z,fromHsva:function(e){var r=dist_I(e);return"rgba("+r.r+", "+r.g+", "+r.b+", "+r.a+")"},equal:P},He=function(r){return external_React_.createElement(re,dist_u({},r,{colorModel:Ee}))},Me={defaultColor:{r:0,g:0,b:0},toHsva:function(e){return L({r:e.r,g:e.g,b:e.b,a:1})},fromHsva:function(e){return{r:(r=dist_I(e)).r,g:r.g,b:r.b};var r},equal:F},Ne=function(r){return e.createElement(U,dist_u({},r,{colorModel:Me}))},we={defaultColor:"rgb(0, 0, 0)",toHsva:B,fromHsva:function(e){var r=dist_I(e);return"rgb("+r.r+", "+r.g+", "+r.b+")"},equal:P},ye=function(r){return external_React_.createElement(U,dist_u({},r,{colorModel:we}))},qe=/^#?([0-9A-F]{3,8})$/i,ke=function(r){var t=r.color,l=void 0===t?"":t,s=r.onChange,f=r.onBlur,v=r.escape,d=r.validate,h=r.format,m=r.process,g=dist_c(r,["color","onChange","onBlur","escape","validate","format","process"]),p=o(function(){return v(l)}),b=p[0],_=p[1],x=dist_i(s),C=dist_i(f),E=a(function(e){var r=v(e.target.value);_(r),d(r)&&x(m?m(r):r)},[v,m,d,x]),H=a(function(e){d(e.target.value)||_(v(l)),C(e)},[l,v,d,C]);return n(function(){_(v(l))},[l,v]),e.createElement("input",dist_u({},g,{value:h?h(b):b,spellCheck:"false",onChange:E,onBlur:H}))},Ie=function(e){return"#"+e},Oe=function(r){var t=r.prefixed,n=r.alpha,o=dist_c(r,["prefixed","alpha"]),l=a(function(e){return e.replace(/([^0-9A-F]+)/gi,"").substring(0,n?8:6)},[n]),i=a(function(e){return function(e,r){var t=qe.exec(e),n=t?t[1].length:0;return 3===n||6===n||!!r&&4===n||!!r&&8===n}(e,n)},[n]);return e.createElement(ke,dist_u({},o,{escape:l,format:t?Ie:void 0,process:Ie,validate:i}))};
 //# sourceMappingURL=index.module.js.map
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-picker/picker.js
@@ -39071,93 +37985,34 @@ function dist_u(){return(dist_u=Object.assign||function(e){for(var r=1;r<argumen
  * Internal dependencies
  */
 
-/**
- * Track the start and the end of drag pointer events related to controlling
- * the picker's saturation / hue / alpha, and fire the corresponding callbacks.
- * This is particularly useful to implement synergies like the one with the
- * `Popover` component, where a pointer events "trap" is rendered while
- * the user is dragging the pointer to avoid potential interference with iframe
- * elements.
- *
- * @param props
- * @param props.containerEl
- * @param props.onDragStart
- * @param props.onDragEnd
- */
-const useOnPickerDrag = ({
-  containerEl,
-  onDragStart,
-  onDragEnd
-}) => {
-  const isDragging = (0,external_wp_element_namespaceObject.useRef)(false);
-  const leftWhileDragging = (0,external_wp_element_namespaceObject.useRef)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!containerEl || !onDragStart && !onDragEnd) {
-      return;
-    }
-    const interactiveElements = [containerEl.querySelector('.react-colorful__saturation'), containerEl.querySelector('.react-colorful__hue'), containerEl.querySelector('.react-colorful__alpha')].filter(el => !!el);
-    if (interactiveElements.length === 0) {
-      return;
-    }
-    const doc = containerEl.ownerDocument;
-    const onPointerUp = event => {
-      isDragging.current = false;
-      leftWhileDragging.current = false;
-      onDragEnd?.(event);
-    };
-    const onPointerDown = event => {
-      isDragging.current = true;
-      onDragStart?.(event);
-    };
-    const onPointerLeave = () => {
-      leftWhileDragging.current = isDragging.current;
-    };
-
-    // Try to detect if the user released the pointer while away from the
-    // current window. If the check is successfull, the dragEnd callback will
-    // called as soon as the pointer re-enters the window (better late than never)
-    const onPointerEnter = event => {
-      const noPointerButtonsArePressed = event.buttons === 0;
-      if (leftWhileDragging.current && noPointerButtonsArePressed) {
-        onPointerUp(event);
-      }
-    };
-
-    // The pointerdown event is added on the interactive elements,
-    // while the remaining events are added on the document object since
-    // the pointer wouldn't necessarily be hovering the initial interactive
-    // element at that point.
-    interactiveElements.forEach(el => el.addEventListener('pointerdown', onPointerDown));
-    doc.addEventListener('pointerup', onPointerUp);
-    doc.addEventListener('pointerenter', onPointerEnter);
-    doc.addEventListener('pointerleave', onPointerLeave);
-    return () => {
-      interactiveElements.forEach(el => el.removeEventListener('pointerdown', onPointerDown));
-      doc.removeEventListener('pointerup', onPointerUp);
-      doc.removeEventListener('pointerenter', onPointerEnter);
-      doc.removeEventListener('pointerleave', onPointerUp);
-    };
-  }, [onDragStart, onDragEnd, containerEl]);
-};
 const Picker = ({
   color,
   enableAlpha,
-  onChange,
-  onDragStart,
-  onDragEnd,
-  containerEl
+  onChange
 }) => {
   const Component = enableAlpha ? He : ye;
   const rgbColor = (0,external_wp_element_namespaceObject.useMemo)(() => color.toRgbString(), [color]);
-  useOnPickerDrag({
-    containerEl,
-    onDragStart,
-    onDragEnd
-  });
   return (0,external_React_.createElement)(Component, {
     color: rgbColor,
     onChange: nextColor => {
       onChange(w(nextColor));
+    }
+    // Pointer capture fortifies drag gestures so that they continue to
+    // work while dragging outside the component over objects like
+    // iframes. If a newer version of react-colorful begins to employ
+    // pointer capture this will be redundant and should be removed.
+    ,
+    onPointerDown: ({
+      currentTarget,
+      pointerId
+    }) => {
+      currentTarget.setPointerCapture(pointerId);
+    },
+    onPointerUp: ({
+      currentTarget,
+      pointerId
+    }) => {
+      currentTarget.releasePointerCapture(pointerId);
     }
   });
 };
@@ -39198,6 +38053,13 @@ const options = [{
   label: 'Hex',
   value: 'hex'
 }];
+
+// `isBorderless` is still experimental and not a public prop for InputControl yet.
+const BORDERLESS_SELECT_CONTROL_CONTEXT = {
+  InputBase: {
+    isBorderless: true
+  }
+};
 const UnconnectedColorPicker = (props, forwardedRef) => {
   const {
     enableAlpha = false,
@@ -39205,15 +38067,8 @@ const UnconnectedColorPicker = (props, forwardedRef) => {
     onChange,
     defaultValue = '#fff',
     copyFormat,
-    // Context
-    onPickerDragStart,
-    onPickerDragEnd,
     ...divProps
   } = useContextSystem(props, 'ColorPicker');
-  const [containerEl, setContainerEl] = (0,external_wp_element_namespaceObject.useState)(null);
-  const containerRef = node => {
-    setContainerEl(node);
-  };
 
   // Use a safe default value for the color and remove the possibility of `undefined`.
   const [color, setColor] = useControlledValue({
@@ -39230,17 +38085,16 @@ const UnconnectedColorPicker = (props, forwardedRef) => {
   }, [debouncedSetColor]);
   const [colorType, setColorType] = (0,external_wp_element_namespaceObject.useState)(copyFormat || 'hex');
   return (0,external_React_.createElement)(ColorfulWrapper, {
-    ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([containerRef, forwardedRef]),
+    ref: forwardedRef,
     ...divProps
   }, (0,external_React_.createElement)(Picker, {
-    containerEl: containerEl,
     onChange: handleChange,
     color: safeColordColor,
-    enableAlpha: enableAlpha,
-    onDragStart: onPickerDragStart,
-    onDragEnd: onPickerDragEnd
+    enableAlpha: enableAlpha
   }), (0,external_React_.createElement)(AuxiliaryColorArtefactWrapper, null, (0,external_React_.createElement)(AuxiliaryColorArtefactHStackHeader, {
     justify: "space-between"
+  }, (0,external_React_.createElement)(ContextSystemProvider, {
+    value: BORDERLESS_SELECT_CONTROL_CONTEXT
   }, (0,external_React_.createElement)(styles_SelectControl, {
     __nextHasNoMarginBottom: true,
     options: options,
@@ -39248,7 +38102,7 @@ const UnconnectedColorPicker = (props, forwardedRef) => {
     onChange: nextColorType => setColorType(nextColorType),
     label: (0,external_wp_i18n_namespaceObject.__)('Color format'),
     hideLabelFromVision: true
-  }), (0,external_React_.createElement)(ColorCopyButton, {
+  })), (0,external_React_.createElement)(ColorCopyButton, {
     color: safeColordColor,
     colorType: copyFormat || colorType
   })), (0,external_React_.createElement)(ColorInputWrapper, {
@@ -39284,9 +38138,15 @@ function isLegacyProps(props) {
   return typeof props.onChangeComplete !== 'undefined' || typeof props.disableAlpha !== 'undefined' || typeof props.color?.hex === 'string';
 }
 function getColorFromLegacyProps(color) {
-  if (color === undefined) return;
-  if (typeof color === 'string') return color;
-  if (color.hex) return color.hex;
+  if (color === undefined) {
+    return;
+  }
+  if (typeof color === 'string') {
+    return color;
+  }
+  if (color.hex) {
+    return color.hex;
+  }
   return undefined;
 }
 const transformColorStringToLegacyColor = memize(color => {
@@ -39446,7 +38306,7 @@ function Option({
     isPressed: isSelected
   });
   return (0,external_React_.createElement)("div", {
-    className: classnames_default()(className, 'components-circular-option-picker__option-wrapper')
+    className: dist_clsx(className, 'components-circular-option-picker__option-wrapper')
   }, tooltipText ? (0,external_React_.createElement)(tooltip, {
     text: tooltipText
   }, optionControl) : optionControl, isSelected && (0,external_React_.createElement)(icons_build_module_icon, {
@@ -39475,7 +38335,7 @@ function OptionGroup({
   return (0,external_React_.createElement)("div", {
     ...additionalProps,
     role: role,
-    className: classnames_default()('components-circular-option-picker__option-group', 'components-circular-option-picker__swatches', className)
+    className: dist_clsx('components-circular-option-picker__option-group', 'components-circular-option-picker__swatches', className)
   }, options);
 }
 
@@ -39498,7 +38358,7 @@ function DropdownLinkAction({
   linkText
 }) {
   return (0,external_React_.createElement)(dropdown, {
-    className: classnames_default()('components-circular-option-picker__dropdown-link-action', className),
+    className: dist_clsx('components-circular-option-picker__dropdown-link-action', className),
     renderToggle: ({
       isOpen,
       onToggle
@@ -39518,7 +38378,7 @@ function ButtonAction({
   ...additionalProps
 }) {
   return (0,external_React_.createElement)(build_module_button, {
-    className: classnames_default()('components-circular-option-picker__clear', className),
+    className: dist_clsx('components-circular-option-picker__clear', className),
     variant: "tertiary",
     ...additionalProps
   }, children);
@@ -39658,7 +38518,7 @@ function CircularOptionPicker(props) {
   return (0,external_React_.createElement)(OptionPickerImplementation, {
     ...additionalProps,
     baseId: baseId,
-    className: classnames_default()('components-circular-option-picker', className),
+    className: dist_clsx('components-circular-option-picker', className),
     actions: actions,
     options: options
   }, children);
@@ -39898,14 +38758,16 @@ const ColorHeading = /*#__PURE__*/emotion_styled_base_browser_esm(heading_compon
 const padding = ({
   paddingSize = 'small'
 }) => {
-  if (paddingSize === 'none') return;
+  if (paddingSize === 'none') {
+    return;
+  }
   const paddingValues = {
     small: space(2),
     medium: space(4)
   };
   return /*#__PURE__*/emotion_react_browser_esm_css("padding:", paddingValues[paddingSize] || paddingValues.small, ";" + ( true ? "" : 0),  true ? "" : 0);
 };
-const DropdownContentWrapperDiv = emotion_styled_base_browser_esm("div",  true ? {
+const DropdownContentWrapperDiv = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eovvns30"
 } : 0)("margin-left:", space(-2), ";margin-right:", space(-2), ";&:first-of-type{margin-top:", space(-2), ";}&:last-of-type{margin-bottom:", space(-2), ";}", padding, ";" + ( true ? "" : 0));
 
@@ -40271,7 +39133,7 @@ function UnforwardedColorPalette(props, forwardedRef) {
     }, (0,external_React_.createElement)(truncate_component, {
       className: "components-color-palette__custom-color-name"
     }, value ? buttonLabelName : (0,external_wp_i18n_namespaceObject.__)('No color selected')), (0,external_React_.createElement)(truncate_component, {
-      className: classnames_default()('components-color-palette__custom-color-value', {
+      className: dist_clsx('components-color-palette__custom-color-value', {
         'components-color-palette__custom-color-value--is-hex': isHex
       })
     }, displayValue)))
@@ -40350,7 +39212,7 @@ const baseUnitLabelStyles = ({
   };
   return sizes[selectSize];
 };
-const UnitLabel = emotion_styled_base_browser_esm("div",  true ? {
+const UnitLabel = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1bagdl31"
 } : 0)("&&&{pointer-events:none;", baseUnitLabelStyles, ";color:", COLORS.gray[900], ";}" + ( true ? "" : 0));
 const unitSelectSizes = ({
@@ -40365,7 +39227,7 @@ const unitSelectSizes = ({
   };
   return sizes[selectSize];
 };
-const UnitSelect = emotion_styled_base_browser_esm("select",  true ? {
+const UnitSelect = /*#__PURE__*/emotion_styled_base_browser_esm("select",  true ? {
   target: "e1bagdl30"
 } : 0)("&&&{appearance:none;background:transparent;border-radius:2px;border:none;display:block;outline:none;margin:0;min-height:auto;font-family:inherit;", baseUnitLabelStyles, ";", unitSelectSizes, ";&:not( :disabled ){cursor:pointer;}}" + ( true ? "" : 0));
 
@@ -41141,7 +40003,7 @@ function UnitSelectControl({
       data
     });
   };
-  const classes = classnames_default()('components-unit-control__select', className);
+  const classes = dist_clsx('components-unit-control__select', className);
   return (0,external_React_.createElement)(UnitSelect, {
     ref: ref,
     className: classes,
@@ -41239,7 +40101,7 @@ function UnforwardedUnitControl(unitControlProps, forwardedRef) {
       setUnit(parsedUnit);
     }
   }, [parsedUnit, setUnit]);
-  const classes = classnames_default()('components-unit-control',
+  const classes = dist_clsx('components-unit-control',
   // This class is added for legacy purposes to maintain it on the outer
   // wrapper. See: https://github.com/WordPress/gutenberg/pull/45139
   'components-unit-control-wrapper', className);
@@ -41275,7 +40137,9 @@ function UnforwardedUnitControl(unitControlProps, forwardedRef) {
       // Unless the meta key was pressed (to avoid interfering with
       // shortcuts, e.g. pastes), moves focus to the unit select if a key
       // matches the first character of a unit.
-      if (!event.metaKey && reFirstCharacterOfUnits.test(event.key)) refInputSuffix.current?.focus();
+      if (!event.metaKey && reFirstCharacterOfUnits.test(event.key)) {
+        refInputSuffix.current?.focus();
+      }
     };
   }
   const refInputSuffix = (0,external_wp_element_namespaceObject.useRef)(null);
@@ -42405,13 +41269,13 @@ function box_control_icon_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You 
  * External dependencies
  */
 
-const box_control_icon_styles_Root = emotion_styled_base_browser_esm("span",  true ? {
+const box_control_icon_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1j5nr4z8"
 } : 0)( true ? {
   name: "1w884gc",
   styles: "box-sizing:border-box;display:block;width:24px;height:24px;position:relative;padding:4px"
 } : 0);
-const Viewbox = emotion_styled_base_browser_esm("span",  true ? {
+const Viewbox = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1j5nr4z7"
 } : 0)( true ? {
   name: "i6vjox",
@@ -42425,7 +41289,7 @@ const strokeFocus = ({
     opacity: isFocused ? 1 : 0.3
   },  true ? "" : 0,  true ? "" : 0);
 };
-const Stroke = emotion_styled_base_browser_esm("span",  true ? {
+const Stroke = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1j5nr4z6"
 } : 0)("box-sizing:border-box;display:block;pointer-events:none;position:absolute;", strokeFocus, ";" + ( true ? "" : 0));
 const VerticalStroke = /*#__PURE__*/emotion_styled_base_browser_esm(Stroke,  true ? {
@@ -42543,7 +41407,7 @@ const ResetButton = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_bu
   name: "tkya7b",
   styles: "grid-area:1/2;justify-self:end"
 } : 0);
-const LinkedButtonWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const LinkedButtonWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1jovhle2"
 } : 0)( true ? {
   name: "1dfa8al",
@@ -43389,7 +42253,7 @@ function UnforwardedButtonGroup(props, ref) {
     className,
     ...restProps
   } = props;
-  const classes = classnames_default()('components-button-group', className);
+  const classes = dist_clsx('components-button-group', className);
   return (0,external_React_.createElement)("div", {
     ref: ref,
     role: "group",
@@ -43483,9 +42347,8 @@ function useElevation(props) {
       opacity: config_values.elevationIntensity,
       left: offset,
       right: offset,
-      top: offset,
-      transition
-    }, reduceMotion('transition'),  true ? "" : 0,  true ? "" : 0);
+      top: offset
+    }, /*#__PURE__*/emotion_react_browser_esm_css("@media not ( prefers-reduced-motion ){transition:", transition, ";}" + ( true ? "" : 0),  true ? "" : 0),  true ? "" : 0,  true ? "" : 0);
     if (isValueDefined(hoverValue)) {
       sx.hover = /*#__PURE__*/emotion_react_browser_esm_css("*:hover>&{box-shadow:", getBoxShadow(hoverValue), ";}" + ( true ? "" : 0),  true ? "" : 0);
     }
@@ -44155,7 +43018,7 @@ const renderSize = ({
   height: orientation === 'vertical' ? 'auto' : 0,
   width: orientation === 'vertical' ? 0 : 'auto'
 },  true ? "" : 0,  true ? "" : 0);
-const DividerView = emotion_styled_base_browser_esm("hr",  true ? {
+const DividerView = /*#__PURE__*/emotion_styled_base_browser_esm("hr",  true ? {
   target: "e19on6iw0"
 } : 0)("border:0;margin:0;", renderDisplay, " ", renderBorder, " ", renderSize, " ", renderMargin, ";" + ( true ? "" : 0));
 
@@ -44165,6 +43028,11 @@ const DividerView = emotion_styled_base_browser_esm("hr",  true ? {
  * External dependencies
  */
 // eslint-disable-next-line no-restricted-imports
+
+
+/**
+ * Internal dependencies
+ */
 
 
 
@@ -44491,6 +43359,7 @@ const CardMedia = contextConnect(UnconnectedCardMedia, 'CardMedia');
  * Internal dependencies
  */
 
+
 /**
  * Checkboxes allow the user to select one or more items from a set.
  *
@@ -44551,8 +43420,14 @@ function CheckboxControl(props) {
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
     label: heading,
     id: id,
-    help: help,
-    className: classnames_default()('components-checkbox-control', className)
+    help: help && (0,external_React_.createElement)("span", {
+      className: "components-checkbox-control__help"
+    }, help),
+    className: dist_clsx('components-checkbox-control', className)
+  }, (0,external_React_.createElement)(h_stack_component, {
+    spacing: 0,
+    justify: "start",
+    alignment: "top"
   }, (0,external_React_.createElement)("span", {
     className: "components-checkbox-control__input-container"
   }, (0,external_React_.createElement)("input", {
@@ -44576,7 +43451,7 @@ function CheckboxControl(props) {
   }) : null), label && (0,external_React_.createElement)("label", {
     className: "components-checkbox-control__label",
     htmlFor: id
-  }, label));
+  }, label)));
 }
 /* harmony default export */ const checkbox_control = (CheckboxControl);
 
@@ -44626,7 +43501,7 @@ function ClipboardButton({
       clearTimeout(timeoutId.current);
     }
   }, []);
-  const classes = classnames_default()('components-clipboard-button', className);
+  const classes = dist_clsx('components-clipboard-button', className);
 
   // Workaround for inconsistent behavior in Safari, where <textarea> is not
   // the document.activeElement at the moment when the copy event fires.
@@ -45020,7 +43895,7 @@ function ControlPointButton({
     "aria-describedby": descriptionId,
     "aria-haspopup": "true",
     "aria-expanded": isOpen,
-    className: classnames_default()('components-custom-gradient-picker__control-point-button', {
+    className: dist_clsx('components-custom-gradient-picker__control-point-button', {
       'is-active': isOpen
     }),
     ...additionalProps
@@ -45042,7 +43917,7 @@ function GradientColorPickerDropdown({
     // popover edge.
     resize: false
   }), []);
-  const mergedClassName = classnames_default()('components-custom-gradient-picker__control-point-dropdown', className);
+  const mergedClassName = dist_clsx('components-custom-gradient-picker__control-point-dropdown', className);
   return (0,external_React_.createElement)(CustomColorPickerDropdown, {
     isRenderedInSidebar: isRenderedInSidebar,
     popoverProps: popoverProps,
@@ -45344,7 +44219,7 @@ function CustomGradientBar({
   const isMovingInserter = gradientBarState.id === 'MOVING_INSERTER';
   const isInsertingControlPoint = gradientBarState.id === 'INSERTING_CONTROL_POINT';
   return (0,external_React_.createElement)("div", {
-    className: classnames_default()('components-custom-gradient-picker__gradient-bar', {
+    className: dist_clsx('components-custom-gradient-picker__gradient-bar', {
       'has-gradient': hasGradient
     }),
     onMouseEnter: onMouseEnterAndMove,
@@ -46289,7 +45164,7 @@ function dropdown_menu_mergeProps(defaultProps = {}, props = {}) {
     ...props
   };
   if (props.className && defaultProps.className) {
-    mergedProps.className = classnames_default()(props.className, defaultProps.className);
+    mergedProps.className = dist_clsx(props.className, defaultProps.className);
   }
   return mergedProps;
 }
@@ -46357,7 +45232,7 @@ function UnconnectedDropdownMenu(dropdownMenuProps) {
         ...restToggleProps
       } = toggleProps !== null && toggleProps !== void 0 ? toggleProps : {};
       const mergedToggleProps = dropdown_menu_mergeProps({
-        className: classnames_default()('components-dropdown-menu__toggle', {
+        className: dist_clsx('components-dropdown-menu__toggle', {
           'is-opened': isOpen
         })
       }, restToggleProps);
@@ -46386,7 +45261,7 @@ function UnconnectedDropdownMenu(dropdownMenuProps) {
     renderContent: props => {
       const mergedMenuProps = dropdown_menu_mergeProps({
         'aria-label': label,
-        className: classnames_default()('components-dropdown-menu__menu', {
+        className: dist_clsx('components-dropdown-menu__menu', {
           'no-icons': noIcons
         })
       }, menuProps);
@@ -46402,7 +45277,7 @@ function UnconnectedDropdownMenu(dropdownMenuProps) {
             control.onClick();
           }
         },
-        className: classnames_default()('components-dropdown-menu__menu-item', {
+        className: dist_clsx('components-dropdown-menu__menu-item', {
           'has-separator': indexOfSet > 0 && indexOfControl === 0,
           'is-active': control.isActive,
           'is-icon-only': !control.title
@@ -46523,7 +45398,6 @@ function palette_edit_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
 
 
 
-
 const IndicatorStyled = /*#__PURE__*/emotion_styled_base_browser_esm(color_indicator,  true ? {
   target: "e1lpqc909"
 } : 0)("&&{flex-shrink:0;width:", space(6), ";height:", space(6), ";}" + ( true ? "" : 0));
@@ -46541,7 +45415,7 @@ const buttonStyleReset = ({
 const PaletteItem = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
   target: "e1lpqc907"
 } : 0)(buttonStyleReset, " padding-block:3px;padding-inline-start:", space(3), ";border:1px solid ", config_values.surfaceBorderColor, ";border-bottom-color:transparent;font-size:", font('default.fontSize'), ";&:focus-visible{border-color:transparent;box-shadow:0 0 0 var( --wp-admin-border-width-focus ) ", COLORS.theme.accent, ";outline:2px solid transparent;outline-offset:0;}border-top-left-radius:", config_values.controlBorderRadius, ";border-top-right-radius:", config_values.controlBorderRadius, ";&+&{border-top-left-radius:0;border-top-right-radius:0;}&:last-child{border-bottom-left-radius:", config_values.controlBorderRadius, ";border-bottom-right-radius:", config_values.controlBorderRadius, ";border-bottom-color:", config_values.surfaceBorderColor, ";}&.is-selected+&{border-top-color:transparent;}&.is-selected{border-color:", COLORS.theme.accent, ";}" + ( true ? "" : 0));
-const NameContainer = emotion_styled_base_browser_esm("div",  true ? {
+const NameContainer = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1lpqc906"
 } : 0)("line-height:", space(8), ";margin-left:", space(2), ";margin-right:", space(2), ";white-space:nowrap;overflow:hidden;" + ( true ? "" : 0));
 const PaletteHeading = /*#__PURE__*/emotion_styled_base_browser_esm(heading_component,  true ? {
@@ -46550,9 +45424,9 @@ const PaletteHeading = /*#__PURE__*/emotion_styled_base_browser_esm(heading_comp
 const PaletteActionsContainer = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
   target: "e1lpqc904"
 } : 0)("height:", space(6), ";display:flex;" + ( true ? "" : 0));
-const PaletteHStackHeader = /*#__PURE__*/emotion_styled_base_browser_esm(h_stack_component,  true ? {
+const PaletteEditContents = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
   target: "e1lpqc903"
-} : 0)("margin-bottom:", space(2), ";" + ( true ? "" : 0));
+} : 0)("margin-top:", space(2), ";" + ( true ? "" : 0));
 const PaletteEditStyles = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
   target: "e1lpqc902"
 } : 0)( true ? {
@@ -46614,7 +45488,7 @@ function NameInput({
 }
 
 /**
- * Returns a name for a palette item in the format "Color + id".
+ * Returns a name and slug for a palette item. The name takes the format "Color + id".
  * To ensure there are no duplicate ids, this function checks all slugs.
  * It expects slugs to be in the format: slugPrefix + color- + number.
  * It then sets the id component of the new name based on the incremented id of the highest existing slug id.
@@ -46622,9 +45496,9 @@ function NameInput({
  * @param elements   An array of color palette items.
  * @param slugPrefix The slug prefix used to match the element slug.
  *
- * @return A unique name for a palette item.
+ * @return A name and slug for the new palette item.
  */
-function getNameForPosition(elements, slugPrefix) {
+function getNameAndSlugForPosition(elements, slugPrefix) {
   const nameRegex = new RegExp(`^${slugPrefix}color-([\\d]+)$`);
   const position = elements.reduce((previousValue, currentValue) => {
     if (typeof currentValue?.slug === 'string') {
@@ -46638,8 +45512,11 @@ function getNameForPosition(elements, slugPrefix) {
     }
     return previousValue;
   }, 1);
-  return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: is an id for a custom color */
-  (0,external_wp_i18n_namespaceObject.__)('Color %s'), position);
+  return {
+    name: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: is an id for a custom color */
+    (0,external_wp_i18n_namespaceObject.__)('Color %s'), position),
+    slug: `${slugPrefix}color-${position}`
+  };
 }
 function ColorPickerPopover({
   isGradient,
@@ -46657,7 +45534,7 @@ function ColorPickerPopover({
     resize: false,
     placement: 'left-start',
     ...receivedPopoverProps,
-    className: classnames_default()('components-palette-edit__popover', receivedPopoverProps?.className)
+    className: dist_clsx('components-palette-edit__popover', receivedPopoverProps?.className)
   }), [receivedPopoverProps]);
   return (0,external_React_.createElement)(popover, {
     ...popoverProps,
@@ -46853,7 +45730,7 @@ function PaletteEdit({
       setIsEditing(true);
     }
   }, [isGradient, elements]);
-  return (0,external_React_.createElement)(PaletteEditStyles, null, (0,external_React_.createElement)(PaletteHStackHeader, null, (0,external_React_.createElement)(PaletteHeading, {
+  return (0,external_React_.createElement)(PaletteEditStyles, null, (0,external_React_.createElement)(h_stack_component, null, (0,external_React_.createElement)(PaletteHeading, {
     level: paletteLabelHeadingLevel
   }, paletteLabel), (0,external_React_.createElement)(PaletteActionsContainer, null, hasElements && isEditing && (0,external_React_.createElement)(DoneButton, {
     size: "small",
@@ -46867,18 +45744,21 @@ function PaletteEdit({
     icon: library_plus,
     label: isGradient ? (0,external_wp_i18n_namespaceObject.__)('Add gradient') : (0,external_wp_i18n_namespaceObject.__)('Add color'),
     onClick: () => {
-      const optionName = getNameForPosition(elements, slugPrefix);
+      const {
+        name,
+        slug
+      } = getNameAndSlugForPosition(elements, slugPrefix);
       if (!!gradients) {
         onChange([...gradients, {
           gradient: DEFAULT_GRADIENT,
-          name: optionName,
-          slug: slugPrefix + kebabCase(optionName)
+          name,
+          slug
         }]);
       } else {
         onChange([...colors, {
           color: DEFAULT_COLOR,
-          name: optionName,
-          slug: slugPrefix + kebabCase(optionName)
+          name,
+          slug
         }]);
       }
       setIsEditing(true);
@@ -46888,7 +45768,7 @@ function PaletteEdit({
     icon: more_vertical,
     label: isGradient ? (0,external_wp_i18n_namespaceObject.__)('Gradient options') : (0,external_wp_i18n_namespaceObject.__)('Color options'),
     toggleProps: {
-      isSmall: true
+      size: 'small'
     }
   }, ({
     onClose
@@ -46917,7 +45797,7 @@ function PaletteEdit({
       onChange();
       onClose();
     }
-  }, isGradient ? (0,external_wp_i18n_namespaceObject.__)('Reset gradient') : (0,external_wp_i18n_namespaceObject.__)('Reset colors'))))))), hasElements && (0,external_React_.createElement)(external_React_.Fragment, null, isEditing && (0,external_React_.createElement)(PaletteEditListView, {
+  }, isGradient ? (0,external_wp_i18n_namespaceObject.__)('Reset gradient') : (0,external_wp_i18n_namespaceObject.__)('Reset colors'))))))), hasElements && (0,external_React_.createElement)(PaletteEditContents, null, isEditing && (0,external_React_.createElement)(PaletteEditListView, {
     canOnlyChangeValues: canOnlyChangeValues,
     elements: elements
     // @ts-expect-error TODO: Don't know how to resolve
@@ -46953,7 +45833,7 @@ function PaletteEdit({
     onChange: onSelectPaletteItem,
     clearable: false,
     disableCustomColors: true
-  }))), !hasElements && emptyMessage);
+  }))), !hasElements && emptyMessage && (0,external_React_.createElement)(PaletteEditContents, null, emptyMessage));
 }
 /* harmony default export */ const palette_edit = (PaletteEdit);
 
@@ -47031,7 +45911,7 @@ function UnForwardedTokenInput(props, ref) {
     onFocus: onFocusHandler,
     onBlur: onBlurHandler,
     size: size,
-    className: classnames_default()(className, 'components-form-token-field__input'),
+    className: dist_clsx(className, 'components-form-token-field__input'),
     autoComplete: "off",
     role: "combobox",
     "aria-expanded": isExpanded,
@@ -47049,20 +45929,15 @@ function UnForwardedTokenInput(props, ref) {
 const TokenInput = (0,external_wp_element_namespaceObject.forwardRef)(UnForwardedTokenInput);
 /* harmony default export */ const token_input = (TokenInput);
 
-// EXTERNAL MODULE: ./node_modules/dom-scroll-into-view/lib/index.js
-var lib = __webpack_require__(5428);
-var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/form-token-field/suggestions-list.js
 
 /**
  * External dependencies
  */
 
-
 /**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -47084,18 +45959,15 @@ function SuggestionsList({
   instanceId,
   __experimentalRenderItem
 }) {
-  const [scrollingIntoView, setScrollingIntoView] = (0,external_wp_element_namespaceObject.useState)(false);
   const listRef = (0,external_wp_compose_namespaceObject.useRefEffect)(listNode => {
     // only have to worry about scrolling selected suggestion into view
     // when already expanded.
     let rafId;
     if (selectedIndex > -1 && scrollIntoView && listNode.children[selectedIndex]) {
-      setScrollingIntoView(true);
-      lib_default()(listNode.children[selectedIndex], listNode, {
-        onlyScrollIfNeeded: true
-      });
-      rafId = requestAnimationFrame(() => {
-        setScrollingIntoView(false);
+      listNode.children[selectedIndex].scrollIntoView({
+        behavior: 'instant',
+        block: 'nearest',
+        inline: 'nearest'
       });
     }
     return () => {
@@ -47106,9 +45978,7 @@ function SuggestionsList({
   }, [selectedIndex, scrollIntoView]);
   const handleHover = suggestion => {
     return () => {
-      if (!scrollingIntoView) {
-        onHover?.(suggestion);
-      }
+      onHover?.(suggestion);
     };
   };
   const handleClick = suggestion => {
@@ -47136,8 +46006,11 @@ function SuggestionsList({
     role: "listbox"
   }, suggestions.map((suggestion, index) => {
     const matchText = computeSuggestionMatch(suggestion);
-    const className = classnames_default()('components-form-token-field__suggestion', {
-      'is-selected': index === selectedIndex
+    const isSelected = index === selectedIndex;
+    const isDisabled = typeof suggestion === 'object' && suggestion?.disabled;
+    const key = typeof suggestion === 'object' && 'value' in suggestion ? suggestion?.value : displayTransform(suggestion);
+    const className = dist_clsx('components-form-token-field__suggestion', {
+      'is-selected': isSelected
     });
     let output;
     if (typeof __experimentalRenderItem === 'function') {
@@ -47159,11 +46032,12 @@ function SuggestionsList({
       id: `components-form-token-suggestions-${instanceId}-${index}`,
       role: "option",
       className: className,
-      key: typeof suggestion === 'object' && 'value' in suggestion ? suggestion?.value : displayTransform(suggestion),
+      key: key,
       onMouseDown: handleMouseDown,
       onClick: handleClick(suggestion),
       onMouseEnter: handleHover(suggestion),
-      "aria-selected": index === selectedIndex
+      "aria-selected": index === selectedIndex,
+      "aria-disabled": isDisabled
     }, output);
     /* eslint-enable jsx-a11y/click-events-have-key-events */
   }));
@@ -47217,6 +46091,7 @@ function SuggestionsList({
 
 
 
+
 const combobox_control_noop = () => {};
 const DetectOutside = with_focus_outside(class extends external_wp_element_namespaceObject.Component {
   handleFocusOutside(event) {
@@ -47244,10 +46119,12 @@ const getIndexOfMatchingSuggestion = (selectedSuggestion, matchingSuggestions) =
  * 	{
  * 		value: 'normal',
  * 		label: 'Normal',
+ * 		disabled: true,
  * 	},
  * 	{
  * 		value: 'large',
  * 		label: 'Large',
+ * 		disabled: false,
  * 	},
  * ];
  *
@@ -47323,6 +46200,9 @@ function ComboboxControl(props) {
     return startsWithMatch.concat(containsMatch);
   }, [inputValue, options]);
   const onSuggestionSelected = newSelectedSuggestion => {
+    if (newSelectedSuggestion.disabled) {
+      return;
+    }
     setValue(newSelectedSuggestion.value);
     (0,external_wp_a11y_namespaceObject.speak)(messages.selected, 'assertive');
     setSelectedSuggestion(newSelectedSuggestion);
@@ -47340,15 +46220,9 @@ function ComboboxControl(props) {
     setSelectedSuggestion(matchingSuggestions[nextIndex]);
     setIsExpanded(true);
   };
-  const onKeyDown = event => {
+  const onKeyDown = withIgnoreIMEEvents(event => {
     let preventDefault = false;
-    if (event.defaultPrevented ||
-    // Ignore keydowns from IMEs
-    event.nativeEvent.isComposing ||
-    // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
-    // is `isComposing=false`, even though it's technically still part of the composition.
-    // These can only be detected by keyCode.
-    event.keyCode === 229) {
+    if (event.defaultPrevented) {
       return;
     }
     switch (event.code) {
@@ -47377,7 +46251,7 @@ function ComboboxControl(props) {
     if (preventDefault) {
       event.preventDefault();
     }
-  };
+  });
   const onBlur = () => {
     setInputHasFocus(false);
   };
@@ -47431,7 +46305,7 @@ function ComboboxControl(props) {
     onFocusOutside: onFocusOutside
   }, (0,external_React_.createElement)(base_control, {
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
-    className: classnames_default()(className, 'components-combobox-control'),
+    className: dist_clsx(className, 'components-combobox-control'),
     label: label,
     id: `components-form-token-input-${instanceId}`,
     hideLabelFromVision: hideLabelFromVision,
@@ -47566,6 +46440,12 @@ if (false) {}
  */
 
 
+
+// Legacy composite components can either provide state through a
+// single `state` prop, or via individual props, usually through
+// spreading the state generated by `useCompositeState`.
+// That is, `<Composite* { ...state }>`.
+
 function mapLegacyStatePropsToComponentProps(legacyProps) {
   // If a `state` prop is provided, we unpack that; otherwise,
   // the necessary props are provided directly in `legacyProps`.
@@ -47683,7 +46563,9 @@ function modalize(modalElement) {
   const hiddenElements = [];
   hiddenElementsByDepth.push(hiddenElements);
   for (const element of elements) {
-    if (element === modalElement) continue;
+    if (element === modalElement) {
+      continue;
+    }
     if (elementShouldBeHidden(element)) {
       element.setAttribute('aria-hidden', 'true');
       hiddenElements.push(element);
@@ -47708,8 +46590,12 @@ function elementShouldBeHidden(element) {
  */
 function unmodalize() {
   const hiddenElements = hiddenElementsByDepth.pop();
-  if (!hiddenElements) return;
-  for (const element of hiddenElements) element.removeAttribute('aria-hidden');
+  if (!hiddenElements) {
+    return;
+  }
+  for (const element of hiddenElements) {
+    element.removeAttribute('aria-hidden');
+  }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/modal/index.js
@@ -47730,6 +46616,8 @@ function unmodalize() {
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -47828,7 +46716,9 @@ function UnforwardedModal(props, forwardedRef) {
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     dismissers.push(refOnRequestClose);
     const [first, second] = dismissers;
-    if (second) first?.current?.();
+    if (second) {
+      first?.current?.();
+    }
     const nested = nestedDismissers.current;
     return () => {
       nested[0]?.current?.();
@@ -47867,15 +46757,6 @@ function UnforwardedModal(props, forwardedRef) {
     };
   }, [isContentScrollable, childrenContainerRef]);
   function handleEscapeKeyDown(event) {
-    if (
-    // Ignore keydowns from IMEs
-    event.nativeEvent.isComposing ||
-    // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
-    // is `isComposing=false`, even though it's technically still part of the composition.
-    // These can only be detected by keyCode.
-    event.keyCode === 229) {
-      return;
-    }
     if (shouldCloseOnEsc && (event.code === 'Escape' || event.key === 'Escape') && !event.defaultPrevented) {
       event.preventDefault();
       if (onRequestClose) {
@@ -47913,20 +46794,22 @@ function UnforwardedModal(props, forwardedRef) {
     }) => {
       const isSameTarget = target === pressTarget;
       pressTarget = null;
-      if (button === 0 && isSameTarget) onRequestClose();
+      if (button === 0 && isSameTarget) {
+        onRequestClose();
+      }
     }
   };
   const modal =
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   (0,external_React_.createElement)("div", {
     ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, forwardedRef]),
-    className: classnames_default()('components-modal__screen-overlay', overlayClassName),
-    onKeyDown: handleEscapeKeyDown,
+    className: dist_clsx('components-modal__screen-overlay', overlayClassName),
+    onKeyDown: withIgnoreIMEEvents(handleEscapeKeyDown),
     ...(shouldCloseOnClickOutside ? overlayPressHandlers : {})
   }, (0,external_React_.createElement)(style_provider, {
     document: document
   }, (0,external_React_.createElement)("div", {
-    className: classnames_default()('components-modal__frame', sizeClass, className),
+    className: dist_clsx('components-modal__frame', sizeClass, className),
     style: style,
     ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([constrainedTabbingRef, focusReturnRef, focusOnMount !== 'firstContentElement' ? focusOnMountRef : null]),
     role: role,
@@ -47936,7 +46819,7 @@ function UnforwardedModal(props, forwardedRef) {
     tabIndex: -1,
     onKeyDown: onKeyDown
   }, (0,external_React_.createElement)("div", {
-    className: classnames_default()('components-modal__content', {
+    className: dist_clsx('components-modal__content', {
       'hide-header': __experimentalHideHeader,
       'is-scrollable': hasScrollableContent,
       'has-scrolled-content': hasScrolledContent
@@ -52360,22 +51243,6 @@ function useMultipleSelection(userProps) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/custom-select-control/styles.js
-
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-const backCompatMinWidth = props => !props.__nextUnconstrainedWidth ? /*#__PURE__*/emotion_react_browser_esm_css(Container, "{min-width:130px;}" + ( true ? "" : 0),  true ? "" : 0) : '';
-const InputBaseWithBackCompatMinWidth = /*#__PURE__*/emotion_styled_base_browser_esm(input_base,  true ? {
-  target: "eswuck60"
-} : 0)(backCompatMinWidth, ";" + ( true ? "" : 0));
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/custom-select-control/index.js
 
 // @ts-nocheck
@@ -52388,7 +51255,6 @@ const InputBaseWithBackCompatMinWidth = /*#__PURE__*/emotion_styled_base_browser
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -52437,8 +51303,6 @@ function CustomSelectControl(props) {
   const {
     /** Start opting into the larger default height that will become the default size in a future version. */
     __next40pxDefaultSize = false,
-    /** Start opting into the unconstrained width that will become the default in a future version. */
-    __nextUnconstrainedWidth = false,
     className,
     hideLabelFromVision,
     label,
@@ -52472,22 +51336,6 @@ function CustomSelectControl(props) {
     } : undefined),
     stateReducer: custom_select_control_stateReducer
   });
-  const [isFocused, setIsFocused] = (0,external_wp_element_namespaceObject.useState)(false);
-  function handleOnFocus(e) {
-    setIsFocused(true);
-    onFocus?.(e);
-  }
-  function handleOnBlur(e) {
-    setIsFocused(false);
-    onBlur?.(e);
-  }
-  if (!__nextUnconstrainedWidth) {
-    external_wp_deprecated_default()('Constrained width styles for wp.components.CustomSelectControl', {
-      since: '6.1',
-      version: '6.4',
-      hint: 'Set the `__nextUnconstrainedWidth` prop to true to start opting into the new styles, which will become the default in a future version'
-    });
-  }
   function getDescribedBy() {
     if (describedBy) {
       return describedBy;
@@ -52513,7 +51361,7 @@ function CustomSelectControl(props) {
     delete menuProps['aria-activedescendant'];
   }
   return (0,external_React_.createElement)("div", {
-    className: classnames_default()('components-custom-select-control', className)
+    className: dist_clsx('components-custom-select-control', className)
   }, hideLabelFromVision ? (0,external_React_.createElement)(visually_hidden_component, {
     as: "label",
     ...getLabelProps()
@@ -52522,20 +51370,16 @@ function CustomSelectControl(props) {
     ...getLabelProps({
       className: 'components-custom-select-control__label'
     })
-  }, label), (0,external_React_.createElement)(InputBaseWithBackCompatMinWidth, {
+  }, label), (0,external_React_.createElement)(input_base, {
     __next40pxDefaultSize: __next40pxDefaultSize,
-    __nextUnconstrainedWidth: __nextUnconstrainedWidth,
-    isFocused: isOpen || isFocused,
-    __unstableInputWidth: __nextUnconstrainedWidth ? undefined : 'auto',
-    labelPosition: __nextUnconstrainedWidth ? undefined : 'top',
     size: size,
     suffix: (0,external_React_.createElement)(select_control_chevron_down, null)
   }, (0,external_React_.createElement)(Select, {
     onMouseOver: onMouseOver,
     onMouseOut: onMouseOut,
     as: "button",
-    onFocus: handleOnFocus,
-    onBlur: handleOnBlur,
+    onFocus: onFocus,
+    onBlur: onBlur,
     selectSize: size,
     __next40pxDefaultSize: __next40pxDefaultSize,
     ...getToggleButtonProps({
@@ -52547,7 +51391,9 @@ function CustomSelectControl(props) {
     })
   }, custom_select_control_itemToString(selectedItem), __experimentalShowSelectedHint && selectedItem.__experimentalHint && (0,external_React_.createElement)("span", {
     className: "components-custom-select-control__hint"
-  }, selectedItem.__experimentalHint))), (0,external_React_.createElement)("ul", {
+  }, selectedItem.__experimentalHint)), (0,external_React_.createElement)("div", {
+    className: "components-custom-select-control__menu-wrapper"
+  }, (0,external_React_.createElement)("ul", {
     ...menuProps,
     onKeyDown: onKeyDownHandler
   }, isOpen && items.map((item, index) =>
@@ -52557,7 +51403,7 @@ function CustomSelectControl(props) {
       item,
       index,
       key: item.key,
-      className: classnames_default()(item.className, 'components-custom-select-control__item', {
+      className: dist_clsx(item.className, 'components-custom-select-control__item', {
         'is-highlighted': index === highlightedIndex,
         'has-hint': !!item.__experimentalHint,
         'is-next-40px-default-size': __next40pxDefaultSize
@@ -52569,7 +51415,7 @@ function CustomSelectControl(props) {
   }, item.__experimentalHint), item === selectedItem && (0,external_React_.createElement)(icons_build_module_icon, {
     icon: library_check,
     className: "components-custom-select-control__item-icon"
-  })))));
+  })))))));
 }
 function StableCustomSelectControl(props) {
   return (0,external_React_.createElement)(CustomSelectControl, {
@@ -52580,26 +51426,6 @@ function StableCustomSelectControl(props) {
 
 ;// CONCATENATED MODULE: ./node_modules/use-lilius/build/index.es.js
 
-
-function toInteger(dirtyNumber) {
-  if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
-    return NaN;
-  }
-
-  var number = Number(dirtyNumber);
-
-  if (isNaN(number)) {
-    return number;
-  }
-
-  return number < 0 ? Math.ceil(number) : Math.floor(number);
-}
-
-function requiredArgs(required, args) {
-  if (args.length < required) {
-    throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
-  }
-}
 
 /**
  * @name toDate
@@ -52617,9 +51443,11 @@ function requiredArgs(required, args) {
  *
  * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
  *
- * @param {Date|Number} argument - the value to convert
- * @returns {Date} the parsed date in the local time zone
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param argument - The value to convert
+ *
+ * @returns The parsed date in the local time zone
  *
  * @example
  * // Clone the date:
@@ -52631,25 +51459,65 @@ function requiredArgs(required, args) {
  * const result = toDate(1392098430000)
  * //=> Tue Feb 11 2014 11:30:30
  */
-
 function toDate(argument) {
-  requiredArgs(1, arguments);
-  var argStr = Object.prototype.toString.call(argument); // Clone the date
+  const argStr = Object.prototype.toString.call(argument);
 
-  if (argument instanceof Date || typeof argument === 'object' && argStr === '[object Date]') {
+  // Clone the date
+  if (
+    argument instanceof Date ||
+    (typeof argument === "object" && argStr === "[object Date]")
+  ) {
     // Prevent the date to lose the milliseconds when passed to new Date() in IE10
-    return new Date(argument.getTime());
-  } else if (typeof argument === 'number' || argStr === '[object Number]') {
+    return new argument.constructor(+argument);
+  } else if (
+    typeof argument === "number" ||
+    argStr === "[object Number]" ||
+    typeof argument === "string" ||
+    argStr === "[object String]"
+  ) {
+    // TODO: Can we get rid of as?
     return new Date(argument);
   } else {
-    if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
-      // eslint-disable-next-line no-console
-      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments"); // eslint-disable-next-line no-console
-
-      console.warn(new Error().stack);
-    }
-
+    // TODO: Can we get rid of as?
     return new Date(NaN);
+  }
+}
+
+/**
+ * @name constructFrom
+ * @category Generic Helpers
+ * @summary Constructs a date using the reference date and the value
+ *
+ * @description
+ * The function constructs a new date using the constructor from the reference
+ * date and the given value. It helps to build generic functions that accept
+ * date extensions.
+ *
+ * It defaults to `Date` if the passed reference date is a number or a string.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The reference date to take constructor from
+ * @param value - The value to create the date
+ *
+ * @returns Date initialized using the given date and value
+ *
+ * @example
+ * import { constructFrom } from 'date-fns'
+ *
+ * // A function that clones a date preserving the original type
+ * function cloneDate<DateType extends Date(date: DateType): DateType {
+ *   return constructFrom(
+ *     date, // Use contrustor from the given date
+ *     date.getTime() // Use the date value to create a new date
+ *   )
+ * }
+ */
+function constructFrom(date, value) {
+  if (date instanceof Date) {
+    return new date.constructor(value);
+  } else {
+    return new Date(value);
   }
 }
 
@@ -52661,33 +51529,27 @@ function toDate(argument) {
  * @description
  * Add the specified number of days to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of days to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} - the new date with the days added
- * @throws {TypeError} - 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of days to be added.
+ *
+ * @returns The new date with the days added
  *
  * @example
  * // Add 10 days to 1 September 2014:
  * const result = addDays(new Date(2014, 8, 1), 10)
  * //=> Thu Sep 11 2014 00:00:00
  */
-
-function addDays(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var amount = toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
+function addDays(date, amount) {
+  const _date = toDate(date);
+  if (isNaN(amount)) return constructFrom(date, NaN);
   if (!amount) {
     // If 0 days, no-op to avoid changing times in the hour before end of DST
-    return date;
+    return _date;
   }
-
-  date.setDate(date.getDate() + amount);
-  return date;
+  _date.setDate(_date.getDate() + amount);
+  return _date;
 }
 
 /**
@@ -52698,32 +51560,32 @@ function addDays(dirtyDate, dirtyAmount) {
  * @description
  * Add the specified number of months to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the months added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of months to be added.
+ *
+ * @returns The new date with the months added
  *
  * @example
  * // Add 5 months to 1 September 2014:
  * const result = addMonths(new Date(2014, 8, 1), 5)
  * //=> Sun Feb 01 2015 00:00:00
+ *
+ * // Add one month to 30 January 2023:
+ * const result = addMonths(new Date(2023, 0, 30), 1)
+ * //=> Tue Feb 28 2023 00:00:00
  */
-
-function addMonths(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var amount = toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
+function addMonths(date, amount) {
+  const _date = toDate(date);
+  if (isNaN(amount)) return constructFrom(date, NaN);
   if (!amount) {
     // If 0 months, no-op to avoid changing times in the hour before end of DST
-    return date;
+    return _date;
   }
+  const dayOfMonth = _date.getDate();
 
-  var dayOfMonth = date.getDate(); // The JS Date object supports date math by accepting out-of-bounds values for
+  // The JS Date object supports date math by accepting out-of-bounds values for
   // month, day, etc. For example, new Date(2020, 0, 0) returns 31 Dec 2019 and
   // new Date(2020, 13, 1) returns 1 Feb 2021.  This is *almost* the behavior we
   // want except that dates will wrap around the end of a month, meaning that
@@ -52731,11 +51593,9 @@ function addMonths(dirtyDate, dirtyAmount) {
   // we'll default to the end of the desired month by adding 1 to the desired
   // month and using a date of 0 to back up one day to the end of the desired
   // month.
-
-  var endOfDesiredMonth = new Date(date.getTime());
-  endOfDesiredMonth.setMonth(date.getMonth() + amount + 1, 0);
-  var daysInMonth = endOfDesiredMonth.getDate();
-
+  const endOfDesiredMonth = constructFrom(date, _date.getTime());
+  endOfDesiredMonth.setMonth(_date.getMonth() + amount + 1, 0);
+  const daysInMonth = endOfDesiredMonth.getDate();
   if (dayOfMonth >= daysInMonth) {
     // If we're already at the end of the month, then this is the correct date
     // and we're done.
@@ -52748,15 +51608,24 @@ function addMonths(dirtyDate, dirtyAmount) {
     // the last day of the month and its local time was in the hour skipped or
     // repeated next to a DST transition.  So we use `date` instead which is
     // guaranteed to still have the original time.
-    date.setFullYear(endOfDesiredMonth.getFullYear(), endOfDesiredMonth.getMonth(), dayOfMonth);
-    return date;
+    _date.setFullYear(
+      endOfDesiredMonth.getFullYear(),
+      endOfDesiredMonth.getMonth(),
+      dayOfMonth,
+    );
+    return _date;
   }
 }
 
-var index_es_defaultOptions = {};
+let index_es_defaultOptions = {};
+
 function getDefaultOptions() {
   return index_es_defaultOptions;
 }
+
+/**
+ * The {@link startOfWeek} function options.
+ */
 
 /**
  * @name startOfWeek
@@ -52767,13 +51636,12 @@ function getDefaultOptions() {
  * Return the start of a week for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the start of a week
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of a week
  *
  * @example
  * // The start of a week for 2 September 2014 11:55:00:
@@ -52785,24 +51653,22 @@ function getDefaultOptions() {
  * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Mon Sep 01 2014 00:00:00
  */
+function startOfWeek(date, options) {
+  const defaultOptions = getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
 
-function startOfWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+  const _date = toDate(date);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
 
-  requiredArgs(1, arguments);
-  var defaultOptions = getDefaultOptions();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate(dirtyDate);
-  var day = date.getDay();
-  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-  date.setDate(date.getDate() - diff);
-  date.setHours(0, 0, 0, 0);
-  return date;
+  _date.setDate(_date.getDate() - diff);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
 
 /**
@@ -52814,21 +51680,21 @@ function startOfWeek(dirtyDate, options) {
  * Return the start of a day for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the start of a day
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a day
  *
  * @example
  * // The start of a day for 2 September 2014 11:55:00:
  * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 02 2014 00:00:00
  */
-
-function startOfDay(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  date.setHours(0, 0, 0, 0);
-  return date;
+function startOfDay(date) {
+  const _date = toDate(date);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
 
 /**
@@ -52839,22 +51705,21 @@ function startOfDay(dirtyDate) {
  * @description
  * Add the specified number of week to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of weeks to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the weeks added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of weeks to be added.
+ *
+ * @returns The new date with the weeks added
  *
  * @example
  * // Add 4 weeks to 1 September 2014:
  * const result = addWeeks(new Date(2014, 8, 1), 4)
  * //=> Mon Sep 29 2014 00:00:00
  */
-
-function addWeeks(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  var days = amount * 7;
-  return addDays(dirtyDate, days);
+function addWeeks(date, amount) {
+  const days = amount * 7;
+  return addDays(date, days);
 }
 
 /**
@@ -52865,21 +51730,20 @@ function addWeeks(dirtyDate, dirtyAmount) {
  * @description
  * Add the specified number of years to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of years to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the years added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of years to be added.
+ *
+ * @returns The new date with the years added
  *
  * @example
  * // Add 5 years to 1 September 2014:
  * const result = addYears(new Date(2014, 8, 1), 5)
  * //=> Sun Sep 01 2019 00:00:00
  */
-
-function addYears(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addMonths(dirtyDate, amount * 12);
+function addYears(date, amount) {
+  return addMonths(date, amount * 12);
 }
 
 /**
@@ -52891,24 +51755,28 @@ function addYears(dirtyDate, dirtyAmount) {
  * Return the end of a month for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the end of a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The end of a month
  *
  * @example
  * // The end of a month for 2 September 2014 11:55:00:
  * const result = endOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 30 2014 23:59:59.999
  */
-
-function endOfMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  var month = date.getMonth();
-  date.setFullYear(date.getFullYear(), month + 1, 0);
-  date.setHours(23, 59, 59, 999);
-  return date;
+function endOfMonth(date) {
+  const _date = toDate(date);
+  const month = _date.getMonth();
+  _date.setFullYear(_date.getFullYear(), month + 1, 0);
+  _date.setHours(23, 59, 59, 999);
+  return _date;
 }
+
+/**
+ * The {@link eachDayOfInterval} function options.
+ */
 
 /**
  * @name eachDayOfInterval
@@ -52918,14 +51786,12 @@ function endOfMonth(dirtyDate) {
  * @description
  * Return the array of dates within the specified time interval.
  *
- * @param {Interval} interval - the interval. See [Interval]{@link https://date-fns.org/docs/Interval}
- * @param {Object} [options] - an object with options.
- * @param {Number} [options.step=1] - the step to increment by. The value should be more than 1.
- * @returns {Date[]} the array with starts of days from the day of the interval start to the day of the interval end
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.step` must be a number greater than 1
- * @throws {RangeError} The start of an interval cannot be after its end
- * @throws {RangeError} Date in interval cannot be `Invalid Date`
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param interval - The interval.
+ * @param options - An object with options.
+ *
+ * @returns The array with starts of days from the day of the interval start to the day of the interval end
  *
  * @example
  * // Each day between 6 October 2014 and 10 October 2014:
@@ -52941,34 +51807,36 @@ function endOfMonth(dirtyDate) {
  * //   Fri Oct 10 2014 00:00:00
  * // ]
  */
+function eachDayOfInterval(interval, options) {
+  const startDate = toDate(interval.start);
+  const endDate = toDate(interval.end);
 
-function eachDayOfInterval(dirtyInterval, options) {
-  var _options$step;
+  let reversed = +startDate > +endDate;
+  const endTime = reversed ? +startDate : +endDate;
+  const currentDate = reversed ? endDate : startDate;
+  currentDate.setHours(0, 0, 0, 0);
 
-  requiredArgs(1, arguments);
-  var interval = dirtyInterval || {};
-  var startDate = toDate(interval.start);
-  var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
-
-  if (!(startDate.getTime() <= endTime)) {
-    throw new RangeError('Invalid interval');
+  let step = options?.step ?? 1;
+  if (!step) return [];
+  if (step < 0) {
+    step = -step;
+    reversed = !reversed;
   }
 
-  var dates = [];
-  var currentDate = startDate;
-  currentDate.setHours(0, 0, 0, 0);
-  var step = Number((_options$step = options === null || options === void 0 ? void 0 : options.step) !== null && _options$step !== void 0 ? _options$step : 1);
-  if (step < 1 || isNaN(step)) throw new RangeError('`options.step` must be a number greater than 1');
+  const dates = [];
 
-  while (currentDate.getTime() <= endTime) {
+  while (+currentDate <= endTime) {
     dates.push(toDate(currentDate));
     currentDate.setDate(currentDate.getDate() + step);
     currentDate.setHours(0, 0, 0, 0);
   }
 
-  return dates;
+  return reversed ? dates.reverse() : dates;
 }
+
+/**
+ * The {@link eachMonthOfInterval} function options.
+ */
 
 /**
  * @name eachMonthOfInterval
@@ -52978,11 +51846,11 @@ function eachDayOfInterval(dirtyInterval, options) {
  * @description
  * Return the array of months within the specified time interval.
  *
- * @param {Interval} interval - the interval. See [Interval]{@link https://date-fns.org/docs/Interval}
- * @returns {Date[]} the array with starts of months from the month of the interval start to the month of the interval end
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} The start of an interval cannot be after its end
- * @throws {RangeError} Date in interval cannot be `Invalid Date`
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param interval - The interval
+ *
+ * @returns The array with starts of months from the month of the interval start to the month of the interval end
  *
  * @example
  * // Each month between 6 February 2014 and 10 August 2014:
@@ -53000,30 +51868,36 @@ function eachDayOfInterval(dirtyInterval, options) {
  * //   Fri Aug 01 2014 00:00:00
  * // ]
  */
+function eachMonthOfInterval(interval, options) {
+  const startDate = toDate(interval.start);
+  const endDate = toDate(interval.end);
 
-function eachMonthOfInterval(dirtyInterval) {
-  requiredArgs(1, arguments);
-  var interval = dirtyInterval || {};
-  var startDate = toDate(interval.start);
-  var endDate = toDate(interval.end);
-  var endTime = endDate.getTime();
-  var dates = []; // Throw an exception if start date is after end date or if any date is `Invalid Date`
-
-  if (!(startDate.getTime() <= endTime)) {
-    throw new RangeError('Invalid interval');
-  }
-
-  var currentDate = startDate;
+  let reversed = +startDate > +endDate;
+  const endTime = reversed ? +startDate : +endDate;
+  const currentDate = reversed ? endDate : startDate;
   currentDate.setHours(0, 0, 0, 0);
   currentDate.setDate(1);
 
-  while (currentDate.getTime() <= endTime) {
-    dates.push(toDate(currentDate));
-    currentDate.setMonth(currentDate.getMonth() + 1);
+  let step = options?.step ?? 1;
+  if (!step) return [];
+  if (step < 0) {
+    step = -step;
+    reversed = !reversed;
   }
 
-  return dates;
+  const dates = [];
+
+  while (+currentDate <= endTime) {
+    dates.push(toDate(currentDate));
+    currentDate.setMonth(currentDate.getMonth() + step);
+  }
+
+  return reversed ? dates.reverse() : dates;
 }
+
+/**
+ * The {@link eachWeekOfInterval} function options.
+ */
 
 /**
  * @name eachWeekOfInterval
@@ -53033,15 +51907,12 @@ function eachMonthOfInterval(dirtyInterval) {
  * @description
  * Return the array of weeks within the specified time interval.
  *
- * @param {Interval} interval - the interval. See [Interval]{@link https://date-fns.org/docs/Interval}
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date[]} the array with starts of weeks from the week of the interval start to the week of the interval end
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be 0, 1, ..., 6
- * @throws {RangeError} The start of an interval cannot be after its end
- * @throws {RangeError} Date in interval cannot be `Invalid Date`
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param interval - The interval.
+ * @param options - An object with options.
+ *
+ * @returns The array with starts of weeks from the week of the interval start to the week of the interval end
  *
  * @example
  * // Each week within interval 6 October 2014 - 23 November 2014:
@@ -53060,35 +51931,42 @@ function eachMonthOfInterval(dirtyInterval) {
  * //   Sun Nov 23 2014 00:00:00
  * // ]
  */
+function eachWeekOfInterval(interval, options) {
+  const startDate = toDate(interval.start);
+  const endDate = toDate(interval.end);
 
-function eachWeekOfInterval(dirtyInterval, options) {
-  requiredArgs(1, arguments);
-  var interval = dirtyInterval || {};
-  var startDate = toDate(interval.start);
-  var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  let reversed = +startDate > +endDate;
+  const startDateWeek = reversed
+    ? startOfWeek(endDate, options)
+    : startOfWeek(startDate, options);
+  const endDateWeek = reversed
+    ? startOfWeek(startDate, options)
+    : startOfWeek(endDate, options);
 
-  if (!(startDate.getTime() <= endTime)) {
-    throw new RangeError('Invalid interval');
-  }
-
-  var startDateWeek = startOfWeek(startDate, options);
-  var endDateWeek = startOfWeek(endDate, options); // Some timezones switch DST at midnight, making start of day unreliable in these timezones, 3pm is a safe bet
-
+  // Some timezones switch DST at midnight, making start of day unreliable in these timezones, 3pm is a safe bet
   startDateWeek.setHours(15);
   endDateWeek.setHours(15);
-  endTime = endDateWeek.getTime();
-  var weeks = [];
-  var currentWeek = startDateWeek;
 
-  while (currentWeek.getTime() <= endTime) {
-    currentWeek.setHours(0);
-    weeks.push(toDate(currentWeek));
-    currentWeek = addWeeks(currentWeek, 1);
-    currentWeek.setHours(15);
+  const endTime = +endDateWeek.getTime();
+  let currentDate = startDateWeek;
+
+  let step = options?.step ?? 1;
+  if (!step) return [];
+  if (step < 0) {
+    step = -step;
+    reversed = !reversed;
   }
 
-  return weeks;
+  const dates = [];
+
+  while (+currentDate <= endTime) {
+    currentDate.setHours(0);
+    dates.push(toDate(currentDate));
+    currentDate = addWeeks(currentDate, step);
+    currentDate.setHours(15);
+  }
+
+  return reversed ? dates.reverse() : dates;
 }
 
 /**
@@ -53100,23 +51978,27 @@ function eachWeekOfInterval(dirtyInterval, options) {
  * Return the start of a month for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the start of a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a month
  *
  * @example
  * // The start of a month for 2 September 2014 11:55:00:
  * const result = startOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Mon Sep 01 2014 00:00:00
  */
-
-function startOfMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  date.setDate(1);
-  date.setHours(0, 0, 0, 0);
-  return date;
+function startOfMonth(date) {
+  const _date = toDate(date);
+  _date.setDate(1);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
+
+/**
+ * The {@link endOfWeek} function options.
+ */
 
 /**
  * @name endOfWeek
@@ -53127,13 +52009,12 @@ function startOfMonth(dirtyDate) {
  * Return the end of a week for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the end of a week
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The end of a week
  *
  * @example
  * // The end of a week for 2 September 2014 11:55:00:
@@ -53145,23 +52026,22 @@ function startOfMonth(dirtyDate) {
  * const result = endOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Sun Sep 07 2014 23:59:59.999
  */
-function endOfWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+function endOfWeek(date, options) {
+  const defaultOptions = getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
 
-  requiredArgs(1, arguments);
-  var defaultOptions = getDefaultOptions();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  const _date = toDate(date);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
 
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate(dirtyDate);
-  var day = date.getDay();
-  var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
-  date.setDate(date.getDate() + diff);
-  date.setHours(23, 59, 59, 999);
-  return date;
+  _date.setDate(_date.getDate() + diff);
+  _date.setHours(23, 59, 59, 999);
+  return _date;
 }
 
 /**
@@ -53172,22 +52052,22 @@ function endOfWeek(dirtyDate, options) {
  * @description
  * Get the number of days in a month of the given date.
  *
- * @param {Date|Number} date - the given date
- * @returns {Number} the number of days in a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ *
+ * @returns The number of days in a month
  *
  * @example
  * // How many days are in February 2000?
  * const result = getDaysInMonth(new Date(2000, 1))
  * //=> 29
  */
-
-function getDaysInMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  var year = date.getFullYear();
-  var monthIndex = date.getMonth();
-  var lastDayOfMonth = new Date(0);
+function getDaysInMonth(date) {
+  const _date = toDate(date);
+  const year = _date.getFullYear();
+  const monthIndex = _date.getMonth();
+  const lastDayOfMonth = constructFrom(date, 0);
   lastDayOfMonth.setFullYear(year, monthIndex + 1, 0);
   lastDayOfMonth.setHours(0, 0, 0, 0);
   return lastDayOfMonth.getDate();
@@ -53201,22 +52081,22 @@ function getDaysInMonth(dirtyDate) {
  * @description
  * Is the first date after the second one?
  *
- * @param {Date|Number} date - the date that should be after the other one to return true
- * @param {Date|Number} dateToCompare - the date to compare with
- * @returns {Boolean} the first date is after the second date
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date that should be after the other one to return true
+ * @param dateToCompare - The date to compare with
+ *
+ * @returns The first date is after the second date
  *
  * @example
  * // Is 10 July 1989 after 11 February 1987?
  * const result = isAfter(new Date(1989, 6, 10), new Date(1987, 1, 11))
  * //=> true
  */
-
-function isAfter(dirtyDate, dirtyDateToCompare) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var dateToCompare = toDate(dirtyDateToCompare);
-  return date.getTime() > dateToCompare.getTime();
+function isAfter(date, dateToCompare) {
+  const _date = toDate(date);
+  const _dateToCompare = toDate(dateToCompare);
+  return _date.getTime() > _dateToCompare.getTime();
 }
 
 /**
@@ -53227,22 +52107,22 @@ function isAfter(dirtyDate, dirtyDateToCompare) {
  * @description
  * Is the first date before the second one?
  *
- * @param {Date|Number} date - the date that should be before the other one to return true
- * @param {Date|Number} dateToCompare - the date to compare with
- * @returns {Boolean} the first date is before the second date
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date that should be before the other one to return true
+ * @param dateToCompare - The date to compare with
+ *
+ * @returns The first date is before the second date
  *
  * @example
  * // Is 10 July 1989 before 11 February 1987?
  * const result = isBefore(new Date(1989, 6, 10), new Date(1987, 1, 11))
  * //=> false
  */
-
-function isBefore(dirtyDate, dirtyDateToCompare) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var dateToCompare = toDate(dirtyDateToCompare);
-  return date.getTime() < dateToCompare.getTime();
+function isBefore(date, dateToCompare) {
+  const _date = toDate(date);
+  const _dateToCompare = toDate(dateToCompare);
+  return +_date < +_dateToCompare;
 }
 
 /**
@@ -53253,10 +52133,12 @@ function isBefore(dirtyDate, dirtyDateToCompare) {
  * @description
  * Are the given dates equal?
  *
- * @param {Date|Number} dateLeft - the first date to compare
- * @param {Date|Number} dateRight - the second date to compare
- * @returns {Boolean} the dates are equal
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param dateLeft - The first date to compare
+ * @param dateRight - The second date to compare
+ *
+ * @returns The dates are equal
  *
  * @example
  * // Are 2 July 2014 06:30:45.000 and 2 July 2014 06:30:45.500 equal?
@@ -53266,12 +52148,10 @@ function isBefore(dirtyDate, dirtyDateToCompare) {
  * )
  * //=> false
  */
-
-function isEqual(dirtyLeftDate, dirtyRightDate) {
-  requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyLeftDate);
-  var dateRight = toDate(dirtyRightDate);
-  return dateLeft.getTime() === dateRight.getTime();
+function isEqual(leftDate, rightDate) {
+  const _dateLeft = toDate(leftDate);
+  const _dateRight = toDate(rightDate);
+  return +_dateLeft === +_dateRight;
 }
 
 /**
@@ -53282,31 +52162,31 @@ function isEqual(dirtyLeftDate, dirtyRightDate) {
  * @description
  * Set the month to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} month - the month of the new date
- * @returns {Date} the new date with the month set
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param month - The month index to set (0-11)
+ *
+ * @returns The new date with the month set
  *
  * @example
  * // Set February to 1 September 2014:
  * const result = setMonth(new Date(2014, 8, 1), 1)
  * //=> Sat Feb 01 2014 00:00:00
  */
+function setMonth(date, month) {
+  const _date = toDate(date);
+  const year = _date.getFullYear();
+  const day = _date.getDate();
 
-function setMonth(dirtyDate, dirtyMonth) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var month = toInteger(dirtyMonth);
-  var year = date.getFullYear();
-  var day = date.getDate();
-  var dateWithDesiredMonth = new Date(0);
+  const dateWithDesiredMonth = constructFrom(date, 0);
   dateWithDesiredMonth.setFullYear(year, month, 15);
   dateWithDesiredMonth.setHours(0, 0, 0, 0);
-  var daysInMonth = getDaysInMonth(dateWithDesiredMonth); // Set the last day of the new month
+  const daysInMonth = getDaysInMonth(dateWithDesiredMonth);
+  // Set the last day of the new month
   // if the original date was the last day of the longer month
-
-  date.setMonth(month, Math.min(day, daysInMonth));
-  return date;
+  _date.setMonth(month, Math.min(day, daysInMonth));
+  return _date;
 }
 
 /**
@@ -53324,18 +52204,12 @@ function setMonth(dirtyDate, dirtyMonth) {
  * to use native `Date#setX` methods. If you use this function, you may not want to include the
  * other `setX` functions that date-fns provides if you are concerned about the bundle size.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Object} values - an object with options
- * @param {Number} [values.year] - the number of years to be set
- * @param {Number} [values.month] - the number of months to be set
- * @param {Number} [values.date] - the number of days to be set
- * @param {Number} [values.hours] - the number of hours to be set
- * @param {Number} [values.minutes] - the number of minutes to be set
- * @param {Number} [values.seconds] - the number of seconds to be set
- * @param {Number} [values.milliseconds] - the number of milliseconds to be set
- * @returns {Date} the new date with options set
- * @throws {TypeError} 2 arguments required
- * @throws {RangeError} `values` must be an object
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param values - The date values to be set
+ *
+ * @returns The new date with options set
  *
  * @example
  * // Transform 1 September 2014 into 20 October 2015 in a single line:
@@ -53347,48 +52221,44 @@ function setMonth(dirtyDate, dirtyMonth) {
  * const result = set(new Date(2014, 8, 1, 1, 23, 45), { hours: 12 })
  * //=> Mon Sep 01 2014 12:23:45
  */
-function set(dirtyDate, values) {
-  requiredArgs(2, arguments);
 
-  if (typeof values !== 'object' || values === null) {
-    throw new RangeError('values parameter must be an object');
-  }
+function set(date, values) {
+  let _date = toDate(date);
 
-  var date = toDate(dirtyDate); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
-
-  if (isNaN(date.getTime())) {
-    return new Date(NaN);
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
+  if (isNaN(+_date)) {
+    return constructFrom(date, NaN);
   }
 
   if (values.year != null) {
-    date.setFullYear(values.year);
+    _date.setFullYear(values.year);
   }
 
   if (values.month != null) {
-    date = setMonth(date, values.month);
+    _date = setMonth(_date, values.month);
   }
 
   if (values.date != null) {
-    date.setDate(toInteger(values.date));
+    _date.setDate(values.date);
   }
 
   if (values.hours != null) {
-    date.setHours(toInteger(values.hours));
+    _date.setHours(values.hours);
   }
 
   if (values.minutes != null) {
-    date.setMinutes(toInteger(values.minutes));
+    _date.setMinutes(values.minutes);
   }
 
   if (values.seconds != null) {
-    date.setSeconds(toInteger(values.seconds));
+    _date.setSeconds(values.seconds);
   }
 
   if (values.milliseconds != null) {
-    date.setMilliseconds(toInteger(values.milliseconds));
+    _date.setMilliseconds(values.milliseconds);
   }
 
-  return date;
+  return _date;
 }
 
 /**
@@ -53399,28 +52269,28 @@ function set(dirtyDate, values) {
  * @description
  * Set the year to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} year - the year of the new date
- * @returns {Date} the new date with the year set
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param year - The year of the new date
+ *
+ * @returns The new date with the year set
  *
  * @example
  * // Set year 2013 to 1 September 2014:
  * const result = setYear(new Date(2014, 8, 1), 2013)
  * //=> Sun Sep 01 2013 00:00:00
  */
+function setYear(date, year) {
+  const _date = toDate(date);
 
-function setYear(dirtyDate, dirtyYear) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var year = toInteger(dirtyYear); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
-
-  if (isNaN(date.getTime())) {
-    return new Date(NaN);
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
+  if (isNaN(+_date)) {
+    return constructFrom(date, NaN);
   }
 
-  date.setFullYear(year);
-  return date;
+  _date.setFullYear(year);
+  return _date;
 }
 
 /**
@@ -53432,17 +52302,13 @@ function setYear(dirtyDate, dirtyYear) {
  * @description
  * Return the start of today.
  *
- * > ⚠️ Please note that this function is not present in the FP submodule as
- * > it uses `Date.now()` internally hence impure and can't be safely curried.
- *
- * @returns {Date} the start of today
+ * @returns The start of today
  *
  * @example
  * // If today is 6 October 2014:
  * const result = startOfToday()
  * //=> Mon Oct 6 2014 00:00:00
  */
-
 function startOfToday() {
   return startOfDay(Date.now());
 }
@@ -53455,21 +52321,20 @@ function startOfToday() {
  * @description
  * Subtract the specified number of months from the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the months subtracted
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of months to be subtracted.
+ *
+ * @returns The new date with the months subtracted
  *
  * @example
  * // Subtract 5 months from 1 February 2015:
  * const result = subMonths(new Date(2015, 1, 1), 5)
  * //=> Mon Sep 01 2014 00:00:00
  */
-
-function subMonths(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addMonths(dirtyDate, -amount);
+function subMonths(date, amount) {
+  return addMonths(date, -amount);
 }
 
 /**
@@ -53480,21 +52345,20 @@ function subMonths(dirtyDate, dirtyAmount) {
  * @description
  * Subtract the specified number of years from the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of years to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the years subtracted
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of years to be subtracted.
+ *
+ * @returns The new date with the years subtracted
  *
  * @example
  * // Subtract 5 years from 1 September 2014:
  * const result = subYears(new Date(2014, 8, 1), 5)
  * //=> Tue Sep 01 2009 00:00:00
  */
-
-function subYears(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addYears(dirtyDate, -amount);
+function subYears(date, amount) {
+  return addYears(date, -amount);
 }
 
 var Month;
@@ -53525,7 +52389,7 @@ var Day;
 var inRange = function (date, min, max) {
     return (isEqual(date, min) || isAfter(date, min)) && (isEqual(date, max) || isBefore(date, max));
 };
-var clearTime = function (date) { return set(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }); };
+var index_es_clearTime = function (date) { return set(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }); };
 var useLilius = function (_a) {
     var _b = _a === void 0 ? {} : _a, _c = _b.weekStartsOn, weekStartsOn = _c === void 0 ? Day.SUNDAY : _c, _d = _b.viewing, initialViewing = _d === void 0 ? new Date() : _d, _e = _b.selected, initialSelected = _e === void 0 ? [] : _e, _f = _b.numberOfMonths, numberOfMonths = _f === void 0 ? 1 : _f;
     var _g = (0,external_React_.useState)(initialViewing), viewing = _g[0], setViewing = _g[1];
@@ -53536,7 +52400,7 @@ var useLilius = function (_a) {
     var viewYear = (0,external_React_.useCallback)(function (year) { return setViewing(function (v) { return setYear(v, year); }); }, []);
     var viewPreviousYear = (0,external_React_.useCallback)(function () { return setViewing(function (v) { return subYears(v, 1); }); }, []);
     var viewNextYear = (0,external_React_.useCallback)(function () { return setViewing(function (v) { return addYears(v, 1); }); }, []);
-    var _h = (0,external_React_.useState)(initialSelected.map(clearTime)), selected = _h[0], setSelected = _h[1];
+    var _h = (0,external_React_.useState)(initialSelected.map(index_es_clearTime)), selected = _h[0], setSelected = _h[1];
     var clearSelected = function () { return setSelected([]); };
     var isSelected = (0,external_React_.useCallback)(function (date) { return selected.findIndex(function (s) { return isEqual(s, date); }) > -1; }, [selected]);
     var select = (0,external_React_.useCallback)(function (date, replaceExisting) {
@@ -53589,7 +52453,7 @@ var useLilius = function (_a) {
         });
     }, [viewing, weekStartsOn, numberOfMonths]);
     return {
-        clearTime: clearTime,
+        clearTime: index_es_clearTime,
         inRange: inRange,
         viewing: viewing,
         setViewing: setViewing,
@@ -53615,16 +52479,7 @@ var useLilius = function (_a) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/requiredArgs/index.js
-function requiredArgs_requiredArgs(required, args) {
-  if (args.length < required) {
-    throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
-  }
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/toDate/index.js
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-
+;// CONCATENATED MODULE: ./node_modules/date-fns/toDate.mjs
 /**
  * @name toDate
  * @category Common Helpers
@@ -53641,9 +52496,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  *
  * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
  *
- * @param {Date|Number} argument - the value to convert
- * @returns {Date} the parsed date in the local time zone
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param argument - The value to convert
+ *
+ * @returns The parsed date in the local time zone
  *
  * @example
  * // Clone the date:
@@ -53655,28 +52512,34 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  * const result = toDate(1392098430000)
  * //=> Tue Feb 11 2014 11:30:30
  */
-
 function toDate_toDate(argument) {
-  requiredArgs_requiredArgs(1, arguments);
-  var argStr = Object.prototype.toString.call(argument); // Clone the date
+  const argStr = Object.prototype.toString.call(argument);
 
-  if (argument instanceof Date || _typeof(argument) === 'object' && argStr === '[object Date]') {
+  // Clone the date
+  if (
+    argument instanceof Date ||
+    (typeof argument === "object" && argStr === "[object Date]")
+  ) {
     // Prevent the date to lose the milliseconds when passed to new Date() in IE10
-    return new Date(argument.getTime());
-  } else if (typeof argument === 'number' || argStr === '[object Number]') {
+    return new argument.constructor(+argument);
+  } else if (
+    typeof argument === "number" ||
+    argStr === "[object Number]" ||
+    typeof argument === "string" ||
+    argStr === "[object String]"
+  ) {
+    // TODO: Can we get rid of as?
     return new Date(argument);
   } else {
-    if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
-      // eslint-disable-next-line no-console
-      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments"); // eslint-disable-next-line no-console
-
-      console.warn(new Error().stack);
-    }
-
+    // TODO: Can we get rid of as?
     return new Date(NaN);
   }
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/startOfDay/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_toDate = ((/* unused pure expression or super */ null && (toDate_toDate)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfDay.mjs
 
 
 /**
@@ -53688,37 +52551,69 @@ function toDate_toDate(argument) {
  * Return the start of a day for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the start of a day
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a day
  *
  * @example
  * // The start of a day for 2 September 2014 11:55:00:
  * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 02 2014 00:00:00
  */
-
-function startOfDay_startOfDay(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  date.setHours(0, 0, 0, 0);
-  return date;
+function startOfDay_startOfDay(date) {
+  const _date = toDate_toDate(date);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/toInteger/index.js
-function toInteger_toInteger(dirtyNumber) {
-  if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
-    return NaN;
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfDay = ((/* unused pure expression or super */ null && (startOfDay_startOfDay)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/constructFrom.mjs
+/**
+ * @name constructFrom
+ * @category Generic Helpers
+ * @summary Constructs a date using the reference date and the value
+ *
+ * @description
+ * The function constructs a new date using the constructor from the reference
+ * date and the given value. It helps to build generic functions that accept
+ * date extensions.
+ *
+ * It defaults to `Date` if the passed reference date is a number or a string.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The reference date to take constructor from
+ * @param value - The value to create the date
+ *
+ * @returns Date initialized using the given date and value
+ *
+ * @example
+ * import { constructFrom } from 'date-fns'
+ *
+ * // A function that clones a date preserving the original type
+ * function cloneDate<DateType extends Date(date: DateType): DateType {
+ *   return constructFrom(
+ *     date, // Use contrustor from the given date
+ *     date.getTime() // Use the date value to create a new date
+ *   )
+ * }
+ */
+function constructFrom_constructFrom(date, value) {
+  if (date instanceof Date) {
+    return new date.constructor(value);
+  } else {
+    return new Date(value);
   }
-
-  var number = Number(dirtyNumber);
-
-  if (isNaN(number)) {
-    return number;
-  }
-
-  return number < 0 ? Math.ceil(number) : Math.floor(number);
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/addMonths/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_constructFrom = ((/* unused pure expression or super */ null && (constructFrom_constructFrom)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/addMonths.mjs
 
 
 
@@ -53730,32 +52625,32 @@ function toInteger_toInteger(dirtyNumber) {
  * @description
  * Add the specified number of months to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the months added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of months to be added.
+ *
+ * @returns The new date with the months added
  *
  * @example
  * // Add 5 months to 1 September 2014:
  * const result = addMonths(new Date(2014, 8, 1), 5)
  * //=> Sun Feb 01 2015 00:00:00
+ *
+ * // Add one month to 30 January 2023:
+ * const result = addMonths(new Date(2023, 0, 30), 1)
+ * //=> Tue Feb 28 2023 00:00:00
  */
-
-function addMonths_addMonths(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var amount = toInteger_toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
+function addMonths_addMonths(date, amount) {
+  const _date = toDate_toDate(date);
+  if (isNaN(amount)) return constructFrom_constructFrom(date, NaN);
   if (!amount) {
     // If 0 months, no-op to avoid changing times in the hour before end of DST
-    return date;
+    return _date;
   }
+  const dayOfMonth = _date.getDate();
 
-  var dayOfMonth = date.getDate(); // The JS Date object supports date math by accepting out-of-bounds values for
+  // The JS Date object supports date math by accepting out-of-bounds values for
   // month, day, etc. For example, new Date(2020, 0, 0) returns 31 Dec 2019 and
   // new Date(2020, 13, 1) returns 1 Feb 2021.  This is *almost* the behavior we
   // want except that dates will wrap around the end of a month, meaning that
@@ -53763,11 +52658,9 @@ function addMonths_addMonths(dirtyDate, dirtyAmount) {
   // we'll default to the end of the desired month by adding 1 to the desired
   // month and using a date of 0 to back up one day to the end of the desired
   // month.
-
-  var endOfDesiredMonth = new Date(date.getTime());
-  endOfDesiredMonth.setMonth(date.getMonth() + amount + 1, 0);
-  var daysInMonth = endOfDesiredMonth.getDate();
-
+  const endOfDesiredMonth = constructFrom_constructFrom(date, _date.getTime());
+  endOfDesiredMonth.setMonth(_date.getMonth() + amount + 1, 0);
+  const daysInMonth = endOfDesiredMonth.getDate();
   if (dayOfMonth >= daysInMonth) {
     // If we're already at the end of the month, then this is the correct date
     // and we're done.
@@ -53780,12 +52673,19 @@ function addMonths_addMonths(dirtyDate, dirtyAmount) {
     // the last day of the month and its local time was in the hour skipped or
     // repeated next to a DST transition.  So we use `date` instead which is
     // guaranteed to still have the original time.
-    date.setFullYear(endOfDesiredMonth.getFullYear(), endOfDesiredMonth.getMonth(), dayOfMonth);
-    return date;
+    _date.setFullYear(
+      endOfDesiredMonth.getFullYear(),
+      endOfDesiredMonth.getMonth(),
+      dayOfMonth,
+    );
+    return _date;
   }
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/subMonths/index.js
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_addMonths = ((/* unused pure expression or super */ null && (addMonths_addMonths)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/subMonths.mjs
 
 
 /**
@@ -53796,359 +52696,1498 @@ function addMonths_addMonths(dirtyDate, dirtyAmount) {
  * @description
  * Subtract the specified number of months from the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the months subtracted
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of months to be subtracted.
+ *
+ * @returns The new date with the months subtracted
  *
  * @example
  * // Subtract 5 months from 1 February 2015:
  * const result = subMonths(new Date(2015, 1, 1), 5)
  * //=> Mon Sep 01 2014 00:00:00
  */
-
-function subMonths_subMonths(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
-  return addMonths_addMonths(dirtyDate, -amount);
+function subMonths_subMonths(date, amount) {
+  return addMonths_addMonths(date, -amount);
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isDate/index.js
-function isDate_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { isDate_typeof = function _typeof(obj) { return typeof obj; }; } else { isDate_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return isDate_typeof(obj); }
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_subMonths = ((/* unused pure expression or super */ null && (subMonths_subMonths)));
 
-/**
- * @name isDate
- * @category Common Helpers
- * @summary Is the given value a date?
- *
- * @description
- * Returns true if the given value is an instance of Date. The function works for dates transferred across iframes.
- *
- * @param {*} value - the value to check
- * @returns {boolean} true if the given value is a date
- * @throws {TypeError} 1 arguments required
- *
- * @example
- * // For a valid date:
- * const result = isDate(new Date())
- * //=> true
- *
- * @example
- * // For an invalid date:
- * const result = isDate(new Date(NaN))
- * //=> true
- *
- * @example
- * // For some value:
- * const result = isDate('2014-02-31')
- * //=> false
- *
- * @example
- * // For an object:
- * const result = isDate({})
- * //=> false
- */
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/en-US/_lib/formatDistance.mjs
+const formatDistanceLocale = {
+  lessThanXSeconds: {
+    one: "less than a second",
+    other: "less than {{count}} seconds",
+  },
 
-function isDate(value) {
-  requiredArgs_requiredArgs(1, arguments);
-  return value instanceof Date || isDate_typeof(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isValid/index.js
+  xSeconds: {
+    one: "1 second",
+    other: "{{count}} seconds",
+  },
 
+  halfAMinute: "half a minute",
 
+  lessThanXMinutes: {
+    one: "less than a minute",
+    other: "less than {{count}} minutes",
+  },
 
-/**
- * @name isValid
- * @category Common Helpers
- * @summary Is the given date valid?
- *
- * @description
- * Returns false if argument is Invalid Date and true otherwise.
- * Argument is converted to Date using `toDate`. See [toDate]{@link https://date-fns.org/docs/toDate}
- * Invalid Date is a Date, whose time value is NaN.
- *
- * Time value of Date: http://es5.github.io/#x15.9.1.1
- *
- * @param {*} date - the date to check
- * @returns {Boolean} the date is valid
- * @throws {TypeError} 1 argument required
- *
- * @example
- * // For the valid date:
- * const result = isValid(new Date(2014, 1, 31))
- * //=> true
- *
- * @example
- * // For the value, convertable into a date:
- * const result = isValid(1393804800000)
- * //=> true
- *
- * @example
- * // For the invalid date:
- * const result = isValid(new Date(''))
- * //=> false
- */
+  xMinutes: {
+    one: "1 minute",
+    other: "{{count}} minutes",
+  },
 
-function isValid(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
+  aboutXHours: {
+    one: "about 1 hour",
+    other: "about {{count}} hours",
+  },
 
-  if (!isDate(dirtyDate) && typeof dirtyDate !== 'number') {
-    return false;
-  }
+  xHours: {
+    one: "1 hour",
+    other: "{{count}} hours",
+  },
 
-  var date = toDate_toDate(dirtyDate);
-  return !isNaN(Number(date));
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/addMilliseconds/index.js
+  xDays: {
+    one: "1 day",
+    other: "{{count}} days",
+  },
 
+  aboutXWeeks: {
+    one: "about 1 week",
+    other: "about {{count}} weeks",
+  },
 
+  xWeeks: {
+    one: "1 week",
+    other: "{{count}} weeks",
+  },
 
-/**
- * @name addMilliseconds
- * @category Millisecond Helpers
- * @summary Add the specified number of milliseconds to the given date.
- *
- * @description
- * Add the specified number of milliseconds to the given date.
- *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of milliseconds to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the milliseconds added
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // Add 750 milliseconds to 10 July 2014 12:45:30.000:
- * const result = addMilliseconds(new Date(2014, 6, 10, 12, 45, 30, 0), 750)
- * //=> Thu Jul 10 2014 12:45:30.750
- */
+  aboutXMonths: {
+    one: "about 1 month",
+    other: "about {{count}} months",
+  },
 
-function addMilliseconds(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var timestamp = toDate_toDate(dirtyDate).getTime();
-  var amount = toInteger_toInteger(dirtyAmount);
-  return new Date(timestamp + amount);
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/subMilliseconds/index.js
+  xMonths: {
+    one: "1 month",
+    other: "{{count}} months",
+  },
 
+  aboutXYears: {
+    one: "about 1 year",
+    other: "about {{count}} years",
+  },
 
+  xYears: {
+    one: "1 year",
+    other: "{{count}} years",
+  },
 
-/**
- * @name subMilliseconds
- * @category Millisecond Helpers
- * @summary Subtract the specified number of milliseconds from the given date.
- *
- * @description
- * Subtract the specified number of milliseconds from the given date.
- *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of milliseconds to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the milliseconds subtracted
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // Subtract 750 milliseconds from 10 July 2014 12:45:30.000:
- * const result = subMilliseconds(new Date(2014, 6, 10, 12, 45, 30, 0), 750)
- * //=> Thu Jul 10 2014 12:45:29.250
- */
+  overXYears: {
+    one: "over 1 year",
+    other: "over {{count}} years",
+  },
 
-function subMilliseconds(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
-  return addMilliseconds(dirtyDate, -amount);
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCDayOfYear/index.js
+  almostXYears: {
+    one: "almost 1 year",
+    other: "almost {{count}} years",
+  },
+};
 
+const formatDistance = (token, count, options) => {
+  let result;
 
-var MILLISECONDS_IN_DAY = 86400000;
-function getUTCDayOfYear(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var timestamp = date.getTime();
-  date.setUTCMonth(0, 1);
-  date.setUTCHours(0, 0, 0, 0);
-  var startOfYearTimestamp = date.getTime();
-  var difference = timestamp - startOfYearTimestamp;
-  return Math.floor(difference / MILLISECONDS_IN_DAY) + 1;
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/startOfUTCISOWeek/index.js
-
-
-function startOfUTCISOWeek(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var weekStartsOn = 1;
-  var date = toDate_toDate(dirtyDate);
-  var day = date.getUTCDay();
-  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-  date.setUTCDate(date.getUTCDate() - diff);
-  date.setUTCHours(0, 0, 0, 0);
-  return date;
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCISOWeekYear/index.js
-
-
-
-function getUTCISOWeekYear(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var year = date.getUTCFullYear();
-  var fourthOfJanuaryOfNextYear = new Date(0);
-  fourthOfJanuaryOfNextYear.setUTCFullYear(year + 1, 0, 4);
-  fourthOfJanuaryOfNextYear.setUTCHours(0, 0, 0, 0);
-  var startOfNextYear = startOfUTCISOWeek(fourthOfJanuaryOfNextYear);
-  var fourthOfJanuaryOfThisYear = new Date(0);
-  fourthOfJanuaryOfThisYear.setUTCFullYear(year, 0, 4);
-  fourthOfJanuaryOfThisYear.setUTCHours(0, 0, 0, 0);
-  var startOfThisYear = startOfUTCISOWeek(fourthOfJanuaryOfThisYear);
-
-  if (date.getTime() >= startOfNextYear.getTime()) {
-    return year + 1;
-  } else if (date.getTime() >= startOfThisYear.getTime()) {
-    return year;
+  const tokenValue = formatDistanceLocale[token];
+  if (typeof tokenValue === "string") {
+    result = tokenValue;
+  } else if (count === 1) {
+    result = tokenValue.one;
   } else {
-    return year - 1;
+    result = tokenValue.other.replace("{{count}}", count.toString());
   }
+
+  if (options?.addSuffix) {
+    if (options.comparison && options.comparison > 0) {
+      return "in " + result;
+    } else {
+      return result + " ago";
+    }
+  }
+
+  return result;
+};
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/_lib/buildFormatLongFn.mjs
+function buildFormatLongFn(args) {
+  return (options = {}) => {
+    // TODO: Remove String()
+    const width = options.width ? String(options.width) : args.defaultWidth;
+    const format = args.formats[width] || args.formats[args.defaultWidth];
+    return format;
+  };
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/startOfUTCISOWeekYear/index.js
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/en-US/_lib/formatLong.mjs
 
 
+const dateFormats = {
+  full: "EEEE, MMMM do, y",
+  long: "MMMM do, y",
+  medium: "MMM d, y",
+  short: "MM/dd/yyyy",
+};
 
-function startOfUTCISOWeekYear(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var year = getUTCISOWeekYear(dirtyDate);
-  var fourthOfJanuary = new Date(0);
-  fourthOfJanuary.setUTCFullYear(year, 0, 4);
-  fourthOfJanuary.setUTCHours(0, 0, 0, 0);
-  var date = startOfUTCISOWeek(fourthOfJanuary);
-  return date;
+const timeFormats = {
+  full: "h:mm:ss a zzzz",
+  long: "h:mm:ss a z",
+  medium: "h:mm:ss a",
+  short: "h:mm a",
+};
+
+const dateTimeFormats = {
+  full: "{{date}} 'at' {{time}}",
+  long: "{{date}} 'at' {{time}}",
+  medium: "{{date}}, {{time}}",
+  short: "{{date}}, {{time}}",
+};
+
+const formatLong = {
+  date: buildFormatLongFn({
+    formats: dateFormats,
+    defaultWidth: "full",
+  }),
+
+  time: buildFormatLongFn({
+    formats: timeFormats,
+    defaultWidth: "full",
+  }),
+
+  dateTime: buildFormatLongFn({
+    formats: dateTimeFormats,
+    defaultWidth: "full",
+  }),
+};
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/en-US/_lib/formatRelative.mjs
+const formatRelativeLocale = {
+  lastWeek: "'last' eeee 'at' p",
+  yesterday: "'yesterday at' p",
+  today: "'today at' p",
+  tomorrow: "'tomorrow at' p",
+  nextWeek: "eeee 'at' p",
+  other: "P",
+};
+
+const formatRelative = (token, _date, _baseDate, _options) =>
+  formatRelativeLocale[token];
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/_lib/buildLocalizeFn.mjs
+/* eslint-disable no-unused-vars */
+
+/**
+ * The localize function argument callback which allows to convert raw value to
+ * the actual type.
+ *
+ * @param value - The value to convert
+ *
+ * @returns The converted value
+ */
+
+/**
+ * The map of localized values for each width.
+ */
+
+/**
+ * The index type of the locale unit value. It types conversion of units of
+ * values that don't start at 0 (i.e. quarters).
+ */
+
+/**
+ * Converts the unit value to the tuple of values.
+ */
+
+/**
+ * The tuple of localized era values. The first element represents BC,
+ * the second element represents AD.
+ */
+
+/**
+ * The tuple of localized quarter values. The first element represents Q1.
+ */
+
+/**
+ * The tuple of localized day values. The first element represents Sunday.
+ */
+
+/**
+ * The tuple of localized month values. The first element represents January.
+ */
+
+function buildLocalizeFn(args) {
+  return (value, options) => {
+    const context = options?.context ? String(options.context) : "standalone";
+
+    let valuesArray;
+    if (context === "formatting" && args.formattingValues) {
+      const defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
+      const width = options?.width ? String(options.width) : defaultWidth;
+
+      valuesArray =
+        args.formattingValues[width] || args.formattingValues[defaultWidth];
+    } else {
+      const defaultWidth = args.defaultWidth;
+      const width = options?.width ? String(options.width) : args.defaultWidth;
+
+      valuesArray = args.values[width] || args.values[defaultWidth];
+    }
+    const index = args.argumentCallback ? args.argumentCallback(value) : value;
+
+    // @ts-expect-error - For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
+    return valuesArray[index];
+  };
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCISOWeek/index.js
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/en-US/_lib/localize.mjs
 
 
+const eraValues = {
+  narrow: ["B", "A"],
+  abbreviated: ["BC", "AD"],
+  wide: ["Before Christ", "Anno Domini"],
+};
 
+const quarterValues = {
+  narrow: ["1", "2", "3", "4"],
+  abbreviated: ["Q1", "Q2", "Q3", "Q4"],
+  wide: ["1st quarter", "2nd quarter", "3rd quarter", "4th quarter"],
+};
 
-var MILLISECONDS_IN_WEEK = 604800000;
-function getUTCISOWeek(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var diff = startOfUTCISOWeek(date).getTime() - startOfUTCISOWeekYear(date).getTime(); // Round the number of days to the nearest integer
-  // because the number of milliseconds in a week is not constant
-  // (e.g. it's different in the week of the daylight saving time clock shift)
+// Note: in English, the names of days of the week and months are capitalized.
+// If you are making a new locale based on this one, check if the same is true for the language you're working on.
+// Generally, formatted dates should look like they are in the middle of a sentence,
+// e.g. in Spanish language the weekdays and months should be in the lowercase.
+const monthValues = {
+  narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+  abbreviated: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
 
-  return Math.round(diff / MILLISECONDS_IN_WEEK) + 1;
+  wide: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+};
+
+const dayValues = {
+  narrow: ["S", "M", "T", "W", "T", "F", "S"],
+  short: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  abbreviated: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  wide: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+};
+
+const dayPeriodValues = {
+  narrow: {
+    am: "a",
+    pm: "p",
+    midnight: "mi",
+    noon: "n",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night",
+  },
+  abbreviated: {
+    am: "AM",
+    pm: "PM",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night",
+  },
+  wide: {
+    am: "a.m.",
+    pm: "p.m.",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night",
+  },
+};
+
+const formattingDayPeriodValues = {
+  narrow: {
+    am: "a",
+    pm: "p",
+    midnight: "mi",
+    noon: "n",
+    morning: "in the morning",
+    afternoon: "in the afternoon",
+    evening: "in the evening",
+    night: "at night",
+  },
+  abbreviated: {
+    am: "AM",
+    pm: "PM",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "in the morning",
+    afternoon: "in the afternoon",
+    evening: "in the evening",
+    night: "at night",
+  },
+  wide: {
+    am: "a.m.",
+    pm: "p.m.",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "in the morning",
+    afternoon: "in the afternoon",
+    evening: "in the evening",
+    night: "at night",
+  },
+};
+
+const ordinalNumber = (dirtyNumber, _options) => {
+  const number = Number(dirtyNumber);
+
+  // If ordinal numbers depend on context, for example,
+  // if they are different for different grammatical genders,
+  // use `options.unit`.
+  //
+  // `unit` can be 'year', 'quarter', 'month', 'week', 'date', 'dayOfYear',
+  // 'day', 'hour', 'minute', 'second'.
+
+  const rem100 = number % 100;
+  if (rem100 > 20 || rem100 < 10) {
+    switch (rem100 % 10) {
+      case 1:
+        return number + "st";
+      case 2:
+        return number + "nd";
+      case 3:
+        return number + "rd";
+    }
+  }
+  return number + "th";
+};
+
+const localize = {
+  ordinalNumber,
+
+  era: buildLocalizeFn({
+    values: eraValues,
+    defaultWidth: "wide",
+  }),
+
+  quarter: buildLocalizeFn({
+    values: quarterValues,
+    defaultWidth: "wide",
+    argumentCallback: (quarter) => quarter - 1,
+  }),
+
+  month: buildLocalizeFn({
+    values: monthValues,
+    defaultWidth: "wide",
+  }),
+
+  day: buildLocalizeFn({
+    values: dayValues,
+    defaultWidth: "wide",
+  }),
+
+  dayPeriod: buildLocalizeFn({
+    values: dayPeriodValues,
+    defaultWidth: "wide",
+    formattingValues: formattingDayPeriodValues,
+    defaultFormattingWidth: "wide",
+  }),
+};
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/_lib/buildMatchFn.mjs
+function buildMatchFn(args) {
+  return (string, options = {}) => {
+    const width = options.width;
+
+    const matchPattern =
+      (width && args.matchPatterns[width]) ||
+      args.matchPatterns[args.defaultMatchWidth];
+    const matchResult = string.match(matchPattern);
+
+    if (!matchResult) {
+      return null;
+    }
+    const matchedString = matchResult[0];
+
+    const parsePatterns =
+      (width && args.parsePatterns[width]) ||
+      args.parsePatterns[args.defaultParseWidth];
+
+    const key = Array.isArray(parsePatterns)
+      ? findIndex(parsePatterns, (pattern) => pattern.test(matchedString))
+      : // eslint-disable-next-line @typescript-eslint/no-explicit-any -- I challange you to fix the type
+        findKey(parsePatterns, (pattern) => pattern.test(matchedString));
+
+    let value;
+
+    value = args.valueCallback ? args.valueCallback(key) : key;
+    value = options.valueCallback
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any -- I challange you to fix the type
+        options.valueCallback(value)
+      : value;
+
+    const rest = string.slice(matchedString.length);
+
+    return { value, rest };
+  };
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/defaultOptions/index.js
-var defaultOptions_defaultOptions = {};
+
+function findKey(object, predicate) {
+  for (const key in object) {
+    if (
+      Object.prototype.hasOwnProperty.call(object, key) &&
+      predicate(object[key])
+    ) {
+      return key;
+    }
+  }
+  return undefined;
+}
+
+function findIndex(array, predicate) {
+  for (let key = 0; key < array.length; key++) {
+    if (predicate(array[key])) {
+      return key;
+    }
+  }
+  return undefined;
+}
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/_lib/buildMatchPatternFn.mjs
+function buildMatchPatternFn(args) {
+  return (string, options = {}) => {
+    const matchResult = string.match(args.matchPattern);
+    if (!matchResult) return null;
+    const matchedString = matchResult[0];
+
+    const parseResult = string.match(args.parsePattern);
+    if (!parseResult) return null;
+    let value = args.valueCallback
+      ? args.valueCallback(parseResult[0])
+      : parseResult[0];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- I challange you to fix the type
+    value = options.valueCallback ? options.valueCallback(value) : value;
+
+    const rest = string.slice(matchedString.length);
+
+    return { value, rest };
+  };
+}
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/en-US/_lib/match.mjs
+
+
+
+const matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
+const parseOrdinalNumberPattern = /\d+/i;
+
+const matchEraPatterns = {
+  narrow: /^(b|a)/i,
+  abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
+  wide: /^(before christ|before common era|anno domini|common era)/i,
+};
+const parseEraPatterns = {
+  any: [/^b/i, /^(a|c)/i],
+};
+
+const matchQuarterPatterns = {
+  narrow: /^[1234]/i,
+  abbreviated: /^q[1234]/i,
+  wide: /^[1234](th|st|nd|rd)? quarter/i,
+};
+const parseQuarterPatterns = {
+  any: [/1/i, /2/i, /3/i, /4/i],
+};
+
+const matchMonthPatterns = {
+  narrow: /^[jfmasond]/i,
+  abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
+  wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i,
+};
+const parseMonthPatterns = {
+  narrow: [
+    /^j/i,
+    /^f/i,
+    /^m/i,
+    /^a/i,
+    /^m/i,
+    /^j/i,
+    /^j/i,
+    /^a/i,
+    /^s/i,
+    /^o/i,
+    /^n/i,
+    /^d/i,
+  ],
+
+  any: [
+    /^ja/i,
+    /^f/i,
+    /^mar/i,
+    /^ap/i,
+    /^may/i,
+    /^jun/i,
+    /^jul/i,
+    /^au/i,
+    /^s/i,
+    /^o/i,
+    /^n/i,
+    /^d/i,
+  ],
+};
+
+const matchDayPatterns = {
+  narrow: /^[smtwf]/i,
+  short: /^(su|mo|tu|we|th|fr|sa)/i,
+  abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
+  wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i,
+};
+const parseDayPatterns = {
+  narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
+  any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i],
+};
+
+const matchDayPeriodPatterns = {
+  narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
+  any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i,
+};
+const parseDayPeriodPatterns = {
+  any: {
+    am: /^a/i,
+    pm: /^p/i,
+    midnight: /^mi/i,
+    noon: /^no/i,
+    morning: /morning/i,
+    afternoon: /afternoon/i,
+    evening: /evening/i,
+    night: /night/i,
+  },
+};
+
+const match_match = {
+  ordinalNumber: buildMatchPatternFn({
+    matchPattern: matchOrdinalNumberPattern,
+    parsePattern: parseOrdinalNumberPattern,
+    valueCallback: (value) => parseInt(value, 10),
+  }),
+
+  era: buildMatchFn({
+    matchPatterns: matchEraPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseEraPatterns,
+    defaultParseWidth: "any",
+  }),
+
+  quarter: buildMatchFn({
+    matchPatterns: matchQuarterPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseQuarterPatterns,
+    defaultParseWidth: "any",
+    valueCallback: (index) => index + 1,
+  }),
+
+  month: buildMatchFn({
+    matchPatterns: matchMonthPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseMonthPatterns,
+    defaultParseWidth: "any",
+  }),
+
+  day: buildMatchFn({
+    matchPatterns: matchDayPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseDayPatterns,
+    defaultParseWidth: "any",
+  }),
+
+  dayPeriod: buildMatchFn({
+    matchPatterns: matchDayPeriodPatterns,
+    defaultMatchWidth: "any",
+    parsePatterns: parseDayPeriodPatterns,
+    defaultParseWidth: "any",
+  }),
+};
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/locale/en-US.mjs
+
+
+
+
+
+
+/**
+ * @category Locales
+ * @summary English locale (United States).
+ * @language English
+ * @iso-639-2 eng
+ * @author Sasha Koss [@kossnocorp](https://github.com/kossnocorp)
+ * @author Lesha Koss [@leshakoss](https://github.com/leshakoss)
+ */
+const enUS = {
+  code: "en-US",
+  formatDistance: formatDistance,
+  formatLong: formatLong,
+  formatRelative: formatRelative,
+  localize: localize,
+  match: match_match,
+  options: {
+    weekStartsOn: 0 /* Sunday */,
+    firstWeekContainsDate: 1,
+  },
+};
+
+// Fallback for modularized imports:
+/* harmony default export */ const en_US = ((/* unused pure expression or super */ null && (enUS)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/defaultOptions.mjs
+let defaultOptions_defaultOptions = {};
+
 function defaultOptions_getDefaultOptions() {
   return defaultOptions_defaultOptions;
 }
+
 function setDefaultOptions(newOptions) {
   defaultOptions_defaultOptions = newOptions;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/startOfUTCWeek/index.js
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/constants.mjs
+/**
+ * @module constants
+ * @summary Useful constants
+ * @description
+ * Collection of useful date constants.
+ *
+ * The constants could be imported from `date-fns/constants`:
+ *
+ * ```ts
+ * import { maxTime, minTime } from "./constants/date-fns/constants";
+ *
+ * function isAllowedTime(time) {
+ *   return time <= maxTime && time >= minTime;
+ * }
+ * ```
+ */
+
+/**
+ * @constant
+ * @name daysInWeek
+ * @summary Days in 1 week.
+ */
+const daysInWeek = 7;
+
+/**
+ * @constant
+ * @name daysInYear
+ * @summary Days in 1 year.
+ *
+ * @description
+ * How many days in a year.
+ *
+ * One years equals 365.2425 days according to the formula:
+ *
+ * > Leap year occures every 4 years, except for years that are divisable by 100 and not divisable by 400.
+ * > 1 mean year = (365+1/4-1/100+1/400) days = 365.2425 days
+ */
+const daysInYear = 365.2425;
+
+/**
+ * @constant
+ * @name maxTime
+ * @summary Maximum allowed time.
+ *
+ * @example
+ * import { maxTime } from "./constants/date-fns/constants";
+ *
+ * const isValid = 8640000000000001 <= maxTime;
+ * //=> false
+ *
+ * new Date(8640000000000001);
+ * //=> Invalid Date
+ */
+const maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1000;
+
+/**
+ * @constant
+ * @name minTime
+ * @summary Minimum allowed time.
+ *
+ * @example
+ * import { minTime } from "./constants/date-fns/constants";
+ *
+ * const isValid = -8640000000000001 >= minTime;
+ * //=> false
+ *
+ * new Date(-8640000000000001)
+ * //=> Invalid Date
+ */
+const minTime = -maxTime;
+
+/**
+ * @constant
+ * @name millisecondsInWeek
+ * @summary Milliseconds in 1 week.
+ */
+const millisecondsInWeek = 604800000;
+
+/**
+ * @constant
+ * @name millisecondsInDay
+ * @summary Milliseconds in 1 day.
+ */
+const millisecondsInDay = 86400000;
+
+/**
+ * @constant
+ * @name millisecondsInMinute
+ * @summary Milliseconds in 1 minute
+ */
+const millisecondsInMinute = 60000;
+
+/**
+ * @constant
+ * @name millisecondsInHour
+ * @summary Milliseconds in 1 hour
+ */
+const millisecondsInHour = 3600000;
+
+/**
+ * @constant
+ * @name millisecondsInSecond
+ * @summary Milliseconds in 1 second
+ */
+const millisecondsInSecond = 1000;
+
+/**
+ * @constant
+ * @name minutesInYear
+ * @summary Minutes in 1 year.
+ */
+const minutesInYear = 525600;
+
+/**
+ * @constant
+ * @name minutesInMonth
+ * @summary Minutes in 1 month.
+ */
+const minutesInMonth = 43200;
+
+/**
+ * @constant
+ * @name minutesInDay
+ * @summary Minutes in 1 day.
+ */
+const minutesInDay = 1440;
+
+/**
+ * @constant
+ * @name minutesInHour
+ * @summary Minutes in 1 hour.
+ */
+const minutesInHour = 60;
+
+/**
+ * @constant
+ * @name monthsInQuarter
+ * @summary Months in 1 quarter.
+ */
+const monthsInQuarter = 3;
+
+/**
+ * @constant
+ * @name monthsInYear
+ * @summary Months in 1 year.
+ */
+const monthsInYear = 12;
+
+/**
+ * @constant
+ * @name quartersInYear
+ * @summary Quarters in 1 year
+ */
+const quartersInYear = 4;
+
+/**
+ * @constant
+ * @name secondsInHour
+ * @summary Seconds in 1 hour.
+ */
+const secondsInHour = 3600;
+
+/**
+ * @constant
+ * @name secondsInMinute
+ * @summary Seconds in 1 minute.
+ */
+const secondsInMinute = 60;
+
+/**
+ * @constant
+ * @name secondsInDay
+ * @summary Seconds in 1 day.
+ */
+const secondsInDay = secondsInHour * 24;
+
+/**
+ * @constant
+ * @name secondsInWeek
+ * @summary Seconds in 1 week.
+ */
+const secondsInWeek = secondsInDay * 7;
+
+/**
+ * @constant
+ * @name secondsInYear
+ * @summary Seconds in 1 year.
+ */
+const secondsInYear = secondsInDay * daysInYear;
+
+/**
+ * @constant
+ * @name secondsInMonth
+ * @summary Seconds in 1 month
+ */
+const secondsInMonth = secondsInYear / 12;
+
+/**
+ * @constant
+ * @name secondsInQuarter
+ * @summary Seconds in 1 quarter.
+ */
+const secondsInQuarter = secondsInMonth * 3;
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds.mjs
 
 
-
-
-function startOfUTCWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
-  requiredArgs_requiredArgs(1, arguments);
-  var defaultOptions = defaultOptions_getDefaultOptions();
-  var weekStartsOn = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate_toDate(dirtyDate);
-  var day = date.getUTCDay();
-  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-  date.setUTCDate(date.getUTCDate() - diff);
-  date.setUTCHours(0, 0, 0, 0);
-  return date;
+/**
+ * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
+ * They usually appear for dates that denote time before the timezones were introduced
+ * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
+ * and GMT+01:00:00 after that date)
+ *
+ * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
+ * which would lead to incorrect calculations.
+ *
+ * This function returns the timezone offset in milliseconds that takes seconds in account.
+ */
+function getTimezoneOffsetInMilliseconds(date) {
+  const _date = toDate_toDate(date);
+  const utcDate = new Date(
+    Date.UTC(
+      _date.getFullYear(),
+      _date.getMonth(),
+      _date.getDate(),
+      _date.getHours(),
+      _date.getMinutes(),
+      _date.getSeconds(),
+      _date.getMilliseconds(),
+    ),
+  );
+  utcDate.setUTCFullYear(_date.getFullYear());
+  return +date - +utcDate;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCWeekYear/index.js
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/differenceInCalendarDays.mjs
 
 
 
 
+/**
+ * @name differenceInCalendarDays
+ * @category Day Helpers
+ * @summary Get the number of calendar days between the given dates.
+ *
+ * @description
+ * Get the number of calendar days between the given dates. This means that the times are removed
+ * from the dates and then the difference in days is calculated.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param dateLeft - The later date
+ * @param dateRight - The earlier date
+ *
+ * @returns The number of calendar days
+ *
+ * @example
+ * // How many calendar days are between
+ * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
+ * const result = differenceInCalendarDays(
+ *   new Date(2012, 6, 2, 0, 0),
+ *   new Date(2011, 6, 2, 23, 0)
+ * )
+ * //=> 366
+ * // How many calendar days are between
+ * // 2 July 2011 23:59:00 and 3 July 2011 00:01:00?
+ * const result = differenceInCalendarDays(
+ *   new Date(2011, 6, 3, 0, 1),
+ *   new Date(2011, 6, 2, 23, 59)
+ * )
+ * //=> 1
+ */
+function differenceInCalendarDays(dateLeft, dateRight) {
+  const startOfDayLeft = startOfDay_startOfDay(dateLeft);
+  const startOfDayRight = startOfDay_startOfDay(dateRight);
 
-function getUTCWeekYear(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+  const timestampLeft =
+    +startOfDayLeft - getTimezoneOffsetInMilliseconds(startOfDayLeft);
+  const timestampRight =
+    +startOfDayRight - getTimezoneOffsetInMilliseconds(startOfDayRight);
 
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var year = date.getUTCFullYear();
-  var defaultOptions = defaultOptions_getDefaultOptions();
-  var firstWeekContainsDate = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+  // Round the number of days to the nearest integer because the number of
+  // milliseconds in a day is not constant (e.g. it's different in the week of
+  // the daylight saving time clock shift).
+  return Math.round((timestampLeft - timestampRight) / millisecondsInDay);
+}
 
-  if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
-    throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
-  }
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_differenceInCalendarDays = ((/* unused pure expression or super */ null && (differenceInCalendarDays)));
 
-  var firstWeekOfNextYear = new Date(0);
-  firstWeekOfNextYear.setUTCFullYear(year + 1, 0, firstWeekContainsDate);
-  firstWeekOfNextYear.setUTCHours(0, 0, 0, 0);
-  var startOfNextYear = startOfUTCWeek(firstWeekOfNextYear, options);
-  var firstWeekOfThisYear = new Date(0);
-  firstWeekOfThisYear.setUTCFullYear(year, 0, firstWeekContainsDate);
-  firstWeekOfThisYear.setUTCHours(0, 0, 0, 0);
-  var startOfThisYear = startOfUTCWeek(firstWeekOfThisYear, options);
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfYear.mjs
 
-  if (date.getTime() >= startOfNextYear.getTime()) {
+
+
+/**
+ * @name startOfYear
+ * @category Year Helpers
+ * @summary Return the start of a year for the given date.
+ *
+ * @description
+ * Return the start of a year for the given date.
+ * The result will be in the local timezone.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a year
+ *
+ * @example
+ * // The start of a year for 2 September 2014 11:55:00:
+ * const result = startOfYear(new Date(2014, 8, 2, 11, 55, 00))
+ * //=> Wed Jan 01 2014 00:00:00
+ */
+function startOfYear(date) {
+  const cleanDate = toDate_toDate(date);
+  const _date = constructFrom_constructFrom(date, 0);
+  _date.setFullYear(cleanDate.getFullYear(), 0, 1);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
+}
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfYear = ((/* unused pure expression or super */ null && (startOfYear)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/getDayOfYear.mjs
+
+
+
+
+/**
+ * @name getDayOfYear
+ * @category Day Helpers
+ * @summary Get the day of the year of the given date.
+ *
+ * @description
+ * Get the day of the year of the given date.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ *
+ * @returns The day of year
+ *
+ * @example
+ * // Which day of the year is 2 July 2014?
+ * const result = getDayOfYear(new Date(2014, 6, 2))
+ * //=> 183
+ */
+function getDayOfYear(date) {
+  const _date = toDate_toDate(date);
+  const diff = differenceInCalendarDays(_date, startOfYear(_date));
+  const dayOfYear = diff + 1;
+  return dayOfYear;
+}
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_getDayOfYear = ((/* unused pure expression or super */ null && (getDayOfYear)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfWeek.mjs
+
+
+
+/**
+ * The {@link startOfWeek} function options.
+ */
+
+/**
+ * @name startOfWeek
+ * @category Week Helpers
+ * @summary Return the start of a week for the given date.
+ *
+ * @description
+ * Return the start of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of a week
+ *
+ * @example
+ * // The start of a week for 2 September 2014 11:55:00:
+ * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sun Aug 31 2014 00:00:00
+ *
+ * @example
+ * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
+ * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfWeek_startOfWeek(date, options) {
+  const defaultOptions = defaultOptions_getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
+
+  const _date = toDate_toDate(date);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
+
+  _date.setDate(_date.getDate() - diff);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
+}
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfWeek = ((/* unused pure expression or super */ null && (startOfWeek_startOfWeek)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfISOWeek.mjs
+
+
+/**
+ * @name startOfISOWeek
+ * @category ISO Week Helpers
+ * @summary Return the start of an ISO week for the given date.
+ *
+ * @description
+ * Return the start of an ISO week for the given date.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of an ISO week
+ *
+ * @example
+ * // The start of an ISO week for 2 September 2014 11:55:00:
+ * const result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfISOWeek(date) {
+  return startOfWeek_startOfWeek(date, { weekStartsOn: 1 });
+}
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfISOWeek = ((/* unused pure expression or super */ null && (startOfISOWeek)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/getISOWeekYear.mjs
+
+
+
+
+/**
+ * @name getISOWeekYear
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Get the ISO week-numbering year of the given date.
+ *
+ * @description
+ * Get the ISO week-numbering year of the given date,
+ * which always starts 3 days before the year's first Thursday.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ *
+ * @returns The ISO week-numbering year
+ *
+ * @example
+ * // Which ISO-week numbering year is 2 January 2005?
+ * const result = getISOWeekYear(new Date(2005, 0, 2))
+ * //=> 2004
+ */
+function getISOWeekYear(date) {
+  const _date = toDate_toDate(date);
+  const year = _date.getFullYear();
+
+  const fourthOfJanuaryOfNextYear = constructFrom_constructFrom(date, 0);
+  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4);
+  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0);
+  const startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear);
+
+  const fourthOfJanuaryOfThisYear = constructFrom_constructFrom(date, 0);
+  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
+  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
+  const startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
+
+  if (_date.getTime() >= startOfNextYear.getTime()) {
     return year + 1;
-  } else if (date.getTime() >= startOfThisYear.getTime()) {
+  } else if (_date.getTime() >= startOfThisYear.getTime()) {
     return year;
   } else {
     return year - 1;
   }
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/startOfUTCWeekYear/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_getISOWeekYear = ((/* unused pure expression or super */ null && (getISOWeekYear)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfISOWeekYear.mjs
 
 
 
 
-
-function startOfUTCWeekYear(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
-  requiredArgs_requiredArgs(1, arguments);
-  var defaultOptions = defaultOptions_getDefaultOptions();
-  var firstWeekContainsDate = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
-  var year = getUTCWeekYear(dirtyDate, options);
-  var firstWeek = new Date(0);
-  firstWeek.setUTCFullYear(year, 0, firstWeekContainsDate);
-  firstWeek.setUTCHours(0, 0, 0, 0);
-  var date = startOfUTCWeek(firstWeek, options);
-  return date;
+/**
+ * @name startOfISOWeekYear
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Return the start of an ISO week-numbering year for the given date.
+ *
+ * @description
+ * Return the start of an ISO week-numbering year,
+ * which always starts 3 days before the year's first Thursday.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of an ISO week-numbering year
+ *
+ * @example
+ * // The start of an ISO week-numbering year for 2 July 2005:
+ * const result = startOfISOWeekYear(new Date(2005, 6, 2))
+ * //=> Mon Jan 03 2005 00:00:00
+ */
+function startOfISOWeekYear(date) {
+  const year = getISOWeekYear(date);
+  const fourthOfJanuary = constructFrom_constructFrom(date, 0);
+  fourthOfJanuary.setFullYear(year, 0, 4);
+  fourthOfJanuary.setHours(0, 0, 0, 0);
+  return startOfISOWeek(fourthOfJanuary);
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getUTCWeek/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfISOWeekYear = ((/* unused pure expression or super */ null && (startOfISOWeekYear)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/getISOWeek.mjs
 
 
 
 
-var getUTCWeek_MILLISECONDS_IN_WEEK = 604800000;
-function getUTCWeek(dirtyDate, options) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var diff = startOfUTCWeek(date, options).getTime() - startOfUTCWeekYear(date, options).getTime(); // Round the number of days to the nearest integer
-  // because the number of milliseconds in a week is not constant
-  // (e.g. it's different in the week of the daylight saving time clock shift)
 
-  return Math.round(diff / getUTCWeek_MILLISECONDS_IN_WEEK) + 1;
+/**
+ * @name getISOWeek
+ * @category ISO Week Helpers
+ * @summary Get the ISO week of the given date.
+ *
+ * @description
+ * Get the ISO week of the given date.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ *
+ * @returns The ISO week
+ *
+ * @example
+ * // Which week of the ISO-week numbering year is 2 January 2005?
+ * const result = getISOWeek(new Date(2005, 0, 2))
+ * //=> 53
+ */
+function getISOWeek(date) {
+  const _date = toDate_toDate(date);
+  const diff = +startOfISOWeek(_date) - +startOfISOWeekYear(_date);
+
+  // Round the number of weeks to the nearest integer because the number of
+  // milliseconds in a week is not constant (e.g. it's different in the week of
+  // the daylight saving time clock shift).
+  return Math.round(diff / millisecondsInWeek) + 1;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/addLeadingZeros/index.js
-function addLeadingZeros(number, targetLength) {
-  var sign = number < 0 ? '-' : '';
-  var output = Math.abs(number).toString();
 
-  while (output.length < targetLength) {
-    output = '0' + output;
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_getISOWeek = ((/* unused pure expression or super */ null && (getISOWeek)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/getWeekYear.mjs
+
+
+
+
+
+/**
+ * The {@link getWeekYear} function options.
+ */
+
+/**
+ * @name getWeekYear
+ * @category Week-Numbering Year Helpers
+ * @summary Get the local week-numbering year of the given date.
+ *
+ * @description
+ * Get the local week-numbering year of the given date.
+ * The exact calculation depends on the values of
+ * `options.weekStartsOn` (which is the index of the first day of the week)
+ * and `options.firstWeekContainsDate` (which is the day of January, which is always in
+ * the first week of the week-numbering year)
+ *
+ * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ * @param options - An object with options.
+ *
+ * @returns The local week-numbering year
+ *
+ * @example
+ * // Which week numbering year is 26 December 2004 with the default settings?
+ * const result = getWeekYear(new Date(2004, 11, 26))
+ * //=> 2005
+ *
+ * @example
+ * // Which week numbering year is 26 December 2004 if week starts on Saturday?
+ * const result = getWeekYear(new Date(2004, 11, 26), { weekStartsOn: 6 })
+ * //=> 2004
+ *
+ * @example
+ * // Which week numbering year is 26 December 2004 if the first week contains 4 January?
+ * const result = getWeekYear(new Date(2004, 11, 26), { firstWeekContainsDate: 4 })
+ * //=> 2004
+ */
+function getWeekYear(date, options) {
+  const _date = toDate_toDate(date);
+  const year = _date.getFullYear();
+
+  const defaultOptions = defaultOptions_getDefaultOptions();
+  const firstWeekContainsDate =
+    options?.firstWeekContainsDate ??
+    options?.locale?.options?.firstWeekContainsDate ??
+    defaultOptions.firstWeekContainsDate ??
+    defaultOptions.locale?.options?.firstWeekContainsDate ??
+    1;
+
+  const firstWeekOfNextYear = constructFrom_constructFrom(date, 0);
+  firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
+  firstWeekOfNextYear.setHours(0, 0, 0, 0);
+  const startOfNextYear = startOfWeek_startOfWeek(firstWeekOfNextYear, options);
+
+  const firstWeekOfThisYear = constructFrom_constructFrom(date, 0);
+  firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
+  firstWeekOfThisYear.setHours(0, 0, 0, 0);
+  const startOfThisYear = startOfWeek_startOfWeek(firstWeekOfThisYear, options);
+
+  if (_date.getTime() >= startOfNextYear.getTime()) {
+    return year + 1;
+  } else if (_date.getTime() >= startOfThisYear.getTime()) {
+    return year;
+  } else {
+    return year - 1;
   }
+}
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_getWeekYear = ((/* unused pure expression or super */ null && (getWeekYear)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfWeekYear.mjs
+
+
+
+
+
+/**
+ * The {@link startOfWeekYear} function options.
+ */
+
+/**
+ * @name startOfWeekYear
+ * @category Week-Numbering Year Helpers
+ * @summary Return the start of a local week-numbering year for the given date.
+ *
+ * @description
+ * Return the start of a local week-numbering year.
+ * The exact calculation depends on the values of
+ * `options.weekStartsOn` (which is the index of the first day of the week)
+ * and `options.firstWeekContainsDate` (which is the day of January, which is always in
+ * the first week of the week-numbering year)
+ *
+ * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of a week-numbering year
+ *
+ * @example
+ * // The start of an a week-numbering year for 2 July 2005 with default settings:
+ * const result = startOfWeekYear(new Date(2005, 6, 2))
+ * //=> Sun Dec 26 2004 00:00:00
+ *
+ * @example
+ * // The start of a week-numbering year for 2 July 2005
+ * // if Monday is the first day of week
+ * // and 4 January is always in the first week of the year:
+ * const result = startOfWeekYear(new Date(2005, 6, 2), {
+ *   weekStartsOn: 1,
+ *   firstWeekContainsDate: 4
+ * })
+ * //=> Mon Jan 03 2005 00:00:00
+ */
+function startOfWeekYear(date, options) {
+  const defaultOptions = defaultOptions_getDefaultOptions();
+  const firstWeekContainsDate =
+    options?.firstWeekContainsDate ??
+    options?.locale?.options?.firstWeekContainsDate ??
+    defaultOptions.firstWeekContainsDate ??
+    defaultOptions.locale?.options?.firstWeekContainsDate ??
+    1;
+
+  const year = getWeekYear(date, options);
+  const firstWeek = constructFrom_constructFrom(date, 0);
+  firstWeek.setFullYear(year, 0, firstWeekContainsDate);
+  firstWeek.setHours(0, 0, 0, 0);
+  const _date = startOfWeek_startOfWeek(firstWeek, options);
+  return _date;
+}
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfWeekYear = ((/* unused pure expression or super */ null && (startOfWeekYear)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/getWeek.mjs
+
+
+
+
+
+/**
+ * The {@link getWeek} function options.
+ */
+
+/**
+ * @name getWeek
+ * @category Week Helpers
+ * @summary Get the local week index of the given date.
+ *
+ * @description
+ * Get the local week index of the given date.
+ * The exact calculation depends on the values of
+ * `options.weekStartsOn` (which is the index of the first day of the week)
+ * and `options.firstWeekContainsDate` (which is the day of January, which is always in
+ * the first week of the week-numbering year)
+ *
+ * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ * @param options - An object with options
+ *
+ * @returns The week
+ *
+ * @example
+ * // Which week of the local week numbering year is 2 January 2005 with default options?
+ * const result = getWeek(new Date(2005, 0, 2))
+ * //=> 2
+ *
+ * @example
+ * // Which week of the local week numbering year is 2 January 2005,
+ * // if Monday is the first day of the week,
+ * // and the first week of the year always contains 4 January?
+ * const result = getWeek(new Date(2005, 0, 2), {
+ *   weekStartsOn: 1,
+ *   firstWeekContainsDate: 4
+ * })
+ * //=> 53
+ */
+
+function getWeek(date, options) {
+  const _date = toDate_toDate(date);
+  const diff = +startOfWeek_startOfWeek(_date, options) - +startOfWeekYear(_date, options);
+
+  // Round the number of weeks to the nearest integer because the number of
+  // milliseconds in a week is not constant (e.g. it's different in the week of
+  // the daylight saving time clock shift).
+  return Math.round(diff / millisecondsInWeek) + 1;
+}
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_getWeek = ((/* unused pure expression or super */ null && (getWeek)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/addLeadingZeros.mjs
+function addLeadingZeros(number, targetLength) {
+  const sign = number < 0 ? "-" : "";
+  const output = Math.abs(number).toString().padStart(targetLength, "0");
   return sign + output;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/format/lightFormatters/index.js
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/format/lightFormatters.mjs
+
 
 /*
  * |     | Unit                           |     | Unit                           |
@@ -54163,9 +54202,9 @@ function addLeadingZeros(number, targetLength) {
  * Letters marked by * are not implemented but reserved by Unicode standard.
  */
 
-var formatters = {
+const lightFormatters = {
   // Year
-  y: function y(date, token) {
+  y(date, token) {
     // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
     // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
     // |----------|-------|----|-------|-------|-------|
@@ -54174,66 +54213,74 @@ var formatters = {
     // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
     // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
     // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
-    var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
 
-    var year = signedYear > 0 ? signedYear : 1 - signedYear;
-    return addLeadingZeros(token === 'yy' ? year % 100 : year, token.length);
+    const signedYear = date.getFullYear();
+    // Returns 1 for 1 BC (which is year 0 in JavaScript)
+    const year = signedYear > 0 ? signedYear : 1 - signedYear;
+    return addLeadingZeros(token === "yy" ? year % 100 : year, token.length);
   },
+
   // Month
-  M: function M(date, token) {
-    var month = date.getUTCMonth();
-    return token === 'M' ? String(month + 1) : addLeadingZeros(month + 1, 2);
+  M(date, token) {
+    const month = date.getMonth();
+    return token === "M" ? String(month + 1) : addLeadingZeros(month + 1, 2);
   },
+
   // Day of the month
-  d: function d(date, token) {
-    return addLeadingZeros(date.getUTCDate(), token.length);
+  d(date, token) {
+    return addLeadingZeros(date.getDate(), token.length);
   },
+
   // AM or PM
-  a: function a(date, token) {
-    var dayPeriodEnumValue = date.getUTCHours() / 12 >= 1 ? 'pm' : 'am';
+  a(date, token) {
+    const dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
 
     switch (token) {
-      case 'a':
-      case 'aa':
+      case "a":
+      case "aa":
         return dayPeriodEnumValue.toUpperCase();
-
-      case 'aaa':
+      case "aaa":
         return dayPeriodEnumValue;
-
-      case 'aaaaa':
+      case "aaaaa":
         return dayPeriodEnumValue[0];
-
-      case 'aaaa':
+      case "aaaa":
       default:
-        return dayPeriodEnumValue === 'am' ? 'a.m.' : 'p.m.';
+        return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
     }
   },
+
   // Hour [1-12]
-  h: function h(date, token) {
-    return addLeadingZeros(date.getUTCHours() % 12 || 12, token.length);
+  h(date, token) {
+    return addLeadingZeros(date.getHours() % 12 || 12, token.length);
   },
+
   // Hour [0-23]
-  H: function H(date, token) {
-    return addLeadingZeros(date.getUTCHours(), token.length);
+  H(date, token) {
+    return addLeadingZeros(date.getHours(), token.length);
   },
+
   // Minute
-  m: function m(date, token) {
-    return addLeadingZeros(date.getUTCMinutes(), token.length);
+  m(date, token) {
+    return addLeadingZeros(date.getMinutes(), token.length);
   },
+
   // Second
-  s: function s(date, token) {
-    return addLeadingZeros(date.getUTCSeconds(), token.length);
+  s(date, token) {
+    return addLeadingZeros(date.getSeconds(), token.length);
   },
+
   // Fraction of second
-  S: function S(date, token) {
-    var numberOfDigits = token.length;
-    var milliseconds = date.getUTCMilliseconds();
-    var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, numberOfDigits - 3));
+  S(date, token) {
+    const numberOfDigits = token.length;
+    const milliseconds = date.getMilliseconds();
+    const fractionalSeconds = Math.trunc(
+      milliseconds * Math.pow(10, numberOfDigits - 3),
+    );
     return addLeadingZeros(fractionalSeconds, token.length);
-  }
+  },
 };
-/* harmony default export */ const lightFormatters = (formatters);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/format/formatters/index.js
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/format/formatters.mjs
 
 
 
@@ -54241,15 +54288,16 @@ var formatters = {
 
 
 
-var dayPeriodEnum = {
-  am: 'am',
-  pm: 'pm',
-  midnight: 'midnight',
-  noon: 'noon',
-  morning: 'morning',
-  afternoon: 'afternoon',
-  evening: 'evening',
-  night: 'night'
+
+const dayPeriodEnum = {
+  am: "am",
+  pm: "pm",
+  midnight: "midnight",
+  noon: "noon",
+  morning: "morning",
+  afternoon: "afternoon",
+  evening: "evening",
+  night: "night",
 };
 
 /*
@@ -54297,75 +54345,69 @@ var dayPeriodEnum = {
  * - `P` is long localized date format
  * - `p` is long localized time format
  */
-var formatters_formatters = {
-  // Era
-  G: function G(date, token, localize) {
-    var era = date.getUTCFullYear() > 0 ? 1 : 0;
 
+const formatters = {
+  // Era
+  G: function (date, token, localize) {
+    const era = date.getFullYear() > 0 ? 1 : 0;
     switch (token) {
       // AD, BC
-      case 'G':
-      case 'GG':
-      case 'GGG':
-        return localize.era(era, {
-          width: 'abbreviated'
-        });
+      case "G":
+      case "GG":
+      case "GGG":
+        return localize.era(era, { width: "abbreviated" });
       // A, B
-
-      case 'GGGGG':
-        return localize.era(era, {
-          width: 'narrow'
-        });
+      case "GGGGG":
+        return localize.era(era, { width: "narrow" });
       // Anno Domini, Before Christ
-
-      case 'GGGG':
+      case "GGGG":
       default:
-        return localize.era(era, {
-          width: 'wide'
-        });
+        return localize.era(era, { width: "wide" });
     }
   },
-  // Year
-  y: function y(date, token, localize) {
-    // Ordinal number
-    if (token === 'yo') {
-      var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
 
-      var year = signedYear > 0 ? signedYear : 1 - signedYear;
-      return localize.ordinalNumber(year, {
-        unit: 'year'
-      });
+  // Year
+  y: function (date, token, localize) {
+    // Ordinal number
+    if (token === "yo") {
+      const signedYear = date.getFullYear();
+      // Returns 1 for 1 BC (which is year 0 in JavaScript)
+      const year = signedYear > 0 ? signedYear : 1 - signedYear;
+      return localize.ordinalNumber(year, { unit: "year" });
     }
 
     return lightFormatters.y(date, token);
   },
+
   // Local week-numbering year
-  Y: function Y(date, token, localize, options) {
-    var signedWeekYear = getUTCWeekYear(date, options); // Returns 1 for 1 BC (which is year 0 in JavaScript)
+  Y: function (date, token, localize, options) {
+    const signedWeekYear = getWeekYear(date, options);
+    // Returns 1 for 1 BC (which is year 0 in JavaScript)
+    const weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
 
-    var weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear; // Two digit year
-
-    if (token === 'YY') {
-      var twoDigitYear = weekYear % 100;
+    // Two digit year
+    if (token === "YY") {
+      const twoDigitYear = weekYear % 100;
       return addLeadingZeros(twoDigitYear, 2);
-    } // Ordinal number
+    }
 
+    // Ordinal number
+    if (token === "Yo") {
+      return localize.ordinalNumber(weekYear, { unit: "year" });
+    }
 
-    if (token === 'Yo') {
-      return localize.ordinalNumber(weekYear, {
-        unit: 'year'
-      });
-    } // Padding
-
-
+    // Padding
     return addLeadingZeros(weekYear, token.length);
   },
-  // ISO week-numbering year
-  R: function R(date, token) {
-    var isoWeekYear = getUTCISOWeekYear(date); // Padding
 
+  // ISO week-numbering year
+  R: function (date, token) {
+    const isoWeekYear = getISOWeekYear(date);
+
+    // Padding
     return addLeadingZeros(isoWeekYear, token.length);
   },
+
   // Extended year. This is a single number designating the year of this calendar system.
   // The main difference between `y` and `u` localizers are B.C. years:
   // | Year | `y` | `u` |
@@ -54375,484 +54417,419 @@ var formatters_formatters = {
   // | BC 2 |   2 |  -1 |
   // Also `yy` always returns the last two digits of a year,
   // while `uu` pads single digit years to 2 characters and returns other years unchanged.
-  u: function u(date, token) {
-    var year = date.getUTCFullYear();
+  u: function (date, token) {
+    const year = date.getFullYear();
     return addLeadingZeros(year, token.length);
   },
+
   // Quarter
-  Q: function Q(date, token, localize) {
-    var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
-
+  Q: function (date, token, localize) {
+    const quarter = Math.ceil((date.getMonth() + 1) / 3);
     switch (token) {
       // 1, 2, 3, 4
-      case 'Q':
+      case "Q":
         return String(quarter);
       // 01, 02, 03, 04
-
-      case 'QQ':
+      case "QQ":
         return addLeadingZeros(quarter, 2);
       // 1st, 2nd, 3rd, 4th
-
-      case 'Qo':
-        return localize.ordinalNumber(quarter, {
-          unit: 'quarter'
-        });
+      case "Qo":
+        return localize.ordinalNumber(quarter, { unit: "quarter" });
       // Q1, Q2, Q3, Q4
-
-      case 'QQQ':
+      case "QQQ":
         return localize.quarter(quarter, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
       // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
-      case 'QQQQQ':
+      case "QQQQQ":
         return localize.quarter(quarter, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
       // 1st quarter, 2nd quarter, ...
-
-      case 'QQQQ':
+      case "QQQQ":
       default:
         return localize.quarter(quarter, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
+
   // Stand-alone quarter
-  q: function q(date, token, localize) {
-    var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
-
+  q: function (date, token, localize) {
+    const quarter = Math.ceil((date.getMonth() + 1) / 3);
     switch (token) {
       // 1, 2, 3, 4
-      case 'q':
+      case "q":
         return String(quarter);
       // 01, 02, 03, 04
-
-      case 'qq':
+      case "qq":
         return addLeadingZeros(quarter, 2);
       // 1st, 2nd, 3rd, 4th
-
-      case 'qo':
-        return localize.ordinalNumber(quarter, {
-          unit: 'quarter'
-        });
+      case "qo":
+        return localize.ordinalNumber(quarter, { unit: "quarter" });
       // Q1, Q2, Q3, Q4
-
-      case 'qqq':
+      case "qqq":
         return localize.quarter(quarter, {
-          width: 'abbreviated',
-          context: 'standalone'
+          width: "abbreviated",
+          context: "standalone",
         });
       // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
-      case 'qqqqq':
+      case "qqqqq":
         return localize.quarter(quarter, {
-          width: 'narrow',
-          context: 'standalone'
+          width: "narrow",
+          context: "standalone",
         });
       // 1st quarter, 2nd quarter, ...
-
-      case 'qqqq':
+      case "qqqq":
       default:
         return localize.quarter(quarter, {
-          width: 'wide',
-          context: 'standalone'
+          width: "wide",
+          context: "standalone",
         });
     }
   },
-  // Month
-  M: function M(date, token, localize) {
-    var month = date.getUTCMonth();
 
+  // Month
+  M: function (date, token, localize) {
+    const month = date.getMonth();
     switch (token) {
-      case 'M':
-      case 'MM':
+      case "M":
+      case "MM":
         return lightFormatters.M(date, token);
       // 1st, 2nd, ..., 12th
-
-      case 'Mo':
-        return localize.ordinalNumber(month + 1, {
-          unit: 'month'
-        });
+      case "Mo":
+        return localize.ordinalNumber(month + 1, { unit: "month" });
       // Jan, Feb, ..., Dec
-
-      case 'MMM':
+      case "MMM":
         return localize.month(month, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
       // J, F, ..., D
-
-      case 'MMMMM':
+      case "MMMMM":
         return localize.month(month, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
       // January, February, ..., December
-
-      case 'MMMM':
+      case "MMMM":
       default:
-        return localize.month(month, {
-          width: 'wide',
-          context: 'formatting'
-        });
+        return localize.month(month, { width: "wide", context: "formatting" });
     }
   },
-  // Stand-alone month
-  L: function L(date, token, localize) {
-    var month = date.getUTCMonth();
 
+  // Stand-alone month
+  L: function (date, token, localize) {
+    const month = date.getMonth();
     switch (token) {
       // 1, 2, ..., 12
-      case 'L':
+      case "L":
         return String(month + 1);
       // 01, 02, ..., 12
-
-      case 'LL':
+      case "LL":
         return addLeadingZeros(month + 1, 2);
       // 1st, 2nd, ..., 12th
-
-      case 'Lo':
-        return localize.ordinalNumber(month + 1, {
-          unit: 'month'
-        });
+      case "Lo":
+        return localize.ordinalNumber(month + 1, { unit: "month" });
       // Jan, Feb, ..., Dec
-
-      case 'LLL':
+      case "LLL":
         return localize.month(month, {
-          width: 'abbreviated',
-          context: 'standalone'
+          width: "abbreviated",
+          context: "standalone",
         });
       // J, F, ..., D
-
-      case 'LLLLL':
+      case "LLLLL":
         return localize.month(month, {
-          width: 'narrow',
-          context: 'standalone'
+          width: "narrow",
+          context: "standalone",
         });
       // January, February, ..., December
-
-      case 'LLLL':
+      case "LLLL":
       default:
-        return localize.month(month, {
-          width: 'wide',
-          context: 'standalone'
-        });
+        return localize.month(month, { width: "wide", context: "standalone" });
     }
   },
-  // Local week of year
-  w: function w(date, token, localize, options) {
-    var week = getUTCWeek(date, options);
 
-    if (token === 'wo') {
-      return localize.ordinalNumber(week, {
-        unit: 'week'
-      });
+  // Local week of year
+  w: function (date, token, localize, options) {
+    const week = getWeek(date, options);
+
+    if (token === "wo") {
+      return localize.ordinalNumber(week, { unit: "week" });
     }
 
     return addLeadingZeros(week, token.length);
   },
-  // ISO week of year
-  I: function I(date, token, localize) {
-    var isoWeek = getUTCISOWeek(date);
 
-    if (token === 'Io') {
-      return localize.ordinalNumber(isoWeek, {
-        unit: 'week'
-      });
+  // ISO week of year
+  I: function (date, token, localize) {
+    const isoWeek = getISOWeek(date);
+
+    if (token === "Io") {
+      return localize.ordinalNumber(isoWeek, { unit: "week" });
     }
 
     return addLeadingZeros(isoWeek, token.length);
   },
+
   // Day of the month
-  d: function d(date, token, localize) {
-    if (token === 'do') {
-      return localize.ordinalNumber(date.getUTCDate(), {
-        unit: 'date'
-      });
+  d: function (date, token, localize) {
+    if (token === "do") {
+      return localize.ordinalNumber(date.getDate(), { unit: "date" });
     }
 
     return lightFormatters.d(date, token);
   },
-  // Day of year
-  D: function D(date, token, localize) {
-    var dayOfYear = getUTCDayOfYear(date);
 
-    if (token === 'Do') {
-      return localize.ordinalNumber(dayOfYear, {
-        unit: 'dayOfYear'
-      });
+  // Day of year
+  D: function (date, token, localize) {
+    const dayOfYear = getDayOfYear(date);
+
+    if (token === "Do") {
+      return localize.ordinalNumber(dayOfYear, { unit: "dayOfYear" });
     }
 
     return addLeadingZeros(dayOfYear, token.length);
   },
-  // Day of week
-  E: function E(date, token, localize) {
-    var dayOfWeek = date.getUTCDay();
 
+  // Day of week
+  E: function (date, token, localize) {
+    const dayOfWeek = date.getDay();
     switch (token) {
       // Tue
-      case 'E':
-      case 'EE':
-      case 'EEE':
+      case "E":
+      case "EE":
+      case "EEE":
         return localize.day(dayOfWeek, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
       // T
-
-      case 'EEEEE':
+      case "EEEEE":
         return localize.day(dayOfWeek, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
       // Tu
-
-      case 'EEEEEE':
+      case "EEEEEE":
         return localize.day(dayOfWeek, {
-          width: 'short',
-          context: 'formatting'
+          width: "short",
+          context: "formatting",
         });
       // Tuesday
-
-      case 'EEEE':
+      case "EEEE":
       default:
         return localize.day(dayOfWeek, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
-  // Local day of week
-  e: function e(date, token, localize, options) {
-    var dayOfWeek = date.getUTCDay();
-    var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
 
+  // Local day of week
+  e: function (date, token, localize, options) {
+    const dayOfWeek = date.getDay();
+    const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
     switch (token) {
       // Numerical value (Nth day of week with current locale or weekStartsOn)
-      case 'e':
+      case "e":
         return String(localDayOfWeek);
       // Padded numerical value
-
-      case 'ee':
+      case "ee":
         return addLeadingZeros(localDayOfWeek, 2);
       // 1st, 2nd, ..., 7th
-
-      case 'eo':
-        return localize.ordinalNumber(localDayOfWeek, {
-          unit: 'day'
-        });
-
-      case 'eee':
+      case "eo":
+        return localize.ordinalNumber(localDayOfWeek, { unit: "day" });
+      case "eee":
         return localize.day(dayOfWeek, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
       // T
-
-      case 'eeeee':
+      case "eeeee":
         return localize.day(dayOfWeek, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
       // Tu
-
-      case 'eeeeee':
+      case "eeeeee":
         return localize.day(dayOfWeek, {
-          width: 'short',
-          context: 'formatting'
+          width: "short",
+          context: "formatting",
         });
       // Tuesday
-
-      case 'eeee':
+      case "eeee":
       default:
         return localize.day(dayOfWeek, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
-  // Stand-alone local day of week
-  c: function c(date, token, localize, options) {
-    var dayOfWeek = date.getUTCDay();
-    var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
 
+  // Stand-alone local day of week
+  c: function (date, token, localize, options) {
+    const dayOfWeek = date.getDay();
+    const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
     switch (token) {
       // Numerical value (same as in `e`)
-      case 'c':
+      case "c":
         return String(localDayOfWeek);
       // Padded numerical value
-
-      case 'cc':
+      case "cc":
         return addLeadingZeros(localDayOfWeek, token.length);
       // 1st, 2nd, ..., 7th
-
-      case 'co':
-        return localize.ordinalNumber(localDayOfWeek, {
-          unit: 'day'
-        });
-
-      case 'ccc':
+      case "co":
+        return localize.ordinalNumber(localDayOfWeek, { unit: "day" });
+      case "ccc":
         return localize.day(dayOfWeek, {
-          width: 'abbreviated',
-          context: 'standalone'
+          width: "abbreviated",
+          context: "standalone",
         });
       // T
-
-      case 'ccccc':
+      case "ccccc":
         return localize.day(dayOfWeek, {
-          width: 'narrow',
-          context: 'standalone'
+          width: "narrow",
+          context: "standalone",
         });
       // Tu
-
-      case 'cccccc':
+      case "cccccc":
         return localize.day(dayOfWeek, {
-          width: 'short',
-          context: 'standalone'
+          width: "short",
+          context: "standalone",
         });
       // Tuesday
-
-      case 'cccc':
+      case "cccc":
       default:
         return localize.day(dayOfWeek, {
-          width: 'wide',
-          context: 'standalone'
+          width: "wide",
+          context: "standalone",
         });
     }
   },
-  // ISO day of week
-  i: function i(date, token, localize) {
-    var dayOfWeek = date.getUTCDay();
-    var isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
 
+  // ISO day of week
+  i: function (date, token, localize) {
+    const dayOfWeek = date.getDay();
+    const isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
     switch (token) {
       // 2
-      case 'i':
+      case "i":
         return String(isoDayOfWeek);
       // 02
-
-      case 'ii':
+      case "ii":
         return addLeadingZeros(isoDayOfWeek, token.length);
       // 2nd
-
-      case 'io':
-        return localize.ordinalNumber(isoDayOfWeek, {
-          unit: 'day'
-        });
+      case "io":
+        return localize.ordinalNumber(isoDayOfWeek, { unit: "day" });
       // Tue
-
-      case 'iii':
+      case "iii":
         return localize.day(dayOfWeek, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
       // T
-
-      case 'iiiii':
+      case "iiiii":
         return localize.day(dayOfWeek, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
       // Tu
-
-      case 'iiiiii':
+      case "iiiiii":
         return localize.day(dayOfWeek, {
-          width: 'short',
-          context: 'formatting'
+          width: "short",
+          context: "formatting",
         });
       // Tuesday
-
-      case 'iiii':
+      case "iiii":
       default:
         return localize.day(dayOfWeek, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
+
   // AM or PM
-  a: function a(date, token, localize) {
-    var hours = date.getUTCHours();
-    var dayPeriodEnumValue = hours / 12 >= 1 ? 'pm' : 'am';
+  a: function (date, token, localize) {
+    const hours = date.getHours();
+    const dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
 
     switch (token) {
-      case 'a':
-      case 'aa':
+      case "a":
+      case "aa":
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
-
-      case 'aaa':
+      case "aaa":
+        return localize
+          .dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting",
+          })
+          .toLowerCase();
+      case "aaaaa":
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }).toLowerCase();
-
-      case 'aaaaa':
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
-
-      case 'aaaa':
+      case "aaaa":
       default:
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
-  // AM, PM, midnight, noon
-  b: function b(date, token, localize) {
-    var hours = date.getUTCHours();
-    var dayPeriodEnumValue;
 
+  // AM, PM, midnight, noon
+  b: function (date, token, localize) {
+    const hours = date.getHours();
+    let dayPeriodEnumValue;
     if (hours === 12) {
       dayPeriodEnumValue = dayPeriodEnum.noon;
     } else if (hours === 0) {
       dayPeriodEnumValue = dayPeriodEnum.midnight;
     } else {
-      dayPeriodEnumValue = hours / 12 >= 1 ? 'pm' : 'am';
+      dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
     }
 
     switch (token) {
-      case 'b':
-      case 'bb':
+      case "b":
+      case "bb":
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
-
-      case 'bbb':
+      case "bbb":
+        return localize
+          .dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting",
+          })
+          .toLowerCase();
+      case "bbbbb":
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }).toLowerCase();
-
-      case 'bbbbb':
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
-
-      case 'bbbb':
+      case "bbbb":
       default:
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
-  // in the morning, in the afternoon, in the evening, at night
-  B: function B(date, token, localize) {
-    var hours = date.getUTCHours();
-    var dayPeriodEnumValue;
 
+  // in the morning, in the afternoon, in the evening, at night
+  B: function (date, token, localize) {
+    const hours = date.getHours();
+    let dayPeriodEnumValue;
     if (hours >= 17) {
       dayPeriodEnumValue = dayPeriodEnum.evening;
     } else if (hours >= 12) {
@@ -54864,907 +54841,420 @@ var formatters_formatters = {
     }
 
     switch (token) {
-      case 'B':
-      case 'BB':
-      case 'BBB':
+      case "B":
+      case "BB":
+      case "BBB":
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'abbreviated',
-          context: 'formatting'
+          width: "abbreviated",
+          context: "formatting",
         });
-
-      case 'BBBBB':
+      case "BBBBB":
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'narrow',
-          context: 'formatting'
+          width: "narrow",
+          context: "formatting",
         });
-
-      case 'BBBB':
+      case "BBBB":
       default:
         return localize.dayPeriod(dayPeriodEnumValue, {
-          width: 'wide',
-          context: 'formatting'
+          width: "wide",
+          context: "formatting",
         });
     }
   },
+
   // Hour [1-12]
-  h: function h(date, token, localize) {
-    if (token === 'ho') {
-      var hours = date.getUTCHours() % 12;
+  h: function (date, token, localize) {
+    if (token === "ho") {
+      let hours = date.getHours() % 12;
       if (hours === 0) hours = 12;
-      return localize.ordinalNumber(hours, {
-        unit: 'hour'
-      });
+      return localize.ordinalNumber(hours, { unit: "hour" });
     }
 
     return lightFormatters.h(date, token);
   },
+
   // Hour [0-23]
-  H: function H(date, token, localize) {
-    if (token === 'Ho') {
-      return localize.ordinalNumber(date.getUTCHours(), {
-        unit: 'hour'
-      });
+  H: function (date, token, localize) {
+    if (token === "Ho") {
+      return localize.ordinalNumber(date.getHours(), { unit: "hour" });
     }
 
     return lightFormatters.H(date, token);
   },
-  // Hour [0-11]
-  K: function K(date, token, localize) {
-    var hours = date.getUTCHours() % 12;
 
-    if (token === 'Ko') {
-      return localize.ordinalNumber(hours, {
-        unit: 'hour'
-      });
+  // Hour [0-11]
+  K: function (date, token, localize) {
+    const hours = date.getHours() % 12;
+
+    if (token === "Ko") {
+      return localize.ordinalNumber(hours, { unit: "hour" });
     }
 
     return addLeadingZeros(hours, token.length);
   },
+
   // Hour [1-24]
-  k: function k(date, token, localize) {
-    var hours = date.getUTCHours();
+  k: function (date, token, localize) {
+    let hours = date.getHours();
     if (hours === 0) hours = 24;
 
-    if (token === 'ko') {
-      return localize.ordinalNumber(hours, {
-        unit: 'hour'
-      });
+    if (token === "ko") {
+      return localize.ordinalNumber(hours, { unit: "hour" });
     }
 
     return addLeadingZeros(hours, token.length);
   },
+
   // Minute
-  m: function m(date, token, localize) {
-    if (token === 'mo') {
-      return localize.ordinalNumber(date.getUTCMinutes(), {
-        unit: 'minute'
-      });
+  m: function (date, token, localize) {
+    if (token === "mo") {
+      return localize.ordinalNumber(date.getMinutes(), { unit: "minute" });
     }
 
     return lightFormatters.m(date, token);
   },
+
   // Second
-  s: function s(date, token, localize) {
-    if (token === 'so') {
-      return localize.ordinalNumber(date.getUTCSeconds(), {
-        unit: 'second'
-      });
+  s: function (date, token, localize) {
+    if (token === "so") {
+      return localize.ordinalNumber(date.getSeconds(), { unit: "second" });
     }
 
     return lightFormatters.s(date, token);
   },
+
   // Fraction of second
-  S: function S(date, token) {
+  S: function (date, token) {
     return lightFormatters.S(date, token);
   },
+
   // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
-  X: function X(date, token, _localize, options) {
-    var originalDate = options._originalDate || date;
-    var timezoneOffset = originalDate.getTimezoneOffset();
+  X: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
 
     if (timezoneOffset === 0) {
-      return 'Z';
+      return "Z";
     }
 
     switch (token) {
       // Hours and optional minutes
-      case 'X':
+      case "X":
         return formatTimezoneWithOptionalMinutes(timezoneOffset);
+
       // Hours, minutes and optional seconds without `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `XX`
-
-      case 'XXXX':
-      case 'XX':
-        // Hours and minutes without `:` delimiter
+      case "XXXX":
+      case "XX": // Hours and minutes without `:` delimiter
         return formatTimezone(timezoneOffset);
+
       // Hours, minutes and optional seconds with `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `XXX`
-
-      case 'XXXXX':
-      case 'XXX': // Hours and minutes with `:` delimiter
-
+      case "XXXXX":
+      case "XXX": // Hours and minutes with `:` delimiter
       default:
-        return formatTimezone(timezoneOffset, ':');
+        return formatTimezone(timezoneOffset, ":");
     }
   },
+
   // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
-  x: function x(date, token, _localize, options) {
-    var originalDate = options._originalDate || date;
-    var timezoneOffset = originalDate.getTimezoneOffset();
+  x: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
 
     switch (token) {
       // Hours and optional minutes
-      case 'x':
+      case "x":
         return formatTimezoneWithOptionalMinutes(timezoneOffset);
+
       // Hours, minutes and optional seconds without `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `xx`
-
-      case 'xxxx':
-      case 'xx':
-        // Hours and minutes without `:` delimiter
+      case "xxxx":
+      case "xx": // Hours and minutes without `:` delimiter
         return formatTimezone(timezoneOffset);
+
       // Hours, minutes and optional seconds with `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `xxx`
-
-      case 'xxxxx':
-      case 'xxx': // Hours and minutes with `:` delimiter
-
+      case "xxxxx":
+      case "xxx": // Hours and minutes with `:` delimiter
       default:
-        return formatTimezone(timezoneOffset, ':');
+        return formatTimezone(timezoneOffset, ":");
     }
   },
+
   // Timezone (GMT)
-  O: function O(date, token, _localize, options) {
-    var originalDate = options._originalDate || date;
-    var timezoneOffset = originalDate.getTimezoneOffset();
+  O: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
 
     switch (token) {
       // Short
-      case 'O':
-      case 'OO':
-      case 'OOO':
-        return 'GMT' + formatTimezoneShort(timezoneOffset, ':');
+      case "O":
+      case "OO":
+      case "OOO":
+        return "GMT" + formatTimezoneShort(timezoneOffset, ":");
       // Long
-
-      case 'OOOO':
+      case "OOOO":
       default:
-        return 'GMT' + formatTimezone(timezoneOffset, ':');
+        return "GMT" + formatTimezone(timezoneOffset, ":");
     }
   },
+
   // Timezone (specific non-location)
-  z: function z(date, token, _localize, options) {
-    var originalDate = options._originalDate || date;
-    var timezoneOffset = originalDate.getTimezoneOffset();
+  z: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
 
     switch (token) {
       // Short
-      case 'z':
-      case 'zz':
-      case 'zzz':
-        return 'GMT' + formatTimezoneShort(timezoneOffset, ':');
+      case "z":
+      case "zz":
+      case "zzz":
+        return "GMT" + formatTimezoneShort(timezoneOffset, ":");
       // Long
-
-      case 'zzzz':
+      case "zzzz":
       default:
-        return 'GMT' + formatTimezone(timezoneOffset, ':');
+        return "GMT" + formatTimezone(timezoneOffset, ":");
     }
   },
+
   // Seconds timestamp
-  t: function t(date, token, _localize, options) {
-    var originalDate = options._originalDate || date;
-    var timestamp = Math.floor(originalDate.getTime() / 1000);
+  t: function (date, token, _localize) {
+    const timestamp = Math.trunc(date.getTime() / 1000);
     return addLeadingZeros(timestamp, token.length);
   },
+
   // Milliseconds timestamp
-  T: function T(date, token, _localize, options) {
-    var originalDate = options._originalDate || date;
-    var timestamp = originalDate.getTime();
+  T: function (date, token, _localize) {
+    const timestamp = date.getTime();
     return addLeadingZeros(timestamp, token.length);
-  }
+  },
 };
 
-function formatTimezoneShort(offset, dirtyDelimiter) {
-  var sign = offset > 0 ? '-' : '+';
-  var absOffset = Math.abs(offset);
-  var hours = Math.floor(absOffset / 60);
-  var minutes = absOffset % 60;
-
+function formatTimezoneShort(offset, delimiter = "") {
+  const sign = offset > 0 ? "-" : "+";
+  const absOffset = Math.abs(offset);
+  const hours = Math.trunc(absOffset / 60);
+  const minutes = absOffset % 60;
   if (minutes === 0) {
     return sign + String(hours);
   }
-
-  var delimiter = dirtyDelimiter || '';
   return sign + String(hours) + delimiter + addLeadingZeros(minutes, 2);
 }
 
-function formatTimezoneWithOptionalMinutes(offset, dirtyDelimiter) {
+function formatTimezoneWithOptionalMinutes(offset, delimiter) {
   if (offset % 60 === 0) {
-    var sign = offset > 0 ? '-' : '+';
+    const sign = offset > 0 ? "-" : "+";
     return sign + addLeadingZeros(Math.abs(offset) / 60, 2);
   }
-
-  return formatTimezone(offset, dirtyDelimiter);
+  return formatTimezone(offset, delimiter);
 }
 
-function formatTimezone(offset, dirtyDelimiter) {
-  var delimiter = dirtyDelimiter || '';
-  var sign = offset > 0 ? '-' : '+';
-  var absOffset = Math.abs(offset);
-  var hours = addLeadingZeros(Math.floor(absOffset / 60), 2);
-  var minutes = addLeadingZeros(absOffset % 60, 2);
+function formatTimezone(offset, delimiter = "") {
+  const sign = offset > 0 ? "-" : "+";
+  const absOffset = Math.abs(offset);
+  const hours = addLeadingZeros(Math.trunc(absOffset / 60), 2);
+  const minutes = addLeadingZeros(absOffset % 60, 2);
   return sign + hours + delimiter + minutes;
 }
 
-/* harmony default export */ const format_formatters = (formatters_formatters);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/format/longFormatters/index.js
-var dateLongFormatter = function dateLongFormatter(pattern, formatLong) {
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/format/longFormatters.mjs
+const dateLongFormatter = (pattern, formatLong) => {
   switch (pattern) {
-    case 'P':
-      return formatLong.date({
-        width: 'short'
-      });
-
-    case 'PP':
-      return formatLong.date({
-        width: 'medium'
-      });
-
-    case 'PPP':
-      return formatLong.date({
-        width: 'long'
-      });
-
-    case 'PPPP':
+    case "P":
+      return formatLong.date({ width: "short" });
+    case "PP":
+      return formatLong.date({ width: "medium" });
+    case "PPP":
+      return formatLong.date({ width: "long" });
+    case "PPPP":
     default:
-      return formatLong.date({
-        width: 'full'
-      });
+      return formatLong.date({ width: "full" });
   }
 };
 
-var timeLongFormatter = function timeLongFormatter(pattern, formatLong) {
+const timeLongFormatter = (pattern, formatLong) => {
   switch (pattern) {
-    case 'p':
-      return formatLong.time({
-        width: 'short'
-      });
-
-    case 'pp':
-      return formatLong.time({
-        width: 'medium'
-      });
-
-    case 'ppp':
-      return formatLong.time({
-        width: 'long'
-      });
-
-    case 'pppp':
+    case "p":
+      return formatLong.time({ width: "short" });
+    case "pp":
+      return formatLong.time({ width: "medium" });
+    case "ppp":
+      return formatLong.time({ width: "long" });
+    case "pppp":
     default:
-      return formatLong.time({
-        width: 'full'
-      });
+      return formatLong.time({ width: "full" });
   }
 };
 
-var dateTimeLongFormatter = function dateTimeLongFormatter(pattern, formatLong) {
-  var matchResult = pattern.match(/(P+)(p+)?/) || [];
-  var datePattern = matchResult[1];
-  var timePattern = matchResult[2];
+const dateTimeLongFormatter = (pattern, formatLong) => {
+  const matchResult = pattern.match(/(P+)(p+)?/) || [];
+  const datePattern = matchResult[1];
+  const timePattern = matchResult[2];
 
   if (!timePattern) {
     return dateLongFormatter(pattern, formatLong);
   }
 
-  var dateTimeFormat;
+  let dateTimeFormat;
 
   switch (datePattern) {
-    case 'P':
-      dateTimeFormat = formatLong.dateTime({
-        width: 'short'
-      });
+    case "P":
+      dateTimeFormat = formatLong.dateTime({ width: "short" });
       break;
-
-    case 'PP':
-      dateTimeFormat = formatLong.dateTime({
-        width: 'medium'
-      });
+    case "PP":
+      dateTimeFormat = formatLong.dateTime({ width: "medium" });
       break;
-
-    case 'PPP':
-      dateTimeFormat = formatLong.dateTime({
-        width: 'long'
-      });
+    case "PPP":
+      dateTimeFormat = formatLong.dateTime({ width: "long" });
       break;
-
-    case 'PPPP':
+    case "PPPP":
     default:
-      dateTimeFormat = formatLong.dateTime({
-        width: 'full'
-      });
+      dateTimeFormat = formatLong.dateTime({ width: "full" });
       break;
   }
 
-  return dateTimeFormat.replace('{{date}}', dateLongFormatter(datePattern, formatLong)).replace('{{time}}', timeLongFormatter(timePattern, formatLong));
+  return dateTimeFormat
+    .replace("{{date}}", dateLongFormatter(datePattern, formatLong))
+    .replace("{{time}}", timeLongFormatter(timePattern, formatLong));
 };
 
-var longFormatters = {
+const longFormatters = {
   p: timeLongFormatter,
-  P: dateTimeLongFormatter
+  P: dateTimeLongFormatter,
 };
-/* harmony default export */ const format_longFormatters = (longFormatters);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/getTimezoneOffsetInMilliseconds/index.js
-/**
- * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
- * They usually appear for dates that denote time before the timezones were introduced
- * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
- * and GMT+01:00:00 after that date)
- *
- * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
- * which would lead to incorrect calculations.
- *
- * This function returns the timezone offset in milliseconds that takes seconds in account.
- */
-function getTimezoneOffsetInMilliseconds(date) {
-  var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
-  utcDate.setUTCFullYear(date.getFullYear());
-  return date.getTime() - utcDate.getTime();
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/protectedTokens/index.js
-var protectedDayOfYearTokens = ['D', 'DD'];
-var protectedWeekYearTokens = ['YY', 'YYYY'];
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/_lib/protectedTokens.mjs
+const dayOfYearTokenRE = /^D+$/;
+const weekYearTokenRE = /^Y+$/;
+
+const throwTokens = ["D", "DD", "YY", "YYYY"];
+
 function isProtectedDayOfYearToken(token) {
-  return protectedDayOfYearTokens.indexOf(token) !== -1;
+  return dayOfYearTokenRE.test(token);
 }
+
 function isProtectedWeekYearToken(token) {
-  return protectedWeekYearTokens.indexOf(token) !== -1;
-}
-function throwProtectedError(token, format, input) {
-  if (token === 'YYYY') {
-    throw new RangeError("Use `yyyy` instead of `YYYY` (in `".concat(format, "`) for formatting years to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
-  } else if (token === 'YY') {
-    throw new RangeError("Use `yy` instead of `YY` (in `".concat(format, "`) for formatting years to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
-  } else if (token === 'D') {
-    throw new RangeError("Use `d` instead of `D` (in `".concat(format, "`) for formatting days of the month to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
-  } else if (token === 'DD') {
-    throw new RangeError("Use `dd` instead of `DD` (in `".concat(format, "`) for formatting days of the month to the input `").concat(input, "`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md"));
-  }
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/en-US/_lib/formatDistance/index.js
-var formatDistanceLocale = {
-  lessThanXSeconds: {
-    one: 'less than a second',
-    other: 'less than {{count}} seconds'
-  },
-  xSeconds: {
-    one: '1 second',
-    other: '{{count}} seconds'
-  },
-  halfAMinute: 'half a minute',
-  lessThanXMinutes: {
-    one: 'less than a minute',
-    other: 'less than {{count}} minutes'
-  },
-  xMinutes: {
-    one: '1 minute',
-    other: '{{count}} minutes'
-  },
-  aboutXHours: {
-    one: 'about 1 hour',
-    other: 'about {{count}} hours'
-  },
-  xHours: {
-    one: '1 hour',
-    other: '{{count}} hours'
-  },
-  xDays: {
-    one: '1 day',
-    other: '{{count}} days'
-  },
-  aboutXWeeks: {
-    one: 'about 1 week',
-    other: 'about {{count}} weeks'
-  },
-  xWeeks: {
-    one: '1 week',
-    other: '{{count}} weeks'
-  },
-  aboutXMonths: {
-    one: 'about 1 month',
-    other: 'about {{count}} months'
-  },
-  xMonths: {
-    one: '1 month',
-    other: '{{count}} months'
-  },
-  aboutXYears: {
-    one: 'about 1 year',
-    other: 'about {{count}} years'
-  },
-  xYears: {
-    one: '1 year',
-    other: '{{count}} years'
-  },
-  overXYears: {
-    one: 'over 1 year',
-    other: 'over {{count}} years'
-  },
-  almostXYears: {
-    one: 'almost 1 year',
-    other: 'almost {{count}} years'
-  }
-};
-
-var formatDistance = function formatDistance(token, count, options) {
-  var result;
-  var tokenValue = formatDistanceLocale[token];
-
-  if (typeof tokenValue === 'string') {
-    result = tokenValue;
-  } else if (count === 1) {
-    result = tokenValue.one;
-  } else {
-    result = tokenValue.other.replace('{{count}}', count.toString());
-  }
-
-  if (options !== null && options !== void 0 && options.addSuffix) {
-    if (options.comparison && options.comparison > 0) {
-      return 'in ' + result;
-    } else {
-      return result + ' ago';
-    }
-  }
-
-  return result;
-};
-
-/* harmony default export */ const _lib_formatDistance = (formatDistance);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/_lib/buildFormatLongFn/index.js
-function buildFormatLongFn(args) {
-  return function () {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    // TODO: Remove String()
-    var width = options.width ? String(options.width) : args.defaultWidth;
-    var format = args.formats[width] || args.formats[args.defaultWidth];
-    return format;
-  };
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/en-US/_lib/formatLong/index.js
-
-var dateFormats = {
-  full: 'EEEE, MMMM do, y',
-  long: 'MMMM do, y',
-  medium: 'MMM d, y',
-  short: 'MM/dd/yyyy'
-};
-var timeFormats = {
-  full: 'h:mm:ss a zzzz',
-  long: 'h:mm:ss a z',
-  medium: 'h:mm:ss a',
-  short: 'h:mm a'
-};
-var dateTimeFormats = {
-  full: "{{date}} 'at' {{time}}",
-  long: "{{date}} 'at' {{time}}",
-  medium: '{{date}}, {{time}}',
-  short: '{{date}}, {{time}}'
-};
-var formatLong = {
-  date: buildFormatLongFn({
-    formats: dateFormats,
-    defaultWidth: 'full'
-  }),
-  time: buildFormatLongFn({
-    formats: timeFormats,
-    defaultWidth: 'full'
-  }),
-  dateTime: buildFormatLongFn({
-    formats: dateTimeFormats,
-    defaultWidth: 'full'
-  })
-};
-/* harmony default export */ const _lib_formatLong = (formatLong);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/en-US/_lib/formatRelative/index.js
-var formatRelativeLocale = {
-  lastWeek: "'last' eeee 'at' p",
-  yesterday: "'yesterday at' p",
-  today: "'today at' p",
-  tomorrow: "'tomorrow at' p",
-  nextWeek: "eeee 'at' p",
-  other: 'P'
-};
-
-var formatRelative = function formatRelative(token, _date, _baseDate, _options) {
-  return formatRelativeLocale[token];
-};
-
-/* harmony default export */ const _lib_formatRelative = (formatRelative);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/_lib/buildLocalizeFn/index.js
-function buildLocalizeFn(args) {
-  return function (dirtyIndex, options) {
-    var context = options !== null && options !== void 0 && options.context ? String(options.context) : 'standalone';
-    var valuesArray;
-
-    if (context === 'formatting' && args.formattingValues) {
-      var defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
-      var width = options !== null && options !== void 0 && options.width ? String(options.width) : defaultWidth;
-      valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
-    } else {
-      var _defaultWidth = args.defaultWidth;
-
-      var _width = options !== null && options !== void 0 && options.width ? String(options.width) : args.defaultWidth;
-
-      valuesArray = args.values[_width] || args.values[_defaultWidth];
-    }
-
-    var index = args.argumentCallback ? args.argumentCallback(dirtyIndex) : dirtyIndex; // @ts-ignore: For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
-
-    return valuesArray[index];
-  };
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/en-US/_lib/localize/index.js
-
-var eraValues = {
-  narrow: ['B', 'A'],
-  abbreviated: ['BC', 'AD'],
-  wide: ['Before Christ', 'Anno Domini']
-};
-var quarterValues = {
-  narrow: ['1', '2', '3', '4'],
-  abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
-  wide: ['1st quarter', '2nd quarter', '3rd quarter', '4th quarter']
-}; // Note: in English, the names of days of the week and months are capitalized.
-// If you are making a new locale based on this one, check if the same is true for the language you're working on.
-// Generally, formatted dates should look like they are in the middle of a sentence,
-// e.g. in Spanish language the weekdays and months should be in the lowercase.
-
-var monthValues = {
-  narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-  abbreviated: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  wide: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-};
-var dayValues = {
-  narrow: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-  short: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  abbreviated: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  wide: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-};
-var dayPeriodValues = {
-  narrow: {
-    am: 'a',
-    pm: 'p',
-    midnight: 'mi',
-    noon: 'n',
-    morning: 'morning',
-    afternoon: 'afternoon',
-    evening: 'evening',
-    night: 'night'
-  },
-  abbreviated: {
-    am: 'AM',
-    pm: 'PM',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'morning',
-    afternoon: 'afternoon',
-    evening: 'evening',
-    night: 'night'
-  },
-  wide: {
-    am: 'a.m.',
-    pm: 'p.m.',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'morning',
-    afternoon: 'afternoon',
-    evening: 'evening',
-    night: 'night'
-  }
-};
-var formattingDayPeriodValues = {
-  narrow: {
-    am: 'a',
-    pm: 'p',
-    midnight: 'mi',
-    noon: 'n',
-    morning: 'in the morning',
-    afternoon: 'in the afternoon',
-    evening: 'in the evening',
-    night: 'at night'
-  },
-  abbreviated: {
-    am: 'AM',
-    pm: 'PM',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'in the morning',
-    afternoon: 'in the afternoon',
-    evening: 'in the evening',
-    night: 'at night'
-  },
-  wide: {
-    am: 'a.m.',
-    pm: 'p.m.',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'in the morning',
-    afternoon: 'in the afternoon',
-    evening: 'in the evening',
-    night: 'at night'
-  }
-};
-
-var ordinalNumber = function ordinalNumber(dirtyNumber, _options) {
-  var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
-  // if they are different for different grammatical genders,
-  // use `options.unit`.
-  //
-  // `unit` can be 'year', 'quarter', 'month', 'week', 'date', 'dayOfYear',
-  // 'day', 'hour', 'minute', 'second'.
-
-  var rem100 = number % 100;
-
-  if (rem100 > 20 || rem100 < 10) {
-    switch (rem100 % 10) {
-      case 1:
-        return number + 'st';
-
-      case 2:
-        return number + 'nd';
-
-      case 3:
-        return number + 'rd';
-    }
-  }
-
-  return number + 'th';
-};
-
-var localize = {
-  ordinalNumber: ordinalNumber,
-  era: buildLocalizeFn({
-    values: eraValues,
-    defaultWidth: 'wide'
-  }),
-  quarter: buildLocalizeFn({
-    values: quarterValues,
-    defaultWidth: 'wide',
-    argumentCallback: function argumentCallback(quarter) {
-      return quarter - 1;
-    }
-  }),
-  month: buildLocalizeFn({
-    values: monthValues,
-    defaultWidth: 'wide'
-  }),
-  day: buildLocalizeFn({
-    values: dayValues,
-    defaultWidth: 'wide'
-  }),
-  dayPeriod: buildLocalizeFn({
-    values: dayPeriodValues,
-    defaultWidth: 'wide',
-    formattingValues: formattingDayPeriodValues,
-    defaultFormattingWidth: 'wide'
-  })
-};
-/* harmony default export */ const _lib_localize = (localize);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/_lib/buildMatchFn/index.js
-function buildMatchFn(args) {
-  return function (string) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var width = options.width;
-    var matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
-    var matchResult = string.match(matchPattern);
-
-    if (!matchResult) {
-      return null;
-    }
-
-    var matchedString = matchResult[0];
-    var parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
-    var key = Array.isArray(parsePatterns) ? findIndex(parsePatterns, function (pattern) {
-      return pattern.test(matchedString);
-    }) : findKey(parsePatterns, function (pattern) {
-      return pattern.test(matchedString);
-    });
-    var value;
-    value = args.valueCallback ? args.valueCallback(key) : key;
-    value = options.valueCallback ? options.valueCallback(value) : value;
-    var rest = string.slice(matchedString.length);
-    return {
-      value: value,
-      rest: rest
-    };
-  };
+  return weekYearTokenRE.test(token);
 }
 
-function findKey(object, predicate) {
-  for (var key in object) {
-    if (object.hasOwnProperty(key) && predicate(object[key])) {
-      return key;
-    }
-  }
-
-  return undefined;
+function warnOrThrowProtectedError(token, format, input) {
+  const _message = message(token, format, input);
+  console.warn(_message);
+  if (throwTokens.includes(token)) throw new RangeError(_message);
 }
 
-function findIndex(array, predicate) {
-  for (var key = 0; key < array.length; key++) {
-    if (predicate(array[key])) {
-      return key;
-    }
-  }
-
-  return undefined;
+function message(token, format, input) {
+  const subject = token[0] === "Y" ? "years" : "days of the month";
+  return `Use \`${token.toLowerCase()}\` instead of \`${token}\` (in \`${format}\`) for formatting ${subject} to the input \`${input}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/_lib/buildMatchPatternFn/index.js
-function buildMatchPatternFn(args) {
-  return function (string) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var matchResult = string.match(args.matchPattern);
-    if (!matchResult) return null;
-    var matchedString = matchResult[0];
-    var parseResult = string.match(args.parsePattern);
-    if (!parseResult) return null;
-    var value = args.valueCallback ? args.valueCallback(parseResult[0]) : parseResult[0];
-    value = options.valueCallback ? options.valueCallback(value) : value;
-    var rest = string.slice(matchedString.length);
-    return {
-      value: value,
-      rest: rest
-    };
-  };
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/isDate.mjs
+/**
+ * @name isDate
+ * @category Common Helpers
+ * @summary Is the given value a date?
+ *
+ * @description
+ * Returns true if the given value is an instance of Date. The function works for dates transferred across iframes.
+ *
+ * @param value - The value to check
+ *
+ * @returns True if the given value is a date
+ *
+ * @example
+ * // For a valid date:
+ * const result = isDate(new Date())
+ * //=> true
+ *
+ * @example
+ * // For an invalid date:
+ * const result = isDate(new Date(NaN))
+ * //=> true
+ *
+ * @example
+ * // For some value:
+ * const result = isDate('2014-02-31')
+ * //=> false
+ *
+ * @example
+ * // For an object:
+ * const result = isDate({})
+ * //=> false
+ */
+function isDate(value) {
+  return (
+    value instanceof Date ||
+    (typeof value === "object" &&
+      Object.prototype.toString.call(value) === "[object Date]")
+  );
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/en-US/_lib/match/index.js
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_isDate = ((/* unused pure expression or super */ null && (isDate)));
 
-var matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
-var parseOrdinalNumberPattern = /\d+/i;
-var matchEraPatterns = {
-  narrow: /^(b|a)/i,
-  abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
-  wide: /^(before christ|before common era|anno domini|common era)/i
-};
-var parseEraPatterns = {
-  any: [/^b/i, /^(a|c)/i]
-};
-var matchQuarterPatterns = {
-  narrow: /^[1234]/i,
-  abbreviated: /^q[1234]/i,
-  wide: /^[1234](th|st|nd|rd)? quarter/i
-};
-var parseQuarterPatterns = {
-  any: [/1/i, /2/i, /3/i, /4/i]
-};
-var matchMonthPatterns = {
-  narrow: /^[jfmasond]/i,
-  abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
-  wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
-};
-var parseMonthPatterns = {
-  narrow: [/^j/i, /^f/i, /^m/i, /^a/i, /^m/i, /^j/i, /^j/i, /^a/i, /^s/i, /^o/i, /^n/i, /^d/i],
-  any: [/^ja/i, /^f/i, /^mar/i, /^ap/i, /^may/i, /^jun/i, /^jul/i, /^au/i, /^s/i, /^o/i, /^n/i, /^d/i]
-};
-var matchDayPatterns = {
-  narrow: /^[smtwf]/i,
-  short: /^(su|mo|tu|we|th|fr|sa)/i,
-  abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
-  wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i
-};
-var parseDayPatterns = {
-  narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
-  any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i]
-};
-var matchDayPeriodPatterns = {
-  narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
-  any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i
-};
-var parseDayPeriodPatterns = {
-  any: {
-    am: /^a/i,
-    pm: /^p/i,
-    midnight: /^mi/i,
-    noon: /^no/i,
-    morning: /morning/i,
-    afternoon: /afternoon/i,
-    evening: /evening/i,
-    night: /night/i
-  }
-};
-var match_match = {
-  ordinalNumber: buildMatchPatternFn({
-    matchPattern: matchOrdinalNumberPattern,
-    parsePattern: parseOrdinalNumberPattern,
-    valueCallback: function valueCallback(value) {
-      return parseInt(value, 10);
-    }
-  }),
-  era: buildMatchFn({
-    matchPatterns: matchEraPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseEraPatterns,
-    defaultParseWidth: 'any'
-  }),
-  quarter: buildMatchFn({
-    matchPatterns: matchQuarterPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseQuarterPatterns,
-    defaultParseWidth: 'any',
-    valueCallback: function valueCallback(index) {
-      return index + 1;
-    }
-  }),
-  month: buildMatchFn({
-    matchPatterns: matchMonthPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseMonthPatterns,
-    defaultParseWidth: 'any'
-  }),
-  day: buildMatchFn({
-    matchPatterns: matchDayPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseDayPatterns,
-    defaultParseWidth: 'any'
-  }),
-  dayPeriod: buildMatchFn({
-    matchPatterns: matchDayPeriodPatterns,
-    defaultMatchWidth: 'any',
-    parsePatterns: parseDayPeriodPatterns,
-    defaultParseWidth: 'any'
-  })
-};
-/* harmony default export */ const _lib_match = (match_match);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/locale/en-US/index.js
-
-
-
+;// CONCATENATED MODULE: ./node_modules/date-fns/isValid.mjs
 
 
 
 /**
- * @type {Locale}
- * @category Locales
- * @summary English locale (United States).
- * @language English
- * @iso-639-2 eng
- * @author Sasha Koss [@kossnocorp]{@link https://github.com/kossnocorp}
- * @author Lesha Koss [@leshakoss]{@link https://github.com/leshakoss}
+ * @name isValid
+ * @category Common Helpers
+ * @summary Is the given date valid?
+ *
+ * @description
+ * Returns false if argument is Invalid Date and true otherwise.
+ * Argument is converted to Date using `toDate`. See [toDate](https://date-fns.org/docs/toDate)
+ * Invalid Date is a Date, whose time value is NaN.
+ *
+ * Time value of Date: http://es5.github.io/#x15.9.1.1
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to check
+ *
+ * @returns The date is valid
+ *
+ * @example
+ * // For the valid date:
+ * const result = isValid(new Date(2014, 1, 31))
+ * //=> true
+ *
+ * @example
+ * // For the value, convertable into a date:
+ * const result = isValid(1393804800000)
+ * //=> true
+ *
+ * @example
+ * // For the invalid date:
+ * const result = isValid(new Date(''))
+ * //=> false
  */
-var locale = {
-  code: 'en-US',
-  formatDistance: _lib_formatDistance,
-  formatLong: _lib_formatLong,
-  formatRelative: _lib_formatRelative,
-  localize: _lib_localize,
-  match: _lib_match,
-  options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
-    firstWeekContainsDate: 1
+function isValid(date) {
+  if (!isDate(date) && typeof date !== "number") {
+    return false;
   }
-};
-/* harmony default export */ const en_US = (locale);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/defaultLocale/index.js
+  const _date = toDate_toDate(date);
+  return !isNaN(Number(_date));
+}
 
-/* harmony default export */ const defaultLocale = (en_US);
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/format/index.js
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_isValid = ((/* unused pure expression or super */ null && (isValid)));
 
-
-
-
+;// CONCATENATED MODULE: ./node_modules/date-fns/format.mjs
 
 
 
 
 
 
- // This RegExp consists of three parts separated by `|`:
+
+
+// Rexports of internal for libraries to use.
+// See: https://github.com/date-fns/date-fns/issues/3638#issuecomment-1877082874
+
+
+// This RegExp consists of three parts separated by `|`:
 // - [yYQqMLwIdDecihHKkms]o matches any available ordinal number token
 //   (one of the certain letters followed by `o`)
 // - (\w)\1* matches any sequences of the same letter
@@ -55775,16 +55265,26 @@ var locale = {
 //   If there is no matching single quote
 //   then the sequence will continue until the end of the string.
 // - . matches any single character unmatched by previous parts of the RegExps
+const formattingTokensRegExp =
+  /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
 
-var formattingTokensRegExp = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g; // This RegExp catches symbols escaped by quotes, and also
+// This RegExp catches symbols escaped by quotes, and also
 // sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
+const longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
 
-var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
-var escapedStringRegExp = /^'([^]*?)'?$/;
-var doubleQuoteRegExp = /''/g;
-var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+const escapedStringRegExp = /^'([^]*?)'?$/;
+const doubleQuoteRegExp = /''/g;
+const unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+
+
+
+/**
+ * The {@link format} function options.
+ */
+
 /**
  * @name format
+ * @alias formatDate
  * @category Common Helpers
  * @summary Format the date.
  *
@@ -56011,8 +55511,8 @@ var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
  *
  *    The same difference is true for local and ISO week-numbering years (`Y` and `R`),
  *    except local week-numbering years are dependent on `options.weekStartsOn`
- *    and `options.firstWeekContainsDate` (compare [getISOWeekYear]{@link https://date-fns.org/docs/getISOWeekYear}
- *    and [getWeekYear]{@link https://date-fns.org/docs/getWeekYear}).
+ *    and `options.firstWeekContainsDate` (compare [getISOWeekYear](https://date-fns.org/docs/getISOWeekYear)
+ *    and [getWeekYear](https://date-fns.org/docs/getWeekYear)).
  *
  * 6. Specific non-location timezones are currently unavailable in `date-fns`,
  *    so right now these tokens fall back to GMT timezones.
@@ -56033,28 +55533,22 @@ var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
  * 9. `D` and `DD` tokens represent days of the year but they are often confused with days of the month.
  *    You should enable `options.useAdditionalDayOfYearTokens` to use them. See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
  *
- * @param {Date|Number} date - the original date
- * @param {String} format - the string of tokens
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @param {Number} [options.firstWeekContainsDate=1] - the day of January, which is
- * @param {Boolean} [options.useAdditionalWeekYearTokens=false] - if true, allows usage of the week-numbering year tokens `YY` and `YYYY`;
- *   see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @param {Boolean} [options.useAdditionalDayOfYearTokens=false] - if true, allows usage of the day of year tokens `D` and `DD`;
- *   see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @returns {String} the formatted date string
- * @throws {TypeError} 2 arguments required
- * @throws {RangeError} `date` must not be Invalid Date
- * @throws {RangeError} `options.locale` must contain `localize` property
- * @throws {RangeError} `options.locale` must contain `formatLong` property
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
- * @throws {RangeError} `options.firstWeekContainsDate` must be between 1 and 7
- * @throws {RangeError} use `yyyy` instead of `YYYY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws {RangeError} use `yy` instead of `YY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws {RangeError} use `d` instead of `D` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws {RangeError} use `dd` instead of `DD` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws {RangeError} format string contains an unescaped latin alphabet character
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param format - The string of tokens
+ * @param options - An object with options
+ *
+ * @returns The formatted date string
+ *
+ * @throws `date` must not be Invalid Date
+ * @throws `options.locale` must contain `localize` property
+ * @throws `options.locale` must contain `formatLong` property
+ * @throws use `yyyy` instead of `YYYY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws use `yy` instead of `YY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws use `d` instead of `D` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws use `dd` instead of `DD` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws format string contains an unescaped latin alphabet character
  *
  * @example
  * // Represent 11 February 2014 in middle-endian format:
@@ -56074,97 +55568,102 @@ var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
  * const result = format(new Date(2014, 6, 2, 15), "h 'o''clock'")
  * //=> "3 o'clock"
  */
+function format(date, formatStr, options) {
+  const defaultOptions = defaultOptions_getDefaultOptions();
+  const locale = options?.locale ?? defaultOptions.locale ?? enUS;
 
-function format(dirtyDate, dirtyFormatStr, options) {
-  var _ref, _options$locale, _ref2, _ref3, _ref4, _options$firstWeekCon, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2, _ref5, _ref6, _ref7, _options$weekStartsOn, _options$locale3, _options$locale3$opti, _defaultOptions$local3, _defaultOptions$local4;
+  const firstWeekContainsDate =
+    options?.firstWeekContainsDate ??
+    options?.locale?.options?.firstWeekContainsDate ??
+    defaultOptions.firstWeekContainsDate ??
+    defaultOptions.locale?.options?.firstWeekContainsDate ??
+    1;
 
-  requiredArgs_requiredArgs(2, arguments);
-  var formatStr = String(dirtyFormatStr);
-  var defaultOptions = defaultOptions_getDefaultOptions();
-  var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : defaultLocale;
-  var firstWeekContainsDate = toInteger_toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
 
-  if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
-    throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
-  }
-
-  var weekStartsOn = toInteger_toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  if (!locale.localize) {
-    throw new RangeError('locale must contain localize property');
-  }
-
-  if (!locale.formatLong) {
-    throw new RangeError('locale must contain formatLong property');
-  }
-
-  var originalDate = toDate_toDate(dirtyDate);
+  const originalDate = toDate_toDate(date);
 
   if (!isValid(originalDate)) {
-    throw new RangeError('Invalid time value');
-  } // Convert the date in system timezone to the same date in UTC+00:00 timezone.
-  // This ensures that when UTC functions will be implemented, locales will be compatible with them.
-  // See an issue about UTC functions: https://github.com/date-fns/date-fns/issues/376
+    throw new RangeError("Invalid time value");
+  }
 
+  let parts = formatStr
+    .match(longFormattingTokensRegExp)
+    .map((substring) => {
+      const firstCharacter = substring[0];
+      if (firstCharacter === "p" || firstCharacter === "P") {
+        const longFormatter = longFormatters[firstCharacter];
+        return longFormatter(substring, locale.formatLong);
+      }
+      return substring;
+    })
+    .join("")
+    .match(formattingTokensRegExp)
+    .map((substring) => {
+      // Replace two single quote characters with one single quote character
+      if (substring === "''") {
+        return { isToken: false, value: "'" };
+      }
 
-  var timezoneOffset = getTimezoneOffsetInMilliseconds(originalDate);
-  var utcDate = subMilliseconds(originalDate, timezoneOffset);
-  var formatterOptions = {
-    firstWeekContainsDate: firstWeekContainsDate,
-    weekStartsOn: weekStartsOn,
-    locale: locale,
-    _originalDate: originalDate
+      const firstCharacter = substring[0];
+      if (firstCharacter === "'") {
+        return { isToken: false, value: cleanEscapedString(substring) };
+      }
+
+      if (formatters[firstCharacter]) {
+        return { isToken: true, value: substring };
+      }
+
+      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
+        throw new RangeError(
+          "Format string contains an unescaped latin alphabet character `" +
+            firstCharacter +
+            "`",
+        );
+      }
+
+      return { isToken: false, value: substring };
+    });
+
+  // invoke localize preprocessor (only for french locales at the moment)
+  if (locale.localize.preprocessor) {
+    parts = locale.localize.preprocessor(originalDate, parts);
+  }
+
+  const formatterOptions = {
+    firstWeekContainsDate,
+    weekStartsOn,
+    locale,
   };
-  var result = formatStr.match(longFormattingTokensRegExp).map(function (substring) {
-    var firstCharacter = substring[0];
 
-    if (firstCharacter === 'p' || firstCharacter === 'P') {
-      var longFormatter = format_longFormatters[firstCharacter];
-      return longFormatter(substring, locale.formatLong);
-    }
+  return parts
+    .map((part) => {
+      if (!part.isToken) return part.value;
 
-    return substring;
-  }).join('').match(formattingTokensRegExp).map(function (substring) {
-    // Replace two single quote characters with one single quote character
-    if (substring === "''") {
-      return "'";
-    }
+      const token = part.value;
 
-    var firstCharacter = substring[0];
-
-    if (firstCharacter === "'") {
-      return cleanEscapedString(substring);
-    }
-
-    var formatter = format_formatters[firstCharacter];
-
-    if (formatter) {
-      if (!(options !== null && options !== void 0 && options.useAdditionalWeekYearTokens) && isProtectedWeekYearToken(substring)) {
-        throwProtectedError(substring, dirtyFormatStr, String(dirtyDate));
+      if (
+        (!options?.useAdditionalWeekYearTokens &&
+          isProtectedWeekYearToken(token)) ||
+        (!options?.useAdditionalDayOfYearTokens &&
+          isProtectedDayOfYearToken(token))
+      ) {
+        warnOrThrowProtectedError(token, formatStr, String(date));
       }
 
-      if (!(options !== null && options !== void 0 && options.useAdditionalDayOfYearTokens) && isProtectedDayOfYearToken(substring)) {
-        throwProtectedError(substring, dirtyFormatStr, String(dirtyDate));
-      }
-
-      return formatter(utcDate, substring, locale.localize, formatterOptions);
-    }
-
-    if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
-      throw new RangeError('Format string contains an unescaped latin alphabet character `' + firstCharacter + '`');
-    }
-
-    return substring;
-  }).join('');
-  return result;
+      const formatter = formatters[token[0]];
+      return formatter(originalDate, token, locale.localize, formatterOptions);
+    })
+    .join("");
 }
 
 function cleanEscapedString(input) {
-  var matched = input.match(escapedStringRegExp);
+  const matched = input.match(escapedStringRegExp);
 
   if (!matched) {
     return input;
@@ -56172,7 +55671,11 @@ function cleanEscapedString(input) {
 
   return matched[1].replace(doubleQuoteRegExp, "'");
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isSameMonth/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_format = ((/* unused pure expression or super */ null && (format)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/isSameMonth.mjs
 
 
 /**
@@ -56183,10 +55686,12 @@ function cleanEscapedString(input) {
  * @description
  * Are the given dates in the same month (and year)?
  *
- * @param {Date|Number} dateLeft - the first date to check
- * @param {Date|Number} dateRight - the second date to check
- * @returns {Boolean} the dates are in the same month (and year)
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param dateLeft - The first date to check
+ * @param dateRight - The second date to check
+ *
+ * @returns The dates are in the same month (and year)
  *
  * @example
  * // Are 2 September 2014 and 25 September 2014 in the same month?
@@ -56198,14 +55703,19 @@ function cleanEscapedString(input) {
  * const result = isSameMonth(new Date(2014, 8, 2), new Date(2015, 8, 25))
  * //=> false
  */
-
-function isSameMonth(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs_requiredArgs(2, arguments);
-  var dateLeft = toDate_toDate(dirtyDateLeft);
-  var dateRight = toDate_toDate(dirtyDateRight);
-  return dateLeft.getFullYear() === dateRight.getFullYear() && dateLeft.getMonth() === dateRight.getMonth();
+function isSameMonth(dateLeft, dateRight) {
+  const _dateLeft = toDate_toDate(dateLeft);
+  const _dateRight = toDate_toDate(dateRight);
+  return (
+    _dateLeft.getFullYear() === _dateRight.getFullYear() &&
+    _dateLeft.getMonth() === _dateRight.getMonth()
+  );
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isEqual/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_isSameMonth = ((/* unused pure expression or super */ null && (isSameMonth)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/isEqual.mjs
 
 
 /**
@@ -56216,10 +55726,12 @@ function isSameMonth(dirtyDateLeft, dirtyDateRight) {
  * @description
  * Are the given dates equal?
  *
- * @param {Date|Number} dateLeft - the first date to compare
- * @param {Date|Number} dateRight - the second date to compare
- * @returns {Boolean} the dates are equal
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param dateLeft - The first date to compare
+ * @param dateRight - The second date to compare
+ *
+ * @returns The dates are equal
  *
  * @example
  * // Are 2 July 2014 06:30:45.000 and 2 July 2014 06:30:45.500 equal?
@@ -56229,14 +55741,16 @@ function isSameMonth(dirtyDateLeft, dirtyDateRight) {
  * )
  * //=> false
  */
-
-function isEqual_isEqual(dirtyLeftDate, dirtyRightDate) {
-  requiredArgs_requiredArgs(2, arguments);
-  var dateLeft = toDate_toDate(dirtyLeftDate);
-  var dateRight = toDate_toDate(dirtyRightDate);
-  return dateLeft.getTime() === dateRight.getTime();
+function isEqual_isEqual(leftDate, rightDate) {
+  const _dateLeft = toDate_toDate(leftDate);
+  const _dateRight = toDate_toDate(rightDate);
+  return +_dateLeft === +_dateRight;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/isSameDay/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_isEqual = ((/* unused pure expression or super */ null && (isEqual_isEqual)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/isSameDay.mjs
 
 
 /**
@@ -56247,10 +55761,12 @@ function isEqual_isEqual(dirtyLeftDate, dirtyRightDate) {
  * @description
  * Are the given dates in the same day (and year and month)?
  *
- * @param {Date|Number} dateLeft - the first date to check
- * @param {Date|Number} dateRight - the second date to check
- * @returns {Boolean} the dates are in the same day (and year and month)
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param dateLeft - The first date to check
+ * @param dateRight - The second date to check
+
+ * @returns The dates are in the same day (and year and month)
  *
  * @example
  * // Are 4 September 06:00:00 and 4 September 18:00:00 in the same day?
@@ -56267,14 +55783,17 @@ function isEqual_isEqual(dirtyLeftDate, dirtyRightDate) {
  * const result = isSameDay(new Date(2014, 8, 4), new Date(2015, 8, 4))
  * //=> false
  */
+function isSameDay(dateLeft, dateRight) {
+  const dateLeftStartOfDay = startOfDay_startOfDay(dateLeft);
+  const dateRightStartOfDay = startOfDay_startOfDay(dateRight);
 
-function isSameDay(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs_requiredArgs(2, arguments);
-  var dateLeftStartOfDay = startOfDay_startOfDay(dirtyDateLeft);
-  var dateRightStartOfDay = startOfDay_startOfDay(dirtyDateRight);
-  return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime();
+  return +dateLeftStartOfDay === +dateRightStartOfDay;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/addDays/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_isSameDay = ((/* unused pure expression or super */ null && (isSameDay)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/addDays.mjs
 
 
 
@@ -56286,36 +55805,33 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
  * @description
  * Add the specified number of days to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of days to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} - the new date with the days added
- * @throws {TypeError} - 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of days to be added.
+ *
+ * @returns The new date with the days added
  *
  * @example
  * // Add 10 days to 1 September 2014:
  * const result = addDays(new Date(2014, 8, 1), 10)
  * //=> Thu Sep 11 2014 00:00:00
  */
-
-function addDays_addDays(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var amount = toInteger_toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
+function addDays_addDays(date, amount) {
+  const _date = toDate_toDate(date);
+  if (isNaN(amount)) return constructFrom_constructFrom(date, NaN);
   if (!amount) {
     // If 0 days, no-op to avoid changing times in the hour before end of DST
-    return date;
+    return _date;
   }
-
-  date.setDate(date.getDate() + amount);
-  return date;
+  _date.setDate(_date.getDate() + amount);
+  return _date;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/addWeeks/index.js
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_addDays = ((/* unused pure expression or super */ null && (addDays_addDays)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/addWeeks.mjs
 
 
 /**
@@ -56326,25 +55842,27 @@ function addDays_addDays(dirtyDate, dirtyAmount) {
  * @description
  * Add the specified number of week to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of weeks to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the weeks added
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of weeks to be added.
+ *
+ * @returns The new date with the weeks added
  *
  * @example
  * // Add 4 weeks to 1 September 2014:
  * const result = addWeeks(new Date(2014, 8, 1), 4)
  * //=> Mon Sep 29 2014 00:00:00
  */
-
-function addWeeks_addWeeks(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
-  var days = amount * 7;
-  return addDays_addDays(dirtyDate, days);
+function addWeeks_addWeeks(date, amount) {
+  const days = amount * 7;
+  return addDays_addDays(date, days);
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/subWeeks/index.js
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_addWeeks = ((/* unused pure expression or super */ null && (addWeeks_addWeeks)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/subWeeks.mjs
 
 
 /**
@@ -56355,78 +55873,32 @@ function addWeeks_addWeeks(dirtyDate, dirtyAmount) {
  * @description
  * Subtract the specified number of weeks from the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of weeks to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the weeks subtracted
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param amount - The amount of weeks to be subtracted.
+ *
+ * @returns The new date with the weeks subtracted
  *
  * @example
  * // Subtract 4 weeks from 1 September 2014:
  * const result = subWeeks(new Date(2014, 8, 1), 4)
  * //=> Mon Aug 04 2014 00:00:00
  */
-
-function subWeeks(dirtyDate, dirtyAmount) {
-  requiredArgs_requiredArgs(2, arguments);
-  var amount = toInteger_toInteger(dirtyAmount);
-  return addWeeks_addWeeks(dirtyDate, -amount);
+function subWeeks(date, amount) {
+  return addWeeks_addWeeks(date, -amount);
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/startOfWeek/index.js
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_subWeeks = ((/* unused pure expression or super */ null && (subWeeks)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/endOfWeek.mjs
 
 
 
 /**
- * @name startOfWeek
- * @category Week Helpers
- * @summary Return the start of a week for the given date.
- *
- * @description
- * Return the start of a week for the given date.
- * The result will be in the local timezone.
- *
- * @param {Date|Number} date - the original date
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the start of a week
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
- *
- * @example
- * // The start of a week for 2 September 2014 11:55:00:
- * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Sun Aug 31 2014 00:00:00
- *
- * @example
- * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
- * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
- * //=> Mon Sep 01 2014 00:00:00
+ * The {@link endOfWeek} function options.
  */
-
-function startOfWeek_startOfWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
-  requiredArgs_requiredArgs(1, arguments);
-  var defaultOptions = defaultOptions_getDefaultOptions();
-  var weekStartsOn = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate_toDate(dirtyDate);
-  var day = date.getDay();
-  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-  date.setDate(date.getDate() - diff);
-  date.setHours(0, 0, 0, 0);
-  return date;
-}
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/endOfWeek/index.js
-
-
-
-
 
 /**
  * @name endOfWeek
@@ -56437,13 +55909,12 @@ function startOfWeek_startOfWeek(dirtyDate, options) {
  * Return the end of a week for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @param {Object} [options] - an object with options.
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the end of a week
- * @throws {TypeError} 1 argument required
- * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The end of a week
  *
  * @example
  * // The end of a week for 2 September 2014 11:55:00:
@@ -56455,24 +55926,27 @@ function startOfWeek_startOfWeek(dirtyDate, options) {
  * const result = endOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Sun Sep 07 2014 23:59:59.999
  */
-function endOfWeek_endOfWeek(dirtyDate, options) {
-  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+function endOfWeek_endOfWeek(date, options) {
+  const defaultOptions = defaultOptions_getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
 
-  requiredArgs_requiredArgs(1, arguments);
-  var defaultOptions = defaultOptions_getDefaultOptions();
-  var weekStartsOn = toInteger_toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  const _date = toDate_toDate(date);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
 
-  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
-    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
-  }
-
-  var date = toDate_toDate(dirtyDate);
-  var day = date.getDay();
-  var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
-  date.setDate(date.getDate() + diff);
-  date.setHours(23, 59, 59, 999);
-  return date;
+  _date.setDate(_date.getDate() + diff);
+  _date.setHours(23, 59, 59, 999);
+  return _date;
 }
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_endOfWeek = ((/* unused pure expression or super */ null && (endOfWeek_endOfWeek)));
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/arrow-right.js
 
 /**
@@ -56518,7 +55992,7 @@ function date_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried t
 
 
 
-const styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const styles_Wrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e105ri6r5"
 } : 0)( true ? {
   name: "1khn195",
@@ -56530,10 +56004,10 @@ const Navigator = /*#__PURE__*/emotion_styled_base_browser_esm(h_stack_component
 const NavigatorHeading = /*#__PURE__*/emotion_styled_base_browser_esm(heading_component,  true ? {
   target: "e105ri6r3"
 } : 0)("font-size:", config_values.fontSize, ";font-weight:", config_values.fontWeight, ";strong{font-weight:", config_values.fontWeightHeading, ";}" + ( true ? "" : 0));
-const Calendar = emotion_styled_base_browser_esm("div",  true ? {
+const Calendar = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e105ri6r2"
 } : 0)("column-gap:", space(2), ";display:grid;grid-template-columns:0.5fr repeat( 5, 1fr ) 0.5fr;justify-items:center;row-gap:", space(2), ";" + ( true ? "" : 0));
-const DayOfWeek = emotion_styled_base_browser_esm("div",  true ? {
+const DayOfWeek = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e105ri6r1"
 } : 0)("color:", COLORS.gray[700], ";font-size:", config_values.fontSize, ";line-height:", config_values.fontLineHeightBase, ";&:nth-of-type( 1 ){justify-self:start;}&:nth-of-type( 7 ){justify-self:end;}" + ( true ? "" : 0));
 const DayButton = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
@@ -56819,7 +56293,7 @@ function getDayLabel(date, isSelected, numEvents) {
 }
 /* harmony default export */ const date = (DatePicker);
 
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/startOfMinute/index.js
+;// CONCATENATED MODULE: ./node_modules/date-fns/startOfMinute.mjs
 
 
 /**
@@ -56831,23 +56305,28 @@ function getDayLabel(date, isSelected, numEvents) {
  * Return the start of a minute for the given date.
  * The result will be in the local timezone.
  *
- * @param {Date|Number} date - the original date
- * @returns {Date} the start of a minute
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The original date
+ *
+ * @returns The start of a minute
  *
  * @example
  * // The start of a minute for 1 December 2014 22:15:45.400:
  * const result = startOfMinute(new Date(2014, 11, 1, 22, 15, 45, 400))
  * //=> Mon Dec 01 2014 22:15:00
  */
-
-function startOfMinute(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  date.setSeconds(0, 0);
-  return date;
+function startOfMinute(date) {
+  const _date = toDate_toDate(date);
+  _date.setSeconds(0, 0);
+  return _date;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/getDaysInMonth/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_startOfMinute = ((/* unused pure expression or super */ null && (startOfMinute)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/getDaysInMonth.mjs
+
 
 
 /**
@@ -56858,27 +56337,31 @@ function startOfMinute(dirtyDate) {
  * @description
  * Get the number of days in a month of the given date.
  *
- * @param {Date|Number} date - the given date
- * @returns {Number} the number of days in a month
- * @throws {TypeError} 1 argument required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The given date
+ *
+ * @returns The number of days in a month
  *
  * @example
  * // How many days are in February 2000?
  * const result = getDaysInMonth(new Date(2000, 1))
  * //=> 29
  */
-
-function getDaysInMonth_getDaysInMonth(dirtyDate) {
-  requiredArgs_requiredArgs(1, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var year = date.getFullYear();
-  var monthIndex = date.getMonth();
-  var lastDayOfMonth = new Date(0);
+function getDaysInMonth_getDaysInMonth(date) {
+  const _date = toDate_toDate(date);
+  const year = _date.getFullYear();
+  const monthIndex = _date.getMonth();
+  const lastDayOfMonth = constructFrom_constructFrom(date, 0);
   lastDayOfMonth.setFullYear(year, monthIndex + 1, 0);
   lastDayOfMonth.setHours(0, 0, 0, 0);
   return lastDayOfMonth.getDate();
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/setMonth/index.js
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_getDaysInMonth = ((/* unused pure expression or super */ null && (getDaysInMonth_getDaysInMonth)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/setMonth.mjs
 
 
 
@@ -56891,36 +56374,37 @@ function getDaysInMonth_getDaysInMonth(dirtyDate) {
  * @description
  * Set the month to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} month - the month of the new date
- * @returns {Date} the new date with the month set
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param month - The month index to set (0-11)
+ *
+ * @returns The new date with the month set
  *
  * @example
  * // Set February to 1 September 2014:
  * const result = setMonth(new Date(2014, 8, 1), 1)
  * //=> Sat Feb 01 2014 00:00:00
  */
+function setMonth_setMonth(date, month) {
+  const _date = toDate_toDate(date);
+  const year = _date.getFullYear();
+  const day = _date.getDate();
 
-function setMonth_setMonth(dirtyDate, dirtyMonth) {
-  requiredArgs_requiredArgs(2, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var month = toInteger_toInteger(dirtyMonth);
-  var year = date.getFullYear();
-  var day = date.getDate();
-  var dateWithDesiredMonth = new Date(0);
+  const dateWithDesiredMonth = constructFrom_constructFrom(date, 0);
   dateWithDesiredMonth.setFullYear(year, month, 15);
   dateWithDesiredMonth.setHours(0, 0, 0, 0);
-  var daysInMonth = getDaysInMonth_getDaysInMonth(dateWithDesiredMonth); // Set the last day of the new month
+  const daysInMonth = getDaysInMonth_getDaysInMonth(dateWithDesiredMonth);
+  // Set the last day of the new month
   // if the original date was the last day of the longer month
-
-  date.setMonth(month, Math.min(day, daysInMonth));
-  return date;
+  _date.setMonth(month, Math.min(day, daysInMonth));
+  return _date;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/set/index.js
-function set_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { set_typeof = function _typeof(obj) { return typeof obj; }; } else { set_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return set_typeof(obj); }
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_setMonth = ((/* unused pure expression or super */ null && (setMonth_setMonth)));
 
+;// CONCATENATED MODULE: ./node_modules/date-fns/set.mjs
 
 
 
@@ -56940,18 +56424,12 @@ function set_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "fun
  * to use native `Date#setX` methods. If you use this function, you may not want to include the
  * other `setX` functions that date-fns provides if you are concerned about the bundle size.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Object} values - an object with options
- * @param {Number} [values.year] - the number of years to be set
- * @param {Number} [values.month] - the number of months to be set
- * @param {Number} [values.date] - the number of days to be set
- * @param {Number} [values.hours] - the number of hours to be set
- * @param {Number} [values.minutes] - the number of minutes to be set
- * @param {Number} [values.seconds] - the number of seconds to be set
- * @param {Number} [values.milliseconds] - the number of milliseconds to be set
- * @returns {Date} the new date with options set
- * @throws {TypeError} 2 arguments required
- * @throws {RangeError} `values` must be an object
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param values - The date values to be set
+ *
+ * @returns The new date with options set
  *
  * @example
  * // Transform 1 September 2014 into 20 October 2015 in a single line:
@@ -56963,51 +56441,50 @@ function set_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "fun
  * const result = set(new Date(2014, 8, 1, 1, 23, 45), { hours: 12 })
  * //=> Mon Sep 01 2014 12:23:45
  */
-function set_set(dirtyDate, values) {
-  requiredArgs_requiredArgs(2, arguments);
 
-  if (set_typeof(values) !== 'object' || values === null) {
-    throw new RangeError('values parameter must be an object');
-  }
+function set_set(date, values) {
+  let _date = toDate_toDate(date);
 
-  var date = toDate_toDate(dirtyDate); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
-
-  if (isNaN(date.getTime())) {
-    return new Date(NaN);
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
+  if (isNaN(+_date)) {
+    return constructFrom_constructFrom(date, NaN);
   }
 
   if (values.year != null) {
-    date.setFullYear(values.year);
+    _date.setFullYear(values.year);
   }
 
   if (values.month != null) {
-    date = setMonth_setMonth(date, values.month);
+    _date = setMonth_setMonth(_date, values.month);
   }
 
   if (values.date != null) {
-    date.setDate(toInteger_toInteger(values.date));
+    _date.setDate(values.date);
   }
 
   if (values.hours != null) {
-    date.setHours(toInteger_toInteger(values.hours));
+    _date.setHours(values.hours);
   }
 
   if (values.minutes != null) {
-    date.setMinutes(toInteger_toInteger(values.minutes));
+    _date.setMinutes(values.minutes);
   }
 
   if (values.seconds != null) {
-    date.setSeconds(toInteger_toInteger(values.seconds));
+    _date.setSeconds(values.seconds);
   }
 
   if (values.milliseconds != null) {
-    date.setMilliseconds(toInteger_toInteger(values.milliseconds));
+    _date.setMilliseconds(values.milliseconds);
   }
 
-  return date;
+  return _date;
 }
-;// CONCATENATED MODULE: ./node_modules/date-fns/esm/setHours/index.js
 
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_set = ((/* unused pure expression or super */ null && (set_set)));
+
+;// CONCATENATED MODULE: ./node_modules/date-fns/setHours.mjs
 
 
 /**
@@ -57018,24 +56495,27 @@ function set_set(dirtyDate, values) {
  * @description
  * Set the hours to the given date.
  *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} hours - the hours of the new date
- * @returns {Date} the new date with the hours set
- * @throws {TypeError} 2 arguments required
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The date to be changed
+ * @param hours - The hours of the new date
+ *
+ * @returns The new date with the hours set
  *
  * @example
  * // Set 4 hours to 1 September 2014 11:30:00:
  * const result = setHours(new Date(2014, 8, 1, 11, 30), 4)
  * //=> Mon Sep 01 2014 04:30:00
  */
-
-function setHours(dirtyDate, dirtyHours) {
-  requiredArgs_requiredArgs(2, arguments);
-  var date = toDate_toDate(dirtyDate);
-  var hours = toInteger_toInteger(dirtyHours);
-  date.setHours(hours);
-  return date;
+function setHours(date, hours) {
+  const _date = toDate_toDate(date);
+  _date.setHours(hours);
+  return _date;
 }
+
+// Fallback for modularized imports:
+/* harmony default export */ const date_fns_setHours = ((/* unused pure expression or super */ null && (setHours)));
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/date-time/time/styles.js
 
 function time_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
@@ -57052,13 +56532,13 @@ function time_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried t
 
 
 
-const time_styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const time_styles_Wrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "evcr2319"
 } : 0)("box-sizing:border-box;font-size:", config_values.fontSize, ";" + ( true ? "" : 0));
-const Fieldset = emotion_styled_base_browser_esm("fieldset",  true ? {
+const Fieldset = /*#__PURE__*/emotion_styled_base_browser_esm("fieldset",  true ? {
   target: "evcr2318"
 } : 0)("border:0;margin:0 0 ", space(2 * 2), " 0;padding:0;&:last-child{margin-bottom:0;}" + ( true ? "" : 0));
-const TimeWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const TimeWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "evcr2317"
 } : 0)( true ? {
   name: "pd0mhc",
@@ -57068,7 +56548,7 @@ const baseInput = /*#__PURE__*/emotion_react_browser_esm_css("&&& ", Input, "{pa
 const HoursInput = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
   target: "evcr2316"
 } : 0)(baseInput, " width:", space(9), ";&&& ", Input, "{padding-right:0;}&&& ", BackdropUI, "{border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;}" + ( true ? "" : 0));
-const TimeSeparator = emotion_styled_base_browser_esm("span",  true ? {
+const TimeSeparator = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "evcr2315"
 } : 0)("border-top:", config_values.borderWidth, " solid ", COLORS.gray[700], ";border-bottom:", config_values.borderWidth, " solid ", COLORS.gray[700], ";line-height:calc(\n\t\t", config_values.controlHeight, " - ", config_values.borderWidth, " * 2\n\t);display:inline-block;" + ( true ? "" : 0));
 const MinutesInput = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
@@ -57077,7 +56557,7 @@ const MinutesInput = /*#__PURE__*/emotion_styled_base_browser_esm(number_control
 
 // Ideally we wouldn't need a wrapper, but can't otherwise target the
 // <BaseControl> in <SelectControl>
-const MonthSelectWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const MonthSelectWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "evcr2313"
 } : 0)( true ? {
   name: "1ff36h2",
@@ -57089,7 +56569,7 @@ const DayInput = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  t
 const YearInput = /*#__PURE__*/emotion_styled_base_browser_esm(number_control,  true ? {
   target: "evcr2311"
 } : 0)(baseInput, " width:", space(14), ";" + ( true ? "" : 0));
-const TimeZone = emotion_styled_base_browser_esm("div",  true ? {
+const TimeZone = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "evcr2310"
 } : 0)( true ? {
   name: "ebu3jh",
@@ -57446,7 +56926,7 @@ function TimePicker({
     __unstableStateReducer: buildPadInputStateReducer(4)
   }))));
 }
-/* harmony default export */ const time = (TimePicker);
+/* harmony default export */ const date_time_time = (TimePicker);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/date-time/date-time/styles.js
 
@@ -57497,7 +56977,7 @@ function UnforwardedDateTimePicker({
     ref: ref,
     className: "components-datetime",
     spacing: 4
-  }, (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(time, {
+  }, (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(date_time_time, {
     currentTime: currentDate,
     onChange: onChange,
     is12Hour: is12Hour
@@ -57667,7 +57147,7 @@ function DimensionControl(props) {
   }), label);
   return (0,external_React_.createElement)(select_control, {
     __next40pxDefaultSize: __next40pxDefaultSize,
-    className: classnames_default()(className, 'block-editor-dimension-control'),
+    className: dist_clsx(className, 'block-editor-dimension-control'),
     label: selectLabel,
     hideLabelFromVision: false,
     value: value,
@@ -58061,6 +57541,75 @@ const upload = (0,external_React_.createElement)(external_wp_primitives_namespac
  * Internal dependencies
  */
 
+const drop_zone_backdrop = {
+  hidden: {
+    opacity: 0
+  },
+  show: {
+    opacity: 1,
+    transition: {
+      type: 'tween',
+      duration: 0.2,
+      delay: 0,
+      delayChildren: 0.1
+    }
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+      delayChildren: 0
+    }
+  }
+};
+const foreground = {
+  hidden: {
+    opacity: 0,
+    scale: 0.9
+  },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.1
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9
+  }
+};
+function DropIndicator({
+  label
+}) {
+  const disableMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
+  const children = (0,external_React_.createElement)(motion.div, {
+    variants: drop_zone_backdrop,
+    initial: disableMotion ? 'show' : 'hidden',
+    animate: "show",
+    exit: disableMotion ? 'show' : 'exit',
+    className: "components-drop-zone__content"
+    // Without this, when this div is shown,
+    // Safari calls a onDropZoneLeave causing a loop because of this bug
+    // https://bugs.webkit.org/show_bug.cgi?id=66547
+    ,
+    style: {
+      pointerEvents: 'none'
+    }
+  }, (0,external_React_.createElement)(motion.div, {
+    variants: foreground
+  }, (0,external_React_.createElement)(icons_build_module_icon, {
+    icon: library_upload,
+    className: "components-drop-zone__content-icon"
+  }), (0,external_React_.createElement)("span", {
+    className: "components-drop-zone__content-text"
+  }, label ? label : (0,external_wp_i18n_namespaceObject.__)('Drop files to upload'))));
+  if (disableMotion) {
+    return children;
+  }
+  return (0,external_React_.createElement)(AnimatePresence, null, children);
+}
+
 /**
  * `DropZone` is a component creating a drop zone area taking the full size of its parent element. It supports dropping files, HTML content or any other HTML drop event.
  *
@@ -58141,70 +57690,7 @@ function DropZoneComponent({
       setIsDraggingOverElement(false);
     }
   });
-  const disableMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
-  let children;
-  const backdrop = {
-    hidden: {
-      opacity: 0
-    },
-    show: {
-      opacity: 1,
-      transition: {
-        type: 'tween',
-        duration: 0.2,
-        delay: 0,
-        delayChildren: 0.1
-      }
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        delayChildren: 0
-      }
-    }
-  };
-  const foreground = {
-    hidden: {
-      opacity: 0,
-      scale: 0.9
-    },
-    show: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.1
-      }
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.9
-    }
-  };
-  if (isDraggingOverElement) {
-    children = (0,external_React_.createElement)(motion.div, {
-      variants: backdrop,
-      initial: disableMotion ? 'show' : 'hidden',
-      animate: "show",
-      exit: disableMotion ? 'show' : 'exit',
-      className: "components-drop-zone__content"
-      // Without this, when this div is shown,
-      // Safari calls a onDropZoneLeave causing a loop because of this bug
-      // https://bugs.webkit.org/show_bug.cgi?id=66547
-      ,
-      style: {
-        pointerEvents: 'none'
-      }
-    }, (0,external_React_.createElement)(motion.div, {
-      variants: foreground
-    }, (0,external_React_.createElement)(icons_build_module_icon, {
-      icon: library_upload,
-      className: "components-drop-zone__content-icon"
-    }), (0,external_React_.createElement)("span", {
-      className: "components-drop-zone__content-text"
-    }, label ? label : (0,external_wp_i18n_namespaceObject.__)('Drop files to upload'))));
-  }
-  const classes = classnames_default()('components-drop-zone', className, {
+  const classes = dist_clsx('components-drop-zone', className, {
     'is-active': (isDraggingOverDocument || isDraggingOverElement) && (type === 'file' && onFilesDrop || type === 'html' && onHTMLDrop || type === 'default' && onDrop),
     'is-dragging-over-document': isDraggingOverDocument,
     'is-dragging-over-element': isDraggingOverElement,
@@ -58214,7 +57700,9 @@ function DropZoneComponent({
     ...restProps,
     ref: ref,
     className: classes
-  }, disableMotion ? children : (0,external_React_.createElement)(AnimatePresence, null, children));
+  }, isDraggingOverElement && (0,external_React_.createElement)(DropIndicator, {
+    label: label
+  }));
 }
 /* harmony default export */ const drop_zone = (DropZoneComponent);
 
@@ -58278,7 +57766,9 @@ k([names]);
  */
 function getDefaultColors(palette) {
   // A default dark and light color are required.
-  if (!palette || palette.length < 2) return ['#000', '#fff'];
+  if (!palette || palette.length < 2) {
+    return ['#000', '#fff'];
+  }
   return palette.map(({
     color
   }) => ({
@@ -58654,38 +58144,6 @@ function DuotonePicker({
 }
 /* harmony default export */ const duotone_picker = (DuotonePicker);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
-
-/**
- * WordPress dependencies
- */
-
-const external = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z"
-}));
-/* harmony default export */ const library_external = (external);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/external-link/styles/external-link-styles.js
-
-function external_link_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-const StyledIcon = /*#__PURE__*/emotion_styled_base_browser_esm(icons_build_module_icon,  true ? {
-  target: "esh4a730"
-} : 0)( true ? {
-  name: "rvs7bx",
-  styles: "width:1em;height:1em;margin:0;vertical-align:middle;fill:currentColor"
-} : 0);
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/external-link/index.js
 
 /**
@@ -58698,11 +58156,9 @@ const StyledIcon = /*#__PURE__*/emotion_styled_base_browser_esm(icons_build_modu
 
 
 
-
 /**
  * Internal dependencies
  */
-
 
 function UnforwardedExternalLink(props, ref) {
   const {
@@ -58713,7 +58169,7 @@ function UnforwardedExternalLink(props, ref) {
     ...additionalProps
   } = props;
   const optimizedRel = [...new Set([...rel.split(' '), 'external', 'noreferrer', 'noopener'].filter(Boolean))].join(' ');
-  const classes = classnames_default()('components-external-link', className);
+  const classes = dist_clsx('components-external-link', className);
   /* Anchor links are perceived as external links.
   This constant helps check for on page anchor links,
   to prevent them from being opened in the editor. */
@@ -58735,13 +58191,13 @@ function UnforwardedExternalLink(props, ref) {
       target: "_blank",
       rel: optimizedRel,
       ref: ref
-    }, children, (0,external_React_.createElement)(visually_hidden_component, {
-      as: "span"
-    }, /* translators: accessibility text */
-    (0,external_wp_i18n_namespaceObject.__)('(opens in a new tab)')), (0,external_React_.createElement)(StyledIcon, {
-      icon: library_external,
-      className: "components-external-link__icon"
-    }))
+    }, (0,external_React_.createElement)("span", {
+      className: "components-external-link__contents"
+    }, children), (0,external_React_.createElement)("span", {
+      className: "components-external-link__icon",
+      "aria-label": /* translators: accessibility text */
+      (0,external_wp_i18n_namespaceObject.__)('(opens in a new tab)')
+    }, "\u2197"))
     /* eslint-enable react/jsx-no-target-blank */
   );
 }
@@ -58785,7 +58241,9 @@ function getExtension(filename = '') {
  * @return Whether the file is a video.
  */
 function isVideoType(filename = '') {
-  if (!filename) return false;
+  if (!filename) {
+    return false;
+  }
   return filename.startsWith('data:video/') || VIDEO_EXTENSIONS.includes(getExtension(filename));
 }
 
@@ -58813,16 +58271,16 @@ function focal_point_picker_style_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You
 
 
 
-const MediaWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const MediaWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeew7dm8"
 } : 0)( true ? {
   name: "jqnsxy",
   styles: "background-color:transparent;display:flex;text-align:center;width:100%"
 } : 0);
-const MediaContainer = emotion_styled_base_browser_esm("div",  true ? {
+const MediaContainer = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeew7dm7"
 } : 0)("align-items:center;border-radius:", config_values.radiusBlockUi, ";cursor:pointer;display:inline-flex;justify-content:center;margin:auto;position:relative;height:100%;&:after{border-radius:inherit;bottom:0;box-shadow:inset 0 0 0 1px rgba( 0, 0, 0, 0.1 );content:'';left:0;pointer-events:none;position:absolute;right:0;top:0;}img,video{border-radius:inherit;box-sizing:border-box;display:block;height:auto;margin:0;max-height:100%;max-width:100%;pointer-events:none;user-select:none;width:auto;}" + ( true ? "" : 0));
-const MediaPlaceholder = emotion_styled_base_browser_esm("div",  true ? {
+const MediaPlaceholder = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeew7dm6"
 } : 0)("background:", COLORS.gray[100], ";border-radius:inherit;box-sizing:border-box;height:", INITIAL_BOUNDS.height, "px;max-width:280px;min-width:", INITIAL_BOUNDS.width, "px;width:100%;" + ( true ? "" : 0));
 const focal_point_picker_style_StyledUnitControl = /*#__PURE__*/emotion_styled_base_browser_esm(unit_control,  true ? {
@@ -58852,12 +58310,12 @@ const extraHelpTextMargin = ({
 const ControlWrapper = /*#__PURE__*/emotion_styled_base_browser_esm(flex_component,  true ? {
   target: "eeew7dm4"
 } : 0)("max-width:320px;padding-top:1em;", extraHelpTextMargin, " ", deprecatedBottomMargin, ";" + ( true ? "" : 0));
-const GridView = emotion_styled_base_browser_esm("div",  true ? {
+const GridView = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeew7dm3"
-} : 0)("left:50%;overflow:hidden;pointer-events:none;position:absolute;top:50%;transform:translate3d( -50%, -50%, 0 );transition:opacity 100ms linear;z-index:1;", reduceMotion('transition'), " opacity:", ({
+} : 0)("left:50%;overflow:hidden;pointer-events:none;position:absolute;top:50%;transform:translate3d( -50%, -50%, 0 );z-index:1;@media not ( prefers-reduced-motion ){transition:opacity 100ms linear;}opacity:", ({
   showOverlay
 }) => showOverlay ? 1 : 0, ";" + ( true ? "" : 0));
-const GridLine = emotion_styled_base_browser_esm("div",  true ? {
+const GridLine = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeew7dm2"
 } : 0)( true ? {
   name: "1yzbo24",
@@ -58904,7 +58362,9 @@ function FocalPointPickerControls({
   const valueX = fractionToPercentage(point.x);
   const valueY = fractionToPercentage(point.y);
   const handleChange = (value, axis) => {
-    if (value === undefined) return;
+    if (value === undefined) {
+      return;
+    }
     const num = parseInt(value, 10);
     if (!isNaN(num)) {
       onChange({
@@ -58948,6 +58408,39 @@ function FocalPointUnitControl(props) {
   });
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/reduce-motion.js
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ *
+ * @param {'transition' | 'animation' | string} [prop='transition'] CSS Property name
+ * @return {string} Generated CSS code for the reduced style
+ *
+ * @deprecated Write your own media query instead,
+ * e.g. `@media not ( prefers-reduced-motion ) { ...some animation... }` or
+ * `@media ( prefers-reduced-motion ) { ...reduced animation... }`.
+ */
+function reduceMotion(prop = 'transition') {
+  let style;
+  switch (prop) {
+    case 'transition':
+      style = 'transition-duration: 0ms;';
+      break;
+    case 'animation':
+      style = 'animation-duration: 1ms;';
+      break;
+    default:
+      style = `
+				animation-duration: 1ms;
+				transition-duration: 0ms;
+			`;
+  }
+  return `
+		@media ( prefers-reduced-motion: reduce ) {
+			${style};
+		}
+	`;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/focal-point-picker/styles/focal-point-style.js
 
 /**
@@ -58958,7 +58451,7 @@ function FocalPointUnitControl(props) {
  * Internal dependencies
  */
 
-const PointerCircle = emotion_styled_base_browser_esm("div",  true ? {
+const PointerCircle = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e19snlhg0"
 } : 0)("background-color:transparent;cursor:grab;height:40px;margin:-20px 0 0 -20px;position:absolute;user-select:none;width:40px;will-change:transform;z-index:10000;background:rgba( 255, 255, 255, 0.4 );border:1px solid rgba( 255, 255, 255, 0.4 );border-radius:50%;backdrop-filter:blur( 16px ) saturate( 180% );box-shadow:rgb( 0 0 0 / 10% ) 0px 0px 8px;transition:transform 100ms linear;", reduceMotion('transition'), " ", ({
   isDragging
@@ -58984,7 +58477,7 @@ function FocalPoint({
   top = '50%',
   ...props
 }) {
-  const classes = classnames_default()('components-focal-point-picker__icon_container');
+  const classes = dist_clsx('components-focal-point-picker__icon_container');
   const style = {
     left,
     top
@@ -59185,7 +58678,9 @@ function FocalPointPicker({
 
       // `value` can technically be undefined if getValueWithinDragArea() is
       // called before dragAreaRef is set, but this shouldn't happen in reality.
-      if (!value) return;
+      if (!value) {
+        return;
+      }
       onDragStart?.(value, event);
       setPoint(value);
     },
@@ -59193,7 +58688,9 @@ function FocalPointPicker({
       // Prevents text-selection when dragging.
       event.preventDefault();
       const value = getValueWithinDragArea(event);
-      if (!value) return;
+      if (!value) {
+        return;
+      }
       onDrag?.(value, event);
       setPoint(value);
     },
@@ -59211,7 +58708,9 @@ function FocalPointPicker({
   const dragAreaRef = (0,external_wp_element_namespaceObject.useRef)(null);
   const [bounds, setBounds] = (0,external_wp_element_namespaceObject.useState)(INITIAL_BOUNDS);
   const refUpdateBounds = (0,external_wp_element_namespaceObject.useRef)(() => {
-    if (!dragAreaRef.current) return;
+    if (!dragAreaRef.current) {
+      return;
+    }
     const {
       clientWidth: width,
       clientHeight: height
@@ -59228,7 +58727,9 @@ function FocalPointPicker({
   });
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     const updateBounds = refUpdateBounds.current;
-    if (!dragAreaRef.current) return;
+    if (!dragAreaRef.current) {
+      return;
+    }
     const {
       defaultView
     } = dragAreaRef.current.ownerDocument;
@@ -59246,7 +58747,9 @@ function FocalPointPicker({
     clientY,
     shiftKey
   }) => {
-    if (!dragAreaRef.current) return;
+    if (!dragAreaRef.current) {
+      return;
+    }
     const {
       top,
       left
@@ -59279,7 +58782,9 @@ function FocalPointPicker({
       code,
       shiftKey
     } = event;
-    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(code)) return;
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(code)) {
+      return;
+    }
     event.preventDefault();
     const value = {
       x,
@@ -59295,7 +58800,7 @@ function FocalPointPicker({
     left: x !== undefined ? x * bounds.width : 0.5 * bounds.width,
     top: y !== undefined ? y * bounds.height : 0.5 * bounds.height
   };
-  const classes = classnames_default()('components-focal-point-picker-control', className);
+  const classes = dist_clsx('components-focal-point-picker-control', className);
   const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(FocalPointPicker);
   const id = `inspector-focal-point-picker-control-${instanceId}`;
   use_update_effect(() => {
@@ -59319,7 +58824,9 @@ function FocalPointPicker({
     onKeyDown: arrowKeyStep,
     onMouseDown: startDrag,
     onBlur: () => {
-      if (isDragging) endDrag();
+      if (isDragging) {
+        endDrag();
+      }
     },
     ref: dragAreaRef,
     role: "button",
@@ -59454,7 +58961,7 @@ function font_size_picker_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You 
 
 
 
-const styles_Container = emotion_styled_base_browser_esm("fieldset",  true ? {
+const styles_Container = /*#__PURE__*/emotion_styled_base_browser_esm("fieldset",  true ? {
   target: "e8tqeku4"
 } : 0)( true ? {
   name: "1t1ytme",
@@ -59469,7 +58976,7 @@ const HeaderToggle = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_b
 const HeaderLabel = /*#__PURE__*/emotion_styled_base_browser_esm(base_control.VisualLabel,  true ? {
   target: "e8tqeku1"
 } : 0)("display:flex;gap:", space(1), ";justify-content:flex-start;margin-bottom:0;" + ( true ? "" : 0));
-const HeaderHint = emotion_styled_base_browser_esm("span",  true ? {
+const HeaderHint = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e8tqeku0"
 } : 0)("color:", COLORS.gray[700], ";" + ( true ? "" : 0));
 
@@ -59527,7 +59034,6 @@ const FontSizePickerSelect = props => {
   const selectedOption = value ? (_options$find = options.find(option => option.value === value)) !== null && _options$find !== void 0 ? _options$find : CUSTOM_OPTION : DEFAULT_OPTION;
   return (0,external_React_.createElement)(CustomSelectControl, {
     __next40pxDefaultSize: __next40pxDefaultSize,
-    __nextUnconstrainedWidth: true,
     className: "components-font-size-picker__select",
     label: (0,external_wp_i18n_namespaceObject.__)('Font size'),
     hideLabelFromVision: true,
@@ -59696,6 +59202,7 @@ const FontSizePickerToggleGroup = props => {
 
 
 
+const DEFAULT_UNITS = ['px', 'em', 'rem'];
 const UnforwardedFontSizePicker = (props, ref) => {
   const {
     __next40pxDefaultSize = false,
@@ -59704,13 +59211,13 @@ const UnforwardedFontSizePicker = (props, ref) => {
     disableCustomFontSizes = false,
     onChange,
     size = 'default',
-    units: unitsProp,
+    units: unitsProp = DEFAULT_UNITS,
     value,
     withSlider = false,
     withReset = true
   } = props;
   const units = useCustomUnits({
-    availableUnits: unitsProp || ['px', 'em', 'rem']
+    availableUnits: unitsProp
   });
   const shouldUseSelectControl = fontSizes.length > 5;
   const selectedFontSize = fontSizes.find(fontSize => fontSize.size === value);
@@ -59917,6 +59424,10 @@ function FormFileUpload({
  * External dependencies
  */
 
+/**
+ * WordPress dependencies
+ */
+
 
 /**
  * Internal dependencies
@@ -59943,7 +59454,7 @@ const form_toggle_noop = () => {};
  * };
  * ```
  */
-function FormToggle(props) {
+function FormToggle(props, ref) {
   const {
     className,
     checked,
@@ -59952,7 +59463,7 @@ function FormToggle(props) {
     onChange = form_toggle_noop,
     ...additionalProps
   } = props;
-  const wrapperClasses = classnames_default()('components-form-toggle', className, {
+  const wrapperClasses = dist_clsx('components-form-toggle', className, {
     'is-checked': checked,
     'is-disabled': disabled
   });
@@ -59965,14 +59476,15 @@ function FormToggle(props) {
     checked: checked,
     onChange: onChange,
     disabled: disabled,
-    ...additionalProps
+    ...additionalProps,
+    ref: ref
   }), (0,external_React_.createElement)("span", {
     className: "components-form-toggle__track"
   }), (0,external_React_.createElement)("span", {
     className: "components-form-toggle__thumb"
   }));
 }
-/* harmony default export */ const form_toggle = (FormToggle);
+/* harmony default export */ const form_toggle = ((0,external_wp_element_namespaceObject.forwardRef)(FormToggle));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/form-token-field/token.js
 
@@ -60009,7 +59521,7 @@ function Token({
   termsCount
 }) {
   const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(Token);
-  const tokenClasses = classnames_default()('components-form-token-field__token', {
+  const tokenClasses = dist_clsx('components-form-token-field__token', {
     'is-error': 'error' === status,
     'is-success': 'success' === status,
     'is-validating': 'validating' === status,
@@ -60092,6 +59604,7 @@ const TokensAndInputWrapperFlex = /*#__PURE__*/emotion_styled_base_browser_esm(f
 
 
 
+
 const form_token_field_identity = value => value;
 
 /**
@@ -60102,7 +59615,7 @@ const form_token_field_identity = value => value;
  * Tokens are separated by the "," character. Suggestions can be selected with the up or down arrows and added with the tab or enter key.
  *
  * The `value` property is handled in a manner similar to controlled form components.
- * See [Forms](http://facebook.github.io/react/docs/forms.html) in the React Documentation for more information.
+ * See [Forms](https://react.dev/reference/react-dom/components#form-components) in the React Documentation for more information.
  */
 function FormTokenField(props) {
   const {
@@ -60229,13 +59742,7 @@ function FormTokenField(props) {
   }
   function onKeyDown(event) {
     let preventDefault = false;
-    if (event.defaultPrevented ||
-    // Ignore keydowns from IMEs
-    event.nativeEvent.isComposing ||
-    // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
-    // is `isComposing=false`, even though it's technically still part of the composition.
-    // These can only be detected by keyCode.
-    event.keyCode === 229) {
+    if (event.defaultPrevented) {
       return;
     }
     switch (event.key) {
@@ -60563,7 +60070,7 @@ function FormTokenField(props) {
       ref: input
     });
   }
-  const classes = classnames_default()(className, 'components-form-token-field__input-container', {
+  const classes = dist_clsx(className, 'components-form-token-field__input-container', {
     'is-active': isActive,
     'is-disabled': disabled
   });
@@ -60574,7 +60081,7 @@ function FormTokenField(props) {
   const matchingSuggestions = getMatchingSuggestions();
   if (!disabled) {
     tokenFieldProps = Object.assign({}, tokenFieldProps, {
-      onKeyDown,
+      onKeyDown: withIgnoreIMEEvents(onKeyDown),
       onKeyPress,
       onFocus: onFocusHandler
     });
@@ -60586,7 +60093,7 @@ function FormTokenField(props) {
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (0,external_React_.createElement)("div", {
     ...tokenFieldProps
-  }, (0,external_React_.createElement)(StyledLabel, {
+  }, label && (0,external_React_.createElement)(StyledLabel, {
     htmlFor: `components-form-token-input-${instanceId}`,
     className: "components-form-token-field__label"
   }, label), (0,external_React_.createElement)("div", {
@@ -60775,7 +60282,7 @@ function Guide({
     return null;
   }
   return (0,external_React_.createElement)(modal, {
-    className: classnames_default()('components-guide', className),
+    className: dist_clsx('components-guide', className),
     contentLabel: contentLabel,
     isDismissible: pages.length > 1,
     onRequestClose: onFinish,
@@ -60881,10 +60388,6 @@ function UnforwardedIconButton({
 /* harmony default export */ const deprecated = ((0,external_wp_element_namespaceObject.forwardRef)(UnforwardedIconButton));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/item-group/item/hook.js
-/**
- * External dependencies
- */
-
 /**
  * WordPress dependencies
  */
@@ -61144,7 +60647,7 @@ function MenuGroup(props) {
     return null;
   }
   const labelId = `components-menu-group-label-${instanceId}`;
-  const classNames = classnames_default()(className, 'components-menu-group', {
+  const classNames = dist_clsx(className, 'components-menu-group', {
     'has-hidden-separator': hideSeparator
   });
   return (0,external_React_.createElement)("div", {
@@ -61192,7 +60695,7 @@ function UnforwardedMenuItem(props, ref) {
     suffix,
     ...buttonProps
   } = props;
-  className = classnames_default()('components-menu-item__button', className);
+  className = dist_clsx('components-menu-item__button', className);
   if (info) {
     children = (0,external_React_.createElement)("span", {
       className: "components-menu-item__info-wrapper"
@@ -61204,7 +60707,7 @@ function UnforwardedMenuItem(props, ref) {
   }
   if (icon && typeof icon !== 'string') {
     icon = (0,external_wp_element_namespaceObject.cloneElement)(icon, {
-      className: classnames_default()('components-menu-items__item-icon', {
+      className: dist_clsx('components-menu-items__item-icon', {
         'has-icon-right': iconPosition === 'right'
       })
     });
@@ -61478,10 +60981,10 @@ function navigation_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have t
 
 
 
-const NavigationUI = emotion_styled_base_browser_esm("div",  true ? {
+const NavigationUI = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeiismy11"
 } : 0)("width:100%;box-sizing:border-box;padding:0 ", space(4), ";overflow:hidden;" + ( true ? "" : 0));
-const MenuUI = emotion_styled_base_browser_esm("div",  true ? {
+const MenuUI = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeiismy10"
 } : 0)("margin-top:", space(6), ";margin-bottom:", space(6), ";display:flex;flex-direction:column;ul{padding:0;margin:0;list-style:none;}.components-navigation__back-button{margin-bottom:", space(6), ";}.components-navigation__group+.components-navigation__group{margin-top:", space(6), ";}" + ( true ? "" : 0));
 const MenuBackButtonUI = /*#__PURE__*/emotion_styled_base_browser_esm(build_module_button,  true ? {
@@ -61490,40 +60993,40 @@ const MenuBackButtonUI = /*#__PURE__*/emotion_styled_base_browser_esm(build_modu
   name: "26l0q2",
   styles: "&.is-tertiary{color:inherit;opacity:0.7;&:hover:not( :disabled ){opacity:1;box-shadow:none;color:inherit;}&:active:not( :disabled ){background:transparent;opacity:1;color:inherit;}}"
 } : 0);
-const MenuTitleUI = emotion_styled_base_browser_esm("div",  true ? {
+const MenuTitleUI = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeiismy8"
 } : 0)( true ? {
   name: "1aubja5",
   styles: "overflow:hidden;width:100%"
 } : 0);
-const MenuTitleSearchControlWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const MenuTitleSearchControlWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeiismy7"
 } : 0)( true ? {
   name: "rgorny",
   styles: "margin:11px 0;padding:1px"
 } : 0);
-const MenuTitleActionsUI = emotion_styled_base_browser_esm("span",  true ? {
+const MenuTitleActionsUI = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "eeiismy6"
 } : 0)("height:", space(6), ";.components-button.is-small{color:inherit;opacity:0.7;margin-right:", space(1), ";padding:0;&:active:not( :disabled ){background:none;opacity:1;color:inherit;}&:hover:not( :disabled ){box-shadow:none;opacity:1;color:inherit;}}" + ( true ? "" : 0));
 const GroupTitleUI = /*#__PURE__*/emotion_styled_base_browser_esm(heading_component,  true ? {
   target: "eeiismy5"
 } : 0)("min-height:", space(12), ";align-items:center;color:inherit;display:flex;justify-content:space-between;margin-bottom:", space(2), ";padding:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? `${space(1)} ${space(4)} ${space(1)} ${space(2)}` : `${space(1)} ${space(2)} ${space(1)} ${space(4)}`, ";" + ( true ? "" : 0));
-const ItemBaseUI = emotion_styled_base_browser_esm("li",  true ? {
+const ItemBaseUI = /*#__PURE__*/emotion_styled_base_browser_esm("li",  true ? {
   target: "eeiismy4"
 } : 0)("border-radius:2px;color:inherit;margin-bottom:0;>button,>a.components-button,>a{width:100%;color:inherit;opacity:0.7;padding:", space(2), " ", space(4), ";", rtl({
   textAlign: 'left'
 }, {
   textAlign: 'right'
 }), " &:hover,&:focus:not( [aria-disabled='true'] ):active,&:active:not( [aria-disabled='true'] ):active{color:inherit;opacity:1;}}&.is-active{background-color:", COLORS.theme.accent, ";color:", COLORS.white, ";>button,>a{color:", COLORS.white, ";opacity:1;}}>svg path{color:", COLORS.gray[600], ";}" + ( true ? "" : 0));
-const ItemUI = emotion_styled_base_browser_esm("div",  true ? {
+const ItemUI = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "eeiismy3"
 } : 0)("display:flex;align-items:center;height:auto;min-height:40px;margin:0;padding:", space(1.5), " ", space(4), ";font-weight:400;line-height:20px;width:100%;color:inherit;opacity:0.7;" + ( true ? "" : 0));
-const ItemIconUI = emotion_styled_base_browser_esm("span",  true ? {
+const ItemIconUI = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "eeiismy2"
 } : 0)("display:flex;margin-right:", space(2), ";" + ( true ? "" : 0));
-const ItemBadgeUI = emotion_styled_base_browser_esm("span",  true ? {
+const ItemBadgeUI = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "eeiismy1"
-} : 0)("margin-left:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? '0' : space(2), ";margin-right:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? space(2) : '0', ";display:inline-flex;padding:", space(1), " ", space(3), ";border-radius:2px;animation:fade-in 250ms ease-out;@keyframes fade-in{from{opacity:0;}to{opacity:1;}}", reduceMotion('animation'), ";" + ( true ? "" : 0));
+} : 0)("margin-left:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? '0' : space(2), ";margin-right:", () => (0,external_wp_i18n_namespaceObject.isRTL)() ? space(2) : '0', ";display:inline-flex;padding:", space(1), " ", space(3), ";border-radius:2px;@keyframes fade-in{from{opacity:0;}to{opacity:1;}}@media not ( prefers-reduced-motion ){animation:fade-in 250ms ease-out;}" + ( true ? "" : 0));
 const ItemTitleUI = /*#__PURE__*/emotion_styled_base_browser_esm(text_component,  true ? {
   target: "eeiismy0"
 } : 0)(() => (0,external_wp_i18n_namespaceObject.isRTL)() ? 'margin-left: auto;' : 'margin-right: auto;', " font-size:14px;line-height:20px;color:inherit;" + ( true ? "" : 0));
@@ -61680,6 +61183,8 @@ const navigation_noop = () => {};
 /**
  * Render a navigation list with optional groupings and hierarchy.
  *
+ * @deprecated Use `Navigator` instead.
+ *
  * ```jsx
  * import {
  *   __experimentalNavigation as Navigation,
@@ -61758,7 +61263,7 @@ function Navigation({
     setActiveMenu,
     navigationTree
   };
-  const classes = classnames_default()('components-navigation', className);
+  const classes = dist_clsx('components-navigation', className);
   const animateClassName = getAnimateClassName({
     type: 'slide-in',
     origin: slideOrigin
@@ -61767,7 +61272,7 @@ function Navigation({
     className: classes
   }, (0,external_React_.createElement)("div", {
     key: menu,
-    className: animateClassName ? classnames_default()({
+    className: animateClassName ? dist_clsx({
       [animateClassName]: isMounted.current && slideOrigin
     }) : undefined
   }, (0,external_React_.createElement)(NavigationContext.Provider, {
@@ -61833,7 +61338,7 @@ function UnforwardedNavigationBackButton({
     setActiveMenu,
     navigationTree
   } = useNavigationContext();
-  const classes = classnames_default()('components-navigation__back-button', className);
+  const classes = dist_clsx('components-navigation__back-button', className);
   const parentMenuTitle = parentMenu !== undefined ? navigationTree.getMenu(parentMenu)?.title : undefined;
   const handleOnClick = event => {
     if (typeof onClick === 'function') {
@@ -61855,6 +61360,10 @@ function UnforwardedNavigationBackButton({
     icon: icon
   }), backButtonLabel || parentMenuTitle || (0,external_wp_i18n_namespaceObject.__)('Back'));
 }
+
+/**
+ * @deprecated Use `Navigator` instead.
+ */
 const NavigationBackButton = (0,external_wp_element_namespaceObject.forwardRef)(UnforwardedNavigationBackButton);
 /* harmony default export */ const back_button = (NavigationBackButton);
 
@@ -61892,6 +61401,10 @@ const useNavigationGroupContext = () => (0,external_wp_element_namespaceObject.u
 
 
 let uniqueId = 0;
+
+/**
+ * @deprecated Use `Navigator` instead.
+ */
 function NavigationGroup({
   children,
   className,
@@ -61914,7 +61427,7 @@ function NavigationGroup({
     }, children);
   }
   const groupTitleId = `components-navigation__group-title-${groupId}`;
-  const classes = classnames_default()('components-navigation__group', className);
+  const classes = dist_clsx('components-navigation__group', className);
   return (0,external_React_.createElement)(NavigationGroupContext.Provider, {
     value: context
   }, (0,external_React_.createElement)("li", {
@@ -62056,7 +61569,7 @@ function NavigationItemBase(props) {
   if (!navigationTree.getItem(itemId)?._isVisible) {
     return null;
   }
-  const classes = classnames_default()('components-navigation__item', className);
+  const classes = dist_clsx('components-navigation__item', className);
   return (0,external_React_.createElement)(ItemBaseUI, {
     className: classes,
     ...restProps
@@ -62085,6 +61598,10 @@ function NavigationItemBase(props) {
 
 
 const item_noop = () => {};
+
+/**
+ * @deprecated Use `Navigator` instead.
+ */
 function NavigationItem(props) {
   const {
     badge,
@@ -62115,7 +61632,7 @@ function NavigationItem(props) {
     return null;
   }
   const isActive = item && activeItem === item;
-  const classes = classnames_default()(className, {
+  const classes = dist_clsx(className, {
     'is-active': isActive
   });
   const onItemClick = event => {
@@ -62241,7 +61758,7 @@ const inlinePadding = ({
 }) => {
   return space(size === 'compact' ? 1 : 2);
 };
-const SuffixItemWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const SuffixItemWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "effl84m1"
 } : 0)("display:flex;padding-inline-end:", inlinePadding, ";svg{fill:currentColor;}" + ( true ? "" : 0));
 const StyledInputControl = /*#__PURE__*/emotion_styled_base_browser_esm(input_control,  true ? {
@@ -62332,7 +61849,7 @@ function UnforwardedSearchControl({
     ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([searchRef, forwardedRef]),
     type: "search",
     size: size,
-    className: classnames_default()('components-search-control', className),
+    className: dist_clsx('components-search-control', className),
     onChange: nextValue => onChange(nextValue !== null && nextValue !== void 0 ? nextValue : ''),
     autoComplete: "off",
     placeholder: placeholder,
@@ -62579,6 +62096,9 @@ function NavigationSearchNoResultsFound({
 
 
 
+/**
+ * @deprecated Use `Navigator` instead.
+ */
 function NavigationMenu(props) {
   const {
     backButtonLabel,
@@ -62614,7 +62134,7 @@ function NavigationMenu(props) {
   const search = isControlledSearch ? controlledSearch : uncontrolledSearch;
   const onSearch = isControlledSearch ? setControlledSearch : setUncontrolledSearch;
   const menuTitleId = `components-navigation__menu-title-${menu}`;
-  const classes = classnames_default()('components-navigation__menu', className);
+  const classes = dist_clsx('components-navigation__menu', className);
   return (0,external_React_.createElement)(NavigationMenuContext.Provider, {
     value: context
   }, (0,external_React_.createElement)(MenuUI, {
@@ -63171,14 +62691,131 @@ const navigatorScreen = props => /*#__PURE__*/emotion_react_browser_esm_css("ove
 
 
 const MAX_HISTORY_LENGTH = 50;
-function screensReducer(state = [], action) {
+function addScreen({
+  screens
+}, screen) {
+  return [...screens, screen];
+}
+function removeScreen({
+  screens
+}, screen) {
+  return screens.filter(s => s.id !== screen.id);
+}
+function goBack({
+  locationHistory
+}) {
+  if (locationHistory.length <= 1) {
+    return locationHistory;
+  }
+  return [...locationHistory.slice(0, -2), {
+    ...locationHistory[locationHistory.length - 2],
+    isBack: true,
+    hasRestoredFocus: false
+  }];
+}
+function goTo(state, path, options = {}) {
+  const {
+    locationHistory
+  } = state;
+  const {
+    focusTargetSelector,
+    isBack = false,
+    skipFocus = false,
+    replace = false,
+    ...restOptions
+  } = options;
+  const isNavigatingToSamePath = locationHistory.length > 0 && locationHistory[locationHistory.length - 1].path === path;
+  if (isNavigatingToSamePath) {
+    return locationHistory;
+  }
+  const isNavigatingToPreviousPath = isBack && locationHistory.length > 1 && locationHistory[locationHistory.length - 2].path === path;
+  if (isNavigatingToPreviousPath) {
+    return goBack(state);
+  }
+  const newLocation = {
+    ...restOptions,
+    path,
+    isBack,
+    hasRestoredFocus: false,
+    skipFocus
+  };
+  if (locationHistory.length === 0) {
+    return replace ? [] : [newLocation];
+  }
+  const newLocationHistory = locationHistory.slice(locationHistory.length > MAX_HISTORY_LENGTH - 1 ? 1 : 0, -1);
+  if (!replace) {
+    newLocationHistory.push(
+    // Assign `focusTargetSelector` to the previous location in history
+    // (the one we just navigated from).
+    {
+      ...locationHistory[locationHistory.length - 1],
+      focusTargetSelector
+    });
+  }
+  newLocationHistory.push(newLocation);
+  return newLocationHistory;
+}
+function goToParent(state, options = {}) {
+  const {
+    locationHistory,
+    screens
+  } = state;
+  const currentPath = locationHistory[locationHistory.length - 1].path;
+  if (currentPath === undefined) {
+    return locationHistory;
+  }
+  const parentPath = findParent(currentPath, screens);
+  if (parentPath === undefined) {
+    return locationHistory;
+  }
+  return goTo(state, parentPath, {
+    ...options,
+    isBack: true
+  });
+}
+function routerReducer(state, action) {
+  let {
+    screens,
+    locationHistory,
+    matchedPath
+  } = state;
   switch (action.type) {
     case 'add':
-      return [...state, action.screen];
+      screens = addScreen(state, action.screen);
+      break;
     case 'remove':
-      return state.filter(s => s.id !== action.screen.id);
+      screens = removeScreen(state, action.screen);
+      break;
+    case 'goback':
+      locationHistory = goBack(state);
+      break;
+    case 'goto':
+      locationHistory = goTo(state, action.path, action.options);
+      break;
+    case 'gotoparent':
+      locationHistory = goToParent(state, action.options);
+      break;
   }
-  return state;
+
+  // Return early in case there is no change
+  if (screens === state.screens && locationHistory === state.locationHistory) {
+    return state;
+  }
+
+  // Compute the matchedPath
+  const currentPath = locationHistory.length > 0 ? locationHistory[locationHistory.length - 1].path : undefined;
+  matchedPath = currentPath !== undefined ? patternMatch(currentPath, screens) : undefined;
+
+  // If the new match is the same as the previous match,
+  // return the previous one to keep immutability.
+  if (matchedPath && state.matchedPath && matchedPath.id === state.matchedPath.id && external_wp_isShallowEqual_default()(matchedPath.params, state.matchedPath.params)) {
+    matchedPath = state.matchedPath;
+  }
+  return {
+    screens,
+    locationHistory,
+    matchedPath
+  };
 }
 function UnconnectedNavigatorProvider(props, forwardedRef) {
   const {
@@ -63187,124 +62824,53 @@ function UnconnectedNavigatorProvider(props, forwardedRef) {
     className,
     ...otherProps
   } = useContextSystem(props, 'NavigatorProvider');
-  const [locationHistory, setLocationHistory] = (0,external_wp_element_namespaceObject.useState)([{
-    path: initialPath
-  }]);
-  const currentLocationHistory = (0,external_wp_element_namespaceObject.useRef)([]);
-  const [screens, dispatch] = (0,external_wp_element_namespaceObject.useReducer)(screensReducer, []);
-  const currentScreens = (0,external_wp_element_namespaceObject.useRef)([]);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    currentScreens.current = screens;
-  }, [screens]);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    currentLocationHistory.current = locationHistory;
-  }, [locationHistory]);
-  const currentMatch = (0,external_wp_element_namespaceObject.useRef)();
-  const matchedPath = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    let currentPath;
-    if (locationHistory.length === 0 || (currentPath = locationHistory[locationHistory.length - 1].path) === undefined) {
-      currentMatch.current = undefined;
-      return undefined;
-    }
-    const resolvePath = path => {
-      const newMatch = patternMatch(path, screens);
+  const [routerState, dispatch] = (0,external_wp_element_namespaceObject.useReducer)(routerReducer, initialPath, path => ({
+    screens: [],
+    locationHistory: [{
+      path
+    }],
+    matchedPath: undefined
+  }));
 
-      // If the new match is the same as the current match,
-      // return the previous one for performance reasons.
-      if (currentMatch.current && newMatch && external_wp_isShallowEqual_default()(newMatch.params, currentMatch.current.params) && newMatch.id === currentMatch.current.id) {
-        return currentMatch.current;
-      }
-      return newMatch;
+  // The methods are constant forever, create stable references to them.
+  const methods = (0,external_wp_element_namespaceObject.useMemo)(() => ({
+    goBack: () => dispatch({
+      type: 'goback'
+    }),
+    goTo: (path, options) => dispatch({
+      type: 'goto',
+      path,
+      options
+    }),
+    goToParent: options => dispatch({
+      type: 'gotoparent',
+      options
+    }),
+    addScreen: screen => dispatch({
+      type: 'add',
+      screen
+    }),
+    removeScreen: screen => dispatch({
+      type: 'remove',
+      screen
+    })
+  }), []);
+  const {
+    locationHistory,
+    matchedPath
+  } = routerState;
+  const navigatorContextValue = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    var _matchedPath$params;
+    return {
+      location: {
+        ...locationHistory[locationHistory.length - 1],
+        isInitial: locationHistory.length === 1
+      },
+      params: (_matchedPath$params = matchedPath?.params) !== null && _matchedPath$params !== void 0 ? _matchedPath$params : {},
+      match: matchedPath?.id,
+      ...methods
     };
-    const newMatch = resolvePath(currentPath);
-    currentMatch.current = newMatch;
-    return newMatch;
-  }, [screens, locationHistory]);
-  const addScreen = (0,external_wp_element_namespaceObject.useCallback)(screen => dispatch({
-    type: 'add',
-    screen
-  }), []);
-  const removeScreen = (0,external_wp_element_namespaceObject.useCallback)(screen => dispatch({
-    type: 'remove',
-    screen
-  }), []);
-  const goBack = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    setLocationHistory(prevLocationHistory => {
-      if (prevLocationHistory.length <= 1) {
-        return prevLocationHistory;
-      }
-      return [...prevLocationHistory.slice(0, -2), {
-        ...prevLocationHistory[prevLocationHistory.length - 2],
-        isBack: true,
-        hasRestoredFocus: false
-      }];
-    });
-  }, []);
-  const goTo = (0,external_wp_element_namespaceObject.useCallback)((path, options = {}) => {
-    const {
-      focusTargetSelector,
-      isBack = false,
-      skipFocus = false,
-      replace = false,
-      ...restOptions
-    } = options;
-    const isNavigatingToPreviousPath = isBack && currentLocationHistory.current.length > 1 && currentLocationHistory.current[currentLocationHistory.current.length - 2].path === path;
-    if (isNavigatingToPreviousPath) {
-      goBack();
-      return;
-    }
-    setLocationHistory(prevLocationHistory => {
-      const newLocation = {
-        ...restOptions,
-        path,
-        isBack,
-        hasRestoredFocus: false,
-        skipFocus
-      };
-      if (prevLocationHistory.length === 0) {
-        return replace ? [] : [newLocation];
-      }
-      const newLocationHistory = prevLocationHistory.slice(prevLocationHistory.length > MAX_HISTORY_LENGTH - 1 ? 1 : 0, -1);
-      if (!replace) {
-        newLocationHistory.push(
-        // Assign `focusTargetSelector` to the previous location in history
-        // (the one we just navigated from).
-        {
-          ...prevLocationHistory[prevLocationHistory.length - 1],
-          focusTargetSelector
-        });
-      }
-      newLocationHistory.push(newLocation);
-      return newLocationHistory;
-    });
-  }, [goBack]);
-  const goToParent = (0,external_wp_element_namespaceObject.useCallback)((options = {}) => {
-    const currentPath = currentLocationHistory.current[currentLocationHistory.current.length - 1].path;
-    if (currentPath === undefined) {
-      return;
-    }
-    const parentPath = findParent(currentPath, currentScreens.current);
-    if (parentPath === undefined) {
-      return;
-    }
-    goTo(parentPath, {
-      ...options,
-      isBack: true
-    });
-  }, [goTo]);
-  const navigatorContextValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
-    location: {
-      ...locationHistory[locationHistory.length - 1],
-      isInitial: locationHistory.length === 1
-    },
-    params: matchedPath ? matchedPath.params : {},
-    match: matchedPath ? matchedPath.id : undefined,
-    goTo,
-    goBack,
-    goToParent,
-    addScreen,
-    removeScreen
-  }), [locationHistory, matchedPath, goTo, goBack, goToParent, addScreen, removeScreen]);
+  }, [locationHistory, matchedPath, methods]);
   const cx = useCx();
   const classes = (0,external_wp_element_namespaceObject.useMemo)(() => cx(navigatorProviderWrapper, className), [className, cx]);
   return (0,external_React_.createElement)(component, {
@@ -63441,14 +63007,14 @@ function UnconnectedNavigatorScreen(props, forwardedRef) {
 
     // When navigating back, if a selector is provided, use it to look for the
     // target element (assumed to be a node inside the current NavigatorScreen)
-    if (location.isBack && location?.focusTargetSelector) {
+    if (location.isBack && location.focusTargetSelector) {
       elementToFocus = wrapperRef.current.querySelector(location.focusTargetSelector);
     }
 
     // If the previous query didn't run or find any element to focus, fallback
     // to the first tabbable element in the screen (or the screen itself).
     if (!elementToFocus) {
-      const firstTabbable = external_wp_dom_namespaceObject.focus.tabbable.find(wrapperRef.current)[0];
+      const [firstTabbable] = external_wp_dom_namespaceObject.focus.tabbable.find(wrapperRef.current);
       elementToFocus = firstTabbable !== null && firstTabbable !== void 0 ? firstTabbable : wrapperRef.current;
     }
     locationRef.current.hasRestoredFocus = true;
@@ -63874,7 +63440,7 @@ function Notice({
   onDismiss = notice_noop
 }) {
   useSpokenMessage(spokenMessage, politeness);
-  const classes = classnames_default()(className, 'components-notice', 'is-' + status, {
+  const classes = dist_clsx(className, 'components-notice', 'is-' + status, {
     'is-dismissible': isDismissible
   });
   if (__unstableHTML && typeof children === 'string') {
@@ -63911,7 +63477,7 @@ function Notice({
       href: url,
       variant: computedVariant,
       onClick: url ? undefined : onClick,
-      className: classnames_default()('components-notice__action', buttonCustomClasses)
+      className: dist_clsx('components-notice__action', buttonCustomClasses)
     }, label);
   }))), isDismissible && (0,external_React_.createElement)(build_module_button, {
     className: "components-notice__dismiss",
@@ -63968,7 +63534,7 @@ function NoticeList({
   children
 }) {
   const removeNotice = id => () => onRemove(id);
-  className = classnames_default()('components-notice-list', className);
+  className = dist_clsx('components-notice-list', className);
   return (0,external_React_.createElement)("div", {
     className: className
   }, children, [...notices].reverse().map(notice => {
@@ -64027,7 +63593,7 @@ function UnforwardedPanel({
   className,
   children
 }, ref) {
-  const classNames = classnames_default()(className, 'components-panel');
+  const classNames = dist_clsx(className, 'components-panel');
   return (0,external_React_.createElement)("div", {
     className: classNames,
     ref: ref
@@ -64137,7 +63703,7 @@ function UnforwardedPanelBody(props, ref) {
       });
     }
   }, [isOpened, scrollBehavior]);
-  const classes = classnames_default()('components-panel__body', className, {
+  const classes = dist_clsx('components-panel__body', className, {
     'is-opened': isOpened
   });
   return (0,external_React_.createElement)("div", {
@@ -64159,7 +63725,9 @@ const PanelBodyTitle = (0,external_wp_element_namespaceObject.forwardRef)(({
   title,
   ...props
 }, ref) => {
-  if (!title) return null;
+  if (!title) {
+    return null;
+  }
   return (0,external_React_.createElement)("h2", {
     className: "components-panel__body-title"
   }, (0,external_React_.createElement)(build_module_button, {
@@ -64192,12 +63760,17 @@ const PanelBody = (0,external_wp_element_namespaceObject.forwardRef)(Unforwarded
  * WordPress dependencies
  */
 
+
+/**
+ * Internal dependencies
+ */
+
 function UnforwardedPanelRow({
   className,
   children
 }, ref) {
   return (0,external_React_.createElement)("div", {
-    className: classnames_default()('components-panel__row', className),
+    className: dist_clsx('components-panel__row', className),
     ref: ref
   }, children);
 }
@@ -64276,8 +63849,8 @@ function Placeholder(props) {
       'is-small': width < 160
     };
   }
-  const classes = classnames_default()('components-placeholder', className, modifierClassNames, withIllustration ? 'has-illustration' : null);
-  const fieldsetClasses = classnames_default()('components-placeholder__fieldset', {
+  const classes = dist_clsx('components-placeholder', className, modifierClassNames, withIllustration ? 'has-illustration' : null);
+  const fieldsetClasses = dist_clsx('components-placeholder__fieldset', {
     'is-column-layout': isColumnLayout
   });
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -64464,7 +64037,9 @@ function AuthorSelect({
   selectedAuthorId,
   onChange: onChangeProp
 }) {
-  if (!authorList) return null;
+  if (!authorList) {
+    return null;
+  }
   const termsTree = buildTermsTree(authorList);
   return (0,external_React_.createElement)(tree_select, {
     label,
@@ -64845,7 +64420,7 @@ function RadioControl(props) {
     id: id,
     hideLabelFromVision: hideLabelFromVision,
     help: help,
-    className: classnames_default()(className, 'components-radio-control')
+    className: dist_clsx(className, 'components-radio-control')
   }, (0,external_React_.createElement)(v_stack_component, {
     spacing: 1
   }, options.map((option, index) => (0,external_React_.createElement)("div", {
@@ -65773,7 +65348,9 @@ function useResizeLabel({
        * If axis is controlled, we will avoid resetting the moveX and moveY values.
        * This will allow for the preferred axis values to persist in the label.
        */
-      if (isAxisControlled) return;
+      if (isAxisControlled) {
+        return;
+      }
       setMoveX(false);
       setMoveY(false);
     };
@@ -65788,10 +65365,14 @@ function useResizeLabel({
      * null. They are calculated then set using via an internal useEffect hook.
      */
     const isRendered = width !== null || height !== null;
-    if (!isRendered) return;
+    if (!isRendered) {
+      return;
+    }
     const didWidthChange = width !== widthRef.current;
     const didHeightChange = height !== heightRef.current;
-    if (!didWidthChange && !didHeightChange) return;
+    if (!didWidthChange && !didHeightChange) {
+      return;
+    }
 
     /*
      * After the initial render, the useResizeAware will set the first
@@ -65859,7 +65440,9 @@ function getSizeLabel({
   showPx = false,
   width
 }) {
-  if (!moveX && !moveY) return undefined;
+  if (!moveX && !moveY) {
+    return undefined;
+  }
 
   /*
    * Corner position...
@@ -65910,19 +65493,19 @@ function resize_tooltip_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You ha
  */
 
 
-const resize_tooltip_styles_Root = emotion_styled_base_browser_esm("div",  true ? {
+const resize_tooltip_styles_Root = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1wq7y4k3"
 } : 0)( true ? {
   name: "1cd7zoc",
   styles: "bottom:0;box-sizing:border-box;left:0;pointer-events:none;position:absolute;right:0;top:0"
 } : 0);
-const TooltipWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const TooltipWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1wq7y4k2"
 } : 0)( true ? {
   name: "ajymcs",
   styles: "align-items:center;box-sizing:border-box;display:inline-flex;justify-content:center;opacity:0;pointer-events:none;transition:opacity 120ms linear"
 } : 0);
-const resize_tooltip_styles_Tooltip = emotion_styled_base_browser_esm("div",  true ? {
+const resize_tooltip_styles_Tooltip = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1wq7y4k1"
 } : 0)("background:", COLORS.theme.foreground, ";border-radius:2px;box-sizing:border-box;font-family:", font('default.fontFamily'), ";font-size:12px;color:", COLORS.theme.foregroundInverted, ";padding:4px 8px;position:relative;" + ( true ? "" : 0));
 
@@ -65962,7 +65545,9 @@ function resize_tooltip_label_Label({
   const showLabel = !!label;
   const isBottom = position === POSITIONS.bottom;
   const isCorner = position === POSITIONS.corner;
-  if (!showLabel) return null;
+  if (!showLabel) {
+    return null;
+  }
   let style = {
     opacity: showLabel ? 1 : undefined,
     zIndex
@@ -66045,8 +65630,10 @@ function ResizeTooltip({
     showPx,
     position
   });
-  if (!isVisible) return null;
-  const classes = classnames_default()('components-resize-tooltip', className);
+  if (!isVisible) {
+    return null;
+  }
+  const classes = dist_clsx('components-resize-tooltip', className);
   return (0,external_React_.createElement)(resize_tooltip_styles_Root, {
     "aria-hidden": "true",
     className: classes,
@@ -66083,14 +65670,14 @@ const HANDLE_CLASS_NAME = 'components-resizable-box__handle';
 const SIDE_HANDLE_CLASS_NAME = 'components-resizable-box__side-handle';
 const CORNER_HANDLE_CLASS_NAME = 'components-resizable-box__corner-handle';
 const HANDLE_CLASSES = {
-  top: classnames_default()(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-top'),
-  right: classnames_default()(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-right'),
-  bottom: classnames_default()(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-bottom'),
-  left: classnames_default()(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-left'),
-  topLeft: classnames_default()(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-top', 'components-resizable-box__handle-left'),
-  topRight: classnames_default()(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-top', 'components-resizable-box__handle-right'),
-  bottomRight: classnames_default()(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-bottom', 'components-resizable-box__handle-right'),
-  bottomLeft: classnames_default()(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-bottom', 'components-resizable-box__handle-left')
+  top: dist_clsx(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-top'),
+  right: dist_clsx(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-right'),
+  bottom: dist_clsx(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-bottom'),
+  left: dist_clsx(HANDLE_CLASS_NAME, SIDE_HANDLE_CLASS_NAME, 'components-resizable-box__handle-left'),
+  topLeft: dist_clsx(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-top', 'components-resizable-box__handle-left'),
+  topRight: dist_clsx(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-top', 'components-resizable-box__handle-right'),
+  bottomRight: dist_clsx(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-bottom', 'components-resizable-box__handle-right'),
+  bottomLeft: dist_clsx(HANDLE_CLASS_NAME, CORNER_HANDLE_CLASS_NAME, 'components-resizable-box__handle-bottom', 'components-resizable-box__handle-left')
 };
 
 // Removes the inline styles in the drag handles.
@@ -66121,7 +65708,7 @@ function UnforwardedResizableBox({
   ...props
 }, ref) {
   return (0,external_React_.createElement)(Resizable, {
-    className: classnames_default()('components-resizable-box__container', showHandle && 'has-show-handle', className),
+    className: dist_clsx('components-resizable-box__container', showHandle && 'has-show-handle', className),
     handleClasses: HANDLE_CLASSES,
     handleStyles: HANDLE_STYLES,
     ref: ref,
@@ -66182,7 +65769,7 @@ function ResponsiveWrapper({
   return (0,external_React_.createElement)(TagName, {
     className: "components-responsive-wrapper"
   }, (0,external_React_.createElement)("div", null, (0,external_wp_element_namespaceObject.cloneElement)(children, {
-    className: classnames_default()('components-responsive-wrapper__content', children.props.className),
+    className: dist_clsx('components-responsive-wrapper__content', children.props.className),
     style: {
       ...children.props.style,
       aspectRatio
@@ -66525,7 +66112,7 @@ function UnforwardedSnackbar({
     }, NOTICE_TIMEOUT);
     return () => clearTimeout(timeoutHandle);
   }, [explicitDismiss]);
-  const classes = classnames_default()(className, 'components-snackbar', {
+  const classes = dist_clsx(className, 'components-snackbar', {
     'components-snackbar-explicit-dismiss': !!explicitDismiss
   });
   if (actions && actions.length > 1) {
@@ -66534,7 +66121,7 @@ function UnforwardedSnackbar({
     // return first element only while keeping it inside an array
     actions = [actions[0]];
   }
-  const snackbarContentClassnames = classnames_default()('components-snackbar__content', {
+  const snackbarContentClassnames = dist_clsx('components-snackbar__content', {
     'components-snackbar__content-with-icon': !!icon
   });
   return (0,external_React_.createElement)("div", {
@@ -66542,9 +66129,10 @@ function UnforwardedSnackbar({
     className: classes,
     onClick: !explicitDismiss ? dismissMe : undefined,
     tabIndex: 0,
-    role: !explicitDismiss ? 'button' : '',
+    role: !explicitDismiss ? 'button' : undefined,
     onKeyPress: !explicitDismiss ? dismissMe : undefined,
-    "aria-label": !explicitDismiss ? (0,external_wp_i18n_namespaceObject.__)('Dismiss this notice') : ''
+    "aria-label": !explicitDismiss ? (0,external_wp_i18n_namespaceObject.__)('Dismiss this notice') : undefined,
+    "data-testid": "snackbar"
   }, (0,external_React_.createElement)("div", {
     className: snackbarContentClassnames
   }, icon && (0,external_React_.createElement)("div", {
@@ -66563,7 +66151,7 @@ function UnforwardedSnackbar({
     }, label);
   }), explicitDismiss && (0,external_React_.createElement)("span", {
     role: "button",
-    "aria-label": "Dismiss this notice",
+    "aria-label": (0,external_wp_i18n_namespaceObject.__)('Dismiss this notice'),
     tabIndex: 0,
     className: "components-snackbar__dismiss-button",
     onClick: dismissMe,
@@ -66656,12 +66244,13 @@ function SnackbarList({
 }) {
   const listRef = (0,external_wp_element_namespaceObject.useRef)(null);
   const isReducedMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
-  className = classnames_default()('components-snackbar-list', className);
+  className = dist_clsx('components-snackbar-list', className);
   const removeNotice = notice => () => onRemove?.(notice.id);
   return (0,external_React_.createElement)("div", {
     className: className,
     tabIndex: -1,
-    ref: listRef
+    ref: listRef,
+    "data-testid": "snackbar-list"
   }, children, (0,external_React_.createElement)(AnimatePresence, null, notices.map(notice => {
     const {
       content,
@@ -66707,17 +66296,17 @@ const spinAnimation = emotion_react_browser_esm_keyframes`
 		transform: rotate(360deg);
 	}
  `;
-const StyledSpinner = emotion_styled_base_browser_esm("svg",  true ? {
+const StyledSpinner = /*#__PURE__*/emotion_styled_base_browser_esm("svg",  true ? {
   target: "ea4tfvq2"
 } : 0)("width:", config_values.spinnerSize, "px;height:", config_values.spinnerSize, "px;display:inline-block;margin:5px 11px 0;position:relative;color:", COLORS.theme.accent, ";overflow:visible;opacity:1;background-color:transparent;" + ( true ? "" : 0));
 const commonPathProps =  true ? {
   name: "9s4963",
   styles: "fill:transparent;stroke-width:1.5px"
 } : 0;
-const SpinnerTrack = emotion_styled_base_browser_esm("circle",  true ? {
+const SpinnerTrack = /*#__PURE__*/emotion_styled_base_browser_esm("circle",  true ? {
   target: "ea4tfvq1"
 } : 0)(commonPathProps, ";stroke:", COLORS.gray[300], ";" + ( true ? "" : 0));
-const SpinnerIndicator = emotion_styled_base_browser_esm("path",  true ? {
+const SpinnerIndicator = /*#__PURE__*/emotion_styled_base_browser_esm("path",  true ? {
   target: "ea4tfvq0"
 } : 0)(commonPathProps, ";stroke:currentColor;stroke-linecap:round;transform-origin:50% 50%;animation:1.4s linear infinite both ", spinAnimation, ";" + ( true ? "" : 0));
 
@@ -66740,7 +66329,7 @@ function UnforwardedSpinner({
   ...props
 }, forwardedRef) {
   return (0,external_React_.createElement)(StyledSpinner, {
-    className: classnames_default()('components-spinner', className),
+    className: dist_clsx('components-spinner', className),
     viewBox: "0 0 100 100",
     width: "16",
     height: "16",
@@ -67362,7 +66951,7 @@ const UnforwardedTabPanel = ({
     return (0,external_React_.createElement)(Tab, {
       key: tab.name,
       id: prependInstanceId(tab.name),
-      className: classnames_default()('components-tab-panel__tabs-item', tab.className, {
+      className: dist_clsx('components-tab-panel__tabs-item', tab.className, {
         [activeClass]: tab.name === selectedTabName
       }),
       disabled: tab.disabled,
@@ -67425,7 +67014,7 @@ function UnforwardedTextControl(props, ref) {
     help: help,
     className: className
   }, (0,external_React_.createElement)("input", {
-    className: classnames_default()('components-text-control__input', {
+    className: dist_clsx('components-text-control__input', {
       'is-next-40px-default-size': __next40pxDefaultSize
     }),
     type: type,
@@ -67472,8 +67061,7 @@ const TextControl = (0,external_wp_element_namespaceObject.forwardRef)(Unforward
  */
 
 
-
-const inputStyleNeutral = /*#__PURE__*/emotion_react_browser_esm_css("box-shadow:0 0 0 transparent;transition:box-shadow 0.1s linear;border-radius:", config_values.radiusBlockUi, ";border:", config_values.borderWidth, " solid ", COLORS.ui.border, ";" + ( true ? "" : 0),  true ? "" : 0);
+const inputStyleNeutral = /*#__PURE__*/emotion_react_browser_esm_css("box-shadow:0 0 0 transparent;border-radius:", config_values.radiusBlockUi, ";border:", config_values.borderWidth, " solid ", COLORS.ui.border, ";@media not ( prefers-reduced-motion ){transition:box-shadow 0.1s linear;}" + ( true ? "" : 0),  true ? "" : 0);
 const inputStyleFocus = /*#__PURE__*/emotion_react_browser_esm_css("border-color:", COLORS.theme.accent, ";box-shadow:0 0 0 calc( ", config_values.borderWidthFocus, " - ", config_values.borderWidth, " ) ", COLORS.theme.accent, ";outline:2px solid transparent;" + ( true ? "" : 0),  true ? "" : 0);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/breakpoint-values.js
@@ -67527,7 +67115,7 @@ const inputControl = /*#__PURE__*/emotion_react_browser_esm_css("display:block;f
  * Internal dependencies
  */
 
-const StyledTextarea = emotion_styled_base_browser_esm("textarea",  true ? {
+const StyledTextarea = /*#__PURE__*/emotion_styled_base_browser_esm("textarea",  true ? {
   target: "e1w5nnrk0"
 } : 0)("width:100%;", inputControl, ";" + ( true ? "" : 0));
 
@@ -67696,6 +67284,7 @@ function Tip(props) {
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -67734,7 +67323,7 @@ function ToggleControl({
   className,
   onChange,
   disabled
-}) {
+}, ref) {
   function onChangeToggle(event) {
     onChange(event.target.checked);
   }
@@ -67773,14 +67362,15 @@ function ToggleControl({
     checked: checked,
     onChange: onChangeToggle,
     "aria-describedby": describedBy,
-    disabled: disabled
+    disabled: disabled,
+    ref: ref
   }), (0,external_React_.createElement)(flex_block_component, {
     as: "label",
     htmlFor: id,
     className: "components-toggle-control__label"
   }, label)));
 }
-/* harmony default export */ const toggle_control = (ToggleControl);
+/* harmony default export */ const toggle_control = ((0,external_wp_element_namespaceObject.forwardRef)(ToggleControl));
 
 ;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/SOK7T35T.js
 "use client";
@@ -67950,7 +67540,7 @@ function UnforwardedToolbarButton({
           props.onClick(event);
         }
       },
-      className: classnames_default()('components-toolbar__control', className),
+      className: dist_clsx('components-toolbar__control', className),
       isPressed: isActive,
       disabled: isDisabled,
       "data-toolbar-item": true,
@@ -67963,7 +67553,7 @@ function UnforwardedToolbarButton({
   // all props to Button. This means that ToolbarButton has the same API as
   // Button.
   return (0,external_React_.createElement)(toolbar_item, {
-    className: classnames_default()('components-toolbar-button', className),
+    className: dist_clsx('components-toolbar-button', className),
     ...extraProps,
     ...props,
     ref: ref
@@ -68120,7 +67710,7 @@ function ToolbarGroup({
   if ((!controls || !controls.length) && !children) {
     return null;
   }
-  const finalClassName = classnames_default()(
+  const finalClassName = dist_clsx(
   // Unfortunately, there's legacy code referencing to `.components-toolbar`
   // So we can't get rid of it
   accessibleToolbarState ? 'components-toolbar-group' : 'components-toolbar', className);
@@ -68357,7 +67947,7 @@ function UnforwardedToolbar({
     });
   }
   // `ToolbarGroup` already uses components-toolbar for compatibility reasons.
-  const finalClassName = classnames_default()('components-accessible-toolbar', className, variant && `is-${variant}`);
+  const finalClassName = dist_clsx('components-accessible-toolbar', className, variant && `is-${variant}`);
   return (0,external_React_.createElement)(ContextSystemProvider, {
     value: contextSystemValue
   }, (0,external_React_.createElement)(toolbar_container, {
@@ -68487,7 +68077,7 @@ const styles_DropdownMenu =  true ? {
   name: "16gsvie",
   styles: "min-width:200px"
 } : 0;
-const ResetLabel = emotion_styled_base_browser_esm("span",  true ? {
+const ResetLabel = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "ews648u0"
 } : 0)("color:", COLORS.theme.accentDarker10, ";font-size:11px;font-weight:500;line-height:1.4;", rtl({
   marginLeft: space(3)
@@ -68709,7 +68299,7 @@ const component_ToolsPanelHeader = (props, forwardedRef) => {
       className: dropdownMenuClassName
     },
     toggleProps: {
-      isSmall: true,
+      size: 'small',
       describedBy: dropdownMenuDescriptionText
     }
   }, () => (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(menu_group, {
@@ -68904,17 +68494,16 @@ function useToolsPanel(props) {
     });
   }, [panelItems, setMenuItems, menuItemOrder]);
 
-  // Force a menu item to be checked.
-  // This is intended for use with default panel items. They are displayed
-  // separately to optional items and have different display states,
-  // we need to update that when their value is customized.
-  const flagItemCustomization = (0,external_wp_element_namespaceObject.useCallback)((label, group = 'default') => {
+  // Updates the status of the panel’s menu items. For default items the
+  // value represents whether it differs from the default and for optional
+  // items whether the item is shown.
+  const flagItemCustomization = (0,external_wp_element_namespaceObject.useCallback)((value, label, group = 'default') => {
     setMenuItems(items => {
       const newState = {
         ...items,
         [group]: {
           ...items[group],
-          [label]: true
+          [label]: value
         }
       };
       return newState;
@@ -69196,16 +68785,14 @@ function useToolsPanelItem(props) {
   const wasMenuItemChecked = (0,external_wp_compose_namespaceObject.usePrevious)(isMenuItemChecked);
   const isRegistered = menuItems?.[menuGroup]?.[label] !== undefined;
   const isValueSet = hasValue();
-  const wasValueSet = (0,external_wp_compose_namespaceObject.usePrevious)(isValueSet);
-  const newValueSet = isValueSet && !wasValueSet;
-
-  // Notify the panel when an item's value has been set.
+  // Notify the panel when an item's value has changed except for optional
+  // items without value because the item should not cause itself to hide.
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!newValueSet) {
+    if (!isShownByDefault && !isValueSet) {
       return;
     }
-    flagItemCustomization(label, menuGroup);
-  }, [newValueSet, menuGroup, label, flagItemCustomization]);
+    flagItemCustomization(isValueSet, label, menuGroup);
+  }, [isValueSet, menuGroup, label, flagItemCustomization, isShownByDefault]);
 
   // Determine if the panel item's corresponding menu is being toggled and
   // trigger appropriate callback if it is.
@@ -69219,7 +68806,7 @@ function useToolsPanelItem(props) {
     if (isMenuItemChecked && !isValueSet && !wasMenuItemChecked) {
       onSelect?.();
     }
-    if (!isMenuItemChecked && wasMenuItemChecked) {
+    if (!isMenuItemChecked && isValueSet && wasMenuItemChecked) {
       onDeselect?.();
     }
   }, [hasMatchingPanel, isMenuItemChecked, isRegistered, isResetting, isValueSet, wasMenuItemChecked, onSelect, onDeselect]);
@@ -69717,7 +69304,9 @@ const RovingTabIndexItem = (0,external_wp_element_namespaceObject.forwardRef)(fu
   if (typeof children === 'function') {
     return children(allProps);
   }
-  if (!Component) return null;
+  if (!Component) {
+    return null;
+  }
   return (0,external_React_.createElement)(Component, {
     ...allProps
   }, children);
@@ -69822,13 +69411,9 @@ const IsolatedEventContainer = (0,external_wp_element_namespaceObject.forwardRef
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/use-slot-fills.js
 /**
- * External dependencies
- */
-
-
-/**
  * WordPress dependencies
  */
+
 
 
 /**
@@ -69837,13 +69422,7 @@ const IsolatedEventContainer = (0,external_wp_element_namespaceObject.forwardRef
 
 function useSlotFills(name) {
   const registry = (0,external_wp_element_namespaceObject.useContext)(slot_fill_context);
-  const fills = useSnapshot(registry.fills, {
-    sync: true
-  });
-  // The important bit here is that this call ensures that the hook
-  // only causes a re-render if the "fills" of a given slot name
-  // change, not any fills.
-  return fills.get(name);
+  return (0,external_wp_compose_namespaceObject.useObservableValue)(registry.fills, name);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/z-stack/styles.js
@@ -69853,7 +69432,7 @@ function z_stack_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have trie
  * External dependencies
  */
 
-const ZStackChildView = emotion_styled_base_browser_esm("div",  true ? {
+const ZStackChildView = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ebn2ljm1"
 } : 0)("&:not( :first-of-type ){", ({
   offsetAmount
@@ -69868,7 +69447,7 @@ var z_stack_styles_ref =  true ? {
   name: "rs0gp6",
   styles: "grid-row-start:1;grid-column-start:1"
 } : 0;
-const ZStackView = emotion_styled_base_browser_esm("div",  true ? {
+const ZStackView = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "ebn2ljm0"
 } : 0)("display:inline-grid;grid-auto-flow:column;position:relative;&>", ZStackChildView, "{position:relative;justify-self:start;", ({
   isLayered
@@ -70472,25 +70051,25 @@ const animateProgressBar = emotion_react_browser_esm_keyframes({
 
 // Width of the indicator for the indeterminate progress bar
 const INDETERMINATE_TRACK_WIDTH = 50;
-const styles_Track = emotion_styled_base_browser_esm("div",  true ? {
+const styles_Track = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e15u147w2"
-} : 0)("position:relative;overflow:hidden;width:100%;max-width:160px;height:", config_values.borderWidthFocus, ";background-color:color-mix(\n\t\tin srgb,\n\t\tvar( --wp-components-color-foreground, ", COLORS.gray[900], " ),\n\t\ttransparent 90%\n\t);border-radius:", config_values.radiusBlockUi, ";outline:2px solid transparent;outline-offset:2px;" + ( true ? "" : 0));
-const Indicator = emotion_styled_base_browser_esm("div",  true ? {
+} : 0)("position:relative;overflow:hidden;width:100%;max-width:160px;height:", config_values.borderWidthFocus, ";background-color:color-mix(\n\t\tin srgb,\n\t\t", COLORS.theme.foreground, ",\n\t\ttransparent 90%\n\t);border-radius:", config_values.radiusBlockUi, ";outline:2px solid transparent;outline-offset:2px;" + ( true ? "" : 0));
+var progress_bar_styles_ref =  true ? {
+  name: "152sa26",
+  styles: "width:var(--indicator-width);transition:width 0.4s ease-in-out"
+} : 0;
+const Indicator = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e15u147w1"
-} : 0)("display:inline-block;position:absolute;top:0;height:100%;border-radius:", config_values.radiusBlockUi, ";background-color:color-mix(\n\t\tin srgb,\n\t\tvar( --wp-components-color-foreground, ", COLORS.gray[900], " ),\n\t\ttransparent 10%\n\t);outline:2px solid transparent;outline-offset:-2px;", ({
-  isIndeterminate,
-  value
+} : 0)("display:inline-block;position:absolute;top:0;height:100%;border-radius:", config_values.radiusBlockUi, ";background-color:color-mix(\n\t\tin srgb,\n\t\t", COLORS.theme.foreground, ",\n\t\ttransparent 10%\n\t);outline:2px solid transparent;outline-offset:-2px;", ({
+  isIndeterminate
 }) => isIndeterminate ? /*#__PURE__*/emotion_react_browser_esm_css({
   animationDuration: '1.5s',
   animationTimingFunction: 'ease-in-out',
   animationIterationCount: 'infinite',
   animationName: animateProgressBar,
   width: `${INDETERMINATE_TRACK_WIDTH}%`
-},  true ? "" : 0,  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css({
-  width: `${value}%`,
-  transition: 'width 0.4s ease-in-out'
-},  true ? "" : 0,  true ? "" : 0), ";" + ( true ? "" : 0));
-const ProgressElement = emotion_styled_base_browser_esm("progress",  true ? {
+},  true ? "" : 0,  true ? "" : 0) : progress_bar_styles_ref, ";" + ( true ? "" : 0));
+const ProgressElement = /*#__PURE__*/emotion_styled_base_browser_esm("progress",  true ? {
   target: "e15u147w0"
 } : 0)( true ? {
   name: "11fb690",
@@ -70523,8 +70102,10 @@ function UnforwardedProgressBar(props, ref) {
   return (0,external_React_.createElement)(styles_Track, {
     className: className
   }, (0,external_React_.createElement)(Indicator, {
-    isIndeterminate: isIndeterminate,
-    value: value
+    style: {
+      '--indicator-width': !isIndeterminate ? `${value}%` : undefined
+    },
+    isIndeterminate: isIndeterminate
   }), (0,external_React_.createElement)(ProgressElement, {
     max: 100,
     value: value,
@@ -72698,16 +72279,16 @@ const styles_DropdownMenuCheckboxItem = /*#__PURE__*/emotion_styled_base_browser
 const styles_DropdownMenuRadioItem = /*#__PURE__*/emotion_styled_base_browser_esm(MenuItemRadio,  true ? {
   target: "e1kdzosf9"
 } : 0)(baseItem, ";" + ( true ? "" : 0));
-const ItemPrefixWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const ItemPrefixWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1kdzosf8"
 } : 0)("grid-column:1;", styles_DropdownMenuCheckboxItem, ">&,", styles_DropdownMenuRadioItem, ">&{min-width:", space(6), ";}", styles_DropdownMenuCheckboxItem, ">&,", styles_DropdownMenuRadioItem, ">&,&:not( :empty ){margin-inline-end:", space(2), ";}display:flex;align-items:center;justify-content:center;color:", COLORS.gray['700'], ";[data-active-item]:not( [data-focus-visible] )>&,[aria-disabled='true']>&{color:inherit;}" + ( true ? "" : 0));
-const DropdownMenuItemContentWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const DropdownMenuItemContentWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1kdzosf7"
 } : 0)("grid-column:2;display:flex;align-items:center;justify-content:space-between;gap:", space(3), ";pointer-events:none;" + ( true ? "" : 0));
-const DropdownMenuItemChildrenWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const DropdownMenuItemChildrenWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1kdzosf6"
 } : 0)("flex:1;display:inline-flex;flex-direction:column;gap:", space(1), ";" + ( true ? "" : 0));
-const ItemSuffixWrapper = emotion_styled_base_browser_esm("span",  true ? {
+const ItemSuffixWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("span",  true ? {
   target: "e1kdzosf5"
 } : 0)("flex:0 1 fit-content;min-width:0;width:fit-content;display:flex;align-items:center;justify-content:center;gap:", space(3), ";color:", COLORS.gray['700'], ";[data-active-item]:not( [data-focus-visible] ) *:not(", dropdown_menu_v2_styles_DropdownMenu, ") &,[aria-disabled='true'] *:not(", dropdown_menu_v2_styles_DropdownMenu, ") &{color:inherit;}" + ( true ? "" : 0));
 const styles_DropdownMenuGroup = /*#__PURE__*/emotion_styled_base_browser_esm(menu_group_MenuGroup,  true ? {
@@ -72990,7 +72571,7 @@ const colorVariables = ({
   const shades = Object.entries(colors.gray || {}).map(([k, v]) => `--wp-components-color-gray-${k}: ${v};`).join('');
   return [/*#__PURE__*/emotion_react_browser_esm_css("--wp-components-color-accent:", colors.accent, ";--wp-components-color-accent-darker-10:", colors.accentDarker10, ";--wp-components-color-accent-darker-20:", colors.accentDarker20, ";--wp-components-color-accent-inverted:", colors.accentInverted, ";--wp-components-color-background:", colors.background, ";--wp-components-color-foreground:", colors.foreground, ";--wp-components-color-foreground-inverted:", colors.foregroundInverted, ";", shades, ";" + ( true ? "" : 0),  true ? "" : 0)];
 };
-const theme_styles_Wrapper = emotion_styled_base_browser_esm("div",  true ? {
+const theme_styles_Wrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "e1krjpvb0"
 } : 0)( true ? {
   name: "1a3idx0",
@@ -73053,7 +72634,9 @@ function warnContrastIssues(issues) {
   }
 }
 function generateAccentDependentColors(accent) {
-  if (!accent) return {};
+  if (!accent) {
+    return {};
+  }
   return {
     accent,
     accentDarker10: w(accent).darken(0.1).toHex(),
@@ -73062,7 +72645,9 @@ function generateAccentDependentColors(accent) {
   };
 }
 function generateBackgroundDependentColors(background) {
-  if (!background) return {};
+  if (!background) {
+    return {};
+  }
   const foreground = getForegroundForColor(background);
   return {
     background,
@@ -73180,7 +72765,7 @@ function tabs_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried t
 
 
 
-const TabListWrapper = emotion_styled_base_browser_esm("div",  true ? {
+const TabListWrapper = /*#__PURE__*/emotion_styled_base_browser_esm("div",  true ? {
   target: "enfox0g2"
 } : 0)( true ? {
   name: "xbm4q1",
@@ -73367,7 +72952,7 @@ const tabpanel_TabPanel = (0,external_wp_element_namespaceObject.forwardRef)(fun
 
 function Tabs({
   selectOnMove = true,
-  initialTabId,
+  defaultTabId,
   orientation = 'horizontal',
   onSelect,
   children,
@@ -73377,7 +72962,7 @@ function Tabs({
   const store = useTabStore({
     selectOnMove,
     orientation,
-    defaultSelectedId: initialTabId && `${instanceId}-${initialTabId}`,
+    defaultSelectedId: defaultTabId && `${instanceId}-${defaultTabId}`,
     setSelectedId: selectedId => {
       const strippedDownId = typeof selectedId === 'string' ? selectedId.replace(`${instanceId}-`, '') : selectedId;
       onSelect?.(strippedDownId);
@@ -73407,7 +72992,7 @@ function Tabs({
     // Ariakit internally refers to disabled tabs as `dimmed`.
     return !item.dimmed;
   });
-  const initialTab = items.find(item => item.id === `${instanceId}-${initialTabId}`);
+  const initialTab = items.find(item => item.id === `${instanceId}-${defaultTabId}`);
 
   // Handle selecting the initial tab.
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
@@ -73418,8 +73003,8 @@ function Tabs({
     // Wait for the denoted initial tab to be declared before making a
     // selection. This ensures that if a tab is declared lazily it can
     // still receive initial selection, as well as ensuring no tab is
-    // selected if an invalid `initialTabId` is provided.
-    if (initialTabId && !initialTab) {
+    // selected if an invalid `defaultTabId` is provided.
+    if (defaultTabId && !initialTab) {
       return;
     }
 
@@ -73437,7 +73022,7 @@ function Tabs({
         setSelectedId(null);
       }
     }
-  }, [firstEnabledTab, initialTab, initialTabId, isControlled, items, selectedId, setSelectedId]);
+  }, [firstEnabledTab, initialTab, defaultTabId, isControlled, items, selectedId, setSelectedId]);
 
   // Handle the currently selected tab becoming disabled.
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
@@ -73453,7 +73038,7 @@ function Tabs({
     }
 
     // If the currently selected tab becomes disabled, fall back to the
-    // `initialTabId` if possible. Otherwise select the first
+    // `defaultTabId` if possible. Otherwise select the first
     // enabled tab (if there is one).
     if (initialTab && !initialTab.dimmed) {
       setSelectedId(initialTab.id);
@@ -73476,6 +73061,13 @@ function Tabs({
       setSelectedId(null);
     }
   }, [isControlled, selectedTab, selectedTabId, setSelectedId]);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    // If there is no active tab, fallback to place focus on the first enabled tab
+    // so there is always an active element
+    if (selectedTabId === null && !activeId && firstEnabledTab?.id) {
+      setActiveId(firstEnabledTab.id);
+    }
+  }, [selectedTabId, activeId, firstEnabledTab?.id, setActiveId]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!isControlled) {
       return;

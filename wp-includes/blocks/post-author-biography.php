@@ -8,17 +8,20 @@
 /**
  * Renders the `core/post-author-biography` block on the server.
  *
+ * @since 6.0.0
+ *
  * @param  array    $attributes Block attributes.
  * @param  string   $content    Block default content.
  * @param  WP_Block $block      Block instance.
  * @return string Returns the rendered post author biography block.
  */
 function render_block_core_post_author_biography( $attributes, $content, $block ) {
-	if ( ! isset( $block->context['postId'] ) ) {
-		return '';
+	if ( isset( $block->context['postId'] ) ) {
+		$author_id = get_post_field( 'post_author', $block->context['postId'] );
+	} else {
+		$author_id = get_query_var( 'author' );
 	}
 
-	$author_id = get_post_field( 'post_author', $block->context['postId'] );
 	if ( empty( $author_id ) ) {
 		return '';
 	}
@@ -36,6 +39,8 @@ function render_block_core_post_author_biography( $attributes, $content, $block 
 
 /**
  * Registers the `core/post-author-biography` block on the server.
+ *
+ * @since 6.0.0
  */
 function register_block_core_post_author_biography() {
 	register_block_type_from_metadata(

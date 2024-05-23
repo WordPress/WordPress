@@ -8,6 +8,8 @@
 /**
  * Renders the `core/avatar` block on the server.
  *
+ * @since 6.0.0
+ *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.
  * @param WP_Block $block      Block instance.
@@ -31,7 +33,18 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 		: '';
 
 	if ( ! isset( $block->context['commentId'] ) ) {
-		$author_id   = isset( $attributes['userId'] ) ? $attributes['userId'] : get_post_field( 'post_author', $block->context['postId'] );
+		if ( isset( $attributes['userId'] ) ) {
+			$author_id = $attributes['userId'];
+		} elseif ( isset( $block->context['postId'] ) ) {
+			$author_id = get_post_field( 'post_author', $block->context['postId'] );
+		} else {
+			$author_id = get_query_var( 'author' );
+		}
+
+		if ( empty( $author_id ) ) {
+			return '';
+		}
+
 		$author_name = get_the_author_meta( 'display_name', $author_id );
 		// translators: %s is the Author name.
 		$alt          = sprintf( __( '%s Avatar' ), $author_name );
@@ -88,6 +101,8 @@ function render_block_core_avatar( $attributes, $content, $block ) {
  * Generates class names and styles to apply the border support styles for
  * the Avatar block.
  *
+ * @since 6.3.0
+ *
  * @param array $attributes The block attributes.
  * @return array The border-related classnames and styles for the block.
  */
@@ -138,6 +153,8 @@ function get_block_core_avatar_border_attributes( $attributes ) {
 
 /**
  * Registers the `core/avatar` block on the server.
+ *
+ * @since 6.0.0
  */
 function register_block_core_avatar() {
 	register_block_type_from_metadata(

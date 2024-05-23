@@ -822,7 +822,7 @@ const Platform = {
  *
  * This is the same concept as the React Native implementation.
  *
- * @see https://facebook.github.io/react-native/docs/platform-specific-code#platform-module
+ * @see https://reactnative.dev/docs/platform-specific-code#platform-module
  *
  * Here is an example of how to use the select method:
  * @example
@@ -1813,7 +1813,7 @@ function renderAttributes(props) {
     }
     let value = getNormalAttributeValue(key, props[key]);
 
-    // If value is not of serializeable type, skip.
+    // If value is not of serializable type, skip.
     if (!ATTRIBUTES_TYPES.has(typeof value)) {
       continue;
     }

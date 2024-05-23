@@ -8,6 +8,8 @@
 /**
  * Renders the `core/site-title` block on the server.
  *
+ * @since 5.8.0
+ *
  * @param array $attributes The block attributes.
  *
  * @return string The render.
@@ -53,6 +55,8 @@ function render_block_core_site_title( $attributes ) {
 
 /**
  * Registers the `core/site-title` block on the server.
+ *
+ * @since 5.8.0
  */
 function register_block_core_site_title() {
 	register_block_type_from_metadata(
