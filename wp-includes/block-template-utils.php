@@ -598,8 +598,8 @@ function _build_block_template_result_from_file( $template_file, $template_type 
 	$after_block_visitor  = null;
 	$hooked_blocks        = get_hooked_blocks();
 	if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
-		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template );
-		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template );
+		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template, 'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata' );
+		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template, 'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata' );
 	}
 	$blocks            = parse_blocks( $template->content );
 	$template->content = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
@@ -984,8 +984,8 @@ function _build_block_template_result_from_post( $post ) {
 
 	$hooked_blocks = get_hooked_blocks();
 	if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
-		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template );
-		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template );
+		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template, 'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata' );
+		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template, 'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata' );
 		$blocks               = parse_blocks( $template->content );
 		$template->content    = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
 	}

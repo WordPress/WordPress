@@ -858,11 +858,11 @@ function get_hooked_blocks() {
  * @since 6.5.0
  * @access private
  *
- * @param array                   $parsed_anchor_block The anchor block, in parsed block array format.
- * @param string                  $relative_position   The relative position of the hooked blocks.
- *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
- * @param array                   $hooked_blocks       An array of hooked block types, grouped by anchor block and relative position.
- * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
+ * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
+ * @param string                          $relative_position   The relative position of the hooked blocks.
+ *                                                             Can be one of 'before', 'after', 'first_child', or 'last_child'.
+ * @param array                           $hooked_blocks       An array of hooked block types, grouped by anchor block and relative position.
+ * @param WP_Block_Template|WP_Post|array $context             The block template, template part, or pattern that the anchor block belongs to.
  * @return string
  */
 function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooked_blocks, $context ) {
@@ -949,12 +949,12 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
  * @since 6.5.0
  * @access private
  *
- * @param array                   $parsed_anchor_block The anchor block, in parsed block array format.
- * @param string                  $relative_position   The relative position of the hooked blocks.
- *                                                     Can be one of 'before', 'after', 'first_child', or 'last_child'.
- * @param array                   $hooked_blocks       An array of hooked block types, grouped by anchor block and relative position.
- * @param WP_Block_Template|array $context             The block template, template part, or pattern that the anchor block belongs to.
- * @return string An empty string.
+ * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
+ * @param string                          $relative_position   The relative position of the hooked blocks.
+ *                                                             Can be one of 'before', 'after', 'first_child', or 'last_child'.
+ * @param array                           $hooked_blocks       An array of hooked block types, grouped by anchor block and relative position.
+ * @param WP_Block_Template|WP_Post|array $context             The block template, template part, or pattern that the anchor block belongs to.
+ * @return string Empty string.
  */
 function set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_position, $hooked_blocks, $context ) {
 	$anchor_block_type  = $parsed_anchor_block['blockName'];
@@ -1000,6 +1000,29 @@ function set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_po
 
 	// Markup for the hooked blocks has already been created (in `insert_hooked_blocks`).
 	return '';
+}
+
+/**
+ * Returns the markup for blocks hooked to the given anchor block in a specific relative position and then
+ * adds a list of hooked block types to an anchor block's ignored hooked block types.
+ *
+ * This function is meant for internal use only.
+ *
+ * @since 6.6.0
+ * @access private
+ *
+ * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
+ * @param string                          $relative_position   The relative position of the hooked blocks.
+ *                                                             Can be one of 'before', 'after', 'first_child', or 'last_child'.
+ * @param array                           $hooked_blocks       An array of hooked block types, grouped by anchor block and relative position.
+ * @param WP_Block_Template|WP_Post|array $context             The block template, template part, or pattern that the anchor block belongs to.
+ * @return string
+ */
+function insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_position, $hooked_blocks, $context ) {
+	$markup = insert_hooked_blocks( $parsed_anchor_block, $relative_position, $hooked_blocks, $context );
+	$markup .= set_ignored_hooked_blocks_metadata( $parsed_anchor_block, $relative_position, $hooked_blocks, $context );
+
+	return $markup;
 }
 
 /**
