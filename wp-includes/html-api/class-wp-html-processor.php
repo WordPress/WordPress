@@ -386,9 +386,17 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return false;
 		}
 
+		$needs_class = ( isset( $query['class_name'] ) && is_string( $query['class_name'] ) )
+			? $query['class_name']
+			: null;
+
 		if ( ! ( array_key_exists( 'breadcrumbs', $query ) && is_array( $query['breadcrumbs'] ) ) ) {
 			while ( $this->step() ) {
 				if ( '#tag' !== $this->get_token_type() ) {
+					continue;
+				}
+
+				if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
 					continue;
 				}
 
@@ -414,6 +422,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		while ( $match_offset > 0 && $this->step() ) {
 			if ( '#tag' !== $this->get_token_type() ) {
+				continue;
+			}
+
+			if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
 				continue;
 			}
 
