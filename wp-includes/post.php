@@ -328,6 +328,7 @@ function create_initial_post_types() {
 			'map_meta_cap'          => true,
 			'supports'              => array(
 				'title',
+				'excerpt',
 				'editor',
 				'revisions',
 				'custom-fields',
