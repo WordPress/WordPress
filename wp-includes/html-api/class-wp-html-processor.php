@@ -509,6 +509,44 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	}
 
 	/**
+	 * Indicates if the currently-matched node expects a closing
+	 * token, or if it will self-close on the next step.
+	 *
+	 * Most HTML elements expect a closer, such as a P element or
+	 * a DIV element. Others, like an IMG element are void and don't
+	 * have a closing tag. Special elements, such as SCRIPT and STYLE,
+	 * are treated just like void tags. Text nodes and self-closing
+	 * foreign content will also act just like a void tag, immediately
+	 * closing as soon as the processor advances to the next token.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @todo When adding support for foreign content, ensure that
+	 *       this returns false for self-closing elements in the
+	 *       SVG and MathML namespace.
+	 *
+	 * @return bool Whether to expect a closer for the currently-matched node,
+	 *              or `null` if not matched on any token.
+	 */
+	public function expects_closer() {
+		$token_name = $this->get_token_name();
+		if ( ! isset( $token_name ) ) {
+			return null;
+		}
+
+		return ! (
+			// Comments, text nodes, and other atomic tokens.
+			'#' === $token_name[0] ||
+			// Doctype declarations.
+			'html' === $token_name ||
+			// Void elements.
+			self::is_void( $token_name ) ||
+			// Special atomic elements.
+			in_array( $token_name, array( 'IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP' ), true )
+		);
+	}
+
+	/**
 	 * Steps through the HTML document and stop at the next tag, if any.
 	 *
 	 * @since 6.4.0
