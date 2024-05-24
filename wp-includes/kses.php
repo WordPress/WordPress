@@ -2304,6 +2304,7 @@ function kses_init() {
  *              Added support for `box-shadow`.
  * @since 6.4.0 Added support for `writing-mode`.
  * @since 6.5.0 Added support for `background-repeat`.
+ * @since 6.6.0 Added support for `grid-column`, `grid-row`, and `container-type`.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
