@@ -239,6 +239,14 @@
 		}
 	}
 
+	.wp-block-buttons,
+	.wp-block-button {
+
+		&.has-custom-font-size .wp-block-button__link {
+			font-size: 1em;
+		}
+	}
+
 	//! Latest posts, categories, archives
 	.wp-block-archives,
 	.wp-block-categories,

@@ -5575,6 +5575,11 @@ body.page .main-navigation {
   color: #111;
 }
 
+.entry .entry-content .wp-block-buttons.has-custom-font-size .wp-block-button__link,
+.entry .entry-content .wp-block-button.has-custom-font-size .wp-block-button__link {
+  font-size: 1em;
+}
+
 .entry .entry-content .wp-block-archives,
 .entry .entry-content .wp-block-categories,
 .entry .entry-content .wp-block-latest-posts {
