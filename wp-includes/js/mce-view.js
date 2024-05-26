@@ -489,7 +489,7 @@
 					}
 
 					editor.undoManager.transact( function() {
-						node.innerHTML = '';
+						node.innerText = '';
 						node.appendChild( _.isString( content ) ? editor.dom.createFragment( content ) : content );
 						editor.dom.add( node, 'span', { 'class': 'wpview-end' } );
 					} );
