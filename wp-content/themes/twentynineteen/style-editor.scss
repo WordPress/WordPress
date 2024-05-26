@@ -119,20 +119,24 @@ h6 {
 
 h1 {
 	font-size: $font__size-xl;
-	@include post-section-dash;
 
 	@include media(tablet) {
 		font-size: $font__size-xxl;
 	}
 }
 
+.wp-block-post-title,
 h2 {
 	font-size: $font__size-lg;
-	@include post-section-dash;
 
 	@include media(tablet) {
 		font-size: $font__size-xl;
 	}
+}
+
+h1,
+h2 {
+	@include post-section-dash;
 }
 
 h3 {
