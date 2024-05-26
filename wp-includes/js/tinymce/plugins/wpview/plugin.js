@@ -84,7 +84,7 @@
 
 					if ( node && /^[\s\uFEFF\u00A0]*$/.test( editor.$( node ).text() || '' ) ) {
 						// Make sure there are no empty inline elements in the <p>.
-						node.innerHTML = '';
+						node.innerText = '';
 					} else {
 						return;
 					}
