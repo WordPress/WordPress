@@ -11,9 +11,9 @@
 /**
  * Initializes $wp_styles if it has not been set.
  *
- * @global WP_Styles $wp_styles
- *
  * @since 4.2.0
+ *
+ * @global WP_Styles $wp_styles
  *
  * @return WP_Styles WP_Styles instance.
  */
@@ -34,9 +34,9 @@ function wp_styles() {
  * passing an array with one string prints that style,
  * and passing an array of strings prints those styles.
  *
- * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
- *
  * @since 2.6.0
+ *
+ * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
  *
  * @param string|bool|array $handles Styles to be printed. Default 'false'.
  * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.

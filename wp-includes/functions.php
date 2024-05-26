@@ -4762,10 +4762,10 @@ function wp_is_serving_rest_request() {
  * the description. Probably should create a Codex page for it, so that it is
  * available.
  *
+ * @since 2.2.0
+ *
  * @global array $wpsmiliestrans
  * @global array $wp_smiliessearch
- *
- * @since 2.2.0
  */
 function smilies_init() {
 	global $wpsmiliestrans, $wp_smiliessearch;
