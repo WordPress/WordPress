@@ -690,6 +690,19 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 endif;
 
 /**
+ * If a regular post or page, and not the front page, show the featured image below the header.
+ * Using get_queried_object_id() here since the $post global may not be set before a call to the_post().
+ *
+ * @since Twenty Seventeen 3.7
+ *
+ * @return bool Whether the post thumbnail should be shown.
+ */
+function twentyseventeen_should_show_featured_image() {
+	$show_featured_image = ( is_single() || ( is_page() && ! twentyseventeen_is_frontpage() ) ) && has_post_thumbnail( get_queried_object_id() );
+	return apply_filters( 'twentyseventeen_should_show_featured_image', $show_featured_image );
+}
+
+/**
  * Implement the Custom Header feature.
  */
 require get_parent_theme_file_path( '/inc/custom-header.php' );
