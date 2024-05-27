@@ -901,7 +901,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-settings {
-	max-width: 400px; /* Prevent reflow when help info is expanded. */
+	max-width: 240px; /* Prevent reflow when help info is expanded. */
 }
 
 .imgedit-group-controls > * {
