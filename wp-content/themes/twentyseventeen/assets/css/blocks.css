@@ -364,11 +364,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-transform: uppercase;
 }
 
-.editor-block-list__block .wp-block-latest-comments__comment-excerpt p {
-	font-size: 14px;
-	font-size: 0.875rem;
-}
-
 /* Query Loop & Post Template */
 
 .wp-block-query .wp-block-post-template > li {

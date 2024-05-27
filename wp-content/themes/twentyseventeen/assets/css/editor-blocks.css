@@ -771,10 +771,6 @@ table.wp-block-table td:last-child {
 
 /* Latest Comments */
 
-.editor-block-list__block ol.wp-block-latest-comments > li:before {
-	content: '';
-}
-
 .wp-block-latest-comments article {
 	margin-bottom: 4em;
 }
@@ -790,7 +786,7 @@ table.wp-block-table td:last-child {
 	margin-bottom: 0.4em;
 }
 
-.editor-block-list__block .wp-block-latest-comments__comment-meta a {
+.editor-styles-wrapper .wp-block-latest-comments__comment-meta a {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	font-weight: 700;
@@ -804,11 +800,6 @@ table.wp-block-table td:last-child {
 	letter-spacing: 0.1818em;
 	margin-top: 0.4em;
 	text-transform: uppercase;
-}
-
-.editor-block-list__block .wp-block-latest-comments__comment-excerpt p {
-	font-size: 14px;
-	font-size: 0.875rem;
 }
 
 /* Latest Posts */
