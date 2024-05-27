@@ -465,8 +465,8 @@ function _get_page_link( $post = false, $leavename = false, $sample = false ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param int|object $post      Optional. Post ID or object. Default uses the global `$post`.
- * @param bool       $leavename Optional. Whether to keep the page name. Default false.
+ * @param int|WP_Post $post      Optional. Post ID or object. Default uses the global `$post`.
+ * @param bool        $leavename Optional. Whether to keep the page name. Default false.
  * @return string The attachment permalink.
  */
 function get_attachment_link( $post = null, $leavename = false ) {
