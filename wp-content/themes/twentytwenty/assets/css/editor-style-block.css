@@ -942,6 +942,11 @@ hr.wp-block-separator.is-style-dots::before {
 	text-transform: inherit;
 }
 
+.wp-block-buttons[style*="letter-spacing"] .wp-block-button__link,
+.wp-block-button[style*="letter-spacing"] .wp-block-button__link {
+	letter-spacing: inherit;
+}
+
 .editor-styles-wrapper .wp-block-button .wp-block-button__link.mce-content-body {
 	line-height: 1.1;
 }

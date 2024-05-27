@@ -3033,6 +3033,11 @@ ol.wp-block-latest-comments {
 	text-transform: inherit;
 }
 
+.wp-block-buttons[style*="letter-spacing"] .wp-block-button__link,
+.wp-block-button[style*="letter-spacing"] .wp-block-button__link {
+	letter-spacing: inherit;
+}
+
 /* Block: Columns ---------------------------- */
 
 .wp-block-columns.alignfull,
