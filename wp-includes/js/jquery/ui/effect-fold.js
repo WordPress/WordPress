@@ -1,17 +1,17 @@
 /*!
- * jQuery UI Effects Fold 1.13.2
- * http://jqueryui.com
+ * jQuery UI Effects Fold 1.13.3
+ * https://jqueryui.com
  *
- * Copyright jQuery Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license.
- * http://jquery.org/license
+ * https://jquery.org/license
  */
 
 //>>label: Fold Effect
 //>>group: Effects
 //>>description: Folds an element first horizontally and then vertically.
-//>>docs: http://api.jqueryui.com/fold-effect/
-//>>demos: http://jqueryui.com/effect/
+//>>docs: https://api.jqueryui.com/fold-effect/
+//>>demos: https://jqueryui.com/effect/
 
 ( function( factory ) {
 	"use strict";
@@ -21,7 +21,8 @@
 		// AMD. Register as an anonymous module.
 		define( [
 			"jquery",
-			"./effect"
+			"../version",
+			"../effect"
 		], factory );
 	} else {
 

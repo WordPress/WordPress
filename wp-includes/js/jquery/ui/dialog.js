@@ -1,17 +1,17 @@
 /*!
- * jQuery UI Dialog 1.13.2
- * http://jqueryui.com
+ * jQuery UI Dialog 1.13.3
+ * https://jqueryui.com
  *
- * Copyright jQuery Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license.
- * http://jquery.org/license
+ * https://jquery.org/license
  */
 
 //>>label: Dialog
 //>>group: Widgets
 //>>description: Displays customizable dialog windows.
-//>>docs: http://api.jqueryui.com/dialog/
-//>>demos: http://jqueryui.com/dialog/
+//>>docs: https://api.jqueryui.com/dialog/
+//>>demos: https://jqueryui.com/dialog/
 //>>css.structure: ../../themes/base/core.css
 //>>css.structure: ../../themes/base/dialog.css
 //>>css.theme: ../../themes/base/theme.css
@@ -28,7 +28,15 @@
 			"./draggable",
 			"./mouse",
 			"./resizable",
-			"./core"
+			"../focusable",
+			"../keycode",
+			"../position",
+			"../safe-active-element",
+			"../safe-blur",
+			"../tabbable",
+			"../unique-id",
+			"../version",
+			"../widget"
 		], factory );
 	} else {
 
@@ -39,7 +47,7 @@
 "use strict";
 
 $.widget( "ui.dialog", {
-	version: "1.13.2",
+	version: "1.13.3",
 	options: {
 		appendTo: "body",
 		autoOpen: true,
@@ -873,12 +881,15 @@ $.widget( "ui.dialog", {
 					event.preventDefault();
 					instance._focusTabbable();
 
-					// Support: jQuery >=3.4 <3.6 only
-					// Focus re-triggering in jQuery 3.4/3.5 makes the original element
-					// have its focus event propagated last, breaking the re-targeting.
-					// Trigger focus in a delay in addition if needed to avoid the issue
+					// Support: jQuery >=3.4 <3.7 only
+					// In jQuery 3.4-3.6, there are multiple issues with focus/blur
+					// trigger chains or when triggering is done on a hidden element
+					// at least once.
+					// Trigger focus in a delay in addition if needed to avoid the issues.
 					// See https://github.com/jquery/jquery/issues/4382
-					if ( jqMinor === "3.4." || jqMinor === "3.5." ) {
+					// See https://github.com/jquery/jquery/issues/4856
+					// See https://github.com/jquery/jquery/issues/4950
+					if ( jqMinor === "3.4." || jqMinor === "3.5." || jqMinor === "3.6." ) {
 						instance._delay( instance._restoreTabbableFocus );
 					}
 				}
