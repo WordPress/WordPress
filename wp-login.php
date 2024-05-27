@@ -33,10 +33,10 @@ if ( force_ssl_admin() && ! is_ssl() ) {
  *                                    upon successful login.
  * @global string      $action        The action that brought the visitor to the login page.
  *
- * @param string   $title    Optional. WordPress login Page title to display in the `<title>` element.
- *                           Default null, which displays 'Log In'.
- * @param string   $message  Optional. Message to display in header. Default empty.
- * @param WP_Error $wp_error Optional. The error to pass. Default is a WP_Error instance.
+ * @param null|string $title    Optional. WordPress login Page title to display in the `<title>` element.
+ *                              Default null, which displays 'Log In'.
+ * @param string      $message  Optional. Message to display in header. Default empty.
+ * @param WP_Error    $wp_error Optional. The error to pass. Default is a WP_Error instance.
  */
 function login_header( $title = null, $message = '', $wp_error = null ) {
 	global $error, $interim_login, $action;
