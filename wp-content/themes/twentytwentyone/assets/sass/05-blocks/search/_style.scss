@@ -21,6 +21,8 @@
 		line-height: var(--form--line-height);
 		max-width: inherit;
 		margin-right: calc(-1 * var(--button--border-width));
+		// Override the default theme style for search input fields.
+		margin-left: 0;
 		padding: var(--form--spacing-unit);
 
 		&:focus {
