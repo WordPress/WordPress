@@ -64,12 +64,12 @@ if ( isset( $_REQUEST['attachment_id'] ) && (int) $_REQUEST['attachment_id'] && 
 					?>
 					<div class="filename new">
 						<span class="media-list-title"><strong><?php echo esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ); ?></strong></span>
-						<span class="media-list-subtitle"><?php echo wp_basename( $file ); ?></span>
+						<span class="media-list-subtitle"><?php echo esc_html( wp_basename( $file ) ); ?></span>
 					</div>
 				</div>
 				<div class="attachment-tools">
 					<span class="media-item-copy-container copy-to-clipboard-container edit-attachment">
-						<button type="button" class="button button-small copy-attachment-url" data-clipboard-text="<?php echo $file_url; ?>"><?php _e( 'Copy URL to clipboard' ); ?></button>
+						<button type="button" class="button button-small copy-attachment-url" data-clipboard-text="<?php echo esc_url( $file_url ); ?>"><?php _e( 'Copy URL to clipboard' ); ?></button>
 						<span class="success hidden" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
 					</span>
 					<?php
