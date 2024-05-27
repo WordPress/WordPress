@@ -128,10 +128,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	outline: none;
 }
 
-#wpadminbar .quicklinks .ab-top-secondary > li {
-	float: right;
-}
-
 #wpadminbar .quicklinks a,
 #wpadminbar .quicklinks .ab-empty-item,
 #wpadminbar .shortlink-input {
@@ -1036,10 +1032,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-edit,
 	#wpadminbar #wp-admin-bar-my-account {
 		position: static;
-	}
-
-	#wpadminbar #wp-admin-bar-my-account {
-		float: right;
 	}
 
 	.network-admin #wpadminbar ul#wp-admin-bar-top-secondary > li#wp-admin-bar-my-account {
