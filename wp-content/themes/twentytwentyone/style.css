@@ -3214,6 +3214,7 @@ pre.wp-block-preformatted {
 	line-height: var(--form--line-height);
 	max-width: inherit;
 	margin-right: calc(-1 * var(--button--border-width));
+	margin-left: 0;
 	padding: var(--form--spacing-unit);
 }
 

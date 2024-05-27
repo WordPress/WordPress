@@ -3476,6 +3476,7 @@ pre.wp-block-preformatted {
 	line-height: 1.7;
 	max-width: inherit;
 	margin-right: -3px;
+	margin-left: 0;
 	padding: 10px;
 }
 
