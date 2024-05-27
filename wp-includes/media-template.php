@@ -483,7 +483,7 @@ function wp_print_media_templates() {
 
 				<# if ( data.fileLength && data.fileLengthHumanReadable ) { #>
 					<div class="file-length"><strong><?php _e( 'Length:' ); ?></strong>
-						<span aria-hidden="true">{{ data.fileLength }}</span>
+						<span aria-hidden="true">{{ data.fileLengthHumanReadable }}</span>
 						<span class="screen-reader-text">{{ data.fileLengthHumanReadable }}</span>
 					</div>
 				<# } #>
@@ -729,7 +729,7 @@ function wp_print_media_templates() {
 
 				<# if ( data.fileLength && data.fileLengthHumanReadable ) { #>
 					<div class="file-length"><?php _e( 'Length:' ); ?>
-						<span aria-hidden="true">{{ data.fileLength }}</span>
+						<span aria-hidden="true">{{ data.fileLengthHumanReadable }}</span>
 						<span class="screen-reader-text">{{ data.fileLengthHumanReadable }}</span>
 					</div>
 				<# } #>

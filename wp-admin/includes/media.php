@@ -1664,7 +1664,8 @@ function get_media_item( $attachment_id, $args = null ) {
 	$meta       = wp_get_attachment_metadata( $post->ID );
 
 	if ( isset( $meta['width'], $meta['height'] ) ) {
-		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+		/* translators: 1: A number of pixels wide, 2: A number of pixels tall. */
+		$media_dims .= "<span id='media-dims-$post->ID'>" . sprintf( __( '%1$s by %2$s pixels' ), $meta['width'], $meta['height'] ) . '</span>';
 	}
 
 	/**
@@ -3306,7 +3307,8 @@ function attachment_submitbox_metadata() {
 	$meta       = wp_get_attachment_metadata( $attachment_id );
 
 	if ( isset( $meta['width'], $meta['height'] ) ) {
-		$media_dims .= "<span id='media-dims-$attachment_id'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
+		/* translators: 1: A number of pixels wide, 2: A number of pixels tall. */
+		$media_dims .= "<span id='media-dims-$attachment_id'>" . sprintf( __( '%1$s by %2$s pixels' ), $meta['width'], $meta['height'] ) . '</span>';
 	}
 	/** This filter is documented in wp-admin/includes/media.php */
 	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
@@ -3440,6 +3442,9 @@ function attachment_submitbox_metadata() {
 						if ( ! empty( $meta['bitrate_mode'] ) ) {
 							echo ' ' . strtoupper( esc_html( $meta['bitrate_mode'] ) );
 						}
+						break;
+					case 'length_formatted':
+						echo human_readable_duration( $meta['length_formatted'] );
 						break;
 					default:
 						echo esc_html( $meta[ $key ] );
