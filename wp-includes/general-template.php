@@ -1024,12 +1024,13 @@ function has_custom_logo( $blog_id = 0 ) {
 	}
 
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$is_image       = wp_attachment_is_image( $custom_logo_id );
 
 	if ( $switched_blog ) {
 		restore_current_blog();
 	}
 
-	return (bool) $custom_logo_id;
+	return $is_image;
 }
 
 /**
@@ -1052,10 +1053,9 @@ function get_custom_logo( $blog_id = 0 ) {
 		$switched_blog = true;
 	}
 
-	$custom_logo_id = get_theme_mod( 'custom_logo' );
-
 	// We have a logo. Logo is go.
-	if ( $custom_logo_id ) {
+	if ( has_custom_logo() ) {
+		$custom_logo_id   = get_theme_mod( 'custom_logo' );
 		$custom_logo_attr = array(
 			'class'   => 'custom-logo',
 			'loading' => false,
@@ -1097,21 +1097,25 @@ function get_custom_logo( $blog_id = 0 ) {
 		 */
 		$image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
 
-		if ( $unlink_homepage_logo && is_front_page() && ! is_paged() ) {
-			// If on the home page, don't link the logo to home.
-			$html = sprintf(
-				'<span class="custom-logo-link">%1$s</span>',
-				$image
-			);
-		} else {
-			$aria_current = is_front_page() && ! is_paged() ? ' aria-current="page"' : '';
+		// Check that we have a proper HTML img element.
+		if ( $image ) {
 
-			$html = sprintf(
-				'<a href="%1$s" class="custom-logo-link" rel="home"%2$s>%3$s</a>',
-				esc_url( home_url( '/' ) ),
-				$aria_current,
-				$image
-			);
+			if ( $unlink_homepage_logo && is_front_page() && ! is_paged() ) {
+				// If on the home page, don't link the logo to home.
+				$html = sprintf(
+					'<span class="custom-logo-link">%1$s</span>',
+					$image
+				);
+			} else {
+				$aria_current = is_front_page() && ! is_paged() ? ' aria-current="page"' : '';
+
+				$html = sprintf(
+					'<a href="%1$s" class="custom-logo-link" rel="home"%2$s>%3$s</a>',
+					esc_url( home_url( '/' ) ),
+					$aria_current,
+					$image
+				);
+			}
 		}
 	} elseif ( is_customize_preview() ) {
 		// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
