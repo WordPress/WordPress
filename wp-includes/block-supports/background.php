@@ -41,6 +41,8 @@ function wp_register_background_support( $block_type ) {
  *
  * @since 6.4.0
  * @since 6.5.0 Added support for `backgroundPosition` and `backgroundRepeat` output.
+ * @since 6.6.0 Removed requirement for `backgroundImage.source`. A file/url is the default.
+ *
  * @access private
  *
  * @param  string $block_content Rendered block content.
@@ -54,52 +56,27 @@ function wp_render_background_support( $block_content, $block ) {
 
 	if (
 		! $has_background_image_support ||
-		wp_should_skip_block_supports_serialization( $block_type, 'background', 'backgroundImage' )
+		wp_should_skip_block_supports_serialization( $block_type, 'background', 'backgroundImage' ) ||
+		! isset( $block_attributes['style']['background'] )
 	) {
 		return $block_content;
 	}
 
-	$background_image_source = isset( $block_attributes['style']['background']['backgroundImage']['source'] )
-		? $block_attributes['style']['background']['backgroundImage']['source']
-		: null;
-	$background_image_url    = isset( $block_attributes['style']['background']['backgroundImage']['url'] )
-		? $block_attributes['style']['background']['backgroundImage']['url']
-		: null;
+	$background_styles                    = array();
+	$background_styles['backgroundImage'] = isset( $block_attributes['style']['background']['backgroundImage'] ) ? $block_attributes['style']['background']['backgroundImage'] : array();
 
-	if ( ! $background_image_source && ! $background_image_url ) {
-		return $block_content;
-	}
-
-	$background_size     = isset( $block_attributes['style']['background']['backgroundSize'] )
-		? $block_attributes['style']['background']['backgroundSize']
-		: 'cover';
-	$background_position = isset( $block_attributes['style']['background']['backgroundPosition'] )
-		? $block_attributes['style']['background']['backgroundPosition']
-		: null;
-	$background_repeat   = isset( $block_attributes['style']['background']['backgroundRepeat'] )
-		? $block_attributes['style']['background']['backgroundRepeat']
-		: null;
-
-	$background_block_styles = array();
-
-	if (
-		'file' === $background_image_source &&
-		$background_image_url
-	) {
-		// Set file based background URL.
-		$background_block_styles['backgroundImage']['url'] = $background_image_url;
-		// Only output the background size and repeat when an image url is set.
-		$background_block_styles['backgroundSize']     = $background_size;
-		$background_block_styles['backgroundRepeat']   = $background_repeat;
-		$background_block_styles['backgroundPosition'] = $background_position;
+	if ( ! empty( $background_styles['backgroundImage'] ) ) {
+		$background_styles['backgroundSize']     = isset( $block_attributes['style']['background']['backgroundSize'] ) ? $block_attributes['style']['background']['backgroundSize'] : 'cover';
+		$background_styles['backgroundPosition'] = isset( $block_attributes['style']['background']['backgroundPosition'] ) ? $block_attributes['style']['background']['backgroundPosition'] : null;
+		$background_styles['backgroundRepeat']   = isset( $block_attributes['style']['background']['backgroundRepeat'] ) ? $block_attributes['style']['background']['backgroundRepeat'] : null;
 
 		// If the background size is set to `contain` and no position is set, set the position to `center`.
-		if ( 'contain' === $background_size && ! isset( $background_position ) ) {
-			$background_block_styles['backgroundPosition'] = 'center';
+		if ( 'contain' === $background_styles['backgroundSize'] && ! $background_styles['backgroundPosition'] ) {
+			$background_styles['backgroundPosition'] = 'center';
 		}
 	}
 
-	$styles = wp_style_engine_get_styles( array( 'background' => $background_block_styles ) );
+	$styles = wp_style_engine_get_styles( array( 'background' => $background_styles ) );
 
 	if ( ! empty( $styles['css'] ) ) {
 		// Inject background styles to the first element, presuming it's the wrapper, if it exists.
