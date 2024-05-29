@@ -253,7 +253,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 
 		return new WP_Error(
 			'rest_cannot_manage_templates',
-			__( 'Sorry, you are not allowed to access the templates on this site.', 'default' ),
+			__( 'Sorry, you are not allowed to access the templates on this site.' ),
 			array(
 				'status' => rest_authorization_required_code(),
 			)
@@ -310,7 +310,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 
 		return new WP_Error(
 			'rest_cannot_manage_templates',
-			__( 'Sorry, you are not allowed to access the templates on this site.', 'default' ),
+			__( 'Sorry, you are not allowed to access the templates on this site.' ),
 			array(
 				'status' => rest_authorization_required_code(),
 			)
