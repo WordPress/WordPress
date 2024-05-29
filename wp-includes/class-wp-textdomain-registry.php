@@ -88,14 +88,21 @@ class WP_Textdomain_Registry {
 	 * @param string $domain Text domain.
 	 * @param string $locale Locale.
 	 *
-	 * @return string|false MO file path or false if there is none available.
+	 * @return string|false Languages directory path or false if there is none available.
 	 */
 	public function get( $domain, $locale ) {
-		if ( isset( $this->all[ $domain ][ $locale ] ) ) {
-			return $this->all[ $domain ][ $locale ];
-		}
+		$path = $this->all[ $domain ][ $locale ] ?? $this->get_path_from_lang_dir( $domain, $locale );
 
-		return $this->get_path_from_lang_dir( $domain, $locale );
+		/**
+		 * Filters the determined languages directory path for a specific domain and locale.
+		 *
+		 * @since 6.6.0
+		 *
+		 * @param string|false $path   Languages directory path for the given domain and locale.
+		 * @param string       $domain Text domain.
+		 * @param string       $locale Locale.
+		 **/
+		return apply_filters( 'lang_dir_for_domain', $path, $domain, $locale );
 	}
 
 	/**
