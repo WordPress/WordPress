@@ -690,8 +690,17 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 endif;
 
 /**
- * If a regular post or page, and not the front page, show the featured image below the header.
- * Using get_queried_object_id() here since the $post global may not be set before a call to the_post().
+ * Show the featured image below the header on single posts and pages, unless the
+ * page is the front page.
+ *
+ * Use the filter `twentyseventeen_should_show_featured_image` in a child theme or
+ * plugin to change when the image is shown. This example prevents the image
+ * from showing:
+ *
+ *     add_filter(
+ *         'twentyseventeen_should_show_featured_image',
+ *         '__return_false'
+ *     );
  *
  * @since Twenty Seventeen 3.7
  *
