@@ -806,6 +806,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Separator */
 
 .wp-block-separator {
+	border: 0;
 	max-width: 100px;
 }
 
