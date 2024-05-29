@@ -2659,6 +2659,7 @@ function register_initial_settings() {
 				'name' => 'title',
 			),
 			'type'         => 'string',
+			'label'        => __( 'Title' ),
 			'description'  => __( 'Site title.' ),
 		)
 	);
@@ -2671,6 +2672,7 @@ function register_initial_settings() {
 				'name' => 'description',
 			),
 			'type'         => 'string',
+			'label'        => __( 'Tagline' ),
 			'description'  => __( 'Site tagline.' ),
 		)
 	);
@@ -2801,6 +2803,7 @@ function register_initial_settings() {
 		array(
 			'show_in_rest' => true,
 			'type'         => 'integer',
+			'label'        => __( 'Maximum posts per page' ),
 			'description'  => __( 'Blog pages show at most.' ),
 			'default'      => 10,
 		)
@@ -2812,6 +2815,7 @@ function register_initial_settings() {
 		array(
 			'show_in_rest' => true,
 			'type'         => 'string',
+			'label'        => __( 'Show on front' ),
 			'description'  => __( 'What to show on the front page' ),
 		)
 	);
@@ -2822,6 +2826,7 @@ function register_initial_settings() {
 		array(
 			'show_in_rest' => true,
 			'type'         => 'integer',
+			'label'        => __( 'Page on front' ),
 			'description'  => __( 'The ID of the page that should be displayed on the front page' ),
 		)
 	);
@@ -2860,6 +2865,7 @@ function register_initial_settings() {
 				),
 			),
 			'type'         => 'string',
+			'label'        => __( 'Allow comments on new posts' ),
 			'description'  => __( 'Allow people to submit comments on new posts.' ),
 		)
 	);
@@ -2874,6 +2880,7 @@ function register_initial_settings() {
  * @since 4.7.0 `$args` can be passed to set flags on the setting, similar to `register_meta()`.
  * @since 5.5.0 `$new_whitelist_options` was renamed to `$new_allowed_options`.
  *              Please consider writing more inclusive code.
+ * @since 6.6.0 Added the `label` argument.
  *
  * @global array $new_allowed_options
  * @global array $wp_registered_settings
@@ -2887,6 +2894,7 @@ function register_initial_settings() {
  *
  *     @type string     $type              The type of data associated with this setting.
  *                                         Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+ *     @type string     $label             A label of the data attached to this setting.
  *     @type string     $description       A description of the data attached to this setting.
  *     @type callable   $sanitize_callback A callback function that sanitizes the option's value.
  *     @type bool|array $show_in_rest      Whether data associated with this setting should be included in the REST API.
@@ -2907,6 +2915,7 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 	$defaults = array(
 		'type'              => 'string',
 		'group'             => $option_group,
+		'label'             => '',
 		'description'       => '',
 		'sanitize_callback' => null,
 		'show_in_rest'      => false,
