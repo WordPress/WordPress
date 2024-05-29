@@ -286,8 +286,17 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin-bottom: 1.625em;
 }
 
+.wp-block-media-text *:first-child {
+	margin-top: 0;
+}
+
 .wp-block-media-text *:last-child {
 	margin-bottom: 0;
+}
+
+.wp-block-media-text .wp-block-media-text__content {
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
 }
 
 /*--------------------------------------------------------------
