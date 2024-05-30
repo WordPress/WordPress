@@ -42,11 +42,12 @@ final class WP_Block_Styles_Registry {
 	 * or with an inline tag.
 	 *
 	 * @since 5.3.0
+	 * @since 6.6.0 Added ability to register style across multiple block types along with theme.json-like style data.
 	 *
 	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/
 	 *
-	 * @param string $block_name       Block type name including namespace.
-	 * @param array  $style_properties {
+	 * @param string|array $block_name       Block type name including namespace or array of namespaced block type names.
+	 * @param array        $style_properties {
 	 *     Array containing the properties of the style.
 	 *
 	 *     @type string $name         The identifier of the style used to compute a CSS class.
@@ -56,16 +57,17 @@ final class WP_Block_Styles_Registry {
 	 *     @type string $style_handle The handle to an already registered style that should be
 	 *                                enqueued in places where block styles are needed.
 	 *     @type bool   $is_default   Whether this is the default style for the block type.
+	 *     @type array  $style_data   Theme.json-like object to generate CSS from.
 	 * }
 	 * @return bool True if the block style was registered with success and false otherwise.
 	 */
 	public function register( $block_name, $style_properties ) {
 
-		if ( ! isset( $block_name ) || ! is_string( $block_name ) ) {
+		if ( ! is_string( $block_name ) && ! is_array( $block_name ) ) {
 			_doing_it_wrong(
 				__METHOD__,
-				__( 'Block name must be a string.' ),
-				'5.3.0'
+				__( 'Block name must be a string or array.' ),
+				'6.6.0'
 			);
 			return false;
 		}
@@ -89,11 +91,14 @@ final class WP_Block_Styles_Registry {
 		}
 
 		$block_style_name = $style_properties['name'];
+		$block_names      = is_string( $block_name ) ? array( $block_name ) : $block_name;
 
-		if ( ! isset( $this->registered_block_styles[ $block_name ] ) ) {
-			$this->registered_block_styles[ $block_name ] = array();
+		foreach ( $block_names as $name ) {
+			if ( ! isset( $this->registered_block_styles[ $name ] ) ) {
+				$this->registered_block_styles[ $name ] = array();
+			}
+			$this->registered_block_styles[ $name ][ $block_style_name ] = $style_properties;
 		}
-		$this->registered_block_styles[ $block_name ][ $block_style_name ] = $style_properties;
 
 		return true;
 	}

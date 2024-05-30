@@ -1902,14 +1902,16 @@ function block_version( $content ) {
  * Registers a new block style.
  *
  * @since 5.3.0
+ * @since 6.6.0 Updated types as registry now allows registering styles for multiple block types at once.
  *
  * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/
  *
- * @param string $block_name       Block type name including namespace.
- * @param array  $style_properties Array containing the properties of the style name, label,
- *                                 style_handle (name of the stylesheet to be enqueued),
- *                                 inline_style (string containing the CSS to be added).
- *                                 See WP_Block_Styles_Registry::register().
+ * @param string|array $block_name       Block type name including namespace or array of namespaced block type names.
+ * @param array        $style_properties Array containing the properties of the style name, label,
+ *                                       style_handle (name of the stylesheet to be enqueued),
+ *                                       inline_style (string containing the CSS to be added),
+ *                                       style_data (theme.json-like array to generate CSS from).
+ *                                       See WP_Block_Styles_Registry::register().
  * @return bool True if the block style was registered with success and false otherwise.
  */
 function register_block_style( $block_name, $style_properties ) {
