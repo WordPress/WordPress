@@ -1317,47 +1317,6 @@
 	outline: 2px dotted #c3c4c7;
 }
 
-.load-more-wrapper {
-	clear: both;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	padding: 1em 0;
-}
-
-.load-more-wrapper .load-more-count {
-	min-width: 100%;
-	margin: 0 0 1em;
-	text-align: center;
-}
-
-.load-more-wrapper .load-more {
-	margin: 0;
-}
-
-/* Needs high specificity. */
-.media-frame .load-more-wrapper .load-more + .spinner {
-	float: none;
-	margin: 0 10px 0 -30px;
-}
-
-/* Reset spinner margin when the button is hidden to avoid horizontal scrollbar. */
-.media-frame .load-more-wrapper .load-more.hidden + .spinner {
-	margin: 0;
-}
-
-/* Force a new row within the flex container. */
-.load-more-wrapper::after {
-	content: "";
-	min-width: 100%;
-	order: 1;
-}
-
-.load-more-wrapper .load-more-jump {
-	margin: 0 12px 0 0;
-}
-
 /**
  * Progress Bar
  */
