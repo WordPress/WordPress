@@ -46,8 +46,8 @@ final class WP_Block_Styles_Registry {
 	 *
 	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-styles/
 	 *
-	 * @param string|array $block_name       Block type name including namespace or array of namespaced block type names.
-	 * @param array        $style_properties {
+	 * @param string|string[] $block_name       Block type name including namespace or array of namespaced block type names.
+	 * @param array           $style_properties {
 	 *     Array containing the properties of the style.
 	 *
 	 *     @type string $name         The identifier of the style used to compute a CSS class.
