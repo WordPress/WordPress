@@ -1102,7 +1102,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 	$base_capabilities_key = $wpdb->base_prefix . 'capabilities';
 	$site_capabilities_key = $wpdb->base_prefix . $blog_id . '_capabilities';
 
-	if ( isset( $keys[ $base_capabilities_key ] ) && 1 == $blog_id ) {
+	if ( isset( $keys[ $base_capabilities_key ] ) && 1 === $blog_id ) {
 		return true;
 	}
 
@@ -1253,7 +1253,7 @@ function count_users( $strategy = 'time', $site_id = null ) {
 	$result      = array();
 
 	if ( 'time' === $strategy ) {
-		if ( is_multisite() && get_current_blog_id() != $site_id ) {
+		if ( is_multisite() && get_current_blog_id() !== $site_id ) {
 			switch_to_blog( $site_id );
 			$avail_roles = wp_roles()->get_names();
 			restore_current_blog();
@@ -2013,7 +2013,7 @@ function email_exists( $email ) {
  */
 function validate_username( $username ) {
 	$sanitized = sanitize_user( $username, true );
-	$valid     = ( $sanitized == $username && ! empty( $sanitized ) );
+	$valid     = ( $sanitized === $username && ! empty( $sanitized ) );
 
 	/**
 	 * Filters whether the provided username is valid.
@@ -2490,8 +2490,8 @@ function wp_insert_user( $userdata ) {
 		 */
 		do_action( 'profile_update', $user_id, $old_user_data, $userdata );
 
-		if ( isset( $userdata['spam'] ) && $userdata['spam'] != $old_user_data->spam ) {
-			if ( 1 == $userdata['spam'] ) {
+		if ( isset( $userdata['spam'] ) && $userdata['spam'] !== $old_user_data->spam ) {
+			if ( '1' === $userdata['spam'] ) {
 				/**
 				 * Fires after the user is marked as a SPAM user.
 				 *
@@ -2748,7 +2748,7 @@ All at ###SITENAME###
 
 	// Update the cookies if the password changed.
 	$current_user = wp_get_current_user();
-	if ( $current_user->ID == $user_id ) {
+	if ( $current_user->ID === $user_id ) {
 		if ( isset( $plaintext_pass ) ) {
 			wp_clear_auth_cookie();
 
@@ -2759,7 +2759,9 @@ All at ###SITENAME###
 			$logged_in_cookie = wp_parse_auth_cookie( '', 'logged_in' );
 			/** This filter is documented in wp-includes/pluggable.php */
 			$default_cookie_life = apply_filters( 'auth_cookie_expiration', ( 2 * DAY_IN_SECONDS ), $user_id, false );
-			$remember            = false;
+
+			$remember = false;
+
 			if ( false !== $logged_in_cookie && ( $logged_in_cookie['expiration'] - time() ) > $default_cookie_life ) {
 				$remember = true;
 			}
@@ -3563,7 +3565,7 @@ function wp_get_users_with_no_role( $site_id = null ) {
 
 	$prefix = $wpdb->get_blog_prefix( $site_id );
 
-	if ( is_multisite() && get_current_blog_id() != $site_id ) {
+	if ( is_multisite() && get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		$role_names = wp_roles()->get_names();
 		restore_current_blog();
@@ -3672,11 +3674,11 @@ function send_confirmation_on_profile_email() {
 		$errors = new WP_Error();
 	}
 
-	if ( $current_user->ID != $_POST['user_id'] ) {
+	if ( $current_user->ID !== (int) $_POST['user_id'] ) {
 		return false;
 	}
 
-	if ( $current_user->user_email != $_POST['email'] ) {
+	if ( $current_user->user_email !== $_POST['email'] ) {
 		if ( ! is_email( $_POST['email'] ) ) {
 			$errors->add(
 				'user_email',
