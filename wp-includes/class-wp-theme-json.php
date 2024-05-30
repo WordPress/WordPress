@@ -1260,6 +1260,7 @@ class WP_Theme_JSON {
 	 * Processes the CSS, to apply nesting.
 	 *
 	 * @since 6.2.0
+	 * @since 6.6.0 Enforced 0-1-0 specificity for block custom CSS selectors.
 	 *
 	 * @param string $css      The CSS to process.
 	 * @param string $selector The selector to nest.
@@ -1274,7 +1275,7 @@ class WP_Theme_JSON {
 			$is_root_css = ( ! str_contains( $part, '{' ) );
 			if ( $is_root_css ) {
 				// If the part doesn't contain braces, it applies to the root level.
-				$processed_css .= trim( $selector ) . '{' . trim( $part ) . '}';
+				$processed_css .= ':root :where(' . trim( $selector ) . '){' . trim( $part ) . '}';
 			} else {
 				// If the part contains braces, it's a nested CSS rule.
 				$part = explode( '{', str_replace( '}', '', $part ) );
@@ -1286,8 +1287,8 @@ class WP_Theme_JSON {
 				$part_selector   = str_starts_with( $nested_selector, ' ' )
 					? static::scope_selector( $selector, $nested_selector )
 					: static::append_to_selector( $selector, $nested_selector );
-				$processed_css  .= $part_selector . '{' . trim( $css_value ) . '}';
-			}
+				$final_selector  = ":root :where($part_selector)";
+				$processed_css  .= $final_selector . '{' . trim( $css_value ) . '}';}
 		}
 		return $processed_css;
 	}
@@ -1408,6 +1409,7 @@ class WP_Theme_JSON {
 	 * @since 6.3.0 Reduced specificity for layout margin rules.
 	 * @since 6.5.1 Only output rules referencing content and wide sizes when values exist.
 	 * @since 6.5.3 Add types parameter to check if only base layout styles are needed.
+	 * @since 6.6.0 Updated layout style specificity to be compatible with overall 0-1-0 specificity in global styles.
 	 *
 	 * @param array $block_metadata Metadata about the block to get styles for.
 	 * @param array $types          Optional. Types of styles to output. If empty, all styles will be output.
@@ -1434,7 +1436,7 @@ class WP_Theme_JSON {
 		$has_fallback_gap_support = ! $has_block_gap_support; // This setting isn't useful yet: it exists as a placeholder for a future explicit fallback gap styles support.
 		$node                     = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
 		$layout_definitions       = wp_get_layout_definitions();
-		$layout_selector_pattern  = '/^[a-zA-Z0-9\-\.\ *+>:\(\)]*$/'; // Allow alphanumeric classnames, spaces, wildcard, sibling, child combinator and pseudo class selectors.
+		$layout_selector_pattern  = '/^[a-zA-Z0-9\-\.\,\ *+>:\(\)]*$/'; // Allow alphanumeric classnames, spaces, wildcard, sibling, child combinator and pseudo class selectors.
 
 		/*
 		 * Gap styles will only be output if the theme has block gap support, or supports a fallback gap.
@@ -1509,7 +1511,7 @@ class WP_Theme_JSON {
 										$spacing_rule['selector']
 									);
 								} else {
-									$format          = static::ROOT_BLOCK_SELECTOR === $selector ? ':where(%s .%s) %s' : '%s-%s%s';
+									$format          = static::ROOT_BLOCK_SELECTOR === $selector ? '.%2$s %3$s' : '%1$s-%2$s %3$s';
 									$layout_selector = sprintf(
 										$format,
 										$selector,
@@ -1593,8 +1595,7 @@ class WP_Theme_JSON {
 							}
 
 							$layout_selector = sprintf(
-								'%s .%s%s',
-								$selector,
+								'.%s%s',
 								$class_name,
 								$base_style_rule['selector']
 							);
@@ -2501,6 +2502,7 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.1.0
 	 * @since 6.6.0 Setting a min-height of HTML when root styles have a background gradient or image.
+	 *              Updated general global styles specificity to 0-1-0.
 	 *
 	 * @param array $block_metadata Metadata about the block to get styles for.
 	 *
@@ -2650,7 +2652,7 @@ class WP_Theme_JSON {
 		}
 
 		// 2. Generate and append the rules that use the general selector.
-		$block_rules .= static::to_ruleset( $selector, $declarations );
+		$block_rules .= static::to_ruleset( ":root :where($selector)", $declarations );
 
 		// 3. Generate and append the rules that use the duotone selector.
 		if ( isset( $block_metadata['duotone'] ) && ! empty( $declarations_duotone ) ) {
@@ -2667,12 +2669,12 @@ class WP_Theme_JSON {
 
 		// 5. Generate and append the feature level rulesets.
 		foreach ( $feature_declarations as $feature_selector => $individual_feature_declarations ) {
-			$block_rules .= static::to_ruleset( $feature_selector, $individual_feature_declarations );
+			$block_rules .= static::to_ruleset( ":root :where($feature_selector)", $individual_feature_declarations );
 		}
 
 		// 6. Generate and append the style variation rulesets.
 		foreach ( $style_variation_declarations as $style_variation_selector => $individual_style_variation_declarations ) {
-			$block_rules .= static::to_ruleset( $style_variation_selector, $individual_style_variation_declarations );
+			$block_rules .= static::to_ruleset( ":root :where($style_variation_selector)", $individual_style_variation_declarations );
 		}
 
 		return $block_rules;
@@ -2683,6 +2685,7 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.1.0
 	 * @since 6.6.0 Use `ROOT_CSS_PROPERTIES_SELECTOR` for CSS custom properties and improved consistency of root padding rules.
+	 *              Updated specificity of body margin reset and first/last child selectors.
 	 *
 	 * @param string $selector The root node selector.
 	 * @param array  $block_metadata The metadata for the root block.
@@ -2714,7 +2717,7 @@ class WP_Theme_JSON {
 		* user-generated values take precedence in the CSS cascade.
 		* @link https://github.com/WordPress/gutenberg/issues/36147.
 		*/
-		$css .= 'body { margin: 0; }';
+		$css .= ':where(body) { margin: 0; }';
 
 		if ( $use_root_padding ) {
 			// Top and bottom padding are applied to the outer block container.
@@ -2737,8 +2740,8 @@ class WP_Theme_JSON {
 		if ( isset( $this->theme_json['settings']['spacing']['blockGap'] ) ) {
 			$block_gap_value = static::get_property_value( $this->theme_json, array( 'styles', 'spacing', 'blockGap' ) );
 			$css            .= ":where(.wp-site-blocks) > * { margin-block-start: $block_gap_value; margin-block-end: 0; }";
-			$css            .= ':where(.wp-site-blocks) > :first-child:first-child { margin-block-start: 0; }';
-			$css            .= ':where(.wp-site-blocks) > :last-child:last-child { margin-block-end: 0; }';
+			$css            .= ':where(.wp-site-blocks) > :first-child { margin-block-start: 0; }';
+			$css            .= ':where(.wp-site-blocks) > :last-child { margin-block-end: 0; }';
 
 			// For backwards compatibility, ensure the legacy block gap CSS variable is still available.
 			$css .= static::ROOT_CSS_PROPERTIES_SELECTOR . " { --wp--style--block-gap: $block_gap_value; }";
