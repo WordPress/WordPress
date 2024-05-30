@@ -1797,12 +1797,17 @@ class WP_Theme_JSON {
 	 * </code>
 	 *
 	 * @since 5.9.0
+	 * @since 6.6.0 Added early return if missing scope or selector.
 	 *
 	 * @param string $scope    Selector to scope to.
 	 * @param string $selector Original selector.
 	 * @return string Scoped selector.
 	 */
 	public static function scope_selector( $scope, $selector ) {
+		if ( ! $scope || ! $selector ) {
+			return $selector;
+		}
+
 		$scopes    = explode( ',', $scope );
 		$selectors = explode( ',', $selector );
 
