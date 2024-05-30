@@ -22,6 +22,7 @@ ul.add-menu-item-tabs li {
 
 #nav-menu-meta .accordion-section-content {
 	padding: 18px 13px;
+	resize: vertical;
 }
 
 #nav-menu-meta .button-controls {
@@ -49,6 +50,8 @@ ul.add-menu-item-tabs li {
 #menu-settings-column .inside {
 	clear: both;
 	margin: 10px 0 0;
+	height: 100%;
+	max-height: inherit;
 }
 
 .metabox-holder-disabled .postbox,
