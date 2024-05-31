@@ -1269,7 +1269,7 @@ function rest_get_avatar_sizes() {
  * @param string $date      RFC3339 timestamp.
  * @param bool   $force_utc Optional. Whether to force UTC timezone instead of using
  *                          the timestamp's timezone. Default false.
- * @return int Unix timestamp.
+ * @return int|false Unix timestamp on success, false on failure.
  */
 function rest_parse_date( $date, $force_utc = false ) {
 	if ( $force_utc ) {
@@ -1291,7 +1291,7 @@ function rest_parse_date( $date, $force_utc = false ) {
  * @since 5.4.0
  *
  * @param string $color 3 or 6 digit hex color (with #).
- * @return string|false
+ * @return string|false Color value on success, false on failure.
  */
 function rest_parse_hex_color( $color ) {
 	$regex = '|^#([A-Fa-f0-9]{3}){1,2}$|';
