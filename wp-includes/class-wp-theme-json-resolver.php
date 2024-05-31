@@ -752,7 +752,7 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @param WP_Theme_JSON  $theme_json A theme json instance.
+	 * @param WP_Theme_JSON $theme_json A theme json instance.
 	 * @return array An array of resolved paths.
 	 */
 	public static function get_resolved_theme_uris( $theme_json ) {
@@ -769,7 +769,7 @@ class WP_Theme_JSON_Resolver {
 
 		/*
 		 * The same file convention when registering web fonts.
-		 * See: WP_Font_Face_Resolver:: to_theme_file_uri.
+		 * See: WP_Font_Face_Resolver::to_theme_file_uri.
 		 */
 		$placeholder = 'file:./';
 		if (
