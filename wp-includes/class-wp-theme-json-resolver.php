@@ -253,8 +253,8 @@ class WP_Theme_JSON_Resolver {
 			 *
 			 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 			 */
-			$theme_json      = apply_filters( 'wp_theme_json_data_theme', new WP_Theme_JSON_Data( $theme_json_data, 'theme' ) );
-			static::$theme   = $theme_json->get_theme_json();
+			$theme_json    = apply_filters( 'wp_theme_json_data_theme', new WP_Theme_JSON_Data( $theme_json_data, 'theme' ) );
+			static::$theme = $theme_json->get_theme_json();
 
 			if ( $wp_theme->parent() ) {
 				// Get parent theme.json.
@@ -384,7 +384,7 @@ class WP_Theme_JSON_Resolver {
 		 *
 		 * @param WP_Theme_JSON_Data $theme_json Class to access and update the underlying data.
 		 */
-		$theme_json = apply_filters( 'wp_theme_json_data_blocks', new WP_Theme_JSON_Data( $config, 'blocks' ) );
+		$theme_json     = apply_filters( 'wp_theme_json_data_blocks', new WP_Theme_JSON_Data( $config, 'blocks' ) );
 		static::$blocks = $theme_json->get_theme_json();
 		return static::$blocks;
 	}
@@ -712,7 +712,6 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @param array  $variation Theme.json shaped style variation object.
 	 * @param string $scope     Scope to check e.g. theme, block etc.
-	 *
 	 * @return boolean
 	 */
 	private static function style_variation_has_scope( $variation, $scope ) {
@@ -737,7 +736,6 @@ class WP_Theme_JSON_Resolver {
 	 *              can be applied e.g. theme vs block etc.
 	 *
 	 * @param string $scope The scope or type of style variation to retrieve e.g. theme, block etc.
-	 *
 	 * @return array
 	 */
 	public static function get_style_variations( $scope = 'theme' ) {

@@ -306,16 +306,16 @@ class WP_Theme_JSON {
 	 * @var array
 	 */
 	const INDIRECT_PROPERTIES_METADATA = array(
-		'gap'        => array(
+		'gap'              => array(
 			array( 'spacing', 'blockGap' ),
 		),
-		'column-gap' => array(
+		'column-gap'       => array(
 			array( 'spacing', 'blockGap', 'left' ),
 		),
-		'row-gap'    => array(
+		'row-gap'          => array(
 			array( 'spacing', 'blockGap', 'top' ),
 		),
-		'max-width'  => array(
+		'max-width'        => array(
 			array( 'layout', 'contentSize' ),
 			array( 'layout', 'wideSize' ),
 		),
@@ -1222,10 +1222,10 @@ class WP_Theme_JSON {
 	 *                          - `presets`: only the classes for the presets.
 	 * @param string[] $origins A list of origins to include. By default it includes VALID_ORIGINS.
 	 * @param array    $options An array of options for now used for internal purposes only (may change without notice).
-	 *                       The options currently supported are:
-	 *                       - 'scope' that makes sure all style are scoped to a given selector
-	 *                       - `root_selector` which overwrites and forces a given selector to be used on the root node
-	 *                       - `skip_root_layout_styles` which omits root layout styles from the generated stylesheet.
+	 *                          The options currently supported are:
+	 *                          - 'scope' that makes sure all style are scoped to a given selector
+	 *                          - `root_selector` which overwrites and forces a given selector to be used on the root node
+	 *                          - `skip_root_layout_styles` which omits root layout styles from the generated stylesheet.
 	 * @return string The resulting stylesheet.
 	 */
 	public function get_stylesheet( $types = array( 'variables', 'styles', 'presets' ), $origins = null, $options = array() ) {
