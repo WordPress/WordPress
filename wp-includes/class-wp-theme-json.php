@@ -1221,11 +1221,13 @@ class WP_Theme_JSON {
 	 *                          - `styles`: only the styles section in theme.json.
 	 *                          - `presets`: only the classes for the presets.
 	 * @param string[] $origins A list of origins to include. By default it includes VALID_ORIGINS.
-	 * @param array    $options An array of options for now used for internal purposes only (may change without notice).
-	 *                          The options currently supported are:
-	 *                          - 'scope' that makes sure all style are scoped to a given selector
-	 *                          - `root_selector` which overwrites and forces a given selector to be used on the root node
-	 *                          - `skip_root_layout_styles` which omits root layout styles from the generated stylesheet.
+	 * @param array    $options {
+	 *     Optional. An array of options for now used for internal purposes only (may change without notice).
+	 *
+	 *     @type string $scope                   Makes sure all style are scoped to a given selector
+	 *     @type string $root_selector           Overwrites and forces a given selector to be used on the root node
+	 *     @type bool   $skip_root_layout_styles Omits root layout styles from the generated stylesheet. Default false.
+	 * }
 	 * @return string The resulting stylesheet.
 	 */
 	public function get_stylesheet( $types = array( 'variables', 'styles', 'presets' ), $origins = null, $options = array() ) {
