@@ -1265,7 +1265,7 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
  *
  * @since 5.9.0
  *
- * @param string $part The block template part to print. Either 'header' or 'footer'.
+ * @param string $part The block template part to print, for example 'header' or 'footer'.
  */
 function block_template_part( $part ) {
 	$template_part = get_block_template( get_stylesheet() . '//' . $part, 'wp_template_part' );
