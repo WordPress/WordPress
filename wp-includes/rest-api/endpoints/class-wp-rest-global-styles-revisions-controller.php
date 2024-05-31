@@ -268,6 +268,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	 * Prepares the revision for the REST response.
 	 *
 	 * @since 6.3.0
+	 * @since 6.6.0 Added resolved URI links to the response.
 	 *
 	 * @param WP_Post         $post    Post revision object.
 	 * @param WP_REST_Request $request Request object.
@@ -281,11 +282,13 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 			return $global_styles_config;
 		}
 
-		$fields = $this->get_fields_for_response( $request );
-		$data   = array();
+		$fields     = $this->get_fields_for_response( $request );
+		$data       = array();
+		$theme_json = null;
 
 		if ( ! empty( $global_styles_config['styles'] ) || ! empty( $global_styles_config['settings'] ) ) {
-			$global_styles_config = ( new WP_Theme_JSON( $global_styles_config, 'custom' ) )->get_raw_data();
+			$theme_json           = new WP_Theme_JSON( $global_styles_config, 'custom' );
+			$global_styles_config = $theme_json->get_raw_data();
 			if ( rest_is_field_included( 'settings', $fields ) ) {
 				$data['settings'] = ! empty( $global_styles_config['settings'] ) ? $global_styles_config['settings'] : new stdClass();
 			}
@@ -322,11 +325,21 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 			$data['parent'] = (int) $parent->ID;
 		}
 
-		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
-		$data    = $this->add_additional_fields_to_object( $data, $request );
-		$data    = $this->filter_response_by_context( $data, $context );
+		$context             = ! empty( $request['context'] ) ? $request['context'] : 'view';
+		$data                = $this->add_additional_fields_to_object( $data, $request );
+		$data                = $this->filter_response_by_context( $data, $context );
+		$response            = rest_ensure_response( $data );
+		$resolved_theme_uris = WP_Theme_JSON_Resolver::get_resolved_theme_uris( $theme_json );
 
-		return rest_ensure_response( $data );
+		if ( ! empty( $resolved_theme_uris ) ) {
+			$response->add_links(
+				array(
+					'https://api.w.org/theme-file' => $resolved_theme_uris,
+				)
+			);
+		}
+
+		return $response;
 	}
 
 	/**
