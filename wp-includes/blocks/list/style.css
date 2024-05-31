@@ -1,6 +1,7 @@
 ol,ul{
   box-sizing:border-box;
 }
-ol.has-background,ul.has-background{
+
+:root :where(ul.has-background,ol.has-background){
   padding:1.25em 2.375em;
 }

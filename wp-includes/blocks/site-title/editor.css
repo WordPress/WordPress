@@ -3,6 +3,6 @@
   padding:1em 0;
 }
 
-.editor-styles-wrapper .wp-block-site-title a{
+.editor-styles-wrapper :where(.wp-block-site-title a){
   color:inherit;
 }

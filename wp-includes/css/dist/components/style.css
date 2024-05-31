@@ -2817,6 +2817,17 @@ body.lockscroll,html.lockscroll{
   outline:2px solid #0000;
 }
 
+.components-tab-panel__tab-content:focus{
+  box-shadow:none;
+  outline:none;
+}
+.components-tab-panel__tab-content:focus-visible{
+  border-radius:2px;
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  outline:2px solid #0000;
+  outline-offset:0;
+}
+
 .components-text-control__input,.components-text-control__input[type=color],.components-text-control__input[type=date],.components-text-control__input[type=datetime-local],.components-text-control__input[type=datetime],.components-text-control__input[type=email],.components-text-control__input[type=month],.components-text-control__input[type=number],.components-text-control__input[type=password],.components-text-control__input[type=tel],.components-text-control__input[type=text],.components-text-control__input[type=time],.components-text-control__input[type=url],.components-text-control__input[type=week]{
   border:1px solid #949494;
   border-radius:2px;

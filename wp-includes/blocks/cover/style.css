@@ -1,16 +1,13 @@
-:where(.wp-block-cover-image,.wp-block-cover){
-  min-height:430px;
-  padding:1em;
-}
-
 .wp-block-cover,.wp-block-cover-image{
   align-items:center;
   background-position:50%;
   box-sizing:border-box;
   display:flex;
   justify-content:center;
+  min-height:430px;
   overflow:hidden;
   overflow:clip;
+  padding:1em;
   position:relative;
 }
 .wp-block-cover .has-background-dim:not([class*=-background-color]),.wp-block-cover-image .has-background-dim:not([class*=-background-color]),.wp-block-cover-image.has-background-dim:not([class*=-background-color]),.wp-block-cover.has-background-dim:not([class*=-background-color]){
@@ -99,17 +96,6 @@
   max-width:420px;
   width:100%;
 }
-.wp-block-cover-image:after,.wp-block-cover:after{
-  content:"";
-  display:block;
-  font-size:0;
-  min-height:inherit;
-}
-@supports (position:sticky){
-  .wp-block-cover-image:after,.wp-block-cover:after{
-    content:none;
-  }
-}
 .wp-block-cover-image.aligncenter,.wp-block-cover-image.alignleft,.wp-block-cover-image.alignright,.wp-block-cover.aligncenter,.wp-block-cover.alignleft,.wp-block-cover.alignright{
   display:flex;
 }
@@ -117,9 +103,6 @@
   color:inherit;
   width:100%;
   z-index:1;
-}
-.wp-block-cover h1:where(:not(.has-text-color)),.wp-block-cover h2:where(:not(.has-text-color)),.wp-block-cover h3:where(:not(.has-text-color)),.wp-block-cover h4:where(:not(.has-text-color)),.wp-block-cover h5:where(:not(.has-text-color)),.wp-block-cover h6:where(:not(.has-text-color)),.wp-block-cover p:where(:not(.has-text-color)),.wp-block-cover-image h1:where(:not(.has-text-color)),.wp-block-cover-image h2:where(:not(.has-text-color)),.wp-block-cover-image h3:where(:not(.has-text-color)),.wp-block-cover-image h4:where(:not(.has-text-color)),.wp-block-cover-image h5:where(:not(.has-text-color)),.wp-block-cover-image h6:where(:not(.has-text-color)),.wp-block-cover-image p:where(:not(.has-text-color)){
-  color:inherit;
 }
 .wp-block-cover-image.is-position-top-left,.wp-block-cover.is-position-top-left{
   align-items:flex-start;
@@ -242,4 +225,8 @@
 
 :where(.wp-block-cover-image.is-light:not(.has-text-color)),:where(.wp-block-cover.is-light:not(.has-text-color)){
   color:#000;
+}
+
+:root :where(.wp-block-cover h1:not(.has-text-color)),:root :where(.wp-block-cover h2:not(.has-text-color)),:root :where(.wp-block-cover h3:not(.has-text-color)),:root :where(.wp-block-cover h4:not(.has-text-color)),:root :where(.wp-block-cover h5:not(.has-text-color)),:root :where(.wp-block-cover h6:not(.has-text-color)),:root :where(.wp-block-cover p:not(.has-text-color)){
+  color:inherit;
 }

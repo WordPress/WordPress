@@ -73,8 +73,6 @@ __webpack_require__.d(selectors_namespaceObject, {
   get: () => (get)
 });
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external ["wp","components"]
@@ -83,18 +81,21 @@ const external_wp_components_namespaceObject = window["wp"]["components"];
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
-
 /**
  * WordPress dependencies
  */
 
-const check = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+
+const check = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"
-}));
+  viewBox: "0 0 24 24",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"
+  })
+});
 /* harmony default export */ const library_check = (check);
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
@@ -353,7 +354,6 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 (0,external_wp_data_namespaceObject.register)(store);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preference-toggle-menu-item/index.js
-
 /**
  * WordPress dependencies
  */
@@ -366,6 +366,7 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 /**
  * Internal dependencies
  */
+
 
 function PreferenceToggleMenuItem({
   scope,
@@ -394,7 +395,7 @@ function PreferenceToggleMenuItem({
       (0,external_wp_a11y_namespaceObject.speak)(message);
     }
   };
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuItem, {
     icon: isActive && library_check,
     isSelected: isActive,
     onClick: () => {
@@ -407,18 +408,20 @@ function PreferenceToggleMenuItem({
     role: "menuitemcheckbox",
     info: info,
     shortcut: shortcut,
-    disabled: disabled
-  }, label);
+    disabled: disabled,
+    children: label
+  });
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/index.js
 
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preference-base-option/index.js
-
 /**
  * WordPress dependencies
  */
+
+
 
 function BaseOption({
   help,
@@ -427,20 +430,20 @@ function BaseOption({
   onChange,
   children
 }) {
-  return (0,external_React_namespaceObject.createElement)("div", {
-    className: "preference-base-option"
-  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
-    __nextHasNoMarginBottom: true,
-    help: help,
-    label: label,
-    checked: isChecked,
-    onChange: onChange
-  }), children);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
+    className: "preference-base-option",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToggleControl, {
+      __nextHasNoMarginBottom: true,
+      help: help,
+      label: label,
+      checked: isChecked,
+      onChange: onChange
+    }), children]
+  });
 }
 /* harmony default export */ const preference_base_option = (BaseOption);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preference-toggle-control/index.js
-
 /**
  * WordPress dependencies
  */
@@ -449,6 +452,7 @@ function BaseOption({
 /**
  * Internal dependencies
  */
+
 
 
 function PreferenceToggleControl(props) {
@@ -466,7 +470,7 @@ function PreferenceToggleControl(props) {
     onToggle();
     toggle(scope, featureName);
   };
-  return (0,external_React_namespaceObject.createElement)(preference_base_option, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(preference_base_option, {
     onChange: onChange,
     isChecked: isChecked,
     ...remainingProps
@@ -475,40 +479,47 @@ function PreferenceToggleControl(props) {
 /* harmony default export */ const preference_toggle_control = (PreferenceToggleControl);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preferences-modal/index.js
-
 /**
  * WordPress dependencies
  */
+
 
 
 function PreferencesModal({
   closeModal,
   children
 }) {
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Modal, {
     className: "preferences-modal",
     title: (0,external_wp_i18n_namespaceObject.__)('Preferences'),
-    onRequestClose: closeModal
-  }, children);
+    onRequestClose: closeModal,
+    children: children
+  });
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preferences-modal-section/index.js
+
 
 const Section = ({
   description,
   title,
   children
-}) => (0,external_React_namespaceObject.createElement)("fieldset", {
-  className: "preferences-modal__section"
-}, (0,external_React_namespaceObject.createElement)("legend", {
-  className: "preferences-modal__section-legend"
-}, (0,external_React_namespaceObject.createElement)("h2", {
-  className: "preferences-modal__section-title"
-}, title), description && (0,external_React_namespaceObject.createElement)("p", {
-  className: "preferences-modal__section-description"
-}, description)), (0,external_React_namespaceObject.createElement)("div", {
-  className: "preferences-modal__section-content"
-}, children));
+}) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("fieldset", {
+  className: "preferences-modal__section",
+  children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("legend", {
+    className: "preferences-modal__section-legend",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h2", {
+      className: "preferences-modal__section-title",
+      children: title
+    }), description && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
+      className: "preferences-modal__section-description",
+      children: description
+    })]
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+    className: "preferences-modal__section-content",
+    children: children
+  })]
+});
 /* harmony default export */ const preferences_modal_section = (Section);
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
@@ -548,31 +559,33 @@ function Icon({
 /* harmony default export */ const icon = ((0,external_wp_element_namespaceObject.forwardRef)(Icon));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-left.js
-
 /**
  * WordPress dependencies
  */
 
-const chevronLeft = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+
+const chevronLeft = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z"
-}));
+  viewBox: "0 0 24 24",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z"
+  })
+});
 /* harmony default export */ const chevron_left = (chevronLeft);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-right.js
-
 /**
  * WordPress dependencies
  */
 
-const chevronRight = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+
+const chevronRight = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z"
-}));
+  viewBox: "0 0 24 24",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z"
+  })
+});
 /* harmony default export */ const chevron_right = (chevronRight);
 
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
@@ -588,7 +601,6 @@ const {
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/preferences');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preferences-modal-tabs/index.js
-
 /**
  * WordPress dependencies
  */
@@ -601,6 +613,8 @@ const {
 /**
  * Internal dependencies
  */
+
+
 
 const {
   Tabs
@@ -649,63 +663,85 @@ function PreferencesModalTabs({
   let modalContent;
   // We render different components based on the viewport size.
   if (isLargeViewport) {
-    modalContent = (0,external_React_namespaceObject.createElement)("div", {
-      className: "preferences__tabs"
-    }, (0,external_React_namespaceObject.createElement)(Tabs, {
-      defaultTabId: activeMenu !== PREFERENCES_MENU ? activeMenu : undefined,
-      onSelect: setActiveMenu,
-      orientation: "vertical"
-    }, (0,external_React_namespaceObject.createElement)(Tabs.TabList, {
-      className: "preferences__tabs-tablist"
-    }, tabs.map(tab => (0,external_React_namespaceObject.createElement)(Tabs.Tab, {
-      tabId: tab.name,
-      key: tab.name,
-      className: "preferences__tabs-tab"
-    }, tab.title))), tabs.map(tab => (0,external_React_namespaceObject.createElement)(Tabs.TabPanel, {
-      tabId: tab.name,
-      key: tab.name,
-      className: "preferences__tabs-tabpanel",
-      focusable: false
-    }, sectionsContentMap[tab.name] || null))));
+    modalContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      className: "preferences__tabs",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(Tabs, {
+        defaultTabId: activeMenu !== PREFERENCES_MENU ? activeMenu : undefined,
+        onSelect: setActiveMenu,
+        orientation: "vertical",
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.TabList, {
+          className: "preferences__tabs-tablist",
+          children: tabs.map(tab => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.Tab, {
+            tabId: tab.name,
+            className: "preferences__tabs-tab",
+            children: tab.title
+          }, tab.name))
+        }), tabs.map(tab => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tabs.TabPanel, {
+          tabId: tab.name,
+          className: "preferences__tabs-tabpanel",
+          focusable: false,
+          children: sectionsContentMap[tab.name] || null
+        }, tab.name))]
+      })
+    });
   } else {
-    modalContent = (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorProvider, {
+    modalContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalNavigatorProvider, {
       initialPath: "/",
-      className: "preferences__provider"
-    }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
-      path: "/"
-    }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Card, {
-      isBorderless: true,
-      size: "small"
-    }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CardBody, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, tabs.map(tab => {
-      return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorButton, {
-        key: tab.name,
-        path: tab.name,
-        as: external_wp_components_namespaceObject.__experimentalItem,
-        isAction: true
-      }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-        justify: "space-between"
-      }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalTruncate, null, tab.title)), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_React_namespaceObject.createElement)(icon, {
-        icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_left : chevron_right
-      }))));
-    }))))), sections.length && sections.map(section => {
-      return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
-        key: `${section.name}-menu`,
-        path: section.name
-      }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Card, {
-        isBorderless: true,
-        size: "large"
-      }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CardHeader, {
-        isBorderless: false,
-        justify: "left",
-        size: "small",
-        gap: "6"
-      }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorBackButton, {
-        icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_right : chevron_left,
-        label: (0,external_wp_i18n_namespaceObject.__)('Back')
-      }), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
-        size: "16"
-      }, section.tabLabel)), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CardBody, null, section.content)));
-    }));
+      className: "preferences__provider",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+        path: "/",
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Card, {
+          isBorderless: true,
+          size: "small",
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.CardBody, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItemGroup, {
+              children: tabs.map(tab => {
+                return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalNavigatorButton, {
+                  path: tab.name,
+                  as: external_wp_components_namespaceObject.__experimentalItem,
+                  isAction: true,
+                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+                    justify: "space-between",
+                    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.FlexItem, {
+                      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalTruncate, {
+                        children: tab.title
+                      })
+                    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.FlexItem, {
+                      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(icon, {
+                        icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_left : chevron_right
+                      })
+                    })]
+                  })
+                }, tab.name);
+              })
+            })
+          })
+        })
+      }), sections.length && sections.map(section => {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+          path: section.name,
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Card, {
+            isBorderless: true,
+            size: "large",
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.CardHeader, {
+              isBorderless: false,
+              justify: "left",
+              size: "small",
+              gap: "6",
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalNavigatorBackButton, {
+                icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_right : chevron_left,
+                label: (0,external_wp_i18n_namespaceObject.__)('Back')
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
+                size: "16",
+                children: section.tabLabel
+              })]
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.CardBody, {
+              children: section.content
+            })]
+          })
+        }, `${section.name}-menu`);
+      })]
+    });
   }
   return modalContent;
 }

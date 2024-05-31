@@ -1,10 +1,9 @@
-:where(.wp-block-pullquote){
+.wp-block-pullquote{
   border-bottom:4px solid;
   border-top:4px solid;
   color:currentColor;
   margin-bottom:1.75em;
 }
-
 .wp-block-pullquote cite,.wp-block-pullquote footer,.wp-block-pullquote__citation{
   color:currentColor;
   font-size:.8125em;

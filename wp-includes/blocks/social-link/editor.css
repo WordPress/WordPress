@@ -21,11 +21,11 @@
   outline:3px solid #0000;
 }
 
-.wp-block-social-links.is-style-pill-shape .wp-social-link button{
+:root :where(.wp-block-social-links.is-style-pill-shape .wp-social-link button){
   padding-left:.66667em;
   padding-right:.66667em;
 }
 
-.wp-block-social-links.is-style-logos-only .wp-social-link button{
+:root :where(.wp-block-social-links.is-style-logos-only .wp-social-link button){
   padding:0;
 }

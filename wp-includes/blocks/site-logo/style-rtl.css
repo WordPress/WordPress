@@ -22,6 +22,7 @@
   margin-right:auto;
   text-align:center;
 }
-.wp-block-site-logo.is-style-rounded{
+
+:root :where(.wp-block-site-logo.is-style-rounded){
   border-radius:9999px;
 }

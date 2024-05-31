@@ -1,39 +1,39 @@
-:where(figure.wp-block-gallery){
+:root :where(figure.wp-block-gallery){
   display:block;
 }
-:where(figure.wp-block-gallery)>.blocks-gallery-caption{
+:root :where(figure.wp-block-gallery)>.blocks-gallery-caption{
   flex:0 0 100%;
 }
-:where(figure.wp-block-gallery)>.blocks-gallery-media-placeholder-wrapper{
+:root :where(figure.wp-block-gallery)>.blocks-gallery-media-placeholder-wrapper{
   flex-basis:100%;
 }
-:where(figure.wp-block-gallery) .wp-block-image .components-notice.is-error{
+:root :where(figure.wp-block-gallery) .wp-block-image .components-notice.is-error{
   display:block;
 }
-:where(figure.wp-block-gallery) .wp-block-image .components-notice__content{
+:root :where(figure.wp-block-gallery) .wp-block-image .components-notice__content{
   margin:4px 0;
 }
-:where(figure.wp-block-gallery) .wp-block-image .components-notice__dismiss{
+:root :where(figure.wp-block-gallery) .wp-block-image .components-notice__dismiss{
   left:5px;
   position:absolute;
   top:0;
 }
-:where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .components-placeholder__label{
+:root :where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .components-placeholder__label{
   display:none;
 }
-:where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .block-editor-media-placeholder__button{
+:root :where(figure.wp-block-gallery) .block-editor-media-placeholder.is-appender .block-editor-media-placeholder__button{
   margin-bottom:0;
 }
-:where(figure.wp-block-gallery) .block-editor-media-placeholder{
+:root :where(figure.wp-block-gallery) .block-editor-media-placeholder{
   margin:0;
 }
-:where(figure.wp-block-gallery) .block-editor-media-placeholder .components-placeholder__label{
+:root :where(figure.wp-block-gallery) .block-editor-media-placeholder .components-placeholder__label{
   display:flex;
 }
-:where(figure.wp-block-gallery) .block-editor-media-placeholder figcaption{
+:root :where(figure.wp-block-gallery) .block-editor-media-placeholder figcaption{
   z-index:2;
 }
-:where(figure.wp-block-gallery) .components-spinner{
+:root :where(figure.wp-block-gallery) .components-spinner{
   margin-right:-9px;
   margin-top:-9px;
   position:absolute;

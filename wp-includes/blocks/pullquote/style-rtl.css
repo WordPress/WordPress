@@ -1,6 +1,8 @@
 .wp-block-pullquote{
   box-sizing:border-box;
+  margin:0 0 1em;
   overflow-wrap:break-word;
+  padding:4em 0;
   text-align:center;
 }
 .wp-block-pullquote blockquote,.wp-block-pullquote cite,.wp-block-pullquote p{
@@ -23,11 +25,6 @@
 }
 .wp-block-pullquote .has-text-color a{
   color:inherit;
-}
-
-:where(.wp-block-pullquote){
-  margin:0 0 1em;
-  padding:4em 0;
 }
 
 .wp-block-pullquote.has-text-align-left blockquote{

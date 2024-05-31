@@ -9,7 +9,8 @@
 	"textdomain": "default",
 	"attributes": {
 		"customText": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"noTeaser": {
 			"type": "boolean",

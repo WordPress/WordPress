@@ -147,8 +147,6 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (/* binding */ build_module)
 });
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","data"]
@@ -169,8 +167,9 @@ const external_wp_url_namespaceObject = window["wp"]["url"];
 const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","blocks"]
 const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/server-side-render/build-module/server-side-render.js
-
 /**
  * External dependencies
  */
@@ -179,6 +178,8 @@ const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 /**
  * WordPress dependencies
  */
+
+
 
 
 
@@ -223,9 +224,10 @@ function removeBlockSupportAttributes(attributes) {
 function DefaultEmptyResponsePlaceholder({
   className
 }) {
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
-    className: className
-  }, (0,external_wp_i18n_namespaceObject.__)('Block rendered as empty.'));
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Placeholder, {
+    className: className,
+    children: (0,external_wp_i18n_namespaceObject.__)('Block rendered as empty.')
+  });
 }
 function DefaultErrorResponsePlaceholder({
   response,
@@ -234,31 +236,35 @@ function DefaultErrorResponsePlaceholder({
   const errorMessage = (0,external_wp_i18n_namespaceObject.sprintf)(
   // translators: %s: error message describing the problem
   (0,external_wp_i18n_namespaceObject.__)('Error loading block: %s'), response.errorMsg);
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
-    className: className
-  }, errorMessage);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Placeholder, {
+    className: className,
+    children: errorMessage
+  });
 }
 function DefaultLoadingResponsePlaceholder({
   children,
   showLoader
 }) {
-  return (0,external_React_namespaceObject.createElement)("div", {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
     style: {
       position: 'relative'
-    }
-  }, showLoader && (0,external_React_namespaceObject.createElement)("div", {
-    style: {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      marginTop: '-9px',
-      marginLeft: '-9px'
-    }
-  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null)), (0,external_React_namespaceObject.createElement)("div", {
-    style: {
-      opacity: showLoader ? '0.3' : 1
-    }
-  }, children));
+    },
+    children: [showLoader && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      style: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: '-9px',
+        marginLeft: '-9px'
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Spinner, {})
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      style: {
+        opacity: showLoader ? '0.3' : 1
+      },
+      children: children
+    })]
+  });
 }
 function ServerSideRender(props) {
   const {
@@ -272,7 +278,7 @@ function ServerSideRender(props) {
     ErrorResponsePlaceholder = DefaultErrorResponsePlaceholder,
     LoadingResponsePlaceholder = DefaultLoadingResponsePlaceholder
   } = props;
-  const isMountedRef = (0,external_wp_element_namespaceObject.useRef)(true);
+  const isMountedRef = (0,external_wp_element_namespaceObject.useRef)(false);
   const [showLoader, setShowLoader] = (0,external_wp_element_namespaceObject.useState)(false);
   const fetchRequestRef = (0,external_wp_element_namespaceObject.useRef)();
   const [response, setResponse] = (0,external_wp_element_namespaceObject.useState)(null);
@@ -284,6 +290,11 @@ function ServerSideRender(props) {
       return;
     }
     setIsLoading(true);
+
+    // Schedule showing the Spinner after 1 second.
+    const timeout = setTimeout(() => {
+      setShowLoader(true);
+    }, 1000);
     let sanitizedAttributes = attributes && (0,external_wp_blocks_namespaceObject.__experimentalSanitizeBlockAttributes)(block, attributes);
     if (skipBlockSupportAttributes) {
       sanitizedAttributes = removeBlockSupportAttributes(sanitizedAttributes);
@@ -318,6 +329,9 @@ function ServerSideRender(props) {
     }).finally(() => {
       if (isMountedRef.current && fetchRequest === fetchRequestRef.current) {
         setIsLoading(false);
+        // Cancel the timeout to show the Spinner.
+        setShowLoader(false);
+        clearTimeout(timeout);
       }
     });
     return fetchRequest;
@@ -326,8 +340,11 @@ function ServerSideRender(props) {
 
   // When the component unmounts, set isMountedRef to false. This will
   // let the async fetch callbacks know when to stop.
-  (0,external_wp_element_namespaceObject.useEffect)(() => () => {
-    isMountedRef.current = false;
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // Don't debounce the first fetch. This ensures that the first render
@@ -338,50 +355,37 @@ function ServerSideRender(props) {
       debouncedFetchData();
     }
   });
-
-  /**
-   * Effect to handle showing the loading placeholder.
-   * Show it only if there is no previous response or
-   * the request takes more than one second.
-   */
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!isLoading) {
-      return;
-    }
-    const timeout = setTimeout(() => {
-      setShowLoader(true);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [isLoading]);
   const hasResponse = !!response;
   const hasEmptyResponse = response === '';
   const hasError = response?.error;
   if (isLoading) {
-    return (0,external_React_namespaceObject.createElement)(LoadingResponsePlaceholder, {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(LoadingResponsePlaceholder, {
       ...props,
-      showLoader: showLoader
-    }, hasResponse && (0,external_React_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
-      className: className
-    }, response));
+      showLoader: showLoader,
+      children: hasResponse && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_element_namespaceObject.RawHTML, {
+        className: className,
+        children: response
+      })
+    });
   }
   if (hasEmptyResponse || !hasResponse) {
-    return (0,external_React_namespaceObject.createElement)(EmptyResponsePlaceholder, {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(EmptyResponsePlaceholder, {
       ...props
     });
   }
   if (hasError) {
-    return (0,external_React_namespaceObject.createElement)(ErrorResponsePlaceholder, {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ErrorResponsePlaceholder, {
       response: response,
       ...props
     });
   }
-  return (0,external_React_namespaceObject.createElement)(external_wp_element_namespaceObject.RawHTML, {
-    className: className
-  }, response);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_element_namespaceObject.RawHTML, {
+    className: className,
+    children: response
+  });
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/server-side-render/build-module/index.js
-
 /**
  * WordPress dependencies
  */
@@ -396,6 +400,7 @@ function ServerSideRender(props) {
 /**
  * Constants
  */
+
 const build_module_EMPTY_OBJECT = {};
 const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)(select => {
   // FIXME: @wordpress/server-side-render should not depend on @wordpress/editor.
@@ -429,7 +434,7 @@ const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)
       ...urlQueryArgs
     };
   }, [currentPostId, urlQueryArgs]);
-  return (0,external_React_namespaceObject.createElement)(ServerSideRender, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ServerSideRender, {
     urlQueryArgs: newUrlQueryArgs,
     ...props
   });

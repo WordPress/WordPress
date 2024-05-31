@@ -33,7 +33,7 @@ p.has-drop-cap.has-background{
   overflow:hidden;
 }
 
-p.has-background{
+:root :where(p.has-background){
   padding:1.25em 2.375em;
 }
 

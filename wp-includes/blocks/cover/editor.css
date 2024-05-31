@@ -87,7 +87,3 @@
 .color-block-support-panel__inner-wrapper>:not(.block-editor-tools-panel-color-gradient-settings__item){
   margin-top:24px;
 }
-
-.wp-block-cover:after{
-  min-height:auto;
-}

@@ -215,10 +215,9 @@ const addDimensionsEventListener = (breakpoints, operators) => {
 };
 /* harmony default export */ const listener = (addDimensionsEventListener);
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/with-viewport-match.js
-
 /**
  * WordPress dependencies
  */
@@ -247,6 +246,7 @@ const external_React_namespaceObject = window["React"];
  *
  * @return {Function} Higher-order component.
  */
+
 const withViewportMatch = queries => {
   const queryEntries = Object.entries(queries);
   const useViewPortQueriesResult = () => Object.fromEntries(queryEntries.map(([key, query]) => {
@@ -264,7 +264,7 @@ const withViewportMatch = queries => {
   return (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(WrappedComponent => {
     return (0,external_wp_compose_namespaceObject.pure)(props => {
       const queriesResult = useViewPortQueriesResult();
-      return (0,external_React_namespaceObject.createElement)(WrappedComponent, {
+      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WrappedComponent, {
         ...props,
         ...queriesResult
       });

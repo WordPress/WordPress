@@ -2408,7 +2408,11 @@ const saveEntityRecord = (kind, name, record, {
           }
           return acc;
         }, {
-          status: data.status === 'auto-draft' ? 'draft' : data.status
+          // Do not update the `status` if we have edited it when auto saving.
+          // It's very important to let the user explicitly save this change,
+          // because it can lead to unexpected results. An example would be to
+          // have a draft post and change the status to publish.
+          status: data.status === 'auto-draft' ? 'draft' : undefined
         });
         updatedRecord = await __unstableFetch({
           path: `${path}/autosaves`,
@@ -6330,7 +6334,8 @@ const resolvers_getDefaultTemplateId = query => async ({
   const template = await external_wp_apiFetch_default()({
     path: (0,external_wp_url_namespaceObject.addQueryArgs)('/wp/v2/templates/lookup', query)
   });
-  if (template) {
+  // Endpoint may return an empty object if no template is found.
+  if (template?.id) {
     dispatch.receiveDefaultTemplateId(query, template.id);
   }
 };
@@ -6732,8 +6737,6 @@ const {
   unlock
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/core-data');
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","blocks"]
@@ -6918,8 +6921,9 @@ function updateFootnotesFromMeta(blocks, meta) {
   };
 }
 
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/entity-provider.js
-
 /**
  * WordPress dependencies
  */
@@ -6936,37 +6940,7 @@ function updateFootnotesFromMeta(blocks, meta) {
 /** @typedef {import('@wordpress/blocks').WPBlock} WPBlock */
 
 const EMPTY_ARRAY = [];
-
-/**
- * Internal dependencies
- */
-
-const entityContexts = {
-  ...rootEntitiesConfig.reduce((acc, loader) => {
-    if (!acc[loader.kind]) {
-      acc[loader.kind] = {};
-    }
-    acc[loader.kind][loader.name] = {
-      context: (0,external_wp_element_namespaceObject.createContext)(undefined)
-    };
-    return acc;
-  }, {}),
-  ...additionalEntityConfigLoaders.reduce((acc, loader) => {
-    acc[loader.kind] = {};
-    return acc;
-  }, {})
-};
-const getEntityContext = (kind, name) => {
-  if (!entityContexts[kind]) {
-    throw new Error(`Missing entity config for kind: ${kind}.`);
-  }
-  if (!entityContexts[kind][name]) {
-    entityContexts[kind][name] = {
-      context: (0,external_wp_element_namespaceObject.createContext)(undefined)
-    };
-  }
-  return entityContexts[kind][name].context;
-};
+const EntityContext = (0,external_wp_element_namespaceObject.createContext)({});
 
 /**
  * Context provider component for providing
@@ -6987,10 +6961,18 @@ function EntityProvider({
   id,
   children
 }) {
-  const Provider = getEntityContext(kind, name).Provider;
-  return (0,external_React_namespaceObject.createElement)(Provider, {
-    value: id
-  }, children);
+  const parent = (0,external_wp_element_namespaceObject.useContext)(EntityContext);
+  const childContext = (0,external_wp_element_namespaceObject.useMemo)(() => ({
+    ...parent,
+    [kind]: {
+      ...parent?.[kind],
+      [name]: id
+    }
+  }), [parent, kind, name, id]);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(EntityContext.Provider, {
+    value: childContext,
+    children: children
+  });
 }
 
 /**
@@ -7001,7 +6983,8 @@ function EntityProvider({
  * @param {string} name The entity name.
  */
 function useEntityId(kind, name) {
-  return (0,external_wp_element_namespaceObject.useContext)(getEntityContext(kind, name));
+  const context = (0,external_wp_element_namespaceObject.useContext)(EntityContext);
+  return context?.[kind]?.[name];
 }
 
 /**

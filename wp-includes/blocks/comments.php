@@ -18,7 +18,7 @@
  *
  * @since 6.1.0
  *
- * @global WP_Post  $post     Global post object.
+ * @global WP_Post $post Global post object.
  *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.

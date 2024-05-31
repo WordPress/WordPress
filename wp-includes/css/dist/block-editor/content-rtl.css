@@ -628,6 +628,10 @@
   cursor:text;
 }
 
+.block-editor-iframe__body{
+  position:relative;
+}
+
 .block-editor-iframe__container{
   height:100%;
   overflow-x:hidden;

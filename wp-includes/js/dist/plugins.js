@@ -60,8 +60,6 @@ __webpack_require__.d(__webpack_exports__, {
   withPluginContext: () => (/* reexport */ withPluginContext)
 });
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
 /**
  * Memize options object.
@@ -233,8 +231,9 @@ const external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-context/index.js
-
 /**
  * WordPress dependencies
  */
@@ -271,10 +270,12 @@ function usePluginContext() {
  * @return {Component} Enhanced component with injected context as props.
  */
 const withPluginContext = mapContextToProps => (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(OriginalComponent => {
-  return props => (0,external_React_namespaceObject.createElement)(Context.Consumer, null, context => (0,external_React_namespaceObject.createElement)(OriginalComponent, {
-    ...props,
-    ...mapContextToProps(context, props)
-  }));
+  return props => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Context.Consumer, {
+    children: context => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(OriginalComponent, {
+      ...props,
+      ...mapContextToProps(context, props)
+    })
+  });
 }, 'withPluginContext');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-error-boundary/index.js
@@ -321,17 +322,18 @@ class PluginErrorBoundary extends external_wp_element_namespaceObject.Component 
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plugins.js
-
 /**
  * WordPress dependencies
  */
 
-const plugins = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+
+const plugins = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M10.5 4v4h3V4H15v4h1.5a1 1 0 011 1v4l-3 4v2a1 1 0 01-1 1h-3a1 1 0 01-1-1v-2l-3-4V9a1 1 0 011-1H9V4h1.5zm.5 12.5v2h2v-2l3-4v-3H8v3l3 4z"
-}));
+  viewBox: "0 0 24 24",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "M10.5 4v4h3V4H15v4h1.5a1 1 0 011 1v4l-3 4v2a1 1 0 01-1 1h-3a1 1 0 01-1-1v-2l-3-4V9a1 1 0 011-1H9V4h1.5zm.5 12.5v2h2v-2l3-4v-3H8v3l3 4z"
+  })
+});
 /* harmony default export */ const library_plugins = (plugins);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/api/index.js
@@ -535,7 +537,6 @@ function getPlugins(scope) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-area/index.js
-
 /**
  * External dependencies
  */
@@ -551,6 +552,7 @@ function getPlugins(scope) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -621,21 +623,23 @@ function PluginArea({
     };
   }, [scope]);
   const plugins = (0,external_wp_element_namespaceObject.useSyncExternalStore)(store.subscribe, store.getValue, store.getValue);
-  return (0,external_React_namespaceObject.createElement)("div", {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
     style: {
       display: 'none'
-    }
-  }, plugins.map(({
-    icon,
-    name,
-    render: Plugin
-  }) => (0,external_React_namespaceObject.createElement)(PluginContextProvider, {
-    key: name,
-    value: getPluginContext(icon, name)
-  }, (0,external_React_namespaceObject.createElement)(PluginErrorBoundary, {
-    name: name,
-    onError: onError
-  }, (0,external_React_namespaceObject.createElement)(Plugin, null)))));
+    },
+    children: plugins.map(({
+      icon,
+      name,
+      render: Plugin
+    }) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PluginContextProvider, {
+      value: getPluginContext(icon, name),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PluginErrorBoundary, {
+        name: name,
+        onError: onError,
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Plugin, {})
+      })
+    }, name))
+  });
 }
 /* harmony default export */ const plugin_area = (PluginArea);
 

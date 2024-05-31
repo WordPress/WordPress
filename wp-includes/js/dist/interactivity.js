@@ -308,13 +308,15 @@ function store(namespace, {
   return stores.get(namespace);
 }
 const parseInitialData = (dom = document) => {
-  const storeTag = dom.querySelector(`script[type="application/json"]#wp-interactivity-data`);
-  if (storeTag?.textContent) {
+  var _dom$getElementById;
+  const jsonDataScriptTag = // Preferred Script Module data passing form
+  (_dom$getElementById = dom.getElementById('wp-scriptmodule-data_@wordpress/interactivity')) !== null && _dom$getElementById !== void 0 ? _dom$getElementById :
+  // Legacy form
+  dom.getElementById('wp-interactivity-data');
+  if (jsonDataScriptTag?.textContent) {
     try {
-      return JSON.parse(storeTag.textContent);
-    } catch (e) {
-      // Do nothing.
-    }
+      return JSON.parse(jsonDataScriptTag.textContent);
+    } catch {}
   }
   return {};
 };
@@ -339,31 +341,7 @@ const populateInitialData = data => {
 const data = parseInitialData();
 populateInitialData(data);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/utils/warn.js
-const logged = new Set();
-const warn = message => {
-  // @ts-expect-error
-  if (true) {
-    if (logged.has(message)) {
-      return;
-    }
-
-    // eslint-disable-next-line no-console
-    console.warn(message);
-
-    // Adding a stack trace to the warning message to help with debugging.
-    try {
-      throw Error(message);
-    } catch (e) {
-      // Do nothing.
-    }
-    logged.add(message);
-  }
-};
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/hooks.js
-/* @jsx createElement */
-
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react-hooks/exhaustive-deps */
 
@@ -537,7 +515,7 @@ const directive = (name, callback, {
 // Resolve the path to some property of the store object.
 const resolve = (path, namespace) => {
   if (!namespace) {
-    warn(`The "namespace" cannot be "{}", "null" or an empty string. Path: ${path}`);
+    warn(`Namespace missing for "${path}". The value for that path won't be resolved.`);
     return;
   }
   let resolvedStore = stores.get(namespace);
@@ -618,10 +596,10 @@ const Directives = ({
 
   // Recursively render the wrapper for the next priority level.
   const children = nextPriorityLevels.length > 0 ? _(Directives, {
-    directives: directives,
+    directives,
     priorityLevels: nextPriorityLevels,
-    element: element,
-    originalProps: originalProps,
+    element,
+    originalProps,
     previousScope: scope
   }) : element;
   const props = {
@@ -705,6 +683,18 @@ const afterNextFrame = callback => {
     };
     const timeout = setTimeout(done, 100);
     const raf = window.requestAnimationFrame(done);
+  });
+};
+
+/**
+ * Returns a promise that resolves after yielding to main.
+ *
+ * @return Promise
+ */
+const yieldToMain = () => {
+  return new Promise(resolve => {
+    // TODO: Use scheduler.yield() when available.
+    setTimeout(resolve, 0);
   });
 };
 
@@ -936,7 +926,6 @@ const createRootFragment = (parent, replaceNode) => {
   };
 };
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/utils/kebab-to-camelcase.js
 /**
  * Transforms a kebab-case string to camelCase.
  *
@@ -948,12 +937,38 @@ function kebabToCamelCase(str) {
     return group1.toUpperCase();
   });
 }
+const logged = new Set();
+
+/**
+ * Shows a warning with `message` if environment is not `production`.
+ *
+ * Based on the `@wordpress/warning` package.
+ *
+ * @param message Message to show in the warning.
+ */
+const warn = message => {
+  if (true) {
+    if (logged.has(message)) {
+      return;
+    }
+
+    // eslint-disable-next-line no-console
+    console.warn(message);
+
+    // Throwing an error and catching it immediately to improve debugging
+    // A consumer can use 'pause on caught exceptions'
+    try {
+      throw Error(message);
+    } catch (e) {
+      // Do nothing.
+    }
+    logged.add(message);
+  }
+};
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/directives.js
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react-hooks/exhaustive-deps */
-
-/* @jsx createElement */
 
 /**
  * External dependencies
@@ -968,9 +983,7 @@ function kebabToCamelCase(str) {
 
 
 
-
-
-// Assigned objects should be ignore during proxification.
+// Assigned objects should be ignored during proxification.
 const contextAssignedObjects = new WeakMap();
 
 // Store the context proxy and fallback for each object in the context.
@@ -1148,9 +1161,41 @@ const getGlobalEventDirective = type => {
     });
   };
 };
+
+/**
+ * Creates a directive that adds an async event listener to the global window or
+ * document object.
+ *
+ * @param type 'window' or 'document'
+ */
+const getGlobalAsyncEventDirective = type => {
+  return ({
+    directives,
+    evaluate
+  }) => {
+    directives[`on-async-${type}`].filter(({
+      suffix
+    }) => suffix !== 'default').forEach(entry => {
+      const eventName = entry.suffix.split('--', 1)[0];
+      useInit(() => {
+        const cb = async event => {
+          await yieldToMain();
+          evaluate(entry, event);
+        };
+        const globalVar = type === 'window' ? window : document;
+        globalVar.addEventListener(eventName, cb, {
+          passive: true
+        });
+        return () => globalVar.removeEventListener(eventName, cb);
+      });
+    });
+  };
+};
 /* harmony default export */ const directives = (() => {
   // data-wp-context
-  directive('context', ({
+  directive('context',
+  // @ts-ignore-next-line
+  ({
     directives: {
       context
     },
@@ -1236,8 +1281,44 @@ const getGlobalEventDirective = type => {
       events.get(event).add(entry);
     });
     events.forEach((entries, eventType) => {
+      const existingHandler = element.props[`on${eventType}`];
       element.props[`on${eventType}`] = event => {
         entries.forEach(entry => {
+          if (existingHandler) {
+            existingHandler(event);
+          }
+          evaluate(entry, event);
+        });
+      };
+    });
+  });
+
+  // data-wp-on-async--[event]
+  directive('on-async', ({
+    directives: {
+      'on-async': onAsync
+    },
+    element,
+    evaluate
+  }) => {
+    const events = new Map();
+    onAsync.filter(({
+      suffix
+    }) => suffix !== 'default').forEach(entry => {
+      const event = entry.suffix.split('--')[0];
+      if (!events.has(event)) {
+        events.set(event, new Set());
+      }
+      events.get(event).add(entry);
+    });
+    events.forEach((entries, eventType) => {
+      const existingHandler = element.props[`on${eventType}`];
+      element.props[`on${eventType}`] = event => {
+        if (existingHandler) {
+          existingHandler(event);
+        }
+        entries.forEach(async entry => {
+          await yieldToMain();
           evaluate(entry, event);
         });
       };
@@ -1248,6 +1329,11 @@ const getGlobalEventDirective = type => {
   directive('on-window', getGlobalEventDirective('window'));
   // data-wp-on-document--[event]
   directive('on-document', getGlobalEventDirective('document'));
+
+  // data-wp-on-async-window--[event]
+  directive('on-async-window', getGlobalAsyncEventDirective('window'));
+  // data-wp-on-async-document--[event]
+  directive('on-async-document', getGlobalAsyncEventDirective('document'));
 
   // data-wp-class--[classname]
   directive('class', ({
@@ -1481,7 +1567,7 @@ const getGlobalEventDirective = type => {
       })(eachKey[0]) : item;
       return _(Provider, {
         value: mergedContext,
-        key: key
+        key
       }, element.props.content);
     });
   }, {
@@ -1511,6 +1597,7 @@ const currentNamespace = () => {
   var _namespaces;
   return (_namespaces = namespaces[namespaces.length - 1]) !== null && _namespaces !== void 0 ? _namespaces : null;
 };
+const vdom_isObject = item => Boolean(item && typeof item === 'object' && item.constructor === Object);
 
 // Regular expression for directive parsing.
 const directiveParser = new RegExp(`^data-${directivePrefix}-` +
@@ -1529,7 +1616,7 @@ const directiveParser = new RegExp(`^data-${directivePrefix}-` +
 // the reference, separated by `::`, like `some-namespace::state.somePath`.
 // Namespaces can contain any alphanumeric characters, hyphens, underscores or
 // forward slashes. References don't have any restrictions.
-const nsPathRegExp = /^(?<namespace>[\w_\/-]+)::(?<value>.+)$/;
+const nsPathRegExp = /^([\w_\/-]+)::(.+)$/;
 const hydratedIslands = new WeakSet();
 
 /**
@@ -1577,17 +1664,19 @@ function toVdom(root) {
     let island = false;
     for (let i = 0; i < attributes.length; i++) {
       const attributeName = attributes[i].name;
+      const attributeValue = attributes[i].value;
       if (attributeName[fullPrefix.length] && attributeName.slice(0, fullPrefix.length) === fullPrefix) {
         if (attributeName === ignoreAttr) {
           ignore = true;
         } else {
-          var _regexCaptureGroups$n, _regexCaptureGroups$v;
-          const regexCaptureGroups = nsPathRegExp.exec(attributes[i].value)?.groups;
-          const namespace = (_regexCaptureGroups$n = regexCaptureGroups?.namespace) !== null && _regexCaptureGroups$n !== void 0 ? _regexCaptureGroups$n : null;
-          let value = (_regexCaptureGroups$v = regexCaptureGroups?.value) !== null && _regexCaptureGroups$v !== void 0 ? _regexCaptureGroups$v : attributes[i].value;
+          var _regexResult$, _regexResult$2;
+          const regexResult = nsPathRegExp.exec(attributeValue);
+          const namespace = (_regexResult$ = regexResult?.[1]) !== null && _regexResult$ !== void 0 ? _regexResult$ : null;
+          let value = (_regexResult$2 = regexResult?.[2]) !== null && _regexResult$2 !== void 0 ? _regexResult$2 : attributeValue;
           try {
-            value = value && JSON.parse(value);
-          } catch (e) {}
+            const parsedValue = JSON.parse(value);
+            value = vdom_isObject(parsedValue) ? parsedValue : value;
+          } catch {}
           if (attributeName === islandAttr) {
             island = true;
             const islandNamespace =
@@ -1601,7 +1690,7 @@ function toVdom(root) {
       } else if (attributeName === 'ref') {
         continue;
       }
-      props[attributeName] = attributes[i].value;
+      props[attributeName] = attributeValue;
     }
     if (ignore && !island) {
       return [_(localName, {
@@ -1619,7 +1708,7 @@ function toVdom(root) {
       props.__directives = directives.reduce((obj, [name, ns, value]) => {
         const directiveMatch = directiveParser.exec(name);
         if (directiveMatch === null) {
-          warn(`Invalid directive: ${name}.`);
+          warn(`Found malformed directive name: ${name}.`);
           return obj;
         }
         const prefix = directiveMatch[1] || '';
@@ -1675,17 +1764,14 @@ function toVdom(root) {
 // Keep the same root fragment for each interactive region node.
 const regionRootFragments = new WeakMap();
 const getRegionRootFragment = region => {
+  if (!region.parentElement) {
+    throw Error('The passed region should be an element with a parent.');
+  }
   if (!regionRootFragments.has(region)) {
     regionRootFragments.set(region, createRootFragment(region.parentElement, region));
   }
   return regionRootFragments.get(region);
 };
-function yieldToMain() {
-  return new Promise(resolve => {
-    // TODO: Use scheduler.yield() when available.
-    setTimeout(resolve, 0);
-  });
-}
 
 // Initial vDOM regions associated with its DOM element.
 const initialVdom = new WeakMap();

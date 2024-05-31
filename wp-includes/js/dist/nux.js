@@ -315,8 +315,6 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
   persist: ['preferences']
 });
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: external ["wp","components"]
@@ -327,22 +325,24 @@ const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
-
 /**
  * WordPress dependencies
  */
 
-const close_close = (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+
+const close_close = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
-}));
+  viewBox: "0 0 24 24",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
+  })
+});
 /* harmony default export */ const library_close = (close_close);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/nux/build-module/components/dot-tip/index.js
-
 /**
  * WordPress dependencies
  */
@@ -356,6 +356,8 @@ const close_close = (0,external_React_namespaceObject.createElement)(external_wp
 /**
  * Internal dependencies
  */
+
+
 
 function onClick(event) {
   // Tips are often nested within buttons. We stop propagation so that clicking
@@ -383,23 +385,29 @@ function DotTip({
   if (!isVisible) {
     return null;
   }
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Popover, {
     className: "nux-dot-tip",
     position: position,
     focusOnMount: true,
     role: "dialog",
     "aria-label": (0,external_wp_i18n_namespaceObject.__)('Editor tips'),
     onClick: onClick,
-    onFocusOutside: onFocusOutsideCallback
-  }, (0,external_React_namespaceObject.createElement)("p", null, children), (0,external_React_namespaceObject.createElement)("p", null, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    variant: "link",
-    onClick: onDismiss
-  }, hasNextTip ? (0,external_wp_i18n_namespaceObject.__)('See next tip') : (0,external_wp_i18n_namespaceObject.__)('Got it'))), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "nux-dot-tip__disable",
-    icon: library_close,
-    label: (0,external_wp_i18n_namespaceObject.__)('Disable tips'),
-    onClick: onDisable
-  }));
+    onFocusOutside: onFocusOutsideCallback,
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
+      children: children
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+        variant: "link",
+        onClick: onDismiss,
+        children: hasNextTip ? (0,external_wp_i18n_namespaceObject.__)('See next tip') : (0,external_wp_i18n_namespaceObject.__)('Got it')
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+      className: "nux-dot-tip__disable",
+      icon: library_close,
+      label: (0,external_wp_i18n_namespaceObject.__)('Disable tips'),
+      onClick: onDisable
+    })]
+  });
 }
 /* harmony default export */ const dot_tip = ((0,external_wp_compose_namespaceObject.compose)((0,external_wp_data_namespaceObject.withSelect)((select, {
   tipId

@@ -78,7 +78,7 @@ function render_block_core_block( $attributes ) {
 	 * filter so that it is available when a pattern's inner blocks are
 	 * rendering via do_blocks given it only receives the inner content.
 	 */
-	$has_pattern_overrides = isset( $attributes['content'] );
+	$has_pattern_overrides = isset( $attributes['content'] ) && null !== get_block_bindings_source( 'core/pattern-overrides' );
 	if ( $has_pattern_overrides ) {
 		$filter_block_context = static function ( $context ) use ( $attributes ) {
 			$context['pattern/overrides'] = $attributes['content'];

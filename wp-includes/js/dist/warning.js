@@ -44,7 +44,8 @@ const logged = new Set();
  */
 
 function isDev() {
-  return  true && true === true;
+  // eslint-disable-next-line @wordpress/wp-global-usage
+  return true === true;
 }
 
 /**

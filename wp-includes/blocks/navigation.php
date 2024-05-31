@@ -1617,10 +1617,16 @@ function block_core_navigation_update_ignore_hooked_blocks_meta( $post ) {
 $rest_insert_wp_navigation_core_callback = 'block_core_navigation_' . 'update_ignore_hooked_blocks_meta'; // phpcs:ignore Generic.Strings.UnnecessaryStringConcat.Found
 
 /*
- * Injection of hooked blocks into the Navigation block relies on some functions present in WP >= 6.5
- * that are not present in Gutenberg's WP 6.5 compatibility layer.
+ * Do not add the `block_core_navigation_update_ignore_hooked_blocks_meta` filter in the following cases:
+ * - If Core has added the `update_ignored_hooked_blocks_postmeta` filter already (WP >= 6.6);
+ * - or if the `set_ignored_hooked_blocks_metadata` function is unavailable (which is required for the filter to work. It was introduced by WP 6.5 but is not present in Gutenberg's WP 6.5 compatibility layer);
+ * - or if the `$rest_insert_wp_navigation_core_callback` filter has already been added.
  */
-if ( function_exists( 'set_ignored_hooked_blocks_metadata' ) && ! has_filter( 'rest_pre_insert_wp_navigation', $rest_insert_wp_navigation_core_callback ) ) {
+if (
+	! has_filter( 'rest_pre_insert_wp_navigation', 'update_ignored_hooked_blocks_postmeta' ) &&
+	function_exists( 'set_ignored_hooked_blocks_metadata' ) &&
+	! has_filter( 'rest_pre_insert_wp_navigation', $rest_insert_wp_navigation_core_callback )
+) {
 	add_filter( 'rest_pre_insert_wp_navigation', 'block_core_navigation_update_ignore_hooked_blocks_meta' );
 }
 
@@ -1668,9 +1674,15 @@ function block_core_navigation_insert_hooked_blocks_into_rest_response( $respons
 $rest_prepare_wp_navigation_core_callback = 'block_core_navigation_' . 'insert_hooked_blocks_into_rest_response';
 
 /*
- * Injection of hooked blocks into the Navigation block relies on some functions present in WP >= 6.5
- * that are not present in Gutenberg's WP 6.5 compatibility layer.
+ * Do not add the `block_core_navigation_insert_hooked_blocks_into_rest_response` filter in the following cases:
+ * - If Core has added the `insert_hooked_blocks_into_rest_response` filter already (WP >= 6.6);
+ * - or if the `set_ignored_hooked_blocks_metadata` function is unavailable (which is required for the filter to work. It was introduced by WP 6.5 but is not present in Gutenberg's WP 6.5 compatibility layer);
+ * - or if the `$rest_prepare_wp_navigation_core_callback` filter has already been added.
  */
-if ( function_exists( 'set_ignored_hooked_blocks_metadata' ) && ! has_filter( 'rest_prepare_wp_navigation', $rest_prepare_wp_navigation_core_callback ) ) {
+if (
+	! has_filter( 'rest_prepare_wp_navigation', 'insert_hooked_blocks_into_rest_response' ) &&
+	function_exists( 'set_ignored_hooked_blocks_metadata' ) &&
+	! has_filter( 'rest_prepare_wp_navigation', $rest_prepare_wp_navigation_core_callback )
+) {
 	add_filter( 'rest_prepare_wp_navigation', 'block_core_navigation_insert_hooked_blocks_into_rest_response', 10, 3 );
 }

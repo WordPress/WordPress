@@ -47,10 +47,13 @@
 }
 
 .preferences__tabs-tablist{
-  position:absolute;
+  position:absolute !important;
   right:16px;
   top:84px;
   width:160px;
+}
+.preferences__tabs-tablist:after{
+  content:none !important;
 }
 
 .preferences__tabs-tab{
@@ -61,9 +64,6 @@
   background:#f0f0f0;
   box-shadow:none;
   font-weight:500;
-}
-.preferences__tabs-tab[aria-selected=true]:after{
-  content:none;
 }
 .preferences__tabs-tab[role=tab]:focus:not(:disabled){
   box-shadow:inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);

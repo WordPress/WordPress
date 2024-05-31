@@ -64,47 +64,14 @@
   border-radius:0 !important;
 }
 
-.wp-block-button .wp-block-button__link:where(.is-style-outline),.wp-block-button:where(.is-style-outline)>.wp-block-button__link{
+:root :where(.wp-block-button .wp-block-button__link.is-style-outline),:root :where(.wp-block-button.is-style-outline>.wp-block-button__link){
   border:2px solid;
   padding:.667em 1.333em;
 }
-
-.wp-block-button .wp-block-button__link:where(.is-style-outline):not(.has-text-color),.wp-block-button:where(.is-style-outline)>.wp-block-button__link:not(.has-text-color){
+:root :where(.wp-block-button .wp-block-button__link.is-style-outline:not(.has-text-color)),:root :where(.wp-block-button.is-style-outline>.wp-block-button__link:not(.has-text-color)){
   color:currentColor;
 }
-
-.wp-block-button .wp-block-button__link:where(.is-style-outline):not(.has-background),.wp-block-button:where(.is-style-outline)>.wp-block-button__link:not(.has-background){
+:root :where(.wp-block-button .wp-block-button__link.is-style-outline:not(.has-background)),:root :where(.wp-block-button.is-style-outline>.wp-block-button__link:not(.has-background)){
   background-color:initial;
   background-image:none;
-}
-
-.wp-block-button .wp-block-button__link:where(.has-border-color){
-  border-width:initial;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-top-color]){
-  border-top-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-right-color]){
-  border-right-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-bottom-color]){
-  border-bottom-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-left-color]){
-  border-left-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-style]){
-  border-width:initial;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-top-style]){
-  border-top-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-right-style]){
-  border-right-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-bottom-style]){
-  border-bottom-width:medium;
-}
-.wp-block-button .wp-block-button__link:where([style*=border-left-style]){
-  border-left-width:medium;
 }

@@ -1,1 +1,1 @@
-.wp-block-site-title a{color:inherit}
+:root :where(.wp-block-site-title a){color:inherit}

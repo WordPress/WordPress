@@ -3789,8 +3789,6 @@ persistencePlugin.__unstableMigrate = () => {};
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/index.js
 
 
-;// CONCATENATED MODULE: external "React"
-const external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: external ["wp","priorityQueue"]
 const external_wp_priorityQueue_namespaceObject = window["wp"]["priorityQueue"];
 ;// CONCATENATED MODULE: external ["wp","element"]
@@ -4277,8 +4275,9 @@ function useSuspenseSelect(mapSelect, deps) {
   return useMappingSelect(true, mapSelect, deps);
 }
 
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/with-select/index.js
-
 /**
  * WordPress dependencies
  */
@@ -4331,10 +4330,11 @@ function useSuspenseSelect(mapSelect, deps) {
  *
  * @return {ComponentType} Enhanced component with merged state data props.
  */
+
 const withSelect = mapSelectToProps => (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(WrappedComponent => (0,external_wp_compose_namespaceObject.pure)(ownProps => {
   const mapSelect = (select, registry) => mapSelectToProps(select, ownProps, registry);
   const mergeProps = useSelect(mapSelect);
-  return (0,external_React_namespaceObject.createElement)(WrappedComponent, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WrappedComponent, {
     ...ownProps,
     ...mergeProps
   });
@@ -4387,7 +4387,6 @@ const useDispatchWithMap = (dispatchMap, deps) => {
 /* harmony default export */ const use_dispatch_with_map = (useDispatchWithMap);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/with-dispatch/index.js
-
 /**
  * WordPress dependencies
  */
@@ -4481,10 +4480,11 @@ const useDispatchWithMap = (dispatchMap, deps) => {
  *
  * @return {ComponentType} Enhanced component with merged dispatcher props.
  */
+
 const withDispatch = mapDispatchToProps => (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(WrappedComponent => ownProps => {
   const mapDispatch = (dispatch, registry) => mapDispatchToProps(dispatch, ownProps, registry);
   const dispatchProps = use_dispatch_with_map(mapDispatch, []);
-  return (0,external_React_namespaceObject.createElement)(WrappedComponent, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WrappedComponent, {
     ...ownProps,
     ...dispatchProps
   });
@@ -4492,7 +4492,6 @@ const withDispatch = mapDispatchToProps => (0,external_wp_compose_namespaceObjec
 /* harmony default export */ const with_dispatch = (withDispatch);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/with-registry/index.js
-
 /**
  * WordPress dependencies
  */
@@ -4511,10 +4510,13 @@ const withDispatch = mapDispatchToProps => (0,external_wp_compose_namespaceObjec
  *
  * @return {Component} Enhanced component.
  */
-const withRegistry = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(OriginalComponent => props => (0,external_React_namespaceObject.createElement)(RegistryConsumer, null, registry => (0,external_React_namespaceObject.createElement)(OriginalComponent, {
-  ...props,
-  registry: registry
-})), 'withRegistry');
+
+const withRegistry = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(OriginalComponent => props => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(RegistryConsumer, {
+  children: registry => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(OriginalComponent, {
+    ...props,
+    registry: registry
+  })
+}), 'withRegistry');
 /* harmony default export */ const with_registry = (withRegistry);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/use-dispatch/use-dispatch.js

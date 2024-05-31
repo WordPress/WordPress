@@ -18,12 +18,14 @@
   margin-left:5px;
   text-decoration:none;
 }
-.wp-block-tag-cloud.is-style-outline{
+
+:root :where(.wp-block-tag-cloud.is-style-outline){
   display:flex;
   flex-wrap:wrap;
   gap:1ch;
 }
-.wp-block-tag-cloud.is-style-outline a{
+
+:root :where(.wp-block-tag-cloud.is-style-outline a){
   border:1px solid;
   font-size:unset !important;
   margin-right:0;

@@ -59,6 +59,8 @@ __webpack_require__.d(__webpack_exports__, {
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f)}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ const dist_clsx = (clsx);
 ;// CONCATENATED MODULE: external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
+;// CONCATENATED MODULE: external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/primitives/build-module/svg/index.js
 /**
  * External dependencies
@@ -77,6 +79,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
  *
  * @return {JSX.Element} Circle component
  */
+
 const Circle = props => (0,external_wp_element_namespaceObject.createElement)('circle', props);
 
 /**
@@ -165,7 +168,7 @@ const SVG = (0,external_wp_element_namespaceObject.forwardRef)(
 
   // Disable reason: We need to have a way to render HTML tag for web.
   // eslint-disable-next-line react/forbid-elements
-  return (0,external_wp_element_namespaceObject.createElement)("svg", {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("svg", {
     ...appliedProps,
     ref: ref
   });

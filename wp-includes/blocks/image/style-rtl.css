@@ -40,7 +40,7 @@
   margin-bottom:1em;
   margin-top:.5em;
 }
-.wp-block-image .is-style-rounded img,.wp-block-image.is-style-circle-mask img,.wp-block-image.is-style-rounded img{
+.wp-block-image.is-style-circle-mask img{
   border-radius:9999px;
 }
 @supports ((-webkit-mask-image:none) or (mask-image:none)) or (-webkit-mask-image:none){
@@ -57,35 +57,9 @@
             mask-size:contain;
   }
 }
-.wp-block-image :where(.has-border-color){
-  border-style:solid;
-}
-.wp-block-image :where([style*=border-top-color]){
-  border-top-style:solid;
-}
-.wp-block-image :where([style*=border-right-color]){
-  border-left-style:solid;
-}
-.wp-block-image :where([style*=border-bottom-color]){
-  border-bottom-style:solid;
-}
-.wp-block-image :where([style*=border-left-color]){
-  border-right-style:solid;
-}
-.wp-block-image :where([style*=border-width]){
-  border-style:solid;
-}
-.wp-block-image :where([style*=border-top-width]){
-  border-top-style:solid;
-}
-.wp-block-image :where([style*=border-right-width]){
-  border-left-style:solid;
-}
-.wp-block-image :where([style*=border-bottom-width]){
-  border-bottom-style:solid;
-}
-.wp-block-image :where([style*=border-left-width]){
-  border-right-style:solid;
+
+:root :where(.wp-block-image.is-style-rounded img,.wp-block-image .is-style-rounded img){
+  border-radius:9999px;
 }
 
 .wp-block-image figure{

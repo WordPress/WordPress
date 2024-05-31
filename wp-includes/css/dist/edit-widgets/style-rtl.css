@@ -255,28 +255,33 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 .interface-interface-skeleton__sidebar{
+  border-top:1px solid #e0e0e0;
   overflow:hidden;
 }
 @media (min-width:782px){
   .interface-interface-skeleton__sidebar{
-    border-right:1px solid #e0e0e0;
+    box-shadow:1px 1px 0 0 rgba(0,0,0,.133);
+    outline:1px solid #0000;
   }
 }
 
 .interface-interface-skeleton__secondary-sidebar{
+  border-top:1px solid #e0e0e0;
   left:0;
 }
 @media (min-width:782px){
   .interface-interface-skeleton__secondary-sidebar{
-    border-left:1px solid #e0e0e0;
+    box-shadow:-1px 1px 0 0 rgba(0,0,0,.133);
+    outline:1px solid #0000;
   }
 }
 
 .interface-interface-skeleton__header{
-  border-bottom:1px solid #e0e0e0;
+  box-shadow:0 1px 0 0 rgba(0,0,0,.133);
   color:#1e1e1e;
   flex-shrink:0;
   height:auto;
+  outline:1px solid #0000;
   z-index:30;
 }
 
@@ -669,7 +674,7 @@ body.is-fullscreen-mode .edit-widgets-notices__snackbar{
 .edit-widgets-layout__inserter-panel-content{
   height:calc(100% - 44px);
 }
-.edit-widgets-layout__inserter-panel-content .block-editor-inserter-sidebar__header{
+.edit-widgets-layout__inserter-panel-content .block-editor-inserter__tablist-and-close{
   display:none;
 }
 @media (min-width:782px){

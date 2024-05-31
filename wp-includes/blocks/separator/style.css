@@ -1,12 +1,16 @@
 @charset "UTF-8";
-.wp-block-separator.is-style-dots{
-  background:none !important;
+
+.wp-block-separator{
   border:none;
+  border-top:2px solid;
+}
+
+:root :where(.wp-block-separator.is-style-dots){
   height:auto;
   line-height:1;
   text-align:center;
 }
-.wp-block-separator.is-style-dots:before{
+:root :where(.wp-block-separator.is-style-dots):before{
   color:currentColor;
   content:"···";
   font-family:serif;
@@ -15,7 +19,7 @@
   padding-left:2em;
 }
 
-:where(.wp-block-separator){
-  border:none;
-  border-top:2px solid;
+.wp-block-separator.is-style-dots{
+  background:none !important;
+  border:none !important;
 }
