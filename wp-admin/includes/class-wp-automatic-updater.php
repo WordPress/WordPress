@@ -233,7 +233,7 @@ class WP_Automatic_Updater {
 
 		// If the `disable_autoupdate` flag is set, override any user-choice, but allow filters.
 		if ( ! empty( $item->disable_autoupdate ) ) {
-			$update = $item->disable_autoupdate;
+			$update = false;
 		}
 
 		/**
