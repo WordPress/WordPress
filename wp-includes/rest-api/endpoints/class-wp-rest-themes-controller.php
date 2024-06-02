@@ -224,6 +224,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 * @since 5.9.0 Renamed `$theme` to `$item` to match parent class for PHP 8 named parameter support.
+	 * @since 6.6.0 Added `stylesheet_uri` and `template_uri` fields.
 	 *
 	 * @param WP_Theme        $item    Theme object.
 	 * @param WP_REST_Request $request Request object.
@@ -329,6 +330,22 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 		if ( rest_is_field_included( 'is_block_theme', $fields ) ) {
 			$data['is_block_theme'] = $theme->is_block_theme();
+		}
+
+		if ( rest_is_field_included( 'stylesheet_uri', $fields ) ) {
+			if ( $this->is_same_theme( $theme, $current_theme ) ) {
+				$data['stylesheet_uri'] = get_stylesheet_directory_uri();
+			} else {
+				$data['stylesheet_uri'] = $theme->get_stylesheet_directory_uri();
+			}
+		}
+
+		if ( rest_is_field_included( 'template_uri', $fields ) ) {
+			if ( $this->is_same_theme( $theme, $current_theme ) ) {
+				$data['template_uri'] = get_template_directory_uri();
+			} else {
+				$data['template_uri'] = $theme->get_template_directory_uri();
+			}
 		}
 
 		$data = $this->add_additional_fields_to_object( $data, $request );
@@ -447,9 +464,21 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'readonly'    => true,
 				),
+				'stylesheet_uri' => array(
+					'description' => __( 'The uri for the theme\'s stylesheet directory.' ),
+					'type'        => 'string',
+					'format'      => 'uri',
+					'readonly'    => true,
+				),
 				'template'       => array(
 					'description' => __( 'The theme\'s template. If this is a child theme, this refers to the parent theme, otherwise this is the same as the theme\'s stylesheet.' ),
 					'type'        => 'string',
+					'readonly'    => true,
+				),
+				'template_uri'       => array(
+					'description' => __( 'The uri for the theme\'s template directory. If this is a child theme, this refers to the parent theme, otherwise this is the same as the theme\'s stylesheet directory.' ),
+					'type'        => 'string',
+					'format'      => 'uri',
 					'readonly'    => true,
 				),
 				'author'         => array(
