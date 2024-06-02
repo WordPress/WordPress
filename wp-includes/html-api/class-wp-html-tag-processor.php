@@ -15,10 +15,6 @@
  *  - Prune the whitespace when removing classes/attributes: e.g. "a b c" -> "c" not " c".
  *    This would increase the size of the changes for some operations but leave more
  *    natural-looking output HTML.
- *  - Properly decode HTML character references in `get_attribute()`. PHP's
- *    `html_entity_decode()` is wrong in a couple ways: it doesn't account for the
- *    no-ambiguous-ampersand rule, and it improperly handles the way semicolons may
- *    or may not terminate a character reference.
  *
  * @package WordPress
  * @subpackage HTML-API
@@ -2499,7 +2495,7 @@ class WP_HTML_Tag_Processor {
 		 *        3. Double-quoting ends at the last character in the update.
 		 */
 		$enqueued_value = substr( $enqueued_text, $equals_at + 2, -1 );
-		return html_entity_decode( $enqueued_value );
+		return WP_HTML_Decoder::decode_attribute( $enqueued_value );
 	}
 
 	/**
@@ -2572,7 +2568,7 @@ class WP_HTML_Tag_Processor {
 
 		$raw_value = substr( $this->html, $attribute->value_starts_at, $attribute->value_length );
 
-		return html_entity_decode( $raw_value );
+		return WP_HTML_Decoder::decode_attribute( $raw_value );
 	}
 
 	/**
@@ -2872,7 +2868,7 @@ class WP_HTML_Tag_Processor {
 			return $text;
 		}
 
-		$decoded = html_entity_decode( $text, ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE );
+		$decoded = WP_HTML_Decoder::decode_text_node( $text );
 
 		/*
 		 * TEXTAREA skips a leading newline, but this newline may appear not only as the
