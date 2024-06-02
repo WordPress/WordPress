@@ -1007,7 +1007,11 @@ function rest_output_link_wp_head() {
 	$resource = rest_get_queried_resource_route();
 
 	if ( $resource ) {
-		printf( '<link rel="alternate" type="application/json" href="%s" />', esc_url( rest_url( $resource ) ) );
+		printf(
+			'<link rel="alternate" title="%1$s" type="application/json" href="%2$s" />',
+			_x( 'JSON', 'REST API resource link name' ),
+			esc_url( rest_url( $resource ) )
+		);
 	}
 }
 
@@ -1032,7 +1036,14 @@ function rest_output_link_header() {
 	$resource = rest_get_queried_resource_route();
 
 	if ( $resource ) {
-		header( sprintf( 'Link: <%s>; rel="alternate"; type="application/json"', sanitize_url( rest_url( $resource ) ) ), false );
+		header(
+			sprintf(
+				'Link: <%1$s>; rel="alternate"; title="%2$s"; type="application/json"',
+				sanitize_url( rest_url( $resource ) ),
+				_x( 'JSON', 'REST API resource link name' )
+			),
+			false
+		);
 	}
 }
 
