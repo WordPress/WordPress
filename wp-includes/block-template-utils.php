@@ -1599,11 +1599,7 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 		return $template;
 	}
 
-	$before_block_visitor = make_before_block_visitor( $hooked_blocks, $template, 'set_ignored_hooked_blocks_metadata' );
-	$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template, 'set_ignored_hooked_blocks_metadata' );
-
-	$blocks                = parse_blocks( $changes->post_content );
-	$changes->post_content = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+	$changes->post_content = apply_block_hooks_to_content( $changes->post_content, $template, 'set_ignored_hooked_blocks_metadata' );
 
 	return $changes;
 }

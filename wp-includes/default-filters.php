@@ -757,4 +757,7 @@ add_action( 'init', '_wp_register_default_font_collections' );
 add_filter( 'rest_pre_insert_wp_template', 'inject_ignored_hooked_blocks_metadata_attributes' );
 add_filter( 'rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes' );
 
+// Update ignoredHookedBlocks postmeta for wp_navigation post type.
+add_filter( 'rest_pre_insert_wp_navigation', 'update_ignored_hooked_blocks_postmeta' );
+
 unset( $filter, $action );
