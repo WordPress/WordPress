@@ -72,7 +72,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			case 'image/webp':
 				return ( $image_types & IMG_WEBP ) !== 0;
 			case 'image/avif':
-				return ( $image_types & IMG_AVIF ) !== 0;
+				return ( $image_types & IMG_AVIF ) !== 0 && function_exists( 'imageavif' );
 		}
 
 		return false;
