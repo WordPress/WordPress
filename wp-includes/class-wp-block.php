@@ -236,6 +236,7 @@ class WP_Block {
 	 * block with the values of the `text_custom_field` and `url_custom_field` post meta.
 	 *
 	 * @since 6.5.0
+	 * @since 6.6.0 Handle the `__default` attribute for pattern overrides.
 	 *
 	 * @return array The computed block attributes for the provided block bindings.
 	 */
@@ -259,7 +260,33 @@ class WP_Block {
 			return $computed_attributes;
 		}
 
-		foreach ( $parsed_block['attrs']['metadata']['bindings'] as $attribute_name => $block_binding ) {
+		$bindings = $parsed_block['attrs']['metadata']['bindings'];
+
+		/*
+		 * If the default binding is set for pattern overrides, replace it
+		 * with a pattern override binding for all supported attributes.
+		 */
+		if (
+			isset( $bindings['__default']['source'] ) &&
+			'core/pattern-overrides' === $bindings['__default']['source']
+		) {
+			$updated_bindings = array();
+
+			/*
+			 * Build a binding array of all supported attributes.
+			 * Note that this also omits the `__default` attribute from the
+			 * resulting array.
+			 */
+			foreach ( $supported_block_attributes[ $parsed_block['blockName'] ] as $attribute_name ) {
+				// Retain any non-pattern override bindings that might be present.
+				$updated_bindings[ $attribute_name ] = isset( $bindings[ $attribute_name ] )
+					? $bindings[ $attribute_name ]
+					: array( 'source' => 'core/pattern-overrides' );
+			}
+			$bindings = $updated_bindings;
+		}
+
+		foreach ( $bindings as $attribute_name => $block_binding ) {
 			// If the attribute is not in the supported list, process next attribute.
 			if ( ! in_array( $attribute_name, $supported_block_attributes[ $this->name ], true ) ) {
 				continue;
@@ -413,7 +440,7 @@ class WP_Block {
 		 * There can be only one root interactive block at a time because the rendered HTML of that block contains
 		 * the rendered HTML of all its inner blocks, including any interactive block.
 		 */
-		static $root_interactive_block  = null;
+		static $root_interactive_block = null;
 		/**
 		 * Filters whether Interactivity API should process directives.
 		 *
