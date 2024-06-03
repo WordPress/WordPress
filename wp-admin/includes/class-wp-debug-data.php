@@ -482,6 +482,15 @@ class WP_Debug_Data {
 					'value' => $loading,
 					'debug' => 'loading...',
 				),
+				'fonts_path'   => array(
+					'label' => __( 'Fonts directory location' ),
+					'value' => wp_get_font_dir()['basedir'],
+				),
+				'fonts_size'   => array(
+					'label' => __( 'Fonts directory size' ),
+					'value' => $loading,
+					'debug' => 'loading...',
+				),
 				'database_size'  => array(
 					'label' => __( 'Database size' ),
 					'value' => $loading,
@@ -1636,6 +1645,7 @@ class WP_Debug_Data {
 			'themes_size'    => get_theme_root(),
 			'plugins_size'   => WP_PLUGIN_DIR,
 			'uploads_size'   => $upload_dir['basedir'],
+			'fonts_size'     => wp_get_font_dir()['basedir'],
 		);
 
 		$exclude = $paths;
