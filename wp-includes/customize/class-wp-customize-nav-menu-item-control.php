@@ -77,10 +77,22 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 				</span>
 				<span class="item-controls">
 					<button type="button" class="button-link item-edit" aria-expanded="false"><span class="screen-reader-text">
-					<?php
-						/* translators: 1: Title of a menu item, 2: Type of a menu item. */
-						printf( __( 'Edit menu item: %1$s (%2$s)' ), '{{ data.title || data.original_title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}' );
-					?>
+					<# if ( 0 === data.depth ) { #>
+						<?php
+						/* translators: 1: Title of a menu item, 2: Type of a menu item. 3: Item index, 4: Total items. */
+						printf( __( 'Edit %1$s (%2$s, %3$d of %4$d)' ), '{{ data.title || data.original_title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}', '', '' );
+						?>
+					<# } else if ( 1 === data.depth ) { #>
+						<?php
+							/* translators: 1: Title of a menu item, 2: Type of a menu item, 3, Item index, 4, Total items, 5: Item parent. */
+							printf( __( 'Edit %1$s (%2$s, sub-item %3$d of %4$d under %5$s)' ), '{{ data.title || data.original_title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}', '', '', '' );
+						?>
+					<# } else { #>
+						<?php
+							/* translators: 1: Title of a menu item, 2: Type of a menu item, 3, Item index, 4, Total items, 5: Item parent, 6: Item depth. */
+							printf( __( 'Edit %1$s (%2$s, sub-item %3$d of %4$d under %5$s, level %6$s)' ), '{{ data.title || data.original_title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}', '', '', '', '{{data.depth}}' );
+						?>
+					<# } #>
 					</span><span class="toggle-indicator" aria-hidden="true"></span></button>
 					<button type="button" class="button-link item-delete submitdelete deletion"><span class="screen-reader-text">
 					<?php
