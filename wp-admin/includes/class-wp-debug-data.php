@@ -347,6 +347,7 @@ class WP_Debug_Data {
 		$is_writable_upload_dir         = wp_is_writable( $upload_dir['basedir'] );
 		$is_writable_wp_plugin_dir      = wp_is_writable( WP_PLUGIN_DIR );
 		$is_writable_template_directory = wp_is_writable( get_theme_root( get_template() ) );
+		$is_writable_fonts_dir          = wp_is_writable( wp_get_font_dir()['basedir'] );
 
 		$info['wp-filesystem'] = array(
 			'label'       => __( 'Filesystem Permissions' ),
@@ -376,6 +377,11 @@ class WP_Debug_Data {
 					'label' => __( 'The themes directory' ),
 					'value' => ( $is_writable_template_directory ? __( 'Writable' ) : __( 'Not writable' ) ),
 					'debug' => ( $is_writable_template_directory ? 'writable' : 'not writable' ),
+				),
+				'fonts'      => array(
+					'label' => __( 'The fonts directory' ),
+					'value' => ( $is_writable_fonts_dir ? __( 'Writable' ) : __( 'Not writable' ) ),
+					'debug' => ( $is_writable_fonts_dir ? 'writable' : 'not writable' ),
 				),
 			),
 		);
