@@ -470,7 +470,9 @@ class WP_Automatic_Updater {
 		 * update could contain an error or warning, which could cause
 		 * the scrape to miss a fatal error in the plugin update.
 		 */
-		$upgrader->maintenance_mode( true );
+		if ( 'translation' !== $type ) {
+			$upgrader->maintenance_mode( true );
+		}
 
 		// Boom, this site's about to get a whole new splash of paint!
 		$upgrade_result = $upgrader->upgrade(
@@ -495,7 +497,9 @@ class WP_Automatic_Updater {
 		 * This avoids errors if the site is visited while fatal errors exist
 		 * or while files are still being moved.
 		 */
-		$upgrader->maintenance_mode( true );
+		if ( 'translation' !== $type ) {
+			$upgrader->maintenance_mode( true );
+		}
 
 		// If the filesystem is unavailable, false is returned.
 		if ( false === $upgrade_result ) {
@@ -613,7 +617,9 @@ class WP_Automatic_Updater {
 		}
 
 		// All processes are complete. Allow visitors to browse the site again.
-		$upgrader->maintenance_mode( false );
+		if ( 'translation' !== $type ) {
+			$upgrader->maintenance_mode( false );
+		}
 
 		$this->update_results[ $type ][] = (object) array(
 			'item'     => $item,
