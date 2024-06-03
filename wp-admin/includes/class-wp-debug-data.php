@@ -134,6 +134,7 @@ class WP_Debug_Data {
 
 		if ( ! $is_multisite ) {
 			$info['wp-paths-sizes'] = array(
+				/* translators: Filesystem directory paths and storage sizes. */
 				'label'  => __( 'Directories and Sizes' ),
 				'fields' => array(),
 			);
