@@ -1136,6 +1136,47 @@ function insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( &$parsed_a
 }
 
 /**
+ * Hooks into the REST API response for the core/navigation block and adds the first and last inner blocks.
+ *
+ * @since 6.6.0
+ *
+ * @param WP_REST_Response $response The response object.
+ * @param WP_Post          $post     Post object.
+ * @return WP_REST_Response The response object.
+ */
+function insert_hooked_blocks_into_rest_response( $response, $post ) {
+	if ( ! isset( $response->data['content']['raw'] ) || ! isset( $response->data['content']['rendered'] ) ) {
+		return $response;
+	}
+
+	$attributes = array();
+	$ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
+	if ( ! empty( $ignored_hooked_blocks ) ) {
+		$ignored_hooked_blocks  = json_decode( $ignored_hooked_blocks, true );
+		$attributes['metadata'] = array(
+			'ignoredHookedBlocks' => $ignored_hooked_blocks,
+		);
+	}
+	$content = get_comment_delimited_block_content(
+		'core/navigation',
+		$attributes,
+		$response->data['content']['raw']
+	);
+
+	$content = apply_block_hooks_to_content( $content, $post );
+
+	// Remove mock Navigation block wrapper.
+	$content = remove_serialized_parent_block( $content );
+
+	$response->data['content']['raw'] = $content;
+
+	/** This filter is documented in wp-includes/post-template.php */
+	$response->data['content']['rendered'] = apply_filters( 'the_content', $content );
+
+	return $response;
+}
+
+/**
  * Returns a function that injects the theme attribute into, and hooked blocks before, a given block.
  *
  * The returned function can be used as `$pre_callback` argument to `traverse_and_serialize_block(s)`,
