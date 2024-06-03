@@ -52,6 +52,56 @@ class WP_HTML_Open_Elements {
 	private $has_p_in_button_scope = false;
 
 	/**
+	 * A function that will be called when an item is popped off the stack of open elements.
+	 *
+	 * The function will be called with the popped item as its argument.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @var Closure
+	 */
+	private $pop_handler = null;
+
+	/**
+	 * A function that will be called when an item is pushed onto the stack of open elements.
+	 *
+	 * The function will be called with the pushed item as its argument.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @var Closure
+	 */
+	private $push_handler = null;
+
+	/**
+	 * Sets a pop handler that will be called when an item is popped off the stack of
+	 * open elements.
+	 *
+	 * The function will be called with the pushed item as its argument.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param Closure $handler The handler function.
+	 */
+	public function set_pop_handler( Closure $handler ) {
+		$this->pop_handler = $handler;
+	}
+
+	/**
+	 * Sets a push handler that will be called when an item is pushed onto the stack of
+	 * open elements.
+	 *
+	 * The function will be called with the pushed item as its argument.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param Closure $handler The handler function.
+	 */
+	public function set_push_handler( Closure $handler ) {
+		$this->push_handler = $handler;
+	}
+
+	/**
 	 * Reports if a specific node is in the stack of open elements.
 	 *
 	 * @since 6.4.0
@@ -429,6 +479,10 @@ class WP_HTML_Open_Elements {
 				$this->has_p_in_button_scope = true;
 				break;
 		}
+
+		if ( null !== $this->push_handler ) {
+			( $this->push_handler )( $item );
+		}
 	}
 
 	/**
@@ -457,6 +511,10 @@ class WP_HTML_Open_Elements {
 			case 'P':
 				$this->has_p_in_button_scope = $this->has_element_in_button_scope( 'P' );
 				break;
+		}
+
+		if ( null !== $this->pop_handler ) {
+			( $this->pop_handler )( $item );
 		}
 	}
 }

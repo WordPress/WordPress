@@ -201,6 +201,52 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	private $release_internal_bookmark_on_destruct = null;
 
+	/**
+	 * Stores stack events which arise during parsing of the
+	 * HTML document, which will then supply the "match" events.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @var WP_HTML_Stack_Event[]
+	 */
+	private $element_queue = array();
+
+	/**
+	 * Current stack event, if set, representing a matched token.
+	 *
+	 * Because the parser may internally point to a place further along in a document
+	 * than the nodes which have already been processed (some "virtual" nodes may have
+	 * appeared while scanning the HTML document), this will point at the "current" node
+	 * being processed. It comes from the front of the element queue.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @var ?WP_HTML_Stack_Event
+	 */
+	private $current_element = null;
+
+	/**
+	 * Context node if created as a fragment parser.
+	 *
+	 * @var ?WP_HTML_Token
+	 */
+	private $context_node = null;
+
+	/**
+	 * Whether the parser has yet processed the context node,
+	 * if created as a fragment parser.
+	 *
+	 * The context node will be initially pushed onto the stack of open elements,
+	 * but when created as a fragment parser, this context element (and the implicit
+	 * HTML document node above it) should not be exposed as a matched token or node.
+	 *
+	 * This boolean indicates whether the processor should skip over the current
+	 * node in its initial search for the first node created from the input HTML.
+	 *
+	 * @var bool
+	 */
+	private $has_seen_context_node = false;
+
 	/*
 	 * Public Interface Functions
 	 */
@@ -257,13 +303,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			)
 		);
 
-		$processor->state->stack_of_open_elements->push(
-			new WP_HTML_Token(
-				'context-node',
-				$processor->state->context_node[0],
-				false
-			)
+		$context_node = new WP_HTML_Token(
+			'context-node',
+			$processor->state->context_node[0],
+			false
 		);
+
+		$processor->state->stack_of_open_elements->push( $context_node );
+		$processor->context_node = $context_node;
 
 		return $processor;
 	}
@@ -298,6 +345,18 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		}
 
 		$this->state = new WP_HTML_Processor_State();
+
+		$this->state->stack_of_open_elements->set_push_handler(
+			function ( WP_HTML_Token $token ) {
+				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::PUSH );
+			}
+		);
+
+		$this->state->stack_of_open_elements->set_pop_handler(
+			function ( WP_HTML_Token $token ) {
+				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::POP );
+			}
+		);
 
 		/*
 		 * Create this wrapper so that it's possible to pass
@@ -342,6 +401,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @todo Support matching the class name and tag name.
 	 *
 	 * @since 6.4.0
+	 * @since 6.6.0 Visits all tokens, including virtual ones.
 	 *
 	 * @throws Exception When unable to allocate a bookmark for the next token in the input HTML document.
 	 *
@@ -349,6 +409,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *     Optional. Which tag name to find, having which class, etc. Default is to find any tag.
 	 *
 	 *     @type string|null $tag_name     Which tag to find, or `null` for "any tag."
+	 *     @type string      $tag_closers  'visit' to pause at tag closers, 'skip' or unset to only visit openers.
 	 *     @type int|null    $match_offset Find the Nth tag matching all search criteria.
 	 *                                     1 for "first" tag, 3 for "third," etc.
 	 *                                     Defaults to first tag.
@@ -359,13 +420,15 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether a tag was matched.
 	 */
 	public function next_tag( $query = null ) {
+		$visit_closers = isset( $query['tag_closers'] ) && 'visit' === $query['tag_closers'];
+
 		if ( null === $query ) {
-			while ( $this->step() ) {
+			while ( $this->next_token() ) {
 				if ( '#tag' !== $this->get_token_type() ) {
 					continue;
 				}
 
-				if ( ! $this->is_tag_closer() ) {
+				if ( ! $this::is_tag_closer() || $visit_closers ) {
 					return true;
 				}
 			}
@@ -391,7 +454,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			: null;
 
 		if ( ! ( array_key_exists( 'breadcrumbs', $query ) && is_array( $query['breadcrumbs'] ) ) ) {
-			while ( $this->step() ) {
+			while ( $this->next_token() ) {
 				if ( '#tag' !== $this->get_token_type() ) {
 					continue;
 				}
@@ -400,7 +463,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					continue;
 				}
 
-				if ( ! $this->is_tag_closer() ) {
+				if ( ! parent::is_tag_closer() || $visit_closers ) {
 					return true;
 				}
 			}
@@ -408,20 +471,11 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return false;
 		}
 
-		if ( isset( $query['tag_closers'] ) && 'visit' === $query['tag_closers'] ) {
-			_doing_it_wrong(
-				__METHOD__,
-				__( 'Cannot visit tag closers in HTML Processor.' ),
-				'6.4.0'
-			);
-			return false;
-		}
-
 		$breadcrumbs  = $query['breadcrumbs'];
 		$match_offset = isset( $query['match_offset'] ) ? (int) $query['match_offset'] : 1;
 
-		while ( $match_offset > 0 && $this->step() ) {
-			if ( '#tag' !== $this->get_token_type() ) {
+		while ( $match_offset > 0 && $this->next_token() ) {
+			if ( '#tag' !== $this->get_token_type() || $this->is_tag_closer() ) {
 				continue;
 			}
 
@@ -452,7 +506,71 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool
 	 */
 	public function next_token() {
-		return $this->step();
+		$this->current_element = null;
+
+		if ( isset( $this->last_error ) ) {
+			return false;
+		}
+
+		if ( 0 === count( $this->element_queue ) && ! $this->step() ) {
+			while ( $this->state->stack_of_open_elements->pop() ) {
+				continue;
+			}
+		}
+
+		$this->current_element = array_shift( $this->element_queue );
+		while ( isset( $this->context_node ) && ! $this->has_seen_context_node ) {
+			if ( isset( $this->current_element ) ) {
+				if ( $this->context_node === $this->current_element->token && WP_HTML_Stack_Event::PUSH === $this->current_element->operation ) {
+					$this->has_seen_context_node = true;
+					return $this->next_token();
+				}
+			}
+			$this->current_element = array_shift( $this->element_queue );
+		}
+
+		if ( ! isset( $this->current_element ) ) {
+			return $this->next_token();
+		}
+
+		if ( isset( $this->context_node ) && WP_HTML_Stack_Event::POP === $this->current_element->operation && $this->context_node === $this->current_element->token ) {
+			$this->element_queue   = array();
+			$this->current_element = null;
+			return false;
+		}
+
+		// Avoid sending close events for elements which don't expect a closing.
+		if (
+			WP_HTML_Stack_Event::POP === $this->current_element->operation &&
+			! static::expects_closer( $this->current_element->token->node_name )
+		) {
+			return $this->next_token();
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Indicates if the current tag token is a tag closer.
+	 *
+	 * Example:
+	 *
+	 *     $p = WP_HTML_Processor::create_fragment( '<div></div>' );
+	 *     $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
+	 *     $p->is_tag_closer() === false;
+	 *
+	 *     $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
+	 *     $p->is_tag_closer() === true;
+	 *
+	 * @since 6.6.0 Subclassed for HTML Processor.
+	 *
+	 * @return bool Whether the current tag is a tag closer.
+	 */
+	public function is_tag_closer() {
+		return isset( $this->current_element )
+			? ( WP_HTML_Stack_Event::POP === $this->current_element->operation )
+			: parent::is_tag_closer();
 	}
 
 	/**
@@ -525,11 +643,12 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *       this returns false for self-closing elements in the
 	 *       SVG and MathML namespace.
 	 *
+	 * @param  ?WP_HTML_Token $node Node to examine instead of current node, if provided.
 	 * @return bool Whether to expect a closer for the currently-matched node,
 	 *              or `null` if not matched on any token.
 	 */
-	public function expects_closer() {
-		$token_name = $this->get_token_name();
+	public function expects_closer( $node = null ) {
+		$token_name = $node->node_name ?? $this->get_token_name();
 		if ( ! isset( $token_name ) ) {
 			return null;
 		}
@@ -581,16 +700,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 *        is provided in the opening tag, otherwise it expects a tag closer.
 			 */
 			$top_node = $this->state->stack_of_open_elements->current_node();
-			if (
-				$top_node && (
-					// Void elements.
-					self::is_void( $top_node->node_name ) ||
-					// Comments, text nodes, and other atomic tokens.
-					'#' === $top_node->node_name[0] ||
-					// Doctype declarations.
-					'html' === $top_node->node_name
-				)
-			) {
+			if ( isset( $top_node ) && ! static::expects_closer( $top_node ) ) {
 				$this->state->stack_of_open_elements->pop();
 			}
 		}
@@ -650,6 +760,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.4.0
 	 *
+	 * @todo make aware of queue of elements, because stack operations have already been done by now.
+	 *
 	 * @return string[]|null Array of tag names representing path to matched node, if matched, otherwise NULL.
 	 */
 	public function get_breadcrumbs() {
@@ -708,7 +820,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	private function step_in_body() {
 		$token_name = $this->get_token_name();
 		$token_type = $this->get_token_type();
-		$op_sigil   = '#tag' === $token_type ? ( $this->is_tag_closer() ? '-' : '+' ) : '';
+		$op_sigil   = '#tag' === $token_type ? ( parent::is_tag_closer() ? '-' : '+' ) : '';
 		$op         = "{$op_sigil}{$token_name}";
 
 		switch ( $op ) {
@@ -1231,7 +1343,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				throw new WP_HTML_Unsupported_Exception( "Cannot process {$token_name} element." );
 		}
 
-		if ( ! $this->is_tag_closer() ) {
+		if ( ! parent::is_tag_closer() ) {
 			/*
 			 * > Any other start tag
 			 */
@@ -1327,6 +1439,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return null;
 		}
 
+		if ( isset( $this->current_element ) ) {
+			return $this->current_element->token->node_name;
+		}
+
 		$tag_name = parent::get_tag();
 
 		switch ( $tag_name ) {
@@ -1340,6 +1456,189 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			default:
 				return $tag_name;
 		}
+	}
+
+	/**
+	 * Returns the node name represented by the token.
+	 *
+	 * This matches the DOM API value `nodeName`. Some values
+	 * are static, such as `#text` for a text node, while others
+	 * are dynamically generated from the token itself.
+	 *
+	 * Dynamic names:
+	 *  - Uppercase tag name for tag matches.
+	 *  - `html` for DOCTYPE declarations.
+	 *
+	 * Note that if the Tag Processor is not matched on a token
+	 * then this function will return `null`, either because it
+	 * hasn't yet found a token or because it reached the end
+	 * of the document without matching a token.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @return string|null Name of the matched token.
+	 */
+	public function get_token_name() {
+		if ( isset( $this->current_element ) ) {
+			return $this->current_element->token->node_name;
+		}
+
+		return parent::get_token_name();
+	}
+
+	/**
+	 * Indicates the kind of matched token, if any.
+	 *
+	 * This differs from `get_token_name()` in that it always
+	 * returns a static string indicating the type, whereas
+	 * `get_token_name()` may return values derived from the
+	 * token itself, such as a tag name or processing
+	 * instruction tag.
+	 *
+	 * Possible values:
+	 *  - `#tag` when matched on a tag.
+	 *  - `#text` when matched on a text node.
+	 *  - `#cdata-section` when matched on a CDATA node.
+	 *  - `#comment` when matched on a comment.
+	 *  - `#doctype` when matched on a DOCTYPE declaration.
+	 *  - `#presumptuous-tag` when matched on an empty tag closer.
+	 *  - `#funky-comment` when matched on a funky comment.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @return string|null What kind of token is matched, or null.
+	 */
+	public function get_token_type() {
+		if ( isset( $this->current_element ) ) {
+			$node_name = $this->current_element->token->node_name;
+			if ( ctype_upper( $node_name[0] ) ) {
+				return '#tag';
+			}
+
+			if ( 'html' === $node_name ) {
+				return '#doctype';
+			}
+
+			return $node_name;
+		}
+
+		return parent::get_token_type();
+	}
+
+	/**
+	 * Returns the value of a requested attribute from a matched tag opener if that attribute exists.
+	 *
+	 * Example:
+	 *
+	 *     $p = WP_HTML_Processor::create_fragment( '<div enabled class="test" data-test-id="14">Test</div>' );
+	 *     $p->next_token() === true;
+	 *     $p->get_attribute( 'data-test-id' ) === '14';
+	 *     $p->get_attribute( 'enabled' ) === true;
+	 *     $p->get_attribute( 'aria-label' ) === null;
+	 *
+	 *     $p->next_tag() === false;
+	 *     $p->get_attribute( 'class' ) === null;
+	 *
+	 * @since 6.6.0 Subclassed for HTML Processor.
+	 *
+	 * @param string $name Name of attribute whose value is requested.
+	 * @return string|true|null Value of attribute or `null` if not available. Boolean attributes return `true`.
+	 */
+	public function get_attribute( $name ) {
+		if ( isset( $this->current_element ) ) {
+			// Closing tokens cannot contain attributes.
+			if ( WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
+				return null;
+			}
+
+			$node_name = $this->current_element->token->node_name;
+
+			// Only tags can contain attributes.
+			if ( 'A' > $node_name[0] || 'Z' < $node_name[0] ) {
+				return null;
+			}
+
+			if ( $this->current_element->token->bookmark_name === (string) $this->bookmark_counter ) {
+				return parent::get_attribute( $name );
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets lowercase names of all attributes matching a given prefix in the current tag.
+	 *
+	 * Note that matching is case-insensitive. This is in accordance with the spec:
+	 *
+	 * > There must never be two or more attributes on
+	 * > the same start tag whose names are an ASCII
+	 * > case-insensitive match for each other.
+	 *     - HTML 5 spec
+	 *
+	 * Example:
+	 *
+	 *     $p = new WP_HTML_Tag_Processor( '<div data-ENABLED class="test" DATA-test-id="14">Test</div>' );
+	 *     $p->next_tag( array( 'class_name' => 'test' ) ) === true;
+	 *     $p->get_attribute_names_with_prefix( 'data-' ) === array( 'data-enabled', 'data-test-id' );
+	 *
+	 *     $p->next_tag() === false;
+	 *     $p->get_attribute_names_with_prefix( 'data-' ) === null;
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/syntax.html#attributes-2:ascii-case-insensitive
+	 *
+	 * @param string $prefix Prefix of requested attribute names.
+	 * @return array|null List of attribute names, or `null` when no tag opener is matched.
+	 */
+	public function get_attribute_names_with_prefix( $prefix ) {
+		if ( isset( $this->current_element ) ) {
+			if ( WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
+				return null;
+			}
+
+			$mark = $this->bookmarks[ $this->current_element->token->bookmark_name ];
+			if ( 0 === $mark->length ) {
+				return null;
+			}
+		}
+
+		return parent::get_attribute_names_with_prefix( $prefix );
+	}
+
+	/**
+	 * Returns the modifiable text for a matched token, or an empty string.
+	 *
+	 * Modifiable text is text content that may be read and changed without
+	 * changing the HTML structure of the document around it. This includes
+	 * the contents of `#text` nodes in the HTML as well as the inner
+	 * contents of HTML comments, Processing Instructions, and others, even
+	 * though these nodes aren't part of a parsed DOM tree. They also contain
+	 * the contents of SCRIPT and STYLE tags, of TEXTAREA tags, and of any
+	 * other section in an HTML document which cannot contain HTML markup (DATA).
+	 *
+	 * If a token has no modifiable text then an empty string is returned to
+	 * avoid needless crashing or type errors. An empty string does not mean
+	 * that a token has modifiable text, and a token with modifiable text may
+	 * have an empty string (e.g. a comment with no contents).
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @return string
+	 */
+	public function get_modifiable_text() {
+		if ( isset( $this->current_element ) ) {
+			if ( WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
+				return '';
+			}
+
+			$mark = $this->bookmarks[ $this->current_element->token->bookmark_name ];
+			if ( 0 === $mark->length ) {
+				return '';
+			}
+		}
+		return parent::get_modifiable_text();
 	}
 
 	/**
@@ -1383,6 +1682,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			? $this->bookmarks[ $this->state->current_token->bookmark_name ]->start
 			: 0;
 		$bookmark_starts_at   = $this->bookmarks[ $actual_bookmark_name ]->start;
+		$bookmark_length      = $this->bookmarks[ $actual_bookmark_name ]->length;
 		$direction            = $bookmark_starts_at > $processor_started_at ? 'forward' : 'backward';
 
 		/*
@@ -1438,6 +1738,8 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			parent::seek( 'context-node' );
 			$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
 			$this->state->frameset_ok    = true;
+			$this->element_queue         = array();
+			$this->current_element       = null;
 		}
 
 		// When moving forwards, reparse the document until reaching the same location as the original bookmark.
@@ -1445,8 +1747,11 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return true;
 		}
 
-		while ( $this->step() ) {
+		while ( $this->next_token() ) {
 			if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
+				while ( isset( $this->current_element ) && WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
+					$this->current_element = array_shift( $this->element_queue );
+				}
 				return true;
 			}
 		}
