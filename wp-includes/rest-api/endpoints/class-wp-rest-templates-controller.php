@@ -668,6 +668,12 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
+		// Resolve pattern blocks so they don't need to be resolved client-side
+		// in the editor, improving performance.
+		$blocks        = parse_blocks( $item->content );
+		$blocks        = resolve_pattern_blocks( $blocks );
+		$item->content = serialize_blocks( $blocks );
+
 		// Restores the more descriptive, specific name for use within this method.
 		$template = $item;
 
