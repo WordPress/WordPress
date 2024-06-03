@@ -1042,11 +1042,6 @@ template,
  * .entry-content children specific controls
  * - Adds special margin overrides for alignment utility classes
  */
-.entry-content > * {
-
-	/* Reset alignleft and alignright margins after alignfull */
-}
-
 .entry-content > *.alignleft,
 .entry-content > *.alignright,
 .entry-content > *.alignleft:first-child + *,
@@ -2818,13 +2813,6 @@ dt {
 dd {
 	margin: 0;
 	padding-left: 50px;
-}
-
-.wp-block-media-text {
-
-	/**
-   * Block Options
-   */
 }
 
 .wp-block-media-text.alignfull {

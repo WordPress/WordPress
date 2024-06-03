@@ -377,9 +377,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: #41a62a;
 }
 
-.wp-block-latest-comments__comment-excerpt p:last-child {
-}
-
 .wp-block-latest-comments__comment-date {
 	text-transform: uppercase;
 }

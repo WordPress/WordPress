@@ -73,13 +73,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding-top: 0.75em;
 }
 
-[class^="wp-block-"].alignleft,
-[class^="wp-block-"] .alignleft,
-[class^="wp-block-"].alignright,
-[class^="wp-block-"] .alignright {
-
-}
-
 /* Gallery */
 
 .wp-block-gallery {

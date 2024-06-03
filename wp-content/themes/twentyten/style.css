@@ -999,8 +999,6 @@ h3#comments-title {
 	top: 4px;
 	left: 0;
 }
-.comment-author {
-}
 .comment-author cite {
 	color: #000;
 	font-style: normal;
@@ -1021,10 +1019,6 @@ h3#comments-title {
 .comment-meta a:active,
 .comment-meta a:hover {
 	color: #ff4b33;
-}
-.commentlist .even {
-}
-.commentlist .bypostauthor {
 }
 .reply {
 	font-size: 12px;
@@ -1203,8 +1197,6 @@ h3#reply-title {
 #wp-calendar thead {
 	font-size: 11px;
 }
-#wp-calendar thead th {
-}
 #wp-calendar tbody {
 	color: #aaa;
 }
@@ -1289,15 +1281,6 @@ h3#reply-title {
 
 #main .widget-area ul.wp-block-latest-posts.wp-block-latest-posts__list {
 	list-style: square;
-}
-
-#primary {
-}
-#secondary {
-}
-
-/* Footer widget areas */
-#footer-widget-area {
 }
 
 

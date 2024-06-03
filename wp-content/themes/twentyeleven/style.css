@@ -1674,8 +1674,6 @@ section.recent-posts .other-recent-posts a[rel="bookmark"]:after {
 	color: transparent;
 	font-size: 11px;
 }
-section.recent-posts .other-recent-posts a[rel="bookmark"]:hover {
-}
 section.recent-posts .other-recent-posts .comments-link a,
 section.recent-posts .other-recent-posts .comments-link > span {
 	border-bottom: 2px solid #999;
@@ -1906,9 +1904,6 @@ section.ephemera ol,
 	line-height: 2.76333em;
 	text-transform: uppercase;
 }
-section.ephemera .entry-title .comments-link a:hover,
-.widget_twentyeleven_ephemera .entry-title .comments-link a:hover {
-}
 section.ephemera .entry-title a span {
 	color: #29628d;
 }
@@ -2094,10 +2089,6 @@ section.ephemera .entry-title a span {
 .comment-meta a {
 	font-weight: bold;
 }
-.comment-meta a:focus,
-.comment-meta a:active,
-.comment-meta a:hover {
-}
 .commentlist .avatar {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -2155,10 +2146,6 @@ a.comment-reply-link > span {
 }
 .commentlist > li.bypostauthor .comment-meta {
 	color: #575757;
-}
-.commentlist > li.bypostauthor .comment-meta a:focus,
-.commentlist > li.bypostauthor .comment-meta a:active,
-.commentlist > li.bypostauthor .comment-meta a:hover {
 }
 .commentlist > li.bypostauthor:before {
 	content: url(images/comment-arrow-bypostauthor.png);

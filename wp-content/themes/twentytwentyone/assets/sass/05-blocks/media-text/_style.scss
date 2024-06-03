@@ -35,10 +35,7 @@
 		}
 	}
 
-	/**
-	 * Block Options
-	 */
-
+	// Block Options
 	&.is-stacked-on-mobile .wp-block-media-text__content {
 		@include media(mobile) {
 			padding-top: var(--global--spacing-vertical);

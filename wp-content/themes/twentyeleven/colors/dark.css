@@ -46,10 +46,6 @@ input#s {
 	background-color: #ddd;
 }
 
-/* Links */
-a {
-}
-
 
 /* =Header
 ----------------------------------------------- */
@@ -59,10 +55,6 @@ a {
 }
 #site-title a {
 	color: #eee;
-}
-#site-title a:hover,
-#site-title a:focus,
-#site-title a:active {
 }
 #site-description {
 	color: #858585;
@@ -99,10 +91,6 @@ a {
 .entry-title a {
 	color: #ddd;
 }
-.entry-title a:hover,
-.entry-title a:focus,
-.entry-title a:active {
-}
 .entry-meta {
 	color: #999;
 }
@@ -123,8 +111,6 @@ a {
 .entry-content td,
 .comment-content td {
 	border-color: #222;
-}
-.page-link {
 }
 .page-link a {
 	background: #242424;
@@ -362,8 +348,6 @@ section.recent-posts .other-recent-posts .entry-title {
 section.recent-posts .other-recent-posts a[rel="bookmark"] {
 	color: #ccc;
 }
-section.recent-posts .other-recent-posts a[rel="bookmark"]:hover {
-}
 section.recent-posts .other-recent-posts .comments-link a,
 section.recent-posts .other-recent-posts .comments-link > span {
 	border-color: #959595;
@@ -372,8 +356,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 section.recent-posts .other-recent-posts .comments-link > span {
 	border-color: #444;
 	color: #777;
-}
-section.recent-posts .other-recent-posts .comments-link a:hover {
 }
 
 
@@ -594,10 +576,6 @@ li.bypostauthor a.comment-reply-link:active {
 	}
 	#page {
 		background: none !important;
-	}
-
-	/* Comments */
-	.commentlist > li.comment {
 	}
 
 	/* Post author highlighting */

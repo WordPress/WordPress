@@ -165,7 +165,7 @@
 		margin-bottom: 0;
 	}
 
-	/* Reset alignleft and alignright margins after alignfull */
+	// Reset alignleft and alignright margins after alignfull
 	&.alignfull + .alignleft,
 	&.alignfull + .alignright {
 		margin-top: var(--global--spacing-vertical);

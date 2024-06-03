@@ -3959,10 +3959,6 @@ body.page .main-navigation {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
 
-.site-header.featured-image .site-featured-image {
-  /* First layer: grayscale. */
-}
-
 .site-header.featured-image .site-featured-image .post-thumbnail img {
   height: auto;
   right: 50%;
@@ -3974,7 +3970,6 @@ body.page .main-navigation {
   transform: translateX(50%) translateY(-50%);
   width: auto;
   z-index: 1;
-  /* When image filters are active, make it grayscale to colorize it blue. */
 }
 
 @supports (object-fit: cover) {
@@ -3989,6 +3984,8 @@ body.page .main-navigation {
 }
 
 .image-filters-enabled .site-header.featured-image .site-featured-image .post-thumbnail img {
+  /* First layer: grayscale. */
+  /* When image filters are active, make it grayscale to colorize it blue. */
   filter: grayscale(100%);
 }
 
