@@ -35,6 +35,7 @@ class WP_Theme_JSON_Schema {
 	 * Function that migrates a given theme.json structure to the last version.
 	 *
 	 * @since 5.9.0
+	 * @since 6.6.0 Migrate up to v3.
 	 *
 	 * @param array $theme_json The structure to migrate.
 	 *
@@ -47,8 +48,14 @@ class WP_Theme_JSON_Schema {
 			);
 		}
 
-		if ( 1 === $theme_json['version'] ) {
-			$theme_json = self::migrate_v1_to_v2( $theme_json );
+		// Migrate each version in order starting with the current version.
+		switch ( $theme_json['version'] ) {
+			case 1:
+				$theme_json = self::migrate_v1_to_v2( $theme_json );
+				// no break
+			case 2:
+				$theme_json = self::migrate_v2_to_v3( $theme_json );
+				// no break
 		}
 
 		return $theme_json;
@@ -80,6 +87,88 @@ class WP_Theme_JSON_Schema {
 
 		// Set the new version.
 		$new['version'] = 2;
+
+		return $new;
+	}
+
+	/**
+	 * Migrates from v2 to v3.
+	 *
+	 * - Sets settings.typography.defaultFontSizes to false.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param array $old Data to migrate.
+	 *
+	 * @return array Data with defaultFontSizes set to false.
+	 */
+	private static function migrate_v2_to_v3( $old ) {
+		// Copy everything.
+		$new = $old;
+
+		// Set the new version.
+		$new['version'] = 3;
+
+		/*
+		 * Remaining changes do not need to be applied to the custom origin,
+		 * as they should take on the value of the theme origin.
+		 */
+		if (
+			isset( $new['isGlobalStylesUserThemeJSON'] ) &&
+			true === $new['isGlobalStylesUserThemeJSON']
+		) {
+			return $new;
+		}
+
+		/*
+		 * Even though defaultFontSizes and defaultSpacingSizes are new
+		 * settings, we need to migrate them as they each control
+		 * PRESETS_METADATA prevent_override values which were previously
+		 * hardcoded to false. This only needs to happen when the theme provides
+		 * fontSizes or spacingSizes as they could match the default ones and
+		 * affect the generated CSS.
+		 */
+		if ( isset( $old['settings']['typography']['fontSizes'] ) ) {
+			if ( ! isset( $new['settings'] ) ) {
+				$new['settings'] = array();
+			}
+			if ( ! isset( $new['settings']['typography'] ) ) {
+				$new['settings']['typography'] = array();
+			}
+			$new['settings']['typography']['defaultFontSizes'] = false;
+		}
+
+		/*
+		 * Similarly to defaultFontSizes, we need to migrate defaultSpacingSizes
+		 * as it controls the PRESETS_METADATA prevent_override which was
+		 * previously hardcoded to false. This only needs to happen when the
+		 * theme provided spacing sizes via spacingSizes or spacingScale.
+		 */
+		if (
+			isset( $old['settings']['spacing']['spacingSizes'] ) ||
+			isset( $old['settings']['spacing']['spacingScale'] )
+		) {
+			if ( ! isset( $new['settings'] ) ) {
+				$new['settings'] = array();
+			}
+			if ( ! isset( $new['settings']['spacing'] ) ) {
+				$new['settings']['spacing'] = array();
+			}
+			$new['settings']['spacing']['defaultSpacingSizes'] = false;
+		}
+
+		/*
+		 * In v3 spacingSizes is merged with the generated spacingScale sizes
+		 * instead of completely replacing them. The v3 behavior is what was
+		 * documented for the v2 schema, but the code never actually did work
+		 * that way. Instead of surprising users with a behavior change two
+		 * years after the fact at the same time as a v3 update is introduced,
+		 * we'll continue using the "bugged" behavior for v2 themes. And treat
+		 * the "bug fix" as a breaking change for v3.
+		 */
+		if ( isset( $old['settings']['spacing']['spacingSizes'] ) ) {
+			unset( $new['settings']['spacing']['spacingScale'] );
+		}
 
 		return $new;
 	}

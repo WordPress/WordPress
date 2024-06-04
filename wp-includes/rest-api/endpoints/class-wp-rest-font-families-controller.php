@@ -20,7 +20,7 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller {
 	 * @since 6.5.0
 	 * @var int
 	 */
-	const LATEST_THEME_JSON_VERSION_SUPPORTED = 2;
+	const LATEST_THEME_JSON_VERSION_SUPPORTED = 3;
 
 	/**
 	 * Whether the controller supports batching.

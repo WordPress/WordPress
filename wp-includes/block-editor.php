@@ -814,6 +814,7 @@ function get_block_editor_theme_styles() {
  * Returns the classic theme supports settings for block editor.
  *
  * @since 6.2.0
+ * @since 6.6.0 Add support for 'editor-spacing-sizes' theme support.
  *
  * @return array The classic theme supports settings.
  */
@@ -842,6 +843,11 @@ function get_classic_theme_supports_block_editor_settings() {
 	$gradient_presets = current( (array) get_theme_support( 'editor-gradient-presets' ) );
 	if ( false !== $gradient_presets ) {
 		$theme_settings['gradients'] = $gradient_presets;
+	}
+
+	$spacing_sizes = current( (array) get_theme_support( 'editor-spacing-sizes' ) );
+	if ( false !== $spacing_sizes ) {
+		$theme_settings['spacingSizes'] = $spacing_sizes;
 	}
 
 	return $theme_settings;

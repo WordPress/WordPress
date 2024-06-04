@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
-	"version": 2,
+	"version": 3,
 	"settings": {
 		"appearanceTools": false,
 		"useRootPaddingAwareAlignments": false,
@@ -265,6 +265,7 @@
 			"margin": false,
 			"padding": false,
 			"customSpacingSize": true,
+			"defaultSpacingSizes": true,
 			"units": [ "px", "em", "rem", "vh", "vw", "%" ],
 			"spacingScale": {
 				"operator": "*",
@@ -276,6 +277,7 @@
 		},
 		"typography": {
 			"customFontSize": true,
+			"defaultFontSizes": true,
 			"dropCap": true,
 			"fontSizes": [
 				{
