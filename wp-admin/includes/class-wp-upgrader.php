@@ -828,7 +828,7 @@ class WP_Upgrader {
 		 * Download the package. Note: If the package is the full path
 		 * to an existing local file, it will be returned untouched.
 		 */
-		$download = $this->download_package( $options['package'], true, $options['hook_extra'] );
+		$download = $this->download_package( $options['package'], false, $options['hook_extra'] );
 
 		/*
 		 * Allow for signature soft-fail.

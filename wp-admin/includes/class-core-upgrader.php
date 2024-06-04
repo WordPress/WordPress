@@ -121,7 +121,7 @@ class Core_Upgrader extends WP_Upgrader {
 			return new WP_Error( 'locked', $this->strings['locked'] );
 		}
 
-		$download = $this->download_package( $current->packages->$to_download, true );
+		$download = $this->download_package( $current->packages->$to_download, false );
 
 		/*
 		 * Allow for signature soft-fail.
