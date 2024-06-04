@@ -2598,8 +2598,11 @@ class WP_Site_Health {
 
 		$total_length = 0;
 
-		foreach ( $alloptions as $option_name => $option_value ) {
-			$total_length += strlen( $option_value );
+		foreach ( $alloptions as $option_value ) {
+			if ( is_array( $option_value ) || is_object( $option_value ) ) {
+				$option_value = maybe_serialize( $option_value );
+			}
+			$total_length += strlen( (string) $option_value );
 		}
 
 		return $total_length;
