@@ -303,6 +303,7 @@
 			"fontWeight": true,
 			"letterSpacing": true,
 			"lineHeight": false,
+			"textAlign": true,
 			"textDecoration": true,
 			"textTransform": true,
 			"writingMode": false
