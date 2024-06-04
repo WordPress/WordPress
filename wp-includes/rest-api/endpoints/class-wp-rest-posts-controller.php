@@ -1998,6 +1998,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					$data['generated_slug'] = $sample_permalink[1];
 				}
 			}
+
+			if ( rest_is_field_included( 'class_list', $fields ) ) {
+				$data['class_list'] = get_post_class( array(), $post->ID );
+			}
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -2352,6 +2356,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'type'        => 'string',
 				'context'     => array( 'edit' ),
 				'readonly'    => true,
+			);
+
+			$schema['properties']['class_list'] = array(
+				'description' => __( 'An array of the class names for the post container element.' ),
+				'type'        => 'array',
+				'context'     => array( 'view', 'edit' ),
+				'readonly'    => true,
+				'items'       => array(
+					'type' => 'string',
+				),
 			);
 		}
 
