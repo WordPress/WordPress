@@ -66,6 +66,12 @@ body.locale-he-il .press-this a.wp-switch-editor {
 .locale-de-de-formal #customize-header-actions .spinner {
 	margin: 16px 3px 0; /* default 16px 4px 0 5px */
 }
+body[class*="locale-de-"] .inline-edit-row fieldset label span.title {
+	width: 7em; /* default 6em */
+}
+body[class*="locale-de-"] .inline-edit-row fieldset label span.title{
+	margin-left: 7em; /* default 6em */
+}
 
 /* ru_RU: Text needs more room to breathe. */
 .locale-ru-ru #adminmenu {
