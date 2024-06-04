@@ -272,6 +272,7 @@ final class WP_Interactivity_API {
 	 * it returns null if the HTML contains unbalanced tags.
 	 *
 	 * @since 6.5.0
+	 * @since 6.6.0 The function displays a warning message when the HTML contains unbalanced tags or a directive appears in a MATH or SVG tag.
 	 *
 	 * @param string $html            The HTML content to process.
 	 * @param array  $context_stack   The reference to the array used to keep track of contexts during processing.
@@ -295,6 +296,11 @@ final class WP_Interactivity_API {
 			 * We still process the rest of the HTML.
 			 */
 			if ( 'SVG' === $tag_name || 'MATH' === $tag_name ) {
+				if ( $p->get_attribute_names_with_prefix( 'data-wp-' ) ) {
+					/* translators: 1: SVG or MATH HTML tag, 2: Namespace of the interactive block. */
+					$message = sprintf( __( 'Interactivity directives were detected on an incompatible %1$s tag when processing "%2$s". These directives will be ignored in the server side render.' ), $tag_name, end( $namespace_stack ) );
+					_doing_it_wrong( __METHOD__, $message, '6.6.0' );
+				}
 				$p->skip_to_tag_closer();
 				continue;
 			}
@@ -382,13 +388,21 @@ final class WP_Interactivity_API {
 				}
 			}
 		}
-
 		/*
 		 * It returns null if the HTML is unbalanced because unbalanced HTML is
 		 * not safe to process. In that case, the Interactivity API runtime will
-		 * update the HTML on the client side during the hydration.
+		 * update the HTML on the client side during the hydration. It will also
+		 * display a notice to the developer to inform them about the issue.
 		 */
-		return $unbalanced || 0 < count( $tag_stack ) ? null : $p->get_updated_html();
+		if ( $unbalanced || 0 < count( $tag_stack ) ) {
+			$tag_errored = 0 < count( $tag_stack ) ? end( $tag_stack )[0] : $tag_name;
+			/* translators: %1s: Namespace processed, %2s: The tag that caused the error; could be any HTML tag.  */
+			$message = sprintf( __( 'Interactivity directives failed to process in "%1$s" due to a missing "%2$s" end tag.' ), end( $namespace_stack ), $tag_errored );
+			_doing_it_wrong( __METHOD__, $message, '6.6.0' );
+			return null;
+		}
+
+		return $p->get_updated_html();
 	}
 
 	/**
@@ -396,17 +410,21 @@ final class WP_Interactivity_API {
 	 * store namespace, state and context.
 	 *
 	 * @since 6.5.0
+	 * @since 6.6.0 The function now adds a warning when the namespace is null, falsy, or the directive value is empty.
 	 *
 	 * @param string|true $directive_value   The directive attribute value string or `true` when it's a boolean attribute.
 	 * @param string      $default_namespace The default namespace to use if none is explicitly defined in the directive
 	 *                                       value.
 	 * @param array|false $context           The current context for evaluating the directive or false if there is no
 	 *                                       context.
-	 * @return mixed|null The result of the evaluation. Null if the reference path doesn't exist.
+	 * @return mixed|null The result of the evaluation. Null if the reference path doesn't exist or the namespace is falsy.
 	 */
 	private function evaluate( $directive_value, string $default_namespace, $context = false ) {
 		list( $ns, $path ) = $this->extract_directive_value( $directive_value, $default_namespace );
-		if ( empty( $path ) ) {
+		if ( ! $ns || ! $path ) {
+			/* translators: %s: The directive value referenced. */
+			$message = sprintf( __( 'Namespace or reference path cannot be empty. Directive value referenced: %s' ), $directive_value );
+			_doing_it_wrong( __METHOD__, $message, '6.6.0' );
 			return null;
 		}
 

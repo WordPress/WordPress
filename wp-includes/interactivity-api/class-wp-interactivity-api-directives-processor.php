@@ -198,16 +198,19 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 	public function skip_to_tag_closer(): bool {
 		$depth    = 1;
 		$tag_name = $this->get_tag();
-		while ( $depth > 0 && $this->next_tag(
-			array(
-				'tag_name'    => $tag_name,
-				'tag_closers' => 'visit',
-			)
-		) ) {
-			if ( $this->has_self_closing_flag() ) {
-				continue;
+
+		while ( $depth > 0 && $this->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
+			if ( ! $this->is_tag_closer() && $this->get_attribute_names_with_prefix( 'data-wp-' ) ) {
+				/* translators: 1: SVG or MATH HTML tag. */
+				$message = sprintf( __( 'Interactivity directives were detected inside an incompatible %1$s tag. These directives will be ignored in the server side render.' ), $tag_name );
+				_doing_it_wrong( __METHOD__, $message, '6.6.0' );
 			}
-			$depth += $this->is_tag_closer() ? -1 : 1;
+			if ( $this->get_tag() === $tag_name ) {
+				if ( $this->has_self_closing_flag() ) {
+					continue;
+				}
+				$depth += $this->is_tag_closer() ? -1 : 1;
+			}
 		}
 
 		return 0 === $depth;
