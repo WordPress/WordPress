@@ -2587,6 +2587,104 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Calculates total amount of autoloaded data.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return int Autoloaded data in bytes.
+	 */
+	public function get_autoloaded_options_size() {
+		$alloptions = wp_load_alloptions();
+
+		$total_length = 0;
+
+		foreach ( $alloptions as $option_name => $option_value ) {
+			$total_length += strlen( $option_value );
+		}
+
+		return $total_length;
+	}
+
+	/**
+	 * Tests the number of autoloaded options.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return array The test results.
+	 */
+	public function get_test_autoloaded_options() {
+		$autoloaded_options_size  = $this->get_autoloaded_options_size();
+		$autoloaded_options_count = count( wp_load_alloptions() );
+
+		$base_description = __( 'Autoloaded options are configuration settings for plugins and themes that are automatically loaded with every page load in WordPress. Having too many autoloaded options can slow down your site.' );
+
+		$result = array(
+			'label'       => __( 'Autoloaded options are acceptable' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Performance' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				/* translators: 1: Number of autoloaded options, 2: Autoloaded options size. */
+				'<p>' . esc_html( $base_description ) . ' ' . __( 'Your site has %1$s autoloaded options (size: %2$s) in the options table, which is acceptable.' ) . '</p>',
+				$autoloaded_options_count,
+				size_format( $autoloaded_options_size )
+			),
+			'actions'     => '',
+			'test'        => 'autoloaded_options',
+		);
+
+		/**
+		 * Filters max bytes threshold to trigger warning in Site Health.
+		 *
+		 * @since 6.6.0
+		 *
+		 * @param int $limit Autoloaded options threshold size. Default 800000.
+		 */
+		$limit = apply_filters( 'site_status_autoloaded_options_size_limit', 800000 );
+
+		if ( $autoloaded_options_size < $limit ) {
+			return $result;
+		}
+
+		$result['status']      = 'critical';
+		$result['label']       = __( 'Autoloaded options could affect performance' );
+		$result['description'] = sprintf(
+			/* translators: 1: Number of autoloaded options, 2: Autoloaded options size. */
+			'<p>' . esc_html( $base_description ) . ' ' . __( 'Your site has %1$s autoloaded options (size: %2$s) in the options table, which could cause your site to be slow. You can review the options being autoloaded in your database and remove any options that are no longer needed by your site.' ) . '</p>',
+			$autoloaded_options_count,
+			size_format( $autoloaded_options_size )
+		);
+
+		/**
+		 * Filters description to be shown on Site Health warning when threshold is met.
+		 *
+		 * @since 6.6.0
+		 *
+		 * @param string $description Description message when autoloaded options bigger than threshold.
+		 */
+		$result['description'] = apply_filters( 'site_status_autoloaded_options_limit_description', $result['description'] );
+
+		$result['actions'] = sprintf(
+			/* translators: 1: HelpHub URL, 2: Link description. */
+			'<p><a target="_blank" rel="noopener" href="%1$s">%2$s</a></p>',
+			esc_url( __( 'https://developer.wordpress.org/advanced-administration/performance/optimization/#autoloaded-options' ) ),
+			__( 'More info about optimizing autoloaded options' )
+		);
+
+		/**
+		 * Filters actionable information to tackle the problem. It can be a link to an external guide.
+		 *
+		 * @since 6.6.0
+		 *
+		 * @param string $actions Call to Action to be used to point to the right direction to solve the issue.
+		 */
+		$result['actions'] = apply_filters( 'site_status_autoloaded_options_action_to_perform', $result['actions'] );
+		return $result;
+	}
+
+	/**
 	 * Returns a set of tests that belong to the site status page.
 	 *
 	 * Each site status test is defined here, they may be `direct` tests, that run on page load, or `async` tests
@@ -2669,6 +2767,10 @@ class WP_Site_Health {
 				'available_updates_disk_space' => array(
 					'label' => __( 'Available disk space' ),
 					'test'  => 'available_updates_disk_space',
+				),
+				'autoloaded_options' => array(
+					'label' => __( 'Autoloaded options' ),
+					'test'  => 'autoloaded_options',
 				),
 			),
 			'async'  => array(
