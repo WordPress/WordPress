@@ -110,6 +110,28 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 	}
 
 	wp_set_auth_cookie( $user->ID, $credentials['remember'], $secure_cookie );
+
+	/**
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 */
+	global $wpdb;
+
+	// Flush `user_activation_key` if exists after successful login.
+	if ( ! empty( $user->user_activation_key ) ) {
+		$wpdb->update(
+			$wpdb->users,
+			array(
+				'user_activation_key' => '',
+			),
+			array( 'ID' => $user->ID ),
+			array( '%s' ),
+			array( '%d' )
+		);
+
+		// Empty user_activation_key object.
+		$user->user_activation_key = '';
+	}
+
 	/**
 	 * Fires after the user has successfully logged in.
 	 *
