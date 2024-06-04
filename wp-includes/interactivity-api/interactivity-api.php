@@ -47,7 +47,11 @@ function wp_interactivity_process_directives( string $html ): string {
  * If state for that store namespace already exists, it merges the new
  * provided state with the existing one.
  *
+ * The namespace can be omitted inside derived state getters, using the
+ * namespace where the getter is defined.
+ *
  * @since 6.5.0
+ * @since 6.6.0 The namespace can be omitted when called inside derived state getters.
  *
  * @param string $store_namespace The unique store namespace identifier.
  * @param array  $state           Optional. The array that will be merged with the existing state for the specified
@@ -55,7 +59,7 @@ function wp_interactivity_process_directives( string $html ): string {
  * @return array The state for the specified store namespace. This will be the updated state if a $state argument was
  *               provided.
  */
-function wp_interactivity_state( string $store_namespace, array $state = array() ): array {
+function wp_interactivity_state( ?string $store_namespace = null, array $state = array() ): array {
 	return wp_interactivity()->state( $store_namespace, $state );
 }
 
@@ -102,4 +106,22 @@ function wp_interactivity_data_wp_context( array $context, string $store_namespa
 		( $store_namespace ? $store_namespace . '::' : '' ) .
 		( empty( $context ) ? '{}' : wp_json_encode( $context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) ) .
 		'\'';
+}
+
+/**
+ * Gets the current Interactivity API context for a given namespace.
+ *
+ * The function should be used only during directive processing. If the
+ * `$store_namespace` parameter is omitted, it uses the current namespace value
+ * on the internal namespace stack.
+ *
+ * It returns an empty array when the specified namespace is not defined.
+ *
+ * @since 6.6.0
+ *
+ * @param string $store_namespace Optional. The unique store namespace identifier.
+ * @return array The context for the specified store namespace.
+ */
+function wp_interactivity_get_context( ?string $store_namespace = null ): array {
+	return wp_interactivity()->get_context( $store_namespace );
 }
