@@ -42,6 +42,7 @@ WP_Block_Supports::get_instance()->register(
 
 // Add classnames to blocks using duotone support.
 add_filter( 'render_block', array( 'WP_Duotone', 'render_duotone_support' ), 10, 3 );
+add_filter( 'render_block_core/image', array( 'WP_Duotone', 'restore_image_outer_container' ), 10, 1 );
 
 // Enqueue styles.
 // Block styles (core-block-supports-inline-css) before the style engine (wp_enqueue_stored_styles).

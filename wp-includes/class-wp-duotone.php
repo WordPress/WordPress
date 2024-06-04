@@ -1155,6 +1155,45 @@ class WP_Duotone {
 	}
 
 	/**
+	 * Fixes the issue with our generated class name not being added to the block's outer container
+	 * in classic themes due to gutenberg_restore_image_outer_container from layout block supports.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param  string $block_content Rendered block content.
+	 * @return string                Filtered block content.
+	 */
+	public static function restore_image_outer_container( $block_content ) {
+		if ( wp_theme_has_theme_json() ) {
+			return $block_content;
+		}
+
+		$tags          = new WP_HTML_Tag_Processor( $block_content );
+		$wrapper_query = array(
+			'tag_name'   => 'div',
+			'class_name' => 'wp-block-image',
+		);
+		if ( ! $tags->next_tag( $wrapper_query ) ) {
+			return $block_content;
+		}
+
+		$tags->set_bookmark( 'wrapper-div' );
+		$tags->next_tag();
+
+		$inner_classnames = explode( ' ', $tags->get_attribute( 'class' ) );
+		foreach ( $inner_classnames as $classname ) {
+			if ( 0 === strpos( $classname, 'wp-duotone' ) ) {
+				$tags->remove_class( $classname );
+				$tags->seek( 'wrapper-div' );
+				$tags->add_class( $classname );
+				break;
+			}
+		}
+
+		return $tags->get_updated_html();
+	}
+
+	/**
 	 * Appends the used block duotone filter declarations to the inline block supports CSS.
 	 *
 	 * Uses the declarations saved in earlier calls to self::enqueue_block_css.
