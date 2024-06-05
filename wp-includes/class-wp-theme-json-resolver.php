@@ -287,59 +287,25 @@ class WP_Theme_JSON_Resolver {
 		 */
 		$theme_support_data = WP_Theme_JSON::get_from_editor_settings( get_classic_theme_supports_block_editor_settings() );
 		if ( ! wp_theme_has_theme_json() ) {
-			if ( ! isset( $theme_support_data['settings']['color'] ) ) {
-				$theme_support_data['settings']['color'] = array();
-			}
+			/*
+			 * Unlike block themes, classic themes without a theme.json disable
+			 * default presets when custom preset theme support is added. This
+			 * behavior can be overridden by using the corresponding default
+			 * preset theme support.
+			 */
+			$theme_support_data['settings']['color']['defaultPalette']        =
+				! isset( $theme_support_data['settings']['color']['palette'] ) ||
+				current_theme_supports( 'default-color-palette' );
+			$theme_support_data['settings']['color']['defaultGradients']      =
+				! isset( $theme_support_data['settings']['color']['gradients'] ) ||
+				current_theme_supports( 'default-gradient-presets' );
+			$theme_support_data['settings']['typography']['defaultFontSizes'] =
+				! isset( $theme_support_data['settings']['typography']['fontSizes'] ) ||
+				current_theme_supports( 'default-font-sizes' );
+			$theme_support_data['settings']['spacing']['defaultSpacingSizes'] =
+				! isset( $theme_support_data['settings']['spacing']['spacingSizes'] ) ||
+				current_theme_supports( 'default-spacing-sizes' );
 
-			$default_palette = false;
-			if ( current_theme_supports( 'default-color-palette' ) ) {
-				$default_palette = true;
-			}
-			if ( ! isset( $theme_support_data['settings']['color']['palette'] ) ) {
-				// If the theme does not have any palette, we still want to show the core one.
-				$default_palette = true;
-			}
-			$theme_support_data['settings']['color']['defaultPalette'] = $default_palette;
-
-			$default_gradients = false;
-			if ( current_theme_supports( 'default-gradient-presets' ) ) {
-				$default_gradients = true;
-			}
-			if ( ! isset( $theme_support_data['settings']['color']['gradients'] ) ) {
-				// If the theme does not have any gradients, we still want to show the core ones.
-				$default_gradients = true;
-			}
-			$theme_support_data['settings']['color']['defaultGradients'] = $default_gradients;
-
-			if ( ! isset( $theme_support_data['settings']['typography'] ) ) {
-				$theme_support_data['settings']['typography'] = array();
-			}
-			$default_font_sizes = false;
-			if ( current_theme_supports( 'default-font-sizes' ) ) {
-				$default_font_sizes = true;
-			}
-			if ( ! isset( $theme_support_data['settings']['typography']['fontSizes'] ) ) {
-				// If the theme does not have any font sizes, we still want to show the core one.
-				$default_font_sizes = true;
-			}
-			$theme_support_data['settings']['typography']['defaultFontSizes'] = $default_font_sizes;
-
-			if ( ! isset( $theme_support_data['settings']['spacing'] ) ) {
-				$theme_support_data['settings']['spacing'] = array();
-			}
-			$default_spacing_sizes = false;
-			if ( current_theme_supports( 'default-spacing-sizes' ) ) {
-				$default_spacing_sizes = true;
-			}
-			if ( ! isset( $theme_support_data['settings']['spacing']['spacingSizes'] ) ) {
-				// If the theme does not have any spacing sizes, we still want to show the core one.
-				$default_spacing_sizes = true;
-			}
-			$theme_support_data['settings']['spacing']['defaultSpacingSizes'] = $default_spacing_sizes;
-
-			if ( ! isset( $theme_support_data['settings']['shadow'] ) ) {
-				$theme_support_data['settings']['shadow'] = array();
-			}
 			/*
 			 * Shadow presets are explicitly disabled for classic themes until a
 			 * decision is made for whether the default presets should match the
