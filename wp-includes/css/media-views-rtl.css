@@ -383,6 +383,11 @@
 	margin: 0 0 10px;
 }
 
+.attachment-details h2 {
+	display: grid;
+	grid-template-columns: auto 5em;
+}
+
 .media-sidebar .collection-settings .setting {
 	margin: 1px 0;
 }
@@ -1724,6 +1729,12 @@
 	vertical-align: middle;
 }
 
+.media-frame .media-sidebar .settings-save-status .spinner {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
 .media-frame.mode-grid .spinner {
 	margin: 0;
 	float: none;
@@ -1753,7 +1764,7 @@
 }
 
 .attachment-details .settings-save-status {
-	float: left;
+	text-align: left;
 	text-transform: none;
 	font-weight: 400;
 }
