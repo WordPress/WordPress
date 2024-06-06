@@ -1064,7 +1064,7 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 		return $post;
 	}
 
-	/**
+	/*
 	 * Skip meta generation when consumers intentionally update specific Navigation fields
 	 * and omit the content update.
 	 */
@@ -1072,7 +1072,7 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 		return $post;
 	}
 
-	/**
+	/*
 	 * Skip meta generation when the post content is not a navigation block.
 	 */
 	if ( ! isset( $post->post_type ) || 'wp_navigation' !== $post->post_type ) {
@@ -1115,11 +1115,14 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 	return $post;
 }
 
-/*
+/**
  * Returns the markup for blocks hooked to the given anchor block in a specific relative position and then
  * adds a list of hooked block types to an anchor block's ignored hooked block types.
  *
  * This function is meant for internal use only.
+ *
+ * @since 6.6.0
+ * @access private
  *
  * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
  * @param string                          $relative_position   The relative position of the hooked blocks.
