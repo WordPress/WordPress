@@ -2146,7 +2146,7 @@ function wp_filter_global_styles_post( $data ) {
 	) {
 		unset( $decoded_data['isGlobalStylesUserThemeJSON'] );
 
-		$data_to_encode = WP_Theme_JSON::remove_insecure_properties( $decoded_data );
+		$data_to_encode = WP_Theme_JSON::remove_insecure_properties( $decoded_data, 'custom' );
 
 		$data_to_encode['isGlobalStylesUserThemeJSON'] = true;
 		return wp_slash( wp_json_encode( $data_to_encode ) );

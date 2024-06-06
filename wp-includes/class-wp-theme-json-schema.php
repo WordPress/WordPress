@@ -35,13 +35,14 @@ class WP_Theme_JSON_Schema {
 	 * Function that migrates a given theme.json structure to the last version.
 	 *
 	 * @since 5.9.0
-	 * @since 6.6.0 Migrate up to v3.
+	 * @since 6.6.0 Migrate up to v3 and add $origin parameter.
 	 *
 	 * @param array $theme_json The structure to migrate.
-	 *
+	 * @param string $origin    Optional. What source of data this object represents.
+	 *                          One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
 	 * @return array The structure in the last version.
 	 */
-	public static function migrate( $theme_json ) {
+	public static function migrate( $theme_json, $origin = 'theme' ) {
 		if ( ! isset( $theme_json['version'] ) ) {
 			$theme_json = array(
 				'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -54,7 +55,7 @@ class WP_Theme_JSON_Schema {
 				$theme_json = self::migrate_v1_to_v2( $theme_json );
 				// Deliberate fall through. Once migrated to v2, also migrate to v3.
 			case 2:
-				$theme_json = self::migrate_v2_to_v3( $theme_json );
+				$theme_json = self::migrate_v2_to_v3( $theme_json, $origin );
 		}
 
 		return $theme_json;
@@ -100,11 +101,12 @@ class WP_Theme_JSON_Schema {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @param array $old Data to migrate.
-	 *
+	 * @param array $old     Data to migrate.
+	 * @param string $origin What source of data this object represents.
+	 *                       One of 'blocks', 'default', 'theme', or 'custom'.
 	 * @return array Data with defaultFontSizes set to false.
 	 */
-	private static function migrate_v2_to_v3( $old ) {
+	private static function migrate_v2_to_v3( $old, $origin ) {
 		// Copy everything.
 		$new = $old;
 
@@ -115,10 +117,7 @@ class WP_Theme_JSON_Schema {
 		 * Remaining changes do not need to be applied to the custom origin,
 		 * as they should take on the value of the theme origin.
 		 */
-		if (
-			isset( $new['isGlobalStylesUserThemeJSON'] ) &&
-			true === $new['isGlobalStylesUserThemeJSON']
-		) {
+		if ( 'custom' === $origin ) {
 			return $new;
 		}
 
