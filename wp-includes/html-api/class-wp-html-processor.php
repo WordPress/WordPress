@@ -543,7 +543,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		// Avoid sending close events for elements which don't expect a closing.
 		if (
 			WP_HTML_Stack_Event::POP === $this->current_element->operation &&
-			! static::expects_closer( $this->current_element->token->node_name )
+			! static::expects_closer( $this->current_element->token )
 		) {
 			return $this->next_token();
 		}

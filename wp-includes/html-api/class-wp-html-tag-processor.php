@@ -2265,7 +2265,7 @@ class WP_HTML_Tag_Processor {
 	 * @param int $shift_this_point Accumulate and return shift for this position.
 	 * @return int How many bytes the given pointer moved in response to the updates.
 	 */
-	private function apply_attributes_updates( $shift_this_point = 0 ) {
+	private function apply_attributes_updates( $shift_this_point ) {
 		if ( ! count( $this->lexical_updates ) ) {
 			return 0;
 		}
@@ -2787,6 +2787,8 @@ class WP_HTML_Tag_Processor {
 			case self::STATE_FUNKY_COMMENT:
 				return '#funky-comment';
 		}
+
+		return null;
 	}
 
 	/**
@@ -3195,7 +3197,7 @@ class WP_HTML_Tag_Processor {
 		 * Keep track of the position right before the current tag. This will
 		 * be necessary for reparsing the current tag after updating the HTML.
 		 */
-		$before_current_tag = $this->token_starts_at;
+		$before_current_tag = $this->token_starts_at ?? 0;
 
 		/*
 		 * 1. Apply the enqueued edits and update all the pointers to reflect those changes.
