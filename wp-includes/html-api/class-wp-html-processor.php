@@ -276,18 +276,19 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *  - The only supported document encoding is `UTF-8`, which is the default value.
 	 *
 	 * @since 6.4.0
+	 * @since 6.6.0 Returns `static` instead of `self` so it can create subclass instances.
 	 *
 	 * @param string $html     Input HTML fragment to process.
 	 * @param string $context  Context element for the fragment, must be default of `<body>`.
 	 * @param string $encoding Text encoding of the document; must be default of 'UTF-8'.
-	 * @return WP_HTML_Processor|null The created processor if successful, otherwise null.
+	 * @return static|null The created processor if successful, otherwise null.
 	 */
 	public static function create_fragment( $html, $context = '<body>', $encoding = 'UTF-8' ) {
 		if ( '<body>' !== $context || 'UTF-8' !== $encoding ) {
 			return null;
 		}
 
-		$processor                        = new self( $html, self::CONSTRUCTOR_UNLOCK_CODE );
+		$processor                        = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
 		$processor->state->context_node   = array( 'BODY', array() );
 		$processor->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
 
