@@ -91,7 +91,7 @@ function wp_get_themes( $args = array() ) {
 
 	if ( null !== $args['errors'] ) {
 		foreach ( $themes as $theme => $wp_theme ) {
-			if ( $wp_theme->errors() != $args['errors'] ) {
+			if ( (bool) $wp_theme->errors() !== $args['errors'] ) {
 				unset( $themes[ $theme ] );
 			}
 		}
@@ -577,7 +577,7 @@ function search_theme_directories( $force = false ) {
 		$theme_roots[ $theme_dir ] = $relative_theme_roots[ $theme_data['theme_root'] ]; // Convert absolute to relative.
 	}
 
-	if ( get_site_transient( 'theme_roots' ) != $theme_roots ) {
+	if ( get_site_transient( 'theme_roots' ) !== $theme_roots ) {
 		set_site_transient( 'theme_roots', $theme_roots, $cache_expiration );
 	}
 
@@ -705,9 +705,9 @@ function get_raw_theme_root( $stylesheet_or_template, $skip_cache = false ) {
 
 	// If requesting the root for the active theme, consult options to avoid calling get_theme_roots().
 	if ( ! $skip_cache ) {
-		if ( get_option( 'stylesheet' ) == $stylesheet_or_template ) {
+		if ( get_option( 'stylesheet' ) === $stylesheet_or_template ) {
 			$theme_root = get_option( 'stylesheet_root' );
-		} elseif ( get_option( 'template' ) == $stylesheet_or_template ) {
+		} elseif ( get_option( 'template' ) === $stylesheet_or_template ) {
 			$theme_root = get_option( 'template_root' );
 		}
 	}
@@ -942,7 +942,7 @@ function validate_current_theme() {
 	 * if it turns out there is no default theme installed. (That's `false`.)
 	 */
 	$default = WP_Theme::get_core_default_theme();
-	if ( false === $default || get_stylesheet() == $default->get_stylesheet() ) {
+	if ( false === $default || get_stylesheet() === $default->get_stylesheet() ) {
 		return true;
 	}
 
@@ -1567,7 +1567,7 @@ function get_custom_header() {
 			if ( ! empty( $_wp_default_headers ) ) {
 				foreach ( (array) $_wp_default_headers as $default_header ) {
 					$url = vsprintf( $default_header['url'], $directory_args );
-					if ( $data['url'] == $url ) {
+					if ( $data['url'] === $url ) {
 						$data                  = $default_header;
 						$data['url']           = $url;
 						$data['thumbnail_url'] = vsprintf( $data['thumbnail_url'], $directory_args );
@@ -3444,24 +3444,24 @@ function _delete_attachment_theme_mod( $id ) {
 	$attachment_image = wp_get_attachment_url( $id );
 	$header_image     = get_header_image();
 	$background_image = get_background_image();
-	$custom_logo_id   = get_theme_mod( 'custom_logo' );
-	$site_logo_id     = get_option( 'site_logo' );
+	$custom_logo_id   = (int) get_theme_mod( 'custom_logo' );
+	$site_logo_id     = (int) get_option( 'site_logo' );
 
-	if ( $custom_logo_id && $custom_logo_id == $id ) {
+	if ( $custom_logo_id && $custom_logo_id === $id ) {
 		remove_theme_mod( 'custom_logo' );
 		remove_theme_mod( 'header_text' );
 	}
 
-	if ( $site_logo_id && $site_logo_id == $id ) {
+	if ( $site_logo_id && $site_logo_id === $id ) {
 		delete_option( 'site_logo' );
 	}
 
-	if ( $header_image && $header_image == $attachment_image ) {
+	if ( $header_image && $header_image === $attachment_image ) {
 		remove_theme_mod( 'header_image' );
 		remove_theme_mod( 'header_image_data' );
 	}
 
-	if ( $background_image && $background_image == $attachment_image ) {
+	if ( $background_image && $background_image === $attachment_image ) {
 		remove_theme_mod( 'background_image' );
 	}
 }
