@@ -394,6 +394,13 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin-right: 0;
 }
 
+/* Search */
+
+html :where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) {
+	border: 1px solid #949494;
+	padding: 4px;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Colors
 --------------------------------------------------------------*/
