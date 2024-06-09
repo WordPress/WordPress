@@ -685,6 +685,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-transform: none;
 }
 
+.wp-block-pullquote[class*="-text-color"] blockquote cite,
+.wp-block-pullquote[style*="color"] blockquote cite {
+	color: inherit;
+}
+
 @media screen and (min-width: 46.25em) {
 	.wp-block-pullquote .wp-block-pullquote__citation {
 		font-size: 17px;
