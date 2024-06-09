@@ -776,7 +776,7 @@ table.wp-block-table td:last-child {
 /* Latest Comments */
 
 .wp-block-latest-comments article {
-	margin-bottom: 4em;
+	margin-bottom: 4rem;
 }
 
 .wp-block-latest-comments .avatar,

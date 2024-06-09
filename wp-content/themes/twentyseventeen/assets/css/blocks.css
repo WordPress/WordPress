@@ -313,7 +313,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Comments */
 
 .wp-block-latest-comments article {
-	margin-bottom: 4em;
+	margin-bottom: 4rem;
 }
 
 .widget-area .wp-block-latest-comments article {
