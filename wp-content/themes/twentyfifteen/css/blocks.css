@@ -128,6 +128,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: inherit;
 }
 
+.wp-block-quote.has-text-color cite,
+.wp-block-quote.has-background cite {
+	color: inherit;
+}
+
 .wp-block-quote em,
 .wp-block-quote i {
 	font-style: normal;
