@@ -635,7 +635,7 @@ class WP_List_Table {
 			return false;
 		}
 
-		if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
 			return $_REQUEST['action'];
 		}
 
@@ -753,7 +753,7 @@ class WP_List_Table {
 
 		$month_count = count( $months );
 
-		if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
+		if ( ! $month_count || ( 1 === $month_count && 0 === (int) $months[0]->month ) ) {
 			return;
 		}
 
@@ -764,7 +764,7 @@ class WP_List_Table {
 			<option<?php selected( $m, 0 ); ?> value="0"><?php _e( 'All dates' ); ?></option>
 		<?php
 		foreach ( $months as $arc_row ) {
-			if ( 0 == $arc_row->year ) {
+			if ( 0 === (int) $arc_row->year ) {
 				continue;
 			}
 
@@ -1053,11 +1053,11 @@ class WP_List_Table {
 		$disable_prev  = false;
 		$disable_next  = false;
 
-		if ( 1 == $current ) {
+		if ( 1 === $current ) {
 			$disable_first = true;
 			$disable_prev  = true;
 		}
-		if ( $total_pages == $current ) {
+		if ( $total_pages === $current ) {
 			$disable_last = true;
 			$disable_next = true;
 		}
