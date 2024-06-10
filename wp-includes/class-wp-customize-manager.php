@@ -100,7 +100,7 @@ final class WP_Customize_Manager {
 	 * @since 4.5.0
 	 * @var array
 	 */
-	protected $components = array( 'widgets', 'nav_menus' );
+	protected $components = array( 'nav_menus' );
 
 	/**
 	 * Registered instances of WP_Customize_Section.
@@ -284,6 +284,11 @@ final class WP_Customize_Manager {
 		}
 		if ( ! isset( $args['messenger_channel'] ) && isset( $_REQUEST['customize_messenger_channel'] ) ) {
 			$args['messenger_channel'] = sanitize_key( wp_unslash( $_REQUEST['customize_messenger_channel'] ) );
+		}
+
+		// Do not load 'widgets' component if a block theme is activated.
+		if ( ! wp_is_block_theme() ) {
+			$this->components[] = 'widgets';
 		}
 
 		$this->original_stylesheet = get_stylesheet();
