@@ -1169,7 +1169,7 @@ $( function() {
 		lastClicked = this;
 
 		// Toggle the "Select all" checkboxes depending if the other ones are all checked or not.
-		var unchecked = $(this).closest('tbody').find('tr.iedit').find(':checkbox').filter(':visible:enabled').not(':checked');
+		var unchecked = $(this).closest('tbody').find('tr').find(':checkbox').filter(':visible:enabled').not(':checked');
 
 		/**
 		 * Determines if all checkboxes are checked.
