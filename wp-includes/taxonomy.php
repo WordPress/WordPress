@@ -645,6 +645,7 @@ function unregister_taxonomy( $taxonomy ) {
  * @since 5.8.0 Added the `item_link` and `item_link_description` labels.
  * @since 5.9.0 Added the `name_field_description`, `slug_field_description`,
  *              `parent_field_description`, and `desc_field_description` labels.
+ * @since 6.6.0 Added the `template_name` label.
  *
  * @param WP_Taxonomy $tax Taxonomy object.
  * @return object {
@@ -679,6 +680,7 @@ function unregister_taxonomy( $taxonomy ) {
  *     @type string $update_item                Default 'Update Tag'/'Update Category'.
  *     @type string $add_new_item               Default 'Add New Tag'/'Add New Category'.
  *     @type string $new_item_name              Default 'New Tag Name'/'New Category Name'.
+ *     @type string $template_name              Default 'Tag Archives'/'Category Archives'.
  *     @type string $separate_items_with_commas This label is only used for non-hierarchical taxonomies. Default
  *                                              'Separate tags with commas', used in the meta box.
  *     @type string $add_or_remove_items        This label is only used for non-hierarchical taxonomies. Default
@@ -718,6 +720,11 @@ function get_taxonomy_labels( $tax ) {
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
 	$labels = _get_custom_object_labels( $tax, $nohier_vs_hier_defaults );
+
+	if ( ! isset( $tax->labels->template_name ) && isset( $labels->singular_name ) ) {
+		/* translators: %s: Taxonomy name. */
+		$labels->template_name = sprintf( _x( '%s Archives', 'taxonomy template name' ), $labels->singular_name );
+	}
 
 	$taxonomy = $tax->name;
 
