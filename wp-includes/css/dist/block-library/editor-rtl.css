@@ -1597,10 +1597,6 @@ figure.wp-block-image:not(.wp-block){
   top:141px;
 }
 
-.is-sidebar-opened .wp-block-navigation__responsive-container.is-menu-open{
-  left:280px;
-}
-
 .is-fullscreen-mode .wp-block-navigation__responsive-container.is-menu-open{
   right:0;
   top:155px;
@@ -2509,10 +2505,11 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 }
 .block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search{
   background:#fff;
-  margin-bottom:2px;
+  margin-bottom:-4px;
   padding:16px 0;
   position:sticky;
   top:0;
+  transform:translateY(-4px);
   z-index:2;
 }
 

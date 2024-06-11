@@ -309,10 +309,6 @@
   top:141px;
 }
 
-.is-sidebar-opened .wp-block-navigation__responsive-container.is-menu-open{
-  right:280px;
-}
-
 .is-fullscreen-mode .wp-block-navigation__responsive-container.is-menu-open{
   left:0;
   top:155px;

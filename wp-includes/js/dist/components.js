@@ -27882,7 +27882,7 @@ function text_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried t
  * Internal dependencies
  */
 
-const Text = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.gray[900], ";line-height:", config_values.fontLineHeightBase, ";margin:0;text-wrap:pretty;" + ( true ? "" : 0),  true ? "" : 0);
+const Text = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.gray[900], ";line-height:", config_values.fontLineHeightBase, ";margin:0;text-wrap:balance;text-wrap:pretty;" + ( true ? "" : 0),  true ? "" : 0);
 const styles_block =  true ? {
   name: "4zleql",
   styles: "display:block"
@@ -73600,10 +73600,12 @@ function useTrackElementOffset(targetElement, onUpdate) {
     observedElementRef.current = targetElement !== null && targetElement !== void 0 ? targetElement : undefined;
     function updateIndicator(element) {
       setIndicatorPosition({
-        left: element.offsetLeft,
-        top: element.offsetTop,
-        width: element.offsetWidth,
-        height: element.offsetHeight
+        // Workaround to prevent unwanted scrollbars, see:
+        // https://github.com/WordPress/gutenberg/pull/61979
+        left: Math.max(element.offsetLeft - 1, 0),
+        top: Math.max(element.offsetTop - 1, 0),
+        width: parseFloat(getComputedStyle(element).width),
+        height: parseFloat(getComputedStyle(element).height)
       });
       updateCallbackRef.current?.();
     }

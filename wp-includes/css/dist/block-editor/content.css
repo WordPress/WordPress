@@ -437,7 +437,7 @@
   width:100%;
 }
 .block-editor-block-variation-picker__skip svg,.block-editor-block-variation-picker__variations svg,.wp-block-group-placeholder__variations svg{
-  fill:#ccc !important;
+  fill:#949494 !important;
 }
 .block-editor-block-variation-picker__skip .components-button,.block-editor-block-variation-picker__variations .components-button,.wp-block-group-placeholder__variations .components-button{
   padding:4px;

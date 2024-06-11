@@ -310,7 +310,7 @@ function store(namespace, {
 const parseInitialData = (dom = document) => {
   var _dom$getElementById;
   const jsonDataScriptTag = // Preferred Script Module data passing form
-  (_dom$getElementById = dom.getElementById('wp-scriptmodule-data_@wordpress/interactivity')) !== null && _dom$getElementById !== void 0 ? _dom$getElementById :
+  (_dom$getElementById = dom.getElementById('wp-script-module-data-@wordpress/interactivity')) !== null && _dom$getElementById !== void 0 ? _dom$getElementById :
   // Legacy form
   dom.getElementById('wp-interactivity-data');
   if (jsonDataScriptTag?.textContent) {
@@ -1573,7 +1573,9 @@ const getGlobalAsyncEventDirective = type => {
   }, {
     priority: 20
   });
-  directive('each-child', () => null);
+  directive('each-child', () => null, {
+    priority: 1
+  });
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interactivity/build-module/constants.js

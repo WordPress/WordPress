@@ -11261,6 +11261,7 @@ const selectors_EMPTY_ARRAY = [];
  * @type {Set}
  */
 const EMPTY_SET = new Set();
+const EMPTY_OBJECT = {};
 
 /**
  * Returns a block's name given its client ID, or null if no block exists with
@@ -12943,7 +12944,7 @@ const buildBlockTypeItem = (state, {
  *                                        this item.
  * @property {number}   frecency          Heuristic that combines frequency and recency.
  */
-const getInserterItems = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (0,external_wp_data_namespaceObject.createSelector)((state, rootClientId = null, options = {}) => {
+const getInserterItems = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (0,external_wp_data_namespaceObject.createSelector)((state, rootClientId = null, options = EMPTY_OBJECT) => {
   const buildReusableBlockInserterItem = reusableBlock => {
     const icon = !reusableBlock.wp_pattern_sync_status ? {
       src: library_symbol,
@@ -15942,7 +15943,7 @@ function __unstableSetTemporarilyEditingAsBlocks(temporarilyEditingAsBlocks, foc
  * 	 		per_page: 'page_size',
  * 	 		search: 'q',
  * 	 	};
- * 	 	const url = new URL( 'https://api.openverse.engineering/v1/images/' );
+ * 	 	const url = new URL( 'https://api.openverse.org/v1/images/' );
  * 	 	Object.entries( finalQuery ).forEach( ( [ key, value ] ) => {
  * 	 		const queryKey = mapFromInserterMediaRequest[ key ] || key;
  * 	 		url.searchParams.set( queryKey, value );
@@ -17125,7 +17126,7 @@ function useSettingsForBlockElement(parentSettings, blockName, element) {
       updatedSettings.color.defaultDuotone = false;
       updatedSettings.color.customDuotone = false;
     }
-    ['lineHeight', 'fontStyle', 'fontWeight', 'letterSpacing', 'textTransform', 'textDecoration', 'writingMode'].forEach(key => {
+    ['lineHeight', 'fontStyle', 'fontWeight', 'letterSpacing', 'textAlign', 'textTransform', 'textDecoration', 'writingMode'].forEach(key => {
       if (!supportedStyles.includes(key)) {
         updatedSettings.typography = {
           ...updatedSettings.typography,
@@ -22891,7 +22892,7 @@ const LinkControlSearchInput = (0,external_wp_element_namespaceObject.forwardRef
       className: className,
       value: value,
       onChange: onInputChange,
-      placeholder: placeholder !== null && placeholder !== void 0 ? placeholder : (0,external_wp_i18n_namespaceObject.__)('Search or type url'),
+      placeholder: placeholder !== null && placeholder !== void 0 ? placeholder : (0,external_wp_i18n_namespaceObject.__)('Search or type URL'),
       __experimentalRenderSuggestions: showSuggestions ? handleRenderSuggestions : null,
       __experimentalFetchLinkSuggestions: searchHandler,
       __experimentalHandleURLSuggestions: true,
@@ -23215,6 +23216,7 @@ function LinkPreview({
         // Ends up looking like "Copy link: https://example.com".
         isEmptyURL || showIconLabels ? '' : ': ' + value.url),
         ref: ref,
+        __experimentalIsFocusable: true,
         disabled: isEmptyURL,
         size: "compact"
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ViewerSlot, {
@@ -24494,13 +24496,13 @@ function BackgroundSizeToolsPanelItem({
       help: backgroundSizeHelpText(sizeValue || defaultValues?.backgroundSize),
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
         value: "cover",
-        label: (0,external_wp_i18n_namespaceObject.__)('Cover')
+        label: (0,external_wp_i18n_namespaceObject._x)('Cover', 'Size option for background image control')
       }, "cover"), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
         value: "contain",
-        label: (0,external_wp_i18n_namespaceObject.__)('Contain')
+        label: (0,external_wp_i18n_namespaceObject._x)('Contain', 'Size option for background image control')
       }, "contain"), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
         value: "auto",
-        label: (0,external_wp_i18n_namespaceObject.__)('Tile')
+        label: (0,external_wp_i18n_namespaceObject._x)('Tile', 'Size option for background image control')
       }, "tile")]
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
       justify: "flex-start",
@@ -30525,22 +30527,19 @@ function useSpacingSizes() {
       name: (0,external_wp_i18n_namespaceObject.__)('None'),
       slug: '0',
       size: 0
-    }, ...customSizes, ...themeSizes, ...defaultSizes].sort((a, b) => compare(a.slug, b.slug));
+    }, ...customSizes, ...themeSizes, ...defaultSizes];
+
+    // Only sort if more than one origin has presets defined in order to
+    // preserve order for themes that don't include default presets and
+    // want a custom order.
+    if ((customSizes.length && 1) + (themeSizes.length && 1) + (defaultSizes.length && 1) > 1) {
+      sizes.sort((a, b) => compare(a.slug, b.slug));
+    }
     return sizes.length > RANGE_CONTROL_MAX_SIZE ? [{
       name: (0,external_wp_i18n_namespaceObject.__)('Default'),
       slug: 'default',
       size: undefined
-    }, ...sizes] :
-    // See https://github.com/WordPress/gutenberg/pull/44247 for reasoning
-    // to use the index as the name in the range control.
-    sizes.map(({
-      slug,
-      size
-    }, i) => ({
-      name: i,
-      slug,
-      size
-    }));
+    }, ...sizes] : sizes;
   }, [customSizes, themeSizes, defaultSizes]);
 }
 
@@ -36535,7 +36534,7 @@ function BlockIcon({
 
 
 
-const EMPTY_OBJECT = {};
+const block_hooks_EMPTY_OBJECT = {};
 function BlockHooksControlPure({
   name,
   clientId,
@@ -36622,7 +36621,7 @@ function BlockHooksControlPure({
     if (Object.values(_hookedBlockClientIds).length > 0) {
       return _hookedBlockClientIds;
     }
-    return EMPTY_OBJECT;
+    return block_hooks_EMPTY_OBJECT;
   }, [hookedBlocksForCurrentBlock, name, clientId, rootClientId]);
   const {
     insertBlock,
@@ -38094,9 +38093,10 @@ function getItemSearchRank(item, searchTerm, config = {}) {
  * @return {Array} Returns the block types state. (block types, categories, collections, onSelect handler)
  */
 const useBlockTypesState = (rootClientId, onInsert, isQuick) => {
-  const [items] = (0,external_wp_data_namespaceObject.useSelect)(select => [select(store).getInserterItems(rootClientId, {
+  const options = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     [withRootClientIdOptionKey]: !isQuick
-  })], [rootClientId, isQuick]);
+  }), [isQuick]);
+  const [items] = (0,external_wp_data_namespaceObject.useSelect)(select => [select(store).getInserterItems(rootClientId, options)], [rootClientId, options]);
   const [categories, collections] = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getCategories,
@@ -43240,10 +43240,29 @@ function useClipboardHandler() {
         }
         const [firstSelectedClientId] = selectedBlockClientIds;
         const rootClientId = getBlockRootClientId(firstSelectedClientId);
-        if (!blocks.every(block => canInsertBlockType(block.name, rootClientId))) {
-          return;
+        const newBlocks = [];
+        for (const block of blocks) {
+          if (canInsertBlockType(block.name, rootClientId)) {
+            newBlocks.push(block);
+          } else {
+            // If a block cannot be inserted in a root block, try
+            // converting it to that root block type and insert the
+            // inner blocks.
+            // Example: paragraphs cannot be inserted into a list,
+            // so convert the paragraphs to a list for list items.
+            const rootBlockName = getBlockName(rootClientId);
+            const switchedBlocks = block.name !== rootBlockName ? (0,external_wp_blocks_namespaceObject.switchToBlockType)(block, rootBlockName) : [block];
+            if (!switchedBlocks) {
+              return;
+            }
+            for (const switchedBlock of switchedBlocks) {
+              for (const innerBlock of switchedBlock.innerBlocks) {
+                newBlocks.push(innerBlock);
+              }
+            }
+          }
         }
-        __unstableSplitSelection(blocks);
+        __unstableSplitSelection(newBlocks);
         event.preventDefault();
       }
     }
@@ -44983,8 +45002,8 @@ function BlockTypesTab({
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(inserter_listbox, {
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
       ref: ref,
-      children: [!!itemsForCurrentRoot.length && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockTypesTabPanel, {
+      children: [!!itemsForCurrentRoot.length && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockTypesTabPanel, {
           items: itemsForCurrentRoot,
           categories: categories,
           collections: collections,
@@ -44992,7 +45011,7 @@ function BlockTypesTab({
           onHover: onHover,
           showMostUsedBlocks: showMostUsedBlocks,
           className: "block-editor-inserter__insertable-blocks-at-selection"
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("hr", {})]
+        })
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockTypesTabPanel, {
         items: itemsRemaining,
         categories: categories,
@@ -48109,7 +48128,10 @@ function ButtonBlockAppender({
         className: dist_clsx(className, 'block-editor-button-block-appender'),
         onClick: onToggle,
         "aria-haspopup": isToggleButton ? 'true' : undefined,
-        "aria-expanded": isToggleButton ? isOpen : undefined,
+        "aria-expanded": isToggleButton ? isOpen : undefined
+        // Disable reason: There shouldn't be a case where this button is disabled but not visually hidden.
+        // eslint-disable-next-line no-restricted-syntax
+        ,
         disabled: disabled,
         label: label,
         children: [!hasSingleBlockType && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, {
@@ -54551,7 +54573,7 @@ function BlockBindingsToolbarIndicator({
     return {
       icon: _icon,
       firstBlockName: getBlockAttributes(clientIds[0]).metadata.name,
-      isConnectedToPatternOverrides: getBlocksByClientId(clientIds).some(block => Object.values(block?.attributes.metadata?.bindings).some(binding => binding.source === 'core/pattern-overrides'))
+      isConnectedToPatternOverrides: getBlocksByClientId(clientIds).some(block => Object.values(block?.attributes?.metadata?.bindings || {}).some(binding => binding.source === 'core/pattern-overrides'))
     };
   }, [clientIds, isSingleBlockSelected]);
   const firstBlockTitle = useBlockDisplayTitle({

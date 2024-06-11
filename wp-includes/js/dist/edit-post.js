@@ -161,8 +161,6 @@ const external_wp_commands_namespaceObject = window["wp"]["commands"];
 function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e)){var o=e.length;for(t=0;t<o;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f)}else for(f in e)e[f]&&(n&&(n+=" "),n+=f);return n}function clsx(){for(var e,t,f=0,n="",o=arguments.length;f<o;f++)(e=arguments[f])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ const dist_clsx = (clsx);
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
 const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
-;// CONCATENATED MODULE: external ["wp","compose"]
-const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: external ["wp","plugins"]
 const external_wp_plugins_namespaceObject = window["wp"]["plugins"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
@@ -192,6 +190,8 @@ const wordpress = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(
 });
 /* harmony default export */ const library_wordpress = (wordpress);
 
+;// CONCATENATED MODULE: external ["wp","compose"]
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/store/reducer.js
 /**
  * WordPress dependencies
@@ -1518,7 +1518,9 @@ function BackButton({
   initialPost
 }) {
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BackButtonFill, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableMotion.div, {
+    children: ({
+      length
+    }) => length <= 1 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableMotion.div, {
       variants: slideX,
       transition: {
         type: 'tween',
@@ -1654,7 +1656,7 @@ function InitPatternModal() {
             __nextHasNoMarginBottom: true,
             __next40pxDefaultSize: true
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ReusableBlocksRenameHint, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToggleControl, {
-            label: (0,external_wp_i18n_namespaceObject._x)('Synced', 'Option that makes an individual pattern synchronized'),
+            label: (0,external_wp_i18n_namespaceObject._x)('Synced', 'pattern (singular)'),
             help: (0,external_wp_i18n_namespaceObject.__)('Sync this pattern across multiple locations.'),
             checked: !syncType,
             onChange: () => {
@@ -2059,6 +2061,7 @@ function CustomFieldsConfirmation({
       className: "edit-post-preferences-modal__custom-fields-confirmation-button",
       variant: "secondary",
       isBusy: isReloading,
+      __experimentalIsFocusable: true,
       disabled: isReloading,
       onClick: () => {
         setIsReloading(true);
@@ -2647,7 +2650,6 @@ function useShouldIframe() {
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -2735,22 +2737,21 @@ function useEditorStyles() {
     }
     const baseStyles = hasThemeStyles ? (_editorSettings$style3 = editorSettings.styles) !== null && _editorSettings$style3 !== void 0 ? _editorSettings$style3 : [] : defaultEditorStyles;
 
-    // Add a constant padding for the typewritter effect. When typing at the
+    // Add a constant padding for the typewriter effect. When typing at the
     // bottom, there needs to be room to scroll up.
     if (!isZoomedOutView && !hasMetaBoxes && renderingMode === 'post-only' && !DESIGN_POST_TYPES.includes(postType)) {
-      baseStyles.push({
+      return [...baseStyles, {
         css: 'body{padding-bottom: 40vh}'
-      });
+      }];
     }
     return baseStyles;
-  }, [editorSettings.defaultEditorStyles, editorSettings.disableLayoutStyles, editorSettings.styles, hasThemeStyleSupport]);
+  }, [editorSettings.defaultEditorStyles, editorSettings.disableLayoutStyles, editorSettings.styles, hasThemeStyleSupport, postType]);
 }
 function Layout({
   initialPost
 }) {
   layout_useCommands();
   useCommands();
-  const isWideViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('large');
   const paddingAppenderRef = usePaddingAppender();
   const shouldIframe = useShouldIframe();
   const {
@@ -2759,12 +2760,10 @@ function Layout({
   const {
     mode,
     isFullscreenActive,
-    sidebarIsOpened,
     hasActiveMetaboxes,
     hasBlockSelected,
     showIconLabels,
     isDistractionFree,
-    showBlockBreadcrumbs,
     showMetaBoxes,
     hasHistory,
     isEditingTemplate,
@@ -2786,7 +2785,6 @@ function Layout({
       hasBlockSelected: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
       showIconLabels: get('core', 'showIconLabels'),
       isDistractionFree: get('core', 'distractionFree'),
-      showBlockBreadcrumbs: get('core', 'showBlockBreadcrumbs'),
       showMetaBoxes: select(external_wp_editor_namespaceObject.store).getRenderingMode() === 'post-only',
       hasHistory: !!getEditorSettings().onNavigateToPreviousEntityRecord,
       isEditingTemplate: select(external_wp_editor_namespaceObject.store).getCurrentPostType() === 'wp_template',
@@ -2806,10 +2804,7 @@ function Layout({
     document.body.classList.remove('show-icon-labels');
   }
   const className = dist_clsx('edit-post-layout', 'is-mode-' + mode, {
-    'is-sidebar-opened': sidebarIsOpened,
-    'has-metaboxes': hasActiveMetaboxes,
-    'is-distraction-free': isDistractionFree && isWideViewport,
-    'has-block-breadcrumbs': showBlockBreadcrumbs && !isDistractionFree && isWideViewport
+    'has-metaboxes': hasActiveMetaboxes
   });
   function onPluginAreaError(name) {
     createErrorNotice((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: plugin name */

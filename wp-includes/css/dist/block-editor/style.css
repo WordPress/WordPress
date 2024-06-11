@@ -48,7 +48,7 @@
 }
 
 iframe[name=editor-canvas]{
-  background-color:#ddd;
+  background-color:initial;
   box-sizing:border-box;
   display:block;
   height:100%;
@@ -3568,6 +3568,10 @@ iframe[name=editor-canvas]{
   padding-bottom:4px;
   padding-left:0;
   padding-right:0;
+}
+
+.block-editor-inserter__insertable-blocks-at-selection{
+  border-bottom:1px solid #e0e0e0;
 }
 
 .block-editor-inserter__block-patterns-tabs-container,.block-editor-inserter__media-tabs-container{

@@ -5192,9 +5192,6 @@ function save_save({
     url,
     width
   } = attributes;
-  if (external_wp_blockEditor_namespaceObject.RichText.isEmpty(text)) {
-    return null;
-  }
   const TagName = tagName || 'a';
   const isButtonTag = 'button' === TagName;
   const buttonType = type || 'button';
@@ -16974,16 +16971,6 @@ const embed_variations_variations = [{
     responsive: true
   }
 }, {
-  name: 'slideshare',
-  title: 'Slideshare',
-  icon: embedContentIcon,
-  description: (0,external_wp_i18n_namespaceObject.__)('Embed Slideshare content.'),
-  patterns: [/^https?:\/\/(.+?\.)?slideshare\.net\/.+/i],
-  attributes: {
-    providerNameSlug: 'slideshare',
-    responsive: true
-  }
-}, {
   name: 'smugmug',
   title: 'SmugMug',
   icon: embedPhotoIcon,
@@ -21802,13 +21789,19 @@ class GalleryImage extends external_wp_element_namespaceObject.Component {
             icon: chevron_left,
             onClick: isFirstItem ? undefined : onMoveBackward,
             label: (0,external_wp_i18n_namespaceObject.__)('Move image backward'),
-            "aria-disabled": isFirstItem,
+            "aria-disabled": isFirstItem
+            // Disable reason: Truly disable when image is not selected.
+            // eslint-disable-next-line no-restricted-syntax
+            ,
             disabled: !isSelected
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
             icon: chevron_right,
             onClick: isLastItem ? undefined : onMoveForward,
             label: (0,external_wp_i18n_namespaceObject.__)('Move image forward'),
-            "aria-disabled": isLastItem,
+            "aria-disabled": isLastItem
+            // Disable reason: Truly disable when image is not selected.
+            // eslint-disable-next-line no-restricted-syntax
+            ,
             disabled: !isSelected
           })]
         }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.ButtonGroup, {
@@ -21816,12 +21809,18 @@ class GalleryImage extends external_wp_element_namespaceObject.Component {
           children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
             icon: library_edit,
             onClick: this.onEdit,
-            label: (0,external_wp_i18n_namespaceObject.__)('Replace image'),
+            label: (0,external_wp_i18n_namespaceObject.__)('Replace image')
+            // Disable reason: Truly disable when image is not selected.
+            // eslint-disable-next-line no-restricted-syntax
+            ,
             disabled: !isSelected
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
             icon: close_small,
             onClick: onRemove,
-            label: (0,external_wp_i18n_namespaceObject.__)('Remove image'),
+            label: (0,external_wp_i18n_namespaceObject.__)('Remove image')
+            // Disable reason: Truly disable when image is not selected.
+            // eslint-disable-next-line no-restricted-syntax
+            ,
             disabled: !isSelected
           })]
         }), !isEditing && (isSelected || caption) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.RichText, {
@@ -39285,6 +39284,7 @@ function ConvertToLinksModal({
         children: (0,external_wp_i18n_namespaceObject.__)('Cancel')
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
         variant: "primary",
+        __experimentalIsFocusable: true,
         disabled: disabled,
         onClick: onClick,
         children: (0,external_wp_i18n_namespaceObject.__)('Edit')
@@ -39563,6 +39563,7 @@ function PageListEdit({
           children: convertDescription
         }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
           variant: "primary",
+          __experimentalIsFocusable: true,
           disabled: !hasResolvedPages,
           onClick: convertToNavigationLinks,
           children: (0,external_wp_i18n_namespaceObject.__)('Edit')
@@ -60229,8 +60230,8 @@ function TitleModal({
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
             variant: "primary",
             type: "submit",
+            __experimentalIsFocusable: true,
             disabled: !title.length,
-            "aria-disabled": !title.length,
             children: (0,external_wp_i18n_namespaceObject.__)('Create')
           })
         })]

@@ -191,8 +191,8 @@ function render_block_core_search( $attributes ) {
 		 data-wp-interactive="core/search"'
 		. $form_context .
 		'data-wp-class--wp-block-search__searchfield-hidden="!context.isSearchInputVisible"
-		 data-wp-on--keydown="actions.handleSearchKeydown"
-		 data-wp-on--focusout="actions.handleSearchFocusout"
+		 data-wp-on-async--keydown="actions.handleSearchKeydown"
+		 data-wp-on-async--focusout="actions.handleSearchFocusout"
 		';
 	}
 

@@ -393,6 +393,7 @@
   width:100%;
 }
 .dataviews-view-list li .dataviews-view-list__item-actions .components-button{
+  left:0;
   opacity:0;
   position:fixed;
 }
@@ -793,8 +794,11 @@
   display:flex;
   flex-direction:column;
   flex-wrap:wrap;
-  position:absolute;
-  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  position:sticky;
+  width:-moz-fit-content;
+  width:fit-content;
   z-index:2;
 }
 .dataviews-bulk-actions .components-accessible-toolbar{
@@ -955,7 +959,12 @@
   height:100%;
   text-align:start;
 }
-
+::view-transition-new(frame),::view-transition-old(frame){
+  animation-duration:0;
+}
+.edit-site-visual-editor__editor-canvas{
+  view-transition-name:frame;
+}
 .edit-site-visual-editor__editor-canvas.is-focused{
   outline:calc(var(--wp-admin-border-width-focus)*2) solid var(--wp-admin-theme-color);
   outline-offset:calc(var(--wp-admin-border-width-focus)*-2);
@@ -1336,16 +1345,9 @@
 }
 .edit-site-global-styles-screen-revisions__pagination.edit-site-global-styles-screen-revisions__pagination .components-button.is-tertiary{
   color:#1e1e1e;
-  font-size:28px;
-  font-weight:200;
-  line-height:1.2;
-  margin-bottom:4px;
 }
-.edit-site-global-styles-screen-revisions__pagination.edit-site-global-styles-screen-revisions__pagination .components-button.is-tertiary:disabled{
+.edit-site-global-styles-screen-revisions__pagination.edit-site-global-styles-screen-revisions__pagination .components-button.is-tertiary:disabled,.edit-site-global-styles-screen-revisions__pagination.edit-site-global-styles-screen-revisions__pagination .components-button.is-tertiary[aria-disabled=true]{
   color:#949494;
-}
-.edit-site-global-styles-screen-revisions__pagination.edit-site-global-styles-screen-revisions__pagination .components-button.is-tertiary:hover{
-  background:#0000;
 }
 
 .edit-site-global-styles-screen-revisions__footer{
@@ -1832,17 +1834,17 @@
   border-bottom:1px solid #f0f0f0;
 }
 
-.edit-site-editor__interface-skeleton{
+.edit-site-editor__editor-interface{
   opacity:1;
   transition:opacity .1s ease-out;
 }
 @media (prefers-reduced-motion:reduce){
-  .edit-site-editor__interface-skeleton{
+  .edit-site-editor__editor-interface{
     transition-delay:0s;
     transition-duration:0s;
   }
 }
-.edit-site-editor__interface-skeleton.is-loading{
+.edit-site-editor__editor-interface.is-loading{
   opacity:0;
 }
 
@@ -1854,10 +1856,6 @@
   justify-content:center;
   padding:24px;
   width:280px;
-}
-
-.editor-header{
-  padding-right:60px;
 }
 
 .edit-site-welcome-guide{
@@ -1904,44 +1902,13 @@
 }
 
 .edit-site-layout{
-  background:#1e1e1e;
   color:#ccc;
   display:flex;
   flex-direction:column;
   height:100%;
 }
-
-.edit-site-layout__hub{
-  height:60px;
-  position:fixed;
-  right:0;
-  top:0;
-  width:calc(100vw - 32px);
-  z-index:3;
-}
-@media (min-width:782px){
-  .edit-site-layout__hub{
-    width:348px;
-  }
-}
-.edit-site-layout.is-full-canvas .edit-site-layout__hub{
-  border-radius:0;
-  box-shadow:none;
-  padding-left:0;
-  width:60px;
-}
-
-.edit-site-layout__header-container:has(+.edit-site-layout__content>.edit-site-layout__mobile>.edit-site-page){
-  margin-bottom:60px;
-}
-@media (min-width:782px){
-  .edit-site-layout__header-container:has(+.edit-site-layout__content>.edit-site-layout__mobile>.edit-site-page){
-    margin-bottom:0;
-  }
-}
-
-.edit-site-layout__header-container{
-  z-index:4;
+.edit-site-layout,.edit-site-layout:not(.is-full-canvas) .editor-visual-editor{
+  background:#1e1e1e;
 }
 
 .edit-site-layout__content{
@@ -2049,9 +2016,17 @@
 .edit-site-template-pages-preview{
   height:100%;
 }
+html.canvas-mode-edit-transition::view-transition-group(toggle){
+  animation-delay:255ms;
+}
+.edit-site-layout.is-full-canvas .edit-site-layout__sidebar-region .edit-site-layout__view-mode-toggle{
+  display:none;
+}
 
 .edit-site-layout__view-mode-toggle.components-button{
+  view-transition-name:toggle;
   align-items:center;
+  background:#1e1e1e;
   border-radius:0;
   color:#fff;
   display:flex;
@@ -2091,7 +2066,6 @@
 }
 .edit-site-layout__view-mode-toggle.components-button .edit-site-layout__view-mode-toggle-icon{
   align-items:center;
-  border-radius:2px;
   display:flex;
   height:64px;
   justify-content:center;
@@ -2120,27 +2094,6 @@
   .edit-site-layout__actions{
     border-right:1px solid #ddd;
   }
-}
-
-.edit-site-layout.is-distraction-free .edit-site-layout__header-container{
-  height:60px;
-  left:0;
-  position:absolute;
-  right:0;
-  top:0;
-  width:100%;
-  z-index:4;
-}
-.edit-site-layout.is-distraction-free .edit-site-layout__header-container:focus-within{
-  opacity:1 !important;
-}
-.edit-site-layout.is-distraction-free .edit-site-layout__header-container:focus-within div{
-  transform:translateX(0) translateY(0) translateZ(0) !important;
-}
-.edit-site-layout.is-distraction-free .edit-site-site-hub{
-  position:absolute;
-  top:0;
-  z-index:3;
 }
 
 .edit-site-layout__area{
@@ -2368,7 +2321,7 @@
   background:#1e1e1e;
   margin-bottom:8px;
   padding-bottom:8px;
-  padding-top:108px;
+  padding-top:48px;
   position:sticky;
   top:0;
   z-index:1;
@@ -2377,7 +2330,7 @@
 .edit-site-sidebar-navigation-screen__title{
   flex-grow:1;
   overflow-wrap:break-word;
-  padding:6px 0 0;
+  padding:2px 0 0;
 }
 
 .edit-site-sidebar-navigation-screen__actions{
@@ -2537,6 +2490,7 @@
   display:flex;
   gap:8px;
   justify-content:space-between;
+  margin-left:12px;
 }
 
 .edit-site-site-hub__actions{
@@ -2547,9 +2501,6 @@
   flex-shrink:0;
   height:60px;
   width:60px;
-}
-.edit-site-site-hub__view-mode-toggle-container .edit-site-layout__view-mode-toggle-icon{
-  background:#1e1e1e;
 }
 .edit-site-site-hub__view-mode-toggle-container.has-transparent-background .edit-site-layout__view-mode-toggle-icon{
   background:#0000;
@@ -2640,13 +2591,6 @@
 
 .edit-site-site-icon__icon{
   fill:currentColor;
-  transition:padding .3s ease-out;
-}
-@media (prefers-reduced-motion:reduce){
-  .edit-site-site-icon__icon{
-    transition-delay:0s;
-    transition-duration:0s;
-  }
 }
 .edit-site-layout.is-full-canvas .edit-site-site-icon__icon{
   padding:6px;
@@ -2654,7 +2598,6 @@
 
 .edit-site-site-icon__image{
   background:#333;
-  border-radius:4px;
   height:100%;
   object-fit:cover;
   width:100%;

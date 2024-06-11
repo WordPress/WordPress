@@ -2100,6 +2100,7 @@ function InstallButton({
         }
       }
     }),
+    __experimentalIsFocusable: true,
     disabled: isInstallingBlock,
     isBusy: isInstallingBlock,
     variant: "primary",

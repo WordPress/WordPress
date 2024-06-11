@@ -249,9 +249,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   .interface-interface-skeleton__secondary-sidebar,.interface-interface-skeleton__sidebar{
     position:relative !important;
   }
-  .is-sidebar-opened .interface-interface-skeleton__secondary-sidebar,.is-sidebar-opened .interface-interface-skeleton__sidebar{
-    z-index:90;
-  }
 }
 
 .interface-interface-skeleton__sidebar{

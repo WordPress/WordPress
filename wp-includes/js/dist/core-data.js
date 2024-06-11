@@ -3477,7 +3477,7 @@ function items(state = {}, action) {
           [context]: {
             ...state[context],
             ...action.items.reduce((accumulator, value) => {
-              const itemId = value[key];
+              const itemId = value?.[key];
               accumulator[itemId] = conservativeMapItem(state?.[context]?.[itemId], value);
               return accumulator;
             }, {})
@@ -3525,7 +3525,7 @@ function itemIsComplete(state = {}, action) {
           [context]: {
             ...state[context],
             ...action.items.reduce((result, item) => {
-              const itemId = item[key];
+              const itemId = item?.[key];
 
               // Defer to completeness if already assigned. Technically the
               // data may be outdated if receiving items for a field subset.
@@ -3580,7 +3580,7 @@ on_sub_key('stableKey')])((state = {}, action) => {
     return state;
   }
   return {
-    itemIds: getMergedItemIds(state?.itemIds || [], action.items.map(item => item[key]), page, perPage),
+    itemIds: getMergedItemIds(state?.itemIds || [], action.items.map(item => item?.[key]).filter(Boolean), page, perPage),
     meta: action.meta
   };
 });
@@ -3859,7 +3859,7 @@ function entity(entityConfig) {
             ...state
           };
           for (const record of action.items) {
-            const recordId = record[action.key];
+            const recordId = record?.[action.key];
             const edits = nextState[recordId];
             if (!edits) {
               continue;
@@ -5990,7 +5990,7 @@ const resolvers_getEntityRecords = (kind, name, query = {}) => async ({
       // See https://github.com/WordPress/gutenberg/pull/26575
       if (!query?._fields && !query.context) {
         const key = entityConfig.key || DEFAULT_ENTITY_KEY;
-        const resolutionsArgs = records.filter(record => record[key]).map(record => [kind, name, record[key]]);
+        const resolutionsArgs = records.filter(record => record?.[key]).map(record => [kind, name, record[key]]);
         dispatch({
           type: 'START_RESOLUTIONS',
           selectorName: 'getEntityRecord',
