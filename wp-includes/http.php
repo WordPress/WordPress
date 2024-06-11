@@ -40,7 +40,7 @@ function _wp_http_get_object() {
  * @see wp_http_validate_url() For more information about how the URL is validated.
  *
  * @link https://owasp.org/www-community/attacks/Server_Side_Request_Forgery
- * 
+ *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
  *                     See WP_Http::request() for information on accepted arguments.
