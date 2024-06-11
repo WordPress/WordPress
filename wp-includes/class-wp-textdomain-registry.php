@@ -101,7 +101,7 @@ class WP_Textdomain_Registry {
 		 * @param string|false $path   Languages directory path for the given domain and locale.
 		 * @param string       $domain Text domain.
 		 * @param string       $locale Locale.
-		 **/
+		 */
 		return apply_filters( 'lang_dir_for_domain', $path, $domain, $locale );
 	}
 
