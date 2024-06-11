@@ -27,7 +27,7 @@ function _wp_http_get_object() {
 }
 
 /**
- * Retrieve the raw response from a safe HTTP request.
+ * Retrieves the raw response from a safe HTTP request.
  *
  * This function is ideal when the HTTP request is being made to an arbitrary
  * URL. The URL, and every URL it redirects to, are validated with wp_http_validate_url()
@@ -53,7 +53,7 @@ function wp_safe_remote_request( $url, $args = array() ) {
 }
 
 /**
- * Retrieve the raw response from a safe HTTP request using the GET method.
+ * Retrieves the raw response from a safe HTTP request using the GET method.
  *
  * This function is ideal when the HTTP request is being made to an arbitrary
  * URL. The URL, and every URL it redirects to, are validated with wp_http_validate_url()
@@ -79,7 +79,7 @@ function wp_safe_remote_get( $url, $args = array() ) {
 }
 
 /**
- * Retrieve the raw response from a safe HTTP request using the POST method.
+ * Retrieves the raw response from a safe HTTP request using the POST method.
  *
  * This function is ideal when the HTTP request is being made to an arbitrary
  * URL. The URL, and every URL it redirects to, are validated with wp_http_validate_url()
@@ -105,7 +105,7 @@ function wp_safe_remote_post( $url, $args = array() ) {
 }
 
 /**
- * Retrieve the raw response from a safe HTTP request using the HEAD method.
+ * Retrieves the raw response from a safe HTTP request using the HEAD method.
  *
  * This function is ideal when the HTTP request is being made to an arbitrary
  * URL. The URL, and every URL it redirects to, are validated with wp_http_validate_url()
@@ -221,7 +221,7 @@ function wp_remote_head( $url, $args = array() ) {
 }
 
 /**
- * Retrieve only the headers from the raw response.
+ * Retrieves only the headers from the raw response.
  *
  * @since 2.7.0
  * @since 4.6.0 Return value changed from an array to an WpOrg\Requests\Utility\CaseInsensitiveDictionary instance.
@@ -241,7 +241,7 @@ function wp_remote_retrieve_headers( $response ) {
 }
 
 /**
- * Retrieve a single header by name from the raw response.
+ * Retrieves a single header by name from the raw response.
  *
  * @since 2.7.0
  *
@@ -263,7 +263,7 @@ function wp_remote_retrieve_header( $response, $header ) {
 }
 
 /**
- * Retrieve only the response code from the raw response.
+ * Retrieves only the response code from the raw response.
  *
  * Will return an empty string if incorrect parameter value is given.
  *
@@ -281,7 +281,7 @@ function wp_remote_retrieve_response_code( $response ) {
 }
 
 /**
- * Retrieve only the response message from the raw response.
+ * Retrieves only the response message from the raw response.
  *
  * Will return an empty string if incorrect parameter value is given.
  *
@@ -299,7 +299,7 @@ function wp_remote_retrieve_response_message( $response ) {
 }
 
 /**
- * Retrieve only the body from the raw response.
+ * Retrieves only the body from the raw response.
  *
  * @since 2.7.0
  *
@@ -315,7 +315,7 @@ function wp_remote_retrieve_body( $response ) {
 }
 
 /**
- * Retrieve only the cookies from the raw response.
+ * Retrieves only the cookies from the raw response.
  *
  * @since 4.4.0
  *
@@ -332,7 +332,7 @@ function wp_remote_retrieve_cookies( $response ) {
 }
 
 /**
- * Retrieve a single cookie by name from the raw response.
+ * Retrieves a single cookie by name from the raw response.
  *
  * @since 4.4.0
  *
@@ -358,7 +358,7 @@ function wp_remote_retrieve_cookie( $response, $name ) {
 }
 
 /**
- * Retrieve a single cookie's value by name from the raw response.
+ * Retrieves a single cookie's value by name from the raw response.
  *
  * @since 4.4.0
  *
@@ -411,7 +411,7 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 }
 
 /**
- * Get the HTTP Origin of the current request.
+ * Gets the HTTP Origin of the current request.
  *
  * @since 3.4.0
  *
@@ -424,7 +424,7 @@ function get_http_origin() {
 	}
 
 	/**
-	 * Change the origin of an HTTP request.
+	 * Changes the origin of an HTTP request.
 	 *
 	 * @since 3.4.0
 	 *
@@ -434,7 +434,7 @@ function get_http_origin() {
 }
 
 /**
- * Retrieve list of allowed HTTP origins.
+ * Retrieves list of allowed HTTP origins.
  *
  * @since 3.4.0
  *
@@ -455,7 +455,7 @@ function get_allowed_http_origins() {
 	);
 
 	/**
-	 * Change the origin types allowed for HTTP requests.
+	 * Changes the origin types allowed for HTTP requests.
 	 *
 	 * @since 3.4.0
 	 *
@@ -491,7 +491,7 @@ function is_allowed_http_origin( $origin = null ) {
 	}
 
 	/**
-	 * Change the allowed HTTP origin result.
+	 * Changes the allowed HTTP origin result.
 	 *
 	 * @since 3.4.0
 	 *
@@ -502,7 +502,7 @@ function is_allowed_http_origin( $origin = null ) {
 }
 
 /**
- * Send Access-Control-Allow-Origin and related headers if the current request
+ * Sends Access-Control-Allow-Origin and related headers if the current request
  * is from an allowed origin.
  *
  * If the request is an OPTIONS request, the script exits with either access
@@ -535,7 +535,7 @@ function send_origin_headers() {
 }
 
 /**
- * Validate a URL for safe use in the HTTP API.
+ * Validates a URL for safe use in the HTTP API.
  *
  * Examples of URLs that are considered unsafe:
  *
@@ -599,7 +599,7 @@ function wp_http_validate_url( $url ) {
 			) {
 				// If host appears local, reject unless specifically allowed.
 				/**
-				 * Check if HTTP request is external or not.
+				 * Checks if HTTP request is external or not.
 				 *
 				 * Allows to change and allow external requests for the HTTP request.
 				 *
@@ -646,7 +646,7 @@ function wp_http_validate_url( $url ) {
 }
 
 /**
- * Mark allowed redirect hosts safe for HTTP requests as well.
+ * Marks allowed redirect hosts safe for HTTP requests as well.
  *
  * Attached to the {@see 'http_request_host_is_external'} filter.
  *
@@ -747,7 +747,7 @@ function wp_parse_url( $url, $component = -1 ) {
 }
 
 /**
- * Retrieve a specific component from a parsed URL array.
+ * Retrieves a specific component from a parsed URL array.
  *
  * @internal
  *
@@ -779,7 +779,7 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
 }
 
 /**
- * Translate a PHP_URL_* constant to the named array keys PHP uses.
+ * Translates a PHP_URL_* constant to the named array keys PHP uses.
  *
  * @internal
  *
