@@ -606,7 +606,7 @@ function wp_load_alloptions( $force_cache = false ) {
 
 	if ( ! $alloptions ) {
 		$suppress      = $wpdb->suppress_errors();
-		$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options WHERE autoload IN ( '" . implode( "', '", wp_autoload_values_to_autoload() ) . "' )" );
+		$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options WHERE autoload IN ( '" . implode( "', '", esc_sql( wp_autoload_values_to_autoload() ) ) . "' )" );
 
 		if ( ! $alloptions_db ) {
 			$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
