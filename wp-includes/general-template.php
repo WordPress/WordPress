@@ -491,49 +491,58 @@ function wp_registration_url() {
  * The login form HTML is echoed by default. Pass a false value for `$echo` to return it instead.
  *
  * @since 3.0.0
+ * @since 6.6.0 Added `required_username` and `required_password` arguments.
  *
  * @param array $args {
  *     Optional. Array of options to control the form output. Default empty array.
  *
- *     @type bool   $echo           Whether to display the login form or return the form HTML code.
- *                                  Default true (echo).
- *     @type string $redirect       URL to redirect to. Must be absolute, as in "https://example.com/mypage/".
- *                                  Default is to redirect back to the request URI.
- *     @type string $form_id        ID attribute value for the form. Default 'loginform'.
- *     @type string $label_username Label for the username or email address field. Default 'Username or Email Address'.
- *     @type string $label_password Label for the password field. Default 'Password'.
- *     @type string $label_remember Label for the remember field. Default 'Remember Me'.
- *     @type string $label_log_in   Label for the submit button. Default 'Log In'.
- *     @type string $id_username    ID attribute value for the username field. Default 'user_login'.
- *     @type string $id_password    ID attribute value for the password field. Default 'user_pass'.
- *     @type string $id_remember    ID attribute value for the remember field. Default 'rememberme'.
- *     @type string $id_submit      ID attribute value for the submit button. Default 'wp-submit'.
- *     @type bool   $remember       Whether to display the "rememberme" checkbox in the form.
- *     @type string $value_username Default value for the username field. Default empty.
- *     @type bool   $value_remember Whether the "Remember Me" checkbox should be checked by default.
- *                                  Default false (unchecked).
+ *     @type bool   $echo              Whether to display the login form or return the form HTML code.
+ *                                     Default true (echo).
+ *     @type string $redirect          URL to redirect to. Must be absolute, as in "https://example.com/mypage/".
+ *                                     Default is to redirect back to the request URI.
+ *     @type string $form_id           ID attribute value for the form. Default 'loginform'.
+ *     @type string $label_username    Label for the username or email address field. Default 'Username or Email Address'.
+ *     @type string $label_password    Label for the password field. Default 'Password'.
+ *     @type string $label_remember    Label for the remember field. Default 'Remember Me'.
+ *     @type string $label_log_in      Label for the submit button. Default 'Log In'.
+ *     @type string $id_username       ID attribute value for the username field. Default 'user_login'.
+ *     @type string $id_password       ID attribute value for the password field. Default 'user_pass'.
+ *     @type string $id_remember       ID attribute value for the remember field. Default 'rememberme'.
+ *     @type string $id_submit         ID attribute value for the submit button. Default 'wp-submit'.
+ *     @type bool   $remember          Whether to display the "rememberme" checkbox in the form.
+ *     @type string $value_username    Default value for the username field. Default empty.
+ *     @type bool   $value_remember    Whether the "Remember Me" checkbox should be checked by default.
+ *                                     Default false (unchecked).
+ *     @type bool   $required_username Whether the username field has the 'required' attribute.
+ *                                     Default false.
+ *     @type bool   $required_password Whether the password field has the 'required' attribute.
+ *                                     Default false.
  *
  * }
  * @return void|string Void if 'echo' argument is true, login form HTML if 'echo' is false.
  */
 function wp_login_form( $args = array() ) {
 	$defaults = array(
-		'echo'           => true,
+		'echo'              => true,
 		// Default 'redirect' value takes the user back to the request URI.
-		'redirect'       => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
-		'form_id'        => 'loginform',
-		'label_username' => __( 'Username or Email Address' ),
-		'label_password' => __( 'Password' ),
-		'label_remember' => __( 'Remember Me' ),
-		'label_log_in'   => __( 'Log In' ),
-		'id_username'    => 'user_login',
-		'id_password'    => 'user_pass',
-		'id_remember'    => 'rememberme',
-		'id_submit'      => 'wp-submit',
-		'remember'       => true,
-		'value_username' => '',
+		'redirect'          => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+		'form_id'           => 'loginform',
+		'label_username'    => __( 'Username or Email Address' ),
+		'label_password'    => __( 'Password' ),
+		'label_remember'    => __( 'Remember Me' ),
+		'label_log_in'      => __( 'Log In' ),
+		'id_username'       => 'user_login',
+		'id_password'       => 'user_pass',
+		'id_remember'       => 'rememberme',
+		'id_submit'         => 'wp-submit',
+		'remember'          => true,
+		'value_username'    => '',
 		// Set 'value_remember' to true to default the "Remember me" checkbox to checked.
-		'value_remember' => false,
+		'value_remember'    => false,
+		// Set 'required_username' to true to add the required attribute to username field.
+		'required_username' => false,
+		// Set 'required_password' to true to add the required attribute to password field.
+		'required_password' => false,
 	);
 
 	/**
@@ -594,19 +603,21 @@ function wp_login_form( $args = array() ) {
 		sprintf(
 			'<p class="login-username">
 				<label for="%1$s">%2$s</label>
-				<input type="text" name="log" id="%1$s" autocomplete="username" class="input" value="%3$s" size="20" />
+				<input type="text" name="log" id="%1$s" autocomplete="username" class="input" value="%3$s" size="20"%4$s />
 			</p>',
 			esc_attr( $args['id_username'] ),
 			esc_html( $args['label_username'] ),
-			esc_attr( $args['value_username'] )
+			esc_attr( $args['value_username'] ),
+			( $args['required_username'] ? ' required="required"' : '' )
 		) .
 		sprintf(
 			'<p class="login-password">
 				<label for="%1$s">%2$s</label>
-				<input type="password" name="pwd" id="%1$s" autocomplete="current-password" spellcheck="false" class="input" value="" size="20" />
+				<input type="password" name="pwd" id="%1$s" autocomplete="current-password" spellcheck="false" class="input" value="" size="20"%3$s />
 			</p>',
 			esc_attr( $args['id_password'] ),
-			esc_html( $args['label_password'] )
+			esc_html( $args['label_password'] ),
+			( $args['required_password'] ? ' required="required"' : '' )
 		) .
 		$login_form_middle .
 		( $args['remember'] ?
