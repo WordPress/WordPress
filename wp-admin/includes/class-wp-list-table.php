@@ -388,7 +388,18 @@ class WP_List_Table {
 		$input_id = $input_id . '-search-input';
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
+			if ( is_array( $_REQUEST['orderby'] ) ) {
+				foreach ( $_REQUEST['orderby'] as $key => $value ) {
+					/*
+					 * Orderby can be either an associative array or non-associative array.
+					 * In the latter case, this makes sure the key is a string before calling esc_attr().
+					 */
+					$key = (string) $key;
+					echo '<input type="hidden" name="orderby[' . esc_attr( $key ) . ']" value="' . esc_attr( $value ) . '" />';
+				}
+			} else {
+				echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
+			}
 		}
 		if ( ! empty( $_REQUEST['order'] ) ) {
 			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
