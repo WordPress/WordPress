@@ -213,9 +213,6 @@ function wp_render_block_style_variation_class_name( $block_content, $block ) {
 
 /**
  * Collects block style variation data for merging with theme.json data.
- * As each block style variation is processed it is registered if it hasn't
- * been already. This registration is required for later sanitization of
- * theme.json data.
  *
  * @since 6.6.0
  * @access private
@@ -224,14 +221,13 @@ function wp_render_block_style_variation_class_name( $block_content, $block ) {
  *
  * @return array Block variations data to be merged under `styles.blocks`.
  */
-function wp_resolve_and_register_block_style_variations( $variations ) {
+function wp_resolve_block_style_variations( $variations ) {
 	$variations_data = array();
 
 	if ( empty( $variations ) ) {
 		return $variations_data;
 	}
 
-	$registry              = WP_Block_Styles_Registry::get_instance();
 	$have_named_variations = ! wp_is_numeric_array( $variations );
 
 	foreach ( $variations as $key => $variation ) {
@@ -253,23 +249,9 @@ function wp_resolve_and_register_block_style_variations( $variations ) {
 		 * Block style variations read in via standalone theme.json partials
 		 * need to have their name set to the kebab case version of their title.
 		 */
-		$variation_name  = $have_named_variations ? $key : _wp_to_kebab_case( $variation['title'] );
-		$variation_label = $variation['title'] ?? $variation_name;
+		$variation_name = $have_named_variations ? $key : _wp_to_kebab_case( $variation['title'] );
 
 		foreach ( $supported_blocks as $block_type ) {
-			$registered_styles = $registry->get_registered_styles_for_block( $block_type );
-
-			// Register block style variation if it hasn't already been registered.
-			if ( ! array_key_exists( $variation_name, $registered_styles ) ) {
-				register_block_style(
-					$block_type,
-					array(
-						'name'  => $variation_name,
-						'label' => $variation_label,
-					)
-				);
-			}
-
 			// Add block style variation data under current block type.
 			$path = array( $block_type, 'variations', $variation_name );
 			_wp_array_set( $variations_data, $path, $variation_data );
@@ -327,7 +309,7 @@ function wp_merge_block_style_variations_data( $variations_data, $theme_json, $o
 function wp_resolve_block_style_variations_from_theme_style_variation( $theme_json ) {
 	$theme_json_data   = $theme_json->get_data();
 	$shared_variations = $theme_json_data['styles']['blocks']['variations'] ?? array();
-	$variations_data   = wp_resolve_and_register_block_style_variations( $shared_variations );
+	$variations_data   = wp_resolve_block_style_variations( $shared_variations );
 
 	return wp_merge_block_style_variations_data( $variations_data, $theme_json, 'user' );
 }
@@ -345,7 +327,7 @@ function wp_resolve_block_style_variations_from_theme_style_variation( $theme_js
  */
 function wp_resolve_block_style_variations_from_theme_json_partials( $theme_json ) {
 	$block_style_variations = WP_Theme_JSON_Resolver::get_style_variations( 'block' );
-	$variations_data        = wp_resolve_and_register_block_style_variations( $block_style_variations );
+	$variations_data        = wp_resolve_block_style_variations( $block_style_variations );
 
 	return wp_merge_block_style_variations_data( $variations_data, $theme_json );
 }
@@ -364,7 +346,7 @@ function wp_resolve_block_style_variations_from_theme_json_partials( $theme_json
 function wp_resolve_block_style_variations_from_primary_theme_json( $theme_json ) {
 	$theme_json_data        = $theme_json->get_data();
 	$block_style_variations = $theme_json_data['styles']['blocks']['variations'] ?? array();
-	$variations_data        = wp_resolve_and_register_block_style_variations( $block_style_variations );
+	$variations_data        = wp_resolve_block_style_variations( $block_style_variations );
 
 	return wp_merge_block_style_variations_data( $variations_data, $theme_json );
 }
@@ -422,3 +404,97 @@ add_filter( 'wp_theme_json_data_theme', 'wp_resolve_block_style_variations_from_
 add_filter( 'wp_theme_json_data_theme', 'wp_resolve_block_style_variations_from_styles_registry', 10, 1 );
 
 add_filter( 'wp_theme_json_data_user', 'wp_resolve_block_style_variations_from_theme_style_variation', 10, 1 );
+
+/**
+ * Registers any block style variations contained within the provided
+ * theme.json data.
+ *
+ * @since 6.6.0
+ * @access private
+ *
+ * @param array $variations Shared block style variations.
+ */
+function wp_register_block_style_variations_from_theme_json_data( $variations ) {
+	if ( empty( $variations ) ) {
+		return $variations;
+	}
+
+	$registry              = WP_Block_Styles_Registry::get_instance();
+	$have_named_variations = ! wp_is_numeric_array( $variations );
+
+	foreach ( $variations as $key => $variation ) {
+		$supported_blocks = $variation['blockTypes'] ?? array();
+
+		/*
+		 * Standalone theme.json partial files for block style variations
+		 * will have their styles under a top-level property by the same name.
+		 * Variations defined within an existing theme.json or theme style
+		 * variation will themselves already be the required styles data.
+		 */
+		$variation_data = $variation['styles'] ?? $variation;
+
+		if ( empty( $variation_data ) ) {
+			continue;
+		}
+
+		/*
+		 * Block style variations read in via standalone theme.json partials
+		 * need to have their name set to the kebab case version of their title.
+		 */
+		$variation_name  = $have_named_variations ? $key : _wp_to_kebab_case( $variation['title'] );
+		$variation_label = $variation['title'] ?? $variation_name;
+
+		foreach ( $supported_blocks as $block_type ) {
+			$registered_styles = $registry->get_registered_styles_for_block( $block_type );
+
+			// Register block style variation if it hasn't already been registered.
+			if ( ! array_key_exists( $variation_name, $registered_styles ) ) {
+				register_block_style(
+					$block_type,
+					array(
+						'name'  => $variation_name,
+						'label' => $variation_label,
+					)
+				);
+			}
+		}
+	}
+}
+
+/**
+ * Register shared block style variations defined by the theme.
+ *
+ * These can come in three forms:
+ * - the theme's theme.json
+ * - the theme's partials (standalone files in `/styles` that only define block style variations)
+ * - the user's theme.json (for example, theme style variations the user selected)
+ *
+ * @since 6.6.0
+ * @access private
+ */
+function wp_register_block_style_variations_from_theme() {
+	// Partials from `/styles`.
+	$variations_partials = WP_Theme_JSON_Resolver::get_style_variations( 'block' );
+	wp_register_block_style_variations_from_theme_json_data( $variations_partials );
+
+	/*
+	 * Pull the data from the specific origin instead of the merged data.
+	 * This is because, for 6.6, we only support registering block style variations
+	 * for the 'theme' and 'custom' origins but not for 'default' (core theme.json)
+	 * or 'custom' (theme.json in a block).
+	 *
+	 * When/If we add support for every origin, we should switch to using the public API
+	 * instead, e.g.: wp_get_global_styles( array( 'blocks', 'variations' ) ).
+	 */
+
+	// theme.json of the theme.
+	$theme_json_theme = WP_Theme_JSON_Resolver::get_theme_data();
+	$variations_theme = $theme_json_theme->get_data()['styles']['blocks']['variations'] ?? array();
+	wp_register_block_style_variations_from_theme_json_data( $variations_theme );
+
+	// User data linked for this theme.
+	$theme_json_user = WP_Theme_JSON_Resolver::get_user_data();
+	$variations_user = $theme_json_user->get_data()['styles']['blocks']['variations'] ?? array();
+	wp_register_block_style_variations_from_theme_json_data( $variations_user );
+}
+add_action( 'init', 'wp_register_block_style_variations_from_theme' );
