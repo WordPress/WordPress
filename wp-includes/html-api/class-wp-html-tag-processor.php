@@ -294,8 +294,8 @@
  *
  * The special elements are:
  *  - `SCRIPT` whose contents are treated as raw plaintext but supports a legacy
- *    style of including Javascript inside of HTML comments to avoid accidentally
- *    closing the SCRIPT from inside a Javascript string. E.g. `console.log( '</script>' )`.
+ *    style of including JavaScript inside of HTML comments to avoid accidentally
+ *    closing the SCRIPT from inside a JavaScript string. E.g. `console.log( '</script>' )`.
  *  - `TITLE` and `TEXTAREA` whose contents are treated as plaintext and then any
  *    character references are decoded. E.g. `1 &lt; 2 < 3` becomes `1 < 2 < 3`.
  *  - `IFRAME`, `NOSCRIPT`, `NOEMBED`, `NOFRAME`, `STYLE` whose contents are treated as

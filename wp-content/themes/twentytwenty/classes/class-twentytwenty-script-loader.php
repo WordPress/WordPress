@@ -1,8 +1,8 @@
 <?php
 /**
- * Javascript Loader Class
+ * JavaScript Loader Class
  *
- * Allow `async` and `defer` while enqueuing Javascript.
+ * Allow `async` and `defer` while enqueuing JavaScript.
  *
  * Based on a solution in WP Rig.
  *
