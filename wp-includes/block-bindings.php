@@ -75,19 +75,19 @@
  * @param array  $source_properties {
  *     The array of arguments that are used to register a source.
  *
- *     @type string   $label                   The label of the source.
- *     @type callable $get_value_callback      A callback executed when the source is processed during block rendering.
- *                                             The callback should have the following signature:
+ *     @type string   $label              The label of the source.
+ *     @type callable $get_value_callback A callback executed when the source is processed during block rendering.
+ *                                        The callback should have the following signature:
  *
- *                                             `function ($source_args, $block_instance,$attribute_name): mixed`
- *                                                 - @param array    $source_args    Array containing source arguments
- *                                                                                   used to look up the override value,
- *                                                                                   i.e. {"key": "foo"}.
- *                                                 - @param WP_Block $block_instance The block instance.
- *                                                 - @param string   $attribute_name The name of an attribute .
- *                                             The callback has a mixed return type; it may return a string to override
- *                                             the block's original value, null, false to remove an attribute, etc.
- *     @type string[] $uses_context (optional) Array of values to add to block `uses_context` needed by the source.
+ *                                        `function( $source_args, $block_instance, $attribute_name ): mixed`
+ *                                            - @param array    $source_args    Array containing source arguments
+ *                                                                              used to look up the override value,
+ *                                                                              i.e. {"key": "foo"}.
+ *                                            - @param WP_Block $block_instance The block instance.
+ *                                            - @param string   $attribute_name The name of an attribute.
+ *                                        The callback has a mixed return type; it may return a string to override
+ *                                        the block's original value, null, false to remove an attribute, etc.
+ *     @type string[] $uses_context       Optional. Array of values to add to block `uses_context` needed by the source.
  * }
  * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
  */
