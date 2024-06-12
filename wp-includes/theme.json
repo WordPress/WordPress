@@ -332,6 +332,40 @@
 		}
 	},
 	"styles": {
+		"blocks": {
+			"core/button": {
+				"variations": {
+					"outline": {
+						"border": {
+							"width": "2px",
+							"style": "solid",
+							"color": "currentColor"
+						},
+						"color": {
+							"text": "currentColor",
+							"gradient": "transparent none"
+						},
+						"spacing": {
+							"padding": {
+								"top": "0.667em",
+								"right": "1.33em",
+								"bottom": "0.667em",
+								"left": "1.33em"
+							}
+						}
+					}
+				}
+			},
+			"core/site-logo": {
+				"variations": {
+					"rounded": {
+						"border": {
+							"radius": "9999px"
+						}
+					}
+				}
+			}
+		},
 		"elements": {
 			"button": {
 				"color": {
