@@ -232,8 +232,7 @@ wp_localize_script(
 		),
 		'l10n'     => array(
 			'addNew'            => __( 'Add New Theme' ),
-			'search'            => __( 'Search Installed Themes' ),
-			'searchPlaceholder' => __( 'Search installed themes...' ), // Placeholder (no ellipsis).
+			'search'            => __( 'Search installed themes' ),
 			/* translators: %d: Number of themes. */
 			'themesFound'       => __( 'Number of Themes found: %d' ),
 			'noThemesFound'     => __( 'No themes found. Try a different search.' ),
@@ -252,14 +251,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Themes' ); ?>
 		<span class="title-count theme-count"><?php echo ! empty( $_GET['search'] ) ? __( '&hellip;' ) : count( $themes ); ?></span>
 	</h1>
-
 	<?php if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 		<a href="<?php echo esc_url( admin_url( 'theme-install.php' ) ); ?>" class="hide-if-no-js page-title-action"><?php echo esc_html__( 'Add New Theme' ); ?></a>
 	<?php endif; ?>
-
-	<form class="search-form"></form>
-
 	<hr class="wp-header-end">
+	<form class="search-form search-themes"><p class="search-box"></p></form>
+
 <?php
 if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) {
 	wp_admin_notice(

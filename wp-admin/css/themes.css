@@ -19,23 +19,23 @@ body.js .theme-browser.search-loading {
 	clear: both;
 }
 
-.themes-php:not(.network-admin) .wrap h1 {
-	margin-bottom: 15px;
-}
-
 .themes-php .wrap h1 .button {
 	margin-left: 20px;
 }
 
 /* Search form */
 .themes-php .search-form {
-	display: inline;
+	display: inline-flex;
+	align-items: center;
+	position: relative;
+	top: 0;
+	gap: .5rem;
+	width: 100%;
+	justify-content: end;
 }
 
 .themes-php .wp-filter-search {
 	position: relative;
-	top: -2px;
-	left: 20px;
 	margin: 0;
 	width: 280px;
 }
@@ -955,9 +955,13 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 		clear: both;
 		left: 0;
 		right: 0;
-		margin: -5px 0 20px;
 		width: 100%;
 		max-width: 280px;
+	}
+
+	.theme-install-php .wp-filter p.search-box {
+		display: grid;
+		row-gap: .5rem;
 	}
 
 	.theme-browser .theme.add-new-theme span:after {
@@ -1027,6 +1031,13 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .theme-install-php .wp-filter {
 	padding-left: 20px;
+}
+
+/* Override column gap adjustment in media library. */
+@media only screen and (max-width: 1000px) {
+	.theme-install-php .wp-filter p.search-box {
+		column-gap: .5rem;
+	}
 }
 
 .theme-install-php a.upload,

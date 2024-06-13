@@ -460,7 +460,7 @@ if ( '' !== $message ) {
 ?>
 
 <form method="get">
-<?php $wp_list_table->search_box( __( 'Search Installed Themes' ), 'theme' ); ?>
+<?php $wp_list_table->search_box( __( 'Search installed themes' ), 'theme' ); ?>
 </form>
 
 <?php
