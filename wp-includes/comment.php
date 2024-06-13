@@ -557,10 +557,11 @@ function wp_set_comment_cookies( $comment, $user, $cookies_consent = true ) {
 	 * Filters the lifetime of the comment cookie in seconds.
 	 *
 	 * @since 2.8.0
+	 * @since 6.6.0 The default $seconds value changed from 30000000 to YEAR_IN_SECONDS.
 	 *
-	 * @param int $seconds Comment cookie lifetime. Default 30000000.
+	 * @param int $seconds Comment cookie lifetime. Default YEAR_IN_SECONDS.
 	 */
-	$comment_cookie_lifetime = time() + apply_filters( 'comment_cookie_lifetime', 30000000 );
+	$comment_cookie_lifetime = time() + apply_filters( 'comment_cookie_lifetime', YEAR_IN_SECONDS );
 
 	$secure = ( 'https' === parse_url( home_url(), PHP_URL_SCHEME ) );
 
