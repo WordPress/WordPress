@@ -67,10 +67,12 @@ body.locale-he-il .press-this a.wp-switch-editor {
 .locale-de-de-formal #customize-header-actions .spinner {
 	margin: 16px 3px 0; /* default 16px 4px 0 5px */
 }
-body[class*="locale-de-"] .inline-edit-row fieldset label span.title {
+body[class*="locale-de-"] .inline-edit-row fieldset label span.title,
+body[class*="locale-de-"] .inline-edit-row fieldset.inline-edit-date legend {
 	width: 7em; /* default 6em */
 }
-body[class*="locale-de-"] .inline-edit-row fieldset label span.title{
+body[class*="locale-de-"] .inline-edit-row fieldset label span.input-text-wrap,
+body[class*="locale-de-"] .inline-edit-row fieldset .timestamp-wrap {
 	margin-right: 7em; /* default 6em */
 }
 
@@ -117,7 +119,16 @@ body[class*="locale-de-"] .inline-edit-row fieldset label span.title{
 	margin-right: 8em; /* default 6em */
 }
 
+/* Fix overridden width for adjusted locales */
+body[class*="locale-de-"] .quick-edit-row-post fieldset.inline-edit-col-right label span.title,
+.locale-ru-ru .quick-edit-row-post fieldset.inline-edit-col-right label span.title,
+.locale-lt-lt .quick-edit-row-post fieldset.inline-edit-col-right label span.title {
+	width: auto;
+}
+
 @media screen and (max-width: 782px) {
+	body[class*="locale-de-"] .inline-edit-row fieldset label span.input-text-wrap,
+	body[class*="locale-de-"] .inline-edit-row fieldset .timestamp-wrap,
 	.locale-ru-ru .inline-edit-row fieldset label span.input-text-wrap,
 	.locale-ru-ru .inline-edit-row fieldset .timestamp-wrap,
 	.locale-lt-lt .inline-edit-row fieldset label span.input-text-wrap,
