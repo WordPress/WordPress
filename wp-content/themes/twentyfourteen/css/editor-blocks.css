@@ -196,6 +196,10 @@ Description: Used to style blocks in the editor.
 	text-align: right;
 }
 
+.editor-styles-wrapper .wp-block-table:not(.is-style-stripes) table:not([class*="-text-color"]) * {
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
 /* Quotes */
 
 .wp-block-freeform.block-library-rich-text__tinymce blockquote {

@@ -237,10 +237,15 @@ p.has-drop-cap:not(:focus)::first-letter {
 	overflow-x: visible;
 }
 
-.wp-block-table th,
-.wp-block-table td {
+.wp-block-table:not(.is-style-stripes) th,
+.wp-block-table:not(.is-style-stripes) td {
 	border-color: rgba(0, 0, 0, 0.1);
 	border-width: 0 1px 1px 0;
+}
+
+.wp-block-table:not(.is-style-stripes) table[class*="-text-color"] * {
+	border-color: inherit;
+	border: 1px solid;
 }
 
 /*--------------------------------------------------------------
