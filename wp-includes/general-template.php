@@ -1035,7 +1035,7 @@ function has_custom_logo( $blog_id = 0 ) {
 	}
 
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
-	$is_image       = wp_attachment_is_image( $custom_logo_id );
+	$is_image       = ( $custom_logo_id ) ? wp_attachment_is_image( $custom_logo_id ) : false;
 
 	if ( $switched_blog ) {
 		restore_current_blog();
