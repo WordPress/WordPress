@@ -514,7 +514,7 @@ function search_theme_directories( $force = false ) {
 		// Start with directories in the root of the active theme directory.
 		$dirs = @ scandir( $theme_root );
 		if ( ! $dirs ) {
-			trigger_error( "$theme_root is not readable", E_USER_NOTICE );
+			wp_trigger_error( __FUNCTION__, "$theme_root is not readable" );
 			continue;
 		}
 		foreach ( $dirs as $dir ) {
@@ -538,7 +538,7 @@ function search_theme_directories( $force = false ) {
 				 */
 				$sub_dirs = @ scandir( $theme_root . '/' . $dir );
 				if ( ! $sub_dirs ) {
-					trigger_error( "$theme_root/$dir is not readable", E_USER_NOTICE );
+					wp_trigger_error( __FUNCTION__, "$theme_root/$dir is not readable" );
 					continue;
 				}
 				foreach ( $sub_dirs as $sub_dir ) {

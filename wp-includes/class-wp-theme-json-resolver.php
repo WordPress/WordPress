@@ -504,7 +504,7 @@ class WP_Theme_JSON_Resolver {
 
 			$json_decoding_error = json_last_error();
 			if ( JSON_ERROR_NONE !== $json_decoding_error ) {
-				trigger_error( 'Error when decoding a theme.json schema for user data. ' . json_last_error_msg() );
+				wp_trigger_error( __METHOD__, 'Error when decoding a theme.json schema for user data. ' . json_last_error_msg() );
 				/**
 				 * Filters the data provided by the user for global styles & settings.
 				 *

@@ -252,7 +252,7 @@ function _filter_block_template_part_area( $type ) {
 		$type,
 		WP_TEMPLATE_PART_AREA_UNCATEGORIZED
 	);
-	trigger_error( $warning_message, E_USER_NOTICE );
+	wp_trigger_error( __FUNCTION__, $warning_message );
 	return WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
 }
 
