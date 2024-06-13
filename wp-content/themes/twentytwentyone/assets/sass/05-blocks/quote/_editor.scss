@@ -3,13 +3,19 @@
 	border-left: none;
 	margin: var(--global--spacing-vertical) auto var(--global--spacing-vertical) var(--global--spacing-horizontal);
 	padding-left: 1em;
+	font-family: var(--quote--font-family);
+	font-size: var(--quote--font-size);
+	font-style: var(--quote--font-style);
+	font-weight: var(--quote--font-weight);
+	line-height: var(--quote--line-height);
 
 	p {
-		font-family: var(--quote--font-family);
-		font-size: var(--quote--font-size);
-		font-style: var(--quote--font-style);
-		font-weight: var(--quote--font-weight);
-		line-height: var(--quote--line-height);
+		font-family: inherit;
+		font-size: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+		letter-spacing: inherit;
 	}
 
 	strong {
@@ -18,15 +24,16 @@
 
 	&:before {
 		content: "\201C";
-		font-size: var(--quote--font-size);
-		line-height: var(--quote--line-height);
 		left: 8px;
 	}
 
 	.wp-block-quote__citation {
 		color: currentColor;
-		font-size: var(--global--font-size-xs);
-		font-style: var(--quote--font-style-cite);
+		font-family: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+		letter-spacing: inherit;
 
 		.has-background &,
 		[class*="background-color"] &,
@@ -34,6 +41,15 @@
 		.wp-block-cover[style*="background-image"] & {
 			color: currentColor;
 		}
+	}
+
+	&:where(:not([style*="font-style"])) .wp-block-quote__citation {
+		font-style: var(--quote--font-style-cite);
+	}
+
+	// The cite has a lighter font-weight than the rest of the quote.
+	&:where(:not([style*="font-weight"])) .wp-block-quote__citation {
+		font-weight: normal;
 	}
 
 	&.has-text-align-right {
@@ -49,9 +65,6 @@
 		// Align the quote left of the text.
 		p:before {
 			content: "\201D";
-			font-size: var(--quote--font-size);
-			font-weight: normal;
-			line-height: var(--quote--line-height);
 			margin-right: 5px;
 		}
 	}
@@ -64,6 +77,7 @@
 		}
 	}
 
+	// The large style was removed in WordPress 6.0, the CSS is kept for backwards compatibility.
 	&.is-large,
 	&.is-style-large {
 		padding-left: 0;

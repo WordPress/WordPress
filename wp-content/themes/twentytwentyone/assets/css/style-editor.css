@@ -338,7 +338,6 @@ blockquote cite,
 blockquote footer {
 	font-weight: normal;
 	color: var(--global--color-primary);
-	font-size: var(--global--font-size-xs);
 	letter-spacing: var(--global--letter-spacing);
 }
 
@@ -368,8 +367,6 @@ blockquote strong {
 
 blockquote:before {
 	content: "“";
-	font-size: var(--quote--font-size);
-	line-height: var(--quote--line-height);
 	position: absolute;
 	left: calc(-0.5 * var(--global--spacing-horizontal));
 }
@@ -378,7 +375,6 @@ blockquote .wp-block-quote__citation,
 blockquote cite,
 blockquote footer {
 	color: var(--global--color-primary);
-	font-size: var(--global--font-size-xs);
 	font-style: var(--quote--font-style-cite);
 }
 @media only screen and (max-width: 481.98px) {
@@ -1530,14 +1526,20 @@ pre.wp-block-preformatted {
 	border-left: none;
 	margin: var(--global--spacing-vertical) auto var(--global--spacing-vertical) var(--global--spacing-horizontal);
 	padding-left: 1em;
-}
-
-.wp-block-quote p {
 	font-family: var(--quote--font-family);
 	font-size: var(--quote--font-size);
 	font-style: var(--quote--font-style);
 	font-weight: var(--quote--font-weight);
 	line-height: var(--quote--line-height);
+}
+
+.wp-block-quote p {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	letter-spacing: inherit;
 }
 
 .wp-block-quote strong {
@@ -1546,15 +1548,16 @@ pre.wp-block-preformatted {
 
 .wp-block-quote:before {
 	content: "“";
-	font-size: var(--quote--font-size);
-	line-height: var(--quote--line-height);
 	left: 8px;
 }
 
 .wp-block-quote .wp-block-quote__citation {
 	color: currentColor;
-	font-size: var(--global--font-size-xs);
-	font-style: var(--quote--font-style-cite);
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	letter-spacing: inherit;
 }
 
 .has-background .wp-block-quote .wp-block-quote__citation,
@@ -1562,6 +1565,14 @@ pre.wp-block-preformatted {
 [style*=background-color] .wp-block-quote .wp-block-quote__citation,
 .wp-block-cover[style*=background-image] .wp-block-quote .wp-block-quote__citation {
 	color: currentColor;
+}
+
+.wp-block-quote:where(:not([style*=font-style])) .wp-block-quote__citation {
+	font-style: var(--quote--font-style-cite);
+}
+
+.wp-block-quote:where(:not([style*=font-weight])) .wp-block-quote__citation {
+	font-weight: normal;
 }
 
 .wp-block-quote.has-text-align-right {
@@ -1576,9 +1587,6 @@ pre.wp-block-preformatted {
 
 .wp-block-quote.has-text-align-right p:before {
 	content: "”";
-	font-size: var(--quote--font-size);
-	font-weight: normal;
-	line-height: var(--quote--line-height);
 	margin-right: 5px;
 }
 

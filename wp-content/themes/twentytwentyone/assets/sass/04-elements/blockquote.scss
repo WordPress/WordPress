@@ -29,7 +29,6 @@ blockquote {
 	footer {
 		font-weight: normal;
 		color: var(--global--color-primary);
-		font-size: var(--global--font-size-xs);
 		letter-spacing: var(--global--letter-spacing);
 	}
 
@@ -57,8 +56,6 @@ blockquote {
 
 	&:before {
 		content: "\201C";
-		font-size: var(--quote--font-size);
-		line-height: var(--quote--line-height);
 		position: absolute;
 		left: calc(-0.5 * var(--global--spacing-horizontal));
 	}
@@ -67,7 +64,6 @@ blockquote {
 	cite,
 	footer {
 		color: var(--global--color-primary);
-		font-size: var(--global--font-size-xs);
 		font-style: var(--quote--font-style-cite);
 	}
 
