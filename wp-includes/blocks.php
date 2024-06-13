@@ -1152,7 +1152,7 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
 		return $response;
 	}
 
-	$attributes = array();
+	$attributes            = array();
 	$ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
 	if ( ! empty( $ignored_hooked_blocks ) ) {
 		$ignored_hooked_blocks  = json_decode( $ignored_hooked_blocks, true );
@@ -1584,13 +1584,13 @@ function resolve_pattern_blocks( $blocks ) {
 			$i += count( $blocks_to_insert );
 		} else {
 			if ( ! empty( $blocks[ $i ]['innerBlocks'] ) ) {
-				$prev_inner_content          = $inner_content;
-				$inner_content               = $blocks[ $i ]['innerContent'];
-				$blocks[ $i ]['innerBlocks'] = resolve_pattern_blocks(
+				$prev_inner_content           = $inner_content;
+				$inner_content                = $blocks[ $i ]['innerContent'];
+				$blocks[ $i ]['innerBlocks']  = resolve_pattern_blocks(
 					$blocks[ $i ]['innerBlocks']
 				);
 				$blocks[ $i ]['innerContent'] = $inner_content;
-				$inner_content               = $prev_inner_content;
+				$inner_content                = $prev_inner_content;
 			}
 			++$i;
 		}

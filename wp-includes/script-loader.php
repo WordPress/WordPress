@@ -90,7 +90,7 @@ function wp_default_packages_vendor( $scripts ) {
 
 	$vendor_scripts = array(
 		'react',
-		'react-dom' => array( 'react' ),
+		'react-dom'         => array( 'react' ),
 		'react-jsx-runtime' => array( 'react' ),
 		'regenerator-runtime',
 		'moment',

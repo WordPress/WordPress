@@ -475,7 +475,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'readonly'    => true,
 				),
-				'template_uri'       => array(
+				'template_uri'   => array(
 					'description' => __( 'The uri for the theme\'s template directory. If this is a child theme, this refers to the parent theme, otherwise this is the same as the theme\'s stylesheet directory.' ),
 					'type'        => 'string',
 					'format'      => 'uri',

@@ -164,8 +164,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $item, $request ) {
 		// Resolve pattern blocks so they don't need to be resolved client-side
 		// in the editor, improving performance.
-		$blocks        = parse_blocks( $item['content'] );
-		$blocks        = resolve_pattern_blocks( $blocks );
+		$blocks          = parse_blocks( $item['content'] );
+		$blocks          = resolve_pattern_blocks( $blocks );
 		$item['content'] = serialize_blocks( $blocks );
 
 		$fields = $this->get_fields_for_response( $request );

@@ -231,11 +231,11 @@ wp_localize_script(
 			'adminUrl'      => parse_url( admin_url(), PHP_URL_PATH ),
 		),
 		'l10n'     => array(
-			'addNew'            => __( 'Add New Theme' ),
-			'search'            => __( 'Search installed themes' ),
+			'addNew'        => __( 'Add New Theme' ),
+			'search'        => __( 'Search installed themes' ),
 			/* translators: %d: Number of themes. */
-			'themesFound'       => __( 'Number of Themes found: %d' ),
-			'noThemesFound'     => __( 'No themes found. Try a different search.' ),
+			'themesFound'   => __( 'Number of Themes found: %d' ),
+			'noThemesFound' => __( 'No themes found. Try a different search.' ),
 		),
 	)
 );
