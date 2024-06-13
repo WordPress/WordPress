@@ -1243,39 +1243,13 @@ We hope you enjoy your new site. Thanks!
 --The Team @ SITE_NAME'
 	);
 
-	$misc_exts        = array(
-		// Images.
-		'jpg',
-		'jpeg',
-		'png',
-		'gif',
-		'webp',
-		'avif',
-		// Video.
-		'mov',
-		'avi',
-		'mpg',
-		'3gp',
-		'3g2',
-		// "audio".
-		'midi',
-		'mid',
-		// Miscellaneous.
-		'pdf',
-		'doc',
-		'ppt',
-		'odt',
-		'pptx',
-		'docx',
-		'pps',
-		'ppsx',
-		'xls',
-		'xlsx',
-		'key',
-	);
-	$audio_exts       = wp_get_audio_extensions();
-	$video_exts       = wp_get_video_extensions();
-	$upload_filetypes = array_unique( array_merge( $misc_exts, $audio_exts, $video_exts ) );
+	$allowed_file_types = array();
+	$all_mime_types     = get_allowed_mime_types();
+
+	foreach ( $all_mime_types as $ext => $mime ) {
+		array_push( $allowed_file_types, ...explode( '|', $ext ) );
+	}
+	$upload_filetypes = array_unique( $allowed_file_types );
 
 	$sitemeta = array(
 		'site_name'                   => __( 'My Network' ),
