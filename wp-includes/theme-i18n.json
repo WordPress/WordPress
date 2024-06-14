@@ -80,6 +80,15 @@
 			}
 		}
 	},
+	"styles": {
+		"blocks": {
+			"variations": {
+				"*": {
+					"title": "Style variation name"
+				}
+			}
+		}
+	},
 	"customTemplates": [
 		{
 			"title": "Custom template name"
