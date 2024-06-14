@@ -215,7 +215,7 @@ class WP_Duotone {
 	}
 
 	/**
-	 * Parses any valid Hex3, Hex4, Hex6 or Hex8 string and converts it to an RGBA object
+	 * Parses any valid Hex3, Hex4, Hex6 or Hex8 string and converts it to an RGBA object.
 	 *
 	 * Direct port of colord's parseHex function.
 	 *
@@ -286,7 +286,7 @@ class WP_Duotone {
 	}
 
 	/**
-	 * Parses a valid RGB[A] CSS color function/string
+	 * Parses a valid RGB[A] CSS color function/string.
 	 *
 	 * Direct port of colord's parseRgbaString function.
 	 *
