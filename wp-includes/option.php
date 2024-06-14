@@ -1514,10 +1514,10 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		wp_prime_option_caches( array( $transient_option, $transient_timeout ) );
 
 		if ( false === get_option( $transient_option ) ) {
-			$autoload = 'on';
+			$autoload = true;
 			if ( $expiration ) {
-				$autoload = 'off';
-				add_option( $transient_timeout, time() + $expiration, '', 'off' );
+				$autoload = false;
+				add_option( $transient_timeout, time() + $expiration, '', false );
 			}
 			$result = add_option( $transient_option, $value, '', $autoload );
 		} else {
@@ -1530,8 +1530,8 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 			if ( $expiration ) {
 				if ( false === get_option( $transient_timeout ) ) {
 					delete_option( $transient_option );
-					add_option( $transient_timeout, time() + $expiration, '', 'off' );
-					$result = add_option( $transient_option, $value, '', 'off' );
+					add_option( $transient_timeout, time() + $expiration, '', false );
+					$result = add_option( $transient_option, $value, '', false );
 					$update = false;
 				} else {
 					update_option( $transient_timeout, time() + $expiration );
@@ -2119,7 +2119,7 @@ function add_network_option( $network_id, $option, $value ) {
 	$notoptions_key = "$network_id:notoptions";
 
 	if ( ! is_multisite() ) {
-		$result = add_option( $option, $value, '', 'off' );
+		$result = add_option( $option, $value, '', false );
 	} else {
 		$cache_key = "$network_id:$option";
 
@@ -2365,7 +2365,7 @@ function update_network_option( $network_id, $option, $value ) {
 	}
 
 	if ( ! is_multisite() ) {
-		$result = update_option( $option, $value, 'off' );
+		$result = update_option( $option, $value, false );
 	} else {
 		$value = sanitize_option( $option, $value );
 
