@@ -249,7 +249,7 @@ function wp_resolve_block_style_variations( $variations ) {
 		 * Block style variations read in via standalone theme.json partials
 		 * need to have their name set to the kebab case version of their title.
 		 */
-		$variation_name = $have_named_variations ? $key : _wp_to_kebab_case( $variation['title'] );
+		$variation_name = $have_named_variations ? $key : ( $variation['slug'] ?? _wp_to_kebab_case( $variation['title'] ) );
 
 		foreach ( $supported_blocks as $block_type ) {
 			// Add block style variation data under current block type.
@@ -441,7 +441,7 @@ function wp_register_block_style_variations_from_theme_json_data( $variations ) 
 		 * Block style variations read in via standalone theme.json partials
 		 * need to have their name set to the kebab case version of their title.
 		 */
-		$variation_name  = $have_named_variations ? $key : _wp_to_kebab_case( $variation['title'] );
+		$variation_name  = $have_named_variations ? $key : ( $variation['slug'] ?? _wp_to_kebab_case( $variation['title'] ) );
 		$variation_label = $variation['title'] ?? $variation_name;
 
 		foreach ( $supported_blocks as $block_type ) {
