@@ -14,11 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @global string       $post_type
- * @global WP_Post_Type $post_type_object
+ * @global string       $post_type        Global post type.
+ * @global WP_Post_Type $post_type_object Global post type object.
  * @global WP_Post      $post             Global post object.
- * @global string       $title
- * @global array        $wp_meta_boxes
+ * @global string       $title            The title of the current screen.
+ * @global array        $wp_meta_boxes    Global meta box state.
  */
 global $post_type, $post_type_object, $post, $title, $wp_meta_boxes;
 

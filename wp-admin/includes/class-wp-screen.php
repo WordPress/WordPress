@@ -984,7 +984,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * @global array $wp_meta_boxes
+	 * @global array $wp_meta_boxes Global meta box state.
 	 *
 	 * @return bool
 	 */
@@ -1103,7 +1103,7 @@ final class WP_Screen {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @global array $wp_meta_boxes
+	 * @global array $wp_meta_boxes Global meta box state.
 	 */
 	public function render_meta_boxes_preferences() {
 		global $wp_meta_boxes;

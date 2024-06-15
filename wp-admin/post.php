@@ -28,9 +28,9 @@ if ( isset( $_GET['post'] ) && isset( $_POST['post_ID'] ) && (int) $_GET['post']
 $post_ID = $post_id;
 
 /**
- * @global string  $post_type
- * @global object  $post_type_object
- * @global WP_Post $post             Global post object.
+ * @global string       $post_type        Global post type.
+ * @global WP_Post_Type $post_type_object Global post type object.
+ * @global WP_Post      $post             Global post object.
  */
 global $post_type, $post_type_object, $post;
 

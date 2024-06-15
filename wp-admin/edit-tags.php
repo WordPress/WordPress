@@ -32,9 +32,9 @@ if ( ! current_user_can( $tax->cap->manage_terms ) ) {
 }
 
 /**
- * $post_type is set when the WP_Terms_List_Table instance is created
+ * $post_type is set when the WP_Terms_List_Table instance is created.
  *
- * @global string $post_type
+ * @global string $post_type Global post type.
  */
 global $post_type;
 

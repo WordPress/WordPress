@@ -14,7 +14,7 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 /**
  * In case admin-header.php is included in a function.
  *
- * @global string    $title
+ * @global string    $title              The title of the current screen.
  * @global string    $hook_suffix
  * @global WP_Screen $current_screen     WordPress current screen object.
  * @global WP_Locale $wp_locale          WordPress date and time locale object.

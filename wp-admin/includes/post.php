@@ -2345,7 +2345,7 @@ function get_block_editor_server_block_settings() {
  *
  * @global WP_Post   $post           Global post object.
  * @global WP_Screen $current_screen WordPress current screen object.
- * @global array     $wp_meta_boxes
+ * @global array     $wp_meta_boxes  Global meta box state.
  */
 function the_block_editor_meta_boxes() {
 	global $post, $current_screen, $wp_meta_boxes;

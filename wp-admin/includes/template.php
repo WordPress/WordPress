@@ -1050,7 +1050,7 @@ function wp_import_upload_form( $action ) {
  * @since 2.5.0
  * @since 4.4.0 The `$screen` parameter now accepts an array of screen IDs.
  *
- * @global array $wp_meta_boxes
+ * @global array $wp_meta_boxes Global meta box state.
  *
  * @param string                 $id            Meta box ID (used in the 'id' attribute for the meta box).
  * @param string                 $title         Title of the meta box.
@@ -1287,7 +1287,7 @@ function _get_plugin_from_callback( $callback ) {
  *
  * @since 2.5.0
  *
- * @global array $wp_meta_boxes
+ * @global array $wp_meta_boxes Global meta box state.
  *
  * @param string|WP_Screen $screen      The screen identifier. If you have used add_menu_page() or
  *                                      add_submenu_page() to create a new screen (and hence screen_id)
@@ -1472,7 +1472,7 @@ function do_meta_boxes( $screen, $context, $data_object ) {
  * @since 2.6.0
  * @since 4.4.0 The `$screen` parameter now accepts an array of screen IDs.
  *
- * @global array $wp_meta_boxes
+ * @global array $wp_meta_boxes Global meta box state.
  *
  * @param string                 $id      Meta box ID (used in the 'id' attribute for the meta box).
  * @param string|array|WP_Screen $screen  The screen or screens on which the meta box is shown (such as a

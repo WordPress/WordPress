@@ -27,8 +27,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
-	 * @global string $post_type
-	 * @global string $taxonomy
+	 * @global string $post_type Global post type.
+	 * @global string $taxonomy  Global taxonomy.
 	 * @global string $action
 	 * @global object $tax
 	 *
@@ -330,7 +330,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $taxonomy
+	 * @global string $taxonomy Global taxonomy.
+	 *
 	 * @param WP_Term $tag   Term object.
 	 * @param int     $level
 	 */

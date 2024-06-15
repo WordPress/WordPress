@@ -2030,7 +2030,7 @@ function get_admin_page_parent( $parent_page = '' ) {
  *
  * @since 1.5.0
  *
- * @global string $title
+ * @global string $title       The title of the current screen.
  * @global array  $menu
  * @global array  $submenu
  * @global string $pagenow     The filename of the current screen.

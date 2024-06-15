@@ -29,8 +29,8 @@ if ( 'attachment' === $typenow ) {
 }
 
 /**
- * @global string       $post_type
- * @global WP_Post_Type $post_type_object
+ * @global string       $post_type        Global post type.
+ * @global WP_Post_Type $post_type_object Global post type object.
  */
 global $post_type, $post_type_object;
 

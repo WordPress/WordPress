@@ -89,7 +89,7 @@ function get_hidden_columns( $screen ) {
  *
  * @since 2.7.0
  *
- * @global array $wp_meta_boxes
+ * @global array $wp_meta_boxes Global meta box state.
  *
  * @param WP_Screen $screen
  */
