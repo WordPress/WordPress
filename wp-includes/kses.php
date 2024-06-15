@@ -963,6 +963,7 @@ function wp_kses_version() {
  * It also matches stray `>` characters.
  *
  * @since 1.0.0
+ * @since 6.6.0 Recognize additional forms of invalid HTML which convert into comments.
  *
  * @global array[]|string $pass_allowed_html      An array of allowed HTML elements and attributes,
  *                                                or a context name such as 'post'.
@@ -981,7 +982,18 @@ function wp_kses_split( $content, $allowed_html, $allowed_protocols ) {
 	$pass_allowed_html      = $allowed_html;
 	$pass_allowed_protocols = $allowed_protocols;
 
-	return preg_replace_callback( '%(<!--.*?(-->|$))|(<[^>]*(>|$)|>)%', '_wp_kses_split_callback', $content );
+	$token_pattern = <<<REGEX
+~
+	(                      # Detect comments of various flavors before attempting to find tags.
+		(<!--.*?(-->|$))   #  - Normative HTML comments.
+		|
+		</[^a-zA-Z][^>]*>  #  - Closing tags with invalid tag names.
+	)
+	|
+	(<[^>]*(>|$)|>)        # Tag-like spans of text.
+~x
+REGEX;
+	return preg_replace_callback( $token_pattern, '_wp_kses_split_callback', $content );
 }
 
 /**
@@ -1069,23 +1081,61 @@ function _wp_kses_split_callback( $matches ) {
  * @access private
  * @ignore
  * @since 1.0.0
+ * @since 6.6.0 Recognize additional forms of invalid HTML which convert into comments.
  *
  * @param string         $content           Content to filter.
  * @param array[]|string $allowed_html      An array of allowed HTML elements and attributes,
  *                                          or a context name such as 'post'. See wp_kses_allowed_html()
  *                                          for the list of accepted context names.
  * @param string[]       $allowed_protocols Array of allowed URL protocols.
+ *
  * @return string Fixed HTML element
  */
 function wp_kses_split2( $content, $allowed_html, $allowed_protocols ) {
 	$content = wp_kses_stripslashes( $content );
 
-	// It matched a ">" character.
+	/*
+	 * The regex pattern used to split HTML into chunks attempts
+	 * to split on HTML token boundaries. This function should
+	 * thus receive chunks that _either_ start with meaningful
+	 * syntax tokens, like a tag `<div>` or a comment `<!-- ... -->`.
+	 *
+	 * If the first character of the `$content` chunk _isn't_ one
+	 * of these syntax elements, which always starts with `<`, then
+	 * the match had to be for the final alternation of `>`. In such
+	 * case, it's probably standing on its own and could be encoded
+	 * with a character reference to remove ambiguity.
+	 *
+	 * In other words, if this chunk isn't from a match of a syntax
+	 * token, it's just a plaintext greater-than (`>`) sign.
+	 */
 	if ( ! str_starts_with( $content, '<' ) ) {
 		return '&gt;';
 	}
 
-	// Allow HTML comments.
+	/*
+	 * When a closing tag appears with a name that isn't a valid tag name,
+	 * it must be interpreted as an HTML comment. It extends until the
+	 * first `>` character after the initial opening `</`.
+	 *
+	 * Preserve these comments and do not treat them like tags.
+	 */
+	if ( 1 === preg_match( '~^</[^a-zA-Z][^>]*>$~', $content ) ) {
+		$content     = substr( $content, 2, -1 );
+		$transformed = null;
+
+		while ( $transformed !== $content ) {
+			$transformed = wp_kses( $content, $allowed_html, $allowed_protocols );
+			$content     = $transformed;
+		}
+
+		return "</{$transformed}>";
+	}
+
+	/*
+	 * Normative HTML comments should be handled separately as their
+	 * parsing rules differ from those for tags and text nodes.
+	 */
 	if ( str_starts_with( $content, '<!--' ) ) {
 		$content = str_replace( array( '<!--', '-->' ), '', $content );
 
