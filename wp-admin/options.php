@@ -181,7 +181,9 @@ if ( ! is_multisite() ) {
 	$allowed_options['general'][] = 'default_role';
 
 	$allowed_options['writing']   = array_merge( $allowed_options['writing'], $mail_options );
-	$allowed_options['writing'][] = 'ping_sites';
+	if ( '1' === get_option( 'blog_public' ) ) {
+		$allowed_options['writing'][] = 'ping_sites';
+	}
 
 	$allowed_options['media'][] = 'uploads_use_yearmonth_folders';
 
