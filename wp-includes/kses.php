@@ -988,6 +988,9 @@ function wp_kses_split( $content, $allowed_html, $allowed_protocols ) {
 		(<!--.*?(-->|$))   #  - Normative HTML comments.
 		|
 		</[^a-zA-Z][^>]*>  #  - Closing tags with invalid tag names.
+		|
+		<![^>]*>           #  - Invalid markup declaration nodes. Not all invalid nodes
+		                   #    are matched so as to avoid breaking legacy behaviors.
 	)
 	|
 	(<[^>]*(>|$)|>)        # Tag-like spans of text.
@@ -1114,22 +1117,30 @@ function wp_kses_split2( $content, $allowed_html, $allowed_protocols ) {
 	}
 
 	/*
-	 * When a closing tag appears with a name that isn't a valid tag name,
-	 * it must be interpreted as an HTML comment. It extends until the
-	 * first `>` character after the initial opening `</`.
+	 * When certain invalid syntax constructs appear, the HTML parser
+	 * shifts into what's called the "bogus comment state." This is a
+	 * plaintext state that consumes everything until the nearest `>`
+	 * and then transforms the entire span into an HTML comment.
 	 *
 	 * Preserve these comments and do not treat them like tags.
+	 *
+	 * @see https://html.spec.whatwg.org/#bogus-comment-state
 	 */
-	if ( 1 === preg_match( '~^</[^a-zA-Z][^>]*>$~', $content ) ) {
-		$content     = substr( $content, 2, -1 );
-		$transformed = null;
+	if ( 1 === preg_match( '~^(?:</[^a-zA-Z][^>]*>|<![a-z][^>]*>)$~', $content ) ) {
+		/**
+		 * Since the pattern matches `</…>` and also `<!…>`, this will
+		 * preserve the type of the cleaned-up token in the output.
+		 */
+		$opener  = $content[1];
+		$content = substr( $content, 2, -1 );
 
-		while ( $transformed !== $content ) {
-			$transformed = wp_kses( $content, $allowed_html, $allowed_protocols );
-			$content     = $transformed;
-		}
+		do {
+			$prev    = $content;
+			$content = wp_kses( $content, $allowed_html, $allowed_protocols );
+		} while ( $prev !== $content );
 
-		return "</{$transformed}>";
+		// Recombine the modified inner content with the original token structure.
+		return "<{$opener}{$content}>";
 	}
 
 	/*
