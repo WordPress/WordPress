@@ -750,7 +750,7 @@ class WP_Theme_JSON {
 	 * @param string $origin     Optional. What source of data this object represents.
 	 *                           One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
 	 */
-	public function __construct( $theme_json = array( 'version' => WP_Theme_JSON::LATEST_SCHEMA ), $origin = 'theme' ) {
+	public function __construct( $theme_json = array( 'version' => self::LATEST_SCHEMA ), $origin = 'theme' ) {
 		if ( ! in_array( $origin, static::VALID_ORIGINS, true ) ) {
 			$origin = 'theme';
 		}
@@ -1247,7 +1247,8 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 * @since 5.9.0 Removed the `$type` parameter, added the `$types` and `$origins` parameters.
 	 * @since 6.3.0 Add fallback layout styles for Post Template when block gap support isn't available.
-	 * @since 6.6.0 Added `skip_root_layout_styles` option to omit layout styles if desired.
+	 * @since 6.6.0 Added boolean `skip_root_layout_styles` and `include_block_style_variations` options
+	 *              to control styles output as desired.
 	 *
 	 * @param string[] $types   Types of styles to load. Will load all by default. It accepts:
 	 *                          - `variables`: only the CSS Custom Properties for presets & custom ones.
@@ -1257,9 +1258,10 @@ class WP_Theme_JSON {
 	 * @param array    $options {
 	 *     Optional. An array of options for now used for internal purposes only (may change without notice).
 	 *
-	 *     @type string $scope                   Makes sure all style are scoped to a given selector
-	 *     @type string $root_selector           Overwrites and forces a given selector to be used on the root node
-	 *     @type bool   $skip_root_layout_styles Omits root layout styles from the generated stylesheet. Default false.
+	 *     @type string $scope                           Makes sure all style are scoped to a given selector
+	 *     @type string $root_selector                   Overwrites and forces a given selector to be used on the root node
+	 *     @type bool   $skip_root_layout_styles         Omits root layout styles from the generated stylesheet. Default false.
+	 *     @type bool   $include_block_style_variations  Includes styles for block style variations in the generated stylesheet. Default false.
 	 * }
 	 * @return string The resulting stylesheet.
 	 */
@@ -1281,7 +1283,7 @@ class WP_Theme_JSON {
 		}
 
 		$blocks_metadata = static::get_blocks_metadata();
-		$style_nodes     = static::get_style_nodes( $this->theme_json, $blocks_metadata );
+		$style_nodes     = static::get_style_nodes( $this->theme_json, $blocks_metadata, $options );
 		$setting_nodes   = static::get_setting_nodes( $this->theme_json, $blocks_metadata );
 
 		$root_style_key    = array_search( static::ROOT_BLOCK_SELECTOR, array_column( $style_nodes, 'selector' ), true );
@@ -2446,12 +2448,18 @@ class WP_Theme_JSON {
 	 *     ]
 	 *
 	 * @since 5.8.0
+	 * @since 6.6.0 Added options array for modifying generated nodes.
 	 *
 	 * @param array $theme_json The tree to extract style nodes from.
 	 * @param array $selectors  List of selectors per block.
+	 * @param array $options {
+	 *     Optional. An array of options for now used for internal purposes only (may change without notice).
+	 *
+	 *     @type bool $include_block_style_variations Includes style nodes for block style variations. Default false.
+	 * }
 	 * @return array An array of style nodes metadata.
 	 */
-	protected static function get_style_nodes( $theme_json, $selectors = array() ) {
+	protected static function get_style_nodes( $theme_json, $selectors = array(), $options = array() ) {
 		$nodes = array();
 		if ( ! isset( $theme_json['styles'] ) ) {
 			return $nodes;
@@ -2493,7 +2501,7 @@ class WP_Theme_JSON {
 			return $nodes;
 		}
 
-		$block_nodes = static::get_block_nodes( $theme_json );
+		$block_nodes = static::get_block_nodes( $theme_json, $selectors, $options );
 		foreach ( $block_nodes as $block_node ) {
 			$nodes[] = $block_node;
 		}
@@ -2564,12 +2572,19 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.1.0
 	 * @since 6.3.0 Refactored and stabilized selectors API.
+	 * @since 6.6.0 Added optional selectors and options for generating block nodes.
 	 *
 	 * @param array $theme_json The theme.json converted to an array.
+	 * @param array $selectors  Optional list of selectors per block.
+	 * @param array $options {
+	 *     Optional. An array of options for now used for internal purposes only (may change without notice).
+	 *
+	 *     @type bool   $include_block_style_variations  Includes nodes for block style variations. Default false.
+	 * }
 	 * @return array The block nodes in theme.json.
 	 */
-	private static function get_block_nodes( $theme_json ) {
-		$selectors = static::get_blocks_metadata();
+	private static function get_block_nodes( $theme_json, $selectors = array(), $options = array() ) {
+		$selectors = empty( $selectors ) ? static::get_blocks_metadata() : $selectors;
 		$nodes     = array();
 		if ( ! isset( $theme_json['styles'] ) ) {
 			return $nodes;
@@ -2597,7 +2612,8 @@ class WP_Theme_JSON {
 			}
 
 			$variation_selectors = array();
-			if ( isset( $node['variations'] ) ) {
+			$include_variations  = $options['include_block_style_variations'] ?? false;
+			if ( $include_variations && isset( $node['variations'] ) ) {
 				foreach ( $node['variations'] as $variation => $node ) {
 					$variation_selectors[] = array(
 						'path'     => array( 'styles', 'blocks', $name, 'variations', $variation ),
@@ -3280,7 +3296,8 @@ class WP_Theme_JSON {
 		$theme_json = static::sanitize( $theme_json, $valid_block_names, $valid_element_names, $valid_variations );
 
 		$blocks_metadata = static::get_blocks_metadata();
-		$style_nodes     = static::get_style_nodes( $theme_json, $blocks_metadata );
+		$style_options   = array( 'include_block_style_variations' => true ); // Allow variations data.
+		$style_nodes     = static::get_style_nodes( $theme_json, $blocks_metadata, $style_options );
 
 		foreach ( $style_nodes as $metadata ) {
 			$input = _wp_array_get( $theme_json, $metadata['path'], array() );
