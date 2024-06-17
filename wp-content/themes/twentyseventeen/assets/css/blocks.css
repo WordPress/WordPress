@@ -369,6 +369,17 @@ p.has-drop-cap:not(:focus)::first-letter {
 	border-top: none;
 }
 
+/* Site Logo */
+
+:root .entry-content .wp-block-site-logo a.custom-logo-link {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.entry-content .wp-block-site-logo img {
+	max-height: none;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Colors
 --------------------------------------------------------------*/
