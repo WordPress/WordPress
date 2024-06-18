@@ -725,6 +725,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 6.6.0 Added configurable scope parameter to allow filtering
 	 *              theme.json partial files by the scope to which they
 	 *              can be applied e.g. theme vs block etc.
+	 *              Added basic caching for read theme.json partial files.
 	 *
 	 * @param string $scope The scope or type of style variation to retrieve e.g. theme, block etc.
 	 * @return array
@@ -751,7 +752,7 @@ class WP_Theme_JSON_Resolver {
 		}
 		ksort( $variation_files );
 		foreach ( $variation_files as $path => $file ) {
-			$decoded_file = wp_json_file_decode( $path, array( 'associative' => true ) );
+			$decoded_file = self::read_json_file( $path );
 			if ( is_array( $decoded_file ) && static::style_variation_has_scope( $decoded_file, $scope ) ) {
 				$translated = static::translate( $decoded_file, wp_get_theme()->get( 'TextDomain' ) );
 				$variation  = ( new WP_Theme_JSON( $translated ) )->get_raw_data();
