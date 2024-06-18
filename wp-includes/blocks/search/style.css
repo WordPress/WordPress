@@ -31,8 +31,7 @@
 }
 
 .wp-block-search__input{
-  -webkit-appearance:initial;
-          appearance:none;
+  appearance:none;
   border:1px solid #949494;
   flex-grow:1;
   margin-left:0;

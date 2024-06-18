@@ -112,7 +112,6 @@
 .screen-reader-text{
   border:0;
   clip:rect(1px, 1px, 1px, 1px);
-  -webkit-clip-path:inset(50%);
   clip-path:inset(50%);
   height:1px;
   margin:-1px;
@@ -126,8 +125,7 @@
 .screen-reader-text:focus{
   background-color:#ddd;
   clip:auto !important;
-  -webkit-clip-path:none;
-          clip-path:none;
+  clip-path:none;
   color:#444;
   display:block;
   font-size:1em;

@@ -2637,8 +2637,7 @@ ul.wp-block-rss.is-grid li{
 }
 
 .wp-block-search__input{
-  -webkit-appearance:initial;
-          appearance:none;
+  appearance:none;
   border:1px solid #949494;
   flex-grow:1;
   margin-left:0;
@@ -3493,7 +3492,6 @@ a[data-fn].fn:after{
 .screen-reader-text{
   border:0;
   clip:rect(1px, 1px, 1px, 1px);
-  -webkit-clip-path:inset(50%);
   clip-path:inset(50%);
   height:1px;
   margin:-1px;
@@ -3507,8 +3505,7 @@ a[data-fn].fn:after{
 .screen-reader-text:focus{
   background-color:#ddd;
   clip:auto !important;
-  -webkit-clip-path:none;
-          clip-path:none;
+  clip-path:none;
   color:#444;
   display:block;
   font-size:1em;

@@ -57,3 +57,16 @@
   justify-content:center;
   width:100%;
 }
+
+.patterns-pattern-overrides-toolbar-indicator__popover .components-popover__content{
+  min-width:260px;
+  padding:16px;
+}
+
+.patterns-pattern-overrides-toolbar-indicator .patterns-pattern-overrides-toolbar-indicator-icon.has-colors svg{
+  fill:var(--wp-block-synced-color);
+}
+
+.editor-collapsible-block-toolbar .patterns-pattern-overrides-toolbar-indicator{
+  height:32px;
+}

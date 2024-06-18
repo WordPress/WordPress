@@ -390,8 +390,7 @@ p+.components-button.is-tertiary{
 }
 
 .components-checkbox-control__input[type=checkbox]{
-  -webkit-appearance:none;
-          appearance:none;
+  appearance:none;
   background:#fff;
   border:1px solid #1e1e1e;
   border-radius:2px;
@@ -2400,8 +2399,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 
 .components-radio-control__input[type=radio]{
-  -webkit-appearance:none;
-          appearance:none;
+  appearance:none;
   border:1px solid #1e1e1e;
   border-radius:2px;
   border-radius:50%;

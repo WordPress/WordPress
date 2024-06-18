@@ -902,19 +902,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   margin-bottom:4px;
 }
 
-.entities-saved-states__post-meta{
-  align-items:center;
-  margin-left:24px;
-}
-
-.entities-saved-states__connections-icon{
-  flex-grow:0;
-}
-
-.entities-saved-states__bindings-text{
-  flex-grow:1;
-}
-
 .editor-error-boundary{
   box-shadow:0 .7px 1px #00000026,0 2.7px 3.8px -.2px #00000026,0 5.5px 7.8px -.3px #00000026,.1px 11.5px 16.4px -.5px #00000026;
   margin:60px auto auto;
@@ -2148,8 +2135,7 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 }
 
 .editor-resizable-editor__resize-handle{
-  -webkit-appearance:none;
-          appearance:none;
+  appearance:none;
   background:none;
   border:0;
   border-radius:2px;

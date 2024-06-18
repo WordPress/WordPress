@@ -7522,7 +7522,7 @@ const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 const {
   lock,
   unlock: lock_unlock_unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/edit-site');
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/edit-site');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/hooks/use-theme-style-variations/use-theme-style-variations-by-property.js
 /**
@@ -8150,7 +8150,7 @@ function PushChangesToGlobalStylesControl({
       // notification.
       __unstableMarkNextChangeAsNotPersistent();
       setAttributes(newBlockAttributes);
-      setUserConfig(() => newUserConfig, {
+      setUserConfig(newUserConfig, {
         undoIgnore: true
       });
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
@@ -8162,7 +8162,7 @@ function PushChangesToGlobalStylesControl({
           onClick() {
             __unstableMarkNextChangeAsNotPersistent();
             setAttributes(attributes);
-            setUserConfig(() => userConfig, {
+            setUserConfig(userConfig, {
               undoIgnore: true
             });
           }
@@ -13751,6 +13751,7 @@ function TypographyElements() {
  */
 
 
+
 const {
   mergeBaseAndUserConfigs: variation_mergeBaseAndUserConfigs
 } = lock_unlock_unlock(external_wp_editor_namespaceObject.privateApis);
@@ -13761,7 +13762,8 @@ const {
 function Variation({
   variation,
   children,
-  isPill
+  isPill,
+  property
 }) {
   const [isFocused, setIsFocused] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
@@ -13770,25 +13772,18 @@ function Variation({
     setUserConfig
   } = (0,external_wp_element_namespaceObject.useContext)(variation_GlobalStylesContext);
   const context = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    var _variation$settings, _variation$styles, _variation$_links;
+    let merged = variation_mergeBaseAndUserConfigs(base, variation);
+    if (property) {
+      merged = filterObjectByProperty(merged, property);
+    }
     return {
-      user: {
-        settings: (_variation$settings = variation.settings) !== null && _variation$settings !== void 0 ? _variation$settings : {},
-        styles: (_variation$styles = variation.styles) !== null && _variation$styles !== void 0 ? _variation$styles : {},
-        _links: (_variation$_links = variation._links) !== null && _variation$_links !== void 0 ? _variation$_links : {}
-      },
+      user: variation,
       base,
-      merged: variation_mergeBaseAndUserConfigs(base, variation),
+      merged,
       setUserConfig: () => {}
     };
-  }, [variation, base]);
-  const selectVariation = () => {
-    setUserConfig(() => ({
-      settings: variation.settings,
-      styles: variation.styles,
-      _links: variation._links
-    }));
-  };
+  }, [variation, base, property]);
+  const selectVariation = () => setUserConfig(variation);
   const selectOnEnter = event => {
     if (event.keyCode === external_wp_keycodes_namespaceObject.ENTER) {
       event.preventDefault();
@@ -13862,6 +13857,7 @@ function TypographyVariations({
       className: "edit-site-global-styles-style-variations-container",
       children: typographyVariations && typographyVariations.length && typographyVariations.map((variation, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Variation, {
         variation: variation,
+        property: "typography",
         children: isFocused => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PreviewIframe, {
           label: variation?.title,
           isFocused: isFocused,
@@ -15283,6 +15279,7 @@ function ConfirmDeleteDialog({
     confirmButtonText: (0,external_wp_i18n_namespaceObject.__)('Delete'),
     onCancel: handleCancelUninstall,
     onConfirm: handleConfirmUninstall,
+    size: "medium",
     children: font && (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Name of the font. */
     (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete "%s" font and all its variants and assets?'), font.name)
   });
@@ -20684,6 +20681,7 @@ function ColorVariations({
       children: colorVariations.map((variation, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Variation, {
         variation: variation,
         isPill: true,
+        property: "color",
         children: () => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(preview_colors, {})
       }, index))
     })]
@@ -21414,6 +21412,7 @@ function ShadowsEditPanel() {
         setIsConfirmDialogVisible(false);
       },
       confirmButtonText: (0,external_wp_i18n_namespaceObject.__)('Delete'),
+      size: "medium",
       children: (0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: name of the shadow
       'Are you sure you want to delete "%s"?', selectedShadow.name)
@@ -23215,25 +23214,9 @@ function ScreenRevisions() {
     setEditorCanvasContainerView(canvasContainerView);
   };
   const restoreRevision = revision => {
-    setUserConfig(() => ({
-      styles: revision?.styles,
-      settings: revision?.settings,
-      _links: revision?._links
-    }));
+    setUserConfig(() => revision);
     setIsLoadingRevisionWithUnsavedChanges(false);
     onCloseRevisions();
-  };
-  const selectRevision = revision => {
-    setCurrentlySelectedRevision({
-      /*
-       * The default must be an empty object so that
-       * `mergeBaseAndUserConfigs()` can merge them correctly.
-       */
-      styles: revision?.styles || {},
-      settings: revision?.settings || {},
-      _links: revision?._links || {},
-      id: revision?.id
-    });
   };
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!editorCanvasContainerView || !editorCanvasContainerView.startsWith('global-styles-revisions')) {
@@ -23257,11 +23240,7 @@ function ScreenRevisions() {
      * See: https://github.com/WordPress/gutenberg/issues/55866
      */
     if (shouldSelectFirstItem) {
-      setCurrentlySelectedRevision({
-        styles: firstRevision?.styles || {},
-        settings: firstRevision?.settings || {},
-        id: firstRevision?.id
-      });
+      setCurrentlySelectedRevision(firstRevision);
     }
   }, [shouldSelectFirstItem, firstRevision]);
 
@@ -23289,7 +23268,7 @@ function ScreenRevisions() {
       userConfig: currentlySelectedRevision,
       closeButtonLabel: (0,external_wp_i18n_namespaceObject.__)('Close revisions')
     })), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(revisions_buttons, {
-      onChange: selectRevision,
+      onChange: setCurrentlySelectedRevision,
       selectedRevisionId: currentlySelectedRevisionId,
       userRevisions: currentRevisions,
       canApplyRevision: isLoadButtonEnabled,
@@ -23310,6 +23289,7 @@ function ScreenRevisions() {
       confirmButtonText: (0,external_wp_i18n_namespaceObject.__)('Apply'),
       onConfirm: () => restoreRevision(currentlySelectedRevision),
       onCancel: () => setIsLoadingRevisionWithUnsavedChanges(false),
+      size: "medium",
       children: (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to apply this revision? Any unsaved changes will be lost.')
     })]
   });
@@ -24280,6 +24260,7 @@ function useEditorTitle() {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -24401,7 +24382,7 @@ function EditSiteEditor({
           const _title = typeof newItem.title === 'string' ? newItem.title : newItem.title?.rendered;
           createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
           // translators: %s: Title of the created post e.g: "Post 1".
-          (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), _title), {
+          (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(_title)), {
             type: 'snackbar',
             id: 'duplicate-post-action',
             actions: [{
@@ -24558,7 +24539,7 @@ const pagination_Pagination = (0,external_wp_element_namespaceObject.memo)(funct
 const {
   lock: lock_unlock_lock,
   unlock: build_module_lock_unlock_unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/dataviews');
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/dataviews');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dataviews/build-module/constants.js
 /**
@@ -32756,6 +32737,7 @@ const DEFAULT_VIEWS = {
 
 
 
+
 function AddNewPageModal({
   onSave,
   onClose
@@ -32786,7 +32768,7 @@ function AddNewPageModal({
       onSave(newPage);
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: Title of the created template e.g: "Category".
-      (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), newPage.title?.rendered || title), {
+      (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(newPage.title?.rendered || title)), {
         type: 'snackbar'
       });
     } catch (error) {
@@ -38122,6 +38104,7 @@ function DeleteConfirmDialog({
     },
     onCancel: onClose,
     confirmButtonText: (0,external_wp_i18n_namespaceObject.__)('Delete'),
+    size: "medium",
     children: (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete this Navigation Menu?')
   });
 }
@@ -40414,6 +40397,8 @@ function App() {
 
 
 
+
+const isSiteEditor = (0,external_wp_url_namespaceObject.getPath)(window.location.href)?.includes('site-editor.php');
 const deprecateSlot = name => {
   external_wp_deprecated_default()(`wp.editPost.${name}`, {
     since: '6.6',
@@ -40426,6 +40411,9 @@ const deprecateSlot = name => {
  * @see PluginMoreMenuItem in @wordpress/editor package.
  */
 function PluginMoreMenuItem(props) {
+  if (!isSiteEditor) {
+    return null;
+  }
   deprecateSlot('PluginMoreMenuItem');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.PluginMoreMenuItem, {
     ...props
@@ -40436,6 +40424,9 @@ function PluginMoreMenuItem(props) {
  * @see PluginSidebar in @wordpress/editor package.
  */
 function PluginSidebar(props) {
+  if (!isSiteEditor) {
+    return null;
+  }
   deprecateSlot('PluginSidebar');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.PluginSidebar, {
     ...props
@@ -40446,6 +40437,9 @@ function PluginSidebar(props) {
  * @see PluginSidebarMoreMenuItem in @wordpress/editor package.
  */
 function PluginSidebarMoreMenuItem(props) {
+  if (!isSiteEditor) {
+    return null;
+  }
   deprecateSlot('PluginSidebarMoreMenuItem');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.PluginSidebarMoreMenuItem, {
     ...props

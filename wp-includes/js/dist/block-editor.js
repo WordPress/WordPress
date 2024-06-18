@@ -10451,7 +10451,7 @@ const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 const {
   lock,
   unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/block-editor');
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/block-editor');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/constants.js
 const STORE_NAME = 'core/block-editor';
@@ -12667,13 +12667,12 @@ function canInsertBlocks(state, clientIds, rootClientId = null) {
 /**
  * Determines if the given block is allowed to be deleted.
  *
- * @param {Object}  state        Editor state.
- * @param {string}  clientId     The block client Id.
- * @param {?string} rootClientId Optional root client ID of block list.
+ * @param {Object} state    Editor state.
+ * @param {string} clientId The block client Id.
  *
  * @return {boolean} Whether the given block is allowed to be removed.
  */
-function canRemoveBlock(state, clientId, rootClientId = null) {
+function canRemoveBlock(state, clientId) {
   const attributes = getBlockAttributes(state, clientId);
   if (attributes === null) {
     return true;
@@ -12681,6 +12680,7 @@ function canRemoveBlock(state, clientId, rootClientId = null) {
   if (attributes.lock?.remove !== undefined) {
     return !attributes.lock.remove;
   }
+  const rootClientId = getBlockRootClientId(state, clientId);
   if (getTemplateLock(state, rootClientId)) {
     return false;
   }
@@ -12690,26 +12690,24 @@ function canRemoveBlock(state, clientId, rootClientId = null) {
 /**
  * Determines if the given blocks are allowed to be removed.
  *
- * @param {Object}  state        Editor state.
- * @param {string}  clientIds    The block client IDs to be removed.
- * @param {?string} rootClientId Optional root client ID of block list.
+ * @param {Object} state     Editor state.
+ * @param {string} clientIds The block client IDs to be removed.
  *
  * @return {boolean} Whether the given blocks are allowed to be removed.
  */
-function canRemoveBlocks(state, clientIds, rootClientId = null) {
-  return clientIds.every(clientId => canRemoveBlock(state, clientId, rootClientId));
+function canRemoveBlocks(state, clientIds) {
+  return clientIds.every(clientId => canRemoveBlock(state, clientId));
 }
 
 /**
  * Determines if the given block is allowed to be moved.
  *
- * @param {Object}  state        Editor state.
- * @param {string}  clientId     The block client Id.
- * @param {?string} rootClientId Optional root client ID of block list.
+ * @param {Object} state    Editor state.
+ * @param {string} clientId The block client Id.
  *
  * @return {boolean | undefined} Whether the given block is allowed to be moved.
  */
-function canMoveBlock(state, clientId, rootClientId = null) {
+function canMoveBlock(state, clientId) {
   const attributes = getBlockAttributes(state, clientId);
   if (attributes === null) {
     return true;
@@ -12717,6 +12715,7 @@ function canMoveBlock(state, clientId, rootClientId = null) {
   if (attributes.lock?.move !== undefined) {
     return !attributes.lock.move;
   }
+  const rootClientId = getBlockRootClientId(state, clientId);
   if (getTemplateLock(state, rootClientId) === 'all') {
     return false;
   }
@@ -12726,14 +12725,13 @@ function canMoveBlock(state, clientId, rootClientId = null) {
 /**
  * Determines if the given blocks are allowed to be moved.
  *
- * @param {Object}  state        Editor state.
- * @param {string}  clientIds    The block client IDs to be moved.
- * @param {?string} rootClientId Optional root client ID of block list.
+ * @param {Object} state     Editor state.
+ * @param {string} clientIds The block client IDs to be moved.
  *
  * @return {boolean} Whether the given blocks are allowed to be moved.
  */
-function canMoveBlocks(state, clientIds, rootClientId = null) {
-  return clientIds.every(clientId => canMoveBlock(state, clientId, rootClientId));
+function canMoveBlocks(state, clientIds) {
+  return clientIds.every(clientId => canMoveBlock(state, clientId));
 }
 
 /**
@@ -13730,7 +13728,7 @@ const isGroupable = (0,external_wp_data_namespaceObject.createRegistrySelector)(
   const rootClientId = _clientIds?.length ? getBlockRootClientId(state, _clientIds[0]) : undefined;
   const groupingBlockAvailable = canInsertBlockType(state, groupingBlockName, rootClientId);
   const _isGroupable = groupingBlockAvailable && _clientIds.length;
-  return _isGroupable && canRemoveBlocks(state, _clientIds, rootClientId);
+  return _isGroupable && canRemoveBlocks(state, _clientIds);
 });
 
 /**
@@ -13897,8 +13895,7 @@ const privateRemoveBlocks = (clientIds, selectPrevious = true, forceRemove = fal
     return;
   }
   clientIds = castArray(clientIds);
-  const rootClientId = select.getBlockRootClientId(clientIds[0]);
-  const canRemoveBlocks = select.canRemoveBlocks(clientIds, rootClientId);
+  const canRemoveBlocks = select.canRemoveBlocks(clientIds);
   if (!canRemoveBlocks) {
     return;
   }
@@ -14626,7 +14623,7 @@ const createOnMove = type => (clientIds, rootClientId) => ({
   dispatch
 }) => {
   // If one of the blocks is locked or the parent is locked, we cannot move any block.
-  const canMoveBlocks = select.canMoveBlocks(clientIds, rootClientId);
+  const canMoveBlocks = select.canMoveBlocks(clientIds);
   if (!canMoveBlocks) {
     return;
   }
@@ -14651,7 +14648,7 @@ const moveBlocksToPosition = (clientIds, fromRootClientId = '', toRootClientId =
   select,
   dispatch
 }) => {
-  const canMoveBlocks = select.canMoveBlocks(clientIds, fromRootClientId);
+  const canMoveBlocks = select.canMoveBlocks(clientIds);
 
   // If one of the blocks is locked or the parent is locked, we cannot move any block.
   if (!canMoveBlocks) {
@@ -14660,7 +14657,7 @@ const moveBlocksToPosition = (clientIds, fromRootClientId = '', toRootClientId =
 
   // If moving inside the same root block the move is always possible.
   if (fromRootClientId !== toRootClientId) {
-    const canRemoveBlocks = select.canRemoveBlocks(clientIds, fromRootClientId);
+    const canRemoveBlocks = select.canRemoveBlocks(clientIds);
 
     // If we're moving to another block, it means we're deleting blocks from
     // the original block, so we need to check if removing is possible.
@@ -15074,7 +15071,7 @@ const __unstableSplitSelection = (blocks = []) => ({
       })
     }
   };
-  const tail = {
+  let tail = {
     ...blockB,
     // Only preserve the original client ID if the end is different.
     clientId: blockA.clientId === blockB.clientId ? (0,external_wp_blocks_namespaceObject.createBlock)(blockB.name).clientId : blockB.clientId,
@@ -15085,6 +15082,22 @@ const __unstableSplitSelection = (blocks = []) => ({
       })
     }
   };
+
+  // When splitting a block, attempt to convert the tail block to the
+  // default block type. For example, when splitting a heading block, the
+  // tail block will be converted to a paragraph block. Note that for
+  // blocks such as a list item and button, this will be skipped because
+  // the default block type cannot be inserted.
+  const defaultBlockName = (0,external_wp_blocks_namespaceObject.getDefaultBlockName)();
+  if (
+  // A block is only split when the selection is within the same
+  // block.
+  blockA.clientId === blockB.clientId && defaultBlockName && tail.name !== defaultBlockName && select.canInsertBlockType(defaultBlockName, anchorRootClientId)) {
+    const switched = (0,external_wp_blocks_namespaceObject.switchToBlockType)(tail, defaultBlockName);
+    if (switched?.length === 1) {
+      tail = switched[0];
+    }
+  }
   if (!blocks.length) {
     dispatch.replaceBlocks(select.getSelectedBlockClientIds(), [head, tail]);
     return;
@@ -16992,7 +17005,7 @@ const useGlobalStylesReset = () => {
     setUserConfig
   } = (0,external_wp_element_namespaceObject.useContext)(GlobalStylesContext);
   const canReset = !!config && !es6_default()(config, EMPTY_CONFIG);
-  return [canReset, (0,external_wp_element_namespaceObject.useCallback)(() => setUserConfig(() => EMPTY_CONFIG), [setUserConfig])];
+  return [canReset, (0,external_wp_element_namespaceObject.useCallback)(() => setUserConfig(EMPTY_CONFIG), [setUserConfig])];
 };
 function useGlobalSetting(propertyPath, blockName, source = 'all') {
   const {
@@ -17591,7 +17604,8 @@ function createBlockListBlockFilter(features) {
       const {
         hasSupport,
         attributeKeys = [],
-        useBlockProps
+        useBlockProps,
+        isMatch
       } = feature;
       const neededProps = {};
       for (const key of attributeKeys) {
@@ -17602,7 +17616,7 @@ function createBlockListBlockFilter(features) {
       if (
       // Skip rendering if none of the needed attributes are
       // set.
-      !Object.keys(neededProps).length || !hasSupport(props.name)) {
+      !Object.keys(neededProps).length || !hasSupport(props.name) || isMatch && !isMatch(neededProps)) {
         return null;
       }
       return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockPropsPure
@@ -30529,10 +30543,10 @@ function useSpacingSizes() {
       size: 0
     }, ...customSizes, ...themeSizes, ...defaultSizes];
 
-    // Only sort if more than one origin has presets defined in order to
-    // preserve order for themes that don't include default presets and
-    // want a custom order.
-    if ((customSizes.length && 1) + (themeSizes.length && 1) + (defaultSizes.length && 1) > 1) {
+    // Using numeric slugs opts-in to sorting by slug.
+    if (sizes.every(({
+      slug
+    }) => /^[0-9]/.test(slug))) {
       sizes.sort((a, b) => compare(a.slug, b.slug));
     }
     return sizes.length > RANGE_CONTROL_MAX_SIZE ? [{
@@ -34118,6 +34132,9 @@ const getNodesWithStyles = (tree, blockSelectors) => {
       Object.entries(node.variations).forEach(([variationName, variation]) => {
         var _variation$elements, _variation$blocks;
         variations[variationName] = pickStyleKeys(variation);
+        if (variation?.css) {
+          variations[variationName].css = variation.css;
+        }
         const variationSelector = blockSelectors[blockName].styleVariationSelectors?.[variationName];
 
         // Process the variation's inner element styles.
@@ -34139,13 +34156,17 @@ const getNodesWithStyles = (tree, blockSelectors) => {
           const variationBlockSelector = scopeSelector(variationSelector, blockSelectors[variationBlockName].selector);
           const variationDuotoneSelector = scopeSelector(variationSelector, blockSelectors[variationBlockName].duotoneSelector);
           const variationFeatureSelectors = scopeFeatureSelectors(variationSelector, blockSelectors[variationBlockName].featureSelectors);
+          const variationBlockStyleNodes = pickStyleKeys(variationBlockStyles);
+          if (variationBlockStyles?.css) {
+            variationBlockStyleNodes.css = variationBlockStyles.css;
+          }
           nodes.push({
             selector: variationBlockSelector,
             duotoneSelector: variationDuotoneSelector,
             featureSelectors: variationFeatureSelectors,
             fallbackGapValue: blockSelectors[variationBlockName].fallbackGapValue,
             hasLayoutSupport: blockSelectors[variationBlockName].hasLayoutSupport,
-            styles: pickStyleKeys(variationBlockStyles)
+            styles: variationBlockStyleNodes
           });
 
           // Process element styles for the inner blocks
@@ -34353,6 +34374,9 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
       if (styleDeclarations?.length) {
         ruleset += `:root :where(${selector}){${styleDeclarations.join(';')};}`;
       }
+      if (styles?.css) {
+        ruleset += processCSSNesting(styles.css, `:root :where(${selector})`);
+      }
       if (styleVariationSelectors) {
         Object.entries(styleVariationSelectors).forEach(([styleVariationName, styleVariationSelector]) => {
           const styleVariations = styles?.variations?.[styleVariationName];
@@ -34373,6 +34397,9 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
             const styleVariationDeclarations = getStylesDeclarations(styleVariations, styleVariationSelector, useRootPaddingAlign, tree);
             if (styleVariationDeclarations.length) {
               ruleset += `:root :where(${styleVariationSelector}){${styleVariationDeclarations.join(';')};}`;
+            }
+            if (styleVariations?.css) {
+              ruleset += processCSSNesting(styleVariations.css, `:root :where(${styleVariationSelector})`);
             }
           }
         });
@@ -34644,6 +34671,21 @@ function useGlobalStylesOutput(disableRootPadding = false) {
 
 
 
+const VARIATION_PREFIX = 'is-style-';
+function getVariationMatches(className) {
+  if (!className) {
+    return [];
+  }
+  return className.split(/\s+/).reduce((matches, name) => {
+    if (name.startsWith(VARIATION_PREFIX)) {
+      const match = name.slice(VARIATION_PREFIX.length);
+      if (match !== 'default') {
+        matches.push(match);
+      }
+    }
+    return matches;
+  }, []);
+}
 
 /**
  * Get the first block style variation that has been registered from the class string.
@@ -34656,12 +34698,11 @@ function useGlobalStylesOutput(disableRootPadding = false) {
 function getVariationNameFromClass(className, registeredStyles = []) {
   // The global flag affects how capturing groups work in JS. So the regex
   // below will only return full CSS classes not just the variation name.
-  const matches = className?.match(/\bis-style-(?!default)(\S+)\b/g);
+  const matches = getVariationMatches(className);
   if (!matches) {
     return null;
   }
-  for (const variationClass of matches) {
-    const variation = variationClass.substring(9); // Remove 'is-style-' prefix.
+  for (const variation of matches) {
     if (registeredStyles.some(style => style.name === variation)) {
       return variation;
     }
@@ -34720,7 +34761,7 @@ function block_style_variation_useBlockProps({
   } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blocks_namespaceObject.store);
   const registeredStyles = getBlockStyles(name);
   const variation = getVariationNameFromClass(className, registeredStyles);
-  const variationClass = `is-style-${variation}-${clientId}`;
+  const variationClass = `${VARIATION_PREFIX}${variation}-${clientId}`;
   const {
     settings,
     styles
@@ -34763,6 +34804,9 @@ function block_style_variation_useBlockProps({
 /* harmony default export */ const block_style_variation = ({
   hasSupport: () => true,
   attributeKeys: ['className'],
+  isMatch: ({
+    className
+  }) => getVariationMatches(className).length > 0,
   useBlockProps: block_style_variation_useBlockProps
 });
 
@@ -35688,13 +35732,11 @@ function useBlockLock(clientId) {
       canRemoveBlock,
       canLockBlockType,
       getBlockName,
-      getBlockRootClientId,
       getTemplateLock
     } = select(store);
-    const rootClientId = getBlockRootClientId(clientId);
     const canEdit = canEditBlock(clientId);
-    const canMove = canMoveBlock(clientId, rootClientId);
-    const canRemove = canRemoveBlock(clientId, rootClientId);
+    const canMove = canMoveBlock(clientId);
+    const canRemove = canRemoveBlock(clientId);
     return {
       canEdit,
       canMove,
@@ -36809,6 +36851,7 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
     clientId,
     context
   } = props;
+  const hasPatternOverridesDefaultBinding = props.attributes.metadata?.bindings?.[DEFAULT_ATTRIBUTE]?.source === 'core/pattern-overrides';
   const bindings = (0,external_wp_element_namespaceObject.useMemo)(() => replacePatternOverrideDefaultBindings(name, props.attributes.metadata?.bindings), [props.attributes.metadata?.bindings, name]);
   const boundAttributes = (0,external_wp_data_namespaceObject.useSelect)(() => {
     if (!bindings) {
@@ -36892,11 +36935,15 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
           }
         }
       }
-      if (Object.keys(keptAttributes).length) {
+
+      // Only apply normal attribute updates to blocks
+      // that have partial bindings. Currently this is
+      // only skipped for pattern overrides sources.
+      if (!hasPatternOverridesDefaultBinding && Object.keys(keptAttributes).length) {
         setAttributes(keptAttributes);
       }
     });
-  }, [registry, bindings, name, clientId, context, setAttributes, sources]);
+  }, [registry, bindings, name, clientId, context, setAttributes, sources, hasPatternOverridesDefaultBinding]);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockEdit, {
       ...props,
@@ -36980,23 +37027,26 @@ const BlockBindingsPanel = ({
   }
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(inspector_controls, {
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.PanelBody, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Bindings'),
+      title: (0,external_wp_i18n_namespaceObject.__)('Attributes'),
       className: "components-panel__block-bindings-panel",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItemGroup, {
-        isBordered: true,
-        isSeparated: true,
-        size: "large",
-        children: Object.keys(filteredBindings).map(key => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItem, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-                children: key
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-                className: "components-item__block-bindings-source",
-                children: sources[filteredBindings[key].source] ? sources[filteredBindings[key].source].label : filteredBindings[key].source
-              })]
-            })
-          }, key);
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.BaseControl, {
+        help: (0,external_wp_i18n_namespaceObject.__)('Attributes connected to various sources.'),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItemGroup, {
+          isBordered: true,
+          isSeparated: true,
+          size: "large",
+          children: Object.keys(filteredBindings).map(key => {
+            return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItem, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
+                  children: key
+                }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
+                  className: "components-item__block-bindings-source",
+                  children: sources[filteredBindings[key].source] ? sources[filteredBindings[key].source].label : filteredBindings[key].source
+                })]
+              })
+            }, key);
+          })
         })
       })
     })
@@ -40740,8 +40790,8 @@ function BlockListBlockProvider(props) {
       return previewContext;
     }
     const _isSelected = isBlockSelected(clientId);
-    const canRemove = canRemoveBlock(clientId, rootClientId);
-    const canMove = canMoveBlock(clientId, rootClientId);
+    const canRemove = canRemoveBlock(clientId);
+    const canMove = canMoveBlock(clientId);
     const match = getActiveBlockVariation(blockName, attributes);
     const isMultiSelected = isBlockMultiSelected(clientId);
     const checkDeep = true;
@@ -48785,7 +48835,9 @@ function useInBetweenInserter() {
       return;
     }
     function onMouseMove(event) {
-      if (openRef.current) {
+      // openRef is the reference to the insertion point between blocks.
+      // If the reference is not set or the insertion point is already open, return.
+      if (openRef === undefined || openRef.current) {
         return;
       }
 
@@ -50997,7 +51049,7 @@ const BlockDraggable = ({
     const variation = getActiveBlockVariation(blockName, getBlockAttributes(clientIds[0]));
     return {
       srcRootClientId: rootClientId,
-      isDraggable: canMoveBlocks(clientIds, rootClientId),
+      isDraggable: canMoveBlocks(clientIds),
       icon: variation?.icon || _getBlockType(blockName)?.icon,
       visibleInserter: isBlockInsertionPointVisible(),
       getBlockType: _getBlockType
@@ -51573,7 +51625,7 @@ function BlockMover({
     const lastIndex = getBlockIndex(normalizedClientIds[normalizedClientIds.length - 1]);
     const blockOrder = getBlockOrder(_rootClientId);
     return {
-      canMove: canMoveBlocks(clientIds, _rootClientId),
+      canMove: canMoveBlocks(clientIds),
       rootClientId: _rootClientId,
       isFirst: firstIndex === 0,
       isLast: lastIndex === blockOrder.length - 1,
@@ -51951,7 +52003,6 @@ function useBlockVariationTransforms({
     blockVariationTransformations
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getBlockRootClientId,
       getBlockAttributes,
       canRemoveBlocks
     } = select(store);
@@ -51959,8 +52010,7 @@ function useBlockVariationTransforms({
       getActiveBlockVariation,
       getBlockVariations
     } = select(external_wp_blocks_namespaceObject.store);
-    const rootClientId = getBlockRootClientId(Array.isArray(clientIds) ? clientIds[0] : clientIds);
-    const canRemove = canRemoveBlocks(clientIds, rootClientId);
+    const canRemove = canRemoveBlocks(clientIds);
     // Only handle single selected blocks for now.
     if (blocks.length !== 1 || !canRemove) {
       return block_variation_transformations_EMPTY_OBJECT;
@@ -52742,7 +52792,8 @@ function BlockSwitcherDropdownMenuContents({
   onClose,
   clientIds,
   hasBlockStyles,
-  canRemove
+  canRemove,
+  isUsingBindings
 }) {
   const {
     replaceBlocks,
@@ -52813,6 +52864,7 @@ function BlockSwitcherDropdownMenuContents({
       children: (0,external_wp_i18n_namespaceObject.__)('No transforms.')
     });
   }
+  const connectedBlockDescription = isSingleBlock ? (0,external_wp_i18n_namespaceObject._x)('This block is connected.', 'block toolbar button label and description') : (0,external_wp_i18n_namespaceObject._x)('These blocks are connected.', 'block toolbar button label and description');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
     className: "block-editor-block-switcher__container",
     children: [hasPatternTransformation && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(pattern_transformations_menu, {
@@ -52838,12 +52890,18 @@ function BlockSwitcherDropdownMenuContents({
     }), hasBlockStyles && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockStylesMenu, {
       hoveredBlock: blocks[0],
       onSwitch: onClose
+    }), isUsingBindings && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuGroup, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
+        className: "block-editor-block-switcher__binding-indicator",
+        children: connectedBlockDescription
+      })
     })]
   });
 }
 const BlockSwitcher = ({
   clientIds,
-  disabled
+  disabled,
+  isUsingBindings
 }) => {
   const {
     canRemove,
@@ -52854,7 +52912,6 @@ const BlockSwitcher = ({
     isTemplate
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getBlockRootClientId,
       getBlocksByClientId,
       getBlockAttributes,
       canRemoveBlocks
@@ -52870,7 +52927,6 @@ const BlockSwitcher = ({
         invalidBlocks: true
       };
     }
-    const rootClientId = getBlockRootClientId(Array.isArray(clientIds) ? clientIds[0] : clientIds);
     const [{
       name: firstBlockName
     }] = _blocks;
@@ -52890,7 +52946,7 @@ const BlockSwitcher = ({
       _icon = isSelectionOfSameType ? blockType.icon : library_copy;
     }
     return {
-      canRemove: canRemoveBlocks(clientIds, rootClientId),
+      canRemove: canRemoveBlocks(clientIds),
       hasBlockStyles: _isSingleBlockSelected && !!getBlockStyles(firstBlockName)?.length,
       icon: _icon,
       isReusable: _isSingleBlockSelected && (0,external_wp_blocks_namespaceObject.isReusableBlock)(_blocks[0]),
@@ -52959,7 +53015,8 @@ const BlockSwitcher = ({
           onClose: onClose,
           clientIds: clientIds,
           hasBlockStyles: hasBlockStyles,
-          canRemove: canRemove
+          canRemove: canRemove,
+          isUsingBindings: isUsingBindings
         })
       })
     })
@@ -53450,18 +53507,16 @@ function BlockActions({
       getBlocksByClientId,
       getDirectInsertBlock,
       canMoveBlocks,
-      canRemoveBlocks,
-      getBlockEditingMode
+      canRemoveBlocks
     } = select(store);
     const blocks = getBlocksByClientId(clientIds);
     const rootClientId = getBlockRootClientId(clientIds[0]);
-    const rootBlockEditingMode = getBlockEditingMode(rootClientId);
     const canInsertDefaultBlock = canInsertBlockType(getDefaultBlockName(), rootClientId);
     const directInsertBlock = rootClientId ? getDirectInsertBlock(rootClientId) : null;
     return {
-      canMove: canMoveBlocks(clientIds, rootClientId),
-      canRemove: canRemoveBlocks(clientIds, rootClientId),
-      canInsertBlock: (canInsertDefaultBlock || !!directInsertBlock) && rootBlockEditingMode === 'default',
+      canMove: canMoveBlocks(clientIds),
+      canRemove: canRemoveBlocks(clientIds),
+      canInsertBlock: canInsertDefaultBlock || !!directInsertBlock,
       canCopyStyles: blocks.every(block => {
         return !!block && ((0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, 'color') || (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, 'typography'));
       }),
@@ -53847,7 +53902,7 @@ function BlockSettingsDropdown({
             onClick: (0,external_wp_compose_namespaceObject.pipe)(onClose, onDuplicate, updateSelectionAfterDuplicate),
             shortcut: shortcuts.duplicate,
             children: (0,external_wp_i18n_namespaceObject.__)('Duplicate')
-          }), canInsertBlock && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+          }), canInsertBlock && !isContentOnly && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
             children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuItem, {
               onClick: (0,external_wp_compose_namespaceObject.pipe)(onClose, onInsertBefore),
               shortcut: shortcuts.insertBefore,
@@ -54519,106 +54574,6 @@ function Shuffle({
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-bindings-toolbar-indicator/index.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-function BlockBindingsToolbarIndicator({
-  clientIds
-}) {
-  const isSingleBlockSelected = clientIds.length === 1;
-  const {
-    icon,
-    firstBlockName,
-    isConnectedToPatternOverrides
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getBlockAttributes,
-      getBlockNamesByClientId,
-      getBlocksByClientId
-    } = select(store);
-    const {
-      getBlockType,
-      getActiveBlockVariation
-    } = select(external_wp_blocks_namespaceObject.store);
-    const blockTypeNames = getBlockNamesByClientId(clientIds);
-    const _firstBlockTypeName = blockTypeNames[0];
-    const firstBlockType = getBlockType(_firstBlockTypeName);
-    let _icon;
-    if (isSingleBlockSelected) {
-      const match = getActiveBlockVariation(_firstBlockTypeName, getBlockAttributes(clientIds[0]));
-      // Take into account active block variations.
-      _icon = match?.icon || firstBlockType.icon;
-    } else {
-      const isSelectionOfSameType = new Set(blockTypeNames).size === 1;
-      // When selection consists of blocks of multiple types, display an
-      // appropriate icon to communicate the non-uniformity.
-      _icon = isSelectionOfSameType ? firstBlockType.icon : library_copy;
-    }
-    return {
-      icon: _icon,
-      firstBlockName: getBlockAttributes(clientIds[0]).metadata.name,
-      isConnectedToPatternOverrides: getBlocksByClientId(clientIds).some(block => Object.values(block?.attributes?.metadata?.bindings || {}).some(binding => binding.source === 'core/pattern-overrides'))
-    };
-  }, [clientIds, isSingleBlockSelected]);
-  const firstBlockTitle = useBlockDisplayTitle({
-    clientId: clientIds[0],
-    maximumLength: 35
-  });
-  let blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject._x)('This block is connected.', 'block toolbar button label and description') : (0,external_wp_i18n_namespaceObject._x)('These blocks are connected.', 'block toolbar button label and description');
-  if (isConnectedToPatternOverrides && firstBlockName) {
-    blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1s: The block type's name; %2s: The block's user-provided name (the same as the override name). */
-    (0,external_wp_i18n_namespaceObject.__)('This %1$s is editable using the "%2$s" override.'), firstBlockTitle.toLowerCase(), firstBlockName) : (0,external_wp_i18n_namespaceObject.__)('These blocks are editable using overrides.');
-  }
-  const descriptionId = (0,external_wp_element_namespaceObject.useId)();
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
-      children: toggleProps => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.DropdownMenu, {
-        className: "block-editor-block-bindings-toolbar-indicator",
-        label: firstBlockTitle,
-        popoverProps: {
-          placement: 'bottom-start',
-          className: 'block-editor-block-bindings-toolbar-indicator__popover'
-        },
-        icon: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_icon, {
-            icon: icon,
-            className: "block-editor-block-bindings-toolbar-indicator-icon",
-            showColors: true
-          })
-        }),
-        toggleProps: {
-          describedBy: blockDescription,
-          ...toggleProps
-        },
-        menuProps: {
-          orientation: 'both',
-          'aria-describedby': descriptionId
-        },
-        children: () => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
-          id: descriptionId,
-          children: blockDescription
-        })
-      })
-    })
-  });
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-controls/use-has-block-controls.js
 /**
  * WordPress dependencies
@@ -54734,7 +54689,6 @@ function useHasBlockToolbar() {
 
 
 
-
 /**
  * Renders the block toolbar.
  *
@@ -54762,7 +54716,6 @@ function PrivateBlockToolbar({
     blockClientIds,
     isDefaultEditingMode,
     blockType,
-    blockName,
     toolbarKey,
     shouldShowVisualToolbar,
     showParentSelector,
@@ -54789,12 +54742,11 @@ function PrivateBlockToolbar({
     const _blockName = getBlockName(selectedBlockClientId);
     const isValid = selectedBlockClientIds.every(id => isBlockValid(id));
     const isVisual = selectedBlockClientIds.every(id => getBlockMode(id) === 'visual');
-    const _isUsingBindings = !!getBlockAttributes(selectedBlockClientId)?.metadata?.bindings;
+    const _isUsingBindings = selectedBlockClientIds.every(clientId => !!getBlockAttributes(clientId)?.metadata?.bindings);
     return {
       blockClientId: selectedBlockClientId,
       blockClientIds: selectedBlockClientIds,
       isDefaultEditingMode: _isDefaultEditingMode,
-      blockName: _blockName,
       blockType: selectedBlockClientId && (0,external_wp_blocks_namespaceObject.getBlockType)(_blockName),
       shouldShowVisualToolbar: isValid && isVisual,
       rootClientId: blockRootClientId,
@@ -54824,7 +54776,8 @@ function PrivateBlockToolbar({
     'has-parent': showParentSelector
   });
   const innerClasses = dist_clsx('block-editor-block-toolbar', {
-    'is-synced': isSynced
+    'is-synced': isSynced,
+    'is-connected': isUsingBindings
   });
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableToolbar, {
     focusEditorOnEscape: true,
@@ -54843,16 +54796,15 @@ function PrivateBlockToolbar({
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
       ref: toolbarWrapperRef,
       className: innerClasses,
-      children: [!isMultiToolbar && isLargeViewport && isDefaultEditingMode && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockParentSelector, {}), isUsingBindings && canBindBlock(blockName) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockBindingsToolbarIndicator, {
-        clientIds: blockClientIds
-      }), (shouldShowVisualToolbar || isMultiToolbar) && (isDefaultEditingMode || isSynced) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      children: [!isMultiToolbar && isLargeViewport && isDefaultEditingMode && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockParentSelector, {}), (shouldShowVisualToolbar || isMultiToolbar) && (isDefaultEditingMode || isSynced) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
         ref: nodeRef,
         ...showHoveredOrFocusedGestures,
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.ToolbarGroup, {
           className: "block-editor-block-toolbar__block-controls",
           children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_switcher, {
             clientIds: blockClientIds,
-            disabled: !isDefaultEditingMode
+            disabled: !isDefaultEditingMode,
+            isUsingBindings: isUsingBindings
           }), isDefaultEditingMode && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
             children: [!isMultiToolbar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockLockToolbar, {
               clientId: blockClientId
@@ -55104,8 +55056,8 @@ function BlockSelectionButton({
       isBlockTemplatePart,
       isNextBlockTemplatePart,
       isPrevBlockTemplatePart,
-      canRemove: canRemoveBlock(clientId, rootClientId),
-      canMove: canMoveBlock(clientId, rootClientId)
+      canRemove: canRemoveBlock(clientId),
+      canMove: canMoveBlock(clientId)
     };
   }, [clientId, rootClientId]);
   const {
@@ -55792,7 +55744,7 @@ const useTransformCommands = () => {
       blocks: selectedBlocks,
       clientIds: selectedBlockClientIds,
       possibleBlockTransformations: getBlockTransformItems(selectedBlocks, rootClientId),
-      canRemove: canRemoveBlocks(selectedBlockClientIds, rootClientId),
+      canRemove: canRemoveBlocks(selectedBlockClientIds),
       invalidSelection: false
     };
   }, []);
@@ -55883,7 +55835,7 @@ const useActionsCommands = () => {
     };
   }
   const rootClientId = getBlockRootClientId(clientIds[0]);
-  const canMove = canMoveBlocks(clientIds, rootClientId) && getBlockCount(rootClientId) !== 1;
+  const canMove = canMoveBlocks(clientIds) && getBlockCount(rootClientId) !== 1;
   const commands = [];
   if (canMove) {
     commands.push({
@@ -55981,7 +55933,7 @@ const useQuickActionsCommands = () => {
   const canDuplicate = blocks.every(block => {
     return !!block && (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, 'multiple', true) && canInsertBlockType(block.name, rootClientId);
   });
-  const canRemove = canRemoveBlocks(clientIds, rootClientId);
+  const canRemove = canRemoveBlocks(clientIds);
   const commands = [];
   if (canDuplicate) {
     commands.push({
@@ -57241,6 +57193,12 @@ function ListViewBlock({
     if (event.defaultPrevented) {
       return;
     }
+
+    // Do not handle events if it comes from modals;
+    // retain the default behavior for these keys.
+    if (event.target.closest('[role=dialog]')) {
+      return;
+    }
     const isDeleteKey = [external_wp_keycodes_namespaceObject.BACKSPACE, external_wp_keycodes_namespaceObject.DELETE].includes(event.keyCode);
 
     // If multiple blocks are selected, deselect all blocks when the user
@@ -57251,11 +57209,6 @@ function ListViewBlock({
       selectBlock(event, undefined);
     } else if (isDeleteKey || isMatch('core/block-editor/remove', event)) {
       var _getPreviousBlockClie;
-      // Do not handle single-key block deletion shortcuts when events come from modals;
-      // retain the default behavior for these keys.
-      if (isDeleteKey && event.target.closest('[role=dialog]')) {
-        return;
-      }
       const {
         blocksToUpdate: blocksToDelete,
         firstBlockClientId,
@@ -57264,7 +57217,7 @@ function ListViewBlock({
       } = getBlocksToUpdate();
 
       // Don't update the selection if the blocks cannot be deleted.
-      if (!canRemoveBlocks(blocksToDelete, firstBlockRootClientId)) {
+      if (!canRemoveBlocks(blocksToDelete)) {
         return;
       }
       let blockToFocus = (_getPreviousBlockClie = getPreviousBlockClientId(firstBlockClientId)) !== null && _getPreviousBlockClie !== void 0 ? _getPreviousBlockClie :
@@ -57765,7 +57718,9 @@ function ListViewBranch(props) {
       // This prevents the entire tree from being rendered when a branch is
       // selected, or a user selects all blocks, while still enabling scroll
       // into view behavior when selecting a block or opening the list view.
-      const showBlock = isDragged || blockInView || isSelected && clientId === selectedClientIds[0];
+      // The first and last blocks of the list are always rendered, to ensure
+      // that Home and End keys work as expected.
+      const showBlock = isDragged || blockInView || isSelected && clientId === selectedClientIds[0] || index === 0 || index === blockCount - 1;
       return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_data_namespaceObject.AsyncModeProvider, {
         value: !isSelected,
         children: [showBlock && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(list_view_block, {
@@ -58883,7 +58838,7 @@ function use_clipboard_handler_useClipboardHandler({
       if (event.type === 'cut') {
         var _getPreviousBlockClie;
         // Don't update the selection if the blocks cannot be deleted.
-        if (!canRemoveBlocks(selectedBlockClientIds, firstBlockRootClientId)) {
+        if (!canRemoveBlocks(selectedBlockClientIds)) {
           return;
         }
         let blockToFocus = (_getPreviousBlockClie = getPreviousBlockClientId(firstBlockClientId)) !== null && _getPreviousBlockClie !== void 0 ? _getPreviousBlockClie :
@@ -71234,6 +71189,7 @@ function ResolutionTool({
 
 
 
+
 /**
  * Private @wordpress/block-editor APIs.
  */
@@ -71275,7 +71231,8 @@ lock(privateApis, {
   reusableBlocksSelectKey: reusableBlocksSelectKey,
   PrivateBlockPopover: PrivateBlockPopover,
   PrivatePublishDateTimePicker: PrivatePublishDateTimePicker,
-  useSpacingSizes: useSpacingSizes
+  useSpacingSizes: useSpacingSizes,
+  useBlockDisplayTitle: useBlockDisplayTitle
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/index.js

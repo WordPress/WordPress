@@ -254,7 +254,7 @@ const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 const {
   lock,
   unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/patterns');
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/patterns');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/store/index.js
 /**
@@ -1549,10 +1549,153 @@ function ResetOverridesControl(props) {
   });
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/copy.js
+/**
+ * WordPress dependencies
+ */
+
+
+const copy = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    fillRule: "evenodd",
+    clipRule: "evenodd",
+    d: "M5 4.5h11a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5ZM3 5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5Zm17 3v10.75c0 .69-.56 1.25-1.25 1.25H6v1.5h12.75a2.75 2.75 0 0 0 2.75-2.75V8H20Z"
+  })
+});
+/* harmony default export */ const library_copy = (copy);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/pattern-overrides-block-controls.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const {
+  useBlockDisplayTitle
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
+function PatternOverridesToolbarIndicator({
+  clientIds
+}) {
+  const isSingleBlockSelected = clientIds.length === 1;
+  const {
+    icon,
+    firstBlockName
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getBlockAttributes,
+      getBlockNamesByClientId
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    const {
+      getBlockType,
+      getActiveBlockVariation
+    } = select(external_wp_blocks_namespaceObject.store);
+    const blockTypeNames = getBlockNamesByClientId(clientIds);
+    const _firstBlockTypeName = blockTypeNames[0];
+    const firstBlockType = getBlockType(_firstBlockTypeName);
+    let _icon;
+    if (isSingleBlockSelected) {
+      const match = getActiveBlockVariation(_firstBlockTypeName, getBlockAttributes(clientIds[0]));
+      // Take into account active block variations.
+      _icon = match?.icon || firstBlockType.icon;
+    } else {
+      const isSelectionOfSameType = new Set(blockTypeNames).size === 1;
+      // When selection consists of blocks of multiple types, display an
+      // appropriate icon to communicate the non-uniformity.
+      _icon = isSelectionOfSameType ? firstBlockType.icon : library_copy;
+    }
+    return {
+      icon: _icon,
+      firstBlockName: getBlockAttributes(clientIds[0]).metadata.name
+    };
+  }, [clientIds, isSingleBlockSelected]);
+  const firstBlockTitle = useBlockDisplayTitle({
+    clientId: clientIds[0],
+    maximumLength: 35
+  });
+  const blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1s: The block type's name; %2s: The block's user-provided name (the same as the override name). */
+  (0,external_wp_i18n_namespaceObject.__)('This %1$s is editable using the "%2$s" override.'), firstBlockTitle.toLowerCase(), firstBlockName) : (0,external_wp_i18n_namespaceObject.__)('These blocks are editable using overrides.');
+  const descriptionId = (0,external_wp_element_namespaceObject.useId)();
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
+    children: toggleProps => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.DropdownMenu, {
+      className: "patterns-pattern-overrides-toolbar-indicator",
+      label: firstBlockTitle,
+      popoverProps: {
+        placement: 'bottom-start',
+        className: 'patterns-pattern-overrides-toolbar-indicator__popover'
+      },
+      icon: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockIcon, {
+          icon: icon,
+          className: "patterns-pattern-overrides-toolbar-indicator-icon",
+          showColors: true
+        })
+      }),
+      toggleProps: {
+        describedBy: blockDescription,
+        ...toggleProps
+      },
+      menuProps: {
+        orientation: 'both',
+        'aria-describedby': descriptionId
+      },
+      children: () => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
+        id: descriptionId,
+        children: blockDescription
+      })
+    })
+  });
+}
+function PatternOverridesBlockControls() {
+  const {
+    clientIds,
+    hasPatternOverrides,
+    hasParentPattern
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getBlockAttributes,
+      getSelectedBlockClientIds,
+      getBlockParentsByBlockName
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    const selectedClientIds = getSelectedBlockClientIds();
+    const _hasPatternOverrides = selectedClientIds.every(clientId => {
+      var _getBlockAttributes$m;
+      return Object.values((_getBlockAttributes$m = getBlockAttributes(clientId)?.metadata?.bindings) !== null && _getBlockAttributes$m !== void 0 ? _getBlockAttributes$m : {}).some(binding => binding?.source === PATTERN_OVERRIDES_BINDING_SOURCE);
+    });
+    const _hasParentPattern = selectedClientIds.every(clientId => getBlockParentsByBlockName(clientId, 'core/block', true).length > 0);
+    return {
+      clientIds: selectedClientIds,
+      hasPatternOverrides: _hasPatternOverrides,
+      hasParentPattern: _hasParentPattern
+    };
+  }, []);
+  return hasPatternOverrides && hasParentPattern ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, {
+    group: "parent",
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PatternOverridesToolbarIndicator, {
+      clientIds: clientIds
+    })
+  }) : null;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/private-apis.js
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -1579,6 +1722,7 @@ lock(privateApis, {
   RenamePatternCategoryModal: RenamePatternCategoryModal,
   PatternOverridesControls: pattern_overrides_controls,
   ResetOverridesControl: ResetOverridesControl,
+  PatternOverridesBlockControls: PatternOverridesBlockControls,
   useAddPatternCategory: useAddPatternCategory,
   PATTERN_TYPES: PATTERN_TYPES,
   PATTERN_DEFAULT_CATEGORY: PATTERN_DEFAULT_CATEGORY,

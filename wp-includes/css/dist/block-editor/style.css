@@ -34,19 +34,6 @@
   margin-top:0;
 }
 
-.block-editor-block-bindings-toolbar-indicator__popover .components-popover__content{
-  min-width:260px;
-  padding:16px;
-}
-
-.block-editor-block-bindings-toolbar-indicator .block-editor-block-bindings-toolbar-indicator-icon.has-colors svg{
-  fill:var(--wp-block-synced-color);
-}
-
-.editor-collapsible-block-toolbar .block-editor-block-bindings-toolbar-indicator{
-  height:32px;
-}
-
 iframe[name=editor-canvas]{
   background-color:initial;
   box-sizing:border-box;
@@ -1051,6 +1038,11 @@ iframe[name=editor-canvas]{
   color:#757575;
   margin:0;
   padding:6px 8px;
+}
+
+.block-editor-block-switcher__binding-indicator{
+  display:block;
+  padding:8px;
 }
 
 .block-editor-block-types-list>[role=presentation]{
@@ -2702,8 +2694,7 @@ iframe[name=editor-canvas]{
 .block-editor-responsive-block-control .components-base-control__help{
   border:0;
   clip:rect(1px, 1px, 1px, 1px);
-  -webkit-clip-path:inset(50%);
-          clip-path:inset(50%);
+  clip-path:inset(50%);
   height:1px;
   margin:-1px;
   overflow:hidden;
@@ -3154,7 +3145,7 @@ iframe[name=editor-canvas]{
   margin-bottom:-1px;
   margin-top:-1px;
 }
-.block-editor-block-toolbar.is-synced .block-editor-block-switcher .components-button .block-editor-block-icon,.block-editor-block-toolbar.is-synced .components-toolbar-button.block-editor-block-switcher__no-switcher-icon:disabled .block-editor-block-icon.has-colors{
+.block-editor-block-toolbar.is-connected .block-editor-block-switcher .components-button .block-editor-block-icon,.block-editor-block-toolbar.is-connected .components-toolbar-button.block-editor-block-switcher__no-switcher-icon:disabled .block-editor-block-icon.has-colors,.block-editor-block-toolbar.is-synced .block-editor-block-switcher .components-button .block-editor-block-icon,.block-editor-block-toolbar.is-synced .components-toolbar-button.block-editor-block-switcher__no-switcher-icon:disabled .block-editor-block-icon.has-colors{
   color:var(--wp-block-synced-color);
 }
 .block-editor-block-toolbar>:last-child,.block-editor-block-toolbar>:last-child .components-toolbar,.block-editor-block-toolbar>:last-child .components-toolbar-group{
