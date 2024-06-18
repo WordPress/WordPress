@@ -2825,7 +2825,6 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	}
 
 	$tt_ids     = array();
-	$term_ids   = array();
 	$new_tt_ids = array();
 
 	foreach ( (array) $terms as $term ) {
@@ -2848,9 +2847,8 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 			return $term_info;
 		}
 
-		$term_ids[] = $term_info['term_id'];
-		$tt_id      = $term_info['term_taxonomy_id'];
-		$tt_ids[]   = $tt_id;
+		$tt_id    = $term_info['term_taxonomy_id'];
+		$tt_ids[] = $tt_id;
 
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id = %d", $object_id, $tt_id ) ) ) {
 			continue;
