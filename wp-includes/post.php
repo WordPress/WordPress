@@ -8094,10 +8094,11 @@ function get_available_post_mime_types( $type = 'attachment' ) {
 	$mime_types = apply_filters( 'pre_get_available_post_mime_types', null, $type );
 
 	if ( ! is_array( $mime_types ) ) {
-		$mime_types = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_type = %s", $type ) );
+		$mime_types = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_type = %s AND post_mime_type != ''", $type ) );
 	}
 
-	return $mime_types;
+	// Remove nulls from returned $mime_types.
+	return array_values( array_filter( $mime_types ) );
 }
 
 /**
