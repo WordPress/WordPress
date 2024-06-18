@@ -517,4 +517,13 @@ class WP_HTML_Open_Elements {
 			( $this->pop_handler )( $item );
 		}
 	}
+
+	/**
+	 * Wakeup magic method.
+	 *
+	 * @since 6.6.0
+	 */
+	public function __wakeup() {
+		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
+	}
 }
