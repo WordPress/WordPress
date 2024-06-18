@@ -511,6 +511,9 @@ class WP_Automatic_Updater {
 				&& ( 'up_to_date' === $upgrade_result->get_error_code()
 					|| 'locked' === $upgrade_result->get_error_code() )
 			) {
+				// Allow visitors to browse the site again.
+				$upgrader->maintenance_mode( false );
+
 				/*
 				 * These aren't actual errors, treat it as a skipped-update instead
 				 * to avoid triggering the post-core update failure routines.
