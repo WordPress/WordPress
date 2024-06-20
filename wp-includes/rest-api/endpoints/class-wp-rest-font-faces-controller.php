@@ -916,8 +916,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
 		$new_path = $path;
 
 		$fonts_dir = wp_get_font_dir();
-		if ( str_starts_with( $new_path, $fonts_dir['path'] ) ) {
-			$new_path = str_replace( $fonts_dir, '', $new_path );
+		if ( str_starts_with( $new_path, $fonts_dir['basedir'] ) ) {
+			$new_path = str_replace( $fonts_dir['basedir'], '', $new_path );
 			$new_path = ltrim( $new_path, '/' );
 		}
 
