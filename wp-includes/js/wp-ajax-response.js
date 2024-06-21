@@ -53,10 +53,10 @@ window.wpAjax = jQuery.extend( {
 				parsed.responses.push( response );
 			} );
 			if ( err.length ) {
-				re.html( '<div class="notice notice-error">' + err + '</div>' );
+				re.html( '<div class="notice notice-error" role="alert">' + err + '</div>' );
 				wp.a11y.speak( err );
 			} else if ( noticeMessage.length ) {
-				re.html( '<div class="notice notice-success is-dismissible"><p>' + noticeMessage + '</p></div>');
+				re.html( '<div class="notice notice-success is-dismissible" role="alert"><p>' + noticeMessage + '</p></div>');
 				jQuery(document).trigger( 'wp-updates-notice-added' );
 				wp.a11y.speak( noticeMessage );
 			}
@@ -64,15 +64,15 @@ window.wpAjax = jQuery.extend( {
 		}
 		if ( isNaN( x ) ) {
 			wp.a11y.speak( x );
-			return ! re.html( '<div class="notice notice-error"><p>' + x + '</p></div>' );
+			return ! re.html( '<div class="notice notice-error" role="alert"><p>' + x + '</p></div>' );
 		}
 		x = parseInt( x, 10 );
 		if ( -1 === x ) {
 			wp.a11y.speak( wpAjax.noPerm );
-			return ! re.html( '<div class="notice notice-error"><p>' + wpAjax.noPerm + '</p></div>' );
+			return ! re.html( '<div class="notice notice-error" role="alert"><p>' + wpAjax.noPerm + '</p></div>' );
 		} else if ( 0 === x ) {
 			wp.a11y.speak( wpAjax.broken );
-			return ! re.html( '<div class="notice notice-error"><p>' + wpAjax.broken  + '</p></div>' );
+			return ! re.html( '<div class="notice notice-error" role="alert"><p>' + wpAjax.broken  + '</p></div>' );
 		}
 		return true;
 	},

@@ -1623,7 +1623,8 @@
 
 				// @todo This should use the Notifications API introduced to panels. See <https://core.trac.wordpress.org/ticket/38794>.
 				noticeContainer = $( '<div></div>', {
-					'class': 'no-widget-areas-rendered-notice'
+					'class': 'no-widget-areas-rendered-notice',
+					'role': 'alert'
 				});
 				panelMetaContainer.append( noticeContainer );
 

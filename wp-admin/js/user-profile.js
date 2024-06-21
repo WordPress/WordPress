@@ -151,7 +151,9 @@
 	 * @param {string}        message The message to insert.
 	 */
 	function addInlineNotice( $this, success, message ) {
-		var resultDiv = $( '<div />' );
+		var resultDiv = $( '<div />', {
+			role: 'alert'
+		} );
 
 		// Set up the notice div.
 		resultDiv.addClass( 'notice inline' );
@@ -474,10 +476,10 @@
 		}).done( function( response ) {
 			$this.prop( 'disabled', true );
 			$this.siblings( '.notice' ).remove();
-			$this.before( '<div class="notice notice-success inline"><p>' + response.message + '</p></div>' );
+			$this.before( '<div class="notice notice-success inline" role="alert"><p>' + response.message + '</p></div>' );
 		}).fail( function( response ) {
 			$this.siblings( '.notice' ).remove();
-			$this.before( '<div class="notice notice-error inline"><p>' + response.message + '</p></div>' );
+			$this.before( '<div class="notice notice-error inline" role="alert"><p>' + response.message + '</p></div>' );
 		});
 
 		e.preventDefault();
