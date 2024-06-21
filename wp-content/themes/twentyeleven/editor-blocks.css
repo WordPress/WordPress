@@ -302,6 +302,18 @@ p.has-drop-cap:not(:focus)::first-letter {
 	font-size: 16px;
 }
 
+.wp-block-quote[style*="font-weight"] blockquote,
+.wp-block-quote[style*="font-weight"] p,
+.wp-block-quote[style*="font-weight"] cite {
+	font-weight: inherit;
+}
+
+.wp-block-quote[style*="font-style"] blockquote,
+.wp-block-quote[style*="font-style"] p,
+.wp-block-quote[style*="font-style"] cite {
+	font-style: inherit;
+}
+
 /* Cover */
 
 .edit-post-visual-editor .editor-block-list__block .wp-block-cover-image p.wp-block-cover-image-text,
@@ -356,6 +368,18 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-pullquote.alignleft blockquote > .editor-rich-text p,
 .wp-block-pullquote.alignright blockquote > .editor-rich-text p {
 	font-size: 20px;
+}
+
+.wp-block-pullquote[style*="font-weight"] blockquote,
+.wp-block-pullquote[style*="font-weight"] p,
+.wp-block-pullquote[style*="font-weight"] cite {
+	font-weight: inherit;
+}
+
+.wp-block-pullquote[style*="font-style"] blockquote,
+.wp-block-pullquote[style*="font-style"] p,
+.wp-block-pullquote[style*="font-style"] cite {
+	font-style: inherit;
 }
 
 /* Table */
