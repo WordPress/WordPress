@@ -660,7 +660,16 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param string[]      $clauses An associative array of site query clauses.
+		 * @param string[]      $clauses {
+		 *     Associative array of the clauses for the query.
+		 *
+		 *     @type string $fields   The SELECT clause of the query.
+		 *     @type string $join     The JOIN clause of the query.
+		 *     @type string $where    The WHERE clause of the query.
+		 *     @type string $orderby  The ORDER BY clause of the query.
+		 *     @type string $limits   The LIMIT clause of the query.
+		 *     @type string $groupby  The GROUP BY clause of the query.
+		 * }
 		 * @param WP_Site_Query $query   Current instance of WP_Site_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
