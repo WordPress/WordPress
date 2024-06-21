@@ -736,7 +736,7 @@ function image_edit_apply_changes( $image, $changes ) {
 					$h    = $size['height'];
 
 					$scale = isset( $sel->r ) ? $sel->r : 1 / _image_get_preview_ratio( $w, $h ); // Discard preview scaling.
-					$image->crop( $sel->x * $scale, $sel->y * $scale, $sel->w * $scale, $sel->h * $scale );
+					$image->crop( (int) ( $sel->x * $scale ), (int) ( $sel->y * $scale ), (int) ( $sel->w * $scale ), (int) ( $sel->h * $scale ) );
 				} else {
 					$scale = isset( $sel->r ) ? $sel->r : 1 / _image_get_preview_ratio( imagesx( $image ), imagesy( $image ) ); // Discard preview scaling.
 					$image = _crop_image_resource( $image, $sel->x * $scale, $sel->y * $scale, $sel->w * $scale, $sel->h * $scale );
