@@ -246,6 +246,14 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			$data['rest_namespace'] = $namespace;
 		}
 
+		if ( rest_is_field_included( 'template', $fields ) ) {
+			$data['template'] = $post_type->template ?? array();
+		}
+
+		if ( rest_is_field_included( 'template_lock', $fields ) ) {
+			$data['template_lock'] = ! empty( $post_type->template_lock ) ? $post_type->template_lock : false;
+		}
+
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
 		$data    = $this->filter_response_by_context( $data, $context );
@@ -406,6 +414,19 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 					'type'        => array( 'string', 'null' ),
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
+				),
+				'template'       => array(
+					'type'        => array( 'array' ),
+					'description' => __( 'The block template associated with the post type.' ),
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'template_lock'  => array(
+					'type'        => array( 'string', 'boolean' ),
+					'enum'        => array( 'all', 'insert', 'contentOnly', false ),
+					'description' => __( 'The template_lock associated with the post type, or false if none.' ),
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 			),
 		);
