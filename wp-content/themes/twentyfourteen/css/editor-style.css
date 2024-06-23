@@ -294,6 +294,10 @@ a:hover {
 	outline: 0;
 }
 
+:where(.mce-content-body[class*="post-type-"], .wp-block-post-content) a {
+	text-decoration: underline;
+}
+
 
 /**
  * 5.0 Alignment
