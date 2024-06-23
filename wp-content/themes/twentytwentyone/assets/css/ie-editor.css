@@ -1000,7 +1000,45 @@ h6,
 	padding: 20px;
 }
 
-.wp-block-latest-comments,
+.wp-block-latest-comments {
+	padding-left: 0;
+}
+
+.wp-block-latest-comments:where(:not([class*=-font-size]):not([style*=font-size])) .wp-block-latest-comments__comment {
+	font-size: 1.125rem;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment {
+	line-height: 1.7;
+
+	/* Vertical margins logic */
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment:first-child {
+	margin-top: 0;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment:last-child {
+	margin-bottom: 0;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment-meta {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment-date {
+	color: inherit;
+	font-size: inherit;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment-excerpt p {
+	font-size: inherit;
+	line-height: 1.7;
+	margin: 0;
+}
+
 .wp-block-latest-posts {
 	padding-left: 0;
 }

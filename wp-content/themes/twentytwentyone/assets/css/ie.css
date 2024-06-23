@@ -2495,8 +2495,11 @@ h6,
 	padding-left: 0;
 }
 
-.wp-block-latest-comments .wp-block-latest-comments__comment {
+.wp-block-latest-comments:where(:not([class*=-font-size]):not([style*=font-size])) .wp-block-latest-comments__comment {
 	font-size: 1.125rem;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment {
 	line-height: 1.7;
 
 	/* Vertical margins logic */
@@ -2517,12 +2520,12 @@ h6,
 }
 
 .wp-block-latest-comments .wp-block-latest-comments__comment-date {
-	color: #28303d;
-	font-size: 1.125rem;
+	color: inherit;
+	font-size: inherit;
 }
 
 .wp-block-latest-comments .wp-block-latest-comments__comment-excerpt p {
-	font-size: 1.125rem;
+	font-size: inherit;
 	line-height: 1.7;
 	margin: 0;
 }
