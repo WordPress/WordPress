@@ -709,6 +709,12 @@ table.wp-block-table td:last-child {
 	text-align: right;
 }
 
+/* Calendar */
+
+.editor-styles-wrapper .wp-block-calendar th {
+	text-align: center;
+}
+
 /* Verse */
 
 .editor-styles-wrapper .wp-block-verse {

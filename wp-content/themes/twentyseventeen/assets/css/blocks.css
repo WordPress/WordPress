@@ -196,6 +196,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-align: right;
 }
 
+/* Calendar */
+
+.wp-block-calendar th {
+	text-align: center;
+}
+
 /*--------------------------------------------------------------
 4.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
