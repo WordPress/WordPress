@@ -2980,8 +2980,8 @@ class WP_HTML_Tag_Processor {
 			 *
 			 * @see https://html.spec.whatwg.org/#attributes-3
 			 */
-			$escaped_new_value = esc_attr( $value );
-			$updated_attribute = wp_kses_one_attr( "{$comparable_name}=\"{$escaped_new_value}\"", $tag_name );
+			$escaped_new_value = in_array( $comparable_name, wp_kses_uri_attributes() ) ? esc_url( $value ) : esc_attr( $value );
+			$updated_attribute = "{$name}=\"{$escaped_new_value}\"";
 		}
 
 		/*
