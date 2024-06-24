@@ -2215,6 +2215,38 @@ if (true) {
 
 /***/ }),
 
+/***/ 8838:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @license React
+ * use-sync-external-store-shim.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+var e=__webpack_require__(9196);function h(a,b){return a===b&&(0!==a||1/a===1/b)||a!==a&&b!==b}var k="function"===typeof Object.is?Object.is:h,l=e.useState,m=e.useEffect,n=e.useLayoutEffect,p=e.useDebugValue;function q(a,b){var d=b(),f=l({inst:{value:d,getSnapshot:b}}),c=f[0].inst,g=f[1];n(function(){c.value=d;c.getSnapshot=b;r(c)&&g({inst:c})},[a,d,b]);m(function(){r(c)&&g({inst:c});return a(function(){r(c)&&g({inst:c})})},[a]);p(d);return d}
+function r(a){var b=a.getSnapshot;a=a.value;try{var d=b();return!k(a,d)}catch(f){return!0}}function t(a,b){return b()}var u="undefined"===typeof window||"undefined"===typeof window.document||"undefined"===typeof window.document.createElement?t:q;exports.useSyncExternalStore=void 0!==e.useSyncExternalStore?e.useSyncExternalStore:u;
+
+
+/***/ }),
+
+/***/ 2972:
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+
+if (true) {
+  module.exports = __webpack_require__(8838);
+} else {}
+
+
+/***/ }),
+
 /***/ 9196:
 /***/ (function(module) {
 
@@ -5244,12 +5276,21 @@ function floating_ui_utils_getPaddingObject(padding) {
   };
 }
 function floating_ui_utils_rectToClientRect(rect) {
+  const {
+    x,
+    y,
+    width,
+    height
+  } = rect;
   return {
-    ...rect,
-    top: rect.y,
-    left: rect.x,
-    right: rect.x + rect.width,
-    bottom: rect.y + rect.height
+    width,
+    height,
+    top: y,
+    left: x,
+    right: x + width,
+    bottom: y + height,
+    x,
+    y
   };
 }
 
@@ -5444,9 +5485,10 @@ async function detectOverflow(state, options) {
     strategy
   }));
   const rect = elementContext === 'floating' ? {
-    ...rects.floating,
     x,
-    y
+    y,
+    width: rects.floating.width,
+    height: rects.floating.height
   } : rects.reference;
   const offsetParent = await (platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(elements.floating));
   const offsetScale = (await (platform.isElement == null ? void 0 : platform.isElement(offsetParent))) ? (await (platform.getScale == null ? void 0 : platform.getScale(offsetParent))) || {
@@ -5986,6 +6028,8 @@ async function convertValueToCoords(state, options) {
   const mainAxisMulti = ['left', 'top'].includes(side) ? -1 : 1;
   const crossAxisMulti = rtl && isVertical ? -1 : 1;
   const rawValue = floating_ui_utils_evaluate(options, state);
+
+  // eslint-disable-next-line prefer-const
   let {
     mainAxis,
     crossAxis,
@@ -6236,16 +6280,16 @@ const size = function (options) {
         widthSide = side;
         heightSide = alignment === 'end' ? 'top' : 'bottom';
       }
-      const overflowAvailableHeight = height - overflow[heightSide];
-      const overflowAvailableWidth = width - overflow[widthSide];
+      const maximumClippingHeight = height - overflow.top - overflow.bottom;
+      const maximumClippingWidth = width - overflow.left - overflow.right;
+      const overflowAvailableHeight = floating_ui_utils_min(height - overflow[heightSide], maximumClippingHeight);
+      const overflowAvailableWidth = floating_ui_utils_min(width - overflow[widthSide], maximumClippingWidth);
       const noShift = !state.middlewareData.shift;
       let availableHeight = overflowAvailableHeight;
       let availableWidth = overflowAvailableWidth;
       if (isYAxis) {
-        const maximumClippingWidth = width - overflow.left - overflow.right;
         availableWidth = alignment || noShift ? floating_ui_utils_min(overflowAvailableWidth, maximumClippingWidth) : maximumClippingWidth;
       } else {
-        const maximumClippingHeight = height - overflow.top - overflow.bottom;
         availableHeight = alignment || noShift ? floating_ui_utils_min(overflowAvailableHeight, maximumClippingHeight) : maximumClippingHeight;
       }
       if (noShift && !alignment) {
@@ -6337,9 +6381,8 @@ function getContainingBlock(element) {
   while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
     if (isContainingBlock(currentNode)) {
       return currentNode;
-    } else {
-      currentNode = getParentNode(currentNode);
     }
+    currentNode = getParentNode(currentNode);
   }
   return null;
 }
@@ -6410,7 +6453,6 @@ function getOverflowAncestors(node, list, traverseIframes) {
 
 
 ;// CONCATENATED MODULE: ./node_modules/@floating-ui/dom/dist/floating-ui.dom.mjs
-
 
 
 
@@ -6544,10 +6586,10 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
 }
 
 const topLayerSelectors = [':popover-open', ':modal'];
-function isTopLayer(floating) {
+function isTopLayer(element) {
   return topLayerSelectors.some(selector => {
     try {
-      return floating.matches(selector);
+      return element.matches(selector);
     } catch (e) {
       return false;
     }
@@ -6735,7 +6777,7 @@ function getClippingRect(_ref) {
     rootBoundary,
     strategy
   } = _ref;
-  const elementClippingAncestors = boundary === 'clippingAncestors' ? getClippingElementAncestors(element, this._c) : [].concat(boundary);
+  const elementClippingAncestors = boundary === 'clippingAncestors' ? isTopLayer(element) ? [] : getClippingElementAncestors(element, this._c) : [].concat(boundary);
   const clippingAncestors = [...elementClippingAncestors, rootBoundary];
   const firstClippingAncestor = clippingAncestors[0];
   const clippingRect = clippingAncestors.reduce((accRect, clippingAncestor) => {
@@ -6797,6 +6839,10 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
   };
 }
 
+function isStaticPositioned(element) {
+  return floating_ui_utils_dom_getComputedStyle(element).position === 'static';
+}
+
 function getTrueOffsetParent(element, polyfill) {
   if (!isHTMLElement(element) || floating_ui_utils_dom_getComputedStyle(element).position === 'fixed') {
     return null;
@@ -6810,29 +6856,41 @@ function getTrueOffsetParent(element, polyfill) {
 // Gets the closest ancestor positioned element. Handles some edge cases,
 // such as table ancestors and cross browser bugs.
 function getOffsetParent(element, polyfill) {
-  const window = floating_ui_utils_dom_getWindow(element);
-  if (!isHTMLElement(element) || isTopLayer(element)) {
-    return window;
+  const win = floating_ui_utils_dom_getWindow(element);
+  if (isTopLayer(element)) {
+    return win;
+  }
+  if (!isHTMLElement(element)) {
+    let svgOffsetParent = getParentNode(element);
+    while (svgOffsetParent && !isLastTraversableNode(svgOffsetParent)) {
+      if (isElement(svgOffsetParent) && !isStaticPositioned(svgOffsetParent)) {
+        return svgOffsetParent;
+      }
+      svgOffsetParent = getParentNode(svgOffsetParent);
+    }
+    return win;
   }
   let offsetParent = getTrueOffsetParent(element, polyfill);
-  while (offsetParent && isTableElement(offsetParent) && floating_ui_utils_dom_getComputedStyle(offsetParent).position === 'static') {
+  while (offsetParent && isTableElement(offsetParent) && isStaticPositioned(offsetParent)) {
     offsetParent = getTrueOffsetParent(offsetParent, polyfill);
   }
-  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && floating_ui_utils_dom_getComputedStyle(offsetParent).position === 'static' && !isContainingBlock(offsetParent))) {
-    return window;
+  if (offsetParent && isLastTraversableNode(offsetParent) && isStaticPositioned(offsetParent) && !isContainingBlock(offsetParent)) {
+    return win;
   }
-  return offsetParent || getContainingBlock(element) || window;
+  return offsetParent || getContainingBlock(element) || win;
 }
 
 const getElementRects = async function (data) {
   const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
   const getDimensionsFn = this.getDimensions;
+  const floatingDimensions = await getDimensionsFn(data.floating);
   return {
     reference: getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
     floating: {
       x: 0,
       y: 0,
-      ...(await getDimensionsFn(data.floating))
+      width: floatingDimensions.width,
+      height: floatingDimensions.height
     }
   };
 };
@@ -6902,9 +6960,11 @@ function observeMove(element, onMove) {
           return refresh();
         }
         if (!ratio) {
+          // If the reference is clipped, the ratio is 0. Throttle the refresh
+          // to prevent an infinite loop of updates.
           timeoutId = setTimeout(() => {
             refresh(false, 1e-7);
-          }, 100);
+          }, 1000);
         } else {
           refresh(false, ratio);
         }
@@ -7007,6 +7067,25 @@ function autoUpdate(reference, floating, update, options) {
     }
   };
 }
+
+/**
+ * Resolves with an object of overflow side offsets that determine how much the
+ * element is overflowing a given clipping boundary on each side.
+ * - positive = overflowing the boundary by that number of pixels
+ * - negative = how many pixels left before it will overflow
+ * - 0 = lies flush with the boundary
+ * @see https://floating-ui.com/docs/detectOverflow
+ */
+const floating_ui_dom_detectOverflow = (/* unused pure expression or super */ null && (detectOverflow$1));
+
+/**
+ * Modifies the placement by translating the floating element along the
+ * specified axes.
+ * A number (shorthand for `mainAxis` or distance), or an axes configuration
+ * object may be passed.
+ * @see https://floating-ui.com/docs/offset
+ */
+const floating_ui_dom_offset = offset;
 
 /**
  * Optimizes the visibility of the floating element by choosing the placement
@@ -21025,19 +21104,15 @@ const visuallyHidden = {
 
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function extends_extends() {
-  extends_extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return extends_extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-    return target;
-  };
-  return extends_extends.apply(this, arguments);
+    return n;
+  }, extends_extends.apply(null, arguments);
 }
+
 ;// CONCATENATED MODULE: ./node_modules/@emotion/styled/node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
 function emotion_memoize_esm_memoize(fn) {
   var cache = Object.create(null);
@@ -21627,8 +21702,8 @@ function ScrollLock() {
 ;// CONCATENATED MODULE: ./node_modules/proxy-compare/dist/index.modern.js
 const index_modern_e=Symbol(),t=Symbol(),r=Symbol();let index_modern_n=(e,t)=>new Proxy(e,t);const index_modern_o=Object.getPrototypeOf,s=new WeakMap,c=e=>e&&(s.has(e)?s.get(e):index_modern_o(e)===Object.prototype||index_modern_o(e)===Array.prototype),l=e=>"object"==typeof e&&null!==e,index_modern_a=new WeakMap,f=e=>e[r]||e,i=(s,l,p)=>{if(!c(s))return s;const y=f(s),u=(e=>Object.isFrozen(e)||Object.values(Object.getOwnPropertyDescriptors(e)).some(e=>!e.writable))(y);let g=p&&p.get(y);return g&&g[1].f===u||(g=((n,o)=>{const s={f:o};let c=!1;const l=(t,r)=>{if(!c){let o=s.a.get(n);o||(o=new Set,s.a.set(n,o)),r&&o.has(index_modern_e)||o.add(t)}},a={get:(e,t)=>t===r?n:(l(t),i(e[t],s.a,s.c)),has:(e,r)=>r===t?(c=!0,s.a.delete(n),!0):(l(r),r in e),getOwnPropertyDescriptor:(e,t)=>(l(t,!0),Object.getOwnPropertyDescriptor(e,t)),ownKeys:t=>(l(index_modern_e),Reflect.ownKeys(t))};return o&&(a.set=a.deleteProperty=()=>!1),[a,s]})(y,u),g[1].p=index_modern_n(u?(e=>{let t=index_modern_a.get(e);if(!t){if(Array.isArray(e))t=Array.from(e);else{const r=Object.getOwnPropertyDescriptors(e);Object.values(r).forEach(e=>{e.configurable=!0}),t=Object.create(index_modern_o(e),r)}index_modern_a.set(e,t)}return t})(y):y,g[0]),p&&p.set(y,g)),g[1].a=l,g[1].c=p,g[1].p},p=(e,t)=>{const r=Reflect.ownKeys(e),n=Reflect.ownKeys(t);return r.length!==n.length||r.some((e,t)=>e!==n[t])},y=(t,r,n,o)=>{if(Object.is(t,r))return!1;if(!l(t)||!l(r))return!0;const s=n.get(f(t));if(!s)return!0;if(o){const e=o.get(t);if(e&&e.n===r)return e.g;o.set(t,{n:r,g:!1})}let c=null;for(const l of s){const s=l===index_modern_e?p(t,r):y(t[l],r[l],n,o);if(!0!==s&&!1!==s||(c=s),c)break}return null===c&&(c=!0),o&&o.set(t,{n:r,g:c}),c},u=e=>!!c(e)&&t in e,g=e=>c(e)&&e[r]||null,b=(e,t=!0)=>{s.set(e,t)},O=(e,t)=>{const r=[],n=new WeakSet,o=(e,s)=>{if(n.has(e))return;l(e)&&n.add(e);const c=l(e)&&t.get(f(e));c?c.forEach(t=>{o(e[t],s?[...s,t]:[t])}):s&&r.push(s)};return o(e),r},w=e=>{index_modern_n=e};
 
-// EXTERNAL MODULE: ./node_modules/use-sync-external-store/shim/index.js
-var shim = __webpack_require__(635);
+// EXTERNAL MODULE: ./node_modules/valtio/node_modules/use-sync-external-store/shim/index.js
+var shim = __webpack_require__(2972);
 ;// CONCATENATED MODULE: ./node_modules/valtio/esm/vanilla.js
 
 
@@ -24023,7 +24098,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
       };
     }
 
-  }, offset(offsetProp), computedFlipProp ? floating_ui_dom_flip() : undefined, computedResizeProp ? floating_ui_dom_size({
+  }, floating_ui_dom_offset(offsetProp), computedFlipProp ? floating_ui_dom_flip() : undefined, computedResizeProp ? floating_ui_dom_size({
     apply(sizeProps) {
       var _refs$floating$curren;
 
@@ -53447,6 +53522,7 @@ function _typeof(o) {
     return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
   }, _typeof(o);
 }
+
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/requiredArgs/index.js
 function requiredArgs(required, args) {
   if (args.length < required) {
@@ -65710,8 +65786,16 @@ var calculateNewMax = function (parentSize, innerWidth, innerHeight, maxWidth, m
         minHeight: typeof minHeight === 'undefined' ? undefined : Number(minHeight),
     };
 };
+/**
+ * transform T | [T, T] to [T, T]
+ * @param val
+ * @returns
+ */
+// tslint:disable-next-line
+var normalizeToPair = function (val) { return (Array.isArray(val) ? val : [val, val]); };
 var definedProps = [
     'as',
+    'ref',
     'style',
     'className',
     'grid',
@@ -65746,6 +65830,7 @@ var baseClassName = '__resizable_base__';
 var Resizable = /** @class */ (function (_super) {
     lib_extends(Resizable, _super);
     function Resizable(props) {
+        var _a, _b, _c, _d;
         var _this = _super.call(this, props) || this;
         _this.ratio = 1;
         _this.resizable = null;
@@ -65791,19 +65876,10 @@ var Resizable = /** @class */ (function (_super) {
             }
             parent.removeChild(base);
         };
-        _this.ref = function (c) {
-            if (c) {
-                _this.resizable = c;
-            }
-        };
         _this.state = {
             isResizing: false,
-            width: typeof (_this.propsSize && _this.propsSize.width) === 'undefined'
-                ? 'auto'
-                : _this.propsSize && _this.propsSize.width,
-            height: typeof (_this.propsSize && _this.propsSize.height) === 'undefined'
-                ? 'auto'
-                : _this.propsSize && _this.propsSize.height,
+            width: (_b = (_a = _this.propsSize) === null || _a === void 0 ? void 0 : _a.width) !== null && _b !== void 0 ? _b : 'auto',
+            height: (_d = (_c = _this.propsSize) === null || _c === void 0 ? void 0 : _c.height) !== null && _d !== void 0 ? _d : 'auto',
             direction: 'right',
             original: {
                 x: 0,
@@ -65890,10 +65966,11 @@ var Resizable = /** @class */ (function (_super) {
             var _this = this;
             var size = this.props.size;
             var getSize = function (key) {
+                var _a;
                 if (typeof _this.state[key] === 'undefined' || _this.state[key] === 'auto') {
                     return 'auto';
                 }
-                if (_this.propsSize && _this.propsSize[key] && _this.propsSize[key].toString().endsWith('%')) {
+                if (_this.propsSize && _this.propsSize[key] && ((_a = _this.propsSize[key]) === null || _a === void 0 ? void 0 : _a.toString().endsWith('%'))) {
                     if (_this.state[key].toString().endsWith('%')) {
                         return _this.state[key].toString();
                     }
@@ -66034,33 +66111,33 @@ var Resizable = /** @class */ (function (_super) {
     };
     Resizable.prototype.calculateNewSizeFromDirection = function (clientX, clientY) {
         var scale = this.props.scale || 1;
-        var resizeRatio = this.props.resizeRatio || 1;
-        var _a = this.state, direction = _a.direction, original = _a.original;
-        var _b = this.props, lockAspectRatio = _b.lockAspectRatio, lockAspectRatioExtraHeight = _b.lockAspectRatioExtraHeight, lockAspectRatioExtraWidth = _b.lockAspectRatioExtraWidth;
+        var _a = normalizeToPair(this.props.resizeRatio || 1), resizeRatioX = _a[0], resizeRatioY = _a[1];
+        var _b = this.state, direction = _b.direction, original = _b.original;
+        var _c = this.props, lockAspectRatio = _c.lockAspectRatio, lockAspectRatioExtraHeight = _c.lockAspectRatioExtraHeight, lockAspectRatioExtraWidth = _c.lockAspectRatioExtraWidth;
         var newWidth = original.width;
         var newHeight = original.height;
         var extraHeight = lockAspectRatioExtraHeight || 0;
         var extraWidth = lockAspectRatioExtraWidth || 0;
         if (hasDirection('right', direction)) {
-            newWidth = original.width + ((clientX - original.x) * resizeRatio) / scale;
+            newWidth = original.width + ((clientX - original.x) * resizeRatioX) / scale;
             if (lockAspectRatio) {
                 newHeight = (newWidth - extraWidth) / this.ratio + extraHeight;
             }
         }
         if (hasDirection('left', direction)) {
-            newWidth = original.width - ((clientX - original.x) * resizeRatio) / scale;
+            newWidth = original.width - ((clientX - original.x) * resizeRatioX) / scale;
             if (lockAspectRatio) {
                 newHeight = (newWidth - extraWidth) / this.ratio + extraHeight;
             }
         }
         if (hasDirection('bottom', direction)) {
-            newHeight = original.height + ((clientY - original.y) * resizeRatio) / scale;
+            newHeight = original.height + ((clientY - original.y) * resizeRatioY) / scale;
             if (lockAspectRatio) {
                 newWidth = (newHeight - extraHeight) * this.ratio + extraWidth;
             }
         }
         if (hasDirection('top', direction)) {
-            newHeight = original.height - ((clientY - original.y) * resizeRatio) / scale;
+            newHeight = original.height - ((clientY - original.y) * resizeRatioY) / scale;
             if (lockAspectRatio) {
                 newWidth = (newHeight - extraHeight) * this.ratio + extraWidth;
             }
@@ -66221,8 +66298,10 @@ var Resizable = /** @class */ (function (_super) {
             var newGridWidth = snap(newWidth, this.props.grid[0]);
             var newGridHeight = snap(newHeight, this.props.grid[1]);
             var gap = this.props.snapGap || 0;
-            newWidth = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
-            newHeight = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
+            var w = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
+            var h = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
+            newWidth = w;
+            newHeight = h;
         }
         var delta = {
             width: newWidth - original.width,
@@ -66266,16 +66345,25 @@ var Resizable = /** @class */ (function (_super) {
         else if (this.flexDir === 'column') {
             newState.flexBasis = newState.height;
         }
-        // For v18, update state sync
-        (0,external_ReactDOM_namespaceObject.flushSync)(function () {
-            _this.setState(newState);
-        });
+        var widthChanged = this.state.width !== newState.width;
+        var heightChanged = this.state.height !== newState.height;
+        var flexBaseChanged = this.state.flexBasis !== newState.flexBasis;
+        var changed = widthChanged || heightChanged || flexBaseChanged;
+        if (changed) {
+            // For v18, update state sync
+            (0,external_ReactDOM_namespaceObject.flushSync)(function () {
+                _this.setState(newState);
+            });
+        }
         if (this.props.onResize) {
-            this.props.onResize(event, direction, this.resizable, delta);
+            if (changed) {
+                this.props.onResize(event, direction, this.resizable, delta);
+            }
         }
     };
     Resizable.prototype.onMouseUp = function (event) {
-        var _a = this.state, isResizing = _a.isResizing, direction = _a.direction, original = _a.original;
+        var _a, _b;
+        var _c = this.state, isResizing = _c.isResizing, direction = _c.direction, original = _c.original;
         if (!isResizing || !this.resizable) {
             return;
         }
@@ -66287,7 +66375,7 @@ var Resizable = /** @class */ (function (_super) {
             this.props.onResizeStop(event, direction, this.resizable, delta);
         }
         if (this.props.size) {
-            this.setState(this.props.size);
+            this.setState({ width: (_a = this.props.size.width) !== null && _a !== void 0 ? _a : 'auto', height: (_b = this.props.size.height) !== null && _b !== void 0 ? _b : 'auto' });
         }
         this.unbindEvents();
         this.setState({
@@ -66296,7 +66384,8 @@ var Resizable = /** @class */ (function (_super) {
         });
     };
     Resizable.prototype.updateSize = function (size) {
-        this.setState({ width: size.width, height: size.height });
+        var _a, _b;
+        this.setState({ width: (_a = size.width) !== null && _a !== void 0 ? _a : 'auto', height: (_b = size.height) !== null && _b !== void 0 ? _b : 'auto' });
     };
     Resizable.prototype.renderResizer = function () {
         var _this = this;
@@ -66327,7 +66416,14 @@ var Resizable = /** @class */ (function (_super) {
             style.flexBasis = this.state.flexBasis;
         }
         var Wrapper = this.props.as || 'div';
-        return (external_React_.createElement(Wrapper, lib_assign({ ref: this.ref, style: style, className: this.props.className }, extendsProps),
+        return (external_React_.createElement(Wrapper, lib_assign({ style: style, className: this.props.className }, extendsProps, { 
+            // `ref` is after `extendsProps` to ensure this one wins over a version
+            // passed in
+            ref: function (c) {
+                if (c) {
+                    _this.resizable = c;
+                }
+            } }),
             this.state.isResizing && external_React_.createElement("div", { style: this.state.backgroundStyle }),
             this.props.children,
             this.renderResizer()));
@@ -70091,6 +70187,8 @@ function mergeStore(...stores) {
 
 
 
+// EXTERNAL MODULE: ./node_modules/use-sync-external-store/shim/index.js
+var use_sync_external_store_shim = __webpack_require__(635);
 ;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/P63NRZ4A.js
 
 
@@ -70101,7 +70199,7 @@ function mergeStore(...stores) {
 
 
 
-var { useSyncExternalStore: P63NRZ4A_useSyncExternalStore } = shim;
+var { useSyncExternalStore: P63NRZ4A_useSyncExternalStore } = use_sync_external_store_shim;
 var noopSubscribe = () => () => {
 };
 var inFlushSyncContext = false;
