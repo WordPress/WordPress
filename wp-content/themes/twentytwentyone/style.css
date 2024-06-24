@@ -1565,6 +1565,10 @@ pre {
 	overflow-x: auto;
 }
 
+.entry-content > code {
+	display: block;
+}
+
 /*
  * text-underline-offset doesn't work in Chrome at all 👎
  * But looks nice in Safari/Firefox, so let's keep it and

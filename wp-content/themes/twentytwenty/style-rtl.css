@@ -598,6 +598,9 @@ pre code {
 	padding: 0;
 }
 
+.entry-content > code {
+	display: block;
+}
 
 /* Media ------------------------------------- */
 

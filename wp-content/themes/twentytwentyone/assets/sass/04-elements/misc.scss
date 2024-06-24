@@ -15,3 +15,7 @@ pre {
 	white-space: pre;
 	overflow-x: auto;
 }
+
+.entry-content > code {
+	display: block;
+}
