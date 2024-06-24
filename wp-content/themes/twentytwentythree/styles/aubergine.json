@@ -11,7 +11,7 @@
 					"slug": "secondary-base"
 				},
 				{
-					"gradient": "linear-gradient(180deg, var(--wp--preset--color--base) 0 min(24rem, 10%), var(--wp--preset--color--secondary) 0% 30%, var(--wp--preset--color--base) 100%)",
+					"gradient": "linear-gradient(180deg, var(--wp--preset--color--base) 0 clamp(10vh, 24rem, 14vh), var(--wp--preset--color--secondary) 0% 30%, var(--wp--preset--color--base) 100%)",
 					"name": "Base to Secondary to Base",
 					"slug": "base-secondary-base"
 				},
