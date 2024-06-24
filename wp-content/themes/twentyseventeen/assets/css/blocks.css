@@ -166,7 +166,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Pullquote */
 
 .wp-block-pullquote {
-	border: 0;
+	border: 0 solid;
 }
 
 .wp-block-pullquote__citation,

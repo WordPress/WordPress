@@ -646,7 +646,7 @@ html[lang="th"] .edit-post-visual-editor * {
 /* Pullquote */
 
 .wp-block-pullquote {
-	border: 0;
+	border: 0 solid;
 }
 
 .wp-block-pullquote.alignleft blockquote > .editor-rich-text p,
