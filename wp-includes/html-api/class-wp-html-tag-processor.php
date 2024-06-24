@@ -2972,8 +2972,16 @@ class WP_HTML_Tag_Processor {
 		if ( true === $value ) {
 			$updated_attribute = $name;
 		} else {
+			$tag_name        = $this->get_tag();
+			$comparable_name = strtolower( $name );
+
+			/*
+			 * Escape URL attributes.
+			 *
+			 * @see https://html.spec.whatwg.org/#attributes-3
+			 */
 			$escaped_new_value = esc_attr( $value );
-			$updated_attribute = "{$name}=\"{$escaped_new_value}\"";
+			$updated_attribute = wp_kses_one_attr( "{$comparable_name}=\"{$escaped_new_value}\"", $tag_name );
 		}
 
 		/*
