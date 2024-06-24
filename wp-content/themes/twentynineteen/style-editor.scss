@@ -393,6 +393,7 @@ figcaption,
 		@include font-family( $font__heading );
 		font-size: $font__size-sm;
 		font-weight: bold;
+		padding: ($font__size_base * .76) $font__size_base;
 
 		&:not(.has-text-color) {
 			color: #fff;
