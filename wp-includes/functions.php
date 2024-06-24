@@ -4268,6 +4268,9 @@ function iis7_supports_permalinks() {
  * @return int 0 means nothing is wrong, greater than 0 means something was wrong.
  */
 function validate_file( $file, $allowed_files = '' ) {
+	// Normalize path for Windows servers
+	$file = wp_normalize_path( $file );
+
 	if ( false !== strpos( $file, '..' ) )
 		return 1;
 
