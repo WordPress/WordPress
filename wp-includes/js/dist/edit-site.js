@@ -1385,19 +1385,15 @@ var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 var external_wp_editor_namespaceObject = window["wp"]["editor"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function extends_extends() {
-  extends_extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return extends_extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-    return target;
-  };
-  return extends_extends.apply(this, arguments);
+    return n;
+  }, extends_extends.apply(null, arguments);
 }
+
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(7153);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);

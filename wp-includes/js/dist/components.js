@@ -2605,19 +2605,15 @@ __webpack_require__.d(toggle_group_control_option_base_styles_namespaceObject, {
 var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function extends_extends() {
-  extends_extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return extends_extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-    return target;
-  };
-  return extends_extends.apply(this, arguments);
+    return n;
+  }, extends_extends.apply(null, arguments);
 }
+
 ;// CONCATENATED MODULE: external ["wp","element"]
 var external_wp_element_namespaceObject = window["wp"]["element"];
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
@@ -5222,12 +5218,21 @@ function floating_ui_utils_getPaddingObject(padding) {
   };
 }
 function floating_ui_utils_rectToClientRect(rect) {
+  const {
+    x,
+    y,
+    width,
+    height
+  } = rect;
   return {
-    ...rect,
-    top: rect.y,
-    left: rect.x,
-    right: rect.x + rect.width,
-    bottom: rect.y + rect.height
+    width,
+    height,
+    top: y,
+    left: x,
+    right: x + width,
+    bottom: y + height,
+    x,
+    y
   };
 }
 
@@ -5422,9 +5427,10 @@ async function detectOverflow(state, options) {
     strategy
   }));
   const rect = elementContext === 'floating' ? {
-    ...rects.floating,
     x,
-    y
+    y,
+    width: rects.floating.width,
+    height: rects.floating.height
   } : rects.reference;
   const offsetParent = await (platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(elements.floating));
   const offsetScale = (await (platform.isElement == null ? void 0 : platform.isElement(offsetParent))) ? (await (platform.getScale == null ? void 0 : platform.getScale(offsetParent))) || {
@@ -5964,6 +5970,8 @@ async function convertValueToCoords(state, options) {
   const mainAxisMulti = ['left', 'top'].includes(side) ? -1 : 1;
   const crossAxisMulti = rtl && isVertical ? -1 : 1;
   const rawValue = floating_ui_utils_evaluate(options, state);
+
+  // eslint-disable-next-line prefer-const
   let {
     mainAxis,
     crossAxis,
@@ -6214,16 +6222,16 @@ const size = function (options) {
         widthSide = side;
         heightSide = alignment === 'end' ? 'top' : 'bottom';
       }
-      const overflowAvailableHeight = height - overflow[heightSide];
-      const overflowAvailableWidth = width - overflow[widthSide];
+      const maximumClippingHeight = height - overflow.top - overflow.bottom;
+      const maximumClippingWidth = width - overflow.left - overflow.right;
+      const overflowAvailableHeight = floating_ui_utils_min(height - overflow[heightSide], maximumClippingHeight);
+      const overflowAvailableWidth = floating_ui_utils_min(width - overflow[widthSide], maximumClippingWidth);
       const noShift = !state.middlewareData.shift;
       let availableHeight = overflowAvailableHeight;
       let availableWidth = overflowAvailableWidth;
       if (isYAxis) {
-        const maximumClippingWidth = width - overflow.left - overflow.right;
         availableWidth = alignment || noShift ? floating_ui_utils_min(overflowAvailableWidth, maximumClippingWidth) : maximumClippingWidth;
       } else {
-        const maximumClippingHeight = height - overflow.top - overflow.bottom;
         availableHeight = alignment || noShift ? floating_ui_utils_min(overflowAvailableHeight, maximumClippingHeight) : maximumClippingHeight;
       }
       if (noShift && !alignment) {
@@ -6315,9 +6323,8 @@ function getContainingBlock(element) {
   while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
     if (isContainingBlock(currentNode)) {
       return currentNode;
-    } else {
-      currentNode = getParentNode(currentNode);
     }
+    currentNode = getParentNode(currentNode);
   }
   return null;
 }
@@ -6388,7 +6395,6 @@ function getOverflowAncestors(node, list, traverseIframes) {
 
 
 ;// CONCATENATED MODULE: ./node_modules/@floating-ui/dom/dist/floating-ui.dom.mjs
-
 
 
 
@@ -6522,10 +6528,10 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
 }
 
 const topLayerSelectors = [':popover-open', ':modal'];
-function isTopLayer(floating) {
+function isTopLayer(element) {
   return topLayerSelectors.some(selector => {
     try {
-      return floating.matches(selector);
+      return element.matches(selector);
     } catch (e) {
       return false;
     }
@@ -6713,7 +6719,7 @@ function getClippingRect(_ref) {
     rootBoundary,
     strategy
   } = _ref;
-  const elementClippingAncestors = boundary === 'clippingAncestors' ? getClippingElementAncestors(element, this._c) : [].concat(boundary);
+  const elementClippingAncestors = boundary === 'clippingAncestors' ? isTopLayer(element) ? [] : getClippingElementAncestors(element, this._c) : [].concat(boundary);
   const clippingAncestors = [...elementClippingAncestors, rootBoundary];
   const firstClippingAncestor = clippingAncestors[0];
   const clippingRect = clippingAncestors.reduce((accRect, clippingAncestor) => {
@@ -6775,6 +6781,10 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
   };
 }
 
+function isStaticPositioned(element) {
+  return floating_ui_utils_dom_getComputedStyle(element).position === 'static';
+}
+
 function getTrueOffsetParent(element, polyfill) {
   if (!isHTMLElement(element) || floating_ui_utils_dom_getComputedStyle(element).position === 'fixed') {
     return null;
@@ -6788,29 +6798,41 @@ function getTrueOffsetParent(element, polyfill) {
 // Gets the closest ancestor positioned element. Handles some edge cases,
 // such as table ancestors and cross browser bugs.
 function getOffsetParent(element, polyfill) {
-  const window = floating_ui_utils_dom_getWindow(element);
-  if (!isHTMLElement(element) || isTopLayer(element)) {
-    return window;
+  const win = floating_ui_utils_dom_getWindow(element);
+  if (isTopLayer(element)) {
+    return win;
+  }
+  if (!isHTMLElement(element)) {
+    let svgOffsetParent = getParentNode(element);
+    while (svgOffsetParent && !isLastTraversableNode(svgOffsetParent)) {
+      if (isElement(svgOffsetParent) && !isStaticPositioned(svgOffsetParent)) {
+        return svgOffsetParent;
+      }
+      svgOffsetParent = getParentNode(svgOffsetParent);
+    }
+    return win;
   }
   let offsetParent = getTrueOffsetParent(element, polyfill);
-  while (offsetParent && isTableElement(offsetParent) && floating_ui_utils_dom_getComputedStyle(offsetParent).position === 'static') {
+  while (offsetParent && isTableElement(offsetParent) && isStaticPositioned(offsetParent)) {
     offsetParent = getTrueOffsetParent(offsetParent, polyfill);
   }
-  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && floating_ui_utils_dom_getComputedStyle(offsetParent).position === 'static' && !isContainingBlock(offsetParent))) {
-    return window;
+  if (offsetParent && isLastTraversableNode(offsetParent) && isStaticPositioned(offsetParent) && !isContainingBlock(offsetParent)) {
+    return win;
   }
-  return offsetParent || getContainingBlock(element) || window;
+  return offsetParent || getContainingBlock(element) || win;
 }
 
 const getElementRects = async function (data) {
   const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
   const getDimensionsFn = this.getDimensions;
+  const floatingDimensions = await getDimensionsFn(data.floating);
   return {
     reference: getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
     floating: {
       x: 0,
       y: 0,
-      ...(await getDimensionsFn(data.floating))
+      width: floatingDimensions.width,
+      height: floatingDimensions.height
     }
   };
 };
@@ -6880,9 +6902,11 @@ function observeMove(element, onMove) {
           return refresh();
         }
         if (!ratio) {
+          // If the reference is clipped, the ratio is 0. Throttle the refresh
+          // to prevent an infinite loop of updates.
           timeoutId = setTimeout(() => {
             refresh(false, 1e-7);
-          }, 100);
+          }, 1000);
         } else {
           refresh(false, ratio);
         }
@@ -6985,6 +7009,25 @@ function autoUpdate(reference, floating, update, options) {
     }
   };
 }
+
+/**
+ * Resolves with an object of overflow side offsets that determine how much the
+ * element is overflowing a given clipping boundary on each side.
+ * - positive = overflowing the boundary by that number of pixels
+ * - negative = how many pixels left before it will overflow
+ * - 0 = lies flush with the boundary
+ * @see https://floating-ui.com/docs/detectOverflow
+ */
+const floating_ui_dom_detectOverflow = (/* unused pure expression or super */ null && (detectOverflow$1));
+
+/**
+ * Modifies the placement by translating the floating element along the
+ * specified axes.
+ * A number (shorthand for `mainAxis` or distance), or an axes configuration
+ * object may be passed.
+ * @see https://floating-ui.com/docs/offset
+ */
+const floating_ui_dom_offset = offset;
 
 /**
  * Optimizes the visibility of the floating element by choosing the placement
@@ -22815,7 +22858,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
       };
     }
 
-  }, offset(offsetProp), computedFlipProp ? floating_ui_dom_flip() : undefined, computedResizeProp ? floating_ui_dom_size({
+  }, floating_ui_dom_offset(offsetProp), computedFlipProp ? floating_ui_dom_flip() : undefined, computedResizeProp ? floating_ui_dom_size({
     apply(sizeProps) {
       var _refs$floating$curren;
 
@@ -52342,6 +52385,7 @@ function _typeof(o) {
     return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
   }, _typeof(o);
 }
+
 ;// CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/requiredArgs/index.js
 function requiredArgs(required, args) {
   if (args.length < required) {
@@ -64529,8 +64573,16 @@ var calculateNewMax = function (parentSize, innerWidth, innerHeight, maxWidth, m
         minHeight: typeof minHeight === 'undefined' ? undefined : Number(minHeight),
     };
 };
+/**
+ * transform T | [T, T] to [T, T]
+ * @param val
+ * @returns
+ */
+// tslint:disable-next-line
+var normalizeToPair = function (val) { return (Array.isArray(val) ? val : [val, val]); };
 var definedProps = [
     'as',
+    'ref',
     'style',
     'className',
     'grid',
@@ -64565,6 +64617,7 @@ var baseClassName = '__resizable_base__';
 var Resizable = /** @class */ (function (_super) {
     lib_extends(Resizable, _super);
     function Resizable(props) {
+        var _a, _b, _c, _d;
         var _this = _super.call(this, props) || this;
         _this.ratio = 1;
         _this.resizable = null;
@@ -64610,19 +64663,10 @@ var Resizable = /** @class */ (function (_super) {
             }
             parent.removeChild(base);
         };
-        _this.ref = function (c) {
-            if (c) {
-                _this.resizable = c;
-            }
-        };
         _this.state = {
             isResizing: false,
-            width: typeof (_this.propsSize && _this.propsSize.width) === 'undefined'
-                ? 'auto'
-                : _this.propsSize && _this.propsSize.width,
-            height: typeof (_this.propsSize && _this.propsSize.height) === 'undefined'
-                ? 'auto'
-                : _this.propsSize && _this.propsSize.height,
+            width: (_b = (_a = _this.propsSize) === null || _a === void 0 ? void 0 : _a.width) !== null && _b !== void 0 ? _b : 'auto',
+            height: (_d = (_c = _this.propsSize) === null || _c === void 0 ? void 0 : _c.height) !== null && _d !== void 0 ? _d : 'auto',
             direction: 'right',
             original: {
                 x: 0,
@@ -64709,10 +64753,11 @@ var Resizable = /** @class */ (function (_super) {
             var _this = this;
             var size = this.props.size;
             var getSize = function (key) {
+                var _a;
                 if (typeof _this.state[key] === 'undefined' || _this.state[key] === 'auto') {
                     return 'auto';
                 }
-                if (_this.propsSize && _this.propsSize[key] && _this.propsSize[key].toString().endsWith('%')) {
+                if (_this.propsSize && _this.propsSize[key] && ((_a = _this.propsSize[key]) === null || _a === void 0 ? void 0 : _a.toString().endsWith('%'))) {
                     if (_this.state[key].toString().endsWith('%')) {
                         return _this.state[key].toString();
                     }
@@ -64853,33 +64898,33 @@ var Resizable = /** @class */ (function (_super) {
     };
     Resizable.prototype.calculateNewSizeFromDirection = function (clientX, clientY) {
         var scale = this.props.scale || 1;
-        var resizeRatio = this.props.resizeRatio || 1;
-        var _a = this.state, direction = _a.direction, original = _a.original;
-        var _b = this.props, lockAspectRatio = _b.lockAspectRatio, lockAspectRatioExtraHeight = _b.lockAspectRatioExtraHeight, lockAspectRatioExtraWidth = _b.lockAspectRatioExtraWidth;
+        var _a = normalizeToPair(this.props.resizeRatio || 1), resizeRatioX = _a[0], resizeRatioY = _a[1];
+        var _b = this.state, direction = _b.direction, original = _b.original;
+        var _c = this.props, lockAspectRatio = _c.lockAspectRatio, lockAspectRatioExtraHeight = _c.lockAspectRatioExtraHeight, lockAspectRatioExtraWidth = _c.lockAspectRatioExtraWidth;
         var newWidth = original.width;
         var newHeight = original.height;
         var extraHeight = lockAspectRatioExtraHeight || 0;
         var extraWidth = lockAspectRatioExtraWidth || 0;
         if (hasDirection('right', direction)) {
-            newWidth = original.width + ((clientX - original.x) * resizeRatio) / scale;
+            newWidth = original.width + ((clientX - original.x) * resizeRatioX) / scale;
             if (lockAspectRatio) {
                 newHeight = (newWidth - extraWidth) / this.ratio + extraHeight;
             }
         }
         if (hasDirection('left', direction)) {
-            newWidth = original.width - ((clientX - original.x) * resizeRatio) / scale;
+            newWidth = original.width - ((clientX - original.x) * resizeRatioX) / scale;
             if (lockAspectRatio) {
                 newHeight = (newWidth - extraWidth) / this.ratio + extraHeight;
             }
         }
         if (hasDirection('bottom', direction)) {
-            newHeight = original.height + ((clientY - original.y) * resizeRatio) / scale;
+            newHeight = original.height + ((clientY - original.y) * resizeRatioY) / scale;
             if (lockAspectRatio) {
                 newWidth = (newHeight - extraHeight) * this.ratio + extraWidth;
             }
         }
         if (hasDirection('top', direction)) {
-            newHeight = original.height - ((clientY - original.y) * resizeRatio) / scale;
+            newHeight = original.height - ((clientY - original.y) * resizeRatioY) / scale;
             if (lockAspectRatio) {
                 newWidth = (newHeight - extraHeight) * this.ratio + extraWidth;
             }
@@ -65040,8 +65085,10 @@ var Resizable = /** @class */ (function (_super) {
             var newGridWidth = snap(newWidth, this.props.grid[0]);
             var newGridHeight = snap(newHeight, this.props.grid[1]);
             var gap = this.props.snapGap || 0;
-            newWidth = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
-            newHeight = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
+            var w = gap === 0 || Math.abs(newGridWidth - newWidth) <= gap ? newGridWidth : newWidth;
+            var h = gap === 0 || Math.abs(newGridHeight - newHeight) <= gap ? newGridHeight : newHeight;
+            newWidth = w;
+            newHeight = h;
         }
         var delta = {
             width: newWidth - original.width,
@@ -65085,16 +65132,25 @@ var Resizable = /** @class */ (function (_super) {
         else if (this.flexDir === 'column') {
             newState.flexBasis = newState.height;
         }
-        // For v18, update state sync
-        (0,external_ReactDOM_namespaceObject.flushSync)(function () {
-            _this.setState(newState);
-        });
+        var widthChanged = this.state.width !== newState.width;
+        var heightChanged = this.state.height !== newState.height;
+        var flexBaseChanged = this.state.flexBasis !== newState.flexBasis;
+        var changed = widthChanged || heightChanged || flexBaseChanged;
+        if (changed) {
+            // For v18, update state sync
+            (0,external_ReactDOM_namespaceObject.flushSync)(function () {
+                _this.setState(newState);
+            });
+        }
         if (this.props.onResize) {
-            this.props.onResize(event, direction, this.resizable, delta);
+            if (changed) {
+                this.props.onResize(event, direction, this.resizable, delta);
+            }
         }
     };
     Resizable.prototype.onMouseUp = function (event) {
-        var _a = this.state, isResizing = _a.isResizing, direction = _a.direction, original = _a.original;
+        var _a, _b;
+        var _c = this.state, isResizing = _c.isResizing, direction = _c.direction, original = _c.original;
         if (!isResizing || !this.resizable) {
             return;
         }
@@ -65106,7 +65162,7 @@ var Resizable = /** @class */ (function (_super) {
             this.props.onResizeStop(event, direction, this.resizable, delta);
         }
         if (this.props.size) {
-            this.setState(this.props.size);
+            this.setState({ width: (_a = this.props.size.width) !== null && _a !== void 0 ? _a : 'auto', height: (_b = this.props.size.height) !== null && _b !== void 0 ? _b : 'auto' });
         }
         this.unbindEvents();
         this.setState({
@@ -65115,7 +65171,8 @@ var Resizable = /** @class */ (function (_super) {
         });
     };
     Resizable.prototype.updateSize = function (size) {
-        this.setState({ width: size.width, height: size.height });
+        var _a, _b;
+        this.setState({ width: (_a = size.width) !== null && _a !== void 0 ? _a : 'auto', height: (_b = size.height) !== null && _b !== void 0 ? _b : 'auto' });
     };
     Resizable.prototype.renderResizer = function () {
         var _this = this;
@@ -65146,7 +65203,14 @@ var Resizable = /** @class */ (function (_super) {
             style.flexBasis = this.state.flexBasis;
         }
         var Wrapper = this.props.as || 'div';
-        return (external_React_.createElement(Wrapper, lib_assign({ ref: this.ref, style: style, className: this.props.className }, extendsProps),
+        return (external_React_.createElement(Wrapper, lib_assign({ style: style, className: this.props.className }, extendsProps, { 
+            // `ref` is after `extendsProps` to ensure this one wins over a version
+            // passed in
+            ref: function (c) {
+                if (c) {
+                    _this.resizable = c;
+                }
+            } }),
             this.state.isResizing && external_React_.createElement("div", { style: this.state.backgroundStyle }),
             this.props.children,
             this.renderResizer()));
