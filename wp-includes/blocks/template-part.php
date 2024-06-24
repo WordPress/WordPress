@@ -141,7 +141,7 @@ function render_block_core_template_part( $attributes ) {
 	global $wp_embed;
 	$content = $wp_embed->autoembed( $content );
 
-	if ( empty( $attributes['tagName'] ) ) {
+	if ( empty( $attributes['tagName'] ) || tag_escape( $attributes['tagName'] ) !== $attributes['tagName'] ) {
 		$defined_areas = get_allowed_block_template_part_areas();
 		$area_tag      = 'div';
 		foreach ( $defined_areas as $defined_area ) {
