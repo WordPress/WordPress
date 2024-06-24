@@ -6192,6 +6192,9 @@ function validate_file( $file, $allowed_files = array() ) {
 		return 0;
 	}
 
+	// Normalize path for Windows servers
+	$file = wp_normalize_path( $file );
+
 	// `../` on its own is not allowed:
 	if ( '../' === $file ) {
 		return 1;
