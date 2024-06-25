@@ -1521,12 +1521,12 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   min-height:32px;
 }
 .editor-post-panel__row-control .components-button{
+  height:auto;
   max-width:100%;
+  min-height:32px;
   text-align:right;
   text-wrap:balance;
   text-wrap:pretty;
-  height:auto;
-  min-height:32px;
 }
 .editor-post-panel__row-control .components-dropdown{
   max-width:100%;
