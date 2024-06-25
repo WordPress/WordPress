@@ -1412,7 +1412,8 @@ function addBindings(bindings) {
 }
 function PatternOverridesControls({
   attributes,
-  setAttributes
+  setAttributes,
+  name: blockName
 }) {
   const controlId = (0,external_wp_element_namespaceObject.useId)();
   const [showAllowOverridesModal, setShowAllowOverridesModal] = (0,external_wp_element_namespaceObject.useState)(false);
@@ -1440,13 +1441,15 @@ function PatternOverridesControls({
   if (isConnectedToOtherSources) {
     return null;
   }
+  const hasUnsupportedImageAttributes = blockName === 'core/image' && (!!attributes.caption?.length || !!attributes.href?.length);
+  const helpText = hasUnsupportedImageAttributes ? (0,external_wp_i18n_namespaceObject.__)(`Overrides currently don't support image captions or links. Remove the caption or link first before enabling overrides.`) : (0,external_wp_i18n_namespaceObject.__)('Allow changes to this block throughout instances of this pattern.');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.InspectorControls, {
       group: "advanced",
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.BaseControl, {
         id: controlId,
         label: (0,external_wp_i18n_namespaceObject.__)('Overrides'),
-        help: (0,external_wp_i18n_namespaceObject.__)('Allow changes to this block throughout instances of this pattern.'),
+        help: helpText,
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
           __next40pxDefaultSize: true,
           className: "pattern-overrides-control__allow-overrides-button",
@@ -1459,6 +1462,8 @@ function PatternOverridesControls({
               setShowAllowOverridesModal(true);
             }
           },
+          disabled: hasUnsupportedImageAttributes,
+          __experimentalIsFocusable: true,
           children: allowOverrides ? (0,external_wp_i18n_namespaceObject.__)('Disable overrides') : (0,external_wp_i18n_namespaceObject.__)('Enable overrides')
         })
       })

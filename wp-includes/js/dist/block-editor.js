@@ -34288,6 +34288,7 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
     marginReset: true,
     presets: true,
     rootPadding: true,
+    variationStyles: false,
     ...styleOptions
   };
   const nodesWithStyles = getNodesWithStyles(tree, blockSelectors);
@@ -34325,8 +34326,8 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
       ruleset += `padding-right: 0; padding-left: 0; padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom) }
 				.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }
 				.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); }
-				.has-global-padding :where(.has-global-padding:not(.wp-block-block, .alignfull, .alignwide)) { padding-right: 0; padding-left: 0; }
-				.has-global-padding :where(.has-global-padding:not(.wp-block-block, .alignfull, .alignwide)) > .alignfull { margin-left: 0; margin-right: 0;
+				.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull, .alignwide)) { padding-right: 0; padding-left: 0; }
+				.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull, .alignwide)) > .alignfull { margin-left: 0; margin-right: 0;
 				`;
     }
     ruleset += '}';
@@ -34385,7 +34386,7 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
       if (styles?.css) {
         ruleset += processCSSNesting(styles.css, `:root :where(${selector})`);
       }
-      if (styleVariationSelectors) {
+      if (options.variationStyles && styleVariationSelectors) {
         Object.entries(styleVariationSelectors).forEach(([styleVariationName, styleVariationSelector]) => {
           const styleVariations = styles?.variations?.[styleVariationName];
           if (styleVariations) {
@@ -34786,14 +34787,15 @@ function block_style_variation_useBlockProps({
     const hasBlockGapSupport = false;
     const hasFallbackGapSupport = true;
     const disableLayoutStyles = true;
-    const isTemplate = true;
-    return toStyles(variationConfig, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport, disableLayoutStyles, isTemplate, {
+    const disableRootPadding = true;
+    return toStyles(variationConfig, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport, disableLayoutStyles, disableRootPadding, {
       blockGap: false,
       blockStyles: true,
       layoutStyles: false,
       marginReset: false,
       presets: false,
-      rootPadding: false
+      rootPadding: false,
+      variationStyles: true
     });
   }, [variation, settings, styles, getBlockStyles, clientId]);
   useStyleOverride({
@@ -54549,7 +54551,9 @@ function Shuffle({
         // otherwise we may shuffle to pattern that will not allow to continue shuffling.
         pattern.blocks.length === 1 && pattern.categories?.some(category => {
           return categories.includes(category);
-        })
+        }) && (
+        // Check if the pattern is not a synced pattern.
+        pattern.syncStatus === 'unsynced' || !pattern.id)
       );
     });
   }, [categories, patterns]);
@@ -60987,7 +60991,6 @@ function AspectRatioDropdown({
     label: (0,external_wp_i18n_namespaceObject.__)('Aspect Ratio'),
     popoverProps: constants_POPOVER_PROPS,
     toggleProps: toggleProps,
-    className: "wp-block-image__aspect-ratio",
     children: ({
       onClose
     }) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {

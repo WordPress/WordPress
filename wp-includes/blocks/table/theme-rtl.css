@@ -4,11 +4,11 @@
 .wp-block-table td,.wp-block-table th{
   word-break:normal;
 }
-.wp-block-table figcaption{
+.wp-block-table :where(figcaption){
   color:#555;
   font-size:13px;
   text-align:center;
 }
-.is-dark-theme .wp-block-table figcaption{
+.is-dark-theme .wp-block-table :where(figcaption){
   color:#ffffffa6;
 }

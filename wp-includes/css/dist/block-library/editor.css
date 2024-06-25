@@ -1170,18 +1170,6 @@ figure.wp-block-image:not(.wp-block){
   overflow:visible !important;
 }
 
-.wp-block-image__aspect-ratio{
-  align-items:center;
-  display:flex;
-  height:46px;
-  margin-bottom:-8px;
-}
-.wp-block-image__aspect-ratio .components-button{
-  padding-left:0;
-  padding-right:0;
-  width:36px;
-}
-
 .wp-block-image__toolbar_content_textarea{
   width:250px;
 }

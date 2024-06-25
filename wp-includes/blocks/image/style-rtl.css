@@ -36,7 +36,7 @@
   margin-left:auto;
   margin-right:auto;
 }
-.wp-block-image figcaption{
+.wp-block-image :where(figcaption){
   margin-bottom:1em;
   margin-top:.5em;
 }

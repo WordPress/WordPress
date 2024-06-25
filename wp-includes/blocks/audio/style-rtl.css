@@ -1,7 +1,7 @@
 .wp-block-audio{
   box-sizing:border-box;
 }
-.wp-block-audio figcaption{
+.wp-block-audio :where(figcaption){
   margin-bottom:1em;
   margin-top:.5em;
 }

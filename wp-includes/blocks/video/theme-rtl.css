@@ -1,9 +1,9 @@
-.wp-block-video figcaption{
+.wp-block-video :where(figcaption){
   color:#555;
   font-size:13px;
   text-align:center;
 }
-.is-dark-theme .wp-block-video figcaption{
+.is-dark-theme .wp-block-video :where(figcaption){
   color:#ffffffa6;
 }
 

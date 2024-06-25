@@ -28,6 +28,7 @@ __webpack_require__.d(__webpack_exports__, {
   SD: () => (/* reexport */ getContext),
   V6: () => (/* reexport */ getElement),
   jb: () => (/* reexport */ privateApis),
+  yT: () => (/* reexport */ splitTask),
   M_: () => (/* reexport */ store),
   hb: () => (/* reexport */ useCallback),
   vJ: () => (/* reexport */ useEffect),
@@ -691,7 +692,7 @@ const afterNextFrame = callback => {
  *
  * @return Promise
  */
-const yieldToMain = () => {
+const splitTask = () => {
   return new Promise(resolve => {
     // TODO: Use scheduler.yield() when available.
     setTimeout(resolve, 0);
@@ -1179,7 +1180,7 @@ const getGlobalAsyncEventDirective = type => {
       const eventName = entry.suffix.split('--', 1)[0];
       useInit(() => {
         const cb = async event => {
-          await yieldToMain();
+          await splitTask();
           evaluate(entry, event);
         };
         const globalVar = type === 'window' ? window : document;
@@ -1318,7 +1319,7 @@ const getGlobalAsyncEventDirective = type => {
           existingHandler(event);
         }
         entries.forEach(async entry => {
-          await yieldToMain();
+          await splitTask();
           evaluate(entry, event);
         });
       };
@@ -1783,11 +1784,11 @@ const init = async () => {
   const nodes = document.querySelectorAll(`[data-${directivePrefix}-interactive]`);
   for (const node of nodes) {
     if (!hydratedIslands.has(node)) {
-      await yieldToMain();
+      await splitTask();
       const fragment = getRegionRootFragment(node);
       const vdom = toVdom(node);
       initialVdom.set(node, vdom);
-      await yieldToMain();
+      await splitTask();
       D(vdom, fragment);
     }
   }
@@ -1851,6 +1852,7 @@ var __webpack_exports__getConfig = __webpack_exports__.zj;
 var __webpack_exports__getContext = __webpack_exports__.SD;
 var __webpack_exports__getElement = __webpack_exports__.V6;
 var __webpack_exports__privateApis = __webpack_exports__.jb;
+var __webpack_exports__splitTask = __webpack_exports__.yT;
 var __webpack_exports__store = __webpack_exports__.M_;
 var __webpack_exports__useCallback = __webpack_exports__.hb;
 var __webpack_exports__useEffect = __webpack_exports__.vJ;
@@ -1861,4 +1863,4 @@ var __webpack_exports__useRef = __webpack_exports__.li;
 var __webpack_exports__useState = __webpack_exports__.J0;
 var __webpack_exports__useWatch = __webpack_exports__.FH;
 var __webpack_exports__withScope = __webpack_exports__.v4;
-export { __webpack_exports__getConfig as getConfig, __webpack_exports__getContext as getContext, __webpack_exports__getElement as getElement, __webpack_exports__privateApis as privateApis, __webpack_exports__store as store, __webpack_exports__useCallback as useCallback, __webpack_exports__useEffect as useEffect, __webpack_exports__useInit as useInit, __webpack_exports__useLayoutEffect as useLayoutEffect, __webpack_exports__useMemo as useMemo, __webpack_exports__useRef as useRef, __webpack_exports__useState as useState, __webpack_exports__useWatch as useWatch, __webpack_exports__withScope as withScope };
+export { __webpack_exports__getConfig as getConfig, __webpack_exports__getContext as getContext, __webpack_exports__getElement as getElement, __webpack_exports__privateApis as privateApis, __webpack_exports__splitTask as splitTask, __webpack_exports__store as store, __webpack_exports__useCallback as useCallback, __webpack_exports__useEffect as useEffect, __webpack_exports__useInit as useInit, __webpack_exports__useLayoutEffect as useLayoutEffect, __webpack_exports__useMemo as useMemo, __webpack_exports__useRef as useRef, __webpack_exports__useState as useState, __webpack_exports__useWatch as useWatch, __webpack_exports__withScope as withScope };

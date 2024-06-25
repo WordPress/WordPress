@@ -1291,6 +1291,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   margin:0;
   padding:2px 0;
   row-gap:4px;
+  word-break:break-word;
 }
 .editor-post-card-panel__icon{
   flex:0 0 24px;
@@ -1715,7 +1716,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   overflow:auto;
   position:fixed;
   right:0;
-  top:0;
+  top:46px;
   z-index:100001;
 }
 @media (min-width:782px){
@@ -1984,6 +1985,10 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 
 .editor-post-url__input input.components-input-control__input{
   padding-inline-start:0 !important;
+}
+
+.editor-post-url__panel-toggle{
+  word-break:break-word;
 }
 
 .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]{
@@ -2442,6 +2447,7 @@ h3.components-heading.editor-template-areas__title{
   background-color:#ddd;
   display:block;
   height:100%;
+  isolation:isolate;
   position:relative;
 }
 .editor-visual-editor.is-resizable{

@@ -327,6 +327,7 @@ const {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -600,13 +601,19 @@ const requestMetaBoxUpdates = () => async ({
     window.tinyMCE.triggerSave();
   }
 
+  // We gather the base form data.
+  const baseFormData = new window.FormData(document.querySelector('.metabox-base-form'));
+  const postId = baseFormData.get('post_ID');
+  const postType = baseFormData.get('post_type');
+
   // Additional data needed for backward compatibility.
   // If we do not provide this data, the post will be overridden with the default values.
-  const post = registry.select(external_wp_editor_namespaceObject.store).getCurrentPost();
+  // We cannot rely on getCurrentPost because right now on the editor we may be editing a pattern or a template.
+  // We need to retrieve the post that the base form data is referring to.
+  const post = registry.select(external_wp_coreData_namespaceObject.store).getEditedEntityRecord('postType', postType, postId);
   const additionalData = [post.comment_status ? ['comment_status', post.comment_status] : false, post.ping_status ? ['ping_status', post.ping_status] : false, post.sticky ? ['sticky', post.sticky] : false, post.author ? ['post_author', post.author] : false].filter(Boolean);
 
-  // We gather all the metaboxes locations data and the base form data.
-  const baseFormData = new window.FormData(document.querySelector('.metabox-base-form'));
+  // We gather all the metaboxes locations.
   const activeMetaBoxLocations = select.getActiveMetaBoxLocations();
   const formDataToMerge = [baseFormData, ...activeMetaBoxLocations.map(location => new window.FormData(getMetaBoxContainer(location)))];
 
