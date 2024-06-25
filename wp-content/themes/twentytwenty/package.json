@@ -18,11 +18,11 @@
 		"npm": ">=9.8.1"
 	},
 	"devDependencies": {
-		"@wordpress/browserslist-config": "^5.31.0",
-		"@wordpress/scripts": "^26.19.0",
-		"autoprefixer": "^10.4.16",
+		"@wordpress/browserslist-config": "^6.1.0",
+		"@wordpress/scripts": "^28.1.0",
+		"autoprefixer": "^10.4.19",
 		"concurrently": "^8.2.2",
-		"postcss": "^8.4.32",
+		"postcss": "^8.4.38",
 		"postcss-cli": "^11.0.0",
 		"rtlcss": "^4.1.1",
 		"stylelint-a11y": "^1.2.3"
