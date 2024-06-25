@@ -349,13 +349,19 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		$this->state->stack_of_open_elements->set_push_handler(
 			function ( WP_HTML_Token $token ) {
-				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::PUSH );
+				$is_virtual            = ! isset( $this->state->current_token ) || $this->is_tag_closer();
+				$same_node             = isset( $this->state->current_token ) && $token->node_name === $this->state->current_token->node_name;
+				$provenance            = ( ! $same_node || $is_virtual ) ? 'virtual' : 'real';
+				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::PUSH, $provenance );
 			}
 		);
 
 		$this->state->stack_of_open_elements->set_pop_handler(
 			function ( WP_HTML_Token $token ) {
-				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::POP );
+				$is_virtual            = ! isset( $this->state->current_token ) || ! $this->is_tag_closer();
+				$same_node             = isset( $this->state->current_token ) && $token->node_name === $this->state->current_token->node_name;
+				$provenance            = ( ! $same_node || $is_virtual ) ? 'virtual' : 'real';
+				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::POP, $provenance );
 			}
 		);
 
@@ -569,9 +575,24 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether the current tag is a tag closer.
 	 */
 	public function is_tag_closer() {
-		return isset( $this->current_element )
-			? ( WP_HTML_Stack_Event::POP === $this->current_element->operation )
+		return $this->is_virtual()
+			? ( WP_HTML_Stack_Event::POP === $this->current_element->operation && '#tag' === $this->get_token_type() )
 			: parent::is_tag_closer();
+	}
+
+	/**
+	 * Indicates if the currently-matched token is virtual, created by a stack operation
+	 * while processing HTML, rather than a token found in the HTML text itself.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return bool Whether the current token is virtual.
+	 */
+	private function is_virtual() {
+		return (
+			isset( $this->current_element->provenance ) &&
+			'virtual' === $this->current_element->provenance
+		);
 	}
 
 	/**
@@ -1440,7 +1461,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return null;
 		}
 
-		if ( isset( $this->current_element ) ) {
+		if ( $this->is_virtual() ) {
 			return $this->current_element->token->node_name;
 		}
 
@@ -1457,6 +1478,27 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			default:
 				return $tag_name;
 		}
+	}
+
+	/**
+	 * Indicates if the currently matched tag contains the self-closing flag.
+	 *
+	 * No HTML elements ought to have the self-closing flag and for those, the self-closing
+	 * flag will be ignored. For void elements this is benign because they "self close"
+	 * automatically. For non-void HTML elements though problems will appear if someone
+	 * intends to use a self-closing element in place of that element with an empty body.
+	 * For HTML foreign elements and custom elements the self-closing flag determines if
+	 * they self-close or not.
+	 *
+	 * This function does not determine if a tag is self-closing,
+	 * but only if the self-closing flag is present in the syntax.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @return bool Whether the currently matched tag contains the self-closing flag.
+	 */
+	public function has_self_closing_flag() {
+		return $this->is_virtual() ? false : parent::has_self_closing_flag();
 	}
 
 	/**
@@ -1480,11 +1522,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string|null Name of the matched token.
 	 */
 	public function get_token_name() {
-		if ( isset( $this->current_element ) ) {
-			return $this->current_element->token->node_name;
-		}
-
-		return parent::get_token_name();
+		return $this->is_virtual()
+			? $this->current_element->token->node_name
+			: parent::get_token_name();
 	}
 
 	/**
@@ -1510,9 +1550,16 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string|null What kind of token is matched, or null.
 	 */
 	public function get_token_type() {
-		if ( isset( $this->current_element ) ) {
-			$node_name = $this->current_element->token->node_name;
-			if ( ctype_upper( $node_name[0] ) ) {
+		if ( $this->is_virtual() ) {
+			/*
+			 * This logic comes from the Tag Processor.
+			 *
+			 * @todo It would be ideal not to repeat this here, but it's not clearly
+			 *       better to allow passing a token name to `get_token_type()`.
+			 */
+			$node_name     = $this->current_element->token->node_name;
+			$starting_char = $node_name[0];
+			if ( 'A' <= $starting_char && 'Z' >= $starting_char ) {
 				return '#tag';
 			}
 
@@ -1546,25 +1593,38 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string|true|null Value of attribute or `null` if not available. Boolean attributes return `true`.
 	 */
 	public function get_attribute( $name ) {
-		if ( isset( $this->current_element ) ) {
-			// Closing tokens cannot contain attributes.
-			if ( WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
-				return null;
-			}
+		return $this->is_virtual() ? null : parent::get_attribute( $name );
+	}
 
-			$node_name = $this->current_element->token->node_name;
+	/**
+	 * Updates or creates a new attribute on the currently matched tag with the passed value.
+	 *
+	 * For boolean attributes special handling is provided:
+	 *  - When `true` is passed as the value, then only the attribute name is added to the tag.
+	 *  - When `false` is passed, the attribute gets removed if it existed before.
+	 *
+	 * For string attributes, the value is escaped using the `esc_attr` function.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @param string      $name  The attribute name to target.
+	 * @param string|bool $value The new attribute value.
+	 * @return bool Whether an attribute value was set.
+	 */
+	public function set_attribute( $name, $value ) {
+		return $this->is_virtual() ? false : parent::set_attribute( $name, $value );
+	}
 
-			// Only tags can contain attributes.
-			if ( 'A' > $node_name[0] || 'Z' < $node_name[0] ) {
-				return null;
-			}
-
-			if ( $this->current_element->token->bookmark_name === (string) $this->bookmark_counter ) {
-				return parent::get_attribute( $name );
-			}
-		}
-
-		return null;
+	/**
+	 * Remove an attribute from the currently-matched tag.
+	 *
+	 * @since 6.6.0 Subclassed for HTML Processor.
+	 *
+	 * @param string $name The attribute name to remove.
+	 * @return bool Whether an attribute was removed.
+	 */
+	public function remove_attribute( $name ) {
+		return $this->is_virtual() ? false : parent::remove_attribute( $name );
 	}
 
 	/**
@@ -1594,18 +1654,63 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return array|null List of attribute names, or `null` when no tag opener is matched.
 	 */
 	public function get_attribute_names_with_prefix( $prefix ) {
-		if ( isset( $this->current_element ) ) {
-			if ( WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
-				return null;
-			}
+		return $this->is_virtual() ? null : parent::get_attribute_names_with_prefix( $prefix );
+	}
 
-			$mark = $this->bookmarks[ $this->current_element->token->bookmark_name ];
-			if ( 0 === $mark->length ) {
-				return null;
-			}
-		}
+	/**
+	 * Adds a new class name to the currently matched tag.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @param string $class_name The class name to add.
+	 * @return bool Whether the class was set to be added.
+	 */
+	public function add_class( $class_name ) {
+		return $this->is_virtual() ? false : parent::add_class( $class_name );
+	}
 
-		return parent::get_attribute_names_with_prefix( $prefix );
+	/**
+	 * Removes a class name from the currently matched tag.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @param string $class_name The class name to remove.
+	 * @return bool Whether the class was set to be removed.
+	 */
+	public function remove_class( $class_name ) {
+		return $this->is_virtual() ? false : parent::remove_class( $class_name );
+	}
+
+	/**
+	 * Returns if a matched tag contains the given ASCII case-insensitive class name.
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @param string $wanted_class Look for this CSS class name, ASCII case-insensitive.
+	 * @return bool|null Whether the matched tag contains the given class name, or null if not matched.
+	 */
+	public function has_class( $wanted_class ) {
+		return $this->is_virtual() ? null : parent::has_class( $wanted_class );
+	}
+
+	/**
+	 * Generator for a foreach loop to step through each class name for the matched tag.
+	 *
+	 * This generator function is designed to be used inside a "foreach" loop.
+	 *
+	 * Example:
+	 *
+	 *     $p = WP_HTML_Processor::create_fragment( "<div class='free &lt;egg&lt;\tlang-en'>" );
+	 *     $p->next_tag();
+	 *     foreach ( $p->class_list() as $class_name ) {
+	 *         echo "{$class_name} ";
+	 *     }
+	 *     // Outputs: "free <egg> lang-en "
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 */
+	public function class_list() {
+		return $this->is_virtual() ? null : parent::class_list();
 	}
 
 	/**
@@ -1629,17 +1734,30 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return string
 	 */
 	public function get_modifiable_text() {
-		if ( isset( $this->current_element ) ) {
-			if ( WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
-				return '';
-			}
+		return $this->is_virtual() ? '' : parent::get_modifiable_text();
+	}
 
-			$mark = $this->bookmarks[ $this->current_element->token->bookmark_name ];
-			if ( 0 === $mark->length ) {
-				return '';
-			}
-		}
-		return parent::get_modifiable_text();
+	/**
+	 * Indicates what kind of comment produced the comment node.
+	 *
+	 * Because there are different kinds of HTML syntax which produce
+	 * comments, the Tag Processor tracks and exposes this as a type
+	 * for the comment. Nominally only regular HTML comments exist as
+	 * they are commonly known, but a number of unrelated syntax errors
+	 * also produce comments.
+	 *
+	 * @see self::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT
+	 * @see self::COMMENT_AS_CDATA_LOOKALIKE
+	 * @see self::COMMENT_AS_INVALID_HTML
+	 * @see self::COMMENT_AS_HTML_COMMENT
+	 * @see self::COMMENT_AS_PI_NODE_LOOKALIKE
+	 *
+	 * @since 6.6.0 Subclassed for the HTML Processor.
+	 *
+	 * @return string|null
+	 */
+	public function get_comment_type() {
+		return $this->is_virtual() ? null : parent::get_comment_type();
 	}
 
 	/**

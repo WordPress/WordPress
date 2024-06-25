@@ -57,13 +57,26 @@ class WP_HTML_Stack_Event {
 	public $operation;
 
 	/**
+	 * Indicates if the stack element is a real or virtual node.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @var string
+	 */
+	public $provenance;
+
+	/**
 	 * Constructor function.
 	 *
-	 * @param WP_HTML_Token $token     Token associated with stack event, always an opening token.
-	 * @param string        $operation One of self::PUSH or self::POP.
+	 * @since 6.6.0
+	 *
+	 * @param WP_HTML_Token $token      Token associated with stack event, always an opening token.
+	 * @param string        $operation  One of self::PUSH or self::POP.
+	 * @param string        $provenance "virtual" or "real".
 	 */
-	public function __construct( $token, $operation ) {
-		$this->token     = $token;
-		$this->operation = $operation;
+	public function __construct( $token, $operation, $provenance ) {
+		$this->token      = $token;
+		$this->operation  = $operation;
+		$this->provenance = $provenance;
 	}
 }
