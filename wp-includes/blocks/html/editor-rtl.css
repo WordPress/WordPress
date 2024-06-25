@@ -1,0 +1,30 @@
+.block-library-html__edit .block-library-html__preview-overlay{
+  height:100%;
+  position:absolute;
+  right:0;
+  top:0;
+  width:100%;
+}
+.block-library-html__edit .block-editor-plain-text{
+  background:#fff !important;
+  border:1px solid #1e1e1e !important;
+  border-radius:2px !important;
+  box-shadow:none !important;
+  box-sizing:border-box;
+  color:#1e1e1e !important;
+  direction:ltr;
+  font-family:Menlo,Consolas,monaco,monospace !important;
+  font-size:16px !important;
+  max-height:250px;
+  padding:12px !important;
+}
+@media (min-width:600px){
+  .block-library-html__edit .block-editor-plain-text{
+    font-size:13px !important;
+  }
+}
+.block-library-html__edit .block-editor-plain-text:focus{
+  border-color:var(--wp-admin-theme-color) !important;
+  box-shadow:0 0 0 1px var(--wp-admin-theme-color) !important;
+  outline:2px solid #0000 !important;
+}

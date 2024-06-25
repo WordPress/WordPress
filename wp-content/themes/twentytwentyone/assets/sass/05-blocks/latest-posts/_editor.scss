@@ -1,0 +1,144 @@
+.wp-block-latest-posts {
+	padding-left: 0;
+
+	// Vertical margins logic
+	&:not(.is-grid) > li {
+		margin-top: calc(1.666 * var(--global--spacing-vertical));
+		margin-bottom: calc(1.666 * var(--global--spacing-vertical));
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&.is-grid {
+		word-wrap: break-word;
+		word-break: break-word;
+
+		> li {
+			margin-bottom: var(--global--spacing-vertical);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	> li > * {
+		margin-top: calc(0.333 * var(--global--spacing-vertical));
+		margin-bottom: calc(0.333 * var(--global--spacing-vertical));
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	// Post title
+	> li > a {
+		display: inline-block;
+		font-family: var(--latest-posts--title-font-family);
+		font-size: var(--latest-posts--title-font-size);
+		font-weight: var(--heading--font-weight);
+		line-height: var(--global--line-height-heading);
+		margin-bottom: calc(0.333 * var(--global--spacing-vertical));
+	}
+
+	// Post author
+	.wp-block-latest-posts__post-author {
+		color: var(--global--color-primary);
+		font-size: var(--global--font-size-md);
+		line-height: var(--global--line-height-body);
+	}
+
+	// Post date
+	.wp-block-latest-posts__post-date {
+		color: var(--global--color-primary);
+		font-size: var(--global--font-size-xs);
+		line-height: var(--global--line-height-body);
+
+		[class*="inner-container"] &,
+		.has-background & {
+			color: currentColor;
+		}
+	}
+
+	// Post content
+	.wp-block-latest-posts__post-excerpt,
+	.wp-block-latest-posts__post-full-content {
+		font-family: var(--latest-posts--description-font-family);
+		font-size: var(--latest-posts--description-font-size);
+		line-height: var(--global--line-height-body);
+		margin-top: calc(0.666 * var(--global--spacing-vertical));
+	}
+
+	// Block Styles
+	&.is-style-twentytwentyone-latest-posts-dividers {
+		border-top: calc(3 * var(--separator--height)) solid var(--global--color-border);
+		border-bottom: calc(3 * var(--separator--height)) solid var(--global--color-border);
+
+		&:not(.is-grid) > li,
+		> li {
+			padding-bottom: var(--global--spacing-vertical);
+			border-bottom: var(--separator--height) solid var(--global--color-border);
+			margin-top: var(--global--spacing-vertical);
+			margin-bottom: var(--global--spacing-vertical);
+
+			&:last-child {
+				padding-bottom: 0;
+				border-bottom: none;
+			}
+		}
+
+		&.is-grid {
+			// Border moves up 1px to overlap the li borders in the last row.
+			box-shadow: inset 0 -1px 0 0 var(--global--color-border);
+			border-bottom: calc(2 * var(--separator--height)) solid var(--global--color-border);
+
+			li {
+				margin: 0;
+				padding-top: var(--global--spacing-vertical);
+				padding-right: var(--global--spacing-horizontal);
+
+				&:last-child {
+					padding-bottom: var(--global--spacing-vertical);
+				}
+			}
+
+			// This is using a non-standard media query because it is directly overriding the gutenberg-provided widths.
+			// https://github.com/WordPress/gutenberg/blob/master/packages/block-library/src/latest-posts/style.scss#L28-L34
+			@media screen and (min-width: 600px) {
+				@for $i from 2 through 6 {
+					&.columns-#{ $i } li {
+						width: calc((100% / #{ $i }));
+					}
+				}
+			}
+		}
+	}
+
+	&.is-style-twentytwentyone-latest-posts-borders {
+
+		li {
+			border: calc(3 * var(--separator--height)) solid var(--global--color-border);
+			padding: var(--global--spacing-vertical) var(--global--spacing-horizontal);
+
+			&:last-child {
+				padding-bottom: var(--global--spacing-vertical);
+				margin-bottom: var(--global--spacing-vertical);
+			}
+		}
+
+		&:not(.is-grid) li {
+			margin-top: var(--global--spacing-horizontal);
+			margin-bottom: var(--global--spacing-horizontal);
+		}
+	}
+}

@@ -1,0 +1,77 @@
+/*
+ * text-underline-offset doesn't work in Chrome at all 👎
+ * But looks nice in Safari/Firefox, so let's keep it and
+ * maybe Chrome will support it soon.
+ */
+a {
+	cursor: pointer;
+	color: var(--wp--style--color--link, var(--global--color-primary));
+	text-underline-offset: 3px;
+	text-decoration-skip-ink: all;
+}
+
+a:hover {
+	text-decoration-style: dotted;
+	text-decoration-skip-ink: none;
+}
+
+.site a:focus:not(.wp-block-button__link):not(.wp-block-file__button) {
+
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+
+	text-decoration: underline 1px dotted currentColor;
+	text-decoration-skip-ink: none;
+	background: rgba(255, 255, 255, .9);
+
+	// Change text color when the body background is dark.
+	.is-dark-theme & {
+		background: var(--global--color-black);
+		color: var(--global--color-white);
+		text-decoration: none;
+
+		.meta-nav {
+			color: var(--wp--style--color--link, var(--global--color-white));
+		}
+	}
+
+	// Change colors when the body background is white.
+	.has-background-white & {
+		background: rgba(0, 0, 0, .9);
+		color: var(--wp--style--color--link, var(--global--color-white));
+
+		.meta-nav {
+			color: var(--wp--style--color--link, var(--global--color-white));
+		}
+	}
+
+	&.skip-link {
+
+		/* Only visible in Windows High Contrast mode */
+		outline: 2px solid transparent;
+		outline-offset: -2px;
+
+		&:focus {
+			color: #21759b;
+			background-color: #f1f1f1;
+		}
+	}
+
+	&.custom-logo-link {
+		background: none;
+	}
+
+	img {
+		outline: 2px dotted var(--wp--style--color--link, var(--global--color-primary));
+	}
+}
+
+// Enforce the custom link color even if a custom background color has been set.
+// The extra specificity here is required to override the background color styles.
+.has-background {
+	// Target both current level and nested block.
+	.has-link-color a,
+	&.has-link-color a {
+		color: var(--wp--style--color--link, var(--global--color-primary));
+	}
+}

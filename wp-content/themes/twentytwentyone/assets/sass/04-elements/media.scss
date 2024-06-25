@@ -1,0 +1,46 @@
+img {
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+/* Classic editor images */
+.entry-content img {
+	max-width: 100%;
+}
+
+/* Make sure embeds and iframes fit their containers. */
+embed,
+iframe,
+object,
+video {
+	max-width: 100%;
+}
+
+/* Media captions */
+figcaption,
+.wp-caption,
+.wp-caption-text,
+.wp-block-embed figcaption {
+	color: currentColor;
+	font-size: var(--global--font-size-xs);
+	line-height: var(--global--line-height-body);
+	margin-top: calc(0.5 * var(--global--spacing-unit));
+	margin-bottom: var(--global--spacing-unit);
+	text-align: center;
+
+	.alignleft &,
+	.alignright & {
+		margin-bottom: 0;
+	}
+}
+
+/* WP Smiley */
+.page-content .wp-smiley,
+.entry-content .wp-smiley,
+.comment-content .wp-smiley {
+	border: none;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 0;
+}

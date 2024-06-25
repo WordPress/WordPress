@@ -1,0 +1,44 @@
+html {
+	font-family: var(--global--font-secondary);
+	line-height: var(--global--line-height-body);
+}
+
+body {
+	--wp--typography--line-height: var(--global--line-height-body);
+	color: var(--global--color-primary);
+	background-color: var(--global--color-background);
+	font-family: var(--global--font-secondary);
+	font-size: var(--global--font-size-base);
+	font-weight: normal;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
+// Links styles
+.wp-block a {
+	color: var(--wp--style--color--link, var(--global--color-primary));
+
+	&:hover {
+		text-decoration-style: dotted;
+	}
+
+	&:focus {
+		outline: 2px solid var(--wp--style--color--link, var(--global--color-primary));
+		text-decoration: none;
+	}
+}
+
+// Enforce the custom link color even if a custom background color has been set.
+// The extra specificity here is required to override the background color styles.
+.has-background {
+	// Target both current level and nested block.
+	.has-link-color a,
+	&.has-link-color a {
+		color: var(--wp--style--color--link, var(--global--color-primary));
+	}
+}
+
+button,
+a {
+	cursor: pointer;
+}

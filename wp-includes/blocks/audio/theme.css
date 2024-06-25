@@ -1,0 +1,12 @@
+.wp-block-audio :where(figcaption){
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme .wp-block-audio :where(figcaption){
+  color:#ffffffa6;
+}
+
+.wp-block-audio{
+  margin:0 0 1em;
+}

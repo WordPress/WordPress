@@ -1,0 +1,114 @@
+.wp-block-pullquote {
+	padding: calc(2 * var(--global--spacing-unit)) 0;
+	text-align: center;
+	border-width: var(--pullquote--border-width);
+	border-bottom-style: solid;
+	border-top-style: solid;
+	color: currentColor;
+	border-color: currentColor;
+	position: relative;
+	font-size: var(--pullquote--font-size);
+	font-style: var(--pullquote--font-style);
+	font-weight: 700;
+	letter-spacing: var(--pullquote--letter-spacing);
+
+	blockquote::before {
+		color: currentColor;
+		content: "\201C";
+		display: block;
+		position: relative; // Override the absolute position.
+		left: 0;
+		font-size: 3rem;
+		font-weight: 500;
+		line-height: 1;
+	}
+
+	p {
+		font-family: var(--pullquote--font-family);
+		font-size: inherit;
+		font-style: inherit;
+		font-weight: inherit;
+		letter-spacing: inherit;
+		line-height: inherit;
+		margin: 0;
+	}
+
+	&:where(:not([style*="line-height"])) p {
+		line-height: var(--pullquote--line-height);
+	}
+
+	a {
+		color: currentColor;
+	}
+
+	.wp-block-pullquote__citation,
+	cite,
+	footer {
+		font-size: var(--global--font-size-xs);
+		font-style: var(--pullquote--font-style);
+		text-transform: none;
+	}
+
+	// Block Options
+	&:not(.is-style-solid-color) {
+		background: none;
+	}
+
+	&.is-style-solid-color {
+		margin-left: auto;
+		margin-right: auto;
+		padding: calc(2.5 * var(--global--spacing-unit));
+		border-width: var(--pullquote--border-width);
+		border-style: solid;
+		border-color: var(--pullquote--border-color);
+
+		@media ( min-width: 600px ) {
+			padding: calc(5 * var(--global--spacing-unit));
+		}
+
+		blockquote::before {
+			text-align: left;
+		}
+
+		&.alignleft blockquote,
+		&.alignright blockquote {
+			padding-left: var(--global--spacing-unit);
+			padding-right: var(--global--spacing-unit);
+			max-width: inherit;
+		}
+
+		blockquote {
+			margin: 0;
+			max-width: 100%;
+
+			p {
+				font-size: var(--pullquote--font-size);
+			}
+		}
+
+		.wp-block-pullquote__citation,
+		cite,
+		footer {
+			color: currentColor;
+		}
+	}
+
+}
+
+.wp-block[data-align="full"] {
+
+	.wp-block-pullquote:not(.is-style-solid-color) {
+
+		blockquote {
+			padding: 0 calc(2 * var(--global--spacing-unit));
+		}
+	}
+}
+
+.wp-block[data-align="left"],
+.wp-block[data-align="right"] {
+
+	.wp-block-pullquote.is-style-solid-color {
+		padding: var(--global--spacing-unit);
+	}
+}

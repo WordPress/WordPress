@@ -1,0 +1,602 @@
+/*! This file is auto-generated */
+/*------------------------------------------------------------------------------
+  11.2 - Post Revisions
+------------------------------------------------------------------------------*/
+.revisions-control-frame,
+.revisions-diff-frame {
+	position: relative;
+}
+
+.revisions-diff-frame {
+	top: 10px;
+}
+
+.revisions-controls {
+	padding-top: 40px;
+	z-index: 1;
+}
+
+.revisions-controls input[type="checkbox"] {
+	position: relative;
+	top: -1px;
+	vertical-align: text-bottom;
+}
+
+.revisions.pinned .revisions-controls {
+	position: fixed;
+	top: 0;
+	height: 82px;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.revisions-tickmarks {
+	position: relative;
+	margin: 0 auto;
+	height: 0.7em;
+	top: 7px;
+	max-width: 70%;
+	box-sizing: border-box;
+	background-color: #fff;
+}
+
+.revisions-tickmarks > div {
+	position: absolute;
+	height: 100%;
+	border-right: 1px solid #a7aaad;
+	box-sizing: border-box;
+}
+
+.revisions-tickmarks > div:first-child {
+	border-width: 0;
+}
+
+.comparing-two-revisions .revisions-controls {
+	height: 140px;
+}
+
+.comparing-two-revisions.pinned .revisions-controls {
+	height: 124px;
+}
+
+.revisions .diff-error {
+	position: absolute;
+	text-align: center;
+	margin: 0 auto;
+	width: 100%;
+	display: none;
+}
+
+.revisions.diff-error .diff-error {
+	display: block;
+}
+
+.revisions .loading-indicator {
+	position: absolute;
+	vertical-align: middle;
+	opacity: 0;
+	width: 100%;
+	width: calc( 100% - 30px );
+	top: 50%;
+	top: calc( 50% - 10px );
+	transition: opacity 0.5s;
+}
+
+body.folded .revisions .loading-indicator {
+	margin-right: -32px;
+}
+
+.revisions .loading-indicator span.spinner {
+	display: block;
+	margin: 0 auto;
+	float: none;
+}
+
+.revisions.loading .loading-indicator {
+	opacity: 1;
+}
+
+.revisions .diff {
+	transition: opacity 0.5s;
+}
+
+.revisions.loading .diff {
+	opacity: 0.5;
+}
+
+.revisions.diff-error .diff {
+	visibility: hidden;
+}
+
+.revisions-meta {
+	margin-top: 20px;
+	background-color: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.revisions.pinned .revisions-meta {
+	box-shadow: none;
+}
+
+.revision-toggle-compare-mode {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.comparing-two-revisions .revisions-previous,
+.comparing-two-revisions .revisions-next,
+.revisions-meta .diff-meta-to strong {
+	display: none;
+}
+
+.revisions-controls .author-card .date {
+	color: #646970;
+}
+
+.revisions-controls .author-card.autosave {
+	color: #d63638;
+}
+
+.revisions-controls .author-card .author-name {
+	font-weight: 600;
+}
+
+.comparing-two-revisions .diff-meta-to strong {
+	display: block;
+}
+
+.revisions.pinned .revisions-buttons {
+	padding: 0 11px;
+}
+
+.revisions-previous,
+.revisions-next {
+	position: relative;
+	z-index: 1;
+}
+
+.revisions-previous {
+	float: right;
+}
+
+.revisions-next {
+	float: left;
+}
+
+.revisions-controls .wp-slider {
+	max-width: 70%;
+	margin: 0 auto;
+	top: -3px;
+}
+
+.revisions-diff {
+	padding: 15px;
+	background-color: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.revisions-diff h3:first-child {
+	margin-top: 0;
+}
+
+/* Revision meta box */
+.post-revisions li img,
+#revisions-meta-restored img {
+	vertical-align: middle;
+}
+
+table.diff {
+	table-layout: fixed;
+	width: 100%;
+	white-space: pre-wrap;
+}
+
+table.diff col.content {
+	width: auto;
+}
+
+table.diff col.content.diffsplit {
+	width: 48%;
+}
+
+table.diff col.diffsplit.middle {
+	width: auto;
+}
+
+table.diff col.ltype {
+	width: 30px;
+}
+
+table.diff tr {
+	background-color: transparent;
+}
+
+table.diff td,
+table.diff th {
+	font-family: Consolas, Monaco, monospace;
+	font-size: 14px;
+	line-height: 1.57142857;
+	padding: 0.5em 2em 0.5em 0.5em;
+	vertical-align: top;
+	word-wrap: break-word;
+}
+
+table.diff td h1,
+table.diff td h2,
+table.diff td h3,
+table.diff td h4,
+table.diff td h5,
+table.diff td h6 {
+	margin: 0;
+}
+
+table.diff .diff-deletedline del,
+table.diff .diff-addedline ins {
+	text-decoration: none;
+}
+
+table.diff .diff-deletedline {
+	position: relative;
+	background-color: #fcf0f1;
+}
+
+table.diff .diff-deletedline del {
+	background-color: #ffabaf;
+}
+
+table.diff .diff-addedline {
+	position: relative;
+	background-color: #edfaef;
+}
+
+table.diff .diff-deletedline .dashicons,
+table.diff .diff-addedline .dashicons {
+	position: absolute;
+	top: 0.85714286em;
+	right: 0.5em;
+	width: 1em;
+	height: 1em;
+	font-size: 1em;
+	line-height: 1;
+}
+
+table.diff .diff-addedline .dashicons {
+	/* Compensate the vertically non-centered plus glyph. */
+	top: 0.92857143em;
+}
+
+table.diff .diff-addedline ins {
+	background-color: #68de7c;
+}
+
+.diff-meta {
+	padding: 5px;
+	clear: both;
+	min-height: 32px;
+}
+
+.diff-title strong {
+	line-height: 2.46153846;
+	min-width: 60px;
+	text-align: left;
+	float: right;
+	margin-left: 5px;
+}
+
+.revisions-controls .author-card .author-info {
+	font-size: 12px;
+	line-height: 1.33333333;
+}
+
+.revisions-controls .author-card .avatar,
+.revisions-controls .author-card .author-info {
+	float: right;
+	margin-right: 6px;
+	margin-left: 6px;
+}
+
+.revisions-controls .author-card .byline {
+	display: block;
+	font-size: 12px;
+}
+
+.revisions-controls .author-card .avatar {
+	vertical-align: middle;
+}
+
+.diff-meta input.restore-revision {
+	float: left;
+	margin-right: 6px;
+	margin-left: 6px;
+	margin-top: 2px;
+}
+
+.diff-meta-from {
+	display: none;
+}
+
+.comparing-two-revisions .diff-meta-from {
+	display: block;
+}
+
+.revisions-tooltip {
+	position: absolute;
+	bottom: 105px;
+	margin-left: 0;
+	margin-right: -69px;
+	z-index: 0;
+	max-width: 350px;
+	min-width: 130px;
+	padding: 8px 4px;
+	display: none;
+	opacity: 0;
+}
+
+.revisions-tooltip.flipped {
+	margin-right: 0;
+	margin-left: -70px;
+}
+
+.revisions.pinned .revisions-tooltip {
+	display: none !important;
+}
+
+.comparing-two-revisions .revisions-tooltip {
+	bottom: 145px;
+}
+
+.revisions-tooltip-arrow {
+	width: 70px;
+	height: 15px;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	margin-right: 35px;
+	bottom: -15px;
+}
+
+.revisions-tooltip.flipped .revisions-tooltip-arrow {
+	margin-right: 0;
+	margin-left: 35px;
+	right: auto;
+	left: 0;
+}
+
+.revisions-tooltip-arrow > span {
+	content: "";
+	position: absolute;
+	right: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	transform: rotate(-45deg);
+}
+
+.revisions-tooltip.flipped .revisions-tooltip-arrow > span {
+	right: auto;
+	left: 20px;
+}
+
+.revisions-tooltip,
+.revisions-tooltip-arrow > span {
+	border: 1px solid #dcdcde;
+	background-color: #fff;
+}
+
+.revisions-tooltip {
+	display: none;
+}
+
+.arrow {
+	width: 70px;
+	height: 16px;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	margin-right: -35px;
+	bottom: 90px;
+	z-index: 10000;
+}
+
+.arrow:after {
+	z-index: 9999;
+	background-color: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.arrow.top {
+	top: -16px;
+	bottom: auto;
+}
+
+.arrow.left {
+	right: 20%;
+}
+
+.arrow:after {
+	content: "";
+	position: absolute;
+	right: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	transform: rotate(-45deg);
+}
+
+.revisions-tooltip,
+.revisions-tooltip-arrow:after {
+	border-width: 1px;
+	border-style: solid;
+}
+
+div.revisions-controls > .wp-slider > .ui-slider-handle {
+	margin-right: -10px;
+}
+
+.rtl div.revisions-controls > .wp-slider > .ui-slider-handle {
+	margin-left: -10px;
+}
+
+/* jQuery UI Slider */
+.wp-slider.ui-slider {
+	position: relative;
+	border: 1px solid #dcdcde;
+	text-align: right;
+	cursor: pointer;
+}
+
+.wp-slider .ui-slider-handle {
+	border-radius: 50%;
+	height: 18px;
+	margin-top: -5px;
+	outline: none;
+	padding: 2px;
+	position: absolute;
+	width: 18px;
+	z-index: 2;
+	touch-action: none;
+}
+
+.wp-slider .ui-slider-handle,
+.wp-slider .ui-slider-handle.focus {
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 0 #c3c4c7;
+}
+
+.wp-slider .ui-slider-handle:hover,
+.wp-slider .ui-slider-handle.ui-state-hover {
+	background: #f6f7f7;
+	border-color: #8c8f94;
+}
+
+.wp-slider .ui-slider-handle:active,
+.wp-slider .ui-slider-handle.ui-state-active {
+	background: #f0f0f1;
+	border-color: #8c8f94;
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+	transform: translateY(1px);
+}
+
+.wp-slider .ui-slider-handle:before {
+	background: none;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	color: #50575e;
+	content: "\f229";
+	font: normal 18px/1 dashicons;
+	speak: never;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wp-slider .ui-slider-handle:hover:before,
+.wp-slider .ui-slider-handle.ui-state-hover:before {
+	color: #1d2327;
+}
+
+.wp-slider .ui-slider-handle.from-handle:before,
+.wp-slider .ui-slider-handle.to-handle:before {
+	font-size: 20px !important;
+	margin: -1px -1px 0 0;
+}
+
+.wp-slider .ui-slider-handle.from-handle:before {
+	content: "\f141";
+}
+
+.wp-slider .ui-slider-handle.to-handle:before {
+	content: "\f139";
+}
+
+.rtl .wp-slider .ui-slider-handle.from-handle:before {
+	content: "\f139";
+}
+
+.rtl .wp-slider .ui-slider-handle.to-handle:before {
+	content: "\f141";
+	left: -1px;
+}
+
+.wp-slider .ui-slider-range {
+	position: absolute;
+	font-size: 0.7em;
+	display: block;
+	border: 0;
+	background-color: transparent;
+	background-image: none;
+}
+
+.wp-slider.ui-slider-horizontal {
+	height: 0.7em;
+}
+
+.wp-slider.ui-slider-horizontal .ui-slider-handle {
+	top: -.25em;
+	margin-right: -.6em;
+}
+
+.wp-slider.ui-slider-horizontal .ui-slider-range {
+	top: 0;
+	height: 100%;
+}
+
+.wp-slider.ui-slider-horizontal .ui-slider-range-min {
+	right: 0;
+}
+
+.wp-slider.ui-slider-horizontal .ui-slider-range-max {
+	left: 0;
+}
+
+/* =Media Queries
+-------------------------------------------------------------- */
+
+/**
+ * HiDPI Displays
+ */
+@media print,
+  (min-resolution: 120dpi) {
+	.revision-tick.completed-false {
+		background-image: url(../images/spinner-2x.gif);
+	}
+}
+
+@media screen and (max-width: 782px) {
+	#diff-next-revision,
+	#diff-previous-revision {
+		margin-top: -1em;
+	}
+
+	.revisions-buttons {
+		overflow: hidden;
+		margin-bottom: 15px;
+	}
+
+	.revisions-controls,
+	.comparing-two-revisions .revisions-controls {
+		height: 170px;
+	}
+
+	.revisions-tooltip {
+		bottom: 130px;
+		z-index: 2;
+	}
+
+	.diff-meta {
+		overflow: hidden;
+	}
+
+	table.diff {
+		-ms-word-break: break-all;
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+
+	.diff-meta input.restore-revision {
+		margin-top: 0;
+	}
+}

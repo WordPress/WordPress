@@ -1,0 +1,31 @@
+.wp-block-social-links .wp-social-link{
+  line-height:0;
+}
+
+.wp-block-social-link-anchor{
+  align-items:center;
+  background:none;
+  border:0;
+  box-sizing:border-box;
+  color:currentColor;
+  cursor:pointer;
+  display:inline-flex;
+  font-size:inherit;
+  height:auto;
+  opacity:1;
+  padding:.25em;
+}
+.wp-block-social-link-anchor:focus:not(:disabled){
+  border-radius:2px;
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline:3px solid #0000;
+}
+
+:root :where(.wp-block-social-links.is-style-pill-shape .wp-social-link button){
+  padding-left:.66667em;
+  padding-right:.66667em;
+}
+
+:root :where(.wp-block-social-links.is-style-logos-only .wp-social-link button){
+  padding:0;
+}

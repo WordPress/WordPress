@@ -1,0 +1,301 @@
+/*
+Theme Name: Twenty Eleven
+Description: Used to style the TinyMCE editor.
+*/
+
+body {
+	color: #333;
+	font: 15px "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", sans-serif;
+	font-weight: 300;
+	line-height: 1.625;
+	max-width: 584px;
+}
+
+/* Headings */
+h1,h2,h3,h4,h5,h6 {
+	clear: both;
+}
+h1,
+h2 {
+	color: #000;
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0 0 .8125em;
+}
+h3 {
+	font-size: 10px;
+	letter-spacing: 0.1em;
+	line-height: 2.6em;
+	text-transform: uppercase;
+}
+h4, h5, h6 {
+	font-size: 14px;
+	margin: 0;
+}
+hr {
+	background-color: #ccc;
+	border: 0;
+	height: 1px;
+	margin-bottom: 1.625em;
+}
+
+/* Text elements */
+p, ul, ol, dl {
+	font-weight: 300;
+}
+p {
+	margin-bottom: 1.625em;
+}
+ul, ol {
+	margin: 0 0 1.625em 2.5em;
+	padding: 0;
+}
+ul {
+	list-style: square;
+}
+ol {
+	list-style-type: decimal;
+}
+ol ol {
+	list-style: upper-alpha;
+}
+ol ol ol {
+	list-style: lower-roman;
+}
+ol ol ol ol {
+	list-style: lower-alpha;
+}
+ul ul, ol ol, ul ol, ol ul {
+	margin-bottom: 0;
+}
+dl {
+	margin: 0 1.625em;
+}
+dt {
+	font-size: 15px;
+	font-weight: bold;
+}
+dd {
+	margin: 0 0 1.625em;
+}
+strong {
+	font-weight: bold;
+}
+cite, em, i {
+	font-style: italic;
+}
+cite {
+	border: none;
+}
+big {
+	font-size: 131.25%;
+}
+.mceContentBody blockquote,
+.mceContentBody blockquote p {
+	font-family: Georgia, "Bitstream Charter", serif !important;
+	font-style: italic !important;
+	font-weight: normal;
+	margin: 0 3em;
+}
+.mceContentBody blockquote em,
+.mceContentBody blockquote i,
+.mceContentBody blockquote cite {
+	font-style: normal;
+}
+.mceContentBody blockquote cite {
+	color: #666;
+	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+pre {
+	background: #f4f4f4;
+	font: 13px "Courier 10 Pitch", Courier, monospace;
+	line-height: 1.5;
+	margin-bottom: 1.625em;
+	padding: 0.75em 1.625em;
+}
+code, kbd, samp, var {
+	font: 13px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+}
+abbr, acronym, dfn {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+address {
+	display: block;
+	margin: 0 0 1.625em;
+}
+del {
+	color: #333;
+}
+ins {
+	background: #fff9c0;
+	border: none;
+	color: #333;
+	text-decoration: none;
+}
+sup,
+sub {
+	font-size: 10px;
+	height: 0;
+	line-height: 1;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	bottom: 1ex;
+}
+sub {
+	top: .5ex;
+}
+input[type=text],
+textarea {
+	background: #fafafa;
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	border: 1px solid #ddd;
+	color: #888;
+}
+input[type=text]:focus,
+textarea:focus {
+	color: #333;
+}
+textarea {
+	padding-left: 3px;
+	width: 98%;
+}
+input[type=text] {
+	padding: 3px;
+}
+
+/* Links */
+a,
+a em,
+a strong {
+	color: #1b8be0;
+	text-decoration: none;
+}
+a:focus,
+a:active,
+a:hover {
+	text-decoration: underline;
+}
+
+/* Alignment */
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 1.625em;
+}
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 1.625em;
+}
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Tables */
+table {
+	border: none !important;
+	border-bottom: 1px solid #ddd !important;
+	border-collapse: collapse;
+	border-spacing: 0;
+	text-align: left;
+	margin: 0 0 1.625em;
+	width: 100%;
+}
+tr th {
+	border: none !important;
+	color: #666;
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+	line-height: 2.6em;
+	text-transform: uppercase;
+}
+td {
+	border: none !important;
+	border-top: 1px solid #ddd !important;
+	padding: 6px 10px 6px 0;
+}
+
+/* Images */
+img.size-full {
+	width: auto; /* Prevent stretching of full-size images in IE8 */
+}
+img.wp-smiley {
+	border: none;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 0;
+}
+p img,
+.wp-caption {
+	margin-top: 0.4em;
+}
+img {
+	border: 1px solid #ddd;
+	padding: 6px;
+	height: auto;
+	max-width: 97.5%;
+	max-width: calc( 100% - 14px );
+}
+img.alignleft,
+img.alignright,
+img.aligncenter {
+	margin-bottom: 1.625em;
+}
+.wp-caption {
+	background: #eee;
+	border: none;
+	margin-bottom: 1.625em;
+	max-width: 96%;
+	max-width: calc( 100% - 22px );
+	padding: 9px 11px;
+}
+.wp-caption img {
+	display: block;
+	margin: 0 -2px;
+	max-width: 98%;
+	max-width: calc( 100% - 10px );
+	border-color: #eee;
+}
+.wp-caption .wp-caption-dd {
+	color: #666;
+	font-family: Georgia, serif;
+	font-size: 12px;
+	margin-bottom: 0.6em;
+	padding: 10px 0 5px 40px;
+	position: relative;
+}
+.wp-caption .wp-caption-dd:before {
+	color: #666;
+	content: '\2014';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	margin-right: 5px;
+	position: absolute;
+	left: 10px;
+	top: 7px;
+}
+a:focus img,
+a:hover img,
+a:active img {
+	background: #eee;
+	border-color: #bbb;
+}
+.wp-caption a:focus img,
+.wp-caption a:active img,
+.wp-caption a:hover img {
+	background: #fff;
+	border-color: #ddd;
+}

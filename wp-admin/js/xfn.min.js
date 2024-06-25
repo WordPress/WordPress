@@ -1,0 +1,2 @@
+/*! This file is auto-generated */
+jQuery(function(l){l("#link_rel").prop("readonly",!0),l("#linkxfndiv input").on("click keyup",function(){var e=l("#me").is(":checked"),i="";l("input.valinp").each(function(){e?l(this).prop("disabled",!0).parent().addClass("disabled"):(l(this).removeAttr("disabled").parent().removeClass("disabled"),l(this).is(":checked")&&""!==l(this).val()&&(i+=l(this).val()+" "))}),l("#link_rel").val(e?"me":i.substr(0,i.length-1))})});

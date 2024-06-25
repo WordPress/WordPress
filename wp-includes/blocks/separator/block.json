@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/separator",
+	"title": "Separator",
+	"category": "design",
+	"description": "Create a break between ideas or sections with a horizontal separator.",
+	"keywords": [ "horizontal-line", "hr", "divider" ],
+	"textdomain": "default",
+	"attributes": {
+		"opacity": {
+			"type": "string",
+			"default": "alpha-channel"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": [ "center", "wide", "full" ],
+		"color": {
+			"enableContrastChecker": false,
+			"__experimentalSkipSerialization": true,
+			"gradients": true,
+			"background": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		},
+		"spacing": {
+			"margin": [ "top", "bottom" ]
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"styles": [
+		{ "name": "default", "label": "Default", "isDefault": true },
+		{ "name": "wide", "label": "Wide Line" },
+		{ "name": "dots", "label": "Dots" }
+	],
+	"editorStyle": "wp-block-separator-editor",
+	"style": "wp-block-separator"
+}

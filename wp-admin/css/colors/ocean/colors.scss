@@ -1,0 +1,10 @@
+$scheme-name: "ocean";
+$base-color: #738e96;
+$icon-color: #f2fcff;
+$highlight-color: #9ebaa0;
+$notification-color: #aa9d88;
+$low-contrast-theme: "true";
+
+$form-checked: $base-color;
+
+@import "../_admin.scss";

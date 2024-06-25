@@ -1,0 +1,329 @@
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+.site textarea {
+	border: var(--form--border-width) solid var(--form--border-color);
+	border-radius: var(--form--border-radius);
+	color: var(--form--color-text);
+	line-height: var(--global--line-height-body);
+	padding: var(--form--spacing-unit);
+	// Gives a little more space for the outline offset.
+	margin: 0 2px;
+	max-width: 100%;
+
+	&:focus {
+		color: var(--form--color-text);
+		outline-offset: 2px;
+		outline: 2px dotted var(--form--border-color);
+	}
+
+	&:disabled {
+		opacity: 0.7;
+	}
+
+	.is-dark-theme & {
+		background: var(--global--color-white-90);
+	}
+}
+
+// Reset the negative offset from normalize to make the thicker "border" work on focus.
+input[type="search"] {
+
+	&:focus {
+		outline-offset: -7px;
+
+		.is-dark-theme & {
+			outline-color: var(--global--color-background);
+		}
+	}
+}
+
+input[type="color"] {
+	padding: calc(var(--form--spacing-unit) / 2);
+	height: calc(4 * var(--form--spacing-unit));
+}
+
+input[type="email"],
+input[type="url"] {
+
+	/*rtl:ignore*/
+	direction: ltr;
+}
+
+select {
+	border: var(--form--border-width) solid var(--form--border-color);
+	color: var(--form--color-text);
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	line-height: var(--global--line-height-body);
+	padding: var(--form--spacing-unit) calc(3 * var(--form--spacing-unit)) var(--form--spacing-unit) var(--form--spacing-unit);
+	background: var(--global--color-white) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2328303d'><polygon points='0,0 10,0 5,5'/></svg>") no-repeat; // stylelint-disable-line function-url-quotes
+	background-position: right var(--form--spacing-unit) top 60%;
+
+	&:focus {
+		outline-offset: 2px;
+		outline: 2px dotted var(--form--border-color);
+	}
+
+	.is-dark-theme & {
+		background: var(--global--color-white-90) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2328303d'><polygon points='0,0 10,0 5,5'/></svg>") no-repeat; // stylelint-disable-line function-url-quotes
+		background-position: right var(--form--spacing-unit) top 60%;
+	}
+}
+
+textarea {
+	width: 100%;
+}
+
+label {
+	font-size: var(--form--font-size);
+	font-weight: var(--form--label-weight);
+	margin-bottom: calc(var(--global--spacing-vertical) / 3);
+}
+
+/**
+https://css-tricks.com/custom-styling-form-inputs-with-modern-css-features/
+https://codepen.io/aaroniker/pen/ZEYoxEY by Aaron Iker.
+License: MIT.
+*/
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		position: relative;
+		width: 25px;
+		height: 25px;
+		border: var(--form--border-width) solid var(--form--border-color);
+		background: var(--global--color-white);
+
+		&:disabled {
+			opacity: 0.7;
+		}
+
+		.is-dark-theme & {
+			background: var(--global--color-white-90);
+		}
+	}
+
+	input[type="checkbox"] {
+
+		&:focus {
+			outline-offset: 2px;
+			outline: 2px dotted var(--form--border-color);
+		}
+
+		&:after {
+			content: "";
+			opacity: 0;
+			display: block;
+			left: 5px;
+			top: 2px;
+			position: absolute;
+			width: 7px;
+			height: 13px;
+			border: 3px solid var(--form--color-text);
+			border-top: 0;
+			border-left: 0;
+			transform: rotate(30deg);
+		}
+
+		&:checked {
+			color: var(--form--color-text);
+
+			&:after {
+				opacity: 1;
+			}
+		}
+	}
+
+	input[type="radio"] {
+		border-radius: 50%;
+
+		&:focus {
+			outline-offset: 2px;
+			outline: 2px dotted var(--form--border-color);
+		}
+
+		&:after {
+			content: "";
+			opacity: 0;
+			display: block;
+			left: 3px;
+			top: 3px;
+			position: absolute;
+			width: 11px;
+			height: 11px;
+			border-radius: 50%;
+			background: var(--form--color-text);
+		}
+
+		&:checked {
+			border: 4px solid var(--form--border-color);
+
+			&:after {
+				opacity: 1;
+			}
+
+			// Focus style for checked radio buttons.
+			&:focus {
+				outline-offset: 4px;
+				outline: 2px dotted var(--form--border-color);
+			}
+		}
+	}
+}
+
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+	display: inline-block;
+	padding-left: 10px;
+	font-size: var(--global--font-size-xs);
+	vertical-align: top;
+}
+
+/**
+ * https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+*/
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+
+	input[type="range"] {
+		-webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+		width: 100%; /* Specific width is required for Firefox. */
+		height: 6px;
+		background: var(--form--color-ranged);
+		border-radius: 6px;
+		outline-offset: 10px;
+
+		&:disabled {
+			opacity: 0.7;
+		}
+	}
+
+	input[type="range"]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		border: 3px solid var(--form--color-ranged);
+		height: 44px;
+		width: 44px;
+		border-radius: 50%;
+		background: var(--global--color-background);
+		cursor: pointer;
+	}
+
+	input[type="range"]::-moz-range-thumb {
+		border: 3px solid var(--form--color-ranged);
+		height: 44px;
+		width: 44px;
+		border-radius: 50%;
+		background: var(--global--color-background);
+		cursor: pointer;
+		box-sizing: border-box;
+	}
+}
+
+input[type="range"]::-ms-track {
+	width: 100%;
+	height: 6px;
+	border-radius: 6px;
+	border-width: 19px 0;
+	border-color: var(--global--color-background);
+	background: transparent;
+	color: transparent;
+	cursor: pointer;
+}
+
+input[type="range"]::-ms-fill-upper {
+	background: var(--form--color-ranged);
+	border-radius: 6px;
+}
+
+input[type="range"]::-ms-fill-lower {
+	background: var(--form--color-ranged);
+	border-radius: 6px;
+}
+
+input[type="range"]::-ms-thumb {
+	border: 3px solid var(--form--color-ranged);
+	height: 44px;
+	width: 44px;
+	border-radius: 50%;
+	background: var(--global--color-background);
+	cursor: pointer;
+}
+
+fieldset {
+	display: grid;
+	border-color: var(--global--color-secondary);
+	padding: var(--global--spacing-horizontal);
+
+	legend {
+		font-size: var(--global--font-size-lg);
+	}
+
+	input {
+
+		&[type="submit"] {
+			max-width: max-content;
+		}
+
+		&:not([type="submit"]) {
+			margin-bottom: var(--global--spacing-unit);
+		}
+
+		&[type="radio"],
+		&[type="checkbox"] {
+			margin-bottom: 0;
+		}
+
+		&[type="radio"] + label,
+		&[type="checkbox"] + label {
+			font-size: var(--form--font-size);
+			padding-left: 0;
+			margin-bottom: var(--global--spacing-unit);
+		}
+	}
+}
+
+::-moz-placeholder { // Firefox 19+
+	opacity: 1;
+}
+
+.post-password-message {
+	font-size: var(--global--font-size-lg);
+}
+
+.post-password-form {
+	display: flex;
+	flex-wrap: wrap;
+
+	&__label {
+		width: 100%;
+		margin-bottom: 0;
+	}
+
+	input[type="password"] {
+		flex-grow: 1;
+		margin-top: calc(var(--global--spacing-vertical) / 3);
+		margin-right: calc(0.66 * var(--global--spacing-horizontal));
+	}
+
+	&__submit {
+		margin-top: calc(var(--global--spacing-vertical) / 3);
+		@include media(tablet) {
+			margin-left: calc(0.4 * var(--global--spacing-horizontal));
+		}
+	}
+}

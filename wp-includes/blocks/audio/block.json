@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/audio",
+	"title": "Audio",
+	"category": "media",
+	"description": "Embed a simple audio player.",
+	"keywords": [ "music", "sound", "podcast", "recording" ],
+	"textdomain": "default",
+	"attributes": {
+		"src": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "src",
+			"__experimentalRole": "content"
+		},
+		"caption": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "figcaption",
+			"__experimentalRole": "content"
+		},
+		"id": {
+			"type": "number",
+			"__experimentalRole": "content"
+		},
+		"autoplay": {
+			"type": "boolean",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "autoplay"
+		},
+		"loop": {
+			"type": "boolean",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "loop"
+		},
+		"preload": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "preload"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"editorStyle": "wp-block-audio-editor",
+	"style": "wp-block-audio"
+}

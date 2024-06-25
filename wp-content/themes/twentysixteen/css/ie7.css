@@ -1,0 +1,176 @@
+/*
+Theme Name: Twenty Sixteen
+Description: IE7 specific style.
+*/
+
+.site-inner {
+	max-width: 656px;
+}
+
+.post-navigation,
+.pagination,
+.image-navigation,
+.entry-header,
+.entry-summary,
+.entry-content,
+.entry-footer,
+.page-header,
+.page-content,
+.post-thumbnail,
+.content-bottom-widgets,
+.comments-area {
+	margin-right: 28px;
+	margin-left: 28px;
+	max-width: 100%;
+}
+
+.site-header,
+.sidebar,
+.site-footer,
+.widecolumn {
+	padding-right: 28px;
+	padding-left: 28px;
+}
+
+.search-submit {
+	height: auto;
+	margin-top: 28px;
+	padding: 15px 0 8px;
+	position: relative;
+	width: auto;
+}
+
+.search-submit .screen-reader-text {
+	height: auto;
+	position: relative !important;
+	width: auto;
+}
+
+.image-navigation .nav-previous,
+.image-navigation .nav-next,
+.comment-navigation .nav-previous,
+.comment-navigation .nav-next {
+	*display: inline;
+	zoom: 1;
+}
+
+.image-navigation .nav-previous + .nav-next,
+.comment-navigation .nav-previous + .nav-next {
+	margin-left: 14px;
+}
+
+.pagination .nav-links {
+	padding: 0;
+}
+
+.pagination .page-numbers {
+	line-height: 1;
+	margin: -4px 14px 0;
+	padding: 18px 0;
+}
+
+.pagination .prev,
+.pagination .next {
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 700;
+	height: auto;
+	left: 0;
+	line-height: 1;
+	margin: 0;
+	padding: 18px 14px;
+	position: relative;
+	right: 0;
+	text-transform: none;
+	width: auto;
+}
+
+.dropdown-toggle {
+	display: none;
+}
+
+.main-navigation ul ul {
+	display: block;
+}
+
+.social-navigation {
+	margin-top: 1.75em;
+}
+
+.social-navigation a {
+	height: auto;
+	padding: 3px 7px;
+	width: auto;
+}
+
+.social-navigation .screen-reader-text {
+	height: auto;
+	position: relative !important;
+	width: auto;
+}
+
+.site-header-main {
+	overflow : hidden;
+	zoom : 1;
+}
+
+.entry-footer > span {
+	margin-right: 14px;
+}
+
+.site-info .site-title {
+	font-size: 13px;
+	margin-right: 14px;
+}
+
+.gallery-item {
+	max-width: 30%;
+}
+
+.gallery-columns-1 .gallery-item {
+	max-width: 100%;
+}
+
+.gallery-columns-2 .gallery-item {
+	max-width: 46%;
+}
+
+.gallery-columns-4 .gallery-item {
+	max-width: 22%;
+}
+
+.gallery-columns-5 .gallery-item {
+	max-width: 17%;
+}
+
+.gallery-columns-6 .gallery-item {
+	max-width: 13.5%;
+}
+
+.gallery-columns-7 .gallery-item {
+	max-width: 11%;
+}
+
+.gallery-columns-8 .gallery-item {
+	max-width: 9.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	max-width: 8%;
+}
+
+.rtl .image-navigation .nav-previous + .nav-next,
+.rtl .comment-navigation .nav-previous + .nav-next {
+	margin-right: 14px;
+	margin-left: 0;
+}
+
+.rtl .entry-footer > span {
+	margin-right: 14px;
+	margin-left: 0;
+}
+
+.rtl .site-info .site-title {
+	margin-right: 0;
+	margin-left: 14px;
+}

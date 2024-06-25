@@ -1,0 +1,8 @@
+.wp-block-preformatted{
+  box-sizing:border-box;
+  white-space:pre-wrap;
+}
+
+:where(.wp-block-preformatted.has-background){
+  padding:1.25em 2.375em;
+}

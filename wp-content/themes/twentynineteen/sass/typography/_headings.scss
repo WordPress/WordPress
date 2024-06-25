@@ -1,0 +1,164 @@
+.author-description .author-link,
+.comment-metadata,
+.comment-reply-link,
+.comments-title,
+.comment-author .fn,
+.discussion-meta-info,
+.entry-meta,
+.entry-footer,
+.main-navigation,
+.no-comments,
+.not-found .page-title,
+.error-404 .page-title,
+.post-navigation .post-title,
+.page-links,
+.page-description,
+.pagination .nav-links,
+.sticky-post,
+.site-title,
+.site-info,
+#cancel-comment-reply-link,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@include font-family( $font__heading );
+}
+
+.main-navigation,
+.page-description,
+.author-description .author-link,
+.not-found .page-title,
+.error-404 .page-title,
+.post-navigation .post-title,
+.pagination .nav-links,
+.comments-title,
+.comment-author .fn,
+.no-comments,
+.site-title,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: $font__line-height-heading;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.page-title {
+	@include font-family( $font__body );
+}
+
+.site-branding,
+.main-navigation ul.main-menu > li,
+.social-navigation,
+.author-description .author-bio,
+.nav-links {
+	line-height: 1.25;
+}
+
+h1 {
+	font-size: $font__size-xl;
+
+	@include media(tablet) {
+		font-size: $font__size-xxl;
+	}
+}
+
+.entry-title,
+.not-found .page-title,
+.error-404 .page-title,
+.has-larger-font-size,
+h2 {
+	font-size: $font__size-lg;
+
+	@include media(tablet) {
+		font-size: $font__size-xl;
+	}
+}
+
+.has-regular-font-size,
+.has-large-font-size,
+.comments-title,
+h3 {
+	font-size: $font__size-lg;
+}
+
+.site-title,
+.site-description,
+.main-navigation,
+.nav-links,
+.page-title,
+.page-description,
+.comment-author .fn,
+.no-comments,
+h2.author-title,
+p.author-bio,
+h4 {
+	font-size: $font__size-md;
+}
+
+.pagination .nav-links,
+.comment-content,
+h5 {
+	font-size: $font__size-sm;
+}
+
+.entry-meta,
+.entry-footer,
+.discussion-meta-info,
+.site-info,
+.has-small-font-size,
+.comment-reply-link,
+.comment-metadata,
+.comment-notes,
+.sticky-post,
+#cancel-comment-reply-link,
+img:after,
+h6 {
+	font-size: $font__size-xs;
+}
+
+.site-title,
+.page-title {
+	font-weight: normal;
+}
+
+.page-description,
+.page-links a {
+	font-weight: bold;
+}
+
+.site-description {
+	letter-spacing: -0.01em;
+}
+
+.post-navigation .post-title,
+.entry-title,
+.not-found .page-title,
+.error-404 .page-title,
+.comments-title,
+blockquote {
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
+	word-break: break-word;
+	word-wrap: break-word;
+}
+
+/* Do not hyphenate entry title on tablet view and bigger. */
+.entry-title {
+	@include media(tablet) {
+		-webkit-hyphens: none;
+		-moz-hyphens: none;
+		-ms-hyphens: none;
+		hyphens: none;
+	}
+}

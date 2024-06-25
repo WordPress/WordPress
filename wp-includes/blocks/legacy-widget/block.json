@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/legacy-widget",
+	"title": "Legacy Widget",
+	"category": "widgets",
+	"description": "Display a legacy widget.",
+	"textdomain": "default",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": null
+		},
+		"idBase": {
+			"type": "string",
+			"default": null
+		},
+		"instance": {
+			"type": "object",
+			"default": null
+		}
+	},
+	"supports": {
+		"html": false,
+		"customClassName": false,
+		"reusable": false
+	},
+	"editorStyle": "wp-block-legacy-widget-editor"
+}

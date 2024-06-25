@@ -1,0 +1,2 @@
+.wp-block[data-align=center]>.wp-block-button{margin-left:auto;margin-right:auto;text-align:center}.wp-block[data-align=right]>.wp-block-button{
+  /*!rtl:ignore*/text-align:right}.wp-block-button{cursor:text;position:relative}.wp-block-button:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px var(--wp-admin-theme-color);outline:2px solid #0000;outline-offset:-2px}.wp-block-button[data-rich-text-placeholder]:after{opacity:.8}div[data-type="core/button"]{display:table}.editor-styles-wrapper .wp-block-button[style*=text-decoration] .wp-block-button__link{text-decoration:inherit}

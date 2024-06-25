@@ -1,0 +1,33 @@
+ul,
+ol {
+	padding-left: ( 1 * $size__spacing-unit );
+}
+
+ul {
+	list-style: disc;
+
+	ul {
+		list-style-type: circle;
+	}
+}
+
+ol {
+	list-style: decimal;
+}
+
+li {
+	line-height: $font__line-height-body;
+}
+
+li > ul,
+li > ol {
+	padding-left: ( 2 * $size__spacing-unit );
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 $size__spacing-unit $size__spacing-unit;
+}

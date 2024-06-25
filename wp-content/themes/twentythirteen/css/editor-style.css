@@ -1,0 +1,784 @@
+/*
+Theme Name: Twenty Thirteen
+Description: Used to style the TinyMCE editor.
+*/
+
+
+/**
+ * Table of Contents:
+ *
+ * 1.0 - Body
+ * 2.0 - Headings
+ * 3.0 - Text Elements
+ * 4.0 - Links
+ * 5.0 - Alignment
+ * 6.0 - Tables
+ * 7.0 - Images
+ * 8.0 - Galleries
+ * 9.0 - Audio/Video
+ * 10.0 - Post Formats
+ * 11.0 - RTL
+ * ----------------------------------------------------------------------------
+ */
+
+
+/**
+ * 1.0 Body
+ * ----------------------------------------------------------------------------
+ */
+
+html .mceContentBody {
+	font-size: 100%;
+	max-width: 604px;
+}
+
+body {
+	color: #141412;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+	line-height: 1.5;
+	text-rendering: optimizeLegibility;
+	vertical-align: baseline;
+}
+
+/* Custom gradient block backgrounds */
+.has-autumn-brown-gradient-background {
+	background: linear-gradient(135deg, rgba(226,45,15,1) 0%, rgba(158,25,13,1) 100%);
+}
+.has-sunset-yellow-gradient-background {
+	background: linear-gradient(135deg, rgba(233,139,41,1) 0%, rgba(238,179,95,1) 100%);
+}
+.has-light-sky-gradient-background {
+	background: linear-gradient(135deg,rgba(228,228,228,1.0) 0%,rgba(208,225,252,1.0) 100%);
+}
+.has-dark-sky-gradient-background {
+	background: linear-gradient(135deg,rgba(0,0,0,1.0) 0%,rgba(56,61,69,1.0) 100%);
+}
+
+/**
+ * 2.0 Headings
+ * ----------------------------------------------------------------------------
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	clear: both;
+	font-family: Bitter, Georgia, serif;
+	line-height: 1.3;
+}
+
+h1 {
+	font-size: 48px;
+	margin: 33px 0;
+}
+
+h2 {
+	font-size: 30px;
+	margin: 25px 0;
+}
+
+h3 {
+	font-size: 22px;
+	margin: 22px 0;
+}
+
+h4 {
+	font-size: 20px;
+	margin: 25px 0;
+}
+
+h5 {
+	font-size: 18px;
+	margin: 30px 0;
+}
+
+h6 {
+	font-size: 16px;
+	margin: 36px 0;
+}
+
+hr {
+	background: url(../images/dotted-line.png) repeat center top;
+	background-size: 4px 4px;
+	border: 0;
+	height: 1px;
+	margin: 0 0 24px;
+}
+
+
+/**
+ * 3.0 Text Elements
+ * ----------------------------------------------------------------------------
+ */
+
+p {
+	margin: 0 0 24px;
+}
+
+ol,
+ul {
+	margin: 16px 0;
+	padding: 0 0 0 40px;
+}
+
+ul {
+	list-style-type: square;
+}
+
+ol {
+	list-style: decimal outside;
+}
+
+li > ul,
+li > ol {
+	margin: 0;
+}
+
+dl {
+	margin: 0 20px;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 0 20px;
+}
+
+strong {
+	font-weight: bold;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, serif;
+	font-size: 14px;
+}
+
+pre {
+	background: #f5f5f5;
+	color: #666;
+	font-family: monospace;
+	font-size: 14px;
+	margin: 20px 0;
+	overflow: auto;
+	padding: 20px;
+	white-space: pre;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+	content: none;
+}
+
+blockquote {
+	font-size: 24px;
+	font-style: italic;
+	font-weight: 300;
+	margin: 24px 40px;
+}
+
+blockquote blockquote {
+	margin-right: 0;
+}
+
+blockquote cite,
+blockquote small {
+	font-size: 14px;
+	font-weight: normal;
+	text-transform: uppercase;
+}
+
+cite {
+	border-bottom: 0;
+}
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+address {
+	font-style: italic;
+	margin: 0 0 24px;
+}
+
+del {
+	color: #333;
+}
+
+ins {
+	background: #fff9c0;
+	border: none;
+	color: #333;
+	text-decoration: none;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+
+/**
+ * 4.0 Links
+ * ----------------------------------------------------------------------------
+ */
+
+a {
+	color: #ca3c08;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #ac0404;
+}
+
+a:focus {
+	outline: thin dotted;
+}
+
+a:active,
+a:hover {
+	color: #ea9629;
+	outline: 0;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+/**
+ * 5.0 Alignment
+ * ----------------------------------------------------------------------------
+ */
+
+.alignleft {
+	float: left;
+	margin: 5px 20px 5px 0;
+}
+
+.alignright {
+	float: right;
+	margin: 5px 0 5px 20px;
+}
+
+.aligncenter {
+	display: block;
+	margin: 5px auto;
+}
+
+img.alignnone {
+	margin: 5px 0;
+}
+
+
+/**
+ * 6.0 Tables
+ * ----------------------------------------------------------------------------
+ */
+
+table {
+	border-bottom: 1px solid #ededed;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 14px;
+	line-height: 2;
+	margin: 0 0 20px;
+	width: 100%;
+}
+
+caption,
+th,
+td {
+	font-weight: normal;
+	text-align: left;
+}
+
+caption {
+	font-size: 16px;
+	margin: 20px 0;
+}
+
+th {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+td {
+	border-top: 1px solid #ededed;
+	padding: 6px 10px 6px 0;
+}
+
+
+/**
+ * 7.0 Images
+ * ----------------------------------------------------------------------------
+ */
+
+img {
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+.wp-caption {
+	background: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+.html5-captions .wp-caption {
+	padding: 0;
+}
+
+.wp-caption.alignleft {
+	margin: 5px 10px 5px 0;
+}
+
+.html5-captions .wp-caption.alignleft {
+	margin-right: 20px;
+}
+
+.wp-caption.alignright {
+	margin: 5px 0 5px 10px;
+}
+
+.wp-caption.alignright img,
+.wp-caption.alignright .wp-caption-dd {
+	padding-left: 10px;
+}
+
+.html5-captions .wp-caption.alignright {
+	margin-left: 20px;
+}
+
+.html5-captions .wp-caption.alignright img,
+.html5-captions .wp-caption.alignright .wp-caption-dd {
+	padding: 0;
+}
+
+.wp-caption-dt {
+	margin: 0;
+}
+
+.wp-caption .wp-caption-text,
+.wp-caption-dd {
+	color: #220e10;
+	font-size: 18px;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 1.5;
+	margin-bottom: 24px;
+	padding: 0;
+}
+
+.mceTemp + ul,
+.mceTemp + ol {
+	list-style-position: inside;
+}
+
+
+/**
+ * 8.0 Galleries
+ * ----------------------------------------------------------------------------
+ */
+
+.gallery .gallery-item {
+	float: left;
+	margin: 0 4px 4px 0;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+}
+
+.gallery-columns-1 .gallery-item {
+	max-width: 100%;
+	width: auto;
+}
+
+.gallery-columns-2 .gallery-item {
+	max-width: 48%;
+	max-width: -webkit-calc(50% - 14px);
+	max-width:         calc(50% - 14px);
+	width: auto;
+}
+
+.gallery-columns-3 .gallery-item {
+	max-width: 32%;
+	max-width: -webkit-calc(33.3% - 11px);
+	max-width:         calc(33.3% - 11px);
+	width: auto;
+}
+
+.gallery-columns-4 .gallery-item {
+	max-width: 23%;
+	max-width: -webkit-calc(25% - 9px);
+	max-width:         calc(25% - 9px);
+	width: auto;
+}
+
+.gallery-columns-5 .gallery-item {
+	max-width: 19%;
+	max-width: -webkit-calc(20% - 8px);
+	max-width:         calc(20% - 8px);
+	width: auto;
+}
+
+.gallery-columns-6 .gallery-item {
+	max-width: 15%;
+	max-width: -webkit-calc(16.7% - 7px);
+	max-width:         calc(16.7% - 7px);
+	width: auto;
+}
+
+.gallery-columns-7 .gallery-item {
+	max-width: 13%;
+	max-width: -webkit-calc(14.28% - 7px);
+	max-width:         calc(14.28% - 7px);
+	width: auto;
+}
+
+.gallery-columns-8 .gallery-item {
+	max-width: 11%;
+	max-width: -webkit-calc(12.5% - 6px);
+	max-width:         calc(12.5% - 6px);
+	width: auto;
+}
+
+.gallery-columns-9 .gallery-item {
+	max-width: 9%;
+	max-width: -webkit-calc(11.1% - 6px);
+	max-width:         calc(11.1% - 6px);
+	width: auto;
+}
+
+.gallery-columns-1 .gallery-item:nth-of-type(1n),
+.gallery-columns-2 .gallery-item:nth-of-type(2n),
+.gallery-columns-3 .gallery-item:nth-of-type(3n),
+.gallery-columns-4 .gallery-item:nth-of-type(4n),
+.gallery-columns-5 .gallery-item:nth-of-type(5n),
+.gallery-columns-6 .gallery-item:nth-of-type(6n),
+.gallery-columns-7 .gallery-item:nth-of-type(7n),
+.gallery-columns-8 .gallery-item:nth-of-type(8n),
+.gallery-columns-9 .gallery-item:nth-of-type(9n) {
+	margin-right: 0;
+}
+
+.gallery-columns-1 .gallery-item:nth-of-type(1n),
+.gallery-columns-2 .gallery-item:nth-of-type(2n - 1),
+.gallery-columns-3 .gallery-item:nth-of-type(3n - 2),
+.gallery-columns-4 .gallery-item:nth-of-type(4n - 3),
+.gallery-columns-5 .gallery-item:nth-of-type(5n - 4),
+.gallery-columns-6 .gallery-item:nth-of-type(6n - 5),
+.gallery-columns-7 .gallery-item:nth-of-type(7n - 6),
+.gallery-columns-8 .gallery-item:nth-of-type(8n - 7),
+.gallery-columns-9 .gallery-item:nth-of-type(9n - 8) {
+	margin-left: 12px; /* Compensate for the default negative margin on .gallery, which can't be changed. */
+}
+
+.gallery .gallery-caption {
+	background-color: rgba(0, 0, 0, 0.7);
+	box-sizing: border-box;
+	color: #fff;
+	font-size: 14px;
+	line-height: 1.3;
+	margin: 0;
+	max-height: 50%;
+	opacity: 0;
+	padding: 2px 8px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	text-align: left;
+	-webkit-transition: opacity 400ms ease;
+	transition:         opacity 400ms ease;
+	width: 100%;
+}
+
+.gallery .gallery-caption:before {
+	box-shadow: 0 -10px 15px #000 inset;
+	content: "";
+	height: 100%;
+	min-height: 49px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+
+.gallery-item:hover .gallery-caption {
+	opacity: 1;
+}
+
+.gallery-columns-7 .gallery-caption,
+.gallery-columns-8 .gallery-caption,
+.gallery-columns-9 .gallery-caption {
+	display: none;
+}
+
+
+/**
+ * 9.0 Audio/Video
+ * ----------------------------------------------------------------------------
+ */
+.mejs-mediaelement,
+.mejs-container .mejs-controls {
+	background: #220e10;
+}
+
+.mejs-controls .mejs-time-rail .mejs-time-loaded,
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+	background: #fff;
+}
+
+.mejs-controls .mejs-time-rail .mejs-time-current {
+	background: #ea9629;
+}
+
+.mejs-controls .mejs-time-rail .mejs-time-total,
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
+	background: #595959;
+}
+
+.mejs-controls .mejs-time-rail span,
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
+.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+	border-radius: 0;
+}
+
+
+/**
+ * 10.0 Post Formats
+ * ----------------------------------------------------------------------------
+ */
+
+/* Aside */
+.post-format-aside {
+	background-color: #f7f5e7;
+}
+
+.post-format-aside blockquote {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+.post-format-aside cite {
+	font-size: 100%;
+	text-transform: none;
+}
+
+.post-format-aside cite:before {
+	content: "\2014";
+	margin-right: 5px;
+}
+
+/* Audio */
+.post-format-audio {
+	background-color: #db572f;
+}
+
+.post-format-audio a {
+	color: #fbfaf3;
+}
+
+.post-format-audio:before {
+	background: url(../images/dotted-line.png) repeat-y 85px 0;
+	background-size: 4px 4px;
+	content: "\f109";
+	display: block;
+	float: left;
+	font-family: Genericons;
+	font-size: 64px;
+	-webkit-font-smoothing: antialiased;
+	height: 100%;
+	line-height: 1;
+	width: 120px;
+}
+
+/* Chat */
+.post-format-chat {
+	background-color: #eadaa6;
+}
+
+.post-format-chat a {
+	color: #722d19;
+}
+
+/* Gallery */
+.post-format-gallery {
+	background-color: #fbca3c;
+}
+
+.post-format-gallery a {
+	color: #722d19;
+}
+
+/* Image: same as Standard/Defaults */
+
+/* Link */
+.post-format-link {
+	background-color: #f7f5e7;
+}
+
+/* Quote */
+.post-format-quote {
+	background-color: #210d10;
+	color: #f7f5e7;
+}
+
+.post-format-quote a {
+	color: #e63f2a;
+}
+
+.post-format-quote blockquote {
+	font-size: 28px;
+	font-style: italic;
+	font-weight: 300;
+	margin: 0;
+	padding-left: 75px;
+	position: relative;
+}
+
+.post-format-quote blockquote:before {
+	content: '\201C';
+	font-size: 140px;
+	font-weight: 400;
+	line-height: .8;
+	padding-right: 25px;
+	position: absolute;
+	left: -15px;
+	top: -3px;
+}
+
+.post-format-quote blockquote small,
+.post-format-quote blockquote cite {
+	display: block;
+	font-size: 16px;
+}
+
+.format-quote .entry-content cite a {
+	border-bottom: 1px dotted #fff;
+	color: #fff;
+}
+
+.format-quote .entry-content cite a:hover {
+	text-decoration: none;
+}
+
+
+/* Status */
+.post-format-status {
+	background-color: #722d19;
+	color: #f7f5e7;
+	font-style: italic;
+	font-weight: 300;
+	padding: 0;
+	padding-left: 35px;
+}
+
+.post-format-status.mceContentBody {
+	font-size: 24px;
+}
+
+.post-format-status:before {
+	background: url(../images/dotted-line.png) repeat-y left bottom;
+	background-size: 4px 4px;
+	content: "";
+	display: block;
+	float: left;
+	height: 100%;
+	position: relative;
+	left: -30px;
+	width: 1px;
+}
+
+.post-format-status > p:first-child:before {
+	background-color: rgba(0, 0, 0, 0.65);
+	content: "";
+	height: 3px;
+	width: 13px;
+	margin-top: 13px;
+	position: absolute;
+	left: 9px;
+}
+
+.post-format-status a {
+	color: #eadaa6;
+}
+
+/* Video */
+.post-format-video {
+	background-color: #db572f;
+}
+
+.post-format-video a {
+	color: #fbfaf3;
+}
+
+
+/**
+ * 11.0 RTL
+ * ----------------------------------------------------------------------------
+ */
+
+html .mceContentBody.rtl {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+.rtl ol,
+.rtl ul {
+	padding: 0 40px 0 0;
+}
+
+.rtl .wp-caption,
+.rtl tr th {
+	text-align: right;
+}
+
+.rtl td {
+	padding: 6px 0 6px 10px;
+	text-align: right;
+}
+
+.rtl blockquote blockquote {
+	margin-left: 0;
+	margin-right: 24px;
+}
+
+.rtl.post-format-audio:before,
+.rtl.post-format-status:before,
+.rtl.post-format-status > p:first-child:before {
+	background: none;
+	content: none;
+}

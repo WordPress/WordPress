@@ -1,0 +1,36 @@
+// Block Styles for the Editor
+// - These styles replace key Gutenberg Block styles for fonts, colors, and
+//   spacing with CSS-variables overrides in the Block Editor
+// - In the future the Block styles may get compiled to individual .css
+//   files and conditionally loaded
+
+@import "button/editor";
+@import "code/editor";
+@import "cover/editor";
+@import "columns/editor";
+@import "file/editor";
+@import "gallery/editor";
+@import "group/editor";
+@import "heading/editor";
+@import "html/editor";
+@import "image/editor";
+@import "latest-comments/editor";
+@import "latest-posts/editor";
+@import "legacy/editor"; // "Blocks" from the legacy WP editor, ie: galleries, .button class, etc.
+@import "list/editor";
+@import "media-text/editor";
+@import "navigation/editor";
+@import "paragraph/editor";
+@import "preformatted/editor";
+@import "pullquote/editor";
+@import "query-loop/editor";
+@import "quote/editor";
+@import "rss/editor";
+@import "search/editor";
+@import "separator/editor";
+@import "social-icons/editor";
+@import "table/editor";
+@import "tag-clould/editor";
+@import "verse/editor";
+@import "utilities/font-sizes";
+@import "utilities/editor"; // Import LAST to cascade properly

@@ -1,0 +1,126 @@
+.wp-block-button__link {
+	// Extend button style
+	@include button-style();
+}
+
+/**
+ * Block Options
+ */
+
+.wp-block-button {
+
+	// Target the default and filled button states.
+	&:not(.is-style-outline) {
+
+		.wp-block-button__link:not(:hover):not(:active) {
+
+			// Text colors
+			&:not(.has-text-color) {
+				color: var(--global--color-background);
+
+				// Nested
+				.has-background & {
+					color: var(--local--color-background, var(--global--color-background));
+
+					&.has-background {
+						color: var(--global--color-primary);
+					}
+				}
+			}
+
+			// Background-colors
+			&:not(.has-background) {
+				background-color: var(--global--color-primary);
+
+				// Nested
+				.has-background & {
+					background-color: var(--local--color-primary, var(--global--color-primary));
+				}
+			}
+		}
+
+		// Hover Button color should match parent element foreground color
+		.wp-block-button__link:hover,
+		.wp-block-button__link:active {
+			border-color: currentColor !important;
+			background-color: transparent !important;
+			color: inherit !important;
+		}
+
+		// Remove :focus styles in the editor
+		.wp-block-button__link:focus {
+			outline-offset: inherit;
+			outline: inherit;
+		}
+	}
+
+	// Outline Style.
+	&.is-style-outline {
+
+		.wp-block-button__link:not(:hover):not(:active) {
+
+			// Border colors
+			&:not(.has-text-color),
+			&:not(.has-background),
+			&.has-background {
+				border-color: currentColor;
+			}
+
+			// Text colors
+			&:not(.has-text-color) {
+				color: var(--global--color-primary);
+
+				// Nested
+				.has-background & {
+					color: var(--local--color-primary, var(--global--color-primary));
+				}
+			}
+
+			&.has-background {
+				// Nested
+				.has-background &:not(.has-text-color) {
+					color: inherit;
+				}
+			}
+
+			// Background-colors
+			&:not(.has-background) {
+				background-color: transparent;
+			}
+		}
+
+		// Hover Button color should match default button style
+		.wp-block-button__link:hover,
+		.wp-block-button__link:active {
+
+			background-color: var(--global--color-primary) !important;
+			border-color: transparent !important;
+			color: var(--global--color-background) !important;
+
+			.has-background & {
+				background-color: var(--local--color-primary, var(--global--color-primary)) !important;
+				color: var(--local--color-background, var(--global--color-background)) !important;
+			}
+
+			.has-text-color & {
+				color: var(--local--color-background, var(--global--color-background)) !important;
+			}
+		}
+
+		// Remove :focus styles in the editor
+		.wp-block-button__link:focus {
+			outline-offset: inherit;
+			outline: inherit;
+		}
+	}
+
+	// Squared Style
+	&.is-style-squared {
+		border-radius: 0;
+	}
+}
+
+.is-style-outline .wp-block-button__link[style*="radius"],
+.wp-block-button__link[style*="radius"] {
+	outline-offset: 2px;
+}

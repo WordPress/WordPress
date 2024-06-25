@@ -1,0 +1,31 @@
+$scheme-name: "light";
+$base-color: #e5e5e5;
+$icon-color: #999;
+$text-color: #333;
+$highlight-color: #04a4cc;
+$notification-color: #d64e07;
+
+$body-background: #f5f5f5;
+
+$menu-highlight-text: #fff;
+$menu-highlight-icon: #ccc;
+$menu-highlight-background: #888;
+
+$menu-bubble-text: #fff;
+$menu-avatar-frame: #aaa;
+$menu-submenu-background: #fff;
+
+$menu-collapse-text: #777;
+$menu-collapse-focus-icon: #555;
+
+$dashboard-accent-1: $highlight-color;
+$dashboard-accent-2: desaturate( lighten( $highlight-color, 7% ), 15% );
+$dashboard-icon-background: $text-color;
+
+@import "../_admin.scss";
+
+/* Override the theme filter highlight color for this scheme */
+.theme-section.current,
+.theme-filter.current {
+	border-bottom-color: $highlight-color;
+}

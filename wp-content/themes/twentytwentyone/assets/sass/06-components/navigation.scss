@@ -1,0 +1,538 @@
+
+// Navigation
+
+// Mobile menu toggles
+.menu-button-container {
+	display: none;
+	justify-content: space-between;
+	position: absolute;
+	right: 0;
+	padding-top: calc(0.5 * var(--global--spacing-vertical));
+	padding-bottom: calc(0.25 * var(--global--spacing-vertical));
+
+	@include media(mobile-only) {
+		display: flex;
+	}
+
+	// Override specificity from default button styles.
+	#primary-mobile-menu {
+		display: flex;
+		margin-left: auto;
+		padding: calc(var(--button--padding-vertical) - (0.25 * var(--global--spacing-unit))) calc(0.5 * var(--button--padding-horizontal));
+		font-size: var(--primary-nav--font-size-button);
+		font-weight: var(--primary-nav--font-weight-button);
+		background-color: transparent;
+		border: none;
+		color: var(--primary-nav--color-link);
+
+		.dropdown-icon {
+			display: flex;
+			align-items: center;
+
+			.svg-icon {
+				margin-left: calc(0.25 * var(--global--spacing-unit));
+			}
+
+			// Menu icon is off-center vertically to prevent blurry pixels.
+			&.open .svg-icon {
+				position: relative;
+				top: -1px;
+			}
+
+			&.close {
+				display: none;
+			}
+		}
+
+		&[aria-expanded*="true"] {
+
+			.dropdown-icon {
+
+				&.open {
+					display: none;
+				}
+
+				&.close {
+					display: flex;
+
+					.has-logo.has-title-and-tagline & {
+						animation-name: twentytwentyone-close-button-transition;
+						animation-duration: 0.3s;
+					}
+				}
+			}
+		}
+	}
+
+	// When the menu is open, hide the close button and show the hide button.
+	.primary-navigation-open & {
+		width: 100%;
+		z-index: 500;
+		background-color: var(--global--color-background);
+
+		#primary-mobile-menu {
+			position: static;
+		}
+	}
+}
+
+.primary-navigation {
+	position: absolute;
+	top: var(--global--admin-bar--height);
+	right: 0;
+	color: var(--primary-nav--color-text);
+	font-size: var(--primary-nav--font-size);
+	line-height: 1.15;
+	margin-top: 0;
+	margin-bottom: 0;
+
+	// Mobile menu closed
+	> .primary-menu-container {
+		position: fixed;
+		visibility: hidden;
+		opacity: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		// Height of the menu-button-container using font size, line height, and total padding, plus 5px so the focus of the first item is visible.
+		padding-top: calc(var(--button--line-height) * var(--primary-nav--font-size-button) + 42px + 5px);
+		padding-left: var(--global--spacing-unit);
+		padding-right: var(--global--spacing-unit);
+		padding-bottom: var(--global--spacing-horizontal);
+		background-color: var(--global--color-background);
+		transform: translateY(var(--global--spacing-vertical));
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition: all .15s ease-in-out;
+		}
+
+		@include media(mobile-only) {
+			height: 100vh;
+			z-index: 499;
+			overflow-x: hidden;
+			overflow-y: auto;
+			border: 2px solid transparent;
+
+			.has-logo.has-title-and-tagline & {
+				position: fixed;
+				transform: translateY(0) translateX(100%);
+			}
+
+			.admin-bar .has-logo.has-title-and-tagline & {
+				top: var(--global--admin-bar--height);
+			}
+
+			.admin-bar & {
+				height: calc(100vh - var(--global--admin-bar--height));
+			}
+
+			&:focus {
+				border: 2px solid var(--global--color-primary);
+			}
+		}
+	}
+
+	// Mobile menu open
+	.primary-navigation-open & {
+
+		@include media(mobile-only) {
+			width: 100%;
+			position: fixed;
+			z-index: 2; // To be greater than the cover block and embeds.
+		}
+
+		> .primary-menu-container {
+			position: absolute;
+			visibility: visible;
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.primary-navigation-open .has-logo.has-title-and-tagline & {
+		@include media(mobile-only) {
+
+			> .primary-menu-container {
+				transform: translateX(0) translateY(0);
+			}
+		}
+	}
+
+	@include media(mobile) {
+		position: relative;
+		margin-left: auto;
+
+		// Hide Mobile menu on desktop
+		> .primary-menu-container {
+			visibility: visible;
+			opacity: 1;
+			position: relative;
+			padding: 0;
+			background-color: transparent;
+			overflow: initial;
+			transform: none;
+		}
+
+		// Hide mobile menu toggle
+		#toggle-menu {
+			display: none;
+		}
+
+		// Hide sub-sub-menus
+		> .primary-menu-container ul > li .sub-menu-toggle[aria-expanded="false"] ~ ul {
+			display: none;
+		}
+
+		// Don't adjust position when logged-in
+		.admin-bar & {
+			top: initial;
+
+			> .primary-menu-container {
+				top: initial;
+			}
+		}
+	}
+
+	// Menu list wrapper
+	> div > .menu-wrapper {
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+		list-style: none;
+		margin: 0;
+		max-width: none;
+		padding-left: 0;
+		position: relative;
+
+		@include media(mobile-only) {
+			padding-bottom: 100px;
+
+			ul {
+				padding-left: 0;
+			}
+		}
+
+		li {
+			display: block;
+			position: relative;
+			width: 100%;
+
+			@include media(mobile) {
+				margin: 0;
+				width: inherit;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		// Sub-menu buttons
+		.sub-menu-toggle {
+			display: flex;
+			height: calc(2 * var(--primary-nav--padding) + 1.15em + 1px);
+			width: 44px;
+			padding: 0;
+			justify-content: center;
+			align-items: center;
+			background: transparent;
+			color: currentColor;
+			border: none;
+
+			&:focus {
+				outline: 2px solid var(--wp--style--color--link, var(--global--color-primary));
+			}
+
+			@include media(mobile-only) {
+				display: none;
+			}
+
+			.icon-plus,
+			.icon-minus {
+				height: 100%;
+				display: flex;
+				align-items: center;
+
+				svg {
+					margin-top: -1px;
+				}
+			}
+
+			.icon-minus {
+				display: none;
+			}
+
+			// When the sub-menu is open, display the minus icon
+			&[aria-expanded="true"] {
+
+				.icon-minus {
+					display: flex;
+				}
+
+				.icon-plus {
+					display: none;
+				}
+			}
+		}
+
+		// Sub-menus Flyout
+		> li > .sub-menu {
+
+			position: relative;
+
+			@include media(mobile) {
+				@media (prefers-reduced-motion: no-preference) {
+					transition: all 0.5s ease;
+				}
+			}
+
+			@include media(mobile) {
+				left: 0;
+				margin: 0;
+				min-width: max-content;
+				position: absolute;
+				top: 100%;
+				padding-top: 3px;
+				z-index: 88888;
+
+				&:before,
+				&:after {
+					content: "";
+					display: block;
+					position: absolute;
+					width: 0;
+					top: -10px;
+					left: var(--global--spacing-horizontal);
+					border-style: solid;
+					border-color: var(--primary-nav--border-color) transparent;
+					border-width: 0 7px 10px 7px;
+				}
+
+				&:after {
+					top: -9px;
+					border-color: var(--global--color-background) transparent;
+				}
+
+				li {
+					background: var(--global--color-background);
+				}
+
+				&.submenu-reposition-left {
+
+					/* rtl:ignore */
+					left: 0;
+
+					/* rtl:ignore */
+					right: auto;
+
+					&:before,
+					&:after {
+
+						/* rtl:ignore */
+						left: var(--global--spacing-horizontal);
+
+						/* rtl:ignore */
+						right: auto;
+					}
+				}
+
+				&.submenu-reposition-right {
+
+					/* rtl:ignore */
+					right: 0;
+
+					/* rtl:ignore */
+					left: auto;
+
+					&:before,
+					&:after {
+
+						/* rtl:ignore */
+						left: auto;
+
+						/* rtl:ignore */
+						right: var(--global--spacing-horizontal);
+					}
+				}
+			}
+		}
+	}
+
+	// Top-level Item Link Colors
+	.primary-menu > .menu-item:hover > a {
+		color: var(--primary-nav--color-link-hover);
+	}
+
+	.primary-menu-container {
+		@include media(mobile) {
+			// Better align with the site title when the menu wraps.
+			margin-right: calc(0px - var(--primary-nav--padding));
+			margin-left: calc(0px - var(--primary-nav--padding));
+
+			// Top-level Menu Item
+			> ul > .menu-item {
+				display: flex;
+
+				> a {
+					padding-left: var(--primary-nav--padding);
+					padding-right: var(--primary-nav--padding);
+
+					+ .sub-menu-toggle {
+						margin-left: calc(5px - var(--primary-nav--padding));
+					}
+				}
+			}
+		}
+	}
+
+	// Menu Item Link
+	a {
+		display: block;
+		font-family: var(--primary-nav--font-family-mobile);
+		font-size: var(--primary-nav--font-size-mobile);
+		font-weight: var(--primary-nav--font-weight);
+		padding: var(--primary-nav--padding) 0;
+		text-decoration: none;
+
+		@include media(mobile) {
+			display: block;
+			font-family: var(--primary-nav--font-family);
+			font-size: var(--primary-nav--font-size);
+			font-weight: var(--primary-nav--font-weight);
+		}
+
+		+ svg {
+			fill: var(--primary-nav--color-text);
+		}
+
+		&:hover,
+		&:link,
+		&:visited {
+			color: var(--primary-nav--color-link-hover);
+		}
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-style: dotted;
+		}
+
+		&:focus {
+			position: relative;
+			z-index: 99999; // Ensure focus styles appear above absolute positioned elements
+			outline-offset: 0;
+			text-decoration-thickness: 2px;
+		}
+	}
+
+	.current-menu-item > a:first-child,
+	.current_page_item > a:first-child {
+		text-decoration: underline;
+		text-decoration-style: solid;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-style: dotted;
+		}
+	}
+
+	// Sub-menu depth indicators + text styles
+	.sub-menu {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		margin-left: var(--primary-nav--padding);
+		border: 1px solid var(--primary-nav--border-color);
+
+		.sub-menu {
+			border: none;
+		}
+
+		// Sub-menu items om wide screens.
+		@include media(mobile) {
+
+			// For nested sub-menus, don't duplicate the padding
+			> .menu-item > .sub-menu {
+				padding: 0;
+			}
+		}
+
+		.menu-item {
+
+			@include media(mobile-only) {
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+			}
+
+			> a {
+				padding: calc(1.25 * var(--primary-nav--padding)) var(--primary-nav--padding);
+				display: block;
+				font-size: var(--primary-nav--font-size-sub-menu-mobile);
+				font-style: var(--primary-nav--font-style-sub-menu-mobile);
+
+				@include media(mobile) {
+					font-size: var(--primary-nav--font-size-sub-menu);
+					font-style: var(--primary-nav--font-style);
+				}
+			}
+		}
+	}
+
+	// Show top-level sub-menu indicators above mobile-breakpoint-only
+	.menu-item-has-children {
+
+		> .svg-icon {
+			display: none;
+		}
+
+		@include media(mobile) {
+
+			> .svg-icon {
+				display: inline-block;
+				height: 100%;
+			}
+
+			.sub-menu .svg-icon {
+				display: none;
+			}
+		}
+
+	}
+
+	.menu-item-description {
+		display: block;
+		clear: both;
+		font-size: var(--global--font-size-xs);
+		text-transform: none;
+		line-height: 1.7;
+
+		> span {
+			display: inline-block;
+		}
+	}
+}
+
+// Keep the menu pinned to the top when the menu is open.
+@include media(mobile-only) {
+
+	.lock-scrolling .site {
+		position: fixed;
+		max-width: 100%;
+		width: 100%;
+	}
+}
+
+// Close button animation for when a custom logo is present.
+@keyframes twentytwentyone-close-button-transition {
+
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

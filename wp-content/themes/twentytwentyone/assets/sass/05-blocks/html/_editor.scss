@@ -1,0 +1,6 @@
+[data-type="core/html"] textarea {
+	// Make sure that the color is not white on white when a dark body background is used.
+	color: var(--global--color-dark-gray);
+	border-radius: 0;
+	padding: var(--global--spacing-unit);
+}

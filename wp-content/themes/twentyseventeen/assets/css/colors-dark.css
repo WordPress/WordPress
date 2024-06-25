@@ -1,0 +1,566 @@
+/**
+ * Twenty Seventeen: Dark Color Scheme
+ *
+ * See inc/color-patterns.php for dynamic color overrides for the theme.
+ *
+ * Colors are ordered from light to dark.
+ */
+
+.colors-dark button,
+.colors-dark input[type="button"],
+.colors-dark input[type="submit"],
+.colors-dark .entry-footer .edit-link a.post-edit-link {
+	background-color: #fff;
+}
+
+.colors-dark a:hover,
+.colors-dark a:active,
+.colors-dark .entry-content a:focus,
+.colors-dark .entry-content a:hover,
+.colors-dark .entry-summary a:focus,
+.colors-dark .entry-summary a:hover,
+.colors-dark .comment-content a:focus,
+.colors-dark .comment-content a:hover,
+.colors-dark .widget a:focus,
+.colors-dark .widget a:hover,
+.colors-dark .site-footer .widget-area a:focus,
+.colors-dark .site-footer .widget-area a:hover,
+.colors-dark .posts-navigation a:focus,
+.colors-dark .posts-navigation a:hover,
+.colors-dark .comment-metadata a:focus,
+.colors-dark .comment-metadata a:hover,
+.colors-dark .comment-metadata a.comment-edit-link:focus,
+.colors-dark .comment-metadata a.comment-edit-link:hover,
+.colors-dark .comment-reply-link:focus,
+.colors-dark .comment-reply-link:hover,
+.colors-dark .widget_authors a:focus strong,
+.colors-dark .widget_authors a:hover strong,
+.colors-dark .entry-title a:focus,
+.colors-dark .entry-title a:hover,
+.colors-dark .entry-meta a:focus,
+.colors-dark .entry-meta a:hover,
+.colors-dark.blog .entry-meta a.post-edit-link:focus,
+.colors-dark.blog .entry-meta a.post-edit-link:hover,
+.colors-dark.archive .entry-meta a.post-edit-link:focus,
+.colors-dark.archive .entry-meta a.post-edit-link:hover,
+.colors-dark.search .entry-meta a.post-edit-link:focus,
+.colors-dark.search .entry-meta a.post-edit-link:hover,
+.colors-dark .page-links a:focus .page-number,
+.colors-dark .page-links a:hover .page-number,
+.colors-dark .entry-footer .cat-links a:focus,
+.colors-dark .entry-footer .cat-links a:hover,
+.colors-dark .entry-footer .tags-links a:focus,
+.colors-dark .entry-footer .tags-links a:hover,
+.colors-dark .post-navigation a:focus,
+.colors-dark .post-navigation a:hover,
+.colors-dark .pagination a:not(.prev):not(.next):focus,
+.colors-dark .pagination a:not(.prev):not(.next):hover,
+.colors-dark .comments-pagination a:not(.prev):not(.next):focus,
+.colors-dark .comments-pagination a:not(.prev):not(.next):hover,
+.colors-dark .logged-in-as a:focus,
+.colors-dark .logged-in-as a:hover,
+.colors-dark a:focus .nav-title,
+.colors-dark a:hover .nav-title,
+.colors-dark .edit-link a:focus,
+.colors-dark .edit-link a:hover,
+.colors-dark .site-info a:focus,
+.colors-dark .site-info a:hover,
+.colors-dark .widget .widget-title a:focus,
+.colors-dark .widget .widget-title a:hover,
+.colors-dark .widget ul li a:focus,
+.colors-dark .widget ul li a:hover {
+	color: #fff;
+}
+
+.colors-dark .entry-content a:focus,
+.colors-dark .entry-content a:hover,
+.colors-dark .entry-summary a:focus,
+.colors-dark .entry-summary a:hover,
+.colors-dark .comment-content a:focus,
+.colors-dark .comment-content a:hover,
+.colors-dark .widget a:focus,
+.colors-dark .widget a:hover,
+.colors-dark .site-footer .widget-area a:focus,
+.colors-dark .site-footer .widget-area a:hover,
+.colors-dark .posts-navigation a:focus,
+.colors-dark .posts-navigation a:hover,
+.colors-dark .comment-metadata a:focus,
+.colors-dark .comment-metadata a:hover,
+.colors-dark .comment-metadata a.comment-edit-link:focus,
+.colors-dark .comment-metadata a.comment-edit-link:hover,
+.colors-dark .comment-reply-link:focus,
+.colors-dark .comment-reply-link:hover,
+.colors-dark .widget_authors a:focus strong,
+.colors-dark .widget_authors a:hover strong,
+.colors-dark .entry-title a:focus,
+.colors-dark .entry-title a:hover,
+.colors-dark .entry-meta a:focus,
+.colors-dark .entry-meta a:hover,
+.colors-dark.blog .entry-meta a.post-edit-link:focus,
+.colors-dark.blog .entry-meta a.post-edit-link:hover,
+.colors-dark.archive .entry-meta a.post-edit-link:focus,
+.colors-dark.archive .entry-meta a.post-edit-link:hover,
+.colors-dark.search .entry-meta a.post-edit-link:focus,
+.colors-dark.search .entry-meta a.post-edit-link:hover,
+.colors-dark .page-links a:focus .page-number,
+.colors-dark .page-links a:hover .page-number,
+.colors-dark .entry-footer .cat-links a:focus,
+.colors-dark .entry-footer .cat-links a:hover,
+.colors-dark .entry-footer .tags-links a:focus,
+.colors-dark .entry-footer .tags-links a:hover,
+.colors-dark .post-navigation a:focus,
+.colors-dark .post-navigation a:hover,
+.colors-dark .pagination a:not(.prev):not(.next):focus,
+.colors-dark .pagination a:not(.prev):not(.next):hover,
+.colors-dark .comments-pagination a:not(.prev):not(.next):focus,
+.colors-dark .comments-pagination a:not(.prev):not(.next):hover,
+.colors-dark .logged-in-as a:focus,
+.colors-dark .logged-in-as a:hover,
+.colors-dark a:focus .nav-title,
+.colors-dark a:hover .nav-title,
+.colors-dark .edit-link a:focus,
+.colors-dark .edit-link a:hover,
+.colors-dark .site-info a:focus,
+.colors-dark .site-info a:hover,
+.colors-dark .widget .widget-title a:focus,
+.colors-dark .widget .widget-title a:hover,
+.colors-dark .widget ul li a:focus,
+.colors-dark .widget ul li a:hover {
+	-webkit-box-shadow: inset 0 0 0 rgba(255, 255, 255, 0), 0 3px 0 rgba(255, 255, 255, 1); /* Equivalent to #fff */
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 0), 0 3px 0 rgba(255, 255, 255, 1); /* Equivalent to #fff */
+}
+
+.colors-dark .entry-content a,
+.colors-dark .entry-summary a,
+.colors-dark .comment-content a,
+.colors-dark .widget a,
+.colors-dark .site-footer .widget-area a,
+.colors-dark .posts-navigation a,
+.colors-dark .widget_authors a strong {
+	-webkit-box-shadow: inset 0 -1px 0 rgba(240, 240, 240, 1); /* Equivalent to #f0f0f0 */
+	box-shadow: inset 0 -1px 0 rgba(240, 240, 240, 1); /* Equivalent to #f0f0f0 */
+}
+
+body.colors-dark,
+.colors-dark button,
+.colors-dark input,
+.colors-dark select,
+.colors-dark textarea,
+.colors-dark h3,
+.colors-dark h4,
+.colors-dark h6,
+.colors-dark label,
+.colors-dark .entry-title a,
+.colors-dark.twentyseventeen-front-page .panel-content .recent-posts article,
+.colors-dark .entry-footer .cat-links a,
+.colors-dark .entry-footer .tags-links a,
+.colors-dark .format-quote blockquote,
+.colors-dark .nav-title,
+.colors-dark .comment-body {
+	color: #eee;
+}
+
+/* Placeholder text color -- selectors need to be separate to work. */
+.colors-dark ::-webkit-input-placeholder {
+	color: #ddd;
+}
+
+.colors-dark :-moz-placeholder {
+	color: #ddd;
+}
+
+.colors-dark ::-moz-placeholder {
+	color: #ddd;
+}
+
+.colors-dark :-ms-input-placeholder {
+	color: #ddd;
+}
+
+.colors-dark input[type="text"]:focus,
+.colors-dark input[type="email"]:focus,
+.colors-dark input[type="url"]:focus,
+.colors-dark input[type="password"]:focus,
+.colors-dark input[type="search"]:focus,
+.colors-dark input[type="number"]:focus,
+.colors-dark input[type="tel"]:focus,
+.colors-dark input[type="range"]:focus,
+.colors-dark input[type="date"]:focus,
+.colors-dark input[type="month"]:focus,
+.colors-dark input[type="week"]:focus,
+.colors-dark input[type="time"]:focus,
+.colors-dark input[type="datetime"]:focus,
+.colors-dark input[type="datetime-local"]:focus,
+.colors-dark input[type="color"]:focus,
+.colors-dark textarea:focus,
+.bypostauthor > .comment-body > .comment-meta > .comment-author .avatar {
+	border-color: #eee;
+}
+
+.colors-dark input[type="text"]:focus,
+.colors-dark input[type="email"]:focus,
+.colors-dark input[type="url"]:focus,
+.colors-dark input[type="password"]:focus,
+.colors-dark input[type="search"]:focus,
+.colors-dark input[type="number"]:focus,
+.colors-dark input[type="tel"]:focus,
+.colors-dark input[type="range"]:focus,
+.colors-dark input[type="date"]:focus,
+.colors-dark input[type="month"]:focus,
+.colors-dark input[type="week"]:focus,
+.colors-dark input[type="time"]:focus,
+.colors-dark input[type="datetime"]:focus,
+.colors-dark input[type="datetime-local"]:focus,
+.colors-dark input[type="color"]:focus,
+.colors-dark textarea:focus,
+.colors-dark button.secondary,
+.colors-dark input[type="reset"],
+.colors-dark input[type="button"].secondary,
+.colors-dark input[type="reset"].secondary,
+.colors-dark input[type="submit"].secondary,
+.colors-dark a,
+.colors-dark .site-title,
+.colors-dark .site-title a,
+.colors-dark .navigation-top a,
+.colors-dark .dropdown-toggle,
+.colors-dark .menu-toggle,
+.colors-dark .page .panel-content .entry-title,
+.colors-dark .page-title,
+.colors-dark.page:not(.twentyseventeen-front-page) .entry-title,
+.colors-dark .page-links a .page-number,
+.colors-dark .comment-metadata a.comment-edit-link,
+.colors-dark .comment-reply-link .icon,
+.colors-dark h2.widget-title,
+.colors-dark mark,
+.colors-dark .post-navigation a:focus .icon,
+.colors-dark .post-navigation a:hover .icon,
+.colors-dark.blog .entry-meta a.post-edit-link,
+.colors-dark.archive .entry-meta a.post-edit-link,
+.colors-dark.search .entry-meta a.post-edit-link,
+.colors-custom .twentyseventeen-panel .recent-posts .entry-header .edit-link {
+	color: #ddd;
+}
+
+.colors-dark h2,
+.colors-dark blockquote,
+.colors-dark input[type="text"],
+.colors-dark input[type="email"],
+.colors-dark input[type="url"],
+.colors-dark input[type="password"],
+.colors-dark input[type="search"],
+.colors-dark input[type="number"],
+.colors-dark input[type="tel"],
+.colors-dark input[type="range"],
+.colors-dark input[type="date"],
+.colors-dark input[type="month"],
+.colors-dark input[type="week"],
+.colors-dark input[type="time"],
+.colors-dark input[type="datetime"],
+.colors-dark input[type="datetime-local"],
+.colors-dark input[type="color"],
+.colors-dark textarea,
+.colors-dark .navigation-top .current-menu-item > a,
+.colors-dark .navigation-top .current_page_item > a,
+.colors-dark .entry-content blockquote.alignleft,
+.colors-dark .entry-content blockquote.alignright,
+.colors-dark .taxonomy-description,
+.colors-dark .site-info a,
+.colors-dark .wp-caption {
+	color: #ccc;
+}
+
+.colors-dark abbr,
+.colors-dark acronym {
+	border-bottom-color: #ccc;
+}
+
+.colors-dark h5,
+.main-navigation a:hover,
+.colors-dark .entry-meta,
+.colors-dark .entry-meta a,
+.colors-dark .nav-subtitle,
+.colors-dark .comment-metadata,
+.colors-dark .comment-metadata a,
+.colors-dark .no-comments,
+.colors-dark .comment-awaiting-moderation,
+.colors-dark .page-numbers.current,
+.colors-dark .page-links .page-number,
+.colors-dark .site-description {
+	color: #bbb;
+}
+
+.colors-dark :not( .mejs-button ) > button:hover,
+.colors-dark :not( .mejs-button ) > button:focus,
+.colors-dark input[type="button"]:hover,
+.colors-dark input[type="button"]:focus,
+.colors-dark input[type="submit"]:hover,
+.colors-dark input[type="submit"]:focus,
+.colors-dark .prev.page-numbers:focus,
+.colors-dark .prev.page-numbers:hover,
+.colors-dark .next.page-numbers:focus,
+.colors-dark .next.page-numbers:hover,
+.colors-dark .entry-footer .edit-link a.post-edit-link:focus,
+.colors-dark .entry-footer .edit-link a.post-edit-link:hover {
+	background: #bbb;
+}
+
+.colors-dark .social-navigation a:hover,
+.colors-dark .social-navigation a:focus {
+	background: #999;
+	color: #222;
+}
+
+.colors-dark .entry-footer .cat-links .icon,
+.colors-dark .entry-footer .tags-links .icon {
+	color: #666;
+}
+
+.colors-dark button.secondary:hover,
+.colors-dark button.secondary:focus,
+.colors-dark input[type="reset"]:hover,
+.colors-dark input[type="reset"]:focus,
+.colors-dark input[type="button"].secondary:hover,
+.colors-dark input[type="button"].secondary:focus,
+.colors-dark input[type="reset"].secondary:hover,
+.colors-dark input[type="reset"].secondary:focus,
+.colors-dark input[type="submit"].secondary:hover,
+.colors-dark input[type="submit"].secondary:focus,
+.colors-dark .social-navigation a,
+.colors-dark hr {
+	background: #555;
+}
+
+.colors-dark input[type="text"],
+.colors-dark input[type="email"],
+.colors-dark input[type="url"],
+.colors-dark input[type="password"],
+.colors-dark input[type="search"],
+.colors-dark input[type="number"],
+.colors-dark input[type="tel"],
+.colors-dark input[type="range"],
+.colors-dark input[type="date"],
+.colors-dark input[type="month"],
+.colors-dark input[type="week"],
+.colors-dark input[type="time"],
+.colors-dark input[type="datetime"],
+.colors-dark input[type="datetime-local"],
+.colors-dark input[type="color"],
+.colors-dark textarea,
+.colors-dark select,
+.colors-dark fieldset,
+.colors-dark .widget .tagcloud a:hover,
+.colors-dark .widget .tagcloud a:focus,
+.colors-dark .widget.widget_tag_cloud a:hover,
+.colors-dark .widget.widget_tag_cloud a:focus,
+.colors-dark .wp_widget_tag_cloud a:hover,
+.colors-dark .wp_widget_tag_cloud a:focus {
+	border-color: #555;
+}
+
+.colors-dark button.secondary,
+.colors-dark input[type="reset"],
+.colors-dark input[type="button"].secondary,
+.colors-dark input[type="reset"].secondary,
+.colors-dark input[type="submit"].secondary,
+.colors-dark .prev.page-numbers,
+.colors-dark .next.page-numbers {
+	background-color: #444;
+}
+
+.colors-dark .widget .tagcloud a,
+.colors-dark .widget.widget_tag_cloud a,
+.colors-dark .wp_widget_tag_cloud a {
+	border-color: #444;
+}
+
+.colors-dark.twentyseventeen-front-page article:not(.has-post-thumbnail):not(:first-child),
+.colors-dark .widget ul li {
+	border-top-color: #444;
+}
+
+.colors-dark .widget ul li {
+	border-bottom-color: #444;
+}
+
+.colors-dark pre,
+.colors-dark mark,
+.colors-dark ins,
+.colors-dark input[type="text"],
+.colors-dark input[type="email"],
+.colors-dark input[type="url"],
+.colors-dark input[type="password"],
+.colors-dark input[type="search"],
+.colors-dark input[type="number"],
+.colors-dark input[type="tel"],
+.colors-dark input[type="range"],
+.colors-dark input[type="date"],
+.colors-dark input[type="month"],
+.colors-dark input[type="week"],
+.colors-dark input[type="time"],
+.colors-dark input[type="datetime"],
+.colors-dark input[type="datetime-local"],
+.colors-dark input[type="color"],
+.colors-dark textarea,
+.colors-dark select,
+.colors-dark fieldset {
+	background: #333;
+}
+
+.colors-dark tr,
+.colors-dark thead th {
+	border-color: #333;
+}
+
+.colors-dark .navigation-top,
+.colors-dark .main-navigation > div > ul,
+.colors-dark .pagination,
+.colors-dark .comment-navigation,
+.colors-dark .entry-footer,
+.colors-dark .site-footer {
+	border-top-color: #333;
+}
+
+.colors-dark .single-featured-image-header,
+.colors-dark .navigation-top,
+.colors-dark .main-navigation li,
+.colors-dark .entry-footer,
+.colors-dark #comments {
+	border-bottom-color: #333;
+}
+
+.colors-dark .site-header,
+.colors-dark .single-featured-image-header {
+	background-color: #262626;
+}
+
+.colors-dark button,
+.colors-dark input[type="button"],
+.colors-dark input[type="submit"],
+.colors-dark .prev.page-numbers:focus,
+.colors-dark .prev.page-numbers:hover,
+.colors-dark .next.page-numbers:focus,
+.colors-dark .next.page-numbers:hover {
+	color: #222;
+}
+
+body.colors-dark,
+.colors-dark .site-content-contain,
+.colors-dark .navigation-top,
+.colors-dark .main-navigation ul {
+	background: #222;
+}
+
+.colors-dark .entry-title a,
+.colors-dark .entry-meta a,
+.colors-dark.blog .entry-meta a.post-edit-link,
+.colors-dark.archive .entry-meta a.post-edit-link,
+.colors-dark.search .entry-meta a.post-edit-link,
+.colors-dark .page-links a,
+.colors-dark .page-links a .page-number,
+.colors-dark .entry-footer a,
+.colors-dark .entry-footer .cat-links a,
+.colors-dark .entry-footer .tags-links a,
+.colors-dark .edit-link a,
+.colors-dark .post-navigation a,
+.colors-dark .logged-in-as a,
+.colors-dark .comment-navigation a,
+.colors-dark .comment-metadata a,
+.colors-dark .comment-metadata a.comment-edit-link,
+.colors-dark .comment-reply-link,
+.colors-dark a .nav-title,
+.colors-dark .pagination a,
+.colors-dark .comments-pagination a,
+.colors-dark .widget .widget-title a,
+.colors-dark .widget ul li a,
+.colors-dark .site-footer .widget-area ul li a,
+.colors-dark .site-info a {
+	-webkit-box-shadow: inset 0 -1px 0 rgba(34, 34, 34, 1); /* Equivalent to #222 */
+	box-shadow: inset 0 -1px 0 rgba(34, 34, 34, 1); /* Equivalent to #222 */
+}
+
+/* Fixes linked images */
+.colors-dark .entry-content a img,
+.colors-dark .comment-content a img,
+.colors-dark .widget a img {
+	-webkit-box-shadow: 0 0 0 8px #222;
+	box-shadow: 0 0 0 8px #222;
+}
+
+.colors-dark .entry-footer .edit-link a.post-edit-link {
+	color: #000;
+}
+
+.colors-dark .menu-toggle,
+.colors-dark .menu-toggle:hover,
+.colors-dark .menu-toggle:focus,
+.colors-dark .dropdown-toggle,
+.colors-dark .dropdown-toggle:hover,
+.colors-dark .dropdown-toggle:focus,
+.colors-dark .menu-scroll-down,
+.colors-dark .menu-scroll-down:hover,
+.colors-dark .menu-scroll-down:focus {
+	background-color: transparent;
+}
+
+.colors-dark .gallery-item a,
+.colors-dark .gallery-item a:hover,
+.colors-dark .gallery-item a:focus,
+.colors-dark .widget .tagcloud a,
+.colors-dark .widget .tagcloud a:focus,
+.colors-dark .widget .tagcloud a:hover,
+.colors-dark .widget.widget_tag_cloud a,
+.colors-dark .widget.widget_tag_cloud a:focus,
+.colors-dark .widget.widget_tag_cloud a:hover,
+.colors-dark .wp_widget_tag_cloud a,
+.colors-dark .wp_widget_tag_cloud a:focus,
+.colors-dark .wp_widget_tag_cloud a:hover,
+.colors-dark .entry-footer .edit-link a.post-edit-link:focus,
+.colors-dark .entry-footer .edit-link a.post-edit-link:hover {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+@media screen and (min-width: 48em) {
+
+	.colors-dark .nav-links .nav-previous .nav-title .icon,
+	.colors-dark .nav-links .nav-next .nav-title .icon {
+		color: #eee;
+	}
+
+	.colors-dark .main-navigation li li:hover,
+	.colors-dark .main-navigation li li.focus {
+		background: #999;
+	}
+
+	.colors-dark .menu-scroll-down {
+		color: #999;
+	}
+
+	.colors-dark .main-navigation ul ul {
+		border-color: #333;
+		background: #222;
+	}
+
+	.colors-dark .main-navigation ul li.menu-item-has-children:before,
+	.colors-dark .main-navigation ul li.page_item_has_children:before {
+		border-bottom-color: #333;
+	}
+
+	.main-navigation ul li.menu-item-has-children:after,
+	.main-navigation ul li.page_item_has_children:after {
+		border-bottom-color: #222;
+	}
+
+	.colors-dark .main-navigation li li.focus > a,
+	.colors-dark .main-navigation li li:focus > a,
+	.colors-dark .main-navigation li li:hover > a,
+	.colors-dark .main-navigation li li a:hover,
+	.colors-dark .main-navigation li li a:focus,
+	.colors-dark .main-navigation li li.current_page_item a:hover,
+	.colors-dark .main-navigation li li.current-menu-item a:hover,
+	.colors-dark .main-navigation li li.current_page_item a:focus,
+	.colors-dark .main-navigation li li.current-menu-item a:focus {
+		color: #222;
+	}
+
+}

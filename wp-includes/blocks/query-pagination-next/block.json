@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/query-pagination-next",
+	"title": "Next Page",
+	"category": "theme",
+	"parent": [ "core/query-pagination" ],
+	"description": "Displays the next posts page link.",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string"
+		}
+	},
+	"usesContext": [
+		"queryId",
+		"query",
+		"paginationArrow",
+		"showLabel",
+		"enhancedPagination"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	}
+}

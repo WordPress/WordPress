@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "core/verse",
+	"title": "Verse",
+	"category": "text",
+	"description": "Insert poetry. Use special spacing formats. Or quote song lyrics.",
+	"keywords": [ "poetry", "poem" ],
+	"textdomain": "default",
+	"attributes": {
+		"content": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "pre",
+			"__unstablePreserveWhiteSpace": true,
+			"__experimentalRole": "content"
+		},
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"width": true,
+			"color": true,
+			"style": true
+		},
+		"interactivity": {
+			"clientNavigation": true
+		}
+	},
+	"style": "wp-block-verse",
+	"editorStyle": "wp-block-verse-editor"
+}

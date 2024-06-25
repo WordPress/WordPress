@@ -1,0 +1,7 @@
+.wp-block-rss li a>div{
+  display:inline;
+}
+
+.wp-block-rss__placeholder-form .wp-block-rss__placeholder-input{
+  flex:1 1 auto;
+}
