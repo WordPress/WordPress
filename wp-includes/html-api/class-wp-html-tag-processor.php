@@ -2972,7 +2972,6 @@ class WP_HTML_Tag_Processor {
 		if ( true === $value ) {
 			$updated_attribute = $name;
 		} else {
-			$tag_name        = $this->get_tag();
 			$comparable_name = strtolower( $name );
 
 			/*
