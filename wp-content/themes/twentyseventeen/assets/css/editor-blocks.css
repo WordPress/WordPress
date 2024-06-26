@@ -715,6 +715,11 @@ table.wp-block-table td:last-child {
 	text-align: center;
 }
 
+.wp-block-buttons[style*="font-weight"] .wp-block-button__link,
+.wp-block-button[style*="font-weight"] .wp-block-button__link {
+	font-weight: inherit;
+}
+
 /* Verse */
 
 .editor-styles-wrapper .wp-block-verse {

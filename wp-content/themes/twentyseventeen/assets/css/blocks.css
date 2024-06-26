@@ -202,6 +202,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-align: center;
 }
 
+.wp-block-buttons[style*="font-weight"] .wp-block-button__link,
+.wp-block-button[style*="font-weight"] .wp-block-button__link {
+	font-weight: inherit;
+}
+
 /*--------------------------------------------------------------
 4.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
