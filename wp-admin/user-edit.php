@@ -214,12 +214,16 @@ switch ( $action ) {
 
 		if ( isset( $_GET['updated'] ) ) :
 			if ( IS_PROFILE_PAGE ) :
-				$message = '<strong>' . __( 'Profile updated.' ) . '</strong>';
+				$message = '<p><strong>' . __( 'Profile updated.' ) . '</strong></p>';
 			else :
-				$message = '<strong>' . __( 'User updated.' ) . '</strong>';
+				$message = '<p><strong>' . __( 'User updated.' ) . '</strong></p>';
 			endif;
 			if ( $wp_http_referer && ! str_contains( $wp_http_referer, 'user-new.php' ) && ! IS_PROFILE_PAGE ) :
-				$message .= '<a href="' . esc_url( wp_validate_redirect( sanitize_url( $wp_http_referer ), self_admin_url( 'users.php' ) ) ) . '">' . __( '&larr; Go to Users' ) . '</a>';
+				$message .= sprintf(
+					'<p><a href="%1$s">%2$s</a></p>',
+					esc_url( wp_validate_redirect( sanitize_url( $wp_http_referer ), self_admin_url( 'users.php' ) ) ),
+					__( '&larr; Go to Users' )
+				);
 			endif;
 			wp_admin_notice(
 				$message,
@@ -227,6 +231,7 @@ switch ( $action ) {
 					'id'                 => 'message',
 					'dismissible'        => true,
 					'additional_classes' => array( 'updated' ),
+					'paragraph_wrap'     => false,
 				)
 			);
 		endif;
