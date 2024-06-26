@@ -20,9 +20,9 @@ object {
 .avatar {
 	border-radius: 100%;
 	display: block;
-	height: calc(2.25 * #{$size__spacing-unit});
+	height: auto;
 	min-height: inherit;
-	width: calc(2.25 * #{$size__spacing-unit});
+	width: auto;
 }
 
 svg {

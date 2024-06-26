@@ -6478,9 +6478,9 @@ object {
 .avatar {
   border-radius: 100%;
   display: block;
-  height: calc(2.25 * 1rem);
+  height: auto;
   min-height: inherit;
-  width: calc(2.25 * 1rem);
+  width: auto;
 }
 
 svg {
