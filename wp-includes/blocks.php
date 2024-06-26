@@ -1095,7 +1095,10 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 		$post->post_content
 	);
 
-	$serialized_block = apply_block_hooks_to_content( $markup, get_post( $post->ID ), 'set_ignored_hooked_blocks_metadata' );
+	$existing_post = get_post( $post->ID );
+	// Merge the existing post object with the updated post object to pass to the block hooks algorithm for context.
+	$context          = (object) array_merge( (array) $existing_post, (array) $post );
+	$serialized_block = apply_block_hooks_to_content( $markup, $context, 'set_ignored_hooked_blocks_metadata' );
 	$root_block       = parse_blocks( $serialized_block )[0];
 
 	$ignored_hooked_blocks = isset( $root_block['attrs']['metadata']['ignoredHookedBlocks'] )
@@ -1108,7 +1111,11 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 			$existing_ignored_hooked_blocks = json_decode( $existing_ignored_hooked_blocks, true );
 			$ignored_hooked_blocks          = array_unique( array_merge( $ignored_hooked_blocks, $existing_ignored_hooked_blocks ) );
 		}
-		update_post_meta( $post->ID, '_wp_ignored_hooked_blocks', json_encode( $ignored_hooked_blocks ) );
+
+		if ( ! isset( $post->meta_input ) ) {
+			$post->meta_input = array();
+		}
+		$post->meta_input['_wp_ignored_hooked_blocks'] = json_encode( $ignored_hooked_blocks );
 	}
 
 	$post->post_content = remove_serialized_parent_block( $serialized_block );
