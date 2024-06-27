@@ -2386,7 +2386,7 @@ function wp_insert_user( $userdata ) {
 	 *     @type string $user_pass       The user's password.
 	 *     @type string $user_email      The user's email.
 	 *     @type string $user_url        The user's url.
-	 *     @type string $user_nicename   The user's nice name. Defaults to a URL-safe version of user's login
+	 *     @type string $user_nicename   The user's nice name. Defaults to a URL-safe version of user's login.
 	 *     @type string $display_name    The user's display name.
 	 *     @type string $user_registered MySQL timestamp describing the moment when the user registered. Defaults to
 	 *                                   the current UTC timestamp.
@@ -4148,7 +4148,7 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 	 *     Data relating to the account action email.
 	 *
 	 *     @type WP_User_Request $request     User request object.
-	 *     @type string          $user_email  The email address confirming a request
+	 *     @type string          $user_email  The email address confirming a request.
 	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
 	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
 	 *     @type string          $sitename    The site name sending the mail.
@@ -4199,7 +4199,7 @@ All at ###SITENAME###
 	 *     Data relating to the account action email.
 	 *
 	 *     @type WP_User_Request $request     User request object.
-	 *     @type string          $user_email  The email address confirming a request
+	 *     @type string          $user_email  The email address confirming a request.
 	 *     @type string          $description Description of the action being performed
 	 *                                        so the user knows what the email is for.
 	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
@@ -4239,7 +4239,7 @@ All at ###SITENAME###
 	 *     Data relating to the account action email.
 	 *
 	 *     @type WP_User_Request $request     User request object.
-	 *     @type string          $user_email  The email address confirming a request
+	 *     @type string          $user_email  The email address confirming a request.
 	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
 	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
 	 *     @type string          $sitename    The site name sending the mail.
@@ -4270,7 +4270,7 @@ All at ###SITENAME###
 	 *     Data relating to the account action email.
 	 *
 	 *     @type WP_User_Request $request     User request object.
-	 *     @type string          $user_email  The email address confirming a request
+	 *     @type string          $user_email  The email address confirming a request.
 	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
 	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
 	 *     @type string          $sitename    The site name sending the mail.
