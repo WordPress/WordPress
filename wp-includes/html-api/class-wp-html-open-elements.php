@@ -308,8 +308,12 @@ class WP_HTML_Open_Elements {
 	 */
 	public function pop() {
 		$item = array_pop( $this->stack );
-
 		if ( null === $item ) {
+			return false;
+		}
+
+		if ( 'context-node' === $item->bookmark_name ) {
+			$this->stack[] = $item;
 			return false;
 		}
 
@@ -329,6 +333,10 @@ class WP_HTML_Open_Elements {
 	 */
 	public function pop_until( $tag_name ) {
 		foreach ( $this->walk_up() as $item ) {
+			if ( 'context-node' === $item->bookmark_name ) {
+				return true;
+			}
+
 			$this->pop();
 
 			if (
@@ -369,6 +377,10 @@ class WP_HTML_Open_Elements {
 	 * @return bool Whether the node was found and removed from the stack of open elements.
 	 */
 	public function remove_node( $token ) {
+		if ( 'context-node' === $token->bookmark_name ) {
+			return false;
+		}
+
 		foreach ( $this->walk_up() as $position_from_end => $item ) {
 			if ( $token->bookmark_name !== $item->bookmark_name ) {
 				continue;
