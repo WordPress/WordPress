@@ -1524,21 +1524,10 @@ class WP_HTML_Tag_Processor {
 		$was_at     = $this->bytes_already_parsed;
 		$at         = $was_at;
 
-		while ( false !== $at && $at < $doc_length ) {
+		while ( $at < $doc_length ) {
 			$at = strpos( $html, '<', $at );
-
-			/*
-			 * This does not imply an incomplete parse; it indicates that there
-			 * can be nothing left in the document other than a #text node.
-			 */
 			if ( false === $at ) {
-				$this->parser_state         = self::STATE_TEXT_NODE;
-				$this->token_starts_at      = $was_at;
-				$this->token_length         = strlen( $html ) - $was_at;
-				$this->text_starts_at       = $was_at;
-				$this->text_length          = $this->token_length;
-				$this->bytes_already_parsed = strlen( $html );
-				return true;
+				break;
 			}
 
 			if ( $at > $was_at ) {
@@ -1554,19 +1543,9 @@ class WP_HTML_Tag_Processor {
 				 *
 				 * @see https://html.spec.whatwg.org/#tag-open-state
 				 */
-				if ( strlen( $html ) > $at + 1 ) {
-					$next_character  = $html[ $at + 1 ];
-					$at_another_node = (
-						'!' === $next_character ||
-						'/' === $next_character ||
-						'?' === $next_character ||
-						( 'A' <= $next_character && $next_character <= 'Z' ) ||
-						( 'a' <= $next_character && $next_character <= 'z' )
-					);
-					if ( ! $at_another_node ) {
-						++$at;
-						continue;
-					}
+				if ( 1 !== strspn( $html, '!/?abcdefghijklmnopqrstuvwxyzABCEFGHIJKLMNOPQRSTUVWXYZ', $at + 1, 1 ) ) {
+					++$at;
+					continue;
 				}
 
 				$this->parser_state         = self::STATE_TEXT_NODE;
@@ -1630,11 +1609,7 @@ class WP_HTML_Tag_Processor {
 				 * `<!--` transitions to a comment state – apply further comment rules.
 				 * https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
 				 */
-				if (
-					$doc_length > $at + 3 &&
-					'-' === $html[ $at + 2 ] &&
-					'-' === $html[ $at + 3 ]
-				) {
+				if ( 0 === substr_compare( $html, '--', $at + 2, 2 ) ) {
 					$closer_at = $at + 4;
 					// If it's not possible to close the comment then there is nothing more to scan.
 					if ( $doc_length <= $closer_at ) {
@@ -1911,7 +1886,17 @@ class WP_HTML_Tag_Processor {
 			++$at;
 		}
 
-		return false;
+		/*
+		 * This does not imply an incomplete parse; it indicates that there
+		 * can be nothing left in the document other than a #text node.
+		 */
+		$this->parser_state         = self::STATE_TEXT_NODE;
+		$this->token_starts_at      = $was_at;
+		$this->token_length         = $doc_length - $was_at;
+		$this->text_starts_at       = $was_at;
+		$this->text_length          = $this->token_length;
+		$this->bytes_already_parsed = $doc_length;
+		return true;
 	}
 
 	/**
@@ -1922,9 +1907,11 @@ class WP_HTML_Tag_Processor {
 	 * @return bool Whether an attribute was found before the end of the document.
 	 */
 	private function parse_next_attribute() {
+		$doc_length = strlen( $this->html );
+
 		// Skip whitespace and slashes.
 		$this->bytes_already_parsed += strspn( $this->html, " \t\f\r\n/", $this->bytes_already_parsed );
-		if ( $this->bytes_already_parsed >= strlen( $this->html ) ) {
+		if ( $this->bytes_already_parsed >= $doc_length ) {
 			$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
 			return false;
@@ -1941,21 +1928,21 @@ class WP_HTML_Tag_Processor {
 			: strcspn( $this->html, "=/> \t\f\r\n", $this->bytes_already_parsed );
 
 		// No attribute, just tag closer.
-		if ( 0 === $name_length || $this->bytes_already_parsed + $name_length >= strlen( $this->html ) ) {
+		if ( 0 === $name_length || $this->bytes_already_parsed + $name_length >= $doc_length ) {
 			return false;
 		}
 
 		$attribute_start             = $this->bytes_already_parsed;
 		$attribute_name              = substr( $this->html, $attribute_start, $name_length );
 		$this->bytes_already_parsed += $name_length;
-		if ( $this->bytes_already_parsed >= strlen( $this->html ) ) {
+		if ( $this->bytes_already_parsed >= $doc_length ) {
 			$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
 			return false;
 		}
 
 		$this->skip_whitespace();
-		if ( $this->bytes_already_parsed >= strlen( $this->html ) ) {
+		if ( $this->bytes_already_parsed >= $doc_length ) {
 			$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
 			return false;
@@ -1965,7 +1952,7 @@ class WP_HTML_Tag_Processor {
 		if ( $has_value ) {
 			++$this->bytes_already_parsed;
 			$this->skip_whitespace();
-			if ( $this->bytes_already_parsed >= strlen( $this->html ) ) {
+			if ( $this->bytes_already_parsed >= $doc_length ) {
 				$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
 				return false;
@@ -1976,8 +1963,10 @@ class WP_HTML_Tag_Processor {
 				case '"':
 					$quote                      = $this->html[ $this->bytes_already_parsed ];
 					$value_start                = $this->bytes_already_parsed + 1;
-					$value_length               = strcspn( $this->html, $quote, $value_start );
-					$attribute_end              = $value_start + $value_length + 1;
+					$end_quote_at               = strpos( $this->html, $quote, $value_start );
+					$end_quote_at               = false === $end_quote_at ? $doc_length : $end_quote_at;
+					$value_length               = $end_quote_at - $value_start;
+					$attribute_end              = $end_quote_at + 1;
 					$this->bytes_already_parsed = $attribute_end;
 					break;
 
@@ -1993,7 +1982,7 @@ class WP_HTML_Tag_Processor {
 			$attribute_end = $attribute_start + $name_length;
 		}
 
-		if ( $attribute_end >= strlen( $this->html ) ) {
+		if ( $attribute_end >= $doc_length ) {
 			$this->parser_state = self::STATE_INCOMPLETE_INPUT;
 
 			return false;
@@ -2014,7 +2003,7 @@ class WP_HTML_Tag_Processor {
 		$comparable_name = strtolower( $attribute_name );
 
 		// If an attribute is listed many times, only use the first declaration and ignore the rest.
-		if ( ! array_key_exists( $comparable_name, $this->attributes ) ) {
+		if ( ! isset( $this->attributes[ $comparable_name ] ) ) {
 			$this->attributes[ $comparable_name ] = new WP_HTML_Attribute_Token(
 				$attribute_name,
 				$value_start,
@@ -2038,7 +2027,7 @@ class WP_HTML_Tag_Processor {
 		$duplicate_span = new WP_HTML_Span( $attribute_start, $attribute_end - $attribute_start );
 		if ( null === $this->duplicate_attributes ) {
 			$this->duplicate_attributes = array( $comparable_name => array( $duplicate_span ) );
-		} elseif ( ! array_key_exists( $comparable_name, $this->duplicate_attributes ) ) {
+		} elseif ( ! isset( $this->duplicate_attributes[ $comparable_name ] ) ) {
 			$this->duplicate_attributes[ $comparable_name ] = array( $duplicate_span );
 		} else {
 			$this->duplicate_attributes[ $comparable_name ][] = $duplicate_span;
@@ -3110,14 +3099,12 @@ class WP_HTML_Tag_Processor {
 		);
 
 		// Removes any duplicated attributes if they were also present.
-		if ( null !== $this->duplicate_attributes && array_key_exists( $name, $this->duplicate_attributes ) ) {
-			foreach ( $this->duplicate_attributes[ $name ] as $attribute_token ) {
-				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
-					$attribute_token->start,
-					$attribute_token->length,
-					''
-				);
-			}
+		foreach ( $this->duplicate_attributes[ $name ] ?? array() as $attribute_token ) {
+			$this->lexical_updates[] = new WP_HTML_Text_Replacement(
+				$attribute_token->start,
+				$attribute_token->length,
+				''
+			);
 		}
 
 		return true;
@@ -3317,35 +3304,8 @@ class WP_HTML_Tag_Processor {
 		}
 
 		// Does the tag name match the requested tag name in a case-insensitive manner?
-		if ( null !== $this->sought_tag_name ) {
-			/*
-			 * String (byte) length lookup is fast. If they aren't the
-			 * same length then they can't be the same string values.
-			 */
-			if ( strlen( $this->sought_tag_name ) !== $this->tag_name_length ) {
-				return false;
-			}
-
-			/*
-			 * Check each character to determine if they are the same.
-			 * Defer calls to `strtoupper()` to avoid them when possible.
-			 * Calling `strcasecmp()` here tested slowed than comparing each
-			 * character, so unless benchmarks show otherwise, it should
-			 * not be used.
-			 *
-			 * It's expected that most of the time that this runs, a
-			 * lower-case tag name will be supplied and the input will
-			 * contain lower-case tag names, thus normally bypassing
-			 * the case comparison code.
-			 */
-			for ( $i = 0; $i < $this->tag_name_length; $i++ ) {
-				$html_char = $this->html[ $this->tag_name_starts_at + $i ];
-				$tag_char  = $this->sought_tag_name[ $i ];
-
-				if ( $html_char !== $tag_char && strtoupper( $html_char ) !== $tag_char ) {
-					return false;
-				}
-			}
+		if ( isset( $this->sought_tag_name ) && 0 !== substr_compare( $this->html, $this->sought_tag_name, $this->tag_name_starts_at, $this->tag_name_length, true ) ) {
+			return false;
 		}
 
 		if ( null !== $this->sought_class_name && ! $this->has_class( $this->sought_class_name ) ) {
