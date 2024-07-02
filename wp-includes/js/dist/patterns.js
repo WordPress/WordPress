@@ -1420,7 +1420,7 @@ function PatternOverridesControls({
   const [showDisallowOverridesModal, setShowDisallowOverridesModal] = (0,external_wp_element_namespaceObject.useState)(false);
   const hasName = !!attributes.metadata?.name;
   const defaultBindings = attributes.metadata?.bindings?.__default;
-  const allowOverrides = hasName && defaultBindings?.source === PATTERN_OVERRIDES_BINDING_SOURCE;
+  const hasOverrides = hasName && defaultBindings?.source === PATTERN_OVERRIDES_BINDING_SOURCE;
   const isConnectedToOtherSources = defaultBindings?.source && defaultBindings.source !== PATTERN_OVERRIDES_BINDING_SOURCE;
   function updateBindings(isChecked, customName) {
     const prevBindings = attributes?.metadata?.bindings;
@@ -1442,7 +1442,7 @@ function PatternOverridesControls({
     return null;
   }
   const hasUnsupportedImageAttributes = blockName === 'core/image' && (!!attributes.caption?.length || !!attributes.href?.length);
-  const helpText = hasUnsupportedImageAttributes ? (0,external_wp_i18n_namespaceObject.__)(`Overrides currently don't support image captions or links. Remove the caption or link first before enabling overrides.`) : (0,external_wp_i18n_namespaceObject.__)('Allow changes to this block throughout instances of this pattern.');
+  const helpText = !hasOverrides && hasUnsupportedImageAttributes ? (0,external_wp_i18n_namespaceObject.__)(`Overrides currently don't support image captions or links. Remove the caption or link first before enabling overrides.`) : (0,external_wp_i18n_namespaceObject.__)('Allow changes to this block throughout instances of this pattern.');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.InspectorControls, {
       group: "advanced",
@@ -1456,15 +1456,15 @@ function PatternOverridesControls({
           variant: "secondary",
           "aria-haspopup": "dialog",
           onClick: () => {
-            if (allowOverrides) {
+            if (hasOverrides) {
               setShowDisallowOverridesModal(true);
             } else {
               setShowAllowOverridesModal(true);
             }
           },
-          disabled: hasUnsupportedImageAttributes,
+          disabled: !hasOverrides && hasUnsupportedImageAttributes,
           __experimentalIsFocusable: true,
-          children: allowOverrides ? (0,external_wp_i18n_namespaceObject.__)('Disable overrides') : (0,external_wp_i18n_namespaceObject.__)('Enable overrides')
+          children: hasOverrides ? (0,external_wp_i18n_namespaceObject.__)('Disable overrides') : (0,external_wp_i18n_namespaceObject.__)('Enable overrides')
         })
       })
     }), showAllowOverridesModal && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(AllowOverridesModal, {
