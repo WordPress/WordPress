@@ -65,7 +65,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ededed' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.6/color-palettes.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -73,7 +73,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ededed' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.6/page-previews.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -89,7 +89,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ededed' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.6/feature-rollbacks.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -97,7 +97,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23ededed' /%3E%3C/svg%3E" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.6/overrides.webp" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -124,7 +124,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
-						/* translators: %s: code-formatted "data-wp-on-async". */
+						/* translators: %s: code-formatted "data-wp-on-async", %%: escaped percent sign, leave as %%. */
 						__( '6.6 includes important updates like removing redundant WP_Theme_JSON calls, disabling autoload for large options, eliminating unnecessary polyfill dependencies, lazy loading post embeds, introducing the %s directive, and a 40%% reduction in template loading time in the editor.' ),
 						'<code>data-wp-on-async</code>'
 					);
@@ -152,7 +152,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column aligncenter">
 				<div class="about__image">
-					<a href="<?php esc_url( __( 'https://wordpress.org/download/releases/6-6/' ) ); ?>" class="button button-primary button-hero"><?php _e( 'See everything new' ); ?></a>
+					<a href="<?php echo esc_url( __( 'https://wordpress.org/download/releases/6-6/' ) ); ?>" class="button button-primary button-hero"><?php _e( 'See everything new' ); ?></a>
 				</div>
 			</div>
 		</div>
