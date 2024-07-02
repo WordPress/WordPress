@@ -1594,7 +1594,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		printf(
-			'<div class="requires"><p>%1$s</p><p>%2$s</p></div>',
+			'<div class="requires"><p>%1$s</p>%2$s</div>',
 			$requires,
 			$notice
 		);
