@@ -1603,7 +1603,7 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 	}
 
 	$hooked_blocks = get_hooked_blocks();
-	if ( empty( $hooked_blocks ) && ! has_filter( 'hooked_block_types' ) ) {
+	if ( empty ( $changes->post_content ) || ( empty( $hooked_blocks ) && ! has_filter( 'hooked_block_types' ) ) ) {
 		return $changes;
 	}
 
