@@ -85,7 +85,7 @@
   content:none;
 }
 
-.editor-visual-editor{
+.edit-post-layout.has-metaboxes .edit-post-visual-editor{
   flex:1 0 auto;
   height:auto;
 }
@@ -283,10 +283,10 @@ body.js.block-editor-page .media-frame select.attachment-filters:last-of-type{
   }
 }
 
-.editor-header,.editor-post-publish-panel,.editor-sidebar,.editor-text-editor{
+.edit-post-visual-editor.is-iframed,.editor-header,.editor-post-publish-panel,.editor-sidebar,.editor-text-editor{
   box-sizing:border-box;
 }
-.editor-header *,.editor-header :after,.editor-header :before,.editor-post-publish-panel *,.editor-post-publish-panel :after,.editor-post-publish-panel :before,.editor-sidebar *,.editor-sidebar :after,.editor-sidebar :before,.editor-text-editor *,.editor-text-editor :after,.editor-text-editor :before{
+.edit-post-visual-editor.is-iframed *,.edit-post-visual-editor.is-iframed :after,.edit-post-visual-editor.is-iframed :before,.editor-header *,.editor-header :after,.editor-header :before,.editor-post-publish-panel *,.editor-post-publish-panel :after,.editor-post-publish-panel :before,.editor-sidebar *,.editor-sidebar :after,.editor-sidebar :before,.editor-text-editor *,.editor-text-editor :after,.editor-text-editor :before{
   box-sizing:inherit;
 }
 

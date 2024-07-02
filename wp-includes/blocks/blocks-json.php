@@ -207,8 +207,14 @@
         'type' => 'number'
       ),
       'content' => array(
-        'type' => 'object'
+        'type' => 'object',
+        'default' => array(
+          
+        )
       )
+    ),
+    'providesContext' => array(
+      'pattern/overrides' => 'content'
     ),
     'supports' => array(
       'customClassName' => false,

@@ -316,7 +316,6 @@
   background-color:#f0f0f0;
   border-radius:4px;
   min-height:200px;
-  overflow:hidden;
   position:relative;
   width:100%;
 }
@@ -691,7 +690,7 @@
   background:#f0f0f0;
   border:1px solid #0000;
   border-radius:16px;
-  color:#757575;
+  color:#2f2f2f;
   cursor:pointer;
   display:flex;
   height:32px;
@@ -1522,7 +1521,7 @@
 .page-pages-preview-field__button{
   background-color:unset;
   border:none;
-  border-radius:3px 3px 0 0;
+  border-radius:4px;
   box-shadow:none;
   box-sizing:border-box;
   cursor:pointer;
@@ -1576,13 +1575,9 @@
 }
 
 .edit-site-page-patterns-dataviews .page-patterns-preview-field{
-  border-radius:3px 3px 0 0;
   display:flex;
   flex-direction:column;
   height:100%;
-}
-.edit-site-page-patterns-dataviews .page-patterns-preview-field.is-viewtype-grid .block-editor-block-preview__container{
-  border-radius:3px 3px 0 0;
 }
 .edit-site-page-patterns-dataviews .page-patterns-preview-field.is-viewtype-table{
   border-radius:2px;
@@ -1595,7 +1590,7 @@
 .edit-site-page-patterns-dataviews .page-patterns-preview-field .page-patterns-preview-field__button{
   background-color:unset;
   border:none;
-  border-radius:3px 3px 0 0;
+  border-radius:4px;
   box-shadow:none;
   box-sizing:border-box;
   cursor:pointer;
@@ -1688,7 +1683,6 @@
   }
 }
 .page-templates-preview-field{
-  border-radius:3px 3px 0 0;
   display:flex;
   flex-direction:column;
   height:100%;
@@ -1696,7 +1690,7 @@
 .page-templates-preview-field .page-templates-preview-field__button{
   background-color:unset;
   border:none;
-  border-radius:3px;
+  border-radius:4px;
   box-shadow:none;
   box-sizing:border-box;
   cursor:pointer;
@@ -1713,9 +1707,6 @@
 }
 .page-templates-preview-field.is-viewtype-grid .block-editor-block-preview__container{
   height:100%;
-}
-.page-templates-preview-field.is-viewtype-grid .page-templates-preview-field__button{
-  border-radius:3px 3px 0 0;
 }
 .page-templates-preview-field.is-viewtype-table{
   border-radius:2px;

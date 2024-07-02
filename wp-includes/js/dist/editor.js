@@ -1912,18 +1912,21 @@ const CONTENT = 'content';
   getValue({
     registry,
     clientId,
+    context,
     attributeName
   }) {
+    const patternOverridesContent = context['pattern/overrides'];
     const {
-      getBlockAttributes,
-      getBlockParentsByBlockName
+      getBlockAttributes
     } = registry.select(external_wp_blockEditor_namespaceObject.store);
     const currentBlockAttributes = getBlockAttributes(clientId);
-    const [patternClientId] = getBlockParentsByBlockName(clientId, 'core/block', true);
-    const overridableValue = getBlockAttributes(patternClientId)?.[CONTENT]?.[currentBlockAttributes?.metadata?.name]?.[attributeName];
+    if (!patternOverridesContent) {
+      return currentBlockAttributes[attributeName];
+    }
+    const overridableValue = patternOverridesContent?.[currentBlockAttributes?.metadata?.name]?.[attributeName];
 
     // If there is no pattern client ID, or it is not overwritten, return the default value.
-    if (!patternClientId || overridableValue === undefined) {
+    if (overridableValue === undefined) {
       return currentBlockAttributes[attributeName];
     }
     return overridableValue === '' ? undefined : overridableValue;
@@ -6328,6 +6331,8 @@ const external_wp_patterns_namespaceObject = window["wp"]["patterns"];
 
 
 
+/** @typedef {import('@wordpress/blocks').WPBlockSettings} WPBlockSettings */
+
 
 
 const {
@@ -6357,7 +6362,7 @@ const withPatternOverrideControls = (0,external_wp_compose_namespaceObject.creat
       ...props
     }), isSupportedBlock && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PatternOverridesBlockControls, {})]
   });
-});
+}, 'withPatternOverrideControls');
 
 // Split into a separate component to avoid a store subscription
 // on every block.
@@ -23860,13 +23865,25 @@ function SavePublishPanels({
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const {
     publishSidebarOpened,
-    hasNonPostEntityChanges,
-    hasPostMetaChanges
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    publishSidebarOpened: select(store_store).isPublishSidebarOpened(),
-    hasNonPostEntityChanges: select(store_store).hasNonPostEntityChanges(),
-    hasPostMetaChanges: unlock(select(store_store)).hasPostMetaChanges()
-  }), []);
+    isPublishable,
+    isDirty,
+    hasOtherEntitiesChanges
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      isPublishSidebarOpened,
+      isEditedPostPublishable,
+      isCurrentPostPublished,
+      isEditedPostDirty,
+      hasNonPostEntityChanges
+    } = select(store_store);
+    const _hasOtherEntitiesChanges = hasNonPostEntityChanges() || unlock(select(store_store)).hasPostMetaChanges();
+    return {
+      publishSidebarOpened: isPublishSidebarOpened(),
+      isPublishable: !isCurrentPostPublished() && isEditedPostPublishable(),
+      isDirty: _hasOtherEntitiesChanges || isEditedPostDirty(),
+      hasOtherEntitiesChanges: _hasOtherEntitiesChanges
+    };
+  }, []);
   const openEntitiesSavedStates = (0,external_wp_element_namespaceObject.useCallback)(() => setEntitiesSavedStatesCallback(true), []);
 
   // It is ok for these components to be unmounted when not in visual use.
@@ -23879,18 +23896,7 @@ function SavePublishPanels({
       PrePublishExtension: plugin_pre_publish_panel.Slot,
       PostPublishExtension: plugin_post_publish_panel.Slot
     });
-  } else if (hasNonPostEntityChanges || hasPostMetaChanges) {
-    unmountableContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: "editor-layout__toggle-entities-saved-states-panel",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-        variant: "secondary",
-        className: "editor-layout__toggle-entities-saved-states-panel-button",
-        onClick: openEntitiesSavedStates,
-        "aria-expanded": false,
-        children: (0,external_wp_i18n_namespaceObject.__)('Open save panel')
-      })
-    });
-  } else {
+  } else if (isPublishable && !hasOtherEntitiesChanges) {
     unmountableContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
       className: "editor-layout__toggle-publish-panel",
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
@@ -23899,6 +23905,19 @@ function SavePublishPanels({
         onClick: togglePublishSidebar,
         "aria-expanded": false,
         children: (0,external_wp_i18n_namespaceObject.__)('Open publish panel')
+      })
+    });
+  } else {
+    unmountableContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      className: "editor-layout__toggle-entities-saved-states-panel",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+        variant: "secondary",
+        className: "editor-layout__toggle-entities-saved-states-panel-button",
+        onClick: openEntitiesSavedStates,
+        "aria-expanded": false,
+        disabled: !isDirty,
+        __experimentalIsFocusable: true,
+        children: (0,external_wp_i18n_namespaceObject.__)('Open save panel')
       })
     });
   }
@@ -24708,6 +24727,7 @@ function EditorInterface({
   disableIframe,
   autoFocus,
   customSaveButton,
+  customSavePanel,
   forceDisableBlockTools,
   title,
   iframeProps
@@ -24811,7 +24831,7 @@ function EditorInterface({
     footer: !isPreviewMode && !isDistractionFree && isLargeViewport && showBlockBreadcrumbs && isRichEditingEnabled && blockEditorMode !== 'zoom-out' && mode === 'visual' && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockBreadcrumb, {
       rootLabelText: documentLabel
     }),
-    actions: !isPreviewMode ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SavePublishPanels, {
+    actions: !isPreviewMode ? customSavePanel || /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SavePublishPanels, {
       closeEntitiesSavedStates: closeEntitiesSavedStates,
       isEntitiesSavedStatesOpen: entitiesSavedStatesCallback,
       setEntitiesSavedStatesCallback: setEntitiesSavedStatesCallback,
@@ -25122,7 +25142,7 @@ const trashPostAction = {
                 (0,external_wp_i18n_namespaceObject.__)('"%s" moved to trash.'), getItemTitle(items[0]));
               } else if (items[0].type === 'page') {
                 successMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The number of items. */
-                (0,external_wp_i18n_namespaceObject.__)('%s items moved to trash.'), items.length);
+                (0,external_wp_i18n_namespaceObject._n)('%s item moved to trash.', '%s items moved to trash.', items.length), items.length);
               } else {
                 successMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The number of posts. */
                 (0,external_wp_i18n_namespaceObject.__)('%s items move to trash.'), items.length);
@@ -27565,6 +27585,7 @@ function Editor({
   className,
   styles,
   customSaveButton,
+  customSavePanel,
   forceDisableBlockTools,
   title,
   iframeProps,
@@ -27586,6 +27607,9 @@ function Editor({
       hasLoadedPost: hasFinishedResolution('getEntityRecord', ['postType', postType, postId])
     };
   }, [postType, postId, templateId]);
+  if (!post) {
+    return null;
+  }
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(ExperimentalEditorProvider, {
     post: post,
     __unstableTemplate: template,
@@ -27600,6 +27624,7 @@ function Editor({
       styles: styles,
       enableRegionNavigation: enableRegionNavigation,
       customSaveButton: customSaveButton,
+      customSavePanel: customSavePanel,
       forceDisableBlockTools: forceDisableBlockTools,
       title: title,
       iframeProps: iframeProps
