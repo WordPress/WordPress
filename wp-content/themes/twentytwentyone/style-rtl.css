@@ -4661,7 +4661,7 @@ h1.page-title {
 }
 
 .primary-navigation-open .primary-navigation > .primary-menu-container {
-	position: absolute;
+	position: relative;
 	visibility: visible;
 	opacity: 1;
 	transform: translateY(0);
