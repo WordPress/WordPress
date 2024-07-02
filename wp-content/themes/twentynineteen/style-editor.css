@@ -1366,6 +1366,11 @@ ul.wp-block-archives li ul,
   margin-bottom: -0.75rem;
 }
 
+.wp-block[data-align="center"] > .wp-block-archives,
+.wp-block[data-align="center"] > .wp-block-categories {
+  text-align: center;
+}
+
 /** === Latest Posts === */
 .wp-block-latest-posts .wp-block-latest-posts__post-date {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
