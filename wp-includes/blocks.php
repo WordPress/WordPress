@@ -1046,6 +1046,23 @@ function remove_serialized_parent_block( $serialized_block ) {
 }
 
 /**
+ * Accepts the serialized markup of a block and its inner blocks, and returns serialized markup of the wrapper block.
+ *
+ * @since 6.7.0
+ * @access private
+ *
+ * @see remove_serialized_parent_block()
+ *
+ * @param string $serialized_block The serialized markup of a block and its inner blocks.
+ * @return string The serialized markup of the wrapper block.
+ */
+function extract_serialized_parent_block( $serialized_block ) {
+	$start = strpos( $serialized_block, '-->' ) + strlen( '-->' );
+	$end   = strrpos( $serialized_block, '<!--' );
+	return substr( $serialized_block, 0, $start ) . substr( $serialized_block, $end );
+}
+
+/**
  * Updates the wp_postmeta with the list of ignored hooked blocks where the inner blocks are stored as post content.
  * Currently only supports `wp_navigation` post types.
  *
