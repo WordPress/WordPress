@@ -617,7 +617,7 @@ function _build_block_template_result_from_file( $template_file, $template_type 
 	}
 
 	if ( 'wp_template_part' === $template->type && $has_hooked_blocks ) {
-		/**
+		/*
 		 * In order for hooked blocks to be inserted at positions first_child and last_child in a template part,
 		 * we need to wrap its content a mock template part block and traverse it.
 		 */
@@ -1022,7 +1022,7 @@ function _build_block_template_result_from_post( $post ) {
 			$existing_ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
 			$attributes                     = ! empty( $existing_ignored_hooked_blocks ) ? array( 'metadata' => array( 'ignoredHookedBlocks' => json_decode( $existing_ignored_hooked_blocks, true ) ) ) : array();
 
-			/**
+			/*
 			 * In order for hooked blocks to be inserted at positions first_child and last_child in a template part,
 			 * we need to wrap its content a mock template part block and traverse it.
 			 */
