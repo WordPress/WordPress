@@ -5681,6 +5681,7 @@ body.page .main-navigation {
   border-color: transparent;
   border-width: 2px;
   padding: 1rem;
+  font-size: 1em;
 }
 
 .entry .entry-content .wp-block-pullquote blockquote {
@@ -5710,7 +5711,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-pullquote cite {
-  display: inline-block;
+  display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   line-height: 1.6;
   text-transform: none;

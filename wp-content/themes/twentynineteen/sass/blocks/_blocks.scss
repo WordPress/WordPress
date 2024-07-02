@@ -370,6 +370,7 @@
 		border-color: transparent;
 		border-width: 2px;
 		padding: $size__spacing-unit;
+		font-size: 1em;
 
 		blockquote {
 			border: none;
@@ -396,7 +397,7 @@
 		}
 
 		cite {
-			display: inline-block;
+			display: block;
 			@include font-family( $font__heading );
 			line-height: 1.6;
 			text-transform: none;
