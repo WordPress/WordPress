@@ -60,6 +60,162 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_IN_BODY = 'insertion-mode-in-body';
 
 	/**
+	 * In select insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inselect
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_SELECT = 'insertion-mode-in-select';
+
+	/**
+	 * In select in table insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inselectintable
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_SELECT_IN_TABLE = 'insertion-mode-in-select-in-table';
+
+	/**
+	 * In table insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intable
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_TABLE = 'insertion-mode-in-table';
+
+	/**
+	 * In caption insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-incaption
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_CAPTION = 'insertion-mode-in-caption';
+
+	/**
+	 * In table body insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intablebody
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_TABLE_BODY = 'insertion-mode-in-table-body';
+
+	/**
+	 * In row insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inrow
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_ROW = 'insertion-mode-in-row';
+
+	/**
+	 * In cell insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-incell
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_CELL = 'insertion-mode-in-cell';
+
+	/**
+	 * In column group insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-incolumngroup
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_COLUMN_GROUP = 'insertion-mode-in-column-group';
+
+	/**
+	 * In frameset insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inframeset
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_FRAMESET = 'insertion-mode-in-frameset';
+
+	/**
+	 * In head insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inhead
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_HEAD = 'insertion-mode-in-head';
+
+	/**
+	 * Before head insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-beforehead
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_BEFORE_HEAD = 'insertion-mode-before-head';
+
+	/**
+	 * After head insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-afterhead
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_AFTER_HEAD = 'insertion-mode-after-head';
+
+	/**
+	 * In template insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intemplate
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_TEMPLATE = 'insertion-mode-in-template';
+
+	/**
 	 * Tracks open elements while scanning HTML.
 	 *
 	 * This property is initialized in the constructor and never null.
