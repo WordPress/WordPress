@@ -294,6 +294,14 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding-top: 0;
 }
 
+.wp-block-table[style*="font-size"] *,
+.wp-block-table[class*="-font-size"] *,
+.wp-block-calendar[style*="font-size"] *,
+.wp-block-calendar[class*="-font-size"] * {
+	font-size: inherit;
+	line-height: 1.5;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widgets
 --------------------------------------------------------------*/

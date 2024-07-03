@@ -156,6 +156,14 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background: #f2f7fc;
 }
 
+#content .wp-block-table[style*="font-size"] *,
+#content .wp-block-table[class*="-font-size"] *,
+#content .wp-block-calendar[style*="font-size"] *,
+#content .wp-block-calendar[class*="-font-size"] * {
+	font-size: inherit;
+	line-height: 1.5;
+}
+
 /*--------------------------------------------------------------
 4.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
