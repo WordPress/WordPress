@@ -149,7 +149,7 @@ Description: Used to style blocks in the editor.
 
 /* Caption styles */
 
-[class^="wp-block-"] figcaption {
+[class^="wp-block-"]:not(.wp-block-gallery) > figcaption {
 	color: #777;
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }

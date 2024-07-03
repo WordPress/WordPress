@@ -30,7 +30,7 @@ figure[class^="wp-block-"] {
 	font-size: 12px;
 }
 
-[class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+[class^="wp-block-"]:not(.wp-block-gallery) > figcaption {
 	color: #666;
 	margin-bottom: 1.625em;
 	max-width: 96%;
@@ -40,7 +40,7 @@ figure[class^="wp-block-"] {
 	text-align: left;
 }
 
-[class^="wp-block-"]:not(.wp-block-gallery) figcaption:before {
+[class^="wp-block-"]:not(.wp-block-gallery) > figcaption:before {
 	color: #666;
 	content: '\2014';
 	font-size: 14px;
@@ -52,13 +52,13 @@ figure[class^="wp-block-"] {
 	top: 0;
 }
 
-.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+.rtl [class^="wp-block-"]:not(.wp-block-gallery) > figcaption {
 	padding-left: 0;
 	padding-right: 40px;
 	text-align: right;
 }
 
-.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption:before {
+.rtl [class^="wp-block-"]:not(.wp-block-gallery) > figcaption:before {
 	left: 0;
 	margin-left: 5px;
 	margin-right: 0;

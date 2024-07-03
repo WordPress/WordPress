@@ -20,7 +20,7 @@ Description: Used to style blocks.
 
 /* Captions */
 
-[class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+[class^="wp-block-"]:not(.wp-block-gallery) > figcaption {
 	color: #777;
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }

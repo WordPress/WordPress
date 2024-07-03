@@ -20,13 +20,13 @@ Description: Used to style blocks.
 
 /* Captions */
 
-[class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+[class^="wp-block-"]:not(.wp-block-gallery) > figcaption {
 	font-style: italic;
 	margin-bottom: 1.5em;
 	text-align: left;
 }
 
-.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+.rtl [class^="wp-block-"]:not(.wp-block-gallery) > figcaption {
 	text-align: right;
 }
 
