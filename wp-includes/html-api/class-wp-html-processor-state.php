@@ -216,6 +216,17 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_IN_TEMPLATE = 'insertion-mode-in-template';
 
 	/**
+	 * The stack of template insertion modes.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#the-insertion-mode:stack-of-template-insertion-modes
+	 *
+	 * @var array<string>
+	 */
+	public $stack_of_template_insertion_modes = array();
+
+	/**
 	 * Tracks open elements while scanning HTML.
 	 *
 	 * This property is initialized in the constructor and never null.
@@ -271,6 +282,17 @@ class WP_HTML_Processor_State {
 	 * @var [string, array]|null
 	 */
 	public $context_node = null;
+
+	/**
+	 * HEAD element pointer.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#head-element-pointer
+	 *
+	 * @var WP_HTML_Token|null
+	 */
+	public $head_element = null;
 
 	/**
 	 * The frameset-ok flag indicates if a `FRAMESET` element is allowed in the current state.

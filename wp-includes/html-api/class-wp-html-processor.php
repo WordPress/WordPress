@@ -2130,6 +2130,189 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	}
 
 	/**
+	 * Runs the reset the insertion mode appropriately algorithm.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#reset-the-insertion-mode-appropriately
+	 */
+	public function reset_insertion_mode(): void {
+		// Set the first node.
+		$first_node = null;
+		foreach ( $this->state->stack_of_open_elements->walk_down() as $first_node ) {
+			break;
+		}
+
+		/*
+		 * > 1. Let _last_ be false.
+		 */
+		$last = false;
+		foreach ( $this->state->stack_of_open_elements->walk_up() as $node ) {
+			/*
+			 * > 2. Let _node_ be the last node in the stack of open elements.
+			 * > 3. _Loop_: If _node_ is the first node in the stack of open elements, then set _last_
+			 * >            to true, and, if the parser was created as part of the HTML fragment parsing
+			 * >            algorithm (fragment case), set node to the context element passed to
+			 * >            that algorithm.
+			 * > …
+			 */
+			if ( $node === $first_node ) {
+				$last = true;
+				if ( isset( $this->context_node ) ) {
+					$node = $this->context_node;
+				}
+			}
+
+			switch ( $node->node_name ) {
+				/*
+				 * > 4. If node is a `select` element, run these substeps:
+				 * >   1. If _last_ is true, jump to the step below labeled done.
+				 * >   2. Let _ancestor_ be _node_.
+				 * >   3. _Loop_: If _ancestor_ is the first node in the stack of open elements,
+				 * >      jump to the step below labeled done.
+				 * >   4. Let ancestor be the node before ancestor in the stack of open elements.
+				 * >   …
+				 * >   7. Jump back to the step labeled _loop_.
+				 * >   8. _Done_: Switch the insertion mode to "in select" and return.
+				 */
+				case 'SELECT':
+					if ( ! $last ) {
+						foreach ( $this->state->stack_of_open_elements->walk_up( $node ) as $ancestor ) {
+							switch ( $ancestor->node_name ) {
+								/*
+								 * > 5. If _ancestor_ is a `template` node, jump to the step below
+								 * >    labeled _done_.
+								 */
+								case 'TEMPLATE':
+									break 2;
+
+								/*
+								 * > 6. If _ancestor_ is a `table` node, switch the insertion mode to
+								 * >    "in select in table" and return.
+								 */
+								case 'TABLE':
+									$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE;
+									return;
+							}
+						}
+					}
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT;
+					return;
+
+				/*
+				 * > 5. If _node_ is a `td` or `th` element and _last_ is false, then switch the
+				 * >    insertion mode to "in cell" and return.
+				 */
+				case 'TD':
+				case 'TH':
+					if ( ! $last ) {
+						$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_CELL;
+						return;
+					}
+					break;
+
+					/*
+					* > 6. If _node_ is a `tr` element, then switch the insertion mode to "in row"
+					* >    and return.
+					*/
+				case 'TR':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_ROW;
+					return;
+
+				/*
+				 * > 7. If _node_ is a `tbody`, `thead`, or `tfoot` element, then switch the
+				 * >    insertion mode to "in table body" and return.
+				 */
+				case 'TBODY':
+				case 'THEAD':
+				case 'TFOOT':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE_BODY;
+					return;
+
+				/*
+				 * > 8. If _node_ is a `caption` element, then switch the insertion mode to
+				 * >    "in caption" and return.
+				 */
+				case 'CAPTION':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_CAPTION;
+					return;
+
+				/*
+				 * > 9. If _node_ is a `colgroup` element, then switch the insertion mode to
+				 * >    "in column group" and return.
+				 */
+				case 'COLGROUP':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_COLUMN_GROUP;
+					return;
+
+				/*
+				 * > 10. If _node_ is a `table` element, then switch the insertion mode to
+				 * >     "in table" and return.
+				 */
+				case 'TABLE':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE;
+					return;
+
+				/*
+				 * > 11. If _node_ is a `template` element, then switch the insertion mode to the
+				 * >     current template insertion mode and return.
+				 */
+				case 'TEMPLATE':
+					$this->state->insertion_mode = end( $this->state->stack_of_template_insertion_modes );
+					return;
+
+				/*
+				 * > 12. If _node_ is a `head` element and _last_ is false, then switch the
+				 * >     insertion mode to "in head" and return.
+				 */
+				case 'HEAD':
+					if ( ! $last ) {
+						$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_HEAD;
+						return;
+					}
+					break;
+
+				/*
+				 * > 13. If _node_ is a `body` element, then switch the insertion mode to "in body"
+				 * >     and return.
+				 */
+				case 'BODY':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
+					return;
+
+				/*
+				 * > 14. If _node_ is a `frameset` element, then switch the insertion mode to
+				 * >     "in frameset" and return. (fragment case)
+				 */
+				case 'FRAMESET':
+					$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_FRAMESET;
+					return;
+
+				/*
+				 * > 15. If _node_ is an `html` element, run these substeps:
+				 * >     1. If the head element pointer is null, switch the insertion mode to
+				 * >        "before head" and return. (fragment case)
+				 * >     2. Otherwise, the head element pointer is not null, switch the insertion
+				 * >        mode to "after head" and return.
+				 */
+				case 'HTML':
+					$this->state->insertion_mode = isset( $this->state->head_element )
+						? WP_HTML_Processor_State::INSERTION_MODE_AFTER_HEAD
+						: WP_HTML_Processor_State::INSERTION_MODE_BEFORE_HEAD;
+					return;
+			}
+		}
+
+		/*
+		 * > 16. If _last_ is true, then switch the insertion mode to "in body"
+		 * >     and return. (fragment case)
+		 *
+		 * This is only reachable if `$last` is true, as per the fragment parsing case.
+		 */
+		$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
+	}
+
+	/**
 	 * Runs the adoption agency algorithm.
 	 *
 	 * @since 6.4.0
