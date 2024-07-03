@@ -27,6 +27,10 @@ Description: Used to style blocks in the editor.
 	line-height: 1.75;
 }
 
+.rtl .editor-styles-wrapper {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
 .edit-post-visual-editor .editor-block-list__block {
 	color: #1a1a1a;
 }
@@ -262,16 +266,12 @@ Description: Used to style blocks in the editor.
 
 /* Captions */
 
-[class^="wp-block-"] figcaption {
+figure[class*="wp-block-"] > figcaption {
 	color: #686868;
 	font-style: italic;
 	line-height: 1.6153846154;
 	padding-top: 0.5384615385em;
-	text-align: left;
-}
-
-.rtl [class^="wp-block-"] figcaption {
-	text-align: right;
+	text-align: start;
 }
 
 /*--------------------------------------------------------------
