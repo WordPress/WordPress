@@ -2768,6 +2768,8 @@ if ( ! function_exists( 'wp_set_password' ) ) :
 	function wp_set_password( $password, $user_id ) {
 		global $wpdb;
 
+		$old_user_data = get_userdata( $user_id );
+
 		$hash = wp_hash_password( $password );
 		$wpdb->update(
 			$wpdb->users,
@@ -2784,11 +2786,13 @@ if ( ! function_exists( 'wp_set_password' ) ) :
 		 * Fires after the user password is set.
 		 *
 		 * @since 6.2.0
+		 * @since 6.7.0 The `$old_user_data` parameter was added.
 		 *
-		 * @param string $password The plaintext password just set.
-		 * @param int    $user_id  The ID of the user whose password was just set.
+		 * @param string  $password      The plaintext password just set.
+		 * @param int     $user_id       The ID of the user whose password was just set.
+		 * @param WP_User $old_user_data Object containing user's data prior to update.
 		 */
-		do_action( 'wp_set_password', $password, $user_id );
+		do_action( 'wp_set_password', $password, $user_id, $old_user_data );
 	}
 endif;
 
