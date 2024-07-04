@@ -145,6 +145,48 @@ class WP_HTML_Open_Elements {
 	}
 
 	/**
+	 * Indicates if the current node is of a given type or name.
+	 *
+	 * It's possible to pass either a node type or a node name to this function.
+	 * In the case there is no current element it will always return `false`.
+	 *
+	 * Example:
+	 *
+	 *     // Is the current node a text node?
+	 *     $stack->current_node_is( '#text' );
+	 *
+	 *     // Is the current node a DIV element?
+	 *     $stack->current_node_is( 'DIV' );
+	 *
+	 *     // Is the current node any element/tag?
+	 *     $stack->current_node_is( '#tag' );
+	 *
+	 * @see WP_HTML_Tag_Processor::get_token_type
+	 * @see WP_HTML_Tag_Processor::get_token_name
+	 *
+	 * @since 6.7.0
+	 *
+	 * @access private
+	 *
+	 * @param string $identity Check if the current node has this name or type (depending on what is provided).
+	 * @return bool Whether there is a current element that matches the given identity, whether a token name or type.
+	 */
+	public function current_node_is( string $identity ): bool {
+		$current_node = end( $this->stack );
+		if ( false === $current_node ) {
+			return false;
+		}
+
+		$current_node_name = $current_node->node_name;
+
+		return (
+			$current_node_name === $identity ||
+			( '#doctype' === $identity && 'html' === $current_node_name ) ||
+			( '#tag' === $identity && ctype_upper( $current_node_name ) )
+		);
+	}
+
+	/**
 	 * Returns whether an element is in a specific scope.
 	 *
 	 * ## HTML Support

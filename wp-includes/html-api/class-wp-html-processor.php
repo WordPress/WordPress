@@ -1029,7 +1029,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 
 				$this->generate_implied_end_tags();
-				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $token_name ) {
+				if ( ! $this->state->stack_of_open_elements->current_node_is( $token_name ) ) {
 					// @todo Record parse error: this error doesn't impact parsing.
 				}
 				$this->state->stack_of_open_elements->pop_until( $token_name );
@@ -1094,7 +1094,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 				$this->generate_implied_end_tags();
 
-				if ( $this->state->stack_of_open_elements->current_node()->node_name !== $token_name ) {
+				if ( ! $this->state->stack_of_open_elements->current_node_is( $token_name ) ) {
 					// @todo Record parse error: this error doesn't impact parsing.
 				}
 
@@ -1120,7 +1120,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				if ( $is_li ? 'LI' === $node->node_name : ( 'DD' === $node->node_name || 'DT' === $node->node_name ) ) {
 					$node_name = $is_li ? 'LI' : $node->node_name;
 					$this->generate_implied_end_tags( $node_name );
-					if ( $node_name !== $this->state->stack_of_open_elements->current_node()->node_name ) {
+					if ( ! $this->state->stack_of_open_elements->current_node_is( $node_name ) ) {
 						// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
 					}
 
@@ -1197,7 +1197,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 				$this->generate_implied_end_tags( $token_name );
 
-				if ( $token_name !== $this->state->stack_of_open_elements->current_node()->node_name ) {
+				if ( ! $this->state->stack_of_open_elements->current_node_is( $token_name ) ) {
 					// @todo Indicate a parse error once it's possible. This error does not impact the logic here.
 				}
 
