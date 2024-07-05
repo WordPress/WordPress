@@ -50,7 +50,7 @@ class WP_HTML_Processor_State {
 	/**
 	 * Before HTML insertion mode for full HTML parser.
 	 *
-	 * @since 6.4.0
+	 * @since 6.7.0
 	 *
 	 * @see https://html.spec.whatwg.org/#the-before-html-insertion-mode
 	 * @see WP_HTML_Processor_State::$insertion_mode
