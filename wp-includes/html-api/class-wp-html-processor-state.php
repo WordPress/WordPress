@@ -48,6 +48,66 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_INITIAL = 'insertion-mode-initial';
 
 	/**
+	 * Before HTML insertion mode for full HTML parser.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @see https://html.spec.whatwg.org/#the-before-html-insertion-mode
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_BEFORE_HTML = 'insertion-mode-before-html';
+
+	/**
+	 * Before head insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-beforehead
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_BEFORE_HEAD = 'insertion-mode-before-head';
+
+	/**
+	 * In head insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inhead
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_HEAD = 'insertion-mode-in-head';
+
+	/**
+	 * In head noscript insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inheadnoscript
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_HEAD_NOSCRIPT = 'insertion-mode-in-head-noscript';
+
+	/**
+	 * After head insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-afterhead
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_AFTER_HEAD = 'insertion-mode-after-head';
+
+	/**
 	 * In body insertion mode for full HTML parser.
 	 *
 	 * @since 6.4.0
@@ -58,30 +118,6 @@ class WP_HTML_Processor_State {
 	 * @var string
 	 */
 	const INSERTION_MODE_IN_BODY = 'insertion-mode-in-body';
-
-	/**
-	 * In select insertion mode for full HTML parser.
-	 *
-	 * @since 6.7.0
-	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-inselect
-	 * @see WP_HTML_Processor_State::$insertion_mode
-	 *
-	 * @var string
-	 */
-	const INSERTION_MODE_IN_SELECT = 'insertion-mode-in-select';
-
-	/**
-	 * In select in table insertion mode for full HTML parser.
-	 *
-	 * @since 6.7.0
-	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-inselectintable
-	 * @see WP_HTML_Processor_State::$insertion_mode
-	 *
-	 * @var string
-	 */
-	const INSERTION_MODE_IN_SELECT_IN_TABLE = 'insertion-mode-in-select-in-table';
 
 	/**
 	 * In table insertion mode for full HTML parser.
@@ -96,6 +132,18 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_IN_TABLE = 'insertion-mode-in-table';
 
 	/**
+	 * In table text insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intabletext
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_TABLE_TEXT = 'insertion-mode-in-table-text';
+
+	/**
 	 * In caption insertion mode for full HTML parser.
 	 *
 	 * @since 6.7.0
@@ -106,6 +154,18 @@ class WP_HTML_Processor_State {
 	 * @var string
 	 */
 	const INSERTION_MODE_IN_CAPTION = 'insertion-mode-in-caption';
+
+	/**
+	 * In column group insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-incolumngroup
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_COLUMN_GROUP = 'insertion-mode-in-column-group';
 
 	/**
 	 * In table body insertion mode for full HTML parser.
@@ -144,16 +204,52 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_IN_CELL = 'insertion-mode-in-cell';
 
 	/**
-	 * In column group insertion mode for full HTML parser.
+	 * In select insertion mode for full HTML parser.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-incolumngroup
+	 * @see https://html.spec.whatwg.org/#parsing-main-inselect
 	 * @see WP_HTML_Processor_State::$insertion_mode
 	 *
 	 * @var string
 	 */
-	const INSERTION_MODE_IN_COLUMN_GROUP = 'insertion-mode-in-column-group';
+	const INSERTION_MODE_IN_SELECT = 'insertion-mode-in-select';
+
+	/**
+	 * In select in table insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inselectintable
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_SELECT_IN_TABLE = 'insertion-mode-in-select-in-table';
+
+	/**
+	 * In template insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intemplate
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_IN_TEMPLATE = 'insertion-mode-in-template';
+
+	/**
+	 * After body insertion mode for full HTML parser.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-afterbody
+	 * @see WP_HTML_Processor_State::$insertion_mode
+	 *
+	 * @var string
+	 */
+	const INSERTION_MODE_AFTER_BODY = 'insertion-mode-after-body';
 
 	/**
 	 * In frameset insertion mode for full HTML parser.
@@ -168,52 +264,52 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_IN_FRAMESET = 'insertion-mode-in-frameset';
 
 	/**
-	 * In head insertion mode for full HTML parser.
+	 * After frameset insertion mode for full HTML parser.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-inhead
+	 * @see https://html.spec.whatwg.org/#parsing-main-afterframeset
 	 * @see WP_HTML_Processor_State::$insertion_mode
 	 *
 	 * @var string
 	 */
-	const INSERTION_MODE_IN_HEAD = 'insertion-mode-in-head';
+	const INSERTION_MODE_AFTER_FRAMESET = 'insertion-mode-after-frameset';
 
 	/**
-	 * Before head insertion mode for full HTML parser.
+	 * After after body insertion mode for full HTML parser.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-beforehead
+	 * @see https://html.spec.whatwg.org/#the-after-after-body-insertion-mode
 	 * @see WP_HTML_Processor_State::$insertion_mode
 	 *
 	 * @var string
 	 */
-	const INSERTION_MODE_BEFORE_HEAD = 'insertion-mode-before-head';
+	const INSERTION_MODE_AFTER_AFTER_BODY = 'insertion-mode-after-after-body';
 
 	/**
-	 * After head insertion mode for full HTML parser.
+	 * After after frameset insertion mode for full HTML parser.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-afterhead
+	 * @see https://html.spec.whatwg.org/#the-after-after-frameset-insertion-mode
 	 * @see WP_HTML_Processor_State::$insertion_mode
 	 *
 	 * @var string
 	 */
-	const INSERTION_MODE_AFTER_HEAD = 'insertion-mode-after-head';
+	const INSERTION_MODE_AFTER_AFTER_FRAMESET = 'insertion-mode-after-after-frameset';
 
 	/**
-	 * In template insertion mode for full HTML parser.
+	 * In foreign content insertion mode for full HTML parser.
 	 *
 	 * @since 6.7.0
 	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-intemplate
+	 * @see https://html.spec.whatwg.org/#parsing-main-inforeign
 	 * @see WP_HTML_Processor_State::$insertion_mode
 	 *
 	 * @var string
 	 */
-	const INSERTION_MODE_IN_TEMPLATE = 'insertion-mode-in-template';
+	const INSERTION_MODE_IN_FOREIGN_CONTENT = 'insertion-mode-in-foreign-content';
 
 	/**
 	 * The stack of template insertion modes.

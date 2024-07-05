@@ -754,18 +754,79 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		try {
 			switch ( $this->state->insertion_mode ) {
-				case WP_HTML_Processor_State::INSERTION_MODE_IN_BODY:
-					return $this->step_in_body();
+				case WP_HTML_Processor_State::INSERTION_MODE_INITIAL:
+					return $this->step_initial();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_BEFORE_HTML:
+					return $this->step_before_html();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_BEFORE_HEAD:
+					return $this->step_before_head();
 
 				case WP_HTML_Processor_State::INSERTION_MODE_IN_HEAD:
 					return $this->step_in_head();
 
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_HEAD_NOSCRIPT:
+					return $this->step_in_head_noscript();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_AFTER_HEAD:
+					return $this->step_after_head();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_BODY:
+					return $this->step_in_body();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE:
+					return $this->step_in_table();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE_TEXT:
+					return $this->step_in_table_text();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_CAPTION:
+					return $this->step_in_caption();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_COLUMN_GROUP:
+					return $this->step_in_column_group();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE_BODY:
+					return $this->step_in_table_body();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_ROW:
+					return $this->step_in_row();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_CELL:
+					return $this->step_in_cell();
+
 				case WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT:
 					return $this->step_in_select();
 
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_SELECT_IN_TABLE:
+					return $this->step_in_select_in_table();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_TEMPLATE:
+					return $this->step_in_template();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_AFTER_BODY:
+					return $this->step_after_body();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_FRAMESET:
+					return $this->step_in_frameset();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_AFTER_FRAMESET:
+					return $this->step_after_frameset();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_AFTER_AFTER_BODY:
+					return $this->step_after_after_body();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_AFTER_AFTER_FRAMESET:
+					return $this->step_after_after_frameset();
+
+				case WP_HTML_Processor_State::INSERTION_MODE_IN_FOREIGN_CONTENT:
+					return $this->step_in_foreign_content();
+
+				// This should be unreachable but PHP doesn't have total type checking on switch.
 				default:
 					$this->last_error = self::ERROR_UNSUPPORTED;
-					throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+					throw new WP_HTML_Unsupported_Exception( "Found unrecognized insertion mode '{$this->state->insertion_mode}'." );
 			}
 		} catch ( WP_HTML_Unsupported_Exception $e ) {
 			/*
@@ -868,6 +929,126 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		return $this->is_virtual()
 			? count( $this->get_breadcrumbs() )
 			: $this->state->stack_of_open_elements->count();
+	}
+
+	/**
+	 * Parses next element in the 'initial' insertion mode.
+	 *
+	 * This internal function performs the 'initial' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#the-initial-insertion-mode
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_initial() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'before html' insertion mode.
+	 *
+	 * This internal function performs the 'before html' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#the-before-html-insertion-mode
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_before_html() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'before head' insertion mode.
+	 *
+	 * This internal function performs the 'before head' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#the-before-head-insertion-mode
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_before_head() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in head' insertion mode.
+	 *
+	 * This internal function performs the 'in head' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inhead
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_head() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in head noscript' insertion mode.
+	 *
+	 * This internal function performs the 'in head noscript' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inheadnoscript
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_head_noscript() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'after head' insertion mode.
+	 *
+	 * This internal function performs the 'after head' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#the-after-head-insertion-mode
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_after_head() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
 	}
 
 	/**
@@ -1494,21 +1675,141 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	}
 
 	/**
-	 * Parses next element in the 'in head' insertion mode.
+	 * Parses next element in the 'in table' insertion mode.
 	 *
-	 * This internal function performs the 'in head' insertion mode
+	 * This internal function performs the 'in table' insertion mode
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
 	 * @since 6.7.0 Stub implementation.
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inhead
+	 * @see https://html.spec.whatwg.org/#parsing-main-intable
 	 * @see WP_HTML_Processor::step
 	 *
 	 * @return bool Whether an element was found.
 	 */
-	private function step_in_head() {
+	private function step_in_table() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in table text' insertion mode.
+	 *
+	 * This internal function performs the 'in table text' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intabletext
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_table_text() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in caption' insertion mode.
+	 *
+	 * This internal function performs the 'in caption' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-incaption
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_caption() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in column group' insertion mode.
+	 *
+	 * This internal function performs the 'in column group' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-incolgroup
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_column_group() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in table body' insertion mode.
+	 *
+	 * This internal function performs the 'in table body' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intbody
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_table_body() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in row' insertion mode.
+	 *
+	 * This internal function performs the 'in row' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intr
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_row() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in cell' insertion mode.
+	 *
+	 * This internal function performs the 'in cell' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intd
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_cell() {
 		$this->last_error = self::ERROR_UNSUPPORTED;
 		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
 	}
@@ -1692,6 +1993,166 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 * >   Parse error: ignore the token.
 		 */
 		return $this->step();
+	}
+
+	/**
+	 * Parses next element in the 'in select in table' insertion mode.
+	 *
+	 * This internal function performs the 'in select in table' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inselectintable
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_select_in_table() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in template' insertion mode.
+	 *
+	 * This internal function performs the 'in template' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-intemplate
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_template() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'after body' insertion mode.
+	 *
+	 * This internal function performs the 'after body' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-afterbody
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_after_body() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in frameset' insertion mode.
+	 *
+	 * This internal function performs the 'in frameset' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inframeset
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_frameset() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'after frameset' insertion mode.
+	 *
+	 * This internal function performs the 'after frameset' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-afterframeset
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_after_frameset() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'after after body' insertion mode.
+	 *
+	 * This internal function performs the 'after after body' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#the-after-after-body-insertion-mode
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_after_after_body() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'after after frameset' insertion mode.
+	 *
+	 * This internal function performs the 'after after frameset' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#the-after-after-frameset-insertion-mode
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_after_after_frameset() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
+	}
+
+	/**
+	 * Parses next element in the 'in foreign content' insertion mode.
+	 *
+	 * This internal function performs the 'in foreign content' insertion mode
+	 * logic for the generalized WP_HTML_Processor::step() function.
+	 *
+	 * @since 6.7.0 Stub implementation.
+	 *
+	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
+	 *
+	 * @see https://html.spec.whatwg.org/#parsing-main-inforeign
+	 * @see WP_HTML_Processor::step
+	 *
+	 * @return bool Whether an element was found.
+	 */
+	private function step_in_foreign_content() {
+		$this->last_error = self::ERROR_UNSUPPORTED;
+		throw new WP_HTML_Unsupported_Exception( "No support for parsing in the '{$this->state->insertion_mode}' state." );
 	}
 
 	/*
