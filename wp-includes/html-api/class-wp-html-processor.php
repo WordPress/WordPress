@@ -466,6 +466,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					continue;
 				}
 
+				if ( isset( $query['tag_name'] ) && $query['tag_name'] !== $this->get_token_name() ) {
+					continue;
+				}
+
 				if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
 					continue;
 				}
