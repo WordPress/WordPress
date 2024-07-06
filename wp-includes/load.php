@@ -1679,9 +1679,8 @@ function wp_is_ini_value_changeable( $setting ) {
 		}
 	}
 
-	// Bit operator to workaround https://bugs.php.net/bug.php?id=44936 which changes access level to 63 in PHP 5.2.6 - 5.2.17.
 	if ( isset( $ini_all[ $setting ]['access'] )
-		&& ( INI_ALL === ( $ini_all[ $setting ]['access'] & 7 ) || INI_USER === ( $ini_all[ $setting ]['access'] & 7 ) )
+		&& ( INI_ALL === $ini_all[ $setting ]['access'] || INI_USER === $ini_all[ $setting ]['access'] )
 	) {
 		return true;
 	}
