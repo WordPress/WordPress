@@ -709,7 +709,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * Parses the request body parameters.
 	 *
 	 * Parses out URL-encoded bodies for request methods that aren't supported
-	 * natively by PHP. In PHP 5.x, only POST has these parsed automatically.
+	 * natively by PHP.
 	 *
 	 * @since 4.4.0
 	 */

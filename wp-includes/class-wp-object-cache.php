@@ -73,7 +73,7 @@ class WP_Object_Cache {
 	private $multisite;
 
 	/**
-	 * Sets up object properties; PHP 5 style constructor.
+	 * Sets up object properties.
 	 *
 	 * @since 2.0.8
 	 */
