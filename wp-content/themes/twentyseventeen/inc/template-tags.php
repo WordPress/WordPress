@@ -149,16 +149,27 @@ function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 		$twentyseventeencounter = $id;
 	}
 
+	// Only when in Customizer, use a placeholder for an empty panel.
+	$show_panel_placeholder = false;
+
 	global $post; // Modify the global post object before setting up post data.
 	if ( get_theme_mod( 'panel_' . $id ) ) {
 		$post = get_post( get_theme_mod( 'panel_' . $id ) );
 		setup_postdata( $post );
 		set_query_var( 'panel', $id );
 
-		get_template_part( 'template-parts/page/content', 'front-page-panels' );
+		if ( $post && in_array( $post->post_status, array( 'publish', 'private' ), true ) ) {
+			get_template_part( 'template-parts/page/content', 'front-page-panels' );
+		} elseif ( is_customize_preview() ) {
+			$show_panel_placeholder = true;
+		}
 
 		wp_reset_postdata();
 	} elseif ( is_customize_preview() ) {
+		$show_panel_placeholder = true;
+	}
+
+	if ( $show_panel_placeholder ) {
 		// The output placeholder anchor.
 		printf(
 			'<article class="panel-placeholder panel twentyseventeen-panel twentyseventeen-panel%1$s" id="panel%1$s">' .
