@@ -1667,7 +1667,7 @@ class WP_REST_Server {
 			$single_request = new WP_REST_Request( isset( $args['method'] ) ? $args['method'] : 'POST', $parsed_url['path'] );
 
 			if ( ! empty( $parsed_url['query'] ) ) {
-				$query_args = null; // Satisfy linter.
+				$query_args = array();
 				wp_parse_str( $parsed_url['query'], $query_args );
 				$single_request->set_query_params( $query_args );
 			}
