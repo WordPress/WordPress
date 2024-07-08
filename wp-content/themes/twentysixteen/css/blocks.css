@@ -171,15 +171,19 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-pullquote blockquote {
 	color: #686868;
-	border-left: 4px solid #1a1a1a;
+	border: 0;
 	margin: 0;
-	padding: 0 0 0 24px;
+	padding: 0;
 }
 
-.rtl .wp-block-pullquote blockquote {
-	border-left: none;
-	border-right: 4px solid #1a1a1a;
-	padding: 0 24px 0 0;
+.entry-content .wp-block-pullquote blockquote:not(.alignleft):not(.alignright) {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.wp-block-pullquote:where([style*="border-width"]) blockquote {
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .wp-block-pullquote.has-text-color blockquote,
@@ -390,12 +394,20 @@ hr.wp-block-separator {
 	background-color: #1a1a1a;
 }
 
+.has-dark-gray-border-color {
+	border-color: #1a1a1a;
+}
+
 .has-medium-gray-color {
 	color: #686868;
 }
 
 .has-medium-gray-background-color {
 	background-color: #686868;
+}
+
+.has-medium-gray-border-color {
+	border-color: #686868;
 }
 
 .has-light-gray-color {
@@ -406,12 +418,20 @@ hr.wp-block-separator {
 	background-color: #e5e5e5;
 }
 
+.has-light-gray-border-color {
+	border-color: #e5e5e5;
+}
+
 .has-white-color {
 	color: #fff;
 }
 
 .has-white-background-color {
 	background-color: #fff;
+}
+
+.has-white-border-color {
+	border-color: #fff;
 }
 
 .has-blue-gray-color {
@@ -422,12 +442,20 @@ hr.wp-block-separator {
 	background-color: #4d545c;
 }
 
+.has-blue-gray-border-color {
+	border-color: #4d545c;
+}
+
 .has-bright-blue-color {
 	color: #007acc;
 }
 
 .has-bright-blue-background-color {
 	background-color: #007acc;
+}
+
+.has-bright-blue-border-color {
+	border-color: #007acc;
 }
 
 .has-light-blue-color {
@@ -438,12 +466,20 @@ hr.wp-block-separator {
 	background-color: #9adffd;
 }
 
+.has-light-blue-border-color {
+	border-color: #9adffd;
+}
+
 .has-dark-brown-color {
 	color: #402b30;
 }
 
 .has-dark-brown-background-color {
 	background-color: #402b30;
+}
+
+.has-dark-brown-border-color {
+	border-color: #402b30;
 }
 
 .has-medium-brown-color {
@@ -454,12 +490,20 @@ hr.wp-block-separator {
 	background-color: #774e24;
 }
 
+.has-medium-brown-border-color {
+	border-color: #774e24;
+}
+
 .has-dark-red-color {
 	color: #640c1f;
 }
 
 .has-dark-red-background-color {
 	background-color: #640c1f;
+}
+
+.has-dark-red-border-color {
+	border-color: #640c1f;
 }
 
 .has-bright-red-color {
@@ -470,10 +514,18 @@ hr.wp-block-separator {
 	background-color: #ff675f;
 }
 
+.has-bright-red-border-color {
+	border-color: #ff675f;
+}
+
 .has-yellow-color {
 	color: #ffef8e;
 }
 
 .has-yellow-background-color {
 	background-color: #ffef8e;
+}
+
+.has-yellow-border-color {
+	border-color: #ffef8e;
 }

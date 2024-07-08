@@ -499,10 +499,15 @@ figure[class*="wp-block-"] > figcaption {
 
 /* Pullquote */
 
-.editor-block-list__block .wp-block-pullquote blockquote {
+.editor-styles-wrapper .wp-block-pullquote blockquote {
 	border: 0;
 	margin: 0;
 	padding: 0;
+}
+
+.editor-styles-wrapper .wp-block-pullquote:where([style*="border-width"]) blockquote {
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .wp-block-pullquote blockquote > .editor-rich-text p {
