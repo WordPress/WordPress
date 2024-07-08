@@ -155,6 +155,7 @@ Description: Used to style blocks in the editor.
 
 /* Captions */
 
+[class*=" wp-block-"] figcaption,
 [class^="wp-block-"] figcaption,
 [class^="wp-block-"] figcaption.editor-rich-text__tinymce.mce-content-body {
 	font-size: 12px;
@@ -165,39 +166,35 @@ Description: Used to style blocks in the editor.
 
 /* Tables */
 
-.edit-post-visual-editor .editor-block-list__block table,
-.edit-post-visual-editor .editor-block-list__block table th,
-.edit-post-visual-editor .editor-block-list__block table td {
-	border: 1px solid rgba(0, 0, 0, 0.1);
+.editor-styles-wrapper table,
+.editor-styles-wrapper table th,
+.editor-styles-wrapper table td {
 	font-size: 14px;
 	line-height: 1.2857142857;
 }
 
-.edit-post-visual-editor .editor-block-list__block table {
-	border-collapse: separate;
+.editor-styles-wrapper table {
+	border-collapse: collapse;
 	border-spacing: 0;
-	border-width: 1px 0 0 1px;
 	margin-bottom: 24px;
 	width: 100%;
 }
 
-.edit-post-visual-editor .editor-block-list__block table th {
-	border-width: 0 1px 1px 0;
+.editor-styles-wrapper table th {
 	font-weight: 700;
 	text-align: left;
 	text-transform: uppercase;
 }
 
-.edit-post-visual-editor .editor-block-list__block table td {
-	border-width: 0 1px 1px 0;
-}
-
-.rtl .edit-post-visual-editor .editor-block-list__block table th {
+.rtl .editor-styles-wrapper table th,
+[dir="rtl"] .editor-styles-wrapper table th {
 	text-align: right;
 }
 
-.editor-styles-wrapper .wp-block-table:not(.is-style-stripes) table:not([class*="-text-color"]) * {
-	border-color: rgba(0, 0, 0, 0.1);
+.editor-styles-wrapper :where(:not(.is-style-stripes)) > table:where(:not(.is-style-stripes)),
+.editor-styles-wrapper :where(:not(.is-style-stripes)) > table:where(:not(.is-style-stripes)) th,
+.editor-styles-wrapper :where(:not(.is-style-stripes)) > table:where(:not(.is-style-stripes)) td {
+	border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Quotes */
