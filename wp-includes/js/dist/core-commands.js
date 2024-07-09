@@ -517,7 +517,7 @@ function useSiteEditorBasicNavigationCommands() {
           close
         }) => {
           const args = {
-            post_type: 'page'
+            postType: 'page'
           };
           const targetUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', args);
           if (isSiteEditor) {
