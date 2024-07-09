@@ -1940,6 +1940,9 @@
   width:100%;
   z-index:2;
 }
+.edit-site-layout__mobile .edit-site-sidebar__screen-wrapper{
+  padding:0;
+}
 
 .edit-site-layout__canvas-container{
   flex-grow:1;
@@ -2132,7 +2135,9 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
 }
 
 .edit-site-sidebar__content{
+  contain:content;
   flex-grow:1;
+  overflow-x:hidden;
   overflow-y:auto;
 }
 

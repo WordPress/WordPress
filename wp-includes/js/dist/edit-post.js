@@ -2751,7 +2751,9 @@ function useEditorStyles() {
     // bottom, there needs to be room to scroll up.
     if (!isZoomedOutView && !hasMetaBoxes && renderingMode === 'post-only' && !DESIGN_POST_TYPES.includes(postType)) {
       return [...baseStyles, {
-        css: 'body{padding-bottom: 40vh}'
+        // Should override global styles padding, so ensure 0-1-0
+        // specificity.
+        css: ':root :where(body){padding-bottom: 40vh}'
       }];
     }
     return baseStyles;

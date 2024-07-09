@@ -1,3 +1,12 @@
+:where(.wp-block-post-comments-form) input:not([type=submit]),:where(.wp-block-post-comments-form) textarea{
+  border:1px solid #949494;
+  font-family:inherit;
+  font-size:1em;
+}
+:where(.wp-block-post-comments-form) input:where(:not([type=submit]):not([type=checkbox])),:where(.wp-block-post-comments-form) textarea{
+  padding:calc(.667em + 2px);
+}
+
 .wp-block-post-comments-form{
   box-sizing:border-box;
 }
@@ -25,14 +34,6 @@
   display:inline-block;
   overflow-wrap:break-word;
   text-align:center;
-}
-.wp-block-post-comments-form input:not([type=submit]),.wp-block-post-comments-form textarea{
-  border:1px solid #949494;
-  font-family:inherit;
-  font-size:1em;
-}
-.wp-block-post-comments-form input:not([type=submit]):not([type=checkbox]),.wp-block-post-comments-form textarea{
-  padding:calc(.667em + 2px);
 }
 .wp-block-post-comments-form .comment-form input:not([type=submit]):not([type=checkbox]):not([type=hidden]),.wp-block-post-comments-form .comment-form textarea{
   box-sizing:border-box;

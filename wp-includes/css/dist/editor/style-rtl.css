@@ -1539,6 +1539,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   text-align:right;
   text-wrap:balance;
   text-wrap:pretty;
+  white-space:normal;
 }
 .editor-post-panel__row-control .components-dropdown{
   max-width:100%;

@@ -9519,6 +9519,95 @@ function SiteIcon({
 }
 /* harmony default export */ const site_icon = (SiteIcon);
 
+;// CONCATENATED MODULE: external ["wp","dom"]
+const external_wp_dom_namespaceObject = window["wp"]["dom"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar/index.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+const SidebarNavigationContext = (0,external_wp_element_namespaceObject.createContext)(() => {});
+// Focus a sidebar element after a navigation. The element to focus is either
+// specified by `focusSelector` (when navigating back) or it is the first
+// tabbable element (usually the "Back" button).
+function focusSidebarElement(el, direction, focusSelector) {
+  let elementToFocus;
+  if (direction === 'back' && focusSelector) {
+    elementToFocus = el.querySelector(focusSelector);
+  }
+  if (direction !== null && !elementToFocus) {
+    const [firstTabbable] = external_wp_dom_namespaceObject.focus.tabbable.find(el);
+    elementToFocus = firstTabbable !== null && firstTabbable !== void 0 ? firstTabbable : el;
+  }
+  elementToFocus?.focus();
+}
+
+// Navigation state that is updated when navigating back or forward. Helps us
+// manage the animations and also focus.
+function createNavState() {
+  let state = {
+    direction: null,
+    focusSelector: null
+  };
+  return {
+    get() {
+      return state;
+    },
+    navigate(direction, focusSelector = null) {
+      state = {
+        direction,
+        focusSelector: direction === 'forward' && focusSelector ? focusSelector : state.focusSelector
+      };
+    }
+  };
+}
+function SidebarContentWrapper({
+  children
+}) {
+  const navState = (0,external_wp_element_namespaceObject.useContext)(SidebarNavigationContext);
+  const wrapperRef = (0,external_wp_element_namespaceObject.useRef)();
+  const [navAnimation, setNavAnimation] = (0,external_wp_element_namespaceObject.useState)(null);
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    const {
+      direction,
+      focusSelector
+    } = navState.get();
+    focusSidebarElement(wrapperRef.current, direction, focusSelector);
+    setNavAnimation(direction);
+  }, [navState]);
+  const wrapperCls = dist_clsx('edit-site-sidebar__screen-wrapper', {
+    'slide-from-left': navAnimation === 'back',
+    'slide-from-right': navAnimation === 'forward'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+    ref: wrapperRef,
+    className: wrapperCls,
+    children: children
+  });
+}
+function SidebarContent({
+  routeKey,
+  children
+}) {
+  const [navState] = (0,external_wp_element_namespaceObject.useState)(createNavState);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarNavigationContext.Provider, {
+    value: navState,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      className: "edit-site-sidebar__content",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarContentWrapper, {
+        children: children
+      }, routeKey)
+    })
+  });
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/site-hub/index.js
 /**
  * External dependencies
@@ -9539,11 +9628,16 @@ function SiteIcon({
 
 
 
+
 /**
  * Internal dependencies
  */
 
 
+
+const {
+  useHistory
+} = lock_unlock_unlock(external_wp_router_namespaceObject.privateApis);
 
 
 
@@ -9621,6 +9715,81 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)((0,external_wp_elem
   });
 }));
 /* harmony default export */ const site_hub = (SiteHub);
+const SiteHubMobile = (0,external_wp_element_namespaceObject.memo)((0,external_wp_element_namespaceObject.forwardRef)(({
+  isTransparent
+}, ref) => {
+  const history = useHistory();
+  const {
+    navigate
+  } = (0,external_wp_element_namespaceObject.useContext)(SidebarNavigationContext);
+  const {
+    homeUrl,
+    siteTitle
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getSite,
+      getUnstableBase // Site index.
+    } = select(external_wp_coreData_namespaceObject.store);
+    const _site = getSite();
+    return {
+      homeUrl: getUnstableBase()?.home,
+      siteTitle: !_site?.title && !!_site?.url ? (0,external_wp_url_namespaceObject.filterURLForDisplay)(_site?.url) : _site?.title
+    };
+  }, []);
+  const {
+    open: openCommandCenter
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_commands_namespaceObject.store);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+    className: "edit-site-site-hub",
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+      justify: "flex-start",
+      spacing: "0",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+        className: dist_clsx('edit-site-site-hub__view-mode-toggle-container', {
+          'has-transparent-background': isTransparent
+        }),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          ref: ref,
+          label: (0,external_wp_i18n_namespaceObject.__)('Go to Site Editor'),
+          className: "edit-site-layout__view-mode-toggle",
+          style: {
+            transform: 'scale(0.5)',
+            borderRadius: 4
+          },
+          onClick: () => {
+            history.push({});
+            navigate('back');
+          },
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(site_icon, {
+            className: "edit-site-layout__view-mode-toggle-icon"
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+          className: "edit-site-site-hub__title",
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+            variant: "link",
+            href: homeUrl,
+            target: "_blank",
+            label: (0,external_wp_i18n_namespaceObject.__)('View site (opens in a new tab)'),
+            children: (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(siteTitle)
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalHStack, {
+          spacing: 0,
+          expanded: false,
+          className: "edit-site-site-hub__actions",
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+            className: "edit-site-site-hub_toggle-command-center",
+            icon: library_search,
+            onClick: () => openCommandCenter(),
+            label: (0,external_wp_i18n_namespaceObject.__)('Open command palette'),
+            shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primary('k')
+          })
+        })]
+      })]
+    })
+  });
+}));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/resizable-frame/index.js
 /**
@@ -9913,10 +10082,10 @@ function ResizableFrame({
 
 const {
   useLocation: use_sync_canvas_mode_with_url_useLocation,
-  useHistory
+  useHistory: use_sync_canvas_mode_with_url_useHistory
 } = lock_unlock_unlock(external_wp_router_namespaceObject.privateApis);
 function useSyncCanvasModeWithURL() {
-  const history = useHistory();
+  const history = use_sync_canvas_mode_with_url_useHistory();
   const {
     params
   } = use_sync_canvas_mode_with_url_useLocation();
@@ -21285,8 +21454,7 @@ function shadows_edit_panel_ShadowItem({
         className: dist_clsx('edit-site-global-styles__shadow-editor__remove-button', {
           'is-open': isOpen
         }),
-        ariaLabel: (0,external_wp_i18n_namespaceObject.__)('Remove shadow'),
-        tooltip: (0,external_wp_i18n_namespaceObject.__)('Remove shadow')
+        label: (0,external_wp_i18n_namespaceObject.__)('Remove shadow')
       };
       return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         align: "center",
@@ -37300,95 +37468,6 @@ function SidebarButton(props) {
   });
 }
 
-;// CONCATENATED MODULE: external ["wp","dom"]
-const external_wp_dom_namespaceObject = window["wp"]["dom"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar/index.js
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-const SidebarNavigationContext = (0,external_wp_element_namespaceObject.createContext)(() => {});
-// Focus a sidebar element after a navigation. The element to focus is either
-// specified by `focusSelector` (when navigating back) or it is the first
-// tabbable element (usually the "Back" button).
-function focusSidebarElement(el, direction, focusSelector) {
-  let elementToFocus;
-  if (direction === 'back' && focusSelector) {
-    elementToFocus = el.querySelector(focusSelector);
-  }
-  if (direction !== null && !elementToFocus) {
-    const [firstTabbable] = external_wp_dom_namespaceObject.focus.tabbable.find(el);
-    elementToFocus = firstTabbable !== null && firstTabbable !== void 0 ? firstTabbable : el;
-  }
-  elementToFocus?.focus();
-}
-
-// Navigation state that is updated when navigating back or forward. Helps us
-// manage the animations and also focus.
-function createNavState() {
-  let state = {
-    direction: null,
-    focusSelector: null
-  };
-  return {
-    get() {
-      return state;
-    },
-    navigate(direction, focusSelector = null) {
-      state = {
-        direction,
-        focusSelector: direction === 'forward' && focusSelector ? focusSelector : state.focusSelector
-      };
-    }
-  };
-}
-function SidebarContentWrapper({
-  children
-}) {
-  const navState = (0,external_wp_element_namespaceObject.useContext)(SidebarNavigationContext);
-  const wrapperRef = (0,external_wp_element_namespaceObject.useRef)();
-  const [navAnimation, setNavAnimation] = (0,external_wp_element_namespaceObject.useState)(null);
-  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
-    const {
-      direction,
-      focusSelector
-    } = navState.get();
-    focusSidebarElement(wrapperRef.current, direction, focusSelector);
-    setNavAnimation(direction);
-  }, [navState]);
-  const wrapperCls = dist_clsx('edit-site-sidebar__screen-wrapper', {
-    'slide-from-left': navAnimation === 'back',
-    'slide-from-right': navAnimation === 'forward'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-    ref: wrapperRef,
-    className: wrapperCls,
-    children: children
-  });
-}
-function SidebarContent({
-  routeKey,
-  children
-}) {
-  const [navState] = (0,external_wp_element_namespaceObject.useState)(createNavState);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarNavigationContext.Provider, {
-    value: navState,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: "edit-site-sidebar__content",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarContentWrapper, {
-        children: children
-      }, routeKey)
-    })
-  });
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen/index.js
 /**
  * External dependencies
@@ -40369,9 +40448,15 @@ function Layout() {
               }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SaveHub, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SavePanel, {})]
             })
           })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.EditorSnackbars, {}), isMobileViewport && areas.mobile && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.EditorSnackbars, {}), isMobileViewport && areas.mobile && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
           className: "edit-site-layout__mobile",
-          children: areas.mobile
+          children: [canvasMode !== 'edit' && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarContent, {
+            routeKey: routeKey,
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SiteHubMobile, {
+              ref: toggleRef,
+              isTransparent: isResizableFrameOversized
+            })
+          }), areas.mobile]
         }), !isMobileViewport && areas.content && canvasMode !== 'edit' && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
           className: "edit-site-layout__area",
           style: {

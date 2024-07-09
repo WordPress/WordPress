@@ -6217,11 +6217,16 @@ const resolvers_experimentalGetCurrentGlobalStylesId = () => async ({
     status: 'active'
   });
   const globalStylesURL = activeThemes?.[0]?._links?.['wp:user-global-styles']?.[0]?.href;
-  if (globalStylesURL) {
-    const globalStylesObject = await external_wp_apiFetch_default()({
-      url: globalStylesURL
-    });
-    dispatch.__experimentalReceiveCurrentGlobalStylesId(globalStylesObject.id);
+  if (!globalStylesURL) {
+    return;
+  }
+
+  // Regex matches the ID at the end of a URL or immediately before
+  // the query string.
+  const matches = globalStylesURL.match(/\/(\d+)(?:\?|$)/);
+  const id = matches ? Number(matches[1]) : null;
+  if (id) {
+    dispatch.__experimentalReceiveCurrentGlobalStylesId(id);
   }
 };
 const resolvers_experimentalGetCurrentThemeBaseGlobalStyles = () => async ({

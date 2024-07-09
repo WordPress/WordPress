@@ -85,7 +85,7 @@
   content:none;
 }
 
-.edit-post-layout.has-metaboxes .edit-post-visual-editor{
+.edit-post-visual-editor:not(.is-iframed){
   flex:1 0 auto;
   height:auto;
 }
