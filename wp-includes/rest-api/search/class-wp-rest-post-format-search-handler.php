@@ -61,7 +61,7 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler {
 		$query_args = apply_filters( 'rest_post_format_search_query', $query_args, $request );
 
 		$found_ids = array();
-		foreach ( $format_slugs as $index => $format_slug ) {
+		foreach ( $format_slugs as $format_slug ) {
 			if ( ! empty( $query_args['search'] ) ) {
 				$format_string       = get_post_format_string( $format_slug );
 				$format_slug_match   = stripos( $format_slug, $query_args['search'] ) !== false;

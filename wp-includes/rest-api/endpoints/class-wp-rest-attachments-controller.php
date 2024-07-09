@@ -1207,7 +1207,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				continue;
 			}
 
-			list( $type, $attr_parts ) = explode( ';', $value, 2 );
+			list( , $attr_parts ) = explode( ';', $value, 2 );
 
 			$attr_parts = explode( ';', $attr_parts );
 			$attributes = array();
