@@ -2771,7 +2771,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 		while (
 			( $no_exclusions || ! $this->state->stack_of_open_elements->current_node_is( $except_for_this_element ) ) &&
-			in_array( $this->state->stack_of_open_elements->current_node(), $elements_with_implied_end_tags, true )
+			in_array( $this->state->stack_of_open_elements->current_node()->node_name, $elements_with_implied_end_tags, true )
 		) {
 			$this->state->stack_of_open_elements->pop();
 		}
@@ -2811,7 +2811,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			'TR',
 		);
 
-		while ( in_array( $this->state->stack_of_open_elements->current_node(), $elements_with_implied_end_tags, true ) ) {
+		while ( in_array( $this->state->stack_of_open_elements->current_node()->node_name, $elements_with_implied_end_tags, true ) ) {
 			$this->state->stack_of_open_elements->pop();
 		}
 	}
