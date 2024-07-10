@@ -192,7 +192,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @return WP_Error|bool True if the request has permission, else WP_Error.
+	 * @return true|WP_Error True if the request has permission, else WP_Error.
 	 */
 	public function permissions_check() {
 		if ( current_user_can( 'edit_posts' ) ) {

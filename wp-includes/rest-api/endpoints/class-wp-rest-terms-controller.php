@@ -462,7 +462,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return true|WP_Error True if the request has access to create items, false or WP_Error object otherwise.
+	 * @return bool|WP_Error True if the request has access to create items, otherwise false or WP_Error object.
 	 */
 	public function create_item_permissions_check( $request ) {
 

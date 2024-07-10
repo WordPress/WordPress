@@ -50,7 +50,7 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @return WP_Error|true True if the request has access, or WP_Error object.
+	 * @return true|WP_Error True if the request has access, or WP_Error object.
 	 */
 	public function permissions_check() {
 		if ( current_user_can( 'edit_theme_options' ) ) {
@@ -70,7 +70,7 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @return WP_Error|void
+	 * @return void|WP_Error
 	 */
 	public function export() {
 		// Generate the export file.
