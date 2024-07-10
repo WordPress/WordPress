@@ -871,6 +871,9 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 				}
 				return $author->get( 'display_name' );
 		}
+
+		// Fail-safe to return a string should the original source ever fall through.
+		return '';
 	}
 
 
