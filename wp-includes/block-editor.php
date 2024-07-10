@@ -532,7 +532,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		 * entered by users does not break other global styles.
 		 */
 		$global_styles[] = array(
-			'css'            => wp_get_global_styles_custom_css(),
+			'css'            => wp_get_global_stylesheet( array( 'custom-css' ) ),
 			'__unstableType' => 'user',
 			'isGlobalStyles' => true,
 		);
