@@ -668,8 +668,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
-		// Resolve pattern blocks so they don't need to be resolved client-side
-		// in the editor, improving performance.
+		/*
+		 * Resolve pattern blocks so they don't need to be resolved client-side
+		 * in the editor, improving performance.
+		 */
 		$blocks        = parse_blocks( $item->content );
 		$blocks        = resolve_pattern_blocks( $blocks );
 		$item->content = serialize_blocks( $blocks );
@@ -806,11 +808,13 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 */
 	private static function get_wp_templates_original_source_field( $template_object ) {
 		if ( 'wp_template' === $template_object->type || 'wp_template_part' === $template_object->type ) {
-			// Added by theme.
-			// Template originally provided by a theme, but customized by a user.
-			// Templates originally didn't have the 'origin' field so identify
-			// older customized templates by checking for no origin and a 'theme'
-			// or 'custom' source.
+			/*
+			 * Added by theme.
+			 * Template originally provided by a theme, but customized by a user.
+			 * Templates originally didn't have the 'origin' field so identify
+			 * older customized templates by checking for no origin and a 'theme'
+			 * or 'custom' source.
+			 */
 			if ( $template_object->has_theme_file &&
 			( 'theme' === $template_object->origin || (
 				empty( $template_object->origin ) && in_array(
@@ -831,10 +835,12 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 				return 'plugin';
 			}
 
-			// Added by site.
-			// Template was created from scratch, but has no author. Author support
-			// was only added to templates in WordPress 5.9. Fallback to showing the
-			// site logo and title.
+			/*
+			 * Added by site.
+			 * Template was created from scratch, but has no author. Author support
+			 * was only added to templates in WordPress 5.9. Fallback to showing the
+			 * site logo and title.
+			 */
 			if ( empty( $template_object->has_theme_file ) && 'custom' === $template_object->source && empty( $template_object->author ) ) {
 				return 'site';
 			}
