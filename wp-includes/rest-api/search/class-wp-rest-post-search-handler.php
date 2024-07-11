@@ -187,7 +187,7 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
 	 *
 	 * By default, WordPress will show password protected posts with a title of
 	 * "Protected: %s". As the REST API communicates the protected status of a post
-	 * in a machine readable format, we remove the "Protected: " prefix.
+	 * in a machine-readable format, we remove the "Protected: " prefix.
 	 *
 	 * @since 5.0.0
 	 *

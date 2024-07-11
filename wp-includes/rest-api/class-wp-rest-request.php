@@ -165,7 +165,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * Canonicalizes the header name.
 	 *
 	 * Ensures that header names are always treated the same regardless of
-	 * source. Header names are always case insensitive.
+	 * source. Header names are always case-insensitive.
 	 *
 	 * Note that we treat `-` (dashes) and `_` (underscores) as the same
 	 * character, as per header parsing rules in both Apache and nginx.

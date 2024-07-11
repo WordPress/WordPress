@@ -347,7 +347,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param array $meta_elements {
-	 *     A multi-dimensional indexed array on success, else empty array.
+	 *     A multidimensional indexed array on success, else empty array.
 	 *
 	 *     @type string[] $0 Meta elements with a content attribute.
 	 *     @type string[] $1 Content attribute's opening quotation mark.
@@ -383,7 +383,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param array  $meta_elements {
-	 *     A multi-dimensional indexed array on success, else empty array.
+	 *     A multidimensional indexed array on success, else empty array.
 	 *
 	 *     @type string[] $0 Meta elements with a content attribute.
 	 *     @type string[] $1 Content attribute's opening quotation mark.
@@ -525,7 +525,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 *
 	 * @param string $html The string of HTML to be parsed.
 	 * @return array {
-	 *     A multi-dimensional indexed array on success, else empty array.
+	 *     A multidimensional indexed array on success, else empty array.
 	 *
 	 *     @type string[] $0 Meta elements with a content attribute.
 	 *     @type string[] $1 Content attribute's opening quotation mark.
@@ -588,7 +588,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 
 				/*
 				* These are the options:
-				* - i : case insensitive
+				* - i : case-insensitive
 				* - s : allows newline characters for the . match (needed for multiline elements)
 				* - U means non-greedy matching
 				*/
@@ -637,7 +637,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 
 				/*
 				 * These are the options:
-				 * - i : case insensitive
+				 * - i : case-insensitive
 				 * - s : allows newline characters for the . match (needed for multiline elements)
 				 * - U means non-greedy matching
 				 */

@@ -183,7 +183,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @param bool    $required Whether the post requires a password check.
 	 * @param WP_Post $post     The post been password checked.
-	 * @return bool Result of password check taking in to account REST API considerations.
+	 * @return bool Result of password check taking into account REST API considerations.
 	 */
 	public function check_password_required( $required, $post ) {
 		if ( ! $required ) {
@@ -2051,7 +2051,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * By default, WordPress will show password protected posts with a title of
 	 * "Protected: %s", as the REST API communicates the protected status of a post
-	 * in a machine readable format, we remove the "Protected: " prefix.
+	 * in a machine-readable format, we remove the "Protected: " prefix.
 	 *
 	 * @since 4.7.0
 	 *
