@@ -7644,8 +7644,10 @@ function wp_validate_boolean( $value ) {
  * Deletes a file.
  *
  * @since 4.2.0
+ * @since 6.7.0 A return value was added.
  *
  * @param string $file The path to the file to delete.
+ * @return bool True on success, false on failure.
  */
 function wp_delete_file( $file ) {
 	/**
@@ -7656,9 +7658,12 @@ function wp_delete_file( $file ) {
 	 * @param string $file Path to the file to delete.
 	 */
 	$delete = apply_filters( 'wp_delete_file', $file );
+
 	if ( ! empty( $delete ) ) {
-		@unlink( $delete );
+		return @unlink( $delete );
 	}
+
+	return false;
 }
 
 /**
@@ -7691,9 +7696,7 @@ function wp_delete_file_from_directory( $file, $directory ) {
 		return false;
 	}
 
-	wp_delete_file( $file );
-
-	return true;
+	return wp_delete_file( $file );
 }
 
 /**
