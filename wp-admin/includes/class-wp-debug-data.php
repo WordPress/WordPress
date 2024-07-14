@@ -1299,7 +1299,7 @@ class WP_Debug_Data {
 				}
 
 				/** This filter is documented in wp-admin/includes/class-wp-debug-data.php */
-				$parent_theme_auto_update_string = apply_filters( 'theme_auto_update_debug_string', $auto_updates_string, $parent_theme, $enabled );
+				$parent_theme_auto_update_string = apply_filters( 'theme_auto_update_debug_string', $parent_theme_auto_update_string, $parent_theme, $enabled );
 
 				$info['wp-parent-theme']['fields']['auto_update'] = array(
 					'label' => __( 'Auto-update' ),
