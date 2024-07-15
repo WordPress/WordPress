@@ -32,7 +32,7 @@
 
 	@include media(mobile) {
 		margin-right: initial;
-		margin-top: 4px; // Align the baseline of the site title with the primary menu
+		margin-top: calc(var(--primary-nav--padding) - 0.3em); // Align the baseline of the site title with the primary menu
 	}
 }
 

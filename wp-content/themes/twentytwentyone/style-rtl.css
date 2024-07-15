@@ -3729,7 +3729,7 @@ table.wp-calendar-table caption {
 
 	.site-branding {
 		margin-left: initial;
-		margin-top: 4px;
+		margin-top: calc(var(--primary-nav--padding) - 0.3em);
 	}
 }
 

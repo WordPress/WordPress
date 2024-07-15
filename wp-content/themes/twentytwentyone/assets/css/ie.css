@@ -4172,7 +4172,7 @@ table.wp-calendar-table caption {
 
 	.site-branding {
 		margin-right: initial;
-		margin-top: 4px;
+		margin-top: calc(13px - 0em);
 	}
 }
 
