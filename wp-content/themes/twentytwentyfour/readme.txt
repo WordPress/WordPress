@@ -1,9 +1,9 @@
 === Twenty Twenty-Four ===
 Contributors: wordpressdotorg
 Requires at least: 6.4
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,6 +12,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collection of templates and patterns tailor to different needs, such as presenting a business, blogging and writing or showcasing work. A multitude of possibilities open up with just a few adjustments to color and typography. Twenty Twenty-Four comes with style variations and full page designs to help speed up the site building process, is fully compatible with the site editor, and takes advantage of new design tools introduced in WordPress 6.4.
 
 == Changelog ==
+
+= 1.2 =
+* Released: July 16, 2024
+
+https://wordpress.org/documentation/article/twenty-twenty-four-changelog/#Version_1.2
 
 = 1.1 =
 * Released: April 2, 2024
