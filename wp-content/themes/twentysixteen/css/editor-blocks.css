@@ -560,18 +560,17 @@ figure[class*="wp-block-"] > figcaption {
 
 /* Buttons */
 
-.wp-block-button .wp-block-button__link {
-	font-family: Montserrat, "Helvetica Neue", sans-serif;
+.wp-block-buttons {
 	font-weight: 700;
 	letter-spacing: 0.046875em;
 	line-height: 1;
-	padding: 0.84375em 1.3125em 0.78125em;
 	text-transform: uppercase;
 }
 
-.wp-block-buttons[style*="text-transform"] .wp-block-button__link,
-.wp-block-button[style*="text-transform"] .wp-block-button__link {
-	text-transform: inherit;
+.wp-block-button .wp-block-button__link {
+	box-shadow: none;
+	font-family: Montserrat, "Helvetica Neue", sans-serif;
+	padding: 0.84375em 1.3125em 0.78125em;
 }
 
 .wp-block-button__link {
