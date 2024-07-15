@@ -1,9 +1,9 @@
 === Twenty Ten ===
 Contributors: wordpressdotorg
 Requires at least: 3.0
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.2.4
-Stable tag: 4.1
+Stable tag: 4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, footer-widgets, featured-image-header, block-patterns
@@ -43,6 +43,11 @@ Images
 “Old Barn Photo” by Bonnie Moreland. CC0. https://stocksnap.io/photo/old-barn-4HMJ2KQVX9
 
 == Changelog ==
+
+= 4.2 =
+* Released: July 16, 2024
+
+https://wordpress.org/documentation/article/twenty-ten-changelog/#Version_4.2
 
 = 4.1 =
 * Released: April 2, 2024

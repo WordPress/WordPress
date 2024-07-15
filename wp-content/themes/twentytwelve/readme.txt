@@ -1,9 +1,9 @@
 === Twenty Twelve ===
 Contributors: wordpressdotorg
 Requires at least: 3.5
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.2.4
-Stable tag: 4.2
+Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, block-patterns
@@ -52,6 +52,11 @@ Source: https://fontsource.org/fonts/open-sans
 "Autumn City Photo" by Oleg Prokopenko. CC0. https://stocksnap.io/photo/autumn-city-PZP8EWR5MR
 
 == Changelog ==
+
+= 4.3 =
+* Released: July 16, 2024
+
+https://wordpress.org/documentation/article/twenty-twelve-changelog/#Version_4.3
 
 = 4.2 =
 * Released: April 2, 2024
