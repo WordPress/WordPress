@@ -13920,7 +13920,6 @@ function PublishButtonLabel() {
 
 
 
-
 const post_publish_button_noop = () => {};
 class PostPublishButton extends external_wp_element_namespaceObject.Component {
   constructor(props) {
@@ -13949,18 +13948,14 @@ class PostPublishButton extends external_wp_element_namespaceObject.Component {
     return (...args) => {
       const {
         hasNonPostEntityChanges,
-        hasPostMetaChanges,
-        setEntitiesSavedStatesCallback,
-        isPublished
+        setEntitiesSavedStatesCallback
       } = this.props;
       // If a post with non-post entities is published, but the user
       // elects to not save changes to the non-post entities, those
       // entities will still be dirty when the Publish button is clicked.
       // We also need to check that the `setEntitiesSavedStatesCallback`
       // prop was passed. See https://github.com/WordPress/gutenberg/pull/37383
-      //
-      // TODO: Explore how to manage `hasPostMetaChanges` and pre-publish workflow properly.
-      if ((hasNonPostEntityChanges || hasPostMetaChanges && isPublished) && setEntitiesSavedStatesCallback) {
+      if (hasNonPostEntityChanges && setEntitiesSavedStatesCallback) {
         // The modal for multiple entity saving will open,
         // hold the callback for saving/publishing the post
         // so that we can call it if the post entity is checked.
@@ -14094,9 +14089,8 @@ class PostPublishButton extends external_wp_element_namespaceObject.Component {
     hasNonPostEntityChanges,
     isSavingNonPostEntityChanges,
     getEditedPostAttribute,
-    getPostEdits,
-    hasPostMetaChanges
-  } = unlock(select(store_store));
+    getPostEdits
+  } = select(store_store);
   return {
     isSaving: isSavingPost(),
     isAutoSaving: isAutosavingPost(),
@@ -14112,7 +14106,6 @@ class PostPublishButton extends external_wp_element_namespaceObject.Component {
     postStatus: getEditedPostAttribute('status'),
     postStatusHasChanged: getPostEdits()?.status,
     hasNonPostEntityChanges: hasNonPostEntityChanges(),
-    hasPostMetaChanges: hasPostMetaChanges(),
     isSavingNonPostEntityChanges: isSavingNonPostEntityChanges()
   };
 }), (0,external_wp_data_namespaceObject.withDispatch)(dispatch => {
@@ -24093,7 +24086,6 @@ function ListViewSidebar() {
 
 
 
-
 const {
   Fill: save_publish_panels_Fill,
   Slot: save_publish_panels_Slot
@@ -24122,7 +24114,7 @@ function SavePublishPanels({
       isEditedPostDirty,
       hasNonPostEntityChanges
     } = select(store_store);
-    const _hasOtherEntitiesChanges = hasNonPostEntityChanges() || unlock(select(store_store)).hasPostMetaChanges();
+    const _hasOtherEntitiesChanges = hasNonPostEntityChanges();
     return {
       publishSidebarOpened: isPublishSidebarOpened(),
       isPublishable: !isCurrentPostPublished() && isEditedPostPublishable(),
