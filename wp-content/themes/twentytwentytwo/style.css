@@ -65,7 +65,7 @@ a:active {
 .wp-block-file .wp-block-file__button {
 	background-color: var(--wp--preset--color--primary);
 	border-radius: 0;
-	border: none;
+	border: 0 solid;
 	color: var(--wp--preset--color--background);
 	font-size: var(--wp--preset--font-size--medium);
 	padding: calc(.667em + 2px) calc(1.333em + 2px);
