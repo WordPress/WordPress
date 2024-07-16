@@ -272,12 +272,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-decoration: none;
 }
 
-/* Verse */
-
-.editor-styles-wrapper .wp-block-verse {
-	font-family: inherit;
-}
-
 /*--------------------------------------------------------------
 5.0 Blocks - Formatting
 --------------------------------------------------------------*/

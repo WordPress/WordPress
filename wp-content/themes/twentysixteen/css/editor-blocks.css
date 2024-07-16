@@ -552,12 +552,6 @@ figure[class*="wp-block-"] > figcaption {
 	text-align: right;
 }
 
-/* Verse */
-
-.editor-styles-wrapper .wp-block-verse {
-	font-family: inherit;
-}
-
 /*--------------------------------------------------------------
 5.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
