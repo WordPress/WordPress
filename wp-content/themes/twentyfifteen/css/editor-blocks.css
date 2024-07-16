@@ -672,6 +672,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0;
 }
 
+.wp-block-code {
+	font-family: Inconsolata, monospace;
+}
+
 /* Pullquote */
 
 .wp-block-pullquote,
