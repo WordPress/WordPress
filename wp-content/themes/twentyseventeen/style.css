@@ -2488,6 +2488,10 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	width: 1em;
 }
 
+.comment-reply-title small {
+	margin-left: 0.5em;
+}
+
 .children .comment-author .avatar {
 	height: 30px;
 	left: -45px;

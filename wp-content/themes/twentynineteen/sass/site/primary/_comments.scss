@@ -86,6 +86,10 @@
 		top: calc(-3.5 * #{$size__spacing-unit});
 		width: calc(100vw / 12 );
 	}
+
+	.comment-reply-title small {
+		margin-left: 0.5em;
+	}
 }
 
 #comments {

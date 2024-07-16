@@ -180,6 +180,11 @@ input[type="checkbox"] {
 	transform: scale(-1, 1);
 }
 
+.comment-reply-title small {
+	margin-left: 0;
+	margin-right: 0.5em;
+}
+
 .comment-author .avatar {
 	left: auto;
 	right: -65px;

@@ -4668,6 +4668,10 @@ body.page .main-navigation {
   width: calc(100vw / 12);
 }
 
+#respond .comment-reply-title small {
+  margin-right: 0.5em;
+}
+
 #comments > .comments-title:last-child {
   display: none;
 }
