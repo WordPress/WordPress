@@ -305,6 +305,10 @@ figure[class*="wp-block-"] > figcaption {
 	padding: 0 0 0 1.263157895em;
 }
 
+.editor-styles-wrapper .wp-block-quote {
+	border-color: currentColor;
+}
+
 .wp-block-quote:not(.is-large):not(.is-style-large).alignleft,
 .wp-block-quote:not(.is-large):not(.is-style-large).alignright {
 	border-left: 0;
