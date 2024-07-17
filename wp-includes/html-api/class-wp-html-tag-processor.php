@@ -2218,7 +2218,9 @@ class WP_HTML_Tag_Processor {
 			 * whitespace to a single space, which might appear cleaner
 			 * in the output HTML but produce a noisier change.
 			 */
-			$class .= substr( $existing_class, $ws_at, $ws_length );
+			if ( '' !== $class ) {
+				$class .= substr( $existing_class, $ws_at, $ws_length );
+			}
 			$class .= $name;
 		}
 
