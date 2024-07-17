@@ -694,6 +694,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Generates the list table rows.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @global string $status
 	 */
 	public function display_rows() {

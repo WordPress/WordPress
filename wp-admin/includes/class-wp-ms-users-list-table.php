@@ -470,6 +470,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
 	}
 
+	/**
+	 * Generates the list table rows.
+	 *
+	 * @since 3.1.0
+	 */
 	public function display_rows() {
 		foreach ( $this->items as $user ) {
 			$class = '';

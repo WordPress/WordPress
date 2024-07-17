@@ -708,6 +708,10 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Generates the list table rows.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @global WP_Post  $post     Global post object.
 	 * @global WP_Query $wp_query WordPress Query object.
 	 */
