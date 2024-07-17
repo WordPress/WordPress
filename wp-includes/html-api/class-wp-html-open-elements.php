@@ -499,7 +499,8 @@ class WP_HTML_Open_Elements {
 	 * @since 6.4.0
 	 * @since 6.5.0 Accepts $above_this_node to start traversal above a given node, if it exists.
 	 *
-	 * @param ?WP_HTML_Token $above_this_node Start traversing above this node, if provided and if the node exists.
+	 * @param WP_HTML_Token|null $above_this_node Optional. Start traversing above this node,
+	 *                                            if provided and if the node exists.
 	 */
 	public function walk_up( $above_this_node = null ) {
 		$has_found_node = null === $above_this_node;

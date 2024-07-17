@@ -7497,8 +7497,9 @@ function get_tag_regex( $tag ) {
  *
  * @since 6.6.0
  *
- * @param ?string $blog_charset Slug representing a text character encoding, or "charset".
- *                              E.g. "UTF-8", "Windows-1252", "ISO-8859-1", "SJIS".
+ * @param string|null $blog_charset Optional. Slug representing a text character encoding, or "charset".
+ *                                  E.g. "UTF-8", "Windows-1252", "ISO-8859-1", "SJIS".
+ *                                  Default value is to infer from "blog_charset" option.
  * @return bool Whether the slug represents the UTF-8 encoding.
  */
 function is_utf8_charset( $blog_charset = null ) {

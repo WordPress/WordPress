@@ -241,14 +241,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.6.0
 	 *
-	 * @var ?WP_HTML_Stack_Event
+	 * @var WP_HTML_Stack_Event|null
 	 */
 	private $current_element = null;
 
 	/**
 	 * Context node if created as a fragment parser.
 	 *
-	 * @var ?WP_HTML_Token
+	 * @var WP_HTML_Token|null
 	 */
 	private $context_node = null;
 
@@ -752,9 +752,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *       this returns false for self-closing elements in the
 	 *       SVG and MathML namespace.
 	 *
-	 * @param  ?WP_HTML_Token $node Node to examine instead of current node, if provided.
-	 * @return bool Whether to expect a closer for the currently-matched node,
-	 *              or `null` if not matched on any token.
+	 * @param WP_HTML_Token|null $node Optional. Node to examine, if provided.
+	 *                                 Default is to examine current node.
+	 * @return bool|null Whether to expect a closer for the currently-matched node,
+	 *                   or `null` if not matched on any token.
 	 */
 	public function expects_closer( $node = null ) {
 		$token_name = $node->node_name ?? $this->get_token_name();
