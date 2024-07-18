@@ -2879,8 +2879,23 @@ class WP_Theme_JSON {
 			$declarations = static::update_separator_declarations( $declarations );
 		}
 
+		/*
+		 * Top-level element styles using element-only specificity selectors should
+		 * not get wrapped in `:root :where()` to maintain backwards compatibility.
+		 *
+		 * Pseudo classes, e.g. :hover, :focus etc., are a class-level selector so
+		 * still need to be wrapped in `:root :where` to cap specificity for nested
+		 * variations etc. Pseudo selectors won't match the ELEMENTS selector exactly.
+		 */
+		$element_only_selector = $current_element &&
+			isset( static::ELEMENTS[ $current_element ] ) &&
+			// buttons, captions etc. still need `:root :where()` as they are class based selectors.
+			! isset( static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[ $current_element ] ) &&
+			static::ELEMENTS[ $current_element ] === $selector;
+
 		// 2. Generate and append the rules that use the general selector.
-		$block_rules .= static::to_ruleset( ":root :where($selector)", $declarations );
+		$general_selector = $element_only_selector ? $selector : ":root :where($selector)";
+		$block_rules     .= static::to_ruleset( $general_selector, $declarations );
 
 		// 3. Generate and append the rules that use the duotone selector.
 		if ( isset( $block_metadata['duotone'] ) && ! empty( $declarations_duotone ) ) {
