@@ -7496,26 +7496,17 @@ function get_tag_regex( $tag ) {
  *     $is_utf8 = is_utf8_charset();
  *
  * @since 6.6.0
+ * @since 6.6.1 A wrapper for _is_utf8_charset
  *
- * @param ?string $blog_charset Slug representing a text character encoding, or "charset".
- *                              E.g. "UTF-8", "Windows-1252", "ISO-8859-1", "SJIS".
+ * @see _is_utf8_charset
+ *
+ * @param string|null $blog_charset Optional. Slug representing a text character encoding, or "charset".
+ *                                  E.g. "UTF-8", "Windows-1252", "ISO-8859-1", "SJIS".
+ *                                  Default value is to infer from "blog_charset" option.
  * @return bool Whether the slug represents the UTF-8 encoding.
  */
 function is_utf8_charset( $blog_charset = null ) {
-	$charset_to_examine = $blog_charset ?? get_option( 'blog_charset' );
-
-	/*
-	 * Only valid string values count: the absence of a charset
-	 * does not imply any charset, let alone UTF-8.
-	 */
-	if ( ! is_string( $charset_to_examine ) ) {
-		return false;
-	}
-
-	return (
-		0 === strcasecmp( 'UTF-8', $charset_to_examine ) ||
-		0 === strcasecmp( 'UTF8', $charset_to_examine )
-	);
+	return _is_utf8_charset( $blog_charset ?? get_option( 'blog_charset' ) );
 }
 
 /**
