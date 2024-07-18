@@ -1659,10 +1659,7 @@ ol,ul{
 .wp-block-navigation.has-text-decoration-line-through .wp-block-navigation-item__content,.wp-block-navigation.has-text-decoration-line-through .wp-block-navigation-item__content:active,.wp-block-navigation.has-text-decoration-line-through .wp-block-navigation-item__content:focus{
   text-decoration:line-through;
 }
-.wp-block-navigation:where(:not([class*=has-text-decoration])) a{
-  text-decoration:none;
-}
-.wp-block-navigation:where(:not([class*=has-text-decoration])) a:active,.wp-block-navigation:where(:not([class*=has-text-decoration])) a:focus{
+.wp-block-navigation :where(a),.wp-block-navigation :where(a:active),.wp-block-navigation :where(a:focus){
   text-decoration:none;
 }
 .wp-block-navigation .wp-block-navigation__submenu-icon{

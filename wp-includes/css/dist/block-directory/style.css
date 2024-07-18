@@ -68,6 +68,7 @@
   grid-template-columns:auto 1fr;
   height:auto;
   padding:12px;
+  position:relative;
   text-align:left;
   width:100%;
 }
