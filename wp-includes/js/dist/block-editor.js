@@ -17018,9 +17018,13 @@ const EMPTY_CONFIG = {
 const VALID_SETTINGS = ['appearanceTools', 'useRootPaddingAwareAlignments', 'background.backgroundImage', 'background.backgroundRepeat', 'background.backgroundSize', 'background.backgroundPosition', 'border.color', 'border.radius', 'border.style', 'border.width', 'shadow.presets', 'shadow.defaultPresets', 'color.background', 'color.button', 'color.caption', 'color.custom', 'color.customDuotone', 'color.customGradient', 'color.defaultDuotone', 'color.defaultGradients', 'color.defaultPalette', 'color.duotone', 'color.gradients', 'color.heading', 'color.link', 'color.palette', 'color.text', 'custom', 'dimensions.aspectRatio', 'dimensions.minHeight', 'layout.contentSize', 'layout.definitions', 'layout.wideSize', 'lightbox.enabled', 'lightbox.allowEditing', 'position.fixed', 'position.sticky', 'spacing.customSpacingSize', 'spacing.defaultSpacingSizes', 'spacing.spacingSizes', 'spacing.spacingScale', 'spacing.blockGap', 'spacing.margin', 'spacing.padding', 'spacing.units', 'typography.fluid', 'typography.customFontSize', 'typography.defaultFontSizes', 'typography.dropCap', 'typography.fontFamilies', 'typography.fontSizes', 'typography.fontStyle', 'typography.fontWeight', 'typography.letterSpacing', 'typography.lineHeight', 'typography.textAlign', 'typography.textColumns', 'typography.textDecoration', 'typography.textTransform', 'typography.writingMode'];
 const useGlobalStylesReset = () => {
   const {
-    user: config,
+    user,
     setUserConfig
   } = (0,external_wp_element_namespaceObject.useContext)(GlobalStylesContext);
+  const config = {
+    settings: user.settings,
+    styles: user.styles
+  };
   const canReset = !!config && !es6_default()(config, EMPTY_CONFIG);
   return [canReset, (0,external_wp_element_namespaceObject.useCallback)(() => setUserConfig(EMPTY_CONFIG), [setUserConfig])];
 };
@@ -19717,15 +19721,19 @@ const external_wp_styleEngine_namespaceObject = window["wp"]["styleEngine"];
       const paddingValues = (0,external_wp_styleEngine_namespaceObject.getCSSRules)(style);
       paddingValues.forEach(rule => {
         if (rule.key === 'paddingRight') {
+          // Add unit if 0, to avoid calc(0 * -1) which is invalid.
+          const paddingRightValue = rule.value === '0' ? '0px' : rule.value;
           output += `
 					${appendSelectors(selector, '> .alignfull')} {
-						margin-right: calc(${rule.value} * -1);
+						margin-right: calc(${paddingRightValue} * -1);
 					}
 					`;
         } else if (rule.key === 'paddingLeft') {
+          // Add unit if 0, to avoid calc(0 * -1) which is invalid.
+          const paddingLeftValue = rule.value === '0' ? '0px' : rule.value;
           output += `
 					${appendSelectors(selector, '> .alignfull')} {
-						margin-left: calc(${rule.value} * -1);
+						margin-left: calc(${paddingLeftValue} * -1);
 					}
 					`;
         }
@@ -19872,11 +19880,18 @@ function useBlockRef(clientId) {
  * @return {Element|null} The block's wrapper element.
  */
 function useBlockElement(clientId) {
-  var _useObservableValue;
   const {
     refsMap
   } = (0,external_wp_element_namespaceObject.useContext)(BlockRefs);
-  return (_useObservableValue = (0,external_wp_compose_namespaceObject.useObservableValue)(refsMap, clientId)) !== null && _useObservableValue !== void 0 ? _useObservableValue : null;
+  const [blockElement, setBlockElement] = (0,external_wp_element_namespaceObject.useState)(null);
+  // Delay setting the resulting `blockElement` until an effect. If the block element
+  // changes (i.e., the block is unmounted and re-mounted), this allows enough time
+  // for the ref callbacks to clean up the old element and set the new one.
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    setBlockElement(refsMap.get(clientId));
+    return refsMap.subscribe(clientId, () => setBlockElement(refsMap.get(clientId)));
+  }, [refsMap, clientId]);
+  return blockElement;
 }
 
 
@@ -33721,6 +33736,12 @@ function position_useBlockProps({
 
 
 
+// Elements that rely on class names in their selectors.
+const ELEMENT_CLASS_NAMES = {
+  button: 'wp-element-button',
+  caption: 'wp-element-caption'
+};
+
 // List of block support features that can have their related styles
 // generated under their own feature level selector rather than the block's.
 const BLOCK_SUPPORT_FEATURE_LEVEL_SELECTORS = {
@@ -34149,7 +34170,10 @@ const getNodesWithStyles = (tree, blockSelectors) => {
     if (tree.styles?.elements?.[name]) {
       nodes.push({
         styles: tree.styles?.elements?.[name],
-        selector
+        selector,
+        // Top level elements that don't use a class name should not receive the
+        // `:root :where()` wrapper to maintain backwards compatibility.
+        skipSelectorWrapper: !ELEMENT_CLASS_NAMES[name]
       });
     }
   });
@@ -34363,7 +34387,8 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
       fallbackGapValue,
       hasLayoutSupport,
       featureSelectors,
-      styleVariationSelectors
+      styleVariationSelectors,
+      skipSelectorWrapper
     }) => {
       // Process styles for block support features with custom feature level
       // CSS selectors set.
@@ -34404,7 +34429,8 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
       // Process the remaining block styles (they use either normal block class or __experimentalSelector).
       const styleDeclarations = getStylesDeclarations(styles, selector, useRootPaddingAlign, tree, disableRootPadding);
       if (styleDeclarations?.length) {
-        ruleset += `:root :where(${selector}){${styleDeclarations.join(';')};}`;
+        const generalSelector = skipSelectorWrapper ? selector : `:root :where(${selector})`;
+        ruleset += `${generalSelector}{${styleDeclarations.join(';')};}`;
       }
       if (styles?.css) {
         ruleset += processCSSNesting(styles.css, `:root :where(${selector})`);
@@ -34454,7 +34480,12 @@ const toStyles = (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSuppor
           // Split and append pseudo selector to create
           // the proper rules to target the elements.
           const _selector = selector.split(',').map(sel => sel + pseudoKey).join(',');
-          const pseudoRule = `${_selector}{${pseudoDeclarations.join(';')};}`;
+
+          // As pseudo classes such as :hover, :focus etc. have class-level
+          // specificity, they must use the `:root :where()` wrapper. This.
+          // caps the specificity at `0-1-0` to allow proper nesting of variations
+          // and block type element styles.
+          const pseudoRule = `:root :where(${_selector}){${pseudoDeclarations.join(';')};}`;
           ruleset += pseudoRule;
         });
       }
@@ -54750,7 +54781,7 @@ function Shuffle({
       );
     });
   }, [categories, patterns]);
-  if (sameCategoryPatternsWithSingleWrapper.length === 0) {
+  if (sameCategoryPatternsWithSingleWrapper.length < 2) {
     return null;
   }
   function getNextPattern() {
@@ -67869,12 +67900,12 @@ function ReusableBlocksRenameHint() {
 
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/elements/index.js
-const ELEMENT_CLASS_NAMES = {
+const elements_ELEMENT_CLASS_NAMES = {
   button: 'wp-element-button',
   caption: 'wp-element-caption'
 };
 const __experimentalGetElementClassName = element => {
-  return ELEMENT_CLASS_NAMES[element] ? ELEMENT_CLASS_NAMES[element] : '';
+  return elements_ELEMENT_CLASS_NAMES[element] ? elements_ELEMENT_CLASS_NAMES[element] : '';
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/get-px-from-css-unit.js
