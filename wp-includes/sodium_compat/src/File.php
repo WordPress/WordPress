@@ -25,8 +25,13 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function box($inputFile, $outputFile, $nonce, $keyPair)
-    {
+    public static function box(
+        $inputFile,
+        $outputFile,
+        $nonce,
+        #[\SensitiveParameter]
+        $keyPair
+    ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($inputFile) . ' given.');
@@ -91,8 +96,13 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function box_open($inputFile, $outputFile, $nonce, $keypair)
-    {
+    public static function box_open(
+        $inputFile,
+        $outputFile,
+        $nonce,
+        #[\SensitiveParameter]
+        $keypair
+    ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($inputFile) . ' given.');
@@ -161,8 +171,12 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function box_seal($inputFile, $outputFile, $publicKey)
-    {
+    public static function box_seal(
+        $inputFile,
+        $outputFile,
+        #[\SensitiveParameter]
+        $publicKey
+    ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($inputFile) . ' given.');
@@ -265,8 +279,12 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function box_seal_open($inputFile, $outputFile, $ecdhKeypair)
-    {
+    public static function box_seal_open(
+        $inputFile,
+        $outputFile,
+        #[\SensitiveParameter]
+        $ecdhKeypair
+    ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($inputFile) . ' given.');
@@ -350,8 +368,12 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws TypeError
      * @psalm-suppress FailedTypeResolution
      */
-    public static function generichash($filePath, $key = '', $outputLength = 32)
-    {
+    public static function generichash(
+        $filePath,
+        #[\SensitiveParameter]
+        $key = '',
+        $outputLength = 32
+    ) {
         /* Type checks: */
         if (!is_string($filePath)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($filePath) . ' given.');
@@ -428,8 +450,13 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function secretbox($inputFile, $outputFile, $nonce, $key)
-    {
+    public static function secretbox(
+        $inputFile,
+        $outputFile,
+        $nonce,
+        #[\SensitiveParameter]
+        $key
+    ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($inputFile) . ' given..');
@@ -493,8 +520,13 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function secretbox_open($inputFile, $outputFile, $nonce, $key)
-    {
+    public static function secretbox_open(
+        $inputFile,
+        $outputFile,
+        $nonce,
+        #[\SensitiveParameter]
+        $key
+    ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($inputFile) . ' given.');
@@ -560,8 +592,11 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function sign($filePath, $secretKey)
-    {
+    public static function sign(
+        $filePath,
+        #[\SensitiveParameter]
+        $secretKey
+    ) {
         /* Type checks: */
         if (!is_string($filePath)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($filePath) . ' given.');
@@ -656,8 +691,11 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws TypeError
      * @throws Exception
      */
-    public static function verify($sig, $filePath, $publicKey)
-    {
+    public static function verify(
+        $sig,
+        $filePath,
+        $publicKey
+    ) {
         /* Type checks: */
         if (!is_string($sig)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($sig) . ' given.');

@@ -40,25 +40,37 @@ class ParagonIE_Sodium_Core_Curve25519_Ge_Cached
      * @param ParagonIE_Sodium_Core_Curve25519_Fe|null $T2d
      */
     public function __construct(
-        ParagonIE_Sodium_Core_Curve25519_Fe $YplusX = null,
-        ParagonIE_Sodium_Core_Curve25519_Fe $YminusX = null,
-        ParagonIE_Sodium_Core_Curve25519_Fe $Z = null,
-        ParagonIE_Sodium_Core_Curve25519_Fe $T2d = null
+        $YplusX = null,
+        $YminusX = null,
+        $Z = null,
+        $T2d = null
     ) {
         if ($YplusX === null) {
             $YplusX = new ParagonIE_Sodium_Core_Curve25519_Fe();
+        }
+        if (!($YplusX instanceof ParagonIE_Sodium_Core_Curve25519_Fe)) {
+            throw new TypeError('Argument 1 must be an instance of ParagonIE_Sodium_Core_Curve25519_Fe');
         }
         $this->YplusX = $YplusX;
         if ($YminusX === null) {
             $YminusX = new ParagonIE_Sodium_Core_Curve25519_Fe();
         }
+        if (!($YminusX instanceof ParagonIE_Sodium_Core_Curve25519_Fe)) {
+            throw new TypeError('Argument 2 must be an instance of ParagonIE_Sodium_Core_Curve25519_Fe');
+        }
         $this->YminusX = $YminusX;
         if ($Z === null) {
             $Z = new ParagonIE_Sodium_Core_Curve25519_Fe();
         }
+        if (!($Z instanceof ParagonIE_Sodium_Core_Curve25519_Fe)) {
+            throw new TypeError('Argument 3 must be an instance of ParagonIE_Sodium_Core_Curve25519_Fe');
+        }
         $this->Z = $Z;
         if ($T2d === null) {
             $T2d = new ParagonIE_Sodium_Core_Curve25519_Fe();
+        }
+        if (!($T2d instanceof ParagonIE_Sodium_Core_Curve25519_Fe)) {
+            throw new TypeError('Argument 4 must be an instance of ParagonIE_Sodium_Core_Curve25519_Fe');
         }
         $this->T2d = $T2d;
     }
