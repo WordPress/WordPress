@@ -1272,23 +1272,13 @@ label.post-format-icon {
 	margin: 0;
 }
 
-.categorydiv,
-.customlinkdiv,
-.posttypediv,
-.taxonomydiv {
-	max-height: inherit;
-	height: 100%;
-}
-
 .wp-tab-panel,
 .categorydiv div.tabs-panel,
 .customlinkdiv div.tabs-panel,
 .posttypediv div.tabs-panel,
 .taxonomydiv div.tabs-panel {
 	min-height: 42px;
-	/* Allow space for content after tab panels in nav menu editor. */
-	max-height: calc( 100% - 75px );
-	height: 100%;
+	max-height: 200px;
 	overflow: auto;
 	padding: 0 0.9em;
 	border: solid 1px #dcdcde;

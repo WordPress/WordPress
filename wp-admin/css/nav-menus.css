@@ -53,6 +53,24 @@ ul.add-menu-item-tabs li {
 	max-height: inherit;
 }
 
+#menu-settings-column .categorydiv,
+#menu-settings-column .customlinkdiv,
+#menu-settings-column .posttypediv,
+#menu-settings-column .taxonomydiv {
+	max-height: inherit;
+	height: 100%;
+}
+
+#menu-settings-column .wp-tab-panel,
+#menu-settings-column .categorydiv div.tabs-panel,
+#menu-settings-column .customlinkdiv div.tabs-panel,
+#menu-settings-column .posttypediv div.tabs-panel,
+#menu-settings-column .taxonomydiv div.tabs-panel {
+	/* Allow space for content after tab panels in nav menu editor. */
+	max-height: calc( 100% - 75px );
+	height: 100%;
+}
+
 .metabox-holder-disabled .postbox,
 .metabox-holder-disabled .accordion-section-content,
 .metabox-holder-disabled .accordion-section-title {
