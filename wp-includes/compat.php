@@ -40,6 +40,43 @@ function _wp_can_use_pcre_u( $set = null ) {
 	return $utf8_pcre;
 }
 
+/**
+ * Indicates if a given slug for a character set represents the UTF-8 text encoding.
+ *
+ * A charset is considered to represent UTF-8 if it is a case-insensitive match
+ * of "UTF-8" with or without the hyphen.
+ *
+ * Example:
+ *
+ *     true  === _is_utf8_charset( 'UTF-8' );
+ *     true  === _is_utf8_charset( 'utf8' );
+ *     false === _is_utf8_charset( 'latin1' );
+ *     false === _is_utf8_charset( 'UTF 8' );
+ *
+ *     // Only strings match.
+ *     false === _is_utf8_charset( [ 'charset' => 'utf-8' ] );
+ *
+ * `is_utf8_charset` should be used outside of this file.
+ *
+ * @ignore
+ * @since 6.6.1
+ *
+ * @param string $charset_slug Slug representing a text character encoding, or "charset".
+ *                             E.g. "UTF-8", "Windows-1252", "ISO-8859-1", "SJIS".
+ *
+ * @return bool Whether the slug represents the UTF-8 encoding.
+ */
+function _is_utf8_charset( $charset_slug ) {
+	if ( ! is_string( $charset_slug ) ) {
+		return false;
+	}
+
+	return (
+		0 === strcasecmp( 'UTF-8', $charset_slug ) ||
+		0 === strcasecmp( 'UTF8', $charset_slug )
+	);
+}
+
 if ( ! function_exists( 'mb_substr' ) ) :
 	/**
 	 * Compat function to mimic mb_substr().
@@ -91,7 +128,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different
 	 * charset just use built-in substr().
 	 */
-	if ( ! is_utf8_charset( $encoding ) ) {
+	if ( ! _is_utf8_charset( $encoding ) ) {
 		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
 	}
 
@@ -176,7 +213,7 @@ function _mb_strlen( $str, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different charset
 	 * just use built-in strlen().
 	 */
-	if ( ! is_utf8_charset( $encoding ) ) {
+	if ( ! _is_utf8_charset( $encoding ) ) {
 		return strlen( $str );
 	}
 
