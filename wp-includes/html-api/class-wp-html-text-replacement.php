@@ -56,7 +56,7 @@ class WP_HTML_Text_Replacement {
 	 * @param int    $length Byte length of span in document being replaced.
 	 * @param string $text   Span of text to insert in document to replace existing content from start to end.
 	 */
-	public function __construct( $start, $length, $text ) {
+	public function __construct( int $start, int $length, string $text ) {
 		$this->start  = $start;
 		$this->length = $length;
 		$this->text   = $text;

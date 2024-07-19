@@ -51,7 +51,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 * @param WP_HTML_Token $token Look for this node in the stack.
 	 * @return bool Whether the referenced node is in the stack of active formatting elements.
 	 */
-	public function contains_node( $token ) {
+	public function contains_node( WP_HTML_Token $token ) {
 		foreach ( $this->walk_up() as $item ) {
 			if ( $token->bookmark_name === $item->bookmark_name ) {
 				return true;
@@ -95,7 +95,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 *
 	 * @param WP_HTML_Token $token Push this node onto the stack.
 	 */
-	public function push( $token ) {
+	public function push( WP_HTML_Token $token ) {
 		/*
 		 * > If there are already three elements in the list of active formatting elements after the last marker,
 		 * > if any, or anywhere in the list if there are no markers, that have the same tag name, namespace, and
@@ -119,7 +119,7 @@ class WP_HTML_Active_Formatting_Elements {
 	 * @param WP_HTML_Token $token Remove this node from the stack, if it's there already.
 	 * @return bool Whether the node was found and removed from the stack of active formatting elements.
 	 */
-	public function remove_node( $token ) {
+	public function remove_node( WP_HTML_Token $token ) {
 		foreach ( $this->walk_up() as $position_from_end => $item ) {
 			if ( $token->bookmark_name !== $item->bookmark_name ) {
 				continue;
