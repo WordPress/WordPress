@@ -405,6 +405,10 @@ Description: Used to style blocks in the editor.
 	padding: 0;
 }
 
+div.editor-styles-wrapper .wp-block-list:where(.has-background) {
+	padding: 1.25em 2.375em;
+}
+
 /* Quote */
 
 .rtl .editor-block-list__block blockquote {
