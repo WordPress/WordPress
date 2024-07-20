@@ -97,7 +97,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 		if ( 'post' === get_post_type() ) {
 			if ( is_singular() || is_multi_author() ) {
 				printf(
-					'<span class="byline"><span class="author vcard"><span class="screen-reader-text">%1$s </span><a class="url fn n" href="%2$s">%3$s</a></span></span>',
+					'<span class="byline"><span class="screen-reader-text">%1$s </span><span class="author vcard"><a class="url fn n" href="%2$s">%3$s</a></span></span>',
 					/* translators: Hidden accessibility text. */
 					_x( 'Author', 'Used before post author name.', 'twentyfifteen' ),
 					esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
