@@ -7,7 +7,7 @@
  * Block Types: core/post-content
  * Post Types: page, wp_template
  * Viewport width: 1400
- * Description: A porfolio home page that features a gallery.
+ * Description: A portfolio home page that features a gallery.
  */
 ?>
 

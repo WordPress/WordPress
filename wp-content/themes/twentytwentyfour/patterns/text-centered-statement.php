@@ -5,7 +5,7 @@
  * Categories: text, about, featured
  * Keywords: mission, introduction
  * Viewport width: 1400
- * Description: A centered text statement with a large paddings.
+ * Description: A centered text statement with a large amount of padding on all sides.
  */
 ?>
 

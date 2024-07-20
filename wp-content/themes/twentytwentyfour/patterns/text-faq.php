@@ -5,7 +5,7 @@
  * Categories: text, about, featured
  * Keywords: faq, about, frequently asked
  * Viewport width: 1400
- * Description: A FAQ section with a large FAQ heading and list of toggle questions and answers.
+ * Description: A FAQ section with a large FAQ heading and a group of questions and answers.
  */
 ?>
 
