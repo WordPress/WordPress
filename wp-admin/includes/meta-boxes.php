@@ -1354,7 +1354,7 @@ function link_xfn_meta_box( $link ) {
 			<input class="valinp" type="radio" name="friendship" value="friend" id="friend" <?php xfn_check( 'friendship', 'friend' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'friend' ); ?>
 			</label>
 			<label for="friendship">
-			<input name="friendship" type="radio" class="valinp" value="" id="friendship" <?php xfn_check( 'friendship' ); ?> />&nbsp;<?php /* translators: xfn (friendship relation): http://gmpg.org/xfn/ */ _x( 'none', 'Type of relation' ); ?>
+			<input name="friendship" type="radio" class="valinp" value="" id="friendship" <?php xfn_check( 'friendship' ); ?> />&nbsp;<?php /* translators: xfn (friendship relation): http://gmpg.org/xfn/ */ _ex( 'none', 'Type of relation' ); ?>
 			</label>
 		</fieldset></td>
 	</tr>
@@ -1405,7 +1405,7 @@ function link_xfn_meta_box( $link ) {
 			<input class="valinp" type="radio" name="geographical" value="neighbor" id="neighbor" <?php xfn_check( 'geographical', 'neighbor' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'neighbor' ); ?>
 			</label>
 			<label for="geographical">
-			<input class="valinp" type="radio" name="geographical" value="" id="geographical" <?php xfn_check( 'geographical' ); ?> />&nbsp;<?php /* translators: xfn (geographical relation): http://gmpg.org/xfn/ */ _x( 'none', 'Type of relation' ); ?>
+			<input class="valinp" type="radio" name="geographical" value="" id="geographical" <?php xfn_check( 'geographical' ); ?> />&nbsp;<?php /* translators: xfn (geographical relation): http://gmpg.org/xfn/ */ _ex( 'none', 'Type of relation' ); ?>
 			</label>
 		</fieldset></td>
 	</tr>
@@ -1434,7 +1434,7 @@ function link_xfn_meta_box( $link ) {
 			<input class="valinp" type="radio" name="family" value="spouse" id="spouse" <?php xfn_check( 'family', 'spouse' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'spouse' ); ?>
 			</label>
 			<label for="family">
-			<input class="valinp" type="radio" name="family" value="" id="family" <?php xfn_check( 'family' ); ?> />&nbsp;<?php /* translators: xfn (family relation): http://gmpg.org/xfn/ */ _x( 'none', 'Type of relation' ); ?>
+			<input class="valinp" type="radio" name="family" value="" id="family" <?php xfn_check( 'family' ); ?> />&nbsp;<?php /* translators: xfn (family relation): http://gmpg.org/xfn/ */ _ex( 'none', 'Type of relation' ); ?>
 			</label>
 		</fieldset></td>
 	</tr>
