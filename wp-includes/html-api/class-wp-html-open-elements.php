@@ -102,6 +102,49 @@ class WP_HTML_Open_Elements {
 	}
 
 	/**
+	 * Returns the name of the node at the nth position on the stack
+	 * of open elements, or `null` if no such position exists.
+	 *
+	 * Note that this uses a 1-based index, which represents the
+	 * "nth item" on the stack, counting from the top, where the
+	 * top-most element is the 1st, the second is the 2nd, etc...
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param int $nth Retrieve the nth item on the stack, with 1 being
+	 *                 the top element, 2 being the second, etc...
+	 * @return string|null Name of the node on the stack at the given location,
+	 *                     or `null` if the location isn't on the stack.
+	 */
+	public function at( int $nth ): ?string {
+		foreach ( $this->walk_down() as $item ) {
+			if ( 0 === --$nth ) {
+				return $item->node_name;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Reports if a node of a given name is in the stack of open elements.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param string $node_name Name of node for which to check.
+	 * @return bool Whether a node of the given name is in the stack of open elements.
+	 */
+	public function contains( string $node_name ): bool {
+		foreach ( $this->walk_up() as $item ) {
+			if ( $node_name === $item->node_name ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Reports if a specific node is in the stack of open elements.
 	 *
 	 * @since 6.4.0
@@ -111,7 +154,7 @@ class WP_HTML_Open_Elements {
 	 */
 	public function contains_node( WP_HTML_Token $token ): bool {
 		foreach ( $this->walk_up() as $item ) {
-			if ( $token->bookmark_name === $item->bookmark_name ) {
+			if ( $token === $item ) {
 				return true;
 			}
 		}
@@ -210,11 +253,6 @@ class WP_HTML_Open_Elements {
 				return true;
 			}
 
-			switch ( $node->node_name ) {
-				case 'HTML':
-					return false;
-			}
-
 			if ( in_array( $node->node_name, $termination_list, true ) ) {
 				return false;
 			}
@@ -226,7 +264,31 @@ class WP_HTML_Open_Elements {
 	/**
 	 * Returns whether a particular element is in scope.
 	 *
+	 * > The stack of open elements is said to have a particular element in
+	 * > scope when it has that element in the specific scope consisting of
+	 * > the following element types:
+	 * >
+	 * >   - applet
+	 * >   - caption
+	 * >   - html
+	 * >   - table
+	 * >   - td
+	 * >   - th
+	 * >   - marquee
+	 * >   - object
+	 * >   - template
+	 * >   - MathML mi
+	 * >   - MathML mo
+	 * >   - MathML mn
+	 * >   - MathML ms
+	 * >   - MathML mtext
+	 * >   - MathML annotation-xml
+	 * >   - SVG foreignObject
+	 * >   - SVG desc
+	 * >   - SVG title
+	 *
 	 * @since 6.4.0
+	 * @since 6.7.0 Supports all required HTML elements.
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-scope
 	 *
@@ -237,14 +299,16 @@ class WP_HTML_Open_Elements {
 		return $this->has_element_in_specific_scope(
 			$tag_name,
 			array(
-
-				/*
-				 * Because it's not currently possible to encounter
-				 * one of the termination elements, they don't need
-				 * to be listed here. If they were, they would be
-				 * unreachable and only waste CPU cycles while
-				 * scanning through HTML.
-				 */
+				'APPLET',
+				'CAPTION',
+				'HTML',
+				'TABLE',
+				'TD',
+				'TH',
+				'MARQUEE',
+				'OBJECT',
+				'TEMPLATE',
+				// @todo: Support SVG and MathML nodes when support for foreign content is added.
 			)
 		);
 	}
@@ -252,8 +316,17 @@ class WP_HTML_Open_Elements {
 	/**
 	 * Returns whether a particular element is in list item scope.
 	 *
+	 * > The stack of open elements is said to have a particular element
+	 * > in list item scope when it has that element in the specific scope
+	 * > consisting of the following element types:
+	 * >
+	 * >   - All the element types listed above for the has an element in scope algorithm.
+	 * >   - ol in the HTML namespace
+	 * >   - ul in the HTML namespace
+	 *
 	 * @since 6.4.0
 	 * @since 6.5.0 Implemented: no longer throws on every invocation.
+	 * @since 6.7.0 Supports all required HTML elements.
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-list-item-scope
 	 *
@@ -264,9 +337,19 @@ class WP_HTML_Open_Elements {
 		return $this->has_element_in_specific_scope(
 			$tag_name,
 			array(
-				// There are more elements that belong here which aren't currently supported.
+				'APPLET',
+				'BUTTON',
+				'CAPTION',
+				'HTML',
+				'TABLE',
+				'TD',
+				'TH',
+				'MARQUEE',
+				'OBJECT',
 				'OL',
+				'TEMPLATE',
 				'UL',
+				// @todo: Support SVG and MathML nodes when support for foreign content is added.
 			)
 		);
 	}
@@ -274,7 +357,15 @@ class WP_HTML_Open_Elements {
 	/**
 	 * Returns whether a particular element is in button scope.
 	 *
+	 * > The stack of open elements is said to have a particular element
+	 * > in button scope when it has that element in the specific scope
+	 * > consisting of the following element types:
+	 * >
+	 * >   - All the element types listed above for the has an element in scope algorithm.
+	 * >   - button in the HTML namespace
+	 *
 	 * @since 6.4.0
+	 * @since 6.7.0 Supports all required HTML elements.
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-button-scope
 	 *
@@ -282,25 +373,52 @@ class WP_HTML_Open_Elements {
 	 * @return bool Whether given element is in scope.
 	 */
 	public function has_element_in_button_scope( string $tag_name ): bool {
-		return $this->has_element_in_specific_scope( $tag_name, array( 'BUTTON' ) );
+		return $this->has_element_in_specific_scope(
+			$tag_name,
+			array(
+				'APPLET',
+				'BUTTON',
+				'CAPTION',
+				'HTML',
+				'TABLE',
+				'TD',
+				'TH',
+				'MARQUEE',
+				'OBJECT',
+				'TEMPLATE',
+				// @todo: Support SVG and MathML nodes when support for foreign content is added.
+			)
+		);
 	}
 
 	/**
 	 * Returns whether a particular element is in table scope.
 	 *
+	 * > The stack of open elements is said to have a particular element
+	 * > in table scope when it has that element in the specific scope
+	 * > consisting of the following element types:
+	 * >
+	 * >   - html in the HTML namespace
+	 * >   - table in the HTML namespace
+	 * >   - template in the HTML namespace
+	 *
 	 * @since 6.4.0
+	 * @since 6.7.0 Full implementation.
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-table-scope
-	 *
-	 * @throws WP_HTML_Unsupported_Exception Always until this function is implemented.
 	 *
 	 * @param string $tag_name Name of tag to check.
 	 * @return bool Whether given element is in scope.
 	 */
 	public function has_element_in_table_scope( string $tag_name ): bool {
-		throw new WP_HTML_Unsupported_Exception( 'Cannot process elements depending on table scope.' );
-
-		return false; // The linter requires this unreachable code until the function is implemented and can return.
+		return $this->has_element_in_specific_scope(
+			$tag_name,
+			array(
+				'HTML',
+				'TABLE',
+				'TEMPLATE',
+			)
+		);
 	}
 
 	/**
@@ -540,7 +658,16 @@ class WP_HTML_Open_Elements {
 		 * cases where the precalculated value needs to change.
 		 */
 		switch ( $item->node_name ) {
+			case 'APPLET':
 			case 'BUTTON':
+			case 'CAPTION':
+			case 'HTML':
+			case 'TABLE':
+			case 'TD':
+			case 'TH':
+			case 'MARQUEE':
+			case 'OBJECT':
+			case 'TEMPLATE':
 				$this->has_p_in_button_scope = false;
 				break;
 
@@ -573,11 +700,17 @@ class WP_HTML_Open_Elements {
 		 * cases where the precalculated value needs to change.
 		 */
 		switch ( $item->node_name ) {
+			case 'APPLET':
 			case 'BUTTON':
-				$this->has_p_in_button_scope = $this->has_element_in_button_scope( 'P' );
-				break;
-
+			case 'CAPTION':
+			case 'HTML':
 			case 'P':
+			case 'TABLE':
+			case 'TD':
+			case 'TH':
+			case 'MARQUEE':
+			case 'OBJECT':
+			case 'TEMPLATE':
 				$this->has_p_in_button_scope = $this->has_element_in_button_scope( 'P' );
 				break;
 		}
