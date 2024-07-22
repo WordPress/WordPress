@@ -6416,3 +6416,12 @@ a.to-the-top > * {
 		top: 0;
 	}
 }
+
+@media ( max-width: 800px ) {
+
+	/* Customizer ---------------------------- */
+
+	.customize-partial-edit-shortcuts-shown .footer-nav-widgets-wrapper .footer-inner.section-inner {
+		width: calc(100% - 8rem);
+	}
+}
