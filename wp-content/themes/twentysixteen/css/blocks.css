@@ -74,6 +74,14 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Quote */
 
+.wp-block-quote {
+	border-width: 0 0 0 4px;
+}
+ 
+:where(.rtl) .wp-block-quote {
+	border-width: 0 4px 0 0;
+}
+
 .wp-block-quote:not(.is-large):not(.is-style-large).alignleft,
 .wp-block-quote:not(.is-large):not(.is-style-large).alignright {
 	border-left: none;
