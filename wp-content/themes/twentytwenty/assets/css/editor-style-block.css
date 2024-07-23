@@ -140,17 +140,9 @@
 
 /* CUSTOM COLORS */
 
-:root .has-accent-color {
-	color: #cd2653;
-}
-
 :root .has-accent-background-color {
 	background-color: #cd2653;
 	color: #fff;
-}
-
-:root .has-primary-color {
-	color: #000;
 }
 
 :root .has-primary-background-color {
@@ -158,17 +150,9 @@
 	color: #f5efe0;
 }
 
-:root .has-secondary-color {
-	color: #6d6d6d;
-}
-
 :root .has-secondary-background-color {
 	background-color: #6d6d6d;
 	color: #fff;
-}
-
-:root .has-subtle-background-color {
-	color: #dcd7ca;
 }
 
 :root .has-subtle-background-background-color {
@@ -176,13 +160,29 @@
 	color: #000;
 }
 
-:root .has-background-color {
-	color: #f5efe0;
-}
-
 :root .has-background-background-color {
 	background-color: #f5efe0;
 	color: #000;
+}
+
+:root .has-accent-color {
+	color: #cd2653;
+}
+
+:root .has-primary-color {
+	color: #000;
+}
+
+:root .has-secondary-color {
+	color: #6d6d6d;
+}
+
+:root .has-subtle-background-color {
+	color: #dcd7ca;
+}
+
+:root .has-background-color {
+	color: #f5efe0;
 }
 
 /* GENERAL COLORS */
