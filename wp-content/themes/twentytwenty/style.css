@@ -3413,11 +3413,13 @@ figure.wp-block-table.is-style-stripes {
 	color: inherit;
 }
 
+.wp-block-quote.has-text-align-center,
 .wp-block-quote[style="text-align:center"] {
 	border-width: 0;
 	padding: 0;
 }
 
+.wp-block-quote.has-text-align-right,
 .wp-block-quote[style="text-align:right"] {
 
 	/*rtl:begin:ignore*/
