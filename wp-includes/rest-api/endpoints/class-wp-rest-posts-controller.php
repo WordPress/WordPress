@@ -1844,10 +1844,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 		if ( rest_is_field_included( 'title.rendered', $fields ) ) {
 			add_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
+			add_filter( 'private_title_format', array( $this, 'protected_title_format' ) );
 
 			$data['title']['rendered'] = get_the_title( $post->ID );
 
 			remove_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
+			remove_filter( 'private_title_format', array( $this, 'protected_title_format' ) );
 		}
 
 		$has_password_filter = false;
@@ -2047,15 +2049,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Overwrites the default protected title format.
+	 * Overwrites the default protected and private title format.
 	 *
-	 * By default, WordPress will show password protected posts with a title of
-	 * "Protected: %s", as the REST API communicates the protected status of a post
-	 * in a machine-readable format, we remove the "Protected: " prefix.
+	 * By default, WordPress will show password protected or private posts with a title of
+	 * "Protected: %s" or "Private: %s", as the REST API communicates the status of a post
+	 * in a machine-readable format, we remove the prefix.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @return string Protected title format.
+	 * @return string Title format.
 	 */
 	public function protected_title_format() {
 		return '%s';

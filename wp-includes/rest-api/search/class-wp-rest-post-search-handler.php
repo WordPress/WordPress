@@ -132,8 +132,10 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
 		if ( in_array( WP_REST_Search_Controller::PROP_TITLE, $fields, true ) ) {
 			if ( post_type_supports( $post->post_type, 'title' ) ) {
 				add_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
+				add_filter( 'private_title_format', array( $this, 'protected_title_format' ) );
 				$data[ WP_REST_Search_Controller::PROP_TITLE ] = get_the_title( $post->ID );
 				remove_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
+				remove_filter( 'private_title_format', array( $this, 'protected_title_format' ) );
 			} else {
 				$data[ WP_REST_Search_Controller::PROP_TITLE ] = '';
 			}
@@ -183,15 +185,15 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
 	}
 
 	/**
-	 * Overwrites the default protected title format.
+	 * Overwrites the default protected and private title format.
 	 *
-	 * By default, WordPress will show password protected posts with a title of
-	 * "Protected: %s". As the REST API communicates the protected status of a post
-	 * in a machine-readable format, we remove the "Protected: " prefix.
+	 * By default, WordPress will show password protected or private posts with a title of
+	 * "Protected: %s" or "Private: %s", as the REST API communicates the status of a post
+	 * in a machine-readable format, we remove the prefix.
 	 *
 	 * @since 5.0.0
 	 *
-	 * @return string Protected title format.
+	 * @return string Title format.
 	 */
 	public function protected_title_format() {
 		return '%s';
