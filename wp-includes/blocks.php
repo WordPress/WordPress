@@ -385,6 +385,7 @@ function get_block_metadata_i18n_schema() {
  * @since 6.3.0 Added `selectors` field.
  * @since 6.4.0 Added support for `blockHooks` field.
  * @since 6.5.0 Added support for `allowedBlocks`, `viewScriptModule`, and `viewStyle` fields.
+ * @since 6.7.0 Allow PHP filename as `variations` argument.
  *
  * @param string $file_or_folder Path to the JSON file with metadata definition for
  *                               the block or path to the folder where the `block.json` file is located.
@@ -519,6 +520,34 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 				require $template_path;
 				return ob_get_clean();
 			};
+		}
+	}
+
+	// If `variations` is a string, it's the name of a PHP file that
+	// generates the variations.
+	if ( ! empty( $metadata['variations'] ) && is_string( $metadata['variations'] ) ) {
+		$variations_path = wp_normalize_path(
+			realpath(
+				dirname( $metadata['file'] ) . '/' .
+				remove_block_asset_path_prefix( $metadata['variations'] )
+			)
+		);
+		if ( $variations_path ) {
+			/**
+			 * Generates the list of block variations.
+			 *
+			 * @since 6.7.0
+			 *
+			 * @return string Returns the list of block variations.
+			 */
+			$settings['variation_callback'] = static function () use ( $variations_path ) {
+				$variations = require $variations_path;
+				return $variations;
+			};
+			// The block instance's `variations` field is only allowed to be an array
+			// (of known block variations). We unset it so that the block instance will
+			// provide a getter that returns the result of the `variation_callback` instead.
+			unset( $settings['variations'] );
 		}
 	}
 
