@@ -520,10 +520,10 @@ class WP_Theme_JSON {
 	 */
 	const VALID_STYLES = array(
 		'background' => array(
-			'backgroundImage'    => 'top',
-			'backgroundPosition' => 'top',
-			'backgroundRepeat'   => 'top',
-			'backgroundSize'     => 'top',
+			'backgroundImage'    => null,
+			'backgroundPosition' => null,
+			'backgroundRepeat'   => null,
+			'backgroundSize'     => null,
 		),
 		'border'     => array(
 			'color'  => null,
