@@ -1562,6 +1562,10 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 		_deprecated_argument( __FUNCTION__, '6.5.3' );
 	}
 
+	if ( ! isset( $changes->post_content ) ) {
+		return $changes;
+	}
+
 	$hooked_blocks = get_hooked_blocks();
 	if ( empty( $hooked_blocks ) && ! has_filter( 'hooked_block_types' ) ) {
 		return $changes;
