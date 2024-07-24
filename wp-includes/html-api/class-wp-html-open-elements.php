@@ -721,6 +721,80 @@ class WP_HTML_Open_Elements {
 	}
 
 	/**
+	 * Clear the stack back to a table context.
+	 *
+	 * > When the steps above require the UA to clear the stack back to a table context, it means
+	 * > that the UA must, while the current node is not a table, template, or html element, pop
+	 * > elements from the stack of open elements.
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-context
+	 *
+	 * @since 6.7.0
+	 */
+	public function clear_to_table_context(): void {
+		foreach ( $this->walk_up() as $item ) {
+			if (
+				'TABLE' === $item->node_name ||
+				'TEMPLATE' === $item->node_name ||
+				'HTML' === $item->node_name
+			) {
+				break;
+			}
+			$this->pop();
+		}
+	}
+
+	/**
+	 * Clear the stack back to a table body context.
+	 *
+	 * > When the steps above require the UA to clear the stack back to a table body context, it
+	 * > means that the UA must, while the current node is not a tbody, tfoot, thead, template, or
+	 * > html element, pop elements from the stack of open elements.
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-body-context
+	 *
+	 * @since 6.7.0
+	 */
+	public function clear_to_table_body_context(): void {
+		foreach ( $this->walk_up() as $item ) {
+			if (
+				'TBODY' === $item->node_name ||
+				'TFOOT' === $item->node_name ||
+				'THEAD' === $item->node_name ||
+				'TEMPLATE' === $item->node_name ||
+				'HTML' === $item->node_name
+			) {
+				break;
+			}
+			$this->pop();
+		}
+	}
+
+	/**
+	 * Clear the stack back to a table row context.
+	 *
+	 * > When the steps above require the UA to clear the stack back to a table row context, it
+	 * > means that the UA must, while the current node is not a tr, template, or html element, pop
+	 * > elements from the stack of open elements.
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#clear-the-stack-back-to-a-table-row-context
+	 *
+	 * @since 6.7.0
+	 */
+	public function clear_to_table_row_context(): void {
+		foreach ( $this->walk_up() as $item ) {
+			if (
+				'TR' === $item->node_name ||
+				'TEMPLATE' === $item->node_name ||
+				'HTML' === $item->node_name
+			) {
+				break;
+			}
+			$this->pop();
+		}
+	}
+
+	/**
 	 * Wakeup magic method.
 	 *
 	 * @since 6.6.0
