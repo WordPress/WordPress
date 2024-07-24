@@ -1092,7 +1092,7 @@ function get_edit_term_link( $term, $taxonomy = '', $object_type = '' ) {
 	}
 
 	$args = array(
-		'taxonomy' => $taxonomy,
+		'taxonomy' => $tax->name,
 		'tag_ID'   => $term_id,
 	);
 
