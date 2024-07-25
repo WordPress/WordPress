@@ -278,7 +278,8 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.
 Commenter avatars come from <a href="%s">Gravatar</a>.'
 			),
-			esc_url( __( 'https://en.gravatar.com/' ) )
+			/* translators: The localized Gravatar URL. */
+			esc_url( __( 'https://gravatar.com/' ) )
 		);
 		$wpdb->insert(
 			$wpdb->comments,
