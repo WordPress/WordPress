@@ -2264,6 +2264,17 @@ function delete_network_option( $network_id, $option ) {
 				'site_id'  => $network_id,
 			)
 		);
+
+		if ( $result ) {
+			$notoptions_key = "$network_id:notoptions";
+			$notoptions     = wp_cache_get( $notoptions_key, 'site-options' );
+
+			if ( ! is_array( $notoptions ) ) {
+				$notoptions = array();
+			}
+			$notoptions[ $option ] = true;
+			wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
+		}
 	}
 
 	if ( $result ) {
@@ -2292,15 +2303,6 @@ function delete_network_option( $network_id, $option ) {
 		 * @param int    $network_id ID of the network.
 		 */
 		do_action( 'delete_site_option', $option, $network_id );
-
-		$notoptions_key = "$network_id:notoptions";
-		$notoptions     = wp_cache_get( $notoptions_key, 'site-options' );
-
-		if ( ! is_array( $notoptions ) ) {
-			$notoptions = array();
-		}
-		$notoptions[ $option ] = true;
-		wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
 		return true;
 	}
