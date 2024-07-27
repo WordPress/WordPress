@@ -3041,6 +3041,15 @@ ol.wp-block-latest-comments {
 	letter-spacing: inherit;
 }
 
+/* Block: Calendar --------------------------- */
+
+.wp-block-calendar[class*="-font-size"] table,
+.wp-block-calendar[style*="font-size"] table,
+.wp-block-calendar[class*="-font-size"] .wp-calendar-nav,
+.wp-block-calendar[style*="font-size"] .wp-calendar-nav {
+	font-size: inherit;
+}
+
 /* Block: Columns ---------------------------- */
 
 .wp-block-columns.alignfull,
