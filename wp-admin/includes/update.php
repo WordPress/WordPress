@@ -264,10 +264,7 @@ function core_update_footer( $msg = '' ) {
 		$cur->response = '';
 	}
 
-	// Include an unmodified $wp_version.
-	require ABSPATH . WPINC . '/version.php';
-
-	$is_development_version = preg_match( '/alpha|beta|RC/', $wp_version );
+	$is_development_version = preg_match( '/alpha|beta|RC/', wp_get_wp_version() );
 
 	if ( $is_development_version ) {
 		return sprintf(
@@ -854,8 +851,6 @@ function wp_theme_update_row( $theme_key, $theme ) {
  * @return void|false
  */
 function maintenance_nag() {
-	// Include an unmodified $wp_version.
-	require ABSPATH . WPINC . '/version.php';
 	global $upgrading;
 
 	$nag = isset( $upgrading );
@@ -873,7 +868,7 @@ function maintenance_nag() {
 		 * This flag is cleared whenever a successful update occurs using Core_Upgrader.
 		 */
 		$comparison = ! empty( $failed['critical'] ) ? '>=' : '>';
-		if ( isset( $failed['attempted'] ) && version_compare( $failed['attempted'], $wp_version, $comparison ) ) {
+		if ( isset( $failed['attempted'] ) && version_compare( $failed['attempted'], wp_get_wp_version(), $comparison ) ) {
 			$nag = true;
 		}
 	}

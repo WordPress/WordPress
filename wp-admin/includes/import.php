@@ -136,22 +136,19 @@ function wp_import_handle_upload() {
  * @return array Importers with metadata for each.
  */
 function wp_get_popular_importers() {
-	// Include an unmodified $wp_version.
-	require ABSPATH . WPINC . '/version.php';
-
 	$locale            = get_user_locale();
-	$cache_key         = 'popular_importers_' . md5( $locale . $wp_version );
+	$cache_key         = 'popular_importers_' . md5( $locale . wp_get_wp_version() );
 	$popular_importers = get_site_transient( $cache_key );
 
 	if ( ! $popular_importers ) {
 		$url     = add_query_arg(
 			array(
 				'locale'  => $locale,
-				'version' => $wp_version,
+				'version' => wp_get_wp_version(),
 			),
 			'http://api.wordpress.org/core/importers/1.1/'
 		);
-		$options = array( 'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url( '/' ) );
+		$options = array( 'user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url( '/' ) );
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
 			$url = set_url_scheme( $url, 'https' );
