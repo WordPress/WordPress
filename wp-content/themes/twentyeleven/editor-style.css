@@ -119,6 +119,9 @@ pre {
 code, kbd, samp, var {
 	font: 13px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 }
+pre code {
+	font-size: inherit;
+}
 abbr, acronym, dfn {
 	border-bottom: 1px dotted #666;
 	cursor: help;

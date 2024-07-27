@@ -157,6 +157,9 @@ var {
 	font-size: 0.857142857rem;
 	line-height: 2;
 }
+pre code {
+	font-size: inherit;
+}
 abbr,
 acronym,
 dfn {

@@ -903,6 +903,7 @@ article.sticky .featured-post {
 .entry-content pre code,
 .comment-content pre code {
 	display: block;
+	font-size: inherit;
 }
 .entry-content abbr,
 .comment-content abbr,
