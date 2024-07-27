@@ -3405,6 +3405,13 @@ figure.wp-block-table.is-style-stripes {
 	padding: 0 2rem 0 0;
 }
 
+/* STYLE: PLAIN */
+
+.wp-block-quote.is-style-plain {
+	border-width: 0;
+	padding: 0.5rem 2rem;
+}
+
 /* STYLE: LARGE */
 
 .wp-block-quote.is-large,
