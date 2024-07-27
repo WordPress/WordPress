@@ -231,6 +231,10 @@ pre {
 	word-wrap: break-word;
 }
 
+pre code {
+	font-size: inherit;
+}
+
 blockquote,
 q {
 	-webkit-hyphens: none;
