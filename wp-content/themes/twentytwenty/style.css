@@ -3409,6 +3409,11 @@ figure.wp-block-table.is-style-stripes {
 	border-collapse: inherit;
 }
 
+.wp-block-table[class*="-font-size"] table,
+.wp-block-table[style*="font-size"] table {
+	font-size: inherit;
+}
+
 /* Block: Quote ------------------------------ */
 
 .wp-block-quote p,
