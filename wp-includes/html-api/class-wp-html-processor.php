@@ -609,25 +609,30 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 *       until there are events or until there are no more
 		 *       tokens works in the meantime and isn't obviously wrong.
 		 */
-		while ( empty( $this->element_queue ) && $this->step() ) {
-			continue;
+		if ( empty( $this->element_queue ) && $this->step() ) {
+			return $this->next_token();
 		}
 
 		// Process the next event on the queue.
 		$this->current_element = array_shift( $this->element_queue );
 		if ( ! isset( $this->current_element ) ) {
-			return false;
+			// There are no tokens left, so close all remaining open elements.
+			while ( $this->state->stack_of_open_elements->pop() ) {
+				continue;
+			}
+
+			return empty( $this->element_queue ) ? false : $this->next_token();
 		}
 
 		$is_pop = WP_HTML_Stack_Event::POP === $this->current_element->operation;
 
 		/*
 		 * The root node only exists in the fragment parser, and closing it
-		 * indicates that the parse is complete. Stop before popping if from
+		 * indicates that the parse is complete. Stop before popping it from
 		 * the breadcrumbs.
 		 */
 		if ( 'root-node' === $this->current_element->token->bookmark_name ) {
-			return ! $is_pop && $this->next_token();
+			return $this->next_token();
 		}
 
 		// Adjust the breadcrumbs for this event.
@@ -638,7 +643,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		}
 
 		// Avoid sending close events for elements which don't expect a closing.
-		if ( $is_pop && ! static::expects_closer( $this->current_element->token ) ) {
+		if ( $is_pop && ! $this->expects_closer( $this->current_element->token ) ) {
 			return $this->next_token();
 		}
 
