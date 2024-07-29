@@ -53,10 +53,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .wp-block-image figure.alignleft {
+	margin-top: 0;
 	margin-right: 1.5em;
 }
 
 .wp-block-image figure.alignright {
+	margin-top: 0;
 	margin-left: 1.5em;
 }
 
@@ -68,6 +70,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 .widget-area .wp-block-image a:focus {
 	-webkit-box-shadow: none;
 	box-shadow: none;
+}
+
+.entry-content > .wp-block-image:first-child figure.alignleft,
+.entry-content > .wp-block-image:first-child figure.alignright {
+	margin-top: 1.5em;
 }
 
 /* Gallery */
