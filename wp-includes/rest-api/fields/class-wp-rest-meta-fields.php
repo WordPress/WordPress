@@ -268,6 +268,7 @@ abstract class WP_REST_Meta_Fields {
 	 * Alters the list of values in the database to match the list of provided values.
 	 *
 	 * @since 4.7.0
+	 * @since 6.7.0 Stores values into DB even if provided registered default value.
 	 *
 	 * @param int    $object_id Object ID to update.
 	 * @param string $meta_key  Key for the custom field.
@@ -290,7 +291,7 @@ abstract class WP_REST_Meta_Fields {
 			);
 		}
 
-		$current_values = get_metadata( $meta_type, $object_id, $meta_key, false );
+		$current_values = get_metadata_raw( $meta_type, $object_id, $meta_key, false );
 		$subtype        = get_object_subtype( $meta_type, $object_id );
 
 		if ( ! is_array( $current_values ) ) {
@@ -367,6 +368,7 @@ abstract class WP_REST_Meta_Fields {
 	 * Updates a meta value for an object.
 	 *
 	 * @since 4.7.0
+	 * @since 6.7.0 Stores values into DB even if provided registered default value.
 	 *
 	 * @param int    $object_id Object ID to update.
 	 * @param string $meta_key  Key for the custom field.
@@ -378,7 +380,7 @@ abstract class WP_REST_Meta_Fields {
 		$meta_type = $this->get_meta_type();
 
 		// Do the exact same check for a duplicate value as in update_metadata() to avoid update_metadata() returning false.
-		$old_value = get_metadata( $meta_type, $object_id, $meta_key );
+		$old_value = get_metadata_raw( $meta_type, $object_id, $meta_key );
 		$subtype   = get_object_subtype( $meta_type, $object_id );
 
 		if ( is_array( $old_value ) && 1 === count( $old_value )
