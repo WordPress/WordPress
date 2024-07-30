@@ -308,7 +308,20 @@ class WP_HTML_Open_Elements {
 				'MARQUEE',
 				'OBJECT',
 				'TEMPLATE',
-				// @todo: Support SVG and MathML nodes when support for foreign content is added.
+
+				/*
+				 * @todo Support SVG and MathML nodes when support for foreign content is added.
+				 *
+				 * - MathML mi
+				 * - MathML mo
+				 * - MathML mn
+				 * - MathML ms
+				 * - MathML mtext
+				 * - MathML annotation-xml
+				 * - SVG foreignObject
+				 * - SVG desc
+				 * - SVG title
+				 */
 			)
 		);
 	}
@@ -349,7 +362,20 @@ class WP_HTML_Open_Elements {
 				'OL',
 				'TEMPLATE',
 				'UL',
-				// @todo: Support SVG and MathML nodes when support for foreign content is added.
+
+				/*
+				 * @todo Support SVG and MathML nodes when support for foreign content is added.
+				 *
+				 * - MathML mi
+				 * - MathML mo
+				 * - MathML mn
+				 * - MathML ms
+				 * - MathML mtext
+				 * - MathML annotation-xml
+				 * - SVG foreignObject
+				 * - SVG desc
+				 * - SVG title
+				 */
 			)
 		);
 	}
@@ -386,7 +412,20 @@ class WP_HTML_Open_Elements {
 				'MARQUEE',
 				'OBJECT',
 				'TEMPLATE',
-				// @todo: Support SVG and MathML nodes when support for foreign content is added.
+
+				/*
+				 * @todo Support SVG and MathML nodes when support for foreign content is added.
+				 *
+				 * - MathML mi
+				 * - MathML mo
+				 * - MathML mn
+				 * - MathML ms
+				 * - MathML mtext
+				 * - MathML annotation-xml
+				 * - SVG foreignObject
+				 * - SVG desc
+				 * - SVG title
+				 */
 			)
 		);
 	}
