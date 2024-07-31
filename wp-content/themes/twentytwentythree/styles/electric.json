@@ -1,5 +1,5 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
 	"version": 2,
 	"title": "Electric",
 	"settings": {
