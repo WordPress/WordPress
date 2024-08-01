@@ -2491,12 +2491,12 @@ if ( ! function_exists( 'wp_salt' ) ) :
 			/*
 			 * Also prime `secret_key` used for undefined salting schemes.
 			 *
-			 * If the scheme is unknown the default value for `secret_key` will be
-			 * used to for the salt. This should rarely happen so the option is only
+			 * If the scheme is unknown, the default value for `secret_key` will be
+			 * used too for the salt. This should rarely happen, so the option is only
 			 * primed if other salts are undefined.
 			 *
-			 * At this point of execution is is known that a database call will be made
-			 * to prime salts so the `secret_key` option can be primed regardless of the
+			 * At this point of execution it is known that a database call will be made
+			 * to prime salts, so the `secret_key` option can be primed regardless of the
 			 * constants status.
 			 */
 			$options_to_prime[] = 'secret_key';
