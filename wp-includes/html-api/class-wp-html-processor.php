@@ -3068,7 +3068,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * This internal function performs the 'in column group' insertion mode
 	 * logic for the generalized WP_HTML_Processor::step() function.
 	 *
-	 * @since 6.7.0 Stub implementation.
+	 * @since 6.7.0
 	 *
 	 * @throws WP_HTML_Unsupported_Exception When encountering unsupported HTML input.
 	 *
@@ -3078,7 +3078,104 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return bool Whether an element was found.
 	 */
 	private function step_in_column_group(): bool {
-		$this->bail( 'No support for parsing in the ' . WP_HTML_Processor_State::INSERTION_MODE_IN_COLUMN_GROUP . ' state.' );
+		$token_name = $this->get_token_name();
+		$token_type = $this->get_token_type();
+		$op_sigil   = '#tag' === $token_type ? ( parent::is_tag_closer() ? '-' : '+' ) : '';
+		$op         = "{$op_sigil}{$token_name}";
+
+		switch ( $op ) {
+			/*
+			 * > A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF),
+			 * > U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
+			 */
+			case '#text':
+				$text = $this->get_modifiable_text();
+				if ( '' === $text ) {
+					/*
+					 * If the text is empty after processing HTML entities and stripping
+					 * U+0000 NULL bytes then ignore the token.
+					 */
+					return $this->step();
+				}
+
+				if ( strlen( $text ) === strspn( $text, " \t\n\f\r" ) ) {
+					// Insert the character.
+					$this->insert_html_element( $this->state->current_token );
+					return true;
+				}
+
+				goto in_column_group_anything_else;
+				break;
+
+			/*
+			 * > A comment token
+			 */
+			case '#comment':
+			case '#funky-comment':
+			case '#presumptuous-tag':
+				$this->insert_html_element( $this->state->current_token );
+				return true;
+
+			/*
+			 * > A DOCTYPE token
+			 */
+			case 'html':
+				// @todo Indicate a parse error once it's possible.
+				return $this->step();
+
+			/*
+			 * > A start tag whose tag name is "html"
+			 */
+			case '+HTML':
+				return $this->step_in_body();
+
+			/*
+			 * > A start tag whose tag name is "col"
+			 */
+			case '+COL':
+				$this->insert_html_element( $this->state->current_token );
+				$this->state->stack_of_open_elements->pop();
+				return true;
+
+			/*
+			 * > An end tag whose tag name is "colgroup"
+			 */
+			case '-COLGROUP':
+				if ( ! $this->state->stack_of_open_elements->current_node_is( 'COLGROUP' ) ) {
+					// @todo Indicate a parse error once it's possible.
+					return $this->step();
+				}
+				$this->state->stack_of_open_elements->pop();
+				$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE;
+				return true;
+
+			/*
+			 * > An end tag whose tag name is "col"
+			 */
+			case '-COL':
+				// Parse error: ignore the token.
+				return $this->step();
+
+			/*
+			 * > A start tag whose tag name is "template"
+			 * > An end tag whose tag name is "template"
+			 */
+			case '+TEMPLATE':
+			case '-TEMPLATE':
+				return $this->step_in_head();
+		}
+
+		in_column_group_anything_else:
+		/*
+		 * > Anything else
+		 */
+		if ( ! $this->state->stack_of_open_elements->current_node_is( 'COLGROUP' ) ) {
+			// @todo Indicate a parse error once it's possible.
+			return $this->step();
+		}
+		$this->state->stack_of_open_elements->pop();
+		$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_TABLE;
+		return $this->step( self::REPROCESS_CURRENT_NODE );
 	}
 
 	/**
