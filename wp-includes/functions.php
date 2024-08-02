@@ -8833,13 +8833,21 @@ function wp_get_wp_version() {
  *
  * @since 5.2.0
  *
- * @global string $wp_version The WordPress version string.
+ * @global string $_wp_tests_wp_version The WordPress version string. Used only in Core tests.
  *
  * @param string $required Minimum required WordPress version.
  * @return bool True if required version is compatible or empty, false if not.
  */
 function is_wp_version_compatible( $required ) {
-	global $wp_version;
+	if (
+		defined( 'WP_RUN_CORE_TESTS' )
+		&& WP_RUN_CORE_TESTS
+		&& isset( $GLOBALS['_wp_tests_wp_version'] )
+	) {
+		$wp_version = $GLOBALS['_wp_tests_wp_version'];
+	} else {
+		$wp_version = wp_get_wp_version();
+	}
 
 	// Strip off any -alpha, -RC, -beta, -src suffixes.
 	list( $version ) = explode( '-', $wp_version );
