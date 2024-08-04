@@ -554,7 +554,7 @@ class WP_Debug_Data {
 			);
 			$info['wp-media']['fields']['max_file_uploads']    = array(
 				'label' => __( 'Max number of files allowed' ),
-				'value' => number_format( $max_file_uploads ),
+				'value' => $max_file_uploads,
 			);
 		}
 
