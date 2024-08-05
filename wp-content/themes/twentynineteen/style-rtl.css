@@ -5569,6 +5569,16 @@ body.page .main-navigation {
   font-size: 1em;
 }
 
+.entry .entry-content .wp-block-buttons[style*="font-weight"] .wp-block-button__link,
+.entry .entry-content .wp-block-button[style*="font-weight"] .wp-block-button__link {
+  font-weight: inherit;
+}
+
+.entry .entry-content .wp-block-buttons[style*="text-decoration"] .wp-block-button__link,
+.entry .entry-content .wp-block-button[style*="text-decoration"] .wp-block-button__link {
+  text-decoration: inherit;
+}
+
 .entry .entry-content .wp-block-archives,
 .entry .entry-content .wp-block-categories,
 .entry .entry-content .wp-block-latest-posts {

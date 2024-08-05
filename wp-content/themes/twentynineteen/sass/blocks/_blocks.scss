@@ -245,6 +245,14 @@
 		&.has-custom-font-size .wp-block-button__link {
 			font-size: 1em;
 		}
+
+		&[style*="font-weight"] .wp-block-button__link {
+			font-weight: inherit;
+		}
+
+		&[style*="text-decoration"] .wp-block-button__link {
+			text-decoration: inherit;
+		}
 	}
 
 	//! Latest posts, categories, archives

@@ -1027,6 +1027,16 @@ figcaption,
   color: #0073aa;
 }
 
+.wp-block-buttons[style*="font-weight"] .wp-block-button__link,
+.wp-block-button[style*="font-weight"] .wp-block-button__link {
+  font-weight: inherit;
+}
+
+.wp-block-buttons[style*="text-decoration"] .wp-block-button__link,
+.wp-block-button[style*="text-decoration"] .wp-block-button__link {
+  text-decoration: inherit;
+}
+
 .wp-block-search .wp-block-search__button {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 0.88889em;
