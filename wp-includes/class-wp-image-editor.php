@@ -318,7 +318,6 @@ abstract class WP_Image_Editor {
 				$quality = 86;
 				break;
 			case 'image/jpeg':
-			case 'image/avif':
 			default:
 				$quality = $this->default_quality;
 		}
@@ -366,26 +365,7 @@ abstract class WP_Image_Editor {
 			$new_ext   = $file_ext;
 		}
 
-		/**
-		 * Filters the image editor output format mapping.
-		 *
-		 * Enables filtering the mime type used to save images. By default,
-		 * the mapping array is empty, so the mime type matches the source image.
-		 *
-		 * @see WP_Image_Editor::get_output_format()
-		 *
-		 * @since 5.8.0
-		 *
-		 * @param string[] $output_format {
-		 *     An array of mime type mappings. Maps a source mime type to a new
-		 *     destination mime type. Default empty array.
-		 *
-		 *     @type string ...$0 The new mime type.
-		 * }
-		 * @param string $filename  Path to the image.
-		 * @param string $mime_type The source image mime type.
-		 */
-		$output_format = apply_filters( 'image_editor_output_format', array(), $filename, $mime_type );
+		$output_format = wp_get_image_editor_output_format( $filename, $mime_type );
 
 		if ( isset( $output_format[ $mime_type ] )
 			&& $this->supports_mime_type( $output_format[ $mime_type ] )

@@ -4064,8 +4064,7 @@ function wp_get_image_editor( $path, $args = array() ) {
 
 	// Check and set the output mime type mapped to the input type.
 	if ( isset( $args['mime_type'] ) ) {
-		/** This filter is documented in wp-includes/class-wp-image-editor.php */
-		$output_format = apply_filters( 'image_editor_output_format', array(), $path, $args['mime_type'] );
+		$output_format = wp_get_image_editor_output_format( $path, $args['mime_type'] );
 		if ( isset( $output_format[ $args['mime_type'] ] ) ) {
 			$args['output_mime_type'] = $output_format[ $args['mime_type'] ];
 		}
@@ -4222,6 +4221,11 @@ function wp_plupload_default_settings() {
 	// Check if AVIF images can be edited.
 	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/avif' ) ) ) {
 		$defaults['avif_upload_error'] = true;
+	}
+
+	// Check if HEIC images can be edited.
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/heic' ) ) ) {
+		$defaults['heic_upload_error'] = true;
 	}
 
 	/**
@@ -5483,12 +5487,17 @@ function _wp_add_additional_image_sizes() {
  * Callback to enable showing of the user error when uploading .heic images.
  *
  * @since 5.5.0
+ * @since 6.7.0 The default behavior is to enable heic uplooads as long as the server
+ *              supports the format. The uploads are converted to JPEG's by default.
  *
  * @param array[] $plupload_settings The settings for Plupload.js.
  * @return array[] Modified settings for Plupload.js.
  */
 function wp_show_heic_upload_error( $plupload_settings ) {
-	$plupload_settings['heic_upload_error'] = true;
+	// Check if HEIC images can be edited.
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/heic' ) ) ) {
+		$plupload_init['heic_upload_error'] = true;
+	}
 	return $plupload_settings;
 }
 
@@ -5582,6 +5591,29 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
 					$height
 				),
 				'mime' => 'image/avif',
+			);
+		}
+	}
+
+	// For PHP versions that don't support HEIC images, extract the size info using Imagick when available.
+	if ( 'image/heic' === wp_get_image_mime( $filename ) ) {
+		$editor = wp_get_image_editor( $filename );
+		if ( is_wp_error( $editor ) ) {
+			return false;
+		}
+		// If the editor for HEICs is Imagick, use it to get the image size.
+		if ( $editor instanceof WP_Image_Editor_Imagick ) {
+			$size = $editor->get_size();
+			return array(
+				$size['width'],
+				$size['height'],
+				IMAGETYPE_HEIC,
+				sprintf(
+					'width="%d" height="%d"',
+					$size['width'],
+					$size['height']
+				),
+				'mime' => 'image/heic',
 			);
 		}
 	}
@@ -6068,4 +6100,38 @@ function wp_high_priority_element_flag( $value = null ) {
 	}
 
 	return $high_priority_element;
+}
+
+/**
+ * Determines the output format for the image editor.
+ *
+ * @since 6.7.0
+ * @access private
+ *
+ * @param string $filename  Path to the image.
+ * @param string $mime_type The source image mime type.
+ * @return string[] An array of mime type mappings.
+ */
+function wp_get_image_editor_output_format( $filename, $mime_type ) {
+	/**
+	 * Filters the image editor output format mapping.
+	 *
+	 * Enables filtering the mime type used to save images. By default,
+	 * the mapping array is empty, so the mime type matches the source image.
+	 *
+	 * @see WP_Image_Editor::get_output_format()
+	 *
+	 * @since 5.8.0
+	 * @since 6.7.0 The default was changed from array() to array( 'image/heic' => 'image/jpeg' ).
+	 *
+	 * @param string[] $output_format {
+	 *     An array of mime type mappings. Maps a source mime type to a new
+	 *     destination mime type. Default maps uploaded HEIC images to JPEG output.
+	 *
+	 *     @type string ...$0 The new mime type.
+	 * }
+	 * @param string $filename  Path to the image.
+	 * @param string $mime_type The source image mime type.
+	 */
+	return apply_filters( 'image_editor_output_format', array( 'image/heic' => 'image/jpeg' ), $filename, $mime_type );
 }

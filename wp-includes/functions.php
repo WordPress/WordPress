@@ -2706,8 +2706,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		 * when regenerated. If yes, ensure the new file name will be unique and will produce unique sub-sizes.
 		 */
 		if ( $is_image ) {
-			/** This filter is documented in wp-includes/class-wp-image-editor.php */
-			$output_formats = apply_filters( 'image_editor_output_format', array(), $_dir . $filename, $mime_type );
+			$output_formats = wp_get_image_editor_output_format( $_dir . $filename, $mime_type );
 			$alt_types      = array();
 
 			if ( ! empty( $output_formats[ $mime_type ] ) ) {
@@ -3120,6 +3119,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 					'image/tiff' => 'tif',
 					'image/webp' => 'webp',
 					'image/avif' => 'avif',
+					'image/heic' => 'heic',
 				)
 			);
 
@@ -3299,6 +3299,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
  * @since 4.7.1
  * @since 5.8.0 Added support for WebP images.
  * @since 6.5.0 Added support for AVIF images.
+ * @since 6.7.0 Added support for HEIC images.
  *
  * @param string $file Full path to the file.
  * @return string|false The actual mime type or false if the type cannot be determined.
@@ -3371,6 +3372,15 @@ function wp_get_image_mime( $file ) {
 			( 'avif' === hex2bin( $magic[2] ) || 'avis' === hex2bin( $magic[2] ) )
 		) {
 			$mime = 'image/avif';
+		}
+
+		if (
+			isset( $magic[1] ) &&
+			isset( $magic[2] ) &&
+			'ftyp' === hex2bin( $magic[1] ) &&
+			( 'heic' === hex2bin( $magic[2] ) || 'heif' === hex2bin( $magic[2] ) )
+		) {
+			$mime = 'image/heic';
 		}
 	} catch ( Exception $e ) {
 		$mime = false;

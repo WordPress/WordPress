@@ -543,6 +543,7 @@ function wp_copy_parent_attachment_properties( $cropped, $parent_attachment_id, 
  *
  * @since 2.1.0
  * @since 6.0.0 The `$filesize` value was added to the returned array.
+ * @since 6.7.0 The 'image/heic' mime type is supported.
  *
  * @param int    $attachment_id Attachment ID to process.
  * @param string $file          Filepath of the attached image.
@@ -555,7 +556,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$support   = false;
 	$mime_type = get_post_mime_type( $attachment );
 
-	if ( preg_match( '!^image/!', $mime_type ) && file_is_displayable_image( $file ) ) {
+	if ( 'image/heic' === $mime_type || ( preg_match( '!^image/!', $mime_type ) && file_is_displayable_image( $file ) ) ) {
 		// Make thumbnails and other intermediate sizes.
 		$metadata = wp_create_image_subsizes( $file, $attachment_id );
 	} elseif ( wp_attachment_is( 'video', $attachment ) ) {
