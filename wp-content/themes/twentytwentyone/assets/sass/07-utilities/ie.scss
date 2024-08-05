@@ -50,4 +50,15 @@
 	.post-thumbnail .wp-post-image {
 		min-width: auto;
 	}
+
+	.wp-block-group {
+
+		&:before,
+		&:after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+	}
+
 }

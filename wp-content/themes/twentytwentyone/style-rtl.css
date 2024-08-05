@@ -2131,16 +2131,7 @@ input[type=reset]:disabled,
 }
 
 .wp-block-group {
-	display: block;
-	clear: both;
 	display: flow-root;
-}
-
-.wp-block-group:before,
-.wp-block-group:after {
-	content: "";
-	display: block;
-	clear: both;
 }
 
 .wp-block-group .wp-block-group__inner-container {
@@ -5881,4 +5872,11 @@ footer {
 
 .is-IE .post-thumbnail .wp-post-image {
 	min-width: auto;
+}
+
+.is-IE .wp-block-group:before,
+.is-IE .wp-block-group:after {
+	content: "";
+	display: block;
+	clear: both;
 }
