@@ -416,7 +416,9 @@ figure[class*="wp-block-"] > figcaption {
 
 .editor-styles-wrapper .wp-block-code {
 	border: 0;
-	padding: 0.125em 0.25em;
+	font-family: Inconsolata, monospace;
+	line-height: 1.75;
+	padding: 0;
 	background-color: #d1d1d1;
 }
 
