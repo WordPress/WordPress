@@ -201,147 +201,6 @@ class WP_Debug_Data {
 			'fields' => array(),
 		);
 
-		// Check if WP_DEBUG_LOG is set.
-		$wp_debug_log_value = __( 'Disabled' );
-
-		if ( is_string( WP_DEBUG_LOG ) ) {
-			$wp_debug_log_value = WP_DEBUG_LOG;
-		} elseif ( WP_DEBUG_LOG ) {
-			$wp_debug_log_value = __( 'Enabled' );
-		}
-
-		// Check CONCATENATE_SCRIPTS.
-		if ( defined( 'CONCATENATE_SCRIPTS' ) ) {
-			$concatenate_scripts       = CONCATENATE_SCRIPTS ? __( 'Enabled' ) : __( 'Disabled' );
-			$concatenate_scripts_debug = CONCATENATE_SCRIPTS ? 'true' : 'false';
-		} else {
-			$concatenate_scripts       = __( 'Undefined' );
-			$concatenate_scripts_debug = 'undefined';
-		}
-
-		// Check COMPRESS_SCRIPTS.
-		if ( defined( 'COMPRESS_SCRIPTS' ) ) {
-			$compress_scripts       = COMPRESS_SCRIPTS ? __( 'Enabled' ) : __( 'Disabled' );
-			$compress_scripts_debug = COMPRESS_SCRIPTS ? 'true' : 'false';
-		} else {
-			$compress_scripts       = __( 'Undefined' );
-			$compress_scripts_debug = 'undefined';
-		}
-
-		// Check COMPRESS_CSS.
-		if ( defined( 'COMPRESS_CSS' ) ) {
-			$compress_css       = COMPRESS_CSS ? __( 'Enabled' ) : __( 'Disabled' );
-			$compress_css_debug = COMPRESS_CSS ? 'true' : 'false';
-		} else {
-			$compress_css       = __( 'Undefined' );
-			$compress_css_debug = 'undefined';
-		}
-
-		// Check WP_ENVIRONMENT_TYPE.
-		if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE ) {
-			$wp_environment_type = WP_ENVIRONMENT_TYPE;
-		} else {
-			$wp_environment_type = __( 'Undefined' );
-		}
-
-		$info['wp-constants'] = array(
-			'label'       => __( 'WordPress Constants' ),
-			'description' => __( 'These settings alter where and how parts of WordPress are loaded.' ),
-			'fields'      => array(
-				'ABSPATH'             => array(
-					'label'   => 'ABSPATH',
-					'value'   => ABSPATH,
-					'private' => true,
-				),
-				'WP_HOME'             => array(
-					'label' => 'WP_HOME',
-					'value' => ( defined( 'WP_HOME' ) ? WP_HOME : __( 'Undefined' ) ),
-					'debug' => ( defined( 'WP_HOME' ) ? WP_HOME : 'undefined' ),
-				),
-				'WP_SITEURL'          => array(
-					'label' => 'WP_SITEURL',
-					'value' => ( defined( 'WP_SITEURL' ) ? WP_SITEURL : __( 'Undefined' ) ),
-					'debug' => ( defined( 'WP_SITEURL' ) ? WP_SITEURL : 'undefined' ),
-				),
-				'WP_CONTENT_DIR'      => array(
-					'label' => 'WP_CONTENT_DIR',
-					'value' => WP_CONTENT_DIR,
-				),
-				'WP_PLUGIN_DIR'       => array(
-					'label' => 'WP_PLUGIN_DIR',
-					'value' => WP_PLUGIN_DIR,
-				),
-				'WP_MEMORY_LIMIT'     => array(
-					'label' => 'WP_MEMORY_LIMIT',
-					'value' => WP_MEMORY_LIMIT,
-				),
-				'WP_MAX_MEMORY_LIMIT' => array(
-					'label' => 'WP_MAX_MEMORY_LIMIT',
-					'value' => WP_MAX_MEMORY_LIMIT,
-				),
-				'WP_DEBUG'            => array(
-					'label' => 'WP_DEBUG',
-					'value' => WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
-					'debug' => WP_DEBUG,
-				),
-				'WP_DEBUG_DISPLAY'    => array(
-					'label' => 'WP_DEBUG_DISPLAY',
-					'value' => WP_DEBUG_DISPLAY ? __( 'Enabled' ) : __( 'Disabled' ),
-					'debug' => WP_DEBUG_DISPLAY,
-				),
-				'WP_DEBUG_LOG'        => array(
-					'label' => 'WP_DEBUG_LOG',
-					'value' => $wp_debug_log_value,
-					'debug' => WP_DEBUG_LOG,
-				),
-				'SCRIPT_DEBUG'        => array(
-					'label' => 'SCRIPT_DEBUG',
-					'value' => SCRIPT_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
-					'debug' => SCRIPT_DEBUG,
-				),
-				'WP_CACHE'            => array(
-					'label' => 'WP_CACHE',
-					'value' => WP_CACHE ? __( 'Enabled' ) : __( 'Disabled' ),
-					'debug' => WP_CACHE,
-				),
-				'CONCATENATE_SCRIPTS' => array(
-					'label' => 'CONCATENATE_SCRIPTS',
-					'value' => $concatenate_scripts,
-					'debug' => $concatenate_scripts_debug,
-				),
-				'COMPRESS_SCRIPTS'    => array(
-					'label' => 'COMPRESS_SCRIPTS',
-					'value' => $compress_scripts,
-					'debug' => $compress_scripts_debug,
-				),
-				'COMPRESS_CSS'        => array(
-					'label' => 'COMPRESS_CSS',
-					'value' => $compress_css,
-					'debug' => $compress_css_debug,
-				),
-				'WP_ENVIRONMENT_TYPE' => array(
-					'label' => 'WP_ENVIRONMENT_TYPE',
-					'value' => $wp_environment_type,
-					'debug' => $wp_environment_type,
-				),
-				'WP_DEVELOPMENT_MODE' => array(
-					'label' => 'WP_DEVELOPMENT_MODE',
-					'value' => WP_DEVELOPMENT_MODE ? WP_DEVELOPMENT_MODE : __( 'Disabled' ),
-					'debug' => WP_DEVELOPMENT_MODE,
-				),
-				'DB_CHARSET'          => array(
-					'label' => 'DB_CHARSET',
-					'value' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : __( 'Undefined' ) ),
-					'debug' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : 'undefined' ),
-				),
-				'DB_COLLATE'          => array(
-					'label' => 'DB_COLLATE',
-					'value' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : __( 'Undefined' ) ),
-					'debug' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : 'undefined' ),
-				),
-			),
-		);
-
 		// Conditionally add debug information for multisite setups.
 		if ( is_multisite() ) {
 			$site_id = get_current_blog_id();
@@ -1369,6 +1228,7 @@ class WP_Debug_Data {
 			);
 		}
 
+		$info['wp-constants']  = self::get_wp_constants();
 		$info['wp-filesystem'] = self::get_wp_filesystem();
 
 		/**
@@ -1434,6 +1294,157 @@ class WP_Debug_Data {
 		$info = apply_filters( 'debug_information', $info );
 
 		return $info;
+	}
+
+	/**
+	 * Gets the WordPress constants section of the debug data.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array
+	 */
+	public static function get_wp_constants(): array {
+		// Check if WP_DEBUG_LOG is set.
+		$wp_debug_log_value = __( 'Disabled' );
+		if ( is_string( WP_DEBUG_LOG ) ) {
+			$wp_debug_log_value = WP_DEBUG_LOG;
+		} elseif ( WP_DEBUG_LOG ) {
+			$wp_debug_log_value = __( 'Enabled' );
+		}
+
+		// Check CONCATENATE_SCRIPTS.
+		if ( defined( 'CONCATENATE_SCRIPTS' ) ) {
+			$concatenate_scripts       = CONCATENATE_SCRIPTS ? __( 'Enabled' ) : __( 'Disabled' );
+			$concatenate_scripts_debug = CONCATENATE_SCRIPTS ? 'true' : 'false';
+		} else {
+			$concatenate_scripts       = __( 'Undefined' );
+			$concatenate_scripts_debug = 'undefined';
+		}
+
+		// Check COMPRESS_SCRIPTS.
+		if ( defined( 'COMPRESS_SCRIPTS' ) ) {
+			$compress_scripts       = COMPRESS_SCRIPTS ? __( 'Enabled' ) : __( 'Disabled' );
+			$compress_scripts_debug = COMPRESS_SCRIPTS ? 'true' : 'false';
+		} else {
+			$compress_scripts       = __( 'Undefined' );
+			$compress_scripts_debug = 'undefined';
+		}
+
+		// Check COMPRESS_CSS.
+		if ( defined( 'COMPRESS_CSS' ) ) {
+			$compress_css       = COMPRESS_CSS ? __( 'Enabled' ) : __( 'Disabled' );
+			$compress_css_debug = COMPRESS_CSS ? 'true' : 'false';
+		} else {
+			$compress_css       = __( 'Undefined' );
+			$compress_css_debug = 'undefined';
+		}
+
+		// Check WP_ENVIRONMENT_TYPE.
+		if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE ) {
+			$wp_environment_type = WP_ENVIRONMENT_TYPE;
+		} else {
+			$wp_environment_type = __( 'Undefined' );
+		}
+
+		$fields = array(
+			'ABSPATH'             => array(
+				'label'   => 'ABSPATH',
+				'value'   => ABSPATH,
+				'private' => true,
+			),
+			'WP_HOME'             => array(
+				'label' => 'WP_HOME',
+				'value' => ( defined( 'WP_HOME' ) ? WP_HOME : __( 'Undefined' ) ),
+				'debug' => ( defined( 'WP_HOME' ) ? WP_HOME : 'undefined' ),
+			),
+			'WP_SITEURL'          => array(
+				'label' => 'WP_SITEURL',
+				'value' => ( defined( 'WP_SITEURL' ) ? WP_SITEURL : __( 'Undefined' ) ),
+				'debug' => ( defined( 'WP_SITEURL' ) ? WP_SITEURL : 'undefined' ),
+			),
+			'WP_CONTENT_DIR'      => array(
+				'label' => 'WP_CONTENT_DIR',
+				'value' => WP_CONTENT_DIR,
+			),
+			'WP_PLUGIN_DIR'       => array(
+				'label' => 'WP_PLUGIN_DIR',
+				'value' => WP_PLUGIN_DIR,
+			),
+			'WP_MEMORY_LIMIT'     => array(
+				'label' => 'WP_MEMORY_LIMIT',
+				'value' => WP_MEMORY_LIMIT,
+			),
+			'WP_MAX_MEMORY_LIMIT' => array(
+				'label' => 'WP_MAX_MEMORY_LIMIT',
+				'value' => WP_MAX_MEMORY_LIMIT,
+			),
+			'WP_DEBUG'            => array(
+				'label' => 'WP_DEBUG',
+				'value' => WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
+				'debug' => WP_DEBUG,
+			),
+			'WP_DEBUG_DISPLAY'    => array(
+				'label' => 'WP_DEBUG_DISPLAY',
+				'value' => WP_DEBUG_DISPLAY ? __( 'Enabled' ) : __( 'Disabled' ),
+				'debug' => WP_DEBUG_DISPLAY,
+			),
+			'WP_DEBUG_LOG'        => array(
+				'label' => 'WP_DEBUG_LOG',
+				'value' => $wp_debug_log_value,
+				'debug' => WP_DEBUG_LOG,
+			),
+			'SCRIPT_DEBUG'        => array(
+				'label' => 'SCRIPT_DEBUG',
+				'value' => SCRIPT_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
+				'debug' => SCRIPT_DEBUG,
+			),
+			'WP_CACHE'            => array(
+				'label' => 'WP_CACHE',
+				'value' => WP_CACHE ? __( 'Enabled' ) : __( 'Disabled' ),
+				'debug' => WP_CACHE,
+			),
+			'CONCATENATE_SCRIPTS' => array(
+				'label' => 'CONCATENATE_SCRIPTS',
+				'value' => $concatenate_scripts,
+				'debug' => $concatenate_scripts_debug,
+			),
+			'COMPRESS_SCRIPTS'    => array(
+				'label' => 'COMPRESS_SCRIPTS',
+				'value' => $compress_scripts,
+				'debug' => $compress_scripts_debug,
+			),
+			'COMPRESS_CSS'        => array(
+				'label' => 'COMPRESS_CSS',
+				'value' => $compress_css,
+				'debug' => $compress_css_debug,
+			),
+			'WP_ENVIRONMENT_TYPE' => array(
+				'label' => 'WP_ENVIRONMENT_TYPE',
+				'value' => $wp_environment_type,
+				'debug' => $wp_environment_type,
+			),
+			'WP_DEVELOPMENT_MODE' => array(
+				'label' => 'WP_DEVELOPMENT_MODE',
+				'value' => WP_DEVELOPMENT_MODE ? WP_DEVELOPMENT_MODE : __( 'Disabled' ),
+				'debug' => WP_DEVELOPMENT_MODE,
+			),
+			'DB_CHARSET'          => array(
+				'label' => 'DB_CHARSET',
+				'value' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : __( 'Undefined' ) ),
+				'debug' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : 'undefined' ),
+			),
+			'DB_COLLATE'          => array(
+				'label' => 'DB_COLLATE',
+				'value' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : __( 'Undefined' ) ),
+				'debug' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : 'undefined' ),
+			),
+		);
+
+		return array(
+			'label'       => __( 'WordPress Constants' ),
+			'description' => __( 'These settings alter where and how parts of WordPress are loaded.' ),
+			'fields'      => $fields,
+		);
 	}
 
 	/**
