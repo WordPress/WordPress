@@ -2738,6 +2738,8 @@ class WP_Theme_JSON {
 	 * @since 6.6.0 Setting a min-height of HTML when root styles have a background gradient or image.
 	 *              Updated general global styles specificity to 0-1-0.
 	 *              Fixed custom CSS output in block style variations.
+	 * @since 6.6.1 Avoid applying `:root :where()` wrapper to top-level element-only selectors.
+	 * @since 6.6.2 Avoid applying `:root :where()` wrapper to root selectors.
 	 *
 	 * @param array $block_metadata Metadata about the block to get styles for.
 	 *
@@ -2892,6 +2894,9 @@ class WP_Theme_JSON {
 		}
 
 		/*
+		 * Root selector (body) styles should not be wrapped in `:root where()` to keep
+		 * specificity at (0,0,1) and maintain backwards compatibility.
+		 *
 		 * Top-level element styles using element-only specificity selectors should
 		 * not get wrapped in `:root :where()` to maintain backwards compatibility.
 		 *
@@ -2899,11 +2904,13 @@ class WP_Theme_JSON {
 		 * still need to be wrapped in `:root :where` to cap specificity for nested
 		 * variations etc. Pseudo selectors won't match the ELEMENTS selector exactly.
 		 */
-		$element_only_selector = $current_element &&
+		$element_only_selector = $is_root_selector || (
+			$current_element &&
 			isset( static::ELEMENTS[ $current_element ] ) &&
 			// buttons, captions etc. still need `:root :where()` as they are class based selectors.
 			! isset( static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[ $current_element ] ) &&
-			static::ELEMENTS[ $current_element ] === $selector;
+			static::ELEMENTS[ $current_element ] === $selector
+		);
 
 		// 2. Generate and append the rules that use the general selector.
 		$general_selector = $element_only_selector ? $selector : ":root :where($selector)";
