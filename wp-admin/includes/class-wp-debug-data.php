@@ -412,7 +412,7 @@ class WP_Debug_Data {
 				'value' => size_format( $effective ),
 			);
 			$info['wp-media']['fields']['max_file_uploads']    = array(
-				'label' => __( 'Max number of files allowed' ),
+				'label' => __( 'Max simultaneous file uploads' ),
 				'value' => $max_file_uploads,
 			);
 		}
