@@ -1909,6 +1909,8 @@ class WP_HTML_Tag_Processor {
 			if ( $this->is_closing_tag ) {
 				// No chance of finding a closer.
 				if ( $at + 3 > $doc_length ) {
+					$this->parser_state = self::STATE_INCOMPLETE_INPUT;
+
 					return false;
 				}
 
