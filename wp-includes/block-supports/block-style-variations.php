@@ -196,7 +196,7 @@ function wp_render_block_style_variation_support_styles( $parsed_block ) {
 		return $parsed_block;
 	}
 
-	wp_register_style( 'block-style-variation-styles', false, array( 'global-styles', 'wp-block-library' ) );
+	wp_register_style( 'block-style-variation-styles', false, array( 'wp-block-library', 'global-styles' ) );
 	wp_add_inline_style( 'block-style-variation-styles', $variation_styles );
 
 	/*
