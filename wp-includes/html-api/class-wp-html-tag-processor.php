@@ -2921,7 +2921,7 @@ class WP_HTML_Tag_Processor {
 			return null;
 		}
 
-		$namespace = $this->get_namespace();
+		$namespace  = $this->get_namespace();
 		$lower_name = strtolower( $attribute_name );
 
 		if ( 'math' === $namespace && 'definitionurl' === $lower_name ) {

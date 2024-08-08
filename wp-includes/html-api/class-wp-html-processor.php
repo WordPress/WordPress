@@ -786,12 +786,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *                   or `null` if not matched on any token.
 	 */
 	public function expects_closer( WP_HTML_Token $node = null ): ?bool {
-		$token_name      = $node->node_name ?? $this->get_token_name();
-		$token_namespace = $node->namespace ?? $this->get_namespace();
+		$token_name = $node->node_name ?? $this->get_token_name();
 
 		if ( ! isset( $token_name ) ) {
 			return null;
 		}
+
+		$token_namespace        = $node->namespace ?? $this->get_namespace();
+		$token_has_self_closing = $node->has_self_closing_flag ?? $this->has_self_closing_flag();
 
 		return ! (
 			// Comments, text nodes, and other atomic tokens.
@@ -803,7 +805,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			// Special atomic elements.
 			( 'html' === $token_namespace && in_array( $token_name, array( 'IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP' ), true ) ) ||
 			// Self-closing elements in foreign content.
-			( isset( $node ) && 'html' !== $node->namespace && $node->has_self_closing_flag )
+			( 'html' !== $token_namespace && $token_has_self_closing )
 		);
 	}
 
