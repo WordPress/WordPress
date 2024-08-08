@@ -339,8 +339,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_Post         $attachment Inserted or updated attachment
-		 *                                    object.
+		 * @param WP_Post         $attachment Inserted or updated attachment object.
 		 * @param WP_REST_Request $request    The request sent to the API.
 		 * @param bool            $creating   True when creating an attachment, false when updating.
 		 */
