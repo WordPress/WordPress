@@ -521,6 +521,7 @@ final class WP_Interactivity_API {
 	 * @since 6.5.0
 	 * @since 6.6.0 The function now adds a warning when the namespace is null, falsy, or the directive value is empty.
 	 * @since 6.6.0 Removed `default_namespace` and `context` arguments.
+	 * @since 6.6.0 Add support for derived state.
 	 *
 	 * @param string|true $directive_value The directive attribute value string or `true` when it's a boolean attribute.
 	 * @return mixed|null The result of the evaluation. Null if the reference path doesn't exist or the namespace is falsy.
@@ -557,32 +558,32 @@ final class WP_Interactivity_API {
 			} else {
 				return null;
 			}
-		}
 
-		if ( $current instanceof Closure ) {
-			/*
-			 * This state getter's namespace is added to the stack so that
-			 * `state()` or `get_config()` read that namespace when called
-			 * without specifying one.
-			 */
-			array_push( $this->namespace_stack, $ns );
-			try {
-				$current = $current();
-			} catch ( Throwable $e ) {
-				_doing_it_wrong(
-					__METHOD__,
-					sprintf(
-						/* translators: 1: Path pointing to an Interactivity API state property, 2: Namespace for an Interactivity API store. */
-						__( 'Uncaught error executing a derived state callback with path "%1$s" and namespace "%2$s".' ),
-						$path,
-						$ns
-					),
-					'6.6.0'
-				);
-				return null;
-			} finally {
-				// Remove the property's namespace from the stack.
-				array_pop( $this->namespace_stack );
+			if ( $current instanceof Closure ) {
+				/*
+				 * This state getter's namespace is added to the stack so that
+				 * `state()` or `get_config()` read that namespace when called
+				 * without specifying one.
+				 */
+				array_push( $this->namespace_stack, $ns );
+				try {
+					$current = $current();
+				} catch ( Throwable $e ) {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: 1: Path pointing to an Interactivity API state property, 2: Namespace for an Interactivity API store. */
+							__( 'Uncaught error executing a derived state callback with path "%1$s" and namespace "%2$s".' ),
+							$path,
+							$ns
+						),
+						'6.6.0'
+					);
+					return null;
+				} finally {
+					// Remove the property's namespace from the stack.
+					array_pop( $this->namespace_stack );
+				}
 			}
 		}
 
