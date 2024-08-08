@@ -512,6 +512,23 @@ class WP_HTML_Tag_Processor {
 	protected $parser_state = self::STATE_READY;
 
 	/**
+	 * Indicates whether the parser is inside foreign content,
+	 * e.g. inside an SVG or MathML element.
+	 *
+	 * One of 'html', 'svg', or 'math'.
+	 *
+	 * Several parsing rules change based on whether the parser
+	 * is inside foreign content, including whether CDATA sections
+	 * are allowed and whether a self-closing flag indicates that
+	 * an element has no content.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @var string
+	 */
+	private $parsing_namespace = 'html';
+
+	/**
 	 * What kind of syntax token became an HTML comment.
 	 *
 	 * Since there are many ways in which HTML syntax can create an HTML comment,
@@ -781,6 +798,25 @@ class WP_HTML_Tag_Processor {
 	}
 
 	/**
+	 * Switches parsing mode into a new namespace, such as when
+	 * encountering an SVG tag and entering foreign content.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param string $new_namespace One of 'html', 'svg', or 'math' indicating into what
+	 *                              namespace the next tokens will be processed.
+	 * @return bool Whether the namespace was valid and changed.
+	 */
+	public function change_parsing_namespace( string $new_namespace ): bool {
+		if ( ! in_array( $new_namespace, array( 'html', 'math', 'svg' ), true ) ) {
+			return false;
+		}
+
+		$this->parsing_namespace = $new_namespace;
+		return true;
+	}
+
+	/**
 	 * Finds the next tag matching the $query.
 	 *
 	 * @since 6.2.0
@@ -843,6 +879,7 @@ class WP_HTML_Tag_Processor {
 	 * The Tag Processor currently only supports the tag token.
 	 *
 	 * @since 6.5.0
+	 * @since 6.7.0 Recognizes CDATA sections within foreign content.
 	 *
 	 * @return bool Whether a token was parsed.
 	 */
@@ -956,6 +993,7 @@ class WP_HTML_Tag_Processor {
 		 */
 		if (
 			$this->is_closing_tag ||
+			'html' !== $this->parsing_namespace ||
 			1 !== strspn( $this->html, 'iIlLnNpPsStTxX', $this->tag_name_starts_at, 1 )
 		) {
 			return true;
@@ -996,7 +1034,6 @@ class WP_HTML_Tag_Processor {
 		$duplicate_attributes = $this->duplicate_attributes;
 
 		// Find the closing tag if necessary.
-		$found_closer = false;
 		switch ( $tag_name ) {
 			case 'SCRIPT':
 				$found_closer = $this->skip_script_data();
@@ -1756,6 +1793,32 @@ class WP_HTML_Tag_Processor {
 					$this->text_starts_at       = $this->token_starts_at + 9;
 					$this->text_length          = $closer_at - $this->text_starts_at;
 					$this->bytes_already_parsed = $closer_at + 1;
+					return true;
+				}
+
+				if (
+					'html' !== $this->parsing_namespace &&
+					strlen( $html ) > $at + 8 &&
+					'[' === $html[ $at + 2 ] &&
+					'C' === $html[ $at + 3 ] &&
+					'D' === $html[ $at + 4 ] &&
+					'A' === $html[ $at + 5 ] &&
+					'T' === $html[ $at + 6 ] &&
+					'A' === $html[ $at + 7 ] &&
+					'[' === $html[ $at + 8 ]
+				) {
+					$closer_at = strpos( $html, ']]>', $at + 9 );
+					if ( false === $closer_at ) {
+						$this->parser_state = self::STATE_INCOMPLETE_INPUT;
+
+						return false;
+					}
+
+					$this->parser_state         = self::STATE_CDATA_NODE;
+					$this->text_starts_at       = $at + 9;
+					$this->text_length          = $closer_at - $this->text_starts_at;
+					$this->token_length         = $closer_at + 3 - $this->token_starts_at;
+					$this->bytes_already_parsed = $closer_at + 3;
 					return true;
 				}
 
@@ -2654,6 +2717,17 @@ class WP_HTML_Tag_Processor {
 	}
 
 	/**
+	 * Returns the namespace of the matched token.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return string One of 'html', 'math', or 'svg'.
+	 */
+	public function get_namespace(): string {
+		return $this->parsing_namespace;
+	}
+
+	/**
 	 * Returns the uppercase name of the matched tag.
 	 *
 	 * Example:
@@ -2688,6 +2762,388 @@ class WP_HTML_Tag_Processor {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the adjusted tag name for a given token, taking into
+	 * account the current parsing context, whether HTML, SVG, or MathML.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return string|null Name of current tag name.
+	 */
+	public function get_qualified_tag_name(): ?string {
+		$tag_name = $this->get_tag();
+		if ( null === $tag_name ) {
+			return null;
+		}
+
+		if ( 'html' === $this->get_namespace() ) {
+			return $tag_name;
+		}
+
+		$lower_tag_name = strtolower( $tag_name );
+		if ( 'math' === $this->get_namespace() ) {
+			return $lower_tag_name;
+		}
+
+		if ( 'svg' === $this->get_namespace() ) {
+			switch ( $lower_tag_name ) {
+				case 'altglyph':
+					return 'altGlyph';
+
+				case 'altglyphdef':
+					return 'altGlyphDef';
+
+				case 'altglyphitem':
+					return 'altGlyphItem';
+
+				case 'animatecolor':
+					return 'animateColor';
+
+				case 'animatemotion':
+					return 'animateMotion';
+
+				case 'animatetransform':
+					return 'animateTransform';
+
+				case 'clippath':
+					return 'clipPath';
+
+				case 'feblend':
+					return 'feBlend';
+
+				case 'fecolormatrix':
+					return 'feColorMatrix';
+
+				case 'fecomponenttransfer':
+					return 'feComponentTransfer';
+
+				case 'fecomposite':
+					return 'feComposite';
+
+				case 'feconvolvematrix':
+					return 'feConvolveMatrix';
+
+				case 'fediffuselighting':
+					return 'feDiffuseLighting';
+
+				case 'fedisplacementmap':
+					return 'feDisplacementMap';
+
+				case 'fedistantlight':
+					return 'feDistantLight';
+
+				case 'fedropshadow':
+					return 'feDropShadow';
+
+				case 'feflood':
+					return 'feFlood';
+
+				case 'fefunca':
+					return 'feFuncA';
+
+				case 'fefuncb':
+					return 'feFuncB';
+
+				case 'fefuncg':
+					return 'feFuncG';
+
+				case 'fefuncr':
+					return 'feFuncR';
+
+				case 'fegaussianblur':
+					return 'feGaussianBlur';
+
+				case 'feimage':
+					return 'feImage';
+
+				case 'femerge':
+					return 'feMerge';
+
+				case 'femergenode':
+					return 'feMergeNode';
+
+				case 'femorphology':
+					return 'feMorphology';
+
+				case 'feoffset':
+					return 'feOffset';
+
+				case 'fepointlight':
+					return 'fePointLight';
+
+				case 'fespecularlighting':
+					return 'feSpecularLighting';
+
+				case 'fespotlight':
+					return 'feSpotLight';
+
+				case 'fetile':
+					return 'feTile';
+
+				case 'feturbulence':
+					return 'feTurbulence';
+
+				case 'foreignobject':
+					return 'foreignObject';
+
+				case 'glyphref':
+					return 'glyphRef';
+
+				case 'lineargradient':
+					return 'linearGradient';
+
+				case 'radialgradient':
+					return 'radialGradient';
+
+				case 'textpath':
+					return 'textPath';
+
+				default:
+					return $lower_tag_name;
+			}
+		}
+	}
+
+	/**
+	 * Returns the adjusted attribute name for a given attribute, taking into
+	 * account the current parsing context, whether HTML, SVG, or MathML.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param string $attribute_name Which attribute to adjust.
+	 *
+	 * @return string|null
+	 */
+	public function get_qualified_attribute_name( $attribute_name ): ?string {
+		if ( self::STATE_MATCHED_TAG !== $this->parser_state ) {
+			return null;
+		}
+
+		$namespace = $this->get_namespace();
+		$lower_name = strtolower( $attribute_name );
+
+		if ( 'math' === $namespace && 'definitionurl' === $lower_name ) {
+			return 'definitionURL';
+		}
+
+		if ( 'svg' === $this->get_namespace() ) {
+			switch ( $lower_name ) {
+				case 'attributename':
+					return 'attributeName';
+
+				case 'attributetype':
+					return 'attributeType';
+
+				case 'basefrequency':
+					return 'baseFrequency';
+
+				case 'baseprofile':
+					return 'baseProfile';
+
+				case 'calcmode':
+					return 'calcMode';
+
+				case 'clippathunits':
+					return 'clipPathUnits';
+
+				case 'diffuseconstant':
+					return 'diffuseConstant';
+
+				case 'edgemode':
+					return 'edgeMode';
+
+				case 'filterunits':
+					return 'filterUnits';
+
+				case 'glyphref':
+					return 'glyphRef';
+
+				case 'gradienttransform':
+					return 'gradientTransform';
+
+				case 'gradientunits':
+					return 'gradientUnits';
+
+				case 'kernelmatrix':
+					return 'kernelMatrix';
+
+				case 'kernelunitlength':
+					return 'kernelUnitLength';
+
+				case 'keypoints':
+					return 'keyPoints';
+
+				case 'keysplines':
+					return 'keySplines';
+
+				case 'keytimes':
+					return 'keyTimes';
+
+				case 'lengthadjust':
+					return 'lengthAdjust';
+
+				case 'limitingconeangle':
+					return 'limitingConeAngle';
+
+				case 'markerheight':
+					return 'markerHeight';
+
+				case 'markerunits':
+					return 'markerUnits';
+
+				case 'markerwidth':
+					return 'markerWidth';
+
+				case 'maskcontentunits':
+					return 'maskContentUnits';
+
+				case 'maskunits':
+					return 'maskUnits';
+
+				case 'numoctaves':
+					return 'numOctaves';
+
+				case 'pathlength':
+					return 'pathLength';
+
+				case 'patterncontentunits':
+					return 'patternContentUnits';
+
+				case 'patterntransform':
+					return 'patternTransform';
+
+				case 'patternunits':
+					return 'patternUnits';
+
+				case 'pointsatx':
+					return 'pointsAtX';
+
+				case 'pointsaty':
+					return 'pointsAtY';
+
+				case 'pointsatz':
+					return 'pointsAtZ';
+
+				case 'preservealpha':
+					return 'preserveAlpha';
+
+				case 'preserveaspectratio':
+					return 'preserveAspectRatio';
+
+				case 'primitiveunits':
+					return 'primitiveUnits';
+
+				case 'refx':
+					return 'refX';
+
+				case 'refy':
+					return 'refY';
+
+				case 'repeatcount':
+					return 'repeatCount';
+
+				case 'repeatdur':
+					return 'repeatDur';
+
+				case 'requiredextensions':
+					return 'requiredExtensions';
+
+				case 'requiredfeatures':
+					return 'requiredFeatures';
+
+				case 'specularconstant':
+					return 'specularConstant';
+
+				case 'specularexponent':
+					return 'specularExponent';
+
+				case 'spreadmethod':
+					return 'spreadMethod';
+
+				case 'startoffset':
+					return 'startOffset';
+
+				case 'stddeviation':
+					return 'stdDeviation';
+
+				case 'stitchtiles':
+					return 'stitchTiles';
+
+				case 'surfacescale':
+					return 'surfaceScale';
+
+				case 'systemlanguage':
+					return 'systemLanguage';
+
+				case 'tablevalues':
+					return 'tableValues';
+
+				case 'targetx':
+					return 'targetX';
+
+				case 'targety':
+					return 'targetY';
+
+				case 'textlength':
+					return 'textLength';
+
+				case 'viewbox':
+					return 'viewBox';
+
+				case 'viewtarget':
+					return 'viewTarget';
+
+				case 'xchannelselector':
+					return 'xChannelSelector';
+
+				case 'ychannelselector':
+					return 'yChannelSelector';
+
+				case 'zoomandpan':
+					return 'zoomAndPan';
+			}
+		}
+
+		if ( 'html' !== $namespace ) {
+			switch ( $lower_name ) {
+				case 'xlink:actuate':
+					return 'xlink actuate';
+
+				case 'xlink:arcrole':
+					return 'xlink arcrole';
+
+				case 'xlink:href':
+					return 'xlink href';
+
+				case 'xlink:role':
+					return 'xlink role';
+
+				case 'xlink:show':
+					return 'xlink show';
+
+				case 'xlink:title':
+					return 'xlink title';
+
+				case 'xlink:type':
+					return 'xlink type';
+
+				case 'xml:lang':
+					return 'xml lang';
+
+				case 'xml:space':
+					return 'xml space';
+
+				case 'xmlns':
+					return 'xmlns';
+
+				case 'xmlns:xlink':
+					return 'xmlns xlink';
+			}
+		}
+
+		return $attribute_name;
 	}
 
 	/**
@@ -2963,8 +3419,12 @@ class WP_HTML_Tag_Processor {
 		 * In all other contexts it's replaced by the replacement character (U+FFFD)
 		 * for security reasons (to avoid joining together strings that were safe
 		 * when separated, but not when joined).
+		 *
+		 * @todo Inside HTML integration points and MathML integration points, the
+		 *       text is processed according to the insertion mode, not according
+		 *       to the foreign content rules. This should strip the NULL bytes.
 		 */
-		return '#text' === $tag_name
+		return ( '#text' === $tag_name && 'html' === $this->get_namespace() )
 			? str_replace( "\x00", '', $decoded )
 			: str_replace( "\x00", "\u{FFFD}", $decoded );
 	}

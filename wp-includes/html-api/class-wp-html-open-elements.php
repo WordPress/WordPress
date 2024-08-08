@@ -113,13 +113,13 @@ class WP_HTML_Open_Elements {
 	 *
 	 * @param int $nth Retrieve the nth item on the stack, with 1 being
 	 *                 the top element, 2 being the second, etc...
-	 * @return string|null Name of the node on the stack at the given location,
-	 *                     or `null` if the location isn't on the stack.
+	 * @return WP_HTML_Token|null Name of the node on the stack at the given location,
+	 *                            or `null` if the location isn't on the stack.
 	 */
-	public function at( int $nth ): ?string {
+	public function at( int $nth ): ?WP_HTML_Token {
 		foreach ( $this->walk_down() as $item ) {
 			if ( 0 === --$nth ) {
-				return $item->node_name;
+				return $item;
 			}
 		}
 
@@ -242,18 +242,22 @@ class WP_HTML_Open_Elements {
 	 */
 	public function has_element_in_specific_scope( string $tag_name, $termination_list ): bool {
 		foreach ( $this->walk_up() as $node ) {
-			if ( $node->node_name === $tag_name ) {
+			$namespaced_name = 'html' === $node->namespace
+				? $node->node_name
+				: "{$node->namespace} {$node->node_name}";
+
+			if ( $namespaced_name === $tag_name ) {
 				return true;
 			}
 
 			if (
 				'(internal: H1 through H6 - do not use)' === $tag_name &&
-				in_array( $node->node_name, array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true )
+				in_array( $namespaced_name, array( 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ), true )
 			) {
 				return true;
 			}
 
-			if ( in_array( $node->node_name, $termination_list, true ) ) {
+			if ( in_array( $namespaced_name, $termination_list, true ) ) {
 				return false;
 			}
 		}
@@ -288,7 +292,7 @@ class WP_HTML_Open_Elements {
 	 * >   - SVG title
 	 *
 	 * @since 6.4.0
-	 * @since 6.7.0 Supports all required HTML elements.
+	 * @since 6.7.0 Full support.
 	 *
 	 * @see https://html.spec.whatwg.org/#has-an-element-in-scope
 	 *
@@ -309,19 +313,16 @@ class WP_HTML_Open_Elements {
 				'OBJECT',
 				'TEMPLATE',
 
-				/*
-				 * @todo Support SVG and MathML nodes when support for foreign content is added.
-				 *
-				 * - MathML mi
-				 * - MathML mo
-				 * - MathML mn
-				 * - MathML ms
-				 * - MathML mtext
-				 * - MathML annotation-xml
-				 * - SVG foreignObject
-				 * - SVG desc
-				 * - SVG title
-				 */
+				'math MI',
+				'math MO',
+				'math MN',
+				'math MS',
+				'math MTEXT',
+				'math ANNOTATION-XML',
+
+				'svg FOREIGNOBJECT',
+				'svg DESC',
+				'svg TITLE',
 			)
 		);
 	}
@@ -363,19 +364,16 @@ class WP_HTML_Open_Elements {
 				'TEMPLATE',
 				'UL',
 
-				/*
-				 * @todo Support SVG and MathML nodes when support for foreign content is added.
-				 *
-				 * - MathML mi
-				 * - MathML mo
-				 * - MathML mn
-				 * - MathML ms
-				 * - MathML mtext
-				 * - MathML annotation-xml
-				 * - SVG foreignObject
-				 * - SVG desc
-				 * - SVG title
-				 */
+				'math MI',
+				'math MO',
+				'math MN',
+				'math MS',
+				'math MTEXT',
+				'math ANNOTATION-XML',
+
+				'svg FOREIGNOBJECT',
+				'svg DESC',
+				'svg TITLE',
 			)
 		);
 	}
@@ -413,19 +411,16 @@ class WP_HTML_Open_Elements {
 				'OBJECT',
 				'TEMPLATE',
 
-				/*
-				 * @todo Support SVG and MathML nodes when support for foreign content is added.
-				 *
-				 * - MathML mi
-				 * - MathML mo
-				 * - MathML mn
-				 * - MathML ms
-				 * - MathML mtext
-				 * - MathML annotation-xml
-				 * - SVG foreignObject
-				 * - SVG desc
-				 * - SVG title
-				 */
+				'math MI',
+				'math MO',
+				'math MN',
+				'math MS',
+				'math MTEXT',
+				'math ANNOTATION-XML',
+
+				'svg FOREIGNOBJECT',
+				'svg DESC',
+				'svg TITLE',
 			)
 		);
 	}
@@ -692,11 +687,15 @@ class WP_HTML_Open_Elements {
 	 * @param WP_HTML_Token $item Element that was added to the stack of open elements.
 	 */
 	public function after_element_push( WP_HTML_Token $item ): void {
+		$namespaced_name = 'html' === $item->namespace
+			? $item->node_name
+			: "{$item->namespace} {$item->node_name}";
+
 		/*
 		 * When adding support for new elements, expand this switch to trap
 		 * cases where the precalculated value needs to change.
 		 */
-		switch ( $item->node_name ) {
+		switch ( $namespaced_name ) {
 			case 'APPLET':
 			case 'BUTTON':
 			case 'CAPTION':
@@ -707,6 +706,15 @@ class WP_HTML_Open_Elements {
 			case 'MARQUEE':
 			case 'OBJECT':
 			case 'TEMPLATE':
+			case 'math MI':
+			case 'math MO':
+			case 'math MN':
+			case 'math MS':
+			case 'math MTEXT':
+			case 'math ANNOTATION-XML':
+			case 'svg FOREIGNOBJECT':
+			case 'svg DESC':
+			case 'svg TITLE':
 				$this->has_p_in_button_scope = false;
 				break;
 
@@ -750,6 +758,15 @@ class WP_HTML_Open_Elements {
 			case 'MARQUEE':
 			case 'OBJECT':
 			case 'TEMPLATE':
+			case 'math MI':
+			case 'math MO':
+			case 'math MN':
+			case 'math MS':
+			case 'math MTEXT':
+			case 'math ANNOTATION-XML':
+			case 'svg FOREIGNOBJECT':
+			case 'svg DESC':
+			case 'svg TITLE':
 				$this->has_p_in_button_scope = $this->has_element_in_button_scope( 'P' );
 				break;
 		}

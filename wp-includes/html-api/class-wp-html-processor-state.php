@@ -300,18 +300,6 @@ class WP_HTML_Processor_State {
 	const INSERTION_MODE_AFTER_AFTER_FRAMESET = 'insertion-mode-after-after-frameset';
 
 	/**
-	 * In foreign content insertion mode for full HTML parser.
-	 *
-	 * @since 6.7.0
-	 *
-	 * @see https://html.spec.whatwg.org/#parsing-main-inforeign
-	 * @see WP_HTML_Processor_State::$insertion_mode
-	 *
-	 * @var string
-	 */
-	const INSERTION_MODE_IN_FOREIGN_CONTENT = 'insertion-mode-in-foreign-content';
-
-	/**
 	 * No-quirks mode document compatability mode.
 	 *
 	 * > In no-quirks mode, the behavior is (hopefully) the desired behavior

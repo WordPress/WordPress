@@ -61,6 +61,24 @@ class WP_HTML_Token {
 	public $has_self_closing_flag = false;
 
 	/**
+	 * Indicates if the element is an HTML element or if it's inside foreign content.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @var string 'html', 'svg', or 'math'.
+	 */
+	public $namespace = 'html';
+
+	/**
+	 * Indicates which kind of integration point the element is, if any.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @var string|null 'math', 'html', or null if not an integration point.
+	 */
+	public $integration_node_type = null;
+
+	/**
 	 * Called when token is garbage-collected or otherwise destroyed.
 	 *
 	 * @var callable|null
@@ -80,6 +98,7 @@ class WP_HTML_Token {
 	 */
 	public function __construct( ?string $bookmark_name, string $node_name, bool $has_self_closing_flag, ?callable $on_destroy = null ) {
 		$this->bookmark_name         = $bookmark_name;
+		$this->namespace             = 'html';
 		$this->node_name             = $node_name;
 		$this->has_self_closing_flag = $has_self_closing_flag;
 		$this->on_destroy            = $on_destroy;
