@@ -614,7 +614,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @var string
+	 * @var int
 	 */
 	private $text_length;
 
@@ -2894,11 +2894,13 @@ class WP_HTML_Tag_Processor {
 	 * @return string
 	 */
 	public function get_modifiable_text(): string {
-		if ( null === $this->text_starts_at || 0 === $this->text_length ) {
+		$has_enqueued_update = isset( $this->lexical_updates['modifiable text'] );
+
+		if ( ! $has_enqueued_update && ( null === $this->text_starts_at || 0 === $this->text_length ) ) {
 			return '';
 		}
 
-		$text = isset( $this->lexical_updates['modifiable text'] )
+		$text = $has_enqueued_update
 			? $this->lexical_updates['modifiable text']->text
 			: substr( $this->html, $this->text_starts_at, $this->text_length );
 
