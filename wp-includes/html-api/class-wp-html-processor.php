@@ -775,9 +775,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * foreign content will also act just like a void tag, immediately
 	 * closing as soon as the processor advances to the next token.
 	 *
-	 * @todo Review the self-closing logic when no node is present, ensure it
-	 *       matches the expectations in `step()`.
-	 *
 	 * @since 6.6.0
 	 *
 	 * @param WP_HTML_Token|null $node Optional. Node to examine, if provided.
@@ -3317,12 +3314,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-TBODY':
 			case '-TFOOT':
 			case '-THEAD':
-				/*
-				 * @todo This needs to check if the element in scope is an HTML element, meaning that
-				 *       when SVG and MathML support is added, this needs to differentiate between an
-				 *       HTML element of the given name, such as `<center>`, and a foreign element of
-				 *       the same given name.
-				 */
 				if ( ! $this->state->stack_of_open_elements->has_element_in_table_scope( $tag_name ) ) {
 					// Parse error: ignore the token.
 					return $this->step();
@@ -3453,12 +3444,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-TBODY':
 			case '-TFOOT':
 			case '-THEAD':
-				/*
-				 * @todo This needs to check if the element in scope is an HTML element, meaning that
-				 *       when SVG and MathML support is added, this needs to differentiate between an
-				 *       HTML element of the given name, such as `<center>`, and a foreign element of
-				 *       the same given name.
-				 */
 				if ( ! $this->state->stack_of_open_elements->has_element_in_table_scope( $tag_name ) ) {
 					// Parse error: ignore the token.
 					return $this->step();
@@ -3521,12 +3506,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '-TD':
 			case '-TH':
-				/*
-				 * @todo This needs to check if the element in scope is an HTML element, meaning that
-				 *       when SVG and MathML support is added, this needs to differentiate between an
-				 *       HTML element of the given name, such as `<center>`, and a foreign element of
-				 *       the same given name.
-				 */
 				if ( ! $this->state->stack_of_open_elements->has_element_in_table_scope( $tag_name ) ) {
 					// Parse error: ignore the token.
 					return $this->step();
@@ -3590,12 +3569,6 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-TFOOT':
 			case '-THEAD':
 			case '-TR':
-				/*
-				 * @todo This needs to check if the element in scope is an HTML element, meaning that
-				 *       when SVG and MathML support is added, this needs to differentiate between an
-				 *       HTML element of the given name, such as `<center>`, and a foreign element of
-				 *       the same given name.
-				 */
 				if ( ! $this->state->stack_of_open_elements->has_element_in_table_scope( $tag_name ) ) {
 					// Parse error: ignore the token.
 					return $this->step();
