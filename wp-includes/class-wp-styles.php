@@ -165,14 +165,14 @@ class WP_Styles extends WP_Dependencies {
 			$ver = $ver ? $ver . '&amp;' . $this->args[ $handle ] : $this->args[ $handle ];
 		}
 
-		$src         = $obj->src;
-		$cond_before = '';
-		$cond_after  = '';
-		$conditional = isset( $obj->extra['conditional'] ) ? $obj->extra['conditional'] : '';
+		$src                   = $obj->src;
+		$ie_conditional_prefix = '';
+		$ie_conditional_suffix = '';
+		$conditional           = isset( $obj->extra['conditional'] ) ? $obj->extra['conditional'] : '';
 
 		if ( $conditional ) {
-			$cond_before = "<!--[if {$conditional}]>\n";
-			$cond_after  = "<![endif]-->\n";
+			$ie_conditional_prefix = "<!--[if {$conditional}]>\n";
+			$ie_conditional_suffix = "<![endif]-->\n";
 		}
 
 		$inline_style = $this->print_inline_style( $handle, false );
@@ -279,17 +279,17 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		if ( $this->do_concat ) {
-			$this->print_html .= $cond_before;
+			$this->print_html .= $ie_conditional_prefix;
 			$this->print_html .= $tag;
 			if ( $inline_style_tag ) {
 				$this->print_html .= $inline_style_tag;
 			}
-			$this->print_html .= $cond_after;
+			$this->print_html .= $ie_conditional_suffix;
 		} else {
-			echo $cond_before;
+			echo $ie_conditional_prefix;
 			echo $tag;
 			$this->print_inline_style( $handle );
-			echo $cond_after;
+			echo $ie_conditional_suffix;
 		}
 
 		return true;
@@ -368,7 +368,7 @@ class WP_Styles extends WP_Dependencies {
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
-		$r = parent::all_deps( $handles, $recursion, $group );
+		$result = parent::all_deps( $handles, $recursion, $group );
 		if ( ! $recursion ) {
 			/**
 			 * Filters the array of enqueued styles before processing for output.
@@ -379,7 +379,7 @@ class WP_Styles extends WP_Dependencies {
 			 */
 			$this->to_do = apply_filters( 'print_styles_array', $this->to_do );
 		}
-		return $r;
+		return $result;
 	}
 
 	/**
