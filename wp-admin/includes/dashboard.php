@@ -800,17 +800,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			__( 'View' )
 		);
 
-		/**
-		 * Filters the action links displayed for each comment in the 'Recent Comments'
-		 * dashboard widget.
-		 *
-		 * @since 2.6.0
-		 *
-		 * @param string[]   $actions An array of comment actions. Default actions include:
-		 *                            'Approve', 'Unapprove', 'Edit', 'Reply', 'Spam',
-		 *                            'Delete', and 'Trash'.
-		 * @param WP_Comment $comment The comment object.
-		 */
+		/** This filter is documented in wp-admin/includes/class-wp-comments-list-table.php */
 		$actions = apply_filters( 'comment_row_actions', array_filter( $actions ), $comment );
 
 		$i = 0;

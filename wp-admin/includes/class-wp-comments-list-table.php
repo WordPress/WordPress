@@ -847,7 +847,16 @@ class WP_Comments_List_Table extends WP_List_Table {
 			);
 		}
 
-		/** This filter is documented in wp-admin/includes/dashboard.php */
+		/**
+		 * Filters the action links displayed for each comment in the Comments list table.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string[]   $actions An array of comment actions. Default actions include:
+		 *                            'Approve', 'Unapprove', 'Edit', 'Reply', 'Spam',
+		 *                            'Delete', and 'Trash'.
+		 * @param WP_Comment $comment The comment object.
+		 */
 		$actions = apply_filters( 'comment_row_actions', array_filter( $actions ), $comment );
 
 		$always_visible = false;
