@@ -649,6 +649,10 @@ html[lang="th"] .edit-post-visual-editor * {
 	border: 0 solid;
 }
 
+figure.wp-block-pullquote blockquote {
+	color: inherit;
+}
+
 .wp-block-pullquote.alignleft blockquote > .editor-rich-text p,
 .wp-block-pullquote.alignright blockquote > .editor-rich-text p {
 	font-size: 20px;
