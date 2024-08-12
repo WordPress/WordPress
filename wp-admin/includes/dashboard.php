@@ -726,18 +726,20 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			'view'      => '',
 		);
 
-		$del_nonce     = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
-		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
+		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( 'approve-comment_' . $comment->comment_ID ) );
+		$del_nonce     = esc_html( '_wpnonce=' . wp_create_nonce( 'delete-comment_' . $comment->comment_ID ) );
 
-		$approve_url   = esc_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$approve_nonce" );
-		$unapprove_url = esc_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$approve_nonce" );
-		$spam_url      = esc_url( "comment.php?action=spamcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
-		$trash_url     = esc_url( "comment.php?action=trashcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
-		$delete_url    = esc_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
+		$action_string = 'comment.php?action=%s&p=' . $comment->comment_post_ID . '&c=' . $comment->comment_ID . '&%s';
+
+		$approve_url   = sprintf( $action_string, 'approvecomment', $approve_nonce );
+		$unapprove_url = sprintf( $action_string, 'unapprovecomment', $approve_nonce );
+		$spam_url      = sprintf( $action_string, 'spamcomment', $del_nonce );
+		$trash_url     = sprintf( $action_string, 'trashcomment', $del_nonce );
+		$delete_url    = sprintf( $action_string, 'deletecomment', $del_nonce );
 
 		$actions['approve'] = sprintf(
 			'<a href="%s" data-wp-lists="%s" class="vim-a aria-button-if-js" aria-label="%s">%s</a>',
-			$approve_url,
+			esc_url( $approve_url ),
 			"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=approved",
 			esc_attr__( 'Approve this comment' ),
 			__( 'Approve' )
@@ -745,7 +747,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 		$actions['unapprove'] = sprintf(
 			'<a href="%s" data-wp-lists="%s" class="vim-u aria-button-if-js" aria-label="%s">%s</a>',
-			$unapprove_url,
+			esc_url( $unapprove_url ),
 			"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=unapproved",
 			esc_attr__( 'Unapprove this comment' ),
 			__( 'Unapprove' )
@@ -768,7 +770,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 		$actions['spam'] = sprintf(
 			'<a href="%s" data-wp-lists="%s" class="vim-s vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
-			$spam_url,
+			esc_url( $spam_url ),
 			"delete:the-comment-list:comment-{$comment->comment_ID}::spam=1",
 			esc_attr__( 'Mark this comment as spam' ),
 			/* translators: "Mark as spam" link. */
@@ -778,7 +780,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		if ( ! EMPTY_TRASH_DAYS ) {
 			$actions['delete'] = sprintf(
 				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
-				$delete_url,
+				esc_url( $delete_url ),
 				"delete:the-comment-list:comment-{$comment->comment_ID}::trash=1",
 				esc_attr__( 'Delete this comment permanently' ),
 				__( 'Delete Permanently' )
@@ -786,7 +788,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		} else {
 			$actions['trash'] = sprintf(
 				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
-				$trash_url,
+				esc_url( $trash_url ),
 				"delete:the-comment-list:comment-{$comment->comment_ID}::trash=1",
 				esc_attr__( 'Move this comment to the Trash' ),
 				_x( 'Trash', 'verb' )
