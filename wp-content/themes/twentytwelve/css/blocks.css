@@ -340,6 +340,12 @@ pre.wp-block-code {
 	margin-bottom: 0;
 }
 
+/* Navigation */
+
+.site-content .wp-block-navigation {
+	overflow: visible;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widgets
 --------------------------------------------------------------*/
