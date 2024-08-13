@@ -1842,6 +1842,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 							if ( $bulk ) {
 								$dropdown_args['show_option_no_change'] = __( '&mdash; No Change &mdash;' );
+								$dropdown_args['id']                    = 'bulk_edit_post_parent';
 							}
 
 							/**

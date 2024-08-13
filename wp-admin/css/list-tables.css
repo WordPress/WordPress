@@ -1131,7 +1131,7 @@ tr.inline-edit-row td {
 	width: 75%;
 }
 
-.inline-edit-row #post_parent,
+.inline-edit-row select[name="post_parent"],
 .inline-edit-row select[name="page_template"] {
 	max-width: 80%;
 }
