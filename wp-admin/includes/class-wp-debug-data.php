@@ -1670,6 +1670,18 @@ class WP_Debug_Data {
 				'raw'  => 0,
 			);
 
+			// If the directory does not exist, skip checking it, as it will skew the other results.
+			if ( ! is_dir( $path ) ) {
+				$all_sizes[ $name ] = array(
+					'path'  => $path,
+					'raw'   => 0,
+					'size'  => __( 'The directory does not exist.' ),
+					'debug' => 'directory not found',
+				);
+
+				continue;
+			}
+
 			if ( microtime( true ) - WP_START_TIMESTAMP < $max_execution_time ) {
 				if ( 'wordpress_size' === $name ) {
 					$dir_size = recurse_dirsize( $path, $exclude, $max_execution_time );
