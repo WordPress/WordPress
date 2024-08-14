@@ -712,6 +712,11 @@ body #dashboard-widgets .postbox form .submit {
 	font-weight: 400;
 }
 
+#network_dashboard_right_now p input {
+	margin: 2px 1px;
+	vertical-align: middle;
+}
+
 /* Dashboard right now - Colors */
 
 #dashboard_right_now .sub {
