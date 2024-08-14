@@ -3667,7 +3667,7 @@ class WP_HTML_Tag_Processor {
 			 *
 			 * @see https://html.spec.whatwg.org/#attributes-3
 			 */
-			$escaped_new_value = in_array( $comparable_name, wp_kses_uri_attributes() ) ? esc_url( $value ) : esc_attr( $value );
+			$escaped_new_value = in_array( $comparable_name, wp_kses_uri_attributes(), true ) ? esc_url( $value ) : esc_attr( $value );
 
 			// If the escaping functions wiped out the update, reject it and indicate it was rejected.
 			if ( '' === $escaped_new_value && '' !== $value ) {
