@@ -54,11 +54,10 @@ function wp_register_tinymce_scripts( $scripts, $force_uncompressed = false ) {
 
 	script_concat_settings();
 
-	$compressed = $compress_scripts && $concatenate_scripts && isset( $_SERVER['HTTP_ACCEPT_ENCODING'] )
-		&& false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && ! $force_uncompressed;
+	$compressed = $compress_scripts && $concatenate_scripts && ! $force_uncompressed;
 
 	/*
-	 * Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production)
+	 * Load tinymce.js when running from /src, otherwise load wp-tinymce.js (in production)
 	 * or tinymce.min.js (when SCRIPT_DEBUG is true).
 	 */
 	if ( $compressed ) {
