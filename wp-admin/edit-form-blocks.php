@@ -55,13 +55,6 @@ $rest_path = rest_get_route_for_post( $post );
 $preload_paths = array(
 	'/wp/v2/types?context=view',
 	'/wp/v2/taxonomies?context=view',
-	add_query_arg(
-		array(
-			'context'  => 'edit',
-			'per_page' => -1,
-		),
-		rest_get_route_for_post_type_items( 'wp_block' )
-	),
 	add_query_arg( 'context', 'edit', $rest_path ),
 	sprintf( '/wp/v2/types/%s?context=edit', $post_type ),
 	'/wp/v2/users/me',
