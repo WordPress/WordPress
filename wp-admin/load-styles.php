@@ -1,11 +1,18 @@
 <?php
 
 /*
- * Disable error reporting.
- *
- * Set this to error_reporting( -1 ) for debugging.
+ * The error_reporting() function can be disabled in php.ini. On systems where that is the case,
+ * it's best to add a dummy function to the wp-config.php file, but as this call to the function
+ * is run prior to wp-config.php loading, it is wrapped in a function_exists() check.
  */
-error_reporting( 0 );
+if ( function_exists( 'error_reporting' ) ) {
+	/*
+	 * Disable error reporting.
+	 *
+	 * Set this to error_reporting( -1 ) for debugging.
+	 */
+	error_reporting( 0 );
+}
 
 // Set ABSPATH for execution.
 if ( ! defined( 'ABSPATH' ) ) {
