@@ -216,6 +216,21 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-transform: none;
 }
 
+.wp-block-pullquote[class*="-font-size"] blockquote,
+.wp-block-pullquote[class*="-font-size"] blockquote p,
+.wp-block-pullquote[class*="-font-size"] cite,
+.wp-block-pullquote[style*="font-size"] blockquote,
+.wp-block-pullquote[style*="font-size"] blockquote p,
+.wp-block-pullquote[style*="font-size"] cite {
+	font-size: inherit;
+}
+
+.wp-block-pullquote[style*="line-height"] blockquote,
+.wp-block-pullquote[style*="line-height"] blockquote p,
+.wp-block-pullquote[style*="line-height"] cite {
+	line-height: inherit;
+}
+
 .wp-block-pullquote cite:before {
 	content: "\2014\00a0";
 }
