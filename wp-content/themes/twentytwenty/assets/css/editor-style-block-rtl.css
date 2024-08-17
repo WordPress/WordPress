@@ -872,6 +872,10 @@ hr.wp-block-separator.is-style-dots::before {
 	transform: translateY(-50%);
 }
 
+.editor-styles-wrapper .wp-block-pullquote[style*="letter-spacing"] p {
+	letter-spacing: inherit;
+}
+
 .editor-styles-wrapper .wp-block-pullquote__citation,
 .editor-styles-wrapper .wp-block-pullquote cite,
 .editor-styles-wrapper .wp-block-pullquote footer {
