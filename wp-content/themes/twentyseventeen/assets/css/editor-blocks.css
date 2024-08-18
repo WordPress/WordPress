@@ -560,6 +560,16 @@ html[lang="th"] .edit-post-visual-editor * {
 	text-align: left;
 }
 
+/* Search */
+
+.wp-block-search__button {
+	background-color: #222;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.5;
+}
+
 @media screen and (min-width: 30em) {
 	.wp-block-quote.alignleft p,
 	.wp-block-quote.alignright p,
