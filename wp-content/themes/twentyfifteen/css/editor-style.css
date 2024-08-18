@@ -324,6 +324,13 @@ a {
 	text-decoration: none;
 }
 
+a:hover,
+a:focus {
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	border-bottom: 0;
+}
+
 
 /**
  * 4.0 Alignment
