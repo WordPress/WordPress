@@ -1255,6 +1255,10 @@ button.toggle {
 	margin-left: auto;
 }
 
+.aligncenter figcaption {
+	text-align: center;
+}
+
 /* Search Form ------------------------------- */
 
 .search-form {
@@ -5950,10 +5954,6 @@ a.to-the-top > * {
 	.wp-block-image .alignright {
 		margin-left: 0;
 	}
-
-    .wp-block-image .aligncenter figcaption {
-        text-align: center;
-    }
 
 	/* BLOCK: SEPARATOR */
 

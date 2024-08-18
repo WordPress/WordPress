@@ -1261,6 +1261,10 @@ button.toggle {
 	margin-right: auto;
 }
 
+.aligncenter figcaption {
+	text-align: center;
+}
+
 /* Search Form ------------------------------- */
 
 .search-form {
@@ -6022,10 +6026,6 @@ a.to-the-top > * {
 		/*rtl:ignore*/
 		margin-left: 0;
 	}
-
-    .wp-block-image .aligncenter figcaption {
-        text-align: center;
-    }
 
 	/* BLOCK: SEPARATOR */
 
