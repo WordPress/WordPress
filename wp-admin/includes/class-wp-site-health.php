@@ -1817,7 +1817,7 @@ class WP_Site_Health {
 	 * @return array The test results.
 	 */
 	public function get_test_available_updates_disk_space() {
-		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( WP_CONTENT_DIR . '/upgrade/' ) : false;
+		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( WP_CONTENT_DIR ) : false;
 
 		$result = array(
 			'label'       => __( 'Disk space available to safely perform updates' ),
