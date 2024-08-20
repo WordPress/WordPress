@@ -710,6 +710,7 @@
 	color: #043959;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
+	z-index: 1;
 }
 
 .media-router .active,
