@@ -1542,21 +1542,31 @@ function wp_print_media_templates() {
 	</script>
 
 	<?php // Template for the Site Icon preview, used for example in the Customizer. ?>
-	<script type="text/html" id="tmpl-site-icon-preview">
-		<h2><?php _e( 'Preview' ); ?></h2>
-		<strong aria-hidden="true"><?php _e( 'As a browser icon' ); ?></strong>
-		<div class="favicon-preview">
-			<img src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" height="" alt="" />
-
-			<div class="favicon">
-				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>" />
+	<script type="text/html" id="tmpl-site-icon-preview-crop">
+		<style>
+			:root{
+				--site-icon-url: url( "{{ data.url }}" );
+			}
+		</style>
+		<h2><?php _ex( 'Site Icon Preview', 'noun' ); ?></h2>
+		<p><?php _e( 'As an app icon and a browser icon.' ); ?></p>
+		<div class="site-icon-preview crop">
+			<div class="image-preview-wrap app-icon-preview">
+				<img id="preview-app-icon" src="{{ data.url }}" class="app-icon-preview" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>" />
 			</div>
-			<span class="browser-title" aria-hidden="true"><# print( '<?php echo esc_js( get_bloginfo( 'name' ) ); ?>' ) #></span>
-		</div>
-
-		<strong aria-hidden="true"><?php _e( 'As an app icon' ); ?></strong>
-		<div class="app-icon-preview">
-			<img id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>" />
+			<div class="site-icon-preview-browser">
+				<svg role="img" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" class="browser-buttons"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 20a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm18 0a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm24-6a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z" /></svg>
+				<div class="site-icon-preview-tab">
+					<div class="image-preview-wrap browser">
+						<img id="preview-favicon" src="{{ data.url }}" class="browser-icon-preview" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>" />
+					</div>
+					<div class="site-icon-preview-site-title" aria-hidden="true"><# print( '<?php echo esc_js( get_bloginfo( 'name' ) ); ?>' ) #></div>
+						<svg role="img" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" class="close-button">
+							<path d="M12 13.0607L15.7123 16.773L16.773 15.7123L13.0607 12L16.773 8.28772L15.7123 7.22706L12 10.9394L8.28771 7.22705L7.22705 8.28771L10.9394 12L7.22706 15.7123L8.28772 16.773L12 13.0607Z" />
+						</svg>
+					</div>
+				</div>
+			</div>
 		</div>
 	</script>
 

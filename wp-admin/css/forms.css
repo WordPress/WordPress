@@ -803,23 +803,13 @@ ul#add-to-blog-users {
 	padding: 9px 0;
 	line-height: 1.6;
 	max-width: 270px;
+	border-radius: 4px;
+	background: #f0f0f1;
 }
 
 .button-add-site-icon:focus,
 .button-add-site-icon:hover {
 	background: #fff;
-}
-
-.site-icon-section .favicon-preview {
-	float: left;
-}
-.site-icon-section .app-icon-preview {
-	float: left;
-	margin: 0 20px;
-}
-
-.site-icon-section .site-icon-preview img {
-	max-width: 100%;
 }
 
 .button-add-site-icon:focus {

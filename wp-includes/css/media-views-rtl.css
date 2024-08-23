@@ -2533,7 +2533,8 @@
 		width: 230px;
 	}
 
-	.options-general-php .crop-content.site-icon {
+	.options-general-php .crop-content.site-icon,
+	.wp-customizer:not(.mobile) .media-frame-content .crop-content.site-icon {
 		margin-left: 262px;
 	}
 
@@ -2833,7 +2834,8 @@
 		position: fixed;
 	}
 
-	.options-general-php .crop-content.site-icon {
+	.options-general-php .crop-content.site-icon,
+	.wp-customizer:not(.mobile) .media-frame-content .crop-content.site-icon {
 		margin-left: 0;
 	}
 

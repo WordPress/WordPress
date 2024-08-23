@@ -394,6 +394,7 @@ body.trashing #publish-settings {
 	margin-bottom: 0;
 }
 
+#customize-control-site_icon .customize-control-description,
 #customize-control-changeset_scheduled_date .customize-control-description {
 	font-style: normal;
 }
@@ -1067,10 +1068,6 @@ p.customize-section-description {
 	line-height: 0;
 }
 
-/* Remove descender space. */
-.customize-control-site_icon .favicon-preview .browser-preview {
-	vertical-align: top;
-}
 
 .customize-control .thumbnail-image img {
 	cursor: pointer;

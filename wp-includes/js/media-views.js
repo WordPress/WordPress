@@ -9173,8 +9173,8 @@ var View = wp.media.View,
  * @augments Backbone.View
  */
 SiteIconPreview = View.extend(/** @lends wp.media.view.SiteIconPreview.prototype */{
-	className: 'site-icon-preview',
-	template: wp.template( 'site-icon-preview' ),
+	className: 'site-icon-preview-crop-modal',
+	template: wp.template( 'site-icon-preview-crop' ),
 
 	ready: function() {
 		this.controller.imgSelect.setOptions({
@@ -9192,8 +9192,8 @@ SiteIconPreview = View.extend(/** @lends wp.media.view.SiteIconPreview.prototype
 	updatePreview: function( img, coords ) {
 		var rx = 64 / coords.width,
 			ry = 64 / coords.height,
-			preview_rx = 16 / coords.width,
-			preview_ry = 16 / coords.height;
+			preview_rx = 24 / coords.width,
+			preview_ry = 24 / coords.height;
 
 		$( '#preview-app-icon' ).css({
 			width: Math.round(rx * this.imageWidth ) + 'px',

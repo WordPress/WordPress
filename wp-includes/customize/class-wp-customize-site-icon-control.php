@@ -54,59 +54,66 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 		<# if ( data.label ) { #>
 			<span class="customize-control-title">{{ data.label }}</span>
 		<# } #>
-		<# if ( data.description ) { #>
-			<span class="description customize-control-description">{{{ data.description }}}</span>
-		<# } #>
 
 		<# if ( data.attachment && data.attachment.id ) { #>
 			<div class="attachment-media-view">
 				<# if ( data.attachment.sizes ) { #>
-					<div class="site-icon-preview wp-clearfix">
-						<div class="favicon-preview">
-							<img src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" alt="" />
-
-							<div class="favicon">
-								<img src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" alt="{{
-									data.attachment.alt ?
-										wp.i18n.sprintf(
-											<?php
-											/* translators: %s: The selected image alt text. */
-											echo wp_json_encode( __( 'Browser icon preview: Current image: %s' ) );
-											?>
-											,
-											data.attachment.alt
-										) :
-										wp.i18n.sprintf(
-											<?php
-											/* translators: %s: The selected image filename. */
-											echo wp_json_encode( __( 'Browser icon preview: The current image has no alternative text. The file name is: %s' ) );
-											?>
-											,
-											data.attachment.filename
-										)
-								}}" />
+					<style>
+						:root{
+							--site-icon-url: url( '{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}' );
+						}
+					</style>
+					<div class="site-icon-preview customizer">
+						<div class="direction-wrap">
+							<img src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" class="app-icon-preview" alt="{{
+								data.attachment.alt ?
+									wp.i18n.sprintf(
+										<?php
+										/* translators: %s: The selected image alt text. */
+										echo wp_json_encode( __( 'App icon preview: Current image: %s' ) )
+										?>
+										,
+										data.attachment.alt
+									) :
+									wp.i18n.sprintf(
+										<?php
+										/* translators: %s: The selected image filename. */
+										echo wp_json_encode( __( 'App icon preview: The current image has no alternative text. The file name is: %s' ) );
+										?>
+										,
+										data.attachment.filename
+									)
+							}}" />
+							<div class="site-icon-preview-browser">
+								<svg role="img" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" class="browser-buttons"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 20a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm18 0a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm24-6a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z" /></svg>
+								<div class="site-icon-preview-tab">
+									<img src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" class="browser-icon-preview" alt="{{
+										data.attachment.alt ?
+											wp.i18n.sprintf(
+												<?php
+												/* translators: %s: The selected image alt text. */
+												echo wp_json_encode( __( 'Browser icon preview: Current image: %s' ) );
+												?>
+												,
+												data.attachment.alt
+											) :
+											wp.i18n.sprintf(
+												<?php
+												/* translators: %s: The selected image filename. */
+												echo wp_json_encode( __( 'Browser icon preview: The current image has no alternative text. The file name is: %s' ) );
+												?>
+												,
+												data.attachment.filename
+											)
+									}}" />
+									<div class="site-icon-preview-site-title" aria-hidden="true"><# print( '<?php echo esc_js( get_bloginfo( 'name' ) ); ?>' ) #></div>
+										<svg role="img" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg" class="close-button">
+											<path d="M12 13.0607L15.7123 16.773L16.773 15.7123L13.0607 12L16.773 8.28772L15.7123 7.22706L12 10.9394L8.28771 7.22705L7.22705 8.28771L10.9394 12L7.22706 15.7123L8.28772 16.773L12 13.0607Z" />
+										</svg>
+									</div>
+								</div>
 							</div>
-							<span class="browser-title" aria-hidden="true"><# print( '<?php echo esc_js( get_bloginfo( 'name' ) ); ?>' ) #></span>
 						</div>
-						<img class="app-icon-preview" src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" alt="{{
-							data.attachment.alt ?
-								wp.i18n.sprintf(
-									<?php
-									/* translators: %s: The selected image alt text. */
-									echo wp_json_encode( __( 'App icon preview: Current image: %s' ) )
-									?>
-									,
-									data.attachment.alt
-								) :
-								wp.i18n.sprintf(
-									<?php
-									/* translators: %s: The selected image filename. */
-									echo wp_json_encode( __( 'App icon preview: The current image has no alternative text. The file name is: %s' ) );
-									?>
-									,
-									data.attachment.filename
-								)
-						}}"/>
 					</div>
 				<# } #>
 				<div class="actions">
@@ -127,6 +134,9 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 					<# } #>
 				</div>
 			</div>
+		<# } #>
+		<# if ( data.description ) { #>
+			<span class="description customize-control-description">{{{ data.description }}}</span>
 		<# } #>
 		<?php
 	}
