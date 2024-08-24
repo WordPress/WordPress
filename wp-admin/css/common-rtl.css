@@ -2032,7 +2032,7 @@ p.auto-update-status {
 ------------------------------------------------------------------------------*/
 
 html.wp-toolbar {
-	padding-top: 32px;
+	padding-top: var(--wp-admin--admin-bar--height);
 	box-sizing: border-box;
 	-ms-overflow-style: scrollbar; /* See ticket #48545 */
 }
@@ -3841,7 +3841,7 @@ img {
 
 @media screen and (max-width: 782px) {
 	html.wp-toolbar {
-		padding-top: 46px;
+		padding-top: var(--wp-admin--admin-bar--height);
 	}
 
 	.screen-reader-shortcut:focus {
