@@ -1188,6 +1188,7 @@ window.commentReply = {
 		if ( er ) {
 			$errorNotice.removeClass( 'hidden' );
 			$error.html( er );
+			wp.a11y.speak( er );
 		}
 	},
 
