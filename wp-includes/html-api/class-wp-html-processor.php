@@ -4704,7 +4704,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 */
 	public function get_namespace(): string {
 		if ( ! isset( $this->current_element ) ) {
-			return 'html';
+			return parent::get_namespace();
 		}
 
 		return $this->current_element->token->namespace;
