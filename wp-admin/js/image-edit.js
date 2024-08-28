@@ -296,14 +296,16 @@
 	 * Navigate popup menu by arrow keys.
 	 *
 	 * @since 6.3.0
+	 * @since 6.7.0 Added the event parameter.
 	 *
 	 * @memberof imageEdit
 	 *
+	 * @param {Event} event The key or click event.
 	 * @param {HTMLElement} el The current element.
 	 *
 	 * @return {boolean} Always returns false.
 	 */
-	browsePopup : function(el) {
+	browsePopup : function(event, el) {
 		var $el = $( el );
 		var $collection = $( el ).parent( '.imgedit-popup-menu' ).find( 'button' );
 		var $index = $collection.index( $el );
@@ -316,14 +318,14 @@
 		if ( $next === $last ) {
 			$next = 0;
 		}
-		var $target = false;
+		var target = false;
 		if ( event.keyCode === 40 ) {
-			$target = $collection.get( $next );
+			target = $collection.get( $next );
 		} else if ( event.keyCode === 38 ) {
-			$target = $collection.get( $prev );
+			target = $collection.get( $prev );
 		}
-		if ( $target ) {
-			$target.focus();
+		if ( target ) {
+			target.focus();
 			event.preventDefault();
 		}
 
