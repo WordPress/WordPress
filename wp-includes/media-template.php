@@ -605,8 +605,12 @@ function wp_print_media_templates() {
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
 							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
-						<# } else if ( data.sizes && data.sizes.medium ) { #>
-							<img src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
+						<# } else if ( data.sizes ) { 
+								if ( data.sizes.medium ) { #>
+									<img src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
+								<# } else { #>
+									<img src="{{ data.sizes.full.url }}" class="thumbnail" draggable="false" alt="" />
+								<# } #>
 						<# } else { #>
 							<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 						<# } #>
