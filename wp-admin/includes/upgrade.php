@@ -1844,7 +1844,7 @@ function upgrade_340() {
 		if ( 'yes' === $wpdb->get_var( "SELECT autoload FROM $wpdb->options WHERE option_name = 'uninstall_plugins'" ) ) {
 			$uninstall_plugins = get_option( 'uninstall_plugins' );
 			delete_option( 'uninstall_plugins' );
-			add_option( 'uninstall_plugins', $uninstall_plugins, null, 'no' );
+			add_option( 'uninstall_plugins', $uninstall_plugins, null, false );
 		}
 	}
 }
@@ -2340,7 +2340,7 @@ function upgrade_630() {
 			$can_compress_scripts = get_option( 'can_compress_scripts', false );
 			if ( false !== $can_compress_scripts ) {
 				delete_option( 'can_compress_scripts' );
-				add_option( 'can_compress_scripts', $can_compress_scripts, '', 'yes' );
+				add_option( 'can_compress_scripts', $can_compress_scripts, '', true );
 			}
 		}
 	}
@@ -2393,7 +2393,7 @@ function upgrade_650() {
 			)
 		);
 
-		$autoload = array_fill_keys( $theme_mods_options, 'no' );
+		$autoload = array_fill_keys( $theme_mods_options, false );
 		wp_set_option_autoload_values( $autoload );
 	}
 }
