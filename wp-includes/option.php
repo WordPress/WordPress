@@ -375,12 +375,13 @@ function get_options( $options ) {
  * by the plugin which are generally autoloaded can be set to not autoload when the plugin is inactive.
  *
  * @since 6.4.0
+ * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $options Associative array of option names and their autoload values to set. The option names are
- *                       expected to not be SQL-escaped. The autoload values accept 'yes'|true to enable or 'no'|false
- *                       to disable.
+ *                       expected to not be SQL-escaped. The autoload values should be boolean values. For backward
+ *                       compatibility 'yes' and 'no' are also accepted, though using these values is deprecated.
  * @return array Associative array of all provided $options as keys and boolean values for whether their autoload value
  *               was updated.
  */
@@ -398,7 +399,12 @@ function wp_set_option_autoload_values( array $options ) {
 	$results         = array();
 	foreach ( $options as $option => $autoload ) {
 		wp_protect_special_option( $option ); // Ensure only valid options can be passed.
-		if ( 'off' === $autoload || 'no' === $autoload || false === $autoload ) { // Sanitize autoload value and categorize accordingly.
+
+		/*
+		 * Sanitize autoload value and categorize accordingly.
+		 * The values 'yes', 'no', 'on', and 'off' are supported for backward compatibility.
+		 */
+		if ( 'off' === $autoload || 'no' === $autoload || false === $autoload ) {
 			$grouped_options['off'][] = $option;
 		} else {
 			$grouped_options['on'][] = $option;
@@ -496,12 +502,14 @@ function wp_set_option_autoload_values( array $options ) {
  * each option at once.
  *
  * @since 6.4.0
+ * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
  * @see wp_set_option_autoload_values()
  *
- * @param string[]    $options  List of option names. Expected to not be SQL-escaped.
- * @param string|bool $autoload Autoload value to control whether to load the options when WordPress starts up.
- *                              Accepts 'yes'|true to enable or 'no'|false to disable.
+ * @param string[] $options  List of option names. Expected to not be SQL-escaped.
+ * @param bool     $autoload Autoload value to control whether to load the options when WordPress starts up.
+ *                           For backward compatibility 'yes' and 'no' are also accepted, though using these values is
+ *                           deprecated.
  * @return array Associative array of all provided $options as keys and boolean values for whether their autoload value
  *               was updated.
  */
@@ -518,12 +526,14 @@ function wp_set_options_autoload( array $options, $autoload ) {
  * multiple options at once.
  *
  * @since 6.4.0
+ * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
  * @see wp_set_option_autoload_values()
  *
- * @param string      $option   Name of the option. Expected to not be SQL-escaped.
- * @param string|bool $autoload Autoload value to control whether to load the option when WordPress starts up.
- *                              Accepts 'yes'|true to enable or 'no'|false to disable.
+ * @param string $option   Name of the option. Expected to not be SQL-escaped.
+ * @param bool   $autoload Autoload value to control whether to load the option when WordPress starts up.
+ *                         For backward compatibility 'yes' and 'no' are also accepted, though using these values is
+ *                         deprecated.
  * @return bool True if the autoload value was modified, false otherwise.
  */
 function wp_set_option_autoload( $option, $autoload ) {
@@ -803,17 +813,19 @@ function wp_load_core_site_options( $network_id = null ) {
  *
  * @since 1.0.0
  * @since 4.2.0 The `$autoload` parameter was added.
+ * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string    $option   Name of the option to update. Expected to not be SQL-escaped.
  * @param mixed     $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param bool|null $autoload Optional. Whether to load the option when WordPress starts up.
- *                            Accepts a boolean, or `null` to stick with the initial value or, if no initial value is set,
- *                            to leave the decision up to default heuristics in WordPress.
- *                            For existing options,
- *                            `$autoload` can only be updated using `update_option()` if `$value` is also changed.
- *                            For backward compatibility 'yes' and 'no' are also accepted.
+ *                            Accepts a boolean, or `null` to stick with the initial value or, if no initial value is
+ *                            set, to leave the decision up to default heuristics in WordPress.
+ *                            For existing options, `$autoload` can only be updated using `update_option()` if `$value`
+ *                            is also changed.
+ *                            For backward compatibility 'yes' and 'no' are also accepted, though using these values is
+ *                            deprecated.
  *                            Autoloading too many options can lead to performance problems, especially if the
  *                            options are not frequently used. For options which are accessed across several places
  *                            in the frontend, it is recommended to autoload them, by using true.
@@ -1026,6 +1038,7 @@ function update_option( $option, $value, $autoload = null ) {
  *
  * @since 1.0.0
  * @since 6.6.0 The $autoload parameter's default value was changed to null.
+ * @since 6.7.0 The autoload values 'yes' and 'no' are deprecated.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1034,11 +1047,12 @@ function update_option( $option, $value, $autoload = null ) {
  *                              Expected to not be SQL-escaped.
  * @param string    $deprecated Optional. Description. Not used anymore.
  * @param bool|null $autoload   Optional. Whether to load the option when WordPress starts up.
- *                              Accepts a boolean, or `null` to leave the decision up to default heuristics in WordPress.
- *                              For backward compatibility 'yes' and 'no' are also accepted.
+ *                              Accepts a boolean, or `null` to leave the decision up to default heuristics in
+ *                              WordPress. For backward compatibility 'yes' and 'no' are also accepted, though using
+ *                              these values is deprecated.
  *                              Autoloading too many options can lead to performance problems, especially if the
  *                              options are not frequently used. For options which are accessed across several places
- *                              in the frontend, it is recommended to autoload them, by using 'yes'|true.
+ *                              in the frontend, it is recommended to autoload them, by using true.
  *                              For options which are accessed only on few specific URLs, it is recommended
  *                              to not autoload them, by using false.
  *                              Default is null, which means WordPress will determine the autoload value.
