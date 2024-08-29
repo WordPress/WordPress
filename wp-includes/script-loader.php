@@ -96,7 +96,6 @@ function wp_default_packages_vendor( $scripts ) {
 		'lodash',
 		'wp-polyfill-fetch',
 		'wp-polyfill-formdata',
-		'wp-polyfill-importmap',
 		'wp-polyfill-node-contains',
 		'wp-polyfill-url',
 		'wp-polyfill-dom-rect',
@@ -122,7 +121,6 @@ function wp_default_packages_vendor( $scripts ) {
 		'wp-polyfill-object-fit'      => '2.3.5',
 		'wp-polyfill-inert'           => '3.1.2',
 		'wp-polyfill'                 => '3.15.0',
-		'wp-polyfill-importmap'       => '1.8.2',
 	);
 
 	foreach ( $vendor_scripts as $handle => $dependencies ) {
