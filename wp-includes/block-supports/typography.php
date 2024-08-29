@@ -518,6 +518,7 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
  * @since 6.3.0 Using layout.wideSize as max viewport width, and logarithmic scale factor to calculate minimum font scale.
  * @since 6.4.0 Added configurable min and max viewport width values to the typography.fluid theme.json schema.
  * @since 6.6.0 Deprecated bool argument $should_use_fluid_typography.
+ * @since 6.7.0 Font size presets can enable fluid typography individually, even if it’s disabled globally.
  *
  * @param array      $preset   {
  *     Required. fontSizes preset value as seen in theme.json.
@@ -538,10 +539,11 @@ function wp_get_typography_font_size_value( $preset, $settings = array() ) {
 	}
 
 	/*
-	 * Catches empty values and 0/'0'.
-	 * Fluid calculations cannot be performed on 0.
+	 * Catches falsy values and 0/'0'. Fluid calculations cannot be performed on `0`.
+	 * Also returns early when a preset font size explicitly disables fluid typography with `false`.
 	 */
-	if ( empty( $preset['size'] ) ) {
+	$fluid_font_size_settings = $preset['fluid'] ?? null;
+	if ( false === $fluid_font_size_settings || empty( $preset['size'] ) ) {
 		return $preset['size'];
 	}
 
@@ -564,15 +566,20 @@ function wp_get_typography_font_size_value( $preset, $settings = array() ) {
 		$global_settings
 	);
 
-	$typography_settings         = isset( $settings['typography'] ) ? $settings['typography'] : array();
-	$should_use_fluid_typography = ! empty( $typography_settings['fluid'] );
+	$typography_settings = $settings['typography'] ?? array();
 
-	if ( ! $should_use_fluid_typography ) {
+	/*
+	 * Return early when fluid typography is disabled in the settings, and there
+	 * are no local settings to enable it for the individual preset.
+	 *
+	 * If this condition isn't met, either the settings or individual preset settings
+	 * have enabled fluid typography.
+	 */
+	if ( empty( $typography_settings['fluid'] ) && empty( $fluid_font_size_settings ) ) {
 		return $preset['size'];
 	}
 
-	// $typography_settings['fluid'] can be a bool or an array. Normalize to array.
-	$fluid_settings  = is_array( $typography_settings['fluid'] ) ? $typography_settings['fluid'] : array();
+	$fluid_settings  = isset( $typography_settings['fluid'] ) ? $typography_settings['fluid'] : array();
 	$layout_settings = isset( $settings['layout'] ) ? $settings['layout'] : array();
 
 	// Defaults.
@@ -591,14 +598,6 @@ function wp_get_typography_font_size_value( $preset, $settings = array() ) {
 	}
 	$has_min_font_size       = isset( $fluid_settings['minFontSize'] ) && ! empty( wp_get_typography_value_and_unit( $fluid_settings['minFontSize'] ) );
 	$minimum_font_size_limit = $has_min_font_size ? $fluid_settings['minFontSize'] : $default_minimum_font_size_limit;
-
-	// Font sizes.
-	$fluid_font_size_settings = isset( $preset['fluid'] ) ? $preset['fluid'] : null;
-
-	// A font size has explicitly bypassed fluid calculations.
-	if ( false === $fluid_font_size_settings ) {
-		return $preset['size'];
-	}
 
 	// Try to grab explicit min and max fluid font sizes.
 	$minimum_font_size_raw = isset( $fluid_font_size_settings['min'] ) ? $fluid_font_size_settings['min'] : null;
