@@ -230,8 +230,6 @@ class WP_Script_Modules {
 	 * Prints the import map using a script tag with a type="importmap" attribute.
 	 *
 	 * @since 6.5.0
-	 *
-	 * @global WP_Scripts $wp_scripts The WP_Scripts object for printing the polyfill.
 	 */
 	public function print_import_map() {
 		$import_map = $this->get_import_map();
