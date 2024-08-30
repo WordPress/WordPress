@@ -142,6 +142,15 @@
 	wp.updates.searchTerm = '';
 
 	/**
+	 * Minimum number of characters before an ajax search is fired.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @type {number}
+	 */
+	wp.updates.searchMinCharacters = 2;
+
+	/**
 	 * Whether filesystem credentials need to be requested from the user.
 	 *
 	 * @since 4.2.0
@@ -2977,6 +2986,15 @@
 			$pluginInstallSearch.attr( 'aria-describedby', 'live-search-desc' );
 		}
 
+		// Track the previous search string length.
+		var previousSearchStringLength = 0;
+		wp.updates.shouldSearch = function( searchStringLength ) {
+			var shouldSearch = searchStringLength >= wp.updates.searchMinCharacters ||
+				previousSearchStringLength > wp.updates.searchMinCharacters;
+			previousSearchStringLength = searchStringLength;
+			return shouldSearch;
+		};
+
 		/**
 		 * Handles changes to the plugin search box on the new-plugin page,
 		 * searching the repository dynamically.
@@ -2984,7 +3002,8 @@
 		 * @since 4.6.0
 		 */
 		$pluginInstallSearch.on( 'keyup input', _.debounce( function( event, eventtype ) {
-			var $searchTab = $( '.plugin-install-search' ), data, searchLocation;
+			var $searchTab = $( '.plugin-install-search' ), data, searchLocation,
+				searchStringLength = $pluginInstallSearch.val().length;
 
 			data = {
 				_ajax_nonce: wp.updates.ajaxNonce,
@@ -2994,6 +3013,14 @@
 				pagenow:     pagenow
 			};
 			searchLocation = location.href.split( '?' )[ 0 ] + '?' + $.param( _.omit( data, [ '_ajax_nonce', 'pagenow' ] ) );
+
+			// Set the autocomplete attribute, turning off autocomplete 1 character before ajax search kicks in.
+			if ( wp.updates.shouldSearch( searchStringLength ) ) {
+				$pluginInstallSearch.attr( 'autocomplete', 'off' );
+			} else {
+				$pluginInstallSearch.attr( 'autocomplete', 'on' );
+				return;
+			}
 
 			// Clear on escape.
 			if ( 'keyup' === event.type && 27 === event.which ) {
@@ -3054,6 +3081,7 @@
 
 		if ( $pluginSearch.length ) {
 			$pluginSearch.attr( 'aria-describedby', 'live-search-desc' );
+
 		}
 
 		/**
@@ -3069,7 +3097,16 @@
 				pagenow:       pagenow,
 				plugin_status: 'all'
 			},
-			queryArgs;
+			queryArgs,
+			searchStringLength = $pluginSearch.val().length;
+
+			// Set the autocomplete attribute, turning off autocomplete 1 character before ajax search kicks in.
+			if ( wp.updates.shouldSearch( searchStringLength ) ) {
+				$pluginSearch.attr( 'autocomplete', 'off' );
+			} else {
+				$pluginSearch.attr( 'autocomplete', 'on' );
+				return;
+			}
 
 			// Clear on escape.
 			if ( 'keyup' === event.type && 27 === event.which ) {
