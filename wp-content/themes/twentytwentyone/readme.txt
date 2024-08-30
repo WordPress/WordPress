@@ -102,7 +102,7 @@ https://wordpress.org/documentation/article/twenty-twenty-one-changelog/#Version
 
 == Copyright ==
 
-Twenty Twenty-One WordPress Theme, 2020-2024 WordPress.org
+Twenty Twenty-One WordPress Theme, 2020-2024 WordPress.org and contributors.
 Twenty Twenty-One is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify

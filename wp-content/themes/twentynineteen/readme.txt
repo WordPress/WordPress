@@ -25,7 +25,7 @@ For more information about Twenty Nineteen please go to https://wordpress.org/do
 
 == Copyright ==
 
-Twenty Nineteen WordPress Theme, Copyright 2018-2024 WordPress.org
+Twenty Nineteen WordPress Theme, Copyright 2018-2024 WordPress.org, and contributors.
 Twenty Nineteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

@@ -23,7 +23,7 @@ For more information about Twenty Fourteen please go to https://codex.wordpress.
 
 == Copyright ==
 
-Twenty Fourteen WordPress Theme, Copyright 2013-2024 WordPress.org & Automattic.com
+Twenty Fourteen WordPress Theme, Copyright 2013-2024 WordPress.org, Automattic Inc., and contributors.
 Twenty Fourteen is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
-Genericons icon font, Copyright 2013-2017 Automattic.com
+Genericons icon font, Copyright 2013-2017 Automattic Inc.
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
