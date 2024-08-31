@@ -5471,6 +5471,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-audio audio {
+  display: block;
   width: 100%;
 }
 

@@ -990,6 +990,11 @@ figcaption,
   line-height: 1.6;
 }
 
+/** === Audio === */
+.wp-block-audio audio {
+  display: block;
+}
+
 /** === Button === */
 .wp-block-buttons {
   line-height: 1.2;
