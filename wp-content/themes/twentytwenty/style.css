@@ -599,6 +599,7 @@ pre {
 
 pre code {
 	background: transparent;
+	font-size: 1em;
 	padding: 0;
 }
 

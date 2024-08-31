@@ -329,7 +329,7 @@
 .editor-styles-wrapper pre,
 .editor-styles-wrapper samp {
 	border-radius: 0;
-	font-size: 0.75em;
+	font-size: 0.9em;
 	padding: 4px 6px;
 }
 
@@ -338,6 +338,10 @@
 	border-radius: 0;
 	line-height: 1.5;
 	padding: 1em;
+}
+
+.editor-styles-wrapper pre code {
+	font-size: 1em;
 }
 
 
@@ -719,9 +723,8 @@ hr.wp-block-separator.is-style-dots::before {
 	color: inherit;
 }
 
-.editor-styles-wrapper .wp-block-code,
-.editor-styles-wrapper .wp-block-preformatted pre,
-.editor-styles-wrapper .wp-block-verse pre {
+.editor-styles-wrapper pre,
+.editor-styles-wrapper .wp-block-code {
 	border: 1px solid #dcd7ca;
 	border-radius: 0;
 	padding: 30px;
@@ -734,7 +737,7 @@ hr.wp-block-separator.is-style-dots::before {
 	background: transparent;
 	color: inherit;
 	font-family: monospace;
-	font-size: 14px;
+	font-size: 16px;
 }
 
 /* Block: Cover ------------------------------ */
@@ -1339,14 +1342,6 @@ hr.wp-block-separator.is-style-dots::before {
 	:root .editor-styles-wrapper .wp-block-button__link,
 	:root .editor-styles-wrapper .wp-block-file__button {
 		font-size: 17px;
-	}
-
-	/* BLOCK: CODE */
-
-	.editor-styles-wrapper .wp-block-preformatted pre,
-	.editor-styles-wrapper .wp-block-code .block-editor-plain-text,
-	.editor-styles-wrapper .wp-block-verse pre {
-		font-size: 16px;
 	}
 
 	/* BLOCK: COLUMNS */
