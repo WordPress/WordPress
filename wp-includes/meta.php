@@ -568,7 +568,8 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
  *               The value of the meta field if `$single` is true.
  *               False for an invalid `$object_id` (non-numeric, zero, or negative value),
  *               or if `$meta_type` is not specified.
- *               An empty string if a valid but non-existing object ID is passed.
+ *               An empty array if a valid but non-existing object ID is passed and `$single` is false.
+ *               An empty string if a valid but non-existing object ID is passed and `$single` is true.
  */
 function get_metadata( $meta_type, $object_id, $meta_key = '', $single = false ) {
 	$value = get_metadata_raw( $meta_type, $object_id, $meta_key, $single );
