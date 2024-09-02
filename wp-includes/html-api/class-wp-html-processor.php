@@ -2352,13 +2352,13 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				foreach ( $this->state->active_formatting_elements->walk_up() as $item ) {
 					switch ( $item->node_name ) {
 						case 'marker':
-							break;
+							break 2;
 
 						case 'A':
 							$this->run_adoption_agency_algorithm();
 							$this->state->active_formatting_elements->remove_node( $item );
 							$this->state->stack_of_open_elements->remove_node( $item );
-							break;
+							break 2;
 					}
 				}
 
