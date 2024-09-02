@@ -1160,7 +1160,7 @@ class WP_HTML_Tag_Processor {
 			 *
 			 * @see https://www.w3.org/TR/CSS2/syndata.html#x1
 			 */
-			$name = strtolower( substr( $class, $at, $length ) );
+			$name = str_replace( "\x00", "\u{FFFD}", strtolower( substr( $class, $at, $length ) ) );
 			$at  += $length;
 
 			/*
