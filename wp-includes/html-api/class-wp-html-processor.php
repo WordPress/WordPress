@@ -2415,6 +2415,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			case '-EM':
 			case '-FONT':
 			case '-I':
+			case '-NOBR':
 			case '-S':
 			case '-SMALL':
 			case '-STRIKE':
