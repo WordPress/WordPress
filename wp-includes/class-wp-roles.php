@@ -165,7 +165,7 @@ class WP_Roles {
 			'capabilities' => $capabilities,
 		);
 		if ( $this->use_db ) {
-			update_option( $this->role_key, $this->roles );
+			update_option( $this->role_key, $this->roles, true );
 		}
 		$this->role_objects[ $role ] = new WP_Role( $role, $capabilities );
 		$this->role_names[ $role ]   = $display_name;

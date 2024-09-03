@@ -38,7 +38,7 @@ nocache_headers();
 if ( get_option( 'db_upgraded' ) ) {
 
 	flush_rewrite_rules();
-	update_option( 'db_upgraded', false );
+	update_option( 'db_upgraded', false, true );
 
 	/**
 	 * Fires on the next page load after a successful DB upgrade.

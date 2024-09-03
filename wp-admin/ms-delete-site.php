@@ -48,7 +48,7 @@ if ( isset( $_POST['action'] ) && 'deleteblog' === $_POST['action'] && isset( $_
 	check_admin_referer( 'delete-blog' );
 
 	$hash = wp_generate_password( 20, false );
-	update_option( 'delete_blog_hash', $hash );
+	update_option( 'delete_blog_hash', $hash, false );
 
 	$url_delete = esc_url( admin_url( 'ms-delete-site.php?h=' . $hash ) );
 

@@ -194,7 +194,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $screen->in_admin( 'network' ) ) {
 			update_site_option( 'recently_activated', $recently_activated );
 		} else {
-			update_option( 'recently_activated', $recently_activated );
+			update_option( 'recently_activated', $recently_activated, false );
 		}
 
 		$plugin_info = get_site_transient( 'update_plugins' );

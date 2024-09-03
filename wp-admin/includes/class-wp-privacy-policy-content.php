@@ -120,7 +120,7 @@ final class WP_Privacy_Policy_Content {
 
 		// Cache the result for use before `admin_init` (see above).
 		if ( $cached !== $state ) {
-			update_option( '_wp_suggested_policy_text_has_changed', $state );
+			update_option( '_wp_suggested_policy_text_has_changed', $state, false );
 		}
 
 		return 'changed' === $state;

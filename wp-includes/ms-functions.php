@@ -2021,7 +2021,7 @@ function check_upload_mimes( $mimes ) {
  */
 function update_posts_count( $deprecated = '' ) {
 	global $wpdb;
-	update_option( 'post_count', (int) $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_status = 'publish' and post_type = 'post'" ) );
+	update_option( 'post_count', (int) $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_status = 'publish' and post_type = 'post'" ), true );
 }
 
 /**

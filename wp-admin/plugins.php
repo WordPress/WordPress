@@ -71,7 +71,7 @@ if ( $action ) {
 			if ( ! is_network_admin() ) {
 				$recent = (array) get_option( 'recently_activated' );
 				unset( $recent[ $plugin ] );
-				update_option( 'recently_activated', $recent );
+				update_option( 'recently_activated', $recent, false );
 			} else {
 				$recent = (array) get_site_option( 'recently_activated' );
 				unset( $recent[ $plugin ] );
@@ -136,7 +136,7 @@ if ( $action ) {
 			}
 
 			if ( ! is_network_admin() ) {
-				update_option( 'recently_activated', $recent );
+				update_option( 'recently_activated', $recent, false );
 			} else {
 				update_site_option( 'recently_activated', $recent );
 			}
@@ -211,7 +211,7 @@ if ( $action ) {
 			deactivate_plugins( $plugin, false, is_network_admin() );
 
 			if ( ! is_network_admin() ) {
-				update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ) );
+				update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ), false );
 			} else {
 				update_site_option( 'recently_activated', array( $plugin => time() ) + (array) get_site_option( 'recently_activated' ) );
 			}
@@ -258,7 +258,7 @@ if ( $action ) {
 			}
 
 			if ( ! is_network_admin() ) {
-				update_option( 'recently_activated', $deactivated + (array) get_option( 'recently_activated' ) );
+				update_option( 'recently_activated', $deactivated + (array) get_option( 'recently_activated' ), false );
 			} else {
 				update_site_option( 'recently_activated', $deactivated + (array) get_site_option( 'recently_activated' ) );
 			}
@@ -436,7 +436,7 @@ if ( $action ) {
 			exit;
 		case 'clear-recent-list':
 			if ( ! is_network_admin() ) {
-				update_option( 'recently_activated', array() );
+				update_option( 'recently_activated', array(), false );
 			} else {
 				update_site_option( 'recently_activated', array() );
 			}

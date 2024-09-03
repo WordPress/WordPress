@@ -6002,7 +6002,7 @@ function wp_update_https_detection_errors() {
 	 */
 	$support_errors = apply_filters( 'pre_wp_update_https_detection_errors', null );
 	if ( is_wp_error( $support_errors ) ) {
-		update_option( 'https_detection_errors', $support_errors->errors );
+		update_option( 'https_detection_errors', $support_errors->errors, false );
 		return;
 	}
 
