@@ -1804,18 +1804,21 @@ function _admin_notice_post_locked() {
 		$locked = false;
 	}
 
-	$sendback = wp_get_referer();
-	if ( $locked && $sendback && ! str_contains( $sendback, 'post.php' ) && ! str_contains( $sendback, 'post-new.php' ) ) {
+	$sendback      = wp_get_referer();
+	$sendback_text = __( 'Go back' );
 
-		$sendback_text = __( 'Go back' );
-	} else {
+	if ( ! $locked || ! $sendback || str_contains( $sendback, 'post.php' ) || str_contains( $sendback, 'post-new.php' ) ) {
 		$sendback = admin_url( 'edit.php' );
 
 		if ( 'post' !== $post->post_type ) {
 			$sendback = add_query_arg( 'post_type', $post->post_type, $sendback );
 		}
 
-		$sendback_text = get_post_type_object( $post->post_type )->labels->all_items;
+		$post_type_object = get_post_type_object( $post->post_type );
+
+		if ( $post_type_object ) {
+			$sendback_text = $post_type_object->labels->all_items;
+		}
 	}
 
 	$hidden = $locked ? '' : ' hidden';
