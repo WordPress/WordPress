@@ -3337,8 +3337,8 @@ class WP_HTML_Tag_Processor {
 	}
 
 	/**
-	 * Subdivides a matched text node or CDATA text node, splitting NULL byte sequences
-	 * and decoded whitespace as distinct prefixes.
+	 * Subdivides a matched text node, splitting NULL byte sequences and decoded whitespace as
+	 * distinct nodes prefixes.
 	 *
 	 * Note that once anything that's neither a NULL byte nor decoded whitespace is
 	 * encountered, then the remainder of the text node is left intact as generic text.
@@ -3368,70 +3368,55 @@ class WP_HTML_Tag_Processor {
 	 * @return bool Whether the text node was subdivided.
 	 */
 	public function subdivide_text_appropriately(): bool {
-		$this->text_node_classification = self::TEXT_IS_GENERIC;
-
-		if ( self::STATE_TEXT_NODE === $this->parser_state ) {
-			/*
-			 * NULL bytes are treated categorically different than numeric character
-			 * references whose number is zero. `&#x00;` is not the same as `"\x00"`.
-			 */
-			$leading_nulls = strspn( $this->html, "\x00", $this->text_starts_at, $this->text_length );
-			if ( $leading_nulls > 0 ) {
-				$this->token_length             = $leading_nulls;
-				$this->text_length              = $leading_nulls;
-				$this->bytes_already_parsed     = $this->token_starts_at + $leading_nulls;
-				$this->text_node_classification = self::TEXT_IS_NULL_SEQUENCE;
-				return true;
-			}
-
-			/*
-			 * Start a decoding loop to determine the point at which the
-			 * text subdivides. This entails raw whitespace bytes and any
-			 * character reference that decodes to the same.
-			 */
-			$at  = $this->text_starts_at;
-			$end = $this->text_starts_at + $this->text_length;
-			while ( $at < $end ) {
-				$skipped = strspn( $this->html, " \t\f\r\n", $at, $end - $at );
-				$at     += $skipped;
-
-				if ( $at < $end && '&' === $this->html[ $at ] ) {
-					$matched_byte_length = null;
-					$replacement         = WP_HTML_Decoder::read_character_reference( 'data', $this->html, $at, $matched_byte_length );
-					if ( isset( $replacement ) && 1 === strspn( $replacement, " \t\f\r\n" ) ) {
-						$at += $matched_byte_length;
-						continue;
-					}
-				}
-
-				break;
-			}
-
-			if ( $at > $this->text_starts_at ) {
-				$new_length                     = $at - $this->text_starts_at;
-				$this->text_length              = $new_length;
-				$this->token_length             = $new_length;
-				$this->bytes_already_parsed     = $at;
-				$this->text_node_classification = self::TEXT_IS_WHITESPACE;
-				return true;
-			}
-
+		if ( self::STATE_TEXT_NODE !== $this->parser_state ) {
 			return false;
 		}
 
-		// Unlike text nodes, there are no character references within CDATA sections.
-		if ( self::STATE_CDATA_NODE === $this->parser_state ) {
-			$leading_nulls = strspn( $this->html, "\x00", $this->text_starts_at, $this->text_length );
-			if ( $leading_nulls === $this->text_length ) {
-				$this->text_node_classification = self::TEXT_IS_NULL_SEQUENCE;
-				return true;
+		$this->text_node_classification = self::TEXT_IS_GENERIC;
+
+		/*
+		 * NULL bytes are treated categorically different than numeric character
+		 * references whose number is zero. `&#x00;` is not the same as `"\x00"`.
+		 */
+		$leading_nulls = strspn( $this->html, "\x00", $this->text_starts_at, $this->text_length );
+		if ( $leading_nulls > 0 ) {
+			$this->token_length             = $leading_nulls;
+			$this->text_length              = $leading_nulls;
+			$this->bytes_already_parsed     = $this->token_starts_at + $leading_nulls;
+			$this->text_node_classification = self::TEXT_IS_NULL_SEQUENCE;
+			return true;
+		}
+
+		/*
+		 * Start a decoding loop to determine the point at which the
+		 * text subdivides. This entails raw whitespace bytes and any
+		 * character reference that decodes to the same.
+		 */
+		$at  = $this->text_starts_at;
+		$end = $this->text_starts_at + $this->text_length;
+		while ( $at < $end ) {
+			$skipped = strspn( $this->html, " \t\f\r\n", $at, $end - $at );
+			$at     += $skipped;
+
+			if ( $at < $end && '&' === $this->html[ $at ] ) {
+				$matched_byte_length = null;
+				$replacement         = WP_HTML_Decoder::read_character_reference( 'data', $this->html, $at, $matched_byte_length );
+				if ( isset( $replacement ) && 1 === strspn( $replacement, " \t\f\r\n" ) ) {
+					$at += $matched_byte_length;
+					continue;
+				}
 			}
 
-			$leading_ws = strspn( $this->html, " \t\f\r\n", $this->text_starts_at, $this->text_length );
-			if ( $leading_ws === $this->text_length ) {
-				$this->text_node_classification = self::TEXT_IS_WHITESPACE;
-				return true;
-			}
+			break;
+		}
+
+		if ( $at > $this->text_starts_at ) {
+			$new_length                     = $at - $this->text_starts_at;
+			$this->text_length              = $new_length;
+			$this->token_length             = $new_length;
+			$this->bytes_already_parsed     = $at;
+			$this->text_node_classification = self::TEXT_IS_WHITESPACE;
+			return true;
 		}
 
 		return false;
