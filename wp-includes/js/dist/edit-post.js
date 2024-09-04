@@ -2557,8 +2557,8 @@ function usePaddingAppender() {
       const {
         defaultView
       } = ownerDocument;
-      const paddingBottom = defaultView.parseInt(defaultView.getComputedStyle(node).paddingBottom, 10);
-      if (!paddingBottom) {
+      const pseudoHeight = defaultView.parseInt(defaultView.getComputedStyle(node, ':after').height, 10);
+      if (!pseudoHeight) {
         return;
       }
 
@@ -2571,20 +2571,15 @@ function usePaddingAppender() {
       if (event.clientY < lastChildRect.bottom) {
         return;
       }
-      event.preventDefault();
+      event.stopPropagation();
       const blockOrder = registry.select(external_wp_blockEditor_namespaceObject.store).getBlockOrder('');
       const lastBlockClientId = blockOrder[blockOrder.length - 1];
-
-      // Do nothing when only default block appender is present.
-      if (!lastBlockClientId) {
-        return;
-      }
       const lastBlock = registry.select(external_wp_blockEditor_namespaceObject.store).getBlock(lastBlockClientId);
       const {
         selectBlock,
         insertDefaultBlock
       } = registry.dispatch(external_wp_blockEditor_namespaceObject.store);
-      if ((0,external_wp_blocks_namespaceObject.isUnmodifiedDefaultBlock)(lastBlock)) {
+      if (lastBlock && (0,external_wp_blocks_namespaceObject.isUnmodifiedDefaultBlock)(lastBlock)) {
         selectBlock(lastBlockClientId);
       } else {
         insertDefaultBlock();
@@ -2701,7 +2696,6 @@ function useEditorStyles() {
     hasThemeStyleSupport,
     editorSettings,
     isZoomedOutView,
-    hasMetaBoxes,
     renderingMode,
     postType
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -2717,7 +2711,6 @@ function useEditorStyles() {
       hasThemeStyleSupport: select(store).isFeatureActive('themeStyles'),
       editorSettings: select(external_wp_editor_namespaceObject.store).getEditorSettings(),
       isZoomedOutView: __unstableGetEditorMode() === 'zoom-out',
-      hasMetaBoxes: select(store).hasMetaBoxes(),
       renderingMode: getRenderingMode(),
       postType: _postType
     };
@@ -2747,13 +2740,11 @@ function useEditorStyles() {
     }
     const baseStyles = hasThemeStyles ? (_editorSettings$style3 = editorSettings.styles) !== null && _editorSettings$style3 !== void 0 ? _editorSettings$style3 : [] : defaultEditorStyles;
 
-    // Add a constant padding for the typewriter effect. When typing at the
-    // bottom, there needs to be room to scroll up.
-    if (!isZoomedOutView && !hasMetaBoxes && renderingMode === 'post-only' && !DESIGN_POST_TYPES.includes(postType)) {
+    // Add a space for the typewriter effect. When typing in the last block,
+    // there needs to be room to scroll up.
+    if (!isZoomedOutView && renderingMode === 'post-only' && !DESIGN_POST_TYPES.includes(postType)) {
       return [...baseStyles, {
-        // Should override global styles padding, so ensure 0-1-0
-        // specificity.
-        css: ':root :where(body){padding-bottom: 40vh}'
+        css: ':root :where(.editor-styles-wrapper)::after {content: ""; display: block; height: 40vh;}'
       }];
     }
     return baseStyles;
