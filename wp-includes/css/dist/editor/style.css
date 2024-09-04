@@ -854,6 +854,14 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   height:61px;
 }
 
+.editor-editor-interface .interface-interface-skeleton__content{
+  isolation:isolate;
+}
+
+.editor-visual-editor{
+  flex:1 0 auto;
+}
+
 .components-editor-notices__dismissible,.components-editor-notices__pinned{
   color:#1e1e1e;
   left:0;
@@ -2458,8 +2466,6 @@ h3.components-heading.editor-template-areas__title{
   align-items:center;
   background-color:#ddd;
   display:block;
-  height:100%;
-  isolation:isolate;
   position:relative;
 }
 .editor-visual-editor.is-resizable{

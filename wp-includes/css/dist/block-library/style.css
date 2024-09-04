@@ -2270,7 +2270,7 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[
   display:block;
   height:100%;
 }
-.wp-block-post-featured-image img{
+.wp-block-post-featured-image :where(img){
   box-sizing:border-box;
   height:auto;
   max-width:100%;
