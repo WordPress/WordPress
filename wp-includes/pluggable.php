@@ -2553,12 +2553,19 @@ if ( ! function_exists( 'wp_hash' ) ) :
 	 *
 	 * @param string $data   Plain text to hash.
 	 * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
+	 * @param string $algo   Hashing algorithm to use (default: md5).
 	 * @return string Hash of $data.
 	 */
-	function wp_hash( $data, $scheme = 'auth' ) {
+	function wp_hash( $data, $scheme = 'auth', $algo = 'md5' ) {
 		$salt = wp_salt( $scheme );
 
-		return hash_hmac( 'md5', $data, $salt );
+		// Ensure the algorithm is supported by the hash_hmac function.
+		if ( ! in_array( $algo, hash_hmac_algos(), true ) ) {
+			// Fall back to 'md5' if the provided algorithm is not supported.
+			$algo = 'md5';
+		}
+
+		return hash_hmac( $algo, $data, $salt );
 	}
 endif;
 
