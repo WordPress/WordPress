@@ -61,8 +61,35 @@ class WP_Debug_Data {
 			}
 		}
 
-		// Set up the array that holds all debug information.
-		$info = array();
+		/*
+		 * Set up the array that holds all debug information.
+		 *
+		 * When iterating through the debug data, the ordering of the sections
+		 * occurs in insertion-order of the assignments into this array. Setting
+		 * up empty values here preserves that specific ordering so it doesn't
+		 * depend on when inside this method each section is otherwise assigned.
+		 *
+		 * When all sections have been modularized, this will be the final single
+		 * assignment of the sections before filtering and none will be empty.
+		 *
+		 * @ticket 61648
+		 */
+		$info = array(
+			'wp-core'             => array(),
+			'wp-paths-sizes'      => array(),
+			'wp-dropins'          => array(),
+			'wp-active-theme'     => array(),
+			'wp-parent-theme'     => array(),
+			'wp-themes-inactive'  => array(),
+			'wp-mu-plugins'       => array(),
+			'wp-plugins-active'   => array(),
+			'wp-plugins-inactive' => array(),
+			'wp-media'            => array(),
+			'wp-server'           => array(),
+			'wp-database'         => self::get_wp_database(),
+			'wp-constants'        => self::get_wp_constants(),
+			'wp-filesystem'       => self::get_wp_filesystem(),
+		);
 
 		$info['wp-core'] = array(
 			'label'  => __( 'WordPress' ),
@@ -1153,10 +1180,6 @@ class WP_Debug_Data {
 				'debug' => $theme_version_string_debug,
 			);
 		}
-
-		$info['wp-constants']  = self::get_wp_constants();
-		$info['wp-database']   = self::get_wp_database();
-		$info['wp-filesystem'] = self::get_wp_filesystem();
 
 		/**
 		 * Filters the debug information shown on the Tools -> Site Health -> Info screen.
