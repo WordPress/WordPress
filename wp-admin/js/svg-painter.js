@@ -8,123 +8,22 @@ window.wp = window.wp || {};
 
 wp.svgPainter = ( function( $, window, document, undefined ) {
 	'use strict';
-	var selector, base64, painter,
+	var selector, painter,
 		colorscheme = {},
 		elements = [];
 
 	$( function() {
-		// Detection for browser SVG capability.
-		if ( document.implementation.hasFeature( 'http://www.w3.org/TR/SVG11/feature#Image', '1.1' ) ) {
-			$( document.body ).removeClass( 'no-svg' ).addClass( 'svg' );
-			wp.svgPainter.init();
-		}
+		wp.svgPainter.init();
 	});
-
-	/**
-	 * Needed only for IE9
-	 *
-	 * Based on jquery.base64.js 0.0.3 - https://github.com/yckart/jquery.base64.js
-	 *
-	 * Based on: https://gist.github.com/Yaffle/1284012
-	 *
-	 * Copyright (c) 2012 Yannick Albert (http://yckart.com)
-	 * Licensed under the MIT license
-	 * http://www.opensource.org/licenses/mit-license.php
-	 */
-	base64 = ( function() {
-		var c,
-			b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-			a256 = '',
-			r64 = [256],
-			r256 = [256],
-			i = 0;
-
-		function init() {
-			while( i < 256 ) {
-				c = String.fromCharCode(i);
-				a256 += c;
-				r256[i] = i;
-				r64[i] = b64.indexOf(c);
-				++i;
-			}
-		}
-
-		function code( s, discard, alpha, beta, w1, w2 ) {
-			var tmp, length,
-				buffer = 0,
-				i = 0,
-				result = '',
-				bitsInBuffer = 0;
-
-			s = String(s);
-			length = s.length;
-
-			while( i < length ) {
-				c = s.charCodeAt(i);
-				c = c < 256 ? alpha[c] : -1;
-
-				buffer = ( buffer << w1 ) + c;
-				bitsInBuffer += w1;
-
-				while( bitsInBuffer >= w2 ) {
-					bitsInBuffer -= w2;
-					tmp = buffer >> bitsInBuffer;
-					result += beta.charAt(tmp);
-					buffer ^= tmp << bitsInBuffer;
-				}
-				++i;
-			}
-
-			if ( ! discard && bitsInBuffer > 0 ) {
-				result += beta.charAt( buffer << ( w2 - bitsInBuffer ) );
-			}
-
-			return result;
-		}
-
-		function btoa( plain ) {
-			if ( ! c ) {
-				init();
-			}
-
-			plain = code( plain, false, r256, b64, 8, 6 );
-			return plain + '===='.slice( ( plain.length % 4 ) || 4 );
-		}
-
-		function atob( coded ) {
-			var i;
-
-			if ( ! c ) {
-				init();
-			}
-
-			coded = coded.replace( /[^A-Za-z0-9\+\/\=]/g, '' );
-			coded = String(coded).split('=');
-			i = coded.length;
-
-			do {
-				--i;
-				coded[i] = code( coded[i], true, r64, a256, 6, 8 );
-			} while ( i > 0 );
-
-			coded = coded.join('');
-			return coded;
-		}
-
-		return {
-			atob: atob,
-			btoa: btoa
-		};
-	})();
 
 	return {
 		init: function() {
 			painter = this;
 			selector = $( '#adminmenu .wp-menu-image, #wpadminbar .ab-item' );
 
-			this.setColors();
-			this.findElements();
-			this.paint();
+			painter.setColors();
+			painter.findElements();
+			painter.paint();
 		},
 
 		setColors: function( colors ) {
@@ -201,11 +100,7 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 				}
 
 				try {
-					if ( 'atob' in window ) {
-						xml = window.atob( encoded[1] );
-					} else {
-						xml = base64.atob( encoded[1] );
-					}
+					xml = window.atob( encoded[1] );
 				} catch ( error ) {}
 
 				if ( xml ) {
@@ -218,11 +113,7 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 					// Replace `fill` properties in `<style>` tags.
 					xml = xml.replace( /fill:.*?;/g, 'fill: ' + color + ';');
 
-					if ( 'btoa' in window ) {
-						xml = window.btoa( xml );
-					} else {
-						xml = base64.btoa( xml );
-					}
+					xml = window.btoa( xml );
 
 					$element.data( 'wp-ui-svg-' + color, xml );
 				} else {
