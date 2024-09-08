@@ -47,7 +47,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 	switch ( $cap ) {
 		case 'remove_user':
 			// In multisite the user must be a super admin to remove themselves.
-			if ( isset( $args[0] ) && $user_id == $args[0] && ! is_super_admin( $user_id ) ) {
+			if ( isset( $args[0] ) && $user_id === (int) $args[0] && ! is_super_admin( $user_id ) ) {
 				$caps[] = 'do_not_allow';
 			} else {
 				$caps[] = 'remove_users';
@@ -60,7 +60,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'edit_user':
 		case 'edit_users':
 			// Allow user to edit themselves.
-			if ( 'edit_user' === $cap && isset( $args[0] ) && $user_id == $args[0] ) {
+			if ( 'edit_user' === $cap && isset( $args[0] ) && $user_id === (int) $args[0] ) {
 				break;
 			}
 
@@ -103,7 +103,9 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				break;
 			}
 
-			if ( ( get_option( 'page_for_posts' ) == $post->ID ) || ( get_option( 'page_on_front' ) == $post->ID ) ) {
+			if ( (int) get_option( 'page_for_posts' ) === $post->ID
+				|| (int) get_option( 'page_on_front' ) === $post->ID
+			) {
 				$caps[] = 'manage_options';
 				break;
 			}
@@ -137,7 +139,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			}
 
 			// If the post author is set and the user is the author...
-			if ( $post->post_author && $user_id == $post->post_author ) {
+			if ( $post->post_author && $user_id === (int) $post->post_author ) {
 				// If the post is published or scheduled...
 				if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->delete_published_posts;
@@ -240,7 +242,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			}
 
 			// If the post author is set and the user is the author...
-			if ( $post->post_author && $user_id == $post->post_author ) {
+			if ( $post->post_author && $user_id === (int) $post->post_author ) {
 				// If the post is published or scheduled...
 				if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->edit_published_posts;
@@ -362,7 +364,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				break;
 			}
 
-			if ( $post->post_author && $user_id == $post->post_author ) {
+			if ( $post->post_author && $user_id === (int) $post->post_author ) {
 				$caps[] = $post_type->cap->read;
 			} elseif ( $status_obj->private ) {
 				$caps[] = $post_type->cap->read_private_posts;
@@ -730,8 +732,8 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			}
 
 			if ( 'delete_term' === $cap
-				&& ( get_option( 'default_' . $term->taxonomy ) == $term->term_id
-					|| get_option( 'default_term_' . $term->taxonomy ) == $term->term_id )
+				&& ( (int) get_option( 'default_' . $term->taxonomy ) === $term->term_id
+					|| (int) get_option( 'default_term_' . $term->taxonomy ) === $term->term_id )
 			) {
 				$caps[] = 'do_not_allow';
 				break;
