@@ -723,7 +723,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 *
 			 * @since 2.5.0
 			 *
-			 * @param string[] $post_columns An associative array of column headings.
+			 * @param string[] $posts_columns An associative array of column headings.
 			 */
 			$posts_columns = apply_filters( 'manage_pages_columns', $posts_columns );
 		} else {
@@ -733,8 +733,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param string[] $post_columns An associative array of column headings.
-			 * @param string   $post_type    The post type slug.
+			 * @param string[] $posts_columns An associative array of column headings.
+			 * @param string   $post_type     The post type slug.
 			 */
 			$posts_columns = apply_filters( 'manage_posts_columns', $posts_columns, $post_type );
 		}
@@ -751,7 +751,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string[] $post_columns An associative array of column headings.
+		 * @param string[] $posts_columns An associative array of column headings.
 		 */
 		return apply_filters( "manage_{$post_type}_posts_columns", $posts_columns );
 	}
