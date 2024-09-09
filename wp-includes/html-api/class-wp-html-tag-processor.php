@@ -2965,6 +2965,9 @@ class WP_HTML_Tag_Processor {
 					return $lower_tag_name;
 			}
 		}
+
+		// This unnecessary return prevents tools from inaccurately reporting type errors.
+		return $tag_name;
 	}
 
 	/**
