@@ -34,6 +34,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 
 	$user_details = null;
 	$user_email   = wp_unslash( $_REQUEST['email'] );
+
 	if ( str_contains( $user_email, '@' ) ) {
 		$user_details = get_user_by( 'email', $user_email );
 	} else {
@@ -63,7 +64,8 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 	$redirect       = 'user-new.php';
 	$username       = $user_details->user_login;
 	$user_id        = $user_details->ID;
-	if ( null != $username && array_key_exists( $blog_id, get_blogs_of_user( $user_id ) ) ) {
+
+	if ( array_key_exists( $blog_id, get_blogs_of_user( $user_id ) ) ) {
 		$redirect = add_query_arg( array( 'update' => 'addexisting' ), 'user-new.php' );
 	} else {
 		if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
@@ -178,6 +180,7 @@ Please click the following link to confirm the invite:
 			$redirect = add_query_arg( array( 'update' => 'add' ), 'user-new.php' );
 		}
 	}
+
 	wp_redirect( $redirect );
 	die();
 } elseif ( isset( $_REQUEST['action'] ) && 'createuser' === $_REQUEST['action'] ) {
@@ -202,6 +205,7 @@ Please click the following link to confirm the invite:
 			} else {
 				$redirect = add_query_arg( 'update', 'add', 'user-new.php' );
 			}
+
 			wp_redirect( $redirect );
 			die();
 		}
@@ -209,15 +213,18 @@ Please click the following link to confirm the invite:
 		// Adding a new user to this site.
 		$new_user_email = wp_unslash( $_REQUEST['email'] );
 		$user_details   = wpmu_validate_user_signup( $_REQUEST['user_login'], $new_user_email );
+
 		if ( is_wp_error( $user_details['errors'] ) && $user_details['errors']->has_errors() ) {
 			$add_user_errors = $user_details['errors'];
 		} else {
 			/** This filter is documented in wp-includes/user.php */
 			$new_user_login = apply_filters( 'pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
+
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' );  // Disable confirmation email.
 				add_filter( 'wpmu_welcome_user_notification', '__return_false' ); // Disable welcome email.
 			}
+
 			wpmu_signup_user(
 				$new_user_login,
 				$new_user_email,
@@ -226,6 +233,7 @@ Please click the following link to confirm the invite:
 					'new_role'    => $_REQUEST['role'],
 				)
 			);
+
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
 				$key      = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
 				$new_user = wpmu_activate_signup( $key );
@@ -245,6 +253,7 @@ Please click the following link to confirm the invite:
 			} else {
 				$redirect = add_query_arg( array( 'update' => 'newuserconfirmation' ), 'user-new.php' );
 			}
+
 			wp_redirect( $redirect );
 			die();
 		}
