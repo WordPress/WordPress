@@ -1149,7 +1149,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 
 	if ( ! isset( $query['wp_id'] ) ) {
 		/*
-		 * If the query has found some use templates, those have priority
+		 * If the query has found some user templates, those have priority
 		 * over the theme-provided ones, so we skip querying and building them.
 		 */
 		$query['slug__not_in'] = wp_list_pluck( $query_result, 'slug' );
