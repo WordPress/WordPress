@@ -85,11 +85,16 @@ class WP_Debug_Data {
 			'wp-plugins-active'   => array(),
 			'wp-plugins-inactive' => array(),
 			'wp-media'            => array(),
-			'wp-server'           => array(),
+			'wp-server'           => self::get_wp_server(),
 			'wp-database'         => self::get_wp_database(),
 			'wp-constants'        => self::get_wp_constants(),
 			'wp-filesystem'       => self::get_wp_filesystem(),
 		);
+
+		// Remove debug data which is only relevant on single-site installs.
+		if ( is_multisite() ) {
+			unset( $info['wp-paths-sizes'] );
+		}
 
 		$info['wp-core'] = array(
 			'label'  => __( 'WordPress' ),
@@ -214,17 +219,6 @@ class WP_Debug_Data {
 
 		$info['wp-media'] = array(
 			'label'  => __( 'Media Handling' ),
-			'fields' => array(),
-		);
-
-		$info['wp-server'] = array(
-			'label'       => __( 'Server' ),
-			'description' => __( 'The options shown below relate to your server setup. If changes are required, you may need your web host&#8217;s assistance.' ),
-			'fields'      => array(),
-		);
-
-		$info['wp-database'] = array(
-			'label'  => __( 'Database' ),
 			'fields' => array(),
 		);
 
@@ -544,181 +538,6 @@ class WP_Debug_Data {
 			'label' => __( 'Ghostscript version' ),
 			'value' => $gs,
 			'debug' => $gs_debug,
-		);
-
-		// Populate the server debug fields.
-		if ( function_exists( 'php_uname' ) ) {
-			$server_architecture = sprintf( '%s %s %s', php_uname( 's' ), php_uname( 'r' ), php_uname( 'm' ) );
-		} else {
-			$server_architecture = 'unknown';
-		}
-
-		$php_version_debug = PHP_VERSION;
-		// Whether PHP supports 64-bit.
-		$php64bit = ( PHP_INT_SIZE * 8 === 64 );
-
-		$php_version = sprintf(
-			'%s %s',
-			$php_version_debug,
-			( $php64bit ? __( '(Supports 64bit values)' ) : __( '(Does not support 64bit values)' ) )
-		);
-
-		if ( $php64bit ) {
-			$php_version_debug .= ' 64bit';
-		}
-
-		$info['wp-server']['fields']['server_architecture'] = array(
-			'label' => __( 'Server architecture' ),
-			'value' => ( 'unknown' !== $server_architecture ? $server_architecture : __( 'Unable to determine server architecture' ) ),
-			'debug' => $server_architecture,
-		);
-		$info['wp-server']['fields']['httpd_software']      = array(
-			'label' => __( 'Web server' ),
-			'value' => ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : __( 'Unable to determine what web server software is used' ) ),
-			'debug' => ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown' ),
-		);
-		$info['wp-server']['fields']['php_version']         = array(
-			'label' => __( 'PHP version' ),
-			'value' => $php_version,
-			'debug' => $php_version_debug,
-		);
-		$info['wp-server']['fields']['php_sapi']            = array(
-			'label' => __( 'PHP SAPI' ),
-			'value' => PHP_SAPI,
-			'debug' => PHP_SAPI,
-		);
-
-		// Some servers disable `ini_set()` and `ini_get()`, we check this before trying to get configuration values.
-		if ( ! function_exists( 'ini_get' ) ) {
-			$info['wp-server']['fields']['ini_get'] = array(
-				'label' => __( 'Server settings' ),
-				'value' => sprintf(
-					/* translators: %s: ini_get() */
-					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
-					'ini_get()'
-				),
-				'debug' => 'ini_get() is disabled',
-			);
-		} else {
-			$info['wp-server']['fields']['max_input_variables'] = array(
-				'label' => __( 'PHP max input variables' ),
-				'value' => ini_get( 'max_input_vars' ),
-			);
-			$info['wp-server']['fields']['time_limit']          = array(
-				'label' => __( 'PHP time limit' ),
-				'value' => ini_get( 'max_execution_time' ),
-			);
-
-			if ( WP_Site_Health::get_instance()->php_memory_limit !== ini_get( 'memory_limit' ) ) {
-				$info['wp-server']['fields']['memory_limit']       = array(
-					'label' => __( 'PHP memory limit' ),
-					'value' => WP_Site_Health::get_instance()->php_memory_limit,
-				);
-				$info['wp-server']['fields']['admin_memory_limit'] = array(
-					'label' => __( 'PHP memory limit (only for admin screens)' ),
-					'value' => ini_get( 'memory_limit' ),
-				);
-			} else {
-				$info['wp-server']['fields']['memory_limit'] = array(
-					'label' => __( 'PHP memory limit' ),
-					'value' => ini_get( 'memory_limit' ),
-				);
-			}
-
-			$info['wp-server']['fields']['max_input_time']      = array(
-				'label' => __( 'Max input time' ),
-				'value' => ini_get( 'max_input_time' ),
-			);
-			$info['wp-server']['fields']['upload_max_filesize'] = array(
-				'label' => __( 'Upload max filesize' ),
-				'value' => ini_get( 'upload_max_filesize' ),
-			);
-			$info['wp-server']['fields']['php_post_max_size']   = array(
-				'label' => __( 'PHP post max size' ),
-				'value' => ini_get( 'post_max_size' ),
-			);
-		}
-
-		if ( function_exists( 'curl_version' ) ) {
-			$curl = curl_version();
-
-			$info['wp-server']['fields']['curl_version'] = array(
-				'label' => __( 'cURL version' ),
-				'value' => sprintf( '%s %s', $curl['version'], $curl['ssl_version'] ),
-			);
-		} else {
-			$info['wp-server']['fields']['curl_version'] = array(
-				'label' => __( 'cURL version' ),
-				'value' => $not_available,
-				'debug' => 'not available',
-			);
-		}
-
-		// SUHOSIN.
-		$suhosin_loaded = ( extension_loaded( 'suhosin' ) || ( defined( 'SUHOSIN_PATCH' ) && constant( 'SUHOSIN_PATCH' ) ) );
-
-		$info['wp-server']['fields']['suhosin'] = array(
-			'label' => __( 'Is SUHOSIN installed?' ),
-			'value' => ( $suhosin_loaded ? __( 'Yes' ) : __( 'No' ) ),
-			'debug' => $suhosin_loaded,
-		);
-
-		// Imagick.
-		$imagick_loaded = extension_loaded( 'imagick' );
-
-		$info['wp-server']['fields']['imagick_availability'] = array(
-			'label' => __( 'Is the Imagick library available?' ),
-			'value' => ( $imagick_loaded ? __( 'Yes' ) : __( 'No' ) ),
-			'debug' => $imagick_loaded,
-		);
-
-		// Pretty permalinks.
-		$pretty_permalinks_supported = got_url_rewrite();
-
-		$info['wp-server']['fields']['pretty_permalinks'] = array(
-			'label' => __( 'Are pretty permalinks supported?' ),
-			'value' => ( $pretty_permalinks_supported ? __( 'Yes' ) : __( 'No' ) ),
-			'debug' => $pretty_permalinks_supported,
-		);
-
-		// Check if a .htaccess file exists.
-		if ( is_file( ABSPATH . '.htaccess' ) ) {
-			// If the file exists, grab the content of it.
-			$htaccess_content = file_get_contents( ABSPATH . '.htaccess' );
-
-			// Filter away the core WordPress rules.
-			$filtered_htaccess_content = trim( preg_replace( '/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content ) );
-			$filtered_htaccess_content = ! empty( $filtered_htaccess_content );
-
-			if ( $filtered_htaccess_content ) {
-				/* translators: %s: .htaccess */
-				$htaccess_rules_string = sprintf( __( 'Custom rules have been added to your %s file.' ), '.htaccess' );
-			} else {
-				/* translators: %s: .htaccess */
-				$htaccess_rules_string = sprintf( __( 'Your %s file contains only core WordPress features.' ), '.htaccess' );
-			}
-
-			$info['wp-server']['fields']['htaccess_extra_rules'] = array(
-				'label' => __( '.htaccess rules' ),
-				'value' => $htaccess_rules_string,
-				'debug' => $filtered_htaccess_content,
-			);
-		}
-
-		// Server time.
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-
-		$info['wp-server']['fields']['current']     = array(
-			'label' => __( 'Current time' ),
-			'value' => $date->format( DateTime::ATOM ),
-		);
-		$info['wp-server']['fields']['utc-time']    = array(
-			'label' => __( 'Current UTC time' ),
-			'value' => $date->format( DateTime::RFC850 ),
-		);
-		$info['wp-server']['fields']['server-time'] = array(
-			'label' => __( 'Current Server time' ),
-			'value' => wp_date( 'c', $_SERVER['REQUEST_TIME'] ),
 		);
 
 		// List must use plugins if there are any.
@@ -1244,6 +1063,198 @@ class WP_Debug_Data {
 		$info = apply_filters( 'debug_information', $info );
 
 		return $info;
+	}
+
+	/**
+	 * Gets the WordPress server section of the debug data.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array
+	 */
+	public static function get_wp_server(): array {
+		// Populate the server debug fields.
+		if ( function_exists( 'php_uname' ) ) {
+			$server_architecture = sprintf( '%s %s %s', php_uname( 's' ), php_uname( 'r' ), php_uname( 'm' ) );
+		} else {
+			$server_architecture = 'unknown';
+		}
+
+		$php_version_debug = PHP_VERSION;
+		// Whether PHP supports 64-bit.
+		$php64bit = ( PHP_INT_SIZE * 8 === 64 );
+
+		$php_version = sprintf(
+			'%s %s',
+			$php_version_debug,
+			( $php64bit ? __( '(Supports 64bit values)' ) : __( '(Does not support 64bit values)' ) )
+		);
+
+		if ( $php64bit ) {
+			$php_version_debug .= ' 64bit';
+		}
+
+		$fields = array();
+
+		$fields['server_architecture'] = array(
+			'label' => __( 'Server architecture' ),
+			'value' => ( 'unknown' !== $server_architecture ? $server_architecture : __( 'Unable to determine server architecture' ) ),
+			'debug' => $server_architecture,
+		);
+		$fields['httpd_software']      = array(
+			'label' => __( 'Web server' ),
+			'value' => ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : __( 'Unable to determine what web server software is used' ) ),
+			'debug' => ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown' ),
+		);
+		$fields['php_version']         = array(
+			'label' => __( 'PHP version' ),
+			'value' => $php_version,
+			'debug' => $php_version_debug,
+		);
+		$fields['php_sapi']            = array(
+			'label' => __( 'PHP SAPI' ),
+			'value' => PHP_SAPI,
+			'debug' => PHP_SAPI,
+		);
+
+		// Some servers disable `ini_set()` and `ini_get()`, we check this before trying to get configuration values.
+		if ( ! function_exists( 'ini_get' ) ) {
+			$fields['ini_get'] = array(
+				'label' => __( 'Server settings' ),
+				'value' => sprintf(
+				/* translators: %s: ini_get() */
+					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
+					'ini_get()'
+				),
+				'debug' => 'ini_get() is disabled',
+			);
+		} else {
+			$fields['max_input_variables'] = array(
+				'label' => __( 'PHP max input variables' ),
+				'value' => ini_get( 'max_input_vars' ),
+			);
+			$fields['time_limit']          = array(
+				'label' => __( 'PHP time limit' ),
+				'value' => ini_get( 'max_execution_time' ),
+			);
+
+			if ( WP_Site_Health::get_instance()->php_memory_limit !== ini_get( 'memory_limit' ) ) {
+				$fields['memory_limit']       = array(
+					'label' => __( 'PHP memory limit' ),
+					'value' => WP_Site_Health::get_instance()->php_memory_limit,
+				);
+				$fields['admin_memory_limit'] = array(
+					'label' => __( 'PHP memory limit (only for admin screens)' ),
+					'value' => ini_get( 'memory_limit' ),
+				);
+			} else {
+				$fields['memory_limit'] = array(
+					'label' => __( 'PHP memory limit' ),
+					'value' => ini_get( 'memory_limit' ),
+				);
+			}
+
+			$fields['max_input_time']      = array(
+				'label' => __( 'Max input time' ),
+				'value' => ini_get( 'max_input_time' ),
+			);
+			$fields['upload_max_filesize'] = array(
+				'label' => __( 'Upload max filesize' ),
+				'value' => ini_get( 'upload_max_filesize' ),
+			);
+			$fields['php_post_max_size']   = array(
+				'label' => __( 'PHP post max size' ),
+				'value' => ini_get( 'post_max_size' ),
+			);
+		}
+
+		if ( function_exists( 'curl_version' ) ) {
+			$curl = curl_version();
+
+			$fields['curl_version'] = array(
+				'label' => __( 'cURL version' ),
+				'value' => sprintf( '%s %s', $curl['version'], $curl['ssl_version'] ),
+			);
+		} else {
+			$fields['curl_version'] = array(
+				'label' => __( 'cURL version' ),
+				'value' => __( 'Not available' ),
+				'debug' => 'not available',
+			);
+		}
+
+		// SUHOSIN.
+		$suhosin_loaded = ( extension_loaded( 'suhosin' ) || ( defined( 'SUHOSIN_PATCH' ) && constant( 'SUHOSIN_PATCH' ) ) );
+
+		$fields['suhosin'] = array(
+			'label' => __( 'Is SUHOSIN installed?' ),
+			'value' => ( $suhosin_loaded ? __( 'Yes' ) : __( 'No' ) ),
+			'debug' => $suhosin_loaded,
+		);
+
+		// Imagick.
+		$imagick_loaded = extension_loaded( 'imagick' );
+
+		$fields['imagick_availability'] = array(
+			'label' => __( 'Is the Imagick library available?' ),
+			'value' => ( $imagick_loaded ? __( 'Yes' ) : __( 'No' ) ),
+			'debug' => $imagick_loaded,
+		);
+
+		// Pretty permalinks.
+		$pretty_permalinks_supported = got_url_rewrite();
+
+		$fields['pretty_permalinks'] = array(
+			'label' => __( 'Are pretty permalinks supported?' ),
+			'value' => ( $pretty_permalinks_supported ? __( 'Yes' ) : __( 'No' ) ),
+			'debug' => $pretty_permalinks_supported,
+		);
+
+		// Check if a .htaccess file exists.
+		if ( is_file( ABSPATH . '.htaccess' ) ) {
+			// If the file exists, grab the content of it.
+			$htaccess_content = file_get_contents( ABSPATH . '.htaccess' );
+
+			// Filter away the core WordPress rules.
+			$filtered_htaccess_content = trim( preg_replace( '/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content ) );
+			$filtered_htaccess_content = ! empty( $filtered_htaccess_content );
+
+			if ( $filtered_htaccess_content ) {
+				/* translators: %s: .htaccess */
+				$htaccess_rules_string = sprintf( __( 'Custom rules have been added to your %s file.' ), '.htaccess' );
+			} else {
+				/* translators: %s: .htaccess */
+				$htaccess_rules_string = sprintf( __( 'Your %s file contains only core WordPress features.' ), '.htaccess' );
+			}
+
+			$fields['htaccess_extra_rules'] = array(
+				'label' => __( '.htaccess rules' ),
+				'value' => $htaccess_rules_string,
+				'debug' => $filtered_htaccess_content,
+			);
+		}
+
+		// Server time.
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+
+		$fields['current']     = array(
+			'label' => __( 'Current time' ),
+			'value' => $date->format( DateTime::ATOM ),
+		);
+		$fields['utc-time']    = array(
+			'label' => __( 'Current UTC time' ),
+			'value' => $date->format( DateTime::RFC850 ),
+		);
+		$fields['server-time'] = array(
+			'label' => __( 'Current Server time' ),
+			'value' => wp_date( 'c', $_SERVER['REQUEST_TIME'] ),
+		);
+
+		return array(
+			'label'       => __( 'Server' ),
+			'description' => __( 'The options shown below relate to your server setup. If changes are required, you may need your web host&#8217;s assistance.' ),
+			'fields'      => $fields,
+		);
 	}
 
 	/**
