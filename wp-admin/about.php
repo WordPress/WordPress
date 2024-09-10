@@ -51,7 +51,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						_n(
 							'<strong>Version %1$s</strong> addressed %2$s bug.',
 							'<strong>Version %1$s</strong> addressed %2$s bugs.',
-							16
+							26
 						),
 						'6.6.2',
 						'26'
