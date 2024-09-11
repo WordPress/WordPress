@@ -71,7 +71,7 @@ class WP_Application_Passwords {
 	 * @return array|WP_Error {
 	 *     Application password details, or a WP_Error instance if an error occurs.
 	 *
-	 *     @type string $0 The unhashed generated application password.
+	 *     @type string $0 The generated application password in plain text.
 	 *     @type array  $1 {
 	 *         The details about the created password.
 	 *
@@ -141,7 +141,7 @@ class WP_Application_Passwords {
 		 *     @type null   $last_used Null.
 		 *     @type null   $last_ip   Null.
 		 * }
-		 * @param string $new_password The unhashed generated application password.
+		 * @param string $new_password The generated application password in plain text.
 		 * @param array  $args         {
 		 *     Arguments used to create the application password.
 		 *
@@ -161,7 +161,7 @@ class WP_Application_Passwords {
 	 *
 	 * @param int $user_id User ID.
 	 * @return array {
-	 *     The list of app passwords.
+	 *     The list of application passwords.
 	 *
 	 *     @type array ...$0 {
 	 *         @type string      $uuid      The unique identifier for the application password.
@@ -204,7 +204,17 @@ class WP_Application_Passwords {
 	 *
 	 * @param int    $user_id User ID.
 	 * @param string $uuid    The password's UUID.
-	 * @return array|null The application password if found, null otherwise.
+	 * @return array|null {
+	 *     The application password if found, null otherwise.
+	 *
+	 *     @type string      $uuid      The unique identifier for the application password.
+	 *     @type string      $app_id    A UUID provided by the application to uniquely identify it.
+	 *     @type string      $name      The name of the application password.
+	 *     @type string      $password  A one-way hash of the password.
+	 *     @type int         $created   Unix timestamp of when the password was created.
+	 *     @type int|null    $last_used The Unix timestamp of the GMT date the application password was last used.
+	 *     @type string|null $last_ip   The IP address the application password was last used by.
+	 * }
 	 */
 	public static function get_user_application_password( $user_id, $uuid ) {
 		$passwords = static::get_user_application_passwords( $user_id );
@@ -246,7 +256,17 @@ class WP_Application_Passwords {
 	 *
 	 * @param int    $user_id User ID.
 	 * @param string $uuid    The password's UUID.
-	 * @param array  $update  Information about the application password to update.
+	 * @param array  $update  {
+	 *     Information about the application password to update.
+	 *
+	 *     @type string      $uuid      The unique identifier for the application password.
+	 *     @type string      $app_id    A UUID provided by the application to uniquely identify it.
+	 *     @type string      $name      The name of the application password.
+	 *     @type string      $password  A one-way hash of the password.
+	 *     @type int         $created   Unix timestamp of when the password was created.
+	 *     @type int|null    $last_used The Unix timestamp of the GMT date the application password was last used.
+	 *     @type string|null $last_ip   The IP address the application password was last used by.
+	 * }
 	 * @return true|WP_Error True if successful, otherwise a WP_Error instance is returned on error.
 	 */
 	public static function update_application_password( $user_id, $uuid, $update = array() ) {
@@ -282,7 +302,17 @@ class WP_Application_Passwords {
 			 * @since 5.6.0
 			 *
 			 * @param int   $user_id The user ID.
-			 * @param array $item    The updated app password details.
+			 * @param array $item    {
+			 *     The updated application password details.
+			 *
+			 *     @type string      $uuid      The unique identifier for the application password.
+			 *     @type string      $app_id    A UUID provided by the application to uniquely identify it.
+			 *     @type string      $name      The name of the application password.
+			 *     @type string      $password  A one-way hash of the password.
+			 *     @type int         $created   Unix timestamp of when the password was created.
+			 *     @type int|null    $last_used The Unix timestamp of the GMT date the application password was last used.
+			 *     @type string|null $last_ip   The IP address the application password was last used by.
+			 * }
 			 * @param array $update  The information to update.
 			 */
 			do_action( 'wp_update_application_password', $user_id, $item, $update );
@@ -404,9 +434,22 @@ class WP_Application_Passwords {
 	 * @since 5.6.0
 	 *
 	 * @param int   $user_id   User ID.
-	 * @param array $passwords Application passwords.
+	 * @param array $passwords {
+	 *     The list of application passwords.
 	 *
-	 * @return bool
+	 *     @type array ...$0 {
+	 *         @type string      $uuid      The unique identifier for the application password.
+	 *         @type string      $app_id    A UUID provided by the application to uniquely identify it.
+	 *         @type string      $name      The name of the application password.
+	 *         @type string      $password  A one-way hash of the password.
+	 *         @type int         $created   Unix timestamp of when the password was created.
+	 *         @type int|null    $last_used The Unix timestamp of the GMT date the application password was last used.
+	 *         @type string|null $last_ip   The IP address the application password was last used by.
+	 *     }
+	 * }
+	 * @return int|bool User meta ID if the key didn't exist (ie. this is the first time that an application password
+	 *                  has been saved for the user), true on successful update, false on failure or if the value passed
+	 *                  is the same as the one that is already in the database.
 	 */
 	protected static function set_user_application_passwords( $user_id, $passwords ) {
 		return update_user_meta( $user_id, static::USERMETA_KEY_APPLICATION_PASSWORDS, $passwords );

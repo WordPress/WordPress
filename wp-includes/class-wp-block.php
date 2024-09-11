@@ -114,7 +114,7 @@ class WP_Block {
 	 * @since 5.5.0
 	 *
 	 * @param array                  $block             {
-	 *     A representative array of a single parsed block object. See WP_Block_Parser_Block.
+	 *     An associative array of a single parsed block object. See WP_Block_Parser_Block.
 	 *
 	 *     @type string   $blockName    Name of block.
 	 *     @type array    $attrs        Attributes from block comment delimiters.

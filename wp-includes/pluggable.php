@@ -2564,10 +2564,10 @@ endif;
 
 if ( ! function_exists( 'wp_hash_password' ) ) :
 	/**
-	 * Creates a hash (encrypt) of a plain text password.
+	 * Creates a hash of a plain text password.
 	 *
 	 * For integration with other applications, this function can be overwritten to
-	 * instead use the other package password checking algorithm.
+	 * instead use the other package password hashing algorithm.
 	 *
 	 * @since 2.5.0
 	 *
@@ -2591,7 +2591,7 @@ endif;
 
 if ( ! function_exists( 'wp_check_password' ) ) :
 	/**
-	 * Checks the plaintext password against the encrypted Password.
+	 * Checks a plaintext password against a hashed password.
 	 *
 	 * Maintains compatibility between old version and the new cookie authentication
 	 * protocol using PHPass library. The $hash parameter is the encrypted password
@@ -2599,7 +2599,7 @@ if ( ! function_exists( 'wp_check_password' ) ) :
 	 * against the already encrypted password to see if they match.
 	 *
 	 * For integration with other applications, this function can be overwritten to
-	 * instead use the other package password checking algorithm.
+	 * instead use the other package password hashing algorithm.
 	 *
 	 * @since 2.5.0
 	 *
@@ -2792,7 +2792,7 @@ endif;
 
 if ( ! function_exists( 'wp_set_password' ) ) :
 	/**
-	 * Updates the user's password with a new encrypted one.
+	 * Updates the user's password with a new hashed one.
 	 *
 	 * For integration with other applications, this function can be overwritten to
 	 * instead use the other package password checking algorithm.

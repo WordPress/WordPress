@@ -516,7 +516,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	public function get_theme_item_permissions_check( $request ) {
 		/*
 		 * Verify if the current user has edit_theme_options capability.
-		 * This capability is required to edit/view/delete templates.
+		 * This capability is required to edit/view/delete global styles.
 		 */
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return new WP_Error(
@@ -596,7 +596,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
 	public function get_theme_items_permissions_check( $request ) {
 		/*
 		 * Verify if the current user has edit_theme_options capability.
-		 * This capability is required to edit/view/delete templates.
+		 * This capability is required to edit/view/delete global styles.
 		 */
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return new WP_Error(

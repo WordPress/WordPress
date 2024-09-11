@@ -263,8 +263,8 @@ class WP_Site_Query {
 	 * @since 4.6.0
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
-	 * @return array|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
-	 *                   or the number of sites when 'count' is passed as a query var.
+	 * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
+	 *                             or the number of sites when 'count' is passed as a query var.
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );
@@ -279,8 +279,8 @@ class WP_Site_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return array|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
-	 *                   or the number of sites when 'count' is passed as a query var.
+	 * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
+	 *                             or the number of sites when 'count' is passed as a query var.
 	 */
 	public function get_sites() {
 		global $wpdb;
@@ -333,10 +333,10 @@ class WP_Site_Query {
 		 * @since 5.6.0 The returned array of site data is assigned to the `sites` property
 		 *              of the current WP_Site_Query instance.
 		 *
-		 * @param array|int|null $site_data Return an array of site data to short-circuit WP's site query,
-		 *                                  the site count as an integer if `$this->query_vars['count']` is set,
-		 *                                  or null to run the normal queries.
-		 * @param WP_Site_Query  $query     The WP_Site_Query instance, passed by reference.
+		 * @param WP_Site[]|int[]|int|null $site_data Return an array of site data to short-circuit WP's site query,
+		 *                                            the site count as an integer if `$this->query_vars['count']` is set,
+		 *                                            or null to run the normal queries.
+		 * @param WP_Site_Query            $query     The WP_Site_Query instance, passed by reference.
 		 */
 		$site_data = apply_filters_ref_array( 'sites_pre_query', array( $site_data, &$this ) );
 

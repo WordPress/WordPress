@@ -145,8 +145,21 @@ class WP_Http {
 	 *     @type int          $limit_response_size Size in bytes to limit the response to. Default null.
 	 *
 	 * }
-	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
-	 *                        A WP_Error instance upon error.
+	 * @return array|WP_Error {
+	 *     Array of response data, or a WP_Error instance upon error.
+	 *
+	 *     @type \WpOrg\Requests\Utility\CaseInsensitiveDictionary $headers       Response headers keyed by name.
+	 *     @type string                                            $body          Response body.
+	 *     @type array                                             $response      {
+	 *         Array of HTTP response data.
+	 *
+	 *         @type int|false    $code    HTTP response status code.
+	 *         @type string|false $message HTTP response message.
+	 *     }
+	 *     @type WP_HTTP_Cookie[]                                  $cookies       Array of cookies set by the server.
+	 *     @type string|null                                       $filename      Optional. Filename of the response.
+	 *     @type WP_HTTP_Requests_Response|null                    $http_response Response object.
+	 * }
 	 */
 	public function request( $url, $args = array() ) {
 		$defaults = array(
