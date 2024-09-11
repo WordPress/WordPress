@@ -343,9 +343,9 @@ jQuery( function($) {
 		}
 	}).filter(':visible').find('.wp-tab-first').trigger( 'focus' );
 
-	// Set the heartbeat interval to 15 seconds if post lock dialogs are enabled.
+	// Set the heartbeat interval to 10 seconds if post lock dialogs are enabled.
 	if ( wp.heartbeat && $('#post-lock-dialog').length ) {
-		wp.heartbeat.interval( 15 );
+		wp.heartbeat.interval( 10 );
 	}
 
 	// The form is being submitted by the user.

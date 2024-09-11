@@ -250,7 +250,7 @@ window.wp = window.wp || {};
 				if ( ! $( this ).parent().find( 'input[name="indeterminate_post_category[]"]' ).length ) {
 					// Get the term label text.
 					var label = $( this ).parent().text();
-					// Set indeterminate states for the backend. Add accessible text for indeterminate inputs. 
+					// Set indeterminate states for the backend. Add accessible text for indeterminate inputs.
 					$( this ).after( '<input type="hidden" name="indeterminate_post_category[]" value="' + $( this ).val() + '">' ).attr( 'aria-label', label.trim() + ': ' + wp.i18n.__( 'Some selected posts have this category' ) );
 				}
 			}
@@ -603,9 +603,9 @@ $( function() { inlineEditPost.init(); } );
 // Show/hide locks on posts.
 $( function() {
 
-	// Set the heartbeat interval to 15 seconds.
+	// Set the heartbeat interval to 10 seconds.
 	if ( typeof wp !== 'undefined' && wp.heartbeat ) {
-		wp.heartbeat.interval( 15 );
+		wp.heartbeat.interval( 10 );
 	}
 }).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 	var locked = data['wp-check-locked-posts'] || {};
