@@ -81,7 +81,7 @@ class WP_Debug_Data {
 			'wp-active-theme'     => array(),
 			'wp-parent-theme'     => array(),
 			'wp-themes-inactive'  => array(),
-			'wp-mu-plugins'       => array(),
+			'wp-mu-plugins'       => self::get_wp_mu_plugins(),
 			'wp-plugins-active'   => array(),
 			'wp-plugins-inactive' => array(),
 			'wp-media'            => array(),
@@ -195,12 +195,6 @@ class WP_Debug_Data {
 
 		$info['wp-themes-inactive'] = array(
 			'label'      => __( 'Inactive Themes' ),
-			'show_count' => true,
-			'fields'     => array(),
-		);
-
-		$info['wp-mu-plugins'] = array(
-			'label'      => __( 'Must Use Plugins' ),
 			'show_count' => true,
 			'fields'     => array(),
 		);
@@ -539,41 +533,6 @@ class WP_Debug_Data {
 			'value' => $gs,
 			'debug' => $gs_debug,
 		);
-
-		// List must use plugins if there are any.
-		$mu_plugins = get_mu_plugins();
-
-		foreach ( $mu_plugins as $plugin_path => $plugin ) {
-			$plugin_version = $plugin['Version'];
-			$plugin_author  = $plugin['Author'];
-
-			$plugin_version_string       = __( 'No version or author information is available.' );
-			$plugin_version_string_debug = 'author: (undefined), version: (undefined)';
-
-			if ( ! empty( $plugin_version ) && ! empty( $plugin_author ) ) {
-				/* translators: 1: Plugin version number. 2: Plugin author name. */
-				$plugin_version_string       = sprintf( __( 'Version %1$s by %2$s' ), $plugin_version, $plugin_author );
-				$plugin_version_string_debug = sprintf( 'version: %s, author: %s', $plugin_version, $plugin_author );
-			} else {
-				if ( ! empty( $plugin_author ) ) {
-					/* translators: %s: Plugin author name. */
-					$plugin_version_string       = sprintf( __( 'By %s' ), $plugin_author );
-					$plugin_version_string_debug = sprintf( 'author: %s, version: (undefined)', $plugin_author );
-				}
-
-				if ( ! empty( $plugin_version ) ) {
-					/* translators: %s: Plugin version number. */
-					$plugin_version_string       = sprintf( __( 'Version %s' ), $plugin_version );
-					$plugin_version_string_debug = sprintf( 'author: (undefined), version: %s', $plugin_version );
-				}
-			}
-
-			$info['wp-mu-plugins']['fields'][ sanitize_text_field( $plugin['Name'] ) ] = array(
-				'label' => $plugin['Name'],
-				'value' => $plugin_version_string,
-				'debug' => $plugin_version_string_debug,
-			);
-		}
 
 		// List all available plugins.
 		$plugins        = get_plugins();
@@ -1254,6 +1213,57 @@ class WP_Debug_Data {
 			'label'       => __( 'Server' ),
 			'description' => __( 'The options shown below relate to your server setup. If changes are required, you may need your web host&#8217;s assistance.' ),
 			'fields'      => $fields,
+		);
+	}
+
+	/**
+	 * Gets the WordPress plugins section of the debug data.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array
+	 */
+	public static function get_wp_mu_plugins(): array {
+		// List must use plugins if there are any.
+		$mu_plugins = get_mu_plugins();
+		$fields = array();
+
+		foreach ( $mu_plugins as $plugin_path => $plugin ) {
+			$plugin_version = $plugin['Version'];
+			$plugin_author  = $plugin['Author'];
+
+			$plugin_version_string       = __( 'No version or author information is available.' );
+			$plugin_version_string_debug = 'author: (undefined), version: (undefined)';
+
+			if ( ! empty( $plugin_version ) && ! empty( $plugin_author ) ) {
+				/* translators: 1: Plugin version number. 2: Plugin author name. */
+				$plugin_version_string       = sprintf( __( 'Version %1$s by %2$s' ), $plugin_version, $plugin_author );
+				$plugin_version_string_debug = sprintf( 'version: %s, author: %s', $plugin_version, $plugin_author );
+			} else {
+				if ( ! empty( $plugin_author ) ) {
+					/* translators: %s: Plugin author name. */
+					$plugin_version_string       = sprintf( __( 'By %s' ), $plugin_author );
+					$plugin_version_string_debug = sprintf( 'author: %s, version: (undefined)', $plugin_author );
+				}
+
+				if ( ! empty( $plugin_version ) ) {
+					/* translators: %s: Plugin version number. */
+					$plugin_version_string       = sprintf( __( 'Version %s' ), $plugin_version );
+					$plugin_version_string_debug = sprintf( 'author: (undefined), version: %s', $plugin_version );
+				}
+			}
+
+			$fields[ sanitize_text_field( $plugin['Name'] ) ] = array(
+				'label' => $plugin['Name'],
+				'value' => $plugin_version_string,
+				'debug' => $plugin_version_string_debug,
+			);
+		}
+
+		return array(
+			'label'      => __( 'Must Use Plugins' ),
+			'show_count' => true,
+			'fields'     => $fields,
 		);
 	}
 
