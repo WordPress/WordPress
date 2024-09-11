@@ -1624,6 +1624,7 @@ function get_edit_comment_link( $comment_id = 0, $context = 'display' ) {
 	/**
 	 * Filters the comment edit link.
 	 *
+	 * @since 2.3.0
 	 * @since 6.7.0 The $comment_id and $context parameters are now being passed to the filter.
 	 *
 	 * @param string $location   The edit link.
