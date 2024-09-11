@@ -1137,6 +1137,16 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 			}
 		}
 
+		// Adds 'auto' to the sizes attribute if applicable.
+		if (
+			isset( $attr['loading'] ) &&
+			'lazy' === $attr['loading'] &&
+			isset( $attr['sizes'] ) &&
+			! wp_sizes_attribute_includes_valid_auto( $attr['sizes'] )
+		) {
+			$attr['sizes'] = 'auto, ' . $attr['sizes'];
+		}
+
 		/**
 		 * Filters the list of attachment image attributes.
 		 *
@@ -1917,6 +1927,9 @@ function wp_filter_content_tags( $content, $context = null ) {
 			// Add loading optimization attributes if applicable.
 			$filtered_image = wp_img_tag_add_loading_optimization_attrs( $filtered_image, $context );
 
+			// Adds 'auto' to the sizes attribute if applicable.
+			$filtered_image = wp_img_tag_add_auto_sizes( $filtered_image );
+
 			/**
 			 * Filters an img tag within the content for a given context.
 			 *
@@ -1961,6 +1974,59 @@ function wp_filter_content_tags( $content, $context = null ) {
 	}
 
 	return $content;
+}
+
+/**
+ * Adds 'auto' to the sizes attribute to the image, if the image is lazy loaded and does not already include it.
+ *
+ * @since 6.7.0
+ *
+ * @param string $image The image tag markup being filtered.
+ * @return string The filtered image tag markup.
+ */
+function wp_img_tag_add_auto_sizes( string $image ): string {
+	$processor = new WP_HTML_Tag_Processor( $image );
+
+	// Bail if there is no IMG tag.
+	if ( ! $processor->next_tag( array( 'tag_name' => 'IMG' ) ) ) {
+		return $image;
+	}
+
+	// Bail early if the image is not lazy-loaded.
+	$value = $processor->get_attribute( 'loading' );
+	if ( ! is_string( $value ) || 'lazy' !== strtolower( trim( $value, " \t\f\r\n" ) ) ) {
+		return $image;
+	}
+
+	$sizes = $processor->get_attribute( 'sizes' );
+
+	// Bail early if the image is not responsive.
+	if ( ! is_string( $sizes ) ) {
+		return $image;
+	}
+
+	// Don't add 'auto' to the sizes attribute if it already exists.
+	if ( wp_sizes_attribute_includes_valid_auto( $sizes ) ) {
+		return $image;
+	}
+
+	$processor->set_attribute( 'sizes', "auto, $sizes" );
+	return $processor->get_updated_html();
+}
+
+/**
+ * Checks whether the given 'sizes' attribute includes the 'auto' keyword as the first item in the list.
+ *
+ * Per the HTML spec, if present it must be the first entry.
+ *
+ * @since 6.7.0
+ *
+ * @param string $sizes_attr The 'sizes' attribute value.
+ * @return bool True if the 'auto' keyword is present, false otherwise.
+ */
+function wp_sizes_attribute_includes_valid_auto( string $sizes_attr ): bool {
+	list( $first_size ) = explode( ',', $sizes_attr, 2 );
+	return 'auto' === strtolower( trim( $first_size, " \t\f\r\n" ) );
 }
 
 /**
