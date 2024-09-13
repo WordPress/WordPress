@@ -131,7 +131,7 @@ class WP_Network {
 	 */
 	public function __construct( $network ) {
 		foreach ( get_object_vars( $network ) as $key => $value ) {
-			$this->$key = $value;
+			$this->__set( $key, $value );
 		}
 
 		$this->_set_site_name();
