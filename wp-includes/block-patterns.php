@@ -26,7 +26,6 @@ function _register_core_block_patterns_and_categories() {
 			'query-grid-posts',
 			'query-large-title-posts',
 			'query-offset-posts',
-			'social-links-shared-background-color',
 		);
 
 		foreach ( $core_block_patterns as $core_block_pattern ) {
