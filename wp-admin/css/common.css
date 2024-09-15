@@ -1180,6 +1180,17 @@ th.action-links {
 	overflow: hidden;
 }
 
+.wp-filter .favorites-form .favorites-username {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.wp-filter .favorites-form .favorites-username input {
+	margin: 0;
+}
+
 .show-filters .filter-drawer,
 .show-favorites-form .favorites-form {
 	display: block;
@@ -1288,11 +1299,13 @@ th.action-links {
 }
 
 .filtered-by .tags {
-	display: inline;
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 
 .filtered-by .tag {
-	margin: 0 5px;
 	padding: 4px 8px;
 	border: 1px solid #dcdcde;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -1307,7 +1320,10 @@ th.action-links {
 }
 
 .filters-applied .filtered-by {
-	display: block;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
 .filters-applied .filter-drawer {
