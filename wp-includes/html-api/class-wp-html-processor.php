@@ -4501,7 +4501,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 
 					$this->state->stack_of_open_elements->pop();
 				}
-				return $this->step( self::REPROCESS_CURRENT_NODE );
+				goto in_foreign_content_process_in_current_insertion_mode;
 		}
 
 		/*
@@ -4577,6 +4577,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				goto in_foreign_content_end_tag_loop;
 			}
 
+			in_foreign_content_process_in_current_insertion_mode:
 			switch ( $this->state->insertion_mode ) {
 				case WP_HTML_Processor_State::INSERTION_MODE_INITIAL:
 					return $this->step_initial();
