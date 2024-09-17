@@ -8443,7 +8443,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	selectHandler: function( event ) {
 		var selection = this.controller.state().get( 'selection' );
 
-		if ( ! selection.length > 0 ) {
+		if ( selection.length <= 0 ) {
 			return;
 		}
 
