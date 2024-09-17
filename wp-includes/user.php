@@ -2767,6 +2767,9 @@ All at ###SITENAME###
 	$current_user = wp_get_current_user();
 	if ( $current_user->ID === $user_id ) {
 		if ( isset( $plaintext_pass ) ) {
+			// Call password_updated to allow third party auth systems to update user password (see trac ticket #22114)
+			do_action( 'password_updated', $user_id, $plaintext_pass );
+			
 			wp_clear_auth_cookie();
 
 			/*
