@@ -504,9 +504,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 		}
 
-		if ( $post && ! empty( $request['password'] ) ) {
+		if ( $post && ! empty( $request->get_query_params()['password'] ) ) {
 			// Check post password, and return error if invalid.
-			if ( ! hash_equals( $post->post_password, $request['password'] ) ) {
+			if ( ! hash_equals( $post->post_password, $request->get_query_params()['password'] ) ) {
 				return new WP_Error(
 					'rest_post_incorrect_password',
 					__( 'Incorrect post password.' ),
