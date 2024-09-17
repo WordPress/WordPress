@@ -1988,3 +1988,17 @@ function wp_get_word_count_type() {
 
 	return $wp_locale->get_word_count_type();
 }
+
+/**
+ * Returns a boolean to indicate whether a translation exists for a given string with optional text domain and locale.
+ *
+ * @since 6.7.0
+ *
+ * @param string  $singular   Singular translation to check.
+ * @param string  $textdomain Optional. Text domain. Default 'default'.
+ * @param ?string $locale     Optional. Locale. Default current locale.
+ * @return bool  True if the translation exists, false otherwise.
+ */
+function has_translation( string $singular, string $textdomain = 'default', ?string $locale = null ): bool {
+	return WP_Translation_Controller::get_instance()->has_translation( $singular, $textdomain, $locale );
+}
