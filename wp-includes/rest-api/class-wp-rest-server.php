@@ -636,11 +636,73 @@ class WP_REST_Server {
 			foreach ( $items as $item ) {
 				$attributes         = $item['attributes'];
 				$attributes['href'] = $item['href'];
-				$data[ $rel ][]     = $attributes;
+
+				if ( 'self' !== $rel ) {
+					$data[ $rel ][] = $attributes;
+					continue;
+				}
+
+				$target_hints = self::get_target_hints_for_link( $attributes );
+				if ( $target_hints ) {
+					$attributes['targetHints'] = $target_hints;
+				}
+
+				$data[ $rel ][] = $attributes;
 			}
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Gets the target links for a REST API Link.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param array $link
+	 *
+	 * @return array|null
+	 */
+	protected static function get_target_hints_for_link( $link ) {
+		// Prefer targetHints that were specifically designated by the developer.
+		if ( isset( $link['targetHints']['allow'] ) ) {
+			return null;
+		}
+
+		$request = WP_REST_Request::from_url( $link['href'] );
+		if ( ! $request ) {
+			return null;
+		}
+
+		$server = rest_get_server();
+		$match  = $server->match_request_to_handler( $request );
+
+		if ( is_wp_error( $match ) ) {
+			return null;
+		}
+
+		if ( is_wp_error( $request->has_valid_params() ) ) {
+			return null;
+		}
+
+		if ( is_wp_error( $request->sanitize_params() ) ) {
+			return null;
+		}
+
+		$target_hints = array();
+
+		$response = new WP_REST_Response();
+		$response->set_matched_route( $match[0] );
+		$response->set_matched_handler( $match[1] );
+		$headers = rest_send_allow_header( $response, $server, $request )->get_headers();
+
+		foreach ( $headers as $name => $value ) {
+			$name = WP_REST_Request::canonicalize_header_name( $name );
+
+			$target_hints[ $name ] = array_map( 'trim', explode( ',', $value ) );
+		}
+
+		return $target_hints;
 	}
 
 	/**
