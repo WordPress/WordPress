@@ -97,6 +97,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	min-width: 600px; /* match the min-width of the body in wp-admin/css/common.css */
 	z-index: 99999;
 	background: #1d2327;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 #wpadminbar .ab-sub-wrapper,
@@ -195,6 +197,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar.nojs li:hover > .ab-sub-wrapper,
 #wpadminbar li.hover > .ab-sub-wrapper {
 	display: block;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 #wpadminbar .menupop li:hover > .ab-sub-wrapper,
@@ -906,7 +910,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	/* New Content */
 	#wpadminbar #wp-admin-bar-new-content .ab-icon:before {
 		top: 0;
-		line-height: 1.33333333;
+		line-height: 1.26;
 		height: 46px !important;
 		text-align: center;
 		width: 52px;
