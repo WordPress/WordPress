@@ -3116,6 +3116,7 @@ function pingback( $content, $post ) {
 
 		if ( $pingback_server_url ) {
 			if ( function_exists( 'set_time_limit' ) ) {
+				// Allows an additional 60 seconds for each pingback to complete.
 				set_time_limit( 60 );
 			}
 
