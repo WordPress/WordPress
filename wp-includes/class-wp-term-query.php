@@ -1170,12 +1170,11 @@ class WP_Term_Query {
 		if ( 'count' !== $args['fields'] && 'all_with_object_id' !== $args['fields'] ) {
 			$cache_args['fields'] = 'all';
 		}
-		$taxonomies = (array) $args['taxonomy'];
 
 		// Replace wpdb placeholder in the SQL statement used by the cache key.
 		$sql = $wpdb->remove_placeholder_escape( $sql );
 
-		$key          = md5( serialize( $cache_args ) . serialize( $taxonomies ) . $sql );
+		$key          = md5( serialize( $cache_args ) . $sql );
 		$last_changed = wp_cache_get_last_changed( 'terms' );
 		return "get_terms:$key:$last_changed";
 	}
