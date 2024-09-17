@@ -219,6 +219,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 						$this->image->setImageCompressionQuality( $quality );
 					}
 					break;
+				case 'image/avif':
+					// Set the AVIF encoder to work faster, with minimal impact on image size.
+					$this->image->setOption( 'heic:speed', 7 );
+					$this->image->setImageCompressionQuality( $quality );
+					break;
 				default:
 					$this->image->setImageCompressionQuality( $quality );
 			}
