@@ -2,11 +2,12 @@
  * @output wp-admin/js/user-profile.js
  */
 
-/* global ajaxurl, pwsL10n, userProfileL10n */
+/* global ajaxurl, pwsL10n, userProfileL10n, ClipboardJS */
 (function($) {
 	var updateLock = false,
 		isSubmitting = false,
 		__ = wp.i18n.__,
+		clipboard = new ClipboardJS( '.application-password-display .copy-button' ),
 		$pass1Row,
 		$pass1,
 		$pass2,
@@ -18,7 +19,8 @@
 		currentPass,
 		$form,
 		originalFormContent,
-		$passwordWrapper;
+		$passwordWrapper,
+		successTimeout;
 
 	function generatePassword() {
 		if ( typeof zxcvbn !== 'function' ) {
@@ -345,6 +347,27 @@
 			}
 		}
 	}
+
+	// Debug information copy section.
+	clipboard.on( 'success', function( e ) {
+		var triggerElement = $( e.trigger ),
+			successElement = $( '.success', triggerElement.closest( '.application-password-display' ) );
+
+		// Clear the selection and move focus back to the trigger.
+		e.clearSelection();
+
+		// Show success visual feedback.
+		clearTimeout( successTimeout );
+		successElement.removeClass( 'hidden' );
+
+		// Hide success visual feedback after 3 seconds since last success.
+		successTimeout = setTimeout( function() {
+			successElement.addClass( 'hidden' );
+		}, 3000 );
+
+		// Handle success audible feedback.
+		wp.a11y.speak( __( 'Application password has been copied to your clipboard.' ) );
+	} );
 
 	$( function() {
 		var $colorpicker, $stylesheet, user_id, current_user_id,

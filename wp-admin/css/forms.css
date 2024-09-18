@@ -1002,6 +1002,7 @@ table.form-table td .updated p {
 }
 
 .application-password-display input.code {
+	margin-bottom: 6px;
 	width: 19em;
 }
 
