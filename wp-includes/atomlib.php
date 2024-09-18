@@ -157,14 +157,13 @@ class AtomParser {
         }
 
         $parser = xml_parser_create_ns();
-        xml_set_object($parser, $this);
-        xml_set_element_handler($parser, "start_element", "end_element");
+        xml_set_element_handler($parser, array($this, "start_element"), array($this, "end_element"));
         xml_parser_set_option($parser,XML_OPTION_CASE_FOLDING,0);
         xml_parser_set_option($parser,XML_OPTION_SKIP_WHITE,0);
-        xml_set_character_data_handler($parser, "cdata");
-        xml_set_default_handler($parser, "_default");
-        xml_set_start_namespace_decl_handler($parser, "start_ns");
-        xml_set_end_namespace_decl_handler($parser, "end_ns");
+        xml_set_character_data_handler($parser, array($this, "cdata"));
+        xml_set_default_handler($parser, array($this, "_default"));
+        xml_set_start_namespace_decl_handler($parser, array($this, "start_ns"));
+        xml_set_end_namespace_decl_handler($parser, array($this, "end_ns"));
 
         $this->content = '';
 
