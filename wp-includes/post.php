@@ -489,7 +489,7 @@ function create_initial_post_types() {
 			'revisions_rest_controller_class' => 'WP_REST_Global_Styles_Revisions_Controller',
 			'late_route_registration'         => true,
 			'capabilities'                    => array(
-				'read'                   => 'edit_theme_options',
+				'read'                   => 'edit_posts',
 				'create_posts'           => 'edit_theme_options',
 				'edit_posts'             => 'edit_theme_options',
 				'edit_published_posts'   => 'edit_theme_options',
