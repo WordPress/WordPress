@@ -1816,7 +1816,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			 * with the site's timezone offset applied.
 			 */
 			if ( '0000-00-00 00:00:00' === $post->post_modified_gmt ) {
-				$post_modified_gmt = gmdate( 'Y-m-d H:i:s', strtotime( $post->post_modified ) - ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
+				$post_modified_gmt = gmdate( 'Y-m-d H:i:s', strtotime( $post->post_modified ) - (int) ( (float) get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
 			} else {
 				$post_modified_gmt = $post->post_modified_gmt;
 			}
