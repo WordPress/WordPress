@@ -84,7 +84,7 @@ class WP_Debug_Data {
 			'wp-mu-plugins'       => self::get_wp_mu_plugins(),
 			'wp-plugins-active'   => array(),
 			'wp-plugins-inactive' => array(),
-			'wp-media'            => array(),
+			'wp-media'            => self::get_wp_media(),
 			'wp-server'           => self::get_wp_server(),
 			'wp-database'         => self::get_wp_database(),
 			'wp-constants'        => self::get_wp_constants(),
@@ -209,11 +209,6 @@ class WP_Debug_Data {
 			'label'      => __( 'Inactive Plugins' ),
 			'show_count' => true,
 			'fields'     => array(),
-		);
-
-		$info['wp-media'] = array(
-			'label'  => __( 'Media Handling' ),
-			'fields' => array(),
 		);
 
 		// Conditionally add debug information for multisite setups.
@@ -347,9 +342,6 @@ class WP_Debug_Data {
 		// Get dropins descriptions.
 		$dropin_descriptions = _get_dropins();
 
-		// Spare few function calls.
-		$not_available = __( 'Not available' );
-
 		foreach ( $dropins as $dropin_key => $dropin ) {
 			$info['wp-dropins']['fields'][ sanitize_text_field( $dropin_key ) ] = array(
 				'label' => $dropin_key,
@@ -357,182 +349,6 @@ class WP_Debug_Data {
 				'debug' => 'true',
 			);
 		}
-
-		// Populate the media fields.
-		$info['wp-media']['fields']['image_editor'] = array(
-			'label' => __( 'Active editor' ),
-			'value' => _wp_image_editor_choose(),
-		);
-
-		// Get ImageMagic information, if available.
-		if ( class_exists( 'Imagick' ) ) {
-			// Save the Imagick instance for later use.
-			$imagick             = new Imagick();
-			$imagemagick_version = $imagick->getVersion();
-		} else {
-			$imagemagick_version = __( 'Not available' );
-		}
-
-		$info['wp-media']['fields']['imagick_module_version'] = array(
-			'label' => __( 'ImageMagick version number' ),
-			'value' => ( is_array( $imagemagick_version ) ? $imagemagick_version['versionNumber'] : $imagemagick_version ),
-		);
-
-		$info['wp-media']['fields']['imagemagick_version'] = array(
-			'label' => __( 'ImageMagick version string' ),
-			'value' => ( is_array( $imagemagick_version ) ? $imagemagick_version['versionString'] : $imagemagick_version ),
-		);
-
-		$imagick_version = phpversion( 'imagick' );
-
-		$info['wp-media']['fields']['imagick_version'] = array(
-			'label' => __( 'Imagick version' ),
-			'value' => ( $imagick_version ) ? $imagick_version : __( 'Not available' ),
-		);
-
-		if ( ! function_exists( 'ini_get' ) ) {
-			$info['wp-media']['fields']['ini_get'] = array(
-				'label' => __( 'File upload settings' ),
-				'value' => sprintf(
-					/* translators: %s: ini_get() */
-					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
-					'ini_get()'
-				),
-				'debug' => 'ini_get() is disabled',
-			);
-		} else {
-			// Get the PHP ini directive values.
-			$file_uploads        = ini_get( 'file_uploads' );
-			$post_max_size       = ini_get( 'post_max_size' );
-			$upload_max_filesize = ini_get( 'upload_max_filesize' );
-			$max_file_uploads    = ini_get( 'max_file_uploads' );
-			$effective           = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_filesize ) );
-
-			// Add info in Media section.
-			$info['wp-media']['fields']['file_uploads']        = array(
-				'label' => __( 'File uploads' ),
-				'value' => $file_uploads ? __( 'Enabled' ) : __( 'Disabled' ),
-				'debug' => $file_uploads,
-			);
-			$info['wp-media']['fields']['post_max_size']       = array(
-				'label' => __( 'Max size of post data allowed' ),
-				'value' => $post_max_size,
-			);
-			$info['wp-media']['fields']['upload_max_filesize'] = array(
-				'label' => __( 'Max size of an uploaded file' ),
-				'value' => $upload_max_filesize,
-			);
-			$info['wp-media']['fields']['max_effective_size']  = array(
-				'label' => __( 'Max effective file size' ),
-				'value' => size_format( $effective ),
-			);
-			$info['wp-media']['fields']['max_file_uploads']    = array(
-				'label' => __( 'Max simultaneous file uploads' ),
-				'value' => $max_file_uploads,
-			);
-		}
-
-		// If Imagick is used as our editor, provide some more information about its limitations.
-		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
-			$limits = array(
-				'area'   => ( defined( 'imagick::RESOURCETYPE_AREA' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_AREA ) ) : $not_available ),
-				'disk'   => ( defined( 'imagick::RESOURCETYPE_DISK' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_DISK ) : $not_available ),
-				'file'   => ( defined( 'imagick::RESOURCETYPE_FILE' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_FILE ) : $not_available ),
-				'map'    => ( defined( 'imagick::RESOURCETYPE_MAP' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MAP ) ) : $not_available ),
-				'memory' => ( defined( 'imagick::RESOURCETYPE_MEMORY' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MEMORY ) ) : $not_available ),
-				'thread' => ( defined( 'imagick::RESOURCETYPE_THREAD' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_THREAD ) : $not_available ),
-				'time'   => ( defined( 'imagick::RESOURCETYPE_TIME' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_TIME ) : $not_available ),
-			);
-
-			$limits_debug = array(
-				'imagick::RESOURCETYPE_AREA'   => ( defined( 'imagick::RESOURCETYPE_AREA' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_AREA ) ) : 'not available' ),
-				'imagick::RESOURCETYPE_DISK'   => ( defined( 'imagick::RESOURCETYPE_DISK' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_DISK ) : 'not available' ),
-				'imagick::RESOURCETYPE_FILE'   => ( defined( 'imagick::RESOURCETYPE_FILE' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_FILE ) : 'not available' ),
-				'imagick::RESOURCETYPE_MAP'    => ( defined( 'imagick::RESOURCETYPE_MAP' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MAP ) ) : 'not available' ),
-				'imagick::RESOURCETYPE_MEMORY' => ( defined( 'imagick::RESOURCETYPE_MEMORY' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MEMORY ) ) : 'not available' ),
-				'imagick::RESOURCETYPE_THREAD' => ( defined( 'imagick::RESOURCETYPE_THREAD' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_THREAD ) : 'not available' ),
-				'imagick::RESOURCETYPE_TIME'   => ( defined( 'imagick::RESOURCETYPE_TIME' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_TIME ) : 'not available' ),
-			);
-
-			$info['wp-media']['fields']['imagick_limits'] = array(
-				'label' => __( 'Imagick Resource Limits' ),
-				'value' => $limits,
-				'debug' => $limits_debug,
-			);
-
-			try {
-				$formats = Imagick::queryFormats( '*' );
-			} catch ( Exception $e ) {
-				$formats = array();
-			}
-
-			$info['wp-media']['fields']['imagemagick_file_formats'] = array(
-				'label' => __( 'ImageMagick supported file formats' ),
-				'value' => ( empty( $formats ) ) ? __( 'Unable to determine' ) : implode( ', ', $formats ),
-				'debug' => ( empty( $formats ) ) ? 'Unable to determine' : implode( ', ', $formats ),
-			);
-		}
-
-		// Get GD information, if available.
-		if ( function_exists( 'gd_info' ) ) {
-			$gd = gd_info();
-		} else {
-			$gd = false;
-		}
-
-		$info['wp-media']['fields']['gd_version'] = array(
-			'label' => __( 'GD version' ),
-			'value' => ( is_array( $gd ) ? $gd['GD Version'] : $not_available ),
-			'debug' => ( is_array( $gd ) ? $gd['GD Version'] : 'not available' ),
-		);
-
-		$gd_image_formats     = array();
-		$gd_supported_formats = array(
-			'GIF Create' => 'GIF',
-			'JPEG'       => 'JPEG',
-			'PNG'        => 'PNG',
-			'WebP'       => 'WebP',
-			'BMP'        => 'BMP',
-			'AVIF'       => 'AVIF',
-			'HEIF'       => 'HEIF',
-			'TIFF'       => 'TIFF',
-			'XPM'        => 'XPM',
-		);
-
-		foreach ( $gd_supported_formats as $format_key => $format ) {
-			$index = $format_key . ' Support';
-			if ( isset( $gd[ $index ] ) && $gd[ $index ] ) {
-				array_push( $gd_image_formats, $format );
-			}
-		}
-
-		if ( ! empty( $gd_image_formats ) ) {
-			$info['wp-media']['fields']['gd_formats'] = array(
-				'label' => __( 'GD supported file formats' ),
-				'value' => implode( ', ', $gd_image_formats ),
-			);
-		}
-
-		// Get Ghostscript information, if available.
-		if ( function_exists( 'exec' ) ) {
-			$gs = exec( 'gs --version' );
-
-			if ( empty( $gs ) ) {
-				$gs       = $not_available;
-				$gs_debug = 'not available';
-			} else {
-				$gs_debug = $gs;
-			}
-		} else {
-			$gs       = __( 'Unable to determine if Ghostscript is installed' );
-			$gs_debug = 'unknown';
-		}
-
-		$info['wp-media']['fields']['ghostscript_version'] = array(
-			'label' => __( 'Ghostscript version' ),
-			'value' => $gs,
-			'debug' => $gs_debug,
-		);
 
 		// List all available plugins.
 		$plugins        = get_plugins();
@@ -1215,6 +1031,201 @@ class WP_Debug_Data {
 			'fields'      => $fields,
 		);
 	}
+
+	/**
+	 * Gets the WordPress media section of the debug data.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @throws ImagickException
+	 * @return array
+	 */
+	public static function get_wp_media(): array {
+		// Spare few function calls.
+		$not_available = __( 'Not available' );
+
+		// Populate the media fields.
+		$fields['image_editor'] = array(
+			'label' => __( 'Active editor' ),
+			'value' => _wp_image_editor_choose(),
+		);
+
+		// Get ImageMagic information, if available.
+		if ( class_exists( 'Imagick' ) ) {
+			// Save the Imagick instance for later use.
+			$imagick             = new Imagick();
+			$imagemagick_version = $imagick->getVersion();
+		} else {
+			$imagemagick_version = __( 'Not available' );
+		}
+
+		$fields['imagick_module_version'] = array(
+			'label' => __( 'ImageMagick version number' ),
+			'value' => ( is_array( $imagemagick_version ) ? $imagemagick_version['versionNumber'] : $imagemagick_version ),
+		);
+
+		$fields['imagemagick_version'] = array(
+			'label' => __( 'ImageMagick version string' ),
+			'value' => ( is_array( $imagemagick_version ) ? $imagemagick_version['versionString'] : $imagemagick_version ),
+		);
+
+		$imagick_version = phpversion( 'imagick' );
+
+		$fields['imagick_version'] = array(
+			'label' => __( 'Imagick version' ),
+			'value' => ( $imagick_version ) ? $imagick_version : __( 'Not available' ),
+		);
+
+		if ( ! function_exists( 'ini_get' ) ) {
+			$fields['ini_get'] = array(
+				'label' => __( 'File upload settings' ),
+				'value' => sprintf(
+				/* translators: %s: ini_get() */
+					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
+					'ini_get()'
+				),
+				'debug' => 'ini_get() is disabled',
+			);
+		} else {
+			// Get the PHP ini directive values.
+			$file_uploads        = ini_get( 'file_uploads' );
+			$post_max_size       = ini_get( 'post_max_size' );
+			$upload_max_filesize = ini_get( 'upload_max_filesize' );
+			$max_file_uploads    = ini_get( 'max_file_uploads' );
+			$effective           = min( wp_convert_hr_to_bytes( $post_max_size ), wp_convert_hr_to_bytes( $upload_max_filesize ) );
+
+			// Add info in Media section.
+			$fields['file_uploads']        = array(
+				'label' => __( 'File uploads' ),
+				'value' => $file_uploads ? __( 'Enabled' ) : __( 'Disabled' ),
+				'debug' => $file_uploads,
+			);
+			$fields['post_max_size']       = array(
+				'label' => __( 'Max size of post data allowed' ),
+				'value' => $post_max_size,
+			);
+			$fields['upload_max_filesize'] = array(
+				'label' => __( 'Max size of an uploaded file' ),
+				'value' => $upload_max_filesize,
+			);
+			$fields['max_effective_size']  = array(
+				'label' => __( 'Max effective file size' ),
+				'value' => size_format( $effective ),
+			);
+			$fields['max_file_uploads']    = array(
+				'label' => __( 'Max simultaneous file uploads' ),
+				'value' => $max_file_uploads,
+			);
+		}
+
+		// If Imagick is used as our editor, provide some more information about its limitations.
+		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
+			$limits = array(
+				'area'   => ( defined( 'imagick::RESOURCETYPE_AREA' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_AREA ) ) : $not_available ),
+				'disk'   => ( defined( 'imagick::RESOURCETYPE_DISK' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_DISK ) : $not_available ),
+				'file'   => ( defined( 'imagick::RESOURCETYPE_FILE' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_FILE ) : $not_available ),
+				'map'    => ( defined( 'imagick::RESOURCETYPE_MAP' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MAP ) ) : $not_available ),
+				'memory' => ( defined( 'imagick::RESOURCETYPE_MEMORY' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MEMORY ) ) : $not_available ),
+				'thread' => ( defined( 'imagick::RESOURCETYPE_THREAD' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_THREAD ) : $not_available ),
+				'time'   => ( defined( 'imagick::RESOURCETYPE_TIME' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_TIME ) : $not_available ),
+			);
+
+			$limits_debug = array(
+				'imagick::RESOURCETYPE_AREA'   => ( defined( 'imagick::RESOURCETYPE_AREA' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_AREA ) ) : 'not available' ),
+				'imagick::RESOURCETYPE_DISK'   => ( defined( 'imagick::RESOURCETYPE_DISK' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_DISK ) : 'not available' ),
+				'imagick::RESOURCETYPE_FILE'   => ( defined( 'imagick::RESOURCETYPE_FILE' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_FILE ) : 'not available' ),
+				'imagick::RESOURCETYPE_MAP'    => ( defined( 'imagick::RESOURCETYPE_MAP' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MAP ) ) : 'not available' ),
+				'imagick::RESOURCETYPE_MEMORY' => ( defined( 'imagick::RESOURCETYPE_MEMORY' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_MEMORY ) ) : 'not available' ),
+				'imagick::RESOURCETYPE_THREAD' => ( defined( 'imagick::RESOURCETYPE_THREAD' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_THREAD ) : 'not available' ),
+				'imagick::RESOURCETYPE_TIME'   => ( defined( 'imagick::RESOURCETYPE_TIME' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_TIME ) : 'not available' ),
+			);
+
+			$fields['imagick_limits'] = array(
+				'label' => __( 'Imagick Resource Limits' ),
+				'value' => $limits,
+				'debug' => $limits_debug,
+			);
+
+			try {
+				$formats = Imagick::queryFormats( '*' );
+			} catch ( Exception $e ) {
+				$formats = array();
+			}
+
+			$fields['imagemagick_file_formats'] = array(
+				'label' => __( 'ImageMagick supported file formats' ),
+				'value' => ( empty( $formats ) ) ? __( 'Unable to determine' ) : implode( ', ', $formats ),
+				'debug' => ( empty( $formats ) ) ? 'Unable to determine' : implode( ', ', $formats ),
+			);
+		}
+
+		// Get GD information, if available.
+		if ( function_exists( 'gd_info' ) ) {
+			$gd = gd_info();
+		} else {
+			$gd = false;
+		}
+
+		$fields['gd_version'] = array(
+			'label' => __( 'GD version' ),
+			'value' => ( is_array( $gd ) ? $gd['GD Version'] : $not_available ),
+			'debug' => ( is_array( $gd ) ? $gd['GD Version'] : 'not available' ),
+		);
+
+		$gd_image_formats     = array();
+		$gd_supported_formats = array(
+			'GIF Create' => 'GIF',
+			'JPEG'       => 'JPEG',
+			'PNG'        => 'PNG',
+			'WebP'       => 'WebP',
+			'BMP'        => 'BMP',
+			'AVIF'       => 'AVIF',
+			'HEIF'       => 'HEIF',
+			'TIFF'       => 'TIFF',
+			'XPM'        => 'XPM',
+		);
+
+		foreach ( $gd_supported_formats as $format_key => $format ) {
+			$index = $format_key . ' Support';
+			if ( isset( $gd[ $index ] ) && $gd[ $index ] ) {
+				array_push( $gd_image_formats, $format );
+			}
+		}
+
+		if ( ! empty( $gd_image_formats ) ) {
+			$fields['gd_formats'] = array(
+				'label' => __( 'GD supported file formats' ),
+				'value' => implode( ', ', $gd_image_formats ),
+			);
+		}
+
+		// Get Ghostscript information, if available.
+		if ( function_exists( 'exec' ) ) {
+			$gs = exec( 'gs --version' );
+
+			if ( empty( $gs ) ) {
+				$gs       = $not_available;
+				$gs_debug = 'not available';
+			} else {
+				$gs_debug = $gs;
+			}
+		} else {
+			$gs       = __( 'Unable to determine if Ghostscript is installed' );
+			$gs_debug = 'unknown';
+		}
+
+		$fields['ghostscript_version'] = array(
+			'label' => __( 'Ghostscript version' ),
+			'value' => $gs,
+			'debug' => $gs_debug,
+		);
+
+		return array(
+			'label'  => __( 'Media Handling' ),
+			'fields' => $fields,
+		);
+	}
+
 
 	/**
 	 * Gets the WordPress plugins section of the debug data.
