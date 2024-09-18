@@ -74,11 +74,10 @@ class MagpieRSS {
 		# pass in parser, and a reference to this object
 		# set up handlers
 		#
-		xml_set_object( $this->parser, $this );
 		xml_set_element_handler($this->parser,
-				'feed_start_element', 'feed_end_element' );
+				array( $this, 'feed_start_element' ), array( $this, 'feed_end_element' ) );
 
-		xml_set_character_data_handler( $this->parser, 'feed_cdata' );
+		xml_set_character_data_handler( $this->parser, array( $this, 'feed_cdata' ) );
 
 		$status = xml_parse( $this->parser, $source );
 
