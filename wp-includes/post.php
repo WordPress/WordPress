@@ -2968,7 +2968,11 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			 *  - `edit_post_comment_status`
 			 *  - `edit_post_guid`
 			 *  - `edit_post_menu_order`
-			 * @since
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param mixed $value   Value of the post field.
+			 * @param int   $post_id Post ID.
 			 */
 			$value = apply_filters( "edit_post_{$field}", $value, $post_id );
 		}
