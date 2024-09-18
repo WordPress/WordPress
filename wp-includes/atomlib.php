@@ -86,6 +86,10 @@ class AtomParser {
 
     var $feed;
     var $current;
+    var $map_attrs_func;
+    var $map_xmlns_func;
+    var $error;
+    var $content;
 
 	/**
 	 * PHP5 constructor.
