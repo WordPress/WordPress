@@ -2114,7 +2114,8 @@ class wpdb {
 	 * @return bool|void True if the connection is up.
 	 */
 	public function check_connection( $allow_bail = true ) {
-		if ( ! empty( $this->dbh ) && mysqli_ping( $this->dbh ) ) {
+		// Check if the connection is alive.
+		if ( ! empty( $this->dbh ) && mysqli_query( $this->dbh, 'DO 1' ) !== false ) {
 			return true;
 		}
 
