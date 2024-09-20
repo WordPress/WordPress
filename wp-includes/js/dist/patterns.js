@@ -560,6 +560,8 @@ function CreatePatternModal({
     title: modalTitle || defaultModalTitle,
     onRequestClose: restProps.onClose,
     overlayClassName: className,
+    focusOnMount: "firstContentElement",
+    size: "small",
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CreatePatternModalContents, {
       ...restProps
     })
@@ -633,6 +635,7 @@ function CreatePatternModalContents({
         onChange: setCategoryTerms,
         categoryMap: categoryMap
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToggleControl, {
+        __nextHasNoMarginBottom: true,
         label: (0,external_wp_i18n_namespaceObject._x)('Synced', 'pattern (singular)'),
         help: (0,external_wp_i18n_namespaceObject.__)('Sync this pattern across multiple locations.'),
         checked: syncType === PATTERN_SYNC_TYPES.full,
@@ -818,6 +821,8 @@ function RenamePatternModal({
     title: (0,external_wp_i18n_namespaceObject.__)('Rename'),
     ...props,
     onRequestClose: onClose,
+    focusOnMount: "firstContentElement",
+    size: "small",
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("form", {
       onSubmit: onRename,
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, {
@@ -940,7 +945,11 @@ function PatternConvertButton({
     // Hide when block doesn't support being made into a pattern.
     (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, 'reusable', true)) &&
     // Hide when current doesn't have permission to do that.
-    !!canUser('create', 'blocks');
+    // Blocks refers to the wp_block post type, this checks the ability to create a post of that type.
+    !!canUser('create', {
+      kind: 'postType',
+      name: 'wp_block'
+    });
     return _canConvert;
   }, [clientIds, rootClientId]);
   const {
@@ -1034,12 +1043,19 @@ function PatternsManageButton({
     const reusableBlock = getBlock(clientId);
     return {
       canRemove: canRemoveBlock(clientId),
-      isVisible: !!reusableBlock && (0,external_wp_blocks_namespaceObject.isReusableBlock)(reusableBlock) && !!canUser('update', 'blocks', reusableBlock.attributes.ref),
+      isVisible: !!reusableBlock && (0,external_wp_blocks_namespaceObject.isReusableBlock)(reusableBlock) && !!canUser('update', {
+        kind: 'postType',
+        name: 'wp_block',
+        id: reusableBlock.attributes.ref
+      }),
       innerBlockCount: getBlockCount(clientId),
       // The site editor and templates both check whether the user
       // has edit_theme_options capabilities. We can leverage that here
       // and omit the manage patterns link if the user can't access it.
-      managePatternsUrl: canUser('create', 'templates') ? (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', {
+      managePatternsUrl: canUser('create', {
+        kind: 'postType',
+        name: 'wp_template'
+      }) ? (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', {
         path: '/patterns'
       }) : (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
         post_type: 'wp_block'
@@ -1392,24 +1408,10 @@ function DisallowOverridesModal({
 
 
 
-function removeBindings(bindings) {
-  let updatedBindings = {
-    ...bindings
-  };
-  delete updatedBindings.__default;
-  if (!Object.keys(updatedBindings).length) {
-    updatedBindings = undefined;
-  }
-  return updatedBindings;
-}
-function addBindings(bindings) {
-  return {
-    ...bindings,
-    __default: {
-      source: PATTERN_OVERRIDES_BINDING_SOURCE
-    }
-  };
-}
+
+const {
+  useBlockBindingsUtils
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function PatternOverridesControls({
   attributes,
   setAttributes,
@@ -1422,18 +1424,22 @@ function PatternOverridesControls({
   const defaultBindings = attributes.metadata?.bindings?.__default;
   const hasOverrides = hasName && defaultBindings?.source === PATTERN_OVERRIDES_BINDING_SOURCE;
   const isConnectedToOtherSources = defaultBindings?.source && defaultBindings.source !== PATTERN_OVERRIDES_BINDING_SOURCE;
+  const {
+    updateBlockBindings
+  } = useBlockBindingsUtils();
   function updateBindings(isChecked, customName) {
-    const prevBindings = attributes?.metadata?.bindings;
-    const updatedBindings = isChecked ? addBindings(prevBindings) : removeBindings(prevBindings);
-    const updatedMetadata = {
-      ...attributes.metadata,
-      bindings: updatedBindings
-    };
     if (customName) {
-      updatedMetadata.name = customName;
+      setAttributes({
+        metadata: {
+          ...attributes.metadata,
+          name: customName
+        }
+      });
     }
-    setAttributes({
-      metadata: updatedMetadata
+    updateBlockBindings({
+      __default: isChecked ? {
+        source: PATTERN_OVERRIDES_BINDING_SOURCE
+      } : undefined
     });
   }
 
@@ -1447,6 +1453,7 @@ function PatternOverridesControls({
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.InspectorControls, {
       group: "advanced",
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.BaseControl, {
+        __nextHasNoMarginBottom: true,
         id: controlId,
         label: (0,external_wp_i18n_namespaceObject.__)('Overrides'),
         help: helpText,
@@ -1463,7 +1470,7 @@ function PatternOverridesControls({
             }
           },
           disabled: !hasOverrides && hasUnsupportedImageAttributes,
-          __experimentalIsFocusable: true,
+          accessibleWhenDisabled: true,
           children: hasOverrides ? (0,external_wp_i18n_namespaceObject.__)('Disable overrides') : (0,external_wp_i18n_namespaceObject.__)('Enable overrides')
         })
       })
@@ -1546,7 +1553,6 @@ function ResetOverridesControl(props) {
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, {
         onClick: onClick,
         disabled: !isOverriden,
-        __experimentalIsFocusable: true,
         children: (0,external_wp_i18n_namespaceObject.__)('Reset')
       })
     })
@@ -1650,7 +1656,7 @@ function PatternOverridesToolbarIndicator({
         })
       }),
       toggleProps: {
-        describedBy: blockDescription,
+        description: blockDescription,
         ...toggleProps
       },
       menuProps: {

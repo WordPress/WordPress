@@ -24,9 +24,6 @@
 .block-editor-block-list__block:not(.remove-outline).is-reusable.block-editor-block-list__block:not([contenteditable]):focus:after,.block-editor-block-list__block:not(.remove-outline).is-reusable.is-highlighted:after,.block-editor-block-list__block:not(.remove-outline).is-reusable.is-selected:after,.block-editor-block-list__block:not(.remove-outline).wp-block-template-part.block-editor-block-list__block:not([contenteditable]):focus:after,.block-editor-block-list__block:not(.remove-outline).wp-block-template-part.is-highlighted:after,.block-editor-block-list__block:not(.remove-outline).wp-block-template-part.is-selected:after{
   outline-color:var(--wp-block-synced-color);
 }
-.is-dark-theme .block-editor-block-list__block:not(.remove-outline).is-reusable.block-editor-block-list__block:not([contenteditable]):focus:after,.is-dark-theme .block-editor-block-list__block:not(.remove-outline).wp-block-template-part.block-editor-block-list__block:not([contenteditable]):focus:after{
-  outline-color:#fff;
-}
 
 .is-outline-mode .block-editor-block-list__block:not(.remove-outline).wp-block-template-part.has-editable-outline:after{
   border:none;

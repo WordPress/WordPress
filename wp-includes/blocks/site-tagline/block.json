@@ -14,9 +14,18 @@
 		"level": {
 			"type": "number",
 			"default": 0
+		},
+		"levelOptions": {
+			"type": "array",
+			"default": [ 0, 1, 2, 3, 4, 5, 6 ]
 		}
 	},
-	"example": {},
+	"example": {
+		"viewportWidth": 350,
+		"attributes": {
+			"textAlign": "center"
+		}
+	},
 	"supports": {
 		"align": [ "wide", "full" ],
 		"html": false,
@@ -44,13 +53,21 @@
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
+			"__experimentalWritingMode": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
 		}
 	},
-	"editorStyle": "wp-block-site-tagline-editor"
+	"editorStyle": "wp-block-site-tagline-editor",
+	"style": "wp-block-site-tagline"
 }

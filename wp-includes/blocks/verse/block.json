@@ -21,12 +21,25 @@
 	},
 	"supports": {
 		"anchor": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
 		"color": {
 			"gradients": true,
 			"link": true,
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
+			}
+		},
+		"dimensions": {
+			"minHeight": true,
+			"__experimentalDefaultControls": {
+				"minHeight": false
 			}
 		},
 		"typography": {
@@ -38,6 +51,7 @@
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
+			"__experimentalWritingMode": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}

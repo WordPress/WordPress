@@ -19,18 +19,13 @@
 .block-editor-format-toolbar__image-popover{
   z-index:159990;
 }
-.block-editor-format-toolbar__image-popover .block-editor-format-toolbar__image-container-value{
-  margin:7px;
-  max-width:500px;
-  min-width:150px;
-}
-.block-editor-format-toolbar__image-popover .block-editor-format-toolbar__image-container-button{
-  height:30px;
-  margin-bottom:8px;
-  margin-left:8px;
+.block-editor-format-toolbar__image-popover .block-editor-format-toolbar__image-container-content{
+  padding:16px;
+  width:260px;
 }
 
 .block-editor-format-toolbar__link-container-content{
+  align-items:center;
   display:flex;
 }
 

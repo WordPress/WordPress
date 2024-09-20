@@ -472,10 +472,24 @@ function closeOuterElement(endOffset) {
  */
 
 /**
- * Object containing a React synthetic event.
+ * Object containing a React ref object.
  *
  * @template T
  * @typedef {import('react').RefObject<T>} RefObject<T>
+ */
+
+/**
+ * Object containing a React ref callback.
+ *
+ * @template T
+ * @typedef {import('react').RefCallback<T>} RefCallback<T>
+ */
+
+/**
+ * Object containing a React ref.
+ *
+ * @template T
+ * @typedef {import('react').Ref<T>} Ref<T>
  */
 
 /**
@@ -558,7 +572,7 @@ function closeOuterElement(endOffset) {
 
 
 /**
- * @see https://reactjs.org/docs/react-api.html#reactmemo
+ * @see https://react.dev/reference/react/memo
  */
 
 
@@ -568,97 +582,97 @@ function closeOuterElement(endOffset) {
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usecallback
+ * @see https://react.dev/reference/react/useCallback
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usecontext
+ * @see https://react.dev/reference/react/useContext
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usedebugvalue
+ * @see https://react.dev/reference/react/useDebugValue
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usedeferredvalue
+ * @see https://react.dev/reference/react/useDeferredValue
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#useeffect
+ * @see https://react.dev/reference/react/useEffect
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#useid
+ * @see https://react.dev/reference/react/useId
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+ * @see https://react.dev/reference/react/useImperativeHandle
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#useinsertioneffect
+ * @see https://react.dev/reference/react/useInsertionEffect
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#uselayouteffect
+ * @see https://react.dev/reference/react/useLayoutEffect
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usememo
+ * @see https://react.dev/reference/react/useMemo
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usereducer
+ * @see https://react.dev/reference/react/useReducer
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#useref
+ * @see https://react.dev/reference/react/useRef
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usestate
+ * @see https://react.dev/reference/react/useState
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore
+ * @see https://react.dev/reference/react/useSyncExternalStore
  */
 
 
 /**
- * @see https://reactjs.org/docs/hooks-reference.html#usetransition
+ * @see https://react.dev/reference/react/useTransition
  */
 
 
 /**
- * @see https://reactjs.org/docs/react-api.html#starttransition
+ * @see https://react.dev/reference/react/startTransition
  */
 
 
 /**
- * @see https://reactjs.org/docs/react-api.html#reactlazy
+ * @see https://react.dev/reference/react/lazy
  */
 
 
 /**
- * @see https://reactjs.org/docs/react-api.html#reactsuspense
+ * @see https://react.dev/reference/react/Suspense
  */
 
 
 /**
- * @see https://reactjs.org/docs/react-api.html#reactpurecomponent
+ * @see https://react.dev/reference/react/PureComponent
  */
 
 

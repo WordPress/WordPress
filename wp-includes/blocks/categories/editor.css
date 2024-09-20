@@ -7,3 +7,7 @@
 [data-align=center] .wp-block-categories{
   text-align:center;
 }
+
+.wp-block-categories__indentation{
+  padding-left:16px;
+}

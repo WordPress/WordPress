@@ -133,23 +133,35 @@ figure.wp-block-gallery.has-nested-images{
   max-width:100% !important;
   width:auto;
 }
-.wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
-  background:linear-gradient(0deg, #000000b3, #0000004d 70%, #0000);
+.wp-block-gallery.has-nested-images figure.wp-block-image figcaption,.wp-block-gallery.has-nested-images figure.wp-block-image:has(figcaption):before{
   bottom:0;
+  left:0;
+  max-height:100%;
+  position:absolute;
+  right:0;
+}
+.wp-block-gallery.has-nested-images figure.wp-block-image:has(figcaption):before{
+  -webkit-backdrop-filter:blur(3px);
+          backdrop-filter:blur(3px);
+  content:"";
+  height:100%;
+  -webkit-mask-image:linear-gradient(0deg, #000 20%, #0000);
+          mask-image:linear-gradient(0deg, #000 20%, #0000);
+  max-height:40%;
+}
+.wp-block-gallery.has-nested-images figure.wp-block-image figcaption{
+  background:linear-gradient(0deg, #0006, #0000);
   box-sizing:border-box;
   color:#fff;
   font-size:13px;
-  left:0;
-  margin-bottom:0;
-  max-height:60%;
+  margin:0;
   overflow:auto;
-  padding:0 8px 8px;
-  position:absolute;
+  padding:1em;
   scrollbar-color:#0000 #0000;
   scrollbar-gutter:stable both-edges;
   scrollbar-width:thin;
   text-align:center;
-  width:100%;
+  text-shadow:0 0 1.5px #000;
   will-change:transform;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption::-webkit-scrollbar{
@@ -195,6 +207,10 @@ figure.wp-block-gallery.has-nested-images{
   margin:0;
   padding:10px 10px 9px;
   position:relative;
+  text-shadow:none;
+}
+.wp-block-gallery.has-nested-images figure.wp-block-image.has-custom-border:before,.wp-block-gallery.has-nested-images figure.wp-block-image.is-style-rounded:before{
+  content:none;
 }
 .wp-block-gallery.has-nested-images figcaption{
   flex-basis:100%;

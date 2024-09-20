@@ -1,6 +1,3 @@
-.editor-styles-wrapper .wp-block-cover{
-  box-sizing:border-box;
-}
 .wp-block-cover.is-placeholder{
   align-items:stretch;
   display:flex;

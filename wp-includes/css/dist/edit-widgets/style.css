@@ -88,7 +88,7 @@
     top:0;
   }
 }
-.interface-complementary-area p:not(.components-base-control__help){
+.interface-complementary-area p:not(.components-base-control__help,.components-form-token-field__help){
   margin-top:0;
 }
 .interface-complementary-area h2{
@@ -257,7 +257,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 @media (min-width:782px){
   .interface-interface-skeleton__sidebar{
-    box-shadow:-1px 1px 0 0 rgba(0,0,0,.133);
+    box-shadow:-1px 0 0 0 rgba(0,0,0,.133);
     outline:1px solid #0000;
   }
 }
@@ -268,7 +268,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 @media (min-width:782px){
   .interface-interface-skeleton__secondary-sidebar{
-    box-shadow:1px 1px 0 0 rgba(0,0,0,.133);
+    box-shadow:1px 0 0 0 rgba(0,0,0,.133);
     outline:1px solid #0000;
   }
 }
@@ -411,7 +411,7 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 }
 
 .edit-widgets-error-boundary{
-  box-shadow:0 .7px 1px #00000026,0 2.7px 3.8px -.2px #00000026,0 5.5px 7.8px -.3px #00000026,.1px 11.5px 16.4px -.5px #00000026;
+  box-shadow:0 5px 15px #00000014,0 15px 27px #00000012,0 30px 36px #0000000a,0 50px 43px #00000005;
   margin:60px auto auto;
   max-width:780px;
   padding:20px;
@@ -573,7 +573,6 @@ body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .c
 }
 .edit-widgets-keyboard-shortcut-help-modal__shortcut-description{
   flex:1;
-  flex-basis:auto;
   margin:0;
 }
 .edit-widgets-keyboard-shortcut-help-modal__shortcut-key-combination{

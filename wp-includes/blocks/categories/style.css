@@ -10,3 +10,7 @@
 .wp-block-categories.wp-block-categories-dropdown.aligncenter{
   text-align:center;
 }
+.wp-block-categories .wp-block-categories__label{
+  display:block;
+  width:100%;
+}

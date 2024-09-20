@@ -2,7 +2,7 @@
   margin:auto;
 }
 
-.wp-block-search .wp-block-search__button{
+.wp-block-search :where(.wp-block-search__button){
   align-items:center;
   border-radius:initial;
   display:flex;
@@ -10,6 +10,7 @@
   justify-content:center;
   text-align:center;
 }
-.wp-block-search__components-button-group{
-  margin-top:10px;
+
+.wp-block-search__inspector-controls .components-base-control{
+  margin-bottom:0;
 }

@@ -17,6 +17,9 @@
 			"type": "number",
 			"default": 1
 		},
+		"levelOptions": {
+			"type": "array"
+		},
 		"showPrefix": {
 			"type": "boolean",
 			"default": true
@@ -55,6 +58,18 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true,
+				"color": true,
+				"width": true,
+				"style": true
+			}
 		}
 	},
 	"style": "wp-block-query-title"

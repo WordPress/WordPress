@@ -9,20 +9,26 @@
  * Renders the `core/categories` block on server.
  *
  * @since 5.0.0
+ * @since 6.7.0 Enable client-side rendering if enhancedPagination context is true.
  *
- * @param array $attributes The block attributes.
+ * @param array    $attributes The block attributes.
+ * @param string   $content    Block default content.
+ * @param WP_Block $block      Block instance.
  *
  * @return string Returns the categories list/dropdown markup.
  */
-function render_block_core_categories( $attributes ) {
+function render_block_core_categories( $attributes, $content, $block ) {
 	static $block_id = 0;
 	++$block_id;
+
+	$taxonomy = get_taxonomy( $attributes['taxonomy'] );
 
 	$args = array(
 		'echo'         => false,
 		'hierarchical' => ! empty( $attributes['showHierarchy'] ),
 		'orderby'      => 'name',
 		'show_count'   => ! empty( $attributes['showPostCounts'] ),
+		'taxonomy'     => $attributes['taxonomy'],
 		'title_li'     => '',
 		'hide_empty'   => empty( $attributes['showEmpty'] ),
 	);
@@ -33,10 +39,20 @@ function render_block_core_categories( $attributes ) {
 	if ( ! empty( $attributes['displayAsDropdown'] ) ) {
 		$id                       = 'wp-block-categories-' . $block_id;
 		$args['id']               = $id;
-		$args['show_option_none'] = __( 'Select Category' );
-		$wrapper_markup           = '<div %1$s><label class="screen-reader-text" for="' . esc_attr( $id ) . '">' . __( 'Categories' ) . '</label>%2$s</div>';
-		$items_markup             = wp_dropdown_categories( $args );
-		$type                     = 'dropdown';
+		$args['name']             = $taxonomy->query_var;
+		$args['value_field']      = 'slug';
+		$args['show_option_none'] = sprintf(
+			/* translators: %s: taxonomy's singular name */
+			__( 'Select %s' ),
+			$taxonomy->labels->singular_name
+		);
+
+		$show_label     = empty( $attributes['showLabel'] ) ? ' screen-reader-text' : '';
+		$default_label  = $taxonomy->label;
+		$label_text     = ! empty( $attributes['label'] ) ? $attributes['label'] : $default_label;
+		$wrapper_markup = '<div %1$s><label class="wp-block-categories__label' . $show_label . '" for="' . esc_attr( $id ) . '">' . $label_text . '</label>%2$s</div>';
+		$items_markup   = wp_dropdown_categories( $args );
+		$type           = 'dropdown';
 
 		if ( ! is_admin() ) {
 			// Inject the dropdown script immediately after the select dropdown.
@@ -48,9 +64,19 @@ function render_block_core_categories( $attributes ) {
 			);
 		}
 	} else {
+		$args['show_option_none'] = $taxonomy->labels->no_terms;
+
 		$wrapper_markup = '<ul %1$s>%2$s</ul>';
 		$items_markup   = wp_list_categories( $args );
 		$type           = 'list';
+
+		if ( ! empty( $block->context['enhancedPagination'] ) ) {
+			$p = new WP_HTML_Tag_Processor( $items_markup );
+			while ( $p->next_tag( 'a' ) ) {
+				$p->set_attribute( 'data-wp-on--click', 'core/query::actions.navigate' );
+			}
+			$items_markup = $p->get_updated_html();
+		}
 	}
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => "wp-block-categories-{$type}" ) );
@@ -78,8 +104,8 @@ function build_dropdown_script_block_core_categories( $dropdown_id ) {
 	( function() {
 		var dropdown = document.getElementById( '<?php echo esc_js( $dropdown_id ); ?>' );
 		function onCatChange() {
-			if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
-				location.href = "<?php echo esc_url( home_url() ); ?>/?cat=" + dropdown.options[ dropdown.selectedIndex ].value;
+			if ( dropdown.options[ dropdown.selectedIndex ].value !== -1 ) {
+				location.href = "<?php echo esc_url( home_url() ); ?>/?" + dropdown.name + '=' + dropdown.options[ dropdown.selectedIndex ].value;
 			}
 		}
 		dropdown.onchange = onCatChange;

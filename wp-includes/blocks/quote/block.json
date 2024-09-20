@@ -28,7 +28,33 @@
 	},
 	"supports": {
 		"anchor": true,
+		"align": [ "left", "right", "wide", "full" ],
 		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"dimensions": {
+			"minHeight": true,
+			"__experimentalDefaultControls": {
+				"minHeight": false
+			}
+		},
 		"__experimentalOnEnter": true,
 		"__experimentalOnMerge": true,
 		"typography": {
@@ -57,7 +83,9 @@
 			"allowEditing": false
 		},
 		"spacing": {
-			"blockGap": true
+			"blockGap": true,
+			"padding": true,
+			"margin": true
 		},
 		"interactivity": {
 			"clientNavigation": true

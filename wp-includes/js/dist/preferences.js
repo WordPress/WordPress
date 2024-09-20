@@ -697,7 +697,7 @@ function PreferencesModalTabs({
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItemGroup, {
               children: tabs.map(tab => {
                 return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalNavigatorButton, {
-                  path: tab.name,
+                  path: `/${tab.name}`,
                   as: external_wp_components_namespaceObject.__experimentalItem,
                   isAction: true,
                   children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
@@ -719,7 +719,7 @@ function PreferencesModalTabs({
         })
       }), sections.length && sections.map(section => {
         return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
-          path: section.name,
+          path: `/${section.name}`,
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Card, {
             isBorderless: true,
             size: "large",

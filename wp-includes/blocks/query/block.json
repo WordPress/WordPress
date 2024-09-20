@@ -25,7 +25,8 @@
 				"sticky": "",
 				"inherit": true,
 				"taxQuery": null,
-				"parents": []
+				"parents": [],
+				"format": []
 			}
 		},
 		"tagName": {
@@ -40,6 +41,7 @@
 			"default": false
 		}
 	},
+	"usesContext": [ "postType" ],
 	"providesContext": {
 		"queryId": "queryId",
 		"query": "query",

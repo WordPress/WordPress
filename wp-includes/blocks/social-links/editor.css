@@ -80,3 +80,20 @@
 .wp-block-social-links .is-selected .wp-social-link__is-incomplete,.wp-social-link.wp-social-link__is-incomplete:focus,.wp-social-link.wp-social-link__is-incomplete:hover{
   opacity:1;
 }
+
+.wp-block-social-links .block-list-appender{
+  position:static;
+}
+.wp-block-social-links .block-list-appender .block-editor-button-block-appender.components-button.components-button{
+  padding:6px;
+}
+
+.wp-block-social-links.has-small-icon-size .block-editor-button-block-appender.components-button.components-button{
+  padding:0;
+}
+.wp-block-social-links.has-large-icon-size .block-editor-button-block-appender.components-button.components-button{
+  padding:14px;
+}
+.wp-block-social-links.has-huge-icon-size .block-editor-button-block-appender.components-button.components-button{
+  padding:23px;
+}

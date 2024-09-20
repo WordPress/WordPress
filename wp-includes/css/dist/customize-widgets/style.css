@@ -135,7 +135,6 @@
 }
 .customize-widgets-keyboard-shortcut-help-modal__shortcut-description{
   flex:1;
-  flex-basis:auto;
   margin:0;
 }
 .customize-widgets-keyboard-shortcut-help-modal__shortcut-key-combination{

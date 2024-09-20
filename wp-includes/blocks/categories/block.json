@@ -2,11 +2,16 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "core/categories",
-	"title": "Categories List",
+	"title": "Terms List",
 	"category": "widgets",
-	"description": "Display a list of all categories.",
+	"description": "Display a list of all terms of a given taxonomy.",
+	"keywords": [ "categories" ],
 	"textdomain": "default",
 	"attributes": {
+		"taxonomy": {
+			"type": "string",
+			"default": "category"
+		},
 		"displayAsDropdown": {
 			"type": "boolean",
 			"default": false
@@ -26,8 +31,17 @@
 		"showEmpty": {
 			"type": "boolean",
 			"default": false
+		},
+		"label": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"showLabel": {
+			"type": "boolean",
+			"default": true
 		}
 	},
+	"usesContext": [ "enhancedPagination" ],
 	"supports": {
 		"align": true,
 		"html": false,
@@ -54,6 +68,18 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true,
+				"color": true,
+				"width": true,
+				"style": true
+			}
 		}
 	},
 	"editorStyle": "wp-block-categories-editor",

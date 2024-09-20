@@ -1,4 +1,5 @@
 :where(.wp-block-post-excerpt){
+  box-sizing:border-box;
   margin-bottom:var(--wp--style--block-gap);
   margin-top:var(--wp--style--block-gap);
 }

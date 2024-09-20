@@ -11,6 +11,10 @@
 		"id": {
 			"type": "number"
 		},
+		"blob": {
+			"type": "string",
+			"__experimentalRole": "local"
+		},
 		"href": {
 			"type": "string"
 		},
@@ -68,6 +72,18 @@
 			"__experimentalDefaultControls": {
 				"background": true,
 				"link": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true,
+				"color": true,
+				"width": true,
+				"style": true
 			}
 		},
 		"interactivity": true

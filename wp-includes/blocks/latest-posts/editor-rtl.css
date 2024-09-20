@@ -6,17 +6,17 @@
   display:inline;
 }
 
-.editor-latest-posts-image-alignment-control .components-base-control__label{
-  display:block;
-}
-.editor-latest-posts-image-alignment-control .components-toolbar{
-  border-radius:2px;
-}
-
 :root :where(.wp-block-latest-posts){
   padding-right:2.5em;
 }
 
 :root :where(.wp-block-latest-posts.is-grid),:root :where(.wp-block-latest-posts__list){
   padding-right:0;
+}
+
+.wp-block-latest-posts__post-content-radio{
+  margin-bottom:24px;
+}
+.wp-block-latest-posts__post-content-radio:last-child{
+  margin-bottom:8px;
 }

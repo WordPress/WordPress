@@ -4,7 +4,7 @@
 	"name": "core/tag-cloud",
 	"title": "Tag Cloud",
 	"category": "widgets",
-	"description": "A cloud of your most used tags.",
+	"description": "A cloud of popular keywords, each sized by how often it appears.",
 	"textdomain": "default",
 	"attributes": {
 		"numberOfTags": {
@@ -51,6 +51,18 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true,
+				"color": true,
+				"width": true,
+				"style": true
+			}
 		}
 	},
 	"editorStyle": "wp-block-tag-cloud-editor"

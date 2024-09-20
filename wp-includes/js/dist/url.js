@@ -581,6 +581,7 @@ __webpack_require__.d(__webpack_exports__, {
   getQueryString: () => (/* reexport */ getQueryString),
   hasQueryArg: () => (/* reexport */ hasQueryArg),
   isEmail: () => (/* reexport */ isEmail),
+  isPhoneNumber: () => (/* reexport */ isPhoneNumber),
   isURL: () => (/* reexport */ isURL),
   isValidAuthority: () => (/* reexport */ isValidAuthority),
   isValidFragment: () => (/* reexport */ isValidFragment),
@@ -596,6 +597,7 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
+/* wp:polyfill */
 /**
  * Determines whether the given string looks like a URL.
  *
@@ -639,6 +641,27 @@ const EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}
  */
 function isEmail(email) {
   return EMAIL_REGEXP.test(email);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-phone-number.js
+const PHONE_REGEXP = /^(tel:)?(\+)?\d{6,15}$/;
+
+/**
+ * Determines whether the given string looks like a phone number.
+ *
+ * @param {string} phoneNumber The string to scrutinize.
+ *
+ * @example
+ * ```js
+ * const isPhoneNumber = isPhoneNumber('+1 (555) 123-4567'); // true
+ * ```
+ *
+ * @return {boolean} Whether or not it looks like a phone number.
+ */
+function isPhoneNumber(phoneNumber) {
+  // Remove any seperator from phone number.
+  phoneNumber = phoneNumber.replace(/[-.() ]/g, '');
+  return PHONE_REGEXP.test(phoneNumber);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-protocol.js
@@ -768,6 +791,7 @@ function isValidPath(path) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-string.js
+/* wp:polyfill */
 /**
  * Returns the query string part of the URL.
  *
@@ -1243,8 +1267,12 @@ function safeDecodeURI(uri) {
  * @return {string} Displayed URL.
  */
 function filterURLForDisplay(url, maxLength = null) {
+  if (!url) {
+    return '';
+  }
+
   // Remove protocol and www prefixes.
-  let filteredURL = url.replace(/^(?:https?:)\/\/(?:www\.)?/, '');
+  let filteredURL = url.replace(/^[a-z\-.\+]+[0-9]*:(\/\/)?/i, '').replace(/^www\./i, '');
 
   // Ends with / and only has that single slash, strip it.
   if (filteredURL.match(/^[^\/]+\/$/)) {
@@ -1315,6 +1343,7 @@ function cleanForSlug(string) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-filename.js
+/* wp:polyfill */
 /**
  * Returns the filename part of the URL.
  *
@@ -1411,6 +1440,7 @@ function prependHTTPS(url) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/index.js
+
 
 
 

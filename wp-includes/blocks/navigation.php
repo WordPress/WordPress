@@ -241,13 +241,11 @@ class WP_Navigation_Block_Renderer {
 			// it encounters whitespace. This code strips it.
 			$blocks = block_core_navigation_filter_out_empty_blocks( $parsed_blocks );
 
-			if ( function_exists( 'set_ignored_hooked_blocks_metadata' ) ) {
-				// Run Block Hooks algorithm to inject hooked blocks.
-				$markup         = block_core_navigation_insert_hooked_blocks( $blocks, $navigation_post );
-				$root_nav_block = parse_blocks( $markup )[0];
+			// Run Block Hooks algorithm to inject hooked blocks.
+			$markup         = block_core_navigation_insert_hooked_blocks( $blocks, $navigation_post );
+			$root_nav_block = parse_blocks( $markup )[0];
 
-				$blocks = isset( $root_nav_block['innerBlocks'] ) ? $root_nav_block['innerBlocks'] : $blocks;
-			}
+			$blocks = isset( $root_nav_block['innerBlocks'] ) ? $root_nav_block['innerBlocks'] : $blocks;
 
 			// TODO - this uses the full navigation block attributes for the
 			// context which could be refined.
@@ -483,7 +481,7 @@ class WP_Navigation_Block_Renderer {
 			}
 		}
 		$toggle_button_content       = $should_display_icon_label ? $toggle_button_icon : __( 'Menu' );
-		$toggle_close_button_icon    = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg>';
+		$toggle_close_button_icon    = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg>';
 		$toggle_close_button_content = $should_display_icon_label ? $toggle_close_button_icon : __( 'Close' );
 		$toggle_aria_label_open      = $should_display_icon_label ? 'aria-label="' . __( 'Open menu' ) . '"' : ''; // Open button label.
 		$toggle_aria_label_close     = $should_display_icon_label ? 'aria-label="' . __( 'Close menu' ) . '"' : ''; // Close button label.
@@ -626,7 +624,7 @@ class WP_Navigation_Block_Renderer {
 		if ( static::is_interactive( $attributes, $inner_blocks ) ) {
 			$suffix = wp_scripts_get_suffix();
 			if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
-				$module_url = gutenberg_url( '/build/interactivity/navigation.min.js' );
+				$module_url = gutenberg_url( '/build-module/block-library/navigation/view.min.js' );
 			}
 
 			wp_register_script_module(
@@ -1083,15 +1081,13 @@ function block_core_navigation_get_fallback_blocks() {
 		// In this case default to the (Page List) fallback.
 		$fallback_blocks = ! empty( $maybe_fallback ) ? $maybe_fallback : $fallback_blocks;
 
-		if ( function_exists( 'set_ignored_hooked_blocks_metadata' ) ) {
-			// Run Block Hooks algorithm to inject hooked blocks.
-			// We have to run it here because we need the post ID of the Navigation block to track ignored hooked blocks.
-			$markup = block_core_navigation_insert_hooked_blocks( $fallback_blocks, $navigation_post );
-			$blocks = parse_blocks( $markup );
+		// Run Block Hooks algorithm to inject hooked blocks.
+		// We have to run it here because we need the post ID of the Navigation block to track ignored hooked blocks.
+		$markup = block_core_navigation_insert_hooked_blocks( $fallback_blocks, $navigation_post );
+		$blocks = parse_blocks( $markup );
 
-			if ( isset( $blocks[0]['innerBlocks'] ) ) {
-				$fallback_blocks = $blocks[0]['innerBlocks'];
-			}
+		if ( isset( $blocks[0]['innerBlocks'] ) ) {
+			$fallback_blocks = $blocks[0]['innerBlocks'];
 		}
 	}
 
@@ -1621,24 +1617,13 @@ $rest_insert_wp_navigation_core_callback = 'block_core_navigation_' . 'update_ig
 /*
  * Do not add the `block_core_navigation_update_ignore_hooked_blocks_meta` filter in the following cases:
  * - If Core has added the `update_ignored_hooked_blocks_postmeta` filter already (WP >= 6.6);
- * - or if the `set_ignored_hooked_blocks_metadata` function is unavailable (which is required for the filter to work. It was introduced by WP 6.5 but is not present in Gutenberg's WP 6.5 compatibility layer);
  * - or if the `$rest_insert_wp_navigation_core_callback` filter has already been added.
  */
 if (
 	! has_filter( 'rest_pre_insert_wp_navigation', 'update_ignored_hooked_blocks_postmeta' ) &&
-	function_exists( 'set_ignored_hooked_blocks_metadata' ) &&
 	! has_filter( 'rest_pre_insert_wp_navigation', $rest_insert_wp_navigation_core_callback )
 ) {
 	add_filter( 'rest_pre_insert_wp_navigation', 'block_core_navigation_update_ignore_hooked_blocks_meta' );
-}
-
-/*
- * Previous versions of Gutenberg were attaching the block_core_navigation_update_ignore_hooked_blocks_meta
- * function to the `rest_insert_wp_navigation` _action_ (rather than the `rest_pre_insert_wp_navigation` _filter_).
- * To avoid collisions, we need to remove the filter from that action if it's present.
- */
-if ( has_filter( 'rest_insert_wp_navigation', $rest_insert_wp_navigation_core_callback ) ) {
-	remove_filter( 'rest_insert_wp_navigation', $rest_insert_wp_navigation_core_callback );
 }
 
 /**
@@ -1678,12 +1663,10 @@ $rest_prepare_wp_navigation_core_callback = 'block_core_navigation_' . 'insert_h
 /*
  * Do not add the `block_core_navigation_insert_hooked_blocks_into_rest_response` filter in the following cases:
  * - If Core has added the `insert_hooked_blocks_into_rest_response` filter already (WP >= 6.6);
- * - or if the `set_ignored_hooked_blocks_metadata` function is unavailable (which is required for the filter to work. It was introduced by WP 6.5 but is not present in Gutenberg's WP 6.5 compatibility layer);
  * - or if the `$rest_prepare_wp_navigation_core_callback` filter has already been added.
  */
 if (
 	! has_filter( 'rest_prepare_wp_navigation', 'insert_hooked_blocks_into_rest_response' ) &&
-	function_exists( 'set_ignored_hooked_blocks_metadata' ) &&
 	! has_filter( 'rest_prepare_wp_navigation', $rest_prepare_wp_navigation_core_callback )
 ) {
 	add_filter( 'rest_prepare_wp_navigation', 'block_core_navigation_insert_hooked_blocks_into_rest_response', 10, 3 );

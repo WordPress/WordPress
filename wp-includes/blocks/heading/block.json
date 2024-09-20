@@ -21,6 +21,9 @@
 			"type": "number",
 			"default": 2
 		},
+		"levelOptions": {
+			"type": "array"
+		},
 		"placeholder": {
 			"type": "string"
 		}
@@ -30,6 +33,18 @@
 		"anchor": true,
 		"className": true,
 		"splitting": true,
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
+		},
 		"color": {
 			"gradients": true,
 			"link": true,

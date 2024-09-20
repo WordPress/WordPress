@@ -155,8 +155,9 @@ function WidgetTypeSelector({
     return (0,external_wp_i18n_namespaceObject.__)('There are no widgets available.');
   }
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.SelectControl, {
+    __next40pxDefaultSize: true,
     __nextHasNoMarginBottom: true,
-    label: (0,external_wp_i18n_namespaceObject.__)('Select a legacy widget to display:'),
+    label: (0,external_wp_i18n_namespaceObject.__)('Legacy widget'),
     value: selectedId !== null && selectedId !== void 0 ? selectedId : '',
     options: [{
       value: '',
@@ -207,6 +208,7 @@ const external_wp_compose_namespaceObject = window["wp"]["compose"];
 const external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/legacy-widget/edit/control.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */

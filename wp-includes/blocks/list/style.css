@@ -2,6 +2,6 @@ ol,ul{
   box-sizing:border-box;
 }
 
-:root :where(ul.has-background,ol.has-background){
+:root :where(.wp-block-list.has-background){
   padding:1.25em 2.375em;
 }

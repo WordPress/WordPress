@@ -16,9 +16,6 @@
   }
 }
 
-.edit-post-fullscreen-mode-close.components-button{
-  display:none;
-}
 @media (min-width:782px){
   .edit-post-fullscreen-mode-close.components-button{
     align-items:center;
@@ -85,9 +82,71 @@
   content:none;
 }
 
-.edit-post-layout__metaboxes{
+.edit-post-meta-boxes-main{
+  background-color:#fff;
   clear:both;
-  flex-shrink:0;
+  filter:drop-shadow(0 -1px rgba(0, 0, 0, .133));
+}
+.edit-post-meta-boxes-main:not(details){
+  padding-top:24px;
+}
+.edit-post-meta-boxes-main:is(details)>summary{
+  background-color:#fff;
+  box-shadow:0 1px #ddd;
+  color:#1e1e1e;
+  cursor:pointer;
+  font-size:13px;
+  height:32px;
+  line-height:32px;
+  padding-left:24px;
+}
+.edit-post-meta-boxes-main:is(details)[open]>summary{
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+.edit-post-meta-boxes-main__resize-handle{
+  box-shadow:0 1px #ddd;
+  display:flex;
+  height:24px;
+  inset:0 0 auto 0;
+}
+.edit-post-meta-boxes-main__resize-handle>button{
+  appearance:none;
+  background-color:#ddd;
+  border:none;
+  border-radius:2px;
+  cursor:inherit;
+  height:4px;
+  margin:auto;
+  outline:none;
+  padding:0;
+  transition:width .3s ease-out;
+  width:64px;
+}
+@media (prefers-reduced-motion:reduce){
+  .edit-post-meta-boxes-main__resize-handle>button{
+    transition-delay:0s;
+    transition-duration:0s;
+  }
+}
+.edit-post-meta-boxes-main__resize-handle:hover>button,.edit-post-meta-boxes-main__resize-handle>button:focus{
+  background-color:var(--wp-admin-theme-color);
+  width:80px;
+}
+
+.edit-post-meta-boxes-main__liner{
+  isolation:isolate;
+  max-height:100%;
+  overflow:auto;
+}
+
+.has-metaboxes .editor-visual-editor{
+  flex:1;
+}
+.has-metaboxes .editor-visual-editor.is-iframed{
+  isolation:isolate;
 }
 
 .components-editor-notices__snackbar{
@@ -237,14 +296,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 .edit-template-welcome-guide .components-button svg{
   fill:#fff;
 }
-@keyframes edit-post__fade-in-animation{
-  0%{
-    opacity:0;
-  }
-  to{
-    opacity:1;
-  }
-}
+
 body.js.block-editor-page{
   background:#fff;
 }

@@ -113,7 +113,7 @@
   color:#fff;
 }
 :where(.wp-block-social-links:not(.is-style-logos-only)) .wp-social-link-facebook{
-  background-color:#1778f2;
+  background-color:#0866ff;
   color:#fff;
 }
 :where(.wp-block-social-links:not(.is-style-logos-only)) .wp-social-link-fivehundredpx{
@@ -289,7 +289,7 @@
   color:#f45800;
 }
 :where(.wp-block-social-links.is-style-logos-only) .wp-social-link-facebook{
-  color:#1778f2;
+  color:#0866ff;
 }
 :where(.wp-block-social-links.is-style-logos-only) .wp-social-link-fivehundredpx{
   color:#000;

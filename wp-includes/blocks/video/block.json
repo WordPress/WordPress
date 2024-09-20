@@ -56,6 +56,10 @@
 			"attribute": "preload",
 			"default": "metadata"
 		},
+		"blob": {
+			"type": "string",
+			"__experimentalRole": "local"
+		},
 		"src": {
 			"type": "string",
 			"source": "attribute",

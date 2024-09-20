@@ -9,16 +9,16 @@
   font-style:normal;
   position:relative;
 }
-.wp-block-quote.has-text-align-right{
+.wp-block-quote:where(.has-text-align-right){
   border-left:none;
   border-right:.25em solid;
   padding-left:0;
   padding-right:1em;
 }
-.wp-block-quote.has-text-align-center{
+.wp-block-quote:where(.has-text-align-center){
   border:none;
   padding-left:0;
 }
-.wp-block-quote.is-large,.wp-block-quote.is-style-large,.wp-block-quote.is-style-plain{
+.wp-block-quote.is-large,.wp-block-quote.is-style-large,.wp-block-quote:where(.is-style-plain){
   border:none;
 }

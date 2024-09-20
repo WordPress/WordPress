@@ -5878,6 +5878,7 @@ __webpack_require__.d(__webpack_exports__, {
   parse: () => (/* reexport */ parser_parse),
   parseWithAttributeSchema: () => (/* reexport */ parseWithAttributeSchema),
   pasteHandler: () => (/* reexport */ pasteHandler),
+  privateApis: () => (/* reexport */ privateApis),
   rawHandler: () => (/* reexport */ rawHandler),
   registerBlockCollection: () => (/* reexport */ registerBlockCollection),
   registerBlockStyle: () => (/* reexport */ registerBlockStyle),
@@ -5932,7 +5933,7 @@ var private_selectors_namespaceObject = {};
 __webpack_require__.r(private_selectors_namespaceObject);
 __webpack_require__.d(private_selectors_namespaceObject, {
   getAllBlockBindingsSources: () => (getAllBlockBindingsSources),
-  getBlockBindingsSource: () => (getBlockBindingsSource),
+  getBlockBindingsSource: () => (private_selectors_getBlockBindingsSource),
   getBootstrappedBlockType: () => (getBootstrappedBlockType),
   getSupportedStyles: () => (getSupportedStyles),
   getUnprocessedBlockTypes: () => (getUnprocessedBlockTypes)
@@ -5964,9 +5965,11 @@ __webpack_require__.d(actions_namespaceObject, {
 var private_actions_namespaceObject = {};
 __webpack_require__.r(private_actions_namespaceObject);
 __webpack_require__.d(private_actions_namespaceObject, {
+  addBlockBindingsSource: () => (addBlockBindingsSource),
+  addBootstrappedBlockBindingsSource: () => (addBootstrappedBlockBindingsSource),
   addBootstrappedBlockType: () => (addBootstrappedBlockType),
   addUnprocessedBlockType: () => (addUnprocessedBlockType),
-  registerBlockBindingsSource: () => (registerBlockBindingsSource)
+  removeBlockBindingsSource: () => (removeBlockBindingsSource)
 });
 
 ;// CONCATENATED MODULE: external ["wp","data"]
@@ -6769,6 +6772,9 @@ const __EXPERIMENTAL_PATHS_WITH_OVERRIDE = {
   'spacing.spacingSizes': true
 };
 
+;// CONCATENATED MODULE: external ["wp","warning"]
+const external_wp_warning_namespaceObject = window["wp"]["warning"];
+var external_wp_warning_default = /*#__PURE__*/__webpack_require__.n(external_wp_warning_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
 const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/lock-unlock.js
@@ -6782,11 +6788,10 @@ const {
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/blocks');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/registration.js
-/* eslint no-console: [ 'error', { allow: [ 'error', 'warn' ] } ] */
-
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -6927,6 +6932,10 @@ function isObject(object) {
 /**
  * Sets the server side block definition of blocks.
  *
+ * Ignored from documentation due to being marked as unstable.
+ *
+ * @ignore
+ *
  * @param {Object} definitions Server-side block definitions
  */
 // eslint-disable-next-line camelcase
@@ -6940,7 +6949,7 @@ function unstable__bootstrapServerSideBlockDefinitions(definitions) {
 }
 
 /**
- * Gets block settings from metadata loaded from `block.json` file.
+ * Gets block settings from metadata loaded from `block.json` file
  *
  * @param {Object} metadata            Block metadata loaded from `block.json`.
  * @param {string} metadata.textdomain Textdomain to use with translations.
@@ -6993,15 +7002,15 @@ function getBlockSettingsFromMetadata({
 function registerBlockType(blockNameOrMetadata, settings) {
   const name = isObject(blockNameOrMetadata) ? blockNameOrMetadata.name : blockNameOrMetadata;
   if (typeof name !== 'string') {
-    console.error('Block names must be strings.');
+     true ? external_wp_warning_default()('Block names must be strings.') : 0;
     return;
   }
   if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(name)) {
-    console.error('Block names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-block');
+     true ? external_wp_warning_default()('Block names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-block') : 0;
     return;
   }
   if ((0,external_wp_data_namespaceObject.select)(store).getBlockType(name)) {
-    console.error('Block "' + name + '" is already registered.');
+     true ? external_wp_warning_default()('Block "' + name + '" is already registered.') : 0;
     return;
   }
   const {
@@ -7124,7 +7133,7 @@ function unregisterBlockCollection(namespace) {
 function unregisterBlockType(name) {
   const oldBlock = (0,external_wp_data_namespaceObject.select)(store).getBlockType(name);
   if (!oldBlock) {
-    console.error('Block "' + name + '" is not registered.');
+     true ? external_wp_warning_default()('Block "' + name + '" is not registered.') : 0;
     return;
   }
   (0,external_wp_data_namespaceObject.dispatch)(store).removeBlockTypes(name);
@@ -7459,7 +7468,7 @@ const getBlockVariations = (blockName, scope) => {
  */
 const registerBlockVariation = (blockName, variation) => {
   if (typeof variation.name !== 'string') {
-    console.warn('Variation names must be unique strings.');
+     true ? external_wp_warning_default()('Variation names must be unique strings.') : 0;
   }
   (0,external_wp_data_namespaceObject.dispatch)(store).addBlockVariations(blockName, variation);
 };
@@ -7492,6 +7501,165 @@ const registerBlockVariation = (blockName, variation) => {
 const unregisterBlockVariation = (blockName, variationName) => {
   (0,external_wp_data_namespaceObject.dispatch)(store).removeBlockVariations(blockName, variationName);
 };
+
+/**
+ * Registers a new block bindings source with an object defining its
+ * behavior. Once registered, the source is available to be connected
+ * to the supported block attributes.
+ *
+ * @param {Object}   source                    Properties of the source to be registered.
+ * @param {string}   source.name               The unique and machine-readable name.
+ * @param {string}   [source.label]            Human-readable label.
+ * @param {Array}    [source.usesContext]      Array of context needed by the source only in the editor.
+ * @param {Function} [source.getValues]        Function to get the values from the source.
+ * @param {Function} [source.setValues]        Function to update multiple values connected to the source.
+ * @param {Function} [source.canUserEditValue] Function to determine if the user can edit the value.
+ * @param {Function} [source.getFieldsList]    Function to get the lists of fields to expose in the connections panel.
+ *
+ * @example
+ * ```js
+ * import { _x } from '@wordpress/i18n';
+ * import { registerBlockBindingsSource } from '@wordpress/blocks'
+ *
+ * registerBlockBindingsSource( {
+ *     name: 'plugin/my-custom-source',
+ *     label: _x( 'My Custom Source', 'block bindings source' ),
+ *     getValues: () => getSourceValues(),
+ *     setValues: () => updateMyCustomValuesInBatch(),
+ *     canUserEditValue: () => true,
+ * } );
+ * ```
+ */
+const registerBlockBindingsSource = source => {
+  const {
+    name,
+    label,
+    usesContext,
+    getValues,
+    setValues,
+    canUserEditValue,
+    getFieldsList
+  } = source;
+  const existingSource = unlock((0,external_wp_data_namespaceObject.select)(store)).getBlockBindingsSource(name);
+
+  /*
+   * Check if the source has been already registered on the client.
+   * If the `getValues` property is defined, it could be assumed the source is already registered.
+   */
+  if (existingSource?.getValues) {
+     true ? external_wp_warning_default()('Block bindings source "' + name + '" is already registered.') : 0;
+    return;
+  }
+
+  // Check the `name` property is correct.
+  if (!name) {
+     true ? external_wp_warning_default()('Block bindings source must contain a name.') : 0;
+    return;
+  }
+  if (typeof name !== 'string') {
+     true ? external_wp_warning_default()('Block bindings source name must be a string.') : 0;
+    return;
+  }
+  if (/[A-Z]+/.test(name)) {
+     true ? external_wp_warning_default()('Block bindings source name must not contain uppercase characters.') : 0;
+    return;
+  }
+  if (!/^[a-z0-9/-]+$/.test(name)) {
+     true ? external_wp_warning_default()('Block bindings source name must contain only valid characters: lowercase characters, hyphens, or digits. Example: my-plugin/my-custom-source.') : 0;
+    return;
+  }
+  if (!/^[a-z0-9-]+\/[a-z0-9-]+$/.test(name)) {
+     true ? external_wp_warning_default()('Block bindings source name must contain a namespace and valid characters. Example: my-plugin/my-custom-source.') : 0;
+    return;
+  }
+
+  // Check the `label` property is correct.
+  if (label && existingSource?.label) {
+     true ? external_wp_warning_default()('Block bindings "' + name + '" source label is already defined in the server.') : 0;
+    return;
+  }
+  if (!label && !existingSource?.label) {
+     true ? external_wp_warning_default()('Block bindings source must contain a label.') : 0;
+    return;
+  }
+  if (label && typeof label !== 'string') {
+     true ? external_wp_warning_default()('Block bindings source label must be a string.') : 0;
+    return;
+  }
+
+  // Check the `usesContext` property is correct.
+  if (usesContext && !Array.isArray(usesContext)) {
+     true ? external_wp_warning_default()('Block bindings source usesContext must be an array.') : 0;
+    return;
+  }
+
+  // Check the `getValues` property is correct.
+  if (getValues && typeof getValues !== 'function') {
+     true ? external_wp_warning_default()('Block bindings source getValues must be a function.') : 0;
+    return;
+  }
+
+  // Check the `setValues` property is correct.
+  if (setValues && typeof setValues !== 'function') {
+     true ? external_wp_warning_default()('Block bindings source setValues must be a function.') : 0;
+    return;
+  }
+
+  // Check the `canUserEditValue` property is correct.
+  if (canUserEditValue && typeof canUserEditValue !== 'function') {
+     true ? external_wp_warning_default()('Block bindings source canUserEditValue must be a function.') : 0;
+    return;
+  }
+
+  // Check the `getFieldsList` property is correct.
+  if (getFieldsList && typeof getFieldsList !== 'function') {
+    // eslint-disable-next-line no-console
+     true ? external_wp_warning_default()('Block bindings source getFieldsList must be a function.') : 0;
+    return;
+  }
+  return unlock((0,external_wp_data_namespaceObject.dispatch)(store)).addBlockBindingsSource(source);
+};
+
+/**
+ * Unregisters a block bindings source
+ *
+ * @param {string} name The name of the block bindings source to unregister.
+ *
+ * @example
+ * ```js
+ * import { unregisterBlockBindingsSource } from '@wordpress/blocks';
+ *
+ * unregisterBlockBindingsSource( 'plugin/my-custom-source' );
+ * ```
+ */
+function unregisterBlockBindingsSource(name) {
+  const oldSource = getBlockBindingsSource(name);
+  if (!oldSource) {
+     true ? external_wp_warning_default()('Block bindings source "' + name + '" is not registered.') : 0;
+    return;
+  }
+  unlock((0,external_wp_data_namespaceObject.dispatch)(store)).removeBlockBindingsSource(name);
+}
+
+/**
+ * Returns a registered block bindings source.
+ *
+ * @param {string} name Block bindings source name.
+ *
+ * @return {?Object} Block bindings source.
+ */
+function getBlockBindingsSource(name) {
+  return unlock((0,external_wp_data_namespaceObject.select)(store)).getBlockBindingsSource(name);
+}
+
+/**
+ * Returns all registered block bindings sources.
+ *
+ * @return {Array} Block bindings sources.
+ */
+function getBlockBindingsSources() {
+  return unlock((0,external_wp_data_namespaceObject.select)(store)).getAllBlockBindingsSources();
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/utils.js
 /**
@@ -8069,7 +8237,12 @@ const groupingBlockName = createBlockNameSetterReducer('SET_GROUPING_BLOCK_NAME'
 function categories(state = DEFAULT_CATEGORIES, action) {
   switch (action.type) {
     case 'SET_CATEGORIES':
-      return action.categories || [];
+      // Ensure, that categories are unique by slug.
+      const uniqueCategories = new Map();
+      (action.categories || []).forEach(category => {
+        uniqueCategories.set(category.slug, category);
+      });
+      return [...uniqueCategories.values()];
     case 'UPDATE_CATEGORY':
       {
         if (!action.category || !Object.keys(action.category).length) {
@@ -8108,19 +8281,48 @@ function collections(state = {}, action) {
   }
   return state;
 }
+
+/**
+ * Merges usesContext with existing values, potentially defined in the server registration.
+ *
+ * @param {string[]} existingUsesContext Existing `usesContext`.
+ * @param {string[]} newUsesContext      Newly added `usesContext`.
+ * @return {string[]|undefined} Merged `usesContext`.
+ */
+function getMergedUsesContext(existingUsesContext = [], newUsesContext = []) {
+  const mergedArrays = Array.from(new Set(existingUsesContext.concat(newUsesContext)));
+  return mergedArrays.length > 0 ? mergedArrays : undefined;
+}
 function blockBindingsSources(state = {}, action) {
-  if (action.type === 'REGISTER_BLOCK_BINDINGS_SOURCE') {
-    return {
-      ...state,
-      [action.sourceName]: {
-        label: action.sourceLabel,
-        getValue: action.getValue,
-        setValue: action.setValue,
-        setValues: action.setValues,
-        getPlaceholder: action.getPlaceholder,
-        canUserEditValue: action.canUserEditValue || (() => false)
-      }
-    };
+  switch (action.type) {
+    case 'ADD_BLOCK_BINDINGS_SOURCE':
+      return {
+        ...state,
+        [action.name]: {
+          // Don't override the label if it's already set.
+          label: state[action.name]?.label || action.label,
+          usesContext: getMergedUsesContext(state[action.name]?.usesContext, action.usesContext),
+          getValues: action.getValues,
+          setValues: action.setValues,
+          canUserEditValue: action.canUserEditValue,
+          getFieldsList: action.getFieldsList
+        }
+      };
+    case 'ADD_BOOTSTRAPPED_BLOCK_BINDINGS_SOURCE':
+      return {
+        ...state,
+        [action.name]: {
+          /*
+           * Keep the exisitng properties in case the source has been registered
+           * in the client before bootstrapping.
+           */
+          ...state[action.name],
+          label: action.label,
+          usesContext: getMergedUsesContext(state[action.name]?.usesContext, action.usesContext)
+        }
+      };
+    case 'REMOVE_BLOCK_BINDINGS_SOURCE':
+      return omit(state, action.name);
   }
   return state;
 }
@@ -9114,7 +9316,7 @@ function getAllBlockBindingsSources(state) {
  *
  * @return {Object} The specific block binding source and its properties.
  */
-function getBlockBindingsSource(state, sourceName) {
+function private_selectors_getBlockBindingsSource(state, sourceName) {
   return state.blockBindingsSources[sourceName];
 }
 
@@ -9174,6 +9376,7 @@ const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -9181,9 +9384,6 @@ const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 
 
 /** @typedef {import('../api/registration').WPBlockType} WPBlockType */
-
-const error = (...args) => window?.console?.error?.(...args);
-const warn = (...args) => window?.console?.warn?.(...args);
 
 /**
  * Mapping of legacy category slugs to their latest normal values, used to
@@ -9250,7 +9450,8 @@ const processBlockType = (name, blockSettings) => ({
     save: () => null,
     ...bootstrappedBlockType,
     ...blockSettings,
-    variations: mergeBlockVariations(bootstrappedBlockType?.variations, blockSettings?.variations)
+    // blockType.variations can be defined as a filePath.
+    variations: mergeBlockVariations(Array.isArray(bootstrappedBlockType?.variations) ? bootstrappedBlockType.variations : [], Array.isArray(blockSettings?.variations) ? blockSettings.variations : [])
   };
   const settings = (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.registerBlockType', blockType, name, null);
   if (settings.description && typeof settings.description !== 'string') {
@@ -9273,15 +9474,15 @@ const processBlockType = (name, blockSettings) => ({
     }, blockType.name, deprecation)).filter(([key]) => DEPRECATED_ENTRY_KEYS.includes(key))));
   }
   if (!isPlainObject(settings)) {
-    error('Block settings must be a valid object.');
+     true ? external_wp_warning_default()('Block settings must be a valid object.') : 0;
     return;
   }
   if (typeof settings.save !== 'function') {
-    error('The "save" property must be a valid function.');
+     true ? external_wp_warning_default()('The "save" property must be a valid function.') : 0;
     return;
   }
   if ('edit' in settings && !(0,react_is.isValidElementType)(settings.edit)) {
-    error('The "edit" property must be a valid component.');
+     true ? external_wp_warning_default()('The "edit" property must be a valid component.') : 0;
     return;
   }
 
@@ -9292,20 +9493,20 @@ const processBlockType = (name, blockSettings) => ({
   if ('category' in settings && !select.getCategories().some(({
     slug
   }) => slug === settings.category)) {
-    warn('The block "' + name + '" is registered with an invalid category "' + settings.category + '".');
+     true ? external_wp_warning_default()('The block "' + name + '" is registered with an invalid category "' + settings.category + '".') : 0;
     delete settings.category;
   }
   if (!('title' in settings) || settings.title === '') {
-    error('The block "' + name + '" must have a title.');
+     true ? external_wp_warning_default()('The block "' + name + '" must have a title.') : 0;
     return;
   }
   if (typeof settings.title !== 'string') {
-    error('Block titles must be strings.');
+     true ? external_wp_warning_default()('Block titles must be strings.') : 0;
     return;
   }
   settings.icon = normalizeIconObject(settings.icon);
   if (!isValidIcon(settings.icon.src)) {
-    error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://developer.wordpress.org/block-editor/developers/block-api/block-registration/#icon-optional');
+     true ? external_wp_warning_default()('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://developer.wordpress.org/block-editor/developers/block-api/block-registration/#icon-optional') : 0;
     return;
   }
   return settings;
@@ -9673,20 +9874,46 @@ function addUnprocessedBlockType(name, blockType) {
 }
 
 /**
- * Register new block bindings source.
+ * Adds new block bindings source.
  *
  * @param {string} source Name of the source to register.
  */
-function registerBlockBindingsSource(source) {
+function addBlockBindingsSource(source) {
   return {
-    type: 'REGISTER_BLOCK_BINDINGS_SOURCE',
-    sourceName: source.name,
-    sourceLabel: source.label,
-    getValue: source.getValue,
-    setValue: source.setValue,
+    type: 'ADD_BLOCK_BINDINGS_SOURCE',
+    name: source.name,
+    label: source.label,
+    usesContext: source.usesContext,
+    getValues: source.getValues,
     setValues: source.setValues,
-    getPlaceholder: source.getPlaceholder,
-    canUserEditValue: source.canUserEditValue
+    canUserEditValue: source.canUserEditValue,
+    getFieldsList: source.getFieldsList
+  };
+}
+
+/**
+ * Removes existing block bindings source.
+ *
+ * @param {string} name Name of the source to remove.
+ */
+function removeBlockBindingsSource(name) {
+  return {
+    type: 'REMOVE_BLOCK_BINDINGS_SOURCE',
+    name
+  };
+}
+
+/**
+ * Add bootstrapped block bindings sources, usually initialized from the server.
+ *
+ * @param {string} source Name of the source to bootstrap.
+ */
+function addBootstrappedBlockBindingsSource(source) {
+  return {
+    type: 'ADD_BOOTSTRAPPED_BLOCK_BINDINGS_SOURCE',
+    name: source.name,
+    label: source.label,
+    usesContext: source.usesContext
   };
 }
 
@@ -10128,6 +10355,9 @@ function getBlockTransforms(direction, blockTypeOrName) {
     if (t.type === 'raw') {
       return true;
     }
+    if (t.type === 'prefix') {
+      return true;
+    }
     if (!t.blocks || !t.blocks.length) {
       return false;
     }
@@ -10523,6 +10753,11 @@ function getCommentAttributes(blockType, attributes) {
     // Ignore all attributes but the ones with an "undefined" source
     // "undefined" source refers to attributes saved in the block comment.
     if (attributeSchema.source !== undefined) {
+      return accumulator;
+    }
+
+    // Ignore all local attributes
+    if (attributeSchema.__experimentalRole === 'local') {
       return accumulator;
     }
 
@@ -12331,6 +12566,36 @@ function convertLegacyBlockNameAndAttributes(name, attributes) {
     newAttributes.legacy = true;
   }
 
+  // Column count was stored as a string from WP 6.3-6.6. Convert it to a number.
+  if (attributes.layout?.type === 'grid' && typeof attributes.layout?.columnCount === 'string') {
+    newAttributes.layout = {
+      ...newAttributes.layout,
+      columnCount: parseInt(attributes.layout.columnCount, 10)
+    };
+  }
+
+  // Column span and row span were stored as strings in WP 6.6. Convert them to numbers.
+  if (typeof attributes.style?.layout?.columnSpan === 'string') {
+    const columnSpanNumber = parseInt(attributes.style.layout.columnSpan, 10);
+    newAttributes.style = {
+      ...newAttributes.style,
+      layout: {
+        ...newAttributes.style.layout,
+        columnSpan: isNaN(columnSpanNumber) ? undefined : columnSpanNumber
+      }
+    };
+  }
+  if (typeof attributes.style?.layout?.rowSpan === 'string') {
+    const rowSpanNumber = parseInt(attributes.style.layout.rowSpan, 10);
+    newAttributes.style = {
+      ...newAttributes.style,
+      layout: {
+        ...newAttributes.style.layout,
+        rowSpan: isNaN(rowSpanNumber) ? undefined : rowSpanNumber
+      }
+    };
+  }
+
   // The following code is only relevant for the Gutenberg plugin.
   // It's a stand-alone if statement for dead-code elimination.
   if (false) {}
@@ -13336,26 +13601,30 @@ function getHTMLRootElementClasses(innerHTML) {
  * @return {Object} Filtered block attributes.
  */
 function fixCustomClassname(blockAttributes, blockType, innerHTML) {
-  if (hasBlockSupport(blockType, 'customClassName', true)) {
-    // To determine difference, serialize block given the known set of
-    // attributes, with the exception of `className`. This will determine
-    // the default set of classes. From there, any difference in innerHTML
-    // can be considered as custom classes.
-    const {
-      className: omittedClassName,
-      ...attributesSansClassName
-    } = blockAttributes;
-    const serialized = getSaveContent(blockType, attributesSansClassName);
-    const defaultClasses = getHTMLRootElementClasses(serialized);
-    const actualClasses = getHTMLRootElementClasses(innerHTML);
-    const customClasses = actualClasses.filter(className => !defaultClasses.includes(className));
-    if (customClasses.length) {
-      blockAttributes.className = customClasses.join(' ');
-    } else if (serialized) {
-      delete blockAttributes.className;
-    }
+  if (!hasBlockSupport(blockType, 'customClassName', true)) {
+    return blockAttributes;
   }
-  return blockAttributes;
+  const modifiedBlockAttributes = {
+    ...blockAttributes
+  };
+  // To determine difference, serialize block given the known set of
+  // attributes, with the exception of `className`. This will determine
+  // the default set of classes. From there, any difference in innerHTML
+  // can be considered as custom classes.
+  const {
+    className: omittedClassName,
+    ...attributesSansClassName
+  } = modifiedBlockAttributes;
+  const serialized = getSaveContent(blockType, attributesSansClassName);
+  const defaultClasses = getHTMLRootElementClasses(serialized);
+  const actualClasses = getHTMLRootElementClasses(innerHTML);
+  const customClasses = actualClasses.filter(className => !defaultClasses.includes(className));
+  if (customClasses.length) {
+    modifiedBlockAttributes.className = customClasses.join(' ');
+  } else if (serialized) {
+    delete modifiedBlockAttributes.className;
+  }
+  return modifiedBlockAttributes;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/parser/apply-built-in-validation-fixes.js
@@ -13659,7 +13928,7 @@ function applyBlockValidation(unvalidatedBlock, blockType) {
   // like custom classNames handling.
   const fixedBlock = applyBuiltInValidationFixes(unvalidatedBlock, blockType);
   // Attempt to validate the block once again after the built-in fixes.
-  const [isFixedValid, validationIssues] = validateBlock(unvalidatedBlock, blockType);
+  const [isFixedValid, validationIssues] = validateBlock(fixedBlock, blockType);
   return {
     ...fixedBlock,
     isValid: isFixedValid,
@@ -14162,7 +14431,7 @@ function figureContentReducer(node, doc, schema) {
     } else if (node.classList.contains('alignright') || node.classList.contains('alignleft') || node.classList.contains('aligncenter') || !wrapper.textContent.trim()) {
       wrapFigureContent(nodeToInsert, wrapper);
     }
-  } else if (nodeToInsert.parentNode.nodeName === 'BODY') {
+  } else {
     wrapFigureContent(nodeToInsert);
   }
 }
@@ -14744,6 +15013,7 @@ function msListConverter(node, doc) {
 ;// CONCATENATED MODULE: external ["wp","blob"]
 const external_wp_blob_namespaceObject = window["wp"]["blob"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -15107,7 +15377,6 @@ function pasteHandler({
   }
 
   // Normalize unicode to use composed characters.
-  // This is unsupported in IE 11 but it's a nice-to-have feature, not mandatory.
   // Not normalizing the content will only affect older browsers and won't
   // entirely break the app.
   // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
@@ -15392,6 +15661,12 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/index.js
+/**
+ * Internal dependencies
+ */
+
+
+
 // The blocktype is the most important concept within the block API. It defines
 // all aspects of the block configuration and its interfaces, including `edit`
 // and `save`. The transforms specification allows converting one blocktype to
@@ -15488,6 +15763,13 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 
 
 
+const privateApis = {};
+lock(privateApis, {
+  registerBlockBindingsSource: registerBlockBindingsSource,
+  unregisterBlockBindingsSource: unregisterBlockBindingsSource,
+  getBlockBindingsSource: getBlockBindingsSource,
+  getBlockBindingsSources: getBlockBindingsSources
+});
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/deprecated.js
 /**

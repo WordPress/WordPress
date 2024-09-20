@@ -45,7 +45,6 @@
 }
 
 .gallery-image-sizes .components-base-control__label{
-  display:block;
   margin-bottom:4px;
 }
 .gallery-image-sizes .gallery-image-sizes__loading{
@@ -104,7 +103,7 @@
   }
 }
 .block-library-gallery-item__inline-menu:hover{
-  box-shadow:0 .7px 1px #0000001a,0 1.2px 1.7px -.2px #0000001a,0 2.3px 3.3px -.5px #0000001a;
+  box-shadow:0 1px 1px #00000008,0 1px 2px #00000005,0 3px 3px #00000005,0 4px 4px #00000003;
 }
 @media (min-width:600px){
   .columns-7 .block-library-gallery-item__inline-menu,.columns-8 .block-library-gallery-item__inline-menu{

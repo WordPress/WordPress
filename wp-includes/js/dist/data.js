@@ -3820,7 +3820,7 @@ const {
  * children components. Used along with the RegistryProvider.
  *
  * You can read more about the react context api here:
- * https://reactjs.org/docs/context.html#contextprovider
+ * https://react.dev/learn/passing-data-deeply-with-context#step-3-provide-the-context
  *
  * @example
  * ```js
@@ -4177,7 +4177,7 @@ function useMappingSelect(suspense, mapSelect, deps) {
  * Custom react hook for retrieving props from registered selectors.
  *
  * In general, this custom React hook follows the
- * [rules of hooks](https://reactjs.org/docs/hooks-rules.html).
+ * [rules of hooks](https://react.dev/reference/rules/rules-of-hooks).
  *
  * @template {MapSelect | StoreDescriptor<any>} T
  * @param {T}         mapSelect Function called on every state change. The returned value is
@@ -4372,18 +4372,18 @@ const withSelect = mapSelectToProps => (0,external_wp_compose_namespaceObject.cr
  */
 const useDispatchWithMap = (dispatchMap, deps) => {
   const registry = useRegistry();
-  const currentDispatchMap = (0,external_wp_element_namespaceObject.useRef)(dispatchMap);
+  const currentDispatchMapRef = (0,external_wp_element_namespaceObject.useRef)(dispatchMap);
   (0,external_wp_compose_namespaceObject.useIsomorphicLayoutEffect)(() => {
-    currentDispatchMap.current = dispatchMap;
+    currentDispatchMapRef.current = dispatchMap;
   });
   return (0,external_wp_element_namespaceObject.useMemo)(() => {
-    const currentDispatchProps = currentDispatchMap.current(registry.dispatch, registry);
+    const currentDispatchProps = currentDispatchMapRef.current(registry.dispatch, registry);
     return Object.fromEntries(Object.entries(currentDispatchProps).map(([propName, dispatcher]) => {
       if (typeof dispatcher !== 'function') {
         // eslint-disable-next-line no-console
         console.warn(`Property ${propName} returned from dispatchMap in useDispatchWithMap must be a function.`);
       }
-      return [propName, (...args) => currentDispatchMap.current(registry.dispatch, registry)[propName](...args)];
+      return [propName, (...args) => currentDispatchMapRef.current(registry.dispatch, registry)[propName](...args)];
     }));
   }, [registry, ...deps]);
 };

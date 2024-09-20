@@ -37,7 +37,7 @@ function render_block_core_comments_pagination_next( $attributes, $content, $blo
 		$label .= $pagination_arrow;
 	}
 
-	$next_comments_link = get_next_comments_link( $label, $max_page );
+	$next_comments_link = get_next_comments_link( $label, $max_page, $comment_vars['paged'] ?? null );
 
 	remove_filter( 'next_posts_link_attributes', $filter_link_attributes );
 

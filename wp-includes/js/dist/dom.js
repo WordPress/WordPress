@@ -70,6 +70,7 @@ __webpack_require__.d(__webpack_exports__, {
   isNumberInput: () => (/* reexport */ isNumberInput),
   isPhrasingContent: () => (/* reexport */ isPhrasingContent),
   isRTL: () => (/* reexport */ isRTL),
+  isSelectionForward: () => (/* reexport */ isSelectionForward),
   isTextContent: () => (/* reexport */ isTextContent),
   isTextField: () => (/* reexport */ isTextField),
   isVerticalEdge: () => (/* reexport */ isVerticalEdge),
@@ -1313,13 +1314,6 @@ function placeCaretAtEdge(container, isReverse, x) {
     }
     return;
   }
-  if (!container.isContentEditable) {
-    return;
-  }
-  const range = scrollIfNoRange(container, isReverse, () => getRange(container, isReverse, x));
-  if (!range) {
-    return;
-  }
   const {
     ownerDocument
   } = container;
@@ -1329,6 +1323,14 @@ function placeCaretAtEdge(container, isReverse, x) {
   assertIsDefined(defaultView, 'defaultView');
   const selection = defaultView.getSelection();
   assertIsDefined(selection, 'selection');
+  if (!container.isContentEditable) {
+    selection.removeAllRanges();
+    return;
+  }
+  const range = scrollIfNoRange(container, isReverse, () => getRange(container, isReverse, x));
+  if (!range) {
+    return;
+  }
   selection.removeAllRanges();
   selection.addRange(range);
 }
@@ -1940,6 +1942,7 @@ function removeInvalidHTML(HTML, schema, inline) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/index.js
+
 
 
 

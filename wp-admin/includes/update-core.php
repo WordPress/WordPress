@@ -737,10 +737,14 @@ $_old_files = array(
 	'wp-includes/blocks/query-title/editor.min.css',
 	'wp-includes/blocks/query-title/editor-rtl.css',
 	'wp-includes/blocks/query-title/editor-rtl.min.css',
-	'wp-includes/blocks/tag-cloud/editor.css',
-	'wp-includes/blocks/tag-cloud/editor.min.css',
-	'wp-includes/blocks/tag-cloud/editor-rtl.css',
-	'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
+	/*
+	 * Restored in WordPress 6.7
+	 *
+	 * 'wp-includes/blocks/tag-cloud/editor.css',
+	 * 'wp-includes/blocks/tag-cloud/editor.min.css',
+	 * 'wp-includes/blocks/tag-cloud/editor-rtl.css',
+	 * 'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
+	 */
 	// 6.1
 	'wp-includes/blocks/post-comments.php',
 	'wp-includes/blocks/post-comments',

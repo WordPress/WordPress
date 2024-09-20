@@ -20,8 +20,20 @@ function render_block_core_post_date( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$post_ID          = $block->context['postId'];
-	$formatted_date   = get_the_date( empty( $attributes['format'] ) ? '' : $attributes['format'], $post_ID );
+	$post_ID = $block->context['postId'];
+
+	if ( isset( $attributes['format'] ) && 'human-diff' === $attributes['format'] ) {
+		$post_timestamp = get_post_timestamp( $post_ID );
+		if ( $post_timestamp > time() ) {
+			// translators: %s: human-readable time difference.
+			$formatted_date = sprintf( __( '%s from now' ), human_time_diff( $post_timestamp ) );
+		} else {
+			// translators: %s: human-readable time difference.
+			$formatted_date = sprintf( __( '%s ago' ), human_time_diff( $post_timestamp ) );
+		}
+	} else {
+		$formatted_date = get_the_date( empty( $attributes['format'] ) ? '' : $attributes['format'], $post_ID );
+	}
 	$unformatted_date = esc_attr( get_the_date( 'c', $post_ID ) );
 	$classes          = array();
 
@@ -38,7 +50,12 @@ function render_block_core_post_date( $attributes, $content, $block ) {
 	 */
 	if ( isset( $attributes['displayType'] ) && 'modified' === $attributes['displayType'] ) {
 		if ( get_the_modified_date( 'Ymdhi', $post_ID ) > get_the_date( 'Ymdhi', $post_ID ) ) {
-			$formatted_date   = get_the_modified_date( empty( $attributes['format'] ) ? '' : $attributes['format'], $post_ID );
+			if ( isset( $attributes['format'] ) && 'human-diff' === $attributes['format'] ) {
+				// translators: %s: human-readable time difference.
+				$formatted_date = sprintf( __( '%s ago' ), human_time_diff( get_post_timestamp( $post_ID, 'modified' ) ) );
+			} else {
+				$formatted_date = get_the_modified_date( empty( $attributes['format'] ) ? '' : $attributes['format'], $post_ID );
+			}
 			$unformatted_date = esc_attr( get_the_modified_date( 'c', $post_ID ) );
 			$classes[]        = 'wp-block-post-date__modified-date';
 		} else {

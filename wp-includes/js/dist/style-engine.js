@@ -40,7 +40,8 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   compileCSS: () => (/* binding */ compileCSS),
-  getCSSRules: () => (/* binding */ getCSSRules)
+  getCSSRules: () => (/* binding */ getCSSRules),
+  getCSSValueFromRawStyle: () => (/* reexport */ getCSSValueFromRawStyle)
 });
 
 ;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
@@ -560,7 +561,7 @@ function generateRule(style, options, path, ruleKey) {
   return styleValue ? [{
     selector: options?.selector,
     key: ruleKey,
-    value: getCSSVarFromStyleValue(styleValue)
+    value: getCSSValueFromRawStyle(styleValue)
   }] : [];
 }
 
@@ -589,7 +590,7 @@ function generateBoxRules(style, options, path, ruleKeys, individualProperties =
     });
   } else {
     const sideRules = individualProperties.reduce((acc, side) => {
-      const value = getCSSVarFromStyleValue(getStyleValueByPath(boxStyle, [side]));
+      const value = getCSSValueFromRawStyle(getStyleValueByPath(boxStyle, [side]));
       if (value) {
         acc.push({
           selector: options?.selector,
@@ -605,13 +606,21 @@ function generateBoxRules(style, options, path, ruleKeys, individualProperties =
 }
 
 /**
- * Returns a CSS var value from incoming style value following the pattern `var:description|context|slug`.
+ * Returns a WordPress CSS custom var value from incoming style preset value,
+ * if one is detected.
  *
- * @param styleValue A raw style value.
+ * The preset value is a string and follows the pattern `var:description|context|slug`.
  *
- * @return string A CSS var value.
+ * Example:
+ *
+ * `getCSSValueFromRawStyle( 'var:preset|color|heavenlyBlue' )` // returns 'var(--wp--preset--color--heavenly-blue)'
+ *
+ * @param styleValue A string representing a raw CSS value. Non-strings won't be processed.
+ *
+ * @return A CSS custom var value if the incoming style value is a preset value.
  */
-function getCSSVarFromStyleValue(styleValue) {
+
+function getCSSValueFromRawStyle(styleValue) {
   if (typeof styleValue === 'string' && styleValue.startsWith(VARIABLE_REFERENCE_PREFIX)) {
     const variable = styleValue.slice(VARIABLE_REFERENCE_PREFIX.length).split(VARIABLE_PATH_SEPARATOR_TOKEN_ATTRIBUTE).map(presetVariable => paramCase(presetVariable, {
       splitRegexp: [/([a-z0-9])([A-Z])/g,
@@ -826,6 +835,12 @@ const backgroundImage = {
   name: 'backgroundImage',
   generate: (style, options) => {
     const _backgroundImage = style?.background?.backgroundImage;
+
+    /*
+     * The background image can be a string or an object.
+     * If the background image is a string, it could already contain a url() function,
+     * or have a linear-gradient value.
+     */
     if (typeof _backgroundImage === 'object' && _backgroundImage?.url) {
       return [{
         selector: options.selector,
@@ -834,15 +849,7 @@ const backgroundImage = {
         value: `url( '${encodeURI(safeDecodeURI(_backgroundImage.url))}' )`
       }];
     }
-
-    /*
-     * If the background image is a string, it could already contain a url() function,
-     * or have a linear-gradient value.
-     */
-    if (typeof _backgroundImage === 'string') {
-      return generateRule(style, options, ['background', 'backgroundImage'], 'backgroundImage');
-    }
-    return [];
+    return generateRule(style, options, ['background', 'backgroundImage'], 'backgroundImage');
   }
 };
 const backgroundPosition = {
@@ -863,7 +870,13 @@ const backgroundSize = {
     return generateRule(style, options, ['background', 'backgroundSize'], 'backgroundSize');
   }
 };
-/* harmony default export */ const styles_background = ([backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize]);
+const backgroundAttachment = {
+  name: 'backgroundAttachment',
+  generate: (style, options) => {
+    return generateRule(style, options, ['background', 'backgroundAttachment'], 'backgroundAttachment');
+  }
+};
+/* harmony default export */ const styles_background = ([backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, backgroundAttachment]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/shadow/index.js
 /**
@@ -1107,6 +1120,9 @@ function getCSSRules(style, options = {}) {
   });
   return rules;
 }
+
+// Export style utils.
+
 
 (window.wp = window.wp || {}).styleEngine = __webpack_exports__;
 /******/ })()

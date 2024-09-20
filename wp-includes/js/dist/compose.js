@@ -2299,6 +2299,7 @@ __webpack_require__.d(__webpack_exports__, {
   useDebounce: () => (/* reexport */ useDebounce),
   useDebouncedInput: () => (/* reexport */ useDebouncedInput),
   useDisabled: () => (/* reexport */ useDisabled),
+  useEvent: () => (/* reexport */ useEvent),
   useFocusOnMount: () => (/* reexport */ useFocusOnMount),
   useFocusReturn: () => (/* reexport */ use_focus_return),
   useFocusableIframe: () => (/* reexport */ useFocusableIframe),
@@ -2311,7 +2312,7 @@ __webpack_require__.d(__webpack_exports__, {
   usePrevious: () => (/* reexport */ usePrevious),
   useReducedMotion: () => (/* reexport */ use_reduced_motion),
   useRefEffect: () => (/* reexport */ useRefEffect),
-  useResizeObserver: () => (/* reexport */ useResizeAware),
+  useResizeObserver: () => (/* reexport */ useResizeObserver),
   useStateWithHistory: () => (/* reexport */ useStateWithHistory),
   useThrottle: () => (/* reexport */ useThrottle),
   useViewportMatch: () => (/* reexport */ use_viewport_match),
@@ -3543,8 +3544,7 @@ function useInstanceId(object, prefix, preferredId) {
 
 
 /**
- * A Higher Order Component used to be provide a unique instance ID by
- * component.
+ * A Higher Order Component used to provide a unique instance ID by component.
  */
 const withInstanceId = createHigherOrderComponent(WrappedComponent => {
   return props => {
@@ -3699,12 +3699,12 @@ const external_wp_dom_namespaceObject = window["wp"]["dom"];
  * @return Ref callback.
  */
 function useRefEffect(callback, dependencies) {
-  const cleanup = (0,external_wp_element_namespaceObject.useRef)();
+  const cleanupRef = (0,external_wp_element_namespaceObject.useRef)();
   return (0,external_wp_element_namespaceObject.useCallback)(node => {
     if (node) {
-      cleanup.current = callback(node);
-    } else if (cleanup.current) {
-      cleanup.current();
+      cleanupRef.current = callback(node);
+    } else if (cleanupRef.current) {
+      cleanupRef.current();
     }
   }, dependencies);
 }
@@ -3835,7 +3835,7 @@ function useCopyOnClick(ref, text, timeout = 4000) {
   });
 
   /** @type {import('react').MutableRefObject<Clipboard | undefined>} */
-  const clipboard = (0,external_wp_element_namespaceObject.useRef)();
+  const clipboardRef = (0,external_wp_element_namespaceObject.useRef)();
   const [hasCopied, setHasCopied] = (0,external_wp_element_namespaceObject.useState)(false);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     /** @type {number | undefined} */
@@ -3845,10 +3845,10 @@ function useCopyOnClick(ref, text, timeout = 4000) {
     }
 
     // Clipboard listens to click events.
-    clipboard.current = new (clipboard_default())(ref.current, {
+    clipboardRef.current = new (clipboard_default())(ref.current, {
       text: () => typeof text === 'function' ? text() : text
     });
-    clipboard.current.on('success', ({
+    clipboardRef.current.on('success', ({
       clearSelection,
       trigger
     }) => {
@@ -3868,8 +3868,8 @@ function useCopyOnClick(ref, text, timeout = 4000) {
       }
     });
     return () => {
-      if (clipboard.current) {
-        clipboard.current.destroy();
+      if (clipboardRef.current) {
+        clipboardRef.current.destroy();
       }
       clearTimeout(timeoutId);
     };
@@ -3997,7 +3997,7 @@ function useFocusOnMount(focusOnMount = 'firstElement') {
   };
 
   /** @type {import('react').MutableRefObject<ReturnType<setTimeout> | undefined>} */
-  const timerId = (0,external_wp_element_namespaceObject.useRef)();
+  const timerIdRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     focusOnMountRef.current = focusOnMount;
   }, [focusOnMount]);
@@ -4009,19 +4009,19 @@ function useFocusOnMount(focusOnMount = 'firstElement') {
     if (node.contains((_node$ownerDocument$a = node.ownerDocument?.activeElement) !== null && _node$ownerDocument$a !== void 0 ? _node$ownerDocument$a : null)) {
       return;
     }
-    if (focusOnMountRef.current === 'firstElement') {
-      timerId.current = setTimeout(() => {
-        const firstTabbable = external_wp_dom_namespaceObject.focus.tabbable.find(node)[0];
-        if (firstTabbable) {
-          setFocus(firstTabbable);
-        }
-      }, 0);
+    if (focusOnMountRef.current !== 'firstElement') {
+      setFocus(node);
       return;
     }
-    setFocus(node);
+    timerIdRef.current = setTimeout(() => {
+      const firstTabbable = external_wp_dom_namespaceObject.focus.tabbable.find(node)[0];
+      if (firstTabbable) {
+        setFocus(firstTabbable);
+      }
+    }, 0);
     return () => {
-      if (timerId.current) {
-        clearTimeout(timerId.current);
+      if (timerIdRef.current) {
+        clearTimeout(timerIdRef.current);
       }
     };
   }, []);
@@ -4152,18 +4152,18 @@ function isFocusNormalizedButton(eventTarget) {
  * wrapping element element to capture when focus moves outside that element.
  */
 function useFocusOutside(onFocusOutside) {
-  const currentOnFocusOutside = (0,external_wp_element_namespaceObject.useRef)(onFocusOutside);
+  const currentOnFocusOutsideRef = (0,external_wp_element_namespaceObject.useRef)(onFocusOutside);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    currentOnFocusOutside.current = onFocusOutside;
+    currentOnFocusOutsideRef.current = onFocusOutside;
   }, [onFocusOutside]);
-  const preventBlurCheck = (0,external_wp_element_namespaceObject.useRef)(false);
-  const blurCheckTimeoutId = (0,external_wp_element_namespaceObject.useRef)();
+  const preventBlurCheckRef = (0,external_wp_element_namespaceObject.useRef)(false);
+  const blurCheckTimeoutIdRef = (0,external_wp_element_namespaceObject.useRef)();
 
   /**
    * Cancel a blur check timeout.
    */
   const cancelBlurCheck = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    clearTimeout(blurCheckTimeoutId.current);
+    clearTimeout(blurCheckTimeoutIdRef.current);
   }, []);
 
   // Cancel blur checks on unmount.
@@ -4195,9 +4195,9 @@ function useFocusOutside(onFocusOutside) {
     } = event;
     const isInteractionEnd = ['mouseup', 'touchend'].includes(type);
     if (isInteractionEnd) {
-      preventBlurCheck.current = false;
+      preventBlurCheckRef.current = false;
     } else if (isFocusNormalizedButton(target)) {
-      preventBlurCheck.current = true;
+      preventBlurCheckRef.current = true;
     }
   }, []);
 
@@ -4214,7 +4214,7 @@ function useFocusOutside(onFocusOutside) {
     event.persist();
 
     // Skip blur check if clicking button. See `normalizeButtonFocus`.
-    if (preventBlurCheck.current) {
+    if (preventBlurCheckRef.current) {
       return;
     }
 
@@ -4229,7 +4229,7 @@ function useFocusOutside(onFocusOutside) {
     if (ignoreForRelatedTarget && event.relatedTarget?.closest(ignoreForRelatedTarget)) {
       return;
     }
-    blurCheckTimeoutId.current = setTimeout(() => {
+    blurCheckTimeoutIdRef.current = setTimeout(() => {
       // If document is not focused then focus should remain
       // inside the wrapped component and therefore we cancel
       // this blur event thereby leaving focus in place.
@@ -4238,8 +4238,8 @@ function useFocusOutside(onFocusOutside) {
         event.preventDefault();
         return;
       }
-      if ('function' === typeof currentOnFocusOutside.current) {
-        currentOnFocusOutside.current(event);
+      if ('function' === typeof currentOnFocusOutsideRef.current) {
+        currentOnFocusOutsideRef.current(event);
       }
     }, 0);
   }, []);
@@ -4326,38 +4326,38 @@ function assignRef(ref, value) {
  */
 function useMergeRefs(refs) {
   const element = (0,external_wp_element_namespaceObject.useRef)();
-  const isAttached = (0,external_wp_element_namespaceObject.useRef)(false);
-  const didElementChange = (0,external_wp_element_namespaceObject.useRef)(false);
+  const isAttachedRef = (0,external_wp_element_namespaceObject.useRef)(false);
+  const didElementChangeRef = (0,external_wp_element_namespaceObject.useRef)(false);
   /* eslint-disable jsdoc/no-undefined-types */
   /** @type {import('react').MutableRefObject<TRef[]>} */
   /* eslint-enable jsdoc/no-undefined-types */
-  const previousRefs = (0,external_wp_element_namespaceObject.useRef)([]);
-  const currentRefs = (0,external_wp_element_namespaceObject.useRef)(refs);
+  const previousRefsRef = (0,external_wp_element_namespaceObject.useRef)([]);
+  const currentRefsRef = (0,external_wp_element_namespaceObject.useRef)(refs);
 
   // Update on render before the ref callback is called, so the ref callback
   // always has access to the current refs.
-  currentRefs.current = refs;
+  currentRefsRef.current = refs;
 
   // If any of the refs change, call the previous ref with `null` and the new
   // ref with the node, except when the element changes in the same cycle, in
   // which case the ref callbacks will already have been called.
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
-    if (didElementChange.current === false && isAttached.current === true) {
+    if (didElementChangeRef.current === false && isAttachedRef.current === true) {
       refs.forEach((ref, index) => {
-        const previousRef = previousRefs.current[index];
+        const previousRef = previousRefsRef.current[index];
         if (ref !== previousRef) {
           assignRef(previousRef, null);
           assignRef(ref, element.current);
         }
       });
     }
-    previousRefs.current = refs;
+    previousRefsRef.current = refs;
   }, refs);
 
   // No dependencies, must be reset after every render so ref callbacks are
   // correctly called after a ref change.
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
-    didElementChange.current = false;
+    didElementChangeRef.current = false;
   });
 
   // There should be no dependencies so that `callback` is only called when
@@ -4366,12 +4366,12 @@ function useMergeRefs(refs) {
     // Update the element so it can be used when calling ref callbacks on a
     // dependency change.
     assignRef(element, value);
-    didElementChange.current = true;
-    isAttached.current = value !== null;
+    didElementChangeRef.current = true;
+    isAttachedRef.current = value !== null;
 
     // When an element changes, the current ref callback should be called
     // with the new element and the previous one with `null`.
-    const refsToAssign = value ? currentRefs.current : previousRefs.current;
+    const refsToAssign = value ? currentRefsRef.current : previousRefsRef.current;
 
     // Update the latest refs.
     for (const ref of refsToAssign) {
@@ -4530,6 +4530,52 @@ function useDisabled({
   }, [isDisabledProp]);
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-event/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Any function.
+ */
+
+/**
+ * Creates a stable callback function that has access to the latest state and
+ * can be used within event handlers and effect callbacks. Throws when used in
+ * the render phase.
+ *
+ * @param callback The callback function to wrap.
+ *
+ * @example
+ *
+ * ```tsx
+ * function Component( props ) {
+ *   const onClick = useEvent( props.onClick );
+ *   useEffect( () => {
+ *     onClick();
+ *     // Won't trigger the effect again when props.onClick is updated.
+ *   }, [ onClick ] );
+ *   // Won't re-render Button when props.onClick is updated (if `Button` is
+ *   // wrapped in `React.memo`).
+ *   return <Button onClick={ onClick } />;
+ * }
+ * ```
+ */
+function useEvent(
+/**
+ * The callback function to wrap.
+ */
+callback) {
+  const ref = (0,external_wp_element_namespaceObject.useRef)(() => {
+    throw new Error('Callbacks created with `useEvent` cannot be called during rendering.');
+  });
+  (0,external_wp_element_namespaceObject.useInsertionEffect)(() => {
+    ref.current = callback;
+  });
+  return (0,external_wp_element_namespaceObject.useCallback)((...args) => ref.current?.(...args), []);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-isomorphic-layout-effect/index.js
 /**
  * WordPress dependencies
@@ -4664,9 +4710,9 @@ shortcuts, callback, {
   // This is important for performance considerations.
   target
 } = {}) {
-  const currentCallback = (0,external_wp_element_namespaceObject.useRef)(callback);
+  const currentCallbackRef = (0,external_wp_element_namespaceObject.useRef)(callback);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    currentCallback.current = callback;
+    currentCallbackRef.current = callback;
   }, [callback]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (isDisabled) {
@@ -4696,7 +4742,7 @@ shortcuts, callback, {
       // @ts-ignore `bindGlobal` is an undocumented property
       mousetrap[bindFn](shortcut, ( /* eslint-disable jsdoc/valid-types */
       /** @type {[e: import('mousetrap').ExtendedKeyboardEvent, combo: string]} */...args) => /* eslint-enable jsdoc/valid-types */
-      currentCallback.current(...args), eventName);
+      currentCallbackRef.current(...args), eventName);
     });
     return () => {
       mousetrap.reset();
@@ -4907,7 +4953,7 @@ function useStateWithHistory(initialValue) {
 
 
 /**
- * @typedef {"huge" | "wide" | "large" | "medium" | "small" | "mobile"} WPBreakpoint
+ * @typedef {"xhuge" | "huge" | "wide" | "xlarge" | "large" | "medium" | "small" | "mobile"} WPBreakpoint
  */
 
 /**
@@ -4918,8 +4964,10 @@ function useStateWithHistory(initialValue) {
  * @type {Record<WPBreakpoint, number>}
  */
 const BREAKPOINTS = {
+  xhuge: 1920,
   huge: 1440,
   wide: 1280,
+  xlarge: 1080,
   large: 960,
   medium: 782,
   small: 600,
@@ -4978,7 +5026,7 @@ const useViewportMatch = (breakpoint, operator = '>=') => {
 useViewportMatch.__experimentalWidthProvider = ViewportMatchWidthContext.Provider;
 /* harmony default export */ const use_viewport_match = (useViewportMatch);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/_legacy/index.js
 /**
  * External dependencies
  */
@@ -4987,62 +5035,10 @@ useViewportMatch.__experimentalWidthProvider = ViewportMatchWidthContext.Provide
  * WordPress dependencies
  */
 
+/**
+ * Internal dependencies
+ */
 
-// This of course could've been more streamlined with internal state instead of
-// refs, but then host hooks / components could not opt out of renders.
-// This could've been exported to its own module, but the current build doesn't
-// seem to work with module imports and I had no more time to spend on this...
-function useResolvedElement(subscriber, refOrElement) {
-  const callbackRefElement = (0,external_wp_element_namespaceObject.useRef)(null);
-  const lastReportRef = (0,external_wp_element_namespaceObject.useRef)(null);
-  const cleanupRef = (0,external_wp_element_namespaceObject.useRef)();
-  const callSubscriber = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    let element = null;
-    if (callbackRefElement.current) {
-      element = callbackRefElement.current;
-    } else if (refOrElement) {
-      if (refOrElement instanceof HTMLElement) {
-        element = refOrElement;
-      } else {
-        element = refOrElement.current;
-      }
-    }
-    if (lastReportRef.current && lastReportRef.current.element === element && lastReportRef.current.reporter === callSubscriber) {
-      return;
-    }
-    if (cleanupRef.current) {
-      cleanupRef.current();
-      // Making sure the cleanup is not called accidentally multiple times.
-      cleanupRef.current = null;
-    }
-    lastReportRef.current = {
-      reporter: callSubscriber,
-      element
-    };
-
-    // Only calling the subscriber, if there's an actual element to report.
-    if (element) {
-      cleanupRef.current = subscriber(element);
-    }
-  }, [refOrElement, subscriber]);
-
-  // On each render, we check whether a ref changed, or if we got a new raw
-  // element.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // With this we're *technically* supporting cases where ref objects' current value changes, but only if there's a
-    // render accompanying that change as well.
-    // To guarantee we always have the right element, one must use the ref callback provided instead, but we support
-    // RefObjects to make the hook API more convenient in certain cases.
-    callSubscriber();
-  }, [callSubscriber]);
-  return (0,external_wp_element_namespaceObject.useCallback)(element => {
-    callbackRefElement.current = element;
-    callSubscriber();
-  }, [callSubscriber]);
-}
-
-// Declaring my own type here instead of using the one provided by TS (available since 4.2.2), because this way I'm not
-// forcing consumers to use a specific TS version.
 
 // We're only using the first element of the size sequences, until future versions of the spec solidify on how
 // exactly it'll be used for fragments in multi-column scenarios:
@@ -5069,115 +5065,65 @@ function useResolvedElement(subscriber, refOrElement) {
 // even though it seems we have access to results for all box types.
 // This also means that we get to keep the current api, being able to return a simple { width, height } pair,
 // regardless of box option.
-const extractSize = (entry, boxProp, sizeType) => {
-  if (!entry[boxProp]) {
-    if (boxProp === 'contentBoxSize') {
-      // The dimensions in `contentBoxSize` and `contentRect` are equivalent according to the spec.
-      // See the 6th step in the description for the RO algorithm:
-      // https://drafts.csswg.org/resize-observer/#create-and-populate-resizeobserverentry-h
-      // > Set this.contentRect to logical this.contentBoxSize given target and observedBox of "content-box".
-      // In real browser implementations of course these objects differ, but the width/height values should be equivalent.
-      return entry.contentRect[sizeType === 'inlineSize' ? 'width' : 'height'];
-    }
-    return undefined;
+const extractSize = entry => {
+  let entrySize;
+  if (!entry.contentBoxSize) {
+    // The dimensions in `contentBoxSize` and `contentRect` are equivalent according to the spec.
+    // See the 6th step in the description for the RO algorithm:
+    // https://drafts.csswg.org/resize-observer/#create-and-populate-resizeobserverentry-h
+    // > Set this.contentRect to logical this.contentBoxSize given target and observedBox of "content-box".
+    // In real browser implementations of course these objects differ, but the width/height values should be equivalent.
+    entrySize = [entry.contentRect.width, entry.contentRect.height];
+  } else if (entry.contentBoxSize[0]) {
+    const contentBoxSize = entry.contentBoxSize[0];
+    entrySize = [contentBoxSize.inlineSize, contentBoxSize.blockSize];
+  } else {
+    // TS complains about this, because the RO entry type follows the spec and does not reflect Firefox's buggy
+    // behaviour of returning objects instead of arrays for `borderBoxSize` and `contentBoxSize`.
+    const contentBoxSize = entry.contentBoxSize;
+    entrySize = [contentBoxSize.inlineSize, contentBoxSize.blockSize];
   }
-
-  // A couple bytes smaller than calling Array.isArray() and just as effective here.
-  return entry[boxProp][0] ? entry[boxProp][0][sizeType] :
-  // TS complains about this, because the RO entry type follows the spec and does not reflect Firefox's current
-  // behaviour of returning objects instead of arrays for `borderBoxSize` and `contentBoxSize`.
-  // @ts-ignore
-  entry[boxProp][sizeType];
+  const [width, height] = entrySize.map(d => Math.round(d));
+  return {
+    width,
+    height
+  };
 };
-function useResizeObserver(opts = {}) {
-  // Saving the callback as a ref. With this, I don't need to put onResize in the
-  // effect dep array, and just passing in an anonymous function without memoising
-  // will not reinstantiate the hook's ResizeObserver.
-  const onResize = opts.onResize;
-  const onResizeRef = (0,external_wp_element_namespaceObject.useRef)(undefined);
-  onResizeRef.current = onResize;
-  const round = opts.round || Math.round;
-
-  // Using a single instance throughout the hook's lifetime
-  const resizeObserverRef = (0,external_wp_element_namespaceObject.useRef)();
-  const [size, setSize] = (0,external_wp_element_namespaceObject.useState)({
-    width: undefined,
-    height: undefined
+const RESIZE_ELEMENT_STYLES = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  pointerEvents: 'none',
+  opacity: 0,
+  overflow: 'hidden',
+  zIndex: -1
+};
+function ResizeElement({
+  onResize
+}) {
+  const resizeElementRef = useResizeObserver(entries => {
+    const newSize = extractSize(entries.at(-1)); // Entries are never empty.
+    onResize(newSize);
   });
-
-  // In certain edge cases the RO might want to report a size change just after
-  // the component unmounted.
-  const didUnmount = (0,external_wp_element_namespaceObject.useRef)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    didUnmount.current = false;
-    return () => {
-      didUnmount.current = true;
-    };
-  }, []);
-
-  // Using a ref to track the previous width / height to avoid unnecessary renders.
-  const previous = (0,external_wp_element_namespaceObject.useRef)({
-    width: undefined,
-    height: undefined
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+    ref: resizeElementRef,
+    style: RESIZE_ELEMENT_STYLES,
+    "aria-hidden": "true"
   });
-
-  // This block is kinda like a useEffect, only it's called whenever a new
-  // element could be resolved based on the ref option. It also has a cleanup
-  // function.
-  const refCallback = useResolvedElement((0,external_wp_element_namespaceObject.useCallback)(element => {
-    // We only use a single Resize Observer instance, and we're instantiating it on demand, only once there's something to observe.
-    // This instance is also recreated when the `box` option changes, so that a new observation is fired if there was a previously observed element with a different box option.
-    if (!resizeObserverRef.current || resizeObserverRef.current.box !== opts.box || resizeObserverRef.current.round !== round) {
-      resizeObserverRef.current = {
-        box: opts.box,
-        round,
-        instance: new ResizeObserver(entries => {
-          const entry = entries[0];
-          let boxProp = 'borderBoxSize';
-          if (opts.box === 'border-box') {
-            boxProp = 'borderBoxSize';
-          } else {
-            boxProp = opts.box === 'device-pixel-content-box' ? 'devicePixelContentBoxSize' : 'contentBoxSize';
-          }
-          const reportedWidth = extractSize(entry, boxProp, 'inlineSize');
-          const reportedHeight = extractSize(entry, boxProp, 'blockSize');
-          const newWidth = reportedWidth ? round(reportedWidth) : undefined;
-          const newHeight = reportedHeight ? round(reportedHeight) : undefined;
-          if (previous.current.width !== newWidth || previous.current.height !== newHeight) {
-            const newSize = {
-              width: newWidth,
-              height: newHeight
-            };
-            previous.current.width = newWidth;
-            previous.current.height = newHeight;
-            if (onResizeRef.current) {
-              onResizeRef.current(newSize);
-            } else if (!didUnmount.current) {
-              setSize(newSize);
-            }
-          }
-        })
-      };
-    }
-    resizeObserverRef.current.instance.observe(element, {
-      box: opts.box
-    });
-    return () => {
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.instance.unobserve(element);
-      }
-    };
-  }, [opts.box, round]), opts.ref);
-  return (0,external_wp_element_namespaceObject.useMemo)(() => ({
-    ref: refCallback,
-    width: size.width,
-    height: size.height
-  }), [refCallback, size ? size.width : null, size ? size.height : null]);
 }
+function sizeEquals(a, b) {
+  return a.width === b.width && a.height === b.height;
+}
+const NULL_SIZE = {
+  width: null,
+  height: null
+};
 
 /**
- * Hook which allows to listen the resize event of any target element when it changes sizes.
- * _Note: `useResizeObserver` will report `null` until after first render.
+ * Hook which allows to listen to the resize event of any target element when it changes size.
+ * _Note: `useResizeObserver` will report `null` sizes until after first render.
  *
  * @example
  *
@@ -5194,34 +5140,123 @@ function useResizeObserver(opts = {}) {
  * };
  * ```
  */
-function useResizeAware() {
-  const {
-    ref,
-    width,
-    height
-  } = useResizeObserver();
-  const sizes = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return {
-      width: width !== null && width !== void 0 ? width : null,
-      height: height !== null && height !== void 0 ? height : null
-    };
-  }, [width, height]);
-  const resizeListener = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-    style: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      opacity: 0,
-      overflow: 'hidden',
-      zIndex: -1
-    },
-    "aria-hidden": "true",
-    ref: ref
+function useLegacyResizeObserver() {
+  const [size, setSize] = (0,external_wp_element_namespaceObject.useState)(NULL_SIZE);
+
+  // Using a ref to track the previous width / height to avoid unnecessary renders.
+  const previousSizeRef = (0,external_wp_element_namespaceObject.useRef)(NULL_SIZE);
+  const handleResize = (0,external_wp_element_namespaceObject.useCallback)(newSize => {
+    if (!sizeEquals(previousSizeRef.current, newSize)) {
+      previousSizeRef.current = newSize;
+      setSize(newSize);
+    }
+  }, []);
+  const resizeElement = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ResizeElement, {
+    onResize: handleResize
   });
-  return [resizeListener, sizes];
+  return [resizeElement, size];
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * External dependencies
+ */
+
+// This is the current implementation of `useResizeObserver`.
+//
+// The legacy implementation is still supported for backwards compatibility.
+// This is achieved by overloading the exported function with both signatures,
+// and detecting which API is being used at runtime.
+function _useResizeObserver(callback, resizeObserverOptions = {}) {
+  const callbackEvent = useEvent(callback);
+  const observedElementRef = (0,external_wp_element_namespaceObject.useRef)();
+  const resizeObserverRef = (0,external_wp_element_namespaceObject.useRef)();
+  return useEvent(element => {
+    var _resizeObserverRef$cu;
+    if (element === observedElementRef.current) {
+      return;
+    }
+    observedElementRef.current = element;
+
+    // Set up `ResizeObserver`.
+    (_resizeObserverRef$cu = resizeObserverRef.current) !== null && _resizeObserverRef$cu !== void 0 ? _resizeObserverRef$cu : resizeObserverRef.current = new ResizeObserver(callbackEvent);
+    const {
+      current: resizeObserver
+    } = resizeObserverRef;
+
+    // Unobserve previous element.
+    if (observedElementRef.current) {
+      resizeObserver.unobserve(observedElementRef.current);
+    }
+
+    // Observe new element.
+    if (element) {
+      resizeObserver.observe(element, resizeObserverOptions);
+    }
+  });
+}
+
+/**
+ * Sets up a [`ResizeObserver`](https://developer.mozilla.org/en-US/docs/Web/API/Resize_Observer_API)
+ * for an HTML or SVG element.
+ *
+ * Pass the returned setter as a callback ref to the React element you want
+ * to observe, or use it in layout effects for advanced use cases.
+ *
+ * @example
+ *
+ * ```tsx
+ * const setElement = useResizeObserver(
+ * 	( resizeObserverEntries ) => console.log( resizeObserverEntries ),
+ * 	{ box: 'border-box' }
+ * );
+ * <div ref={ setElement } />;
+ *
+ * // The setter can be used in other ways, for example:
+ * useLayoutEffect( () => {
+ * 	setElement( document.querySelector( `data-element-id="${ elementId }"` ) );
+ * }, [ elementId ] );
+ * ```
+ *
+ * @param callback The `ResizeObserver` callback - [MDN docs](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver#callback).
+ * @param options  Options passed to `ResizeObserver.observe` when called - [MDN docs](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe#options). Changes will be ignored.
+ */
+
+/**
+ * **This is a legacy API and should not be used.**
+ *
+ * @deprecated Use the other `useResizeObserver` API instead: `const ref = useResizeObserver( ( entries ) => { ... } )`.
+ *
+ * Hook which allows to listen to the resize event of any target element when it changes size.
+ * _Note: `useResizeObserver` will report `null` sizes until after first render.
+ *
+ * @example
+ *
+ * ```js
+ * const App = () => {
+ * 	const [ resizeListener, sizes ] = useResizeObserver();
+ *
+ * 	return (
+ * 		<div>
+ * 			{ resizeListener }
+ * 			Your content here
+ * 		</div>
+ * 	);
+ * };
+ * ```
+ */
+
+function useResizeObserver(callback, options = {}) {
+  return callback ? _useResizeObserver(callback, options) : useLegacyResizeObserver();
 }
 
 ;// CONCATENATED MODULE: external ["wp","priorityQueue"]
@@ -5627,6 +5662,7 @@ function useDropZone({
       // zone.
       // Note: This is not entirely reliable in Safari due to this bug
       // https://bugs.webkit.org/show_bug.cgi?id=66547
+
       if (isElementInZone(event.relatedTarget)) {
         return;
       }
@@ -5920,6 +5956,7 @@ function useObservableValue(map, name) {
 
 
 // Hooks.
+
 
 
 

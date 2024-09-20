@@ -337,7 +337,7 @@ const close_close = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24",
   children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
+    d: "m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"
   })
 });
 /* harmony default export */ const library_close = (close_close);
@@ -396,12 +396,18 @@ function DotTip({
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
       children: children
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
+      // TODO: Switch to `true` (40px size) if possible
+      , {
+        __next40pxDefaultSize: false,
         variant: "link",
         onClick: onDismiss,
         children: hasNextTip ? (0,external_wp_i18n_namespaceObject.__)('See next tip') : (0,external_wp_i18n_namespaceObject.__)('Got it')
       })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
+    // TODO: Switch to `true` (40px size) if possible
+    , {
+      __next40pxDefaultSize: false,
       className: "nux-dot-tip__disable",
       icon: library_close,
       label: (0,external_wp_i18n_namespaceObject.__)('Disable tips'),
