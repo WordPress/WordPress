@@ -609,6 +609,10 @@ function wp_tinymce_inline_scripts() {
 		$tinymce_settings['wpeditimage_disable_captions'] = true;
 	}
 
+	if ( ! empty( $editor_settings['tinymce'] ) && is_array( $editor_settings['tinymce'] ) ) {
+		$tinymce_settings = array_merge( $tinymce_settings, $editor_settings['tinymce'] );
+	}
+
 	/** This filter is documented in wp-includes/class-wp-editor.php */
 	$tinymce_settings = apply_filters( 'tiny_mce_before_init', $tinymce_settings, 'classic-block' );
 
