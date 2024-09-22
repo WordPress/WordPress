@@ -160,9 +160,12 @@ if ( $user_id ) {
 	if ( $locked ) {
 		$user         = get_userdata( $user_id );
 		$user_details = array(
-			'avatar' => get_avatar_url( $user_id, array( 'size' => 128 ) ),
-			'name'   => $user->display_name,
+			'name' => $user->display_name,
 		);
+
+		if ( get_option( 'show_avatars' ) ) {
+			$user_details['avatar'] = get_avatar_url( $user_id, array( 'size' => 128 ) );
+		}
 	}
 
 	$lock_details = array(

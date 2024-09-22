@@ -3334,11 +3334,16 @@ final class WP_Customize_Manager {
 			return null;
 		}
 
-		return array(
-			'id'     => $lock_user->ID,
-			'name'   => $lock_user->display_name,
-			'avatar' => get_avatar_url( $lock_user->ID, array( 'size' => 128 ) ),
+		$user_details = array(
+			'id'   => $lock_user->ID,
+			'name' => $lock_user->display_name,
 		);
+
+		if ( get_option( 'show_avatars' ) ) {
+			$user_details['avatar'] = get_avatar_url( $lock_user->ID, array( 'size' => 128 ) );
+		}
+
+		return $user_details;
 	}
 
 	/**
@@ -4307,8 +4312,10 @@ final class WP_Customize_Manager {
 
 		<script type="text/html" id="tmpl-customize-changeset-locked-notification">
 			<li class="notice notice-{{ data.type || 'info' }} {{ data.containerClasses || '' }}" data-code="{{ data.code }}" data-type="{{ data.type }}">
-				<div class="notification-message customize-changeset-locked-message">
-					<img class="customize-changeset-locked-avatar" src="{{ data.lockUser.avatar }}" alt="{{ data.lockUser.name }}" />
+				<div class="notification-message customize-changeset-locked-message {{ data.lockUser.avatar ? 'has-avatar' : '' }}">
+					<# if ( data.lockUser.avatar ) { #>
+						<img class="customize-changeset-locked-avatar" src="{{ data.lockUser.avatar }}" alt="{{ data.lockUser.name }}" />
+					<# } #>
 					<p class="currently-editing">
 						<# if ( data.message ) { #>
 							{{{ data.message }}}

@@ -31,7 +31,7 @@ body {
 	max-width: 366px;
 	min-height: 64px;
 	width: auto;
-	padding: 25px 25px 25px 109px;
+	padding: 25px;
 	position: relative;
 	background: #fff;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
@@ -39,6 +39,10 @@ body {
 	overflow-y: auto;
 	text-align: left;
 	top: calc( 50% - 100px );
+}
+
+#customize-controls #customize-notifications-area .notice.notification-overlay.notification-changeset-locked .customize-changeset-locked-message.has-avatar {
+	padding-left: 109px;
 }
 
 #customize-controls #customize-notifications-area .notice.notification-overlay.notification-changeset-locked .currently-editing {
