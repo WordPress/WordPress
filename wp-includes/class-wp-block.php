@@ -301,6 +301,15 @@ class WP_Block {
 				continue;
 			}
 
+			// Adds the necessary context defined by the source.
+			if ( ! empty( $block_binding_source->uses_context ) ) {
+				foreach ( $block_binding_source->uses_context as $context_name ) {
+					if ( array_key_exists( $context_name, $this->available_context ) ) {
+						$this->context[ $context_name ] = $this->available_context[ $context_name ];
+					}
+				}
+			}
+
 			$source_args  = ! empty( $block_binding['args'] ) && is_array( $block_binding['args'] ) ? $block_binding['args'] : array();
 			$source_value = $block_binding_source->get_value( $source_args, $this, $attribute_name );
 

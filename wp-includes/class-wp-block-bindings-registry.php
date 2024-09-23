@@ -189,20 +189,6 @@ final class WP_Block_Bindings_Registry {
 
 		$this->sources[ $source_name ] = $source;
 
-		// Adds `uses_context` defined by block bindings sources.
-		add_filter(
-			'get_block_type_uses_context',
-			function ( $uses_context, $block_type ) use ( $source ) {
-				if ( ! in_array( $block_type->name, $this->supported_blocks, true ) || empty( $source->uses_context ) ) {
-					return $uses_context;
-				}
-				// Use array_values to reset the array keys.
-				return array_values( array_unique( array_merge( $uses_context, $source->uses_context ) ) );
-			},
-			10,
-			2
-		);
-
 		return $source;
 	}
 
