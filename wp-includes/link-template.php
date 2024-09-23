@@ -3109,21 +3109,25 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
  * Retrieves the link to the next comments page.
  *
  * @since 2.7.1
+ * @since 6.7.0 Added the `page` parameter.
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
- * @param string $label    Optional. Label for link text. Default empty.
- * @param int    $max_page Optional. Max page. Default 0.
+ * @param string   $label    Optional. Label for link text. Default empty.
+ * @param int      $max_page Optional. Max page. Default 0.
+ * @param int|null $page     Optional. Page number. Default null.
  * @return string|void HTML-formatted link for the next page of comments.
  */
-function get_next_comments_link( $label = '', $max_page = 0 ) {
+function get_next_comments_link( $label = '', $max_page = 0, $page = null ) {
 	global $wp_query;
 
 	if ( ! is_singular() ) {
 		return;
 	}
 
-	$page = get_query_var( 'cpage' );
+	if ( is_null( $page ) ) {
+		$page = get_query_var( 'cpage' );
+	}
 
 	if ( ! $page ) {
 		$page = 1;
@@ -3180,16 +3184,20 @@ function next_comments_link( $label = '', $max_page = 0 ) {
  * Retrieves the link to the previous comments page.
  *
  * @since 2.7.1
+ * @since 6.7.0 Added the `page` parameter.
  *
- * @param string $label Optional. Label for comments link text. Default empty.
+ * @param string   $label Optional. Label for comments link text. Default empty.
+ * @param int|null $page  Optional. Page number. Default null.
  * @return string|void HTML-formatted link for the previous page of comments.
  */
-function get_previous_comments_link( $label = '' ) {
+function get_previous_comments_link( $label = '', $page = null ) {
 	if ( ! is_singular() ) {
 		return;
 	}
 
-	$page = get_query_var( 'cpage' );
+	if ( is_null( $page ) ) {
+		$page = get_query_var( 'cpage' );
+	}
 
 	if ( (int) $page <= 1 ) {
 		return;

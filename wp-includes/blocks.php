@@ -2567,11 +2567,6 @@ function build_comment_query_vars_from_block( $block ) {
 					$comment_args['paged'] = $max_num_pages;
 				}
 			}
-			// Set the `cpage` query var to ensure the previous and next pagination links are correct
-			// when inheriting the Discussion Settings.
-			if ( 0 === $page && isset( $comment_args['paged'] ) && $comment_args['paged'] > 0 ) {
-				set_query_var( 'cpage', $comment_args['paged'] );
-			}
 		}
 	}
 
