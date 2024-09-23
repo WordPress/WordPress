@@ -822,6 +822,7 @@ function ComplementaryAreaToggle({
   icon,
   selectedIcon,
   name,
+  shortcut,
   ...props
 }) {
   const ComponentToUse = as;
@@ -840,6 +841,7 @@ function ComplementaryAreaToggle({
         enableComplementaryArea(scope, identifier);
       }
     },
+    shortcut: shortcut,
     ...props
   });
 }
@@ -1269,7 +1271,8 @@ function ComplementaryArea({
         icon: showIconLabels ? library_check : icon,
         showTooltip: !showIconLabels,
         variant: showIconLabels ? 'tertiary' : undefined,
-        size: "compact"
+        size: "compact",
+        shortcut: toggleShortcut
       })
     }), name && isPinnable && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ComplementaryAreaMoreMenuItem, {
       target: name,

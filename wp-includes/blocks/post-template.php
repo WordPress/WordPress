@@ -64,11 +64,6 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 		if ( in_the_loop() ) {
 			$query = clone $wp_query;
 			$query->rewind_posts();
-
-			// If in a single post of any post type, default to the 'post' post type.
-			if ( is_singular() ) {
-				query_posts( array( 'post_type' => 'post' ) );
-			}
 		} else {
 			$query = $wp_query;
 		}

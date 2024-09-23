@@ -24,27 +24,7 @@ function render_block_core_query( $attributes, $content, $block ) {
 	// Enqueue the script module and add the necessary directives if the block is
 	// interactive.
 	if ( $is_interactive ) {
-		$suffix = wp_scripts_get_suffix();
-		if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
-			$module_url = gutenberg_url( '/build-module/block-library/query/view.min.js' );
-		}
-
-		wp_register_script_module(
-			'@wordpress/block-library/query',
-			isset( $module_url ) ? $module_url : includes_url( "blocks/query/view{$suffix}.js" ),
-			array(
-				array(
-					'id'     => '@wordpress/interactivity',
-					'import' => 'static',
-				),
-				array(
-					'id'     => '@wordpress/interactivity-router',
-					'import' => 'dynamic',
-				),
-			),
-			defined( 'GUTENBERG_VERSION' ) ? GUTENBERG_VERSION : get_bloginfo( 'version' )
-		);
-		wp_enqueue_script_module( '@wordpress/block-library/query' );
+		wp_enqueue_script_module( '@wordpress/block-library/query/view' );
 
 		$p = new WP_HTML_Tag_Processor( $content );
 		if ( $p->next_tag() ) {

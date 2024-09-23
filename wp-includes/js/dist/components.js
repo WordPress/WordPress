@@ -15699,8 +15699,6 @@ const COLORS = Object.freeze({
 
 const CONTROL_HEIGHT = '36px';
 const CONTROL_PROPS = {
-  controlSurfaceColor: COLORS.white,
-  controlTextActiveColor: COLORS.theme.accent,
   // These values should be shared with TextControl.
   controlPaddingX: 12,
   controlPaddingXSmall: 8,
@@ -15708,26 +15706,17 @@ const CONTROL_PROPS = {
   // TODO: Deprecate
 
   controlBackgroundColor: COLORS.white,
-  controlBoxShadow: 'transparent',
   controlBoxShadowFocus: `0 0 0 0.5px ${COLORS.theme.accent}`,
-  controlDestructiveBorderColor: COLORS.alert.red,
   controlHeight: CONTROL_HEIGHT,
   controlHeightXSmall: `calc( ${CONTROL_HEIGHT} * 0.6 )`,
   controlHeightSmall: `calc( ${CONTROL_HEIGHT} * 0.8 )`,
   controlHeightLarge: `calc( ${CONTROL_HEIGHT} * 1.2 )`,
   controlHeightXLarge: `calc( ${CONTROL_HEIGHT} * 1.4 )`
 };
-const TOGGLE_GROUP_CONTROL_PROPS = {
-  toggleGroupControlBackgroundColor: CONTROL_PROPS.controlBackgroundColor,
-  toggleGroupControlBorderColor: COLORS.ui.border,
-  toggleGroupControlBackdropBackgroundColor: CONTROL_PROPS.controlSurfaceColor,
-  toggleGroupControlBackdropBorderColor: COLORS.ui.border,
-  toggleGroupControlButtonColorActive: CONTROL_PROPS.controlBackgroundColor
-};
 
 // Using Object.assign to avoid creating circular references when emitting
 // TypeScript type declarations.
-/* harmony default export */ const config_values = (Object.assign({}, CONTROL_PROPS, TOGGLE_GROUP_CONTROL_PROPS, {
+/* harmony default export */ const config_values = (Object.assign({}, CONTROL_PROPS, {
   colorDivider: 'rgba(0, 0, 0, 0.1)',
   colorScrollbarThumb: 'rgba(0, 0, 0, 0.2)',
   colorScrollbarThumbHover: 'rgba(0, 0, 0, 0.5)',
@@ -36164,7 +36153,7 @@ const buttonView = ({
   isIcon,
   isPressed,
   size
-}) => /*#__PURE__*/emotion_react_browser_esm_css("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.radiusXSmall, ";color:", COLORS.gray[700], ";fill:currentColor;cursor:pointer;display:flex;font-family:inherit;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;@media not ( prefers-reduced-motion ){transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;}user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&[disabled]{opacity:0.4;cursor:default;}&:active{background:", config_values.toggleGroupControlBackgroundColor, ";}", isDeselectable && deselectable, " ", isIcon && isIconStyles({
+}) => /*#__PURE__*/emotion_react_browser_esm_css("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.radiusXSmall, ";color:", COLORS.gray[700], ";fill:currentColor;cursor:pointer;display:flex;font-family:inherit;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;@media not ( prefers-reduced-motion ){transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;}user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&[disabled]{opacity:0.4;cursor:default;}&:active{background:", config_values.controlBackgroundColor, ";}", isDeselectable && deselectable, " ", isIcon && isIconStyles({
   size
 }), " ", isPressed && pressed, ";" + ( true ? "" : 0),  true ? "" : 0);
 const pressed = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.white, ";&:active{background:transparent;}" + ( true ? "" : 0),  true ? "" : 0);

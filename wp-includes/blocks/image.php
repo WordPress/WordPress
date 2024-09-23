@@ -70,19 +70,7 @@ function render_block_core_image( $attributes, $content, $block ) {
 		isset( $lightbox_settings['enabled'] ) &&
 		true === $lightbox_settings['enabled']
 	) {
-		$suffix = wp_scripts_get_suffix();
-		if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
-			$module_url = gutenberg_url( '/build-module/block-library/image/view.min.js' );
-		}
-
-		wp_register_script_module(
-			'@wordpress/block-library/image',
-			isset( $module_url ) ? $module_url : includes_url( "blocks/image/view{$suffix}.js" ),
-			array( '@wordpress/interactivity' ),
-			defined( 'GUTENBERG_VERSION' ) ? GUTENBERG_VERSION : get_bloginfo( 'version' )
-		);
-
-		wp_enqueue_script_module( '@wordpress/block-library/image' );
+		wp_enqueue_script_module( '@wordpress/block-library/image/view' );
 
 		/*
 		 * This render needs to happen in a filter with priority 15 to ensure that

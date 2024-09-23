@@ -2312,7 +2312,7 @@ __webpack_require__.d(__webpack_exports__, {
   usePrevious: () => (/* reexport */ usePrevious),
   useReducedMotion: () => (/* reexport */ use_reduced_motion),
   useRefEffect: () => (/* reexport */ useRefEffect),
-  useResizeObserver: () => (/* reexport */ useResizeObserver),
+  useResizeObserver: () => (/* reexport */ use_resize_observer_useResizeObserver),
   useStateWithHistory: () => (/* reexport */ useStateWithHistory),
   useThrottle: () => (/* reexport */ useThrottle),
   useViewportMatch: () => (/* reexport */ use_viewport_match),
@@ -5026,7 +5026,51 @@ const useViewportMatch = (breakpoint, operator = '>=') => {
 useViewportMatch.__experimentalWidthProvider = ViewportMatchWidthContext.Provider;
 /* harmony default export */ const use_viewport_match = (useViewportMatch);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/_legacy/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/use-resize-observer.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+// This is the current implementation of `useResizeObserver`.
+//
+// The legacy implementation is still supported for backwards compatibility.
+// This is achieved by overloading the exported function with both signatures,
+// and detecting which API is being used at runtime.
+function useResizeObserver(callback, resizeObserverOptions = {}) {
+  const callbackEvent = useEvent(callback);
+  const observedElementRef = (0,external_wp_element_namespaceObject.useRef)();
+  const resizeObserverRef = (0,external_wp_element_namespaceObject.useRef)();
+  return useEvent(element => {
+    var _resizeObserverRef$cu;
+    if (element === observedElementRef.current) {
+      return;
+    }
+
+    // Set up `ResizeObserver`.
+    (_resizeObserverRef$cu = resizeObserverRef.current) !== null && _resizeObserverRef$cu !== void 0 ? _resizeObserverRef$cu : resizeObserverRef.current = new ResizeObserver(callbackEvent);
+    const {
+      current: resizeObserver
+    } = resizeObserverRef;
+
+    // Unobserve previous element.
+    if (observedElementRef.current) {
+      resizeObserver.unobserve(observedElementRef.current);
+    }
+
+    // Observe new element.
+    observedElementRef.current = element;
+    if (element) {
+      resizeObserver.observe(element, resizeObserverOptions);
+    }
+  });
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/legacy/index.js
 /**
  * External dependencies
  */
@@ -5159,10 +5203,6 @@ function useLegacyResizeObserver() {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-resize-observer/index.js
 /**
- * WordPress dependencies
- */
-
-/**
  * Internal dependencies
  */
 
@@ -5170,40 +5210,6 @@ function useLegacyResizeObserver() {
 /**
  * External dependencies
  */
-
-// This is the current implementation of `useResizeObserver`.
-//
-// The legacy implementation is still supported for backwards compatibility.
-// This is achieved by overloading the exported function with both signatures,
-// and detecting which API is being used at runtime.
-function _useResizeObserver(callback, resizeObserverOptions = {}) {
-  const callbackEvent = useEvent(callback);
-  const observedElementRef = (0,external_wp_element_namespaceObject.useRef)();
-  const resizeObserverRef = (0,external_wp_element_namespaceObject.useRef)();
-  return useEvent(element => {
-    var _resizeObserverRef$cu;
-    if (element === observedElementRef.current) {
-      return;
-    }
-    observedElementRef.current = element;
-
-    // Set up `ResizeObserver`.
-    (_resizeObserverRef$cu = resizeObserverRef.current) !== null && _resizeObserverRef$cu !== void 0 ? _resizeObserverRef$cu : resizeObserverRef.current = new ResizeObserver(callbackEvent);
-    const {
-      current: resizeObserver
-    } = resizeObserverRef;
-
-    // Unobserve previous element.
-    if (observedElementRef.current) {
-      resizeObserver.unobserve(observedElementRef.current);
-    }
-
-    // Observe new element.
-    if (element) {
-      resizeObserver.observe(element, resizeObserverOptions);
-    }
-  });
-}
 
 /**
  * Sets up a [`ResizeObserver`](https://developer.mozilla.org/en-US/docs/Web/API/Resize_Observer_API)
@@ -5255,8 +5261,8 @@ function _useResizeObserver(callback, resizeObserverOptions = {}) {
  * ```
  */
 
-function useResizeObserver(callback, options = {}) {
-  return callback ? _useResizeObserver(callback, options) : useLegacyResizeObserver();
+function use_resize_observer_useResizeObserver(callback, options = {}) {
+  return callback ? useResizeObserver(callback, options) : useLegacyResizeObserver();
 }
 
 ;// CONCATENATED MODULE: external ["wp","priorityQueue"]

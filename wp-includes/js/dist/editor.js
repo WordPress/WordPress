@@ -9284,6 +9284,7 @@ function ComplementaryAreaToggle({
   icon,
   selectedIcon,
   name,
+  shortcut,
   ...props
 }) {
   const ComponentToUse = as;
@@ -9302,6 +9303,7 @@ function ComplementaryAreaToggle({
         enableComplementaryArea(scope, identifier);
       }
     },
+    shortcut: shortcut,
     ...props
   });
 }
@@ -9731,7 +9733,8 @@ function ComplementaryArea({
         icon: showIconLabels ? library_check : icon,
         showTooltip: !showIconLabels,
         variant: showIconLabels ? 'tertiary' : undefined,
-        size: "compact"
+        size: "compact",
+        shortcut: toggleShortcut
       })
     }), name && isPinnable && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ComplementaryAreaMoreMenuItem, {
       target: name,
@@ -13510,7 +13513,6 @@ PluginPrePublishPanel.Slot = plugin_pre_publish_panel_Slot;
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -13587,12 +13589,10 @@ function PluginSidebar({
   ...props
 }) {
   const {
-    postTitle,
-    shortcut
+    postTitle
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     return {
-      postTitle: select(store_store).getEditedPostAttribute('title'),
-      shortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getShortcutRepresentation('core/editor/toggle-sidebar')
+      postTitle: select(store_store).getEditedPostAttribute('title')
     };
   }, []);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(complementary_area, {
@@ -13600,7 +13600,6 @@ function PluginSidebar({
     className: "editor-sidebar",
     smallScreenTitle: postTitle || (0,external_wp_i18n_namespaceObject.__)('(no title)'),
     scope: "core",
-    toggleShortcut: shortcut,
     ...props
   });
 }
@@ -25992,6 +25991,7 @@ const tablet = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 
 
 
+
 function PreviewDropdown({
   forceIsAutosaveable,
   disabled
@@ -26027,6 +26027,13 @@ function PreviewDropdown({
   const {
     setDeviceType
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  const {
+    __unstableSetEditorMode
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+  const handleDevicePreviewChange = newDeviceType => {
+    setDeviceType(newDeviceType);
+    __unstableSetEditorMode('edit');
+  };
   const isMobile = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
   if (isMobile) {
     return null;
@@ -26084,7 +26091,7 @@ function PreviewDropdown({
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuItemsChoice, {
           choices: choices,
           value: deviceType,
-          onSelect: setDeviceType
+          onSelect: handleDevicePreviewChange
         })
       }), isTemplate && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.MenuGroup, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.MenuItem, {
@@ -26152,23 +26159,35 @@ const square = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 
 
 
+/**
+ * Internal dependencies
+ */
+
+
 const ZoomOutToggle = () => {
   const {
-    isZoomOutMode
+    isZoomOut
   } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    isZoomOutMode: select(external_wp_blockEditor_namespaceObject.store).__unstableGetEditorMode() === 'zoom-out'
+    isZoomOut: unlock(select(external_wp_blockEditor_namespaceObject.store)).isZoomOut()
   }));
   const {
+    resetZoomLevel,
+    setZoomLevel,
     __unstableSetEditorMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store));
   const handleZoomOut = () => {
-    __unstableSetEditorMode(isZoomOutMode ? 'edit' : 'zoom-out');
+    if (isZoomOut) {
+      resetZoomLevel();
+    } else {
+      setZoomLevel(50);
+    }
+    __unstableSetEditorMode(isZoomOut ? 'edit' : 'zoom-out');
   };
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
     onClick: handleZoomOut,
     icon: library_square,
     label: (0,external_wp_i18n_namespaceObject.__)('Toggle Zoom Out'),
-    isPressed: isZoomOutMode,
+    isPressed: isZoomOut,
     size: "compact"
   });
 };
@@ -27257,18 +27276,18 @@ function VisualEditor({
     hasRootPaddingAwareAlignments,
     themeHasDisabledLayoutStyles,
     themeSupportsLayout,
-    isZoomOutMode
+    isZoomedOut
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getSettings,
-      __unstableGetEditorMode
-    } = select(external_wp_blockEditor_namespaceObject.store);
+      isZoomOut: _isZoomOut
+    } = unlock(select(external_wp_blockEditor_namespaceObject.store));
     const _settings = getSettings();
     return {
       themeHasDisabledLayoutStyles: _settings.disableLayoutStyles,
       themeSupportsLayout: _settings.supportsLayout,
       hasRootPaddingAwareAlignments: _settings.__experimentalFeatures?.useRootPaddingAwareAlignments,
-      isZoomOutMode: __unstableGetEditorMode() === 'zoom-out'
+      isZoomedOut: _isZoomOut()
     };
   }, []);
   const deviceStyles = (0,external_wp_blockEditor_namespaceObject.__experimentalUseResizeCanvas)(deviceType);
@@ -27369,7 +27388,7 @@ function VisualEditor({
   }), useSelectNearestEditableBlock({
     isEnabled: renderingMode === 'template-locked'
   })]);
-  const zoomOutProps = isZoomOutMode && !isTabletViewport ? {
+  const zoomOutProps = isZoomedOut && !isTabletViewport ? {
     scale: 'default',
     frameSize: '48px'
   } : {};
@@ -27380,7 +27399,7 @@ function VisualEditor({
   // Disable resizing in mobile viewport.
   !isMobileViewport &&
   // Dsiable resizing in zoomed-out mode.
-  !isZoomOutMode;
+  !isZoomedOut;
   const shouldIframe = !disableIframe || ['Tablet', 'Mobile'].includes(deviceType);
   const iframeStyles = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return [...(styles !== null && styles !== void 0 ? styles : []), {
@@ -27505,6 +27524,7 @@ function VisualEditor({
 
 
 
+
 const interfaceLabels = {
   /* translators: accessibility text for the editor top bar landmark region. */
   header: (0,external_wp_i18n_namespaceObject.__)('Editor top bar'),
@@ -27543,7 +27563,7 @@ function EditorInterface({
     nextShortcut,
     showBlockBreadcrumbs,
     documentLabel,
-    blockEditorMode
+    isZoomOut
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       get
@@ -27554,6 +27574,9 @@ function EditorInterface({
     } = select(store_store);
     const editorSettings = getEditorSettings();
     const postTypeLabel = getPostTypeLabel();
+    const {
+      isZoomOut: _isZoomOut
+    } = unlock(select(external_wp_blockEditor_namespaceObject.store));
     return {
       mode: select(store_store).getEditorMode(),
       isRichEditingEnabled: editorSettings.richEditingEnabled,
@@ -27566,7 +27589,7 @@ function EditorInterface({
       showBlockBreadcrumbs: get('core', 'showBlockBreadcrumbs'),
       // translators: Default label for the Document in the Block Breadcrumb.
       documentLabel: postTypeLabel || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun'),
-      blockEditorMode: select(external_wp_blockEditor_namespaceObject.store).__unstableGetEditorMode()
+      isZoomOut: _isZoomOut()
     };
   }, []);
   const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
@@ -27628,7 +27651,7 @@ function EditorInterface({
         })
       })]
     }),
-    footer: !isPreviewMode && !isDistractionFree && isLargeViewport && showBlockBreadcrumbs && isRichEditingEnabled && blockEditorMode !== 'zoom-out' && mode === 'visual' && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockBreadcrumb, {
+    footer: !isPreviewMode && !isDistractionFree && isLargeViewport && showBlockBreadcrumbs && isRichEditingEnabled && !isZoomOut && mode === 'visual' && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockBreadcrumb, {
       rootLabelText: documentLabel
     }),
     actions: !isPreviewMode ? customSavePanel || /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SavePublishPanels, {

@@ -52557,9 +52557,9 @@ function SearchEdit({
             max: utils_isPercentageUnit(widthUnit) ? 100 : undefined,
             step: 1,
             onChange: newWidth => {
-              const filteredWidth = widthUnit === '%' && parseInt(newWidth, 10) > 100 ? 100 : newWidth;
+              const parsedNewWidth = newWidth === '' ? undefined : parseInt(newWidth, 10);
               setAttributes({
-                width: parseInt(filteredWidth, 10)
+                width: parsedNewWidth
               });
             },
             onUnitChange: newUnit => {
@@ -52657,7 +52657,8 @@ function SearchEdit({
       style: typographyProps.style
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.ResizableBox, {
       size: {
-        width: `${width}${widthUnit}`
+        width: width === undefined ? 'auto' : `${width}${widthUnit}`,
+        height: 'auto'
       },
       className: dist_clsx('wp-block-search__inside-wrapper', isButtonPositionInside ? borderProps.className : undefined),
       style: getWrapperStyles(),

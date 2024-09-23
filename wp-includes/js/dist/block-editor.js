@@ -7704,11 +7704,13 @@ __webpack_require__.d(private_selectors_namespaceObject, {
   getStyleOverrides: () => (getStyleOverrides),
   getTemporarilyEditingAsBlocks: () => (getTemporarilyEditingAsBlocks),
   getTemporarilyEditingFocusModeToRevert: () => (getTemporarilyEditingFocusModeToRevert),
+  getZoomLevel: () => (getZoomLevel),
   hasAllowedPatterns: () => (hasAllowedPatterns),
   isBlockInterfaceHidden: () => (private_selectors_isBlockInterfaceHidden),
   isBlockSubtreeDisabled: () => (isBlockSubtreeDisabled),
   isDragging: () => (private_selectors_isDragging),
   isResolvingPatterns: () => (isResolvingPatterns),
+  isZoomOut: () => (isZoomOut),
   isZoomOutMode: () => (isZoomOutMode)
 });
 
@@ -7845,10 +7847,12 @@ __webpack_require__.d(private_actions_namespaceObject, {
   hideBlockInterface: () => (hideBlockInterface),
   modifyContentLockBlock: () => (modifyContentLockBlock),
   privateRemoveBlocks: () => (privateRemoveBlocks),
+  resetZoomLevel: () => (resetZoomLevel),
   setBlockRemovalRules: () => (setBlockRemovalRules),
   setLastFocus: () => (setLastFocus),
   setOpenedBlockSettingsMenu: () => (setOpenedBlockSettingsMenu),
   setStyleOverride: () => (setStyleOverride),
+  setZoomLevel: () => (setZoomLevel),
   showBlockInterface: () => (showBlockInterface),
   startDragging: () => (startDragging),
   stopDragging: () => (stopDragging),
@@ -10141,6 +10145,24 @@ function hoveredBlockClientId(state = false, action) {
   }
   return state;
 }
+
+/**
+ * Reducer setting zoom out state.
+ *
+ * @param {boolean} state  Current state.
+ * @param {Object}  action Dispatched action.
+ *
+ * @return {boolean} Updated state.
+ */
+function zoomLevel(state = 100, action) {
+  switch (action.type) {
+    case 'SET_ZOOM_LEVEL':
+      return action.zoom;
+    case 'RESET_ZOOM_LEVEL':
+      return 100;
+  }
+  return state;
+}
 const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   blocks,
   isDragging,
@@ -10173,7 +10195,8 @@ const combinedReducers = (0,external_wp_data_namespaceObject.combineReducers)({
   blockRemovalRules,
   openedBlockSettingsMenu,
   registeredInserterMediaCategories,
-  hoveredBlockClientId
+  hoveredBlockClientId,
+  zoomLevel
 });
 function withAutomaticChangeReset(reducer) {
   return (state, action) => {
@@ -11087,6 +11110,26 @@ function isZoomOutMode(state) {
  */
 function getSectionRootClientId(state) {
   return state.settings?.[sectionRootClientIdKey];
+}
+
+/**
+ * Returns the zoom out state.
+ *
+ * @param {Object} state Global application state.
+ * @return {boolean} The zoom out state.
+ */
+function getZoomLevel(state) {
+  return state.zoomLevel;
+}
+
+/**
+ * Returns whether the editor is considered zoomed out.
+ *
+ * @param {Object} state Global application state.
+ * @return {boolean} Whether the editor is zoomed.
+ */
+function isZoomOut(state) {
+  return getZoomLevel(state) < 100;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/selectors.js
@@ -13521,6 +13564,7 @@ const getBlockEditingMode = (0,external_wp_data_namespaceObject.createRegistrySe
   if (clientId === null) {
     clientId = '';
   }
+
   // In zoom-out mode, override the behavior set by
   // __unstableSetBlockEditingMode to only allow editing the top-level
   // sections.
@@ -13534,9 +13578,12 @@ const getBlockEditingMode = (0,external_wp_data_namespaceObject.createRegistrySe
       return 'contentOnly';
     }
     const sectionsClientIds = getBlockOrder(state, sectionRootClientId);
-    if (!sectionsClientIds?.includes(clientId)) {
-      return 'disabled';
+
+    // Sections are always contentOnly.
+    if (sectionsClientIds?.includes(clientId)) {
+      return 'contentOnly';
     }
+    return 'disabled';
   }
   const blockEditingMode = state.blockEditingModes.get(clientId);
   if (blockEditingMode) {
@@ -14039,6 +14086,29 @@ const modifyContentLockBlock = clientId => ({
   });
   dispatch.__unstableSetTemporarilyEditingAsBlocks(clientId, focusModeToRevert);
 };
+
+/**
+ * Sets the zoom level.
+ *
+ * @param {number} zoom the new zoom level
+ * @return {Object} Action object.
+ */
+function setZoomLevel(zoom = 100) {
+  return {
+    type: 'SET_ZOOM_LEVEL',
+    zoom
+  };
+}
+
+/**
+ * Resets the Zoom state.
+ * @return {Object} Action object.
+ */
+function resetZoomLevel() {
+  return {
+    type: 'RESET_ZOOM_LEVEL'
+  };
+}
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
 const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
@@ -38085,13 +38155,17 @@ function useZoomOutModeExit({
   editorMode
 }) {
   const {
-    getSettings
-  } = (0,external_wp_data_namespaceObject.useSelect)(store);
+    getSettings,
+    isZoomOut
+  } = unlock((0,external_wp_data_namespaceObject.useSelect)(store));
   const {
-    __unstableSetEditorMode
+    __unstableSetEditorMode,
+    resetZoomLevel
   } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
   return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
-    if (editorMode !== 'zoom-out') {
+    // In "compose" mode.
+    const composeMode = editorMode === 'zoom-out' && isZoomOut();
+    if (!composeMode) {
       return;
     }
     function onDoubleClick(event) {
@@ -38104,6 +38178,7 @@ function useZoomOutModeExit({
           __experimentalSetIsInserterOpened(false);
         }
         __unstableSetEditorMode('edit');
+        resetZoomLevel();
       }
     }
     node.addEventListener('dblclick', onDoubleClick);
@@ -38370,8 +38445,8 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
         let values = {};
         if (!source.getValues) {
           Object.keys(bindings).forEach(attr => {
-            // Default to the `key` or the source label when `getValues` doesn't exist
-            values[attr] = bindings[attr].args?.key || source.label;
+            // Default to the the source label when `getValues` doesn't exist.
+            values[attr] = source.label;
           });
         } else {
           values = source.getValues({
@@ -51629,41 +51704,38 @@ function useCachedTruthy(value) {
  */
 
 
+
 /**
- * A hook used to set the editor mode to zoomed out mode, invoking the hook sets the mode.
+ * A hook used to set the zoomed out view, invoking the hook sets the mode.
  *
- * @param {boolean} zoomOut If we should enter into zoomOut mode or not
+ * @param {boolean} zoomOut If we should zoom out or not.
  */
 function useZoomOut(zoomOut = true) {
   const {
-    __unstableSetEditorMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+    setZoomLevel
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
   const {
-    __unstableGetEditorMode
-  } = (0,external_wp_data_namespaceObject.useSelect)(store);
-  const originalEditingModeRef = (0,external_wp_element_namespaceObject.useRef)(null);
-  const mode = __unstableGetEditorMode();
+    isZoomOut
+  } = unlock((0,external_wp_data_namespaceObject.useSelect)(store));
+  const originalIsZoomOutRef = (0,external_wp_element_namespaceObject.useRef)(null);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // Only set this on mount so we know what to return to when we unmount.
-    if (!originalEditingModeRef.current) {
-      originalEditingModeRef.current = mode;
+    if (!originalIsZoomOutRef.current) {
+      originalIsZoomOutRef.current = isZoomOut();
+    }
+
+    // The effect opens the zoom-out view if we want it open and the canvas is not currently zoomed-out.
+    if (zoomOut && isZoomOut() === false) {
+      setZoomLevel(50);
+    } else if (!zoomOut && isZoomOut() && originalIsZoomOutRef.current !== isZoomOut()) {
+      setZoomLevel(originalIsZoomOutRef.current ? 50 : 100);
     }
     return () => {
-      // We need to use  __unstableGetEditorMode() here and not `mode`, as mode may not update on unmount
-      if (__unstableGetEditorMode() === 'zoom-out' && __unstableGetEditorMode() !== originalEditingModeRef.current) {
-        __unstableSetEditorMode(originalEditingModeRef.current);
+      if (isZoomOut() && isZoomOut() !== originalIsZoomOutRef.current) {
+        setZoomLevel(originalIsZoomOutRef.current ? 50 : 100);
       }
     };
-  }, []);
-
-  // The effect opens the zoom-out view if we want it open and it's not currently in zoom-out mode.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (zoomOut && mode !== 'zoom-out') {
-      __unstableSetEditorMode('zoom-out');
-    } else if (!zoomOut && __unstableGetEditorMode() === 'zoom-out' && originalEditingModeRef.current !== mode) {
-      __unstableSetEditorMode(originalEditingModeRef.current);
-    }
-  }, [__unstableGetEditorMode, __unstableSetEditorMode, zoomOut]); // Mode is deliberately excluded from the dependencies so that the effect does not run when mode changes.
+  }, [isZoomOut, setZoomLevel, zoomOut]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/index.js
@@ -58190,6 +58262,7 @@ function Shuffle({
 
 
 
+
 function ZoomOutToolbar({
   clientId,
   __unstableContentRef
@@ -58254,8 +58327,9 @@ function ZoomOutToolbar({
   } = selected;
   const {
     removeBlock,
-    __unstableSetEditorMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+    __unstableSetEditorMode,
+    resetZoomLevel
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
   const classNames = dist_clsx('zoom-out-toolbar', {
     'is-block-moving-mode': !!blockMovingMode
   });
@@ -58302,6 +58376,7 @@ function ZoomOutToolbar({
           setIsInserterOpened(false);
         }
         __unstableSetEditorMode('edit');
+        resetZoomLevel();
         __unstableContentRef.current?.focus();
       }
     }), canRemove && !isBlockTemplatePart && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, {
@@ -63275,20 +63350,25 @@ function __experimentalBlockVariationTransforms({
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
     activeBlockVariation,
-    variations
+    variations,
+    isContentOnly
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getActiveBlockVariation,
-      getBlockVariations
+      getBlockVariations,
+      __experimentalHasContentRoleAttribute
     } = select(external_wp_blocks_namespaceObject.store);
     const {
       getBlockName,
-      getBlockAttributes
+      getBlockAttributes,
+      getBlockEditingMode
     } = select(store);
     const name = blockClientId && getBlockName(blockClientId);
+    const isContentBlock = __experimentalHasContentRoleAttribute(name);
     return {
       activeBlockVariation: getActiveBlockVariation(name, getBlockAttributes(blockClientId)),
-      variations: name && getBlockVariations(name, 'transform')
+      variations: name && getBlockVariations(name, 'transform'),
+      isContentOnly: getBlockEditingMode(blockClientId) === 'contentOnly' && !isContentBlock
     };
   }, [blockClientId]);
   const selectedValue = activeBlockVariation?.name;
@@ -63313,9 +63393,7 @@ function __experimentalBlockVariationTransforms({
       }) => name === variationName).attributes
     });
   };
-
-  // Skip rendering if there are no variations
-  if (!variations?.length) {
+  if (!variations?.length || isContentOnly) {
     return null;
   }
   const baseClass = 'block-editor-block-variation-transforms';
@@ -68597,6 +68675,7 @@ function __unstableRichTextInputEvent({
 
 
 
+
 const selectIcon = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
   width: "24",
@@ -68610,7 +68689,7 @@ function ToolSelector(props, ref) {
   const mode = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).__unstableGetEditorMode(), []);
   const {
     __unstableSetEditorMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Dropdown, {
     renderToggle: ({
       isOpen,
