@@ -94,10 +94,6 @@ class WP_Application_Passwords {
 			return new WP_Error( 'application_password_empty_name', __( 'An application name is required to create an application password.' ), array( 'status' => 400 ) );
 		}
 
-		if ( self::application_name_exists_for_user( $user_id, $args['name'] ) ) {
-			return new WP_Error( 'application_password_duplicate_name', __( 'Each application name should be unique.' ), array( 'status' => 409 ) );
-		}
-
 		$new_password    = wp_generate_password( static::PW_LENGTH, false );
 		$hashed_password = wp_hash_password( $new_password );
 
