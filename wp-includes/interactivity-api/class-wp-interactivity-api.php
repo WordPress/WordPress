@@ -281,33 +281,20 @@ final class WP_Interactivity_API {
 	/**
 	 * Registers the `@wordpress/interactivity` script modules.
 	 *
+	 * @deprecated 6.7.0 Script Modules registration is handled by {@see wp_default_script_modules()}.
+	 *
 	 * @since 6.5.0
 	 */
 	public function register_script_modules() {
-		$suffix = wp_scripts_get_suffix();
-
-		wp_register_script_module(
-			'@wordpress/interactivity',
-			includes_url( "js/dist/interactivity$suffix.js" )
-		);
-
-		wp_register_script_module(
-			'@wordpress/interactivity-router',
-			includes_url( "js/dist/interactivity-router$suffix.js" ),
-			array( '@wordpress/interactivity' )
-		);
+		_deprecated_function( __METHOD__, '6.7.0', 'wp_default_script_modules' );
 	}
 
 	/**
 	 * Adds the necessary hooks for the Interactivity API.
 	 *
 	 * @since 6.5.0
-	 * @since 6.7.0 Use the {@see "script_module_data_{$module_id}"} filter to pass client-side data.
 	 */
 	public function add_hooks() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_script_modules' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_script_modules' ) );
-
 		add_filter( 'script_module_data_@wordpress/interactivity', array( $this, 'filter_script_module_interactivity_data' ) );
 	}
 
