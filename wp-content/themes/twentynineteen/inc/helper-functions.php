@@ -32,6 +32,9 @@ function twentynineteen_get_avatar_size() {
  * Returns true if comment is by author of the post.
  *
  * @see get_comment_class()
+ *
+ * @param WP_Comment|null $comment The comment object to check. Defaults to the current comment.
+ * @return bool True if the comment is by the author of the post, false otherwise.
  */
 function twentynineteen_is_comment_by_post_author( $comment = null ) {
 	if ( is_object( $comment ) && $comment->user_id > 0 ) {
@@ -82,7 +85,12 @@ function twentynineteen_get_discussion_data() {
 }
 
 /**
- * Converts HSL to HEX colors.
+ * Converts HSL to HEX or RGB colors.
+ *
+ * @param float $h      The hue component (0-360).
+ * @param float $s      The saturation component (0-100).
+ * @param float $l      The lightness component (0-100).
+ * @param bool  $to_hex Whether to convert to HEX format (true) or RGB (false). Default true.
  */
 function twentynineteen_hsl_hex( $h, $s, $l, $to_hex = true ) {
 
