@@ -747,14 +747,15 @@ class WP {
 			$content_found = true;
 
 			if ( is_singular() ) {
-				$post = isset( $wp_query->post ) ? $wp_query->post : null;
-				$next = '<!--nextpage-->';
+				$post    = isset( $wp_query->post ) ? $wp_query->post : null;
+				$next    = '<!--nextpage-->';
+				$page_qv = is_front_page() ? 'paged' : 'page';
 
 				// Check for paged content that exceeds the max number of pages.
-				if ( $post && ! empty( $this->query_vars['page'] ) ) {
+				if ( $post && ! empty( $this->query_vars[ $page_qv ] ) ) {
 					// Check if content is actually intended to be paged.
 					if ( str_contains( $post->post_content, $next ) ) {
-						$page          = trim( $this->query_vars['page'], '/' );
+						$page          = trim( $this->query_vars[ $page_qv ], '/' );
 						$content_found = (int) $page <= ( substr_count( $post->post_content, $next ) + 1 );
 					} else {
 						$content_found = false;
