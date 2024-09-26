@@ -200,6 +200,26 @@ final class WP_Interactivity_API {
 	}
 
 	/**
+	 * Set client-side interactivity-router data.
+	 *
+	 * Once in the browser, the state will be parsed and used to hydrate the client-side
+	 * interactivity stores and the configuration will be available using a `getConfig` utility.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param array $data Data to filter.
+	 * @return array Data for the Interactivity Router script module.
+	 */
+	public function filter_script_module_interactivity_router_data( array $data ): array {
+		if ( ! isset( $data['i18n'] ) ) {
+			$data['i18n'] = array();
+		}
+		$data['i18n']['loading'] = __( 'Loading page, please wait.' );
+		$data['i18n']['loaded']  = __( 'Page Loaded.' );
+		return $data;
+	}
+
+	/**
 	 * Set client-side interactivity data.
 	 *
 	 * Once in the browser, the state will be parsed and used to hydrate the client-side
@@ -296,6 +316,7 @@ final class WP_Interactivity_API {
 	 */
 	public function add_hooks() {
 		add_filter( 'script_module_data_@wordpress/interactivity', array( $this, 'filter_script_module_interactivity_data' ) );
+		add_filter( 'script_module_data_@wordpress/interactivity-router', array( $this, 'filter_script_module_interactivity_router_data' ) );
 	}
 
 	/**
@@ -973,28 +994,20 @@ CSS;
 	}
 
 	/**
-	 * Outputs the markup for the top loading indicator and the screen reader
-	 * notifications during client-side navigations.
+	 * Outputs markup for the @wordpress/interactivity-router script module.
 	 *
 	 * This method prints a div element representing a loading bar visible during
-	 * navigation, as well as an aria-live region that can be read by screen
-	 * readers to announce navigation status.
+	 * navigation.
 	 *
-	 * @since 6.5.0
+	 * @since 6.7.0
 	 */
-	public function print_router_loading_and_screen_reader_markup() {
+	public function print_router_markup() {
 		echo <<<HTML
 			<div
 				class="wp-interactivity-router-loading-bar"
 				data-wp-interactive="core/router"
 				data-wp-class--start-animation="state.navigation.hasStarted"
 				data-wp-class--finish-animation="state.navigation.hasFinished"
-			></div>
-			<div
-				class="screen-reader-text"
-				aria-live="polite"
-				data-wp-interactive="core/router"
-				data-wp-text="state.navigation.message"
 			></div>
 HTML;
 	}
@@ -1016,16 +1029,16 @@ HTML;
 		if ( 'enter' === $mode && ! $this->has_processed_router_region ) {
 			$this->has_processed_router_region = true;
 
-			// Initialize the `core/router` store.
+			/*
+			 * Initialize the `core/router` store.
+			 * If the store is not initialized like this with minimal
+			 * navigation object, the interactivity-router script module
+			 * errors.
+			 */
 			$this->state(
 				'core/router',
 				array(
-					'navigation' => array(
-						'texts' => array(
-							'loading' => __( 'Loading page, please wait.' ),
-							'loaded'  => __( 'Page Loaded.' ),
-						),
-					),
+					'navigation' => new stdClass(),
 				)
 			);
 
@@ -1035,7 +1048,7 @@ HTML;
 			wp_enqueue_style( 'wp-interactivity-router-animations' );
 
 			// Adds the necessary markup to the footer.
-			add_action( 'wp_footer', array( $this, 'print_router_loading_and_screen_reader_markup' ) );
+			add_action( 'wp_footer', array( $this, 'print_router_markup' ) );
 		}
 	}
 
