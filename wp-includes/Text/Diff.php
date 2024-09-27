@@ -260,24 +260,24 @@ class Text_Diff {
     function _check($from_lines, $to_lines)
     {
         if (serialize($from_lines) != serialize($this->getOriginal())) {
-            trigger_error("Reconstructed original does not match", E_USER_ERROR);
+            throw new Text_Exception("Reconstructed original does not match");
         }
         if (serialize($to_lines) != serialize($this->getFinal())) {
-            trigger_error("Reconstructed final does not match", E_USER_ERROR);
+            throw new Text_Exception("Reconstructed final does not match");
         }
 
         $rev = $this->reverse();
         if (serialize($to_lines) != serialize($rev->getOriginal())) {
-            trigger_error("Reversed original does not match", E_USER_ERROR);
+            throw new Text_Exception("Reversed original does not match");
         }
         if (serialize($from_lines) != serialize($rev->getFinal())) {
-            trigger_error("Reversed final does not match", E_USER_ERROR);
+            throw new Text_Exception("Reversed final does not match");
         }
 
         $prevtype = null;
         foreach ($this->_edits as $edit) {
             if ($prevtype !== null && $edit instanceof $prevtype) {
-                trigger_error("Edit sequence is non-optimal", E_USER_ERROR);
+                throw new Text_Exception("Edit sequence is non-optimal");
             }
             $prevtype = get_class($edit);
         }
