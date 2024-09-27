@@ -1035,6 +1035,7 @@ function set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_po
  * Runs the hooked blocks algorithm on the given content.
  *
  * @since 6.6.0
+ * @since 6.7.0 Injects the `theme` attribute into Template Part blocks, even if no hooked blocks are registered.
  * @access private
  *
  * @param string                          $content  Serialized content.
@@ -1047,14 +1048,15 @@ function set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_po
  */
 function apply_block_hooks_to_content( $content, $context, $callback = 'insert_hooked_blocks' ) {
 	$hooked_blocks = get_hooked_blocks();
-	if ( empty( $hooked_blocks ) && ! has_filter( 'hooked_block_types' ) ) {
-		return $content;
+
+	$before_block_visitor = '_inject_theme_attribute_in_template_part_block';
+	$after_block_visitor  = null;
+	if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
+		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $context, $callback );
+		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $context, $callback );
 	}
 
 	$blocks = parse_blocks( $content );
-
-	$before_block_visitor = make_before_block_visitor( $hooked_blocks, $context, $callback );
-	$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $context, $callback );
 
 	return traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
 }
