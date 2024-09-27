@@ -350,15 +350,12 @@ class Text_MappedDiff extends Text_Diff {
  *
  * @access private
  */
-class Text_Diff_Op {
+abstract class Text_Diff_Op {
 
     var $orig;
     var $final;
 
-    function &reverse()
-    {
-        trigger_error('Abstract method', E_USER_ERROR);
-    }
+    abstract function &reverse();
 
     function norig()
     {
