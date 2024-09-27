@@ -9,7 +9,7 @@
 
 /**
  * Gets the SVG code for a given icon.
- * 
+ *
  * @param string $icon The specific icon to retrieve.
  * @param int    $size The desired width and height for the SVG icon.
  */
@@ -19,7 +19,7 @@ function twentynineteen_get_icon_svg( $icon, $size = 24 ) {
 
 /**
  * Gets the SVG code for a given social icon.
- * 
+ *
  * @param string $icon The specific icon to retrieve.
  * @param int    $size The desired width and height for the SVG icon.
  */
@@ -29,7 +29,7 @@ function twentynineteen_get_social_icon_svg( $icon, $size = 24 ) {
 
 /**
  * Detects the social network from a URL and returns the SVG code for its icon.
- * 
+ *
  * @param string $uri  The URL of the social network link.
  * @param int    $size The desired width and height for the SVG icon.
  */
