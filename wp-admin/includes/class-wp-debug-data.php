@@ -842,7 +842,7 @@ class WP_Debug_Data {
 			'label'       => __( 'Drop-ins' ),
 			'show_count'  => true,
 			'description' => sprintf(
-			/* translators: %s: wp-content directory name. */
+				/* translators: %s: wp-content directory name. */
 				__( 'Drop-ins are single files, found in the %s directory, that replace or enhance WordPress features in ways that are not possible for traditional plugins.' ),
 				'<code>' . str_replace( ABSPATH, '', WP_CONTENT_DIR ) . '</code>'
 			),
