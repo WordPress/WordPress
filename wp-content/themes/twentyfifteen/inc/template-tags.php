@@ -256,6 +256,7 @@ if ( ! function_exists( 'twentyfifteen_excerpt_more' ) && ! is_admin() ) :
 	 *
 	 * @since Twenty Fifteen 1.0
 	 *
+	 * @param string $more Default Read More excerpt link.
 	 * @return string 'Continue reading' link prepended with an ellipsis.
 	 */
 	function twentyfifteen_excerpt_more( $more ) {
