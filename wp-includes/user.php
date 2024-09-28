@@ -778,7 +778,7 @@ function delete_user_option( $user_id, $option_name, $is_global = false ) {
 /**
  * Retrieves user info by user ID.
  *
- * @since 6.7
+ * @since 6.7.0
  *
  * @param int $user_id User ID.
  *
