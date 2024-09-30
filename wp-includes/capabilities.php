@@ -801,6 +801,32 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'delete_app_password':
 			$caps = map_meta_cap( 'edit_user', $user_id, $args[0] );
 			break;
+		case 'edit_block_binding':
+			$block_editor_context = $args[0];
+			if ( isset( $block_editor_context->post ) ) {
+				$object_id = $block_editor_context->post->ID;
+			}
+			/*
+			 * If the post ID is null, check if the context is the site editor.
+			 * Fall back to the edit_theme_options in that case.
+			 */
+			if ( ! isset( $object_id ) ) {
+				if ( ! isset( $block_editor_context->name ) || 'core/edit-site' !== $block_editor_context->name ) {
+					$caps[] = 'do_not_allow';
+					break;
+				}
+				$caps = map_meta_cap( 'edit_theme_options', $user_id );
+				break;
+			}
+
+			$object_subtype = get_object_subtype( 'post', (int) $object_id );
+			if ( empty( $object_subtype ) ) {
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
+			$caps = map_meta_cap( "edit_{$object_subtype}", $user_id, $object_id );
+			break;
 		default:
 			// Handle meta capabilities for custom post types.
 			global $post_type_meta_caps;
