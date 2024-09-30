@@ -1114,7 +1114,7 @@ $( function() {
 		});
 	}
 
-	$document.on( 'wp-updates-notice-added wp-plugin-install-error wp-plugin-update-error wp-plugin-delete-error wp-theme-install-error wp-theme-delete-error', makeNoticesDismissible );
+	$document.on( 'wp-updates-notice-added wp-plugin-install-error wp-plugin-update-error wp-plugin-delete-error wp-theme-install-error wp-theme-delete-error wp-notice-added', makeNoticesDismissible );
 
 	// Init screen meta.
 	screenMeta.init();
@@ -1275,6 +1275,80 @@ $( function() {
 
 	// Marry the secondary "Change role to" controls to the primary controls:
 	marryControls( $('#new_role'), $('#changeit'), $('#new_role2'), $('#changeit2') );
+
+	var addAdminNotice = function( data ) {
+		var $notice = $( data.selector ),
+			$headerEnd = $( '.wp-header-end' ),
+			type,
+			dismissible,
+			$adminNotice;
+
+		delete data.selector;
+
+		dismissible = ( data.dismissible && data.dismissible === true ) ? ' is-dismissible' : '';
+		type        = ( data.type ) ? data.type : 'info';
+
+		$adminNotice = '<div id="' + data.id + '" class="notice notice-' + data.type + dismissible + '"><p>' + data.message + '</p></div>';
+
+		// Check if this admin notice already exists.
+		if ( ! $notice.length ) {
+			$notice = $( '#' + data.id );
+		}
+
+		if ( $notice.length ) {
+			$notice.replaceWith( $adminNotice );
+		} else if ( $headerEnd.length ) {
+			$headerEnd.after( $adminNotice );
+		} else {
+			if ( 'customize' === pagenow ) {
+				$( '.customize-themes-notifications' ).append( $adminNotice );
+			} else {
+				$( '.wrap' ).find( '> h1' ).after( $adminNotice );
+			}
+		}
+
+		$document.trigger( 'wp-notice-added' );
+	};
+
+	$( '.bulkactions' ).parents( 'form' ).on( 'submit', function( event ) {
+		var form = this,
+			submitterName = event.originalEvent && event.originalEvent.submitter ? event.originalEvent.submitter.name : false;
+
+		// Observe submissions from posts lists for 'bulk_action' or users lists for 'new_role'.
+		var bulkFieldRelations = {
+			'bulk_action' : 'action',
+			'changeit' : 'new_role'
+		};
+		if ( ! Object.keys( bulkFieldRelations ).includes( submitterName ) ) {
+			return;
+		}
+
+		var values = new FormData(form);
+		var value = values.get( bulkFieldRelations[ submitterName ] ) || '-1';
+
+		// Check that the action is not the default one.
+		if ( value !== '-1' ) {
+			// Check that at least one item is selected.
+			var itemsSelected = form.querySelectorAll( '.wp-list-table tbody .check-column input[type="checkbox"]:checked' );
+
+			if ( itemsSelected.length > 0 ) {
+				return;
+			}
+		}
+		event.preventDefault();
+		event.stopPropagation();
+		$( 'html, body' ).animate( { scrollTop: 0 } );
+
+		var errorMessage = __( 'Please select at least one item to perform this action on.' );
+		addAdminNotice( {
+			id: 'no-items-selected',
+			type: 'error',
+			message: errorMessage,
+			dismissible: true,
+		} );
+
+		wp.a11y.speak( errorMessage );
+	});
 
 	/**
 	 * Shows row actions on focus of its parent container element or any other elements contained within.
