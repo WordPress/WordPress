@@ -1056,9 +1056,77 @@ function apply_block_hooks_to_content( $content, $context, $callback = 'insert_h
 		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $context, $callback );
 	}
 
-	$blocks = parse_blocks( $content );
+	$block_allows_multiple_instances = array();
+	/*
+	 * Remove hooked blocks from `$hooked_block_types` if they have `multiple` set to false and
+	 * are already present in `$content`.
+	 */
+	foreach ( $hooked_blocks as $anchor_block_type => $relative_positions ) {
+		foreach ( $relative_positions as $relative_position => $hooked_block_types ) {
+			foreach ( $hooked_block_types as $index => $hooked_block_type ) {
+				$hooked_block_type_definition =
+					WP_Block_Type_Registry::get_instance()->get_registered( $hooked_block_type );
 
-	return traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+				$block_allows_multiple_instances[ $hooked_block_type ] =
+					block_has_support( $hooked_block_type_definition, 'multiple', true );
+
+				if (
+					! $block_allows_multiple_instances[ $hooked_block_type ] &&
+					has_block( $hooked_block_type, $content )
+				) {
+					unset( $hooked_blocks[ $anchor_block_type ][ $relative_position ][ $index ] );
+				}
+			}
+			if ( empty( $hooked_blocks[ $anchor_block_type ][ $relative_position ] ) ) {
+				unset( $hooked_blocks[ $anchor_block_type ][ $relative_position ] );
+			}
+		}
+		if ( empty( $hooked_blocks[ $anchor_block_type ] ) ) {
+			unset( $hooked_blocks[ $anchor_block_type ] );
+		}
+	}
+
+	/*
+	 * We also need to cover the case where the hooked block is not present in
+	 * `$content` at first and we're allowed to insert it once -- but not again.
+	 */
+	$suppress_single_instance_blocks = static function ( $hooked_block_types ) use ( &$block_allows_multiple_instances, $content ) {
+		static $single_instance_blocks_present_in_content = array();
+		foreach ( $hooked_block_types as $index => $hooked_block_type ) {
+			if ( ! isset( $block_allows_multiple_instances[ $hooked_block_type ] ) ) {
+				$hooked_block_type_definition =
+					WP_Block_Type_Registry::get_instance()->get_registered( $hooked_block_type );
+
+				$block_allows_multiple_instances[ $hooked_block_type ] =
+					block_has_support( $hooked_block_type_definition, 'multiple', true );
+			}
+
+			if ( $block_allows_multiple_instances[ $hooked_block_type ] ) {
+				continue;
+			}
+
+			// The block doesn't allow multiple instances, so we need to check if it's already present.
+			if (
+				in_array( $hooked_block_type, $single_instance_blocks_present_in_content, true ) ||
+				has_block( $hooked_block_type, $content )
+			) {
+				unset( $hooked_block_types[ $index ] );
+			} else {
+				// We can insert the block once, but need to remember not to insert it again.
+				$single_instance_blocks_present_in_content[] = $hooked_block_type;
+			}
+		}
+		return $hooked_block_types;
+	};
+	add_filter( 'hooked_block_types', $suppress_single_instance_blocks, PHP_INT_MAX );
+	$content = traverse_and_serialize_blocks(
+		parse_blocks( $content ),
+		$before_block_visitor,
+		$after_block_visitor
+	);
+	remove_filter( 'hooked_block_types', $suppress_single_instance_blocks, PHP_INT_MAX );
+
+	return $content;
 }
 
 /**
