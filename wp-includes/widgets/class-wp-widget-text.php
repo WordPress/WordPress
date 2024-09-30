@@ -334,9 +334,6 @@ class WP_Widget_Text extends WP_Widget {
 
 		$text = preg_replace_callback( '#<(video|iframe|object|embed)\s[^>]*>#i', array( $this, 'inject_video_max_width_style' ), $text );
 
-		// Adds 'noopener' relationship, without duplicating values, to all HTML A elements that have a target.
-		$text = wp_targeted_link_rel( $text );
-
 		?>
 			<div class="textwidget"><?php echo $text; ?></div>
 		<?php

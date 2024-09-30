@@ -153,9 +153,6 @@ foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pr
 	add_filter( $filter, 'balanceTags', 50 );
 }
 
-// Add proper rel values for links with target.
-add_action( 'init', 'wp_init_targeted_link_rel_filters' );
-
 // Format strings for display.
 foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description', 'link_notes', 'bloginfo', 'wp_title', 'document_title', 'widget_title' ) as $filter ) {
 	add_filter( $filter, 'wptexturize' );

@@ -288,7 +288,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 			$link .= '>';
 			$link .= $image;
 			$link .= '</a>';
-			$image = wp_targeted_link_rel( $link );
+			$image = $link;
 		}
 
 		if ( $caption ) {

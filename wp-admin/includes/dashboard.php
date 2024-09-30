@@ -1912,7 +1912,7 @@ function wp_dashboard_php_nag() {
 	<p class="button-container">
 		<?php
 		printf(
-			'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+			'<a class="button button-primary" href="%1$s" target="_blank">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 			esc_url( wp_get_update_php_url() ),
 			__( 'Learn more about updating PHP' ),
 			/* translators: Hidden accessibility text. */

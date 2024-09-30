@@ -3294,11 +3294,14 @@ function wp_rel_ugc( $text ) {
  *
  * @since 5.1.0
  * @since 5.6.0 Removed 'noreferrer' relationship.
+ * @deprecated 6.7.0
  *
  * @param string $text Content that may contain HTML A elements.
  * @return string Converted content.
  */
 function wp_targeted_link_rel( $text ) {
+	_deprecated_function( __FUNCTION__, '6.7.0' );
+
 	// Don't run (more expensive) regex if no links with targets.
 	if ( stripos( $text, 'target' ) === false || stripos( $text, '<a ' ) === false || is_serialized( $text ) ) {
 		return $text;
@@ -3332,11 +3335,14 @@ function wp_targeted_link_rel( $text ) {
  *
  * @since 5.1.0
  * @since 5.6.0 Removed 'noreferrer' relationship.
+ * @deprecated 6.7.0
  *
  * @param array $matches Single match.
  * @return string HTML A Element with `rel="noopener"` in addition to any existing values.
  */
 function wp_targeted_link_rel_callback( $matches ) {
+	_deprecated_function( __FUNCTION__, '6.7.0' );
+
 	$link_html          = $matches[1];
 	$original_link_html = $link_html;
 
@@ -3383,46 +3389,20 @@ function wp_targeted_link_rel_callback( $matches ) {
  * Adds all filters modifying the rel attribute of targeted links.
  *
  * @since 5.1.0
+ * @deprecated 6.7.0
  */
 function wp_init_targeted_link_rel_filters() {
-	$filters = array(
-		'title_save_pre',
-		'content_save_pre',
-		'excerpt_save_pre',
-		'content_filtered_save_pre',
-		'pre_comment_content',
-		'pre_term_description',
-		'pre_link_description',
-		'pre_link_notes',
-		'pre_user_description',
-	);
-
-	foreach ( $filters as $filter ) {
-		add_filter( $filter, 'wp_targeted_link_rel' );
-	}
+	_deprecated_function( __FUNCTION__, '6.7.0' );
 }
 
 /**
  * Removes all filters modifying the rel attribute of targeted links.
  *
  * @since 5.1.0
+ * @deprecated 6.7.0
  */
 function wp_remove_targeted_link_rel_filters() {
-	$filters = array(
-		'title_save_pre',
-		'content_save_pre',
-		'excerpt_save_pre',
-		'content_filtered_save_pre',
-		'pre_comment_content',
-		'pre_term_description',
-		'pre_link_description',
-		'pre_link_notes',
-		'pre_user_description',
-	);
-
-	foreach ( $filters as $filter ) {
-		remove_filter( $filter, 'wp_targeted_link_rel' );
-	}
+	_deprecated_function( __FUNCTION__, '6.7.0' );
 }
 
 /**

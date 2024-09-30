@@ -746,7 +746,7 @@ class WP_Site_Health {
 				)
 			),
 			'actions'     => sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				esc_url( wp_get_update_php_url() ),
 				__( 'Learn more about updating PHP' ),
 				/* translators: Hidden accessibility text. */
@@ -892,7 +892,7 @@ class WP_Site_Health {
 					__( 'The WordPress Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook%3$s</a>.' ),
 					/* translators: Localized team handbook, if one exists. */
 					esc_url( __( 'https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions' ) ),
-					'target="_blank" rel="noopener"',
+					'target="_blank"',
 					sprintf(
 						'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
 						/* translators: Hidden accessibility text. */
@@ -1218,7 +1218,7 @@ class WP_Site_Health {
 				__( 'The SQL server is a required piece of software for the database WordPress uses to store all your site&#8217;s content and settings.' )
 			),
 			'actions'     => sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Localized version of WordPress requirements if one exists. */
 				esc_url( __( 'https://wordpress.org/about/requirements/' ) ),
 				__( 'Learn more about what WordPress requires to run.' ),
@@ -1335,7 +1335,7 @@ class WP_Site_Health {
 			);
 
 			$result['actions'] = sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Localized Support reference. */
 				esc_url( __( 'https://wordpress.org/support/forums/' ) ),
 				__( 'Get help resolving this issue.' ),
@@ -1373,7 +1373,7 @@ class WP_Site_Health {
 				__( 'Debug mode is often enabled to gather more details about an error or site failure, but may contain sensitive information which should not be available on a publicly available website.' )
 			),
 			'actions'     => sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Documentation explaining debugging in WordPress. */
 				esc_url( __( 'https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/' ) ),
 				__( 'Learn more about debugging in WordPress.' ),
@@ -1455,7 +1455,7 @@ class WP_Site_Health {
 				__( 'An HTTPS connection is a more secure way of browsing the web. Many services now have HTTPS as a requirement. HTTPS allows you to take advantage of new features that can increase site speed, improve search rankings, and gain the trust of your visitors by helping to protect their online privacy.' )
 			),
 			'actions'     => sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				esc_url( $default_update_url ),
 				__( 'Learn more about why you should use HTTPS' ),
 				/* translators: Hidden accessibility text. */
@@ -1539,7 +1539,7 @@ class WP_Site_Health {
 
 					if ( ! empty( $direct_update_url ) ) {
 						$result['actions'] = sprintf(
-							'<p class="button-container"><a class="button button-primary" href="%1$s" target="_blank" rel="noopener">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+							'<p class="button-container"><a class="button button-primary" href="%1$s" target="_blank">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 							esc_url( $direct_update_url ),
 							__( 'Update your site to use HTTPS' ),
 							/* translators: Hidden accessibility text. */
@@ -1558,7 +1558,7 @@ class WP_Site_Health {
 				$update_url = wp_get_update_https_url();
 				if ( $update_url !== $default_update_url ) {
 					$result['description'] .= sprintf(
-						'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+						'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 						esc_url( $update_url ),
 						__( 'Talk to your web host about supporting HTTPS for your website.' ),
 						/* translators: Hidden accessibility text. */
@@ -2364,7 +2364,7 @@ class WP_Site_Health {
 			);
 		} else {
 			$result['actions'] .= sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				__( 'https://developer.wordpress.org/rest-api/frequently-asked-questions/#why-is-authentication-not-working' ),
 				__( 'Learn how to configure the Authorization header.' ),
 				/* translators: Hidden accessibility text. */
@@ -2397,7 +2397,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'label'       => '',
 			'actions'     => sprintf(
-				'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%1$s" target="_blank" rel="noreferrer">%2$s<span class="screen-reader-text"> %3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				__( 'https://developer.wordpress.org/advanced-administration/performance/optimization/#caching' ),
 				__( 'Learn more about page cache' ),
 				/* translators: Hidden accessibility text. */
@@ -2523,7 +2523,7 @@ class WP_Site_Health {
 				__( 'A persistent object cache makes your site&#8217;s database more efficient, resulting in faster load times because WordPress can retrieve your site&#8217;s content and settings much more quickly.' )
 			),
 			'actions'     => sprintf(
-				'<p><a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				esc_url( $action_url ),
 				__( 'Learn more about persistent object caching.' ),
 				/* translators: Hidden accessibility text. */
@@ -2671,7 +2671,7 @@ class WP_Site_Health {
 
 		$result['actions'] = sprintf(
 			/* translators: 1: HelpHub URL, 2: Link description. */
-			'<p><a target="_blank" rel="noopener" href="%1$s">%2$s</a></p>',
+			'<p><a target="_blank" href="%1$s">%2$s</a></p>',
 			esc_url( __( 'https://developer.wordpress.org/advanced-administration/performance/optimization/#autoloaded-options' ) ),
 			__( 'More info about optimizing autoloaded options' )
 		);

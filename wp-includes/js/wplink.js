@@ -323,7 +323,7 @@
 			var html = '<a href="' + attrs.href + '"';
 
 			if ( attrs.target ) {
-				html += ' rel="noopener" target="' + attrs.target + '"';
+				html += ' target="' + attrs.target + '"';
 			}
 
 			return html + '>';
