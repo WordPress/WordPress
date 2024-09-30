@@ -160,3 +160,20 @@ function register_core_block_types_from_metadata() {
 	}
 }
 add_action( 'init', 'register_core_block_types_from_metadata' );
+
+/**
+ * Registers the core block metadata collection.
+ *
+ * This function is hooked into the 'init' action with a priority of 9,
+ * ensuring that the core block metadata is registered before the regular
+ * block initialization that happens at priority 10.
+ *
+ * @since 6.7.0
+ */
+function wp_register_core_block_metadata_collection() {
+	wp_register_block_metadata_collection(
+		BLOCKS_PATH,
+		BLOCKS_PATH . 'blocks-json.php'
+	);
+}
+add_action( 'init', 'wp_register_core_block_metadata_collection', 9 );
