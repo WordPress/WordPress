@@ -360,10 +360,20 @@
 }
 
 .block-editor-block-list__zoom-out-separator{
+  align-items:center;
   background:#ddd;
+  color:#000;
+  display:flex;
+  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+  font-size:13px;
+  font-weight:400;
+  justify-content:center;
   margin-left:-1px;
   margin-right:-1px;
   transition:background-color .3s ease;
+}
+.is-zoomed-out .block-editor-block-list__zoom-out-separator{
+  font-size:calc(13px*(2 - var(--wp-block-editor-iframe-zoom-out-scale)));
 }
 .block-editor-block-list__zoom-out-separator.is-dragged-over{
   background:#ccc;

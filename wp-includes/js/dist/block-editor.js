@@ -13179,7 +13179,7 @@ const __experimentalGetPatternsByBlockTypes = (0,external_wp_data_namespaceObjec
  * Determines the items that appear in the available pattern transforms list.
  *
  * For now we only handle blocks without InnerBlocks and take into account
- * the `__experimentalRole` property of blocks' attributes for the transformation.
+ * the `role` property of blocks' attributes for the transformation.
  *
  * We return the first set of possible eligible block patterns,
  * by checking the `blockTypes` property. We still have to recurse through
@@ -13198,7 +13198,7 @@ const __experimentalGetPatternTransformItems = (0,external_wp_data_namespaceObje
   }
   /**
    * For now we only handle blocks without InnerBlocks and take into account
-   * the `__experimentalRole` property of blocks' attributes for the transformation.
+   * the `role` property of blocks' attributes for the transformation.
    * Note that the blocks have been retrieved through `getBlock`, which doesn't
    * return the inner blocks of an inner block controller, so we still need
    * to check for this case too.
@@ -13596,7 +13596,10 @@ const getBlockEditingMode = (0,external_wp_data_namespaceObject.createRegistrySe
   const templateLock = getTemplateLock(state, rootClientId);
   if (templateLock === 'contentOnly') {
     const name = getBlockName(state, clientId);
-    const isContent = select(external_wp_blocks_namespaceObject.store).__experimentalHasContentRoleAttribute(name);
+    const {
+      hasContentRoleAttribute
+    } = unlock(select(external_wp_blocks_namespaceObject.store));
+    const isContent = hasContentRoleAttribute(name);
     return isContent ? 'contentOnly' : 'disabled';
   }
   const parentMode = getBlockEditingMode(state, rootClientId);
@@ -35963,18 +35966,22 @@ function LayoutTypeSwitcher({
   type,
   onChange
 }) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ButtonGroup, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControl, {
+    __next40pxDefaultSize: true,
+    isBlock: true,
+    label: (0,external_wp_i18n_namespaceObject.__)('Layout type'),
+    __nextHasNoMarginBottom: true,
+    hideLabelFromVision: true,
+    isAdaptiveWidth: true,
+    value: type,
+    onChange: onChange,
     children: getLayoutTypes().map(({
       name,
       label
     }) => {
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-      // TODO: Switch to `true` (40px size) if possible
-      , {
-        __next40pxDefaultSize: false,
-        isPressed: type === name,
-        onClick: () => onChange(name),
-        children: label
+      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
+        value: name,
+        label: label
       }, name);
     })
   });
@@ -37865,7 +37872,6 @@ function useFocusFirstElement({
     const isReverse = -1 === initialPosition;
     const target = textInputs[isReverse ? textInputs.length - 1 : 0] || ref.current;
     if (!isInsideRootBlock(ref.current, target)) {
-      ownerDocument.defaultView.getSelection().removeAllRanges();
       ref.current.focus();
       return;
     }
@@ -38399,16 +38405,17 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
   const sources = (0,external_wp_data_namespaceObject.useSelect)(select => unlock(select(external_wp_blocks_namespaceObject.store)).getAllBlockBindingsSources());
   const {
     name,
-    clientId
+    clientId,
+    context,
+    setAttributes
   } = props;
-  const hasParentPattern = !!props.context['pattern/overrides'];
-  const hasPatternOverridesDefaultBinding = props.attributes.metadata?.bindings?.[DEFAULT_ATTRIBUTE]?.source === 'core/pattern-overrides';
   const blockBindings = (0,external_wp_element_namespaceObject.useMemo)(() => replacePatternOverrideDefaultBindings(name, props.attributes.metadata?.bindings), [props.attributes.metadata?.bindings, name]);
 
   // While this hook doesn't directly call any selectors, `useSelect` is
   // used purposely here to ensure `boundAttributes` is updated whenever
   // there are attribute updates.
   // `source.getValues` may also call a selector via `registry.select`.
+  const updatedContext = {};
   const boundAttributes = (0,external_wp_data_namespaceObject.useSelect)(() => {
     if (!blockBindings) {
       return;
@@ -38424,6 +38431,11 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
       if (!source || !canBindAttribute(name, attributeName)) {
         continue;
       }
+
+      // Populate context.
+      for (const key of source.usesContext || []) {
+        updatedContext[key] = blockContext[key];
+      }
       blockBindingsBySource.set(source, {
         ...blockBindingsBySource.get(source),
         [attributeName]: {
@@ -38433,14 +38445,6 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
     }
     if (blockBindingsBySource.size) {
       for (const [source, bindings] of blockBindingsBySource) {
-        // Populate context.
-        const context = {};
-        if (source.usesContext?.length) {
-          for (const key of source.usesContext) {
-            context[key] = blockContext[key];
-          }
-        }
-
         // Get values in batch if the source supports it.
         let values = {};
         if (!source.getValues) {
@@ -38451,7 +38455,7 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
         } else {
           values = source.getValues({
             registry,
-            context,
+            context: updatedContext,
             clientId,
             bindings
           });
@@ -38467,10 +38471,9 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
       }
     }
     return attributes;
-  }, [blockBindings, name, clientId, blockContext, registry, sources]);
-  const {
-    setAttributes
-  } = props;
+  }, [blockBindings, name, clientId, updatedContext, registry, sources]);
+  const hasParentPattern = !!updatedContext['pattern/overrides'];
+  const hasPatternOverridesDefaultBinding = props.attributes.metadata?.bindings?.[DEFAULT_ATTRIBUTE]?.source === 'core/pattern-overrides';
   const _setAttributes = (0,external_wp_element_namespaceObject.useCallback)(nextAttributes => {
     registry.batch(() => {
       if (!blockBindings) {
@@ -38503,16 +38506,9 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
       }
       if (blockBindingsBySource.size) {
         for (const [source, bindings] of blockBindingsBySource) {
-          // Populate context.
-          const context = {};
-          if (source.usesContext?.length) {
-            for (const key of source.usesContext) {
-              context[key] = blockContext[key];
-            }
-          }
           source.setValues({
             registry,
-            context,
+            context: updatedContext,
             clientId,
             bindings
           });
@@ -38530,7 +38526,7 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
         setAttributes(keptAttributes);
       }
     });
-  }, [registry, blockBindings, name, clientId, blockContext, setAttributes, sources, hasPatternOverridesDefaultBinding, hasParentPattern]);
+  }, [registry, blockBindings, name, clientId, updatedContext, setAttributes, sources, hasPatternOverridesDefaultBinding, hasParentPattern]);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockEdit, {
       ...props,
@@ -38538,7 +38534,11 @@ const withBlockBindingSupport = (0,external_wp_compose_namespaceObject.createHig
         ...props.attributes,
         ...boundAttributes
       },
-      setAttributes: _setAttributes
+      setAttributes: _setAttributes,
+      context: {
+        ...context,
+        ...updatedContext
+      }
     })
   });
 }, 'withBlockBindingSupport');
@@ -38785,6 +38785,12 @@ use_block_props_useBlockProps.save = external_wp_blocks_namespaceObject.__unstab
 
 
 
+
+
+const {
+  isUnmodifiedBlockContent
+} = unlock(external_wp_blocks_namespaceObject.privateApis);
+
 /**
  * Merges wrapper props with special handling for classNames and styles.
  *
@@ -38793,9 +38799,6 @@ use_block_props_useBlockProps.save = external_wp_blocks_namespaceObject.__unstab
  *
  * @return {Object} Merged props.
  */
-
-
-
 function mergeWrapperProps(propsA, propsB) {
   const newProps = {
     ...propsA,
@@ -39073,14 +39076,32 @@ const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dis
           removeBlock(_clientId);
         } else {
           registry.batch(() => {
-            if (canInsertBlockType(getBlockName(firstClientId), targetRootClientId)) {
+            const firstBlock = getBlock(firstClientId);
+            const isFirstBlockContentUnmodified = isUnmodifiedBlockContent(firstBlock);
+            const defaultBlockName = (0,external_wp_blocks_namespaceObject.getDefaultBlockName)();
+            const replacement = (0,external_wp_blocks_namespaceObject.switchToBlockType)(firstBlock, defaultBlockName);
+            const canTransformToDefaultBlock = !!replacement?.length && replacement.every(block => canInsertBlockType(block.name, _clientId));
+            if (isFirstBlockContentUnmodified && canTransformToDefaultBlock) {
+              // Step 1: If the block is empty and can be transformed to the default block type.
+              replaceBlocks(firstClientId, replacement, changeSelection);
+            } else if (isFirstBlockContentUnmodified && firstBlock.name === defaultBlockName) {
+              // Step 2: If the block is empty and is already the default block type.
+              removeBlock(firstClientId);
+              const nextBlockClientId = getNextBlockClientId(clientId);
+              if (nextBlockClientId) {
+                selectBlock(nextBlockClientId);
+              }
+            } else if (canInsertBlockType(firstBlock.name, targetRootClientId)) {
+              // Step 3: If the block can be moved up.
               moveBlocksToPosition([firstClientId], _clientId, targetRootClientId, getBlockIndex(_clientId));
             } else {
-              const replacement = (0,external_wp_blocks_namespaceObject.switchToBlockType)(getBlock(firstClientId), (0,external_wp_blocks_namespaceObject.getDefaultBlockName)());
-              if (replacement && replacement.length && replacement.every(block => canInsertBlockType(block.name, targetRootClientId))) {
+              const canLiftAndTransformToDefaultBlock = !!replacement?.length && replacement.every(block => canInsertBlockType(block.name, targetRootClientId));
+              if (canLiftAndTransformToDefaultBlock) {
+                // Step 4: If the block can be transformed to the default block type and moved up.
                 insertBlocks(replacement, getBlockIndex(_clientId), targetRootClientId, changeSelection);
                 removeBlock(firstClientId, false);
               } else {
+                // Step 5: Continue the default behavior.
                 switchToDefaultOrRemove();
               }
             }
@@ -41870,6 +41891,7 @@ function ObserveTyping({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -41942,7 +41964,23 @@ function ZoomOutSeparator({
       }),
       "data-is-insertion-point": "true",
       onDragOver: () => setIsDraggedOver(true),
-      onDragLeave: () => setIsDraggedOver(false)
+      onDragLeave: () => setIsDraggedOver(false),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableMotion.div, {
+        initial: {
+          opacity: 0
+        },
+        animate: {
+          opacity: 1
+        },
+        exit: {
+          opacity: 0
+        },
+        transition: {
+          type: 'tween',
+          duration: 0.1
+        },
+        children: (0,external_wp_i18n_namespaceObject.__)('Drop pattern.')
+      })
     })
   });
 }
@@ -42457,248 +42495,6 @@ function useTabNav() {
   return [before, mergedRefs, after];
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/pasting.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Normalizes a given string of HTML to remove the Windows-specific "Fragment"
- * comments and any preceding and trailing content.
- *
- * @param {string} html the html to be normalized
- * @return {string} the normalized html
- */
-function removeWindowsFragments(html) {
-  const startStr = '<!--StartFragment-->';
-  const startIdx = html.indexOf(startStr);
-  if (startIdx > -1) {
-    html = html.substring(startIdx + startStr.length);
-  } else {
-    // No point looking for EndFragment
-    return html;
-  }
-  const endStr = '<!--EndFragment-->';
-  const endIdx = html.indexOf(endStr);
-  if (endIdx > -1) {
-    html = html.substring(0, endIdx);
-  }
-  return html;
-}
-
-/**
- * Removes the charset meta tag inserted by Chromium.
- * See:
- * - https://github.com/WordPress/gutenberg/issues/33585
- * - https://bugs.chromium.org/p/chromium/issues/detail?id=1264616#c4
- *
- * @param {string} html the html to be stripped of the meta tag.
- * @return {string} the cleaned html
- */
-function removeCharsetMetaTag(html) {
-  const metaTag = `<meta charset='utf-8'>`;
-  if (html.startsWith(metaTag)) {
-    return html.slice(metaTag.length);
-  }
-  return html;
-}
-function getPasteEventData({
-  clipboardData
-}) {
-  let plainText = '';
-  let html = '';
-  try {
-    plainText = clipboardData.getData('text/plain');
-    html = clipboardData.getData('text/html');
-  } catch (error) {
-    // Some browsers like UC Browser paste plain text by default and
-    // don't support clipboardData at all, so allow default
-    // behaviour.
-    return;
-  }
-
-  // Remove Windows-specific metadata appended within copied HTML text.
-  html = removeWindowsFragments(html);
-
-  // Strip meta tag.
-  html = removeCharsetMetaTag(html);
-  const files = (0,external_wp_dom_namespaceObject.getFilesFromDataTransfer)(clipboardData);
-  if (files.length && !shouldDismissPastedFiles(files, html)) {
-    return {
-      files
-    };
-  }
-  return {
-    html,
-    plainText,
-    files: []
-  };
-}
-
-/**
- * Given a collection of DataTransfer files and HTML and plain text strings,
- * determine whether the files are to be dismissed in favor of the HTML.
- *
- * Certain office-type programs, like Microsoft Word or Apple Numbers,
- * will, upon copy, generate a screenshot of the content being copied and
- * attach it to the clipboard alongside the actual rich text that the user
- * sought to copy. In those cases, we should let Gutenberg handle the rich text
- * content and not the screenshot, since this allows Gutenberg to insert
- * meaningful blocks, like paragraphs, lists or even tables.
- *
- * @param {File[]} files File objects obtained from a paste event
- * @param {string} html  HTML content obtained from a paste event
- * @return {boolean}     True if the files should be dismissed
- */
-function shouldDismissPastedFiles(files, html /*, plainText */) {
-  // The question is only relevant when there is actual HTML content and when
-  // there is exactly one image file.
-  if (html && files?.length === 1 && files[0].type.indexOf('image/') === 0) {
-    // A single <img> tag found in the HTML source suggests that the
-    // content being pasted revolves around an image. Sometimes there are
-    // other elements found, like <figure>, but we assume that the user's
-    // intention is to paste the actual image file.
-    const IMAGE_TAG = /<\s*img\b/gi;
-    if (html.match(IMAGE_TAG)?.length !== 1) {
-      return true;
-    }
-
-    // Even when there is exactly one <img> tag in the HTML payload, we
-    // choose to weed out local images, i.e. those whose source starts with
-    // "file://". These payloads occur in specific configurations, such as
-    // when copying an entire document from Microsoft Word, that contains
-    // text and exactly one image, and pasting that content using Google
-    // Chrome.
-    const IMG_WITH_LOCAL_SRC = /<\s*img\b[^>]*\bsrc="file:\/\//i;
-    if (html.match(IMG_WITH_LOCAL_SRC)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/utils.js
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-const requiresWrapperOnCopy = Symbol('requiresWrapperOnCopy');
-
-/**
- * Sets the clipboard data for the provided blocks, with both HTML and plain
- * text representations.
- *
- * @param {ClipboardEvent} event    Clipboard event.
- * @param {WPBlock[]}      blocks   Blocks to set as clipboard data.
- * @param {Object}         registry The registry to select from.
- */
-function setClipboardBlocks(event, blocks, registry) {
-  let _blocks = blocks;
-  const [firstBlock] = blocks;
-  if (firstBlock) {
-    const firstBlockType = registry.select(external_wp_blocks_namespaceObject.store).getBlockType(firstBlock.name);
-    if (firstBlockType[requiresWrapperOnCopy]) {
-      const {
-        getBlockRootClientId,
-        getBlockName,
-        getBlockAttributes
-      } = registry.select(store);
-      const wrapperBlockClientId = getBlockRootClientId(firstBlock.clientId);
-      const wrapperBlockName = getBlockName(wrapperBlockClientId);
-      if (wrapperBlockName) {
-        _blocks = (0,external_wp_blocks_namespaceObject.createBlock)(wrapperBlockName, getBlockAttributes(wrapperBlockClientId), _blocks);
-      }
-    }
-  }
-  const serialized = (0,external_wp_blocks_namespaceObject.serialize)(_blocks);
-  event.clipboardData.setData('text/plain', toPlainText(serialized));
-  event.clipboardData.setData('text/html', serialized);
-}
-
-/**
- * Returns the blocks to be pasted from the clipboard event.
- *
- * @param {ClipboardEvent} event                    The clipboard event.
- * @param {boolean}        canUserUseUnfilteredHTML Whether the user can or can't post unfiltered HTML.
- * @return {Array|string} A list of blocks or a string, depending on `handlerMode`.
- */
-function getPasteBlocks(event, canUserUseUnfilteredHTML) {
-  const {
-    plainText,
-    html,
-    files
-  } = getPasteEventData(event);
-  let blocks = [];
-  if (files.length) {
-    const fromTransforms = (0,external_wp_blocks_namespaceObject.getBlockTransforms)('from');
-    blocks = files.reduce((accumulator, file) => {
-      const transformation = (0,external_wp_blocks_namespaceObject.findTransform)(fromTransforms, transform => transform.type === 'files' && transform.isMatch([file]));
-      if (transformation) {
-        accumulator.push(transformation.transform([file]));
-      }
-      return accumulator;
-    }, []).flat();
-  } else {
-    blocks = (0,external_wp_blocks_namespaceObject.pasteHandler)({
-      HTML: html,
-      plainText,
-      mode: 'BLOCKS',
-      canUserUseUnfilteredHTML
-    });
-  }
-  return blocks;
-}
-
-/**
- * Given a string of HTML representing serialized blocks, returns the plain
- * text extracted after stripping the HTML of any tags and fixing line breaks.
- *
- * @param {string} html Serialized blocks.
- * @return {string} The plain-text content with any html removed.
- */
-function toPlainText(html) {
-  // Manually handle BR tags as line breaks prior to `stripHTML` call
-  html = html.replace(/<br>/g, '\n');
-  const plainText = (0,external_wp_dom_namespaceObject.__unstableStripHTML)(html).trim();
-
-  // Merge any consecutive line breaks
-  return plainText.replace(/\n\n+/g, '\n\n');
-}
-
-/**
- * Gets the current content editable root element based on the selection.
- * @param {Document} ownerDocument
- * @return {Element|undefined} The content editable root element.
- */
-function getSelectionRoot(ownerDocument) {
-  const {
-    defaultView
-  } = ownerDocument;
-  const {
-    anchorNode,
-    focusNode
-  } = defaultView.getSelection();
-  if (!anchorNode || !focusNode) {
-    return;
-  }
-  const anchorElement = (anchorNode.nodeType === anchorNode.ELEMENT_NODE ? anchorNode : anchorNode.parentElement).closest('[contenteditable]');
-  if (!anchorElement) {
-    return;
-  }
-  if (!anchorElement.contains(focusNode)) {
-    return;
-  }
-  return anchorElement;
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/use-arrow-nav.js
 /**
  * WordPress dependencies
@@ -42711,7 +42507,6 @@ function getSelectionRoot(ownerDocument) {
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -42842,6 +42637,7 @@ function useArrowNav() {
       }
       const {
         keyCode,
+        target,
         shiftKey,
         ctrlKey,
         altKey,
@@ -42887,7 +42683,6 @@ function useArrowNav() {
         }
         return;
       }
-      const target = ownerDocument.activeElement === node ? getSelectionRoot(ownerDocument) : event.target;
 
       // Abort if our current target is not a candidate for navigation
       // (e.g. preserve native input behaviors).
@@ -42924,7 +42719,6 @@ function useArrowNav() {
       // When Alt is pressed, only intercept if the caret is also at
       // the horizontal edge.
       altKey ? (0,external_wp_dom_namespaceObject.isHorizontalEdge)(target, isReverseDir) : true) && !keepCaretInsideBlock) {
-        node.contentEditable = false;
         const closestTabbable = getClosestTabbable(target, isReverse, node, true);
         if (closestTabbable) {
           (0,external_wp_dom_namespaceObject.placeCaretAtVerticalEdge)(closestTabbable,
@@ -42934,7 +42728,6 @@ function useArrowNav() {
           event.preventDefault();
         }
       } else if (isHorizontal && defaultView.getSelection().isCollapsed && (0,external_wp_dom_namespaceObject.isHorizontalEdge)(target, isReverseDir) && !keepCaretInsideBlock) {
-        node.contentEditable = false;
         const closestTabbable = getClosestTabbable(target, isReverseDir, node);
         (0,external_wp_dom_namespaceObject.placeCaretAtHorizontalEdge)(closestTabbable, isReverse);
         event.preventDefault();
@@ -42962,7 +42755,6 @@ function useArrowNav() {
  * Internal dependencies
  */
 
-
 function useSelectAll() {
   const {
     getBlockOrder,
@@ -42979,19 +42771,8 @@ function useSelectAll() {
       if (!isMatch('core/block-editor/select-all', event)) {
         return;
       }
-      const selectionRoot = getSelectionRoot(node.ownerDocument);
       const selectedClientIds = getSelectedBlockClientIds();
-
-      // Abort if there is selection, but it is not within a block.
-      if (selectionRoot && !selectedClientIds.length) {
-        return;
-      }
-      if (selectionRoot && selectedClientIds.length < 2 && !(0,external_wp_dom_namespaceObject.isEntirelySelected)(selectionRoot)) {
-        if (node === node.ownerDocument.activeElement) {
-          event.preventDefault();
-          node.ownerDocument.defaultView.getSelection().selectAllChildren(selectionRoot);
-          return;
-        }
+      if (selectedClientIds.length < 2 && !(0,external_wp_dom_namespaceObject.isEntirelySelected)(event.target)) {
         return;
       }
       event.preventDefault();
@@ -43004,7 +42785,6 @@ function useSelectAll() {
       if (selectedClientIds.length === blockClientIds.length) {
         if (rootClientId) {
           node.ownerDocument.defaultView.getSelection().removeAllRanges();
-          node.contentEditable = 'false';
           selectBlock(rootClientId);
         }
         return;
@@ -43282,8 +43062,7 @@ function useSelectionObserver() {
   const {
     getBlockParents,
     getBlockSelectionStart,
-    isMultiSelecting,
-    getSelectedBlockClientId
+    isMultiSelecting
   } = (0,external_wp_data_namespaceObject.useSelect)(store);
   return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
     const {
@@ -43346,13 +43125,10 @@ function useSelectionObserver() {
         use_selection_observer_setContentEditableWrapper(node, false);
         return;
       }
-      use_selection_observer_setContentEditableWrapper(node, !!(startClientId && endClientId));
       const isSingularSelection = startClientId === endClientId;
       if (isSingularSelection) {
         if (!isMultiSelecting()) {
-          if (getSelectedBlockClientId() !== startClientId) {
-            selectBlock(startClientId);
-          }
+          selectBlock(startClientId);
         } else {
           multiSelect(startClientId, startClientId);
         }
@@ -43474,7 +43250,6 @@ function useClickSelection() {
  */
 
 
-
 /**
  * Handles input for selections across blocks.
  */
@@ -43506,22 +43281,7 @@ function useInput() {
       // DOM. This will cause React errors (and the DOM should only be
       // altered in a controlled fashion).
       if (node.contentEditable === 'true') {
-        const selection = node.ownerDocument.defaultView.getSelection();
-        const range = selection.rangeCount ? selection.getRangeAt(0) : null;
-        const root = getSelectionRoot(node.ownerDocument);
-
-        // If selection is contained within a nested editable, allow
-        // input. We need to ensure that selection is maintained.
-        if (root) {
-          node.contentEditable = false;
-          root.focus();
-          selection.removeAllRanges();
-          if (range) {
-            selection.addRange(range);
-          }
-        } else {
-          event.preventDefault();
-        }
+        event.preventDefault();
       }
     }
     function onKeyDown(event) {
@@ -43529,20 +43289,6 @@ function useInput() {
         return;
       }
       if (!hasMultiSelection()) {
-        const {
-          ownerDocument
-        } = node;
-        if (node === ownerDocument.activeElement) {
-          if (event.key === 'End' || event.key === 'Home') {
-            const selectionRoot = getSelectionRoot(ownerDocument);
-            const selection = ownerDocument.defaultView.getSelection();
-            selection.selectAllChildren(selectionRoot);
-            const method = event.key === 'End' ? 'collapseToEnd' : 'collapseToStart';
-            selection[method]();
-            event.preventDefault();
-            return;
-          }
-        }
         if (event.keyCode === external_wp_keycodes_namespaceObject.ENTER) {
           if (event.shiftKey || __unstableIsFullySelected()) {
             return;
@@ -43684,6 +43430,222 @@ function useNotifyCopy() {
       type: 'snackbar'
     });
   }, []);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/pasting.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Normalizes a given string of HTML to remove the Windows-specific "Fragment"
+ * comments and any preceding and trailing content.
+ *
+ * @param {string} html the html to be normalized
+ * @return {string} the normalized html
+ */
+function removeWindowsFragments(html) {
+  const startStr = '<!--StartFragment-->';
+  const startIdx = html.indexOf(startStr);
+  if (startIdx > -1) {
+    html = html.substring(startIdx + startStr.length);
+  } else {
+    // No point looking for EndFragment
+    return html;
+  }
+  const endStr = '<!--EndFragment-->';
+  const endIdx = html.indexOf(endStr);
+  if (endIdx > -1) {
+    html = html.substring(0, endIdx);
+  }
+  return html;
+}
+
+/**
+ * Removes the charset meta tag inserted by Chromium.
+ * See:
+ * - https://github.com/WordPress/gutenberg/issues/33585
+ * - https://bugs.chromium.org/p/chromium/issues/detail?id=1264616#c4
+ *
+ * @param {string} html the html to be stripped of the meta tag.
+ * @return {string} the cleaned html
+ */
+function removeCharsetMetaTag(html) {
+  const metaTag = `<meta charset='utf-8'>`;
+  if (html.startsWith(metaTag)) {
+    return html.slice(metaTag.length);
+  }
+  return html;
+}
+function getPasteEventData({
+  clipboardData
+}) {
+  let plainText = '';
+  let html = '';
+  try {
+    plainText = clipboardData.getData('text/plain');
+    html = clipboardData.getData('text/html');
+  } catch (error) {
+    // Some browsers like UC Browser paste plain text by default and
+    // don't support clipboardData at all, so allow default
+    // behaviour.
+    return;
+  }
+
+  // Remove Windows-specific metadata appended within copied HTML text.
+  html = removeWindowsFragments(html);
+
+  // Strip meta tag.
+  html = removeCharsetMetaTag(html);
+  const files = (0,external_wp_dom_namespaceObject.getFilesFromDataTransfer)(clipboardData);
+  if (files.length && !shouldDismissPastedFiles(files, html)) {
+    return {
+      files
+    };
+  }
+  return {
+    html,
+    plainText,
+    files: []
+  };
+}
+
+/**
+ * Given a collection of DataTransfer files and HTML and plain text strings,
+ * determine whether the files are to be dismissed in favor of the HTML.
+ *
+ * Certain office-type programs, like Microsoft Word or Apple Numbers,
+ * will, upon copy, generate a screenshot of the content being copied and
+ * attach it to the clipboard alongside the actual rich text that the user
+ * sought to copy. In those cases, we should let Gutenberg handle the rich text
+ * content and not the screenshot, since this allows Gutenberg to insert
+ * meaningful blocks, like paragraphs, lists or even tables.
+ *
+ * @param {File[]} files File objects obtained from a paste event
+ * @param {string} html  HTML content obtained from a paste event
+ * @return {boolean}     True if the files should be dismissed
+ */
+function shouldDismissPastedFiles(files, html /*, plainText */) {
+  // The question is only relevant when there is actual HTML content and when
+  // there is exactly one image file.
+  if (html && files?.length === 1 && files[0].type.indexOf('image/') === 0) {
+    // A single <img> tag found in the HTML source suggests that the
+    // content being pasted revolves around an image. Sometimes there are
+    // other elements found, like <figure>, but we assume that the user's
+    // intention is to paste the actual image file.
+    const IMAGE_TAG = /<\s*img\b/gi;
+    if (html.match(IMAGE_TAG)?.length !== 1) {
+      return true;
+    }
+
+    // Even when there is exactly one <img> tag in the HTML payload, we
+    // choose to weed out local images, i.e. those whose source starts with
+    // "file://". These payloads occur in specific configurations, such as
+    // when copying an entire document from Microsoft Word, that contains
+    // text and exactly one image, and pasting that content using Google
+    // Chrome.
+    const IMG_WITH_LOCAL_SRC = /<\s*img\b[^>]*\bsrc="file:\/\//i;
+    if (html.match(IMG_WITH_LOCAL_SRC)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/utils.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+const requiresWrapperOnCopy = Symbol('requiresWrapperOnCopy');
+
+/**
+ * Sets the clipboard data for the provided blocks, with both HTML and plain
+ * text representations.
+ *
+ * @param {ClipboardEvent} event    Clipboard event.
+ * @param {WPBlock[]}      blocks   Blocks to set as clipboard data.
+ * @param {Object}         registry The registry to select from.
+ */
+function setClipboardBlocks(event, blocks, registry) {
+  let _blocks = blocks;
+  const [firstBlock] = blocks;
+  if (firstBlock) {
+    const firstBlockType = registry.select(external_wp_blocks_namespaceObject.store).getBlockType(firstBlock.name);
+    if (firstBlockType[requiresWrapperOnCopy]) {
+      const {
+        getBlockRootClientId,
+        getBlockName,
+        getBlockAttributes
+      } = registry.select(store);
+      const wrapperBlockClientId = getBlockRootClientId(firstBlock.clientId);
+      const wrapperBlockName = getBlockName(wrapperBlockClientId);
+      if (wrapperBlockName) {
+        _blocks = (0,external_wp_blocks_namespaceObject.createBlock)(wrapperBlockName, getBlockAttributes(wrapperBlockClientId), _blocks);
+      }
+    }
+  }
+  const serialized = (0,external_wp_blocks_namespaceObject.serialize)(_blocks);
+  event.clipboardData.setData('text/plain', toPlainText(serialized));
+  event.clipboardData.setData('text/html', serialized);
+}
+
+/**
+ * Returns the blocks to be pasted from the clipboard event.
+ *
+ * @param {ClipboardEvent} event                    The clipboard event.
+ * @param {boolean}        canUserUseUnfilteredHTML Whether the user can or can't post unfiltered HTML.
+ * @return {Array|string} A list of blocks or a string, depending on `handlerMode`.
+ */
+function getPasteBlocks(event, canUserUseUnfilteredHTML) {
+  const {
+    plainText,
+    html,
+    files
+  } = getPasteEventData(event);
+  let blocks = [];
+  if (files.length) {
+    const fromTransforms = (0,external_wp_blocks_namespaceObject.getBlockTransforms)('from');
+    blocks = files.reduce((accumulator, file) => {
+      const transformation = (0,external_wp_blocks_namespaceObject.findTransform)(fromTransforms, transform => transform.type === 'files' && transform.isMatch([file]));
+      if (transformation) {
+        accumulator.push(transformation.transform([file]));
+      }
+      return accumulator;
+    }, []).flat();
+  } else {
+    blocks = (0,external_wp_blocks_namespaceObject.pasteHandler)({
+      HTML: html,
+      plainText,
+      mode: 'BLOCKS',
+      canUserUseUnfilteredHTML
+    });
+  }
+  return blocks;
+}
+
+/**
+ * Given a string of HTML representing serialized blocks, returns the plain
+ * text extracted after stripping the HTML of any tags and fixing line breaks.
+ *
+ * @param {string} html Serialized blocks.
+ * @return {string} The plain-text content with any html removed.
+ */
+function toPlainText(html) {
+  // Manually handle BR tags as line breaks prior to `stripHTML` call
+  html = html.replace(/<br>/g, '\n');
+  const plainText = (0,external_wp_dom_namespaceObject.__unstableStripHTML)(html).trim();
+
+  // Merge any consecutive line breaks
+  return plainText.replace(/\n\n+/g, '\n\n');
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/use-clipboard-handler.js
@@ -43884,67 +43846,6 @@ function useClipboardHandler() {
   }, []);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/use-event-redirect.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Whenever content editable is enabled on writing flow, it will have focus, so
- * we need to dispatch some events to the root of the selection to ensure
- * compatibility with rich text. In the future, perhaps the rich text event
- * handlers should be attached to the window instead.
- *
- * Alternatively, we could try to find a way to always maintain rich text focus.
- */
-function useEventRedirect() {
-  return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
-    function onInput(event) {
-      if (event.target !== node) {
-        return;
-      }
-      const {
-        ownerDocument
-      } = node;
-      const {
-        defaultView
-      } = ownerDocument;
-      const prototype = Object.getPrototypeOf(event);
-      const constructorName = prototype.constructor.name;
-      const Constructor = defaultView[constructorName];
-      const root = getSelectionRoot(ownerDocument);
-      if (!root || root === node) {
-        return;
-      }
-      const init = {};
-      for (const key in event) {
-        init[key] = event[key];
-      }
-      init.bubbles = false;
-      const newEvent = new Constructor(event.type, init);
-      const cancelled = !root.dispatchEvent(newEvent);
-      if (cancelled) {
-        event.preventDefault();
-      }
-    }
-    const events = ['beforeinput', 'input', 'compositionstart', 'compositionend', 'compositionupdate', 'keydown'];
-    events.forEach(eventType => {
-      node.addEventListener(eventType, onInput);
-    });
-    return () => {
-      events.forEach(eventType => {
-        node.removeEventListener(eventType, onInput);
-      });
-    };
-  }, []);
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/index.js
 /**
  * External dependencies
@@ -43975,7 +43876,6 @@ function useEventRedirect() {
 
 
 
-
 function useWritingFlow() {
   const [before, ref, after] = useTabNav();
   const hasMultiSelection = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).hasMultiSelection(), []);
@@ -43990,7 +43890,7 @@ function useWritingFlow() {
       node.classList.remove('has-multi-selection');
       node.removeAttribute('aria-label');
     };
-  }, [hasMultiSelection]), useEventRedirect()]), after];
+  }, [hasMultiSelection])]), after];
 }
 function WritingFlow({
   children,
@@ -54623,7 +54523,7 @@ const getMatchingBlockByName = (block, selectedBlockName, consumedBlocks = new S
  * @return {Object} The block's attributes to retain.
  */
 const getRetainedBlockAttributes = (name, attributes) => {
-  const contentAttributes = (0,external_wp_blocks_namespaceObject.__experimentalGetBlockAttributesNamesByRole)(name, 'content');
+  const contentAttributes = (0,external_wp_blocks_namespaceObject.getBlockAttributesNamesByRole)(name, 'content');
   if (!contentAttributes?.length) {
     return attributes;
   }
@@ -62822,13 +62722,15 @@ function HeadingLevelDropdown({
   value,
   onChange
 }) {
+  const validOptions = options.filter(option => option === 0 || HEADING_LEVELS.includes(option)).sort((a, b) => a - b); // Sorts numerically in ascending order;
+
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarDropdownMenu, {
     popoverProps: block_heading_level_dropdown_POPOVER_PROPS,
     icon: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(HeadingLevelIcon, {
       level: value
     }),
     label: (0,external_wp_i18n_namespaceObject.__)('Change level'),
-    controls: options.map(targetLevel => {
+    controls: validOptions.map(targetLevel => {
       const isActive = targetLevel === value;
       return {
         icon: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(HeadingLevelIcon, {
@@ -63248,6 +63150,7 @@ const BlockPatternSetup = ({
 
 
 
+
 function VariationsButtons({
   className,
   onSelectVariation,
@@ -63355,8 +63258,7 @@ function __experimentalBlockVariationTransforms({
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getActiveBlockVariation,
-      getBlockVariations,
-      __experimentalHasContentRoleAttribute
+      getBlockVariations
     } = select(external_wp_blocks_namespaceObject.store);
     const {
       getBlockName,
@@ -63364,7 +63266,10 @@ function __experimentalBlockVariationTransforms({
       getBlockEditingMode
     } = select(store);
     const name = blockClientId && getBlockName(blockClientId);
-    const isContentBlock = __experimentalHasContentRoleAttribute(name);
+    const {
+      hasContentRoleAttribute
+    } = unlock(select(external_wp_blocks_namespaceObject.store));
+    const isContentBlock = hasContentRoleAttribute(name);
     return {
       activeBlockVariation: getActiveBlockVariation(name, getBlockAttributes(blockClientId)),
       variations: name && getBlockVariations(name, 'transform'),
@@ -67327,21 +67232,10 @@ function createLinkInParagraph(url, onReplace) {
       preserveWhiteSpace,
       pastePlainText
     } = props.current;
-    const {
-      ownerDocument
-    } = element;
-    const {
-      defaultView
-    } = ownerDocument;
-    const {
-      anchorNode,
-      focusNode
-    } = defaultView.getSelection();
-    const containsSelection = element.contains(anchorNode) && element.contains(focusNode);
 
     // The event listener is attached to the window, so we need to check if
-    // the target is the element.
-    if (!containsSelection) {
+    // the target is the element or inside the element.
+    if (!element.contains(event.target)) {
       return;
     }
     if (event.defaultPrevented) {
@@ -68068,7 +67962,8 @@ function RichTextWrapper({
   } = (0,external_wp_data_namespaceObject.useSelect)(selector, [clientId, identifier, instanceId, originalIsSelected, isBlockSelected]);
   const {
     disableBoundBlock,
-    bindingsPlaceholder
+    bindingsPlaceholder,
+    bindingsLabel
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     var _fieldsList$relatedBi;
     if (!blockBindings?.[identifier] || !canBindBlock(blockName)) {
@@ -68079,21 +67974,44 @@ function RichTextWrapper({
       getBlockBindingsSource
     } = unlock(select(external_wp_blocks_namespaceObject.store));
     const blockBindingsSource = getBlockBindingsSource(relatedBinding.source);
+    const blockBindingsContext = {};
+    if (blockBindingsSource?.usesContext?.length) {
+      for (const key of blockBindingsSource.usesContext) {
+        blockBindingsContext[key] = blockContext[key];
+      }
+    }
+    const _disableBoundBlock = !blockBindingsSource?.canUserEditValue?.({
+      registry,
+      context: blockBindingsContext,
+      args: relatedBinding.args
+    });
+
+    // Don't modify placeholders if value is not empty.
+    if (adjustedValue.length > 0) {
+      return {
+        disableBoundBlock: _disableBoundBlock,
+        // Null values will make them fall back to the default behavior.
+        bindingsPlaceholder: null,
+        bindingsLabel: null
+      };
+    }
+    const {
+      getBlockAttributes
+    } = select(store);
+    const blockAttributes = getBlockAttributes(clientId);
     const fieldsList = blockBindingsSource?.getFieldsList?.({
       registry,
-      context: blockContext
-    });
-    const _disableBoundBlock = !blockBindingsSource?.canUserEditValue?.({
-      select,
-      context: blockContext,
-      args: relatedBinding.args
+      context: blockBindingsContext
     });
     const bindingKey = (_fieldsList$relatedBi = fieldsList?.[relatedBinding?.args?.key]?.label) !== null && _fieldsList$relatedBi !== void 0 ? _fieldsList$relatedBi : blockBindingsSource?.label;
     const _bindingsPlaceholder = _disableBoundBlock ? bindingKey : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: connected field label or source label */
     (0,external_wp_i18n_namespaceObject.__)('Add %s'), bindingKey);
+    const _bindingsLabel = _disableBoundBlock ? relatedBinding?.args?.key || blockBindingsSource?.label : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: source label or key */
+    (0,external_wp_i18n_namespaceObject.__)('Empty %s; start writing to edit its value'), relatedBinding?.args?.key || blockBindingsSource?.label);
     return {
       disableBoundBlock: _disableBoundBlock,
-      bindingsPlaceholder: (!adjustedValue || adjustedValue.length === 0) && _bindingsPlaceholder
+      bindingsPlaceholder: blockAttributes?.placeholder || _bindingsPlaceholder,
+      bindingsLabel: _bindingsLabel
     };
   }, [blockBindings, identifier, blockName, blockContext, registry, adjustedValue]);
   const shouldDisableEditing = readOnly || disableBoundBlock;
@@ -68209,17 +68127,7 @@ function RichTextWrapper({
   const keyboardShortcuts = (0,external_wp_element_namespaceObject.useRef)(new Set());
   const inputEvents = (0,external_wp_element_namespaceObject.useRef)(new Set());
   function onFocus() {
-    let element = anchorRef.current;
-    if (!element) {
-      return;
-    }
-
-    // Writing flow might be editable, so we should make sure focus goes to
-    // the root editable element.
-    while (element.parentElement?.isContentEditable) {
-      element = element.parentElement;
-    }
-    element.focus();
+    anchorRef.current?.focus();
   }
   const TagName = tagName;
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
@@ -68252,7 +68160,7 @@ function RichTextWrapper({
       "aria-multiline": !disableLineBreaks,
       "aria-readonly": shouldDisableEditing,
       ...props,
-      "aria-label": bindingsPlaceholder || props['aria-label'] || placeholder,
+      "aria-label": bindingsLabel || props['aria-label'] || placeholder,
       ...autocompleteProps,
       ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([
       // Rich text ref must be first because its focus listener

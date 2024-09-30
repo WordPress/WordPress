@@ -888,8 +888,8 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   border-bottom:1px solid #ddd;
   box-sizing:border-box;
   height:60px;
-  padding-left:8px;
-  padding-right:8px;
+  padding-left:16px;
+  padding-right:16px;
 }
 
 .entities-saved-states__text-prompt{

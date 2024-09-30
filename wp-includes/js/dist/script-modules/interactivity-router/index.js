@@ -1,6 +1,38 @@
 import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "@wordpress/interactivity";
-/******/ // The require scope
-/******/ var __webpack_require__ = {};
+/******/ var __webpack_modules__ = ({
+
+/***/ 317:
+/***/ ((module) => {
+
+module.exports = import("@wordpress/a11y");;
+
+/***/ })
+
+/******/ });
+/************************************************************************/
+/******/ // The module cache
+/******/ var __webpack_module_cache__ = {};
+/******/ 
+/******/ // The require function
+/******/ function __webpack_require__(moduleId) {
+/******/ 	// Check if module is in cache
+/******/ 	var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 	if (cachedModule !== undefined) {
+/******/ 		return cachedModule.exports;
+/******/ 	}
+/******/ 	// Create a new module (and put it into the cache)
+/******/ 	var module = __webpack_module_cache__[moduleId] = {
+/******/ 		// no module.id needed
+/******/ 		// no module.loaded needed
+/******/ 		exports: {}
+/******/ 	};
+/******/ 
+/******/ 	// Execute the module function
+/******/ 	__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 
+/******/ 	// Return the exports of the module
+/******/ 	return module.exports;
+/******/ }
 /******/ 
 /************************************************************************/
 /******/ /* webpack/runtime/define property getters */
@@ -22,6 +54,8 @@ import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "
 /******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
@@ -201,8 +235,7 @@ const {
     url: window.location.href,
     navigation: {
       hasStarted: false,
-      hasFinished: false,
-      message: ''
+      hasFinished: false
     }
   },
   actions: {
@@ -351,26 +384,32 @@ function a11ySpeak(messageKey) {
       } catch {}
     } else {
       // Fallback to localized strings from Interactivity API state.
+      // @todo This block is for Core < 6.7.0. Remove when support is dropped.
+
+      // @ts-expect-error
       if (state.navigation.texts?.loading) {
+        // @ts-expect-error
         navigationTexts.loading = state.navigation.texts.loading;
       }
+      // @ts-expect-error
       if (state.navigation.texts?.loaded) {
+        // @ts-expect-error
         navigationTexts.loaded = state.navigation.texts.loaded;
       }
     }
   }
   const message = navigationTexts[messageKey];
-  if (false) {} else {
-    state.navigation.message =
-    // Announce that the page has been loaded. If the message is the
-    // same, we use a no-break space similar to the @wordpress/a11y
-    // package: https://github.com/WordPress/gutenberg/blob/c395242b8e6ee20f8b06c199e4fc2920d7018af1/packages/a11y/src/filter-message.js#L20-L26
-    message + (state.navigation.message === message ? '\u00A0' : '');
-  }
+  Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 317)).then(({
+    speak
+  }) => speak(message),
+  // Ignore failures to load the a11y module.
+  () => {});
 }
 
 // Add click and prefetch to all links.
 if (false) {}
+
+})();
 
 var __webpack_exports__actions = __webpack_exports__.o;
 var __webpack_exports__state = __webpack_exports__.w;

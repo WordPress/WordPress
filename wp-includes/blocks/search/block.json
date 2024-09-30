@@ -10,7 +10,7 @@
 	"attributes": {
 		"label": {
 			"type": "string",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"showLabel": {
 			"type": "boolean",
@@ -19,7 +19,7 @@
 		"placeholder": {
 			"type": "string",
 			"default": "",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"width": {
 			"type": "number"
@@ -29,7 +29,7 @@
 		},
 		"buttonText": {
 			"type": "string",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"buttonPosition": {
 			"type": "string",

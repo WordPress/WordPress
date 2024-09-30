@@ -26,34 +26,34 @@
 			"source": "attribute",
 			"selector": "a",
 			"attribute": "href",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"title": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "a,button",
 			"attribute": "title",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"text": {
 			"type": "rich-text",
 			"source": "rich-text",
 			"selector": "a,button",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"linkTarget": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "a",
 			"attribute": "target",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"rel": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "a",
 			"attribute": "rel",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"placeholder": {
 			"type": "string"

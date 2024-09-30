@@ -34,7 +34,7 @@
 		},
 		"label": {
 			"type": "string",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"showLabel": {
 			"type": "boolean",

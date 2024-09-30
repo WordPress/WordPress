@@ -72,24 +72,24 @@
     'attributes' => array(
       'blob' => array(
         'type' => 'string',
-        '__experimentalRole' => 'local'
+        'role' => 'local'
       ),
       'src' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'audio',
         'attribute' => 'src',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'caption' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'figcaption',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'id' => array(
         'type' => 'number',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'autoplay' => array(
         'type' => 'boolean',
@@ -265,34 +265,34 @@
         'source' => 'attribute',
         'selector' => 'a',
         'attribute' => 'href',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'title' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'a,button',
         'attribute' => 'title',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'text' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'a,button',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'linkTarget' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'a',
         'attribute' => 'target',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'rel' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'a',
         'attribute' => 'rel',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'placeholder' => array(
         'type' => 'string'
@@ -555,7 +555,7 @@
       ),
       'label' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'showLabel' => array(
         'type' => 'boolean',
@@ -1849,21 +1849,21 @@
     'attributes' => array(
       'url' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'caption' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'figcaption',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'type' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'providerNameSlug' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'allowResponsive' => array(
         'type' => 'boolean',
@@ -1872,12 +1872,12 @@
       'responsive' => array(
         'type' => 'boolean',
         'default' => false,
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'previewable' => array(
         'type' => 'boolean',
         'default' => true,
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       )
     ),
     'supports' => array(
@@ -1911,7 +1911,7 @@
       ),
       'blob' => array(
         'type' => 'string',
-        '__experimentalRole' => 'local'
+        'role' => 'local'
       ),
       'href' => array(
         'type' => 'string'
@@ -2395,7 +2395,7 @@
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'h1,h2,h3,h4,h5,h6',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'level' => array(
         'type' => 'number',
@@ -2563,14 +2563,14 @@
     'attributes' => array(
       'blob' => array(
         'type' => 'string',
-        '__experimentalRole' => 'local'
+        'role' => 'local'
       ),
       'url' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'img',
         'attribute' => 'src',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'alt' => array(
         'type' => 'string',
@@ -2578,13 +2578,13 @@
         'selector' => 'img',
         'attribute' => 'alt',
         'default' => '',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'caption' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'figcaption',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'lightbox' => array(
         'type' => 'object',
@@ -2597,14 +2597,14 @@
         'source' => 'attribute',
         'selector' => 'img',
         'attribute' => 'title',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'href' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'figure > a',
         'attribute' => 'href',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'rel' => array(
         'type' => 'string',
@@ -2620,7 +2620,7 @@
       ),
       'id' => array(
         'type' => 'number',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'width' => array(
         'type' => 'string'
@@ -2945,7 +2945,7 @@
       'ordered' => array(
         'type' => 'boolean',
         'default' => false,
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'values' => array(
         'type' => 'string',
@@ -2957,7 +2957,7 @@
           'ul'
         ),
         'default' => '',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'type' => array(
         'type' => 'string'
@@ -3045,7 +3045,7 @@
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'li',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       )
     ),
     'supports' => array(
@@ -3186,7 +3186,7 @@
         'selector' => 'figure img',
         'attribute' => 'alt',
         'default' => '',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'mediaPosition' => array(
         'type' => 'string',
@@ -3194,14 +3194,14 @@
       ),
       'mediaId' => array(
         'type' => 'number',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'mediaUrl' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'figure video,figure img',
         'attribute' => 'src',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'mediaLink' => array(
         'type' => 'string'
@@ -3220,7 +3220,7 @@
         'source' => 'attribute',
         'selector' => 'figure a',
         'attribute' => 'href',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'rel' => array(
         'type' => 'string',
@@ -3236,7 +3236,7 @@
       ),
       'mediaType' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'mediaWidth' => array(
         'type' => 'number',
@@ -3893,7 +3893,7 @@
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'p',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'dropCap' => array(
         'type' => 'boolean',
@@ -4920,7 +4920,7 @@
         'source' => 'rich-text',
         'selector' => 'pre',
         '__unstablePreserveWhiteSpace' => true,
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       )
     ),
     'supports' => array(
@@ -4980,13 +4980,13 @@
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'p',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'citation' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'cite',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'textAlign' => array(
         'type' => 'string'
@@ -5499,13 +5499,13 @@
         'selector' => 'blockquote',
         'multiline' => 'p',
         'default' => '',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'citation' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'cite',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'textAlign' => array(
         'type' => 'string'
@@ -5729,7 +5729,7 @@
     'attributes' => array(
       'label' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'showLabel' => array(
         'type' => 'boolean',
@@ -5738,7 +5738,7 @@
       'placeholder' => array(
         'type' => 'string',
         'default' => '',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'width' => array(
         'type' => 'number'
@@ -5748,7 +5748,7 @@
       ),
       'buttonText' => array(
         'type' => 'string',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'buttonPosition' => array(
         'type' => 'string',
@@ -6818,7 +6818,7 @@
         'source' => 'rich-text',
         'selector' => 'pre',
         '__unstablePreserveWhiteSpace' => true,
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'textAlign' => array(
         'type' => 'string'
@@ -6904,7 +6904,7 @@
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'figcaption',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'controls' => array(
         'type' => 'boolean',
@@ -6915,7 +6915,7 @@
       ),
       'id' => array(
         'type' => 'number',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'loop' => array(
         'type' => 'boolean',
@@ -6944,14 +6944,14 @@
       ),
       'blob' => array(
         'type' => 'string',
-        '__experimentalRole' => 'local'
+        'role' => 'local'
       ),
       'src' => array(
         'type' => 'string',
         'source' => 'attribute',
         'selector' => 'video',
         'attribute' => 'src',
-        '__experimentalRole' => 'content'
+        'role' => 'content'
       ),
       'playsInline' => array(
         'type' => 'boolean',
@@ -6960,7 +6960,7 @@
         'attribute' => 'playsinline'
       ),
       'tracks' => array(
-        '__experimentalRole' => 'content',
+        'role' => 'content',
         'type' => 'array',
         'items' => array(
           'type' => 'object'

@@ -13,7 +13,7 @@
 			"source": "rich-text",
 			"selector": "pre",
 			"__unstablePreserveWhiteSpace": true,
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"textAlign": {
 			"type": "string"

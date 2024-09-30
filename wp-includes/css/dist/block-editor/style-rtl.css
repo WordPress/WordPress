@@ -3222,6 +3222,10 @@ div.block-editor-bindings__panel button:hover .block-editor-bindings__item span{
   margin-bottom:-1px;
   margin-top:-1px;
 }
+.block-editor-block-toolbar.is-connected .block-editor-block-switcher .components-button:before{
+  background:color-mix(in srgb, var(--wp-block-synced-color) 10%, #0000);
+  border-radius:2px;
+}
 .block-editor-block-toolbar.is-connected .block-editor-block-switcher .components-button .block-editor-block-icon,.block-editor-block-toolbar.is-connected .components-toolbar-button.block-editor-block-switcher__no-switcher-icon:disabled .block-editor-block-icon.has-colors,.block-editor-block-toolbar.is-synced .block-editor-block-switcher .components-button .block-editor-block-icon,.block-editor-block-toolbar.is-synced .components-toolbar-button.block-editor-block-switcher__no-switcher-icon:disabled .block-editor-block-icon.has-colors{
   color:var(--wp-block-synced-color);
 }

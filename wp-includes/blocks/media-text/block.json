@@ -18,7 +18,7 @@
 			"selector": "figure img",
 			"attribute": "alt",
 			"default": "",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"mediaPosition": {
 			"type": "string",
@@ -26,14 +26,14 @@
 		},
 		"mediaId": {
 			"type": "number",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"mediaUrl": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "figure video,figure img",
 			"attribute": "src",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"mediaLink": {
 			"type": "string"
@@ -52,7 +52,7 @@
 			"source": "attribute",
 			"selector": "figure a",
 			"attribute": "href",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"rel": {
 			"type": "string",
@@ -68,7 +68,7 @@
 		},
 		"mediaType": {
 			"type": "string",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"mediaWidth": {
 			"type": "number",

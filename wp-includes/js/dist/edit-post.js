@@ -1006,15 +1006,11 @@ const initializeMetaBoxes = () => ({
   actions_metaBoxesInitialized = true;
 
   // Save metaboxes on save completion, except for autosaves.
-  (0,external_wp_hooks_namespaceObject.addFilter)('editor.__unstableSavePost', 'core/edit-post/save-metaboxes', (previous, options) => previous.then(() => {
-    if (options.isAutosave) {
-      return;
+  (0,external_wp_hooks_namespaceObject.addAction)('editor.savePost', 'core/edit-post/save-metaboxes', async options => {
+    if (!options.isAutosave && select.hasMetaBoxes()) {
+      await dispatch.requestMetaBoxUpdates();
     }
-    if (!select.hasMetaBoxes()) {
-      return;
-    }
-    return dispatch.requestMetaBoxUpdates();
-  }));
+  });
   dispatch({
     type: 'META_BOXES_INITIALIZED'
   });
@@ -3086,10 +3082,14 @@ function Layout({
     createErrorNotice
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
   const {
-    currentPost,
+    currentPost: {
+      postId: currentPostId,
+      postType: currentPostType
+    },
     onNavigateToEntityRecord,
     onNavigateToPreviousEntityRecord
   } = useNavigateToEntityRecord(initialPostId, initialPostType, 'post-only');
+  const isEditingTemplate = currentPostType === 'wp_template';
   const {
     mode,
     isFullscreenActive,
@@ -3099,7 +3099,6 @@ function Layout({
     isDistractionFree,
     showMetaBoxes,
     hasHistory,
-    isEditingTemplate,
     isWelcomeGuideVisible,
     templateId
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -3116,7 +3115,7 @@ function Layout({
       getPostType
     } = select(external_wp_coreData_namespaceObject.store);
     const supportsTemplateMode = settings.supportsTemplateMode;
-    const isViewable = (_getPostType$viewable = getPostType(currentPost.postType)?.viewable) !== null && _getPostType$viewable !== void 0 ? _getPostType$viewable : false;
+    const isViewable = (_getPostType$viewable = getPostType(currentPostType)?.viewable) !== null && _getPostType$viewable !== void 0 ? _getPostType$viewable : false;
     const canViewTemplate = canUser('read', {
       kind: 'postType',
       name: 'wp_template'
@@ -3128,12 +3127,11 @@ function Layout({
       hasBlockSelected: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
       showIconLabels: get('core', 'showIconLabels'),
       isDistractionFree: get('core', 'distractionFree'),
-      showMetaBoxes: select(external_wp_editor_namespaceObject.store).getRenderingMode() === 'post-only',
-      isEditingTemplate: select(external_wp_editor_namespaceObject.store).getCurrentPostType() === 'wp_template',
+      showMetaBoxes: !DESIGN_POST_TYPES.includes(currentPostType) && select(external_wp_editor_namespaceObject.store).getRenderingMode() === 'post-only',
       isWelcomeGuideVisible: isFeatureActive('welcomeGuide'),
-      templateId: supportsTemplateMode && isViewable && canViewTemplate && currentPost.postType !== 'wp_template' ? getEditedPostTemplateId() : null
+      templateId: supportsTemplateMode && isViewable && canViewTemplate && !isEditingTemplate ? getEditedPostTemplateId() : null
     };
-  }, [settings.supportsTemplateMode, currentPost.postType]);
+  }, [currentPostType, isEditingTemplate, settings.supportsTemplateMode]);
 
   // Set the right context for the command palette
   const commandContext = hasBlockSelected ? 'block-selection-edit' : 'entity-edit';
@@ -3209,12 +3207,12 @@ function Layout({
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.SlotFillProvider, {
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_editor_namespaceObject.ErrorBoundary, {
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_commands_namespaceObject.CommandMenu, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(WelcomeGuide, {
-        postType: currentPost.postType
+        postType: currentPostType
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(Editor, {
         settings: editorSettings,
         initialEdits: initialEdits,
-        postType: currentPost.postType,
-        postId: currentPost.postId,
+        postType: currentPostType,
+        postId: currentPostId,
         templateId: templateId,
         className: className,
         styles: styles,
@@ -3226,7 +3224,7 @@ function Layout({
         ,
         autoFocus: !isWelcomeGuideVisible,
         onActionPerformed: onActionPerformed,
-        extraSidebarPanels: !isEditingTemplate && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(MetaBoxes, {
+        extraSidebarPanels: showMetaBoxes && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(MetaBoxes, {
           location: "side"
         }),
         extraContent: !isDistractionFree && showMetaBoxes && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(MetaBoxesMain, {

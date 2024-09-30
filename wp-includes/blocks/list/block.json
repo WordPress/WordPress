@@ -12,7 +12,7 @@
 		"ordered": {
 			"type": "boolean",
 			"default": false,
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"values": {
 			"type": "string",
@@ -21,7 +21,7 @@
 			"multiline": "li",
 			"__unstableMultilineWrapperTags": [ "ol", "ul" ],
 			"default": "",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"type": {
 			"type": "string"

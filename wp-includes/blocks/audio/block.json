@@ -10,24 +10,24 @@
 	"attributes": {
 		"blob": {
 			"type": "string",
-			"__experimentalRole": "local"
+			"role": "local"
 		},
 		"src": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "audio",
 			"attribute": "src",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"caption": {
 			"type": "rich-text",
 			"source": "rich-text",
 			"selector": "figcaption",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"id": {
 			"type": "number",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"autoplay": {
 			"type": "boolean",

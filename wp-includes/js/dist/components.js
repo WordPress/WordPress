@@ -58283,6 +58283,7 @@ function Guide({
           className: "components-guide__finish-button",
           variant: "primary",
           onClick: onFinish,
+          __next40pxDefaultSize: true,
           children: finishButtonText
         })]
       })]
@@ -60706,8 +60707,7 @@ function goTo(state, path, options = {}) {
     focusSelectors
   } = state;
   const currentLocation = {
-    ...state.currentLocation,
-    isInitial: false
+    ...state.currentLocation
   };
   const {
     // Default assignments
@@ -60752,6 +60752,7 @@ function goTo(state, path, options = {}) {
   return {
     currentLocation: {
       ...restOptions,
+      isInitial: false,
       path,
       isBack,
       hasRestoredFocus: false,
@@ -60767,8 +60768,7 @@ function goToParent(state, options = {}) {
     focusSelectors
   } = state;
   const currentLocation = {
-    ...state.currentLocation,
-    isInitial: false
+    ...state.currentLocation
   };
   const currentPath = currentLocation.path;
   if (currentPath === undefined) {
@@ -66746,20 +66746,27 @@ const ConnectedToolsPanelHeader = contextConnect(component_ToolsPanelHeader, 'To
 
 
 const DEFAULT_COLUMNS = 2;
+function emptyMenuItems() {
+  return {
+    default: {},
+    optional: {}
+  };
+}
+function emptyState() {
+  return {
+    panelItems: [],
+    menuItemOrder: [],
+    menuItems: emptyMenuItems()
+  };
+}
 const generateMenuItems = ({
   panelItems,
   shouldReset,
   currentMenuItems,
   menuItemOrder
 }) => {
-  const newMenuItems = {
-    default: {},
-    optional: {}
-  };
-  const menuItems = {
-    default: {},
-    optional: {}
-  };
+  const newMenuItems = emptyMenuItems();
+  const menuItems = emptyMenuItems();
   panelItems.forEach(({
     hasValue,
     isShownByDefault,
@@ -66798,7 +66805,128 @@ const generateMenuItems = ({
   });
   return menuItems;
 };
-const isMenuItemTypeEmpty = obj => obj && Object.keys(obj).length === 0;
+function panelItemsReducer(panelItems, action) {
+  switch (action.type) {
+    case 'REGISTER_PANEL':
+      {
+        const newItems = [...panelItems];
+        // If an item with this label has already been registered, remove it
+        // first. This can happen when an item is moved between the default
+        // and optional groups.
+        const existingIndex = newItems.findIndex(oldItem => oldItem.label === action.item.label);
+        if (existingIndex !== -1) {
+          newItems.splice(existingIndex, 1);
+        }
+        newItems.push(action.item);
+        return newItems;
+      }
+    case 'UNREGISTER_PANEL':
+      {
+        const index = panelItems.findIndex(item => item.label === action.label);
+        if (index !== -1) {
+          const newItems = [...panelItems];
+          newItems.splice(index, 1);
+          return newItems;
+        }
+        return panelItems;
+      }
+    default:
+      return panelItems;
+  }
+}
+function menuItemOrderReducer(menuItemOrder, action) {
+  switch (action.type) {
+    case 'REGISTER_PANEL':
+      {
+        // Track the initial order of item registration. This is used for
+        // maintaining menu item order later.
+        if (menuItemOrder.includes(action.item.label)) {
+          return menuItemOrder;
+        }
+        return [...menuItemOrder, action.item.label];
+      }
+    default:
+      return menuItemOrder;
+  }
+}
+function menuItemsReducer(state, action) {
+  switch (action.type) {
+    case 'REGISTER_PANEL':
+    case 'UNREGISTER_PANEL':
+      // generate new menu items from original `menuItems` and updated `panelItems` and `menuItemOrder`
+      return generateMenuItems({
+        currentMenuItems: state.menuItems,
+        panelItems: state.panelItems,
+        menuItemOrder: state.menuItemOrder,
+        shouldReset: false
+      });
+    case 'RESET_ALL':
+      return generateMenuItems({
+        panelItems: state.panelItems,
+        menuItemOrder: state.menuItemOrder,
+        shouldReset: true
+      });
+    case 'UPDATE_VALUE':
+      {
+        const oldValue = state.menuItems[action.group][action.label];
+        if (action.value === oldValue) {
+          return state.menuItems;
+        }
+        return {
+          ...state.menuItems,
+          [action.group]: {
+            ...state.menuItems[action.group],
+            [action.label]: action.value
+          }
+        };
+      }
+    case 'TOGGLE_VALUE':
+      {
+        const currentItem = state.panelItems.find(item => item.label === action.label);
+        if (!currentItem) {
+          return state.menuItems;
+        }
+        const menuGroup = currentItem.isShownByDefault ? 'default' : 'optional';
+        const newMenuItems = {
+          ...state.menuItems,
+          [menuGroup]: {
+            ...state.menuItems[menuGroup],
+            [action.label]: !state.menuItems[menuGroup][action.label]
+          }
+        };
+        return newMenuItems;
+      }
+    default:
+      return state.menuItems;
+  }
+}
+function panelReducer(state, action) {
+  const panelItems = panelItemsReducer(state.panelItems, action);
+  const menuItemOrder = menuItemOrderReducer(state.menuItemOrder, action);
+  // `menuItemsReducer` is a bit unusual because it generates new state from original `menuItems`
+  // and the updated `panelItems` and `menuItemOrder`.
+  const menuItems = menuItemsReducer({
+    panelItems,
+    menuItemOrder,
+    menuItems: state.menuItems
+  }, action);
+  return {
+    panelItems,
+    menuItemOrder,
+    menuItems
+  };
+}
+function resetAllFiltersReducer(filters, action) {
+  switch (action.type) {
+    case 'REGISTER':
+      return [...filters, action.filter];
+    case 'UNREGISTER':
+      return filters.filter(f => f !== action.filter);
+    default:
+      return filters;
+  }
+}
+const isMenuItemTypeEmpty = obj => Object.keys(obj).length === 0;
 function useToolsPanel(props) {
   const {
     className,
@@ -66825,32 +66953,18 @@ function useToolsPanel(props) {
   }, [wasResetting]);
 
   // Allow panel items to register themselves.
-  const [panelItems, setPanelItems] = (0,external_wp_element_namespaceObject.useState)([]);
-  const [menuItemOrder, setMenuItemOrder] = (0,external_wp_element_namespaceObject.useState)([]);
-  const [resetAllFilters, setResetAllFilters] = (0,external_wp_element_namespaceObject.useState)([]);
+  const [{
+    panelItems,
+    menuItems
+  }, panelDispatch] = (0,external_wp_element_namespaceObject.useReducer)(panelReducer, undefined, emptyState);
+  const [resetAllFilters, dispatchResetAllFilters] = (0,external_wp_element_namespaceObject.useReducer)(resetAllFiltersReducer, []);
   const registerPanelItem = (0,external_wp_element_namespaceObject.useCallback)(item => {
     // Add item to panel items.
-    setPanelItems(items => {
-      const newItems = [...items];
-      // If an item with this label has already been registered, remove it
-      // first. This can happen when an item is moved between the default
-      // and optional groups.
-      const existingIndex = newItems.findIndex(oldItem => oldItem.label === item.label);
-      if (existingIndex !== -1) {
-        newItems.splice(existingIndex, 1);
-      }
-      return [...newItems, item];
+    panelDispatch({
+      type: 'REGISTER_PANEL',
+      item
     });
-
-    // Track the initial order of item registration. This is used for
-    // maintaining menu item order later.
-    setMenuItemOrder(items => {
-      if (items.includes(item.label)) {
-        return items;
-      }
-      return [...items, item.label];
-    });
-  }, [setPanelItems, setMenuItemOrder]);
+  }, []);
 
   // Panels need to deregister on unmount to avoid orphans in menu state.
   // This is an issue when panel items are being injected via SlotFills.
@@ -66859,96 +66973,58 @@ function useToolsPanel(props) {
     // controls, e.g. both panels have a "padding" control, the
     // deregistration of the first panel doesn't occur until after the
     // registration of the next.
-    setPanelItems(items => {
-      const newItems = [...items];
-      const index = newItems.findIndex(item => item.label === label);
-      if (index !== -1) {
-        newItems.splice(index, 1);
-      }
-      return newItems;
+    panelDispatch({
+      type: 'UNREGISTER_PANEL',
+      label
     });
-  }, [setPanelItems]);
-  const registerResetAllFilter = (0,external_wp_element_namespaceObject.useCallback)(newFilter => {
-    setResetAllFilters(filters => {
-      return [...filters, newFilter];
+  }, []);
+  const registerResetAllFilter = (0,external_wp_element_namespaceObject.useCallback)(filter => {
+    dispatchResetAllFilters({
+      type: 'REGISTER',
+      filter
     });
-  }, [setResetAllFilters]);
-  const deregisterResetAllFilter = (0,external_wp_element_namespaceObject.useCallback)(filterToRemove => {
-    setResetAllFilters(filters => {
-      return filters.filter(filter => filter !== filterToRemove);
+  }, []);
+  const deregisterResetAllFilter = (0,external_wp_element_namespaceObject.useCallback)(filter => {
+    dispatchResetAllFilters({
+      type: 'UNREGISTER',
+      filter
     });
-  }, [setResetAllFilters]);
-
-  // Manage and share display state of menu items representing child controls.
-  const [menuItems, setMenuItems] = (0,external_wp_element_namespaceObject.useState)({
-    default: {},
-    optional: {}
-  });
-
-  // Setup menuItems state as panel items register themselves.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    setMenuItems(prevState => {
-      const items = generateMenuItems({
-        panelItems,
-        shouldReset: false,
-        currentMenuItems: prevState,
-        menuItemOrder
-      });
-      return items;
-    });
-  }, [panelItems, setMenuItems, menuItemOrder]);
+  }, []);
 
   // Updates the status of the panel’s menu items. For default items the
   // value represents whether it differs from the default and for optional
   // items whether the item is shown.
   const flagItemCustomization = (0,external_wp_element_namespaceObject.useCallback)((value, label, group = 'default') => {
-    setMenuItems(items => {
-      const newState = {
-        ...items,
-        [group]: {
-          ...items[group],
-          [label]: value
-        }
-      };
-      return newState;
+    panelDispatch({
+      type: 'UPDATE_VALUE',
+      group,
+      label,
+      value
     });
-  }, [setMenuItems]);
+  }, []);
 
   // Whether all optional menu items are hidden or not must be tracked
   // in order to later determine if the panel display is empty and handle
   // conditional display of a plus icon to indicate the presence of further
   // menu items.
-  const [areAllOptionalControlsHidden, setAreAllOptionalControlsHidden] = (0,external_wp_element_namespaceObject.useState)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (isMenuItemTypeEmpty(menuItems?.default) && !isMenuItemTypeEmpty(menuItems?.optional)) {
-      const allControlsHidden = !Object.entries(menuItems.optional).some(([, isSelected]) => isSelected);
-      setAreAllOptionalControlsHidden(allControlsHidden);
-    }
-  }, [menuItems, setAreAllOptionalControlsHidden]);
+  const areAllOptionalControlsHidden = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    return isMenuItemTypeEmpty(menuItems.default) && !isMenuItemTypeEmpty(menuItems.optional) && Object.values(menuItems.optional).every(isSelected => !isSelected);
+  }, [menuItems]);
   const cx = useCx();
   const classes = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const wrapperStyle = hasInnerWrapper && ToolsPanelWithInnerWrapper(DEFAULT_COLUMNS);
-    const emptyStyle = isMenuItemTypeEmpty(menuItems?.default) && areAllOptionalControlsHidden && ToolsPanelHiddenInnerWrapper;
+    const emptyStyle = areAllOptionalControlsHidden && ToolsPanelHiddenInnerWrapper;
     return cx(ToolsPanel(DEFAULT_COLUMNS), wrapperStyle, emptyStyle, className);
-  }, [areAllOptionalControlsHidden, className, cx, hasInnerWrapper, menuItems]);
+  }, [areAllOptionalControlsHidden, className, cx, hasInnerWrapper]);
 
   // Toggle the checked state of a menu item which is then used to determine
   // display of the item within the panel.
   const toggleItem = (0,external_wp_element_namespaceObject.useCallback)(label => {
-    const currentItem = panelItems.find(item => item.label === label);
-    if (!currentItem) {
-      return;
-    }
-    const menuGroup = currentItem.isShownByDefault ? 'default' : 'optional';
-    const newMenuItems = {
-      ...menuItems,
-      [menuGroup]: {
-        ...menuItems[menuGroup],
-        [label]: !menuItems[menuGroup][label]
-      }
-    };
-    setMenuItems(newMenuItems);
-  }, [menuItems, panelItems, setMenuItems]);
+    panelDispatch({
+      type: 'TOGGLE_VALUE',
+      label
+    });
+  }, []);
 
   // Resets display of children and executes resetAll callback if available.
   const resetAllItems = (0,external_wp_element_namespaceObject.useCallback)(() => {
@@ -66958,30 +67034,28 @@ function useToolsPanel(props) {
     }
 
     // Turn off display of all non-default items.
-    const resetMenuItems = generateMenuItems({
-      panelItems,
-      menuItemOrder,
-      shouldReset: true
+    panelDispatch({
+      type: 'RESET_ALL'
     });
-    setMenuItems(resetMenuItems);
-  }, [panelItems, resetAllFilters, resetAll, setMenuItems, menuItemOrder]);
+  }, [resetAllFilters, resetAll]);
 
   // Assist ItemGroup styling when there are potentially hidden placeholder
   // items by identifying first & last items that are toggled on for display.
   const getFirstVisibleItemLabel = items => {
     const optionalItems = menuItems.optional || {};
-    const firstItem = items.find(item => item.isShownByDefault || !!optionalItems[item.label]);
+    const firstItem = items.find(item => item.isShownByDefault || optionalItems[item.label]);
     return firstItem?.label;
   };
   const firstDisplayedItem = getFirstVisibleItemLabel(panelItems);
   const lastDisplayedItem = getFirstVisibleItemLabel([...panelItems].reverse());
+  const hasMenuItems = panelItems.length > 0;
   const panelContext = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     areAllOptionalControlsHidden,
     deregisterPanelItem,
     deregisterResetAllFilter,
     firstDisplayedItem,
     flagItemCustomization,
-    hasMenuItems: !!panelItems.length,
+    hasMenuItems,
     isResetting: isResettingRef.current,
     lastDisplayedItem,
     menuItems,
@@ -66991,7 +67065,7 @@ function useToolsPanel(props) {
     shouldRenderPlaceholderItems,
     __experimentalFirstVisibleItemClass,
     __experimentalLastVisibleItemClass
-  }), [areAllOptionalControlsHidden, deregisterPanelItem, deregisterResetAllFilter, firstDisplayedItem, flagItemCustomization, lastDisplayedItem, menuItems, panelId, panelItems, registerResetAllFilter, registerPanelItem, shouldRenderPlaceholderItems, __experimentalFirstVisibleItemClass, __experimentalLastVisibleItemClass]);
+  }), [areAllOptionalControlsHidden, deregisterPanelItem, deregisterResetAllFilter, firstDisplayedItem, flagItemCustomization, lastDisplayedItem, menuItems, panelId, hasMenuItems, registerResetAllFilter, registerPanelItem, shouldRenderPlaceholderItems, __experimentalFirstVisibleItemClass, __experimentalLastVisibleItemClass]);
   return {
     ...otherProps,
     headingLevel,

@@ -18,7 +18,7 @@
 			"type": "rich-text",
 			"source": "rich-text",
 			"selector": "figcaption",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"controls": {
 			"type": "boolean",
@@ -29,7 +29,7 @@
 		},
 		"id": {
 			"type": "number",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"loop": {
 			"type": "boolean",
@@ -58,14 +58,14 @@
 		},
 		"blob": {
 			"type": "string",
-			"__experimentalRole": "local"
+			"role": "local"
 		},
 		"src": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "video",
 			"attribute": "src",
-			"__experimentalRole": "content"
+			"role": "content"
 		},
 		"playsInline": {
 			"type": "boolean",
@@ -74,7 +74,7 @@
 			"attribute": "playsinline"
 		},
 		"tracks": {
-			"__experimentalRole": "content",
+			"role": "content",
 			"type": "array",
 			"items": {
 				"type": "object"

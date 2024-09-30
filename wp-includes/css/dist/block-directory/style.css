@@ -111,6 +111,9 @@
   right:0;
   top:0;
 }
+.is-installing .block-directory-downloadable-block-list-item__icon{
+  margin-right:22px;
+}
 
 .block-directory-block-ratings{
   display:block;

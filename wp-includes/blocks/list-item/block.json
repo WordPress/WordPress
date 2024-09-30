@@ -16,7 +16,7 @@
 			"type": "rich-text",
 			"source": "rich-text",
 			"selector": "li",
-			"__experimentalRole": "content"
+			"role": "content"
 		}
 	},
 	"supports": {

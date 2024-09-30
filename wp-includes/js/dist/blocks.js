@@ -5845,6 +5845,7 @@ __webpack_require__.d(__webpack_exports__, {
   doBlocksMatchTemplate: () => (/* reexport */ doBlocksMatchTemplate),
   findTransform: () => (/* reexport */ findTransform),
   getBlockAttributes: () => (/* reexport */ getBlockAttributes),
+  getBlockAttributesNamesByRole: () => (/* reexport */ getBlockAttributesNamesByRole),
   getBlockContent: () => (/* reexport */ getBlockInnerHTML),
   getBlockDefaultClassName: () => (/* reexport */ getBlockDefaultClassName),
   getBlockFromExample: () => (/* reexport */ getBlockFromExample),
@@ -5903,6 +5904,18 @@ __webpack_require__.d(__webpack_exports__, {
   withBlockContentContext: () => (/* reexport */ withBlockContentContext)
 });
 
+// NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
+var private_selectors_namespaceObject = {};
+__webpack_require__.r(private_selectors_namespaceObject);
+__webpack_require__.d(private_selectors_namespaceObject, {
+  getAllBlockBindingsSources: () => (getAllBlockBindingsSources),
+  getBlockBindingsSource: () => (private_selectors_getBlockBindingsSource),
+  getBootstrappedBlockType: () => (getBootstrappedBlockType),
+  getSupportedStyles: () => (getSupportedStyles),
+  getUnprocessedBlockTypes: () => (getUnprocessedBlockTypes),
+  hasContentRoleAttribute: () => (hasContentRoleAttribute)
+});
+
 // NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
@@ -5926,17 +5939,6 @@ __webpack_require__.d(selectors_namespaceObject, {
   hasChildBlocks: () => (selectors_hasChildBlocks),
   hasChildBlocksWithInserterSupport: () => (selectors_hasChildBlocksWithInserterSupport),
   isMatchingSearchTerm: () => (isMatchingSearchTerm)
-});
-
-// NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
-var private_selectors_namespaceObject = {};
-__webpack_require__.r(private_selectors_namespaceObject);
-__webpack_require__.d(private_selectors_namespaceObject, {
-  getAllBlockBindingsSources: () => (getAllBlockBindingsSources),
-  getBlockBindingsSource: () => (private_selectors_getBlockBindingsSource),
-  getBootstrappedBlockType: () => (getBootstrappedBlockType),
-  getSupportedStyles: () => (getSupportedStyles),
-  getUnprocessedBlockTypes: () => (getUnprocessedBlockTypes)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/actions.js
@@ -6481,6 +6483,9 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 const external_wp_dom_namespaceObject = window["wp"]["dom"];
 ;// CONCATENATED MODULE: external ["wp","richText"]
 const external_wp_richText_namespaceObject = window["wp"]["richText"];
+;// CONCATENATED MODULE: external ["wp","deprecated"]
+const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
+var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/constants.js
 const BLOCK_ICON_DEFAULT = 'block-default';
 
@@ -7677,6 +7682,7 @@ function getBlockBindingsSources() {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -7693,6 +7699,30 @@ k([names, a11y]);
 const ICON_COLORS = ['#191e23', '#f8f9f9'];
 
 /**
+ * Determines whether the block's attribute is equal to the default attribute
+ * which means the attribute is unmodified.
+ * @param {Object} attributeDefinition The attribute's definition of the block type.
+ * @param {*}      value               The attribute's value.
+ * @return {boolean} Whether the attribute is unmodified.
+ */
+function isUnmodifiedAttribute(attributeDefinition, value) {
+  // Every attribute that has a default must match the default.
+  if (attributeDefinition.hasOwnProperty('default')) {
+    return value === attributeDefinition.default;
+  }
+
+  // The rich text type is a bit different from the rest because it
+  // has an implicit default value of an empty RichTextData instance,
+  // so check the length of the value.
+  if (attributeDefinition.type === 'rich-text') {
+    return !value?.length;
+  }
+
+  // Every attribute that doesn't have a default should be undefined.
+  return value === undefined;
+}
+
+/**
  * Determines whether the block's attributes are equal to the default attributes
  * which means the block is unmodified.
  *
@@ -7704,21 +7734,7 @@ function isUnmodifiedBlock(block) {
   var _getBlockType$attribu;
   return Object.entries((_getBlockType$attribu = getBlockType(block.name)?.attributes) !== null && _getBlockType$attribu !== void 0 ? _getBlockType$attribu : {}).every(([key, definition]) => {
     const value = block.attributes[key];
-
-    // Every attribute that has a default must match the default.
-    if (definition.hasOwnProperty('default')) {
-      return value === definition.default;
-    }
-
-    // The rich text type is a bit different from the rest because it
-    // has an implicit default value of an empty RichTextData instance,
-    // so check the length of the value.
-    if (definition.type === 'rich-text') {
-      return !value?.length;
-    }
-
-    // Every attribute that doesn't have a default should be undefined.
-    return value === undefined;
+    return isUnmodifiedAttribute(definition, value);
   });
 }
 
@@ -7732,6 +7748,29 @@ function isUnmodifiedBlock(block) {
  */
 function isUnmodifiedDefaultBlock(block) {
   return block.name === getDefaultBlockName() && isUnmodifiedBlock(block);
+}
+
+/**
+ * Determines whether the block content is unmodified. A block content is
+ * considered unmodified if all the attributes that have a role of 'content'
+ * are equal to the default attributes (or undefined).
+ * If the block does not have any attributes with a role of 'content', it
+ * will be considered unmodified if all the attributes are equal to the default
+ * attributes (or undefined).
+ *
+ * @param {WPBlock} block Block Object
+ * @return {boolean} Whether the block content is unmodified.
+ */
+function isUnmodifiedBlockContent(block) {
+  const contentAttributes = getBlockAttributesNamesByRole(block.name, 'content');
+  if (contentAttributes.length === 0) {
+    return isUnmodifiedBlock(block);
+  }
+  return contentAttributes.every(key => {
+    const definition = getBlockType(block.name)?.attributes[key];
+    const value = block.attributes[key];
+    return isUnmodifiedAttribute(definition, value);
+  });
 }
 
 /**
@@ -7931,7 +7970,7 @@ function __experimentalSanitizeBlockAttributes(name, attributes) {
  *
  * @return {string[]} The attribute names that have the provided role.
  */
-function __experimentalGetBlockAttributesNamesByRole(name, role) {
+function getBlockAttributesNamesByRole(name, role) {
   const attributes = getBlockType(name)?.attributes;
   if (!attributes) {
     return [];
@@ -7940,8 +7979,31 @@ function __experimentalGetBlockAttributesNamesByRole(name, role) {
   if (!role) {
     return attributesNames;
   }
-  return attributesNames.filter(attributeName => attributes[attributeName]?.__experimentalRole === role);
+  return attributesNames.filter(attributeName => {
+    const attribute = attributes[attributeName];
+    if (attribute?.role === role) {
+      return true;
+    }
+    if (attribute?.__experimentalRole === role) {
+      external_wp_deprecated_default()('__experimentalRole attribute', {
+        since: '6.7',
+        version: '6.8',
+        alternative: 'role attribute',
+        hint: `Check the block.json of the ${name} block.`
+      });
+      return true;
+    }
+    return false;
+  });
 }
+const __experimentalGetBlockAttributesNamesByRole = (...args) => {
+  external_wp_deprecated_default()('__experimentalGetBlockAttributesNamesByRole', {
+    since: '6.7',
+    version: '6.8',
+    alternative: 'getBlockAttributesNamesByRole'
+  });
+  return getBlockAttributesNamesByRole(...args);
+};
 
 /**
  * Return a new object with the specified keys omitted.
@@ -8304,7 +8366,8 @@ function blockBindingsSources(state = {}, action) {
           usesContext: getMergedUsesContext(state[action.name]?.usesContext, action.usesContext),
           getValues: action.getValues,
           setValues: action.setValues,
-          canUserEditValue: action.canUserEditValue,
+          // Only set `canUserEditValue` if `setValues` is also defined.
+          canUserEditValue: action.setValues && action.canUserEditValue,
           getFieldsList: action.getFieldsList
         }
       };
@@ -8388,6 +8451,183 @@ function matchesAttributes(blockAttributes, variationAttributes) {
   return blockAttributes === variationAttributes;
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const ROOT_BLOCK_SUPPORTS = ['background', 'backgroundColor', 'color', 'linkColor', 'captionColor', 'buttonColor', 'headingColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'lineHeight', 'padding', 'contentSize', 'wideSize', 'blockGap', 'textDecoration', 'textTransform', 'letterSpacing'];
+
+/**
+ * Filters the list of supported styles for a given element.
+ *
+ * @param {string[]}         blockSupports list of supported styles.
+ * @param {string|undefined} name          block name.
+ * @param {string|undefined} element       element name.
+ *
+ * @return {string[]} filtered list of supported styles.
+ */
+function filterElementBlockSupports(blockSupports, name, element) {
+  return blockSupports.filter(support => {
+    if (support === 'fontSize' && element === 'heading') {
+      return false;
+    }
+
+    // This is only available for links
+    if (support === 'textDecoration' && !name && element !== 'link') {
+      return false;
+    }
+
+    // This is only available for heading, button, caption and text
+    if (support === 'textTransform' && !name && !(['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element) || element === 'button' || element === 'caption' || element === 'text')) {
+      return false;
+    }
+
+    // This is only available for heading, button, caption and text
+    if (support === 'letterSpacing' && !name && !(['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element) || element === 'button' || element === 'caption' || element === 'text')) {
+      return false;
+    }
+
+    // Text columns is only available for blocks.
+    if (support === 'textColumns' && !name) {
+      return false;
+    }
+    return true;
+  });
+}
+
+/**
+ * Returns the list of supported styles for a given block name and element.
+ */
+const getSupportedStyles = (0,external_wp_data_namespaceObject.createSelector)((state, name, element) => {
+  if (!name) {
+    return filterElementBlockSupports(ROOT_BLOCK_SUPPORTS, name, element);
+  }
+  const blockType = selectors_getBlockType(state, name);
+  if (!blockType) {
+    return [];
+  }
+  const supportKeys = [];
+
+  // Check for blockGap support.
+  // Block spacing support doesn't map directly to a single style property, so needs to be handled separately.
+  if (blockType?.supports?.spacing?.blockGap) {
+    supportKeys.push('blockGap');
+  }
+
+  // check for shadow support
+  if (blockType?.supports?.shadow) {
+    supportKeys.push('shadow');
+  }
+  Object.keys(__EXPERIMENTAL_STYLE_PROPERTY).forEach(styleName => {
+    if (!__EXPERIMENTAL_STYLE_PROPERTY[styleName].support) {
+      return;
+    }
+
+    // Opting out means that, for certain support keys like background color,
+    // blocks have to explicitly set the support value false. If the key is
+    // unset, we still enable it.
+    if (__EXPERIMENTAL_STYLE_PROPERTY[styleName].requiresOptOut) {
+      if (__EXPERIMENTAL_STYLE_PROPERTY[styleName].support[0] in blockType.supports && getValueFromObjectPath(blockType.supports, __EXPERIMENTAL_STYLE_PROPERTY[styleName].support) !== false) {
+        supportKeys.push(styleName);
+        return;
+      }
+    }
+    if (getValueFromObjectPath(blockType.supports, __EXPERIMENTAL_STYLE_PROPERTY[styleName].support, false)) {
+      supportKeys.push(styleName);
+    }
+  });
+  return filterElementBlockSupports(supportKeys, name, element);
+}, (state, name) => [state.blockTypes[name]]);
+
+/**
+ * Returns the bootstrapped block type metadata for a give block name.
+ *
+ * @param {Object} state Data state.
+ * @param {string} name  Block name.
+ *
+ * @return {Object} Bootstrapped block type metadata for a block.
+ */
+function getBootstrappedBlockType(state, name) {
+  return state.bootstrappedBlockTypes[name];
+}
+
+/**
+ * Returns all the unprocessed (before applying the `registerBlockType` filter)
+ * block type settings as passed during block registration.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {Array} Unprocessed block type settings for all blocks.
+ */
+function getUnprocessedBlockTypes(state) {
+  return state.unprocessedBlockTypes;
+}
+
+/**
+ * Returns all the block bindings sources registered.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {Object} All the registered sources and their properties.
+ */
+function getAllBlockBindingsSources(state) {
+  return state.blockBindingsSources;
+}
+
+/**
+ * Returns a specific block bindings source.
+ *
+ * @param {Object} state      Data state.
+ * @param {string} sourceName Name of the source to get.
+ *
+ * @return {Object} The specific block binding source and its properties.
+ */
+function private_selectors_getBlockBindingsSource(state, sourceName) {
+  return state.blockBindingsSources[sourceName];
+}
+
+/**
+ * Determines if any of the block type's attributes have
+ * the content role attribute.
+ *
+ * @param {Object} state         Data state.
+ * @param {string} blockTypeName Block type name.
+ * @return {boolean} Whether block type has content role attribute.
+ */
+const hasContentRoleAttribute = (state, blockTypeName) => {
+  const blockType = selectors_getBlockType(state, blockTypeName);
+  if (!blockType) {
+    return false;
+  }
+  return Object.values(blockType.attributes).some(({
+    role,
+    __experimentalRole
+  }) => {
+    if (role === 'content') {
+      return true;
+    }
+    if (__experimentalRole === 'content') {
+      external_wp_deprecated_default()('__experimentalRole attribute', {
+        since: '6.7',
+        version: '6.8',
+        alternative: 'role attribute',
+        hint: `Check the block.json of the ${blockTypeName} block.`
+      });
+      return true;
+    }
+    return false;
+  });
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
 /**
  * External dependencies
@@ -8400,9 +8640,11 @@ function matchesAttributes(blockAttributes, variationAttributes) {
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 /** @typedef {import('../api/registration').WPBlockVariation} WPBlockVariation */
@@ -9161,168 +9403,15 @@ const selectors_hasChildBlocksWithInserterSupport = (state, blockName) => {
     return selectors_hasBlockSupport(state, childBlockName, 'inserter', true);
   });
 };
-
-/**
- * DO-NOT-USE in production.
- * This selector is created for internal/experimental only usage and may be
- * removed anytime without any warning, causing breakage on any plugin or theme invoking it.
- */
-const __experimentalHasContentRoleAttribute = (0,external_wp_data_namespaceObject.createSelector)((state, blockTypeName) => {
-  const blockType = selectors_getBlockType(state, blockTypeName);
-  if (!blockType) {
-    return false;
-  }
-  return Object.entries(blockType.attributes).some(([, {
-    __experimentalRole
-  }]) => __experimentalRole === 'content');
-}, (state, blockTypeName) => [state.blockTypes[blockTypeName]?.attributes]);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-const ROOT_BLOCK_SUPPORTS = ['background', 'backgroundColor', 'color', 'linkColor', 'captionColor', 'buttonColor', 'headingColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'lineHeight', 'padding', 'contentSize', 'wideSize', 'blockGap', 'textDecoration', 'textTransform', 'letterSpacing'];
-
-/**
- * Filters the list of supported styles for a given element.
- *
- * @param {string[]}         blockSupports list of supported styles.
- * @param {string|undefined} name          block name.
- * @param {string|undefined} element       element name.
- *
- * @return {string[]} filtered list of supported styles.
- */
-function filterElementBlockSupports(blockSupports, name, element) {
-  return blockSupports.filter(support => {
-    if (support === 'fontSize' && element === 'heading') {
-      return false;
-    }
-
-    // This is only available for links
-    if (support === 'textDecoration' && !name && element !== 'link') {
-      return false;
-    }
-
-    // This is only available for heading, button, caption and text
-    if (support === 'textTransform' && !name && !(['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element) || element === 'button' || element === 'caption' || element === 'text')) {
-      return false;
-    }
-
-    // This is only available for heading, button, caption and text
-    if (support === 'letterSpacing' && !name && !(['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(element) || element === 'button' || element === 'caption' || element === 'text')) {
-      return false;
-    }
-
-    // Text columns is only available for blocks.
-    if (support === 'textColumns' && !name) {
-      return false;
-    }
-    return true;
+const __experimentalHasContentRoleAttribute = (...args) => {
+  external_wp_deprecated_default()('__experimentalHasContentRoleAttribute', {
+    since: '6.7',
+    version: '6.8',
+    hint: 'This is a private selector.'
   });
-}
+  return hasContentRoleAttribute(...args);
+};
 
-/**
- * Returns the list of supported styles for a given block name and element.
- */
-const getSupportedStyles = (0,external_wp_data_namespaceObject.createSelector)((state, name, element) => {
-  if (!name) {
-    return filterElementBlockSupports(ROOT_BLOCK_SUPPORTS, name, element);
-  }
-  const blockType = selectors_getBlockType(state, name);
-  if (!blockType) {
-    return [];
-  }
-  const supportKeys = [];
-
-  // Check for blockGap support.
-  // Block spacing support doesn't map directly to a single style property, so needs to be handled separately.
-  if (blockType?.supports?.spacing?.blockGap) {
-    supportKeys.push('blockGap');
-  }
-
-  // check for shadow support
-  if (blockType?.supports?.shadow) {
-    supportKeys.push('shadow');
-  }
-  Object.keys(__EXPERIMENTAL_STYLE_PROPERTY).forEach(styleName => {
-    if (!__EXPERIMENTAL_STYLE_PROPERTY[styleName].support) {
-      return;
-    }
-
-    // Opting out means that, for certain support keys like background color,
-    // blocks have to explicitly set the support value false. If the key is
-    // unset, we still enable it.
-    if (__EXPERIMENTAL_STYLE_PROPERTY[styleName].requiresOptOut) {
-      if (__EXPERIMENTAL_STYLE_PROPERTY[styleName].support[0] in blockType.supports && getValueFromObjectPath(blockType.supports, __EXPERIMENTAL_STYLE_PROPERTY[styleName].support) !== false) {
-        supportKeys.push(styleName);
-        return;
-      }
-    }
-    if (getValueFromObjectPath(blockType.supports, __EXPERIMENTAL_STYLE_PROPERTY[styleName].support, false)) {
-      supportKeys.push(styleName);
-    }
-  });
-  return filterElementBlockSupports(supportKeys, name, element);
-}, (state, name) => [state.blockTypes[name]]);
-
-/**
- * Returns the bootstrapped block type metadata for a give block name.
- *
- * @param {Object} state Data state.
- * @param {string} name  Block name.
- *
- * @return {Object} Bootstrapped block type metadata for a block.
- */
-function getBootstrappedBlockType(state, name) {
-  return state.bootstrappedBlockTypes[name];
-}
-
-/**
- * Returns all the unprocessed (before applying the `registerBlockType` filter)
- * block type settings as passed during block registration.
- *
- * @param {Object} state Data state.
- *
- * @return {Array} Unprocessed block type settings for all blocks.
- */
-function getUnprocessedBlockTypes(state) {
-  return state.unprocessedBlockTypes;
-}
-
-/**
- * Returns all the block bindings sources registered.
- *
- * @param {Object} state Data state.
- *
- * @return {Object} All the registered sources and their properties.
- */
-function getAllBlockBindingsSources(state) {
-  return state.blockBindingsSources;
-}
-
-/**
- * Returns a specific block bindings source.
- *
- * @param {Object} state      Data state.
- * @param {string} sourceName Name of the source to get.
- *
- * @return {Object} The specific block binding source and its properties.
- */
-function private_selectors_getBlockBindingsSource(state, sourceName) {
-  return state.blockBindingsSources[sourceName];
-}
-
-;// CONCATENATED MODULE: external ["wp","deprecated"]
-const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
@@ -10557,6 +10646,7 @@ const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -10757,7 +10847,16 @@ function getCommentAttributes(blockType, attributes) {
     }
 
     // Ignore all local attributes
+    if (attributeSchema.role === 'local') {
+      return accumulator;
+    }
     if (attributeSchema.__experimentalRole === 'local') {
+      external_wp_deprecated_default()('__experimentalRole attribute', {
+        since: '6.7',
+        version: '6.8',
+        alternative: 'role attribute',
+        hint: `Check the block.json of the ${blockType?.name} block.`
+      });
       return accumulator;
     }
 
@@ -15667,6 +15766,7 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 
 
 
+
 // The blocktype is the most important concept within the block API. It defines
 // all aspects of the block configuration and its interfaces, including `edit`
 // and `save`. The transforms specification allows converting one blocktype to
@@ -15768,7 +15868,8 @@ lock(privateApis, {
   registerBlockBindingsSource: registerBlockBindingsSource,
   unregisterBlockBindingsSource: unregisterBlockBindingsSource,
   getBlockBindingsSource: getBlockBindingsSource,
-  getBlockBindingsSources: getBlockBindingsSources
+  getBlockBindingsSources: getBlockBindingsSources,
+  isUnmodifiedBlockContent: isUnmodifiedBlockContent
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/deprecated.js
