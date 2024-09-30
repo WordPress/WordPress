@@ -796,7 +796,10 @@ ul.dataviews-view-list{
   gap:12px;
   row-gap:4px;
 }
-.dataviews-view-list .dataviews-view-list__fields .dataviews-view-list__field:has(.dataviews-view-list__field-value:empty),.dataviews-view-list .dataviews-view-list__fields:empty{
+.dataviews-view-list .dataviews-view-list__fields:empty{
+  display:none;
+}
+.dataviews-view-list .dataviews-view-list__fields .dataviews-view-list__field:has(.dataviews-view-list__field-value:empty){
   display:none;
 }
 .dataviews-view-list .dataviews-view-list__fields .dataviews-view-list__field-value{

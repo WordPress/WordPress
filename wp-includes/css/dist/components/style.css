@@ -1537,8 +1537,22 @@ body.is-dragging-components-draggable{
 [role=region]{
   position:relative;
 }
+[role=region].interface-interface-skeleton__content:focus-visible:after{
+  bottom:0;
+  content:"";
+  left:0;
+  outline-color:var(--wp-admin-theme-color);
+  outline-offset:calc(((-1*var(--wp-admin-border-width-focus))/var(--wp-block-editor-iframe-zoom-out-scale, 1))*2);
+  outline-style:solid;
+  outline-width:calc((var(--wp-admin-border-width-focus)/var(--wp-block-editor-iframe-zoom-out-scale, 1))*2);
+  pointer-events:none;
+  position:absolute;
+  right:0;
+  top:0;
+  z-index:1000000;
+}
 
-.is-focusing-regions [role=region]:focus:after,[role=region].interface-interface-skeleton__content:focus-visible:after{
+.is-focusing-regions [role=region]:focus:after{
   bottom:0;
   content:"";
   left:0;
@@ -1548,7 +1562,7 @@ body.is-dragging-components-draggable{
   top:0;
   z-index:1000000;
 }
-.is-focusing-regions .editor-post-publish-panel,.is-focusing-regions .interface-interface-skeleton__actions .editor-layout__toggle-entities-saved-states-panel,.is-focusing-regions .interface-interface-skeleton__actions .editor-layout__toggle-publish-panel,.is-focusing-regions .interface-interface-skeleton__sidebar .editor-layout__toggle-sidebar-panel,.is-focusing-regions [role=region]:focus:after,.is-focusing-regions.is-distraction-free .interface-interface-skeleton__header .edit-post-header,[role=region].interface-interface-skeleton__content:focus-visible:after{
+.is-focusing-regions .editor-post-publish-panel,.is-focusing-regions .interface-interface-skeleton__actions .editor-layout__toggle-entities-saved-states-panel,.is-focusing-regions .interface-interface-skeleton__actions .editor-layout__toggle-publish-panel,.is-focusing-regions .interface-interface-skeleton__sidebar .editor-layout__toggle-sidebar-panel,.is-focusing-regions [role=region]:focus:after,.is-focusing-regions.is-distraction-free .interface-interface-skeleton__header .edit-post-header{
   outline-color:var(--wp-admin-theme-color);
   outline-offset:calc(((-1*var(--wp-admin-border-width-focus))/var(--wp-block-editor-iframe-zoom-out-scale, 1))*2);
   outline-style:solid;

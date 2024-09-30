@@ -2312,12 +2312,12 @@ Comment.default = Comment
 "use strict";
 
 
-let { isClean, my } = __webpack_require__(1381)
-let Declaration = __webpack_require__(1516)
 let Comment = __webpack_require__(6589)
+let Declaration = __webpack_require__(1516)
 let Node = __webpack_require__(7490)
+let { isClean, my } = __webpack_require__(1381)
 
-let parse, Rule, AtRule, Root
+let AtRule, parse, Root, Rule
 
 function cleanSource(nodes) {
   return nodes.map(i => {
@@ -2327,11 +2327,11 @@ function cleanSource(nodes) {
   })
 }
 
-function markDirtyUp(node) {
+function markTreeDirty(node) {
   node[isClean] = false
   if (node.proxyOf.nodes) {
     for (let i of node.proxyOf.nodes) {
-      markDirtyUp(i)
+      markTreeDirty(i)
     }
   }
 }
@@ -2465,7 +2465,11 @@ class Container extends Node {
   insertBefore(exist, add) {
     let existIndex = this.index(exist)
     let type = existIndex === 0 ? 'prepend' : false
-    let nodes = this.normalize(add, this.proxyOf.nodes[existIndex], type).reverse()
+    let nodes = this.normalize(
+      add,
+      this.proxyOf.nodes[existIndex],
+      type
+    ).reverse()
     existIndex = this.index(exist)
     for (let node of nodes) this.proxyOf.nodes.splice(existIndex, 0, node)
 
@@ -2506,7 +2510,7 @@ class Container extends Node {
         nodes.value = String(nodes.value)
       }
       nodes = [new Declaration(nodes)]
-    } else if (nodes.selector) {
+    } else if (nodes.selector || nodes.selectors) {
       nodes = [new Rule(nodes)]
     } else if (nodes.name) {
       nodes = [new AtRule(nodes)]
@@ -2521,7 +2525,9 @@ class Container extends Node {
       if (!i[my]) Container.rebuild(i)
       i = i.proxyOf
       if (i.parent) i.parent.removeChild(i)
-      if (i[isClean]) markDirtyUp(i)
+      if (i[isClean]) markTreeDirty(i)
+
+      if (!i.raws) i.raws = {}
       if (typeof i.raws.before === 'undefined') {
         if (sample && typeof sample.raws.before !== 'undefined') {
           i.raws.before = sample.raws.before.replace(/\S/g, '')
@@ -2813,24 +2819,23 @@ class CssSyntaxError extends Error {
 
     let css = this.source
     if (color == null) color = pico.isColorSupported
-    if (terminalHighlight) {
-      if (color) css = terminalHighlight(css)
+
+    let aside = text => text
+    let mark = text => text
+    let highlight = text => text
+    if (color) {
+      let { bold, gray, red } = pico.createColors(true)
+      mark = text => bold(red(text))
+      aside = text => gray(text)
+      if (terminalHighlight) {
+        highlight = text => terminalHighlight(text)
+      }
     }
 
     let lines = css.split(/\r?\n/)
     let start = Math.max(this.line - 3, 0)
     let end = Math.min(this.line + 2, lines.length)
-
     let maxWidth = String(end).length
-
-    let mark, aside
-    if (color) {
-      let { bold, gray, red } = pico.createColors(true)
-      mark = text => bold(red(text))
-      aside = text => gray(text)
-    } else {
-      mark = aside = str => str
-    }
 
     return lines
       .slice(start, end)
@@ -2838,12 +2843,46 @@ class CssSyntaxError extends Error {
         let number = start + 1 + index
         let gutter = ' ' + (' ' + number).slice(-maxWidth) + ' | '
         if (number === this.line) {
+          if (line.length > 160) {
+            let padding = 20
+            let subLineStart = Math.max(0, this.column - padding)
+            let subLineEnd = Math.max(
+              this.column + padding,
+              this.endColumn + padding
+            )
+            let subLine = line.slice(subLineStart, subLineEnd)
+
+            let spacing =
+              aside(gutter.replace(/\d/g, ' ')) +
+              line
+                .slice(0, Math.min(this.column - 1, padding - 1))
+                .replace(/[^\t]/g, ' ')
+
+            return (
+              mark('>') +
+              aside(gutter) +
+              highlight(subLine) +
+              '\n ' +
+              spacing +
+              mark('^')
+            )
+          }
+
           let spacing =
             aside(gutter.replace(/\d/g, ' ')) +
             line.slice(0, this.column - 1).replace(/[^\t]/g, ' ')
-          return mark('>') + aside(gutter) + line + '\n ' + spacing + mark('^')
+
+          return (
+            mark('>') +
+            aside(gutter) +
+            highlight(line) +
+            '\n ' +
+            spacing +
+            mark('^')
+          )
         }
-        return ' ' + aside(gutter) + line
+
+        return ' ' + aside(gutter) + highlight(line)
       })
       .join('\n')
   }
@@ -2942,11 +2981,11 @@ Document.default = Document
 "use strict";
 
 
-let Declaration = __webpack_require__(1516)
-let PreviousMap = __webpack_require__(5696)
-let Comment = __webpack_require__(6589)
 let AtRule = __webpack_require__(1326)
+let Comment = __webpack_require__(6589)
+let Declaration = __webpack_require__(1516)
 let Input = __webpack_require__(5380)
+let PreviousMap = __webpack_require__(5696)
 let Root = __webpack_require__(9434)
 let Rule = __webpack_require__(4092)
 
@@ -3004,14 +3043,14 @@ fromJSON.default = fromJSON
 "use strict";
 
 
+let { nanoid } = __webpack_require__(5042)
+let { isAbsolute, resolve } = __webpack_require__(197)
 let { SourceMapConsumer, SourceMapGenerator } = __webpack_require__(1866)
 let { fileURLToPath, pathToFileURL } = __webpack_require__(2739)
-let { isAbsolute, resolve } = __webpack_require__(197)
-let { nanoid } = __webpack_require__(5042)
 
-let terminalHighlight = __webpack_require__(9746)
 let CssSyntaxError = __webpack_require__(356)
 let PreviousMap = __webpack_require__(5696)
+let terminalHighlight = __webpack_require__(9746)
 
 let fromOffsetCache = Symbol('fromOffsetCache')
 
@@ -3065,7 +3104,7 @@ class Input {
   }
 
   error(message, line, column, opts = {}) {
-    let result, endLine, endColumn
+    let endColumn, endLine, result
 
     if (line && typeof line === 'object') {
       let start = line
@@ -3260,15 +3299,15 @@ if (terminalHighlight && terminalHighlight.registerInput) {
 "use strict";
 
 
-let { isClean, my } = __webpack_require__(1381)
-let MapGenerator = __webpack_require__(1670)
-let stringify = __webpack_require__(633)
 let Container = __webpack_require__(683)
 let Document = __webpack_require__(271)
-let warnOnce = __webpack_require__(3122)
-let Result = __webpack_require__(9055)
+let MapGenerator = __webpack_require__(1670)
 let parse = __webpack_require__(4295)
+let Result = __webpack_require__(9055)
 let Root = __webpack_require__(9434)
+let stringify = __webpack_require__(633)
+let { isClean, my } = __webpack_require__(1381)
+let warnOnce = __webpack_require__(3122)
 
 const TYPE_TO_CLASS_NAME = {
   atrule: 'AtRule',
@@ -3856,8 +3895,8 @@ list.default = list
 "use strict";
 
 
-let { SourceMapConsumer, SourceMapGenerator } = __webpack_require__(1866)
 let { dirname, relative, resolve, sep } = __webpack_require__(197)
+let { SourceMapConsumer, SourceMapGenerator } = __webpack_require__(1866)
 let { pathToFileURL } = __webpack_require__(2739)
 
 let Input = __webpack_require__(5380)
@@ -3926,12 +3965,12 @@ class MapGenerator {
       for (let i = this.root.nodes.length - 1; i >= 0; i--) {
         node = this.root.nodes[i]
         if (node.type !== 'comment') continue
-        if (node.text.indexOf('# sourceMappingURL=') === 0) {
+        if (node.text.startsWith('# sourceMappingURL=')) {
           this.root.removeChild(i)
         }
       }
     } else if (this.css) {
-      this.css = this.css.replace(/\n*?\/\*#[\S\s]*?\*\/$/gm, '')
+      this.css = this.css.replace(/\n*\/\*#[\S\s]*?\*\/$/gm, '')
     }
   }
 
@@ -3999,7 +4038,7 @@ class MapGenerator {
       source: ''
     }
 
-    let lines, last
+    let last, lines
     this.stringify(this.root, (str, node, type) => {
       this.css += str
 
@@ -4233,10 +4272,10 @@ module.exports = MapGenerator
 
 
 let MapGenerator = __webpack_require__(1670)
-let stringify = __webpack_require__(633)
-let warnOnce = __webpack_require__(3122)
 let parse = __webpack_require__(4295)
 const Result = __webpack_require__(9055)
+let stringify = __webpack_require__(633)
+let warnOnce = __webpack_require__(3122)
 
 class NoWorkResult {
   constructor(processor, css, opts) {
@@ -4370,10 +4409,10 @@ NoWorkResult.default = NoWorkResult
 "use strict";
 
 
-let { isClean, my } = __webpack_require__(1381)
 let CssSyntaxError = __webpack_require__(356)
 let Stringifier = __webpack_require__(346)
 let stringify = __webpack_require__(633)
+let { isClean, my } = __webpack_require__(1381)
 
 function cloneNode(obj, parent) {
   let cloned = new obj.constructor()
@@ -4523,6 +4562,11 @@ class Node {
     }
   }
 
+  /* c8 ignore next 3 */
+  markClean() {
+    this[isClean] = true
+  }
+
   markDirty() {
     if (this[isClean]) {
       this[isClean] = false
@@ -4581,20 +4625,23 @@ class Node {
     }
     let end = this.source.end
       ? {
-        column: this.source.end.column + 1,
-        line: this.source.end.line
-      }
+          column: this.source.end.column + 1,
+          line: this.source.end.line
+        }
       : {
-        column: start.column + 1,
-        line: start.line
-      }
+          column: start.column + 1,
+          line: start.line
+        }
 
     if (opts.word) {
       let stringRepresentation = this.toString()
       let index = stringRepresentation.indexOf(opts.word)
       if (index !== -1) {
         start = this.positionInside(index, stringRepresentation)
-        end = this.positionInside(index + opts.word.length, stringRepresentation)
+        end = this.positionInside(
+          index + opts.word.length,
+          stringRepresentation
+        )
       }
     } else {
       if (opts.start) {
@@ -4760,8 +4807,8 @@ Node.default = Node
 
 
 let Container = __webpack_require__(683)
-let Parser = __webpack_require__(3937)
 let Input = __webpack_require__(5380)
+let Parser = __webpack_require__(3937)
 
 function parse(css, opts) {
   let input = new Input(css, opts)
@@ -4790,12 +4837,12 @@ Container.registerParse(parse)
 "use strict";
 
 
-let Declaration = __webpack_require__(1516)
-let tokenizer = __webpack_require__(2327)
-let Comment = __webpack_require__(6589)
 let AtRule = __webpack_require__(1326)
+let Comment = __webpack_require__(6589)
+let Declaration = __webpack_require__(1516)
 let Root = __webpack_require__(9434)
 let Rule = __webpack_require__(4092)
+let tokenizer = __webpack_require__(2327)
 
 const SAFE_COMMENT_NEIGHBOR = {
   empty: true,
@@ -4933,7 +4980,7 @@ class Parser {
 
   colon(tokens) {
     let brackets = 0
-    let token, type, prev
+    let prev, token, type
     for (let [i, element] of tokens.entries()) {
       token = element
       type = token[0]
@@ -5057,12 +5104,12 @@ class Parser {
         let str = ''
         for (let j = i; j > 0; j--) {
           let type = cache[j][0]
-          if (str.trim().indexOf('!') === 0 && type !== 'space') {
+          if (str.trim().startsWith('!') && type !== 'space') {
             break
           }
           str = cache.pop()[1] + str
         }
-        if (str.trim().indexOf('!') === 0) {
+        if (str.trim().startsWith('!')) {
           node.important = true
           node.raws.important = str
           tokens = cache
@@ -5407,24 +5454,24 @@ module.exports = Parser
 "use strict";
 
 
+let AtRule = __webpack_require__(1326)
+let Comment = __webpack_require__(6589)
+let Container = __webpack_require__(683)
 let CssSyntaxError = __webpack_require__(356)
 let Declaration = __webpack_require__(1516)
-let LazyResult = __webpack_require__(448)
-let Container = __webpack_require__(683)
-let Processor = __webpack_require__(9656)
-let stringify = __webpack_require__(633)
-let fromJSON = __webpack_require__(8940)
 let Document = __webpack_require__(271)
-let Warning = __webpack_require__(5776)
-let Comment = __webpack_require__(6589)
-let AtRule = __webpack_require__(1326)
-let Result = __webpack_require__(9055)
+let fromJSON = __webpack_require__(8940)
 let Input = __webpack_require__(5380)
-let parse = __webpack_require__(4295)
+let LazyResult = __webpack_require__(448)
 let list = __webpack_require__(7374)
-let Rule = __webpack_require__(4092)
-let Root = __webpack_require__(9434)
 let Node = __webpack_require__(7490)
+let parse = __webpack_require__(4295)
+let Processor = __webpack_require__(9656)
+let Result = __webpack_require__(9055)
+let Root = __webpack_require__(9434)
+let Rule = __webpack_require__(4092)
+let stringify = __webpack_require__(633)
+let Warning = __webpack_require__(5776)
 
 function postcss(...plugins) {
   if (plugins.length === 1 && Array.isArray(plugins[0])) {
@@ -5516,9 +5563,9 @@ postcss.default = postcss
 "use strict";
 
 
-let { SourceMapConsumer, SourceMapGenerator } = __webpack_require__(1866)
 let { existsSync, readFileSync } = __webpack_require__(9977)
 let { dirname, join } = __webpack_require__(197)
+let { SourceMapConsumer, SourceMapGenerator } = __webpack_require__(1866)
 
 function fromBase64(str) {
   if (Buffer) {
@@ -5557,12 +5604,14 @@ class PreviousMap {
     let charsetUri = /^data:application\/json;charset=utf-?8,/
     let uri = /^data:application\/json,/
 
-    if (charsetUri.test(text) || uri.test(text)) {
-      return decodeURIComponent(text.substr(RegExp.lastMatch.length))
+    let uriMatch = text.match(charsetUri) || text.match(uri)
+    if (uriMatch) {
+      return decodeURIComponent(text.substr(uriMatch[0].length))
     }
 
-    if (baseCharsetUri.test(text) || baseUri.test(text)) {
-      return fromBase64(text.substr(RegExp.lastMatch.length))
+    let baseUriMatch = text.match(baseCharsetUri) || text.match(baseUri)
+    if (baseUriMatch) {
+      return fromBase64(text.substr(baseUriMatch[0].length))
     }
 
     let encoding = text.match(/data:application\/json;([^,]+),/)[1]
@@ -5583,7 +5632,7 @@ class PreviousMap {
   }
 
   loadAnnotation(css) {
-    let comments = css.match(/\/\*\s*# sourceMappingURL=/gm)
+    let comments = css.match(/\/\*\s*# sourceMappingURL=/g)
     if (!comments) return
 
     // sourceMappingURLs from comments, strings, etc.
@@ -5666,14 +5715,14 @@ PreviousMap.default = PreviousMap
 "use strict";
 
 
-let NoWorkResult = __webpack_require__(7661)
-let LazyResult = __webpack_require__(448)
 let Document = __webpack_require__(271)
+let LazyResult = __webpack_require__(448)
+let NoWorkResult = __webpack_require__(7661)
 let Root = __webpack_require__(9434)
 
 class Processor {
   constructor(plugins = []) {
-    this.version = '8.4.38'
+    this.version = '8.4.47'
     this.plugins = this.normalize(plugins)
   }
 
@@ -6311,8 +6360,8 @@ module.exports = function tokenizer(input, options = {}) {
   let css = input.css.valueOf()
   let ignore = options.ignoreErrors
 
-  let code, next, quote, content, escape
-  let escaped, escapePos, prev, n, currentToken
+  let code, content, escape, next, quote
+  let currentToken, escaped, escapePos, n, prev
 
   let length = css.length
   let pos = 0
