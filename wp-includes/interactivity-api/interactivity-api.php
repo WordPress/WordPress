@@ -125,3 +125,16 @@ function wp_interactivity_data_wp_context( array $context, string $store_namespa
 function wp_interactivity_get_context( ?string $store_namespace = null ): array {
 	return wp_interactivity()->get_context( $store_namespace );
 }
+
+/**
+ * Returns an array representation of the current element being processed.
+ *
+ * The function should be used only during directive processing.
+ *
+ * @since 6.7.0
+ *
+ * @return array|null Current element.
+ */
+function wp_interactivity_get_element(): ?array {
+	return wp_interactivity()->get_element();
+}

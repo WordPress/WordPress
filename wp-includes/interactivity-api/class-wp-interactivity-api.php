@@ -96,6 +96,15 @@ final class WP_Interactivity_API {
 	private $context_stack = null;
 
 	/**
+	 * Representation in array format of the element currently being processed.
+	 *
+	 * This is only available during directive processing, otherwise it is `null`.
+	 *
+	 * @since 6.7.0
+	 * @var array<mixed>|null
+	 */
+	private $current_element = null;
+	/**
 	 * Gets and/or sets the initial state of an Interactivity API store for a
 	 * given namespace.
 	 *
@@ -297,6 +306,26 @@ final class WP_Interactivity_API {
 			? $context[ $store_namespace ]
 			: array();
 	}
+	/**
+	 * Returns an array representation of the current element being processed.
+	 *
+	 * The returned array contains a copy of the element attributes.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array|null Current element.
+	 */
+	public function get_element(): ?array {
+		if ( null === $this->current_element ) {
+			_doing_it_wrong(
+				__METHOD__,
+				__( 'The element can only be read during directive processing.' ),
+				'6.7.0'
+			);
+		}
+
+		return $this->current_element;
+	}
 
 	/**
 	 * Registers the `@wordpress/interactivity` script modules.
@@ -449,6 +478,19 @@ final class WP_Interactivity_API {
 				'exit'  => $p->is_tag_closer() || ! $p->has_and_visits_its_closer_tag(),
 			);
 
+			// Get the element attributes to include them in the element representation.
+			$element_attrs = array();
+			$attr_names    = $p->get_attribute_names_with_prefix( '' ) ?? array();
+
+			foreach ( $attr_names as $name ) {
+				$element_attrs[ $name ] = $p->get_attribute( $name );
+			}
+
+			// Assign the current element right before running its directive processors.
+			$this->current_element = array(
+				'attributes' => $element_attrs,
+			);
+
 			foreach ( $modes as $mode => $should_run ) {
 				if ( ! $should_run ) {
 					continue;
@@ -470,6 +512,9 @@ final class WP_Interactivity_API {
 					call_user_func_array( $func, array( $p, $mode, &$tag_stack ) );
 				}
 			}
+
+			// Clear the current element.
+			$this->current_element = null;
 		}
 
 		if ( $unbalanced ) {
