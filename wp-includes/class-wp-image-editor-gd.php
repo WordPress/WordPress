@@ -572,6 +572,38 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
+	 * Sets Image Compression quality on a 1-100% scale. Handles WebP lossless images.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param int $quality Compression Quality. Range: [1,100]
+	 * @return true|WP_Error True if set successfully; WP_Error on failure.
+	 */
+	public function set_quality( $quality = null ) {
+		$quality_result = parent::set_quality( $quality );
+		if ( is_wp_error( $quality_result ) ) {
+			return $quality_result;
+		} else {
+			$quality = $this->get_quality();
+		}
+
+		// Handle setting the quality for WebP lossless images, see https://php.watch/versions/8.1/gd-webp-lossless.
+		try {
+			if ( 'image/webp' === $this->mime_type && defined( 'IMG_WEBP_LOSSLESS' ) ) {
+				$webp_info = wp_get_webp_info( $this->file );
+				if ( ! empty( $webp_info['type'] ) && 'lossless' === $webp_info['type'] ) {
+					$quality = IMG_WEBP_LOSSLESS;
+					parent::set_quality( $quality );
+				}
+			}
+		} catch ( Exception $e ) {
+			return new WP_Error( 'image_quality_error', $e->getMessage() );
+		}
+		$this->quality = $quality;
+		return true;
+	}
+
+	/**
 	 * Returns stream of current image.
 	 *
 	 * @since 3.5.0
