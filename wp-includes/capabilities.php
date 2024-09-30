@@ -33,6 +33,7 @@
  * @since 5.7.0 Added the `create_app_password`, `list_app_passwords`, `read_app_password`,
  *              `edit_app_password`, `delete_app_passwords`, `delete_app_password`,
  *              and `update_https` capabilities.
+ * @since 6.7.0 Added the `edit_block_binding` capability.
  *
  * @global array $post_type_meta_caps Used to get post type meta capabilities.
  *
