@@ -2335,6 +2335,7 @@ function wp_migrate_old_typography_shape( $metadata ) {
  *
  * @since 5.8.0
  * @since 6.1.0 Added `query_loop_block_query_vars` filter and `parents` support in query.
+ * @since 6.7.0 Added support for the `format` property in query.
  *
  * @param WP_Block $block Block instance.
  * @param int      $page  Current query's page.
@@ -2347,6 +2348,7 @@ function build_query_vars_from_query_block( $block, $page ) {
 		'order'        => 'DESC',
 		'orderby'      => 'date',
 		'post__not_in' => array(),
+		'tax_query'    => array(),
 	);
 
 	if ( isset( $block->context['query'] ) ) {
@@ -2396,35 +2398,103 @@ function build_query_vars_from_query_block( $block, $page ) {
 		}
 		// Migrate `categoryIds` and `tagIds` to `tax_query` for backwards compatibility.
 		if ( ! empty( $block->context['query']['categoryIds'] ) || ! empty( $block->context['query']['tagIds'] ) ) {
-			$tax_query = array();
+			$tax_query_back_compat = array();
 			if ( ! empty( $block->context['query']['categoryIds'] ) ) {
-				$tax_query[] = array(
+				$tax_query_back_compat[] = array(
 					'taxonomy'         => 'category',
 					'terms'            => array_filter( array_map( 'intval', $block->context['query']['categoryIds'] ) ),
 					'include_children' => false,
 				);
 			}
 			if ( ! empty( $block->context['query']['tagIds'] ) ) {
-				$tax_query[] = array(
+				$tax_query_back_compat[] = array(
 					'taxonomy'         => 'post_tag',
 					'terms'            => array_filter( array_map( 'intval', $block->context['query']['tagIds'] ) ),
 					'include_children' => false,
 				);
 			}
-			$query['tax_query'] = $tax_query;
+			$query['tax_query'] = array_merge( $query['tax_query'], $tax_query_back_compat );
 		}
 		if ( ! empty( $block->context['query']['taxQuery'] ) ) {
-			$query['tax_query'] = array();
+			$tax_query = array();
 			foreach ( $block->context['query']['taxQuery'] as $taxonomy => $terms ) {
 				if ( is_taxonomy_viewable( $taxonomy ) && ! empty( $terms ) ) {
-					$query['tax_query'][] = array(
+					$tax_query[] = array(
 						'taxonomy'         => $taxonomy,
 						'terms'            => array_filter( array_map( 'intval', $terms ) ),
 						'include_children' => false,
 					);
 				}
 			}
+			$query['tax_query'] = array_merge( $query['tax_query'], $tax_query );
 		}
+		if ( ! empty( $block->context['query']['format'] ) && is_array( $block->context['query']['format'] ) ) {
+			$formats = $block->context['query']['format'];
+			/*
+			 * Validate that the format is either `standard` or a supported post format.
+			 * - First, add `standard` to the array of valid formats.
+			 * - Then, remove any invalid formats.
+			 */
+			$valid_formats = array_merge( array( 'standard' ), get_post_format_slugs() );
+			$formats       = array_intersect( $formats, $valid_formats );
+
+			/*
+			 * The relation needs to be set to `OR` since the request can contain
+			 * two separate conditions. The user may be querying for items that have
+			 * either the `standard` format or a specific format.
+			 */
+			$formats_query = array( 'relation' => 'OR' );
+
+			/*
+			 * The default post format, `standard`, is not stored in the database.
+			 * If `standard` is part of the request, the query needs to exclude all post items that
+			 * have a format assigned.
+			 */
+			if ( in_array( 'standard', $formats, true ) ) {
+				$formats_query[] = array(
+					'taxonomy' => 'post_format',
+					'field'    => 'slug',
+					'operator' => 'NOT EXISTS',
+				);
+				// Remove the `standard` format, since it cannot be queried.
+				unset( $formats[ array_search( 'standard', $formats, true ) ] );
+			}
+			// Add any remaining formats to the formats query.
+			if ( ! empty( $formats ) ) {
+				// Add the `post-format-` prefix.
+				$terms = array_map(
+					static function ( $format ) {
+						return "post-format-$format";
+					},
+					$formats
+				);
+				$formats_query[] = array(
+					'taxonomy' => 'post_format',
+					'field'    => 'slug',
+					'terms'    => $terms,
+					'operator' => 'IN',
+				);
+			}
+
+			/*
+			 * Add `$formats_query` to `$query`, as long as it contains more than one key:
+			 * If `$formats_query` only contains the initial `relation` key, there are no valid formats to query,
+			 * and the query should not be modified.
+			 */
+			if ( count( $formats_query ) > 1 ) {
+				// Enable filtering by both post formats and other taxonomies by combining them with `AND`.
+				if ( empty( $query['tax_query'] ) ) {
+					$query['tax_query'] = $formats_query;
+				} else {
+					$query['tax_query'] = array(
+						'relation' => 'AND',
+						$query['tax_query'],
+						$formats_query,
+					);
+				}
+			}
+		}
+
 		if (
 			isset( $block->context['query']['order'] ) &&
 				in_array( strtoupper( $block->context['query']['order'] ), array( 'ASC', 'DESC' ), true )
