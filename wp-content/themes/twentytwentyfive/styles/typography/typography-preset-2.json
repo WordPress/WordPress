@@ -1,0 +1,148 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"title": "Vollkorn & Fira Code",
+	"slug": "typography-preset-2",
+	"styles": {
+		"typography": {
+			"fontFamily": "var:preset|font-family|fira-code",
+			"fontSize": "var:preset|font-size|medium",
+			"fontStyle": "normal",
+			"fontWeight": "300",
+			"letterSpacing": "-0.18px",
+			"lineHeight": "1.5"
+		},
+		"blocks": {
+			"core/post-author-name": {
+				"typography": {
+					"fontWeight": "300"
+				},
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "underline"
+						},
+						":hover": {
+							"typography": {
+								"textDecoration": "none"
+							}
+						}
+					}
+				}
+			},
+			"core/post-terms": {
+				"typography": {
+					"fontWeight": "300"
+				},
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "underline"
+						},
+						":hover": {
+							"typography": {
+								"textDecoration": "none"
+							}
+						}
+					}
+				}
+			},
+			"core/post-title": {
+				"typography": {
+					"fontWeight": "400",
+					"letterSpacing": "-0.96px"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|vollkorn",
+					"fontSize": "var:preset|font-size|x-large",
+					"fontWeight": "400"
+				},
+				"elements": {
+					"cite": {
+						"typography": {
+							"fontFamily": "var:preset|font-family|fira-code",
+							"fontWeight": "300",
+							"letterSpacing": "-0.14px"
+						}
+					}
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|fira-code",
+					"fontWeight": "500",
+					"letterSpacing": "-0.18px"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|vollkorn",
+					"fontSize": "var:preset|font-size|x-large"
+				}
+			}
+		},
+		"elements": {
+			"button": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|fira-code",
+					"fontSize": "var:preset|font-size|medium",
+					"fontWeight": "400",
+					"letterSpacing": "-0.36px"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|vollkorn"
+				}
+			},
+			"h1": {
+				"typography": {
+					"fontSize": "48px",
+					"letterSpacing": "-0.96px;"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "38px",
+					"letterSpacing": "-0.96px"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "32px",
+					"letterSpacing": "-0.64px"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontSize": "28px",
+					"letterSpacing": "-0.56px"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "24px",
+					"letterSpacing": "-0.48px"
+				}
+			}
+		},
+		"variations": {
+			"post-terms-1": {
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "none"
+						},
+						":hover": {
+							"typography": {
+								"textDecoration": "underline"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

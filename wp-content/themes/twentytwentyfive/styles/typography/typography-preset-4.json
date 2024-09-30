@@ -1,0 +1,116 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"title": "Roboto Slab & Manrope",
+	"slug": "typography-preset-4",
+	"styles": {
+		"typography": {
+			"fontWeight": "500",
+			"lineHeight": "1.3",
+			"letterSpacing": "-0.22px"
+		},
+		"blocks": {
+			"core/code": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"core/navigation": {
+				"typography": {
+					"fontSize": "var:preset|font-size|large",
+					"letterSpacing": "-0.28px",
+					"textTransform": "uppercase"
+				}
+			},
+			"core/post-author": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small"
+				}
+			},
+			"core/post-author-name": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small"
+				}
+			},
+			"core/post-terms": {
+				"typography": {
+					"fontStyle": "normal",
+					"fontWeight": "500",
+					"textTransform": "uppercase"
+				}
+			},
+			"core/post-title": {
+				"typography": {
+					"fontWeight": "200",
+					"letterSpacing": "-2.32px"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|roboto-slab",
+					"fontSize": "var:preset|font-size|x-large",
+					"fontWeight": "200"
+				}
+			},
+			"core/query-title": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/search": {
+				"typography": {
+					"textTransform": "uppercase"
+				}
+			},
+			"core/site-tagline": {
+				"typography": {
+					"fontSize": "var:preset|font-size|large"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontStyle": "normal",
+					"fontWeight": "500",
+					"letterSpacing": "-0.28px",
+					"lineHeight": "1.3",
+					"textTransform": "uppercase"
+				}
+			}
+		},
+		"elements": {
+			"button": {
+				"typography": {
+					"fontWeight": "500",
+					"letterSpacing": "-0.36px",
+					"textTransform": "uppercase"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontWeight": "300",
+					"letterSpacing": "-0.5px"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontWeight": "400",
+					"letterSpacing": "0px"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontWeight": "400",
+					"letterSpacing": "1px"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|roboto-slab",
+					"fontWeight": "200",
+					"letterSpacing": "-0.5px",
+					"lineHeight": "1.2"
+				}
+			}
+		}
+	}
+}

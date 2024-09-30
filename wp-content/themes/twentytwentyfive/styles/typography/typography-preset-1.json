@@ -1,0 +1,177 @@
+{
+	"version": 3,
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"title": "Beiruti & Literata",
+	"slug": "typography-preset-1",
+	"settings": {
+		"typography": {
+			"fontSizes": [
+				{
+					"fluid": false,
+					"name": "Small",
+					"size": "0.9rem",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"max": "1.3rem",
+						"min": "1.2rem"
+					},
+					"name": "Medium",
+					"size": "1rem",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"max": "1.6rem",
+						"min": "1.3rem"
+					},
+					"name": "Large",
+					"size": "1.38rem",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"max": "2rem",
+						"min": "1.75rem"
+					},
+					"name": "Extra Large",
+					"size": "1.75rem",
+					"slug": "x-large"
+				},
+				{
+					"fluid": {
+						"max": "3.625rem",
+						"min": "2.625rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "2.625rem",
+					"slug": "xx-large"
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontFamily": "var:preset|font-family|literata",
+			"fontSize": "var:preset|font-size|medium",
+			"fontStyle": "normal",
+			"fontWeight": "300",
+			"letterSpacing": "-0.22px",
+			"lineHeight": "1.5"
+		},
+		"blocks": {
+			"core/button": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti"
+				}
+			},
+			"core/code": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium",
+					"fontStyle": "normal",
+					"fontWeight": "300"
+				}
+			},
+			"core/list": {
+				"typography": {
+					"lineHeight": "1.3"
+				}
+			},
+			"core/loginout": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"core/post-author": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti"
+				}
+			},
+			"core/post-author-name": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti"
+				}
+			},
+			"core/post-date": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti",
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"core/post-terms": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti",
+					"fontSize": "var:preset|font-size|medium",
+					"fontWeight": "300"
+				}
+			},
+			"core/post-title": {
+				"typography": {
+					"fontSize": "var:preset|font-size|xx-large",
+					"fontWeight": "500",
+					"letterSpacing": "-1px"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti",
+					"fontWeight": "500",
+					"lineHeight": "1"
+				}
+			},
+			"core/query-pagination": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontWeight": "300"
+				}
+			},
+			"core/site-tagline": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti",
+					"fontWeight": "600",
+					"letterSpacing": "2.4px",
+					"textTransform": "uppercase"
+				}
+			}
+		},
+		"elements": {
+			"h3": {
+				"typography": {
+					"fontSize": "1.8rem"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontSize": "var:preset|font-size|large"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|beiruti",
+					"fontWeight": "500",
+					"letterSpacing": "-1px"
+				}
+			}
+		}
+	}
+}
