@@ -5,6 +5,11 @@
  * @package WordPress
  */
 
+// Don't load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 define( 'BLOCKS_PATH', ABSPATH . WPINC . '/blocks/' );
 
 // Include files required for core blocks registration.
