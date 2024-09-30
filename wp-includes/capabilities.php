@@ -1014,6 +1014,54 @@ function user_can( $user, $capability, ...$args ) {
 }
 
 /**
+ * Returns whether a particular user has the specified capability for a given site.
+ *
+ * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
+ * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
+ * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
+ *
+ * Example usage:
+ *
+ *     user_can_for_blog( $user->ID, $blog_id, 'edit_posts' );
+ *     user_can_for_blog( $user->ID, $blog_id, 'edit_post', $post->ID );
+ *     user_can_for_blog( $user->ID, $blog_id, 'edit_post_meta', $post->ID, $meta_key );
+ *
+ * @since 6.7.0
+ *
+ * @param int|WP_User $user       User ID or object.
+ * @param int         $blog_id    Site ID.
+ * @param string      $capability Capability name.
+ * @param mixed       ...$args    Optional further parameters, typically starting with an object ID.
+ * @return bool Whether the user has the given capability.
+ */
+function user_can_for_blog( $user, $blog_id, $capability, ...$args ) {
+	if ( ! is_object( $user ) ) {
+		$user = get_userdata( $user );
+	}
+
+	if ( empty( $user ) ) {
+		// User is logged out, create anonymous user object.
+		$user = new WP_User( 0 );
+		$user->init( new stdClass() );
+	}
+
+	// Check if the blog ID is valid.
+	if ( ! is_numeric( $blog_id ) || $blog_id <= 0 ) {
+		return false;
+	}
+
+	$switched = is_multisite() ? switch_to_blog( $blog_id ) : false;
+
+	$can = user_can( $user->ID, $capability, ...$args );
+
+	if ( $switched ) {
+		restore_current_blog();
+	}
+
+	return $can;
+}
+
+/**
  * Retrieves the global WP_Roles instance and instantiates it if necessary.
  *
  * @since 4.3.0
