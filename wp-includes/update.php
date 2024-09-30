@@ -115,26 +115,28 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		// Filter to supported values.
 		$gd_info = array_filter( $gd_info );
 
-		// Add data for GD WebP, AVIF and HEIC support.
+		// Add data for GD WebP, AVIF, HEIC and JPEG XL support.
 		$query['image_support']['gd'] = array_keys(
 			array_filter(
 				array(
 					'webp' => isset( $gd_info['WebP Support'] ),
 					'avif' => isset( $gd_info['AVIF Support'] ),
 					'heic' => isset( $gd_info['HEIC Support'] ),
+					'jxl'  => isset( $gd_info['JXL Support'] ),
 				)
 			)
 		);
 	}
 
 	if ( class_exists( 'Imagick' ) ) {
-		// Add data for Imagick WebP, AVIF and HEIC support.
+		// Add data for Imagick WebP, AVIF, HEIC and JPEG XL support.
 		$query['image_support']['imagick'] = array_keys(
 			array_filter(
 				array(
 					'webp' => ! empty( Imagick::queryFormats( 'WEBP' ) ),
 					'avif' => ! empty( Imagick::queryFormats( 'AVIF' ) ),
 					'heic' => ! empty( Imagick::queryFormats( 'HEIC' ) ),
+					'jxl'  => ! empty( Imagick::queryFormats( 'JXL' ) ),
 				)
 			)
 		);
