@@ -1408,10 +1408,6 @@ function DisallowOverridesModal({
 
 
 
-
-const {
-  useBlockBindingsUtils
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function PatternOverridesControls({
   attributes,
   setAttributes,
@@ -1426,7 +1422,7 @@ function PatternOverridesControls({
   const isConnectedToOtherSources = defaultBindings?.source && defaultBindings.source !== PATTERN_OVERRIDES_BINDING_SOURCE;
   const {
     updateBlockBindings
-  } = useBlockBindingsUtils();
+  } = (0,external_wp_blockEditor_namespaceObject.useBlockBindingsUtils)();
   function updateBindings(isChecked, customName) {
     if (customName) {
       setAttributes({

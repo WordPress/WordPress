@@ -4904,7 +4904,6 @@ const linkOff = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ex
 
 
 
-
 /**
  * WordPress dependencies
  */
@@ -5040,7 +5039,6 @@ function ButtonEdit(props) {
   const colorProps = (0,external_wp_blockEditor_namespaceObject.__experimentalUseColorProps)(attributes);
   const spacingProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetSpacingClassesAndStyles)(attributes);
   const shadowProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetShadowClassesAndStyles)(attributes);
-  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   const ref = (0,external_wp_element_namespaceObject.useRef)();
   const richTextRef = (0,external_wp_element_namespaceObject.useRef)();
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
@@ -5089,10 +5087,10 @@ function ButtonEdit(props) {
     if (!isSelected) {
       return {};
     }
-    const blockBindingsSource = unlock(select(external_wp_blocks_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
+    const blockBindingsSource = (0,external_wp_blocks_namespaceObject.getBlockBindingsSource)(metadata?.bindings?.url?.source);
     return {
       lockUrlControls: !!metadata?.bindings?.url && !blockBindingsSource?.canUserEditValue?.({
-        registry,
+        select,
         context,
         args: metadata?.bindings?.url?.args
       })
@@ -25944,7 +25942,6 @@ function image_Image({
   // The only supported unit is px, so we can parseInt to strip the px here.
   const numericWidth = width ? parseInt(width, 10) : undefined;
   const numericHeight = height ? parseInt(height, 10) : undefined;
-  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   const imageRef = (0,external_wp_element_namespaceObject.useRef)();
   const {
     allowResize = true
@@ -26254,20 +26251,17 @@ function image_Image({
       return {};
     }
     const {
-      getBlockBindingsSource
-    } = unlock(select(external_wp_blocks_namespaceObject.store));
-    const {
       url: urlBinding,
       alt: altBinding,
       title: titleBinding
     } = metadata?.bindings || {};
     const hasParentPattern = !!context['pattern/overrides'];
-    const urlBindingSource = getBlockBindingsSource(urlBinding?.source);
-    const altBindingSource = getBlockBindingsSource(altBinding?.source);
-    const titleBindingSource = getBlockBindingsSource(titleBinding?.source);
+    const urlBindingSource = (0,external_wp_blocks_namespaceObject.getBlockBindingsSource)(urlBinding?.source);
+    const altBindingSource = (0,external_wp_blocks_namespaceObject.getBlockBindingsSource)(altBinding?.source);
+    const titleBindingSource = (0,external_wp_blocks_namespaceObject.getBlockBindingsSource)(titleBinding?.source);
     return {
       lockUrlControls: !!urlBinding && !urlBindingSource?.canUserEditValue?.({
-        registry,
+        select,
         context,
         args: urlBinding?.args
       }),
@@ -26280,14 +26274,14 @@ function image_Image({
       // This is a temporary solution until we support overriding the caption on the frontend.
       hasParentPattern,
       lockAltControls: !!altBinding && !altBindingSource?.canUserEditValue?.({
-        registry,
+        select,
         context,
         args: altBinding?.args
       }),
       lockAltControlsMessage: altBindingSource?.label ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Label of the bindings source. */
       (0,external_wp_i18n_namespaceObject.__)('Connected to %s'), altBindingSource.label) : (0,external_wp_i18n_namespaceObject.__)('Connected to dynamic data'),
       lockTitleControls: !!titleBinding && !titleBindingSource?.canUserEditValue?.({
-        registry,
+        select,
         context,
         args: titleBinding?.args
       }),
@@ -26737,7 +26731,6 @@ function useMaxWidthObserver() {
 
 
 
-
 /**
  * Module constants
  */
@@ -26800,7 +26793,6 @@ function ImageEdit({
     metadata
   } = attributes;
   const [temporaryURL, setTemporaryURL] = (0,external_wp_element_namespaceObject.useState)(attributes.blob);
-  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   const containerRef = (0,external_wp_element_namespaceObject.useRef)();
   // Only observe the max width from the parent container when the parent layout is not flex nor grid.
   // This won't work for them because the container width changes with the image.
@@ -27026,10 +27018,10 @@ function ImageEdit({
     if (!isSingleSelected) {
       return {};
     }
-    const blockBindingsSource = unlock(select(external_wp_blocks_namespaceObject.store)).getBlockBindingsSource(metadata?.bindings?.url?.source);
+    const blockBindingsSource = (0,external_wp_blocks_namespaceObject.getBlockBindingsSource)(metadata?.bindings?.url?.source);
     return {
       lockUrlControls: !!metadata?.bindings?.url && !blockBindingsSource?.canUserEditValue?.({
-        registry,
+        select,
         context,
         args: metadata?.bindings?.url?.args
       }),
@@ -51426,15 +51418,12 @@ function ReusableBlockEdit({
       getSettings,
       getBlockEditingMode
     } = select(external_wp_blockEditor_namespaceObject.store);
-    const {
-      getBlockBindingsSource
-    } = unlock(select(external_wp_blocks_namespaceObject.store));
     // For editing link to the site editor if the theme and user permissions support it.
     return {
       innerBlocks: getBlocks(patternClientId),
       onNavigateToEntityRecord: getSettings().onNavigateToEntityRecord,
       editingMode: getBlockEditingMode(patternClientId),
-      hasPatternOverridesSource: !!getBlockBindingsSource('core/pattern-overrides')
+      hasPatternOverridesSource: !!(0,external_wp_blocks_namespaceObject.getBlockBindingsSource)('core/pattern-overrides')
     };
   }, [patternClientId]);
 
@@ -63976,12 +63965,12 @@ function FootnotesEdit({
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/node_modules/uuid/dist/esm-browser/native.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/native.js
 const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
 /* harmony default export */ const esm_browser_native = ({
   randomUUID
 });
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/node_modules/uuid/dist/esm-browser/rng.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/rng.js
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
@@ -64000,7 +63989,7 @@ function rng() {
 
   return getRandomValues(rnds8);
 }
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/node_modules/uuid/dist/esm-browser/stringify.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/stringify.js
 
 /**
  * Convert array of 16 byte values to UUID string format of the form:
@@ -64034,7 +64023,7 @@ function stringify(arr, offset = 0) {
 }
 
 /* harmony default export */ const esm_browser_stringify = ((/* unused pure expression or super */ null && (stringify)));
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/node_modules/uuid/dist/esm-browser/v4.js
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/v4.js
 
 
 

@@ -751,14 +751,11 @@ function DropdownHeader({
         level: 2,
         size: 13,
         children: title
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalSpacer, {}), onClose && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-      // TODO: Switch to `true` (40px size) if possible
-      , {
-        __next40pxDefaultSize: false,
-        className: "dataforms-layouts-panel__dropdown-header-action",
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalSpacer, {}), onClose && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
         label: (0,external_wp_i18n_namespaceObject.__)('Close'),
         icon: close_small,
-        onClick: onClose
+        onClick: onClose,
+        size: "small"
       })]
     })
   });

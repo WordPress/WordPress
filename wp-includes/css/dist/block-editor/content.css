@@ -698,24 +698,12 @@
 }
 
 .block-editor-media-placeholder__url-input-form{
-  display:flex;
-}
-.block-editor-media-placeholder__url-input-form input[type=url].block-editor-media-placeholder__url-input-field{
-  border:none;
-  border-radius:0;
-  flex-grow:1;
-  margin:2px;
-  min-width:200px;
-  width:100%;
+  min-width:260px;
 }
 @media (min-width:600px){
-  .block-editor-media-placeholder__url-input-form input[type=url].block-editor-media-placeholder__url-input-field{
+  .block-editor-media-placeholder__url-input-form{
     width:300px;
   }
-}
-
-.block-editor-media-placeholder__url-input-submit-button{
-  flex-shrink:1;
 }
 
 .block-editor-media-placeholder__cancel-button.is-link{
