@@ -1332,19 +1332,21 @@ class WP_Debug_Data {
 		}
 
 		// Check WP_ENVIRONMENT_TYPE.
-		if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE ) {
-			$wp_environment_type = WP_ENVIRONMENT_TYPE;
+		if ( defined( 'WP_ENVIRONMENT_TYPE' ) ) {
+			$wp_environment_type       = WP_ENVIRONMENT_TYPE ? WP_ENVIRONMENT_TYPE : __( 'Empty value' );
+			$wp_environment_type_debug = WP_ENVIRONMENT_TYPE;
 		} else {
-			$wp_environment_type = __( 'Undefined' );
+			$wp_environment_type       = __( 'Undefined' );
+			$wp_environment_type_debug = 'undefined';
 		}
 
 		// Check DB_COLLATE.
-		if ( defined( 'DB_COLLATE' ) && DB_COLLATE ) {
-			$wp_db_collate = DB_COLLATE;
-		} elseif ( defined( 'DB_COLLATE' ) && empty( DB_COLLATE ) ) {
-			$wp_db_collate = __( 'Defined, but empty' );
+		if ( defined( 'DB_COLLATE' ) ) {
+			$db_collate       = DB_COLLATE ? DB_COLLATE : __( 'Empty value' );
+			$db_collate_debug = DB_COLLATE;
 		} else {
-			$wp_db_collate = __( 'Undefined' );
+			$db_collate       = __( 'Undefined' );
+			$db_collate_debug = 'undefined';
 		}
 
 		$fields = array(
@@ -1422,7 +1424,7 @@ class WP_Debug_Data {
 			'WP_ENVIRONMENT_TYPE' => array(
 				'label' => 'WP_ENVIRONMENT_TYPE',
 				'value' => $wp_environment_type,
-				'debug' => $wp_environment_type,
+				'debug' => $wp_environment_type_debug,
 			),
 			'WP_DEVELOPMENT_MODE' => array(
 				'label' => 'WP_DEVELOPMENT_MODE',
@@ -1436,8 +1438,8 @@ class WP_Debug_Data {
 			),
 			'DB_COLLATE'          => array(
 				'label' => 'DB_COLLATE',
-				'value' => $wp_db_collate,
-				'debug' => $wp_db_collate,
+				'value' => $db_collate,
+				'debug' => $db_collate_debug,
 			),
 		);
 
