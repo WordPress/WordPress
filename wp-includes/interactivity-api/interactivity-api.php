@@ -133,7 +133,7 @@ function wp_interactivity_get_context( ?string $store_namespace = null ): array 
  *
  * @since 6.7.0
  *
- * @return array|null Current element.
+ * @return array{attributes: array<string, string|bool>}|null Current element.
  */
 function wp_interactivity_get_element(): ?array {
 	return wp_interactivity()->get_element();

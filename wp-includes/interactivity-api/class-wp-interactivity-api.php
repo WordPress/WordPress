@@ -101,9 +101,10 @@ final class WP_Interactivity_API {
 	 * This is only available during directive processing, otherwise it is `null`.
 	 *
 	 * @since 6.7.0
-	 * @var array<mixed>|null
+	 * @var array{attributes: array<string, string|bool>}|null
 	 */
 	private $current_element = null;
+
 	/**
 	 * Gets and/or sets the initial state of an Interactivity API store for a
 	 * given namespace.
@@ -306,6 +307,7 @@ final class WP_Interactivity_API {
 			? $context[ $store_namespace ]
 			: array();
 	}
+
 	/**
 	 * Returns an array representation of the current element being processed.
 	 *
@@ -313,7 +315,7 @@ final class WP_Interactivity_API {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @return array|null Current element.
+	 * @return array{attributes: array<string, string|bool>}|null Current element.
 	 */
 	public function get_element(): ?array {
 		if ( null === $this->current_element ) {
