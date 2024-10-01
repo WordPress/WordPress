@@ -1338,6 +1338,15 @@ class WP_Debug_Data {
 			$wp_environment_type = __( 'Undefined' );
 		}
 
+		// Check DB_COLLATE.
+		if ( defined( 'DB_COLLATE' ) && DB_COLLATE ) {
+			$wp_db_collate = DB_COLLATE;
+		} elseif ( defined( 'DB_COLLATE' ) && empty( DB_COLLATE ) ) {
+			$wp_db_collate = __( 'Defined, but empty' );
+		} else {
+			$wp_db_collate = __( 'Undefined' );
+		}
+
 		$fields = array(
 			'ABSPATH'             => array(
 				'label'   => 'ABSPATH',
@@ -1427,8 +1436,8 @@ class WP_Debug_Data {
 			),
 			'DB_COLLATE'          => array(
 				'label' => 'DB_COLLATE',
-				'value' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : __( 'Undefined' ) ),
-				'debug' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : 'undefined' ),
+				'value' => $wp_db_collate,
+				'debug' => $wp_db_collate,
 			),
 		);
 
