@@ -169,7 +169,7 @@ function wp_default_script_modules() {
 				break;
 		}
 
-		$path = "/wp-includes/js/dist/script-modules/{$file_name}";
+		$path = includes_url( "js/dist/script-modules/{$file_name}" );
 		wp_register_script_module( $script_module_id, $path, $script_module_data['dependencies'], $script_module_data['version'] );
 	}
 }
