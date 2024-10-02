@@ -10,7 +10,6 @@
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */
-
 class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 
 	/**

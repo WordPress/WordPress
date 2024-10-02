@@ -6,6 +6,7 @@
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */
+
 ?>
 
 <div id="featured-content" class="featured-content">

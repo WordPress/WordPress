@@ -26,7 +26,7 @@ if ( function_exists( 'register_block_pattern_category' ) ) {
  */
 if ( function_exists( 'register_block_pattern' ) ) {
 
-	// Description
+	// Description.
 	register_block_pattern(
 		'twentyfourteen/about',
 		array(
@@ -37,7 +37,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 		)
 	);
 
-	// Description
+	// Description.
 	register_block_pattern(
 		'twentyfourteen/list',
 		array(
