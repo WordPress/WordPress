@@ -973,7 +973,7 @@ final class WP_Post_Type {
 		self::$default_labels = array(
 			'name'                     => array( _x( 'Posts', 'post type general name' ), _x( 'Pages', 'post type general name' ) ),
 			'singular_name'            => array( _x( 'Post', 'post type singular name' ), _x( 'Page', 'post type singular name' ) ),
-			'add_new'                  => array( __( 'Add New Post' ), __( 'Add New Page' ) ),
+			'add_new'                  => array( __( 'Add New' ), __( 'Add New' ) ),
 			'add_new_item'             => array( __( 'Add New Post' ), __( 'Add New Page' ) ),
 			'edit_item'                => array( __( 'Edit Post' ), __( 'Edit Page' ) ),
 			'new_item'                 => array( __( 'New Post' ), __( 'New Page' ) ),

@@ -2022,7 +2022,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `name` - General name for the post type, usually plural. The same and overridden
  *          by `$post_type_object->label`. Default is 'Posts' / 'Pages'.
  * - `singular_name` - Name for one object of this post type. Default is 'Post' / 'Page'.
- * - `add_new` - Label for adding a new item. Default is 'Add New Post' / 'Add New Page'.
+ * - `add_new` - Label for adding a new item. Default is 'Add New' / 'Add New'.
  * - `add_new_item` - Label for adding a new singular item. Default is 'Add New Post' / 'Add New Page'.
  * - `edit_item` - Label for editing a singular item. Default is 'Edit Post' / 'Edit Page'.
  * - `new_item` - Label for the new item page title. Default is 'New Post' / 'New Page'.
@@ -2084,6 +2084,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 6.4.0 Changed default values for the `add_new` label to include the type of content.
  *              This matches `add_new_item` and provides more context for better accessibility.
  * @since 6.6.0 Added the `template_name` label.
+ * @since 6.7.0 Restored pre-6.4.0 defaults for the `add_new` label and updated documentation.
+ *              Updated core usage to reference `add_new_item`.
  *
  * @access private
  *
