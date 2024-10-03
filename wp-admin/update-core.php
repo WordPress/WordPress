@@ -37,7 +37,7 @@ function list_core_update( $update ) {
 	global $wp_local_package, $wpdb;
 	static $first_pass = true;
 
-	$wp_version     = get_bloginfo( 'version' );
+	$wp_version     = wp_get_wp_version();
 	$version_string = sprintf( '%s&ndash;%s', $update->current, get_locale() );
 
 	if ( 'en_US' === $update->locale && 'en_US' === get_locale() ) {
@@ -393,7 +393,7 @@ function core_auto_updates_settings() {
 	);
 
 	if ( $upgrade_major ) {
-		$wp_version = get_bloginfo( 'version' );
+		$wp_version = wp_get_wp_version();
 		$updates    = get_core_updates();
 
 		if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
@@ -460,7 +460,7 @@ function core_auto_updates_settings() {
  * @since 2.9.0
  */
 function list_plugin_updates() {
-	$wp_version     = get_bloginfo( 'version' );
+	$wp_version     = wp_get_wp_version();
 	$cur_wp_version = preg_replace( '/-.*$/', '', $wp_version );
 
 	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -1101,7 +1101,7 @@ if ( 'upgrade-core' === $action ) {
 
 	echo '<h2 class="wp-current-version">';
 	/* translators: Current version of WordPress. */
-	printf( __( 'Current version: %s' ), get_bloginfo( 'version' ) );
+	printf( __( 'Current version: %s' ), esc_html( wp_get_wp_version() ) );
 	echo '</h2>';
 
 	echo '<p class="update-last-checked">';

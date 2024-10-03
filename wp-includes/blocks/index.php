@@ -25,11 +25,9 @@ require BLOCKS_PATH . 'require-dynamic-blocks.php';
  * avoids unnecessary logic and filesystem lookups in the other function.
  *
  * @since 6.3.0
- *
- * @global string $wp_version The WordPress version string.
  */
 function register_core_block_style_handles() {
-	global $wp_version;
+	$wp_version = wp_get_wp_version();
 
 	if ( ! wp_should_load_separate_core_block_assets() ) {
 		return;

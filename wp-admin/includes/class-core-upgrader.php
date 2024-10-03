@@ -391,13 +391,13 @@ class Core_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @global string $wp_version       The WordPress version string.
 	 * @global string $wp_local_package Locale code of the package.
 	 *
 	 * @return bool True if the checksums match, otherwise false.
 	 */
 	public function check_files() {
-		global $wp_version, $wp_local_package;
+		global $wp_local_package;
+		$wp_version = wp_get_wp_version();
 
 		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
 

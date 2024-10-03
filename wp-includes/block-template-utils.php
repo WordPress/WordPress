@@ -1404,12 +1404,10 @@ function wp_is_theme_directory_ignored( $path ) {
  * @since 5.9.0
  * @since 6.0.0 Adds the whole theme to the export archive.
  *
- * @global string $wp_version The WordPress version string.
- *
  * @return WP_Error|string Path of the ZIP file or error on failure.
  */
 function wp_generate_block_templates_export_file() {
-	global $wp_version;
+	$wp_version = wp_get_wp_version();
 
 	if ( ! class_exists( 'ZipArchive' ) ) {
 		return new WP_Error( 'missing_zip_package', __( 'Zip Export not supported.' ) );

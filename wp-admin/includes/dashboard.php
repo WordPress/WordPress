@@ -2056,7 +2056,7 @@ function wp_dashboard_empty() {}
  * @since 5.9.0 Send users to the Site Editor if the active theme is block-based.
  */
 function wp_welcome_panel() {
-	list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
+	list( $display_version ) = explode( '-', wp_get_wp_version() );
 	$can_customize           = current_user_can( 'customize' );
 	$is_block_theme          = wp_is_block_theme();
 	?>
@@ -2070,7 +2070,7 @@ function wp_welcome_panel() {
 			<a href="<?php echo esc_url( admin_url( 'about.php' ) ); ?>">
 			<?php
 				/* translators: %s: Current WordPress version. */
-				printf( __( 'Learn more about the %s version.' ), $display_version );
+				printf( __( 'Learn more about the %s version.' ), esc_html( $display_version ) );
 			?>
 			</a>
 		</p>

@@ -284,7 +284,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			$error = sprintf(
 				/* translators: 1: Current WordPress version, 2: Version required by the uploaded plugin. */
 				__( 'Your WordPress version is %1$s, however the uploaded plugin requires %2$s.' ),
-				get_bloginfo( 'version' ),
+				esc_html( wp_get_wp_version() ),
 				$requires_wp
 			);
 
