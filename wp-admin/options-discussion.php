@@ -42,7 +42,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <form method="post" action="options.php">
 <?php settings_fields( 'discussion' ); ?>
 
-<table class="form-table" role="presentation">
+<table class="form-table indent-children" role="presentation">
 <tr>
 <th scope="row"><?php _e( 'Default post settings' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span>
@@ -86,27 +86,20 @@ if ( ! get_option( 'users_can_register' ) && is_multisite() ) {
 ?>
 </label>
 <br />
+<input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked( '1', get_option( 'close_comments_for_old_posts' ) ); ?> /> <label for="close_comments_for_old_posts"><?php _e( 'Automatically close comments on old posts' ); ?></label>
+<ul>
+	<li>
+		<label for="close_comments_days_old"><?php _e( 'Close comments when post is how many days old' ); ?></label>
+		<input name="close_comments_days_old" type="number" step="1" min="0" id="close_comments_days_old" value="<?php echo esc_attr( get_option( 'close_comments_days_old' ) ); ?>" class="small-text"/>
+	</li>
+</ul>
 
-<label for="close_comments_for_old_posts">
-<input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked( '1', get_option( 'close_comments_for_old_posts' ) ); ?> />
-<?php
-printf(
-	/* translators: %s: Number of days. */
-	__( 'Automatically close comments on posts older than %s days' ),
-	'</label> <label for="close_comments_days_old"><input name="close_comments_days_old" type="number" min="0" step="1" id="close_comments_days_old" value="' . esc_attr( get_option( 'close_comments_days_old' ) ) . '" class="small-text" />'
-);
-?>
-</label>
-<br />
-
-<label for="show_comments_cookies_opt_in">
 <input name="show_comments_cookies_opt_in" type="checkbox" id="show_comments_cookies_opt_in" value="1" <?php checked( '1', get_option( 'show_comments_cookies_opt_in' ) ); ?> />
-<?php _e( 'Show comments cookies opt-in checkbox, allowing comment author cookies to be set' ); ?>
-</label>
+<label for="show_comments_cookies_opt_in"><?php _e( 'Show comments cookies opt-in checkbox, allowing comment author cookies to be set' ); ?></label>
 <br />
-
-<label for="thread_comments">
 <input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked( '1', get_option( 'thread_comments' ) ); ?> />
+<label for="thread_comments"><?php _e( 'Enable threaded (nested) comments' ); ?></label>
+
 <?php
 /**
  * Filters the maximum depth of threaded/nested comments.
@@ -117,7 +110,7 @@ printf(
  */
 $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 
-$thread_comments_depth = '</label> <label for="thread_comments_depth"><select name="thread_comments_depth" id="thread_comments_depth">';
+$thread_comments_depth = '<select name="thread_comments_depth" id="thread_comments_depth">';
 for ( $i = 2; $i <= $maxdeep; $i++ ) {
 	$thread_comments_depth .= "<option value='" . esc_attr( $i ) . "'";
 	if ( (int) get_option( 'thread_comments_depth' ) === $i ) {
@@ -126,52 +119,46 @@ for ( $i = 2; $i <= $maxdeep; $i++ ) {
 	$thread_comments_depth .= ">$i</option>";
 }
 $thread_comments_depth .= '</select>';
-
-/* translators: %s: Number of levels. */
-printf( __( 'Enable threaded (nested) comments %s levels deep' ), $thread_comments_depth );
-
 ?>
-</label>
-<br />
-<label for="page_comments">
+<ul>
+	<li>
+		<label for="thread_comments_depth"><?php _e( 'Number of levels for threaded (nested) comments' ); ?></label>
+		<?php echo $thread_comments_depth; ?>
+	</li>
+</ul>
+</fieldset></td>
+</tr>
+
+<tr>
+<th scope="row"><?php _e( 'Comment Pagination' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span>
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Comment Pagination' );
+	?>
+</span></legend>
 <input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked( '1', get_option( 'page_comments' ) ); ?> />
-<?php
-$default_comments_page = '</label> <label for="default_comments_page"><select name="default_comments_page" id="default_comments_page"><option value="newest"';
-if ( 'newest' === get_option( 'default_comments_page' ) ) {
-	$default_comments_page .= ' selected="selected"';
-}
-$default_comments_page .= '>' . __( 'last' ) . '</option><option value="oldest"';
-if ( 'oldest' === get_option( 'default_comments_page' ) ) {
-	$default_comments_page .= ' selected="selected"';
-}
-$default_comments_page .= '>' . __( 'first' ) . '</option></select>';
-printf(
-	/* translators: 1: Form field control for number of top level comments per page, 2: Form field control for the 'first' or 'last' page. */
-	__( 'Break comments into pages with %1$s top level comments per page and the %2$s page displayed by default' ),
-	'</label> <label for="comments_per_page"><input name="comments_per_page" type="number" step="1" min="0" id="comments_per_page" value="' . esc_attr( get_option( 'comments_per_page' ) ) . '" class="small-text" />',
-	$default_comments_page
-);
-?>
-</label>
-<br />
-<label for="comment_order">
-<?php
-
-$comment_order = '<select name="comment_order" id="comment_order"><option value="asc"';
-if ( 'asc' === get_option( 'comment_order' ) ) {
-	$comment_order .= ' selected="selected"';
-}
-$comment_order .= '>' . __( 'older' ) . '</option><option value="desc"';
-if ( 'desc' === get_option( 'comment_order' ) ) {
-	$comment_order .= ' selected="selected"';
-}
-$comment_order .= '>' . __( 'newer' ) . '</option></select>';
-
-/* translators: %s: Form field control for 'older' or 'newer' comments. */
-printf( __( 'Comments should be displayed with the %s comments at the top of each page' ), $comment_order );
-
-?>
-</label>
+<label for="page_comments"><?php _e( 'Break comments into pages' ); ?></label>
+<ul>
+	<li>
+		<label for="comments_per_page"><?php _e( 'Top level comments per page' ); ?></label>
+		<input name="comments_per_page" type="number" step="1" min="0" id="comments_per_page" value="<?php echo esc_attr( get_option( 'comments_per_page' ) ); ?>" class="small-text" />
+	</li>
+	<li>
+		<label for="default_comments_page"><?php _e( 'Comments page to display by default' ); ?></label>
+		<select name="default_comments_page" id="default_comments_page">
+			<option value="newest" <?php selected( 'newest', get_option( 'default_comments_page' ) ); ?>><?php _e( 'last page' ); ?></option>
+			<option value="oldest" <?php selected( 'oldest', get_option( 'default_comments_page' ) ); ?>><?php _e( 'first page' ); ?></option>
+		</select>
+	</li>
+	<li>
+		<label for="comment_order"><?php _e( 'Comments to display at the top of each page' ); ?></label>
+		<select name="comment_order" id="comment_order">
+			<option value="asc" <?php selected( 'asc', get_option( 'comment_order' ) ); ?>><?php _e( 'older' ); ?></option>
+			<option value="desc" <?php selected( 'desc', get_option( 'comment_order' ) ); ?>><?php _e( 'newer' ); ?></option>
+		</select>
+	</li>
+</ul>
 </fieldset></td>
 </tr>
 <tr>

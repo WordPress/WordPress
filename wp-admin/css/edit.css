@@ -1297,7 +1297,7 @@ div.tabs-panel-active:focus {
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
-
+.options-discussion-php .indent-children ul,
 #front-page-warning,
 #front-static-pages ul,
 ul.export-filters,
