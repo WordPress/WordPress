@@ -2533,7 +2533,7 @@ function build_query_vars_from_query_block( $block, $page ) {
 			// Add any remaining formats to the formats query.
 			if ( ! empty( $formats ) ) {
 				// Add the `post-format-` prefix.
-				$terms = array_map(
+				$terms           = array_map(
 					static function ( $format ) {
 						return "post-format-$format";
 					},

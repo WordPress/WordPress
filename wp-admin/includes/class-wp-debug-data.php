@@ -1247,7 +1247,7 @@ class WP_Debug_Data {
 	private static function get_wp_mu_plugins(): array {
 		// List must use plugins if there are any.
 		$mu_plugins = get_mu_plugins();
-		$fields = array();
+		$fields     = array();
 
 		foreach ( $mu_plugins as $plugin_path => $plugin ) {
 			$plugin_version = $plugin['Version'];
