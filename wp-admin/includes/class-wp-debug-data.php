@@ -822,7 +822,7 @@ class WP_Debug_Data {
 	 *
 	 * @return array
 	 */
-	public static function get_wp_dropins(): array {
+	private static function get_wp_dropins(): array {
 		// Get a list of all drop-in replacements.
 		$dropins = get_dropins();
 
@@ -857,7 +857,7 @@ class WP_Debug_Data {
 	 *
 	 * @return array
 	 */
-	public static function get_wp_server(): array {
+	private static function get_wp_server(): array {
 		// Populate the server debug fields.
 		if ( function_exists( 'php_uname' ) ) {
 			$server_architecture = sprintf( '%s %s %s', php_uname( 's' ), php_uname( 'r' ), php_uname( 'm' ) );
@@ -1050,7 +1050,7 @@ class WP_Debug_Data {
 	 * @throws ImagickException
 	 * @return array
 	 */
-	public static function get_wp_media(): array {
+	private static function get_wp_media(): array {
 		// Spare few function calls.
 		$not_available = __( 'Not available' );
 
@@ -1244,7 +1244,7 @@ class WP_Debug_Data {
 	 *
 	 * @return array
 	 */
-	public static function get_wp_mu_plugins(): array {
+	private static function get_wp_mu_plugins(): array {
 		// List must use plugins if there are any.
 		$mu_plugins = get_mu_plugins();
 		$fields = array();
@@ -1295,7 +1295,7 @@ class WP_Debug_Data {
 	 *
 	 * @return array
 	 */
-	public static function get_wp_constants(): array {
+	private static function get_wp_constants(): array {
 		// Check if WP_DEBUG_LOG is set.
 		$wp_debug_log_value = __( 'Disabled' );
 		if ( is_string( WP_DEBUG_LOG ) ) {
@@ -1459,7 +1459,7 @@ class WP_Debug_Data {
 	 *
 	 * @return array
 	 */
-	public static function get_wp_database(): array {
+	private static function get_wp_database(): array {
 		global $wpdb;
 
 		// Populate the database debug fields.
