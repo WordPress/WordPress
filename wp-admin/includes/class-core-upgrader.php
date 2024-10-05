@@ -13,6 +13,11 @@
  * It allows for WordPress to upgrade itself in combination with
  * the wp-admin/includes/update-core.php file.
  *
+ * Note: newly introduced functions and methods cannot be used here.
+ * All functions must be present in both the previous version being upgraded from,
+ * and the later version that's being installed (e.g. when rolling back Core)
+ * as this file is used in both.
+ *
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader.php.
  *
@@ -391,13 +396,13 @@ class Core_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.7.0
 	 *
+	 * @global string $wp_version       The WordPress version string.
 	 * @global string $wp_local_package Locale code of the package.
 	 *
 	 * @return bool True if the checksums match, otherwise false.
 	 */
 	public function check_files() {
-		global $wp_local_package;
-		$wp_version = wp_get_wp_version();
+		global $wp_version, $wp_local_package;
 
 		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
 
