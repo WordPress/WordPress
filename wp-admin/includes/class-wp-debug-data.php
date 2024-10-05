@@ -56,7 +56,7 @@ class WP_Debug_Data {
 		 */
 		$info = array(
 			'wp-core'             => self::get_wp_core(),
-			'wp-paths-sizes'      => array(),
+			'wp-paths-sizes'      => self::get_wp_paths_sizes(),
 			'wp-dropins'          => self::get_wp_dropins(),
 			'wp-active-theme'     => array(),
 			'wp-parent-theme'     => array(),
@@ -71,18 +71,17 @@ class WP_Debug_Data {
 			'wp-filesystem'       => self::get_wp_filesystem(),
 		);
 
-		// Remove debug data which is only relevant on single-site installs.
-		if ( is_multisite() ) {
-			unset( $info['wp-paths-sizes'] );
-		}
-
-		if ( ! $is_multisite ) {
-			$info['wp-paths-sizes'] = array(
-				/* translators: Filesystem directory paths and storage sizes. */
-				'label'  => __( 'Directories and Sizes' ),
-				'fields' => array(),
-			);
-		}
+		/*
+		 * Remove null elements from the array. The individual methods are
+		 * allowed to return `null`, which communicates that the category
+		 * of debug data isn't relevant and shouldn't be passed through.
+		 */
+		$info = array_filter(
+			$info,
+			static function ( $section ) {
+				return isset( $section );
+			}
+		);
 
 		$info['wp-active-theme'] = array(
 			'label'  => __( 'Active Theme' ),
@@ -99,69 +98,6 @@ class WP_Debug_Data {
 			'show_count' => true,
 			'fields'     => array(),
 		);
-
-		// Remove accordion for Directories and Sizes if in Multisite.
-		if ( ! $is_multisite ) {
-			$loading = __( 'Loading&hellip;' );
-
-			$info['wp-paths-sizes']['fields'] = array(
-				'wordpress_path' => array(
-					'label' => __( 'WordPress directory location' ),
-					'value' => untrailingslashit( ABSPATH ),
-				),
-				'wordpress_size' => array(
-					'label' => __( 'WordPress directory size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-				'uploads_path'   => array(
-					'label' => __( 'Uploads directory location' ),
-					'value' => $upload_dir['basedir'],
-				),
-				'uploads_size'   => array(
-					'label' => __( 'Uploads directory size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-				'themes_path'    => array(
-					'label' => __( 'Themes directory location' ),
-					'value' => get_theme_root(),
-				),
-				'themes_size'    => array(
-					'label' => __( 'Themes directory size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-				'plugins_path'   => array(
-					'label' => __( 'Plugins directory location' ),
-					'value' => WP_PLUGIN_DIR,
-				),
-				'plugins_size'   => array(
-					'label' => __( 'Plugins directory size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-				'fonts_path'     => array(
-					'label' => __( 'Fonts directory location' ),
-					'value' => wp_get_font_dir()['basedir'],
-				),
-				'fonts_size'     => array(
-					'label' => __( 'Fonts directory size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-				'database_size'  => array(
-					'label' => __( 'Database size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-				'total_size'     => array(
-					'label' => __( 'Total installation size' ),
-					'value' => $loading,
-					'debug' => 'loading...',
-				),
-			);
-		}
 
 		// Populate the section for the currently active theme.
 		$theme_features = array();
@@ -1133,7 +1069,7 @@ class WP_Debug_Data {
 
 
 	/**
-	 * Gets the WordPress plugins section of the debug data.
+	 * Gets the WordPress MU plugins section of the debug data.
 	 *
 	 * @since 6.7.0
 	 *
@@ -1180,6 +1116,86 @@ class WP_Debug_Data {
 			'label'      => __( 'Must Use Plugins' ),
 			'show_count' => true,
 			'fields'     => $fields,
+		);
+	}
+
+	/**
+	 * Gets the WordPress paths and sizes section of the debug data.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array|null Paths and sizes debug data for single sites,
+	 *                    otherwise `null` for multi-site installs.
+	 */
+	private static function get_wp_paths_sizes(): ?array {
+		if ( is_multisite() ) {
+			return null;
+		}
+
+		$loading = __( 'Loading&hellip;' );
+
+		$fields = array(
+			'wordpress_path' => array(
+				'label' => __( 'WordPress directory location' ),
+				'value' => untrailingslashit( ABSPATH ),
+			),
+			'wordpress_size' => array(
+				'label' => __( 'WordPress directory size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+			'uploads_path'   => array(
+				'label' => __( 'Uploads directory location' ),
+				'value' => wp_upload_dir()['basedir'],
+			),
+			'uploads_size'   => array(
+				'label' => __( 'Uploads directory size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+			'themes_path'    => array(
+				'label' => __( 'Themes directory location' ),
+				'value' => get_theme_root(),
+			),
+			'themes_size'    => array(
+				'label' => __( 'Themes directory size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+			'plugins_path'   => array(
+				'label' => __( 'Plugins directory location' ),
+				'value' => WP_PLUGIN_DIR,
+			),
+			'plugins_size'   => array(
+				'label' => __( 'Plugins directory size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+			'fonts_path'     => array(
+				'label' => __( 'Fonts directory location' ),
+				'value' => wp_get_font_dir()['basedir'],
+			),
+			'fonts_size'     => array(
+				'label' => __( 'Fonts directory size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+			'database_size'  => array(
+				'label' => __( 'Database size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+			'total_size'     => array(
+				'label' => __( 'Total installation size' ),
+				'value' => $loading,
+				'debug' => 'loading...',
+			),
+		);
+
+		return array(
+			/* translators: Filesystem directory paths and storage sizes. */
+			'label'  => __( 'Directories and Sizes' ),
+			'fields' => $fields,
 		);
 	}
 
