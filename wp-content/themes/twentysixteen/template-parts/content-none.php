@@ -6,6 +6,7 @@
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */
+
 ?>
 
 <section class="no-results not-found">
