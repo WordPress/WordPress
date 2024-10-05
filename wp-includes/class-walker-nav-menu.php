@@ -126,6 +126,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @since 4.4.0 The {@see 'nav_menu_item_args'} filter was added.
 	 * @since 5.9.0 Renamed `$item` to `$data_object` and `$id` to `$current_object_id`
 	 *              to match parent class for PHP 8 named parameter support.
+	 * @since 6.7.0 Removed redundant title attributes.
 	 *
 	 * @see Walker::start_el()
 	 *
@@ -212,8 +213,22 @@ class Walker_Nav_Menu extends Walker {
 
 		$output .= $indent . '<li' . $li_attributes . '>';
 
+		/** This filter is documented in wp-includes/post-template.php */
+		$title = apply_filters( 'the_title', $menu_item->title, $menu_item->ID );
+
+		/**
+		 * Filters a menu item's title.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string   $title     The menu item's title.
+		 * @param WP_Post  $menu_item The current menu item object.
+		 * @param stdClass $args      An object of wp_nav_menu() arguments.
+		 * @param int      $depth     Depth of menu item. Used for padding.
+		 */
+		$title = apply_filters( 'nav_menu_item_title', $title, $menu_item, $args, $depth );
+
 		$atts           = array();
-		$atts['title']  = ! empty( $menu_item->attr_title ) ? $menu_item->attr_title : '';
 		$atts['target'] = ! empty( $menu_item->target ) ? $menu_item->target : '';
 		$atts['rel']    = ! empty( $menu_item->xfn ) ? $menu_item->xfn : '';
 
@@ -228,6 +243,14 @@ class Walker_Nav_Menu extends Walker {
 		}
 
 		$atts['aria-current'] = $menu_item->current ? 'page' : '';
+
+		if ( ! empty( $menu_item->attr_title )
+			&& trim( strtolower( $menu_item->attr_title ) ) !== trim( strtolower( $title ) )
+		) {
+			$atts['title'] = $menu_item->attr_title;
+		} else {
+			$atts['title'] = '';
+		}
 
 		/**
 		 * Filters the HTML attributes applied to a menu item's anchor element.
@@ -250,21 +273,6 @@ class Walker_Nav_Menu extends Walker {
 		 */
 		$atts       = apply_filters( 'nav_menu_link_attributes', $atts, $menu_item, $args, $depth );
 		$attributes = $this->build_atts( $atts );
-
-		/** This filter is documented in wp-includes/post-template.php */
-		$title = apply_filters( 'the_title', $menu_item->title, $menu_item->ID );
-
-		/**
-		 * Filters a menu item's title.
-		 *
-		 * @since 4.4.0
-		 *
-		 * @param string   $title     The menu item's title.
-		 * @param WP_Post  $menu_item The current menu item object.
-		 * @param stdClass $args      An object of wp_nav_menu() arguments.
-		 * @param int      $depth     Depth of menu item. Used for padding.
-		 */
-		$title = apply_filters( 'nav_menu_item_title', $title, $menu_item, $args, $depth );
 
 		$item_output  = $args->before;
 		$item_output .= '<a' . $attributes . '>';
