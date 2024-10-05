@@ -39,27 +39,7 @@ class WP_Debug_Data {
 
 		// Save few function calls.
 		$upload_dir             = wp_upload_dir();
-		$permalink_structure    = get_option( 'permalink_structure' );
-		$is_ssl                 = is_ssl();
 		$is_multisite           = is_multisite();
-		$users_can_register     = get_option( 'users_can_register' );
-		$blog_public            = get_option( 'blog_public' );
-		$default_comment_status = get_option( 'default_comment_status' );
-		$environment_type       = wp_get_environment_type();
-		$core_version           = wp_get_wp_version();
-		$core_updates           = get_core_updates();
-		$core_update_needed     = '';
-
-		if ( is_array( $core_updates ) ) {
-			foreach ( $core_updates as $core => $update ) {
-				if ( 'upgrade' === $update->response ) {
-					/* translators: %s: Latest WordPress version number. */
-					$core_update_needed = ' ' . sprintf( __( '(Latest version: %s)' ), $update->version );
-				} else {
-					$core_update_needed = '';
-				}
-			}
-		}
 
 		/*
 		 * Set up the array that holds all debug information.
@@ -75,7 +55,7 @@ class WP_Debug_Data {
 		 * @ticket 61648
 		 */
 		$info = array(
-			'wp-core'             => array(),
+			'wp-core'             => self::get_wp_core(),
 			'wp-paths-sizes'      => array(),
 			'wp-dropins'          => self::get_wp_dropins(),
 			'wp-active-theme'     => array(),
@@ -95,74 +75,6 @@ class WP_Debug_Data {
 		if ( is_multisite() ) {
 			unset( $info['wp-paths-sizes'] );
 		}
-
-		$info['wp-core'] = array(
-			'label'  => __( 'WordPress' ),
-			'fields' => array(
-				'version'                => array(
-					'label' => __( 'Version' ),
-					'value' => $core_version . $core_update_needed,
-					'debug' => $core_version,
-				),
-				'site_language'          => array(
-					'label' => __( 'Site Language' ),
-					'value' => get_locale(),
-				),
-				'user_language'          => array(
-					'label' => __( 'User Language' ),
-					'value' => get_user_locale(),
-				),
-				'timezone'               => array(
-					'label' => __( 'Timezone' ),
-					'value' => wp_timezone_string(),
-				),
-				'home_url'               => array(
-					'label'   => __( 'Home URL' ),
-					'value'   => get_bloginfo( 'url' ),
-					'private' => true,
-				),
-				'site_url'               => array(
-					'label'   => __( 'Site URL' ),
-					'value'   => get_bloginfo( 'wpurl' ),
-					'private' => true,
-				),
-				'permalink'              => array(
-					'label' => __( 'Permalink structure' ),
-					'value' => $permalink_structure ? $permalink_structure : __( 'No permalink structure set' ),
-					'debug' => $permalink_structure,
-				),
-				'https_status'           => array(
-					'label' => __( 'Is this site using HTTPS?' ),
-					'value' => $is_ssl ? __( 'Yes' ) : __( 'No' ),
-					'debug' => $is_ssl,
-				),
-				'multisite'              => array(
-					'label' => __( 'Is this a multisite?' ),
-					'value' => $is_multisite ? __( 'Yes' ) : __( 'No' ),
-					'debug' => $is_multisite,
-				),
-				'user_registration'      => array(
-					'label' => __( 'Can anyone register on this site?' ),
-					'value' => $users_can_register ? __( 'Yes' ) : __( 'No' ),
-					'debug' => $users_can_register,
-				),
-				'blog_public'            => array(
-					'label' => __( 'Is this site discouraging search engines?' ),
-					'value' => $blog_public ? __( 'No' ) : __( 'Yes' ),
-					'debug' => $blog_public,
-				),
-				'default_comment_status' => array(
-					'label' => __( 'Default comment status' ),
-					'value' => 'open' === $default_comment_status ? _x( 'Open', 'comment status' ) : _x( 'Closed', 'comment status' ),
-					'debug' => $default_comment_status,
-				),
-				'environment_type'       => array(
-					'label' => __( 'Environment type' ),
-					'value' => $environment_type,
-					'debug' => $environment_type,
-				),
-			),
-		);
 
 		if ( ! $is_multisite ) {
 			$info['wp-paths-sizes'] = array(
@@ -187,68 +99,6 @@ class WP_Debug_Data {
 			'show_count' => true,
 			'fields'     => array(),
 		);
-
-		// Conditionally add debug information for multisite setups.
-		if ( is_multisite() ) {
-			$site_id = get_current_blog_id();
-
-			$info['wp-core']['fields']['site_id'] = array(
-				'label' => __( 'Site ID' ),
-				'value' => $site_id,
-				'debug' => $site_id,
-			);
-
-			$network_query = new WP_Network_Query();
-			$network_ids   = $network_query->query(
-				array(
-					'fields'        => 'ids',
-					'number'        => 100,
-					'no_found_rows' => false,
-				)
-			);
-
-			$site_count = 0;
-			foreach ( $network_ids as $network_id ) {
-				$site_count += get_blog_count( $network_id );
-			}
-
-			$info['wp-core']['fields']['site_count'] = array(
-				'label' => __( 'Site count' ),
-				'value' => $site_count,
-			);
-
-			$info['wp-core']['fields']['network_count'] = array(
-				'label' => __( 'Network count' ),
-				'value' => $network_query->found_networks,
-			);
-		}
-
-		$info['wp-core']['fields']['user_count'] = array(
-			'label' => __( 'User count' ),
-			'value' => get_user_count(),
-		);
-
-		// WordPress features requiring processing.
-		$wp_dotorg = wp_remote_get( 'https://wordpress.org', array( 'timeout' => 10 ) );
-
-		if ( ! is_wp_error( $wp_dotorg ) ) {
-			$info['wp-core']['fields']['dotorg_communication'] = array(
-				'label' => __( 'Communication with WordPress.org' ),
-				'value' => __( 'WordPress.org is reachable' ),
-				'debug' => 'true',
-			);
-		} else {
-			$info['wp-core']['fields']['dotorg_communication'] = array(
-				'label' => __( 'Communication with WordPress.org' ),
-				'value' => sprintf(
-					/* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
-					__( 'Unable to reach WordPress.org at %1$s: %2$s' ),
-					gethostbyname( 'wordpress.org' ),
-					$wp_dotorg->get_error_message()
-				),
-				'debug' => $wp_dotorg->get_error_message(),
-			);
-		}
 
 		// Remove accordion for Directories and Sizes if in Multisite.
 		if ( ! $is_multisite ) {
@@ -695,6 +545,169 @@ class WP_Debug_Data {
 		$info = apply_filters( 'debug_information', $info );
 
 		return $info;
+	}
+
+	/**
+	 * Gets the WordPress core section of the debug data.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array
+	 */
+	private static function get_wp_core(): array {
+		// Save few function calls.
+		$permalink_structure    = get_option( 'permalink_structure' );
+		$is_ssl                 = is_ssl();
+		$users_can_register     = get_option( 'users_can_register' );
+		$blog_public            = get_option( 'blog_public' );
+		$default_comment_status = get_option( 'default_comment_status' );
+		$environment_type       = wp_get_environment_type();
+		$core_version           = wp_get_wp_version();
+		$core_updates           = get_core_updates();
+		$core_update_needed     = '';
+
+		if ( is_array( $core_updates ) ) {
+			foreach ( $core_updates as $core => $update ) {
+				if ( 'upgrade' === $update->response ) {
+					/* translators: %s: Latest WordPress version number. */
+					$core_update_needed = ' ' . sprintf( __( '(Latest version: %s)' ), $update->version );
+				} else {
+					$core_update_needed = '';
+				}
+			}
+		}
+
+		$fields = array(
+			'version'                => array(
+				'label' => __( 'Version' ),
+				'value' => $core_version . $core_update_needed,
+				'debug' => $core_version,
+			),
+			'site_language'          => array(
+				'label' => __( 'Site Language' ),
+				'value' => get_locale(),
+			),
+			'user_language'          => array(
+				'label' => __( 'User Language' ),
+				'value' => get_user_locale(),
+			),
+			'timezone'               => array(
+				'label' => __( 'Timezone' ),
+				'value' => wp_timezone_string(),
+			),
+			'home_url'               => array(
+				'label'   => __( 'Home URL' ),
+				'value'   => get_bloginfo( 'url' ),
+				'private' => true,
+			),
+			'site_url'               => array(
+				'label'   => __( 'Site URL' ),
+				'value'   => get_bloginfo( 'wpurl' ),
+				'private' => true,
+			),
+			'permalink'              => array(
+				'label' => __( 'Permalink structure' ),
+				'value' => $permalink_structure ? $permalink_structure : __( 'No permalink structure set' ),
+				'debug' => $permalink_structure,
+			),
+			'https_status'           => array(
+				'label' => __( 'Is this site using HTTPS?' ),
+				'value' => $is_ssl ? __( 'Yes' ) : __( 'No' ),
+				'debug' => $is_ssl,
+			),
+			'multisite'              => array(
+				'label' => __( 'Is this a multisite?' ),
+				'value' => is_multisite() ? __( 'Yes' ) : __( 'No' ),
+				'debug' => is_multisite(),
+			),
+			'user_registration'      => array(
+				'label' => __( 'Can anyone register on this site?' ),
+				'value' => $users_can_register ? __( 'Yes' ) : __( 'No' ),
+				'debug' => $users_can_register,
+			),
+			'blog_public'            => array(
+				'label' => __( 'Is this site discouraging search engines?' ),
+				'value' => $blog_public ? __( 'No' ) : __( 'Yes' ),
+				'debug' => $blog_public,
+			),
+			'default_comment_status' => array(
+				'label' => __( 'Default comment status' ),
+				'value' => 'open' === $default_comment_status ? _x( 'Open', 'comment status' ) : _x( 'Closed', 'comment status' ),
+				'debug' => $default_comment_status,
+			),
+			'environment_type'       => array(
+				'label' => __( 'Environment type' ),
+				'value' => $environment_type,
+				'debug' => $environment_type,
+			),
+		);
+
+		// Conditionally add debug information for multisite setups.
+		if ( is_multisite() ) {
+			$site_id = get_current_blog_id();
+
+			$fields['site_id'] = array(
+				'label' => __( 'Site ID' ),
+				'value' => $site_id,
+				'debug' => $site_id,
+			);
+
+			$network_query = new WP_Network_Query();
+			$network_ids   = $network_query->query(
+				array(
+					'fields'        => 'ids',
+					'number'        => 100,
+					'no_found_rows' => false,
+				)
+			);
+
+			$site_count = 0;
+			foreach ( $network_ids as $network_id ) {
+				$site_count += get_blog_count( $network_id );
+			}
+
+			$fields['site_count'] = array(
+				'label' => __( 'Site count' ),
+				'value' => $site_count,
+			);
+
+			$fields['network_count'] = array(
+				'label' => __( 'Network count' ),
+				'value' => $network_query->found_networks,
+			);
+		}
+
+		$fields['user_count'] = array(
+			'label' => __( 'User count' ),
+			'value' => get_user_count(),
+		);
+
+		// WordPress features requiring processing.
+		$wp_dotorg = wp_remote_get( 'https://wordpress.org', array( 'timeout' => 10 ) );
+
+		if ( ! is_wp_error( $wp_dotorg ) ) {
+			$fields['dotorg_communication'] = array(
+				'label' => __( 'Communication with WordPress.org' ),
+				'value' => __( 'WordPress.org is reachable' ),
+				'debug' => 'true',
+			);
+		} else {
+			$fields['dotorg_communication'] = array(
+				'label' => __( 'Communication with WordPress.org' ),
+				'value' => sprintf(
+				/* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
+					__( 'Unable to reach WordPress.org at %1$s: %2$s' ),
+					gethostbyname( 'wordpress.org' ),
+					$wp_dotorg->get_error_message()
+				),
+				'debug' => $wp_dotorg->get_error_message(),
+			);
+		}
+
+		return array(
+			'label'  => __( 'WordPress' ),
+			'fields' => $fields,
+		);
 	}
 
 	/**
