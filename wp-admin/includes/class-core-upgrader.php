@@ -13,10 +13,9 @@
  * It allows for WordPress to upgrade itself in combination with
  * the wp-admin/includes/update-core.php file.
  *
- * Note: newly introduced functions and methods cannot be used here.
- * All functions must be present in both the previous version being upgraded from,
- * and the later version that's being installed (e.g. when rolling back Core)
- * as this file is used in both.
+ * Note: Newly introduced functions and methods cannot be used here.
+ * All functions must be present in the previous version being upgraded from
+ * as this file is used there too.
  *
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader.php.

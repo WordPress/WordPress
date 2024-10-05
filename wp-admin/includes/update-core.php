@@ -2,10 +2,9 @@
 /**
  * WordPress core upgrade functionality.
  *
- * Note: newly introduced functions and methods cannot be used here.
- * All functions must be present in both the previous version being upgraded from,
- * and the later version that's being installed (e.g. when rolling back Core)
- * as this file is used in both.
+ * Note: Newly introduced functions and methods cannot be used here.
+ * All functions must be present in the previous version being upgraded from
+ * as this file is used there too.
  *
  * @package WordPress
  * @subpackage Administration
