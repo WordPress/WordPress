@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $scheme-name: "light";
 $base-color: #e5e5e5;
 $icon-color: #999;
@@ -19,7 +21,7 @@ $menu-collapse-text: #777;
 $menu-collapse-focus-icon: #555;
 
 $dashboard-accent-1: $highlight-color;
-$dashboard-accent-2: desaturate( lighten( $highlight-color, 7% ), 15% );
+$dashboard-accent-2: color.adjust(color.adjust($highlight-color, $lightness: 7%), $saturation: -15%);
 $dashboard-icon-background: $text-color;
 
 @import "../_admin.scss";

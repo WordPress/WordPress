@@ -6,7 +6,7 @@ $scheme-name: "default" !default;
 
 $text-color: #fff !default;
 $base-color: #23282d !default;
-$icon-color: hsl( hue( $base-color ), 7%, 95% ) !default;
+$icon-color: hsl(color.channel($base-color, "hue", $space: hsl), 7%, 95%) !default;
 $highlight-color: #0073aa !default;
 $notification-color: #d54e21 !default;
 
@@ -16,7 +16,7 @@ $notification-color: #d54e21 !default;
 $body-background: #f1f1f1 !default;
 
 $link: #0073aa !default;
-$link-focus: lighten( $link, 10% ) !default;
+$link-focus: color.adjust($link, $lightness: 10%) !default;
 
 $button-color: $highlight-color !default;
 $button-text-color: $text-color !default;
@@ -38,8 +38,8 @@ $menu-current-icon: $menu-highlight-icon !default;
 $menu-current-background: $menu-highlight-background !default;
 
 $menu-submenu-text: mix( $base-color, $text-color, 30% ) !default;
-$menu-submenu-background: darken( $base-color, 7% ) !default;
-$menu-submenu-background-alt: desaturate( lighten( $menu-background, 7% ), 7% ) !default;
+$menu-submenu-background: color.adjust($base-color, $lightness: -7%) !default;
+$menu-submenu-background-alt: color.adjust(color.adjust($menu-background, $lightness: 7%), $saturation: -7%) !default;
 
 $menu-submenu-focus-text: $highlight-color !default;
 $menu-submenu-current-text: $text-color !default;
@@ -54,8 +54,8 @@ $menu-collapse-icon: $menu-icon !default;
 $menu-collapse-focus-text: $text-color !default;
 $menu-collapse-focus-icon: $menu-highlight-icon !default;
 
-$adminbar-avatar-frame: lighten( $menu-background, 7% ) !default;
-$adminbar-input-background: lighten( $menu-background, 7% ) !default;
+$adminbar-avatar-frame: color.adjust($menu-background, $lightness: 7%) !default;
+$adminbar-input-background: color.adjust($menu-background, $lightness: 7%) !default;
 
 $adminbar-recovery-exit-text: $menu-bubble-text !default;
 $adminbar-recovery-exit-background: $menu-bubble-background !default;

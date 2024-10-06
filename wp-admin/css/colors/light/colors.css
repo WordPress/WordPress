@@ -165,7 +165,7 @@ textarea:focus {
   background: #04a4cc;
   color: #fff;
   border-color: rgb(2.5288461538, 103.6826923077, 128.9711538462);
-  box-shadow: inset 0 2px 5px -3px black;
+  box-shadow: inset 0 2px 5px -3px hsl(192, 96.1538461538%, -9.2156862745%);
 }
 .wp-core-ui .button-group > .button.active {
   border-color: #04a4cc;
