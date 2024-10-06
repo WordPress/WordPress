@@ -484,9 +484,6 @@
   justify-content:center;
   width:100%;
 }
-.block-editor-button-block-appender.components-button.components-button{
-  padding:12px;
-}
 .is-dark-theme .block-editor-button-block-appender{
   box-shadow:inset 0 0 0 1px #ffffffa6;
   color:#ffffffa6;

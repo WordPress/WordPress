@@ -8027,10 +8027,8 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)((0,external_wp_elem
         className: dist_clsx('edit-site-site-hub__view-mode-toggle-container', {
           'has-transparent-background': isTransparent
         }),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-        // TODO: Switch to `true` (40px size) if possible
-        , {
-          __next40pxDefaultSize: false,
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          __next40pxDefaultSize: true,
           ref: ref,
           href: dashboardLink,
           label: (0,external_wp_i18n_namespaceObject.__)('Go to the Dashboard'),
@@ -8046,10 +8044,8 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)((0,external_wp_elem
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
           className: "edit-site-site-hub__title",
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Button
-          // TODO: Switch to `true` (40px size) if possible
-          , {
-            __next40pxDefaultSize: false,
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Button, {
+            __next40pxDefaultSize: true,
             variant: "link",
             href: homeUrl,
             target: "_blank",
@@ -8063,10 +8059,8 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)((0,external_wp_elem
           spacing: 0,
           expanded: false,
           className: "edit-site-site-hub__actions",
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-          // TODO: Switch to `true` (40px size) if possible
-          , {
-            __next40pxDefaultSize: false,
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+            __next40pxDefaultSize: true,
             className: "edit-site-site-hub_toggle-command-center",
             icon: library_search,
             onClick: () => openCommandCenter(),
@@ -8111,10 +8105,8 @@ const SiteHubMobile = (0,external_wp_element_namespaceObject.memo)((0,external_w
         className: dist_clsx('edit-site-site-hub__view-mode-toggle-container', {
           'has-transparent-background': isTransparent
         }),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-        // TODO: Switch to `true` (40px size) if possible
-        , {
-          __next40pxDefaultSize: false,
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          __next40pxDefaultSize: true,
           ref: ref,
           label: (0,external_wp_i18n_namespaceObject.__)('Go to Site Editor'),
           className: "edit-site-layout__view-mode-toggle",
@@ -8133,10 +8125,8 @@ const SiteHubMobile = (0,external_wp_element_namespaceObject.memo)((0,external_w
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
           className: "edit-site-site-hub__title",
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-          // TODO: Switch to `true` (40px size) if possible
-          , {
-            __next40pxDefaultSize: false,
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+            __next40pxDefaultSize: true,
             variant: "link",
             href: homeUrl,
             target: "_blank",
@@ -8147,10 +8137,8 @@ const SiteHubMobile = (0,external_wp_element_namespaceObject.memo)((0,external_w
           spacing: 0,
           expanded: false,
           className: "edit-site-site-hub__actions",
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-          // TODO: Switch to `true` (40px size) if possible
-          , {
-            __next40pxDefaultSize: false,
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+            __next40pxDefaultSize: true,
             className: "edit-site-site-hub_toggle-command-center",
             icon: library_search,
             onClick: () => openCommandCenter(),
@@ -9189,10 +9177,8 @@ function SavePanel() {
       className: dist_clsx('edit-site-editor__toggle-save-panel', {
         'screen-reader-text': isSaveViewOpen
       }),
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-      // TODO: Switch to `true` (40px size) if possible
-      , {
-        __next40pxDefaultSize: false,
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+        __next40pxDefaultSize: true,
         variant: "secondary",
         className: "edit-site-editor__toggle-save-panel-button",
         onClick: () => setIsSaveViewOpened(true),
@@ -20012,7 +19998,6 @@ function FontSize() {
       origin,
       slug
     },
-    goBack,
     goTo
   } = (0,external_wp_components_namespaceObject.__experimentalUseNavigator)();
   const [fontSizes, setFontSizes] = font_size_useGlobalSetting('typography.fontSizes');
@@ -20025,10 +20010,10 @@ function FontSize() {
   const fontSize = sizes.find(size => size.slug === slug);
 
   // Whether the font size is fluid. If not defined, use the global fluid value of the theme.
-  const isFluid = fontSize.fluid !== undefined ? !!fontSize.fluid : !!globalFluid;
+  const isFluid = fontSize?.fluid !== undefined ? !!fontSize.fluid : !!globalFluid;
 
   // Whether custom fluid values are used.
-  const isCustomFluid = typeof fontSize.fluid === 'object';
+  const isCustomFluid = typeof fontSize?.fluid === 'object';
   const handleNameChange = value => {
     updateFontSize('name', value);
   };
@@ -20078,8 +20063,6 @@ function FontSize() {
     });
   };
   const handleRemoveFontSize = () => {
-    // Navigate to the font sizes list.
-    goBack();
     const newFontSizes = sizes.filter(size => size.slug !== slug);
     setFontSizes({
       ...fontSizes,
@@ -20092,6 +20075,20 @@ function FontSize() {
   const toggleRenameDialog = () => {
     setIsRenameDialogOpen(!isRenameDialogOpen);
   };
+
+  // Navigate to the font sizes list if the font size is not available.
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!fontSize) {
+      goTo('/typography/font-sizes/', {
+        isBack: true
+      });
+    }
+  }, [fontSize, goTo]);
+
+  // Avoid rendering if the font size is not available.
+  if (!fontSize) {
+    return null;
+  }
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(confirm_delete_font_size_dialog, {
       fontSize: fontSize,
@@ -23540,19 +23537,6 @@ function GlobalStylesEditorCanvasContainerLink() {
         if (isRevisionsOpen) {
           goTo('/');
         }
-        break;
-      default:
-        /*
-         * Example: the user has navigated to "Browse styles" or elsewhere
-         * and changes the editorCanvasContainerView, e.g., closes the style book.
-         * The panel should not be affected.
-         * Exclude revisions panel from this behavior,
-         * as it should close when the editorCanvasContainerView doesn't correspond.
-         */
-        if (path !== '/' && !isRevisionsOpen) {
-          return;
-        }
-        goTo('/');
         break;
     }
   }, [editorCanvasContainerView, isRevisionsOpen, goTo]);
@@ -35927,10 +35911,8 @@ function TitleField({
       gap: 0,
       justify: "flex-start",
       className: "edit-site-patterns__pattern-title",
-      children: item.type === PATTERN_TYPES.theme ? title : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-      // TODO: Switch to `true` (40px size) if possible
-      , {
-        __next40pxDefaultSize: false,
+      children: item.type === PATTERN_TYPES.theme ? title : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+        __next40pxDefaultSize: true,
         variant: "link",
         onClick: onClick
         // Required for the grid's roving tab index system.
@@ -38402,10 +38384,8 @@ function PageTemplates() {
 
 
 function SidebarButton(props) {
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-  // TODO: Switch to `true` (40px size) if possible
-  , {
-    __next40pxDefaultSize: false,
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     ...props,
     className: dist_clsx('edit-site-sidebar-button', props.className)
   });
@@ -40440,19 +40420,15 @@ function AddNewItemModalContent({
         className: "patterns-create-modal__name-input"
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         justify: "right",
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-        // TODO: Switch to `true` (40px size) if possible
-        , {
-          __next40pxDefaultSize: false,
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          __next40pxDefaultSize: true,
           variant: "tertiary",
           onClick: () => {
             setIsAdding(false);
           },
           children: (0,external_wp_i18n_namespaceObject.__)('Cancel')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button
-        // TODO: Switch to `true` (40px size) if possible
-        , {
-          __next40pxDefaultSize: false,
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          __next40pxDefaultSize: true,
           variant: "primary",
           type: "submit",
           "aria-disabled": !title || isSaving,

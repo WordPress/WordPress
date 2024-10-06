@@ -14916,6 +14916,8 @@ function CoverEdit({
   const isUploadingMedia = isTemporaryMedia(id, url);
   const isImageBackground = IMAGE_BACKGROUND_TYPE === backgroundType;
   const isVideoBackground = VIDEO_BACKGROUND_TYPE === backgroundType;
+  const blockEditingMode = (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)();
+  const hasNonContentControls = blockEditingMode === 'default';
   const [resizeListener, {
     height,
     width
@@ -15046,7 +15048,7 @@ function CoverEdit({
   };
   if (!useFeaturedImage && !hasInnerBlocks && !hasBackground) {
     return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-      children: [blockControls, inspectorControls, isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ResizableCoverPopover, {
+      children: [blockControls, inspectorControls, hasNonContentControls && isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ResizableCoverPopover, {
         ...resizableCoverProps
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(TagName, {
         ...blockProps,
@@ -15140,7 +15142,7 @@ function CoverEdit({
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
         ...innerBlocksProps
       })]
-    }), isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ResizableCoverPopover, {
+    }), hasNonContentControls && isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ResizableCoverPopover, {
       ...resizableCoverProps
     })]
   });

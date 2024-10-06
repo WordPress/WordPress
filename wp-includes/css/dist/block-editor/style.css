@@ -242,7 +242,9 @@ iframe[name=editor-canvas]{
 }
 
 .block-editor-block-inspector__tab-item{
+  display:flex;
   flex:1 1 0px;
+  justify-content:center;
 }
 .block-editor-block-list__insertion-point{
   bottom:0;
@@ -446,6 +448,9 @@ iframe[name=editor-canvas]{
 .zoom-out-toolbar .block-editor-block-mover{
   background:none;
   border:none;
+}
+.zoom-out-toolbar .zoom-out-toolbar-button{
+  height:40px;
 }
 
 .block-editor-block-tools__zoom-out-mode-inserter-button{
@@ -1509,11 +1514,15 @@ iframe[name=editor-canvas]{
 }
 
 .block-editor-global-styles__shadow-indicator{
+  align-items:center;
+  appearance:none;
+  background:none;
   border:1px solid #e0e0e0;
   border-radius:2px;
   box-sizing:border-box;
   color:#2f2f2f;
   cursor:pointer;
+  display:inline-flex;
   height:26px;
   padding:0;
   transform:scale(1);
@@ -1868,17 +1877,6 @@ iframe[name=editor-canvas]{
 
 .block-editor-inspector-popover-header{
   margin-bottom:16px;
-}
-
-[class].block-editor-inspector-popover-header__action{
-  height:24px;
-}
-[class].block-editor-inspector-popover-header__action.has-icon{
-  min-width:24px;
-  padding:0;
-}
-[class].block-editor-inspector-popover-header__action:not(.has-icon){
-  text-decoration:underline;
 }
 
 .items-justified-left{
@@ -2398,11 +2396,20 @@ iframe[name=editor-canvas]{
 }
 .block-editor-list-view-leaf .block-editor-list-view-block-contents{
   align-items:center;
+  border-radius:2px;
+  box-sizing:border-box;
+  color:inherit;
   display:flex;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:400;
   height:32px;
+  margin:0;
   padding:6px 4px 6px 0;
   position:relative;
   text-align:left;
+  text-decoration:none;
+  transition:box-shadow .1s linear;
   white-space:nowrap;
   width:100%;
 }
@@ -2884,17 +2891,8 @@ iframe[name=editor-canvas]{
 }
 .block-editor-skip-to-selected-block:focus{
   background:#f1f1f1;
-  box-shadow:0 0 2px 2px #0009;
-  color:var(--wp-admin-theme-color);
-  display:block;
   font-size:14px;
   font-weight:600;
-  height:auto;
-  line-height:normal;
-  outline:none;
-  padding:15px 23px 14px;
-  text-decoration:none;
-  width:auto;
   z-index:100000;
 }
 
@@ -3037,11 +3035,6 @@ iframe[name=editor-canvas]{
   flex-grow:1;
   flex-shrink:1;
   min-width:0;
-}
-.block-editor-url-input__button-modal-line .components-button{
-  flex-shrink:0;
-  height:36px;
-  width:36px;
 }
 
 .block-editor-url-popover__additional-controls{

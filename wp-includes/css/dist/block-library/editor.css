@@ -994,8 +994,8 @@ div[data-type="core/freeform"].is-selected .block-library-classic__toolbar{
   border:1px dashed;
   content:"";
   display:flex;
-  flex:1 0 48px;
-  min-height:46px;
+  flex:1 0 40px;
+  min-height:38px;
   pointer-events:none;
 }
 .wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-button-block-appender,.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-inserter{

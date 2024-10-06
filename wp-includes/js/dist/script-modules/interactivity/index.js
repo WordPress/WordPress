@@ -1018,42 +1018,46 @@ const peek = (obj, key) => {
  *                 by default).
  */
 const deepMergeRecursive = (target, source, override = true) => {
-  if (isPlainObject(target) && isPlainObject(source)) {
-    let hasNewKeys = false;
-    for (const key in source) {
-      const isNew = !(key in target);
-      hasNewKeys = hasNewKeys || isNew;
-      const desc = Object.getOwnPropertyDescriptor(source, key);
-      if (typeof desc?.get === 'function' || typeof desc?.set === 'function') {
-        if (override || isNew) {
-          Object.defineProperty(target, key, {
-            ...desc,
-            configurable: true,
-            enumerable: true
-          });
-          const proxy = getProxyFromObject(target);
-          if (desc?.get && proxy && hasPropSignal(proxy, key)) {
-            const propSignal = getPropSignal(proxy, key);
-            propSignal.setGetter(desc.get);
-          }
-        }
-      } else if (isPlainObject(source[key])) {
-        if (isNew) {
-          target[key] = {};
-        }
-        deepMergeRecursive(target[key], source[key], override);
-      } else if (override || isNew) {
-        Object.defineProperty(target, key, desc);
-        const proxy = getProxyFromObject(target);
-        if (desc?.value && proxy && hasPropSignal(proxy, key)) {
-          const propSignal = getPropSignal(proxy, key);
-          propSignal.setValue(desc.value);
+  if (!(isPlainObject(target) && isPlainObject(source))) {
+    return;
+  }
+  let hasNewKeys = false;
+  for (const key in source) {
+    const isNew = !(key in target);
+    hasNewKeys = hasNewKeys || isNew;
+    const desc = Object.getOwnPropertyDescriptor(source, key);
+    const proxy = getProxyFromObject(target);
+    const propSignal = !!proxy && hasPropSignal(proxy, key) && getPropSignal(proxy, key);
+    if (typeof desc.get === 'function' || typeof desc.set === 'function') {
+      if (override || isNew) {
+        Object.defineProperty(target, key, {
+          ...desc,
+          configurable: true,
+          enumerable: true
+        });
+        if (desc.get && propSignal) {
+          propSignal.setGetter(desc.get);
         }
       }
+    } else if (isPlainObject(source[key])) {
+      if (isNew || override && !isPlainObject(target[key])) {
+        target[key] = {};
+        if (propSignal) {
+          propSignal.setValue(target[key]);
+        }
+      }
+      if (isPlainObject(target[key])) {
+        deepMergeRecursive(target[key], source[key], override);
+      }
+    } else if (override || isNew) {
+      Object.defineProperty(target, key, desc);
+      if (propSignal) {
+        propSignal.setValue(desc.value);
+      }
     }
-    if (hasNewKeys && objToIterable.has(target)) {
-      objToIterable.get(target).value++;
-    }
+  }
+  if (hasNewKeys && objToIterable.has(target)) {
+    objToIterable.get(target).value++;
   }
 };
 
