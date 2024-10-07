@@ -16,11 +16,11 @@
 	<!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:heading -->
-		<h2 class="wp-block-heading">Upcoming events</h2>
+		<h2 class="wp-block-heading"><?php esc_html_e( 'Upcoming events', 'twentytwentyfive' ); ?></h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph -->
-		<p>These are some of the upcoming events</p>
+		<p><?php esc_html_e( 'These are some of the upcoming events', 'twentytwentyfive' ); ?></p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0","margin":{"top":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
@@ -30,11 +30,11 @@
 				<!-- wp:group {"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3} -->
-					<h3 class="wp-block-heading">Tell your story</h3>
+					<h3 class="wp-block-heading"><?php esc_html_e( 'Tell your story', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
-					<p>Atlanta, GA, USA</p>
+					<p><?php esc_html_e( 'Atlanta, GA, USA', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -42,13 +42,13 @@
 				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 				<div class="wp-block-group">
 					<!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase"}}} -->
-					<p style="text-transform:uppercase">Mon, Jan 1</p>
+					<p style="text-transform:uppercase"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:buttons -->
 					<div class="wp-block-buttons">
 						<!-- wp:button {"fontSize":"small"} -->
-						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button"><?php esc_html_e( 'Buy Tickets', 'twentytwentyfive' ); ?></a></div>
 						<!-- /wp:button -->
 					</div>
 					<!-- /wp:buttons -->
@@ -61,11 +61,11 @@
 			<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3} -->
-					<h3 class="wp-block-heading">“Stories, historias, iсторії, iστορίες”</h3>
+					<h3 class="wp-block-heading"><?php echo esc_html_x( '&ldquo;Stories, historias, iсторії, iστορίες&rdquo;', 'Placeholder heading in four languages.', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
-					<p>Mexico City, Mexico</p>
+					<p><?php esc_html_e( 'Mexico City, Mexico', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -73,13 +73,13 @@
 				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 				<div class="wp-block-group">
 					<!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase"}}} -->
-					<p style="text-transform:uppercase">Mon, Jan 1</p>
+					<p style="text-transform:uppercase"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:buttons -->
 					<div class="wp-block-buttons">
 						<!-- wp:button {"fontSize":"small"} -->
-						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button"><?php esc_html_e( 'Buy Tickets', 'twentytwentyfive' ); ?></a></div>
 						<!-- /wp:button -->
 					</div>
 					<!-- /wp:buttons -->
@@ -92,11 +92,11 @@
 			<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3} -->
-					<h3 class="wp-block-heading">Tell your story</h3>
+					<h3 class="wp-block-heading"><?php esc_html_e( 'Tell your story', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
-					<p>Thornville, OH, USA</p>
+					<p><?php esc_html_e( 'Thornville, OH, USA', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -104,13 +104,13 @@
 				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 				<div class="wp-block-group">
 					<!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase"}}} -->
-					<p style="text-transform:uppercase">Mon, Jan 1</p>
+					<p style="text-transform:uppercase"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:buttons -->
 					<div class="wp-block-buttons">
 						<!-- wp:button {"fontSize":"small"} -->
-						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button"><?php esc_html_e( 'Buy Tickets', 'twentytwentyfive' ); ?></a></div>
 						<!-- /wp:button -->
 					</div>
 					<!-- /wp:buttons -->
@@ -123,11 +123,11 @@
 			<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3} -->
-					<h3 class="wp-block-heading">“Stories, historias, iсторії, iστορίες”</h3>
+					<h3 class="wp-block-heading"><?php echo esc_html_x( '&ldquo;Stories, historias, iсторії, iστορίες&rdquo;', 'Placeholder heading in four languages.', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
-					<p>Thornville, OH, USA</p>
+					<p><?php esc_html_e( 'Thornville, OH, USA', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -135,13 +135,13 @@
 				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 				<div class="wp-block-group">
 					<!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase"}}} -->
-					<p style="text-transform:uppercase">Mon, Jan 1</p>
+					<p style="text-transform:uppercase"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:buttons -->
 					<div class="wp-block-buttons">
 						<!-- wp:button {"fontSize":"small"} -->
-						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button">Buy Tickets</a></div>
+						<div class="wp-block-button has-custom-font-size has-small-font-size"><a class="wp-block-button__link wp-element-button"><?php esc_html_e( 'Buy Tickets', 'twentytwentyfive' ); ?></a></div>
 						<!-- /wp:button -->
 					</div>
 					<!-- /wp:buttons -->

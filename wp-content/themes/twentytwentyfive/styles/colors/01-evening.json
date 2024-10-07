@@ -101,6 +101,15 @@
 					}
 				}
 			},
+			"section-3": {
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var:preset|color|contrast"
+						}
+					}
+				}
+			},
 			"section-4": {
 				"elements": {
 					"button": {

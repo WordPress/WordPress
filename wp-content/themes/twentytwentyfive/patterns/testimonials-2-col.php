@@ -23,7 +23,7 @@
 				<!-- wp:column {"width":"64px"} -->
 				<div class="wp-block-column" style="flex-basis:64px">
 					<!-- wp:image {"width":"64px","aspectRatio":"1","scale":"cover","sizeSlug":"large","linkDestination":"none","className":"is-style-rounded"} -->
-					<figure class="wp-block-image size-large is-resized is-style-rounded"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/avatar.webp" alt="<?php echo esc_attr_x( 'Picture of a person', 'Alt text for testimonial image', 'twentytwentyfive' ); ?>" style="aspect-ratio:1;object-fit:cover;width:64px"/></figure>
+					<figure class="wp-block-image size-large is-resized is-style-rounded"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/avatar.webp" alt="<?php echo esc_attr_x( 'Picture of a person', 'Alt text for testimonial image.', 'twentytwentyfive' ); ?>" style="aspect-ratio:1;object-fit:cover;width:64px"/></figure>
 					<!-- /wp:image -->
 				</div>
 				<!-- /wp:column -->
@@ -33,9 +33,9 @@
 					<!-- wp:quote {"className":"is-style-plain","style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|40"}},"fontSize":"x-large"} -->
 					<blockquote class="wp-block-quote is-style-plain has-x-large-font-size" style="font-style:normal;font-weight:400">
 						<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.1"}}} -->
-						<p style="line-height:1.1"><?php echo esc_html_x( '&ldquo;Superb product and customer service!&rdquo;', 'Sample testimonial', 'twentytwentyfive' ); ?></p>
+						<p style="line-height:1.1"><?php echo esc_html_x( '&ldquo;Superb product and customer service!&rdquo;', 'Sample testimonial.', 'twentytwentyfive' ); ?></p>
 						<!-- /wp:paragraph -->
-						<cite><?php echo wp_kses_post( _x( 'Jo Mulligan <br /><sub>Atlanta, GA</sub>', 'Sample testimonial citation', 'twentytwentyfive' ) ); ?></cite>
+						<cite><?php echo wp_kses_post( _x( 'Jo Mulligan <br /><sub>Atlanta, GA</sub>', 'Sample testimonial citation.', 'twentytwentyfive' ) ); ?></cite>
 					</blockquote>
 					<!-- /wp:quote -->
 				</div>
@@ -52,7 +52,7 @@
 				<!-- wp:column {"width":"64px"} -->
 				<div class="wp-block-column" style="flex-basis:64px">
 					<!-- wp:image {"width":"64px","aspectRatio":"1","scale":"cover","sizeSlug":"large","linkDestination":"none","className":"is-style-rounded"} -->
-					<figure class="wp-block-image size-large is-resized is-style-rounded"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/avatar.webp" alt="<?php echo esc_attr_x( 'Picture of a person', 'Alt text for testimonial image', 'twentytwentyfive' ); ?>" style="aspect-ratio:1;object-fit:cover;width:64px"/></figure>
+					<figure class="wp-block-image size-large is-resized is-style-rounded"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/avatar.webp" alt="<?php echo esc_attr_x( 'Picture of a person', 'Alt text for testimonial image.', 'twentytwentyfive' ); ?>" style="aspect-ratio:1;object-fit:cover;width:64px"/></figure>
 					<!-- /wp:image -->
 				</div>
 				<!-- /wp:column -->
@@ -62,9 +62,9 @@
 					<!-- wp:quote {"className":"is-style-plain","style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|40"}},"fontSize":"x-large"} -->
 					<blockquote class="wp-block-quote is-style-plain has-x-large-font-size" style="font-style:normal;font-weight:400">
 						<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.1"}}} -->
-						<p style="line-height:1.1"><?php echo esc_html_x( '&ldquo;Amazing quality and care. I love all your products.&rdquo;', 'Sample testimonial', 'twentytwentyfive' ); ?></p>
+						<p style="line-height:1.1"><?php echo esc_html_x( '&ldquo;Amazing quality and care. I love all your products.&rdquo;', 'Sample testimonial.', 'twentytwentyfive' ); ?></p>
 						<!-- /wp:paragraph -->
-						<cite><?php echo wp_kses_post( _x( 'Otto Reid <br><sub>Springfield, IL</sub>', 'Sample testimonial citation', 'twentytwentyfive' ) ); ?></cite>
+						<cite><?php echo wp_kses_post( _x( 'Otto Reid <br><sub>Springfield, IL</sub>', 'Sample testimonial citation.', 'twentytwentyfive' ) ); ?></cite>
 					</blockquote>
 					<!-- /wp:quote -->
 				</div>

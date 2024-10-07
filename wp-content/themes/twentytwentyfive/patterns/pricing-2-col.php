@@ -15,11 +15,11 @@
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 	<!-- wp:heading {"textAlign":"center","align":"wide"} -->
-	<h2 class="wp-block-heading alignwide has-text-align-center">Pricing</h2>
+	<h2 class="wp-block-heading alignwide has-text-align-center"><?php esc_html_e( 'Pricing', 'twentytwentyfive' ); ?></h2>
 	<!-- /wp:heading -->
 
 	<!-- wp:paragraph {"align":"center"} -->
-	<p class="has-text-align-center">Cancel or pause anytime.</p>
+	<p class="has-text-align-center"><?php esc_html_e( 'Cancel or pause anytime.', 'twentytwentyfive' ); ?></p>
 	<!-- /wp:paragraph -->
 
 	<!-- wp:spacer {"height":"var:preset|spacing|40"} -->
@@ -31,33 +31,33 @@
 		<!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","right":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50"}},"border":{"width":"1px","color":"var:preset|color|accent-6","radius":"10px"}}} -->
 		<div class="wp-block-column has-border-color" style="border-color:var(--wp--preset--color--accent-6);border-width:1px;border-radius:10px;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
 			<!-- wp:heading {"level":3} -->
-			<h3 class="wp-block-heading" id="free">Free</h3>
+			<h3 class="wp-block-heading" id="free"><?php esc_html_e( 'Free', 'twentytwentyfive' ); ?></h3>
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph {"fontSize":"large"} -->
-			<p class="has-large-font-size">0€</p>
+			<p class="has-large-font-size"><?php esc_html_e( '0€', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:list {"className":"is-style-checkmark-list","style":{"spacing":{"padding":{"left":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}},"fontSize":"small"} -->
 			<ul style="padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)" class="wp-block-list is-style-checkmark-list has-small-font-size">
 				<!-- wp:list-item -->
-				<li>Get access to our paid articles and weekly newsletter.</li>
+				<li><?php esc_html_e( 'Get access to our paid articles and weekly newsletter.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>Join our IRL events.</li>
+				<li><?php esc_html_e( 'Join our IRL events.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>Get a free tote bag.</li>
+				<li><?php esc_html_e( 'Get a free tote bag.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>An elegant addition of home decor collection.</li>
+				<li><?php esc_html_e( 'An elegant addition of home decor collection.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>Join our forums.</li>
+				<li><?php esc_html_e( 'Join our forums.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 			</ul>
 			<!-- /wp:list -->
@@ -65,7 +65,7 @@
 			<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 			<div class="wp-block-buttons">
 				<!-- wp:button {"width":100} -->
-				<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">Join</a></div>
+				<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button"><?php echo esc_html_x( 'Join', 'Button text, refers to joining a community. Verb.', 'twentytwentyfive' ); ?></a></div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->
@@ -75,33 +75,33 @@
 		<!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","right":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50"}},"border":{"width":"1px","color":"var:preset|color|accent-6","radius":"10px"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-column has-border-color" style="border-color:var(--wp--preset--color--accent-6);border-width:1px;border-radius:10px;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
 			<!-- wp:heading {"level":3} -->
-			<h3 class="wp-block-heading" id="single">Single</h3>
+			<h3 class="wp-block-heading" id="single"><?php echo esc_html_x( 'Single', 'Name of membership package.', 'twentytwentyfive' ); ?></h3>
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph {"fontSize":"large"} -->
-			<p class="has-large-font-size">20€/month</p>
+			<p class="has-large-font-size"><?php esc_html_e( '20€/month', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:list {"className":"is-style-checkmark-list","style":{"spacing":{"padding":{"bottom":"var:preset|spacing|20","left":"var:preset|spacing|20"}}},"fontSize":"small"} -->
 			<ul style="padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)" class="wp-block-list is-style-checkmark-list has-small-font-size">
 				<!-- wp:list-item -->
-				<li>Get access to our paid articles and weekly newsletter.</li>
+				<li><?php esc_html_e( 'Get access to our paid articles and weekly newsletter.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>Join our IRL events.</li>
+				<li><?php esc_html_e( 'Join our IRL events.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>Get a free tote bag.</li>
+				<li><?php esc_html_e( 'Get a free tote bag.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>An elegant addition of home decor collection.</li>
+				<li><?php esc_html_e( 'An elegant addition of home decor collection.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item -->
-				<li>Join our forums.</li>
+				<li><?php esc_html_e( 'Join our forums.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 			</ul>
 			<!-- /wp:list -->
@@ -109,7 +109,7 @@
 			<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 			<div class="wp-block-buttons">
 				<!-- wp:button {"width":100} -->
-				<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button">Join</a></div>
+				<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button"><?php echo esc_html_x( 'Join', 'Button text, refers to joining a community. Verb.', 'twentytwentyfive' ); ?></a></div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->

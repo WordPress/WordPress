@@ -42,23 +42,23 @@
 			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|80"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top","justifyContent":"space-between"}} -->
 			<div class="wp-block-group">
 				<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} -->
-					<!-- wp:navigation-link {"label":"Blog","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Blog', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
-					<!-- wp:navigation-link {"label":"About","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'About', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
-					<!-- wp:navigation-link {"label":"FAQs","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'FAQs', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
-					<!-- wp:navigation-link {"label":"Authors","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Authors', 'twentytwentyfive' ); ?>","url":"#"} /-->
 				<!-- /wp:navigation -->
 
 				<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} -->
-					<!-- wp:navigation-link {"label":"Events","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Events', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
-					<!-- wp:navigation-link {"label":"Shop","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Shop', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
-					<!-- wp:navigation-link {"label":"Patterns","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Patterns', 'twentytwentyfive' ); ?>","url":"#"} /-->
 
-					<!-- wp:navigation-link {"label":"Themes","url":"#"} /-->
+					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Themes', 'twentytwentyfive' ); ?>","url":"#"} /-->
 				<!-- /wp:navigation -->
 			</div>
 				<!-- /wp:group -->
@@ -71,7 +71,7 @@
 
 		<!-- wp:group {"align":"full","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 		<div class="wp-block-group alignfull">
-			<!-- wp:paragraph { "metadata":{ "bindings":{ "content":{ "source":"twentytwentyfive/copyright" } } }, "fontSize":"small" } -->
+			<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"twentytwentyfive/copyright"}}},"fontSize":"small"} -->
 			<p class="has-small-font-size"></p>
 			<!-- /wp:paragraph -->
 
@@ -79,8 +79,8 @@
 			<p class="has-small-font-size">
 				<?php
 				printf(
-					/* Translators: Designed with WordPress. %1$s: WordPress link. */
-					esc_html__( 'Designed with %1$s', 'twentytwentyfive' ),
+					/* Translators: Designed with WordPress. %s: WordPress link. */
+					esc_html__( 'Designed with %s', 'twentytwentyfive' ),
 					'<a href="' . esc_url( __( 'https://wordpress.org', 'twentytwentyfive' ) ) . '" rel="nofollow">WordPress</a>'
 				);
 				?>

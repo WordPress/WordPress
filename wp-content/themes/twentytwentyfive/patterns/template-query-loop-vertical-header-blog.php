@@ -16,7 +16,7 @@
 		<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
 		<div class="wp-block-group">
 			<!-- wp:post-title {"isLink":true,"fontSize":"xx-large"} /-->
-			<!-- wp:post-date {"fontSize":"small"} /-->
+			<!-- wp:post-date {"fontSize":"small","isLink":true} /-->
 		</div>
 		<!-- /wp:group -->
 		<!-- wp:spacer {"height":"var:preset|spacing|40"} -->
@@ -44,7 +44,7 @@
 
 	<!-- wp:query-no-results -->
 		<!-- wp:paragraph -->
-		<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+		<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?></p>
 		<!-- /wp:paragraph -->
 	<!-- /wp:query-no-results -->
 </div>

@@ -37,10 +37,8 @@
 				<div class="wp-block-column" style="flex-basis:30%">
 					<!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"fontSize":"small","layout":{"type":"flex","flexWrap":"nowrap"}} -->
 					<div class="wp-block-group has-small-font-size">
-						<!-- wp:paragraph -->
-						<p><?php esc_html_e( 'Published on', 'twentytwentyfive' ); ?></p>
-						<!-- /wp:paragraph -->
-						<!-- wp:post-date /-->
+						<!-- wp:paragraph --><p><?php echo esc_html_x( 'Published on', 'Prefix before the post date block.', 'twentytwentyfive' ); ?></p><!-- /wp:paragraph -->
+						<!-- wp:post-date {"style":{"elements":{"link":{"color":{"text":"var:preset|color|contrast"}}}},"textColor":"contrast"} /-->
 					</div>
 					<!-- /wp:group -->
 				</div>

@@ -18,7 +18,7 @@
 	<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:heading {"textAlign":"left","align":"full","fontSize":"xx-large"} -->
-		<h2 class="wp-block-heading alignfull has-text-align-left has-xx-large-font-size">How to get in touch with us</h2>
+		<h2 class="wp-block-heading alignfull has-text-align-left has-xx-large-font-size"><?php esc_html_e( 'How to get in touch with us', 'twentytwentyfive' ); ?></h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"},"blockGap":"var:preset|spacing|50","margin":{"top":"var:preset|spacing|50"}},"border":{"top":{"color":"var:preset|color|accent-4","width":"1px"}}},"layout":{"type":"grid","minimumColumnWidth":"23rem"}} -->
@@ -26,19 +26,19 @@
 			<!-- wp:group {"style":{"layout":{"rowSpan":1,"columnSpan":2}},"layout":{"type":"flex","orientation":"vertical"}} -->
 			<div class="wp-block-group">
 				<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
-				<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">Social media</h3>
+				<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700"><?php esc_html_e( 'Social media', 'twentytwentyfive' ); ?></h3>
 				<!-- /wp:heading -->
-				<!-- wp:navigation {"overlayMenu":"never","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"medium","layout":{"type":"flex","orientation":"vertical"},"ariaLabel":"<?php esc_attr_e( 'Social', 'twentytwentyfive' ); ?>"} -->
-					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'X/Twitter', 'twentytwentyfive' ); ?>","url":"#"} /-->
+				<!-- wp:navigation {"overlayMenu":"never","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"fontSize":"medium","layout":{"type":"flex","orientation":"vertical"},"ariaLabel":"<?php esc_attr_e( 'Social media', 'twentytwentyfive' ); ?>"} -->
+					<!-- wp:navigation-link {"label":"<?php echo esc_html_x( 'X', 'Refers to the social media platform formerly known as Twitter.', 'twentytwentyfive' ); ?>","url":"#"} /-->
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Instagram', 'twentytwentyfive' ); ?>","url":"#"} /-->
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Facebook', 'twentytwentyfive' ); ?>","url":"#"} /-->
 					<!-- wp:navigation-link {"label":"<?php esc_html_e( 'TikTok', 'twentytwentyfive' ); ?>","url":"#"} /-->
 				<!-- /wp:navigation -->
 				<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
-				<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">Email</h3>
+				<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700"><?php esc_html_e( 'Email', 'twentytwentyfive' ); ?></h3>
 				<!-- /wp:heading -->
 				<!-- wp:paragraph {"fontSize":"medium"} -->
-				<p class="has-medium-font-size">example@example.com</p>
+				<p class="has-medium-font-size"><?php esc_html_e( 'example@example.com', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
@@ -48,10 +48,10 @@
 				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
-					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">New York</h3>
+					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700"><?php esc_html_e( 'New York', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 					<!-- wp:paragraph {"fontSize":"medium"} -->
-					<p class="has-medium-font-size">123 Example St. Manhattan, NY 10300 United States</p>
+					<p class="has-medium-font-size"><?php esc_html_e( '123 Example St. Manhattan, NY 10300 United States', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -59,11 +59,11 @@
 				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
-					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">San Diego</h3>
+					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700"><?php esc_html_e( 'San Diego', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"fontSize":"medium"} -->
-					<p class="has-medium-font-size">123 Example St. Manhattan, NY 10300 United States</p>
+					<p class="has-medium-font-size"><?php esc_html_e( '123 Example St. Manhattan, NY 10300 United States', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -71,11 +71,11 @@
 				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
-					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">Salt Lake City</h3>
+					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700"><?php esc_html_e( 'Salt Lake City', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"fontSize":"medium"} -->
-					<p class="has-medium-font-size">123 Example St. Manhattan, NY 10300 United States</p>
+					<p class="has-medium-font-size"><?php esc_html_e( '123 Example St. Manhattan, NY 10300 United States', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->
@@ -83,11 +83,11 @@
 				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontSize":"medium"} -->
-					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700">Portland</h3>
+					<h3 class="wp-block-heading has-medium-font-size" style="font-style:normal;font-weight:700"><?php esc_html_e( 'Portland', 'twentytwentyfive' ); ?></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"fontSize":"medium"} -->
-					<p class="has-medium-font-size">123 Example St. Manhattan, NY 10300 United States</p>
+					<p class="has-medium-font-size"><?php esc_html_e( '123 Example St. Manhattan, NY 10300 United States', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				</div>
 				<!-- /wp:group -->

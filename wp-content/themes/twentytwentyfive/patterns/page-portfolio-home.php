@@ -23,8 +23,8 @@
 		<div class="wp-block-columns alignwide" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--50)">
 			<!-- wp:column {"width":"50%"} -->
 			<div class="wp-block-column" style="flex-basis:50%">
-				<!-- wp:heading {"level":1,"align":"wide","fontSize":"x-large"} -->
-				<h1 class="wp-block-heading alignwide has-x-large-font-size">My name is Anna Möller and these are some of my photo projects.</h1>
+				<!-- wp:heading {"align":"wide","fontSize":"x-large"} -->
+				<h2 class="wp-block-heading alignwide has-x-large-font-size"><?php esc_html_e( 'My name is Anna Möller and these are some of my photo projects.', 'twentytwentyfive' ); ?></h2>
 				<!-- /wp:heading -->
 			</div>
 			<!-- /wp:column -->
@@ -59,7 +59,7 @@
 
 					<!-- wp:query-no-results -->
 					<!-- wp:paragraph -->
-					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 					<!-- /wp:query-no-results -->
 				</div>
@@ -85,7 +85,7 @@
 
 					<!-- wp:query-no-results -->
 					<!-- wp:paragraph -->
-					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 					<!-- /wp:query-no-results -->
 				</div>
@@ -115,7 +115,7 @@
 
 			<!-- wp:query-no-results -->
 			<!-- wp:paragraph -->
-			<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+			<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 			<!-- /wp:query-no-results -->
 		</div>
@@ -145,7 +145,7 @@
 
 					<!-- wp:query-no-results -->
 					<!-- wp:paragraph -->
-					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 					<!-- /wp:query-no-results -->
 				</div>
@@ -171,7 +171,7 @@
 
 					<!-- wp:query-no-results -->
 					<!-- wp:paragraph -->
-					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+					<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 					<!-- /wp:query-no-results -->
 				</div>
@@ -201,7 +201,7 @@
 
 			<!-- wp:query-no-results -->
 			<!-- wp:paragraph -->
-			<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+			<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 			<!-- /wp:query-no-results -->
 		</div>
@@ -226,7 +226,7 @@
 			<!-- /wp:paragraph -->
 
 			<!-- wp:paragraph {"fontSize":"small"} -->
-			<p class="has-small-font-size">email@example.com<br>+1 555 349 1806</p>
+			<p class="has-small-font-size"><?php esc_html_e( 'email@example.com', 'twentytwentyfive' ); ?><br><?php echo esc_html_x( '+1 555 349 1806', 'Phone number.', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->

@@ -1125,6 +1125,20 @@
 					"fontSize": "var:preset|font-size|medium"
 				}
 			},
+			"core/post-author-name": {
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "none"
+						},
+						":hover": {
+							"typography": {
+								"textDecoration": "underline"
+							}
+						}
+					}
+				}
+			},
 			"core/post-date": {
 				"color":{
 					"text": "var:preset|color|accent-4"

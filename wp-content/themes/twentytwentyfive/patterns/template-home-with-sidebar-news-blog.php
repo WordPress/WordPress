@@ -28,7 +28,7 @@
 					<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
 						<!-- wp:post-title {"level":1,"isLink":true} /-->
 						<!-- wp:post-terms {"term":"category","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1.4px"}}} /-->
-						<!-- wp:post-date /-->
+						<!-- wp:post-date {"isLink":true} /-->
 					</div>
 					<!-- /wp:group -->
 				<!-- /wp:post-template -->
@@ -39,7 +39,7 @@
 		<!-- wp:column {"width":"25%"} -->
 		<div class="wp-block-column" style="flex-basis:25%">
 			<!-- wp:heading {"style":{"typography":{"fontStyle":"normal","fontWeight":"600","textTransform":"uppercase","letterSpacing":"1.6px"}},"fontSize":"small"} -->
-			<h2 class="wp-block-heading has-small-font-size" style="font-style:normal;font-weight:600;letter-spacing:1.6px;text-transform:uppercase">The Latest</h2>
+			<h2 class="wp-block-heading has-small-font-size" style="font-style:normal;font-weight:600;letter-spacing:1.6px;text-transform:uppercase"><?php esc_html_e( 'The Latest', 'twentytwentyfive' ); ?></h2>
 			<!-- /wp:heading -->
 			<!-- wp:spacer {"height":"var:preset|spacing|20"} -->
 			<div style="height:var(--wp--preset--spacing--20)" aria-hidden="true" class="wp-block-spacer"></div>
@@ -50,7 +50,7 @@
 					<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","orientation":"vertical"}} -->
 					<div class="wp-block-group">
 						<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"large"} /-->
-						<!-- wp:post-date {"fontSize":"small"} /-->
+						<!-- wp:post-date {"fontSize":"small","isLink":true} /-->
 					</div>
 					<!-- /wp:group -->
 					<!-- wp:spacer {"height":"var:preset|spacing|20"} -->
@@ -58,8 +58,8 @@
 					<!-- /wp:spacer -->
 				<!-- /wp:post-template -->
 				<!-- wp:query-no-results -->
-					<!-- wp:paragraph {"placeholder":"Add text or blocks that will display when a query returns no results.","fontSize":"medium"} -->
-					<p class="has-medium-font-size"><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+					<!-- wp:paragraph {"placeholder":"<?php esc_attr_e( 'Add text or blocks that will display when a query returns no results.', 'twentytwentyfive' ); ?>","fontSize":"medium"} -->
+					<p class="has-medium-font-size"><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 					<!-- /wp:paragraph -->
 				<!-- /wp:query-no-results -->
 			</div>
@@ -85,9 +85,9 @@
 						<div class="wp-block-group has-small-font-size">
 							<!-- wp:post-terms {"term":"category","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1.4px"}}} /-->
 							<!-- wp:paragraph -->
-							<p>·</p>
+							<p><?php echo esc_html_x( '·', 'Separator between date and categories', 'twentytwentyfive' ); ?></p>
 							<!-- /wp:paragraph -->
-							<!-- wp:post-date /-->
+							<!-- wp:post-date {"isLink":true} /-->
 						</div>
 						<!-- /wp:group -->
 					</div>
@@ -116,7 +116,7 @@
 		<!-- /wp:group -->
 		<!-- wp:query-no-results -->
 			<!-- wp:paragraph -->
-			<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search', 'twentytwentyfive' ); ?>.</p>
+			<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 		<!-- /wp:query-no-results -->
 	</div>

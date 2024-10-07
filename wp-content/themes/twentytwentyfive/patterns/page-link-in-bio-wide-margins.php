@@ -21,7 +21,7 @@
 		<!-- wp:column {"verticalAlignment":"center"} -->
 		<div class="wp-block-column is-vertically-aligned-center">
 			<!-- wp:image {"scale":"cover","sizeSlug":"full","linkDestination":"none","align":"center","style":{"border":{"radius":{"topLeft":"150px","bottomRight":"150px"}}}} -->
-			<figure class="wp-block-image aligncenter size-full has-custom-border"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/cv-bio.webp" alt="Portrait of a woman." style="border-top-left-radius:150px;border-bottom-right-radius:150px;object-fit:cover"/></figure>
+			<figure class="wp-block-image aligncenter size-full has-custom-border"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/woman-splashing-water.webp" alt="<?php esc_attr_e( 'Woman on beach, splashing water.', 'twentytwentyfive' ); ?>" style="border-top-left-radius:150px;border-bottom-right-radius:150px;object-fit:cover"/></figure>
 			<!-- /wp:image -->
 		</div>
 		<!-- /wp:column -->
@@ -31,11 +31,11 @@
 			<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
 			<div class="wp-block-group">
 				<!-- wp:heading {"textAlign":"left"} -->
-				<h2 class="wp-block-heading has-text-align-left">Nora Winslow Keene</h2>
+				<h2 class="wp-block-heading has-text-align-left"><?php esc_html_e( 'Nora Winslow Keene', 'twentytwentyfive' ); ?></h2>
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph -->
-				<p>I’m Nora, a dedicated public interest attorney based in Denver. I’m a graduate of Stanford University.</p>
+				<p><?php echo esc_html_x( 'I&rsquo;m Nora, a dedicated public interest attorney based in Denver. I&rsquo;m a graduate of Stanford University.', 'Pattern placeholder text.', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:social-links {"iconColor":"contrast","iconColorValue":"#111111","className":"is-style-logos-only"} -->

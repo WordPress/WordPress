@@ -31,7 +31,7 @@
 		<!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|70"},"blockGap":"0"}}} -->
 		<div class="wp-block-column" style="padding-top:var(--wp--preset--spacing--70)">
 			<!-- wp:image {"sizeSlug":"full","linkDestination":"none"} -->
-			<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/image-from-rawpixel-id-8802835-jpeg-scaled.webp' ); ?>" alt="Event image" /></figure>
+			<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/image-from-rawpixel-id-8802835-jpeg-scaled.webp' ); ?>" alt="<?php esc_attr_e( 'Event image', 'twentytwentyfive' ); ?>"/></figure>
 			<!-- /wp:image -->
 
 			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20","padding":{"top":"var:preset|spacing|30"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
@@ -41,7 +41,7 @@
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"style":{"elements":{"link":{"color":{"text":"var:preset|color|accent-4"}}}},"textColor":"accent-4","fontSize":"medium"} -->
-				<p class="has-accent-4-color has-text-color has-link-color has-medium-font-size"><?php esc_html_e( 'September 2, 2024', 'twentytwentyfive' ); ?></p>
+				<p class="has-accent-4-color has-text-color has-link-color has-medium-font-size"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
@@ -55,7 +55,7 @@
 		<!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|70"},"blockGap":"0"}}} -->
 		<div class="wp-block-column" style="padding-top:var(--wp--preset--spacing--70)">
 			<!-- wp:image {"sizeSlug":"full","linkDestination":"none"} -->
-			<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/image-from-rawpixel-id-8802835-jpeg-scaled.webp' ); ?>" alt="Event image" /></figure>
+			<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/image-from-rawpixel-id-8802835-jpeg-scaled.webp' ); ?>" alt="<?php esc_attr_e( 'Event image', 'twentytwentyfive' ); ?>"/></figure>
 			<!-- /wp:image -->
 
 			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20","padding":{"top":"var:preset|spacing|30"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
@@ -65,7 +65,7 @@
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"style":{"elements":{"link":{"color":{"text":"var:preset|color|accent-4"}}}},"textColor":"accent-4","fontSize":"medium"} -->
-				<p class="has-accent-4-color has-text-color has-link-color has-medium-font-size"><?php esc_html_e( 'September 2, 2024', 'twentytwentyfive' ); ?></p>
+				<p class="has-accent-4-color has-text-color has-link-color has-medium-font-size"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
@@ -79,7 +79,7 @@
 		<!-- wp:column {"style":{"spacing":{"padding":{"top":"var:preset|spacing|70"},"blockGap":"0"}}} -->
 		<div class="wp-block-column" style="padding-top:var(--wp--preset--spacing--70)">
 			<!-- wp:image {"sizeSlug":"full","linkDestination":"none"} -->
-			<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/image-from-rawpixel-id-8802835-jpeg-scaled.webp' ); ?>" alt="Event image" /></figure>
+			<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/image-from-rawpixel-id-8802835-jpeg-scaled.webp' ); ?>" alt="<?php esc_attr_e( 'Event image', 'twentytwentyfive' ); ?>"/></figure>
 			<!-- /wp:image -->
 
 			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20","padding":{"top":"var:preset|spacing|30"}}},"layout":{"type":"flex","orientation":"vertical"}} -->
@@ -89,7 +89,7 @@
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"style":{"elements":{"link":{"color":{"text":"var:preset|color|accent-4"}}}},"textColor":"accent-4","fontSize":"medium"} -->
-				<p class="has-accent-4-color has-text-color has-link-color has-medium-font-size"><?php esc_html_e( 'September 2, 2024', 'twentytwentyfive' ); ?></p>
+				<p class="has-accent-4-color has-text-color has-link-color has-medium-font-size"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->

@@ -24,8 +24,7 @@
 		<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","orientation":"vertical"}} -->
 		<div class="wp-block-group">
 			<!-- wp:post-title {"isLink":true,"fontSize":"medium"} /-->
-
-			<!-- wp:post-date {"fontSize":"small"} /-->
+			<!-- wp:post-date {"fontSize":"small","isLink":true} /-->
 		</div>
 		<!-- /wp:group -->
 
@@ -35,8 +34,8 @@
 	<!-- /wp:post-template -->
 
 	<!-- wp:query-no-results -->
-		<!-- wp:paragraph {"placeholder":"Add text or blocks that will display when a query returns no results.","fontSize":"medium"} -->
-		<p class="has-medium-font-size"><?php esc_html_e( 'Sorry, but nothing was found. Please try a search with different keywords.', 'twentytwentyfive' ); ?></p>
+		<!-- wp:paragraph {"placeholder":"<?php esc_attr_e( 'Add text or blocks that will display when a query returns no results.', 'twentytwentyfive' ); ?>","fontSize":"medium"} -->
+		<p class="has-medium-font-size"><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 		<!-- /wp:paragraph -->
 	<!-- /wp:query-no-results -->
 </div>

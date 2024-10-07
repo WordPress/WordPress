@@ -17,14 +17,14 @@
 	<div class="wp-block-group alignwide">
 		<!-- wp:image {"sizeSlug":"full","linkDestination":"none","align":"wide"} -->
 		<figure class="wp-block-image alignwide size-full">
-			<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/coming-soon-bg-image.webp" alt="Photo of a field full of flowers, a blue sky and a tree." />
+			<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/coming-soon-bg-image.webp" alt="<?php esc_attr_e( 'Photo of a field full of flowers, a blue sky and a tree.', 'twentytwentyfive' ); ?>"/>
 		</figure>
 		<!-- /wp:image -->
 
 		<!-- wp:group {"align":"full","layout":{"type":"default"}} -->
 		<div class="wp-block-group alignfull">
 			<!-- wp:paragraph {"align":"left","style":{"typography":{"fontSize":"clamp(1rem, 380px, 24vw)","letterSpacing":"-0.02em","lineHeight":"1","fontWeight":"700"}}} -->
-			<p class="has-text-align-left" style="font-size:clamp(1rem, 380px, 24vw);font-weight:700;letter-spacing:-0.02em;line-height:1">Stories</p>
+			<p class="has-text-align-left" style="font-size:clamp(1rem, 380px, 24vw);font-weight:700;letter-spacing:-0.02em;line-height:1"><?php esc_html_e( 'Stories', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->

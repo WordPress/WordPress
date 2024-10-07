@@ -12,7 +12,7 @@
 
 ?>
 <!-- wp:cover {"url":"<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/poster-image-background.webp","alt":"Picture of a historical building in ruins.","dimRatio":30,"overlayColor":"contrast","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|accent-1"}}},"spacing":{"padding":{"right":"var:preset|spacing|50","left":"var:preset|spacing|50","top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}},"textColor":"accent-1","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull has-accent-1-color has-text-color has-link-color" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50);min-height:100vh"><span aria-hidden="true" class="wp-block-cover__background has-contrast-background-color has-background-dim-30 has-background-dim"></span><img class="wp-block-cover__image-background" alt="Picture of a historical building in ruins." src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/poster-image-background.webp" data-object-fit="cover"/>
+<div class="wp-block-cover alignfull has-accent-1-color has-text-color has-link-color" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50);min-height:100vh"><span aria-hidden="true" class="wp-block-cover__background has-contrast-background-color has-background-dim-30 has-background-dim"></span><img class="wp-block-cover__image-background" alt="<?php esc_attr_e( 'Picture of a historical building in ruins.', 'twentytwentyfive' ); ?>" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/poster-image-background.webp" data-object-fit="cover"/>
 <div class="wp-block-cover__inner-container">
 	<!-- wp:group {"align":"wide","style":{"dimensions":{"minHeight":"100vh"}},"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"space-between","justifyContent":"stretch"}} -->
 	<div class="wp-block-group alignwide" style="min-height:100vh">
@@ -21,7 +21,7 @@
 			<!-- wp:column {"width":"66.66%"} -->
 			<div class="wp-block-column" style="flex-basis:66.66%">
 				<!-- wp:heading {"textAlign":"left","align":"wide","style":{"typography":{"fontSize":"12vw","lineHeight":"0.9","fontStyle":"normal","fontWeight":"300"}}} -->
-				<h2 class="wp-block-heading alignwide has-text-align-left" style="font-size:12vw;font-style:normal;font-weight:300;line-height:0.9">Stories, historias, iсторії, iστορίες.</h2>
+				<h2 class="wp-block-heading alignwide has-text-align-left" style="font-size:12vw;font-style:normal;font-weight:300;line-height:0.9"><?php echo esc_html_x( '&ldquo;Stories, historias, iсторії, iστορίες&rdquo;', 'Sample heading in four languages.', 'twentytwentyfive' ); ?></h2>
 				<!-- /wp:heading -->
 			</div>
 			<!-- /wp:column -->
@@ -29,7 +29,7 @@
 			<!-- wp:column {"width":"33.33%"} -->
 			<div class="wp-block-column" style="flex-basis:33.33%">
 				<!-- wp:paragraph {"align":"right"} -->
-				<p class="has-text-align-right">Aug 08—10 2025<br>Fuego Bar, Mexico City</p>
+				<p class="has-text-align-right"><?php echo esc_html_x( 'Mon, Jan 1', 'Example event date in pattern.', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->
@@ -41,7 +41,7 @@
 			<!-- wp:column {"verticalAlignment":"bottom","width":"66.66%"} -->
 			<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:66.66%">
 				<!-- wp:heading {"textAlign":"left","align":"wide","style":{"typography":{"lineHeight":"0.9","fontStyle":"normal","fontWeight":"300"}},"fontSize":"xx-large"} -->
-				<h2 class="wp-block-heading alignwide has-text-align-left has-xx-large-font-size" style="font-style:normal;font-weight:300;line-height:0.9">Let’s hear them.</h2>
+				<h2 class="wp-block-heading alignwide has-text-align-left has-xx-large-font-size" style="font-style:normal;font-weight:300;line-height:0.9"><?php esc_html_e( 'Let&rsquo;s hear them.', 'twentytwentyfive' ); ?></h2>
 				<!-- /wp:heading -->
 			</div>
 			<!-- /wp:column -->
@@ -49,7 +49,7 @@
 			<!-- wp:column {"verticalAlignment":"bottom","width":"33.33%"} -->
 			<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:33.33%">
 				<!-- wp:paragraph {"align":"right"} -->
-				<p class="has-text-align-right">#stories</p>
+				<p class="has-text-align-right"><?php esc_html_e( '#stories', 'twentytwentyfive' ); ?></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->

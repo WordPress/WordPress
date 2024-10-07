@@ -19,12 +19,12 @@
 	<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 	<div class="wp-block-group">
 		<!-- wp:heading {"textAlign":"center","level":1,"className":"is-style-text-annotation"} -->
-		<h1 class="wp-block-heading has-text-align-center is-style-text-annotation">Stories</h1>
+		<h1 class="wp-block-heading has-text-align-center is-style-text-annotation"><?php esc_html_e( 'Stories', 'twentytwentyfive' ); ?></h1>
 		<!-- /wp:heading -->
 	</div>
 	<!-- /wp:group -->
 	<!-- wp:heading {"textAlign":"center","align":"wide","fontSize":"xx-large"} -->
-	<h2 class="wp-block-heading alignwide has-text-align-center has-xx-large-font-size">Tell your story</h2>
+	<h2 class="wp-block-heading alignwide has-text-align-center has-xx-large-font-size"><?php esc_html_e( 'Tell your story', 'twentytwentyfive' ); ?></h2>
 	<!-- /wp:heading -->
 	<!-- wp:pattern {"slug":"twentytwentyfive/template-query-loop-photo-blog"} /-->
 </main>

@@ -16,11 +16,11 @@
 	<!-- wp:group {"align":"wide","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:heading {"textAlign":"left","align":"wide","className":"is-style-text-subtitle","style":{"layout":{"selfStretch":"fit","flexSize":null}},"fontSize":"x-large"} -->
-		<h2 class="wp-block-heading alignwide has-text-align-left is-style-text-subtitle has-x-large-font-size">Explore the episodes</h2>
+		<h2 class="wp-block-heading alignwide has-text-align-left is-style-text-subtitle has-x-large-font-size"><?php esc_html_e( 'Explore the episodes', 'twentytwentyfive' ); ?></h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-		<p class="is-style-text-annotation">Podcast</p>
+		<p class="is-style-text-annotation"><?php esc_html_e( 'Podcast', 'twentytwentyfive' ); ?></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
