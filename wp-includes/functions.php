@@ -8833,7 +8833,11 @@ function clean_dirsize_cache( $path ) {
  * @return string The current WordPress version.
  */
 function wp_get_wp_version() {
-	require ABSPATH . WPINC . '/version.php';
+	static $wp_version;
+
+	if ( ! isset( $wp_version ) ) {
+		require ABSPATH . WPINC . '/version.php';
+	}
 
 	return $wp_version;
 }
