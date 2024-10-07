@@ -79,6 +79,8 @@ window.wp = window.wp || {};
 			var editorHeight, toolbarHeight, iframe,
 				editor = tinymce.get( id ),
 				wrap = $$( '#wp-' + id + '-wrap' ),
+				htmlSwitch = wrap.find( '.switch-tmce' ),
+				tmceSwitch = wrap.find( '.switch-html' ),
 				$textarea = $$( '#' + id ),
 				textarea = $textarea[0];
 
@@ -103,18 +105,7 @@ window.wp = window.wp || {};
 
 				editorHeight = parseInt( textarea.style.height, 10 ) || 0;
 
-				var keepSelection = false;
-				if ( editor ) {
-					keepSelection = editor.getParam( 'wp_keep_scroll_position' );
-				} else {
-					keepSelection = window.tinyMCEPreInit.mceInit[ id ] &&
-									window.tinyMCEPreInit.mceInit[ id ].wp_keep_scroll_position;
-				}
-
-				if ( keepSelection ) {
-					// Save the selection.
-					addHTMLBookmarkInTextAreaContent( $textarea );
-				}
+				addHTMLBookmarkInTextAreaContent( $textarea );
 
 				if ( editor ) {
 					editor.show();
@@ -130,15 +121,14 @@ window.wp = window.wp || {};
 						}
 					}
 
-					if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
-						// Restore the selection.
-						focusHTMLBookmarkInVisualEditor( editor );
-					}
+					focusHTMLBookmarkInVisualEditor( editor );
 				} else {
 					tinymce.init( window.tinyMCEPreInit.mceInit[ id ] );
 				}
 
 				wrap.removeClass( 'html-active' ).addClass( 'tmce-active' );
+				tmceSwitch.attr( 'aria-pressed', false );
+				htmlSwitch.attr( 'aria-pressed', true );
 				$textarea.attr( 'aria-hidden', true );
 				window.setUserSetting( 'editor', 'tinymce' );
 
@@ -168,9 +158,7 @@ window.wp = window.wp || {};
 
 					var selectionRange = null;
 
-					if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
-						selectionRange = findBookmarkedPosition( editor );
-					}
+					selectionRange = findBookmarkedPosition( editor );
 
 					editor.hide();
 
@@ -184,6 +172,8 @@ window.wp = window.wp || {};
 				}
 
 				wrap.removeClass( 'tmce-active' ).addClass( 'html-active' );
+				tmceSwitch.attr( 'aria-pressed', true );
+				htmlSwitch.attr( 'aria-pressed', false );
 				$textarea.attr( 'aria-hidden', false );
 				window.setUserSetting( 'editor', 'html' );
 			}
@@ -520,7 +510,7 @@ window.wp = window.wp || {};
 		 * Focuses the selection markers in Visual mode.
 		 *
 		 * The method checks for existing selection markers inside the editor DOM (Visual mode)
-		 * and create a selection between the two nodes using the DOM `createRange` selection API
+		 * and create a selection between the two nodes using the DOM `createRange` selection API.
 		 *
 		 * If there is only a single node, select only the single node through TinyMCE's selection API
 		 *
@@ -545,9 +535,7 @@ window.wp = window.wp || {};
 				}
 			}
 
-			if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
-				scrollVisualModeToStartElement( editor, startNode );
-			}
+			scrollVisualModeToStartElement( editor, startNode );
 
 			removeSelectionMarker( startNode );
 			removeSelectionMarker( endNode );

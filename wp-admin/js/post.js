@@ -434,25 +434,6 @@ jQuery( function($) {
 		$previewField.val('');
 	});
 
-	// This code is meant to allow tabbing from Title to Post content.
-	$('#title').on( 'keydown.editor-focus', function( event ) {
-		var editor;
-
-		if ( event.keyCode === 9 && ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) {
-			editor = typeof tinymce != 'undefined' && tinymce.get('content');
-
-			if ( editor && ! editor.isHidden() ) {
-				editor.focus();
-			} else if ( $textarea.length ) {
-				$textarea.trigger( 'focus' );
-			} else {
-				return;
-			}
-
-			event.preventDefault();
-		}
-	});
-
 	// Auto save new posts after a title is typed.
 	if ( $( '#auto_draft' ).val() ) {
 		$( '#title' ).on( 'blur', function() {

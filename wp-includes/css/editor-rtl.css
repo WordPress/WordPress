@@ -1141,12 +1141,6 @@ i.mce-i-wp_code:before {
 	color: #1d2327;
 }
 
-.wp-switch-editor:active,
-.html-active .switch-html:focus,
-.tmce-active .switch-tmce:focus {
-	box-shadow: none;
-}
-
 .wp-switch-editor:active {
 	background-color: #f6f7f7;
 	box-shadow: none;

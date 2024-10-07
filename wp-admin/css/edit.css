@@ -75,6 +75,14 @@
 	pointer-events: none;
 }
 
+#titlewrap .skiplink:focus {
+	clip: inherit;
+	clip-path: inherit;
+	right: 4px;
+	top: 4px;
+	width: auto;
+}
+
 input#link_description,
 input#link_url {
 	width: 100%;
@@ -1037,6 +1045,14 @@ form#tags-filter {
 	.wp-core-ui button.privacy-text-copy {
 		white-space: normal;
 		line-height: 1.8;
+	}
+
+	#edit-slug-box {
+		padding: 0;
+	}
+
+	#titlewrap .skiplink:focus {
+		top: 5px;
 	}
 }
 
