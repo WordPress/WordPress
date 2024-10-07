@@ -4191,7 +4191,22 @@ function _wp_image_editor_choose( $args = array() ) {
 	 *                                'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD'.
 	 */
 	$implementations = apply_filters( 'wp_image_editors', array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
-	$supports_input  = false;
+
+	$editors = wp_cache_get( 'wp_image_editor_choose', 'image_editor' );
+
+	if ( ! is_array( $editors ) ) {
+		$editors = array();
+	}
+
+	// Cache the chosen editor implementation based on specific args and available implementations.
+	$cache_key = md5( serialize( array( $args, $implementations ) ) );
+
+	if ( isset( $editors[ $cache_key ] ) ) {
+		return $editors[ $cache_key ];
+	}
+
+	// Assume no support until a capable implementation is identified.
+	$editor = false;
 
 	foreach ( $implementations as $implementation ) {
 		if ( ! call_user_func( array( $implementation, 'test' ), $args ) ) {
@@ -4225,15 +4240,20 @@ function _wp_image_editor_choose( $args = array() ) {
 			 * This implementation supports the input type but not the output type.
 			 * Keep looking to see if we can find an implementation that supports both.
 			 */
-			$supports_input = $implementation;
+			$editor = $implementation;
 			continue;
 		}
 
 		// Favor the implementation that supports both input and output mime types.
-		return $implementation;
+		$editor = $implementation;
+		break;
 	}
 
-	return $supports_input;
+	$editors[ $cache_key ] = $editor;
+
+	wp_cache_set( 'wp_image_editor_choose', $editors, 'image_editor', DAY_IN_SECONDS );
+
+	return $editor;
 }
 
 /**

@@ -876,6 +876,7 @@ function wp_start_object_cache() {
 				'blog-lookup',
 				'blog_meta',
 				'global-posts',
+				'image_editor',
 				'networks',
 				'network-queries',
 				'sites',
