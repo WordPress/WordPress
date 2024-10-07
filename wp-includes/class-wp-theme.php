@@ -60,6 +60,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 5.9.0 Added the Twenty Twenty-Two theme.
 	 * @since 6.1.0 Added the Twenty Twenty-Three theme.
 	 * @since 6.4.0 Added the Twenty Twenty-Four theme.
+	 * @since 6.7.0 Added the Twenty Twenty-Five theme.
 	 * @var string[]
 	 */
 	private static $default_themes = array(
