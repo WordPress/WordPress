@@ -137,7 +137,7 @@ class WP_Widget {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $instance Current settings.
+	 * @param array $instance The settings for the particular instance of the widget.
 	 * @return string Default return is 'noform'.
 	 */
 	public function form( $instance ) {
