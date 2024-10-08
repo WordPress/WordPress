@@ -378,9 +378,11 @@ Cropper = wp.media.controller.State.extend(/** @lends wp.media.controller.Croppe
 	 * @return {void}
 	 */
 	createCropToolbar: function() {
-		var canSkipCrop, toolbarOptions;
+		var canSkipCrop, hasRequiredAspectRatio, suggestedCropSize, toolbarOptions;
 
-		canSkipCrop = this.get('canSkipCrop') || false;
+		suggestedCropSize      = this.get( 'suggestedCropSize' );
+		hasRequiredAspectRatio = this.get( 'hasRequiredAspectRatio' );
+		canSkipCrop            = this.get( 'canSkipCrop' ) || false;
 
 		toolbarOptions = {
 			controller: this.frame,
@@ -412,7 +414,7 @@ Cropper = wp.media.controller.State.extend(/** @lends wp.media.controller.Croppe
 			}
 		};
 
-		if ( canSkipCrop ) {
+		if ( canSkipCrop || hasRequiredAspectRatio ) {
 			_.extend( toolbarOptions.items, {
 				skip: {
 					style:      'secondary',
@@ -420,10 +422,26 @@ Cropper = wp.media.controller.State.extend(/** @lends wp.media.controller.Croppe
 					priority:   70,
 					requires:   { library: false, selection: false },
 					click:      function() {
-						var selection = this.controller.state().get('selection').first();
-						this.controller.state().cropperView.remove();
-						this.controller.trigger('skippedcrop', selection);
-						this.controller.close();
+						var controller = this.controller,
+							selection = controller.state().get( 'selection' ).first();
+
+						controller.state().cropperView.remove();
+
+						// Apply the suggested crop size.
+						if ( hasRequiredAspectRatio && !canSkipCrop ) {
+							selection.set({cropDetails: suggestedCropSize});
+							controller.state().doCrop( selection ).done( function( croppedImage ) {
+								controller.trigger( 'cropped', croppedImage );
+								controller.close();
+							}).fail( function() {
+								controller.trigger( 'content:error:crop' );
+							});
+							return;
+						}
+
+						// Skip the cropping process.
+						controller.trigger( 'skippedcrop', selection );
+						controller.close();
 					}
 				}
 			});

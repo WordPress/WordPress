@@ -4602,26 +4602,29 @@
 		 * @return {Object} Options
 		 */
 		calculateImageSelectOptions: function( attachment, controller ) {
-			var control    = controller.get( 'control' ),
-				flexWidth  = !! parseInt( control.params.flex_width, 10 ),
-				flexHeight = !! parseInt( control.params.flex_height, 10 ),
-				realWidth  = attachment.get( 'width' ),
-				realHeight = attachment.get( 'height' ),
-				xInit = parseInt( control.params.width, 10 ),
-				yInit = parseInt( control.params.height, 10 ),
-				ratio = xInit / yInit,
-				xImg  = xInit,
-				yImg  = yInit,
+			var control       = controller.get( 'control' ),
+				flexWidth     = !! parseInt( control.params.flex_width, 10 ),
+				flexHeight    = !! parseInt( control.params.flex_height, 10 ),
+				realWidth     = attachment.get( 'width' ),
+				realHeight    = attachment.get( 'height' ),
+				xInit         = parseInt( control.params.width, 10 ),
+				yInit         = parseInt( control.params.height, 10 ),
+				requiredRatio = xInit / yInit,
+				realRatio     = realWidth / realHeight,
+				xImg          = xInit,
+				yImg          = yInit,
 				x1, y1, imgSelectOptions;
 
+			controller.set( 'hasRequiredAspectRatio', control.hasRequiredAspectRatio( requiredRatio, realRatio ) );
+			controller.set( 'suggestedCropSize', { width: realWidth, height: realHeight, x1: 0, y1: 0, x2: xInit, y2: yInit } );
 			controller.set( 'canSkipCrop', ! control.mustBeCropped( flexWidth, flexHeight, xInit, yInit, realWidth, realHeight ) );
 
-			if ( realWidth / realHeight > ratio ) {
+			if ( realRatio > requiredRatio ) {
 				yInit = realHeight;
-				xInit = yInit * ratio;
+				xInit = yInit * requiredRatio;
 			} else {
 				xInit = realWidth;
-				yInit = xInit / ratio;
+				yInit = xInit / requiredRatio;
 			}
 
 			x1 = ( realWidth - xInit ) / 2;
@@ -4662,13 +4665,13 @@
 		/**
 		 * Return whether the image must be cropped, based on required dimensions.
 		 *
-		 * @param {boolean} flexW
-		 * @param {boolean} flexH
-		 * @param {number}  dstW
-		 * @param {number}  dstH
-		 * @param {number}  imgW
-		 * @param {number}  imgH
-		 * @return {boolean}
+		 * @param {boolean} flexW Width is flexible.
+		 * @param {boolean} flexH Height is flexible.
+		 * @param {number}  dstW  Required width.
+		 * @param {number}  dstH  Required height.
+		 * @param {number}  imgW  Provided image's width.
+		 * @param {number}  imgH  Provided image's height.
+		 * @return {boolean} Whether cropping is required.
 		 */
 		mustBeCropped: function( flexW, flexH, dstW, dstH, imgW, imgH ) {
 			if ( true === flexW && true === flexH ) {
@@ -4692,6 +4695,25 @@
 			}
 
 			return true;
+		},
+
+		/**
+		 * Check if the image's aspect ratio essentially matches the required aspect ratio.
+		 *
+		 * Floating point precision is low, so this allows a small tolerance. This
+		 * tolerance allows for images over 100,000 px on either side to still trigger
+		 * the cropping flow.
+		 *
+		 * @param {number} requiredRatio Required image ratio.
+		 * @param {number} realRatio     Provided image ratio.
+		 * @return {boolean} Whether the image has the required aspect ratio.
+		 */
+		hasRequiredAspectRatio: function ( requiredRatio, realRatio ) {
+			if ( Math.abs( requiredRatio - realRatio ) < 0.000001 ) {
+				return true;
+			}
+
+			return false;
 		},
 
 		/**
