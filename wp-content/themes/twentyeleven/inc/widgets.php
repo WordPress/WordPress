@@ -186,6 +186,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
 	 *
 	 * @since Twenty Eleven 1.0
+	 *
+	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public function form( $instance ) {
 		$title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
