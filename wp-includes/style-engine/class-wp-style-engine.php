@@ -25,6 +25,7 @@
  * @since 6.4.0 Added support for background.backgroundImage.
  * @since 6.5.0 Added support for background.backgroundPosition,
  *              background.backgroundRepeat and dimensions.aspectRatio.
+ * @since 6.7.0 Added support for typography.writingMode.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -304,6 +305,12 @@ final class WP_Style_Engine {
 					'default' => 'letter-spacing',
 				),
 				'path'          => array( 'typography', 'letterSpacing' ),
+			),
+			'writingMode'    => array(
+				'property_keys' => array(
+					'default' => 'writing-mode',
+				),
+				'path'          => array( 'typography', 'writingMode' ),
 			),
 		),
 	);
