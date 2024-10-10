@@ -369,7 +369,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		return apply_filters( 'rest_pattern_directory_collection_params', $query_params );
 	}
 
-	/*
+	/**
 	 * Include a hash of the query args, so that different requests are stored in
 	 * separate caches.
 	 *
