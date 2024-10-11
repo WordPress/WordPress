@@ -57,6 +57,8 @@ add_action( 'wp_head', 'twentynineteen_pingback_header' );
 
 /**
  * Changes comment form default fields.
+ *
+ * @param array $defaults The default comment form arguments.
  */
 function twentynineteen_comment_form_defaults( $defaults ) {
 	$comment_field = $defaults['comment_field'];
