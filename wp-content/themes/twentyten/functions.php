@@ -429,6 +429,8 @@ add_filter( 'use_default_gallery_style', '__return_false' );
  * @since Twenty Ten 1.0
  * @deprecated Deprecated in Twenty Ten 1.2 for WordPress 3.1
  *
+ * @param string $css Default CSS styles and opening HTML div container
+ *                    for the gallery shortcode output.
  * @return string The gallery style filter, with the styles themselves removed.
  */
 function twentyten_remove_gallery_css( $css ) {
