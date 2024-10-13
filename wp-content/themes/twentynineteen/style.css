@@ -4782,8 +4782,10 @@ body.page .main-navigation {
 
 .comment .comment-author .avatar {
   float: left;
+  height: calc(2.25 * 1rem);
   margin-right: 1rem;
   position: relative;
+  width: calc(2.25 * 1rem);
 }
 
 @media only screen and (min-width: 768px) {
@@ -6494,9 +6496,7 @@ object {
 .avatar {
   border-radius: 100%;
   display: block;
-  height: auto;
   min-height: inherit;
-  width: auto;
 }
 
 svg {

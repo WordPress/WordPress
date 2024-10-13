@@ -205,8 +205,10 @@
 
 		.avatar {
 			float: left;
+			height: calc(2.25 * #{$size__spacing-unit});
 			margin-right: $size__spacing-unit;
 			position: relative;
+			width: calc(2.25 * #{$size__spacing-unit});
 
 			@include media(tablet) {
 				float: inherit;
