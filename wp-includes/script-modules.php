@@ -154,7 +154,7 @@ function wp_default_script_modules() {
 		switch ( $script_module_id ) {
 			/*
 			 * Interactivity exposes two entrypoints, "/index" and "/debug".
-			 * "/debug" should replalce "/index" in devlopment.
+			 * "/debug" should replace "/index" in development.
 			 */
 			case '@wordpress/interactivity/debug':
 				if ( ! SCRIPT_DEBUG ) {
