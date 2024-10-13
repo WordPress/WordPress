@@ -2432,8 +2432,42 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 
 /* Back-compat for nav-menus screen */
 .nav-menus-php .metabox-holder h3 {
+	padding: 0;
+}
+.nav-menus-php .metabox-holder .accordion-section-title button.accordion-trigger {
+	background: inherit;
+	color: #1d2327;
+	display: block;
+	position: relative;
+	text-align: right;
+	width: 100%;
+	outline: none;
+	border: 0;
 	padding: 10px 14px 11px 10px;
 	line-height: 1.5;
+	cursor: pointer;
+}
+.nav-menus-php .metabox-holder .accordion-section-title button.accordion-trigger:focus {
+	box-shadow: 0 0 0 2px #2271b1;
+	outline: 2px solid transparent;
+}
+.nav-menus-php .metabox-holder .accordion-section-title span.dashicons.dashicons-arrow-down {
+	position: absolute;
+	left: 10px;
+	right: auto;
+	color: #787c82;
+	border-radius: 50px;
+}
+.nav-menus-php .metabox-holder .accordion-section-title:hover span.dashicons.dashicons-arrow-down {
+	color: #1d2327;
+}
+.nav-menus-php .metabox-holder .accordion-section-title span.dashicons.dashicons-arrow-down::before {
+	position: relative;
+	right: -1px
+}
+
+.nav-menus-php .metabox-holder .accordion-section.open .accordion-section-title span.dashicons.dashicons-arrow-down {
+	transform: rotate(-180deg);
 }
 
 #templateside ul li a {
@@ -3523,9 +3557,9 @@ img {
 
 /* @todo: can we use a common class for these? */
 .nav-menus-php .item-edit:before,
-.widget-top .widget-action .toggle-indicator:before,
-.control-section .accordion-section-title:after,
-.accordion-section-title:after {
+.wp-customizer .control-section .accordion-section-title:after,
+.wp-customizer .accordion-section-title:after,
+.widget-top .widget-action .toggle-indicator:before {
 	content: "\f140";
 	font: normal 20px/1 dashicons;
 	speak: never;
@@ -3543,8 +3577,7 @@ img {
 .handlediv,
 .postbox .handlediv.button-link,
 .item-edit,
-.toggle-indicator,
-.accordion-section-title:after {
+.toggle-indicator {
 	color: #787c82;
 }
 
@@ -3560,8 +3593,7 @@ img {
 .postbox .handlediv.button-link:focus,
 .item-edit:hover,
 .item-edit:focus,
-.sidebar-name:hover .toggle-indicator,
-.accordion-section-title:hover:after {
+.sidebar-name:hover .toggle-indicator {
 	color: #1d2327;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -3573,14 +3605,6 @@ img {
 	outline: 2px solid transparent;
 }
 
-.control-section .accordion-section-title:after,
-.accordion-section-title:after {
-	float: left;
-	left: 20px;
-	top: -2px;
-}
-
-.control-section.open .accordion-section-title:after,
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before,
 .widget.open .widget-top .widget-action .toggle-indicator:before,
@@ -3968,6 +3992,10 @@ img {
 	.metabox-holder .postbox > h3, /* Back-compat for pre-4.4 */
 	.metabox-holder h2 {
 		padding: 12px;
+	}
+
+	.nav-menus-php .metabox-holder h3 {
+		padding: 0;
 	}
 
 	.postbox .handlediv {
