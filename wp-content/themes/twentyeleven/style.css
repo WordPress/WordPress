@@ -1129,7 +1129,7 @@ article.format-status .entry-content {
 /* Singular content styles for Posts and Pages */
 .singular .hentry {
 	border-bottom: none;
-	padding: 4.875em 0 0;
+	padding: 1.875em 0 0;
 	position: relative;
 }
 .singular.page .hentry {
@@ -1144,11 +1144,6 @@ article.format-status .entry-content {
 .singular .entry-title,
 .singular .entry-header .entry-meta {
 	padding-right: 0;
-}
-.singular .entry-header .entry-meta {
-	position: absolute;
-	top: 0;
-	left: 0;
 }
 blockquote.pull {
 	font-size: 21px;
@@ -1187,7 +1182,7 @@ blockquote.pull.alignright {
 	left: 50px;
 	position: absolute;
 	right: auto;
-	top: 80px;
+	top: 40px;
 }
 
 
@@ -1795,10 +1790,7 @@ video {
 
 /* Singular navigation */
 #nav-single {
-	float: right;
 	position: relative;
-	top: -0.3em;
-	text-align: right;
 	z-index: 1;
 }
 #nav-single .nav-previous,
@@ -2487,7 +2479,7 @@ p.comment-form-comment {
 	.singular .entry-meta .edit-link a {
 		left: 0;
 		position: absolute;
-		top: 40px;
+		top: 20px;
 	}
 	.singular #author-info {
 		margin: 2.2em -8.8% 0;
@@ -2576,14 +2568,6 @@ p.comment-form-comment {
 		float: none;
 		margin-left: 0;
 		margin-right: 0;
-	}
-	/* Make sure the post-post navigation doesn't collide with anything */
-	#nav-single {
-		display: block;
-		position: static;
-	}
-	.singular .hentry {
-		padding: 1.625em 0 0;
 	}
 	.singular.page .hentry {
 		padding: 1.625em 0 0;
