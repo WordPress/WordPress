@@ -459,8 +459,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	touch-action: none;
 }
 
-.wp-slider .ui-slider-handle,
-.wp-slider .ui-slider-handle.focus {
+.wp-slider .ui-slider-handle {
 	background: #f6f7f7;
 	border: 1px solid #c3c4c7;
 	box-shadow: 0 1px 0 #c3c4c7;
@@ -478,6 +477,15 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	border-color: #8c8f94;
 	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	transform: translateY(1px);
+}
+
+.wp-slider .ui-slider-handle:focus,
+.wp-slider .ui-slider-handle.ui-state-focus {
+	background: #f0f0f1;
+	border-color: #8c8f94;
+	box-shadow: 0 0 0 2px #2271b1;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-slider .ui-slider-handle:before {

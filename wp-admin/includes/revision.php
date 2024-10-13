@@ -378,6 +378,11 @@ function wp_print_revision_templates() {
 		</div>
 	</script>
 
+	<script id="tmpl-revisions-slider-hidden-help" type="text/html">
+		<h2 class="screen-reader-text"><?php esc_html_e( 'Select a revision' ); ?></h2>
+		<p id="revisions-slider-hidden-help" hidden><?php esc_html_e( 'Change revision by using the left and arrow keys' ); ?></p>
+	</script>
+
 	<script id="tmpl-revisions-checkbox" type="text/html">
 		<div class="revision-toggle-compare-mode">
 			<label>
@@ -397,13 +402,13 @@ function wp_print_revision_templates() {
 		<# if ( ! _.isUndefined( data.attributes ) ) { #>
 			<div class="diff-title">
 				<# if ( 'from' === data.type ) { #>
-					<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
+					<strong id="diff-title-from"><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
 				<# } else if ( 'to' === data.type ) { #>
-					<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
+					<strong id="diff-title-to"><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
 				<# } #>
 				<div class="author-card<# if ( data.attributes.autosave ) { #> autosave<# } #>">
 					{{{ data.attributes.author.avatar }}}
-					<div class="author-info">
+					<div class="author-info" id="diff-title-author">
 					<# if ( data.attributes.autosave ) { #>
 						<span class="byline">
 						<?php
@@ -464,7 +469,7 @@ function wp_print_revision_templates() {
 		<div class="diff-error"><?php _e( 'Sorry, something went wrong. The requested comparison could not be loaded.' ); ?></div>
 		<div class="diff">
 		<# _.each( data.fields, function( field ) { #>
-			<h3>{{ field.name }}</h3>
+			<h2>{{ field.name }}</h2>
 			{{{ field.diff }}}
 		<# }); #>
 		</div>

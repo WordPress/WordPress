@@ -595,13 +595,13 @@ window.wp = window.wp || {};
 		initialize: function() {
 			_.bindAll( this, 'setWidth' );
 
-			// Add the button view.
-			this.views.add( new revisions.view.Buttons({
+			// Add the checkbox view.
+			this.views.add( new revisions.view.Checkbox({
 				model: this.model
 			}) );
 
-			// Add the checkbox view.
-			this.views.add( new revisions.view.Checkbox({
+			// Add the button view.
+			this.views.add( new revisions.view.Buttons({
 				model: this.model
 			}) );
 
@@ -627,6 +627,9 @@ window.wp = window.wp || {};
 			this.views.add( new revisions.view.Tickmarks({
 				model: tooltip
 			}) );
+
+			// Add the visually hidden slider help view.
+			this.views.add( new revisions.view.SliderHelp() );
 
 			// Add the slider view.
 			this.views.add( new revisions.view.Slider({
@@ -804,6 +807,12 @@ window.wp = window.wp || {};
 		}
 	});
 
+	// The slider visually hidden help view.
+ 	revisions.view.SliderHelp = wp.Backbone.View.extend({
+		className: 'revisions-slider-hidden-help',
+		template:  wp.template( 'revisions-slider-hidden-help' )
+	});
+   
 	// The tooltip view.
 	// Encapsulates the tooltip.
 	revisions.view.Tooltip = wp.Backbone.View.extend({
@@ -957,6 +966,20 @@ window.wp = window.wp || {};
 			this.applySliderSettings();
 		},
 
+		accessibilityHelper: function() {
+			var handles = $( '.ui-slider-handle' );
+			handles.first().attr( {
+					role: 'button',
+					'aria-labelledby': 'diff-title-from diff-title-author',
+					'aria-describedby': 'revisions-slider-hidden-help',
+			} );
+			handles.last().attr( {
+					role: 'button',
+					'aria-labelledby': 'diff-title-to diff-title-author',
+					'aria-describedby': 'revisions-slider-hidden-help',
+			} );
+		},
+
 		mouseMove: function( e ) {
 			var zoneCount         = this.model.revisions.length - 1,       // One fewer zone than models.
 				sliderFrom        = this.$el.allOffsets()[this.direction], // "From" edge of slider.
@@ -996,9 +1019,12 @@ window.wp = window.wp || {};
 				handles.last()
 					.toggleClass( 'from-handle', !! isRtl )
 					.toggleClass( 'to-handle', ! isRtl );
+				this.accessibilityHelper();
 			} else {
 				handles.removeClass('from-handle to-handle');
+				this.accessibilityHelper();
 			}
+
 		},
 
 		start: function( event, ui ) {
