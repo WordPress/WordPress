@@ -69,21 +69,6 @@
 				}
 			},
 			"core/post-author-name": {
-				"color": {
-					"text": "var:preset|color|contrast"
-				},
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var:preset|color|contrast"
-						}
-					}
-				}
-			},
-			"core/post-terms": {
-				"color": {
-					"text": "var:preset|color|contrast"
-				},
 				"elements": {
 					"link": {
 						"color": {
@@ -114,9 +99,6 @@
 				}
 			},
 			"core/quote": {
-				"color": {
-					"text": "var:preset|color|contrast"
-				},
 				"elements": {
 					"cite": {
 						"color": {

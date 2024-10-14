@@ -2,7 +2,7 @@
 /**
  * Title: Grid with videos
  * Slug: twentytwentyfive/grid-videos
- * Categories: about, featured
+ * Categories: about
  * Description: A grid with videos.
  *
  * @package WordPress

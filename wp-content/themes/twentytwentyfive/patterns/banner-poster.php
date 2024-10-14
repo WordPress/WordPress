@@ -2,7 +2,7 @@
 /**
  * Title: Poster-like section
  * Slug: twentytwentyfive/banner-poster
- * Categories: banner, media, featured
+ * Categories: banner, media
  * Description: A section that can be used as a banner or a landing page to announce an event.
  *
  * @package WordPress

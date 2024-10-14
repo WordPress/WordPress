@@ -2,7 +2,7 @@
 /**
  * Title: Intro with left-aligned description
  * Slug: twentytwentyfive/banner-intro
- * Categories: banner, featured
+ * Categories: banner
  * Description: A large left-aligned heading with a brand name emphasized in bold.
  *
  * @package WordPress

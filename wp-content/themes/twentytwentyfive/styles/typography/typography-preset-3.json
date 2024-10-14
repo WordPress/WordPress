@@ -54,7 +54,6 @@
 	"styles": {
 		"typography": {
 			"fontFamily": "var:preset|font-family|ysabeau-office",
-			"fontStyle": "normal",
 			"fontWeight": "400",
 			"letterSpacing": "-0.22px",
 			"lineHeight": "1.6"
@@ -62,9 +61,6 @@
 		"blocks":{
 			"core/code": {
 				"typography": {
-					"fontSize": "var:preset|font-size|medium",
-					"fontStyle": "normal",
-					"fontWeight": "300",
 					"letterSpacing": "0px"
 				}
 			},
@@ -95,13 +91,11 @@
 			},
 			"core/post-terms": {
 				"typography": {
-					"fontStyle": "normal",
 					"fontWeight": "400"
 				}
 			},
 			"core/post-title": {
 				"typography": {
-					"fontStyle": "normal",
 					"fontWeight": "500",
 					"letterSpacing": "-0.8px"
 				}
@@ -115,7 +109,6 @@
 			},
 			"core/quote": {
 				"typography": {
-					"fontStyle": "normal",
 					"fontWeight": "300"
 				}
 			},

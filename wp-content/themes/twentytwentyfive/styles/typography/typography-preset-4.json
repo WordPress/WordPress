@@ -3,18 +3,59 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"title": "Roboto Slab & Manrope",
 	"slug": "typography-preset-4",
+	"settings": {
+		"typography": {
+			"fontSizes": [
+				{
+					"fluid": false,
+					"name": "Small",
+					"size": "0.875rem",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"max": "1.125rem",
+						"min": "1rem"
+					},
+					"name": "Medium",
+					"size": "1rem",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"max": "1.375rem",
+						"min": "1.125rem"
+					},
+					"name": "Large",
+					"size": "1.38rem",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"max": "2rem",
+						"min": "1.75rem"
+					},
+					"name": "Extra Large",
+					"size": "1.75rem",
+					"slug": "x-large"
+				},
+				{
+					"fluid": {
+						"max": "2.4rem",
+						"min": "2.15rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "2.15rem",
+					"slug": "xx-large"
+				}
+			]
+		}
+	},
 	"styles": {
 		"typography": {
-			"fontWeight": "500",
-			"lineHeight": "1.3",
-			"letterSpacing": "-0.22px"
+			"letterSpacing": "0"
 		},
 		"blocks": {
-			"core/code": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
 			"core/navigation": {
 				"typography": {
 					"fontSize": "var:preset|font-size|large",
@@ -34,27 +75,14 @@
 			},
 			"core/post-terms": {
 				"typography": {
-					"fontStyle": "normal",
-					"fontWeight": "500",
-					"textTransform": "uppercase"
-				}
-			},
-			"core/post-title": {
-				"typography": {
-					"fontWeight": "200",
-					"letterSpacing": "-2.32px"
+					"fontWeight": "500"
 				}
 			},
 			"core/pullquote": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|roboto-slab",
-					"fontSize": "var:preset|font-size|x-large",
+					"fontSize": "var:preset|font-size|xx-large",
 					"fontWeight": "200"
-				}
-			},
-			"core/query-title": {
-				"typography": {
-					"fontWeight": "300"
 				}
 			},
 			"core/search": {
@@ -69,10 +97,6 @@
 			},
 			"core/site-title": {
 				"typography": {
-					"fontStyle": "normal",
-					"fontWeight": "500",
-					"letterSpacing": "-0.28px",
-					"lineHeight": "1.3",
 					"textTransform": "uppercase"
 				}
 			}
@@ -85,28 +109,10 @@
 					"textTransform": "uppercase"
 				}
 			},
-			"h4": {
-				"typography": {
-					"fontWeight": "300",
-					"letterSpacing": "-0.5px"
-				}
-			},
-			"h5": {
-				"typography": {
-					"fontWeight": "400",
-					"letterSpacing": "0px"
-				}
-			},
-			"h6": {
-				"typography": {
-					"fontWeight": "400",
-					"letterSpacing": "1px"
-				}
-			},
 			"heading": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|roboto-slab",
-					"fontWeight": "200",
+					"fontWeight": "300",
 					"letterSpacing": "-0.5px",
 					"lineHeight": "1.2"
 				}

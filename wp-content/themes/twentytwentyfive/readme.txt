@@ -125,11 +125,6 @@ Free public domain CC0 image.
 image-from-rawpixel-id-2211732.webp
 https://www.rawpixel.com/image/2211732
 
-Woman walking into the woods.
-Free public domain CC0 image.
-avatar.webp
-https://www.rawpixel.com/image/5918459
-
 Botany flowers.
 Free public domain CC0 image.
 botany-flowers.webp
@@ -155,11 +150,6 @@ Man in hat, standing in front of a building.
 man-in-hat.webp
 Free public domain CC0 image.
 https://www.slam.org/collection/objects/62642/
-
-Corner view showing mostly left wall, Church, Acoma Pueblo.
-Free public domain CC0 image.
-image-from-rawpixel-id-8803077-original.webp
-https://www.rawpixel.com/image/8803077
 
 African Woman by Pascal Sébah and Jean Pascal Sébah
 Free public domain CC0 image.

@@ -143,7 +143,6 @@
 					"cite": {
 						"typography": {
 							"fontFamily": "var:preset|font-family|literata",
-							"fontSize": "var:preset|font-size|small",
 							"fontWeight": "400",
 							"letterSpacing": "-0.14px"
 						},
@@ -168,8 +167,6 @@
 				"elements": {
 					"cite": {
 						"typography": {
-							"fontSize": "var:preset|font-size|small",
-							"fontWeight": "300",
 							"letterSpacing": "-0.14px"
 						},
 						"color": {

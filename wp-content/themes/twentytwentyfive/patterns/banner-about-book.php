@@ -2,7 +2,7 @@
 /**
  * Title: Banner with book description
  * Slug: twentytwentyfive/banner-about-book
- * Categories: banner, featured
+ * Categories: banner
  * Description: Banner with book description and accompanying image for promotion.
  *
  * @package WordPress

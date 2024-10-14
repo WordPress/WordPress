@@ -2,7 +2,7 @@
 /**
  * Title: Hero book
  * Slug: twentytwentyfive/hero-book
- * Categories: featured, hero
+ * Categories: banner
  * Keywords: podcast, hero, stories
  * Description: A hero section for the book with a description and pre-order link.
  *

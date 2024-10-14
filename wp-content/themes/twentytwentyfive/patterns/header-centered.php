@@ -19,7 +19,7 @@
 		<!-- wp:site-title {"level":0,"textAlign":"center","align":"wide","fontSize":"x-large"} /-->
 		<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->
 		<div class="wp-block-group alignwide">
-			<!-- wp:navigation {"layout":{"type":"flex","justifyContent":"center"}} /-->
+			<!-- wp:navigation {"overlayBackgroundColor":"base","overlayTextColor":"contrast","layout":{"type":"flex","justifyContent":"center"}} /-->
 		</div>
 		<!-- /wp:group -->
 	</div>

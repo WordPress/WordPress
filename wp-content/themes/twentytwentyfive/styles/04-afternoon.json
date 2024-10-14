@@ -75,20 +75,20 @@
 				},
 				{
 					"fluid": {
-						"max": "2rem",
-						"min": "1.75rem"
+						"max": "1.8rem",
+						"min": "1.4rem"
 					},
 					"name": "Extra Large",
-					"size": "1.75rem",
+					"size": "1.4rem",
 					"slug": "x-large"
 				},
 				{
 					"fluid": {
-						"max": "3.625rem",
-						"min": "2.625rem"
+						"max": "2.6rem",
+						"min": "2rem"
 					},
 					"name": "Extra Extra Large",
-					"size": "2.625rem",
+					"size": "2rem",
 					"slug": "xx-large"
 				}
 			]
@@ -97,10 +97,8 @@
 	"styles": {
 		"typography": {
 			"fontFamily": "var:preset|font-family|ysabeau-office",
-			"fontStyle": "normal",
-			"fontWeight": "400",
 			"letterSpacing": "-0.22px",
-			"lineHeight": "1.6"
+			"lineHeight": "1.5"
 		},
 		"blocks": {
 			"core/button": {
@@ -130,10 +128,12 @@
 			},
 			"core/code": {
 				"typography": {
-					"fontSize": "var:preset|font-size|medium",
-					"fontStyle": "normal",
-					"fontWeight": "300",
 					"letterSpacing": "0px"
+				}
+			},
+			"core/heading": {
+				"typography": {
+					"lineHeight": "1.2"
 				}
 			},
 			"core/list": {
@@ -146,32 +146,9 @@
 					"fontSize": "var:preset|font-size|medium"
 				}
 			},
-			"core/post-author": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
-			"core/post-author-biography": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
-			"core/post-author-name": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
 			"core/post-terms": {
 				"typography": {
-					"fontStyle": "normal",
 					"fontWeight": "400"
-				}
-			},
-			"core/post-title": {
-				"typography": {
-					"fontStyle": "normal",
-					"fontWeight": "500",
-					"letterSpacing": "-0.8px"
 				}
 			},
 			"core/pullquote": {
@@ -183,14 +160,13 @@
 			},
 			"core/quote": {
 				"typography": {
-					"fontStyle": "normal",
 					"fontWeight": "300"
 				}
 			},
 			"core/site-title": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|ysabeau-office",
-					"fontSize": "var:preset|font-size|medium",
+					"fontSize": "var:preset|font-size|large",
 					"letterSpacing": "1.44px",
 					"textTransform": "uppercase"
 				}
@@ -203,11 +179,30 @@
 					"fontWeight": "600",
 					"letterSpacing": "1.44px",
 					"textTransform": "uppercase"
+				},
+				":hover": {
+					"color": {
+						"background": "color-mix(in srgb, var(--wp--preset--color--contrast) 85%, black)"
+					}
 				}
 			},
 			"heading": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|platypi"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small",
+					"fontWeight": "400",
+					"fontStyle": "initial",
+					"letterSpacing": "initial",
+					"textTransform": "initial"
 				}
 			}
 		},
@@ -226,6 +221,28 @@
 						":hover": {
 							"color": {
 								"background": "color-mix(in srgb, var(--wp--preset--color--accent-1) 85%, transparent)"
+							}
+						}
+					}
+				}
+			},
+			"section-4": {
+				"elements": {
+					"button": {
+						":hover": {
+							"color": {
+								"background": "color-mix(in srgb, var(--wp--preset--color--accent-2) 85%, transparent)"
+							}
+						}
+					}
+				}
+			},
+			"section-5": {
+				"elements": {
+					"button": {
+						":hover": {
+							"color": {
+								"background": "color-mix(in srgb, var(--wp--preset--color--base) 90%, transparent)"
 							}
 						}
 					}

@@ -2,7 +2,7 @@
 /**
  * Title: Event schedule
  * Slug: twentytwentyfive/event-schedule
- * Categories: about, featured
+ * Categories: about
  * Description: A section with specified dates and times for an event.
  * Keywords: events, agenda, schedule, lectures
  *

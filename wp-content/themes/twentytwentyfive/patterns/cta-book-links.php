@@ -2,7 +2,7 @@
 /**
  * Title: Call to action with book links
  * Slug: twentytwentyfive/cta-book-links
- * Categories: call-to-action, featured
+ * Categories: call-to-action
  * Description: A call to action section with links to get the book in different websites.
  *
  * @package WordPress

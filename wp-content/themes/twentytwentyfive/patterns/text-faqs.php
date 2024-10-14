@@ -2,7 +2,7 @@
 /**
  * Title: FAQs
  * Slug: twentytwentyfive/text-faqs
- * Categories: text, about, featured
+ * Categories: text, about
  * Keywords: faq, about, frequently asked questions
  * Viewport width: 1400
  * Description: A FAQs section with a FAQ heading and list of toggle questions and answers.

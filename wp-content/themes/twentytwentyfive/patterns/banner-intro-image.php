@@ -2,7 +2,7 @@
 /**
  * Title: Short heading and paragraph and image on the left
  * Slug: twentytwentyfive/banner-intro-image
- * Categories: banner
+ * Categories: banner, featured
  * Description: A Intro pattern with Short heading, paragraph and image on the left.
  *
  * @package WordPress

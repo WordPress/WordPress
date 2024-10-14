@@ -67,14 +67,6 @@
 					}
 				}
 			},
-			"core/code": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium",
-					"fontStyle": "normal",
-					"fontWeight": "300",
-					"letterSpacing": "0px"
-				}
-			},
 			"core/site-tagline": {
 				"color": {
 					"text": "var:preset|color|accent-4"

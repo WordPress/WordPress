@@ -53,11 +53,6 @@
 							</div>
 							<!-- /wp:group -->
 						<!-- /wp:post-template -->
-						<!-- wp:query-no-results -->
-							<!-- wp:paragraph -->
-							<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
-							<!-- /wp:paragraph -->
-						<!-- /wp:query-no-results -->
 					</div>
 					<!-- /wp:query -->
 				</div>
@@ -78,11 +73,6 @@
 						</div>
 						<!-- /wp:group -->
 					<!-- /wp:post-template -->
-					<!-- wp:query-no-results -->
-						<!-- wp:paragraph -->
-						<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
-						<!-- /wp:paragraph -->
-					<!-- /wp:query-no-results -->
 				</div>
 				<!-- /wp:query -->
 			</div>
@@ -102,11 +92,6 @@
 							</div>
 							<!-- /wp:group -->
 						<!-- /wp:post-template -->
-						<!-- wp:query-no-results -->
-							<!-- wp:paragraph -->
-							<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
-							<!-- /wp:paragraph -->
-						<!-- /wp:query-no-results -->
 					</div>
 					<!-- /wp:query -->
 					<!-- wp:query {"query":{"perPage":1,"pages":0,"offset":"4","postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[]}} -->
@@ -120,11 +105,6 @@
 							</div>
 							<!-- /wp:group -->
 						<!-- /wp:post-template -->
-						<!-- wp:query-no-results -->
-							<!-- wp:paragraph -->
-							<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
-							<!-- /wp:paragraph -->
-						<!-- /wp:query-no-results -->
 					</div>
 					<!-- /wp:query -->
 				</div>
@@ -149,11 +129,6 @@
 				</div>
 				<!-- /wp:group -->
 			<!-- /wp:post-template -->
-			<!-- wp:query-no-results -->
-				<!-- wp:paragraph -->
-				<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
-				<!-- /wp:paragraph -->
-			<!-- /wp:query-no-results -->
 		</div>
 		<!-- /wp:query -->
 	</div>
@@ -172,11 +147,6 @@
 				</div>
 				<!-- /wp:group -->
 			<!-- /wp:post-template -->
-			<!-- wp:query-no-results -->
-				<!-- wp:paragraph -->
-				<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
-				<!-- /wp:paragraph -->
-			<!-- /wp:query-no-results -->
 			<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
 				<!-- wp:query-pagination {"align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->

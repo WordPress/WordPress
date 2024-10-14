@@ -23,9 +23,10 @@
 
 		<!-- wp:group {"align":"full","layout":{"type":"default"}} -->
 		<div class="wp-block-group alignfull">
-			<!-- wp:paragraph {"align":"left","style":{"typography":{"fontSize":"clamp(1rem, 380px, 24vw)","letterSpacing":"-0.02em","lineHeight":"1","fontWeight":"700"}}} -->
-			<p class="has-text-align-left" style="font-size:clamp(1rem, 380px, 24vw);font-weight:700;letter-spacing:-0.02em;line-height:1"><?php esc_html_e( 'Stories', 'twentytwentyfive' ); ?></p>
-			<!-- /wp:paragraph -->
+			<!-- wp:heading {"align":"left","style":{"typography":{"fontSize":"clamp(1rem, 380px, 24vw)","letterSpacing":"-0.02em","lineHeight":"1","fontWeight":"700","fontStyle":"normal"}}} -->
+			<h2 class="wp-block-heading has-text-align-left" style="font-size:clamp(1rem, 380px, 24vw);font-style:normal;font-weight:700;letter-spacing:-0.02em;line-height:1"><?php echo esc_html_e( 'Stories', 'twentytwentyfive' ); ?></h2>
+			<!-- /wp:heading -->
+
 		</div>
 		<!-- /wp:group -->
 	</div>

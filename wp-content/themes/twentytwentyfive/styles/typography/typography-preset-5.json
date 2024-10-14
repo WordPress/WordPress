@@ -3,13 +3,58 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"title": "Literata & Ysabeau Office",
 	"slug": "typography-preset-5",
+	"settings": {
+		"typography": {
+			"fontSizes": [
+				{
+					"fluid": false,
+					"name": "Small",
+					"size": "0.875rem",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"max": "1.125rem",
+						"min": "1rem"
+					},
+					"name": "Medium",
+					"size": "1rem",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"max": "1.375rem",
+						"min": "1.125rem"
+					},
+					"name": "Large",
+					"size": "1.38rem",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"max": "2rem",
+						"min": "1.75rem"
+					},
+					"name": "Extra Large",
+					"size": "1.75rem",
+					"slug": "x-large"
+				},
+				{
+					"fluid": {
+						"max": "2.6rem",
+						"min": "1.4rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "2.6rem",
+					"slug": "xx-large"
+				}
+			]
+		}
+	},
 	"styles": {
 		"typography": {
 			"fontFamily": "var:preset|font-family|ysabeau-office",
-			"fontSize": "1.5rem",
-			"fontWeight": "400",
-			"letterSpacing": "-0.24px",
-			"lineHeight": "1.4"
+			"letterSpacing": "-0.24px"
 		},
 		"blocks": {
 			"core/navigation": {
@@ -18,27 +63,6 @@
 				}
 			},
 			"core/post-author-name": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				},
-				"elements": {
-					"link": {
-						"typography": {
-							"textDecoration": "underline"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "none"
-							}
-						}
-					}
-				}
-			},
-			"core/post-terms": {
-				"typography": {
-					"fontWeight": "400",
-					"fontSize": "var:preset|font-size|medium"
-				},
 				"elements": {
 					"link": {
 						"typography": {
@@ -60,7 +84,7 @@
 			},
 			"core/pullquote": {
 				"typography": {
-					"fontSize": "var:preset|font-size|x-large"
+					"fontSize": "var:preset|font-size|xx-large"
 				},
 				"elements": {
 					"cite": {
@@ -72,16 +96,10 @@
 				}
 			},
 			"core/quote": {
-				"typography": {
-					"fontSize": "1.5rem",
-					"fontWeight": "500",
-					"letterSpacing": "-0.18px"
-				},
 				"elements": {
 					"cite": {
 						"typography": {
 							"fontSize": "var:preset|font-size|medium",
-							"fontWeight": "300",
 							"letterSpacing": "-0.14px"
 						}
 					}
@@ -104,7 +122,7 @@
 			"button": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|literata",
-					"fontSize": "1.375rem",
+					"fontSize": "var:preset|font-size|medium",
 					"fontWeight": "900",
 					"letterSpacing": "-0.36px"
 				}
@@ -112,7 +130,19 @@
 			"heading": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|literata",
-					"fontWeight": "900"
+					"fontWeight": "900",
+					"lineHeight": "1.2"
+				}
+			},
+			"h5": {
+				"typography": {
+					"letterSpacing": "0px"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontWeight": "900",
+					"letterSpacing": "0px"
 				}
 			}
 		},

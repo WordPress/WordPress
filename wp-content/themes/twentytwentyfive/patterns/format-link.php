@@ -2,7 +2,7 @@
 /**
  * Title: Link format
  * Slug: twentytwentyfive/format-link
- * Categories: twentytwentyfive_post-format, featured
+ * Categories: twentytwentyfive_post-format
  * Description: A link post format with a description and an emphasized link for key content.
  *
  * @package WordPress
@@ -17,8 +17,8 @@
 	<p style="font-style:normal;font-weight:700"><?php esc_html_e( 'The Stories Book, a fine collection of moments in time featuring photographs from Louis Fleckenstein, Paul Strand and Asahachi Kōno, is available for pre-order', 'twentytwentyfive' ); ?></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"style":{"elements":{"link":{"color":{"text":"var:preset|color|accent-4"}}}},"textColor":"accent-4","fontSize":"medium","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group has-accent-4-color has-text-color has-link-color has-medium-font-size">
+	<!-- wp:group {"fontSize":"medium","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group has-medium-font-size">
 		<!-- wp:paragraph -->
 		<p><a href="#"><?php esc_html_e( 'https://example.com', 'twentytwentyfive' ); ?></a></p>
 		<!-- /wp:paragraph -->

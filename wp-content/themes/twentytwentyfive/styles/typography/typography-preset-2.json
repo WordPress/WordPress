@@ -7,8 +7,6 @@
 		"typography": {
 			"fontFamily": "var:preset|font-family|fira-code",
 			"fontSize": "var:preset|font-size|medium",
-			"fontStyle": "normal",
-			"fontWeight": "300",
 			"letterSpacing": "-0.18px",
 			"lineHeight": "1.5"
 		},

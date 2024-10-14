@@ -2,7 +2,7 @@
 /**
  * Title: Call to action with locations
  * Slug: twentytwentyfive/cta-book-locations
- * Categories: call-to-action, featured
+ * Categories: call-to-action
  * Description: A call to action section with links to get the book in the most popular locations.
  *
  * @package WordPress
