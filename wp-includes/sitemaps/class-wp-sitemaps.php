@@ -229,6 +229,8 @@ class WP_Sitemaps {
 	 * @return bool Bypass value.
 	 */
 	public function redirect_sitemapxml( $bypass, $query ) {
+		_deprecated_function( __FUNCTION__, '6.7.0' );
+
 		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
 		if ( $bypass ) {
 			return $bypass;
