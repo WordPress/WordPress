@@ -1024,6 +1024,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .show-icon-labels .editor-header .components-button.has-icon:after,.show-icon-labels.interface-pinned-items .components-button.has-icon:after{
   content:attr(aria-label);
+  white-space:nowrap;
 }
 .show-icon-labels .editor-header .components-button.has-icon[aria-disabled=true],.show-icon-labels.interface-pinned-items .components-button.has-icon[aria-disabled=true]{
   background-color:initial;

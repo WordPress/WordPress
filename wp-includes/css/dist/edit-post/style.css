@@ -84,62 +84,99 @@
 
 .edit-post-meta-boxes-main{
   background-color:#fff;
-  clear:both;
+  display:flex;
   filter:drop-shadow(0 -1px rgba(0, 0, 0, .133));
+  flex-direction:column;
+  outline:1px solid #0000;
+  overflow:hidden;
 }
-.edit-post-meta-boxes-main:not(details){
-  padding-top:24px;
-}
-.edit-post-meta-boxes-main:is(details)>summary{
-  background-color:#fff;
-  box-shadow:0 1px #ddd;
-  color:#1e1e1e;
-  cursor:pointer;
-  font-size:13px;
-  height:32px;
-  line-height:32px;
-  padding-left:24px;
-}
-.edit-post-meta-boxes-main:is(details)[open]>summary{
-  position:sticky;
-  top:0;
-  z-index:1;
+.edit-post-meta-boxes-main.is-resizable{
+  padding-block-start:24px;
 }
 
-.edit-post-meta-boxes-main__resize-handle{
+.edit-post-meta-boxes-main__presenter{
   box-shadow:0 1px #ddd;
   display:flex;
-  height:24px;
-  inset:0 0 auto 0;
+  outline:1px solid #0000;
+  position:relative;
+  z-index:1;
 }
-.edit-post-meta-boxes-main__resize-handle>button{
+.is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter>button,.is-toggle-only>.edit-post-meta-boxes-main__presenter{
   appearance:none;
-  background-color:#ddd;
+  background-color:initial;
   border:none;
-  border-radius:2px;
-  cursor:inherit;
-  height:4px;
-  margin:auto;
   outline:none;
   padding:0;
-  transition:width .3s ease-out;
+}
+.is-toggle-only>.edit-post-meta-boxes-main__presenter{
+  align-items:center;
+  cursor:pointer;
+  flex-shrink:0;
+  height:32px;
+  justify-content:space-between;
+  padding-inline:24px 12px;
+}
+.is-toggle-only>.edit-post-meta-boxes-main__presenter:is(:hover,:focus-visible){
+  color:var(--wp-admin-theme-color);
+}
+.is-toggle-only>.edit-post-meta-boxes-main__presenter:focus-visible:after{
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  content:"";
+  inset:var(--wp-admin-border-width-focus);
+  outline:2px solid #0000;
+  position:absolute;
+}
+.is-toggle-only>.edit-post-meta-boxes-main__presenter>svg{
+  fill:currentColor;
+}
+.is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter{
+  inset:0 0 auto;
+}
+.is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter>button{
+  cursor:inherit;
+  height:24px;
+  margin:auto;
   width:64px;
 }
+.is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter>button:before{
+  background-color:#ddd;
+  border-radius:2px;
+  content:"";
+  height:4px;
+  inset-block:calc(50% - 2px) auto;
+  outline:2px solid #0000;
+  outline-offset:-2px;
+  position:absolute;
+  transform:translateX(-50%);
+  transition:width .3s ease-out;
+  width:inherit;
+}
 @media (prefers-reduced-motion:reduce){
-  .edit-post-meta-boxes-main__resize-handle>button{
+  .is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter>button:before{
     transition-delay:0s;
     transition-duration:0s;
   }
 }
-.edit-post-meta-boxes-main__resize-handle:hover>button,.edit-post-meta-boxes-main__resize-handle>button:focus{
+.is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter:is(:hover,:focus-within)>button:before{
   background-color:var(--wp-admin-theme-color);
   width:80px;
 }
 
+@media (pointer:coarse){
+  .is-resizable.edit-post-meta-boxes-main{
+    padding-block-start:32px;
+  }
+  .is-resizable.edit-post-meta-boxes-main .edit-post-meta-boxes-main__presenter>button{
+    height:32px;
+  }
+}
 .edit-post-meta-boxes-main__liner{
   isolation:isolate;
-  max-height:100%;
   overflow:auto;
+}
+
+.edit-post-layout__metaboxes{
+  clear:both;
 }
 
 .has-metaboxes .editor-visual-editor{

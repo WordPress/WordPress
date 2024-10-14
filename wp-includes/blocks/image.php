@@ -24,7 +24,7 @@ function render_block_core_image( $attributes, $content, $block ) {
 
 	$p = new WP_HTML_Tag_Processor( $content );
 
-	if ( ! $p->next_tag( 'img' ) || null === $p->get_attribute( 'src' ) ) {
+	if ( ! $p->next_tag( 'img' ) || ! $p->get_attribute( 'src' ) ) {
 		return '';
 	}
 

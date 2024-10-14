@@ -1883,7 +1883,7 @@ __webpack_require__.d(build_module_namespaceObject, {
   ComplementaryAreaMoreMenuItem: () => (ComplementaryAreaMoreMenuItem),
   FullscreenMode: () => (fullscreen_mode),
   InterfaceSkeleton: () => (interface_skeleton),
-  NavigableRegion: () => (NavigableRegion),
+  NavigableRegion: () => (navigable_region),
   PinnedItems: () => (pinned_items),
   store: () => (store)
 });
@@ -9290,6 +9290,17 @@ const external_wp_plugins_namespaceObject = window["wp"]["plugins"];
 
 
 
+/**
+ * Whether the role supports checked state.
+ *
+ * @param {import('react').AriaRole} role Role.
+ * @return {boolean} Whether the role supports checked state.
+ * @see https://www.w3.org/TR/wai-aria-1.1/#aria-checked
+ */
+
+function roleSupportsCheckedState(role) {
+  return ['checkbox', 'option', 'radio', 'switch', 'menuitemcheckbox', 'menuitemradio', 'treeitem'].includes(role);
+}
 function ComplementaryAreaToggle({
   as = external_wp_components_namespaceObject.Button,
   scope,
@@ -9308,7 +9319,10 @@ function ComplementaryAreaToggle({
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ComponentToUse, {
     icon: selectedIcon && isSelected ? selectedIcon : icon,
-    "aria-controls": identifier.replace('/', ':'),
+    "aria-controls": identifier.replace('/', ':')
+    // Make sure aria-checked matches spec https://www.w3.org/TR/wai-aria-1.1/#aria-checked
+    ,
+    "aria-checked": roleSupportsCheckedState(props.role) ? isSelected : undefined,
     onClick: () => {
       if (isSelected) {
         disableComplementaryArea(scope);
@@ -9839,18 +9853,24 @@ const FullscreenMode = ({
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/navigable-region/index.js
 /**
+ * WordPress dependencies
+ */
+
+
+/**
  * External dependencies
  */
 
 
-function NavigableRegion({
+const NavigableRegion = (0,external_wp_element_namespaceObject.forwardRef)(({
   children,
   className,
   ariaLabel,
   as: Tag = 'div',
   ...props
-}) {
+}, ref) => {
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Tag, {
+    ref: ref,
     className: dist_clsx('interface-navigable-region', className),
     "aria-label": ariaLabel,
     role: "region",
@@ -9858,7 +9878,9 @@ function NavigableRegion({
     ...props,
     children: children
   });
-}
+});
+NavigableRegion.displayName = 'NavigableRegion';
+/* harmony default export */ const navigable_region = (NavigableRegion);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/interface-skeleton/index.js
 /**
@@ -9940,11 +9962,7 @@ function InterfaceSkeleton({
   content,
   actions,
   labels,
-  className,
-  enableRegionNavigation = true,
-  // Todo: does this need to be a prop.
-  // Can we use a dependency to keyboard-shortcuts directly?
-  shortcuts
+  className
 }, ref) {
   const [secondarySidebarResizeListener, secondarySidebarSize] = (0,external_wp_compose_namespaceObject.useResizeObserver)();
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
@@ -9954,7 +9972,6 @@ function InterfaceSkeleton({
     duration: disableMotion ? 0 : interface_skeleton_ANIMATION_DURATION,
     ease: [0.6, 0, 0.4, 1]
   };
-  const navigateRegionsProps = (0,external_wp_components_namespaceObject.__unstableUseNavigateRegions)(shortcuts);
   useHTMLClass('interface-interface-skeleton__html-container');
   const defaultLabels = {
     /* translators: accessibility text for the top bar landmark region. */
@@ -9975,14 +9992,13 @@ function InterfaceSkeleton({
     ...labels
   };
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-    ...(enableRegionNavigation ? navigateRegionsProps : {}),
-    ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, enableRegionNavigation ? navigateRegionsProps.ref : undefined]),
-    className: dist_clsx(className, 'interface-interface-skeleton', navigateRegionsProps.className, !!footer && 'has-footer'),
+    ref: ref,
+    className: dist_clsx(className, 'interface-interface-skeleton', !!footer && 'has-footer'),
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
       className: "interface-interface-skeleton__editor",
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableAnimatePresence, {
         initial: false,
-        children: !!header && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
+        children: !!header && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(navigable_region, {
           as: external_wp_components_namespaceObject.__unstableMotion.div,
           className: "interface-interface-skeleton__header",
           "aria-label": mergedLabels.header,
@@ -10001,7 +10017,7 @@ function InterfaceSkeleton({
         className: "interface-interface-skeleton__body",
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__unstableAnimatePresence, {
           initial: false,
-          children: !!secondarySidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
+          children: !!secondarySidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(navigable_region, {
             className: "interface-interface-skeleton__secondary-sidebar",
             ariaLabel: mergedLabels.secondarySidebar,
             as: external_wp_components_namespaceObject.__unstableMotion.div,
@@ -10036,21 +10052,21 @@ function InterfaceSkeleton({
               children: [secondarySidebarResizeListener, secondarySidebar]
             })
           })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(navigable_region, {
           className: "interface-interface-skeleton__content",
           ariaLabel: mergedLabels.body,
           children: content
-        }), !!sidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
+        }), !!sidebar && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(navigable_region, {
           className: "interface-interface-skeleton__sidebar",
           ariaLabel: mergedLabels.sidebar,
           children: sidebar
-        }), !!actions && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
+        }), !!actions && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(navigable_region, {
           className: "interface-interface-skeleton__actions",
           ariaLabel: mergedLabels.actions,
           children: actions
         })]
       })]
-    }), !!footer && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(NavigableRegion, {
+    }), !!footer && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(navigable_region, {
       className: "interface-interface-skeleton__footer",
       ariaLabel: mergedLabels.footer,
       children: footer
@@ -26901,7 +26917,10 @@ function EditTemplateBlocksNotification({
       if (!event.target.classList.contains('is-root-container') || event.target.dataset?.type === 'core/template-part') {
         return;
       }
-      setIsDialogOpen(true);
+      if (!event.defaultPrevented) {
+        event.preventDefault();
+        setIsDialogOpen(true);
+      }
     };
     const canvas = contentRef.current;
     canvas?.addEventListener('dblclick', handleDblClick);
@@ -27188,7 +27207,8 @@ const {
   useLayoutClasses,
   useLayoutStyles,
   ExperimentalBlockCanvas: BlockCanvas,
-  useFlashEditableBlocks
+  useFlashEditableBlocks,
+  useZoomOutModeExit
 } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 
 /**
@@ -27409,10 +27429,10 @@ function VisualEditor({
     isEnabled: renderingMode === 'template-locked'
   }), useSelectNearestEditableBlock({
     isEnabled: renderingMode === 'template-locked'
-  })]);
+  }), useZoomOutModeExit()]);
   const zoomOutProps = isZoomedOut && !isTabletViewport ? {
     scale: 'default',
-    frameSize: '48px'
+    frameSize: '40px'
   } : {};
   const forceFullHeight = postType === NAVIGATION_POST_TYPE;
   const enableResizing = [NAVIGATION_POST_TYPE, TEMPLATE_PART_POST_TYPE, PATTERN_POST_TYPE].includes(postType) &&
@@ -27530,7 +27550,6 @@ function VisualEditor({
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -27561,7 +27580,6 @@ const interfaceLabels = {
 };
 function EditorInterface({
   className,
-  enableRegionNavigation,
   styles,
   children,
   forceIsDirty,
@@ -27581,8 +27599,6 @@ function EditorInterface({
     isListViewOpened,
     isDistractionFree,
     isPreviewMode,
-    previousShortcut,
-    nextShortcut,
     showBlockBreadcrumbs,
     documentLabel,
     isZoomOut
@@ -27606,8 +27622,6 @@ function EditorInterface({
       isListViewOpened: select(store_store).isListViewOpened(),
       isDistractionFree: get('core', 'distractionFree'),
       isPreviewMode: editorSettings.__unstableIsPreviewMode,
-      previousShortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getAllShortcutKeyCombinations('core/editor/previous-region'),
-      nextShortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getAllShortcutKeyCombinations('core/editor/next-region'),
       showBlockBreadcrumbs: get('core', 'showBlockBreadcrumbs'),
       // translators: Default label for the Document in the Block Breadcrumb.
       documentLabel: postTypeLabel || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun'),
@@ -27627,7 +27641,6 @@ function EditorInterface({
     setEntitiesSavedStatesCallback(false);
   }, [entitiesSavedStatesCallback]);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(interface_skeleton, {
-    enableRegionNavigation: enableRegionNavigation,
     isDistractionFree: isDistractionFree,
     className: dist_clsx('editor-editor-interface', className, {
       'is-entity-save-view-open': !!entitiesSavedStatesCallback,
@@ -27681,11 +27694,7 @@ function EditorInterface({
       isEntitiesSavedStatesOpen: entitiesSavedStatesCallback,
       setEntitiesSavedStatesCallback: setEntitiesSavedStatesCallback,
       forceIsDirtyPublishPanel: forceIsDirty
-    }) : undefined,
-    shortcuts: {
-      previous: previousShortcut,
-      next: nextShortcut
-    }
+    }) : undefined
   });
 }
 

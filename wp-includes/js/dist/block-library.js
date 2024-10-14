@@ -42043,6 +42043,9 @@ const postContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx
 
 
 
+
+
+
 /**
  * Internal dependencies
  */
@@ -42050,6 +42053,7 @@ const postContent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx
 
 
 function ReadOnlyContent({
+  parentLayout,
   layoutClassNames,
   userCanEdit,
   postType,
@@ -42059,7 +42063,28 @@ function ReadOnlyContent({
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     className: layoutClassNames
   });
-  return content?.protected && !userCanEdit ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+  const blocks = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    return content?.raw ? (0,external_wp_blocks_namespaceObject.parse)(content.raw) : [];
+  }, [content?.raw]);
+  const blockPreviewProps = (0,external_wp_blockEditor_namespaceObject.__experimentalUseBlockPreview)({
+    blocks,
+    props: blockProps,
+    layout: parentLayout
+  });
+  if (userCanEdit) {
+    /*
+     * Rendering the block preview using the raw content blocks allows for
+     * block support styles to be generated and applied by the editor.
+     *
+     * The preview using the raw blocks can only be presented to users with
+     * edit permissions for the post to prevent potential exposure of private
+     * block content.
+     */
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      ...blockPreviewProps
+    });
+  }
+  return content?.protected ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
     ...blockProps,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.Warning, {
       children: (0,external_wp_i18n_namespaceObject.__)('This content is password protected.')
@@ -42116,6 +42141,7 @@ function Content(props) {
   return isEditable ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(EditableContent, {
     ...props
   }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ReadOnlyContent, {
+    parentLayout: props.parentLayout,
     layoutClassNames: layoutClassNames,
     userCanEdit: userCanEdit,
     postType: postType,
@@ -42150,7 +42176,8 @@ function RecursionError() {
 }
 function PostContentEdit({
   context,
-  __unstableLayoutClassNames: layoutClassNames
+  __unstableLayoutClassNames: layoutClassNames,
+  __unstableParentLayout: parentLayout
 }) {
   const {
     postId: contextPostId,
@@ -42164,6 +42191,7 @@ function PostContentEdit({
     uniqueId: contextPostId,
     children: contextPostId && contextPostType ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Content, {
       context: context,
+      parentLayout: parentLayout,
       layoutClassNames: layoutClassNames
     }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(edit_Placeholder, {
       layoutClassNames: layoutClassNames
@@ -47775,12 +47803,12 @@ function QueryInspectorControls(props) {
     return onChangeDebounced.cancel;
   }, [querySearch, onChangeDebounced]);
   const showInheritControl = isTemplate && isControlAllowed(allowedControls, 'inherit');
-  const showPostTypeControl = !inherit && isControlAllowed(allowedControls, 'postType') || !isTemplate;
+  const showPostTypeControl = !inherit && isControlAllowed(allowedControls, 'postType');
   const postTypeControlLabel = (0,external_wp_i18n_namespaceObject.__)('Post type');
   const postTypeControlHelp = (0,external_wp_i18n_namespaceObject.__)('Select the type of content to display: posts, pages, or custom post types.');
   const showColumnsControl = false;
-  const showOrderControl = !inherit && isControlAllowed(allowedControls, 'order') || !isTemplate;
-  const showStickyControl = !inherit && showSticky && isControlAllowed(allowedControls, 'sticky') || showSticky && !isTemplate;
+  const showOrderControl = !inherit && isControlAllowed(allowedControls, 'order');
+  const showStickyControl = !inherit && showSticky && isControlAllowed(allowedControls, 'sticky');
   const showSettingsPanel = showInheritControl || showPostTypeControl || showColumnsControl || showOrderControl || showStickyControl;
   const showTaxControl = !!taxonomies?.length && isControlAllowed(allowedControls, 'taxQuery');
   const showAuthorControl = isControlAllowed(allowedControls, 'author');

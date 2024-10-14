@@ -177,7 +177,7 @@ iframe[name=editor-canvas]{
   box-sizing:border-box;
   display:block;
   height:100%;
-  transition:all .5s cubic-bezier(.65, 0, .45, 1);
+  transition:all .4s cubic-bezier(.46, .03, .52, .96);
   width:100%;
 }
 @media (prefers-reduced-motion:reduce){
@@ -2261,6 +2261,14 @@ iframe[name=editor-canvas]{
 }
 .block-editor-list-view-leaf .block-editor-list-view-block-select-button:hover{
   color:var(--wp-admin-theme-color);
+}
+.block-editor-list-view-leaf .block-editor-list-view-block-select-button svg{
+  fill:currentColor;
+}
+@media (forced-colors:active){
+  .block-editor-list-view-leaf .block-editor-list-view-block-select-button svg{
+    fill:CanvasText;
+  }
 }
 .is-dragging-components-draggable .block-editor-list-view-leaf:not(.is-selected) .block-editor-list-view-block-select-button:hover{
   color:inherit;

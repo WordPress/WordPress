@@ -1,1 +1,1 @@
-.wp-block-post-content:after{clear:both;content:"";display:table}
+.wp-block-post-content{display:flow-root}

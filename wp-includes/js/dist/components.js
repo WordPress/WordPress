@@ -11259,9 +11259,13 @@ function UnforwardedTooltip(props, ref) {
   // TODO: this is a temporary workaround to minimize the effects of the
   // Ariakit upgrade. Ariakit doesn't pass the `aria-describedby` prop to
   // the tooltip anchor anymore since 0.4.0, so we need to add it manually.
+  // The `aria-describedby` attribute is added only if the anchor doesn't have
+  // one already, and if the tooltip text is not the same as the anchor's
+  // `aria-label`
   // See: https://github.com/WordPress/gutenberg/pull/64066
+  // See: https://github.com/WordPress/gutenberg/pull/65989
   function addDescribedById(element) {
-    return describedById && mounted ? (0,external_wp_element_namespaceObject.cloneElement)(element, {
+    return describedById && mounted && element.props['aria-describedby'] === undefined && element.props['aria-label'] !== text ? (0,external_wp_element_namespaceObject.cloneElement)(element, {
       'aria-describedby': describedById
     }) : element;
   }
@@ -35637,12 +35641,13 @@ function UnforwardedToggleGroupControlAsRadioGroup({
   const selectedValue = useStoreState(radio, 'value');
   const setValue = radio.setValue;
   const groupContextValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
+    activeItemIsNotFirstItem: () => radio.getState().activeId !== radio.first(),
     baseId,
     isBlock: !isAdaptiveWidth,
     size,
     value: selectedValue,
     setValue
-  }), [baseId, isAdaptiveWidth, size, selectedValue, setValue]);
+  }), [baseId, isAdaptiveWidth, radio, size, selectedValue, setValue]);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(toggle_group_control_context.Provider, {
     value: groupContextValue,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(RadioGroup, {
@@ -36116,7 +36121,6 @@ function ToggleGroupControlOptionBase(props, forwardedRef) {
     value,
     children,
     showTooltip = false,
-    onFocus: onFocusProp,
     disabled,
     ...otherButtonProps
   } = buttonProps;
@@ -36151,7 +36155,6 @@ function ToggleGroupControlOptionBase(props, forwardedRef) {
       children: isDeselectable ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("button", {
         ...commonProps,
         disabled: disabled,
-        onFocus: onFocusProp,
         "aria-pressed": isPressed,
         type: "button",
         onClick: buttonOnClick,
@@ -36160,16 +36163,16 @@ function ToggleGroupControlOptionBase(props, forwardedRef) {
         })
       }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Radio, {
         disabled: disabled,
-        render: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("button", {
-          type: "button",
-          ...commonProps,
-          onFocus: event => {
-            onFocusProp?.(event);
-            if (event.defaultPrevented) {
-              return;
-            }
+        onFocusVisible: () => {
+          // Conditions ensure that the first visible focus to a radio group
+          // without a selected option will not automatically select the option.
+          if (toggleGroupControlContext.value !== null || toggleGroupControlContext.activeItemIsNotFirstItem?.()) {
             toggleGroupControlContext.setValue(value);
           }
+        },
+        render: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("button", {
+          type: "button",
+          ...commonProps
         }),
         value: value,
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(component_ButtonContentView, {
@@ -46019,6 +46022,28 @@ function NameInput({
   });
 }
 
+/*
+ * Deduplicates the slugs of the provided elements.
+ */
+function deduplicateElementSlugs(elements) {
+  const slugCounts = {};
+  return elements.map(element => {
+    var _newSlug;
+    let newSlug;
+    const {
+      slug
+    } = element;
+    slugCounts[slug] = (slugCounts[slug] || 0) + 1;
+    if (slugCounts[slug] > 1) {
+      newSlug = `${slug}-${slugCounts[slug] - 1}`;
+    }
+    return {
+      ...element,
+      slug: (_newSlug = newSlug) !== null && _newSlug !== void 0 ? _newSlug : slug
+    };
+  });
+}
+
 /**
  * Returns a name and slug for a palette item. The name takes the format "Color + id".
  * To ensure there are no duplicate ids, this function checks all slugs.
@@ -46179,7 +46204,7 @@ function PaletteEditListView({
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     elementsReferenceRef.current = elements;
   }, [elements]);
-  const debounceOnChange = (0,external_wp_compose_namespaceObject.useDebounce)(onChange, 100);
+  const debounceOnChange = (0,external_wp_compose_namespaceObject.useDebounce)(updatedElements => onChange(deduplicateElementSlugs(updatedElements)), 100);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(v_stack_component, {
     spacing: 3,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(item_group_component, {
@@ -55720,6 +55745,7 @@ function DropZoneComponent({
       setType(_type);
     },
     onDragEnd() {
+      setIsDraggingOverElement(false);
       setIsDraggingOverDocument(false);
       setType(undefined);
     },
@@ -55732,8 +55758,6 @@ function DropZoneComponent({
   });
   const classes = dist_clsx('components-drop-zone', className, {
     'is-active': (isDraggingOverDocument || isDraggingOverElement) && (type === 'file' && onFilesDrop || type === 'html' && onHTMLDrop || type === 'default' && onDrop),
-    'has-dragged-out': !isDraggingOverElement,
-    // Keeping the following classnames for legacy purposes
     'is-dragging-over-document': isDraggingOverDocument,
     'is-dragging-over-element': isDraggingOverElement,
     [`is-dragging-${type}`]: !!type
