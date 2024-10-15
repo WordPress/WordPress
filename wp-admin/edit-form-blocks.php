@@ -106,6 +106,24 @@ wp_add_inline_script(
 	'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
 );
 
+// Preload server-registered block bindings sources.
+$registered_sources = get_all_registered_block_bindings_sources();
+if ( ! empty( $registered_sources ) ) {
+	$filtered_sources = array();
+	foreach ( $registered_sources as $source ) {
+		$filtered_sources[] = array(
+			'name'        => $source->name,
+			'label'       => $source->label,
+			'usesContext' => $source->uses_context,
+		);
+	}
+	$script = sprintf( 'for ( const source of %s ) { wp.blocks.registerBlockBindingsSource( source ); }', wp_json_encode( $filtered_sources ) );
+	wp_add_inline_script(
+		'wp-blocks',
+		$script
+	);
+}
+
 // Get admin url for handling meta boxes.
 $meta_box_url = admin_url( 'post.php' );
 $meta_box_url = add_query_arg(
