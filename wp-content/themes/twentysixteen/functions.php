@@ -528,10 +528,17 @@ function twentysixteen_hex2rgb( $color ) {
  */
 require get_template_directory() . '/inc/template-tags.php';
 
+
 /**
- * Block Patterns.
+ * Register block patterns and pattern categories.
+ *
+ * @since Twenty Sixteen 3.4
  */
-require get_template_directory() . '/inc/block-patterns.php';
+function twentysixteen_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentysixteen_register_block_patterns' );
 
 /**
  * Customizer additions.

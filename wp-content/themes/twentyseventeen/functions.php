@@ -737,6 +737,12 @@ require get_parent_theme_file_path( '/inc/customizer.php' );
 require get_parent_theme_file_path( '/inc/icon-functions.php' );
 
 /**
- * Block Patterns.
+ * Register block patterns and pattern categories.
+ *
+ * @since Twenty Seventeen 3.8
  */
-require get_template_directory() . '/inc/block-patterns.php';
+function twentyseventeen_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentyseventeen_register_block_patterns' );

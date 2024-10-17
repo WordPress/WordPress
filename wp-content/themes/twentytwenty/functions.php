@@ -175,8 +175,16 @@ require get_template_directory() . '/classes/class-twentytwenty-non-latin-langua
 // Custom CSS.
 require get_template_directory() . '/inc/custom-css.php';
 
-// Block Patterns.
-require get_template_directory() . '/inc/block-patterns.php';
+/**
+ * Register block patterns and pattern categories.
+ *
+ * @since Twenty Twenty 2.8
+ */
+function twentytwenty_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentytwenty_register_block_patterns' );
 
 /**
  * Register and Enqueue Styles.

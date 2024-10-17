@@ -728,8 +728,16 @@ require get_template_directory() . '/inc/template-tags.php';
 // Add Customizer functionality.
 require get_template_directory() . '/inc/customizer.php';
 
-// Add support for block patterns.
-require get_template_directory() . '/inc/block-patterns.php';
+/**
+ * Register block patterns and pattern categories.
+ *
+ * @since Twenty Fourteen 4.1
+ */
+function twentyfourteen_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentyfourteen_register_block_patterns' );
 
 /*
  * Add Featured Content functionality.

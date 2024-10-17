@@ -140,9 +140,15 @@ add_action( 'after_setup_theme', 'twentytwelve_setup' );
 require get_template_directory() . '/inc/custom-header.php';
 
 /**
- * Add block patterns.
+ * Register block patterns and pattern categories.
+ *
+ * @since Twenty Twelve 4.4
  */
-require get_template_directory() . '/inc/block-patterns.php';
+function twentytwelve_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentytwelve_register_block_patterns' );
 
 if ( ! function_exists( 'twentytwelve_get_font_url' ) ) :
 	/**

@@ -46,11 +46,15 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) ) {
 }
 
 /**
- * Block Patterns.
+ * Register block patterns and pattern categories.
  *
- * @since Twenty Thirteen 3.4
+ * @since Twenty Thirteen 4.3
  */
-require get_template_directory() . '/inc/block-patterns.php';
+function twentythirteen_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentythirteen_register_block_patterns' );
 
 /**
  * Twenty Thirteen setup.

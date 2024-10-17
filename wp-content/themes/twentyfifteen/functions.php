@@ -657,8 +657,12 @@ require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/customizer.php';
 
 /**
- * Block Patterns.
+ * Register block patterns and pattern categories.
  *
- * @since Twenty Fifteen 3.0
+ * @since Twenty Fifteen 3.9
  */
-require get_template_directory() . '/inc/block-patterns.php';
+function twentyfifteen_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentyfifteen_register_block_patterns' );
