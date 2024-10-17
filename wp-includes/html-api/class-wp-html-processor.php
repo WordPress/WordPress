@@ -1116,7 +1116,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		if ( WP_HTML_Tag_Processor::STATE_READY !== $this->parser_state ) {
 			wp_trigger_error(
 				__METHOD__,
-				"An HTML Processor which has already started processing cannot serialize it's contents. Serialize immediately after creating the instance.",
+				'An HTML Processor which has already started processing cannot serialize its contents. Serialize immediately after creating the instance.',
 				E_USER_WARNING
 			);
 			return null;
