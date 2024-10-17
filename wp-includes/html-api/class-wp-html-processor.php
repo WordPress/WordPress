@@ -2433,6 +2433,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 					}
 
 					$this->state->stack_of_open_elements->remove_node( $node );
+					return true;
 				} else {
 					/*
 					 * > If the stack of open elements does not have a form element in scope,
