@@ -47,7 +47,7 @@ class WP_Translation_File_PHP extends WP_Translation_File {
 	public function export(): string {
 		$data = array_merge( $this->headers, array( 'messages' => $this->entries ) );
 
-		return '<?php' . PHP_EOL . 'return ' . $this->var_export( $data ) . ';' . PHP_EOL;
+		return '<?php // phpcs:disable' . PHP_EOL . 'return ' . $this->var_export( $data ) . ';' . PHP_EOL;
 	}
 
 	/**
