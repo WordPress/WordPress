@@ -204,6 +204,7 @@ class WP_Upgrader {
 		$this->strings['mkdir_failed']         = __( 'Could not create directory.' );
 		$this->strings['incompatible_archive'] = __( 'The package could not be installed.' );
 		$this->strings['files_not_writable']   = __( 'The update cannot be installed because some files could not be copied. This is usually due to inconsistent file permissions.' );
+		$this->strings['dir_not_readable']     = __( 'A directory could not be read.' );
 
 		$this->strings['maintenance_start'] = __( 'Enabling Maintenance mode&#8230;' );
 		$this->strings['maintenance_end']   = __( 'Disabling Maintenance mode&#8230;' );
@@ -558,7 +559,13 @@ class WP_Upgrader {
 		$remote_source     = $args['source'];
 		$local_destination = $destination;
 
-		$source_files       = array_keys( $wp_filesystem->dirlist( $remote_source ) );
+		$dirlist = $wp_filesystem->dirlist( $remote_source );
+
+		if ( false === $dirlist ) {
+			return new WP_Error( 'source_read_failed', $this->strings['fs_error'], $this->strings['dir_not_readable'] );
+		}
+
+		$source_files       = array_keys( $dirlist );
 		$remote_destination = $wp_filesystem->find_folder( $local_destination );
 
 		// Locate which directory to copy to the new folder. This is based on the actual folder holding the files.
@@ -605,7 +612,13 @@ class WP_Upgrader {
 
 		// Has the source location changed? If so, we need a new source_files list.
 		if ( $source !== $remote_source ) {
-			$source_files = array_keys( $wp_filesystem->dirlist( $source ) );
+			$dirlist = $wp_filesystem->dirlist( $source );
+
+			if ( false === $dirlist ) {
+				return new WP_Error( 'new_source_read_failed', $this->strings['fs_error'], $this->strings['dir_not_readable'] );
+			}
+
+			$source_files = array_keys( $dirlist );
 		}
 
 		/*
