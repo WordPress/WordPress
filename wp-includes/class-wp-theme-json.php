@@ -2314,23 +2314,29 @@ class WP_Theme_JSON {
 	 * @return array  Returns the modified $declarations.
 	 */
 	protected static function compute_style_properties( $styles, $settings = array(), $properties = null, $theme_json = null, $selector = null, $use_root_padding = null ) {
+		if ( empty( $styles ) ) {
+			return array();
+		}
+
 		if ( null === $properties ) {
 			$properties = static::PROPERTIES_METADATA;
 		}
-
-		$declarations = array();
-		if ( empty( $styles ) ) {
-			return $declarations;
-		}
-
+		$declarations             = array();
 		$root_variable_duplicates = array();
+		$root_style_length        = strlen( '--wp--style--root--' );
 
 		foreach ( $properties as $css_property => $value_path ) {
-			$value = static::get_property_value( $styles, $value_path, $theme_json );
-
-			if ( str_starts_with( $css_property, '--wp--style--root--' ) && ( static::ROOT_BLOCK_SELECTOR !== $selector || ! $use_root_padding ) ) {
+			if ( ! is_array( $value_path ) ) {
 				continue;
 			}
+
+			$is_root_style = str_starts_with( $css_property, '--wp--style--root--' );
+			if ( $is_root_style && ( static::ROOT_BLOCK_SELECTOR !== $selector || ! $use_root_padding ) ) {
+				continue;
+			}
+
+			$value = static::get_property_value( $styles, $value_path, $theme_json );
+
 			/*
 			 * Root-level padding styles don't currently support strings with CSS shorthand values.
 			 * This may change: https://github.com/WordPress/gutenberg/issues/40132.
@@ -2339,22 +2345,8 @@ class WP_Theme_JSON {
 				continue;
 			}
 
-			if ( str_starts_with( $css_property, '--wp--style--root--' ) && $use_root_padding ) {
-				$root_variable_duplicates[] = substr( $css_property, strlen( '--wp--style--root--' ) );
-			}
-
-			/*
-			 * Look up protected properties, keyed by value path.
-			 * Skip protected properties that are explicitly set to `null`.
-			 */
-			if ( is_array( $value_path ) ) {
-				$path_string = implode( '.', $value_path );
-				if (
-					isset( static::PROTECTED_PROPERTIES[ $path_string ] ) &&
-					_wp_array_get( $settings, static::PROTECTED_PROPERTIES[ $path_string ], null ) === null
-				) {
-					continue;
-				}
+			if ( $is_root_style && $use_root_padding ) {
+				$root_variable_duplicates[] = substr( $css_property, $root_style_length );
 			}
 
 			/*
@@ -2383,6 +2375,18 @@ class WP_Theme_JSON {
 			// Skip if empty and not "0" or value represents array of longhand values.
 			$has_missing_value = empty( $value ) && ! is_numeric( $value );
 			if ( $has_missing_value || is_array( $value ) ) {
+				continue;
+			}
+
+			/*
+			 * Look up protected properties, keyed by value path.
+			 * Skip protected properties that are explicitly set to `null`.
+			 */
+			$path_string = implode( '.', $value_path );
+			if (
+				isset( static::PROTECTED_PROPERTIES[ $path_string ] ) &&
+				_wp_array_get( $settings, static::PROTECTED_PROPERTIES[ $path_string ], null ) === null
+			) {
 				continue;
 			}
 
