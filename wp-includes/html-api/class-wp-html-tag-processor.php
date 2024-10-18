@@ -2459,7 +2459,7 @@ class WP_HTML_Tag_Processor {
 			}
 
 			// Accumulate shift of the given pointer within this function call.
-			if ( $diff->start <= $shift_this_point ) {
+			if ( $diff->start < $shift_this_point ) {
 				$accumulated_shift_for_given_point += $shift;
 			}
 
