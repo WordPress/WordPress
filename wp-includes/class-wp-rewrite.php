@@ -1501,7 +1501,8 @@ class WP_Rewrite {
 
 	/**
 	 * Refreshes the rewrite rules, saving the fresh value to the database.
-	 * If the `wp_loaded` action has not occurred yet, will postpone saving to the database.
+	 *
+	 * If the {@see 'wp_loaded'} action has not occurred yet, will postpone saving to the database.
 	 *
 	 * @since 6.4.0
 	 */
@@ -1513,7 +1514,7 @@ class WP_Rewrite {
 
 		if ( ! did_action( 'wp_loaded' ) ) {
 			/*
-			 * Is not safe to save the results right now, as the rules may be partial.
+			 * It is not safe to save the results right now, as the rules may be partial.
 			 * Need to give all rules the chance to register.
 			 */
 			add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
