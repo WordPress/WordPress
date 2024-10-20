@@ -366,6 +366,7 @@ function _wp_get_iframed_editor_assets() {
 	ob_start();
 	wp_print_styles();
 	wp_print_font_faces();
+	wp_print_font_faces_from_style_variations();
 	$styles = ob_get_clean();
 
 	if ( $has_emoji_styles ) {

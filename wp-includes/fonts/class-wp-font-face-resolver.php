@@ -37,6 +37,38 @@ class WP_Font_Face_Resolver {
 	}
 
 	/**
+	 * Gets fonts defined in style variations.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @return array Returns an array of font-families.
+	 */
+	public static function get_fonts_from_style_variations() {
+		$variations = WP_Theme_JSON_Resolver::get_style_variations();
+		$fonts      = array();
+
+		if ( empty( $variations ) ) {
+			return $fonts;
+		}
+
+		foreach ( $variations as $variation ) {
+			if ( ! empty( $variation['settings']['typography']['fontFamilies']['theme'] ) ) {
+				$fonts = array_merge( $fonts, $variation['settings']['typography']['fontFamilies']['theme'] );
+			}
+		}
+
+		$settings = array(
+			'typography' => array(
+				'fontFamilies' => array(
+					'theme' => $fonts,
+				),
+			),
+		);
+
+		return static::parse_settings( $settings );
+	}
+
+	/**
 	 * Parse theme.json settings to extract font definitions with variations grouped by font-family.
 	 *
 	 * @since 6.4.0
