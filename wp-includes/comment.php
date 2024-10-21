@@ -2277,9 +2277,14 @@ function wp_new_comment( $commentdata, $wp_error = false ) {
 		$commentdata['comment_type'] = 'comment';
 	}
 
+	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
+
 	$commentdata = wp_filter_comment( $commentdata );
 
-	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
+	if ( ! in_array( $commentdata['comment_approved'], array( 'trash', 'spam' ), true ) ) {
+		// Validate the comment again after filters are applied to comment data.
+		$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
+	}
 
 	if ( is_wp_error( $commentdata['comment_approved'] ) ) {
 		return $commentdata['comment_approved'];
