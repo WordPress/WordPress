@@ -148,8 +148,6 @@ class WP_Term_Query {
 	 *                                                   - 'id=>slug' Returns an associative array of term slugs,
 	 *                                                      keyed by term ID (`string[]`).
 	 *                                                   Default 'all'.
-	 *     @type bool            $count                  Whether to return a term count. If true, will take precedence
-	 *                                                   over `$fields`. Default false.
 	 *     @type string|string[] $name                   Name or array of names to return term(s) for.
 	 *                                                   Default empty.
 	 *     @type string|string[] $slug                   Slug or array of slugs to return term(s) for.
