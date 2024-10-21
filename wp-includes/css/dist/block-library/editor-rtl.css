@@ -300,6 +300,7 @@ html :where(.wp-block-column){
   right:50%;
   top:50%;
   transform:translate(50%, -50%);
+  z-index:1;
 }
 .wp-block-cover .wp-block-cover__inner-container{
   margin-left:0;
@@ -1374,6 +1375,7 @@ figure.wp-block-image:not(.wp-block){
 .wp-block-navigation .wp-block+.block-list-appender .block-editor-button-block-appender{
   background-color:#1e1e1e;
   color:#fff;
+  height:24px;
 }
 .wp-block-navigation .wp-block+.block-list-appender .block-editor-button-block-appender.block-editor-button-block-appender.block-editor-button-block-appender{
   padding:0;

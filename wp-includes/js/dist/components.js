@@ -35640,6 +35640,13 @@ function UnforwardedToggleGroupControlAsRadioGroup({
   });
   const selectedValue = useStoreState(radio, 'value');
   const setValue = radio.setValue;
+
+  // Ensures that the active id is also reset after the value is "reset" by the consumer.
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (selectedValue === '') {
+      radio.setActiveId(undefined);
+    }
+  }, [radio, selectedValue]);
   const groupContextValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     activeItemIsNotFirstItem: () => radio.getState().activeId !== radio.first(),
     baseId,
@@ -36164,9 +36171,11 @@ function ToggleGroupControlOptionBase(props, forwardedRef) {
       }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(Radio, {
         disabled: disabled,
         onFocusVisible: () => {
+          const selectedValueIsEmpty = toggleGroupControlContext.value === null || toggleGroupControlContext.value === '';
+
           // Conditions ensure that the first visible focus to a radio group
           // without a selected option will not automatically select the option.
-          if (toggleGroupControlContext.value !== null || toggleGroupControlContext.activeItemIsNotFirstItem?.()) {
+          if (!selectedValueIsEmpty || toggleGroupControlContext.activeItemIsNotFirstItem?.()) {
             toggleGroupControlContext.setValue(value);
           }
         },

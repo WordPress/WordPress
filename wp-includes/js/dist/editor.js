@@ -4449,7 +4449,9 @@ const savePost = (options = {}) => async ({
   }
   if (!error) {
     try {
-      await (0,external_wp_hooks_namespaceObject.doActionAsync)('editor.savePost', options);
+      await (0,external_wp_hooks_namespaceObject.doActionAsync)('editor.savePost', {
+        id: previousRecord.id
+      }, options);
     } catch (err) {
       error = err;
     }
@@ -24569,7 +24571,7 @@ const ExperimentalEditorProvider = with_registry_provider(({
     selection,
     isReady,
     mode,
-    postTypes
+    postTypeEntities
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditorSettings,
@@ -24578,32 +24580,30 @@ const ExperimentalEditorProvider = with_registry_provider(({
       __unstableIsEditorReady
     } = select(store_store);
     const {
-      getPostTypes
+      getEntitiesConfig
     } = select(external_wp_coreData_namespaceObject.store);
     return {
       editorSettings: getEditorSettings(),
       isReady: __unstableIsEditorReady(),
       mode: getRenderingMode(),
       selection: getEditorSelection(),
-      postTypes: getPostTypes({
-        per_page: -1
-      })
+      postTypeEntities: post.type === 'wp_template' ? getEntitiesConfig('postType') : null
     };
-  }, []);
+  }, [post.type]);
   const shouldRenderTemplate = !!template && mode !== 'post-only';
   const rootLevelPost = shouldRenderTemplate ? template : post;
   const defaultBlockContext = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const postContext = {};
-    // If it is a template, try to inherit the post type from the slug.
+    // If it is a template, try to inherit the post type from the name.
     if (post.type === 'wp_template') {
       if (post.slug === 'page') {
         postContext.postType = 'page';
       } else if (post.slug === 'single') {
         postContext.postType = 'post';
       } else if (post.slug.split('-')[0] === 'single') {
-        // If the slug is single-{postType}, infer the post type from the slug.
-        const postTypesSlugs = postTypes?.map(entity => entity.slug) || [];
-        const match = post.slug.match(`^single-(${postTypesSlugs.join('|')})(?:-.+)?$`);
+        // If the slug is single-{postType}, infer the post type from the name.
+        const postTypeNames = postTypeEntities?.map(entity => entity.name) || [];
+        const match = post.slug.match(`^single-(${postTypeNames.join('|')})(?:-.+)?$`);
         if (match) {
           postContext.postType = match[1];
         }
@@ -24616,7 +24616,7 @@ const ExperimentalEditorProvider = with_registry_provider(({
       ...postContext,
       templateSlug: rootLevelPost.type === 'wp_template' ? rootLevelPost.slug : undefined
     };
-  }, [shouldRenderTemplate, post.id, post.type, rootLevelPost.type, rootLevelPost.slug, postTypes]);
+  }, [shouldRenderTemplate, post.id, post.type, post.slug, rootLevelPost.type, rootLevelPost.slug, postTypeEntities]);
   const {
     id,
     type
@@ -26197,7 +26197,9 @@ const square = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
  */
 
 
-const ZoomOutToggle = () => {
+const ZoomOutToggle = ({
+  disabled
+}) => {
   const {
     isZoomOut,
     showIconLabels
@@ -26219,6 +26221,8 @@ const ZoomOutToggle = () => {
     __unstableSetEditorMode(isZoomOut ? 'edit' : 'zoom-out');
   };
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+    accessibleWhenDisabled: true,
+    disabled: disabled,
     onClick: handleZoomOut,
     icon: library_square,
     label: (0,external_wp_i18n_namespaceObject.__)('Toggle Zoom Out'),
@@ -26389,7 +26393,9 @@ function Header({
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PostPreviewButton, {
         className: "editor-header__post-preview-button",
         forceIsAutosaveable: forceIsDirty
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PostViewLink, {}), isEditorIframed && isWideViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(zoom_out_toggle, {}), (isWideViewport || !showIconLabels) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(pinned_items.Slot, {
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PostViewLink, {}), isEditorIframed && isWideViewport && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(zoom_out_toggle, {
+        disabled: forceDisableBlockTools
+      }), (isWideViewport || !showIconLabels) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(pinned_items.Slot, {
         scope: "core"
       }), !customSaveButton && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(post_publish_button_or_toggle, {
         forceIsDirty: forceIsDirty,
@@ -26800,9 +26806,11 @@ function SavePublishPanels({
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -26829,13 +26837,19 @@ function TextEditor({
       isRichEditingEnabled: getEditorSettings().richEditingEnabled
     };
   }, []);
+  const {
+    resetZoomLevel,
+    __unstableSetEditorMode
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store));
   const titleRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
+    resetZoomLevel();
+    __unstableSetEditorMode('edit');
     if (autoFocus) {
       return;
     }
     titleRef?.current?.focus();
-  }, [autoFocus]);
+  }, [autoFocus, resetZoomLevel, __unstableSetEditorMode]);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
     className: "editor-text-editor",
     children: [isRichEditingEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
@@ -30019,7 +30033,8 @@ function getPostMetaFields(select, context) {
         value: // When using the entity value, an empty string IS a valid value.
         (_entityMetaValues$key = entityMetaValues?.[key]) !== null && _entityMetaValues$key !== void 0 ? _entityMetaValues$key :
         // When using the default, an empty string IS NOT a valid value.
-        props.default || undefined
+        props.default || undefined,
+        type: props.type
       };
     }
   });
@@ -30116,11 +30131,9 @@ function getPostMetaFields(select, context) {
  */
 
 
-
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -30137,32 +30150,6 @@ function getPostMetaFields(select, context) {
 function registerCoreBlockBindingsSources() {
   (0,external_wp_blocks_namespaceObject.registerBlockBindingsSource)(pattern_overrides);
   (0,external_wp_blocks_namespaceObject.registerBlockBindingsSource)(post_meta);
-}
-
-/**
- * Function to bootstrap core block bindings sources defined in the server.
- *
- * @param {Object} sources Object containing the sources to bootstrap.
- *
- * @example
- * ```js
- * import { bootstrapBlockBindingsSourcesFromServer } from '@wordpress/editor';
- *
- * bootstrapBlockBindingsSourcesFromServer( sources );
- * ```
- */
-function bootstrapBlockBindingsSourcesFromServer(sources) {
-  if (sources) {
-    const {
-      addBootstrappedBlockBindingsSource
-    } = unlock((0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store));
-    for (const [name, args] of Object.entries(sources)) {
-      addBootstrappedBlockBindingsSource({
-        name,
-        ...args
-      });
-    }
-  }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/private-apis.js
@@ -30210,7 +30197,6 @@ lock(privateApis, {
   ViewMoreMenuGroup: view_more_menu_group,
   ResizableEditor: resizable_editor,
   registerCoreBlockBindingsSources: registerCoreBlockBindingsSources,
-  bootstrapBlockBindingsSourcesFromServer: bootstrapBlockBindingsSourcesFromServer,
   // This is a temporary private API while we're updating the site editor to use EditorProvider.
   interfaceStore,
   ...remainingInterfaceApis

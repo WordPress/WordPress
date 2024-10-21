@@ -118,6 +118,7 @@
 .wp-block-navigation .wp-block+.block-list-appender .block-editor-button-block-appender{
   background-color:#1e1e1e;
   color:#fff;
+  height:24px;
 }
 .wp-block-navigation .wp-block+.block-list-appender .block-editor-button-block-appender.block-editor-button-block-appender.block-editor-button-block-appender{
   padding:0;

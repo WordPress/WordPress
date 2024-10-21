@@ -35679,6 +35679,27 @@ function AccessibleMenuDescription({
 
 
 
+function useResponsiveMenu(navRef) {
+  const [isResponsiveMenuOpen, setResponsiveMenuVisibility] = (0,external_wp_element_namespaceObject.useState)(false);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!navRef.current) {
+      return;
+    }
+    const htmlElement = navRef.current.ownerDocument.documentElement;
+
+    // Add a `has-modal-open` class to the <html> when the responsive
+    // menu is open. This reproduces the same behavior of the frontend.
+    if (isResponsiveMenuOpen) {
+      htmlElement.classList.add('has-modal-open');
+    } else {
+      htmlElement.classList.remove('has-modal-open');
+    }
+    return () => {
+      htmlElement?.classList.remove('has-modal-open');
+    };
+  }, [navRef, isResponsiveMenuOpen]);
+  return [isResponsiveMenuOpen, setResponsiveMenuVisibility];
+}
 function ColorTools({
   textColor,
   setTextColor,
@@ -35838,7 +35859,8 @@ function Navigation({
     selectBlock,
     __unstableMarkNextChangeAsNotPersistent
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
-  const [isResponsiveMenuOpen, setResponsiveMenuVisibility] = (0,external_wp_element_namespaceObject.useState)(false);
+  const navRef = (0,external_wp_element_namespaceObject.useRef)();
+  const [isResponsiveMenuOpen, setResponsiveMenuVisibility] = useResponsiveMenu(navRef);
   const [overlayMenuPreview, setOverlayMenuPreview] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
     hasResolvedNavigationMenus,
@@ -35901,7 +35923,6 @@ function Navigation({
     __unstableMarkNextChangeAsNotPersistent();
     setRef(navigationFallbackId);
   }, [ref, setRef, hasUnsavedBlocks, navigationFallbackId, __unstableMarkNextChangeAsNotPersistent]);
-  const navRef = (0,external_wp_element_namespaceObject.useRef)();
 
   // The standard HTML5 tag for the block wrapper.
   const TagName = 'nav';

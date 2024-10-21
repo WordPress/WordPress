@@ -32,6 +32,7 @@
   position:absolute;
   top:50%;
   transform:translate(-50%, -50%);
+  z-index:1;
 }
 .wp-block-cover .wp-block-cover__inner-container{
   margin-left:0;

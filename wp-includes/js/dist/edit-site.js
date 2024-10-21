@@ -8032,7 +8032,8 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)((0,external_wp_elem
           label: (0,external_wp_i18n_namespaceObject.__)('Go to the Dashboard'),
           className: "edit-site-layout__view-mode-toggle",
           style: {
-            transform: 'scale(0.5)',
+            transform: 'scale(0.5333) translateX(-4px)',
+            // Offset to position the icon 12px from viewport edge
             borderRadius: 4
           },
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(site_icon, {
@@ -8058,7 +8059,7 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)((0,external_wp_elem
           expanded: false,
           className: "edit-site-site-hub__actions",
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-            __next40pxDefaultSize: true,
+            size: "compact",
             className: "edit-site-site-hub_toggle-command-center",
             icon: library_search,
             onClick: () => openCommandCenter(),
@@ -10172,6 +10173,7 @@ function useEditModeCommands() {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -10364,8 +10366,14 @@ function useInitEditedEntityFromURL() {
   const {
     setEditedEntity
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const {
+    __unstableSetEditorMode,
+    resetZoomLevel
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store));
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (isReady) {
+      __unstableSetEditorMode('edit');
+      resetZoomLevel();
       setEditedEntity(postType, postId, context);
     }
   }, [isReady, postType, postId, context, setEditedEntity]);
@@ -13136,6 +13144,24 @@ function FontSizes() {
   });
 }
 /* harmony default export */ const font_sizes_count = (FontSizes);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/settings.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+const settings_settings = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24",
+  children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "m19 7.5h-7.628c-.3089-.87389-1.1423-1.5-2.122-1.5-.97966 0-1.81309.62611-2.12197 1.5h-2.12803v1.5h2.12803c.30888.87389 1.14231 1.5 2.12197 1.5.9797 0 1.8131-.62611 2.122-1.5h7.628z"
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "m19 15h-2.128c-.3089-.8739-1.1423-1.5-2.122-1.5s-1.8131.6261-2.122 1.5h-7.628v1.5h7.628c.3089.8739 1.1423 1.5 2.122 1.5s1.8131-.6261 2.122-1.5h2.128z"
+  })]
+});
+/* harmony default export */ const library_settings = (settings_settings);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/font-library-modal/resolvers.js
 /**
@@ -19408,6 +19434,7 @@ function FontFamilyItem({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -19454,35 +19481,40 @@ function FontFamilies() {
       onRequestClose: () => setModalTabOpen(null),
       defaultTabId: modalTabOpen
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, {
-      spacing: 4,
-      children: [activeFonts.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+      spacing: 2,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+        justify: "space-between",
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(subtitle, {
           level: 3,
           children: (0,external_wp_i18n_namespaceObject.__)('Fonts')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItemGroup, {
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          onClick: () => setModalTabOpen('installed-fonts'),
+          label: (0,external_wp_i18n_namespaceObject.__)('Manage fonts'),
+          icon: library_settings,
+          size: "small"
+        })]
+      }), activeFonts.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalItemGroup, {
           size: "large",
           isBordered: true,
           isSeparated: true,
           children: activeFonts.map(font => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(font_family_item, {
             font: font
           }, font.slug))
-        })]
-      }), !hasFonts && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(subtitle, {
-          level: 3,
-          children: (0,external_wp_i18n_namespaceObject.__)('Fonts')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
+        })
+      }), !hasFonts && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
           as: "p",
           children: hasInstalledFonts ? (0,external_wp_i18n_namespaceObject.__)('No fonts activated.') : (0,external_wp_i18n_namespaceObject.__)('No fonts installed.')
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          className: "edit-site-global-styles-font-families__manage-fonts",
+          variant: "secondary",
+          __next40pxDefaultSize: true,
+          onClick: () => {
+            setModalTabOpen(hasInstalledFonts ? 'installed-fonts' : 'upload-fonts');
+          },
+          children: hasInstalledFonts ? (0,external_wp_i18n_namespaceObject.__)('Manage fonts') : (0,external_wp_i18n_namespaceObject.__)('Add fonts')
         })]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-        className: "edit-site-global-styles-font-families__manage-fonts",
-        variant: "secondary",
-        __next40pxDefaultSize: true,
-        onClick: () => {
-          setModalTabOpen(hasInstalledFonts ? 'installed-fonts' : 'upload-fonts');
-        },
-        children: hasInstalledFonts ? (0,external_wp_i18n_namespaceObject.__)('Manage fonts') : (0,external_wp_i18n_namespaceObject.__)('Add fonts')
       })]
     })]
   });
@@ -24145,6 +24177,7 @@ function useEditorTitle() {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -24273,6 +24306,10 @@ function EditSiteEditor({
     setCanvasMode
   } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
   const {
+    __unstableSetEditorMode,
+    resetZoomLevel
+  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store));
+  const {
     createSuccessNotice
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
   const history = editor_useHistory();
@@ -24355,6 +24392,9 @@ function EditSiteEditor({
             tooltipPosition: "middle right",
             onClick: () => {
               setCanvasMode('view');
+              __unstableSetEditorMode('edit');
+              resetZoomLevel();
+
               // TODO: this is a temporary solution to navigate to the posts list if we are
               // come here through `posts list` and are in focus mode editing a template, template part etc..
               if (isPostsList && params?.focusMode) {
@@ -32029,11 +32069,11 @@ function ListItem({
   const labelId = `${idPrefix}-label`;
   const descriptionId = `${idPrefix}-description`;
   const [isHovered, setIsHovered] = (0,external_wp_element_namespaceObject.useState)(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-  const handleMouseLeave = () => {
-    setIsHovered(false);
+  const handleHover = ({
+    type
+  }) => {
+    const isHover = type === 'mouseenter';
+    setIsHovered(isHover);
   };
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (isSelected) {
@@ -32065,6 +32105,35 @@ function ListItem({
   const renderedPrimaryField = primaryField?.render ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(primaryField.render, {
     item: item
   }) : null;
+  const usedActions = eligibleActions?.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+    spacing: 3,
+    className: "dataviews-view-list__item-actions",
+    children: [primaryAction && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PrimaryActionGridCell, {
+      idPrefix: idPrefix,
+      primaryAction: primaryAction,
+      item: item
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+      role: "gridcell",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(DropdownMenu, {
+        trigger: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Composite.Item, {
+          id: generateDropdownTriggerCompositeId(idPrefix),
+          render: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+            size: "small",
+            icon: more_vertical,
+            label: (0,external_wp_i18n_namespaceObject.__)('Actions'),
+            accessibleWhenDisabled: true,
+            disabled: !actions.length,
+            onKeyDown: onDropdownTriggerKeyDown
+          })
+        }),
+        placement: "bottom-end",
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ActionsDropdownMenuGroup, {
+          actions: eligibleActions,
+          item: item
+        })
+      })
+    })]
+  });
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Composite.Row, {
     ref: itemRef,
     render: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("li", {}),
@@ -32073,89 +32142,55 @@ function ListItem({
       'is-selected': isSelected,
       'is-hovered': isHovered
     }),
-    onMouseEnter: handleMouseEnter,
-    onMouseLeave: handleMouseLeave,
+    onMouseEnter: handleHover,
+    onMouseLeave: handleHover,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
       className: "dataviews-view-list__item-wrapper",
-      alignment: "center",
       spacing: 0,
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
         role: "gridcell",
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Composite.Item, {
-          render: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {}),
-          role: "button",
           id: generateItemWrapperCompositeId(idPrefix),
           "aria-pressed": isSelected,
           "aria-labelledby": labelId,
           "aria-describedby": descriptionId,
           className: "dataviews-view-list__item",
-          onClick: () => onSelect(item),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
-            spacing: 3,
-            justify: "start",
-            alignment: "flex-start",
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-              className: "dataviews-view-list__media-wrapper",
-              children: renderedMediaField
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, {
-              spacing: 1,
-              className: "dataviews-view-list__field-wrapper",
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-                className: "dataviews-view-list__primary-field",
-                id: labelId,
-                children: renderedPrimaryField
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-                className: "dataviews-view-list__fields",
-                id: descriptionId,
-                children: visibleFields.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-                  className: "dataviews-view-list__field",
-                  children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, {
-                    as: "span",
-                    className: "dataviews-view-list__field-label",
-                    children: field.label
-                  }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-                    className: "dataviews-view-list__field-value",
-                    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(field.render, {
-                      item: item
-                    })
-                  })]
-                }, field.id))
-              })]
-            })]
-          })
+          onClick: () => onSelect(item)
         })
-      }), eligibleActions?.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         spacing: 3,
-        justify: "flex-end",
-        className: "dataviews-view-list__item-actions",
-        style: {
-          flexShrink: '0',
-          width: 'auto'
-        },
-        children: [primaryAction && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PrimaryActionGridCell, {
-          idPrefix: idPrefix,
-          primaryAction: primaryAction,
-          item: item
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-          role: "gridcell",
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(DropdownMenu, {
-            trigger: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Composite.Item, {
-              id: generateDropdownTriggerCompositeId(idPrefix),
-              render: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-                size: "small",
-                icon: more_vertical,
-                label: (0,external_wp_i18n_namespaceObject.__)('Actions'),
-                accessibleWhenDisabled: true,
-                disabled: !actions.length,
-                onKeyDown: onDropdownTriggerKeyDown
-              })
-            }),
-            placement: "bottom-end",
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ActionsDropdownMenuGroup, {
-              actions: eligibleActions,
-              item: item
-            })
-          })
+        justify: "start",
+        alignment: "flex-start",
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+          className: "dataviews-view-list__media-wrapper",
+          children: renderedMediaField
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, {
+          spacing: 1,
+          className: "dataviews-view-list__field-wrapper",
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+            spacing: 0,
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+              className: "dataviews-view-list__primary-field",
+              id: labelId,
+              children: renderedPrimaryField
+            }), usedActions]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
+            className: "dataviews-view-list__fields",
+            id: descriptionId,
+            children: visibleFields.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
+              className: "dataviews-view-list__field",
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, {
+                as: "span",
+                className: "dataviews-view-list__field-label",
+                children: field.label
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
+                className: "dataviews-view-list__field-value",
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(field.render, {
+                  item: item
+                })
+              })]
+            }, field.id))
+          })]
         })]
       })]
     })
@@ -38411,7 +38446,7 @@ function PageTemplates() {
 
 function SidebarButton(props) {
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-    __next40pxDefaultSize: true,
+    size: "compact",
     ...props,
     className: dist_clsx('edit-site-sidebar-button', props.className)
   });
@@ -41666,8 +41701,7 @@ function initializePostsDashboard(id, settings) {
 
 
 const {
-  registerCoreBlockBindingsSources,
-  bootstrapBlockBindingsSourcesFromServer
+  registerCoreBlockBindingsSources
 } = unlock(external_wp_editor_namespaceObject.privateApis);
 
 /**
@@ -41684,7 +41718,6 @@ function initializeEditor(id, settings) {
     name
   }) => name !== 'core/freeform');
   (0,external_wp_blockLibrary_namespaceObject.registerCoreBlocks)(coreBlocks);
-  bootstrapBlockBindingsSourcesFromServer(settings?.blockBindingsSources);
   registerCoreBlockBindingsSources();
   (0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store).setFreeformFallbackBlockName('core/html');
   (0,external_wp_widgets_namespaceObject.registerLegacyWidgetBlock)({

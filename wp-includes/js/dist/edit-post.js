@@ -1036,7 +1036,7 @@ const initializeMetaBoxes = () => ({
   actions_metaBoxesInitialized = true;
 
   // Save metaboxes on save completion, except for autosaves.
-  (0,external_wp_hooks_namespaceObject.addAction)('editor.savePost', 'core/edit-post/save-metaboxes', async options => {
+  (0,external_wp_hooks_namespaceObject.addAction)('editor.savePost', 'core/edit-post/save-metaboxes', async (post, options) => {
     if (!options.isAutosave && select.hasMetaBoxes()) {
       await dispatch.requestMetaBoxUpdates();
     }
@@ -2608,7 +2608,11 @@ function usePaddingAppender() {
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
   return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
     function onMouseDown(event) {
-      if (event.target !== node) {
+      if (event.target !== node &&
+      // Tests for the parent element because in the iframed editor if the click is
+      // below the padding the target will be the parent element (html) and should
+      // still be treated as intent to append.
+      event.target !== node.parentElement) {
         return;
       }
       const {
@@ -2631,7 +2635,7 @@ function usePaddingAppender() {
       if (event.clientY < lastChildRect.bottom) {
         return;
       }
-      event.stopPropagation();
+      event.preventDefault();
       const blockOrder = registry.select(external_wp_blockEditor_namespaceObject.store).getBlockOrder('');
       const lastBlockClientId = blockOrder[blockOrder.length - 1];
       const lastBlock = registry.select(external_wp_blockEditor_namespaceObject.store).getBlock(lastBlockClientId);
@@ -2645,9 +2649,14 @@ function usePaddingAppender() {
         insertDefaultBlock();
       }
     }
-    node.addEventListener('mousedown', onMouseDown);
+    const {
+      ownerDocument
+    } = node;
+    // Adds the listener on the document so that in the iframed editor clicks below the
+    // padding can be handled as they too should be treated as intent to append.
+    ownerDocument.addEventListener('mousedown', onMouseDown);
     return () => {
-      node.removeEventListener('mousedown', onMouseDown);
+      ownerDocument.removeEventListener('mousedown', onMouseDown);
     };
   }, [registry]);
 }
@@ -3451,8 +3460,7 @@ function __experimentalPluginPostExcerpt() {
 
 const {
   BackButton: __experimentalMainDashboardButton,
-  registerCoreBlockBindingsSources,
-  bootstrapBlockBindingsSourcesFromServer
+  registerCoreBlockBindingsSources
 } = unlock(external_wp_editor_namespaceObject.privateApis);
 
 /**
@@ -3504,7 +3512,6 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
     (0,external_wp_data_namespaceObject.dispatch)(external_wp_editor_namespaceObject.store).setIsListViewOpened(true);
   }
   (0,external_wp_blockLibrary_namespaceObject.registerCoreBlocks)();
-  bootstrapBlockBindingsSourcesFromServer(settings?.blockBindingsSources);
   registerCoreBlockBindingsSources();
   (0,external_wp_widgets_namespaceObject.registerLegacyWidgetBlock)({
     inserter: false
