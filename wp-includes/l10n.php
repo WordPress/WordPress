@@ -1151,6 +1151,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 	$content_url = wp_parse_url( content_url() );
 	$plugins_url = wp_parse_url( plugins_url() );
 	$site_url    = wp_parse_url( site_url() );
+	$theme_root  = get_theme_root();
 
 	// If the host is the same or it's a relative URL.
 	if (
@@ -1167,12 +1168,13 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 		$relative = explode( '/', $relative );
 
 		/*
-		 * Ensure correct languages path when using a custom `WP_PLUGIN_DIR` / `WP_PLUGIN_URL` configuration.
+		 * Ensure correct languages path when using a custom `WP_PLUGIN_DIR` / `WP_PLUGIN_URL` configuration,
+		 * a custom theme root, and/or using Multisite with subdirectories.
 		 * See https://core.trac.wordpress.org/ticket/60891 and https://core.trac.wordpress.org/ticket/62016.
 		 */
-		$plugins_dir = array_slice( explode( '/', $plugins_url['path'] ), 2 );
-		$plugins_dir = trim( $plugins_dir[0], '/' );
-		$dirname     = $plugins_dir === $relative[0] ? 'plugins' : 'themes';
+
+		$theme_dir = array_slice( explode( '/', $theme_root ), -1 );
+		$dirname   = $theme_dir[0] === $relative[0] ? 'themes' : 'plugins';
 
 		$languages_path = WP_LANG_DIR . '/' . $dirname;
 
