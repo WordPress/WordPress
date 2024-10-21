@@ -141,7 +141,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					</svg>
 				</div>
 				<h3><?php _e( 'Performance updates' ); ?></h3>
-				<p><?php _e( '6.7 delivers important performance updates, including faster pattern loading, optimized previews in the data views component, improved PHP 8+ support and removal of deprecated code, auto sizes for lazy-loaded images, and more efficient tag processing in the HTML API.' ); ?></p>
+				<p><?php _e( 'WordPress 6.7 delivers important performance updates, including faster pattern loading, optimized previews in the data views component, improved PHP 8+ support and removal of deprecated code, auto sizes for lazy-loaded images, and more efficient tag processing in the HTML API.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image">
