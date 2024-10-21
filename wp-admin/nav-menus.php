@@ -597,6 +597,8 @@ $nav_menus_l10n = array(
 	'movedTop'                => __( 'Menu item moved to the top' ),
 	'movedLeft'               => __( 'Menu item moved out of submenu' ),
 	'movedRight'              => __( 'Menu item is now a sub-item' ),
+	'parentUpdated'           => __( 'Menu parent updated' ),
+	'orderUpdated'            => __( 'Menu order updated' ),
 );
 wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
 
