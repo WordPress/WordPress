@@ -33,7 +33,7 @@
 					<!-- wp:quote {"className":"is-style-plain","style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|40"}},"fontSize":"x-large"} -->
 					<blockquote class="wp-block-quote is-style-plain has-x-large-font-size" style="font-style:normal;font-weight:400">
 						<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.1"}}} -->
-						<p style="line-height:1.1"><?php echo esc_html_x( '&ldquo;Superb product and customer service!&rdquo;', 'Sample testimonial.', 'twentytwentyfive' ); ?></p>
+						<p style="line-height:1.1"><?php echo esc_html_x( '“Superb product and customer service!”', 'Sample testimonial.', 'twentytwentyfive' ); ?></p>
 						<!-- /wp:paragraph -->
 						<cite><?php echo wp_kses_post( _x( 'Jo Mulligan <br /><sub>Atlanta, GA</sub>', 'Sample testimonial citation.', 'twentytwentyfive' ) ); ?></cite>
 					</blockquote>
@@ -62,7 +62,7 @@
 					<!-- wp:quote {"className":"is-style-plain","style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|40"}},"fontSize":"x-large"} -->
 					<blockquote class="wp-block-quote is-style-plain has-x-large-font-size" style="font-style:normal;font-weight:400">
 						<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.1"}}} -->
-						<p style="line-height:1.1"><?php echo esc_html_x( '&ldquo;Amazing quality and care. I love all your products.&rdquo;', 'Sample testimonial.', 'twentytwentyfive' ); ?></p>
+						<p style="line-height:1.1"><?php echo esc_html_x( '“Amazing quality and care. I love all your products.”', 'Sample testimonial.', 'twentytwentyfive' ); ?></p>
 						<!-- /wp:paragraph -->
 						<cite><?php echo wp_kses_post( _x( 'Otto Reid <br><sub>Springfield, IL</sub>', 'Sample testimonial citation.', 'twentytwentyfive' ) ); ?></cite>
 					</blockquote>

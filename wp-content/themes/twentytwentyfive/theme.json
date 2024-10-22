@@ -1466,9 +1466,20 @@
 			"title": "Vertical Header"
 		},
 		{
+			"area": "header",
+			"name": "header-large-title",
+			"title": "Header with large title"
+
+		},
+		{
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
+		},
+		{
+			"area": "footer",
+			"name": "footer-columns",
+			"title": "Footer Columns"
 		},
 		{
 			"area": "footer",

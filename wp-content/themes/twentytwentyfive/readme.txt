@@ -96,13 +96,13 @@ Source: https://fonts.google.com/specimen/Beiruti
 
 Northern Buttercups.
 Free public domain CC0 image.
-image-from-rawpixel-id-8802603-original.webp
+northern-buttercups-flowers.webp
 https://www.rawpixel.com/image/8802603
 
 License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 Small totara tree on ridge above Long Point, Porirua Harbour, by Leslie Adkin.
 Free public domain CC0 image.
-image-from-rawpixel-id-13029755.webp
+404-image.webp
 https://www.rawpixel.com/image/13029755
 
 Old gray paris map.
@@ -112,23 +112,23 @@ https://www.rawpixel.com/image/6033837
 
 Delphinium (Larkspur).
 Free public domain CC0 image.
-image-from-rawpixel-id-2224378.webp
+delphinium-flowers.webp
 https://www.rawpixel.com/image/2224378
 
 Campanula Alliariifolia (Cornish Bellflower).
 Free public domain CC0 image.
-image-from-rawpixel-id-2222755.webp
+campanula-alliariifolia-flower.webp
 https://www.rawpixel.com/image/2222755
 
 Centaurea Ruthenica(Star Thristle).
 Free public domain CC0 image.
-image-from-rawpixel-id-2211732.webp
+star-thristle-flower.webp
 https://www.rawpixel.com/image/2211732
 
 Botany flowers.
 Free public domain CC0 image.
 botany-flowers.webp
-image-from-rawpixel-id-8812207.webp
+botany-flowers-closeup.webp
 https://www.rawpixel.com/image/8812207
 
 Person typing on a typewriter.
@@ -164,7 +164,7 @@ https://www.rawpixel.com/image/14265869
 Cliff Palace, Mesa Verde National Park, Colorado (vertical orientation)
 Free public domain CC0 image.
 poster-image-background.webp
-image-from-rawpixel-id-8802835-jpeg-scaled.webp
+ruins-image.webp
 https://www.rawpixel.com/image/8802835
 
 Flower meadow in Llano, Texas.
@@ -177,6 +177,7 @@ https://www.rawpixel.com/image/8800058
 Hibiscus flower.
 Free public domain CC0 image.
 grid-flower-1.webp
+red-hibiscus-closeup.webp
 https://www.rawpixel.com/image/8799471
 
 Phacelia tanacetifolia (Lacy Phacelia) enlarged 4 times from Urformen der Kunst (1928) by Karl Blossfeldt.
@@ -243,10 +244,10 @@ Book template by Beatriz Fialho, public domain.
 
 Flora of Akaka Falls State Park.
 Free public domain CC0 image.
-image-from-rawpixel-id-8802845.webp
+akaka-falls-state-park-flora.webp
 https://www.rawpixel.com/image/8802845
 
 Closeup of plantlife in the Malibu Canyon area of the Santa Monica Mountains.
 Free public domain CC0 image.
-image-from-rawpixel-id-8799918.webp
+malibu-plantlife.webp
 https://www.rawpixel.com/image/8799918

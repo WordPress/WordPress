@@ -19,7 +19,7 @@ if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
 	 * @return void
 	 */
 	function twentytwentyfive_post_format_setup() {
-		add_theme_support( 'post-formats', array( 'audio', 'gallery', 'image', 'link', 'quote', 'video' ) );
+		add_theme_support( 'post-formats', array( 'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video' ) );
 	}
 endif;
 add_action( 'after_setup_theme', 'twentytwentyfive_post_format_setup' );
@@ -121,7 +121,7 @@ add_action( 'init', 'twentytwentyfive_pattern_categories' );
 // Registers block binding sources.
 if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
 	/**
-	 * Registers the copyright block binding source.
+	 * Registers the post format block binding source.
 	 *
 	 * @since Twenty Twenty-Five 1.0
 	 *
@@ -129,33 +129,30 @@ if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
 	 */
 	function twentytwentyfive_register_block_bindings() {
 		register_block_bindings_source(
-			'twentytwentyfive/copyright',
+			'twentytwentyfive/format',
 			array(
-				'label'              => _x( '&copy; YEAR', 'Label for the copyright placeholder in the editor', 'twentytwentyfive' ),
-				'get_value_callback' => 'twentytwentyfive_copyright_binding',
+				'label'              => _x( 'Post format name', 'Label for the block binding placeholder in the editor', 'twentytwentyfive' ),
+				'get_value_callback' => 'twentytwentyfive_format_binding',
 			)
 		);
 	}
 endif;
+add_action( 'init', 'twentytwentyfive_register_block_bindings' );
 
-// Registers block binding callback function for the copyright.
-if ( ! function_exists( 'twentytwentyfive_copyright_binding' ) ) :
+// Registers block binding callback function for the post format name.
+if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 	/**
-	 * Callback function for the copyright block binding source.
+	 * Callback function for the post format name block binding source.
 	 *
 	 * @since Twenty Twenty-Five 1.0
 	 *
-	 * @return string Copyright text.
+	 * @return string|void Post format name, or nothing if the format is 'standard'.
 	 */
-	function twentytwentyfive_copyright_binding() {
-		$copyright_text = sprintf(
-			/* translators: 1: Copyright symbol or word, 2: Year */
-			esc_html__( '%1$s %2$s', 'twentytwentyfive' ),
-			'&copy;',
-			wp_date( 'Y' )
-		);
+	function twentytwentyfive_format_binding() {
+		$post_format_slug = get_post_format();
 
-		return $copyright_text;
+		if ( $post_format_slug && 'standard' !== $post_format_slug ) {
+			return get_post_format_string( $post_format_slug );
+		}
 	}
 endif;
-add_action( 'init', 'twentytwentyfive_register_block_bindings' );

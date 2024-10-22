@@ -5,7 +5,7 @@
 	"slug": "text-annotation",
 	"blockTypes": ["core/heading", "core/paragraph"],
 	"styles": {
-		"css": "display: inline-flex",
+		"css": "width: fit-content",
 		"typography": {
 			"fontSize": "var:preset|font-size|small",
 			"lineHeight": "1.5",

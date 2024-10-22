@@ -93,7 +93,7 @@
 		<!-- /wp:column -->
 	</div>
 	<!-- /wp:columns -->
-		
+
 	<!-- wp:spacer {"height":"var:preset|spacing|30"} -->
 	<div style="height:var(--wp--preset--spacing--30)" aria-hidden="true" class="wp-block-spacer"></div>
 	<!-- /wp:spacer -->
@@ -222,10 +222,9 @@
 	<div class="wp-block-group alignwide">
 		<!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
 		<div class="wp-block-group alignwide">
-			<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"twentytwentyfive/copyright"}}},"textColor":"accent-4","fontSize":"small"} -->
-			<p class="has-accent-4-color has-text-color has-small-font-size"></p>
+			<!-- wp:paragraph {""fontSize":"small"} -->
+			<p class="has-small-font-size"><?php esc_html_e( 'Twenty Twenty-Five', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->
-
 			<!-- wp:paragraph {"fontSize":"small"} -->
 			<p class="has-small-font-size"><?php esc_html_e( 'email@example.com', 'twentytwentyfive' ); ?><br><?php echo esc_html_x( '+1 555 349 1806', 'Phone number.', 'twentytwentyfive' ); ?></p>
 			<!-- /wp:paragraph -->

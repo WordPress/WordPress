@@ -5,6 +5,7 @@
  * Categories: header
  * Block Types: core/template-part/vertical-header
  * Description: Vertical Header with site title and navigation
+ * Viewport width: 300
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_Five

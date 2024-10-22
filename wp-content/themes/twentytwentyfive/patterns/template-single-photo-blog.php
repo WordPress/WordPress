@@ -39,7 +39,7 @@
 						<!-- /wp:group -->
 						<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"fontSize":"small","layout":{"type":"constrained"}} -->
 						<div class="wp-block-group has-small-font-size">
-							<!-- wp:paragraph --><p><?php echo esc_html_x( 'Posted by', 'Prefix before the author name. The post atuhor name is displayed in a separate block on the next line.', 'twentytwentyfive' ); ?></p><!-- /wp:paragraph -->
+							<!-- wp:paragraph --><p><?php echo esc_html_x( 'Posted by', 'Prefix before the author name. The post author name is displayed in a separate block on the next line.', 'twentytwentyfive' ); ?></p><!-- /wp:paragraph -->
 							<!-- wp:post-author-name {"isLink":true} /-->
 						</div>
 						<!-- /wp:group -->
@@ -84,18 +84,9 @@
 		<!-- wp:post-featured-image {"aspectRatio":"auto","align":"wide"} /-->
 		</div>
 	<!-- /wp:group -->
-	<!-- wp:columns {"align":"wide"} -->
-	<div class="wp-block-columns alignwide">
-		<!-- wp:column {"width":"66.66%"} -->
-		<div class="wp-block-column" style="flex-basis:66.66%">
-			<!-- wp:post-content {"align":"full","layout":{"type":"default"}} /-->
-		</div>
-		<!-- /wp:column -->
-		<!-- wp:column {"width":"33.33%"} -->
-		<div class="wp-block-column" style="flex-basis:33.33%"></div>
-		<!-- /wp:column -->
-	</div>
-	<!-- /wp:columns -->
+
+	<!-- wp:post-content {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} /-->
+
 	<!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:pattern {"slug":"twentytwentyfive/comments"} /-->
