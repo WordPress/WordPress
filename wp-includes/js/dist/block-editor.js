@@ -32223,6 +32223,17 @@ function isElementVisible(element) {
 }
 
 /**
+ * Checks if the element is scrollable.
+ *
+ * @param {Element} element Element.
+ * @return {boolean} True if the element is scrollable.
+ */
+function isScrollable(element) {
+  const style = window.getComputedStyle(element);
+  return style.overflowX === 'auto' || style.overflowX === 'scroll' || style.overflowY === 'auto' || style.overflowY === 'scroll';
+}
+
+/**
  * Returns the rect of the element including all visible nested elements.
  *
  * Visible nested elements, including elements that overflow the parent, are
@@ -32249,7 +32260,11 @@ function getVisibleElementBounds(element) {
   while (currentElement = stack.pop()) {
     for (const child of currentElement.children) {
       if (isElementVisible(child)) {
-        const childBounds = child.getBoundingClientRect();
+        let childBounds = child.getBoundingClientRect();
+        // If the parent is scrollable, use parent's scrollable bounds.
+        if (isScrollable(currentElement)) {
+          childBounds = currentElement.getBoundingClientRect();
+        }
         bounds = rectUnion(bounds, childBounds);
         stack.push(child);
       }
