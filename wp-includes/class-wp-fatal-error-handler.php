@@ -190,7 +190,11 @@ class WP_Fatal_Error_Handler {
 			if ( is_multisite() ) {
 				$message = __( 'There has been a critical error on this website. Please reach out to your site administrator, and inform them of this error for further assistance.' );
 			} else {
-				$message = __( 'There has been a critical error on this website. Please check your site admin email inbox for instructions.' );
+				$message = sprintf(
+					/* translators: %s: Support forums URL. */
+					__( 'There has been a critical error on this website. Please check your site admin email inbox for instructions. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+					__( 'https://wordpress.org/support/forums/' )
+				);
 			}
 		} else {
 			$message = __( 'There has been a critical error on this website.' );
