@@ -71,9 +71,6 @@
 				}
 			},
 			"core/post-author-name": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				},
 				"color": {
 					"text": "var:preset|color|contrast"
 				},
