@@ -141,532 +141,535 @@
  * @see https://html.spec.whatwg.org/
  */
 class WP_HTML_Processor extends WP_HTML_Tag_Processor {
-	/**
-	 * The maximum number of bookmarks allowed to exist at any given time.
-	 *
-	 * HTML processing requires more bookmarks than basic tag processing,
-	 * so this class constant from the Tag Processor is overwritten.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @var int
-	 */
-	const MAX_BOOKMARKS = 100;
-
-	/**
-	 * Holds the working state of the parser, including the stack of
-	 * open elements and the stack of active formatting elements.
-	 *
-	 * Initialized in the constructor.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @var WP_HTML_Processor_State
-	 */
-	private $state;
-
-	/**
-	 * Used to create unique bookmark names.
-	 *
-	 * This class sets a bookmark for every tag in the HTML document that it encounters.
-	 * The bookmark name is auto-generated and increments, starting with `1`. These are
-	 * internal bookmarks and are automatically released when the referring WP_HTML_Token
-	 * goes out of scope and is garbage-collected.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @see WP_HTML_Processor::$release_internal_bookmark_on_destruct
-	 *
-	 * @var int
-	 */
-	private $bookmark_counter = 0;
-
-	/**
-	 * Stores an explanation for why something failed, if it did.
-	 *
-	 * @see self::get_last_error
-	 *
-	 * @since 6.4.0
-	 *
-	 * @var string|null
-	 */
-	private $last_error = null;
-
-	/**
-	 * Stores context for why the parser bailed on unsupported HTML, if it did.
-	 *
-	 * @see self::get_unsupported_exception
-	 *
-	 * @since 6.7.0
-	 *
-	 * @var WP_HTML_Unsupported_Exception|null
-	 */
-	private $unsupported_exception = null;
-
-	/**
-	 * Releases a bookmark when PHP garbage-collects its wrapping WP_HTML_Token instance.
-	 *
-	 * This function is created inside the class constructor so that it can be passed to
-	 * the stack of open elements and the stack of active formatting elements without
-	 * exposing it as a public method on the class.
-	 *
-	 * @since 6.4.0
-	 *
-	 * @var Closure|null
-	 */
-	private $release_internal_bookmark_on_destruct = null;
-
-	/**
-	 * Stores stack events which arise during parsing of the
-	 * HTML document, which will then supply the "match" events.
-	 *
-	 * @since 6.6.0
-	 *
-	 * @var WP_HTML_Stack_Event[]
-	 */
-	private $element_queue = array();
-
-	/**
-	 * Stores the current breadcrumbs.
-	 *
-	 * @since 6.7.0
-	 *
-	 * @var string[]
-	 */
-	private $breadcrumbs = array();
-
-	/**
-	 * Current stack event, if set, representing a matched token.
-	 *
-	 * Because the parser may internally point to a place further along in a document
-	 * than the nodes which have already been processed (some "virtual" nodes may have
-	 * appeared while scanning the HTML document), this will point at the "current" node
-	 * being processed. It comes from the front of the element queue.
-	 *
-	 * @since 6.6.0
-	 *
-	 * @var WP_HTML_Stack_Event|null
-	 */
-	private $current_element = null;
-
-	/**
-	 * Context node if created as a fragment parser.
-	 *
-	 * @var WP_HTML_Token|null
-	 */
-	private $context_node = null;
-
-	/*
-	 * Public Interface Functions
-	 */
-
-	/**
-	 * Creates an HTML processor in the fragment parsing mode.
-	 *
-	 * Use this for cases where you are processing chunks of HTML that
-	 * will be found within a bigger HTML document, such as rendered
-	 * block output that exists within a post, `the_content` inside a
-	 * rendered site layout.
-	 *
-	 * Fragment parsing occurs within a context, which is an HTML element
-	 * that the document will eventually be placed in. It becomes important
-	 * when special elements have different rules than others, such as inside
-	 * a TEXTAREA or a TITLE tag where things that look like tags are text,
-	 * or inside a SCRIPT tag where things that look like HTML syntax are JS.
-	 *
-	 * The context value should be a representation of the tag into which the
-	 * HTML is found. For most cases this will be the body element. The HTML
-	 * form is provided because a context element may have attributes that
-	 * impact the parse, such as with a SCRIPT tag and its `type` attribute.
-	 *
-	 * ## Current HTML Support
-	 *
-	 *  - The only supported context is `<body>`, which is the default value.
-	 *  - The only supported document encoding is `UTF-8`, which is the default value.
-	 *
-	 * @since 6.4.0
-	 * @since 6.6.0 Returns `static` instead of `self` so it can create subclass instances.
-	 *
-	 * @param string $html     Input HTML fragment to process.
-	 * @param string $context  Context element for the fragment, must be default of `<body>`.
-	 * @param string $encoding Text encoding of the document; must be default of 'UTF-8'.
-	 * @return static|null The created processor if successful, otherwise null.
-	 */
-	public static function create_fragment( $html, $context = '<body>', $encoding = 'UTF-8' ) {
-		if ( '<body>' !== $context || 'UTF-8' !== $encoding ) {
-			return null;
-		}
-
-		$processor                             = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
-		$processor->state->context_node        = array( 'BODY', array() );
-		$processor->state->insertion_mode      = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
-		$processor->state->encoding            = $encoding;
-		$processor->state->encoding_confidence = 'certain';
-
-		// @todo Create "fake" bookmarks for non-existent but implied nodes.
-		$processor->bookmarks['root-node']    = new WP_HTML_Span( 0, 0 );
-		$processor->bookmarks['context-node'] = new WP_HTML_Span( 0, 0 );
-
-		$root_node = new WP_HTML_Token(
-			'root-node',
-			'HTML',
-			false
-		);
-
-		$processor->state->stack_of_open_elements->push( $root_node );
-
-		$context_node = new WP_HTML_Token(
-			'context-node',
-			$processor->state->context_node[0],
-			false
-		);
-
-		$processor->context_node = $context_node;
-		$processor->breadcrumbs  = array( 'HTML', $context_node->node_name );
-
-		return $processor;
-	}
-
-	/**
-	 * Creates an HTML processor in the full parsing mode.
-	 *
-	 * It's likely that a fragment parser is more appropriate, unless sending an
-	 * entire HTML document from start to finish. Consider a fragment parser with
-	 * a context node of `<body>`.
-	 *
-	 * Since UTF-8 is the only currently-accepted charset, if working with a
-	 * document that isn't UTF-8, it's important to convert the document before
-	 * creating the processor: pass in the converted HTML.
-	 *
-	 * @param string      $html                    Input HTML document to process.
-	 * @param string|null $known_definite_encoding Optional. If provided, specifies the charset used
-	 *                                             in the input byte stream. Currently must be UTF-8.
-	 * @return static|null The created processor if successful, otherwise null.
-	 */
-	public static function create_full_parser( $html, $known_definite_encoding = 'UTF-8' ) {
-		if ( 'UTF-8' !== $known_definite_encoding ) {
-			return null;
-		}
-
-		$processor                             = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
-		$processor->state->encoding            = $known_definite_encoding;
-		$processor->state->encoding_confidence = 'certain';
-
-		return $processor;
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * Do not use this method. Use the static creator methods instead.
-	 *
-	 * @access private
-	 *
-	 * @since 6.4.0
-	 *
-	 * @see WP_HTML_Processor::create_fragment()
-	 *
-	 * @param string      $html                                  HTML to process.
-	 * @param string|null $use_the_static_create_methods_instead This constructor should not be called manually.
-	 */
-	public function __construct( $html, $use_the_static_create_methods_instead = null ) {
-		parent::__construct( $html );
-
-		if ( self::CONSTRUCTOR_UNLOCK_CODE !== $use_the_static_create_methods_instead ) {
-			_doing_it_wrong(
-				__METHOD__,
-				sprintf(
-					/* translators: %s: WP_HTML_Processor::create_fragment(). */
-					__( 'Call %s to create an HTML Processor instead of calling the constructor directly.' ),
-					'<code>WP_HTML_Processor::create_fragment()</code>'
-				),
-				'6.4.0'
-			);
-		}
-
-		$this->state = new WP_HTML_Processor_State();
-
-		$this->state->stack_of_open_elements->set_push_handler(
-			function ( WP_HTML_Token $token ): void {
-				$is_virtual            = ! isset( $this->state->current_token ) || $this->is_tag_closer();
-				$same_node             = isset( $this->state->current_token ) && $token->node_name === $this->state->current_token->node_name;
-				$provenance            = ( ! $same_node || $is_virtual ) ? 'virtual' : 'real';
-				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::PUSH, $provenance );
-
-				$this->change_parsing_namespace( $token->integration_node_type ? 'html' : $token->namespace );
-			}
-		);
-
-		$this->state->stack_of_open_elements->set_pop_handler(
-			function ( WP_HTML_Token $token ): void {
-				$is_virtual            = ! isset( $this->state->current_token ) || ! $this->is_tag_closer();
-				$same_node             = isset( $this->state->current_token ) && $token->node_name === $this->state->current_token->node_name;
-				$provenance            = ( ! $same_node || $is_virtual ) ? 'virtual' : 'real';
-				$this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::POP, $provenance );
-
-				$adjusted_current_node = $this->get_adjusted_current_node();
-
-				if ( $adjusted_current_node ) {
-					$this->change_parsing_namespace( $adjusted_current_node->integration_node_type ? 'html' : $adjusted_current_node->namespace );
-				} else {
-					$this->change_parsing_namespace( 'html' );
-				}
-			}
-		);
-
-		/*
-		 * Create this wrapper so that it's possible to pass
-		 * a private method into WP_HTML_Token classes without
-		 * exposing it to any public API.
-		 */
-		$this->release_internal_bookmark_on_destruct = function ( string $name ): void {
-			parent::release_bookmark( $name );
-		};
-	}
-
-	/**
-	 * Stops the parser and terminates its execution when encountering unsupported markup.
-	 *
-	 * @throws WP_HTML_Unsupported_Exception Halts execution of the parser.
-	 *
-	 * @since 6.7.0
-	 *
-	 * @param string $message Explains support is missing in order to parse the current node.
-	 */
-	private function bail( string $message ) {
-		$here  = $this->bookmarks[ $this->state->current_token->bookmark_name ];
-		$token = substr( $this->html, $here->start, $here->length );
-
-		$open_elements = array();
-		foreach ( $this->state->stack_of_open_elements->stack as $item ) {
-			$open_elements[] = $item->node_name;
-		}
-
-		$active_formats = array();
-		foreach ( $this->state->active_formatting_elements->walk_down() as $item ) {
-			$active_formats[] = $item->node_name;
-		}
-
-		$this->last_error = self::ERROR_UNSUPPORTED;
-
-		$this->unsupported_exception = new WP_HTML_Unsupported_Exception(
-			$message,
-			$this->state->current_token->node_name,
-			$here->start,
-			$token,
-			$open_elements,
-			$active_formats
-		);
-
-		throw $this->unsupported_exception;
-	}
-
-	/**
-	 * Returns the last error, if any.
-	 *
-	 * Various situations lead to parsing failure but this class will
-	 * return `false` in all those cases. To determine why something
-	 * failed it's possible to request the last error. This can be
-	 * helpful to know to distinguish whether a given tag couldn't
-	 * be found or if content in the document caused the processor
-	 * to give up and abort processing.
-	 *
-	 * Example
-	 *
-	 *     $processor = WP_HTML_Processor::create_fragment( '<template><strong><button><em><p><em>' );
-	 *     false === $processor->next_tag();
-	 *     WP_HTML_Processor::ERROR_UNSUPPORTED === $processor->get_last_error();
-	 *
-	 * @since 6.4.0
-	 *
-	 * @see self::ERROR_UNSUPPORTED
-	 * @see self::ERROR_EXCEEDED_MAX_BOOKMARKS
-	 *
-	 * @return string|null The last error, if one exists, otherwise null.
-	 */
-	public function get_last_error(): ?string {
-		return $this->last_error;
-	}
-
-	/**
-	 * Returns context for why the parser aborted due to unsupported HTML, if it did.
-	 *
-	 * This is meant for debugging purposes, not for production use.
-	 *
-	 * @since 6.7.0
-	 *
-	 * @see self::$unsupported_exception
-	 *
-	 * @return WP_HTML_Unsupported_Exception|null
-	 */
-	public function get_unsupported_exception() {
-		return $this->unsupported_exception;
-	}
-
-	/**
-	 * Finds the next tag matching the $query.
-	 *
-	 * @todo Support matching the class name and tag name.
-	 *
-	 * @since 6.4.0
-	 * @since 6.6.0 Visits all tokens, including virtual ones.
-	 *
-	 * @throws Exception When unable to allocate a bookmark for the next token in the input HTML document.
-	 *
-	 * @param array|string|null $query {
-	 *     Optional. Which tag name to find, having which class, etc. Default is to find any tag.
-	 *
-	 *     @type string|null $tag_name     Which tag to find, or `null` for "any tag."
-	 *     @type string      $tag_closers  'visit' to pause at tag closers, 'skip' or unset to only visit openers.
-	 *     @type int|null    $match_offset Find the Nth tag matching all search criteria.
-	 *                                     1 for "first" tag, 3 for "third," etc.
-	 *                                     Defaults to first tag.
-	 *     @type string|null $class_name   Tag must contain this whole class name to match.
-	 *     @type string[]    $breadcrumbs  DOM sub-path at which element is found, e.g. `array( 'FIGURE', 'IMG' )`.
-	 *                                     May also contain the wildcard `*` which matches a single element, e.g. `array( 'SECTION', '*' )`.
-	 * }
-	 * @return bool Whether a tag was matched.
-	 */
-	public function next_tag( $query = null ): bool {
-		$visit_closers = isset( $query['tag_closers'] ) && 'visit' === $query['tag_closers'];
-
-		if ( null === $query ) {
-			while ( $this->next_token() ) {
-				if ( '#tag' !== $this->get_token_type() ) {
-					continue;
-				}
-
-				if ( ! $this->is_tag_closer() || $visit_closers ) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		if ( is_string( $query ) ) {
-			$query = array( 'breadcrumbs' => array( $query ) );
-		}
-
-		if ( ! is_array( $query ) ) {
-			_doing_it_wrong(
-				__METHOD__,
-				__( 'Please pass a query array to this function.' ),
-				'6.4.0'
-			);
-			return false;
-		}
-
-		$needs_class = ( isset( $query['class_name'] ) && is_string( $query['class_name'] ) )
-			? $query['class_name']
-			: null;
-
-		if ( ! ( array_key_exists( 'breadcrumbs', $query ) && is_array( $query['breadcrumbs'] ) ) ) {
-			while ( $this->next_token() ) {
-				if ( '#tag' !== $this->get_token_type() ) {
-					continue;
-				}
-
-				if ( isset( $query['tag_name'] ) && $query['tag_name'] !== $this->get_token_name() ) {
-					continue;
-				}
-
-				if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
-					continue;
-				}
-
-				if ( ! $this->is_tag_closer() || $visit_closers ) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		$breadcrumbs  = $query['breadcrumbs'];
-		$match_offset = isset( $query['match_offset'] ) ? (int) $query['match_offset'] : 1;
-
-		while ( $match_offset > 0 && $this->next_token() ) {
-			if ( '#tag' !== $this->get_token_type() || $this->is_tag_closer() ) {
-				continue;
-			}
-
-			if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
-				continue;
-			}
-
-			if ( $this->matches_breadcrumbs( $breadcrumbs ) && 0 === --$match_offset ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Ensures internal accounting is maintained for HTML semantic rules while
-	 * the underlying Tag Processor class is seeking to a bookmark.
-	 *
-	 * This doesn't currently have a way to represent non-tags and doesn't process
-	 * semantic rules for text nodes. For access to the raw tokens consider using
-	 * WP_HTML_Tag_Processor instead.
-	 *
-	 * @since 6.5.0 Added for internal support; do not use.
-	 *
-	 * @access private
-	 *
-	 * @return bool
-	 */
-	public function next_token(): bool {
-		$this->current_element = null;
-
-		if ( isset( $this->last_error ) ) {
-			return false;
-		}
-
-		/*
-		 * Prime the events if there are none.
-		 *
-		 * @todo In some cases, probably related to the adoption agency
-		 *       algorithm, this call to step() doesn't create any new
-		 *       events. Calling it again creates them. Figure out why
-		 *       this is and if it's inherent or if it's a bug. Looping
-		 *       until there are events or until there are no more
-		 *       tokens works in the meantime and isn't obviously wrong.
-		 */
-		if ( empty( $this->element_queue ) && $this->step() ) {
-			return $this->next_token();
-		}
-
-		// Process the next event on the queue.
-		$this->current_element = array_shift( $this->element_queue );
-		if ( ! isset( $this->current_element ) ) {
-			// There are no tokens left, so close all remaining open elements.
-			while ( $this->state->stack_of_open_elements->pop() ) {
-				continue;
-			}
-
-			return empty( $this->element_queue ) ? false : $this->next_token();
-		}
-
-		$is_pop = WP_HTML_Stack_Event::POP === $this->current_element->operation;
-
-		/*
-		 * The root node only exists in the fragment parser, and closing it
-		 * indicates that the parse is complete. Stop before popping it from
-		 * the breadcrumbs.
-		 */
-		if ( 'root-node' === $this->current_element->token->bookmark_name ) {
-			return $this->next_token();
-		}
-
-		// Adjust the breadcrumbs for this event.
-		if ( $is_pop ) {
-			array_pop( $this->breadcrumbs );
-		} else {
-			$this->breadcrumbs[] = $this->current_element->token->node_name;
-		}
-
+    /**
+     * The maximum number of bookmarks allowed to exist at any given time.
+     *
+     * HTML processing requires more bookmarks than basic tag processing,
+     * so this class constant from the Tag Processor is overwritten.
+     *
+     * @since 6.4.0
+     *
+     * @var int
+     */
+    const MAX_BOOKMARKS = 100;
+
+    /**
+     * Holds the working state of the parser, including the stack of
+     * open elements and the stack of active formatting elements.
+     *
+     * Initialized in the constructor.
+     *
+     * @since 6.4.0
+     *
+     * @var WP_HTML_Processor_State
+     */
+    private $state;
+
+    /**
+     * Used to create unique bookmark names.
+     *
+     * This class sets a bookmark for every tag in the HTML document that it encounters.
+     * The bookmark name is auto-generated and increments, starting with `1`. These are
+     * internal bookmarks and are automatically released when the referring WP_HTML_Token
+     * goes out of scope and is garbage-collected.
+     *
+     * @since 6.4.0
+     *
+     * @see WP_HTML_Processor::$release_internal_bookmark_on_destruct
+     *
+     * @var int
+     */
+    private $bookmark_counter = 0;
+
+    /**
+     * Stores an explanation for why something failed, if it did.
+     *
+     * @see self::get_last_error
+     *
+     * @since 6.4.0
+     *
+     * @var string|null
+     */
+    private $last_error = null;
+
+    /**
+     * Stores context for why the parser bailed on unsupported HTML, if it did.
+     *
+     * @see self::get_unsupported_exception
+     *
+     * @since 6.7.0
+     *
+     * @var WP_HTML_Unsupported_Exception|null
+     */
+    private $unsupported_exception = null;
+
+    /**
+     * Releases a bookmark when PHP garbage-collects its wrapping WP_HTML_Token instance.
+     *
+     * This function is created inside the class constructor so that it can be passed to
+     * the stack of open elements and the stack of active formatting elements without
+     * exposing it as a public method on the class.
+     *
+     * @since 6.4.0
+     *
+     * @var Closure|null
+     */
+    private $release_internal_bookmark_on_destruct = null;
+
+    /**
+     * Stores stack events which arise during parsing of the
+     * HTML document, which will then supply the "match" events.
+     *
+     * @since 6.6.0
+     *
+     * @var WP_HTML_Stack_Event[]
+     */
+    private $element_queue = array();
+
+    /**
+     * Stores the current breadcrumbs.
+     *
+     * @since 6.7.0
+     *
+     * @var string[]
+     */
+    private $breadcrumbs = array();
+
+    /**
+     * Current stack event, if set, representing a matched token.
+     *
+     * Because the parser may internally point to a place further along in a document
+     * than the nodes which have already been processed (some "virtual" nodes may have
+     * appeared while scanning the HTML document), this will point at the "current" node
+     * being processed. It comes from the front of the element queue.
+     *
+     * @since 6.6.0
+     *
+     * @var WP_HTML_Stack_Event|null
+     */
+    private $current_element = null;
+
+    /**
+     * Context node if created as a fragment parser.
+     *
+     * @var WP_HTML_Token|null
+     */
+    private $context_node = null;
+
+    /*
+     * Public Interface Functions
+     */
+
+    /**
+     * Creates an HTML processor in the fragment parsing mode.
+     *
+     * Use this for cases where you are processing chunks of HTML that
+     * will be found within a bigger HTML document, such as rendered
+     * block output that exists within a post, `the_content` inside a
+     * rendered site layout.
+     *
+     * Fragment parsing occurs within a context, which is an HTML element
+     * that the document will eventually be placed in. It becomes important
+     * when special elements have different rules than others, such as inside
+     * a TEXTAREA or a TITLE tag where things that look like tags are text,
+     * or inside a SCRIPT tag where things that look like HTML syntax are JS.
+     *
+     * The context value should be a representation of the tag into which the
+     * HTML is found. For most cases this will be the body element. The HTML
+     * form is provided because a context element may have attributes that
+     * impact the parse, such as with a SCRIPT tag and its `type` attribute.
+     *
+     * ## Current HTML Support
+     *
+     *  - The only supported context is `<body>`, which is the default value.
+     *  - The only supported document encoding is `UTF-8`, which is the default value.
+     *
+     * @since 6.4.0
+     * @since 6.6.0 Returns `static` instead of `self` so it can create subclass instances.
+     *
+     * @param string $html     Input HTML fragment to process.
+     * @param string $context  Context element for the fragment, must be default of `<body>`.
+     * @param string $encoding Text encoding of the document; must be default of 'UTF-8'.
+     * @return static|null The created processor if successful, otherwise null.
+     */
+    public static function create_fragment( $html, $context = '<body>', $encoding = 'UTF-8' ) {
+        if ( '<body>' !== $context || 'UTF-8' !== $encoding ) {
+            return null;
+        }
+
+        $processor                             = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
+        $processor->state->context_node        = array( 'BODY', array() );
+        $processor->state->insertion_mode      = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
+        $processor->state->encoding            = $encoding;
+        $processor->state->encoding_confidence = 'certain';
+
+        // @todo Create "fake" bookmarks for non-existent but implied nodes.
+        $processor->bookmarks['root-node']    = new WP_HTML_Span( 0, 0 );
+        $processor->bookmarks['context-node'] = new WP_HTML_Span( 0, 0 );
+
+        $root_node = new WP_HTML_Token(
+            'root-node',
+            'HTML',
+            false
+        );
+
+        $processor->state->stack_of_open_elements->push( $root_node );
+
+        $context_node = new WP_HTML_Token(
+            'context-node',
+            $processor->state->context_node[0],
+            false
+        );
+
+        $processor->context_node = $context_node;
+        $processor->breadcrumbs  = array( 'HTML', $context_node->node_name );
+
+        return $processor;
+    }
+
+    /**
+     * Creates an HTML processor in the full parsing mode.
+     *
+     * It's likely that a fragment parser is more appropriate, unless sending an
+     * entire HTML document from start to finish. Consider a fragment parser with
+     * a context node of `<body>`.
+     *
+     * Since UTF-8 is the only currently-accepted charset, if working with a
+     * document that isn't UTF-8, it's important to convert the document before
+     * creating the processor: pass in the converted HTML.
+     *
+     * @param string      $html                    Input HTML document to process.
+     * @param string|null $known_definite_encoding Optional. If provided, specifies the charset used
+     *                                             in the input byte stream. Currently must be UTF-8.
+     * @return static|null The created processor if successful, otherwise null.
+     */
+    public static function create_full_parser( $html, $known_definite_encoding = 'UTF-8' ) {
+        if ( 'UTF-8' !== $known_definite_encoding ) {
+            return null;
+        }
+
+        $processor                             = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
+        $processor->state->encoding            = $known_definite_encoding;
+        $processor->state->encoding_confidence = 'certain';
+
+        return $processor;
+    }
+
+    /**
+     * Constructor.
+     *
+     * Do not use this method. Use the static creator methods instead.
+     *
+     * @access private
+     *
+     * @since 6.4.0
+     *
+     * @see WP_HTML_Processor::create_fragment()
+     *
+     * @param string      $html                                  HTML to process.
+     * @param string|null $use_the_static_create_methods_instead This constructor should not be called manually.
+     */
+    public function __construct( $html, $use_the_static_create_methods_instead = null ) {
+        parent::__construct( $html );
+
+        if ( self::CONSTRUCTOR_UNLOCK_CODE !== $use_the_static_create_methods_instead ) {
+            _doing_it_wrong(
+                __METHOD__,
+                sprintf(
+                    /* translators: %s: WP_HTML_Processor::create_fragment(). */
+                    __( 'Call %s to create an HTML Processor instead of calling the constructor directly.' ),
+                    '<code>WP_HTML_Processor::create_fragment()</code>'
+                ),
+                '6.4.0'
+            );
+        }
+
+        $this->state = new WP_HTML_Processor_State();
+
+        $this->state->stack_of_open_elements->set_push_handler(
+            function ( WP_HTML_Token $token ): void {
+                $is_virtual            = ! isset( $this->state->current_token ) || $this->is_tag_closer();
+                $same_node             = isset( $this->state->current_token ) && $token->node_name === $this->state->current_token->node_name;
+                $provenance            = ( ! $same_node || $is_virtual ) ? 'virtual' : 'real';
+                $this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::PUSH, $provenance );
+
+                $this->change_parsing_namespace( $token->integration_node_type ? 'html' : $token->namespace );
+            }
+        );
+
+        $this->state->stack_of_open_elements->set_pop_handler(
+            function ( WP_HTML_Token $token ): void {
+                $is_virtual            = ! isset( $this->state->current_token ) || ! $this->is_tag_closer();
+                $same_node             = isset( $this->state->current_token ) && $token->node_name === $this->state->current_token->node_name;
+                $provenance            = ( ! $same_node || $is_virtual ) ? 'virtual' : 'real';
+                $this->element_queue[] = new WP_HTML_Stack_Event( $token, WP_HTML_Stack_Event::POP, $provenance );
+
+                $adjusted_current_node = $this->get_adjusted_current_node();
+
+                if ( $adjusted_current_node ) {
+                    $this->change_parsing_namespace( $adjusted_current_node->integration_node_type ? 'html' : $adjusted_current_node->namespace );
+                } else {
+                    $this->change_parsing_namespace( 'html' );
+                }
+            }
+        );
+
+        /*
+         * Create this wrapper so that it's possible to pass
+         * a private method into WP_HTML_Token classes without
+         * exposing it to any public API.
+         */
+        $this->release_internal_bookmark_on_destruct = function ( string $name ): void {
+            parent::release_bookmark( $name );
+        };
+    }
+
+    /**
+     * Stops the parser and terminates its execution when encountering unsupported markup.
+     *
+     * @throws WP_HTML_Unsupported_Exception Halts execution of the parser.
+     *
+     * @since 6.7.0
+     *
+     * @param string $message Explains support is missing in order to parse the current node.
+     */
+    private function bail( string $message ) {
+        $here  = $this->bookmarks[ $this->state->current_token->bookmark_name ];
+        $token = substr( $this->html, $here->start, $here->length );
+
+        $open_elements = array();
+        foreach ( $this->state->stack_of_open_elements->stack as $item ) {
+            $open_elements[] = $item->node_name;
+        }
+
+        $active_formats = array();
+        foreach ( $this->state->active_formatting_elements->walk_down() as $item ) {
+            $active_formats[] = $item->node_name;
+        }
+
+        $this->last_error = self::ERROR_UNSUPPORTED;
+
+        $this->unsupported_exception = new WP_HTML_Unsupported_Exception(
+            $message,
+            $this->state->current_token->node_name,
+            $here->start,
+            $token,
+            $open_elements,
+            $active_formats
+        );
+
+        throw $this->unsupported_exception;
+    }
+
+    /**
+     * Returns the last error, if any.
+     *
+     * Various situations lead to parsing failure but this class will
+     * return `false` in all those cases. To determine why something
+     * failed it's possible to request the last error. This can be
+     * helpful to know to distinguish whether a given tag couldn't
+     * be found or if content in the document caused the processor
+     * to give up and abort processing.
+     *
+     * Example
+     *
+     *     $processor = WP_HTML_Processor::create_fragment( '<template><strong><button><em><p><em>' );
+     *     false === $processor->next_tag();
+     *     WP_HTML_Processor::ERROR_UNSUPPORTED === $processor->get_last_error();
+     *
+     * @since 6.4.0
+     *
+     * @see self::ERROR_UNSUPPORTED
+     * @see self::ERROR_EXCEEDED_MAX_BOOKMARKS
+     *
+     * @return string|null The last error, if one exists, otherwise null.
+     */
+    public function get_last_error(): ?string {
+        return $this->last_error;
+    }
+
+    /**
+     * Returns context for why the parser aborted due to unsupported HTML, if it did.
+     *
+     * This is meant for debugging purposes, not for production use.
+     *
+     * @since 6.7.0
+     *
+     * @see self::$unsupported_exception
+     *
+     * @return WP_HTML_Unsupported_Exception|null
+     */
+    public function get_unsupported_exception() {
+        return $this->unsupported_exception;
+    }
+
+    /**
+     * Finds the next tag matching the $query.
+     *
+     * @todo Support matching the class name and tag name.
+     *
+     * @since 6.4.0
+     * @since 6.6.0 Visits all tokens, including virtual ones.
+     *
+     * @throws Exception When unable to allocate a bookmark for the next token in the input HTML document.
+     *
+     * @param array|string|null $query {
+     *     Optional. Which tag name to find, having which class, etc. Default is to find any tag.
+     *
+     *     @type string|null $tag_name     Which tag to find, or `null` for "any tag."
+     *     @type string      $tag_closers  'visit' to pause at tag closers, 'skip' or unset to only visit openers.
+     *     @type int|null    $match_offset Find the Nth tag matching all search criteria.
+     *                                     1 for "first" tag, 3 for "third," etc.
+     *                                     Defaults to first tag.
+     *     @type string|null $class_name   Tag must contain this whole class name to match.
+     *     @type string[]    $breadcrumbs  DOM sub-path at which element is found, e.g. `array( 'FIGURE', 'IMG' )`.
+     *                                     May also contain the wildcard `*` which matches a single element, e.g. `array( 'SECTION', '*' )`.
+     * }
+     * @return bool Whether a tag was matched.
+     */
+    public function next_tag( $query = null ): bool {
+        $visit_closers = isset( $query['tag_closers'] ) && 'visit' === $query['tag_closers'];
+
+        if ( null === $query ) {
+            while ( $this->next_token() ) {
+                if ( '#tag' !== $this->get_token_type() ) {
+                    continue;
+                }
+
+                if ( ! $this->is_tag_closer() || $visit_closers ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        if ( is_string( $query ) ) {
+            $query = array( 'breadcrumbs' => array( $query ) );
+        }
+
+        if ( ! is_array( $query ) ) {
+            _doing_it_wrong(
+                __METHOD__,
+                __( 'Please pass a query array to this function.' ),
+                '6.4.0'
+            );
+            return false;
+        }
+
+        $needs_class = ( isset( $query['class_name'] ) && is_string( $query['class_name'] ) )
+            ? $query['class_name']
+            : null;
+
+        if ( ! ( array_key_exists( 'breadcrumbs', $query ) && is_array( $query['breadcrumbs'] ) ) ) {
+            while ( $this->next_token() ) {
+                if ( '#tag' !== $this->get_token_type() ) {
+                    continue;
+                }
+
+                if ( isset( $query['tag_name'] ) && $query['tag_name'] !== $this->get_token_name() ) {
+                    continue;
+                }
+
+                if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
+                    continue;
+                }
+
+                if ( ! $this->is_tag_closer() || $visit_closers ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        $breadcrumbs  = $query['breadcrumbs'];
+        $match_offset = isset( $query['match_offset'] ) ? (int) $query['match_offset'] : 1;
+
+        while ( $match_offset > 0 && $this->next_token() ) {
+            if ( '#tag' !== $this->get_token_type() || $this->is_tag_closer() ) {
+                continue;
+            }
+
+            if ( isset( $needs_class ) && ! $this->has_class( $needs_class ) ) {
+                continue;
+            }
+
+            if ( $this->matches_breadcrumbs( $breadcrumbs ) && 0 === --$match_offset ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Ensures internal accounting is maintained for HTML semantic rules while
+     * the underlying Tag Processor class is seeking to a bookmark.
+     *
+     * This doesn't currently have a way to represent non-tags and doesn't process
+     * semantic rules for text nodes. For access to the raw tokens consider using
+     * WP_HTML_Tag_Processor instead.
+     *
+     * @since 6.5.0 Added for internal support; do not use.
+     *
+     * @access private
+     *
+     * @return bool
+     */
+    public function next_token(): bool {
+        $this->current_element = null;
+
+        if ( isset( $this->last_error ) ) {
+            return false;
+        }
+
+        /*
+         * Prime the events if there are none.
+         *
+         * @todo In some cases, probably related to the adoption agency
+         *       algorithm, this call to step() doesn't create any new
+         *       events. Calling it again creates them. Figure out why
+         *       this is and if it's inherent or if it's a bug. Looping
+         *       until there are events or until there are no more
+         *       tokens works in the meantime and isn't obviously wrong.
+         */
+        if ( empty( $this->element_queue ) && $this->step() ) {
+            return $this->next_token();
+        }
+
+        // Process the next event on the queue.
+        $this->current_element = array_shift( $this->element_queue );
+        if ( ! isset( $this->current_element ) ) {
+            // There are no tokens left, so close all remaining open elements.
+            while ( $this->state->stack_of_open_elements->pop() ) {
+                continue;
+            }
+
+            return empty( $this->element_queue ) ? false : $this->next_token();
+        }
+
+        $is_pop = WP_HTML_Stack_Event::POP === $this->current_element->operation;
+
+        /*
+         * The root node only exists in the fragment parser, and closing it
+         * indicates that the parse is complete. Stop before popping it from
+         * the breadcrumbs.
+         */
+        if ( 'root-node' === $this->current_element->token->bookmark_name ) {
+            return $this->next_token();
+        }
+
+        // Adjust the breadcrumbs for this event.
+        if ( $is_pop ) {
+            array_pop( $this->breadcrumbs );
+        } else {
+            $this->breadcrumbs[] = $this->current_element->token->node_name;
+        }
+
+        // Avoid sending close events for elements which don't expect a closing.
+        if ( $is_pop && ! $this->expects_closer( $this->current_element->token ) ) {
+            return $this->next_token();
 		// Avoid sending close events for elements which don't expect a closing.
 		if ( $is_pop && ! $this->expects_closer( $this->current_element->token ) ) {
 			return $this->next_token();
