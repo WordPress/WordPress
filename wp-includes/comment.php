@@ -3120,8 +3120,8 @@ function pingback( $content, $post ) {
 		$pingback_server_url = discover_pingback_server_uri( $pagelinkedto );
 
 		if ( $pingback_server_url ) {
+			// Allow an additional 60 seconds for each pingback to complete.
 			if ( function_exists( 'set_time_limit' ) ) {
-				// Allows an additional 60 seconds for each pingback to complete.
 				set_time_limit( 60 );
 			}
 
