@@ -15,6 +15,28 @@ The true richness of Twenty Twenty-Two lies in its opportunity for customization
 
 Whether you’re building a single-page website, a blog, a business website, or a portfolio, Twenty Twenty-Two will help you create a site that is uniquely yours.
 
+== Comment Block Support ==
+
+If you are using WordPress version 6.1 or newer, you are recommended to update the comment block to the latest version.
+
+= Instructions =
+
+1. From the WordPress admin, open Appearance > Site Editor.
+2. Select "Templates" from the menu in the Site Editor sidebar.
+3. Select the template (see the list below) and open it in the Site Editor.
+4. Locate the comments block.
+5. If the comments block has a button with the text "Switch to editable mode", activate the button.
+6. Save the template.
+
+If the button is not present, then you may have already updated the block, and you do not need to make any changes.
+
+Follow these instructions for each of the following templates:
+
+- Pages
+- Page (No Separators)
+- Single Posts
+- Single Post (No Separators)
+
 == Changelog ==
 
 = 1.8 =
