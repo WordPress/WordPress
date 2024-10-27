@@ -30,7 +30,6 @@ class WP_Debug_Data {
 	 * @since 6.7.0 Modularized into separate theme-oriented methods.
 	 *
 	 * @throws ImagickException
-	 * @global array $_wp_theme_features
 	 *
 	 * @return array The debug data for the site.
 	 */
@@ -39,14 +38,10 @@ class WP_Debug_Data {
 		 * Set up the array that holds all debug information.
 		 *
 		 * When iterating through the debug data, the ordering of the sections
-		 * occurs in insertion-order of the assignments into this array. Setting
-		 * up empty values here preserves that specific ordering, so it doesn't
-		 * depend on when inside this method each section is otherwise assigned.
+		 * occurs in insertion-order of the assignments into this array.
 		 *
-		 * When all sections have been modularized, this will be the final single
-		 * assignment of the sections before filtering and none will be empty.
-		 *
-		 * @ticket 61648
+		 * This is the single assignment of the sections before filtering. Null-entries will
+		 * be automatically be removed.
 		 */
 		$info = array(
 			'wp-core'             => self::get_wp_core(),
@@ -726,7 +721,6 @@ class WP_Debug_Data {
 		);
 	}
 
-
 	/**
 	 * Gets the WordPress MU plugins section of the debug data.
 	 *
@@ -1013,6 +1007,8 @@ class WP_Debug_Data {
 	 * Gets the WordPress active theme section of the debug data.
 	 *
 	 * @since 6.7.0
+	 *
+	 * @global array $_wp_theme_features
 	 *
 	 * @return array
 	 */
