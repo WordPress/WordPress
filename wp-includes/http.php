@@ -535,7 +535,7 @@ function send_origin_headers() {
  * - ftp://example.com/caniload.php - Invalid protocol - only http and https are allowed.
  * - http:///example.com/caniload.php - Malformed URL.
  * - http://user:pass@example.com/caniload.php - Login information.
- * - http://exampleeeee.com/caniload.php - Invalid hostname, as the IP cannot be looked up in DNS.
+ * - http://example.invalid/caniload.php - Invalid hostname, as the IP cannot be looked up in DNS.
  *
  * Examples of URLs that are considered unsafe by default:
  *
