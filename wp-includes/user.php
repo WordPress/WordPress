@@ -3106,7 +3106,7 @@ function check_password_reset_key( $key, $login ) {
  *                           Defaults to `$_POST['user_login']` if not set.
  * @return true|WP_Error True when finished, WP_Error object on error.
  */
-function retrieve_password( $user_login = null ) {
+function retrieve_password( $user_login = '' ) {
 	$errors    = new WP_Error();
 	$user_data = false;
 
