@@ -7723,7 +7723,6 @@ __webpack_require__.d(__webpack_exports__, {
   useSetting: () => (/* reexport */ useSetting),
   useSettings: () => (/* reexport */ use_settings_useSettings),
   useStyleOverride: () => (/* reexport */ useStyleOverride),
-  useZoomOut: () => (/* reexport */ useZoomOut),
   withColorContext: () => (/* reexport */ with_color_context),
   withColors: () => (/* reexport */ withColors),
   withFontSizes: () => (/* reexport */ with_font_sizes)
@@ -30759,11 +30758,7 @@ function linked_button_LinkedButton({
   isLinked,
   ...props
 }) {
-  const label = isLinked ? (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: 1. Type of spacing being modified (padding, margin, etc).
-  (0,external_wp_i18n_namespaceObject.__)('Unlink %1$s'), props.label.toLowerCase()).trim() : (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: 1. Type of spacing being modified (padding, margin, etc).
-  (0,external_wp_i18n_namespaceObject.__)('Link %1$s'), props.label.toLowerCase()).trim();
+  const label = isLinked ? (0,external_wp_i18n_namespaceObject.__)('Unlink sides') : (0,external_wp_i18n_namespaceObject.__)('Link sides');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Tooltip, {
     text: label,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
@@ -41264,7 +41259,7 @@ function isInsertionPoint(targetToCheck, ownerDocument) {
   const {
     defaultView
   } = ownerDocument;
-  return !!(defaultView && targetToCheck instanceof defaultView.HTMLElement && targetToCheck.dataset.isInsertionPoint);
+  return !!(defaultView && targetToCheck instanceof defaultView.HTMLElement && targetToCheck.closest('[data-is-insertion-point]'));
 }
 
 /**
@@ -41618,12 +41613,17 @@ function useInnerBlocksProps(props = {}, options = {}) {
       getBlockEditingMode,
       getBlockSettings,
       isDragging,
-      getSectionRootClientId
+      getSectionRootClientId,
+      isZoomOutMode: isZoomOut
     } = unlock(select(store));
-    let _isDropZoneDisabled;
     if (!clientId) {
+      const sectionRootClientId = getSectionRootClientId();
+      // Disable the root drop zone when zoomed out and the section root client id
+      // is not the root block list (represented by an empty string).
+      // This avoids drag handling bugs caused by having two block lists acting as
+      // drop zones - the actual 'root' block list and the section root.
       return {
-        isDropZoneDisabled: _isDropZoneDisabled
+        isDropZoneDisabled: isZoomOut() && sectionRootClientId !== ''
       };
     }
     const {
@@ -41635,7 +41635,7 @@ function useInnerBlocksProps(props = {}, options = {}) {
     const blockEditingMode = getBlockEditingMode(clientId);
     const parentClientId = getBlockRootClientId(clientId);
     const [defaultLayout] = getBlockSettings(clientId, 'layout');
-    _isDropZoneDisabled = blockEditingMode === 'disabled';
+    let _isDropZoneDisabled = blockEditingMode === 'disabled';
     if (__unstableGetEditorMode() === 'zoom-out') {
       // In zoom out mode, we want to disable the drop zone for the sections.
       // The inner blocks belonging to the section drop zone is
@@ -48867,6 +48867,7 @@ function InserterMenu({
   const [selectedPatternCategory, setSelectedPatternCategory] = (0,external_wp_element_namespaceObject.useState)(__experimentalInitialCategory);
   const [patternFilter, setPatternFilter] = (0,external_wp_element_namespaceObject.useState)('all');
   const [selectedMediaCategory, setSelectedMediaCategory] = (0,external_wp_element_namespaceObject.useState)(null);
+  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('large');
   const [hasCategories, setHasCategories] = (0,external_wp_element_namespaceObject.useState)(true);
   function getInitialTab() {
     if (__experimentalInitialTab) {
@@ -48878,7 +48879,7 @@ function InserterMenu({
   }
   const [selectedTab, setSelectedTab] = (0,external_wp_element_namespaceObject.useState)(getInitialTab());
   const shouldUseZoomOut = selectedTab === 'patterns' || selectedTab === 'media';
-  useZoomOut(shouldUseZoomOut);
+  useZoomOut(shouldUseZoomOut && isLargeViewport);
   const [destinationRootClientId, onInsertBlocks, onToggleInsertionPoint] = use_insertion_point({
     rootClientId,
     clientId,
@@ -58456,6 +58457,9 @@ function ZoomOutModeInserters() {
     nextClientId: nextClientId,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(zoom_out_mode_inserter_button, {
       onClick: () => {
+        // Hotfix for wp/6.7 where focus is not transferred to the sidebar if the
+        // block library is already open.
+        const blockLibrary = document.querySelector('[aria-label="Block Library"]');
         setInserterIsOpened({
           rootClientId: sectionRootClientId,
           insertionIndex: index + 1,
@@ -58465,6 +58469,12 @@ function ZoomOutModeInserters() {
         showInsertionPoint(sectionRootClientId, index + 1, {
           operation: 'insert'
         });
+
+        // If the block library was available before we opened it with `setInserterIsOpened`, we need to
+        // send focus to the block library.
+        if (blockLibrary) {
+          blockLibrary.focus();
+        }
       }
     })
   });
@@ -74314,6 +74324,7 @@ lock(privateApis, {
   usesContextKey: usesContextKey,
   useFlashEditableBlocks: useFlashEditableBlocks,
   useZoomOutModeExit: useZoomOutModeExit,
+  useZoomOut: useZoomOut,
   globalStylesDataKey: globalStylesDataKey,
   globalStylesLinksDataKey: globalStylesLinksDataKey,
   selectBlockPatternsKey: selectBlockPatternsKey,

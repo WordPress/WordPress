@@ -52320,6 +52320,7 @@ function utils_isPercentageUnit(unit) {
 
 
 const DEFAULT_INNER_PADDING = '4px';
+const PERCENTAGE_WIDTHS = [25, 50, 75, 100];
 function SearchEdit({
   className,
   attributes,
@@ -52614,19 +52615,23 @@ function SearchEdit({
             __unstableInputWidth: "80px",
             value: `${width}${widthUnit}`,
             units: units
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ButtonGroup, {
-            className: "wp-block-search__components-button-group" // unused, kept for backwards compatibility
-            ,
-            "aria-label": (0,external_wp_i18n_namespaceObject.__)('Percentage Width'),
-            children: [25, 50, 75, 100].map(widthValue => {
-              return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.Button, {
-                size: "small",
-                variant: widthValue === width && widthUnit === '%' ? 'primary' : undefined,
-                onClick: () => setAttributes({
-                  width: widthValue,
-                  widthUnit: '%'
-                }),
-                children: [widthValue, "%"]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControl, {
+            label: (0,external_wp_i18n_namespaceObject.__)('Percentage Width'),
+            value: PERCENTAGE_WIDTHS.includes(width) && widthUnit === '%' ? width : undefined,
+            hideLabelFromVision: true,
+            onChange: newWidth => {
+              setAttributes({
+                width: newWidth,
+                widthUnit: '%'
+              });
+            },
+            isBlock: true,
+            __next40pxDefaultSize: true,
+            __nextHasNoMarginBottom: true,
+            children: PERCENTAGE_WIDTHS.map(widthValue => {
+              return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
+                value: widthValue,
+                label: `${widthValue}%`
               }, widthValue);
             })
           })]

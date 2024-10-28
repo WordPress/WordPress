@@ -1151,6 +1151,8 @@ h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-t
   height:auto;
   max-width:100%;
   vertical-align:bottom;
+  width:-moz-fit-content;
+  width:fit-content;
 }
 @media (prefers-reduced-motion:no-preference){
   .wp-block-image img.hide{
