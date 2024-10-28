@@ -6,6 +6,8 @@
   height:auto;
   max-width:100%;
   vertical-align:bottom;
+  width:-moz-fit-content;
+  width:fit-content;
 }
 @media (prefers-reduced-motion:no-preference){
   .wp-block-image img.hide{

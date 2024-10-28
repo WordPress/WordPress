@@ -3072,7 +3072,7 @@ function MetaBoxesMain({
             })
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.VisuallyHidden, {
             id: separatorHelpId,
-            children: (0,external_wp_i18n_namespaceObject.__)('Use up and down arrow keys to resize the metabox pane.')
+            children: (0,external_wp_i18n_namespaceObject.__)('Use up and down arrow keys to resize the meta box panel.')
           })]
         })
       },

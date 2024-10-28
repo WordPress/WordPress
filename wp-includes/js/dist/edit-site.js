@@ -22080,6 +22080,10 @@ function SidebarNavigationScreenGlobalStylesContent() {
 
 
 
+
+const {
+  useZoomOut
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function ScreenStyleVariations() {
   // Style Variations should only be previewed in with
   // - a "zoomed out" editor
@@ -22087,7 +22091,7 @@ function ScreenStyleVariations() {
   const {
     setDeviceType
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
-  (0,external_wp_blockEditor_namespaceObject.useZoomOut)();
+  useZoomOut();
   setDeviceType('desktop');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(header, {
