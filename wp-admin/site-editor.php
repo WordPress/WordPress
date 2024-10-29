@@ -97,8 +97,9 @@ $preload_paths = array(
 	'/wp/v2/template-parts?context=edit&per_page=-1',
 	'/wp/v2/themes?context=edit&status=active',
 	'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
-	'/wp/v2/global-styles/' . $active_global_styles_id,
-	'/wp/v2/global-styles/themes/' . $active_theme,
+	array( '/wp/v2/global-styles/' . $active_global_styles_id, 'OPTIONS' ),
+	'/wp/v2/global-styles/themes/' . $active_theme . '?context=view',
+	'/wp/v2/global-styles/themes/' . $active_theme . '/variations?context=view',
 	array( $navigation_rest_route, 'OPTIONS' ),
 	array(
 		add_query_arg(
