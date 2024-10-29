@@ -1742,7 +1742,6 @@ iframe[name=editor-canvas]{
 
 .block-editor-iframe__container{
   height:100%;
-  overflow-x:hidden;
   width:100%;
 }
 
