@@ -3101,7 +3101,13 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		// Attempt to figure out what type of image it actually is.
 		$real_mime = wp_get_image_mime( $file );
 
-		if ( $real_mime && $real_mime !== $type ) {
+		$heic_images_etx = array(
+			'heif',
+			'heics',
+			'heifs',
+		);
+
+		if ( $real_mime && ( $real_mime !== $type || in_array( $ext, $heic_images_etx, true ) ) ) {
 			/**
 			 * Filters the list mapping image mime types to their respective extensions.
 			 *
@@ -3119,13 +3125,24 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 					'image/tiff' => 'tif',
 					'image/webp' => 'webp',
 					'image/avif' => 'avif',
+
+					/*
+					 * In theory there are/should be file extensions that correspond to the
+					 * mime types: .heif, .heics and .heifs. However it seems that HEIC images
+					 * with any of the mime types commonly have a .heic file extension.
+					 * Seems keeping the status quo here is best for compatibility.
+					 */
 					'image/heic' => 'heic',
+					'image/heif' => 'heic',
+					'image/heic-sequence' => 'heic',
+					'image/heif-sequence' => 'heic',
 				)
 			);
 
 			// Replace whatever is after the last period in the filename with the correct extension.
 			if ( ! empty( $mime_to_ext[ $real_mime ] ) ) {
 				$filename_parts = explode( '.', $filename );
+
 				array_pop( $filename_parts );
 				$filename_parts[] = $mime_to_ext[ $real_mime ];
 				$new_filename     = implode( '.', $filename_parts );
@@ -3316,9 +3333,7 @@ function wp_get_image_mime( $file ) {
 			$mime      = ( $imagetype ) ? image_type_to_mime_type( $imagetype ) : false;
 		} elseif ( function_exists( 'getimagesize' ) ) {
 			// Don't silence errors when in debug mode, unless running unit tests.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG
-				&& ! defined( 'WP_RUN_CORE_TESTS' )
-			) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! defined( 'WP_RUN_CORE_TESTS' ) ) {
 				// Not using wp_getimagesize() here to avoid an infinite loop.
 				$imagesize = getimagesize( $file );
 			} else {
@@ -3365,22 +3380,28 @@ function wp_get_image_mime( $file ) {
 		// Divide the header string into 4 byte groups.
 		$magic = str_split( $magic, 8 );
 
-		if (
-			isset( $magic[1] ) &&
-			isset( $magic[2] ) &&
-			'ftyp' === hex2bin( $magic[1] ) &&
-			( 'avif' === hex2bin( $magic[2] ) || 'avis' === hex2bin( $magic[2] ) )
-		) {
-			$mime = 'image/avif';
-		}
+		if ( isset( $magic[1] ) && isset( $magic[2] ) && 'ftyp' === hex2bin( $magic[1] ) ) {
+			if ( 'avif' === hex2bin( $magic[2] ) || 'avis' === hex2bin( $magic[2] ) ) {
+				$mime = 'image/avif';
+			} elseif ( 'heic' === hex2bin( $magic[2] ) ) {
+				$mime = 'image/heic';
+			} elseif ( 'heif' === hex2bin( $magic[2] ) ) {
+				$mime = 'image/heif';
+			} else {
+				/*
+				 * HEIC/HEIF images and image sequences/animations may have other strings here
+				 * like mif1, msf1, etc. For now fall back to using finfo_file() to detect these.
+				 */
+				if ( extension_loaded( 'fileinfo' ) ) {
+					$fileinfo  = finfo_open( FILEINFO_MIME_TYPE );
+					$mime_type = finfo_file( $fileinfo, $file );
+					finfo_close( $fileinfo );
 
-		if (
-			isset( $magic[1] ) &&
-			isset( $magic[2] ) &&
-			'ftyp' === hex2bin( $magic[1] ) &&
-			( 'heic' === hex2bin( $magic[2] ) || 'heif' === hex2bin( $magic[2] ) )
-		) {
-			$mime = 'image/heic';
+					if ( wp_is_heic_image_mime_type( $mime_type ) ) {
+						$mime = $mime_type;
+					}
+				}
+			}
 		}
 	} catch ( Exception $e ) {
 		$mime = false;
@@ -3423,7 +3444,13 @@ function wp_get_mime_types() {
 			'webp'                         => 'image/webp',
 			'avif'                         => 'image/avif',
 			'ico'                          => 'image/x-icon',
+
+			// TODO: Needs improvement. All images with the following mime types seem to have .heic file extension.
 			'heic'                         => 'image/heic',
+			'heif'                         => 'image/heif',
+			'heics'                        => 'image/heic-sequence',
+			'heifs'                        => 'image/heif-sequence',
+
 			// Video formats.
 			'asf|asx'                      => 'video/x-ms-asf',
 			'wmv'                          => 'video/x-ms-wmv',
@@ -3543,7 +3570,7 @@ function wp_get_ext_types() {
 	return apply_filters(
 		'ext2type',
 		array(
-			'image'       => array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'heic', 'webp', 'avif' ),
+			'image'       => array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'heic', 'heif', 'webp', 'avif' ),
 			'audio'       => array( 'aac', 'ac3', 'aif', 'aiff', 'flac', 'm3a', 'm4a', 'm4b', 'mka', 'mp1', 'mp2', 'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
 			'video'       => array( '3g2', '3gp', '3gpp', 'asf', 'avi', 'divx', 'dv', 'flv', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt', 'rm', 'vob', 'wmv' ),
 			'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt', 'pages', 'pdf', 'xps', 'oxps', 'rtf', 'wp', 'wpd', 'psd', 'xcf' ),
@@ -9036,4 +9063,23 @@ function wp_admin_notice( $message, $args = array() ) {
 	do_action( 'wp_admin_notice', $message, $args );
 
 	echo wp_kses_post( wp_get_admin_notice( $message, $args ) );
+}
+
+/**
+ * Checks if a mime type is for a HEIC/HEIF image.
+ *
+ * @since 6.7.0
+ *
+ * @param string $mime_type The mime type to check.
+ * @return bool Whether the mime type is for a HEIC/HEIF image.
+ */
+function wp_is_heic_image_mime_type( $mime_type ) {
+	$heic_mime_types = array(
+		'image/heic',
+		'image/heif',
+		'image/heic-sequence',
+		'image/heif-sequence',
+	);
+
+	return in_array( $mime_type, $heic_mime_types, true );
 }

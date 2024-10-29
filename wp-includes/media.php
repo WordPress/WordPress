@@ -5627,9 +5627,7 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  */
 function wp_getimagesize( $filename, ?array &$image_info = null ) {
 	// Don't silence errors when in debug mode, unless running unit tests.
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG
-		&& ! defined( 'WP_RUN_CORE_TESTS' )
-	) {
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! defined( 'WP_RUN_CORE_TESTS' ) ) {
 		if ( 2 === func_num_args() ) {
 			$info = getimagesize( $filename, $image_info );
 		} else {
@@ -5660,11 +5658,18 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
 		return $info;
 	}
 
+	$image_mime_type = wp_get_image_mime( $filename );
+
+	// Not an image?
+	if ( false === $image_mime_type ) {
+		return false;
+	}
+
 	/*
 	 * For PHP versions that don't support WebP images,
 	 * extract the image size info from the file headers.
 	 */
-	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
+	if ( 'image/webp' === $image_mime_type ) {
 		$webp_info = wp_get_webp_info( $filename );
 		$width     = $webp_info['width'];
 		$height    = $webp_info['height'];
@@ -5686,7 +5691,7 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
 	}
 
 	// For PHP versions that don't support AVIF images, extract the image size info from the file headers.
-	if ( 'image/avif' === wp_get_image_mime( $filename ) ) {
+	if ( 'image/avif' === $image_mime_type ) {
 		$avif_info = wp_get_avif_info( $filename );
 
 		$width  = $avif_info['width'];
@@ -5709,11 +5714,13 @@ function wp_getimagesize( $filename, ?array &$image_info = null ) {
 	}
 
 	// For PHP versions that don't support HEIC images, extract the size info using Imagick when available.
-	if ( 'image/heic' === wp_get_image_mime( $filename ) ) {
+	if ( wp_is_heic_image_mime_type( $image_mime_type ) ) {
 		$editor = wp_get_image_editor( $filename );
+
 		if ( is_wp_error( $editor ) ) {
 			return false;
 		}
+
 		// If the editor for HEICs is Imagick, use it to get the image size.
 		if ( $editor instanceof WP_Image_Editor_Imagick ) {
 			$size = $editor->get_size();
