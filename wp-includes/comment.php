@@ -773,59 +773,7 @@ function wp_allow_comment( $commentdata, $wp_error = false ) {
 		return new WP_Error( 'comment_flood', $comment_flood_message, 429 );
 	}
 
-	if ( ! empty( $commentdata['user_id'] ) ) {
-		$user        = get_userdata( $commentdata['user_id'] );
-		$post_author = $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1",
-				$commentdata['comment_post_ID']
-			)
-		);
-	}
-
-	if ( isset( $user ) && ( $commentdata['user_id'] == $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
-		// The author and the admins get respect.
-		$approved = 1;
-	} else {
-		// Everyone else's comments will be checked.
-		if ( check_comment(
-			$commentdata['comment_author'],
-			$commentdata['comment_author_email'],
-			$commentdata['comment_author_url'],
-			$commentdata['comment_content'],
-			$commentdata['comment_author_IP'],
-			$commentdata['comment_agent'],
-			$commentdata['comment_type']
-		) ) {
-			$approved = 1;
-		} else {
-			$approved = 0;
-		}
-
-		if ( wp_check_comment_disallowed_list(
-			$commentdata['comment_author'],
-			$commentdata['comment_author_email'],
-			$commentdata['comment_author_url'],
-			$commentdata['comment_content'],
-			$commentdata['comment_author_IP'],
-			$commentdata['comment_agent']
-		) ) {
-			$approved = EMPTY_TRASH_DAYS ? 'trash' : 'spam';
-		}
-	}
-
-	/**
-	 * Filters a comment's approval status before it is set.
-	 *
-	 * @since 2.1.0
-	 * @since 4.9.0 Returning a WP_Error value from the filter will short-circuit comment insertion
-	 *              and allow skipping further processing.
-	 *
-	 * @param int|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam', 'trash',
-	 *                                         or WP_Error.
-	 * @param array               $commentdata Comment data.
-	 */
-	return apply_filters( 'pre_comment_approved', $approved, $commentdata );
+	return wp_check_comment_data( $commentdata );
 }
 
 /**
@@ -1290,6 +1238,75 @@ function wp_check_comment_data_max_lengths( $comment_data ) {
 	}
 
 	return true;
+}
+
+/**
+ * Checks whether comment data passes internal checks or has disallowed content.
+ *
+ * @since 6.7.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $comment_data Array of arguments for inserting a comment.
+ * @return int|string|WP_Error The approval status on success (0|1|'spam'|'trash'),
+  *                            WP_Error otherwise.
+ */
+function wp_check_comment_data( $comment_data ) {
+	global $wpdb;
+
+	if ( ! empty( $comment_data['user_id'] ) ) {
+		$user        = get_userdata( $comment_data['user_id'] );
+		$post_author = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1",
+				$comment_data['comment_post_ID']
+			)
+		);
+	}
+
+	if ( isset( $user ) && ( $comment_data['user_id'] == $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
+		// The author and the admins get respect.
+		$approved = 1;
+	} else {
+		// Everyone else's comments will be checked.
+		if ( check_comment(
+			$comment_data['comment_author'],
+			$comment_data['comment_author_email'],
+			$comment_data['comment_author_url'],
+			$comment_data['comment_content'],
+			$comment_data['comment_author_IP'],
+			$comment_data['comment_agent'],
+			$comment_data['comment_type']
+		) ) {
+			$approved = 1;
+		} else {
+			$approved = 0;
+		}
+
+		if ( wp_check_comment_disallowed_list(
+			$comment_data['comment_author'],
+			$comment_data['comment_author_email'],
+			$comment_data['comment_author_url'],
+			$comment_data['comment_content'],
+			$comment_data['comment_author_IP'],
+			$comment_data['comment_agent']
+		) ) {
+			$approved = EMPTY_TRASH_DAYS ? 'trash' : 'spam';
+		}
+	}
+
+	/**
+	 * Filters a comment's approval status before it is set.
+	 *
+	 * @since 2.1.0
+	 * @since 4.9.0 Returning a WP_Error value from the filter will short-circuit comment insertion
+	 *              and allow skipping further processing.
+	 *
+	 * @param int|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam', 'trash',
+	 *                                         or WP_Error.
+	 * @param array               $commentdata Comment data.
+	 */
+	return apply_filters( 'pre_comment_approved', $approved, $comment_data );
 }
 
 /**
@@ -2279,11 +2296,15 @@ function wp_new_comment( $commentdata, $wp_error = false ) {
 
 	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
 
+	if ( is_wp_error( $commentdata['comment_approved'] ) ) {
+		return $commentdata['comment_approved'];
+	}
+
 	$commentdata = wp_filter_comment( $commentdata );
 
 	if ( ! in_array( $commentdata['comment_approved'], array( 'trash', 'spam' ), true ) ) {
 		// Validate the comment again after filters are applied to comment data.
-		$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
+		$commentdata['comment_approved'] = wp_check_comment_data( $commentdata );
 	}
 
 	if ( is_wp_error( $commentdata['comment_approved'] ) ) {
