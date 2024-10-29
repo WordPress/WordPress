@@ -48,6 +48,54 @@
 			]
 		},
 		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Platypi",
+					"slug": "platypi",
+					"fontFamily": "Platypi",
+					"fontFace": [
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "normal",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-VariableFont_wght.woff2"
+							]
+						},
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "italic",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-Italic-VariableFont_wght.woff2"
+							]
+						}
+					]
+				},
+				{
+					"name": "Ysabeau Office",
+					"slug": "ysabeau-office",
+					"fontFamily": "\"Ysabeau Office\", sans-serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "normal",
+							"fontFamily": "\"Ysabeau Office\""
+						},
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "italic",
+							"fontFamily": "\"Ysabeau Office\""
+						}
+					]
+				}
+			],
 			"fontSizes": [
 				{
 					"fluid": false,
@@ -193,7 +241,8 @@
 			},
 			"h5": {
 				"typography": {
-					"fontSize": "var:preset|font-size|medium"
+					"fontSize": "var:preset|font-size|medium",
+					"letterSpacing": "normal"
 				}
 			},
 			"h6": {
