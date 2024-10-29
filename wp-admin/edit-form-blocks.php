@@ -51,6 +51,8 @@ wp_enqueue_script( 'wp-edit-post' );
 
 $rest_path = rest_get_route_for_post( $post );
 
+$active_theme = get_stylesheet();
+
 // Preload common data.
 $preload_paths = array(
 	'/wp/v2/types?context=view',
@@ -65,8 +67,10 @@ $preload_paths = array(
 	sprintf( '%s/autosaves?context=edit', $rest_path ),
 	'/wp/v2/settings',
 	array( '/wp/v2/settings', 'OPTIONS' ),
-	'/wp/v2/global-styles/themes/' . get_stylesheet(),
+	'/wp/v2/global-styles/themes/' . $active_theme . '?context=view',
+	'/wp/v2/global-styles/themes/' . $active_theme . '/variations?context=view',
 	'/wp/v2/themes?context=edit&status=active',
+	array( '/wp/v2/global-styles/' . WP_Theme_JSON_Resolver::get_user_global_styles_post_id(), 'OPTIONS' ),
 	'/wp/v2/global-styles/' . WP_Theme_JSON_Resolver::get_user_global_styles_post_id() . '?context=edit',
 );
 
