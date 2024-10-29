@@ -291,7 +291,22 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		 * If the original image's dimensions are over the threshold,
 		 * scale the image and use it as the "full" size.
 		 */
+		$scale_down = false;
+		$convert    = false;
+
 		if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
+			// The image will be converted if needed on saving.
+			$scale_down = true;
+		} else {
+			// The image may need to be converted regardless of its dimensions.
+			$output_format = wp_get_image_editor_output_format( $file, $imagesize['mime'] );
+
+			if ( is_array( $output_format ) && array_key_exists( $imagesize['mime'], $output_format ) ) {
+				$convert = true;
+			}
+		}
+
+		if ( $scale_down || $convert ) {
 			$editor = wp_get_image_editor( $file );
 
 			if ( is_wp_error( $editor ) ) {
@@ -299,14 +314,20 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				return $image_meta;
 			}
 
-			// Resize the image.
-			$resized = $editor->resize( $threshold, $threshold );
+			if ( $scale_down ) {
+				// Resize the image. This will also convet it if needed.
+				$resized = $editor->resize( $threshold, $threshold );
+			} elseif ( $convert ) {
+				// The image will be converted (if possible) when saved.
+				$resized = true;
+			}
+
 			$rotated = null;
 
 			// If there is EXIF data, rotate according to EXIF Orientation.
 			if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
 				$resized = $editor->maybe_exif_rotate();
-				$rotated = $resized;
+				$rotated = $resized; // bool true or WP_Error
 			}
 
 			if ( ! is_wp_error( $resized ) ) {
@@ -314,7 +335,11 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				 * Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
 				 * This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
 				 */
-				$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
+				if ( $scale_down ) {
+					$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
+				} else {
+					$saved = $editor->save();
+				}
 
 				if ( ! is_wp_error( $saved ) ) {
 					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
