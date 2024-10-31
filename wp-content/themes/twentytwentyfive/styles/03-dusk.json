@@ -51,6 +51,48 @@
 			"color": {
 				"accent-2-opacity-20": "#650DD433"
 			}
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Vollkorn",
+					"slug": "vollkorn",
+					"fontFamily": "Vollkorn, serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/vollkorn/Vollkorn-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "400 900",
+							"fontStyle": "italic",
+							"fontFamily": "Vollkorn"
+						},
+						{
+							"src": [
+								"file:./assets/fonts/vollkorn/Vollkorn-VariableFont_wght.woff2"
+							],
+							"fontWeight": "400 900",
+							"fontStyle": "normal",
+							"fontFamily": "Vollkorn"
+						}
+					]
+				},
+				{
+					"name": "Fira Code",
+					"slug": "fira-code",
+					"fontFamily": "\"Fira Code\", monospace",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/fira-code/FiraCode-VariableFont_wght.woff2"
+							],
+							"fontWeight": "300 700",
+							"fontStyle": "normal",
+							"fontFamily": "\"Fira Code\""
+						}
+					]
+				}
+			]
 		}
 	},
 	"styles": {
@@ -87,14 +129,6 @@
 					"link": {
 						"color": {
 							"text": "var:preset|color|accent-2"
-						},
-						"typography": {
-							"textDecoration": "underline"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "none"
-							}
 						}
 					}
 				}
@@ -110,14 +144,6 @@
 					"link": {
 						"color": {
 							"text": "var:preset|color|accent-2"
-						},
-						"typography": {
-							"textDecoration": "underline"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "none"
-							}
 						}
 					}
 				}
@@ -259,14 +285,6 @@
 							"radius": "4px",
 							"width": "0.8px",
 							"style": "solid"
-						},
-						"typography": {
-							"textDecoration": "none"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "underline"
-							}
 						}
 					}
 				}

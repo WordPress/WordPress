@@ -61,7 +61,14 @@
 			<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3} -->
-					<h3 class="wp-block-heading"><?php echo esc_html_x( '“Stories, historias, iсторії, iστορίες”', 'Placeholder heading in four languages.', 'twentytwentyfive' ); ?></h3>
+					<h3 class="wp-block-heading">
+						<?php
+						echo wp_kses_post(
+							/* translators: This string contains the word "Stories" in four different languages with the first item in the locale's language. */
+							_x( '“Stories, <span lang="es">historias</span>, <span lang="uk">iсторії</span>, <span lang="el">iστορίες</span>”', 'Placeholder heading in four languages.', 'twentytwentyfive' )
+						);
+						?>
+					</h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
@@ -123,7 +130,14 @@
 			<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group">
 					<!-- wp:heading {"level":3} -->
-					<h3 class="wp-block-heading"><?php echo esc_html_x( '“Stories, historias, iсторії, iστορίες”', 'Placeholder heading in four languages.', 'twentytwentyfive' ); ?></h3>
+					<h3 class="wp-block-heading">
+						<?php
+						echo wp_kses_post(
+							/* translators: This string contains the word "Stories" in four different languages with the first item in the locale's language. */
+							_x( '“Stories, <span lang="es">historias</span>, <span lang="uk">iсторії</span>, <span lang="el">iστορίες</span>”', 'Placeholder heading in four languages.', 'twentytwentyfive' )
+						);
+						?>
+					</h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->

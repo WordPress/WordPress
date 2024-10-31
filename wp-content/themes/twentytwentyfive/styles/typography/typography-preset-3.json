@@ -5,6 +5,54 @@
 	"slug": "typography-preset-3",
 	"settings": {
 		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Platypi",
+					"slug": "platypi",
+					"fontFamily": "Platypi",
+					"fontFace": [
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "normal",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-VariableFont_wght.woff2"
+							]
+						},
+						{
+							"fontFamily": "Platypi",
+							"fontStyle": "italic",
+							"fontWeight": "300 800",
+							"src": [
+								"file:./assets/fonts/platypi/Platypi-Italic-VariableFont_wght.woff2"
+							]
+						}
+					]
+				},
+				{
+					"name": "Ysabeau Office",
+					"slug": "ysabeau-office",
+					"fontFamily": "\"Ysabeau Office\", sans-serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "normal",
+							"fontFamily": "\"Ysabeau Office\""
+						},
+						{
+							"src": [
+								"file:./assets/fonts/ysabeau-office/YsabeauOffice-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "100 900",
+							"fontStyle": "italic",
+							"fontFamily": "\"Ysabeau Office\""
+						}
+					]
+				}
+			],
 			"fontSizes": [
 				{
 					"fluid": false,
@@ -32,20 +80,20 @@
 				},
 				{
 					"fluid": {
-						"max": "2rem",
-						"min": "1.75rem"
+						"max": "1.8rem",
+						"min": "1.4rem"
 					},
 					"name": "Extra Large",
-					"size": "1.75rem",
+					"size": "1.4rem",
 					"slug": "x-large"
 				},
 				{
 					"fluid": {
-						"max": "3.625rem",
-						"min": "2.625rem"
+						"max": "2.6rem",
+						"min": "2rem"
 					},
 					"name": "Extra Extra Large",
-					"size": "2.625rem",
+					"size": "2rem",
 					"slug": "xx-large"
 				}
 			]
@@ -54,14 +102,18 @@
 	"styles": {
 		"typography": {
 			"fontFamily": "var:preset|font-family|ysabeau-office",
-			"fontWeight": "400",
 			"letterSpacing": "-0.22px",
-			"lineHeight": "1.6"
+			"lineHeight": "1.5"
 		},
 		"blocks":{
 			"core/code": {
 				"typography": {
 					"letterSpacing": "0px"
+				}
+			},
+			"core/heading": {
+				"typography": {
+					"lineHeight": "1.2"
 				}
 			},
 			"core/list": {
@@ -74,30 +126,9 @@
 					"fontSize": "var:preset|font-size|medium"
 				}
 			},
-			"core/post-author": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
-			"core/post-author-biography": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
-			"core/post-author-name": {
-				"typography": {
-					"fontSize": "var:preset|font-size|medium"
-				}
-			},
 			"core/post-terms": {
 				"typography": {
 					"fontWeight": "400"
-				}
-			},
-			"core/post-title": {
-				"typography": {
-					"fontWeight": "500",
-					"letterSpacing": "-0.8px"
 				}
 			},
 			"core/pullquote": {
@@ -115,7 +146,7 @@
 			"core/site-title": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|ysabeau-office",
-					"fontSize": "var:preset|font-size|medium",
+					"fontSize": "var:preset|font-size|large",
 					"letterSpacing": "1.44px",
 					"textTransform": "uppercase"
 				}
@@ -133,6 +164,21 @@
 			"heading": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|platypi"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "var:preset|font-size|medium",
+					"letterSpacing": "normal"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontSize": "var:preset|font-size|small",
+					"fontWeight": "400",
+					"fontStyle": "initial",
+					"letterSpacing": "initial",
+					"textTransform": "initial"
 				}
 			}
 		}

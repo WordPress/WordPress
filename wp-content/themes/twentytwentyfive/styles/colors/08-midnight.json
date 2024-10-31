@@ -4,6 +4,16 @@
 	"title": "Midnight",
 	"settings": {
 		"color": {
+			"duotone": [
+				{
+					"colors": [
+						"#4433A6",
+						"#79F3B1"
+					],
+					"name": "Midnight filter",
+					"slug": "midnight-filter"
+				}
+			],
 			"palette": [
 				{
 					"color": "#4433A6",

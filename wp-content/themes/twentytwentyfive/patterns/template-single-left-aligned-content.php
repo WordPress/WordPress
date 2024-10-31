@@ -30,7 +30,7 @@
 							<!-- wp:paragraph -->
 							<p><?php echo esc_html_x( 'by', 'Prefix before the author name. The post author name is displayed in a separate block.', 'twentytwentyfive' ); ?></p>
 							<!-- /wp:paragraph -->
-							<!-- wp:post-author-name {"isLink":true,"style":{"typography":{"textDecoration":"underline"}},"fontSize":"small"} /-->
+							<!-- wp:post-author-name {"isLink":true,"fontSize":"small"} /-->
 						</div>
 						<!-- /wp:group -->
 					</div>

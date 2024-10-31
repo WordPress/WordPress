@@ -48,6 +48,38 @@
 			]
 		},
 		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Roboto Slab",
+					"slug": "roboto-slab",
+					"fontFamily": "\"Roboto Slab\", serif",
+					"fontFace": [
+						{
+							"fontFamily": "\"Roboto Slab\"",
+							"fontStyle": "normal",
+							"fontWeight": "100 900",
+							"src": [
+								"file:./assets/fonts/roboto-slab/RobotoSlab-VariableFont_wght.woff2"
+							]
+						}
+					]
+				},
+				{
+					"name": "Manrope",
+					"slug": "manrope",
+					"fontFamily": "Manrope, sans-serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/manrope/Manrope-VariableFont_wght.woff2"
+							],
+							"fontWeight": "200 800",
+							"fontStyle": "normal",
+							"fontFamily": "Manrope"
+						}
+					]
+				}
+			],
 			"fontSizes": [
 				{
 					"fluid": false,
@@ -204,6 +236,16 @@
 						"color": {
 							"text": "var:preset|color|base"
 						}
+					}
+				}
+			},
+			"section-5": {
+				"blocks": {
+					"core/post-comments-form": {
+						"css": "& textarea, input:not([type=submit]){border-radius:.25rem; border-color: color-mix(in srgb, currentColor 20%, transparent) !important;} & input[type=checkbox]{margin:0 .2rem 0 0 !important;} & label {font-size: var(--wp--preset--font-size--small); }"
+					},
+					"core/search": {
+						"css": "& .wp-block-search__input{border-color: color-mix(in srgb, currentColor 20%, transparent);}"
 					}
 				}
 			}

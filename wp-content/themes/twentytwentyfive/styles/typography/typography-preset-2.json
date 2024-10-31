@@ -3,6 +3,50 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"title": "Vollkorn & Fira Code",
 	"slug": "typography-preset-2",
+	"settings": {
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Vollkorn",
+					"slug": "vollkorn",
+					"fontFamily": "Vollkorn, serif",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/vollkorn/Vollkorn-Italic-VariableFont_wght.woff2"
+							],
+							"fontWeight": "400 900",
+							"fontStyle": "italic",
+							"fontFamily": "Vollkorn"
+						},
+						{
+							"src": [
+								"file:./assets/fonts/vollkorn/Vollkorn-VariableFont_wght.woff2"
+							],
+							"fontWeight": "400 900",
+							"fontStyle": "normal",
+							"fontFamily": "Vollkorn"
+						}
+					]
+				},
+				{
+					"name": "Fira Code",
+					"slug": "fira-code",
+					"fontFamily": "\"Fira Code\", monospace",
+					"fontFace": [
+						{
+							"src": [
+								"file:./assets/fonts/fira-code/FiraCode-VariableFont_wght.woff2"
+							],
+							"fontWeight": "300 700",
+							"fontStyle": "normal",
+							"fontFamily": "\"Fira Code\""
+						}
+					]
+				}
+			]
+		}
+	},
 	"styles": {
 		"typography": {
 			"fontFamily": "var:preset|font-family|fira-code",
@@ -14,35 +58,11 @@
 			"core/post-author-name": {
 				"typography": {
 					"fontWeight": "300"
-				},
-				"elements": {
-					"link": {
-						"typography": {
-							"textDecoration": "underline"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "none"
-							}
-						}
-					}
 				}
 			},
 			"core/post-terms": {
 				"typography": {
 					"fontWeight": "300"
-				},
-				"elements": {
-					"link": {
-						"typography": {
-							"textDecoration": "underline"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "none"
-							}
-						}
-					}
 				}
 			},
 			"core/post-title": {
@@ -123,22 +143,6 @@
 				"typography": {
 					"fontSize": "24px",
 					"letterSpacing": "-0.48px"
-				}
-			}
-		},
-		"variations": {
-			"post-terms-1": {
-				"elements": {
-					"link": {
-						"typography": {
-							"textDecoration": "none"
-						},
-						":hover": {
-							"typography": {
-								"textDecoration": "underline"
-							}
-						}
-					}
 				}
 			}
 		}
