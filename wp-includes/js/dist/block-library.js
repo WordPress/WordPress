@@ -1981,9 +1981,8 @@ function useCommentAvatar({
     src: avatarUrls ? avatarUrls[avatarUrls.length - 1] : defaultAvatar,
     minSize,
     maxSize,
-    // translators: %s is the Author name.
     alt: authorName ?
-    // translators: %s is the Author name.
+    // translators: %s: Author name.
     (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('%s Avatar'), authorName) : (0,external_wp_i18n_namespaceObject.__)('Default Avatar')
   };
 }
@@ -2021,7 +2020,7 @@ function useUserAvatar({
     minSize,
     maxSize,
     alt: authorDetails ?
-    // translators: %s is the Author name.
+    // translators: %s: Author name.
     (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('%s Avatar'), authorDetails?.name) : (0,external_wp_i18n_namespaceObject.__)('Default Avatar')
   };
 }
@@ -28448,7 +28447,7 @@ function LatestPostsEdit({
             children: !titleTrimmed ? (0,external_wp_i18n_namespaceObject.__)('(no title)') : null
           }), displayAuthor && currentAuthor && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
             className: "wp-block-latest-posts__post-author",
-            children: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: byline. %s: current author. */
+            children: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: byline. %s: author. */
             (0,external_wp_i18n_namespaceObject.__)('by %s'), currentAuthor.name)
           }), displayPostDate && post.date_gmt && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("time", {
             dateTime: (0,external_wp_date_namespaceObject.format)('c', post.date_gmt),
@@ -33385,14 +33384,14 @@ const moreVertical = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.js
 
 function buildMenuLabel(title, id, status) {
   if (!title) {
-    /* translators: %s is the index of the menu in the list of menus. */
+    /* translators: %s: the index of the menu in the list of menus. */
     return (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('(no title %s)'), id);
   }
   if (status === 'publish') {
     return (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title);
   }
   return (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %1s: title of the menu; %2s: status of the menu (draft, pending, etc.).
+  // translators: 1: title of the menu. 2: status of the menu (draft, pending, etc.).
   (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), status);
 }
 function NavigationMenuSelector({
@@ -35469,10 +35468,8 @@ const LinkUITools = ({
 
 
 
-/* translators: %s: The name of a menu. */
 
-
-const actionLabel = (0,external_wp_i18n_namespaceObject.__)("Switch to '%s'");
+const actionLabel = /* translators: %s: The name of a menu. */(0,external_wp_i18n_namespaceObject.__)("Switch to '%s'");
 const BLOCKS_WITH_LINK_UI_SUPPORT = ['core/navigation-link', 'core/navigation-submenu'];
 const {
   PrivateListView
@@ -43512,7 +43509,7 @@ function PostFeaturedImageEdit({
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToggleControl, {
           __nextHasNoMarginBottom: true,
           label: postType?.labels.singular_name ? (0,external_wp_i18n_namespaceObject.sprintf)(
-          // translators: %s: Name of the post type e.g: "Page".
+          // translators: %s: Name of the post type e.g: "post".
           (0,external_wp_i18n_namespaceObject.__)('Link to %s'), postType.labels.singular_name) : (0,external_wp_i18n_namespaceObject.__)('Link to post'),
           onChange: () => setAttributes({
             isLink: !isLink
@@ -44879,8 +44876,8 @@ function PostTimeToReadEdit({
      */
     const wordCountType = (0,external_wp_i18n_namespaceObject._x)('words', 'Word count type. Do not translate!');
     const minutesToRead = Math.max(1, Math.round((0,external_wp_wordcount_namespaceObject.count)(content || '', wordCountType) / AVERAGE_READING_RATE));
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %d is the number of minutes the post will take to read. */
-    (0,external_wp_i18n_namespaceObject._n)('%d minute', '%d minutes', minutesToRead), minutesToRead);
+    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: the number of minutes to read the post. */
+    (0,external_wp_i18n_namespaceObject._n)('%s minute', '%s minutes', minutesToRead), minutesToRead);
   }, [contentStructure, blocks]);
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     className: dist_clsx({
@@ -47012,11 +47009,11 @@ const orderOptions = [{
   label: (0,external_wp_i18n_namespaceObject.__)('Oldest to newest'),
   value: 'date/asc'
 }, {
-  /* translators: label for ordering posts by title in ascending order */
+  /* translators: Label for ordering posts by title in ascending order. */
   label: (0,external_wp_i18n_namespaceObject.__)('A → Z'),
   value: 'title/asc'
 }, {
-  /* translators: label for ordering posts by title in descending order */
+  /* translators: Label for ordering posts by title in descending order. */
   label: (0,external_wp_i18n_namespaceObject.__)('Z → A'),
   value: 'title/desc'
 }];
@@ -50182,7 +50179,7 @@ function QueryTitleEdit({
       if (showPrefix) {
         if (archiveNameLabel) {
           title = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Archive type title e.g: "Category", 2: Label of the archive e.g: "Shoes" */
-          (0,external_wp_i18n_namespaceObject.__)('%1$s: %2$s'), archiveTypeLabel, archiveNameLabel);
+          (0,external_wp_i18n_namespaceObject._x)('%1$s: %2$s', 'archive label'), archiveTypeLabel, archiveNameLabel);
         } else {
           title = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Archive type title e.g: "Category", "Tag"... */
           (0,external_wp_i18n_namespaceObject.__)('%s: Name'), archiveTypeLabel);
@@ -61779,7 +61776,7 @@ function TemplatePartEdit({
     return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(TagName, {
       ...blockProps,
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.Warning, {
-        children: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Template part slug */
+        children: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Template part slug. */
         (0,external_wp_i18n_namespaceObject.__)('Template part has been deleted or is unavailable: %s'), slug)
       })
     });
@@ -63143,7 +63140,7 @@ function TrackList({
           variant: "tertiary",
           onClick: () => onEditPress(index),
           "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Label of the video text track e.g: "French subtitles" */
-          (0,external_wp_i18n_namespaceObject.__)('Edit %s'), track.label),
+          (0,external_wp_i18n_namespaceObject._x)('Edit %s', 'text tracks'), track.label),
           children: (0,external_wp_i18n_namespaceObject.__)('Edit')
         })]
       }, index);

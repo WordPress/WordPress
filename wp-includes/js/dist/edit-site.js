@@ -9093,7 +9093,7 @@ const EntitiesSavedStatesForPreview = ({
   const currentTheme = useActualCurrentTheme();
   const previewingTheme = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getCurrentTheme(), []);
   const additionalPrompt = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
-    children: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s: The name of active theme, %2$s: The name of theme to be activated. */
+    children: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: The name of active theme, 2: The name of theme to be activated. */
     (0,external_wp_i18n_namespaceObject.__)('Saving your changes will change your active theme from %1$s to %2$s.'), (_currentTheme$name$re = currentTheme?.name?.rendered) !== null && _currentTheme$name$re !== void 0 ? _currentTheme$name$re : '...', (_previewingTheme$name = previewingTheme?.name?.rendered) !== null && _previewingTheme$name !== void 0 ? _previewingTheme$name : '...')
   });
   const activateTheme = useActivateTheme();
@@ -13021,8 +13021,8 @@ function Variation({
   const isActive = (0,external_wp_element_namespaceObject.useMemo)(() => variation_areGlobalStyleConfigsEqual(user, variation), [user, variation]);
   let label = variation?.title;
   if (variation?.description) {
-    label = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s: variation title. %2$s variation description. */
-    (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), variation?.title, variation?.description);
+    label = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: variation title. 2: variation description. */
+    (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'variation label'), variation?.title, variation?.description);
   }
   const content = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
     className: dist_clsx('edit-site-global-styles-variations_item', {
@@ -22960,9 +22960,9 @@ function getRevisionLabel(id, authorDisplayName, formattedModifiedDate, areStyle
     (0,external_wp_i18n_namespaceObject.__)('Unsaved changes by %s'), authorDisplayName);
   }
   return areStylesEqual ? (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %1$s: author display name, %2$s: revision creation date.
+  // translators: 1: author display name. 2: revision creation date.
   (0,external_wp_i18n_namespaceObject.__)('Changes saved by %1$s on %2$s. This revision matches current editor styles.'), authorDisplayName, formattedModifiedDate) : (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %1$s: author display name, %2$s: revision creation date.
+  // translators: 1: author display name. 2: revision creation date.
   (0,external_wp_i18n_namespaceObject.__)('Changes saved by %1$s on %2$s'), authorDisplayName, formattedModifiedDate);
 }
 
@@ -23174,7 +23174,7 @@ function Pagination({
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
       variant: "muted",
       children: (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1$s: Current page number, %2$s: Total number of pages.
+      // translators: 1: Current page number. 2: Total number of pages.
       (0,external_wp_i18n_namespaceObject._x)('%1$s of %2$s', 'paging'), currentPage, numPages)
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
       expanded: false,
@@ -24148,8 +24148,8 @@ function useEditorTitle() {
   if (hasLoadedPost) {
     var _POST_TYPE_LABELS$edi;
     title = (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: A breadcrumb trail for the Admin document title. %1$s: title of template being edited, %2$s: type of template (Template or Template Part).
-    (0,external_wp_i18n_namespaceObject.__)('%1$s ‹ %2$s'), getTitle(), (_POST_TYPE_LABELS$edi = POST_TYPE_LABELS[editedPost.type]) !== null && _POST_TYPE_LABELS$edi !== void 0 ? _POST_TYPE_LABELS$edi : POST_TYPE_LABELS[TEMPLATE_POST_TYPE]);
+    // translators: A breadcrumb trail for the Admin document title. 1: title of template being edited, 2: type of template (Template or Template Part).
+    (0,external_wp_i18n_namespaceObject._x)('%1$s ‹ %2$s', 'breadcrumb trail'), getTitle(), (_POST_TYPE_LABELS$edi = POST_TYPE_LABELS[editedPost.type]) !== null && _POST_TYPE_LABELS$edi !== void 0 ? _POST_TYPE_LABELS$edi : POST_TYPE_LABELS[TEMPLATE_POST_TYPE]);
   }
 
   // Only announce the title once the editor is ready to prevent "Replace"
@@ -24332,7 +24332,7 @@ function EditSiteEditor({
           const newItem = items[0];
           const _title = typeof newItem.title === 'string' ? newItem.title : newItem.title?.rendered;
           createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-          // translators: %s: Title of the created post e.g: "Post 1".
+          // translators: %s: Title of the created post or template, e.g: "Hello world".
           (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(_title)), {
             type: 'snackbar',
             id: 'duplicate-post-action',
@@ -30812,8 +30812,7 @@ function DataViewsSelectionCheckbox({
   let selectionLabel;
   if (primaryField?.getValue && item) {
     // eslint-disable-next-line @wordpress/valid-sprintf
-    selectionLabel = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: item title. */
-    checked ? (0,external_wp_i18n_namespaceObject.__)('Deselect item: %s') : (0,external_wp_i18n_namespaceObject.__)('Select item: %s'), primaryField.getValue({
+    selectionLabel = (0,external_wp_i18n_namespaceObject.sprintf)(checked ? /* translators: %s: item title. */(0,external_wp_i18n_namespaceObject.__)('Deselect item: %s') : /* translators: %s: item title. */(0,external_wp_i18n_namespaceObject.__)('Select item: %s'), primaryField.getValue({
       item
     }));
   } else {
@@ -33061,8 +33060,8 @@ function FieldItem({
           },
           icon: isVisible ? library_seen : library_unseen,
           label: isVisible ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: field label */
-          (0,external_wp_i18n_namespaceObject.__)('Hide %s'), label) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: field label */
-          (0,external_wp_i18n_namespaceObject.__)('Show %s'), label)
+          (0,external_wp_i18n_namespaceObject._x)('Hide %s', 'field'), label) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: field label */
+          (0,external_wp_i18n_namespaceObject._x)('Show %s', 'field'), label)
         })]
       })]
     })
@@ -33762,7 +33761,7 @@ function AddNewPostModal({
       });
       onSave(newPage);
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %s: Title of the created post e.g: "Hello world".
+      // translators: %s: Title of the created post or template, e.g: "Hello world".
       (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(newPage.title?.rendered || title)), {
         type: 'snackbar'
       });
@@ -34188,7 +34187,7 @@ function usePostFields(viewType) {
     }) => {
       const isDraftOrPrivate = ['draft', 'private'].includes(item.status);
       if (isDraftOrPrivate) {
-        return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: page creation date */
+        return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: page creation or modification date. */
         (0,external_wp_i18n_namespaceObject.__)('<span>Modified: <time>%s</time></span>'), getFormattedDate(item.date)), {
           span: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {}),
           time: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("time", {})
@@ -34215,7 +34214,7 @@ function usePostFields(viewType) {
       const dateToDisplay = (0,external_wp_date_namespaceObject.getDate)(item.modified) > (0,external_wp_date_namespaceObject.getDate)(item.date) ? item.modified : item.date;
       const isPending = item.status === 'pending';
       if (isPending) {
-        return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: the newest of created or modified date for the page */
+        return (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: page creation or modification date. */
         (0,external_wp_i18n_namespaceObject.__)('<span>Modified: <time>%s</time></span>'), getFormattedDate(dateToDisplay)), {
           span: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {}),
           time: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("time", {})
@@ -35537,8 +35536,8 @@ function DeleteCategoryMenuItem({
       invalidateResolution('getEntityRecords', ['postType', PATTERN_TYPES.user, {
         per_page: -1
       }]);
-      createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The pattern category's name */
-      (0,external_wp_i18n_namespaceObject.__)('"%s" deleted.'), category.label), {
+      createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: The pattern category's name */
+      (0,external_wp_i18n_namespaceObject._x)('"%s" deleted.', 'pattern category'), category.label), {
         type: 'snackbar',
         id: 'pattern-category-delete'
       });
@@ -35568,7 +35567,7 @@ function DeleteCategoryMenuItem({
       className: "edit-site-patterns__delete-modal",
       title: (0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: The pattern category's name.
-      (0,external_wp_i18n_namespaceObject.__)('Delete "%s"?'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(category.label)),
+      (0,external_wp_i18n_namespaceObject._x)('Delete "%s"?', 'pattern category'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(category.label)),
       size: "medium",
       __experimentalHideHeader: false,
       children: (0,external_wp_i18n_namespaceObject.sprintf)(
@@ -36626,10 +36625,10 @@ const usePostTypeMenuItems = onClickMenuItem => {
     (0,external_wp_i18n_namespaceObject.__)('Single item: %s'), labels.singular_name);
     if (_needsUniqueIdentifier) {
       menuItemTitle = labels.template_name ? (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1s: Name of the template e.g: "Single Item: Post"; %2s: Slug of the post type e.g: "book".
-      (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), labels.template_name, slug) : (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1s: Name of the post type e.g: "Post"; %2s: Slug of the post type e.g: "book".
-      (0,external_wp_i18n_namespaceObject.__)('Single item: %1$s (%2$s)'), labels.singular_name, slug);
+      // translators: 1: Name of the template e.g: "Single Item: Post". 2: Slug of the post type e.g: "book".
+      (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'post type menu label'), labels.template_name, slug) : (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: 1: Name of the post type e.g: "Post". 2: Slug of the post type e.g: "book".
+      (0,external_wp_i18n_namespaceObject._x)('Single item: %1$s (%2$s)', 'post type menu label'), labels.singular_name, slug);
     }
     const menuItem = defaultTemplateType ? {
       ...defaultTemplateType,
@@ -36759,10 +36758,10 @@ const useTaxonomiesMenuItems = onClickMenuItem => {
     let menuItemTitle = labels.template_name || labels.singular_name;
     if (_needsUniqueIdentifier) {
       menuItemTitle = labels.template_name ? (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1s: Name of the template e.g: "Products by Category"; %2s: Slug of the taxonomy e.g: "product_cat".
-      (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), labels.template_name, slug) : (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1s: Name of the taxonomy e.g: "Category"; %2s: Slug of the taxonomy e.g: "product_cat".
-      (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), labels.singular_name, slug);
+      // translators: 1: Name of the template e.g: "Products by Category". 2s: Slug of the taxonomy e.g: "product_cat".
+      (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'taxonomy template menu label'), labels.template_name, slug) : (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: 1: Name of the taxonomy e.g: "Category". 2: Slug of the taxonomy e.g: "product_cat".
+      (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'taxonomy menu label'), labels.singular_name, slug);
     }
     const menuItem = defaultTemplateType ? {
       ...defaultTemplateType,
@@ -37928,7 +37927,7 @@ function NewTemplateModal({
         canvas: 'edit'
       });
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %s: Title of the created template e.g: "Category".
+      // translators: %s: Title of the created post or template, e.g: "Hello world".
       (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(newTemplate.title?.rendered || title)), {
         type: 'snackbar'
       });
@@ -38550,7 +38549,8 @@ function SidebarNavigationScreen({
           color: '#e0e0e0' /* $gray-200 */,
           level: 1,
           size: 20,
-          children: !isPreviewingTheme() ? title : (0,external_wp_i18n_namespaceObject.sprintf)('Previewing %1$s: %2$s', previewingThemeName, title)
+          children: !isPreviewingTheme() ? title : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: theme name. 2: title */
+          (0,external_wp_i18n_namespaceObject.__)('Previewing %1$s: %2$s'), previewingThemeName, title)
         }), actions && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
           className: "edit-site-sidebar-navigation-screen__actions",
           children: actions
@@ -39570,15 +39570,15 @@ function NavigationMenuEditor({
 // Copied from packages/block-library/src/navigation/edit/navigation-menu-selector.js.
 function buildNavigationLabel(title, id, status) {
   if (!title?.rendered) {
-    /* translators: %s is the index of the menu in the list of menus. */
+    /* translators: %s: the index of the menu in the list of menus. */
     return (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('(no title %s)'), id);
   }
   if (status === 'publish') {
     return (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title?.rendered);
   }
   return (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %1s: title of the menu; %2s: status of the menu (draft, pending, etc.).
-  (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title?.rendered), status);
+  // translators: 1: title of the menu. 2: status of the menu (draft, pending, etc.).
+  (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'menu label'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title?.rendered), status);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/sidebar-navigation-screen-navigation-menu/single-navigation-menu.js
@@ -39836,7 +39836,7 @@ function useDuplicateNavigationMenu() {
     try {
       const savedRecord = await saveEntityRecord('postType', postType, {
         title: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Navigation menu title */
-        (0,external_wp_i18n_namespaceObject.__)('%s (Copy)'), menuTitle),
+        (0,external_wp_i18n_namespaceObject._x)('%s (Copy)', 'navigation menu'), menuTitle),
         content: navigationMenu?.content?.raw,
         status: 'publish'
       }, {
@@ -39895,15 +39895,15 @@ function useNavigationMenuHandlers() {
 
 function buildMenuLabel(title, id, status) {
   if (!title) {
-    /* translators: %s is the index of the menu in the list of menus. */
+    /* translators: %s: the index of the menu in the list of menus. */
     return (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('(no title %s)'), id);
   }
   if (status === 'publish') {
     return (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title);
   }
   return (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %1s: title of the menu; %2s: status of the menu (draft, pending, etc.).
-  (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), status);
+  // translators: 1: title of the menu. 2: status of the menu (draft, pending, etc.).
+  (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'menu label'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), status);
 }
 
 // Save a boolean to prevent us creating a fallback more than once per session.
@@ -40908,7 +40908,7 @@ function FormField({
           "aria-expanded": isOpen,
           "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)(
           // translators: %s: Field name.
-          (0,external_wp_i18n_namespaceObject.__)('Edit %s'), field.label),
+          (0,external_wp_i18n_namespaceObject._x)('Edit %s', 'field'), field.label),
           onClick: onToggle,
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(field.render, {
             item: data

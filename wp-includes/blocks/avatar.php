@@ -46,7 +46,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 		}
 
 		$author_name = get_the_author_meta( 'display_name', $author_id );
-		// translators: %s is the Author name.
+		// translators: %s: Author name.
 		$alt          = sprintf( __( '%s Avatar' ), $author_name );
 		$avatar_block = get_avatar(
 			$author_id,
@@ -64,7 +64,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 				// translators: %s is the Author name.
 				$label = 'aria-label="' . esc_attr( sprintf( __( '(%s author archive, opens in a new tab)' ), $author_name ) ) . '"';
 			}
-			// translators: %1$s: Author archive link. %2$s: Link target. %3$s Aria label. %4$s Avatar image.
+			// translators: 1: Author archive link. 2: Link target. %3$s Aria label. %4$s Avatar image.
 			$avatar_block = sprintf( '<a href="%1$s" target="%2$s" %3$s class="wp-block-avatar__link">%4$s</a>', esc_url( get_author_posts_url( $author_id ) ), esc_attr( $attributes['linkTarget'] ), $label, $avatar_block );
 		}
 		return sprintf( '<div %1s>%2s</div>', $wrapper_attributes, $avatar_block );
@@ -73,7 +73,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 	if ( ! $comment ) {
 		return '';
 	}
-	/* translators: %s is the Comment Author name */
+	/* translators: %s: Author name. */
 	$alt          = sprintf( __( '%s Avatar' ), $comment->comment_author );
 	$avatar_block = get_avatar(
 		$comment,
@@ -88,10 +88,9 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] && isset( $comment->comment_author_url ) && '' !== $comment->comment_author_url ) {
 		$label = '';
 		if ( '_blank' === $attributes['linkTarget'] ) {
-			// translators: %s is the Comment Author name.
+			// translators: %s: Comment author name.
 			$label = 'aria-label="' . esc_attr( sprintf( __( '(%s website link, opens in a new tab)' ), $comment->comment_author ) ) . '"';
 		}
-		// translators: %1$s: Comment Author website link. %2$s: Link target. %3$s Aria label. %4$s Avatar image.
 		$avatar_block = sprintf( '<a href="%1$s" target="%2$s" %3$s class="wp-block-avatar__link">%4$s</a>', esc_url( $comment->comment_author_url ), esc_attr( $attributes['linkTarget'] ), $label, $avatar_block );
 	}
 	return sprintf( '<div %1s>%2s</div>', $wrapper_attributes, $avatar_block );

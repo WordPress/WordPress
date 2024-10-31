@@ -3221,7 +3221,7 @@ function Layout({
           const newItem = items[0];
           const title = typeof newItem.title === 'string' ? newItem.title : newItem.title?.rendered;
           createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-          // translators: %s: Title of the created post e.g: "Post 1".
+          // translators: %s: Title of the created post or template, e.g: "Hello world".
           (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)), {
             type: 'snackbar',
             id: 'duplicate-post-action',

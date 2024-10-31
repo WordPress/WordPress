@@ -16716,7 +16716,7 @@ function getFontStylesAndWeights(fontFamilyFaces) {
       value: weightValue
     }) => {
       const optionName = styleValue === 'normal' ? weightName : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Font weight name. 2: Font style name. */
-      (0,external_wp_i18n_namespaceObject.__)('%1$s %2$s'), weightName, styleName);
+      (0,external_wp_i18n_namespaceObject._x)('%1$s %2$s', 'font'), weightName, styleName);
       combinedStyleAndWeightOptions.push({
         key: `${styleValue}-${weightValue}`,
         name: optionName,
@@ -22008,7 +22008,7 @@ class URLInput extends external_wp_element_namespaceObject.Component {
         showSuggestions: !!suggestions.length
       });
       if (!!suggestions.length) {
-        this.props.debouncedSpeak((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of results. */
+        this.props.debouncedSpeak((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %d: number of results. */
         (0,external_wp_i18n_namespaceObject._n)('%d result found, use up and down arrow keys to navigate.', '%d results found, use up and down arrow keys to navigate.', suggestions.length), suggestions.length), 'assertive');
       } else {
         this.props.debouncedSpeak((0,external_wp_i18n_namespaceObject.__)('No results.'), 'assertive');
@@ -30426,7 +30426,7 @@ function SpacingInputControl({
   if (showCustomValueInSelectList) {
     selectListSizes = [...spacingSizes, {
       name: !isMixed ?
-      // translators: A custom measurement, eg. a number followed by a unit like 12px.
+      // translators: %s: A custom measurement, e.g. a number followed by a unit like 12px.
       (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Custom (%s)'), value) : (0,external_wp_i18n_namespaceObject.__)('Mixed'),
       slug: 'custom',
       size: value
@@ -30477,8 +30477,8 @@ function SpacingInputControl({
   const sideLabel = ALL_SIDES.includes(side) && showSideInLabel ? LABELS[side] : '';
   const typeLabel = showSideInLabel ? type?.toLowerCase() : type;
   const ariaLabel = (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: 1: The side of the block being modified (top, bottom, left, All sides etc.). 2. Type of spacing being modified (Padding, margin, etc)
-  (0,external_wp_i18n_namespaceObject.__)('%1$s %2$s'), sideLabel, typeLabel).trim();
+  // translators: 1: The side of the block being modified (top, bottom, left etc.). 2. Type of spacing being modified (padding, margin, etc).
+  (0,external_wp_i18n_namespaceObject._x)('%1$s %2$s', 'spacing'), sideLabel, typeLabel).trim();
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
     className: "spacing-sizes-control__wrapper",
     children: [icon && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Icon, {
@@ -30890,8 +30890,8 @@ function SpacingSizesControl({
   };
   const sideLabel = ALL_SIDES.includes(view) && showSideInLabel ? LABELS[view] : '';
   const label = (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: 2. Type of spacing being modified (Padding, margin, etc). 1: The side of the block being modified (top, bottom, left etc.).
-  (0,external_wp_i18n_namespaceObject.__)('%1$s %2$s'), labelProp, sideLabel).trim();
+  // translators: 1: The side of the block being modified (top, bottom, left etc.). 2. Type of spacing being modified (padding, margin, etc).
+  (0,external_wp_i18n_namespaceObject._x)('%1$s %2$s', 'spacing'), labelProp, sideLabel).trim();
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("fieldset", {
     className: "spacing-sizes-control",
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
@@ -36493,8 +36493,8 @@ function BlockCard({
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h2", {
         className: "block-editor-block-card__title",
         children: name?.length ? (0,external_wp_i18n_namespaceObject.sprintf)(
-        // translators:  %1$s: Custom block name. %2$s: Block title.
-        (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), name, title) : title
+        // translators:  1: Custom block name. 2: Block title.
+        (0,external_wp_i18n_namespaceObject._x)('%1$s (%2$s)', 'block label'), name, title) : title
       }), description && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
         className: "block-editor-block-card__description",
         children: description
@@ -46370,7 +46370,7 @@ function Pagination({
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalText, {
         variant: "muted",
         children: (0,external_wp_i18n_namespaceObject.sprintf)(
-        // translators: %1$s: Current page number, %2$s: Total number of pages.
+        // translators: 1: Current page number. 2: Total number of pages.
         (0,external_wp_i18n_namespaceObject._x)('%1$s of %2$s', 'paging'), currentPage, numPages)
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         expanded: false,
@@ -58887,7 +58887,7 @@ const useTransformCommands = () => {
     } = transformation;
     return {
       name: 'core/block-editor/transform-to-' + name.replace('/', '-'),
-      // translators: %s: block title/name.
+      /* translators: %s: Block or block variation name. */
       label: (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Transform to %s'), title),
       icon: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_icon, {
         icon: icon
@@ -63186,7 +63186,7 @@ function VariationsButtons({
         showColors: true
       }),
       isPressed: selectedValue === variation.name,
-      label: selectedValue === variation.name ? variation.title : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Name of the block variation */
+      label: selectedValue === variation.name ? variation.title : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Block or block variation name. */
       (0,external_wp_i18n_namespaceObject.__)('Transform to %s'), variation.title),
       onClick: () => onSelectVariation(variation.name),
       "aria-label": variation.title,
@@ -63254,7 +63254,7 @@ function VariationsToggleGroupControl({
           showColors: true
         }),
         value: variation.name,
-        label: selectedValue === variation.name ? variation.title : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Name of the block variation */
+        label: selectedValue === variation.name ? variation.title : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Block or block variation name. */
         (0,external_wp_i18n_namespaceObject.__)('Transform to %s'), variation.title)
       }, variation.name))
     })

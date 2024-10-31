@@ -803,7 +803,7 @@ function FormField({
           "aria-expanded": isOpen,
           "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)(
           // translators: %s: Field name.
-          (0,external_wp_i18n_namespaceObject.__)('Edit %s'), field.label),
+          (0,external_wp_i18n_namespaceObject._x)('Edit %s', 'field'), field.label),
           onClick: onToggle,
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(field.render, {
             item: data
@@ -1044,7 +1044,7 @@ const duplicatePost = {
     const [item, setItem] = (0,external_wp_element_namespaceObject.useState)({
       ...items[0],
       title: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Existing template title */
-      (0,external_wp_i18n_namespaceObject.__)('%s (Copy)'), getItemTitle(items[0]))
+      (0,external_wp_i18n_namespaceObject._x)('%s (Copy)', 'template'), getItemTitle(items[0]))
     });
     const [isCreatingPage, setIsCreatingPage] = (0,external_wp_element_namespaceObject.useState)(false);
     const {
@@ -1091,7 +1091,7 @@ const duplicatePost = {
           throwOnError: true
         });
         createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-        // translators: %s: Title of the created template e.g: "Category".
+        // translators: %s: Title of the created post or template, e.g: "Hello world".
         (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(newItem.title?.rendered || item.title)), {
           id: 'duplicate-post-action',
           type: 'snackbar'
@@ -1175,7 +1175,7 @@ const viewPostRevisions = {
   label(items) {
     var _items$0$_links$versi;
     const revisionsCount = (_items$0$_links$versi = items[0]._links?.['version-history']?.[0]?.count) !== null && _items$0$_links$versi !== void 0 ? _items$0$_links$versi : 0;
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of revisions */
+    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of revisions. */
     (0,external_wp_i18n_namespaceObject.__)('View revisions (%s)'), revisionsCount);
   },
   isEligible(post) {
