@@ -1554,24 +1554,24 @@ function getDownloadableBlockLabel({
 }) {
   const stars = Math.round(rating / 0.5) * 0.5;
   if (!isInstalled && hasNotice) {
-    /* translators: %1$s: block title */
+    /* translators: %s: block title */
     return (0,external_wp_i18n_namespaceObject.sprintf)('Retry installing %s.', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title));
   }
   if (isInstalled) {
-    /* translators: %1$s: block title */
+    /* translators: %s: block title */
     return (0,external_wp_i18n_namespaceObject.sprintf)('Add %s.', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title));
   }
   if (isInstalling) {
-    /* translators: %1$s: block title */
+    /* translators: %s: block title */
     return (0,external_wp_i18n_namespaceObject.sprintf)('Installing %s.', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title));
   }
 
   // No ratings yet, just use the title.
   if (ratingCount < 1) {
-    /* translators: %1$s: block title */
+    /* translators: %s: block title */
     return (0,external_wp_i18n_namespaceObject.sprintf)('Install %s.', (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title));
   }
-  return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s: block title, %2$s: average rating, %3$s: total ratings count. */
+  return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: block title, 2: average rating, 3: total ratings count. */
   (0,external_wp_i18n_namespaceObject._n)('Install %1$s. %2$s stars with %3$s review.', 'Install %1$s. %2$s stars with %3$s reviews.', ratingCount), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), stars, ratingCount);
 }
 function DownloadableBlockListItem({
@@ -1644,7 +1644,7 @@ function DownloadableBlockListItem({
         className: "block-directory-downloadable-block-list-item__details",
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
           className: "block-directory-downloadable-block-list-item__title",
-          children: (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s: block title, %2$s: author name. */
+          children: (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: block title. 2: author name. */
           (0,external_wp_i18n_namespaceObject.__)('%1$s <span>by %2$s</span>'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), author), {
             span: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
               className: "block-directory-downloadable-block-list-item__author"

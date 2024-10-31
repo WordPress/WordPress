@@ -39505,7 +39505,7 @@ function UnforwardedColorPalette(props, forwardedRef) {
   // Leave hex values as-is. Remove the `var()` wrapper from CSS vars.
   const displayValue = value?.replace(/^var\((.+)\)$/, '$1');
   const customColorAccessibleLabel = !!displayValue ? (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %1$s: The name of the color e.g: "vivid red". %2$s: The color's hex code e.g: "#f00".
+  // translators: 1: The name of the color e.g: "vivid red". 2: The color's hex code e.g: "#f00".
   (0,external_wp_i18n_namespaceObject.__)('Custom color picker. The currently selected color is called "%1$s" and has a value of "%2$s".'), buttonLabelName, displayValue) : (0,external_wp_i18n_namespaceObject.__)('Custom color picker.');
   const paletteCommonProps = {
     clearColor,
@@ -40282,30 +40282,30 @@ const getToggleAriaLabel = (colorValue, colorObject, style, isStyleEnabled) => {
     if (colorObject) {
       const ariaLabelValue = getAriaLabelColorValue(colorObject.color);
       return style ? (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1$s: The name of the color e.g. "vivid red". %2$s: The color's hex code e.g.: "#f00:". %3$s: The current border style selection e.g. "solid".
-      'Border color and style picker. The currently selected color is called "%1$s" and has a value of "%2$s". The currently selected style is "%3$s".', colorObject.name, ariaLabelValue, style) : (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1$s: The name of the color e.g. "vivid red". %2$s: The color's hex code e.g.: "#f00:".
-      'Border color and style picker. The currently selected color is called "%1$s" and has a value of "%2$s".', colorObject.name, ariaLabelValue);
+      // translators: 1: The name of the color e.g. "vivid red". 2: The color's hex code e.g.: "#f00:". 3: The current border style selection e.g. "solid".
+      (0,external_wp_i18n_namespaceObject.__)('Border color and style picker. The currently selected color is called "%1$s" and has a value of "%2$s". The currently selected style is "%3$s".'), colorObject.name, ariaLabelValue, style) : (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: 1: The name of the color e.g. "vivid red". 2: The color's hex code e.g.: "#f00:".
+      (0,external_wp_i18n_namespaceObject.__)('Border color and style picker. The currently selected color is called "%1$s" and has a value of "%2$s".'), colorObject.name, ariaLabelValue);
     }
     if (colorValue) {
       const ariaLabelValue = getAriaLabelColorValue(colorValue);
       return style ? (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1$s: The color's hex code e.g.: "#f00:". %2$s: The current border style selection e.g. "solid".
-      'Border color and style picker. The currently selected color has a value of "%1$s". The currently selected style is "%2$s".', ariaLabelValue, style) : (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1$s: The color's hex code e.g: "#f00".
-      'Border color and style picker. The currently selected color has a value of "%1$s".', ariaLabelValue);
+      // translators: 1: The color's hex code e.g.: "#f00:". 2: The current border style selection e.g. "solid".
+      (0,external_wp_i18n_namespaceObject.__)('Border color and style picker. The currently selected color has a value of "%1$s". The currently selected style is "%2$s".'), ariaLabelValue, style) : (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: %s: The color's hex code e.g: "#f00".
+      (0,external_wp_i18n_namespaceObject.__)('Border color and style picker. The currently selected color has a value of "%s".'), ariaLabelValue);
     }
     return (0,external_wp_i18n_namespaceObject.__)('Border color and style picker.');
   }
   if (colorObject) {
     return (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: %1$s: The name of the color e.g. "vivid red". %2$s: The color's hex code e.g: "#f00".
-    'Border color picker. The currently selected color is called "%1$s" and has a value of "%2$s".', colorObject.name, getAriaLabelColorValue(colorObject.color));
+    // translators: 1: The name of the color e.g. "vivid red". 2: The color's hex code e.g: "#f00".
+    (0,external_wp_i18n_namespaceObject.__)('Border color picker. The currently selected color is called "%1$s" and has a value of "%2$s".'), colorObject.name, getAriaLabelColorValue(colorObject.color));
   }
   if (colorValue) {
     return (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: %1$s: The color's hex code e.g: "#f00".
-    'Border color picker. The currently selected color has a value of "%1$s".', getAriaLabelColorValue(colorValue));
+    // translators: %s: The color's hex code e.g: "#f00".
+    (0,external_wp_i18n_namespaceObject.__)('Border color picker. The currently selected color has a value of "%s".'), getAriaLabelColorValue(colorValue));
   }
   return (0,external_wp_i18n_namespaceObject.__)('Border color picker.');
 };
@@ -44407,7 +44407,7 @@ function ControlPointButton({
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(build_module_button, {
       "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)(
-      // translators: %1$s: gradient position e.g: 70, %2$s: gradient color code e.g: rgb(52,121,151).
+      // translators: 1: gradient position e.g: 70. 2: gradient color code e.g: rgb(52,121,151).
       (0,external_wp_i18n_namespaceObject.__)('Gradient control point at position %1$s%% with color code %2$s.'), position, color),
       "aria-describedby": descriptionId,
       "aria-haspopup": "true",
@@ -66763,7 +66763,7 @@ const OptionalControlsGroup = ({
       // translators: %s: The name of the control being hidden and reset e.g. "Padding".
       (0,external_wp_i18n_namespaceObject.__)('Hide and reset %s'), label) : (0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: The name of the control to display e.g. "Padding".
-      (0,external_wp_i18n_namespaceObject.__)('Show %s'), label);
+      (0,external_wp_i18n_namespaceObject._x)('Show %s', 'input control'), label);
       return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(menu_item, {
         icon: isSelected ? library_check : null,
         isSelected: isSelected,

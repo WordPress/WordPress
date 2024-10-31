@@ -6051,7 +6051,7 @@ const duplicateTemplatePart = {
     function onTemplatePartSuccess() {
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: The new template part's title e.g. 'Call to action (copy)'.
-      (0,external_wp_i18n_namespaceObject.__)('"%s" duplicated.'), getItemTitle(item)), {
+      (0,external_wp_i18n_namespaceObject._x)('"%s" duplicated.', 'template part'), getItemTitle(item)), {
         type: 'snackbar',
         id: 'edit-site-patterns-success'
       });
@@ -6061,7 +6061,7 @@ const duplicateTemplatePart = {
       blocks: blocks,
       defaultArea: item.area,
       defaultTitle: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Existing template part title */
-      (0,external_wp_i18n_namespaceObject.__)('%s (Copy)'), getItemTitle(item)),
+      (0,external_wp_i18n_namespaceObject._x)('%s (Copy)', 'template part'), getItemTitle(item)),
       onCreate: onTemplatePartSuccess,
       onError: closeModal,
       confirmLabel: (0,external_wp_i18n_namespaceObject._x)('Duplicate', 'action label'),
@@ -6649,7 +6649,7 @@ const viewPostRevisions = {
   label(items) {
     var _items$0$_links$versi;
     const revisionsCount = (_items$0$_links$versi = items[0]._links?.['version-history']?.[0]?.count) !== null && _items$0$_links$versi !== void 0 ? _items$0$_links$versi : 0;
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of revisions */
+    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of revisions. */
     (0,external_wp_i18n_namespaceObject.__)('View revisions (%s)'), revisionsCount);
   },
   isEligible(post) {
@@ -7312,7 +7312,7 @@ function FormField({
           "aria-expanded": isOpen,
           "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)(
           // translators: %s: Field name.
-          (0,external_wp_i18n_namespaceObject.__)('Edit %s'), field.label),
+          (0,external_wp_i18n_namespaceObject._x)('Edit %s', 'field'), field.label),
           onClick: onToggle,
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(field.render, {
             item: data
@@ -7813,8 +7813,8 @@ const deletePostAction = {
         children: items.length > 1 ? (0,external_wp_i18n_namespaceObject.sprintf)(
         // translators: %d: number of items to delete.
         (0,external_wp_i18n_namespaceObject._n)('Delete %d item?', 'Delete %d items?', items.length), items.length) : (0,external_wp_i18n_namespaceObject.sprintf)(
-        // translators: %s: The template or template part's titles
-        (0,external_wp_i18n_namespaceObject.__)('Delete "%s"?'), getItemTitle(items[0]))
+        // translators: %s: The template or template part's title
+        (0,external_wp_i18n_namespaceObject._x)('Delete "%s"?', 'template part'), getItemTitle(items[0]))
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
         justify: "right",
         children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
@@ -8200,8 +8200,8 @@ const removeTemplates = items => async ({
         title = items[0].title?.raw;
       }
       successMessage = isResetting ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The template/part's name. */
-      (0,external_wp_i18n_namespaceObject.__)('"%s" reset.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The template/part's name. */
-      (0,external_wp_i18n_namespaceObject.__)('"%s" deleted.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title));
+      (0,external_wp_i18n_namespaceObject.__)('"%s" reset.'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: The template/part's name. */
+      (0,external_wp_i18n_namespaceObject._x)('"%s" deleted.', 'template part'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title));
     } else {
       successMessage = isResetting ? (0,external_wp_i18n_namespaceObject.__)('Items reset.') : (0,external_wp_i18n_namespaceObject.__)('Items deleted.');
     }
@@ -9983,7 +9983,7 @@ function InterfaceSkeleton({
     /* translators: accessibility text for the secondary sidebar landmark region. */
     secondarySidebar: (0,external_wp_i18n_namespaceObject.__)('Block Library'),
     /* translators: accessibility text for the settings landmark region. */
-    sidebar: (0,external_wp_i18n_namespaceObject.__)('Settings'),
+    sidebar: (0,external_wp_i18n_namespaceObject._x)('Settings', 'settings landmark area'),
     /* translators: accessibility text for the publish landmark region. */
     actions: (0,external_wp_i18n_namespaceObject.__)('Publish'),
     /* translators: accessibility text for the footer landmark region. */
@@ -12384,10 +12384,10 @@ function PostParentToggle({
     size: "compact",
     className: "editor-post-parent__panel-toggle",
     variant: "tertiary",
-    "aria-expanded": isOpen
+    "aria-expanded": isOpen,
+    "aria-label":
     // translators: %s: Current post parent.
-    ,
-    "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Change parent: %s'), parentTitle),
+    (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Change parent: %s'), parentTitle),
     onClick: onClick,
     children: parentTitle
   });
@@ -12432,8 +12432,8 @@ function ParentRow() {
           title: (0,external_wp_i18n_namespaceObject.__)('Parent'),
           onClose: onClose
         }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-          children: [(0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s The home URL of the WordPress installation without the scheme. */
-          (0,external_wp_i18n_namespaceObject.__)('Child pages inherit characteristics from their parent, such as URL structure. For instance, if "Pricing" is a child of "Services", its URL would be %1$s<wbr />/services<wbr />/pricing.'), (0,external_wp_url_namespaceObject.filterURLForDisplay)(homeUrl).replace(/([/.])/g, '<wbr />$1')), {
+          children: [(0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: The home URL of the WordPress installation without the scheme. */
+          (0,external_wp_i18n_namespaceObject.__)('Child pages inherit characteristics from their parent, such as URL structure. For instance, if "Pricing" is a child of "Services", its URL would be %s<wbr />/services<wbr />/pricing.'), (0,external_wp_url_namespaceObject.filterURLForDisplay)(homeUrl).replace(/([/.])/g, '<wbr />$1')), {
             wbr: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("wbr", {})
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("p", {
             children: (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('They also show up as sub-items in the default navigation menu. <a>Learn more.</a>'), {
@@ -14395,10 +14395,10 @@ function PostAuthorToggle({
     size: "compact",
     className: "editor-post-author__panel-toggle",
     variant: "tertiary",
-    "aria-expanded": isOpen
-    // translators: %s: Current post link.
-    ,
-    "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Change author: %s'), authorName),
+    "aria-expanded": isOpen,
+    "aria-label":
+    // translators: %s: Author name.
+    (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Change author: %s'), authorName),
     onClick: onClick,
     children: authorName
   });
@@ -15707,7 +15707,7 @@ function PostLastRevision() {
       className: "editor-post-last-revision__title",
       icon: library_backup,
       iconPosition: "right",
-      text: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of revisions */
+      text: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: number of revisions. */
       (0,external_wp_i18n_namespaceObject.__)('Revisions (%s)'), revisionsCount)
     })
   });
@@ -17569,7 +17569,7 @@ function getFullPostScheduleLabel(dateAttribute) {
   const date = (0,external_wp_date_namespaceObject.getDate)(dateAttribute);
   const timezoneAbbreviation = getTimezoneAbbreviation();
   const formattedDate = (0,external_wp_date_namespaceObject.dateI18n)(
-  // translators: If using a space between 'g:i' and 'a', use a non-breaking space.
+  // translators: Use a non-breaking space between 'g:i' and 'a' if appropriate.
   (0,external_wp_i18n_namespaceObject._x)('F j, Y g:i\xa0a', 'post schedule full date format'), date);
   return (0,external_wp_i18n_namespaceObject.isRTL)() ? `${timezoneAbbreviation} ${formattedDate}` : `${formattedDate} ${timezoneAbbreviation}`;
 }
@@ -17725,7 +17725,6 @@ function MostUsedTerms({
  */
 
 
-
 const flat_term_selector_EMPTY_ARRAY = [];
 
 /**
@@ -17744,6 +17743,15 @@ const isSameTermName = (termA, termB) => unescapeString(termA).toLowerCase() ===
 const termNamesToIds = (names, terms) => {
   return names.map(termName => terms.find(term => isSameTermName(term.name, termName))?.id).filter(id => id !== undefined);
 };
+const Wrapper = ({
+  children,
+  __nextHasNoMarginBottom
+}) => __nextHasNoMarginBottom ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalVStack, {
+  spacing: 4,
+  children: children
+}) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_element_namespaceObject.Fragment, {
+  children: children
+});
 
 /**
  * Renders a flat term selector component.
@@ -17917,7 +17925,8 @@ function FlatTermSelector({
   (0,external_wp_i18n_namespaceObject._x)('%s removed', 'term'), singularName);
   const removeTermLabel = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: term name. */
   (0,external_wp_i18n_namespaceObject._x)('Remove %s', 'term'), singularName);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(Wrapper, {
+    __nextHasNoMarginBottom: __nextHasNoMarginBottom,
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.FormTokenField, {
       __next40pxDefaultSize: true,
       value: values,
@@ -18355,7 +18364,7 @@ function HierarchicalTermSelector({
       return;
     }
     const defaultName = slug === 'category' ? (0,external_wp_i18n_namespaceObject.__)('Category') : (0,external_wp_i18n_namespaceObject.__)('Term');
-    const termAddedMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: taxonomy name */
+    const termAddedMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: term name. */
     (0,external_wp_i18n_namespaceObject._x)('%s added', 'term'), (_taxonomy$labels$sing = taxonomy?.labels?.singular_name) !== null && _taxonomy$labels$sing !== void 0 ? _taxonomy$labels$sing : defaultName);
     (0,external_wp_a11y_namespaceObject.speak)(termAddedMessage, 'assertive');
     setAdding(false);
@@ -18378,7 +18387,7 @@ function HierarchicalTermSelector({
     setFilterValue(value);
     setFilteredTermsTree(newFilteredTermsTree);
     const resultCount = getResultCount(newFilteredTermsTree);
-    const resultsFoundMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %d: number of results */
+    const resultsFoundMessage = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %d: number of results. */
     (0,external_wp_i18n_namespaceObject._n)('%d result found.', '%d results found.', resultCount), resultCount);
     debouncedSpeak(resultsFoundMessage, 'assertive');
   };
@@ -21553,10 +21562,10 @@ function PostURLToggle({
     size: "compact",
     className: "editor-post-url__panel-toggle",
     variant: "tertiary",
-    "aria-expanded": isOpen
+    "aria-expanded": isOpen,
+    "aria-label":
     // translators: %s: Current post link.
-    ,
-    "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Change link: %s'), decodedSlug),
+    (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Change link: %s'), decodedSlug),
     onClick: onClick,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalTruncate, {
       numberOfLines: 1,
@@ -21689,8 +21698,8 @@ function TimeToRead() {
   const minutesToRead = Math.round((0,external_wp_wordcount_namespaceObject.count)(content, wordCountType) / AVERAGE_READING_RATE);
   const minutesToReadString = minutesToRead === 0 ? (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('<span>< 1</span> minute'), {
     span: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {})
-  }) : (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s is the number of minutes the post will take to read. */
-  (0,external_wp_i18n_namespaceObject._n)('<span>%d</span> minute', '<span>%d</span> minutes', minutesToRead), minutesToRead), {
+  }) : (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: the number of minutes to read the post. */
+  (0,external_wp_i18n_namespaceObject._n)('<span>%s</span> minute', '<span>%s</span> minutes', minutesToRead), minutesToRead), {
     span: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {})
   });
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
@@ -27651,8 +27660,9 @@ function EditorInterface({
       isDistractionFree: get('core', 'distractionFree'),
       isPreviewMode: editorSettings.__unstableIsPreviewMode,
       showBlockBreadcrumbs: get('core', 'showBlockBreadcrumbs'),
+      documentLabel:
       // translators: Default label for the Document in the Block Breadcrumb.
-      documentLabel: postTypeLabel || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun'),
+      postTypeLabel || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun, breadcrumb'),
       isZoomOut: _isZoomOut()
     };
   }, []);
@@ -28173,8 +28183,7 @@ function PostContentInformation() {
   const wordsCountText = (0,external_wp_i18n_namespaceObject.sprintf)(
   // translators: %s: the number of words in the post.
   (0,external_wp_i18n_namespaceObject._n)('%s word', '%s words', wordsCounted), wordsCounted.toLocaleString());
-  const minutesText = readingTime <= 1 ? (0,external_wp_i18n_namespaceObject.__)('1 minute') : (0,external_wp_i18n_namespaceObject.sprintf)(
-  // translators: %s: the number of minutes to read the post.
+  const minutesText = readingTime <= 1 ? (0,external_wp_i18n_namespaceObject.__)('1 minute') : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: the number of minutes to read the post. */
   (0,external_wp_i18n_namespaceObject._n)('%s minute', '%s minutes', readingTime), readingTime.toLocaleString());
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
     className: "editor-post-content-information",
@@ -28969,8 +28978,9 @@ const SidebarHeader = (_, ref) => {
       getPostTypeLabel
     } = select(store_store);
     return {
+      documentLabel:
       // translators: Default label for the Document sidebar tab, not selected.
-      documentLabel: getPostTypeLabel() || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun')
+      getPostTypeLabel() || (0,external_wp_i18n_namespaceObject._x)('Document', 'noun, sidebar')
     };
   }, []);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(Tabs.TabList, {
@@ -29247,9 +29257,9 @@ const SidebarContent = ({
     // see https://github.com/WordPress/gutenberg/pull/55360#pullrequestreview-1737671049
     ,
     className: "editor-sidebar__panel",
-    headerClassName: "editor-sidebar__panel-tabs"
-    /* translators: button label text should, if possible, be under 16 characters. */,
-    title: (0,external_wp_i18n_namespaceObject.__)('Settings'),
+    headerClassName: "editor-sidebar__panel-tabs",
+    title: /* translators: button label text should, if possible, be under 16 characters. */
+    (0,external_wp_i18n_namespaceObject._x)('Settings', 'sidebar button label'),
     toggleShortcut: keyboardShortcut,
     icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? drawer_left : drawer_right,
     isActiveByDefault: SIDEBAR_ACTIVE_BY_DEFAULT,
@@ -29694,30 +29704,40 @@ const {
 function EditorPreferencesModal({
   extraSections = {}
 }) {
-  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
+  const isActive = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    return select(store).isModalActive('editor/preferences');
+  }, []);
   const {
-    isActive,
-    showBlockBreadcrumbsOption
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    closeModal
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  if (!isActive) {
+    return null;
+  }
+
+  // Please wrap all contents inside PreferencesModalContents to prevent all
+  // hooks from executing when the modal is not open.
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PreferencesModal, {
+    closeModal: closeModal,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PreferencesModalContents, {
+      extraSections: extraSections
+    })
+  });
+}
+function PreferencesModalContents({
+  extraSections = {}
+}) {
+  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
+  const showBlockBreadcrumbsOption = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditorSettings
     } = select(store_store);
     const {
       get
     } = select(external_wp_preferences_namespaceObject.store);
-    const {
-      isModalActive
-    } = select(store);
     const isRichEditingEnabled = getEditorSettings().richEditingEnabled;
     const isDistractionFreeEnabled = get('core', 'distractionFree');
-    return {
-      showBlockBreadcrumbsOption: !isDistractionFreeEnabled && isLargeViewport && isRichEditingEnabled,
-      isActive: isModalActive('editor/preferences')
-    };
+    return !isDistractionFreeEnabled && isLargeViewport && isRichEditingEnabled;
   }, [isLargeViewport]);
-  const {
-    closeModal
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
     setIsListViewOpened,
     setIsInserterOpened
@@ -29882,14 +29902,8 @@ function EditorPreferencesModal({
       })
     })
   }].filter(Boolean), [showBlockBreadcrumbsOption, extraSections, setIsInserterOpened, setIsListViewOpened, setPreference, isLargeViewport, hasStarterPatterns]);
-  if (!isActive) {
-    return null;
-  }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PreferencesModal, {
-    closeModal: closeModal,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PreferencesModalTabs, {
-      sections: sections
-    })
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PreferencesModalTabs, {
+    sections: sections
   });
 }
 

@@ -1466,7 +1466,7 @@ function InterfaceSkeleton({
     /* translators: accessibility text for the secondary sidebar landmark region. */
     secondarySidebar: (0,external_wp_i18n_namespaceObject.__)('Block Library'),
     /* translators: accessibility text for the settings landmark region. */
-    sidebar: (0,external_wp_i18n_namespaceObject.__)('Settings'),
+    sidebar: (0,external_wp_i18n_namespaceObject._x)('Settings', 'settings landmark area'),
     /* translators: accessibility text for the publish landmark region. */
     actions: (0,external_wp_i18n_namespaceObject.__)('Publish'),
     /* translators: accessibility text for the footer landmark region. */

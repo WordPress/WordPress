@@ -713,13 +713,13 @@ function useDuplicatePatternProps({
     defaultSyncType: pattern.type !== PATTERN_TYPES.user // Theme patterns are unsynced by default.
     ? PATTERN_SYNC_TYPES.unsynced : pattern.wp_pattern_sync_status || PATTERN_SYNC_TYPES.full,
     defaultTitle: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Existing pattern title */
-    (0,external_wp_i18n_namespaceObject.__)('%s (Copy)'), typeof pattern.title === 'string' ? pattern.title : pattern.title.raw),
+    (0,external_wp_i18n_namespaceObject._x)('%s (Copy)', 'pattern'), typeof pattern.title === 'string' ? pattern.title : pattern.title.raw),
     onSuccess: ({
       pattern: newPattern
     }) => {
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: The new pattern's title e.g. 'Call to action (copy)'.
-      (0,external_wp_i18n_namespaceObject.__)('"%s" duplicated.'), newPattern.title.raw), {
+      (0,external_wp_i18n_namespaceObject._x)('"%s" duplicated.', 'pattern'), newPattern.title.raw), {
         type: 'snackbar',
         id: 'patterns-create'
       });
@@ -1633,7 +1633,7 @@ function PatternOverridesToolbarIndicator({
     clientId: clientIds[0],
     maximumLength: 35
   });
-  const blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1s: The block type's name; %2s: The block's user-provided name (the same as the override name). */
+  const blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: The block type's name. 2: The block's user-provided name (the same as the override name). */
   (0,external_wp_i18n_namespaceObject.__)('This %1$s is editable using the "%2$s" override.'), firstBlockTitle.toLowerCase(), firstBlockName) : (0,external_wp_i18n_namespaceObject.__)('These blocks are editable using overrides.');
   const descriptionId = (0,external_wp_element_namespaceObject.useId)();
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {
