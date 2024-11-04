@@ -6,6 +6,8 @@
   height:auto;
   max-width:100%;
   vertical-align:bottom;
+}
+.wp-block-image img:not([src$=".svg"]){
   width:-moz-fit-content;
   width:fit-content;
 }

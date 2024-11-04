@@ -217,7 +217,7 @@ iframe[name=editor-canvas]{
   font-size:13px;
   margin-bottom:1.5em;
 }
-.block-editor-block-inspector .components-base-control:where(:not(:last-child)){
+.block-editor-block-inspector .components-base-control:where(:not(:last-child)),.block-editor-block-inspector .components-radio-control:where(:not(:last-child)){
   margin-bottom:16px;
 }
 .block-editor-block-inspector .components-focal-point-picker-control .components-base-control,.block-editor-block-inspector .components-query-controls .components-base-control,.block-editor-block-inspector .components-range-control .components-base-control{

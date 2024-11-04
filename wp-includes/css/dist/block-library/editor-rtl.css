@@ -1173,13 +1173,6 @@ figure.wp-block-image:not(.wp-block){
   padding-right:0;
 }
 
-.wp-block-latest-posts__post-content-radio{
-  margin-bottom:24px;
-}
-.wp-block-latest-posts__post-content-radio:last-child{
-  margin-bottom:8px;
-}
-
 .wp-block-media-text__media{
   position:relative;
 }
