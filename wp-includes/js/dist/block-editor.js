@@ -56673,7 +56673,7 @@ const BlockSettingsMenuControlsSlot = ({
     isGroupable,
     isUngroupable
   } = convertToGroupButtonProps;
-  const showConvertToGroupButton = isGroupable || isUngroupable;
+  const showConvertToGroupButton = (isGroupable || isUngroupable) && !isContentOnly;
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_settings_menu_controls_Slot, {
     fillProps: {
       ...fillProps,
@@ -56833,6 +56833,12 @@ function BlockSettingsDropdown({
   const currentClientId = block?.clientId;
   const count = clientIds.length;
   const firstBlockClientId = clientIds[0];
+  const isZoomOut = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      __unstableGetEditorMode
+    } = unlock(select(store));
+    return __unstableGetEditorMode() === 'zoom-out';
+  });
   const {
     firstParentClientId,
     onlyBlock,
@@ -56968,7 +56974,7 @@ function BlockSettingsDropdown({
             parentBlockType: parentBlockType
           }), count === 1 && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_html_convert_button, {
             clientId: firstBlockClientId
-          }), !isContentOnly && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CopyMenuItem, {
+          }), (!isContentOnly || isZoomOut) && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CopyMenuItem, {
             clientIds: clientIds,
             onCopy: onCopy,
             shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primary('c')
@@ -57941,7 +57947,7 @@ function PrivateBlockToolbar({
         })]
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(BlockEditVisuallyButton, {
         clientIds: blockClientIds
-      }), isDefaultEditingMode && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_settings_menu, {
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(block_settings_menu, {
         clientIds: blockClientIds
       })]
     })
