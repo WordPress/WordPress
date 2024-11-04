@@ -1,9 +1,9 @@
 === Twenty Twenty ===
 Contributors: the WordPress team
 Requires at least: 4.7
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 5.2.4
-Stable tag: 2.7
+Stable tag: 2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,11 @@ all elements on your site are automatically calculated based on the colors
 you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
+
+= 2.8 =
+* Released: November 12, 2024
+
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_2.8
 
 = 2.7 =
 * Released: July 16, 2024
