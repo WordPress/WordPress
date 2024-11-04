@@ -66,7 +66,8 @@ class WP_Site_Health_Auto_Updates {
 	 * @param string $constant         The name of the constant to check.
 	 * @param bool|string|array $value The value that the constant should be, if set,
 	 *                                 or an array of acceptable values.
-	 * @return array The test results.
+	 * @return array|null The test results if there are any constants set incorrectly,
+	 *                    or null if the test passed.
 	 */
 	public function test_constants( $constant, $value ) {
 		$acceptable_values = (array) $value;
@@ -82,6 +83,8 @@ class WP_Site_Health_Auto_Updates {
 				'severity'    => 'fail',
 			);
 		}
+
+		return null;
 	}
 
 	/**
@@ -89,7 +92,8 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return array The test results.
+	 * @return array|null The test results if wp_version_check() is disabled,
+	 *                    or null if the test passed.
 	 */
 	public function test_wp_version_check_attached() {
 		if ( ( ! is_multisite() || is_main_site() && is_network_admin() )
@@ -104,6 +108,8 @@ class WP_Site_Health_Auto_Updates {
 				'severity'    => 'fail',
 			);
 		}
+
+		return null;
 	}
 
 	/**
@@ -111,7 +117,8 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return array The test results.
+	 * @return array|null The test results if the {@see 'automatic_updater_disabled'} filter is set,
+	 *                    or null if the test passed.
 	 */
 	public function test_filters_automatic_updater_disabled() {
 		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
@@ -125,6 +132,8 @@ class WP_Site_Health_Auto_Updates {
 				'severity'    => 'fail',
 			);
 		}
+
+		return null;
 	}
 
 	/**
@@ -132,7 +141,7 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @return array|false The test results. False if auto-updates are enabled.
+	 * @return array|false The test results if auto-updates are disabled, false otherwise.
 	 */
 	public function test_wp_automatic_updates_disabled() {
 		if ( ! class_exists( 'WP_Automatic_Updater' ) ) {
@@ -156,7 +165,7 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return array|false The test results. False if the auto-updates failed.
+	 * @return array|false The test results if auto-updates previously failed, false otherwise.
 	 */
 	public function test_if_failed_update() {
 		$failed = get_site_option( 'auto_core_update_failed' );
@@ -312,7 +321,9 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
-	 * @return array|false The test results. False if they're not writeable.
+	 * @return array|false The test results if at least some of WordPress core files are writeable,
+	 *                     or if a list of the checksums could not be retrieved from WordPress.org.
+	 *                     False if the core files are not writeable.
 	 */
 	public function test_all_files_writable() {
 		global $wp_filesystem;
@@ -397,7 +408,8 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return array|false The test results. False if it isn't a development version.
+	 * @return array|false|null The test results if development updates are blocked.
+	 *                          False if it isn't a development version. Null if the test passed.
 	 */
 	public function test_accepts_dev_updates() {
 		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
@@ -428,6 +440,8 @@ class WP_Site_Health_Auto_Updates {
 				'severity'    => 'fail',
 			);
 		}
+
+		return null;
 	}
 
 	/**
@@ -435,7 +449,8 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return array The test results.
+	 * @return array|null The test results if minor updates are blocked,
+	 *                    or null if the test passed.
 	 */
 	public function test_accepts_minor_updates() {
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) && false === WP_AUTO_UPDATE_CORE ) {
@@ -460,5 +475,7 @@ class WP_Site_Health_Auto_Updates {
 				'severity'    => 'fail',
 			);
 		}
+
+		return null;
 	}
 }
