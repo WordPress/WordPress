@@ -933,18 +933,14 @@ class WP_Theme_JSON_Resolver {
 			return $theme_json;
 		}
 
-		$resolved_theme_json_data = array(
-			'version' => WP_Theme_JSON::LATEST_SCHEMA,
-		);
+		$resolved_theme_json_data = $theme_json->get_raw_data();
 
 		foreach ( $resolved_urls as $resolved_url ) {
 			$path = explode( '.', $resolved_url['target'] );
 			_wp_array_set( $resolved_theme_json_data, $path, $resolved_url['href'] );
 		}
 
-		$theme_json->merge( new WP_Theme_JSON( $resolved_theme_json_data ) );
-
-		return $theme_json;
+		return new WP_Theme_JSON( $resolved_theme_json_data );
 	}
 
 	/**
