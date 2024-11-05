@@ -428,7 +428,7 @@
 				"border": {
 					"style": "solid",
 					"width": "0 0 0 2px",
-					"color": "var:preset|color|contrast"
+					"color": "currentColor"
 				},
 				"spacing": {
 					"blockGap": "var:preset|spacing|30",
@@ -568,9 +568,6 @@
 				}
 			},
 			"core/term-description": {
-				"color":{
-					"text": "var:preset|color|accent-4"
-				},
 				"typography": {
 					"fontSize": "var:preset|font-size|medium"
 				}

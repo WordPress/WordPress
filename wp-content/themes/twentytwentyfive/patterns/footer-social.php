@@ -31,7 +31,7 @@
 	<p class="has-text-align-center has-small-font-size">
 		<?php
 		printf(
-			/* Translators: Designed with WordPress. %s: WordPress link. */
+			/* translators: Designed with WordPress. %s: WordPress link. */
 			esc_html__( 'Designed with %s', 'twentytwentyfive' ),
 			'<a href="' . esc_url( __( 'https://wordpress.org', 'twentytwentyfive' ) ) . '" rel="nofollow">WordPress</a>'
 		);

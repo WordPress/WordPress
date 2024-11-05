@@ -28,7 +28,7 @@
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item {"fontSize":"medium"} -->
-				<li class="has-medium-font-size"><?php esc_html_e( 'Join our IRL event.', 'twentytwentyfive' ); ?></li>
+				<li class="has-medium-font-size"><?php esc_html_e( 'Join our IRL events.', 'twentytwentyfive' ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item {"fontSize":"medium"} -->

@@ -128,7 +128,7 @@
 			},
 			"link": {
 				"color": {
-					"text": "var:preset|color|contrast"
+					"text": "currentColor"
 				}
 			}
 		},
@@ -182,7 +182,7 @@
 				"elements": {
 					"heading": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					},
 					"button": {
@@ -199,7 +199,7 @@
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					}
 				}
@@ -224,7 +224,7 @@
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					}
 				}

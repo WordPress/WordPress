@@ -110,7 +110,7 @@ if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
 		register_block_pattern_category(
 			'twentytwentyfive_post-format',
 			array(
-				'label'       => __( 'Post format', 'twentytwentyfive' ),
+				'label'       => __( 'Post formats', 'twentytwentyfive' ),
 				'description' => __( 'A collection of post format patterns.', 'twentytwentyfive' ),
 			)
 		);

@@ -234,7 +234,7 @@
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					}
 				}

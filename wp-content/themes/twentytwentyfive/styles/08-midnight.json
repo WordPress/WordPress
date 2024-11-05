@@ -579,7 +579,7 @@
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|accent-3"
+							"text": "currentColor"
 						}
 					}
 				}
@@ -602,7 +602,7 @@
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|accent-5"
+							"text": "currentColor"
 						}
 					}
 				}

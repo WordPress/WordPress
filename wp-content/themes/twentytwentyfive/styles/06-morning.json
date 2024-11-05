@@ -395,7 +395,7 @@
 			},
 			"link": {
 				"color": {
-					"text": "var:preset|color|contrast"
+					"text": "currentColor"
 				}
 			}
 		},
@@ -453,7 +453,7 @@
 				"elements": {
 					"heading": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					},
 					"button": {
@@ -465,12 +465,12 @@
 							"color": {
 								"background": "color-mix(in srgb, var(--wp--preset--color--accent-1) 85%, transparent)",
 								"text": "var:preset|color|contrast"
-							}
 						}
+					}
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					}
 				}
@@ -495,7 +495,7 @@
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					}
 				}
