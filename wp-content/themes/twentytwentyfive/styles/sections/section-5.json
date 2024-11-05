@@ -18,6 +18,100 @@
 				"color": {
 					"text": "color-mix(in srgb, currentColor 25%, transparent)"
 				}
+			},
+			"core/post-author-name": {
+				"color": {
+					"text": "currentColor"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "currentColor"
+						}
+					}
+				}
+			},
+			"core/post-date": {
+				"color":{
+					"text": "color-mix(in srgb, currentColor 85%, transparent)"
+				},
+				"elements": {
+					"link": {
+						"color" : {
+							"text": "color-mix(in srgb, currentColor 85%, transparent)"
+						}
+					}
+				}
+			},
+			"core/post-terms": {
+				"color": {
+					"text": "currentColor"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "currentColor"
+						}
+					}
+				}
+			},
+			"core/comment-author-name": {
+				"color": {
+					"text": "currentColor"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "currentColor"
+						}
+					}
+				}
+			},
+			"core/comment-date": {
+				"color": {
+					"text": "currentColor"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "currentColor"
+						}
+					}
+				}
+			},
+			"core/comment-edit-link": {
+				"color": {
+					"text": "currentColor"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "currentColor"
+						}
+					}
+				}
+			},
+			"core/comment-reply-link": {
+				"color": {
+					"text": "currentColor"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "currentColor"
+						}
+					}
+				}
+			},
+			"core/pullquote": {
+				"color": {
+					"text": "currentColor"
+				}
+			},
+			"core/quote": {
+				"color": {
+					"text": "currentColor"
+				}
 			}
 		},
 		"elements": {

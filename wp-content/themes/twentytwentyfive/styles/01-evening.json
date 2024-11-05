@@ -66,18 +66,6 @@
 						}
 					}
 				}
-			},
-			"core/site-tagline": {
-				"color": {
-					"text": "var:preset|color|accent-4"
-				},
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var:preset|color|accent-4"
-						}
-					}
-				}
 			}
 		},
 		"elements": {
@@ -100,11 +88,6 @@
 						"top": "0.6rem"
 					}
 				}
-			},
-			"link": {
-				"color": {
-					"text": "var:preset|color|accent-4"
-				}
 			}
 		},
 		"variations": {
@@ -123,15 +106,6 @@
 					}
 				}
 			},
-			"section-3": {
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var:preset|color|contrast"
-						}
-					}
-				}
-			},
 			"section-4": {
 				"elements": {
 					"button": {
@@ -143,20 +117,6 @@
 							"color": {
 								"background": "color-mix(in srgb, var(--wp--preset--color--accent-2) 85%, transparent)"
 							}
-						}
-					},
-					"link": {
-						"color": {
-							"text": "var:preset|color|accent-2"
-						}
-					}
-				}
-			},
-			"section-5": {
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var:preset|color|base"
 						}
 					}
 				}

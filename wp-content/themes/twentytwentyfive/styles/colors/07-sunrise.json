@@ -108,9 +108,6 @@
 				"color": {
 					"text": "var:preset|color|accent-2"
 				},
-				"border": {
-					"color": "var:preset|color|accent-2"
-				},
 				"elements": {
 					"cite": {
 						"color": {
@@ -168,7 +165,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var:preset|color|accent-5"
+							"text": "currentColor"
 						}
 					},
 					"button": {
@@ -191,7 +188,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					},
 					"button": {
@@ -214,7 +211,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					},
 					"button": {
@@ -237,7 +234,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var:preset|color|base"
+							"text": "currentColor"
 						}
 					},
 					"button": {
@@ -261,12 +258,12 @@
 				"elements": {
 					"heading": {
 						"color": {
-							"text": "var:preset|color|contrast"
+							"text": "currentColor"
 						}
 					},
 					"link": {
 						"color": {
-							"text": "var:preset|color|contrast"
+							"text": "currentColor"
 						}
 					},
 					"button": {

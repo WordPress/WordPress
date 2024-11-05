@@ -46,7 +46,7 @@
 				<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"}} -->
 				<div class="wp-block-group">
 					<!-- wp:paragraph {"className":"is-style-text-annotation"} -->
-					<p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'Youtube', 'Button text', 'twentytwentyfive' ); ?></a></p>
+					<p class="is-style-text-annotation"><a href="#"><?php echo esc_html_x( 'YouTube', 'Button text', 'twentytwentyfive' ); ?></a></p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:paragraph {"className":"is-style-text-annotation"} -->
