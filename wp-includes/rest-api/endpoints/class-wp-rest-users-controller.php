@@ -349,7 +349,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$users = array();
 
-		foreach ( $query->results as $user ) {
+		foreach ( $query->get_results() as $user ) {
 			$data    = $this->prepare_item_for_response( $user, $request );
 			$users[] = $this->prepare_response_for_collection( $data );
 		}
