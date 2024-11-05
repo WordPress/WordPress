@@ -6233,7 +6233,7 @@ function wp_high_priority_element_flag( $value = null ) {
  * @return string[] An array of mime type mappings.
  */
 function wp_get_image_editor_output_format( $filename, $mime_type ) {
-	$default_output_format = array(
+	$output_format = array(
 		'image/heic'          => 'image/jpeg',
 		'image/heif'          => 'image/jpeg',
 		'image/heic-sequence' => 'image/jpeg',
@@ -6249,16 +6249,17 @@ function wp_get_image_editor_output_format( $filename, $mime_type ) {
 	 * @see WP_Image_Editor::get_output_format()
 	 *
 	 * @since 5.8.0
-	 * @since 6.7.0 The default was changed from empty array to array containing the HEIC mime types.
+	 * @since 6.7.0 The default was changed from an empty array to an array
+	 *              containing the HEIC/HEIF images mime types.
 	 *
 	 * @param string[] $output_format {
 	 *     An array of mime type mappings. Maps a source mime type to a new
-	 *     destination mime type. Default maps uploaded HEIC images to JPEG output.
+	 *     destination mime type. By default maps HEIC/HEIF input to JPEG output.
 	 *
 	 *     @type string ...$0 The new mime type.
 	 * }
 	 * @param string $filename  Path to the image.
 	 * @param string $mime_type The source image mime type.
 	 */
-	return apply_filters( 'image_editor_output_format', $default_output_format, $filename, $mime_type );
+	return apply_filters( 'image_editor_output_format', $output_format, $filename, $mime_type );
 }
