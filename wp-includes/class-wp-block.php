@@ -374,7 +374,7 @@ class WP_Block {
 
 				foreach ( $selectors as $selector ) {
 					// If the parent tag, or any of its children, matches the selector, replace the HTML.
-					if ( strcasecmp( $block_reader->get_tag( $selector ), $selector ) === 0 || $block_reader->next_tag(
+					if ( strcasecmp( $block_reader->get_tag(), $selector ) === 0 || $block_reader->next_tag(
 						array(
 							'tag_name' => $selector,
 						)
