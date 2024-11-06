@@ -15,20 +15,7 @@
  */
 
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/banner-intro-image"} /-->
-</div>
-<!-- /wp:group -->
 
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/grid-with-categories"} /-->
-</div>
-<!-- /wp:group -->
-
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/media-instagram-grid"} /-->
-</div>
-<!-- /wp:group -->
+<!-- wp:pattern {"slug":"twentytwentyfive/banner-intro-image"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/grid-with-categories"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/media-instagram-grid"} /-->
