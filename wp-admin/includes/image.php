@@ -301,7 +301,11 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 			// The image may need to be converted regardless of its dimensions.
 			$output_format = wp_get_image_editor_output_format( $file, $imagesize['mime'] );
 
-			if ( is_array( $output_format ) && array_key_exists( $imagesize['mime'], $output_format ) ) {
+			if (
+				is_array( $output_format ) &&
+				array_key_exists( $imagesize['mime'], $output_format ) &&
+				$output_format[ $imagesize['mime'] ] !== $imagesize['mime']
+			) {
 				$convert = true;
 			}
 		}
