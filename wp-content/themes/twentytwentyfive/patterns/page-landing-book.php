@@ -15,38 +15,10 @@
  */
 
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/hero-book"} /-->
-</div>
-<!-- /wp:group -->
 
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/cta-book-links"} /-->
-</div>
-<!-- /wp:group -->
-
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/banner-about-book"} /-->
-</div>
-<!-- /wp:group -->
-
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/cta-book-locations"} /-->
-</div>
-<!-- /wp:group -->
-
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/text-faqs"} /-->
-</div>
-<!-- /wp:group -->
-
-<!-- wp:group {"align":"full","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0">
-	<!-- wp:pattern {"slug":"twentytwentyfive/cta-newsletter"} /-->
-</div>
-<!-- /wp:group -->
+<!-- wp:pattern {"slug":"twentytwentyfive/hero-book"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-book-links"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/banner-about-book"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-book-locations"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/text-faqs"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-newsletter"} /-->

@@ -14,8 +14,8 @@
  */
 
 ?>
-<!-- wp:group {"align":"full","className":"is-style-section-4","style":{"dimensions":{"minHeight":"100vh"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull is-style-section-4" style="min-height:100vh">
+<!-- wp:group {"align":"full","className":"is-style-section-4","style":{"dimensions":{"minHeight":"100vh"},"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull is-style-section-4" style="min-height:100vh;margin-top:0;margin-bottom:0">
 	<!-- wp:columns {"align":"full"} -->
 	<div class="wp-block-columns alignfull">
 		<!-- wp:column {"verticalAlignment":"center"} -->
