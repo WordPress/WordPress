@@ -3101,13 +3101,13 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		// Attempt to figure out what type of image it actually is.
 		$real_mime = wp_get_image_mime( $file );
 
-		$heic_images_etx = array(
+		$heic_images_extensions = array(
 			'heif',
 			'heics',
 			'heifs',
 		);
 
-		if ( $real_mime && ( $real_mime !== $type || in_array( $ext, $heic_images_etx, true ) ) ) {
+		if ( $real_mime && ( $real_mime !== $type || in_array( $ext, $heic_images_extensions, true ) ) ) {
 			/**
 			 * Filters the list mapping image mime types to their respective extensions.
 			 *
