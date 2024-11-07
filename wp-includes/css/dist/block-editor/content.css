@@ -549,11 +549,9 @@
   outline:1px solid #0000;
 }
 .block-editor-default-block-appender .block-editor-default-block-appender__content{
-  opacity:.62;
-}
-:where(.wp-site-blocks) .block-editor-default-block-appender>:first-child,:where(body .is-layout-constrained) .block-editor-default-block-appender>:first-child{
   margin-block-end:0;
   margin-block-start:0;
+  opacity:.62;
 }
 .block-editor-default-block-appender .components-drop-zone__content-icon{
   display:none;

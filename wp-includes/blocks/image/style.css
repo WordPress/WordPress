@@ -7,10 +7,6 @@
   max-width:100%;
   vertical-align:bottom;
 }
-.wp-block-image img:not([src$=".svg"]){
-  width:-moz-fit-content;
-  width:fit-content;
-}
 @media (prefers-reduced-motion:no-preference){
   .wp-block-image img.hide{
     visibility:hidden;
