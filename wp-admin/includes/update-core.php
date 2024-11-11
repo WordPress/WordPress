@@ -778,6 +778,56 @@ $_old_files = array(
 	'wp-includes/blocks/block/editor.min.css',
 	'wp-includes/blocks/block/editor-rtl.css',
 	'wp-includes/blocks/block/editor-rtl.min.css',
+	/*
+	 * 6.7
+	 *
+	 * WordPress 6.7 included a SimplePie upgrade that included a major
+	 * refactoring of the file structure and library. The old files are
+	 * split in to two sections to account for this: files and directories.
+	 *
+	 * See https://core.trac.wordpress.org/changeset/59141
+	 */
+	// 6.7 - files
+	'wp-includes/js/dist/interactivity-router.asset.php',
+	'wp-includes/js/dist/interactivity-router.js',
+	'wp-includes/js/dist/interactivity-router.min.js',
+	'wp-includes/js/dist/interactivity-router.min.asset.php',
+	'wp-includes/js/dist/interactivity.js',
+	'wp-includes/js/dist/interactivity.min.js',
+	'wp-includes/js/dist/vendor/react-dom.min.js.LICENSE.txt',
+	'wp-includes/js/dist/vendor/react.min.js.LICENSE.txt',
+	'wp-includes/js/dist/vendor/wp-polyfill-importmap.js',
+	'wp-includes/js/dist/vendor/wp-polyfill-importmap.min.js',
+	'wp-includes/sodium_compat/src/Core/Base64/Common.php',
+	'wp-includes/SimplePie/Author.php',
+	'wp-includes/SimplePie/Cache.php',
+	'wp-includes/SimplePie/Caption.php',
+	'wp-includes/SimplePie/Category.php',
+	'wp-includes/SimplePie/Copyright.php',
+	'wp-includes/SimplePie/Core.php',
+	'wp-includes/SimplePie/Credit.php',
+	'wp-includes/SimplePie/Enclosure.php',
+	'wp-includes/SimplePie/Exception.php',
+	'wp-includes/SimplePie/File.php',
+	'wp-includes/SimplePie/gzdecode.php',
+	'wp-includes/SimplePie/IRI.php',
+	'wp-includes/SimplePie/Item.php',
+	'wp-includes/SimplePie/Locator.php',
+	'wp-includes/SimplePie/Misc.php',
+	'wp-includes/SimplePie/Parser.php',
+	'wp-includes/SimplePie/Rating.php',
+	'wp-includes/SimplePie/Registry.php',
+	'wp-includes/SimplePie/Restriction.php',
+	'wp-includes/SimplePie/Sanitize.php',
+	'wp-includes/SimplePie/Source.php',
+	// 6.7 - directories
+	'wp-includes/SimplePie/Cache/',
+	'wp-includes/SimplePie/Content/',
+	'wp-includes/SimplePie/Decode/',
+	'wp-includes/SimplePie/HTTP/',
+	'wp-includes/SimplePie/Net/',
+	'wp-includes/SimplePie/Parse/',
+	'wp-includes/SimplePie/XML/',
 );
 
 /**
