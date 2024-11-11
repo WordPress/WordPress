@@ -341,6 +341,18 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 				 */
 				if ( $scale_down ) {
 					$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
+				} elseif ( $convert ) {
+					/*
+					 * Generate a new file name for the converted image.
+					 *
+					 * As the image file name will be unique due to the changed file extension,
+					 * it does not need a suffix to be unique. However, the generate_filename method
+					 * does not allow for an empty suffix, so the "-converted" suffix is required to
+					 * be added and subsequently removed.
+					 */
+					$converted_file_name = $editor->generate_filename( 'converted' );
+					$converted_file_name = preg_replace( '/(-converted\.)([a-z0-9]+)$/i', '.$2', $converted_file_name );
+					$saved               = $editor->save( $converted_file_name );
 				} else {
 					$saved = $editor->save();
 				}
