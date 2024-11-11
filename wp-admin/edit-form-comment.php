@@ -68,7 +68,7 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <tr>
 	<td class="first"><label for="newcomment_author_url"><?php _e( 'URL' ); ?></label></td>
 	<td>
-		<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr( $comment->comment_author_url ); ?>" />
+		<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_url( $comment->comment_author_url ); ?>" />
 	</td>
 </tr>
 </tbody>
