@@ -791,7 +791,7 @@ hr.wp-block-separator.is-style-dots::before {
 /* Block: Pullquote -------------------------- */
 
 .editor-styles-wrapper .wp-block-pullquote {
-	border: none;
+	border: 0 solid;
 	color: inherit;
 	padding: 0;
 	position: relative;
