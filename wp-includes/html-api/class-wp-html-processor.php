@@ -5328,52 +5328,92 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 * and computation time.
 		 */
 		if ( 'backward' === $direction ) {
+
 			/*
-			 * Instead of clearing the parser state and starting fresh, calling the stack methods
-			 * maintains the proper flags in the parser.
+			 * When moving backward, stateful stacks should be cleared.
 			 */
 			foreach ( $this->state->stack_of_open_elements->walk_up() as $item ) {
-				if ( 'context-node' === $item->bookmark_name ) {
-					break;
-				}
-
 				$this->state->stack_of_open_elements->remove_node( $item );
 			}
 
 			foreach ( $this->state->active_formatting_elements->walk_up() as $item ) {
-				if ( 'context-node' === $item->bookmark_name ) {
-					break;
-				}
-
 				$this->state->active_formatting_elements->remove_node( $item );
 			}
 
-			parent::seek( 'context-node' );
-			$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
-			$this->state->frameset_ok    = true;
-			$this->element_queue         = array();
-			$this->current_element       = null;
+			/*
+			 * **After** clearing stacks, more processor state can be reset.
+			 * This must be done after clearing the stack because those stacks generate events that
+			 * would appear on a subsequent call to `next_token()`.
+			 */
+			$this->state->frameset_ok                       = true;
+			$this->state->stack_of_template_insertion_modes = array();
+			$this->state->head_element                      = null;
+			$this->state->form_element                      = null;
+			$this->state->current_token                     = null;
+			$this->current_element                          = null;
+			$this->element_queue                            = array();
 
-			if ( isset( $this->context_node ) ) {
-				$this->breadcrumbs = array_slice( $this->breadcrumbs, 0, 2 );
+			/*
+			 * The absence of a context node indicates a full parse.
+			 * The presence of a context node indicates a fragment parser.
+			 */
+			if ( null === $this->context_node ) {
+				$this->change_parsing_namespace( 'html' );
+				$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_INITIAL;
+				$this->breadcrumbs           = array();
+
+				$this->bookmarks['initial'] = new WP_HTML_Span( 0, 0 );
+				parent::seek( 'initial' );
+				unset( $this->bookmarks['initial'] );
 			} else {
-				$this->breadcrumbs = array();
+
+				/*
+				 * Push the root-node (HTML) back onto the stack of open elements.
+				 *
+				 * Fragment parsers require this extra bit of setup.
+				 * It's handled in full parsers by advancing the processor state.
+				 */
+				$this->state->stack_of_open_elements->push(
+					new WP_HTML_Token(
+						'root-node',
+						'HTML',
+						false
+					)
+				);
+
+				$this->change_parsing_namespace(
+					$this->context_node->integration_node_type
+						? 'html'
+						: $this->context_node->namespace
+				);
+
+				if ( 'TEMPLATE' === $this->context_node->node_name ) {
+					$this->state->stack_of_template_insertion_modes[] = WP_HTML_Processor_State::INSERTION_MODE_IN_TEMPLATE;
+				}
+
+				$this->reset_insertion_mode_appropriately();
+				$this->breadcrumbs = array_slice( $this->breadcrumbs, 0, 2 );
+				parent::seek( $this->context_node->bookmark_name );
 			}
 		}
 
-		// When moving forwards, reparse the document until reaching the same location as the original bookmark.
-		if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
-			return true;
-		}
-
-		while ( $this->next_token() ) {
+		/*
+		 * Here, the processor moves forward through the document until it matches the bookmark.
+		 * do-while is used here because the processor is expected to already be stopped on
+		 * a token than may match the bookmarked location.
+		 */
+		do {
+			/*
+			 * The processor will stop on virtual tokens, but bookmarks may not be set on them.
+			 * They should not be matched when seeking a bookmark, skip them.
+			 */
+			if ( $this->is_virtual() ) {
+				continue;
+			}
 			if ( $bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start ) {
-				while ( isset( $this->current_element ) && WP_HTML_Stack_Event::POP === $this->current_element->operation ) {
-					$this->current_element = array_shift( $this->element_queue );
-				}
 				return true;
 			}
-		}
+		} while ( $this->next_token() );
 
 		return false;
 	}
