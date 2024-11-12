@@ -821,7 +821,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			// Doctype declarations.
 			'html' === $token_name ||
 			// Void elements.
-			self::is_void( $token_name ) ||
+			( 'html' === $token_namespace && self::is_void( $token_name ) ) ||
 			// Special atomic elements.
 			( 'html' === $token_namespace && in_array( $token_name, array( 'IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP' ), true ) ) ||
 			// Self-closing elements in foreign content.
