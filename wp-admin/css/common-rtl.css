@@ -2463,7 +2463,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 }
 .nav-menus-php .metabox-holder .accordion-section-title span.dashicons.dashicons-arrow-down::before {
 	position: relative;
-	right: -1px
+	right: -1px;
 }
 
 .nav-menus-php .metabox-holder .accordion-section.open .accordion-section-title span.dashicons.dashicons-arrow-down {
