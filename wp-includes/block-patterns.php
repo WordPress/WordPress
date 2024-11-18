@@ -74,7 +74,7 @@ function _register_core_block_patterns_and_categories() {
 	register_block_pattern_category(
 		'call-to-action',
 		array(
-			'label'       => _x( 'Call to Action', 'Block pattern category' ),
+			'label'       => _x( 'Call to action', 'Block pattern category' ),
 			'description' => __( 'Sections whose purpose is to trigger a specific action.' ),
 		)
 	);
