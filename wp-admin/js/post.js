@@ -659,8 +659,10 @@ jQuery( function($) {
 			'li.popular-category > label input[type="checkbox"]',
 			function() {
 				var t = $(this), c = t.is(':checked'), id = t.val();
-				if ( id && t.parents('#taxonomy-'+taxonomy).length )
-					$('#in-' + taxonomy + '-' + id + ', #in-popular-' + taxonomy + '-' + id).prop( 'checked', c );
+				if ( id && t.parents('#taxonomy-'+taxonomy).length ) {
+					$('input[id^="in-' + taxonomy + '-' + id + '"]').prop('checked', c);
+					$('input#in-popular-' + taxonomy + '-' + id).prop('checked', c);
+				}
 			}
 		);
 
