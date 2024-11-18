@@ -250,7 +250,7 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr id="addnewusers">
 				<th scope="row"><?php _e( 'Add New Users' ); ?></th>
 				<td>
-					<label><input name="add_new_users" type="checkbox" id="add_new_users" value="1"<?php checked( get_site_option( 'add_new_users' ) ); ?> /> <?php _e( 'Allow site administrators to add new users to their site via the "Users &rarr; Add New" page' ); ?></label>
+					<label><input name="add_new_users" type="checkbox" id="add_new_users" value="1"<?php checked( get_site_option( 'add_new_users' ) ); ?> /> <?php _e( 'Allow site administrators to add new users to their site via the "Users &rarr; Add New User" page' ); ?></label>
 				</td>
 			</tr>
 
