@@ -4762,7 +4762,7 @@ function register_admin_color_schemes() {
 		'modern',
 		_x( 'Modern', 'admin color scheme' ),
 		admin_url( "css/colors/modern/colors$suffix.css" ),
-		array( '#1e1e1e', '#3858e9', '#33f078' ),
+		array( '#1e1e1e', '#3858e9', '#7b90ff' ),
 		array(
 			'base'    => '#f3f1f1',
 			'focus'   => '#fff',
