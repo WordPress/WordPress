@@ -270,11 +270,11 @@ p {
 	vertical-align: baseline;
 }
 
-.login .wp-login-logo {
+.login h1 {
 	text-align: center;
 }
 
-.login .wp-login-logo a {
+.login h1 a {
 	background-image: url(../images/w-logo-blue.png?ver=20131202);
 	background-image: none, url(../images/wordpress-logo.svg?ver=20131107);
 	background-size: 84px;
@@ -324,13 +324,13 @@ p {
 
 .login #nav a:hover,
 .login #backtoblog a:hover,
-.login .wp-login-logo a:hover {
+.login h1 a:hover {
 	color: #135e96;
 }
 
 .login #nav a:focus,
 .login #backtoblog a:focus,
-.login .wp-login-logo a:focus {
+.login h1 a:focus {
 	color: #043959;
 }
 
@@ -391,7 +391,7 @@ body.interim-login {
 	margin: 5px auto 20px;
 }
 
-.interim-login.login .wp-login-logo a {
+.interim-login.login h1 a {
 	width: auto;
 }
 
