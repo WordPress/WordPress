@@ -554,7 +554,8 @@ body.trashing #publish-settings {
 		.15s border-color ease-in-out;
 }
 
-.accordion-section-title:has(button.accordion-trigger) {
+.accordion-section-title:has(button.accordion-trigger),
+#customize-controls .current-panel .control-section > h3.accordion-section-title:has(button.accordion-trigger) {
 	padding: 0;
 }
 
@@ -562,9 +563,10 @@ body.trashing #publish-settings {
 	all: unset;
 	width: 100%;
 	height: 100%;
-	padding: 10px 14px 11px 10px;
+	padding: 10px 14px 11px 30px;
 	display: flex;
 	align-items: center;
+	box-sizing: border-box;
 }
 
 .accordion-section-title button.accordion-trigger:has(.menu-in-location) {
@@ -588,6 +590,7 @@ body.trashing #publish-settings {
 #customize-outer-theme-controls .accordion-section-title:after {
 	content: "\f341";
 	color: #a7aaad;
+	pointer-events: none;
 }
 
 #customize-theme-controls .accordion-section-content,
