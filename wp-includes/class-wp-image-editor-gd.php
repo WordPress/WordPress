@@ -103,20 +103,13 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
 
-		// WebP may not work with imagecreatefromstring().
+		// Handle WebP and AVIF mime types explicitly, falling back to imagecreatefromstring.
 		if (
-			function_exists( 'imagecreatefromwebp' ) &&
-			( 'image/webp' === wp_get_image_mime( $this->file ) )
+			function_exists( 'imagecreatefromwebp' ) && ( 'image/webp' === wp_get_image_mime( $this->file ) )
 		) {
 			$this->image = @imagecreatefromwebp( $this->file );
-		} else {
-			$this->image = @imagecreatefromstring( $file_contents );
-		}
-
-		// AVIF may not work with imagecreatefromstring().
-		if (
-			function_exists( 'imagecreatefromavif' ) &&
-			( 'image/avif' === wp_get_image_mime( $this->file ) )
+		} elseif (
+			function_exists( 'imagecreatefromavif' ) && ( 'image/avif' === wp_get_image_mime( $this->file ) )
 		) {
 			$this->image = @imagecreatefromavif( $this->file );
 		} else {
