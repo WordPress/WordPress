@@ -557,6 +557,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			return false;
 		}
 
+		if ( isset( $query['tag_name'] ) ) {
+			$query['tag_name'] = strtoupper( $query['tag_name'] );
+		}
+
 		$needs_class = ( isset( $query['class_name'] ) && is_string( $query['class_name'] ) )
 			? $query['class_name']
 			: null;
