@@ -1090,19 +1090,6 @@ HTML;
 		if ( 'enter' === $mode && ! $this->has_processed_router_region ) {
 			$this->has_processed_router_region = true;
 
-			/*
-			 * Initialize the `core/router` store.
-			 * If the store is not initialized like this with minimal
-			 * navigation object, the interactivity-router script module
-			 * errors.
-			 */
-			$this->state(
-				'core/router',
-				array(
-					'navigation' => new stdClass(),
-				)
-			);
-
 			// Enqueues as an inline style.
 			wp_register_style( 'wp-interactivity-router-animations', false );
 			wp_add_inline_style( 'wp-interactivity-router-animations', $this->get_router_animation_styles() );
