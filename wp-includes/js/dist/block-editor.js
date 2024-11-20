@@ -47222,7 +47222,8 @@ function PatternList({
         return true;
       }
       if (selectedCategory === 'uncategorized') {
-        const hasKnownCategory = pattern.categories.some(category => registeredPatternCategories.includes(category));
+        var _pattern$categories$s;
+        const hasKnownCategory = (_pattern$categories$s = pattern.categories?.some(category => registeredPatternCategories.includes(category))) !== null && _pattern$categories$s !== void 0 ? _pattern$categories$s : false;
         return !pattern.categories?.length || !hasKnownCategory;
       }
       return pattern.categories?.includes(selectedCategory);
