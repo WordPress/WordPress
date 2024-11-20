@@ -1137,8 +1137,12 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 			}
 		}
 
+		/** This filter is documented in wp-includes/media.php */
+		$add_auto_sizes = apply_filters( 'wp_img_tag_add_auto_sizes', true );
+
 		// Adds 'auto' to the sizes attribute if applicable.
 		if (
+			$add_auto_sizes &&
 			isset( $attr['loading'] ) &&
 			'lazy' === $attr['loading'] &&
 			isset( $attr['sizes'] ) &&
@@ -1985,6 +1989,17 @@ function wp_filter_content_tags( $content, $context = null ) {
  * @return string The filtered image tag markup.
  */
 function wp_img_tag_add_auto_sizes( string $image ): string {
+	/**
+	 * Filters whether auto-sizes for lazy loaded images is enabled.
+	 *
+	 * @since 6.7.1
+	 *
+	 * @param boolean $enabled Whether auto-sizes for lazy loaded images is enabled.
+	 */
+	if ( ! apply_filters( 'wp_img_tag_add_auto_sizes', true ) ) {
+		return $image;
+	}
+
 	$processor = new WP_HTML_Tag_Processor( $image );
 
 	// Bail if there is no IMG tag.
@@ -1993,8 +2008,19 @@ function wp_img_tag_add_auto_sizes( string $image ): string {
 	}
 
 	// Bail early if the image is not lazy-loaded.
-	$value = $processor->get_attribute( 'loading' );
-	if ( ! is_string( $value ) || 'lazy' !== strtolower( trim( $value, " \t\f\r\n" ) ) ) {
+	$loading = $processor->get_attribute( 'loading' );
+	if ( ! is_string( $loading ) || 'lazy' !== strtolower( trim( $loading, " \t\f\r\n" ) ) ) {
+		return $image;
+	}
+
+	/*
+	 * Bail early if the image doesn't have a width attribute.
+	 * Per WordPress Core itself, lazy-loaded images should always have a width attribute.
+	 * However, it is possible that lazy-loading could be added by a plugin, where we don't have that guarantee.
+	 * As such, it still makes sense to ensure presence of a width attribute here in order to use `sizes=auto`.
+	 */
+	$width = $processor->get_attribute( 'width' );
+	if ( ! is_string( $width ) || '' === $width ) {
 		return $image;
 	}
 
@@ -2027,6 +2053,28 @@ function wp_img_tag_add_auto_sizes( string $image ): string {
 function wp_sizes_attribute_includes_valid_auto( string $sizes_attr ): bool {
 	list( $first_size ) = explode( ',', $sizes_attr, 2 );
 	return 'auto' === strtolower( trim( $first_size, " \t\f\r\n" ) );
+}
+
+/**
+ * Prints a CSS rule to fix potential visual issues with images using `sizes=auto`.
+ *
+ * This rule overrides the similar rule in the default user agent stylesheet, to avoid images that use e.g.
+ * `width: auto` or `width: fit-content` to appear smaller.
+ *
+ * @since 6.7.1
+ * @see https://html.spec.whatwg.org/multipage/rendering.html#img-contain-size
+ * @see https://core.trac.wordpress.org/ticket/62413
+ */
+function wp_print_auto_sizes_contain_css_fix() {
+	/** This filter is documented in wp-includes/media.php */
+	$add_auto_sizes = apply_filters( 'wp_img_tag_add_auto_sizes', true );
+	if ( ! $add_auto_sizes ) {
+		return;
+	}
+
+	?>
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<?php
 }
 
 /**
