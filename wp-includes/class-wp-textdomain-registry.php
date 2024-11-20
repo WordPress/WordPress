@@ -153,6 +153,16 @@ class WP_Textdomain_Registry {
 	 * @param string $path   Language directory path.
 	 */
 	public function set_custom_path( $domain, $path ) {
+		// If just-in-time loading was triggered before, reset the entry so it can be tried again.
+
+		if ( isset( $this->all[ $domain ] ) ) {
+			$this->all[ $domain ] = array_filter( $this->all[ $domain ] );
+		}
+
+		if ( empty( $this->current[ $domain ] ) ) {
+			unset( $this->current[ $domain ] );
+		}
+
 		$this->custom_paths[ $domain ] = rtrim( $path, '/' );
 	}
 
@@ -336,7 +346,7 @@ class WP_Textdomain_Registry {
 		 * If no path is found for the given locale and a custom path has been set
 		 * using load_plugin_textdomain/load_theme_textdomain, use that one.
 		 */
-		if ( 'en_US' !== $locale && isset( $this->custom_paths[ $domain ] ) ) {
+		if ( isset( $this->custom_paths[ $domain ] ) ) {
 			$fallback_location = rtrim( $this->custom_paths[ $domain ], '/' ) . '/';
 			$this->set( $domain, $locale, $fallback_location );
 			return $fallback_location;
