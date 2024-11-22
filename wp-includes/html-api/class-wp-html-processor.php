@@ -464,7 +464,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * @return static|null The created processor if successful, otherwise null.
 	 */
 	public function create_fragment_at_current_node( string $html ) {
-		if ( $this->get_token_type() !== '#tag' ) {
+		if ( $this->get_token_type() !== '#tag' || $this->is_tag_closer() ) {
 			return null;
 		}
 
