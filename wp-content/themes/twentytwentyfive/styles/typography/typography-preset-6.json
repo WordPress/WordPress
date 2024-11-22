@@ -1,6 +1,6 @@
 {
 	"version": 3,
-	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
 	"title": "Platypi & Literata",
 	"slug": "typography-preset-6",
 	"settings": {
