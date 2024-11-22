@@ -18,6 +18,32 @@ function _add_template_loader_filters() {
 }
 
 /**
+ * Renders a warning screen for empty block templates.
+ *
+ * @since 6.8.0
+ *
+ * @param WP_Block_Template $block_template The block template object.
+ * @return string The warning screen HTML.
+ */
+function wp_render_empty_block_template_warning( $block_template ) {
+	wp_enqueue_style( 'wp-empty-template-alert' );
+	return sprintf(
+		/* translators: %1$s: Block template title. %2$s: Empty template warning message. %3$s: Edit template link. %4$s: Edit template button label. */
+		'<div id="wp-empty-template-alert">
+			<h2>%1$s</h2>
+			<p>%2$s</p>
+			<a href="%3$s" class="wp-element-button">
+				%4$s
+			</a>
+		</div>',
+		esc_html( $block_template->title ),
+		__( 'This page is blank because the template is empty. You can reset or customize it in the Site Editor.' ),
+		get_edit_post_link( $block_template->wp_id, 'site-editor' ),
+		__( 'Edit template' )
+	);
+}
+
+/**
  * Finds a block template with equal or higher specificity than a given PHP template file.
  *
  * Internally, this communicates the block content that needs to be used by the template canvas through a global variable.
@@ -68,13 +94,18 @@ function locate_block_template( $template, $type, array $templates ) {
 	if ( $block_template ) {
 		$_wp_current_template_id = $block_template->id;
 
-		if ( empty( $block_template->content ) && is_user_logged_in() ) {
-			$_wp_current_template_content =
-			sprintf(
-				/* translators: %s: Template title */
-				__( 'Empty template: %s' ),
-				$block_template->title
-			);
+		if ( empty( $block_template->content ) ) {
+			if ( is_user_logged_in() ) {
+				$_wp_current_template_content = wp_render_empty_block_template_warning( $block_template );
+			} else {
+				if ( $block_template->has_theme_file ) {
+					// Show contents from theme template if user is not logged in.
+					$theme_template = _get_block_template_file( 'wp_template', $block_template->slug );
+					$_wp_current_template_content = file_get_contents( $theme_template['path'] );
+				} else {
+					$_wp_current_template_content = $block_template->content;
+				}
+			}
 		} elseif ( ! empty( $block_template->content ) ) {
 			$_wp_current_template_content = $block_template->content;
 		}
