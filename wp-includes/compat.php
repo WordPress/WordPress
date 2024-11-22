@@ -415,6 +415,10 @@ if ( ! function_exists( 'array_key_first' ) ) {
 	 *                         is not empty; `null` otherwise.
 	 */
 	function array_key_first( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+		if ( empty( $array ) ) {
+			return null;
+		}
+
 		foreach ( $array as $key => $value ) {
 			return $key;
 		}
