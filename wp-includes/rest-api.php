@@ -818,9 +818,6 @@ function rest_handle_options_request( $response, $handler, $request ) {
 		}
 
 		foreach ( $endpoints as $endpoint ) {
-			// Remove the redundant preg_match() argument.
-			unset( $args[0] );
-
 			$request->set_url_params( $args );
 			$request->set_attributes( $endpoint );
 		}
