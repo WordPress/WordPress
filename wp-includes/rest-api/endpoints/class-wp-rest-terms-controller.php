@@ -227,6 +227,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Retrieves terms associated with a taxonomy.
 	 *
 	 * @since 4.7.0
+	 * @since 6.8.0 Respect default query arguments set for the taxonomy upon registration.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -293,6 +294,22 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 					$prepared_args['parent'] = $request['parent'];
 				}
 			}
+		}
+
+		/*
+		 * When a taxonomy is registered with an 'args' array,
+		 * those params override the `$args` passed to this function.
+		 *
+		 * We only need to do this if no `post` argument is provided.
+		 * Otherwise, terms will be fetched using `wp_get_object_terms()`,
+		 * which respects the default query arguments set for the taxonomy.
+		 */
+		if (
+			empty( $prepared_args['post'] ) &&
+			isset( $taxonomy_obj->args ) &&
+			is_array( $taxonomy_obj->args )
+		) {
+			$prepared_args = array_merge( $prepared_args, $taxonomy_obj->args );
 		}
 
 		/**
