@@ -710,8 +710,9 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 		$username   = $cookie_elements['username'];
 		$hmac       = $cookie_elements['hmac'];
 		$token      = $cookie_elements['token'];
-		$expired    = $cookie_elements['expiration'];
 		$expiration = $cookie_elements['expiration'];
+
+		$expired = (int) $expiration;
 
 		// Allow a grace period for POST and Ajax requests.
 		if ( wp_doing_ajax() || 'POST' === $_SERVER['REQUEST_METHOD'] ) {
