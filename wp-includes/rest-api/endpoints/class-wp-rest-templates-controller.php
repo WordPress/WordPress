@@ -872,7 +872,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 				$theme_name = wp_get_theme( $template_object->theme )->get( 'Name' );
 				return empty( $theme_name ) ? $template_object->theme : $theme_name;
 			case 'plugin':
-				if ( ! function_exists( 'get_plugins' ) || ! function_exists( 'get_plugin_data' ) ) {
+				if ( ! function_exists( 'get_plugins' ) ) {
 					require_once ABSPATH . 'wp-admin/includes/plugin.php';
 				}
 				if ( isset( $template_object->plugin ) ) {
