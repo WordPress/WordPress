@@ -679,14 +679,15 @@ $GLOBALS['wp_locale_switcher']->init();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
 foreach ( wp_get_active_and_valid_themes() as $theme ) {
+	$wp_theme = wp_get_theme( basename( $theme ) );
+
 	if ( file_exists( $theme . '/functions.php' ) ) {
 		include $theme . '/functions.php';
 	}
 
-	$theme = wp_get_theme( basename( $theme ) );
-	$theme->load_textdomain();
+	$wp_theme->load_textdomain();
 }
-unset( $theme );
+unset( $theme, $wp_theme );
 
 /**
  * Fires after the theme is loaded.
