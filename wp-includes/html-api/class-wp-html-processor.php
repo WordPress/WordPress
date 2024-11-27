@@ -279,51 +279,62 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * form is provided because a context element may have attributes that
 	 * impact the parse, such as with a SCRIPT tag and its `type` attribute.
 	 *
-	 * ## Current HTML Support
+	 * Example:
 	 *
-	 *  - The only supported context is `<body>`, which is the default value.
-	 *  - The only supported document encoding is `UTF-8`, which is the default value.
+	 *     // Usually, snippets of HTML ought to be processed in the default `<body>` context:
+	 *     $processor = WP_HTML_Processor::create_fragment( '<p>Hi</p>' );
+	 *
+	 *     // Some fragments should be processed in the correct context like this SVG:
+	 *     $processor = WP_HTML_Processor::create_fragment( '<rect width="10" height="10" />', '<svg>' );
+	 *
+	 *     // This fragment with TD tags should be processed in a TR context:
+	 *     $processor = WP_HTML_Processor::create_fragment(
+	 *         '<td>1<td>2<td>3',
+	 *         '<table><tbody><tr>'
+	 *     );
+	 *
+	 * In order to create a fragment processor at the correct location, the
+	 * provided fragment will be processed as part of a full HTML document.
+	 * The processor will search for the last opener tag in the document and
+	 * create a fragment processor at that location. The document will be
+	 * forced into "no-quirks" mode by including the HTML5 doctype.
+	 *
+	 * For advanced usage and precise control over the context element, use
+	 * `WP_HTML_Processor::create_full_processor()` and
+	 * `WP_HTML_Processor::create_fragment_at_current_node()`.
+	 *
+	 * UTF-8 is the only allowed encoding. If working with a document that
+	 * isn't UTF-8, first convert the document to UTF-8, then pass in the
+	 * converted HTML.
 	 *
 	 * @since 6.4.0
 	 * @since 6.6.0 Returns `static` instead of `self` so it can create subclass instances.
+	 * @since 6.8.0 Can create fragments with any context element.
 	 *
 	 * @param string $html     Input HTML fragment to process.
-	 * @param string $context  Context element for the fragment, must be default of `<body>`.
+	 * @param string $context  Context element for the fragment. Defaults to `<body>`.
 	 * @param string $encoding Text encoding of the document; must be default of 'UTF-8'.
 	 * @return static|null The created processor if successful, otherwise null.
 	 */
 	public static function create_fragment( $html, $context = '<body>', $encoding = 'UTF-8' ) {
-		if ( '<body>' !== $context || 'UTF-8' !== $encoding ) {
+		$context_processor = static::create_full_parser( "<!DOCTYPE html>{$context}", $encoding );
+		if ( null === $context_processor ) {
 			return null;
 		}
 
-		$processor                             = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
-		$processor->state->insertion_mode      = WP_HTML_Processor_State::INSERTION_MODE_IN_BODY;
-		$processor->state->encoding            = $encoding;
-		$processor->state->encoding_confidence = 'certain';
+		while ( $context_processor->next_tag() ) {
+			$context_processor->set_bookmark( 'final_node' );
+		}
 
-		// @todo Create "fake" bookmarks for non-existent but implied nodes.
-		$processor->bookmarks['root-node']    = new WP_HTML_Span( 0, 0 );
-		$processor->bookmarks['context-node'] = new WP_HTML_Span( 0, 0 );
+		if (
+			! $context_processor->has_bookmark( 'final_node' ) ||
+			! $context_processor->seek( 'final_node' )
+		) {
+			_doing_it_wrong( __METHOD__, __( 'No valid context element was detected.' ), '6.8.0' );
+			return null;
+		}
 
-		$root_node = new WP_HTML_Token(
-			'root-node',
-			'HTML',
-			false
-		);
-
-		$processor->state->stack_of_open_elements->push( $root_node );
-
-		$context_node = new WP_HTML_Token(
-			'context-node',
-			'BODY',
-			false
-		);
-
-		$processor->context_node = $context_node;
-		$processor->breadcrumbs  = array( 'HTML', $context_node->node_name );
-
-		return $processor;
+		return $context_processor->create_fragment_at_current_node( $html );
 	}
 
 	/**
@@ -333,9 +344,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * entire HTML document from start to finish. Consider a fragment parser with
 	 * a context node of `<body>`.
 	 *
-	 * Since UTF-8 is the only currently-accepted charset, if working with a
-	 * document that isn't UTF-8, it's important to convert the document before
-	 * creating the processor: pass in the converted HTML.
+	 * UTF-8 is the only allowed encoding. If working with a document that
+	 * isn't UTF-8, first convert the document to UTF-8, then pass in the
+	 * converted HTML.
 	 *
 	 * @param string      $html                    Input HTML document to process.
 	 * @param string|null $known_definite_encoding Optional. If provided, specifies the charset used
@@ -459,15 +470,36 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @see https://html.spec.whatwg.org/multipage/parsing.html#html-fragment-parsing-algorithm
 	 *
+	 * @since 6.8.0
+	 *
 	 * @param string $html Input HTML fragment to process.
 	 * @return static|null The created processor if successful, otherwise null.
 	 */
 	public function create_fragment_at_current_node( string $html ) {
 		if ( $this->get_token_type() !== '#tag' || $this->is_tag_closer() ) {
+			_doing_it_wrong(
+				__METHOD__,
+				__( 'The context element must be a start tag.' ),
+				'6.8.0'
+			);
 			return null;
 		}
 
+		$tag_name  = $this->current_element->token->node_name;
 		$namespace = $this->current_element->token->namespace;
+
+		if ( 'html' === $namespace && self::is_void( $tag_name ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					// translators: %s: A tag name like INPUT or BR.
+					__( 'The context element cannot be a void element, found "%s".' ),
+					$tag_name
+				),
+				'6.8.0'
+			);
+			return null;
+		}
 
 		/*
 		 * Prevent creating fragments at nodes that require a special tokenizer state.
@@ -475,19 +507,35 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 		 */
 		if (
 			'html' === $namespace &&
-			in_array( $this->current_element->token->node_name, array( 'IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP', 'PLAINTEXT' ), true )
+			in_array( $tag_name, array( 'IFRAME', 'NOEMBED', 'NOFRAMES', 'SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'XMP', 'PLAINTEXT' ), true )
 		) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					// translators: %s: A tag name like IFRAME or TEXTAREA.
+					__( 'The context element "%s" is not supported.' ),
+					$tag_name
+				),
+				'6.8.0'
+			);
 			return null;
 		}
 
-		$fragment_processor = static::create_fragment( $html );
-		if ( null === $fragment_processor ) {
-			return null;
-		}
+		$fragment_processor = new static( $html, self::CONSTRUCTOR_UNLOCK_CODE );
 
 		$fragment_processor->compat_mode = $this->compat_mode;
 
-		$fragment_processor->context_node                = clone $this->state->current_token;
+		// @todo Create "fake" bookmarks for non-existent but implied nodes.
+		$fragment_processor->bookmarks['root-node'] = new WP_HTML_Span( 0, 0 );
+		$root_node                                  = new WP_HTML_Token(
+			'root-node',
+			'HTML',
+			false
+		);
+		$fragment_processor->state->stack_of_open_elements->push( $root_node );
+
+		$fragment_processor->bookmarks['context-node']   = new WP_HTML_Span( 0, 0 );
+		$fragment_processor->context_node                = clone $this->current_element->token;
 		$fragment_processor->context_node->bookmark_name = 'context-node';
 		$fragment_processor->context_node->on_destroy    = null;
 
