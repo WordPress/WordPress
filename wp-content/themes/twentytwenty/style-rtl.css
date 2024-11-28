@@ -3525,6 +3525,10 @@ figure.wp-block-table.is-style-stripes {
 	margin-top: 0;
 }
 
+.wp-block-latest-posts__post-full-content > p:first-child {
+	margin-top: 1em;
+}
+
 /* Block: Post Template ---------------- */
 
 .wp-block-post-template,
