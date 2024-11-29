@@ -35,7 +35,13 @@ function _register_core_block_patterns_and_categories() {
 		}
 	}
 
-	register_block_pattern_category( 'banner', array( 'label' => _x( 'Banners', 'Block pattern category' ) ) );
+	register_block_pattern_category(
+		'banner',
+		array(
+			'label'       => _x( 'Banners', 'Block pattern category' ),
+			'description' => __( 'Bold sections designed to showcase key content.' ),
+		)
+	);
 	register_block_pattern_category(
 		'buttons',
 		array(
