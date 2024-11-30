@@ -470,7 +470,7 @@ class WP_Theme_JSON {
 		),
 	);
 
-	/*
+	/**
 	 * The valid properties for fontFamilies under settings key.
 	 *
 	 * @since 6.5.0
