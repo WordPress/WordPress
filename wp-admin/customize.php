@@ -100,6 +100,12 @@ if ( ! empty( $autofocus ) ) {
 	$wp_customize->set_autofocus( $autofocus );
 }
 
+// Let's roll.
+header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
+
+wp_user_settings();
+_wp_admin_html_begin();
+
 $registered             = $wp_scripts->registered;
 $wp_scripts             = new WP_Scripts();
 $wp_scripts->registered = $registered;
@@ -125,12 +131,6 @@ wp_enqueue_style( 'customize-controls' );
  * @since 3.4.0
  */
 do_action( 'customize_controls_enqueue_scripts' );
-
-// Let's roll.
-header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
-
-wp_user_settings();
-_wp_admin_html_begin();
 
 $body_class = 'wp-core-ui wp-customizer js';
 
