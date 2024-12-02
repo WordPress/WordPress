@@ -1,7 +1,7 @@
 /**
  * Base Styles
  */
-.media-modal * {
+ .media-modal * {
 	box-sizing: content-box;
 }
 
@@ -1040,11 +1040,13 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	transform: translate( 50%, 50% );
 }
 
 .wp-core-ui .attachment .thumbnail .centered img {
-	transform: translate( -50%, -50% );
+	object-position: center;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
 }
 
 .wp-core-ui .attachments-browser .attachment .thumbnail .centered img.icon {
