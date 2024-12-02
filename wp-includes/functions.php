@@ -7146,6 +7146,97 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 }
 
 /**
+ * Determines whether a plugin is active.
+ *
+ * Only plugins installed in the plugins/ folder can be active.
+ *
+ * Plugins in the mu-plugins/ folder can't be "activated," so this function will
+ * return false for those plugins.
+ *
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * Conditional Tags} article in the Theme Developer Handbook.
+ *
+ * @since 2.5.0
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return bool True, if in the active plugins list. False, not in the list.
+ */
+function is_plugin_active( $plugin ) {
+	return in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) || is_plugin_active_for_network( $plugin );
+}
+
+/**
+ * Determines whether the plugin is inactive.
+ *
+ * Reverse of is_plugin_active(). Used as a callback.
+ *
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * Conditional Tags} article in the Theme Developer Handbook.
+ *
+ * @since 3.1.0
+ *
+ * @see is_plugin_active()
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return bool True if inactive. False if active.
+ */
+function is_plugin_inactive( $plugin ) {
+	return ! is_plugin_active( $plugin );
+}
+
+/**
+ * Determines whether the plugin is active for the entire network.
+ *
+ * Only plugins installed in the plugins/ folder can be active.
+ *
+ * Plugins in the mu-plugins/ folder can't be "activated," so this function will
+ * return false for those plugins.
+ *
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * Conditional Tags} article in the Theme Developer Handbook.
+ *
+ * @since 3.0.0
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return bool True if active for the network, otherwise false.
+ */
+function is_plugin_active_for_network( $plugin ) {
+	if ( ! is_multisite() ) {
+		return false;
+	}
+
+	$plugins = get_site_option( 'active_sitewide_plugins' );
+	if ( isset( $plugins[ $plugin ] ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Checks for "Network: true" in the plugin header to see if this should
+ * be activated only as a network wide plugin. The plugin would also work
+ * when Multisite is not enabled.
+ *
+ * Checks for "Site Wide Only: true" for backward compatibility.
+ *
+ * @since 3.0.0
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return bool True if plugin is network only, false otherwise.
+ */
+function is_network_only_plugin( $plugin ) {
+	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	if ( $plugin_data ) {
+		return $plugin_data['Network'];
+	}
+	return false;
+}
+
+/**
  * Returns true.
  *
  * Useful for returning true to filters easily.
