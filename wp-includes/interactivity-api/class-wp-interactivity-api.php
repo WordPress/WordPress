@@ -579,6 +579,36 @@ final class WP_Interactivity_API {
 		$path_segments = explode( '.', $path );
 		$current       = $store;
 		foreach ( $path_segments as $path_segment ) {
+			/*
+			 * Special case for numeric arrays and strings. Add length
+			 * property mimicking JavaScript behavior.
+			 *
+			 * @since 6.8.0
+			 */
+			if ( 'length' === $path_segment ) {
+				if ( is_array( $current ) && array_is_list( $current ) ) {
+					$current = count( $current );
+					break;
+				}
+
+				if ( is_string( $current ) ) {
+					/*
+					 * Differences in encoding between PHP strings and
+					 * JavaScript mean that it's complicated to calculate
+					 * the string length JavaScript would see from PHP.
+					 * `strlen` is a reasonable approximation.
+					 *
+					 * Users that desire a more precise length likely have
+					 * more precise needs than "bytelength" and should
+					 * implement their own length calculation in derived
+					 * state taking into account encoding and their desired
+					 * output (codepoints, graphemes, bytes, etc.).
+					 */
+					$current = strlen( $current );
+					break;
+				}
+			}
+
 			if ( ( is_array( $current ) || $current instanceof ArrayAccess ) && isset( $current[ $path_segment ] ) ) {
 				$current = $current[ $path_segment ];
 			} elseif ( is_object( $current ) && isset( $current->$path_segment ) ) {
