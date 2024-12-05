@@ -337,6 +337,26 @@ class WP_Locale {
 	}
 
 	/**
+	 * Retrieves translated version of month genitive string.
+	 *
+	 * The $month_number parameter has to be a string
+	 * because it must have the '0' in front of any number
+	 * that is less than 10. Starts from '01' and ends at
+	 * '12'.
+	 *
+	 * You can use an integer instead and it will add the
+	 * '0' before the numbers less than 10 for you.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param string|int $month_number '01' through '12'.
+	 * @return string Translated genitive month name.
+	 */
+	public function get_month_genitive( $month_number ) {
+		return $this->month_genitive[ zeroise( $month_number, 2 ) ];
+	}
+
+	/**
 	 * Retrieves translated version of meridiem string.
 	 *
 	 * The $meridiem parameter is expected to not be translated.
