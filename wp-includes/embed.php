@@ -721,7 +721,7 @@ function get_oembed_response_data_rich( $data, $post, $width, $height ) {
 	}
 
 	if ( $thumbnail_id ) {
-		list( $thumbnail_url, $thumbnail_width, $thumbnail_height ) = wp_get_attachment_image_src( $thumbnail_id, array( $width, 99999 ) );
+		list( $thumbnail_url, $thumbnail_width, $thumbnail_height ) = wp_get_attachment_image_src( $thumbnail_id, array( $width, 0 ) );
 		$data['thumbnail_url']                                      = $thumbnail_url;
 		$data['thumbnail_width']                                    = $thumbnail_width;
 		$data['thumbnail_height']                                   = $thumbnail_height;
