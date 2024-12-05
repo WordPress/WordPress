@@ -442,6 +442,7 @@ class WP_Query {
 	 * via pre_get_posts hooks.
 	 *
 	 * @since 3.1.1
+	 * @var bool
 	 */
 	private $query_vars_changed = true;
 
