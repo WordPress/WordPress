@@ -518,6 +518,9 @@ if ( ! is_multisite() && wp_is_fatal_error_handler_enabled() ) {
 	wp_recovery_mode()->initialize();
 }
 
+// To make get_plugin_data() available in a way that's compatible with plugins also loading this file, see #62244.
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
 // Load active plugins.
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
 	wp_register_plugin_realpath( $plugin );
