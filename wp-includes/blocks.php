@@ -1217,6 +1217,7 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 	$existing_post = get_post( $post->ID );
 	// Merge the existing post object with the updated post object to pass to the block hooks algorithm for context.
 	$context          = (object) array_merge( (array) $existing_post, (array) $post );
+	$context          = new WP_Post( $context ); // Convert to WP_Post object.
 	$serialized_block = apply_block_hooks_to_content( $markup, $context, 'set_ignored_hooked_blocks_metadata' );
 	$root_block       = parse_blocks( $serialized_block )[0];
 
