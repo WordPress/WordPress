@@ -14,7 +14,7 @@ require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 $action          = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
 $user_id         = ! empty( $_REQUEST['user_id'] ) ? absint( $_REQUEST['user_id'] ) : 0;
-$wp_http_referer = ! empty( $_REQUEST['wp_http_referer'] ) ? sanitize_text_field( $_REQUEST['wp_http_referer'] ) : '';
+$wp_http_referer = ! empty( $_REQUEST['wp_http_referer'] ) ? sanitize_url( $_REQUEST['wp_http_referer'] ) : '';
 
 $current_user = wp_get_current_user();
 
