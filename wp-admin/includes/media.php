@@ -773,7 +773,7 @@ function media_upload_form_handler() {
 				$post['menu_order'] = $attachment['menu_order'];
 			}
 
-			if ( isset( $send_id ) && $attachment_id == $send_id ) {
+			if ( isset( $send_id ) && $attachment_id === $send_id ) {
 				if ( isset( $attachment['post_parent'] ) ) {
 					$post['post_parent'] = $attachment['post_parent'];
 				}
