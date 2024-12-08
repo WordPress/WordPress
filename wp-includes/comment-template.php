@@ -961,7 +961,7 @@ function comments_number( $zero = false, $one = false, $more = false, $post = 0 
  * @return string Language string for the number of comments a post has.
  */
 function get_comments_number_text( $zero = false, $one = false, $more = false, $post = 0 ) {
-	$comments_number = get_comments_number( $post );
+	$comments_number = (int) get_comments_number( $post );
 
 	if ( $comments_number > 1 ) {
 		if ( false === $more ) {
@@ -996,7 +996,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false, $
 
 			$comments_number_text = str_replace( '%', number_format_i18n( $comments_number ), $more );
 		}
-	} elseif ( 0 == $comments_number ) {
+	} elseif ( 0 === $comments_number ) {
 		$comments_number_text = ( false === $zero ) ? __( 'No Comments' ) : $zero;
 	} else { // Must be one.
 		$comments_number_text = ( false === $one ) ? __( '1 Comment' ) : $one;
@@ -1648,7 +1648,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
 	$post_id         = get_the_ID();
 	$post_title      = get_the_title();
-	$comments_number = get_comments_number( $post_id );
+	$comments_number = (int) get_comments_number( $post_id );
 
 	if ( false === $zero ) {
 		/* translators: %s: Post title. */
@@ -1675,7 +1675,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 		$none = sprintf( __( 'Comments Off<span class="screen-reader-text"> on %s</span>' ), $post_title );
 	}
 
-	if ( 0 == $comments_number && ! comments_open() && ! pings_open() ) {
+	if ( 0 === $comments_number && ! comments_open() && ! pings_open() ) {
 		printf(
 			'<span%1$s>%2$s</span>',
 			! empty( $css_class ) ? ' class="' . esc_attr( $css_class ) . '"' : '',
@@ -1689,7 +1689,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 		return;
 	}
 
-	if ( 0 == $comments_number ) {
+	if ( 0 === $comments_number ) {
 		$respond_link = get_permalink() . '#respond';
 		/**
 		 * Filters the respond link when a post has no comments.
@@ -1773,7 +1773,10 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 
 	$args = wp_parse_args( $args, $defaults );
 
-	if ( 0 == $args['depth'] || $args['max_depth'] <= $args['depth'] ) {
+	$args['max_depth'] = (int) $args['max_depth'];
+	$args['depth']     = (int) $args['depth'];
+
+	if ( 0 === $args['depth'] || $args['max_depth'] <= $args['depth'] ) {
 		return;
 	}
 
