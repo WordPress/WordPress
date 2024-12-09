@@ -1317,6 +1317,8 @@ class WP_Theme_JSON {
 	 *                          - `variables`: only the CSS Custom Properties for presets & custom ones.
 	 *                          - `styles`: only the styles section in theme.json.
 	 *                          - `presets`: only the classes for the presets.
+	 *                          - `base-layout-styles`: only the base layout styles.
+	 *                          - `custom-css`: only the custom CSS.
 	 * @param string[] $origins A list of origins to include. By default it includes VALID_ORIGINS.
 	 * @param array    $options {
 	 *     Optional. An array of options for now used for internal purposes only (may change without notice).

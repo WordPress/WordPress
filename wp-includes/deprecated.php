@@ -6316,7 +6316,7 @@ function wp_interactivity_process_directives_of_interactive_blocks( array $parse
  * Gets the global styles custom CSS from theme.json.
  *
  * @since 6.2.0
- * @deprecated 6.7.0 Use {@see 'wp_get_global_stylesheet'} instead.
+ * @deprecated 6.7.0 Use {@see 'wp_get_global_stylesheet'} instead for top-level custom CSS, or {@see 'WP_Theme_JSON::get_styles_for_block'} for block-level custom CSS.
  *
  * @return string The global styles custom CSS.
  */
