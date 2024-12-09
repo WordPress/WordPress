@@ -2318,7 +2318,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				 */
 
 				$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_AFTER_BODY;
-				return true;
+				/*
+				 * The BODY element is not removed from the stack of open elements.
+				 * Only internal state has changed, this does not qualify as a "step"
+				 * in terms of advancing through the document to another token.
+				 * Nothing has been pushed or popped.
+				 * Proceed to parse the next item.
+				 */
+				return $this->step();
 
 			/*
 			 * > An end tag whose tag name is "html"
@@ -4391,7 +4398,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 				}
 
 				$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_AFTER_AFTER_BODY;
-				return true;
+				/*
+				 * The HTML element is not removed from the stack of open elements.
+				 * Only internal state has changed, this does not qualify as a "step"
+				 * in terms of advancing through the document to another token.
+				 * Nothing has been pushed or popped.
+				 * Proceed to parse the next item.
+				 */
+				return $this->step();
 		}
 
 		/*
@@ -4586,7 +4600,14 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case '-HTML':
 				$this->state->insertion_mode = WP_HTML_Processor_State::INSERTION_MODE_AFTER_AFTER_FRAMESET;
-				return true;
+				/*
+				 * The HTML element is not removed from the stack of open elements.
+				 * Only internal state has changed, this does not qualify as a "step"
+				 * in terms of advancing through the document to another token.
+				 * Nothing has been pushed or popped.
+				 * Proceed to parse the next item.
+				 */
+				return $this->step();
 
 			/*
 			 * > A start tag whose tag name is "noframes"
