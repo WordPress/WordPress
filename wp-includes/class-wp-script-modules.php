@@ -407,14 +407,15 @@ class WP_Script_Modules {
 			 * initialization or immediately on page load. It does not replace the REST API or
 			 * fetching data from the client.
 			 *
-			 * @example
-			 *   add_filter(
-			 *     'script_module_data_MyScriptModuleID',
-			 *     function ( array $data ): array {
-			 *       $data['script-needs-this-data'] = 'ok';
-			 *       return $data;
-			 *     }
-			 *   );
+			 * Example:
+			 *
+			 *     add_filter(
+			 *         'script_module_data_MyScriptModuleID',
+			 *         function ( array $data ): array {
+			 *             $data['dataForClient'] = 'ok';
+			 *             return $data;
+			 *         }
+			 *     );
 			 *
 			 * If the filter returns no data (an empty array), nothing will be embedded in the page.
 			 *
@@ -423,15 +424,17 @@ class WP_Script_Modules {
 			 *
 			 * The data can be read on the client with a pattern like this:
 			 *
-			 * @example
-			 *   const dataContainer = document.getElementById( 'wp-script-module-data-MyScriptModuleID' );
-			 *   let data = {};
-			 *   if ( dataContainer ) {
-			 *     try {
-			 *       data = JSON.parse( dataContainer.textContent );
-			 *     } catch {}
-			 *   }
-			 *   initMyScriptModuleWithData( data );
+			 * Example:
+			 *
+			 *     const dataContainer = document.getElementById( 'wp-script-module-data-MyScriptModuleID' );
+			 *     let data = {};
+			 *     if ( dataContainer ) {
+			 *         try {
+			 *             data = JSON.parse( dataContainer.textContent );
+			 *         } catch {}
+			 *     }
+			 *     // data.dataForClient === 'ok';
+			 *     initMyScriptModuleWithData( data );
 			 *
 			 * @since 6.7.0
 			 *
