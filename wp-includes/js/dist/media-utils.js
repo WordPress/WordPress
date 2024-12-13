@@ -59,11 +59,11 @@ __webpack_require__.d(__webpack_exports__, {
   validateMimeTypeForUser: () => (/* reexport */ validateMimeTypeForUser)
 });
 
-;// CONCATENATED MODULE: external ["wp","element"]
+;// external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
-;// CONCATENATED MODULE: external ["wp","i18n"]
+;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/components/media-upload/index.js
+;// ./node_modules/@wordpress/media-utils/build-module/components/media-upload/index.js
 /**
  * WordPress dependencies
  */
@@ -491,15 +491,15 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
 }
 /* harmony default export */ const media_upload = (MediaUpload);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/components/index.js
+;// ./node_modules/@wordpress/media-utils/build-module/components/index.js
 
 
-;// CONCATENATED MODULE: external ["wp","blob"]
+;// external ["wp","blob"]
 const external_wp_blob_namespaceObject = window["wp"]["blob"];
-;// CONCATENATED MODULE: external ["wp","apiFetch"]
+;// external ["wp","apiFetch"]
 const external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/flatten-form-data.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/flatten-form-data.js
 /**
  * Determines whether the passed argument appears to be a plain object.
  *
@@ -526,7 +526,7 @@ function flattenFormData(formData, key, data) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/transform-attachment.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/transform-attachment.js
 /**
  * Internal dependencies
  */
@@ -554,7 +554,7 @@ function transformAttachment(attachment) {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/upload-to-server.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/upload-to-server.js
 /**
  * WordPress dependencies
  */
@@ -581,7 +581,7 @@ async function uploadToServer(file, additionalData = {}, signal) {
   }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/upload-error.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/upload-error.js
 /**
  * MediaError class.
  *
@@ -604,7 +604,7 @@ class UploadError extends Error {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/validate-mime-type.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/validate-mime-type.js
 /**
  * WordPress dependencies
  */
@@ -646,7 +646,7 @@ function validateMimeType(file, allowedTypes) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/get-mime-types-array.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/get-mime-types-array.js
 /**
  * Browsers may use unexpected mime types, and they differ from browser to browser.
  * This function computes a flexible array of mime types from the mime type structured provided by the server.
@@ -668,7 +668,7 @@ function getMimeTypesArray(wpMimeTypesObject) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/validate-mime-type-for-user.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/validate-mime-type-for-user.js
 /**
  * WordPress dependencies
  */
@@ -704,7 +704,7 @@ function validateMimeTypeForUser(file, wpAllowedMimeTypes) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/validate-file-size.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/validate-file-size.js
 /**
  * WordPress dependencies
  */
@@ -743,7 +743,7 @@ function validateFileSize(file, maxUploadFileSize) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/upload-media.js
+;// ./node_modules/@wordpress/media-utils/build-module/utils/upload-media.js
 /**
  * WordPress dependencies
  */
@@ -852,7 +852,7 @@ function uploadMedia({
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/index.js
+;// ./node_modules/@wordpress/media-utils/build-module/index.js
 
 
 

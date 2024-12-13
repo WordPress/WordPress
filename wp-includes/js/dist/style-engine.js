@@ -44,7 +44,7 @@ __webpack_require__.d(__webpack_exports__, {
   getCSSValueFromRawStyle: () => (/* reexport */ getCSSValueFromRawStyle)
 });
 
-;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
+;// ./node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -424,7 +424,7 @@ function __disposeResources(env) {
   __disposeResources,
 });
 
-;// CONCATENATED MODULE: ./node_modules/lower-case/dist.es2015/index.js
+;// ./node_modules/lower-case/dist.es2015/index.js
 /**
  * Source: ftp://ftp.unicode.org/Public/UCD/latest/ucd/SpecialCasing.txt
  */
@@ -473,7 +473,7 @@ function lowerCase(str) {
     return str.toLowerCase();
 }
 
-;// CONCATENATED MODULE: ./node_modules/no-case/dist.es2015/index.js
+;// ./node_modules/no-case/dist.es2015/index.js
 
 // Support camel case ("camelCase" -> "camel Case" and "CAMELCase" -> "CAMEL Case").
 var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
@@ -505,7 +505,7 @@ function replace(input, re, value) {
     return re.reduce(function (input, re) { return input.replace(re, value); }, input);
 }
 
-;// CONCATENATED MODULE: ./node_modules/dot-case/dist.es2015/index.js
+;// ./node_modules/dot-case/dist.es2015/index.js
 
 
 function dotCase(input, options) {
@@ -513,7 +513,7 @@ function dotCase(input, options) {
     return noCase(input, __assign({ delimiter: "." }, options));
 }
 
-;// CONCATENATED MODULE: ./node_modules/param-case/dist.es2015/index.js
+;// ./node_modules/param-case/dist.es2015/index.js
 
 
 function paramCase(input, options) {
@@ -521,12 +521,12 @@ function paramCase(input, options) {
     return dotCase(input, __assign({ delimiter: "-" }, options));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/constants.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/constants.js
 const VARIABLE_REFERENCE_PREFIX = 'var:';
 const VARIABLE_PATH_SEPARATOR_TOKEN_ATTRIBUTE = '|';
 const VARIABLE_PATH_SEPARATOR_TOKEN_STYLE = '--';
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/utils.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/utils.js
 /**
  * External dependencies
  */
@@ -690,7 +690,7 @@ function safeDecodeURI(uri) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/border/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/border/index.js
 /**
  * Internal dependencies
  */
@@ -762,7 +762,7 @@ const borderLeft = {
 };
 /* harmony default export */ const border = ([color, borderStyle, width, radius, borderTop, borderRight, borderBottom, borderLeft]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/background.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/color/background.js
 /**
  * Internal dependencies
  */
@@ -776,7 +776,7 @@ const background = {
 };
 /* harmony default export */ const color_background = (background);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/gradient.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/color/gradient.js
 /**
  * Internal dependencies
  */
@@ -790,7 +790,7 @@ const gradient = {
 };
 /* harmony default export */ const color_gradient = (gradient);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/text.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/color/text.js
 /**
  * Internal dependencies
  */
@@ -804,7 +804,7 @@ const text_text = {
 };
 /* harmony default export */ const color_text = (text_text);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/color/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/color/index.js
 /**
  * Internal dependencies
  */
@@ -813,7 +813,7 @@ const text_text = {
 
 /* harmony default export */ const styles_color = ([color_text, color_gradient, color_background]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/dimensions/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/dimensions/index.js
 /**
  * Internal dependencies
  */
@@ -833,7 +833,7 @@ const aspectRatio = {
 };
 /* harmony default export */ const dimensions = ([minHeight, aspectRatio]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/background/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/background/index.js
 /**
  * Internal dependencies
  */
@@ -886,7 +886,7 @@ const backgroundAttachment = {
 };
 /* harmony default export */ const styles_background = ([backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, backgroundAttachment]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/shadow/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/shadow/index.js
 /**
  * Internal dependencies
  */
@@ -900,7 +900,7 @@ const shadow = {
 };
 /* harmony default export */ const styles_shadow = ([shadow]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/outline/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/outline/index.js
 /**
  * Internal dependencies
  */
@@ -932,7 +932,7 @@ const outline_width = {
 };
 /* harmony default export */ const outline = ([outline_color, outlineStyle, offset, outline_width]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/spacing/padding.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/spacing/padding.js
 /**
  * Internal dependencies
  */
@@ -949,7 +949,7 @@ const padding = {
 };
 /* harmony default export */ const spacing_padding = (padding);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/spacing/margin.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/spacing/margin.js
 /**
  * Internal dependencies
  */
@@ -966,7 +966,7 @@ const margin = {
 };
 /* harmony default export */ const spacing_margin = (margin);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/spacing/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/spacing/index.js
 /**
  * Internal dependencies
  */
@@ -974,7 +974,7 @@ const margin = {
 
 /* harmony default export */ const spacing = ([spacing_margin, spacing_padding]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/typography/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/typography/index.js
 /**
  * Internal dependencies
  */
@@ -1042,7 +1042,7 @@ const writingMode = {
 };
 /* harmony default export */ const typography = ([fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textColumns, textDecoration, textTransform, writingMode]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/styles/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/styles/index.js
 /**
  * Internal dependencies
  */
@@ -1056,7 +1056,7 @@ const writingMode = {
 
 const styleDefinitions = [...border, ...styles_color, ...dimensions, ...outline, ...spacing, ...typography, ...styles_shadow, ...styles_background];
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/style-engine/build-module/index.js
+;// ./node_modules/@wordpress/style-engine/build-module/index.js
 /**
  * External dependencies
  */

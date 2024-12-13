@@ -31,7 +31,7 @@ __webpack_require__.d(__webpack_exports__, {
 
 // UNUSED EXPORTS: attrs, fromMatch, next, regexp, replace, string
 
-;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
+;// ./node_modules/memize/dist/index.js
 /**
  * Memize options object.
  *
@@ -193,7 +193,7 @@ function memize(fn, options) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/shortcode/build-module/index.js
+;// ./node_modules/@wordpress/shortcode/build-module/index.js
 /**
  * External dependencies
  */

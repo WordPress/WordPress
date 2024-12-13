@@ -60,15 +60,15 @@ __webpack_require__.d(selectors_namespaceObject, {
   __experimentalIsEditingReusableBlock: () => (__experimentalIsEditingReusableBlock)
 });
 
-;// CONCATENATED MODULE: external ["wp","data"]
+;// external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
-;// CONCATENATED MODULE: external ["wp","blockEditor"]
+;// external ["wp","blockEditor"]
 const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
-;// CONCATENATED MODULE: external ["wp","blocks"]
+;// external ["wp","blocks"]
 const external_wp_blocks_namespaceObject = window["wp"]["blocks"];
-;// CONCATENATED MODULE: external ["wp","i18n"]
+;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/store/actions.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/store/actions.js
 /**
  * WordPress dependencies
  */
@@ -163,7 +163,7 @@ function __experimentalSetEditingReusableBlock(clientId, isEditing) {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/store/reducer.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/store/reducer.js
 /**
  * WordPress dependencies
  */
@@ -181,7 +181,7 @@ function isEditingReusableBlock(state = {}, action) {
   isEditingReusableBlock
 }));
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/store/selectors.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/store/selectors.js
 /**
  * Returns true if reusable block is in the editing state.
  *
@@ -193,7 +193,7 @@ function __experimentalIsEditingReusableBlock(state, clientId) {
   return state.isEditingReusableBlock[clientId];
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/store/index.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/store/index.js
 /**
  * WordPress dependencies
  */
@@ -221,15 +221,15 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 });
 (0,external_wp_data_namespaceObject.register)(store);
 
-;// CONCATENATED MODULE: external ["wp","element"]
+;// external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
-;// CONCATENATED MODULE: external ["wp","components"]
+;// external ["wp","components"]
 const external_wp_components_namespaceObject = window["wp"]["components"];
-;// CONCATENATED MODULE: external ["wp","primitives"]
+;// external ["wp","primitives"]
 const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// CONCATENATED MODULE: external "ReactJSXRuntime"
+;// external "ReactJSXRuntime"
 const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/symbol.js
+;// ./node_modules/@wordpress/icons/build-module/library/symbol.js
 /**
  * WordPress dependencies
  */
@@ -244,11 +244,11 @@ const symbol = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 });
 /* harmony default export */ const library_symbol = (symbol);
 
-;// CONCATENATED MODULE: external ["wp","notices"]
+;// external ["wp","notices"]
 const external_wp_notices_namespaceObject = window["wp"]["notices"];
-;// CONCATENATED MODULE: external ["wp","coreData"]
+;// external ["wp","coreData"]
 const external_wp_coreData_namespaceObject = window["wp"]["coreData"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/components/reusable-blocks-menu-items/reusable-block-convert-button.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/components/reusable-blocks-menu-items/reusable-block-convert-button.js
 /**
  * WordPress dependencies
  */
@@ -407,9 +407,9 @@ function ReusableBlockConvertButton({
   });
 }
 
-;// CONCATENATED MODULE: external ["wp","url"]
+;// external ["wp","url"]
 const external_wp_url_namespaceObject = window["wp"]["url"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/components/reusable-blocks-menu-items/reusable-blocks-manage-button.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/components/reusable-blocks-menu-items/reusable-blocks-manage-button.js
 /**
  * WordPress dependencies
  */
@@ -484,7 +484,7 @@ function ReusableBlocksManageButton({
 }
 /* harmony default export */ const reusable_blocks_manage_button = (ReusableBlocksManageButton);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/components/reusable-blocks-menu-items/index.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/components/reusable-blocks-menu-items/index.js
 /**
  * WordPress dependencies
  */
@@ -517,10 +517,10 @@ function ReusableBlocksMenuItems({
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/components/index.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/components/index.js
 
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/index.js
+;// ./node_modules/@wordpress/reusable-blocks/build-module/index.js
 
 
 

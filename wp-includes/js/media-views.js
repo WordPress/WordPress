@@ -10399,9 +10399,6 @@ module.exports = View;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
 /**
  * @output wp-includes/js/media-views.js
  */
@@ -10556,8 +10553,6 @@ media.view.SiteIconPreview = __webpack_require__( 7810 );
 media.view.EditImage = __webpack_require__( 6126 );
 media.view.Spinner = __webpack_require__( 9141 );
 media.view.Heading = __webpack_require__( 170 );
-
-})();
 
 /******/ })()
 ;

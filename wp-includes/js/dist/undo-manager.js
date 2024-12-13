@@ -78,8 +78,6 @@ module.exports = window["wp"]["isShallowEqual"];
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createUndoManager: () => (/* binding */ createUndoManager)
@@ -256,8 +254,6 @@ function createUndoManager() {
     }
   };
 }
-
-})();
 
 (window.wp = window.wp || {}).undoManager = __webpack_exports__;
 /******/ })()

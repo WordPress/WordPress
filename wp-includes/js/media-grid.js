@@ -1003,9 +1003,6 @@ module.exports = Manage;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
 /**
  * @output wp-includes/js/media-grid.js
  */
@@ -1021,8 +1018,6 @@ media.view.MediaFrame.EditAttachments = __webpack_require__( 1003 );
 media.view.SelectModeToggleButton = __webpack_require__( 682 );
 media.view.DeleteSelectedButton = __webpack_require__( 6606 );
 media.view.DeleteSelectedPermanentlyButton = __webpack_require__( 5806 );
-
-})();
 
 /******/ })()
 ;

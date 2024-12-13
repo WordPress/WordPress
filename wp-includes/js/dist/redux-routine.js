@@ -697,15 +697,13 @@ exports["default"] = keys;
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   "default": () => (/* binding */ createMiddleware)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-generator.js
+;// ./node_modules/@wordpress/redux-routine/build-module/is-generator.js
 /* eslint-disable jsdoc/valid-types */
 /**
  * Returns true if the given object is a generator, or false otherwise.
@@ -725,12 +723,12 @@ function isGenerator(object) {
 
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
 var dist = __webpack_require__(8975);
-;// CONCATENATED MODULE: ./node_modules/is-promise/index.mjs
+;// ./node_modules/is-promise/index.mjs
 function isPromise(obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 }
 
-;// CONCATENATED MODULE: ./node_modules/is-plain-object/dist/is-plain-object.mjs
+;// ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
@@ -766,7 +764,7 @@ function isPlainObject(o) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
+;// ./node_modules/@wordpress/redux-routine/build-module/is-action.js
 /**
  * External dependencies
  */
@@ -798,7 +796,7 @@ function isActionOfType(object, expectedType) {
   return isAction(object) && object.type === expectedType;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/runtime.js
+;// ./node_modules/@wordpress/redux-routine/build-module/runtime.js
 /**
  * External dependencies
  */
@@ -848,7 +846,7 @@ function createRuntime(controls = {}, dispatch) {
   }, reject));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/index.js
+;// ./node_modules/@wordpress/redux-routine/build-module/index.js
 /**
  * Internal dependencies
  */
@@ -878,8 +876,6 @@ function createMiddleware(controls = {}) {
     };
   };
 }
-
-})();
 
 (window.wp = window.wp || {}).reduxRoutine = __webpack_exports__["default"];
 /******/ })()

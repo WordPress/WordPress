@@ -55,10 +55,10 @@ __webpack_require__.d(__webpack_exports__, {
   speak: () => (/* reexport */ speak)
 });
 
-;// CONCATENATED MODULE: external ["wp","domReady"]
+;// external ["wp","domReady"]
 const external_wp_domReady_namespaceObject = window["wp"]["domReady"];
 var external_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_wp_domReady_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/script/add-container.js
+;// ./node_modules/@wordpress/a11y/build-module/script/add-container.js
 /**
  * Build the live regions markup.
  *
@@ -83,9 +83,9 @@ function addContainer(ariaLive = 'polite') {
   return container;
 }
 
-;// CONCATENATED MODULE: external ["wp","i18n"]
+;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/script/add-intro-text.js
+;// ./node_modules/@wordpress/a11y/build-module/script/add-intro-text.js
 /**
  * WordPress dependencies
  */
@@ -115,7 +115,7 @@ function addIntroText() {
   return introText;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/shared/clear.js
+;// ./node_modules/@wordpress/a11y/build-module/shared/clear.js
 /**
  * Clears the a11y-speak-region elements and hides the explanatory text.
  */
@@ -132,7 +132,7 @@ function clear() {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/shared/filter-message.js
+;// ./node_modules/@wordpress/a11y/build-module/shared/filter-message.js
 let previousMessage = '';
 
 /**
@@ -163,7 +163,7 @@ function filterMessage(message) {
   return message;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/shared/index.js
+;// ./node_modules/@wordpress/a11y/build-module/shared/index.js
 /**
  * Internal dependencies
  */
@@ -213,7 +213,7 @@ function speak(message, ariaLive) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/index.js
+;// ./node_modules/@wordpress/a11y/build-module/index.js
 /**
  * WordPress dependencies
  */

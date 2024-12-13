@@ -42,7 +42,7 @@ __webpack_require__.d(__webpack_exports__, {
   __dangerousOptInToUnstableAPIsOnlyForCoreModules: () => (/* reexport */ __dangerousOptInToUnstableAPIsOnlyForCoreModules)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/private-apis/build-module/implementation.js
+;// ./node_modules/@wordpress/private-apis/build-module/implementation.js
 /**
  * wordpress/private-apis – the utilities to enable private cross-package
  * exports of private APIs.
@@ -226,7 +226,7 @@ function resetRegisteredPrivateApis() {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/private-apis/build-module/index.js
+;// ./node_modules/@wordpress/private-apis/build-module/index.js
 
 
 (window.wp = window.wp || {}).privateApis = __webpack_exports__;

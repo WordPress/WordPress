@@ -1388,9 +1388,6 @@ module.exports = Selection;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
 /**
  * @output wp-includes/js/media-models.js
  */
@@ -1629,8 +1626,6 @@ media.query = function( props ) {
 		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
 	});
 };
-
-})();
 
 /******/ })()
 ;

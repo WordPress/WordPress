@@ -525,8 +525,6 @@ module.exports = EquivalentKeyMap;
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
@@ -599,10 +597,10 @@ __webpack_require__.d(plugins_namespaceObject, {
   persistence: () => (persistence)
 });
 
-;// CONCATENATED MODULE: external ["wp","deprecated"]
+;// external ["wp","deprecated"]
 const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
+;// ./node_modules/@babel/runtime/helpers/esm/typeof.js
 function _typeof(o) {
   "@babel/helpers - typeof";
 
@@ -612,7 +610,7 @@ function _typeof(o) {
     return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
   }, _typeof(o);
 }
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js
+;// ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js
 
 function _toPrimitive(input, hint) {
   if (_typeof(input) !== "object" || input === null) return input;
@@ -624,14 +622,14 @@ function _toPrimitive(input, hint) {
   }
   return (hint === "string" ? String : Number)(input);
 }
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js
+;// ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js
 
 
 function _toPropertyKey(arg) {
   var key = _toPrimitive(arg, "string");
   return _typeof(key) === "symbol" ? key : String(key);
 }
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+;// ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 
 function _defineProperty(obj, key, value) {
   key = _toPropertyKey(key);
@@ -647,7 +645,7 @@ function _defineProperty(obj, key, value) {
   }
   return obj;
 }
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
+;// ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 
 function ownKeys(e, r) {
   var t = Object.keys(e);
@@ -670,7 +668,7 @@ function _objectSpread2(e) {
   }
   return e;
 }
-;// CONCATENATED MODULE: ./node_modules/redux/es/redux.js
+;// ./node_modules/redux/es/redux.js
 
 
 /**
@@ -1366,12 +1364,12 @@ function applyMiddleware() {
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
 var equivalent_key_map = __webpack_require__(3249);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
-;// CONCATENATED MODULE: external ["wp","reduxRoutine"]
+;// external ["wp","reduxRoutine"]
 const external_wp_reduxRoutine_namespaceObject = window["wp"]["reduxRoutine"];
 var external_wp_reduxRoutine_default = /*#__PURE__*/__webpack_require__.n(external_wp_reduxRoutine_namespaceObject);
-;// CONCATENATED MODULE: external ["wp","compose"]
+;// external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/combine-reducers.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/combine-reducers.js
 function combine_reducers_combineReducers(reducers) {
   const keys = Object.keys(reducers);
   return function combinedReducer(state = {}, action) {
@@ -1388,7 +1386,7 @@ function combine_reducers_combineReducers(reducers) {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/factory.js
+;// ./node_modules/@wordpress/data/build-module/factory.js
 /**
  * Creates a selector function that takes additional curried argument with the
  * registry `select` function. While a regular selector has signature
@@ -1483,7 +1481,7 @@ function createRegistryControl(registryControl) {
   return registryControl;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/controls.js
+;// ./node_modules/@wordpress/data/build-module/controls.js
 /**
  * Internal dependencies
  */
@@ -1617,9 +1615,9 @@ const builtinControls = {
   }) => registry.dispatch(storeKey)[actionName](...args))
 };
 
-;// CONCATENATED MODULE: external ["wp","privateApis"]
+;// external ["wp","privateApis"]
 const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/lock-unlock.js
+;// ./node_modules/@wordpress/data/build-module/lock-unlock.js
 /**
  * WordPress dependencies
  */
@@ -1629,12 +1627,12 @@ const {
   unlock
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/data');
 
-;// CONCATENATED MODULE: ./node_modules/is-promise/index.mjs
+;// ./node_modules/is-promise/index.mjs
 function isPromise(obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/promise-middleware.js
+;// ./node_modules/@wordpress/data/build-module/promise-middleware.js
 /**
  * External dependencies
  */
@@ -1657,7 +1655,7 @@ const promiseMiddleware = () => next => action => {
 };
 /* harmony default export */ const promise_middleware = (promiseMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js
+;// ./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js
 /** @typedef {import('./registry').WPDataRegistry} WPDataRegistry */
 
 /**
@@ -1701,7 +1699,7 @@ const createResolversCacheMiddleware = (registry, storeName) => () => next => ac
 };
 /* harmony default export */ const resolvers_cache_middleware = (createResolversCacheMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/thunk-middleware.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/thunk-middleware.js
 function createThunkMiddleware(args) {
   return () => next => action => {
     if (typeof action === 'function') {
@@ -1711,7 +1709,7 @@ function createThunkMiddleware(args) {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/metadata/utils.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/metadata/utils.js
 /**
  * External dependencies
  */
@@ -1762,7 +1760,7 @@ function selectorArgsToStateKey(args) {
   return idx === len ? args : args.slice(0, idx);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/metadata/reducer.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/metadata/reducer.js
 /**
  * External dependencies
  */
@@ -1888,7 +1886,7 @@ const isResolved = (state = {}, action) => {
 };
 /* harmony default export */ const metadata_reducer = (isResolved);
 
-;// CONCATENATED MODULE: ./node_modules/rememo/rememo.js
+;// ./node_modules/rememo/rememo.js
 
 
 /** @typedef {(...args: any[]) => *[]} GetDependants */
@@ -2186,7 +2184,7 @@ function isShallowEqual(a, b, fromIndex) {
 	return /** @type {S & EnhancedSelector} */ (callSelector);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/metadata/selectors.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/metadata/selectors.js
 /**
  * WordPress dependencies
  */
@@ -2381,7 +2379,7 @@ const countSelectorsByStatus = rememo(state => {
   return selectorsByStatus;
 }, state => [state]);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/metadata/actions.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/metadata/actions.js
 /**
  * Returns an action object used in signalling that selector resolution has
  * started.
@@ -2535,7 +2533,7 @@ function invalidateResolutionForStoreSelector(selectorName) {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/redux-store/index.js
+;// ./node_modules/@wordpress/data/build-module/redux-store/index.js
 /**
  * External dependencies
  */
@@ -3067,7 +3065,7 @@ function normalize(selector, args) {
   return args;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/store/index.js
+;// ./node_modules/@wordpress/data/build-module/store/index.js
 const coreDataStore = {
   name: 'core/data',
   instantiate(registry) {
@@ -3096,7 +3094,7 @@ const coreDataStore = {
 };
 /* harmony default export */ const store = (coreDataStore);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/utils/emitter.js
+;// ./node_modules/@wordpress/data/build-module/utils/emitter.js
 /**
  * Create an event emitter.
  *
@@ -3139,7 +3137,7 @@ function createEmitter() {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/registry.js
+;// ./node_modules/@wordpress/data/build-module/registry.js
 /**
  * WordPress dependencies
  */
@@ -3500,14 +3498,14 @@ function createRegistry(storeConfigs = {}, parent = null) {
   return registryWithPlugins;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/default-registry.js
+;// ./node_modules/@wordpress/data/build-module/default-registry.js
 /**
  * Internal dependencies
  */
 
 /* harmony default export */ const default_registry = (createRegistry());
 
-;// CONCATENATED MODULE: ./node_modules/is-plain-object/dist/is-plain-object.mjs
+;// ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
@@ -3546,7 +3544,7 @@ function is_plain_object_isPlainObject(o) {
 // EXTERNAL MODULE: ./node_modules/deepmerge/dist/cjs.js
 var cjs = __webpack_require__(66);
 var cjs_default = /*#__PURE__*/__webpack_require__.n(cjs);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/persistence/storage/object.js
+;// ./node_modules/@wordpress/data/build-module/plugins/persistence/storage/object.js
 let objectStorage;
 const storage = {
   getItem(key) {
@@ -3567,7 +3565,7 @@ const storage = {
 };
 /* harmony default export */ const object = (storage);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/persistence/storage/default.js
+;// ./node_modules/@wordpress/data/build-module/plugins/persistence/storage/default.js
 /**
  * Internal dependencies
  */
@@ -3585,7 +3583,7 @@ try {
 }
 /* harmony default export */ const storage_default = (default_storage);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/persistence/index.js
+;// ./node_modules/@wordpress/data/build-module/plugins/persistence/index.js
 /**
  * External dependencies
  */
@@ -3789,17 +3787,17 @@ function persistencePlugin(registry, pluginOptions) {
 persistencePlugin.__unstableMigrate = () => {};
 /* harmony default export */ const persistence = (persistencePlugin);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/plugins/index.js
+;// ./node_modules/@wordpress/data/build-module/plugins/index.js
 
 
-;// CONCATENATED MODULE: external ["wp","priorityQueue"]
+;// external ["wp","priorityQueue"]
 const external_wp_priorityQueue_namespaceObject = window["wp"]["priorityQueue"];
-;// CONCATENATED MODULE: external ["wp","element"]
+;// external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
-;// CONCATENATED MODULE: external ["wp","isShallowEqual"]
+;// external ["wp","isShallowEqual"]
 const external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"];
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/registry-provider/context.js
+;// ./node_modules/@wordpress/data/build-module/components/registry-provider/context.js
 /**
  * WordPress dependencies
  */
@@ -3857,7 +3855,7 @@ const RegistryConsumer = Consumer;
  */
 /* harmony default export */ const context = (Provider);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/registry-provider/use-registry.js
+;// ./node_modules/@wordpress/data/build-module/components/registry-provider/use-registry.js
 /**
  * WordPress dependencies
  */
@@ -3911,7 +3909,7 @@ function useRegistry() {
   return (0,external_wp_element_namespaceObject.useContext)(Context);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/async-mode-provider/context.js
+;// ./node_modules/@wordpress/data/build-module/components/async-mode-provider/context.js
 /**
  * WordPress dependencies
  */
@@ -3960,7 +3958,7 @@ const AsyncModeConsumer = (/* unused pure expression or super */ null && (contex
  */
 /* harmony default export */ const async_mode_provider_context = (context_Provider);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/async-mode-provider/use-async-mode.js
+;// ./node_modules/@wordpress/data/build-module/components/async-mode-provider/use-async-mode.js
 /**
  * WordPress dependencies
  */
@@ -3974,7 +3972,7 @@ function useAsyncMode() {
   return (0,external_wp_element_namespaceObject.useContext)(context_Context);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/use-select/index.js
+;// ./node_modules/@wordpress/data/build-module/components/use-select/index.js
 /**
  * WordPress dependencies
  */
@@ -4278,9 +4276,9 @@ function useSuspenseSelect(mapSelect, deps) {
   return useMappingSelect(true, mapSelect, deps);
 }
 
-;// CONCATENATED MODULE: external "ReactJSXRuntime"
+;// external "ReactJSXRuntime"
 const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/with-select/index.js
+;// ./node_modules/@wordpress/data/build-module/components/with-select/index.js
 /**
  * WordPress dependencies
  */
@@ -4344,7 +4342,7 @@ const withSelect = mapSelectToProps => (0,external_wp_compose_namespaceObject.cr
 }), 'withSelect');
 /* harmony default export */ const with_select = (withSelect);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/use-dispatch/use-dispatch-with-map.js
+;// ./node_modules/@wordpress/data/build-module/components/use-dispatch/use-dispatch-with-map.js
 /**
  * WordPress dependencies
  */
@@ -4389,7 +4387,7 @@ const useDispatchWithMap = (dispatchMap, deps) => {
 };
 /* harmony default export */ const use_dispatch_with_map = (useDispatchWithMap);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/with-dispatch/index.js
+;// ./node_modules/@wordpress/data/build-module/components/with-dispatch/index.js
 /**
  * WordPress dependencies
  */
@@ -4494,7 +4492,7 @@ const withDispatch = mapDispatchToProps => (0,external_wp_compose_namespaceObjec
 }, 'withDispatch');
 /* harmony default export */ const with_dispatch = (withDispatch);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/with-registry/index.js
+;// ./node_modules/@wordpress/data/build-module/components/with-registry/index.js
 /**
  * WordPress dependencies
  */
@@ -4522,7 +4520,7 @@ const withRegistry = (0,external_wp_compose_namespaceObject.createHigherOrderCom
 }), 'withRegistry');
 /* harmony default export */ const with_registry = (withRegistry);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/components/use-dispatch/use-dispatch.js
+;// ./node_modules/@wordpress/data/build-module/components/use-dispatch/use-dispatch.js
 /**
  * Internal dependencies
  */
@@ -4591,7 +4589,7 @@ const useDispatch = storeNameOrDescriptor => {
 };
 /* harmony default export */ const use_dispatch = (useDispatch);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/dispatch.js
+;// ./node_modules/@wordpress/data/build-module/dispatch.js
 /**
  * Internal dependencies
  */
@@ -4621,7 +4619,7 @@ function dispatch_dispatch(storeNameOrDescriptor) {
   return default_registry.dispatch(storeNameOrDescriptor);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/select.js
+;// ./node_modules/@wordpress/data/build-module/select.js
 /**
  * Internal dependencies
  */
@@ -4651,7 +4649,7 @@ function select_select(storeNameOrDescriptor) {
   return default_registry.select(storeNameOrDescriptor);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/data/build-module/index.js
+;// ./node_modules/@wordpress/data/build-module/index.js
 /**
  * Internal dependencies
  */
@@ -4836,8 +4834,6 @@ const use = default_registry.use;
  * @param {StoreDescriptor} store Store descriptor.
  */
 const register = default_registry.register;
-
-})();
 
 (window.wp = window.wp || {}).data = __webpack_exports__;
 /******/ })()

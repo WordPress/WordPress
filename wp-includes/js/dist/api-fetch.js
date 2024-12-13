@@ -29,9 +29,9 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (/* binding */ build_module)
 });
 
-;// CONCATENATED MODULE: external ["wp","i18n"]
+;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
 /**
  * @param {string} nonce
  * @return {import('../types').APIFetchMiddleware & { nonce: string }} A middleware to enhance a request with a nonce.
@@ -65,7 +65,7 @@ function createNonceMiddleware(nonce) {
 }
 /* harmony default export */ const nonce = (createNonceMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js
 /**
  * @type {import('../types').APIFetchMiddleware}
  */
@@ -90,7 +90,7 @@ const namespaceAndEndpointMiddleware = (options, next) => {
 };
 /* harmony default export */ const namespace_endpoint = (namespaceAndEndpointMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js
 /**
  * Internal dependencies
  */
@@ -127,9 +127,9 @@ const createRootURLMiddleware = rootURL => (options, next) => {
 };
 /* harmony default export */ const root_url = (createRootURLMiddleware);
 
-;// CONCATENATED MODULE: external ["wp","url"]
+;// external ["wp","url"]
 const external_wp_url_namespaceObject = window["wp"]["url"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js
 /**
  * WordPress dependencies
  */
@@ -194,7 +194,7 @@ function prepareResponse(responseData, parse) {
 }
 /* harmony default export */ const preloading = (createPreloadingMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 /**
  * WordPress dependencies
  */
@@ -320,7 +320,7 @@ const fetchAllMiddleware = async (options, next) => {
 };
 /* harmony default export */ const fetch_all_middleware = (fetchAllMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js
 /**
  * Set of HTTP methods which are eligible to be overridden.
  *
@@ -365,7 +365,7 @@ const httpV1Middleware = (options, next) => {
 };
 /* harmony default export */ const http_v1 = (httpV1Middleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js
 /**
  * WordPress dependencies
  */
@@ -389,7 +389,7 @@ const userLocaleMiddleware = (options, next) => {
 };
 /* harmony default export */ const user_locale = (userLocaleMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/utils/response.js
+;// ./node_modules/@wordpress/api-fetch/build-module/utils/response.js
 /**
  * WordPress dependencies
  */
@@ -465,7 +465,7 @@ function parseAndThrowError(response, shouldParseResponse = true) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/media-upload.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/media-upload.js
 /**
  * WordPress dependencies
  */
@@ -547,7 +547,7 @@ const mediaUploadMiddleware = (options, next) => {
 };
 /* harmony default export */ const media_upload = (mediaUploadMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/theme-preview.js
+;// ./node_modules/@wordpress/api-fetch/build-module/middlewares/theme-preview.js
 /**
  * WordPress dependencies
  */
@@ -588,7 +588,7 @@ const createThemePreviewMiddleware = themePath => (options, next) => {
 };
 /* harmony default export */ const theme_preview = (createThemePreviewMiddleware);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/index.js
+;// ./node_modules/@wordpress/api-fetch/build-module/index.js
 /**
  * WordPress dependencies
  */

@@ -1146,7 +1146,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"version":"2022g","zones":["Africa/Ab
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 // ESM COMPAT FLAG
@@ -1174,10 +1174,10 @@ var external_moment_default = /*#__PURE__*/__webpack_require__.n(external_moment
 var moment_timezone = __webpack_require__(3849);
 // EXTERNAL MODULE: ./node_modules/moment-timezone/moment-timezone-utils.js
 var moment_timezone_utils = __webpack_require__(1685);
-;// CONCATENATED MODULE: external ["wp","deprecated"]
+;// external ["wp","deprecated"]
 const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/date/build-module/index.js
+;// ./node_modules/@wordpress/date/build-module/index.js
 /**
  * External dependencies
  */

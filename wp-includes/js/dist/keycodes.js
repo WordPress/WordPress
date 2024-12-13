@@ -68,9 +68,9 @@ __webpack_require__.d(__webpack_exports__, {
   shortcutAriaLabel: () => (/* binding */ shortcutAriaLabel)
 });
 
-;// CONCATENATED MODULE: external ["wp","i18n"]
+;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/keycodes/build-module/platform.js
+;// ./node_modules/@wordpress/keycodes/build-module/platform.js
 /**
  * Return true if platform is MacOS.
  *
@@ -91,7 +91,7 @@ function isAppleOS(_window = null) {
   return platform.indexOf('Mac') !== -1 || ['iPad', 'iPhone'].includes(platform);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/keycodes/build-module/index.js
+;// ./node_modules/@wordpress/keycodes/build-module/index.js
 /**
  * Note: The order of the modifier keys in many of the [foo]Shortcut()
  * functions in this file are intentional and should not be changed. They're

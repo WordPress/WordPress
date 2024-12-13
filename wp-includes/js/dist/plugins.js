@@ -60,7 +60,7 @@ __webpack_require__.d(__webpack_exports__, {
   withPluginContext: () => (/* reexport */ withPluginContext)
 });
 
-;// CONCATENATED MODULE: ./node_modules/memize/dist/index.js
+;// ./node_modules/memize/dist/index.js
 /**
  * Memize options object.
  *
@@ -222,18 +222,18 @@ function memize(fn, options) {
 
 
 
-;// CONCATENATED MODULE: external ["wp","element"]
+;// external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
-;// CONCATENATED MODULE: external ["wp","hooks"]
+;// external ["wp","hooks"]
 const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
-;// CONCATENATED MODULE: external ["wp","isShallowEqual"]
+;// external ["wp","isShallowEqual"]
 const external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"];
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
-;// CONCATENATED MODULE: external ["wp","compose"]
+;// external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
-;// CONCATENATED MODULE: external "ReactJSXRuntime"
+;// external "ReactJSXRuntime"
 const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-context/index.js
+;// ./node_modules/@wordpress/plugins/build-module/components/plugin-context/index.js
 /**
  * WordPress dependencies
  */
@@ -278,7 +278,7 @@ const withPluginContext = mapContextToProps => (0,external_wp_compose_namespaceO
   });
 }, 'withPluginContext');
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-error-boundary/index.js
+;// ./node_modules/@wordpress/plugins/build-module/components/plugin-error-boundary/index.js
 /**
  * WordPress dependencies
  */
@@ -319,9 +319,9 @@ class PluginErrorBoundary extends external_wp_element_namespaceObject.Component 
   }
 }
 
-;// CONCATENATED MODULE: external ["wp","primitives"]
+;// external ["wp","primitives"]
 const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plugins.js
+;// ./node_modules/@wordpress/icons/build-module/library/plugins.js
 /**
  * WordPress dependencies
  */
@@ -336,7 +336,7 @@ const plugins = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ex
 });
 /* harmony default export */ const library_plugins = (plugins);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/api/index.js
+;// ./node_modules/@wordpress/plugins/build-module/api/index.js
 /* eslint no-console: [ 'error', { allow: [ 'error' ] } ] */
 /**
  * External dependencies
@@ -536,7 +536,7 @@ function getPlugins(scope) {
   return Object.values(api_plugins).filter(plugin => plugin.scope === scope);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-area/index.js
+;// ./node_modules/@wordpress/plugins/build-module/components/plugin-area/index.js
 /**
  * External dependencies
  */
@@ -643,11 +643,11 @@ function PluginArea({
 }
 /* harmony default export */ const plugin_area = (PluginArea);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/index.js
+;// ./node_modules/@wordpress/plugins/build-module/components/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/index.js
+;// ./node_modules/@wordpress/plugins/build-module/index.js
 
 
 
