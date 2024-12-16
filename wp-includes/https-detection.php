@@ -63,31 +63,33 @@ function wp_is_site_url_using_https() {
 /**
  * Checks whether HTTPS is supported for the server and domain.
  *
+ * This function makes an HTTP request through `wp_get_https_detection_errors()`
+ * to check for HTTPS support. As this process can be resource-intensive,
+ * it should be used cautiously, especially in performance-sensitive environments,
+ * to avoid potential latency issues.
+ *
  * @since 5.7.0
  *
  * @return bool True if HTTPS is supported, false otherwise.
  */
 function wp_is_https_supported() {
-	$https_detection_errors = get_option( 'https_detection_errors' );
+	$https_detection_errors = wp_get_https_detection_errors();
 
-	// If option has never been set by the Cron hook before, run it on-the-fly as fallback.
-	if ( false === $https_detection_errors ) {
-		wp_update_https_detection_errors();
-
-		$https_detection_errors = get_option( 'https_detection_errors' );
-	}
-
-	// If there are no detection errors, HTTPS is supported.
+	// If there are errors, HTTPS is not supported.
 	return empty( $https_detection_errors );
 }
 
 /**
  * Runs a remote HTTPS request to detect whether HTTPS supported, and stores potential errors.
  *
- * This internal function is called by a regular Cron hook to ensure HTTPS support is detected and maintained.
+ * This function checks for HTTPS support by making an HTTP request. As this process can be resource-intensive,
+ * it should be used cautiously, especially in performance-sensitive environments.
+ * It is called when HTTPS support needs to be validated.
  *
  * @since 6.4.0
  * @access private
+ *
+ * @return array An array containing potential detection errors related to HTTPS, or an empty array if no errors are found.
  */
 function wp_get_https_detection_errors() {
 	/**
