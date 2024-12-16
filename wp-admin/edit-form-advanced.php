@@ -25,14 +25,7 @@ $current_screen->is_block_editor( false );
 if ( is_multisite() ) {
 	add_action( 'admin_footer', '_admin_notice_post_locked' );
 } else {
-	$check_users = get_users(
-		array(
-			'fields' => 'ID',
-			'number' => 2,
-		)
-	);
-
-	if ( count( $check_users ) > 1 ) {
+	if ( get_user_count() > 1 ) {
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
 	}
 
