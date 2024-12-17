@@ -912,7 +912,7 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 	 * @param string                          $relative_position  The relative position of the hooked blocks.
 	 *                                                            Can be one of 'before', 'after', 'first_child', or 'last_child'.
 	 * @param string                          $anchor_block_type  The anchor block type.
-	 * @param WP_Block_Template|WP_Post|array $context            The block template, template part, `wp_navigation` post type,
+	 * @param WP_Block_Template|WP_Post|array $context            The block template, template part, post object,
 	 *                                                            or pattern that the anchor block belongs to.
 	 */
 	$hooked_block_types = apply_filters( 'hooked_block_types', $hooked_block_types, $relative_position, $anchor_block_type, $context );
@@ -935,7 +935,7 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		 * @param string                          $hooked_block_type   The hooked block type name.
 		 * @param string                          $relative_position   The relative position of the hooked block.
 		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
-		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, `wp_navigation` post type,
+		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, post object,
 		 *                                                             or pattern that the anchor block belongs to.
 		 */
 		$parsed_hooked_block = apply_filters( 'hooked_block', $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
@@ -951,7 +951,7 @@ function insert_hooked_blocks( &$parsed_anchor_block, $relative_position, $hooke
 		 * @param string                          $hooked_block_type   The hooked block type name.
 		 * @param string                          $relative_position   The relative position of the hooked block.
 		 * @param array                           $parsed_anchor_block The anchor block, in parsed block array format.
-		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, `wp_navigation` post type,
+		 * @param WP_Block_Template|WP_Post|array $context             The block template, template part, post object,
 		 *                                                             or pattern that the anchor block belongs to.
 		 */
 		$parsed_hooked_block = apply_filters( "hooked_block_{$hooked_block_type}", $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context );
@@ -1039,17 +1039,25 @@ function set_ignored_hooked_blocks_metadata( &$parsed_anchor_block, $relative_po
  *
  * @since 6.6.0
  * @since 6.7.0 Injects the `theme` attribute into Template Part blocks, even if no hooked blocks are registered.
+ * @since 6.8.0 Have the `$context` parameter default to `null`, in which case `get_post()` will be called to use the current post as context.
  * @access private
  *
- * @param string                          $content  Serialized content.
- * @param WP_Block_Template|WP_Post|array $context  A block template, template part, `wp_navigation` post object,
- *                                                  or pattern that the blocks belong to.
- * @param callable                        $callback A function that will be called for each block to generate
- *                                                  the markup for a given list of blocks that are hooked to it.
- *                                                  Default: 'insert_hooked_blocks'.
+ * @param string                               $content  Serialized content.
+ * @param WP_Block_Template|WP_Post|array|null $context  A block template, template part, post object, or pattern
+ *                                                       that the blocks belong to. If set to `null`, `get_post()`
+ *                                                       will be called to use the current post as context.
+ *                                                       Default: `null`.
+ * @param callable                             $callback A function that will be called for each block to generate
+ *                                                       the markup for a given list of blocks that are hooked to it.
+ *                                                       Default: 'insert_hooked_blocks'.
  * @return string The serialized markup.
  */
-function apply_block_hooks_to_content( $content, $context, $callback = 'insert_hooked_blocks' ) {
+function apply_block_hooks_to_content( $content, $context = null, $callback = 'insert_hooked_blocks' ) {
+	// Default to the current post if no context is provided.
+	if ( null === $context ) {
+		$context = get_post();
+	}
+
 	$hooked_blocks = get_hooked_blocks();
 
 	$before_block_visitor = '_inject_theme_attribute_in_template_part_block';
@@ -1165,10 +1173,11 @@ function extract_serialized_parent_block( $serialized_block ) {
 }
 
 /**
- * Updates the wp_postmeta with the list of ignored hooked blocks where the inner blocks are stored as post content.
- * Currently only supports `wp_navigation` post types.
+ * Updates the wp_postmeta with the list of ignored hooked blocks
+ * where the inner blocks are stored as post content.
  *
  * @since 6.6.0
+ * @since 6.8.0 Support non-`wp_navigation` post types.
  * @access private
  *
  * @param stdClass $post Post object.
@@ -1176,7 +1185,7 @@ function extract_serialized_parent_block( $serialized_block ) {
  */
 function update_ignored_hooked_blocks_postmeta( $post ) {
 	/*
-	 * In this scenario the user has likely tried to create a navigation via the REST API.
+	 * In this scenario the user has likely tried to create a new post object via the REST API.
 	 * In which case we won't have a post ID to work with and store meta against.
 	 */
 	if ( empty( $post->ID ) ) {
@@ -1184,7 +1193,7 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 	}
 
 	/*
-	 * Skip meta generation when consumers intentionally update specific Navigation fields
+	 * Skip meta generation when consumers intentionally update specific fields
 	 * and omit the content update.
 	 */
 	if ( ! isset( $post->post_content ) ) {
@@ -1192,9 +1201,9 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 	}
 
 	/*
-	 * Skip meta generation when the post content is not a navigation block.
+	 * Skip meta generation if post type is not set.
 	 */
-	if ( ! isset( $post->post_type ) || 'wp_navigation' !== $post->post_type ) {
+	if ( ! isset( $post->post_type ) ) {
 		return $post;
 	}
 
@@ -1208,8 +1217,14 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 		);
 	}
 
+	if ( 'wp_navigation' === $post->post_type ) {
+		$wrapper_block_type = 'core/navigation';
+	} else {
+		$wrapper_block_type = 'core/post-content';
+	}
+
 	$markup = get_comment_delimited_block_content(
-		'core/navigation',
+		$wrapper_block_type,
 		$attributes,
 		$post->post_content
 	);
@@ -1266,16 +1281,17 @@ function insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( &$parsed_a
 }
 
 /**
- * Hooks into the REST API response for the core/navigation block and adds the first and last inner blocks.
+ * Hooks into the REST API response for the Posts endpoint and adds the first and last inner blocks.
  *
  * @since 6.6.0
+ * @since 6.8.0 Support non-`wp_navigation` post types.
  *
  * @param WP_REST_Response $response The response object.
  * @param WP_Post          $post     Post object.
  * @return WP_REST_Response The response object.
  */
 function insert_hooked_blocks_into_rest_response( $response, $post ) {
-	if ( ! isset( $response->data['content']['raw'] ) || ! isset( $response->data['content']['rendered'] ) ) {
+	if ( empty( $response->data['content']['raw'] ) || empty( $response->data['content']['rendered'] ) ) {
 		return $response;
 	}
 
@@ -1287,21 +1303,43 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
 			'ignoredHookedBlocks' => $ignored_hooked_blocks,
 		);
 	}
+
+	if ( 'wp_navigation' === $post->post_type ) {
+		$wrapper_block_type = 'core/navigation';
+	} else {
+		$wrapper_block_type = 'core/post-content';
+	}
+
 	$content = get_comment_delimited_block_content(
-		'core/navigation',
+		$wrapper_block_type,
 		$attributes,
 		$response->data['content']['raw']
 	);
 
-	$content = apply_block_hooks_to_content( $content, $post );
+	$content = apply_block_hooks_to_content(
+		$content,
+		$post,
+		'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata'
+	);
 
-	// Remove mock Navigation block wrapper.
+	// Remove mock block wrapper.
 	$content = remove_serialized_parent_block( $content );
 
 	$response->data['content']['raw'] = $content;
 
+	// `apply_block_hooks_to_content` is called above. Ensure it is not called again as a filter.
+	$priority = has_filter( 'the_content', 'apply_block_hooks_to_content' );
+	if ( false !== $priority ) {
+		remove_filter( 'the_content', 'apply_block_hooks_to_content', $priority );
+	}
+
 	/** This filter is documented in wp-includes/post-template.php */
 	$response->data['content']['rendered'] = apply_filters( 'the_content', $content );
+
+	// Restore the filter if it was set initially.
+	if ( false !== $priority ) {
+		add_filter( 'the_content', 'apply_block_hooks_to_content', $priority );
+	}
 
 	return $response;
 }
@@ -1320,7 +1358,7 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
  * @access private
  *
  * @param array                           $hooked_blocks An array of blocks hooked to another given block.
- * @param WP_Block_Template|WP_Post|array $context       A block template, template part, `wp_navigation` post object,
+ * @param WP_Block_Template|WP_Post|array $context       A block template, template part, post object,
  *                                                       or pattern that the blocks belong to.
  * @param callable                        $callback      A function that will be called for each block to generate
  *                                                       the markup for a given list of blocks that are hooked to it.
@@ -1377,7 +1415,7 @@ function make_before_block_visitor( $hooked_blocks, $context, $callback = 'inser
  * @access private
  *
  * @param array                           $hooked_blocks An array of blocks hooked to another block.
- * @param WP_Block_Template|WP_Post|array $context       A block template, template part, `wp_navigation` post object,
+ * @param WP_Block_Template|WP_Post|array $context       A block template, template part, post object,
  *                                                       or pattern that the blocks belong to.
  * @param callable                        $callback      A function that will be called for each block to generate
  *                                                       the markup for a given list of blocks that are hooked to it.
