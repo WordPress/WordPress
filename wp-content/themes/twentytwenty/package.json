@@ -10,6 +10,10 @@
 		"TwentyTwenty"
 	],
 	"homepage": "https://wordpress.org/themes/twentytwenty/",
+	"repository": {
+		"type": "svn",
+		"url": "https://develop.svn.wordpress.org/trunk"
+	},
 	"bugs": {
 		"url": "https://core.trac.wordpress.org/"
 	},
@@ -18,13 +22,13 @@
 		"npm": ">=9.8.1"
 	},
 	"devDependencies": {
-		"@wordpress/browserslist-config": "^6.1.0",
-		"@wordpress/scripts": "^28.1.0",
-		"autoprefixer": "^10.4.19",
-		"concurrently": "^8.2.2",
-		"postcss": "^8.4.38",
+		"@wordpress/browserslist-config": "^6.14.0",
+		"@wordpress/scripts": "^30.7.0",
+		"autoprefixer": "^10.4.20",
+		"concurrently": "^9.1.0",
+		"postcss": "^8.4.49",
 		"postcss-cli": "^11.0.0",
-		"rtlcss": "^4.1.1",
+		"rtlcss": "^4.3.0",
 		"stylelint-a11y": "^1.2.3"
 	},
 	"browserslist": [
