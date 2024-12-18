@@ -106,8 +106,8 @@ function wp_default_packages_vendor( $scripts ) {
 	);
 
 	$vendor_scripts_versions = array(
-		'react'                       => '18.3.1',
-		'react-dom'                   => '18.3.1',
+		'react'                       => '18.3.1-umd',
+		'react-dom'                   => '18.3.1-umd',
 		'react-jsx-runtime'           => '18.3.1',
 		'regenerator-runtime'         => '0.14.1',
 		'moment'                      => '2.30.1',
