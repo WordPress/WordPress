@@ -4353,7 +4353,7 @@ function is_avatar_comment_type( $comment_type ) {
  *
  * @since 4.2.0
  * @since 6.7.0 Gravatar URLs always use HTTPS.
- * @since 6.8.0 Gravatar URLs use the SHA-256 hashing algorithm. 
+ * @since 6.8.0 Gravatar URLs use the SHA-256 hashing algorithm.
  *
  * @param mixed $id_or_email The avatar to retrieve. Accepts a user ID, Gravatar SHA-256 or MD5 hash,
  *                           user email, WP_User object, WP_Post object, or WP_Comment object.
@@ -4500,7 +4500,7 @@ function get_avatar_data( $id_or_email, $args = null ) {
 		if ( str_contains( $id_or_email, '@sha256.gravatar.com' ) ) {
 			// SHA-256 hash.
 			list( $email_hash ) = explode( '@', $id_or_email );
-		} else if ( str_contains( $id_or_email, '@md5.gravatar.com' ) ) {
+		} elseif ( str_contains( $id_or_email, '@md5.gravatar.com' ) ) {
 			// MD5 hash.
 			list( $email_hash ) = explode( '@', $id_or_email );
 		} else {
