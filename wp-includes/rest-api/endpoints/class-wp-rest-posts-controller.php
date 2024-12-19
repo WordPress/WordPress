@@ -346,7 +346,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$args = $this->prepare_tax_query( $args, $request );
 
-		if ( ! empty( $request['format'] ) ) {
+		if ( isset( $registered['format'], $request['format'] ) ) {
 			$formats = $request['format'];
 			/*
 			 * The relation needs to be set to `OR` since the request can contain
