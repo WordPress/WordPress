@@ -1219,6 +1219,8 @@ function update_ignored_hooked_blocks_postmeta( $post ) {
 
 	if ( 'wp_navigation' === $post->post_type ) {
 		$wrapper_block_type = 'core/navigation';
+	} elseif ( 'wp_block' === $post->post_type ) {
+		$wrapper_block_type = 'core/block';
 	} else {
 		$wrapper_block_type = 'core/post-content';
 	}
@@ -1291,7 +1293,7 @@ function insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata( &$parsed_a
  * @return WP_REST_Response The response object.
  */
 function insert_hooked_blocks_into_rest_response( $response, $post ) {
-	if ( empty( $response->data['content']['raw'] ) || empty( $response->data['content']['rendered'] ) ) {
+	if ( empty( $response->data['content']['raw'] ) ) {
 		return $response;
 	}
 
@@ -1306,6 +1308,8 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
 
 	if ( 'wp_navigation' === $post->post_type ) {
 		$wrapper_block_type = 'core/navigation';
+	} elseif ( 'wp_block' === $post->post_type ) {
+		$wrapper_block_type = 'core/block';
 	} else {
 		$wrapper_block_type = 'core/post-content';
 	}
@@ -1326,6 +1330,11 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
 	$content = remove_serialized_parent_block( $content );
 
 	$response->data['content']['raw'] = $content;
+
+	// If the rendered content was previously empty, we leave it like that.
+	if ( empty( $response->data['content']['rendered'] ) ) {
+		return $response;
+	}
 
 	// `apply_block_hooks_to_content` is called above. Ensure it is not called again as a filter.
 	$priority = has_filter( 'the_content', 'apply_block_hooks_to_content' );
