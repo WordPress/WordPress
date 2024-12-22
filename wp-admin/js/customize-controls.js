@@ -1530,7 +1530,7 @@
 			}
 
 			// Expand/Collapse accordion sections on click.
-			section.container.find( '.accordion-section-title button, .customize-section-back' ).on( 'click keydown', function( event ) {
+			section.container.find( '.accordion-section-title button, .customize-section-back, .accordion-section-title[tabindex]' ).on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
@@ -1605,7 +1605,7 @@
 				content = section.contentContainer,
 				overlay = section.headContainer.closest( '.wp-full-overlay' ),
 				backBtn = content.find( '.customize-section-back' ),
-				sectionTitle = section.headContainer.find( '.accordion-section-title button' ).first(),
+				sectionTitle = section.headContainer.find( '.accordion-section-title button, .accordion-section-title[tabindex]' ).first(),
 				expand, panel;
 
 			if ( expanded && ! content.hasClass( 'open' ) ) {
@@ -2694,7 +2694,7 @@
 				container = section.headContainer.closest( '.wp-full-overlay-sidebar-content' ),
 				content = section.contentContainer,
 				backBtn = content.find( '.customize-section-back' ),
-				sectionTitle = section.headContainer.find( '.accordion-section-title button' ).first(),
+				sectionTitle = section.headContainer.find( '.accordion-section-title button, .accordion-section-title[tabindex]' ).first(),
 				body = $( document.body ),
 				expand, panel;
 
@@ -2833,7 +2833,7 @@
 			var meta, panel = this;
 
 			// Expand/Collapse accordion sections on click.
-			panel.headContainer.find( '.accordion-section-title button' ).on( 'click keydown', function( event ) {
+			panel.headContainer.find( '.accordion-section-title button, .accordion-section-title[tabindex]' ).on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
@@ -2937,7 +2937,7 @@
 				accordionSection = panel.contentContainer,
 				overlay = accordionSection.closest( '.wp-full-overlay' ),
 				container = accordionSection.closest( '.wp-full-overlay-sidebar-content' ),
-				topPanel = panel.headContainer.find( '.accordion-section-title button' ),
+				topPanel = panel.headContainer.find( '.accordion-section-title button, .accordion-section-title[tabindex]' ),
 				backBtn = accordionSection.find( '.customize-panel-back' ),
 				childSections = panel.sections(),
 				skipTransition;
