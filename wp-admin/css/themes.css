@@ -935,6 +935,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	.theme-overlay .theme-screenshots {
 		width: 100%;
 		float: none;
+		margin: 0;
 	}
 
 	.theme-overlay .theme-info {
