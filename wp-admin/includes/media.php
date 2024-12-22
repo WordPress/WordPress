@@ -2277,11 +2277,11 @@ function media_upload_form( $errors = null ) {
 		<label class="screen-reader-text" for="async-upload">
 			<?php
 			/* translators: Hidden accessibility text. */
-			_e( 'Upload' );
+			_ex( 'Upload', 'verb' );
 			?>
 		</label>
 		<input type="file" name="async-upload" id="async-upload" />
-		<?php submit_button( __( 'Upload' ), 'primary', 'html-upload', false ); ?>
+		<?php submit_button( _x( 'Upload', 'verb' ), 'primary', 'html-upload', false ); ?>
 		<a href="#" onclick="try{top.tb_remove();}catch(e){}; return false;"><?php _e( 'Cancel' ); ?></a>
 	</p>
 	<div class="clear"></div>
