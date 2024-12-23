@@ -203,6 +203,7 @@ function wp_enqueue_block_template_skip_link() {
 		// Create the skip link.
 		skipLink = document.createElement( 'a' );
 		skipLink.classList.add( 'skip-link', 'screen-reader-text' );
+		skipLink.id = 'wp-skip-link';
 		skipLink.href = '#' + skipLinkTargetID;
 		skipLink.innerHTML = '<?php /* translators: Hidden accessibility text. */ esc_html_e( 'Skip to content' ); ?>';
 
