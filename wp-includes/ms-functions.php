@@ -462,7 +462,7 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
 	$orig_username = $user_name;
 	$user_name     = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
 
-	if ( $user_name != $orig_username || preg_match( '/[^a-z0-9]/', $user_name ) ) {
+	if ( $user_name !== $orig_username || preg_match( '/[^a-z0-9]/', $user_name ) ) {
 		$errors->add( 'user_name', __( 'Usernames can only contain lowercase letters (a-z) and numbers.' ) );
 		$user_name = $orig_username;
 	}
