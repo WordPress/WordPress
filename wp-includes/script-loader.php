@@ -2517,9 +2517,9 @@ function wp_enqueue_global_styles() {
 
 	if ( $is_block_theme ) {
 		/*
-		* Dequeue the Customizer's custom CSS
-		* and add it before the global styles custom CSS.
-		*/
+		 * Dequeue the Customizer's custom CSS
+		 * and add it before the global styles custom CSS.
+		 */
 		remove_action( 'wp_head', 'wp_custom_css_cb', 101 );
 		// Get the custom CSS from the Customizer and add it to the global stylesheet.
 		$custom_css  = wp_get_custom_css();
