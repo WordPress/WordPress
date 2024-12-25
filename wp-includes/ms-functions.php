@@ -230,8 +230,10 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	global $wpdb;
 
-	switch_to_blog( $blog_id );
 	$user_id = (int) $user_id;
+	$blog_id = (int) $blog_id;
+
+	switch_to_blog( $blog_id );
 
 	/**
 	 * Fires before a user is removed from a site.
@@ -249,13 +251,13 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	 * If being removed from the primary blog, set a new primary
 	 * if the user is assigned to multiple blogs.
 	 */
-	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
-	if ( $primary_blog == $blog_id ) {
+	$primary_blog = (int) get_user_meta( $user_id, 'primary_blog', true );
+	if ( $primary_blog === $blog_id ) {
 		$new_id     = '';
 		$new_domain = '';
 		$blogs      = get_blogs_of_user( $user_id );
 		foreach ( (array) $blogs as $blog ) {
-			if ( $blog->userblog_id == $blog_id ) {
+			if ( $blog->userblog_id === $blog_id ) {
 				continue;
 			}
 			$new_id     = $blog->userblog_id;
