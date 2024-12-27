@@ -2304,7 +2304,7 @@ function is_user_spammy( $user = null ) {
 		}
 	}
 
-	return $user && isset( $user->spam ) && 1 == $user->spam;
+	return $user && isset( $user->spam ) && '1' === $user->spam;
 }
 
 /**
