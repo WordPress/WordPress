@@ -1784,12 +1784,11 @@ function do_settings_sections( $page ) {
 			call_user_func( $section['callback'], $section );
 		}
 
-		if ( ! isset( $wp_settings_fields ) || ! isset( $wp_settings_fields[ $page ] ) || ! isset( $wp_settings_fields[ $page ][ $section['id'] ] ) ) {
-			continue;
+		if ( isset( $wp_settings_fields[ $page ][ $section['id'] ] ) ) {
+			echo '<table class="form-table" role="presentation">';
+			do_settings_fields( $page, $section['id'] );
+			echo '</table>';
 		}
-		echo '<table class="form-table" role="presentation">';
-		do_settings_fields( $page, $section['id'] );
-		echo '</table>';
 
 		if ( '' !== $section['after_section'] ) {
 			echo wp_kses_post( $section['after_section'] );
