@@ -2823,7 +2823,7 @@ function is_sticky( $post_id = 0 ) {
 function sanitize_post( $post, $context = 'display' ) {
 	if ( is_object( $post ) ) {
 		// Check if post already filtered for this context.
-		if ( isset( $post->filter ) && $context == $post->filter ) {
+		if ( isset( $post->filter ) && $context === $post->filter ) {
 			return $post;
 		}
 		if ( ! isset( $post->ID ) ) {
@@ -2835,7 +2835,7 @@ function sanitize_post( $post, $context = 'display' ) {
 		$post->filter = $context;
 	} elseif ( is_array( $post ) ) {
 		// Check if post already filtered for this context.
-		if ( isset( $post['filter'] ) && $context == $post['filter'] ) {
+		if ( isset( $post['filter'] ) && $context === $post['filter'] ) {
 			return $post;
 		}
 		if ( ! isset( $post['ID'] ) ) {
