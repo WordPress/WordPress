@@ -1135,7 +1135,7 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 function get_post_ancestors( $post ) {
 	$post = get_post( $post );
 
-	if ( ! $post || empty( $post->post_parent ) || $post->post_parent == $post->ID ) {
+	if ( ! $post || empty( $post->post_parent ) || $post->post_parent === $post->ID ) {
 		return array();
 	}
 
@@ -1146,7 +1146,9 @@ function get_post_ancestors( $post ) {
 
 	while ( $ancestor = get_post( $id ) ) {
 		// Loop detection: If the ancestor has been seen before, break.
-		if ( empty( $ancestor->post_parent ) || ( $ancestor->post_parent == $post->ID ) || in_array( $ancestor->post_parent, $ancestors, true ) ) {
+		if ( empty( $ancestor->post_parent ) || $ancestor->post_parent === $post->ID
+			|| in_array( $ancestor->post_parent, $ancestors, true )
+		) {
 			break;
 		}
 
