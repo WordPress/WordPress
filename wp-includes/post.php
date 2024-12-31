@@ -3390,7 +3390,8 @@ function wp_count_attachments( $mime_type = '' ) {
 	);
 
 	$counts = wp_cache_get( $cache_key, 'counts' );
-	if ( false == $counts ) {
+
+	if ( false === $counts ) {
 		$and   = wp_post_mime_type_where( $mime_type );
 		$count = $wpdb->get_results( "SELECT post_mime_type, COUNT( * ) AS num_posts FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' $and GROUP BY post_mime_type", ARRAY_A );
 
