@@ -35,7 +35,7 @@ https://wordpress.org/documentation/article/twenty-twenty-four-changelog/#Versio
 
 == Copyright ==
 
-Twenty Twenty-Four WordPress Theme, (C) 2023-2024 WordPress.org and contributors.
+Twenty Twenty-Four WordPress Theme, (C) 2023-2025 WordPress.org and contributors.
 Twenty Twenty-Four is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
