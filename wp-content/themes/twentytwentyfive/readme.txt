@@ -17,7 +17,7 @@ Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible de
 
 == Copyright ==
 
-Twenty Twenty-Five WordPress Theme, (C) 2024 WordPress.org and contributors.
+Twenty Twenty-Five WordPress Theme, (C) 2024-2025 WordPress.org and contributors.
 Twenty Twenty-Five is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
