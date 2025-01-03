@@ -481,10 +481,12 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
 	}
 
 	$illegal_names = get_site_option( 'illegal_names' );
+
 	if ( ! is_array( $illegal_names ) ) {
 		$illegal_names = array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
 		add_site_option( 'illegal_names', $illegal_names );
 	}
+
 	if ( in_array( $user_name, $illegal_names, true ) ) {
 		$errors->add( 'user_name', __( 'Sorry, that username is not allowed.' ) );
 	}
@@ -516,10 +518,12 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
 	}
 
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
+
 	if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 		$limited_email_domains = array_map( 'strtolower', $limited_email_domains );
-		$emaildomain           = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
-		if ( ! in_array( $emaildomain, $limited_email_domains, true ) ) {
+		$email_domain          = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
+
+		if ( ! in_array( $email_domain, $limited_email_domains, true ) ) {
 			$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!' ) );
 		}
 	}
@@ -637,7 +641,8 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 
 	$errors        = new WP_Error();
 	$illegal_names = get_site_option( 'illegal_names' );
-	if ( false == $illegal_names ) {
+
+	if ( ! is_array( $illegal_names ) ) {
 		$illegal_names = array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
 		add_site_option( 'illegal_names', $illegal_names );
 	}
@@ -721,7 +726,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * unless it's the user's own username.
 	 */
 	if ( username_exists( $blogname ) ) {
-		if ( ! is_object( $user ) || ( is_object( $user ) && ( $user->user_login != $blogname ) ) ) {
+		if ( ! is_object( $user ) || ( is_object( $user ) && ( $user->user_login !== $blogname ) ) ) {
 			$errors->add( 'blogname', __( 'Sorry, that site is reserved!' ) );
 		}
 	}
