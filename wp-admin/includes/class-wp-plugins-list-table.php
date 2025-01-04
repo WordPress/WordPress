@@ -47,7 +47,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		);
 
 		$allowed_statuses = array( 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse', 'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled' );
-
+		
+		/**
+		 * Filters the plugin allowed statuses.
+		 *
+		 * @param array $allowed_statuses The array of plugin allowed statuses.
+		 */
+		$allowed_statuses = apply_filters('plugin_allowed_statuses', $allowed_statuses);
+		
 		$status = 'all';
 		if ( isset( $_REQUEST['plugin_status'] ) && in_array( $_REQUEST['plugin_status'], $allowed_statuses, true ) ) {
 			$status = $_REQUEST['plugin_status'];
