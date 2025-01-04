@@ -726,7 +726,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * unless it's the user's own username.
 	 */
 	if ( username_exists( $blogname ) ) {
-		if ( ! is_object( $user ) || ( is_object( $user ) && ( $user->user_login !== $blogname ) ) ) {
+		if ( ! is_object( $user ) || ( is_object( $user ) && $user->user_login !== $blogname ) ) {
 			$errors->add( 'blogname', __( 'Sorry, that site is reserved!' ) );
 		}
 	}
@@ -1632,7 +1632,8 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 	$switched_locale = switch_to_user_locale( $user_id );
 
 	$welcome_email = get_site_option( 'welcome_email' );
-	if ( false == $welcome_email ) {
+
+	if ( ! $welcome_email ) {
 		/* translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those are placeholders. */
 		$welcome_email = __(
 			'Howdy USERNAME,
