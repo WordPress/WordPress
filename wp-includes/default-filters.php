@@ -366,7 +366,13 @@ add_action( 'after_switch_theme', '_wp_sidebars_changed' );
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
 add_action( 'wp_print_styles', 'print_emoji_styles' ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_emoji_styles().
 
-if ( isset( $_GET['replytocom'] ) ) {
+if (
+	// Comment reply link.
+	isset( $_GET['replytocom'] )
+	||
+	// Unapproved comment preview.
+	( isset( $_GET['unapproved'] ) && isset( $_GET['moderation-hash'] ) )
+) {
 	add_filter( 'wp_robots', 'wp_robots_no_robots' );
 }
 
