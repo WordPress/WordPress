@@ -2581,18 +2581,38 @@ endif;
 
 if ( ! function_exists( 'wp_hash' ) ) :
 	/**
-	 * Gets hash of given string.
+	 * Gets the hash of the given string.
+	 *
+	 * The default algorithm is md5 but can be changed to any algorithm supported by
+	 * `hash_hmac()`. Use the `hash_hmac_algos()` function to check the supported
+	 * algorithms.
 	 *
 	 * @since 2.0.3
+	 * @since 6.8.0 The `$algo` parameter was added.
+	 *
+	 * @throws InvalidArgumentException if the hashing algorithm is not supported.
 	 *
 	 * @param string $data   Plain text to hash.
 	 * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
+	 * @param string $algo   Hashing algorithm to use. Default: 'md5'.
 	 * @return string Hash of $data.
 	 */
-	function wp_hash( $data, $scheme = 'auth' ) {
+	function wp_hash( $data, $scheme = 'auth', $algo = 'md5' ) {
 		$salt = wp_salt( $scheme );
 
-		return hash_hmac( 'md5', $data, $salt );
+		// Ensure the algorithm is supported by the hash_hmac function.
+		if ( ! in_array( $algo, hash_hmac_algos(), true ) ) {
+			throw new InvalidArgumentException(
+				sprintf(
+					/** translators: 1: Name of a cryptographic hash algorithm. 2: List of supported algorithms. */
+					__( 'Unsupported hashing algorithm: %1$s. Supported algorithms are: %2$s' ),
+					$algo,
+					implode( ', ', hash_hmac_algos() )
+				)
+			);
+		}
+
+		return hash_hmac( $algo, $data, $salt );
 	}
 endif;
 
