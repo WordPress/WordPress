@@ -454,7 +454,12 @@
 }
 
 .about__section a.button.button-hero {
+	padding-top: 1.1875rem;
+	padding-bottom: 1.1875rem;
 	font-size: 1.5rem;
+	line-height: 1.4;
+	white-space: normal;
+	text-wrap: pretty;
 }
 
 .about__container ul {
