@@ -7207,12 +7207,14 @@ function wp_mime_type_icon( $mime = 0, $preferred_ext = '.png' ) {
  */
 function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
 	// Don't bother if it hasn't changed.
-	if ( $post->post_name == $post_before->post_name ) {
+	if ( $post->post_name === $post_before->post_name ) {
 		return;
 	}
 
 	// We're only concerned with published, non-hierarchical objects.
-	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === get_post_type( $post ) && 'inherit' === $post->post_status ) ) || is_post_type_hierarchical( $post->post_type ) ) {
+	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === $post->post_type && 'inherit' === $post->post_status ) )
+		|| is_post_type_hierarchical( $post->post_type )
+	) {
 		return;
 	}
 
