@@ -7255,12 +7255,14 @@ function wp_check_for_changed_dates( $post_id, $post, $post_before ) {
 	$new_date      = gmdate( 'Y-m-d', strtotime( $post->post_date ) );
 
 	// Don't bother if it hasn't changed.
-	if ( $new_date == $previous_date ) {
+	if ( $new_date === $previous_date ) {
 		return;
 	}
 
 	// We're only concerned with published, non-hierarchical objects.
-	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === get_post_type( $post ) && 'inherit' === $post->post_status ) ) || is_post_type_hierarchical( $post->post_type ) ) {
+	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === $post->post_type && 'inherit' === $post->post_status ) )
+		|| is_post_type_hierarchical( $post->post_type )
+	) {
 		return;
 	}
 
