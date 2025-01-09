@@ -48,10 +48,10 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 			'remember'      => false,
 		);
 
-		if ( ! empty( $_POST['log'] ) ) {
+		if ( ! empty( $_POST['log'] ) && is_string( $_POST['log'] ) ) {
 			$credentials['user_login'] = wp_unslash( $_POST['log'] );
 		}
-		if ( ! empty( $_POST['pwd'] ) ) {
+		if ( ! empty( $_POST['pwd'] ) && is_string( $_POST['pwd'] ) ) {
 			$credentials['user_password'] = $_POST['pwd'];
 		}
 		if ( ! empty( $_POST['rememberme'] ) ) {
