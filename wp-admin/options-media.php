@@ -70,7 +70,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <label for="thumbnail_size_h"><?php _e( 'Height' ); ?></label>
 <input name="thumbnail_size_h" type="number" step="1" min="0" id="thumbnail_size_h" value="<?php form_option( 'thumbnail_size_h' ); ?>" class="small-text" />
 </fieldset>
-<input name="thumbnail_crop" type="checkbox" id="thumbnail_crop" value="1" <?php checked( '1', get_option( 'thumbnail_crop' ) ); ?>/>
+<input name="thumbnail_crop" type="checkbox" id="thumbnail_crop" value="1"<?php checked( '1', get_option( 'thumbnail_crop' ) ); ?> />
 <label for="thumbnail_crop"><?php _e( 'Crop thumbnail to exact dimensions (normally thumbnails are proportional)' ); ?></label>
 </td>
 </tr>
