@@ -189,7 +189,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 			$revisions_query = new WP_Query();
 			$revisions       = $revisions_query->query( $query_args );
 			$offset          = isset( $query_args['offset'] ) ? (int) $query_args['offset'] : 0;
-			$page            = (int) $query_args['paged'];
+			$page            = isset( $query_args['paged'] ) ? (int) $query_args['paged'] : 0;
 			$total_revisions = $revisions_query->found_posts;
 
 			if ( $total_revisions < 1 ) {
