@@ -162,37 +162,46 @@ function get_option( $option, $default_value = false ) {
 
 	if ( ! wp_installing() ) {
 		$alloptions = wp_load_alloptions();
-
+		/*
+		 * When getting an option value, we check in the following order for performance:
+		 *
+		 * 1. Check the 'alloptions' cache first to prioritize existing loaded options.
+		 * 2. Check the 'notoptions' cache before a cache lookup or DB hit.
+		 * 3. Check the 'options' cache prior to a DB hit.
+		 * 4. Check the DB for the option and cache it in either the 'options' or 'notoptions' cache.
+		 */
 		if ( isset( $alloptions[ $option ] ) ) {
 			$value = $alloptions[ $option ];
 		} else {
+			// Check for non-existent options first to avoid unnecessary object cache lookups and DB hits.
+			$notoptions = wp_cache_get( 'notoptions', 'options' );
+
+			if ( ! is_array( $notoptions ) ) {
+				$notoptions = array();
+				wp_cache_set( 'notoptions', $notoptions, 'options' );
+			}
+
+			if ( isset( $notoptions[ $option ] ) ) {
+				/**
+				 * Filters the default value for an option.
+				 *
+				 * The dynamic portion of the hook name, `$option`, refers to the option name.
+				 *
+				 * @since 3.4.0
+				 * @since 4.4.0 The `$option` parameter was added.
+				 * @since 4.7.0 The `$passed_default` parameter was added to distinguish between a `false` value and the default parameter value.
+				 *
+				 * @param mixed  $default_value  The default value to return if the option does not exist
+				 *                               in the database.
+				 * @param string $option         Option name.
+				 * @param bool   $passed_default Was `get_option()` passed a default value?
+				 */
+				return apply_filters( "default_option_{$option}", $default_value, $option, $passed_default );
+			}
+
 			$value = wp_cache_get( $option, 'options' );
 
 			if ( false === $value ) {
-				// Prevent non-existent options from triggering multiple queries.
-				$notoptions = wp_cache_get( 'notoptions', 'options' );
-
-				// Prevent non-existent `notoptions` key from triggering multiple key lookups.
-				if ( ! is_array( $notoptions ) ) {
-					$notoptions = array();
-					wp_cache_set( 'notoptions', $notoptions, 'options' );
-				} elseif ( isset( $notoptions[ $option ] ) ) {
-					/**
-					 * Filters the default value for an option.
-					 *
-					 * The dynamic portion of the hook name, `$option`, refers to the option name.
-					 *
-					 * @since 3.4.0
-					 * @since 4.4.0 The `$option` parameter was added.
-					 * @since 4.7.0 The `$passed_default` parameter was added to distinguish between a `false` value and the default parameter value.
-					 *
-					 * @param mixed  $default_value  The default value to return if the option does not exist
-					 *                               in the database.
-					 * @param string $option         Option name.
-					 * @param bool   $passed_default Was `get_option()` passed a default value?
-					 */
-					return apply_filters( "default_option_{$option}", $default_value, $option, $passed_default );
-				}
 
 				$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 
