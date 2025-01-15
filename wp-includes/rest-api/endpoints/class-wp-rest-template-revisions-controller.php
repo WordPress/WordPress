@@ -170,7 +170,17 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
 			return new WP_Error(
 				'rest_post_invalid_parent',
 				__( 'Invalid template parent ID.' ),
-				array( 'status' => 404 )
+				array( 'status' => WP_Http::NOT_FOUND )
+			);
+		}
+
+		$parent_post_id = isset( $template->wp_id ) ? (int) $template->wp_id : 0;
+
+		if ( $parent_post_id <= 0 ) {
+			return new WP_Error(
+				'rest_invalid_template',
+				__( 'Templates based on theme files can\'t have revisions.' ),
+				array( 'status' => WP_Http::BAD_REQUEST )
 			);
 		}
 
