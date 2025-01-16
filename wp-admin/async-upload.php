@@ -14,8 +14,11 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 	define( 'WP_ADMIN', true );
 }
 
-/** Load WordPress Bootstrap */
-require_once dirname( __DIR__ ) . '/wp-load.php';
+if ( defined( 'ABSPATH' ) ) {
+	require_once ABSPATH . 'wp-load.php';
+} else {
+	require_once dirname( __DIR__ ) . '/wp-load.php';
+}
 
 require_once ABSPATH . 'wp-admin/admin.php';
 
