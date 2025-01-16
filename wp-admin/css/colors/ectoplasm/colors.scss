@@ -1,11 +1,11 @@
-@use "sass:color";
-
-$scheme-name: "ectoplasm";
 $base-color: #523f6d;
-$icon-color: #ece6f6;
-$highlight-color: #a3b745;
-$notification-color: #d46f15;
 
-$form-checked: $base-color;
+@use "../_admin.scss" with (
+	$scheme-name: "ectoplasm",
+	$base-color: $base-color,
+	$icon-color: #ece6f6,
+	$highlight-color: #a3b745,
+	$notification-color: #d46f15,
 
-@import "../_admin.scss";
+	$form-checked: $base-color,
+);
