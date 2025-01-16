@@ -10,6 +10,8 @@
 
 define( 'MS_FILES_REQUEST', true );
 define( 'SHORTINIT', true );
+
+/** Load WordPress Bootstrap */
 require_once dirname( __DIR__ ) . '/wp-load.php';
 
 if ( ! is_multisite() ) {
