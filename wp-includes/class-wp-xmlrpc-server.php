@@ -4883,7 +4883,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $blogs;
 		}
 
-		if ( $_SERVER['HTTP_HOST'] == $domain && $_SERVER['REQUEST_URI'] == $path ) {
+		if ( $_SERVER['HTTP_HOST'] === $domain && $_SERVER['REQUEST_URI'] === $path ) {
 			return $blogs;
 		} else {
 			foreach ( (array) $blogs as $blog ) {
