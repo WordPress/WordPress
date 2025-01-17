@@ -1,5 +1,0 @@
-
-dcicifghcih
-
-
-echo "BINGER"
