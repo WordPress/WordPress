@@ -3504,7 +3504,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$status = wp_delete_term( $category_id, 'category' );
 
-		if ( true == $status ) {
+		if ( true === $status ) {
 			/**
 			 * Fires after a category has been successfully deleted via XML-RPC.
 			 *
@@ -3754,7 +3754,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$status = wp_delete_comment( $comment_id );
 
-		if ( $status ) {
+		if ( true === $status ) {
 			/**
 			 * Fires after a comment has been successfully deleted via XML-RPC.
 			 *
