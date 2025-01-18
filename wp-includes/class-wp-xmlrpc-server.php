@@ -6885,6 +6885,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		 */
 		$urltest = parse_url( $pagelinkedto );
 		$post_id = url_to_postid( $pagelinkedto );
+
 		if ( $post_id ) {
 			// $way
 		} elseif ( isset( $urltest['path'] ) && preg_match( '#p/[0-9]{1,}#', $urltest['path'], $match ) ) {
@@ -6917,15 +6918,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			// TODO: Attempt to extract a post ID from the given URL.
 			return $this->pingback_error( 33, __( 'The specified target URL cannot be used as a target. It either does not exist, or it is not a pingback-enabled resource.' ) );
 		}
-		$post_id = (int) $post_id;
 
-		$post = get_post( $post_id );
+		$post_id = (int) $post_id;
+		$post    = get_post( $post_id );
 
 		if ( ! $post ) { // Post not found.
 			return $this->pingback_error( 33, __( 'The specified target URL cannot be used as a target. It either does not exist, or it is not a pingback-enabled resource.' ) );
 		}
 
-		if ( url_to_postid( $pagelinkedfrom ) == $post_id ) {
+		if ( url_to_postid( $pagelinkedfrom ) === $post_id ) {
 			return $this->pingback_error( 0, __( 'The source URL and the target URL cannot both point to the same resource.' ) );
 		}
 
