@@ -1513,17 +1513,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo.
 		if ( ! empty( $post_data['post_date_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force.
-			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
+			$date_created = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		} elseif ( ! empty( $post_data['post_date'] ) ) {
-			$dateCreated = $post_data['post_date']->getIso();
+			$date_created = $post_data['post_date']->getIso();
 		}
 
 		// Default to not flagging the post date to be edited unless it's intentional.
 		$post_data['edit_date'] = false;
 
-		if ( ! empty( $dateCreated ) ) {
-			$post_data['post_date']     = iso8601_to_datetime( $dateCreated );
-			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'gmt' );
+		if ( ! empty( $date_created ) ) {
+			$post_data['post_date']     = iso8601_to_datetime( $date_created );
+			$post_data['post_date_gmt'] = iso8601_to_datetime( $date_created, 'gmt' );
 
 			// Flag the post date to be edited.
 			$post_data['edit_date'] = true;
@@ -3837,9 +3837,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo.
 		if ( ! empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force.
-			$dateCreated                 = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
-			$comment['comment_date']     = get_date_from_gmt( $dateCreated );
-			$comment['comment_date_gmt'] = iso8601_to_datetime( $dateCreated, 'gmt' );
+			$date_created = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
+
+			$comment['comment_date']     = get_date_from_gmt( $date_created );
+			$comment['comment_date_gmt'] = iso8601_to_datetime( $date_created, 'gmt' );
 		}
 
 		if ( isset( $content_struct['content'] ) ) {
@@ -5571,16 +5572,16 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo.
 		if ( ! empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force.
-			$dateCreated = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
+			$date_created = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
 		} elseif ( ! empty( $content_struct['dateCreated'] ) ) {
-			$dateCreated = $content_struct['dateCreated']->getIso();
+			$date_created = $content_struct['dateCreated']->getIso();
 		}
 
 		$post_date     = '';
 		$post_date_gmt = '';
-		if ( ! empty( $dateCreated ) ) {
-			$post_date     = iso8601_to_datetime( $dateCreated );
-			$post_date_gmt = iso8601_to_datetime( $dateCreated, 'gmt' );
+		if ( ! empty( $date_created ) ) {
+			$post_date     = iso8601_to_datetime( $date_created );
+			$post_date_gmt = iso8601_to_datetime( $date_created, 'gmt' );
 		}
 
 		$post_category = array();
@@ -5958,17 +5959,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Do some timestamp voodoo.
 		if ( ! empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force.
-			$dateCreated = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
+			$date_created = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
 		} elseif ( ! empty( $content_struct['dateCreated'] ) ) {
-			$dateCreated = $content_struct['dateCreated']->getIso();
+			$date_created = $content_struct['dateCreated']->getIso();
 		}
 
 		// Default to not flagging the post date to be edited unless it's intentional.
 		$edit_date = false;
 
-		if ( ! empty( $dateCreated ) ) {
-			$post_date     = iso8601_to_datetime( $dateCreated );
-			$post_date_gmt = iso8601_to_datetime( $dateCreated, 'gmt' );
+		if ( ! empty( $date_created ) ) {
+			$post_date     = iso8601_to_datetime( $date_created );
+			$post_date_gmt = iso8601_to_datetime( $date_created, 'gmt' );
 
 			// Flag the post date to be edited.
 			$edit_date = true;
