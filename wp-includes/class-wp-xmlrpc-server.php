@@ -6087,9 +6087,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_modified_gmt = $this->_convert_date_gmt( $postdata['post_modified_gmt'], $postdata['post_modified'] );
 
 			$categories = array();
-			$catids     = wp_get_post_categories( $post_id );
-			foreach ( $catids as $catid ) {
-				$categories[] = get_cat_name( $catid );
+			$cat_ids    = wp_get_post_categories( $post_id );
+			foreach ( $cat_ids as $cat_id ) {
+				$categories[] = get_cat_name( $cat_id );
 			}
 
 			$tagnames = array();
@@ -6239,9 +6239,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_modified_gmt = $this->_convert_date_gmt( $entry['post_modified_gmt'], $entry['post_modified'] );
 
 			$categories = array();
-			$catids     = wp_get_post_categories( $entry['ID'] );
-			foreach ( $catids as $catid ) {
-				$categories[] = get_cat_name( $catid );
+			$cat_ids    = wp_get_post_categories( $entry['ID'] );
+			foreach ( $cat_ids as $cat_id ) {
+				$categories[] = get_cat_name( $cat_id );
 			}
 
 			$tagnames = array();
@@ -6639,16 +6639,16 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'mt.getPostCategories', $args, $this );
 
 		$categories = array();
-		$catids     = wp_get_post_categories( (int) $post_id );
+		$cat_ids    = wp_get_post_categories( (int) $post_id );
 		// First listed category will be the primary category.
-		$isPrimary = true;
-		foreach ( $catids as $catid ) {
+		$is_primary = true;
+		foreach ( $cat_ids as $cat_id ) {
 			$categories[] = array(
-				'categoryName' => get_cat_name( $catid ),
-				'categoryId'   => (string) $catid,
-				'isPrimary'    => $isPrimary,
+				'categoryName' => get_cat_name( $cat_id ),
+				'categoryId'   => (string) $cat_id,
+				'isPrimary'    => $is_primary,
 			);
-			$isPrimary    = false;
+			$is_primary   = false;
 		}
 
 		return $categories;
@@ -6693,12 +6693,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post.' ) );
 		}
 
-		$catids = array();
+		$cat_ids = array();
 		foreach ( $categories as $cat ) {
-			$catids[] = $cat['categoryId'];
+			$cat_ids[] = $cat['categoryId'];
 		}
 
-		wp_set_post_categories( $post_id, $catids );
+		wp_set_post_categories( $post_id, $cat_ids );
 
 		return true;
 	}
