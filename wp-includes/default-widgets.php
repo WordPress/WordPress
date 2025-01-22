@@ -7,6 +7,11 @@
  * @since 2.8.0
  */
 
+// Don't load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 /** WP_Widget_Pages class */
 require_once ABSPATH . WPINC . '/widgets/class-wp-widget-pages.php';
 

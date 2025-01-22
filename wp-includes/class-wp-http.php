@@ -7,6 +7,11 @@
  * @since 2.7.0
  */
 
+// Don't load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 if ( ! class_exists( 'WpOrg\Requests\Autoload' ) ) {
 	require ABSPATH . WPINC . '/Requests/src/Autoload.php';
 

@@ -5,6 +5,11 @@
  * @package WordPress
  */
 
+// Don't load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 require ABSPATH . WPINC . '/option.php';
 
 /**
