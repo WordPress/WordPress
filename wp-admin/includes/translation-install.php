@@ -50,7 +50,7 @@ function translations_api( $type, $args = null ) {
 	$res = apply_filters( 'translations_api', false, $type, $args );
 
 	if ( false === $res ) {
-		$url      = 'http://api.wordpress.org/translations/' . $type . '/1.0/';
+		$url      = wp_get_dotorg_api_base() . '/translations/' . $type . '/1.0/';
 		$http_url = $url;
 		$ssl      = wp_http_supports( array( 'ssl' ) );
 		if ( $ssl ) {

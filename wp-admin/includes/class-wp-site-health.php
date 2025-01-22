@@ -1284,6 +1284,42 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Tests if the site is using an alternate endpoint (other than WordPress.org)
+	 * for update and other WP API requests.
+	 * 
+	 * @since 6.8.0
+	 * 
+	 * @return array The test results.
+	 */
+	public function get_update_api_info() {
+		$result = array(
+			'label' => '',
+			'status' => '',
+			'badge' => array(
+				'label' => __( 'Security' ),
+				'color' => 'blue',
+			),
+			'description' => '',
+			'actions' => '',
+			'test' => 'update_api_info',
+		);
+
+		if ( wp_get_dotorg_api_base() === WP_DOTORG_API_DEFAULT ) {
+			$result['label'] = __( 'Using default WordPress update API location.' );
+			$result['status'] = 'good';
+			$result['description'] = __( 'You are using the default location (api.wordpress.org) to check for updates.' );
+		}
+		else {
+			$result['label'] = __( 'WordPress update API message here' );
+			$result['status'] = 'recommended';
+			$result['description'] = __( 'You are using FOO, not the default update API location.' );
+		}
+
+		// TODO: the above needs sprintf'ing, and maybe a filter to provide a doc/support link?
+		return $result;
+	}
+
+	/**
 	 * Tests if the site can communicate with WordPress.org.
 	 *
 	 * @since 5.2.0
@@ -1307,7 +1343,7 @@ class WP_Site_Health {
 		);
 
 		$wp_dotorg = wp_remote_get(
-			'https://api.wordpress.org',
+			WP_DOTORG_API_DEFAULT,
 			array(
 				'timeout' => 10,
 			)
@@ -1328,7 +1364,7 @@ class WP_Site_Health {
 					sprintf(
 						/* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
 						__( 'Your site is unable to reach WordPress.org at %1$s, and returned the error: %2$s' ),
-						gethostbyname( 'api.wordpress.org' ),
+						gethostbyname( parse_url( WP_DOTORG_API_DEFAULT, PHP_URL_HOST ) ),
 						$wp_dotorg->get_error_message()
 					)
 				)
@@ -2770,6 +2806,10 @@ class WP_Site_Health {
 				'available_updates_disk_space' => array(
 					'label' => __( 'Available disk space' ),
 					'test'  => 'available_updates_disk_space',
+				),
+				'update_api_info' => array(
+					'label' => __( 'Update API Info' ),
+					'test'  => 'update_api_info',
 				),
 				'autoloaded_options'           => array(
 					'label' => __( 'Autoloaded options' ),

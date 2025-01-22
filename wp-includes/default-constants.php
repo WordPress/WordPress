@@ -142,6 +142,9 @@ function wp_initial_constants() {
 	// Constants for features added to WP that should short-circuit their plugin implementations.
 	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
 
+	// Defines the default URL base for many update-related functions
+	define( 'WP_DOTORG_API_DEFAULT', 'https://api.wordpress.org' );
+
 	/**#@+
 	 * Constants for expressing human-readable intervals
 	 * in their respective number of seconds.

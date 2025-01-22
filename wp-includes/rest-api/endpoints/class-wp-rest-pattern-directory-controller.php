@@ -114,7 +114,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		$raw_patterns = get_site_transient( $transient_key );
 
 		if ( ! $raw_patterns ) {
-			$api_url = 'http://api.wordpress.org/patterns/1.0/?' . build_query( $query_args );
+			$api_url = wp_get_dotorg_api_base() . '/patterns/1.0/?' . build_query( $query_args );
 			if ( wp_http_supports( array( 'ssl' ) ) ) {
 				$api_url = set_url_scheme( $api_url, 'https' );
 			}

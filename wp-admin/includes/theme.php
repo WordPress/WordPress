@@ -542,7 +542,7 @@ function themes_api( $action, $args = array() ) {
 	$res = apply_filters( 'themes_api', false, $action, $args );
 
 	if ( ! $res ) {
-		$url = 'http://api.wordpress.org/themes/info/1.2/';
+		$url = wp_get_dotorg_api_base() . '/themes/info/1.2/';
 		$url = add_query_arg(
 			array(
 				'action'  => $action,

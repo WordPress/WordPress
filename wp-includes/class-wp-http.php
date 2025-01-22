@@ -870,7 +870,8 @@ class WP_Http {
 	 * Determines whether an HTTP API request to the given URL should be blocked.
 	 *
 	 * Those who are behind a proxy and want to prevent access to certain hosts may do so. This will
-	 * prevent plugins from working and core functionality, if you don't include `api.wordpress.org`.
+	 * prevent plugins from working and core functionality, if you don't include `api.wordpress.org`
+	 * (or an alternate API host, if configured).
 	 *
 	 * You block external URL requests by defining `WP_HTTP_BLOCK_EXTERNAL` as true in your `wp-config.php`
 	 * file and this will only allow localhost and your site to make requests. The constant

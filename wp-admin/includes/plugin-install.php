@@ -146,7 +146,7 @@ function plugins_api( $action, $args = array() ) {
 
 	if ( false === $res ) {
 
-		$url = 'http://api.wordpress.org/plugins/info/1.2/';
+		$url = wp_get_dotorg_api_base() . '/plugins/info/1.2/';
 		$url = add_query_arg(
 			array(
 				'action'  => $action,
