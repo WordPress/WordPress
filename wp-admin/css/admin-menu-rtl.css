@@ -181,9 +181,7 @@
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top,
-#adminmenu .wp-menu-arrow,
-#adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head,
-#adminmenu .wp-menu-arrow div {
+#adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	background: #2271b1;
 	color: #fff;
 }
@@ -332,12 +330,6 @@ div.wp-menu-image:before {
 /* Sticky admin menu */
 .sticky-menu #adminmenuwrap {
 	position: fixed;
-}
-
-/* A new arrow */
-
-.wp-menu-arrow {
-	display: none !important;
 }
 
 ul#adminmenu a.wp-has-current-submenu {
