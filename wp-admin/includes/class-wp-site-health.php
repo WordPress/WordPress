@@ -1291,7 +1291,7 @@ class WP_Site_Health {
 	 * 
 	 * @return array The test results.
 	 */
-	public function get_update_api_info() {
+	public function get_test_update_api_info() {
 		$result = array(
 			'label' => '',
 			'status' => '',

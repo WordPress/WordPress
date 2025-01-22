@@ -155,6 +155,7 @@ class WP_Debug_Data {
 		$core_version           = wp_get_wp_version();
 		$core_updates           = get_core_updates();
 		$core_update_needed     = '';
+		$update_api_base        = wp_get_dotorg_api_base();
 
 		if ( is_array( $core_updates ) ) {
 			foreach ( $core_updates as $core => $update ) {
@@ -293,6 +294,12 @@ class WP_Debug_Data {
 				'debug' => $wp_dotorg->get_error_message(),
 			);
 		}
+
+		fields['update_api_base'] = array(
+			'label' => 'Update API URL',
+			'value' => $update_api_base,
+			'debug' => true
+		);
 
 		return array(
 			'label'  => __( 'WordPress' ),
