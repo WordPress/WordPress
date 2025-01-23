@@ -295,7 +295,7 @@ class WP_Debug_Data {
 			);
 		}
 
-		fields['update_api_base'] = array(
+		$fields['update_api_base'] = array(
 			'label' => 'Update API URL',
 			'value' => $update_api_base,
 			'debug' => true
