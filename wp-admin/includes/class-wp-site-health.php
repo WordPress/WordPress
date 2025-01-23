@@ -1286,9 +1286,9 @@ class WP_Site_Health {
 	/**
 	 * Tests if the site is using an alternate endpoint (other than WordPress.org)
 	 * for update and other WP API requests.
-	 * 
+	 *
 	 * @since 6.8.0
-	 * 
+	 *
 	 * @return array The test results.
 	 */
 	public function get_test_update_api_info() {
