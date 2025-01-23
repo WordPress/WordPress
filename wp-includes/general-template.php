@@ -2672,7 +2672,7 @@ function get_the_modified_date( $format = '', $post = null ) {
 }
 
 /**
- * Displays the date of the post.
+ * Displays the time of the post.
  *
  * @since 0.71
  *
@@ -2682,7 +2682,7 @@ function get_the_modified_date( $format = '', $post = null ) {
  */
 function the_time( $format = '' ) {
 	/**
-	 * Filters the date of the post, for display.
+	 * Filters the time of the post, for display.
 	 *
 	 * @since 0.71
 	 *
@@ -2694,7 +2694,7 @@ function the_time( $format = '' ) {
 }
 
 /**
- * Retrieves the date of the post.
+ * Retrieves the time of the post.
  *
  * @since 1.5.0
  *
@@ -2717,7 +2717,7 @@ function get_the_time( $format = '', $post = null ) {
 	$the_time = get_post_time( $_format, false, $post, true );
 
 	/**
-	 * Filters the date of the post.
+	 * Filters the time of the post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -2730,7 +2730,7 @@ function get_the_time( $format = '', $post = null ) {
 }
 
 /**
- * Retrieves the localized date of the post.
+ * Retrieves the localized time of the post.
  *
  * @since 2.0.0
  *
@@ -2774,7 +2774,7 @@ function get_post_time( $format = 'U', $gmt = false, $post = null, $translate = 
 	}
 
 	/**
-	 * Filters the localized date of the post.
+	 * Filters the localized time of the post.
 	 *
 	 * @since 2.6.0
 	 *
@@ -2976,7 +2976,7 @@ function get_post_modified_time( $format = 'U', $gmt = false, $post = null, $tra
 }
 
 /**
- * Displays the weekday for the post.
+ * Displays the localized weekday for the post.
  *
  * @since 0.71
  *
@@ -2994,7 +2994,7 @@ function the_weekday() {
 	$the_weekday = $wp_locale->get_weekday( get_post_time( 'w', false, $post ) );
 
 	/**
-	 * Filters the weekday of the post, for display.
+	 * Filters the localized weekday of the post, for display.
 	 *
 	 * @since 0.71
 	 *
@@ -3004,7 +3004,7 @@ function the_weekday() {
 }
 
 /**
- * Displays the localized weekday date for the post
+ * Displays the localized weekday for the post.
  *
  * Will only output the weekday if the current post's weekday is different from
  * the previous one output.
@@ -3037,7 +3037,7 @@ function the_weekday_date( $before = '', $after = '' ) {
 	}
 
 	/**
-	 * Filters the localized weekday date of the post, for display.
+	 * Filters the localized weekday of the post, for display.
 	 *
 	 * @since 0.71
 	 *
