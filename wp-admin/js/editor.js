@@ -22,7 +22,7 @@ window.wp = window.wp || {};
 				$$ = tinymce.$;
 
 				/**
-				 * Handles onclick events for the Visual/Text tabs.
+				 * Handles onclick events for the Visual/Code tabs.
 				 *
 				 * @since 4.3.0
 				 *
@@ -62,7 +62,7 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * Switches the editor between Visual and Text mode.
+		 * Switches the editor between Visual and Code mode.
 		 *
 		 * @since 2.5.0
 		 *
@@ -838,7 +838,7 @@ window.wp = window.wp || {};
 			}
 		}
 
-		// Restore the selection when the editor is initialized. Needed when the Text editor is the default.
+		// Restore the selection when the editor is initialized. Needed when the Code editor is the default.
 		$( document ).on( 'tinymce-editor-init.keep-scroll-position', function( event, editor ) {
 			if ( editor.$( '.mce_SELRES_start' ).length ) {
 				focusHTMLBookmarkInVisualEditor( editor );
@@ -1203,7 +1203,7 @@ window.wp = window.wp || {};
 	/**
 	 * Initialize TinyMCE and/or Quicktags. For use with wp_enqueue_editor() (PHP).
 	 *
-	 * Intended for use with an existing textarea that will become the Text editor tab.
+	 * Intended for use with an existing textarea that will become the Code editor tab.
 	 * The editor width will be the width of the textarea container, height will be adjustable.
 	 *
 	 * Settings for both TinyMCE and Quicktags can be passed on initialization, and are "filtered"
@@ -1246,7 +1246,7 @@ window.wp = window.wp || {};
 			};
 		}
 
-		// Add wrap and the Visual|Text tabs.
+		// Add wrap and the Visual|Code tabs.
 		if ( settings.tinymce && settings.quicktags ) {
 			var $textarea = $( '#' + id );
 
@@ -1293,7 +1293,7 @@ window.wp = window.wp || {};
 						.append( $button.attr({
 							id: id + '-html',
 							'class': 'wp-switch-editor switch-html'
-						}).text( window.tinymce.translate( 'Text' ) ) )
+						}).text( window.tinymce.translate( 'Code' ) ) )
 					).append( $editorContainer )
 			);
 

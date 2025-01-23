@@ -559,7 +559,7 @@ window.autosave = function() {
 						});
 					} else {
 
-						// Make sure the Text editor is selected.
+						// Make sure the Code editor is selected.
 						$( '#content-html' ).trigger( 'click' );
 						$( '#content' ).trigger( 'focus' );
 

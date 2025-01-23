@@ -54,7 +54,7 @@ final class _WP_Editors {
 	 *     @type string|int $tabindex          Tabindex value to use. Default empty.
 	 *     @type string     $tabfocus_elements The previous and next element ID to move the focus to
 	 *                                         when pressing the Tab key in TinyMCE. Default ':prev,:next'.
-	 *     @type string     $editor_css        Intended for extra styles for both Visual and Text editors.
+	 *     @type string     $editor_css        Intended for extra styles for both Visual and Code editors.
 	 *                                         Should include `<style>` tags, and can use "scoped". Default empty.
 	 *     @type string     $editor_class      Extra classes to add to the editor textarea element. Default empty.
 	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
@@ -184,7 +184,7 @@ final class _WP_Editors {
 
 			if ( self::$this_quicktags ) {
 				$default_editor = $set['default_editor'] ? $set['default_editor'] : wp_default_editor();
-				// 'html' is used for the "Text" editor tab.
+				// 'html' is used for the "Code" editor tab.
 				if ( 'html' !== $default_editor ) {
 					$default_editor = 'tinymce';
 				}
@@ -194,7 +194,7 @@ final class _WP_Editors {
 				$buttons .= '<button type="button" id="' . $editor_id_attr . '-tmce"' . $html_active . ' class="wp-switch-editor switch-tmce"' .
 					' data-wp-editor-id="' . $editor_id_attr . '">' . _x( 'Visual', 'Name for the Visual editor tab' ) . "</button>\n";
 				$buttons .= '<button type="button" id="' . $editor_id_attr . '-html"' . $tmce_active . ' class="wp-switch-editor switch-html"' .
-					' data-wp-editor-id="' . $editor_id_attr . '">' . _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ) . "</button>\n";
+					' data-wp-editor-id="' . $editor_id_attr . '">' . _x( 'Code', 'Name for the Code editor tab (formerly Text)' ) . "</button>\n";
 			} else {
 				$default_editor = 'tinymce';
 			}
@@ -272,7 +272,7 @@ final class _WP_Editors {
 			'id="' . $editor_id_attr . '">%s</textarea></div>'
 		);
 
-		// Prepare the content for the Visual or Text editor, only when TinyMCE is used (back-compat).
+		// Prepare the content for the Visual or Code editor, only when TinyMCE is used (back-compat).
 		if ( self::$this_tinymce ) {
 			add_filter( 'the_editor_content', 'format_for_editor', 10, 2 );
 		}
@@ -627,7 +627,7 @@ final class _WP_Editors {
 				);
 
 				/**
-				 * Filters the list of teenyMCE buttons (Text tab).
+				 * Filters the list of teenyMCE buttons (Code tab).
 				 *
 				 * @since 2.7.0
 				 * @since 3.3.0 The `$editor_id` parameter was added.
@@ -1396,7 +1396,7 @@ final class _WP_Editors {
 				'Apply'                                => __( 'Apply' ),        // Tooltip for the 'apply' button in the inline link dialog.
 				'Link options'                         => __( 'Link options' ), // Tooltip for the 'link options' button in the inline link dialog.
 				'Visual'                               => _x( 'Visual', 'Name for the Visual editor tab' ),             // Editor switch tab label.
-				'Text'                                 => _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ), // Editor switch tab label.
+				'Code'                                 => _x( 'Code', 'Name for the Code editor tab (formerly Text)' ), // Editor switch tab label.
 				'Add Media'                            => array( __( 'Add Media' ), 'accessM' ), // Tooltip for the 'Add Media' button in the block editor Classic block.
 
 				// Shortcuts help modal.
