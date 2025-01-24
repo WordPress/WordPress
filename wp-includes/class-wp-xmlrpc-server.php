@@ -6005,9 +6005,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_date_gmt = $postdata['post_date_gmt'];
 		}
 
-		// We've got all the data -- post it.
-		$newpost = compact(
-			'post_id',
+		$newpost = array(
+			'ID' => $post_id,
+		);
+
+		$newpost += compact(
 			'post_content',
 			'post_title',
 			'post_category',
@@ -6028,6 +6030,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'page_template'
 		);
 
+		// We've got all the data -- post it.
 		$result = wp_update_post( $newpost, true );
 		if ( is_wp_error( $result ) ) {
 			return new IXR_Error( 500, $result->get_error_message() );
