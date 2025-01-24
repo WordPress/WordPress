@@ -5143,7 +5143,15 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_date     = current_time( 'mysql' );
 		$post_date_gmt = current_time( 'mysql', 1 );
 
-		$post_data = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status' );
+		$post_data = compact(
+			'post_author',
+			'post_date',
+			'post_date_gmt',
+			'post_content',
+			'post_title',
+			'post_category',
+			'post_status'
+		);
 
 		$post_id = wp_insert_post( $post_data );
 		if ( is_wp_error( $post_id ) ) {
@@ -5595,7 +5603,26 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
-		$postdata = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input', 'page_template' );
+		$postdata = compact(
+			'post_author',
+			'post_date',
+			'post_date_gmt',
+			'post_content',
+			'post_title',
+			'post_category',
+			'post_status',
+			'post_excerpt',
+			'comment_status',
+			'ping_status',
+			'to_ping',
+			'post_type',
+			'post_name',
+			'post_password',
+			'post_parent',
+			'menu_order',
+			'tags_input',
+			'page_template'
+		);
 
 		$post_id        = get_default_post_to_edit( $post_type, true )->ID;
 		$postdata['ID'] = $post_id;
@@ -5777,7 +5804,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $postdata );
 
-		$ID             = $postdata['ID'];
+		$post_id        = $postdata['ID'];
 		$post_content   = $postdata['post_content'];
 		$post_title     = $postdata['post_title'];
 		$post_excerpt   = $postdata['post_excerpt'];
@@ -5979,7 +6006,27 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// We've got all the data -- post it.
-		$newpost = compact( 'ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'edit_date', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input', 'page_template' );
+		$newpost = compact(
+			'post_id',
+			'post_content',
+			'post_title',
+			'post_category',
+			'post_status',
+			'post_excerpt',
+			'comment_status',
+			'ping_status',
+			'edit_date',
+			'post_date',
+			'post_date_gmt',
+			'to_ping',
+			'post_name',
+			'post_password',
+			'post_parent',
+			'menu_order',
+			'post_author',
+			'tags_input',
+			'page_template'
+		);
 
 		$result = wp_update_post( $newpost, true );
 		if ( is_wp_error( $result ) ) {
@@ -6022,7 +6069,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$enclosure = isset( $content_struct['enclosure'] ) ? $content_struct['enclosure'] : null;
 		$this->add_enclosure_if_new( $post_id, $enclosure );
 
-		$this->attach_uploads( $ID, $post_content );
+		$this->attach_uploads( $post_id, $post_content );
 
 		// Handle post formats if assigned, validation is handled earlier in this function.
 		if ( isset( $content_struct['wp_post_format'] ) ) {
@@ -6458,20 +6505,20 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		// Save the data.
-		$id = wp_insert_attachment( $attachment, $upload['file'], $post_id );
-		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
+		$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $post_id );
+		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 
 		/**
 		 * Fires after a new attachment has been added via the XML-RPC MovableType API.
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param int   $id   ID of the new attachment.
-		 * @param array $args An array of arguments to add the attachment.
+		 * @param int   $attachment_id ID of the new attachment.
+		 * @param array $args          An array of arguments to add the attachment.
 		 */
-		do_action( 'xmlrpc_call_success_mw_newMediaObject', $id, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
+		do_action( 'xmlrpc_call_success_mw_newMediaObject', $attachment_id, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
 
-		$struct = $this->_prepare_media_item( get_post( $id ) );
+		$struct = $this->_prepare_media_item( get_post( $attachment_id ) );
 
 		// Deprecated values.
 		$struct['id']   = $struct['attachment_id'];
