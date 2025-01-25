@@ -916,6 +916,10 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 		padding-right: 4%;
 		padding-left: 4%;
 	}
+
+	.theme-install-php .wp-filter .filter-count {
+		margin-top: 10px;
+	}
 }
 
 @media only screen and (max-width: 650px) {
