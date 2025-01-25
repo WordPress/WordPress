@@ -859,7 +859,7 @@ ul#add-to-blog-users {
 	padding: 20px 10px 20px 0;
 	width: 200px;
 	line-height: 1.3;
-	font-weight: 600;
+	font-weight: 400;
 }
 
 .form-table th.th-full, /* Not used by core. Back-compat for pre-4.8 */
