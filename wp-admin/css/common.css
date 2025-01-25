@@ -1115,11 +1115,6 @@ th.action-links {
 	align-items: center;
 }
 
-.wp-filter .search-form.search-plugins {
-	/* This element is a flex item: the inherited float won't have any effect. */
-	margin-top: 0;
-}
-
 .wp-filter .search-form.search-plugins select,
 .wp-filter .search-form.search-plugins .wp-filter-search,
 .no-js .wp-filter .search-form.search-plugins .button {
@@ -1350,6 +1345,12 @@ th.action-links {
 	display: block;
 	margin: 40px auto 0;
 	float: none;
+}
+
+@media only screen and (max-width: 1138px) {
+	.wp-filter .search-form {
+		margin: 11px 0;
+	}
 }
 
 @media only screen and (max-width: 1120px) {
