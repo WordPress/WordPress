@@ -8,7 +8,7 @@
  * may use the function in their own admin CSS files. See #56811.
  */
 body {
-  background: #f1f1f1;
+  background: #fff;
 }
 
 /* Links */
@@ -220,8 +220,8 @@ textarea:focus {
 .about-wrap .nav-tab-active,
 .nav-tab-active,
 .nav-tab-active:hover {
-  background-color: #f1f1f1;
-  border-bottom-color: #f1f1f1;
+  background-color: #fff;
+  border-bottom-color: #fff;
 }
 
 /* Admin Menu: submenu */
@@ -273,7 +273,7 @@ textarea:focus {
 
 ul#adminmenu a.wp-has-current-submenu:after,
 ul#adminmenu > li.current > a.current:after {
-  border-right-color: #f1f1f1;
+  border-right-color: #fff;
 }
 
 #adminmenu li.current a.menu-top,
