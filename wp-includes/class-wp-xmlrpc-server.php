@@ -1488,7 +1488,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		$post_data['post_author'] = absint( $post_data['post_author'] );
-		if ( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
+		if ( ! empty( $post_data['post_author'] ) && $post_data['post_author'] !== $user->ID ) {
 			if ( ! current_user_can( $post_type->cap->edit_others_posts ) ) {
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to create posts as this user.' ) );
 			}
