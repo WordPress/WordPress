@@ -1179,11 +1179,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Format page date.
 		$comment_date_gmt = $this->_convert_date_gmt( $comment->comment_date_gmt, $comment->comment_date );
 
-		if ( '0' == $comment->comment_approved ) {
+		if ( '0' === $comment->comment_approved ) {
 			$comment_status = 'hold';
 		} elseif ( 'spam' === $comment->comment_approved ) {
 			$comment_status = 'spam';
-		} elseif ( '1' == $comment->comment_approved ) {
+		} elseif ( '1' === $comment->comment_approved ) {
 			$comment_status = 'approve';
 		} else {
 			$comment_status = $comment->comment_approved;
