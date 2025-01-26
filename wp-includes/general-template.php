@@ -2346,7 +2346,7 @@ function get_calendar( $initial = true, $display = true ) {
 	foreach ( $myweek as $wd ) {
 		$day_name         = $initial ? $wp_locale->get_weekday_initial( $wd ) : $wp_locale->get_weekday_abbrev( $wd );
 		$wd               = esc_attr( $wd );
-		$calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
+		$calendar_output .= "\n\t\t<th scope=\"col\" aria-label=\"$wd\">$day_name</th>";
 	}
 
 	$calendar_output .= '
