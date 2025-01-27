@@ -5457,8 +5457,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post_author = $user->ID;
 
-		// If an author id was provided then use it instead.
-		if ( isset( $content_struct['wp_author_id'] ) && ( $user->ID != $content_struct['wp_author_id'] ) ) {
+		// If an author ID was provided then use it instead.
+		if ( isset( $content_struct['wp_author_id'] ) && ( $user->ID !== (int) $content_struct['wp_author_id'] ) ) {
 			switch ( $post_type ) {
 				case 'post':
 					if ( ! current_user_can( 'edit_others_posts' ) ) {
