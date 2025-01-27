@@ -389,6 +389,7 @@ add_action( 'login_head', 'print_admin_styles', 9 );
 add_action( 'login_head', 'wp_site_icon', 99 );
 add_action( 'login_footer', 'wp_print_footer_scripts', 20 );
 add_action( 'login_init', 'send_frame_options_header', 10, 0 );
+add_action( 'login_init', 'wp_admin_headers' );
 
 // Feed generator tags.
 foreach ( array( 'rss2_head', 'commentsrss2_head', 'rss_head', 'rdf_header', 'atom_head', 'comments_atom_head', 'opml_head', 'app_head' ) as $action ) {
