@@ -270,42 +270,34 @@ function wp_save_post_revision( $post_id ) {
  *
  * @since 2.6.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param int $post_id The post ID.
  * @param int $user_id Optional. The post author ID. Default 0.
  * @return WP_Post|false The autosaved data or false on failure or when no autosave exists.
  */
 function wp_get_post_autosave( $post_id, $user_id = 0 ) {
-	global $wpdb;
-
-	$autosave_name = $post_id . '-autosave-v1';
-	$user_id_query = ( 0 !== $user_id ) ? "AND post_author = $user_id" : null;
-
-	// Construct the autosave query.
-	$autosave_query = "
-		SELECT *
-		FROM $wpdb->posts
-		WHERE post_parent = %d
-		AND post_type = 'revision'
-		AND post_status = 'inherit'
-		AND post_name   = %s " . $user_id_query . '
-		ORDER BY post_date DESC
-		LIMIT 1';
-
-	$autosave = $wpdb->get_results(
-		$wpdb->prepare(
-			$autosave_query,
-			$post_id,
-			$autosave_name
-		)
+	$args = array(
+		'post_type'      => 'revision',
+		'post_status'    => 'inherit',
+		'post_parent'    => $post_id,
+		'name'           => $post_id . '-autosave-v1',
+		'posts_per_page' => 1,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
 	);
 
-	if ( ! $autosave ) {
+	if ( 0 !== $user_id ) {
+		$args['author'] = $user_id;
+	}
+
+	$query = new WP_Query( $args );
+
+	if ( ! $query->have_posts() ) {
 		return false;
 	}
 
-	return get_post( $autosave[0] );
+	return get_post( $query->posts[0] );
 }
 
 /**
