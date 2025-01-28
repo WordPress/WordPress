@@ -80,6 +80,19 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	 * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
 	 */
 	protected function check_has_read_only_access( $request ) {
+		/**
+		 * Filters whether the current user has read access to menu items via the REST API.
+		 *
+		 * @since 6.8.0
+		 * @param $read_only_access bool Whether the current user has read access to menu items via the REST API.
+		 * @param $request WP_REST_Request Full details about the request.
+		 * @param $this WP_REST_Controller The current instance of the controller.
+		 */
+		$read_only_access = apply_filters( 'rest_menu_read_access', false, $request, $this );
+		if ( $read_only_access ) {
+			return true;
+		}
+
 		if ( current_user_can( 'edit_theme_options' ) ) {
 			return true;
 		}
