@@ -84,9 +84,11 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		 * Filters whether the current user has read access to menu items via the REST API.
 		 *
 		 * @since 6.8.0
-		 * @param $read_only_access bool Whether the current user has read access to menu items via the REST API.
-		 * @param $request WP_REST_Request Full details about the request.
-		 * @param $this WP_REST_Controller The current instance of the controller.
+		 *
+		 * @param bool               $read_only_access Whether the current user has read access to menu items
+		 *                                             via the REST API.
+		 * @param WP_REST_Request    $request          Full details about the request.
+		 * @param WP_REST_Controller $this             The current instance of the controller.
 		 */
 		$read_only_access = apply_filters( 'rest_menu_read_access', false, $request, $this );
 		if ( $read_only_access ) {
