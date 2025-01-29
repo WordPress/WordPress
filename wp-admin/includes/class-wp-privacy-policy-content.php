@@ -378,7 +378,6 @@ final class WP_Privacy_Policy_Content {
 	public static function privacy_policy_guide() {
 
 		$content_array = self::get_suggested_policy_text();
-		$content       = '';
 		$date_format   = __( 'F j, Y' );
 
 		$i = 0;
@@ -386,10 +385,7 @@ final class WP_Privacy_Policy_Content {
 		foreach ( $content_array as $section ) {
 			++$i;
 
-			$class   = '';
-			$meta    = '';
 			$removed = '';
-
 			if ( ! empty( $section['removed'] ) ) {
 				$badge_class = ' red';
 				$date        = date_i18n( $date_format, $section['removed'] );
