@@ -1293,7 +1293,7 @@ class WP_Site_Health {
 	 */
 	public function get_test_update_api_info() {
 		$result = array(
-			'label' => 'WordPress update API location',
+			'label' => '',
 			'status' => '',
 			'badge' => array(
 				'label' => __( 'Security' ),
@@ -1305,6 +1305,7 @@ class WP_Site_Health {
 		);
 
 		if ( wp_get_dotorg_api_base() === WP_DOTORG_API_DEFAULT ) {
+			$result['label'] = 'Using default WordPress update API location';
 			$result['status'] = 'good';
 			$result['description']    = sprintf(
 				'<p>%s</p>',
@@ -1312,18 +1313,18 @@ class WP_Site_Health {
 			);
 		}
 		else {
+			$result['label'] = 'Not using default WordPress update API location';
 			$result['status'] = 'recommended';
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
 					/* translators: URL of WordPress API endpoint in use, if not api.wordpress.org */
-					__( 'You are using %s, not the default update API location.' ),
+					__( 'You are using %s, not the default location, for WordPress updates.' ),
 					wp_get_dotorg_api_base()
 				)
 			);
 		}
 
-		// TODO: the above needs sprintf'ing, and maybe a filter to provide a doc/support link?
 		return $result;
 	}
 
