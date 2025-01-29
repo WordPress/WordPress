@@ -1310,9 +1310,18 @@ $( function() {
 		$document.trigger( 'wp-notice-added' );
 	};
 
+	// Stores initial pagination value for comparison.
+	var initialPagedValue = document.querySelector( '#current-page-selector' ).value;
+
 	$( '.bulkactions' ).parents( 'form' ).on( 'submit', function( event ) {
 		var form = this,
 			submitterName = event.originalEvent && event.originalEvent.submitter ? event.originalEvent.submitter.name : false;
+
+		var currentPagedValue = form.querySelector( '#current-page-selector' ).value;
+
+		if ( initialPagedValue !== currentPagedValue ) {
+			return; // Pagination form submission.
+		}
 
 		// Observe submissions from posts lists for 'bulk_action' or users lists for 'new_role'.
 		var bulkFieldRelations = {
