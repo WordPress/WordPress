@@ -381,7 +381,11 @@ final class WP_Privacy_Policy_Content {
 		$content       = '';
 		$date_format   = __( 'F j, Y' );
 
+		$i = 0;
+
 		foreach ( $content_array as $section ) {
+			++$i;
+
 			$class   = '';
 			$meta    = '';
 			$removed = '';
@@ -409,11 +413,9 @@ final class WP_Privacy_Policy_Content {
 			}
 
 			$plugin_name = esc_html( $section['plugin_name'] );
-
-			$sanitized_policy_name = sanitize_title_with_dashes( $plugin_name );
 			?>
 			<h4 class="privacy-settings-accordion-heading">
-			<button aria-expanded="false" class="privacy-settings-accordion-trigger" aria-controls="privacy-settings-accordion-block-<?php echo $sanitized_policy_name; ?>" type="button">
+				<button aria-expanded="false" class="privacy-settings-accordion-trigger" aria-controls="privacy-settings-accordion-block-<?php echo $i; ?>" type="button">
 				<span class="title"><?php echo $plugin_name; ?></span>
 				<?php if ( ! empty( $section['removed'] ) || ! empty( $section['updated'] ) ) : ?>
 				<span class="badge <?php echo $badge_class; ?>"> <?php echo $badge_title; ?></span>
@@ -421,7 +423,7 @@ final class WP_Privacy_Policy_Content {
 				<span class="icon"></span>
 			</button>
 			</h4>
-			<div id="privacy-settings-accordion-block-<?php echo $sanitized_policy_name; ?>" class="privacy-settings-accordion-panel privacy-text-box-body" hidden="hidden">
+			<div id="privacy-settings-accordion-block-<?php echo $i; ?>" class="privacy-settings-accordion-panel privacy-text-box-body" hidden="hidden">
 				<?php
 				echo $removed;
 				echo $section['policy_text'];
