@@ -76,9 +76,12 @@ function get_active_blog_for_user( $user_id ) {
 	) {
 		$blogs = get_blogs_of_user( $user_id, true ); // If a user's primary blog is shut down, check their other blogs.
 		$ret   = false;
+
 		if ( is_array( $blogs ) && count( $blogs ) > 0 ) {
+			$current_network_id = get_current_network_id();
+
 			foreach ( (array) $blogs as $blog_id => $blog ) {
-				if ( get_current_network_id() !== $blog->site_id ) {
+				if ( $blog->site_id !== $current_network_id ) {
 					continue;
 				}
 
@@ -99,6 +102,7 @@ function get_active_blog_for_user( $user_id ) {
 		} else {
 			return;
 		}
+
 		return $ret;
 	} else {
 		return $primary;
