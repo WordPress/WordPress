@@ -1310,16 +1310,12 @@ $( function() {
 		$document.trigger( 'wp-notice-added' );
 	};
 
-	// Stores initial pagination value for comparison.
-	var initialPagedValue = document.querySelector( '#current-page-selector' ).value;
-
 	$( '.bulkactions' ).parents( 'form' ).on( 'submit', function( event ) {
 		var form = this,
-			submitterName = event.originalEvent && event.originalEvent.submitter ? event.originalEvent.submitter.name : false;
+			submitterName = event.originalEvent && event.originalEvent.submitter ? event.originalEvent.submitter.name : false,
+			currentPageSelector = form.querySelector( '#current-page-selector' );
 
-		var currentPagedValue = form.querySelector( '#current-page-selector' ).value;
-
-		if ( initialPagedValue !== currentPagedValue ) {
+		if ( currentPageSelector && currentPageSelector.defaultValue !== currentPageSelector.value ) {
 			return; // Pagination form submission.
 		}
 
