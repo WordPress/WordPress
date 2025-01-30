@@ -50,7 +50,7 @@ final class WP_Block_Templates_Registry {
 		} elseif ( preg_match( '/[A-Z]+/', $template_name ) ) {
 			$error_message = __( 'Template names must not contain uppercase characters.' );
 			$error_code    = 'template_name_no_uppercase';
-		} elseif ( ! preg_match( '/^[a-z0-9-]+\/\/[a-z0-9-]+$/', $template_name ) ) {
+		} elseif ( ! preg_match( '/^[a-z0-9_\-]+\/\/[a-z0-9_\-]+$/', $template_name ) ) {
 			$error_message = __( 'Template names must contain a namespace prefix. Example: my-plugin//my-custom-template' );
 			$error_code    = 'template_no_prefix';
 		} elseif ( $this->is_registered( $template_name ) ) {
