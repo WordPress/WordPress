@@ -1596,14 +1596,26 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		/**
 		 * Fires after the value for a transient has been set.
 		 *
-		 * @since 3.0.0
-		 * @since 3.6.0 The `$value` and `$expiration` parameters were added.
+		 * @since 6.8.0
 		 *
 		 * @param string $transient  The name of the transient.
 		 * @param mixed  $value      Transient value.
 		 * @param int    $expiration Time until expiration in seconds.
 		 */
-		do_action( 'setted_transient', $transient, $value, $expiration );
+		do_action( 'set_transient', $transient, $value, $expiration );
+
+		/**
+		 * Fires after the transient is set.
+		 *
+		 * @since 3.0.0
+		 * @since 3.6.0 The `$value` and `$expiration` parameters were added.
+		 * @deprecated 6.8.0 Use {@see 'set_transient'} instead.
+		 *
+		 * @param string $transient  The name of the transient.
+		 * @param mixed  $value      Transient value.
+		 * @param int    $expiration Time until expiration in seconds.
+		 */
+		do_action_deprecated( 'setted_transient', array( $transient, $value, $expiration ), '6.8.0', 'set_transient' );
 	}
 
 	return $result;
@@ -2676,13 +2688,25 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		/**
 		 * Fires after the value for a site transient has been set.
 		 *
-		 * @since 3.0.0
+		 * @since 6.8.0
 		 *
 		 * @param string $transient  The name of the site transient.
 		 * @param mixed  $value      Site transient value.
 		 * @param int    $expiration Time until expiration in seconds.
 		 */
-		do_action( 'setted_site_transient', $transient, $value, $expiration );
+		do_action( 'set_site_transient', $transient, $value, $expiration );
+
+		/**
+		 * Fires after the value for a site transient has been set.
+		 *
+		 * @since 3.0.0
+		 * @deprecated 6.8.0 Use {@see 'set_site_transient'} instead.
+		 *
+		 * @param string $transient  The name of the site transient.
+		 * @param mixed  $value      Site transient value.
+		 * @param int    $expiration Time until expiration in seconds.
+		 */
+		do_action_deprecated( 'setted_site_transient', array( $transient, $value, $expiration ), '6.8.0', 'set_site_transient' );
 	}
 
 	return $result;
