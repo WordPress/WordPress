@@ -1789,8 +1789,8 @@ function get_the_password_form( $post = 0 ) {
 		 *
 		 * @since 6.8.0
 		 *
-		 * @param string The message shown to users when entering an invalid password.
-		 * @param WP_Post $post   Post object.
+		 * @param string  $text The message shown to users when entering an invalid password.
+		 * @param WP_Post $post Post object.
 		 */
 		$invalid_password      = apply_filters( 'the_password_form_incorrect_password', __( 'Invalid password.' ), $post );
 		$invalid_password_html = '<div class="post-password-form-invalid-password" role="alert"><p id="error-' . $field_id . '">' . $invalid_password . '</p></div>';
