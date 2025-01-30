@@ -1774,11 +1774,33 @@ function prepend_attachment( $content ) {
  * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form( $post = 0 ) {
-	$post   = get_post( $post );
-	$label  = 'pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID );
-	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
+	$post                  = get_post( $post );
+	$field_id              = 'pwbox-' . ( empty( $post->ID ) ? wp_rand() : $post->ID );
+	$invalid_password      = '';
+	$invalid_password_html = '';
+	$aria                  = '';
+	$class                 = '';
+
+	// If the referrer is the same as the current request, the user has entered an invalid password.
+	if ( ! empty( $post->ID ) && wp_get_raw_referer() === get_permalink( $post->ID ) && isset( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] ) ) {
+		/**
+		 * Filters the invalid password message shown on password-protected posts.
+		 * The filter is only applied if the post is password protected.
+		 *
+		 * @since 6.8.0
+		 *
+		 * @param string The message shown to users when entering an invalid password.
+		 * @param WP_Post $post   Post object.
+		 */
+		$invalid_password      = apply_filters( 'the_password_form_incorrect_password', __( 'Invalid password.' ), $post );
+		$invalid_password_html = '<div class="post-password-form-invalid-password" role="alert"><p id="error-' . $field_id . '">' . $invalid_password . '</p></div>';
+		$aria                  = ' aria-describedby="error-' . $field_id . '"';
+		$class                 = ' password-form-error';
+	}
+
+	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form' . $class . '" method="post">' . $invalid_password_html . '
 	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
-	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" spellcheck="false" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
+	<p><label for="' . $field_id . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $field_id . '" type="password" spellcheck="false" required size="20"' . $aria . ' /></label> <input type="submit" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
 	';
 
 	/**
@@ -1791,11 +1813,13 @@ function get_the_password_form( $post = 0 ) {
 	 *
 	 * @since 2.7.0
 	 * @since 5.8.0 Added the `$post` parameter.
+	 * @since 6.8.0 Added the `$invalid_password` parameter.
 	 *
 	 * @param string  $output The password form HTML output.
 	 * @param WP_Post $post   Post object.
+	 * @param string  $invalid_password The invalid password message.
 	 */
-	return apply_filters( 'the_password_form', $output, $post );
+	return apply_filters( 'the_password_form', $output, $post, $invalid_password );
 }
 
 /**
