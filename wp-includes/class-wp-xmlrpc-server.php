@@ -4330,7 +4330,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				continue;
 			}
 
-			if ( true == $this->blog_options[ $o_name ]['readonly'] ) {
+			if ( $this->blog_options[ $o_name ]['readonly'] ) {
 				continue;
 			}
 
