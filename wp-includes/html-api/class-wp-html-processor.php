@@ -749,7 +749,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * WP_HTML_Tag_Processor instead.
 	 *
 	 * @since 6.5.0 Added for internal support; do not use.
-	 * @since 6.7.1 Refactored so subclasses may extend.
+	 * @since 6.7.2 Refactored so subclasses may extend.
 	 *
 	 * @return bool Whether a token was parsed.
 	 */
@@ -770,7 +770,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 	 * this method similarly to how {@see WP_HTML_Tag_Processor::next_token()}
 	 * calls the {@see WP_HTML_Tag_Processor::base_class_next_token()} method.
 	 *
-	 * @since 6.7.1 Added for internal support.
+	 * @since 6.7.2 Added for internal support.
 	 *
 	 * @access private
 	 *
