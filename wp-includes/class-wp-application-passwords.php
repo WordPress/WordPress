@@ -459,7 +459,10 @@ class WP_Application_Passwords {
 	 * @param string $raw_password The raw application password.
 	 * @return string The chunked password.
 	 */
-	public static function chunk_password( $raw_password ) {
+	public static function chunk_password(
+		#[\SensitiveParameter]
+		$raw_password
+	) {
 		$raw_password = preg_replace( '/[^a-z\d]/i', '', $raw_password );
 
 		return trim( chunk_split( $raw_password, 4, ' ' ) );

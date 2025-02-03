@@ -749,7 +749,13 @@ class wpdb {
 	 * @param string $dbname     Database name.
 	 * @param string $dbhost     Database host.
 	 */
-	public function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
+	public function __construct(
+		$dbuser,
+		#[\SensitiveParameter]
+		$dbpassword,
+		$dbname,
+		$dbhost
+	) {
 		if ( WP_DEBUG && WP_DEBUG_DISPLAY ) {
 			$this->show_errors();
 		}

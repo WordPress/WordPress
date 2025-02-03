@@ -150,7 +150,12 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
  * @param string                $password Password for authentication.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
-function wp_authenticate_username_password( $user, $username, $password ) {
+function wp_authenticate_username_password(
+	$user,
+	$username,
+	#[\SensitiveParameter]
+	$password
+) {
 	if ( $user instanceof WP_User ) {
 		return $user;
 	}
@@ -228,7 +233,12 @@ function wp_authenticate_username_password( $user, $username, $password ) {
  * @param string                $password Password for authentication.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
-function wp_authenticate_email_password( $user, $email, $password ) {
+function wp_authenticate_email_password(
+	$user,
+	$email,
+	#[\SensitiveParameter]
+	$password
+) {
 	if ( $user instanceof WP_User ) {
 		return $user;
 	}
@@ -301,7 +311,12 @@ function wp_authenticate_email_password( $user, $email, $password ) {
  * @param string                $password Password. If not empty, cancels the cookie authentication.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
-function wp_authenticate_cookie( $user, $username, $password ) {
+function wp_authenticate_cookie(
+	$user,
+	$username,
+	#[\SensitiveParameter]
+	$password
+) {
 	global $auth_secure_cookie;
 
 	if ( $user instanceof WP_User ) {
@@ -342,7 +357,12 @@ function wp_authenticate_cookie( $user, $username, $password ) {
  * @return WP_User|WP_Error|null WP_User on success, WP_Error on failure, null if
  *                               null is passed in and this isn't an API request.
  */
-function wp_authenticate_application_password( $input_user, $username, $password ) {
+function wp_authenticate_application_password(
+	$input_user,
+	$username,
+	#[\SensitiveParameter]
+	$password
+) {
 	if ( $input_user instanceof WP_User ) {
 		return $input_user;
 	}
@@ -2846,7 +2866,12 @@ All at ###SITENAME###
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
  *                      be created.
  */
-function wp_create_user( $username, $password, $email = '' ) {
+function wp_create_user(
+	$username,
+	#[\SensitiveParameter]
+	$password,
+	$email = ''
+) {
 	$user_login = wp_slash( $username );
 	$user_email = wp_slash( $email );
 	$user_pass  = $password;
@@ -3034,7 +3059,11 @@ function get_password_reset_key( $user ) {
  * @param string $login     The user login.
  * @return WP_User|WP_Error WP_User object on success, WP_Error object for invalid or expired keys.
  */
-function check_password_reset_key( $key, $login ) {
+function check_password_reset_key(
+	#[\SensitiveParameter]
+	$key,
+	$login
+) {
 	global $wp_hasher;
 
 	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
@@ -3371,7 +3400,11 @@ function retrieve_password( $user_login = '' ) {
  * @param WP_User $user     The user
  * @param string  $new_pass New password for the user in plaintext
  */
-function reset_password( $user, $new_pass ) {
+function reset_password(
+	$user,
+	#[\SensitiveParameter]
+	$new_pass
+) {
 	/**
 	 * Fires before the user's password is reset.
 	 *
@@ -4932,7 +4965,11 @@ function wp_generate_user_request_key( $request_id ) {
  * @param string $key        Provided key to validate.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
-function wp_validate_user_request_key( $request_id, $key ) {
+function wp_validate_user_request_key(
+	$request_id,
+	#[\SensitiveParameter]
+	$key
+) {
 	global $wp_hasher;
 
 	$request_id       = absint( $request_id );

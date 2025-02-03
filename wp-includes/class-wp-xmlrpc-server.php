@@ -285,7 +285,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param string $password User's password.
 	 * @return WP_User|false WP_User object if authentication passed, false otherwise.
 	 */
-	public function login( $username, $password ) {
+	public function login(
+		$username,
+		#[\SensitiveParameter]
+		$password
+	) {
 		if ( ! $this->is_enabled ) {
 			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.' ) ) );
 			return false;
@@ -330,7 +334,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param string $password User's password.
 	 * @return bool Whether authentication passed.
 	 */
-	public function login_pass_ok( $username, $password ) {
+	public function login_pass_ok(
+		$username,
+		#[\SensitiveParameter]
+		$password
+	) {
 		return (bool) $this->login( $username, $password );
 	}
 

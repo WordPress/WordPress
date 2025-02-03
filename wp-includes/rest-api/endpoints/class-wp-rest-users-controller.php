@@ -1310,7 +1310,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @param string          $param   The parameter name.
 	 * @return string|WP_Error The sanitized password, if valid, otherwise an error.
 	 */
-	public function check_user_password( $value, $request, $param ) {
+	public function check_user_password(
+		#[\SensitiveParameter]
+		$value,
+		$request,
+		$param
+	) {
 		$password = (string) $value;
 
 		if ( empty( $password ) ) {
