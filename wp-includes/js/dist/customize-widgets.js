@@ -2121,6 +2121,7 @@ function getSidebarSection() {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/sidebar-block-editor/sidebar-adapter.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -2501,6 +2502,7 @@ function getInserterOuterSection() {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/controls/sidebar-control.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */

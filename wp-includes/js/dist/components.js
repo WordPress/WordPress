@@ -4708,6 +4708,109 @@ const CompositeGroupLabel = (0,external_wp_element_namespaceObject.forwardRef)(f
   });
 });
 
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/OBZMLI6J.js
+"use client";
+
+
+
+
+
+// src/composite/composite-hover.tsx
+
+
+
+
+var OBZMLI6J_TagName = "div";
+function getMouseDestination(event) {
+  const relatedTarget = event.relatedTarget;
+  if ((relatedTarget == null ? void 0 : relatedTarget.nodeType) === Node.ELEMENT_NODE) {
+    return relatedTarget;
+  }
+  return null;
+}
+function hoveringInside(event) {
+  const nextElement = getMouseDestination(event);
+  if (!nextElement) return false;
+  return contains(event.currentTarget, nextElement);
+}
+var symbol = Symbol("composite-hover");
+function movingToAnotherItem(event) {
+  let dest = getMouseDestination(event);
+  if (!dest) return false;
+  do {
+    if (PBFD2E7P_hasOwnProperty(dest, symbol) && dest[symbol]) return true;
+    dest = dest.parentElement;
+  } while (dest);
+  return false;
+}
+var useCompositeHover = createHook(
+  function useCompositeHover2(_a) {
+    var _b = _a, {
+      store,
+      focusOnHover = true,
+      blurOnHoverEnd = !!focusOnHover
+    } = _b, props = __objRest(_b, [
+      "store",
+      "focusOnHover",
+      "blurOnHoverEnd"
+    ]);
+    const context = useCompositeContext();
+    store = store || context;
+    invariant(
+      store,
+       false && 0
+    );
+    const isMouseMoving = useIsMouseMoving();
+    const onMouseMoveProp = props.onMouseMove;
+    const focusOnHoverProp = useBooleanEvent(focusOnHover);
+    const onMouseMove = useEvent((event) => {
+      onMouseMoveProp == null ? void 0 : onMouseMoveProp(event);
+      if (event.defaultPrevented) return;
+      if (!isMouseMoving()) return;
+      if (!focusOnHoverProp(event)) return;
+      if (!hasFocusWithin(event.currentTarget)) {
+        const baseElement = store == null ? void 0 : store.getState().baseElement;
+        if (baseElement && !hasFocus(baseElement)) {
+          baseElement.focus();
+        }
+      }
+      store == null ? void 0 : store.setActiveId(event.currentTarget.id);
+    });
+    const onMouseLeaveProp = props.onMouseLeave;
+    const blurOnHoverEndProp = useBooleanEvent(blurOnHoverEnd);
+    const onMouseLeave = useEvent((event) => {
+      var _a2;
+      onMouseLeaveProp == null ? void 0 : onMouseLeaveProp(event);
+      if (event.defaultPrevented) return;
+      if (!isMouseMoving()) return;
+      if (hoveringInside(event)) return;
+      if (movingToAnotherItem(event)) return;
+      if (!focusOnHoverProp(event)) return;
+      if (!blurOnHoverEndProp(event)) return;
+      store == null ? void 0 : store.setActiveId(null);
+      (_a2 = store == null ? void 0 : store.getState().baseElement) == null ? void 0 : _a2.focus();
+    });
+    const ref = (0,external_React_.useCallback)((element) => {
+      if (!element) return;
+      element[symbol] = true;
+    }, []);
+    props = _3YLGPPWQ_spreadProps(_3YLGPPWQ_spreadValues({}, props), {
+      ref: useMergeRefs(ref, props.ref),
+      onMouseMove,
+      onMouseLeave
+    });
+    return removeUndefinedValues(props);
+  }
+);
+var OBZMLI6J_CompositeHover = memo2(
+  forwardRef2(function CompositeHover2(props) {
+    const htmlProps = useCompositeHover(props);
+    return HKOOKEDE_createElement(OBZMLI6J_TagName, htmlProps);
+  })
+);
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/composite/hover.js
 /**
  * External dependencies
@@ -4733,7 +4836,7 @@ const CompositeHover = (0,external_wp_element_namespaceObject.forwardRef)(functi
   // legacy compat layer. The `store` prop is documented, but its type is
   // obfuscated to discourage its use outside of the component's internals.
   const store = (_props$store = props.store) !== null && _props$store !== void 0 ? _props$store : context.store;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(IEKMDIUY_CompositeGroup, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(OBZMLI6J_CompositeHover, {
     store: store,
     ...props,
     ref: ref
@@ -4815,7 +4918,7 @@ function isNativeClick(event) {
   }
   return false;
 }
-var symbol = Symbol("command");
+var HGP5L2ST_symbol = Symbol("command");
 var useCommand = createHook(
   function useCommand2(_a) {
     var _b = _a, { clickOnEnter = true, clickOnSpace = true } = _b, props = __objRest(_b, ["clickOnEnter", "clickOnSpace"]);
@@ -4832,7 +4935,7 @@ var useCommand = createHook(
     const [active, setActive] = (0,external_React_.useState)(false);
     const activeRef = (0,external_React_.useRef)(false);
     const disabled = disabledFromProps(props);
-    const [isDuplicate, metadataProps] = useMetadataProps(props, symbol, true);
+    const [isDuplicate, metadataProps] = useMetadataProps(props, HGP5L2ST_symbol, true);
     const onKeyDownProp = props.onKeyDown;
     const onKeyDown = useEvent((event) => {
       onKeyDownProp == null ? void 0 : onKeyDownProp(event);
@@ -5343,6 +5446,110 @@ const CompositeRow = (0,external_wp_element_namespaceObject.forwardRef)(function
   });
 });
 
+;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/DS36B3MQ.js
+"use client";
+
+
+
+
+
+
+// src/composite/composite-typeahead.tsx
+
+
+
+
+var DS36B3MQ_TagName = "div";
+var chars = "";
+function clearChars() {
+  chars = "";
+}
+function isValidTypeaheadEvent(event) {
+  const target = event.target;
+  if (target && isTextField(target)) return false;
+  if (event.key === " " && chars.length) return true;
+  return event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey && /^[\p{Letter}\p{Number}]$/u.test(event.key);
+}
+function isSelfTargetOrItem(event, items) {
+  if (isSelfTarget(event)) return true;
+  const target = event.target;
+  if (!target) return false;
+  const isItem = items.some((item) => item.element === target);
+  return isItem;
+}
+function DS36B3MQ_getEnabledItems(items) {
+  return items.filter((item) => !item.disabled);
+}
+function itemTextStartsWith(item, text) {
+  var _a;
+  const itemText = ((_a = item.element) == null ? void 0 : _a.textContent) || item.children || // The composite item object itself doesn't include a value property, but
+  // other components like Select do. Since CompositeTypeahead is a generic
+  // component that can be used with those as well, we also consider the value
+  // property as a fallback for the typeahead text content.
+  "value" in item && item.value;
+  if (!itemText) return false;
+  return normalizeString(itemText).trim().toLowerCase().startsWith(text.toLowerCase());
+}
+function getSameInitialItems(items, char, activeId) {
+  if (!activeId) return items;
+  const activeItem = items.find((item) => item.id === activeId);
+  if (!activeItem) return items;
+  if (!itemTextStartsWith(activeItem, char)) return items;
+  if (chars !== char && itemTextStartsWith(activeItem, chars)) return items;
+  chars = char;
+  return _5VQZOHHZ_flipItems(
+    items.filter((item) => itemTextStartsWith(item, chars)),
+    activeId
+  ).filter((item) => item.id !== activeId);
+}
+var useCompositeTypeahead = createHook(function useCompositeTypeahead2(_a) {
+  var _b = _a, { store, typeahead = true } = _b, props = __objRest(_b, ["store", "typeahead"]);
+  const context = useCompositeContext();
+  store = store || context;
+  invariant(
+    store,
+     false && 0
+  );
+  const onKeyDownCaptureProp = props.onKeyDownCapture;
+  const cleanupTimeoutRef = (0,external_React_.useRef)(0);
+  const onKeyDownCapture = useEvent((event) => {
+    onKeyDownCaptureProp == null ? void 0 : onKeyDownCaptureProp(event);
+    if (event.defaultPrevented) return;
+    if (!typeahead) return;
+    if (!store) return;
+    const { renderedItems, items, activeId } = store.getState();
+    if (!isValidTypeaheadEvent(event)) return clearChars();
+    let enabledItems = DS36B3MQ_getEnabledItems(
+      renderedItems.length ? renderedItems : items
+    );
+    if (!isSelfTargetOrItem(event, enabledItems)) return clearChars();
+    event.preventDefault();
+    window.clearTimeout(cleanupTimeoutRef.current);
+    cleanupTimeoutRef.current = window.setTimeout(() => {
+      chars = "";
+    }, 500);
+    const char = event.key.toLowerCase();
+    chars += char;
+    enabledItems = getSameInitialItems(enabledItems, char, activeId);
+    const item = enabledItems.find((item2) => itemTextStartsWith(item2, chars));
+    if (item) {
+      store.move(item.id);
+    } else {
+      clearChars();
+    }
+  });
+  props = _3YLGPPWQ_spreadProps(_3YLGPPWQ_spreadValues({}, props), {
+    onKeyDownCapture
+  });
+  return removeUndefinedValues(props);
+});
+var DS36B3MQ_CompositeTypeahead = forwardRef2(function CompositeTypeahead2(props) {
+  const htmlProps = useCompositeTypeahead(props);
+  return HKOOKEDE_createElement(DS36B3MQ_TagName, htmlProps);
+});
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/composite/typeahead.js
 /**
  * External dependencies
@@ -5368,7 +5575,7 @@ const CompositeTypeahead = (0,external_wp_element_namespaceObject.forwardRef)(fu
   // legacy compat layer. The `store` prop is documented, but its type is
   // obfuscated to discourage its use outside of the component's internals.
   const store = (_props$store = props.store) !== null && _props$store !== void 0 ? _props$store : context.store;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(_6BE7QOX5_CompositeRow, {
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(DS36B3MQ_CompositeTypeahead, {
     store: store,
     ...props,
     ref: ref
@@ -9382,7 +9589,8 @@ function isContainingBlock(elementOrCss) {
   const css = isElement(elementOrCss) ? floating_ui_utils_dom_getComputedStyle(elementOrCss) : elementOrCss;
 
   // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
-  return css.transform !== 'none' || css.perspective !== 'none' || (css.containerType ? css.containerType !== 'normal' : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== 'none' : false) || !webkit && (css.filter ? css.filter !== 'none' : false) || ['transform', 'perspective', 'filter'].some(value => (css.willChange || '').includes(value)) || ['paint', 'layout', 'strict', 'content'].some(value => (css.contain || '').includes(value));
+  // https://drafts.csswg.org/css-transforms-2/#individual-transforms
+  return ['transform', 'translate', 'scale', 'rotate', 'perspective'].some(value => css[value] ? css[value] !== 'none' : false) || (css.containerType ? css.containerType !== 'normal' : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== 'none' : false) || !webkit && (css.filter ? css.filter !== 'none' : false) || ['transform', 'translate', 'scale', 'rotate', 'perspective', 'filter'].some(value => (css.willChange || '').includes(value)) || ['paint', 'layout', 'strict', 'content'].some(value => (css.contain || '').includes(value));
 }
 function getContainingBlock(element) {
   let currentNode = getParentNode(element);
@@ -11789,10 +11997,19 @@ var __setModuleDefault = Object.create ? (function(o, v) {
   o["default"] = v;
 };
 
+var ownKeys = function(o) {
+  ownKeys = Object.getOwnPropertyNames || function (o) {
+    var ar = [];
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+    return ar;
+  };
+  return ownKeys(o);
+};
+
 function __importStar(mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
   __setModuleDefault(result, mod);
   return result;
 }
@@ -11873,12 +12090,25 @@ function __disposeResources(env) {
   return next();
 }
 
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+  if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+          return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+      });
+  }
+  return path;
+}
+
 /* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
   __decorate,
   __param,
+  __esDecorate,
+  __runInitializers,
+  __propKey,
+  __setFunctionName,
   __metadata,
   __awaiter,
   __generator,
@@ -11901,6 +12131,7 @@ function __disposeResources(env) {
   __classPrivateFieldIn,
   __addDisposableResource,
   __disposeResources,
+  __rewriteRelativeImportExtension,
 });
 
 ;// CONCATENATED MODULE: ./node_modules/lower-case/dist.es2015/index.js
@@ -14544,6 +14775,7 @@ function useContextSystem(props, namespace) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/context/context-connect.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -28840,7 +29072,7 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function ownKeys(e, r) {
+function actions_fe213e88_esm_ownKeys(e, r) {
   var t = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var o = Object.getOwnPropertySymbols(e);
@@ -28853,9 +29085,9 @@ function ownKeys(e, r) {
 function _objectSpread2(e) {
   for (var r = 1; r < arguments.length; r++) {
     var t = null != arguments[r] ? arguments[r] : {};
-    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+    r % 2 ? actions_fe213e88_esm_ownKeys(Object(t), !0).forEach(function (r) {
       _defineProperty(e, r, t[r]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : actions_fe213e88_esm_ownKeys(Object(t)).forEach(function (r) {
       Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
     });
   }
@@ -33582,6 +33814,7 @@ function v4(options, buf, offset) {
 
 /* harmony default export */ const esm_browser_v4 = (v4);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/style-provider/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -34610,6 +34843,7 @@ function useOnClickOutside(ref, handler) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/autocomplete/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -47153,6 +47387,7 @@ function useCompositeState(legacyStateOptions = {}) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/modal/aria-helper.js
+/* wp:polyfill */
 const LIVE_REGION_ARIA_ROLES = new Set(['alert', 'status', 'log', 'marquee', 'timer']);
 const hiddenElementsByDepth = [];
 
@@ -47278,6 +47513,7 @@ function useModalExitAnimation() {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/modal/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -48370,110 +48606,6 @@ var SelectArrow = forwardRef2(function SelectArrow2(props) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/DS36B3MQ.js
-"use client";
-
-
-
-
-
-
-// src/composite/composite-typeahead.tsx
-
-
-
-
-var DS36B3MQ_TagName = "div";
-var chars = "";
-function clearChars() {
-  chars = "";
-}
-function isValidTypeaheadEvent(event) {
-  const target = event.target;
-  if (target && isTextField(target)) return false;
-  if (event.key === " " && chars.length) return true;
-  return event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey && /^[\p{Letter}\p{Number}]$/u.test(event.key);
-}
-function isSelfTargetOrItem(event, items) {
-  if (isSelfTarget(event)) return true;
-  const target = event.target;
-  if (!target) return false;
-  const isItem = items.some((item) => item.element === target);
-  return isItem;
-}
-function DS36B3MQ_getEnabledItems(items) {
-  return items.filter((item) => !item.disabled);
-}
-function itemTextStartsWith(item, text) {
-  var _a;
-  const itemText = ((_a = item.element) == null ? void 0 : _a.textContent) || item.children || // The composite item object itself doesn't include a value property, but
-  // other components like Select do. Since CompositeTypeahead is a generic
-  // component that can be used with those as well, we also consider the value
-  // property as a fallback for the typeahead text content.
-  "value" in item && item.value;
-  if (!itemText) return false;
-  return normalizeString(itemText).trim().toLowerCase().startsWith(text.toLowerCase());
-}
-function getSameInitialItems(items, char, activeId) {
-  if (!activeId) return items;
-  const activeItem = items.find((item) => item.id === activeId);
-  if (!activeItem) return items;
-  if (!itemTextStartsWith(activeItem, char)) return items;
-  if (chars !== char && itemTextStartsWith(activeItem, chars)) return items;
-  chars = char;
-  return _5VQZOHHZ_flipItems(
-    items.filter((item) => itemTextStartsWith(item, chars)),
-    activeId
-  ).filter((item) => item.id !== activeId);
-}
-var useCompositeTypeahead = createHook(function useCompositeTypeahead2(_a) {
-  var _b = _a, { store, typeahead = true } = _b, props = __objRest(_b, ["store", "typeahead"]);
-  const context = useCompositeContext();
-  store = store || context;
-  invariant(
-    store,
-     false && 0
-  );
-  const onKeyDownCaptureProp = props.onKeyDownCapture;
-  const cleanupTimeoutRef = (0,external_React_.useRef)(0);
-  const onKeyDownCapture = useEvent((event) => {
-    onKeyDownCaptureProp == null ? void 0 : onKeyDownCaptureProp(event);
-    if (event.defaultPrevented) return;
-    if (!typeahead) return;
-    if (!store) return;
-    const { renderedItems, items, activeId } = store.getState();
-    if (!isValidTypeaheadEvent(event)) return clearChars();
-    let enabledItems = DS36B3MQ_getEnabledItems(
-      renderedItems.length ? renderedItems : items
-    );
-    if (!isSelfTargetOrItem(event, enabledItems)) return clearChars();
-    event.preventDefault();
-    window.clearTimeout(cleanupTimeoutRef.current);
-    cleanupTimeoutRef.current = window.setTimeout(() => {
-      chars = "";
-    }, 500);
-    const char = event.key.toLowerCase();
-    chars += char;
-    enabledItems = getSameInitialItems(enabledItems, char, activeId);
-    const item = enabledItems.find((item2) => itemTextStartsWith(item2, chars));
-    if (item) {
-      store.move(item.id);
-    } else {
-      clearChars();
-    }
-  });
-  props = _3YLGPPWQ_spreadProps(_3YLGPPWQ_spreadValues({}, props), {
-    onKeyDownCapture
-  });
-  return removeUndefinedValues(props);
-});
-var DS36B3MQ_CompositeTypeahead = forwardRef2(function CompositeTypeahead2(props) {
-  const htmlProps = useCompositeTypeahead(props);
-  return HKOOKEDE_createElement(DS36B3MQ_TagName, htmlProps);
-});
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/select/select.js
 "use client";
 
@@ -48906,109 +49038,6 @@ var SelectPopover = createDialogComponent(
   }),
   useSelectProviderContext
 );
-
-
-;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/__chunks/OBZMLI6J.js
-"use client";
-
-
-
-
-
-// src/composite/composite-hover.tsx
-
-
-
-
-var OBZMLI6J_TagName = "div";
-function getMouseDestination(event) {
-  const relatedTarget = event.relatedTarget;
-  if ((relatedTarget == null ? void 0 : relatedTarget.nodeType) === Node.ELEMENT_NODE) {
-    return relatedTarget;
-  }
-  return null;
-}
-function hoveringInside(event) {
-  const nextElement = getMouseDestination(event);
-  if (!nextElement) return false;
-  return contains(event.currentTarget, nextElement);
-}
-var OBZMLI6J_symbol = Symbol("composite-hover");
-function movingToAnotherItem(event) {
-  let dest = getMouseDestination(event);
-  if (!dest) return false;
-  do {
-    if (PBFD2E7P_hasOwnProperty(dest, OBZMLI6J_symbol) && dest[OBZMLI6J_symbol]) return true;
-    dest = dest.parentElement;
-  } while (dest);
-  return false;
-}
-var useCompositeHover = createHook(
-  function useCompositeHover2(_a) {
-    var _b = _a, {
-      store,
-      focusOnHover = true,
-      blurOnHoverEnd = !!focusOnHover
-    } = _b, props = __objRest(_b, [
-      "store",
-      "focusOnHover",
-      "blurOnHoverEnd"
-    ]);
-    const context = useCompositeContext();
-    store = store || context;
-    invariant(
-      store,
-       false && 0
-    );
-    const isMouseMoving = useIsMouseMoving();
-    const onMouseMoveProp = props.onMouseMove;
-    const focusOnHoverProp = useBooleanEvent(focusOnHover);
-    const onMouseMove = useEvent((event) => {
-      onMouseMoveProp == null ? void 0 : onMouseMoveProp(event);
-      if (event.defaultPrevented) return;
-      if (!isMouseMoving()) return;
-      if (!focusOnHoverProp(event)) return;
-      if (!hasFocusWithin(event.currentTarget)) {
-        const baseElement = store == null ? void 0 : store.getState().baseElement;
-        if (baseElement && !hasFocus(baseElement)) {
-          baseElement.focus();
-        }
-      }
-      store == null ? void 0 : store.setActiveId(event.currentTarget.id);
-    });
-    const onMouseLeaveProp = props.onMouseLeave;
-    const blurOnHoverEndProp = useBooleanEvent(blurOnHoverEnd);
-    const onMouseLeave = useEvent((event) => {
-      var _a2;
-      onMouseLeaveProp == null ? void 0 : onMouseLeaveProp(event);
-      if (event.defaultPrevented) return;
-      if (!isMouseMoving()) return;
-      if (hoveringInside(event)) return;
-      if (movingToAnotherItem(event)) return;
-      if (!focusOnHoverProp(event)) return;
-      if (!blurOnHoverEndProp(event)) return;
-      store == null ? void 0 : store.setActiveId(null);
-      (_a2 = store == null ? void 0 : store.getState().baseElement) == null ? void 0 : _a2.focus();
-    });
-    const ref = (0,external_React_.useCallback)((element) => {
-      if (!element) return;
-      element[OBZMLI6J_symbol] = true;
-    }, []);
-    props = _3YLGPPWQ_spreadProps(_3YLGPPWQ_spreadValues({}, props), {
-      ref: useMergeRefs(ref, props.ref),
-      onMouseMove,
-      onMouseLeave
-    });
-    return removeUndefinedValues(props);
-  }
-);
-var OBZMLI6J_CompositeHover = memo2(
-  forwardRef2(function CompositeHover2(props) {
-    const htmlProps = useCompositeHover(props);
-    return HKOOKEDE_createElement(OBZMLI6J_TagName, htmlProps);
-  })
-);
-
 
 
 ;// CONCATENATED MODULE: ./node_modules/@ariakit/react-core/esm/select/select-item.js
@@ -56243,6 +56272,7 @@ function DuotonePicker({
 /* harmony default export */ const duotone_picker = (DuotonePicker);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/external-link/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -57646,6 +57676,7 @@ const TokensAndInputWrapperFlex = /*#__PURE__*/emotion_styled_base_browser_esm(f
 } : 0)("padding:7px;", boxSizingReset, " ", deprecatedPaddings, ";" + ( true ? "" : 0));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/form-token-field/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */

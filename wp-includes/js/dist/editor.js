@@ -2414,6 +2414,7 @@ const layout = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 ;// CONCATENATED MODULE: external ["wp","preferences"]
 const external_wp_preferences_namespaceObject = window["wp"]["preferences"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/constants.js
+/* wp:polyfill */
 /**
  * Set of post properties for which edits should assume a merging behavior,
  * assuming an object value.
@@ -5534,10 +5535,19 @@ var __setModuleDefault = Object.create ? (function(o, v) {
   o["default"] = v;
 };
 
+var ownKeys = function(o) {
+  ownKeys = Object.getOwnPropertyNames || function (o) {
+    var ar = [];
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+    return ar;
+  };
+  return ownKeys(o);
+};
+
 function __importStar(mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
   __setModuleDefault(result, mod);
   return result;
 }
@@ -5618,12 +5628,25 @@ function __disposeResources(env) {
   return next();
 }
 
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+  if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+          return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+      });
+  }
+  return path;
+}
+
 /* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
   __decorate,
   __param,
+  __esDecorate,
+  __runInitializers,
+  __propKey,
+  __setFunctionName,
   __metadata,
   __awaiter,
   __generator,
@@ -5646,6 +5669,7 @@ function __disposeResources(env) {
   __classPrivateFieldIn,
   __addDisposableResource,
   __disposeResources,
+  __rewriteRelativeImportExtension,
 });
 
 ;// CONCATENATED MODULE: ./node_modules/lower-case/dist.es2015/index.js
@@ -6223,6 +6247,7 @@ const trash = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
 /* harmony default export */ const library_trash = (trash);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/dataviews/actions/trash-post.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -6482,6 +6507,7 @@ const renamePost = {
 /* harmony default export */ const rename_post = (renamePost);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/dataviews/actions/restore-post.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -7655,6 +7681,7 @@ const exportPattern = {
 /* harmony default export */ const export_pattern = (exportPattern);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/fields/build-module/actions/common/permanently-delete-post.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -7918,6 +7945,7 @@ const registerPostTypeActions = postType => async ({
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/private-actions.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -18637,6 +18665,7 @@ function v4(options, buf, offset) {
 
 /* harmony default export */ const esm_browser_v4 = (v4);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-publish-panel/media-util.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -18710,6 +18739,7 @@ function fetchMedia(urls) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-publish-panel/maybe-upload-media.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -20828,7 +20858,7 @@ function usePostTitle() {
 
 
 
-function PostTitle(_, forwardedRef) {
+const PostTitle = (0,external_wp_element_namespaceObject.forwardRef)((_, forwardedRef) => {
   const {
     placeholder
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -20962,24 +20992,21 @@ function PostTitle(_, forwardedRef) {
   return (
     /*#__PURE__*/
     /* eslint-disable jsx-a11y/heading-has-content, jsx-a11y/no-noninteractive-element-to-interactive-role */
-    (0,external_ReactJSXRuntime_namespaceObject.jsx)(post_type_support_check, {
-      supportKeys: "title",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
-        ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([richTextRef, focusRef]),
-        contentEditable: true,
-        className: className,
-        "aria-label": decodedPlaceholder,
-        role: "textbox",
-        "aria-multiline": "true",
-        onFocus: onSelect,
-        onBlur: onUnselect,
-        onKeyDown: onKeyDown,
-        onPaste: onPaste
-      })
+    (0,external_ReactJSXRuntime_namespaceObject.jsx)("h1", {
+      ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([richTextRef, focusRef]),
+      contentEditable: true,
+      className: className,
+      "aria-label": decodedPlaceholder,
+      role: "textbox",
+      "aria-multiline": "true",
+      onFocus: onSelect,
+      onBlur: onUnselect,
+      onKeyDown: onKeyDown,
+      onPaste: onPaste
     })
     /* eslint-enable jsx-a11y/heading-has-content, jsx-a11y/no-noninteractive-element-to-interactive-role */
   );
-}
+});
 
 /**
  * Renders the `PostTitle` component.
@@ -20989,7 +21016,12 @@ function PostTitle(_, forwardedRef) {
  *
  * @return {Component} The rendered PostTitle component.
  */
-/* harmony default export */ const post_title = ((0,external_wp_element_namespaceObject.forwardRef)(PostTitle));
+/* harmony default export */ const post_title = ((0,external_wp_element_namespaceObject.forwardRef)((_, forwardedRef) => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(post_type_support_check, {
+  supportKeys: "title",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(PostTitle, {
+    ref: forwardedRef
+  })
+})));
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/post-title/post-title-raw.js
 /**
@@ -22505,15 +22537,15 @@ function GlobalStylesProvider({
 const use_block_editor_settings_EMPTY_OBJECT = {};
 function __experimentalReusableBlocksSelect(select) {
   const {
-    getEntityRecords,
-    hasFinishedResolution
+    RECEIVE_INTERMEDIATE_RESULTS
+  } = unlock(external_wp_coreData_namespaceObject.privateApis);
+  const {
+    getEntityRecords
   } = select(external_wp_coreData_namespaceObject.store);
-  const reusableBlocks = getEntityRecords('postType', 'wp_block', {
-    per_page: -1
+  return getEntityRecords('postType', 'wp_block', {
+    per_page: -1,
+    [RECEIVE_INTERMEDIATE_RESULTS]: true
   });
-  return hasFinishedResolution('getEntityRecords', ['postType', 'wp_block', {
-    per_page: -1
-  }]) ? reusableBlocks : undefined;
 }
 const BLOCK_EDITOR_SETTINGS = ['__experimentalBlockDirectory', '__experimentalDiscussionSettings', '__experimentalFeatures', '__experimentalGlobalStylesBaseStyles', 'alignWide', 'blockInspectorTabs', 'allowedMimeTypes', 'bodyPlaceholder', 'canLockBlocks', 'canUpdateBlockBindings', 'capabilities', 'clearBlockSelection', 'codeEditingEnabled', 'colors', 'disableCustomColors', 'disableCustomFontSizes', 'disableCustomSpacingSizes', 'disableCustomGradients', 'disableLayoutStyles', 'enableCustomLineHeight', 'enableCustomSpacing', 'enableCustomUnits', 'enableOpenverseMediaCategory', 'fontSizes', 'gradients', 'generateAnchors', 'onNavigateToEntityRecord', 'imageDefaultSize', 'imageDimensions', 'imageEditing', 'imageSizes', 'isRTL', 'locale', 'maxWidth', 'postContentAttributes', 'postsPerPage', 'readOnly', 'styles', 'titlePlaceholder', 'supportsLayout', 'widgetTypesToHideFromLegacyWidgetBlock', '__unstableHasCustomAppender', '__unstableIsPreviewMode', '__unstableResolvedAssets', '__unstableIsBlockBasedTheme'];
 const {

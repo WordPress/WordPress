@@ -1573,6 +1573,7 @@ const copy = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 /* harmony default export */ const library_copy = (copy);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/patterns/build-module/components/pattern-overrides-block-controls.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */

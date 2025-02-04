@@ -1972,8 +1972,6 @@ class MetaBoxVisibility extends external_wp_element_namespaceObject.Component {
  */
 
 
-
-
 /**
  * Internal dependencies
  */
@@ -1986,38 +1984,7 @@ class MetaBoxVisibility extends external_wp_element_namespaceObject.Component {
 function MetaBoxes({
   location
 }) {
-  const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const {
-    metaBoxes,
-    areMetaBoxesInitialized,
-    isEditorReady
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      __unstableIsEditorReady
-    } = select(external_wp_editor_namespaceObject.store);
-    const {
-      getMetaBoxesPerLocation,
-      areMetaBoxesInitialized: _areMetaBoxesInitialized
-    } = select(store);
-    return {
-      metaBoxes: getMetaBoxesPerLocation(location),
-      areMetaBoxesInitialized: _areMetaBoxesInitialized(),
-      isEditorReady: __unstableIsEditorReady()
-    };
-  }, [location]);
-  const hasMetaBoxes = !!metaBoxes?.length;
-
-  // When editor is ready, initialize postboxes (wp core script) and metabox
-  // saving. This initializes all meta box locations, not just this specific
-  // one.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (isEditorReady && hasMetaBoxes && !areMetaBoxesInitialized) {
-      registry.dispatch(store).initializeMetaBoxes();
-    }
-  }, [isEditorReady, hasMetaBoxes, areMetaBoxesInitialized]);
-  if (!areMetaBoxesInitialized) {
-    return null;
-  }
+  const metaBoxes = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getMetaBoxesPerLocation(location), [location]);
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [(metaBoxes !== null && metaBoxes !== void 0 ? metaBoxes : []).map(({
       id
@@ -2785,6 +2752,38 @@ function useNavigateToEntityRecord(initialPostId, initialPostType, defaultRender
   };
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/meta-boxes/use-meta-box-initialization.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Initializes WordPress `postboxes` script and the logic for saving meta boxes.
+ *
+ * @param { boolean } enabled
+ */
+const useMetaBoxInitialization = enabled => {
+  const isEnabledAndEditorReady = (0,external_wp_data_namespaceObject.useSelect)(select => enabled && select(external_wp_editor_namespaceObject.store).__unstableIsEditorReady(), [enabled]);
+  const {
+    initializeMetaBoxes
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  // The effect has to rerun when the editor is ready because initializeMetaBoxes
+  // will noop until then.
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (isEnabledAndEditorReady) {
+      initializeMetaBoxes();
+    }
+  }, [isEnabledAndEditorReady, initializeMetaBoxes]);
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/layout/index.js
 /**
  * External dependencies
@@ -2815,6 +2814,7 @@ function useNavigateToEntityRecord(initialPostId, initialPostType, defaultRender
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -3144,7 +3144,8 @@ function Layout({
     showMetaBoxes,
     hasHistory,
     isWelcomeGuideVisible,
-    templateId
+    templateId,
+    isDevicePreview
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     var _getPostType$viewable;
     const {
@@ -3159,6 +3160,11 @@ function Layout({
       getPostType
     } = select(external_wp_coreData_namespaceObject.store);
     const {
+      getDeviceType,
+      getEditorMode,
+      getRenderingMode
+    } = select(external_wp_editor_namespaceObject.store);
+    const {
       __unstableGetEditorMode
     } = unlock(select(external_wp_blockEditor_namespaceObject.store));
     const supportsTemplateMode = settings.supportsTemplateMode;
@@ -3169,17 +3175,19 @@ function Layout({
     });
     const isZoomOut = __unstableGetEditorMode() === 'zoom-out';
     return {
-      mode: select(external_wp_editor_namespaceObject.store).getEditorMode(),
+      mode: getEditorMode(),
       isFullscreenActive: select(store).isFeatureActive('fullscreenMode'),
       hasActiveMetaboxes: select(store).hasMetaBoxes(),
       hasBlockSelected: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
       showIconLabels: get('core', 'showIconLabels'),
       isDistractionFree: get('core', 'distractionFree'),
-      showMetaBoxes: !DESIGN_POST_TYPES.includes(currentPostType) && select(external_wp_editor_namespaceObject.store).getRenderingMode() === 'post-only' && !isZoomOut,
+      showMetaBoxes: !DESIGN_POST_TYPES.includes(currentPostType) && getRenderingMode() === 'post-only' && !isZoomOut,
       isWelcomeGuideVisible: isFeatureActive('welcomeGuide'),
-      templateId: supportsTemplateMode && isViewable && canViewTemplate && !isEditingTemplate ? getEditedPostTemplateId() : null
+      templateId: supportsTemplateMode && isViewable && canViewTemplate && !isEditingTemplate ? getEditedPostTemplateId() : null,
+      isDevicePreview: getDeviceType() !== 'Desktop'
     };
   }, [currentPostType, isEditingTemplate, settings.supportsTemplateMode]);
+  useMetaBoxInitialization(hasActiveMetaboxes);
 
   // Set the right context for the command palette
   const commandContext = hasBlockSelected ? 'block-selection-edit' : 'entity-edit';
@@ -3281,7 +3289,7 @@ function Layout({
             location: "side"
           }),
           extraContent: !isDistractionFree && showMetaBoxes && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(MetaBoxesMain, {
-            isLegacy: !shouldIframe
+            isLegacy: !shouldIframe || isDevicePreview
           }),
           children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.PostLockedModal, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(EditorInitialization, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(FullscreenMode, {
             isActive: isFullscreenActive

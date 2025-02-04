@@ -179,9 +179,11 @@
   clear:both;
 }
 
-.has-metaboxes .editor-visual-editor{
-  flex:1;
+.has-metaboxes .interface-interface-skeleton__content:has(.edit-post-meta-boxes-main) .editor-visual-editor{
+  flex-basis:0%;
+  flex-shrink:1;
 }
+
 .has-metaboxes .editor-visual-editor.is-iframed{
   isolation:isolate;
 }

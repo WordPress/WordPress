@@ -972,8 +972,7 @@ ul.dataviews-view-list{
   align-items:center;
   display:flex;
   flex-shrink:0;
-  -webkit-hyphens:auto;
-          hyphens:auto;
+  hyphens:auto;
   line-height:20px;
   min-height:32px;
   padding:6px 0;

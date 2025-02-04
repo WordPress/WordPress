@@ -635,7 +635,7 @@
 
 .block-editor-iframe__html{
   transform-origin:top center;
-  transition:all .4s cubic-bezier(.46, .03, .52, .96),transform 0s,scale 0s,padding 0s;
+  transition:all .4s cubic-bezier(.46, .03, .52, .96),transform 0s,scale 0s,padding 0s,translate 0s;
 }
 @media (prefers-reduced-motion:reduce){
   .block-editor-iframe__html{
@@ -644,7 +644,14 @@
   }
 }
 .block-editor-iframe__html.zoom-out-animation{
-  transition:all .4s cubic-bezier(.46, .03, .52, .96),transform 0s;
+  bottom:0;
+  left:0;
+  overflow-y:scroll;
+  position:fixed;
+  right:0;
+  top:calc(var(--wp-block-editor-iframe-zoom-out-scroll-top, 0)*-1);
+  transition:all .4s cubic-bezier(.46, .03, .52, .96),transform 0s,top 0s,bottom 0s,left 0s,right 0s;
+  translate:0 calc(var(--wp-block-editor-iframe-zoom-out-scroll-top, 0) - var(--wp-block-editor-iframe-zoom-out-scroll-top-next, 0));
 }
 @media (prefers-reduced-motion:reduce){
   .block-editor-iframe__html.zoom-out-animation{
