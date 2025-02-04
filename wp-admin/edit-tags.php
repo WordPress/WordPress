@@ -216,6 +216,9 @@ if ( $location ) {
 	if ( $pagenum > 1 ) {
 		$location = add_query_arg( 'paged', $pagenum, $location ); // $pagenum takes care of $total_pages.
 	}
+	if ( 1 === $pagenum ) {
+		$location = remove_query_arg( 'paged', $location );
+	}
 
 	/**
 	 * Filters the taxonomy redirect destination URL.
