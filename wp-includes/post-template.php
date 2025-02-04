@@ -1823,8 +1823,8 @@ function get_the_password_form( $post = 0 ) {
 	 * @since 5.8.0 Added the `$post` parameter.
 	 * @since 6.8.0 Added the `$invalid_password` parameter.
 	 *
-	 * @param string  $output The password form HTML output.
-	 * @param WP_Post $post   Post object.
+	 * @param string  $output           The password form HTML output.
+	 * @param WP_Post $post             Post object.
 	 * @param string  $invalid_password The invalid password message.
 	 */
 	return apply_filters( 'the_password_form', $output, $post, $invalid_password );
