@@ -574,7 +574,7 @@ function wpautop( $text, $br = true ) {
 		// Replace newlines that shouldn't be touched with a placeholder.
 		$text = preg_replace_callback( '/<(script|style|svg|math).*?<\/\\1>/s', '_autop_newline_preservation_helper', $text );
 
-		// Normalize <br>
+		// Normalize <br>.
 		$text = str_replace( array( '<br>', '<br/>' ), '<br />', $text );
 
 		// Replace any new line characters that aren't preceded by a <br /> with a <br />.
@@ -621,7 +621,7 @@ function wp_html_split( $input ) {
  *
  * @since 4.4.0
  *
- * @return string The regular expression
+ * @return string The regular expression.
  */
 function get_html_split_regex() {
 	static $regex;
@@ -681,7 +681,7 @@ function get_html_split_regex() {
  * @since 4.4.0
  *
  * @param string $shortcode_regex Optional. The result from _get_wptexturize_shortcode_regex().
- * @return string The regular expression
+ * @return string The regular expression.
  */
 function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 	static $html_regex;
@@ -723,7 +723,7 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
  * @since 4.4.0
  *
  * @param string[] $tagnames Array of shortcodes to find.
- * @return string The regular expression
+ * @return string The regular expression.
  */
 function _get_wptexturize_shortcode_regex( $tagnames ) {
 	$tagregexp = implode( '|', array_map( 'preg_quote', $tagnames ) );
@@ -877,7 +877,7 @@ function shortcode_unautop( $text ) {
  * @author bmorel at ssi dot fr (modified)
  * @since 1.2.1
  *
- * @param string $str The string to be checked
+ * @param string $str The string to be checked.
  * @return bool True if $str fits a UTF-8 model, false otherwise.
  */
 function seems_utf8( $str ) {
@@ -904,7 +904,7 @@ function seems_utf8( $str ) {
 			return false; // Does not match any model.
 		}
 
-		for ( $j = 0; $j < $n; $j++ ) { // n bytes matching 10bbbbbb follow ?
+		for ( $j = 0; $j < $n; $j++ ) { // n bytes matching 10bbbbbb follow?
 			if ( ( ++$i === $length ) || ( ( ord( $str[ $i ] ) & 0xC0 ) !== 0x80 ) ) {
 				return false;
 			}
@@ -1139,7 +1139,7 @@ function wp_check_invalid_utf8( $text, $strip = false ) {
  * @since 5.8.3 Added the `encode_ascii_characters` parameter.
  *
  * @param string $utf8_string             String to encode.
- * @param int    $length                  Max length of the string
+ * @param int    $length                  Max length of the string.
  * @param bool   $encode_ascii_characters Whether to encode ascii characters such as < " '
  * @return string String with Unicode encoded for URI.
  */
@@ -2536,9 +2536,9 @@ function convert_invalid_entities( $content ) {
  *
  * @since 0.71
  *
- * @param string $text  Text to be balanced
+ * @param string $text  Text to be balanced.
  * @param bool   $force If true, forces balancing, ignoring the value of the option. Default false.
- * @return string Balanced text
+ * @return string Balanced text.
  */
 function balanceTags( $text, $force = false ) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	if ( $force || (int) get_option( 'use_balanceTags' ) === 1 ) {
