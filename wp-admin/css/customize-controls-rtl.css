@@ -432,6 +432,7 @@ body.trashing #publish-settings {
 	border-left: none;
 	border-bottom: none;
 	cursor: default;
+	padding: 10px 14px 11px 10px;
 }
 
 #customize-controls .customize-info.open .accordion-section-title:after,
@@ -1728,7 +1729,7 @@ p.customize-section-description {
 	border-right: none;
 	border-left: none;
 	margin: 0 0 15px;
-	padding-left: 100px; /* Space for the button */
+	padding: 12px 15px 15px 100px; /* Space for the button */
 }
 
 #customize-theme-controls .control-section-themes .customize-themes-panel .accordion-section-title:first-child:hover, /* Not a focusable element. */

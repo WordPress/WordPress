@@ -2434,6 +2434,12 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 .nav-menus-php .metabox-holder h3 {
 	padding: 0;
 }
+
+.accordion-container h3.accordion-section-title {
+	padding: 0 !important;
+}
+
+.accordion-section-title button.accordion-trigger,
 .nav-menus-php .metabox-holder .accordion-section-title button.accordion-trigger {
 	background: inherit;
 	color: #1d2327;
@@ -2447,27 +2453,38 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 	line-height: 1.5;
 	cursor: pointer;
 }
+
+.accordion-section-title button.accordion-trigger:focus,
 .nav-menus-php .metabox-holder .accordion-section-title button.accordion-trigger:focus {
 	box-shadow: 0 0 0 2px #2271b1;
 	outline: 2px solid transparent;
 }
+
+.accordion-section-title span.dashicons.dashicons-arrow-down,
 .nav-menus-php .metabox-holder .accordion-section-title span.dashicons.dashicons-arrow-down {
 	position: absolute;
 	left: 10px;
 	right: auto;
 	color: #787c82;
 	border-radius: 50px;
+	top: 50%;
+	transform: translateY(-50%);
 }
+
+.accordion-section-title:hover span.dashicons.dashicons-arrow-down,
 .nav-menus-php .metabox-holder .accordion-section-title:hover span.dashicons.dashicons-arrow-down {
 	color: #1d2327;
 }
+
+.accordion-section-title span.dashicons.dashicons-arrow-down::before,
 .nav-menus-php .metabox-holder .accordion-section-title span.dashicons.dashicons-arrow-down::before {
 	position: relative;
 	right: -1px;
 }
 
+.accordion-section.open .accordion-section-title span.dashicons.dashicons-arrow-down,
 .nav-menus-php .metabox-holder .accordion-section.open .accordion-section-title span.dashicons.dashicons-arrow-down {
-	transform: rotate(-180deg);
+	transform: rotate(-180deg) translate(0, 50%);
 }
 
 #templateside ul li a {
@@ -3649,7 +3666,6 @@ img {
 
 .accordion-section-title {
 	margin: 0;
-	padding: 12px 15px 15px;
 	position: relative;
 	border-right: 1px solid #dcdcde;
 	border-left: 1px solid #dcdcde;
