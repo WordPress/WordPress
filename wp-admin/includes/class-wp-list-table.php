@@ -780,9 +780,9 @@ class WP_List_Table {
 			printf(
 				"<option %s value='%s'>%s</option>\n",
 				selected( $selected_month, $year . $month, false ),
-				esc_attr( $arc_row->year . $month ),
+				esc_attr( $year . $month ),
 				/* translators: 1: Month name, 2: 4-digit year. */
-				sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+				esc_html( sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year ) )
 			);
 		}
 		?>

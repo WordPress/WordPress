@@ -2845,38 +2845,37 @@ function media_upload_library_form( $errors ) {
 
 	<div class="alignleft actions">
 		<?php
+		$months = $wpdb->get_results(
+			"SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+			FROM $wpdb->posts
+			WHERE post_type = 'attachment'
+			ORDER BY post_date DESC"
+		);
 
-		$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'attachment' ORDER BY post_date DESC";
+		$month_count    = count( $months );
+		$selected_month = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 
-		$arc_result = $wpdb->get_results( $arc_query );
-
-		$month_count    = count( $arc_result );
-		$selected_month = isset( $_GET['m'] ) ? $_GET['m'] : 0;
-
-		if ( $month_count && ! ( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) {
+		if ( $month_count && ( 1 !== $month_count || 0 !== (int) $months[0]->month ) ) {
 			?>
 			<select name='m'>
-			<option<?php selected( $selected_month, 0 ); ?> value='0'><?php _e( 'All dates' ); ?></option>
+				<option<?php selected( $selected_month, 0 ); ?> value='0'><?php _e( 'All dates' ); ?></option>
 			<?php
-
-			foreach ( $arc_result as $arc_row ) {
-				if ( 0 == $arc_row->yyear ) {
+			foreach ( $months as $arc_row ) {
+				if ( 0 === (int) $arc_row->year ) {
 					continue;
 				}
 
-				$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
+				$month = zeroise( $arc_row->month, 2 );
+				$year  = $arc_row->year;
 
-				if ( $arc_row->yyear . $arc_row->mmonth == $selected_month ) {
-					$default = ' selected="selected"';
-				} else {
-					$default = '';
-				}
-
-				echo "<option$default value='" . esc_attr( $arc_row->yyear . $arc_row->mmonth ) . "'>";
-				echo esc_html( $wp_locale->get_month( $arc_row->mmonth ) . " $arc_row->yyear" );
-				echo "</option>\n";
+				printf(
+					"<option %s value='%s'>%s</option>\n",
+					selected( $selected_month, $year . $month, false ),
+					esc_attr( $year . $month ),
+					/* translators: 1: Month name, 2: 4-digit year. */
+					esc_html( sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year ) )
+				);
 			}
-
 			?>
 			</select>
 		<?php } ?>
