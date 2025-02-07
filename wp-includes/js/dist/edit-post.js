@@ -3161,8 +3161,7 @@ function Layout({
     } = select(external_wp_coreData_namespaceObject.store);
     const {
       getDeviceType,
-      getEditorMode,
-      getRenderingMode
+      getEditorMode
     } = select(external_wp_editor_namespaceObject.store);
     const {
       __unstableGetEditorMode
@@ -3181,7 +3180,7 @@ function Layout({
       hasBlockSelected: !!select(external_wp_blockEditor_namespaceObject.store).getBlockSelectionStart(),
       showIconLabels: get('core', 'showIconLabels'),
       isDistractionFree: get('core', 'distractionFree'),
-      showMetaBoxes: !DESIGN_POST_TYPES.includes(currentPostType) && getRenderingMode() === 'post-only' && !isZoomOut,
+      showMetaBoxes: !DESIGN_POST_TYPES.includes(currentPostType) && !isZoomOut,
       isWelcomeGuideVisible: isFeatureActive('welcomeGuide'),
       templateId: supportsTemplateMode && isViewable && canViewTemplate && !isEditingTemplate ? getEditedPostTemplateId() : null,
       isDevicePreview: getDeviceType() !== 'Desktop'
