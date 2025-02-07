@@ -2154,7 +2154,7 @@ function wp_get_archives( $args = '' ) {
 		if ( $results ) {
 			$after = $parsed_args['after'];
 			foreach ( (array) $results as $result ) {
-				if ( $result->week != $arc_w_last ) {
+				if ( $result->week !== $arc_w_last ) {
 					$arc_year       = $result->yr;
 					$arc_w_last     = $result->week;
 					$arc_week       = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
