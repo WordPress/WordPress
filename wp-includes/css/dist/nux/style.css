@@ -23,7 +23,6 @@
   position:absolute;
 }
 .nux-dot-tip:before{
-  animation:nux-pulse 1.6s cubic-bezier(.17, .67, .92, .62) infinite;
   background:#00739ce6;
   height:24px;
   left:-12px;
@@ -31,6 +30,11 @@
   top:-12px;
   transform:scale(.3333333333);
   width:24px;
+}
+@media not (prefers-reduced-motion){
+  .nux-dot-tip:before{
+    animation:nux-pulse 1.6s cubic-bezier(.17, .67, .92, .62) infinite;
+  }
 }
 .nux-dot-tip:after{
   background:#00739c;

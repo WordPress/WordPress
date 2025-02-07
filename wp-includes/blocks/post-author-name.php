@@ -26,6 +26,10 @@ function render_block_core_post_author_name( $attributes, $content, $block ) {
 		return '';
 	}
 
+	if ( ! post_type_supports( $block->context['postType'], 'author' ) ) {
+		return '';
+	}
+
 	$author_name = get_the_author_meta( 'display_name', $author_id );
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
 		$author_name = sprintf( '<a href="%1$s" target="%2$s" class="wp-block-post-author-name__link">%3$s</a>', get_author_posts_url( $author_id ), esc_attr( $attributes['linkTarget'] ), $author_name );

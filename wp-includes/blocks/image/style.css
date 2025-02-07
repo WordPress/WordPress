@@ -1,4 +1,4 @@
-.wp-block-image a{
+.wp-block-image>a,.wp-block-image>figure>a{
   display:inline-block;
 }
 .wp-block-image img{
@@ -7,7 +7,7 @@
   max-width:100%;
   vertical-align:bottom;
 }
-@media (prefers-reduced-motion:no-preference){
+@media not (prefers-reduced-motion){
   .wp-block-image img.hide{
     visibility:hidden;
   }
@@ -24,7 +24,7 @@
 .wp-block-image.aligncenter{
   text-align:center;
 }
-.wp-block-image.alignfull a,.wp-block-image.alignwide a{
+.wp-block-image.alignfull>a,.wp-block-image.alignwide>a{
   width:100%;
 }
 .wp-block-image.alignfull img,.wp-block-image.alignwide img{
@@ -108,9 +108,13 @@
   right:16px;
   text-align:center;
   top:16px;
-  transition:opacity .2s ease;
   width:20px;
   z-index:100;
+}
+@media not (prefers-reduced-motion){
+  .wp-lightbox-container button{
+    transition:opacity .2s ease;
+  }
 }
 .wp-lightbox-container button:focus-visible{
   outline:3px auto #5a5a5a40;
@@ -203,19 +207,21 @@
   z-index:2000000;
 }
 .wp-lightbox-overlay.active{
-  animation:turn-on-visibility .25s both;
   visibility:visible;
 }
-.wp-lightbox-overlay.active img{
-  animation:turn-on-visibility .35s both;
-}
-.wp-lightbox-overlay.show-closing-animation:not(.active){
-  animation:turn-off-visibility .35s both;
-}
-.wp-lightbox-overlay.show-closing-animation:not(.active) img{
-  animation:turn-off-visibility .25s both;
-}
-@media (prefers-reduced-motion:no-preference){
+@media not (prefers-reduced-motion){
+  .wp-lightbox-overlay.active{
+    animation:turn-on-visibility .25s both;
+  }
+  .wp-lightbox-overlay.active img{
+    animation:turn-on-visibility .35s both;
+  }
+  .wp-lightbox-overlay.show-closing-animation:not(.active){
+    animation:turn-off-visibility .35s both;
+  }
+  .wp-lightbox-overlay.show-closing-animation:not(.active) img{
+    animation:turn-off-visibility .25s both;
+  }
   .wp-lightbox-overlay.zoom.active{
     animation:none;
     opacity:1;

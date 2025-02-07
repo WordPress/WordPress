@@ -82,7 +82,6 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 	$font_sizes      = block_core_navigation_submenu_build_css_font_sizes( $block->context );
 	$style_attribute = $font_sizes['inline_styles'];
 
-	$css_classes = trim( implode( ' ', $font_sizes['css_classes'] ) );
 	$has_submenu = count( $block->inner_blocks ) > 0;
 	$kind        = empty( $attributes['kind'] ) ? 'post_type' : str_replace( '-', '_', $attributes['kind'] );
 	$is_active   = ! empty( $attributes['id'] ) && get_queried_object_id() === (int) $attributes['id'] && ! empty( get_queried_object()->$kind );
@@ -99,11 +98,29 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 	$open_on_hover_and_click = isset( $block->context['openSubmenusOnClick'] ) && ! $block->context['openSubmenusOnClick'] &&
 		$show_submenu_indicators;
 
+	$classes = array(
+		'wp-block-navigation-item',
+	);
+	$classes = array_merge(
+		$classes,
+		$font_sizes['css_classes']
+	);
+	if ( $has_submenu ) {
+		$classes[] = 'has-child';
+	}
+	if ( $open_on_click ) {
+		$classes[] = 'open-on-click';
+	}
+	if ( $open_on_hover_and_click ) {
+		$classes[] = 'open-on-hover-click';
+	}
+	if ( $is_active ) {
+		$classes[] = 'current-menu-item';
+	}
+
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
-			'class' => $css_classes . ' wp-block-navigation-item' . ( $has_submenu ? ' has-child' : '' ) .
-			( $open_on_click ? ' open-on-click' : '' ) . ( $open_on_hover_and_click ? ' open-on-hover-click' : '' ) .
-			( $is_active ? ' current-menu-item' : '' ),
+			'class' => implode( ' ', $classes ),
 			'style' => $style_attribute,
 		)
 	);
@@ -159,7 +176,16 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 		$html .= '>';
 		// End appending HTML attributes to anchor tag.
 
+		$html .= '<span class="wp-block-navigation-item__label">';
 		$html .= $label;
+		$html .= '</span>';
+
+		// Add description if available.
+		if ( ! empty( $attributes['description'] ) ) {
+			$html .= '<span class="wp-block-navigation-item__description">';
+			$html .= wp_kses_post( $attributes['description'] );
+			$html .= '</span>';
+		}
 
 		$html .= '</a>';
 		// End anchor tag content.
@@ -179,6 +205,13 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 		$html .= $label;
 
 		$html .= '</span>';
+
+		// Add description if available.
+		if ( ! empty( $attributes['description'] ) ) {
+			$html .= '<span class="wp-block-navigation-item__description">';
+			$html .= wp_kses_post( $attributes['description'] );
+			$html .= '</span>';
+		}
 
 		$html .= '</button>';
 
@@ -222,7 +255,7 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 
 		if ( strpos( $inner_blocks_html, 'current-menu-item' ) ) {
 			$tag_processor = new WP_HTML_Tag_Processor( $html );
-			while ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-navigation-item__content' ) ) ) {
+			while ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-navigation-item' ) ) ) {
 				$tag_processor->add_class( 'current-menu-ancestor' );
 			}
 			$html = $tag_processor->get_updated_html();

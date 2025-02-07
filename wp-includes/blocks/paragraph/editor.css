@@ -13,3 +13,7 @@
 .block-editor-block-list__block[data-type="core/paragraph"].has-text-align-left[style*="writing-mode: vertical-lr"],.block-editor-block-list__block[data-type="core/paragraph"].has-text-align-right[style*="writing-mode: vertical-rl"]{
   rotate:180deg;
 }
+
+.is-zoomed-out .block-editor-block-list__block[data-empty=true] [data-rich-text-placeholder]{
+  opacity:0;
+}

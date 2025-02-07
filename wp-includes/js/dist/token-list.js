@@ -26,6 +26,7 @@ var __webpack_exports__ = {};
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TokenList)
 /* harmony export */ });
+/* wp:polyfill */
 /**
  * A set of tokens.
  *

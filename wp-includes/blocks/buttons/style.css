@@ -1,3 +1,6 @@
+.wp-block-buttons{
+  box-sizing:border-box;
+}
 .wp-block-buttons.is-vertical{
   flex-direction:column;
 }

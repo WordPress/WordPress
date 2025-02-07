@@ -1178,6 +1178,7 @@ var moment_timezone_utils = __webpack_require__(1685);
 const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// ./node_modules/@wordpress/date/build-module/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -1585,7 +1586,7 @@ function format(dateFormat, dateValue = new Date()) {
       continue;
     }
     if (char in formatMap) {
-      const formatter = formatMap[( /** @type {keyof formatMap} */char)];
+      const formatter = formatMap[(/** @type {keyof formatMap} */char)];
       if (typeof formatter !== 'string') {
         // If the format is a function, call it.
         newFormat.push('[' + formatter(momentDate) + ']');
@@ -1644,15 +1645,15 @@ function gmdate(dateFormat, dateValue = new Date()) {
  * Backward Compatibility Notice: if `timezone` is set to `true`, the function
  * behaves like `gmdateI18n`.
  *
- * @param {string}                                dateFormat PHP-style formatting string.
- *                                                           See php.net/date.
- * @param {Moment | Date | string | undefined}    dateValue  Date object or string, parsable by
- *                                                           moment.js.
- * @param {string | number | boolean | undefined} timezone   Timezone to output result in or a
- *                                                           UTC offset. Defaults to timezone from
- *                                                           site. Notice: `boolean` is effectively
- *                                                           deprecated, but still supported for
- *                                                           backward compatibility reasons.
+ * @param {string}                                 dateFormat PHP-style formatting string.
+ *                                                            See php.net/date.
+ * @param {Moment | Date | string | undefined}     dateValue  Date object or string, parsable by
+ *                                                            moment.js.
+ * @param {string | number | boolean | undefined=} timezone   Timezone to output result in or a
+ *                                                            UTC offset. Defaults to timezone from
+ *                                                            site. Notice: `boolean` is effectively
+ *                                                            deprecated, but still supported for
+ *                                                            backward compatibility reasons.
  *
  * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  * @see https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC
@@ -1704,7 +1705,7 @@ function isInTheFuture(dateValue) {
 /**
  * Create and return a JavaScript Date Object from a date string in the WP timezone.
  *
- * @param {string?} dateString Date formatted in the WP timezone.
+ * @param {?string} dateString Date formatted in the WP timezone.
  *
  * @return {Date} Date
  */
@@ -1747,7 +1748,7 @@ function buildMoment(dateValue, timezone = '') {
   const dateMoment = external_moment_default()(dateValue);
   if (timezone && !isUTCOffset(timezone)) {
     // The ! isUTCOffset() check guarantees that timezone is a string.
-    return dateMoment.tz( /** @type {string} */timezone);
+    return dateMoment.tz(/** @type {string} */timezone);
   }
   if (timezone && isUTCOffset(timezone)) {
     return dateMoment.utcOffset(timezone);

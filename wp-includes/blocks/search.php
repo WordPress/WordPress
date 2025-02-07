@@ -31,8 +31,8 @@ function render_block_core_search( $attributes ) {
 
 	$input_id            = wp_unique_id( 'wp-block-search__input-' );
 	$classnames          = classnames_for_block_core_search( $attributes );
-	$show_label          = ( ! empty( $attributes['showLabel'] ) ) ? true : false;
-	$use_icon_button     = ( ! empty( $attributes['buttonUseIcon'] ) ) ? true : false;
+	$show_label          = ! empty( $attributes['showLabel'] );
+	$use_icon_button     = ! empty( $attributes['buttonUseIcon'] );
 	$show_button         = ( ! empty( $attributes['buttonPosition'] ) && 'no-button' === $attributes['buttonPosition'] ) ? false : true;
 	$button_position     = $show_button ? $attributes['buttonPosition'] : null;
 	$query_params        = ( ! empty( $attributes['query'] ) ) ? $attributes['query'] : array();
@@ -177,9 +177,9 @@ function render_block_core_search( $attributes ) {
 			)
 		);
 		$form_directives      = '
-		 data-wp-interactive="core/search"'
-		. $form_context .
-		'data-wp-class--wp-block-search__searchfield-hidden="!context.isSearchInputVisible"
+		 data-wp-interactive="core/search"
+		 ' . $form_context . '
+		 data-wp-class--wp-block-search__searchfield-hidden="!context.isSearchInputVisible"
 		 data-wp-on-async--keydown="actions.handleSearchKeydown"
 		 data-wp-on-async--focusout="actions.handleSearchFocusout"
 		';

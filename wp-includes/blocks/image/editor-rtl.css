@@ -116,6 +116,10 @@ figure.wp-block-image:not(.wp-block){
   overflow:visible !important;
 }
 
+.wp-block-image__toolbar_content_textarea__container{
+  padding:8px;
+}
+
 .wp-block-image__toolbar_content_textarea{
   width:250px;
 }

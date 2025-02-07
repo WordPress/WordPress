@@ -9,7 +9,8 @@
 	"attributes": {
 		"isLink": {
 			"type": "boolean",
-			"default": false
+			"default": false,
+			"role": "content"
 		},
 		"aspectRatio": {
 			"type": "string"
@@ -30,11 +31,13 @@
 		"rel": {
 			"type": "string",
 			"attribute": "rel",
-			"default": ""
+			"default": "",
+			"role": "content"
 		},
 		"linkTarget": {
 			"type": "string",
-			"default": "_self"
+			"default": "_self",
+			"role": "content"
 		},
 		"overlayColor": {
 			"type": "string"

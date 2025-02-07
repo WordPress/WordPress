@@ -344,6 +344,10 @@ class WP_Navigation_Block_Renderer {
 
 		$navigation_name = $attributes['ariaLabel'] ?? '';
 
+		if ( ! empty( $navigation_name ) ) {
+			return $navigation_name;
+		}
+
 		// Load the navigation post.
 		if ( array_key_exists( 'ref', $attributes ) ) {
 			$navigation_post = get_post( $attributes['ref'] );
@@ -535,8 +539,8 @@ class WP_Navigation_Block_Renderer {
 			$inner_blocks_html,
 			$toggle_aria_label_open,
 			$toggle_aria_label_close,
-			esc_attr( implode( ' ', $responsive_container_classes ) ),
-			esc_attr( implode( ' ', $open_button_classes ) ),
+			esc_attr( trim( implode( ' ', $responsive_container_classes ) ) ),
+			esc_attr( trim( implode( ' ', $open_button_classes ) ) ),
 			( ! empty( $overlay_inline_styles ) ) ? "style=\"$overlay_inline_styles\"" : '',
 			$toggle_button_content,
 			$toggle_close_button_content,
@@ -563,13 +567,14 @@ class WP_Navigation_Block_Renderer {
 		$is_responsive_menu = static::is_responsive( $attributes );
 		$style              = static::get_styles( $attributes );
 		$class              = static::get_classes( $attributes );
-		$wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'class'      => $class,
-				'style'      => $style,
-				'aria-label' => $nav_menu_name,
-			)
+		$extra_attributes   = array(
+			'class' => $class,
+			'style' => $style,
 		);
+		if ( ! empty( $nav_menu_name ) ) {
+			$extra_attributes['aria-label'] = $nav_menu_name;
+		}
+		$wrapper_attributes = get_block_wrapper_attributes( $extra_attributes );
 
 		if ( $is_responsive_menu ) {
 			$nav_element_directives = static::get_nav_element_directives( $is_interactive );
@@ -813,7 +818,7 @@ function block_core_navigation_add_directives_to_submenu( $tags, $block_attribut
 	) ) {
 		// Add directives to the parent `<li>`.
 		$tags->set_attribute( 'data-wp-interactive', 'core/navigation' );
-		$tags->set_attribute( 'data-wp-context', '{ "submenuOpenedBy": { "click": false, "hover": false, "focus": false }, "type": "submenu" }' );
+		$tags->set_attribute( 'data-wp-context', '{ "submenuOpenedBy": { "click": false, "hover": false, "focus": false }, "type": "submenu", "modal": null }' );
 		$tags->set_attribute( 'data-wp-watch', 'callbacks.initMenu' );
 		$tags->set_attribute( 'data-wp-on--focusout', 'actions.handleMenuFocusout' );
 		$tags->set_attribute( 'data-wp-on--keydown', 'actions.handleMenuKeydown' );
@@ -1433,20 +1438,6 @@ function block_core_navigation_get_most_recently_published_navigation() {
 }
 
 /**
- * Accepts the serialized markup of a block and its inner blocks, and returns serialized markup of the inner blocks.
- *
- * @since 6.5.0
- *
- * @param string $serialized_block The serialized markup of a block and its inner blocks.
- * @return string
- */
-function block_core_navigation_remove_serialized_parent_block( $serialized_block ) {
-	$start = strpos( $serialized_block, '-->' ) + strlen( '-->' );
-	$end   = strrpos( $serialized_block, '<!--' );
-	return substr( $serialized_block, $start, $end - $start );
-}
-
-/**
  * Mock a parsed block for the Navigation block given its inner blocks and the `wp_navigation` post object.
  * The `wp_navigation` post's `_wp_ignored_hooked_blocks` meta is queried to add the `metadata.ignoredHookedBlocks` attribute.
  *
@@ -1500,169 +1491,6 @@ function block_core_navigation_mock_parsed_block( $inner_blocks, $post ) {
 function block_core_navigation_insert_hooked_blocks( $inner_blocks, $post ) {
 	$mock_navigation_block = block_core_navigation_mock_parsed_block( $inner_blocks, $post );
 
-	if ( function_exists( 'apply_block_hooks_to_content' ) ) {
-		$mock_navigation_block_markup = serialize_block( $mock_navigation_block );
-		return apply_block_hooks_to_content( $mock_navigation_block_markup, $post, 'insert_hooked_blocks' );
-	}
-
-	$hooked_blocks        = get_hooked_blocks();
-	$before_block_visitor = null;
-	$after_block_visitor  = null;
-
-	if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
-		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $post, 'insert_hooked_blocks' );
-		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $post, 'insert_hooked_blocks' );
-	}
-
-	return traverse_and_serialize_block( $mock_navigation_block, $before_block_visitor, $after_block_visitor );
-}
-
-/**
- * Insert ignoredHookedBlocks meta into the Navigation block and its inner blocks.
- *
- * Given a Navigation block's inner blocks and its corresponding `wp_navigation` post object,
- * this function inserts ignoredHookedBlocks meta into it, and returns the serialized inner blocks in a
- * mock Navigation block wrapper.
- *
- * @since 6.5.0
- *
- * @param array   $inner_blocks Parsed inner blocks of a Navigation block.
- * @param WP_Post $post         `wp_navigation` post object corresponding to the block.
- * @return string Serialized inner blocks in mock Navigation block wrapper, with hooked blocks inserted, if any.
- */
-function block_core_navigation_set_ignored_hooked_blocks_metadata( $inner_blocks, $post ) {
-	$mock_navigation_block = block_core_navigation_mock_parsed_block( $inner_blocks, $post );
-	$hooked_blocks         = get_hooked_blocks();
-	$before_block_visitor  = null;
-	$after_block_visitor   = null;
-
-	if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
-		$before_block_visitor = make_before_block_visitor( $hooked_blocks, $post, 'set_ignored_hooked_blocks_metadata' );
-		$after_block_visitor  = make_after_block_visitor( $hooked_blocks, $post, 'set_ignored_hooked_blocks_metadata' );
-	}
-
-	return traverse_and_serialize_block( $mock_navigation_block, $before_block_visitor, $after_block_visitor );
-}
-
-/**
- * Updates the post meta with the list of ignored hooked blocks when the navigation is created or updated via the REST API.
- *
- * @access private
- * @since 6.5.0
- *
- * @param stdClass $post Post object.
- * @return stdClass The updated post object.
- */
-function block_core_navigation_update_ignore_hooked_blocks_meta( $post ) {
-	/*
-	 * In this scenario the user has likely tried to create a navigation via the REST API.
-	 * In which case we won't have a post ID to work with and store meta against.
-	 */
-	if ( empty( $post->ID ) ) {
-		return $post;
-	}
-
-	/**
-	 * Skip meta generation when consumers intentionally update specific Navigation fields
-	 * and omit the content update.
-	 */
-	if ( ! isset( $post->post_content ) ) {
-		return $post;
-	}
-
-	/*
-	 * We run the Block Hooks mechanism to inject the `metadata.ignoredHookedBlocks` attribute into
-	 * all anchor blocks. For the root level, we create a mock Navigation and extract them from there.
-	 */
-	$blocks = parse_blocks( $post->post_content );
-
-	/*
-	 * Block Hooks logic requires a `WP_Post` object (rather than the `stdClass` with the updates that
-	 * we're getting from the `rest_pre_insert_wp_navigation` filter) as its second argument (to be
-	 * used as context for hooked blocks insertion).
-	 * We thus have to look it up from the DB,based on `$post->ID`.
-	 */
-	$markup = block_core_navigation_set_ignored_hooked_blocks_metadata( $blocks, get_post( $post->ID ) );
-
-	$root_nav_block        = parse_blocks( $markup )[0];
-	$ignored_hooked_blocks = isset( $root_nav_block['attrs']['metadata']['ignoredHookedBlocks'] )
-		? $root_nav_block['attrs']['metadata']['ignoredHookedBlocks']
-		: array();
-
-	if ( ! empty( $ignored_hooked_blocks ) ) {
-		$existing_ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
-		if ( ! empty( $existing_ignored_hooked_blocks ) ) {
-			$existing_ignored_hooked_blocks = json_decode( $existing_ignored_hooked_blocks, true );
-			$ignored_hooked_blocks          = array_unique( array_merge( $ignored_hooked_blocks, $existing_ignored_hooked_blocks ) );
-		}
-		update_post_meta( $post->ID, '_wp_ignored_hooked_blocks', json_encode( $ignored_hooked_blocks ) );
-	}
-
-	$post->post_content = block_core_navigation_remove_serialized_parent_block( $markup );
-	return $post;
-}
-
-/*
- * Before adding our filter, we verify if it's already added in Core.
- * However, during the build process, Gutenberg automatically prefixes our functions with "gutenberg_".
- * Therefore, we concatenate the Core's function name to circumvent this prefix for our check.
- */
-$rest_insert_wp_navigation_core_callback = 'block_core_navigation_' . 'update_ignore_hooked_blocks_meta'; // phpcs:ignore Generic.Strings.UnnecessaryStringConcat.Found
-
-/*
- * Do not add the `block_core_navigation_update_ignore_hooked_blocks_meta` filter in the following cases:
- * - If Core has added the `update_ignored_hooked_blocks_postmeta` filter already (WP >= 6.6);
- * - or if the `$rest_insert_wp_navigation_core_callback` filter has already been added.
- */
-if (
-	! has_filter( 'rest_pre_insert_wp_navigation', 'update_ignored_hooked_blocks_postmeta' ) &&
-	! has_filter( 'rest_pre_insert_wp_navigation', $rest_insert_wp_navigation_core_callback )
-) {
-	add_filter( 'rest_pre_insert_wp_navigation', 'block_core_navigation_update_ignore_hooked_blocks_meta' );
-}
-
-/**
- * Hooks into the REST API response for the core/navigation block and adds the first and last inner blocks.
- *
- * @since 6.5.0
- *
- * @param WP_REST_Response $response The response object.
- * @param WP_Post          $post     Post object.
- * @return WP_REST_Response The response object.
- */
-function block_core_navigation_insert_hooked_blocks_into_rest_response( $response, $post ) {
-	if ( ! isset( $response->data['content']['raw'] ) || ! isset( $response->data['content']['rendered'] ) ) {
-		return $response;
-	}
-	$parsed_blocks = parse_blocks( $response->data['content']['raw'] );
-	$content       = block_core_navigation_insert_hooked_blocks( $parsed_blocks, $post );
-
-	// Remove mock Navigation block wrapper.
-	$content = block_core_navigation_remove_serialized_parent_block( $content );
-
-	$response->data['content']['raw'] = $content;
-
-	/** This filter is documented in wp-includes/post-template.php */
-	$response->data['content']['rendered'] = apply_filters( 'the_content', $content );
-
-	return $response;
-}
-
-/*
- *  Before adding our filter, we verify if it's already added in Core.
- * However, during the build process, Gutenberg automatically prefixes our functions with "gutenberg_".
- * Therefore, we concatenate the Core's function name to circumvent this prefix for our check.
- */
-$rest_prepare_wp_navigation_core_callback = 'block_core_navigation_' . 'insert_hooked_blocks_into_rest_response';
-
-/*
- * Do not add the `block_core_navigation_insert_hooked_blocks_into_rest_response` filter in the following cases:
- * - If Core has added the `insert_hooked_blocks_into_rest_response` filter already (WP >= 6.6);
- * - or if the `$rest_prepare_wp_navigation_core_callback` filter has already been added.
- */
-if (
-	! has_filter( 'rest_prepare_wp_navigation', 'insert_hooked_blocks_into_rest_response' ) &&
-	! has_filter( 'rest_prepare_wp_navigation', $rest_prepare_wp_navigation_core_callback )
-) {
-	add_filter( 'rest_prepare_wp_navigation', 'block_core_navigation_insert_hooked_blocks_into_rest_response', 10, 3 );
+	$mock_navigation_block_markup = serialize_block( $mock_navigation_block );
+	return apply_block_hooks_to_content( $mock_navigation_block_markup, $post, 'insert_hooked_blocks' );
 }

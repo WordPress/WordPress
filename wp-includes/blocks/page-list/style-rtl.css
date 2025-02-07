@@ -9,3 +9,7 @@
 .wp-block-navigation .wp-block-navigation-item{
   background-color:inherit;
 }
+
+.wp-block-page-list{
+  box-sizing:border-box;
+}

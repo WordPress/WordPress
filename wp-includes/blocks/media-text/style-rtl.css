@@ -46,7 +46,7 @@
 }
 
 .wp-block-media-text__media a{
-  display:inline-block;
+  display:block;
 }
 
 .wp-block-media-text__media img,.wp-block-media-text__media video{

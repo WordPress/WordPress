@@ -67,7 +67,7 @@
   font-size:.8125em;
 }
 
-.wp-block-latest-posts__post-excerpt{
+.wp-block-latest-posts__post-excerpt,.wp-block-latest-posts__post-full-content{
   margin-bottom:1em;
   margin-top:.5em;
 }

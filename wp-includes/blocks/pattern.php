@@ -58,13 +58,6 @@ function render_block_core_pattern( $attributes ) {
 	$pattern = $registry->get_registered( $slug );
 	$content = $pattern['content'];
 
-	// Backward compatibility for handling Block Hooks and injecting the theme attribute in the Gutenberg plugin.
-	// This can be removed when the minimum supported WordPress is >= 6.4.
-	if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN && ! function_exists( 'traverse_and_serialize_blocks' ) ) {
-		$blocks  = parse_blocks( $content );
-		$content = gutenberg_serialize_blocks( $blocks );
-	}
-
 	$seen_refs[ $attributes['slug'] ] = true;
 
 	$content = do_blocks( $content );

@@ -96,6 +96,7 @@ const onSubKey = actionProperty => reducer => (state = {}, action) => {
 /* harmony default export */ const on_sub_key = (onSubKey);
 
 ;// ./node_modules/@wordpress/notices/build-module/store/reducer.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */

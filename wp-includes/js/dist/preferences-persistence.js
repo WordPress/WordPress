@@ -355,6 +355,7 @@ function moveFeaturePreferences(state, sourceStoreName) {
 }
 
 ;// ./node_modules/@wordpress/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-third-party-feature-preferences.js
+/* wp:polyfill */
 /**
  * The interface package previously had a public API that could be used by
  * plugins to set persisted boolean 'feature' preferences.
@@ -527,6 +528,7 @@ function moveIndividualPreferenceToPreferences(state, {
 }
 
 ;// ./node_modules/@wordpress/preferences-persistence/build-module/migrations/legacy-local-storage-data/move-interface-enable-items.js
+/* wp:polyfill */
 /**
  * Migrates interface 'enableItems' data to the preferences store.
  *
@@ -637,6 +639,7 @@ function moveInterfaceEnableItems(state) {
 }
 
 ;// ./node_modules/@wordpress/preferences-persistence/build-module/migrations/legacy-local-storage-data/convert-edit-post-panels.js
+/* wp:polyfill */
 /**
  * Convert the post editor's panels state from:
  * ```
@@ -784,6 +787,7 @@ function convertLegacyLocalStorageData(userId) {
 }
 
 ;// ./node_modules/@wordpress/preferences-persistence/build-module/migrations/preferences-package-data/convert-complementary-areas.js
+/* wp:polyfill */
 function convertComplementaryAreas(state) {
   return Object.keys(state).reduce((stateAccumulator, scope) => {
     const scopeData = state[scope];

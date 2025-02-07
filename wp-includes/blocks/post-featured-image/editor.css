@@ -68,7 +68,7 @@
   width:100%;
 }
 .wp-block-post-featured-image>a{
-  cursor:default;
+  pointer-events:none;
 }
 .wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-button,.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-placeholder__instructions,.wp-block-post-featured-image.is-selected .components-placeholder.has-illustration .components-placeholder__label{
   opacity:1;

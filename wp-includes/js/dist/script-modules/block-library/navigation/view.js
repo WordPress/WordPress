@@ -30,6 +30,7 @@ var x = (y) => {
 var y = (x) => (() => (x))
 const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["getElement"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store) });
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/view.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */

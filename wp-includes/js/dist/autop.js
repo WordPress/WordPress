@@ -39,6 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   autop: () => (/* binding */ autop),
 /* harmony export */   removep: () => (/* binding */ removep)
 /* harmony export */ });
+/* wp:polyfill */
 /**
  * The regular expression for an HTML element.
  */

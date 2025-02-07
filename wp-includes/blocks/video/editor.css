@@ -32,7 +32,7 @@
   max-width:240px;
 }
 
-.block-library-video-tracks-editor__single-track-editor-edit-track-label{
+.block-library-video-tracks-editor__single-track-editor-edit-track-label,.block-library-video-tracks-editor__tracks-informative-message-title{
   color:#757575;
   display:block;
   font-size:11px;
@@ -47,4 +47,11 @@
 
 .block-library-video-tracks-editor__add-tracks-container .components-menu-group__label,.block-library-video-tracks-editor__track-list .components-menu-group__label{
   padding:0;
+}
+
+.block-library-video-tracks-editor__tracks-informative-message{
+  padding:8px;
+}
+.block-library-video-tracks-editor__tracks-informative-message-description{
+  margin-bottom:0;
 }

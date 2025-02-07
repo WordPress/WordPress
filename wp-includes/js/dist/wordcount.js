@@ -265,6 +265,7 @@ function transposeHTMLEntitiesToCountableChars(settings, text) {
 }
 
 ;// ./node_modules/@wordpress/wordcount/build-module/index.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */

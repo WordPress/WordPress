@@ -4,7 +4,7 @@
 	"name": "core/post-template",
 	"title": "Post Template",
 	"category": "theme",
-	"parent": [ "core/query" ],
+	"ancestor": [ "core/query" ],
 	"description": "Contains the block elements used to render a post, like the title, date, featured image, content or excerpt, and more.",
 	"textdomain": "default",
 	"usesContext": [
@@ -13,7 +13,8 @@
 		"displayLayout",
 		"templateSlug",
 		"previewPostType",
-		"enhancedPagination"
+		"enhancedPagination",
+		"postType"
 	],
 	"supports": {
 		"reusable": false,
@@ -42,15 +43,25 @@
 			}
 		},
 		"spacing": {
+			"margin": true,
+			"padding": true,
 			"blockGap": {
 				"__experimentalDefault": "1.25em"
 			},
 			"__experimentalDefaultControls": {
-				"blockGap": true
+				"blockGap": true,
+				"padding": false,
+				"margin": false
 			}
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
 		}
 	},
 	"style": "wp-block-post-template",

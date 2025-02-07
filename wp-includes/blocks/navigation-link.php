@@ -177,7 +177,22 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 	// Don't render the block's subtree if it is a draft or if the ID does not exist.
 	if ( $is_post_type && $navigation_link_has_id ) {
 		$post = get_post( $attributes['id'] );
-		if ( ! $post || 'publish' !== $post->post_status ) {
+		/**
+		 * Filter allowed post_status for navigation link block to render.
+		 *
+		 * @since 6.8.0
+		 *
+		 * @param array $post_status
+		 * @param array $attributes
+		 * @param WP_Block $block
+		 */
+		$allowed_post_status = (array) apply_filters(
+			'render_block_core_navigation_link_allowed_post_status',
+			array( 'publish' ),
+			$attributes,
+			$block
+		);
+		if ( ! $post || ! in_array( $post->post_status, $allowed_post_status, true ) ) {
 			return '';
 		}
 	}

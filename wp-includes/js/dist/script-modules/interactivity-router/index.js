@@ -67,6 +67,67 @@ var x = (y) => {
 } 
 var y = (x) => (() => (x))
 const interactivity_namespaceObject = x({ ["getConfig"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getConfig), ["privateApis"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.privateApis), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store) });
+;// ./node_modules/@wordpress/interactivity-router/build-module/assets/styles.js
+/* wp:polyfill */
+const cssUrlRegEx = /url\(\s*(?:(["'])((?:\\.|[^\n\\"'])+)\1|((?:\\.|[^\s,"'()\\])+))\s*\)/g;
+const resolveUrl = (relativeUrl, baseUrl) => {
+  try {
+    return new URL(relativeUrl, baseUrl).toString();
+  } catch (e) {
+    return relativeUrl;
+  }
+};
+const withAbsoluteUrls = (cssText, baseUrl) => cssText.replace(cssUrlRegEx, (_match, quotes = '', relUrl1, relUrl2) => `url(${quotes}${resolveUrl(relUrl1 || relUrl2, baseUrl)}${quotes})`);
+const styleSheetCache = new Map();
+const getCachedSheet = async (sheetId, factory) => {
+  if (!styleSheetCache.has(sheetId)) {
+    styleSheetCache.set(sheetId, factory());
+  }
+  return styleSheetCache.get(sheetId);
+};
+const sheetFromLink = async ({
+  id,
+  href,
+  sheet: elementSheet
+}, baseUrl) => {
+  const sheetId = id || href;
+  const sheetUrl = resolveUrl(href, baseUrl);
+  if (elementSheet) {
+    return getCachedSheet(sheetId, () => {
+      const sheet = new CSSStyleSheet();
+      for (const {
+        cssText
+      } of elementSheet.cssRules) {
+        sheet.insertRule(withAbsoluteUrls(cssText, sheetUrl));
+      }
+      return Promise.resolve(sheet);
+    });
+  }
+  return getCachedSheet(sheetId, async () => {
+    const response = await fetch(href);
+    const text = await response.text();
+    const sheet = new CSSStyleSheet();
+    await sheet.replace(withAbsoluteUrls(text, sheetUrl));
+    return sheet;
+  });
+};
+const sheetFromStyle = async ({
+  textContent
+}) => {
+  const sheetId = textContent;
+  return getCachedSheet(sheetId, async () => {
+    const sheet = new CSSStyleSheet();
+    await sheet.replace(textContent);
+    return sheet;
+  });
+};
+const generateCSSStyleSheets = (doc, baseUrl = (doc.location || window.location).href) => [...doc.querySelectorAll('style,link[rel=stylesheet]')].map(element => {
+  if ('LINK' === element.nodeName) {
+    return sheetFromLink(element, baseUrl);
+  }
+  return sheetFromStyle(element);
+});
+
 ;// ./node_modules/@wordpress/interactivity-router/build-module/index.js
 var _getConfig$navigation;
 /**
@@ -93,7 +154,6 @@ const navigationMode = (_getConfig$navigation = (0,interactivity_namespaceObject
 
 // The cache of visited and prefetched pages, stylesheets and scripts.
 const pages = new Map();
-const headElements = new Map();
 
 // Helper to remove domain and hash from the URL. We are only interesting in
 // caching the path and the query.
@@ -115,7 +175,9 @@ const fetchPage = async (url, {
       html = await res.text();
     }
     const dom = new window.DOMParser().parseFromString(html, 'text/html');
-    return regionsToVdom(dom);
+    return regionsToVdom(dom, {
+      baseUrl: url
+    });
   } catch (e) {
     return false;
   }
@@ -123,13 +185,15 @@ const fetchPage = async (url, {
 
 // Return an object with VDOM trees of those HTML regions marked with a
 // `router-region` directive.
-const regionsToVdom = async (dom, {
-  vdom
+const regionsToVdom = (dom, {
+  vdom,
+  baseUrl
 } = {}) => {
   const regions = {
     body: undefined
   };
-  let head;
+  const styles = generateCSSStyleSheets(dom, baseUrl);
+  const scriptModules = [...dom.querySelectorAll('script[type=module][src]')].map(s => s.src);
   if (false) {}
   if (navigationMode === 'regionBased') {
     const attrName = `data-${directivePrefix}-router-region`;
@@ -142,29 +206,36 @@ const regionsToVdom = async (dom, {
   const initialData = parseServerData(dom);
   return {
     regions,
-    head,
+    styles,
+    scriptModules,
     title,
     initialData
   };
 };
 
 // Render all interactive regions contained in the given page.
-const renderRegions = page => {
-  batch(() => {
-    if (false) {}
-    if (navigationMode === 'regionBased') {
+const renderRegions = async page => {
+  // Wait for styles and modules to be ready.
+  await Promise.all([...page.styles, ...page.scriptModules.map(src => import(/* webpackIgnore: true */src))]);
+  // Replace style sheets.
+  const sheets = await Promise.all(page.styles);
+  window.document.querySelectorAll('style,link[rel=stylesheet]').forEach(element => element.remove());
+  window.document.adoptedStyleSheets = sheets;
+  if (false) {}
+  if (navigationMode === 'regionBased') {
+    const attrName = `data-${directivePrefix}-router-region`;
+    batch(() => {
       populateServerData(page.initialData);
-      const attrName = `data-${directivePrefix}-router-region`;
       document.querySelectorAll(`[${attrName}]`).forEach(region => {
         const id = region.getAttribute(attrName);
         const fragment = getRegionRootFragment(region);
         render(page.regions[id], fragment);
       });
-    }
-    if (page.title) {
-      document.title = page.title;
-    }
-  });
+    });
+  }
+  if (page.title) {
+    document.title = page.title;
+  }
 };
 
 /**
@@ -188,7 +259,7 @@ window.addEventListener('popstate', async () => {
   const pagePath = getPagePath(window.location.href); // Remove hash.
   const page = pages.has(pagePath) && (await pages.get(pagePath));
   if (page) {
-    renderRegions(page);
+    await renderRegions(page);
     // Update the URL in the state.
     state.url = window.location.href;
   } else {
@@ -199,9 +270,9 @@ window.addEventListener('popstate', async () => {
 // Initialize the router and cache the initial page using the initial vDOM.
 // Once this code is tested and more mature, the head should be updated for
 // region based navigation as well.
-if (false) {}
 pages.set(getPagePath(window.location.href), Promise.resolve(regionsToVdom(document, {
-  vdom: initialVdom
+  vdom: initialVdom,
+  baseUrl: window.location.href
 })));
 
 // Check if the link is valid for client-side navigation.
@@ -232,6 +303,7 @@ const {
   state: {
     url: window.location.href,
     navigation: {
+      isLoading: false,
       hasStarted: false,
       hasFinished: false
     }
@@ -240,7 +312,7 @@ const {
     /**
      * Navigates to the specified page.
      *
-     * This function normalizes the passed href, fetchs the page HTML if
+     * This function normalizes the passed href, fetches the page HTML if
      * needed, and updates any interactive regions whose contents have
      * changed. It also creates a new entry in the browser session history.
      *
@@ -283,6 +355,7 @@ const {
         if (navigatingTo !== href) {
           return;
         }
+        navigation.isLoading = true;
         if (loadingAnimation) {
           navigation.hasStarted = true;
           navigation.hasFinished = false;
@@ -311,6 +384,7 @@ const {
 
         // Update the navigation status once the the new page rendering
         // has been completed.
+        navigation.isLoading = false;
         if (loadingAnimation) {
           navigation.hasStarted = false;
           navigation.hasFinished = true;
@@ -331,7 +405,7 @@ const {
       }
     },
     /**
-     * Prefetchs the page with the passed URL.
+     * Prefetches the page with the passed URL.
      *
      * The function normalizes the URL and stores internally the fetch
      * promise, to avoid triggering a second fetch for an ongoing request.

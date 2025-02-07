@@ -2,10 +2,10 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "core/query-no-results",
-	"title": "No results",
+	"title": "No Results",
 	"category": "theme",
 	"description": "Contains the block elements used to render content when no query results are found.",
-	"parent": [ "core/query" ],
+	"ancestor": [ "core/query" ],
 	"textdomain": "default",
 	"usesContext": [ "queryId", "query" ],
 	"supports": {

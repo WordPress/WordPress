@@ -55,4 +55,5 @@
 
 .wp-block-pullquote cite{
   color:inherit;
+  display:block;
 }

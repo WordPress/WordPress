@@ -85,6 +85,16 @@
 			}
 		},
 		"typography": {
+			"__experimentalSkipSerialization": [
+				"fontSize",
+				"lineHeight",
+				"fontFamily",
+				"fontWeight",
+				"fontStyle",
+				"textTransform",
+				"textDecoration",
+				"letterSpacing"
+			],
 			"fontSize": true,
 			"lineHeight": true,
 			"__experimentalFontFamily": true,
@@ -122,7 +132,6 @@
 				"width": true
 			}
 		},
-		"__experimentalSelector": ".wp-block-button .wp-block-button__link",
 		"interactivity": {
 			"clientNavigation": true
 		}
@@ -132,5 +141,11 @@
 		{ "name": "outline", "label": "Outline" }
 	],
 	"editorStyle": "wp-block-button-editor",
-	"style": "wp-block-button"
+	"style": "wp-block-button",
+	"selectors": {
+		"root": ".wp-block-button .wp-block-button__link",
+		"typography": {
+			"writingMode": ".wp-block-button"
+		}
+	}
 }

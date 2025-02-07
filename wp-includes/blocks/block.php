@@ -87,6 +87,26 @@ function render_block_core_block( $attributes ) {
 		add_filter( 'render_block_context', $filter_block_context, 1 );
 	}
 
+	$ignored_hooked_blocks = get_post_meta( $attributes['ref'], '_wp_ignored_hooked_blocks', true );
+	if ( ! empty( $ignored_hooked_blocks ) ) {
+		$ignored_hooked_blocks  = json_decode( $ignored_hooked_blocks, true );
+		$attributes['metadata'] = array(
+			'ignoredHookedBlocks' => $ignored_hooked_blocks,
+		);
+	}
+
+	// Wrap in "Block" block so the Block Hooks algorithm can insert blocks
+	// that are hooked as first or last child of `core/block`.
+	$content = get_comment_delimited_block_content(
+		'core/block',
+		$attributes,
+		$content
+	);
+	// Apply Block Hooks.
+	$content = apply_block_hooks_to_content( $content, $reusable_block );
+	// Remove block wrapper.
+	$content = remove_serialized_parent_block( $content );
+
 	$content = do_blocks( $content );
 	unset( $seen_refs[ $attributes['ref'] ] );
 

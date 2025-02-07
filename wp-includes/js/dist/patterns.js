@@ -109,6 +109,7 @@ const PARTIAL_SYNCING_SUPPORTED_BLOCKS = {
 const PATTERN_OVERRIDES_BINDING_SOURCE = 'core/pattern-overrides';
 
 ;// ./node_modules/@wordpress/patterns/build-module/store/actions.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -191,7 +192,7 @@ const convertSyncedPatternToStatic = clientId => ({
         delete metadata.bindings;
         // Use overridden values of the pattern block if they exist.
         if (existingOverrides?.[metadata.name]) {
-          // Iterate over each overriden attribute.
+          // Iterate over each overridden attribute.
           for (const [attributeName, value] of Object.entries(existingOverrides[metadata.name])) {
             // Skip if the attribute does not exist in the block type.
             if (!(0,external_wp_blocks_namespaceObject.getBlockType)(block.name)?.attributes[attributeName]) {
@@ -303,6 +304,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// ./node_modules/@wordpress/patterns/build-module/api/index.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -338,6 +340,7 @@ function hasOverridableBlocks(blocks) {
 ;// external "ReactJSXRuntime"
 const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/@wordpress/patterns/build-module/components/overrides-panel.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -383,6 +386,7 @@ const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// external ["wp","htmlEntities"]
 const external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 ;// ./node_modules/@wordpress/patterns/build-module/components/category-selector.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -435,6 +439,7 @@ function CategorySelector({
 }
 
 ;// ./node_modules/@wordpress/patterns/build-module/private-hooks.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -530,6 +535,7 @@ function useAddPatternCategory() {
 }
 
 ;// ./node_modules/@wordpress/patterns/build-module/components/create-pattern-modal.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -543,7 +549,6 @@ function useAddPatternCategory() {
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -685,7 +690,7 @@ function getTermLabels(pattern, categories) {
   if (pattern.type !== PATTERN_TYPES.user) {
     return categories.core?.filter(category => pattern.categories?.includes(category.name)).map(category => category.label);
   }
-  return categories.user?.filter(category => pattern.wp_pattern_category.includes(category.id)).map(category => category.label);
+  return categories.user?.filter(category => pattern.wp_pattern_category?.includes(category.id)).map(category => category.label);
 }
 function useDuplicatePatternProps({
   pattern,
@@ -712,7 +717,7 @@ function useDuplicatePatternProps({
     defaultCategories: getTermLabels(pattern, categories),
     defaultSyncType: pattern.type !== PATTERN_TYPES.user // Theme patterns are unsynced by default.
     ? PATTERN_SYNC_TYPES.unsynced : pattern.wp_pattern_sync_status || PATTERN_SYNC_TYPES.full,
-    defaultTitle: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Existing pattern title */
+    defaultTitle: (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: %s: Existing pattern title */
     (0,external_wp_i18n_namespaceObject._x)('%s (Copy)', 'pattern'), typeof pattern.title === 'string' ? pattern.title : pattern.title.raw),
     onSuccess: ({
       pattern: newPattern
@@ -754,7 +759,6 @@ function DuplicatePatternModal({
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -871,6 +875,7 @@ const symbol = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 /* harmony default export */ const library_symbol = (symbol);
 
 ;// ./node_modules/@wordpress/patterns/build-module/components/pattern-convert-button.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -901,8 +906,6 @@ const symbol = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
  * @return {import('react').ComponentType} The menu control or null.
  */
 
-
-
 function PatternConvertButton({
   clientIds,
   rootClientId,
@@ -932,6 +935,15 @@ function PatternConvertButton({
     } = select(external_wp_blockEditor_namespaceObject.store);
     const rootId = rootClientId || (clientIds.length > 0 ? getBlockRootClientId(clientIds[0]) : undefined);
     const blocks = (_getBlocksByClientId = getBlocksByClientId(clientIds)) !== null && _getBlocksByClientId !== void 0 ? _getBlocksByClientId : [];
+
+    // Check if the block has reusable support defined.
+    const hasReusableBlockSupport = blockName => {
+      const blockType = (0,external_wp_blocks_namespaceObject.getBlockType)(blockName);
+      const hasParent = blockType && 'parent' in blockType;
+
+      // If the block has a parent, check with false as default, otherwise with true.
+      return (0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockName, 'reusable', !hasParent);
+    };
     const isReusable = blocks.length === 1 && blocks[0] && (0,external_wp_blocks_namespaceObject.isReusableBlock)(blocks[0]) && !!select(external_wp_coreData_namespaceObject.store).getEntityRecord('postType', 'wp_block', blocks[0].attributes.ref);
     const _canConvert =
     // Hide when this is already a synced pattern.
@@ -943,7 +955,7 @@ function PatternConvertButton({
     // Hide on invalid blocks.
     block.isValid &&
     // Hide when block doesn't support being made into a pattern.
-    (0,external_wp_blocks_namespaceObject.hasBlockSupport)(block.name, 'reusable', true)) &&
+    hasReusableBlockSupport(block.name)) &&
     // Hide when current doesn't have permission to do that.
     // Blocks refers to the wp_block post type, this checks the ability to create a post of that type.
     !!canUser('create', {
@@ -1022,8 +1034,6 @@ const external_wp_url_namespaceObject = window["wp"]["url"];
 
 
 
-
-
 function PatternsManageButton({
   clientId
 }) {
@@ -1095,8 +1105,6 @@ function PatternsManageButton({
 
 
 
-
-
 function PatternsMenuItems({
   rootClientId
 }) {
@@ -1119,6 +1127,7 @@ function PatternsMenuItems({
 ;// external ["wp","a11y"]
 const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// ./node_modules/@wordpress/patterns/build-module/components/rename-pattern-category-modal.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1134,7 +1143,6 @@ const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 /**
  * Internal dependencies
  */
-
 
 
 function RenamePatternCategoryModal({
@@ -1278,7 +1286,6 @@ function RenamePatternCategoryModal({
 
 
 
-
 function AllowOverridesModal({
   placeholder,
   initialName = '',
@@ -1290,7 +1297,7 @@ function AllowOverridesModal({
   const isNameValid = !!editedBlockName.trim();
   const handleSubmit = () => {
     if (editedBlockName !== initialName) {
-      const message = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: new name/label for the block */
+      const message = (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: %s: new name/label for the block */
       (0,external_wp_i18n_namespaceObject.__)('Block name changed to: "%s".'), editedBlockName);
 
       // Must be assertive to immediately announce change.
@@ -1406,8 +1413,6 @@ function DisallowOverridesModal({
 
 
 
-
-
 function PatternOverridesControls({
   attributes,
   setAttributes,
@@ -1497,7 +1502,7 @@ const CONTENT = 'content';
 function ResetOverridesControl(props) {
   const name = props.attributes.metadata?.name;
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const isOverriden = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  const isOverridden = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (!name) {
       return;
     }
@@ -1548,7 +1553,7 @@ function ResetOverridesControl(props) {
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, {
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarButton, {
         onClick: onClick,
-        disabled: !isOverriden,
+        disabled: !isOverridden,
         children: (0,external_wp_i18n_namespaceObject.__)('Reset')
       })
     })
@@ -1573,6 +1578,7 @@ const copy = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 /* harmony default export */ const library_copy = (copy);
 
 ;// ./node_modules/@wordpress/patterns/build-module/components/pattern-overrides-block-controls.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1587,7 +1593,6 @@ const copy = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -1633,7 +1638,7 @@ function PatternOverridesToolbarIndicator({
     clientId: clientIds[0],
     maximumLength: 35
   });
-  const blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: The block type's name. 2: The block's user-provided name (the same as the override name). */
+  const blockDescription = isSingleBlockSelected ? (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: 1: The block type's name. 2: The block's user-provided name (the same as the override name). */
   (0,external_wp_i18n_namespaceObject.__)('This %1$s is editable using the "%2$s" override.'), firstBlockTitle.toLowerCase(), firstBlockName) : (0,external_wp_i18n_namespaceObject.__)('These blocks are editable using overrides.');
   const descriptionId = (0,external_wp_element_namespaceObject.useId)();
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarItem, {

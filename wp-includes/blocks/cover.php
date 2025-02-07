@@ -35,12 +35,12 @@ function render_block_core_cover( $attributes, $content ) {
 			$attr['style']                = 'object-position:' . $object_position . ';';
 		}
 
-		$image = get_the_post_thumbnail( null, 'post-thumbnail', $attr );
+		$image = get_the_post_thumbnail( null, $attributes['sizeSlug'] ?? 'post-thumbnail', $attr );
 	} else {
 		if ( in_the_loop() ) {
 			update_post_thumbnail_cache();
 		}
-		$current_featured_image = get_the_post_thumbnail_url();
+		$current_featured_image = get_the_post_thumbnail_url( null, $attributes['sizeSlug'] ?? null );
 		if ( ! $current_featured_image ) {
 			return $content;
 		}

@@ -194,39 +194,12 @@ function memize(fn, options) {
 
 
 ;// ./node_modules/@wordpress/shortcode/build-module/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
 
 
-/**
- * Shortcode attributes object.
- *
- * @typedef {Object} WPShortcodeAttrs
- *
- * @property {Object} named   Object with named attributes.
- * @property {Array}  numeric Array with numeric attributes.
- */
-
-/**
- * Shortcode object.
- *
- * @typedef {Object} WPShortcode
- *
- * @property {string}           tag     Shortcode tag.
- * @property {WPShortcodeAttrs} attrs   Shortcode attributes.
- * @property {string}           content Shortcode content.
- * @property {string}           type    Shortcode type: `self-closing`,
- *                                      `closed`, or `single`.
- */
-
-/**
- * @typedef {Object} WPShortcodeMatch
- *
- * @property {number}      index     Index the shortcode is found at.
- * @property {string}      content   Matched content.
- * @property {WPShortcode} shortcode Shortcode instance of the match.
- */
 
 /**
  * Find the next matching shortcode.
@@ -235,7 +208,7 @@ function memize(fn, options) {
  * @param {string} text  Text to search.
  * @param {number} index Index to start search from.
  *
- * @return {WPShortcodeMatch | undefined} Matched information.
+ * @return {import('./types').ShortcodeMatch | undefined} Matched information.
  */
 function next(tag, text, index = 0) {
   const re = regexp(tag);
@@ -272,10 +245,10 @@ function next(tag, text, index = 0) {
 /**
  * Replace matching shortcodes in a block of text.
  *
- * @param {string}   tag      Shortcode tag.
- * @param {string}   text     Text to search.
- * @param {Function} callback Function to process the match and return
- *                            replacement string.
+ * @param {string}                            tag      Shortcode tag.
+ * @param {string}                            text     Text to search.
+ * @param {import('./types').ReplaceCallback} callback Function to process the match and return
+ *                                                     replacement string.
  *
  * @return {string} Text with shortcodes replaced.
  */
@@ -352,7 +325,7 @@ function regexp(tag) {
  *
  * @param {string} text Serialised shortcode attributes.
  *
- * @return {WPShortcodeAttrs} Parsed shortcode attributes.
+ * @return {import('./types').ShortcodeAttrs} Parsed shortcode attributes.
  */
 const attrs = memize(text => {
   const named = {};
@@ -407,9 +380,9 @@ const attrs = memize(text => {
  * by `regexp()`. `match` can also be set to the `arguments` from a callback
  * passed to `regexp.replace()`.
  *
- * @param {Array} match Match array.
+ * @param {import('./types').Match} match Match array.
  *
- * @return {WPShortcode} Shortcode instance.
+ * @return {InstanceType<import('./types').shortcode>} Shortcode instance.
  */
 function fromMatch(match) {
   let type;
@@ -436,9 +409,7 @@ function fromMatch(match) {
  * the `type` of the shortcode ('single', 'self-closing', or 'closed'), and a
  * `content` string.
  *
- * @param {Object} options Options as described.
- *
- * @return {WPShortcode} Shortcode instance.
+ * @type {import('./types').shortcode} Shortcode instance.
  */
 const shortcode = Object.assign(function (options) {
   const {
@@ -506,7 +477,7 @@ Object.assign(shortcode.prototype, {
    * @param {(number|string)} attr  Attribute key.
    * @param {string}          value Attribute value.
    *
-   * @return {WPShortcode} Shortcode instance.
+   * @return {InstanceType< import('./types').shortcode >} Shortcode instance.
    */
   set(attr, value) {
     this.attrs[typeof attr === 'number' ? 'numeric' : 'named'][attr] = value;

@@ -98,8 +98,12 @@
   padding:calc(.667em + 2px);
 }
 
-:where(.wp-block-post-comments input[type=submit]){
+:where(.wp-block-post-comments input[type=submit],.wp-block-comments__legacy-placeholder input[type=submit]){
   border:none;
+}
+
+.wp-block-comments{
+  box-sizing:border-box;
 }
 
 .block-library-comments-toolbar__popover .components-popover__content{

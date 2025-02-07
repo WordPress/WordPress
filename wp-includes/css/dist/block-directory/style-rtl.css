@@ -74,11 +74,15 @@
   padding:12px;
   position:relative;
   text-align:right;
-  transition:box-shadow .1s linear;
   width:100%;
 }
 .block-directory-downloadable-block-list-item+.block-directory-downloadable-block-list-item{
   margin-top:4px;
+}
+@media not (prefers-reduced-motion){
+  .block-directory-downloadable-block-list-item{
+    transition:box-shadow .1s linear;
+  }
 }
 .block-directory-downloadable-block-list-item:not([aria-disabled=true]){
   cursor:pointer;
@@ -88,16 +92,7 @@
   outline:2px solid #0000;
 }
 .block-directory-downloadable-block-list-item.is-installing .block-directory-downloadable-block-list-item__author{
-  border:0;
-  clip:rect(1px, 1px, 1px, 1px);
-  clip-path:inset(50%);
-  height:1px;
-  margin:-1px;
-  overflow:hidden;
-  padding:0;
-  position:absolute;
-  width:1px;
-  word-wrap:normal !important;
+  display:none;
 }
 
 .block-directory-downloadable-block-list-item__icon{

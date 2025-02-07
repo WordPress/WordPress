@@ -78,6 +78,9 @@
 		"tagName": {
 			"type": "string",
 			"default": "div"
+		},
+		"sizeSlug": {
+			"type": "string"
 		}
 	},
 	"usesContext": [ "postId", "postType" ],

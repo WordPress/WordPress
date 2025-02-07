@@ -233,6 +233,7 @@ function unregisterShortcut(name) {
 ;// external ["wp","keycodes"]
 const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -271,7 +272,7 @@ const FORMATTING_METHODS = {
  * @param {keyof FORMATTING_METHODS}  representation Type of representation
  *                                                   (display, raw, ariaLabel).
  *
- * @return {string?} Shortcut representation.
+ * @return {?string} Shortcut representation.
  */
 function getKeyCombinationRepresentation(shortcut, representation) {
   if (!shortcut) {
@@ -361,7 +362,7 @@ function getShortcutKeyCombination(state, name) {
  * };
  *```
  *
- * @return {string?} Shortcut representation.
+ * @return {?string} Shortcut representation.
  */
 function getShortcutRepresentation(state, name, representation = 'display') {
   const shortcut = getShortcutKeyCombination(state, name);
@@ -394,7 +395,7 @@ function getShortcutRepresentation(state, name, representation = 'display') {
  *     );
  * };
  *```
- * @return {string?} Shortcut description.
+ * @return {?string} Shortcut description.
  */
 function getShortcutDescription(state, name) {
   return state[name] ? state[name].description : null;
@@ -624,6 +625,7 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 ;// external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut-event-match.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */

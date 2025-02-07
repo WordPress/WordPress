@@ -12,11 +12,13 @@
 		},
 		"isLink": {
 			"type": "boolean",
-			"default": false
+			"default": false,
+			"role": "content"
 		},
 		"linkTarget": {
 			"type": "string",
-			"default": "_self"
+			"default": "_self",
+			"role": "content"
 		}
 	},
 	"usesContext": [ "postType", "postId" ],

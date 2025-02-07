@@ -45,6 +45,9 @@
   background-size:6px 3px;
   padding-bottom:.1em;
 }
+.wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text.is-draft span,.wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text.is-invalid span{
+  --wp-underline-color:var(--wp--preset--color--vivid-red);
+}
 .wp-block-navigation-link__placeholder.wp-block-navigation-item__content{
   cursor:pointer;
 }

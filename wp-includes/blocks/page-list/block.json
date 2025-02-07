@@ -51,6 +51,31 @@
 		},
 		"interactivity": {
 			"clientNavigation": true
+		},
+		"color": {
+			"text": true,
+			"background": true,
+			"link": true,
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"__experimentalDefaultControls": {
+				"padding": false,
+				"margin": false
+			}
 		}
 	},
 	"editorStyle": "wp-block-page-list-editor",

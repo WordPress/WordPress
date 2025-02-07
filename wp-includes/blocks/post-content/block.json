@@ -27,6 +27,7 @@
 		"spacing": {
 			"blockGap": true,
 			"padding": true,
+			"margin": true,
 			"__experimentalDefaultControls": {
 				"margin": false,
 				"padding": false
@@ -34,6 +35,7 @@
 		},
 		"color": {
 			"gradients": true,
+			"heading": true,
 			"link": true,
 			"__experimentalDefaultControls": {
 				"background": false,
@@ -51,6 +53,18 @@
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
+			}
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true,
+				"color": true,
+				"width": true,
+				"style": true
 			}
 		}
 	},

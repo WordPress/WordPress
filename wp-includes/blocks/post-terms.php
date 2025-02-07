@@ -24,11 +24,6 @@ function render_block_core_post_terms( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$post_terms = get_the_terms( $block->context['postId'], $attributes['term'] );
-	if ( is_wp_error( $post_terms ) || empty( $post_terms ) ) {
-		return '';
-	}
-
 	$classes = array( 'taxonomy-' . $attributes['term'] );
 	if ( isset( $attributes['textAlign'] ) ) {
 		$classes[] = 'has-text-align-' . $attributes['textAlign'];
@@ -51,13 +46,19 @@ function render_block_core_post_terms( $attributes, $content, $block ) {
 		$suffix = '<span class="wp-block-post-terms__suffix">' . $attributes['suffix'] . '</span>' . $suffix;
 	}
 
-	return get_the_term_list(
+	$post_terms = get_the_term_list(
 		$block->context['postId'],
 		$attributes['term'],
 		wp_kses_post( $prefix ),
 		'<span class="wp-block-post-terms__separator">' . esc_html( $separator ) . '</span>',
 		wp_kses_post( $suffix )
 	);
+
+	if ( is_wp_error( $post_terms ) || empty( $post_terms ) ) {
+		return '';
+	}
+
+	return $post_terms;
 }
 
 /**

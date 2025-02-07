@@ -42,12 +42,12 @@
 }
 
 .wp-block-search.wp-block-search__button-only .wp-block-search__button{
+  box-sizing:border-box;
+  display:flex;
   flex-shrink:0;
+  justify-content:center;
   margin-right:0;
   max-width:100%;
-}
-.wp-block-search.wp-block-search__button-only .wp-block-search__button[aria-expanded=true]{
-  max-width:calc(100% - 100px);
 }
 .wp-block-search.wp-block-search__button-only .wp-block-search__inside-wrapper{
   min-width:0 !important;

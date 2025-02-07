@@ -6245,10 +6245,19 @@ var __setModuleDefault = Object.create ? (function(o, v) {
   o["default"] = v;
 };
 
+var ownKeys = function(o) {
+  ownKeys = Object.getOwnPropertyNames || function (o) {
+    var ar = [];
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+    return ar;
+  };
+  return ownKeys(o);
+};
+
 function __importStar(mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
   __setModuleDefault(result, mod);
   return result;
 }
@@ -6329,12 +6338,25 @@ function __disposeResources(env) {
   return next();
 }
 
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+  if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+          return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+      });
+  }
+  return path;
+}
+
 /* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
   __decorate,
   __param,
+  __esDecorate,
+  __runInitializers,
+  __propKey,
+  __setFunctionName,
   __metadata,
   __awaiter,
   __generator,
@@ -6357,6 +6379,7 @@ function __disposeResources(env) {
   __classPrivateFieldIn,
   __addDisposableResource,
   __disposeResources,
+  __rewriteRelativeImportExtension,
 });
 
 ;// ./node_modules/lower-case/dist.es2015/index.js
@@ -6804,6 +6827,7 @@ const {
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/blocks');
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/registration.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -7523,6 +7547,8 @@ const unregisterBlockVariation = (blockName, variationName) => {
  * behavior. Once registered, the source is available to be connected
  * to the supported block attributes.
  *
+ * @since 6.7.0 Introduced in WordPress core.
+ *
  * @param {Object}   source                    Properties of the source to be registered.
  * @param {string}   source.name               The unique and machine-readable name.
  * @param {string}   [source.label]            Human-readable label. Optional when it is defined in the server.
@@ -7603,7 +7629,7 @@ const registerBlockBindingsSource = source => {
     return;
   }
   if (label && existingSource?.label && label !== existingSource?.label) {
-     true ? external_wp_warning_default()('Block bindings "' + name + '" source label was overriden.') : 0;
+     true ? external_wp_warning_default()('Block bindings "' + name + '" source label was overridden.') : 0;
   }
 
   // Check the `usesContext` property is correct.
@@ -7642,6 +7668,8 @@ const registerBlockBindingsSource = source => {
 /**
  * Unregisters a block bindings source by providing its name.
  *
+ * @since 6.7.0 Introduced in WordPress core.
+ *
  * @param {string} name The name of the block bindings source to unregister.
  *
  * @example
@@ -7663,6 +7691,8 @@ function unregisterBlockBindingsSource(name) {
 /**
  * Returns a registered block bindings source by its name.
  *
+ * @since 6.7.0 Introduced in WordPress core.
+ *
  * @param {string} name Block bindings source name.
  *
  * @return {?Object} Block bindings source.
@@ -7674,6 +7704,8 @@ function getBlockBindingsSource(name) {
 /**
  * Returns all registered block bindings sources.
  *
+ * @since 6.7.0 Introduced in WordPress core.
+ *
  * @return {Array} Block bindings sources.
  */
 function getBlockBindingsSources() {
@@ -7681,6 +7713,7 @@ function getBlockBindingsSources() {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/utils.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -7713,30 +7746,6 @@ k([names, a11y]);
 const ICON_COLORS = ['#191e23', '#f8f9f9'];
 
 /**
- * Determines whether the block's attribute is equal to the default attribute
- * which means the attribute is unmodified.
- * @param {Object} attributeDefinition The attribute's definition of the block type.
- * @param {*}      value               The attribute's value.
- * @return {boolean} Whether the attribute is unmodified.
- */
-function isUnmodifiedAttribute(attributeDefinition, value) {
-  // Every attribute that has a default must match the default.
-  if (attributeDefinition.hasOwnProperty('default')) {
-    return value === attributeDefinition.default;
-  }
-
-  // The rich text type is a bit different from the rest because it
-  // has an implicit default value of an empty RichTextData instance,
-  // so check the length of the value.
-  if (attributeDefinition.type === 'rich-text') {
-    return !value?.length;
-  }
-
-  // Every attribute that doesn't have a default should be undefined.
-  return value === undefined;
-}
-
-/**
  * Determines whether the block's attributes are equal to the default attributes
  * which means the block is unmodified.
  *
@@ -7748,7 +7757,21 @@ function isUnmodifiedBlock(block) {
   var _getBlockType$attribu;
   return Object.entries((_getBlockType$attribu = getBlockType(block.name)?.attributes) !== null && _getBlockType$attribu !== void 0 ? _getBlockType$attribu : {}).every(([key, definition]) => {
     const value = block.attributes[key];
-    return isUnmodifiedAttribute(definition, value);
+
+    // Every attribute that has a default must match the default.
+    if (definition.hasOwnProperty('default')) {
+      return value === definition.default;
+    }
+
+    // The rich text type is a bit different from the rest because it
+    // has an implicit default value of an empty RichTextData instance,
+    // so check the length of the value.
+    if (definition.type === 'rich-text') {
+      return !value?.length;
+    }
+
+    // Every attribute that doesn't have a default should be undefined.
+    return value === undefined;
   });
 }
 
@@ -7762,29 +7785,6 @@ function isUnmodifiedBlock(block) {
  */
 function isUnmodifiedDefaultBlock(block) {
   return block.name === getDefaultBlockName() && isUnmodifiedBlock(block);
-}
-
-/**
- * Determines whether the block content is unmodified. A block content is
- * considered unmodified if all the attributes that have a role of 'content'
- * are equal to the default attributes (or undefined).
- * If the block does not have any attributes with a role of 'content', it
- * will be considered unmodified if all the attributes are equal to the default
- * attributes (or undefined).
- *
- * @param {WPBlock} block Block Object
- * @return {boolean} Whether the block content is unmodified.
- */
-function isUnmodifiedBlockContent(block) {
-  const contentAttributes = getBlockAttributesNamesByRole(block.name, 'content');
-  if (contentAttributes.length === 0) {
-    return isUnmodifiedBlock(block);
-  }
-  return contentAttributes.every(key => {
-    const definition = getBlockType(block.name)?.attributes[key];
-    const value = block.attributes[key];
-    return isUnmodifiedAttribute(definition, value);
-  });
 }
 
 /**
@@ -7900,24 +7900,24 @@ function getAccessibleBlockLabel(blockType, attributes, position, direction = 'v
   const hasLabel = label && label !== title;
   if (hasPosition && direction === 'vertical') {
     if (hasLabel) {
-      return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. 1: The block title. 2: The block row number. 3: The block label.. */
+      return (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: accessibility text. 1: The block title. 2: The block row number. 3: The block label.. */
       (0,external_wp_i18n_namespaceObject.__)('%1$s Block. Row %2$d. %3$s'), title, position, label);
     }
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. 1: The block title. 2: The block row number. */
+    return (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: accessibility text. 1: The block title. 2: The block row number. */
     (0,external_wp_i18n_namespaceObject.__)('%1$s Block. Row %2$d'), title, position);
   } else if (hasPosition && direction === 'horizontal') {
     if (hasLabel) {
-      return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. 1: The block title. 2: The block column number. 3: The block label.. */
+      return (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: accessibility text. 1: The block title. 2: The block column number. 3: The block label.. */
       (0,external_wp_i18n_namespaceObject.__)('%1$s Block. Column %2$d. %3$s'), title, position, label);
     }
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. 1: The block title. 2: The block column number. */
+    return (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: accessibility text. 1: The block title. 2: The block column number. */
     (0,external_wp_i18n_namespaceObject.__)('%1$s Block. Column %2$d'), title, position);
   }
   if (hasLabel) {
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. %1: The block title. %2: The block label. */
+    return (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: accessibility text. %1: The block title. %2: The block label. */
     (0,external_wp_i18n_namespaceObject.__)('%1$s Block. %2$s'), title, label);
   }
-  return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. %s: The block title. */
+  return (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: accessibility text. %s: The block title. */
   (0,external_wp_i18n_namespaceObject.__)('%s Block'), title);
 }
 function getDefault(attributeSchema) {
@@ -7927,6 +7927,17 @@ function getDefault(attributeSchema) {
   if (attributeSchema.type === 'rich-text') {
     return new external_wp_richText_namespaceObject.RichTextData();
   }
+}
+
+/**
+ * Check if a block is registered.
+ *
+ * @param {string} name The block's name.
+ *
+ * @return {boolean} Whether the block is registered.
+ */
+function isBlockRegistered(name) {
+  return getBlockType(name) !== undefined;
 }
 
 /**
@@ -8020,6 +8031,25 @@ const __experimentalGetBlockAttributesNamesByRole = (...args) => {
 };
 
 /**
+ * Checks if a block is a content block by examining its attributes.
+ * A block is considered a content block if it has at least one attribute
+ * with a role of 'content'.
+ *
+ * @param {string} name The name of the block to check.
+ * @return {boolean}    Whether the block is a content block.
+ */
+function isContentBlock(name) {
+  const attributes = getBlockType(name)?.attributes;
+  if (!attributes) {
+    return false;
+  }
+  return !!Object.keys(attributes)?.some(attributeKey => {
+    const attribute = attributes[attributeKey];
+    return attribute?.role === 'content' || attribute?.__experimentalRole === 'content';
+  });
+}
+
+/**
  * Return a new object with the specified keys omitted.
  *
  * @param {Object} object Original object.
@@ -8032,6 +8062,7 @@ function omit(object, keys) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/store/reducer.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -8413,6 +8444,7 @@ function blockBindingsSources(state = {}, action) {
 var remove_accents = __webpack_require__(9681);
 var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 ;// ./node_modules/@wordpress/blocks/build-module/store/utils.js
+/* wp:polyfill */
 /**
  * Helper util to return a value from a certain path of the object.
  * Path is specified as either:
@@ -8457,6 +8489,7 @@ function matchesAttributes(blockAttributes, variationAttributes) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/store/private-selectors.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -8634,6 +8667,7 @@ const hasContentRoleAttribute = (state, blockTypeName) => {
 };
 
 ;// ./node_modules/@wordpress/blocks/build-module/store/selectors.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -8732,7 +8766,7 @@ const selectors_getBlockTypes = (0,external_wp_data_namespaceObject.createSelect
  * };
  * ```
  *
- * @return {Object?} Block Type.
+ * @return {?Object} Block Type.
  */
 function selectors_getBlockType(state, name) {
   return state.blockTypes[name];
@@ -9046,7 +9080,7 @@ function getCollections(state) {
  * };
  * ```
  *
- * @return {string?} Default block name.
+ * @return {?string} Default block name.
  */
 function selectors_getDefaultBlockName(state) {
   return state.defaultBlockName;
@@ -9082,7 +9116,7 @@ function selectors_getDefaultBlockName(state) {
  * };
  * ```
  *
- * @return {string?} Name of the block for handling non-block content.
+ * @return {?string} Name of the block for handling non-block content.
  */
 function getFreeformFallbackBlockName(state) {
   return state.freeformFallbackBlockName;
@@ -9118,7 +9152,7 @@ function getFreeformFallbackBlockName(state) {
  * };
  * ```
  *
- * @return {string?} Name of the block for handling unregistered blocks.
+ * @return {?string} Name of the block for handling unregistered blocks.
  */
 function getUnregisteredFallbackBlockName(state) {
   return state.unregisteredFallbackBlockName;
@@ -9154,7 +9188,7 @@ function getUnregisteredFallbackBlockName(state) {
  * };
  * ```
  *
- * @return {string?} Name of the block for handling the grouping of blocks.
+ * @return {?string} Name of the block for handling the grouping of blocks.
  */
 function selectors_getGroupingBlockName(state) {
   return state.groupingBlockName;
@@ -9458,6 +9492,7 @@ var react_is = __webpack_require__(8529);
 ;// external ["wp","hooks"]
 const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// ./node_modules/@wordpress/blocks/build-module/store/process-block-type.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -9601,6 +9636,24 @@ const processBlockType = (name, blockSettings) => ({
   settings.icon = normalizeIconObject(settings.icon);
   if (!isValidIcon(settings.icon.src)) {
      true ? external_wp_warning_default()('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://developer.wordpress.org/block-editor/developers/block-api/block-registration/#icon-optional') : 0;
+    return;
+  }
+  if (typeof settings?.parent === 'string' || settings?.parent instanceof String) {
+    settings.parent = [settings.parent];
+     true ? external_wp_warning_default()('Parent must be undefined or an array of strings (block types), but it is a string.') : 0;
+    // Intentionally continue:
+    //
+    // While string values were never supported, they appeared to work with some unintended side-effects
+    // that have been fixed by [#66250](https://github.com/WordPress/gutenberg/pull/66250).
+    //
+    // To be backwards-compatible, this code that automatically migrates strings to arrays.
+  }
+  if (!Array.isArray(settings?.parent) && settings?.parent !== undefined) {
+     true ? external_wp_warning_default()('Parent must be undefined or an array of block types, but it is ', settings.parent) : 0;
+    return;
+  }
+  if (1 === settings?.parent?.length && name === settings.parent[0]) {
+     true ? external_wp_warning_default()('Block "' + name + '" cannot be a parent of itself. Please remove the block name from the parent list.') : 0;
     return;
   }
   return settings;
@@ -9929,7 +9982,7 @@ function removeBlockCollection(namespace) {
 
 /**
  * Add bootstrapped block type metadata to the store. These metadata usually come from
- * the `block.json` file and are either statically boostrapped from the server, or
+ * the `block.json` file and are either statically bootstrapped from the server, or
  * passed as the `metadata` parameter to the `registerBlockType` function.
  *
  * @param {string}      name      Block name.
@@ -10122,6 +10175,7 @@ function v4(options, buf, offset) {
 
 /* harmony default export */ const esm_browser_v4 = (v4);
 ;// ./node_modules/@wordpress/blocks/build-module/api/factory.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -10148,6 +10202,13 @@ function v4(options, buf, offset) {
  * @return {Object} Block object.
  */
 function createBlock(name, attributes = {}, innerBlocks = []) {
+  if (!isBlockRegistered(name)) {
+    return createBlock('core/missing', {
+      originalName: name,
+      originalContent: '',
+      originalUndelimitedContent: ''
+    });
+  }
   const sanitizedAttributes = __experimentalSanitizeBlockAttributes(name, attributes);
   const clientId = esm_browser_v4();
 
@@ -10191,8 +10252,18 @@ function createBlocksFromInnerBlocksTemplate(innerBlocksOrTemplate = []) {
  * @return {Object} A cloned block.
  */
 function __experimentalCloneSanitizedBlock(block, mergeAttributes = {}, newInnerBlocks) {
+  const {
+    name
+  } = block;
+  if (!isBlockRegistered(name)) {
+    return createBlock('core/missing', {
+      originalName: name,
+      originalContent: '',
+      originalUndelimitedContent: ''
+    });
+  }
   const clientId = esm_browser_v4();
-  const sanitizedAttributes = __experimentalSanitizeBlockAttributes(block.name, {
+  const sanitizedAttributes = __experimentalSanitizeBlockAttributes(name, {
     ...block.attributes,
     ...mergeAttributes
   });
@@ -10557,16 +10628,8 @@ function switchToBlockType(blocks, name) {
  * @return {Object} block.
  */
 const getBlockFromExample = (name, example) => {
-  try {
-    var _example$innerBlocks;
-    return createBlock(name, example.attributes, ((_example$innerBlocks = example.innerBlocks) !== null && _example$innerBlocks !== void 0 ? _example$innerBlocks : []).map(innerBlock => getBlockFromExample(innerBlock.name, innerBlock)));
-  } catch {
-    return createBlock('core/missing', {
-      originalName: name,
-      originalContent: '',
-      originalUndelimitedContent: ''
-    });
-  }
+  var _example$innerBlocks;
+  return createBlock(name, example.attributes, ((_example$innerBlocks = example.innerBlocks) !== null && _example$innerBlocks !== void 0 ? _example$innerBlocks : []).map(innerBlock => getBlockFromExample(innerBlock.name, innerBlock)));
 };
 
 ;// external ["wp","blockSerializationDefaultParser"]
@@ -10577,6 +10640,7 @@ const external_wp_autop_namespaceObject = window["wp"]["autop"];
 const external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"];
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
 ;// ./node_modules/@wordpress/blocks/build-module/api/parser/serialize-raw-block.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -10629,6 +10693,7 @@ function serializeRawBlock(rawBlock, options = {}) {
 ;// external "ReactJSXRuntime"
 const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/@wordpress/blocks/build-module/api/serializer.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -11956,6 +12021,7 @@ function createQueuedLogger() {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/validation/index.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -12063,7 +12129,7 @@ const TEXT_NORMALIZATIONS = [identity, getTextWithCollapsedWhitespace];
  * "The ampersand must be followed by one of the names given in the named
  * character references section, using the same case."
  *
- * Tested aginst "12.5 Named character references":
+ * Tested against "12.5 Named character references":
  *
  * ```
  * const references = Array.from( document.querySelectorAll(
@@ -12118,7 +12184,7 @@ function isValidCharacterReference(text) {
 }
 
 /**
- * Subsitute EntityParser class for `simple-html-tokenizer` which uses the
+ * Substitute EntityParser class for `simple-html-tokenizer` which uses the
  * implementation of `decodeEntities` from `html-entities`, in order to avoid
  * bundling a massive named character reference.
  *
@@ -13414,6 +13480,7 @@ function children_matcher(selector) {
 });
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/parser/get-block-attributes.js
+/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -13652,6 +13719,7 @@ function getBlockAttributes(blockTypeOrName, innerHTML, attributes = {}) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/parser/fix-custom-classname.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -13854,6 +13922,7 @@ function applyBlockDeprecatedVersions(block, rawBlock, blockType) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/parser/index.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14045,7 +14114,7 @@ function parseRawBlock(rawBlock, options) {
   // Try finding the type for known block name.
   let blockType = getBlockType(normalizedBlock.blockName);
 
-  // If not blockType is found for the specified name, fallback to the "unregistedBlockType".
+  // If not blockType is found for the specified name, fallback to the "unregisteredBlockType".
   if (!blockType) {
     normalizedBlock = createMissingBlockType(normalizedBlock);
     blockType = getBlockType(normalizedBlock.blockName);
@@ -14135,6 +14204,7 @@ function parser_parse(content, options) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/get-raw-transforms.js
+/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -14151,6 +14221,7 @@ function getRawTransforms() {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/html-to-blocks.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14269,6 +14340,7 @@ function normaliseBlocks(HTML, options = {}) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/special-comment-converter.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14367,6 +14439,7 @@ function createNextpage(doc) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14529,6 +14602,7 @@ function figureContentReducer(node, doc, schema) {
 ;// external ["wp","shortcode"]
 const external_wp_shortcode_namespaceObject = window["wp"]["shortcode"];
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14621,6 +14695,7 @@ function segmentHTMLToShortcodeBlock(HTML, lastIndex = 0, excludedBlockNames = [
 /* harmony default export */ const shortcode_converter = (segmentHTMLToShortcodeBlock);
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14724,7 +14799,7 @@ function getBlockContentSchemaFromTransforms(transforms, context) {
 
 /**
  * Gets the block content schema, which is extracted and merged from all
- * registered blocks with raw transfroms.
+ * registered blocks with raw transforms.
  *
  * @param {string} context Set to "paste" when in paste context, where the
  *                         schema is more strict.
@@ -14806,6 +14881,7 @@ function getSibling(node, which) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -14905,6 +14981,7 @@ function commentRemover(node) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -15012,6 +15089,7 @@ function headRemover(node) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-ignore.js
+/* wp:polyfill */
 /**
  * Looks for comments, and removes them.
  *
@@ -15294,7 +15372,7 @@ function htmlFormattingRemover(node) {
   }
 
   // Remove the trailing space if the text element is at the end of a block,
-  // is succeded by a line break element, or has a space in the next text
+  // is succeeded by a line break element, or has a space in the next text
   // node.
   if (newData[newData.length - 1] === ' ') {
     const nextSibling = getSibling(node, 'next');
@@ -15372,6 +15450,7 @@ function slackParagraphCorrector(node) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/raw-handling/paste-handler.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -15650,6 +15729,7 @@ function categories_updateCategory(slug, category) {
 }
 
 ;// ./node_modules/@wordpress/blocks/build-module/api/templates.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -15734,18 +15814,7 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 
     const blockType = getBlockType(name);
     const normalizedAttributes = normalizeAttributes((_blockType$attributes = blockType?.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}, attributes);
-    let [blockName, blockAttributes] = convertLegacyBlockNameAndAttributes(name, normalizedAttributes);
-
-    // If a Block is undefined at this point, use the core/missing block as
-    // a placeholder for a better user experience.
-    if (undefined === getBlockType(blockName)) {
-      blockAttributes = {
-        originalName: name,
-        originalContent: '',
-        originalUndelimitedContent: ''
-      };
-      blockName = 'core/missing';
-    }
+    const [blockName, blockAttributes] = convertLegacyBlockNameAndAttributes(name, normalizedAttributes);
     return createBlock(blockName, blockAttributes, synchronizeBlocksWithTemplate([], innerBlocksTemplate));
   });
 }
@@ -15772,7 +15841,7 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 //
 // This has multiple practical implications: when parsing, we can safely dispose
 // of any block boundary found within a block from the innerHTML property when
-// transfering to state. Not doing so would have a compounding effect on memory
+// transferring to state. Not doing so would have a compounding effect on memory
 // and uncertainty over the source of truth. This can be illustrated in how,
 // given a tree of `n` nested blocks, the entry node would have to contain the
 // actual content of each block while each subsequent block node in the state
@@ -15788,7 +15857,7 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 
 // While block transformations account for a specific surface of the API, there
 // are also raw transformations which handle arbitrary sources not made out of
-// blocks but producing block basaed on various heursitics. This includes
+// blocks but producing block basaed on various heuristics. This includes
 // pasting rich text or HTML data.
 
 
@@ -15855,7 +15924,7 @@ function synchronizeBlocksWithTemplate(blocks = [], template) {
 
 const privateApis = {};
 lock(privateApis, {
-  isUnmodifiedBlockContent: isUnmodifiedBlockContent
+  isContentBlock: isContentBlock
 });
 
 ;// ./node_modules/@wordpress/blocks/build-module/deprecated.js

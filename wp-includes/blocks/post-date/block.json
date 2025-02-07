@@ -15,7 +15,8 @@
 		},
 		"isLink": {
 			"type": "boolean",
-			"default": false
+			"default": false,
+			"role": "content"
 		},
 		"displayType": {
 			"type": "string",

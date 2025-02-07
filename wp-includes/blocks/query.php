@@ -79,7 +79,7 @@ add_action( 'init', 'register_block_core_query' );
  * @since 6.4.0
  *
  * @param array $parsed_block The block being rendered.
- * @return string Returns the parsed block, unmodified.
+ * @return array Returns the parsed block, unmodified.
  */
 function block_core_query_disable_enhanced_pagination( $parsed_block ) {
 	static $enhanced_query_stack   = array();

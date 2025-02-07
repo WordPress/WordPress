@@ -202,9 +202,11 @@ const __unstableAwaitPromise = function (promise) {
  * store.
  */
 const controls = {
-  AWAIT_PROMISE: ({
+  AWAIT_PROMISE({
     promise
-  }) => promise,
+  }) {
+    return promise;
+  },
   API_FETCH({
     request
   }) {

@@ -101,3 +101,7 @@
 :where(.wp-block-post-comments input[type=submit]){
   border:none;
 }
+
+.wp-block-comments{
+  box-sizing:border-box;
+}

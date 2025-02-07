@@ -52,6 +52,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   MediaUpload: () => (/* reexport */ media_upload),
+  privateApis: () => (/* reexport */ privateApis),
   transformAttachment: () => (/* reexport */ transformAttachment),
   uploadMedia: () => (/* reexport */ uploadMedia),
   validateFileSize: () => (/* reexport */ validateFileSize),
@@ -64,6 +65,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// ./node_modules/@wordpress/media-utils/build-module/components/media-upload/index.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -121,6 +123,45 @@ const getFeaturedImageMediaFrame = () => {
       this.on('content:render:edit-image', this.editState, this);
       this.states.add([new wp.media.controller.FeaturedImage(), new wp.media.controller.EditImage({
         model: this.options.editImage
+      })]);
+    }
+  });
+};
+
+/**
+ * Prepares the default frame for selecting a single media item.
+ *
+ * @return {window.wp.media.view.MediaFrame.Select} The default media workflow.
+ */
+const getSingleMediaFrame = () => {
+  const {
+    wp
+  } = window;
+
+  // Extend the default Select frame, and use the same `createStates` method as in core,
+  // but with the addition of `filterable: 'uploaded'` to the Library state, so that
+  // the user can filter the media library by uploaded media.
+  return wp.media.view.MediaFrame.Select.extend({
+    /**
+     * Create the default states on the frame.
+     */
+    createStates() {
+      const options = this.options;
+      if (this.options.states) {
+        return;
+      }
+
+      // Add the default states.
+      this.states.add([
+      // Main states.
+      new wp.media.controller.Library({
+        library: wp.media.query(options.library),
+        multiple: options.multiple,
+        title: options.title,
+        priority: 20,
+        filterable: 'uploaded' // Allow filtering by uploaded images.
+      }), new wp.media.controller.EditImage({
+        model: options.editImage
       })]);
     }
   });
@@ -315,7 +356,7 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
       state: currentState,
       multiple,
       selection,
-      editing: value && value.length ? true : false
+      editing: !!value?.length
     });
     wp.media.frame = this.frame;
     this.initializeListeners();
@@ -356,6 +397,49 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
       ...wp.media.view.settings.post,
       featuredImageId: featuredImageId || -1
     };
+  }
+
+  /**
+   * Initializes the Media Library requirements for the single image flow.
+   *
+   * @return {void}
+   */
+  buildAndSetSingleMediaFrame() {
+    const {
+      wp
+    } = window;
+    const {
+      allowedTypes,
+      multiple = false,
+      title = (0,external_wp_i18n_namespaceObject.__)('Select or Upload Media'),
+      value
+    } = this.props;
+    const frameConfig = {
+      title,
+      multiple
+    };
+    if (!!allowedTypes) {
+      frameConfig.library = {
+        type: allowedTypes
+      };
+    }
+
+    // If a frame already exists, remove it.
+    if (this.frame) {
+      this.frame.remove();
+    }
+    const singleImageFrame = getSingleMediaFrame();
+    const attachments = getAttachmentsCollection(value);
+    const selection = new wp.media.model.Selection(attachments.models, {
+      props: attachments.props.toJSON()
+    });
+    this.frame = new singleImageFrame({
+      mimeType: allowedTypes,
+      multiple,
+      selection,
+      ...frameConfig
+    });
+    wp.media.frame = this.frame;
   }
   componentWillUnmount() {
     this.frame?.remove();
@@ -450,29 +534,14 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
   }
   openModal() {
     const {
-      allowedTypes,
       gallery = false,
       unstableFeaturedImageFlow = false,
-      modalClass,
-      multiple = false,
-      title = (0,external_wp_i18n_namespaceObject.__)('Select or Upload Media')
+      modalClass
     } = this.props;
-    const {
-      wp
-    } = window;
     if (gallery) {
       this.buildAndSetGalleryFrame();
     } else {
-      const frameConfig = {
-        title,
-        multiple
-      };
-      if (!!allowedTypes) {
-        frameConfig.library = {
-          type: allowedTypes
-        };
-      }
-      this.frame = wp.media(frameConfig);
+      this.buildAndSetSingleMediaFrame();
     }
     if (modalClass) {
       this.frame.$el.addClass(modalClass);
@@ -605,6 +674,7 @@ class UploadError extends Error {
 }
 
 ;// ./node_modules/@wordpress/media-utils/build-module/utils/validate-mime-type.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -647,6 +717,7 @@ function validateMimeType(file, allowedTypes) {
 }
 
 ;// ./node_modules/@wordpress/media-utils/build-module/utils/get-mime-types-array.js
+/* wp:polyfill */
 /**
  * Browsers may use unexpected mime types, and they differ from browser to browser.
  * This function computes a flexible array of mime types from the mime type structured provided by the server.
@@ -786,8 +857,11 @@ function uploadMedia({
   const validFiles = [];
   const filesSet = [];
   const setAndUpdateFiles = (index, value) => {
-    if (filesSet[index]?.url) {
-      (0,external_wp_blob_namespaceObject.revokeBlobURL)(filesSet[index].url);
+    // For client-side media processing, this is handled by the upload-media package.
+    if (!window.__experimentalMediaProcessing) {
+      if (filesSet[index]?.url) {
+        (0,external_wp_blob_namespaceObject.revokeBlobURL)(filesSet[index].url);
+      }
     }
     filesSet[index] = value;
     onFileChange?.(filesSet.filter(attachment => attachment !== null));
@@ -820,12 +894,15 @@ function uploadMedia({
     }
     validFiles.push(mediaFile);
 
-    // Set temporary URL to create placeholder media file, this is replaced
-    // with final file from media gallery when upload is `done` below.
-    filesSet.push({
-      url: (0,external_wp_blob_namespaceObject.createBlobURL)(mediaFile)
-    });
-    onFileChange?.(filesSet);
+    // For client-side media processing, this is handled by the upload-media package.
+    if (!window.__experimentalMediaProcessing) {
+      // Set temporary URL to create placeholder media file, this is replaced
+      // with final file from media gallery when upload is `done` below.
+      filesSet.push({
+        url: (0,external_wp_blob_namespaceObject.createBlobURL)(mediaFile)
+      });
+      onFileChange?.(filesSet);
+    }
   }
   validFiles.map(async (file, index) => {
     try {
@@ -852,7 +929,126 @@ function uploadMedia({
   });
 }
 
+;// ./node_modules/@wordpress/media-utils/build-module/utils/sideload-to-server.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+/**
+ * Uploads a file to the server without creating an attachment.
+ *
+ * @param file           Media File to Save.
+ * @param attachmentId   Parent attachment ID.
+ * @param additionalData Additional data to include in the request.
+ * @param signal         Abort signal.
+ *
+ * @return The saved attachment.
+ */
+async function sideloadToServer(file, attachmentId, additionalData = {}, signal) {
+  // Create upload payload.
+  const data = new FormData();
+  data.append('file', file, file.name || file.type.replace('/', '.'));
+  for (const [key, value] of Object.entries(additionalData)) {
+    flattenFormData(data, key, value);
+  }
+  return transformAttachment(await external_wp_apiFetch_default()({
+    path: `/wp/v2/media/${attachmentId}/sideload`,
+    body: data,
+    method: 'POST',
+    signal
+  }));
+}
+
+;// ./node_modules/@wordpress/media-utils/build-module/utils/sideload-media.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const noop = () => {};
+/**
+ * Uploads a file to the server without creating an attachment.
+ *
+ * @param $0                Parameters object passed to the function.
+ * @param $0.file           Media File to Save.
+ * @param $0.attachmentId   Parent attachment ID.
+ * @param $0.additionalData Additional data to include in the request.
+ * @param $0.signal         Abort signal.
+ * @param $0.onFileChange   Function called each time a file or a temporary representation of the file is available.
+ * @param $0.onError        Function called when an error happens.
+ */
+async function sideloadMedia({
+  file,
+  attachmentId,
+  additionalData = {},
+  signal,
+  onFileChange,
+  onError = noop
+}) {
+  try {
+    const attachment = await sideloadToServer(file, attachmentId, additionalData, signal);
+    onFileChange?.([attachment]);
+  } catch (error) {
+    let message;
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = (0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: %s: file name
+      (0,external_wp_i18n_namespaceObject.__)('Error while sideloading file %s to the server.'), file.name);
+    }
+    onError(new UploadError({
+      code: 'GENERAL',
+      message,
+      file,
+      cause: error instanceof Error ? error : undefined
+    }));
+  }
+}
+
+;// external ["wp","privateApis"]
+const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+;// ./node_modules/@wordpress/media-utils/build-module/lock-unlock.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock,
+  unlock
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/media-utils');
+
+;// ./node_modules/@wordpress/media-utils/build-module/private-apis.js
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Private @wordpress/media-utils APIs.
+ */
+const privateApis = {};
+lock(privateApis, {
+  sideloadMedia: sideloadMedia
+});
+
 ;// ./node_modules/@wordpress/media-utils/build-module/index.js
+
 
 
 

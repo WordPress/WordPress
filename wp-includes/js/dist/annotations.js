@@ -75,6 +75,7 @@ const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 const STORE_NAME = 'core/annotations';
 
 ;// ./node_modules/@wordpress/annotations/build-module/format/annotation.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -269,6 +270,7 @@ const external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// ./node_modules/@wordpress/annotations/build-module/block/index.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -301,6 +303,7 @@ const addAnnotationClassName = OriginalComponent => {
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockListBlock', 'core/annotations', addAnnotationClassName);
 
 ;// ./node_modules/@wordpress/annotations/build-module/store/reducer.js
+/* wp:polyfill */
 /**
  * Filters an array based on the predicate, but keeps the reference the same if
  * the array hasn't changed.
@@ -403,6 +406,7 @@ function annotations(state = {}, action) {
 /* harmony default export */ const reducer = (annotations);
 
 ;// ./node_modules/@wordpress/annotations/build-module/store/selectors.js
+/* wp:polyfill */
 /**
  * WordPress dependencies
  */
