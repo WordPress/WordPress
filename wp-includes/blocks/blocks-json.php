@@ -5625,6 +5625,72 @@
     ),
     'style' => 'wp-block-query-title'
   ),
+  'query-total' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/query-total',
+    'title' => 'Query Total',
+    'category' => 'theme',
+    'ancestor' => array(
+      'core/query'
+    ),
+    'description' => 'Display the total number of results in a query.',
+    'textdomain' => 'default',
+    'attributes' => array(
+      'displayType' => array(
+        'type' => 'string',
+        'default' => 'total-results'
+      )
+    ),
+    'usesContext' => array(
+      'queryId',
+      'query'
+    ),
+    'supports' => array(
+      'align' => array(
+        'wide',
+        'full'
+      ),
+      'html' => false,
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true
+      ),
+      'color' => array(
+        'gradients' => true,
+        'text' => true,
+        '__experimentalDefaultControls' => array(
+          'background' => true
+        )
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true,
+        '__experimentalDefaultControls' => array(
+          'radius' => true,
+          'color' => true,
+          'width' => true,
+          'style' => true
+        )
+      )
+    ),
+    'style' => 'wp-block-query-total'
+  ),
   'quote' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
