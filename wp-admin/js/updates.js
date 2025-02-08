@@ -2333,7 +2333,7 @@
 	 *                                                'update' or 'install'.
 	 */
 	wp.updates.isValidResponse = function( response, action ) {
-		var error = __( 'Something went wrong.' ),
+		var error = __( 'An error occurred during the update process. Please try again.' ),
 			errorMessage;
 
 		// Make sure the response is a valid data object and not a Promise object.

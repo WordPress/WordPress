@@ -59,7 +59,7 @@ jQuery( function($) {
 					tr.children().css('backgroundColor', '');
 
 				} else {
-					$('#ajax-response').empty().append('<div class="error"><p>' + wp.i18n.__( 'Something went wrong.' ) + '</p></div>');
+					$('#ajax-response').empty().append('<div class="error"><p>' + wp.i18n.__( 'An error occurred while processing your request. Please try again later.' ) + '</p></div>');
 					tr.children().css('backgroundColor', '');
 				}
 			});

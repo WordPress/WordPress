@@ -830,8 +830,8 @@ endif;
 
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) ) {
 			wp_die(
-				'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
-				'<p>' . __( 'The active theme does not support uploading a custom header image.' ) . '</p>',
+				'<h1>' . __( 'An error occurred while processing your header image.' ) . '</h1>' .
+				'<p>' . __( 'The active theme does not support uploading a custom header image. Please ensure your theme supports custom headers and try again.' ) . '</p>',
 				403
 			);
 		}
@@ -1018,8 +1018,8 @@ endif;
 
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) ) {
 			wp_die(
-				'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
-				'<p>' . __( 'The active theme does not support uploading a custom header image.' ) . '</p>',
+				'<h1>' . __( 'An error occurred while processing your header image.' ) . '</h1>' .
+				'<p>' . __( 'The active theme does not support uploading a custom header image. Please ensure your theme supports custom headers and try again.' ) . '</p>',
 				403
 			);
 		}
@@ -1029,7 +1029,7 @@ endif;
 			&& ! current_theme_supports( 'custom-header', 'flex-width' )
 		) {
 			wp_die(
-				'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
+				'<h1>' . __( 'An error occurred while processing your header image.' ) . '</h1>' .
 				'<p>' . __( 'The active theme does not support a flexible sized header image.' ) . '</p>',
 				403
 			);

@@ -76,8 +76,8 @@ if ( $wp_customize->changeset_post_id() ) {
 
 	if ( in_array( get_post_status( $changeset_post->ID ), array( 'publish', 'trash' ), true ) ) {
 		wp_die(
-			'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
-			'<p>' . __( 'This changeset cannot be further modified.' ) . '</p>' .
+			'<h1>' . __( 'An error occurred while saving your changeset.' ) . '</h1>' .
+			'<p>' . __( 'Please try again or start a new changeset. This changeset cannot be further modified.' ) . '</p>' .
 			'<p><a href="' . esc_url( remove_query_arg( 'changeset_uuid' ) ) . '">' . __( 'Customize New Changes' ) . '</a></p>',
 			403
 		);

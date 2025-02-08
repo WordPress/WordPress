@@ -226,7 +226,7 @@ wp.themePluginEditor = (function( $ ) {
 			var notice = $.extend(
 				{
 					code: 'save_error',
-					message: __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' )
+					message: __( 'An error occurred while saving your changes. Please try again. If the problem persists, you may need to manually update the file via FTP.' )
 				},
 				response,
 				{
