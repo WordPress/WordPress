@@ -266,7 +266,7 @@ switch ( $action ) {
 
 			<?php if ( ! IS_PROFILE_PAGE ) : ?>
 				<?php if ( current_user_can( 'create_users' ) ) : ?>
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html__( 'Add New User' ); ?></a>
+					<a href="user-new.php" class="page-title-action"><?php echo esc_html__( 'Add User' ); ?></a>
 				<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
 					<a href="user-new.php" class="page-title-action"><?php echo esc_html__( 'Add Existing User' ); ?></a>
 				<?php endif; ?>
@@ -832,7 +832,7 @@ switch ( $action ) {
 										do_action( 'wp_create_application_password_form', $profile_user );
 										?>
 
-										<button type="button" name="do_new_application_password" id="do_new_application_password" class="button button-secondary"><?php _e( 'Add New Application Password' ); ?></button>
+										<button type="button" name="do_new_application_password" id="do_new_application_password" class="button button-secondary"><?php _e( 'Add Application Password' ); ?></button>
 									</div>
 									<?php
 								else :

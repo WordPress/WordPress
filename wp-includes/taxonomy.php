@@ -146,7 +146,7 @@ function create_initial_taxonomies() {
 				'all_items'                  => __( 'All Link Categories' ),
 				'edit_item'                  => __( 'Edit Link Category' ),
 				'update_item'                => __( 'Update Link Category' ),
-				'add_new_item'               => __( 'Add New Link Category' ),
+				'add_new_item'               => __( 'Add Link Category' ),
 				'new_item_name'              => __( 'New Link Category Name' ),
 				'separate_items_with_commas' => null,
 				'add_or_remove_items'        => null,
@@ -233,7 +233,7 @@ function create_initial_taxonomies() {
 			'labels'             => array(
 				'name'                       => _x( 'Pattern Categories', 'taxonomy general name' ),
 				'singular_name'              => _x( 'Pattern Category', 'taxonomy singular name' ),
-				'add_new_item'               => __( 'Add New Category' ),
+				'add_new_item'               => __( 'Add Category' ),
 				'add_or_remove_items'        => __( 'Add or remove pattern categories' ),
 				'back_to_items'              => __( '&larr; Go to Pattern Categories' ),
 				'choose_from_most_used'      => __( 'Choose from the most used pattern categories' ),
@@ -678,7 +678,7 @@ function unregister_taxonomy( $taxonomy ) {
  *     @type string $edit_item                  Default 'Edit Tag'/'Edit Category'.
  *     @type string $view_item                  Default 'View Tag'/'View Category'.
  *     @type string $update_item                Default 'Update Tag'/'Update Category'.
- *     @type string $add_new_item               Default 'Add New Tag'/'Add New Category'.
+ *     @type string $add_new_item               Default 'Add Tag'/'Add Category'.
  *     @type string $new_item_name              Default 'New Tag Name'/'New Category Name'.
  *     @type string $template_name              Default 'Tag Archives'/'Category Archives'.
  *     @type string $separate_items_with_commas This label is only used for non-hierarchical taxonomies. Default

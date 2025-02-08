@@ -19,7 +19,7 @@ if ( ! empty( $link_id ) ) {
 	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
 	/* translators: %s: URL to Links screen. */
-	$heading      = sprintf( __( '<a href="%s">Links</a> / Add New Link' ), 'link-manager.php' );
+	$heading      = sprintf( __( '<a href="%s">Links</a> / Add Link' ), 'link-manager.php' );
 	$submit_text  = __( 'Add Link' );
 	$form_name    = 'addlink';
 	$nonce_action = 'add-bookmark';
@@ -87,7 +87,7 @@ echo esc_html( $title );
 ?>
 </h1>
 
-<a href="link-add.php" class="page-title-action"><?php echo esc_html__( 'Add New Link' ); ?></a>
+<a href="link-add.php" class="page-title-action"><?php echo esc_html__( 'Add Link' ); ?></a>
 
 <hr class="wp-header-end">
 

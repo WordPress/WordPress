@@ -624,7 +624,7 @@ final class WP_Taxonomy {
 			'edit_item'                  => array( __( 'Edit Tag' ), __( 'Edit Category' ) ),
 			'view_item'                  => array( __( 'View Tag' ), __( 'View Category' ) ),
 			'update_item'                => array( __( 'Update Tag' ), __( 'Update Category' ) ),
-			'add_new_item'               => array( __( 'Add New Tag' ), __( 'Add New Category' ) ),
+			'add_new_item'               => array( __( 'Add Tag' ), __( 'Add New Category' ) ),
 			'new_item_name'              => array( __( 'New Tag Name' ), __( 'New Category Name' ) ),
 			'separate_items_with_commas' => array( __( 'Separate tags with commas' ), null ),
 			'add_or_remove_items'        => array( __( 'Add or remove tags' ), null ),

@@ -223,7 +223,7 @@ function wp_print_media_templates() {
 		</div>
 	</script>
 
-	<?php // Template for the inline uploader, used for example in the Media Library admin page - Add New. ?>
+	<?php // Template for the inline uploader, used for example in the Media Library admin page - Add. ?>
 	<script type="text/html" id="tmpl-uploader-inline">
 		<# var messageClass = data.message ? 'has-upload-message' : 'no-upload-message'; #>
 		<# if ( data.canClose ) { #>

@@ -33,7 +33,7 @@ get_current_screen()->add_help_tab(
 		'id'      => 'overview',
 		'title'   => __( 'Overview' ),
 		'content' => '<p>' . __( 'This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options in the dashboard navigation when they are logged in, based on their role.' ) . '</p>' .
-		'<p>' . __( 'To add a new user for your site, click the Add New User button at the top of the screen or Add New User in the Users menu section.' ) . '</p>',
+		'<p>' . __( 'To add a new user for your site, click the Add User button at the top of the screen or Add User in the Users menu section.' ) . '</p>',
 	)
 );
 
@@ -778,7 +778,7 @@ switch ( $wp_list_table->current_action() ) {
 			printf(
 				'<a href="%1$s" class="page-title-action">%2$s</a>',
 				esc_url( admin_url( 'user-new.php' ) ),
-				esc_html__( 'Add New User' )
+				esc_html__( 'Add User' )
 			);
 		} elseif ( is_multisite() && current_user_can( 'promote_users' ) ) {
 			printf(

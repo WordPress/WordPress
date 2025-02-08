@@ -212,23 +212,23 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<p class="customizer-section-intro customize-control-description">
 				<?php
 				if ( current_theme_supports( 'custom-header', 'video' ) ) {
-					_e( 'Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image that matches the size of your video &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' );
+					_e( 'Click &#8220;Add Image&#8221; to upload an image file from your computer. Your theme works best with an image that matches the size of your video &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' );
 				} elseif ( $width && $height ) {
 					printf(
 						/* translators: %s: Header size in pixels. */
-						__( 'Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header size of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
+						__( 'Click &#8220;Add Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header size of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s &times; %s</strong>', $width, $height )
 					);
 				} elseif ( $width ) {
 					printf(
 						/* translators: %s: Header width in pixels. */
-						__( 'Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header width of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
+						__( 'Click &#8220;Add Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header width of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s</strong>', $width )
 					);
 				} else {
 					printf(
 						/* translators: %s: Header height in pixels. */
-						__( 'Click &#8220;Add New Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header height of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
+						__( 'Click &#8220;Add Image&#8221; to upload an image file from your computer. Your theme works best with an image with a header height of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s</strong>', $height )
 					);
 				}
@@ -246,7 +246,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<div class="actions">
 				<?php if ( current_user_can( 'upload_files' ) ) : ?>
 				<button type="button"<?php echo $visibility; ?> class="button remove" aria-label="<?php esc_attr_e( 'Hide header image' ); ?>"><?php _e( 'Hide image' ); ?></button>
-				<button type="button" class="button new" id="header_image-button" aria-label="<?php esc_attr_e( 'Add New Header Image' ); ?>"><?php _e( 'Add New Image' ); ?></button>
+				<button type="button" class="button new" id="header_image-button" aria-label="<?php esc_attr_e( 'Add Header Image' ); ?>"><?php _e( 'Add Image' ); ?></button>
 				<?php endif; ?>
 			</div>
 			<div class="choices">

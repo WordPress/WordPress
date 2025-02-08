@@ -341,6 +341,9 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
 /**
  * Filters whether to show the Add New User form on the Multisite Users screen.
  *
+ * Note: While WordPress is moving towards simplifying labels by removing "New" from "Add New X" labels,
+ * we keep "Add New User" here to maintain a clear distinction from the "Add Existing User" section above.
+ *
  * @since 3.1.0
  *
  * @param bool $bool Whether to show the Add New User form. Default true.
@@ -374,7 +377,7 @@ if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_use
 		</tr>
 	</table>
 	<?php wp_nonce_field( 'add-user', '_wpnonce_add-new-user' ); ?>
-	<?php submit_button( __( 'Add New User' ), 'primary', 'add-user', true, array( 'id' => 'submit-add-user' ) ); ?>
+	<?php submit_button( __( 'Add User' ), 'primary', 'add-user', true, array( 'id' => 'submit-add-user' ) ); ?>
 </form>
 <?php endif; ?>
 </div>

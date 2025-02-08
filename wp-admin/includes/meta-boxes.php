@@ -1200,12 +1200,12 @@ function link_categories_meta_box( $link ) {
 	</div>
 
 	<div id="category-adder" class="wp-hidden-children">
-		<a id="category-add-toggle" href="#category-add" class="taxonomy-add-new"><?php _e( '+ Add New Category' ); ?></a>
+		<a id="category-add-toggle" href="#category-add" class="taxonomy-add-new"><?php _e( '+ Add Category' ); ?></a>
 		<p id="link-category-add" class="wp-hidden-child">
 			<label class="screen-reader-text" for="newcat">
 				<?php
 				/* translators: Hidden accessibility text. */
-				_e( '+ Add New Category' );
+				_e( '+ Add Category' );
 				?>
 			</label>
 			<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" aria-required="true" />

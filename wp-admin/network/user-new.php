@@ -1,6 +1,6 @@
 <?php
 /**
- * Add New User network administration panel.
+ * Add User network administration panel.
  *
  * @package WordPress
  * @subpackage Multisite
@@ -97,14 +97,14 @@ if ( isset( $_GET['update'] ) ) {
 }
 
 // Used in the HTML title tag.
-$title       = __( 'Add New User' );
+$title       = __( 'Add User' );
 $parent_file = 'users.php';
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="wrap">
-<h1 id="add-new-user"><?php _e( 'Add New User' ); ?></h1>
+<h1 id="add-new-user"><?php _e( 'Add User' ); ?></h1>
 <?php
 if ( '' !== $message ) {
 	wp_admin_notice(
