@@ -4533,9 +4533,10 @@ class WP_Query {
 				if ( ! strpos( $pagepath, '/' ) ) {
 					continue;
 				}
+
 				$pagepath_obj = get_page_by_path( $pagepath );
 
-				if ( $pagepath_obj && ( $pagepath_obj->ID == $page_obj->ID ) ) {
+				if ( $pagepath_obj && ( $pagepath_obj->ID === $page_obj->ID ) ) {
 					return true;
 				}
 			}
@@ -4643,9 +4644,10 @@ class WP_Query {
 				if ( ! strpos( $postpath, '/' ) ) {
 					continue;
 				}
+
 				$postpath_obj = get_page_by_path( $postpath, OBJECT, $post_obj->post_type );
 
-				if ( $postpath_obj && ( $postpath_obj->ID == $post_obj->ID ) ) {
+				if ( $postpath_obj && ( $postpath_obj->ID === $post_obj->ID ) ) {
 					return true;
 				}
 			}
