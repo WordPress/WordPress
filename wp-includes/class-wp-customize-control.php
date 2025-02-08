@@ -247,14 +247,14 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Enqueue control related scripts/styles.
+	 * Enqueues control related scripts/styles.
 	 *
 	 * @since 3.4.0
 	 */
 	public function enqueue() {}
 
 	/**
-	 * Check whether control is active to current Customizer preview.
+	 * Checks whether control is active to current Customizer preview.
 	 *
 	 * @since 4.0.0
 	 *
@@ -292,7 +292,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Fetch a setting's value.
+	 * Fetches a setting's value.
 	 * Grabs the main setting by default.
 	 *
 	 * @since 3.4.0
@@ -307,7 +307,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Refresh the parameters passed to the JavaScript via JSON.
+	 * Refreshes the parameters passed to the JavaScript via JSON.
 	 *
 	 * @since 3.4.0
 	 */
@@ -332,7 +332,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Get the data to export to the client via JSON.
+	 * Gets the data to export to the client via JSON.
 	 *
 	 * @since 4.1.0
 	 *
@@ -375,7 +375,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Get the control's content for insertion into the Customizer pane.
+	 * Gets the control's content for insertion into the Customizer pane.
 	 *
 	 * @since 4.1.0
 	 *
@@ -388,7 +388,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Check capabilities and render the control.
+	 * Checks capabilities and render the control.
 	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::render()
@@ -437,14 +437,15 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Get the data link attribute for a setting.
+	 * Gets the data link attribute for a setting.
 	 *
 	 * @since 3.4.0
 	 * @since 4.9.0 Return a `data-customize-setting-key-link` attribute if a setting is not registered for the supplied setting key.
 	 *
 	 * @param string $setting_key
-	 * @return string Data link parameter, a `data-customize-setting-link` attribute if the `$setting_key` refers to a pre-registered setting,
-	 *                and a `data-customize-setting-key-link` attribute if the setting is not yet registered.
+	 * @return string Data link parameter, a `data-customize-setting-link` attribute if the `$setting_key` refers
+	 *                to a pre-registered setting, and a `data-customize-setting-key-link` attribute if the setting
+	 *                is not yet registered.
 	 */
 	public function get_link( $setting_key = 'default' ) {
 		if ( isset( $this->settings[ $setting_key ] ) && $this->settings[ $setting_key ] instanceof WP_Customize_Setting ) {
@@ -455,19 +456,19 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Render the data link attribute for the control's input element.
+	 * Renders the data link attribute for the control's input element.
 	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::get_link()
 	 *
-	 * @param string $setting_key
+	 * @param string $setting_key Default 'default'.
 	 */
 	public function link( $setting_key = 'default' ) {
 		echo $this->get_link( $setting_key );
 	}
 
 	/**
-	 * Render the custom attributes for the control's input element.
+	 * Renders the custom attributes for the control's input element.
 	 *
 	 * @since 4.0.0
 	 */
@@ -478,7 +479,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Render the control's content.
+	 * Renders the control's content.
 	 *
 	 * Allows the content to be overridden without having to rewrite the wrapper in `$this::render()`.
 	 *
@@ -674,7 +675,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Render the control's JS template.
+	 * Renders the control's JS template.
 	 *
 	 * This function is only run for control types that have been registered with
 	 * WP_Customize_Manager::register_control_type().
