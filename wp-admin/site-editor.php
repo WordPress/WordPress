@@ -19,19 +19,102 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 	);
 }
 
-$is_template_part        = isset( $_GET['postType'] ) && 'wp_template_part' === sanitize_key( $_GET['postType'] );
-$is_template_part_path   = isset( $_GET['path'] ) && 'wp_template_partall' === sanitize_key( $_GET['path'] );
-$is_template_part_editor = $is_template_part || $is_template_part_path;
-$is_patterns             = isset( $_GET['postType'] ) && 'wp_block' === sanitize_key( $_GET['postType'] );
-$is_patterns_path        = isset( $_GET['path'] ) && 'patterns' === sanitize_key( $_GET['path'] );
-$is_patterns_editor      = $is_patterns || $is_patterns_path;
-
-if ( ! wp_is_block_theme() ) {
-	if ( ! current_theme_supports( 'block-template-parts' ) && $is_template_part_editor ) {
-		wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
-	} elseif ( ! $is_patterns_editor && ! $is_template_part_editor ) {
-		wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
+/**
+ * Maps old site editor urls to the new updated ones.
+ *
+ * @since 6.8.0
+ * @access private
+ *
+ * @global string $pagenow The filename of the current screen.
+ *
+ * @return string|false The new URL to redirect to, or false if no redirection is needed.
+ */
+function _wp_get_site_editor_redirection_url() {
+	global $pagenow;
+	if ( 'site-editor.php' !== $pagenow || isset( $_REQUEST['p'] ) || ! $_SERVER['QUERY_STRING'] ) {
+		return false;
 	}
+
+	// The following redirects are for the new permalinks in the site editor.
+	if ( isset( $_REQUEST['postType'] ) && 'wp_navigation' === $_REQUEST['postType'] && ! empty( $_REQUEST['postId'] ) ) {
+		return add_query_arg( array( 'p' => '/wp_navigation/' . $_REQUEST['postId'] ), remove_query_arg( array( 'postType', 'postId' ) ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_navigation' === $_REQUEST['postType'] && empty( $_REQUEST['postId'] ) ) {
+		return add_query_arg( array( 'p' => '/navigation' ), remove_query_arg( 'postType' ) );
+	}
+
+	if ( isset( $_REQUEST['path'] ) && '/wp_global_styles' === $_REQUEST['path'] ) {
+		return add_query_arg( array( 'p' => '/styles' ), remove_query_arg( 'path' ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'page' === $_REQUEST['postType'] && ( empty( $_REQUEST['canvas'] ) || empty( $_REQUEST['postId'] ) ) ) {
+		return add_query_arg( array( 'p' => '/page' ), remove_query_arg( 'postType' ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'page' === $_REQUEST['postType'] && ! empty( $_REQUEST['postId'] ) ) {
+		return add_query_arg( array( 'p' => '/page/' . $_REQUEST['postId'] ), remove_query_arg( array( 'postType', 'postId' ) ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_template' === $_REQUEST['postType'] && ( empty( $_REQUEST['canvas'] ) || empty( $_REQUEST['postId'] ) ) ) {
+		return add_query_arg( array( 'p' => '/template' ), remove_query_arg( 'postType' ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_template' === $_REQUEST['postType'] && ! empty( $_REQUEST['postId'] ) ) {
+		return add_query_arg( array( 'p' => '/wp_template/' . $_REQUEST['postId'] ), remove_query_arg( array( 'postType', 'postId' ) ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_block' === $_REQUEST['postType'] && ( empty( $_REQUEST['canvas'] ) || empty( $_REQUEST['postId'] ) ) ) {
+		return add_query_arg( array( 'p' => '/pattern' ), remove_query_arg( 'postType' ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_block' === $_REQUEST['postType'] && ! empty( $_REQUEST['postId'] ) ) {
+		return add_query_arg( array( 'p' => '/wp_block/' . $_REQUEST['postId'] ), remove_query_arg( array( 'postType', 'postId' ) ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_template_part' === $_REQUEST['postType'] && ( empty( $_REQUEST['canvas'] ) || empty( $_REQUEST['postId'] ) ) ) {
+		return add_query_arg( array( 'p' => '/pattern' ) );
+	}
+
+	if ( isset( $_REQUEST['postType'] ) && 'wp_template_part' === $_REQUEST['postType'] && ! empty( $_REQUEST['postId'] ) ) {
+		return add_query_arg( array( 'p' => '/wp_template_part/' . $_REQUEST['postId'] ), remove_query_arg( array( 'postType', 'postId' ) ) );
+	}
+
+	// The following redirects are for backward compatibility with the old site editor URLs.
+	if ( isset( $_REQUEST['path'] ) && '/wp_template_part/all' === $_REQUEST['path'] ) {
+		return add_query_arg(
+			array(
+				'p'        => '/pattern',
+				'postType' => 'wp_template_part',
+			),
+			remove_query_arg( 'path' )
+		);
+	}
+
+	if ( isset( $_REQUEST['path'] ) && '/page' === $_REQUEST['path'] ) {
+		return add_query_arg( array( 'p' => '/page' ), remove_query_arg( 'path' ) );
+	}
+
+	if ( isset( $_REQUEST['path'] ) && '/wp_template' === $_REQUEST['path'] ) {
+		return add_query_arg( array( 'p' => '/template' ), remove_query_arg( 'path' ) );
+	}
+
+	if ( isset( $_REQUEST['path'] ) && '/patterns' === $_REQUEST['path'] ) {
+		return add_query_arg( array( 'p' => '/pattern' ), remove_query_arg( 'path' ) );
+	}
+
+	if ( isset( $_REQUEST['path'] ) && '/navigation' === $_REQUEST['path'] ) {
+		return add_query_arg( array( 'p' => '/navigation' ), remove_query_arg( 'path' ) );
+	}
+
+	return add_query_arg( array( 'p' => '/' ) );
+}
+
+// Redirect to the site editor to the new URLs if needed.
+$redirection = _wp_get_site_editor_redirection_url();
+if ( false !== $redirection ) {
+	wp_safe_redirect( $redirection );
+	exit;
 }
 
 // Used in the HTML title tag.
