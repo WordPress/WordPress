@@ -3847,7 +3847,7 @@ class WP_Query {
 
 		$comment = $this->next_comment();
 
-		if ( 0 == $this->current_comment ) {
+		if ( 0 === $this->current_comment ) {
 			/**
 			 * Fires once the comment loop is started.
 			 *
@@ -3869,7 +3869,7 @@ class WP_Query {
 	public function have_comments() {
 		if ( $this->current_comment + 1 < $this->comment_count ) {
 			return true;
-		} elseif ( $this->current_comment + 1 == $this->comment_count ) {
+		} elseif ( $this->current_comment + 1 === $this->comment_count ) {
 			$this->rewind_comments();
 		}
 
