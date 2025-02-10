@@ -1462,7 +1462,7 @@ function update_option_new_admin_email( $old_value, $value ) {
 	$email_text = __(
 		'Howdy,
 
-A site Administrator (###USERNAME###) recently requested to have the
+A site administrator (###USERNAME###) recently requested to have the
 administration email address changed on this site:
 ###SITEURL###
 
