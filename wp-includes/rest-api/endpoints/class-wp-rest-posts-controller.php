@@ -247,6 +247,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'author_exclude' => 'author__not_in',
 			'exclude'        => 'post__not_in',
 			'include'        => 'post__in',
+			'ignore_sticky'  => 'ignore_sticky_posts',
 			'menu_order'     => 'menu_order',
 			'offset'         => 'offset',
 			'order'          => 'order',
@@ -335,6 +336,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				 */
 				$args['post__not_in'] = array_merge( $args['post__not_in'], $sticky_posts );
 			}
+		}
+
+		/*
+		 * Honor the original REST API `post__in` behavior. Don't prepend sticky posts
+		 * when `post__in` has been specified.
+		 */
+		if ( ! empty( $args['post__in'] ) ) {
+			unset( $args['ignore_sticky_posts'] );
 		}
 
 		if (
@@ -3044,6 +3053,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$query_params['sticky'] = array(
 				'description' => __( 'Limit result set to items that are sticky.' ),
 				'type'        => 'boolean',
+			);
+
+			$query_params['ignore_sticky'] = array(
+				'description' => __( 'Whether to ignore sticky posts or not.' ),
+				'type'        => 'boolean',
+				'default'     => false,
 			);
 		}
 
