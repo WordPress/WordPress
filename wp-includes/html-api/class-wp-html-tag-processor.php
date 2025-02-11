@@ -2551,6 +2551,15 @@ class WP_HTML_Tag_Processor {
 			return false;
 		}
 
+		$existing_bookmark = $this->bookmarks[ $bookmark_name ];
+
+		if (
+			$this->token_starts_at === $existing_bookmark->start &&
+			$this->token_length === $existing_bookmark->length
+		) {
+			return true;
+		}
+
 		if ( ++$this->seek_count > static::MAX_SEEK_OPS ) {
 			_doing_it_wrong(
 				__METHOD__,
