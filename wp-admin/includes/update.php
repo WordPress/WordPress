@@ -1127,8 +1127,11 @@ function wp_get_auto_update_message() {
 }
 
 /**
- * Returns the base URL in use for the wordpress.org API. 
- * Defaults to http://api.wordpress.org .
+ * Returns the base URL in use for the wordpress.org API. Defaults to http://api.wordpress.org .
+ * 
+ * This URL can be overridden by specifying an environment variable `WP_UPDATE_API_BASE` or
+ * by using the {@see wp_update_api_base} filter. Providing an empty URL is not allowed and
+ * will result in the default being used.
  * 
  * @since 6.8.0
  * 
@@ -1137,9 +1140,11 @@ function wp_get_auto_update_message() {
  */
 function wp_get_update_api_base( $https = true ) {
 	$api_base = WP_UPDATE_API_DEFAULT;
-	if (($https) && (substr($api_base, 0, 7) == 'http://')) {
-		$api_base = str_replace( $api_base, 'http://', 'https://' );
+
+	if ( false !== getenv('WP_UPDATE_API_BASE') ) {
+		$api_base = getenv('WP_UPDATE_API_BASE');
 	}
+
 	/**
 	 * Filters the base URL used for wordpress.org API requests.
 	 *
@@ -1147,7 +1152,12 @@ function wp_get_update_api_base( $https = true ) {
 	 *
 	 * @param string $content Default text.
 	 */
-	$api_base = apply_filters( 'dotorg_api_base', $api_base );
-	/* I'm really tempted to move the http/s replace down here tbh */
+	$api_base = apply_filters( 'wp_update_api_base', $api_base );
+
+	// required for back-compat as many old api references in core use http:// explicitly
+	if ( (! $https) && (substr($api_base, 0, 7) == 'http://') && ($api_base === WP_UPDATE_API_DEFAULT)) {
+		$api_base = str_replace( $api_base, 'http://', 'https://' );
+	}
+
 	return $api_base;
 }
