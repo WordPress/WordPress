@@ -1304,7 +1304,7 @@ class WP_Site_Health {
 			'test' => 'update_api_info',
 		);
 
-		if ( wp_get_dotorg_api_base() === WP_DOTORG_API_DEFAULT ) {
+		if ( wp_get_update_api_base() === WP_UPDATE_API_DEFAULT ) {
 			$result['label'] = 'Using default WordPress update API location';
 			$result['status'] = 'good';
 			$result['description']    = sprintf(
@@ -1318,9 +1318,9 @@ class WP_Site_Health {
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: URL of WordPress API endpoint in use, if not api.wordpress.org */
-					__( 'You are using %s, not the default location, for WordPress updates.' ),
-					wp_get_dotorg_api_base()
+					/* translators: 1. URL of WordPress API endpoint in use. 2. The default URL for WordPress updates (api.wordpress.org). */
+					__( 'You are using %s, not the default location of %s, for WordPress updates.' ),
+					wp_get_update_api_base(), WP_UPDATE_API_DEFAULT
 				)
 			);
 		}
@@ -1352,7 +1352,7 @@ class WP_Site_Health {
 		);
 
 		$wp_dotorg = wp_remote_get(
-			WP_DOTORG_API_DEFAULT,
+			WP_UPDATE_API_DEFAULT,
 			array(
 				'timeout' => 10,
 			)
@@ -1373,7 +1373,7 @@ class WP_Site_Health {
 					sprintf(
 						/* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
 						__( 'Your site is unable to reach WordPress.org at %1$s, and returned the error: %2$s' ),
-						gethostbyname( parse_url( WP_DOTORG_API_DEFAULT, PHP_URL_HOST ) ),
+						gethostbyname( parse_url( WP_UPDATE_API_DEFAULT, PHP_URL_HOST ) ),
 						$wp_dotorg->get_error_message()
 					)
 				)

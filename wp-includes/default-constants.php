@@ -143,7 +143,7 @@ function wp_initial_constants() {
 	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
 
 	// Defines the default URL base for many update-related functions
-	define( 'WP_DOTORG_API_DEFAULT', 'https://api.wordpress.org' );
+	define( 'WP_UPDATE_API_DEFAULT', 'http://api.wordpress.org' );
 
 	/**#@+
 	 * Constants for expressing human-readable intervals

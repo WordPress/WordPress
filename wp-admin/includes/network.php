@@ -554,7 +554,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 
 		if ( ! empty( $keys_salts ) ) {
 			$keys_salts_str = '';
-			$from_api       = wp_remote_get( wp_get_dotorg_api_base() . '/secret-key/1.1/salt/' );
+			$from_api       = wp_remote_get( wp_get_update_api_base() . '/secret-key/1.1/salt/' );
 			if ( is_wp_error( $from_api ) ) {
 				foreach ( $keys_salts as $c => $v ) {
 					$keys_salts_str .= "\ndefine( '$c', '" . wp_generate_password( 64, true, true ) . "' );";

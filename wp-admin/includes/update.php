@@ -129,7 +129,7 @@ function find_core_auto_update() {
  * @return array|false An array of checksums on success, false on failure.
  */
 function get_core_checksums( $version, $locale ) {
-	$http_url = wp_get_dotorg_api_base() . '/core/checksums/1.0/?' . http_build_query( compact( 'version', 'locale' ), '', '&' );
+	$http_url = wp_get_update_api_base( $https = false ) . '/core/checksums/1.0/?' . http_build_query( compact( 'version', 'locale' ), '', '&' );
 	$url      = $http_url;
 
 	$ssl = wp_http_supports( array( 'ssl' ) );
@@ -1128,14 +1128,18 @@ function wp_get_auto_update_message() {
 
 /**
  * Returns the base URL in use for the wordpress.org API. 
- * Defaults to https://api.wordpress.org .
+ * Defaults to http://api.wordpress.org .
  * 
  * @since 6.8.0
  * 
- * @return string The base URL in use for the wordpress.org API.
+ * @param bool $https Whether requests should use https instead of http, defaults to true.
+ * @return string The base URL in use for the wordpress.org update API.
  */
-function wp_get_dotorg_api_base() {
-	$api_base = WP_DOTORG_API_DEFAULT;
+function wp_get_update_api_base( $https = true ) {
+	$api_base = WP_UPDATE_API_DEFAULT;
+	if (($https) && (substr($api_base, 0, 7) == 'http://')) {
+		$api_base = str_replace( $api_base, 'http://', 'https://' );
+	}
 	/**
 	 * Filters the base URL used for wordpress.org API requests.
 	 *
@@ -1144,6 +1148,6 @@ function wp_get_dotorg_api_base() {
 	 * @param string $content Default text.
 	 */
 	$api_base = apply_filters( 'dotorg_api_base', $api_base );
-
+	/* I'm really tempted to move the http/s replace down here tbh */
 	return $api_base;
 }

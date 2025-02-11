@@ -32,7 +32,7 @@ function wp_credits( $version = '', $locale = '' ) {
 		|| str_contains( $version, '-' )
 		|| ( isset( $results['data']['version'] ) && ! str_starts_with( $version, $results['data']['version'] ) )
 	) {
-		$url     = "https://api.wordpress.org/core/credits/1.1/?version={$version}&locale={$locale}";
+		$url     = WP_UPDATE_API_DEFAULT . "/core/credits/1.1/?version={$version}&locale={$locale}";
 		$options = array( 'user-agent' => 'WordPress/' . $version . '; ' . home_url( '/' ) );
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
