@@ -232,12 +232,13 @@ if ( is_blog_installed() ) {
 }
 
 /**
- * @global string $wp_version             The WordPress version string.
- * @global string $required_php_version   The required PHP version string.
- * @global string $required_mysql_version The required MySQL version string.
- * @global wpdb   $wpdb                   WordPress database abstraction object.
+ * @global string   $wp_version              The WordPress version string.
+ * @global string   $required_php_version    The required PHP version string.
+ * @global string[] $required_php_extensions The names of required PHP extensions.
+ * @global string   $required_mysql_version  The required MySQL version string.
+ * @global wpdb     $wpdb                    WordPress database abstraction object.
  */
-global $wp_version, $required_php_version, $required_mysql_version, $wpdb;
+global $wp_version, $required_php_version, $required_php_extensions, $required_mysql_version, $wpdb;
 
 $php_version   = PHP_VERSION;
 $mysql_version = $wpdb->db_version();
@@ -296,6 +297,29 @@ if ( ! $mysql_compat && ! $php_compat ) {
 if ( ! $mysql_compat || ! $php_compat ) {
 	display_header();
 	die( '<h1>' . __( 'Requirements Not Met' ) . '</h1><p>' . $compat . '</p></body></html>' );
+}
+
+if ( isset( $required_php_extensions ) && is_array( $required_php_extensions ) ) {
+	$missing_extensions = array();
+
+	foreach ( $required_php_extensions as $extension ) {
+		if ( extension_loaded( $extension ) ) {
+			continue;
+		}
+
+		$missing_extensions[] = sprintf(
+			/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: The PHP extension name needed. */
+			__( 'You cannot install because <a href="%1$s">WordPress %2$s</a> requires the %3$s PHP extension.' ),
+			$version_url,
+			$wp_version,
+			$extension
+		);
+	}
+
+	if ( count( $missing_extensions ) > 0 ) {
+		display_header();
+		die( '<h1>' . __( 'Requirements Not Met' ) . '</h1><p>' . implode( '</p><p>', $missing_extensions ) . '</p></body></html>' );
+	}
 }
 
 if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {

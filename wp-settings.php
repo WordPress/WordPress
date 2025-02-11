@@ -22,14 +22,15 @@ define( 'WPINC', 'wp-includes' );
  * include version.php from another installation and don't override
  * these values if already set.
  *
- * @global string $wp_version             The WordPress version string.
- * @global int    $wp_db_version          WordPress database version.
- * @global string $tinymce_version        TinyMCE version.
- * @global string $required_php_version   The required PHP version string.
- * @global string $required_mysql_version The required MySQL version string.
- * @global string $wp_local_package       Locale code of the package.
+ * @global string   $wp_version              The WordPress version string.
+ * @global int      $wp_db_version           WordPress database version.
+ * @global string   $tinymce_version         TinyMCE version.
+ * @global string   $required_php_version    The required PHP version string.
+ * @global string[] $required_php_extensions The names of required PHP extensions.
+ * @global string   $required_mysql_version  The required MySQL version string.
+ * @global string   $wp_local_package        Locale code of the package.
  */
-global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version, $wp_local_package;
+global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_php_extensions, $required_mysql_version, $wp_local_package;
 require ABSPATH . WPINC . '/version.php';
 require ABSPATH . WPINC . '/compat.php';
 require ABSPATH . WPINC . '/load.php';

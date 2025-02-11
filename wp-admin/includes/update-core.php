@@ -1009,9 +1009,6 @@ $_new_bundled_files = array(
  * @global array              $_old_requests_files
  * @global array              $_new_bundled_files
  * @global wpdb               $wpdb                   WordPress database abstraction object.
- * @global string             $wp_version
- * @global string             $required_php_version
- * @global string             $required_mysql_version
  *
  * @param string $from New release unzipped path.
  * @param string $to   Path to old WordPress installation.
@@ -1075,7 +1072,7 @@ function update_core( $from, $to ) {
 	}
 
 	/*
-	 * Import $wp_version, $required_php_version, and $required_mysql_version from the new version.
+	 * Import $wp_version, $required_php_version, $required_php_extensions, and $required_mysql_version from the new version.
 	 * DO NOT globalize any variables imported from `version-current.php` in this function.
 	 *
 	 * BC Note: $wp_filesystem->wp_content_dir() returned unslashed pre-2.8.
@@ -1181,17 +1178,29 @@ function update_core( $from, $to ) {
 		);
 	}
 
-	// Add a warning when the JSON PHP extension is missing.
-	if ( ! extension_loaded( 'json' ) ) {
-		return new WP_Error(
-			'php_not_compatible_json',
-			sprintf(
-				/* translators: 1: WordPress version number, 2: The PHP extension name needed. */
-				__( 'The update cannot be installed because WordPress %1$s requires the %2$s PHP extension.' ),
-				$wp_version,
-				'JSON'
-			)
-		);
+	if ( isset( $required_php_extensions ) && is_array( $required_php_extensions ) ) {
+		$missing_extensions = new WP_Error();
+
+		foreach ( $required_php_extensions as $extension ) {
+			if ( extension_loaded( $extension ) ) {
+				continue;
+			}
+
+			$missing_extensions->add(
+				"php_not_compatible_{$extension}",
+				sprintf(
+					/* translators: 1: WordPress version number, 2: The PHP extension name needed. */
+					__( 'The update cannot be installed because WordPress %1$s requires the %2$s PHP extension.' ),
+					$wp_version,
+					$extension
+				)
+			);
+		}
+
+		// Add a warning when required PHP extensions are missing.
+		if ( $missing_extensions->has_errors() ) {
+			return $missing_extensions;
+		}
 	}
 
 	/** This filter is documented in wp-admin/includes/update-core.php */
