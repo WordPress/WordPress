@@ -184,7 +184,6 @@ $tagline_description = sprintf(
 	<div class="site-icon-action-buttons">
 		<button type="button"
 			id="choose-from-library-button"
-			type="button"
 			class="<?php echo esc_attr( $classes_for_button ); ?>"
 			data-alt-classes="<?php echo esc_attr( $classes_for_button_on_change ); ?>"
 			data-size="512"
