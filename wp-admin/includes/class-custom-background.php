@@ -288,7 +288,7 @@ class Custom_Background {
 			$background_styles = '';
 			$bgcolor           = get_background_color();
 			if ( $bgcolor ) {
-				$background_styles .= 'background-color: #' . $bgcolor . ';';
+				$background_styles .= 'background-color: ' . maybe_hash_hex_color( $bgcolor ) . ';';
 			}
 
 			$background_image_thumb = get_background_image();

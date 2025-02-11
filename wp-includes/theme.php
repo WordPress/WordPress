@@ -1893,7 +1893,7 @@ function _custom_background_cb() {
 		return;
 	}
 
-	$style = $color ? "background-color: #$color;" : '';
+	$style = $color ? 'background-color: ' . maybe_hash_hex_color( $color ) . ';' : '';
 
 	if ( $background ) {
 		$image = ' background-image: url("' . sanitize_url( $background ) . '");';
