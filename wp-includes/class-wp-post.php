@@ -37,7 +37,7 @@ final class WP_Post {
 	 * @since 3.5.0
 	 * @var string
 	 */
-	public $post_author = 0;
+	public $post_author = '0';
 
 	/**
 	 * The post's local publication time.
@@ -207,7 +207,7 @@ final class WP_Post {
 	 * @since 3.5.0
 	 * @var string
 	 */
-	public $comment_count = 0;
+	public $comment_count = '0';
 
 	/**
 	 * Stores the post object's sanitization level.
