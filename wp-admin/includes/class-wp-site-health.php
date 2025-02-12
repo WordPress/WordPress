@@ -1309,7 +1309,11 @@ class WP_Site_Health {
 			$result['status'] = 'good';
 			$result['description']    = sprintf(
 				'<p>%s</p>',
-				__( 'You are using the default location (api.wordpress.org) to check for updates.' )
+				sprintf(
+					/* translators: Default URL for WordPress updates */
+					__( 'You are using the default location (%s) to check for updates.' ),
+					WP_UPDATE_API_DEFAULT
+				)
 			);
 		}
 		else {
@@ -1318,7 +1322,7 @@ class WP_Site_Health {
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: 1. URL of WordPress API endpoint in use. 2. The default URL for WordPress updates (api.wordpress.org). */
+					/* translators: 1. URL of WordPress API endpoint in use. 2. The default URL for WordPress updates (http://api.wordpress.org). */
 					__( 'You are using %s, not the default location of %s, for WordPress updates.' ),
 					wp_get_update_api_base(), WP_UPDATE_API_DEFAULT
 				)
@@ -1375,6 +1379,71 @@ class WP_Site_Health {
 						__( 'Your site is unable to reach WordPress.org at %1$s, and returned the error: %2$s' ),
 						gethostbyname( parse_url( WP_UPDATE_API_DEFAULT, PHP_URL_HOST ) ),
 						$wp_dotorg->get_error_message()
+					)
+				)
+			);
+
+			$result['actions'] = sprintf(
+				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				/* translators: Localized Support reference. */
+				esc_url( __( 'https://wordpress.org/support/forums/' ) ),
+				__( 'Get help resolving this issue.' ),
+				/* translators: Hidden accessibility text. */
+				__( '(opens in a new tab)' )
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Tests if the site can communicate with WordPress.org.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @return array The test results.
+	 */
+	public function get_test_alt_update_api_communication() {
+		$result = array(
+			'label'       => __( 'Can communicate with update API endpoint' ),
+			'status'      => '',
+			'badge'       => array(
+				'label' => __( 'Security' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'Communicating with the update API is used to check for new versions, and to both install and update WordPress core, themes or plugins.' )
+			),
+			'actions'     => '',
+			'test'        => 'alt_update_api_communication',
+		);
+
+		$wp_update_api = wp_remote_get(
+			wp_get_update_api_base(),
+			array(
+				'timeout' => 10,
+			)
+		);
+		if ( ! is_wp_error( $wp_update_api ) ) {
+			$result['status'] = 'good';
+		} else {
+			$result['status'] = 'critical';
+
+			$result['label'] = __( 'Could not reach update API' );
+
+			$result['description'] .= sprintf(
+				'<p>%s</p>',
+				sprintf(
+					'<span class="error"><span class="screen-reader-text">%s</span></span> %s',
+					/* translators: Hidden accessibility text. */
+					__( 'Error' ),
+					sprintf(
+						/* translators: 1: update API URL. 2: The IP address the update API endpoint resolves to. 3: The error returned by the lookup. */
+						__( 'Your site is unable to reach the specified update API endpoint (%s) at %s, and returned the error: %s' ),
+						wp_get_update_api_base(),
+						gethostbyname( parse_url( wp_get_update_api_base(), PHP_URL_HOST ) ),
+						$wp_update_api->get_error_message()
 					)
 				)
 			);
@@ -2861,6 +2930,16 @@ class WP_Site_Health {
 				'has_rest'  => true,
 				'headers'   => array( 'Authorization' => 'Basic ' . base64_encode( 'user:pwd' ) ),
 				'skip_cron' => true,
+			);
+		}
+
+		// Only check alternate update API endpoint if one has been configured.
+		if ( WP_UPDATE_API_DEFAULT !== wp_get_update_api_base()) {
+			$tests['async']['alt_update_api_communication'] = array(
+				'label' => __( 'Communication with update API' ),
+				'test'  => rest_url( 'wp-site/health/v1/tests/alt-update-api-communication'),
+				'has_rest' => true,
+				'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_alt_update_api_communication' ),
 			);
 		}
 
