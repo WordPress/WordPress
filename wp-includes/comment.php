@@ -2890,6 +2890,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 
 	$pingback_link_offset_dquote = strpos( $contents, $pingback_str_dquote );
 	$pingback_link_offset_squote = strpos( $contents, $pingback_str_squote );
+
 	if ( $pingback_link_offset_dquote || $pingback_link_offset_squote ) {
 		$quote                   = ( $pingback_link_offset_dquote ) ? '"' : '\'';
 		$pingback_link_offset    = ( '"' === $quote ) ? $pingback_link_offset_dquote : $pingback_link_offset_squote;
@@ -3079,9 +3080,11 @@ function generic_ping( $post_id = 0 ) {
  *
  * @since 0.71
  * @since 4.7.0 `$post` can be a WP_Post object.
+ * @since 6.8.0 Returns an array of pingback statuses indexed by link.
  *
  * @param string      $content Post content to check for links. If empty will retrieve from post.
  * @param int|WP_Post $post    Post ID or object.
+ * @return array<string, bool> An array of pingback statuses indexed by link.
  */
 function pingback( $content, $post ) {
 	require_once ABSPATH . WPINC . '/class-IXR.php';
@@ -3093,7 +3096,7 @@ function pingback( $content, $post ) {
 	$post = get_post( $post );
 
 	if ( ! $post ) {
-		return;
+		return array();
 	}
 
 	$pung = get_pung( $post );
@@ -3108,6 +3111,7 @@ function pingback( $content, $post ) {
 	 */
 	$post_links_temp = wp_extract_urls( $content );
 
+	$ping_status = array();
 	/*
 	 * Step 2.
 	 * Walking through the links array.
@@ -3179,11 +3183,18 @@ function pingback( $content, $post ) {
 			// When set to true, this outputs debug messages by itself.
 			$client->debug = false;
 
-			if ( $client->query( 'pingback.ping', $pagelinkedfrom, $pagelinkedto ) || ( isset( $client->error->code ) && 48 == $client->error->code ) ) { // Already registered.
+			$status = $client->query( 'pingback.ping', $pagelinkedfrom, $pagelinkedto );
+
+			if ( $status // Ping registered.
+				|| ( isset( $client->error->code ) && 48 === $client->error->code ) // Already registered.
+			) {
 				add_ping( $post, $pagelinkedto );
 			}
+			$ping_status[ $pagelinkedto ] = $status;
 		}
 	}
+
+	return $ping_status;
 }
 
 /**
