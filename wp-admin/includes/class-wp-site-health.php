@@ -1397,7 +1397,7 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Tests if the site can communicate with WordPress.org.
+	 * Tests if the site can communicate with a non-default update API endpoint.
 	 *
 	 * @since 6.8.0
 	 *

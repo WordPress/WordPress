@@ -129,6 +129,25 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 			sprintf(
 				'/%s/%s',
 				$this->rest_base,
+				'alt-update-api-communication'
+			),
+			array(
+				array(
+					'methods' => 'GET',
+					'callback' => array( $this, 'test_alt_update_api_communication' ),
+					'permission_callback' => function() {
+						return $this->validate_request_permission( 'dotorg_communication' );
+					},
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			sprintf(
+				'/%s/%s',
+				$this->rest_base,
 				'authorization-header'
 			),
 			array(
