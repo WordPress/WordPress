@@ -12,6 +12,10 @@
 	overflow-y: scroll;
 }
 
+.themes-php #adminmenuwrap {
+	z-index: 10001; /* above Theme Overlay */
+}
+
 body.js .theme-browser.search-loading {
 	display: none;
 }
@@ -373,6 +377,7 @@ body.js .theme-browser.search-loading {
 	background: #f0f0f1;
 	background: rgba(240, 240, 241, 0.9);
 	z-index: 10000; /* Over WP Pointers. */
+	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
 }
 
 .theme-overlay .theme-header {
