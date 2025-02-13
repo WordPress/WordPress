@@ -314,7 +314,7 @@ class WP_Debug_Data {
 				$fields['alt_update_api_communication'] = array(
 					'label' => __( 'Communication with update API' ),
 					'value' => sprintf(
-						/* TODO translator note */
+						/* Translators: 1: IP address the update API hostname resolves to. 2: The error returned by the lookup */
 						__('Unable to reach %1$s: %2$s' ),
 						gethostbyname( parse_url( wp_get_update_api_base(), PHP_URL_HOST ) ),
 						$wp_update_api->get_error_message(),

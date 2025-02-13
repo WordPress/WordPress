@@ -1322,7 +1322,7 @@ class WP_Site_Health {
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: 1. URL of WordPress API endpoint in use. 2. The default URL for WordPress updates (http://api.wordpress.org). */
+					/* translators: 1. URL of WordPress API endpoint in use. 2. http://api.wordpress.org . */
 					__( 'You are using %s, not the default location of %s, for WordPress updates.' ),
 					wp_get_update_api_base(), WP_UPDATE_API_DEFAULT
 				)
@@ -1405,7 +1405,7 @@ class WP_Site_Health {
 	 */
 	public function get_test_alt_update_api_communication() {
 		$result = array(
-			'label'       => __( 'Can communicate with update API endpoint' ),
+			'label'       => __( 'Can communicate with update API' ),
 			'status'      => '',
 			'badge'       => array(
 				'label' => __( 'Security' ),
@@ -1448,6 +1448,8 @@ class WP_Site_Health {
 				)
 			);
 
+			/* TODO this should be a filterable support message, not point to .org, as if you're using something other tha
+			   .org they probably can't help you */
 			$result['actions'] = sprintf(
 				'<p><a href="%s" target="_blank">%s<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Localized Support reference. */
@@ -2934,11 +2936,11 @@ class WP_Site_Health {
 		}
 
 		// Only check alternate update API endpoint if one has been configured.
-		if ( WP_UPDATE_API_DEFAULT !== wp_get_update_api_base()) {
+		if ( WP_UPDATE_API_DEFAULT !== wp_get_update_api_base() ) {
 			$tests['async']['alt_update_api_communication'] = array(
-				'label' => __( 'Communication with update API' ),
-				'test'  => rest_url( 'wp-site/health/v1/tests/alt-update-api-communication'),
-				'has_rest' => true,
+				'label'             => __( 'Communication with update API' ),
+				'test'              => rest_url( 'wp-site-health/v1/tests/alt-update-api-communication' ),
+				'has_rest'          => true,
 				'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_alt_update_api_communication' ),
 			);
 		}

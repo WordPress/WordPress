@@ -98,7 +98,7 @@ class WP_Community_Events {
 		// Include an unmodified $wp_version.
 		require ABSPATH . WPINC . '/version.php';
 
-		$api_url                    = 'http://api.wordpress.org/events/1.0/';
+		$api_url                    = WP_UPDATE_API_DEFAULT . '/events/1.0/';
 		$request_args               = $this->get_request_args( $location_search, $timezone );
 		$request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url( '/' );
 
