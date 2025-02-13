@@ -136,6 +136,7 @@ $core_actions_post = array(
 	'wp-privacy-erase-personal-data',
 	'health-check-site-status-result',
 	'health-check-dotorg-communication',
+	'health-check-alt-update-api-communication',
 	'health-check-is-in-debug-mode',
 	'health-check-background-updates',
 	'health-check-loopback-requests',

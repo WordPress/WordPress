@@ -301,6 +301,29 @@ class WP_Debug_Data {
 			'debug' => true
 		);
 
+		if ( WP_UPDATE_API_DEFAULT !== wp_get_update_api_base()) {
+			$wp_update_api = wp_remote_get( wp_get_update_api_base(), array( 'timeout' => 10 ) );
+
+			if ( ! is_wp_error( $wp_update_api ) ) {
+				$fields['alt_update_api_communication'] = array(
+					'label' => __( 'Communication with update API' ),
+					'value' => __( 'Update API is reachable.' ),
+					'debug' => 'true',
+				);
+			} else {
+				$fields['alt_update_api_communication'] = array(
+					'label' => __( 'Communication with update API' ),
+					'value' => sprintf(
+						/* TODO translator note */
+						__('Unable to reach %1$s: %2$s' ),
+						gethostbyname( parse_url( wp_get_update_api_base(), PHP_URL_HOST ) ),
+						$wp_update_api->get_error_message(),
+					),
+					'debug' => $wp_update_api->get_error_message(),
+				);
+			}
+		}
+
 		return array(
 			'label'  => __( 'WordPress' ),
 			'fields' => $fields,
