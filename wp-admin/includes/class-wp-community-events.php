@@ -67,7 +67,7 @@ class WP_Community_Events {
 	 * with nearby events.
 	 *
 	 * The browser's request for events is proxied with this method, rather
-	 * than having the browser make the request directly to the WordPress API,
+	 * than having the browser make the request directly to api.wordpress.org,
 	 * because it allows results to be cached server-side and shared with other
 	 * users and sites in the network. This makes the process more efficient,
 	 * since increasing the number of visits that get cached data means users
