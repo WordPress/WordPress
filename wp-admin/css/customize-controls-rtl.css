@@ -448,6 +448,9 @@ body.trashing #publish-settings {
 #customize-controls .customize-info .preview-notice {
 	font-size: 13px;
 	line-height: 1.9;
+	margin: 0;
+	font-weight: 400;
+	color: #50575e;
 }
 
 #customize-controls .customize-pane-child .customize-section-title h3,
@@ -2642,6 +2645,19 @@ body.adding-widget .add-new-widget:before,
 
 #available-widgets .customize-section-title,
 #available-menu-items .customize-section-title {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important;
+}
+
+#available-widgets .customize-section-title button,
+#available-menu-items .customize-section-title button {
 	display: none;
 }
 
@@ -2978,8 +2994,19 @@ body.adding-widget .add-new-widget:before,
 
 	#available-widgets .customize-section-title,
 	#available-menu-items .customize-section-title {
-		display: block;
+		border: 0;
+		clip-path: none;
+		height: inherit;
 		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		width: auto;
+		position: static;
+	}
+
+	#available-widgets .customize-section-title button,
+	#available-menu-items .customize-section-title button {
+		display: block;
 	}
 
 	#available-widgets .customize-section-back,
