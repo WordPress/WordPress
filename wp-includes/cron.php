@@ -315,7 +315,7 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array(), $wp
 /**
  * Reschedules a recurring event.
  *
- * Mainly for internal use, this takes the UTC timestamp of a previously run
+ * Mainly for internal use, this takes the Unix timestamp (UTC) of a previously run
  * recurring event and reschedules it for its next run.
  *
  * To change upcoming scheduled events, use wp_schedule_event() to
@@ -485,7 +485,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array(), $wp_error = fa
 	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
 	 *
 	 * @param null|bool|WP_Error $pre       Value to return instead. Default null to continue unscheduling the event.
-	 * @param int                $timestamp Timestamp for when to run the event.
+	 * @param int                $timestamp Unix timestamp (UTC) for when to run the event.
 	 * @param string             $hook      Action hook, the execution of which will be unscheduled.
 	 * @param array              $args      Arguments to pass to the hook's callback function.
 	 * @param bool               $wp_error  Whether to return a WP_Error on failure.
@@ -818,7 +818,7 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
 }
 
 /**
- * Retrieves the next timestamp for an event.
+ * Retrieves the timestamp of the next scheduled event for the given hook.
  *
  * @since 2.1.0
  *
@@ -827,7 +827,7 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
  *                     Although not passed to a callback, these arguments are used to uniquely identify the
  *                     event, so they should be the same as those used when originally scheduling the event.
  *                     Default empty array.
- * @return int|false The Unix timestamp of the next time the event will occur. False if the event doesn't exist.
+ * @return int|false The Unix timestamp (UTC) of the next time the event will occur. False if the event doesn't exist.
  */
 function wp_next_scheduled( $hook, $args = array() ) {
 	$next_event = wp_get_scheduled_event( $hook, $args );
@@ -836,7 +836,27 @@ function wp_next_scheduled( $hook, $args = array() ) {
 		return false;
 	}
 
-	return $next_event->timestamp;
+	/**
+	 * Filters the timestamp of the next scheduled event for the given hook.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
+	 * @param object $next_event {
+	 *     An object containing an event's data.
+	 *
+	 *     @type string $hook      Action hook of the event.
+	 *     @type int    $timestamp Unix timestamp (UTC) for when to next run the event.
+	 *     @type string $schedule  How often the event should subsequently recur.
+	 *     @type array  $args      Array containing each separate argument to pass to the hook
+	 *                             callback function.
+	 *     @type int    $interval  Optional. The interval time in seconds for the schedule. Only
+	 *                             present for recurring events.
+	 * }
+	 * @param array  $args       Array containing each separate argument to pass to the hook
+	 *                           callback function.
+	 */
+	return apply_filters( 'wp_next_scheduled', $next_event->timestamp, $next_event, $hook, $args );
 }
 
 /**
@@ -929,7 +949,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	 *         @type bool $sslverify Whether SSL should be verified for the request. Default false.
 	 *     }
 	 * }
-	 * @param string $doing_wp_cron The unix timestamp of the cron lock.
+	 * @param string $doing_wp_cron The Unix timestamp (UTC) of the cron lock.
 	 */
 	$cron_request = apply_filters(
 		'cron_request',
