@@ -2487,20 +2487,21 @@ function wp_filter_out_block_nodes( $nodes ) {
  * @since 5.8.0
  */
 function wp_enqueue_global_styles() {
-	$separate_assets  = wp_should_load_separate_core_block_assets();
+	$assets_on_demand = wp_should_load_block_assets_on_demand();
 	$is_block_theme   = wp_is_block_theme();
 	$is_classic_theme = ! $is_block_theme;
 
 	/*
-	 * Global styles should be printed in the head when loading all styles combined.
-	 * The footer should only be used to print global styles for classic themes with separate core assets enabled.
+	 * Global styles should be printed in the head for block themes, or for classic themes when loading assets on
+	 * demand is disabled, which is the default.
+	 * The footer should only be used for classic themes when loading assets on demand is enabled.
 	 *
-	 * See https://core.trac.wordpress.org/ticket/53494.
+	 * See https://core.trac.wordpress.org/ticket/53494 and https://core.trac.wordpress.org/ticket/61965.
 	 */
 	if (
 		( $is_block_theme && doing_action( 'wp_footer' ) ) ||
-		( $is_classic_theme && doing_action( 'wp_footer' ) && ! $separate_assets ) ||
-		( $is_classic_theme && doing_action( 'wp_enqueue_scripts' ) && $separate_assets )
+		( $is_classic_theme && doing_action( 'wp_footer' ) && ! $assets_on_demand ) ||
+		( $is_classic_theme && doing_action( 'wp_enqueue_scripts' ) && $assets_on_demand )
 	) {
 		return;
 	}
@@ -2567,25 +2568,22 @@ function wp_should_load_block_editor_scripts_and_styles() {
 }
 
 /**
- * Checks whether separate styles should be loaded for core blocks on-render.
+ * Checks whether separate styles should be loaded for core blocks.
  *
- * When this function returns true, other functions ensure that core blocks
- * only load their assets on-render, and each block loads its own, individual
- * assets. Third-party blocks only load their assets when rendered.
+ * When this function returns true, other functions ensure that core blocks use their own separate stylesheets.
+ * When this function returns false, all core blocks will use the single combined 'wp-block-library' stylesheet.
  *
- * When this function returns false, all core block assets are loaded regardless
- * of whether they are rendered in a page or not, because they are all part of
- * the `block-library/style.css` file. Assets for third-party blocks are always
- * enqueued regardless of whether they are rendered or not.
+ * As a side effect, the return value will by default result in block assets to be loaded on demand, via the
+ * {@see wp_should_load_block_assets_on_demand()} function. This behavior can be separately altered via that function.
  *
  * This only affects front end and not the block editor screens.
  *
+ * @since 5.8.0
+ * @see @see wp_should_load_block_assets_on_demand()
  * @see wp_enqueue_registered_block_scripts_and_styles()
  * @see register_block_style_handle()
  *
- * @since 5.8.0
- *
- * @return bool Whether separate assets will be loaded.
+ * @return bool Whether separate core block assets will be loaded.
  */
 function wp_should_load_separate_core_block_assets() {
 	if ( is_admin() || is_feed() || wp_is_rest_endpoint() ) {
@@ -2607,6 +2605,50 @@ function wp_should_load_separate_core_block_assets() {
 }
 
 /**
+ * Checks whether block styles should be loaded only on-render.
+ *
+ * When this function returns true, other functions ensure that blocks only load their assets on-render.
+ * When this function returns false, all block assets are loaded regardless of whether they are rendered in a page.
+ *
+ * The default return value depends on the result of {@see wp_should_load_separate_core_block_assets()}, which controls
+ * whether Core block stylesheets should be loaded separately or via a combined 'wp-block-library' stylesheet.
+ *
+ * This only affects front end and not the block editor screens.
+ *
+ * @since 6.8.0
+ * @see wp_should_load_separate_core_block_assets()
+ *
+ * @return bool Whether to load block assets only when they are rendered.
+ */
+function wp_should_load_block_assets_on_demand() {
+	if ( is_admin() || is_feed() || wp_is_rest_endpoint() ) {
+		return false;
+	}
+
+	/*
+	 * For backward compatibility, the default return value for this function is based on the return value of
+	 * `wp_should_load_separate_core_block_assets()`. Initially, this function used to control both of these concerns.
+	 */
+	$load_assets_on_demand = wp_should_load_separate_core_block_assets();
+
+	/**
+	 * Filters whether block styles should be loaded on demand.
+	 *
+	 * Returning false loads all block assets, regardless of whether they are rendered in a page or not.
+	 * Returning true loads block assets only when they are rendered.
+	 *
+	 * The default value of the filter depends on the result of {@see wp_should_load_separate_core_block_assets()},
+	 * which controls whether Core block stylesheets should be loaded separately or via a combined 'wp-block-library'
+	 * stylesheet.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param bool $load_assets_on_demand Whether to load block assets only when they are rendered.
+	 */
+	return apply_filters( 'should_load_block_assets_on_demand', $load_assets_on_demand );
+}
+
+/**
  * Enqueues registered block scripts and styles, depending on current rendered
  * context (only enqueuing editor scripts while in context of the editor).
  *
@@ -2617,13 +2659,21 @@ function wp_should_load_separate_core_block_assets() {
 function wp_enqueue_registered_block_scripts_and_styles() {
 	global $current_screen;
 
-	if ( wp_should_load_separate_core_block_assets() ) {
+	if ( wp_should_load_block_assets_on_demand() ) {
 		return;
 	}
 
 	$load_editor_scripts_and_styles = is_admin() && wp_should_load_block_editor_scripts_and_styles();
 
 	$block_registry = WP_Block_Type_Registry::get_instance();
+
+	/*
+	 * Block styles are only enqueued if they're registered. For core blocks, this is only the case if
+	 * `wp_should_load_separate_core_block_assets()` returns true. Otherwise they use the single combined
+	 * 'wp-block-library` stylesheet. See also `register_core_block_style_handles()`.
+	 * Since `wp_enqueue_style()` does not trigger warnings if the style is not registered, it is okay to not cater for
+	 * this behavior here and simply call `wp_enqueue_style()` unconditionally.
+	 */
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
 		// Front-end and editor styles.
 		foreach ( $block_type->style_handles as $style_handle ) {
@@ -2665,8 +2715,8 @@ function enqueue_block_styles_assets() {
 		foreach ( $styles as $style_properties ) {
 			if ( isset( $style_properties['style_handle'] ) ) {
 
-				// If the site loads separate styles per-block, enqueue the stylesheet on render.
-				if ( wp_should_load_separate_core_block_assets() ) {
+				// If the site loads block styles on demand, enqueue the stylesheet on render.
+				if ( wp_should_load_block_assets_on_demand() ) {
 					add_filter(
 						'render_block',
 						static function ( $html, $block ) use ( $block_name, $style_properties ) {
@@ -2687,8 +2737,8 @@ function enqueue_block_styles_assets() {
 				// Default to "wp-block-library".
 				$handle = 'wp-block-library';
 
-				// If the site loads separate styles per-block, check if the block has a stylesheet registered.
-				if ( wp_should_load_separate_core_block_assets() ) {
+				// If the site loads block styles on demand, check if the block has a stylesheet registered.
+				if ( wp_should_load_block_assets_on_demand() ) {
 					$block_stylesheet_handle = generate_block_asset_handle( $block_name, 'style' );
 
 					if ( isset( $wp_styles->registered[ $block_stylesheet_handle ] ) ) {
@@ -3187,7 +3237,7 @@ function wp_enqueue_stored_styles( $options = array() ) {
 /**
  * Enqueues a stylesheet for a specific block.
  *
- * If the theme has opted-in to separate-styles loading,
+ * If the theme has opted-in to load block styles on demand,
  * then the stylesheet will be enqueued on-render,
  * otherwise when the block inits.
  *
@@ -3255,7 +3305,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 	};
 
 	$hook = did_action( 'wp_enqueue_scripts' ) ? 'wp_footer' : 'wp_enqueue_scripts';
-	if ( wp_should_load_separate_core_block_assets() ) {
+	if ( wp_should_load_block_assets_on_demand() ) {
 		/**
 		 * Callback function to register and enqueue styles.
 		 *

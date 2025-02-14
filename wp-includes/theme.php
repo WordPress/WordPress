@@ -4395,6 +4395,7 @@ function _add_default_theme_supports() {
 	add_theme_support( 'automatic-feed-links' );
 
 	add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+	add_filter( 'should_load_block_assets_on_demand', '__return_true' );
 
 	/*
 	 * Remove the Customizer's Menus panel when block theme is active.

@@ -608,6 +608,11 @@ class WP_Block {
 			}
 		}
 
+		/*
+		 * For Core blocks, these styles are only enqueued if `wp_should_load_separate_core_block_assets()` returns
+		 * true. Otherwise these `wp_enqueue_style()` calls will not have any effect, as the Core blocks are relying on
+		 * the combined 'wp-block-library' stylesheet instead, which is unconditionally enqueued.
+		 */
 		if ( ( ! empty( $this->block_type->style_handles ) ) ) {
 			foreach ( $this->block_type->style_handles as $style_handle ) {
 				wp_enqueue_style( $style_handle );
