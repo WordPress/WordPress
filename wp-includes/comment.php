@@ -1762,11 +1762,11 @@ function wp_get_comment_status( $comment_id ) {
 
 	$approved = $comment->comment_approved;
 
-	if ( null == $approved ) {
+	if ( null === $approved ) {
 		return false;
-	} elseif ( '1' == $approved ) {
+	} elseif ( '1' === $approved ) {
 		return 'approved';
-	} elseif ( '0' == $approved ) {
+	} elseif ( '0' === $approved ) {
 		return 'unapproved';
 	} elseif ( 'spam' === $approved ) {
 		return 'spam';
