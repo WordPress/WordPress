@@ -205,7 +205,7 @@ function wp_enqueue_block_template_skip_link() {
 		skipLink.classList.add( 'skip-link', 'screen-reader-text' );
 		skipLink.id = 'wp-skip-link';
 		skipLink.href = '#' + skipLinkTargetID;
-		skipLink.innerHTML = '<?php /* translators: Hidden accessibility text. */ esc_html_e( 'Skip to content' ); ?>';
+		skipLink.innerText = '<?php /* translators: Hidden accessibility text. Do not use HTML entities (&nbsp;, etc.). */ esc_html_e( 'Skip to content' ); ?>';
 
 		// Inject the skip link.
 		sibling.parentElement.insertBefore( skipLink, sibling );
