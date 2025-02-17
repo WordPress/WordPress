@@ -306,7 +306,7 @@ template {
 /* Text meant only for screen readers. */
 
 .screen-reader-text {
-	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
 	height: 1px;
 	overflow: hidden;
 	position: absolute !important;
@@ -320,7 +320,7 @@ template {
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-	clip: auto !important;
+	clip-path: none;
 	color: #21759b;
 	display: block;
 	font-size: 14px;
@@ -1988,7 +1988,7 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
 }
 
 .page-numbers.current .screen-reader-text {
-	clip: auto;
+	clip-path: none;
 	height: auto;
 	overflow: auto;
 	position: relative !important;
@@ -3236,7 +3236,7 @@ p > object:only-child {
 .no-svg .prev.page-numbers .screen-reader-text,
 .no-svg .social-navigation li a .screen-reader-text,
 .no-svg .search-submit .screen-reader-text {
-	clip: auto;
+	clip-path: none;
 	font-size: 16px;
 	font-size: 1rem;
 	font-weight: 400;
@@ -4173,7 +4173,7 @@ p > object:only-child {
 	}
 
 	.page-numbers.current .screen-reader-text {
-		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
 		height: 1px;
 		overflow: hidden;
 		position: absolute !important;

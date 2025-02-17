@@ -128,7 +128,6 @@ function wp_enqueue_block_template_skip_link() {
 	$skip_link_styles = '
 		.skip-link.screen-reader-text {
 			border: 0;
-			clip: rect(1px,1px,1px,1px);
 			clip-path: inset(50%);
 			height: 1px;
 			margin: -1px;
@@ -141,7 +140,6 @@ function wp_enqueue_block_template_skip_link() {
 
 		.skip-link.screen-reader-text:focus {
 			background-color: #eee;
-			clip: auto !important;
 			clip-path: none;
 			color: #444;
 			display: block;

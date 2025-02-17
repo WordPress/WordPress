@@ -508,7 +508,7 @@ a:hover {
 .assistive-text,
 .site .screen-reader-text {
 	position: absolute !important;
-	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
 	overflow: hidden;
 	height: 1px;
 	width: 1px;
@@ -520,7 +520,7 @@ a:hover {
 	background: #fff;
 	border: 2px solid #333;
 	border-radius: 3px;
-	clip: auto !important;
+	clip-path: none;
 	color: #000;
 	display: block;
 	font-size: 12px;
@@ -1611,7 +1611,7 @@ img#wpstats {
 		height: 1px;
 		width: 1px;
 		overflow: hidden;
-		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
 	}
 	.main-navigation li ul ul {
 		top: 0;
@@ -1621,7 +1621,7 @@ img#wpstats {
 	.main-navigation ul li:focus > ul,
 	.main-navigation .focus > ul {
 		border-left: 0;
-		clip: inherit;
+		clip-path: none;
 		overflow: inherit;
 		height: inherit;
 		width: inherit;

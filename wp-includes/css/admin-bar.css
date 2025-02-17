@@ -704,7 +704,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .screen-reader-text,
 #wpadminbar .screen-reader-text span {
 	border: 0;
-	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
 	height: 1px;
 	margin: -1px;
@@ -797,7 +796,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 	#wpadminbar .ab-label {
 		border: 0;
-		clip: rect(1px, 1px, 1px, 1px);
 		clip-path: inset(50%);
 		height: 1px;
 		margin: -1px;

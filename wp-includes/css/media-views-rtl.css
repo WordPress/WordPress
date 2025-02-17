@@ -2489,12 +2489,13 @@
 
 	/* Visually hide the menu heading keeping it available to assistive technologies. */
 	.media-frame-menu-heading {
-		clip: rect(1px, 1px, 1px, 1px);
 		clip-path: inset(50%);
 		height: 1px;
 		overflow: hidden;
 		padding: 0;
 		width: 1px;
+		border: 0;
+		margin: -1px;
 		word-wrap: normal !important;
 	}
 

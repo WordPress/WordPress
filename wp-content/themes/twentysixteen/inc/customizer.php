@@ -97,7 +97,7 @@ if ( ! function_exists( 'twentysixteen_header_style' ) ) :
 
 		.site-branding .site-title,
 		.site-description {
-			clip: rect(1px, 1px, 1px, 1px);
+			clip-path: inset(50%);
 			position: absolute;
 		}
 		</style>

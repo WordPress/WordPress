@@ -3616,7 +3616,6 @@ body.page .main-navigation {
 /* Text meant only for screen readers. */
 .screen-reader-text {
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -3632,7 +3631,6 @@ body.page .main-navigation {
   background-color: #f1f1f1;
   border-radius: 3px;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-  clip: auto !important;
   clip-path: none;
   color: #21759b;
   display: block;

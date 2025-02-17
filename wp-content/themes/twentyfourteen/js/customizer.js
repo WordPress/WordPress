@@ -20,12 +20,12 @@
 		value.bind( function( to ) {
 			if ( 'blank' === to ) {
 				$( '.site-title, .site-description' ).css( {
-					'clip': 'rect(1px, 1px, 1px, 1px)',
+					'clip-path': 'inset(50%)',
 					'position': 'absolute'
 				} );
 			} else {
 				$( '.site-title,  .site-description' ).css( {
-					'clip': 'auto',
+					'clip-path': 'none',
 					'position': 'static'
 				} );
 

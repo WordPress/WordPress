@@ -720,7 +720,7 @@ div.wp-caption.alignright .wp-caption-text {
 /* Assistive text */
 
 .screen-reader-text {
-	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
 	overflow: hidden;
 	position: absolute !important;
 	height: 1px;
@@ -731,7 +731,7 @@ div.wp-caption.alignright .wp-caption-text {
 	background-color: #f1f1f1;
 	border-radius: 3px;
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-	clip: auto;
+	clip-path: none;
 	color: #21759b;
 	display: block;
 	font-size: 14px;
