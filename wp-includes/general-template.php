@@ -2525,8 +2525,8 @@ function the_date_xml() {
  * i.e. Only one date listing will show per day worth of posts shown in the loop, even if the
  * function is called several times for each post.
  *
- * HTML output can be filtered with 'the_date'.
- * Date string output can be filtered with 'get_the_date'.
+ * HTML output can be filtered with {@see 'the_date'}.
+ * Date string output can be filtered with {@see 'get_the_date'}.
  *
  * @since 0.71
  *
@@ -2596,9 +2596,9 @@ function get_the_date( $format = '', $post = null ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string|int  $the_date Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
-	 * @param string      $format   PHP date format.
-	 * @param WP_Post     $post     The post object.
+	 * @param string|int $the_date Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
+	 * @param string     $format   PHP date format.
+	 * @param WP_Post    $post     The post object.
 	 */
 	return apply_filters( 'get_the_date', $the_date, $format, $post );
 }
@@ -2721,10 +2721,10 @@ function get_the_time( $format = '', $post = null ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string|int  $the_time Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
-	 * @param string      $format   Format to use for retrieving the time the post
-	 *                              was written. Accepts 'G', 'U', or PHP date format.
-	 * @param WP_Post     $post     Post object.
+	 * @param string|int $the_time Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
+	 * @param string     $format   Format to use for retrieving the time the post
+	 *                             was written. Accepts 'G', 'U', or PHP date format.
+	 * @param WP_Post    $post     Post object.
 	 */
 	return apply_filters( 'get_the_time', $the_time, $format, $post );
 }
