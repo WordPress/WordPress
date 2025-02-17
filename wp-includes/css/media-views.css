@@ -1421,7 +1421,6 @@
 
 .upload-errors .upload-error-filename {
 	font-weight: 600;
-	word-break: break-all;
 }
 
 .upload-errors .upload-error-message {
