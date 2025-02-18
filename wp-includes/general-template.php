@@ -2622,10 +2622,10 @@ function the_modified_date( $format = '', $before = '', $after = '', $display = 
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string|false $the_modified_date The last modified date or false if no post is found.
-	 * @param string       $format            PHP date format.
-	 * @param string       $before            HTML output before the date.
-	 * @param string       $after             HTML output after the date.
+	 * @param string $the_modified_date The last modified date.
+	 * @param string $format            PHP date format.
+	 * @param string $before            HTML output before the date.
+	 * @param string $after             HTML output after the date.
 	 */
 	$the_modified_date = apply_filters( 'the_modified_date', $the_modified_date, $format, $before, $after );
 
