@@ -1141,6 +1141,106 @@ function apply_block_hooks_to_content( $content, $context = null, $callback = 'i
 }
 
 /**
+ * Run the Block Hooks algorithm on a post object's content.
+ *
+ * This function is different from `apply_block_hooks_to_content` in that
+ * it takes ignored hooked block information from the post's metadata into
+ * account. This ensures that any blocks hooked as first or last child
+ * of the block that corresponds to the post type are handled correctly.
+ *
+ * @since 6.8.0
+ * @access private
+ *
+ * @param string       $content  Serialized content.
+ * @param WP_Post|null $post     A post object that the content belongs to. If set to `null`,
+ *                               `get_post()` will be called to use the current post as context.
+ *                               Default: `null`.
+ * @param callable     $callback A function that will be called for each block to generate
+ *                               the markup for a given list of blocks that are hooked to it.
+ *                               Default: 'insert_hooked_blocks'.
+ * @return string The serialized markup.
+ */
+function apply_block_hooks_to_content_from_post_object( $content, WP_Post $post = null, $callback = 'insert_hooked_blocks' ) {
+	// Default to the current post if no context is provided.
+	if ( null === $post ) {
+		$post = get_post();
+	}
+
+	if ( ! $post instanceof WP_Post ) {
+		return apply_block_hooks_to_content( $content, $post, $callback );
+	}
+
+	/*
+	 * If the content was created using the classic editor or using a single Classic block
+	 * (`core/freeform`), it might not contain any block markup at all.
+	 * However, we still might need to inject hooked blocks in the first child or last child
+	 * positions of the parent block. To be able to apply the Block Hooks algorithm, we wrap
+	 * the content in a `core/freeform` wrapper block.
+	 */
+	if ( ! has_blocks( $content ) ) {
+		$original_content = $content;
+
+		$content_wrapped_in_classic_block = get_comment_delimited_block_content(
+			'core/freeform',
+			array(),
+			$content
+		);
+
+		$content = $content_wrapped_in_classic_block;
+	}
+
+	$attributes = array();
+
+	// If context is a post object, `ignoredHookedBlocks` information is stored in its post meta.
+	$ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
+	if ( ! empty( $ignored_hooked_blocks ) ) {
+		$ignored_hooked_blocks  = json_decode( $ignored_hooked_blocks, true );
+		$attributes['metadata'] = array(
+			'ignoredHookedBlocks' => $ignored_hooked_blocks,
+		);
+	}
+
+	/*
+	 * We need to wrap the content in a temporary wrapper block with that metadata
+	 * so the Block Hooks algorithm can insert blocks that are hooked as first or last child
+	 * of the wrapper block.
+	 * To that end, we need to determine the wrapper block type based on the post type.
+	 */
+	if ( 'wp_navigation' === $post->post_type ) {
+		$wrapper_block_type = 'core/navigation';
+	} elseif ( 'wp_block' === $post->post_type ) {
+		$wrapper_block_type = 'core/block';
+	} else {
+		$wrapper_block_type = 'core/post-content';
+	}
+
+	$content = get_comment_delimited_block_content(
+		$wrapper_block_type,
+		$attributes,
+		$content
+	);
+
+	// Apply Block Hooks.
+	$content = apply_block_hooks_to_content( $content, $post, $callback );
+
+	// Finally, we need to remove the temporary wrapper block.
+	$content = remove_serialized_parent_block( $content );
+
+	// If we wrapped the content in a `core/freeform` block, we also need to remove that.
+	if ( ! empty( $content_wrapped_in_classic_block ) ) {
+		/*
+		 * We cannot simply use remove_serialized_parent_block() here,
+		 * as that function assumes that the block wrapper is at the top level.
+		 * However, there might now be a hooked block inserted next to it
+		 * (as first or last child of the parent).
+		 */
+		$content = str_replace( $content_wrapped_in_classic_block, $original_content, $content );
+	}
+
+	return $content;
+}
+
+/**
  * Accepts the serialized markup of a block and its inner blocks, and returns serialized markup of the inner blocks.
  *
  * @since 6.6.0
@@ -1297,39 +1397,11 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
 		return $response;
 	}
 
-	$attributes            = array();
-	$ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
-	if ( ! empty( $ignored_hooked_blocks ) ) {
-		$ignored_hooked_blocks  = json_decode( $ignored_hooked_blocks, true );
-		$attributes['metadata'] = array(
-			'ignoredHookedBlocks' => $ignored_hooked_blocks,
-		);
-	}
-
-	if ( 'wp_navigation' === $post->post_type ) {
-		$wrapper_block_type = 'core/navigation';
-	} elseif ( 'wp_block' === $post->post_type ) {
-		$wrapper_block_type = 'core/block';
-	} else {
-		$wrapper_block_type = 'core/post-content';
-	}
-
-	$content = get_comment_delimited_block_content(
-		$wrapper_block_type,
-		$attributes,
-		$response->data['content']['raw']
-	);
-
-	$content = apply_block_hooks_to_content(
-		$content,
+	$response->data['content']['raw'] = apply_block_hooks_to_content_from_post_object(
+		$response->data['content']['raw'],
 		$post,
 		'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata'
 	);
-
-	// Remove mock block wrapper.
-	$content = remove_serialized_parent_block( $content );
-
-	$response->data['content']['raw'] = $content;
 
 	// If the rendered content was previously empty, we leave it like that.
 	if ( empty( $response->data['content']['rendered'] ) ) {
@@ -1337,17 +1409,20 @@ function insert_hooked_blocks_into_rest_response( $response, $post ) {
 	}
 
 	// `apply_block_hooks_to_content` is called above. Ensure it is not called again as a filter.
-	$priority = has_filter( 'the_content', 'apply_block_hooks_to_content' );
+	$priority = has_filter( 'the_content', 'apply_block_hooks_to_content_from_post_object' );
 	if ( false !== $priority ) {
-		remove_filter( 'the_content', 'apply_block_hooks_to_content', $priority );
+		remove_filter( 'the_content', 'apply_block_hooks_to_content_from_post_object', $priority );
 	}
 
 	/** This filter is documented in wp-includes/post-template.php */
-	$response->data['content']['rendered'] = apply_filters( 'the_content', $content );
+	$response->data['content']['rendered'] = apply_filters(
+		'the_content',
+		$response->data['content']['raw']
+	);
 
 	// Restore the filter if it was set initially.
 	if ( false !== $priority ) {
-		add_filter( 'the_content', 'apply_block_hooks_to_content', $priority );
+		add_filter( 'the_content', 'apply_block_hooks_to_content_from_post_object', $priority );
 	}
 
 	return $response;
