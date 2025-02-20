@@ -2421,7 +2421,7 @@ function wp_new_comment_notify_postauthor( $comment_id ) {
 	}
 
 	// Only send notifications for approved comments.
-	if ( ! isset( $comment->comment_approved ) || '1' != $comment->comment_approved ) {
+	if ( ! isset( $comment->comment_approved ) || '1' !== $comment->comment_approved ) {
 		return false;
 	}
 
