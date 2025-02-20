@@ -47,7 +47,7 @@ if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
 				'total'     => $wp_query->max_num_pages,
 				'current'   => $paged,
 				'mid_size'  => 1,
-				'add_args'  => array_map( 'urlencode', $query_args ),
+				'add_args'  => urlencode_deep( $query_args ),
 				'prev_text' => __( '&larr; Previous', 'twentyfourteen' ),
 				'next_text' => __( 'Next &rarr;', 'twentyfourteen' ),
 			)
