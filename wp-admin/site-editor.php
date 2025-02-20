@@ -265,7 +265,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="edit-site" id="site-editor">
 	<?php // JavaScript is disabled. ?>
 	<div class="wrap hide-if-js site-editor-no-js">
-		<h1 class="wp-heading-inline"><?php _e( 'Edit site' ); ?></h1>
+		<h1 class="wp-heading-inline"><?php _e( 'Edit Site' ); ?></h1>
 		<?php
 		/**
 		 * Filters the message displayed in the site editor interface when JavaScript is
