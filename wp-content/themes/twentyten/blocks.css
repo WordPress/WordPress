@@ -110,6 +110,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin: 0 0 0 0.75em;
 }
 
+.wp-block-file .wp-block-file__button {
+	padding: 0.5em 1em;
+	color: #fff;
+	line-height: 1.5;
+}
+
 /*--------------------------------------------------------------
 3.0 Blocks - Formatting
 --------------------------------------------------------------*/
