@@ -261,142 +261,138 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		$image_meta['image_meta'] = $exif_meta;
 	}
 
-	// Do not scale (large) PNG images. May result in sub-sizes that have greater file size than the original. See #48736.
-	if ( 'image/png' !== $imagesize['mime'] ) {
+	/**
+	 * Filters the "BIG image" threshold value.
+	 *
+	 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
+	 * used as max width and max height. The scaled down image will be used as the largest available size, including
+	 * the `_wp_attached_file` post meta value.
+	 *
+	 * Returning `false` from the filter callback will disable the scaling.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param int    $threshold     The threshold value in pixels. Default 2560.
+	 * @param array  $imagesize     {
+	 *     Indexed array of the image width and height in pixels.
+	 *
+	 *     @type int $0 The image width.
+	 *     @type int $1 The image height.
+	 * }
+	 * @param string $file          Full path to the uploaded image file.
+	 * @param int    $attachment_id Attachment post ID.
+	 */
+	$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
 
-		/**
-		 * Filters the "BIG image" threshold value.
-		 *
-		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
-		 * used as max width and max height. The scaled down image will be used as the largest available size, including
-		 * the `_wp_attached_file` post meta value.
-		 *
-		 * Returning `false` from the filter callback will disable the scaling.
-		 *
-		 * @since 5.3.0
-		 *
-		 * @param int    $threshold     The threshold value in pixels. Default 2560.
-		 * @param array  $imagesize     {
-		 *     Indexed array of the image width and height in pixels.
-		 *
-		 *     @type int $0 The image width.
-		 *     @type int $1 The image height.
-		 * }
-		 * @param string $file          Full path to the uploaded image file.
-		 * @param int    $attachment_id Attachment post ID.
-		 */
-		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
+	/*
+	 * If the original image's dimensions are over the threshold,
+	 * scale the image and use it as the "full" size.
+	 */
+	$scale_down = false;
+	$convert    = false;
 
-		/*
-		 * If the original image's dimensions are over the threshold,
-		 * scale the image and use it as the "full" size.
-		 */
-		$scale_down = false;
-		$convert    = false;
+	if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
+		// The image will be converted if needed on saving.
+		$scale_down = true;
+	} else {
+		// The image may need to be converted regardless of its dimensions.
+		$output_format = wp_get_image_editor_output_format( $file, $imagesize['mime'] );
 
-		if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
-			// The image will be converted if needed on saving.
-			$scale_down = true;
-		} else {
-			// The image may need to be converted regardless of its dimensions.
-			$output_format = wp_get_image_editor_output_format( $file, $imagesize['mime'] );
+		if (
+			is_array( $output_format ) &&
+			array_key_exists( $imagesize['mime'], $output_format ) &&
+			$output_format[ $imagesize['mime'] ] !== $imagesize['mime']
+		) {
+			$convert = true;
+		}
+	}
 
-			if (
-				is_array( $output_format ) &&
-				array_key_exists( $imagesize['mime'], $output_format ) &&
-				$output_format[ $imagesize['mime'] ] !== $imagesize['mime']
-			) {
-				$convert = true;
-			}
+	if ( $scale_down || $convert ) {
+		$editor = wp_get_image_editor( $file );
+
+		if ( is_wp_error( $editor ) ) {
+			// This image cannot be edited.
+			return $image_meta;
 		}
 
-		if ( $scale_down || $convert ) {
-			$editor = wp_get_image_editor( $file );
+		if ( $scale_down ) {
+			// Resize the image. This will also convet it if needed.
+			$resized = $editor->resize( $threshold, $threshold );
+		} elseif ( $convert ) {
+			// The image will be converted (if possible) when saved.
+			$resized = true;
+		}
 
-			if ( is_wp_error( $editor ) ) {
-				// This image cannot be edited.
-				return $image_meta;
-			}
+		$rotated = null;
 
+		// If there is EXIF data, rotate according to EXIF Orientation.
+		if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
+			$resized = $editor->maybe_exif_rotate();
+			$rotated = $resized; // bool true or WP_Error
+		}
+
+		if ( ! is_wp_error( $resized ) ) {
+			/*
+			 * Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
+			 * This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
+			 */
 			if ( $scale_down ) {
-				// Resize the image. This will also convet it if needed.
-				$resized = $editor->resize( $threshold, $threshold );
+				$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
 			} elseif ( $convert ) {
-				// The image will be converted (if possible) when saved.
-				$resized = true;
-			}
-
-			$rotated = null;
-
-			// If there is EXIF data, rotate according to EXIF Orientation.
-			if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
-				$resized = $editor->maybe_exif_rotate();
-				$rotated = $resized; // bool true or WP_Error
-			}
-
-			if ( ! is_wp_error( $resized ) ) {
 				/*
-				 * Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
-				 * This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
+				 * Generate a new file name for the converted image.
+				 *
+				 * As the image file name will be unique due to the changed file extension,
+				 * it does not need a suffix to be unique. However, the generate_filename method
+				 * does not allow for an empty suffix, so the "-converted" suffix is required to
+				 * be added and subsequently removed.
 				 */
-				if ( $scale_down ) {
-					$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
-				} elseif ( $convert ) {
-					/*
-					 * Generate a new file name for the converted image.
-					 *
-					 * As the image file name will be unique due to the changed file extension,
-					 * it does not need a suffix to be unique. However, the generate_filename method
-					 * does not allow for an empty suffix, so the "-converted" suffix is required to
-					 * be added and subsequently removed.
-					 */
-					$converted_file_name = $editor->generate_filename( 'converted' );
-					$converted_file_name = preg_replace( '/(-converted\.)([a-z0-9]+)$/i', '.$2', $converted_file_name );
-					$saved               = $editor->save( $converted_file_name );
-				} else {
-					$saved = $editor->save();
-				}
+				$converted_file_name = $editor->generate_filename( 'converted' );
+				$converted_file_name = preg_replace( '/(-converted\.)([a-z0-9]+)$/i', '.$2', $converted_file_name );
+				$saved               = $editor->save( $converted_file_name );
+			} else {
+				$saved = $editor->save();
+			}
 
-				if ( ! is_wp_error( $saved ) ) {
-					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+			if ( ! is_wp_error( $saved ) ) {
+				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
 
-					// If the image was rotated update the stored EXIF data.
-					if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
-						$image_meta['image_meta']['orientation'] = 1;
-					}
-				} else {
-					// TODO: Log errors.
+				// If the image was rotated update the stored EXIF data.
+				if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
+					$image_meta['image_meta']['orientation'] = 1;
 				}
 			} else {
 				// TODO: Log errors.
 			}
-		} elseif ( ! empty( $exif_meta['orientation'] ) && 1 !== (int) $exif_meta['orientation'] ) {
+		} else {
+			// TODO: Log errors.
+		}
+	} elseif ( ! empty( $exif_meta['orientation'] ) && 1 !== (int) $exif_meta['orientation'] ) {
 			// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
 
 			$editor = wp_get_image_editor( $file );
 
-			if ( is_wp_error( $editor ) ) {
-				// This image cannot be edited.
-				return $image_meta;
-			}
+		if ( is_wp_error( $editor ) ) {
+			// This image cannot be edited.
+			return $image_meta;
+		}
 
 			// Rotate the image.
 			$rotated = $editor->maybe_exif_rotate();
 
-			if ( true === $rotated ) {
-				// Append `-rotated` to the image file name.
-				$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
+		if ( true === $rotated ) {
+			// Append `-rotated` to the image file name.
+			$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
 
-				if ( ! is_wp_error( $saved ) ) {
-					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+			if ( ! is_wp_error( $saved ) ) {
+				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
 
-					// Update the stored EXIF data.
-					if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
-						$image_meta['image_meta']['orientation'] = 1;
-					}
-				} else {
-					// TODO: Log errors.
+				// Update the stored EXIF data.
+				if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
+					$image_meta['image_meta']['orientation'] = 1;
 				}
+			} else {
+				// TODO: Log errors.
 			}
 		}
 	}
