@@ -368,17 +368,16 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 			// TODO: Log errors.
 		}
 	} elseif ( ! empty( $exif_meta['orientation'] ) && 1 !== (int) $exif_meta['orientation'] ) {
-			// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
-
-			$editor = wp_get_image_editor( $file );
+		// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
+		$editor = wp_get_image_editor( $file );
 
 		if ( is_wp_error( $editor ) ) {
 			// This image cannot be edited.
 			return $image_meta;
 		}
 
-			// Rotate the image.
-			$rotated = $editor->maybe_exif_rotate();
+		// Rotate the image.
+		$rotated = $editor->maybe_exif_rotate();
 
 		if ( true === $rotated ) {
 			// Append `-rotated` to the image file name.
