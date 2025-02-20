@@ -20,7 +20,9 @@
  * @since 2.5.0
  * @var string
  */
-if(!defined('CRLF')) define('CRLF',"\r\n");
+if ( ! defined( 'CRLF' ) ) {
+	define( 'CRLF', "\r\n" );
+}
 
 /**
  * Sets whatever to autodetect ASCII mode.
@@ -30,7 +32,9 @@ if(!defined('CRLF')) define('CRLF',"\r\n");
  * @since 2.5.0
  * @var int
  */
-if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
+if ( ! defined( 'FTP_AUTOASCII' ) ) {
+	define( 'FTP_AUTOASCII', -1 );
+}
 
 /**
  *
@@ -38,7 +42,9 @@ if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
  * @since 2.5.0
  * @var int
  */
-if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
+if ( ! defined( 'FTP_BINARY' ) ) {
+	define( 'FTP_BINARY', 1 );
+}
 
 /**
  *
@@ -46,7 +52,9 @@ if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
  * @since 2.5.0
  * @var int
  */
-if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
+if ( ! defined( 'FTP_ASCII' ) ) {
+	define( 'FTP_ASCII', 0 );
+}
 
 /**
  * Whether to force FTP.
@@ -56,7 +64,9 @@ if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
  * @since 2.5.0
  * @var bool
  */
-if(!defined('FTP_FORCE')) define('FTP_FORCE', true);
+if ( ! defined( 'FTP_FORCE' ) ) {
+	define( 'FTP_FORCE', true );
+}
 
 /**
  * @since 2.5.0
