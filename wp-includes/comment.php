@@ -1528,7 +1528,7 @@ function wp_delete_comment( $comment_id, $force_delete = false ) {
 	do_action( 'deleted_comment', $comment->comment_ID, $comment );
 
 	$post_id = $comment->comment_post_ID;
-	if ( $post_id && 1 == $comment->comment_approved ) {
+	if ( $post_id && '1' === $comment->comment_approved ) {
 		wp_update_comment_count( $post_id );
 	}
 
