@@ -1646,12 +1646,13 @@ class WP_Debug_Data {
 	 */
 	private static function get_wp_filesystem(): array {
 		$upload_dir                     = wp_upload_dir();
+		$fonts_dir_exists               = file_exists( wp_get_font_dir()['basedir'] );
 		$is_writable_abspath            = wp_is_writable( ABSPATH );
 		$is_writable_wp_content_dir     = wp_is_writable( WP_CONTENT_DIR );
 		$is_writable_upload_dir         = wp_is_writable( $upload_dir['basedir'] );
 		$is_writable_wp_plugin_dir      = wp_is_writable( WP_PLUGIN_DIR );
 		$is_writable_template_directory = wp_is_writable( get_theme_root( get_template() ) );
-		$is_writable_fonts_dir          = wp_is_writable( wp_get_font_dir()['basedir'] );
+		$is_writable_fonts_dir          = $fonts_dir_exists ? wp_is_writable( wp_get_font_dir()['basedir'] ) : false;
 
 		$fields = array(
 			'wordpress'  => array(
@@ -1681,8 +1682,12 @@ class WP_Debug_Data {
 			),
 			'fonts'      => array(
 				'label' => __( 'The fonts directory' ),
-				'value' => ( $is_writable_fonts_dir ? __( 'Writable' ) : __( 'Not writable' ) ),
-				'debug' => ( $is_writable_fonts_dir ? 'writable' : 'not writable' ),
+				'value' => $fonts_dir_exists
+					? ( $is_writable_fonts_dir ? __( 'Writable' ) : __( 'Not writable' ) )
+					: __( 'Does not exist' ),
+				'debug' => $fonts_dir_exists
+					? ( $is_writable_fonts_dir ? 'writable' : 'not writable' )
+					: 'does not exist',
 			),
 		);
 
