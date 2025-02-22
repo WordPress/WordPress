@@ -167,6 +167,10 @@ are styled in the Privacy section of edit.css */
 	margin: 0 auto;
 }
 
+.widefat.health-check-table th {
+	font-size: 13px;
+}
+
 .health-check-table td:first-child {
 	width: 30%;
 }
@@ -338,6 +342,7 @@ are styled in the Privacy section of edit.css */
 		table-layout: fixed;
 	}
 
+	.health-check-table th,
 	.health-check-table td {
 		box-sizing: border-box;
 		display: block;
@@ -345,6 +350,7 @@ are styled in the Privacy section of edit.css */
 		word-wrap: break-word;
 	}
 
+	.widefat.health-check-table th,
 	.health-check-table td:first-child {
 		width: 100%;
 		padding-bottom: 0;
