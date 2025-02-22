@@ -120,6 +120,19 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 			};
 		}
 
+		// Add aria-controls attributes to primary sub-menu.
+		var subMenus = document.querySelectorAll( '.primary-menu-container .sub-menu' );
+		subMenus.forEach( function( subMenu, index ) {
+			var parentLi = subMenu.closest( 'li.menu-item-has-children' );
+			subMenu.id = 'sub-menu-' + ( index + 1 );
+			if ( parentLi ) {
+				var parentLink = parentLi.querySelector( 'button' );
+				if ( parentLink ) {
+					parentLink.setAttribute( 'aria-controls', subMenu.id );
+				}
+			}
+		} );
+
 		/**
 		 * Trap keyboard navigation in the menu modal.
 		 * Adapted from Twenty Twenty.
