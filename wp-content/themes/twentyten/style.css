@@ -348,6 +348,21 @@ a:hover {
 	width: 1px;
 }
 
+a.skip-link:focus {
+	background-color: #ddd;
+	clip-path: none;
+	color: #333;
+	display: block;
+	font-size: 16px;
+	height: auto;
+	left: 5px;
+	line-height: 1.5;
+	padding: 16px 24px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000;
+}
 
 /* =Header
 -------------------------------------------------------------- */
