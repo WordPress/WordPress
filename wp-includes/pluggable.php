@@ -2356,7 +2356,7 @@ if ( ! function_exists( 'wp_verify_nonce' ) ) :
 	/**
 	 * Verifies that a correct security nonce was used with time limit.
 	 *
-	 * A nonce is valid for 24 hours (by default).
+	 * A nonce is valid for between 12 and 24 hours (by default).
 	 *
 	 * @since 2.0.3
 	 *
