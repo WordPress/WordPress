@@ -1165,10 +1165,10 @@ function update_meta_cache( $meta_type, $object_ids ) {
 		return (bool) $check;
 	}
 
-	$cache_key      = $meta_type . '_meta';
+	$cache_group    = $meta_type . '_meta';
 	$non_cached_ids = array();
 	$cache          = array();
-	$cache_values   = wp_cache_get_multiple( $object_ids, $cache_key );
+	$cache_values   = wp_cache_get_multiple( $object_ids, $cache_group );
 
 	foreach ( $cache_values as $id => $cached_object ) {
 		if ( false === $cached_object ) {
@@ -1214,7 +1214,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 		}
 		$data[ $id ] = $cache[ $id ];
 	}
-	wp_cache_add_multiple( $data, $cache_key );
+	wp_cache_add_multiple( $data, $cache_group );
 
 	return $cache;
 }
