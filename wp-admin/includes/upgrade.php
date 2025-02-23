@@ -2860,7 +2860,7 @@ function deslash( $content ) {
  *                                 semicolons. Default empty string.
  * @param bool            $execute Optional. Whether or not to execute the query right away.
  *                                 Default true.
- * @return array Strings containing the results of the various update queries.
+ * @return string[] Strings containing the results of the various update queries.
  */
 function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	global $wpdb;

@@ -401,7 +401,7 @@ function update_right_now_message() {
  *
  * @since 2.9.0
  *
- * @return array
+ * @return object[]
  */
 function get_plugin_updates() {
 	$all_plugins     = get_plugins();
@@ -624,7 +624,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
  *
  * @since 2.9.0
  *
- * @return array
+ * @return WP_Theme[]
  */
 function get_theme_updates() {
 	$current = get_site_transient( 'update_themes' );

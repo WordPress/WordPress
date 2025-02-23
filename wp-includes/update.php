@@ -488,19 +488,19 @@ function wp_update_plugins( $extra_stats = array() ) {
 		 * @param array|false $update {
 		 *     The plugin update data with the latest details. Default false.
 		 *
-		 *     @type string $id           Optional. ID of the plugin for update purposes, should be a URI
-		 *                                specified in the `Update URI` header field.
-		 *     @type string $slug         Slug of the plugin.
-		 *     @type string $version      The version of the plugin.
-		 *     @type string $url          The URL for details of the plugin.
-		 *     @type string $package      Optional. The update ZIP for the plugin.
-		 *     @type string $tested       Optional. The version of WordPress the plugin is tested against.
-		 *     @type string $requires_php Optional. The version of PHP which the plugin requires.
-		 *     @type bool   $autoupdate   Optional. Whether the plugin should automatically update.
-		 *     @type array  $icons        Optional. Array of plugin icons.
-		 *     @type array  $banners      Optional. Array of plugin banners.
-		 *     @type array  $banners_rtl  Optional. Array of plugin RTL banners.
-		 *     @type array  $translations {
+		 *     @type string   $id           Optional. ID of the plugin for update purposes, should be a URI
+		 *                                  specified in the `Update URI` header field.
+		 *     @type string   $slug         Slug of the plugin.
+		 *     @type string   $version      The version of the plugin.
+		 *     @type string   $url          The URL for details of the plugin.
+		 *     @type string   $package      Optional. The update ZIP for the plugin.
+		 *     @type string   $tested       Optional. The version of WordPress the plugin is tested against.
+		 *     @type string   $requires_php Optional. The version of PHP which the plugin requires.
+		 *     @type bool     $autoupdate   Optional. Whether the plugin should automatically update.
+		 *     @type string[] $icons        Optional. Array of plugin icons.
+		 *     @type string[] $banners      Optional. Array of plugin banners.
+		 *     @type string[] $banners_rtl  Optional. Array of plugin RTL banners.
+		 *     @type array    $translations {
 		 *         Optional. List of translation updates for the plugin.
 		 *
 		 *         @type string $language   The language the translation update is for.
@@ -974,7 +974,7 @@ function wp_get_update_data() {
 	 * @param array $update_data {
 	 *     Fetched update data.
 	 *
-	 *     @type array   $counts       An array of counts for available plugin, theme, and WordPress updates.
+	 *     @type int[]   $counts       An array of counts for available plugin, theme, and WordPress updates.
 	 *     @type string  $update_title Titles of available updates.
 	 * }
 	 * @param array $titles An array of update counts and UI strings for available updates.
@@ -986,8 +986,6 @@ function wp_get_update_data() {
  * Determines whether core should be updated.
  *
  * @since 2.8.0
- *
- * @global string $wp_version The WordPress version string.
  */
 function _maybe_update_core() {
 	$current = get_site_transient( 'update_core' );
