@@ -1260,7 +1260,7 @@ function wp_check_comment_data_max_lengths( $comment_data ) {
  *
  * @param array $comment_data Array of arguments for inserting a comment.
  * @return int|string|WP_Error The approval status on success (0|1|'spam'|'trash'),
-  *                            WP_Error otherwise.
+ *                             WP_Error otherwise.
  */
 function wp_check_comment_data( $comment_data ) {
 	global $wpdb;
