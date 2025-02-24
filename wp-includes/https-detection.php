@@ -102,7 +102,6 @@ function wp_get_https_detection_errors() {
 	 *
 	 * @param null|WP_Error $pre Error object to short-circuit detection,
 	 *                           or null to continue with the default behavior.
-	 * @return null|WP_Error Error object if HTTPS detection errors are found, null otherwise.
 	 */
 	$support_errors = apply_filters( 'pre_wp_get_https_detection_errors', null );
 	if ( is_wp_error( $support_errors ) ) {

@@ -496,10 +496,18 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 */
 	public function column_default( $item, $column_name ) {
 		/**
-		 * Fires for each custom column of a specific request type in the Requests list table.
+		 * Fires for each custom column of a specific request type in the Privacy Requests list table.
 		 *
 		 * Custom columns are registered using the {@see 'manage_export-personal-data_columns'}
 		 * and the {@see 'manage_erase-personal-data_columns'} filters.
+		 *
+		 * The dynamic portion of the hook name, `$this->screen->id`, refers to the ID given to the list table
+		 * according to which screen it's displayed on.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `manage_export-personal-data_custom_column`
+		 *  - `manage_erase-personal-data_custom_column`
 		 *
 		 * @since 5.7.0
 		 *
