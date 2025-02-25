@@ -315,10 +315,14 @@ class WP_Locale {
 	 * @since 2.1.0
 	 *
 	 * @param string|int $month_number '01' through '12'.
-	 * @return string Translated full month name.
+	 * @return string Translated full month name. If the month number is not found, an empty string is returned.
 	 */
 	public function get_month( $month_number ) {
-		return $this->month[ zeroise( $month_number, 2 ) ];
+		$month_number = zeroise( $month_number, 2 );
+		if ( ! isset( $this->month[ $month_number ] ) ) {
+			return '';
+		}
+		return $this->month[ $month_number ];
 	}
 
 	/**
