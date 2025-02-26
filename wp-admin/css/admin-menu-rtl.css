@@ -128,7 +128,7 @@
 	right: 160px;
 	overflow: visible;
 	word-wrap: break-word;
-	padding: 7px 0 8px;
+	padding: 6px 0;
 	z-index: 9999;
 	background-color: #2c3338;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
@@ -572,7 +572,7 @@ li#wp-admin-bar-menu-toggle {
 		position: absolute;
 		top: -1000em;
 		margin-left: -1px;
-		padding: 7px 0 8px;
+		padding: 6px 0;
 		z-index: 9999;
 	}
 
