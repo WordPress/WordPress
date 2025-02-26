@@ -180,6 +180,47 @@ class WP_Block_Metadata_Registry {
 	}
 
 	/**
+	 * Gets the list of absolute paths to all block metadata files that are part of the given collection.
+	 *
+	 * For instance, if a block metadata collection is registered with path `WP_PLUGIN_DIR . '/my-plugin/blocks/'`,
+	 * and the manifest file includes metadata for two blocks `'block-a'` and `'block-b'`, the result of this method
+	 * will be an array containing:
+	 * * `WP_PLUGIN_DIR . '/my-plugin/blocks/block-a/block.json'`
+	 * * `WP_PLUGIN_DIR . '/my-plugin/blocks/block-b/block.json'`
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param string $path The absolute base path for a previously registered collection.
+	 * @return string[] List of block metadata file paths, or an empty array if the given `$path` is invalid.
+	 */
+	public static function get_collection_block_metadata_files( $path ) {
+		$path = wp_normalize_path( rtrim( $path, '/' ) );
+
+		if ( ! isset( self::$collections[ $path ] ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				__( 'No registered block metadata collection was found for the provided path.' ),
+				'6.8.0'
+			);
+			return array();
+		}
+
+		$collection = &self::$collections[ $path ];
+
+		if ( null === $collection['metadata'] ) {
+			// Load the manifest file if not already loaded.
+			$collection['metadata'] = require $collection['manifest'];
+		}
+
+		return array_map(
+			static function ( $block_name ) use ( $path ) {
+				return "{$path}/{$block_name}/block.json";
+			},
+			array_keys( $collection['metadata'] )
+		);
+	}
+
+	/**
 	 * Finds the collection path for a given file or folder.
 	 *
 	 * @since 6.7.0
