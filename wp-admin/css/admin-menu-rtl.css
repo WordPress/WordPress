@@ -345,7 +345,7 @@ ul#adminmenu > li.current > a.current:after {
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-left-color: #fff;
+	border-left-color: #f0f0f1;
 	top: 50%;
 	margin-top: -8px;
 }
