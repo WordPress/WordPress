@@ -190,19 +190,19 @@ function wp_get_speculation_rules(): ?WP_Speculation_Rules {
 				'selector_matches' => 'a[rel~="nofollow"]',
 			),
 		),
-		// Also exclude links that are explicitly marked to opt out.
+		// Also exclude links that are explicitly marked to opt out, either directly or via a parent element.
 		array(
 			'not' => array(
-				'selector_matches' => ".no-{$mode}",
+				'selector_matches' => ".no-{$mode}, .no-{$mode} a",
 			),
 		),
 	);
 
-	// If using 'prerender', also exclude links that opt-out of 'prefetch' because it's part of 'prerender'.
+	// If using 'prerender', also exclude links that opt out of 'prefetch' because it's part of 'prerender'.
 	if ( 'prerender' === $mode ) {
 		$main_rule_conditions[] = array(
 			'not' => array(
-				'selector_matches' => '.no-prefetch',
+				'selector_matches' => '.no-prefetch, .no-prefetch a',
 			),
 		);
 	}
