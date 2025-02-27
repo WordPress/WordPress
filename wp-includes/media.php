@@ -4522,11 +4522,13 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		$response['authorName'] = __( '(no author)' );
 	}
 
-	if ( $attachment->post_parent ) {
-		$post_parent = get_post( $attachment->post_parent );
+	if ( ! empty( $attachment->post_parent ) ) {
+		// If post_parent is an array, get the first element.
+		$post_parent_id = is_array( $attachment->post_parent ) ? reset( $attachment->post_parent ) : $attachment->post_parent;
+		$post_parent    = get_post( $post_parent_id );
 		if ( $post_parent ) {
-			$response['uploadedToTitle'] = $post_parent->post_title ? $post_parent->post_title : __( '(no title)' );
-			$response['uploadedToLink']  = get_edit_post_link( $attachment->post_parent, 'raw' );
+			$response['uploadedToTitle'] = ! empty( $post_parent->post_title ) ? $post_parent->post_title : __( '(no title)' );
+			$response['uploadedToLink']  = get_edit_post_link( $post_parent_id, 'raw' );
 		}
 	}
 
