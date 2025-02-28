@@ -2724,7 +2724,6 @@ if ( ! function_exists( 'wp_check_password' ) ) :
 	 * @since 2.5.0
 	 * @since 6.8.0 Passwords in WordPress are now hashed with bcrypt by default. A
 	 *              password that wasn't hashed with bcrypt will be checked with phpass.
-	 *              Passwords hashed with md5 are no longer supported.
 	 *
 	 * @global PasswordHash $wp_hasher phpass object. Used as a fallback for verifying
 	 *                                 passwords that were hashed with phpass.
@@ -2742,30 +2741,14 @@ if ( ! function_exists( 'wp_check_password' ) ) :
 	) {
 		global $wp_hasher;
 
-		$check = false;
-
-		// If the hash is still md5 or otherwise truncated then invalidate it.
 		if ( strlen( $hash ) <= 32 ) {
-			/**
-			 * Filters whether the plaintext password matches the hashed password.
-			 *
-			 * @since 2.5.0
-			 * @since 6.8.0 Passwords are now hashed with bcrypt by default.
-			 *              Old passwords may still be hashed with phpass.
-			 *
-			 * @param bool       $check    Whether the passwords match.
-			 * @param string     $password The plaintext password.
-			 * @param string     $hash     The hashed password.
-			 * @param string|int $user_id  Optional ID of a user associated with the password.
-			 *                             Can be empty.
-			 */
-			return apply_filters( 'check_password', $check, $password, $hash, $user_id );
-		}
-
-		if ( ! empty( $wp_hasher ) ) {
+			// Check the hash using md5 regardless of the current hashing mechanism.
+			$check = hash_equals( $hash, md5( $password ) );
+		} elseif ( ! empty( $wp_hasher ) ) {
 			// Check the password using the overridden hasher.
 			$check = $wp_hasher->CheckPassword( $password, $hash );
 		} elseif ( strlen( $password ) > 4096 ) {
+			// Passwords longer than 4096 characters are not supported.
 			$check = false;
 		} elseif ( str_starts_with( $hash, '$wp' ) ) {
 			// Check the password using the current prefixed hash.
@@ -2780,7 +2763,19 @@ if ( ! function_exists( 'wp_check_password' ) ) :
 			$check = password_verify( $password, $hash );
 		}
 
-		/** This filter is documented in wp-includes/pluggable.php */
+		/**
+		 * Filters whether the plaintext password matches the hashed password.
+		 *
+		 * @since 2.5.0
+		 * @since 6.8.0 Passwords are now hashed with bcrypt by default.
+		 *              Old passwords may still be hashed with phpass or md5.
+		 *
+		 * @param bool       $check    Whether the passwords match.
+		 * @param string     $password The plaintext password.
+		 * @param string     $hash     The hashed password.
+		 * @param string|int $user_id  Optional ID of a user associated with the password.
+		 *                             Can be empty.
+		 */
 		return apply_filters( 'check_password', $check, $password, $hash, $user_id );
 	}
 endif;
