@@ -257,6 +257,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * Retrieves all users.
 	 *
 	 * @since 4.7.0
+	 * @since 6.8.0 Added support for the search_columns query param.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -330,6 +331,27 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		if ( ! empty( $prepared_args['search'] ) ) {
 			if ( ! current_user_can( 'list_users' ) ) {
 				$prepared_args['search_columns'] = array( 'ID', 'user_login', 'user_nicename', 'display_name' );
+			}
+			$search_columns         = $request->get_param( 'search_columns' );
+			$valid_columns          = isset( $prepared_args['search_columns'] )
+				? $prepared_args['search_columns']
+				: array( 'ID', 'user_login', 'user_nicename', 'user_email', 'display_name' );
+			$search_columns_mapping = array(
+				'id'       => 'ID',
+				'username' => 'user_login',
+				'slug'     => 'user_nicename',
+				'email'    => 'user_email',
+				'name'     => 'display_name',
+			);
+			$search_columns         = array_map(
+				static function ( $column ) use ( $search_columns_mapping ) {
+					return $search_columns_mapping[ $column ];
+				},
+				$search_columns
+			);
+			$search_columns         = array_intersect( $search_columns, $valid_columns );
+			if ( ! empty( $search_columns ) ) {
+				$prepared_args['search_columns'] = $search_columns;
 			}
 			$prepared_args['search'] = '*' . $prepared_args['search'] . '*';
 		}
@@ -1610,6 +1632,16 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			'items'       => array(
 				'type' => 'string',
 				'enum' => get_post_types( array( 'show_in_rest' => true ), 'names' ),
+			),
+		);
+
+		$query_params['search_columns'] = array(
+			'default'     => array(),
+			'description' => __( 'Array of column names to be searched.' ),
+			'type'        => 'array',
+			'items'       => array(
+				'enum' => array( 'email', 'name', 'id', 'username', 'slug' ),
+				'type' => 'string',
 			),
 		);
 
