@@ -4,7 +4,7 @@
  * Slug: twentytwentyfive/header
  * Categories: header
  * Block Types: core/template-part/header
- * Description: Header with site title and navigation.
+ * Description: Site header with site title and navigation.
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_Five

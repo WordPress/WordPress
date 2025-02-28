@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Archive for the right-aligned blog
+ * Title: Right-aligned archive
  * Slug: twentytwentyfive/template-archive-vertical-header-blog
  * Template Types: archive
  * Viewport width: 1400

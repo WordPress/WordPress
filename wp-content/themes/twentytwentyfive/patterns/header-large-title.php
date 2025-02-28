@@ -4,7 +4,7 @@
  * Slug: twentytwentyfive/header-large-title
  * Categories: header
  * Block Types: core/template-part/header
- * Description: Header with large site title and right-aligned navigation.
+ * Description: Site header with large site title and right-aligned navigation.
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_Five

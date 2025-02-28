@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Right-aligned posts
+ * Title: Right-aligned query loop
  * Slug: twentytwentyfive/template-query-loop-vertical-header-blog
  * Inserter: no
  *

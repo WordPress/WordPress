@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Text-only blog, home
+ * Title: Text blog home
  * Slug: twentytwentyfive/template-home-text-blog
  * Template Types: front-page, home
  * Viewport width: 1400

@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Text-only blog, posts
+ * Title: Text blog query loop
  * Slug: twentytwentyfive/template-query-loop-text-blog
  * Inserter: no
  *
