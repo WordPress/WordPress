@@ -510,7 +510,7 @@ class WP_Debug_Data {
 			$robotstxt_debug = true;
 
 			/* translators: %s: robots.txt */
-			$robotstxt_string = sprintf( __( 'There is a static %s file in your installation folder. WordPress can not dynamicly serve one.' ), 'robots.txt' );
+			$robotstxt_string = sprintf( __( 'There is a static %s file in your installation folder. WordPress cannot dynamically serve one.' ), 'robots.txt' );
 		} elseif ( got_url_rewrite() ) {
 			// No robots.txt file available and rewrite rules in place, turn debug info to false.
 			$robotstxt_debug = false;
@@ -522,9 +522,10 @@ class WP_Debug_Data {
 			$robotstxt_debug = true;
 
 			/* translators: %s: robots.txt */
-			$robotstxt_string = sprintf( __( 'WordPress can not dynamicly serve a %s file due to a lack of rewrite rule support' ), 'robots.txt' );
+			$robotstxt_string = sprintf( __( 'WordPress cannot dynamically serve a %s file due to a lack of rewrite rule support' ), 'robots.txt' );
 
 		}
+
 		$fields['static_robotstxt_file'] = array(
 			'label' => __( 'robots.txt' ),
 			'value' => $robotstxt_string,
