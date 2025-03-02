@@ -493,7 +493,13 @@ function edit_post( $post_data = null ) {
  *
  * @param array|null $post_data Optional. The array of post data to process.
  *                              Defaults to the `$_POST` superglobal.
- * @return array
+ * @return array {
+ *     An array of updated, skipped, and locked post IDs.
+ *
+ *     @type int[] $updated An array of updated post IDs.
+ *     @type int[] $skipped An array of skipped post IDs.
+ *     @type int[] $locked  An array of locked post IDs.
+ * }
  */
 function bulk_edit_posts( $post_data = null ) {
 	global $wpdb;
@@ -1211,7 +1217,7 @@ function get_available_post_statuses( $type = 'post' ) {
  *
  * @param array|false $q Optional. Array of query variables to use to build the query.
  *                       Defaults to the `$_GET` superglobal.
- * @return array
+ * @return string[] An array of all the statuses for the queried post type.
  */
 function wp_edit_posts_query( $q = false ) {
 	if ( false === $q ) {
@@ -1383,7 +1389,12 @@ function wp_edit_attachments_query_vars( $q = false ) {
  *
  * @param array|false $q Optional. Array of query variables to use to build the query.
  *                       Defaults to the `$_GET` superglobal.
- * @return array
+ * @return array {
+ *     Array containing the post mime types and available post mime types.
+ *
+ *     @type array[]  $post_mime_types       Post mime types.
+ *     @type string[] $avail_post_mime_types Available post mime types.
+ * }
  */
 function wp_edit_attachments_query( $q = false ) {
 	wp( wp_edit_attachments_query_vars( $q ) );
