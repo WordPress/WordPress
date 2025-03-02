@@ -119,6 +119,11 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object on success.
 	 */
 	public function get_items( $request ) {
+		if ( $request->is_method( 'HEAD' ) ) {
+			// Return early as this handler doesn't add any response headers.
+			return new WP_REST_Response();
+		}
+
 		$this->retrieve_widgets();
 
 		$data              = array();
@@ -320,6 +325,12 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 
 		// Restores the more descriptive, specific name for use within this method.
 		$raw_sidebar = $item;
+
+		// Don't prepare the response body for HEAD requests.
+		if ( $request->is_method( 'HEAD' ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-sidebars-controller.php */
+			return apply_filters( 'rest_prepare_sidebar', new WP_REST_Response(), $raw_sidebar, $request );
+		}
 
 		$id      = $raw_sidebar['id'];
 		$sidebar = array( 'id' => $id );

@@ -355,6 +355,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			}
 			$prepared_args['search'] = '*' . $prepared_args['search'] . '*';
 		}
+
+		$is_head_request = $request->is_method( 'HEAD' );
+		if ( $is_head_request ) {
+			// Force the 'fields' argument. For HEAD requests, only user IDs are required.
+			$prepared_args['fields'] = 'id';
+		}
 		/**
 		 * Filters WP_User_Query arguments when querying users via the REST API.
 		 *
@@ -369,14 +375,16 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$query = new WP_User_Query( $prepared_args );
 
-		$users = array();
+		if ( ! $is_head_request ) {
+			$users = array();
 
-		foreach ( $query->get_results() as $user ) {
-			$data    = $this->prepare_item_for_response( $user, $request );
-			$users[] = $this->prepare_response_for_collection( $data );
+			foreach ( $query->get_results() as $user ) {
+				$data    = $this->prepare_item_for_response( $user, $request );
+				$users[] = $this->prepare_response_for_collection( $data );
+			}
 		}
 
-		$response = rest_ensure_response( $users );
+		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $users );
 
 		// Store pagination values for headers then unset for count query.
 		$per_page = (int) $prepared_args['number'];
@@ -1020,6 +1028,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$user = $item;
+
+		// Don't prepare the response body for HEAD requests.
+		if ( $request->is_method( 'HEAD' ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php */
+			return apply_filters( 'rest_prepare_user', new WP_REST_Response(), $user, $request );
+		}
 
 		$fields = $this->get_fields_for_response( $request );
 		$data   = array();

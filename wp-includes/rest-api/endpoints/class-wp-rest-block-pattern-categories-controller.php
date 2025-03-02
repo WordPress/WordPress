@@ -81,6 +81,11 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+		if ( $request->is_method( 'HEAD' ) ) {
+			// Return early as this handler doesn't add any response headers.
+			return new WP_REST_Response();
+		}
+
 		$response   = array();
 		$categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
 		foreach ( $categories as $category ) {

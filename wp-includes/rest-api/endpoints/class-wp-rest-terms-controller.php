@@ -312,6 +312,14 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			$prepared_args = array_merge( $prepared_args, $taxonomy_obj->args );
 		}
 
+		$is_head_request = $request->is_method( 'HEAD' );
+		if ( $is_head_request ) {
+			// Force the 'fields' argument. For HEAD requests, only term IDs are required.
+			$prepared_args['fields'] = 'ids';
+			// Disable priming term meta for HEAD requests to improve performance.
+			$prepared_args['update_term_meta_cache'] = false;
+		}
+
 		/**
 		 * Filters get_terms() arguments when querying terms via the REST API.
 		 *
@@ -354,14 +362,15 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			$total_terms = 0;
 		}
 
-		$response = array();
-
-		foreach ( $query_result as $term ) {
-			$data       = $this->prepare_item_for_response( $term, $request );
-			$response[] = $this->prepare_response_for_collection( $data );
+		if ( ! $is_head_request ) {
+			$response = array();
+			foreach ( $query_result as $term ) {
+				$data       = $this->prepare_item_for_response( $term, $request );
+				$response[] = $this->prepare_response_for_collection( $data );
+			}
 		}
 
-		$response = rest_ensure_response( $response );
+		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $response );
 
 		// Store pagination values for headers.
 		$per_page = (int) $prepared_args['number'];
@@ -886,6 +895,12 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
+
+		// Don't prepare the response body for HEAD requests.
+		if ( $request->is_method( 'HEAD' ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php */
+			return apply_filters( "rest_prepare_{$this->taxonomy}", new WP_REST_Response(), $item, $request );
+		}
 
 		$fields = $this->get_fields_for_response( $request );
 		$data   = array();

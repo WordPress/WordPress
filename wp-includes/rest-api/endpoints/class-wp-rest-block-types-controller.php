@@ -131,6 +131,11 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+		if ( $request->is_method( 'HEAD' ) ) {
+			// Return early as this handler doesn't add any response headers.
+			return new WP_REST_Response();
+		}
+
 		$data        = array();
 		$block_types = $this->block_registry->get_all_registered();
 
@@ -249,6 +254,12 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$block_type = $item;
+
+		// Don't prepare the response body for HEAD requests.
+		if ( $request->is_method( 'HEAD' ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-block-types-controller.php */
+			return apply_filters( 'rest_prepare_block_type', new WP_REST_Response(), $block_type, $request );
+		}
 
 		$fields = $this->get_fields_for_response( $request );
 		$data   = array();

@@ -89,6 +89,8 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 
 		$collections_page = array_slice( $collections_all, ( $page - 1 ) * $per_page, $per_page );
 
+		$is_head_request = $request->is_method( 'HEAD' );
+
 		$items = array();
 		foreach ( $collections_page as $collection ) {
 			$item = $this->prepare_item_for_response( $collection, $request );
@@ -97,11 +99,21 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 			if ( is_wp_error( $item ) ) {
 				continue;
 			}
+
+			/*
+			 * Skip preparing the response body for HEAD requests.
+			 * Cannot exit earlier due to backward compatibility reasons,
+			 * as validation occurs in the prepare_item_for_response method.
+			 */
+			if ( $is_head_request ) {
+				continue;
+			}
+
 			$item    = $this->prepare_response_for_collection( $item );
 			$items[] = $item;
 		}
 
-		$response = rest_ensure_response( $items );
+		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $items );
 
 		$response->header( 'X-WP-Total', (int) $total_items );
 		$response->header( 'X-WP-TotalPages', $max_pages );
@@ -175,11 +187,29 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 				return $collection_data;
 			}
 
+			/**
+			 * Don't prepare the response body for HEAD requests.
+			 * Can't exit at the beginning of the method due to the potential need to return a WP_Error object.
+			 */
+			if ( $request->is_method( 'HEAD' ) ) {
+				/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-font-collections-controller.php */
+				return apply_filters( 'rest_prepare_font_collection', new WP_REST_Response(), $item, $request );
+			}
+
 			foreach ( $data_fields as $field ) {
 				if ( rest_is_field_included( $field, $fields ) ) {
 					$data[ $field ] = $collection_data[ $field ];
 				}
 			}
+		}
+
+		/**
+		 * Don't prepare the response body for HEAD requests.
+		 * Can't exit at the beginning of the method due to the potential need to return a WP_Error object.
+		 */
+		if ( $request->is_method( 'HEAD' ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-font-collections-controller.php */
+			return apply_filters( 'rest_prepare_font_collection', new WP_REST_Response(), $item, $request );
 		}
 
 		$response = rest_ensure_response( $data );

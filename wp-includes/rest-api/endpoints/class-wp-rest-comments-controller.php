@@ -262,6 +262,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_args['offset'] = $prepared_args['number'] * ( absint( $request['page'] ) - 1 );
 		}
 
+		$is_head_request = $request->is_method( 'HEAD' );
+		if ( $is_head_request ) {
+			// Force the 'fields' argument. For HEAD requests, only post IDs are required to calculate pagination.
+			$prepared_args['fields'] = 'ids';
+			// Disable priming comment meta for HEAD requests to improve performance.
+			$prepared_args['update_comment_meta_cache'] = false;
+		}
+
 		/**
 		 * Filters WP_Comment_Query arguments when querying comments via the REST API.
 		 *
@@ -277,15 +285,17 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$query        = new WP_Comment_Query();
 		$query_result = $query->query( $prepared_args );
 
-		$comments = array();
+		if ( ! $is_head_request ) {
+			$comments = array();
 
-		foreach ( $query_result as $comment ) {
-			if ( ! $this->check_read_permission( $comment, $request ) ) {
-				continue;
+			foreach ( $query_result as $comment ) {
+				if ( ! $this->check_read_permission( $comment, $request ) ) {
+					continue;
+				}
+
+				$data       = $this->prepare_item_for_response( $comment, $request );
+				$comments[] = $this->prepare_response_for_collection( $data );
 			}
-
-			$data       = $this->prepare_item_for_response( $comment, $request );
-			$comments[] = $this->prepare_response_for_collection( $data );
 		}
 
 		$total_comments = (int) $query->found_comments;
@@ -303,7 +313,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$max_pages      = (int) ceil( $total_comments / $request['per_page'] );
 		}
 
-		$response = rest_ensure_response( $comments );
+		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $comments );
 		$response->header( 'X-WP-Total', $total_comments );
 		$response->header( 'X-WP-TotalPages', $max_pages );
 
@@ -1040,6 +1050,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$comment = $item;
+
+		// Don't prepare the response body for HEAD requests.
+		if ( $request->is_method( 'HEAD' ) ) {
+			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php */
+			return apply_filters( 'rest_prepare_comment', new WP_REST_Response(), $comment, $request );
+		}
 
 		$fields = $this->get_fields_for_response( $request );
 		$data   = array();
