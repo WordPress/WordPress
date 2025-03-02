@@ -660,23 +660,36 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
 function count_many_users_posts( $users, $post_type = 'post', $public_only = false ) {
 	global $wpdb;
 
-	$count = array();
 	if ( empty( $users ) || ! is_array( $users ) ) {
-		return $count;
+		return array();
+	}
+
+	/**
+	 * Filters whether to short-circuit performing the post counts.
+	 *
+	 * When filtering, return an array of posts counts as strings, keyed
+	 * by the user ID.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param string[]|null   $count       The post counts. Return a non-null value to short-circuit.
+	 * @param int[]           $users       Array of user IDs.
+	 * @param string|string[] $post_type   Single post type or array of post types to check.
+	 * @param bool            $public_only Whether to only return counts for public posts.
+	 */
+	$pre = apply_filters( 'pre_count_many_users_posts', null, $users, $post_type, $public_only );
+	if ( null !== $pre ) {
+		return $pre;
 	}
 
 	$userlist = implode( ',', array_map( 'absint', $users ) );
 	$where    = get_posts_by_author_sql( $post_type, true, null, $public_only );
 
 	$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
+
+	$count = array_fill_keys( $users, 0 );
 	foreach ( $result as $row ) {
 		$count[ $row[0] ] = $row[1];
-	}
-
-	foreach ( $users as $id ) {
-		if ( ! isset( $count[ $id ] ) ) {
-			$count[ $id ] = 0;
-		}
 	}
 
 	return $count;
