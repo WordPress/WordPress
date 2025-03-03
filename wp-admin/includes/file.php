@@ -1241,6 +1241,24 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		}
 	}
 
+	$mime_type = wp_remote_retrieve_header( $response, 'content-type' );
+	if ( $mime_type && 'tmp' === pathinfo( $tmpfname, PATHINFO_EXTENSION ) ) {
+		$valid_mime_types = array_flip( get_allowed_mime_types() );
+		if ( ! empty( $valid_mime_types[ $mime_type ] ) ) {
+			$extensions     = explode( '|', $valid_mime_types[ $mime_type ] );
+			$new_image_name = substr( $tmpfname, 0, -4 ) . ".{$extensions[0]}";
+			if ( 0 === validate_file( $new_image_name ) ) {
+				if ( rename( $tmpfname, $new_image_name ) ) {
+					$tmpfname = $new_image_name;
+				}
+
+				if ( ( $tmpfname !== $new_image_name ) && file_exists( $new_image_name ) ) {
+					unlink( $new_image_name );
+				}
+			}
+		}
+	}
+
 	$content_md5 = wp_remote_retrieve_header( $response, 'Content-MD5' );
 
 	if ( $content_md5 ) {
