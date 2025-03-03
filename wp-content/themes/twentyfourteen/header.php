@@ -33,6 +33,12 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="hfeed site">
+	<a class="screen-reader-text skip-link" href="#content">
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Skip to content', 'twentyfourteen' );
+		?>
+	</a>
 	<?php $is_front = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) ); ?>
 	<?php if ( get_header_image() ) : ?>
 	<div id="site-header">
@@ -57,12 +63,6 @@
 
 			<nav id="primary-navigation" class="site-navigation primary-navigation">
 				<button class="menu-toggle"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></button>
-				<a class="screen-reader-text skip-link" href="#content">
-					<?php
-					/* translators: Hidden accessibility text. */
-					_e( 'Skip to content', 'twentyfourteen' );
-					?>
-				</a>
 				<?php
 				wp_nav_menu(
 					array(
