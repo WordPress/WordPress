@@ -334,7 +334,6 @@
 }
 .dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -851,6 +850,7 @@ div.dataviews-view-list{
 }
 .dataviews-view-table td.dataviews-view-table__checkbox-column,.dataviews-view-table th.dataviews-view-table__checkbox-column{
   padding-left:0;
+  width:1%;
 }
 .dataviews-view-table tr{
   border-top:1px solid #f0f0f0;
@@ -861,7 +861,7 @@ div.dataviews-view-list{
 .dataviews-view-table tr td:first-child,.dataviews-view-table tr th:first-child{
   padding-right:48px;
 }
-.dataviews-view-table tr td:first-child .dataviews-view-table-header,.dataviews-view-table tr td:first-child .dataviews-view-table-header-button,.dataviews-view-table tr th:first-child .dataviews-view-table-header,.dataviews-view-table tr th:first-child .dataviews-view-table-header-button{
+.dataviews-view-table tr td:first-child .dataviews-view-table-header-button,.dataviews-view-table tr th:first-child .dataviews-view-table-header-button{
   margin-right:-8px;
 }
 .dataviews-view-table tr td:last-child,.dataviews-view-table tr th:last-child{
@@ -1129,6 +1129,9 @@ div.dataviews-view-list{
 }
 .edit-site-layout__mobile .edit-site-sidebar__screen-wrapper{
   padding:0;
+}
+.edit-site-layout__mobile .edit-site-sidebar-navigation-screen__main{
+  padding:0 12px;
 }
 
 .edit-site-layout__canvas-container{
@@ -1399,7 +1402,7 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
   overflow-y:auto;
 }
 
-@keyframes _u5k8s_slide-from-right{
+@keyframes _gddau_slide-from-right{
   0%{
     opacity:0;
     transform:translateX(-50px);
@@ -1409,7 +1412,7 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
     transform:none;
   }
 }
-@keyframes _u5k8s_slide-from-left{
+@keyframes _gddau_slide-from-left{
   0%{
     opacity:0;
     transform:translateX(50px);
@@ -1465,10 +1468,10 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
   }
 }
 .edit-site-sidebar__screen-wrapper.slide-from-left{
-  animation-name:_u5k8s_slide-from-left;
+  animation-name:_gddau_slide-from-left;
 }
 .edit-site-sidebar__screen-wrapper.slide-from-right{
-  animation-name:_u5k8s_slide-from-right;
+  animation-name:_gddau_slide-from-right;
 }
 
 .edit-site-site-hub{

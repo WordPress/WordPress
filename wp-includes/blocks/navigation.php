@@ -241,11 +241,12 @@ class WP_Navigation_Block_Renderer {
 			// it encounters whitespace. This code strips it.
 			$blocks = block_core_navigation_filter_out_empty_blocks( $parsed_blocks );
 
-			// Run Block Hooks algorithm to inject hooked blocks.
-			$markup         = block_core_navigation_insert_hooked_blocks( $blocks, $navigation_post );
-			$root_nav_block = parse_blocks( $markup )[0];
-
-			$blocks = isset( $root_nav_block['innerBlocks'] ) ? $root_nav_block['innerBlocks'] : $blocks;
+			// Re-serialize, and run Block Hooks algorithm to inject hooked blocks.
+			// TODO: See if we can move the apply_block_hooks_to_content_from_post_object() call
+			// before the parse_blocks() call further above, to avoid the extra serialization/parsing.
+			$markup = serialize_blocks( $blocks );
+			$markup = apply_block_hooks_to_content_from_post_object( $markup, $navigation_post );
+			$blocks = parse_blocks( $markup );
 
 			// TODO - this uses the full navigation block attributes for the
 			// context which could be refined.
@@ -1077,12 +1078,11 @@ function block_core_navigation_get_fallback_blocks() {
 
 		// Run Block Hooks algorithm to inject hooked blocks.
 		// We have to run it here because we need the post ID of the Navigation block to track ignored hooked blocks.
-		$markup = block_core_navigation_insert_hooked_blocks( $fallback_blocks, $navigation_post );
-		$blocks = parse_blocks( $markup );
-
-		if ( isset( $blocks[0]['innerBlocks'] ) ) {
-			$fallback_blocks = $blocks[0]['innerBlocks'];
-		}
+		// TODO: See if we can move the apply_block_hooks_to_content_from_post_object() call
+		// before the parse_blocks() call further above, to avoid the extra serialization/parsing.
+		$markup          = serialize_blocks( $fallback_blocks );
+		$markup          = apply_block_hooks_to_content_from_post_object( $markup, $navigation_post );
+		$fallback_blocks = parse_blocks( $markup );
 	}
 
 	/**
@@ -1435,62 +1435,4 @@ function block_core_navigation_get_most_recently_published_navigation() {
 	}
 
 	return null;
-}
-
-/**
- * Mock a parsed block for the Navigation block given its inner blocks and the `wp_navigation` post object.
- * The `wp_navigation` post's `_wp_ignored_hooked_blocks` meta is queried to add the `metadata.ignoredHookedBlocks` attribute.
- *
- * @since 6.5.0
- *
- * @param array   $inner_blocks Parsed inner blocks of a Navigation block.
- * @param WP_Post $post         `wp_navigation` post object corresponding to the block.
- *
- * @return array the normalized parsed blocks.
- */
-function block_core_navigation_mock_parsed_block( $inner_blocks, $post ) {
-	$attributes = array();
-
-	if ( isset( $post->ID ) ) {
-		$ignored_hooked_blocks = get_post_meta( $post->ID, '_wp_ignored_hooked_blocks', true );
-		if ( ! empty( $ignored_hooked_blocks ) ) {
-			$ignored_hooked_blocks  = json_decode( $ignored_hooked_blocks, true );
-			$attributes['metadata'] = array(
-				'ignoredHookedBlocks' => $ignored_hooked_blocks,
-			);
-		}
-	}
-
-	$mock_anchor_parent_block = array(
-		'blockName'    => 'core/navigation',
-		'attrs'        => $attributes,
-		'innerBlocks'  => $inner_blocks,
-		'innerContent' => array_fill( 0, count( $inner_blocks ), null ),
-	);
-
-	return $mock_anchor_parent_block;
-}
-
-/**
- * Insert hooked blocks into a Navigation block.
- *
- * Given a Navigation block's inner blocks and its corresponding `wp_navigation` post object,
- * this function inserts hooked blocks into it, and returns the serialized inner blocks in a
- * mock Navigation block wrapper.
- *
- * If there are any hooked blocks that need to be inserted as the Navigation block's first or last
- * children, the `wp_navigation` post's `_wp_ignored_hooked_blocks` meta is checked to see if any
- * of those hooked blocks should be exempted from insertion.
- *
- * @since 6.5.0
- *
- * @param array   $inner_blocks Parsed inner blocks of a Navigation block.
- * @param WP_Post $post         `wp_navigation` post object corresponding to the block.
- * @return string Serialized inner blocks in mock Navigation block wrapper, with hooked blocks inserted, if any.
- */
-function block_core_navigation_insert_hooked_blocks( $inner_blocks, $post ) {
-	$mock_navigation_block = block_core_navigation_mock_parsed_block( $inner_blocks, $post );
-
-	$mock_navigation_block_markup = serialize_block( $mock_navigation_block );
-	return apply_block_hooks_to_content( $mock_navigation_block_markup, $post, 'insert_hooked_blocks' );
 }

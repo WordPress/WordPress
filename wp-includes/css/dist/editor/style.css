@@ -846,15 +846,42 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   margin-bottom:12px;
 }
 
-.entities-saved-states__description-heading{
-  font-size:13px;
+.entities-saved-states__panel.is-inline .entities-saved-states__text-prompt{
+  padding:0;
+}
+.entities-saved-states__panel.is-inline .entities-saved-states__panel-body{
+  border:0;
+  padding-left:0;
+  padding-right:0;
+}
+.entities-saved-states__panel.is-inline .entities-saved-states__panel-body>h2{
+  margin-bottom:0;
+  margin-left:-16px;
+  margin-right:-16px;
+}
+.entities-saved-states__panel.is-inline .entities-saved-states__panel-body>h2 button{
+  font-size:11px;
+  text-transform:uppercase;
+}
+.entities-saved-states__panel.is-inline .entities-saved-states__text-prompt--header-wrapper{
+  display:none;
+}
+.entities-saved-states__panel.is-inline .entities-saved-states__text-prompt--changes-count{
+  margin-bottom:8px;
+  margin-top:0;
+}
+.entities-saved-states__panel.is-inline .entities-saved-states__panel-footer{
+  margin-top:16px;
+}
+
+.entities-saved-states__change-control{
+  flex:1;
 }
 
 .entities-saved-states__changes{
-  color:#757575;
-  font-size:12px;
+  font-size:13px;
   list-style:disc;
-  margin:8px 16px 0;
+  margin:4px 16px 0 24px;
 }
 .entities-saved-states__changes li{
   margin-bottom:4px;
@@ -1896,7 +1923,6 @@ textarea.editor-post-text-editor::-webkit-input-placeholder{
 }
 textarea.editor-post-text-editor::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 textarea.editor-post-text-editor:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -1986,7 +2012,6 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 }
 .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -2070,7 +2095,6 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 }
 .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -2161,6 +2185,23 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 .interface-interface-skeleton__actions:focus .editor-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus .editor-layout__toggle-publish-panel,.interface-interface-skeleton__actions:focus-within .editor-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus-within .editor-layout__toggle-publish-panel{
   bottom:0;
   top:auto;
+}
+
+.editor-start-page-options__modal .editor-start-page-options__modal__actions{
+  background-color:#fff;
+  border-top:1px solid #ddd;
+  bottom:0;
+  height:92px;
+  margin-left:-32px;
+  margin-right:-32px;
+  padding-left:32px;
+  padding-right:32px;
+  position:absolute;
+  width:100%;
+  z-index:1;
+}
+.editor-start-page-options__modal .block-editor-block-patterns-list{
+  padding-bottom:92px;
 }
 
 .editor-start-page-options__modal-content .block-editor-block-patterns-list{

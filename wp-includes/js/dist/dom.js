@@ -103,7 +103,6 @@ __webpack_require__.d(tabbable_namespaceObject, {
 });
 
 ;// ./node_modules/@wordpress/dom/build-module/focusable.js
-/* wp:polyfill */
 /**
  * References:
  *
@@ -205,7 +204,6 @@ function find(context, {
 }
 
 ;// ./node_modules/@wordpress/dom/build-module/tabbable.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -386,7 +384,6 @@ function assertIsDefined(val, name) {
 }
 
 ;// ./node_modules/@wordpress/dom/build-module/dom/get-rectangle-from-range.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -905,7 +902,6 @@ function isRTL(element) {
 }
 
 ;// ./node_modules/@wordpress/dom/build-module/dom/get-range-height.js
-/* wp:polyfill */
 /**
  * Gets the height of the range without ignoring zero width rectangles, which
  * some browsers ignore when creating a union.
@@ -1554,7 +1550,6 @@ function stripHTML(html) {
 }
 
 ;// ./node_modules/@wordpress/dom/build-module/dom/is-empty.js
-/* wp:polyfill */
 /**
  * Recursively checks if an element is empty. An element is not empty if it
  * contains text or contains elements with attributes such as images.
@@ -1582,7 +1577,6 @@ function isEmpty(element) {
 }
 
 ;// ./node_modules/@wordpress/dom/build-module/phrasing-content.js
-/* wp:polyfill */
 /**
  * All phrasing content elements.
  *
@@ -1790,7 +1784,6 @@ function isElement(node) {
 }
 
 ;// ./node_modules/@wordpress/dom/build-module/dom/clean-node-list.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -1980,7 +1973,6 @@ function removeInvalidHTML(HTML, schema, inline) {
 
 
 ;// ./node_modules/@wordpress/dom/build-module/data-transfer.js
-/* wp:polyfill */
 /**
  * Gets all files from a DataTransfer object.
  *

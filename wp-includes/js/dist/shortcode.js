@@ -194,7 +194,6 @@ function memize(fn, options) {
 
 
 ;// ./node_modules/@wordpress/shortcode/build-module/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */

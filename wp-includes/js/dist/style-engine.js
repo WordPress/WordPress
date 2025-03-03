@@ -550,7 +550,6 @@ const VARIABLE_PATH_SEPARATOR_TOKEN_ATTRIBUTE = '|';
 const VARIABLE_PATH_SEPARATOR_TOKEN_STYLE = '--';
 
 ;// ./node_modules/@wordpress/style-engine/build-module/styles/utils.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -1081,7 +1080,6 @@ const writingMode = {
 const styleDefinitions = [...border, ...styles_color, ...dimensions, ...outline, ...spacing, ...typography, ...styles_shadow, ...styles_background];
 
 ;// ./node_modules/@wordpress/style-engine/build-module/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */

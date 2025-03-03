@@ -92,7 +92,6 @@ function isAppleOS(_window = null) {
 }
 
 ;// ./node_modules/@wordpress/keycodes/build-module/index.js
-/* wp:polyfill */
 /**
  * Note: The order of the modifier keys in many of the [foo]Shortcut()
  * functions in this file are intentional and should not be changed. They're

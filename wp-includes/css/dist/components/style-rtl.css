@@ -483,7 +483,6 @@ p+.components-button.is-tertiary{
 }
 .components-checkbox-control__input[type=checkbox]::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .components-checkbox-control__input[type=checkbox]:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -799,7 +798,6 @@ input.components-combobox-control__input[type=text]:focus{
 }
 .components-combobox-control__suggestions-container::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .components-combobox-control__suggestions-container:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -808,6 +806,9 @@ input.components-combobox-control__input[type=text]:focus{
   border-color:var(--wp-admin-theme-color);
   box-shadow:0 0 0 .5px var(--wp-admin-theme-color);
   outline:2px solid #0000;
+}
+.components-combobox-control__suggestions-container .components-spinner{
+  margin:0;
 }
 
 .components-color-palette__custom-color-wrapper{
@@ -1289,7 +1290,6 @@ body.is-dragging-components-draggable{
 }
 .components-form-token-field__input-container::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .components-form-token-field__input-container:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -1859,6 +1859,7 @@ body.is-dragging-components-draggable{
   align-items:center;
   background-color:#fff;
   border-right:4px solid var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+  color:#1e1e1e;
   display:flex;
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
   font-size:13px;
@@ -2170,7 +2171,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 .components-placeholder__input[type=url]::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .components-placeholder__input[type=url]:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -2442,7 +2442,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 .components-radio-control__input[type=radio]::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .components-radio-control__input[type=radio]:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -2863,7 +2862,6 @@ body.lockscroll,html.lockscroll{
 }
 .components-text-control__input::-moz-placeholder,.components-text-control__input[type=color]::-moz-placeholder,.components-text-control__input[type=date]::-moz-placeholder,.components-text-control__input[type=datetime-local]::-moz-placeholder,.components-text-control__input[type=datetime]::-moz-placeholder,.components-text-control__input[type=email]::-moz-placeholder,.components-text-control__input[type=month]::-moz-placeholder,.components-text-control__input[type=number]::-moz-placeholder,.components-text-control__input[type=password]::-moz-placeholder,.components-text-control__input[type=tel]::-moz-placeholder,.components-text-control__input[type=text]::-moz-placeholder,.components-text-control__input[type=time]::-moz-placeholder,.components-text-control__input[type=url]::-moz-placeholder,.components-text-control__input[type=week]::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .components-text-control__input:-ms-input-placeholder,.components-text-control__input[type=color]:-ms-input-placeholder,.components-text-control__input[type=date]:-ms-input-placeholder,.components-text-control__input[type=datetime-local]:-ms-input-placeholder,.components-text-control__input[type=datetime]:-ms-input-placeholder,.components-text-control__input[type=email]:-ms-input-placeholder,.components-text-control__input[type=month]:-ms-input-placeholder,.components-text-control__input[type=number]:-ms-input-placeholder,.components-text-control__input[type=password]:-ms-input-placeholder,.components-text-control__input[type=tel]:-ms-input-placeholder,.components-text-control__input[type=text]:-ms-input-placeholder,.components-text-control__input[type=time]:-ms-input-placeholder,.components-text-control__input[type=url]:-ms-input-placeholder,.components-text-control__input[type=week]:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -2872,6 +2870,10 @@ body.lockscroll,html.lockscroll{
   height:40px;
   padding-left:12px;
   padding-right:12px;
+}
+
+.components-text-control__input[type=email],.components-text-control__input[type=url]{
+  direction:ltr;
 }
 
 .components-tip{

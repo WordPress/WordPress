@@ -1040,7 +1040,6 @@ Tannin.prototype.dcnpgettext = function( domain, context, singular, plural, n ) 
 };
 
 ;// ./node_modules/@wordpress/i18n/build-module/create-i18n.js
-/* wp:polyfill */
 /**
  * External dependencies
  */

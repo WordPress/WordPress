@@ -103,7 +103,6 @@ __webpack_require__.d(actions_namespaceObject, {
 ;// external ["wp","data"]
 const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// ./node_modules/@wordpress/rich-text/build-module/store/reducer.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -138,7 +137,6 @@ function formatTypes(state = {}, action) {
 }));
 
 ;// ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -419,7 +417,6 @@ function isFormatEqual(format1, format2) {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/normalise-formats.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -458,7 +455,6 @@ function normaliseFormats(value) {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/apply-format.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -588,7 +584,6 @@ const ZWNBSP = '\ufeff';
 ;// external ["wp","escapeHtml"]
 const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// ./node_modules/@wordpress/rich-text/build-module/get-active-formats.js
-/* wp:polyfill */
 /** @typedef {import('./types').RichTextValue} RichTextValue */
 /** @typedef {import('./types').RichTextFormatList} RichTextFormatList */
 
@@ -696,7 +691,6 @@ function get_format_type_getFormatType(name) {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/to-tree.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -987,7 +981,6 @@ function toTree({
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1131,7 +1124,6 @@ function getTextContent({
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/create.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1746,7 +1738,6 @@ function getAttributes({
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/concat.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -1785,7 +1776,6 @@ function concat(...values) {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/get-active-format.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -1885,7 +1875,6 @@ function isEmpty({
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/join.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -2014,7 +2003,6 @@ function registerFormatType(name, settings) {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/remove-format.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -2285,7 +2273,6 @@ function slice(value, startIndex = value.start, endIndex = value.end) {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/split.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -3203,7 +3190,6 @@ function useBoundaryStyle({
 ;// external ["wp","keycodes"]
 const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// ./node_modules/@wordpress/rich-text/build-module/component/event-listeners/format-boundaries.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -3350,7 +3336,6 @@ const EMPTY_ACTIVE_FORMATS = [];
 });
 
 ;// ./node_modules/@wordpress/rich-text/build-module/update-formats.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -3741,7 +3726,6 @@ function preventFocusCapture() {
 }
 
 ;// ./node_modules/@wordpress/rich-text/build-module/component/event-listeners/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

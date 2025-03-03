@@ -672,7 +672,6 @@ const textFormattingShortcuts = [{
 }];
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -768,7 +767,6 @@ function DynamicShortcut({
 /* harmony default export */ const dynamic_shortcut = (DynamicShortcut);
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/keyboard-shortcut-help-modal/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -1226,7 +1224,6 @@ function widgetToBlock({
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/sidebar-block-editor/use-sidebar-block-editor.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -1385,7 +1382,6 @@ function FocusControl({
 const useFocusControl = () => (0,external_wp_element_namespaceObject.useContext)(FocusControlContext);
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/focus-control/use-blocks-focus-control.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1468,7 +1464,6 @@ function SidebarEditorProvider({
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/welcome-guide/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1876,7 +1871,6 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/customize-widgets/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2033,7 +2027,6 @@ function getInspectorSection() {
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/controls/sidebar-section.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2107,7 +2100,6 @@ function getSidebarSection() {
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/components/sidebar-block-editor/sidebar-adapter.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -2374,7 +2366,6 @@ class SidebarAdapter {
 ;// external ["wp","dom"]
 const external_wp_dom_namespaceObject = window["wp"]["dom"];
 ;// ./node_modules/@wordpress/customize-widgets/build-module/controls/inserter-outer-section.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2489,7 +2480,6 @@ function getInserterOuterSection() {
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/controls/sidebar-control.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2540,7 +2530,6 @@ function getSidebarControl() {
 }
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/filters/move-to-sidebar.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2628,7 +2617,6 @@ const replaceMediaUpload = () => external_wp_mediaUtils_namespaceObject.MediaUpl
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.MediaUpload', 'core/edit-widgets/replace-media-upload', replaceMediaUpload);
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/filters/wide-widget-display.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2660,7 +2648,6 @@ const withWideWidgetDisplay = (0,external_wp_compose_namespaceObject.createHighe
 
 
 ;// ./node_modules/@wordpress/customize-widgets/build-module/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

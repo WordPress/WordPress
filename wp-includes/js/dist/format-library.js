@@ -1286,7 +1286,6 @@ const {
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/format-library');
 
 ;// ./node_modules/@wordpress/format-library/build-module/text-color/inline.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1408,6 +1407,9 @@ function ColorPicker({
         [property]: color
       }));
     }
+    // Prevent the text and color picker from overlapping.
+    ,
+    __experimentalIsRenderedInSidebar: true
   });
 }
 function InlineColorUI({
@@ -1731,7 +1733,6 @@ const help = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 /* harmony default export */ const library_help = (help);
 
 ;// ./node_modules/@wordpress/format-library/build-module/unknown/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1965,7 +1966,6 @@ const nonBreakingSpace = {
 /* harmony default export */ const default_formats = ([bold, code_code, image_image, italic, build_module_link_link, strikethrough, underline, text_color_textColor, subscript_subscript, superscript_superscript, keyboard, unknown, language_language, nonBreakingSpace]);
 
 ;// ./node_modules/@wordpress/format-library/build-module/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

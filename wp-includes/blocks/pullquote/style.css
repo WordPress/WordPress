@@ -35,6 +35,10 @@
   text-align:right;
 }
 
+.wp-block-pullquote.has-text-align-center blockquote{
+  text-align:center;
+}
+
 .wp-block-pullquote.is-style-solid-color{
   border:none;
 }

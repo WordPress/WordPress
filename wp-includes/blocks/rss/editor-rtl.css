@@ -5,3 +5,9 @@
 .wp-block-rss__placeholder-form .wp-block-rss__placeholder-input{
   flex:1 1 auto;
 }
+
+.wp-block-rss .wp-block-rss{
+  all:inherit;
+  margin:0;
+  padding:0;
+}

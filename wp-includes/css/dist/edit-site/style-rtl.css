@@ -334,7 +334,6 @@
 }
 .dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input::-moz-placeholder{
   color:#1e1e1e9e;
-  opacity:1;
 }
 .dataviews-filters__search-widget-filter-combobox__wrapper .dataviews-filters__search-widget-filter-combobox__input:-ms-input-placeholder{
   color:#1e1e1e9e;
@@ -851,6 +850,7 @@ div.dataviews-view-list{
 }
 .dataviews-view-table td.dataviews-view-table__checkbox-column,.dataviews-view-table th.dataviews-view-table__checkbox-column{
   padding-left:0;
+  width:1%;
 }
 .dataviews-view-table tr{
   border-top:1px solid #f0f0f0;
@@ -861,7 +861,7 @@ div.dataviews-view-list{
 .dataviews-view-table tr td:first-child,.dataviews-view-table tr th:first-child{
   padding-right:48px;
 }
-.dataviews-view-table tr td:first-child .dataviews-view-table-header,.dataviews-view-table tr td:first-child .dataviews-view-table-header-button,.dataviews-view-table tr th:first-child .dataviews-view-table-header,.dataviews-view-table tr th:first-child .dataviews-view-table-header-button{
+.dataviews-view-table tr td:first-child .dataviews-view-table-header-button,.dataviews-view-table tr th:first-child .dataviews-view-table-header-button{
   margin-right:-8px;
 }
 .dataviews-view-table tr td:last-child,.dataviews-view-table tr th:last-child{
@@ -1645,9 +1645,14 @@ fieldset.fields-controls__featured-image .fields-controls__featured-image-remove
   margin:24px 16px;
 }
 
+.edit-site-global-styles-sidebar__navigator-provider{
+  height:100%;
+}
+
 .edit-site-global-styles-sidebar__navigator-screen{
   display:flex;
   flex-direction:column;
+  height:100%;
 }
 
 .edit-site-global-styles-sidebar__navigator-screen .single-column{
@@ -1984,6 +1989,8 @@ fieldset.fields-controls__featured-image .fields-controls__featured-image-remove
 }
 .dataviews-view-table .page-patterns-preview-field{
   flex-grow:0;
+  text-wrap:balance;
+  text-wrap:pretty;
   width:96px;
 }
 
@@ -2077,6 +2084,8 @@ fieldset.fields-controls__featured-image .fields-controls__featured-image-remove
 .dataviews-view-table .page-templates-preview-field{
   max-height:160px;
   position:relative;
+  text-wrap:balance;
+  text-wrap:pretty;
   width:120px;
 }
 .dataviews-view-table .page-templates-preview-field:after{
@@ -2326,6 +2335,9 @@ fieldset.fields-controls__featured-image .fields-controls__featured-image-remove
 .edit-site-layout__mobile .edit-site-sidebar__screen-wrapper{
   padding:0;
 }
+.edit-site-layout__mobile .edit-site-sidebar-navigation-screen__main{
+  padding:0 12px;
+}
 
 .edit-site-layout__canvas-container{
   flex-grow:1;
@@ -2537,7 +2549,7 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
   overflow-y:auto;
 }
 
-@keyframes _z491t_slide-from-right{
+@keyframes _xk1qy_slide-from-right{
   0%{
     opacity:0;
     transform:translateX(-50px);
@@ -2547,7 +2559,7 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
     transform:none;
   }
 }
-@keyframes _z491t_slide-from-left{
+@keyframes _xk1qy_slide-from-left{
   0%{
     opacity:0;
     transform:translateX(50px);
@@ -2603,10 +2615,10 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
   }
 }
 .edit-site-sidebar__screen-wrapper.slide-from-left{
-  animation-name:_z491t_slide-from-left;
+  animation-name:_xk1qy_slide-from-left;
 }
 .edit-site-sidebar__screen-wrapper.slide-from-right{
-  animation-name:_z491t_slide-from-right;
+  animation-name:_xk1qy_slide-from-right;
 }
 
 .edit-site-sidebar-button{
@@ -2680,26 +2692,6 @@ html.canvas-mode-edit-transition::view-transition-group(toggle){
 }
 .edit-site-sidebar-navigation-screen__content .components-heading{
   margin-bottom:8px;
-}
-
-.edit-site-sidebar-navigation-screen__meta{
-  color:#ccc;
-  margin:0 16px 16px 0;
-}
-.edit-site-sidebar-navigation-screen__meta .components-text{
-  color:#ccc;
-}
-
-.edit-site-sidebar-navigation-screen__page-link{
-  color:#949494;
-  display:inline-block;
-  word-break:break-word;
-}
-.edit-site-sidebar-navigation-screen__page-link:focus,.edit-site-sidebar-navigation-screen__page-link:hover{
-  color:#fff;
-}
-.edit-site-sidebar-navigation-screen__page-link .components-external-link__icon{
-  margin-right:4px;
 }
 
 .edit-site-sidebar-navigation-screen__title-icon{

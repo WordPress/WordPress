@@ -307,7 +307,6 @@ function orderEntityRecordsBySearch(records = [], search = '') {
 }
 
 ;// ./node_modules/@wordpress/core-commands/build-module/site-editor-navigation-commands.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

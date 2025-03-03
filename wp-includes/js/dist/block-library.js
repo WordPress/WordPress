@@ -2055,6 +2055,15 @@ const metadata = {
         fontSize: true
       }
     },
+    color: {
+      gradients: true,
+      link: true,
+      __experimentalDefaultControls: {
+        background: true,
+        text: true,
+        link: true
+      }
+    },
     interactivity: {
       clientNavigation: true
     }
@@ -2190,7 +2199,6 @@ function useUserAvatar({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/avatar/user-control.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2816,7 +2824,6 @@ const {
 } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/block-library');
 
 ;// ./node_modules/@wordpress/block-library/build-module/embed/util.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -3773,7 +3780,6 @@ const {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/button/deprecated.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -5854,7 +5860,6 @@ const buttons_deprecated_deprecated = [{
 ;// external ["wp","richText"]
 const external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// ./node_modules/@wordpress/block-library/build-module/utils/get-transformed-metadata.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -5907,7 +5912,6 @@ function getTransformedMetadata(metadata, newBlockName, bindingsCallback) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/buttons/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -6419,7 +6423,6 @@ const pin = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(extern
 /* harmony default export */ const library_pin = (pin);
 
 ;// ./node_modules/@wordpress/block-library/build-module/categories/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -6812,6 +6815,15 @@ const categories_metadata = {
         fontSize: true
       }
     },
+    color: {
+      gradients: true,
+      link: true,
+      __experimentalDefaultControls: {
+        background: true,
+        text: true,
+        link: true
+      }
+    },
     interactivity: {
       clientNavigation: true
     },
@@ -6908,7 +6920,6 @@ const fullscreen = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)
 /* harmony default export */ const library_fullscreen = (fullscreen);
 
 ;// ./node_modules/@wordpress/block-library/build-module/freeform/modal.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -8041,7 +8052,6 @@ const columns = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ex
 /* harmony default export */ const library_columns = (columns);
 
 ;// ./node_modules/@wordpress/block-library/build-module/columns/deprecated.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -8244,7 +8254,6 @@ const migrateCustomColors = attributes => {
 }]);
 
 ;// ./node_modules/@wordpress/block-library/build-module/columns/utils.js
-/* wp:polyfill */
 /**
  * Returns a column width attribute value rounded to standard precision.
  * Returns `undefined` if the value is not a valid finite number.
@@ -8401,7 +8410,6 @@ function isPercentageUnit(unit) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/columns/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -8839,7 +8847,6 @@ const variations_variations = [{
 /* harmony default export */ const columns_variations = (variations_variations);
 
 ;// ./node_modules/@wordpress/block-library/build-module/columns/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -10926,7 +10933,6 @@ const layout = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 const external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// ./node_modules/@wordpress/block-library/build-module/comment-template/hooks.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -11081,7 +11087,6 @@ const useCommentTree = topLevelComments => {
 };
 
 ;// ./node_modules/@wordpress/block-library/build-module/comment-template/edit.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -15716,7 +15721,9 @@ function CoverEdit({
               disableCustomColors: true,
               value: overlayColor.color,
               onChange: onSetOverlayColor,
-              clearable: false
+              clearable: false,
+              asButtons: true,
+              "aria-label": (0,external_wp_i18n_namespaceObject.__)('Overlay color')
             })
           })
         })]
@@ -16545,7 +16552,6 @@ function details_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/details/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -17071,7 +17077,6 @@ const EmbedPlaceholder = ({
 /* harmony default export */ const embed_placeholder = (EmbedPlaceholder);
 
 ;// ./node_modules/@wordpress/block-library/build-module/embed/wp-embed-preview.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -17676,7 +17681,6 @@ const embed_transforms_transforms = {
 /* harmony default export */ const embed_transforms = (embed_transforms_transforms);
 
 ;// ./node_modules/@wordpress/block-library/build-module/embed/variations.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -19139,7 +19143,6 @@ function file_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/file/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -19539,7 +19542,8 @@ const form_edit_Edit = ({
               method: 'post'
             });
           },
-          help: (0,external_wp_i18n_namespaceObject.__)('The email address where form submissions will be sent. Separate multiple email addresses with a comma.')
+          help: (0,external_wp_i18n_namespaceObject.__)('The email address where form submissions will be sent. Separate multiple email addresses with a comma.'),
+          type: "email"
         })]
       })
     }), submissionMethod !== 'email' && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_blockEditor_namespaceObject.InspectorControls, {
@@ -19571,7 +19575,8 @@ const form_edit_Edit = ({
             action: newVal
           });
         },
-        help: (0,external_wp_i18n_namespaceObject.__)('The URL where the form should be submitted.')
+        help: (0,external_wp_i18n_namespaceObject.__)('The URL where the form should be submitted.'),
+        type: "url"
       })]
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("form", {
       ...innerBlocksProps,
@@ -20760,7 +20765,6 @@ const LINK_DESTINATION_MEDIA_WP_CORE = 'file';
 const LINK_DESTINATION_ATTACHMENT_WP_CORE = 'post';
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/deprecated.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -21763,7 +21767,6 @@ const sharedIcon = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/shared.js
-/* wp:polyfill */
 function defaultColumnsNumber(imageCount) {
   return imageCount ? Math.min(3, imageCount) : 3;
 }
@@ -21851,7 +21854,6 @@ function utils_getHrefAndDestination(image, galleryDestination, imageDestination
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/image/utils.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -22004,7 +22006,6 @@ function Gallery(props) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/use-image-sizes.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -22063,7 +22064,6 @@ function useImageSizes(images, isSelected, getSettings) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/use-get-new-images.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -22113,7 +22113,6 @@ function useGetNewImages(images, imageData) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/use-get-media.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -22179,7 +22178,6 @@ function GapStyles({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -22715,7 +22713,6 @@ function saveWithInnerBlocks({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/gallery/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -23452,7 +23449,6 @@ const group_deprecated_deprecated = [
 /* harmony default export */ const group_deprecated = (group_deprecated_deprecated);
 
 ;// ./node_modules/@wordpress/block-library/build-module/group/placeholder.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -23780,7 +23776,6 @@ function group_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/group/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -24720,7 +24715,6 @@ function getLevelFromHeadingNodeName(nodeName) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/heading/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -25141,7 +25135,6 @@ const html = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 /* harmony default export */ const library_html = (html);
 
 ;// ./node_modules/@wordpress/block-library/build-module/html/preview.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -26555,7 +26548,6 @@ const upload = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 /* harmony default export */ const library_upload = (upload);
 
 ;// ./node_modules/@wordpress/block-library/build-module/image/image.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -27493,7 +27485,6 @@ function useMaxWidthObserver() {
 
 
 ;// ./node_modules/@wordpress/block-library/build-module/image/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -27962,7 +27953,6 @@ function image_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/image/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -28863,7 +28853,6 @@ const MAX_POSTS_COLUMNS = 6;
 const DEFAULT_EXCERPT_LENGTH = 55;
 
 ;// ./node_modules/@wordpress/block-library/build-module/latest-posts/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -29521,7 +29510,6 @@ const latest_posts_init = () => initBlock({
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/list/utils.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -30356,7 +30344,6 @@ function list_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/list/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -30668,7 +30655,6 @@ const formatIndent = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.js
 /* harmony default export */ const format_indent = (formatIndent);
 
 ;// ./node_modules/@wordpress/block-library/build-module/list-item/hooks/use-indent-list-item.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -31182,7 +31168,6 @@ function list_item_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/list-item/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -32712,7 +32697,6 @@ function MediaContainer(props, ref) {
 /* harmony default export */ const media_container = ((0,external_wp_element_namespaceObject.forwardRef)(MediaContainer));
 
 ;// ./node_modules/@wordpress/block-library/build-module/media-text/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -33928,7 +33912,6 @@ function MoreEdit({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/more/save.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -35076,7 +35059,6 @@ function OverlayMenuPreview({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/menu-items-to-blocks.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -35490,7 +35472,6 @@ const getTemplatePartIcon = iconName => {
 };
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/use-template-part-area-label.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -35552,7 +35533,6 @@ function useTemplatePartAreaLabel(clientId) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-generate-default-navigation-title.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -36647,7 +36627,6 @@ function AccessibleMenuDescription({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/edit/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -37320,7 +37299,6 @@ function navigation_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/deprecated.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -38258,7 +38236,8 @@ function Controls({
             url: urlValue
           }, setAttributes, attributes);
         },
-        autoComplete: "off"
+        autoComplete: "off",
+        type: "url"
       })
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
       hasValue: () => !!description,
@@ -38691,7 +38670,6 @@ const customPostType = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.
 /* harmony default export */ const custom_post_type = (customPostType);
 
 ;// ./node_modules/@wordpress/block-library/build-module/navigation-link/hooks.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -39418,7 +39396,8 @@ function NavigationSubmenuEdit({
               });
             },
             label: (0,external_wp_i18n_namespaceObject.__)('Link'),
-            autoComplete: "off"
+            autoComplete: "off",
+            type: "url"
           })
         }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
           label: (0,external_wp_i18n_namespaceObject.__)('Description'),
@@ -39978,7 +39957,6 @@ function hasCycle(deps, slug, visitedNodes = new Set(), currentPath = new Set())
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/pattern/edit.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -40158,7 +40136,6 @@ const pages = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(ext
 /* harmony default export */ const library_pages = (pages);
 
 ;// ./node_modules/@wordpress/block-library/build-module/page-list/use-convert-to-navigation-links.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -40330,7 +40307,6 @@ function ConvertToLinksModal({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/page-list/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -41874,7 +41850,6 @@ const postAuthor = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)
 /* harmony default export */ const post_author = (postAuthor);
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-author/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -42882,10 +42857,17 @@ const post_comments_count_metadata = {
         fontSize: true
       }
     },
+    __experimentalBorder: {
+      radius: true,
+      color: true,
+      width: true,
+      style: true
+    },
     interactivity: {
       clientNavigation: true
     }
-  }
+  },
+  style: "wp-block-post-comments-count"
 };
 
 const {
@@ -44275,7 +44257,6 @@ const postFeaturedImage = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObje
 /* harmony default export */ const post_featured_image = (postFeaturedImage);
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-featured-image/dimension-controls.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -44283,15 +44264,6 @@ const postFeaturedImage = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObje
 
 
 
-
-/**
- * Internal dependencies
- */
-
-
-const {
-  ResolutionTool: dimension_controls_ResolutionTool
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const SCALE_OPTIONS = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
   children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
     value: "cover",
@@ -44305,7 +44277,6 @@ const SCALE_OPTIONS = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.j
   })]
 });
 const DEFAULT_SCALE = 'cover';
-const DEFAULT_SIZE = 'full';
 const scaleHelp = {
   cover: (0,external_wp_i18n_namespaceObject.__)('Image is scaled and cropped to fill the entire space without being distorted.'),
   contain: (0,external_wp_i18n_namespaceObject.__)('Image is scaled to fill the space without clipping nor distorting.'),
@@ -44317,28 +44288,14 @@ const DimensionControls = ({
     aspectRatio,
     width,
     height,
-    scale,
-    sizeSlug
+    scale
   },
-  setAttributes,
-  media
+  setAttributes
 }) => {
   const [availableUnits, defaultRatios, themeRatios, showDefaultRatios] = (0,external_wp_blockEditor_namespaceObject.useSettings)('spacing.units', 'dimensions.aspectRatios.default', 'dimensions.aspectRatios.theme', 'dimensions.defaultAspectRatios');
   const units = (0,external_wp_components_namespaceObject.__experimentalUseCustomUnits)({
     availableUnits: availableUnits || ['px', '%', 'vw', 'em', 'rem']
   });
-  const imageSizes = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).getSettings().imageSizes, []);
-  const imageSizeOptions = imageSizes.filter(({
-    slug
-  }) => {
-    return media?.media_details?.sizes?.[slug]?.source_url;
-  }).map(({
-    name,
-    slug
-  }) => ({
-    value: slug,
-    label: name
-  }));
   const onDimensionChange = (dimension, nextValue) => {
     const parsedValue = parseFloat(nextValue);
     /**
@@ -44459,18 +44416,6 @@ const DimensionControls = ({
         }),
         isBlock: true,
         children: SCALE_OPTIONS
-      })
-    }), !!imageSizeOptions.length && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(dimension_controls_ResolutionTool, {
-      panelId: clientId,
-      value: sizeSlug,
-      defaultValue: DEFAULT_SIZE,
-      options: imageSizeOptions,
-      onChange: nextSizeSlug => setAttributes({
-        sizeSlug: nextSizeSlug
-      }),
-      isShownByDefault: false,
-      resetAllFilter: () => ({
-        sizeSlug: DEFAULT_SIZE
       })
     })]
   });
@@ -44647,9 +44592,45 @@ const overlay_Overlay = ({
 
 
 
+
 const post_featured_image_edit_ALLOWED_MEDIA_TYPES = ['image'];
-function getMediaSourceUrlBySizeSlug(media, slug) {
-  return media?.media_details?.sizes?.[slug]?.source_url || media?.source_url;
+const {
+  ResolutionTool: post_featured_image_edit_ResolutionTool
+} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
+const edit_DEFAULT_MEDIA_SIZE_SLUG = 'full';
+function FeaturedImageResolutionTool({
+  image,
+  value,
+  onChange
+}) {
+  const {
+    imageSizes
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getSettings
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    return {
+      imageSizes: getSettings().imageSizes
+    };
+  }, []);
+  if (!imageSizes?.length) {
+    return null;
+  }
+  const imageSizeOptions = imageSizes.filter(({
+    slug
+  }) => image?.media_details?.sizes?.[slug]?.source_url).map(({
+    name,
+    slug
+  }) => ({
+    value: slug,
+    label: name
+  }));
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(post_featured_image_edit_ResolutionTool, {
+    value: value,
+    defaultValue: edit_DEFAULT_MEDIA_SIZE_SLUG,
+    options: imageSizeOptions,
+    onChange: onChange
+  });
 }
 function PostFeaturedImageEdit({
   clientId,
@@ -44708,7 +44689,7 @@ function PostFeaturedImageEdit({
       postPermalink: getEditedEntityRecord('postType', postTypeSlug, postId)?.link
     };
   }, [featuredImage, postTypeSlug, postId]);
-  const mediaUrl = getMediaSourceUrlBySizeSlug(media, sizeSlug);
+  const mediaUrl = media?.media_details?.sizes?.[sizeSlug]?.source_url || media?.source_url;
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     style: {
       width,
@@ -44836,6 +44817,12 @@ function PostFeaturedImageEdit({
             onChange: newRel => setAttributes({
               rel: newRel
             })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(FeaturedImageResolutionTool, {
+          image: media,
+          value: sizeSlug,
+          onChange: nextSizeSlug => setAttributes({
+            sizeSlug: nextSizeSlug
           })
         })]
       })
@@ -45088,7 +45075,6 @@ const post_featured_image_init = () => initBlock({
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-navigation-link/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -45238,7 +45224,7 @@ function PostNavigationLinkEdit({
         "aria-label": ariaLabel,
         placeholder: placeholder,
         value: label,
-        allowedFormats: ['core/bold', 'core/italic'],
+        withoutInteractiveFormatting: true,
         onChange: newLabel => setAttributes({
           label: newLabel
         })
@@ -45286,7 +45272,6 @@ const previous = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(e
 /* harmony default export */ const library_previous = (previous);
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-navigation-link/variations.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -45434,7 +45419,6 @@ const post_navigation_link_init = () => initBlock({
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-template/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -45604,18 +45588,26 @@ function PostTemplateEdit({
       query.format = format;
     }
 
-    // If sticky is not set, it will return all posts in the results.
-    // If sticky is set to `only`, it will limit the results to sticky posts only.
-    // If it is anything else, it will exclude sticky posts from results. For the record the value stored is `exclude`.
-    if (sticky) {
+    /*
+     * Handle cases where sticky is set to `exclude` or `only`.
+     * Which works as a `post__in/post__not_in` query for sticky posts.
+     */
+    if (sticky && sticky !== 'ignore') {
       query.sticky = sticky === 'only';
     }
+    if (sticky === 'ignore') {
+      // Remove any leftover sticky query parameter.
+      delete query.sticky;
+      query.ignore_sticky = true;
+    }
+
     // If `inherit` is truthy, adjust conditionally the query to create a better preview.
+    let currentPostType = postType;
     if (inherit) {
       // Change the post-type if needed.
       if (templateSlug?.startsWith('archive-')) {
         query.postType = templateSlug.replace('archive-', '');
-        postType = query.postType;
+        currentPostType = query.postType;
       } else if (templateCategory) {
         query.categories = templateCategory[0]?.id;
       } else if (templateTag) {
@@ -45627,7 +45619,7 @@ function PostTemplateEdit({
     }
     // When we preview Query Loop blocks we should prefer the current
     // block's postType, which is passed through block context.
-    const usedPostType = previewPostType || postType;
+    const usedPostType = previewPostType || currentPostType;
     return {
       posts: getEntityRecords('postType', usedPostType, {
         ...query,
@@ -45868,7 +45860,6 @@ function usePostTerms({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-terms/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -46021,7 +46012,6 @@ const postTerms = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(
 /* harmony default export */ const post_terms = (postTerms);
 
 ;// ./node_modules/@wordpress/block-library/build-module/post-terms/hooks.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -47624,7 +47614,6 @@ function pullquote_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/pullquote/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -47862,7 +47851,6 @@ const loop = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 /* harmony default export */ const library_loop = (loop);
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/utils.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -48382,7 +48370,6 @@ function OrderControl({
 /* harmony default export */ const order_control = (OrderControl);
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/author-control.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -48466,7 +48453,6 @@ function AuthorControl({
 /* harmony default export */ const author_control = (AuthorControl);
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/parent-control.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -48607,7 +48593,6 @@ function ParentControl({
 /* harmony default export */ const parent_control = (ParentControl);
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/taxonomy-controls.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -48799,7 +48784,6 @@ function TaxonomyItem({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/format-controls.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -48906,6 +48890,9 @@ function FormatControls({
 const stickyOptions = [{
   label: (0,external_wp_i18n_namespaceObject.__)('Include'),
   value: ''
+}, {
+  label: (0,external_wp_i18n_namespaceObject.__)('Ignore'),
+  value: 'ignore'
 }, {
   label: (0,external_wp_i18n_namespaceObject.__)('Exclude'),
   value: 'exclude'
@@ -49022,7 +49009,6 @@ const PagesControl = ({
 /* harmony default export */ const pages_control = (PagesControl);
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -49451,7 +49437,6 @@ function EnhancedPaginationModal({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/utils/search-patterns.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -50068,7 +50053,6 @@ const query_variations_variations = [{
 /* harmony default export */ const query_variations = (query_variations_variations);
 
 ;// ./node_modules/@wordpress/block-library/build-module/query/deprecated.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -51718,7 +51702,6 @@ function QueryTitleEdit({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/query-title/variations.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -52144,7 +52127,6 @@ const quote = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
 /* harmony default export */ const library_quote = (quote);
 
 ;// ./node_modules/@wordpress/block-library/build-module/quote/deprecated.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -52690,7 +52672,6 @@ function quote_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/quote/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -52980,7 +52961,6 @@ const symbol = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ext
 ;// external ["wp","patterns"]
 const external_wp_patterns_namespaceObject = window["wp"]["patterns"];
 ;// ./node_modules/@wordpress/block-library/build-module/block/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -53190,7 +53170,6 @@ function ReusableBlockEdit({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/block/deprecated.js
-/* wp:polyfill */
 const isObject = obj => typeof obj === 'object' && !Array.isArray(obj) && obj !== null;
 
 // v2: Migrate to a more condensed version of the 'content' attribute attribute.
@@ -53651,6 +53630,20 @@ function RSSEdit({
     }),
     isActive: blockLayout === 'grid'
   }];
+
+  /*
+   * This function merges the existing attributes with additional style properties.
+   * The `border` and `spacing` properties are set to `undefined` to ensure that
+   * these styles are reset and not applied on the server side.
+   */
+  const serverSideAttributes = {
+    ...attributes,
+    style: {
+      ...attributes?.style,
+      border: undefined,
+      spacing: undefined
+    }
+  };
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.BlockControls, {
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToolbarGroup, {
@@ -53714,7 +53707,7 @@ function RSSEdit({
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Disabled, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)((external_wp_serverSideRender_default()), {
           block: "core/rss",
-          attributes: attributes
+          attributes: serverSideAttributes
         })
       })
     })]
@@ -53779,6 +53772,20 @@ const rss_metadata = {
     html: false,
     interactivity: {
       clientNavigation: true
+    },
+    __experimentalBorder: {
+      radius: true,
+      color: true,
+      width: true,
+      style: true
+    },
+    spacing: {
+      margin: true,
+      padding: true,
+      __experimentalDefaultControls: {
+        padding: false,
+        margin: false
+      }
     },
     color: {
       background: true,
@@ -55546,10 +55553,6 @@ function LogoEdit({
     setTemporaryURL();
   };
   const onFilesDrop = filesList => {
-    if (filesList?.length > 1) {
-      onUploadError((0,external_wp_i18n_namespaceObject.__)('Only one image can be used as a site logo.'));
-      return;
-    }
     getSettings().mediaUpload({
       allowedTypes: site_logo_edit_ALLOWED_MEDIA_TYPES,
       filesList,
@@ -55560,7 +55563,8 @@ function LogoEdit({
         }
         onInitialSelectLogo(image);
       },
-      onError: onUploadError
+      onError: onUploadError,
+      multiple: false
     });
   };
   const mediaReplaceFlowProps = {
@@ -56458,6 +56462,7 @@ const share = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
 
 const keyboardReturn = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24",
   children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
     d: "m6.734 16.106 2.176-2.38-1.093-1.028-3.846 4.158 3.846 4.158 1.093-1.028-2.176-2.38h2.811c1.125 0 2.25.03 3.374 0 1.428-.001 3.362-.25 4.963-1.277 1.66-1.065 2.868-2.906 2.868-5.859 0-2.479-1.327-4.896-3.65-5.93-1.82-.813-3.044-.8-4.806-.788l-.567.002v1.5c.184 0 .368 0 .553-.002 1.82-.007 2.704-.014 4.21.657 1.854.827 2.76 2.657 2.76 4.561 0 2.472-.973 3.824-2.178 4.596-1.258.807-2.864 1.04-4.163 1.04h-.02c-1.115.03-2.229 0-3.344 0H6.734Z"
   })
@@ -56607,6 +56612,22 @@ const DeviantArtIcon = () => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceO
   version: "1.1",
   children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
     d: "M 18.19 5.636 18.19 2 18.188 2 14.553 2 14.19 2.366 12.474 5.636 11.935 6 5.81 6 5.81 10.994 9.177 10.994 9.477 11.357 5.81 18.363 5.81 22 5.811 22 9.447 22 9.81 21.634 11.526 18.364 12.065 18 18.19 18 18.19 13.006 14.823 13.006 14.523 12.641 18.19 5.636z"
+  })
+});
+
+;// ./node_modules/@wordpress/block-library/build-module/social-link/icons/discord.js
+/**
+ * WordPress dependencies
+ */
+
+
+const DiscordIcon = () => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
+  width: "24",
+  height: "24",
+  viewBox: "0 0 24 24",
+  version: "1.1",
+  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
+    d: "M20.317 4.369A19.88 19.88 0 0 0 15.894 3a14.145 14.145 0 0 0-.719 1.518 19.205 19.205 0 0 0-5.351 0A14.183 14.183 0 0 0 9.104 3 19.896 19.896 0 0 0 4.682 4.369a18.921 18.921 0 0 0-3.012 12.52 19.929 19.929 0 0 0 6.081 3.097c.487-.65.922-1.339 1.3-2.061a12.445 12.445 0 0 1-1.958-.896c.165-.12.326-.246.483-.374a12.445 12.445 0 0 0 8.946 0c.157.128.318.253.483.374-.627.371-1.281.683-1.958.896.379.722.813 1.41 1.3 2.061a19.94 19.94 0 0 0 6.081-3.097 18.921 18.921 0 0 0-3.012-12.52ZM8.12 15.233c-1.202 0-2.184-1.09-2.184-2.431 0-1.34.97-2.431 2.184-2.431 1.213 0 2.202 1.09 2.184 2.431 0 1.341-.97 2.431-2.184 2.431Zm7.757 0c-1.202 0-2.184-1.09-2.184-2.431 0-1.34.97-2.431 2.184-2.431 1.213 0 2.202 1.09 2.184 2.431 0 1.341-.97 2.431-2.184 2.431Z"
   })
 });
 
@@ -57219,7 +57240,6 @@ const YouTubeIcon = () => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObje
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/social-link/variations.js
-/* wp:polyfill */
 /**
  * Internal dependencies
  */
@@ -57288,6 +57308,13 @@ const social_link_variations_variations = [{
   },
   title: 'DeviantArt',
   icon: DeviantArtIcon
+}, {
+  name: 'discord',
+  attributes: {
+    service: 'discord'
+  },
+  title: 'Discord',
+  icon: DiscordIcon
 }, {
   name: 'dribbble',
   attributes: {
@@ -57572,7 +57599,6 @@ social_link_variations_variations.forEach(variation => {
 /* harmony default export */ const social_link_variations = (social_link_variations_variations);
 
 ;// ./node_modules/@wordpress/block-library/build-module/social-link/social-list.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -58043,7 +58069,6 @@ const check = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
 /* harmony default export */ const library_check = (check);
 
 ;// ./node_modules/@wordpress/block-library/build-module/social-links/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -58558,7 +58583,6 @@ const spacer_deprecated_deprecated = [{
 const MIN_SPACER_SIZE = 0;
 
 ;// ./node_modules/@wordpress/block-library/build-module/spacer/controls.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -59133,7 +59157,6 @@ const blockTable = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)
 /* harmony default export */ const block_table = (blockTable);
 
 ;// ./node_modules/@wordpress/block-library/build-module/table/deprecated.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -60047,7 +60070,6 @@ const table = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
 /* harmony default export */ const library_table = (table);
 
 ;// ./node_modules/@wordpress/block-library/build-module/table/state.js
-/* wp:polyfill */
 const INHERITED_COLUMN_ATTRIBUTES = ['align'];
 
 /**
@@ -60346,7 +60368,6 @@ function isEmptyRow(row) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/table/edit.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -60854,7 +60875,6 @@ function TableEdit({
 /* harmony default export */ const table_edit = (TableEdit);
 
 ;// ./node_modules/@wordpress/block-library/build-module/table/save.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -60966,7 +60986,6 @@ function normalizeRowColSpan(rowColSpan) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/table/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -61372,7 +61391,6 @@ const tableOfContents = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject
 /* harmony default export */ const table_of_contents = (tableOfContents);
 
 ;// ./node_modules/@wordpress/block-library/build-module/table-of-contents/list.js
-/* wp:polyfill */
 
 /**
  * External dependencies
@@ -61418,7 +61436,6 @@ function TableOfContentsList({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/table-of-contents/utils.js
-/* wp:polyfill */
 /**
  * Takes a flat list of heading parameters and nests them based on each header's
  * immediate parent's level.
@@ -61942,7 +61959,6 @@ const tag_cloud_transforms_transforms = {
 /* harmony default export */ const tag_cloud_transforms = (tag_cloud_transforms_transforms);
 
 ;// ./node_modules/@wordpress/block-library/build-module/tag-cloud/edit.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -62784,7 +62800,6 @@ function paramCase(input, options) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/hooks.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -63077,7 +63092,6 @@ function mapTemplatePartToBlockPattern(templatePart) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/template-part/edit/selection-modal.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -63163,7 +63177,6 @@ function TemplatePartSelectionModal({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/transformers.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -63239,7 +63252,6 @@ function transformInnerBlocks(innerBlocks = []) {
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/template-part/edit/import-controls.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -63383,7 +63395,6 @@ function TemplatePartImportControls({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/template-part/edit/advanced-controls.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -63877,7 +63888,6 @@ function TemplatePartEdit({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/template-part/variations.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -64194,7 +64204,6 @@ const term_description_init = () => initBlock({
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/text-columns/edit.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -64271,7 +64280,6 @@ function TextColumnsEdit({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/text-columns/save.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -64302,7 +64310,6 @@ function text_columns_save_save({
 }
 
 ;// ./node_modules/@wordpress/block-library/build-module/text-columns/transforms.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -64763,7 +64770,6 @@ const video = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
 /* harmony default export */ const library_video = (video);
 
 ;// ./node_modules/@wordpress/block-library/build-module/video/tracks.js
-/* wp:polyfill */
 
 function Tracks({
   tracks = []
@@ -65051,7 +65057,11 @@ const VideoSettings = ({
     const toggleAttribute = attribute => {
       return newValue => {
         setAttributes({
-          [attribute]: newValue
+          [attribute]: newValue,
+          // Set muted when autoplay changes
+          ...(attribute === 'autoplay' && {
+            muted: newValue
+          })
         });
       };
     };
@@ -65075,7 +65085,8 @@ const VideoSettings = ({
       hasValue: () => !!autoplay,
       onDeselect: () => {
         setAttributes({
-          autoplay: false
+          autoplay: false,
+          muted: false
         });
       },
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.ToggleControl, {
@@ -65113,7 +65124,9 @@ const VideoSettings = ({
         __nextHasNoMarginBottom: true,
         label: (0,external_wp_i18n_namespaceObject.__)('Muted'),
         onChange: toggleFactory.muted,
-        checked: !!muted
+        checked: !!muted,
+        disabled: autoplay,
+        help: autoplay ? (0,external_wp_i18n_namespaceObject.__)('Muted because of Autoplay.') : null
       })
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
       label: (0,external_wp_i18n_namespaceObject.__)('Playback controls'),
@@ -65171,7 +65184,6 @@ const VideoSettings = ({
 /* harmony default export */ const edit_common_settings = (VideoSettings);
 
 ;// ./node_modules/@wordpress/block-library/build-module/video/tracks-editor.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -65994,7 +66006,6 @@ const video_init = () => initBlock({
 });
 
 ;// ./node_modules/@wordpress/block-library/build-module/footnotes/edit.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

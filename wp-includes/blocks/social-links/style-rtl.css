@@ -97,6 +97,10 @@
   background-color:#02e49b;
   color:#fff;
 }
+:where(.wp-block-social-links:not(.is-style-logos-only)) .wp-social-link-discord{
+  background-color:#5865f2;
+  color:#fff;
+}
 :where(.wp-block-social-links:not(.is-style-logos-only)) .wp-social-link-dribbble{
   background-color:#e94c89;
   color:#fff;
@@ -275,6 +279,9 @@
 }
 :where(.wp-block-social-links.is-style-logos-only) .wp-social-link-deviantart{
   color:#02e49b;
+}
+:where(.wp-block-social-links.is-style-logos-only) .wp-social-link-discord{
+  color:#5865f2;
 }
 :where(.wp-block-social-links.is-style-logos-only) .wp-social-link-dribbble{
   color:#e94c89;

@@ -67,66 +67,109 @@ var x = (y) => {
 } 
 var y = (x) => (() => (x))
 const interactivity_namespaceObject = x({ ["getConfig"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getConfig), ["privateApis"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.privateApis), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store) });
-;// ./node_modules/@wordpress/interactivity-router/build-module/assets/styles.js
-/* wp:polyfill */
-const cssUrlRegEx = /url\(\s*(?:(["'])((?:\\.|[^\n\\"'])+)\1|((?:\\.|[^\s,"'()\\])+))\s*\)/g;
-const resolveUrl = (relativeUrl, baseUrl) => {
-  try {
-    return new URL(relativeUrl, baseUrl).toString();
-  } catch (e) {
-    return relativeUrl;
+;// ./node_modules/@wordpress/interactivity-router/build-module/head.js
+/**
+ * The cache of prefetched stylesheets and scripts.
+ */
+const headElements = new Map();
+
+/**
+ * Helper to update only the necessary tags in the head.
+ *
+ * @async
+ * @param newHead The head elements of the new page.
+ */
+const updateHead = async newHead => {
+  // Helper to get the tag id store in the cache.
+  const getTagId = tag => tag.id || tag.outerHTML;
+
+  // Map incoming head tags by their content.
+  const newHeadMap = new Map();
+  for (const child of newHead) {
+    newHeadMap.set(getTagId(child), child);
   }
-};
-const withAbsoluteUrls = (cssText, baseUrl) => cssText.replace(cssUrlRegEx, (_match, quotes = '', relUrl1, relUrl2) => `url(${quotes}${resolveUrl(relUrl1 || relUrl2, baseUrl)}${quotes})`);
-const styleSheetCache = new Map();
-const getCachedSheet = async (sheetId, factory) => {
-  if (!styleSheetCache.has(sheetId)) {
-    styleSheetCache.set(sheetId, factory());
+  const toRemove = [];
+
+  // Detect nodes that should be added or removed.
+  for (const child of document.head.children) {
+    const id = getTagId(child);
+    // Always remove styles and links as they might change.
+    if (child.nodeName === 'LINK' || child.nodeName === 'STYLE') {
+      toRemove.push(child);
+    } else if (newHeadMap.has(id)) {
+      newHeadMap.delete(id);
+    } else if (child.nodeName !== 'SCRIPT' && child.nodeName !== 'META') {
+      toRemove.push(child);
+    }
   }
-  return styleSheetCache.get(sheetId);
+  await Promise.all([...headElements.entries()].filter(([, {
+    tag
+  }]) => tag.nodeName === 'SCRIPT').map(async ([url]) => {
+    await import(/* webpackIgnore: true */url);
+  }));
+
+  // Prepare new assets.
+  const toAppend = [...newHeadMap.values()];
+
+  // Apply the changes.
+  toRemove.forEach(n => n.remove());
+  document.head.append(...toAppend);
 };
-const sheetFromLink = async ({
-  id,
-  href,
-  sheet: elementSheet
-}, baseUrl) => {
-  const sheetId = id || href;
-  const sheetUrl = resolveUrl(href, baseUrl);
-  if (elementSheet) {
-    return getCachedSheet(sheetId, () => {
-      const sheet = new CSSStyleSheet();
-      for (const {
-        cssText
-      } of elementSheet.cssRules) {
-        sheet.insertRule(withAbsoluteUrls(cssText, sheetUrl));
+
+/**
+ * Fetches and processes head assets (stylesheets and scripts) from a specified document.
+ *
+ * @async
+ * @param doc The document from which to fetch head assets. It should support standard DOM querying methods.
+ *
+ * @return Returns an array of HTML elements representing the head assets.
+ */
+const fetchHeadAssets = async doc => {
+  const headTags = [];
+
+  // We only want to fetch module scripts because regular scripts (without
+  // `async` or `defer` attributes) can depend on the execution of other scripts.
+  // Scripts found in the head are blocking and must be executed in order.
+  const scripts = doc.querySelectorAll('script[type="module"][src]');
+  scripts.forEach(script => {
+    const src = script.getAttribute('src');
+    if (!headElements.has(src)) {
+      // add the <link> elements to prefetch the module scripts
+      const link = doc.createElement('link');
+      link.rel = 'modulepreload';
+      link.href = src;
+      document.head.append(link);
+      headElements.set(src, {
+        tag: script
+      });
+    }
+  });
+  const stylesheets = doc.querySelectorAll('link[rel=stylesheet]');
+  await Promise.all(Array.from(stylesheets).map(async tag => {
+    const href = tag.getAttribute('href');
+    if (!href) {
+      return;
+    }
+    if (!headElements.has(href)) {
+      try {
+        const response = await fetch(href);
+        const text = await response.text();
+        headElements.set(href, {
+          tag,
+          text
+        });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
       }
-      return Promise.resolve(sheet);
-    });
-  }
-  return getCachedSheet(sheetId, async () => {
-    const response = await fetch(href);
-    const text = await response.text();
-    const sheet = new CSSStyleSheet();
-    await sheet.replace(withAbsoluteUrls(text, sheetUrl));
-    return sheet;
-  });
+    }
+    const headElement = headElements.get(href);
+    const styleElement = doc.createElement('style');
+    styleElement.textContent = headElement.text;
+    headTags.push(styleElement);
+  }));
+  return [doc.querySelector('title'), ...doc.querySelectorAll('style'), ...headTags];
 };
-const sheetFromStyle = async ({
-  textContent
-}) => {
-  const sheetId = textContent;
-  return getCachedSheet(sheetId, async () => {
-    const sheet = new CSSStyleSheet();
-    await sheet.replace(textContent);
-    return sheet;
-  });
-};
-const generateCSSStyleSheets = (doc, baseUrl = (doc.location || window.location).href) => [...doc.querySelectorAll('style,link[rel=stylesheet]')].map(element => {
-  if ('LINK' === element.nodeName) {
-    return sheetFromLink(element, baseUrl);
-  }
-  return sheetFromStyle(element);
-});
 
 ;// ./node_modules/@wordpress/interactivity-router/build-module/index.js
 var _getConfig$navigation;
@@ -175,9 +218,7 @@ const fetchPage = async (url, {
       html = await res.text();
     }
     const dom = new window.DOMParser().parseFromString(html, 'text/html');
-    return regionsToVdom(dom, {
-      baseUrl: url
-    });
+    return regionsToVdom(dom);
   } catch (e) {
     return false;
   }
@@ -185,15 +226,13 @@ const fetchPage = async (url, {
 
 // Return an object with VDOM trees of those HTML regions marked with a
 // `router-region` directive.
-const regionsToVdom = (dom, {
-  vdom,
-  baseUrl
+const regionsToVdom = async (dom, {
+  vdom
 } = {}) => {
   const regions = {
     body: undefined
   };
-  const styles = generateCSSStyleSheets(dom, baseUrl);
-  const scriptModules = [...dom.querySelectorAll('script[type=module][src]')].map(s => s.src);
+  let head;
   if (false) {}
   if (navigationMode === 'regionBased') {
     const attrName = `data-${directivePrefix}-router-region`;
@@ -206,8 +245,7 @@ const regionsToVdom = (dom, {
   const initialData = parseServerData(dom);
   return {
     regions,
-    styles,
-    scriptModules,
+    head,
     title,
     initialData
   };
@@ -215,12 +253,6 @@ const regionsToVdom = (dom, {
 
 // Render all interactive regions contained in the given page.
 const renderRegions = async page => {
-  // Wait for styles and modules to be ready.
-  await Promise.all([...page.styles, ...page.scriptModules.map(src => import(/* webpackIgnore: true */src))]);
-  // Replace style sheets.
-  const sheets = await Promise.all(page.styles);
-  window.document.querySelectorAll('style,link[rel=stylesheet]').forEach(element => element.remove());
-  window.document.adoptedStyleSheets = sheets;
   if (false) {}
   if (navigationMode === 'regionBased') {
     const attrName = `data-${directivePrefix}-router-region`;
@@ -270,9 +302,9 @@ window.addEventListener('popstate', async () => {
 // Initialize the router and cache the initial page using the initial vDOM.
 // Once this code is tested and more mature, the head should be updated for
 // region based navigation as well.
+if (false) {}
 pages.set(getPagePath(window.location.href), Promise.resolve(regionsToVdom(document, {
-  vdom: initialVdom,
-  baseUrl: window.location.href
+  vdom: initialVdom
 })));
 
 // Check if the link is valid for client-side navigation.
@@ -303,7 +335,6 @@ const {
   state: {
     url: window.location.href,
     navigation: {
-      isLoading: false,
       hasStarted: false,
       hasFinished: false
     }
@@ -355,7 +386,6 @@ const {
         if (navigatingTo !== href) {
           return;
         }
-        navigation.isLoading = true;
         if (loadingAnimation) {
           navigation.hasStarted = true;
           navigation.hasFinished = false;
@@ -384,7 +414,6 @@ const {
 
         // Update the navigation status once the the new page rendering
         // has been completed.
-        navigation.isLoading = false;
         if (loadingAnimation) {
           navigation.hasStarted = false;
           navigation.hasFinished = true;

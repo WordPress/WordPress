@@ -65,7 +65,6 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// external ["wp","i18n"]
 const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// ./node_modules/@wordpress/media-utils/build-module/components/media-upload/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -674,7 +673,6 @@ class UploadError extends Error {
 }
 
 ;// ./node_modules/@wordpress/media-utils/build-module/utils/validate-mime-type.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -717,7 +715,6 @@ function validateMimeType(file, allowedTypes) {
 }
 
 ;// ./node_modules/@wordpress/media-utils/build-module/utils/get-mime-types-array.js
-/* wp:polyfill */
 /**
  * Browsers may use unexpected mime types, and they differ from browser to browser.
  * This function computes a flexible array of mime types from the mime type structured provided by the server.
@@ -843,6 +840,7 @@ function validateFileSize(file, maxUploadFileSize) {
  * @param $0.onFileChange       Function called each time a file or a temporary representation of the file is available.
  * @param $0.wpAllowedMimeTypes List of allowed mime types and file extensions.
  * @param $0.signal             Abort signal.
+ * @param $0.multiple           Whether to allow multiple files to be uploaded.
  */
 function uploadMedia({
   wpAllowedMimeTypes,
@@ -852,8 +850,13 @@ function uploadMedia({
   maxUploadFileSize,
   onError,
   onFileChange,
-  signal
+  signal,
+  multiple = true
 }) {
+  if (!multiple && filesList.length > 1) {
+    onError?.(new Error((0,external_wp_i18n_namespaceObject.__)('Only one file can be used here.')));
+    return;
+  }
   const validFiles = [];
   const filesSet = [];
   const setAndUpdateFiles = (index, value) => {
@@ -911,9 +914,11 @@ function uploadMedia({
     } catch (error) {
       // Reset to empty on failure.
       setAndUpdateFiles(index, null);
+
+      // @wordpress/api-fetch throws any response that isn't in the 200 range as-is.
       let message;
-      if (error instanceof Error) {
-        message = error.message;
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        message = typeof error.message === 'string' ? error.message : String(error.message);
       } else {
         message = (0,external_wp_i18n_namespaceObject.sprintf)(
         // translators: %s: file name

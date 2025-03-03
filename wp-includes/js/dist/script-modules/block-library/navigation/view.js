@@ -28,9 +28,8 @@ var x = (y) => {
 	var x = {}; __webpack_require__.d(x, y); return x
 } 
 var y = (x) => (() => (x))
-const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["getElement"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store) });
+const interactivity_namespaceObject = x({ ["getContext"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getContext), ["getElement"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.getElement), ["store"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.store), ["withSyncEvent"]: () => (__WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__.withSyncEvent) });
 ;// ./node_modules/@wordpress/block-library/build-module/navigation/view.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -125,7 +124,7 @@ const {
         actions.openMenu('click');
       }
     },
-    handleMenuKeydown(event) {
+    handleMenuKeydown: (0,interactivity_namespaceObject.withSyncEvent)(event => {
       const {
         type,
         firstFocusableElement,
@@ -151,7 +150,7 @@ const {
           }
         }
       }
-    },
+    }),
     handleMenuFocusout(event) {
       const {
         modal,

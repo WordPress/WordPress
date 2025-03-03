@@ -1705,15 +1705,11 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   text-decoration:none !important;
 }
 .wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text span{
-  --wp-underline-color:var(--wp-admin-theme-color);
-  background-image:linear-gradient(45deg, #0000 20%, var(--wp-underline-color) 30%, var(--wp-underline-color) 36%, #0000 46%), linear-gradient(135deg, #0000 54%, var(--wp-underline-color) 64%, var(--wp-underline-color) 70%, #0000 80%);
-  background-position:0 100%;
-  background-repeat:repeat-x;
-  background-size:6px 3px;
-  padding-bottom:.1em;
-}
-.wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text.is-draft span,.wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text.is-invalid span{
-  --wp-underline-color:var(--wp--preset--color--vivid-red);
+  -webkit-text-decoration:wavy underline;
+          text-decoration:wavy underline;
+  -webkit-text-decoration-skip-ink:none;
+          text-decoration-skip-ink:none;
+  text-underline-offset:.25rem;
 }
 .wp-block-navigation-link__placeholder.wp-block-navigation-item__content{
   cursor:pointer;
@@ -1899,6 +1895,12 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   flex:1 1 auto;
 }
 
+.wp-block-rss .wp-block-rss{
+  all:inherit;
+  margin:0;
+  padding:0;
+}
+
 .wp-block[data-align=center] .wp-block-search .wp-block-search__inside-wrapper{
   margin:auto;
 }
@@ -2081,6 +2083,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   font-size:inherit;
   font-weight:inherit;
   height:auto;
+  margin:0;
   opacity:1;
   padding:.25em;
 }
@@ -2173,12 +2176,6 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 .wp-social-link.wp-social-link__is-incomplete{
   opacity:.5;
 }
-@media (prefers-reduced-motion:reduce){
-  .wp-social-link.wp-social-link__is-incomplete{
-    transition-delay:0s;
-    transition-duration:0s;
-  }
-}
 
 .wp-block-social-links .is-selected .wp-social-link__is-incomplete,.wp-social-link.wp-social-link__is-incomplete:focus,.wp-social-link.wp-social-link__is-incomplete:hover{
   opacity:1;
@@ -2186,6 +2183,9 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 
 .wp-block-social-links .block-list-appender{
   position:static;
+}
+.wp-block-social-links .block-list-appender .block-editor-inserter{
+  font-size:inherit;
 }
 .wp-block-social-links .block-list-appender .block-editor-button-block-appender{
   font-size:inherit;

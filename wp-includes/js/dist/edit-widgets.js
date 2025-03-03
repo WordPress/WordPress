@@ -885,7 +885,6 @@ const ComplementaryAreaHeader = ({
 /* harmony default export */ const complementary_area_header = (ComplementaryAreaHeader);
 
 ;// ./node_modules/@wordpress/interface/build-module/components/action-item/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -1713,7 +1712,6 @@ const createStubPost = (id, blocks) => ({
 const constants_STORE_NAME = 'core/edit-widgets';
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/store/actions.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2151,7 +2149,6 @@ const getWidgets = () => async ({
 };
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/store/selectors.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -3241,7 +3238,9 @@ function WidgetAreas({
   const selectedWidgetArea = (0,external_wp_element_namespaceObject.useMemo)(() => selectedWidgetAreaId && widgetAreas?.find(widgetArea => widgetArea.id === selectedWidgetAreaId), [selectedWidgetAreaId, widgetAreas]);
   let description;
   if (!selectedWidgetArea) {
-    description = (0,external_wp_i18n_namespaceObject.__)('Widget Areas are global parts in your site’s layout that can accept blocks. These vary by theme, but are typically parts like your Sidebar or Footer.');
+    description = (0,external_wp_i18n_namespaceObject.__)(
+    // eslint-disable-next-line no-restricted-syntax -- 'sidebar' is a common web design term for layouts
+    'Widget Areas are global parts in your site’s layout that can accept blocks. These vary by theme, but are typically parts like your Sidebar or Footer.');
   } else if (selectedWidgetAreaId === 'wp_inactive_widgets') {
     description = (0,external_wp_i18n_namespaceObject.__)('Blocks in this Widget Area will not be displayed in your site.');
   } else {
@@ -3819,7 +3818,6 @@ const textFormattingShortcuts = [{
 }];
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -3916,7 +3914,6 @@ function DynamicShortcut({
 /* harmony default export */ const dynamic_shortcut = (DynamicShortcut);
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcut-help-modal/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -4216,7 +4213,6 @@ function Header() {
 /* harmony default export */ const header = (Header);
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/components/notices/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -4667,7 +4663,6 @@ function UnsavedChangesWarning() {
 }
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/components/welcome-guide/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -4855,7 +4850,6 @@ function Layout({
 /* harmony default export */ const layout = (Layout);
 
 ;// ./node_modules/@wordpress/edit-widgets/build-module/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

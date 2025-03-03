@@ -1272,7 +1272,6 @@ const promiseMiddleware = () => next => action => {
 /* harmony default export */ const promise_middleware = (promiseMiddleware);
 
 ;// ./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js
-/* wp:polyfill */
 /** @typedef {import('./registry').WPDataRegistry} WPDataRegistry */
 
 /**
@@ -1378,7 +1377,6 @@ function selectorArgsToStateKey(args) {
 }
 
 ;// ./node_modules/@wordpress/data/build-module/redux-store/metadata/reducer.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -1803,7 +1801,6 @@ function isShallowEqual(a, b, fromIndex) {
 }
 
 ;// ./node_modules/@wordpress/data/build-module/redux-store/metadata/selectors.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -2153,7 +2150,6 @@ function invalidateResolutionForStoreSelector(selectorName) {
 }
 
 ;// ./node_modules/@wordpress/data/build-module/redux-store/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -2715,7 +2711,6 @@ const coreDataStore = {
 /* harmony default export */ const store = (coreDataStore);
 
 ;// ./node_modules/@wordpress/data/build-module/utils/emitter.js
-/* wp:polyfill */
 /**
  * Create an event emitter.
  *
@@ -2759,7 +2754,6 @@ function createEmitter() {
 }
 
 ;// ./node_modules/@wordpress/data/build-module/registry.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -3206,7 +3200,6 @@ try {
 /* harmony default export */ const storage_default = (default_storage);
 
 ;// ./node_modules/@wordpress/data/build-module/plugins/persistence/index.js
-/* wp:polyfill */
 /**
  * External dependencies
  */
@@ -3596,7 +3589,6 @@ function useAsyncMode() {
 }
 
 ;// ./node_modules/@wordpress/data/build-module/components/use-select/index.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -3981,7 +3973,6 @@ const withSelect = mapSelectToProps => (0,external_wp_compose_namespaceObject.cr
 /* harmony default export */ const with_select = (withSelect);
 
 ;// ./node_modules/@wordpress/data/build-module/components/use-dispatch/use-dispatch-with-map.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

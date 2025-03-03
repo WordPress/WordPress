@@ -168,7 +168,6 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 (0,external_wp_data_namespaceObject.register)(store);
 
 ;// ./node_modules/@wordpress/viewport/build-module/listener.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -219,7 +218,6 @@ const addDimensionsEventListener = (breakpoints, operators) => {
 ;// external "ReactJSXRuntime"
 const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/@wordpress/viewport/build-module/with-viewport-match.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

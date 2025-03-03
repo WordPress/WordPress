@@ -205,7 +205,6 @@ function enableTips() {
 }
 
 ;// ./node_modules/@wordpress/nux/build-module/store/selectors.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */

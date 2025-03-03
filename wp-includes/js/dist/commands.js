@@ -3408,7 +3408,6 @@ function actions_close() {
 }
 
 ;// ./node_modules/@wordpress/commands/build-module/store/selectors.js
-/* wp:polyfill */
 /**
  * WordPress dependencies
  */
@@ -3529,7 +3528,6 @@ const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, 
 unlock(store).registerPrivateActions(private_actions_namespaceObject);
 
 ;// ./node_modules/@wordpress/commands/build-module/components/command-menu.js
-/* wp:polyfill */
 /**
  * External dependencies
  */

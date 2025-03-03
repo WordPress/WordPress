@@ -45,6 +45,7 @@
 
 .format-library__inline-color-popover [role=tabpanel]{
   padding:16px;
+  width:260px;
 }
 
 .block-editor-format-toolbar__language-popover .components-popover__content{
