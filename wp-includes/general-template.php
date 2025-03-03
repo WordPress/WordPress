@@ -2245,8 +2245,8 @@ function calendar_week_mod( $num ) {
  * @param array $args {
  *     Optional. Arguments for the `get_calendar` function.
  *
- *     @type bool $initial   Whether to use initial calendar names. Default true.
- *     @type bool $display   Whether to display the calendar output. Default true.
+ *     @type bool   $initial   Whether to use initial calendar names. Default true.
+ *     @type bool   $display   Whether to display the calendar output. Default true.
  *     @type string $post_type Optional. Post type. Default 'post'.
  * }
  * @return void|string Void if `$display` argument is true, calendar HTML if `$display` is false.
@@ -2284,8 +2284,8 @@ function get_calendar( $args = array() ) {
 	 * @param array $args {
 	 *     Optional. Arguments for the `get_calendar` function.
 	 *
-	 *     @type bool $initial   Whether to use initial calendar names. Default true.
-	 *     @type bool $display   Whether to display the calendar output. Default true.
+	 *     @type bool   $initial   Whether to use initial calendar names. Default true.
+	 *     @type bool   $display   Whether to display the calendar output. Default true.
 	 *     @type string $post_type Optional. Post type. Default 'post'.
 	 * }
 	 * @return array The arguments for the `get_calendar` function.
@@ -2518,8 +2518,8 @@ function get_calendar( $args = array() ) {
 	 * @param array  $args {
 	 *     Optional. Array of display arguments.
 	 *
-	 *     @type bool $initial   Whether to use initial calendar names. Default true.
-	 *     @type bool $display   Whether to display the calendar output. Default true.
+	 *     @type bool   $initial   Whether to use initial calendar names. Default true.
+	 *     @type bool   $display   Whether to display the calendar output. Default true.
 	 *     @type string $post_type Optional. Post type. Default 'post'.
 	 * }
 	 */
