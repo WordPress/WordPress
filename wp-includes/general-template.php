@@ -2233,6 +2233,7 @@ function calendar_week_mod( $num ) {
  * no posts for the month, then it will not be displayed.
  *
  * @since 1.0.0
+ * @since 6.8.0 New argument $args added, with backward compatibility.
  *
  * @global wpdb      $wpdb      WordPress database abstraction object.
  * @global int       $m
@@ -2241,21 +2242,64 @@ function calendar_week_mod( $num ) {
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  * @global array     $posts
  *
- * @param bool $initial Optional. Whether to use initial calendar names. Default true.
- * @param bool $display Optional. Whether to display the calendar output. Default true.
+ * @param array $args {
+ *     Optional. Arguments for the `get_calendar` function.
+ *
+ *     @type bool $initial   Whether to use initial calendar names. Default true.
+ *     @type bool $display   Whether to display the calendar output. Default true.
+ *     @type string $post_type Optional. Post type. Default 'post'.
+ * }
  * @return void|string Void if `$display` argument is true, calendar HTML if `$display` is false.
  */
-function get_calendar( $initial = true, $display = true ) {
+function get_calendar( $args = array() ) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
+
+	$defaults = array(
+		'initial'   => true,
+		'display'   => true,
+		'post_type' => 'post',
+	);
+
+	$original_args = func_get_args();
+	$args          = array();
+
+	if ( ! empty( $original_args ) ) {
+		if ( ! is_array( $original_args[0] ) ) {
+			if ( isset( $original_args[0] ) && is_bool( $original_args[0] ) ) {
+				$defaults['initial'] = $original_args[0];
+			}
+			if ( isset( $original_args[1] ) && is_bool( $original_args[1] ) ) {
+				$defaults['display'] = $original_args[1];
+			}
+		} else {
+			$args = $original_args[0];
+		}
+	}
+
+	/**
+	 * Filter the `get_calendar` function arguments before they are used.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param array $args {
+	 *     Optional. Arguments for the `get_calendar` function.
+	 *
+	 *     @type bool $initial   Whether to use initial calendar names. Default true.
+	 *     @type bool $display   Whether to display the calendar output. Default true.
+	 *     @type string $post_type Optional. Post type. Default 'post'.
+	 * }
+	 * @return array The arguments for the `get_calendar` function.
+	 */
+	$args = apply_filters( 'get_calendar_args', wp_parse_args( $args, $defaults ) );
 
 	$key   = md5( $m . $monthnum . $year );
 	$cache = wp_cache_get( 'get_calendar', 'calendar' );
 
 	if ( $cache && is_array( $cache ) && isset( $cache[ $key ] ) ) {
 		/** This filter is documented in wp-includes/general-template.php */
-		$output = apply_filters( 'get_calendar', $cache[ $key ] );
+		$output = apply_filters( 'get_calendar', $cache[ $key ], $args );
 
-		if ( $display ) {
+		if ( $args['display'] ) {
 			echo $output;
 			return;
 		}
@@ -2267,9 +2311,15 @@ function get_calendar( $initial = true, $display = true ) {
 		$cache = array();
 	}
 
+	$post_type = $args['post_type'];
+	if ( ! post_type_exists( $post_type ) ) {
+		$post_type = 'post';
+	}
+
 	// Quick check. If we have no posts at all, abort!
 	if ( ! $posts ) {
-		$gotsome = $wpdb->get_var( "SELECT 1 as test FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1" );
+		$prepared_query = $wpdb->prepare( "SELECT 1 as test FROM $wpdb->posts WHERE post_type = %s AND post_status = 'publish' LIMIT 1", $post_type );
+		$gotsome        = $wpdb->get_var( $prepared_query );
 		if ( ! $gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_calendar', $cache, 'calendar' );
@@ -2309,22 +2359,27 @@ function get_calendar( $initial = true, $display = true ) {
 	$last_day  = gmdate( 't', $unixmonth );
 
 	// Get the next and previous month and year with at least one post.
-	$previous = $wpdb->get_row(
+	$previous_prepared_query = $wpdb->prepare(
 		"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date < '$thisyear-$thismonth-01'
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = %s AND post_status = 'publish'
 		ORDER BY post_date DESC
-		LIMIT 1"
+		LIMIT 1",
+		$post_type
 	);
-	$next     = $wpdb->get_row(
+	$previous                = $wpdb->get_row( $previous_prepared_query );
+
+	$next_prepared_query = $wpdb->prepare(
 		"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date > '$thisyear-$thismonth-{$last_day} 23:59:59'
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = %s AND post_status = 'publish'
 		ORDER BY post_date ASC
-		LIMIT 1"
+		LIMIT 1",
+		$post_type
 	);
+	$next                = $wpdb->get_row( $next_prepared_query );
 
 	/* translators: Calendar caption: 1: Month name, 2: 4-digit year. */
 	$calendar_caption = _x( '%1$s %2$s', 'calendar caption' );
@@ -2344,7 +2399,7 @@ function get_calendar( $initial = true, $display = true ) {
 	}
 
 	foreach ( $myweek as $wd ) {
-		$day_name         = $initial ? $wp_locale->get_weekday_initial( $wd ) : $wp_locale->get_weekday_abbrev( $wd );
+		$day_name         = $args['initial'] ? $wp_locale->get_weekday_initial( $wd ) : $wp_locale->get_weekday_abbrev( $wd );
 		$wd               = esc_attr( $wd );
 		$calendar_output .= "\n\t\t<th scope=\"col\" aria-label=\"$wd\">$day_name</th>";
 	}
@@ -2358,13 +2413,14 @@ function get_calendar( $initial = true, $display = true ) {
 	$daywithpost = array();
 
 	// Get days with posts.
-	$dayswithposts = $wpdb->get_results(
+	$dayswithposts_prepared_query = $wpdb->prepare(
 		"SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = %s AND post_status = 'publish'
 		AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'",
-		ARRAY_N
+		$post_type
 	);
+	$dayswithposts                = $wpdb->get_results( $dayswithposts_prepared_query, ARRAY_N );
 
 	if ( $dayswithposts ) {
 		foreach ( (array) $dayswithposts as $daywith ) {
@@ -2452,19 +2508,29 @@ function get_calendar( $initial = true, $display = true ) {
 	$cache[ $key ] = $calendar_output;
 	wp_cache_set( 'get_calendar', $cache, 'calendar' );
 
-	if ( $display ) {
-		/**
-		 * Filters the HTML calendar output.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param string $calendar_output HTML output of the calendar.
-		 */
-		echo apply_filters( 'get_calendar', $calendar_output );
+	/**
+	 * Filters the HTML calendar output.
+	 *
+	 * @since 3.0.0
+	 * @since 6.8.0 New argument $args added, with backward compatibility.
+	 *
+	 * @param string $calendar_output HTML output of the calendar.
+	 * @param array  $args {
+	 *     Optional. Array of display arguments.
+	 *
+	 *     @type bool $initial   Whether to use initial calendar names. Default true.
+	 *     @type bool $display   Whether to display the calendar output. Default true.
+	 *     @type string $post_type Optional. Post type. Default 'post'.
+	 * }
+	 */
+	$calendar_output = apply_filters( 'get_calendar', $calendar_output, $args );
+
+	if ( $args['display'] ) {
+		echo $calendar_output;
 		return;
 	}
-	/** This filter is documented in wp-includes/general-template.php */
-	return apply_filters( 'get_calendar', $calendar_output );
+
+	return $calendar_output;
 }
 
 /**
