@@ -34,6 +34,7 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="hfeed site">
+	<a class="screen-reader-text skip-link" href="#content"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
 	<header id="masthead" class="site-header">
 		<hgroup>
 		<?php $is_front = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) ); ?>
@@ -43,7 +44,6 @@
 
 		<nav id="site-navigation" class="main-navigation">
 			<button class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></button>
-			<a class="assistive-text" href="#content"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
 			<?php
 			wp_nav_menu(
 				array(
