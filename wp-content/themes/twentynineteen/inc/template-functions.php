@@ -167,7 +167,7 @@ add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
  *
  * @link https://www.w3.org/WAI/tutorials/menus/flyout/
  *
- * @param array   $atts {
+ * @param array    $atts {
  *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
  *
  *     @type string $title        Title attribute.
@@ -176,21 +176,25 @@ add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
  *     @type string $href         The href attribute.
  *     @type string $aria-current The aria-current attribute.
  * }
- * @param WP_Post $item The current menu item object.
+ * @param WP_Post  $item The current menu item object.
+ * @param stdClass $args An object of `wp_nav_menu()` arguments.
  * @return string[] Modified attributes.
  */
-function twentynineteen_nav_menu_link_attributes( $atts, $item ) {
+function twentynineteen_nav_menu_link_attributes( $atts, $item, $args ) {
 
-	// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
-	$item_has_children = in_array( 'menu-item-has-children', $item->classes, true );
-	if ( $item_has_children ) {
-		$atts['aria-haspopup'] = 'true';
-		$atts['aria-expanded'] = 'false';
+	// Check that this is the primary menu.
+	if ( isset( $args->theme_location ) && 'menu-1' === $args->theme_location ) {
+		// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
+		$item_has_children = in_array( 'menu-item-has-children', $item->classes, true );
+		if ( $item_has_children ) {
+			$atts['aria-haspopup'] = 'true';
+			$atts['aria-expanded'] = 'false';
+		}
 	}
 
 	return $atts;
 }
-add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 2 );
+add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 3 );
 
 /**
  * Creates a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
