@@ -2071,7 +2071,7 @@ function wp_insert_comment( $commentdata ) {
 
 	$id = (int) $wpdb->insert_id;
 
-	if ( 1 === $comment_approved ) {
+	if ( 1 == $comment_approved ) {
 		wp_update_comment_count( $comment_post_id );
 
 		$data = array();
