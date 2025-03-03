@@ -10,6 +10,8 @@
  *
  * @since 6.8.0
  *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
  * @param array    $attributes Block attributes.
  * @param string   $content    Block default content.
  * @param WP_Block $block      Block instance.

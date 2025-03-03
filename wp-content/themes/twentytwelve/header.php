@@ -36,7 +36,8 @@
 <div id="page" class="hfeed site">
 	<header id="masthead" class="site-header">
 		<hgroup>
-			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+		<?php $is_front = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) ); ?>
+			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" <?php echo $is_front ? 'aria-current="page"' : ''; ?>><?php bloginfo( 'name' ); ?></a></h1>
 			<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
 		</hgroup>
 
@@ -54,7 +55,7 @@
 		</nav><!-- #site-navigation -->
 
 		<?php if ( get_header_image() ) : ?>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php twentytwelve_header_image(); ?></a>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" <?php echo $is_front ? 'aria-current="page"' : ''; ?> rel="home"><?php twentytwelve_header_image(); ?></a>
 		<?php endif; ?>
 	</header><!-- #masthead -->
 
