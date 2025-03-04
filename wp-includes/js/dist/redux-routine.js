@@ -2,227 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 6910:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.race = exports.join = exports.fork = exports.promise = undefined;
-
-var _is = __webpack_require__(6921);
-
-var _is2 = _interopRequireDefault(_is);
-
-var _helpers = __webpack_require__(3524);
-
-var _dispatcher = __webpack_require__(5136);
-
-var _dispatcher2 = _interopRequireDefault(_dispatcher);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var promise = exports.promise = function promise(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.promise(value)) return false;
-  value.then(next, raiseNext);
-  return true;
-};
-
-var forkedTasks = new Map();
-var fork = exports.fork = function fork(value, next, rungen) {
-  if (!_is2.default.fork(value)) return false;
-  var task = Symbol('fork');
-  var dispatcher = (0, _dispatcher2.default)();
-  forkedTasks.set(task, dispatcher);
-  rungen(value.iterator.apply(null, value.args), function (result) {
-    return dispatcher.dispatch(result);
-  }, function (err) {
-    return dispatcher.dispatch((0, _helpers.error)(err));
-  });
-  var unsubscribe = dispatcher.subscribe(function () {
-    unsubscribe();
-    forkedTasks.delete(task);
-  });
-  next(task);
-  return true;
-};
-
-var join = exports.join = function join(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.join(value)) return false;
-  var dispatcher = forkedTasks.get(value.task);
-  if (!dispatcher) {
-    raiseNext('join error : task not found');
-  } else {
-    (function () {
-      var unsubscribe = dispatcher.subscribe(function (result) {
-        unsubscribe();
-        next(result);
-      });
-    })();
-  }
-  return true;
-};
-
-var race = exports.race = function race(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.race(value)) return false;
-  var finished = false;
-  var success = function success(result, k, v) {
-    if (finished) return;
-    finished = true;
-    result[k] = v;
-    next(result);
-  };
-
-  var fail = function fail(err) {
-    if (finished) return;
-    raiseNext(err);
-  };
-  if (_is2.default.array(value.competitors)) {
-    (function () {
-      var result = value.competitors.map(function () {
-        return false;
-      });
-      value.competitors.forEach(function (competitor, index) {
-        rungen(competitor, function (output) {
-          return success(result, index, output);
-        }, fail);
-      });
-    })();
-  } else {
-    (function () {
-      var result = Object.keys(value.competitors).reduce(function (p, c) {
-        p[c] = false;
-        return p;
-      }, {});
-      Object.keys(value.competitors).forEach(function (index) {
-        rungen(value.competitors[index], function (output) {
-          return success(result, index, output);
-        }, fail);
-      });
-    })();
-  }
-  return true;
-};
-
-var subscribe = function subscribe(value, next) {
-  if (!_is2.default.subscribe(value)) return false;
-  if (!_is2.default.channel(value.channel)) {
-    throw new Error('the first argument of "subscribe" must be a valid channel');
-  }
-  var unsubscribe = value.channel.subscribe(function (ret) {
-    unsubscribe && unsubscribe();
-    next(ret);
-  });
-
-  return true;
-};
-
-exports["default"] = [promise, fork, join, race, subscribe];
-
-/***/ }),
-
-/***/ 5357:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
-
-var _is = __webpack_require__(6921);
-
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var any = exports.any = function any(value, next, rungen, yieldNext) {
-  yieldNext(value);
-  return true;
-};
-
-var error = exports.error = function error(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.error(value)) return false;
-  raiseNext(value.error);
-  return true;
-};
-
-var object = exports.object = function object(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.all(value) || !_is2.default.obj(value.value)) return false;
-  var result = {};
-  var keys = Object.keys(value.value);
-  var count = 0;
-  var hasError = false;
-  var gotResultSuccess = function gotResultSuccess(key, ret) {
-    if (hasError) return;
-    result[key] = ret;
-    count++;
-    if (count === keys.length) {
-      yieldNext(result);
-    }
-  };
-
-  var gotResultError = function gotResultError(key, error) {
-    if (hasError) return;
-    hasError = true;
-    raiseNext(error);
-  };
-
-  keys.map(function (key) {
-    rungen(value.value[key], function (ret) {
-      return gotResultSuccess(key, ret);
-    }, function (err) {
-      return gotResultError(key, err);
-    });
-  });
-
-  return true;
-};
-
-var array = exports.array = function array(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.all(value) || !_is2.default.array(value.value)) return false;
-  var result = [];
-  var count = 0;
-  var hasError = false;
-  var gotResultSuccess = function gotResultSuccess(key, ret) {
-    if (hasError) return;
-    result[key] = ret;
-    count++;
-    if (count === value.value.length) {
-      yieldNext(result);
-    }
-  };
-
-  var gotResultError = function gotResultError(key, error) {
-    if (hasError) return;
-    hasError = true;
-    raiseNext(error);
-  };
-
-  value.value.map(function (v, key) {
-    rungen(v, function (ret) {
-      return gotResultSuccess(key, ret);
-    }, function (err) {
-      return gotResultError(key, err);
-    });
-  });
-
-  return true;
-};
-
-var iterator = exports.iterator = function iterator(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.iterator(value)) return false;
-  rungen(value, next, raiseNext);
-  return true;
-};
-
-exports["default"] = [error, iterator, array, object, any];
-
-/***/ }),
-
 /***/ 3304:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -262,165 +41,6 @@ var cps = exports.cps = function cps(value, next, rungen, yieldNext, raiseNext) 
 };
 
 exports["default"] = [call, cps];
-
-/***/ }),
-
-/***/ 9127:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var _builtin = __webpack_require__(5357);
-
-var _builtin2 = _interopRequireDefault(_builtin);
-
-var _is = __webpack_require__(6921);
-
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var create = function create() {
-  var userControls = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-
-  var controls = [].concat(_toConsumableArray(userControls), _toConsumableArray(_builtin2.default));
-
-  var runtime = function runtime(input) {
-    var success = arguments.length <= 1 || arguments[1] === undefined ? function () {} : arguments[1];
-    var error = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
-
-    var iterate = function iterate(gen) {
-      var yieldValue = function yieldValue(isError) {
-        return function (ret) {
-          try {
-            var _ref = isError ? gen.throw(ret) : gen.next(ret);
-
-            var value = _ref.value;
-            var done = _ref.done;
-
-            if (done) return success(value);
-            next(value);
-          } catch (e) {
-            return error(e);
-          }
-        };
-      };
-
-      var next = function next(ret) {
-        controls.some(function (control) {
-          return control(ret, next, runtime, yieldValue(false), yieldValue(true));
-        });
-      };
-
-      yieldValue(false)();
-    };
-
-    var iterator = _is2.default.iterator(input) ? input : regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return input;
-
-            case 2:
-              return _context.abrupt('return', _context.sent);
-
-            case 3:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })();
-
-    iterate(iterator, success, error);
-  };
-
-  return runtime;
-};
-
-exports["default"] = create;
-
-/***/ }),
-
-/***/ 8975:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.wrapControls = exports.asyncControls = exports.create = undefined;
-
-var _helpers = __webpack_require__(3524);
-
-Object.keys(_helpers).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _helpers[key];
-    }
-  });
-});
-
-var _create = __webpack_require__(9127);
-
-var _create2 = _interopRequireDefault(_create);
-
-var _async = __webpack_require__(6910);
-
-var _async2 = _interopRequireDefault(_async);
-
-var _wrap = __webpack_require__(3304);
-
-var _wrap2 = _interopRequireDefault(_wrap);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.create = _create2.default;
-exports.asyncControls = _async2.default;
-exports.wrapControls = _wrap2.default;
-
-/***/ }),
-
-/***/ 5136:
-/***/ ((__unused_webpack_module, exports) => {
-
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-var createDispatcher = function createDispatcher() {
-  var listeners = [];
-
-  return {
-    subscribe: function subscribe(listener) {
-      listeners.push(listener);
-      return function () {
-        listeners = listeners.filter(function (l) {
-          return l !== listener;
-        });
-      };
-    },
-    dispatch: function dispatch(action) {
-      listeners.slice().forEach(function (listener) {
-        return listener(action);
-      });
-    }
-  };
-};
-
-exports["default"] = createDispatcher;
 
 /***/ }),
 
@@ -564,6 +184,282 @@ var createChannel = exports.createChannel = function createChannel(callback) {
 
 /***/ }),
 
+/***/ 4137:
+/***/ ((__unused_webpack_module, exports) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+var keys = {
+  all: Symbol('all'),
+  error: Symbol('error'),
+  fork: Symbol('fork'),
+  join: Symbol('join'),
+  race: Symbol('race'),
+  call: Symbol('call'),
+  cps: Symbol('cps'),
+  subscribe: Symbol('subscribe')
+};
+
+exports["default"] = keys;
+
+/***/ }),
+
+/***/ 5136:
+/***/ ((__unused_webpack_module, exports) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+var createDispatcher = function createDispatcher() {
+  var listeners = [];
+
+  return {
+    subscribe: function subscribe(listener) {
+      listeners.push(listener);
+      return function () {
+        listeners = listeners.filter(function (l) {
+          return l !== listener;
+        });
+      };
+    },
+    dispatch: function dispatch(action) {
+      listeners.slice().forEach(function (listener) {
+        return listener(action);
+      });
+    }
+  };
+};
+
+exports["default"] = createDispatcher;
+
+/***/ }),
+
+/***/ 5357:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
+
+var _is = __webpack_require__(6921);
+
+var _is2 = _interopRequireDefault(_is);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var any = exports.any = function any(value, next, rungen, yieldNext) {
+  yieldNext(value);
+  return true;
+};
+
+var error = exports.error = function error(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.error(value)) return false;
+  raiseNext(value.error);
+  return true;
+};
+
+var object = exports.object = function object(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.all(value) || !_is2.default.obj(value.value)) return false;
+  var result = {};
+  var keys = Object.keys(value.value);
+  var count = 0;
+  var hasError = false;
+  var gotResultSuccess = function gotResultSuccess(key, ret) {
+    if (hasError) return;
+    result[key] = ret;
+    count++;
+    if (count === keys.length) {
+      yieldNext(result);
+    }
+  };
+
+  var gotResultError = function gotResultError(key, error) {
+    if (hasError) return;
+    hasError = true;
+    raiseNext(error);
+  };
+
+  keys.map(function (key) {
+    rungen(value.value[key], function (ret) {
+      return gotResultSuccess(key, ret);
+    }, function (err) {
+      return gotResultError(key, err);
+    });
+  });
+
+  return true;
+};
+
+var array = exports.array = function array(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.all(value) || !_is2.default.array(value.value)) return false;
+  var result = [];
+  var count = 0;
+  var hasError = false;
+  var gotResultSuccess = function gotResultSuccess(key, ret) {
+    if (hasError) return;
+    result[key] = ret;
+    count++;
+    if (count === value.value.length) {
+      yieldNext(result);
+    }
+  };
+
+  var gotResultError = function gotResultError(key, error) {
+    if (hasError) return;
+    hasError = true;
+    raiseNext(error);
+  };
+
+  value.value.map(function (v, key) {
+    rungen(v, function (ret) {
+      return gotResultSuccess(key, ret);
+    }, function (err) {
+      return gotResultError(key, err);
+    });
+  });
+
+  return true;
+};
+
+var iterator = exports.iterator = function iterator(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.iterator(value)) return false;
+  rungen(value, next, raiseNext);
+  return true;
+};
+
+exports["default"] = [error, iterator, array, object, any];
+
+/***/ }),
+
+/***/ 6910:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.race = exports.join = exports.fork = exports.promise = undefined;
+
+var _is = __webpack_require__(6921);
+
+var _is2 = _interopRequireDefault(_is);
+
+var _helpers = __webpack_require__(3524);
+
+var _dispatcher = __webpack_require__(5136);
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var promise = exports.promise = function promise(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.promise(value)) return false;
+  value.then(next, raiseNext);
+  return true;
+};
+
+var forkedTasks = new Map();
+var fork = exports.fork = function fork(value, next, rungen) {
+  if (!_is2.default.fork(value)) return false;
+  var task = Symbol('fork');
+  var dispatcher = (0, _dispatcher2.default)();
+  forkedTasks.set(task, dispatcher);
+  rungen(value.iterator.apply(null, value.args), function (result) {
+    return dispatcher.dispatch(result);
+  }, function (err) {
+    return dispatcher.dispatch((0, _helpers.error)(err));
+  });
+  var unsubscribe = dispatcher.subscribe(function () {
+    unsubscribe();
+    forkedTasks.delete(task);
+  });
+  next(task);
+  return true;
+};
+
+var join = exports.join = function join(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.join(value)) return false;
+  var dispatcher = forkedTasks.get(value.task);
+  if (!dispatcher) {
+    raiseNext('join error : task not found');
+  } else {
+    (function () {
+      var unsubscribe = dispatcher.subscribe(function (result) {
+        unsubscribe();
+        next(result);
+      });
+    })();
+  }
+  return true;
+};
+
+var race = exports.race = function race(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.race(value)) return false;
+  var finished = false;
+  var success = function success(result, k, v) {
+    if (finished) return;
+    finished = true;
+    result[k] = v;
+    next(result);
+  };
+
+  var fail = function fail(err) {
+    if (finished) return;
+    raiseNext(err);
+  };
+  if (_is2.default.array(value.competitors)) {
+    (function () {
+      var result = value.competitors.map(function () {
+        return false;
+      });
+      value.competitors.forEach(function (competitor, index) {
+        rungen(competitor, function (output) {
+          return success(result, index, output);
+        }, fail);
+      });
+    })();
+  } else {
+    (function () {
+      var result = Object.keys(value.competitors).reduce(function (p, c) {
+        p[c] = false;
+        return p;
+      }, {});
+      Object.keys(value.competitors).forEach(function (index) {
+        rungen(value.competitors[index], function (output) {
+          return success(result, index, output);
+        }, fail);
+      });
+    })();
+  }
+  return true;
+};
+
+var subscribe = function subscribe(value, next) {
+  if (!_is2.default.subscribe(value)) return false;
+  if (!_is2.default.channel(value.channel)) {
+    throw new Error('the first argument of "subscribe" must be a valid channel');
+  }
+  var unsubscribe = value.channel.subscribe(function (ret) {
+    unsubscribe && unsubscribe();
+    next(ret);
+  });
+
+  return true;
+};
+
+exports["default"] = [promise, fork, join, race, subscribe];
+
+/***/ }),
+
 /***/ 6921:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
@@ -628,26 +524,130 @@ exports["default"] = is;
 
 /***/ }),
 
-/***/ 4137:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ 8975:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-var keys = {
-  all: Symbol('all'),
-  error: Symbol('error'),
-  fork: Symbol('fork'),
-  join: Symbol('join'),
-  race: Symbol('race'),
-  call: Symbol('call'),
-  cps: Symbol('cps'),
-  subscribe: Symbol('subscribe')
+exports.wrapControls = exports.asyncControls = exports.create = undefined;
+
+var _helpers = __webpack_require__(3524);
+
+Object.keys(_helpers).forEach(function (key) {
+  if (key === "default") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _helpers[key];
+    }
+  });
+});
+
+var _create = __webpack_require__(9127);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _async = __webpack_require__(6910);
+
+var _async2 = _interopRequireDefault(_async);
+
+var _wrap = __webpack_require__(3304);
+
+var _wrap2 = _interopRequireDefault(_wrap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.create = _create2.default;
+exports.asyncControls = _async2.default;
+exports.wrapControls = _wrap2.default;
+
+/***/ }),
+
+/***/ 9127:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var _builtin = __webpack_require__(5357);
+
+var _builtin2 = _interopRequireDefault(_builtin);
+
+var _is = __webpack_require__(6921);
+
+var _is2 = _interopRequireDefault(_is);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var create = function create() {
+  var userControls = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
+  var controls = [].concat(_toConsumableArray(userControls), _toConsumableArray(_builtin2.default));
+
+  var runtime = function runtime(input) {
+    var success = arguments.length <= 1 || arguments[1] === undefined ? function () {} : arguments[1];
+    var error = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
+
+    var iterate = function iterate(gen) {
+      var yieldValue = function yieldValue(isError) {
+        return function (ret) {
+          try {
+            var _ref = isError ? gen.throw(ret) : gen.next(ret);
+
+            var value = _ref.value;
+            var done = _ref.done;
+
+            if (done) return success(value);
+            next(value);
+          } catch (e) {
+            return error(e);
+          }
+        };
+      };
+
+      var next = function next(ret) {
+        controls.some(function (control) {
+          return control(ret, next, runtime, yieldValue(false), yieldValue(true));
+        });
+      };
+
+      yieldValue(false)();
+    };
+
+    var iterator = _is2.default.iterator(input) ? input : regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return input;
+
+            case 2:
+              return _context.abrupt('return', _context.sent);
+
+            case 3:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })();
+
+    iterate(iterator, success, error);
+  };
+
+  return runtime;
 };
 
-exports["default"] = keys;
+exports["default"] = create;
 
 /***/ })
 

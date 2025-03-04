@@ -9,17 +9,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "react-refresh/runtime":
-/*!**************************************!*\
-  !*** external "ReactRefreshRuntime" ***!
-  \**************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = window["ReactRefreshRuntime"];
-
-/***/ }),
-
 /***/ "./node_modules/@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js":
 /*!***************************************************************************************!*\
   !*** ./node_modules/@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js ***!
@@ -643,6 +632,17 @@ eval("\n// TODO: Remove from `core-js@4`\n__webpack_require__(/*! ../modules/es.
 
 "use strict";
 eval("\nvar parent = __webpack_require__(/*! ../es/global-this */ \"./node_modules/core-js-pure/es/global-this.js\");\n\nmodule.exports = parent;\n\n\n//# sourceURL=webpack://WordPress/./node_modules/core-js-pure/stable/global-this.js?");
+
+/***/ }),
+
+/***/ "react-refresh/runtime":
+/*!**************************************!*\
+  !*** external "ReactRefreshRuntime" ***!
+  \**************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["ReactRefreshRuntime"];
 
 /***/ })
 
