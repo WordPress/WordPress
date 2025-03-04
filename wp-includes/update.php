@@ -337,12 +337,6 @@ function wp_update_plugins( $extra_stats = array() ) {
 		$current = new stdClass();
 	}
 
-	$updates               = new stdClass();
-	$updates->last_checked = time();
-	$updates->response     = array();
-	$updates->translations = array();
-	$updates->no_update    = array();
-
 	$doing_cron = wp_doing_cron();
 
 	// Check for update on a different schedule, depending on the page.
@@ -371,8 +365,6 @@ function wp_update_plugins( $extra_stats = array() ) {
 		$plugin_changed = false;
 
 		foreach ( $plugins as $file => $p ) {
-			$updates->checked[ $file ] = $p['Version'];
-
 			if ( ! isset( $current->checked[ $file ] ) || (string) $current->checked[ $file ] !== (string) $p['Version'] ) {
 				$plugin_changed = true;
 			}
@@ -459,6 +451,15 @@ function wp_update_plugins( $extra_stats = array() ) {
 
 	if ( is_wp_error( $raw_response ) || 200 !== wp_remote_retrieve_response_code( $raw_response ) ) {
 		return;
+	}
+
+	$updates               = new stdClass();
+	$updates->last_checked = time();
+	$updates->response     = array();
+	$updates->translations = array();
+	$updates->no_update    = array();
+	foreach ( $plugins as $file => $p ) {
+		$updates->checked[ $file ] = $p['Version'];
 	}
 
 	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
