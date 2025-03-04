@@ -154,6 +154,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	 * Please exercise extreme caution.
 	 *
 	 * @since 4.9.0
+	 * @since 6.1.0 Added `$extensions`, `$platform_flags`, and `$image_support` to the `$query` parameter.
 	 *
 	 * @param array $query {
 	 *     Version check query arguments.
@@ -167,6 +168,9 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	 *     @type int    $users              Number of users on this WordPress installation.
 	 *     @type int    $multisite_enabled  Whether this WordPress installation uses Multisite.
 	 *     @type int    $initial_db_version Database version of WordPress at time of installation.
+	 *     @type array  $extensions         List of PHP extensions and their versions.
+	 *     @type array  $platform_flags     List containing the operating system name and bit support.
+	 *     @type array  $image_support      List of image formats supported by GD and Imagick.
 	 * }
 	 */
 	$query = apply_filters( 'core_version_check_query_args', $query );
