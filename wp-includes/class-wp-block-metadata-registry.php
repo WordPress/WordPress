@@ -82,7 +82,7 @@ class WP_Block_Metadata_Registry {
 	 * @return bool True if the collection was registered successfully, false otherwise.
 	 */
 	public static function register_collection( $path, $manifest ) {
-		$path = wp_normalize_path( rtrim( $path, '/' ) );
+		$path = rtrim( wp_normalize_path( $path ), '/' );
 
 		$collection_roots = self::get_default_collection_roots();
 
@@ -112,7 +112,7 @@ class WP_Block_Metadata_Registry {
 		$collection_roots = array_unique(
 			array_map(
 				static function ( $allowed_root ) {
-					return rtrim( $allowed_root, '/' );
+					return rtrim( wp_normalize_path( $allowed_root ), '/' );
 				},
 				$collection_roots
 			)
@@ -161,6 +161,8 @@ class WP_Block_Metadata_Registry {
 	 * @return array|null The block metadata for the block, or null if not found.
 	 */
 	public static function get_metadata( $file_or_folder ) {
+		$file_or_folder = wp_normalize_path( $file_or_folder );
+
 		$path = self::find_collection_path( $file_or_folder );
 		if ( ! $path ) {
 			return null;
@@ -194,7 +196,7 @@ class WP_Block_Metadata_Registry {
 	 * @return string[] List of block metadata file paths, or an empty array if the given `$path` is invalid.
 	 */
 	public static function get_collection_block_metadata_files( $path ) {
-		$path = wp_normalize_path( rtrim( $path, '/' ) );
+		$path = rtrim( wp_normalize_path( $path ), '/' );
 
 		if ( ! isset( self::$collections[ $path ] ) ) {
 			_doing_it_wrong(
@@ -213,6 +215,7 @@ class WP_Block_Metadata_Registry {
 		}
 
 		return array_map(
+			// No normalization necessary since `$path` is already normalized and `$block_name` is just a folder name.
 			static function ( $block_name ) use ( $path ) {
 				return "{$path}/{$block_name}/block.json";
 			},
@@ -225,8 +228,8 @@ class WP_Block_Metadata_Registry {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @param string $file_or_folder The path to the file or folder.
-	 * @return string|null The collection path if found, or null if not found.
+	 * @param string $file_or_folder The normalized path to the file or folder.
+	 * @return string|null The normalized collection path if found, or null if not found.
 	 */
 	private static function find_collection_path( $file_or_folder ) {
 		if ( empty( $file_or_folder ) ) {
@@ -234,7 +237,7 @@ class WP_Block_Metadata_Registry {
 		}
 
 		// Check the last matched collection first, since block registration usually happens in batches per plugin or theme.
-		$path = wp_normalize_path( rtrim( $file_or_folder, '/' ) );
+		$path = rtrim( $file_or_folder, '/' );
 		if ( self::$last_matched_collection && str_starts_with( $path, self::$last_matched_collection ) ) {
 			return self::$last_matched_collection;
 		}
@@ -279,7 +282,7 @@ class WP_Block_Metadata_Registry {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @param string $path The file or folder path to determine the block identifier from.
+	 * @param string $path The normalized file or folder path to determine the block identifier from.
 	 * @return string The block identifier, or an empty string if the path is empty.
 	 */
 	private static function default_identifier_callback( $path ) {
@@ -302,8 +305,8 @@ class WP_Block_Metadata_Registry {
 	 *
 	 * @since 6.7.2
 	 *
-	 * @param string   $path             Block metadata collection path, without trailing slash.
-	 * @param string[] $collection_roots List of collection root paths, without trailing slashes.
+	 * @param string   $path             Normalized block metadata collection path, without trailing slash.
+	 * @param string[] $collection_roots List of normalized collection root paths, without trailing slashes.
 	 * @return bool True if the path is allowed, false otherwise.
 	 */
 	private static function is_valid_collection_path( $path, $collection_roots ) {
