@@ -366,6 +366,10 @@ body.trashing #publish-settings {
 	width: 46px;
 }
 
+.customize-control-date_time select {
+	vertical-align: top;
+}
+
 .date-time-fields .date-input.year {
 	width: 65px;
 }
