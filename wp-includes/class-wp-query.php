@@ -3779,15 +3779,16 @@ class WP_Query {
 
 		$post = $this->next_post();
 
-		// Get the post ID.
-		if ( is_object( $post ) ) {
-			$global_post_id = $post->ID;
-		} else {
-			$global_post_id = $post;
+		// Ensure a full post object is available.
+		if ( $post instanceof stdClass ) {
+			// stdClass indicates that a partial post object was queried.
+			$post = get_post( $post->ID );
+		} elseif ( is_numeric( $post ) ) {
+			// Numeric indicates that only post IDs were queried.
+			$post = get_post( $post );
 		}
 
-		// Ensure the global $post is the full post object.
-		$post = get_post( $global_post_id );
+		// Set up the global post object for the loop.
 		$this->setup_postdata( $post );
 	}
 
