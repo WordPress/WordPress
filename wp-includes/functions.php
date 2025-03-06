@@ -1715,7 +1715,7 @@ function do_robots() {
 	do_action( 'do_robotstxt' );
 
 	$output = "User-agent: *\n";
-	$public = get_option( 'blog_public' );
+	$public = (bool) get_option( 'blog_public' );
 
 	$site_url = parse_url( site_url() );
 	$path     = ( ! empty( $site_url['path'] ) ) ? $site_url['path'] : '';
