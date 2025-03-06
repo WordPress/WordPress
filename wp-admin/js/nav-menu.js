@@ -1102,11 +1102,51 @@
 			}, 500 ) );
 
 			$('#add-custom-links input[type="text"]').on( 'keypress', function(e){
-				$('#customlinkdiv').removeClass('form-invalid');
+				$( '#customlinkdiv' ).removeClass( 'form-invalid' );
+				$( '#custom-menu-item-url' ).removeAttr( 'aria-invalid' ).removeAttr( 'aria-describedby' );
+				$( '#custom-url-error' ).hide();
 
 				if ( e.keyCode === 13 ) {
 					e.preventDefault();
 					$( '#submit-customlinkdiv' ).trigger( 'click' );
+				}
+			});
+
+			$( '#submit-customlinkdiv' ).on( 'click', function (e) {
+				var urlInput = $( '#custom-menu-item-url' ),
+					url = urlInput.val().trim(),
+					errorMessage = $( '#custom-url-error' ),
+					urlWrap = $( '#menu-item-url-wrap' ),
+					urlRegex;
+
+				// Hide the error message initially
+				errorMessage.hide();
+				urlWrap.removeClass( 'has-error' );
+
+				/*
+				 * Allow URLs including:
+				 * - http://example.com/
+				 * - //example.com
+				 * - /directory/
+				 * - ?query-param
+				 * - #target
+				 * - mailto:foo@example.com
+				 *
+				 * Any further validation will be handled on the server when the setting is attempted to be saved,
+				 * so this pattern does not need to be complete.
+				 */
+				urlRegex = /^((\w+:)?\/\/\w.*|\w+:(?!\/\/$)|\/|\?|#)/;
+				if ( ! urlRegex.test( url ) ) {
+					e.preventDefault();
+					urlInput.addClass( 'form-invalid' )
+						.attr( 'aria-invalid', 'true' )
+						.attr( 'aria-describedby', 'custom-url-error' );
+
+					errorMessage.show();
+					var errorText = errorMessage.text();
+					urlWrap.addClass( 'has-error' );
+					// Announce error message via screen reader
+					wp.a11y.speak( errorText, 'assertive' );
 				}
 			});
 		},
@@ -1389,7 +1429,8 @@
 
 		addCustomLink : function( processMethod ) {
 			var url = $('#custom-menu-item-url').val().toString(),
-				label = $('#custom-menu-item-name').val();
+				label = $('#custom-menu-item-name').val(),
+				urlRegex;
 
 			if ( '' !== url ) {
 				url = url.trim();
@@ -1397,7 +1438,20 @@
 
 			processMethod = processMethod || api.addMenuItemToBottom;
 
-			if ( '' === url || 'https://' == url || 'http://' == url ) {
+			/*
+			 * Allow URLs including:
+			 * - http://example.com/
+			 * - //example.com
+			 * - /directory/
+			 * - ?query-param
+			 * - #target
+			 * - mailto:foo@example.com
+			 *
+			 * Any further validation will be handled on the server when the setting is attempted to be saved,
+			 * so this pattern does not need to be complete.
+			 */
+			urlRegex = /^((\w+:)?\/\/\w.*|\w+:(?!\/\/$)|\/|\?|#)/;
+			if ( ! urlRegex.test( url ) ) {
 				$('#customlinkdiv').addClass('form-invalid');
 				return false;
 			}

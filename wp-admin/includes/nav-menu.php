@@ -351,6 +351,7 @@ function wp_nav_menu_item_link_meta_box() {
 				type="text"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?>
 				class="code menu-item-textbox form-required" placeholder="https://"
 			/>
+			<span id="custom-url-error" class="error-message" style="display: none;"><?php _e( 'Please provide a valid link.' ); ?></span>
 		</p>
 
 		<p id="menu-item-name-wrap" class="wp-clearfix">
