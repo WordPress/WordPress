@@ -12,6 +12,11 @@ Version: 1.7.2
 Author URI: http://ma.tt/
 */
 
+// Do not load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
+
 function hello_dolly_get_lyric() {
 	/** These are the lyrics to Hello Dolly */
 	$lyrics = "Hello, Dolly
