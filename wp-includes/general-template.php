@@ -2347,8 +2347,17 @@ function get_calendar( $args = array() ) {
 
 	// Quick check. If we have no posts at all, abort!
 	if ( ! $posts ) {
-		$prepared_query = $wpdb->prepare( "SELECT 1 as test FROM $wpdb->posts WHERE post_type = %s AND post_status = 'publish' LIMIT 1", $post_type );
-		$gotsome        = $wpdb->get_var( $prepared_query );
+		$gotsome = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT 1 as test
+				FROM $wpdb->posts
+				WHERE post_type = %s
+				AND post_status = 'publish'
+				LIMIT 1",
+				$post_type
+			)
+		);
+
 		if ( ! $gotsome ) {
 			$cache[ $key ] = '';
 			wp_cache_set( 'get_calendar', $cache, 'calendar' );
@@ -2361,51 +2370,64 @@ function get_calendar( $args = array() ) {
 
 	// Let's figure out when we are.
 	if ( ! empty( $monthnum ) && ! empty( $year ) ) {
-		$thismonth = zeroise( (int) $monthnum, 2 );
+		$thismonth = (int) $monthnum;
 		$thisyear  = (int) $year;
 	} elseif ( ! empty( $w ) ) {
 		// We need to get the month from MySQL.
 		$thisyear = (int) substr( $m, 0, 4 );
 		// It seems MySQL's weeks disagree with PHP's.
 		$d         = ( ( $w - 1 ) * 7 ) + 6;
-		$thismonth = $wpdb->get_var( "SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')" );
+		$thismonth = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT DATE_FORMAT((DATE_ADD('%d0101', INTERVAL %d DAY) ), '%%m')",
+				$thisyear,
+				$d
+			)
+		);
 	} elseif ( ! empty( $m ) ) {
 		$thisyear = (int) substr( $m, 0, 4 );
 		if ( strlen( $m ) < 6 ) {
-			$thismonth = '01';
+			$thismonth = 1;
 		} else {
-			$thismonth = zeroise( (int) substr( $m, 4, 2 ), 2 );
+			$thismonth = (int) substr( $m, 4, 2 );
 		}
 	} else {
-		$thisyear  = current_time( 'Y' );
-		$thismonth = current_time( 'm' );
+		$thisyear  = (int) current_time( 'Y' );
+		$thismonth = (int) current_time( 'm' );
 	}
 
 	$unixmonth = mktime( 0, 0, 0, $thismonth, 1, $thisyear );
 	$last_day  = gmdate( 't', $unixmonth );
 
 	// Get the next and previous month and year with at least one post.
-	$previous_prepared_query = $wpdb->prepare(
-		"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
-		FROM $wpdb->posts
-		WHERE post_date < '$thisyear-$thismonth-01'
-		AND post_type = %s AND post_status = 'publish'
-		ORDER BY post_date DESC
-		LIMIT 1",
-		$post_type
+	$previous = $wpdb->get_row(
+		$wpdb->prepare(
+			"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
+			FROM $wpdb->posts
+			WHERE post_date < '%d-%d-01'
+			AND post_type = %s AND post_status = 'publish'
+			ORDER BY post_date DESC
+			LIMIT 1",
+			$thisyear,
+			zeroise( $thismonth, 2 ),
+			$post_type
+		)
 	);
-	$previous                = $wpdb->get_row( $previous_prepared_query );
 
-	$next_prepared_query = $wpdb->prepare(
-		"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
-		FROM $wpdb->posts
-		WHERE post_date > '$thisyear-$thismonth-{$last_day} 23:59:59'
-		AND post_type = %s AND post_status = 'publish'
-		ORDER BY post_date ASC
-		LIMIT 1",
-		$post_type
+	$next = $wpdb->get_row(
+		$wpdb->prepare(
+			"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
+			FROM $wpdb->posts
+			WHERE post_date > '%d-%d-%d 23:59:59'
+			AND post_type = %s AND post_status = 'publish'
+			ORDER BY post_date ASC
+			LIMIT 1",
+			$thisyear,
+			zeroise( $thismonth, 2 ),
+			$last_day,
+			$post_type
+		)
 	);
-	$next                = $wpdb->get_row( $next_prepared_query );
 
 	/* translators: Calendar caption: 1: Month name, 2: 4-digit year. */
 	$calendar_caption = _x( '%1$s %2$s', 'calendar caption' );
@@ -2439,14 +2461,21 @@ function get_calendar( $args = array() ) {
 	$daywithpost = array();
 
 	// Get days with posts.
-	$dayswithposts_prepared_query = $wpdb->prepare(
-		"SELECT DISTINCT DAYOFMONTH(post_date)
-		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
-		AND post_type = %s AND post_status = 'publish'
-		AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'",
-		$post_type
+	$dayswithposts = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT DISTINCT DAYOFMONTH(post_date)
+			FROM $wpdb->posts WHERE post_date >= '%d-%d-01 00:00:00'
+			AND post_type = %s AND post_status = 'publish'
+			AND post_date <= '%d-%d-%d 23:59:59'",
+			$thisyear,
+			zeroise( $thismonth, 2 ),
+			$post_type,
+			$thisyear,
+			zeroise( $thismonth, 2 ),
+			$last_day
+		),
+		ARRAY_N
 	);
-	$dayswithposts                = $wpdb->get_results( $dayswithposts_prepared_query, ARRAY_N );
 
 	if ( $dayswithposts ) {
 		foreach ( (array) $dayswithposts as $daywith ) {
@@ -2456,7 +2485,7 @@ function get_calendar( $args = array() ) {
 
 	// See how much we should pad in the beginning.
 	$pad = calendar_week_mod( (int) gmdate( 'w', $unixmonth ) - $week_begins );
-	if ( 0 != $pad ) {
+	if ( $pad > 0 ) {
 		$calendar_output .= "\n\t\t" . '<td colspan="' . esc_attr( $pad ) . '" class="pad">&nbsp;</td>';
 	}
 
@@ -2469,9 +2498,9 @@ function get_calendar( $args = array() ) {
 		}
 		$newrow = false;
 
-		if ( current_time( 'j' ) == $day &&
-			current_time( 'm' ) == $thismonth &&
-			current_time( 'Y' ) == $thisyear ) {
+		if ( (int) current_time( 'j' ) === $day &&
+			(int) current_time( 'm' ) === $thismonth &&
+			(int) current_time( 'Y' ) === $thisyear ) {
 			$calendar_output .= '<td id="today">';
 		} else {
 			$calendar_output .= '<td>';
@@ -2494,13 +2523,13 @@ function get_calendar( $args = array() ) {
 
 		$calendar_output .= '</td>';
 
-		if ( 6 == calendar_week_mod( (int) gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins ) ) {
+		if ( 6 === (int) calendar_week_mod( (int) gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins ) ) {
 			$newrow = true;
 		}
 	}
 
 	$pad = 7 - calendar_week_mod( (int) gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins );
-	if ( 0 != $pad && 7 != $pad ) {
+	if ( 0 < $pad && $pad < 7 ) {
 		$calendar_output .= "\n\t\t" . '<td class="pad" colspan="' . esc_attr( $pad ) . '">&nbsp;</td>';
 	}
 
@@ -2511,9 +2540,11 @@ function get_calendar( $args = array() ) {
 	$calendar_output .= '<nav aria-label="' . __( 'Previous and next months' ) . '" class="wp-calendar-nav">';
 
 	if ( $previous ) {
-		$calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-prev"><a href="' . get_month_link( $previous->year, $previous->month ) . '">&laquo; ' .
-			$wp_locale->get_month_abbrev( $wp_locale->get_month( $previous->month ) ) .
-		'</a></span>';
+		$calendar_output .= "\n\t\t" . sprintf(
+			'<span class="wp-calendar-nav-prev"><a href="%1$s">&laquo; %2$s</a></span>',
+			get_month_link( $previous->year, $previous->month ),
+			$wp_locale->get_month_abbrev( $wp_locale->get_month( $previous->month ) )
+		);
 	} else {
 		$calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-prev">&nbsp;</span>';
 	}
@@ -2521,9 +2552,11 @@ function get_calendar( $args = array() ) {
 	$calendar_output .= "\n\t\t" . '<span class="pad">&nbsp;</span>';
 
 	if ( $next ) {
-		$calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-next"><a href="' . get_month_link( $next->year, $next->month ) . '">' .
-			$wp_locale->get_month_abbrev( $wp_locale->get_month( $next->month ) ) .
-		' &raquo;</a></span>';
+		$calendar_output .= "\n\t\t" . sprintf(
+			'<span class="wp-calendar-nav-next"><a href="%1$s">%2$s &raquo;</a></span>',
+			get_month_link( $next->year, $next->month ),
+			$wp_locale->get_month_abbrev( $wp_locale->get_month( $next->month ) )
+		);
 	} else {
 		$calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-next">&nbsp;</span>';
 	}
