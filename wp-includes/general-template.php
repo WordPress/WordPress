@@ -2233,7 +2233,8 @@ function calendar_week_mod( $num ) {
  * no posts for the month, then it will not be displayed.
  *
  * @since 1.0.0
- * @since 6.8.0 New argument $args added, with backward compatibility.
+ * @since 6.8.0 Added the `$args` parameter, with backward compatibility
+ *              for the replaced `$initial` and `$display` parameters.
  *
  * @global wpdb      $wpdb      WordPress database abstraction object.
  * @global int       $m
@@ -2571,7 +2572,7 @@ function get_calendar( $args = array() ) {
 	 * Filters the HTML calendar output.
 	 *
 	 * @since 3.0.0
-	 * @since 6.8.0 New argument $args added, with backward compatibility.
+	 * @since 6.8.0 Added the `$args` parameter.
 	 *
 	 * @param string $calendar_output HTML output of the calendar.
 	 * @param array  $args {
