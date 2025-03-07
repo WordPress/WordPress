@@ -1185,9 +1185,35 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 		 * over the theme-provided ones, so we skip querying and building them.
 		 */
 		$query['slug__not_in'] = wp_list_pluck( $query_result, 'slug' );
-		$template_files        = _get_block_templates_files( $template_type, $query );
+		/*
+		 * We need to unset the post_type query param because some templates
+		 * would be excluded otherwise, like `page.html` when looking for
+		 * `page` templates. We need all templates so we can exclude duplicates
+		 * from plugin-registered templates.
+		 * See: https://github.com/WordPress/gutenberg/issues/65584
+		 */
+		$template_files_query = $query;
+		unset( $template_files_query['post_type'] );
+		$template_files = _get_block_templates_files( $template_type, $template_files_query );
 		foreach ( $template_files as $template_file ) {
-			$query_result[] = _build_block_template_result_from_file( $template_file, $template_type );
+			// If the query doesn't specify a post type, or it does and the template matches the post type, add it.
+			if (
+				! isset( $query['post_type'] ) ||
+				(
+					isset( $template_file['postTypes'] ) &&
+					in_array( $query['post_type'], $template_file['postTypes'], true )
+				)
+			) {
+				$query_result[] = _build_block_template_result_from_file( $template_file, $template_type );
+			} elseif ( ! isset( $template_file['postTypes'] ) ) {
+				// The custom templates with no associated post types are available for all post types as long
+				// as they are not default templates.
+				$candidate              = _build_block_template_result_from_file( $template_file, $template_type );
+				$default_template_types = get_default_block_template_types();
+				if ( ! isset( $default_template_types[ $candidate->slug ] ) ) {
+					$query_result[] = $candidate;
+				}
+			}
 		}
 
 		if ( 'wp_template' === $template_type ) {
