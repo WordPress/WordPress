@@ -1199,7 +1199,7 @@ function update_core( $from, $to ) {
 		}
 
 		// Add a warning when required PHP extensions are missing.
-		if ( $missing_extensions->has_errors() ) {
+		if ( ! empty( $missing_extensions->errors ) ) {
 			return $missing_extensions;
 		}
 	}
