@@ -23,7 +23,7 @@ function render_block_core_query_total( $attributes, $content, $block ) {
 	$wrapper_attributes = get_block_wrapper_attributes();
 	if ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] ) {
 		$query_to_use = $wp_query;
-		$current_page = max( 1, get_query_var( 'paged', 1 ) );
+		$current_page = max( 1, (int) get_query_var( 'paged', 1 ) );
 	} else {
 		$page_key     = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 		$current_page = isset( $_GET[ $page_key ] ) ? (int) $_GET[ $page_key ] : 1;
@@ -31,7 +31,7 @@ function render_block_core_query_total( $attributes, $content, $block ) {
 	}
 
 	$max_rows       = $query_to_use->found_posts;
-	$posts_per_page = $query_to_use->get( 'posts_per_page' );
+	$posts_per_page = (int) $query_to_use->get( 'posts_per_page' );
 
 	// Calculate the range of posts being displayed.
 	$start = ( $current_page - 1 ) * $posts_per_page + 1;

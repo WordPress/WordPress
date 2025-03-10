@@ -5676,9 +5676,9 @@
       ),
       'color' => array(
         'gradients' => true,
+        'text' => true,
         '__experimentalDefaultControls' => array(
-          'background' => true,
-          'text' => true
+          'background' => true
         )
       ),
       'typography' => array(

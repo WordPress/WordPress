@@ -1177,7 +1177,7 @@ function _fix_attachment_links( $post ) {
 		$url_id = (int) $url_match[2];
 		$rel_id = (int) $rel_match[1];
 
-		if ( ! $url_id || ! $rel_id || $url_id != $rel_id || ! str_contains( $url_match[0], $site_url ) ) {
+		if ( ! $url_id || ! $rel_id || $url_id !== $rel_id || ! str_contains( $url_match[0], $site_url ) ) {
 			continue;
 		}
 
