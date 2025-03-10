@@ -699,7 +699,8 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   padding:2px 5px 2px 1px;
   text-align:left;
 }
-.document-outline__button:disabled{
+.document-outline__button:disabled,.document-outline__button[aria-disabled=true]{
+  color:#757575;
   cursor:default;
 }
 .document-outline__button:focus{

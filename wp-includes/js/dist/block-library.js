@@ -28947,7 +28947,8 @@ function LatestPostsEdit({
       order,
       orderby: orderBy,
       per_page: postsToShow,
-      _embed: 'wp:featuredmedia'
+      _embed: 'wp:featuredmedia',
+      ignore_sticky: true
     }).filter(([, value]) => typeof value !== 'undefined'));
     return {
       defaultImageWidth: (_settings$imageDimens = settings.imageDimensions?.[featuredImageSizeSlug]?.width) !== null && _settings$imageDimens !== void 0 ? _settings$imageDimens : 0,
@@ -35502,22 +35503,23 @@ function useTemplatePartAreaLabel(clientId) {
     if (!parentTemplatePartClientIds?.length) {
       return;
     }
-    const defaultTemplatePartAreas = select(external_wp_coreData_namespaceObject.store).getEntityRecord('root', '__unstableBase')?.default_template_part_areas || [];
-    const definedAreas = defaultTemplatePartAreas.map(item => ({
-      ...item,
-      icon: getTemplatePartIcon(item.icon)
-    }));
     const {
       getCurrentTheme,
       getEditedEntityRecord
     } = select(external_wp_coreData_namespaceObject.store);
+    const currentTheme = getCurrentTheme();
+    const defaultTemplatePartAreas = currentTheme?.default_template_part_areas || [];
+    const definedAreas = defaultTemplatePartAreas.map(item => ({
+      ...item,
+      icon: getTemplatePartIcon(item.icon)
+    }));
     for (const templatePartClientId of parentTemplatePartClientIds) {
       const templatePartBlock = getBlock(templatePartClientId);
 
       // The 'area' usually isn't stored on the block, but instead
       // on the entity.
       const {
-        theme = getCurrentTheme()?.stylesheet,
+        theme = currentTheme?.stylesheet,
         slug
       } = templatePartBlock.attributes;
       const templatePartEntityId = createTemplatePartId(theme, slug);
@@ -41943,7 +41945,7 @@ function PostAuthorEdit({
   };
   const showCombobox = authorOptions.length >= minimumUsersForCombobox;
   const showAuthorControl = !!postId && !isDescendentOfQueryLoop && authorOptions.length > 0;
-  if (!supportsAuthor) {
+  if (!supportsAuthor && postType !== undefined) {
     return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
       ...blockProps,
       children: (0,external_wp_i18n_namespaceObject.sprintf)(
@@ -42298,9 +42300,9 @@ function PostAuthorNameEdit({
       })
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
       ...blockProps,
-      children: supportsAuthor ? displayAuthor : (0,external_wp_i18n_namespaceObject.sprintf)(
+      children: !supportsAuthor && postType !== undefined ? (0,external_wp_i18n_namespaceObject.sprintf)(
       // translators: %s: Name of the post type e.g: "post".
-      (0,external_wp_i18n_namespaceObject.__)('This post type (%s) does not support the author.'), postType)
+      (0,external_wp_i18n_namespaceObject.__)('This post type (%s) does not support the author.'), postType) : displayAuthor
     })]
   });
 }
@@ -47861,7 +47863,9 @@ const loop = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exter
 
 
 
+
 /** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
+/** @typedef {import('@wordpress/components/build-types/query-controls/types').OrderByOption} OrderByOption */
 
 /**
  * @typedef IHasNameAndId
@@ -48037,6 +48041,48 @@ function useIsPostTypeHierarchical(postType) {
     const type = select(external_wp_coreData_namespaceObject.store).getPostType(postType);
     return type?.viewable && type?.hierarchical;
   }, [postType]);
+}
+
+/**
+ * List of avaiable options to order by.
+ *
+ * @param {string} postType The post type to check.
+ * @return {OrderByOption[]} List of order options.
+ */
+function useOrderByOptions(postType) {
+  const supportsCustomOrder = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const type = select(external_wp_coreData_namespaceObject.store).getPostType(postType);
+    return !!type?.supports?.['page-attributes'];
+  }, [postType]);
+  return (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const orderByOptions = [{
+      label: (0,external_wp_i18n_namespaceObject.__)('Newest to oldest'),
+      value: 'date/desc'
+    }, {
+      label: (0,external_wp_i18n_namespaceObject.__)('Oldest to newest'),
+      value: 'date/asc'
+    }, {
+      /* translators: Label for ordering posts by title in ascending order. */
+      label: (0,external_wp_i18n_namespaceObject.__)('A → Z'),
+      value: 'title/asc'
+    }, {
+      /* translators: Label for ordering posts by title in descending order. */
+      label: (0,external_wp_i18n_namespaceObject.__)('Z → A'),
+      value: 'title/desc'
+    }];
+    if (supportsCustomOrder) {
+      orderByOptions.push({
+        /* translators: Label for ordering posts by ascending menu order. */
+        label: (0,external_wp_i18n_namespaceObject.__)('Ascending by order'),
+        value: 'menu_order/asc'
+      }, {
+        /* translators: Label for ordering posts by descending menu order. */
+        label: (0,external_wp_i18n_namespaceObject.__)('Descending by order'),
+        value: 'menu_order/desc'
+      });
+    }
+    return orderByOptions;
+  }, [supportsCustomOrder]);
 }
 
 /**
@@ -48332,7 +48378,7 @@ function EnhancedPaginationControl({
 
 
 
-const orderOptions = [{
+const defaultOrderByOptions = [{
   label: (0,external_wp_i18n_namespaceObject.__)('Newest to oldest'),
   value: 'date/desc'
 }, {
@@ -48350,6 +48396,7 @@ const orderOptions = [{
 function OrderControl({
   order,
   orderBy,
+  orderByOptions = defaultOrderByOptions,
   onChange
 }) {
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.SelectControl, {
@@ -48357,7 +48404,7 @@ function OrderControl({
     __next40pxDefaultSize: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Order by'),
     value: `${orderBy}/${order}`,
-    options: orderOptions,
+    options: orderByOptions,
     onChange: value => {
       const [newOrderBy, newOrder] = value.split('/');
       onChange({
@@ -49108,6 +49155,7 @@ function QueryInspectorControls(props) {
     onChangeDebounced();
     return onChangeDebounced.cancel;
   }, [querySearch, onChangeDebounced]);
+  const orderByOptions = useOrderByOptions(postType);
   const showInheritControl = !isSingular && isControlAllowed(allowedControls, 'inherit');
   const showPostTypeControl = !inherit && isControlAllowed(allowedControls, 'postType');
   const postTypeControlLabel = (0,external_wp_i18n_namespaceObject.__)('Post type');
@@ -49239,6 +49287,7 @@ function QueryInspectorControls(props) {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(order_control, {
           order,
           orderBy,
+          orderByOptions,
           onChange: setQuery
         })
       }), showStickyControl && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
@@ -52059,9 +52108,9 @@ const query_total_metadata = {
     },
     color: {
       gradients: true,
-      text: true,
       __experimentalDefaultControls: {
-        background: true
+        background: true,
+        text: true
       }
     },
     typography: {
@@ -62916,7 +62965,7 @@ function useCreateTemplatePartFromBlocks(area, setAttributes) {
 function useTemplatePartArea(area) {
   return (0,external_wp_data_namespaceObject.useSelect)(select => {
     var _selectedArea$area_ta;
-    const definedAreas = select(external_wp_coreData_namespaceObject.store).getEntityRecord('root', '__unstableBase')?.default_template_part_areas || [];
+    const definedAreas = select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.default_template_part_areas || [];
     const selectedArea = definedAreas.find(definedArea => definedArea.area === area);
     const defaultArea = definedAreas.find(definedArea => definedArea.area === 'uncategorized');
     return {
@@ -63419,7 +63468,7 @@ function TemplatePartAdvancedControls({
 }) {
   const [area, setArea] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', 'wp_template_part', 'area', templatePartId);
   const [title, setTitle] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', 'wp_template_part', 'title', templatePartId);
-  const defaultTemplatePartAreas = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getEntityRecord('root', '__unstableBase')?.default_template_part_areas || [], []);
+  const defaultTemplatePartAreas = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.default_template_part_areas || [], []);
   const areaOptions = defaultTemplatePartAreas.map(({
     label,
     area: _area

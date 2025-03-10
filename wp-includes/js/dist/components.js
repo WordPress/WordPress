@@ -63014,6 +63014,21 @@ function isSingleCategorySelection(props) {
 function isMultipleCategorySelection(props) {
   return 'categorySuggestions' in props;
 }
+const defaultOrderByOptions = [{
+  label: (0,external_wp_i18n_namespaceObject.__)('Newest to oldest'),
+  value: 'date/desc'
+}, {
+  label: (0,external_wp_i18n_namespaceObject.__)('Oldest to newest'),
+  value: 'date/asc'
+}, {
+  /* translators: Label for ordering posts by title in ascending order. */
+  label: (0,external_wp_i18n_namespaceObject.__)('A → Z'),
+  value: 'title/asc'
+}, {
+  /* translators: Label for ordering posts by title in descending order. */
+  label: (0,external_wp_i18n_namespaceObject.__)('Z → A'),
+  value: 'title/desc'
+}];
 
 /**
  * Controls to query for posts.
@@ -63021,7 +63036,7 @@ function isMultipleCategorySelection(props) {
  * ```jsx
  * const MyQueryControls = () => (
  *   <QueryControls
- *     { ...{ maxItems, minItems, numberOfItems, order, orderBy } }
+ *     { ...{ maxItems, minItems, numberOfItems, order, orderBy, orderByOptions } }
  *     onOrderByChange={ ( newOrderBy ) => {
  *       updateQuery( { orderBy: newOrderBy } )
  *     }
@@ -63046,6 +63061,7 @@ function QueryControls({
   numberOfItems,
   order,
   orderBy,
+  orderByOptions = defaultOrderByOptions,
   maxItems = DEFAULT_MAX_ITEMS,
   minItems = DEFAULT_MIN_ITEMS,
   onAuthorChange,
@@ -63064,21 +63080,7 @@ function QueryControls({
       __next40pxDefaultSize: true,
       label: (0,external_wp_i18n_namespaceObject.__)('Order by'),
       value: orderBy === undefined || order === undefined ? undefined : `${orderBy}/${order}`,
-      options: [{
-        label: (0,external_wp_i18n_namespaceObject.__)('Newest to oldest'),
-        value: 'date/desc'
-      }, {
-        label: (0,external_wp_i18n_namespaceObject.__)('Oldest to newest'),
-        value: 'date/asc'
-      }, {
-        /* translators: Label for ordering posts by title in ascending order. */
-        label: (0,external_wp_i18n_namespaceObject.__)('A → Z'),
-        value: 'title/asc'
-      }, {
-        /* translators: Label for ordering posts by title in descending order. */
-        label: (0,external_wp_i18n_namespaceObject.__)('Z → A'),
-        value: 'title/desc'
-      }],
+      options: orderByOptions,
       onChange: value => {
         if (typeof value !== 'string') {
           return;

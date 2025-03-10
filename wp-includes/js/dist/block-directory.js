@@ -207,44 +207,13 @@ const errorNotices = (state = {}, action) => {
 
 ;// external ["wp","blockEditor"]
 const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
-;// ./node_modules/@wordpress/block-directory/build-module/store/utils/has-block-type.js
-/**
- * Check if a block list contains a specific block type. Recursively searches
- * through `innerBlocks` if they exist.
- *
- * @param {Object}   blockType A block object to search for.
- * @param {Object[]} blocks    The list of blocks to look through.
- *
- * @return {boolean} Whether the blockType is found.
- */
-function hasBlockType(blockType, blocks = []) {
-  if (!blocks.length) {
-    return false;
-  }
-  if (blocks.some(({
-    name
-  }) => name === blockType.name)) {
-    return true;
-  }
-  for (let i = 0; i < blocks.length; i++) {
-    if (hasBlockType(blockType, blocks[i].innerBlocks)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 ;// ./node_modules/@wordpress/block-directory/build-module/store/selectors.js
 /**
  * WordPress dependencies
  */
 
 
-
-/**
- * Internal dependencies
- */
-
+const EMPTY_ARRAY = [];
 
 /**
  * Returns true if application is requesting for downloadable blocks.
@@ -269,7 +238,7 @@ function isRequestingDownloadableBlocks(state, filterValue) {
  */
 function getDownloadableBlocks(state, filterValue) {
   var _state$downloadableBl2;
-  return (_state$downloadableBl2 = state.downloadableBlocks[filterValue]?.results) !== null && _state$downloadableBl2 !== void 0 ? _state$downloadableBl2 : [];
+  return (_state$downloadableBl2 = state.downloadableBlocks[filterValue]?.results) !== null && _state$downloadableBl2 !== void 0 ? _state$downloadableBl2 : EMPTY_ARRAY;
 }
 
 /**
@@ -293,10 +262,22 @@ function getInstalledBlockTypes(state) {
  * @return {Array} Block type items.
  */
 const getNewBlockTypes = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (0,external_wp_data_namespaceObject.createSelector)(state => {
-  const usedBlockTree = select(external_wp_blockEditor_namespaceObject.store).getBlocks();
   const installedBlockTypes = getInstalledBlockTypes(state);
-  return installedBlockTypes.filter(blockType => hasBlockType(blockType, usedBlockTree));
-}, state => [getInstalledBlockTypes(state), select(external_wp_blockEditor_namespaceObject.store).getBlocks()]));
+  if (!installedBlockTypes.length) {
+    return EMPTY_ARRAY;
+  }
+  const {
+    getBlockName,
+    getClientIdsWithDescendants
+  } = select(external_wp_blockEditor_namespaceObject.store);
+  const installedBlockNames = installedBlockTypes.map(blockType => blockType.name);
+  const foundBlockNames = getClientIdsWithDescendants().flatMap(clientId => {
+    const blockName = getBlockName(clientId);
+    return installedBlockNames.includes(blockName) ? blockName : [];
+  });
+  const newBlockTypes = installedBlockTypes.filter(blockType => foundBlockNames.includes(blockType.name));
+  return newBlockTypes.length > 0 ? newBlockTypes : EMPTY_ARRAY;
+}, state => [getInstalledBlockTypes(state), select(external_wp_blockEditor_namespaceObject.store).getClientIdsWithDescendants()]));
 
 /**
  * Returns the block types that have been installed on the server but are not
@@ -307,10 +288,22 @@ const getNewBlockTypes = (0,external_wp_data_namespaceObject.createRegistrySelec
  * @return {Array} Block type items.
  */
 const getUnusedBlockTypes = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (0,external_wp_data_namespaceObject.createSelector)(state => {
-  const usedBlockTree = select(external_wp_blockEditor_namespaceObject.store).getBlocks();
   const installedBlockTypes = getInstalledBlockTypes(state);
-  return installedBlockTypes.filter(blockType => !hasBlockType(blockType, usedBlockTree));
-}, state => [getInstalledBlockTypes(state), select(external_wp_blockEditor_namespaceObject.store).getBlocks()]));
+  if (!installedBlockTypes.length) {
+    return EMPTY_ARRAY;
+  }
+  const {
+    getBlockName,
+    getClientIdsWithDescendants
+  } = select(external_wp_blockEditor_namespaceObject.store);
+  const installedBlockNames = installedBlockTypes.map(blockType => blockType.name);
+  const foundBlockNames = getClientIdsWithDescendants().flatMap(clientId => {
+    const blockName = getBlockName(clientId);
+    return installedBlockNames.includes(blockName) ? blockName : [];
+  });
+  const unusedBlockTypes = installedBlockTypes.filter(blockType => !foundBlockNames.includes(blockType.name));
+  return unusedBlockTypes.length > 0 ? unusedBlockTypes : EMPTY_ARRAY;
+}, state => [getInstalledBlockTypes(state), select(external_wp_blockEditor_namespaceObject.store).getClientIdsWithDescendants()]));
 
 /**
  * Returns true if a block plugin install is in progress.
@@ -1831,7 +1824,7 @@ function DownloadableBlocksNoResults() {
 
 
 
-const EMPTY_ARRAY = [];
+const downloadable_blocks_panel_EMPTY_ARRAY = [];
 const useDownloadableBlocks = filterValue => (0,external_wp_data_namespaceObject.useSelect)(select => {
   const {
     getDownloadableBlocks,
@@ -1839,7 +1832,7 @@ const useDownloadableBlocks = filterValue => (0,external_wp_data_namespaceObject
     getInstalledBlockTypes
   } = select(store);
   const hasPermission = select(external_wp_coreData_namespaceObject.store).canUser('read', 'block-directory/search');
-  let downloadableBlocks = EMPTY_ARRAY;
+  let downloadableBlocks = downloadable_blocks_panel_EMPTY_ARRAY;
   if (hasPermission) {
     downloadableBlocks = getDownloadableBlocks(filterValue);
 
@@ -1864,7 +1857,7 @@ const useDownloadableBlocks = filterValue => (0,external_wp_data_namespaceObject
 
     // Return identical empty array when there are no blocks
     if (downloadableBlocks.length === 0) {
-      downloadableBlocks = EMPTY_ARRAY;
+      downloadableBlocks = downloadable_blocks_panel_EMPTY_ARRAY;
     }
   }
   return {
