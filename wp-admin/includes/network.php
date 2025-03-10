@@ -158,7 +158,7 @@ function network_step1( $errors = false ) {
 
 	$error_codes = array();
 	if ( is_wp_error( $errors ) ) {
-		$network_created_error_message = '<p><strong>' . __( 'Error: The network could not be created.' ) . '</strong></p>';
+		$network_created_error_message = '<p><strong>' . __( 'Error:' ) . '</strong> ' . __( 'The network could not be created.' ) . '</p>';
 		foreach ( $errors->get_error_messages() as $error ) {
 			$network_created_error_message .= "<p>$error</p>";
 		}

@@ -345,7 +345,7 @@ $current_theme = wp_get_theme();
 
 if ( $current_theme->errors() && ( ! is_multisite() || current_user_can( 'manage_network_themes' ) ) ) {
 	wp_admin_notice(
-		__( 'Error:' ) . ' ' . $current_theme->errors()->get_error_message(),
+		'<strong>' . __( 'Error:' ) . '</strong> ' . $current_theme->errors()->get_error_message(),
 		array(
 			'additional_classes' => array( 'error' ),
 		)
