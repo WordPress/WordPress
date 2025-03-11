@@ -113,7 +113,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 			$items[] = $item;
 		}
 
-		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $items );
+		$response = $is_head_request ? new WP_REST_Response( array() ) : rest_ensure_response( $items );
 
 		$response->header( 'X-WP-Total', (int) $total_items );
 		$response->header( 'X-WP-TotalPages', $max_pages );
@@ -193,7 +193,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 			 */
 			if ( $request->is_method( 'HEAD' ) ) {
 				/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-font-collections-controller.php */
-				return apply_filters( 'rest_prepare_font_collection', new WP_REST_Response(), $item, $request );
+				return apply_filters( 'rest_prepare_font_collection', new WP_REST_Response( array() ), $item, $request );
 			}
 
 			foreach ( $data_fields as $field ) {
@@ -209,7 +209,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller {
 		 */
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-font-collections-controller.php */
-			return apply_filters( 'rest_prepare_font_collection', new WP_REST_Response(), $item, $request );
+			return apply_filters( 'rest_prepare_font_collection', new WP_REST_Response( array() ), $item, $request );
 		}
 
 		$response = rest_ensure_response( $data );

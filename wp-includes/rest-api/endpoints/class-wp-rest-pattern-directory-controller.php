@@ -163,7 +163,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 
 		if ( $request->is_method( 'HEAD' ) ) {
 			// Return early as this handler doesn't add any response headers.
-			return new WP_REST_Response();
+			return new WP_REST_Response( array() );
 		}
 
 		$response = array();

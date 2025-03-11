@@ -115,7 +115,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	public function get_items( $request ) {
 		if ( $request->is_method( 'HEAD' ) ) {
 			// Return early as this handler doesn't add any response headers.
-			return new WP_REST_Response();
+			return new WP_REST_Response( array() );
 		}
 
 		// Retrieve the list of registered collection query parameters.
@@ -217,7 +217,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-taxonomies-controller.php */
-			return apply_filters( 'rest_prepare_taxonomy', new WP_REST_Response(), $taxonomy, $request );
+			return apply_filters( 'rest_prepare_taxonomy', new WP_REST_Response( array() ), $taxonomy, $request );
 		}
 
 		$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;

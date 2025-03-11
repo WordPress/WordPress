@@ -248,7 +248,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 
 			$response = rest_ensure_response( $response );
 		} else {
-			$response = new WP_REST_Response();
+			$response = new WP_REST_Response( array() );
 		}
 
 		$response->header( 'X-WP-Total', (int) $total_revisions );
@@ -291,7 +291,7 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
 	public function prepare_item_for_response( $post, $request ) {
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
-			return new WP_REST_Response();
+			return new WP_REST_Response( array() );
 		}
 
 		$parent               = $this->get_parent( $request['parent'] );

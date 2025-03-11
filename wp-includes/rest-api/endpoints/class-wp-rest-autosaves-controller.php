@@ -307,7 +307,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 
 		if ( $request->is_method( 'HEAD' ) ) {
 			// Return early as this handler doesn't add any response headers.
-			return new WP_REST_Response();
+			return new WP_REST_Response( array() );
 		}
 		$response  = array();
 		$parent_id = $parent->ID;
@@ -455,7 +455,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-autosaves-controller.php */
-			return apply_filters( 'rest_prepare_autosave', new WP_REST_Response(), $post, $request );
+			return apply_filters( 'rest_prepare_autosave', new WP_REST_Response( array() ), $post, $request );
 		}
 		$response = $this->revisions_controller->prepare_item_for_response( $post, $request );
 		$fields   = $this->get_fields_for_response( $request );

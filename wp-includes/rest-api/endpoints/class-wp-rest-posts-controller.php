@@ -499,7 +499,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $posts );
+		$response = $is_head_request ? new WP_REST_Response( array() ) : rest_ensure_response( $posts );
 
 		$response->header( 'X-WP-Total', (int) $total_posts );
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
@@ -1847,7 +1847,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
-			return apply_filters( "rest_prepare_{$this->post_type}", new WP_REST_Response(), $post, $request );
+			return apply_filters( "rest_prepare_{$this->post_type}", new WP_REST_Response( array() ), $post, $request );
 		}
 
 		$fields = $this->get_fields_for_response( $request );

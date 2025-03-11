@@ -355,7 +355,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 
 			$response = rest_ensure_response( $response );
 		} else {
-			$response = new WP_REST_Response();
+			$response = new WP_REST_Response( array() );
 		}
 
 		$response->header( 'X-WP-Total', (int) $total_revisions );
@@ -591,7 +591,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-revisions-controller.php */
-			return apply_filters( 'rest_prepare_revision', new WP_REST_Response(), $post, $request );
+			return apply_filters( 'rest_prepare_revision', new WP_REST_Response( array() ), $post, $request );
 		}
 
 		$fields = $this->get_fields_for_response( $request );

@@ -165,7 +165,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$response = $is_head_request ? new WP_REST_Response() : rest_ensure_response( $results );
+		$response = $is_head_request ? new WP_REST_Response( array() ) : rest_ensure_response( $results );
 		$response->header( 'X-WP-Total', $total );
 		$response->header( 'X-WP-TotalPages', $max_pages );
 
