@@ -1287,7 +1287,7 @@ function wp_check_comment_data( $comment_data ) {
 
 	if ( ! empty( $comment_data['user_id'] ) ) {
 		$user        = get_userdata( $comment_data['user_id'] );
-		$post_author = $wpdb->get_var(
+		$post_author = (int) $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1",
 				$comment_data['comment_post_ID']
@@ -1295,7 +1295,7 @@ function wp_check_comment_data( $comment_data ) {
 		);
 	}
 
-	if ( isset( $user ) && ( $comment_data['user_id'] == $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
+	if ( isset( $user ) && ( $comment_data['user_id'] === $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
 		// The author and the admins get respect.
 		$approved = 1;
 	} else {
