@@ -1221,8 +1221,8 @@
 					deletionSpeech = menus.itemsDeleted.replace( '%s', itemsPendingDeletion );
 					wp.a11y.speak( deletionSpeech, 'polite' );
 					that.disableBulkSelection();
-					menus.updateParentDropdown();
-					menus.updateOrderDropdown();
+					$( '#menu-to-edit' ).updateParentDropdown();
+					$( '#menu-to-edit' ).updateOrderDropdown();
 				}
 			});
 		},
@@ -1762,8 +1762,8 @@
 					}
 					api.refreshAdvancedAccessibility();
 					wp.a11y.speak( menus.itemRemoved );
-					menus.updateParentDropdown();
-					menus.updateOrderDropdown();
+					$( '#menu-to-edit' ).updateParentDropdown();
+					$( '#menu-to-edit' ).updateOrderDropdown();
 				});
 		},
 
