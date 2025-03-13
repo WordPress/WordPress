@@ -545,11 +545,13 @@ switch ( $action ) {
 					<tr class="user-email-wrap">
 						<th><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 						<td>
-							<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" />
 							<?php if ( $profile_user->ID === $current_user->ID ) : ?>
+								<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" />
 								<p class="description" id="email-description">
 									<?php _e( 'If you change this, an email will be sent at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
 								</p>
+							<?php else : ?>
+								<input type="email" name="email" id="email" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" />
 							<?php endif; ?>
 
 							<?php
