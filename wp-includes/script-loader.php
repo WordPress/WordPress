@@ -1662,6 +1662,10 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'wp-block-library-theme', "/$block_library_theme_path" );
 	$styles->add_data( 'wp-block-library-theme', 'path', ABSPATH . $block_library_theme_path );
 
+	$classic_theme_styles_path = WPINC . "/css/classic-themes$suffix.css";
+	$styles->add( 'classic-theme-styles', "/$classic_theme_styles_path" );
+	$styles->add_data( 'classic-theme-styles', 'path', ABSPATH . $classic_theme_styles_path );
+
 	$styles->add(
 		'wp-reset-editor-styles',
 		"/wp-includes/css/dist/block-library/reset$suffix.css",
@@ -3351,52 +3355,16 @@ function wp_enqueue_block_style( $block_name, $args ) {
 /**
  * Loads classic theme styles on classic themes in the frontend.
  *
- * This is needed for backwards compatibility for button blocks specifically.
+ * This is used for backwards compatibility for Button and File blocks specifically.
  *
  * @since 6.1.0
+ * @since 6.2.0 Added File block styles.
+ * @since 6.8.0 Moved stylesheet registration outside of this function.
  */
 function wp_enqueue_classic_theme_styles() {
 	if ( ! wp_theme_has_theme_json() ) {
-		$suffix = wp_scripts_get_suffix();
-		wp_register_style( 'classic-theme-styles', '/' . WPINC . "/css/classic-themes$suffix.css" );
-		wp_style_add_data( 'classic-theme-styles', 'path', ABSPATH . WPINC . "/css/classic-themes$suffix.css" );
 		wp_enqueue_style( 'classic-theme-styles' );
 	}
-}
-
-/**
- * Loads classic theme styles on classic themes in the editor.
- *
- * This is needed for backwards compatibility for button blocks specifically.
- *
- * @since 6.1.0
- *
- * @param array $editor_settings The array of editor settings.
- * @return array A filtered array of editor settings.
- */
-function wp_add_editor_classic_theme_styles( $editor_settings ) {
-	if ( wp_theme_has_theme_json() ) {
-		return $editor_settings;
-	}
-
-	$suffix               = wp_scripts_get_suffix();
-	$classic_theme_styles = ABSPATH . WPINC . "/css/classic-themes$suffix.css";
-
-	/*
-	 * This follows the pattern of get_block_editor_theme_styles,
-	 * but we can't use get_block_editor_theme_styles directly as it
-	 * only handles external files or theme files.
-	 */
-	$classic_theme_styles_settings = array(
-		'css'            => file_get_contents( $classic_theme_styles ),
-		'__unstableType' => 'core',
-		'isGlobalStyles' => false,
-	);
-
-	// Add these settings to the start of the array so that themes can override them.
-	array_unshift( $editor_settings['styles'], $classic_theme_styles_settings );
-
-	return $editor_settings;
 }
 
 /**
