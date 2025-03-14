@@ -1007,9 +1007,17 @@ class WP_Upgrader {
 	public function maintenance_mode( $enable = false ) {
 		global $wp_filesystem;
 
-		if ( ! $wp_filesystem ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+		}
+
+		ob_start();
+		$credentials = request_filesystem_credentials( '' );
+		ob_end_clean();
+
+		if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
+			wp_trigger_error( __FUNCTION__, __( 'Could not access filesystem.' ) );
+			return;
 		}
 
 		$file = $wp_filesystem->abspath() . '.maintenance';
