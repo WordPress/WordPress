@@ -3908,6 +3908,10 @@ img {
 		top: -39px;
 	}
 
+	.block-editor-page .screen-reader-shortcut:focus {
+		top: 7px;
+	}
+
 	body {
 		min-width: 240px;
 		overflow-x: hidden;
