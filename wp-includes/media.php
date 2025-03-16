@@ -3345,6 +3345,7 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  * WordPress mp3s in a post.
  *
  * @since 3.6.0
+ * @since 6.8.0 Added the 'muted' attribute.
  *
  * @param array  $attr {
  *     Attributes of the audio shortcode.
@@ -3352,6 +3353,7 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  *     @type string $src      URL to the source of the audio file. Default empty.
  *     @type string $loop     The 'loop' attribute for the `<audio>` element. Default empty.
  *     @type string $autoplay The 'autoplay' attribute for the `<audio>` element. Default empty.
+ *     @type string $muted    The 'muted' attribute for the `<audio>` element. Default 'false'.
  *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default 'none'.
  *     @type string $class    The 'class' attribute for the `<audio>` element. Default 'wp-audio-shortcode'.
  *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%;'.
@@ -3390,6 +3392,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 		'src'      => '',
 		'loop'     => '',
 		'autoplay' => '',
+		'muted'    => 'false',
 		'preload'  => 'none',
 		'class'    => 'wp-audio-shortcode',
 		'style'    => 'width: 100%;',
@@ -3469,12 +3472,13 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 		'id'       => sprintf( 'audio-%d-%d', $post_id, $instance ),
 		'loop'     => wp_validate_boolean( $atts['loop'] ),
 		'autoplay' => wp_validate_boolean( $atts['autoplay'] ),
+		'muted'    => wp_validate_boolean( $atts['muted'] ),
 		'preload'  => $atts['preload'],
 		'style'    => $atts['style'],
 	);
 
 	// These ones should just be omitted altogether if they are blank.
-	foreach ( array( 'loop', 'autoplay', 'preload' ) as $a ) {
+	foreach ( array( 'loop', 'autoplay', 'preload', 'muted' ) as $a ) {
 		if ( empty( $html_atts[ $a ] ) ) {
 			unset( $html_atts[ $a ] );
 		}
@@ -3482,8 +3486,20 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 
 	$attr_strings = array();
 
-	foreach ( $html_atts as $k => $v ) {
-		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
+	foreach ( $html_atts as $attribute_name => $attribute_value ) {
+		if ( in_array( $attribute_name, array( 'loop', 'autoplay', 'muted' ), true ) && true === $attribute_value ) {
+			// Add boolean attributes without a value.
+			$attr_strings[] = esc_attr( $attribute_name );
+		} elseif ( 'preload' === $attribute_name && ! empty( $attribute_value ) ) {
+			// Handle the preload attribute with specific allowed values.
+			$allowed_preload_values = array( 'none', 'metadata', 'auto' );
+			if ( in_array( $attribute_value, $allowed_preload_values, true ) ) {
+				$attr_strings[] = sprintf( '%s="%s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
+			}
+		} else {
+			// For other attributes, include the value.
+			$attr_strings[] = sprintf( '%s="%s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
+		}
 	}
 
 	$html = '';
