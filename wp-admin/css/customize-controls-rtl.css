@@ -843,11 +843,16 @@ h3.customize-section-title {
 	color: #3c434a;
 	text-align: right;
 	cursor: pointer;
-	transition:
-		color .15s ease-in-out,
-		border-color .15s ease-in-out,
-		background .15s ease-in-out;
 	box-sizing: content-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.customize-controls-close {
+		transition:
+			color .15s ease-in-out,
+			border-color .15s ease-in-out,
+			background .15s ease-in-out;	
+	}
 }
 
 .customize-panel-back,

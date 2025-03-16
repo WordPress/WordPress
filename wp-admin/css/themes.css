@@ -1648,12 +1648,14 @@ body.full-overlay-active {
 }
 
 /* Animations */
-.wp-full-overlay,
-.wp-full-overlay-sidebar,
-.wp-full-overlay .collapse-sidebar,
-.wp-full-overlay-main {
-	transition-property: left, right, top, bottom, width, margin;
-	transition-duration: 0.2s;
+@media (prefers-reduced-motion: no-preference) {
+	.wp-full-overlay,
+	.wp-full-overlay-sidebar,
+	.wp-full-overlay .collapse-sidebar,
+	.wp-full-overlay-main {
+		transition-property: left, right, top, bottom, width, margin;
+		transition-duration: 0.2s;
+	}
 }
 
 /* Device/preview size toggles */

@@ -261,8 +261,10 @@
 	color: #646970;
 }
 
-#customize-preview {
-	transition: all 0.2s;
+@media (prefers-reduced-motion: no-preference) {
+	#customize-preview {
+		transition: all 0.2s;
+	}
 }
 
 body.adding-widget #available-widgets {
