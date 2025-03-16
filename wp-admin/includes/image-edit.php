@@ -293,7 +293,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 		</div>
 		<div class="imgedit-thumbnail-preview-group">
 			<figure class="imgedit-thumbnail-preview">
-				<img src="<?php echo $thumb['url']; ?>" width="<?php echo $thumb_img[0]; ?>" height="<?php echo $thumb_img[1]; ?>" class="imgedit-size-preview" alt="" draggable="false" />
+				<img src="<?php echo esc_url( $thumb['url'] ); ?>" width="<?php echo esc_attr( $thumb_img[0] ); ?>" height="<?php echo esc_attr( $thumb_img[1] ); ?>" class="imgedit-size-preview" alt="" draggable="false" />
 				<figcaption class="imgedit-thumbnail-preview-caption"><?php _e( 'Current thumbnail' ); ?></figcaption>
 			</figure>
 			<div id="imgedit-save-target-<?php echo $post_id; ?>" class="imgedit-save-target">
@@ -534,8 +534,8 @@ function _image_get_preview_ratio( $w, $h ) {
  * @see WP_Image_Editor::rotate()
  *
  * @ignore
- * @param resource|GdImage  $img   Image resource.
- * @param float|int         $angle Image rotation angle, in degrees.
+ * @param resource|GdImage $img   Image resource.
+ * @param float|int        $angle Image rotation angle, in degrees.
  * @return resource|GdImage|false GD image resource or GdImage instance, false otherwise.
  */
 function _rotate_image_resource( $img, $angle ) {
