@@ -112,10 +112,12 @@ if ( isset( $_REQUEST['post_id'] ) ) {
 
 $id = media_handle_upload( 'async-upload', $post_id );
 if ( is_wp_error( $id ) ) {
-	$message = sprintf(
+	$button_unique_id = uniqid( 'dismiss-' );
+	$message          = sprintf(
 		'%s <strong>%s</strong><br />%s',
 		sprintf(
-			'<button type="button" class="dismiss button-link" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">%s</button>',
+			'<button type="button" id="%s" class="dismiss button-link">%s</button>',
+			esc_attr( $button_unique_id ),
 			__( 'Dismiss' )
 		),
 		sprintf(
@@ -132,6 +134,7 @@ if ( is_wp_error( $id ) ) {
 			'paragraph_wrap'     => false,
 		)
 	);
+	echo "<script>jQuery( 'button#{$button_unique_id}' ).on( 'click', function() {jQuery(this).parents('div.media-item').slideUp(200, function(){jQuery(this).remove();})});</script>\n";
 	exit;
 }
 
