@@ -551,6 +551,9 @@ add_action( 'transition_post_status', '_wp_keep_alive_customize_changeset_depend
 // Block Theme Previews.
 add_action( 'plugins_loaded', 'wp_initialize_theme_preview_hooks', 1 );
 
+// Site preview for Classic Theme.
+add_action( 'init', 'wp_initialize_site_preview_hooks', 1 );
+
 // Calendar widget cache.
 add_action( 'save_post', 'delete_get_calendar_cache' );
 add_action( 'delete_post', 'delete_get_calendar_cache' );
