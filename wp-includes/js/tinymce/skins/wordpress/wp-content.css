@@ -160,6 +160,14 @@ img[data-mce-selected]::selection {
 	background: transparent url( images/pagebreak.png ) repeat-y scroll center center;
 }
 
+.mce-object-style {
+	background-image: url( images/style.svg );
+}
+
+.mce-object-script {
+	background-image: url( images/script.svg );
+}
+
 /* Styles for formatting the boundaries of anchors and code elements */
 .mce-content-body a[data-mce-selected] {
 	padding: 0 2px;
