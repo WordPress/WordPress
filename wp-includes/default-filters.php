@@ -565,6 +565,7 @@ add_action( 'transition_post_status', '__clear_multi_author_cache' );
 
 // Post.
 add_action( 'init', 'create_initial_post_types', 0 ); // Highest priority.
+add_action( 'init', 'wp_set_editor_default_mode', 1 ); // Run after registering post types.
 add_action( 'admin_menu', '_add_post_type_submenus' );
 add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
 add_action( 'wp_trash_post', '_reset_front_page_settings_for_post' );
@@ -740,7 +741,6 @@ add_action( 'save_post_wp_template_part', 'wp_set_unique_slug_on_create_template
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link' );
 add_action( 'wp_footer', 'the_block_template_skip_link' ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_block_template_skip_link().
 add_action( 'after_setup_theme', 'wp_enable_block_templates', 1 );
-add_action( 'after_setup_theme', 'wp_set_editor_default_mode', 2 ); // Run after enabling block templates.
 add_action( 'wp_loaded', '_add_template_loader_filters' );
 
 // wp_navigation post type.
