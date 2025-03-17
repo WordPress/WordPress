@@ -503,15 +503,22 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * Handles the author column output.
 	 *
 	 * @since 4.3.0
+	 * @since 6.8.0 Added fallback text when author's name is unknown.
 	 *
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_author( $post ) {
-		printf(
-			'<a href="%s">%s</a>',
-			esc_url( add_query_arg( array( 'author' => get_the_author_meta( 'ID' ) ), 'upload.php' ) ),
-			get_the_author()
-		);
+		$author = get_the_author();
+
+		if ( ! empty( $author ) ) {
+			printf(
+				'<a href="%s">%s</a>',
+				esc_url( add_query_arg( array( 'author' => get_the_author_meta( 'ID' ) ), 'upload.php' ) ),
+				esc_html( $author )
+			);
+		} else {
+			echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( '(no author)' ) . '</span>';
+		}
 	}
 
 	/**
