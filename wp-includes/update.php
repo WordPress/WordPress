@@ -1121,7 +1121,7 @@ function _wp_delete_all_temp_backups() {
 	global $wp_filesystem;
 
 	if ( ! function_exists( 'WP_Filesystem' ) ) {
-		require_once ABSPATH . '/wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 	}
 
 	ob_start();
