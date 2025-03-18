@@ -1676,6 +1676,10 @@ ul.primary-menu {
 	z-index: 1;
 }
 
+.primary-menu .closed ul {
+	display: none;
+}
+
 .primary-menu li.menu-item-has-children:hover > ul,
 .primary-menu li.menu-item-has-children:focus > ul,
 .primary-menu li.menu-item-has-children.focus > ul {
