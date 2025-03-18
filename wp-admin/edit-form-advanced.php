@@ -623,9 +623,9 @@ if ( post_type_supports( $post_type, 'editor' ) ) {
 			'drag_drop_upload'    => true,
 			'editor_height'       => 300,
 			'tinymce'             => array(
-				'resize'                  => false,
-				'wp_autoresize_on'        => $_wp_editor_expand,
-				'add_unload_trigger'      => false,
+				'resize'             => false,
+				'wp_autoresize_on'   => $_wp_editor_expand,
+				'add_unload_trigger' => false,
 			),
 		)
 	);
