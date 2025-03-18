@@ -9328,7 +9328,7 @@ function Layout() {
                 children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.ErrorBoundary, {
                   children: areas.mobile
                 })
-              })]
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SaveHub, {}), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SavePanel, {})]
             }) : /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_editor_namespaceObject.ErrorBoundary, {
               children: areas.mobile
             })
@@ -10696,7 +10696,7 @@ function SidebarNavigationScreenMain({
   } else if (isBlockBasedTheme) {
     description = (0,external_wp_i18n_namespaceObject.__)('Customize the appearance of your website using the block editor.');
   } else {
-    description = (0,external_wp_i18n_namespaceObject.__)('Explore block styles and patterns to refine your site');
+    description = (0,external_wp_i18n_namespaceObject.__)('Explore block styles and patterns to refine your site.');
   }
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(SidebarNavigationScreen, {
     isRoot: true,
@@ -25345,6 +25345,8 @@ function useSyncDeprecatedEntityIntoState({
 
 
 
+
+
 function SitePreview() {
   const siteUrl = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
@@ -25356,7 +25358,10 @@ function SitePreview() {
 
   // If theme is block based, return the Editor, otherwise return the site preview.
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("iframe", {
-    src: siteUrl,
+    src: (0,external_wp_url_namespaceObject.addQueryArgs)(siteUrl, {
+      // Parameter for hiding the admin bar.
+      wp_site_preview: 1
+    }),
     title: (0,external_wp_i18n_namespaceObject.__)('Site Preview'),
     style: {
       display: 'block',
@@ -25365,14 +25370,10 @@ function SitePreview() {
       backgroundColor: '#fff'
     },
     onLoad: event => {
-      // Hide the admin bar in the front-end preview.
-      const document = event.target.contentDocument;
-      document.getElementById('wpadminbar').remove();
-      document.getElementsByTagName('html')[0].setAttribute('style', 'margin-top: 0 !important;');
-      document.getElementsByTagName('body')[0].classList.remove('admin-bar');
       // Make interactive elements unclickable.
-      const interactiveElements = document.querySelectorAll('a, button, input, details, audio');
-      interactiveElements.forEach(element => {
+      const document = event.target.contentDocument;
+      const focusableElements = external_wp_dom_namespaceObject.focus.focusable.find(document);
+      focusableElements.forEach(element => {
         element.style.pointerEvents = 'none';
         element.tabIndex = -1;
         element.setAttribute('aria-hidden', 'true');
