@@ -123,7 +123,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 		?>
 		<button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e( 'Go to theme sources' ); ?></button>
 		<# if ( 'wporg' === data.action ) { #>
-			<div class="search-form">
+			<div class="themes-filter-container">
 				<label for="wp-filter-search-input-{{ data.id }}"><?php _e( 'Search themes' ); ?></label>
 				<div class="search-form-input">
 					<input type="search" id="wp-filter-search-input-{{ data.id }}" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search">
