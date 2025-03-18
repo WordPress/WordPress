@@ -504,7 +504,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 						$max_colors = pow( 2, $indexed_pixel_depth );
 						if ( is_callable( array( $this->image, 'getImageColors' ) ) ) {
 							$current_colors = $this->image->getImageColors();
-							$max_colors = min( $max_colors, $current_colors );
+							$max_colors     = min( $max_colors, $current_colors );
 						}
 						$this->image->quantizeImage( $max_colors, $this->image->getColorspace(), 0, false, false );
 
