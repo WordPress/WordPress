@@ -100,7 +100,7 @@ function locate_block_template( $template, $type, array $templates ) {
 			} else {
 				if ( $block_template->has_theme_file ) {
 					// Show contents from theme template if user is not logged in.
-					$theme_template = _get_block_template_file( 'wp_template', $block_template->slug );
+					$theme_template               = _get_block_template_file( 'wp_template', $block_template->slug );
 					$_wp_current_template_content = file_get_contents( $theme_template['path'] );
 				} else {
 					$_wp_current_template_content = $block_template->content;
