@@ -879,45 +879,45 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 							<div class="locations-row-links">
 								<?php if ( isset( $menu_locations[ $_location ] ) && 0 !== $menu_locations[ $_location ] ) : ?>
 								<span class="locations-edit-menu-link">
-									<a href="
 									<?php
-									echo esc_url(
-										add_query_arg(
-											array(
-												'action' => 'edit',
-												'menu'   => $menu_locations[ $_location ],
-											),
-											admin_url( 'nav-menus.php' )
-										)
+									printf(
+										'<a href="%1$s">
+											<span aria-hidden="true">%2$s</span>
+											<span class="screen-reader-text">%3$s</span>
+										</a>',
+										esc_url(
+											add_query_arg(
+												array(
+													'action' => 'edit',
+													'menu' => $menu_locations[ $_location ],
+												),
+												admin_url( 'nav-menus.php' )
+											)
+										),
+										_x( 'Edit', 'menu' ),
+										/* translators: Hidden accessibility text. */
+										__( 'Edit selected menu' )
 									);
 									?>
-									">
-										<span aria-hidden="true"><?php _ex( 'Edit', 'menu' ); ?></span><span class="screen-reader-text">
-											<?php
-											/* translators: Hidden accessibility text. */
-											_e( 'Edit selected menu' );
-											?>
-										</span>
-									</a>
 								</span>
 								<?php endif; ?>
 								<span class="locations-add-menu-link">
-									<a href="
 									<?php
-									echo esc_url(
-										add_query_arg(
-											array(
-												'action' => 'edit',
-												'menu'   => 0,
-												'use-location' => $_location,
-											),
-											admin_url( 'nav-menus.php' )
-										)
+									printf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url(
+											add_query_arg(
+												array(
+													'action' => 'edit',
+													'menu' => 0,
+													'use-location' => $_location,
+												),
+												admin_url( 'nav-menus.php' )
+											)
+										),
+										_x( 'Use new menu', 'menu' )
 									);
 									?>
-									">
-										<?php _ex( 'Use new menu', 'menu' ); ?>
-									</a>
 								</span>
 							</div><!-- .locations-row-links -->
 						</td><!-- .menu-location-menus -->
@@ -1203,8 +1203,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 											$checked = false;
 
 											if ( isset( $menu_locations[ $location ] )
-													&& 0 !== $nav_menu_selected_id
-													&& $menu_locations[ $location ] === $nav_menu_selected_id
+												&& 0 !== $nav_menu_selected_id
+												&& $menu_locations[ $location ] === $nav_menu_selected_id
 											) {
 													$checked = true;
 											}
@@ -1241,26 +1241,34 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 								<?php if ( $add_new_screen ) : ?>
 								<span class="cancel-action">
-									<a class="submitcancel cancellation menu-cancel" href="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>"><?php _e( 'Cancel' ); ?></a>
+									<?php
+									printf(
+										'<a class="submitcancel cancellation menu-cancel" href="%1$s">%2$s</a>',
+										esc_url( admin_url( 'nav-menus.php' ) ),
+										__( 'Cancel' )
+									);
+									?>
 								</span><!-- END .cancel-action -->
 								<?php else : ?>
 								<span class="delete-action">
-									<a class="submitdelete deletion menu-delete" href="
 									<?php
-									echo esc_url(
-										wp_nonce_url(
-											add_query_arg(
-												array(
-													'action' => 'delete',
-													'menu' => $nav_menu_selected_id,
+									printf(
+										'<a class="submitdelete deletion menu-delete" href="%1$s">%2$s</a>',
+										esc_url(
+											wp_nonce_url(
+												add_query_arg(
+													array(
+														'action' => 'delete',
+														'menu' => $nav_menu_selected_id,
+													),
+													admin_url( 'nav-menus.php' )
 												),
-												admin_url( 'nav-menus.php' )
-											),
-											'delete-nav_menu-' . $nav_menu_selected_id
-										)
+												'delete-nav_menu-' . $nav_menu_selected_id
+											)
+										),
+										__( 'Delete Menu' )
 									);
 									?>
-									"><?php _e( 'Delete Menu' ); ?></a>
 								</span><!-- END .delete-action -->
 								<?php endif; ?>
 
