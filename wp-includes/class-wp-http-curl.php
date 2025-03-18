@@ -212,6 +212,13 @@ class WP_Http_Curl {
 			foreach ( $parsed_args['headers'] as $name => $value ) {
 				$headers[] = "{$name}: $value";
 			}
+
+			if ( in_array( $parsed_args['method'], array( 'POST', 'PUT' ), true ) ) {
+    				if ( ! empty( $parsed_args['body'] ) && strlen( $parsed_args['body'] ) < 1024 * 1024 ) {
+        				$headers[] = 'Expect:';
+    				}
+			}
+			
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 		}
 
