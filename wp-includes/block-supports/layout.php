@@ -580,7 +580,33 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 
 	// Child layout specific logic.
 	if ( $child_layout ) {
-		$container_content_class   = wp_unique_prefixed_id( 'wp-container-content-' );
+		/*
+		 * Generates a unique class for child block layout styles.
+		 *
+		 * To ensure consistent class generation across different page renders,
+		 * only properties that affect layout styling are used. These properties
+		 * come from `$block['attrs']['style']['layout']` and `$block['parentLayout']`.
+		 *
+		 * As long as these properties coincide, the generated class will be the same.
+		 */
+		$container_content_class = wp_unique_id_from_values(
+			array(
+				'layout'       => array_intersect_key(
+					$block['attrs']['style']['layout'] ?? array(),
+					array_flip(
+						array( 'selfStretch', 'flexSize', 'columnStart', 'columnSpan', 'rowStart', 'rowSpan' )
+					)
+				),
+				'parentLayout' => array_intersect_key(
+					$block['parentLayout'] ?? array(),
+					array_flip(
+						array( 'minimumColumnWidth', 'columnCount' )
+					)
+				),
+			),
+			'wp-container-content-'
+		);
+
 		$child_layout_declarations = array();
 		$child_layout_styles       = array();
 
@@ -706,16 +732,6 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	$class_names        = array();
 	$layout_definitions = wp_get_layout_definitions();
 
-	/*
-	 * Uses an incremental ID that is independent per prefix to make sure that
-	 * rendering different numbers of blocks doesn't affect the IDs of other
-	 * blocks. Makes the CSS class names stable across paginations
-	 * for features like the enhanced pagination of the Query block.
-	 */
-	$container_class = wp_unique_prefixed_id(
-		'wp-container-' . sanitize_title( $block['blockName'] ) . '-is-layout-'
-	);
-
 	// Set the correct layout type for blocks using legacy content width.
 	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] || isset( $used_layout['contentSize'] ) && $used_layout['contentSize'] ) {
 		$used_layout['type'] = 'constrained';
@@ -805,6 +821,25 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 			? $global_settings['spacing']['blockGap']
 			: null;
 		$has_block_gap_support = isset( $block_gap );
+
+		/*
+		 * Generates a unique ID based on all the data required to obtain the
+		 * corresponding layout style. Keeps the CSS class names the same
+		 * even for different blocks on different places, as long as they have
+		 * the same layout definition. Makes the CSS class names stable across
+		 * paginations for features like the enhanced pagination of the Query block.
+		 */
+		$container_class = wp_unique_id_from_values(
+			array(
+				$used_layout,
+				$has_block_gap_support,
+				$gap_value,
+				$should_skip_gap_serialization,
+				$fallback_gap_value,
+				$block_spacing,
+			),
+			'wp-container-' . sanitize_title( $block['blockName'] ) . '-is-layout-'
+		);
 
 		$style = wp_get_layout_style(
 			".$container_class",
