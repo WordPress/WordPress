@@ -682,7 +682,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$widget    = $wp_registered_widgets[ $widget_id ];
+		$widget = $wp_registered_widgets[ $widget_id ];
 		// Don't prepare the response body for HEAD requests.
 		if ( $request->is_method( 'HEAD' ) ) {
 			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-widgets-controller.php */
