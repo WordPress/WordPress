@@ -3124,13 +3124,13 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 			$mime_to_ext = apply_filters(
 				'getimagesize_mimes_to_exts',
 				array(
-					'image/jpeg' => 'jpg',
-					'image/png'  => 'png',
-					'image/gif'  => 'gif',
-					'image/bmp'  => 'bmp',
-					'image/tiff' => 'tif',
-					'image/webp' => 'webp',
-					'image/avif' => 'avif',
+					'image/jpeg'          => 'jpg',
+					'image/png'           => 'png',
+					'image/gif'           => 'gif',
+					'image/bmp'           => 'bmp',
+					'image/tiff'          => 'tif',
+					'image/webp'          => 'webp',
+					'image/avif'          => 'avif',
 
 					/*
 					 * In theory there are/should be file extensions that correspond to the
@@ -3138,8 +3138,8 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 					 * with any of the mime types commonly have a .heic file extension.
 					 * Seems keeping the status quo here is best for compatibility.
 					 */
-					'image/heic' => 'heic',
-					'image/heif' => 'heic',
+					'image/heic'          => 'heic',
+					'image/heif'          => 'heic',
 					'image/heic-sequence' => 'heic',
 					'image/heif-sequence' => 'heic',
 				)
