@@ -5643,7 +5643,7 @@ Toolbar = View.extend(/** @lends wp.media.view.Toolbar.prototype */{
 
 			var requires = button.options.requires,
 				disabled = false,
-				modelsUploading = ! _.isEmpty( library.findWhere(  { 'uploading': true } ) );
+				modelsUploading = library && ! _.isEmpty( library.findWhere( { 'uploading': true } ) );
 
 			// Prevent insertion of attachments if any of them are still uploading.
 			if ( selection && selection.models ) {
