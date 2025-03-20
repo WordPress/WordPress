@@ -239,7 +239,7 @@ if ( $block_editor_context->post ) {
 			$preload_paths[] = add_query_arg(
 				'slug',
 				// @see https://github.com/WordPress/gutenberg/blob/e093fefd041eb6cc4a4e7f67b92ab54fd75c8858/packages/core-data/src/private-selectors.ts#L244-L254
-				empty( $block_editor_context->post->post_name ) ? 'page' : 'page-' . $post->post_name,
+				empty( $block_editor_context->post->post_name ) ? 'page' : 'page-' . $block_editor_context->post->post_name,
 				'/wp/v2/templates/lookup'
 			);
 		}
