@@ -116,15 +116,20 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 			return $counts;
 		}
 
-		$query = "
-			SELECT post_status, COUNT( * ) AS num_posts
-			FROM {$wpdb->posts}
-			WHERE post_type = %s
-			AND post_name = %s
-			GROUP BY post_status";
+		$results = (array) $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT post_status, COUNT( * ) AS num_posts
+				FROM {$wpdb->posts}
+				WHERE post_type = %s
+				AND post_name = %s
+				GROUP BY post_status",
+				$this->post_type,
+				$this->request_type
+			),
+			ARRAY_A
+		);
 
-		$results = (array) $wpdb->get_results( $wpdb->prepare( $query, $this->post_type, $this->request_type ), ARRAY_A );
-		$counts  = array_fill_keys( get_post_stati(), 0 );
+		$counts = array_fill_keys( get_post_stati(), 0 );
 
 		foreach ( $results as $row ) {
 			$counts[ $row['post_status'] ] = $row['num_posts'];
