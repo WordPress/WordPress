@@ -451,6 +451,26 @@ final class WP_Interactivity_API {
 
 					// Checks if there is a server directive processor registered for each directive.
 					foreach ( $p->get_attribute_names_with_prefix( 'data-wp-' ) as $attribute_name ) {
+						if ( ! preg_match(
+							/*
+							 * This must align with the client-side regex used by the interactivity API.
+							 * @see https://github.com/WordPress/gutenberg/blob/ca616014255efbb61f34c10917d52a2d86c1c660/packages/interactivity/src/vdom.ts#L20-L32
+							 */
+							'/' .
+							'^data-wp-' .
+							// Match alphanumeric characters including hyphen-separated
+							// segments. It excludes underscore intentionally to prevent confusion.
+							// E.g., "custom-directive".
+							'([a-z0-9]+(?:-[a-z0-9]+)*)' .
+							// (Optional) Match '--' followed by any alphanumeric charachters. It
+							// excludes underscore intentionally to prevent confusion, but it can
+							// contain multiple hyphens. E.g., "--custom-prefix--with-more-info".
+							'(?:--([a-z0-9_-]+))?$' .
+							'/i',
+							$attribute_name
+						) ) {
+							continue;
+						}
 						list( $directive_prefix ) = $this->extract_prefix_and_suffix( $attribute_name );
 						if ( array_key_exists( $directive_prefix, self::$directive_processors ) ) {
 							$directives_prefixes[] = $directive_prefix;
