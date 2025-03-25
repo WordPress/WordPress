@@ -134,6 +134,36 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
+		$files = $request->get_file_params();
+
+		/**
+		 * Filter whether the server should prevent uploads for image types it doesn't support. Default true.
+		 *
+		 * Developers can use this filter to enable uploads of certain image types. By default image types that are not
+		 * supported by the server are prevented from being uploaded.
+		 *
+		 * @since 6.8.0
+		 *
+		 * @param bool        $check_mime Whether to prevent uploads of unsupported image types.
+		 * @param string|null $mime_type  The mime type of the file being uploaded (if available).
+		 */
+		$prevent_unsupported_uploads = apply_filters( 'wp_prevent_unsupported_mime_type_uploads', true, isset( $files['file']['type'] ) ? $files['file']['type'] : null );
+
+		// If the upload is an image, check if the server can handle the mime type.
+		if (
+			$prevent_unsupported_uploads &&
+			isset( $files['file']['type'] ) &&
+			str_starts_with( $files['file']['type'], 'image/' )
+		) {
+			// Check if the image editor supports the type.
+			if ( ! wp_image_editor_supports( array( 'mime_type' => $files['file']['type'] ) ) ) {
+				return new WP_Error(
+					'rest_upload_image_type_not_supported',
+					__( 'The web server cannot generate responsive image sizes for this image. Convert it to JPEG or PNG before uploading.' ),
+					array( 'status' => 400 )
+				);
+			}
+		}
 
 		return true;
 	}
