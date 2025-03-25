@@ -8524,14 +8524,3 @@ function wp_create_initial_post_meta() {
 		)
 	);
 }
-
-/**
- * Sets the default editor mode based on support for block templates.
- *
- * @since 6.8.0
- */
-function wp_set_editor_default_mode() {
-	if ( wp_is_block_theme() && current_theme_supports( 'block-templates' ) ) {
-		add_post_type_support( 'page', 'editor', array( 'default-mode' => 'template-locked' ) );
-	}
-}
