@@ -52,6 +52,9 @@
 				"width": true,
 				"style": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"style": "wp-block-query-total"

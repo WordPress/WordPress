@@ -5705,9 +5705,6 @@
           'width' => true,
           'style' => true
         )
-      ),
-      'interactivity' => array(
-        'clientNavigation' => true
       )
     ),
     'style' => 'wp-block-query-total'

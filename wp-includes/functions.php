@@ -9193,7 +9193,7 @@ function wp_unique_id_from_values( array $data, string $prefix = '' ): string {
 	if ( empty( $data ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
-			// translators: $data` is the parameter name and must not be translated.
+			// translators: '$data' is the parameter name and must not be translated.
 			__( 'The $data argument must not be empty.' ),
 			'6.8.0'
 		);

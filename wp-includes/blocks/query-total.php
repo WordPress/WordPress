@@ -34,7 +34,7 @@ function render_block_core_query_total( $attributes, $content, $block ) {
 	$posts_per_page = (int) $query_to_use->get( 'posts_per_page' );
 
 	// Calculate the range of posts being displayed.
-	$start = ( $current_page - 1 ) * $posts_per_page + 1;
+	$start = ( 0 === $max_rows ) ? 0 : ( ( $current_page - 1 ) * $posts_per_page + 1 );
 	$end   = min( $start + $posts_per_page - 1, $max_rows );
 
 	// Prepare the display based on the `displayType` attribute.
