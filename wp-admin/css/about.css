@@ -21,8 +21,8 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: #ededed;
-	--subtle-background: #eef0fd;
+	--background: #f6f5f2;
+	--subtle-background: yellow;
 
 	/* Main text color */
 	--text: #1e1e1e;
@@ -39,7 +39,7 @@
 	--nav-color: var(--text);
 	--nav-current: var(--accent-1);
 
-	--border-radius: 16px;
+	--border-radius: 0;
 
 	--gap: 2rem;
 }
@@ -411,7 +411,7 @@
 	color: inherit;
 }
 
-.about__container :is(h1, h2, h3, h4):lang(en) {
+.about__container :is(h1, h2, h3, h4, .about__header-text):lang(en) {
 	text-wrap: balance;
 }
 
@@ -426,6 +426,7 @@
 
 .about__container p.is-subheading {
 	margin-top: 0;
+	margin-bottom: 1rem;
 	font-size: 1.5rem;
 	font-weight: 300;
 	line-height: 160%;
@@ -572,11 +573,18 @@
 	justify-content: flex-end;
 	box-sizing: border-box;
 	padding: calc(var(--gap) * 1.5);
+	padding-right: 26rem; /* Space for the background image. */
 	min-height: clamp(10rem, 25vw, 18.75rem);
 	border-radius: var(--border-radius);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='412' height='198' fill='none'%3E%3Cpath stroke='%239D1825' stroke-width='12' d='M6 0v198'/%3E%3Cpath stroke='%23D90120' stroke-width='12' d='m30.171 1.82 51.246 191.253'/%3E%3Cpath stroke='%23408538' stroke-width='12' d='m62.427 7.626 87.895 177.422'/%3E%3Cpath stroke='%23FFEE58' stroke-width='12' d='M98.769 20.973 230.2 169.061'/%3E%3Cpath stroke='%23F17826' stroke-width='12' d='m152.67 36.891 161.59 114.424'/%3E%3Cpath stroke='%23fff' stroke-width='12' d='m246.433 66.098 190.42 54.264'/%3E%3C/svg%3E%0A");
 	background-repeat: no-repeat;
-	background-position: right 7% center, top left;
+	background-position: right center;
+	background-size: auto 65%;
 	background-color: var(--background);
+}
+
+[dir="rtl"] .about__header {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='412' height='198' fill='none'%3E%3Cg transform='scale(-1,1)' transform-origin='50%25 50%25'%3E%3Cpath stroke='%239D1825' stroke-width='12' d='M6 0v198'/%3E%3Cpath stroke='%23D90120' stroke-width='12' d='m30.171 1.82 51.246 191.253'/%3E%3Cpath stroke='%23408538' stroke-width='12' d='m62.427 7.626 87.895 177.422'/%3E%3Cpath stroke='%23FFEE58' stroke-width='12' d='M98.769 20.973 230.2 169.061'/%3E%3Cpath stroke='%23F17826' stroke-width='12' d='m152.67 36.891 161.59 114.424'/%3E%3Cpath stroke='%23fff' stroke-width='12' d='m246.433 66.098 190.42 54.264'/%3E%3C/g%3E%3C/svg%3E%0A");
 }
 
 .about__header-image {
@@ -667,6 +675,9 @@
 }
 
 @media screen and (max-width: 960px) {
+	.about__header {
+		padding-right: 21rem;
+	}
 
 	.about-php .about__header-title h1,
 	.credits-php .about__header-title h1,
@@ -693,6 +704,7 @@
 
 	.about__header {
 		padding: var(--gap);
+		padding-right: 17rem;
 	}
 
 	.about__header-text {
@@ -709,6 +721,7 @@
 @media screen and (max-width: 600px) {
 	.about__header {
 		min-height: auto;
+		padding-right: var(--gap);
 	}
 
 	.about__header,

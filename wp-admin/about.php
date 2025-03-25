@@ -13,18 +13,19 @@ require_once __DIR__ . '/admin.php';
 /* translators: Page title of the About WordPress page in the admin. */
 $title = _x( 'About', 'page title' );
 
-list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
+list( $display_version ) = explode( '-', wp_get_wp_version() );
+$display_major_version   = '6.8';
 
 $release_notes_url = sprintf(
 	/* translators: %s: WordPress version number. */
 	__( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ),
-	'6-7'
+	'6-8'
 );
 
 $field_guide_url = sprintf(
 	/* translators: %s: WordPress version number. */
 	__( 'https://make.wordpress.org/core/wordpress-%s-field-guide/' ),
-	'6-7'
+	'6-8'
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -53,34 +54,41 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<a href="contribute.php" class="nav-tab"><?php _e( 'Get Involved' ); ?></a>
 		</nav>
 
-		<div class="about__section">
+		<div class="about__section has-1-column">
 			<div class="column">
-				<h2>
-					<?php
-					printf(
-						/* translators: %s: Version number. */
-						__( 'Welcome to WordPress %s' ),
-						$display_version
-					);
-					?>
-				</h2>
-				<p class="is-subheading">
-					<?php _e( 'WordPress 6.7 debuts the modern Twenty Twenty-Five theme, offering ultimate design flexibility for any blog at any scale. Control your site typography like never before with new font management features. The new Zoom Out feature lets you design your site with a macro view, stepping back from the details to bring the big picture to life.' ); ?>
-				</p>
+				<h2><?php _e( 'A release polished to a high sheen.' ); ?></h2>
+				<p class="is-subheading"><?php _e( 'WordPress 6.8 polishes and refines the tools you use every day, making your site faster, more secure, and easier to manage.' ); ?></p>
+				<p><?php _e( 'The Style Book now has a structured layout and works with Classic themes, giving you more control over global styles.' ); ?></p>
+				<p><?php _e( 'Speculative loading speeds up navigation by preloading links before users navigate to them, while bcrypt hashing strengthens password security automatically.' ); ?></p>
+				<p><?php _e( 'Behind the scenes, database optimizations improve performance, and a new security warning system helps prevent vulnerabilities before they become a problem.' ); ?></p>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Introducing Twenty Twenty-Five' ); ?></h3>
+				<h3><?php _e( 'The Style Book gets a cleaner look—and a few new tricks' ); ?></h3>
 				<p>
-					<strong><?php _e( 'Endless possibility without complexity' ); ?></strong><br />
-					<?php _e( 'Twenty Twenty-Five offers a flexible, design-focused theme that lets you build stunning sites with ease. Tailor your aesthetic with an array of style options, block patterns, and color palettes. Pared down to the essentials, this is a theme that can truly grow with you.' ); ?>
+					<?php _e( 'The Style Book has a new, structured layout and clearer labels, to make it even easier to edit colors, typography—almost all your site styles—in one place.' ); ?>
 				</p>
+				<?php if ( ! wp_is_block_theme() ) : ?>
+					<p>
+						<?php
+						if ( current_user_can( 'edit_theme_options' ) && ( current_theme_supports( 'editor-styles' ) || wp_theme_has_theme_json() ) ) {
+							printf(
+								/* translators: %s is a direct link to the Style Book. */
+								__( 'Plus, now you can see it in Classic themes that have editor-styles or a theme.json file. Find <a href="%s">the Style Book</a> under Appearance > Design and use it to preview your theme&#8217;s evolution, as you edit CSS or make changes in the Customizer.' ),
+								add_query_arg( 'p', '/stylebook', admin_url( '/site-editor.php' ) )
+							);
+						} else {
+							_e( 'Plus, now you can see it in Classic themes that have editor-styles or a theme.json file. Find the Style Book under Appearance > Design and use it to preview your theme&#8217;s evolution, as you edit CSS or make changes in the Customizer.' );
+						}
+						?>
+					</p>
+				<?php endif; ?>
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.7/feature-tt5-2.webp" alt="" height="436" width="436" />
+					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-01.png" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -88,29 +96,23 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.7/feature-zoom-2.webp" alt="" height="436" width="436" />
+					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-02.png" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Get the big picture with Zoom Out' ); ?></h3>
-				<p>
-					<strong><?php _e( 'Explore your content from a new perspective' ); ?></strong><br />
-					<?php _e( 'Edit and arrange entire sections of your content like never before. A broader view of your site lets you add, edit, shuffle, or remove patterns to your liking. Embrace your inner architect.' ); ?>
-				</p>
+				<h3><?php _e( 'Editor improvements' ); ?></h3>
+				<p><?php _e( 'Easier ways to see your options in Data Views, and you can exclude sticky posts from the Query Loop. Plus, you&#8217;ll find lots of little improvements in the editor that smooth your way through everything you build.' ); ?></p>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Connect blocks and custom fields with no hassle (or code)' ); ?></h3>
-				<p>
-					<strong><?php _e( 'A streamlined way to create dynamic content' ); ?></strong><br />
-					<?php _e( 'This feature introduces a new UI for connecting blocks to custom fields, putting control of dynamic content directly in the editor. Link blocks with fields in just a few clicks, enhancing flexibility and efficiency when building. Your clients will love you—as if they didn&#8217;t already.' ); ?>
-				</p>
+				<h3><?php _e( 'Near-instant page loads, thanks to Speculative Loading' ); ?></h3>
+				<p><?php _e( 'In WordPress 6.8, pages load faster than ever. When you or your user hovers over or clicks a link, WordPress may preload the next page, for a smoother, near-instant experience. The system balances speed and efficiency, and you can control how it works, with a plugin or your own code. This feature only works in modern browsers—older ones will simply ignore it without any impact.' ); ?></p>
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.7/feature-block-bindings-2.webp" alt="" height="436" width="436" />
+					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-03.png" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -118,15 +120,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://s.w.org/images/core/6.7/feature-font-presets-2.png" alt="" height="436" width="436" />
+					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-04.png" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
-				<h3><?php _e( 'Embrace your inner font nerd' ); ?></h3>
-				<p>
-					<strong><?php _e( 'New style section, new possibilities' ); ?></strong><br />
-					<?php _e( 'Create, edit, remove, and apply font size presets with the next addition to the Styles interface. Override theme defaults or create your own custom font size, complete with fluid typography for responsive font scaling. Get into the details!' ); ?>
-				</p>
+				<h3><?php _e( 'Stronger password security with bcrypt' ); ?></h3>
+				<p><?php _e( 'Now passwords are harder to crack with bcrypt hashing, which takes a lot more computing power to break. This strengthens overall security, as do other encryption improvements across WordPress. You don&#8217;t need to do anything—everything updates automatically.' ); ?></p>
 			</div>
 		</div>
 
@@ -136,21 +135,33 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<div class="column">
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+						<path fill="#1e1e1e" d="M24 13.84c-.752 0-1.397-.287-1.936-.86a2.902 2.902 0 0 1-.809-2.06c0-.8.27-1.487.809-2.06S23.248 8 24 8c.753 0 1.398.287 1.937.86.54.573.809 1.26.809 2.06s-.27 1.487-.809 2.06-1.184.86-1.937.86ZM19.976 40V18.68a69.562 69.562 0 0 1-4.945-.56 45.877 45.877 0 0 1-4.57-.92l.565-2.4a46.79 46.79 0 0 0 6.356 1.14c2.106.227 4.312.34 6.618.34 2.307 0 4.513-.113 6.62-.34a46.786 46.786 0 0 0 6.355-1.14l.564 2.4c-1.454.373-2.977.68-4.57.92a69.55 69.55 0 0 1-4.945.56V40h-2.256V29.6h-3.535V40h-2.257Z"/>
+					</svg>
+				</div>
+				<h3><?php _e( 'Accessibility improvements' ); ?></h3>
+				<p><?php _e( '100+ accessibility fixes and enhancements touch a broad spectrum of the WordPress experience. This release includes fixes to every bundled theme, improvements to the navigation menu management, the customizer, and simplified labeling. The Block Editor has over 70 improvements to blocks, DataViews, and to its overall user experience.' ); ?></p>
+			</div>
+			<div class="column">
+				<div class="about__image">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+						<path fill="#1e1e1e" d="M18.1823 11.6392C18.1823 13.0804 17.0139 14.2487 15.5727 14.2487C14.3579 14.2487 13.335 13.4179 13.0453 12.2922L13.0377 12.2625L13.0278 12.2335L12.3985 10.377L12.3942 10.3785C11.8571 8.64997 10.246 7.39405 8.33961 7.39405C5.99509 7.39405 4.09448 9.29465 4.09448 11.6392C4.09448 13.9837 5.99509 15.8843 8.33961 15.8843C8.88499 15.8843 9.40822 15.781 9.88943 15.5923L9.29212 14.0697C8.99812 14.185 8.67729 14.2487 8.33961 14.2487C6.89838 14.2487 5.73003 13.0804 5.73003 11.6392C5.73003 10.1979 6.89838 9.02959 8.33961 9.02959C9.55444 9.02959 10.5773 9.86046 10.867 10.9862L10.8772 10.9836L11.4695 12.7311C11.9515 14.546 13.6048 15.8843 15.5727 15.8843C17.9172 15.8843 19.8178 13.9837 19.8178 11.6392C19.8178 9.29465 17.9172 7.39404 15.5727 7.39404C15.0287 7.39404 14.5066 7.4968 14.0264 7.6847L14.6223 9.20781C14.9158 9.093 15.2358 9.02959 15.5727 9.02959C17.0139 9.02959 18.1823 10.1979 18.1823 11.6392Z"></path>
+					</svg>
+				</div>
+				<h3><?php _e( 'Take a load off the database' ); ?></h3>
+				<p><?php _e( 'Work continues on optimizing cache key generation in the <code>WP_Query</code> class. The goal is, as ever, to boost your site&#8217;s performance, in this case by taking some more of the load off your database. This is especially good if you get a lot of traffic.' ); ?></p>
+			</div>
+		</div>
+
+		<div class="about__section has-1-column">
+			<div class="column">
+				<div class="about__image">
+					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<path fill="#1e1e1e" d="M32.455 17.72a1.592 1.592 0 0 1 .599 2.195l-7.637 12.99a1.653 1.653 0 0 1-2.235.589 1.592 1.592 0 0 1-.599-2.195l7.637-12.99a1.653 1.653 0 0 1 2.235-.589ZM13.774 23.21a1.653 1.653 0 0 0-2.236.589 1.592 1.592 0 0 0 .6 2.195l.944.536c.783.444 1.783.18 2.235-.588a1.592 1.592 0 0 0-.599-2.196l-.944-.535ZM16.432 17.72a1.653 1.653 0 0 1 2.236.588l.545.928a1.592 1.592 0 0 1-.599 2.196 1.653 1.653 0 0 1-2.235-.588l-.546-.928a1.592 1.592 0 0 1 .6-2.196ZM25.637 16.5c0-.888-.733-1.607-1.637-1.607s-1.636.72-1.636 1.607v1.071c0 .888.732 1.608 1.636 1.608.904 0 1.637-.72 1.637-1.608V16.5Z"/>
 						<path fill="#1e1e1e" fill-rule="evenodd" d="M4.91 27.75C4.91 17.395 13.455 9 24 9s19.091 8.395 19.091 18.75c0 3.909-1.22 7.542-3.305 10.548l-.488.702H8.702l-.488-.702A18.438 18.438 0 0 1 4.91 27.75ZM24 12.214c-8.736 0-15.818 6.956-15.818 15.536 0 2.943.832 5.692 2.277 8.036h27.082a15.25 15.25 0 0 0 2.277-8.036c0-8.58-7.082-15.536-15.818-15.536Z" clip-rule="evenodd"/>
 					</svg>
 				</div>
 				<h3><?php _e( 'Performance updates' ); ?></h3>
-				<p><?php _e( 'WordPress 6.7 delivers important performance updates, including faster pattern loading, optimized previews in the data views component, improved PHP 8+ support and removal of deprecated code, auto sizes for lazy-loaded images, and more efficient tag processing in the HTML API.' ); ?></p>
-			</div>
-			<div class="column">
-				<div class="about__image">
-					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-						<path fill="#1e1e1e" d="M24 13.84c-.752 0-1.397-.287-1.936-.86a2.902 2.902 0 0 1-.809-2.06c0-.8.27-1.487.809-2.06S23.248 8 24 8c.753 0 1.398.287 1.937.86.54.573.809 1.26.809 2.06s-.27 1.487-.809 2.06-1.184.86-1.937.86ZM19.976 40V18.68a69.562 69.562 0 0 1-4.945-.56 45.877 45.877 0 0 1-4.57-.92l.565-2.4a46.79 46.79 0 0 0 6.356 1.14c2.106.227 4.312.34 6.618.34 2.307 0 4.513-.113 6.62-.34a46.786 46.786 0 0 0 6.355-1.14l.564 2.4c-1.454.373-2.977.68-4.57.92a69.55 69.55 0 0 1-4.945.56V40h-2.256V29.6h-3.535V40h-2.257Z"/>
-					</svg>
-				</div>
-				<h3><?php _e( 'Accessibility improvements' ); ?></h3>
-				<p><?php _e( '65+ accessibility fixes and enhancements focus on foundational aspects of the WordPress experience, from improving user interface components and keyboard navigation in the Editor, to an accessible heading on WordPress login screens and clearer labeling throughout.' ); ?></p>
+				<p><?php _e( 'WordPress 6.8 packs a wide range of performance fixes and enhancements to speed up everything from editing to browsing. Beyond speculative loading, WordPress 6.8 pays special attention to the block editor, block type registration, and query caching. Plus, imagine never waiting longer than 50 milliseconds—for any interaction. In WordPress 6.8, the Interactivity API takes a first step toward that goal.' ); ?></p>
 			</div>
 		</div>
 
@@ -164,14 +175,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Version number. */
 						__( 'For a comprehensive overview of all the new features and enhancements in WordPress %s, please visit the feature-showcase website.' ),
-						$display_version
+						$display_major_version
 					);
 					?>
 				</p>
 			</div>
 			<div class="column aligncenter">
 				<div class="about__image">
-					<a href="<?php echo esc_url( __( 'https://wordpress.org/download/releases/6-7/' ) ); ?>" class="button button-primary button-hero"><?php _e( 'See everything new' ); ?></a>
+					<a href="<?php echo esc_url( __( 'https://wordpress.org/download/releases/6-8/' ) ); ?>" class="button button-primary button-hero"><?php _e( 'See everything new' ); ?></a>
 				</div>
 			</div>
 		</div>
@@ -180,7 +191,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-3-columns">
 			<div class="column about__image is-vertically-aligned-top">
-				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.7' ) ); ?>" alt="" height="280" width="280" />
+				<img src="<?php echo esc_url( admin_url( 'images/about-release-badge.svg?ver=6.8' ) ); ?>" alt="" height="280" width="280" />
 			</div>
 			<div class="column is-vertically-aligned-center" style="grid-column-end:span 2">
 				<h3>
@@ -188,7 +199,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Version number. */
 						__( 'Learn more about WordPress %s' ),
-						$display_version
+						$display_major_version
 					);
 					?>
 				</h3>
@@ -219,7 +230,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						printf(
 							/* translators: %s: WordPress version number. */
 							__( 'WordPress %s Release Notes' ),
-							'6.7'
+							$display_major_version
 						);
 						?>
 					</a>
@@ -229,7 +240,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: WordPress version number. */
 						__( 'Read the WordPress %s Release Notes for information on installation, enhancements, fixed issues, release contributors, learning resources, and the list of file changes.' ),
-						'6.7'
+						$display_major_version
 					);
 					?>
 				</p>
@@ -246,7 +257,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						printf(
 							/* translators: %s: WordPress version number. */
 							__( 'WordPress %s Field Guide' ),
-							'6.7'
+							$display_major_version
 						);
 						?>
 					</a>
@@ -256,7 +267,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: WordPress version number. */
 						__( 'Explore the WordPress %s Field Guide. Learn about the changes in this release with detailed developer notes to help you build with WordPress.' ),
-						'6.7'
+						$display_major_version
 					);
 					?>
 				</p>
