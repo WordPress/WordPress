@@ -58,3 +58,6 @@
   font-size:var(--wp--preset--font-size--medium, smaller);
   margin-left:.5em;
 }
+.wp-block-post-comments-form input[type=submit]{
+  width:auto;
+}

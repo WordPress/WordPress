@@ -2358,6 +2358,9 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[
   font-size:var(--wp--preset--font-size--medium, smaller);
   margin-right:.5em;
 }
+.wp-block-post-comments-form input[type=submit]{
+  width:auto;
+}
 
 .wp-block-post-comments-count{
   box-sizing:border-box;
