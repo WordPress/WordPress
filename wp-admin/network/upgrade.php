@@ -135,6 +135,9 @@ switch ( $action ) {
 		break;
 	case 'show':
 	default:
+		/**
+		 * @global int $wp_db_version WordPress database version.
+		 */
 		if ( (int) get_site_option( 'wpmu_upgrade_site' ) !== $GLOBALS['wp_db_version'] ) :
 			?>
 		<h2><?php _e( 'Database Update Required' ); ?></h2>
