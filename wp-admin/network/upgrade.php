@@ -12,6 +12,11 @@ require_once __DIR__ . '/admin.php';
 
 require_once ABSPATH . WPINC . '/http.php';
 
+/**
+ * @global int $wp_db_version WordPress database version.
+ */
+global $wp_db_version;
+
 // Used in the HTML title tag.
 $title       = __( 'Upgrade Network' );
 $parent_file = 'upgrade.php';
@@ -49,10 +54,6 @@ switch ( $action ) {
 		$n = ( isset( $_GET['n'] ) ) ? (int) $_GET['n'] : 0;
 
 		if ( $n < 5 ) {
-			/**
-			 * @global int $wp_db_version WordPress database version.
-			 */
-			global $wp_db_version;
 			update_site_option( 'wpmu_upgrade_site', $wp_db_version );
 		}
 
@@ -135,10 +136,7 @@ switch ( $action ) {
 		break;
 	case 'show':
 	default:
-		/**
-		 * @global int $wp_db_version WordPress database version.
-		 */
-		if ( (int) get_site_option( 'wpmu_upgrade_site' ) !== $GLOBALS['wp_db_version'] ) :
+		if ( (int) get_site_option( 'wpmu_upgrade_site' ) !== $wp_db_version ) :
 			?>
 		<h2><?php _e( 'Database Update Required' ); ?></h2>
 		<p><?php _e( 'WordPress has been updated! Next and final step is to individually upgrade the sites in your network.' ); ?></p>
