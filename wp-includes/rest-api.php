@@ -434,7 +434,7 @@ function rest_api_loaded() {
 	if ( ! is_string( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
 		$rest_type_error = new WP_Error(
 			'rest_path_invalid_type',
-			__( 'The rest route parameter must be a string.' ),
+			__( 'The REST route parameter must be a string.' ),
 			array( 'status' => 400 )
 		);
 		wp_die( $rest_type_error );
