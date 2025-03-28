@@ -76,6 +76,7 @@ function create_initial_post_types() {
 				'name'           => _x( 'Media', 'post type general name' ),
 				'name_admin_bar' => _x( 'Media', 'add new from admin bar' ),
 				'add_new'        => __( 'Add Media File' ),
+				'add_new_item'   => __( 'Add Media File' ),
 				'edit_item'      => __( 'Edit Media' ),
 				'view_item'      => ( '1' === get_option( 'wp_attachment_pages_enabled' ) ) ? __( 'View Attachment Page' ) : __( 'View Media File' ),
 				'attributes'     => __( 'Attachment Attributes' ),
