@@ -13618,6 +13618,7 @@ function BlockRemovalWarnings() {
  */
 
 
+
 function useStartPatterns() {
   // A pattern is a start pattern if it includes 'core/post-content' in its blockTypes,
   // and it has no postTypes declared and the current post type is page or if
@@ -13752,7 +13753,7 @@ function StartPageOptions() {
     const choosePatternModalEnabled = select(external_wp_preferences_namespaceObject.store).get('core', 'enableChoosePatternModal');
     return {
       postId: getCurrentPostId(),
-      enabled: choosePatternModalEnabled && 'page' === getCurrentPostType()
+      enabled: choosePatternModalEnabled && TEMPLATE_POST_TYPE !== getCurrentPostType()
     };
   }, []);
 

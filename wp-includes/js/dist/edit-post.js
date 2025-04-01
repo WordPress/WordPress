@@ -2559,6 +2559,7 @@ function usePaddingAppender(enabled) {
  * Internal dependencies
  */
 
+const isGutenbergPlugin =  false ? 0 : false;
 function useShouldIframe() {
   return (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
@@ -2567,17 +2568,16 @@ function useShouldIframe() {
       getDeviceType
     } = select(external_wp_editor_namespaceObject.store);
     return (
-      // If the theme is block based, we ALWAYS use the iframe for
-      // consistency across the post and site editor. The iframe was
-      // introduced long before the sited editor and block themes, so
-      // these themes are expecting it.
-      getEditorSettings().__unstableIsBlockBasedTheme ||
-      // For classic themes, we also still want to iframe all the special
+      // If the theme is block based and the Gutenberg plugin is active,
+      // we ALWAYS use the iframe for consistency across the post and site
+      // editor.
+      isGutenbergPlugin && getEditorSettings().__unstableIsBlockBasedTheme ||
+      // We also still want to iframe all the special
       // editor features and modes such as device previews, zoom out, and
       // template/pattern editing.
       getDeviceType() !== 'Desktop' || ['wp_template', 'wp_block'].includes(getCurrentPostType()) || unlock(select(external_wp_blockEditor_namespaceObject.store)).isZoomOut() ||
-      // Finally, still iframe the editor for classic themes if all blocks
-      // are v3 (which means they are marked as iframe-compatible).
+      // Finally, still iframe the editor if all blocks are v3 (which means
+      // they are marked as iframe-compatible).
       select(external_wp_blocks_namespaceObject.store).getBlockTypes().every(type => type.apiVersion >= 3)
     );
   }, []);
