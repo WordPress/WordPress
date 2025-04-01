@@ -267,7 +267,7 @@
   color:var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
   white-space:nowrap;
 }
-.components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]){
+.components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true],.is-pressed){
   background:color-mix(in srgb, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)) 4%, #0000);
   color:var(--wp-components-color-accent-darker-20, var(--wp-admin-theme-color-darker-20, #183ad6));
 }
