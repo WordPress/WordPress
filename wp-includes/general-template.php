@@ -175,8 +175,8 @@ function get_template_part( $slug, $name = null, $args = array() ) {
 	 * @since 5.5.0 The `$args` parameter was added.
 	 *
 	 * @param string      $slug The slug name for the generic template.
-	 * @param string|null $name The name of the specialized template or null if
-	 *                          there is none.
+	 * @param string|null $name The name of the specialized template
+	 *                          or null if there is none.
 	 * @param array       $args Additional arguments passed to the template.
 	 */
 	do_action( "get_template_part_{$slug}", $slug, $name, $args );
@@ -195,11 +195,11 @@ function get_template_part( $slug, $name = null, $args = array() ) {
 	 * @since 5.2.0
 	 * @since 5.5.0 The `$args` parameter was added.
 	 *
-	 * @param string      $slug      The slug name for the generic template.
-	 * @param string|null $name      The name of the specialized template or an empty
-	 *                               string if there is none.
-	 * @param string[]    $templates Array of template files to search for, in order.
-	 * @param array       $args      Additional arguments passed to the template.
+	 * @param string   $slug      The slug name for the generic template.
+	 * @param string   $name      The name of the specialized template
+	 *                            or an empty string if there is none.
+	 * @param string[] $templates Array of template files to search for, in order.
+	 * @param array    $args      Additional arguments passed to the template.
 	 */
 	do_action( 'get_template_part', $slug, $name, $templates, $args );
 
