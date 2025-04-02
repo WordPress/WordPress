@@ -17,7 +17,7 @@ if ( ! apply_filters( 'enable_post_by_email_configuration', true ) ) {
 
 $mailserver_url = get_option( 'mailserver_url' );
 
-if ( 'mail.example.com' === $mailserver_url || empty( $mailserver_url ) ) {
+if ( empty( $mailserver_url ) || 'mail.example.com' === $mailserver_url ) {
 	wp_die( __( 'This action has been disabled by the administrator.' ), 403 );
 }
 
