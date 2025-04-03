@@ -502,6 +502,14 @@ class WP_Application_Passwords {
 		string $password,
 		string $hash
 	): bool {
+		if ( ! str_starts_with( $hash, '$generic$' ) ) {
+			/*
+			 * If the hash doesn't start with `$generic$`, it is a hash created with `wp_hash_password()`.
+			 * This is the case for application passwords created before 6.8.0.
+			 */
+			return wp_check_password( $password, $hash );
+		}
+
 		return wp_verify_fast_hash( $password, $hash );
 	}
 }
