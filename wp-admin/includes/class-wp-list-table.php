@@ -1524,15 +1524,12 @@ class WP_List_Table {
 				);
 			}
 
-			$tag   = ( 'cb' === $column_key ) ? 'td' : 'th';
-			$scope = ( 'th' === $tag ) ? 'scope="col"' : '';
-			$id    = $with_id ? "id='$column_key'" : '';
+			$tag        = ( 'cb' === $column_key ) ? 'td' : 'th';
+			$scope      = ( 'th' === $tag ) ? 'scope="col"' : '';
+			$id         = $with_id ? "id='$column_key'" : '';
+			$class_attr = "class='" . implode( ' ', $class ) . "'";
 
-			if ( ! empty( $class ) ) {
-				$class = "class='" . implode( ' ', $class ) . "'";
-			}
-
-			echo "<$tag $scope $id $class $aria_sort_attr $abbr_attr>$column_display_name</$tag>";
+			echo "<$tag $scope $id $class_attr $aria_sort_attr $abbr_attr>$column_display_name</$tag>";
 		}
 	}
 
