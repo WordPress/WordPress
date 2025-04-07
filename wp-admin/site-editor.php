@@ -31,7 +31,7 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
  */
 function _wp_get_site_editor_redirection_url() {
 	global $pagenow;
-	if ( 'site-editor.php' !== $pagenow || isset( $_REQUEST['p'] ) || ! $_SERVER['QUERY_STRING'] ) {
+	if ( 'site-editor.php' !== $pagenow || isset( $_REQUEST['p'] ) || empty( $_SERVER['QUERY_STRING'] ) ) {
 		return false;
 	}
 
