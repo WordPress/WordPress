@@ -2420,15 +2420,15 @@ Thanks!
  *
  * @since 2.8.5
  *
- * @param bool $force
+ * @param bool|null $force Optional. Whether to force SSL in admin screens. Default null.
  * @return bool True if forced, false if not forced.
  */
-function force_ssl_content( $force = '' ) {
+function force_ssl_content( $force = null ) {
 	static $forced_content = false;
 
-	if ( ! $force ) {
+	if ( ! is_null( $force ) ) {
 		$old_forced     = $forced_content;
-		$forced_content = $force;
+		$forced_content = (bool) $force;
 		return $old_forced;
 	}
 
