@@ -1860,6 +1860,16 @@ final class WP_Theme implements ArrayAccess {
 
 		$files = (array) self::scandir( $dirpath, 'php', -1 );
 
+		/**
+		 * Filters list of block pattern files for a theme.
+		 *
+		 * @since 6.8.0
+		 *
+		 * @param array  $files   Array of theme files found within `patterns` directory.
+		 * @param string $dirpath Path of theme `patterns` directory being scanned.
+		 */
+		$files = apply_filters( 'theme_block_pattern_files', $files, $dirpath );
+
 		$dirpath = trailingslashit( $dirpath );
 
 		if ( ! $files ) {
