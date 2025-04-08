@@ -22,7 +22,7 @@
 .about__container {
 	/* Section backgrounds */
 	--background: #f6f5f2;
-	--subtle-background: yellow;
+	--subtle-background: #eef0fd;
 
 	/* Main text color */
 	--text: #1e1e1e;
