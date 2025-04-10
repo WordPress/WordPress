@@ -163,9 +163,9 @@ class WP_Embed {
 						 *
 						 * @see WP_Embed::shortcode()
 						 *
-						 * @param string|false $return The HTML result of the shortcode, or false on failure.
-						 * @param string       $url    The embed URL.
-						 * @param array        $attr   An array of shortcode attributes.
+						 * @param string $return The HTML result of the shortcode.
+						 * @param string $url    The embed URL.
+						 * @param array  $attr   An array of shortcode attributes.
 						 */
 						return apply_filters( 'embed_handler_html', $return, $url, $attr );
 					}
