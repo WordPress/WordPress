@@ -1339,9 +1339,7 @@ class WP_REST_Server {
 	 * @return false|string Boolean false or string error message.
 	 */
 	protected function get_json_last_error() {
-		$last_error_code = json_last_error();
-
-		if ( JSON_ERROR_NONE === $last_error_code || empty( $last_error_code ) ) {
+		if ( JSON_ERROR_NONE === json_last_error() ) {
 			return false;
 		}
 
