@@ -2869,8 +2869,8 @@ All at ###SITENAME###
 function wp_network_admin_email_change_notification( $option_name, $new_email, $old_email, $network_id ) {
 	$send = true;
 
-	// Don't send the notification to the default 'admin_email' value or an empty value.
-	if ( 'you@example.com' === $old_email || empty( $old_email ) ) {
+	// Don't send the notification for an empty email address or the default 'admin_email' value.
+	if ( empty( $old_email ) || 'you@example.com' === $old_email ) {
 		$send = false;
 	}
 

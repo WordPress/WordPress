@@ -8122,8 +8122,8 @@ function wp_cache_set_last_changed( $group ) {
 function wp_site_admin_email_change_notification( $old_email, $new_email, $option_name ) {
 	$send = true;
 
-	// Don't send the notification to the default 'admin_email' value or an empty value.
-	if ( 'you@example.com' === $old_email || empty( $old_email ) ) {
+	// Don't send the notification for an empty email address or the default 'admin_email' value.
+	if ( empty( $old_email ) || 'you@example.com' === $old_email ) {
 		$send = false;
 	}
 
