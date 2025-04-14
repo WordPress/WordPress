@@ -828,6 +828,19 @@ $_old_files = array(
 	'wp-includes/SimplePie/Net/',
 	'wp-includes/SimplePie/Parse/',
 	'wp-includes/SimplePie/XML/',
+	// 6.8
+	'wp-includes/blocks/post-content/editor.css',
+	'wp-includes/blocks/post-content/editor.min.css',
+	'wp-includes/blocks/post-content/editor-rtl.css',
+	'wp-includes/blocks/post-content/editor-rtl.min.css',
+	'wp-includes/blocks/post-template/editor.css',
+	'wp-includes/blocks/post-template/editor.min.css',
+	'wp-includes/blocks/post-template/editor-rtl.css',
+	'wp-includes/blocks/post-template/editor-rtl.min.css',
+	'wp-includes/js/dist/undo-manager.js',
+	'wp-includes/js/dist/undo-manager.min.js',
+	'wp-includes/js/dist/fields.min.js',
+	'wp-includes/js/dist/fields.js',
 );
 
 /**
