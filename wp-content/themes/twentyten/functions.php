@@ -766,7 +766,7 @@ add_filter( 'widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args' );
  */
 function twentyten_scripts_styles() {
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20240703' );
+	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20250220' );
 }
 add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
 
