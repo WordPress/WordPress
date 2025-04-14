@@ -88,7 +88,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-01.png" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.8/feature-01.webp?v=23478" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -96,7 +96,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-02.png" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.8/feature-02.png?v=23478" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
@@ -112,7 +112,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-03.png" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.8/feature-03.webp?v=23478" alt="" height="436" width="436" />
 				</div>
 			</div>
 		</div>
@@ -120,7 +120,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-2-columns">
 			<div class="column is-vertically-aligned-center">
 				<div class="about__image">
-					<img src="https://make.wordpress.org/core/files/2025/03/about-68-feature-04.png" alt="" height="436" width="436" />
+					<img src="https://s.w.org/images/core/6.8/feature-04.png?v=23478" alt="" height="436" width="436" />
 				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
