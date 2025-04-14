@@ -1,9 +1,9 @@
 === Twenty Twenty-Two ===
 Contributors: wordpressdotorg
 Requires at least: 5.9
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 1.9
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,11 @@ Follow these instructions for each of the following templates:
 - Single Post (No Separators)
 
 == Changelog ==
+
+= 2.0 =
+* Released: April 15, 2025
+
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_2.0
 
 = 1.9 =
 * Released: November 12, 2024

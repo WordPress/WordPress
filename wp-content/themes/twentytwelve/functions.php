@@ -198,7 +198,7 @@ function twentytwelve_scripts_styles() {
 		'twentytwelve-navigation',
 		get_template_directory_uri() . '/js/navigation.js',
 		array( 'jquery' ),
-		'20141205',
+		'20250303',
 		array(
 			'in_footer' => false, // Because involves header.
 			'strategy'  => 'defer',
@@ -212,7 +212,7 @@ function twentytwelve_scripts_styles() {
 	}
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri(), array(), '20241112' );
+	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri(), array(), '20250415' );
 
 	// Theme block stylesheet.
 	wp_enqueue_style( 'twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentytwelve-style' ), '20240812' );
@@ -707,7 +707,7 @@ function twentytwelve_customize_partial_blogdescription() {
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_customize_preview_js() {
-	wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20200516', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20250217', array( 'in_footer' => true ) );
 }
 add_action( 'customize_preview_init', 'twentytwelve_customize_preview_js' );
 

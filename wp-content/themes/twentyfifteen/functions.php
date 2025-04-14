@@ -430,7 +430,7 @@ function twentyfifteen_scripts() {
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20201026' );
 
 	// Load our main stylesheet.
-	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array(), '20241112' );
+	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array(), '20250415' );
 
 	// Theme block stylesheet.
 	wp_enqueue_style( 'twentyfifteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentyfifteen-style' ), '20240715' );
@@ -458,7 +458,7 @@ function twentyfifteen_scripts() {
 		'twentyfifteen-script',
 		get_template_directory_uri() . '/js/functions.js',
 		array( 'jquery' ),
-		'20221101',
+		'20250303',
 		array(
 			'in_footer' => false, // Because involves header.
 			'strategy'  => 'defer',
