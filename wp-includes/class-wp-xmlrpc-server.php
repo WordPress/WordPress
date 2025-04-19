@@ -2345,7 +2345,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$result = wp_delete_term( $term_id, $taxonomy->name );
 
 		if ( is_wp_error( $result ) ) {
-			return new IXR_Error( 500, $term->get_error_message() );
+			return new IXR_Error( 500, $result->get_error_message() );
 		}
 
 		if ( ! $result ) {
