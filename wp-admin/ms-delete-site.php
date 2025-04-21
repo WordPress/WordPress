@@ -75,6 +75,13 @@ All at ###SITENAME###
 	/**
 	 * Filters the text for the email sent to the site admin when a request to delete a site in a Multisite network is submitted.
 	 *
+	 * The following strings have a special meaning and will get replaced dynamically:
+	 *
+	 *  - `###USERNAME###`   The current user's username.
+	 *  - `###URL_DELETE###` The link to click on to confirm the site deletion.
+	 *  - `###SITENAME###`   The name of the site.
+	 *  - `###SITEURL###`    The URL to the site.
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $content The email text.

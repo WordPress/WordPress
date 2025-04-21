@@ -2816,11 +2816,12 @@ All at ###SITENAME###
 	 * Filters the text of the email sent when a change of network admin email address is attempted.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
-	 * ###USERNAME###  The current user's username.
-	 * ###ADMIN_URL### The link to click on to confirm the email change.
-	 * ###EMAIL###     The proposed new network admin email address.
-	 * ###SITENAME###  The name of the network.
-	 * ###SITEURL###   The URL to the network.
+	 *
+	 *  - `###USERNAME###`  The current user's username.
+	 *  - `###ADMIN_URL###` The link to click on to confirm the email change.
+	 *  - `###EMAIL###`     The proposed new network admin email address.
+	 *  - `###SITENAME###`  The name of the network.
+	 *  - `###SITEURL###`   The URL to the network.
 	 *
 	 * @since 4.9.0
 	 *
@@ -2927,10 +2928,10 @@ All at ###SITENAME###
 	 *     @type string $subject The subject of the email.
 	 *     @type string $message The content of the email.
 	 *         The following strings have a special meaning and will get replaced dynamically:
-	 *         - ###OLD_EMAIL### The old network admin email address.
-	 *         - ###NEW_EMAIL### The new network admin email address.
-	 *         - ###SITENAME###  The name of the network.
-	 *         - ###SITEURL###   The URL to the site.
+	 *          - `###OLD_EMAIL###` The old network admin email address.
+	 *          - `###NEW_EMAIL###` The new network admin email address.
+	 *          - `###SITENAME###`  The name of the network.
+	 *          - `###SITEURL###`   The URL to the site.
 	 *     @type string $headers Headers.
 	 * }
 	 * @param string $old_email  The old network admin email address.
