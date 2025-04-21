@@ -1353,11 +1353,7 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $request {
-	 *     Request.
-	 *
-	 *     @type string $context Context.
-	 * }
+	 * @param WP_REST_Request $request Request data.
 	 * @return WP_REST_Response The API root index data.
 	 */
 	public function get_index( $request ) {
