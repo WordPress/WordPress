@@ -1300,6 +1300,7 @@ class WP_Debug_Data {
 		$active_theme  = wp_get_theme();
 		$parent_theme  = $active_theme->parent();
 		$theme_updates = get_theme_updates();
+		$transient     = get_site_transient( 'update_themes' );
 
 		$auto_updates         = array();
 		$auto_updates_enabled = wp_is_auto_update_enabled_for_type( 'theme' );
