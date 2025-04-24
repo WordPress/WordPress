@@ -1293,7 +1293,7 @@ window.wp = window.wp || {};
 						.append( $button.attr({
 							id: id + '-html',
 							'class': 'wp-switch-editor switch-html'
-						}).text( window.tinymce.translate( 'Code' ) ) )
+						}).text( window.tinymce.translate( 'Code|tab' ) ) )
 					).append( $editorContainer )
 			);
 
