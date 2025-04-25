@@ -1396,7 +1396,7 @@ final class _WP_Editors {
 				'Apply'                                => __( 'Apply' ),        // Tooltip for the 'apply' button in the inline link dialog.
 				'Link options'                         => __( 'Link options' ), // Tooltip for the 'link options' button in the inline link dialog.
 				'Visual'                               => _x( 'Visual', 'Name for the Visual editor tab' ),             // Editor switch tab label.
-				'Code'                                 => _x( 'Code', 'Name for the Code editor tab (formerly Text)' ), // Editor switch tab label.
+				'Code|tab'                             => _x( 'Code', 'Name for the Code editor tab (formerly Text)' ), // Editor switch tab label.
 				'Add Media'                            => array( __( 'Add Media' ), 'accessM' ), // Tooltip for the 'Add Media' button in the block editor Classic block.
 
 				// Shortcuts help modal.
