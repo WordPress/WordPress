@@ -1248,8 +1248,25 @@ function apply_block_hooks_to_content_from_post_object( $content, $post = null, 
 		$content
 	);
 
+	/*
+	 * We need to avoid inserting any blocks hooked into the `before` and `after` positions
+	 * of the temporary wrapper block that we create to wrap the content.
+	 * See https://core.trac.wordpress.org/ticket/63287 for more details.
+	 */
+	$suppress_blocks_from_insertion_before_and_after_wrapper_block = static function ( $hooked_block_types, $relative_position, $anchor_block_type ) use ( $wrapper_block_type ) {
+		if (
+			$wrapper_block_type === $anchor_block_type &&
+			in_array( $relative_position, array( 'before', 'after' ), true )
+		) {
+			return array();
+		}
+		return $hooked_block_types;
+	};
+
 	// Apply Block Hooks.
+	add_filter( 'hooked_block_types', $suppress_blocks_from_insertion_before_and_after_wrapper_block, PHP_INT_MAX, 3 );
 	$content = apply_block_hooks_to_content( $content, $post, $callback );
+	remove_filter( 'hooked_block_types', $suppress_blocks_from_insertion_before_and_after_wrapper_block, PHP_INT_MAX );
 
 	// Finally, we need to remove the temporary wrapper block.
 	$content = remove_serialized_parent_block( $content );
