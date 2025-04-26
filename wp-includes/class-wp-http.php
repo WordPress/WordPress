@@ -329,7 +329,7 @@ class WP_Http {
 
 		// WP allows passing in headers as a string, weirdly.
 		if ( ! is_array( $parsed_args['headers'] ) ) {
-			$processed_headers      = WP_Http::processHeaders( $parsed_args['headers'] );
+			$processed_headers      = self::processHeaders( $parsed_args['headers'] );
 			$parsed_args['headers'] = $processed_headers['headers'];
 		}
 
@@ -368,7 +368,7 @@ class WP_Http {
 
 		// If we've got cookies, use and convert them to WpOrg\Requests\Cookie.
 		if ( ! empty( $parsed_args['cookies'] ) ) {
-			$options['cookies'] = WP_Http::normalize_cookies( $parsed_args['cookies'] );
+			$options['cookies'] = self::normalize_cookies( $parsed_args['cookies'] );
 		}
 
 		// SSL certificate handling.
@@ -1076,7 +1076,7 @@ class WP_Http {
 			$redirect_location = array_pop( $redirect_location );
 		}
 
-		$redirect_location = WP_Http::make_absolute_url( $redirect_location, $url );
+		$redirect_location = self::make_absolute_url( $redirect_location, $url );
 
 		// POST requests should not POST to a redirected location.
 		if ( 'POST' === $args['method'] ) {
