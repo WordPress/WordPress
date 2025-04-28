@@ -31472,8 +31472,7 @@ function VisualEditor({
     'edit-post-visual-editor', className, {
       'has-padding': isFocusedEntity || enableResizing,
       'is-resizable': enableResizing,
-      'is-iframed': !disableIframe,
-      'is-scrollable': disableIframe || deviceType !== 'Desktop'
+      'is-iframed': !disableIframe
     }),
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(resizable_editor, {
       enableResizing: enableResizing,
