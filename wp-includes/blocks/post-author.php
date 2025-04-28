@@ -26,7 +26,7 @@ function render_block_core_post_author( $attributes, $content, $block ) {
 		return '';
 	}
 
-	if ( ! post_type_supports( $block->context['postType'], 'author' ) ) {
+	if ( isset( $block->context['postType'] ) && ! post_type_supports( $block->context['postType'], 'author' ) ) {
 		return '';
 	}
 

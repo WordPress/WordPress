@@ -810,7 +810,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 .editor-visual-editor{
-  flex:1 1 0%;
+  flex:1 0 auto;
 }
 
 .components-editor-notices__dismissible,.components-editor-notices__pinned{
@@ -2427,7 +2427,6 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
   align-items:center;
   background-color:#ddd;
   display:flex;
-  overflow:hidden;
   position:relative;
 }
 .editor-visual-editor iframe[name=editor-canvas]{
@@ -2439,6 +2438,9 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 .editor-visual-editor.has-padding{
   padding:24px 24px 0;
 }
+.editor-visual-editor.is-iframed{
+  overflow:hidden;
+}
 .editor-visual-editor .components-button{
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
   font-size:13px;
@@ -2446,22 +2448,6 @@ textarea.editor-post-text-editor:-ms-input-placeholder{
 }
 .editor-visual-editor .components-button.has-icon,.editor-visual-editor .components-button.is-tertiary{
   padding:6px;
-}
-.editor-visual-editor.is-scrollable .block-editor-block-canvas{
-  overflow:auto;
-}
-.editor-visual-editor.is-scrollable .block-editor-block-canvas>.block-editor-writing-flow{
-  box-sizing:border-box;
-  display:flow-root;
-  min-height:100%;
-}
-.editor-visual-editor.is-scrollable .block-editor-block-canvas>.block-editor-iframe__container{
-  display:flex;
-  flex-direction:column;
-}
-.editor-visual-editor.is-scrollable .block-editor-block-canvas>.block-editor-iframe__container>.block-editor-iframe__scale-container{
-  display:flow-root;
-  flex:1 0 fit-content;
 }
 
 .editor-fields-content-preview{
