@@ -3075,7 +3075,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$query_params['ignore_sticky'] = array(
 				'description' => __( 'Whether to ignore sticky posts or not.' ),
 				'type'        => 'boolean',
-				'default'     => false,
+				'default'     => true,
 			);
 		}
 
