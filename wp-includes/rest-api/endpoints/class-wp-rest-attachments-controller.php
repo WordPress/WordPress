@@ -155,8 +155,16 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			isset( $files['file']['type'] ) &&
 			str_starts_with( $files['file']['type'], 'image/' )
 		) {
-			// Check if the image editor supports the type.
-			if ( ! wp_image_editor_supports( array( 'mime_type' => $files['file']['type'] ) ) ) {
+			// List of non-resizable image formats.
+			$editor_non_resizable_formats = array(
+				'image/svg+xml',
+			);
+
+			// Check if the image editor supports the type or ignore if it isn't a format resizable by an editor.
+			if (
+				! in_array( $files['file']['type'], $editor_non_resizable_formats, true ) &&
+				! wp_image_editor_supports( array( 'mime_type' => $files['file']['type'] ) )
+			) {
 				return new WP_Error(
 					'rest_upload_image_type_not_supported',
 					__( 'The web server cannot generate responsive image sizes for this image. Convert it to JPEG or PNG before uploading.' ),
