@@ -62,7 +62,7 @@ function wp_cache_add( $key, $data, $group = '', $expire = 0 ) {
 function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->add_multiple( $data, $group, $expire );
+	return $wp_object_cache->add_multiple( $data, $group, (int) $expire );
 }
 
 /**
@@ -129,7 +129,7 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
 function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->set_multiple( $data, $group, $expire );
+	return $wp_object_cache->set_multiple( $data, $group, (int) $expire );
 }
 
 /**
