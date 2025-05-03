@@ -1540,7 +1540,6 @@ class WP_List_Table {
 	 * should be provided via get_sortable_columns().
 	 *
 	 * @since 6.3.0
-	 * @access public
 	 */
 	public function print_table_description() {
 		list( $columns, $hidden, $sortable ) = $this->get_column_info();

@@ -496,7 +496,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * Displays a formats drop-down for filtering items.
 	 *
 	 * @since 5.2.0
-	 * @access protected
 	 *
 	 * @param string $post_type Post type slug.
 	 */

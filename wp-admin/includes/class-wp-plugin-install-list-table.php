@@ -36,7 +36,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 * installed plugins.
 	 *
 	 * @since 4.9.0
-	 * @access protected
 	 *
 	 * @return array
 	 */

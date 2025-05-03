@@ -403,7 +403,6 @@ class WP_Upgrader {
 	 * Flattens the results of WP_Filesystem_Base::dirlist() for iterating over.
 	 *
 	 * @since 4.9.0
-	 * @access protected
 	 *
 	 * @param array  $nested_files Array of files as returned by WP_Filesystem_Base::dirlist().
 	 * @param string $path         Relative path to prepend to child nodes. Optional.
