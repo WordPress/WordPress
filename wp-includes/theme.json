@@ -373,7 +373,12 @@
 					"background": "#32373c"
 				},
 				"spacing": {
-					"padding": "calc(0.667em + 2px) calc(1.333em + 2px)"
+					"padding": {
+						"top": "calc(0.667em + 2px)",
+						"right": "calc(1.333em + 2px)",
+						"bottom": "calc(0.667em + 2px)",
+						"left": "calc(1.333em + 2px)"
+					}
 				},
 				"typography": {
 					"fontSize": "inherit",
