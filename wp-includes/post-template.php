@@ -1771,7 +1771,7 @@ function prepend_attachment( $content ) {
  * @since 1.0.0
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
- * @return string HTML content for password form for password protected post.
+ * @return string HTML content for password form for password-protected post.
  */
 function get_the_password_form( $post = 0 ) {
 	$post                  = get_post( $post );
@@ -1786,7 +1786,7 @@ function get_the_password_form( $post = 0 ) {
 	if ( ! empty( $post->ID ) && wp_get_raw_referer() === get_permalink( $post->ID ) && isset( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] ) ) {
 		/**
 		 * Filters the invalid password message shown on password-protected posts.
-		 * The filter is only applied if the post is password protected.
+		 * The filter is only applied if the post is password-protected.
 		 *
 		 * @since 6.8.0
 		 *
@@ -1807,7 +1807,7 @@ function get_the_password_form( $post = 0 ) {
 	}
 
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form' . $class . '" method="post">' . $redirect_field . $invalid_password_html . '
-	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
+	<p>' . __( 'This content is password-protected. To view it, please enter the password below.' ) . '</p>
 	<p><label for="' . $field_id . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $field_id . '" type="password" spellcheck="false" required size="20"' . $aria . ' /></label> <input type="submit" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
 	';
 
