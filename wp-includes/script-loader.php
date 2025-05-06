@@ -2900,7 +2900,7 @@ function wp_get_script_tag( $attributes ) {
 /**
  * Prints formatted `<script>` loader tag.
  *
- * It is possible to inject attributes in the `<script>` tag via the  {@see 'wp_script_attributes'}  filter.
+ * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_script_attributes'} filter.
  * Automatically injects type attribute if needed.
  *
  * @since 5.7.0
@@ -2914,7 +2914,7 @@ function wp_print_script_tag( $attributes ) {
 /**
  * Constructs an inline script tag.
  *
- * It is possible to inject attributes in the `<script>` tag via the  {@see 'wp_script_attributes'}  filter.
+ * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_inline_script_attributes'} filter.
  * Automatically injects type attribute if needed.
  *
  * @since 5.7.0
@@ -3003,7 +3003,7 @@ function wp_get_inline_script_tag( $data, $attributes = array() ) {
 /**
  * Prints an inline script tag.
  *
- * It is possible to inject attributes in the `<script>` tag via the  {@see 'wp_script_attributes'}  filter.
+ * It is possible to inject attributes in the `<script>` tag via the {@see 'wp_inline_script_attributes'} filter.
  * Automatically injects type attribute if needed.
  *
  * @since 5.7.0
