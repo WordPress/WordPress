@@ -2177,11 +2177,15 @@ function path_join( $base, $path ) {
  * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
  * @since 4.5.0 Allows for Windows network shares.
  * @since 4.9.7 Allows for PHP file wrappers.
+ * @since latest TODO Allows for null/falsy paths (returns whatever was passed)
  *
  * @param string $path Path to normalize.
  * @return string Normalized path.
  */
 function wp_normalize_path( $path ) {
+        if (!$path) {
+                return $path;
+        }
 	$wrapper = '';
 
 	if ( wp_is_stream( $path ) ) {
