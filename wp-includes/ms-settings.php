@@ -59,7 +59,7 @@ ms_subdomain_constants();
 // have not been populated in the global scope through something like `sunrise.php`.
 if ( ! isset( $current_site ) || ! isset( $current_blog ) ) {
 
-	$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+	$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ?? '' ) );
 	if ( str_ends_with( $domain, ':80' ) ) {
 		$domain               = substr( $domain, 0, -3 );
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
