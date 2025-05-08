@@ -77,7 +77,7 @@ if ( ! isset( $current_site ) || ! isset( $current_blog ) ) {
 	$bootstrap_result = ms_load_current_site_and_network( $domain, $path, is_subdomain_install() );
 
 	if ( true === $bootstrap_result ) {
-		// `$current_blog` and `$current_site are now populated.
+		// `$current_blog` and `$current_site` are now populated.
 	} elseif ( false === $bootstrap_result ) {
 		ms_not_installed( $domain, $path );
 	} else {
