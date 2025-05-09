@@ -1303,7 +1303,7 @@ var Button = wp.media.View.extend(/** @lends wp.media.view.Button.prototype */{
 		this.model = new Backbone.Model( this.defaults );
 
 		// If any of the `options` have a key from `defaults`, apply its
-		// value to the `model` and remove it from the `options object.
+		// value to the `model` and remove it from the `options` object.
 		_.each( this.defaults, function( def, key ) {
 			var value = this.options[ key ];
 			if ( _.isUndefined( value ) ) {
