@@ -2679,12 +2679,8 @@ function wp_should_load_block_assets_on_demand() {
  * context (only enqueuing editor scripts while in context of the editor).
  *
  * @since 5.0.0
- *
- * @global WP_Screen $current_screen WordPress current screen object.
  */
 function wp_enqueue_registered_block_scripts_and_styles() {
-	global $current_screen;
-
 	if ( wp_should_load_block_assets_on_demand() ) {
 		return;
 	}
