@@ -287,7 +287,7 @@ class WP_Locale_Switcher {
 		WP_Translation_Controller::get_instance()->set_locale( $locale );
 
 		if ( $phpmailer instanceof WP_PHPMailer ) {
-			$phpmailer->SetLanguage();
+			$phpmailer->setLanguage();
 		}
 
 		/**
