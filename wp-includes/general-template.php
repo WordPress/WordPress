@@ -2289,7 +2289,6 @@ function get_calendar( $args = array() ) {
 	 *     @type bool   $display   Whether to display the calendar output. Default true.
 	 *     @type string $post_type Optional. Post type. Default 'post'.
 	 * }
-	 * @return array The arguments for the `get_calendar` function.
 	 */
 	$args = apply_filters( 'get_calendar_args', wp_parse_args( $args, $defaults ) );
 
