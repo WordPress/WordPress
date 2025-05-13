@@ -65,7 +65,7 @@
 			"gradients": [
 				{
 					"name": "Vivid cyan blue to vivid purple",
-					"gradient": "linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)",
+					"gradient": "linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%)",
 					"slug": "vivid-cyan-blue-to-vivid-purple"
 				},
 				{
@@ -75,12 +75,12 @@
 				},
 				{
 					"name": "Luminous vivid amber to luminous vivid orange",
-					"gradient": "linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%)",
+					"gradient": "linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%)",
 					"slug": "luminous-vivid-amber-to-luminous-vivid-orange"
 				},
 				{
 					"name": "Luminous vivid orange to vivid red",
-					"gradient": "linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%)",
+					"gradient": "linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%)",
 					"slug": "luminous-vivid-orange-to-vivid-red"
 				},
 				{
@@ -251,12 +251,12 @@
 				{
 					"name": "Outlined",
 					"slug": "outlined",
-					"shadow": "6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1)"
+					"shadow": "6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0)"
 				},
 				{
 					"name": "Crisp",
 					"slug": "crisp",
-					"shadow": "6px 6px 0px rgba(0, 0, 0, 1)"
+					"shadow": "6px 6px 0px rgb(0, 0, 0)"
 				}
 			]
 		},
