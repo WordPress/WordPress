@@ -1906,7 +1906,7 @@ function unregister_post_type( $post_type ) {
  * Otherwise, an 's' will be added to the value for the plural form. After
  * registration, capability_type will always be a string of the singular value.
  *
- * By default, eight keys are accepted as part of the capabilities array:
+ * By default, the following keys are accepted as part of the capabilities array:
  *
  * - edit_post, read_post, and delete_post are meta capabilities, which are then
  *   generally mapped to corresponding primitive capabilities depending on the
@@ -1921,8 +1921,9 @@ function unregister_post_type( $post_type ) {
  * - delete_posts - Controls whether objects of this post type can be deleted.
  * - publish_posts - Controls publishing objects of this post type.
  * - read_private_posts - Controls whether private objects can be read.
+ * - create_posts - Controls whether objects of this post type can be created.
  *
- * These five primitive capabilities are checked in core in various locations.
+ * These primitive capabilities are checked in core in various locations.
  * There are also six other primitive capabilities which are not referenced
  * directly in core, except in map_meta_cap(), which takes the three aforementioned
  * meta capabilities and translates them into one or more primitive capabilities
@@ -1948,7 +1949,25 @@ function unregister_post_type( $post_type ) {
  * @see map_meta_cap()
  *
  * @param object $args Post type registration arguments.
- * @return object Object with all the capabilities as member variables.
+ * @return object {
+ *     Object with all the capabilities as member variables.
+ *
+ *     @type string $edit_post              Capability to edit a post.
+ *     @type string $read_post              Capability to read a post.
+ *     @type string $delete_post            Capability to delete a post.
+ *     @type string $edit_posts             Capability to edit posts.
+ *     @type string $edit_others_posts      Capability to edit others' posts.
+ *     @type string $delete_posts           Capability to delete posts.
+ *     @type string $publish_posts          Capability to publish posts.
+ *     @type string $read_private_posts     Capability to read private posts.
+ *     @type string $create_posts           Capability to create posts.
+ *     @type string $read                   Optional. Capability to read a post.
+ *     @type string $delete_private_posts   Optional. Capability to delete private posts.
+ *     @type string $delete_published_posts Optional. Capability to delete published posts.
+ *     @type string $delete_others_posts    Optional. Capability to delete others' posts.
+ *     @type string $edit_private_posts     Optional. Capability to edit private posts.
+ *     @type string $edit_published_posts   Optional. Capability to edit published posts.
+ * }
  */
 function get_post_type_capabilities( $args ) {
 	if ( ! is_array( $args->capability_type ) ) {
