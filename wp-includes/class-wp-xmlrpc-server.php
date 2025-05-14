@@ -5152,7 +5152,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_content  = xmlrpc_removepostdata( $content );
 
 		$post_date     = current_time( 'mysql' );
-		$post_date_gmt = current_time( 'mysql', 1 );
+		$post_date_gmt = current_time( 'mysql', true );
 
 		$post_data = compact(
 			'post_author',
