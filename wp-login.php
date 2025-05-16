@@ -479,7 +479,7 @@ function wp_login_viewport_meta() {
  * Check the request and redirect or display a form based on the current action.
  */
 
-$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
+$action = isset( $_REQUEST['action'] ) && is_string( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
 $errors = new WP_Error();
 
 if ( isset( $_GET['key'] ) ) {
