@@ -1083,7 +1083,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					$menu_name_aria_desc = $add_new_screen ? ' aria-describedby="menu-name-desc"' : '';
 
 					if ( $one_theme_location_no_menus ) {
-						$menu_name_val = 'value="' . esc_attr( 'Menu 1' ) . '"';
+						$menu_name_val = 'value="' . esc_attr__( 'Menu 1' ) . '"';
 						?>
 						<input type="hidden" name="zero-menu-state" value="true" />
 						<?php
