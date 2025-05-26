@@ -1292,6 +1292,8 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * Prior to 4.5.0, taxonomy was passed as the first parameter of `get_terms()`.
  *
+ * {@internal The `$deprecated` parameter is parsed for backward compatibility only.}
+ *
  * @since 2.3.0
  * @since 4.2.0 Introduced 'name' and 'childless' parameters.
  * @since 4.4.0 Introduced the ability to pass 'term_id' as an alias of 'id' for the `orderby` parameter.
@@ -1300,8 +1302,6 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @since 4.5.0 Changed the function signature so that the `$args` array can be provided as the first parameter.
  *              Introduced 'meta_key' and 'meta_value' parameters. Introduced the ability to order results by metadata.
  * @since 4.8.0 Introduced 'suppress_filter' parameter.
- *
- * @internal The `$deprecated` parameter is parsed for backward compatibility only.
  *
  * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
  *                                 for information on accepted arguments. Default empty array.
@@ -1927,10 +1927,10 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
  *
  * Default $args is 'hide_empty' which can be 'hide_empty=true' or array('hide_empty' => true).
  *
+ * {@internal The `$deprecated` parameter is parsed for backward compatibility only.}
+ *
  * @since 2.3.0
  * @since 5.6.0 Changed the function signature so that the `$args` array can be provided as the first parameter.
- *
- * @internal The `$deprecated` parameter is parsed for backward compatibility only.
  *
  * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
  *                                 for information on accepted arguments. Default empty array.

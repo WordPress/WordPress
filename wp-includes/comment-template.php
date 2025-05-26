@@ -2095,8 +2095,8 @@ function comment_id_fields( $post = null ) {
  *
  * Only affects users with JavaScript disabled.
  *
- * @internal The $comment global must be present to allow template tags access to the current
- *           comment. See https://core.trac.wordpress.org/changeset/36512.
+ * {@internal The $comment global must be present to allow template tags access to the current
+ * comment. See https://core.trac.wordpress.org/changeset/36512.}
  *
  * @since 2.7.0
  * @since 6.2.0 Added the `$post` parameter.
