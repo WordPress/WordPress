@@ -2866,8 +2866,12 @@ class wpdb {
 	 * @return array {
 	 *     Array of values and formats keyed by their field names.
 	 *
-	 *     @type mixed  $value  The value to be formatted.
-	 *     @type string $format The format to be mapped to the value.
+	 *     @type array ...$0 {
+	 *         Value and format for this field.
+	 *
+	 *         @type mixed  $value  The value to be formatted.
+	 *         @type string $format The format to be mapped to the value.
+	 *     }
 	 * }
 	 */
 	protected function process_field_formats( $data, $format ) {
