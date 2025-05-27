@@ -658,7 +658,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$lucifer = preg_split( '/[ ]/', $line, 9, PREG_SPLIT_NO_EMPTY );
 
 			if ( $lucifer ) {
-				// echo $line."\n";
 				$lcount = count( $lucifer );
 
 				if ( $lcount < 8 ) {
