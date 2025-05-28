@@ -601,9 +601,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * @param string $line
-	 * @return array {
-	 *     Array of file information.
+	 * Parses an individual entry from the FTP LIST command output.
+	 *
+	 * @param string $line A line from the directory listing.
+	 * @return array|string {
+	 *     Array of file information. Empty string if the line could not be parsed.
 	 *
 	 *     @type string       $name        Name of the file or directory.
 	 *     @type string       $perms       *nix representation of permissions.
