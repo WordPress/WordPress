@@ -112,12 +112,14 @@ if ( isset( $_REQUEST['post_id'] ) ) {
 
 $id = media_handle_upload( 'async-upload', $post_id );
 if ( is_wp_error( $id ) ) {
-	$button_unique_id = uniqid( 'dismiss-' );
-	$message          = sprintf(
+	$button_unique_id     = uniqid( 'dismiss-' );
+	$error_description_id = uniqid( 'error-description-' );
+	$message              = sprintf(
 		'%s <strong>%s</strong><br />%s',
 		sprintf(
-			'<button type="button" id="%s" class="dismiss button-link">%s</button>',
+			'<button type="button" id="%1$s" class="dismiss button-link" aria-describedby="%2$s">%3$s</button>',
 			esc_attr( $button_unique_id ),
+			esc_attr( $error_description_id ),
 			__( 'Dismiss' )
 		),
 		sprintf(
@@ -127,14 +129,23 @@ if ( is_wp_error( $id ) ) {
 		),
 		esc_html( $id->get_error_message() )
 	);
+
 	wp_admin_notice(
 		$message,
 		array(
+			'id'                 => $error_description_id,
 			'additional_classes' => array( 'error-div', 'error' ),
 			'paragraph_wrap'     => false,
 		)
 	);
-	echo "<script>jQuery( 'button#{$button_unique_id}' ).on( 'click', function() {jQuery(this).parents('div.media-item').slideUp(200, function(){jQuery(this).remove();})});</script>\n";
+
+	$speak_message = sprintf(
+		/* translators: %s: Name of the file that failed to upload. */
+		__( '%s has failed to upload.' ),
+		esc_js( $_FILES['async-upload']['name'] )
+	);
+
+	echo "<script>_.delay(function() {wp.a11y.speak('" . esc_js( $speak_message ) . "');}, 1500);jQuery( 'button#{$button_unique_id}' ).on( 'click', function() {jQuery(this).parents('div.media-item').slideUp(200, function(){jQuery(this).remove();wp.a11y.speak( wp.i18n.__( 'Error dismissed.' ) );jQuery( '#plupload-browse-button' ).trigger( 'focus' );})});</script>\n";
 	exit;
 }
 
