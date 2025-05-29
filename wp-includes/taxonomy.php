@@ -1382,6 +1382,8 @@ function get_terms( $args = array(), $deprecated = '' ) {
 /**
  * Adds metadata to a term.
  *
+ * For historical reasons both the meta key and the meta value are expected to be "slashed" (slashes escaped) on input.
+ *
  * @since 4.4.0
  *
  * @param int    $term_id    Term ID.
@@ -1408,6 +1410,8 @@ function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
 
 /**
  * Removes metadata matching criteria from a term.
+ *
+ * For historical reasons both the meta key and the meta value are expected to be "slashed" (slashes escaped) on input.
  *
  * @since 4.4.0
  *
@@ -1454,6 +1458,8 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
  * Use the `$prev_value` parameter to differentiate between meta fields with the same key and term ID.
  *
  * If the meta field for the term does not exist, it will be added.
+ *
+ * For historical reasons both the meta key and the meta value are expected to be "slashed" (slashes escaped) on input.
  *
  * @since 4.4.0
  *

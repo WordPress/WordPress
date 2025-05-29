@@ -1202,6 +1202,8 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 /**
  * Adds meta data to a user.
  *
+ * For historical reasons both the meta key and the meta value are expected to be "slashed" (slashes escaped) on input.
+ *
  * @since 3.0.0
  *
  * @param int    $user_id    User ID.
@@ -1227,6 +1229,8 @@ function add_user_meta( $user_id, $meta_key, $meta_value, $unique = false ) {
  * You can match based on the key, or key and value. Removing based on key and
  * value, will keep from removing duplicate metadata with the same key. It also
  * allows removing all metadata matching key, if needed.
+ *
+ * For historical reasons both the meta key and the meta value are expected to be "slashed" (slashes escaped) on input.
  *
  * @since 3.0.0
  *
@@ -1278,6 +1282,8 @@ function get_user_meta( $user_id, $key = '', $single = false ) {
  * same key and user ID.
  *
  * If the meta field for the user does not exist, it will be added.
+ *
+ * For historical reasons both the meta key and the meta value are expected to be "slashed" (slashes escaped) on input.
  *
  * @since 3.0.0
  *
