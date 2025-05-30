@@ -2065,7 +2065,6 @@ div.action-links,
 	}
 
 	.row-actions {
-		margin-right: -8px;
 		margin-left: -8px;
 		padding-top: 4px;
 	}
@@ -2078,10 +2077,15 @@ div.action-links,
 		color: transparent;
 	}
 
+	.row-actions span {
+		font-size: 0;
+	}
+
 	.row-actions span a,
 	.row-actions span .button-link {
 		display: inline-block;
-		padding: 4px 8px;
+		padding: 4px 0 4px 16px;
+		font-size: 13px;
 		line-height: 1.5;
 	}
 
