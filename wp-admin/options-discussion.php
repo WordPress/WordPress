@@ -309,6 +309,8 @@ $avatar_defaults = array(
 	'monsterid'        => __( 'MonsterID (Generated)' ),
 	'retro'            => __( 'Retro (Generated)' ),
 	'robohash'         => __( 'RoboHash (Generated)' ),
+	'initials'         => __( 'Initials (Generated)' ),
+	'color'            => __( 'Color (Generated)' ),
 );
 /**
  * Filters the default avatars.

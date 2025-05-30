@@ -3048,6 +3048,8 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 *                              - 'monsterid' (a monster)
 	 *                              - 'wavatar' (a cartoon face)
 	 *                              - 'identicon' (the "quilt", a geometric pattern)
+	 *                              - 'initials' (initials based avatar with background color)
+	 *                              - 'color' (generated background color)
 	 *                              - 'mystery', 'mm', or 'mysteryman' (The Oyster Man)
 	 *                              - 'blank' (transparent GIF)
 	 *                              - 'gravatar_default' (the Gravatar logo)
