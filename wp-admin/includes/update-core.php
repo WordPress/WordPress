@@ -1023,6 +1023,7 @@ $_new_bundled_files = array(
  * @global string[]           $_old_requests_files
  * @global string[]           $_new_bundled_files
  * @global wpdb               $wpdb                   WordPress database abstraction object.
+ * @global string             $wp_version             The WordPress version string.
  *
  * @param string $from New release unzipped path.
  * @param string $to   Path to old WordPress installation.
