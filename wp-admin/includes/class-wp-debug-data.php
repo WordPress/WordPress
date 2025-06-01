@@ -1860,6 +1860,8 @@ class WP_Debug_Data {
 	 * Intended to supplement the array returned by `WP_Debug_Data::debug_data()`.
 	 *
 	 * @since 5.2.0
+	 * @deprecated 5.6.0 Use WP_REST_Site_Health_Controller::get_directory_sizes()
+	 * @see WP_REST_Site_Health_Controller::get_directory_sizes()
 	 *
 	 * @return array The sizes of the directories, also the database size and total installation size.
 	 */
