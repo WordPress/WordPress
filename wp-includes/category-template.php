@@ -71,7 +71,7 @@ function get_category_parents( $category_id, $link = false, $separator = '/', $n
  *
  * @since 0.71
  *
- * @param int $post_id Optional. The post ID. Defaults to current post ID.
+ * @param int|false $post_id Optional. The post ID. Defaults to current post ID.
  * @return WP_Term[] Array of WP_Term objects, one for each category assigned to the post.
  */
 function get_the_category( $post_id = false ) {
@@ -131,11 +131,11 @@ function get_the_category_by_ID( $cat_id ) { // phpcs:ignore WordPress.NamingCon
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param string $separator Optional. Separator between the categories. By default, the links are placed
- *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
- *                          Default empty string.
- * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
+ * @param string    $separator Optional. Separator between the categories. By default, the links are placed
+ *                             in an unordered list. An empty string will result in the default behavior.
+ * @param string    $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
+ *                             Default empty string.
+ * @param int|false $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  * @return string Category list for a post.
  */
 function get_the_category_list( $separator = '', $parents = '', $post_id = false ) {
@@ -251,7 +251,7 @@ function get_the_category_list( $separator = '', $parents = '', $post_id = false
  *
  * @param int|string|int[]|string[] $category Category ID, name, slug, or array of such
  *                                            to check against.
- * @param int|WP_Post               $post     Optional. Post to check. Defaults to the current post.
+ * @param int|null|WP_Post          $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $post = null ) {
@@ -267,11 +267,11 @@ function in_category( $category, $post = null ) {
  *
  * @since 0.71
  *
- * @param string $separator Optional. Separator between the categories. By default, the links are placed
- *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
- *                          Default empty string.
- * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
+ * @param string    $separator Optional. Separator between the categories. By default, the links are placed
+ *                             in an unordered list. An empty string will result in the default behavior.
+ * @param string    $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
+ *                             Default empty string.
+ * @param int|false $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  */
 function the_category( $separator = '', $parents = '', $post_id = false ) {
 	echo get_the_category_list( $separator, $parents, $post_id );
