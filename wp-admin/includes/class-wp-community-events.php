@@ -375,17 +375,13 @@ class WP_Community_Events {
 	 * of the user who triggered the cache refresh, rather than their own.
 	 *
 	 * @since 4.8.0
-	 * @deprecated 5.6.0 No longer used in core.
+	 * @deprecated 5.5.2 No longer used in core.
 	 *
 	 * @param array $response_body The response which contains the events.
 	 * @return array The response with dates and times formatted.
 	 */
 	protected function format_event_data_time( $response_body ) {
-		_deprecated_function(
-			__METHOD__,
-			'5.5.2',
-			'This is no longer used by core, and only kept for backward compatibility.'
-		);
+		_deprecated_function( __METHOD__, '5.5.2' );
 
 		if ( isset( $response_body['events'] ) ) {
 			foreach ( $response_body['events'] as $key => $event ) {
