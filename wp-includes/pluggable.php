@@ -446,10 +446,10 @@ if ( ! function_exists( 'wp_mail' ) ) :
 							$phpmailer->addAddress( $address, $recipient_name );
 							break;
 						case 'cc':
-							$phpmailer->addCc( $address, $recipient_name );
+							$phpmailer->addCC( $address, $recipient_name );
 							break;
 						case 'bcc':
-							$phpmailer->addBcc( $address, $recipient_name );
+							$phpmailer->addBCC( $address, $recipient_name );
 							break;
 						case 'reply_to':
 							$phpmailer->addReplyTo( $address, $recipient_name );

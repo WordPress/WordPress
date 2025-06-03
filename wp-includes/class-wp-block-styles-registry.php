@@ -140,7 +140,7 @@ final class WP_Block_Styles_Registry {
 	 *
 	 * @param string $block_name       Block type name including namespace.
 	 * @param string $block_style_name Block style name.
-	 * @return array Registered block style properties.
+	 * @return array|null Registered block style properties or `null` if the block style is not registered.
 	 */
 	public function get_registered( $block_name, $block_style_name ) {
 		if ( ! $this->is_registered( $block_name, $block_style_name ) ) {

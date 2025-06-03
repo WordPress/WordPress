@@ -396,7 +396,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 			"\n",
 			array(
 				'( function() {',
-				'	var userId = ' . get_current_user_ID() . ';',
+				'	var userId = ' . get_current_user_id() . ';',
 				'	var storageKey = "WP_DATA_USER_" + userId;',
 				'	wp.data',
 				'		.use( wp.data.plugins.persistence, { storageKey: storageKey } );',

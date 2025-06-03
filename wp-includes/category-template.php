@@ -793,7 +793,7 @@ function wp_tag_cloud( $args = '' ) {
  * @return int Scaled count.
  */
 function default_topic_count_scale( $count ) {
-	return round( log10( $count + 1 ) * 100 );
+	return (int) round( log10( $count + 1 ) * 100 );
 }
 
 /**

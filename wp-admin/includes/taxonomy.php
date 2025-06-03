@@ -75,7 +75,7 @@ function wp_create_category( $cat_name, $category_parent = 0 ) {
  * @param int      $post_id    Optional. The post ID. Default empty.
  * @return int[] Array of IDs of categories assigned to the given post.
  */
-function wp_create_categories( $categories, $post_id = '' ) {
+function wp_create_categories( $categories, $post_id = 0 ) {
 	$cat_ids = array();
 	foreach ( $categories as $category ) {
 		$id = category_exists( $category );

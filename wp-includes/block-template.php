@@ -253,7 +253,7 @@ function get_the_block_template_html() {
 		if ( is_user_logged_in() ) {
 			return '<h1>' . esc_html__( 'No matching template found' ) . '</h1>';
 		}
-		return;
+		return '';
 	}
 
 	$content = $wp_embed->run_shortcode( $_wp_current_template_content );
