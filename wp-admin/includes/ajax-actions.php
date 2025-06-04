@@ -5354,7 +5354,7 @@ function wp_ajax_health_check_dotorg_communication() {
 	_doing_it_wrong(
 		'wp_ajax_health_check_dotorg_communication',
 		sprintf(
-		// translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it.
+			/* translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it. */
 			__( 'The Site Health check for %1$s has been replaced with %2$s.' ),
 			'wp_ajax_health_check_dotorg_communication',
 			'WP_REST_Site_Health_Controller::test_dotorg_communication'
@@ -5387,7 +5387,7 @@ function wp_ajax_health_check_background_updates() {
 	_doing_it_wrong(
 		'wp_ajax_health_check_background_updates',
 		sprintf(
-		// translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it.
+			/* translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it. */
 			__( 'The Site Health check for %1$s has been replaced with %2$s.' ),
 			'wp_ajax_health_check_background_updates',
 			'WP_REST_Site_Health_Controller::test_background_updates'
@@ -5420,7 +5420,7 @@ function wp_ajax_health_check_loopback_requests() {
 	_doing_it_wrong(
 		'wp_ajax_health_check_loopback_requests',
 		sprintf(
-		// translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it.
+			/* translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it. */
 			__( 'The Site Health check for %1$s has been replaced with %2$s.' ),
 			'wp_ajax_health_check_loopback_requests',
 			'WP_REST_Site_Health_Controller::test_loopback_requests'
@@ -5470,7 +5470,7 @@ function wp_ajax_health_check_get_sizes() {
 	_doing_it_wrong(
 		'wp_ajax_health_check_get_sizes',
 		sprintf(
-		// translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it.
+			/* translators: 1: The Site Health action that is no longer used by core. 2: The new function that replaces it. */
 			__( 'The Site Health check for %1$s has been replaced with %2$s.' ),
 			'wp_ajax_health_check_get_sizes',
 			'WP_REST_Site_Health_Controller::get_directory_sizes'
