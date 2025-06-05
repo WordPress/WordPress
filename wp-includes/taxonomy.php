@@ -4898,11 +4898,13 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 	if ( is_wp_error( $object_terms ) ) {
 		return $object_terms;
 	}
+
 	if ( empty( $object_terms ) ) {
 		return false;
 	}
+
 	if ( empty( $terms ) ) {
-		return ( ! empty( $object_terms ) );
+		return true;
 	}
 
 	$terms = (array) $terms;
