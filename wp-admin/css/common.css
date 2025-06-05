@@ -3912,6 +3912,10 @@ img {
 		top: 7px;
 	}
 
+	.screen-reader-shortcut[href="#wp-toolbar"] {
+		display: none;
+	}
+
 	body {
 		min-width: 240px;
 		overflow-x: hidden;
