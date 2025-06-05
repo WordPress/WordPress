@@ -257,7 +257,10 @@ twentytwenty.coverModals = {
 						clickedEl = false;
 					}
 
-					_win.scrollTo( 0, Math.abs( _win.twentytwenty.scrolled + getAdminBarHeight() ) );
+					_win.scrollTo({
+						top: Math.abs( _win.twentytwenty.scrolled + getAdminBarHeight() ),
+						behavior: 'instant'
+					});
 
 					_win.twentytwenty.scrolled = 0;
 				}, 500 );
