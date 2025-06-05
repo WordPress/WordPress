@@ -333,11 +333,11 @@ switch ( $action ) {
 
 					<?php if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
 					<tr class="user-admin-color-wrap">
-						<th scope="row"><?php _e( 'Admin Color Scheme' ); ?></th>
+						<th scope="row"><?php _e( 'Administration Color Scheme' ); ?></th>
 						<td>
 							<?php
 							/**
-							 * Fires in the 'Admin Color Scheme' section of the user editing screen.
+							 * Fires in the 'Administration Color Scheme' section of the user editing screen.
 							 *
 							 * The section is only enabled if a callback is hooked to the action,
 							 * and if there is more than one defined color scheme for the admin.
