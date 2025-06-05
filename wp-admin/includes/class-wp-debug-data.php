@@ -682,6 +682,25 @@ class WP_Debug_Data {
 			);
 		}
 
+		// Get the image format transforms.
+		$mappings           = wp_get_image_editor_output_format( '', '' );
+		$formatted_mappings = array();
+
+		if ( ! empty( $mappings ) ) {
+			foreach ( $mappings as $format => $mime_type ) {
+				$formatted_mappings[] = sprintf( '%s &rarr; %s', $format, $mime_type );
+			}
+			$mappings_display = implode( ', ', $formatted_mappings );
+		} else {
+			$mappings_display = __( 'No format transforms defined' );
+		}
+
+		$fields['image_format_transforms'] = array(
+			'label' => __( 'Image format transforms' ),
+			'value' => $mappings_display,
+			'debug' => ( empty( $mappings ) ) ? 'No format transforms defined' : $mappings_display,
+		);
+
 		// Get GD information, if available.
 		if ( function_exists( 'gd_info' ) ) {
 			$gd = gd_info();
