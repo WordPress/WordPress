@@ -486,17 +486,35 @@ switch ( $action ) {
 
 					<tr class="user-first-name-wrap">
 						<th><label for="first_name"><?php _e( 'First Name' ); ?></label></th>
-						<td><input type="text" name="first_name" id="first_name" value="<?php echo esc_attr( $profile_user->first_name ); ?>" class="regular-text" /></td>
+						<td>
+						<?php if ( IS_PROFILE_PAGE ) : ?>
+							<input type="text" name="first_name" id="first_name" value="<?php echo esc_attr( $profile_user->first_name ); ?>" autocomplete="given-name" class="regular-text" />
+						<?php else : ?>
+							<input type="text" name="first_name" id="first_name" value="<?php echo esc_attr( $profile_user->first_name ); ?>" class="regular-text" />
+						<?php endif; ?>
+						</td>
 					</tr>
 
 					<tr class="user-last-name-wrap">
 						<th><label for="last_name"><?php _e( 'Last Name' ); ?></label></th>
-						<td><input type="text" name="last_name" id="last_name" value="<?php echo esc_attr( $profile_user->last_name ); ?>" class="regular-text" /></td>
+						<td>
+						<?php if ( IS_PROFILE_PAGE ) : ?>
+							<input type="text" name="last_name" id="last_name" value="<?php echo esc_attr( $profile_user->last_name ); ?>" autocomplete="family-name" class="regular-text" />
+						<?php else : ?>
+							<input type="text" name="last_name" id="last_name" value="<?php echo esc_attr( $profile_user->last_name ); ?>" class="regular-text" />
+						<?php endif; ?>
+						</td>
 					</tr>
 
 					<tr class="user-nickname-wrap">
 						<th><label for="nickname"><?php _e( 'Nickname' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
-						<td><input type="text" name="nickname" id="nickname" value="<?php echo esc_attr( $profile_user->nickname ); ?>" class="regular-text" /></td>
+						<td>
+						<?php if ( IS_PROFILE_PAGE ) : ?>
+							<input type="text" name="nickname" id="nickname" value="<?php echo esc_attr( $profile_user->nickname ); ?>" autocomplete="nickname" class="regular-text" />
+						<?php else : ?>
+							<input type="text" name="nickname" id="nickname" value="<?php echo esc_attr( $profile_user->nickname ); ?>" class="regular-text" />
+						<?php endif; ?>
+						</td>
 					</tr>
 
 					<tr class="user-display-name-wrap">
@@ -546,7 +564,7 @@ switch ( $action ) {
 						<th><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 						<td>
 							<?php if ( $profile_user->ID === $current_user->ID ) : ?>
-								<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" />
+								<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" autocomplete="email" class="regular-text ltr" />
 								<p class="description" id="email-description">
 									<?php _e( 'If you change this, an email will be sent at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
 								</p>
