@@ -923,7 +923,7 @@ final class WP_Customize_Widgets {
 					<span class="customize-action">
 						<?php
 						$panel       = $this->manager->get_panel( 'widgets' );
-						$panel_title = $panel && isset( $panel->title ) ? $panel->title : __( 'Widgets' );
+						$panel_title = isset( $panel->title ) ? $panel->title : __( 'Widgets' );
 						/* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
 						printf( __( 'Customizing &#9656; %s' ), esc_html( $panel_title ) );
 						?>
