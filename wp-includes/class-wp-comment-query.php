@@ -579,9 +579,7 @@ class WP_Comment_Query {
 				}
 			}
 
-			if ( ! empty( $status_clauses ) ) {
-				$approved_clauses[] = '( ' . implode( ' OR ', $status_clauses ) . ' )';
-			}
+			$approved_clauses[] = '( ' . implode( ' OR ', $status_clauses ) . ' )';
 		}
 
 		// User IDs or emails whose unapproved comments are included, regardless of $status.
