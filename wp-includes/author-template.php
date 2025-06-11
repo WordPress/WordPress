@@ -286,7 +286,7 @@ function get_the_author_posts() {
 	if ( ! $post ) {
 		return 0;
 	}
-	return count_user_posts( $post->post_author, $post->post_type );
+	return (int) count_user_posts( $post->post_author, $post->post_type );
 }
 
 /**
