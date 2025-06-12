@@ -2446,6 +2446,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  * @since 4.6.0 Introduced the 'action' argument.
  * @since 4.9.6 Introduced the 'cookies' default comment field.
  * @since 5.5.0 Introduced the 'class_container' argument.
+ * @since 6.8.2 Introduced the 'novalidate' argument.
  *
  * @param array       $args {
  *     Optional. Default arguments and form fields to override.
@@ -2467,6 +2468,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *                                        Default 'Your email address will not be published.'.
  *     @type string $comment_notes_after  HTML element for a message displayed after the textarea field.
  *     @type string $action               The comment form element action attribute. Default '/wp-comments-post.php'.
+ *     @type bool   $novalidate           Whether the novalidate attribute is added to the comment form. Default false.
  *     @type string $id_form              The comment form element id attribute. Default 'commentform'.
  *     @type string $id_submit            The comment submit element id attribute. Default 'submit'.
  *     @type string $class_container      The comment form container class attribute. Default 'comment-respond'.
@@ -2646,6 +2648,7 @@ function comment_form( $args = array(), $post = null ) {
 		),
 		'comment_notes_after'  => '',
 		'action'               => site_url( '/wp-comments-post.php' ),
+		'novalidate'           => false,
 		'id_form'              => 'commentform',
 		'id_submit'            => 'submit',
 		'class_container'      => 'comment-respond',
@@ -2729,7 +2732,7 @@ function comment_form( $args = array(), $post = null ) {
 				esc_url( $args['action'] ),
 				esc_attr( $args['id_form'] ),
 				esc_attr( $args['class_form'] ),
-				( $html5 ? ' novalidate' : '' )
+				( $args['novalidate'] ? ' novalidate' : '' )
 			);
 
 			/**
