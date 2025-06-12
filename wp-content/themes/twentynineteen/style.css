@@ -3271,8 +3271,12 @@ body.page .main-navigation {
   white-space: inherit;
 }
 
+.main-navigation .main-menu .menu-item-has-children.off-canvas .sub-menu:not(:has(.sub-menu.expanded-true)) {
+  overflow-y: scroll;
+}
+
 .main-navigation .main-menu .menu-item-has-children.off-canvas .sub-menu.expanded-true {
-  display: table;
+  display: block;
   margin-top: 0;
   opacity: 1;
   padding-left: 0;
