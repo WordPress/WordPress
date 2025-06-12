@@ -305,7 +305,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *    image operations within the time of the HTTP request.
 	 *
 	 * @since 6.2.0
-	 * @since 6.3.0 This method was deprecated.
+	 * @deprecated 6.3.0 No longer used in core.
 	 *
 	 * @return int|null The new limit on success, null on failure.
 	 */
