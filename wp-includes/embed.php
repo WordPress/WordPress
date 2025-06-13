@@ -843,10 +843,10 @@ function _oembed_create_xml( $data, $node = null ) {
  *
  * @since 5.2.0
  *
- * @param string $result The oEmbed HTML result.
- * @param object $data   A data object result from an oEmbed provider.
- * @param string $url    The URL of the content to be embedded.
- * @return string The filtered oEmbed result.
+ * @param string|false $result The oEmbed HTML result.
+ * @param object       $data   A data object result from an oEmbed provider.
+ * @param string       $url    The URL of the content to be embedded.
+ * @return string|false The filtered oEmbed result.
  */
 function wp_filter_oembed_iframe_title_attribute( $result, $data, $url ) {
 	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ), true ) ) {
@@ -910,10 +910,10 @@ function wp_filter_oembed_iframe_title_attribute( $result, $data, $url ) {
  *
  * @since 4.4.0
  *
- * @param string $result The oEmbed HTML result.
- * @param object $data   A data object result from an oEmbed provider.
- * @param string $url    The URL of the content to be embedded.
- * @return string The filtered and sanitized oEmbed result.
+ * @param string|false $result The oEmbed HTML result.
+ * @param object       $data   A data object result from an oEmbed provider.
+ * @param string       $url    The URL of the content to be embedded.
+ * @return string|false The filtered and sanitized oEmbed result.
  */
 function wp_filter_oembed_result( $result, $data, $url ) {
 	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ), true ) ) {
