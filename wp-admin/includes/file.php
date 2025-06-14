@@ -2622,7 +2622,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	<?php
 	if ( isset( $types['ssh'] ) ) {
 		$hidden_class = '';
-		if ( 'ssh' !== $connection_type || empty( $connection_type ) ) {
+		if ( 'ssh' !== $connection_type ) {
 			$hidden_class = ' class="hidden"';
 		}
 		?>
