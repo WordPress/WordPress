@@ -477,7 +477,7 @@ function wp_authenticate_application_password(
 		 */
 		do_action( 'wp_authenticate_application_password_errors', $error, $user, $item, $password );
 
-		if ( is_wp_error( $error ) && $error->has_errors() ) {
+		if ( $error->has_errors() ) {
 			/** This action is documented in wp-includes/user.php */
 			do_action( 'application_password_failed_authentication', $error );
 
