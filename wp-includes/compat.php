@@ -13,6 +13,16 @@
 
 // If gettext isn't available.
 if ( ! function_exists( '_' ) ) {
+	/**
+	 * Compat function to mimic _(), an alias of gettext().
+	 *
+	 * @since 0.71
+	 *
+	 * @see https://php.net/manual/en/function.gettext.php
+	 *
+	 * @param string $message The message being translated.
+	 * @return string
+	 */
 	function _( $message ) {
 		return $message;
 	}
