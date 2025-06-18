@@ -2403,11 +2403,13 @@ function parse_blocks( $content ) {
  * @return string Updated post content.
  */
 function do_blocks( $content ) {
-	$blocks = parse_blocks( $content );
-	$output = '';
+	$blocks                = parse_blocks( $content );
+	$top_level_block_count = count( $blocks );
+	$output                = '';
 
-	foreach ( $blocks as $block ) {
-		$output .= render_block( $block );
+	for ( $i = 0; $i < $top_level_block_count; $i++ ) {
+		$output .= render_block( $blocks[ $i ] );
+		$blocks[ $i ] = null;
 	}
 
 	// If there are blocks in this content, we shouldn't run wpautop() on it later.
