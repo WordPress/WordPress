@@ -240,7 +240,6 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 	 * Whether the widget has content to show.
 	 *
 	 * @since 4.9.0
-	 * @access protected
 	 *
 	 * @param array $instance Widget instance props.
 	 * @return bool Whether widget has content.

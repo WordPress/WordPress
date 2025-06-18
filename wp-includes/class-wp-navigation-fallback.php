@@ -12,7 +12,6 @@
 /**
  * Manages fallback behavior for Navigation menus.
  *
- * @access public
  * @since 6.3.0
  */
 class WP_Navigation_Fallback {
