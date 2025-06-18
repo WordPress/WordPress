@@ -117,6 +117,11 @@
 	/**
 	 * Checks if two sets of Emoji characters render the same visually.
 	 *
+	 * This is used to determine if the browser is rendering an emoji with multiple data points
+	 * correctly. set1 is the emoji in the correct form, using a zero-width joiner. set2 is the emoji
+	 * in the incorrect form, using a zero-width space. If the two sets render the same, then the browser
+	 * does not support the emoji correctly.
+	 *
 	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
 	 * scope. Everything must be passed by parameters.
 	 *
@@ -161,6 +166,42 @@
 	}
 
 	/**
+	 * Checks if the center point of a single emoji is empty.
+	 *
+	 * This is used to determine if the browser is rendering an emoji with a single data point
+	 * correctly. The center point of an incorrectly rendered emoji will be empty. A correctly
+	 * rendered emoji will have a non-zero value at the center point.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 6.8.2
+	 *
+	 * @private
+	 *
+	 * @param {CanvasRenderingContext2D} context 2D Context.
+	 * @param {string} emoji Emoji to test.
+	 *
+	 * @return {boolean} True if the center point is empty.
+	 */
+	function emojiRendersEmptyCenterPoint( context, emoji ) {
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+		context.fillText( emoji, 0, 0 );
+
+		// Test if the center point (16, 16) is empty (0,0,0,0).
+		var centerPoint = context.getImageData(16, 16, 1, 1);
+		for ( var i = 0; i < centerPoint.data.length; i++ ) {
+			if ( centerPoint.data[ i ] !== 0 ) {
+				// Stop checking the moment it's known not to be empty.
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Determines if the browser properly renders Emoji that Twemoji can supplement.
 	 *
 	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
@@ -173,10 +214,11 @@
 	 * @param {CanvasRenderingContext2D} context 2D Context.
 	 * @param {string} type Whether to test for support of "flag" or "emoji".
 	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+	 * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
 	 *
 	 * @return {boolean} True if the browser can render emoji, false if it cannot.
 	 */
-	function browserSupportsEmoji( context, type, emojiSetsRenderIdentically ) {
+	function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
 		var isIdentical;
 
 		switch ( type ) {
@@ -198,16 +240,16 @@
 				}
 
 				/*
-				 * Test for UN flag compatibility. This is the least supported of the letter locale flags,
+				 * Test for Sark flag compatibility. This is the least supported of the letter locale flags,
 				 * so gives us an easy test for full support.
 				 *
 				 * To test for support, we try to render it, and compare the rendering to how it would look if
-				 * the browser doesn't render it correctly ([U] + [N]).
+				 * the browser doesn't render it correctly ([C] + [Q]).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
 					context,
-					'\uD83C\uDDFA\uD83C\uDDF3', // as the sequence of two code points
-					'\uD83C\uDDFA\u200B\uD83C\uDDF3' // as the two code points separated by a zero-width space
+					'\uD83C\uDDE8\uD83C\uDDF6', // as the sequence of two code points
+					'\uD83C\uDDE8\u200B\uD83C\uDDF6' // as the two code points separated by a zero-width space
 				);
 
 				if ( isIdentical ) {
@@ -232,31 +274,21 @@
 				return ! isIdentical;
 			case 'emoji':
 				/*
-				 * Rise Like a Phoenix.
+				 * Does Emoji 16.0 cause the browser to go splat?
 				 *
-				 * To test for Emoji 15.1 support, try to render a new emoji: Phoenix.
+				 * To test for Emoji 16.0 support, try to render a new emoji: Splatter.
 				 *
-				 * A phoenix, a mythical immortal bird with flame-like feathers found in the folklore of many global
-				 * cultures. Often used to symbolize renewal or rebirth.
+				 * The splatter emoji is a single code point emoji. Testing for browser support
+				 * required testing the center point of the emoji to see if it is empty.
 				 *
-				 * The Phoenix emoji is a ZWJ sequence combining 🐦 Bird, Zero Width Joiner and 🔥 Fire.
-				 * These display as a single emoji on supported platforms.
+				 * 0xD83E 0xDEDF (\uD83E\uDEDF) == 🫟 Splatter.
 				 *
-				 * 0xD83D 0xDC26 (\uD83D\uDC26) == 🐦 Bird
-				 * 0x200D                       == Zero-Width Joiner (ZWJ) that links the code points for the new emoji or
-				 * 0x200B                       == Zero-Width Space (ZWS) that is rendered for clients not supporting the new emoji.
-				 * 0xD83D 0xDD25 (\uD83D\uDD25) == 🔥 Fire
-				 *
-				 * When updating this test for future Emoji releases, ensure that individual emoji that make up the
-				 * sequence come from older emoji standards.
+				 * When updating this test, please ensure that the emoji is either a single code point
+				 * or switch to using the emojiSetsRenderIdentically function and testing with a zero-width
+				 * joiner vs a zero-width space.
 				 */
-				isIdentical = emojiSetsRenderIdentically(
-					context,
-					'\uD83D\uDC26\u200D\uD83D\uDD25', // as the zero-width joiner sequence
-					'\uD83D\uDC26\u200B\uD83D\uDD25' // separated by a zero-width space
-				);
-
-				return ! isIdentical;
+				var notSupported = emojiRendersEmptyCenterPoint( context, '\uD83E\uDEDF' );
+				return ! notSupported;
 		}
 
 		return false;
@@ -275,10 +307,11 @@
 	 * @param {string[]} tests Tests.
 	 * @param {Function} browserSupportsEmoji Reference to browserSupportsEmoji function, needed due to minification.
 	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+	 * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
 	 *
 	 * @return {SupportTests} Support tests.
 	 */
-	function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically ) {
+	function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
 		var canvas;
 		if (
 			typeof WorkerGlobalScope !== 'undefined' &&
@@ -301,7 +334,7 @@
 
 		var supports = {};
 		tests.forEach( function ( test ) {
-			supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically );
+			supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
 		} );
 		return supports;
 	}
@@ -354,7 +387,8 @@
 					[
 						JSON.stringify( tests ),
 						browserSupportsEmoji.toString(),
-						emojiSetsRenderIdentically.toString()
+						emojiSetsRenderIdentically.toString(),
+						emojiRendersEmptyCenterPoint.toString()
 					].join( ',' ) +
 					'));';
 				var blob = new Blob( [ workerScript ], {
@@ -371,7 +405,7 @@
 			} catch ( e ) {}
 		}
 
-		supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically );
+		supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
 		setSessionSupportTests( supportTests );
 		resolve( supportTests );
 	} )
