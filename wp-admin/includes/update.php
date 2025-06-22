@@ -243,6 +243,13 @@ function update_nag() {
 			network_admin_url( 'update-core.php' ),
 			esc_attr__( 'Please update WordPress now' )
 		);
+
+		$msg_line2 = sprintf(
+			/* translators: 1: WordPress version number, 2: Link to update WordPress */
+			__( 'Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.' ),
+			get_bloginfo( 'version', 'display' ),
+			network_admin_url( 'update-core.php' )
+		);
 	} else {
 		$msg = sprintf(
 			/* translators: 1: Codex URL to release notes, 2: new WordPress version */
@@ -254,8 +261,15 @@ function update_nag() {
 			),
 			$cur->current
 		);
+
+		$msg_line2 = sprintf(
+			/* translators: 1: WordPress version number, 2: Link to update WordPress */
+			__( 'Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href="%2$s">update to the latest version of WordPress</a>.' ),
+			get_bloginfo( 'version', 'display' ),
+			__( 'https://wordpress.org/download/' )
+		);
 	}
-	echo "<div class='update-nag'>$msg</div>";
+	echo "<div class='update-nag update-nag-core-insecure'><p>$msg</p><p>$msg_line2</p></div>";
 }
 
 // Called directly from dashboard
