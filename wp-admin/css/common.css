@@ -1312,6 +1312,26 @@ div.error {
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
 }
 
+.update-nag-core-insecure {
+	color: #fff;
+	background-color: #ac1b1b;
+	border-left-color: #cd5a5a;
+	font-weight: bold;
+}
+
+.update-nag-core-insecure > p:first-child {
+	margin-top: 0;
+}
+
+.update-nag-core-insecure > p:last-child {
+	margin-bottom: 0;
+}
+
+.update-nag-core-insecure a {
+	color: #fff;
+	text-decoration: underline;
+}
+
 .update-message {
 	color: #000;
 }
