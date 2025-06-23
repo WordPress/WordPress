@@ -437,7 +437,7 @@ function _get_block_templates_files( $template_type, $query = array() ) {
 
 			if ( 'wp_template_part' === $template_type ) {
 				$candidate = _add_block_template_part_area_info( $new_template_item );
-				if ( ! isset( $area ) || ( isset( $area ) && $area === $candidate['area'] ) ) {
+				if ( ! isset( $area ) || $area === $candidate['area'] ) {
 					$template_files[ $template_slug ] = $candidate;
 				}
 			}
