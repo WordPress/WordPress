@@ -160,7 +160,7 @@ switch ( $action ) {
 			$submenu_file  = 'upload.php';
 			$post_new_file = 'media-new.php';
 		} else {
-			if ( isset( $post_type_object ) && $post_type_object->show_in_menu && true !== $post_type_object->show_in_menu ) {
+			if ( $post_type_object->show_in_menu && true !== $post_type_object->show_in_menu ) {
 				$parent_file = $post_type_object->show_in_menu;
 			} else {
 				$parent_file = "edit.php?post_type=$post_type";
