@@ -951,7 +951,7 @@ endif;
 	<p class="submit">
 		<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
 		<?php
-		if ( isset( $oitar ) && 1 === $oitar
+		if ( 1 === $oitar
 			&& ( current_theme_supports( 'custom-header', 'flex-height' )
 				|| current_theme_supports( 'custom-header', 'flex-width' ) )
 		) {
