@@ -126,7 +126,7 @@ final class WP_Site {
 	public $spam = '0';
 
 	/**
-	 * Whether the site should be treated as deleted.
+	 * Whether the site should be treated as flagged for deletion.
 	 *
 	 * A numeric string, for compatibility reasons.
 	 *
