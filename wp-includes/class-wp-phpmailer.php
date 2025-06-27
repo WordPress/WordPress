@@ -67,7 +67,7 @@ class WP_PHPMailer extends PHPMailer\PHPMailer\PHPMailer {
 			'invalid_address'      => __( 'Invalid address: ' ),
 			'invalid_header'       => __( 'Invalid header name or value' ),
 			/* translators: There is a space after the colon. */
-			'invalid_hostentry'    => __( 'Invalid hostentry: ' ),
+			'invalid_hostentry'    => __( 'Invalid host entry: ' ),
 			/* translators: There is a space after the colon. */
 			'invalid_host'         => __( 'Invalid host: ' ),
 			/* translators: There is a space at the beginning. */
