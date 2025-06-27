@@ -145,7 +145,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	public function update_item( $request ) {
 		$options = $this->get_registered_options();
 
-		$params = $request->get_params();
+		$params = array_diff_key( $request->get_params(), $request->get_query_params() );
 
 		if ( empty( $params ) || ! empty( array_diff_key( $params, $options ) ) ) {
 			$message = empty( $params )
