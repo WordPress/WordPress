@@ -6109,7 +6109,7 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	if ( false !== $cached ) {
 		// Special case: '0' is a bad `$page_path`.
 		if ( '0' === $cached || 0 === $cached ) {
-			return;
+			return null;
 		} else {
 			return get_post( $cached, $output );
 		}
