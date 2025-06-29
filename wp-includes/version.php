@@ -16,7 +16,7 @@
  *
  * @global string $wp_version
  */
-$wp_version = '6.9-alpha-60362';
+$wp_version = '6.9-alpha-60363';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
@@ -33,7 +33,7 @@ $wp_db_version = 58975;
 $tinymce_version = '49110-20201110';
 
 /**
- * Holds the required PHP version.
+ * Holds the minimum required PHP version.
  *
  * @global string $required_php_version
  */
@@ -50,7 +50,7 @@ $required_php_extensions = array(
 );
 
 /**
- * Holds the required MySQL version.
+ * Holds the minimum required MySQL version.
  *
  * @global string $required_mysql_version
  */

@@ -233,9 +233,9 @@ if ( is_blog_installed() ) {
 
 /**
  * @global string   $wp_version              The WordPress version string.
- * @global string   $required_php_version    The required PHP version string.
+ * @global string   $required_php_version    The minimum required PHP version string.
  * @global string[] $required_php_extensions The names of required PHP extensions.
- * @global string   $required_mysql_version  The required MySQL version string.
+ * @global string   $required_mysql_version  The minimum required MySQL version string.
  * @global wpdb     $wpdb                    WordPress database abstraction object.
  */
 global $wp_version, $required_php_version, $required_php_extensions, $required_mysql_version, $wpdb;

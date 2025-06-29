@@ -43,7 +43,7 @@ define( 'ARRAY_N', 'ARRAY_N' );
  * By default, WordPress uses this class to instantiate the global $wpdb object, providing
  * access to the WordPress database.
  *
- * It is possible to replace this class with your own by setting the $wpdb global variable
+ * It is possible to replace the global instance with your own by setting the $wpdb global variable
  * in wp-content/db.php file to your class. The wpdb class will still be included, so you can
  * extend it or simply use your own.
  *
@@ -237,7 +237,6 @@ class wpdb {
 	 * WordPress table prefix.
 	 *
 	 * You can set this to have multiple WordPress installations in a single database.
-	 * The second reason is for possible security precautions.
 	 *
 	 * @since 2.5.0
 	 *
@@ -941,7 +940,7 @@ class wpdb {
 	/**
 	 * Changes the current SQL mode, and ensures its WordPress compatibility.
 	 *
-	 * If no modes are passed, it will ensure the current MySQL server modes are compatible.
+	 * If no modes are passed, it will ensure the current SQL server modes are compatible.
 	 *
 	 * @since 3.9.0
 	 *
@@ -1369,7 +1368,7 @@ class wpdb {
 	}
 
 	/**
-	 * Quotes an identifier for a MySQL database, e.g. table/field names.
+	 * Quotes an identifier such as a table or field name.
 	 *
 	 * @since 6.2.0
 	 *
@@ -1433,6 +1432,13 @@ class wpdb {
 	 *     $wpdb->prepare(
 	 *         "SELECT DATE_FORMAT(`field`, '%%c') FROM `table` WHERE `column` = %s",
 	 *         'foo'
+	 *     );
+	 *
+	 *     $wpdb->prepare(
+	 *         "SELECT * FROM %i WHERE %i = %s",
+	 *         $table,
+	 *         $field,
+	 *         $value
 	 *     );
 	 *
 	 * @since 2.3.0
@@ -1957,7 +1963,7 @@ class wpdb {
 		$client_flags = defined( 'MYSQL_CLIENT_FLAGS' ) ? MYSQL_CLIENT_FLAGS : 0;
 
 		/*
-		 * Set the MySQLi error reporting off because WordPress handles its own.
+		 * Switch error reporting off because WordPress handles its own.
 		 * This is due to the default value change from `MYSQLI_REPORT_OFF`
 		 * to `MYSQLI_REPORT_ERROR|MYSQLI_REPORT_STRICT` in PHP 8.1.
 		 */
@@ -2100,7 +2106,7 @@ class wpdb {
 		}
 
 		$host = ! empty( $matches['host'] ) ? $matches['host'] : '';
-		// MySQLi port cannot be a string; must be null or an integer.
+		// Port cannot be a string; must be null or an integer.
 		$port = ! empty( $matches['port'] ) ? absint( $matches['port'] ) : null;
 
 		return array( $host, $port, $socket, $is_ipv6 );
@@ -2290,7 +2296,7 @@ class wpdb {
 		if ( $this->dbh instanceof mysqli ) {
 			$this->last_error = mysqli_error( $this->dbh );
 		} else {
-			$this->last_error = __( 'Unable to retrieve the error message from MySQL' );
+			$this->last_error = __( 'Unable to retrieve the error message from the database server' );
 		}
 
 		if ( $this->last_error ) {
@@ -3473,7 +3479,7 @@ class wpdb {
 	}
 
 	/**
-	 * Checks if the query is accessing a collation considered safe on the current version of MySQL.
+	 * Checks if the query is accessing a collation considered safe.
 	 *
 	 * @since 4.2.0
 	 *
@@ -3987,11 +3993,11 @@ class wpdb {
 	}
 
 	/**
-	 * Determines whether MySQL database is at least the required minimum version.
+	 * Determines whether the database server is at least the required minimum version.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @global string $required_mysql_version The required MySQL version string.
+	 * @global string $required_mysql_version The minimum required MySQL version string.
 	 * @return void|WP_Error
 	 */
 	public function check_database_version() {
@@ -4047,7 +4053,7 @@ class wpdb {
 	 *
 	 * Capability sniffs for the database server and current version of WPDB.
 	 *
-	 * Database sniffs are based on the version of MySQL the site is using.
+	 * Database sniffs are based on the version of the database server in use.
 	 *
 	 * WPDB sniffs are added as new features are introduced to allow theme and plugin
 	 * developers to determine feature support. This is to account for drop-ins which may
@@ -4119,7 +4125,7 @@ class wpdb {
 	}
 
 	/**
-	 * Retrieves the database server version.
+	 * Retrieves the database server version number.
 	 *
 	 * @since 2.7.0
 	 *
@@ -4130,11 +4136,11 @@ class wpdb {
 	}
 
 	/**
-	 * Returns the version of the MySQL server.
+	 * Returns the raw version string of the database server.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return string Server version as a string.
+	 * @return string Database server version as a string.
 	 */
 	public function db_server_info() {
 		return mysqli_get_server_info( $this->dbh );
