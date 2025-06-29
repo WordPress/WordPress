@@ -1050,7 +1050,7 @@ function get_page_of_comment( $comment_id, $args = array() ) {
 
 	$comment = get_comment( $comment_id );
 	if ( ! $comment ) {
-		return;
+		return null;
 	}
 
 	$defaults      = array(
