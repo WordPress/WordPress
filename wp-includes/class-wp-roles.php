@@ -143,21 +143,43 @@ class WP_Roles {
 	 *
 	 * Updates the list of roles, if the role doesn't already exist.
 	 *
-	 * The capabilities are defined in the following format: `array( 'read' => true )`.
-	 * To explicitly deny the role a capability, set the value for that capability to false.
+	 * The list of capabilities can be passed either as a numerically indexed array of capability names, or an
+	 * associative array of boolean values keyed by the capability name. To explicitly deny the role a capability, set
+	 * the value for that capability to false.
+	 *
+	 * Examples:
+	 *
+	 *     // Add a role that can edit posts.
+	 *     wp_roles()->add_role( 'custom_role', 'Custom Role', array(
+	 *         'read',
+	 *         'edit_posts',
+	 *     ) );
+	 *
+	 * Or, using an associative array:
+	 *
+	 *     // Add a role that can edit posts but explicitly cannot not delete them.
+	 *     wp_roles()->add_role( 'custom_role', 'Custom Role', array(
+	 *         'read' => true,
+	 *         'edit_posts' => true,
+	 *         'delete_posts' => false,
+	 *     ) );
 	 *
 	 * @since 2.0.0
+	 * @since x.y.z Support was added for a numerically indexed array of strings for the capabilities array.
 	 *
-	 * @param string $role         Role name.
-	 * @param string $display_name Role display name.
-	 * @param bool[] $capabilities Optional. List of capabilities keyed by the capability name,
-	 *                             e.g. `array( 'edit_posts' => true, 'delete_posts' => false )`.
-	 *                             Default empty array.
+	 * @param string                               $role         Role name.
+	 * @param string                               $display_name Role display name.
+	 * @param array<string,bool>|array<int,string> $capabilities Capabilities to be added to the role.
+	 *                                                           Default empty array.
 	 * @return WP_Role|void WP_Role object, if the role is added.
 	 */
 	public function add_role( $role, $display_name, $capabilities = array() ) {
 		if ( empty( $role ) || isset( $this->roles[ $role ] ) ) {
 			return;
+		}
+
+		if ( wp_is_numeric_array( $capabilities ) ) {
+			$capabilities = array_fill_keys( $capabilities, true );
 		}
 
 		$this->roles[ $role ] = array(
