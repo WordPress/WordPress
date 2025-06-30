@@ -1754,7 +1754,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  * @param int|WP_Comment $comment Optional. Comment being replied to. Default current comment.
  * @param int|WP_Post    $post    Optional. Post ID or WP_Post object the comment is going to be displayed on.
  *                                Default current post.
- * @return string|false|null Link to show comment form, if successful. False, if comments are closed.
+ * @return string|false|null Link to show comment form on success. False if comments are closed. Null on failure.
  */
 function get_comment_reply_link( $args = array(), $comment = null, $post = null ) {
 	$defaults = array(
@@ -1777,13 +1777,13 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	$args['depth']     = (int) $args['depth'];
 
 	if ( 0 === $args['depth'] || $args['max_depth'] <= $args['depth'] ) {
-		return;
+		return null;
 	}
 
 	$comment = get_comment( $comment );
 
 	if ( empty( $comment ) ) {
-		return;
+		return null;
 	}
 
 	if ( empty( $post ) ) {
@@ -1911,9 +1911,9 @@ function comment_reply_link( $args = array(), $comment = null, $post = null ) {
  *     @type string $before     Text or HTML to add before the reply link. Default empty.
  *     @type string $after      Text or HTML to add after the reply link. Default empty.
  * }
- * @param int|WP_Post $post    Optional. Post ID or WP_Post object the comment is going to be displayed on.
- *                             Default current post.
- * @return string|false|null Link to show comment form, if successful. False, if comments are closed.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object the comment is going to be displayed on.
+ *                          Default current post.
+ * @return string|false Link to show comment form on success. False if comments are closed.
  */
 function get_post_reply_link( $args = array(), $post = null ) {
 	$defaults = array(
