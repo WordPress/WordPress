@@ -2648,3 +2648,6 @@ a {
 .has-red-to-purple-gradient-background {
 	background: linear-gradient(160deg, var(--global--color-red), var(--global--color-purple));
 }
+.wp-block-list [data-block] {
+	margin: 0;
+}
