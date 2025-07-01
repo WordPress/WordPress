@@ -2428,7 +2428,7 @@ function do_blocks( $content ) {
 	 * out-of-memory crashes for certain posts that now run with this change.
 	 */
 	for ( $i = 0; $i < $top_level_block_count; $i++ ) {
-		$output .= render_block( $blocks[ $i ] );
+		$output      .= render_block( $blocks[ $i ] );
 		$blocks[ $i ] = null;
 	}
 
