@@ -2408,6 +2408,25 @@ function do_blocks( $content ) {
 	$top_level_block_count = count( $blocks );
 	$output                = '';
 
+	/**
+	 * Parsed blocks consist of a list of top-level blocks. Those top-level
+	 * blocks may themselves contain nested inner blocks. However, every
+	 * top-level block is rendered independently, meaning there are no data
+	 * dependencies between them.
+	 *
+	 * Ideally, therefore, the parser would only need to parse one complete
+	 * top-level block at a time, render it, and move on. Unfortunately, this
+	 * is not possible with {@see \parse_blocks()} because it must parse the
+	 * entire given document at once.
+	 *
+	 * While the current implementation prevents this optimization, it’s still
+	 * possible to reduce the peak memory use when calls to `render_block()`
+	 * on those top-level blocks are memory-heavy (which many of them are).
+	 * By setting each parsed block to `NULL` after rendering it, any memory
+	 * allocated during the render will be freed and reused for the next block.
+	 * Before making this change, that memory was retained and would lead to
+	 * out-of-memory crashes for certain posts that now run with this change.
+	 */
 	for ( $i = 0; $i < $top_level_block_count; $i++ ) {
 		$output .= render_block( $blocks[ $i ] );
 		$blocks[ $i ] = null;
