@@ -361,7 +361,11 @@ if ( ! function_exists( 'wp_body_open' ) ) {
 	 * @since Twenty Twenty 1.0
 	 */
 	function wp_body_open() {
-		/** This action is documented in wp-includes/general-template.php */
+		/**
+		 * Triggered after the opening <body> tag.
+		 *
+		 * @since Twenty Twenty 1.0
+		 */
 		do_action( 'wp_body_open' );
 	}
 }
