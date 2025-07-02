@@ -2083,7 +2083,19 @@ function wp_kses_normalize_entities3( $matches ) {
 /**
  * Determines if a Unicode codepoint is valid.
  *
+ * The definition of a valid Unicode codepoint is taken from the XML definition:
+ *
+ * > Characters
+ * >
+ * > …
+ * > Legal characters are tab, carriage return, line feed, and the legal characters of
+ * > Unicode and ISO/IEC 10646.
+ * > …
+ * > Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+ *
  * @since 2.7.0
+ *
+ * @see https://www.w3.org/TR/xml/#charsets
  *
  * @param int $i Unicode codepoint.
  * @return bool Whether or not the codepoint is a valid Unicode codepoint.
@@ -2091,10 +2103,18 @@ function wp_kses_normalize_entities3( $matches ) {
 function valid_unicode( $i ) {
 	$i = (int) $i;
 
-	return ( 0x9 === $i || 0xa === $i || 0xd === $i ||
-		( 0x20 <= $i && $i <= 0xd7ff ) ||
-		( 0xe000 <= $i && $i <= 0xfffd ) ||
-		( 0x10000 <= $i && $i <= 0x10ffff )
+	return (
+		0x9 === $i || // U+0009 HORIZONTAL TABULATION (HT)
+		0xA === $i || // U+000A LINE FEED (LF)
+		0xD === $i || // U+000D CARRIAGE RETURN (CR)
+		/*
+		 * The valid Unicode characters according to the XML specification:
+		 *
+		 * > any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
+		 */
+		( 0x20 <= $i && $i <= 0xD7FF ) ||
+		( 0xE000 <= $i && $i <= 0xFFFD ) ||
+		( 0x10000 <= $i && $i <= 0x10FFFF )
 	);
 }
 
