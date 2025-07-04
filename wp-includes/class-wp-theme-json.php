@@ -2781,6 +2781,7 @@ class WP_Theme_JSON {
 			if ( isset( $theme_json['styles']['blocks'][ $name ]['elements'] ) ) {
 				foreach ( $theme_json['styles']['blocks'][ $name ]['elements'] as $element => $node ) {
 					$node_path = array( 'styles', 'blocks', $name, 'elements', $element );
+
 					if ( $include_node_paths_only ) {
 						$nodes[] = array(
 							'path' => $node_path,
@@ -2798,12 +2799,6 @@ class WP_Theme_JSON {
 						foreach ( static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector ) {
 							if ( isset( $theme_json['styles']['blocks'][ $name ]['elements'][ $element ][ $pseudo_selector ] ) ) {
 								$node_path = array( 'styles', 'blocks', $name, 'elements', $element );
-								if ( $include_node_paths_only ) {
-									$nodes[] = array(
-										'path' => $node_path,
-									);
-									continue;
-								}
 
 								$nodes[] = array(
 									'path'     => $node_path,
