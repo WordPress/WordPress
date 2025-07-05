@@ -2035,7 +2035,17 @@ function sanitize_file_name( $filename ) {
 	}
 
 	if ( $utf8_pcre ) {
-		$filename = preg_replace( "#\x{00a0}#siu", ' ', $filename );
+		/**
+		 * Replace all whitespace characters with a basic space (U+0020).
+		 *
+		 * The “Zs” in the pattern selects characters in the `Space_Separator`
+		 * category, which is what Unicode considers space characters.
+		 *
+		 * @see https://www.unicode.org/reports/tr44/#General_Category_Values
+		 * @see https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-6/#G17548
+		 * @see https://www.php.net/manual/en/regexp.reference.unicode.php
+		 */
+		$filename = preg_replace( '#\p{Zs}#siu', ' ', $filename );
 	}
 
 	/**
