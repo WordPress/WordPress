@@ -92,6 +92,8 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 	 * It positions the cursor in the closer tag of the balanced template tag,
 	 * if it exists.
 	 *
+	 * @since 6.5.0
+	 *
 	 * @access private
 	 *
 	 * @param string $new_content The string to append after the closing template tag.

@@ -37,6 +37,8 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	/**
 	 * Converts an expiration to an array of session information.
 	 *
+	 * @since 4.0.0
+	 *
 	 * @param mixed $session Session or expiration.
 	 * @return array Session.
 	 */

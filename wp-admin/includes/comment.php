@@ -210,6 +210,8 @@ function enqueue_comment_hotkeys_js() {
 /**
  * Displays error message at bottom of comments.
  *
+ * @since 2.5.0
+ *
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
  */
 function comment_footer_die( $msg ) {

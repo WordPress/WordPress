@@ -5198,6 +5198,8 @@ function _wp_array_set( &$input_array, $path, $value = null ) {
  * Changes to this function should follow updates in the client
  * with the same logic.
  *
+ * @since 5.8.0
+ *
  * @link https://github.com/lodash/lodash/blob/4.17/dist/lodash.js#L14369
  * @link https://github.com/lodash/lodash/blob/4.17/dist/lodash.js#L278
  * @link https://github.com/lodash-php/lodash-php/blob/master/src/String/kebabCase.php
