@@ -1022,18 +1022,21 @@ class WP_Upgrader {
 		}
 
 		$file = $wp_filesystem->abspath() . '.maintenance';
+
 		if ( $enable ) {
 			if ( ! wp_doing_cron() ) {
 				$this->skin->feedback( 'maintenance_start' );
 			}
+
 			// Create maintenance file to signal that we are upgrading.
 			$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
 			$wp_filesystem->delete( $file );
 			$wp_filesystem->put_contents( $file, $maintenance_string, FS_CHMOD_FILE );
-		} elseif ( ! $enable && $wp_filesystem->exists( $file ) ) {
+		} elseif ( $wp_filesystem->exists( $file ) ) {
 			if ( ! wp_doing_cron() ) {
 				$this->skin->feedback( 'maintenance_end' );
 			}
+
 			$wp_filesystem->delete( $file );
 		}
 	}
