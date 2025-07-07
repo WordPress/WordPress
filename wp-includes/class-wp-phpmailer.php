@@ -48,7 +48,7 @@ class WP_PHPMailer extends PHPMailer\PHPMailer\PHPMailer {
 				'php.ini'
 			),
 			'connect_host'         => __( 'SMTP Error: Could not connect to SMTP host.' ),
-			'data_not_accepted'    => __( 'SMTP Error: data not accepted.' ),
+			'data_not_accepted'    => __( 'SMTP Error: Data not accepted.' ),
 			'empty_message'        => __( 'Message body empty' ),
 			/* translators: There is a space after the colon. */
 			'encoding'             => __( 'Unknown encoding: ' ),
