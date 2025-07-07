@@ -368,7 +368,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: #41a62a;
 }
 
-.widget-area .wp-block-latest-comments__comment-meta a {
+.widget-area:where(:not(.content-sidebar)) .wp-block-latest-comments__comment-meta a {
 	color: #fff;
 }
 
