@@ -211,7 +211,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 		} );
 	};
 
-	window.addEventListener( 'load', function() {
+	document.addEventListener( 'DOMContentLoaded', function() {
 		new navMenu( 'primary' );
 	} );
 }() );
