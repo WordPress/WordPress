@@ -141,18 +141,14 @@ Description: Used to style blocks in the editor.
 
 /* Captions */
 
+[class*=" wp-block-"] figcaption,
 [class^="wp-block-"] figcaption,
 [class^="wp-block-"] figcaption.editor-rich-text__tinymce.mce-content-body {
 	color: #757575;
 	font-size: 12px;
 	line-height: 2;
 	font-style: italic;
-	text-align: left;
-}
-
-.rtl [class^="wp-block-"] figcaption,
-.rtl [class^="wp-block-"] figcaption.editor-rich-text__tinymce.mce-content-body {
-	text-align: right;
+	text-align: start;
 }
 
 /* Definition Lists */
