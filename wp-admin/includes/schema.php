@@ -446,7 +446,7 @@ function populate_options( array $options = array() ) {
 		'moderation_keys'                 => '',
 		'active_plugins'                  => array(),
 		'category_base'                   => '',
-		'ping_sites'                      => 'http://rpc.pingomatic.com/',
+		'ping_sites'                      => 'https://rpc.pingomatic.com/',
 		'comment_max_links'               => 2,
 		'gmt_offset'                      => $gmt_offset,
 

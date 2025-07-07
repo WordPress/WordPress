@@ -16,14 +16,14 @@
  *
  * @global string $wp_version
  */
-$wp_version = '6.9-alpha-60419';
+$wp_version = '6.9-alpha-60421';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 58975;
+$wp_db_version = 60344;
 
 /**
  * Holds the TinyMCE version.
