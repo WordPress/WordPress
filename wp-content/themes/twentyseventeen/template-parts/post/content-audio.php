@@ -42,6 +42,7 @@
 	</header><!-- .entry-header -->
 
 	<?php
+		/** This filter is documented in wp-includes/post-template.php */
 		$content = apply_filters( 'the_content', get_the_content() );
 		$audio   = false;
 
