@@ -16431,17 +16431,23 @@ const details = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(e
 
 
 
+
 /**
  * Internal dependencies
  */
 
 
+
+const {
+  withIgnoreIMEEvents
+} = unlock(external_wp_components_namespaceObject.privateApis);
 const details_edit_TEMPLATE = [['core/paragraph', {
   placeholder: (0,external_wp_i18n_namespaceObject.__)('Type / to add a hidden block')
 }]];
 function DetailsEdit({
   attributes,
-  setAttributes
+  setAttributes,
+  clientId
 }) {
   const {
     name,
@@ -16458,6 +16464,22 @@ function DetailsEdit({
   });
   const [isOpen, setIsOpen] = (0,external_wp_element_namespaceObject.useState)(showContent);
   const dropdownMenuProps = useToolsPanelDropdownMenuProps();
+
+  // Check if the inner blocks are selected.
+  const hasSelectedInnerBlock = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).hasSelectedInnerBlock(clientId, true), [clientId]);
+  const handleSummaryKeyDown = event => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      setIsOpen(prevIsOpen => !prevIsOpen);
+      event.preventDefault();
+    }
+  };
+
+  // Prevent spacebar from toggling <details> while typing.
+  const handleSummaryKeyUp = event => {
+    if (event.key === ' ') {
+      event.preventDefault();
+    }
+  };
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.InspectorControls, {
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToolsPanel, {
@@ -16501,17 +16523,15 @@ function DetailsEdit({
       })
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("details", {
       ...innerBlocksProps,
-      open: isOpen,
+      open: isOpen || hasSelectedInnerBlock,
+      onToggle: event => setIsOpen(event.target.open),
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("summary", {
-        onClick: event => {
-          event.preventDefault();
-          setIsOpen(!isOpen);
-        },
+        onKeyDown: withIgnoreIMEEvents(handleSummaryKeyDown),
+        onKeyUp: handleSummaryKeyUp,
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_blockEditor_namespaceObject.RichText, {
           identifier: "summary",
-          "aria-label": (0,external_wp_i18n_namespaceObject.__)('Write summary'),
+          "aria-label": (0,external_wp_i18n_namespaceObject.__)('Write summary. Press Enter to expand or collapse the details.'),
           placeholder: placeholder || (0,external_wp_i18n_namespaceObject.__)('Write summary…'),
-          allowedFormats: [],
           withoutInteractiveFormatting: true,
           value: summary,
           onChange: newSummary => setAttributes({
@@ -17931,16 +17951,6 @@ const embed_variations_variations = [{
   patterns: [/^https?:\/\/(www\.)?reverbnation\.com\/.+/i],
   attributes: {
     providerNameSlug: 'reverbnation',
-    responsive: true
-  }
-}, {
-  name: 'screencast',
-  title: getTitle('Screencast'),
-  icon: embedVideoIcon,
-  description: (0,external_wp_i18n_namespaceObject.__)('Embed Screencast content.'),
-  patterns: [/^https?:\/\/(www\.)?screencast\.com\/.+/i],
-  attributes: {
-    providerNameSlug: 'screencast',
     responsive: true
   }
 }, {
@@ -27699,12 +27709,6 @@ function ImageEdit({
     if (!media.id || media.id !== id) {
       additionalAttributes = {
         sizeSlug: newSize
-      };
-    } else {
-      // Keep the same url when selecting the same file, so "Resolution"
-      // option is not changed.
-      additionalAttributes = {
-        url
       };
     }
 
@@ -38082,6 +38086,7 @@ const navigation_init = () => initBlock({
 const navigation_link_edit_DEFAULT_BLOCK = {
   name: 'core/navigation-link'
 };
+const NESTING_BLOCK_NAMES = ['core/navigation-link', 'core/navigation-submenu'];
 
 /**
  * A React hook to determine if it's dragging within the target element.
@@ -38130,18 +38135,26 @@ const useIsDraggingWithin = elementRef => {
   }, [elementRef]);
   return isDraggingWithin;
 };
-const useIsInvalidLink = (kind, type, id) => {
+const useIsInvalidLink = (kind, type, id, enabled) => {
   const isPostType = kind === 'post-type' || type === 'post' || type === 'page';
   const hasId = Number.isInteger(id);
+  const blockEditingMode = (0,external_wp_blockEditor_namespaceObject.useBlockEditingMode)();
   const postStatus = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (!isPostType) {
+      return null;
+    }
+
+    // Fetching the posts status is an "expensive" operation. Especially for sites with large navigations.
+    // When the block is rendered in a template or other disabled contexts we can skip this check in order
+    // to avoid all these additional requests that don't really add any value in that mode.
+    if (blockEditingMode === 'disabled' || !enabled) {
       return null;
     }
     const {
       getEntityRecord
     } = select(external_wp_coreData_namespaceObject.store);
     return getEntityRecord('postType', type, id)?.status;
-  }, [isPostType, type, id]);
+  }, [isPostType, blockEditingMode, enabled, type, id]);
 
   // Check Navigation Link validity if:
   // 1. Link is 'post-type'.
@@ -38320,7 +38333,6 @@ function NavigationLinkEdit({
     description,
     kind
   } = attributes;
-  const [isInvalid, isDraft] = useIsInvalidLink(kind, type, id);
   const {
     maxNestingLevel
   } = context;
@@ -38351,25 +38363,36 @@ function NavigationLinkEdit({
     isAtMaxNesting,
     isTopLevelLink,
     isParentOfSelectedBlock,
-    hasChildren
+    hasChildren,
+    validateLinkStatus
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getBlockCount,
       getBlockName,
       getBlockRootClientId,
       hasSelectedInnerBlock,
-      getBlockParentsByBlockName
+      getBlockParentsByBlockName,
+      getSelectedBlockClientId
     } = select(external_wp_blockEditor_namespaceObject.store);
+    const rootClientId = getBlockRootClientId(clientId);
+    const isTopLevel = getBlockName(rootClientId) === 'core/navigation';
+    const selectedBlockClientId = getSelectedBlockClientId();
+    const rootNavigationClientId = isTopLevel ? rootClientId : getBlockParentsByBlockName(clientId, 'core/navigation')[0];
+
+    // Enable when the root Navigation block is selected or any of its inner blocks.
+    const enableLinkStatusValidation = selectedBlockClientId === rootNavigationClientId || hasSelectedInnerBlock(rootNavigationClientId, true);
     return {
-      isAtMaxNesting: getBlockParentsByBlockName(clientId, ['core/navigation-link', 'core/navigation-submenu']).length >= maxNestingLevel,
-      isTopLevelLink: getBlockName(getBlockRootClientId(clientId)) === 'core/navigation',
+      isAtMaxNesting: getBlockParentsByBlockName(clientId, NESTING_BLOCK_NAMES).length >= maxNestingLevel,
+      isTopLevelLink: isTopLevel,
       isParentOfSelectedBlock: hasSelectedInnerBlock(clientId, true),
-      hasChildren: !!getBlockCount(clientId)
+      hasChildren: !!getBlockCount(clientId),
+      validateLinkStatus: enableLinkStatusValidation
     };
   }, [clientId, maxNestingLevel]);
   const {
     getBlocks
   } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_blockEditor_namespaceObject.store);
+  const [isInvalid, isDraft] = useIsInvalidLink(kind, type, id, validateLinkStatus);
 
   /**
    * Transform to submenu block.
@@ -45595,13 +45618,15 @@ function PostTemplateEdit({
      * Handle cases where sticky is set to `exclude` or `only`.
      * Which works as a `post__in/post__not_in` query for sticky posts.
      */
-    if (sticky && sticky !== 'ignore') {
+    if (['exclude', 'only'].includes(sticky)) {
       query.sticky = sticky === 'only';
     }
-    if (sticky === 'ignore') {
+
+    // Empty string represents the default behavior of including sticky posts.
+    if (['', 'ignore'].includes(sticky)) {
       // Remove any leftover sticky query parameter.
       delete query.sticky;
-      query.ignore_sticky = true;
+      query.ignore_sticky = sticky === 'ignore';
     }
 
     // If `inherit` is truthy, adjust conditionally the query to create a better preview.
@@ -49157,7 +49182,7 @@ function QueryInspectorControls(props) {
     return onChangeDebounced.cancel;
   }, [querySearch, onChangeDebounced]);
   const orderByOptions = useOrderByOptions(postType);
-  const showInheritControl = !isSingular && isControlAllowed(allowedControls, 'inherit');
+  const showInheritControl = isControlAllowed(allowedControls, 'inherit');
   const showPostTypeControl = !inherit && isControlAllowed(allowedControls, 'postType');
   const postTypeControlLabel = (0,external_wp_i18n_namespaceObject.__)('Post type');
   const postTypeControlHelp = (0,external_wp_i18n_namespaceObject.__)('Select the type of content to display: posts, pages, or custom post types.');
@@ -49187,6 +49212,10 @@ function QueryInspectorControls(props) {
   const showOffSetControl = isControlAllowed(allowedControls, 'offset');
   const showPagesControl = isControlAllowed(allowedControls, 'pages');
   const showDisplayPanel = showPostCountControl || showOffSetControl || showPagesControl;
+
+  // The block cannot inherit a default WordPress query in singular content (e.g., post, page, 404, blank).
+  // Warn users but still permit this type of query for exceptional cases in Classic and Hybrid themes.
+  const hasInheritanceWarning = isSingular && inherit;
   return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_ReactJSXRuntime_namespaceObject.Fragment, {
     children: [showSettingsPanel && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalToolsPanel, {
       label: (0,external_wp_i18n_namespaceObject.__)('Settings'),
@@ -49207,24 +49236,31 @@ function QueryInspectorControls(props) {
           inherit: true
         }),
         isShownByDefault: true,
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalToggleGroupControl, {
-          __next40pxDefaultSize: true,
-          __nextHasNoMarginBottom: true,
-          label: (0,external_wp_i18n_namespaceObject.__)('Query type'),
-          isBlock: true,
-          onChange: value => {
-            setQuery({
-              inherit: value === 'default'
-            });
-          },
-          help: inherit ? (0,external_wp_i18n_namespaceObject.__)('Display a list of posts or custom post types based on the current template.') : (0,external_wp_i18n_namespaceObject.__)('Display a list of posts or custom post types based on specific criteria.'),
-          value: !!inherit ? 'default' : 'custom',
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
-            value: "default",
-            label: (0,external_wp_i18n_namespaceObject.__)('Default')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
-            value: "custom",
-            label: (0,external_wp_i18n_namespaceObject.__)('Custom')
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, {
+          spacing: 4,
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalToggleGroupControl, {
+            __next40pxDefaultSize: true,
+            __nextHasNoMarginBottom: true,
+            label: (0,external_wp_i18n_namespaceObject.__)('Query type'),
+            isBlock: true,
+            onChange: value => {
+              setQuery({
+                inherit: value === 'default'
+              });
+            },
+            help: inherit ? (0,external_wp_i18n_namespaceObject.__)('Display a list of posts or custom post types based on the current template.') : (0,external_wp_i18n_namespaceObject.__)('Display a list of posts or custom post types based on specific criteria.'),
+            value: !!inherit ? 'default' : 'custom',
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
+              value: "default",
+              label: (0,external_wp_i18n_namespaceObject.__)('Default')
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
+              value: "custom",
+              label: (0,external_wp_i18n_namespaceObject.__)('Custom')
+            })]
+          }), hasInheritanceWarning && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Notice, {
+            status: "warning",
+            isDismissible: false,
+            children: (0,external_wp_i18n_namespaceObject.__)('Cannot inherit the current template query when placed inside the singular content (e.g., post, page, 404, blank).')
           })]
         })
       }), showPostTypeControl && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
@@ -49794,16 +49830,11 @@ function QueryContent({
     } else if (!query.perPage && postsPerPage) {
       newQuery.perPage = postsPerPage;
     }
-    // We need to reset the `inherit` value if in a singular template, as queries
-    // are not inherited when in singular content (e.g. post, page, 404, blank).
-    if (isSingular && query.inherit) {
-      newQuery.inherit = false;
-    }
     if (!!Object.keys(newQuery).length) {
       __unstableMarkNextChangeAsNotPersistent();
       updateQuery(newQuery);
     }
-  }, [query.perPage, query.inherit, postsPerPage, inherit, isSingular, __unstableMarkNextChangeAsNotPersistent, updateQuery]);
+  }, [query.perPage, inherit, postsPerPage, __unstableMarkNextChangeAsNotPersistent, updateQuery]);
   // We need this for multi-query block pagination.
   // Query parameters for each block are scoped to their ID.
   (0,external_wp_element_namespaceObject.useEffect)(() => {

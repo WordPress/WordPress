@@ -2844,6 +2844,9 @@ iframe[name=editor-canvas]{
     width:300px;
   }
 }
+.block-editor-media-placeholder__url-input-form input{
+  direction:ltr;
+}
 
 .modal-open .block-editor-media-replace-flow__options{
   display:none;

@@ -72334,6 +72334,7 @@ function Badge({
 
 
 
+
 const privateApis = {};
 lock(privateApis, {
   __experimentalPopoverLegacyPositionToPlacement: positionToPlacement,
@@ -72342,6 +72343,7 @@ lock(privateApis, {
   Theme: theme,
   Menu: menu_Menu,
   kebabCase: kebabCase,
+  withIgnoreIMEEvents: withIgnoreIMEEvents,
   Badge: badge
 });
 
