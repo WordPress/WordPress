@@ -1122,14 +1122,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 									<p><?php echo $starter_copy; ?></p>
 								</div>
 
-								<?php if ( ! $add_new_screen ) : ?>
-									<div id="nav-menu-bulk-actions-top" class="bulk-actions" <?php echo $hide_style; ?>>
-										<label class="bulk-select-button" for="bulk-select-switcher-top">
-											<input type="checkbox" id="bulk-select-switcher-top" name="bulk-select-switcher-top" class="bulk-select-switcher">
-											<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
-										</label>
-									</div>
-								<?php endif; ?>
+								<div id="nav-menu-bulk-actions-top" class="bulk-actions" <?php echo $hide_style; ?>>
+									<label class="bulk-select-button" for="bulk-select-switcher-top">
+										<input type="checkbox" id="bulk-select-switcher-top" name="bulk-select-switcher-top" class="bulk-select-switcher">
+										<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
+									</label>
+								</div>
 
 								<?php
 								if ( isset( $edit_markup ) && ! is_wp_error( $edit_markup ) ) {
