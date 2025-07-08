@@ -37,7 +37,6 @@
   display:inline-block;
   height:100%;
   text-align:center;
-  width:100%;
   word-break:break-word;
 }
 .wp-block-button__link.aligncenter{
@@ -158,6 +157,9 @@
 }
 .wp-block-buttons.has-custom-font-size .wp-block-button__link{
   font-size:inherit;
+}
+.wp-block-buttons .wp-block-button__link{
+  width:100%;
 }
 
 .wp-block-button.aligncenter,.wp-block-calendar{
@@ -2357,9 +2359,6 @@ p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[
 .wp-block-post-comments-form .comment-reply-title :where(small){
   font-size:var(--wp--preset--font-size--medium, smaller);
   margin-left:.5em;
-}
-.wp-block-post-comments-form input[type=submit]{
-  width:auto;
 }
 
 .wp-block-post-comments-count{
