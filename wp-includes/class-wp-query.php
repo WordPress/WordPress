@@ -5005,7 +5005,7 @@ class WP_Query {
 		 *
 		 * These arrays are sorted in the query generator for the purposes of the
 		 * WHERE clause but the arguments are not modified as they can be used for
-		 * the orderby clase.
+		 * the orderby clause.
 		 *
 		 * Their use in the orderby clause will generate a different SQL query so
 		 * they can be sorted for the cache key generation.
