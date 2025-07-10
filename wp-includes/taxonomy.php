@@ -1337,7 +1337,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 		$args['taxonomy'] = $taxonomies;
 	} else {
 		$args = wp_parse_args( $args, $defaults );
-		if ( isset( $args['taxonomy'] ) && null !== $args['taxonomy'] ) {
+		if ( isset( $args['taxonomy'] ) ) {
 			$args['taxonomy'] = (array) $args['taxonomy'];
 		}
 	}
