@@ -412,7 +412,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 
 	// This is the potentially clashing slug.
 	$value = '';
-	if ( $compare && array_key_exists( $compare, $query_vars ) ) {
+	if ( array_key_exists( $compare, $query_vars ) ) {
 		$value = $query_vars[ $compare ];
 	}
 
@@ -460,9 +460,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 	}
 
 	// If we've gotten to this point, we have a slug/date clash. First, adjust for nextpage.
-	if ( '' !== $maybe_page ) {
-		$query_vars['page'] = (int) $maybe_page;
-	}
+	$query_vars['page'] = $maybe_page;
 
 	// Next, unset autodetected date-related query vars.
 	unset( $query_vars['year'] );
