@@ -2013,6 +2013,10 @@ body.full-overlay-active {
 	.upload-plugin .wp-upload-form {
 		display: block;
 	}
+
+	:is(.upload-theme, .upload-plugin) .wp-upload-form input[type="submit"] {
+		margin-top: 10px;
+	}
 }
 
 @media aural {

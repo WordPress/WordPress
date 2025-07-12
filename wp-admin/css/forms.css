@@ -1592,10 +1592,6 @@ table.form-table td .updated p {
 		line-height: 0.76190476;
 	}
 
-	.wp-upload-form input[type="submit"] {
-		margin-top: 10px;
-	}
-
 	.wp-core-ui select,
 	.wp-admin .form-table select {
 		min-height: 40px;
