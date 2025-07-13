@@ -730,7 +730,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * unless it's the user's own username.
 	 */
 	if ( username_exists( $blogname ) ) {
-		if ( ! is_object( $user ) || ( is_object( $user ) && $user->user_login !== $blogname ) ) {
+		if ( ! $user instanceof WP_User || $user->user_login !== $blogname ) {
 			$errors->add( 'blogname', __( 'Sorry, that site is reserved!' ) );
 		}
 	}
