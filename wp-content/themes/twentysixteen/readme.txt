@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: 4.4
 Tested up to: 6.8
 Requires PHP: 5.2.4
-Version: 3.5
+Version: 3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog, block-patterns
@@ -71,6 +71,11 @@ Source: https://fontsource.org/fonts/inconsolata
 Image used in screenshot.png: A photo by Austin Schmid (https://unsplash.com/schmidy/), licensed under Creative Commons Zero(http://creativecommons.org/publicdomain/zero/1.0/)
 
 == Changelog ==
+
+= 3.6 =
+* Released: July 15, 2025
+
+https://wordpress.org/documentation/article/twenty-sixteen-changelog/#Version_3.6
 
 = 3.5 =
 * Released: April 15, 2025

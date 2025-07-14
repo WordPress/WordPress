@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: 3.5
 Tested up to: 6.8
 Requires PHP: 5.2.4
-Stable tag: 4.5
+Stable tag: 4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, block-patterns
@@ -52,6 +52,11 @@ Source: https://fontsource.org/fonts/open-sans
 "Autumn City Photo" by Oleg Prokopenko. CC0. https://stocksnap.io/photo/autumn-city-PZP8EWR5MR
 
 == Changelog ==
+
+= 4.6 =
+* Released: July 15, 2025
+
+https://wordpress.org/documentation/article/twenty-twelve-changelog/#Version_4.6
 
 = 4.5 =
 * Released: April 15, 2025
