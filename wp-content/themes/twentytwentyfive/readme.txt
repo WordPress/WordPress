@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: 6.7
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,11 @@ Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible de
 
 
 == Changelog ==
+
+= 1.3 =
+* Released: July 15, 2025
+
+https://wordpress.org/documentation/article/twenty-twenty-five-changelog/#Version_1.3
 
 = 1.2 =
 * Released: April 15, 2025
