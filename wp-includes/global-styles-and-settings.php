@@ -483,7 +483,6 @@ function wp_get_theme_data_template_parts() {
 	$cache_key      = 'wp_get_theme_data_template_parts';
 	$can_use_cached = ! wp_is_development_mode( 'theme' );
 
-	$metadata = false;
 	if ( $can_use_cached ) {
 		$metadata = wp_cache_get( $cache_key, $cache_group );
 		if ( false !== $metadata ) {
@@ -491,11 +490,9 @@ function wp_get_theme_data_template_parts() {
 		}
 	}
 
-	if ( false === $metadata ) {
-		$metadata = WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_template_parts();
-		if ( $can_use_cached ) {
-			wp_cache_set( $cache_key, $metadata, $cache_group );
-		}
+	$metadata = WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_template_parts();
+	if ( $can_use_cached ) {
+		wp_cache_set( $cache_key, $metadata, $cache_group );
 	}
 
 	return $metadata;
