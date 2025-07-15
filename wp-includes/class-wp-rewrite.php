@@ -1288,7 +1288,7 @@ class WP_Rewrite {
 		$favicon_rewrite = ( empty( $home_path['path'] ) || '/' === $home_path['path'] ) ? array( 'favicon\.ico$' => $this->index . '?favicon=1' ) : array();
 
 		// sitemap.xml -- only if installed at the root.
-		$sitemap_rewrite = ( empty( $home_path['path'] ) || '/' === $home_path['path'] ) ? array( 'sitemap\.xml' => $this->index . '??sitemap=index' ) : array();
+		$sitemap_rewrite = ( empty( $home_path['path'] ) || '/' === $home_path['path'] ) ? array( 'sitemap\.xml' => $this->index . '?sitemap=index' ) : array();
 
 		// Old feed and service files.
 		$deprecated_files = array(
