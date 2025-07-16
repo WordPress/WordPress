@@ -75,6 +75,7 @@ function twentynineteen_customize_register( $wp_customize ) {
 			$wp_customize,
 			'primary_color_hue',
 			array(
+				'label'       => __( 'Custom Color', 'twentynineteen' ),
 				'description' => __( 'Apply a custom color for buttons, links, featured images, etc.', 'twentynineteen' ),
 				'section'     => 'colors',
 				'mode'        => 'hue',

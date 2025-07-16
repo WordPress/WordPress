@@ -185,6 +185,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 					array(
 						'section'         => 'colors',
 						'settings'        => 'accent_hue',
+						'label'           => __( 'Custom Color', 'twentytwenty' ),
 						'description'     => __( 'Apply a custom color for links, buttons, featured images.', 'twentytwenty' ),
 						'mode'            => 'hue',
 						'active_callback' => static function () use ( $wp_customize ) {

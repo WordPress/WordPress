@@ -73,6 +73,7 @@ function twentyseventeen_customize_register( $wp_customize ) {
 			$wp_customize,
 			'colorscheme_hue',
 			array(
+				'label'    => __( 'Hue', 'twentyseventeen' ),
 				'mode'     => 'hue',
 				'section'  => 'colors',
 				'priority' => 6,
