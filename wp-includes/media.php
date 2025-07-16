@@ -1158,6 +1158,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 * Filters the list of attachment image attributes.
 		 *
 		 * @since 2.8.0
+		 * @since 6.8.2 The `$attr` array includes `height` and `width` attributes.
 		 *
 		 * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
 		 *                                 See wp_get_attachment_image().
