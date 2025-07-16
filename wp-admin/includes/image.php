@@ -967,7 +967,7 @@ function wp_read_image_metadata( $file ) {
 			}
 
 			// If both user comments and description are present.
-			if ( empty( $meta['caption'] ) && $exif_description && $exif_usercomment ) {
+			if ( empty( $meta['caption'] ) && $exif_usercomment ) {
 				if ( ! empty( $meta['title'] ) && $exif_description === $meta['title'] ) {
 					$caption = $exif_usercomment;
 				} else {
