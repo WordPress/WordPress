@@ -1089,7 +1089,8 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 *
 		 * @param string $context The context. Default 'wp_get_attachment_image'.
 		 */
-		$context        = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
+		$context = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
+
 		$attr           = wp_parse_args( $attr, $default_attr );
 		$attr['width']  = $width;
 		$attr['height'] = $height;
@@ -1158,7 +1159,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 * Filters the list of attachment image attributes.
 		 *
 		 * @since 2.8.0
-		 * @since 6.8.2 The `$attr` array includes `height` and `width` attributes.
+		 * @since 6.8.2 The `$attr` array includes `width` and `height` attributes.
 		 *
 		 * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
 		 *                                 See wp_get_attachment_image().
@@ -1168,13 +1169,14 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 */
 		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment, $size );
 
-		if ( isset( $attr['height'] ) && is_numeric( $attr['height'] ) ) {
-			$height = absint( $attr['height'] );
-		}
 		if ( isset( $attr['width'] ) && is_numeric( $attr['width'] ) ) {
 			$width = absint( $attr['width'] );
 		}
-		unset( $attr['height'], $attr['width'] );
+		if ( isset( $attr['height'] ) && is_numeric( $attr['height'] ) ) {
+			$height = absint( $attr['height'] );
+		}
+		unset( $attr['width'], $attr['height'] );
+
 		$attr     = array_map( 'esc_attr', $attr );
 		$hwstring = image_hwstring( $width, $height );
 		$html     = rtrim( "<img $hwstring" );
