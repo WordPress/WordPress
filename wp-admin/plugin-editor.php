@@ -288,6 +288,7 @@ printf(
 		<ul role="group">
 			<?php wp_print_plugin_file_tree( wp_make_plugin_file_tree( $plugin_editable_files ) ); ?>
 		</ul>
+	</li>
 	</ul>
 </div>
 
