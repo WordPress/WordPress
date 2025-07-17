@@ -1379,6 +1379,11 @@ p.description code {
 	font-style: normal;
 }
 
+p.description code,
+.form-wrap p code {
+	color: #50575e;
+}
+
 .form-wrap .form-field {
 	margin: 1em 0;
 	padding: 0;
