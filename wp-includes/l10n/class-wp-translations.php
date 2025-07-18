@@ -124,7 +124,7 @@ class WP_Translations {
 		}
 
 		// Fall back to the original with English grammar rules.
-		return ( 1 === $count ? $singular : $plural );
+		return ( 1 === (int) $count ? $singular : $plural );
 	}
 
 	/**
