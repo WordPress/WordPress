@@ -78,14 +78,26 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 <div id="page" class="hfeed">
 	<header id="branding">
 			<hgroup>
-			<?php $is_front = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) ); ?>
-				<h1 id="site-title"><span><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" <?php echo $is_front ? 'aria-current="page"' : ''; ?>><?php bloginfo( 'name' ); ?></a></span></h1>
-				<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
+				<?php
+				$is_front         = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) );
+				$site_name        = get_bloginfo( 'name', 'display' );
+				$site_description = get_bloginfo( 'description', 'display' );
+
+				if ( $site_name ) :
+					?>
+					<h1 id="site-title"><span><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" <?php echo $is_front ? 'aria-current="page"' : ''; ?>><?php echo $site_name; ?></a></span></h1>
+					<?php
+				endif;
+
+				if ( $site_description ) :
+					?>
+					<h2 id="site-description"><?php echo $site_description; ?></h2>
+				<?php endif; ?>
 			</hgroup>
 
 			<?php
-				// Check to see if the header image has been removed.
-				$header_image = get_header_image();
+			// Check to see if the header image has been removed.
+			$header_image = get_header_image();
 			if ( $header_image ) :
 				// Compatibility with versions of WordPress prior to 3.4.
 				if ( function_exists( 'get_custom_header' ) ) {

@@ -63,6 +63,10 @@ function twentytwenty_site_logo( $args = array(), $display = true ) {
 		$contents  = sprintf( $args['logo'], $logo, esc_html( $site_title ) );
 		$classname = $args['logo_class'];
 	} else {
+		if ( ! $site_title ) {
+			return '';
+		}
+
 		$contents = sprintf( $args['title'], esc_url( get_home_url( null, '/' ) ), esc_html( $site_title ) );
 		if (
 			( is_front_page() || is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) )

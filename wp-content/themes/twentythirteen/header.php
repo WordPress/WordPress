@@ -29,10 +29,19 @@
 			?>
 		</a>
 		<header id="masthead" class="site-header">
-		<?php $is_front = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) ); ?>
+			<?php
+			$is_front         = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) );
+			$site_name        = get_bloginfo( 'name', 'display' );
+			$site_description = get_bloginfo( 'description', 'display' );
+
+			?>
 			<a class="home-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" <?php echo $is_front ? 'aria-current="page"' : ''; ?>>
-				<h1 class="site-title"><?php bloginfo( 'name' ); ?></h1>
-				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+				<?php if ( $site_name ) : ?>
+					<h1 class="site-title"><?php echo $site_name; ?></h1>
+				<?php endif; ?>
+				<?php if ( $site_description ) : ?>
+					<h2 class="site-description"><?php echo $site_description; ?></h2>
+				<?php endif; ?>
 			</a>
 
 			<div id="navbar" class="navbar">

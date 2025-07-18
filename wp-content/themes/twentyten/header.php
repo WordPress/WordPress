@@ -68,17 +68,29 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 	<div id="header">
 		<div id="masthead">
 			<div id="branding" role="banner">
-				<?php $heading_tag = ( is_home() || is_front_page() ) ? 'h1' : 'div'; ?>
-				<<?php echo $heading_tag; ?> id="site-title">
-					<span>
-					<?php $is_front = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) ); ?>
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" <?php echo $is_front ? 'aria-current="page"' : ''; ?>><?php bloginfo( 'name' ); ?></a>
-					</span>
-				</<?php echo $heading_tag; ?>>
-				<div id="site-description"><?php bloginfo( 'description' ); ?></div>
-
 				<?php
-					// Compatibility with versions of WordPress prior to 3.4.
+				$heading_tag      = ( is_home() || is_front_page() ) ? 'h1' : 'div';
+				$is_front         = ! is_paged() && ( is_front_page() || ( is_home() && ( (int) get_option( 'page_for_posts' ) !== get_queried_object_id() ) ) );
+				$site_name        = get_bloginfo( 'name', 'display' );
+				$site_description = get_bloginfo( 'description', 'display' );
+
+				if ( $site_name ) :
+					?>
+					<<?php echo $heading_tag; ?> id="site-title">
+						<span>
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" <?php echo $is_front ? 'aria-current="page"' : ''; ?>><?php echo $site_name; ?></a>
+						</span>
+					</<?php echo $heading_tag; ?>>
+					<?php
+				endif;
+
+				if ( $site_description ) :
+					?>
+					<div id="site-description"><?php echo $site_description; ?></div>
+					<?php
+				endif;
+
+				// Compatibility with versions of WordPress prior to 3.4.
 				if ( function_exists( 'get_custom_header' ) ) {
 					/*
 					 * We need to figure out what the minimum width should be for our featured image.
