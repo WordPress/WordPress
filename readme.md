@@ -43,7 +43,7 @@
 	<li>Before you update anything, make sure you have backup copies of any files you may have modified such as <code>index.php</code>.</li>
 	<li>Delete your old WordPress files, saving ones you&#8217;ve modified.</li>
 	<li>Upload the new files.</li>
-	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a>.</span></li>
+	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">wp-admin/upgrade.php</a>.</span></li>
 </ol>
 
 <h2>Migrating from other systems</h2>
