@@ -4,7 +4,6 @@
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex,nofollow" />
-	<title>WordPress &#8250; ReadMe</title>
 	<link rel="stylesheet" href="wp-admin/css/install.css?ver=20100228" type="text/css" />
 </head>
 <body>
@@ -44,7 +43,7 @@
 	<li>Before you update anything, make sure you have backup copies of any files you may have modified such as <code>index.php</code>.</li>
 	<li>Delete your old WordPress files, saving ones you&#8217;ve modified.</li>
 	<li>Upload the new files.</li>
-	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a>.</span></li>
+	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">wp-admin/upgrade.php</a>.</span></li>
 </ol>
 
 <h2>Migrating from other systems</h2>
