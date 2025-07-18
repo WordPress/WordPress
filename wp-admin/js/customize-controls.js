@@ -1615,6 +1615,7 @@
 				} else {
 					expand = function() {
 						section._animateChangeExpanded( function() {
+							backBtn.attr( 'tabindex', '0' );
 							backBtn.trigger( 'focus' );
 							content.css( 'top', '' );
 							container.scrollTop( 0 );
@@ -1660,7 +1661,7 @@
 					}
 				}
 				section._animateChangeExpanded( function() {
-
+					backBtn.attr( 'tabindex', '-1' );
 					sectionTitle.trigger( 'focus' );
 					content.css( 'top', '' );
 
@@ -2714,6 +2715,7 @@
 				} else {
 					expand = function() {
 						section._animateChangeExpanded( function() {
+							backBtn.attr( 'tabindex', '0' );
 							backBtn.trigger( 'focus' );
 							content.css( 'top', '' );
 							container.scrollTop( 0 );
@@ -2744,7 +2746,7 @@
 					}
 				}
 				section._animateChangeExpanded( function() {
-
+					backBtn.attr( 'tabindex', '-1' );
 					sectionTitle.trigger( 'focus' );
 					content.css( 'top', '' );
 
@@ -2964,6 +2966,7 @@
 					} );
 				} else {
 					panel._animateChangeExpanded( function() {
+						backBtn.attr( 'tabindex', '0' );
 						backBtn.trigger( 'focus' );
 						accordionSection.css( 'top', '' );
 						container.scrollTop( 0 );
