@@ -4802,7 +4802,7 @@ function wp_user_request_action_description( $action_name ) {
  *
  * @since 4.9.6
  *
- * @param string $request_id ID of the request created via wp_create_user_request().
+ * @param int $request_id ID of the request created via wp_create_user_request().
  * @return true|WP_Error True on success, `WP_Error` on failure.
  */
 function wp_send_user_request( $request_id ) {
@@ -4976,7 +4976,7 @@ function wp_generate_user_request_key( $request_id ) {
  *
  * @since 4.9.6
  *
- * @param string $request_id ID of the request being confirmed.
+ * @param int    $request_id ID of the request being confirmed.
  * @param string $key        Provided key to validate.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
