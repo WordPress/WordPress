@@ -60,6 +60,12 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			break;
 		case 'edit_user':
 		case 'edit_users':
+			// Non-existent users can't edit users, not even themselves.
+			if ( $user_id < 1 ) {
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			// Allow user to edit themselves.
 			if ( 'edit_user' === $cap && isset( $args[0] ) && $user_id === (int) $args[0] ) {
 				break;
