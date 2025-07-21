@@ -690,18 +690,21 @@ function _wp_ajax_add_hierarchical_term() {
 		);
 	}
 
+	$parent_dropdown_args = array(
+		'taxonomy'         => $taxonomy->name,
+		'hide_empty'       => 0,
+		'name'             => 'new' . $taxonomy->name . '_parent',
+		'orderby'          => 'name',
+		'hierarchical'     => 1,
+		'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;',
+	);
+
+	/** This filter is documented in wp-admin/includes/meta-boxes.php */
+	$parent_dropdown_args = apply_filters( 'post_edit_category_parent_dropdown_args', $parent_dropdown_args );
+
 	ob_start();
 
-	wp_dropdown_categories(
-		array(
-			'taxonomy'         => $taxonomy->name,
-			'hide_empty'       => 0,
-			'name'             => 'new' . $taxonomy->name . '_parent',
-			'orderby'          => 'name',
-			'hierarchical'     => 1,
-			'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;',
-		)
-	);
+	wp_dropdown_categories( $parent_dropdown_args );
 
 	$sup = ob_get_clean();
 
