@@ -21,7 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 2.3.0
  *
- * @global string $wp_version       Used to check against the newest WordPress version.
  * @global wpdb   $wpdb             WordPress database abstraction object.
  * @global string $wp_local_package Locale code of the package.
  *
@@ -317,8 +316,6 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
  *
  * @since 2.3.0
  *
- * @global string $wp_version The WordPress version string.
- *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  */
 function wp_update_plugins( $extra_stats = array() ) {
@@ -589,8 +586,6 @@ function wp_update_plugins( $extra_stats = array() ) {
  * if WordPress isn't installing.
  *
  * @since 2.7.0
- *
- * @global string $wp_version The WordPress version string.
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  */
