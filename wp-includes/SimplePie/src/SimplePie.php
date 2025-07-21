@@ -70,7 +70,7 @@ class SimplePie
     /**
      * SimplePie Version
      */
-    public const VERSION = '1.8.0';
+    public const VERSION = '1.8.1';
 
     /**
      * SimplePie Website URL
@@ -1373,7 +1373,7 @@ class SimplePie
         }
         $this->sanitize->strip_htmltags($tags);
         if ($encode !== null) {
-            $this->sanitize->encode_instead_of_strip($tags);
+            $this->sanitize->encode_instead_of_strip($encode);
         }
     }
 
@@ -1756,7 +1756,7 @@ class SimplePie
                     $this->data = [];
                 }
                 // Check if the cache has been updated
-                elseif (isset($this->data['cache_expiration_time']) && $this->data['cache_expiration_time'] > time()) {
+                elseif (!isset($this->data['cache_expiration_time']) || $this->data['cache_expiration_time'] < time()) {
                     // Want to know if we tried to send last-modified and/or etag headers
                     // when requesting this file. (Note that it's up to the file to
                     // support this, but we don't always send the headers either.)
@@ -1831,7 +1831,7 @@ class SimplePie
 
             if (!$locate->is_feed($file)) {
                 $copyStatusCode = $file->status_code;
-                $copyContentType = $file->headers['content-type'];
+                $copyContentType = $file->headers['content-type'] ?? '';
                 try {
                     $microformats = false;
                     if (class_exists('DOMXpath') && function_exists('Mf2\parse')) {
