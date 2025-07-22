@@ -250,7 +250,9 @@ function twentynineteen_content_width() {
 add_action( 'after_setup_theme', 'twentynineteen_content_width', 0 );
 
 /**
- * Enqueue scripts and styles.
+ * Enqueues scripts and styles.
+ *
+ * @since Twenty Nineteen 1.0
  */
 function twentynineteen_scripts() {
 	wp_enqueue_style( 'twentynineteen-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
