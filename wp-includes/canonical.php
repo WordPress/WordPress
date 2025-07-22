@@ -615,6 +615,14 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		unset( $redirect['port'] );
 	}
 
+	// Notice prevention after new parse_url( $redirect_url ) calls
+	if ( ! isset( $redirect['path'] ) ) {
+		$redirect['path'] = '';
+	}
+	if ( ! isset( $redirect['query'] ) ) {
+		$redirect['query'] = '';
+	}
+
 	// Trailing /index.php.
 	$redirect['path'] = preg_replace( '|/' . preg_quote( $wp_rewrite->index, '|' ) . '/*?$|', '/', $redirect['path'] );
 
