@@ -3711,7 +3711,7 @@ function pre_schema_upgrade() {
 	}
 
 	// Multisite schema upgrades.
-	if ( $wp_current_db_version < 25448 && is_multisite() && wp_should_upgrade_global_tables() ) {
+	if ( $wp_current_db_version < 60497 && is_multisite() && wp_should_upgrade_global_tables() ) {
 
 		// Upgrade versions prior to 3.7.
 		if ( $wp_current_db_version < 25179 ) {
@@ -3724,6 +3724,20 @@ function pre_schema_upgrade() {
 			// Convert archived from enum to tinyint.
 			$wpdb->query( "ALTER TABLE $wpdb->blogs CHANGE COLUMN archived archived varchar(1) NOT NULL default '0'" );
 			$wpdb->query( "ALTER TABLE $wpdb->blogs CHANGE COLUMN archived archived tinyint(2) NOT NULL default 0" );
+		}
+
+		// Upgrade versions prior to 6.9
+		if ( $wp_current_db_version < 60497 ) {
+			// Convert ID columns from signed to unsigned
+			$wpdb->query( "ALTER TABLE $wpdb->blogs MODIFY blog_id bigint(20) unsigned NOT NULL auto_increment" );
+			$wpdb->query( "ALTER TABLE $wpdb->blogs MODIFY site_id bigint(20) unsigned NOT NULL default 0" );
+			$wpdb->query( "ALTER TABLE $wpdb->blogmeta MODIFY blog_id bigint(20) unsigned NOT NULL default 0" );
+			$wpdb->query( "ALTER TABLE $wpdb->registration_log MODIFY ID bigint(20) unsigned NOT NULL auto_increment" );
+			$wpdb->query( "ALTER TABLE $wpdb->registration_log MODIFY blog_id bigint(20) unsigned NOT NULL default 0" );
+			$wpdb->query( "ALTER TABLE $wpdb->site MODIFY id bigint(20) unsigned NOT NULL auto_increment" );
+			$wpdb->query( "ALTER TABLE $wpdb->sitemeta MODIFY meta_id bigint(20) unsigned NOT NULL auto_increment" );
+			$wpdb->query( "ALTER TABLE $wpdb->sitemeta MODIFY site_id bigint(20) unsigned NOT NULL default 0" );
+			$wpdb->query( "ALTER TABLE $wpdb->signups MODIFY signup_id bigint(20) unsigned NOT NULL auto_increment" );
 		}
 	}
 
