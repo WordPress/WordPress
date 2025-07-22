@@ -445,6 +445,8 @@ add_action( 'wp_head', 'twentyseventeen_colors_css_wrap' );
 
 /**
  * Enqueues scripts and styles.
+ *
+ * @since Twenty Seventeen 1.0
  */
 function twentyseventeen_scripts() {
 	// Add custom fonts, used in the main stylesheet.
