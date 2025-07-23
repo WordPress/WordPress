@@ -27,10 +27,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
-	 * @global string $post_type Global post type.
-	 * @global string $taxonomy  Global taxonomy.
-	 * @global string $action
-	 * @global object $tax
+	 * @global string      $post_type Global post type.
+	 * @global string      $taxonomy  Global taxonomy.
+	 * @global string      $action
+	 * @global WP_Taxonomy $tax       Global taxonomy object.
 	 *
 	 * @param array $args An associative array of arguments.
 	 */
