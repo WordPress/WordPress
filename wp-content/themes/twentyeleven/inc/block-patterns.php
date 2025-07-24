@@ -11,7 +11,7 @@
  */
 
 /**
- * Registers Block Pattern Category.
+ * Register Block Pattern Category.
  */
 if ( function_exists( 'register_block_pattern_category' ) ) {
 
@@ -22,7 +22,7 @@ if ( function_exists( 'register_block_pattern_category' ) ) {
 }
 
 /**
- * Registers Block Patterns.
+ * Register Block Patterns.
  */
 if ( function_exists( 'register_block_pattern' ) ) {
 
