@@ -41,7 +41,7 @@
  */
 
 /*
- * Set the content width based on the theme's design and stylesheet.
+ * Sets the content width based on the theme's design and stylesheet.
  *
  * Used to set the width of images and content. Should be equal to the width the theme
  * is designed for, generally via the style.css stylesheet.
@@ -324,7 +324,7 @@ if ( ! function_exists( 'twentyten_header_image' ) ) :
 endif; // twentyten_header_image()
 
 /**
- * Show a home link for our wp_nav_menu() fallback, wp_page_menu().
+ * Shows a home link for our wp_nav_menu() fallback, wp_page_menu().
  *
  * To override this in a child theme, remove the filter and optionally add
  * your own function tied to the wp_page_menu_args filter hook.
@@ -342,7 +342,7 @@ function twentyten_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentyten_page_menu_args' );
 
 /**
- * Set the post excerpt length to 40 characters.
+ * Sets the post excerpt length to 40 characters.
  *
  * To override this length in a child theme, remove the filter and add your own
  * function tied to the excerpt_length filter hook.
@@ -392,7 +392,7 @@ function twentyten_auto_excerpt_more( $more ) {
 add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
 
 /**
- * Add a pretty "Continue Reading" link to custom post excerpts.
+ * Adds a pretty "Continue Reading" link to custom post excerpts.
  *
  * To override this link in a child theme, remove the filter and add your own
  * function tied to the get_the_excerpt filter hook.
@@ -528,7 +528,7 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 endif;
 
 /**
- * Register widgetized areas, including two sidebars and four widget-ready columns in the footer.
+ * Registers widgetized areas, including two sidebars and four widget-ready columns in the footer.
  *
  * To override twentyten_widgets_init() in a child theme, remove the action hook and add your own
  * function tied to the init hook.
@@ -697,7 +697,7 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 endif;
 
 /**
- * Retrieve the IDs for images in a gallery.
+ * Retrieves the IDs for images in a gallery.
  *
  * @uses get_post_galleries() First, if available. Falls back to shortcode parsing,
  *                            then as last option uses a get_posts() call.
@@ -760,7 +760,7 @@ function twentyten_widget_tag_cloud_args( $args ) {
 add_filter( 'widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args' );
 
 /**
- * Enqueue scripts and styles for front end.
+ * Enqueues scripts and styles for front end.
  *
  * @since Twenty Ten 2.6
  */
@@ -771,7 +771,7 @@ function twentyten_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
 
 /**
- * Enqueue styles for the block-based editor.
+ * Enqueues styles for the block-based editor.
  *
  * @since Twenty Ten 2.6
  */
@@ -782,7 +782,7 @@ function twentyten_block_editor_styles() {
 add_action( 'enqueue_block_editor_assets', 'twentyten_block_editor_styles' );
 
 /**
- * Register block patterns and pattern categories.
+ * Registers block patterns and pattern categories.
  *
  * @since Twenty Ten 4.3
  */
