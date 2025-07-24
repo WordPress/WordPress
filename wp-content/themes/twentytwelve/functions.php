@@ -135,12 +135,12 @@ function twentytwelve_setup() {
 add_action( 'after_setup_theme', 'twentytwelve_setup' );
 
 /**
- * Add support for a custom header image.
+ * Adds support for a custom header image.
  */
 require get_template_directory() . '/inc/custom-header.php';
 
 /**
- * Register block patterns and pattern categories.
+ * Registers block patterns and pattern categories.
  *
  * @since Twenty Twelve 4.4
  */
@@ -178,7 +178,7 @@ if ( ! function_exists( 'twentytwelve_get_font_url' ) ) :
 endif;
 
 /**
- * Enqueue scripts and styles for front end.
+ * Enqueues scripts and styles for front end.
  *
  * @since Twenty Twelve 1.0
  */
@@ -224,7 +224,7 @@ function twentytwelve_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 
 /**
- * Enqueue styles for the block-based editor.
+ * Enqueues styles for the block-based editor.
  *
  * @since Twenty Twelve 2.6
  */
@@ -238,7 +238,7 @@ function twentytwelve_block_editor_styles() {
 add_action( 'enqueue_block_editor_assets', 'twentytwelve_block_editor_styles' );
 
 /**
- * Add preconnect for Google Fonts.
+ * Adds preconnect for Google Fonts.
  *
  * @since Twenty Twelve 2.2
  * @deprecated Twenty Twelve 3.9 Disabled filter because, by default, fonts are self-hosted.
@@ -264,7 +264,7 @@ function twentytwelve_resource_hints( $urls, $relation_type ) {
 // add_filter( 'wp_resource_hints', 'twentytwelve_resource_hints', 10, 2 );
 
 /**
- * Filter TinyMCE CSS path to include hosted fonts.
+ * Filters TinyMCE CSS path to include hosted fonts.
  *
  * Adds additional stylesheets to the TinyMCE editor if needed.
  *
@@ -293,7 +293,7 @@ function twentytwelve_mce_css( $mce_css ) {
 add_filter( 'mce_css', 'twentytwelve_mce_css' );
 
 /**
- * Filter the page title.
+ * Filters the page title.
  *
  * Creates a nicely formatted and more specific title element text
  * for output in head of document, based on current view.
@@ -331,7 +331,7 @@ function twentytwelve_wp_title( $title, $sep ) {
 add_filter( 'wp_title', 'twentytwelve_wp_title', 10, 2 );
 
 /**
- * Filter the page menu arguments.
+ * Filters the page menu arguments.
  *
  * Makes our wp_nav_menu() fallback -- wp_page_menu() -- show a home link.
  *
@@ -346,7 +346,7 @@ function twentytwelve_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentytwelve_page_menu_args' );
 
 /**
- * Register sidebars.
+ * Registers sidebars.
  *
  * Registers our main widget area and the front page widget areas.
  *
@@ -516,7 +516,7 @@ endif;
 
 if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 	/**
-	 * Set up post entry meta.
+	 * Sets up post entry meta.
 	 *
 	 * Prints HTML with meta information for current post: categories, tags, permalink, author, and date.
 	 *
@@ -639,9 +639,9 @@ function twentytwelve_content_width() {
 add_action( 'template_redirect', 'twentytwelve_content_width' );
 
 /**
- * Register postMessage support.
+ * Registers postMessage support.
  *
- * Add postMessage support for site title and description for the Customizer.
+ * Adds postMessage support for site title and description for the Customizer.
  *
  * @since Twenty Twelve 1.0
  *
@@ -700,7 +700,7 @@ function twentytwelve_customize_partial_blogdescription() {
 }
 
 /**
- * Enqueue JavaScript postMessage handlers for the Customizer.
+ * Enqueues JavaScript postMessage handlers for the Customizer.
  *
  * Binds JS handlers to make the Customizer preview reload changes asynchronously.
  *
