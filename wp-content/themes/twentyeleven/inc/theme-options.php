@@ -24,7 +24,7 @@ function twentyeleven_admin_enqueue_scripts( $hook_suffix ) {
 add_action( 'admin_print_styles-appearance_page_theme_options', 'twentyeleven_admin_enqueue_scripts' );
 
 /**
- * Register the form setting for our twentyeleven_options array.
+ * Registers the form setting for our twentyeleven_options array.
  *
  * This function is attached to the admin_init action hook.
  *
@@ -84,7 +84,7 @@ function twentyeleven_option_page_capability( $capability ) {
 add_filter( 'option_page_capability_twentyeleven_options', 'twentyeleven_option_page_capability' );
 
 /**
- * Add a theme options page to the admin menu, including some help documentation.
+ * Adds a theme options page to the admin menu, including some help documentation.
  *
  * This function is attached to the admin_menu action hook.
  *
@@ -409,7 +409,7 @@ function twentyeleven_theme_options_validate( $input ) {
 }
 
 /**
- * Enqueue the styles for the current color scheme.
+ * Enqueues the styles for the current color scheme.
  *
  * @since Twenty Eleven 1.0
  */
@@ -433,7 +433,7 @@ function twentyeleven_enqueue_color_scheme() {
 add_action( 'wp_enqueue_scripts', 'twentyeleven_enqueue_color_scheme' );
 
 /**
- * Add a style block to the theme for the current link color.
+ * Adds a style block to the theme for the current link color.
  *
  * This function is attached to the wp_head action hook.
  *
@@ -482,7 +482,7 @@ function twentyeleven_print_link_color_style() {
 add_action( 'wp_head', 'twentyeleven_print_link_color_style' );
 
 /**
- * Add Twenty Eleven layout classes to the array of body classes.
+ * Adds Twenty Eleven layout classes to the array of body classes.
  *
  * @since Twenty Eleven 1.0
  *

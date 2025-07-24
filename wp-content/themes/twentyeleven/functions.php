@@ -298,7 +298,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 endif; // twentyeleven_setup()
 
 /**
- * Enqueue scripts and styles for front end.
+ * Enqueues scripts and styles for front end.
  *
  * @since Twenty Eleven 2.9
  */
@@ -309,7 +309,7 @@ function twentyeleven_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'twentyeleven_scripts_styles' );
 
 /**
- * Enqueue styles for the block-based editor.
+ * Enqueues styles for the block-based editor.
  *
  * @since Twenty Eleven 2.9
  */
@@ -473,7 +473,7 @@ if ( ! function_exists( 'twentyeleven_header_image' ) ) :
 endif; // twentyeleven_header_image()
 
 /**
- * Set the post excerpt length to 40 words.
+ * Sets the post excerpt length to 40 words.
  *
  * To override this length in a child theme, remove
  * the filter and add your own function tied to
@@ -524,7 +524,7 @@ function twentyeleven_auto_excerpt_more( $more ) {
 add_filter( 'excerpt_more', 'twentyeleven_auto_excerpt_more' );
 
 /**
- * Add a pretty "Continue Reading" link to custom post excerpts.
+ * Adds a pretty "Continue Reading" link to custom post excerpts.
  *
  * To override this link in a child theme, remove the filter and add your own
  * function tied to the get_the_excerpt filter hook.
@@ -543,7 +543,7 @@ function twentyeleven_custom_excerpt_more( $output ) {
 add_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
 
 /**
- * Show a home link for the wp_nav_menu() fallback, wp_page_menu().
+ * Shows a home link for the wp_nav_menu() fallback, wp_page_menu().
  *
  * @since Twenty Eleven 1.0
  *
@@ -559,7 +559,7 @@ function twentyeleven_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentyeleven_page_menu_args' );
 
 /**
- * Register sidebars and widgetized areas.
+ * Registers sidebars and widgetized areas.
  *
  * Also register the default Ephemera widget.
  *
@@ -632,7 +632,7 @@ add_action( 'widgets_init', 'twentyeleven_widgets_init' );
 
 if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
 	/**
-	 * Display navigation to next/previous pages when applicable.
+	 * Displays navigation to next/previous pages when applicable.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
@@ -851,7 +851,7 @@ if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
 endif;
 
 /**
- * Add two classes to the array of body classes.
+ * Adds two classes to the array of body classes.
  *
  * The first is if the site has only had one author with published posts.
  * The second is if a singular post being displayed
@@ -876,7 +876,7 @@ function twentyeleven_body_classes( $classes ) {
 add_filter( 'body_class', 'twentyeleven_body_classes' );
 
 /**
- * Retrieve the IDs for images in a gallery.
+ * Retrieves the IDs for images in a gallery.
  *
  * @uses get_post_galleries() First, if available. Falls back to shortcode parsing,
  *                            then as last option uses a get_posts() call.

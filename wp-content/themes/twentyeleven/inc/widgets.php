@@ -181,7 +181,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Set up the widget form.
+	 * Sets up the widget form.
 	 *
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
 	 *
