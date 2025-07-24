@@ -41,7 +41,7 @@
  */
 
 /*
- * Sets the content width based on the theme's design and stylesheet.
+ * Set the content width based on the theme's design and stylesheet.
  *
  * Used to set the width of images and content. Should be equal to the width the theme
  * is designed for, generally via the style.css stylesheet.
@@ -55,7 +55,7 @@ add_action( 'after_setup_theme', 'twentyten_setup' );
 
 if ( ! function_exists( 'twentyten_setup' ) ) :
 	/**
-	 * Set up theme defaults and registers support for various WordPress features.
+	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
 	 * Note that this function is hooked into the after_setup_theme hook, which runs
 	 * before the init hook. The init hook is too late for some features, such as indicating
@@ -267,7 +267,7 @@ endif;
 
 if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 	/**
-	 * Style the header image displayed on the Appearance > Header admin panel.
+	 * Styles the header image displayed on the Appearance > Header admin panel.
 	 *
 	 * Referenced via add_custom_image_header() in twentyten_setup().
 	 *
@@ -293,7 +293,7 @@ endif;
 
 if ( ! function_exists( 'twentyten_header_image' ) ) :
 	/**
-	 * Custom header image markup displayed.
+	 * Displays the custom header image markup.
 	 *
 	 * @since Twenty Ten 4.0
 	 */
@@ -359,7 +359,7 @@ add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
 if ( ! function_exists( 'twentyten_continue_reading_link' ) ) :
 	/**
-	 * Return a "Continue Reading" link for excerpts.
+	 * Returns a "Continue Reading" link for excerpts.
 	 *
 	 * @since Twenty Ten 1.0
 	 *
@@ -371,7 +371,7 @@ if ( ! function_exists( 'twentyten_continue_reading_link' ) ) :
 endif;
 
 /**
- * Replace "[...]" with an ellipsis and twentyten_continue_reading_link().
+ * Replaces "[...]" with an ellipsis and twentyten_continue_reading_link().
  *
  * "[...]" is appended to automatically generated excerpts.
  *
@@ -411,7 +411,7 @@ function twentyten_custom_excerpt_more( $output ) {
 add_filter( 'get_the_excerpt', 'twentyten_custom_excerpt_more' );
 
 /**
- * Remove inline styles printed when the gallery shortcode is used.
+ * Removes inline styles printed when the gallery shortcode is used.
  *
  * Galleries are styled by the theme in Twenty Ten's style.css. This is just
  * a simple filter call that tells WordPress to not use the default styles.
@@ -620,7 +620,7 @@ function twentyten_widgets_init() {
 add_action( 'widgets_init', 'twentyten_widgets_init' );
 
 /**
- * Remove the default styles that are packaged with the Recent Comments widget.
+ * Removes the default styles that are packaged with the Recent Comments widget.
  *
  * To override this in a child theme, remove the filter and optionally add your own
  * function tied to the widgets_init action hook.
@@ -638,7 +638,7 @@ add_action( 'widgets_init', 'twentyten_remove_recent_comments_style' );
 
 if ( ! function_exists( 'twentyten_posted_on' ) ) :
 	/**
-	 * Print HTML with meta information for the current post-date/time and author.
+	 * Prints HTML with meta information for the current post-date/time and author.
 	 *
 	 * @since Twenty Ten 1.0
 	 */
@@ -666,7 +666,7 @@ endif;
 
 if ( ! function_exists( 'twentyten_posted_in' ) ) :
 	/**
-	 * Print HTML with meta information for the current post (category, tags and permalink).
+	 * Prints HTML with meta information for the current post (category, tags and permalink).
 	 *
 	 * @since Twenty Ten 1.0
 	 */
@@ -794,7 +794,7 @@ add_action( 'init', 'twentyten_register_block_patterns' );
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
