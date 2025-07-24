@@ -3771,7 +3771,7 @@ function _wp_customize_loader_settings() {
 function wp_customize_url( $stylesheet = '' ) {
 	$url = admin_url( 'customize.php' );
 	if ( $stylesheet ) {
-		$url .= '?theme=' . urlencode( $stylesheet );
+		$url = add_query_arg( 'theme', urlencode( $stylesheet ), $url );
 	}
 	return esc_url( $url );
 }
