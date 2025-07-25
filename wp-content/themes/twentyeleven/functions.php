@@ -52,7 +52,7 @@ add_action( 'after_setup_theme', 'twentyeleven_setup' );
 
 if ( ! function_exists( 'twentyeleven_setup' ) ) :
 	/**
-	 * Set up theme defaults and registers support for various WordPress features.
+	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
 	 * Note that this function is hooked into the after_setup_theme hook, which runs
 	 * before the init hook. The init hook is too late for some features, such as indicating
@@ -411,7 +411,7 @@ endif; // twentyeleven_admin_header_style()
 
 if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 	/**
-	 * Custom header image markup displayed on the Appearance > Header admin panel.
+	 * Displays custom header image markup on the Appearance > Header admin panel.
 	 *
 	 * Referenced via add_theme_support('custom-header') in twentyeleven_setup().
 	 *
@@ -442,7 +442,7 @@ endif; // twentyeleven_admin_header_image()
 
 if ( ! function_exists( 'twentyeleven_header_image' ) ) :
 	/**
-	 * Custom header image markup displayed.
+	 * Displays custom header image markup.
 	 *
 	 * @since Twenty Eleven 4.5
 	 */
@@ -491,7 +491,7 @@ add_filter( 'excerpt_length', 'twentyeleven_excerpt_length' );
 
 if ( ! function_exists( 'twentyeleven_continue_reading_link' ) ) :
 	/**
-	 * Return a "Continue Reading" link for excerpts
+	 * Returns a "Continue Reading" link for excerpts.
 	 *
 	 * @since Twenty Eleven 1.0
 	 *
@@ -503,7 +503,7 @@ if ( ! function_exists( 'twentyeleven_continue_reading_link' ) ) :
 endif; // twentyeleven_continue_reading_link()
 
 /**
- * Replace "[...]" in the Read More link with an ellipsis.
+ * Replaces "[...]" in the Read More link with an ellipsis.
  *
  * The "[...]" is appended to automatically generated excerpts.
  *
@@ -654,7 +654,7 @@ if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
 endif; // twentyeleven_content_nav()
 
 /**
- * Return the first link from the post content. If none found, the
+ * Returns the first link from the post content. If none found, the
  * post permalink is used as a fallback.
  *
  * @since Twenty Eleven 1.0
@@ -676,7 +676,7 @@ function twentyeleven_get_first_url() {
 }
 
 /**
- * Return the URL for the first link found in the post content.
+ * Returns the URL for the first link found in the post content.
  *
  * @since Twenty Eleven 1.0
  *
@@ -691,7 +691,7 @@ function twentyeleven_url_grabber() {
 }
 
 /**
- * Count the number of footer sidebars to enable dynamic classes for the footer.
+ * Counts the number of footer sidebars to enable dynamic classes for the footer.
  *
  * @since Twenty Eleven 1.0
  */
@@ -828,7 +828,7 @@ endif; // twentyeleven_comment()
 
 if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
 	/**
-	 * Print HTML with meta information for the current post-date/time and author.
+	 * Prints HTML with meta information for the current post-date/time and author.
 	 *
 	 * Create your own twentyeleven_posted_on to override in a child theme
 	 *
@@ -940,7 +940,7 @@ add_filter( 'widget_tag_cloud_args', 'twentyeleven_widget_tag_cloud_args' );
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
@@ -957,7 +957,7 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 endif;
 
 /**
- * Include a skip to content link at the top of the page so that users can bypass the menu.
+ * Includes a skip to content link at the top of the page so that users can bypass the menu.
  *
  * @since Twenty Eleven 3.4
  */
