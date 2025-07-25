@@ -1986,20 +1986,42 @@ class WP_Posts_List_Table extends WP_List_Table {
 						<label class="inline-edit-status alignleft">
 							<span class="title"><?php _e( 'Status' ); ?></span>
 							<select name="_status">
-								<?php if ( $bulk ) : ?>
-									<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
-								<?php endif; // $bulk ?>
+								<?php
+								$inline_edit_statuses = array();
+								if ( $bulk ) {
+									$inline_edit_statuses['-1'] = __( '&mdash; No Change &mdash;' );
+								}
+								// Contributors only get "Unpublished" and "Pending Review".
+								if ( $can_publish ) {
+									$inline_edit_statuses['publish'] = __( 'Published' );
+									$inline_edit_statuses['future']  = __( 'Scheduled' );
+									// There is already a checkbox for Private in Single Post Quick Edit. See #63612.
+									if ( $bulk ) {
+										$inline_edit_statuses['private'] = __( 'Private' );
+									}
+								}
 
-								<?php if ( $can_publish ) : // Contributors only get "Unpublished" and "Pending Review". ?>
-									<option value="publish"><?php _e( 'Published' ); ?></option>
-									<option value="future"><?php _e( 'Scheduled' ); ?></option>
-									<?php if ( $bulk ) : ?>
-										<option value="private"><?php _e( 'Private' ); ?></option>
-									<?php endif; // $bulk ?>
-								<?php endif; ?>
+								$inline_edit_statuses['pending'] = __( 'Pending Review' );
+								$inline_edit_statuses['draft']   = __( 'Draft' );
 
-								<option value="pending"><?php _e( 'Pending Review' ); ?></option>
-								<option value="draft"><?php _e( 'Draft' ); ?></option>
+								/**
+								 * Filters the statuses available in the Quick Edit and Bulk Edit UI.
+								 *
+								 * @since 6.9.0
+								 *
+								 * @param array<string,string> $inline_edit_statuses An array of statuses available in the Quick Edit UI.
+								 * @param string               $post_type            The post type slug.
+								 * @param bool                 $bulk                 A flag to denote if it's a bulk action.
+								 * @param bool                 $can_publish          A flag to denote if the user can publish posts.
+								 */
+								$inline_edit_statuses = apply_filters( 'quick_edit_statuses', $inline_edit_statuses, $screen->post_type, $bulk, $can_publish );
+
+								foreach ( $inline_edit_statuses as $inline_status_value => $inline_status_text ) :
+									?>
+									<option value="<?php echo esc_attr( $inline_status_value ); ?>"><?php echo esc_attr( $inline_status_text ); ?></option>
+									<?php
+								endforeach;
+								?>
 							</select>
 						</label>
 
