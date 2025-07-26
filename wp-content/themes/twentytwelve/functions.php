@@ -567,7 +567,7 @@ if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 endif;
 
 /**
- * Extend the default WordPress body classes.
+ * Extends the default WordPress body classes.
  *
  * Extends the default WordPress body class to denote:
  * 1. Using a full-width layout, when no active widgets in the sidebar
@@ -623,7 +623,7 @@ function twentytwelve_body_class( $classes ) {
 add_filter( 'body_class', 'twentytwelve_body_class' );
 
 /**
- * Adjust content width in certain contexts.
+ * Adjusts content width in certain contexts.
  *
  * Adjusts content_width value for full-width and single image attachment
  * templates, and when there are no active widgets in the sidebar.
@@ -674,7 +674,7 @@ function twentytwelve_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'twentytwelve_customize_register' );
 
 /**
- * Render the site title for the selective refresh partial.
+ * Renders the site title for the selective refresh partial.
  *
  * @since Twenty Twelve 2.0
  *
@@ -687,7 +687,7 @@ function twentytwelve_customize_partial_blogname() {
 }
 
 /**
- * Render the site tagline for the selective refresh partial.
+ * Renders the site tagline for the selective refresh partial.
  *
  * @since Twenty Twelve 2.0
  *
@@ -732,7 +732,7 @@ add_filter( 'widget_tag_cloud_args', 'twentytwelve_widget_tag_cloud_args' );
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *
