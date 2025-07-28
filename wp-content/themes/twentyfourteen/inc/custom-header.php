@@ -1,6 +1,6 @@
 <?php
 /**
- * Implement Custom Header functionality for Twenty Fourteen
+ * Implements Custom Header functionality for Twenty Fourteen
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
@@ -8,7 +8,7 @@
  */
 
 /**
- * Set up the WordPress core custom header settings.
+ * Sets up the WordPress core custom header settings.
  *
  * @since Twenty Fourteen 1.0
  *
@@ -55,7 +55,7 @@ add_action( 'after_setup_theme', 'twentyfourteen_custom_header_setup' );
 
 if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 	/**
-	 * Styles the header image and text displayed on the blog
+	 * Styles the header image and text displayed on the blog.
 	 *
 	 * @see twentyfourteen_custom_header_setup().
 	 */
@@ -95,7 +95,7 @@ endif; // twentyfourteen_header_style()
 
 if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 	/**
-	 * Style the header image displayed on the Appearance > Header screen.
+	 * Styles the header image displayed on the Appearance > Header screen.
 	 *
 	 * @see twentyfourteen_custom_header_setup()
 	 *
@@ -133,7 +133,7 @@ endif; // twentyfourteen_admin_header_style()
 
 if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 	/**
-	 * Create the custom header image markup displayed on the Appearance > Header screen.
+	 * Creates the custom header image markup displayed on the Appearance > Header screen.
 	 *
 	 * @see twentyfourteen_custom_header_setup()
 	 *
@@ -154,7 +154,7 @@ endif; // twentyfourteen_admin_header_image()
 
 if ( ! function_exists( 'twentyfourteen_header_image' ) ) :
 	/**
-	 * Create the custom header image markup displayed.
+	 * Creates the custom header image markup displayed.
 	 *
 	 * @see twentyfourteen_custom_header_setup()
 	 *

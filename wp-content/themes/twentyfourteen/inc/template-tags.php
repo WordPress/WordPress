@@ -9,7 +9,7 @@
 
 if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
 	/**
-	 * Display navigation to next/previous set of posts when applicable.
+	 * Displays navigation to next/previous set of posts when applicable.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
@@ -74,7 +74,7 @@ endif;
 
 if ( ! function_exists( 'twentyfourteen_post_nav' ) ) :
 	/**
-	 * Display navigation to next/previous post when applicable.
+	 * Displays navigation to next/previous post when applicable.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 */
@@ -112,7 +112,7 @@ endif;
 
 if ( ! function_exists( 'twentyfourteen_posted_on' ) ) :
 	/**
-	 * Print HTML with meta information for the current post-date/time and author.
+	 * Prints HTML with meta information for the current post-date/time and author.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 */
@@ -134,7 +134,7 @@ if ( ! function_exists( 'twentyfourteen_posted_on' ) ) :
 endif;
 
 /**
- * Find out if blog has more than one category.
+ * Finds out if blog has more than one category.
  *
  * @since Twenty Fourteen 1.0
  *
@@ -166,7 +166,7 @@ function twentyfourteen_categorized_blog() {
 }
 
 /**
- * Flush out the transients used in twentyfourteen_categorized_blog.
+ * Flushes out the transients used in twentyfourteen_categorized_blog.
  *
  * @since Twenty Fourteen 1.0
  */
@@ -179,7 +179,7 @@ add_action( 'save_post', 'twentyfourteen_category_transient_flusher' );
 
 if ( ! function_exists( 'twentyfourteen_post_thumbnail' ) ) :
 	/**
-	 * Display an optional post thumbnail.
+	 * Displays an optional post thumbnail.
 	 *
 	 * Wraps the post thumbnail in an anchor element on index
 	 * views, or a div element when on single views.
@@ -246,7 +246,7 @@ endif;
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *

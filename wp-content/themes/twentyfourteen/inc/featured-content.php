@@ -28,7 +28,7 @@ class Featured_Content {
 	public static $max_posts = 15;
 
 	/**
-	 * Instantiate.
+	 * Instantiates.
 	 *
 	 * All custom functionality will be hooked into the "init" action.
 	 *
@@ -39,7 +39,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Conditionally hook into WordPress.
+	 * Conditionally hooks into WordPress.
 	 *
 	 * Theme must declare that they support this module by adding
 	 * add_theme_support( 'featured-content' ); during after_setup_theme.
@@ -89,7 +89,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide "featured" tag from the front end.
+	 * Hides "featured" tag from the front end.
 	 *
 	 * Has to run on wp_loaded so that the preview filters of the Customizer
 	 * have a chance to alter the value.
@@ -104,7 +104,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Get featured posts.
+	 * Gets featured posts.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
@@ -129,7 +129,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Get featured post IDs
+	 * Gets featured post IDs.
 	 *
 	 * This function will return the an array containing the
 	 * post IDs of all featured posts.
@@ -179,7 +179,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Return an array with IDs of posts marked as sticky.
+	 * Returns an array with IDs of posts marked as sticky.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
@@ -190,7 +190,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Delete featured content IDs transient.
+	 * Deletes featured content IDs transient.
 	 *
 	 * Hooks in the "save_post" action.
 	 *
@@ -203,9 +203,9 @@ class Featured_Content {
 	}
 
 	/**
-	 * Exclude featured posts from the home page blog query.
+	 * Excludes featured posts from the home page blog query.
 	 *
-	 * Filter the home page posts, and remove any featured post ID's from it.
+	 * Filters the home page posts, and removes any featured post ID's from it.
 	 * Hooked onto the 'pre_get_posts' action, this changes the parameters of
 	 * the query before it gets any posts.
 	 *
@@ -245,7 +245,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Reset tag option when the saved tag is deleted.
+	 * Resets tag option when the saved tag is deleted.
 	 *
 	 * It's important to mention that the transient needs to be deleted,
 	 * too. While it may not be obvious by looking at the function alone,
@@ -272,7 +272,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide featured tag from displaying when global terms are queried from the front end.
+	 * Hides featured tag from displaying when global terms are queried from the front end.
 	 *
 	 * Hooks into the "get_terms" filter.
 	 *
@@ -318,7 +318,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide featured tag from display when terms associated with a post object
+	 * Hides featured tag from display when terms associated with a post object
 	 * are queried from the front end.
 	 *
 	 * Hooks into the "get_the_terms" filter.
@@ -360,7 +360,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Register custom setting on the Settings -> Reading screen.
+	 * Registers custom setting on the Settings -> Reading screen.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 */
@@ -369,7 +369,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Add settings to the Customizer.
+	 * Adds settings to the Customizer.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
@@ -430,7 +430,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Enqueue the tag suggestion script.
+	 * Enqueues the tag suggestion script.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 */
@@ -439,9 +439,9 @@ class Featured_Content {
 	}
 
 	/**
-	 * Get featured content settings.
+	 * Gets featured content settings.
 	 *
-	 * Get all settings recognized by this module. This function
+	 * Gets all settings recognized by this module. This function
 	 * will return all settings whether or not they have been stored
 	 * in the database yet. This ensures that all keys are available
 	 * at all times.
@@ -475,9 +475,9 @@ class Featured_Content {
 	}
 
 	/**
-	 * Validate featured content settings.
+	 * Validates featured content settings.
 	 *
-	 * Make sure that all user supplied content is in an expected
+	 * Makes sure that all user supplied content is in an expected
 	 * format before saving to the database. This function will also
 	 * delete the transient set in Featured_Content::get_featured_content().
 	 *
