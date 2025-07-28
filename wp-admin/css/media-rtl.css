@@ -902,6 +902,15 @@ border color while dragging a file over the uploader drop area */
 	display: block;
 }
 
+.imgedit-panel-active .imgedit-group-controls > .imgedit-crop-apply {
+	display: flex;
+}
+
+.imgedit-crop-apply {
+	gap: 4px;
+	flex-wrap: wrap;
+}
+
 .wp_attachment_holder .imgedit-wrap .image-editor {
 	float: left;
 	width: 250px;
