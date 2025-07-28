@@ -1011,6 +1011,12 @@ themes.view.Preview = themes.view.Details.extend({
 			this.undelegateEvents();
 			this.close();
 		}
+
+		// Return if Ctrl + Shift or Shift key pressed
+		if ( event.shiftKey || ( event.ctrlKey && event.shiftKey ) ) {
+			return;
+		}
+
 		// The right arrow key, next theme.
 		if ( event.keyCode === 39 ) {
 			_.once( this.nextTheme() );
@@ -1112,6 +1118,11 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 			// Bail if the filesystem credentials dialog is shown.
 			if ( $( '#request-filesystem-credentials-dialog' ).is( ':visible' ) ) {
+				return;
+			}
+
+			// Return if Ctrl + Shift or Shift key pressed
+			if ( event.shiftKey || ( event.ctrlKey && event.shiftKey ) ) {
 				return;
 			}
 

@@ -380,6 +380,11 @@ EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAtta
 			return;
 		}
 
+		// Return if Ctrl + Shift or Shift key pressed
+		if ( event.shiftKey || ( event.ctrlKey && event.shiftKey ) ) {
+			return;
+		}
+
 		// The right arrow key.
 		if ( 39 === event.keyCode ) {
 			this.nextMediaItem();
