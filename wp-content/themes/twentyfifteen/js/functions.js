@@ -92,7 +92,7 @@
 	} )();
 
 	/**
-	 * Add or remove ARIA attributes.
+	 * Adds or removes ARIA attributes.
 	 *
 	 * Uses jQuery's width() function to determine the size of the window and add
 	 * the default ARIA attributes for the menu toggle if it's visible.

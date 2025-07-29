@@ -11,7 +11,7 @@
 
 if ( ! function_exists( 'twentyfifteen_comment_nav' ) ) :
 	/**
-	 * Display navigation to next/previous comments when applicable.
+	 * Displays navigation to next/previous comments when applicable.
 	 *
 	 * @since Twenty Fifteen 1.0
 	 */
@@ -150,7 +150,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 endif;
 
 /**
- * Determine whether blog/site has more than one category.
+ * Determines whether blog/site has more than one category.
  *
  * @since Twenty Fifteen 1.0
  *
@@ -186,7 +186,7 @@ function twentyfifteen_categorized_blog() {
 }
 
 /**
- * Flush out the transients used in {@see twentyfifteen_categorized_blog()}.
+ * Flushes out the transients used in {@see twentyfifteen_categorized_blog()}.
  *
  * @since Twenty Fifteen 1.0
  */
@@ -199,7 +199,7 @@ add_action( 'save_post', 'twentyfifteen_category_transient_flusher' );
 
 if ( ! function_exists( 'twentyfifteen_post_thumbnail' ) ) :
 	/**
-	 * Display an optional post thumbnail.
+	 * Displays an optional post thumbnail.
 	 *
 	 * Wraps the post thumbnail in an anchor element on index views, or a div
 	 * element when on single views.
@@ -233,7 +233,7 @@ endif;
 
 if ( ! function_exists( 'twentyfifteen_get_link_url' ) ) :
 	/**
-	 * Return the post URL.
+	 * Returns the post URL.
 	 *
 	 * Falls back to the post permalink if no URL is found in the post.
 	 *
@@ -288,7 +288,7 @@ endif;
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *

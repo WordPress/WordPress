@@ -8,7 +8,7 @@
  */
 
 /**
- * Set up the WordPress core custom header feature.
+ * Sets up the WordPress core custom header feature.
  *
  * @uses twentyfifteen_header_style()
  */
@@ -47,7 +47,7 @@ function twentyfifteen_custom_header_setup() {
 add_action( 'after_setup_theme', 'twentyfifteen_custom_header_setup' );
 
 /**
- * Convert HEX to RGB.
+ * Converts HEX to RGB.
  *
  * @since Twenty Fifteen 1.0
  *

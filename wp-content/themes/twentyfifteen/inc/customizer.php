@@ -8,7 +8,7 @@
  */
 
 /**
- * Add postMessage support for site title and description for the Customizer.
+ * Adds postMessage support for site title and description for the Customizer.
  *
  * @since Twenty Fifteen 1.0
  *
@@ -113,7 +113,7 @@ function twentyfifteen_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
 
 /**
- * Render the site title for the selective refresh partial.
+ * Renders the site title for the selective refresh partial.
  *
  * @since Twenty Fifteen 1.5
  *
@@ -126,7 +126,7 @@ function twentyfifteen_customize_partial_blogname() {
 }
 
 /**
- * Render the site tagline for the selective refresh partial.
+ * Renders the site tagline for the selective refresh partial.
  *
  * @since Twenty Fifteen 1.5
  *
@@ -139,7 +139,7 @@ function twentyfifteen_customize_partial_blogdescription() {
 }
 
 /**
- * Register color schemes for Twenty Fifteen.
+ * Registers color schemes for Twenty Fifteen.
  *
  * Can be filtered with {@see 'twentyfifteen_color_schemes'}.
  *
@@ -252,7 +252,7 @@ function twentyfifteen_get_color_schemes() {
 
 if ( ! function_exists( 'twentyfifteen_get_color_scheme' ) ) :
 	/**
-	 * Get the current Twenty Fifteen color scheme.
+	 * Gets the current Twenty Fifteen color scheme.
 	 *
 	 * @since Twenty Fifteen 1.0
 	 *
@@ -770,7 +770,7 @@ CSS;
 }
 
 /**
- * Output an Underscore template for generating CSS for the color scheme.
+ * Outputs an Underscore template for generating CSS for the color scheme.
  *
  * The template generates the css dynamically for instant display in the Customizer
  * preview.
