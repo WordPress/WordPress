@@ -2161,8 +2161,9 @@ final class WP_Customize_Manager {
 				'keepAliveSend'    => 1000,
 			),
 			'theme'             => array(
-				'stylesheet' => $this->get_stylesheet(),
-				'active'     => $this->is_theme_active(),
+				'stylesheet'   => $this->get_stylesheet(),
+				'active'       => $this->is_theme_active(),
+				'isBlockTheme' => wp_is_block_theme(),
 			),
 			'url'               => array(
 				'self'          => $self_url,

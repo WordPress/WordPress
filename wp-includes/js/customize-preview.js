@@ -635,11 +635,28 @@
 		/**
 		 * Preview changes to custom css.
 		 *
-		 * @param {string} value Custom CSS..
+		 * @param {string} value Custom CSS.
 		 * @return {void}
 		 */
 		custom_css: function( value ) {
-			$( '#wp-custom-css' ).text( value );
+			var style;
+			if ( api.settings.theme.isBlockTheme ) {
+				style = $( 'style#global-styles-inline-css' );
+
+				// Forbid milestone comments from appearing in Custom CSS which would break live preview.
+				value = value.replace( /\/\*(BEGIN|END)_CUSTOMIZER_CUSTOM_CSS\*\//g, '' );
+
+				var textContent = style.text().replace(
+					/(\/\*BEGIN_CUSTOMIZER_CUSTOM_CSS\*\/)((?:.|\s)*?)(\/\*END_CUSTOMIZER_CUSTOM_CSS\*\/)/,
+					function ( match, beforeComment, oldValue, afterComment ) {
+						return beforeComment + '\n' + value + '\n' + afterComment;
+					}
+				);
+				style.text( textContent );
+			} else {
+				style = $( 'style#wp-custom-css' );
+				style.text( value );
+			}
 		},
 
 		/**
