@@ -1,7 +1,0 @@
-ol,ul{
-  box-sizing:border-box;
-}
-
-:root :where(.wp-block-list.has-background){
-  padding:1.25em 2.375em;
-}

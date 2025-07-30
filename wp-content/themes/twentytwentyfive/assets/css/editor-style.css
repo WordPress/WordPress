@@ -1,8 +1,0 @@
-/*
- * Link styles
- * https://github.com/WordPress/gutenberg/issues/42319
- */
-a {
-	text-decoration-thickness: 1px !important;
-	text-underline-offset: .1em;
-}
