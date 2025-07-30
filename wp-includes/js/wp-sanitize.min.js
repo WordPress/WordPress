@@ -1,2 +1,0 @@
-/*! This file is auto-generated */
-window.wp=window.wp||{},wp.sanitize={stripTags:function(t){var e=(t=t||"").replace(/<!--[\s\S]*?(-->|$)/g,"").replace(/<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/gi,"").replace(/<\/?[a-z][\s\S]*?(>|$)/gi,"");return e!==t?wp.sanitize.stripTags(e):e},stripTagsAndEncodeText:function(t){var t=wp.sanitize.stripTags(t),e=document.createElement("textarea");try{e.textContent=t,t=wp.sanitize.stripTags(e.value)}catch(t){}return t}};

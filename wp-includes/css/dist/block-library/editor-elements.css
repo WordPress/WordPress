@@ -1,6 +1,0 @@
-.wp-element-button{
-  cursor:revert;
-}
-.wp-element-button[role=textbox]{
-  cursor:text;
-}

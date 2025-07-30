@@ -1,2 +1,0 @@
-/*! This file is auto-generated */
-jQuery(function(n){var e=n("#language"),a=n("#language-continue");n("body").hasClass("language-chooser")&&(e.trigger("focus").on("change",function(){var n=e.children("option:selected");a.attr({value:n.data("continue"),lang:n.attr("lang")})}),n("form").on("submit",function(){e.children("option:selected").data("installed")||n(this).find(".step .spinner").css("visibility","visible")}))});

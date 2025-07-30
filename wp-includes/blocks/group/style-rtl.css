@@ -1,7 +1,0 @@
-.wp-block-group{
-  box-sizing:border-box;
-}
-
-:where(.wp-block-group.wp-block-group-is-layout-constrained){
-  position:relative;
-}
