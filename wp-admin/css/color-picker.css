@@ -8,7 +8,7 @@
 	display: none;
 }
 
-/* Needs higher specificiity. */
+/* Needs higher specificity to override `.wp-core-ui .button`. */
 .wp-picker-container .wp-color-result.button {
 	min-height: 30px;
 	margin: 0 6px 6px 0;
