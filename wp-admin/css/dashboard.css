@@ -442,6 +442,7 @@
 
 #dashboard_right_now .search-engines-info:before {
 	content: "\f348";
+	color: #d63638;
 }
 
 /* Dashboard WordPress events */

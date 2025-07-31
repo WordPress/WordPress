@@ -2688,6 +2688,49 @@ class WP_Site_Health {
 	}
 
 	/**
+	 * Tests whether search engine indexing is enabled.
+	 *
+	 * Surfaces as “good” if `blog_public === 1`, or “recommended” if `blog_public === 0`.
+	 *
+	 * @since 6.9
+	 *
+	 * @return array The test results.
+	 */
+	public function get_test_search_engine_visibility() {
+		$result = array(
+			'label'       => __( 'Search engine indexing is enabled.', 'default' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Privacy', 'default' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'Search engines can crawl and index your site. No action needed.', 'default' )
+			),
+			'actions'     => sprintf(
+				'<p><a href="%1$s">%2$s</a></p>',
+				esc_url( admin_url( 'options-reading.php#blog_public' ) ),
+				__( 'Review your visibility settings', 'default' )
+			),
+			'test'        => 'search_engine_visibility',
+		);
+
+		// If indexing is discouraged, flip to “recommended”:
+		if ( ! get_option( 'blog_public' ) ) {
+			$result['status']         = 'recommended';
+			$result['label']          = __( 'Search engines are discouraged from indexing this site.', 'default' );
+			$result['badge']['color'] = 'blue';
+			$result['description']    = sprintf(
+				'<p>%s</p>',
+				__( 'Your site is hidden from search engines. Consider enabling indexing if this is a public site.', 'default' )
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Returns a set of tests that belong to the site status page.
 	 *
 	 * Each site status test is defined here, they may be `direct` tests, that run on page load, or `async` tests
@@ -2774,6 +2817,10 @@ class WP_Site_Health {
 				'autoloaded_options'           => array(
 					'label' => __( 'Autoloaded options' ),
 					'test'  => 'autoloaded_options',
+				),
+				'search_engine_visibility'     => array(
+					'label' => __( 'Search Engine Visibility' ),
+					'test'  => 'search_engine_visibility',
 				),
 			),
 			'async'  => array(
