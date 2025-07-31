@@ -2692,7 +2692,7 @@ class WP_Site_Health {
 	 *
 	 * Surfaces as “good” if `blog_public === 1`, or “recommended” if `blog_public === 0`.
 	 *
-	 * @since 6.9
+	 * @since 6.9.0
 	 *
 	 * @return array The test results.
 	 */
