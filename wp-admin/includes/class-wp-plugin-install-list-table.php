@@ -339,6 +339,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$views = apply_filters( "views_{$this->screen->id}", $views );
 
 		$this->screen->render_screen_reader_content( 'heading_views' );
+
+		printf(
+			/* translators: %s: https://wordpress.org/plugins/ */
+			'<p>' . __( 'Plugins extend and expand the functionality of WordPress. You may install plugins from the <a href="%s">WordPress Plugin Directory</a> right on this page, or upload a plugin in .zip format by clicking the button above.' ) . '</p>',
+			__( 'https://wordpress.org/plugins/' )
+		);
 		?>
 <div class="wp-filter">
 	<ul class="filter-links">
