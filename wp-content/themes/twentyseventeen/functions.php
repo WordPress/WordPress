@@ -244,7 +244,7 @@ function twentyseventeen_setup() {
 add_action( 'after_setup_theme', 'twentyseventeen_setup' );
 
 /**
- * Set the content width in pixels, based on the theme's design and stylesheet.
+ * Sets the content width in pixels, based on the theme's design and stylesheet.
  *
  * Priority 0 to make it available to lower priority callbacks.
  *
@@ -284,7 +284,7 @@ add_action( 'template_redirect', 'twentyseventeen_content_width', 0 );
 
 if ( ! function_exists( 'twentyseventeen_fonts_url' ) ) :
 	/**
-	 * Register custom fonts.
+	 * Registers custom fonts.
 	 *
 	 * @since Twenty Seventeen 1.0
 	 * @since Twenty Seventeen 3.2 Replaced Google URL with self-hosted fonts.
@@ -309,7 +309,7 @@ if ( ! function_exists( 'twentyseventeen_fonts_url' ) ) :
 endif;
 
 /**
- * Add preconnect for Google Fonts.
+ * Adds preconnect for Google Fonts.
  *
  * @since Twenty Seventeen 1.0
  * @deprecated Twenty Seventeen 3.2 Disabled filter because, by default, fonts are self-hosted.
@@ -331,7 +331,7 @@ function twentyseventeen_resource_hints( $urls, $relation_type ) {
 // add_filter( 'wp_resource_hints', 'twentyseventeen_resource_hints', 10, 2 );
 
 /**
- * Register widget area.
+ * Registers widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
@@ -411,7 +411,7 @@ function twentyseventeen_javascript_detection() {
 add_action( 'wp_head', 'twentyseventeen_javascript_detection', 0 );
 
 /**
- * Add a pingback url auto-discovery header for singularly identifiable articles.
+ * Adds a pingback url auto-discovery header for singularly identifiable articles.
  */
 function twentyseventeen_pingback_header() {
 	if ( is_singular() && pings_open() ) {
@@ -421,7 +421,7 @@ function twentyseventeen_pingback_header() {
 add_action( 'wp_head', 'twentyseventeen_pingback_header' );
 
 /**
- * Display custom color CSS.
+ * Displays custom color CSS.
  */
 function twentyseventeen_colors_css_wrap() {
 	if ( 'custom' !== get_theme_mod( 'colorscheme' ) && ! is_customize_preview() ) {
@@ -551,7 +551,7 @@ function twentyseventeen_block_editor_styles() {
 add_action( 'enqueue_block_editor_assets', 'twentyseventeen_block_editor_styles' );
 
 /**
- * Add custom image sizes attribute to enhance responsive image functionality
+ * Adds custom image sizes attribute to enhance responsive image functionality
  * for content images.
  *
  * @since Twenty Seventeen 1.0
@@ -598,7 +598,7 @@ function twentyseventeen_header_image_tag( $html, $header, $attr ) {
 add_filter( 'get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3 );
 
 /**
- * Add custom image sizes attribute to enhance responsive image functionality
+ * Adds custom image sizes attribute to enhance responsive image functionality
  * for post thumbnails.
  *
  * @since Twenty Seventeen 1.0
@@ -622,7 +622,7 @@ function twentyseventeen_post_thumbnail_sizes_attr( $attr, $attachment, $size ) 
 add_filter( 'wp_get_attachment_image_attributes', 'twentyseventeen_post_thumbnail_sizes_attr', 10, 3 );
 
 /**
- * Use front-page.php when Front page displays is set to a static page.
+ * Uses front-page.php when Front page displays is set to a static page.
  *
  * @since Twenty Seventeen 1.0
  *
@@ -692,10 +692,10 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 endif;
 
 /**
- * Show the featured image below the header on single posts and pages, unless the
- * page is the front page.
+ * Shows the featured image below the header on single posts and pages, unless
+ * the page is the front page.
  *
- * Use the filter `twentyseventeen_should_show_featured_image` in a child theme or
+ * Uses the filter `twentyseventeen_should_show_featured_image` in a child theme or
  * plugin to change when the image is shown. This example prevents the image
  * from showing:
  *
@@ -749,7 +749,7 @@ require get_parent_theme_file_path( '/inc/customizer.php' );
 require get_parent_theme_file_path( '/inc/icon-functions.php' );
 
 /**
- * Register block patterns and pattern categories.
+ * Registers block patterns and pattern categories.
  *
  * @since Twenty Seventeen 3.8
  */

@@ -12,7 +12,7 @@
  */
 
 /**
- * Prevent switching to Twenty Seventeen on old versions of WordPress.
+ * Prevents switching to Twenty Seventeen on old versions of WordPress.
  *
  * Switches to the default theme.
  *

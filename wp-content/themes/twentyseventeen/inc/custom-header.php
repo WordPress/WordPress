@@ -10,7 +10,7 @@
  */
 
 /**
- * Set up the WordPress core custom header feature.
+ * Sets up the WordPress core custom header feature.
  *
  * @uses twentyseventeen_header_style()
  */
@@ -118,7 +118,7 @@ if ( ! function_exists( 'twentyseventeen_header_style' ) ) :
 endif; // End of twentyseventeen_header_style().
 
 /**
- * Customize video play/pause button in the custom header.
+ * Customizes video play/pause button in the custom header.
  *
  * @param array $settings Video settings.
  * @return array The filtered video settings.

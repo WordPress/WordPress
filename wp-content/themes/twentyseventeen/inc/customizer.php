@@ -8,7 +8,7 @@
  */
 
 /**
- * Add postMessage support for site title and description for the Theme Customizer.
+ * Adds postMessage support for site title and description for the Theme Customizer.
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
@@ -162,7 +162,7 @@ function twentyseventeen_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'twentyseventeen_customize_register' );
 
 /**
- * Sanitize the page layout options.
+ * Sanitizes the page layout options.
  *
  * @param string $input Page layout.
  */
@@ -180,7 +180,7 @@ function twentyseventeen_sanitize_page_layout( $input ) {
 }
 
 /**
- * Sanitize the colorscheme.
+ * Sanitizes the colorscheme.
  *
  * @param string $input Color scheme.
  */
@@ -195,7 +195,7 @@ function twentyseventeen_sanitize_colorscheme( $input ) {
 }
 
 /**
- * Render the site title for the selective refresh partial.
+ * Renders the site title for the selective refresh partial.
  *
  * @since Twenty Seventeen 1.0
  *
@@ -208,7 +208,7 @@ function twentyseventeen_customize_partial_blogname() {
 }
 
 /**
- * Render the site tagline for the selective refresh partial.
+ * Renders the site tagline for the selective refresh partial.
  *
  * @since Twenty Seventeen 1.0
  *
@@ -221,7 +221,7 @@ function twentyseventeen_customize_partial_blogdescription() {
 }
 
 /**
- * Return whether we're previewing the front page and it's a static page.
+ * Returns whether we're previewing the front page and it's a static page.
  *
  * This function is an alias for twentyseventeen_is_frontpage().
  *
@@ -235,7 +235,7 @@ function twentyseventeen_is_static_front_page() {
 }
 
 /**
- * Return whether we're on a view that supports a one or two column layout.
+ * Returns whether we're on a view that supports a one or two column layout.
  */
 function twentyseventeen_is_view_with_layout_option() {
 	// This option is available on all pages. It's also available on archives when there isn't a sidebar.
@@ -243,7 +243,7 @@ function twentyseventeen_is_view_with_layout_option() {
 }
 
 /**
- * Bind JS handlers to instantly live-preview changes.
+ * Binds JS handlers to instantly live-preview changes.
  */
 function twentyseventeen_customize_preview_js() {
 	wp_enqueue_script( 'twentyseventeen-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview' ), '20161002', array( 'in_footer' => true ) );
@@ -251,7 +251,7 @@ function twentyseventeen_customize_preview_js() {
 add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
 
 /**
- * Load dynamic logic for the customizer controls area.
+ * Loads dynamic logic for the customizer controls area.
  */
 function twentyseventeen_panels_js() {
 	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20161020', array( 'in_footer' => true ) );
