@@ -38,7 +38,7 @@ function twentynineteen_get_social_link_svg( $uri, $size = 24 ) {
 }
 
 /**
- * Display SVG icons in social links menu.
+ * Displays SVG icons in social links menu.
  *
  * @param string   $item_output The menu item's starting HTML output.
  * @param WP_Post  $item        Menu item data object.
@@ -61,7 +61,7 @@ function twentynineteen_nav_menu_social_icons( $item_output, $item, $depth, $arg
 add_filter( 'walker_nav_menu_start_el', 'twentynineteen_nav_menu_social_icons', 10, 4 );
 
 /**
- * Add a dropdown icon to top-level menu items.
+ * Adds a dropdown icon to top-level menu items.
  *
  * @param string   $item_output The menu item's starting HTML output.
  * @param WP_Post  $item        Menu item data object.

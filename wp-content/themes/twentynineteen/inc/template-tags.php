@@ -202,7 +202,7 @@ endif;
 
 if ( ! function_exists( 'twentynineteen_comment_form' ) ) :
 	/**
-	 * Documentation for function.
+	 * Displays the comment form.
 	 */
 	function twentynineteen_comment_form( $order ) {
 		if ( true === $order || strtolower( $order ) === strtolower( get_option( 'comment_order', 'asc' ) ) ) {
@@ -218,7 +218,7 @@ endif;
 
 if ( ! function_exists( 'twentynineteen_the_posts_navigation' ) ) :
 	/**
-	 * Documentation for function.
+	 * Displays the next and previous posts navigation.
 	 */
 	function twentynineteen_the_posts_navigation() {
 		the_posts_pagination(
@@ -241,7 +241,7 @@ endif;
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
-	 * Fire the wp_body_open action.
+	 * Fires the wp_body_open action.
 	 *
 	 * Added for backward compatibility to support pre-5.2.0 WordPress versions.
 	 *

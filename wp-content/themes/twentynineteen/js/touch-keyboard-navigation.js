@@ -43,7 +43,7 @@
 	}
 
 	/**
-	 * Add class.
+	 * Adds class to an element.
 	 *
 	 * @param {Object} el
 	 * @param {string} cls
@@ -55,7 +55,7 @@
 	}
 
 	/**
-	 * Delete class.
+	 * Deletes class from an element.
 	 *
 	 * @param {Object} el
 	 * @param {string} cls
@@ -65,7 +65,7 @@
 	}
 
 	/**
-	 * Has class?
+	 * Determines whether an element has the given class.
 	 *
 	 * @param {Object} el
 	 * @param {string} cls
@@ -80,7 +80,7 @@
 	}
 
 	/**
-	 * Toggle Aria Expanded state for screenreaders.
+	 * Toggles Aria Expanded state for screenreaders.
 	 *
 	 * @param {Object} ariaItem
 	 */
@@ -99,7 +99,7 @@
 	}
 
 	/**
-	 * Open sub-menu.
+	 * Opens sub-menu.
 	 *
 	 * @param {Object} currentSubMenu
 	 */
@@ -116,7 +116,7 @@
 	}
 
 	/**
-	 * Close sub-menu.
+	 * Closes sub-menu.
 	 *
 	 * @param {Object} currentSubMenu
 	 */
@@ -152,7 +152,7 @@
 	}
 
 	/**
-	 * Find first ancestor of an element by selector.
+	 * Finds first ancestor of an element by selector.
 	 *
 	 * @param {Object} child
 	 * @param {String} selector
@@ -181,7 +181,7 @@
 	}
 
 	/**
-	 * Remove all off-canvas states.
+	 * Removes all off-canvas states.
 	 */
 	function removeAllFocusStates() {
 		'use strict';
@@ -209,7 +209,7 @@
 	}
 
 	/**
-	 * Toggle `focus` class to allow sub-menu access on touch screens.
+	 * Toggles `focus` class to allow sub-menu access on touch screens.
 	 */
 	function toggleSubmenuDisplay() {
 
