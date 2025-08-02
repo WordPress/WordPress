@@ -97,7 +97,8 @@ require_once ABSPATH . 'wp-settings.php';
 
 /** 調査用に以下を挿入 */
 if (!isset($_SERVER['HTTP_HOST'])) {
-    $_SERVER['HTTP_HOST'] = 'your-route-host.example.com';
+    $_SERVER['HTTP_HOST'] = 'wordpress-ttg01.apps.h6nreujn.eastus.aroapp.io';
 }
+
 
 
