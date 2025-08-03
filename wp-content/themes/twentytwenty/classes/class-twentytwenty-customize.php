@@ -16,7 +16,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 	class TwentyTwenty_Customize {
 
 		/**
-		 * Register customizer options.
+		 * Registers customizer options.
 		 *
 		 * @since Twenty Twenty 1.0
 		 *
@@ -26,7 +26,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 
 			/**
 			 * Site Title & Description.
-			 * */
+			 */
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
@@ -439,7 +439,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 		}
 
 		/**
-		 * Sanitize select.
+		 * Sanitizes a select input.
 		 *
 		 * @since Twenty Twenty 1.0
 		 *
@@ -454,7 +454,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 		}
 
 		/**
-		 * Sanitize boolean for checkbox.
+		 * Sanitizes a boolean for checkbox.
 		 *
 		 * @since Twenty Twenty 1.0
 		 *
@@ -476,7 +476,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
  * */
 if ( ! function_exists( 'twentytwenty_customize_partial_blogname' ) ) {
 	/**
-	 * Render the site title for the selective refresh partial.
+	 * Renders the site title for the selective refresh partial.
 	 *
 	 * @since Twenty Twenty 1.0
 	 */
@@ -487,7 +487,7 @@ if ( ! function_exists( 'twentytwenty_customize_partial_blogname' ) ) {
 
 if ( ! function_exists( 'twentytwenty_customize_partial_blogdescription' ) ) {
 	/**
-	 * Render the site description for the selective refresh partial.
+	 * Renders the site description for the selective refresh partial.
 	 *
 	 * @since Twenty Twenty 1.0
 	 */
@@ -498,7 +498,7 @@ if ( ! function_exists( 'twentytwenty_customize_partial_blogdescription' ) ) {
 
 if ( ! function_exists( 'twentytwenty_customize_partial_site_logo' ) ) {
 	/**
-	 * Render the site logo for the selective refresh partial.
+	 * Renders the site logo for the selective refresh partial.
 	 *
 	 * Doing it this way so we don't have issues with `render_callback`'s arguments.
 	 *

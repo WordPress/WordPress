@@ -9,7 +9,7 @@
 
 ( function( $, api, _ ) {
 	/**
-	 * Return a value for our partial refresh.
+	 * Returns a value for our partial refresh.
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
@@ -31,7 +31,7 @@
 	api.selectiveRefresh.partialConstructor.cover_fixed = api.selectiveRefresh.Partial.extend( {
 
 		/**
-		 * Override the refresh method.
+		 * Overrides the refresh method.
 		 *
 		 * @since Twenty Twenty 1.0
 		 *
@@ -65,7 +65,7 @@
 		attrs: {},
 
 		/**
-		 * Override the refresh method.
+		 * Overrides the refresh method.
 		 *
 		 * @since Twenty Twenty 1.0
 		 *
@@ -151,7 +151,7 @@
 	} );
 
 	/**
-	 * Add styles to elements in the preview pane.
+	 * Adds styles to elements in the preview pane.
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
