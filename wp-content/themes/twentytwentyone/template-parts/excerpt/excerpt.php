@@ -1,6 +1,6 @@
 <?php
 /**
- * Show the excerpt.
+ * Shows the excerpt.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *

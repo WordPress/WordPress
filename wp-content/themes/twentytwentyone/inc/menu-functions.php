@@ -13,7 +13,7 @@
  */
 
 /**
- * Add a button to top-level menu items that has sub-menus.
+ * Adds a button to top-level menu items that has sub-menus.
  * An icon is added using CSS depending on the value of aria-expanded.
  *
  * @since Twenty Twenty-One 1.0

@@ -1,6 +1,6 @@
 <?php
 /**
- * Show the appropriate content for the Quote post format.
+ * Shows the appropriate content for the Quote post format.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *

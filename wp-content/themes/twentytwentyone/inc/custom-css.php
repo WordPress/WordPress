@@ -8,7 +8,7 @@
  */
 
 /**
- * Generate CSS.
+ * Generates CSS.
  *
  * @since Twenty Twenty-One 1.0
  *

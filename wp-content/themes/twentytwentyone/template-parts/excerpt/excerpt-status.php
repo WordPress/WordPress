@@ -1,6 +1,6 @@
 <?php
 /**
- * Show the appropriate content for the Status post format.
+ * Shows the appropriate content for the Status post format.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *

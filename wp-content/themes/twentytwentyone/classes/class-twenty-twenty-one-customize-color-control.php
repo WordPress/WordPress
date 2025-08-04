@@ -25,7 +25,7 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
 	public $type = 'twenty-twenty-one-color';
 
 	/**
-	 * Colorpicker palette
+	 * Colorpicker palette.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -34,7 +34,7 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
 	public $palette;
 
 	/**
-	 * Enqueue control related scripts/styles.
+	 * Enqueues control related scripts/styles.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -54,7 +54,7 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
 	}
 
 	/**
-	 * Refresh the parameters passed to the JavaScript via JSON.
+	 * Refreshes the parameters passed to the JavaScript via JSON.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *

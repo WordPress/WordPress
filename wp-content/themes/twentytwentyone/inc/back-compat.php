@@ -12,7 +12,7 @@
  */
 
 /**
- * Display upgrade notice on theme switch.
+ * Displays upgrade notice on theme switch.
  *
  * @since Twenty Twenty-One 1.0
  *

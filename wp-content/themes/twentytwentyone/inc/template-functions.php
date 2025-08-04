@@ -53,7 +53,7 @@ function twenty_twenty_one_post_classes( $classes ) {
 add_filter( 'post_class', 'twenty_twenty_one_post_classes', 10, 3 );
 
 /**
- * Add a pingback url auto-discovery header for single posts, pages, or attachments.
+ * Adds a pingback url auto-discovery header for single posts, pages, or attachments.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -67,7 +67,7 @@ function twenty_twenty_one_pingback_header() {
 add_action( 'wp_head', 'twenty_twenty_one_pingback_header' );
 
 /**
- * Remove the `no-js` class from body if JS is supported.
+ * Removes the `no-js` class from body if JS is supported.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -215,7 +215,7 @@ function twenty_twenty_one_change_calendar_nav_arrows( $calendar_output ) {
 add_filter( 'get_calendar', 'twenty_twenty_one_change_calendar_nav_arrows' );
 
 /**
- * Get custom CSS.
+ * Gets custom CSS.
  *
  * Return CSS for non-latin language, if available, or null
  *
@@ -343,7 +343,7 @@ function twenty_twenty_one_get_non_latin_css( $type = 'front-end' ) {
 }
 
 /**
- * Print the first instance of a block in the content, and then break away.
+ * Prints the first instance of a block in the content, and then break away.
  *
  * @since Twenty Twenty-One 1.0
  *
@@ -406,7 +406,7 @@ function twenty_twenty_one_print_first_instance_of_block( $block_name, $content 
 }
 
 /**
- * Retrieve protected post password form content.
+ * Retrieves protected post password form content.
  *
  * @since Twenty Twenty-One 1.0
  * @since Twenty Twenty-One 1.4 Corrected parameter name for `$output`,

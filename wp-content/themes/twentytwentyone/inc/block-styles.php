@@ -11,7 +11,7 @@
 
 if ( function_exists( 'register_block_style' ) ) {
 	/**
-	 * Register block styles.
+	 * Registers block styles.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *

@@ -212,7 +212,7 @@ if ( ! function_exists( 'twenty_twenty_one_post_thumbnail' ) ) {
 
 if ( ! function_exists( 'twenty_twenty_one_the_posts_navigation' ) ) {
 	/**
-	 * Print the next and previous posts navigation.
+	 * Prints the next and previous posts navigation.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
