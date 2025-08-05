@@ -285,6 +285,7 @@ class WP_Block {
 			'core/heading'   => array( 'content' ),
 			'core/image'     => array( 'id', 'url', 'title', 'alt' ),
 			'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
+			'core/post-date' => array( 'datetime' ),
 		);
 
 		// If the block doesn't have the bindings property, isn't one of the supported
