@@ -261,7 +261,7 @@ if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 				?>
 			</h3>
 
-			<p><?php _e( 'Critical issues are items that may have a high impact on your sites performance or security, and resolving these issues should be prioritized.' ); ?></p>
+			<p><?php _e( 'Critical issues are items that may have a high impact on your site&#8217;s performance or security. Resolving these issues should be prioritized.' ); ?></p>
 
 			<div id="health-check-site-status-critical" class="health-check-accordion issues"></div>
 		</div>
@@ -274,7 +274,7 @@ if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 				?>
 			</h3>
 
-			<p><?php _e( 'Recommended items are considered beneficial to your site, although not as important to prioritize as a critical issue, they may include improvements to things such as; Performance, user experience, and more.' ); ?></p>
+			<p><?php _e( 'Recommended items are considered beneficial to your site, although not as important to prioritize as a critical issue. They may include improvements in areas such as security, performance, and user experience.' ); ?></p>
 
 			<div id="health-check-site-status-recommended" class="health-check-accordion issues"></div>
 		</div>
