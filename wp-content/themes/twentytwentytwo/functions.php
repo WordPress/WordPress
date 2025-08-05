@@ -34,7 +34,7 @@ add_action( 'after_setup_theme', 'twentytwentytwo_support' );
 if ( ! function_exists( 'twentytwentytwo_styles' ) ) :
 
 	/**
-	 * Enqueue styles.
+	 * Enqueues styles.
 	 *
 	 * @since Twenty Twenty-Two 1.0
 	 *
