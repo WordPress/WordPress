@@ -4504,7 +4504,7 @@ class WP_HTML_Tag_Processor {
 	const COMMENT_AS_INVALID_HTML = 'COMMENT_AS_INVALID_HTML';
 
 	/**
-	 * No-quirks mode document compatability mode.
+	 * No-quirks mode document compatibility mode.
 	 *
 	 * > In no-quirks mode, the behavior is (hopefully) the desired behavior
 	 * > described by the modern HTML and CSS specifications.
@@ -4519,7 +4519,7 @@ class WP_HTML_Tag_Processor {
 	const NO_QUIRKS_MODE = 'no-quirks-mode';
 
 	/**
-	 * Quirks mode document compatability mode.
+	 * Quirks mode document compatibility mode.
 	 *
 	 * > In quirks mode, layout emulates behavior in Navigator 4 and Internet
 	 * > Explorer 5. This is essential in order to support websites that were

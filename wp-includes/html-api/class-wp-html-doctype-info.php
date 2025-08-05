@@ -36,7 +36,7 @@
  * @see https://html.spec.whatwg.org/#the-doctype
  *
  * DOCTYPE declarations comprise four properties: a name, public identifier, system identifier,
- * and an indication of which document compatability mode they would imply if an HTML parser
+ * and an indication of which document compatibility mode they would imply if an HTML parser
  * hadn't already determined it from other information.
  *
  * @see https://html.spec.whatwg.org/#the-initial-insertion-mode
@@ -128,14 +128,14 @@ class WP_HTML_Doctype_Info {
 	public $system_identifier = null;
 
 	/**
-	 * Which document compatability mode this DOCTYPE declaration indicates.
+	 * Which document compatibility mode this DOCTYPE declaration indicates.
 	 *
 	 * This value should be considered "read only" and not modified.
 	 *
-	 * When an HTML parser has not already set the document compatability mode,
+	 * When an HTML parser has not already set the document compatibility mode,
 	 * (e.g. "quirks" or "no-quirks" mode), it will infer if from the properties
 	 * of the appropriate DOCTYPE declaration, if one exists. The DOCTYPE can
-	 * indicate one of three possible document compatability modes:
+	 * indicate one of three possible document compatibility modes:
 	 *
 	 *  - "no-quirks" and "limited-quirks" modes (also called "standards" mode).
 	 *  - "quirks" mode (also called `CSS1Compat` mode).
