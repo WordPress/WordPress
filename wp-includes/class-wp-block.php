@@ -99,6 +99,22 @@ class WP_Block {
 	public $inner_content = array();
 
 	/**
+	 * List of supported block attributes for block bindings.
+	 *
+	 * @since 6.9.0
+	 * @var array
+	 *
+	 * @see WP_Block::process_block_bindings()
+	 */
+	private const BLOCK_BINDINGS_SUPPORTED_ATTRIBUTES = array(
+		'core/paragraph' => array( 'content' ),
+		'core/heading'   => array( 'content' ),
+		'core/image'     => array( 'id', 'url', 'title', 'alt' ),
+		'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
+		'core/post-date' => array( 'datetime' ),
+	);
+
+	/**
 	 * Constructor.
 	 *
 	 * Populates object properties from the provided block instance argument.
@@ -278,20 +294,33 @@ class WP_Block {
 	 * @return array The computed block attributes for the provided block bindings.
 	 */
 	private function process_block_bindings() {
+		$block_type                 = $this->name;
 		$parsed_block               = $this->parsed_block;
 		$computed_attributes        = array();
-		$supported_block_attributes = array(
-			'core/paragraph' => array( 'content' ),
-			'core/heading'   => array( 'content' ),
-			'core/image'     => array( 'id', 'url', 'title', 'alt' ),
-			'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
-			'core/post-date' => array( 'datetime' ),
+
+		$supported_block_attributes =
+			self::BLOCK_BINDINGS_SUPPORTED_ATTRIBUTES[ $block_type ] ??
+			array();
+
+		/**
+		 * Filters the supported block attributes for block bindings.
+		 *
+		 * The dynamic portion of the hook name, `$block_type`, refers to the block type
+		 * whose attributes are being filtered.
+		 *
+		 * @since 6.9.0
+		 *
+		 * @param string[] $supported_block_attributes The block's attributes that are supported by block bindings.
+		 */
+		$supported_block_attributes = apply_filters(
+			"block_bindings_supported_attributes_{$block_type}",
+			$supported_block_attributes
 		);
 
 		// If the block doesn't have the bindings property, isn't one of the supported
 		// block types, or the bindings property is not an array, return the block content.
 		if (
-			! isset( $supported_block_attributes[ $this->name ] ) ||
+			empty( $supported_block_attributes ) ||
 			empty( $parsed_block['attrs']['metadata']['bindings'] ) ||
 			! is_array( $parsed_block['attrs']['metadata']['bindings'] )
 		) {
@@ -315,7 +344,7 @@ class WP_Block {
 			 * Note that this also omits the `__default` attribute from the
 			 * resulting array.
 			 */
-			foreach ( $supported_block_attributes[ $parsed_block['blockName'] ] as $attribute_name ) {
+			foreach ( $supported_block_attributes as $attribute_name ) {
 				// Retain any non-pattern override bindings that might be present.
 				$updated_bindings[ $attribute_name ] = isset( $bindings[ $attribute_name ] )
 					? $bindings[ $attribute_name ]
@@ -334,7 +363,7 @@ class WP_Block {
 
 		foreach ( $bindings as $attribute_name => $block_binding ) {
 			// If the attribute is not in the supported list, process next attribute.
-			if ( ! in_array( $attribute_name, $supported_block_attributes[ $this->name ], true ) ) {
+			if ( ! in_array( $attribute_name, $supported_block_attributes, true ) ) {
 				continue;
 			}
 			// If no source is provided, or that source is not registered, process next attribute.
