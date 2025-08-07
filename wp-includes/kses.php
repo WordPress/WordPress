@@ -1958,14 +1958,45 @@ function wp_kses_normalize_entities( $content, $context = 'html' ) {
 	// Disarm all entities by converting & to &amp;
 	$content = str_replace( '&', '&amp;', $content );
 
-	// Change back the allowed entities in our list of allowed entities.
+	/*
+	 * Decode any character references that are now double-encoded.
+	 *
+	 * It's important that the following normalizations happen in the correct order.
+	 *
+	 * At this point, all `&` have been transformed to `&amp;`. Double-encoded named character
+	 * references like `&amp;amp;` will be decoded back to their single-encoded form `&amp;`.
+	 *
+	 * First, numeric (decimal and hexadecimal) character references must be handled so that
+	 * `&amp;#09;` becomes `&#9;`. If the named character references were handled first, there
+	 * would be no way to know whether the double-encoded character reference had been produced
+	 * in this function or was the original input.
+	 *
+	 * Consider the two examples, first with named entity decoding followed by numeric
+	 * entity decoding. We'll use U+002E FULL STOP (.) in our example, this table follows the
+	 * string processing from left to right:
+	 *
+	 * | Input        | &-encoded        | Named ref double-decoded  | Numeric ref double-decoded |
+	 * | ------------ | ---------------- | ------------------------- | -------------------------- |
+	 * | `&#x2E;`     | `&amp;#x2E;`     | `&amp;#x2E;`              | `&#x2E;`                   |
+	 * | `&amp;#x2E;` | `&amp;amp;#x2E;` | `&amp;#x2E;`              | `&#x2E;`                   |
+	 *
+	 * Notice in the example above that different inputs result in the same result. The second case
+	 * was not normalized and produced HTML that is semantically different from the input.
+	 *
+	 * | Input        | &-encoded        |  Numeric ref double-decoded | Named ref double-decoded |
+	 * | ------------ | ---------------- | --------------------------- | ------------------------ |
+	 * | `&#x2E;`     | `&amp;#x2E;`     | `&#x2E;`                    | `&#x2E;`                 |
+	 * | `&amp;#x2E;` | `&amp;amp;#x2E;` | `&amp;amp;#x2E;`            | `&amp;#x2E;`             |
+	 *
+	 * Here, each input is normalized to an appropriate output.
+	 */
+	$content = preg_replace_callback( '/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $content );
+	$content = preg_replace_callback( '/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $content );
 	if ( 'xml' === $context ) {
 		$content = preg_replace_callback( '/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'wp_kses_xml_named_entities', $content );
 	} else {
 		$content = preg_replace_callback( '/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'wp_kses_named_entities', $content );
 	}
-	$content = preg_replace_callback( '/&amp;#(0*[0-9]{1,7});/', 'wp_kses_normalize_entities2', $content );
-	$content = preg_replace_callback( '/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'wp_kses_normalize_entities3', $content );
 
 	return $content;
 }
