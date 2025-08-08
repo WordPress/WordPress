@@ -103,7 +103,7 @@ Source: https://fonts.google.com/specimen/Literata
 
 Roboto Slab Font
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Reference: hhttps://github.com/googlefonts/robotoslab
+Reference: https://github.com/googlefonts/robotoslab
 Source: https://fonts.google.com/specimen/Roboto+Slab
 
 Beiruti Font
