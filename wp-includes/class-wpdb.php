@@ -3803,6 +3803,9 @@ class wpdb {
 		// Strip everything between parentheses except nested selects.
 		$query = preg_replace( '/\((?!\s*select)[^(]*?\)/is', '()', $query );
 
+		// Strip any leading SET STATEMENT statements.
+		$query = preg_replace( '/^SET STATEMENT.+?\sFOR\s+/is', '', $query );
+
 		// Quickly match most common queries.
 		if ( preg_match(
 			'/^\s*(?:'
