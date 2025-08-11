@@ -88,6 +88,7 @@ class WP_PHPMailer extends PHPMailer\PHPMailer\PHPMailer {
 			'smtp_error'           => __( 'SMTP server error: ' ),
 			/* translators: There is a space after the colon. */
 			'variable_set'         => __( 'Cannot set or reset variable: ' ),
+			'no_smtputf8'          => __( 'Server does not support SMTPUTF8 needed to send to Unicode addresses' ),
 		);
 
 		return true;
