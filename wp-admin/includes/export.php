@@ -405,19 +405,26 @@ function export_wp( $args = array() ) {
 		global $wpdb;
 
 		if ( ! empty( $post_ids ) ) {
-			$post_ids = array_map( 'absint', $post_ids );
-			$and      = 'AND ID IN ( ' . implode( ', ', $post_ids ) . ')';
+			$post_ids       = array_map( 'absint', $post_ids );
+			$post_id_chunks = array_chunk( $post_ids, 20 );
 		} else {
-			$and = '';
+			$post_id_chunks = array( array() );
 		}
 
 		$authors = array();
-		$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft' $and" );
-		foreach ( (array) $results as $result ) {
-			$authors[] = get_userdata( $result->post_author );
+
+		foreach ( $post_id_chunks as $next_posts ) {
+			$and = ! empty( $next_posts ) ? 'AND ID IN (' . implode( ', ', $next_posts ) . ')' : '';
+
+			$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft' $and" );
+
+			foreach ( (array) $results as $result ) {
+				$authors[] = get_userdata( $result->post_author );
+			}
 		}
 
 		$authors = array_filter( $authors );
+		$authors = array_unique( $authors, SORT_REGULAR ); // Remove duplicate authors.
 
 		foreach ( $authors as $author ) {
 			echo "\t<wp:author>";
