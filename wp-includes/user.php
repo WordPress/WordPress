@@ -2501,6 +2501,11 @@ function wp_insert_user( $userdata ) {
 
 	$user = new WP_User( $user_id );
 
+	if ( ! $update ) {
+		/** This action is documented in wp-includes/pluggable.php */
+		do_action( 'wp_set_password', $userdata['user_pass'], $user_id, $userdata );
+	}
+
 	/**
 	 * Filters a user's meta values and keys immediately after the user is created or updated
 	 * and before any user meta is inserted or updated.
@@ -2683,6 +2688,9 @@ function wp_update_user( $userdata ) {
 		// If password is changing, hash it now.
 		$plaintext_pass        = $userdata['user_pass'];
 		$userdata['user_pass'] = wp_hash_password( $userdata['user_pass'] );
+
+		/** This action is documented in wp-includes/pluggable.php */
+		do_action( 'wp_set_password', $plaintext_pass, $user_id, $user_obj );
 
 		/**
 		 * Filters whether to send the password change email.
