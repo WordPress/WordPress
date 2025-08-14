@@ -167,9 +167,9 @@
 }
 
 .media-item .filename {
-	padding: 14px 0;
+	padding: 14px 2px;
 	overflow: hidden;
-	margin-left: 6px;
+	margin-left: 4px;
 }
 
 .media-item .pinkynail {

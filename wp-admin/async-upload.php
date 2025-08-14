@@ -60,8 +60,8 @@ if ( isset( $_REQUEST['attachment_id'] ) && (int) $_REQUEST['attachment_id'] && 
 					$title    = $post->post_title ? $post->post_title : wp_basename( $file );
 					?>
 					<div class="filename new">
-						<span class="media-list-title"><strong><?php echo esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ); ?></strong></span>
-						<span class="media-list-subtitle"><?php echo esc_html( wp_basename( $file ) ); ?></span>
+						<span class="media-list-title word-wrap-break-word"><strong><?php echo esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ); ?></strong></span>
+						<span class="media-list-subtitle word-wrap-break-word"><?php echo esc_html( wp_basename( $file ) ); ?></span>
 						<div class="attachment-tools">
 							<?php
 							if ( current_user_can( 'edit_post', $id ) ) {
