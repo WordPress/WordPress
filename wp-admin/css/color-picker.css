@@ -107,11 +107,6 @@
 
 .wp-color-picker::-moz-placeholder {
 	color: #646970;
-	opacity: 1;
-}
-
-.wp-color-picker:-ms-input-placeholder {
-	color: #646970;
 }
 
 .wp-picker-container input[type="text"].iris-error {

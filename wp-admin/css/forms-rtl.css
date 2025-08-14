@@ -228,11 +228,6 @@ textarea[readonly] {
 
 ::-moz-placeholder {
 	color: #646970;
-	opacity: 1;
-}
-
-:-ms-input-placeholder {
-	color: #646970;
 }
 
 .form-invalid .form-required,

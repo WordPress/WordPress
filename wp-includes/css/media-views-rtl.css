@@ -156,11 +156,6 @@
 
 .media-frame ::-moz-placeholder {
 	color: #646970;
-	opacity: 1;
-}
-
-.media-frame :-ms-input-placeholder {
-	color: #646970;
 }
 
 /*
