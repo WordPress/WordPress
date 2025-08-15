@@ -1091,9 +1091,17 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		 */
 		$context = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
 
-		$attr           = wp_parse_args( $attr, $default_attr );
-		$attr['width']  = $width;
-		$attr['height'] = $height;
+		$attr = wp_parse_args( $attr, $default_attr );
+
+		// Ensure that the `$width` doesn't overwrite an already valid user-provided width.
+		if ( ! isset( $attr['width'] ) || ! is_numeric( $attr['width'] ) ) {
+			$attr['width'] = $width;
+		}
+
+		// Ensure that the `$height` doesn't overwrite an already valid user-provided height.
+		if ( ! isset( $attr['height'] ) || ! is_numeric( $attr['height'] ) ) {
+			$attr['height'] = $height;
+		}
 
 		$loading_optimization_attr = wp_get_loading_optimization_attributes(
 			'img',
