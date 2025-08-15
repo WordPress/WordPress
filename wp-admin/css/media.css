@@ -980,15 +980,6 @@ border color while dragging a file over the uploader drop area */
 	padding: 1em 0 0;
 }
 
-.image-editor .imgedit-menu .button {
-	display: inline-block;
-	width: auto;
-	min-height: 28px;
-	font-size: 13px;
-	line-height: 2;
-	padding: 0 10px;
-}
-
 .imgedit-menu .button:after,
 .imgedit-menu .button:before {
 	font: normal 16px/1 dashicons;
