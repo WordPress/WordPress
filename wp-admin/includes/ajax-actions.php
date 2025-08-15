@@ -2117,7 +2117,7 @@ function wp_ajax_inline_save() {
 	if ( isset( $data['keep_private'] ) && 'private' === $data['keep_private'] ) {
 		$data['visibility']  = 'private';
 		$data['post_status'] = 'private';
-	} else {
+	} elseif ( isset( $data['_status'] ) ) {
 		$data['post_status'] = $data['_status'];
 	}
 
