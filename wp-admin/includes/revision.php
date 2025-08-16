@@ -249,7 +249,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'title'      => get_the_title( $post->ID ),
 			'author'     => $authors[ $revision->post_author ],
 			'date'       => date_i18n( __( 'M j, Y @ H:i' ), $modified ),
-			'dateShort'  => date_i18n( _x( 'j M @ H:i', 'revision date short format' ), $modified ),
+			'dateShort'  => date_i18n( _x( 'j M Y @ H:i', 'revision date short format' ), $modified ),
 			/* translators: %s: Human-readable time difference. */
 			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
 			'autosave'   => $autosave,
