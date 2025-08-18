@@ -124,13 +124,11 @@ function the_modified_author() {
  * Valid values for the `$field` parameter include:
  *
  * - admin_color
- * - aim
  * - comment_shortcuts
  * - description
  * - display_name
  * - first_name
  * - ID
- * - jabber
  * - last_name
  * - nickname
  * - plugins_last_view
@@ -149,9 +147,9 @@ function the_modified_author() {
  * - user_registered
  * - user_status
  * - user_url
- * - yim
  *
  * @since 2.8.0
+ * @since 6.9.0 Removed `aim`, `jabber`, and `yim` as valid values for the `$field` parameter.
  *
  * @global WP_User $authordata The current author's data.
  *

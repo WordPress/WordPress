@@ -2953,22 +2953,19 @@ function _get_additional_user_keys( $user ) {
 /**
  * Sets up the user contact methods.
  *
- * Default contact methods were removed in 3.6. A filter dictates contact methods.
+ * Default contact methods were removed for new installations in WordPress 3.6
+ * and completely removed from the codebase in WordPress 6.9.
+ *
+ * Use the {@see 'user_contactmethods'} filter to add or remove contact methods.
  *
  * @since 3.7.0
+ * @since 6.9.0 Removed references to `aim`, `jabber`, and `yim` contact methods.
  *
  * @param WP_User|null $user Optional. WP_User object.
  * @return string[] Array of contact method labels keyed by contact method.
  */
 function wp_get_user_contact_methods( $user = null ) {
 	$methods = array();
-	if ( get_site_option( 'initial_db_version' ) < 23588 ) {
-		$methods = array(
-			'aim'    => __( 'AIM' ),
-			'yim'    => __( 'Yahoo IM' ),
-			'jabber' => __( 'Jabber / Google Talk' ),
-		);
-	}
 
 	/**
 	 * Filters the user contact methods.
