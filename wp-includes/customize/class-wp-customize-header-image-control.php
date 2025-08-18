@@ -173,12 +173,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<img src="{{data.header.thumbnail_url}}" alt="{{data.header.alt_text || data.header.description}}" />
 
 				<# } #>
-			<# } else { #>
-
-			<div class="placeholder">
-				<?php _e( 'No image set' ); ?>
-			</div>
-
 			<# } #>
 		</script>
 		<?php
@@ -246,7 +240,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<div class="actions">
 				<?php if ( current_user_can( 'upload_files' ) ) : ?>
 				<button type="button"<?php echo $visibility; ?> class="button remove" aria-label="<?php esc_attr_e( 'Hide header image' ); ?>"><?php _e( 'Hide image' ); ?></button>
-				<button type="button" class="button new" id="header_image-button" aria-label="<?php esc_attr_e( 'Add Header Image' ); ?>"><?php _e( 'Add Image' ); ?></button>
+				<button type="button" class="button new <?php echo ! $this->get_current_image_src() ? '' : 'customize-header-image-not-selected'; ?>" id="header_image-button" aria-label="<?php esc_attr_e( 'Add Header Image' ); ?>"><?php _e( 'Add Image' ); ?></button>
 				<?php endif; ?>
 			</div>
 			<div class="choices">

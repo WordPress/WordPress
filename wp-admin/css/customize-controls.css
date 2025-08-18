@@ -1441,6 +1441,21 @@ p.customize-section-description {
 	white-space: normal;
 }
 
+.customize-control .attachment-media-view .upload-button {
+	width: 100%;
+	padding: 9px 0;
+}
+
+.customize-control .attachment-media-view .upload-button.control-focus {
+	width: auto;
+	padding: 0 10px;
+}
+
+.customize-control.customize-control-header .actions .upload-button.button.new {
+	width: 100%;
+	padding: 9px 0;
+}
+
 .customize-control .attachment-media-view .thumbnail,
 .customize-control-header .current .container {
 	overflow: hidden;
@@ -2988,6 +3003,10 @@ body.adding-widget .add-new-widget:before,
 		line-height: 2;
 		font-size: 14px;
 		vertical-align: middle;
+	}
+
+	.customize-control .attachment-media-view .upload-button {
+		padding: 5px 0;
 	}
 
 	#customize-control-changeset_status .customize-inside-control-row {

@@ -126,7 +126,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 		<# } else { #>
 			<div class="attachment-media-view">
 				<# if ( data.canUpload ) { #>
-					<button type="button" class="upload-button button-add-media"><?php echo $this->button_labels['site_icon']; ?></button>
+					<button type="button" class="upload-button button"><?php echo $this->button_labels['site_icon']; ?></button>
 				<# } #>
 				<div class="actions">
 					<# if ( data.defaultAttachment ) { #>

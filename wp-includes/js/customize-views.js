@@ -37,10 +37,14 @@
 
 		setButtons: function() {
 			var elements = $('#customize-control-header_image .actions .remove');
+			var addButton = $('#customize-control-header_image .actions .new');
+
 			if (this.model.get('choice')) {
 				elements.show();
+				addButton.removeClass('upload-button');
 			} else {
 				elements.hide();
+				addButton.addClass('upload-button');
 			}
 		}
 	});

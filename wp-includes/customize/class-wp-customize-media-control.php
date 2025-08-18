@@ -196,7 +196,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 		<# } else { #>
 			<div class="attachment-media-view">
 				<# if ( data.canUpload ) { #>
-					<button type="button" class="upload-button button-add-media" {{{ describedByAttr }}}>{{ data.button_labels.select }}</button>
+					<button type="button" class="upload-button button" {{{ describedByAttr }}}>{{ data.button_labels.select }}</button>
 				<# } #>
 				<div class="actions">
 					<# if ( data.defaultAttachment ) { #>
