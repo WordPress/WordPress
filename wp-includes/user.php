@@ -2221,6 +2221,18 @@ function wp_insert_user( $userdata ) {
 		$user_pass = ! empty( $userdata['user_pass'] ) ? $userdata['user_pass'] : $old_user_data->user_pass;
 	} else {
 		$update = false;
+
+		if ( empty( $userdata['user_pass'] ) ) {
+			wp_trigger_error(
+				__FUNCTION__,
+				__( 'The user_pass field is required when creating a new user. The user will need to reset their password before logging in.' ),
+				E_USER_WARNING
+			);
+
+			// Set the password as an empty string to force the password reset flow.
+			$userdata['user_pass'] = '';
+		}
+
 		// Hash the password.
 		$user_pass = wp_hash_password( $userdata['user_pass'] );
 	}
