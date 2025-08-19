@@ -50,13 +50,13 @@ if ( ! isset( $_GET['tb_id'] ) || ! $_GET['tb_id'] ) {
 	$post_id = (int) $post_id[ count( $post_id ) - 1 ];
 }
 
-$trackback_url = isset( $_POST['url'] ) ? $_POST['url'] : '';
-$charset       = isset( $_POST['charset'] ) ? $_POST['charset'] : '';
+$trackback_url = isset( $_POST['url'] ) ? sanitize_url( $_POST['url'] ) : '';
+$charset       = isset( $_POST['charset'] ) ? sanitize_text_field( $_POST['charset'] ) : '';
 
 // These three are stripslashed here so they can be properly escaped after mb_convert_encoding().
-$title     = isset( $_POST['title'] ) ? wp_unslash( $_POST['title'] ) : '';
-$excerpt   = isset( $_POST['excerpt'] ) ? wp_unslash( $_POST['excerpt'] ) : '';
-$blog_name = isset( $_POST['blog_name'] ) ? wp_unslash( $_POST['blog_name'] ) : '';
+$title     = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
+$excerpt   = isset( $_POST['excerpt'] ) ? sanitize_textarea_field( wp_unslash( $_POST['excerpt'] ) ) : '';
+$blog_name = isset( $_POST['blog_name'] ) ? sanitize_text_field( wp_unslash( $_POST['blog_name'] ) ) : '';
 
 if ( $charset ) {
 	$charset = str_replace( array( ',', ' ' ), '', strtoupper( trim( $charset ) ) );
