@@ -133,7 +133,7 @@ class WP_HTML_Doctype_Info {
 	 * This value should be considered "read only" and not modified.
 	 *
 	 * When an HTML parser has not already set the document compatibility mode,
-	 * (e.g. "quirks" or "no-quirks" mode), it will infer if from the properties
+	 * (e.g. "quirks" or "no-quirks" mode), it will be inferred from the properties
 	 * of the appropriate DOCTYPE declaration, if one exists. The DOCTYPE can
 	 * indicate one of three possible document compatibility modes:
 	 *
@@ -150,7 +150,7 @@ class WP_HTML_Doctype_Info {
 	 *
 	 * @var string One of "no-quirks", "limited-quirks", or "quirks".
 	 */
-	public $indicated_compatability_mode;
+	public $indicated_compatibility_mode;
 
 	/**
 	 * Constructor.
@@ -194,7 +194,7 @@ class WP_HTML_Doctype_Info {
 		 * > The force-quirks flag is set to on.
 		 */
 		if ( $force_quirks_flag ) {
-			$this->indicated_compatability_mode = 'quirks';
+			$this->indicated_compatibility_mode = 'quirks';
 			return;
 		}
 
@@ -203,7 +203,7 @@ class WP_HTML_Doctype_Info {
 		 * public or system identifiers; short-circuit to avoid extra parsing.
 		 */
 		if ( 'html' === $name && null === $public_identifier && null === $system_identifier ) {
-			$this->indicated_compatability_mode = 'no-quirks';
+			$this->indicated_compatibility_mode = 'no-quirks';
 			return;
 		}
 
@@ -214,7 +214,7 @@ class WP_HTML_Doctype_Info {
 		 * the document in upper case; thus no conversion is required here.
 		 */
 		if ( 'html' !== $name ) {
-			$this->indicated_compatability_mode = 'quirks';
+			$this->indicated_compatibility_mode = 'quirks';
 			return;
 		}
 
@@ -242,7 +242,7 @@ class WP_HTML_Doctype_Info {
 			'-/w3c/dtd html 4.0 transitional/en' === $public_identifier ||
 			'html' === $public_identifier
 		) {
-			$this->indicated_compatability_mode = 'quirks';
+			$this->indicated_compatibility_mode = 'quirks';
 			return;
 		}
 
@@ -250,7 +250,7 @@ class WP_HTML_Doctype_Info {
 		 * > The system identifier is set to…
 		 */
 		if ( 'http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd' === $system_identifier ) {
-			$this->indicated_compatability_mode = 'quirks';
+			$this->indicated_compatibility_mode = 'quirks';
 			return;
 		}
 
@@ -259,7 +259,7 @@ class WP_HTML_Doctype_Info {
 		 * If the public identifier is empty, none of the following conditions will match.
 		 */
 		if ( '' === $public_identifier ) {
-			$this->indicated_compatability_mode = 'no-quirks';
+			$this->indicated_compatibility_mode = 'no-quirks';
 			return;
 		}
 
@@ -327,7 +327,7 @@ class WP_HTML_Doctype_Info {
 			str_starts_with( $public_identifier, '-//webtechs//dtd mozilla html 2.0//' ) ||
 			str_starts_with( $public_identifier, '-//webtechs//dtd mozilla html//' )
 		) {
-			$this->indicated_compatability_mode = 'quirks';
+			$this->indicated_compatibility_mode = 'quirks';
 			return;
 		}
 
@@ -340,7 +340,7 @@ class WP_HTML_Doctype_Info {
 				str_starts_with( $public_identifier, '-//w3c//dtd html 4.01 transitional//' )
 			)
 		) {
-			$this->indicated_compatability_mode = 'quirks';
+			$this->indicated_compatibility_mode = 'quirks';
 			return;
 		}
 
@@ -356,7 +356,7 @@ class WP_HTML_Doctype_Info {
 			str_starts_with( $public_identifier, '-//w3c//dtd xhtml 1.0 frameset//' ) ||
 			str_starts_with( $public_identifier, '-//w3c//dtd xhtml 1.0 transitional//' )
 		) {
-			$this->indicated_compatability_mode = 'limited-quirks';
+			$this->indicated_compatibility_mode = 'limited-quirks';
 			return;
 		}
 
@@ -369,11 +369,11 @@ class WP_HTML_Doctype_Info {
 				str_starts_with( $public_identifier, '-//w3c//dtd html 4.01 transitional//' )
 			)
 		) {
-			$this->indicated_compatability_mode = 'limited-quirks';
+			$this->indicated_compatibility_mode = 'limited-quirks';
 			return;
 		}
 
-		$this->indicated_compatability_mode = 'no-quirks';
+		$this->indicated_compatibility_mode = 'no-quirks';
 	}
 
 	/**
@@ -387,15 +387,15 @@ class WP_HTML_Doctype_Info {
 	 *
 	 *     // Normative HTML DOCTYPE declaration.
 	 *     $doctype = WP_HTML_Doctype_Info::from_doctype_token( '<!DOCTYPE html>' );
-	 *     'no-quirks' === $doctype->indicated_compatability_mode;
+	 *     'no-quirks' === $doctype->indicated_compatibility_mode;
 	 *
 	 *     // A nonsensical DOCTYPE is still valid, and will indicate "quirks" mode.
 	 *     $doctype = WP_HTML_Doctype_Info::from_doctype_token( '<!doctypeJSON SILLY "nonsense\'>' );
-	 *     'quirks' === $doctype->indicated_compatability_mode;
+	 *     'quirks' === $doctype->indicated_compatibility_mode;
 	 *
 	 *     // Textual quirks present in raw HTML are handled appropriately.
 	 *     $doctype = WP_HTML_Doctype_Info::from_doctype_token( "<!DOCTYPE\nhtml\n>" );
-	 *     'no-quirks' === $doctype->indicated_compatability_mode;
+	 *     'no-quirks' === $doctype->indicated_compatibility_mode;
 	 *
 	 *     // Anything other than a proper DOCTYPE declaration token fails to parse.
 	 *     null === WP_HTML_Doctype_Info::from_doctype_token( ' <!DOCTYPE>' );

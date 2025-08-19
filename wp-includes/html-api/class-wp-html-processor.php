@@ -1470,7 +1470,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor {
 			 */
 			case 'html':
 				$doctype = $this->get_doctype_info();
-				if ( null !== $doctype && 'quirks' === $doctype->indicated_compatability_mode ) {
+				if ( null !== $doctype && 'quirks' === $doctype->indicated_compatibility_mode ) {
 					$this->compat_mode = WP_HTML_Tag_Processor::QUIRKS_MODE;
 				}
 
