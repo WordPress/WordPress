@@ -264,7 +264,7 @@ class WP_Http {
 		 *
 		 *  - An array containing 'headers', 'body', 'response', 'cookies', and 'filename' elements
 		 *  - A WP_Error instance
-		 *  - boolean false to avoid short-circuiting the response
+		 *  - Boolean false to avoid short-circuiting the response
 		 *
 		 * Returning any other value may result in unexpected behavior.
 		 *
