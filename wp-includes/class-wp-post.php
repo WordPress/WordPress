@@ -233,7 +233,7 @@ final class WP_Post {
 		global $wpdb;
 
 		$post_id = (int) $post_id;
-		if ( ! $post_id ) {
+		if ( $post_id <= 0 ) {
 			return false;
 		}
 
