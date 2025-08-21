@@ -161,15 +161,15 @@ EOD;
         // Initialises capabilities array
         $this->capabilities = array(
             'xmlrpc' => array(
-                'specUrl' => 'http://www.xmlrpc.com/spec',
+                'specUrl' => 'https://xmlrpc.com/spec.md',
                 'specVersion' => 1
         ),
             'faults_interop' => array(
-                'specUrl' => 'http://xmlrpc-epi.sourceforge.net/specs/rfc.fault_codes.php',
+                'specUrl' => 'https://web.archive.org/web/20240416231938/https://xmlrpc-epi.sourceforge.net/specs/rfc.fault_codes.php',
                 'specVersion' => 20010516
         ),
             'system.multicall' => array(
-                'specUrl' => 'http://www.xmlrpc.com/discuss/msgReader$1208',
+                'specUrl' => 'https://web.archive.org/web/20060624230303/http://www.xmlrpc.com/discuss/msgReader$1208?mode=topic',
                 'specVersion' => 1
         ),
         );
