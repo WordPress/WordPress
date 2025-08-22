@@ -58,7 +58,7 @@ class _WP_Dependency {
 	 * Additional arguments for the handle.
 	 *
 	 * @since 2.6.0
-	 * @var array
+	 * @var mixed
 	 */
 	public $args = null;  // Custom property, such as $in_footer or $media.
 
