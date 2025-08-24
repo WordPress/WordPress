@@ -2631,9 +2631,9 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 /**
  * Prints out the beginning of the admin HTML header.
  *
- * @global bool $is_IE
- *
  * @since 3.3.0
+ *
+ * @global bool $is_IE
  */
 function _wp_admin_html_begin() {
 	global $is_IE;

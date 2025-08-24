@@ -984,9 +984,9 @@ final class WP_Screen {
 	}
 
 	/**
-	 * @global array $wp_meta_boxes Global meta box state.
-	 *
 	 * @since 3.3.0
+	 *
+	 * @global array $wp_meta_boxes Global meta box state.
 	 *
 	 * @return bool
 	 */
