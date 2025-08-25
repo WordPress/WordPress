@@ -177,7 +177,7 @@ class IXR_Message
                 $valueFlag = true;
                 break;
             case 'double':
-                $value = (double)trim($this->_currentTagContents);
+                $value = (float)trim($this->_currentTagContents);
                 $valueFlag = true;
                 break;
             case 'string':
@@ -196,7 +196,7 @@ class IXR_Message
                 }
                 break;
             case 'boolean':
-                $value = (boolean)trim($this->_currentTagContents);
+                $value = (bool)trim($this->_currentTagContents);
                 $valueFlag = true;
                 break;
             case 'base64':
