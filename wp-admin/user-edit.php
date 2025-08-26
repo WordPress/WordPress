@@ -891,7 +891,7 @@ switch ( $action ) {
 					<?php
 					if ( IS_PROFILE_PAGE ) {
 						/**
-						 * Fires after the 'About Yourself' settings table on the 'Profile' editing screen.
+						 * Fires after the 'Application Passwords' section is loaded on the 'Profile' editing screen.
 						 *
 						 * The action only fires if the current user is editing their own profile.
 						 *
@@ -902,7 +902,9 @@ switch ( $action ) {
 						do_action( 'show_user_profile', $profile_user );
 					} else {
 						/**
-						 * Fires after the 'About the User' settings table on the 'Edit User' screen.
+						 * Fires after the 'Application Passwords' section is loaded on 'Edit User' screen.
+						 *
+						 * The action only fires if the current user is editing another user's profile.
 						 *
 						 * @since 2.0.0
 						 *
