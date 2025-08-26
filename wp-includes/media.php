@@ -3056,6 +3056,8 @@ function wp_playlist_shortcode( $attr ) {
 	static $instance = 0;
 	++$instance;
 
+	static $is_loaded = false;
+
 	if ( ! empty( $attr['ids'] ) ) {
 		// 'ids' is explicitly ordered, unless you specify otherwise.
 		if ( empty( $attr['orderby'] ) ) {
@@ -3237,7 +3239,7 @@ function wp_playlist_shortcode( $attr ) {
 
 	ob_start();
 
-	if ( 1 === $instance ) {
+	if ( ! $is_loaded ) {
 		/**
 		 * Prints and enqueues playlist scripts, styles, and JavaScript templates.
 		 *
@@ -3247,6 +3249,7 @@ function wp_playlist_shortcode( $attr ) {
 		 * @param string $style The 'theme' for the playlist. Core provides 'light' and 'dark'.
 		 */
 		do_action( 'wp_playlist_scripts', $atts['type'], $atts['style'] );
+		$is_loaded = true;
 	}
 	?>
 <div class="wp-playlist wp-<?php echo $safe_type; ?>-playlist wp-playlist-<?php echo $safe_style; ?>">
