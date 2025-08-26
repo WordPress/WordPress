@@ -124,7 +124,7 @@ class WP_Customize_Control {
 	/**
 	 * List of custom input attributes for control output, where attribute names are the keys and values are the values.
 	 *
-	 * Not used for 'checkbox', 'radio', 'select', 'textarea', or 'dropdown-pages' control types.
+	 * Not used for 'checkbox', 'radio', 'select', or 'dropdown-pages' control types.
 	 *
 	 * @since 4.0.0
 	 * @var array
@@ -201,8 +201,8 @@ class WP_Customize_Control {
 	 *                                                 Default empty array.
 	 *     @type array                $input_attrs     List of custom input attributes for control output, where
 	 *                                                 attribute names are the keys and values are the values. Not
-	 *                                                 used for 'checkbox', 'radio', 'select', 'textarea', or
-	 *                                                 'dropdown-pages' control types. Default empty array.
+	 *                                                 used for 'checkbox', 'radio', 'select', or 'dropdown-pages'
+	 *                                                 control types. Default empty array.
 	 *     @type bool                 $allow_addition  Show UI for adding new content, currently only used for the
 	 *                                                 dropdown-pages control. Default false.
 	 *     @type array                $json            Deprecated. Use WP_Customize_Control::json() instead.
