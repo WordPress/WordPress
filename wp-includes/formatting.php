@@ -5978,16 +5978,20 @@ function wp_unslash( $value ) {
  *
  * @since 3.6.0
  *
- * @param string $content A string which might contain a URL.
- * @return string|false The found URL.
+ * @param string $content A string which might contain an `A` element with a non-empty `href` attribute.
+ * @return string|false Database-escaped URL via {@see esc_url()} if found, otherwise `false`.
  */
 function get_url_in_content( $content ) {
 	if ( empty( $content ) ) {
 		return false;
 	}
 
-	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
-		return sanitize_url( $matches[2] );
+	$processor = new WP_HTML_Tag_Processor( $content );
+	while ( $processor->next_tag( 'A' ) ) {
+		$href = $processor->get_attribute( 'href' );
+		if ( is_string( $href ) && ! empty( $href ) ) {
+			return sanitize_url( $href );
+		}
 	}
 
 	return false;
