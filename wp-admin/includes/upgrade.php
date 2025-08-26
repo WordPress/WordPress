@@ -880,6 +880,7 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 58975 ) {
 		upgrade_670();
+		upgrade_690();
 	}
 
 	if ( $wp_current_db_version < 60421 ) {
@@ -2412,6 +2413,29 @@ function upgrade_650() {
 
 		$autoload = array_fill_keys( $theme_mods_options, false );
 		wp_set_option_autoload_values( $autoload );
+	}
+}
+
+/**
+ * Executes changes made in WordPress 6.9.0.
+ *
+ * @ignore
+ * @since 6.9.0
+ *
+ * @global int $wp_current_db_version The old (current) database version.
+ */
+function upgrade_690() {
+	global $wp_current_db_version;
+
+	// Switch Hello Dolly from file to directory format. See #53323
+	$active_plugins = get_option( 'active_plugins' );
+	$old_plugin     = 'hello.php';
+	$new_plugin     = 'hello-dolly/hello.php';
+	$key            = array_search( $old_plugin, $active_plugins, true );
+
+	if ( $key ) {
+		$active_plugins[ $key ] = $new_plugin;
+		update_option( 'active_plugins', $active_plugins );
 	}
 }
 /**
