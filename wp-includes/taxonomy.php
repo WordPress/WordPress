@@ -1630,6 +1630,10 @@ function term_exists( $term, $taxonomy = '', $parent_term = null ) {
 	 */
 	$defaults = apply_filters( 'term_exists_default_query_args', $defaults, $term, $taxonomy, $parent_term );
 
+	if ( ! empty( $taxonomy ) && is_numeric( $parent_term ) ) {
+		$defaults['parent'] = (int) $parent_term;
+	}
+
 	if ( is_int( $term ) ) {
 		if ( 0 === $term ) {
 			return 0;
@@ -1640,10 +1644,6 @@ function term_exists( $term, $taxonomy = '', $parent_term = null ) {
 		$term = trim( wp_unslash( $term ) );
 		if ( '' === $term ) {
 			return null;
-		}
-
-		if ( ! empty( $taxonomy ) && is_numeric( $parent_term ) ) {
-			$defaults['parent'] = (int) $parent_term;
 		}
 
 		$args  = wp_parse_args( array( 'slug' => sanitize_title( $term ) ), $defaults );
