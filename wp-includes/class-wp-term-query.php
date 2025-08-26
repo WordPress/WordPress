@@ -849,7 +849,8 @@ class WP_Term_Query {
 					if ( is_array( $children ) ) {
 						foreach ( $children as $child_id ) {
 							$child = get_term( $child_id, $term->taxonomy );
-							if ( $child->count ) {
+
+							if ( $child instanceof WP_Term && $child->count ) {
 								continue 2;
 							}
 						}
