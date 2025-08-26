@@ -566,7 +566,7 @@ class WP_Customize_Control {
 				<?php
 				break;
 			case 'textarea':
-				if ( !array_key_exists( 'rows', $this->input_attrs ) ) {
+				if ( ! array_key_exists( 'rows', $this->input_attrs ) ) {
 					$this->input_attrs['rows'] = 5;
 				}
 				?>
