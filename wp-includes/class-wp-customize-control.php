@@ -566,6 +566,9 @@ class WP_Customize_Control {
 				<?php
 				break;
 			case 'textarea':
+				if ( !array_key_exists( 'rows', $this->input_attrs ) ) {
+					$this->input_attrs['rows'] = 5;
+				}
 				?>
 				<?php if ( ! empty( $this->label ) ) : ?>
 					<label for="<?php echo esc_attr( $input_id ); ?>" class="customize-control-title"><?php echo esc_html( $this->label ); ?></label>
@@ -575,7 +578,6 @@ class WP_Customize_Control {
 				<?php endif; ?>
 				<textarea
 					id="<?php echo esc_attr( $input_id ); ?>"
-					rows="5"
 					<?php echo $describedby_attr; ?>
 					<?php $this->input_attrs(); ?>
 					<?php $this->link(); ?>
