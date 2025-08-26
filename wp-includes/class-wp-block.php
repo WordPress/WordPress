@@ -297,7 +297,6 @@ class WP_Block {
 		$block_type                 = $this->name;
 		$parsed_block               = $this->parsed_block;
 		$computed_attributes        = array();
-
 		$supported_block_attributes =
 			self::BLOCK_BINDINGS_SUPPORTED_ATTRIBUTES[ $block_type ] ??
 			array();
