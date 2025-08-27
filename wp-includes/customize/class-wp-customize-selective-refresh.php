@@ -193,7 +193,7 @@ final class WP_Customize_Selective_Refresh {
 		);
 
 		// Export data to JS.
-		wp_print_inline_script_tag( sprintf( 'var _customizePartialRefreshExports = %s;', wp_json_encode( $exports ) ) );
+		wp_print_inline_script_tag( sprintf( 'var _customizePartialRefreshExports = %s;', wp_json_encode( $exports, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ) );
 	}
 
 	/**

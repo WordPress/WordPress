@@ -2442,7 +2442,7 @@ function the_block_editor_meta_boxes() {
 	 * our editor instance.
 	 */
 	$script = 'window._wpLoadBlockEditor.then( function() {
-		wp.data.dispatch( \'core/edit-post\' ).setAvailableMetaBoxesPerLocation( ' . wp_json_encode( $meta_boxes_per_location ) . ' );
+		wp.data.dispatch( \'core/edit-post\' ).setAvailableMetaBoxesPerLocation( ' . wp_json_encode( $meta_boxes_per_location, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ' );
 	} );';
 
 	wp_add_inline_script( 'wp-edit-post', $script );

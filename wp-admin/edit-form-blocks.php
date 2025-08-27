@@ -115,7 +115,7 @@ block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
 wp_add_inline_script(
 	'wp-blocks',
-	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( get_block_categories( $post ) ) ),
+	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( get_block_categories( $post ), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ),
 	'after'
 );
 
@@ -144,7 +144,7 @@ if ( 'auto-draft' === $post->post_status ) {
 // Preload server-registered block schemas.
 wp_add_inline_script(
 	'wp-blocks',
-	'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
+	'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ');'
 );
 
 // Preload server-registered block bindings sources.
@@ -158,7 +158,7 @@ if ( ! empty( $registered_sources ) ) {
 			'usesContext' => $source->uses_context,
 		);
 	}
-	$script = sprintf( 'for ( const source of %s ) { wp.blocks.registerBlockBindingsSource( source ); }', wp_json_encode( $filtered_sources ) );
+	$script = sprintf( 'for ( const source of %s ) { wp.blocks.registerBlockBindingsSource( source ); }', wp_json_encode( $filtered_sources, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
 	wp_add_inline_script(
 		'wp-blocks',
 		$script
@@ -178,7 +178,7 @@ $meta_box_url = add_query_arg(
 );
 wp_add_inline_script(
 	'wp-editor',
-	sprintf( 'var _wpMetaBoxUrl = %s;', wp_json_encode( $meta_box_url ) ),
+	sprintf( 'var _wpMetaBoxUrl = %s;', wp_json_encode( $meta_box_url, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ),
 	'before'
 );
 
@@ -364,8 +364,8 @@ $script = sprintf(
 	$init_script,
 	$post->post_type,
 	$post->ID,
-	wp_json_encode( $editor_settings ),
-	wp_json_encode( $initial_edits )
+	wp_json_encode( $editor_settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+	wp_json_encode( $initial_edits, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 );
 wp_add_inline_script( 'wp-edit-post', $script );
 

@@ -37,7 +37,7 @@ function options_general_add_js() {
 	jQuery( function($) {
 		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first(),
 			$siteIconPreview = $('#site-icon-preview-site-title'),
-			homeURL = ( <?php echo wp_json_encode( get_home_url() ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
+			homeURL = ( <?php echo wp_json_encode( get_home_url(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
 
 		$( '#blogname' ).on( 'input', function() {
 			var title = $.trim( $( this ).val() ) || homeURL;

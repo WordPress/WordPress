@@ -435,7 +435,7 @@ class WP_Widget_Text extends WP_Widget {
 		wp_enqueue_editor();
 		wp_enqueue_media();
 		wp_enqueue_script( 'text-widgets' );
-		wp_add_inline_script( 'text-widgets', sprintf( 'wp.textWidgets.idBases.push( %s );', wp_json_encode( $this->id_base ) ) );
+		wp_add_inline_script( 'text-widgets', sprintf( 'wp.textWidgets.idBases.push( %s );', wp_json_encode( $this->id_base, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ) );
 		wp_add_inline_script( 'text-widgets', 'wp.textWidgets.init();', 'after' );
 	}
 

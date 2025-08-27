@@ -248,7 +248,7 @@ class WP_Script_Modules {
 		$import_map = $this->get_import_map();
 		if ( ! empty( $import_map['imports'] ) ) {
 			wp_print_inline_script_tag(
-				wp_json_encode( $import_map, JSON_HEX_TAG | JSON_HEX_AMP ),
+				wp_json_encode( $import_map, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
 				array(
 					'type' => 'importmap',
 					'id'   => 'wp-importmap',

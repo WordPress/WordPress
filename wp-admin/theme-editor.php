@@ -146,7 +146,7 @@ $settings = array(
 	'codeEditor' => wp_enqueue_code_editor( compact( 'file' ) ),
 );
 wp_enqueue_script( 'wp-theme-plugin-editor' );
-wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
+wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ) );
 wp_add_inline_script( 'wp-theme-plugin-editor', 'wp.themePluginEditor.themeOrPlugin = "theme";' );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';

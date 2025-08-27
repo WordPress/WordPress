@@ -357,7 +357,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$args = array_merge( $args, $extra_args );
 		}
 
-		printf( "<script type='text/javascript'>var theme_list_args = %s;</script>\n", wp_json_encode( $args ) );
+		printf( "<script type='text/javascript'>var theme_list_args = %s;</script>\n", wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
 		parent::_js_vars();
 	}
 }

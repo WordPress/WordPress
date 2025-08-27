@@ -274,7 +274,7 @@ function media_send_to_editor( $html ) {
 	?>
 	<script type="text/javascript">
 	var win = window.dialogArguments || opener || parent || top;
-	win.send_to_editor( <?php echo wp_json_encode( $html ); ?> );
+	win.send_to_editor( <?php echo wp_json_encode( $html, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?> );
 	</script>
 	<?php
 	exit;
@@ -2236,7 +2236,7 @@ function media_upload_form( $errors = null ) {
 
 	?>
 	var resize_height = <?php echo $large_size_h; ?>, resize_width = <?php echo $large_size_w; ?>,
-	wpUploaderInit = <?php echo wp_json_encode( $plupload_init ); ?>;
+	wpUploaderInit = <?php echo wp_json_encode( $plupload_init, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?>;
 	</script>
 
 	<div id="plupload-upload-ui" class="hide-if-no-js">

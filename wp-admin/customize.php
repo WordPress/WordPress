@@ -62,7 +62,7 @@ if ( $wp_customize->changeset_post_id() ) {
 		?>
 		<?php wp_print_scripts( array( 'wp-util' ) ); ?>
 		<script>
-			wp.ajax.post( 'customize_save', <?php echo wp_json_encode( $request_args ); ?> );
+			wp.ajax.post( 'customize_save', <?php echo wp_json_encode( $request_args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?> );
 		</script>
 		<?php
 		$script = ob_get_clean();
@@ -158,7 +158,7 @@ $admin_title = sprintf( $wp_customize->get_document_title_template(), __( 'Loadi
 <title><?php echo esc_html( $admin_title ); ?></title>
 
 <script type="text/javascript">
-var ajaxurl = <?php echo wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ) ); ?>,
+var ajaxurl = <?php echo wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?>,
 	pagenow = 'customize';
 </script>
 

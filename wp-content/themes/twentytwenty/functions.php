@@ -684,8 +684,8 @@ function twentytwenty_customize_preview_init() {
 		'twentytwenty-customize-preview',
 		sprintf(
 			'wp.customize.selectiveRefresh.partialConstructor[ %1$s ].prototype.attrs = %2$s;',
-			wp_json_encode( 'cover_opacity' ),
-			wp_json_encode( twentytwenty_customize_opacity_range() )
+			wp_json_encode( 'cover_opacity', JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+			wp_json_encode( twentytwenty_customize_opacity_range(), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 		)
 	);
 }

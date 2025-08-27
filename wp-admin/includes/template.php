@@ -2479,7 +2479,7 @@ function get_media_states( $post ) {
 function compression_test() {
 	?>
 	<script type="text/javascript">
-	var compressionNonce = <?php echo wp_json_encode( wp_create_nonce( 'update_can_compress_scripts' ) ); ?>;
+	var compressionNonce = <?php echo wp_json_encode( wp_create_nonce( 'update_can_compress_scripts' ), JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); ?>;
 	var testCompression = {
 		get : function(test) {
 			var x;

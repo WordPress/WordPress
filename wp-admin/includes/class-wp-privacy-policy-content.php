@@ -348,7 +348,7 @@ final class WP_Privacy_Policy_Content {
 				sprintf(
 					'wp.data.dispatch( "core/notices" ).createWarningNotice( "%s", { actions: [ %s ], isDismissible: false } )',
 					$message,
-					wp_json_encode( $action )
+					wp_json_encode( $action, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 				),
 				'after'
 			);

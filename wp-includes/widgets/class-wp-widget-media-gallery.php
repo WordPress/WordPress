@@ -148,8 +148,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 			$handle,
 			sprintf(
 				'wp.mediaWidgets.modelConstructors[ %s ].prototype.schema = %s;',
-				wp_json_encode( $this->id_base ),
-				wp_json_encode( $exported_schema )
+				wp_json_encode( $this->id_base, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+				wp_json_encode( $exported_schema, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 			)
 		);
 
@@ -160,9 +160,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 					wp.mediaWidgets.controlConstructors[ %1$s ].prototype.mime_type = %2$s;
 					_.extend( wp.mediaWidgets.controlConstructors[ %1$s ].prototype.l10n, %3$s );
 				',
-				wp_json_encode( $this->id_base ),
-				wp_json_encode( $this->widget_options['mime_type'] ),
-				wp_json_encode( $this->l10n )
+				wp_json_encode( $this->id_base, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+				wp_json_encode( $this->widget_options['mime_type'], JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+				wp_json_encode( $this->l10n, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 			)
 		);
 	}

@@ -545,7 +545,7 @@ final class WP_Customize_Nav_Menus {
 			'locationSlugMappedToName' => get_registered_nav_menus(),
 		);
 
-		$data = sprintf( 'var _wpCustomizeNavMenusSettings = %s;', wp_json_encode( $settings ) );
+		$data = sprintf( 'var _wpCustomizeNavMenusSettings = %s;', wp_json_encode( $settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
 		wp_scripts()->add_data( 'customize-nav-menus', 'data', $data );
 
 		// This is copied from nav-menus.php, and it has an unfortunate object name of `menus`.
@@ -1548,7 +1548,7 @@ final class WP_Customize_Nav_Menus {
 		$exports = array(
 			'navMenuInstanceArgs' => $this->preview_nav_menu_instance_args,
 		);
-		wp_print_inline_script_tag( sprintf( 'var _wpCustomizePreviewNavMenusExports = %s;', wp_json_encode( $exports ) ) );
+		wp_print_inline_script_tag( sprintf( 'var _wpCustomizePreviewNavMenusExports = %s;', wp_json_encode( $exports, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) ) );
 	}
 
 	/**
