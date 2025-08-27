@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * These may be populated through a custom `sunrise.php`. If not, then this
  * file will attempt to populate them based on the current request.
  *
+ * @since 3.0.0
+ *
  * @global WP_Network $current_site The current network.
  * @global object     $current_blog The current site.
  * @global string     $domain       Deprecated. The domain of the site found on load.
@@ -31,8 +33,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  *                                  Use `get_current_network_id()` instead.
  * @global bool       $public       Deprecated. Whether the site found on load is public.
  *                                  Use `get_site()->public` instead.
- *
- * @since 3.0.0
  */
 global $current_site, $current_blog, $domain, $path, $site_id, $public;
 

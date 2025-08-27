@@ -672,9 +672,9 @@ if ( is_nav_menu( $nav_menu_selected_id ) ) {
 }
 
 /**
- * @global int $_wp_nav_menu_max_depth
- *
  * @since 3.0.0
+ *
+ * @global int $_wp_nav_menu_max_depth
  *
  * @param string $classes
  * @return string
