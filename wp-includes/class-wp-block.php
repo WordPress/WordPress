@@ -416,7 +416,7 @@ class WP_Block {
 		switch ( $block_type->attributes[ $attribute_name ]['source'] ) {
 			case 'html':
 			case 'rich-text':
-				$block_reader = new WP_HTML_Tag_Processor( $block_content );
+				$block_reader = self::get_block_bindings_processor( $block_content );
 
 				// TODO: Support for CSS selectors whenever they are ready in the HTML API.
 				// In the meantime, support comma-separated selectors by exploding them into an array.
@@ -425,18 +425,6 @@ class WP_Block {
 				$block_reader->next_tag();
 				$block_reader->set_bookmark( 'iterate-selectors' );
 
-				// TODO: This shouldn't be needed when the `set_inner_html` function is ready.
-				// Store the parent tag and its attributes to be able to restore them later in the button.
-				// The button block has a wrapper while the paragraph and heading blocks don't.
-				if ( 'core/button' === $this->name ) {
-					$button_wrapper                 = $block_reader->get_tag();
-					$button_wrapper_attribute_names = $block_reader->get_attribute_names_with_prefix( '' );
-					$button_wrapper_attrs           = array();
-					foreach ( $button_wrapper_attribute_names as $name ) {
-						$button_wrapper_attrs[ $name ] = $block_reader->get_attribute( $name );
-					}
-				}
-
 				foreach ( $selectors as $selector ) {
 					// If the parent tag, or any of its children, matches the selector, replace the HTML.
 					if ( strcasecmp( $block_reader->get_tag(), $selector ) === 0 || $block_reader->next_tag(
@@ -444,34 +432,10 @@ class WP_Block {
 							'tag_name' => $selector,
 						)
 					) ) {
+						// TODO: Use `WP_HTML_Processor::set_inner_html` method once it's available.
 						$block_reader->release_bookmark( 'iterate-selectors' );
-
-						// TODO: Use `set_inner_html` method whenever it's ready in the HTML API.
-						// Until then, it is hardcoded for the paragraph, heading, and button blocks.
-						// Store the tag and its attributes to be able to restore them later.
-						$selector_attribute_names = $block_reader->get_attribute_names_with_prefix( '' );
-						$selector_attrs           = array();
-						foreach ( $selector_attribute_names as $name ) {
-							$selector_attrs[ $name ] = $block_reader->get_attribute( $name );
-						}
-						$selector_markup = "<$selector>" . wp_kses_post( $source_value ) . "</$selector>";
-						$amended_content = new WP_HTML_Tag_Processor( $selector_markup );
-						$amended_content->next_tag();
-						foreach ( $selector_attrs as $attribute_key => $attribute_value ) {
-							$amended_content->set_attribute( $attribute_key, $attribute_value );
-						}
-						if ( 'core/paragraph' === $this->name || 'core/heading' === $this->name ) {
-							return $amended_content->get_updated_html();
-						}
-						if ( 'core/button' === $this->name ) {
-							$button_markup  = "<$button_wrapper>{$amended_content->get_updated_html()}</$button_wrapper>";
-							$amended_button = new WP_HTML_Tag_Processor( $button_markup );
-							$amended_button->next_tag();
-							foreach ( $button_wrapper_attrs as $attribute_key => $attribute_value ) {
-								$amended_button->set_attribute( $attribute_key, $attribute_value );
-							}
-							return $amended_button->get_updated_html();
-						}
+						$block_reader->replace_rich_text( wp_kses_post( $source_value ) );
+						return $block_reader->get_updated_html();
 					} else {
 						$block_reader->seek( 'iterate-selectors' );
 					}
@@ -497,6 +461,51 @@ class WP_Block {
 		}
 	}
 
+	private static function get_block_bindings_processor( string $block_content ) {
+		$internal_processor_class = new class('', WP_HTML_Processor::CONSTRUCTOR_UNLOCK_CODE) extends WP_HTML_Processor {
+			/**
+			 * Replace the rich text content between a tag opener and matching closer.
+			 *
+			 * When stopped on a tag opener, replace the content enclosed by it and its
+			 * matching closer with the provided rich text.
+			 *
+			 * @param string $rich_text The rich text to replace the original content with.
+			 * @return bool True on success.
+			 */
+			public function replace_rich_text( $rich_text ) {
+				if ( $this->is_tag_closer() || ! $this->expects_closer() ) {
+					return false;
+				}
+
+				$depth = $this->get_current_depth();
+
+				$this->set_bookmark( '_wp_block_bindings_tag_opener' );
+				// The bookmark names are prefixed with `_` so the key below has an extra `_`.
+				$tag_opener = $this->bookmarks['__wp_block_bindings_tag_opener'];
+				$start      = $tag_opener->start + $tag_opener->length;
+				$this->release_bookmark( '_wp_block_bindings_tag_opener' );
+
+				// Find matching tag closer.
+				while ( $this->next_token() && $this->get_current_depth() >= $depth ) {
+				}
+
+				$this->set_bookmark( '_wp_block_bindings_tag_closer' );
+				$tag_closer  = $this->bookmarks['__wp_block_bindings_tag_closer'];
+				$end         = $tag_closer->start;
+				$this->release_bookmark( '_wp_block_bindings_tag_closer' );
+
+				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
+					$start,
+					$end - $start,
+					$rich_text
+				);
+
+				return true;
+			}
+		};
+
+		return $internal_processor_class::create_fragment( $block_content );
+	}
 
 	/**
 	 * Generates the render output for the block.
