@@ -1316,9 +1316,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 /* modified for the emoji */
 .plugins .plugin-title .dashicons,
-.plugins .plugin-title img.dashicons,
-.plugins .plugin-title img[class*="icon"],
-.plugins .plugin-title img[src*="data:image"] {
+.plugins .plugin-title img.plugin-icon {
 	float: right;
 	padding: 0 0 0 10px;
 	width: 64px;
@@ -1742,7 +1740,7 @@ div.action-links,
 	margin: 20px 20px 0;
 }
 
-.plugin-icon {
+.plugin-card .plugin-icon {
 	position: absolute;
 	top: 20px;
 	right: 20px;
