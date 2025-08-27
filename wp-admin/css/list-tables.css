@@ -1313,9 +1313,10 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	white-space: nowrap;
 }
 
-/* modified for the emoji */
+
 .plugins .plugin-title .dashicons,
-.plugins .plugin-title img.plugin-icon {
+.plugins .plugin-title img.plugin-icon,
+.plugins .plugin-title img.updates-table-screenshot {
 	float: left;
 	padding: 0 10px 0 0;
 	width: 64px;
@@ -1330,7 +1331,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	color: #c3c4c7;
 }
 
-#update-themes-table .plugin-title img,
+#update-themes-table .plugin-title img.updates-table-screenshot,
 #update-themes-table .plugin-title .dashicons {
 	width: 85px;
 }
