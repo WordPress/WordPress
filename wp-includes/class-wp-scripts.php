@@ -222,6 +222,11 @@ class WP_Scripts extends WP_Dependencies {
 			return;
 		}
 
+		$output .= sprintf(
+			"\n//# sourceURL=inline:%s",
+			rawurlencode( "{$handle}-js-extra" )
+		);
+
 		if ( ! $display ) {
 			return $output;
 		}
@@ -520,6 +525,11 @@ class WP_Scripts extends WP_Dependencies {
 		if ( empty( $data ) || ! is_array( $data ) ) {
 			return '';
 		}
+
+		$data[] = sprintf(
+			'//# sourceURL=inline:%s',
+			rawurlencode( "{$handle}-js-{$position}" )
+		);
 
 		return trim( implode( "\n", $data ), "\n" );
 	}
