@@ -1227,7 +1227,20 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 					return true;
 				}
 			);
-			$query_result                  = array_merge( $query_result, $matching_registered_templates );
+
+			$matching_registered_templates = array_map(
+				function ( $template ) {
+					$template->content = apply_block_hooks_to_content(
+						$template->content,
+						$template,
+						'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata'
+					);
+					return $template;
+				},
+				$matching_registered_templates
+			);
+
+			$query_result = array_merge( $query_result, $matching_registered_templates );
 		}
 	}
 
@@ -1323,9 +1336,10 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 }
 
 /**
- * Retrieves a unified template object based on a theme file.
+ * Retrieves a unified template object based on a theme file or plugin registration.
  *
  * This is a fallback of get_block_template(), used when no templates are found in the database.
+ * Also checks for templates registered via the Template Registration API.
  *
  * @since 5.9.0
  *
@@ -1370,6 +1384,14 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	}
 
 	$block_template = WP_Block_Templates_Registry::get_instance()->get_by_slug( $slug );
+
+	if ( $block_template ) {
+		$block_template->content = apply_block_hooks_to_content(
+			$block_template->content,
+			$block_template,
+			'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata'
+		);
+	}
 
 	/**
 	 * Filters the block template object after it has been (potentially) fetched from the theme file.
