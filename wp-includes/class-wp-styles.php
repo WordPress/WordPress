@@ -337,11 +337,6 @@ class WP_Styles extends WP_Dependencies {
 			return false;
 		}
 
-		$output[] = sprintf(
-			'/*# sourceURL=%s */',
-			rawurlencode( "{$handle}-inline-css" )
-		);
-
 		$output = implode( "\n", $output );
 
 		if ( ! $display ) {
