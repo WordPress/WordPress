@@ -48,8 +48,28 @@ function _wp_can_use_pcre_u( $set = null ) {
 	}
 
 	if ( 'reset' === $utf8_pcre ) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- intentional error generated to detect PCRE/u support.
-		$utf8_pcre = @preg_match( '/^./u', 'a' );
+		$utf8_pcre = true;
+
+		set_error_handler(
+			function ( $errno, $errstr ) use ( &$utf8_pcre ) {
+				if ( str_starts_with( $errstr, 'preg_match():' ) ) {
+					$utf8_pcre = false;
+					return true;
+				}
+
+				return false;
+			},
+			E_WARNING
+		);
+
+		/*
+		 * Attempt to compile a PCRE pattern with the PCRE_UTF8 flag. For
+		 * systems lacking Unicode support this will trigger a warning
+		 * during compilation, which the error handler will intercept.
+		 */
+		preg_match( '//u', '' );
+
+		restore_error_handler();
 	}
 
 	return $utf8_pcre;
