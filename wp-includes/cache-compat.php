@@ -199,3 +199,116 @@ if ( ! function_exists( 'wp_cache_supports' ) ) :
 		return false;
 	}
 endif;
+
+if ( ! function_exists( 'wp_cache_get_salted' ) ) :
+	/**
+	 * Retrieves cached data if valid and unchanged.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string          $cache_key The cache key used for storage and retrieval.
+	 * @param string          $group     The cache group used for organizing data.
+	 * @param string|string[] $salt      The timestamp (or multiple timestamps if an array) indicating when the cache group(s) were last updated.
+	 * @return mixed|false The cached data if valid, or false if the cache does not exist or is outdated.
+	 */
+	function wp_cache_get_salted( $cache_key, $group, $salt ) {
+		$salt  = is_array( $salt ) ? implode( ':', $salt ) : $salt;
+		$cache = wp_cache_get( $cache_key, $group );
+
+		if ( ! is_array( $cache ) ) {
+			return false;
+		}
+
+		if ( ! isset( $cache['salt'] ) || ! isset( $cache['data'] ) || $salt !== $cache['salt'] ) {
+			return false;
+		}
+
+		return $cache['data'];
+	}
+endif;
+
+if ( ! function_exists( 'wp_cache_set_salted' ) ) :
+	/**
+	 * Stores salted data in the cache.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string          $cache_key The cache key under which to store the data.
+	 * @param mixed           $data      The data to be cached.
+	 * @param string          $group     The cache group to which the data belongs.
+	 * @param string|string[] $salt      The timestamp (or multiple timestamps if an array) indicating when the cache group(s) were last updated.
+	 * @param int             $expire    Optional. When to expire the cache contents, in seconds.
+	 *                                   Default 0 (no expiration).
+	 * @return bool True on success, false on failure.
+	 */
+	function wp_cache_set_salted( $cache_key, $data, $group, $salt, $expire = 0 ) {
+		$salt = is_array( $salt ) ? implode( ':', $salt ) : $salt;
+		return wp_cache_set(
+			$cache_key,
+			array(
+				'data' => $data,
+				'salt' => $salt,
+			),
+			$group,
+			$expire
+		);
+	}
+endif;
+
+if ( ! function_exists( 'wp_cache_get_multiple_salted' ) ) :
+	/**
+	 * Retrieves multiple items from the cache, only considering valid and unchanged items.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param array           $cache_keys Array of cache keys to retrieve.
+	 * @param string          $group      The group of the cache to check.
+	 * @param string|string[] $salt       The timestamp (or multiple timestamps if an array) indicating when the cache group(s) were last updated.
+	 * @return array An associative array containing cache values. Values are `false` if they are not found or outdated.
+	 */
+	function wp_cache_get_multiple_salted( $cache_keys, $group, $salt ) {
+		$salt  = is_array( $salt ) ? implode( ':', $salt ) : $salt;
+		$cache = wp_cache_get_multiple( $cache_keys, $group );
+
+		foreach ( $cache as $key => $value ) {
+			if ( ! is_array( $value ) ) {
+				$cache[ $key ] = false;
+				continue;
+			}
+			if ( ! isset( $value['salt'], $value['data'] ) || $salt !== $value['salt'] ) {
+				$cache[ $key ] = false;
+				continue;
+			}
+			$cache[ $key ] = $value['data'];
+		}
+
+		return $cache;
+	}
+endif;
+
+if ( ! function_exists( 'wp_cache_set_multiple_salted' ) ) :
+	/**
+	 * Stores multiple pieces of salted data in the cache.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param mixed           $data   Data to be stored in the cache for all keys.
+	 * @param string          $group  Group to which the cached data belongs.
+	 * @param string|string[] $salt   The timestamp (or multiple timestamps if an array) indicating when the cache group(s) were last updated.
+	 * @param int             $expire Optional. When to expire the cache contents, in seconds.
+	 *                                Default 0 (no expiration).
+	 * @return bool[] Array of return values, grouped by key. Each value is either
+	 *                true on success, or false on failure.
+	 */
+	function wp_cache_set_multiple_salted( $data, $group, $salt, $expire = 0 ) {
+		$salt      = is_array( $salt ) ? implode( ':', $salt ) : $salt;
+		$new_cache = array();
+		foreach ( $data as $key => $value ) {
+			$new_cache[ $key ] = array(
+				'data' => $value,
+				'salt' => $salt,
+			);
+		}
+		return wp_cache_set_multiple( $new_cache, $group, $expire );
+	}
+endif;

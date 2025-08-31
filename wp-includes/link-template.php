@@ -2005,13 +2005,13 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 
 	$query        = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort";
 	$key          = md5( $query );
-	$last_changed = wp_cache_get_last_changed( 'posts' );
+	$last_changed = (array) wp_cache_get_last_changed( 'posts' );
 	if ( $in_same_term || ! empty( $excluded_terms ) ) {
-		$last_changed .= wp_cache_get_last_changed( 'terms' );
+		$last_changed[] = wp_cache_get_last_changed( 'terms' );
 	}
-	$cache_key = "adjacent_post:$key:$last_changed";
+	$cache_key = "adjacent_post:$key";
 
-	$result = wp_cache_get( $cache_key, 'post-queries' );
+	$result = wp_cache_get_salted( $cache_key, 'post-queries', $last_changed );
 	if ( false !== $result ) {
 		if ( $result ) {
 			$result = get_post( $result );
@@ -2024,7 +2024,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 		$result = '';
 	}
 
-	wp_cache_set( $cache_key, $result, 'post-queries' );
+	wp_cache_set_salted( $cache_key, $result, 'post-queries', $last_changed );
 
 	if ( $result ) {
 		$result = get_post( $result );

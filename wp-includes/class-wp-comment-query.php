@@ -451,8 +451,8 @@ class WP_Comment_Query {
 		$key          = md5( serialize( $_args ) );
 		$last_changed = wp_cache_get_last_changed( 'comment' );
 
-		$cache_key   = "get_comments:$key:$last_changed";
-		$cache_value = wp_cache_get( $cache_key, 'comment-queries' );
+		$cache_key   = "get_comments:$key";
+		$cache_value = wp_cache_get_salted( $cache_key, 'comment-queries', $last_changed );
 		if ( false === $cache_value ) {
 			$comment_ids = $this->get_comment_ids();
 			if ( $comment_ids ) {
@@ -463,7 +463,7 @@ class WP_Comment_Query {
 				'comment_ids'    => $comment_ids,
 				'found_comments' => $this->found_comments,
 			);
-			wp_cache_add( $cache_key, $cache_value, 'comment-queries' );
+			wp_cache_set_salted( $cache_key, $cache_value, 'comment-queries', $last_changed );
 		} else {
 			$comment_ids          = $cache_value['comment_ids'];
 			$this->found_comments = $cache_value['found_comments'];
@@ -1044,9 +1044,9 @@ class WP_Comment_Query {
 			if ( $_parent_ids ) {
 				$cache_keys = array();
 				foreach ( $_parent_ids as $parent_id ) {
-					$cache_keys[ $parent_id ] = "get_comment_child_ids:$parent_id:$key:$last_changed";
+					$cache_keys[ $parent_id ] = "get_comment_child_ids:$parent_id:$key";
 				}
-				$cache_data = wp_cache_get_multiple( array_values( $cache_keys ), 'comment-queries' );
+				$cache_data = wp_cache_get_multiple_salted( array_values( $cache_keys ), 'comment-queries', $last_changed );
 				foreach ( $_parent_ids as $parent_id ) {
 					$parent_child_ids = $cache_data[ $cache_keys[ $parent_id ] ];
 					if ( false !== $parent_child_ids ) {
@@ -1080,10 +1080,10 @@ class WP_Comment_Query {
 
 				$data = array();
 				foreach ( $parent_map as $parent_id => $children ) {
-					$cache_key          = "get_comment_child_ids:$parent_id:$key:$last_changed";
+					$cache_key          = "get_comment_child_ids:$parent_id:$key";
 					$data[ $cache_key ] = $children;
 				}
-				wp_cache_set_multiple( $data, 'comment-queries' );
+				wp_cache_set_multiple_salted( $data, 'comment-queries', $last_changed );
 			}
 
 			++$level;

@@ -2069,11 +2069,11 @@ function wp_get_archives( $args = '' ) {
 	if ( 'monthly' === $parsed_args['type'] ) {
 		$query   = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date $order $limit";
 		$key     = md5( $query );
-		$key     = "wp_get_archives:$key:$last_changed";
-		$results = wp_cache_get( $key, 'post-queries' );
+		$key     = "wp_get_archives:$key";
+		$results = wp_cache_get_salted( $key, 'post-queries', $last_changed );
 		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
-			wp_cache_set( $key, $results, 'post-queries' );
+			wp_cache_set_salted( $key, $results, 'post-queries', $last_changed );
 		}
 		if ( $results ) {
 			$after = $parsed_args['after'];
@@ -2094,11 +2094,11 @@ function wp_get_archives( $args = '' ) {
 	} elseif ( 'yearly' === $parsed_args['type'] ) {
 		$query   = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
 		$key     = md5( $query );
-		$key     = "wp_get_archives:$key:$last_changed";
-		$results = wp_cache_get( $key, 'post-queries' );
+		$key     = "wp_get_archives:$key";
+		$results = wp_cache_get_salted( $key, 'post-queries', $last_changed );
 		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
-			wp_cache_set( $key, $results, 'post-queries' );
+			wp_cache_set_salted( $key, $results, 'post-queries', $last_changed );
 		}
 		if ( $results ) {
 			$after = $parsed_args['after'];
@@ -2118,11 +2118,11 @@ function wp_get_archives( $args = '' ) {
 	} elseif ( 'daily' === $parsed_args['type'] ) {
 		$query   = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date $order $limit";
 		$key     = md5( $query );
-		$key     = "wp_get_archives:$key:$last_changed";
-		$results = wp_cache_get( $key, 'post-queries' );
+		$key     = "wp_get_archives:$key";
+		$results = wp_cache_get_salted( $key, 'post-queries', $last_changed );
 		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
-			wp_cache_set( $key, $results, 'post-queries' );
+			wp_cache_set_salted( $key, $results, 'post-queries', $last_changed );
 		}
 		if ( $results ) {
 			$after = $parsed_args['after'];
@@ -2144,11 +2144,11 @@ function wp_get_archives( $args = '' ) {
 		$week    = _wp_mysql_week( '`post_date`' );
 		$query   = "SELECT DISTINCT $week AS `week`, YEAR( `post_date` ) AS `yr`, DATE_FORMAT( `post_date`, '%Y-%m-%d' ) AS `yyyymmdd`, count( `ID` ) AS `posts` FROM `$wpdb->posts` $join $where GROUP BY $week, YEAR( `post_date` ) ORDER BY `post_date` $order $limit";
 		$key     = md5( $query );
-		$key     = "wp_get_archives:$key:$last_changed";
-		$results = wp_cache_get( $key, 'post-queries' );
+		$key     = "wp_get_archives:$key";
+		$results = wp_cache_get_salted( $key, 'post-queries', $last_changed );
 		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
-			wp_cache_set( $key, $results, 'post-queries' );
+			wp_cache_set_salted( $key, $results, 'post-queries', $last_changed );
 		}
 		$arc_w_last = '';
 		if ( $results ) {
@@ -2183,11 +2183,11 @@ function wp_get_archives( $args = '' ) {
 		$orderby = ( 'alpha' === $parsed_args['type'] ) ? 'post_title ASC ' : 'post_date DESC, ID DESC ';
 		$query   = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
 		$key     = md5( $query );
-		$key     = "wp_get_archives:$key:$last_changed";
-		$results = wp_cache_get( $key, 'post-queries' );
+		$key     = "wp_get_archives:$key";
+		$results = wp_cache_get_salted( $key, 'post-queries', $last_changed );
 		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
-			wp_cache_set( $key, $results, 'post-queries' );
+			wp_cache_set_salted( $key, $results, 'post-queries', $last_changed );
 		}
 		if ( $results ) {
 			foreach ( (array) $results as $result ) {
