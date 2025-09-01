@@ -158,9 +158,22 @@ if ( ! function_exists( 'wp_mail' ) ) :
 	 * The default charset is based on the charset used on the blog. The charset can
 	 * be set using the {@see 'wp_mail_charset'} filter.
 	 *
+	 * When using the `$embeds` parameter to embed images for use in HTML emails,
+	 * reference the embedded file in your HTML with a `cid:` URL whose value
+	 * matches the file's Content-ID. By default, the Content-ID (`cid`) used for
+	 * each embedded file is the key in the embeds array, unless modified via the
+	 * {@see 'wp_mail_embed_args'} filter. For example:
+	 *
+	 * `<img src="cid:0" alt="Logo">`
+	 * `<img src="cid:my-image" alt="Image">`
+	 *
+	 * You may also customize the Content-ID for each file by using the
+	 * {@see 'wp_mail_embed_args'} filter and setting the `cid` value.
+	 *
 	 * @since 1.2.1
 	 * @since 5.5.0 is_email() is used for email validation,
 	 *              instead of PHPMailer's default validator.
+	 * @since 6.9.0 Added $embeds parameter.
 	 *
 	 * @global PHPMailer\PHPMailer\PHPMailer $phpmailer
 	 *
@@ -169,9 +182,10 @@ if ( ! function_exists( 'wp_mail' ) ) :
 	 * @param string          $message     Message contents.
 	 * @param string|string[] $headers     Optional. Additional headers.
 	 * @param string|string[] $attachments Optional. Paths to files to attach.
+	 * @param string|string[] $embeds      Optional. Paths to files to embed.
 	 * @return bool Whether the email was sent successfully.
 	 */
-	function wp_mail( $to, $subject, $message, $headers = '', $attachments = array() ) {
+	function wp_mail( $to, $subject, $message, $headers = '', $attachments = array(), $embeds = array() ) {
 		// Compact the input, apply the filters, and extract them back out.
 
 		/**
@@ -187,9 +201,10 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 *     @type string          $message     Message contents.
 		 *     @type string|string[] $headers     Additional headers.
 		 *     @type string|string[] $attachments Paths to files to attach.
+		 *     @type string|string[] $embeds      Paths to files to embed.
 		 * }
 		 */
-		$atts = apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments' ) );
+		$atts = apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments', 'embeds' ) );
 
 		/**
 		 * Filters whether to preempt sending an email.
@@ -209,6 +224,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 *     @type string          $message     Message contents.
 		 *     @type string|string[] $headers     Additional headers.
 		 *     @type string|string[] $attachments Paths to files to attach.
+		 *     @type string|string[] $embeds      Paths to files to embed.
 		 * }
 		 */
 		$pre_wp_mail = apply_filters( 'pre_wp_mail', null, $atts );
@@ -244,6 +260,15 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		if ( ! is_array( $attachments ) ) {
 			$attachments = explode( "\n", str_replace( "\r\n", "\n", $attachments ) );
 		}
+
+		if ( isset( $atts['embeds'] ) ) {
+			$embeds = $atts['embeds'];
+		}
+
+		if ( ! is_array( $embeds ) ) {
+			$embeds = explode( "\n", str_replace( "\r\n", "\n", $embeds ) );
+		}
+
 		global $phpmailer;
 
 		// (Re)create it, if it's gone missing.
@@ -531,6 +556,50 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			}
 		}
 
+		if ( ! empty( $embeds ) ) {
+			foreach ( $embeds as $key => $embed_path ) {
+				/**
+				 * Filters the arguments for PHPMailer's addEmbeddedImage() method.
+				 *
+				 * @since 6.9.0
+				 *
+				 * @param array $args {
+				 *     An array of arguments for `addEmbeddedImage()`.
+				 *     @type string $path        The path to the file.
+				 *     @type string $cid         The Content-ID of the image. Default: The key in the embeds array.
+				 *     @type string $name        The filename of the image.
+				 *     @type string $encoding    The encoding of the image. Default: 'base64'.
+				 *     @type string $type        The MIME type of the image. Default: empty string, which lets PHPMailer auto-detect.
+				 *     @type string $disposition The disposition of the image. Default: 'inline'.
+				 * }
+				 */
+				$embed_args = apply_filters(
+					'wp_mail_embed_args',
+					array(
+						'path'        => $embed_path,
+						'cid'         => (string) $key,
+						'name'        => basename( $embed_path ),
+						'encoding'    => 'base64',
+						'type'        => '',
+						'disposition' => 'inline',
+					)
+				);
+
+				try {
+					$phpmailer->addEmbeddedImage(
+						$embed_args['path'],
+						$embed_args['cid'],
+						$embed_args['name'],
+						$embed_args['encoding'],
+						$embed_args['type'],
+						$embed_args['disposition']
+					);
+				} catch ( PHPMailer\PHPMailer\Exception $e ) {
+					continue;
+				}
+			}
+		}
+
 		/**
 		 * Fires after PHPMailer is initialized.
 		 *
@@ -563,6 +632,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			 *     @type string   $message     Message contents.
 			 *     @type string[] $headers     Additional headers.
 			 *     @type string[] $attachments Paths to files to attach.
+			 *     @type string[] $embeds      Paths to files to embed.
 			 * }
 			 */
 			do_action( 'wp_mail_succeeded', $mail_data );
