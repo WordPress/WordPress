@@ -175,11 +175,21 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
 	$block_version       = isset( $metadata['version'] ) ? $metadata['version'] : false;
 	$module_version      = isset( $module_asset['version'] ) ? $module_asset['version'] : $block_version;
 
+	// Blocks using the Interactivity API are server-side rendered, so they are by design not in the critical rendering path and should be deprioritized.
+	$args = array();
+	if (
+		( isset( $metadata['supports']['interactivity'] ) && true === $metadata['supports']['interactivity'] ) ||
+		( isset( $metadata['supports']['interactivity']['interactive'] ) && true === $metadata['supports']['interactivity']['interactive'] )
+	) {
+		$args['fetchpriority'] = 'low';
+	}
+
 	wp_register_script_module(
 		$module_id,
 		$module_uri,
 		$module_dependencies,
-		$module_version
+		$module_version,
+		$args
 	);
 
 	return $module_id;

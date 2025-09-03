@@ -425,6 +425,9 @@ class WP_Scripts extends WP_Dependencies {
 		if ( $intended_strategy ) {
 			$attr['data-wp-strategy'] = $intended_strategy;
 		}
+		if ( isset( $obj->extra['fetchpriority'] ) && 'auto' !== $obj->extra['fetchpriority'] && $this->is_valid_fetchpriority( $obj->extra['fetchpriority'] ) ) {
+			$attr['fetchpriority'] = $obj->extra['fetchpriority'];
+		}
 		$tag  = $translations . $ie_conditional_prefix . $before_script;
 		$tag .= wp_get_script_tag( $attr );
 		$tag .= $after_script . $ie_conditional_suffix;
@@ -831,6 +834,35 @@ JS;
 				);
 				return false;
 			}
+		} elseif ( 'fetchpriority' === $key ) {
+			if ( empty( $value ) ) {
+				$value = 'auto';
+			}
+			if ( ! $this->is_valid_fetchpriority( $value ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: 1: $fetchpriority, 2: $handle */
+						__( 'Invalid fetchpriority `%1$s` defined for `%2$s` during script registration.' ),
+						is_string( $value ) ? $value : gettype( $value ),
+						$handle
+					),
+					'6.9.0'
+				);
+				return false;
+			} elseif ( ! $this->registered[ $handle ]->src ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: 1: $fetchpriority, 2: $handle */
+						__( 'Cannot supply a fetchpriority `%1$s` for script `%2$s` because it is an alias (it lacks a `src` value).' ),
+						is_string( $value ) ? $value : gettype( $value ),
+						$handle
+					),
+					'6.9.0'
+				);
+				return false;
+			}
 		}
 		return parent::add_data( $handle, $key, $value );
 	}
@@ -869,15 +901,27 @@ JS;
 	 *
 	 * @since 6.3.0
 	 *
-	 * @param string $strategy The strategy to check.
+	 * @param string|mixed $strategy The strategy to check.
 	 * @return bool True if $strategy is one of the delayed strategies, otherwise false.
 	 */
-	private function is_delayed_strategy( $strategy ) {
+	private function is_delayed_strategy( $strategy ): bool {
 		return in_array(
 			$strategy,
 			$this->delayed_strategies,
 			true
 		);
+	}
+
+	/**
+	 * Checks if the provided fetchpriority is valid.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string|mixed $priority Fetch priority.
+	 * @return bool Whether valid fetchpriority.
+	 */
+	private function is_valid_fetchpriority( $priority ): bool {
+		return in_array( $priority, array( 'auto', 'low', 'high' ), true );
 	}
 
 	/**

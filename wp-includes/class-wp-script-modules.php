@@ -46,6 +46,7 @@ class WP_Script_Modules {
 	 * identifier has already been registered.
 	 *
 	 * @since 6.5.0
+	 * @since 6.9.0 Added the $args parameter.
 	 *
 	 * @param string            $id       The identifier of the script module. Should be unique. It will be used in the
 	 *                                    final import map.
@@ -71,13 +72,18 @@ class WP_Script_Modules {
 	 *                                    It is added to the URL as a query string for cache busting purposes. If $version
 	 *                                    is set to false, the version number is the currently installed WordPress version.
 	 *                                    If $version is set to null, no version is added.
+	 * @param array             $args     {
+	 *     Optional. An array of additional args. Default empty array.
+	 *
+	 *     @type 'auto'|'low'|'high' $fetchpriority Fetch priority. Default 'auto'. Optional.
+	 * }
 	 */
-	public function register( string $id, string $src, array $deps = array(), $version = false ) {
+	public function register( string $id, string $src, array $deps = array(), $version = false, array $args = array() ) {
 		if ( ! isset( $this->registered[ $id ] ) ) {
 			$dependencies = array();
 			foreach ( $deps as $dependency ) {
 				if ( is_array( $dependency ) ) {
-					if ( ! isset( $dependency['id'] ) ) {
+					if ( ! isset( $dependency['id'] ) || ! is_string( $dependency['id'] ) ) {
 						_doing_it_wrong( __METHOD__, __( 'Missing required id key in entry among dependencies array.' ), '6.5.0' );
 						continue;
 					}
@@ -95,13 +101,76 @@ class WP_Script_Modules {
 				}
 			}
 
+			$fetchpriority = 'auto';
+			if ( isset( $args['fetchpriority'] ) ) {
+				if ( $this->is_valid_fetchpriority( $args['fetchpriority'] ) ) {
+					$fetchpriority = $args['fetchpriority'];
+				} else {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: 1: $fetchpriority, 2: $id */
+							__( 'Invalid fetchpriority `%1$s` defined for `%2$s` during script registration.' ),
+							is_string( $args['fetchpriority'] ) ? $args['fetchpriority'] : gettype( $args['fetchpriority'] ),
+							$id
+						),
+						'6.9.0'
+					);
+				}
+			}
+
 			$this->registered[ $id ] = array(
-				'src'          => $src,
-				'version'      => $version,
-				'enqueue'      => isset( $this->enqueued_before_registered[ $id ] ),
-				'dependencies' => $dependencies,
+				'src'           => $src,
+				'version'       => $version,
+				'enqueue'       => isset( $this->enqueued_before_registered[ $id ] ),
+				'dependencies'  => $dependencies,
+				'fetchpriority' => $fetchpriority,
 			);
 		}
+	}
+
+	/**
+	 * Checks if the provided fetchpriority is valid.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string|mixed $priority Fetch priority.
+	 * @return bool Whether valid fetchpriority.
+	 */
+	private function is_valid_fetchpriority( $priority ): bool {
+		return in_array( $priority, array( 'auto', 'low', 'high' ), true );
+	}
+
+	/**
+	 * Sets the fetch priority for a script module.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string              $id       Script module identifier.
+	 * @param 'auto'|'low'|'high' $priority Fetch priority for the script module.
+	 * @return bool Whether setting the fetchpriority was successful.
+	 */
+	public function set_fetchpriority( string $id, string $priority ): bool {
+		if ( ! isset( $this->registered[ $id ] ) ) {
+			return false;
+		}
+
+		if ( '' === $priority ) {
+			$priority = 'auto';
+		}
+
+		if ( ! $this->is_valid_fetchpriority( $priority ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				/* translators: %s: Invalid fetchpriority. */
+				sprintf( __( 'Invalid fetchpriority: %s' ), $priority ),
+				'6.9.0'
+			);
+			return false;
+		}
+
+		$this->registered[ $id ]['fetchpriority'] = $priority;
+		return true;
 	}
 
 	/**
@@ -111,6 +180,7 @@ class WP_Script_Modules {
 	 * will be registered.
 	 *
 	 * @since 6.5.0
+	 * @since 6.9.0 Added the $args parameter.
 	 *
 	 * @param string            $id       The identifier of the script module. Should be unique. It will be used in the
 	 *                                    final import map.
@@ -136,12 +206,17 @@ class WP_Script_Modules {
 	 *                                    It is added to the URL as a query string for cache busting purposes. If $version
 	 *                                    is set to false, the version number is the currently installed WordPress version.
 	 *                                    If $version is set to null, no version is added.
+	 * @param array             $args     {
+	 *     Optional. An array of additional args. Default empty array.
+	 *
+	 *     @type 'auto'|'low'|'high' $fetchpriority Fetch priority. Default 'auto'. Optional.
+	 * }
 	 */
-	public function enqueue( string $id, string $src = '', array $deps = array(), $version = false ) {
+	public function enqueue( string $id, string $src = '', array $deps = array(), $version = false, array $args = array() ) {
 		if ( isset( $this->registered[ $id ] ) ) {
 			$this->registered[ $id ]['enqueue'] = true;
 		} elseif ( $src ) {
-			$this->register( $id, $src, $deps, $version );
+			$this->register( $id, $src, $deps, $version, $args );
 			$this->registered[ $id ]['enqueue'] = true;
 		} else {
 			$this->enqueued_before_registered[ $id ] = true;
@@ -208,13 +283,15 @@ class WP_Script_Modules {
 	 */
 	public function print_enqueued_script_modules() {
 		foreach ( $this->get_marked_for_enqueue() as $id => $script_module ) {
-			wp_print_script_tag(
-				array(
-					'type' => 'module',
-					'src'  => $this->get_src( $id ),
-					'id'   => $id . '-js-module',
-				)
+			$args = array(
+				'type' => 'module',
+				'src'  => $this->get_src( $id ),
+				'id'   => $id . '-js-module',
 			);
+			if ( 'auto' !== $script_module['fetchpriority'] ) {
+				$args['fetchpriority'] = $script_module['fetchpriority'];
+			}
+			wp_print_script_tag( $args );
 		}
 	}
 
@@ -231,9 +308,10 @@ class WP_Script_Modules {
 			// Don't preload if it's marked for enqueue.
 			if ( true !== $script_module['enqueue'] ) {
 				echo sprintf(
-					'<link rel="modulepreload" href="%s" id="%s">',
+					'<link rel="modulepreload" href="%s" id="%s"%s>',
 					esc_url( $this->get_src( $id ) ),
-					esc_attr( $id . '-js-modulepreload' )
+					esc_attr( $id . '-js-modulepreload' ),
+					'auto' !== $script_module['fetchpriority'] ? sprintf( ' fetchpriority="%s"', esc_attr( $script_module['fetchpriority'] ) ) : ''
 				);
 			}
 		}
@@ -278,7 +356,7 @@ class WP_Script_Modules {
 	 *
 	 * @since 6.5.0
 	 *
-	 * @return array[] Script modules marked for enqueue, keyed by script module identifier.
+	 * @return array<string, array> Script modules marked for enqueue, keyed by script module identifier.
 	 */
 	private function get_marked_for_enqueue(): array {
 		$enqueued = array();
