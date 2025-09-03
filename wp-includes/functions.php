@@ -3172,7 +3172,10 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 	if ( $type && ! $real_mime && extension_loaded( 'fileinfo' ) ) {
 		$finfo     = finfo_open( FILEINFO_MIME_TYPE );
 		$real_mime = finfo_file( $finfo, $file );
-		finfo_close( $finfo );
+
+		if ( PHP_VERSION_ID < 80100 ) { // finfo_close() has no effect as of PHP 8.1.
+			finfo_close( $finfo );
+		}
 
 		$google_docs_types = array(
 			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -3401,7 +3404,10 @@ function wp_get_image_mime( $file ) {
 				if ( extension_loaded( 'fileinfo' ) ) {
 					$fileinfo  = finfo_open( FILEINFO_MIME_TYPE );
 					$mime_type = finfo_file( $fileinfo, $file );
-					finfo_close( $fileinfo );
+
+					if ( PHP_VERSION_ID < 80100 ) { // finfo_close() has no effect as of PHP 8.1.
+						finfo_close( $fileinfo );
+					}
 
 					if ( wp_is_heic_image_mime_type( $mime_type ) ) {
 						$mime = $mime_type;

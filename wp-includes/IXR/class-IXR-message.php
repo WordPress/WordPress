@@ -119,7 +119,10 @@ class IXR_Message
             $this->message = substr($this->message, $chunk_size);
 
             if (!xml_parse($this->_parser, $part, $final)) {
-                xml_parser_free($this->_parser);
+                if (PHP_VERSION_ID < 80000) { // xml_parser_free() has no effect as of PHP 8.0.
+                    xml_parser_free($this->_parser);
+                }
+
                 unset($this->_parser);
                 return false;
             }
@@ -129,7 +132,10 @@ class IXR_Message
             }
         } while (true);
 
-        xml_parser_free($this->_parser);
+        if (PHP_VERSION_ID < 80000) { // xml_parser_free() has no effect as of PHP 8.0.
+            xml_parser_free($this->_parser);
+        }
+
         unset($this->_parser);
 
         // Grab the error messages, if any
