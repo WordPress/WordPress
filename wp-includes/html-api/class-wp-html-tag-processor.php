@@ -3780,17 +3780,28 @@ class WP_HTML_Tag_Processor {
 
 		switch ( $this->get_tag() ) {
 			case 'SCRIPT':
-				/*
+				/**
 				 * This is over-protective, but ensures the update doesn't break
-				 * out of the SCRIPT element. A more thorough check would need to
-				 * ensure that the script closing tag doesn't exist, and isn't
-				 * also "hidden" inside the script double-escaped state.
+				 * the HTML structure of the SCRIPT element.
 				 *
-				 * It may seem like replacing `</script` with `<\/script` would
-				 * properly escape these things, but this could mask regex patterns
-				 * that previously worked. Resolve this by not sending `</script`
+				 * More thorough analysis could track the HTML tokenizer states
+				 * and to ensure that the SCRIPT element closes at the expected
+				 * SCRIPT close tag as is done in {@see ::skip_script_data()}.
+				 *
+				 * A SCRIPT element could be closed prematurely by contents
+				 * like `</script>`. A SCRIPT element could be prevented from
+				 * closing by contents like `<!--<script>`.
+				 *
+				 * The following strings are essential for dangerous content,
+				 * although they are insufficient on their own. This trade-off
+				 * prevents dangerous scripts from being sent to the browser.
+				 * It is also unlikely to produce HTML that may confuse more
+				 * basic HTML tooling.
 				 */
-				if ( false !== stripos( $plaintext_content, '</script' ) ) {
+				if (
+					false !== stripos( $plaintext_content, '</script' ) ||
+					false !== stripos( $plaintext_content, '<script' )
+				) {
 					return false;
 				}
 
