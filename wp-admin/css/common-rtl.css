@@ -3968,9 +3968,12 @@ img {
 	.wrap .add-new-h2:active, /* deprecated */
 	.wrap .page-title-action,
 	.wrap .page-title-action:active {
-		padding: 10px 15px;
+		padding: 0 14px;
 		font-size: 14px;
 		white-space: nowrap;
+		min-height: 40px;
+		line-height: 2.71428571;
+		vertical-align: middle;
 	}
 
 	/* Feedback Messages */
