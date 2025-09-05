@@ -1467,28 +1467,6 @@ table.form-table td .updated p {
 	margin: 0;
 }
 
-.email-personal-data::before {
-	display: inline-block;
-	font: normal 20px/1 dashicons;
-	margin: 3px -2px 0 5px;
-	speak: never;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	vertical-align: top;
-}
-
-.email-personal-data--sending::before {
-	color: #d63638;
-	content: "\f463";
-	animation: rotation 2s infinite linear;
-}
-
-.email-personal-data--sent::before {
-	color: #68de7c;
-	content: "\f147";
-}
-
-
 /* =Media Queries
 -------------------------------------------------------------- */
 
