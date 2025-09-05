@@ -2515,7 +2515,7 @@ function wp_insert_user( $userdata ) {
 
 	if ( ! $update ) {
 		/** This action is documented in wp-includes/pluggable.php */
-		do_action( 'wp_set_password', $userdata['user_pass'], $user_id, $userdata );
+		do_action( 'wp_set_password', $userdata['user_pass'], $user_id, $user );
 	}
 
 	/**
