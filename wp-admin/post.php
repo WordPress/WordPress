@@ -124,23 +124,23 @@ switch ( $action ) {
 		}
 
 		if ( ! $post ) {
-			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
+			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ), 404 );
 		}
 
 		if ( ! $post_type_object ) {
-			wp_die( __( 'Invalid post type.' ) );
+			wp_die( __( 'Invalid post type.' ), 400 );
 		}
 
 		if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ), true ) ) {
-			wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
+			wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ), 403 );
 		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_die( __( 'Sorry, you are not allowed to edit this item.' ) );
+			wp_die( __( 'Sorry, you are not allowed to edit this item.' ), 403 );
 		}
 
 		if ( 'trash' === $post->post_status ) {
-			wp_die( __( 'You cannot edit this item because it is in the Trash. Please restore it and try again.' ) );
+			wp_die( __( 'You cannot edit this item because it is in the Trash. Please restore it and try again.' ), 409 );
 		}
 
 		if ( ! empty( $_GET['get-post-lock'] ) ) {
@@ -239,26 +239,26 @@ switch ( $action ) {
 		check_admin_referer( 'trash-post_' . $post_id );
 
 		if ( ! $post ) {
-			wp_die( __( 'The item you are trying to move to the Trash no longer exists.' ) );
+			wp_die( __( 'The item you are trying to move to the Trash no longer exists.' ), 410 );
 		}
 
 		if ( ! $post_type_object ) {
-			wp_die( __( 'Invalid post type.' ) );
+			wp_die( __( 'Invalid post type.' ), 400 );
 		}
 
 		if ( ! current_user_can( 'delete_post', $post_id ) ) {
-			wp_die( __( 'Sorry, you are not allowed to move this item to the Trash.' ) );
+			wp_die( __( 'Sorry, you are not allowed to move this item to the Trash.' ), 403 );
 		}
 
 		$user_id = wp_check_post_lock( $post_id );
 		if ( $user_id ) {
 			$user = get_userdata( $user_id );
 			/* translators: %s: User's display name. */
-			wp_die( sprintf( __( 'You cannot move this item to the Trash. %s is currently editing.' ), $user->display_name ) );
+			wp_die( sprintf( __( 'You cannot move this item to the Trash. %s is currently editing.' ), $user->display_name ), 409 );
 		}
 
 		if ( ! wp_trash_post( $post_id ) ) {
-			wp_die( __( 'Error in moving the item to Trash.' ) );
+			wp_die( __( 'Error in moving the item to Trash.' ), 500 );
 		}
 
 		wp_redirect(
@@ -276,19 +276,19 @@ switch ( $action ) {
 		check_admin_referer( 'untrash-post_' . $post_id );
 
 		if ( ! $post ) {
-			wp_die( __( 'The item you are trying to restore from the Trash no longer exists.' ) );
+			wp_die( __( 'The item you are trying to restore from the Trash no longer exists.' ), 410 );
 		}
 
 		if ( ! $post_type_object ) {
-			wp_die( __( 'Invalid post type.' ) );
+			wp_die( __( 'Invalid post type.' ), 400 );
 		}
 
 		if ( ! current_user_can( 'delete_post', $post_id ) ) {
-			wp_die( __( 'Sorry, you are not allowed to restore this item from the Trash.' ) );
+			wp_die( __( 'Sorry, you are not allowed to restore this item from the Trash.' ), 403 );
 		}
 
 		if ( ! wp_untrash_post( $post_id ) ) {
-			wp_die( __( 'Error in restoring the item from Trash.' ) );
+			wp_die( __( 'Error in restoring the item from Trash.' ), 500 );
 		}
 
 		$sendback = add_query_arg(
@@ -305,25 +305,25 @@ switch ( $action ) {
 		check_admin_referer( 'delete-post_' . $post_id );
 
 		if ( ! $post ) {
-			wp_die( __( 'This item has already been deleted.' ) );
+			wp_die( __( 'This item has already been deleted.' ), 410 );
 		}
 
 		if ( ! $post_type_object ) {
-			wp_die( __( 'Invalid post type.' ) );
+			wp_die( __( 'Invalid post type.' ), 400 );
 		}
 
 		if ( ! current_user_can( 'delete_post', $post_id ) ) {
-			wp_die( __( 'Sorry, you are not allowed to delete this item.' ) );
+			wp_die( __( 'Sorry, you are not allowed to delete this item.' ), 403 );
 		}
 
 		if ( 'attachment' === $post->post_type ) {
 			$force = ( ! MEDIA_TRASH );
 			if ( ! wp_delete_attachment( $post_id, $force ) ) {
-				wp_die( __( 'Error in deleting the attachment.' ) );
+				wp_die( __( 'Error in deleting the attachment.' ), 500 );
 			}
 		} else {
 			if ( ! wp_delete_post( $post_id, true ) ) {
-				wp_die( __( 'Error in deleting the item.' ) );
+				wp_die( __( 'Error in deleting the item.' ), 500 );
 			}
 		}
 
