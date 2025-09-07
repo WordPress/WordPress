@@ -2505,7 +2505,7 @@ function upgrade_690() {
 		update_option( 'active_plugins', $active_plugins );
 	}
 
-	if ( $wp_current_db_version < 60716 ) {
+	if ( $wp_current_db_version < 60717 ) {
 		$wpdb->query( "ALTER TABLE $wpdb->posts ADD INDEX type_status_author (post_type,post_status,post_author)" );
 	}
 }
