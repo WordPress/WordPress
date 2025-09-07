@@ -4066,7 +4066,7 @@
 		 * @return {void}
 		 */
 		addNewPage: function () {
-			var control = this, promise, toggle, container, input, title, select;
+			var control = this, promise, toggle, container, input, inputError, title, select;
 
 			if ( 'dropdown-pages' !== control.params.type || ! control.params.allow_addition || ! api.Menus ) {
 				return;
@@ -4075,15 +4075,23 @@
 			toggle = control.container.find( '.add-new-toggle' );
 			container = control.container.find( '.new-content-item-wrapper' );
 			input = control.container.find( '.create-item-input' );
+			inputError = control.container.find('.create-item-error');
 			title = input.val();
 			select = control.container.find( 'select' );
 
 			if ( ! title ) {
-				input.addClass( 'invalid' );
+				container.addClass( 'form-invalid' );
+				input.attr('aria-invalid', 'true');
+				input.attr('aria-describedby', inputError.attr('id'));
+				inputError.slideDown( 'fast' );
+				wp.a11y.speak( inputError.text() );
 				return;
 			}
 
-			input.removeClass( 'invalid' );
+			container.removeClass( 'form-invalid' );
+			input.attr('aria-invalid', 'false');
+			input.removeAttr('aria-describedby');
+			inputError.hide();
 			input.attr( 'disabled', 'disabled' );
 
 			// The menus functions add the page, publish when appropriate,

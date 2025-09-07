@@ -646,9 +646,11 @@ class WP_Customize_Control {
 					<div class="new-content-item-wrapper">
 						<label for="create-input-<?php echo esc_attr( $this->id ); ?>"><?php _e( 'New page title' ); ?></label>
 						<div class="new-content-item">
-							<input type="text" id="create-input-<?php echo esc_attr( $this->id ); ?>" class="create-item-input" >
+							<input type="text" id="create-input-<?php echo esc_attr( $this->id ); ?>" class="create-item-input form-required">
 							<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
 						</div>
+						<span id="create-input-<?php echo esc_attr( $this->id ); ?>-error" class="create-item-error error-message" style="display: none;"><?php _e( 'Please enter a page title' ); ?></span>
+
 					</div>
 				<?php endif; ?>
 				<?php

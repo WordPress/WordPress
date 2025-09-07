@@ -661,6 +661,7 @@
 				itemType = dataContainer.data( 'type' ),
 				itemObject = dataContainer.data( 'object' ),
 				itemTypeLabel = dataContainer.data( 'type_label' ),
+				inputError = container.find('.create-item-error'),
 				promise;
 
 			if ( ! this.currentMenuControl ) {
@@ -671,13 +672,18 @@
 			if ( 'post_type' !== itemType ) {
 				return;
 			}
-
 			if ( '' === itemName.val().trim() ) {
-				itemName.addClass( 'invalid' );
-				itemName.focus();
+				container.addClass( 'form-invalid' );
+				itemName.attr('aria-invalid', 'true');
+				itemName.attr('aria-describedby', inputError.attr('id'));
+				inputError.slideDown( 'fast' );
+				wp.a11y.speak( inputError.text() );
 				return;
 			} else {
-				itemName.removeClass( 'invalid' );
+				container.removeClass( 'form-invalid' );
+				itemName.attr('aria-invalid', 'false');
+				itemName.removeAttr('aria-describedby');
+				inputError.hide();
 				container.find( '.accordion-section-title' ).addClass( 'loading' );
 			}
 
