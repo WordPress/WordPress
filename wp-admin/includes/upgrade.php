@@ -2488,7 +2488,8 @@ function upgrade_682() {
  * @ignore
  * @since 6.9.0
  *
- * @global int $wp_current_db_version The old (current) database version.
+ * @global int  $wp_current_db_version The old (current) database version.
+ * @global wpdb $wpdb                  WordPress database abstraction object.
  */
 function upgrade_690() {
 	global $wp_current_db_version, $wpdb;
@@ -2502,6 +2503,10 @@ function upgrade_690() {
 	if ( $key ) {
 		$active_plugins[ $key ] = $new_plugin;
 		update_option( 'active_plugins', $active_plugins );
+	}
+
+	if ( $wp_current_db_version < 60716 ) {
+		$wpdb->query( "ALTER TABLE $wpdb->posts ADD INDEX type_status_author (post_type,post_status,post_author)" );
 	}
 }
 
