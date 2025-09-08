@@ -222,6 +222,20 @@ class WP_Scripts extends WP_Dependencies {
 			return;
 		}
 
+		/*
+		 * Do not print a sourceURL comment if concatenation is enabled.
+		 *
+		 * Extra scripts may be concatenated into a single script.
+		 * The line-based sourceURL comments may a concatenated script and
+		 * do not make sense when multiple are joined together.
+		 */
+		if ( ! $this->do_concat ) {
+			$output .= sprintf(
+				"\n//# sourceURL=%s",
+				rawurlencode( "{$handle}-js-extra" )
+			);
+		}
+
 		if ( ! $display ) {
 			return $output;
 		}
@@ -524,6 +538,17 @@ class WP_Scripts extends WP_Dependencies {
 			return '';
 		}
 
+		/*
+		 * Print sourceURL comment regardless of concatenation.
+		 *
+		 * Inline scripts prevent scripts from being concatenated, so
+		 * sourceURL comments are safe to print for inline scripts.
+		 */
+		$data[] = sprintf(
+			'//# sourceURL=%s',
+			rawurlencode( "{$handle}-js-{$position}" )
+		);
+
 		return trim( implode( "\n", $data ), "\n" );
 	}
 
@@ -696,12 +721,15 @@ class WP_Scripts extends WP_Dependencies {
 			return false;
 		}
 
+		$source_url = rawurlencode( "{$handle}-js-translations" );
+
 		$output = <<<JS
 ( function( domain, translations ) {
 	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
 	localeData[""].domain = domain;
 	wp.i18n.setLocaleData( localeData, domain );
 } )( "{$domain}", {$json_translations} );
+//# sourceURL={$source_url}
 JS;
 
 		if ( $display ) {
