@@ -880,11 +880,14 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 58975 ) {
 		upgrade_670();
-		upgrade_690();
 	}
 
 	if ( $wp_current_db_version < 60421 ) {
 		upgrade_682();
+	}
+
+	if ( $wp_current_db_version < 60717 ) {
+		upgrade_690();
 	}
 
 	maybe_disable_link_manager();
@@ -2488,25 +2491,22 @@ function upgrade_682() {
  * @ignore
  * @since 6.9.0
  *
- * @global int  $wp_current_db_version The old (current) database version.
- * @global wpdb $wpdb                  WordPress database abstraction object.
+ * @global int $wp_current_db_version The old (current) database version.
  */
 function upgrade_690() {
-	global $wp_current_db_version, $wpdb;
-
-	// Switch Hello Dolly from file to directory format. See #53323
-	$active_plugins = get_option( 'active_plugins' );
-	$old_plugin     = 'hello.php';
-	$new_plugin     = 'hello-dolly/hello.php';
-	$key            = array_search( $old_plugin, $active_plugins, true );
-
-	if ( $key ) {
-		$active_plugins[ $key ] = $new_plugin;
-		update_option( 'active_plugins', $active_plugins );
-	}
+	global $wp_current_db_version;
 
 	if ( $wp_current_db_version < 60717 ) {
-		$wpdb->query( "ALTER TABLE $wpdb->posts ADD INDEX type_status_author (post_type,post_status,post_author)" );
+		// Switch Hello Dolly from file to directory format. See #53323
+		$active_plugins = get_option( 'active_plugins' );
+		$old_plugin     = 'hello.php';
+		$new_plugin     = 'hello-dolly/hello.php';
+		$key            = array_search( $old_plugin, $active_plugins, true );
+
+		if ( $key ) {
+			$active_plugins[ $key ] = $new_plugin;
+			update_option( 'active_plugins', $active_plugins );
+		}
 	}
 }
 
