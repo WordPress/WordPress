@@ -226,8 +226,8 @@ class WP_Scripts extends WP_Dependencies {
 		 * Do not print a sourceURL comment if concatenation is enabled.
 		 *
 		 * Extra scripts may be concatenated into a single script.
-		 * The line-based sourceURL comments may a concatenated script and
-		 * do not make sense when multiple are joined together.
+		 * The line-based sourceURL comments may break concatenated scripts
+		 * and do not make sense when multiple scripts are joined together.
 		 */
 		if ( ! $this->do_concat ) {
 			$output .= sprintf(
