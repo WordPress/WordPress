@@ -807,7 +807,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				if ( $is_active ) {
 					if ( current_user_can( 'manage_network_plugins' ) ) {
 						if ( $has_active_dependents ) {
-							$actions['deactivate'] = __( 'Deactivate' ) .
+							$actions['deactivate'] = __( 'Network Deactivate' ) .
 								'<span class="screen-reader-text">' .
 								__( 'You cannot deactivate this plugin as other plugins require it.' ) .
 								'</span>';
