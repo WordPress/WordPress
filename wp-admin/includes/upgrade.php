@@ -2498,7 +2498,7 @@ function upgrade_690() {
 
 	if ( $wp_current_db_version < 60717 ) {
 		// Switch Hello Dolly from file to directory format. See #53323
-		$active_plugins = get_option( 'active_plugins' );
+		$active_plugins = (array) get_option( 'active_plugins', array() );
 		$old_plugin     = 'hello.php';
 		$new_plugin     = 'hello-dolly/hello.php';
 		$key            = array_search( $old_plugin, $active_plugins, true );
