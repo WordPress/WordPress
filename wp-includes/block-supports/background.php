@@ -87,16 +87,13 @@ function wp_render_background_support( $block_content, $block ) {
 
 		if ( $tags->next_tag() ) {
 			$existing_style = $tags->get_attribute( 'style' );
-			$updated_style  = '';
-
-			if ( ! empty( $existing_style ) ) {
-				$updated_style = $existing_style;
-				if ( ! str_ends_with( $existing_style, ';' ) ) {
-					$updated_style .= ';';
-				}
+			if ( is_string( $existing_style ) && '' !== $existing_style ) {
+				$separator     = str_ends_with( $existing_style, ';' ) ? '' : ';';
+				$updated_style = "{$existing_style}{$separator}{$styles['css']}";
+			} else {
+				$updated_style = $styles['css'];
 			}
 
-			$updated_style .= $styles['css'];
 			$tags->set_attribute( 'style', $updated_style );
 			$tags->add_class( 'has-background' );
 		}
