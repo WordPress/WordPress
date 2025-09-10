@@ -5989,7 +5989,7 @@ function get_url_in_content( $content ) {
 	$processor = new WP_HTML_Tag_Processor( $content );
 	while ( $processor->next_tag( 'A' ) ) {
 		$href = $processor->get_attribute( 'href' );
-		if ( is_string( $href ) && ! empty( $href ) ) {
+		if ( is_string( $href ) && '' !== $href ) {
 			return sanitize_url( $href );
 		}
 	}
