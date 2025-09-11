@@ -824,12 +824,15 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 			}
 
 			$data = array_shift( $candidates );
+		} elseif ( ! empty( $imagedata['sizes']['thumbnail'] )
+			&& $size[0] <= $imagedata['sizes']['thumbnail']['width']
+			&& $size[1] <= $imagedata['sizes']['thumbnail']['width']
+		) {
 			/*
-			* When the size requested is smaller than the thumbnail dimensions, we
-			* fall back to the thumbnail size to maintain backward compatibility with
-			* pre 4.6 versions of WordPress.
-			*/
-		} elseif ( ! empty( $imagedata['sizes']['thumbnail'] ) && $imagedata['sizes']['thumbnail']['width'] >= $size[0] && $imagedata['sizes']['thumbnail']['width'] >= $size[1] ) {
+			 * When the size requested is smaller than the thumbnail dimensions, we
+			 * fall back to the thumbnail size to maintain backward compatibility with
+			 * pre-4.6 versions of WordPress.
+			 */
 			$data = $imagedata['sizes']['thumbnail'];
 		} else {
 			return false;
