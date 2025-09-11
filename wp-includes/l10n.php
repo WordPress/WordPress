@@ -1134,6 +1134,8 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  *
  * @see WP_Scripts::set_translations()
  *
+ * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
+ *
  * @param string $handle Name of the script to register a translation domain to.
  * @param string $domain Optional. Text domain. Default 'default'.
  * @param string $path   Optional. The full file path to the directory containing translation files.
@@ -1141,14 +1143,22 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  *                      false if the script textdomain could not be loaded.
  */
 function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
+	/** @var WP_Textdomain_Registry $wp_textdomain_registry */
+	global $wp_textdomain_registry;
+
 	$wp_scripts = wp_scripts();
 
 	if ( ! isset( $wp_scripts->registered[ $handle ] ) ) {
 		return false;
 	}
 
-	$path   = untrailingslashit( $path );
 	$locale = determine_locale();
+
+	if ( ! $path ) {
+		$path = $wp_textdomain_registry->get( $domain, $locale );
+	}
+
+	$path = untrailingslashit( $path );
 
 	// If a path was given and the handle file exists simply return it.
 	$file_base       = 'default' === $domain ? $locale : $domain . '-' . $locale;
