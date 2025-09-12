@@ -1350,6 +1350,13 @@ function retrieve_widgets( $theme_changed = false ) {
 	$sidebars_widgets = _wp_remove_unregistered_widgets( $sidebars_widgets, $registered_widgets_ids );
 	$sidebars_widgets = wp_map_sidebars_widgets( $sidebars_widgets );
 
+	// Replace non-array values inside the array with an empty array.
+	foreach ( $sidebars_widgets as $key => $value ) {
+		if ( ! is_array( $value ) ) {
+			$sidebars_widgets[ $key ] = array();
+		}
+	}
+
 	// Find hidden/lost multi-widget instances.
 	$shown_widgets = array_merge( ...array_values( $sidebars_widgets ) );
 	$lost_widgets  = array_diff( $registered_widgets_ids, $shown_widgets );
@@ -1510,6 +1517,13 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 		}
 
 		$old_sidebars_widgets = _wp_remove_unregistered_widgets( $old_sidebars_widgets );
+
+		// Replace non-array values inside the array with an empty array.
+		foreach ( $new_sidebars_widgets as $key => $value ) {
+			if ( ! is_array( $value ) ) {
+				$new_sidebars_widgets[ $key ] = array();
+			}
+		}
 
 		if ( ! empty( $old_sidebars_widgets ) ) {
 
