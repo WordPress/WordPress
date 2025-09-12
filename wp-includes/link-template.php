@@ -1888,14 +1888,18 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 				return '';
 			}
 			$term_array = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
+			if ( is_wp_error( $term_array ) ) {
+				return '';
+			}
 
 			// Remove any exclusions from the term array to include.
 			$term_array = array_diff( $term_array, (array) $excluded_terms );
-			$term_array = array_map( 'intval', $term_array );
 
-			if ( ! $term_array || is_wp_error( $term_array ) ) {
+			if ( ! $term_array ) {
 				return '';
 			}
+
+			$term_array = array_map( 'intval', $term_array );
 
 			$where .= ' AND tt.term_id IN (' . implode( ',', $term_array ) . ')';
 		}
