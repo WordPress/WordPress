@@ -4642,6 +4642,8 @@ function esc_sql( $data ) {
  * is applied to the returned cleaned URL.
  *
  * @since 2.8.0
+ * @since 6.9.0 Prepends `https://` to the URL if it does not already contain a scheme
+ *              and the first item in `$protocols` is 'https'.
  *
  * @param string   $url       The URL to be cleaned.
  * @param string[] $protocols Optional. An array of acceptable protocols.
@@ -4674,12 +4676,14 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	/*
 	 * If the URL doesn't appear to contain a scheme, we presume
 	 * it needs http:// prepended (unless it's a relative link
-	 * starting with /, # or ?, or a PHP file).
+	 * starting with /, # or ?, or a PHP file). If the first item
+	 * in $protocols is 'https', then https:// is prepended.
 	 */
 	if ( ! str_contains( $url, ':' ) && ! in_array( $url[0], array( '/', '#', '?' ), true ) &&
 		! preg_match( '/^[a-z0-9-]+?\.php/i', $url )
 	) {
-		$url = 'http://' . $url;
+		$scheme = ( is_array( $protocols ) && 'https' === array_first( $protocols ) ) ? 'https://' : 'http://';
+		$url    = $scheme . $url;
 	}
 
 	// Replace ampersands and single quotes only when displaying.
