@@ -25,7 +25,14 @@
 			?>
 
 			<div id="site-generator">
-				<?php do_action( 'twentyeleven_credits' ); ?>
+				<?php
+				/**
+				 * Fires before the Twenty Eleven footer text for footer customization.
+				 *
+				 * @since Twenty Eleven 1.0
+				 */
+				do_action( 'twentyeleven_credits' );
+				?>
 				<?php
 				if ( function_exists( 'the_privacy_policy_link' ) ) {
 					the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
