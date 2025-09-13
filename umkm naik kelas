@@ -1,0 +1,90 @@
+import { motion } from "framer-motion";
+
+export default function SinergiUMKM() {
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <motion.h1
+        className="text-3xl font-bold text-center mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        🤝 Sinergi 3 Pihak = UMKM Naik Kelas 🚀
+      </motion.h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {/* Pemerintah */}
+        <motion.div
+          className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition"
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="text-4xl mb-3">🏛️</div>
+          <h2 className="text-xl font-semibold mb-4">Pemerintah</h2>
+          <ul className="text-left space-y-2 text-gray-700">
+            <li>📌 Izin usaha simpel → OSS & IUMK online</li>
+            <li>📌 Program pinjaman tanpa bunga</li>
+            <li>📌 Akses pasar & pelatihan</li>
+          </ul>
+        </motion.div>
+
+        {/* Bank Syariah */}
+        <motion.div
+          className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition"
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="text-4xl mb-3">🏦</div>
+          <h2 className="text-xl font-semibold mb-4">Bank Syariah</h2>
+          <ul className="text-left space-y-2 text-gray-700">
+            <li>📌 Modal halal dengan akad syariah</li>
+            <li>📌 Cicilan adil tanpa bunga</li>
+            <li>📌 Pembiayaan ramah untuk UMKM</li>
+          </ul>
+        </motion.div>
+
+        {/* Pelaku UMKM */}
+        <motion.div
+          className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition"
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="text-4xl mb-3">👩💼</div>
+          <h2 className="text-xl font-semibold mb-4">Pelaku UMKM</h2>
+          <ul className="text-left space-y-2 text-gray-700">
+            <li>📌 Upgrade skill digital & marketing</li>
+            <li>📌 Jaga kualitas produk</li>
+            <li>📌 Berani inovasi & kreatif</li>
+          </ul>
+        </motion.div>
+      </div>
+
+      {/* Hasil Sinergi */}
+      <motion.div
+        className="bg-gradient-to-r from-green-100 to-green-200 rounded-2xl p-6 shadow-md text-center"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      >
+        <h2 className="text-2xl font-bold mb-4">🎯 Hasil Sinergi</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <motion.div className="bg-white rounded-xl p-4 shadow" whileHover={{ scale: 1.05 }}>
+            ✅ UMKM legal & terlindungi hukum
+          </motion.div>
+          <motion.div className="bg-white rounded-xl p-4 shadow" whileHover={{ scale: 1.05 }}>
+            ✅ Modal halal tanpa beban
+          </motion.div>
+          <motion.div className="bg-white rounded-xl p-4 shadow" whileHover={{ scale: 1.05 }}>
+            ✅ Usaha kreatif naik kelas
+          </motion.div>
+        </div>
+      </motion.div>
+
+      <motion.p
+        className="text-center italic text-lg mt-8 text-gray-600"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.6 }}
+      >
+        “Sendiri kita bisa berjalan, tapi bersama kita bisa berlari lebih jauh.”
+      </motion.p>
+    </div>
+  );
+}
