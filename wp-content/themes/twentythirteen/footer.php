@@ -15,7 +15,14 @@
 			<?php get_sidebar( 'main' ); ?>
 
 			<div class="site-info">
-				<?php do_action( 'twentythirteen_credits' ); ?>
+				<?php
+				/**
+				 * Fires before the Twenty Thirteen footer text for footer customization.
+				 *
+				 * @since Twenty Thirteen 1.0
+				 */
+				do_action( 'twentythirteen_credits' );
+				?>
 				<?php
 				if ( function_exists( 'the_privacy_policy_link' ) ) {
 					the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
