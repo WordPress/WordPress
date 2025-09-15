@@ -423,7 +423,7 @@ final class WP_Interactivity_API {
 			}
 
 			if ( $p->is_tag_closer() ) {
-				list( $opening_tag_name, $directives_prefixes ) = end( $tag_stack );
+				list( $opening_tag_name, $directives_prefixes ) = ! empty( $tag_stack ) ? end( $tag_stack ) : array( null, null );
 
 				if ( 0 === count( $tag_stack ) || $opening_tag_name !== $tag_name ) {
 
