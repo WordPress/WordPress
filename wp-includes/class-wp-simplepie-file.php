@@ -75,6 +75,10 @@ class WP_SimplePie_File extends SimplePie\File {
 			} else {
 				$this->headers = wp_remote_retrieve_headers( $res );
 
+				if ( $this->headers instanceof \WpOrg\Requests\Utility\CaseInsensitiveDictionary ) {
+					$this->headers = $this->headers->getAll();
+				}
+
 				/*
 				 * SimplePie expects multiple headers to be stored as a comma-separated string,
 				 * but `wp_remote_retrieve_headers()` returns them as an array, so they need

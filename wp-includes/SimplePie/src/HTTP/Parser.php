@@ -1,54 +1,15 @@
 <?php
 
-/**
- * SimplePie
- *
- * A PHP-Based RSS and Atom Feed Framework.
- * Takes the hard work out of managing a complete RSS/Atom solution.
- *
- * Copyright (c) 2004-2022, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are
- * permitted provided that the following conditions are met:
- *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
- *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
- *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
- * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS
- * AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * @package SimplePie
- * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
- * @author Ryan Parman
- * @author Sam Sneddon
- * @author Ryan McCue
- * @link http://simplepie.org/ SimplePie
- * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- */
+// SPDX-FileCopyrightText: 2004-2023 Ryan Parman, Sam Sneddon, Ryan McCue
+// SPDX-License-Identifier: BSD-3-Clause
+
+declare(strict_types=1);
 
 namespace SimplePie\HTTP;
 
 /**
  * HTTP Response Parser
- *
- * @package SimplePie
- * @subpackage HTTP
+ * @template Psr7Compatible of bool
  */
 class Parser
 {
@@ -74,9 +35,14 @@ class Parser
     public $reason = '';
 
     /**
+     * @var Psr7Compatible whether headers are compatible with PSR-7 format.
+     */
+    private $psr7Compatible;
+
+    /**
      * Key/value pairs of the headers
      *
-     * @var array
+     * @var (Psr7Compatible is true ? array<string, non-empty-array<string>> : array<string, string>)
      */
     public $headers = [];
 
@@ -144,14 +110,14 @@ class Parser
     protected $position = 0;
 
     /**
-     * Name of the hedaer currently being parsed
+     * Name of the header currently being parsed
      *
      * @var string
      */
     protected $name = '';
 
     /**
-     * Value of the hedaer currently being parsed
+     * Value of the header currently being parsed
      *
      * @var string
      */
@@ -161,11 +127,13 @@ class Parser
      * Create an instance of the class with the input data
      *
      * @param string $data Input data
+     * @param Psr7Compatible $psr7Compatible Whether the data types are in format compatible with PSR-7.
      */
-    public function __construct($data)
+    public function __construct(string $data, bool $psr7Compatible = false)
     {
         $this->data = $data;
         $this->data_length = strlen($this->data);
+        $this->psr7Compatible = $psr7Compatible;
     }
 
     /**
@@ -184,7 +152,8 @@ class Parser
             return true;
         }
 
-        $this->http_version = '';
+        // Reset the parser state.
+        $this->http_version = 0.0;
         $this->status_code = 0;
         $this->reason = '';
         $this->headers = [];
@@ -218,15 +187,16 @@ class Parser
 
     /**
      * Parse the HTTP version
+     * @return void
      */
     protected function http_version()
     {
         if (strpos($this->data, "\x0A") !== false && strtoupper(substr($this->data, 0, 5)) === 'HTTP/') {
             $len = strspn($this->data, '0123456789.', 5);
-            $this->http_version = substr($this->data, 5, $len);
+            $http_version = substr($this->data, 5, $len);
             $this->position += 5 + $len;
-            if (substr_count($this->http_version, '.') <= 1) {
-                $this->http_version = (float) $this->http_version;
+            if (substr_count($http_version, '.') <= 1) {
+                $this->http_version = (float) $http_version;
                 $this->position += strspn($this->data, "\x09\x20", $this->position);
                 $this->state = self::STATE_STATUS;
             } else {
@@ -239,6 +209,7 @@ class Parser
 
     /**
      * Parse the status code
+     * @return void
      */
     protected function status()
     {
@@ -253,6 +224,7 @@ class Parser
 
     /**
      * Parse the reason phrase
+     * @return void
      */
     protected function reason()
     {
@@ -262,8 +234,39 @@ class Parser
         $this->state = self::STATE_NEW_LINE;
     }
 
+    private function add_header(string $name, string $value): void
+    {
+        if ($this->psr7Compatible) {
+            // For PHPStan: should be enforced by template parameter but PHPStan is not smart enough.
+            /** @var array<string, non-empty-array<string>> */
+            $headers = &$this->headers;
+            $headers[$name][] = $value;
+        } else {
+            // For PHPStan: should be enforced by template parameter but PHPStan is not smart enough.
+            /** @var array<string, string>) */
+            $headers = &$this->headers;
+            $headers[$name] .= ', ' . $value;
+        }
+    }
+
+    private function replace_header(string $name, string $value): void
+    {
+        if ($this->psr7Compatible) {
+            // For PHPStan: should be enforced by template parameter but PHPStan is not smart enough.
+            /** @var array<string, non-empty-array<string>> */
+            $headers = &$this->headers;
+            $headers[$name] = [$value];
+        } else {
+            // For PHPStan: should be enforced by template parameter but PHPStan is not smart enough.
+            /** @var array<string, string>) */
+            $headers = &$this->headers;
+            $headers[$name] = $value;
+        }
+    }
+
     /**
      * Deal with a new line, shifting data around as needed
+     * @return void
      */
     protected function new_line()
     {
@@ -272,9 +275,9 @@ class Parser
             $this->name = strtolower($this->name);
             // We should only use the last Content-Type header. c.f. issue #1
             if (isset($this->headers[$this->name]) && $this->name !== 'content-type') {
-                $this->headers[$this->name] .= ', ' . $this->value;
+                $this->add_header($this->name, $this->value);
             } else {
-                $this->headers[$this->name] = $this->value;
+                $this->replace_header($this->name, $this->value);
             }
         }
         $this->name = '';
@@ -292,6 +295,7 @@ class Parser
 
     /**
      * Parse a header name
+     * @return void
      */
     protected function name()
     {
@@ -312,6 +316,7 @@ class Parser
 
     /**
      * Parse LWS, replacing consecutive LWS characters with a single space
+     * @return void
      */
     protected function linear_whitespace()
     {
@@ -328,6 +333,7 @@ class Parser
 
     /**
      * See what state to move to while within non-quoted header values
+     * @return void
      */
     protected function value()
     {
@@ -362,6 +368,7 @@ class Parser
 
     /**
      * Parse a header value while outside quotes
+     * @return void
      */
     protected function value_char()
     {
@@ -373,6 +380,7 @@ class Parser
 
     /**
      * See what state to move to while within quoted header values
+     * @return void
      */
     protected function quote()
     {
@@ -404,6 +412,7 @@ class Parser
 
     /**
      * Parse a header value while within quotes
+     * @return void
      */
     protected function quote_char()
     {
@@ -415,6 +424,7 @@ class Parser
 
     /**
      * Parse an escaped character within quotes
+     * @return void
      */
     protected function quote_escaped()
     {
@@ -425,6 +435,7 @@ class Parser
 
     /**
      * Parse the body
+     * @return void
      */
     protected function body()
     {
@@ -439,6 +450,7 @@ class Parser
 
     /**
      * Parsed a "Transfer-Encoding: chunked" body
+     * @return void
      */
     protected function chunked()
     {
@@ -459,6 +471,9 @@ class Parser
             }
 
             $length = hexdec(trim($matches[1]));
+            // For PHPStan: this will only be float when larger than PHP_INT_MAX.
+            // But even on 32-bit systems, it would mean 2GiB chunk, which sounds unlikely.
+            \assert(\is_int($length), "Length needs to be shorter than PHP_INT_MAX");
             if ($length === 0) {
                 // Ignore trailer headers
                 $this->state = self::STATE_EMIT;
@@ -485,11 +500,11 @@ class Parser
      * Prepare headers (take care of proxies headers)
      *
      * @param string  $headers Raw headers
-     * @param integer $count   Redirection count. Default to 1.
+     * @param non-negative-int $count Redirection count. Default to 1.
      *
      * @return string
      */
-    public static function prepareHeaders($headers, $count = 1)
+    public static function prepareHeaders(string $headers, int $count = 1)
     {
         $data = explode("\r\n\r\n", $headers, $count);
         $data = array_pop($data);

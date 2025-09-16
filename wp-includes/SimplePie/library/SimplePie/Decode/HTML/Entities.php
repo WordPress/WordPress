@@ -1,46 +1,9 @@
 <?php
 
-/**
- * SimplePie
- *
- * A PHP-Based RSS and Atom Feed Framework.
- * Takes the hard work out of managing a complete RSS/Atom solution.
- *
- * Copyright (c) 2004-2022, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are
- * permitted provided that the following conditions are met:
- *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
- *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
- *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
- * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS
- * AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * @package SimplePie
- * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
- * @author Ryan Parman
- * @author Sam Sneddon
- * @author Ryan McCue
- * @link http://simplepie.org/ SimplePie
- * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- */
+// SPDX-FileCopyrightText: 2004-2023 Ryan Parman, Sam Sneddon, Ryan McCue
+// SPDX-License-Identifier: BSD-3-Clause
+
+declare(strict_types=1);
 
 
 /**
@@ -49,7 +12,6 @@
  * This implements HTML5 as of revision 967 (2007-06-28)
  *
  * @deprecated Use DOMDocument instead!
- * @package SimplePie
  */
 class SimplePie_Decode_HTML_Entities
 {
@@ -83,7 +45,7 @@ class SimplePie_Decode_HTML_Entities
      * @access public
      * @param string $data Input data
      */
-    public function __construct($data)
+    public function __construct(string $data)
     {
         $this->data = $data;
     }
@@ -96,7 +58,8 @@ class SimplePie_Decode_HTML_Entities
      */
     public function parse()
     {
-        while (($this->position = strpos($this->data, '&', $this->position)) !== false) {
+        while (($position = strpos($this->data, '&', $this->position)) !== false) {
+            $this->position = $position;
             $this->consume();
             $this->entity();
             $this->consumed = '';
@@ -108,7 +71,7 @@ class SimplePie_Decode_HTML_Entities
      * Consume the next byte
      *
      * @access private
-     * @return mixed The next byte, or false, if there is no more data
+     * @return string|false The next byte, or false, if there is no more data
      */
     public function consume()
     {
@@ -125,9 +88,9 @@ class SimplePie_Decode_HTML_Entities
      *
      * @access private
      * @param string $chars Characters to consume
-     * @return mixed A series of characters that match the range, or false
+     * @return string|false A series of characters that match the range, or false
      */
-    public function consume_range($chars)
+    public function consume_range(string $chars)
     {
         if ($len = strspn($this->data, $chars, $this->position)) {
             $data = substr($this->data, $this->position, $len);
@@ -143,6 +106,7 @@ class SimplePie_Decode_HTML_Entities
      * Unconsume one byte
      *
      * @access private
+     * @return void
      */
     public function unconsume()
     {
@@ -154,6 +118,7 @@ class SimplePie_Decode_HTML_Entities
      * Decode an entity
      *
      * @access private
+     * @return void
      */
     public function entity()
     {
@@ -187,9 +152,13 @@ class SimplePie_Decode_HTML_Entities
                     static $windows_1252_specials = [0x0D => "\x0A", 0x80 => "\xE2\x82\xAC", 0x81 => "\xEF\xBF\xBD", 0x82 => "\xE2\x80\x9A", 0x83 => "\xC6\x92", 0x84 => "\xE2\x80\x9E", 0x85 => "\xE2\x80\xA6", 0x86 => "\xE2\x80\xA0", 0x87 => "\xE2\x80\xA1", 0x88 => "\xCB\x86", 0x89 => "\xE2\x80\xB0", 0x8A => "\xC5\xA0", 0x8B => "\xE2\x80\xB9", 0x8C => "\xC5\x92", 0x8D => "\xEF\xBF\xBD", 0x8E => "\xC5\xBD", 0x8F => "\xEF\xBF\xBD", 0x90 => "\xEF\xBF\xBD", 0x91 => "\xE2\x80\x98", 0x92 => "\xE2\x80\x99", 0x93 => "\xE2\x80\x9C", 0x94 => "\xE2\x80\x9D", 0x95 => "\xE2\x80\xA2", 0x96 => "\xE2\x80\x93", 0x97 => "\xE2\x80\x94", 0x98 => "\xCB\x9C", 0x99 => "\xE2\x84\xA2", 0x9A => "\xC5\xA1", 0x9B => "\xE2\x80\xBA", 0x9C => "\xC5\x93", 0x9D => "\xEF\xBF\xBD", 0x9E => "\xC5\xBE", 0x9F => "\xC5\xB8"];
 
                     if ($hex) {
-                        $codepoint = hexdec($codepoint);
+                        // Cap to PHP_INT_MAX to ensure consistent behaviour if $codepoint is so large
+                        // it cannot fit into int – just casting float to int might return junk (e.g. a negative number).
+                        // If it is so large, `Misc::codepoint_to_utf8` will just return a replacement character.
+                        $codepoint = (int) min(hexdec($codepoint), \PHP_INT_MAX);
                     } else {
-                        $codepoint = intval($codepoint);
+                        // Casting string to int caps at PHP_INT_MAX automatically.
+                        $codepoint = (int) $codepoint;
                     }
 
                     if (isset($windows_1252_specials[$codepoint])) {
@@ -579,7 +548,9 @@ class SimplePie_Decode_HTML_Entities
                 ];
 
                 for ($i = 0, $match = null; $i < 9 && $this->consume() !== false; $i++) {
-                    $consumed = substr($this->consumed, 1);
+                    // Cast for PHPStan on PHP < 8.0: We consumed as per the loop condition,
+                    // so `$this->consumed` is non-empty and the substr offset is valid.
+                    $consumed = (string) substr($this->consumed, 1);
                     if (isset($entities[$consumed])) {
                         $match = $consumed;
                     }

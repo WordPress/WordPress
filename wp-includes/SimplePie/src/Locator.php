@@ -1,76 +1,70 @@
 <?php
 
-/**
- * SimplePie
- *
- * A PHP-Based RSS and Atom Feed Framework.
- * Takes the hard work out of managing a complete RSS/Atom solution.
- *
- * Copyright (c) 2004-2022, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are
- * permitted provided that the following conditions are met:
- *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
- *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
- *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
- * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS
- * AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * @package SimplePie
- * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
- * @author Ryan Parman
- * @author Sam Sneddon
- * @author Ryan McCue
- * @link http://simplepie.org/ SimplePie
- * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- */
+// SPDX-FileCopyrightText: 2004-2023 Ryan Parman, Sam Sneddon, Ryan McCue
+// SPDX-License-Identifier: BSD-3-Clause
+
+declare(strict_types=1);
 
 namespace SimplePie;
+
+use DomDocument;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use SimplePie\HTTP\Client;
+use SimplePie\HTTP\ClientException;
+use SimplePie\HTTP\FileClient;
+use SimplePie\HTTP\Psr18Client;
+use SimplePie\HTTP\Response;
 
 /**
  * Used for feed auto-discovery
  *
  *
  * This class can be overloaded with {@see \SimplePie\SimplePie::set_locator_class()}
- *
- * @package SimplePie
  */
 class Locator implements RegistryAware
 {
-    public $useragent;
-    public $timeout;
+    /** @var ?string */
+    public $useragent = null;
+    /** @var int */
+    public $timeout = 10;
+    /** @var File */
     public $file;
+    /** @var string[] */
     public $local = [];
+    /** @var string[] */
     public $elsewhere = [];
+    /** @var array<mixed> */
     public $cached_entities = [];
+    /** @var string */
     public $http_base;
+    /** @var string */
     public $base;
+    /** @var int */
     public $base_location = 0;
+    /** @var int */
     public $checked_feeds = 0;
+    /** @var int */
     public $max_checked_feeds = 10;
+    /** @var bool */
     public $force_fsockopen = false;
+    /** @var array<int, mixed> */
     public $curl_options = [];
+    /** @var ?\DomDocument */
     public $dom;
+    /** @var ?Registry */
     protected $registry;
 
-    public function __construct(\SimplePie\File $file, $timeout = 10, $useragent = null, $max_checked_feeds = 10, $force_fsockopen = false, $curl_options = [])
+    /**
+     * @var Client|null
+     */
+    private $http_client = null;
+
+    /**
+     * @param array<int, mixed> $curl_options
+     */
+    public function __construct(File $file, int $timeout = 10, ?string $useragent = null, int $max_checked_feeds = 10, bool $force_fsockopen = false, array $curl_options = [])
     {
         $this->file = $file;
         $this->useragent = $useragent;
@@ -79,12 +73,14 @@ class Locator implements RegistryAware
         $this->force_fsockopen = $force_fsockopen;
         $this->curl_options = $curl_options;
 
-        if (class_exists('DOMDocument') && $this->file->body != '') {
+        $body = $this->file->get_body_content();
+
+        if (class_exists('DOMDocument') && $body != '') {
             $this->dom = new \DOMDocument();
 
-            set_error_handler(['SimplePie\Misc', 'silence_errors']);
+            set_error_handler([Misc::class, 'silence_errors']);
             try {
-                $this->dom->loadHTML($this->file->body);
+                $this->dom->loadHTML($body);
             } catch (\Throwable $ex) {
                 $this->dom = null;
             }
@@ -94,18 +90,41 @@ class Locator implements RegistryAware
         }
     }
 
-    public function set_registry(\SimplePie\Registry $registry)/* : void */
+    /**
+     * Set a PSR-18 client and PSR-17 factories
+     *
+     * Allows you to use your own HTTP client implementations.
+     */
+    final public function set_http_client(
+        ClientInterface $http_client,
+        RequestFactoryInterface $request_factory,
+        UriFactoryInterface $uri_factory
+    ): void {
+        $this->http_client = new Psr18Client($http_client, $request_factory, $uri_factory);
+    }
+
+    /**
+     * @return void
+     */
+    public function set_registry(\SimplePie\Registry $registry)
     {
         $this->registry = $registry;
     }
 
-    public function find($type = \SimplePie\SimplePie::LOCATOR_ALL, &$working = null)
+    /**
+     * @param SimplePie::LOCATOR_* $type
+     * @param array<Response>|null $working
+     * @return Response|null
+     */
+    public function find(int $type = \SimplePie\SimplePie::LOCATOR_ALL, ?array &$working = null)
     {
+        assert($this->registry !== null);
+
         if ($this->is_feed($this->file)) {
             return $this->file;
         }
 
-        if ($this->file->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE) {
+        if (Misc::is_remote_uri($this->file->get_final_requested_uri())) {
             $sniffer = $this->registry->create(Content\Type\Sniffer::class, [$this->file]);
             if ($sniffer->get_type() !== 'text/html') {
                 return null;
@@ -140,9 +159,14 @@ class Locator implements RegistryAware
         return null;
     }
 
-    public function is_feed($file, $check_html = false)
+    /**
+     * @return bool
+     */
+    public function is_feed(Response $file, bool $check_html = false)
     {
-        if ($file->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE) {
+        assert($this->registry !== null);
+
+        if (Misc::is_remote_uri($file->get_final_requested_uri())) {
             $sniffer = $this->registry->create(Content\Type\Sniffer::class, [$file]);
             $sniffed = $sniffer->get_type();
             $mime_types = ['application/rss+xml', 'application/rdf+xml',
@@ -153,19 +177,24 @@ class Locator implements RegistryAware
             }
 
             return in_array($sniffed, $mime_types);
-        } elseif ($file->method & \SimplePie\SimplePie::FILE_SOURCE_LOCAL) {
+        } elseif (is_file($file->get_final_requested_uri())) {
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * @return void
+     */
     public function get_base()
     {
+        assert($this->registry !== null);
+
         if ($this->dom === null) {
             throw new \SimplePie\Exception('DOMDocument not found, unable to use locator');
         }
-        $this->http_base = $this->file->url;
+        $this->http_base = $this->file->get_final_requested_uri();
         $this->base = $this->http_base;
         $elements = $this->dom->getElementsByTagName('base');
         foreach ($elements as $element) {
@@ -181,6 +210,9 @@ class Locator implements RegistryAware
         }
     }
 
+    /**
+     * @return array<Response>|null
+     */
     public function autodiscovery()
     {
         $done = [];
@@ -196,8 +228,15 @@ class Locator implements RegistryAware
         return null;
     }
 
-    protected function search_elements_by_tag($name, &$done, $feeds)
+    /**
+     * @param string[] $done
+     * @param array<string, Response> $feeds
+     * @return array<string, Response>
+     */
+    protected function search_elements_by_tag(string $name, array &$done, array $feeds)
     {
+        assert($this->registry !== null);
+
         if ($this->dom === null) {
             throw new \SimplePie\Exception('DOMDocument not found, unable to use locator');
         }
@@ -223,11 +262,17 @@ class Locator implements RegistryAware
                 if (!in_array($href, $done) && in_array('feed', $rel) || (in_array('alternate', $rel) && !in_array('stylesheet', $rel) && $link->hasAttribute('type') && in_array(strtolower($this->registry->call(Misc::class, 'parse_mime', [$link->getAttribute('type')])), ['text/html', 'application/rss+xml', 'application/atom+xml'])) && !isset($feeds[$href])) {
                     $this->checked_feeds++;
                     $headers = [
-                        'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
+                        'Accept' => SimplePie::DEFAULT_HTTP_ACCEPT_HEADER,
                     ];
-                    $feed = $this->registry->create(File::class, [$href, $this->timeout, 5, $headers, $this->useragent, $this->force_fsockopen, $this->curl_options]);
-                    if ($feed->success && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed, true)) {
-                        $feeds[$href] = $feed;
+
+                    try {
+                        $feed = $this->get_http_client()->request(Client::METHOD_GET, $href, $headers);
+
+                        if ((!Misc::is_remote_uri($feed->get_final_requested_uri()) || ($feed->get_status_code() === 200 || $feed->get_status_code() > 206 && $feed->get_status_code() < 300)) && $this->is_feed($feed, true)) {
+                            $feeds[$href] = $feed;
+                        }
+                    } catch (ClientException $th) {
+                        // Just mark it as done and continue.
                     }
                 }
                 $done[] = $href;
@@ -237,8 +282,13 @@ class Locator implements RegistryAware
         return $feeds;
     }
 
+    /**
+     * @return true|null
+     */
     public function get_links()
     {
+        assert($this->registry !== null);
+
         if ($this->dom === null) {
             throw new \SimplePie\Exception('DOMDocument not found, unable to use locator');
         }
@@ -258,7 +308,7 @@ class Locator implements RegistryAware
                         continue;
                     }
 
-                    $current = $this->registry->call(Misc::class, 'parse_url', [$this->file->url]);
+                    $current = $this->registry->call(Misc::class, 'parse_url', [$this->file->get_final_requested_uri()]);
 
                     if ($parsed['authority'] === '' || $parsed['authority'] === $current['authority']) {
                         $this->local[] = $href;
@@ -276,8 +326,15 @@ class Locator implements RegistryAware
         return null;
     }
 
-    public function get_rel_link($rel)
+    /**
+     * Extracts first `link` element with given `rel` attribute inside the `head` element.
+     *
+     * @return string|null
+     */
+    public function get_rel_link(string $rel)
     {
+        assert($this->registry !== null);
+
         if ($this->dom === null) {
             throw new \SimplePie\Exception('DOMDocument not found, unable to use '.
                                           'locator');
@@ -288,8 +345,10 @@ class Locator implements RegistryAware
         }
 
         $xpath = new \DOMXpath($this->dom);
-        $query = '//a[@rel and @href] | //link[@rel and @href]';
-        foreach ($xpath->query($query) as $link) {
+        $query = '(//head)[1]/link[@rel and @href]';
+        /** @var \DOMNodeList<\DOMElement> */
+        $queryResult = $xpath->query($query);
+        foreach ($queryResult as $link) {
             $href = trim($link->getAttribute('href'));
             $parsed = $this->registry->call(Misc::class, 'parse_url', [$href]);
             if ($parsed['scheme'] === '' ||
@@ -317,33 +376,49 @@ class Locator implements RegistryAware
                 }
             }
         }
+
         return null;
     }
 
-    public function extension(&$array)
+    /**
+     * @param string[] $array
+     * @return array<Response>|null
+     */
+    public function extension(array &$array)
     {
         foreach ($array as $key => $value) {
             if ($this->checked_feeds === $this->max_checked_feeds) {
                 break;
             }
-            if (in_array(strtolower(strrchr($value, '.')), ['.rss', '.rdf', '.atom', '.xml'])) {
+            $extension = strrchr($value, '.');
+            if ($extension !== false && in_array(strtolower($extension), ['.rss', '.rdf', '.atom', '.xml'])) {
                 $this->checked_feeds++;
 
                 $headers = [
-                    'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
+                    'Accept' => SimplePie::DEFAULT_HTTP_ACCEPT_HEADER,
                 ];
-                $feed = $this->registry->create(File::class, [$value, $this->timeout, 5, $headers, $this->useragent, $this->force_fsockopen, $this->curl_options]);
-                if ($feed->success && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed)) {
-                    return [$feed];
-                } else {
-                    unset($array[$key]);
+
+                try {
+                    $feed = $this->get_http_client()->request(Client::METHOD_GET, $value, $headers);
+
+                    if ((!Misc::is_remote_uri($feed->get_final_requested_uri()) || ($feed->get_status_code() === 200 || $feed->get_status_code() > 206 && $feed->get_status_code() < 300)) && $this->is_feed($feed)) {
+                        return [$feed];
+                    }
+                } catch (ClientException $th) {
+                    // Just unset and continue.
                 }
+
+                unset($array[$key]);
             }
         }
         return null;
     }
 
-    public function body(&$array)
+    /**
+     * @param string[] $array
+     * @return array<Response>|null
+     */
+    public function body(array &$array)
     {
         foreach ($array as $key => $value) {
             if ($this->checked_feeds === $this->max_checked_feeds) {
@@ -352,17 +427,51 @@ class Locator implements RegistryAware
             if (preg_match('/(feed|rss|rdf|atom|xml)/i', $value)) {
                 $this->checked_feeds++;
                 $headers = [
-                    'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
+                    'Accept' => SimplePie::DEFAULT_HTTP_ACCEPT_HEADER,
                 ];
-                $feed = $this->registry->create(File::class, [$value, $this->timeout, 5, null, $this->useragent, $this->force_fsockopen, $this->curl_options]);
-                if ($feed->success && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed)) {
-                    return [$feed];
-                } else {
-                    unset($array[$key]);
+
+                try {
+                    $feed = $this->get_http_client()->request(Client::METHOD_GET, $value, $headers);
+
+                    if ((!Misc::is_remote_uri($feed->get_final_requested_uri()) || ($feed->get_status_code() === 200 || $feed->get_status_code() > 206 && $feed->get_status_code() < 300)) && $this->is_feed($feed)) {
+                        return [$feed];
+                    }
+                } catch (ClientException $th) {
+                    // Just unset and continue.
                 }
+
+                unset($array[$key]);
             }
         }
         return null;
+    }
+
+    /**
+     * Get a HTTP client
+     */
+    private function get_http_client(): Client
+    {
+        assert($this->registry !== null);
+
+        if ($this->http_client === null) {
+            $options = [
+                'timeout' => $this->timeout,
+                'redirects' => 5,
+                'force_fsockopen' => $this->force_fsockopen,
+                'curl_options' => $this->curl_options,
+            ];
+
+            if ($this->useragent !== null) {
+                $options['useragent'] = $this->useragent;
+            }
+
+            return new FileClient(
+                $this->registry,
+                $options
+            );
+        }
+
+        return $this->http_client;
     }
 }
 
