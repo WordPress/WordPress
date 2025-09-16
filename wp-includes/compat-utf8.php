@@ -79,7 +79,7 @@ function _wp_is_valid_utf8_fallback( string $bytes ): bool {
 		// Valid two-byte code points.
 
 		if ( $b1 >= 0xC2 && $b1 <= 0xDF && $b2 >= 0x80 && $b2 <= 0xBF ) {
-			$i++;
+			++$i;
 			continue;
 		}
 

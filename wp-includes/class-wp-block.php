@@ -490,8 +490,8 @@ class WP_Block {
 				}
 
 				$this->set_bookmark( '_wp_block_bindings_tag_closer' );
-				$tag_closer  = $this->bookmarks['__wp_block_bindings_tag_closer'];
-				$end         = $tag_closer->start;
+				$tag_closer = $this->bookmarks['__wp_block_bindings_tag_closer'];
+				$end        = $tag_closer->start;
 				$this->release_bookmark( '_wp_block_bindings_tag_closer' );
 
 				$this->lexical_updates[] = new WP_HTML_Text_Replacement(
