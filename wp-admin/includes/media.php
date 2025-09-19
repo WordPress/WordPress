@@ -655,7 +655,7 @@ function media_buttons( $editor_id = 'content' ) {
 	$id_attribute = 1 === $instance ? ' id="insert-media-button"' : '';
 
 	printf(
-		'<button type="button"%s class="button insert-media add_media" data-editor="%s">%s</button>',
+		'<button type="button"%s class="button insert-media add_media" data-editor="%s" aria-haspopup="dialog" aria-controls="wp-media-modal">%s</button>',
 		$id_attribute,
 		esc_attr( $editor_id ),
 		$img . __( 'Add Media' )
