@@ -4726,10 +4726,19 @@
 		 * @param {Object} attachment
 		 */
 		setImageFromAttachment: function( attachment ) {
+			var control = this;
 			this.params.attachment = attachment;
 
 			// Set the Customizer setting; the callback takes care of rendering.
 			this.setting( attachment.id );
+
+			// Set focus to the first relevant button after the icon.
+			_.defer( function() {
+				var firstButton = control.container.find( '.actions .button' ).first();
+				if ( firstButton.length ) {
+					firstButton.focus();
+				}
+			} );
 		}
 	});
 
@@ -4812,7 +4821,8 @@
 		 * @param {Object} attachment
 		 */
 		setImageFromAttachment: function( attachment ) {
-			var sizes = [ 'site_icon-32', 'thumbnail', 'full' ], link,
+			var control = this,
+				sizes = [ 'site_icon-32', 'thumbnail', 'full' ], link,
 				icon;
 
 			_.each( sizes, function( size ) {
@@ -4833,6 +4843,14 @@
 			// Update the icon in-browser.
 			link = $( 'link[rel="icon"][sizes="32x32"]' );
 			link.attr( 'href', icon.url );
+
+			// Set focus to the first relevant button after the icon.
+			_.defer( function() {
+				var firstButton = control.container.find( '.actions .button' ).first();
+				if ( firstButton.length ) {
+					firstButton.focus();
+				}
+			} );
 		},
 
 		/**
