@@ -3203,7 +3203,7 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 				$fieldtype_base = strtok( $fieldtype_without_parentheses, ' ' );
 
 				// Is actual field type different from the field type in query?
-				if ( $tablefield->Type !== $fieldtype ) {
+				if ( $tablefield->Type !== $fieldtype_lowercased ) {
 					$do_change = true;
 					if ( in_array( $fieldtype_lowercased, $text_fields, true ) && in_array( $tablefield_type_lowercased, $text_fields, true ) ) {
 						if ( array_search( $fieldtype_lowercased, $text_fields, true ) < array_search( $tablefield_type_lowercased, $text_fields, true ) ) {
