@@ -3406,8 +3406,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 		! current_user_can( get_post_type_object( $type )->cap->read_private_posts )
 	) {
 		// Optimized query uses subqueries which can leverage DB indexes for better performance. See #61097.
-		$query = $wpdb->prepare(
-			"
+		$query = "
 			SELECT post_status, COUNT(*) AS num_posts
 			FROM (
 				SELECT post_status
@@ -3418,24 +3417,23 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 				FROM {$wpdb->posts}
 				WHERE post_type = %s AND post_status = 'private' AND post_author = %d
 			) AS filtered_posts
-			",
-			$type,
-			$type,
-			get_current_user_id()
-		);
+		";
+		$args  = array( $type, $type, get_current_user_id() );
 	} else {
-		$query = $wpdb->prepare(
-			"
+		$query = "
 			SELECT post_status, COUNT(*) AS num_posts
 			FROM {$wpdb->posts}
 			WHERE post_type = %s
-			",
-			$type
-		);
+		";
+		$args  = array( $type );
 	}
 
-	$query  .= ' GROUP BY post_status';
-	$results = (array) $wpdb->get_results( $query, ARRAY_A );
+	$query .= ' GROUP BY post_status';
+
+	$results = (array) $wpdb->get_results(
+		$wpdb->prepare( $query, ...$args ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Placeholders are used in the string contained in the variable.
+		ARRAY_A
+	);
 	$counts  = array_fill_keys( get_post_stati(), 0 );
 
 	foreach ( $results as $row ) {
