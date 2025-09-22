@@ -304,6 +304,20 @@ class WP_Block {
 		/**
 		 * Filters the supported block attributes for block bindings.
 		 *
+		 * @since 6.9.0
+		 *
+		 * @param string[] $supported_block_attributes The block's attributes that are supported by block bindings.
+		 * @param string   $block_type                 The block type whose attributes are being filtered.
+		 */
+		$supported_block_attributes = apply_filters(
+			'block_bindings_supported_attributes',
+			$supported_block_attributes,
+			$block_type
+		);
+
+		/**
+		 * Filters the supported block attributes for block bindings.
+		 *
 		 * The dynamic portion of the hook name, `$block_type`, refers to the block type
 		 * whose attributes are being filtered.
 		 *
