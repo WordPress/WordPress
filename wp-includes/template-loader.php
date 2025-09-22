@@ -1,12 +1,22 @@
 <?php
 /**
- * Loads the correct template based on the visitor's url
+ * Loads the correct template based on the visitor's URL
  *
  * @package WordPress
  */
 if ( wp_using_themes() ) {
 	/**
 	 * Fires before determining which template to load.
+	 *
+	 * This action hook executes just before WordPress determines which template page to load.
+	 * It is a good hook to use if you need to do a redirect with full knowledge of the content
+	 * that has been queried.
+	 *
+	 * Note: Loading a different template is not a good use of this hook. If you include another template
+	 * and then use `exit()` or `die()`, no subsequent `template_redirect` hooks will be run, which could
+	 * break the site’s functionality. Instead, use the {@see 'template_include'} filter hook to return
+	 * the path to the new template you want to use. This will allow an alternative template to be used
+	 * without interfering with the WordPress loading process.
 	 *
 	 * @since 1.5.0
 	 */
