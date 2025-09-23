@@ -257,11 +257,13 @@ final class WP_Block_Bindings_Registry {
 	}
 
 	/**
-	 * Wakeup magic method.
+	 * Unserialize magic method.
 	 *
-	 * @since 6.5.0
+	 * @since 6.9.0
+	 *
+	 * @param array $data Data to unserialize.
 	 */
-	public function __wakeup() {
+	public function __unserialize( $data ) { // phpcs:ignore PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
 		if ( ! $this->sources ) {
 			return;
 		}
@@ -273,6 +275,15 @@ final class WP_Block_Bindings_Registry {
 				throw new UnexpectedValueException();
 			}
 		}
+	}
+
+	/**
+	 * Wakeup magic method.
+	 *
+	 * @since 6.5.0
+	 */
+	public function __wakeup() {
+		$this->__unserialize( array() );
 	}
 
 	/**
