@@ -230,7 +230,7 @@ function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max
  * @since 6.9.0
  * @access private
  *
- * @see wp_is_valid_utf6()
+ * @see wp_is_valid_utf8()
  *
  * @param string $bytes String which might contain text encoded as UTF-8.
  * @return bool Whether the provided bytes can decode as valid UTF-8.
