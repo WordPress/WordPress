@@ -227,10 +227,10 @@ function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max
 /**
  * Fallback mechanism for safely validating UTF-8 bytes.
  *
- * @see wp_is_valid_utf8()
- *
  * @since 6.9.0
  * @access private
+ *
+ * @see wp_is_valid_utf6()
  *
  * @param string $bytes String which might contain text encoded as UTF-8.
  * @return bool Whether the provided bytes can decode as valid UTF-8.
@@ -247,4 +247,47 @@ function _wp_is_valid_utf8_fallback( string $bytes ): bool {
 	_wp_scan_utf8( $bytes, $next_byte_at, $invalid_length );
 
 	return $bytes_length === $next_byte_at && 0 === $invalid_length;
+}
+
+/**
+ * Fallback mechanism for replacing invalid spans of UTF-8 bytes.
+ *
+ * Example:
+ *
+ *     'Pi�a' === _wp_scrub_utf8_fallback( "Pi\xF1a" ); // “ñ” is 0xF1 in Windows-1252.
+ *
+ * @since 6.9.0
+ * @access private
+ *
+ * @see wp_scrub_utf8()
+ *
+ * @param string $bytes UTF-8 encoded string which might contain spans of invalid bytes.
+ * @return string Input string with spans of invalid bytes swapped with the replacement character.
+ */
+function _wp_scrub_utf8_fallback( string $bytes ): string {
+	$bytes_length   = strlen( $bytes );
+	$next_byte_at   = 0;
+	$was_at         = 0;
+	$invalid_length = 0;
+	$scrubbed       = '';
+
+	while ( $next_byte_at <= $bytes_length ) {
+		_wp_scan_utf8( $bytes, $next_byte_at, $invalid_length );
+
+		if ( $next_byte_at >= $bytes_length ) {
+			if ( 0 === $was_at ) {
+				return $bytes;
+			}
+
+			return $scrubbed . substr( $bytes, $was_at, $next_byte_at - $was_at - $invalid_length );
+		}
+
+		$scrubbed .= substr( $bytes, $was_at, $next_byte_at - $was_at );
+		$scrubbed .= "\u{FFFD}";
+
+		$next_byte_at += $invalid_length;
+		$was_at        = $next_byte_at;
+	}
+
+	return $scrubbed;
 }
