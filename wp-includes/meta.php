@@ -600,12 +600,47 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
  */
 function get_metadata( $meta_type, $object_id, $meta_key = '', $single = false ) {
 	$value = get_metadata_raw( $meta_type, $object_id, $meta_key, $single );
+
 	if ( ! is_null( $value ) ) {
+		/**
+		 * Filters the value of metadata after it is retrieved.
+		 *
+		 * The dynamic portion of the hook name, `$meta_type`, refers to the meta
+		 * object type (post, comment, term, user, etc).
+		 *
+		 * The dynamic portion of the hook name, `$meta_key`, refers to the specific
+		 * meta key (when provided).
+		 *
+		 * Examples:
+		 *  - post_metadata
+		 *  - user_metadata
+		 *  - user_metadata_nickname
+		 *
+		 * @param mixed  $value     The metadata value.
+		 * @param int    $object_id Object ID.
+		 * @param string $meta_key  Metadata key.
+		 * @param bool   $single    Whether only the first value should be returned.
+		 */
+		$value = apply_filters( "{$meta_type}_metadata", $value, $object_id, $meta_key, $single );
+
+		if ( $meta_key ) {
+			$value = apply_filters( "{$meta_type}_metadata_{$meta_key}", $value, $object_id, $single );
+		}
+
 		return $value;
 	}
 
-	return get_metadata_default( $meta_type, $object_id, $meta_key, $single );
+	$default = get_metadata_default( $meta_type, $object_id, $meta_key, $single );
+
+	$default = apply_filters( "{$meta_type}_metadata", $default, $object_id, $meta_key, $single );
+
+	if ( $meta_key ) {
+		$default = apply_filters( "{$meta_type}_metadata_{$meta_key}", $default, $object_id, $single );
+	}
+
+	return $default;
 }
+
 
 /**
  * Retrieves raw metadata value for the specified object.
