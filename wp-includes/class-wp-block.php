@@ -109,7 +109,7 @@ class WP_Block {
 	private const BLOCK_BINDINGS_SUPPORTED_ATTRIBUTES = array(
 		'core/paragraph' => array( 'content' ),
 		'core/heading'   => array( 'content' ),
-		'core/image'     => array( 'id', 'url', 'title', 'alt' ),
+		'core/image'     => array( 'id', 'url', 'title', 'alt', 'caption' ),
 		'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
 		'core/post-date' => array( 'datetime' ),
 	);
