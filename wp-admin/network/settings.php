@@ -199,8 +199,9 @@ if ( isset( $_GET['updated'] ) ) {
 		</table>
 		<h2><?php _e( 'Registration Settings' ); ?></h2>
 		<table class="form-table" role="presentation">
+			<?php $new_registrations_settings_title = __( 'Allow new registrations' ); ?>
 			<tr>
-				<th scope="row"><?php _e( 'Allow new registrations' ); ?></th>
+				<th scope="row"><?php echo $new_registrations_settings_title; ?></th>
 				<?php
 				if ( ! get_site_option( 'registration' ) ) {
 					update_site_option( 'registration', 'none' );
@@ -209,12 +210,7 @@ if ( isset( $_GET['updated'] ) ) {
 				?>
 				<td>
 					<fieldset>
-					<legend class="screen-reader-text">
-						<?php
-						/* translators: Hidden accessibility text. */
-						_e( 'New registrations settings' );
-						?>
-					</legend>
+					<legend class="screen-reader-text"><?php echo $new_registrations_settings_title; ?></legend>
 					<label><input name="registration" type="radio" id="registration1" value="none"<?php checked( $reg, 'none' ); ?> /> <?php _e( 'Registration is disabled' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration2" value="user"<?php checked( $reg, 'user' ); ?> /> <?php _e( 'User accounts may be registered' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration3" value="blog"<?php checked( $reg, 'blog' ); ?> /> <?php _e( 'Logged in users may register new sites' ); ?></label><br />
@@ -510,14 +506,12 @@ if ( isset( $_GET['updated'] ) ) {
 			?>
 			<h2><?php _e( 'Menu Settings' ); ?></h2>
 			<table id="menu" class="form-table">
+				<?php $enable_administration_menus_title = __( 'Enable administration menus' ); ?>
 				<tr>
-					<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
+					<th scope="row"><?php echo $enable_administration_menus_title; ?></th>
 					<td>
 						<?php
-						echo '<fieldset><legend class="screen-reader-text">' .
-							/* translators: Hidden accessibility text. */
-							__( 'Enable menus' ) .
-						'</legend>';
+						echo '<fieldset><legend class="screen-reader-text">' . $enable_administration_menus_title . '</legend>';
 
 						foreach ( (array) $menu_items as $key => $val ) {
 							echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . ' /> ' . esc_html( $val ) . '</label><br/>';

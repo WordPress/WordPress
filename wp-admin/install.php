@@ -180,19 +180,12 @@ function display_setup_form( $error = null ) {
 			<td><input name="admin_email" type="email" id="admin_email" size="25" aria-describedby="admin-email-desc" value="<?php echo esc_attr( $admin_email ); ?>" />
 			<p id="admin-email-desc"><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
+		<?php $blog_privacy_selector_title = has_action( 'blog_privacy_selector' ) ? __( 'Site visibility' ) : __( 'Search engine visibility' ); ?>
 		<tr>
-			<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?></th>
+			<th scope="row"><?php echo $blog_privacy_selector_title; ?></th>
 			<td>
 				<fieldset>
-					<legend class="screen-reader-text"><span>
-						<?php
-						has_action( 'blog_privacy_selector' )
-							/* translators: Hidden accessibility text. */
-							? _e( 'Site visibility' )
-							/* translators: Hidden accessibility text. */
-							: _e( 'Search engine visibility' );
-						?>
-					</span></legend>
+					<legend class="screen-reader-text"><span><?php echo $blog_privacy_selector_title; ?></span></legend>
 					<?php
 					if ( has_action( 'blog_privacy_selector' ) ) {
 						?>

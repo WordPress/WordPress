@@ -43,14 +43,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php settings_fields( 'discussion' ); ?>
 
 <table class="form-table indent-children" role="presentation">
+<?php $default_post_settings_title = __( 'Default post settings' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Default post settings' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Default post settings' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $default_post_settings_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $default_post_settings_title; ?></span></legend>
 <label for="default_pingback_flag">
 <input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked( '1', get_option( 'default_pingback_flag' ) ); ?> />
 <?php _e( 'Attempt to notify any blogs linked to from the post' ); ?></label>
@@ -66,14 +62,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <p class="description"><?php _e( 'Individual posts may override these settings. Changes here will only be applied to new posts.' ); ?></p>
 </fieldset></td>
 </tr>
+<?php $other_comment_settings_title = __( 'Other comment settings' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Other comment settings' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Other comment settings' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $other_comment_settings_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $other_comment_settings_title; ?></span></legend>
 <label for="require_name_email"><input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked( '1', get_option( 'require_name_email' ) ); ?> /> <?php _e( 'Comment author must fill out name and email' ); ?></label>
 <br />
 <label for="comment_registration">
@@ -129,14 +121,10 @@ $thread_comments_depth .= '</select>';
 </fieldset></td>
 </tr>
 
+<?php $comment_pagination_title = __( 'Comment Pagination' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Comment Pagination' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Comment Pagination' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $comment_pagination_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $comment_pagination_title; ?></span></legend>
 <input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked( '1', get_option( 'page_comments' ) ); ?> />
 <label for="page_comments"><?php _e( 'Break comments into pages' ); ?></label>
 <ul>
@@ -161,14 +149,10 @@ $thread_comments_depth .= '</select>';
 </ul>
 </fieldset></td>
 </tr>
+<?php $email_me_whenever_title = __( 'Email me whenever' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Email me whenever' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Email me whenever' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $email_me_whenever_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $email_me_whenever_title; ?></span></legend>
 <label for="comments_notify">
 <input name="comments_notify" type="checkbox" id="comments_notify" value="1" <?php checked( '1', get_option( 'comments_notify' ) ); ?> />
 <?php _e( 'Anyone posts a comment' ); ?> </label>
@@ -178,14 +162,10 @@ $thread_comments_depth .= '</select>';
 <?php _e( 'A comment is held for moderation' ); ?> </label>
 </fieldset></td>
 </tr>
+<?php $before_comment_appears_title = __( 'Before a comment appears' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Before a comment appears' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Before a comment appears' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $before_comment_appears_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $before_comment_appears_title; ?></span></legend>
 <label for="comment_moderation">
 <input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked( '1', get_option( 'comment_moderation' ) ); ?> />
 <?php _e( 'Comment must be manually approved' ); ?> </label>
@@ -193,14 +173,10 @@ $thread_comments_depth .= '</select>';
 <label for="comment_previously_approved"><input type="checkbox" name="comment_previously_approved" id="comment_previously_approved" value="1" <?php checked( '1', get_option( 'comment_previously_approved' ) ); ?> /> <?php _e( 'Comment author must have a previously approved comment' ); ?></label>
 </fieldset></td>
 </tr>
+<?php $comment_moderation_title = __( 'Comment Moderation' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Comment Moderation' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Comment Moderation' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $comment_moderation_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $comment_moderation_title; ?></span></legend>
 <p><label for="comment_max_links">
 <?php
 printf(
@@ -217,14 +193,10 @@ printf(
 </p>
 </fieldset></td>
 </tr>
+<?php $disallowed_comment_keys_title = __( 'Disallowed Comment Keys' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Disallowed Comment Keys' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Disallowed Comment Keys' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $disallowed_comment_keys_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $disallowed_comment_keys_title; ?></span></legend>
 <p><label for="disallowed_keys"><?php _e( 'When a comment contains any of these words in its content, author name, URL, email, IP address, or browser&#8217;s user agent string, it will be put in the Trash. One word or IP address per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.' ); ?></label></p>
 <p>
 <textarea name="disallowed_keys" rows="10" cols="50" id="disallowed_keys" class="large-text code"><?php echo esc_textarea( get_option( 'disallowed_keys' ) ); ?></textarea>
@@ -258,14 +230,10 @@ if ( ! $show_avatars ) {
 	</label>
 </td>
 </tr>
+<?php $maximum_rating_title = __( 'Maximum Rating' ); ?>
 <tr class="avatar-settings<?php echo $show_avatars_class; ?>">
-<th scope="row"><?php _e( 'Maximum Rating' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Maximum Rating' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $maximum_rating_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $maximum_rating_title; ?></span></legend>
 
 <?php
 $ratings = array(
@@ -286,14 +254,10 @@ endforeach;
 
 </fieldset></td>
 </tr>
+<?php $default_avatar_title = __( 'Default Avatar' ); ?>
 <tr class="avatar-settings<?php echo $show_avatars_class; ?>">
-<th scope="row"><?php _e( 'Default Avatar' ); ?></th>
-<td class="defaultavatarpicker"><fieldset><legend class="screen-reader-text"><span>
-	<?php
-	/* translators: Hidden accessibility text. */
-	_e( 'Default Avatar' );
-	?>
-</span></legend>
+<th scope="row"><?php echo $default_avatar_title; ?></th>
+<td class="defaultavatarpicker"><fieldset><legend class="screen-reader-text"><span><?php echo $default_avatar_title; ?></span></legend>
 
 <p>
 <?php _e( 'For users without a custom avatar of their own, you can either display a generic logo or a generated one based on their email address.' ); ?><br />

@@ -326,16 +326,12 @@ printf(
 </p>
 <table class="form-table permalink-structure" role="presentation">
 <tbody>
+<?php $permalink_structure_title = __( 'Permalink structure' ); ?>
 <tr>
-	<th scope="row"><?php _e( 'Permalink structure' ); ?></th>
+	<th scope="row"><?php echo $permalink_structure_title; ?></th>
 	<td>
 		<fieldset class="structure-selection">
-			<legend class="screen-reader-text">
-				<?php
-				/* translators: Hidden accessibility text. */
-				_e( 'Permalink structure' );
-				?>
-			</legend>
+			<legend class="screen-reader-text"><?php echo $permalink_structure_title; ?></legend>
 			<?php foreach ( $default_structures as $input ) : ?>
 			<div class="row">
 				<input id="permalink-input-<?php echo esc_attr( $input['id'] ); ?>"

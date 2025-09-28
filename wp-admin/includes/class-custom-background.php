@@ -377,6 +377,8 @@ class Custom_Background {
 <input name="background-preset" type="hidden" value="custom">
 
 			<?php
+			$background_position_title = __( 'Image Position' );
+
 			$background_position = sprintf(
 				'%s %s',
 				get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) ),
@@ -429,13 +431,8 @@ class Custom_Background {
 			);
 			?>
 <tr>
-<th scope="row"><?php _e( 'Image Position' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-			<?php
-			/* translators: Hidden accessibility text. */
-			_e( 'Image Position' );
-			?>
-</span></legend>
+<th scope="row"><?php echo $background_position_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $background_position_title; ?></span></legend>
 <div class="background-position-control">
 			<?php foreach ( $background_position_options as $group ) : ?>
 	<div class="button-group">
@@ -452,14 +449,10 @@ class Custom_Background {
 </fieldset></td>
 </tr>
 
+			<?php $image_size_title = __( 'Image Size' ); ?>
 <tr>
-<th scope="row"><label for="background-size"><?php _e( 'Image Size' ); ?></label></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-			<?php
-			/* translators: Hidden accessibility text. */
-			_e( 'Image Size' );
-			?>
-</span></legend>
+<th scope="row"><label for="background-size"><?php echo $image_size_title; ?></label></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $image_size_title; ?></span></legend>
 <select id="background-size" name="background-size">
 <option value="auto"<?php selected( 'auto', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _ex( 'Original', 'Original Size' ); ?></option>
 <option value="contain"<?php selected( 'contain', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _e( 'Fit to Screen' ); ?></option>
@@ -468,40 +461,29 @@ class Custom_Background {
 </fieldset></td>
 </tr>
 
+			<?php $background_repeat_title = _x( 'Repeat', 'Background Repeat' ); ?>
 <tr>
-<th scope="row"><?php _ex( 'Repeat', 'Background Repeat' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-			<?php
-			/* translators: Hidden accessibility text. */
-			_ex( 'Repeat', 'Background Repeat' );
-			?>
-</span></legend>
+<th scope="row"><?php echo $background_repeat_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $background_repeat_title; ?></span></legend>
 <input name="background-repeat" type="hidden" value="no-repeat">
 <label><input type="checkbox" name="background-repeat" value="repeat"<?php checked( 'repeat', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?>> <?php _e( 'Repeat Background Image' ); ?></label>
 </fieldset></td>
 </tr>
 
+			<?php $background_scroll_title = _x( 'Scroll', 'Background Scroll' ); ?>
 <tr>
-<th scope="row"><?php _ex( 'Scroll', 'Background Scroll' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-			<?php
-			/* translators: Hidden accessibility text. */
-			_ex( 'Scroll', 'Background Scroll' );
-			?>
-</span></legend>
+<th scope="row"><?php echo $background_scroll_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $background_scroll_title; ?></span></legend>
 <input name="background-attachment" type="hidden" value="fixed">
 <label><input name="background-attachment" type="checkbox" value="scroll" <?php checked( 'scroll', get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) ) ); ?>> <?php _e( 'Scroll with Page' ); ?></label>
 </fieldset></td>
 </tr>
 <?php endif; // get_background_image() ?>
+
+		<?php $background_color_title = __( 'Background Color' ); ?>
 <tr>
-<th scope="row"><?php _e( 'Background Color' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span>
-		<?php
-		/* translators: Hidden accessibility text. */
-		_e( 'Background Color' );
-		?>
-</span></legend>
+<th scope="row"><?php echo $background_color_title; ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php echo $background_color_title; ?></span></legend>
 		<?php
 		$default_color = '';
 		if ( current_theme_supports( 'custom-background', 'default-color' ) ) {
