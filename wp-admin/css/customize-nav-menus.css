@@ -141,11 +141,11 @@
 }
 
 .menus-move-left:before {
-	content: "\f341";
+	content: "\f341" / '';
 }
 
 .menus-move-right:before {
-	content: "\f345";
+	content: "\f345" / '';
 }
 
 .reordering .menu-item .item-controls,
@@ -177,7 +177,7 @@
 }
 
 .wp-customizer .menu-item.menu-item-edit-active .item-edit .toggle-indicator:before {
-	content: "\f142";
+	content: "\f142" / '';
 }
 
 .wp-customizer .menu-item-settings p.description {
@@ -277,7 +277,7 @@
 .customize-screen-options-toggle:before {
 	-moz-osx-font-smoothing: grayscale;
 	border: none;
-	content: "\f111";
+	content: "\f111" / '';
 	display: block;
 	font: 18px/1 dashicons;
 	padding: 5px;
@@ -467,7 +467,7 @@
 }
 
 .menu-item-bar .item-delete:before {
-	content: "\f335";
+	content: "\f335" / '';
 	position: absolute;
 	top: 9px;
 	left: 5px;
@@ -652,7 +652,7 @@
 }
 
 #available-menu-items .item-add:before {
-	content: "\f543";
+	content: "\f543" / '';
 	position: relative;
 	left: 2px;
 	top: 3px;
@@ -670,7 +670,7 @@
 }
 
 #available-menu-items .menu-item-handle.item-added .item-add:before {
-	content: "\f147";
+	content: "\f147" / '';
 }
 
 #available-menu-items .accordion-section-title.loading .spinner,

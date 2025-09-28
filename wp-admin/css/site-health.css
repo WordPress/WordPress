@@ -189,23 +189,23 @@ are styled in the Privacy section of edit.css */
 
 .health-check-body .pass::before,
 .health-check-body .good::before {
-	content: "\f147";
+	content: "\f147" / '';
 	color: #00a32a;
 }
 
 .health-check-body .warning::before {
-	content: "\f460";
+	content: "\f460" / '';
 	color: #dba617;
 }
 
 .health-check-body .info::before {
-	content: "\f348";
+	content: "\f348" / '';
 	color: #72aee6;
 }
 
 .health-check-body .fail::before,
 .health-check-body .error::before {
-	content: "\f335";
+	content: "\f335" / '';
 	color: #d63638;
 }
 

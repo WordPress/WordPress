@@ -268,7 +268,7 @@ do_action( 'customize_controls_head' );
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">
 			<button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php echo esc_attr_x( 'Hide Controls', 'label for hide controls button without length constraints' ); ?>">
-				<span class="collapse-sidebar-arrow"></span>
+				<span class="collapse-sidebar-arrow" aria-hidden="true"></span>
 				<span class="collapse-sidebar-label"><?php _ex( 'Hide Controls', 'short (~12 characters) label for hide controls button' ); ?></span>
 			</button>
 			<?php $previewable_devices = $wp_customize->get_previewable_devices(); ?>

@@ -1076,7 +1076,7 @@ class WP_Site_Health {
 					$result['status'] = 'recommended';
 				}
 
-				$failures[ $library ] = "<span class='dashicons $class'><span class='screen-reader-text'>$screen_reader</span></span> $message";
+				$failures[ $library ] = "<span class='dashicons $class' aria-hidden='true'></span><span class='screen-reader-text'>$screen_reader</span> $message";
 			}
 		}
 
@@ -2440,19 +2440,19 @@ class WP_Site_Health {
 		$page_cache_test_summary = array();
 
 		if ( empty( $page_cache_detail['response_time'] ) ) {
-			$page_cache_test_summary[] = '<span class="dashicons dashicons-dismiss"></span> ' . __( 'Server response time could not be determined. Verify that loopback requests are working.' );
+			$page_cache_test_summary[] = '<span class="dashicons dashicons-dismiss" aria-hidden="true"></span> ' . __( 'Server response time could not be determined. Verify that loopback requests are working.' );
 		} else {
 
 			$threshold = $this->get_good_response_time_threshold();
 			if ( $page_cache_detail['response_time'] < $threshold ) {
-				$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . sprintf(
+				$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> ' . sprintf(
 					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
 					__( 'Median server response time was %1$s milliseconds. This is less than the recommended %2$s milliseconds threshold.' ),
 					number_format_i18n( $page_cache_detail['response_time'] ),
 					number_format_i18n( $threshold )
 				);
 			} else {
-				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . sprintf(
+				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning" aria-hidden="true"></span> ' . sprintf(
 					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
 					__( 'Median server response time was %1$s milliseconds. It should be less than the recommended %2$s milliseconds threshold.' ),
 					number_format_i18n( $page_cache_detail['response_time'] ),
@@ -2461,9 +2461,9 @@ class WP_Site_Health {
 			}
 
 			if ( empty( $page_cache_detail['headers'] ) ) {
-				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'No client caching response headers were detected.' );
+				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning" aria-hidden="true"></span> ' . __( 'No client caching response headers were detected.' );
 			} else {
-				$headers_summary  = '<span class="dashicons dashicons-yes-alt"></span>';
+				$headers_summary  = '<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>';
 				$headers_summary .= ' ' . sprintf(
 					/* translators: %d: Number of caching headers. */
 					_n(
@@ -2479,10 +2479,10 @@ class WP_Site_Health {
 		}
 
 		if ( $page_cache_detail['advanced_cache_present'] ) {
-			$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . __( 'A page cache plugin was detected.' );
+			$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> ' . __( 'A page cache plugin was detected.' );
 		} elseif ( ! ( is_array( $page_cache_detail ) && ! empty( $page_cache_detail['headers'] ) ) ) {
 			// Note: This message is not shown if client caching response headers were present since an external caching layer may be employed.
-			$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'A page cache plugin was not detected.' );
+			$page_cache_test_summary[] = '<span class="dashicons dashicons-warning" aria-hidden="true"></span> ' . __( 'A page cache plugin was not detected.' );
 		}
 
 		$result['description'] .= '<ul><li>' . implode( '</li><li>', $page_cache_test_summary ) . '</li></ul>';

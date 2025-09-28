@@ -1432,7 +1432,7 @@ i.mce-i-wp_code:before {
 	-moz-osx-font-smoothing: grayscale;
 	width: 36px;
 	height: 36px;
-	content: "\f158";
+	content: "\f158" / '';
 }
 
 #wp-link-close:hover,

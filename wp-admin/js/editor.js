@@ -1273,7 +1273,7 @@ window.wp = window.wp || {};
 
 				var $addMediaButton = $( '<button type="button" class="button insert-media add_media">' );
 
-				$addMediaButton.append( '<span class="wp-media-buttons-icon"></span>' );
+				$addMediaButton.append( '<span class="wp-media-buttons-icon" aria-hidden="true"></span>' );
 				$addMediaButton.append( document.createTextNode( ' ' + buttonText ) );
 				$addMediaButton.data( 'editor', id );
 

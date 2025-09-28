@@ -410,38 +410,38 @@
 #dashboard_right_now .search-engines-info:before,
 #dashboard_right_now li a:before,
 #dashboard_right_now li > span:before { /* get only the first level span to exclude screen-reader-text in mu-storage */
-	content: "\f159"; /* generic icon for items added by CPTs ? */
+	content: "\f159" / ''; /* generic icon for items added by CPTs ? */
 	padding: 0 5px 0 0;
 }
 
 #dashboard_right_now .page-count a:before,
 #dashboard_right_now .page-count span:before {
-	content: "\f105";
+	content: "\f105" / '';
 }
 
 #dashboard_right_now .post-count a:before,
 #dashboard_right_now .post-count span:before {
-	content: "\f109";
+	content: "\f109" / '';
 }
 
 #dashboard_right_now .comment-count a:before {
-	content: "\f101";
+	content: "\f101" / '';
 }
 
 #dashboard_right_now .comment-mod-count a:before {
-	content: "\f125";
+	content: "\f125" / '';
 }
 
 #dashboard_right_now .storage-count a:before {
-	content: "\f104";
+	content: "\f104" / '';
 }
 
 #dashboard_right_now .storage-count.warning a:before {
-	content: "\f153";
+	content: "\f153" / '';
 }
 
 #dashboard_right_now .search-engines-info:before {
-	content: "\f348";
+	content: "\f348" / '';
 	color: #d63638;
 }
 
@@ -860,7 +860,7 @@ body #dashboard-widgets .postbox form .submit {
 /* Dashboard activity widget */
 
 #dashboard_activity .comment-meta span.approve:before {
-	content: "\f227";
+	content: "\f227" / '';
 	font: 20px/.5 dashicons;
 	margin-left: 5px;
 	vertical-align: middle;
@@ -1134,7 +1134,7 @@ a.rsswidget {
 }
 
 .rss-widget cite:before {
-	content: "\2014";
+	content: "\2014" / '';
 }
 
 .dashboard-comment-wrap {

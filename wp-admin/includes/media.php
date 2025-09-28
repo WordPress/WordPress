@@ -650,7 +650,7 @@ function media_buttons( $editor_id = 'content' ) {
 
 	wp_enqueue_media( array( 'post' => $post ) );
 
-	$img = '<span class="wp-media-buttons-icon"></span> ';
+	$img = '<span class="wp-media-buttons-icon" aria-hidden="true"></span> ';
 
 	$id_attribute = 1 === $instance ? ' id="insert-media-button"' : '';
 

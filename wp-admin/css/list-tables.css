@@ -780,15 +780,15 @@ th.sorted a span {
 }
 
 .view-switch .view-list:before {
-	content: "\f163";
+	content: "\f163" / '';
 }
 
 .view-switch .view-excerpt:before {
-	content: "\f164";
+	content: "\f164" / '';
 }
 
 .view-switch .view-grid:before {
-	content: "\f509";
+	content: "\f509" / '';
 }
 
 .filter {
@@ -1414,7 +1414,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugin-card .update-now:before {
 	color: #d63638;
-	content: "\f463";
+	content: "\f463" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
 	margin: -3px 5px 0 -2px;
@@ -1425,7 +1425,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 }
 
 .plugin-card .updating-message:before {
-	content: "\f463";
+	content: "\f463" / '';
 	animation: rotation 2s infinite linear;
 }
 
@@ -1440,7 +1440,7 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 
 .plugin-card .updated-message:before {
 	color: #68de7c;
-	content: "\f147";
+	content: "\f147" / '';
 }
 
 .plugin-install-php #the-list {
@@ -1727,12 +1727,12 @@ div.action-links,
 }
 
 .plugin-card .column-compatibility .compatibility-incompatible:before {
-	content: "\f158";
+	content: "\f158" / '';
 	color: #d63638;
 }
 
 .plugin-card .column-compatibility .compatibility-compatible:before {
-	content: "\f147";
+	content: "\f147" / '';
 	color: #007017;
 }
 
