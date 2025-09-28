@@ -99,22 +99,11 @@ final class WP_Block_Bindings_Source {
 	}
 
 	/**
-	 * Unserialize magic method.
-	 *
-	 * @since 6.9.0
-	 *
-	 * @param array $data Data to unserialize.
-	 */
-	public function __unserialize( $data ) { // phpcs:ignore PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
-		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
-	}
-
-	/**
 	 * Wakeup magic method.
 	 *
 	 * @since 6.5.0
 	 */
 	public function __wakeup() {
-		$this->__unserialize( array() );
+		throw new \LogicException( __CLASS__ . ' should never be unserialized' );
 	}
 }
