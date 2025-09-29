@@ -99,22 +99,6 @@ class WP_Block {
 	public $inner_content = array();
 
 	/**
-	 * List of supported block attributes for block bindings.
-	 *
-	 * @since 6.9.0
-	 * @var array
-	 *
-	 * @see WP_Block::process_block_bindings()
-	 */
-	private const BLOCK_BINDINGS_SUPPORTED_ATTRIBUTES = array(
-		'core/paragraph' => array( 'content' ),
-		'core/heading'   => array( 'content' ),
-		'core/image'     => array( 'id', 'url', 'title', 'alt', 'caption' ),
-		'core/button'    => array( 'url', 'text', 'linkTarget', 'rel' ),
-		'core/post-date' => array( 'datetime' ),
-	);
-
-	/**
 	 * Constructor.
 	 *
 	 * Populates object properties from the provided block instance argument.
@@ -297,38 +281,7 @@ class WP_Block {
 		$block_type                 = $this->name;
 		$parsed_block               = $this->parsed_block;
 		$computed_attributes        = array();
-		$supported_block_attributes =
-			self::BLOCK_BINDINGS_SUPPORTED_ATTRIBUTES[ $block_type ] ??
-			array();
-
-		/**
-		 * Filters the supported block attributes for block bindings.
-		 *
-		 * @since 6.9.0
-		 *
-		 * @param string[] $supported_block_attributes The block's attributes that are supported by block bindings.
-		 * @param string   $block_type                 The block type whose attributes are being filtered.
-		 */
-		$supported_block_attributes = apply_filters(
-			'block_bindings_supported_attributes',
-			$supported_block_attributes,
-			$block_type
-		);
-
-		/**
-		 * Filters the supported block attributes for block bindings.
-		 *
-		 * The dynamic portion of the hook name, `$block_type`, refers to the block type
-		 * whose attributes are being filtered.
-		 *
-		 * @since 6.9.0
-		 *
-		 * @param string[] $supported_block_attributes The block's attributes that are supported by block bindings.
-		 */
-		$supported_block_attributes = apply_filters(
-			"block_bindings_supported_attributes_{$block_type}",
-			$supported_block_attributes
-		);
+		$supported_block_attributes = get_block_bindings_supported_attributes( $block_type );
 
 		// If the block doesn't have the bindings property, isn't one of the supported
 		// block types, or the bindings property is not an array, return the block content.
