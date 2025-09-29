@@ -3371,7 +3371,7 @@ function wp_convert_bytes_to_hr( $bytes ) {
 
 	$units = array( 0 => 'B', 1 => 'KB', 2 => 'MB', 3 => 'GB', 4 => 'TB' );
 	$log   = log( $bytes, KB_IN_BYTES );
-	$power = (int) $log;
+	$power = ! is_nan( $log ) && ! is_infinite( $log ) ? (int) $log : 0;
 	$size  = KB_IN_BYTES ** ( $log - $power );
 
 	if ( ! is_nan( $size ) && array_key_exists( $power, $units ) ) {
