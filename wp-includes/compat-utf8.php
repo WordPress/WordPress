@@ -43,11 +43,11 @@
  * @return int How many code points were successfully scanned.
  */
 function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max_bytes = null, ?int $max_code_points = null ): int {
-	$byte_length       = strlen( $bytes );
-	$end               = min( $byte_length, $at + ( $max_bytes ?? PHP_INT_MAX ) );
-	$invalid_length    = 0;
-	$count             = 0;
-	$max_count         = $max_code_points ?? PHP_INT_MAX;
+	$byte_length    = strlen( $bytes );
+	$end            = min( $byte_length, $at + ( $max_bytes ?? PHP_INT_MAX ) );
+	$invalid_length = 0;
+	$count          = 0;
+	$max_count      = $max_code_points ?? PHP_INT_MAX;
 
 	for ( $i = $at; $i < $end && $count <= $max_count; $i++ ) {
 		/*
