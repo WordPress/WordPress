@@ -109,10 +109,13 @@ if ( ! CUSTOM_TAGS ) {
 		),
 		'br'         => array(),
 		'button'     => array(
-			'disabled' => true,
-			'name'     => true,
-			'type'     => true,
-			'value'    => true,
+			'disabled'            => true,
+			'name'                => true,
+			'type'                => true,
+			'value'               => true,
+			'popovertarget'       => true,
+			'popovertargetaction' => true,
+			'aria-haspopup'       => true,
 		),
 		'caption'    => array(
 			'align' => true,
@@ -145,7 +148,13 @@ if ( ! CUSTOM_TAGS ) {
 			'open'  => true,
 		),
 		'div'        => array(
-			'align' => true,
+			'align'   => true,
+			'popover' => true,
+		),
+		'dialog'     => array(
+			'closedby' => true,
+			'open'     => true,
+			'popover'  => true,
 		),
 		'dl'         => array(),
 		'dt'         => array(),
@@ -362,7 +371,9 @@ if ( ! CUSTOM_TAGS ) {
 		'tt'         => array(),
 		'u'          => array(),
 		'ul'         => array(
-			'type' => true,
+			'type'    => true,
+			'popover' => true,
+			'role'    => true,
 		),
 		'ol'         => array(
 			'start'    => true,
