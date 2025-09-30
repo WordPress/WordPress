@@ -851,7 +851,7 @@ h3.customize-section-title {
 		transition:
 			color .15s ease-in-out,
 			border-color .15s ease-in-out,
-			background .15s ease-in-out;	
+			background .15s ease-in-out;
 	}
 }
 
@@ -1360,7 +1360,6 @@ p.customize-section-description {
 .customize-control .dropdown-arrow:after {
 	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
-	speak: never;
 	display: block;
 	padding: 0;
 	text-indent: 0;

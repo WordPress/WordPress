@@ -268,9 +268,8 @@ th .comment-grey-bubble {
 }
 
 th .comment-grey-bubble:before {
-	content: "\f101";
+	content: "\f101" / '';
 	font: normal 20px/.5 dashicons;
-	speak: never;
 	display: inline-block;
 	padding: 0;
 	top: 4px;
@@ -475,7 +474,6 @@ table.media .column-title .filename {
 
 .sorting-indicator:before {
 	font: normal 20px/1 dashicons;
-	speak: never;
 	display: inline-block;
 	padding: 0;
 	top: -4px;
@@ -490,11 +488,11 @@ table.media .column-title .filename {
 }
 
 .sorting-indicator.asc:before {
-	content: "\f142";
+	content: "\f142" / '';
 }
 
 .sorting-indicator.desc:before {
-	content: "\f140";
+	content: "\f140" / '';
 }
 
 th.sorted.desc .sorting-indicator.desc:before {
@@ -554,16 +552,15 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 	display: block;
 	padding: 1px 2px 1px 0;
 	color: #3c434a; /* same as table headers sort arrows */
-	content: "\f140";
+	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	speak: never;
 }
 
 .wp-list-table .is-expanded .toggle-row:before {
-	content: "\f142";
+	content: "\f142" / '';
 }
 
 .check-column {
@@ -603,10 +600,9 @@ th.sorted.desc:hover .sorting-indicator.asc:before {
 
 .locked-indicator-icon:before {
 	color: #8c8f94;
-	content: "\f160";
+	content: "\f160" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	speak: never;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -764,7 +760,6 @@ th.sorted a span {
 	color: #c3c4c7;
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	speak: never;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1418,7 +1413,6 @@ ul.cat-checklist input[name="post_category[]"]:indeterminate::before {
 	display: inline-block;
 	font: normal 20px/1 dashicons;
 	margin: -3px 5px 0 -2px;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: middle;
@@ -1713,7 +1707,6 @@ div.action-links,
 
 .plugin-card .column-compatibility span:before {
 	font: normal 20px/.5 dashicons;
-	speak: never;
 	display: inline-block;
 	padding: 0;
 	top: 4px;

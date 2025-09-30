@@ -235,7 +235,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	position: relative;
 	float: left;
 	font: normal 20px/1 dashicons;
-	speak: never;
 	padding: 4px 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -312,7 +311,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
 	position: absolute;
 	font: normal 17px/1 dashicons;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -326,7 +324,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 1px;
 	right: 10px;
 	padding: 4px 0;
-	content: "\f139";
+	content: "\f139" / '';
 	color: inherit;
 }
 
@@ -338,7 +336,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item .wp-admin-bar-arrow:before {
 	top: 1px;
 	left: 6px;
-	content: "\f141";
+	content: "\f141" / '';
 }
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary {
@@ -505,7 +503,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
-	content: "\f120";
+	content: "\f120" / '';
 	top: 2px;
 }
 
@@ -516,7 +514,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	display: inline-block;
 	vertical-align: middle;
 	font: normal 16px/1 dashicons !important;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: #f0f0f1;
@@ -583,7 +580,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-comments .ab-icon:before {
-	content: "\f101";
+	content: "\f101" / '';
 	top: 3px;
 }
 
@@ -595,7 +592,7 @@ html:lang(he-il) .rtl #wpadminbar * {
  * New Content
  */
 #wpadminbar #wp-admin-bar-new-content .ab-icon:before {
-	content: "\f132";
+	content: "\f132" / '';
 	top: 4px;
 }
 
@@ -603,7 +600,7 @@ html:lang(he-il) .rtl #wpadminbar * {
  * Updates
  */
 #wpadminbar #wp-admin-bar-updates .ab-icon:before {
-	content: "\f463";
+	content: "\f463" / '';
 	top: 2px;
 }
 
@@ -884,7 +881,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 		display: block;
 		text-indent: 0;
 		font: normal 32px/1 dashicons;
-		speak: never;
 		top: 7px;
 		width: 52px;
 		text-align: center;

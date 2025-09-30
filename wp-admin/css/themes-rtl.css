@@ -305,7 +305,7 @@ body.js .theme-browser.search-loading {
 	background: rgba(140, 143, 148, 0.1);
 	border-radius: 50%;
 	display: inline-block;
-	content: "\f132";
+	content: "\f132" / '';
 	-webkit-font-smoothing: antialiased;
 	font: normal 74px/115px dashicons;
 	width: 100px;
@@ -1625,10 +1625,9 @@ body.full-overlay-active {
 
 .wp-full-overlay .collapse-sidebar-arrow:before {
 	display: block;
-	content: "\f148";
+	content: "\f148" / '';
 	background: #f0f0f1;
 	font: normal 20px/1 dashicons;
-	speak: never;
 	padding: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -2017,14 +2016,5 @@ body.full-overlay-active {
 
 	:is(.upload-theme, .upload-plugin) .wp-upload-form input[type="submit"] {
 		margin-top: 10px;
-	}
-}
-
-@media aural {
-	.theme .notice:before,
-	.theme-info .updating-message:before,
-	.theme-info .updated-message:before,
-	.theme-install.updating-message:before {
-		speak: never;
 	}
 }

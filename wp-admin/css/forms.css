@@ -168,7 +168,6 @@ input[type="radio"]:checked::before {
 	display: inline-block;
 	vertical-align: middle;
 	width: 1rem;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

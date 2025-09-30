@@ -134,9 +134,8 @@
 }
 
 .tb-close-icon:before {
-	content: "\f158";
+	content: "\f158" / '';
 	font: normal 20px/29px dashicons;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

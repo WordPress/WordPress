@@ -496,7 +496,6 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	color: #50575e;
 	content: "\f229" / '';
 	font: normal 18px/1 dashicons;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

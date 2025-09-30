@@ -355,7 +355,6 @@
 #find-posts-close:before {
 	font: normal 20px/36px dashicons;
 	vertical-align: top;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	content: "\f158" / '';
@@ -985,7 +984,6 @@ border color while dragging a file over the uploader drop area */
 .imgedit-menu .button:before {
 	font: normal 16px/1 dashicons;
 	margin-left: 8px;
-	speak: never;
 	vertical-align: middle;
 	position: relative;
 	top: -2px;
@@ -1267,7 +1265,7 @@ audio, video {
 	.edit-attachment-frame textarea {
 		line-height: 1.5;
 	}
-	
+
 	.wp_attachment_details label[for="content"] {
 		font-size: 14px;
 		line-height: 1.5;

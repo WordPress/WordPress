@@ -298,13 +298,12 @@
 .ui-dialog-titlebar-close:before {
 	font: normal 20px/1 dashicons;
 	vertical-align: top;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	line-height: 1.8;
 	width: 36px;
 	height: 36px;
-	content: "\f158";
+	content: "\f158" / '';
 }
 
 .ui-button.ui-dialog-titlebar-close:hover,

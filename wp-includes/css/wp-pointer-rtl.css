@@ -29,7 +29,6 @@
 	position: absolute;
 	top: 8px;
 	right: 15px;
-	speak: never;
 	text-align: center;
 	width: 32px;
 	height: 32px;
@@ -69,7 +68,6 @@
 	content: "\f153" / '';
 	display: block !important;
 	font: normal 16px/1 dashicons;
-	speak: never;
 	margin: 1px 0;
 	text-align: center;
 	-webkit-font-smoothing: antialiased !important;

@@ -559,7 +559,7 @@ code {
 }
 
 .js-update-details-toggle[aria-expanded="true"] .dashicons::before {
-	content: "\f142";
+	content: "\f142" / '';
 }
 
 .no-js .widefat thead .check-column input,
@@ -805,10 +805,9 @@ img.emoji {
 .notice-dismiss:before {
 	background: none;
 	color: #787c82;
-	content: "\f153";
+	content: "\f153" / '';
 	display: block;
 	font: normal 16px/20px dashicons;
-	speak: never;
 	height: 20px;
 	text-align: center;
 	width: 20px;
@@ -1133,7 +1132,7 @@ th.action-links {
 }
 
 .wp-filter .drawer-toggle:before {
-	content: "\f111";
+	content: "\f111" / '';
 	margin: 0 5px 0 0;
 	color: #646970;
 	font: normal 16px/1 dashicons;
@@ -1525,11 +1524,10 @@ div.error {
 
 #plugin-information-footer .update-now:not(.button-disabled):before {
 	color: #d63638;
-	content: "\f463";
+	content: "\f463" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
 	margin: -3px 5px 0 -2px;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: middle;
@@ -1588,7 +1586,7 @@ div.error {
 .button.installing:before,
 .button.activating-message:before {
 	color: #d63638;
-	content: "\f463";
+	content: "\f463" / '';
 }
 
 /* Spins the update icon. */
@@ -1624,13 +1622,13 @@ div.error {
 .button.updated-message:before,
 .button.activated-message:before {
 	color: #68de7c;
-	content: "\f147";
+	content: "\f147" / '';
 }
 
 /* Error icon. */
 .update-message.notice-error p:before {
 	color: #d63638;
-	content: "\f534";
+	content: "\f534" / '';
 }
 
 .wrap .notice p:before,
@@ -1752,15 +1750,6 @@ p.auto-update-status {
 	transition-timing-function: ease-in-out;
 }
 
-@media aural {
-	.wrap .notice p:before,
-	.button.installing:before,
-	.button.installed:before,
-	.update-message p:before {
-		speak: never;
-	}
-}
-
 
 /* @todo: this does not need its own section anymore */
 /*------------------------------------------------------------------------------
@@ -1848,9 +1837,8 @@ p.auto-update-status {
 
 #screen-meta-links .show-settings:after {
 	right: 0;
-	content: "\f140";
+	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
-	speak: never;
 	display: inline-block;
 	padding: 0 5px 0 0;
 	bottom: 2px;
@@ -1862,7 +1850,7 @@ p.auto-update-status {
 }
 
 #screen-meta-links .screen-meta-active:after {
-	content: "\f142";
+	content: "\f142" / '';
 }
 
 /* end screen options and help tabs */
@@ -2683,11 +2671,11 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-full:before {
-	content: "\f155";
+	content: "\f155" / '';
 }
 
 .star-rating .star-half:before {
-	content: "\f459";
+	content: "\f459" / '';
 }
 
 .rtl .star-rating .star-half {
@@ -2695,7 +2683,7 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-empty:before {
-	content: "\f154";
+	content: "\f154" / '';
 }
 
 div.action-links {
@@ -3186,9 +3174,8 @@ div.action-links {
 }
 
 .plugin-details-modal #TB_closeWindowButton:after {
-	content: "\f335";
+	content: "\f335" / '';
 	font: normal 32px/29px 'dashicons';
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -3213,10 +3200,9 @@ img {
 .meta-box-sortables .postbox .order-lower-indicator::before,
 .bulk-action-notice .toggle-indicator::before,
 .privacy-text-box .toggle-indicator::before {
-	content: "\f142";
+	content: "\f142" / '';
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none;
@@ -3226,16 +3212,16 @@ img {
 .meta-box-sortables .postbox.closed .handlediv .toggle-indicator::before,
 .bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator::before,
 .privacy-text-box.closed .toggle-indicator::before {
-	content: "\f140";
+	content: "\f140" / '';
 }
 
 .postbox .handle-order-higher .order-higher-indicator::before {
-	content: "\f343";
+	content: "\f343" / '';
 	color: inherit;
 }
 
 .postbox .handle-order-lower .order-lower-indicator::before {
-	content: "\f347";
+	content: "\f347" / '';
 	color: inherit;
 }
 
@@ -3358,10 +3344,10 @@ img {
 	pointer-events: none;
 }
 [role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
-	content: "\f139";
+	content: "\f139" / '';
 }
 [role="treeitem"][aria-expanded="true"] > .folder-label .icon:after {
-	content: "\f140";
+	content: "\f140" / '';
 }
 [role="treeitem"] .folder-label {
 	display: block;
@@ -3576,9 +3562,8 @@ img {
 .wp-customizer .control-section .accordion-section-title:after,
 .wp-customizer .accordion-section-title:after,
 .widget-top .widget-action .toggle-indicator:before {
-	content: "\f140";
+	content: "\f140" / '';
 	font: normal 20px/1 dashicons;
-	speak: never;
 	display: block;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -3625,7 +3610,7 @@ img {
 .nav-menus-php .menu-item-edit-active .item-edit:before,
 .widget.open .widget-top .widget-action .toggle-indicator:before,
 .widget.widget-in-question .widget-top .widget-action .toggle-indicator:before {
-	content: "\f142";
+	content: "\f142" / '';
 }
 
 /*!

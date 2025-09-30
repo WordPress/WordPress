@@ -320,10 +320,9 @@
 
 .wp-customizer .menu-item .item-edit .toggle-indicator:before,
 #available-menu-items .accordion-section-title .toggle-indicator:before {
-	content: "\f140";
+	content: "\f140" / '';
 	display: block;
 	padding: 1px 2px 1px 0;
-	speak: never;
 	border-radius: 50%;
 	color: #787c82;
 	font: normal 20px/1 dashicons;

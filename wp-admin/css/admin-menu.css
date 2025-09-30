@@ -503,13 +503,12 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #collapse-button .collapse-button-icon:after {
-	content: "\f148";
+	content: "\f148" / '';
 	display: block;
 	position: relative;
 	top: 7px;
 	text-align: center;
 	font: normal 20px/1 dashicons !important;
-	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

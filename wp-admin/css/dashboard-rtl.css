@@ -339,7 +339,6 @@
 #dashboard_right_now .search-engines-info:before {
 	color: #646970;
 	font: normal 20px/1 dashicons;
-	speak: never;
 	display: inline-block;
 	padding: 0 0 0 10px;
 	position: relative;
@@ -354,55 +353,55 @@
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-write-blog:before,
 .welcome-panel .welcome-edit-page:before {
-	content: "\f119";
+	content: "\f119" / '';
 	top: -3px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-add-page:before {
-	content: "\f132";
+	content: "\f132" / '';
 	top: -1px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-setup-home:before {
-	content: "\f102";
+	content: "\f102" / '';
 	top: -1px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-view-site:before {
-	content: "\f115";
+	content: "\f115" / '';
 	top: -2px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-widgets-menus:before {
-	content: "\f116";
+	content: "\f116" / '';
 	top: -2px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-widgets:before {
-	content: "\f538";
+	content: "\f538" / '';
 	top: -2px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-menus:before {
-	content: "\f163";
+	content: "\f163" / '';
 	top: -2px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-comments:before {
-	content: "\f117";
+	content: "\f117" / '';
 	top: -1px;
 }
 
 /* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-learn-more:before {
-	content: "\f118";
+	content: "\f118" / '';
 	top: -1px;
 }
 
@@ -561,7 +560,7 @@
 }
 
 .community-events .ce-separator::before {
-	content: "\2022";
+	content: "\2022" / '';
 }
 
 .event-icon {
@@ -576,10 +575,10 @@
 	font-size: 18px;
 }
 .event-meetup .event-icon:before {
-	content: "\f484";
+	content: "\f484" / '';
 }
 .event-wordcamp .event-icon:before {
-	content: "\f486";
+	content: "\f486" / '';
 }
 
 .community-events .event-title {
