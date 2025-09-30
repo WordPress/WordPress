@@ -69,6 +69,26 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section changelog">
 			<div class="column has-border has-subtle-background-color">
 				<h2 class="is-smaller-heading"><?php _e( 'Maintenance and Security Releases' ); ?></h2>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: WordPress version. */
+					__( '<strong>Version %s</strong> addressed some security issues.' ),
+					'5.7.14'
+				);
+				?>
+				<?php
+				printf(
+					/* translators: %s: HelpHub URL. */
+					__( 'For more information, see <a href="%s">the release notes</a>.' ),
+					sprintf(
+						/* translators: %s: WordPress version. */
+						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+						sanitize_title( '5.7.14' )
+					)
+				);
+				?>
+			</p>
 				<p>
 					<?php
 					printf(
