@@ -871,7 +871,7 @@
 		 * Handle toggling bulk selection checkboxes for menu items.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		attachBulkSelectButtonListeners : function() {
 			var that = this;
 
@@ -890,7 +890,7 @@
 		 * Enable bulk selection checkboxes for menu items.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		enableBulkSelection : function() {
 			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
 
@@ -907,7 +907,7 @@
 		 * Disable bulk selection checkboxes for menu items.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		disableBulkSelection : function() {
 			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
 
@@ -931,7 +931,7 @@
 		 * Listen for state changes on bulk action checkboxes.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		attachMenuCheckBoxListeners : function() {
 			var that = this;
 
@@ -944,7 +944,7 @@
 		 * Create delete button to remove menu items from collection.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		attachMenuItemDeleteButton : function() {
 			var that = this;
 
@@ -985,7 +985,7 @@
 		 * List menu items awaiting deletion.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		attachPendingMenuItemsListForDeletion : function() {
 			$( '#post-body-content' ).on( 'change', '.menu-item-checkbox', function() {
 				var menuItemName, menuItemType, menuItemID, listedMenuItem;
@@ -1004,13 +1004,18 @@
 				}
 
 				if ( this.checked === true ) {
-					$( '#pending-menu-items-to-delete ul' ).append(
-						'<li data-menu-item-id="' + menuItemID + '">' +
-							'<span class="pending-menu-item-name">' + menuItemName + '</span> ' +
-							'<span class="pending-menu-item-type">(' + menuItemType + ')</span>' +
-							'<span class="separator"></span>' +
-						'</li>'
-					);
+					var $li = $( '<li>', { 'data-menu-item-id': menuItemID } );
+					$li.append( $( '<span>', {
+						'class': 'pending-menu-item-name',
+						text: menuItemName
+					} ) );
+					$li.append( ' ' );
+					$li.append( $( '<span>', {
+						'class': 'pending-menu-item-type',
+						text: '(' + menuItemType + ')'
+					} ) );
+					$li.append( $( '<span>', { 'class': 'separator' } ) );
+					$( '#pending-menu-items-to-delete ul' ).append( $li );
 				}
 
 				$( '#pending-menu-items-to-delete li .separator' ).html( ', ' );
@@ -1022,7 +1027,7 @@
 		 * Set status of bulk delete checkbox.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		setBulkDeleteCheckboxStatus : function() {
 			var that = this;
 			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
@@ -1046,7 +1051,7 @@
 		 * Set status of menu items removal button.
 		 *
 		 * @since 5.8.0
-		 */ 
+		 */
 		setRemoveSelectedButtonStatus : function() {
 			var button = $( '.menu-items-delete' );
 
@@ -1397,9 +1402,8 @@
 		},
 
 		eventOnClickMenuSave : function() {
-			var locs = '',
-			menuName = $('#menu-name'),
-			menuNameVal = menuName.val();
+			var menuName = $('#menu-name'),
+				menuNameVal = menuName.val();
 
 			// Cancel and warn if invalid menu name.
 			if ( ! menuNameVal || ! menuNameVal.replace( /\s+/, '' ) ) {
@@ -1407,10 +1411,17 @@
 				return false;
 			}
 			// Copy menu theme locations.
+			// Note: This appears to be dead code since #nav-menu-theme-locations no longer exists, perhaps removed in r32842.
+			var $updateNavMenu = $('#update-nav-menu');
 			$('#nav-menu-theme-locations select').each(function() {
-				locs += '<input type="hidden" name="' + this.name + '" value="' + $(this).val() + '" />';
+				$updateNavMenu.append(
+					$( '<input>', {
+						type: 'hidden',
+						name: this.name,
+						value: $( this ).val()
+					} )
+				);
 			});
-			$('#update-nav-menu').append( locs );
 			// Update menu item position data.
 			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
 			window.onbeforeunload = null;
@@ -1453,7 +1464,10 @@
 			$item;
 
 			if( ! $items.length ) {
-				$('.categorychecklist', panel).html( '<li><p>' + wp.i18n.__( 'No results found.' ) + '</p></li>' );
+				var li = $( '<li>' );
+				var p = $( '<p>', { text: wp.i18n.__( 'No results found.' ) } );
+				li.append( p );
+				$('.categorychecklist', panel).empty().append( li );
 				$( '.spinner', panel ).removeClass( 'is-active' );
 				wrapper.addClass( 'has-no-menu-item' );
 				return;
