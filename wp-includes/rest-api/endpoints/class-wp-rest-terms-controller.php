@@ -365,6 +365,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		if ( ! $is_head_request ) {
 			$response = array();
 			foreach ( $query_result as $term ) {
+				if ( 'edit' === $request['context'] && ! current_user_can( 'edit_term', $term->term_id ) ) {
+					continue;
+				}
+
 				$data       = $this->prepare_item_for_response( $term, $request );
 				$response[] = $this->prepare_response_for_collection( $data );
 			}
