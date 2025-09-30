@@ -191,13 +191,15 @@ final class WP_Customize_Nav_Menus {
 				}
 			} elseif ( 'post' !== $object_name && 0 === $page && $post_type->has_archive ) {
 				// Add a post type archive link.
+				$title   = $post_type->labels->archives;
 				$items[] = array(
-					'id'         => $object_name . '-archive',
-					'title'      => $post_type->labels->archives,
-					'type'       => 'post_type_archive',
-					'type_label' => __( 'Post Type Archive' ),
-					'object'     => $object_name,
-					'url'        => get_post_type_archive_link( $object_name ),
+					'id'             => $object_name . '-archive',
+					'title'          => $title,
+					'original_title' => $title,
+					'type'           => 'post_type_archive',
+					'type_label'     => __( 'Post Type Archive' ),
+					'object'         => $object_name,
+					'url'            => get_post_type_archive_link( $object_name ),
 				);
 			}
 
@@ -244,14 +246,16 @@ final class WP_Customize_Nav_Menus {
 					$post_type_label = implode( ',', $post_states );
 				}
 
+				$title   = html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
 				$items[] = array(
-					'id'         => "post-{$post->ID}",
-					'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
-					'type'       => 'post_type',
-					'type_label' => $post_type_label,
-					'object'     => $post->post_type,
-					'object_id'  => (int) $post->ID,
-					'url'        => get_permalink( (int) $post->ID ),
+					'id'             => "post-{$post->ID}",
+					'title'          => $title,
+					'original_title' => $title,
+					'type'           => 'post_type',
+					'type_label'     => $post_type_label,
+					'object'         => $post->post_type,
+					'object_id'      => (int) $post->ID,
+					'url'            => get_permalink( (int) $post->ID ),
 				);
 			}
 		} elseif ( 'taxonomy' === $object_type ) {
@@ -276,14 +280,16 @@ final class WP_Customize_Nav_Menus {
 			}
 
 			foreach ( $terms as $term ) {
+				$title   = html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) );
 				$items[] = array(
-					'id'         => "term-{$term->term_id}",
-					'title'      => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
-					'type'       => 'taxonomy',
-					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
-					'object'     => $term->taxonomy,
-					'object_id'  => (int) $term->term_id,
-					'url'        => get_term_link( (int) $term->term_id, $term->taxonomy ),
+					'id'             => "term-{$term->term_id}",
+					'title'          => $title,
+					'original_title' => $title,
+					'type'           => 'taxonomy',
+					'type_label'     => get_taxonomy( $term->taxonomy )->labels->singular_name,
+					'object'         => $term->taxonomy,
+					'object_id'      => (int) $term->term_id,
+					'url'            => get_term_link( (int) $term->term_id, $term->taxonomy ),
 				);
 			}
 		}
