@@ -1168,20 +1168,27 @@ var wpNavMenu;
 		},
 
 		eventOnClickMenuSave : function() {
-			var locs = '',
-			menuName = $('#menu-name'),
-			menuNameVal = menuName.val();
-			// Cancel and warn if invalid menu name
+			var menuName = $('#menu-name'),
+				menuNameVal = menuName.val();
+
+			// Cancel and warn if invalid menu name.
 			if( !menuNameVal || menuNameVal == menuName.attr('title') || !menuNameVal.replace(/\s+/, '') ) {
 				menuName.parent().addClass('form-invalid');
 				return false;
 			}
-			// Copy menu theme locations
+			// Copy menu theme locations.
+			// Note: This appears to be dead code since #nav-menu-theme-locations no longer exists, perhaps removed in r32842.
+			var $updateNavMenu = $('#update-nav-menu');
 			$('#nav-menu-theme-locations select').each(function() {
-				locs += '<input type="hidden" name="' + this.name + '" value="' + $(this).val() + '" />';
+				$updateNavMenu.append(
+					$( '<input>', {
+						type: 'hidden',
+						name: this.name,
+						value: $( this ).val()
+					} )
+				);
 			});
-			$('#update-nav-menu').append( locs );
-			// Update menu item position data
+			// Update menu item position data.
 			api.menuList.find('.menu-item-data-position').val( function(index) { return index + 1; } );
 			window.onbeforeunload = null;
 
@@ -1221,7 +1228,10 @@ var wpNavMenu;
 			$item;
 
 			if( ! $items.length ) {
-				$('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
+				var li = $( '<li>' );
+				var p = $( '<p>', { text: navMenuL10n.noResultsFound } );
+				li.append( p );
+				$('.categorychecklist', panel).empty().append( li );
 				$( '.spinner', panel ).removeClass( 'is-active' );
 				wrapper.addClass( 'has-no-menu-item' );
 				return;
