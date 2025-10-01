@@ -41,9 +41,7 @@ class WP_PHPMailer extends PHPMailer\PHPMailer\PHPMailer {
 			'authenticate'         => __( 'SMTP Error: Could not authenticate.' ),
 			'buggy_php'            => sprintf(
 				/* translators: 1: mail.add_x_header. 2: php.ini */
-				__(
-					'Your version of PHP is affected by a bug that may result in corrupted messages. To fix it, switch to sending using SMTP, disable the %1$s option in your %2$s, or switch to MacOS or Linux, or upgrade your PHP version.'
-				),
+				__( 'Your version of PHP is affected by a bug that may result in corrupted messages. To fix it, switch to sending using SMTP, disable the %1$s option in your %2$s, or switch to MacOS or Linux, or upgrade your PHP version.' ),
 				'mail.add_x_header',
 				'php.ini'
 			),
@@ -90,11 +88,8 @@ class WP_PHPMailer extends PHPMailer\PHPMailer\PHPMailer {
 			'variable_set'         => __( 'Cannot set or reset variable: ' ),
 			'no_smtputf8'          => __( 'Server does not support SMTPUTF8 needed to send to Unicode addresses' ),
 			'imap_recommended'     => __( 'Using simplified address parser is not recommended. Install the PHP IMAP extension for full RFC822 parsing.' ),
-			'deprecated_argument'  => sprintf(
-				/* translators: %s: $deprecatedArg */
-				__( 'Argument %s is deprecated' ),
-				'$deprecatedArg'
-			),
+			/* translators: %s: $useimap */
+			'deprecated_argument'  => sprintf( __( 'Argument %s is deprecated' ), '$useimap' ),
 		);
 
 		return true;
