@@ -1454,6 +1454,11 @@ table.form-table td .updated p {
 	font-weight: 600;
 }
 
+.privacy_requests .status-date {
+	display: block;
+	font-weight: 400;
+}
+
 .wp-privacy-request-form {
 	clear: both;
 }
