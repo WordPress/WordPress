@@ -4553,22 +4553,31 @@ function get_avatar_data( $id_or_email, $args = null ) {
 		'r' => $args['rating'],
 	);
 
-	// Handle additional parameters for the 'initials' avatar type
+	// Handle additional parameters for the 'initials' avatar type.
 	if ( 'initials' === $args['default'] ) {
 		$name = '';
 
 		if ( $user ) {
-			$name = ! empty( $user->display_name ) ? $user->display_name :
-					( ! empty( $user->first_name ) && ! empty( $user->last_name ) ?
-					$user->first_name . ' ' . $user->last_name : $user->user_login );
-		} elseif ( is_object( $id_or_email ) && isset( $id_or_email->comment_author ) ) {
+			if ( '' !== $user->display_name ) {
+				$name = $user->display_name;
+			} elseif ( '' !== $user->first_name && '' !== $user->last_name ) {
+				$name = sprintf(
+					/* translators: 1: User's first name, 2: Last name. */
+					_x( '%1$s %2$s', 'Display name based on first name and last name' ),
+					$user->first_name,
+					$user->last_name
+				);
+			} else {
+				$name = $user->user_login;
+			}
+		} elseif ( $id_or_email instanceof WP_Comment ) {
 			$name = $id_or_email->comment_author;
 		} elseif ( is_string( $id_or_email ) && false !== strpos( $id_or_email, '@' ) ) {
 			$name = str_replace( array( '.', '_', '-' ), ' ', substr( $id_or_email, 0, strpos( $id_or_email, '@' ) ) );
 		}
 
-		if ( ! empty( $name ) ) {
-			if ( preg_match( '/\p{Han}|\p{Hiragana}|\p{Katakana}|\p{Hangul}/u', $name ) || false === strpos( $name, ' ' ) ) {
+		if ( '' !== $name ) {
+			if ( false === strpos( $name, ' ' ) || preg_match( '/\p{Han}|\p{Hiragana}|\p{Katakana}|\p{Hangul}/u', $name ) ) {
 				$initials = mb_substr( $name, 0, min( 2, mb_strlen( $name, 'UTF-8' ) ), 'UTF-8' );
 			} else {
 				$first    = mb_substr( $name, 0, 1, 'UTF-8' );
