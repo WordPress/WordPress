@@ -4577,7 +4577,7 @@ function get_avatar_data( $id_or_email, $args = null ) {
 		}
 
 		if ( '' !== $name ) {
-			if ( false === strpos( $name, ' ' ) || preg_match( '/\p{Han}|\p{Hiragana}|\p{Katakana}|\p{Hangul}/u', $name ) ) {
+			if ( ! str_contains( $name, ' ' ) || preg_match( '/\p{Han}|\p{Hiragana}|\p{Katakana}|\p{Hangul}/u', $name ) ) {
 				$initials = mb_substr( $name, 0, min( 2, mb_strlen( $name, 'UTF-8' ) ), 'UTF-8' );
 			} else {
 				$first    = mb_substr( $name, 0, 1, 'UTF-8' );
