@@ -182,7 +182,7 @@ function has_shortcode( $content, $tag ) {
  * @return string[] An array of registered shortcode names found in the content.
  */
 function get_shortcode_tags_in_content( $content ) {
-	if ( false === strpos( $content, '[' ) ) {
+	if ( ! str_contains( $content, '[' ) ) {
 		return array();
 	}
 
