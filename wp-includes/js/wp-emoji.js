@@ -277,16 +277,7 @@
 			return twemoji.parse( object, params );
 		}
 
-		/**
-		 * Initialize our emoji support, and set up listeners.
-		 */
-		if ( settings ) {
-			if ( settings.DOMReady ) {
-				load();
-			} else {
-				settings.readyCallback = load;
-			}
-		}
+		load();
 
 		return {
 			parse: parse,

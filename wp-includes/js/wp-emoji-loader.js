@@ -2,6 +2,8 @@
  * @output wp-includes/js/wp-emoji-loader.js
  */
 
+/* eslint-env es6 */
+
 // Note: This is loaded as a script module, so there is no need for an IIFE to prevent pollution of the global scope.
 
 /**
@@ -12,15 +14,13 @@
  * @property {?string} source.concatemoji
  * @property {?string} source.twemoji
  * @property {?string} source.wpemoji
- * @property {?boolean} DOMReady
- * @property {?Function} readyCallback
  */
 
 const settings = /** @type {WPEmojiSettings} */ (
 	JSON.parse( document.getElementById( 'wp-emoji-settings' ).textContent )
 );
 
-// For compatibility with other scripts that read from this global.
+// For compatibility with other scripts that read from this global, in particular wp-includes/js/wp-emoji.js (source file: js/_enqueues/wp/emoji.js).
 window._wpemojiSettings = settings;
 
 /**
@@ -422,17 +422,8 @@ new Promise( ( resolve ) => {
 			settings.supports.everythingExceptFlag &&
 			! settings.supports.flag;
 
-		// Sets DOMReady to false and assigns a ready function to settings.
-		settings.DOMReady = false;
-		settings.readyCallback = () => {
-			settings.DOMReady = true;
-		};
-	} )
-	.then( () => {
 		// When the browser can not render everything we need to load a polyfill.
 		if ( ! settings.supports.everything ) {
-			settings.readyCallback();
-
 			const src = settings.source || {};
 
 			if ( src.concatemoji ) {

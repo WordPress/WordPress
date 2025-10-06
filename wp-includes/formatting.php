@@ -5912,7 +5912,11 @@ function print_emoji_detection_script() {
 
 	$printed = true;
 
-	_print_emoji_detection_script();
+	if ( did_action( 'wp_print_footer_scripts' ) ) {
+		_print_emoji_detection_script();
+	} else {
+		add_action( 'wp_print_footer_scripts', '_print_emoji_detection_script' );
+	}
 }
 
 /**
