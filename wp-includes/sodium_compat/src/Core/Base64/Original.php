@@ -185,6 +185,32 @@ class ParagonIE_Sodium_Core_Base64_Original
         }
         return $dest;
     }
+
+    /**
+     * @param string $encodedString
+     * @return string
+     */
+    public static function decodeNoPadding(
+        #[SensitiveParameter]
+        $encodedString
+    ) {
+        $srcLen = strlen($encodedString);
+        if ($srcLen === 0) {
+            return '';
+        }
+        if (($srcLen & 3) === 0) {
+            // If $strLen is not zero, and it is divisible by 4, then it's at least 4.
+            if ($encodedString[$srcLen - 1] === '=' || $encodedString[$srcLen - 2] === '=') {
+                throw new InvalidArgumentException(
+                    "decodeNoPadding() doesn't tolerate padding"
+                );
+            }
+        }
+        return self::decode(
+            $encodedString,
+            true
+        );
+    }
     // COPY ParagonIE_Sodium_Core_Base64_Common ENDING HERE
 
     /**

@@ -46,7 +46,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     public static function seed_keypair(&$pk, &$sk, $seed)
     {
         if (self::strlen($seed) !== self::SEED_BYTES) {
-            throw new RangeException('crypto_sign keypair seed must be 32 bytes long');
+            throw new SodiumException('crypto_sign keypair seed must be 32 bytes long');
         }
 
         /** @var string $pk */
@@ -65,7 +65,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     public static function secretkey($keypair)
     {
         if (self::strlen($keypair) !== self::KEYPAIR_BYTES) {
-            throw new RangeException('crypto_sign keypair must be 96 bytes long');
+            throw new SodiumException('crypto_sign keypair must be 96 bytes long');
         }
         return self::substr($keypair, 0, 64);
     }
@@ -80,7 +80,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     public static function publickey($keypair)
     {
         if (self::strlen($keypair) !== self::KEYPAIR_BYTES) {
-            throw new RangeException('crypto_sign keypair must be 96 bytes long');
+            throw new SodiumException('crypto_sign keypair must be 96 bytes long');
         }
         return self::substr($keypair, 64, 32);
     }
@@ -212,6 +212,9 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
      */
     public static function sign_detached($message, $sk)
     {
+        if (self::strlen($sk) !== 64) {
+            throw new SodiumException('Argument 2 must be CRYPTO_SIGN_SECRETKEYBYTES long');
+        }
         # crypto_hash_sha512(az, sk, 32);
         $az =  hash('sha512', self::substr($sk, 0, 32), true);
 
@@ -277,8 +280,11 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
      */
     public static function verify_detached($sig, $message, $pk)
     {
-        if (self::strlen($sig) < 64) {
-            throw new SodiumException('Signature is too short');
+        if (self::strlen($sig) !== 64) {
+            throw new SodiumException('Argument 1 must be CRYPTO_SIGN_BYTES long');
+        }
+        if (self::strlen($pk) !== 32) {
+            throw new SodiumException('Argument 3 must be CRYPTO_SIGN_PUBLICKEYBYTES long');
         }
         if ((self::chrToInt($sig[63]) & 240) && self::check_S_lt_L(self::substr($sig, 32, 32))) {
             throw new SodiumException('S < L - Invalid signature');

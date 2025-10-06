@@ -14,10 +14,18 @@ class ParagonIE_Sodium_Core_HChaCha20 extends ParagonIE_Sodium_Core_ChaCha20
      * @param string $key
      * @param string|null $c
      * @return string
+     *
+     * @throws SodiumException
      * @throws TypeError
      */
-    public static function hChaCha20($in = '', $key = '', $c = null)
+    public static function hChaCha20($in, $key, $c = null)
     {
+        if (self::strlen($in) !== 16) {
+            throw new SodiumException('Argument 1 must be 16 bytes');
+        }
+        if (self::strlen($key) !== 32) {
+            throw new SodiumException('Argument 2 must be 32 bytes');
+        }
         $ctx = array();
 
         if ($c === null) {

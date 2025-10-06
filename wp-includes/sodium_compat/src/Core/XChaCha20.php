@@ -19,7 +19,7 @@ class ParagonIE_Sodium_Core_XChaCha20 extends ParagonIE_Sodium_Core_HChaCha20
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function stream($len = 64, $nonce = '', $key = '')
+    public static function stream($len, $nonce, $key)
     {
         if (self::strlen($nonce) !== 24) {
             throw new SodiumException('Nonce must be 24 bytes long');
@@ -46,7 +46,7 @@ class ParagonIE_Sodium_Core_XChaCha20 extends ParagonIE_Sodium_Core_HChaCha20
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function ietfStream($len = 64, $nonce = '', $key = '')
+    public static function ietfStream($len, $nonce, $key)
     {
         if (self::strlen($nonce) !== 24) {
             throw new SodiumException('Nonce must be 24 bytes long');
@@ -74,7 +74,7 @@ class ParagonIE_Sodium_Core_XChaCha20 extends ParagonIE_Sodium_Core_HChaCha20
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function streamXorIc($message, $nonce = '', $key = '', $ic = '')
+    public static function streamXorIc($message, $nonce, $key, $ic = '')
     {
         if (self::strlen($nonce) !== 24) {
             throw new SodiumException('Nonce must be 24 bytes long');
@@ -100,7 +100,7 @@ class ParagonIE_Sodium_Core_XChaCha20 extends ParagonIE_Sodium_Core_HChaCha20
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function ietfStreamXorIc($message, $nonce = '', $key = '', $ic = '')
+    public static function ietfStreamXorIc($message, $nonce, $key, $ic = '')
     {
         if (self::strlen($nonce) !== 24) {
             throw new SodiumException('Nonce must be 24 bytes long');

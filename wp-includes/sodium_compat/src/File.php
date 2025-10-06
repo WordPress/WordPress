@@ -125,6 +125,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 4 must be CRYPTO_BOX_KEYPAIRBYTES bytes');
         }
 
+        if (!file_exists($inputFile)) {
+            throw new SodiumException('Input file does not exist');
+        }
         /** @var int $size */
         $size = filesize($inputFile);
         if (!is_int($size)) {
@@ -138,7 +141,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         }
 
         /** @var resource $ofp */
-        $ofp = fopen($outputFile, 'wb');
+        $ofp = @fopen($outputFile, 'wb');
         if (!is_resource($ofp)) {
             fclose($ifp);
             throw new SodiumException('Could not open output file for writing');
@@ -193,6 +196,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 3 must be CRYPTO_BOX_PUBLICKEYBYTES bytes');
         }
 
+        if (!file_exists($inputFile)) {
+            throw new SodiumException('Input file does not exist');
+        }
         /** @var int $size */
         $size = filesize($inputFile);
         if (!is_int($size)) {
@@ -206,7 +212,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         }
 
         /** @var resource $ofp */
-        $ofp = fopen($outputFile, 'wb');
+        $ofp = @fopen($outputFile, 'wb');
         if (!is_resource($ofp)) {
             fclose($ifp);
             throw new SodiumException('Could not open output file for writing');
@@ -303,6 +309,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
 
         $publicKey = ParagonIE_Sodium_Compat::crypto_box_publickey($ecdhKeypair);
 
+        if (!file_exists($inputFile)) {
+            throw new SodiumException('Input file does not exist');
+        }
         /** @var int $size */
         $size = filesize($inputFile);
         if (!is_int($size)) {
@@ -316,7 +325,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         }
 
         /** @var resource $ofp */
-        $ofp = fopen($outputFile, 'wb');
+        $ofp = @fopen($outputFile, 'wb');
         if (!is_resource($ofp)) {
             fclose($ifp);
             throw new SodiumException('Could not open output file for writing');
@@ -408,6 +417,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new SodiumException('Argument 3 must be at least CRYPTO_GENERICHASH_BYTES_MAX');
         }
 
+        if (!file_exists($filePath)) {
+            throw new SodiumException('File does not exist');
+        }
         /** @var int $size */
         $size = filesize($filePath);
         if (!is_int($size)) {
@@ -479,6 +491,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 4 must be CRYPTO_SECRETBOX_KEYBYTES bytes');
         }
 
+        if (!file_exists($inputFile)) {
+            throw new SodiumException('Input file does not exist');
+        }
         /** @var int $size */
         $size = filesize($inputFile);
         if (!is_int($size)) {
@@ -486,7 +501,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         }
 
         /** @var resource $ifp */
-        $ifp = fopen($inputFile, 'rb');
+        $ifp = @fopen($inputFile, 'rb');
         if (!is_resource($ifp)) {
             throw new SodiumException('Could not open input file for reading');
         }
@@ -543,12 +558,15 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
 
         /* Input validation: */
         if (self::strlen($nonce) !== ParagonIE_Sodium_Compat::CRYPTO_SECRETBOX_NONCEBYTES) {
-            throw new TypeError('Argument 4 must be CRYPTO_SECRETBOX_NONCEBYTES bytes');
+            throw new TypeError('Argument 3 must be CRYPTO_SECRETBOX_NONCEBYTES bytes');
         }
         if (self::strlen($key) !== ParagonIE_Sodium_Compat::CRYPTO_SECRETBOX_KEYBYTES) {
-            throw new TypeError('Argument 4 must be CRYPTO_SECRETBOXBOX_KEYBYTES bytes');
+            throw new TypeError('Argument 4 must be CRYPTO_SECRETBOX_KEYBYTES bytes');
         }
 
+        if (!file_exists($inputFile)) {
+            throw new SodiumException('Input file does not exist');
+        }
         /** @var int $size */
         $size = filesize($inputFile);
         if (!is_int($size)) {
@@ -562,7 +580,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         }
 
         /** @var resource $ofp */
-        $ofp = fopen($outputFile, 'wb');
+        $ofp = @fopen($outputFile, 'wb');
         if (!is_resource($ofp)) {
             fclose($ifp);
             throw new SodiumException('Could not open output file for writing');
@@ -613,6 +631,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             return self::sign_core32($filePath, $secretKey);
         }
 
+        if (!file_exists($filePath)) {
+            throw new SodiumException('File does not exist');
+        }
         /** @var int $size */
         $size = filesize($filePath);
         if (!is_int($size)) {
@@ -744,6 +765,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             throw new SodiumException('All zero public key');
         }
 
+        if (!file_exists($filePath)) {
+            throw new SodiumException('File does not exist');
+        }
         /** @var int $size */
         $size = filesize($filePath);
         if (!is_int($size)) {

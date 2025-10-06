@@ -329,7 +329,7 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function stream($len = 64, $nonce = '', $key = '')
+    public static function stream($len, $nonce, $key)
     {
         return self::encryptBytes(
             new ParagonIE_Sodium_Core_ChaCha20_Ctx($key, $nonce),
@@ -347,7 +347,7 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function ietfStream($len, $nonce = '', $key = '')
+    public static function ietfStream($len, $nonce, $key)
     {
         return self::encryptBytes(
             new ParagonIE_Sodium_Core_ChaCha20_IetfCtx($key, $nonce),
@@ -366,7 +366,7 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function ietfStreamXorIc($message, $nonce = '', $key = '', $ic = '')
+    public static function ietfStreamXorIc($message, $nonce, $key, $ic = '')
     {
         return self::encryptBytes(
             new ParagonIE_Sodium_Core_ChaCha20_IetfCtx($key, $nonce, $ic),
@@ -385,7 +385,7 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    public static function streamXorIc($message, $nonce = '', $key = '', $ic = '')
+    public static function streamXorIc($message, $nonce, $key, $ic = '')
     {
         return self::encryptBytes(
             new ParagonIE_Sodium_Core_ChaCha20_Ctx($key, $nonce, $ic),

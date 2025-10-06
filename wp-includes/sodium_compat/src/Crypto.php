@@ -1188,7 +1188,10 @@ abstract class ParagonIE_Sodium_Crypto
         $clen = ParagonIE_Sodium_Core_Util::strlen($c);
 
         /** @var string $subkey */
-        $subkey = ParagonIE_Sodium_Core_HChaCha20::hchacha20($nonce, $key);
+        $subkey = ParagonIE_Sodium_Core_HChaCha20::hchacha20(
+            ParagonIE_Sodium_Core_Util::substr($nonce, 0, 16),
+            $key
+        );
 
         /** @var string $block0 */
         $block0 = ParagonIE_Sodium_Core_ChaCha20::stream(
@@ -1244,7 +1247,10 @@ abstract class ParagonIE_Sodium_Crypto
         $out = random_bytes(24);
 
         # crypto_core_hchacha20(state->k, out, k, NULL);
-        $subkey = ParagonIE_Sodium_Core_HChaCha20::hChaCha20($out, $key);
+        $subkey = ParagonIE_Sodium_Core_HChaCha20::hChaCha20(
+            ParagonIE_Sodium_Core_Util::substr($out, 0, 16),
+            $key
+        );
         $state = new ParagonIE_Sodium_Core_SecretStream_State(
             $subkey,
             ParagonIE_Sodium_Core_Util::substr($out, 16, 8) . str_repeat("\0", 4)
