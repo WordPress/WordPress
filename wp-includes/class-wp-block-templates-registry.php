@@ -204,11 +204,11 @@ final class WP_Block_Templates_Registry {
 	 *
 	 * @since 6.7.0
 	 *
-	 * @param string $template_name Template name.
+	 * @param string|null $template_name Template name.
 	 * @return bool True if the template is registered, false otherwise.
 	 */
 	public function is_registered( $template_name ) {
-		return isset( $this->registered_templates[ $template_name ] );
+		return isset( $template_name, $this->registered_templates[ $template_name ] );
 	}
 
 	/**
