@@ -15,11 +15,10 @@ require_once __DIR__ . '/admin.php';
 require ABSPATH . 'wp-admin/includes/revision.php';
 
 /**
- * @global int    $revision Optional. The revision ID.
- * @global string $action   The action to take.
- *                          Accepts 'restore', 'view' or 'edit'.
- * @global int    $from     The revision to compare from.
- * @global int    $to       Optional, required if revision missing. The revision to compare to.
+ * @global int    $revision_id Optional. The revision ID.
+ * @global string $action      The action to take. Accepts 'restore', 'view', or 'edit'.
+ * @global int    $from        The revision to compare from.
+ * @global int    $to          Optional, required if revision missing. The revision to compare to.
  */
 
 $revision_id = ! empty( $_REQUEST['revision'] ) ? absint( $_REQUEST['revision'] ) : 0;
