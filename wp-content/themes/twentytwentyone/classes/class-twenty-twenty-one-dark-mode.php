@@ -363,9 +363,14 @@ class Twenty_Twenty_One_Dark_Mode {
 	 * @return void
 	 */
 	public function the_script() {
-		echo '<script>';
-		include get_template_directory() . '/assets/js/dark-mode-toggler.js'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude
-		echo '</script>';
+		$path = 'assets/js/dark-mode-toggler.js';
+		$js   = rtrim( file_get_contents( trailingslashit( get_template_directory() ) . $path ) );
+		$js  .= "\n//# sourceURL=" . esc_url_raw( trailingslashit( get_template_directory_uri() ) . $path );
+		if ( function_exists( 'wp_print_inline_script_tag' ) ) {
+			wp_print_inline_script_tag( $js );
+		} else {
+			printf( "<script>%s</script>\n", $js );
+		}
 	}
 
 	/**

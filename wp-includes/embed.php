@@ -520,7 +520,7 @@ function get_post_embed_html( $width, $height, $post = null ) {
 	 */
 	$js_path = '/js/wp-embed' . wp_scripts_get_suffix() . '.js';
 	$output .= wp_get_inline_script_tag(
-		trim( file_get_contents( ABSPATH . WPINC . $js_path ) ) . "\n//# sourceURL=" . includes_url( $js_path )
+		trim( file_get_contents( ABSPATH . WPINC . $js_path ) ) . "\n//# sourceURL=" . esc_url_raw( includes_url( $js_path ) )
 	);
 
 	/**
@@ -1093,7 +1093,7 @@ function wp_enqueue_embed_styles() {
 function print_embed_scripts() {
 	$js_path = '/js/wp-embed-template' . wp_scripts_get_suffix() . '.js';
 	wp_print_inline_script_tag(
-		trim( file_get_contents( ABSPATH . WPINC . $js_path ) ) . "\n//# sourceURL=" . includes_url( $js_path )
+		trim( file_get_contents( ABSPATH . WPINC . $js_path ) ) . "\n//# sourceURL=" . esc_url_raw( includes_url( $js_path ) )
 	);
 }
 
