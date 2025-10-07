@@ -518,8 +518,9 @@ function get_post_embed_html( $width, $height, $post = null ) {
 	 * will fail to match and everything will be matched by `.*` and not included in the group. This regex issue goes
 	 * back to WordPress 4.4, so in order to not break older installs this script must come at the end.
 	 */
+	$js_path = '/js/wp-embed' . wp_scripts_get_suffix() . '.js';
 	$output .= wp_get_inline_script_tag(
-		file_get_contents( ABSPATH . WPINC . '/js/wp-embed' . wp_scripts_get_suffix() . '.js' )
+		trim( file_get_contents( ABSPATH . WPINC . $js_path ) ) . "\n//# sourceURL=" . includes_url( $js_path )
 	);
 
 	/**
@@ -1090,8 +1091,9 @@ function wp_enqueue_embed_styles() {
  * @since 4.4.0
  */
 function print_embed_scripts() {
+	$js_path = '/js/wp-embed-template' . wp_scripts_get_suffix() . '.js';
 	wp_print_inline_script_tag(
-		file_get_contents( ABSPATH . WPINC . '/js/wp-embed-template' . wp_scripts_get_suffix() . '.js' )
+		trim( file_get_contents( ABSPATH . WPINC . $js_path ) ) . "\n//# sourceURL=" . includes_url( $js_path )
 	);
 }
 
