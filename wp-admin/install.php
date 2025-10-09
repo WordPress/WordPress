@@ -483,3 +483,10 @@ jQuery( function( $ ) {
 </script>
 </body>
 </html>
+
+Site Title: Muse Audio
+Username: admin
+Password: Ultraman110!
+Repeat Password: Ultraman110!
+Your Email: sajid.faysal43@gmail.com
+Search Engine Visibility: [✔] Allow search engines to index this site
