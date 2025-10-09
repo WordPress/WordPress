@@ -100,3 +100,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+
+define( 'DB_NAME', 'museaudi_wp291' );             // The name of your WordPress database
+define( 'DB_USER', 'cpses_muzug6amky@localhost' ); // The MySQL database username
+define( 'DB_PASSWORD', 'ultraman110' );            // The MySQL database password
+define( 'DB_HOST', 'localhost:3306' );             // The MySQL server host and port
