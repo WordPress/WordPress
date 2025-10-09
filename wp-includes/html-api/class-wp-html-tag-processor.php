@@ -3746,10 +3746,22 @@ class WP_HTML_Tag_Processor {
 	 *         $processor->set_modifiable_text( str_replace( ':)', '🙂', $chunk ) );
 	 *     }
 	 *
+	 * This function handles all necessary HTML encoding. Provide normal, unescaped string values.
+	 * The HTML API will encode the strings appropriately so that the browser will interpret them
+	 * as the intended value.
+	 *
+	 * Example:
+	 *
+	 *     // Renders as “Eggs & Milk” in a browser, encoded as `<p>Eggs &amp; Milk</p>`.
+	 *     $processor->set_modifiable_text( 'Eggs & Milk' );
+	 *
+	 *     // Renders as “Eggs &amp; Milk” in a browser, encoded as `<p>Eggs &amp;amp; Milk</p>`.
+	 *     $processor->set_modifiable_text( 'Eggs &amp; Milk' );
+	 *
 	 * @since 6.7.0
+	 * @since 6.9.0 Escapes all character references instead of trying to avoid double-escaping.
 	 *
 	 * @param string $plaintext_content New text content to represent in the matched token.
-	 *
 	 * @return bool Whether the text was able to update.
 	 */
 	public function set_modifiable_text( string $plaintext_content ): bool {
@@ -3757,7 +3769,16 @@ class WP_HTML_Tag_Processor {
 			$this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
 				$this->text_starts_at,
 				$this->text_length,
-				htmlspecialchars( $plaintext_content, ENT_QUOTES | ENT_HTML5 )
+				strtr(
+					$plaintext_content,
+					array(
+						'<' => '&lt;',
+						'>' => '&gt;',
+						'&' => '&amp;',
+						'"' => '&quot;',
+						"'" => '&apos;',
+					)
+				)
 			);
 
 			return true;
@@ -3871,14 +3892,31 @@ class WP_HTML_Tag_Processor {
 	/**
 	 * Updates or creates a new attribute on the currently matched tag with the passed value.
 	 *
-	 * For boolean attributes special handling is provided:
+	 * This function handles all necessary HTML encoding. Provide normal, unescaped string values.
+	 * The HTML API will encode the strings appropriately so that the browser will interpret them
+	 * as the intended value.
+	 *
+	 * Example:
+	 *
+	 *     // Renders “Eggs & Milk” in a browser, encoded as `<abbr title="Eggs &amp; Milk">`.
+	 *     $processor->set_attribute( 'title', 'Eggs & Milk' );
+	 *
+	 *     // Renders “Eggs &amp; Milk” in a browser, encoded as `<abbr title="Eggs &amp;amp; Milk">`.
+	 *     $processor->set_attribute( 'title', 'Eggs &amp; Milk' );
+	 *
+	 *     // Renders `true` as `<abbr title>`.
+	 *     $processor->set_attribute( 'title', true );
+	 *
+	 *     // Renders without the attribute for `false` as `<abbr>`.
+	 *     $processor->set_attribute( 'title', false );
+	 *
+	 * Special handling is provided for boolean attribute values:
 	 *  - When `true` is passed as the value, then only the attribute name is added to the tag.
 	 *  - When `false` is passed, the attribute gets removed if it existed before.
 	 *
-	 * For string attributes, the value is escaped using the `esc_attr` function.
-	 *
 	 * @since 6.2.0
 	 * @since 6.2.1 Fix: Only create a single update for multiple calls with case-variant attribute names.
+	 * @since 6.9.0 Escapes all character references instead of trying to avoid double-escaping.
 	 *
 	 * @param string      $name  The attribute name to target.
 	 * @param string|bool $value The new attribute value.
@@ -3950,12 +3988,23 @@ class WP_HTML_Tag_Processor {
 		} else {
 			$comparable_name = strtolower( $name );
 
-			/*
-			 * Escape URL attributes.
+			/**
+			 * Escape attribute values appropriately.
 			 *
 			 * @see https://html.spec.whatwg.org/#attributes-3
 			 */
-			$escaped_new_value = in_array( $comparable_name, wp_kses_uri_attributes(), true ) ? esc_url( $value ) : esc_attr( $value );
+			$escaped_new_value = in_array( $comparable_name, wp_kses_uri_attributes(), true )
+				? esc_url( $value )
+				: strtr(
+					$value,
+					array(
+						'<' => '&lt;',
+						'>' => '&gt;',
+						'&' => '&amp;',
+						'"' => '&quot;',
+						"'" => '&apos;',
+					)
+				);
 
 			// If the escaping functions wiped out the update, reject it and indicate it was rejected.
 			if ( '' === $escaped_new_value && '' !== $value ) {
