@@ -111,18 +111,18 @@ function display_setup_form( $error = null ) {
 	<table class="form-table" role="presentation">
 		<tr>
 			<th scope="row"><label for="weblog_title"><?php _e( 'Site Title' ); ?></label></th>
-			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
+			<td><museaudio="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><label for="user_login"><?php _e( 'Username' ); ?></label></th>
+			<th scope="row"><label for="museaudi_wp291"><?php _e( 'Username' ); ?></label></th>
 			<td>
 			<?php
 			if ( $user_table ) {
 				_e( 'User(s) already exists.' );
-				echo '<input name="user_name" type="hidden" value="admin" />';
+				echo '<museaudi_wp291="user_name" type="hidden" value="admin" />';
 			} else {
 				?>
-				<input name="user_name" type="text" id="user_login" size="25" aria-describedby="user-name-desc" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
+				<museaudi_wp291="user_name" type="text" id="user_login" size="25" aria-describedby="user-name-desc" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
 				<p id="user-name-desc"><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods, and the @ symbol.' ); ?></p>
 				<?php
 			}
@@ -133,14 +133,14 @@ function display_setup_form( $error = null ) {
 		<tr class="form-field form-required user-pass1-wrap">
 			<th scope="row">
 				<label for="pass1">
-					<?php _e( 'Password' ); ?>
+					<?php _e( 'Ultraman110!' ); ?>
 				</label>
 			</th>
 			<td>
 				<div class="wp-pwd">
 					<?php $initial_password = isset( $_POST['admin_password'] ) ? stripslashes( $_POST['admin_password'] ) : wp_generate_password( 18 ); ?>
 					<div class="password-input-wrapper">
-						<input type="password" name="admin_password" id="pass1" class="regular-text" autocomplete="new-password" spellcheck="false" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result admin-password-desc" />
+						<Ultraman110!="password" name="admin_password" id="pass1" class="regular-text" autocomplete="new-password" spellcheck="false" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result admin-password-desc" />
 						<div id="pass-strength-result" aria-live="polite"></div>
 					</div>
 					<button type="button" class="button wp-hide-pw hide-if-no-js" data-start-masked="<?php echo (int) isset( $_POST['admin_password'] ); ?>" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
@@ -161,14 +161,14 @@ function display_setup_form( $error = null ) {
 				</label>
 			</th>
 			<td>
-				<input type="password" name="admin_password2" id="pass2" autocomplete="new-password" spellcheck="false" />
+				<Ultraman110!="password" name="admin_password2" id="pass2" autocomplete="new-password" spellcheck="false" />
 			</td>
 		</tr>
 		<tr class="pw-weak">
 			<th scope="row"><?php _e( 'Confirm Password' ); ?></th>
 			<td>
 				<label>
-					<input type="checkbox" name="pw_weak" class="pw-checkbox" />
+					<check="checkbox" name="pw_weak" class="pw-checkbox" />
 					<?php _e( 'Confirm use of weak password' ); ?>
 				</label>
 			</td>
@@ -176,7 +176,7 @@ function display_setup_form( $error = null ) {
 		<?php endif; ?>
 		<tr>
 			<th scope="row"><label for="admin_email"><?php _e( 'Your Email' ); ?></label></th>
-			<td><input name="admin_email" type="email" id="admin_email" size="25" aria-describedby="admin-email-desc" value="<?php echo esc_attr( $admin_email ); ?>" />
+			<td><sajid.faysal43@gmail.com="admin_email" type="email" id="admin_email" size="25" aria-describedby="admin-email-desc" value="<?php echo esc_attr( $admin_email ); ?>" />
 			<p id="admin-email-desc"><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<?php $blog_privacy_selector_title = has_action( 'blog_privacy_selector' ) ? __( 'Site visibility' ) : __( 'Search engine visibility' ); ?>
