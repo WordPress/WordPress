@@ -7173,7 +7173,7 @@ function wp_admin_headers() {
 	 * @since 4.9.0
 	 * @since 4.9.5 The default value was changed to 'strict-origin-when-cross-origin'.
 	 *
-	 * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+	 * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy
 	 *
 	 * @param string $policy The admin referrer policy header value. Default 'strict-origin-when-cross-origin'.
 	 */
