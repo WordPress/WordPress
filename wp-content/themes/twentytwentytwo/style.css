@@ -159,3 +159,12 @@ body > .is-root-container > .wp-block-template-part > .wp-block-cover,
 .wp-block-post-comments ol.commentlist li.comment:not(:last-child) {
 	margin-bottom: 1rem;
 }
+
+/*
+ * Prevents unnecessary scrollbars while handling long lines of preformatted text.
+ * https://core.trac.wordpress.org/ticket/63875
+ */
+
+:where(pre) {
+	overflow-x: auto;
+}

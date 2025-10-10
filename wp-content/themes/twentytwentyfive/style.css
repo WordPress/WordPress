@@ -59,3 +59,11 @@ h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
 .more-link {
 	display: block;
 }
+
+/*
+ * Prevents unnecessary scrollbars while handling long lines of preformatted text.
+ * https://core.trac.wordpress.org/ticket/63875
+ */
+:where(pre) {
+	overflow-x: auto;
+}
