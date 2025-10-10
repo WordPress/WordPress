@@ -333,14 +333,27 @@ class WP_Styles extends WP_Dependencies {
 	public function print_inline_style( $handle, $display = true ) {
 		$output = $this->get_data( $handle, 'after' );
 
-		if ( empty( $output ) ) {
+		if ( empty( $output ) || ! is_array( $output ) ) {
 			return false;
 		}
 
 		if ( ! $this->do_concat ) {
+
+			// Obtain the original `src` for a stylesheet possibly inlined by wp_maybe_inline_styles().
+			$inlined_src = $this->get_data( $handle, 'inlined_src' );
+
+			// If there's only one `after` inline style, and that inline style had been inlined, then use the $inlined_src
+			// as the sourceURL. Otherwise, if there is more than one inline `after` style associated with the handle,
+			// then resort to using the handle to construct the sourceURL since there isn't a single source.
+			if ( count( $output ) === 1 && is_string( $inlined_src ) && strlen( $inlined_src ) > 0 ) {
+				$source_url = esc_url_raw( $inlined_src );
+			} else {
+				$source_url = rawurlencode( "{$handle}-inline-css" );
+			}
+
 			$output[] = sprintf(
 				'/*# sourceURL=%s */',
-				rawurlencode( "{$handle}-inline-css" )
+				$source_url
 			);
 		}
 

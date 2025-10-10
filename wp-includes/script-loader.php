@@ -3116,6 +3116,9 @@ function wp_maybe_inline_styles() {
 			 */
 			$style['css'] = _wp_normalize_relative_css_links( $style['css'], $style['src'] );
 
+			// Keep track of the original `src` for the style that was inlined so that the `sourceURL` comment can be added.
+			$wp_styles->add_data( $style['handle'], 'inlined_src', $style['src'] );
+
 			// Set `src` to `false` and add styles inline.
 			$wp_styles->registered[ $style['handle'] ]->src = false;
 			if ( empty( $wp_styles->registered[ $style['handle'] ]->extra['after'] ) ) {
