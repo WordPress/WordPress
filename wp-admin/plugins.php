@@ -18,8 +18,8 @@ $pagenum       = $wp_list_table->get_pagenum();
 
 $action = $wp_list_table->current_action();
 
-$plugin      = isset( $_REQUEST['plugin'] ) ? wp_unslash( $_REQUEST['plugin'] ) : '';
-$search_term = isset( $_REQUEST['s'] ) ? urlencode( wp_unslash( $_REQUEST['s'] ) ) : '';
+$plugin = isset( $_REQUEST['plugin'] ) ? wp_unslash( $_REQUEST['plugin'] ) : '';
+$s      = isset( $_REQUEST['s'] ) ? urlencode( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 // Clean up request URI from temporary args for screen options/paging uri's to work as expected.
 $query_args_to_remove = array(
@@ -51,7 +51,7 @@ if ( $action ) {
 			}
 
 			if ( is_multisite() && ! is_network_admin() && is_network_only_plugin( $plugin ) ) {
-				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
@@ -60,7 +60,7 @@ if ( $action ) {
 			$result = activate_plugin( $plugin, self_admin_url( 'plugins.php?error=true&plugin=' . urlencode( $plugin ) ), is_network_admin() );
 			if ( is_wp_error( $result ) ) {
 				if ( 'unexpected_output' === $result->get_error_code() ) {
-					$redirect = self_admin_url( 'plugins.php?error=true&charsout=' . strlen( $result->get_error_data() ) . '&plugin=' . urlencode( $plugin ) . "&plugin_status=$status&paged=$page&s=$search_term" );
+					$redirect = self_admin_url( 'plugins.php?error=true&charsout=' . strlen( $result->get_error_data() ) . '&plugin=' . urlencode( $plugin ) . "&plugin_status=$status&paged=$page&s=$s" );
 					wp_redirect( add_query_arg( '_error_nonce', wp_create_nonce( 'plugin-activation-error_' . $plugin ), $redirect ) );
 					exit;
 				} else {
@@ -85,7 +85,7 @@ if ( $action ) {
 				wp_redirect( self_admin_url( 'press-this.php' ) );
 			} else {
 				// Overrides the ?error=true one above.
-				wp_redirect( self_admin_url( "plugins.php?activate=true&plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s" ) );
 			}
 			exit;
 
@@ -119,7 +119,7 @@ if ( $action ) {
 			}
 
 			if ( empty( $plugins ) ) {
-				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
@@ -141,7 +141,7 @@ if ( $action ) {
 				update_site_option( 'recently_activated', $recent );
 			}
 
-			wp_redirect( self_admin_url( "plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$search_term" ) );
+			wp_redirect( self_admin_url( "plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$s" ) );
 			exit;
 
 		case 'update-selected':
@@ -204,7 +204,7 @@ if ( $action ) {
 			check_admin_referer( 'deactivate-plugin_' . $plugin );
 
 			if ( ! is_network_admin() && is_plugin_active_for_network( $plugin ) ) {
-				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
@@ -217,9 +217,9 @@ if ( $action ) {
 			}
 
 			if ( headers_sent() ) {
-				echo "<meta http-equiv='refresh' content='" . esc_attr( "0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$search_term" ) . "' />";
+				echo "<meta http-equiv='refresh' content='" . esc_attr( "0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s" ) . "' />";
 			} else {
-				wp_redirect( self_admin_url( "plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s" ) );
 			}
 			exit;
 
@@ -246,7 +246,7 @@ if ( $action ) {
 				}
 			}
 			if ( empty( $plugins ) ) {
-				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
@@ -263,7 +263,7 @@ if ( $action ) {
 				update_site_option( 'recently_activated', $deactivated + (array) get_site_option( 'recently_activated' ) );
 			}
 
-			wp_redirect( self_admin_url( "plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$search_term" ) );
+			wp_redirect( self_admin_url( "plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s" ) );
 			exit;
 
 		case 'delete-selected':
@@ -276,13 +276,13 @@ if ( $action ) {
 			// $_POST = from the plugin form; $_GET = from the FTP details screen.
 			$plugins = isset( $_REQUEST['checked'] ) ? (array) wp_unslash( $_REQUEST['checked'] ) : array();
 			if ( empty( $plugins ) ) {
-				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
 			$plugins = array_filter( $plugins, 'is_plugin_inactive' ); // Do not allow to delete activated plugins.
 			if ( empty( $plugins ) ) {
-				wp_redirect( self_admin_url( "plugins.php?error=true&main=true&plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?error=true&main=true&plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
@@ -290,7 +290,7 @@ if ( $action ) {
 			// validate_file() returns truthy for invalid files.
 			$invalid_plugin_files = array_filter( $plugins, 'validate_file' );
 			if ( $invalid_plugin_files ) {
-				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$search_term" ) );
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
 				exit;
 			}
 
@@ -432,7 +432,7 @@ if ( $action ) {
 			// Store the result in an option rather than a URL param due to object type & length.
 			// Cannot use transient/cache, as that could get flushed if any plugin flushes data on uninstall/delete.
 			update_option( 'plugins_delete_result_' . $user_ID, $delete_result, false );
-			wp_redirect( self_admin_url( "plugins.php?deleted=$plugins_to_delete&plugin_status=$status&paged=$page&s=$search_term" ) );
+			wp_redirect( self_admin_url( "plugins.php?deleted=$plugins_to_delete&plugin_status=$status&paged=$page&s=$s" ) );
 			exit;
 		case 'clear-recent-list':
 			if ( ! is_network_admin() ) {
@@ -453,13 +453,13 @@ if ( $action ) {
 
 			check_admin_referer( 'resume-plugin_' . $plugin );
 
-			$result = resume_plugin( $plugin, self_admin_url( "plugins.php?error=resuming&plugin_status=$status&paged=$page&s=$search_term" ) );
+			$result = resume_plugin( $plugin, self_admin_url( "plugins.php?error=resuming&plugin_status=$status&paged=$page&s=$s" ) );
 
 			if ( is_wp_error( $result ) ) {
 				wp_die( $result );
 			}
 
-			wp_redirect( self_admin_url( "plugins.php?resume=true&plugin_status=$status&paged=$page&s=$search_term" ) );
+			wp_redirect( self_admin_url( "plugins.php?resume=true&plugin_status=$status&paged=$page&s=$s" ) );
 			exit;
 		case 'enable-auto-update':
 		case 'disable-auto-update':
@@ -473,7 +473,7 @@ if ( $action ) {
 				wp_die( __( 'Please connect to your network admin to manage plugins automatic updates.' ) );
 			}
 
-			$redirect = self_admin_url( "plugins.php?plugin_status={$status}&paged={$page}&s={$search_term}" );
+			$redirect = self_admin_url( "plugins.php?plugin_status={$status}&paged={$page}&s={$s}" );
 
 			if ( 'enable-auto-update' === $action || 'disable-auto-update' === $action ) {
 				if ( empty( $plugin ) ) {
@@ -771,12 +771,12 @@ if ( ( ! is_multisite() || is_network_admin() ) && current_user_can( 'install_pl
 	<?php
 }
 
-if ( strlen( $search_term ) ) {
+if ( strlen( $s ) ) {
 	echo '<span class="subtitle">';
 	printf(
 		/* translators: %s: Search query. */
 		__( 'Search results for: %s' ),
-		'<strong>' . esc_html( urldecode( $search_term ) ) . '</strong>'
+		'<strong>' . esc_html( urldecode( $s ) ) . '</strong>'
 	);
 	echo '</span>';
 }
