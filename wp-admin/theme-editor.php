@@ -121,9 +121,11 @@ $edit_error     = null;
 $posted_content = null;
 
 if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
-	$r = wp_edit_theme_plugin_file( wp_unslash( $_POST ) );
-	if ( is_wp_error( $r ) ) {
-		$edit_error = $r;
+	$edit_result = wp_edit_theme_plugin_file( wp_unslash( $_POST ) );
+
+	if ( is_wp_error( $edit_result ) ) {
+		$edit_error = $edit_result;
+
 		if ( check_ajax_referer( 'edit-theme_' . $stylesheet . '_' . $relative_file, 'nonce', false ) && isset( $_POST['newcontent'] ) ) {
 			$posted_content = wp_unslash( $_POST['newcontent'] );
 		}
