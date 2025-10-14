@@ -413,8 +413,9 @@ function populate_options( array $options = array() ) {
 		'home'                            => $guessurl,
 		'blogname'                        => __( 'My Site' ),
 		'blogdescription'                 => '',
-		'users_can_register'              => 0,
-		'admin_email'                     => 'you@example.com',
+                'users_can_register'              => 0,
+                'admin_email'                     => 'you@example.com',
+                'admin_login_slug'                => '',
 		/* translators: Default start of the week. 0 = Sunday, 1 = Monday. */
 		'start_of_week'                   => _x( '1', 'start of week' ),
 		'use_balanceTags'                 => 0,

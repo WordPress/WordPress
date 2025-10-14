@@ -659,6 +659,7 @@ add_action( 'change_locale', 'create_initial_taxonomies' );
 // Canonical.
 add_action( 'template_redirect', 'redirect_canonical' );
 add_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
+add_action( 'template_redirect', 'wp_maybe_redirect_admin_login_slug', 0 );
 
 // Media.
 add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );

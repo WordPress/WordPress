@@ -4056,7 +4056,8 @@ function retrieve_password( $user_login = '' ) {
 	 *
 	 * @see https://core.trac.wordpress.org/tickets/42957
 	 */
-	$message .= network_site_url( 'wp-login.php?login=' . rawurlencode( $user_login ) . "&key=$key&action=rp", 'login' ) . '&wp_lang=' . $locale . "\r\n\r\n";
+       $reset_url = wp_add_admin_login_slug_to_url( network_site_url( 'wp-login.php?login=' . rawurlencode( $user_login ) . "&key=$key&action=rp", 'login' ) );
+       $message  .= $reset_url . '&wp_lang=' . $locale . "\r\n\r\n";
 
 	if ( ! is_user_logged_in() ) {
 		$requester_ip = $_SERVER['REMOTE_ADDR'];

@@ -16,6 +16,23 @@ if ( ! current_user_can( 'manage_options' ) ) {
         wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 }
 
+if ( isset( $_GET['action'] ) && 'regenerate-admin-login-slug' === $_GET['action'] ) {
+        check_admin_referer( 'regenerate-admin-login-slug' );
+
+        update_option( 'admin_login_slug', wp_generate_admin_login_slug() );
+
+        $redirect = add_query_arg(
+                array(
+                        'settings-updated'               => 'true',
+                        'admin-login-slug-regenerated'   => '1',
+                ),
+                admin_url( 'options-general.php' )
+        );
+
+        wp_safe_redirect( $redirect );
+        exit;
+}
+
 register_setting(
         'general',
         'login_rate_limit_settings',
@@ -23,6 +40,16 @@ register_setting(
                 'type'              => 'array',
                 'sanitize_callback' => 'wp_sanitize_login_rate_limit_settings',
                 'default'           => wp_get_login_rate_limit_defaults(),
+        )
+);
+
+register_setting(
+        'general',
+        'admin_login_slug',
+        array(
+                'type'              => 'string',
+                'sanitize_callback' => 'wp_sanitize_admin_login_slug',
+                'default'           => '',
         )
 );
 
@@ -72,10 +99,16 @@ get_current_screen()->set_help_sidebar(
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
+
+if ( isset( $_GET['admin-login-slug-regenerated'] ) ) {
+        add_settings_error( 'general', 'admin-login-slug-regenerated', __( 'The administrator login slug has been regenerated.' ), 'updated' );
+}
 ?>
 
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
+
+<?php settings_errors(); ?>
 
 <form method="post" action="options.php" novalidate="novalidate">
 <?php settings_fields( 'general' ); ?>
@@ -278,30 +311,52 @@ if ( ! is_multisite() ) {
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && get_option( 'admin_email' ) !== $new_admin_email ) {
-	$pending_admin_email_message = sprintf(
-		/* translators: %s: New admin email. */
-		__( 'There is a pending change of the admin email to %s.' ),
-		'<code>' . esc_html( $new_admin_email ) . '</code>'
-	);
-	$pending_admin_email_message .= sprintf(
-		' <a href="%1$s">%2$s</a>',
-		esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
-		__( 'Cancel' )
-	);
-	wp_admin_notice(
-		$pending_admin_email_message,
-		array(
-			'additional_classes' => array( 'updated', 'inline' ),
-		)
-	);
+        $pending_admin_email_message = sprintf(
+                /* translators: %s: New admin email. */
+                __( 'There is a pending change of the admin email to %s.' ),
+                '<code>' . esc_html( $new_admin_email ) . '</code>'
+        );
+        $pending_admin_email_message .= sprintf(
+                ' <a href="%1$s">%2$s</a>',
+                esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
+                __( 'Cancel' )
+        );
+        wp_admin_notice(
+                $pending_admin_email_message,
+                array(
+                        'additional_classes' => array( 'updated', 'inline' ),
+                )
+        );
 }
 ?>
 </td>
 </tr>
 
 <?php
+$admin_login_slug_value = get_admin_login_slug();
+$regenerate_admin_login_slug_url = wp_nonce_url(
+        add_query_arg(
+                array(
+                        'action' => 'regenerate-admin-login-slug',
+                ),
+                admin_url( 'options-general.php' )
+        ),
+        'regenerate-admin-login-slug'
+);
+?>
+
+<tr>
+<th scope="row"><label for="admin_login_slug"><?php _e( 'Administrator login slug' ); ?></label></th>
+<td>
+        <input name="admin_login_slug" type="text" id="admin_login_slug" value="<?php echo esc_attr( $admin_login_slug_value ); ?>" class="regular-text code" />
+        <p class="description"><?php _e( 'This slug is required when accessing wp-login.php or wp-admin/. Share it only with trusted administrators.' ); ?></p>
+        <p><a class="button button-secondary" href="<?php echo esc_url( $regenerate_admin_login_slug_url ); ?>"><?php _e( 'Regenerate slug' ); ?></a></p>
+</td>
+</tr>
+
+<?php
 if ( ! is_multisite() ) {
-	$membership_title = __( 'Membership' );
+        $membership_title = __( 'Membership' );
 	?>
 <tr>
 <th scope="row"><?php echo $membership_title; ?></th>
