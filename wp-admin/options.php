@@ -125,6 +125,7 @@ $allowed_options            = array(
 		'comment_order',
 		'comment_registration',
 		'show_comments_cookies_opt_in',
+		'xmlrpc_enabled',
 	),
 	'media'      => array(
 		'thumbnail_size_w',

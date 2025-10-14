@@ -457,6 +457,7 @@ function populate_options( array $options = array() ) {
 		'template'                        => $template,
 		'stylesheet'                      => $stylesheet,
 		'comment_registration'            => 0,
+		'xmlrpc_enabled'                  => 1,
 		'html_type'                       => 'text/html',
 
 		// 1.5.1
