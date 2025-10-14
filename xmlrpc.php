@@ -28,6 +28,65 @@ $HTTP_RAW_POST_DATA = trim( $HTTP_RAW_POST_DATA );
 /** Include the bootstrap for setting up WordPress environment */
 require_once __DIR__ . '/wp-load.php';
 
+if ( ! wp_validate_boolean( get_option( 'xmlrpc_enabled', 1 ) ) ) {
+	$remote_identifiers = array();
+
+	if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+		$remote_address = wp_unslash( $_SERVER['REMOTE_ADDR'] );
+
+		if ( $remote_address ) {
+			$remote_identifiers[] = $remote_address;
+
+			if ( filter_var( $remote_address, FILTER_VALIDATE_IP ) ) {
+				$reverse_lookup = @gethostbyaddr( $remote_address );
+
+				if ( $reverse_lookup && $reverse_lookup !== $remote_address ) {
+					$remote_identifiers[] = $reverse_lookup;
+				}
+			}
+		}
+	}
+
+	if ( isset( $_SERVER['REMOTE_HOST'] ) ) {
+		$remote_identifiers[] = wp_unslash( $_SERVER['REMOTE_HOST'] );
+	}
+
+	$remote_identifiers = array_values( array_unique( array_filter( $remote_identifiers ) ) );
+
+	/**
+	 * Filters the hosts that are allowed to access XML-RPC when it is disabled.
+	 *
+	 * Returning `true` from the filter will bypass the restriction entirely.
+	 *
+	 * @since 6.7.0
+	 *
+	 * @param string[]|true $allowed_hosts      Array of allowed host names or IP addresses. Default empty array.
+	 * @param string[]      $remote_identifiers Array of detected remote identifiers for the request.
+	 */
+	$allowed_hosts = apply_filters( 'xmlrpc_allowed_hosts', array(), $remote_identifiers );
+
+	$request_allowed = true === $allowed_hosts;
+
+	if ( ! $request_allowed ) {
+		$allowed_hosts = array_map( 'strtolower', (array) $allowed_hosts );
+
+		foreach ( $remote_identifiers as $remote_identifier ) {
+			if ( in_array( strtolower( $remote_identifier ), $allowed_hosts, true ) ) {
+				$request_allowed = true;
+				break;
+			}
+		}
+	}
+
+	if ( ! $request_allowed ) {
+		status_header( 403 );
+		nocache_headers();
+		header( 'Content-Type: text/plain; charset=' . get_option( 'blog_charset' ) );
+		echo esc_html__( 'XML-RPC services are disabled on this site.' );
+		exit;
+	}
+}
+
 if ( isset( $_GET['rsd'] ) ) { // https://cyber.harvard.edu/blogs/gems/tech/rsd.html
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 	echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>';

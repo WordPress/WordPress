@@ -1631,3 +1631,32 @@ function wp_check_php_version() {
 
 	return $response;
 }
+
+/**
+ * Displays a notice encouraging administrators to disable XML-RPC when it is unused.
+ *
+ * @since 6.7.0
+ */
+function xmlrpc_usage_admin_notice() {
+	if ( wp_doing_ajax() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( ! wp_validate_boolean( get_option( 'xmlrpc_enabled', 1 ) ) ) {
+		return;
+	}
+
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+	if ( $screen && ! in_array( $screen->id, array( 'dashboard', 'settings_page_options-discussion' ), true ) ) {
+		return;
+	}
+
+	$message = sprintf(
+		/* translators: %s: Discussion settings screen URL. */
+		__( 'XML-RPC is currently enabled. If you do not use remote publishing tools, you can <a href="%s">disable XML-RPC</a> to reduce your site&#8217;s attack surface.' ),
+		esc_url( admin_url( 'options-discussion.php#xmlrpc_enabled' ) )
+	);
+
+	echo '<div class="notice notice-warning is-dismissible"><p>' . wp_kses_post( $message ) . '</p></div>';
+}
