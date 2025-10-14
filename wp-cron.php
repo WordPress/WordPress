@@ -49,6 +49,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Attempt to raise the PHP memory limit for cron event processing.
 wp_raise_memory_limit( 'cron' );
 
+if ( wp_is_async_cron_enabled() ) {
+        wp_process_async_cron_queue();
+        die();
+}
+
 /**
  * Retrieves the cron lock.
  *
