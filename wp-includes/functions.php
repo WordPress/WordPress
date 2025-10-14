@@ -6348,6 +6348,168 @@ function wp_guess_url() {
 }
 
 /**
+ * Sanitizes the administrator login slug value.
+ *
+ * @since 6.6.0
+ *
+ * @param string $slug Raw slug value.
+ * @return string Sanitized slug consisting of lowercase alphanumeric characters and hyphens.
+ */
+function sanitize_admin_login_slug( $slug ) {
+        $slug = strtolower( trim( (string) $slug ) );
+        $slug = preg_replace( '/[^a-z0-9\-]+/', '-', $slug );
+        $slug = trim( $slug, '-' );
+
+        return $slug;
+}
+
+/**
+ * Generates a cryptographically secure administrator login slug.
+ *
+ * @since 6.6.0
+ *
+ * @return string Generated slug string.
+ */
+function wp_generate_admin_login_slug() {
+        $prefix = apply_filters( 'admin_login_slug_prefix', 'admin' );
+        $prefix = sanitize_admin_login_slug( $prefix );
+
+        $random = strtolower( wp_generate_password( 12, false, false ) );
+        $random = preg_replace( '/[^a-z0-9]/', '', $random );
+
+        $segments = array_filter( array( $prefix, $random ) );
+        $slug     = implode( '-', $segments );
+
+        $slug = sanitize_admin_login_slug( $slug );
+
+        /**
+         * Filters the generated administrator login slug value.
+         *
+         * @since 6.6.0
+         *
+         * @param string $slug Generated slug value.
+         */
+        return apply_filters( 'generated_admin_login_slug', $slug );
+}
+
+/**
+ * Retrieves the active administrator login slug.
+ *
+ * Generates and persists a new slug if one has not been configured yet.
+ *
+ * @since 6.6.0
+ *
+ * @return string Current administrator login slug.
+ */
+function get_admin_login_slug() {
+        $slug = get_option( 'admin_login_slug', '' );
+        $slug = sanitize_admin_login_slug( $slug );
+
+        if ( empty( $slug ) ) {
+                $slug = wp_generate_admin_login_slug();
+                update_option( 'admin_login_slug', $slug );
+        }
+
+        /**
+         * Filters the active administrator login slug.
+         *
+         * @since 6.6.0
+         *
+         * @param string $slug Administrator login slug.
+         */
+        return apply_filters( 'get_admin_login_slug', $slug );
+}
+
+/**
+ * Retrieves the query parameter name used when enforcing the administrator login slug.
+ *
+ * @since 6.6.0
+ *
+ * @return string Query argument name.
+ */
+function wp_admin_login_slug_query_arg() {
+        /**
+         * Filters the administrator login slug query parameter name.
+         *
+         * @since 6.6.0
+         *
+         * @param string $query_arg Query argument name.
+         */
+        return apply_filters( 'admin_login_slug_query_arg', 'admin_slug' );
+}
+
+/**
+ * Adds the administrator login slug to a URL as a query argument.
+ *
+ * @since 6.6.0
+ *
+ * @param string $url URL to modify.
+ * @return string URL containing the slug argument when available.
+ */
+function wp_add_admin_login_slug_to_url( $url ) {
+        $slug = get_admin_login_slug();
+
+        if ( empty( $slug ) ) {
+                return $url;
+        }
+
+        return add_query_arg( wp_admin_login_slug_query_arg(), $slug, $url );
+}
+
+/**
+ * Sanitizes administrator login slug input from settings screens.
+ *
+ * @since 6.6.0
+ *
+ * @param string $slug Unsanitized slug value.
+ * @return string Sanitized slug. Falls back to the existing slug when empty.
+ */
+function wp_sanitize_admin_login_slug( $slug ) {
+        $slug = sanitize_admin_login_slug( $slug );
+
+        if ( empty( $slug ) ) {
+                add_settings_error( 'admin_login_slug', 'admin_login_slug', __( 'The admin login slug cannot be empty.' ) );
+
+                return get_admin_login_slug();
+        }
+
+        return $slug;
+}
+
+/**
+ * Flushes rewrite rules when the administrator login slug changes.
+ *
+ * @since 6.6.0
+ *
+ * @param string $old_value Previous value.
+ * @param string $value     Updated value.
+ */
+function wp_admin_login_slug_option_updated( $old_value, $value ) {
+        if ( $old_value === $value ) {
+                return;
+        }
+
+        flush_rewrite_rules();
+}
+
+/**
+ * Flushes rewrite rules after the administrator login slug is first saved.
+ *
+ * @since 6.6.0
+ *
+ * @param string $option Option name.
+ * @param string $value  Option value.
+ */
+function wp_admin_login_slug_option_added( $option, $value ) {
+        unset( $option, $value );
+
+        flush_rewrite_rules();
+}
+
+add_action( 'update_option_admin_login_slug', 'wp_admin_login_slug_option_updated', 10, 2 );
+add_action( 'add_option_admin_login_slug', 'wp_admin_login_slug_option_added', 10, 2 );
+
+/**
  * Temporarily suspends cache additions.
  *
  * Stops more data being added to the cache, but still allows cache retrieval.

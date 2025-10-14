@@ -11,6 +11,30 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require __DIR__ . '/wp-load.php';
 
+$admin_login_slug     = get_admin_login_slug();
+$admin_login_query_arg = wp_admin_login_slug_query_arg();
+$requested_admin_slug = '';
+
+if ( isset( $_REQUEST[ $admin_login_query_arg ] ) ) {
+        $requested_admin_slug = sanitize_admin_login_slug( wp_unslash( $_REQUEST[ $admin_login_query_arg ] ) );
+}
+
+/**
+ * Filters whether legacy login locations are permitted.
+ *
+ * @since 6.6.0
+ *
+ * @param bool   $allow   Whether legacy locations should be allowed. Default false.
+ * @param string $context Current context. For wp-login.php this is 'login'.
+ */
+if ( ! apply_filters( 'wp_admin_legacy_slugs', false, 'login' ) ) {
+        if ( $admin_login_slug !== $requested_admin_slug ) {
+                status_header( 403 );
+                nocache_headers();
+                wp_die( __( 'Access to this resource requires the active administrator login slug.' ), 403 );
+        }
+}
+
 // Redirect to HTTPS login if forced to use SSL.
 if ( force_ssl_admin() && ! is_ssl() ) {
 	if ( str_starts_with( $_SERVER['REQUEST_URI'], 'http' ) ) {
@@ -673,7 +697,7 @@ switch ( $action ) {
 
 		?>
 
-		<form class="admin-email-confirm-form" name="admin-email-confirm-form" action="<?php echo esc_url( site_url( 'wp-login.php?action=confirm_admin_email', 'login_post' ) ); ?>" method="post">
+           <form class="admin-email-confirm-form" name="admin-email-confirm-form" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=confirm_admin_email', 'login_post' ) ) ); ?>" method="post">
 			<?php
 			/**
 			 * Fires inside the admin-email-confirm-form form tags, before the hidden fields.
@@ -839,7 +863,7 @@ switch ( $action ) {
 			$errors = retrieve_password();
 
 			if ( ! is_wp_error( $errors ) ) {
-				$redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?checkemail=confirm';
+                               $redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?checkemail=confirm' ) );
 				wp_safe_redirect( $redirect_to );
 				exit;
 			}
@@ -894,7 +918,7 @@ switch ( $action ) {
 
 		?>
 
-		<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
+           <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ) ); ?>" method="post">
 			<p>
 				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
 				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
@@ -964,9 +988,9 @@ switch ( $action ) {
 			setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
 
 			if ( $user && $user->get_error_code() === 'expired_key' ) {
-				wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
+                           wp_redirect( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) ) );
 			} else {
-				wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) );
+                           wp_redirect( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) ) );
 			}
 
 			exit;
@@ -1031,7 +1055,7 @@ switch ( $action ) {
 		);
 
 		?>
-		<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ); ?>" method="post" autocomplete="off">
+           <form name="resetpassform" id="resetpassform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ) ); ?>" method="post" autocomplete="off">
 			<input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
 			<div class="user-pass1-wrap">
@@ -1113,7 +1137,7 @@ switch ( $action ) {
 		}
 
 		if ( ! get_option( 'users_can_register' ) ) {
-			wp_redirect( site_url( 'wp-login.php?registration=disabled' ) );
+                   wp_redirect( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?registration=disabled' ) ) );
 			exit;
 		}
 
@@ -1132,7 +1156,7 @@ switch ( $action ) {
 			$errors = register_new_user( $user_login, $user_email );
 
 			if ( ! is_wp_error( $errors ) ) {
-				$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
+                               $redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?checkemail=registered' ) );
 				wp_safe_redirect( $redirect_to );
 				exit;
 			}
@@ -1165,7 +1189,7 @@ switch ( $action ) {
 		);
 
 		?>
-		<form name="registerform" id="registerform" action="<?php echo esc_url( site_url( 'wp-login.php?action=register', 'login_post' ) ); ?>" method="post" novalidate="novalidate">
+           <form name="registerform" id="registerform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php?action=register', 'login_post' ) ) ); ?>" method="post" novalidate="novalidate">
 			<p>
 				<label for="user_login"><?php _e( 'Username' ); ?></label>
 				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
@@ -1538,7 +1562,7 @@ switch ( $action ) {
 		wp_enqueue_script( 'user-profile' );
 		?>
 
-		<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+           <form name="loginform" id="loginform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php', 'login_post' ) ) ); ?>" method="post">
 			<p>
 				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
 				<input type="text" name="log" id="user_login"<?php echo $aria_describedby; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
