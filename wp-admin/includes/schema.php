@@ -561,7 +561,10 @@ function populate_options( array $options = array() ) {
 
 		// 6.4.0
 		'wp_attachment_pages_enabled'     => 0,
-	);
+
+		// 6.8.0
+		'enable_hsts'                    => 0,
+        );
 
 	// 3.3.0
 	if ( ! is_multisite() ) {

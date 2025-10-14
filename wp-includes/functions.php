@@ -7159,6 +7159,90 @@ function send_frame_options_header() {
 }
 
 /**
+ * Sends the Strict-Transport-Security header when enabled.
+ *
+ * @since 6.8.0
+ */
+function send_hsts_header() {
+	if ( headers_sent() || ! is_ssl() ) {
+		return;
+	}
+
+	static $did_send = false;
+
+	if ( $did_send ) {
+		return;
+	}
+
+	if ( defined( 'WP_ENABLE_HSTS' ) ) {
+		$enabled = wp_validate_boolean( WP_ENABLE_HSTS );
+	} else {
+		$enabled = wp_validate_boolean( get_option( 'enable_hsts', false ) );
+	}
+
+	if ( ! $enabled ) {
+		return;
+	}
+
+	$directives = array(
+		'max-age'           => YEAR_IN_SECONDS,
+		'includeSubDomains' => false,
+		'preload'           => false,
+	);
+
+	/**
+	 * Filters the directives used for the Strict-Transport-Security header.
+	 *
+	 * Allows customization of the `max-age`, `includeSubDomains`, and `preload` directives.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param array $directives {
+	 *     Associative array of directives for the Strict-Transport-Security header.
+	 *
+	 *     @type int  $max-age           Max-age directive, in seconds. Default YEAR_IN_SECONDS.
+	 *     @type bool $includeSubDomains Whether to send the includeSubDomains directive. Default false.
+	 *     @type bool $preload           Whether to send the preload directive. Default false.
+	 * }
+	 */
+	$directives = apply_filters( 'wp_hsts_header', $directives );
+
+	$max_age = isset( $directives['max-age'] ) ? (int) $directives['max-age'] : YEAR_IN_SECONDS;
+	$max_age = max( 0, $max_age );
+
+	$include_subdomains = isset( $directives['includeSubDomains'] )
+		? wp_validate_boolean( $directives['includeSubDomains'] )
+		: false;
+	$preload = isset( $directives['preload'] )
+		? wp_validate_boolean( $directives['preload'] )
+		: false;
+
+	$header_value = 'Strict-Transport-Security: max-age=' . $max_age;
+
+	if ( $include_subdomains ) {
+		$header_value .= '; includeSubDomains';
+	}
+
+	if ( $preload ) {
+		$header_value .= '; preload';
+	}
+
+	/**
+	 * Filters the Strict-Transport-Security header before it is sent.
+	 *
+	 * @since 6.8.0
+	 *
+	 * @param string $header_value Header string for Strict-Transport-Security.
+	 * @param array  $directives   Array of directives used to build the header.
+	 */
+	$header_value = apply_filters( 'wp_hsts_header_value', $header_value, $directives );
+
+	header( $header_value );
+
+	$did_send = true;
+}
+
+/**
  * Sends a referrer policy header so referrers are not sent externally from administration screens.
  *
  * @since 4.9.0
