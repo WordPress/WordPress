@@ -1,0 +1,2 @@
+require:
+  - php/commands/cron.php

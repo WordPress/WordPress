@@ -566,6 +566,25 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists.
 </td>
 </tr>
 
+<tr>
+<th scope="row"><?php _e( 'Cron Execution Mode' ); ?></th>
+<td>
+        <p><?php _e( 'WordPress can run scheduled tasks inline or through an asynchronous queue managed by your own scheduler.' ); ?></p>
+        <p class="description">
+        <?php
+        printf(
+                /* translators: 1: WP_CRON_MODE definition. 2: wp-config.php. 3: WP-CLI command. */
+                __( 'To enable asynchronous processing, add %1$s to %2$s and schedule %3$s from your system cron or task runner.' ),
+                "<code>define( 'WP_CRON_MODE', 'async' );</code>",
+                '<code>wp-config.php</code>',
+                '<code>wp cron process-queue</code>'
+        );
+        ?>
+        </p>
+        <p class="description"><?php _e( 'Run the command manually after switching modes to verify that queued events complete successfully.' ); ?></p>
+</td>
+</tr>
+
 <?php $date_format_title = __( 'Date Format' ); ?>
 <tr>
 <th scope="row"><?php echo $date_format_title; ?></th>
