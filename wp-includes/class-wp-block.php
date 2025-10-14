@@ -492,6 +492,14 @@ class WP_Block {
 	public function render( $options = array() ) {
 		global $post;
 
+		// Capture the current assets queues and then clear out to capture the diff of what was introduced by rendering.
+		$before_styles_queue         = wp_styles()->queue;
+		$before_scripts_queue        = wp_scripts()->queue;
+		$before_script_modules_queue = wp_script_modules()->queue;
+		wp_styles()->queue           = array();
+		wp_scripts()->queue          = array();
+		wp_script_modules()->queue   = array();
+
 		/*
 		 * There can be only one root interactive block at a time because the rendered HTML of that block contains
 		 * the rendered HTML of all its inner blocks, including any interactive block.
@@ -659,6 +667,44 @@ class WP_Block {
 			// The root interactive block has finished rendering. Time to process directives.
 			$block_content          = wp_interactivity_process_directives( $block_content );
 			$root_interactive_block = null;
+		}
+
+		// Capture the new assets enqueued during rendering, and restore the queues the state prior to rendering.
+		$new_styles_queue          = wp_styles()->queue;
+		$new_scripts_queue         = wp_scripts()->queue;
+		$new_script_modules_queue  = wp_script_modules()->queue;
+		wp_styles()->queue         = $before_styles_queue;
+		wp_scripts()->queue        = $before_scripts_queue;
+		wp_script_modules()->queue = $before_script_modules_queue;
+		$has_new_styles            = count( $new_styles_queue ) > 0;
+		$has_new_scripts           = count( $new_scripts_queue ) > 0;
+		$has_new_script_modules    = count( $new_script_modules_queue ) > 0;
+
+		// Merge the newly enqueued assets with the existing assets if the rendered block is not empty.
+		if (
+			( $has_new_styles || $has_new_scripts || $has_new_script_modules ) &&
+			(
+				trim( $block_content ) !== '' ||
+				/**
+				 * Filters whether to enqueue assets for a block which has no rendered content.
+				 *
+				 * @since 6.9.0
+				 *
+				 * @param bool   $enqueue    Whether to enqueue assets.
+				 * @param string $block_name Block name.
+				 */
+				(bool) apply_filters( 'enqueue_empty_block_content_assets', false, $this->name )
+			)
+		) {
+			if ( $has_new_styles ) {
+				wp_styles()->queue = array_unique( array_merge( wp_styles()->queue, $new_styles_queue ) );
+			}
+			if ( $has_new_scripts ) {
+				wp_scripts()->queue = array_unique( array_merge( wp_scripts()->queue, $new_scripts_queue ) );
+			}
+			if ( $has_new_script_modules ) {
+				wp_script_modules()->queue = array_unique( array_merge( wp_script_modules()->queue, $new_script_modules_queue ) );
+			}
 		}
 
 		return $block_content;

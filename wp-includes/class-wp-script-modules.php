@@ -23,12 +23,12 @@ class WP_Script_Modules {
 	private $registered = array();
 
 	/**
-	 * Holds the script module identifiers that were enqueued before registered.
+	 * An array of IDs for queued script modules.
 	 *
-	 * @since 6.5.0
-	 * @var array<string, true>
+	 * @since 6.9.0
+	 * @var string[]
 	 */
-	private $enqueued_before_registered = array();
+	public $queue = array();
 
 	/**
 	 * Tracks whether the @wordpress/a11y script module is available.
@@ -122,7 +122,6 @@ class WP_Script_Modules {
 			$this->registered[ $id ] = array(
 				'src'           => $src,
 				'version'       => $version,
-				'enqueue'       => isset( $this->enqueued_before_registered[ $id ] ),
 				'dependencies'  => $dependencies,
 				'fetchpriority' => $fetchpriority,
 			);
@@ -213,13 +212,11 @@ class WP_Script_Modules {
 	 * }
 	 */
 	public function enqueue( string $id, string $src = '', array $deps = array(), $version = false, array $args = array() ) {
-		if ( isset( $this->registered[ $id ] ) ) {
-			$this->registered[ $id ]['enqueue'] = true;
-		} elseif ( $src ) {
+		if ( ! in_array( $id, $this->queue, true ) ) {
+			$this->queue[] = $id;
+		}
+		if ( ! isset( $this->registered[ $id ] ) && $src ) {
 			$this->register( $id, $src, $deps, $version, $args );
-			$this->registered[ $id ]['enqueue'] = true;
-		} else {
-			$this->enqueued_before_registered[ $id ] = true;
 		}
 	}
 
@@ -231,10 +228,7 @@ class WP_Script_Modules {
 	 * @param string $id The identifier of the script module.
 	 */
 	public function dequeue( string $id ) {
-		if ( isset( $this->registered[ $id ] ) ) {
-			$this->registered[ $id ]['enqueue'] = false;
-		}
-		unset( $this->enqueued_before_registered[ $id ] );
+		$this->queue = array_diff( $this->queue, array( $id ) );
 	}
 
 	/**
@@ -245,8 +239,8 @@ class WP_Script_Modules {
 	 * @param string $id The identifier of the script module.
 	 */
 	public function deregister( string $id ) {
+		$this->dequeue( $id );
 		unset( $this->registered[ $id ] );
-		unset( $this->enqueued_before_registered[ $id ] );
 	}
 
 	/**
@@ -304,9 +298,9 @@ class WP_Script_Modules {
 	 * @since 6.5.0
 	 */
 	public function print_script_module_preloads() {
-		foreach ( $this->get_dependencies( array_keys( $this->get_marked_for_enqueue() ), array( 'static' ) ) as $id => $script_module ) {
+		foreach ( $this->get_dependencies( array_unique( $this->queue ), array( 'static' ) ) as $id => $script_module ) {
 			// Don't preload if it's marked for enqueue.
-			if ( true !== $script_module['enqueue'] ) {
+			if ( ! in_array( $id, $this->queue, true ) ) {
 				echo sprintf(
 					'<link rel="modulepreload" href="%s" id="%s"%s>',
 					esc_url( $this->get_src( $id ) ),
@@ -345,7 +339,7 @@ class WP_Script_Modules {
 	 */
 	private function get_import_map(): array {
 		$imports = array();
-		foreach ( $this->get_dependencies( array_keys( $this->get_marked_for_enqueue() ) ) as $id => $script_module ) {
+		foreach ( $this->get_dependencies( array_unique( $this->queue ) ) as $id => $script_module ) {
 			$imports[ $id ] = $this->get_src( $id );
 		}
 		return array( 'imports' => $imports );
@@ -359,13 +353,10 @@ class WP_Script_Modules {
 	 * @return array<string, array> Script modules marked for enqueue, keyed by script module identifier.
 	 */
 	private function get_marked_for_enqueue(): array {
-		$enqueued = array();
-		foreach ( $this->registered as $id => $script_module ) {
-			if ( true === $script_module['enqueue'] ) {
-				$enqueued[ $id ] = $script_module;
-			}
-		}
-		return $enqueued;
+		return wp_array_slice_assoc(
+			$this->registered,
+			$this->queue
+		);
 	}
 
 	/**
@@ -457,7 +448,7 @@ class WP_Script_Modules {
 	 */
 	public function print_script_module_data(): void {
 		$modules = array();
-		foreach ( array_keys( $this->get_marked_for_enqueue() ) as $id ) {
+		foreach ( array_unique( $this->queue ) as $id ) {
 			if ( '@wordpress/a11y' === $id ) {
 				$this->a11y_available = true;
 			}
