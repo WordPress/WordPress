@@ -181,9 +181,21 @@ function wp_default_script_modules() {
 				break;
 		}
 
-		// The Interactivity API is designed with server-side rendering as its primary goal, so all of its script modules should be loaded with low fetch priority since they should not be needed in the critical rendering path.
+		/*
+		 * The Interactivity API is designed with server-side rendering as its primary goal, so all of its script modules
+		 * should be loaded with low fetchpriority since they should not be needed in the critical rendering path.
+		 * Also, the @wordpress/a11y script module is intended to be used as a dynamic import dependency, in which case
+		 * the fetchpriority is irrelevant. See <https://make.wordpress.org/core/2024/10/14/updates-to-script-modules-in-6-7/>.
+		 * However, in case it is added as a static import dependency, the fetchpriority is explicitly set to be 'low'
+		 * since the module should not be involved in the critical rendering path, and if it is, its fetchpriority will
+		 * be bumped to match the fetchpriority of the dependent script.
+		 */
 		$args = array();
-		if ( str_starts_with( $script_module_id, '@wordpress/interactivity' ) || str_starts_with( $script_module_id, '@wordpress/block-library' ) ) {
+		if (
+			str_starts_with( $script_module_id, '@wordpress/interactivity' ) ||
+			str_starts_with( $script_module_id, '@wordpress/block-library' ) ||
+			'@wordpress/a11y' === $script_module_id
+		) {
 			$args['fetchpriority'] = 'low';
 		}
 
