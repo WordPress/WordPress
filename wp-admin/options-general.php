@@ -13,8 +13,18 @@ require_once __DIR__ . '/admin.php';
 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
+        wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 }
+
+register_setting(
+        'general',
+        'login_rate_limit_settings',
+        array(
+                'type'              => 'array',
+                'sanitize_callback' => 'wp_sanitize_login_rate_limit_settings',
+                'default'           => wp_get_login_rate_limit_defaults(),
+        )
+);
 
 // Used in the HTML title tag.
 $title       = __( 'General Settings' );
@@ -308,7 +318,105 @@ if ( ! is_multisite() ) {
 </td>
 </tr>
 
-	<?php
+<?php
+$login_rate_settings = wp_get_login_rate_limit_settings();
+$login_rate_locks    = wp_login_rate_limiter()->get_active_locks();
+
+$per_user_threshold       = isset( $login_rate_settings['per_user']['threshold'] ) ? (int) $login_rate_settings['per_user']['threshold'] : 0;
+$per_user_window_minutes  = ( ! empty( $login_rate_settings['per_user']['window'] ) ) ? max( 0, (int) round( $login_rate_settings['per_user']['window'] / MINUTE_IN_SECONDS ) ) : 0;
+$per_user_lock_minutes    = ( ! empty( $login_rate_settings['per_user']['lockout'] ) ) ? max( 0, (int) round( $login_rate_settings['per_user']['lockout'] / MINUTE_IN_SECONDS ) ) : 0;
+$per_ip_threshold         = isset( $login_rate_settings['per_ip']['threshold'] ) ? (int) $login_rate_settings['per_ip']['threshold'] : 0;
+$per_ip_window_minutes    = ( ! empty( $login_rate_settings['per_ip']['window'] ) ) ? max( 0, (int) round( $login_rate_settings['per_ip']['window'] / MINUTE_IN_SECONDS ) ) : 0;
+$per_ip_lock_minutes      = ( ! empty( $login_rate_settings['per_ip']['lockout'] ) ) ? max( 0, (int) round( $login_rate_settings['per_ip']['lockout'] / MINUTE_IN_SECONDS ) ) : 0;
+?>
+<tr>
+<th scope="row"><?php esc_html_e( 'Login rate limiting' ); ?></th>
+<td>
+        <fieldset>
+                <legend class="screen-reader-text"><span><?php esc_html_e( 'Login rate limiting' ); ?></span></legend>
+                <p><?php esc_html_e( 'Control how many failed login attempts are permitted before temporary lockouts are enforced.' ); ?></p>
+                <div class="login-rate-limit-settings">
+                        <h4><?php esc_html_e( 'Per username' ); ?></h4>
+                        <p>
+                                <label for="login_rate_limit_per_user_threshold"><?php esc_html_e( 'Failed attempts allowed' ); ?></label>
+                                <input name="login_rate_limit_settings[per_user][threshold]" type="number" id="login_rate_limit_per_user_threshold" value="<?php echo esc_attr( $per_user_threshold ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_user_window"><?php esc_html_e( 'Tracking window (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_user][window]" type="number" id="login_rate_limit_per_user_window" value="<?php echo esc_attr( $per_user_window_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_user_lockout"><?php esc_html_e( 'Lockout duration (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_user][lockout]" type="number" id="login_rate_limit_per_user_lockout" value="<?php echo esc_attr( $per_user_lock_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                </div>
+                <div class="login-rate-limit-settings">
+                        <h4><?php esc_html_e( 'Per IP address' ); ?></h4>
+                        <p>
+                                <label for="login_rate_limit_per_ip_threshold"><?php esc_html_e( 'Failed attempts allowed' ); ?></label>
+                                <input name="login_rate_limit_settings[per_ip][threshold]" type="number" id="login_rate_limit_per_ip_threshold" value="<?php echo esc_attr( $per_ip_threshold ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_ip_window"><?php esc_html_e( 'Tracking window (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_ip][window]" type="number" id="login_rate_limit_per_ip_window" value="<?php echo esc_attr( $per_ip_window_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                        <p>
+                                <label for="login_rate_limit_per_ip_lockout"><?php esc_html_e( 'Lockout duration (minutes)' ); ?></label>
+                                <input name="login_rate_limit_settings[per_ip][lockout]" type="number" id="login_rate_limit_per_ip_lockout" value="<?php echo esc_attr( $per_ip_lock_minutes ); ?>" class="small-text" min="0" />
+                        </p>
+                </div>
+                <p class="description"><?php esc_html_e( 'Set a value to zero to disable the corresponding limit.' ); ?></p>
+        </fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row"><?php esc_html_e( 'Login lockouts' ); ?></th>
+<td>
+        <?php if ( empty( $login_rate_locks ) ) : ?>
+                <p><?php esc_html_e( 'No lockouts are currently active.' ); ?></p>
+        <?php else : ?>
+                <table class="widefat striped">
+                        <thead>
+                                <tr>
+                                        <th scope="col"><?php esc_html_e( 'Scope' ); ?></th>
+                                        <th scope="col"><?php esc_html_e( 'Identifier' ); ?></th>
+                                        <th scope="col"><?php esc_html_e( 'Time remaining' ); ?></th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $current_time = current_time( 'timestamp' );
+
+                        foreach ( $login_rate_locks as $lock ) {
+                                $scope_label = ( 'per_user' === $lock['scope'] ) ? __( 'Username' ) : __( 'IP address' );
+                                $remaining   = max( 0, (int) ( $lock['expires'] - $current_time ) );
+                                $human_readable = $remaining > 0 ? human_time_diff( $current_time, $lock['expires'] ) : '';
+                                $status_text    = $remaining > 0
+                                        ? sprintf(
+                                                /* translators: %s: Human readable time difference. */
+                                                __( '%s remaining' ),
+                                                $human_readable
+                                        )
+                                        : __( 'Expired' );
+                                ?>
+                                <tr>
+                                        <td><?php echo esc_html( $scope_label ); ?></td>
+                                        <td><?php echo esc_html( $lock['label'] ); ?></td>
+                                        <td><?php echo esc_html( $status_text ); ?></td>
+                                </tr>
+                                <?php
+                        }
+                        ?>
+                        </tbody>
+                </table>
+                <p>
+                        <button type="submit" class="button" name="login_rate_limit_settings[clear_all]" value="1"><?php esc_html_e( 'Clear all lockouts' ); ?></button>
+                </p>
+        <?php endif; ?>
+</td>
+</tr>
+
+        <?php
 }
 
 $languages    = get_available_languages();

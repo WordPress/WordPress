@@ -7,6 +7,679 @@
  */
 
 /**
+ * Returns the default rate limiting thresholds for login attempts.
+ *
+ * @since 6.5.3
+ *
+ * @return array Default configuration for per-user and per-IP rate limits.
+ */
+function wp_get_login_rate_limit_defaults() {
+        return array(
+                'per_user' => array(
+                        'threshold' => 5,
+                        'window'    => 5 * MINUTE_IN_SECONDS,
+                        'lockout'   => 15 * MINUTE_IN_SECONDS,
+                ),
+                'per_ip'   => array(
+                        'threshold' => 20,
+                        'window'    => 5 * MINUTE_IN_SECONDS,
+                        'lockout'   => 15 * MINUTE_IN_SECONDS,
+                ),
+        );
+}
+
+/**
+ * Normalizes login rate limit configuration.
+ *
+ * Ensures each scope contains integer values and merges with defaults.
+ *
+ * @since 6.5.3
+ *
+ * @param array $settings Rate limiting configuration.
+ * @return array Normalized configuration.
+ */
+function wp_normalize_login_rate_limit_settings( $settings ) {
+        $defaults = wp_get_login_rate_limit_defaults();
+
+        if ( ! is_array( $settings ) ) {
+                $settings = array();
+        }
+
+        $settings = array_replace_recursive( $defaults, $settings );
+
+        foreach ( $settings as $scope => $scope_settings ) {
+                foreach ( $scope_settings as $key => $value ) {
+                        $settings[ $scope ][ $key ] = absint( $value );
+                }
+        }
+
+        return $settings;
+}
+
+/**
+ * Retrieves the persisted login rate limit configuration.
+ *
+ * @since 6.5.3
+ *
+ * @return array Normalized configuration array.
+ */
+function wp_get_login_rate_limit_settings() {
+        $stored = get_option( 'login_rate_limit_settings', array() );
+
+        return wp_normalize_login_rate_limit_settings( $stored );
+}
+
+/**
+ * Sanitizes and persists login rate limit configuration entered by administrators.
+ *
+ * @since 6.5.3
+ *
+ * @param array $value Raw option value submitted from the settings screen.
+ * @return array Sanitized configuration ready for storage.
+ */
+function wp_sanitize_login_rate_limit_settings( $value ) {
+        if ( isset( $value['clear_all'] ) ) {
+                wp_login_rate_limiter()->clear_all_locks();
+                unset( $value['clear_all'] );
+        }
+
+        $defaults   = wp_get_login_rate_limit_defaults();
+        $sanitized  = array();
+        $scopes     = array( 'per_user', 'per_ip' );
+        $properties = array( 'threshold', 'window', 'lockout' );
+
+        foreach ( $scopes as $scope ) {
+                $sanitized[ $scope ] = array();
+
+                foreach ( $properties as $property ) {
+                        if ( ! isset( $defaults[ $scope ][ $property ] ) ) {
+                                continue;
+                        }
+
+                        if ( isset( $value[ $scope ][ $property ] ) ) {
+                                $raw = $value[ $scope ][ $property ];
+                        } else {
+                                $raw = $defaults[ $scope ][ $property ];
+                        }
+
+                        if ( 'threshold' === $property ) {
+                                $sanitized_value = absint( $raw );
+                        } else {
+                                $minutes         = absint( $raw );
+                                $sanitized_value = $minutes > 0 ? $minutes * MINUTE_IN_SECONDS : 0;
+                        }
+
+                        $sanitized[ $scope ][ $property ] = $sanitized_value;
+                }
+        }
+
+        return wp_normalize_login_rate_limit_settings( $sanitized );
+}
+
+/**
+ * Retrieves the shared login rate limiter instance.
+ *
+ * @since 6.5.3
+ *
+ * @return WP_Login_Rate_Limiter Rate limiter service.
+ */
+function wp_login_rate_limiter() {
+        static $limiter = null;
+
+        if ( null === $limiter ) {
+                $limiter = new WP_Login_Rate_Limiter();
+        }
+
+        return $limiter;
+}
+
+/**
+ * Login throttling service used to track and rate limit failed login attempts.
+ *
+ * @since 6.5.3
+ */
+class WP_Login_Rate_Limiter {
+
+        /**
+         * Option name for persisting active lockouts.
+         *
+         * @since 6.5.3
+         * @var string
+         */
+        private $locks_option = 'login_rate_limit_locks';
+
+        /**
+         * Checks whether the given username/IP combination is currently locked out.
+         *
+         * @since 6.5.3
+         *
+         * @param string $username  Username submitted during authentication.
+         * @param string $ip_address Request IP address.
+         * @return WP_Error|false WP_Error when locked out, false otherwise.
+         */
+        public function maybe_throttle( $username, $ip_address ) {
+                $subjects = array(
+                        'per_user' => $this->prepare_subject( 'per_user', $username ),
+                        'per_ip'   => $this->prepare_subject( 'per_ip', $ip_address ),
+                );
+
+                $limits = $this->get_limits( $username, $ip_address );
+                $locks  = array();
+                $now    = time();
+
+                foreach ( $subjects as $scope => $subject ) {
+                        if ( empty( $subject['key'] ) || empty( $limits[ $scope ]['threshold'] ) ) {
+                                continue;
+                        }
+
+                        $state = $this->get_state( $scope, $subject['key'] );
+
+                        if ( ! empty( $state['lock_expires'] ) && $state['lock_expires'] > $now ) {
+                                $locks[] = array(
+                                        'scope'   => $scope,
+                                        'label'   => $subject['label'],
+                                        'expires' => (int) $state['lock_expires'],
+                                );
+                                $this->record_lock( $scope, $subject, $state['lock_expires'] );
+                                continue;
+                        }
+
+                        if ( ! empty( $state['lock_expires'] ) ) {
+                                $this->remove_lock( $scope, $subject );
+                                $this->delete_state( $scope, $subject['key'] );
+                        }
+                }
+
+                if ( empty( $locks ) ) {
+                        return false;
+                }
+
+                usort(
+                        $locks,
+                        static function ( $a, $b ) {
+                                if ( $a['expires'] === $b['expires'] ) {
+                                        return 0;
+                                }
+
+                                return ( $a['expires'] < $b['expires'] ) ? -1 : 1;
+                        }
+                );
+
+                $lock         = $locks[0];
+                $retry_after  = max( 1, $lock['expires'] - $now );
+                $human_diff   = human_time_diff( $now, $lock['expires'] );
+                $error_string = sprintf(
+                        /* translators: %s: Human readable time difference. */
+                        __( 'Too many failed login attempts. Please try again in %s.' ),
+                        $human_diff
+                );
+
+                /**
+                 * Filters the error message displayed when a login is throttled.
+                 *
+                 * @since 6.5.3
+                 *
+                 * @param string                 $error_string Message shown to the user.
+                 * @param array                  $lock         Lockout context including scope, label, and expiry.
+                 * @param string                 $username     Username supplied during login.
+                 * @param string                 $ip_address   IP address observed for the attempt.
+                 * @param WP_Login_Rate_Limiter $limiter      The rate limiter instance.
+                 */
+                $error_string = apply_filters( 'login_rate_limit_error_message', $error_string, $lock, $username, $ip_address, $this );
+
+                $error = new WP_Error( 'too_many_attempts', $error_string );
+                $error->add_data(
+                        array(
+                                'retry_after' => $retry_after,
+                                'scope'       => $lock['scope'],
+                        )
+                );
+
+                /**
+                 * Filters the WP_Error returned when a login request is blocked by a lockout.
+                 *
+                 * @since 6.5.3
+                 *
+                 * @param WP_Error               $error      Error instance describing the lockout.
+                 * @param array                  $lock       Lockout context including scope, label, and expiry.
+                 * @param string                 $username   Username supplied during login.
+                 * @param string                 $ip_address IP address observed for the attempt.
+                 * @param WP_Login_Rate_Limiter $limiter    The rate limiter instance.
+                 */
+                return apply_filters( 'login_rate_limit_lockout', $error, $lock, $username, $ip_address, $this );
+        }
+
+        /**
+         * Records a failed authentication attempt for the given username and IP address.
+         *
+         * @since 6.5.3
+         *
+         * @param string       $username   Username submitted during authentication.
+         * @param string       $ip_address Request IP address.
+         * @param WP_Error|null $error     Optional. WP_Error instance associated with the failure.
+         */
+        public function register_failure( $username, $ip_address, $error = null ) {
+                $subjects = array(
+                        'per_user' => $this->prepare_subject( 'per_user', $username ),
+                        'per_ip'   => $this->prepare_subject( 'per_ip', $ip_address ),
+                );
+
+                $limits = $this->get_limits( $username, $ip_address );
+                $now    = time();
+
+                foreach ( $subjects as $scope => $subject ) {
+                        if ( empty( $subject['key'] ) ) {
+                                continue;
+                        }
+
+                        $limit = isset( $limits[ $scope ] ) ? $limits[ $scope ] : array();
+
+                        if ( empty( $limit['threshold'] ) || empty( $limit['window'] ) || empty( $limit['lockout'] ) ) {
+                                continue;
+                        }
+
+                        $state = $this->get_state( $scope, $subject['key'] );
+
+                        if ( ! empty( $state['lock_expires'] ) && $state['lock_expires'] > $now ) {
+                                $this->record_lock( $scope, $subject, $state['lock_expires'] );
+                                continue;
+                        }
+
+                        if ( empty( $state['window_start'] ) || ( $state['window_start'] + (int) $limit['window'] ) < $now ) {
+                                $state['window_start'] = $now;
+                                $state['count']        = 1;
+                        } else {
+                                $state['count'] = isset( $state['count'] ) ? ( (int) $state['count'] + 1 ) : 1;
+                        }
+
+                        if ( $state['count'] >= (int) $limit['threshold'] ) {
+                                $state['lock_expires'] = $now + (int) $limit['lockout'];
+                                $this->record_lock( $scope, $subject, $state['lock_expires'] );
+                        } else {
+                                $state['lock_expires'] = 0;
+                                $this->remove_lock( $scope, $subject );
+                        }
+
+                        $this->save_state( $scope, $subject['key'], $state, max( (int) $limit['window'], (int) $limit['lockout'] ) );
+                }
+
+                /**
+                 * Fires after a failed authentication attempt has been recorded by the limiter.
+                 *
+                 * @since 6.5.3
+                 *
+                 * @param string                 $username   Username supplied during login.
+                 * @param string                 $ip_address IP address observed for the attempt.
+                 * @param WP_Error|null          $error      WP_Error instance returned by authentication callbacks.
+                 * @param WP_Login_Rate_Limiter $limiter    The rate limiter instance.
+                 */
+                do_action( 'login_rate_limit_failed', $username, $ip_address, $error, $this );
+        }
+
+        /**
+         * Clears tracking data for a successful authentication.
+         *
+         * @since 6.5.3
+         *
+         * @param string $username   Username submitted during authentication.
+         * @param string $ip_address Request IP address.
+         */
+        public function register_success( $username, $ip_address ) {
+                $subjects = array(
+                        'per_user' => $this->prepare_subject( 'per_user', $username ),
+                        'per_ip'   => $this->prepare_subject( 'per_ip', $ip_address ),
+                );
+
+                foreach ( $subjects as $scope => $subject ) {
+                        if ( empty( $subject['key'] ) ) {
+                                continue;
+                        }
+
+                        $this->delete_state( $scope, $subject['key'] );
+                        $this->remove_lock( $scope, $subject );
+                }
+
+                /**
+                 * Fires after a successful authentication clears rate limiting state.
+                 *
+                 * @since 6.5.3
+                 *
+                 * @param string                 $username   Username supplied during login.
+                 * @param string                 $ip_address IP address observed for the attempt.
+                 * @param WP_Login_Rate_Limiter $limiter    The rate limiter instance.
+                 */
+                do_action( 'login_rate_limit_succeeded', $username, $ip_address, $this );
+        }
+
+        /**
+         * Returns the list of active lockouts.
+         *
+         * @since 6.5.3
+         *
+         * @return array[] Array of associative arrays describing the lockouts.
+         */
+        public function get_active_locks() {
+                $locks    = get_option( $this->locks_option, array() );
+                $now      = time();
+                $changed  = false;
+                $response = array();
+
+                if ( ! is_array( $locks ) ) {
+                        $locks = array();
+                }
+
+                foreach ( $locks as $key => $lock ) {
+                        if ( empty( $lock['expires'] ) || $lock['expires'] <= $now ) {
+                                unset( $locks[ $key ] );
+                                $this->delete_state( $lock['scope'], $lock['key'] );
+                                $changed = true;
+                                continue;
+                        }
+
+                        $response[ $key ] = array(
+                                'scope'   => $lock['scope'],
+                                'label'   => $lock['label'],
+                                'key'     => $lock['key'],
+                                'expires' => (int) $lock['expires'],
+                        );
+                }
+
+                if ( $changed ) {
+                        update_option( $this->locks_option, $locks, false );
+                }
+
+                uasort(
+                        $response,
+                        static function ( $a, $b ) {
+                                if ( $a['expires'] === $b['expires'] ) {
+                                        return 0;
+                                }
+
+                                return ( $a['expires'] < $b['expires'] ) ? -1 : 1;
+                        }
+                );
+
+                return $response;
+        }
+
+        /**
+         * Clears a specific lockout.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope Lock scope (per_user or per_ip).
+         * @param string $key   Normalized identifier for the lock.
+         */
+        public function clear_lock( $scope, $key ) {
+                $subject = array(
+                        'scope' => $scope,
+                        'key'   => $key,
+                        'label' => '',
+                );
+
+                $this->delete_state( $scope, $key );
+                $this->remove_lock( $scope, $subject );
+        }
+
+        /**
+         * Clears all active lockouts and their associated tracking state.
+         *
+         * @since 6.5.3
+         */
+        public function clear_all_locks() {
+                $locks = $this->get_active_locks();
+
+                foreach ( $locks as $lock ) {
+                        $this->delete_state( $lock['scope'], $lock['key'] );
+                }
+
+                delete_option( $this->locks_option );
+        }
+
+        /**
+         * Retrieves the rate limiting configuration.
+         *
+         * @since 6.5.3
+         *
+         * @param string $username   Username provided during login.
+         * @param string $ip_address IP address.
+         * @return array Normalized rate limit configuration.
+         */
+        protected function get_limits( $username, $ip_address ) {
+                $limits = wp_get_login_rate_limit_settings();
+
+                /**
+                 * Filters the login rate limit configuration.
+                 *
+                 * Plugins may adjust the thresholds, windows, or lockout durations
+                 * or return scope arrays with zero values to disable checks entirely.
+                 *
+                 * @since 6.5.3
+                 *
+                 * @param array                  $limits     The current rate limiting configuration.
+                 * @param string                 $username   Username supplied during login.
+                 * @param string                 $ip_address IP address observed for the attempt.
+                 * @param WP_Login_Rate_Limiter $limiter    The rate limiter instance.
+                 */
+                $limits = apply_filters( 'login_rate_limit', $limits, $username, $ip_address, $this );
+
+                return wp_normalize_login_rate_limit_settings( $limits );
+        }
+
+        /**
+         * Builds the storage key used for a given scope/identifier.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope Lock scope.
+         * @param string $key   Normalized identifier.
+         * @return string Transient key.
+         */
+        protected function get_storage_key( $scope, $key ) {
+                return 'login_throttle_' . $scope . '_' . md5( $key );
+        }
+
+        /**
+         * Retrieves the stored state for a scope and identifier.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope Lock scope.
+         * @param string $key   Normalized identifier.
+         * @return array Stored state.
+         */
+        protected function get_state( $scope, $key ) {
+                $state = get_transient( $this->get_storage_key( $scope, $key ) );
+
+                if ( ! is_array( $state ) ) {
+                        $state = array(
+                                'count'        => 0,
+                                'window_start' => 0,
+                                'lock_expires' => 0,
+                        );
+                }
+
+                return $state;
+        }
+
+        /**
+         * Persists the tracking state for a given scope and identifier.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope      Lock scope.
+         * @param string $key        Normalized identifier.
+         * @param array  $state      State data to persist.
+         * @param int    $expiration Expiration in seconds.
+         */
+        protected function save_state( $scope, $key, $state, $expiration ) {
+                $state = array(
+                        'count'        => isset( $state['count'] ) ? (int) $state['count'] : 0,
+                        'window_start' => isset( $state['window_start'] ) ? (int) $state['window_start'] : 0,
+                        'lock_expires' => isset( $state['lock_expires'] ) ? (int) $state['lock_expires'] : 0,
+                );
+
+                $expiration = max( 1, (int) $expiration );
+
+                set_transient( $this->get_storage_key( $scope, $key ), $state, $expiration );
+        }
+
+        /**
+         * Deletes persisted state for the provided scope and identifier.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope Lock scope.
+         * @param string $key   Normalized identifier.
+         */
+        protected function delete_state( $scope, $key ) {
+                delete_transient( $this->get_storage_key( $scope, $key ) );
+        }
+
+        /**
+         * Records a lockout in the persistent index.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope   Lock scope.
+         * @param array  $subject Subject data containing `key` and `label`.
+         * @param int    $expires Lock expiration timestamp.
+         */
+        protected function record_lock( $scope, $subject, $expires ) {
+                if ( empty( $subject['key'] ) ) {
+                        return;
+                }
+
+                $locks = get_option( $this->locks_option, array() );
+
+                if ( ! is_array( $locks ) ) {
+                        $locks = array();
+                }
+
+                $key = $this->lock_option_key( $scope, $subject['key'] );
+
+                $locks[ $key ] = array(
+                        'scope'   => $scope,
+                        'label'   => $subject['label'],
+                        'key'     => $subject['key'],
+                        'expires' => (int) $expires,
+                );
+
+                update_option( $this->locks_option, $locks, false );
+
+                /**
+                 * Fires when a login subject enters a locked state.
+                 *
+                 * @since 6.5.3
+                 *
+                 * @param string                 $scope   Lock scope ('per_user' or 'per_ip').
+                 * @param array                  $subject Subject information including `key` and `label`.
+                 * @param int                    $expires Timestamp when the lock expires.
+                 * @param WP_Login_Rate_Limiter $limiter The rate limiter instance.
+                 */
+                do_action( 'login_rate_limit_lock', $scope, $subject, (int) $expires, $this );
+        }
+
+        /**
+         * Removes a lockout from the persistent index.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope   Lock scope.
+         * @param array  $subject Subject data containing `key` and optionally `label`.
+         */
+        protected function remove_lock( $scope, $subject ) {
+                if ( empty( $subject['key'] ) ) {
+                        return;
+                }
+
+                $locks = get_option( $this->locks_option, array() );
+
+                if ( ! is_array( $locks ) ) {
+                        return;
+                }
+
+                $key = $this->lock_option_key( $scope, $subject['key'] );
+
+                if ( isset( $locks[ $key ] ) ) {
+                        unset( $locks[ $key ] );
+                        update_option( $this->locks_option, $locks, false );
+                }
+        }
+
+        /**
+         * Builds the key used within the lock option index.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope Lock scope.
+         * @param string $key   Normalized identifier.
+         * @return string Option key for the lock entry.
+         */
+        protected function lock_option_key( $scope, $key ) {
+                return $scope . ':' . md5( $key );
+        }
+
+        /**
+         * Prepares subject information for tracking.
+         *
+         * @since 6.5.3
+         *
+         * @param string $scope Lock scope.
+         * @param string $value Raw identifier value.
+         * @return array Associative array with `key` and `label` values.
+         */
+        protected function prepare_subject( $scope, $value ) {
+                $value = is_string( $value ) ? trim( $value ) : '';
+
+                if ( 'per_user' === $scope ) {
+                        if ( '' === $value ) {
+                                return array( 'key' => '', 'label' => '' );
+                        }
+
+                        $normalized = strtolower( sanitize_user( $value, true ) );
+
+                        if ( '' === $normalized ) {
+                                $normalized = strtolower( $value );
+                        }
+
+                        $label = sanitize_user( $value, false );
+
+                        if ( '' === $label ) {
+                                $label = $value;
+                        }
+
+                        return array(
+                                'key'   => $normalized,
+                                'label' => $label,
+                        );
+                }
+
+                if ( 'per_ip' === $scope ) {
+                        if ( '' === $value ) {
+                                return array( 'key' => '', 'label' => '' );
+                        }
+
+                        $validated = filter_var( $value, FILTER_VALIDATE_IP );
+
+                        if ( false === $validated ) {
+                                return array( 'key' => '', 'label' => '' );
+                        }
+
+                        return array(
+                                'key'   => $validated,
+                                'label' => $validated,
+                        );
+                }
+
+                return array(
+                        'key'   => '',
+                        'label' => '',
+                );
+        }
+}
+
+/**
  * Authenticates and logs a user in with 'remember' capability.
  *
  * The credentials is an array that has 'user_login', 'user_password', and
@@ -39,13 +712,18 @@
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
 function wp_signon( $credentials = array(), $secure_cookie = '' ) {
-	global $auth_secure_cookie, $wpdb;
+        global $auth_secure_cookie, $wpdb;
 
-	if ( empty( $credentials ) ) {
-		$credentials = array(
-			'user_login'    => '',
-			'user_password' => '',
-			'remember'      => false,
+        $rate_limit_checked = ! empty( $credentials['rate_limit_checked'] );
+        $rate_limit_ip      = isset( $credentials['rate_limit_ip'] ) ? $credentials['rate_limit_ip'] : '';
+
+        unset( $credentials['rate_limit_checked'], $credentials['rate_limit_ip'] );
+
+        if ( empty( $credentials ) ) {
+                $credentials = array(
+                        'user_login'    => '',
+                        'user_password' => '',
+                        'remember'      => false,
 		);
 
 		if ( ! empty( $_POST['log'] ) && is_string( $_POST['log'] ) ) {
@@ -65,20 +743,68 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 		$credentials['remember'] = false;
 	}
 
-	/**
-	 * Fires before the user is authenticated.
-	 *
-	 * The variables passed to the callbacks are passed by reference,
-	 * and can be modified by callback functions.
-	 *
-	 * @since 1.5.1
-	 *
-	 * @todo Decide whether to deprecate the wp_authenticate action.
-	 *
-	 * @param string $user_login    Username (passed by reference).
-	 * @param string $user_password User password (passed by reference).
-	 */
-	do_action_ref_array( 'wp_authenticate', array( &$credentials['user_login'], &$credentials['user_password'] ) );
+        $limiter = wp_login_rate_limiter();
+
+        $ip_address = '';
+
+        if ( '' !== $rate_limit_ip ) {
+                $ip_address = $rate_limit_ip;
+        } elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+                $ip_address = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+        }
+
+        /**
+         * Filters the IP address used when applying login rate limits.
+         *
+         * @since 6.5.3
+         *
+         * @param string $ip_address  Detected IP address.
+         * @param array  $credentials Array of entered sign-on data.
+         */
+        $ip_address = apply_filters( 'login_rate_limit_ip', $ip_address, $credentials );
+
+        /**
+         * Allows plugins to short-circuit authentication prior to rate limiting checks.
+         *
+         * Plugins may return a WP_Error to halt the login process (for example to
+         * prompt for a CAPTCHA challenge).
+         *
+         * @since 6.5.3
+         *
+         * @param WP_Error|null            $pre_auth    Null by default, or a WP_Error to stop authentication.
+         * @param string                   $user_login  Username provided during login.
+         * @param string                   $ip_address  Filtered IP address used for rate limiting.
+         * @param WP_Login_Rate_Limiter    $limiter     Login rate limiter instance.
+         * @param array                    $credentials Credentials array that will be used for authentication.
+         */
+        $pre_auth = apply_filters( 'login_rate_limit_pre_auth', null, $credentials['user_login'], $ip_address, $limiter, $credentials );
+
+        if ( $pre_auth instanceof WP_Error ) {
+                return $pre_auth;
+        }
+
+        if ( ! $rate_limit_checked ) {
+                $maybe_limited = $limiter->maybe_throttle( $credentials['user_login'], $ip_address );
+
+                if ( is_wp_error( $maybe_limited ) ) {
+                        return $maybe_limited;
+                }
+        }
+
+        /**
+         * Fires before the user is authenticated.
+         *
+         * The variables passed to the callbacks are passed by reference,
+         * and can be modified by callback functions.
+         *
+         * @since 1.5.1
+         *
+         * @todo Decide whether to deprecate the wp_authenticate action.
+         *
+         * @param string $user_login    Username (passed by reference).
+         * @param string $user_password User password (passed by reference).
+         */
+        do_action_ref_array( 'wp_authenticate', array( &$credentials['user_login'], &$credentials['user_password'] ) );
 
 	if ( '' === $secure_cookie ) {
 		$secure_cookie = is_ssl();
@@ -106,11 +832,15 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 
 	add_filter( 'authenticate', 'wp_authenticate_cookie', 30, 3 );
 
-	$user = wp_authenticate( $credentials['user_login'], $credentials['user_password'] );
+        $user = wp_authenticate( $credentials['user_login'], $credentials['user_password'] );
 
-	if ( is_wp_error( $user ) ) {
-		return $user;
-	}
+        if ( is_wp_error( $user ) ) {
+                $limiter->register_failure( $credentials['user_login'], $ip_address, $user );
+
+                return $user;
+        }
+
+        $limiter->register_success( $credentials['user_login'], $ip_address );
 
 	wp_set_auth_cookie( $user->ID, $credentials['remember'], $secure_cookie );
 
