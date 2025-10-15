@@ -223,11 +223,11 @@ function create_initial_taxonomies() {
 		)
 	);
 
-	register_taxonomy(
-		'wp_pattern_category',
-		array( 'wp_block' ),
-		array(
-			'public'             => false,
+        register_taxonomy(
+                'wp_pattern_category',
+                array( 'wp_block' ),
+                array(
+                        'public'             => false,
 			'publicly_queryable' => false,
 			'hierarchical'       => false,
 			'labels'             => array(
@@ -256,11 +256,109 @@ function create_initial_taxonomies() {
 			'show_ui'            => true,
 			'_builtin'           => true,
 			'show_in_nav_menus'  => false,
-			'show_in_rest'       => true,
-			'show_admin_column'  => true,
-			'show_tagcloud'      => false,
-		)
-	);
+                        'show_in_rest'       => true,
+                        'show_admin_column'  => true,
+                        'show_tagcloud'      => false,
+                )
+        );
+
+        register_taxonomy(
+                'media_folder',
+                array( 'attachment' ),
+                array(
+                        'hierarchical'          => true,
+                        'public'                => false,
+                        'show_ui'               => true,
+                        'show_in_rest'          => true,
+                        'rest_base'             => 'media-folders',
+                        'rest_controller_class' => 'WP_REST_Terms_Controller',
+                        'show_admin_column'     => false,
+                        'show_in_nav_menus'     => false,
+                        'show_tagcloud'         => false,
+                        'query_var'             => 'media_folder',
+                        'rewrite'               => false,
+                        'capabilities'          => array(
+                                'manage_terms' => 'manage_categories',
+                                'edit_terms'   => 'manage_categories',
+                                'delete_terms' => 'manage_categories',
+                                'assign_terms' => 'upload_files',
+                        ),
+                        'labels'                => array(
+                                'name'                       => _x( 'Media Folders', 'taxonomy general name' ),
+                                'singular_name'              => _x( 'Media Folder', 'taxonomy singular name' ),
+                                'search_items'               => __( 'Search Media Folders' ),
+                                'all_items'                  => __( 'All Media Folders' ),
+                                'parent_item'                => __( 'Parent Media Folder' ),
+                                'parent_item_colon'          => __( 'Parent Media Folder:' ),
+                                'edit_item'                  => __( 'Edit Media Folder' ),
+                                'view_item'                  => __( 'View Media Folder' ),
+                                'update_item'                => __( 'Update Media Folder' ),
+                                'add_new_item'               => __( 'Add New Media Folder' ),
+                                'new_item_name'              => __( 'New Media Folder Name' ),
+                                'menu_name'                  => __( 'Media Folders' ),
+                                'items_list'                 => __( 'Media Folder list' ),
+                                'items_list_navigation'      => __( 'Media Folders list navigation' ),
+                                'back_to_items'              => __( '&larr; Go to Media Folders' ),
+                                'no_terms'                   => __( 'No media folders' ),
+                        ),
+                )
+        );
+
+        register_term_meta(
+                'media_folder',
+                'folder_order',
+                array(
+                        'type'              => 'integer',
+                        'single'            => true,
+                        'default'           => 0,
+                        'sanitize_callback' => 'absint',
+                        'auth_callback'     => '__return_true',
+                        'description'       => __( 'Controls the sort order for media folders.' ),
+                        'show_in_rest'      => array(
+                                'name' => 'order',
+                        ),
+                )
+        );
+
+        register_taxonomy(
+                'media_tag',
+                array( 'attachment' ),
+                array(
+                        'hierarchical'          => false,
+                        'public'                => false,
+                        'show_ui'               => true,
+                        'show_in_rest'          => true,
+                        'rest_base'             => 'media-tags',
+                        'rest_controller_class' => 'WP_REST_Terms_Controller',
+                        'show_admin_column'     => false,
+                        'show_in_nav_menus'     => false,
+                        'show_tagcloud'         => true,
+                        'query_var'             => 'media_tag',
+                        'rewrite'               => false,
+                        'capabilities'          => array(
+                                'manage_terms' => 'manage_categories',
+                                'edit_terms'   => 'manage_categories',
+                                'delete_terms' => 'manage_categories',
+                                'assign_terms' => 'upload_files',
+                        ),
+                        'labels'                => array(
+                                'name'                       => _x( 'Media Tags', 'taxonomy general name' ),
+                                'singular_name'              => _x( 'Media Tag', 'taxonomy singular name' ),
+                                'search_items'               => __( 'Search Media Tags' ),
+                                'all_items'                  => __( 'All Media Tags' ),
+                                'edit_item'                  => __( 'Edit Media Tag' ),
+                                'view_item'                  => __( 'View Media Tag' ),
+                                'update_item'                => __( 'Update Media Tag' ),
+                                'add_new_item'               => __( 'Add New Media Tag' ),
+                                'new_item_name'              => __( 'New Media Tag Name' ),
+                                'menu_name'                  => __( 'Media Tags' ),
+                                'items_list'                 => __( 'Media Tag list' ),
+                                'items_list_navigation'      => __( 'Media Tags list navigation' ),
+                                'back_to_items'              => __( '&larr; Go to Media Tags' ),
+                                'no_terms'                   => __( 'No media tags' ),
+                        ),
+                )
+        );
 }
 
 /**
