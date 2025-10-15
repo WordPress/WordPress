@@ -739,9 +739,39 @@ final class WP_Style_Engine {
 	 * }
 	 * @return string A compiled stylesheet from stored CSS rules.
 	 */
-	public static function compile_stylesheet_from_css_rules( $css_rules, $options = array() ) {
-		$processor = new WP_Style_Engine_Processor();
-		$processor->add_rules( $css_rules );
-		return $processor->get_css( $options );
-	}
+        public static function compile_stylesheet_from_css_rules( $css_rules, $options = array() ) {
+                $processor = new WP_Style_Engine_Processor();
+                $processor->add_rules( $css_rules );
+                $css = $processor->get_css( $options );
+
+                if ( function_exists( 'wp_performance_get_asset_optimization_settings' ) ) {
+                        $settings = wp_performance_get_asset_optimization_settings();
+
+                        if ( ! empty( $settings['enable_pipeline'] ) && ! empty( $settings['minify_css'] ) && function_exists( 'wp_performance_minify_css' ) ) {
+                                $css = wp_performance_minify_css( $css );
+                        }
+
+                        if ( ! empty( $settings['critical_css_hook'] ) ) {
+                                /**
+                                 * Fires when compiled CSS is ready for critical CSS processing.
+                                 *
+                                 * @since 6.5.0
+                                 *
+                                 * @param string $css     Compiled stylesheet.
+                                 * @param array  $options Style engine options.
+                                 */
+                                do_action( $settings['critical_css_hook'], $css, $options );
+                        }
+                }
+
+                /**
+                 * Filters the compiled stylesheet before it is returned.
+                 *
+                 * @since 6.5.0
+                 *
+                 * @param string $css     Compiled CSS string.
+                 * @param array  $options Style engine options.
+                 */
+                return apply_filters( 'wp_performance_compiled_css', $css, $options );
+        }
 }
