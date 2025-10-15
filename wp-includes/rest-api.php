@@ -405,17 +405,21 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Menu_Locations_Controller();
 	$controller->register_routes();
 
-	// Site Editor Export.
-	$controller = new WP_REST_Edit_Site_Export_Controller();
-	$controller->register_routes();
+        // Site Editor Export.
+        $controller = new WP_REST_Edit_Site_Export_Controller();
+        $controller->register_routes();
 
-	// Navigation Fallback.
-	$controller = new WP_REST_Navigation_Fallback_Controller();
-	$controller->register_routes();
+        // Navigation Fallback.
+        $controller = new WP_REST_Navigation_Fallback_Controller();
+        $controller->register_routes();
 
-	// Font Collections.
-	$font_collections_controller = new WP_REST_Font_Collections_Controller();
-	$font_collections_controller->register_routes();
+        // Font Collections.
+        $font_collections_controller = new WP_REST_Font_Collections_Controller();
+        $font_collections_controller->register_routes();
+
+        // Scheduled Updates.
+        $controller = new WP_REST_Scheduled_Updates_Controller();
+        $controller->register_routes();
 }
 
 /**

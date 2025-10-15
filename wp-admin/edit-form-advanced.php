@@ -180,14 +180,15 @@ $messages['post']       = array(
 	5  => isset( $_GET['revision'] ) ? sprintf( __( 'Post restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	6  => __( 'Post published.' ) . $view_post_link_html,
 	7  => __( 'Post saved.' ),
-	8  => __( 'Post submitted.' ) . $preview_post_link_html,
-	/* translators: %s: Scheduled date for the post. */
-	9  => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
-	10 => __( 'Post draft updated.' ) . $preview_post_link_html,
+        8  => __( 'Post submitted.' ) . $preview_post_link_html,
+        /* translators: %s: Scheduled date for the post. */
+        9  => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
+        10 => __( 'Post draft updated.' ) . $preview_post_link_html,
+        12 => __( 'Scheduled update queued.' ),
 );
 $messages['page']       = array(
-	0  => '', // Unused. Messages start at index 1.
-	1  => __( 'Page updated.' ) . $view_page_link_html,
+        0  => '', // Unused. Messages start at index 1.
+        1  => __( 'Page updated.' ) . $view_page_link_html,
 	2  => __( 'Custom field updated.' ),
 	3  => __( 'Custom field deleted.' ),
 	4  => __( 'Page updated.' ),
@@ -195,10 +196,11 @@ $messages['page']       = array(
 	5  => isset( $_GET['revision'] ) ? sprintf( __( 'Page restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	6  => __( 'Page published.' ) . $view_page_link_html,
 	7  => __( 'Page saved.' ),
-	8  => __( 'Page submitted.' ) . $preview_page_link_html,
-	/* translators: %s: Scheduled date for the page. */
-	9  => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
-	10 => __( 'Page draft updated.' ) . $preview_page_link_html,
+        8  => __( 'Page submitted.' ) . $preview_page_link_html,
+        /* translators: %s: Scheduled date for the page. */
+        9  => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
+        10 => __( 'Page draft updated.' ) . $preview_page_link_html,
+        12 => __( 'Scheduled update queued.' ),
 );
 $messages['attachment'] = array_fill( 1, 10, __( 'Media file updated.' ) ); // Hack, for now.
 
