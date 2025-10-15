@@ -3541,9 +3541,9 @@ class WP_Site_Health {
 		 *
 		 * The default is based on https://web.dev/time-to-first-byte/.
 		 *
-		 * @param int $threshold Threshold in milliseconds. Default 600.
-		 *
 		 * @since 6.1.0
+		 *
+		 * @param int $threshold Threshold in milliseconds. Default 600.
 		 */
 		return (int) apply_filters( 'site_status_good_response_time_threshold', 600 );
 	}
