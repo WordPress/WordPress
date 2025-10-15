@@ -1,0 +1,1 @@
+body.is-dark-mode{color-scheme:dark;background-color:#111318;color:#f2f2f5}body.is-dark-mode a{color:#9abfff}body.prefers-dark-mode{color-scheme:light dark}@media (prefers-color-scheme:dark){body.prefers-dark-mode{background-color:#111318;color:#f2f2f5}body.prefers-dark-mode a{color:#9abfff}}.custom-logo-picture{display:inline-flex;align-items:center}

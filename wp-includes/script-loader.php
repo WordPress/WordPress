@@ -1609,12 +1609,12 @@ function wp_default_styles( $styles ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	// Admin CSS.
-	$styles->add( 'common', "/wp-admin/css/common$suffix.css" );
-	$styles->add( 'forms', "/wp-admin/css/forms$suffix.css" );
-	$styles->add( 'admin-menu', "/wp-admin/css/admin-menu$suffix.css" );
-	$styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css" );
-	$styles->add( 'list-tables', "/wp-admin/css/list-tables$suffix.css" );
-	$styles->add( 'edit', "/wp-admin/css/edit$suffix.css" );
+        $styles->add( 'common', "/wp-admin/css/common$suffix.css" );
+        $styles->add( 'forms', "/wp-admin/css/forms$suffix.css" );
+        $styles->add( 'admin-menu', "/wp-admin/css/admin-menu$suffix.css" );
+        $styles->add( 'dashboard', "/wp-admin/css/dashboard$suffix.css" );
+        $styles->add( 'list-tables', "/wp-admin/css/list-tables$suffix.css" );
+        $styles->add( 'edit', "/wp-admin/css/edit$suffix.css" );
 	$styles->add( 'revisions', "/wp-admin/css/revisions$suffix.css" );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'themes', "/wp-admin/css/themes$suffix.css" );
@@ -1633,14 +1633,16 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'wp-color-picker', "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'imgareaselect' ) );
 	$styles->add( 'customize-widgets', "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
-	$styles->add( 'customize-nav-menus', "/wp-admin/css/customize-nav-menus$suffix.css", array( 'wp-admin', 'colors' ) );
+        $styles->add( 'customize-nav-menus', "/wp-admin/css/customize-nav-menus$suffix.css", array( 'wp-admin', 'colors' ) );
+        $styles->add( 'wp-admin-dark-mode', "/wp-admin/css/dark-mode$suffix.css", array( 'wp-admin' ) );
 
-	// Common dependencies.
-	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
-	$styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
+        // Common dependencies.
+        $styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
+        $styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
+        $styles->add( 'wp-dark-mode', "/wp-includes/css/dark-mode$suffix.css" );
 
-	// Includes CSS.
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'dashicons' ) );
+        // Includes CSS.
+        $styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons', 'dashicons', 'wp-mediaelement' ) );
@@ -1658,8 +1660,26 @@ function wp_default_styles( $styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ) );
 	$styles->add( 'wp-codemirror', '/wp-includes/js/codemirror/codemirror.min.css', array(), '5.29.1-alpha-ee20357' );
 
-	// Deprecated CSS.
-	$styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
+        // Deprecated CSS.
+        $styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
+
+        if ( ! is_admin() && 'off' !== wp_get_dark_mode_preference( 'frontend' ) ) {
+                $styles->enqueue( 'wp-dark-mode' );
+
+                $frontend_dark_mode_css = wp_get_theme_dark_mode_stylesheet( 'frontend' );
+                if ( $frontend_dark_mode_css ) {
+                        wp_add_inline_style( 'wp-dark-mode', $frontend_dark_mode_css );
+                }
+        }
+
+        if ( 'off' !== wp_get_dark_mode_preference( 'admin' ) ) {
+                $styles->enqueue( 'wp-admin-dark-mode' );
+
+                $admin_dark_mode_css = wp_get_theme_dark_mode_stylesheet( 'admin' );
+                if ( $admin_dark_mode_css ) {
+                        wp_add_inline_style( 'wp-admin-dark-mode', $admin_dark_mode_css );
+                }
+        }
 	$styles->add( 'farbtastic', "/wp-admin/css/farbtastic$suffix.css", array(), '1.3u1' );
 	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.css', array(), '0.9.15' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.

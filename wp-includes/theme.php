@@ -3231,12 +3231,398 @@ function current_theme_supports( $feature, ...$args ) {
  * @return bool True if the active theme supports the supplied feature, false otherwise.
  */
 function require_if_theme_supports( $feature, $file ) {
-	if ( current_theme_supports( $feature ) ) {
-		require $file;
-		return true;
-	}
-	return false;
+        if ( current_theme_supports( $feature ) ) {
+                require $file;
+                return true;
+        }
+        return false;
 }
+
+/**
+ * Retrieves the default dark mode settings for the site.
+ *
+ * @since 6.7.0
+ *
+ * @return array Default dark mode settings keyed by context.
+ */
+function wp_get_default_dark_mode_settings() {
+        return array(
+                'admin'    => 'auto',
+                'frontend' => 'auto',
+        );
+}
+
+/**
+ * Sanitizes a single dark mode preference value.
+ *
+ * @since 6.7.0
+ *
+ * @param string $value Raw preference value.
+ * @return string Sanitized value.
+ */
+function wp_sanitize_dark_mode_value( $value ) {
+        $allowed = array( 'auto', 'dark', 'off' );
+
+        if ( ! is_string( $value ) ) {
+                return 'auto';
+        }
+
+        $value = strtolower( $value );
+
+        return in_array( $value, $allowed, true ) ? $value : 'auto';
+}
+
+/**
+ * Sanitizes a collection of dark mode settings.
+ *
+ * @since 6.7.0
+ *
+ * @param array $settings Raw dark mode settings.
+ * @return array Sanitized dark mode settings.
+ */
+function wp_sanitize_dark_mode_settings( $settings ) {
+        $settings = is_array( $settings ) ? $settings : array();
+
+        $defaults = wp_get_default_dark_mode_settings();
+        $sanitized = array();
+
+        foreach ( $defaults as $context => $default ) {
+                if ( isset( $settings[ $context ] ) ) {
+                        $sanitized[ $context ] = wp_sanitize_dark_mode_value( $settings[ $context ] );
+                }
+        }
+
+        return wp_parse_args( $sanitized, $defaults );
+}
+
+/**
+ * Retrieves the saved site dark mode settings.
+ *
+ * @since 6.7.0
+ *
+ * @return array Dark mode preferences keyed by context.
+ */
+function wp_get_dark_mode_settings() {
+        $stored = get_option( 'dark_mode_settings', array() );
+
+        return wp_sanitize_dark_mode_settings( $stored );
+}
+
+/**
+ * Retrieves the stored dark mode overrides for a user.
+ *
+ * @since 6.7.0
+ *
+ * @param int $user_id Optional. User ID. Default current user.
+ * @return array Dark mode preferences keyed by context.
+ */
+function wp_get_user_dark_mode_preferences( $user_id = 0 ) {
+        $user_id = $user_id ? (int) $user_id : get_current_user_id();
+
+        if ( ! $user_id ) {
+                return array();
+        }
+
+        $preferences = get_user_meta( $user_id, 'dark_mode_preference', true );
+
+        if ( ! is_array( $preferences ) ) {
+                return array();
+        }
+
+        $sanitized = array();
+        $defaults  = wp_get_default_dark_mode_settings();
+
+        foreach ( $defaults as $context => $default ) {
+                if ( isset( $preferences[ $context ] ) ) {
+                        $sanitized[ $context ] = wp_sanitize_dark_mode_value( $preferences[ $context ] );
+                }
+        }
+
+        return $sanitized;
+}
+
+/**
+ * Returns the available choices for the dark mode preference fields.
+ *
+ * @since 6.7.0
+ *
+ * @return array Associative array of option value => label pairs.
+ */
+function wp_get_dark_mode_preference_choices() {
+        return array(
+                'auto' => __( 'Automatic (match device)' ),
+                'dark' => __( 'Always on (dark)' ),
+                'off'  => __( 'Always off (light)' ),
+        );
+}
+
+/**
+ * Retrieves the active dark mode preference for a given context.
+ *
+ * @since 6.7.0
+ *
+ * @param string   $context Dark mode context. Accepts 'admin' or 'frontend'. Default 'frontend'.
+ * @param int|null $user_id Optional. User ID. When null, uses current user. Default null.
+ * @return string Dark mode preference.
+ */
+function wp_get_dark_mode_preference( $context = 'frontend', $user_id = null ) {
+        $context = in_array( $context, array( 'admin', 'frontend' ), true ) ? $context : 'frontend';
+
+        if ( null === $user_id ) {
+                $user_id = get_current_user_id();
+        } else {
+                $user_id = (int) $user_id;
+        }
+
+        if ( $user_id ) {
+                $user_settings = wp_get_user_dark_mode_preferences( $user_id );
+                if ( isset( $user_settings[ $context ] ) ) {
+                        return $user_settings[ $context ];
+                }
+        }
+
+        $settings = wp_get_dark_mode_settings();
+
+        return isset( $settings[ $context ] ) ? $settings[ $context ] : 'auto';
+}
+
+/**
+ * Determines if dark mode is explicitly enabled for the given context.
+ *
+ * @since 6.7.0
+ *
+ * @param string $context Optional. Dark mode context. Accepts 'admin' or 'frontend'. Default 'frontend'.
+ * @return bool True when the preference forces dark mode.
+ */
+function wp_is_dark_mode_forced( $context = 'frontend' ) {
+        return 'dark' === wp_get_dark_mode_preference( $context );
+}
+
+/**
+ * Retrieves the theme support configuration for dark mode.
+ *
+ * @since 6.7.0
+ *
+ * @param string|null $context Optional. Context to retrieve. Default null for all.
+ * @return array Theme dark mode configuration.
+ */
+function wp_get_theme_dark_mode_support( $context = null ) {
+        $support = get_theme_support( 'dark-mode' );
+
+        if ( empty( $support ) || ! is_array( $support ) ) {
+                return array();
+        }
+
+        $support = $support[0];
+
+        if ( ! $context ) {
+                return is_array( $support ) ? $support : array();
+        }
+
+        $contextual = array();
+
+        if ( isset( $support[ $context ] ) && is_array( $support[ $context ] ) ) {
+                $contextual = $support[ $context ];
+        }
+
+        return array_merge( array_diff_key( $support, array( 'admin' => true, 'frontend' => true ) ), $contextual );
+}
+
+/**
+ * Builds a stylesheet fragment for dark mode based on theme support data.
+ *
+ * @since 6.7.0
+ *
+ * @param string $context Optional. Context for the stylesheet. Accepts 'admin' or 'frontend'. Default 'frontend'.
+ * @return string CSS rules for dark mode.
+ */
+function wp_get_theme_dark_mode_stylesheet( $context = 'frontend' ) {
+        $context  = in_array( $context, array( 'admin', 'frontend' ), true ) ? $context : 'frontend';
+        $support  = wp_get_theme_dark_mode_support( $context );
+        $palette  = array();
+        $custom   = '';
+
+        if ( isset( $support['palette'] ) && is_array( $support['palette'] ) ) {
+                $palette = $support['palette'];
+        }
+
+        if ( isset( $support['custom'] ) && is_string( $support['custom'] ) ) {
+                $custom = $support['custom'];
+        }
+
+        $selector     = ( 'admin' === $context ) ? 'body.wp-admin' : 'body';
+        $declarations = '';
+
+        foreach ( $palette as $token => $value ) {
+                if ( ! is_scalar( $value ) ) {
+                        continue;
+                }
+
+                $token = is_string( $token ) ? trim( $token ) : '';
+                $value = trim( (string) $value );
+
+                if ( '' === $token || '' === $value ) {
+                        continue;
+                }
+
+                // Allow CSS custom properties or standard properties.
+                if ( str_starts_with( $token, '--' ) ) {
+                        $declarations .= $token . ':' . $value . ';';
+                } else {
+                        $declarations .= sanitize_key( $token ) . ':' . $value . ';';
+                }
+        }
+
+        $css = '';
+
+        if ( '' !== $declarations ) {
+                $css .= $selector . '{' . $declarations . '}';
+        }
+
+        if ( '' !== $custom ) {
+                $css .= $custom;
+        }
+
+        if ( '' === $css ) {
+                return '';
+        }
+
+        $preference = wp_get_dark_mode_preference( $context );
+
+        if ( 'dark' === $preference ) {
+                $css = ':root{color-scheme:dark;}' . $css;
+        } else {
+                $css = '@media (prefers-color-scheme: dark){:root{color-scheme:dark;}' . $css . '}';
+        }
+
+        /**
+         * Filters the generated dark mode stylesheet.
+         *
+         * @since 6.7.0
+         *
+         * @param string $css     Generated CSS rules.
+         * @param string $context Current context.
+         */
+        return apply_filters( 'wp_dark_mode_stylesheet', $css, $context );
+}
+
+/**
+ * Retrieves the attachment ID for the dark mode logo if available.
+ *
+ * @since 6.7.0
+ *
+ * @return int Attachment ID or 0 if not set.
+ */
+function wp_get_dark_mode_logo_id() {
+        $dark_logo_id = (int) get_theme_mod( 'dark_logo' );
+
+        if ( $dark_logo_id ) {
+                return $dark_logo_id;
+        }
+
+        $support = wp_get_theme_dark_mode_support();
+
+        if ( isset( $support['media'] ) && is_array( $support['media'] ) && ! empty( $support['media']['logo'] ) ) {
+                $logo = $support['media']['logo'];
+
+                if ( is_array( $logo ) ) {
+                        if ( ! empty( $logo['attachment_id'] ) ) {
+                                return (int) $logo['attachment_id'];
+                        }
+
+                        if ( ! empty( $logo['id'] ) ) {
+                                return (int) $logo['id'];
+                        }
+
+                        if ( ! empty( $logo['url'] ) && is_string( $logo['url'] ) ) {
+                                $maybe_id = attachment_url_to_postid( $logo['url'] );
+                                if ( $maybe_id ) {
+                                        return (int) $maybe_id;
+                                }
+                        }
+                }
+
+                if ( is_numeric( $logo ) ) {
+                        return (int) $logo;
+                }
+
+                if ( is_string( $logo ) ) {
+                        $maybe_id = attachment_url_to_postid( $logo );
+                        if ( $maybe_id ) {
+                                return (int) $maybe_id;
+                        }
+                }
+        }
+
+        return 0;
+}
+
+/**
+ * Adds contextual body classes for the front-end when dark mode is enabled.
+ *
+ * @since 6.7.0
+ *
+ * @param array $classes Existing body classes.
+ * @return array Filtered classes.
+ */
+function wp_dark_mode_body_class( $classes ) {
+        $preference = wp_get_dark_mode_preference( 'frontend' );
+
+        if ( 'dark' === $preference ) {
+                $classes[] = 'is-dark-mode';
+        } elseif ( 'auto' === $preference ) {
+                $classes[] = 'prefers-dark-mode';
+        }
+
+        return $classes;
+}
+add_filter( 'body_class', 'wp_dark_mode_body_class' );
+
+/**
+ * Registers Customizer settings that surface guidance for dark mode assets.
+ *
+ * @since 6.7.0
+ *
+ * @param WP_Customize_Manager $wp_customize Customizer instance.
+ */
+function wp_customize_register_dark_mode( $wp_customize ) {
+        if ( ! class_exists( 'WP_Customize_Media_Control' ) ) {
+                return;
+        }
+
+        $wp_customize->add_section(
+                'dark_mode',
+                array(
+                        'title'       => __( 'Dark Mode' ),
+                        'priority'    => 45,
+                        'description' => __( 'Provide alternate assets and guidance for visitors who view the site on dark backgrounds.' ),
+                )
+        );
+
+        $wp_customize->add_setting(
+                'dark_logo',
+                array(
+                        'type'              => 'theme_mod',
+                        'capability'        => 'edit_theme_options',
+                        'transport'         => 'refresh',
+                        'sanitize_callback' => 'absint',
+                )
+        );
+
+        $wp_customize->add_control(
+                new WP_Customize_Media_Control(
+                        $wp_customize,
+                        'dark_logo',
+                        array(
+                                'label'       => __( 'Dark Mode Logo' ),
+                                'section'     => 'dark_mode',
+                                'mime_type'   => 'image',
+                                'description' => __( 'Upload a version of your logo that works on dark backgrounds. Themes can use this when dark mode is active.' ),
+                        )
+                )
+        );
+}
+add_action( 'customize_register', 'wp_customize_register_dark_mode' );
 
 /**
  * Registers a theme feature for use in add_theme_support().
@@ -3444,13 +3830,18 @@ function _delete_attachment_theme_mod( $id ) {
 	$attachment_image = wp_get_attachment_url( $id );
 	$header_image     = get_header_image();
 	$background_image = get_background_image();
-	$custom_logo_id   = (int) get_theme_mod( 'custom_logo' );
+        $custom_logo_id   = (int) get_theme_mod( 'custom_logo' );
+        $dark_logo_id     = (int) get_theme_mod( 'dark_logo' );
 	$site_logo_id     = (int) get_option( 'site_logo' );
 
-	if ( $custom_logo_id && $custom_logo_id === $id ) {
-		remove_theme_mod( 'custom_logo' );
-		remove_theme_mod( 'header_text' );
-	}
+        if ( $custom_logo_id && $custom_logo_id === $id ) {
+                remove_theme_mod( 'custom_logo' );
+                remove_theme_mod( 'header_text' );
+        }
+
+        if ( $dark_logo_id && $dark_logo_id === $id ) {
+                remove_theme_mod( 'dark_logo' );
+        }
 
 	if ( $site_logo_id && $site_logo_id === $id ) {
 		delete_option( 'site_logo' );
@@ -3942,13 +4333,20 @@ function create_initial_theme_features() {
 			'show_in_rest' => true,
 		)
 	);
-	register_theme_feature(
-		'automatic-feed-links',
-		array(
-			'description'  => __( 'Whether posts and comments RSS feed links are added to head.' ),
-			'show_in_rest' => true,
-		)
-	);
+        register_theme_feature(
+                'automatic-feed-links',
+                array(
+                        'description'  => __( 'Whether posts and comments RSS feed links are added to head.' ),
+                        'show_in_rest' => true,
+                )
+        );
+        register_theme_feature(
+                'dark-mode',
+                array(
+                        'type'        => 'object',
+                        'description' => __( 'Allows themes to provide palettes and media optimized for dark backgrounds.' ),
+                )
+        );
 	register_theme_feature(
 		'block-templates',
 		array(

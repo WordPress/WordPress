@@ -53,6 +53,16 @@ register_setting(
         )
 );
 
+register_setting(
+        'general',
+        'dark_mode_settings',
+        array(
+                'type'              => 'array',
+                'sanitize_callback' => 'wp_sanitize_dark_mode_settings',
+                'default'           => wp_get_default_dark_mode_settings(),
+        )
+);
+
 // Used in the HTML title tag.
 $title       = __( 'General Settings' );
 $parent_file = 'options-general.php';
@@ -138,6 +148,33 @@ $tagline_description = sprintf(
 <th scope="row"><label for="blogdescription"><?php _e( 'Tagline' ); ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" />
 <p class="description" id="tagline-description"><?php echo $tagline_description; ?></p></td>
+</tr>
+
+<?php
+$dark_mode_settings = wp_get_dark_mode_settings();
+$dark_mode_choices  = wp_get_dark_mode_preference_choices();
+?>
+<tr>
+<th scope="row"><?php _e( 'Dark mode' ); ?></th>
+<td>
+        <fieldset>
+                <legend class="screen-reader-text"><span><?php _e( 'Dark mode preferences' ); ?></span></legend>
+                <label for="dark-mode-admin" class="screen-reader-text"><?php _e( 'Admin screens dark mode' ); ?></label>
+                <select name="dark_mode_settings[admin]" id="dark-mode-admin">
+                        <?php foreach ( $dark_mode_choices as $value => $label ) : ?>
+                                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $dark_mode_settings['admin'], $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                </select>
+                <p class="description"><?php _e( 'Controls whether the WordPress dashboard uses the light palette, a dark palette, or matches the device setting.' ); ?></p>
+                <label for="dark-mode-frontend" class="screen-reader-text"><?php _e( 'Front end dark mode' ); ?></label>
+                <select name="dark_mode_settings[frontend]" id="dark-mode-frontend">
+                        <?php foreach ( $dark_mode_choices as $value => $label ) : ?>
+                                <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $dark_mode_settings['frontend'], $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                </select>
+                <p class="description"><?php _e( 'Set how visitors see your theme when dark mode is available. Themes with dark assets can swap them automatically.' ); ?></p>
+        </fieldset>
+</td>
 </tr>
 
 <?php if ( current_user_can( 'upload_files' ) ) : ?>
