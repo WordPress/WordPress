@@ -680,6 +680,659 @@ class WP_Login_Rate_Limiter {
 }
 
 /**
+ * Returns the list of registered authentication factors for a user.
+ *
+ * @since 6.7.0
+ *
+ * @param int|WP_User $user User ID or object.
+ * @return array[] Array of factor definitions.
+ */
+function wp_get_user_auth_factors( $user ) {
+        if ( $user instanceof WP_User ) {
+                $user_id = $user->ID;
+        } else {
+                $user_id = (int) $user;
+        }
+
+        if ( $user_id <= 0 ) {
+                return array();
+        }
+
+        $raw = get_user_meta( $user_id, '_wp_mfa_factors', true );
+
+        if ( ! is_array( $raw ) ) {
+                return array();
+        }
+
+        $factors = array();
+
+        foreach ( $raw as $factor ) {
+                if ( ! is_array( $factor ) || empty( $factor['id'] ) || empty( $factor['type'] ) ) {
+                        continue;
+                }
+
+                $factor_id = sanitize_key( $factor['id'] );
+
+                $factors[ $factor_id ] = array(
+                        'id'         => $factor_id,
+                        'type'       => sanitize_key( $factor['type'] ),
+                        'label'      => isset( $factor['label'] ) ? sanitize_text_field( $factor['label'] ) : '',
+                        'added'      => isset( $factor['added'] ) ? (int) $factor['added'] : time(),
+                        'secret'     => isset( $factor['secret'] ) ? $factor['secret'] : '',
+                        'attributes' => isset( $factor['attributes'] ) && is_array( $factor['attributes'] ) ? $factor['attributes'] : array(),
+                );
+        }
+
+        return $factors;
+}
+
+/**
+ * Updates the authentication factor registry for a user.
+ *
+ * @since 6.7.0
+ *
+ * @param int   $user_id User ID.
+ * @param array $factors Factor definitions to persist.
+ */
+function wp_update_user_auth_factors( $user_id, $factors ) {
+        if ( ! is_array( $factors ) ) {
+                $factors = array();
+        }
+
+        update_user_meta( $user_id, '_wp_mfa_factors', array_values( $factors ) );
+}
+
+/**
+ * Registers a new authentication factor for a user.
+ *
+ * @since 6.7.0
+ *
+ * @param int   $user_id User ID.
+ * @param array $factor  Factor definition.
+ * @return array Updated factor list.
+ */
+function wp_register_user_auth_factor( $user_id, $factor ) {
+        $factors = wp_get_user_auth_factors( $user_id );
+
+        if ( empty( $factor['id'] ) ) {
+                $factor['id'] = uniqid( sanitize_key( $factor['type'] ) . '-', true );
+        }
+
+        $factor_id               = sanitize_key( $factor['id'] );
+        $factor['id']            = $factor_id;
+        $factors[ $factor_id ]   = $factor;
+
+        wp_update_user_auth_factors( $user_id, $factors );
+
+        return $factors;
+}
+
+/**
+ * Removes an authentication factor from a user profile.
+ *
+ * @since 6.7.0
+ *
+ * @param int    $user_id   User ID.
+ * @param string $factor_id Factor identifier.
+ * @return array Updated factors.
+ */
+function wp_delete_user_auth_factor( $user_id, $factor_id ) {
+        $factors = wp_get_user_auth_factors( $user_id );
+        $factor_id = sanitize_key( $factor_id );
+
+        if ( isset( $factors[ $factor_id ] ) ) {
+                unset( $factors[ $factor_id ] );
+                wp_update_user_auth_factors( $user_id, $factors );
+        }
+
+        return $factors;
+}
+
+/**
+ * Retrieves the global MFA policy configuration.
+ *
+ * @since 6.7.0
+ *
+ * @return array
+ */
+function wp_get_mfa_policy() {
+        $policy = get_option( 'wp_mfa_policy', array() );
+
+        if ( ! is_array( $policy ) ) {
+                $policy = array();
+        }
+
+        $defaults = array(
+                'required_roles'   => array(),
+                'email_provider'   => '',
+                'email_rate_limit' => 5,
+                'email_window'     => 5 * MINUTE_IN_SECONDS,
+                'recovery_codes'   => array(),
+        );
+
+        return wp_parse_args( $policy, $defaults );
+}
+
+/**
+ * Sanitizes the stored MFA policy configuration.
+ *
+ * @since 6.7.0
+ *
+ * @param array $value Raw submitted values.
+ * @return array Sanitized policy array.
+ */
+function wp_sanitize_mfa_policy( $value ) {
+        $defaults = wp_get_mfa_policy();
+
+        if ( ! is_array( $value ) ) {
+                $value = array();
+        }
+
+        $policy = array(
+                'required_roles'   => array(),
+                'email_provider'   => '',
+                'email_rate_limit' => isset( $defaults['email_rate_limit'] ) ? (int) $defaults['email_rate_limit'] : 5,
+                'email_window'     => isset( $defaults['email_window'] ) ? (int) $defaults['email_window'] : 5 * MINUTE_IN_SECONDS,
+                'recovery_codes'   => array(),
+        );
+
+        if ( isset( $value['required_roles'] ) ) {
+                foreach ( (array) $value['required_roles'] as $role ) {
+                        $role = sanitize_key( $role );
+
+                        if ( '' !== $role ) {
+                                $policy['required_roles'][] = $role;
+                        }
+                }
+        }
+
+        if ( isset( $value['email_provider'] ) ) {
+                $policy['email_provider'] = sanitize_text_field( $value['email_provider'] );
+        }
+
+        if ( isset( $value['email_rate_limit'] ) ) {
+                $policy['email_rate_limit'] = max( 1, absint( $value['email_rate_limit'] ) );
+        }
+
+        if ( isset( $value['email_window'] ) ) {
+                $minutes                = max( 1, absint( $value['email_window'] ) );
+                $policy['email_window'] = $minutes * MINUTE_IN_SECONDS;
+        }
+
+        if ( isset( $value['recovery_codes'] ) ) {
+                $codes = $value['recovery_codes'];
+
+                if ( ! is_array( $codes ) ) {
+                        $codes = preg_split( '/\r?\n/', (string) $codes );
+                }
+
+                foreach ( $codes as $code ) {
+                        $code = trim( sanitize_text_field( $code ) );
+
+                        if ( '' !== $code ) {
+                                $policy['recovery_codes'][] = $code;
+                        }
+                }
+        }
+
+        return $policy;
+}
+
+/**
+ * Encrypts a sensitive MFA secret using application keys.
+ *
+ * @since 6.7.0
+ *
+ * @param string $secret  Secret material to encrypt.
+ * @param string $context Optional context string to ensure unique derived keys.
+ * @return string Encrypted payload.
+ */
+function wp_encrypt_user_mfa_secret( $secret, $context = 'default' ) {
+        if ( '' === $secret ) {
+                return '';
+        }
+
+        $key = hash( 'sha256', wp_salt( 'secure_auth' ) . 'mfa-' . $context, true );
+
+        if ( function_exists( 'sodium_crypto_secretbox' ) ) {
+                $nonce      = random_bytes( SODIUM_CRYPTO_SECRETBOX_NONCEBYTES );
+                $ciphertext = sodium_crypto_secretbox( $secret, $nonce, $key );
+
+                return base64_encode( $nonce . $ciphertext );
+        }
+
+        if ( ! function_exists( 'openssl_encrypt' ) ) {
+                return wp_hash_password( $secret );
+        }
+
+        $cipher = 'aes-256-gcm';
+        $iv_len = openssl_cipher_iv_length( $cipher );
+        $iv     = random_bytes( $iv_len );
+        $tag    = '';
+        $ciphertext = openssl_encrypt( $secret, $cipher, $key, OPENSSL_RAW_DATA, $iv, $tag );
+
+        if ( false === $ciphertext ) {
+                return '';
+        }
+
+        return base64_encode( $iv . $tag . $ciphertext );
+}
+
+/**
+ * Decrypts an MFA secret previously encrypted with {@see wp_encrypt_user_mfa_secret()}.
+ *
+ * @since 6.7.0
+ *
+ * @param string $payload Encrypted payload.
+ * @param string $context Encryption context string.
+ * @return string Decrypted secret or empty string on failure.
+ */
+function wp_decrypt_user_mfa_secret( $payload, $context = 'default' ) {
+        if ( '' === $payload ) {
+                return '';
+        }
+
+        $decoded = base64_decode( $payload, true );
+
+        if ( ! $decoded ) {
+                return '';
+        }
+
+        $key = hash( 'sha256', wp_salt( 'secure_auth' ) . 'mfa-' . $context, true );
+
+        if ( function_exists( 'sodium_crypto_secretbox_open' ) && strlen( $decoded ) > SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ) {
+                $nonce      = substr( $decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES );
+                $ciphertext = substr( $decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES );
+                $secret     = sodium_crypto_secretbox_open( $ciphertext, $nonce, $key );
+
+                if ( false !== $secret ) {
+                        return $secret;
+                }
+        }
+
+        if ( ! function_exists( 'openssl_decrypt' ) ) {
+                return '';
+        }
+
+        $cipher = 'aes-256-gcm';
+        $iv_len = openssl_cipher_iv_length( $cipher );
+
+        if ( strlen( $decoded ) <= $iv_len + 16 ) {
+                return '';
+        }
+
+        $iv         = substr( $decoded, 0, $iv_len );
+        $tag        = substr( $decoded, $iv_len, 16 );
+        $ciphertext = substr( $decoded, $iv_len + 16 );
+        $secret     = openssl_decrypt( $ciphertext, $cipher, $key, OPENSSL_RAW_DATA, $iv, $tag );
+
+        return false === $secret ? '' : $secret;
+}
+
+/**
+ * Decodes a Base32 encoded string.
+ *
+ * @since 6.7.0
+ *
+ * @param string $encoded Encoded string.
+ * @return string Raw bytes.
+ */
+function wp_mfa_base32_decode( $encoded ) {
+        $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+        $clean    = strtoupper( preg_replace( '/[^A-Z2-7]/', '', $encoded ) );
+        $buffer   = 0;
+        $bits     = 0;
+        $output   = '';
+
+        for ( $i = 0, $length = strlen( $clean ); $i < $length; $i++ ) {
+                $value = strpos( $alphabet, $clean[ $i ] );
+
+                if ( false === $value ) {
+                        continue;
+                }
+
+                $buffer = ( $buffer << 5 ) | $value;
+                $bits  += 5;
+
+                if ( $bits >= 8 ) {
+                        $bits   -= 8;
+                        $output .= chr( ( $buffer >> $bits ) & 0xFF );
+                }
+        }
+
+        return $output;
+}
+
+/**
+ * Generates a random Base32 TOTP secret.
+ *
+ * @since 6.7.0
+ *
+ * @param int $length Length of the secret in characters.
+ * @return string
+ */
+function wp_generate_totp_secret( $length = 32 ) {
+        $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+        $secret   = '';
+
+        for ( $i = 0; $i < $length; $i++ ) {
+                $secret .= $alphabet[ wp_rand( 0, strlen( $alphabet ) - 1 ) ];
+        }
+
+        return $secret;
+}
+
+/**
+ * Generates a numeric TOTP code for a secret.
+ *
+ * @since 6.7.0
+ *
+ * @param string   $secret    Raw secret bytes.
+ * @param int|null $timestamp Timestamp.
+ * @return string
+ */
+function wp_generate_totp_from_secret( $secret, $timestamp = null ) {
+        if ( null === $timestamp ) {
+                $timestamp = time();
+        }
+
+        $time_slice  = (int) floor( $timestamp / 30 );
+        $binary_time = pack( 'N*', 0 ) . pack( 'N*', $time_slice );
+        $hash        = hash_hmac( 'sha1', $binary_time, $secret, true );
+
+        $offset   = ord( substr( $hash, -1 ) ) & 0x0F;
+        $truncated = unpack( 'N', substr( $hash, $offset, 4 ) )[1];
+        $truncated &= 0x7FFFFFFF;
+        $code      = $truncated % 1000000;
+
+        return str_pad( (string) $code, 6, '0', STR_PAD_LEFT );
+}
+
+/**
+ * Verifies a TOTP code against the user's enrolled factors.
+ *
+ * @since 6.7.0
+ *
+ * @param int    $user_id User ID.
+ * @param string $code    Code supplied by the user.
+ * @return bool
+ */
+function wp_verify_user_totp_factor( $user_id, $code ) {
+        $factors = wp_get_user_auth_factors( $user_id );
+
+        foreach ( $factors as $factor ) {
+                if ( 'totp' !== $factor['type'] ) {
+                        continue;
+                }
+
+                $secret = wp_decrypt_user_mfa_secret( $factor['secret'], $factor['id'] );
+
+                if ( ! $secret ) {
+                        continue;
+                }
+
+                $decoded = wp_mfa_base32_decode( $secret );
+
+                for ( $offset = -1; $offset <= 1; $offset++ ) {
+                        $expected = wp_generate_totp_from_secret( $decoded, time() + ( $offset * 30 ) );
+
+                        if ( hash_equals( $expected, $code ) ) {
+                                return true;
+                        }
+                }
+        }
+
+        return false;
+}
+
+/**
+ * Issues an email OTP for MFA when required.
+ *
+ * @since 6.7.0
+ *
+ * @param WP_User $user      User object.
+ * @param array   $challenge Challenge payload passed by reference.
+ */
+function wp_issue_email_mfa_code( $user, &$challenge ) {
+        $policy  = wp_get_mfa_policy();
+        $limit   = max( 1, (int) $policy['email_rate_limit'] );
+        $window  = max( MINUTE_IN_SECONDS, (int) $policy['email_window'] );
+        $now     = time();
+        $history = get_transient( 'wp_mfa_email_' . $user->ID );
+
+        if ( ! is_array( $history ) ) {
+                $history = array();
+        }
+
+        $history = array_filter(
+                $history,
+                static function ( $timestamp ) use ( $now, $window ) {
+                        return ( $now - $timestamp ) < $window;
+                }
+        );
+
+        if ( count( $history ) >= $limit ) {
+                $challenge['error'] = new WP_Error( 'mfa_email_rate_limited', __( 'Too many passcodes requested. Try again soon.' ) );
+
+                return;
+        }
+
+        $code = wp_generate_password( 6, false, false );
+
+        $challenge['email_code_hash'] = wp_hash_password( $code );
+        $challenge['email_code_exp']  = $now + 15 * MINUTE_IN_SECONDS;
+
+        $history[] = $now;
+        set_transient( 'wp_mfa_email_' . $user->ID, $history, $window );
+
+        wp_mail(
+                $user->user_email,
+                __( 'Your WordPress verification code' ),
+                sprintf(
+                        /* translators: %s: numeric code. */
+                        __( 'Enter this verification code to finish signing in: %s' ),
+                        $code
+                )
+        );
+
+        wp_mfa_track_rate_limit_user( $user->ID );
+}
+
+/**
+ * Records a user whose email MFA rate limit needs cleanup.
+ *
+ * @since 6.7.0
+ *
+ * @param int $user_id User ID.
+ */
+function wp_mfa_track_rate_limit_user( $user_id ) {
+        $tracked = get_option( 'wp_mfa_rate_limit_users', array() );
+
+        if ( ! is_array( $tracked ) ) {
+                $tracked = array();
+        }
+
+        $tracked[ (int) $user_id ] = time();
+
+        update_option( 'wp_mfa_rate_limit_users', $tracked );
+}
+
+/**
+ * Schedules recurring cleanup of email MFA rate limits.
+ *
+ * @since 6.7.0
+ */
+function wp_mfa_schedule_cleanup() {
+        if ( wp_next_scheduled( 'wp_mfa_cleanup_email_locks' ) ) {
+                return;
+        }
+
+        wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', 'wp_mfa_cleanup_email_locks' );
+}
+
+/**
+ * Clears stale email MFA rate limit transients.
+ *
+ * @since 6.7.0
+ */
+function wp_mfa_cleanup_email_rate_limits() {
+        $tracked = get_option( 'wp_mfa_rate_limit_users', array() );
+
+        if ( ! is_array( $tracked ) ) {
+                return;
+        }
+
+        $now    = time();
+        $policy = wp_get_mfa_policy();
+        $window = max( MINUTE_IN_SECONDS, (int) $policy['email_window'] );
+
+        foreach ( $tracked as $user_id => $timestamp ) {
+                if ( ( $now - $timestamp ) > $window ) {
+                        delete_transient( 'wp_mfa_email_' . (int) $user_id );
+                        unset( $tracked[ $user_id ] );
+                }
+        }
+
+        update_option( 'wp_mfa_rate_limit_users', $tracked );
+}
+
+add_action( 'init', 'wp_mfa_schedule_cleanup' );
+add_action( 'wp_mfa_cleanup_email_locks', 'wp_mfa_cleanup_email_rate_limits' );
+
+/**
+ * Determines whether MFA needs to be completed before finishing sign on.
+ *
+ * @since 6.7.0
+ *
+ * @param WP_User $user        Authenticated user object.
+ * @param array   $credentials Credentials array passed to {@see wp_signon()}.
+ * @param array   $context     Additional context such as secure cookie preference.
+ * @return WP_User|WP_Error
+ */
+function wp_maybe_require_user_mfa( $user, $credentials, $context = array() ) {
+        if ( ! ( $user instanceof WP_User ) ) {
+                return $user;
+        }
+
+        $factors = wp_get_user_auth_factors( $user );
+
+        if ( empty( $factors ) ) {
+                return $user;
+        }
+
+        $policy = wp_get_mfa_policy();
+
+        if ( ! empty( $policy['required_roles'] ) ) {
+                $required_roles = array_map( 'strtolower', (array) $policy['required_roles'] );
+                $user_roles     = array_map( 'strtolower', $user->roles );
+
+                if ( empty( array_intersect( $required_roles, $user_roles ) ) ) {
+                        return $user;
+                }
+        }
+
+        $token     = isset( $_POST['mfa_token'] ) ? sanitize_text_field( wp_unslash( $_POST['mfa_token'] ) ) : '';
+        $response  = isset( $_POST['mfa_response'] ) ? sanitize_text_field( wp_unslash( $_POST['mfa_response'] ) ) : '';
+        $factor_id = isset( $_POST['mfa_factor'] ) ? sanitize_key( wp_unslash( $_POST['mfa_factor'] ) ) : '';
+
+        if ( $token ) {
+                $challenge = get_transient( 'wp_mfa_challenge_' . $token );
+
+                if ( ! is_array( $challenge ) || empty( $challenge['user_id'] ) || (int) $challenge['user_id'] !== (int) $user->ID ) {
+                        return new WP_Error( 'invalid_mfa_token', __( 'Invalid or expired verification session.' ) );
+                }
+
+                if ( empty( $response ) ) {
+                        return new WP_Error( 'empty_mfa_response', __( 'Enter the code from your authenticator to continue.' ) );
+                }
+
+                $factor_type = isset( $challenge['factor_type'] ) ? $challenge['factor_type'] : 'totp';
+
+                if ( 'totp' === $factor_type && wp_verify_user_totp_factor( $user->ID, $response ) ) {
+                        delete_transient( 'wp_mfa_challenge_' . $token );
+
+                        return $user;
+                }
+
+                if ( 'email' === $factor_type ) {
+                        if ( empty( $challenge['email_code_hash'] ) || empty( $challenge['email_code_exp'] ) ) {
+                                return new WP_Error( 'invalid_mfa_token', __( 'Invalid or expired verification session.' ) );
+                        }
+
+                        if ( time() > (int) $challenge['email_code_exp'] ) {
+                                delete_transient( 'wp_mfa_challenge_' . $token );
+
+                                return new WP_Error( 'expired_mfa_code', __( 'The verification code has expired.' ) );
+                        }
+
+                        if ( wp_check_password( $response, $challenge['email_code_hash'] ) ) {
+                                delete_transient( 'wp_mfa_challenge_' . $token );
+
+                                return $user;
+                        }
+                }
+
+                /**
+                 * Fires when an MFA verification attempt fails.
+                 *
+                 * @since 6.7.0
+                 *
+                 * @param WP_User $user      User object.
+                 * @param array   $challenge Challenge data.
+                 */
+                do_action( 'wp_mfa_verification_failed', $user, $challenge );
+
+                return new WP_Error( 'incorrect_mfa_code', __( 'The verification code you entered is incorrect.' ) );
+        }
+
+        $selected_factor = null;
+
+        if ( $factor_id && isset( $factors[ $factor_id ] ) ) {
+                $selected_factor = $factors[ $factor_id ];
+        } else {
+                foreach ( $factors as $factor ) {
+                        $selected_factor = $factor;
+                        break;
+                }
+        }
+
+        if ( ! $selected_factor ) {
+                return $user;
+        }
+
+        $token     = wp_generate_password( 32, false, false );
+        $challenge = array(
+                'user_id'       => $user->ID,
+                'issued'        => time(),
+                'factor_id'     => $selected_factor['id'],
+                'factor_type'   => $selected_factor['type'],
+                'remember'      => ! empty( $credentials['remember'] ),
+                'secure_cookie' => ! empty( $context['secure_cookie'] ),
+        );
+
+        if ( 'email' === $selected_factor['type'] ) {
+                wp_issue_email_mfa_code( $user, $challenge );
+
+                if ( isset( $challenge['error'] ) && $challenge['error'] instanceof WP_Error ) {
+                        return $challenge['error'];
+                }
+        }
+
+        set_transient( 'wp_mfa_challenge_' . $token, $challenge, 15 * MINUTE_IN_SECONDS );
+
+        $error = new WP_Error( 'mfa_required', __( 'Additional verification is required to complete sign in.' ) );
+        $error->add_data(
+                array(
+                        'token'   => $token,
+                        'factor'  => $selected_factor,
+                        'factors' => array_values( $factors ),
+                )
+        );
+
+        return $error;
+}
+
+/**
  * Authenticates and logs a user in with 'remember' capability.
  *
  * The credentials is an array that has 'user_login', 'user_password', and
@@ -838,6 +1491,20 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
                 $limiter->register_failure( $credentials['user_login'], $ip_address, $user );
 
                 return $user;
+        }
+
+        $mfa_result = wp_maybe_require_user_mfa( $user, $credentials, array(
+                'secure_cookie' => $secure_cookie,
+        ) );
+
+        if ( is_wp_error( $mfa_result ) ) {
+                $limiter->register_failure( $credentials['user_login'], $ip_address, $mfa_result );
+
+                return $mfa_result;
+        }
+
+        if ( $mfa_result instanceof WP_User ) {
+                $user = $mfa_result;
         }
 
         $limiter->register_success( $credentials['user_login'], $ip_address );

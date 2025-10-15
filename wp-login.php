@@ -1542,52 +1542,75 @@ switch ( $action ) {
 
 		login_header( __( 'Log In' ), '', $errors );
 
-		if ( isset( $_POST['log'] ) ) {
-			$user_login = ( 'incorrect_password' === $errors->get_error_code() || 'empty_password' === $errors->get_error_code() ) ? wp_unslash( $_POST['log'] ) : '';
-		}
+                if ( isset( $_POST['log'] ) ) {
+                        $user_login = ( 'incorrect_password' === $errors->get_error_code() || 'empty_password' === $errors->get_error_code() ) ? wp_unslash( $_POST['log'] ) : '';
+                }
 
-		$rememberme = ! empty( $_POST['rememberme'] );
+                $rememberme = ! empty( $_POST['rememberme'] );
 
-		$aria_describedby = '';
-		$has_errors       = $errors->has_errors();
+                $aria_describedby = '';
+                $has_errors       = $errors->has_errors();
+                $mfa_data         = $errors->get_error_data( 'mfa_required' );
+                $mfa_required     = is_array( $mfa_data );
+                $mfa_token        = $mfa_required && ! empty( $mfa_data['token'] ) ? sanitize_text_field( $mfa_data['token'] ) : '';
+                $mfa_factor       = $mfa_required && ! empty( $mfa_data['factor']['id'] ) ? sanitize_key( $mfa_data['factor']['id'] ) : '';
+                $mfa_type         = $mfa_required && ! empty( $mfa_data['factor']['type'] ) ? sanitize_key( $mfa_data['factor']['type'] ) : '';
 
-		if ( $has_errors ) {
-			$aria_describedby = ' aria-describedby="login_error"';
-		}
+                if ( $has_errors ) {
+                        $aria_describedby = ' aria-describedby="login_error"';
+                }
 
-		if ( $has_errors && 'message' === $errors->get_error_data() ) {
-			$aria_describedby = ' aria-describedby="login-message"';
-		}
+                if ( $has_errors && 'message' === $errors->get_error_data() ) {
+                        $aria_describedby = ' aria-describedby="login-message"';
+                }
 
-		wp_enqueue_script( 'user-profile' );
-		?>
+                wp_enqueue_script( 'user-profile' );
+                ?>
 
            <form name="loginform" id="loginform" action="<?php echo esc_url( wp_add_admin_login_slug_to_url( site_url( 'wp-login.php', 'login_post' ) ) ); ?>" method="post">
-			<p>
-				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
-				<input type="text" name="log" id="user_login"<?php echo $aria_describedby; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
-			</p>
+                        <p>
+                                <label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+                                <input type="text" name="log" id="user_login"<?php echo $aria_describedby; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" autocomplete="username" required="required" />
+                        </p>
 
-			<div class="user-pass-wrap">
-				<label for="user_pass"><?php _e( 'Password' ); ?></label>
-				<div class="wp-pwd">
-					<input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby; ?> class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required" />
-					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Show password' ); ?>">
-						<span class="dashicons dashicons-visibility" aria-hidden="true"></span>
-					</button>
-				</div>
-			</div>
-			<?php
+                        <div class="user-pass-wrap">
+                                <label for="user_pass"><?php _e( 'Password' ); ?></label>
+                                <div class="wp-pwd">
+                                        <input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby; ?> class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required" />
+                                        <button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Show password' ); ?>">
+                                                <span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+                                        </button>
+                                </div>
+                        </div>
+                        <?php if ( $mfa_required ) : ?>
+                        <div class="wp-mfa-step" aria-live="polite">
+                                <p id="mfa-instructions">
+                                        <?php
+                                        if ( 'email' === $mfa_type ) {
+                                                esc_html_e( 'Enter the verification code that was emailed to you.' );
+                                        } else {
+                                                esc_html_e( 'Enter the code from your authenticator application.' );
+                                        }
+                                        ?>
+                                </p>
+                                <label for="mfa_response"><?php _e( 'Verification code' ); ?></label>
+                                <input type="text" name="mfa_response" id="mfa_response" class="input" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" required="required" />
+                                <input type="hidden" name="mfa_token" value="<?php echo esc_attr( $mfa_token ); ?>" />
+                                <input type="hidden" name="mfa_factor" value="<?php echo esc_attr( $mfa_factor ); ?>" />
+                        </div>
+                        <?php endif; ?>
 
-			/**
-			 * Fires following the 'Password' field in the login form.
-			 *
-			 * @since 2.1.0
-			 */
-			do_action( 'login_form' );
+                        <?php
 
-			?>
-			<p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></p>
+                        /**
+                         * Fires following the 'Password' field in the login form.
+                         *
+                         * @since 2.1.0
+                         */
+                        do_action( 'login_form' );
+
+                        ?>
+                        <p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></p>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In' ); ?>" />
 				<?php
