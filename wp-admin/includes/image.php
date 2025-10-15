@@ -6,6 +6,8 @@
  * @subpackage Administration
  */
 
+require_once ABSPATH . WPINC . '/class-wp-image-processing-queue.php';
+
 /**
  * Crops an image to a given size.
  *
@@ -428,85 +430,71 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
  * @return array The attachment meta data with updated `sizes` array. Includes an array of errors encountered while resizing.
  */
 function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
-	if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
-		// Not an image attachment.
-		return array();
-	}
+        if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
+                // Not an image attachment.
+                return array();
+        }
 
-	// Check if any of the new sizes already exist.
-	if ( isset( $image_meta['sizes'] ) && is_array( $image_meta['sizes'] ) ) {
-		foreach ( $image_meta['sizes'] as $size_name => $size_meta ) {
-			/*
-			 * Only checks "size name" so we don't override existing images even if the dimensions
-			 * don't match the currently defined size with the same name.
-			 * To change the behavior, unset changed/mismatched sizes in the `sizes` array in image meta.
-			 */
-			if ( array_key_exists( $size_name, $new_sizes ) ) {
-				unset( $new_sizes[ $size_name ] );
-			}
-		}
-	} else {
-		$image_meta['sizes'] = array();
-	}
+        // Check if any of the new sizes already exist.
+        if ( isset( $image_meta['sizes'] ) && is_array( $image_meta['sizes'] ) ) {
+                foreach ( $image_meta['sizes'] as $size_name => $size_meta ) {
+                        /*
+                         * Only checks "size name" so we don't override existing images even if the dimensions
+                         * don't match the currently defined size with the same name.
+                         * To change the behavior, unset changed/mismatched sizes in the `sizes` array in image meta.
+                         */
+                        if ( array_key_exists( $size_name, $new_sizes ) ) {
+                                unset( $new_sizes[ $size_name ] );
+                        }
+                }
+        } else {
+                $image_meta['sizes'] = array();
+        }
 
-	if ( empty( $new_sizes ) ) {
-		// Nothing to do...
-		return $image_meta;
-	}
+        if ( empty( $new_sizes ) ) {
+                $image_meta['wp_image_processing'] = array(
+                        'job_id'    => '',
+                        'state'     => 'completed',
+                        'pending'   => array(),
+                        'completed' => array_keys( $image_meta['sizes'] ),
+                        'errors'    => array(),
+                        'updated'   => time(),
+                );
 
-	/*
-	 * Sort the image sub-sizes in order of priority when creating them.
-	 * This ensures there is an appropriate sub-size the user can access immediately
-	 * even when there was an error and not all sub-sizes were created.
-	 */
-	$priority = array(
-		'medium'       => null,
-		'large'        => null,
-		'thumbnail'    => null,
-		'medium_large' => null,
-	);
+                wp_update_attachment_metadata( $attachment_id, $image_meta );
 
-	$new_sizes = array_filter( array_merge( $priority, $new_sizes ) );
+                return $image_meta;
+        }
 
-	$editor = wp_get_image_editor( $file );
+        /*
+         * Sort the image sub-sizes in order of priority when creating them.
+         * This ensures there is an appropriate sub-size the user can access immediately
+         * even when there was an error and not all sub-sizes were created.
+         */
+        $priority = array(
+                'medium'       => null,
+                'large'        => null,
+                'thumbnail'    => null,
+                'medium_large' => null,
+        );
 
-	if ( is_wp_error( $editor ) ) {
-		// The image cannot be edited.
-		return $image_meta;
-	}
+        $new_sizes = array_filter( array_merge( $priority, $new_sizes ) );
 
-	// If stored EXIF data exists, rotate the source image before creating sub-sizes.
-	if ( ! empty( $image_meta['image_meta'] ) ) {
-		$rotated = $editor->maybe_exif_rotate();
+        $queue  = WP_Image_Processing_Queue::instance();
+        $job_id = $queue->enqueue_subsizes( $attachment_id, $file, $new_sizes, $image_meta );
 
-		if ( is_wp_error( $rotated ) ) {
-			// TODO: Log errors.
-		}
-	}
+        $image_meta['wp_image_processing'] = array(
+                'job_id'    => $job_id,
+                'state'     => 'queued',
+                'pending'   => array_keys( $new_sizes ),
+                'completed' => array(),
+                'errors'    => array(),
+                'updated'   => time(),
+        );
 
-	if ( method_exists( $editor, 'make_subsize' ) ) {
-		foreach ( $new_sizes as $new_size_name => $new_size_data ) {
-			$new_size_meta = $editor->make_subsize( $new_size_data );
+        wp_update_attachment_metadata( $attachment_id, $image_meta );
 
-			if ( is_wp_error( $new_size_meta ) ) {
-				// TODO: Log errors.
-			} else {
-				// Save the size meta value.
-				$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
-				wp_update_attachment_metadata( $attachment_id, $image_meta );
-			}
-		}
-	} else {
-		// Fall back to `$editor->multi_resize()`.
-		$created_sizes = $editor->multi_resize( $new_sizes );
-
-		if ( ! empty( $created_sizes ) ) {
-			$image_meta['sizes'] = array_merge( $image_meta['sizes'], $created_sizes );
-			wp_update_attachment_metadata( $attachment_id, $image_meta );
-		}
-	}
-
-	return $image_meta;
+        return $image_meta;
 }
 
 /**

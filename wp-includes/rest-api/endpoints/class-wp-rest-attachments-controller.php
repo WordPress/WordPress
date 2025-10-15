@@ -33,9 +33,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 */
 	public function register_routes() {
 		parent::register_routes();
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\d]+)/post-process',
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/post-process',
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'post_process_item' ),
@@ -53,17 +53,37 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				),
 			)
 		);
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\d]+)/edit',
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'edit_media_item' ),
-				'permission_callback' => array( $this, 'edit_media_item_permissions_check' ),
-				'args'                => $this->get_edit_media_item_args(),
-			)
-		);
-	}
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/edit',
+                        array(
+                                'methods'             => WP_REST_Server::CREATABLE,
+                                'callback'            => array( $this, 'edit_media_item' ),
+                                'permission_callback' => array( $this, 'edit_media_item_permissions_check' ),
+                                'args'                => $this->get_edit_media_item_args(),
+                        )
+                );
+                register_rest_route(
+                        $this->namespace,
+                        '/' . $this->rest_base . '/(?P<id>[\d]+)/processing-status',
+                        array(
+                                'methods'             => WP_REST_Server::READABLE,
+                                'callback'            => array( $this, 'get_processing_status' ),
+                                'permission_callback' => array( $this, 'get_processing_status_permissions_check' ),
+                                'args'                => array(
+                                        'id'     => array(
+                                                'description' => __( 'Unique identifier for the attachment.' ),
+                                                'type'        => 'integer',
+                                        ),
+                                        'job_id' => array(
+                                                'description' => __( 'Processing job identifier to query.' ),
+                                                'type'        => 'string',
+                                                'required'    => true,
+                                        ),
+                                ),
+                        )
+                );
+        }
 
 	/**
 	 * Determines the allowed query_vars for a get_items() response and
@@ -506,18 +526,28 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
 	 */
-	public function post_process_item( $request ) {
-		switch ( $request['action'] ) {
-			case 'create-image-subsizes':
-				require_once ABSPATH . 'wp-admin/includes/image.php';
-				wp_update_image_subsizes( $request['id'] );
-				break;
-		}
+        public function post_process_item( $request ) {
+                switch ( $request['action'] ) {
+                        case 'create-image-subsizes':
+                                require_once ABSPATH . 'wp-admin/includes/image.php';
+                                $image_meta = wp_update_image_subsizes( $request['id'] );
+                                $processing = isset( $image_meta['wp_image_processing'] ) ? $image_meta['wp_image_processing'] : array();
 
-		$request['context'] = 'edit';
-
-		return $this->prepare_item_for_response( get_post( $request['id'] ), $request );
-	}
+                                return rest_ensure_response(
+                                        $this->prepare_processing_response(
+                                                $request['id'],
+                                                $processing,
+                                                $request
+                                        )
+                                );
+                default:
+                        return new WP_Error(
+                                'rest_invalid_post_process_action',
+                                __( 'Invalid post-processing action.' ),
+                                array( 'status' => 400 )
+                        );
+                }
+        }
 
 	/**
 	 * Checks if a given request can perform post-processing on an attachment.
@@ -527,9 +557,139 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
 	 */
-	public function post_process_item_permissions_check( $request ) {
-		return $this->update_item_permissions_check( $request );
-	}
+        public function post_process_item_permissions_check( $request ) {
+                return $this->update_item_permissions_check( $request );
+        }
+
+        /**
+         * Retrieves the status of a background processing job.
+         *
+         * @since 6.9.0
+         *
+         * @param WP_REST_Request $request Request object.
+         * @return WP_REST_Response|WP_Error
+         */
+        public function get_processing_status( $request ) {
+                $status = WP_Image_Processing_Queue::instance()->get_status( $request['job_id'] );
+
+                if ( isset( $status['status'] ) && 'not_found' === $status['status'] ) {
+                        return new WP_Error(
+                                'rest_processing_job_not_found',
+                                __( 'The requested processing job could not be found.' ),
+                                array( 'status' => 404 )
+                        );
+                }
+
+                if ( isset( $status['attachment_id'] ) && (int) $status['attachment_id'] !== (int) $request['id'] ) {
+                        return new WP_Error(
+                                'rest_processing_job_mismatch',
+                                __( 'The processing job does not belong to the requested attachment.' ),
+                                array( 'status' => 400 )
+                        );
+                }
+
+                return rest_ensure_response( $this->prepare_processing_status_for_response( $request['id'], $status, $request ) );
+        }
+
+        /**
+         * Ensures the current user can view processing job data for an attachment.
+         *
+         * @since 6.9.0
+         *
+         * @param WP_REST_Request $request Request object.
+         * @return true|WP_Error
+         */
+        public function get_processing_status_permissions_check( $request ) {
+                return $this->get_item_permissions_check( $request );
+        }
+
+        /**
+         * Formats processing data for responses when enqueuing work.
+         *
+         * @since 6.9.0
+         *
+         * @param int              $attachment_id Attachment identifier.
+         * @param array            $processing    Processing meta data.
+         * @param WP_REST_Request  $request       Request context.
+         * @return array
+         */
+        protected function prepare_processing_response( $attachment_id, $processing, $request ) {
+                $job_id    = isset( $processing['job_id'] ) ? $processing['job_id'] : '';
+                $state     = isset( $processing['state'] ) ? $processing['state'] : 'completed';
+                $pending   = isset( $processing['pending'] ) ? $processing['pending'] : array();
+                $completed = isset( $processing['completed'] ) ? $processing['completed'] : array();
+                $errors    = isset( $processing['errors'] ) ? $processing['errors'] : array();
+
+                return $this->build_processing_state_response( $attachment_id, $job_id, $state, $pending, $completed, $errors, $request );
+        }
+
+        /**
+         * Formats queue status responses for polling requests.
+         *
+         * @since 6.9.0
+         *
+         * @param int              $attachment_id Attachment identifier.
+         * @param array            $status        Queue status payload.
+         * @param WP_REST_Request  $request       Request context.
+         * @return array
+         */
+        protected function prepare_processing_status_for_response( $attachment_id, $status, $request ) {
+                $job_id  = isset( $status['job_id'] ) ? $status['job_id'] : '';
+                $state   = isset( $status['status'] ) ? $status['status'] : 'queued';
+                $sizes   = isset( $status['sizes'] ) ? $status['sizes'] : array();
+                $pending = array();
+                $errors  = array();
+                $done    = array();
+
+                foreach ( $sizes as $name => $details ) {
+                        $size_status = isset( $details['status'] ) ? $details['status'] : 'pending';
+                        if ( 'error' === $size_status ) {
+                                $errors[ $name ] = isset( $details['error'] ) ? $details['error'] : '';
+                        } elseif ( 'done' === $size_status ) {
+                                $done[] = $name;
+                        } else {
+                                $pending[] = $name;
+                        }
+                }
+
+                return $this->build_processing_state_response( $attachment_id, $job_id, $state, $pending, $done, $errors, $request );
+        }
+
+        /**
+         * Builds a response payload describing processing state.
+         *
+         * @since 6.9.0
+         *
+         * @param int              $attachment_id Attachment identifier.
+         * @param string           $job_id        Job identifier.
+         * @param string           $state         Current state.
+         * @param array            $pending       Pending size names.
+         * @param array            $completed     Completed size names.
+         * @param array            $errors        Array of errors keyed by size name.
+         * @param WP_REST_Request  $request       Request context.
+         * @return array
+         */
+        protected function build_processing_state_response( $attachment_id, $job_id, $state, $pending, $completed, $errors, $request ) {
+                $response = array(
+                        'attachment_id' => (int) $attachment_id,
+                        'job_id'        => $job_id,
+                        'state'         => $state,
+                        'pending'       => array_values( $pending ),
+                        'completed'     => array_values( $completed ),
+                        'errors'        => $errors,
+                );
+
+                if ( $request instanceof WP_REST_Request && in_array( $state, array( 'completed', 'completed_with_errors' ), true ) ) {
+                        $request['context'] = 'edit';
+                        $prepared           = $this->prepare_item_for_response( get_post( $attachment_id ), $request );
+
+                        if ( ! is_wp_error( $prepared ) ) {
+                                $response['attachment'] = $this->prepare_response_for_collection( $prepared );
+                        }
+                }
+
+                return $response;
+        }
 
 	/**
 	 * Checks if a given request has access to editing media.
