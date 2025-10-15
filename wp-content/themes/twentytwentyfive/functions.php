@@ -58,6 +58,11 @@ if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
 			array(),
 			wp_get_theme()->get( 'Version' )
 		);
+		wp_style_add_data(
+			'twentytwentyfive-style',
+			'path',
+			get_parent_theme_file_path( $src )
+		);
 	}
 endif;
 add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles' );
