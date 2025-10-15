@@ -859,8 +859,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			if ( is_wp_error( $prepared_args ) ) {
 				return $prepared_args;
 			}
-
-			if ( isset( $prepared_args['comment_content'] ) && empty( $prepared_args['comment_content'] ) ) {
+			if ( ! $this->check_is_comment_content_allowed( $prepared_args ) ) {
 				return new WP_Error(
 					'rest_comment_content_invalid',
 					__( 'Invalid comment content.' ),
@@ -1903,6 +1902,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @return bool True if the content is allowed, false otherwise.
 	 */
 	protected function check_is_comment_content_allowed( $prepared_comment ) {
+		if ( ! isset( $prepared_comment['comment_content'] ) ) {
+			return true;
+		}
+
 		$check = wp_parse_args(
 			$prepared_comment,
 			array(
