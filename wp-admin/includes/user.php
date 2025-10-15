@@ -28,9 +28,9 @@ function add_user() {
  * @return int|WP_Error User ID of the updated user or WP_Error on failure.
  */
 function edit_user( $user_id = 0 ) {
-	$wp_roles = wp_roles();
-	$user     = new stdClass();
-	$user_id  = (int) $user_id;
+        $wp_roles = wp_roles();
+        $user     = new stdClass();
+        $user_id  = (int) $user_id;
 	if ( $user_id ) {
 		$update           = true;
 		$user->ID         = $user_id;
@@ -248,6 +248,51 @@ function edit_user( $user_id = 0 ) {
 	}
 	return $user_id;
 }
+
+/**
+ * Updates dark mode preferences for a user from the profile form submission.
+ *
+ * @since 6.7.0
+ *
+ * @param int $user_id The user ID being saved.
+ */
+function wp_user_update_dark_mode_preferences( $user_id ) {
+        if ( ! current_user_can( 'edit_user', $user_id ) ) {
+                return;
+        }
+
+        if ( ! isset( $_POST['dark_mode_preference'] ) ) {
+                delete_user_meta( $user_id, 'dark_mode_preference' );
+                return;
+        }
+
+        $raw_preferences = wp_unslash( $_POST['dark_mode_preference'] );
+        $raw_preferences = is_array( $raw_preferences ) ? $raw_preferences : array();
+        $sanitized       = array();
+
+        foreach ( array( 'admin', 'frontend' ) as $context ) {
+                if ( ! isset( $raw_preferences[ $context ] ) ) {
+                        continue;
+                }
+
+                $value = sanitize_text_field( $raw_preferences[ $context ] );
+
+                if ( 'default' === $value ) {
+                        continue;
+                }
+
+                $sanitized[ $context ] = wp_sanitize_dark_mode_value( $value );
+        }
+
+        if ( ! empty( $sanitized ) ) {
+                update_user_meta( $user_id, 'dark_mode_preference', $sanitized );
+        } else {
+                delete_user_meta( $user_id, 'dark_mode_preference' );
+        }
+}
+
+add_action( 'personal_options_update', 'wp_user_update_dark_mode_preferences' );
+add_action( 'edit_user_profile_update', 'wp_user_update_dark_mode_preferences' );
 
 /**
  * Fetch a filtered list of user roles that the current user is

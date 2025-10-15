@@ -1136,11 +1136,14 @@ function get_custom_logo( $blog_id = 0 ) {
 
 	// We have a logo. Logo is go.
 	if ( has_custom_logo() ) {
-		$custom_logo_id   = get_theme_mod( 'custom_logo' );
-		$custom_logo_attr = array(
-			'class'   => 'custom-logo',
-			'loading' => false,
-		);
+                $custom_logo_id   = get_theme_mod( 'custom_logo' );
+                $custom_logo_attr = array(
+                        'class'   => 'custom-logo',
+                        'loading' => false,
+                );
+                $dark_logo_id     = wp_get_dark_mode_logo_id();
+                $dark_mode_pref   = wp_get_dark_mode_preference( 'frontend' );
+                $has_dark_logo    = $dark_logo_id && wp_attachment_is_image( $dark_logo_id );
 
 		$unlink_homepage_logo = (bool) get_theme_support( 'custom-logo', 'unlink-homepage-logo' );
 
@@ -1176,7 +1179,28 @@ function get_custom_logo( $blog_id = 0 ) {
 		 * If the alt attribute is not empty, there's no need to explicitly pass it
 		 * because wp_get_attachment_image() already adds the alt attribute.
 		 */
-		$image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
+                $logo_source_id = ( $has_dark_logo && 'dark' === $dark_mode_pref ) ? $dark_logo_id : $custom_logo_id;
+                $image          = wp_get_attachment_image( $logo_source_id, 'full', false, $custom_logo_attr );
+
+                if ( $has_dark_logo && 'dark' !== $dark_mode_pref ) {
+                        $fallback_image = wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr );
+                        $dark_srcset    = wp_get_attachment_image_srcset( $dark_logo_id, 'full' );
+                        $dark_src       = wp_get_attachment_image_url( $dark_logo_id, 'full' );
+                        $dark_sizes     = wp_get_attachment_image_sizes( $dark_logo_id, 'full' );
+
+                        if ( $dark_src ) {
+                                $picture  = '<picture class="custom-logo-picture">';
+                                $picture .= '<source media="(prefers-color-scheme: dark)" srcset="' . esc_attr( $dark_srcset ? $dark_srcset : $dark_src ) . '"';
+                                if ( $dark_sizes ) {
+                                        $picture .= ' sizes="' . esc_attr( $dark_sizes ) . '"';
+                                }
+                                $picture .= ' />';
+                                $picture .= $fallback_image;
+                                $picture .= '</picture>';
+
+                                $image = $picture;
+                        }
+                }
 
 		// Check that we have a proper HTML img element.
 		if ( $image ) {
