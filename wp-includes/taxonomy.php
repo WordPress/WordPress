@@ -3732,8 +3732,10 @@ function clean_taxonomy_cache( $taxonomy ) {
 	wp_cache_set_terms_last_changed();
 
 	// Regenerate cached hierarchy.
-	delete_option( "{$taxonomy}_children" );
-	_get_term_hierarchy( $taxonomy );
+	if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+		delete_option( "{$taxonomy}_children" );
+		_get_term_hierarchy( $taxonomy );
+	}
 
 	/**
 	 * Fires after a taxonomy's caches have been cleaned.
