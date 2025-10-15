@@ -1629,9 +1629,9 @@ class WP_Site_Health {
 	 *
 	 * @return array The test results.
 	 */
-	public function get_test_scheduled_events() {
-		$result = array(
-			'label'       => __( 'Scheduled events are running' ),
+        public function get_test_scheduled_events() {
+                $result = array(
+                        'label'       => __( 'Scheduled events are running' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
@@ -1688,12 +1688,62 @@ class WP_Site_Health {
 			);
 		}
 
-		return $result;
-	}
+                return $result;
+        }
 
-	/**
-	 * Tests if WordPress can run automated background updates.
-	 *
+        /**
+         * Tests the health of the image processing queue.
+         *
+         * @since 6.9.0
+         *
+         * @return array The test results.
+         */
+        public function get_test_image_processing_queue() {
+                $result = array(
+                        'label'       => __( 'Image processing queue is operating' ),
+                        'status'      => 'good',
+                        'badge'       => array(
+                                'label' => __( 'Performance' ),
+                                'color' => 'blue',
+                        ),
+                        'description' => sprintf(
+                                '<p>%s</p>',
+                                __( 'WordPress creates image sub-sizes in the background so that uploads complete quickly and remain responsive.' )
+                        ),
+                        'actions'     => '',
+                        'test'        => 'image_processing_queue',
+                );
+
+                $queue   = WP_Image_Processing_Queue::instance();
+                $jobs    = $queue->get_jobs();
+                $stalled = $queue->get_stalled_jobs();
+
+                if ( ! empty( $stalled ) ) {
+                        $result['status'] = 'critical';
+                        $result['label']  = __( 'Image processing queue appears stalled' );
+                        $result['description'] .= sprintf(
+                                '<p>%s</p>',
+                                __( 'One or more image processing tasks have been running for longer than expected. Image thumbnails may be missing until the queue recovers.' )
+                        );
+                } elseif ( ! empty( $jobs ) ) {
+                        $result['status'] = 'recommended';
+                        $result['label']  = __( 'Image processing queue has pending jobs' );
+                        $result['description'] .= sprintf(
+                                '<p>%s</p>',
+                                sprintf(
+                                        /* translators: %d: Number of pending jobs. */
+                                        _n( 'There is currently %d job waiting to be processed.', 'There are currently %d jobs waiting to be processed.', count( $jobs ) ),
+                                        count( $jobs )
+                                )
+                        );
+                }
+
+                return $result;
+        }
+
+        /**
+         * Tests if WordPress can run automated background updates.
+         *
 	 * Background updates in WordPress are primarily used for minor releases and security updates.
 	 * It's important to either have these working, or be aware that they are intentionally disabled
 	 * for whatever reason.
@@ -2781,14 +2831,18 @@ class WP_Site_Health {
 					'label' => __( 'Secure communication' ),
 					'test'  => 'ssl_support',
 				),
-				'scheduled_events'             => array(
-					'label' => __( 'Scheduled events' ),
-					'test'  => 'scheduled_events',
-				),
-				'http_requests'                => array(
-					'label' => __( 'HTTP Requests' ),
-					'test'  => 'http_requests',
-				),
+                                'scheduled_events'             => array(
+                                        'label' => __( 'Scheduled events' ),
+                                        'test'  => 'scheduled_events',
+                                ),
+                                'image_processing_queue'       => array(
+                                        'label' => __( 'Image processing queue' ),
+                                        'test'  => 'image_processing_queue',
+                                ),
+                                'http_requests'                => array(
+                                        'label' => __( 'HTTP Requests' ),
+                                        'test'  => 'http_requests',
+                                ),
 				'rest_availability'            => array(
 					'label'     => __( 'REST API availability' ),
 					'test'      => 'rest_availability',

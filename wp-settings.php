@@ -253,6 +253,7 @@ require ABSPATH . WPINC . '/class-wp-embed.php';
 require ABSPATH . WPINC . '/class-wp-oembed.php';
 require ABSPATH . WPINC . '/class-wp-oembed-controller.php';
 require ABSPATH . WPINC . '/media.php';
+require ABSPATH . WPINC . '/class-wp-image-processing-queue.php';
 require ABSPATH . WPINC . '/http.php';
 require ABSPATH . WPINC . '/html-api/html5-named-character-references.php';
 require ABSPATH . WPINC . '/html-api/class-wp-html-attribute-token.php';

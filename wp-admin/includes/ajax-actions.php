@@ -2538,26 +2538,41 @@ function wp_ajax_media_create_image_subsizes() {
 		header( 'X-WP-Upload-Attachment-ID: ' . $attachment_id );
 	}
 
-	/*
-	 * This can still be pretty slow and cause timeout or out of memory errors.
-	 * The js that handles the response would need to also handle HTTP 500 errors.
-	 */
-	wp_update_image_subsizes( $attachment_id );
+        $image_meta = wp_update_image_subsizes( $attachment_id );
 
-	if ( ! empty( $_POST['_legacy_support'] ) ) {
-		// The old (inline) uploader. Only needs the attachment_id.
-		$response = array( 'id' => $attachment_id );
-	} else {
-		// Media modal and Media Library grid view.
-		$response = wp_prepare_attachment_for_js( $attachment_id );
+        $processing = isset( $image_meta['wp_image_processing'] ) ? $image_meta['wp_image_processing'] : array();
+        $job_id     = isset( $processing['job_id'] ) ? $processing['job_id'] : '';
+        $state      = isset( $processing['state'] ) ? $processing['state'] : 'completed';
 
-		if ( ! $response ) {
-			wp_send_json_error( array( 'message' => __( 'Upload failed.' ) ) );
-		}
-	}
+        if ( ! empty( $_POST['_legacy_support'] ) ) {
+                // The old (inline) uploader. Maintain the attachment identifier.
+                $response = array(
+                        'id'        => $attachment_id,
+                        'job_id'    => $job_id,
+                        'state'     => $state,
+                        'pending'   => isset( $processing['pending'] ) ? $processing['pending'] : array(),
+                        'completed' => isset( $processing['completed'] ) ? $processing['completed'] : array(),
+                        'errors'    => isset( $processing['errors'] ) ? $processing['errors'] : array(),
+                );
+        } else {
+                $response = array(
+                        'attachment_id' => $attachment_id,
+                        'job_id'        => $job_id,
+                        'state'         => $state,
+                        'pending'       => isset( $processing['pending'] ) ? $processing['pending'] : array(),
+                        'completed'     => isset( $processing['completed'] ) ? $processing['completed'] : array(),
+                        'errors'        => isset( $processing['errors'] ) ? $processing['errors'] : array(),
+                );
 
-	// At this point the image has been uploaded successfully.
-	wp_send_json_success( $response );
+                if ( 'completed' === $state || 'completed_with_errors' === $state ) {
+                        $prepared = wp_prepare_attachment_for_js( $attachment_id );
+                        if ( $prepared ) {
+                                $response['attachment'] = $prepared;
+                        }
+                }
+        }
+
+        wp_send_json_success( $response );
 }
 
 /**
