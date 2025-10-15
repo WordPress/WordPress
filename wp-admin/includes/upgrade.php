@@ -160,6 +160,14 @@ if ( ! function_exists( 'wp_install' ) ) :
 	}
 endif;
 
+function wp_upgrade_media_organization() {
+        if ( function_exists( 'wp_ensure_default_media_folder' ) ) {
+                wp_ensure_default_media_folder();
+        }
+}
+
+add_action( 'wp_upgrade', 'wp_upgrade_media_organization' );
+
 if ( ! function_exists( 'wp_install_defaults' ) ) :
 	/**
 	 * Creates the initial content for a newly-installed site.

@@ -1452,8 +1452,11 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-a11y' ), false, 1 );
 		$scripts->set_translations( 'admin-widgets' );
 
-		$scripts->add( 'media-widgets', "/wp-admin/js/widgets/media-widgets$suffix.js", array( 'jquery', 'media-models', 'media-views', 'wp-api-request' ) );
-		$scripts->add_inline_script( 'media-widgets', 'wp.mediaWidgets.init();', 'after' );
+                $scripts->add( 'media-widgets', "/wp-admin/js/widgets/media-widgets$suffix.js", array( 'jquery', 'media-models', 'media-views', 'wp-api-request' ) );
+                $scripts->add_inline_script( 'media-widgets', 'wp.mediaWidgets.init();', 'after' );
+
+                $scripts->add( 'wp-media-organization', "/wp-admin/js/media-organization$suffix.js", array( 'jquery', 'media-views', 'wp-api-request' ), false, 1 );
+                $scripts->set_translations( 'wp-media-organization' );
 
 		$scripts->add( 'media-audio-widget', "/wp-admin/js/widgets/media-audio-widget$suffix.js", array( 'media-widgets', 'media-audiovideo' ) );
 		$scripts->add( 'media-image-widget', "/wp-admin/js/widgets/media-image-widget$suffix.js", array( 'media-widgets' ) );

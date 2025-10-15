@@ -31,8 +31,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @see register_rest_route()
 	 */
-	public function register_routes() {
-		parent::register_routes();
+        public function register_routes() {
+                parent::register_routes();
                 register_rest_route(
                         $this->namespace,
                         '/' . $this->rest_base . '/(?P<id>[\d]+)/post-process',
@@ -85,6 +85,22 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
                 );
         }
 
+        public function sanitize_media_taxonomy_param( $value, $request = null, $param = '' ) {
+                if ( is_string( $value ) && str_contains( $value, ',' ) ) {
+                        $value = explode( ',', $value );
+                }
+
+                if ( '' === $value || null === $value ) {
+                        return array();
+                }
+
+                $value = (array) $value;
+
+                $value = array_filter( array_map( 'absint', $value ) );
+
+                return array_values( $value );
+        }
+
 	/**
 	 * Determines the allowed query_vars for a get_items() response and
 	 * prepares for WP_Query.
@@ -123,14 +139,49 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			}
 		}
 
-		if ( ! empty( $all_mime_types ) ) {
-			$query_args['post_mime_type'] = array_values( array_unique( $all_mime_types ) );
-		}
+                if ( ! empty( $all_mime_types ) ) {
+                        $query_args['post_mime_type'] = array_values( array_unique( $all_mime_types ) );
+                }
 
-		// Filter query clauses to include filenames.
-		if ( isset( $query_args['s'] ) ) {
-			add_filter( 'wp_allow_query_attachment_by_filename', '__return_true' );
-		}
+                $tax_filters = array();
+
+                if ( ! empty( $request['media_folder'] ) ) {
+                        $folders = array_filter( array_map( 'absint', (array) $request['media_folder'] ) );
+
+                        if ( $folders ) {
+                                $tax_filters[] = array(
+                                        'taxonomy'         => 'media_folder',
+                                        'field'            => 'term_id',
+                                        'terms'            => $folders,
+                                        'include_children' => true,
+                                );
+                        }
+                }
+
+                if ( ! empty( $request['media_tag'] ) ) {
+                        $tags = array_filter( array_map( 'absint', (array) $request['media_tag'] ) );
+
+                        if ( $tags ) {
+                                $tax_filters[] = array(
+                                        'taxonomy' => 'media_tag',
+                                        'field'    => 'term_id',
+                                        'terms'    => $tags,
+                                );
+                        }
+                }
+
+                if ( $tax_filters ) {
+                        $query_args['tax_query'] = array_merge(
+                                array( 'relation' => 'AND' ),
+                                isset( $query_args['tax_query'] ) && is_array( $query_args['tax_query'] ) ? (array) $query_args['tax_query'] : array(),
+                                $tax_filters
+                        );
+                }
+
+                // Filter query clauses to include filenames.
+                if ( isset( $query_args['s'] ) ) {
+                        add_filter( 'wp_allow_query_attachment_by_filename', '__return_true' );
+                }
 
 		return $query_args;
 	}
@@ -1141,14 +1192,38 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$data['post'] = ! empty( $post->post_parent ) ? (int) $post->post_parent : null;
 		}
 
-		if ( in_array( 'source_url', $fields, true ) ) {
-			$data['source_url'] = wp_get_attachment_url( $post->ID );
-		}
+                if ( in_array( 'source_url', $fields, true ) ) {
+                        $data['source_url'] = wp_get_attachment_url( $post->ID );
+                }
 
-		if ( in_array( 'missing_image_sizes', $fields, true ) ) {
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-			$data['missing_image_sizes'] = array_keys( wp_get_missing_image_subsizes( $post->ID ) );
-		}
+                if ( in_array( 'media_folder', $fields, true ) ) {
+                        $folder_terms = wp_get_object_terms(
+                                $post->ID,
+                                'media_folder',
+                                array(
+                                        'fields' => 'ids',
+                                )
+                        );
+
+                        $data['media_folder'] = is_wp_error( $folder_terms ) ? array() : array_map( 'intval', $folder_terms );
+                }
+
+                if ( in_array( 'media_tag', $fields, true ) ) {
+                        $tag_terms = wp_get_object_terms(
+                                $post->ID,
+                                'media_tag',
+                                array(
+                                        'fields' => 'ids',
+                                )
+                        );
+
+                        $data['media_tag'] = is_wp_error( $tag_terms ) ? array() : array_map( 'intval', $tag_terms );
+                }
+
+                if ( in_array( 'missing_image_sizes', $fields, true ) ) {
+                        require_once ABSPATH . 'wp-admin/includes/image.php';
+                        $data['missing_image_sizes'] = array_keys( wp_get_missing_image_subsizes( $post->ID ) );
+                }
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 
@@ -1303,19 +1378,39 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'context'     => array( 'view', 'edit' ),
 		);
 
-		$schema['properties']['source_url'] = array(
-			'description' => __( 'URL to the original attachment file.' ),
-			'type'        => 'string',
-			'format'      => 'uri',
-			'context'     => array( 'view', 'edit', 'embed' ),
-			'readonly'    => true,
-		);
+                $schema['properties']['source_url'] = array(
+                        'description' => __( 'URL to the original attachment file.' ),
+                        'type'        => 'string',
+                        'format'      => 'uri',
+                        'context'     => array( 'view', 'edit', 'embed' ),
+                        'readonly'    => true,
+                );
 
-		$schema['properties']['missing_image_sizes'] = array(
-			'description' => __( 'List of the missing image sizes of the attachment.' ),
-			'type'        => 'array',
-			'items'       => array( 'type' => 'string' ),
-			'context'     => array( 'edit' ),
+                $schema['properties']['media_folder'] = array(
+                        'description' => __( 'Media folders assigned to the attachment.' ),
+                        'type'        => 'array',
+                        'items'       => array(
+                                'type' => 'integer',
+                        ),
+                        'context'     => array( 'view', 'edit' ),
+                        'default'     => array(),
+                );
+
+                $schema['properties']['media_tag'] = array(
+                        'description' => __( 'Media tags assigned to the attachment.' ),
+                        'type'        => 'array',
+                        'items'       => array(
+                                'type' => 'integer',
+                        ),
+                        'context'     => array( 'view', 'edit' ),
+                        'default'     => array(),
+                );
+
+                $schema['properties']['missing_image_sizes'] = array(
+                        'description' => __( 'List of the missing image sizes of the attachment.' ),
+                        'type'        => 'array',
+                        'items'       => array( 'type' => 'string' ),
+                        'context'     => array( 'edit' ),
 			'readonly'    => true,
 		);
 
@@ -1534,17 +1629,37 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			),
 		);
 
-		$params['mime_type'] = array(
-			'default'     => null,
-			'description' => __( 'Limit result set to attachments of a particular MIME type or MIME types.' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'string',
-			),
-		);
+                $params['mime_type'] = array(
+                        'default'     => null,
+                        'description' => __( 'Limit result set to attachments of a particular MIME type or MIME types.' ),
+                        'type'        => 'array',
+                        'items'       => array(
+                                'type' => 'string',
+                        ),
+                );
 
-		return $params;
-	}
+                $params['media_folder'] = array(
+                        'description'       => __( 'Limit result set to attachments assigned to specific media folders.' ),
+                        'type'              => 'array',
+                        'items'             => array(
+                                'type' => 'integer',
+                        ),
+                        'default'           => array(),
+                        'sanitize_callback' => array( $this, 'sanitize_media_taxonomy_param' ),
+                );
+
+                $params['media_tag'] = array(
+                        'description'       => __( 'Limit result set to attachments assigned to specific media tags.' ),
+                        'type'              => 'array',
+                        'items'             => array(
+                                'type' => 'integer',
+                        ),
+                        'default'           => array(),
+                        'sanitize_callback' => array( $this, 'sanitize_media_taxonomy_param' ),
+                );
+
+                return $params;
+        }
 
 	/**
 	 * Handles an upload via multipart/form-data ($_FILES).

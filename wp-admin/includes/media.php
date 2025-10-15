@@ -2090,10 +2090,10 @@ function media_upload_header() {
  * @param array $errors
  */
 function media_upload_form( $errors = null ) {
-	global $type, $tab;
+        global $type, $tab;
 
-	if ( ! _device_can_upload() ) {
-		echo '<p>' . sprintf(
+        if ( ! _device_can_upload() ) {
+                echo '<p>' . sprintf(
 			/* translators: %s: https://apps.wordpress.org/ */
 			__( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ),
 			'https://apps.wordpress.org/'
@@ -2206,8 +2206,123 @@ function media_upload_form( $errors = null ) {
 		// Check if AVIF images can be edited.
 		if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/avif' ) ) ) {
 			$plupload_init['avif_upload_error'] = true;
-		}
-	}
+        }
+}
+
+function wp_media_library_render_taxonomy_filters( $post_type, $which ) {
+        if ( 'attachment' !== $post_type ) {
+                return;
+        }
+
+        if ( taxonomy_exists( 'media_folder' ) ) {
+                $folder_dropdown = wp_dropdown_categories(
+                        array(
+                                'taxonomy'          => 'media_folder',
+                                'hide_empty'        => false,
+                                'hierarchical'      => true,
+                                'name'              => 'media_folder',
+                                'id'                => 'filter-by-media-folder-' . esc_attr( $which ),
+                                'class'             => 'wp-media-folder-filter',
+                                'show_option_all'   => __( 'All Media Folders' ),
+                                'option_none_value' => '',
+                                'value_field'       => 'term_id',
+                                'orderby'           => 'meta_value_num',
+                                'meta_key'          => 'folder_order',
+                                'selected'          => isset( $_GET['media_folder'] ) ? (int) $_GET['media_folder'] : 0,
+                                'echo'              => false,
+                        )
+                );
+
+                if ( $folder_dropdown ) {
+                        echo '<label class="screen-reader-text" for="filter-by-media-folder-' . esc_attr( $which ) . '">' . esc_html__( 'Filter by media folder' ) . '</label>';
+                        echo $folder_dropdown;
+                }
+        }
+
+        if ( taxonomy_exists( 'media_tag' ) ) {
+                $tag_dropdown = wp_dropdown_categories(
+                        array(
+                                'taxonomy'          => 'media_tag',
+                                'hide_empty'        => false,
+                                'hierarchical'      => false,
+                                'name'              => 'media_tag',
+                                'id'                => 'filter-by-media-tag-' . esc_attr( $which ),
+                                'class'             => 'wp-media-tag-filter',
+                                'show_option_all'   => __( 'All Media Tags' ),
+                                'option_none_value' => '',
+                                'value_field'       => 'term_id',
+                                'selected'          => isset( $_GET['media_tag'] ) ? (int) $_GET['media_tag'] : 0,
+                                'echo'              => false,
+                        )
+                );
+
+                if ( $tag_dropdown ) {
+                        echo '<label class="screen-reader-text" for="filter-by-media-tag-' . esc_attr( $which ) . '">' . esc_html__( 'Filter by media tag' ) . '</label>';
+                        echo $tag_dropdown;
+                }
+        }
+}
+
+function wp_media_library_admin_query_filters( $query ) {
+        if ( ! is_admin() || ! $query->is_main_query() ) {
+                return;
+        }
+
+        if ( 'attachment' !== $query->get( 'post_type' ) ) {
+                return;
+        }
+
+        $tax_filters = array();
+
+        if ( isset( $_GET['media_folder'] ) && '' !== $_GET['media_folder'] ) {
+                $folder_id = absint( $_GET['media_folder'] );
+
+                if ( $folder_id ) {
+                        $tax_filters[] = array(
+                                'taxonomy'         => 'media_folder',
+                                'field'            => 'term_id',
+                                'terms'            => array( $folder_id ),
+                                'include_children' => true,
+                        );
+                }
+        }
+
+        if ( isset( $_GET['media_tag'] ) && '' !== $_GET['media_tag'] ) {
+                $tag_id = absint( $_GET['media_tag'] );
+
+                if ( $tag_id ) {
+                        $tax_filters[] = array(
+                                'taxonomy' => 'media_tag',
+                                'field'    => 'term_id',
+                                'terms'    => array( $tag_id ),
+                        );
+                }
+        }
+
+        if ( $tax_filters ) {
+                $existing = $query->get( 'tax_query', array() );
+
+                if ( ! is_array( $existing ) ) {
+                        $existing = array();
+                }
+
+                $relation = 'AND';
+
+                if ( isset( $existing['relation'] ) ) {
+                        $relation = $existing['relation'];
+                        unset( $existing['relation'] );
+                }
+
+                $query->set(
+                        'tax_query',
+                        array_merge(
+                                array( 'relation' => $relation ),
+                                $existing,
+                                $tax_filters
+                        )
+                );
+        }
+}
 
 	/**
 	 * Filters the default Plupload settings.

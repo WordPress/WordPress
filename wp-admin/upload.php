@@ -10,8 +10,11 @@
 require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'upload_files' ) ) {
-	wp_die( __( 'Sorry, you are not allowed to upload files.' ) );
+        wp_die( __( 'Sorry, you are not allowed to upload files.' ) );
 }
+
+add_action( 'restrict_manage_posts', 'wp_media_library_render_taxonomy_filters', 10, 2 );
+add_action( 'pre_get_posts', 'wp_media_library_admin_query_filters' );
 
 $message = '';
 if ( ! empty( $_GET['posted'] ) ) {
@@ -245,9 +248,11 @@ if ( 'grid' === $mode ) {
 		?>
 	</div>
 	<?php
-	require_once ABSPATH . 'wp-admin/admin-footer.php';
-	exit;
+require_once ABSPATH . 'wp-admin/admin-footer.php';
+        exit;
 }
+
+wp_enqueue_media();
 
 $wp_list_table = _get_list_table( 'WP_Media_List_Table' );
 $pagenum       = $wp_list_table->get_pagenum();
