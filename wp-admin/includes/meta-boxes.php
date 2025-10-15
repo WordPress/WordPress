@@ -339,10 +339,24 @@ function post_submit_meta_box( $post, $args = array() ) {
 		 *
 		 * @param WP_Post $post WP_Post object for the current post.
 		 */
-		do_action( 'post_submitbox_misc_actions', $post );
-		?>
-	</div>
-	<div class="clear"></div>
+               do_action( 'post_submitbox_misc_actions', $post );
+
+               if ( in_array( $post->post_status, array( 'publish', 'private' ), true ) && $can_publish ) {
+                       $default_schedule_time = isset( $_REQUEST['schedule_update_datetime'] )
+                               ? sanitize_text_field( wp_unslash( $_REQUEST['schedule_update_datetime'] ) )
+                               : wp_date( 'Y-m-d\TH:i', current_time( 'timestamp' ) + HOUR_IN_SECONDS );
+                       ?>
+                       <div class="misc-pub-section misc-pub-schedule-update">
+                               <label for="schedule-update-datetime"><strong><?php _e( 'Schedule Update' ); ?></strong></label>
+                               <input type="datetime-local" id="schedule-update-datetime" name="schedule_update_datetime" value="<?php echo esc_attr( $default_schedule_time ); ?>" />
+                               <p class="description"><?php _e( 'Choose when the queued update should replace the live content.' ); ?></p>
+                               <?php wp_nonce_field( 'schedule_update_' . $post_id, 'schedule_update_nonce' ); ?>
+                       </div>
+                       <?php
+               }
+               ?>
+        </div>
+        <div class="clear"></div>
 </div>
 
 <div id="major-publishing-actions">
@@ -373,10 +387,10 @@ function post_submit_meta_box( $post, $args = array() ) {
 		?>
 	</div>
 
-	<div id="publishing-action">
-		<span class="spinner"></span>
-		<?php
-		if ( ! in_array( $post->post_status, array( 'publish', 'future', 'private' ), true ) || 0 === $post_id ) {
+       <div id="publishing-action">
+               <span class="spinner"></span>
+               <?php
+               if ( ! in_array( $post->post_status, array( 'publish', 'future', 'private' ), true ) || 0 === $post_id ) {
 			if ( $can_publish ) :
 				if ( ! empty( $post->post_date_gmt ) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) :
 					?>
@@ -400,10 +414,15 @@ function post_submit_meta_box( $post, $args = array() ) {
 			<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Update' ); ?>" />
 			<?php submit_button( __( 'Update' ), 'primary large', 'save', false, array( 'id' => 'publish' ) ); ?>
 			<?php
-		}
-		?>
-	</div>
-	<div class="clear"></div>
+               }
+               ?>
+       </div>
+       <?php if ( in_array( $post->post_status, array( 'publish', 'private' ), true ) && $can_publish ) : ?>
+               <div id="schedule-update-action">
+                       <?php submit_button( __( 'Schedule Update' ), 'secondary', 'schedule_update', false, array( 'id' => 'schedule-update' ) ); ?>
+               </div>
+       <?php endif; ?>
+       <div class="clear"></div>
 </div>
 
 </div>

@@ -325,12 +325,74 @@ function edit_post( $post_data = null ) {
 	if ( is_wp_error( $post_data ) ) {
 		wp_die( $post_data->get_error_message() );
 	}
-	$translated = _wp_get_allowed_postdata( $post_data );
+       $translated = _wp_get_allowed_postdata( $post_data );
 
-	// Post formats.
-	if ( isset( $post_data['post_format'] ) ) {
-		set_post_format( $post_id, $post_data['post_format'] );
-	}
+       // Post formats.
+       $schedule_update_requested = isset( $post_data['schedule_update'] ) && in_array( $post->post_status, array( 'publish', 'private' ), true );
+
+       if ( $schedule_update_requested ) {
+               if ( empty( $post_data['schedule_update_nonce'] ) || ! wp_verify_nonce( $post_data['schedule_update_nonce'], 'schedule_update_' . $post_id ) ) {
+                       wp_die( __( 'Sorry, you are not allowed to schedule updates for this post.' ) );
+               }
+
+               if ( ! current_user_can( $ptype->cap->publish_posts ) ) {
+                       wp_die( __( 'Sorry, you are not allowed to schedule updates for this post.' ) );
+               }
+
+               if ( empty( $post_data['schedule_update_datetime'] ) ) {
+                       wp_die( __( 'Please provide a date and time for the scheduled update.' ) );
+               }
+
+               $schedule_input = sanitize_text_field( wp_unslash( $post_data['schedule_update_datetime'] ) );
+               $timezone       = wp_timezone();
+               $date_object    = date_create_from_format( 'Y-m-d\TH:i', $schedule_input, $timezone );
+
+               if ( false === $date_object ) {
+                       wp_die( __( 'The scheduled update time could not be parsed.' ) );
+               }
+
+               $schedule_timestamp = $date_object->getTimestamp();
+
+               if ( $schedule_timestamp <= current_time( 'timestamp' ) ) {
+                       wp_die( __( 'Scheduled updates must use a future date.' ) );
+               }
+
+               $utc_time = clone $date_object;
+               $utc_time->setTimezone( new DateTimeZone( 'UTC' ) );
+
+               $schedule_args = array(
+                       'timestamp'     => $utc_time->getTimestamp(),
+                       'post_date'     => $date_object->format( 'Y-m-d H:i:s' ),
+                       'post_date_gmt' => $utc_time->format( 'Y-m-d H:i:s' ),
+               );
+
+               $scheduled_revision_id = wp_create_scheduled_post_update( $post_id, $translated, $schedule_args );
+
+               if ( is_wp_error( $scheduled_revision_id ) ) {
+                       wp_die( $scheduled_revision_id->get_error_message() );
+               }
+
+               add_filter(
+                       'redirect_post_location',
+                       static function( $location ) use ( $scheduled_revision_id ) {
+                               return add_query_arg(
+                                       array(
+                                               'message'             => 12,
+                                               'scheduled-update'    => 1,
+                                               'scheduled-update-id' => $scheduled_revision_id,
+                                       ),
+                                       $location
+                               );
+                       }
+               );
+
+               return $post_id;
+       }
+
+       // Post formats.
+       if ( isset( $post_data['post_format'] ) ) {
+               set_post_format( $post_id, $post_data['post_format'] );
+       }
 
 	$format_meta_urls = array( 'url', 'link_url', 'quote_source_url' );
 	foreach ( $format_meta_urls as $format_meta_url ) {

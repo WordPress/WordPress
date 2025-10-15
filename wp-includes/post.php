@@ -652,24 +652,40 @@ function create_initial_post_types() {
 		)
 	);
 
-	register_post_status(
-		'future',
-		array(
-			'label'       => _x( 'Scheduled', 'post status' ),
-			'protected'   => true,
+        register_post_status(
+                'future',
+                array(
+                        'label'       => _x( 'Scheduled', 'post status' ),
+                        'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
 			/* translators: %s: Number of scheduled posts. */
 			'label_count' => _n_noop(
 				'Scheduled <span class="count">(%s)</span>',
 				'Scheduled <span class="count">(%s)</span>'
 			),
-		)
-	);
+                )
+        );
 
-	register_post_status(
-		'draft',
-		array(
-			'label'         => _x( 'Draft', 'post status' ),
+        register_post_status(
+                'scheduled-update',
+                array(
+                        'label'                     => _x( 'Scheduled Update', 'post status' ),
+                        'protected'                 => true,
+                        '_builtin'                  => false,
+                        /* translators: %s: Number of scheduled updates. */
+                        'label_count'               => _n_noop(
+                                'Scheduled Update <span class="count">(%s)</span>',
+                                'Scheduled Updates <span class="count">(%s)</span>'
+                        ),
+                        'show_in_admin_status_list' => true,
+                        'show_in_admin_all_list'    => true,
+                )
+        );
+
+        register_post_status(
+                'draft',
+                array(
+                        'label'         => _x( 'Draft', 'post status' ),
 			'protected'     => true,
 			'_builtin'      => true, /* internal use only. */
 			/* translators: %s: Number of draft posts. */
@@ -5360,28 +5376,471 @@ function wp_publish_post( $post ) {
  * @param int|WP_Post $post Post ID or post object.
  */
 function check_and_publish_future_post( $post ) {
-	$post = get_post( $post );
+        $post = get_post( $post );
 
-	if ( ! $post ) {
-		return;
-	}
+        if ( ! $post ) {
+                return;
+        }
 
-	if ( 'future' !== $post->post_status ) {
-		return;
-	}
+        if ( 'future' !== $post->post_status ) {
+                return;
+        }
 
-	$time = strtotime( $post->post_date_gmt . ' GMT' );
+        $time = strtotime( $post->post_date_gmt . ' GMT' );
 
-	// Uh oh, someone jumped the gun!
-	if ( $time > time() ) {
-		wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) ); // Clear anything else in the system.
-		wp_schedule_single_event( $time, 'publish_future_post', array( $post->ID ) );
-		return;
-	}
+        // Uh oh, someone jumped the gun!
+        if ( $time > time() ) {
+                wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) ); // Clear anything else in the system.
+                wp_schedule_single_event( $time, 'publish_future_post', array( $post->ID ) );
+                return;
+        }
 
-	// wp_publish_post() returns no meaningful value.
-	wp_publish_post( $post->ID );
+        // wp_publish_post() returns no meaningful value.
+        wp_publish_post( $post->ID );
 }
+
+/**
+ * Creates a scheduled update revision for a post.
+ *
+ * @since 6.6.0
+ *
+ * @param int   $post_id       Parent post ID.
+ * @param array $post_data     Sanitized post data representing the proposed changes.
+ * @param array $schedule_args {
+ *     Arguments describing the schedule for the update.
+ *
+ *     @type int    $timestamp     Unix timestamp in GMT for when the update should publish.
+ *     @type string $post_date     Localized date string for the revision.
+ *     @type string $post_date_gmt GMT date string for the revision.
+ * }
+ * @return int|WP_Error Revision ID on success, WP_Error on failure.
+ */
+function wp_create_scheduled_post_update( $post_id, $post_data, $schedule_args ) {
+        $post = get_post( $post_id );
+
+        if ( ! $post ) {
+                return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
+        }
+
+        if ( empty( $schedule_args['timestamp'] ) ) {
+                return new WP_Error( 'scheduled_update_missing_time', __( 'A schedule time is required.' ) );
+        }
+
+        if ( ! post_type_supports( $post->post_type, 'revisions' ) ) {
+                return new WP_Error( 'scheduled_update_unsupported', __( 'Scheduled updates are not supported for this post type.' ) );
+        }
+
+        $revision_data   = _wp_post_revision_data( $post );
+        $revision_fields = array_keys( _wp_post_revision_fields( $post ) );
+
+        foreach ( $revision_fields as $field ) {
+                if ( isset( $post_data[ $field ] ) ) {
+                        $revision_data[ $field ] = $post_data[ $field ];
+                }
+        }
+
+        $revision_data['post_status']        = 'scheduled-update';
+        $revision_data['post_name']          = sprintf( '%d-scheduled-update-%s', $post_id, gmdate( 'YmdHis', (int) $schedule_args['timestamp'] ) );
+        $revision_data['post_author']        = get_current_user_id();
+        $revision_data['post_date']          = $schedule_args['post_date'];
+        $revision_data['post_date_gmt']      = $schedule_args['post_date_gmt'];
+        $revision_data['post_modified']      = current_time( 'mysql' );
+        $revision_data['post_modified_gmt']  = current_time( 'mysql', 1 );
+
+        $revision_id = wp_insert_post( wp_slash( $revision_data ), true );
+
+        if ( is_wp_error( $revision_id ) ) {
+                return $revision_id;
+        }
+
+        update_post_meta( $revision_id, '_scheduled_update_timestamp', (int) $schedule_args['timestamp'] );
+
+        if ( function_exists( 'wp_save_revisioned_meta_fields' ) ) {
+                wp_save_revisioned_meta_fields( $revision_id, $post_id );
+        }
+
+        wp_queue_scheduled_update_events( $revision_id, (int) $schedule_args['timestamp'] );
+
+        /**
+         * Fires after a scheduled update revision has been created.
+         *
+         * @since 6.6.0
+         *
+         * @param int $revision_id The scheduled revision ID.
+         * @param int $post_id     The parent post ID.
+         */
+        do_action( 'scheduled_update_created', $revision_id, $post_id );
+
+        return $revision_id;
+}
+
+/**
+ * Updates an existing scheduled update revision.
+ *
+ * @since 6.6.0
+ *
+ * @param int   $revision_id Revision ID.
+ * @param array $args        Arguments used to update the revision.
+ * @return WP_Post|WP_Error WP_Post object on success, WP_Error on failure.
+ */
+function wp_update_scheduled_post_update( $revision_id, $args ) {
+        $revision = get_post( $revision_id );
+
+        if ( ! $revision || 'revision' !== $revision->post_type || 'scheduled-update' !== $revision->post_status ) {
+                return new WP_Error( 'invalid_scheduled_update', __( 'Scheduled update not found.' ) );
+        }
+
+        $update = array( 'ID' => $revision_id );
+
+        foreach ( array( 'post_title', 'post_content', 'post_excerpt' ) as $field ) {
+                if ( array_key_exists( $field, $args ) ) {
+                        $update[ $field ] = $args[ $field ];
+                }
+        }
+
+        $timestamp = null;
+
+        if ( isset( $args['timestamp'] ) ) {
+                $timestamp = (int) $args['timestamp'];
+
+                if ( $timestamp <= time() ) {
+                        return new WP_Error( 'scheduled_update_past', __( 'Scheduled updates must use a future date.' ) );
+                }
+
+                $update['post_date_gmt'] = gmdate( 'Y-m-d H:i:s', $timestamp );
+                $update['post_date']     = get_date_from_gmt( $update['post_date_gmt'] );
+        }
+
+        if ( count( $update ) > 1 ) {
+                $result = wp_update_post( wp_slash( $update ), true, false );
+
+                if ( is_wp_error( $result ) ) {
+                        return $result;
+                }
+        }
+
+        if ( null !== $timestamp ) {
+                update_post_meta( $revision_id, '_scheduled_update_timestamp', $timestamp );
+                wp_queue_scheduled_update_events( $revision_id, $timestamp );
+        }
+
+        /**
+         * Fires after a scheduled update revision has been updated.
+         *
+         * @since 6.6.0
+         *
+         * @param int   $revision_id Revision ID.
+         * @param array $args        Arguments used to update the revision.
+         */
+        do_action( 'scheduled_update_updated', $revision_id, $args );
+
+        return get_post( $revision_id );
+}
+
+/**
+ * Cancels a scheduled update.
+ *
+ * @since 6.6.0
+ *
+ * @param int $revision_id Revision ID.
+ * @return true|WP_Error True on success, WP_Error on failure.
+ */
+function wp_cancel_scheduled_update( $revision_id ) {
+        $revision = get_post( $revision_id );
+
+        if ( ! $revision || 'revision' !== $revision->post_type || 'scheduled-update' !== $revision->post_status ) {
+                return new WP_Error( 'invalid_scheduled_update', __( 'Scheduled update not found.' ) );
+        }
+
+        wp_clear_scheduled_hook( 'publish_scheduled_update', array( $revision_id ) );
+        wp_clear_scheduled_hook( 'notify_scheduled_update', array( $revision_id ) );
+
+        $result = wp_update_post(
+                array(
+                        'ID'          => $revision_id,
+                        'post_status' => 'inherit',
+                ),
+                true
+        );
+
+        if ( is_wp_error( $result ) ) {
+                        return $result;
+        }
+
+        delete_post_meta( $revision_id, '_scheduled_update_timestamp' );
+
+        /**
+         * Fires after a scheduled update has been cancelled.
+         *
+         * @since 6.6.0
+         *
+         * @param int $revision_id Revision ID.
+         * @param int $post_id     Parent post ID.
+         */
+        do_action( 'scheduled_update_cancelled', $revision_id, $revision->post_parent );
+
+        return true;
+}
+
+/**
+ * Schedules cron events for a scheduled update revision.
+ *
+ * @since 6.6.0
+ *
+ * @param int $revision_id Revision ID.
+ * @param int $timestamp   GMT timestamp for publishing the update.
+ */
+function wp_queue_scheduled_update_events( $revision_id, $timestamp ) {
+        $timestamp = (int) $timestamp;
+
+        wp_clear_scheduled_hook( 'publish_scheduled_update', array( $revision_id ) );
+        wp_clear_scheduled_hook( 'notify_scheduled_update', array( $revision_id ) );
+
+        if ( $timestamp <= 0 ) {
+                return;
+        }
+
+        wp_schedule_single_event( $timestamp, 'publish_scheduled_update', array( $revision_id ) );
+
+        if ( $timestamp > time() ) {
+                $notify_time = max( time(), $timestamp - HOUR_IN_SECONDS );
+                wp_schedule_single_event( $notify_time, 'notify_scheduled_update', array( $revision_id ) );
+        }
+}
+
+/**
+ * Publishes a scheduled update by restoring the stored revision.
+ *
+ * @since 6.6.0
+ *
+ * @param int $revision_id Revision ID.
+ */
+function wp_publish_scheduled_update( $revision_id ) {
+        $revision = get_post( $revision_id );
+
+        if ( ! $revision || 'revision' !== $revision->post_type || 'scheduled-update' !== $revision->post_status ) {
+                return;
+        }
+
+        $post = get_post( $revision->post_parent );
+
+        if ( ! $post ) {
+                return;
+        }
+
+        wp_clear_scheduled_hook( 'publish_scheduled_update', array( $revision_id ) );
+        wp_clear_scheduled_hook( 'notify_scheduled_update', array( $revision_id ) );
+
+        wp_save_post_revision( $post->ID );
+
+        wp_restore_post_revision( $revision_id );
+
+        if ( function_exists( 'wp_restore_post_revision_meta' ) ) {
+                wp_restore_post_revision_meta( $post->ID, $revision_id );
+        }
+
+        wp_update_post(
+                array(
+                        'ID'                 => $revision_id,
+                        'post_status'        => 'inherit',
+                        'post_modified'      => current_time( 'mysql' ),
+                        'post_modified_gmt'  => current_time( 'mysql', 1 ),
+                )
+        );
+
+        delete_post_meta( $revision_id, '_scheduled_update_timestamp' );
+
+        /**
+         * Fires after a scheduled update has been published.
+         *
+         * @since 6.6.0
+         *
+         * @param int $post_id     Parent post ID.
+         * @param int $revision_id Revision ID.
+         */
+        do_action( 'scheduled_update_published', $post->ID, $revision_id );
+}
+
+/**
+ * Sends notifications for an upcoming scheduled update.
+ *
+ * @since 6.6.0
+ *
+ * @param int $revision_id Revision ID.
+ */
+function wp_notify_scheduled_update( $revision_id ) {
+        $revision = get_post( $revision_id );
+
+        if ( ! $revision || 'revision' !== $revision->post_type || 'scheduled-update' !== $revision->post_status ) {
+                return;
+        }
+
+        $post = get_post( $revision->post_parent );
+
+        if ( ! $post ) {
+                return;
+        }
+
+        $timestamp = (int) get_post_meta( $revision_id, '_scheduled_update_timestamp', true );
+
+        if ( ! $timestamp ) {
+                $timestamp = strtotime( $revision->post_date_gmt . ' GMT' );
+        }
+
+        if ( $timestamp <= time() ) {
+                return;
+        }
+
+        $recipients = array();
+
+        $admin_email = get_option( 'admin_email' );
+        if ( $admin_email ) {
+                $recipients[ $admin_email ] = $admin_email;
+        }
+
+        $users = get_users(
+                array(
+                        'role__in' => array( 'administrator', 'editor' ),
+                        'fields'   => array( 'user_email' ),
+                )
+        );
+
+        foreach ( $users as $user ) {
+                if ( ! empty( $user->user_email ) ) {
+                        $recipients[ $user->user_email ] = $user->user_email;
+                }
+        }
+
+        if ( empty( $recipients ) ) {
+                return;
+        }
+
+        $scheduled_for = wp_date(
+                get_option( 'date_format' ) . ' ' . get_option( 'time_format' ),
+                $timestamp
+        );
+
+        $subject = sprintf( __( 'Scheduled update for "%s"' ), $post->post_title );
+        $message = sprintf( __( 'An update for "%1$s" is scheduled to publish on %2$s.' ), $post->post_title, $scheduled_for );
+        $message .= "\n\n" . admin_url( 'revision.php?revision=' . $revision_id );
+
+        foreach ( $recipients as $email ) {
+                wp_mail( $email, $subject, $message );
+        }
+
+        /**
+         * Fires after notifications have been sent for a scheduled update.
+         *
+         * @since 6.6.0
+         *
+         * @param int $revision_id Revision ID.
+         * @param int $post_id     Parent post ID.
+         */
+        do_action( 'scheduled_update_notification', $revision_id, $post->ID );
+}
+
+/**
+ * Retrieves scheduled update revisions.
+ *
+ * @since 6.6.0
+ *
+ * @param array $args {
+ *     Optional. Arguments for querying scheduled updates.
+ *
+ *     @type string $post_type Parent post type to limit results to.
+ *     @type int    $parent    Parent post ID to limit results to.
+ *     @type int    $number    Number of results to return. Default 20.
+ *     @type int    $offset    Offset for the query. Default 0.
+ * }
+ * @return array {
+ *     @type WP_Post[] $items Scheduled update revisions.
+ *     @type int       $total Total number of scheduled updates matching the query.
+ * }
+ */
+function wp_get_scheduled_updates( $args = array() ) {
+        global $wpdb;
+
+        $defaults = array(
+                'post_type' => null,
+                'parent'    => null,
+                'number'    => 20,
+                'offset'    => 0,
+        );
+
+        $args = wp_parse_args( $args, $defaults );
+
+        $where  = array( "r.post_type = 'revision'", 'r.post_status = %s' );
+        $params = array( 'scheduled-update' );
+
+        if ( ! empty( $args['post_type'] ) ) {
+                $where[]  = 'p.post_type = %s';
+                $params[] = $args['post_type'];
+        }
+
+        if ( null !== $args['parent'] ) {
+                $where[]  = 'r.post_parent = %d';
+                $params[] = (int) $args['parent'];
+        }
+
+        $where_sql = implode( ' AND ', $where );
+
+        $base_sql = "FROM $wpdb->posts AS r INNER JOIN $wpdb->posts AS p ON r.post_parent = p.ID WHERE $where_sql";
+
+        $items_sql   = "SELECT r.ID $base_sql ORDER BY r.post_date_gmt ASC";
+        $items_params = $params;
+
+        if ( $args['number'] > 0 ) {
+                        $items_sql     .= ' LIMIT %d OFFSET %d';
+                        $items_params[] = (int) $args['number'];
+                        $items_params[] = (int) $args['offset'];
+        }
+
+        $ids = $wpdb->get_col( $wpdb->prepare( $items_sql, $items_params ) );
+
+        $total = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(1) $base_sql", $params ) );
+
+        $posts = array();
+
+        if ( $ids ) {
+                foreach ( $ids as $id ) {
+                        $posts[] = get_post( (int) $id );
+                }
+        }
+
+        return array(
+                'items' => $posts,
+                'total' => $total,
+        );
+}
+
+/**
+ * Counts scheduled updates for a post type.
+ *
+ * @since 6.6.0
+ *
+ * @param string $post_type Post type slug.
+ * @return int Number of scheduled updates.
+ */
+function wp_count_scheduled_updates( $post_type ) {
+        global $wpdb;
+
+        $where  = array( "r.post_type = 'revision'", 'r.post_status = %s' );
+        $params = array( 'scheduled-update' );
+
+        if ( ! empty( $post_type ) ) {
+                $where[]  = 'p.post_type = %s';
+                $params[] = $post_type;
+        }
+
+        $where_sql = implode( ' AND ', $where );
+
+        $sql = "SELECT COUNT(1) FROM $wpdb->posts AS r INNER JOIN $wpdb->posts AS p ON r.post_parent = p.ID WHERE $where_sql";
+
+        return (int) $wpdb->get_var( $wpdb->prepare( $sql, $params ) );
+}
+
+add_action( 'publish_scheduled_update', 'wp_publish_scheduled_update' );
+add_action( 'notify_scheduled_update', 'wp_notify_scheduled_update' );
 
 /**
  * Uses wp_checkdate to return a valid Gregorian-calendar value for post_date.
