@@ -823,3 +823,144 @@ function load_template( $_template_file, $load_once = true, $args = array() ) {
 	 */
 	do_action( 'wp_after_load_template', $_template_file, $load_once, $args );
 }
+
+/**
+ * Checks whether the template should be output buffered for enhancement.
+ *
+ * By default, an output buffer is only started if a {@see 'wp_template_enhancement_output_buffer'} filter has been
+ * added be the time a template is included at the {@see 'wp_before_include_template'} action. This allows template
+ * responses to be streamed as much as possible when no template enhancements are registered to apply.
+ *
+ * @since 6.9.0
+ *
+ * @return bool Whether the template should be output-buffered for enhancement.
+ */
+function wp_should_output_buffer_template_for_enhancement(): bool {
+	/**
+	 * Filters whether the template should be output-buffered for enhancement.
+	 *
+	 * By default, an output buffer is only started if a {@see 'wp_template_enhancement_output_buffer'} filter has been
+	 * added. For this default to apply, a filter must be added by the time the template is included at the
+	 * {@see 'wp_before_include_template'} action. This allows template responses to be streamed as much as possible
+	 * when no template enhancements are registered to apply. This filter allows a site to opt in to adding such
+	 * template enhancement filters during the rendering of the template.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param bool $use_output_buffer Whether an output buffer is started.
+	 */
+	return (bool) apply_filters( 'wp_should_output_buffer_template_for_enhancement', has_filter( 'wp_template_enhancement_output_buffer' ) );
+}
+
+/**
+ * Starts the template enhancement output buffer.
+ *
+ * This function is called immediately before the template is included.
+ *
+ * @since 6.9.0
+ *
+ * @return bool Whether the output buffer successfully started.
+ */
+function wp_start_template_enhancement_output_buffer(): bool {
+	if ( ! wp_should_output_buffer_template_for_enhancement() ) {
+		return false;
+	}
+
+	$started = ob_start(
+		'wp_finalize_template_enhancement_output_buffer',
+		0, // Unlimited buffer size so that entire output is passed to the filter.
+		/*
+		 * Instead of the default PHP_OUTPUT_HANDLER_STDFLAGS (cleanable, flushable, and removable) being used for
+		 * flags, the PHP_OUTPUT_HANDLER_FLUSHABLE flag must be omitted. If the buffer were flushable, then each time
+		 * that ob_flush() is called, a fragment of the output would be sent into the output buffer callback. This
+		 * output buffer is intended to capture the entire response for processing, as indicated by the chunk size of 0.
+		 * So the buffer does not allow flushing to ensure the entire buffer can be processed, such as for optimizing an
+		 * entire HTML document, where markup in the HEAD may need to be adjusted based on markup that appears late in
+		 * the BODY.
+		 *
+		 * If this ends up being problematic, then PHP_OUTPUT_HANDLER_FLUSHABLE could be added to the $flags and the
+		 * output buffer callback could check if the phase is PHP_OUTPUT_HANDLER_FLUSH and abort any subsequent
+		 * processing while also emitting a _doing_it_wrong().
+		 *
+		 * The output buffer needs to be removable because WordPress calls wp_ob_end_flush_all() and then calls
+		 * wp_cache_close(). If the buffers are not all flushed before wp_cache_close() is closed, then some output buffer
+		 * handlers (e.g. for caching plugins) may fail to be able to store the page output in the object cache.
+		 * See <https://github.com/WordPress/performance/pull/1317#issuecomment-2271955356>.
+		 */
+		PHP_OUTPUT_HANDLER_STDFLAGS ^ PHP_OUTPUT_HANDLER_FLUSHABLE
+	);
+
+	if ( $started ) {
+		/**
+		 * Fires when the template enhancement output buffer has started.
+		 *
+		 * @since 6.9.0
+		 */
+		do_action( 'wp_template_enhancement_output_buffer_started' );
+	}
+
+	return $started;
+}
+
+/**
+ * Finalizes the template enhancement output buffer.
+ *
+ * Checks to see if the output buffer is complete and contains HTML. If so, runs the content through
+ * the `wp_template_enhancement_output_buffer` filter.  If not, the original content is returned.
+ *
+ * @since 6.9.0
+ *
+ * @see wp_start_template_enhancement_output_buffer()
+ *
+ * @param string $output Output buffer.
+ * @param int    $phase  Phase.
+ * @return string Finalized output buffer.
+ */
+function wp_finalize_template_enhancement_output_buffer( string $output, int $phase ): string {
+	// When the output is being cleaned (e.g. pending template is replaced with error page), do not send it through the filter.
+	if ( ( $phase & PHP_OUTPUT_HANDLER_CLEAN ) !== 0 ) {
+		return $output;
+	}
+
+	// Detect if the response is an HTML content type.
+	$is_html_content_type = null;
+	$html_content_types   = array( 'text/html', 'application/xhtml+xml' );
+	foreach ( headers_list() as $header ) {
+		$header_parts = preg_split( '/\s*[:;]\s*/', strtolower( $header ) );
+		if (
+			is_array( $header_parts ) &&
+			count( $header_parts ) >= 2 &&
+			'content-type' === $header_parts[0]
+		) {
+			$is_html_content_type = in_array( $header_parts[1], $html_content_types, true );
+			break; // PHP only sends the first Content-Type header in the list.
+		}
+	}
+	if ( null === $is_html_content_type ) {
+		$is_html_content_type = in_array( ini_get( 'default_mimetype' ), $html_content_types, true );
+	}
+
+	// If the content type is not HTML, short-circuit since it is not relevant for enhancement.
+	if ( ! $is_html_content_type ) {
+		return $output;
+	}
+
+	$filtered_output = $output;
+
+	/**
+	 * Filters the template enhancement output buffer prior to sending to the client.
+	 *
+	 * This filter only applies the HTML output of an included template. This filter is a progressive enhancement
+	 * intended for applications such as optimizing markup to improve frontend page load performance. Sites must not
+	 * depend on this filter applying since they may opt to stream the responses instead. Callbacks for this filter are
+	 * highly discouraged from using regular expressions to do any kind of replacement on the output. Use the HTML API
+	 * (either `WP_HTML_Tag_Processor` or `WP_HTML_Processor`), or else use {@see DOM\HtmlDocument} as of PHP 8.4 which
+	 * fully supports HTML5.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string $filtered_output HTML template enhancement output buffer.
+	 * @param string $output          Original HTML template output buffer.
+	 */
+	return (string) apply_filters( 'wp_template_enhancement_output_buffer', $filtered_output, $output );
+}

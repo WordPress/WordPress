@@ -113,6 +113,15 @@ if ( wp_using_themes() ) {
 	 */
 	$template = apply_filters( 'template_include', $template );
 	if ( $template ) {
+		/**
+		 * Fires immediately before including the template.
+		 *
+		 * @since 6.9.0
+		 *
+		 * @param string $template The path of the template about to be included.
+		 */
+		do_action( 'wp_before_include_template', $template );
+
 		include $template;
 	} elseif ( current_user_can( 'switch_themes' ) ) {
 		$theme = wp_get_theme();
