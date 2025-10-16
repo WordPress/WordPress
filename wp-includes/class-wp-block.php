@@ -492,13 +492,12 @@ class WP_Block {
 	public function render( $options = array() ) {
 		global $post;
 
-		// Capture the current assets queues and then clear out to capture the diff of what was introduced by rendering.
+		$before_wp_enqueue_scripts_count = did_action( 'wp_enqueue_scripts' );
+
+		// Capture the current assets queues.
 		$before_styles_queue         = wp_styles()->queue;
 		$before_scripts_queue        = wp_scripts()->queue;
-		$before_script_modules_queue = wp_script_modules()->queue;
-		wp_styles()->queue           = array();
-		wp_scripts()->queue          = array();
-		wp_script_modules()->queue   = array();
+		$before_script_modules_queue = wp_script_modules()->get_queue();
 
 		/*
 		 * There can be only one root interactive block at a time because the rendered HTML of that block contains
@@ -670,21 +669,27 @@ class WP_Block {
 		}
 
 		// Capture the new assets enqueued during rendering, and restore the queues the state prior to rendering.
-		$new_styles_queue          = wp_styles()->queue;
-		$new_scripts_queue         = wp_scripts()->queue;
-		$new_script_modules_queue  = wp_script_modules()->queue;
-		wp_styles()->queue         = $before_styles_queue;
-		wp_scripts()->queue        = $before_scripts_queue;
-		wp_script_modules()->queue = $before_script_modules_queue;
-		$has_new_styles            = count( $new_styles_queue ) > 0;
-		$has_new_scripts           = count( $new_scripts_queue ) > 0;
-		$has_new_script_modules    = count( $new_script_modules_queue ) > 0;
+		$after_styles_queue         = wp_styles()->queue;
+		$after_scripts_queue        = wp_scripts()->queue;
+		$after_script_modules_queue = wp_script_modules()->get_queue();
 
-		// Merge the newly enqueued assets with the existing assets if the rendered block is not empty.
+		/*
+		 * As a very special case, a dynamic block may in fact include a call to wp_head() (and thus wp_enqueue_scripts()),
+		 * in which all of its enqueued assets are targeting wp_footer. In this case, nothing would be printed, but this
+		 * shouldn't indicate that the just-enqueued assets should be dequeued due to it being an empty block.
+		 */
+		$just_did_wp_enqueue_scripts = ( did_action( 'wp_enqueue_scripts' ) !== $before_wp_enqueue_scripts_count );
+
+		$has_new_styles         = ( $before_styles_queue !== $after_styles_queue );
+		$has_new_scripts        = ( $before_scripts_queue !== $after_scripts_queue );
+		$has_new_script_modules = ( $before_script_modules_queue !== $after_script_modules_queue );
+
+		// Dequeue the newly enqueued assets with the existing assets if the rendered block was empty & wp_enqueue_scripts did not fire.
 		if (
+			! $just_did_wp_enqueue_scripts &&
 			( $has_new_styles || $has_new_scripts || $has_new_script_modules ) &&
 			(
-				trim( $block_content ) !== '' ||
+				trim( $block_content ) === '' &&
 				/**
 				 * Filters whether to enqueue assets for a block which has no rendered content.
 				 *
@@ -693,17 +698,17 @@ class WP_Block {
 				 * @param bool   $enqueue    Whether to enqueue assets.
 				 * @param string $block_name Block name.
 				 */
-				(bool) apply_filters( 'enqueue_empty_block_content_assets', false, $this->name )
+				! (bool) apply_filters( 'enqueue_empty_block_content_assets', false, $this->name )
 			)
 		) {
-			if ( $has_new_styles ) {
-				wp_styles()->queue = array_unique( array_merge( wp_styles()->queue, $new_styles_queue ) );
+			foreach ( array_diff( $after_styles_queue, $before_styles_queue ) as $handle ) {
+				wp_dequeue_style( $handle );
 			}
-			if ( $has_new_scripts ) {
-				wp_scripts()->queue = array_unique( array_merge( wp_scripts()->queue, $new_scripts_queue ) );
+			foreach ( array_diff( $after_scripts_queue, $before_scripts_queue ) as $handle ) {
+				wp_dequeue_script( $handle );
 			}
-			if ( $has_new_script_modules ) {
-				wp_script_modules()->queue = array_unique( array_merge( wp_script_modules()->queue, $new_script_modules_queue ) );
+			foreach ( array_diff( $after_script_modules_queue, $before_script_modules_queue ) as $handle ) {
+				wp_dequeue_script_module( $handle );
 			}
 		}
 
