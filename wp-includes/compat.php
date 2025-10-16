@@ -247,6 +247,74 @@ function _mb_strlen( $str, $encoding = null ) {
 		: strlen( $str );
 }
 
+if ( ! function_exists( 'utf8_encode' ) ) :
+	if ( extension_loaded( 'mbstring' ) ) :
+		/**
+		 * Converts a string from ISO-8859-1 to UTF-8.
+		 *
+		 * @deprecated Use {@see \mb_convert_encoding()} instead.
+		 *
+		 * @since 6.9.0
+		 *
+		 * @param string $iso_8859_1_text Text treated as ISO-8859-1 (latin1) bytes.
+		 * @return string Text converted into a UTF-8.
+		 */
+		function utf8_encode( $iso_8859_1_text ): string {
+			_deprecated_function( __FUNCTION__, '6.9.0', 'mb_convert_encoding' );
+
+			return mb_convert_encoding( $iso_8859_1_text, 'UTF-8', 'ISO-8859-1' );
+		}
+
+	else :
+		/**
+		 * @ignore
+		 * @private
+		 *
+		 * @since 6.9.0
+		 */
+		function utf8_encode( $iso_8859_1_text ): string {
+			_deprecated_function( __FUNCTION__, '6.9.0', 'mb_convert_encoding' );
+
+			return _wp_utf8_encode_fallback( $iso_8859_1_text );
+		}
+
+	endif;
+endif;
+
+if ( ! function_exists( 'utf8_decode' ) ) :
+	if ( extension_loaded( 'mbstring' ) ) :
+		/**
+		 * Converts a string from UTF-8 to ISO-8859-1.
+		 *
+		 * @deprecated Use {@see \mb_convert_encoding()} instead.
+		 *
+		 * @since 6.9.0
+		 *
+		 * @param string $utf8_text Text treated as UTF-8.
+		 * @return string Text converted into ISO-8859-1.
+		 */
+		function utf8_decode( $utf8_text ): string {
+			_deprecated_function( __FUNCTION__, '6.9.0', 'mb_convert_encoding' );
+
+			return mb_convert_encoding( $utf8_text, 'ISO-8859-1', 'UTF-8' );
+		}
+
+	else :
+		/**
+		 * @ignore
+		 * @private
+		 *
+		 * @since 6.9.0
+		 */
+		function utf8_decode( $utf8_text ): string {
+			_deprecated_function( __FUNCTION__, '6.9.0', 'mb_convert_encoding' );
+
+			return _wp_utf8_decode_fallback( $utf8_text );
+		}
+
+	endif;
+endif;
+
 // sodium_crypto_box() was introduced in PHP 7.2.
 if ( ! function_exists( 'sodium_crypto_box' ) ) {
 	require ABSPATH . WPINC . '/sodium_compat/autoload.php';
