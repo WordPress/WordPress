@@ -369,6 +369,7 @@ require ABSPATH . WPINC . '/block-bindings.php';
 require ABSPATH . WPINC . '/block-bindings/pattern-overrides.php';
 require ABSPATH . WPINC . '/block-bindings/post-data.php';
 require ABSPATH . WPINC . '/block-bindings/post-meta.php';
+require ABSPATH . WPINC . '/block-bindings/term-data.php';
 require ABSPATH . WPINC . '/blocks.php';
 require ABSPATH . WPINC . '/blocks/index.php';
 require ABSPATH . WPINC . '/block-editor.php';

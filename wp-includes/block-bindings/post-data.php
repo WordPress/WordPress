@@ -23,10 +23,29 @@ function _block_bindings_post_data_get_value( array $source_args, $block_instanc
 		return null;
 	}
 
-	if ( empty( $block_instance->context['postId'] ) ) {
+	/*
+	 * BACKWARDS COMPATIBILITY: Hardcoded exception for navigation blocks.
+	 * Required for WordPress 6.9+ navigation blocks. DO NOT REMOVE.
+	 */
+	$block_name          = $block_instance->name ?? '';
+	$is_navigation_block = in_array(
+		$block_name,
+		array( 'core/navigation-link', 'core/navigation-submenu' ),
+		true
+	);
+
+	if ( $is_navigation_block ) {
+		// Navigation blocks: read from block attributes.
+		$post_id = $block_instance->attributes['id'] ?? null;
+	} else {
+		// All other blocks: use context.
+		$post_id = $block_instance->context['postId'] ?? null;
+	}
+
+	// If we don't have an entity ID, bail early.
+	if ( empty( $post_id ) ) {
 		return null;
 	}
-	$post_id = $block_instance->context['postId'];
 
 	// If a post isn't public, we need to prevent unauthorized users from accessing the post data.
 	$post = get_post( $post_id );
@@ -45,6 +64,11 @@ function _block_bindings_post_data_get_value( array $source_args, $block_instanc
 		} else {
 			return '';
 		}
+	}
+
+	if ( 'link' === $source_args['key'] ) {
+		$permalink = get_permalink( $post_id );
+		return false === $permalink ? null : esc_url( $permalink );
 	}
 }
 
