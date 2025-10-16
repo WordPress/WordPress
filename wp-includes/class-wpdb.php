@@ -297,9 +297,10 @@ class wpdb {
 		'terms',
 		'term_taxonomy',
 		'term_relationships',
-		'termmeta',
-		'commentmeta',
-	);
+                'termmeta',
+                'commentmeta',
+                'translations',
+        );
 
 	/**
 	 * List of deprecated WordPress tables.

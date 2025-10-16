@@ -49,6 +49,13 @@ add_filter( 'screen_options_show_screen', '__return_false' );
 wp_enqueue_script( 'heartbeat' );
 wp_enqueue_script( 'wp-edit-post' );
 
+$translation_settings = wp_translation_get_block_editor_settings( $post );
+wp_add_inline_script(
+        'wp-edit-post',
+        'window.wp = window.wp || {}; window.wp.translationSettings = ' . wp_json_encode( $translation_settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ';',
+        'before'
+);
+
 $rest_path = rest_get_route_for_post( $post );
 
 $active_theme                   = get_stylesheet();
@@ -377,8 +384,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
 <div class="block-editor">
-	<h1 class="screen-reader-text hide-if-no-js"><?php echo esc_html( $title ); ?></h1>
-	<div id="editor" class="block-editor__container hide-if-no-js"></div>
+        <h1 class="screen-reader-text hide-if-no-js"><?php echo esc_html( $title ); ?></h1>
+        <?php wp_translation_render_block_editor_language_switcher( $post ); ?>
+        <div id="editor" class="block-editor__container hide-if-no-js"></div>
 	<div id="metaboxes" class="hidden">
 		<?php the_block_editor_meta_boxes(); ?>
 	</div>
@@ -428,3 +436,56 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		?>
 	</div>
 </div>
+<script>
+        document.addEventListener( 'DOMContentLoaded', function() {
+                const container = document.querySelector( '.wp-translation-language-switcher' );
+
+                if ( ! container ) {
+                        return;
+                }
+
+                const select = container.querySelector( '.wp-translation-language-select' );
+                const status = container.querySelector( '.wp-translation-status' );
+                const button = container.querySelector( '.wp-translation-clone' );
+                const settings = window.wp && window.wp.translationSettings ? window.wp.translationSettings : {};
+                const translations = settings.translations || {};
+
+                const updateStatus = function() {
+                        if ( ! select || ! status ) {
+                                return;
+                        }
+
+                        const value = select.value;
+                        if ( translations[ value ] ) {
+                                const label = translations[ value ].status ? translations[ value ].status : '';
+                                const prefix = settings.strings && settings.strings.statusPrefix ? settings.strings.statusPrefix : 'Status:';
+                                status.textContent = label ? prefix + ' ' + label : '';
+                        } else {
+                                status.textContent = '';
+                        }
+                };
+
+                if ( select ) {
+                        select.addEventListener( 'change', updateStatus );
+                        updateStatus();
+                }
+
+                if ( button && select ) {
+                        button.addEventListener( 'click', function() {
+                                const locale = select.value;
+                                const postId = button.dataset.postId;
+                                const nonce = button.dataset.nonce;
+
+                                if ( ! locale || ! postId || ! nonce ) {
+                                        return;
+                                }
+
+                                const url = new URL( window.location.href );
+                                url.searchParams.set( 'clone_post_to_locale', locale );
+                                url.searchParams.set( 'post', postId );
+                                url.searchParams.set( '_wpnonce', nonce );
+                                window.location.href = url.toString();
+                        } );
+                }
+        } );
+</script>

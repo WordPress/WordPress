@@ -185,7 +185,21 @@ CREATE TABLE $wpdb->posts (
 	KEY type_status_date (post_type,post_status,post_date,ID),
 	KEY post_parent (post_parent),
 	KEY post_author (post_author),
-	KEY type_status_author (post_type,post_status,post_author)
+        KEY type_status_author (post_type,post_status,post_author)
+ ) $charset_collate;\n
+CREATE TABLE $wpdb->translations (
+        translation_id bigint(20) unsigned NOT NULL auto_increment,
+        translation_group char(36) NOT NULL,
+        object_type varchar(20) NOT NULL,
+        object_id bigint(20) unsigned NOT NULL,
+        locale varchar(20) NOT NULL,
+        status varchar(20) NOT NULL default 'draft',
+        synced_meta longtext,
+        last_synced datetime NOT NULL default '0000-00-00 00:00:00',
+        PRIMARY KEY  (translation_id),
+        UNIQUE KEY translation_object_locale (object_type,object_id,locale),
+        KEY translation_group (translation_group),
+        KEY locale (locale)
 ) $charset_collate;\n";
 
 	// Single site users table. The multisite flavor of the users table is handled below.

@@ -125,6 +125,7 @@ require ABSPATH . WPINC . '/l10n/class-wp-translations.php';
 require ABSPATH . WPINC . '/l10n/class-wp-translation-file.php';
 require ABSPATH . WPINC . '/l10n/class-wp-translation-file-mo.php';
 require ABSPATH . WPINC . '/l10n/class-wp-translation-file-php.php';
+require ABSPATH . WPINC . '/l10n/translation.php';
 
 /**
  * @since 0.71

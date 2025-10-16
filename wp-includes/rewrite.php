@@ -658,3 +658,64 @@ function url_to_postid( $url ) {
 	}
 	return 0;
 }
+
+if ( function_exists( 'add_action' ) && ! function_exists( 'wp_translation_register_rewrite_tag' ) ) {
+        add_action( 'init', 'wp_translation_register_rewrite_tag', 0 );
+        add_filter( 'rewrite_rules_array', 'wp_translation_locale_rewrite_rules' );
+}
+
+if ( ! function_exists( 'wp_translation_register_rewrite_tag' ) ) {
+        /**
+         * Registers the custom rewrite tag used for translation aware routing.
+         *
+         * @since 6.6.0
+         */
+        function wp_translation_register_rewrite_tag() {
+                if ( ! function_exists( 'add_rewrite_tag' ) ) {
+                        return;
+                }
+
+                add_rewrite_tag( '%translation_path%', '(.+)', 'translation_path=' );
+        }
+}
+
+if ( ! function_exists( 'wp_translation_locale_rewrite_rules' ) ) {
+        /**
+         * Injects locale aware rewrite rules when path based routing is enabled.
+         *
+         * @since 6.6.0
+         *
+         * @param string[] $rules Existing rewrite rules.
+         * @return string[] Modified rewrite rules.
+         */
+        function wp_translation_locale_rewrite_rules( $rules ) {
+                if ( ! function_exists( 'wp_translation_get_locale_routing_mode' ) ) {
+                        return $rules;
+                }
+
+                if ( 'path' !== wp_translation_get_locale_routing_mode() ) {
+                        return $rules;
+                }
+
+                $locales = wp_translation_get_configured_locales();
+
+                if ( empty( $locales ) ) {
+                        return $rules;
+                }
+
+                $escaped = array_map(
+                        static function ( $locale ) {
+                                return preg_quote( $locale, '/' );
+                        },
+                        $locales
+                );
+
+                $prefix    = '(?:' . implode( '|', $escaped ) . ')';
+                $new_rules = array(
+                        '^' . $prefix . '/?$'   => 'index.php?locale=$matches[1]',
+                        '^' . $prefix . '/(.+)$' => 'index.php?translation_path=$matches[2]&locale=$matches[1]',
+                );
+
+                return $new_rules + $rules;
+        }
+}
