@@ -154,7 +154,10 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		$obj = $this->registered[ $handle ];
+		if ( $obj->extra['conditional'] ?? false ) {
 
+			return false;
+		}
 		if ( null === $obj->ver ) {
 			$ver = '';
 		} else {
@@ -165,16 +168,7 @@ class WP_Styles extends WP_Dependencies {
 			$ver = $ver ? $ver . '&amp;' . $this->args[ $handle ] : $this->args[ $handle ];
 		}
 
-		$src                   = $obj->src;
-		$ie_conditional_prefix = '';
-		$ie_conditional_suffix = '';
-		$conditional           = isset( $obj->extra['conditional'] ) ? $obj->extra['conditional'] : '';
-
-		if ( $conditional ) {
-			$ie_conditional_prefix = "<!--[if {$conditional}]>\n";
-			$ie_conditional_suffix = "<![endif]-->\n";
-		}
-
+		$src          = $obj->src;
 		$inline_style = $this->print_inline_style( $handle, false );
 
 		if ( $inline_style ) {
@@ -189,7 +183,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		if ( $this->do_concat ) {
-			if ( $this->in_default_dir( $src ) && ! $conditional && ! isset( $obj->extra['alt'] ) ) {
+			if ( $this->in_default_dir( $src ) && ! isset( $obj->extra['alt'] ) ) {
 				$this->concat         .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 
@@ -279,17 +273,13 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		if ( $this->do_concat ) {
-			$this->print_html .= $ie_conditional_prefix;
 			$this->print_html .= $tag;
 			if ( $inline_style_tag ) {
 				$this->print_html .= $inline_style_tag;
 			}
-			$this->print_html .= $ie_conditional_suffix;
 		} else {
-			echo $ie_conditional_prefix;
 			echo $tag;
 			$this->print_inline_style( $handle );
-			echo $ie_conditional_suffix;
 		}
 
 		return true;
@@ -371,6 +361,28 @@ class WP_Styles extends WP_Dependencies {
 		);
 
 		return true;
+	}
+
+	/**
+	 * Overrides the add_data method from WP_Dependencies, to allow unsetting dependencies for conditional styles.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string $handle Name of the item. Should be unique.
+	 * @param string $key    The data key.
+	 * @param mixed  $value  The data value.
+	 * @return bool True on success, false on failure.
+	 */
+	public function add_data( $handle, $key, $value ) {
+		if ( ! isset( $this->registered[ $handle ] ) ) {
+			return false;
+		}
+
+		if ( 'conditional' === $key ) {
+			$this->registered[ $handle ]->deps = array();
+		}
+
+		return parent::add_data( $handle, $key, $value );
 	}
 
 	/**

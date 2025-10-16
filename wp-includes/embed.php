@@ -1056,7 +1056,6 @@ function wp_embed_excerpt_attachment( $content ) {
  * @since 4.4.0
  */
 function enqueue_embed_scripts() {
-	wp_enqueue_style( 'wp-embed-template-ie' );
 
 	/**
 	 * Fires when scripts and styles are enqueued for the embed iframe.
