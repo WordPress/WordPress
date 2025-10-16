@@ -212,19 +212,57 @@ if ( isset( $_GET['a'] ) ) {
 	);
 }
 
-if ( preg_match( '/\.css$/', $file ) && ! wp_is_block_theme() && current_user_can( 'customize' ) ) {
-	$message = '<p><strong>' . __( 'Did you know?' ) . '</strong></p><p>' . sprintf(
-		/* translators: %s: Link to Custom CSS section in the Customizer. */
-		__( 'There is no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
-		esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
-	) . '</p>';
-	wp_admin_notice(
-		$message,
-		array(
-			'type' => 'info',
-			'id'   => 'message',
-		)
-	);
+if ( preg_match( '/\.css$/', $file ) ) {
+	if ( ! wp_is_block_theme() && current_user_can( 'customize' ) ) {
+		$message = '<p><strong>' . __( 'Did you know?' ) . '</strong></p><p>' . sprintf(
+			/* translators: %s: Link to add custom CSS section in either the Customizer (classic themes) or Site Editor (block themes). */
+			__( 'There is no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
+			esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
+		) . '</p>';
+		wp_admin_notice(
+			$message,
+			array(
+				'type' => 'info',
+				'id'   => 'message',
+			)
+		);
+	} elseif ( wp_is_block_theme() && current_user_can( 'edit_theme_options' ) ) {
+		$site_editor_url = admin_url(
+			add_query_arg(
+				urlencode_deep(
+					array(
+						'p'       => '/styles',
+						'section' => '/css',
+					)
+				),
+				'site-editor.php'
+			)
+		);
+
+		$message = '<p><strong>' . __( 'Did you know?' ) . '</strong></p><p>' . sprintf(
+			/* translators: %s: Link to add custom CSS section in either the Customizer (classic themes) or Site Editor (block themes). */
+			__( 'There is no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
+			esc_url( $site_editor_url )
+		) . '</p>';
+		wp_admin_notice(
+			$message,
+			array(
+				'type' => 'info',
+				'id'   => 'message',
+			)
+		);
+	}
+	if ( file_exists( preg_replace( '/\.css$/', '.min.css', $file ) ) ) {
+		$message = '<p><strong>' . __( 'There is a minified version of this stylesheet.' ) . '</strong></p><p>' .
+			__( 'It is likely that this unminified stylesheet will not be served to visitors.' ) . '</p>';
+		wp_admin_notice(
+			$message,
+			array(
+				'type' => 'warning',
+				'id'   => 'wp-css-min-warning',
+			)
+		);
+	}
 }
 ?>
 
