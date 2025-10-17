@@ -299,9 +299,6 @@ img,
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	max-width: 100%;
 }
-img.size-full {
-	width: auto/9; /* Prevent stretching of full-size images in IE8 */
-}
 img[class*="wp-image-"] {
 	height: auto;
 	max-width: 100%;
