@@ -231,9 +231,6 @@ td {
 }
 
 /* Images */
-img.size-full {
-	width: auto; /* Prevent stretching of full-size images in IE8 */
-}
 img.wp-smiley {
 	border: none;
 	margin-bottom: 0;
