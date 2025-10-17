@@ -72,7 +72,7 @@ function _block_bindings_post_data_get_value( array $source_args, $block_instanc
 		}
 	}
 
-	if ( 'link' === $source_args['key'] ) {
+	if ( 'link' === $field ) {
 		$permalink = get_permalink( $post_id );
 		return false === $permalink ? null : esc_url( $permalink );
 	}
