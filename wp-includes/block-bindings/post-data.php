@@ -14,13 +14,19 @@
  * @access private
  *
  * @param array    $source_args    Array containing arguments used to look up the source value.
- *                                 Example: array( "key" => "foo" ).
+ *                                 Example: array( "field" => "foo" ).
  * @param WP_Block $block_instance The block instance.
  * @return mixed The value computed for the source.
  */
 function _block_bindings_post_data_get_value( array $source_args, $block_instance ) {
-	if ( empty( $source_args['key'] ) ) {
-		return null;
+	if ( empty( $source_args['field'] ) ) {
+		// Backward compatibility for when the source argument was called `key` in Gutenberg plugin.
+		if ( empty( $source_args['key'] ) ) {
+			return null;
+		}
+		$field = $source_args['key'];
+	} else {
+		$field = $source_args['field'];
 	}
 
 	/*
@@ -53,11 +59,11 @@ function _block_bindings_post_data_get_value( array $source_args, $block_instanc
 		return null;
 	}
 
-	if ( 'date' === $source_args['key'] ) {
+	if ( 'date' === $field ) {
 		return esc_attr( get_the_date( 'c', $post_id ) );
 	}
 
-	if ( 'modified' === $source_args['key'] ) {
+	if ( 'modified' === $field ) {
 		// Only return the modified date if it is later than the publishing date.
 		if ( get_the_modified_date( 'U', $post_id ) > get_the_date( 'U', $post_id ) ) {
 			return esc_attr( get_the_modified_date( 'c', $post_id ) );
