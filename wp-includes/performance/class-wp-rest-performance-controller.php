@@ -10,6 +10,26 @@ if ( class_exists( 'WP_REST_Performance_Controller' ) ) {
     return;
 }
 
+if ( ! class_exists( 'WP_REST_Server' ) ) {
+    require_once ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php';
+}
+
+if ( ! class_exists( 'WP_REST_Response' ) ) {
+    require_once ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php';
+}
+
+if ( ! class_exists( 'WP_REST_Request' ) ) {
+    require_once ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php';
+}
+
+if ( ! class_exists( 'WP_REST_Controller' ) ) {
+    require_once ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-controller.php';
+}
+
+if ( ! function_exists( 'register_rest_route' ) ) {
+    require_once ABSPATH . WPINC . '/rest-api.php';
+}
+
 /**
  * REST controller that exposes cache management endpoints.
  */
