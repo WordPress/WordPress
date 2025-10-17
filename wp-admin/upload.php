@@ -152,14 +152,15 @@ if ( 'grid' === $mode ) {
 		0
 	);
 
-	$q = $_GET;
+	$query_string = $_GET;
 	// Let JS handle this.
-	unset( $q['s'] );
-	$vars   = wp_edit_attachments_query_vars( $q );
-	$ignore = array( 'mode', 'post_type', 'post_status', 'posts_per_page' );
-	foreach ( $vars as $key => $value ) {
+	unset( $query_string['s'] );
+	$query_vars = wp_edit_attachments_query_vars( $query_string );
+	$ignore     = array( 'mode', 'post_type', 'post_status', 'posts_per_page' );
+
+	foreach ( $query_vars as $key => $value ) {
 		if ( ! $value || in_array( $key, $ignore, true ) ) {
-			unset( $vars[ $key ] );
+			unset( $query_vars[ $key ] );
 		}
 	}
 
@@ -168,7 +169,7 @@ if ( 'grid' === $mode ) {
 		'_wpMediaGridSettings',
 		array(
 			'adminUrl'  => parse_url( self_admin_url(), PHP_URL_PATH ),
-			'queryVars' => (object) $vars,
+			'queryVars' => (object) $query_vars,
 		)
 	);
 
