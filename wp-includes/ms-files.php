@@ -25,6 +25,11 @@ if ( '1' === $current_blog->archived || '1' === $current_blog->spam || '1' === $
 	die( '404 &#8212; File not found.' );
 }
 
+if ( ! defined( 'BLOGUPLOADDIR' ) ) {
+	status_header( 500 );
+	die( '500 &#8212; Directory not configured.' );
+}
+
 $file = rtrim( BLOGUPLOADDIR, '/' ) . '/' . str_replace( '..', '', $_GET['file'] );
 if ( ! is_file( $file ) ) {
 	status_header( 404 );
