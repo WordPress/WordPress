@@ -203,6 +203,7 @@ require ABSPATH . WPINC . '/class-wp-block-template.php';
 require ABSPATH . WPINC . '/class-wp-block-templates-registry.php';
 require ABSPATH . WPINC . '/block-template-utils.php';
 require ABSPATH . WPINC . '/block-template.php';
+require ABSPATH . WPINC . '/class-wp-layout-canvas.php';
 require ABSPATH . WPINC . '/theme-templates.php';
 require ABSPATH . WPINC . '/theme-previews.php';
 require ABSPATH . WPINC . '/template.php';
