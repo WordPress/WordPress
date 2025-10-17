@@ -14,12 +14,12 @@
  * @access private
  *
  * @param array    $source_args    Array containing source arguments used to look up the override value.
- *                                 Example: array( "key" => "name" ).
+ *                                 Example: array( "field" => "name" ).
  * @param WP_Block $block_instance The block instance.
  * @return mixed The value computed for the source.
  */
 function _block_bindings_term_data_get_value( array $source_args, $block_instance ) {
-	if ( empty( $source_args['key'] ) ) {
+	if ( empty( $source_args['field'] ) ) {
 		return null;
 	}
 
@@ -65,7 +65,7 @@ function _block_bindings_term_data_get_value( array $source_args, $block_instanc
 		}
 	}
 
-	switch ( $source_args['key'] ) {
+	switch ( $source_args['field'] ) {
 		case 'id':
 			return esc_html( (string) $term_id );
 
