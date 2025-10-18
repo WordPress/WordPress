@@ -1547,8 +1547,8 @@ endif;
 
 		$already_has_default = false;
 
-		foreach ( $this->default_headers as $k => $h ) {
-			if ( $h['url'] === $default ) {
+		foreach ( $this->default_headers as $k => $header ) {
+			if ( $header['url'] === $default ) {
 				$already_has_default = true;
 				break;
 			}
