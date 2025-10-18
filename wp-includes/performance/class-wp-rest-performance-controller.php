@@ -14,10 +14,6 @@ if ( ! class_exists( 'WP_REST_Server' ) ) {
     require_once ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php';
 }
 
-if ( ! class_exists( 'WP_HTTP_Response' ) ) {
-    require_once ABSPATH . WPINC . '/class-wp-http-response.php';
-}
-
 if ( ! class_exists( 'WP_REST_Response' ) ) {
     require_once ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php';
 }
