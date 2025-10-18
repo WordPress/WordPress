@@ -1816,25 +1816,49 @@ function is_blog_installed() {
 	 * options table could not be accessed.
 	 */
 	$wp_tables = $wpdb->tables();
-	foreach ( $wp_tables as $table ) {
-		// The existence of custom user tables shouldn't suggest an unwise state or prevent a clean installation.
-		if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE === $table ) {
-			continue;
-		}
+        $missing_table_errors = array( 1146 );
 
-		if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE === $table ) {
-			continue;
-		}
+        if ( defined( 'ER_NO_SUCH_TABLE' ) ) {
+                $missing_table_errors[] = ER_NO_SUCH_TABLE;
+        }
 
-		$described_table = $wpdb->get_results( "DESCRIBE $table;" );
-		if (
-			( ! $described_table && empty( $wpdb->last_error ) ) ||
-			( is_array( $described_table ) && 0 === count( $described_table ) )
-		) {
-			continue;
-		}
+        if ( defined( 'MYSQLI_ER_NO_SUCH_TABLE' ) ) {
+                $missing_table_errors[] = MYSQLI_ER_NO_SUCH_TABLE;
+        }
 
-		// One or more tables exist. This is not good.
+        $missing_table_errors = array_unique( $missing_table_errors );
+
+        foreach ( $wp_tables as $table ) {
+                // The existence of custom user tables shouldn't suggest an unwise state or prevent a clean installation.
+                if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE === $table ) {
+                        continue;
+                }
+
+                if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE === $table ) {
+                        continue;
+                }
+
+                $wpdb->last_error = '';
+                $described_table = $wpdb->get_results( "DESCRIBE $table;" );
+                $error_code      = 0;
+
+                if ( isset( $wpdb->use_mysqli ) && $wpdb->use_mysqli && $wpdb->dbh instanceof mysqli ) {
+                        $error_code = mysqli_errno( $wpdb->dbh );
+                } elseif ( isset( $wpdb->use_mysqli ) && ! $wpdb->use_mysqli && function_exists( 'mysql_errno' ) && is_resource( $wpdb->dbh ) ) {
+                        $error_code = mysql_errno( $wpdb->dbh );
+                }
+
+                $is_missing_table_error = $error_code && in_array( $error_code, $missing_table_errors, true );
+
+                if (
+                        ( ! $described_table && empty( $wpdb->last_error ) ) ||
+                        ( is_array( $described_table ) && 0 === count( $described_table ) ) ||
+                        $is_missing_table_error
+                ) {
+                        continue;
+                }
+
+                // One or more tables exist. This is not good.
 
 		wp_load_translations_early();
 
