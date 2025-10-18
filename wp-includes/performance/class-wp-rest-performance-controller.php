@@ -15,6 +15,9 @@ if ( ! class_exists( 'WP_REST_Server' ) ) {
 }
 
 if ( ! class_exists( 'WP_REST_Response' ) ) {
+    if ( ! class_exists( 'WP_HTTP_Response' ) ) {
+        require_once ABSPATH . WPINC . '/class-wp-http-response.php';
+    }
     require_once ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php';
 }
 
