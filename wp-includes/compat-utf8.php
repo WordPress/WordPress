@@ -339,6 +339,48 @@ function _wp_utf8_codepoint_count( string $text, ?int $byte_offset = 0, ?int $ma
 }
 
 /**
+ * Given a starting offset within a string and a maximum number of code points,
+ * return how many bytes are occupied by the span of characters.
+ *
+ * Invalid spans of bytes count as a single code point according to the maximal
+ * subpart rule. This function is a fallback method for calling
+ * `strlen( mb_substr( substr( $text, $at ), 0, $max_code_points ) )`.
+ *
+ * @since 6.9.0
+ * @access private
+ *
+ * @param string $text              Count bytes of span in this text.
+ * @param int    $byte_offset       Start counting at this byte offset.
+ * @param int    $max_code_points   Stop counting after this many code points have been seen,
+ *                                  or at the end of the string.
+ * @param ?int   $found_code_points Optional. Will be set to number of found code points in
+ *                                  span, as this might be smaller than the maximum count if
+ *                                  the string is not long enough.
+ * @return int Number of bytes spanned by the code points.
+ */
+function _wp_utf8_codepoint_span( string $text, int $byte_offset, int $max_code_points, ?int &$found_code_points = 0 ): int {
+	$was_at            = $byte_offset;
+	$invalid_length    = 0;
+	$end               = strlen( $text );
+	$found_code_points = 0;
+
+	while ( $byte_offset < $end && $found_code_points < $max_code_points ) {
+		$needed      = $max_code_points - $found_code_points;
+		$chunk_count = _wp_scan_utf8( $text, $byte_offset, $invalid_length, null, $needed );
+
+		$found_code_points += $chunk_count;
+
+		// Invalid spans only convey one code point count regardless of how long they are.
+		if ( 0 !== $invalid_length && $found_code_points < $max_code_points ) {
+			++$found_code_points;
+			$byte_offset += $invalid_length;
+		}
+	}
+
+	return $byte_offset - $was_at;
+}
+
+/**
  * Converts a string from ISO-8859-1 to UTF-8, maintaining backwards compatibility
  * with the deprecated function from the PHP standard library.
  *
