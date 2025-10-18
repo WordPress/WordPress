@@ -11,6 +11,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Determines whether translation helpers can safely access the database.
+ *
+ * @since 6.6.2
+ * @access private
+ *
+ * @return bool True when WordPress is installed and options are accessible.
+ */
+function wp_translation_environment_is_ready() {
+        if ( function_exists( 'wp_installing' ) && wp_installing() ) {
+                return false;
+        }
+
+        if ( ! function_exists( 'get_option' ) ) {
+                return false;
+        }
+
+        if ( function_exists( 'wp_cache_get' ) ) {
+                $is_blog_installed = wp_cache_get( 'is_blog_installed' );
+
+                if ( false === $is_blog_installed ) {
+                        return false;
+                }
+        }
+
+        return true;
+}
+
+/**
  * Retrieves the name of the translations table.
  *
  * @since 6.6.0
@@ -52,6 +80,10 @@ function wp_translation_normalize_object_type( $object_type ) {
  * @return string[] List of locale codes.
  */
 function wp_translation_get_configured_locales() {
+        if ( ! wp_translation_environment_is_ready() ) {
+                return array();
+        }
+
         $configured = get_option( 'translation_available_locales', array() );
 
         if ( empty( $configured ) ) {
@@ -75,6 +107,10 @@ function wp_translation_get_configured_locales() {
  * @return string Locale code.
  */
 function wp_translation_get_default_locale() {
+        if ( ! wp_translation_environment_is_ready() ) {
+                return 'en_US';
+        }
+
         $default = get_option( 'translation_default_locale' );
 
         if ( ! $default ) {
@@ -108,6 +144,10 @@ function wp_translation_sanitize_locale( $locale ) {
  * @return array<string,string> Map of domain => locale.
  */
 function wp_translation_get_domain_mapping() {
+        if ( ! wp_translation_environment_is_ready() ) {
+                return array();
+        }
+
         $raw = get_option( 'translation_domain_mapping', array() );
 
         if ( empty( $raw ) ) {
@@ -147,6 +187,10 @@ function wp_translation_get_domain_mapping() {
  * @return string Either 'path' or 'domain'.
  */
 function wp_translation_get_locale_routing_mode() {
+        if ( ! wp_translation_environment_is_ready() ) {
+                return 'path';
+        }
+
         $mode = get_option( 'translation_locale_mode', 'path' );
 
         return in_array( $mode, array( 'path', 'domain' ), true ) ? $mode : 'path';
@@ -187,6 +231,10 @@ function wp_translation_set_request_locale( $locale ) {
  * @return string|null Detected locale or null.
  */
 function wp_translation_detect_request_locale() {
+        if ( ! wp_translation_environment_is_ready() ) {
+                return null;
+        }
+
         $configured = wp_translation_get_configured_locales();
 
         if ( empty( $configured ) ) {
