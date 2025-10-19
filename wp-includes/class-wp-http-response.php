@@ -1,4 +1,9 @@
 <?php
+
+if ( class_exists( 'WP_HTTP_Response', false ) ) {
+	return;
+}
+
 /**
  * HTTP API: WP_HTTP_Response class
  *
