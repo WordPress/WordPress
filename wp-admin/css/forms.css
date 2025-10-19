@@ -727,7 +727,6 @@ p.search-box {
 	clear: left;
 }
 
-.search-box input[name="s"],
 .tablenav .search-plugins input[name="s"],
 .tagsdiv .newtag {
 	float: left;
@@ -1653,10 +1652,14 @@ table.form-table td .updated p {
 	}
 
 	p.search-box input[name="s"] {
-		float: none;
 		width: 100%;
+		float: none;
 		margin-bottom: 10px;
 		vertical-align: middle;
+	}
+	.js.plugins-php .search-box .wp-filter-search {
+		width: 100%;
+		margin-bottom: 0;
 	}
 
 	p.search-box input[type="submit"] {
