@@ -699,8 +699,7 @@ function count_many_users_posts( $users, $post_type = 'post', $public_only = fal
 	$count       = wp_cache_get_salted( $cache_key, 'post-queries', $cache_salts );
 
 	if ( false === $count ) {
-		$where  = get_posts_by_author_sql( $post_type, true, null, $public_only );
-		$result = $wpdb->get_results( "SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N );
+		$result = $wpdb->get_results( $query, ARRAY_N );
 
 		$count = array_fill_keys( $users, 0 );
 		foreach ( $result as $row ) {
