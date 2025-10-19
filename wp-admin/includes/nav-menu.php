@@ -495,7 +495,6 @@ function wp_nav_menu_item_post_type_meta_box( $data_object, $box ) {
 		}
 	}
 
-	// @todo Transient caching of these results with proper invalidation on updating of a post of this type.
 	$get_posts = new WP_Query();
 	$posts     = $get_posts->query( $args );
 
