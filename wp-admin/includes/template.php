@@ -2265,6 +2265,17 @@ function _post_states( $post, $display = true ) {
 		}
 	}
 
+	/**
+	 * Filters the HTML string of post states.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string   $post_states_string The post states HTML string.
+	 * @param string[] $post_states        The post states.
+	 * @param WP_Post  $post               The current post object.
+	 */
+	$post_states_string = apply_filters( 'post_states_string', $post_states_string, $post_states, $post );
+
 	if ( $display ) {
 		echo $post_states_string;
 	}
