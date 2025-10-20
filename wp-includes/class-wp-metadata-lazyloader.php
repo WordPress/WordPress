@@ -65,6 +65,10 @@ class WP_Metadata_Lazyloader {
 				'filter'   => 'get_blog_metadata',
 				'callback' => array( $this, 'lazyload_meta_callback' ),
 			),
+			'user'    => array(
+				'filter'   => 'get_user_metadata',
+				'callback' => array( $this, 'lazyload_meta_callback' ),
+			),
 		);
 	}
 

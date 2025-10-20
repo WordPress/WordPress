@@ -125,7 +125,8 @@ if ( ! function_exists( 'cache_users' ) ) :
 	function cache_users( $user_ids ) {
 		global $wpdb;
 
-		update_meta_cache( 'user', $user_ids );
+		$user_ids = array_unique( array_map( 'intval', $user_ids ), SORT_NUMERIC );
+		wp_lazyload_user_meta( $user_ids );
 
 		$clean = _get_non_cached_ids( $user_ids, 'users' );
 
