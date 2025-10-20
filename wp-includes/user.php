@@ -1196,7 +1196,6 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 		return false;
 	}
 
-
 	if ( 1 === $blog_id ) {
 		$capabilities_key = $wpdb->base_prefix . 'capabilities';
 	} else {
