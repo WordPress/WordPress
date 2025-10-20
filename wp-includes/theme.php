@@ -1002,7 +1002,20 @@ function validate_theme_requirements( $stylesheet ) {
 		);
 	}
 
-	return true;
+	/**
+	 * Filters the theme requirement validation response.
+	 *
+	 * If a theme fails due to a Core-provided validation (incompatible WP, PHP versions), this
+	 * filter will not fire. A WP_Error response will already be returned.
+	 *
+	 * This filter is intended to add additional validation steps by site administrators.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param bool|WP_Error $met_requirements True if the theme meets requirements, WP_Error if not.
+	 * @param string $stylesheet Directory name for the theme.
+	 */
+	return apply_filters( 'validate_theme_requirements', true, $stylesheet );
 }
 
 /**
