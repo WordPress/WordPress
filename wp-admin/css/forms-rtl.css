@@ -714,6 +714,37 @@ fieldset label,
 	display: inline-block;
 }
 
+/* Caps lock warning */
+.wp-pwd .caps-warning {
+	display: none;
+	position: relative;
+	background: #fcf9e8;
+	border: 1px solid #f0c33c;
+	color: #1d2327;
+	padding: 6px 10px;
+	top: -8px;
+}
+
+.profile-php .wp-pwd .caps-warning {
+	padding: 3px 5px;
+	top: -4px;
+	border-radius: 4px;
+}
+
+.wp-pwd .caps-icon {
+	display: inline-flex;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	margin-left: 5px;
+	vertical-align: middle;
+}
+
+.wp-pwd .caps-warning-text {
+	vertical-align: middle;
+}
+/* Caps lock warning */
+
 p.search-box {
 	display: flex;
 	flex-wrap: wrap;
@@ -1638,6 +1669,10 @@ table.form-table td .updated p {
 	#pass-strength-result {
 		width: 100%;
 		box-sizing: border-box;
+		padding: 8px;
+	}
+
+	.profile-php .wp-pwd .caps-warning {
 		padding: 8px;
 	}
 
