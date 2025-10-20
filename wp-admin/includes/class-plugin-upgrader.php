@@ -206,7 +206,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		}
 
 		// Get the URL to the zip file.
-		$r = $current->response[ $plugin ];
+		$upgrade_data = $current->response[ $plugin ];
 
 		add_filter( 'upgrader_pre_install', array( $this, 'deactivate_plugin_before_upgrade' ), 10, 2 );
 		add_filter( 'upgrader_pre_install', array( $this, 'active_before' ), 10, 2 );
@@ -223,7 +223,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->run(
 			array(
-				'package'           => $r->package,
+				'package'           => $upgrade_data->package,
 				'destination'       => WP_PLUGIN_DIR,
 				'clear_destination' => true,
 				'clear_working'     => true,
@@ -301,8 +301,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->skin->header();
 
 		// Connect to the filesystem first.
-		$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_PLUGIN_DIR ) );
-		if ( ! $res ) {
+		$connected = $this->fs_connect( array( WP_CONTENT_DIR, WP_PLUGIN_DIR ) );
+		if ( ! $connected ) {
 			$this->skin->footer();
 			return false;
 		}
@@ -341,32 +341,32 @@ class Plugin_Upgrader extends WP_Upgrader {
 			}
 
 			// Get the URL to the zip file.
-			$r = $current->response[ $plugin ];
+			$upgrade_data = $current->response[ $plugin ];
 
 			$this->skin->plugin_active = is_plugin_active( $plugin );
 
-			if ( isset( $r->requires ) && ! is_wp_version_compatible( $r->requires ) ) {
+			if ( isset( $upgrade_data->requires ) && ! is_wp_version_compatible( $upgrade_data->requires ) ) {
 				$result = new WP_Error(
 					'incompatible_wp_required_version',
 					sprintf(
 						/* translators: 1: Current WordPress version, 2: WordPress version required by the new plugin version. */
 						__( 'Your WordPress version is %1$s, however the new plugin version requires %2$s.' ),
 						$wp_version,
-						$r->requires
+						$upgrade_data->requires
 					)
 				);
 
 				$this->skin->before( $result );
 				$this->skin->error( $result );
 				$this->skin->after();
-			} elseif ( isset( $r->requires_php ) && ! is_php_version_compatible( $r->requires_php ) ) {
+			} elseif ( isset( $upgrade_data->requires_php ) && ! is_php_version_compatible( $upgrade_data->requires_php ) ) {
 				$result = new WP_Error(
 					'incompatible_php_required_version',
 					sprintf(
 						/* translators: 1: Current PHP version, 2: PHP version required by the new plugin version. */
 						__( 'The PHP version on your server is %1$s, however the new plugin version requires %2$s.' ),
 						PHP_VERSION,
-						$r->requires_php
+						$upgrade_data->requires_php
 					)
 				);
 
@@ -377,7 +377,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 				add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
 				$result = $this->run(
 					array(
-						'package'           => $r->package,
+						'package'           => $upgrade_data->package,
 						'destination'       => WP_PLUGIN_DIR,
 						'clear_destination' => true,
 						'clear_working'     => true,
@@ -478,9 +478,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$files = glob( $working_directory . '*.php' );
 		if ( $files ) {
 			foreach ( $files as $file ) {
-				$info = get_plugin_data( $file, false, false );
-				if ( ! empty( $info['Name'] ) ) {
-					$this->new_plugin_data = $info;
+				$new_plugin_data = get_plugin_data( $file, false, false );
+				if ( ! empty( $new_plugin_data['Name'] ) ) {
+					$this->new_plugin_data = $new_plugin_data;
 					break;
 				}
 			}
@@ -490,8 +490,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return new WP_Error( 'incompatible_archive_no_plugins', $this->strings['incompatible_archive'], __( 'No valid plugins were found.' ) );
 		}
 
-		$requires_php = isset( $info['RequiresPHP'] ) ? $info['RequiresPHP'] : null;
-		$requires_wp  = isset( $info['RequiresWP'] ) ? $info['RequiresWP'] : null;
+		$requires_php = isset( $new_plugin_data['RequiresPHP'] ) ? $new_plugin_data['RequiresPHP'] : null;
+		$requires_wp  = isset( $new_plugin_data['RequiresWP'] ) ? $new_plugin_data['RequiresWP'] : null;
 
 		if ( ! is_php_version_compatible( $requires_php ) ) {
 			$error = sprintf(
@@ -542,9 +542,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 		}
 
 		// Assume the requested plugin is the first in the list.
-		$pluginfiles = array_keys( $plugin );
+		$plugin_files = array_keys( $plugin );
 
-		return $this->result['destination_name'] . '/' . $pluginfiles[0];
+		return $this->result['destination_name'] . '/' . $plugin_files[0];
 	}
 
 	/**
