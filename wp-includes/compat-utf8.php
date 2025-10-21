@@ -28,9 +28,10 @@
  *     1 === _wp_scan_utf8( $pineapple, $at, $invalid_length );
  *     $at === 4; $invalid_length === 0;
  *
- * Note! This functions many arguments are passed without and “options”
- * array. This choice is based on the fact that this is a low-level function
- * and there’s no need to create an array of items on every invocation.
+ * Note! While passing an options array here might be convenient from a calling-code standpoint,
+ *       this function is intended to serve as a very low-level foundation upon which to build
+ *       higher level functionality. For the sake of keeping costs explicit all arguments are
+ *       passed directly.
  *
  * @since 6.9.0
  * @access private
