@@ -32627,12 +32627,11 @@ function ButtonTrigger({
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
     external_wp_components_namespaceObject.Button,
     {
-      label,
-      icon: action.icon,
       disabled: !!action.disabled,
       accessibleWhenDisabled: true,
       size: "compact",
-      onClick
+      onClick,
+      children: label
     }
   );
 }
@@ -32699,7 +32698,7 @@ function ItemActions({
       (action) => !action.isEligible || action.isEligible(item)
     );
     const _primaryActions = _eligibleActions.filter(
-      (action) => action.isPrimary && !!action.icon
+      (action) => action.isPrimary
     );
     return {
       primaryActions: _primaryActions,
@@ -32720,7 +32719,7 @@ function ItemActions({
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
     external_wp_components_namespaceObject.__experimentalHStack,
     {
-      spacing: 1,
+      spacing: 0,
       justify: "flex-end",
       className: "dataviews-item-actions",
       style: {
@@ -32932,12 +32931,10 @@ function ActionTrigger({
     {
       disabled: isBusy,
       accessibleWhenDisabled: true,
-      label,
-      icon: action.icon,
       size: "compact",
       onClick,
       isBusy,
-      tooltipPosition: "top"
+      children: label
     }
   );
 }
@@ -33084,7 +33081,7 @@ function FooterContent({
   }, [selection, data, getItemId, selectableItems]);
   const actionsToShow = (0,external_wp_element_.useMemo)(
     () => actions.filter((action) => {
-      return action.supportsBulk && action.icon && selectedItems.some(
+      return action.supportsBulk && selectedItems.some(
         (item) => !action.isEligible || action.isEligible(item)
       );
     }),
@@ -34414,12 +34411,12 @@ function PrimaryActionGridCell({
       render: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
         external_wp_components_namespaceObject.Button,
         {
-          label,
           disabled: !!primaryAction.disabled,
           accessibleWhenDisabled: true,
-          icon: primaryAction.icon,
           size: "small",
-          onClick: () => setIsModalOpen(true)
+          onClick: () => setIsModalOpen(true),
+          variant: "link",
+          children: label
         }
       ),
       children: isModalOpen && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
@@ -34438,14 +34435,14 @@ function PrimaryActionGridCell({
       render: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
         external_wp_components_namespaceObject.Button,
         {
-          label,
           disabled: !!primaryAction.disabled,
           accessibleWhenDisabled: true,
-          icon: primaryAction.icon,
           size: "small",
           onClick: () => {
             primaryAction.callback([item], { registry });
-          }
+          },
+          variant: "link",
+          children: label
         }
       )
     }
@@ -34498,7 +34495,7 @@ function ListItem({
       (action) => !action.isEligible || action.isEligible(item)
     );
     const _primaryActions = _eligibleActions.filter(
-      (action) => action.isPrimary && !!action.icon
+      (action) => action.isPrimary
     );
     return {
       primaryAction: _primaryActions[0],
@@ -43370,7 +43367,7 @@ const useSetActiveTemplateAction = () => {
       isPrimary: true,
       icon: pencil_default,
       isEligible(item) {
-        return !(item.slug === "index" && item.source === "theme") && item.theme === activeTheme.stylesheet;
+        return !item._isCustom && !(item.slug === "index" && item.source === "theme") && item.theme === activeTheme.stylesheet;
       },
       async callback(items) {
         const deactivate = items.some((item) => item._isActive);
@@ -45958,6 +45955,18 @@ const activeField = {
   id: "active",
   getValue: ({ item }) => item._isActive,
   render: function Render({ item }) {
+    if (item._isCustom) {
+      return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+        fields_Badge,
+        {
+          intent: "info",
+          title: (0,external_wp_i18n_namespaceObject.__)(
+            "Custom templates cannot be active nor inactive."
+          ),
+          children: (0,external_wp_i18n_namespaceObject.__)("N/A")
+        }
+      );
+    }
     const isActive = item._isActive;
     return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(fields_Badge, { intent: isActive ? "success" : "default", children: isActive ? (0,external_wp_i18n_namespaceObject.__)("Active") : (0,external_wp_i18n_namespaceObject.__)("Inactive") });
   }
@@ -45987,8 +45996,7 @@ const slugField = {
     const defaultTemplateType = defaultTemplateTypes.find(
       (type) => type.slug === item.slug
     );
-    return defaultTemplateType?.title || // translators: %s is the slug of a custom template.
-    (0,external_wp_i18n_namespaceObject.__)("Custom");
+    return defaultTemplateType?.title || (0,external_wp_i18n_namespaceObject._x)("Custom", "template type");
   }
 };
 
@@ -46085,11 +46093,12 @@ function PageTemplates() {
       );
     }
   });
-  const { activeTemplatesOption, activeTheme } = (0,external_wp_data_.useSelect)((select) => {
+  const { activeTemplatesOption, activeTheme, defaultTemplateTypes } = (0,external_wp_data_.useSelect)((select) => {
     const { getEntityRecord, getCurrentTheme } = select(external_wp_coreData_namespaceObject.store);
     return {
       activeTemplatesOption: getEntityRecord("root", "site")?.active_templates,
-      activeTheme: getCurrentTheme()
+      activeTheme: getCurrentTheme(),
+      defaultTemplateTypes: select(external_wp_coreData_namespaceObject.store).getCurrentTheme()?.default_template_types
     };
   });
   const { records: userRecords, isResolving: isLoadingUserRecords } = page_templates_useEntityRecordsWithPermissions("postType", TEMPLATE_POST_TYPE, {
@@ -46149,9 +46158,12 @@ function PageTemplates() {
       ...record,
       _isActive: activeTemplates.find(
         (template) => template.id === record.id
+      ),
+      _isCustom: record.is_custom || !record.meta?.is_wp_suggestion && !defaultTemplateTypes.find(
+        (type) => type.slug === record.slug
       )
     }));
-  }, [_records, activeTemplates]);
+  }, [_records, activeTemplates, defaultTemplateTypes]);
   const users = (0,external_wp_data_.useSelect)(
     (select) => {
       const { getUser } = select(external_wp_coreData_namespaceObject.store);

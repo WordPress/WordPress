@@ -1530,9 +1530,8 @@ div.dataviews-view-list{
 }
 
 .dataviews-view-table .dataviews-view-table__actions-column{
-  max-width:inherit;
-  min-width:inherit;
-  width:1%;
+  white-space:nowrap;
+  width:auto;
 }
 
 .dataviews-view-table:has(tr.is-selected) .components-checkbox-control__input{

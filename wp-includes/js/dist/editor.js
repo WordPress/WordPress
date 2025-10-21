@@ -3790,6 +3790,178 @@ function isTemplateRevertable(templateOrTemplatePart) {
 }
 
 
+;// external ["wp","components"]
+const external_wp_components_namespaceObject = window["wp"]["components"];
+;// ./node_modules/@wordpress/fields/build-module/actions/utils.js
+
+
+function isTemplate(post) {
+  return post.type === "wp_template";
+}
+function isTemplatePart(post) {
+  return post.type === "wp_template_part";
+}
+function isTemplateOrTemplatePart(p) {
+  return p.type === "wp_template" || p.type === "wp_template_part";
+}
+function getItemTitle(item, fallback = (0,external_wp_i18n_namespaceObject.__)("(no title)")) {
+  let title = "";
+  if (typeof item.title === "string") {
+    title = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title);
+  } else if (item.title && "rendered" in item.title) {
+    title = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title.rendered);
+  } else if (item.title && "raw" in item.title) {
+    title = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title.raw);
+  }
+  return title || fallback;
+}
+function isTemplateRemovable(template) {
+  if (!template) {
+    return false;
+  }
+  return [template.source, template.source].includes("custom") && !Boolean(template.type === "wp_template" && template?.plugin) && !template.has_theme_file;
+}
+
+
+;// ./node_modules/@wordpress/fields/build-module/actions/duplicate-post.js
+
+
+
+
+
+
+
+
+const duplicatePost = {
+  id: "duplicate-post",
+  label: (0,external_wp_i18n_namespaceObject._x)("Duplicate", "action label"),
+  isEligible({ status }) {
+    return status !== "trash";
+  },
+  modalFocusOnMount: "firstContentElement",
+  RenderModal: ({ items, closeModal, onActionPerformed }) => {
+    const [item, setItem] = (0,external_wp_element_namespaceObject.useState)({
+      ...items[0],
+      title: (0,external_wp_i18n_namespaceObject.sprintf)(
+        /* translators: %s: Existing post title */
+        (0,external_wp_i18n_namespaceObject._x)("%s (Copy)", "post"),
+        getItemTitle(items[0])
+      )
+    });
+    const [isCreatingPage, setIsCreatingPage] = (0,external_wp_element_namespaceObject.useState)(false);
+    const { saveEntityRecord } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
+    const { createSuccessNotice, createErrorNotice } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
+    async function createPage(event) {
+      event.preventDefault();
+      if (isCreatingPage) {
+        return;
+      }
+      const isTemplate = item.type === "wp_template" || item.type === "wp_registered_template";
+      const newItemObject = {
+        status: isTemplate ? "publish" : "draft",
+        title: item.title,
+        slug: isTemplate ? item.slug : item.title || (0,external_wp_i18n_namespaceObject.__)("No title"),
+        comment_status: item.comment_status,
+        content: typeof item.content === "string" ? item.content : item.content.raw,
+        excerpt: typeof item.excerpt === "string" ? item.excerpt : item.excerpt?.raw,
+        meta: item.meta,
+        parent: item.parent,
+        password: item.password,
+        template: item.template,
+        format: item.format,
+        featured_media: item.featured_media,
+        menu_order: item.menu_order,
+        ping_status: item.ping_status
+      };
+      const assignablePropertiesPrefix = "wp:action-assign-";
+      const assignableProperties = Object.keys(item?._links || {}).filter(
+        (property) => property.startsWith(assignablePropertiesPrefix)
+      ).map(
+        (property) => property.slice(assignablePropertiesPrefix.length)
+      );
+      assignableProperties.forEach((property) => {
+        if (item.hasOwnProperty(property)) {
+          newItemObject[property] = item[property];
+        }
+      });
+      setIsCreatingPage(true);
+      try {
+        const newItem = await saveEntityRecord(
+          "postType",
+          item.type === "wp_registered_template" ? "wp_template" : item.type,
+          newItemObject,
+          { throwOnError: true }
+        );
+        createSuccessNotice(
+          (0,external_wp_i18n_namespaceObject.sprintf)(
+            // translators: %s: Title of the created post, e.g: "Hello world".
+            (0,external_wp_i18n_namespaceObject.__)('"%s" successfully created.'),
+            getItemTitle(newItem)
+          ),
+          {
+            id: "duplicate-post-action",
+            type: "snackbar"
+          }
+        );
+        if (onActionPerformed) {
+          onActionPerformed([newItem]);
+        }
+      } catch (error) {
+        const typedError = error;
+        const errorMessage = typedError.message && typedError.code !== "unknown_error" ? typedError.message : (0,external_wp_i18n_namespaceObject.__)("An error occurred while duplicating the page.");
+        createErrorNotice(errorMessage, {
+          type: "snackbar"
+        });
+      } finally {
+        setIsCreatingPage(false);
+        closeModal?.();
+      }
+    }
+    return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("form", { onSubmit: createPage, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, { spacing: 3, children: [
+      item.type === "wp_registered_template" && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("div", { children: (0,external_wp_i18n_namespaceObject.__)(
+        "You are about to duplicate a bundled template. Changes will not be live until you activate the new template."
+      ) }),
+      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+        external_wp_components_namespaceObject.__experimentalInputControl,
+        {
+          __next40pxDefaultSize: true,
+          label: (0,external_wp_i18n_namespaceObject.__)("Title"),
+          placeholder: (0,external_wp_i18n_namespaceObject.__)("No title"),
+          value: getItemTitle(item),
+          onChange: (value) => setItem((prev) => ({
+            ...prev,
+            title: value || (0,external_wp_i18n_namespaceObject.__)("No title")
+          }))
+        }
+      ),
+      /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, { spacing: 2, justify: "end", children: [
+        /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+          external_wp_components_namespaceObject.Button,
+          {
+            variant: "tertiary",
+            onClick: closeModal,
+            __next40pxDefaultSize: true,
+            children: (0,external_wp_i18n_namespaceObject.__)("Cancel")
+          }
+        ),
+        /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+          external_wp_components_namespaceObject.Button,
+          {
+            variant: "primary",
+            type: "submit",
+            isBusy: isCreatingPage,
+            "aria-disabled": isCreatingPage,
+            __next40pxDefaultSize: true,
+            children: (0,external_wp_i18n_namespaceObject._x)("Duplicate", "action label")
+          }
+        )
+      ] })
+    ] }) });
+  }
+};
+var duplicate_post_default = duplicatePost;
+
+
 ;// ./node_modules/@wordpress/icons/build-module/library/external.js
 
 
@@ -3854,8 +4026,6 @@ const viewPostRevisions = {
 var view_post_revisions_default = viewPostRevisions;
 
 
-;// external ["wp","components"]
-const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// ./node_modules/@wordpress/icons/build-module/library/check.js
 
 
@@ -4617,37 +4787,6 @@ function CreateTemplatePartModalContents({
       ] })
     }
   );
-}
-
-
-;// ./node_modules/@wordpress/fields/build-module/actions/utils.js
-
-
-function isTemplate(post) {
-  return post.type === "wp_template";
-}
-function isTemplatePart(post) {
-  return post.type === "wp_template_part";
-}
-function isTemplateOrTemplatePart(p) {
-  return p.type === "wp_template" || p.type === "wp_template_part";
-}
-function getItemTitle(item, fallback = (0,external_wp_i18n_namespaceObject.__)("(no title)")) {
-  let title = "";
-  if (typeof item.title === "string") {
-    title = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title);
-  } else if (item.title && "rendered" in item.title) {
-    title = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title.rendered);
-  } else if (item.title && "raw" in item.title) {
-    title = (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title.raw);
-  }
-  return title || fallback;
-}
-function isTemplateRemovable(template) {
-  if (!template) {
-    return false;
-  }
-  return [template.source, template.source].includes("custom") && !Boolean(template.type === "wp_template" && template?.plugin) && !template.has_theme_file;
 }
 
 
@@ -11637,11 +11776,19 @@ const registerPostTypeSchema = (postType) => async ({ registry }) => {
     name: postType
   });
   const currentTheme = await registry.resolveSelect(external_wp_coreData_namespaceObject.store).getCurrentTheme();
+  let canDuplicate = !["wp_block", "wp_template_part"].includes(
+    postTypeConfig.slug
+  ) && canCreate && duplicate_post_default;
+  if (true) {
+    if ("wp_template" !== postTypeConfig.slug) {
+      canDuplicate = void 0;
+    }
+  }
   const actions = [
     postTypeConfig.viewable ? view_post_default : void 0,
     !!postTypeConfig.supports?.revisions ? view_post_revisions_default : void 0,
     // @ts-ignore
-     false ? 0 : void 0,
+    canDuplicate,
     postTypeConfig.slug === "wp_template_part" && canCreate && currentTheme?.is_block_theme ? duplicate_template_part_default : void 0,
     canCreate && postTypeConfig.slug === "wp_block" ? duplicate_pattern_default : void 0,
     postTypeConfig.supports?.title ? rename_post_default : void 0,
