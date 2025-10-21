@@ -14,25 +14,26 @@
  */
 define( 'REST_API_VERSION', '2.0' );
 
-/**
- * Registers a REST API route.
- *
- * Note: Do not use before the {@see 'rest_api_init'} hook.
- *
- * @since 4.4.0
- * @since 5.1.0 Added a `_doing_it_wrong()` notice when not called on or after the `rest_api_init` hook.
- * @since 5.5.0 Added a `_doing_it_wrong()` notice when the required `permission_callback` argument is not set.
- *
- * @param string $route_namespace The first URL segment after core prefix. Should be unique to your package/plugin.
- * @param string $route           The base URL for route you are adding.
- * @param array  $args            Optional. Either an array of options for the endpoint, or an array of arrays for
- *                                multiple methods. Default empty array.
- * @param bool   $override        Optional. If the route already exists, should we override it? True overrides,
- *                                false merges (with newer overriding if duplicate keys exist). Default false.
- * @return bool True on success, false on error.
- */
-function register_rest_route( $route_namespace, $route, $args = array(), $override = false ) {
-	if ( empty( $route_namespace ) ) {
+if ( ! function_exists( 'register_rest_route' ) ) :
+	/**
+	 * Registers a REST API route.
+	 *
+	 * Note: Do not use before the {@see 'rest_api_init'} hook.
+	 *
+	 * @since 4.4.0
+	 * @since 5.1.0 Added a `_doing_it_wrong()` notice when not called on or after the `rest_api_init` hook.
+	 * @since 5.5.0 Added a `_doing_it_wrong()` notice when the required `permission_callback` argument is not set.
+	 *
+	 * @param string $route_namespace The first URL segment after core prefix. Should be unique to your package/plugin.
+	 * @param string $route           The base URL for route you are adding.
+	 * @param array  $args            Optional. Either an array of options for the endpoint, or an array of arrays for
+	 *                                multiple methods. Default empty array.
+	 * @param bool   $override        Optional. If the route already exists, should we override it? True overrides,
+	 *                                false merges (with newer overriding if duplicate keys exist). Default false.
+	 * @return bool True on success, false on error.
+	 */
+	function register_rest_route( $route_namespace, $route, $args = array(), $override = false ) {
+		if ( empty( $route_namespace ) ) {
 		/*
 		 * Non-namespaced routes are not allowed, with the exception of the main
 		 * and namespace indexes. If you really need to register a
@@ -49,7 +50,7 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 			'4.4.0'
 		);
 		return false;
-	} elseif ( empty( $route ) ) {
+		} elseif ( empty( $route ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
@@ -61,11 +62,11 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 			'4.4.0'
 		);
 		return false;
-	}
+		}
 
-	$clean_namespace = trim( $route_namespace, '/' );
+		$clean_namespace = trim( $route_namespace, '/' );
 
-	if ( $clean_namespace !== $route_namespace ) {
+		if ( $clean_namespace !== $route_namespace ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
@@ -76,9 +77,9 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 			),
 			'5.4.2'
 		);
-	}
+		}
 
-	if ( ! did_action( 'rest_api_init' ) ) {
+		if ( ! did_action( 'rest_api_init' ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
@@ -90,27 +91,27 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 			),
 			'5.1.0'
 		);
-	}
+		}
 
-	if ( isset( $args['args'] ) ) {
+		if ( isset( $args['args'] ) ) {
 		$common_args = $args['args'];
 		unset( $args['args'] );
-	} else {
+		} else {
 		$common_args = array();
-	}
+		}
 
-	if ( isset( $args['callback'] ) ) {
+		if ( isset( $args['callback'] ) ) {
 		// Upgrade a single set to multiple.
 		$args = array( $args );
-	}
+		}
 
-	$defaults = array(
+		$defaults = array(
 		'methods'  => 'GET',
 		'callback' => null,
 		'args'     => array(),
-	);
+		);
 
-	foreach ( $args as $key => &$arg_group ) {
+		foreach ( $args as $key => &$arg_group ) {
 		if ( ! is_numeric( $key ) ) {
 			// Route option, skip here.
 			continue;
@@ -148,12 +149,13 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 				break; // Leave the foreach loop once a non-array argument was found.
 			}
 		}
-	}
+		}
 
-	$full_route = '/' . $clean_namespace . '/' . trim( $route, '/' );
-	rest_get_server()->register_route( $clean_namespace, $full_route, $args, $override );
-	return true;
-}
+		$full_route = '/' . $clean_namespace . '/' . trim( $route, '/' );
+		rest_get_server()->register_route( $clean_namespace, $full_route, $args, $override );
+		return true;
+	}
+endif;
 
 /**
  * Registers a new field on an existing WordPress object type.
