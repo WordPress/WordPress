@@ -58,7 +58,6 @@
 		"color": {
 			"gradients": true,
 			"link": true,
-			"__experimentalDuotone": ".wp-block-post-author__avatar img",
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
@@ -78,6 +77,14 @@
 				"width": true,
 				"style": true
 			}
+		},
+		"filter": {
+			"duotone": true
+		}
+	},
+	"selectors": {
+		"filter": {
+			"duotone": ".wp-block-post-author .wp-block-post-author__avatar img"
 		}
 	},
 	"editorStyle": "wp-block-post-author-editor",

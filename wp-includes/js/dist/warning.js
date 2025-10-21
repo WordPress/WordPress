@@ -30,62 +30,29 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 ;// ./node_modules/@wordpress/warning/build-module/utils.js
-/**
- * Object map tracking messages which have been logged, for use in ensuring a
- * message is only logged once.
- */
-const logged = new Set();
+const logged = /* @__PURE__ */ new Set();
+
 
 ;// ./node_modules/@wordpress/warning/build-module/index.js
-/**
- * Internal dependencies
- */
 
 function isDev() {
-  // eslint-disable-next-line @wordpress/wp-global-usage
   return true === true;
 }
-
-/**
- * Shows a warning with `message` if environment is not `production`.
- *
- * @param message Message to show in the warning.
- *
- * @example
- * ```js
- * import warning from '@wordpress/warning';
- *
- * function MyComponent( props ) {
- *   if ( ! props.title ) {
- *     warning( '`props.title` was not passed' );
- *   }
- *   ...
- * }
- * ```
- */
 function warning(message) {
   if (!isDev()) {
     return;
   }
-
-  // Skip if already logged.
   if (logged.has(message)) {
     return;
   }
-
-  // eslint-disable-next-line no-console
   console.warn(message);
-
-  // Throwing an error and catching it immediately to improve debugging
-  // A consumer can use 'pause on caught exceptions'
-  // https://github.com/facebook/react/issues/4216
   try {
     throw Error(message);
   } catch (x) {
-    // Do nothing.
   }
   logged.add(message);
 }
+
 
 (window.wp = window.wp || {}).warning = __webpack_exports__["default"];
 /******/ })()

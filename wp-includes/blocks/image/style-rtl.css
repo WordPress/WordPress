@@ -93,8 +93,7 @@
 }
 .wp-lightbox-container button{
   align-items:center;
-  -webkit-backdrop-filter:blur(16px) saturate(180%);
-          backdrop-filter:blur(16px) saturate(180%);
+  backdrop-filter:blur(16px) saturate(180%);
   background-color:#5a5a5a40;
   border:none;
   border-radius:4px;

@@ -101,7 +101,8 @@ __webpack_require__.d(__webpack_exports__, {
   privateApis: () => (/* reexport */ privateApis),
   store: () => (/* reexport */ store),
   useCommand: () => (/* reexport */ useCommand),
-  useCommandLoader: () => (/* reexport */ useCommandLoader)
+  useCommandLoader: () => (/* reexport */ useCommandLoader),
+  useCommands: () => (/* reexport */ useCommands)
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/commands/build-module/store/actions.js
@@ -133,6 +134,8 @@ __webpack_require__.d(private_actions_namespaceObject, {
   setContext: () => (setContext)
 });
 
+;// external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/cmdk/dist/chunk-NZJY6EH4.mjs
 var U=1,Y=.9,H=.8,J=.17,p=.1,u=.999,$=.9999;var k=.99,m=/[\\\/_+.#"@\[\(\{&]/,B=/[\\\/_+.#"@\[\(\{&]/g,K=/[\s-]/,X=/[\s-]/g;function G(_,C,h,P,A,f,O){if(f===C.length)return A===_.length?U:k;var T=`${A},${f}`;if(O[T]!==void 0)return O[T];for(var L=P.charAt(f),c=h.indexOf(L,A),S=0,E,N,R,M;c>=0;)E=G(_,C,h,P,c+1,f+1,O),E>S&&(c===A?E*=U:m.test(_.charAt(c-1))?(E*=H,R=_.slice(A,c-1).match(B),R&&A>0&&(E*=Math.pow(u,R.length))):K.test(_.charAt(c-1))?(E*=Y,M=_.slice(A,c-1).match(X),M&&A>0&&(E*=Math.pow(u,M.length))):(E*=J,A>0&&(E*=Math.pow(u,c-A))),_.charAt(c)!==C.charAt(f)&&(E*=$)),(E<p&&h.charAt(c-1)===P.charAt(f+1)||P.charAt(f+1)===P.charAt(f)&&h.charAt(c-1)!==P.charAt(f))&&(N=G(_,C,h,P,c+1,f+2,O),N*p>E&&(E=N*p)),E>S&&(S=E),c=h.indexOf(L,c+1);return O[T]=S,S}function D(_){return _.toLowerCase().replace(X," ")}function W(_,C,h){return _=h&&h.length>0?`${_+" "+h.join(" ")}`:_,G(_,C,D(_),D(C),0,0,{})}
 
@@ -3135,73 +3138,32 @@ const external_wp_components_namespaceObject = window["wp"]["components"];
 ;// external ["wp","keyboardShortcuts"]
 const external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
 ;// ./node_modules/@wordpress/icons/build-module/icon/index.js
-/**
- * WordPress dependencies
- */
 
+var icon_default = (0,external_wp_element_namespaceObject.forwardRef)(
+  ({ icon, size = 24, ...props }, ref) => {
+    return (0,external_wp_element_namespaceObject.cloneElement)(icon, {
+      width: size,
+      height: size,
+      ...props,
+      ref
+    });
+  }
+);
 
-/** @typedef {{icon: JSX.Element, size?: number} & import('@wordpress/primitives').SVGProps} IconProps */
-
-/**
- * Return an SVG icon.
- *
- * @param {IconProps}                                 props icon is the SVG component to render
- *                                                          size is a number specifying the icon size in pixels
- *                                                          Other props will be passed to wrapped SVG component
- * @param {import('react').ForwardedRef<HTMLElement>} ref   The forwarded ref to the SVG element.
- *
- * @return {JSX.Element}  Icon component
- */
-function Icon({
-  icon,
-  size = 24,
-  ...props
-}, ref) {
-  return (0,external_wp_element_namespaceObject.cloneElement)(icon, {
-    width: size,
-    height: size,
-    ...props,
-    ref
-  });
-}
-/* harmony default export */ const icon = ((0,external_wp_element_namespaceObject.forwardRef)(Icon));
 
 ;// external ["wp","primitives"]
 const external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// external "ReactJSXRuntime"
-const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/@wordpress/icons/build-module/library/search.js
-/**
- * WordPress dependencies
- */
 
 
-const search = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24",
-  children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"
-  })
-});
-/* harmony default export */ const library_search = (search);
+var search_default = /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.SVG, { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, { d: "M13 5c-3.3 0-6 2.7-6 6 0 1.4.5 2.7 1.3 3.7l-3.8 3.8 1.1 1.1 3.8-3.8c1 .8 2.3 1.3 3.7 1.3 3.3 0 6-2.7 6-6S16.3 5 13 5zm0 10.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" }) });
+
 
 ;// ./node_modules/@wordpress/commands/build-module/store/reducer.js
-/**
- * WordPress dependencies
- */
 
-
-/**
- * Reducer returning the registered commands
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
 function commands(state = {}, action) {
   switch (action.type) {
-    case 'REGISTER_COMMAND':
+    case "REGISTER_COMMAND":
       return {
         ...state,
         [action.name]: {
@@ -3210,32 +3172,20 @@ function commands(state = {}, action) {
           searchLabel: action.searchLabel,
           context: action.context,
           callback: action.callback,
-          icon: action.icon
+          icon: action.icon,
+          keywords: action.keywords
         }
       };
-    case 'UNREGISTER_COMMAND':
-      {
-        const {
-          [action.name]: _,
-          ...remainingState
-        } = state;
-        return remainingState;
-      }
+    case "UNREGISTER_COMMAND": {
+      const { [action.name]: _, ...remainingState } = state;
+      return remainingState;
+    }
   }
   return state;
 }
-
-/**
- * Reducer returning the command loaders
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
 function commandLoaders(state = {}, action) {
   switch (action.type) {
-    case 'REGISTER_COMMAND_LOADER':
+    case "REGISTER_COMMAND_LOADER":
       return {
         ...state,
         [action.name]: {
@@ -3244,47 +3194,25 @@ function commandLoaders(state = {}, action) {
           hook: action.hook
         }
       };
-    case 'UNREGISTER_COMMAND_LOADER':
-      {
-        const {
-          [action.name]: _,
-          ...remainingState
-        } = state;
-        return remainingState;
-      }
+    case "UNREGISTER_COMMAND_LOADER": {
+      const { [action.name]: _, ...remainingState } = state;
+      return remainingState;
+    }
   }
   return state;
 }
-
-/**
- * Reducer returning the command palette open state.
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {boolean} Updated state.
- */
 function isOpen(state = false, action) {
   switch (action.type) {
-    case 'OPEN':
+    case "OPEN":
       return true;
-    case 'CLOSE':
+    case "CLOSE":
       return false;
   }
   return state;
 }
-
-/**
- * Reducer returning the command palette's active context.
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {boolean} Updated state.
- */
-function context(state = 'root', action) {
+function context(state = "root", action) {
   switch (action.type) {
-    case 'SET_CONTEXT':
+    case "SET_CONTEXT":
       return action.context;
   }
   return state;
@@ -3295,248 +3223,107 @@ const reducer = (0,external_wp_data_namespaceObject.combineReducers)({
   isOpen,
   context
 });
-/* harmony default export */ const store_reducer = (reducer);
+var reducer_default = reducer;
+
 
 ;// ./node_modules/@wordpress/commands/build-module/store/actions.js
-/** @typedef {import('@wordpress/keycodes').WPKeycodeModifier} WPKeycodeModifier */
-
-/**
- * Configuration of a registered keyboard shortcut.
- *
- * @typedef {Object} WPCommandConfig
- *
- * @property {string}      name        Command name.
- * @property {string}      label       Command label.
- * @property {string=}     searchLabel Command search label.
- * @property {string=}     context     Command context.
- * @property {JSX.Element} icon        Command icon.
- * @property {Function}    callback    Command callback.
- * @property {boolean}     disabled    Whether to disable the command.
- */
-
-/**
- * @typedef {(search: string) => WPCommandConfig[]} WPCommandLoaderHook hoo
- */
-
-/**
- * Command loader config.
- *
- * @typedef {Object} WPCommandLoaderConfig
- *
- * @property {string}              name     Command loader name.
- * @property {string=}             context  Command loader context.
- * @property {WPCommandLoaderHook} hook     Command loader hook.
- * @property {boolean}             disabled Whether to disable the command loader.
- */
-
-/**
- * Returns an action object used to register a new command.
- *
- * @param {WPCommandConfig} config Command config.
- *
- * @return {Object} action.
- */
 function registerCommand(config) {
   return {
-    type: 'REGISTER_COMMAND',
+    type: "REGISTER_COMMAND",
     ...config
   };
 }
-
-/**
- * Returns an action object used to unregister a command.
- *
- * @param {string} name Command name.
- *
- * @return {Object} action.
- */
 function unregisterCommand(name) {
   return {
-    type: 'UNREGISTER_COMMAND',
+    type: "UNREGISTER_COMMAND",
     name
   };
 }
-
-/**
- * Register command loader.
- *
- * @param {WPCommandLoaderConfig} config Command loader config.
- *
- * @return {Object} action.
- */
 function registerCommandLoader(config) {
   return {
-    type: 'REGISTER_COMMAND_LOADER',
+    type: "REGISTER_COMMAND_LOADER",
     ...config
   };
 }
-
-/**
- * Unregister command loader hook.
- *
- * @param {string} name Command loader name.
- *
- * @return {Object} action.
- */
 function unregisterCommandLoader(name) {
   return {
-    type: 'UNREGISTER_COMMAND_LOADER',
+    type: "UNREGISTER_COMMAND_LOADER",
     name
   };
 }
-
-/**
- * Opens the command palette.
- *
- * @return {Object} action.
- */
 function actions_open() {
   return {
-    type: 'OPEN'
+    type: "OPEN"
   };
 }
-
-/**
- * Closes the command palette.
- *
- * @return {Object} action.
- */
 function actions_close() {
   return {
-    type: 'CLOSE'
+    type: "CLOSE"
   };
 }
 
+
 ;// ./node_modules/@wordpress/commands/build-module/store/selectors.js
-/**
- * WordPress dependencies
- */
 
-
-/**
- * Returns the registered static commands.
- *
- * @param {Object}  state      State tree.
- * @param {boolean} contextual Whether to return only contextual commands.
- *
- * @return {import('./actions').WPCommandConfig[]} The list of registered commands.
- */
-const getCommands = (0,external_wp_data_namespaceObject.createSelector)((state, contextual = false) => Object.values(state.commands).filter(command => {
-  const isContextual = command.context && command.context === state.context;
-  return contextual ? isContextual : !isContextual;
-}), state => [state.commands, state.context]);
-
-/**
- * Returns the registered command loaders.
- *
- * @param {Object}  state      State tree.
- * @param {boolean} contextual Whether to return only contextual command loaders.
- *
- * @return {import('./actions').WPCommandLoaderConfig[]} The list of registered command loaders.
- */
-const getCommandLoaders = (0,external_wp_data_namespaceObject.createSelector)((state, contextual = false) => Object.values(state.commandLoaders).filter(loader => {
-  const isContextual = loader.context && loader.context === state.context;
-  return contextual ? isContextual : !isContextual;
-}), state => [state.commandLoaders, state.context]);
-
-/**
- * Returns whether the command palette is open.
- *
- * @param {Object} state State tree.
- *
- * @return {boolean} Returns whether the command palette is open.
- */
+const getCommands = (0,external_wp_data_namespaceObject.createSelector)(
+  (state, contextual = false) => Object.values(state.commands).filter((command) => {
+    const isContextual = command.context && command.context === state.context;
+    return contextual ? isContextual : !isContextual;
+  }),
+  (state) => [state.commands, state.context]
+);
+const getCommandLoaders = (0,external_wp_data_namespaceObject.createSelector)(
+  (state, contextual = false) => Object.values(state.commandLoaders).filter((loader) => {
+    const isContextual = loader.context && loader.context === state.context;
+    return contextual ? isContextual : !isContextual;
+  }),
+  (state) => [state.commandLoaders, state.context]
+);
 function selectors_isOpen(state) {
   return state.isOpen;
 }
-
-/**
- * Returns whether the active context.
- *
- * @param {Object} state State tree.
- *
- * @return {string} Context.
- */
 function getContext(state) {
   return state.context;
 }
 
+
 ;// ./node_modules/@wordpress/commands/build-module/store/private-actions.js
-/**
- * Sets the active context.
- *
- * @param {string} context Context.
- *
- * @return {Object} action.
- */
 function setContext(context) {
   return {
-    type: 'SET_CONTEXT',
+    type: "SET_CONTEXT",
     context
   };
 }
 
+
 ;// external ["wp","privateApis"]
 const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// ./node_modules/@wordpress/commands/build-module/lock-unlock.js
-/**
- * WordPress dependencies
- */
 
-const {
-  lock,
-  unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/commands');
+const { lock, unlock } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+  "@wordpress/commands"
+);
+
 
 ;// ./node_modules/@wordpress/commands/build-module/store/index.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
 
 
 
 
 
-const STORE_NAME = 'core/commands';
 
-/**
- * Store definition for the commands namespace.
- *
- * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
- *
- * @type {Object}
- *
- * @example
- * ```js
- * import { store as commandsStore } from '@wordpress/commands';
- * import { useDispatch } from '@wordpress/data';
- * ...
- * const { open: openCommandCenter } = useDispatch( commandsStore );
- * ```
- */
+const STORE_NAME = "core/commands";
 const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, {
-  reducer: store_reducer,
+  reducer: reducer_default,
   actions: actions_namespaceObject,
   selectors: selectors_namespaceObject
 });
 (0,external_wp_data_namespaceObject.register)(store);
 unlock(store).registerPrivateActions(private_actions_namespaceObject);
 
+
 ;// ./node_modules/@wordpress/commands/build-module/components/command-menu.js
-/**
- * External dependencies
- */
-
-
-
-/**
- * WordPress dependencies
- */
 
 
 
@@ -3544,360 +3331,300 @@ unlock(store).registerPrivateActions(private_actions_namespaceObject);
 
 
 
-/**
- * Internal dependencies
- */
 
 
-const inputLabel = (0,external_wp_i18n_namespaceObject.__)('Search commands and settings');
-function CommandMenuLoader({
-  name,
-  search,
-  hook,
-  setLoader,
-  close
-}) {
-  var _hook;
-  const {
-    isLoading,
-    commands = []
-  } = (_hook = hook({
-    search
-  })) !== null && _hook !== void 0 ? _hook : {};
+
+const inputLabel = (0,external_wp_i18n_namespaceObject.__)("Search commands and settings");
+function CommandMenuLoader({ name, search, hook, setLoader, close }) {
+  const { isLoading, commands = [] } = hook({ search }) ?? {};
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setLoader(name, isLoading);
   }, [setLoader, name, isLoading]);
   if (!commands.length) {
     return null;
   }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, {
-    children: commands.map(command => {
-      var _command$searchLabel;
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(He.Item, {
-        value: (_command$searchLabel = command.searchLabel) !== null && _command$searchLabel !== void 0 ? _command$searchLabel : command.label,
-        onSelect: () => command.callback({
-          close
-        }),
-        id: command.name,
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(external_ReactJSXRuntime_namespaceObject.Fragment, { children: commands.map((command) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    He.Item,
+    {
+      value: command.searchLabel ?? command.label,
+      keywords: command.keywords,
+      onSelect: () => command.callback({ close }),
+      id: command.name,
+      children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
+        external_wp_components_namespaceObject.__experimentalHStack,
+        {
           alignment: "left",
-          className: dist_clsx('commands-command-menu__item', {
-            'has-icon': command.icon
+          className: dist_clsx("commands-command-menu__item", {
+            "has-icon": command.icon
           }),
-          children: [command.icon && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(icon, {
-            icon: command.icon
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.TextHighlight, {
-              text: command.label,
-              highlight: search
-            })
-          })]
-        })
-      }, command.name);
-    })
-  });
+          children: [
+            command.icon && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(icon_default, { icon: command.icon }),
+            /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("span", { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+              external_wp_components_namespaceObject.TextHighlight,
+              {
+                text: command.label,
+                highlight: search
+              }
+            ) })
+          ]
+        }
+      )
+    },
+    command.name
+  )) });
 }
-function CommandMenuLoaderWrapper({
-  hook,
-  search,
-  setLoader,
-  close
-}) {
-  // The "hook" prop is actually a custom React hook
-  // so to avoid breaking the rules of hooks
-  // the CommandMenuLoaderWrapper component need to be
-  // remounted on each hook prop change
-  // We use the key state to make sure we do that properly.
+function CommandMenuLoaderWrapper({ hook, search, setLoader, close }) {
   const currentLoaderRef = (0,external_wp_element_namespaceObject.useRef)(hook);
   const [key, setKey] = (0,external_wp_element_namespaceObject.useState)(0);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (currentLoaderRef.current !== hook) {
       currentLoaderRef.current = hook;
-      setKey(prevKey => prevKey + 1);
+      setKey((prevKey) => prevKey + 1);
     }
   }, [hook]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CommandMenuLoader, {
-    hook: currentLoaderRef.current,
-    search: search,
-    setLoader: setLoader,
-    close: close
-  }, key);
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    CommandMenuLoader,
+    {
+      hook: currentLoaderRef.current,
+      search,
+      setLoader,
+      close
+    },
+    key
+  );
 }
-function CommandMenuGroup({
-  isContextual,
-  search,
-  setLoader,
-  close
-}) {
-  const {
-    commands,
-    loaders
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getCommands,
-      getCommandLoaders
-    } = select(store);
-    return {
-      commands: getCommands(isContextual),
-      loaders: getCommandLoaders(isContextual)
-    };
-  }, [isContextual]);
+function CommandMenuGroup({ isContextual, search, setLoader, close }) {
+  const { commands, loaders } = (0,external_wp_data_namespaceObject.useSelect)(
+    (select) => {
+      const { getCommands, getCommandLoaders } = select(store);
+      return {
+        commands: getCommands(isContextual),
+        loaders: getCommandLoaders(isContextual)
+      };
+    },
+    [isContextual]
+  );
   if (!commands.length && !loaders.length) {
     return null;
   }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(He.Group, {
-    children: [commands.map(command => {
-      var _command$searchLabel2;
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(He.Item, {
-        value: (_command$searchLabel2 = command.searchLabel) !== null && _command$searchLabel2 !== void 0 ? _command$searchLabel2 : command.label,
-        onSelect: () => command.callback({
-          close
-        }),
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(He.Group, { children: [
+    commands.map((command) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      He.Item,
+      {
+        value: command.searchLabel ?? command.label,
+        keywords: command.keywords,
+        onSelect: () => command.callback({ close }),
         id: command.name,
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalHStack, {
-          alignment: "left",
-          className: dist_clsx('commands-command-menu__item', {
-            'has-icon': command.icon
-          }),
-          children: [command.icon && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(icon, {
-            icon: command.icon
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("span", {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.TextHighlight, {
-              text: command.label,
-              highlight: search
-            })
-          })]
-        })
-      }, command.name);
-    }), loaders.map(loader => /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CommandMenuLoaderWrapper, {
-      hook: loader.hook,
-      search: search,
-      setLoader: setLoader,
-      close: close
-    }, loader.name))]
-  });
+        children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(
+          external_wp_components_namespaceObject.__experimentalHStack,
+          {
+            alignment: "left",
+            className: dist_clsx("commands-command-menu__item", {
+              "has-icon": command.icon
+            }),
+            children: [
+              command.icon && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(icon_default, { icon: command.icon }),
+              /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("span", { children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+                external_wp_components_namespaceObject.TextHighlight,
+                {
+                  text: command.label,
+                  highlight: search
+                }
+              ) })
+            ]
+          }
+        )
+      },
+      command.name
+    )),
+    loaders.map((loader) => /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+      CommandMenuLoaderWrapper,
+      {
+        hook: loader.hook,
+        search,
+        setLoader,
+        close
+      },
+      loader.name
+    ))
+  ] });
 }
-function CommandInput({
-  isOpen,
-  search,
-  setSearch
-}) {
+function CommandInput({ isOpen, search, setSearch }) {
   const commandMenuInput = (0,external_wp_element_namespaceObject.useRef)();
-  const _value = dist_D(state => state.value);
+  const _value = dist_D((state) => state.value);
   const selectedItemId = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    const item = document.querySelector(`[cmdk-item=""][data-value="${_value}"]`);
-    return item?.getAttribute('id');
+    const item = document.querySelector(
+      `[cmdk-item=""][data-value="${_value}"]`
+    );
+    return item?.getAttribute("id");
   }, [_value]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // Focus the command palette input when mounting the modal.
     if (isOpen) {
       commandMenuInput.current.focus();
     }
   }, [isOpen]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(He.Input, {
-    ref: commandMenuInput,
-    value: search,
-    onValueChange: setSearch,
-    placeholder: inputLabel,
-    "aria-activedescendant": selectedItemId,
-    icon: search
-  });
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    He.Input,
+    {
+      ref: commandMenuInput,
+      value: search,
+      onValueChange: setSearch,
+      placeholder: inputLabel,
+      "aria-activedescendant": selectedItemId,
+      icon: search
+    }
+  );
 }
-
-/**
- * @ignore
- */
 function CommandMenu() {
-  const {
-    registerShortcut
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_keyboardShortcuts_namespaceObject.store);
-  const [search, setSearch] = (0,external_wp_element_namespaceObject.useState)('');
-  const isOpen = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).isOpen(), []);
-  const {
-    open,
-    close
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const { registerShortcut } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_keyboardShortcuts_namespaceObject.store);
+  const [search, setSearch] = (0,external_wp_element_namespaceObject.useState)("");
+  const isOpen = (0,external_wp_data_namespaceObject.useSelect)(
+    (select) => select(store).isOpen(),
+    []
+  );
+  const { open, close } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const [loaders, setLoaders] = (0,external_wp_element_namespaceObject.useState)({});
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     registerShortcut({
-      name: 'core/commands',
-      category: 'global',
-      description: (0,external_wp_i18n_namespaceObject.__)('Open the command palette.'),
+      name: "core/commands",
+      category: "global",
+      description: (0,external_wp_i18n_namespaceObject.__)("Open the command palette."),
       keyCombination: {
-        modifier: 'primary',
-        character: 'k'
+        modifier: "primary",
+        character: "k"
       }
     });
   }, [registerShortcut]);
-  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)('core/commands', /** @type {import('react').KeyboardEventHandler} */
-  event => {
-    // Bails to avoid obscuring the effect of the preceding handler(s).
-    if (event.defaultPrevented) {
-      return;
+  (0,external_wp_keyboardShortcuts_namespaceObject.useShortcut)(
+    "core/commands",
+    /** @type {import('react').KeyboardEventHandler} */
+    (event) => {
+      if (event.defaultPrevented) {
+        return;
+      }
+      event.preventDefault();
+      if (isOpen) {
+        close();
+      } else {
+        open();
+      }
+    },
+    {
+      bindGlobal: true
     }
-    event.preventDefault();
-    if (isOpen) {
-      close();
-    } else {
-      open();
-    }
-  }, {
-    bindGlobal: true
-  });
-  const setLoader = (0,external_wp_element_namespaceObject.useCallback)((name, value) => setLoaders(current => ({
-    ...current,
-    [name]: value
-  })), []);
+  );
+  const setLoader = (0,external_wp_element_namespaceObject.useCallback)(
+    (name, value) => setLoaders((current) => ({
+      ...current,
+      [name]: value
+    })),
+    []
+  );
   const closeAndReset = () => {
-    setSearch('');
+    setSearch("");
     close();
   };
   if (!isOpen) {
     return false;
   }
-  const onKeyDown = event => {
+  const onKeyDown = (event) => {
     if (
-    // Ignore keydowns from IMEs
-    event.nativeEvent.isComposing ||
-    // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
-    // is `isComposing=false`, even though it's technically still part of the composition.
-    // These can only be detected by keyCode.
-    event.keyCode === 229) {
+      // Ignore keydowns from IMEs
+      event.nativeEvent.isComposing || // Workaround for Mac Safari where the final Enter/Backspace of an IME composition
+      // is `isComposing=false`, even though it's technically still part of the composition.
+      // These can only be detected by keyCode.
+      event.keyCode === 229
+    ) {
       event.preventDefault();
     }
   };
   const isLoading = Object.values(loaders).some(Boolean);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Modal, {
-    className: "commands-command-menu",
-    overlayClassName: "commands-command-menu__overlay",
-    onRequestClose: closeAndReset,
-    __experimentalHideHeader: true,
-    contentLabel: (0,external_wp_i18n_namespaceObject.__)('Command palette'),
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("div", {
-      className: "commands-command-menu__container",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(He, {
-        label: inputLabel,
-        onKeyDown: onKeyDown,
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-          className: "commands-command-menu__header",
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CommandInput, {
-            search: search,
-            setSearch: setSearch,
-            isOpen: isOpen
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(icon, {
-            icon: library_search
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)(He.List, {
-          label: (0,external_wp_i18n_namespaceObject.__)('Command suggestions'),
-          children: [search && !isLoading && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(He.Empty, {
-            children: (0,external_wp_i18n_namespaceObject.__)('No results found.')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CommandMenuGroup, {
-            search: search,
-            setLoader: setLoader,
-            close: closeAndReset,
-            isContextual: true
-          }), search && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(CommandMenuGroup, {
-            search: search,
-            setLoader: setLoader,
-            close: closeAndReset
-          })]
-        })]
-      })
-    })
-  });
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+    external_wp_components_namespaceObject.Modal,
+    {
+      className: "commands-command-menu",
+      overlayClassName: "commands-command-menu__overlay",
+      onRequestClose: closeAndReset,
+      __experimentalHideHeader: true,
+      contentLabel: (0,external_wp_i18n_namespaceObject.__)("Command palette"),
+      children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("div", { className: "commands-command-menu__container", children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(He, { label: inputLabel, onKeyDown, children: [
+        /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", { className: "commands-command-menu__header", children: [
+          /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            icon_default,
+            {
+              className: "commands-command-menu__header-search-icon",
+              icon: search_default
+            }
+          ),
+          /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            CommandInput,
+            {
+              search,
+              setSearch,
+              isOpen
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(He.List, { label: (0,external_wp_i18n_namespaceObject.__)("Command suggestions"), children: [
+          search && !isLoading && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(He.Empty, { children: (0,external_wp_i18n_namespaceObject.__)("No results found.") }),
+          /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            CommandMenuGroup,
+            {
+              search,
+              setLoader,
+              close: closeAndReset,
+              isContextual: true
+            }
+          ),
+          search && /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(
+            CommandMenuGroup,
+            {
+              search,
+              setLoader,
+              close: closeAndReset
+            }
+          )
+        ] })
+      ] }) })
+    }
+  );
 }
 
+
 ;// ./node_modules/@wordpress/commands/build-module/hooks/use-command-context.js
-/**
- * WordPress dependencies
- */
 
 
 
-/**
- * Internal dependencies
- */
 
-
-
-/**
- * Sets the active context of the command palette
- *
- * @param {string} context Context to set.
- */
 function useCommandContext(context) {
-  const {
-    getContext
-  } = (0,external_wp_data_namespaceObject.useSelect)(store);
+  const { getContext } = (0,external_wp_data_namespaceObject.useSelect)(store);
   const initialContext = (0,external_wp_element_namespaceObject.useRef)(getContext());
-  const {
-    setContext
-  } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
+  const { setContext } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store));
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setContext(context);
   }, [context, setContext]);
-
-  // This effects ensures that on unmount, we restore the context
-  // that was set before the component actually mounts.
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     const initialContextRef = initialContext.current;
     return () => setContext(initialContextRef);
   }, [setContext]);
 }
 
+
 ;// ./node_modules/@wordpress/commands/build-module/private-apis.js
-/**
- * Internal dependencies
- */
 
 
-
-/**
- * @private
- */
 const privateApis = {};
 lock(privateApis, {
   useCommandContext: useCommandContext
 });
 
+
 ;// ./node_modules/@wordpress/commands/build-module/hooks/use-command.js
-/**
- * WordPress dependencies
- */
 
 
 
-/**
- * Internal dependencies
- */
-
-
-/**
- * Attach a command to the command palette. Used for static commands.
- *
- * @param {import('../store/actions').WPCommandConfig} command command config.
- *
- * @example
- * ```js
- * import { useCommand } from '@wordpress/commands';
- * import { plus } from '@wordpress/icons';
- *
- * useCommand( {
- *     name: 'myplugin/my-command-name',
- *     label: __( 'Add new post' ),
- *	   icon: plus,
- *     callback: ({ close }) => {
- *         document.location.href = 'post-new.php';
- *         close();
- *     },
- * } );
- * ```
- */
 function useCommand(command) {
-  const {
-    registerCommand,
-    unregisterCommand
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const { registerCommand, unregisterCommand } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const currentCallbackRef = (0,external_wp_element_namespaceObject.useRef)(command.callback);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     currentCallbackRef.current = command.callback;
@@ -3912,100 +3639,75 @@ function useCommand(command) {
       label: command.label,
       searchLabel: command.searchLabel,
       icon: command.icon,
+      keywords: command.keywords,
       callback: (...args) => currentCallbackRef.current(...args)
     });
     return () => {
       unregisterCommand(command.name);
     };
-  }, [command.name, command.label, command.searchLabel, command.icon, command.context, command.disabled, registerCommand, unregisterCommand]);
+  }, [
+    command.name,
+    command.label,
+    command.searchLabel,
+    command.icon,
+    command.context,
+    command.keywords,
+    command.disabled,
+    registerCommand,
+    unregisterCommand
+  ]);
+}
+function useCommands(commands) {
+  const { registerCommand, unregisterCommand } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const currentCallbacksRef = (0,external_wp_element_namespaceObject.useRef)({});
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!commands) {
+      return;
+    }
+    commands.forEach((command) => {
+      if (command.callback) {
+        currentCallbacksRef.current[command.name] = command.callback;
+      }
+    });
+  }, [commands]);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (!commands) {
+      return;
+    }
+    commands.forEach((command) => {
+      if (command.disabled) {
+        return;
+      }
+      registerCommand({
+        name: command.name,
+        context: command.context,
+        label: command.label,
+        searchLabel: command.searchLabel,
+        icon: command.icon,
+        keywords: command.keywords,
+        callback: (...args) => {
+          const callback = currentCallbacksRef.current[command.name];
+          if (callback) {
+            callback(...args);
+          }
+        }
+      });
+    });
+    return () => {
+      commands.forEach((command) => {
+        unregisterCommand(command.name);
+      });
+    };
+  }, [commands, registerCommand, unregisterCommand]);
 }
 
+
 ;// ./node_modules/@wordpress/commands/build-module/hooks/use-command-loader.js
-/**
- * WordPress dependencies
- */
 
 
 
-/**
- * Internal dependencies
- */
-
-
-/**
- * Attach a command loader to the command palette. Used for dynamic commands.
- *
- * @param {import('../store/actions').WPCommandLoaderConfig} loader command loader config.
- *
- * @example
- * ```js
- * import { useCommandLoader } from '@wordpress/commands';
- * import { post, page, layout, symbolFilled } from '@wordpress/icons';
- *
- * const icons = {
- *     post,
- *     page,
- *     wp_template: layout,
- *     wp_template_part: symbolFilled,
- * };
- *
- * function usePageSearchCommandLoader( { search } ) {
- *     // Retrieve the pages for the "search" term.
- *     const { records, isLoading } = useSelect( ( select ) => {
- *         const { getEntityRecords } = select( coreStore );
- *         const query = {
- *             search: !! search ? search : undefined,
- *             per_page: 10,
- *             orderby: search ? 'relevance' : 'date',
- *         };
- *         return {
- *             records: getEntityRecords( 'postType', 'page', query ),
- *             isLoading: ! select( coreStore ).hasFinishedResolution(
- *                 'getEntityRecords',
- *                 'postType', 'page', query ]
- *             ),
- *         };
- *     }, [ search ] );
- *
- *     // Create the commands.
- *     const commands = useMemo( () => {
- *         return ( records ?? [] ).slice( 0, 10 ).map( ( record ) => {
- *             return {
- *                 name: record.title?.rendered + ' ' + record.id,
- *                 label: record.title?.rendered
- *                     ? record.title?.rendered
- *                     : __( '(no title)' ),
- *                 icon: icons[ postType ],
- *                 callback: ( { close } ) => {
- *                     const args = {
- *                         postType,
- *                         postId: record.id,
- *                         ...extraArgs,
- *                     };
- *                     document.location = addQueryArgs( 'site-editor.php', args );
- *                     close();
- *                 },
- *             };
- *         } );
- *     }, [ records, history ] );
- *
- *     return {
- *         commands,
- *         isLoading,
- *     };
- * }
- *
- * useCommandLoader( {
- *     name: 'myplugin/page-search',
- *     hook: usePageSearchCommandLoader,
- * } );
- * ```
- */
 function useCommandLoader(loader) {
-  const {
-    registerCommandLoader,
-    unregisterCommandLoader
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const { registerCommandLoader, unregisterCommandLoader } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (loader.disabled) {
       return;
@@ -4018,10 +3720,19 @@ function useCommandLoader(loader) {
     return () => {
       unregisterCommandLoader(loader.name);
     };
-  }, [loader.name, loader.hook, loader.context, loader.disabled, registerCommandLoader, unregisterCommandLoader]);
+  }, [
+    loader.name,
+    loader.hook,
+    loader.context,
+    loader.disabled,
+    registerCommandLoader,
+    unregisterCommandLoader
+  ]);
 }
 
+
 ;// ./node_modules/@wordpress/commands/build-module/index.js
+
 
 
 

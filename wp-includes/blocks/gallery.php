@@ -142,7 +142,7 @@ function block_core_gallery_render( $attributes, $content ) {
 
 	// This pattern matches figure elements with the `wp-block-image` class to
 	// avoid the gallery's wrapping `figure` element and extract images only.
-	$pattern = '/<figure[^>]*\bwp-block-image\b[^>]*>.*?<\/figure>/';
+	$pattern = '/<figure[^>]*\bwp-block-image\b[^>]*>.*?<\/figure>/s';
 
 	// Find all Image blocks.
 	preg_match_all( $pattern, $updated_content, $matches );

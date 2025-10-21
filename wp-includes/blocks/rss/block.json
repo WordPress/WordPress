@@ -18,7 +18,8 @@
 		},
 		"feedURL": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"role": "content"
 		},
 		"itemsToShow": {
 			"type": "number",
@@ -39,6 +40,13 @@
 		"excerptLength": {
 			"type": "number",
 			"default": 55
+		},
+		"openInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"rel": {
+			"type": "string"
 		}
 	},
 	"supports": {

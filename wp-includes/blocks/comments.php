@@ -28,11 +28,11 @@
 function render_block_core_comments( $attributes, $content, $block ) {
 	global $post;
 
-	$post_id = $block->context['postId'];
-	if ( ! isset( $post_id ) ) {
+	if ( ! isset( $block->context['postId'] ) ) {
 		return '';
 	}
 
+	$post_id = $block->context['postId'];
 	// Return early if there are no comments and comments are closed.
 	if ( ! comments_open( $post_id ) && (int) get_comments_number( $post_id ) === 0 ) {
 		return '';

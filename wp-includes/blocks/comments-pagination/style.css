@@ -1,10 +1,5 @@
 .wp-block-comments-pagination>.wp-block-comments-pagination-next,.wp-block-comments-pagination>.wp-block-comments-pagination-numbers,.wp-block-comments-pagination>.wp-block-comments-pagination-previous{
   font-size:inherit;
-  margin-bottom:.5em;
-  margin-right:.5em;
-}
-.wp-block-comments-pagination>.wp-block-comments-pagination-next:last-child,.wp-block-comments-pagination>.wp-block-comments-pagination-numbers:last-child,.wp-block-comments-pagination>.wp-block-comments-pagination-previous:last-child{
-  margin-right:0;
 }
 .wp-block-comments-pagination .wp-block-comments-pagination-previous-arrow{
   display:inline-block;

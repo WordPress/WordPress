@@ -19,11 +19,13 @@
 		},
 		"prefix": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"role": "content"
 		},
 		"suffix": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"role": "content"
 		}
 	},
 	"usesContext": [ "postId", "postType" ],

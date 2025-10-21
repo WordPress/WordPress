@@ -53,7 +53,8 @@
 		"align": [ "wide", "full" ],
 		"html": false,
 		"layout": true,
-		"interactivity": true
+		"interactivity": true,
+		"contentRole": true
 	},
 	"editorStyle": "wp-block-query-editor"
 }

@@ -1,5 +1,4 @@
 .wp-block-columns{
-  align-items:normal !important;
   box-sizing:border-box;
   display:flex;
   flex-wrap:wrap !important;
@@ -8,6 +7,9 @@
   .wp-block-columns{
     flex-wrap:nowrap !important;
   }
+}
+.wp-block-columns{
+  align-items:normal !important;
 }
 .wp-block-columns.are-vertically-aligned-top{
   align-items:flex-start;

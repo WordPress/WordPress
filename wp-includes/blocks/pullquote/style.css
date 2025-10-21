@@ -5,7 +5,7 @@
   padding:4em 0;
   text-align:center;
 }
-.wp-block-pullquote blockquote,.wp-block-pullquote cite,.wp-block-pullquote p{
+.wp-block-pullquote blockquote,.wp-block-pullquote p{
   color:inherit;
 }
 .wp-block-pullquote blockquote{
@@ -57,7 +57,7 @@
   text-transform:none;
 }
 
-.wp-block-pullquote cite{
+.wp-block-pullquote :where(cite){
   color:inherit;
   display:block;
 }

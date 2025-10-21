@@ -14,9 +14,6 @@
 		"width": {
 			"type": "string"
 		},
-		"allowedBlocks": {
-			"type": "array"
-		},
 		"templateLock": {
 			"type": [ "string", "boolean" ],
 			"enum": [ "all", "insert", "contentOnly", false ]
@@ -74,6 +71,7 @@
 		"layout": true,
 		"interactivity": {
 			"clientNavigation": true
-		}
+		},
+		"allowedBlocks": true
 	}
 }

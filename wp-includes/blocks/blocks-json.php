@@ -1,4 +1,355 @@
 <?php return array(
+  'accordion' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/accordion',
+    'title' => 'Accordion',
+    'category' => 'design',
+    'description' => 'Displays a group of accordion headings and associated expandable content.',
+    'example' => array(
+      
+    ),
+    'supports' => array(
+      'anchor' => true,
+      'html' => false,
+      'align' => array(
+        'wide',
+        'full'
+      ),
+      'background' => array(
+        'backgroundImage' => true,
+        'backgroundSize' => true,
+        '__experimentalDefaultControls' => array(
+          'backgroundImage' => true
+        )
+      ),
+      'color' => array(
+        'background' => true,
+        'gradients' => true
+      ),
+      '__experimentalBorder' => array(
+        'color' => true,
+        'radius' => true,
+        'style' => true,
+        'width' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => true,
+          'radius' => true,
+          'style' => true,
+          'width' => true
+        )
+      ),
+      'spacing' => array(
+        'padding' => true,
+        'margin' => array(
+          'top',
+          'bottom'
+        ),
+        'blockGap' => true
+      ),
+      'shadow' => true,
+      'layout' => true,
+      'ariaLabel' => true,
+      'interactivity' => true,
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'contentRole' => true
+    ),
+    'attributes' => array(
+      'iconPosition' => array(
+        'type' => 'string',
+        'default' => 'right'
+      ),
+      'showIcon' => array(
+        'type' => 'boolean',
+        'default' => true
+      ),
+      'autoclose' => array(
+        'type' => 'boolean',
+        'default' => false
+      ),
+      'headingLevel' => array(
+        'type' => 'number',
+        'default' => 3
+      ),
+      'levelOptions' => array(
+        'type' => 'array'
+      )
+    ),
+    'providesContext' => array(
+      'core/accordion-icon-position' => 'iconPosition',
+      'core/accordion-show-icon' => 'showIcon',
+      'core/accordion-heading-level' => 'headingLevel'
+    ),
+    'allowedBlocks' => array(
+      'core/accordion-item'
+    ),
+    'textdomain' => 'default',
+    'viewScriptModule' => '@wordpress/block-library/accordion/view'
+  ),
+  'accordion-heading' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/accordion-heading',
+    'title' => 'Accordion Heading',
+    'category' => 'design',
+    'description' => 'Displays an accordion heading.',
+    'parent' => array(
+      'core/accordion-item'
+    ),
+    'usesContext' => array(
+      'core/accordion-icon-position',
+      'core/accordion-show-icon',
+      'core/accordion-heading-level'
+    ),
+    'supports' => array(
+      'anchor' => true,
+      'color' => array(
+        'background' => true,
+        'gradients' => true
+      ),
+      'align' => false,
+      'interactivity' => true,
+      'spacing' => array(
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'padding' => true
+        ),
+        '__experimentalSkipSerialization' => true,
+        '__experimentalSelector' => '.wp-block-accordion-heading__toggle'
+      ),
+      '__experimentalBorder' => array(
+        'color' => true,
+        'radius' => true,
+        'style' => true,
+        'width' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => true,
+          'radius' => true,
+          'style' => true,
+          'width' => true
+        )
+      ),
+      'typography' => array(
+        '__experimentalSkipSerialization' => array(
+          'textDecoration',
+          'letterSpacing'
+        ),
+        'fontSize' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true,
+          'fontFamily' => true
+        )
+      ),
+      'shadow' => true,
+      'blockVisibility' => false,
+      'lock' => false
+    ),
+    'selectors' => array(
+      'typography' => array(
+        'letterSpacing' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title',
+        'textDecoration' => '.wp-block-accordion-heading .wp-block-accordion-heading__toggle-title'
+      )
+    ),
+    'attributes' => array(
+      'openByDefault' => array(
+        'type' => 'boolean',
+        'default' => false
+      ),
+      'title' => array(
+        'type' => 'rich-text',
+        'source' => 'rich-text',
+        'selector' => '.wp-block-accordion-heading__toggle-title',
+        'role' => 'content'
+      ),
+      'level' => array(
+        'type' => 'number'
+      ),
+      'iconPosition' => array(
+        'type' => 'string',
+        'enum' => array(
+          'left',
+          'right'
+        ),
+        'default' => 'right'
+      ),
+      'showIcon' => array(
+        'type' => 'boolean',
+        'default' => true
+      )
+    ),
+    'textdomain' => 'default'
+  ),
+  'accordion-item' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/accordion-item',
+    'title' => 'Accordion Item',
+    'category' => 'design',
+    'description' => 'Displays a section of content in an accordion, including a heading and expandable content.',
+    'parent' => array(
+      'core/accordion'
+    ),
+    'allowedBlocks' => array(
+      'core/accordion-heading',
+      'core/accordion-panel'
+    ),
+    'supports' => array(
+      'html' => false,
+      'color' => array(
+        'background' => true,
+        'gradients' => true
+      ),
+      'interactivity' => true,
+      'spacing' => array(
+        'margin' => array(
+          'top',
+          'bottom'
+        ),
+        'blockGap' => true
+      ),
+      '__experimentalBorder' => array(
+        'color' => true,
+        'radius' => true,
+        'style' => true,
+        'width' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => true,
+          'radius' => true,
+          'style' => true,
+          'width' => true
+        )
+      ),
+      'shadow' => true,
+      'layout' => array(
+        'allowEditing' => false
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'contentRole' => true
+    ),
+    'attributes' => array(
+      'openByDefault' => array(
+        'type' => 'boolean',
+        'default' => false
+      )
+    ),
+    'textdomain' => 'default',
+    'style' => 'wp-block-accordion-item'
+  ),
+  'accordion-panel' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/accordion-panel',
+    'title' => 'Accordion Panel',
+    'category' => 'design',
+    'description' => 'Displays an accordion panel.',
+    'parent' => array(
+      'core/accordion-item'
+    ),
+    'supports' => array(
+      'html' => false,
+      'color' => array(
+        'background' => true,
+        'gradients' => true
+      ),
+      'interactivity' => true,
+      'spacing' => array(
+        'padding' => true,
+        'blockGap' => true,
+        '__experimentalDefaultControls' => array(
+          'padding' => true,
+          'blockGap' => true
+        )
+      ),
+      '__experimentalBorder' => array(
+        'color' => true,
+        'radius' => true,
+        'style' => true,
+        'width' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => true,
+          'radius' => true,
+          'style' => true,
+          'width' => true
+        )
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'shadow' => true,
+      'layout' => array(
+        'allowEditing' => false
+      ),
+      'blockVisibility' => false,
+      'contentRole' => true,
+      'allowedBlocks' => true,
+      'lock' => false
+    ),
+    'attributes' => array(
+      'templateLock' => array(
+        'type' => array(
+          'string',
+          'boolean'
+        ),
+        'enum' => array(
+          'all',
+          'insert',
+          'contentOnly',
+          false
+        ),
+        'default' => false
+      ),
+      'openByDefault' => array(
+        'type' => 'boolean',
+        'default' => false
+      ),
+      'isSelected' => array(
+        'type' => 'boolean',
+        'default' => false
+      )
+    ),
+    'textdomain' => 'default',
+    'style' => 'wp-block-accordion-panel'
+  ),
   'archives' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -197,15 +548,20 @@
       ),
       'color' => array(
         'text' => false,
-        'background' => false,
-        '__experimentalDuotone' => 'img'
+        'background' => false
+      ),
+      'filter' => array(
+        'duotone' => true
       ),
       'interactivity' => array(
         'clientNavigation' => true
       )
     ),
     'selectors' => array(
-      'border' => '.wp-block-avatar img'
+      'border' => '.wp-block-avatar img',
+      'filter' => array(
+        'duotone' => '.wp-block-avatar img'
+      )
     ),
     'editorStyle' => 'wp-block-avatar-editor',
     'style' => 'wp-block-avatar'
@@ -490,7 +846,8 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'contentRole' => true
     ),
     'editorStyle' => 'wp-block-buttons-editor',
     'style' => 'wp-block-buttons'
@@ -517,6 +874,7 @@
     ),
     'supports' => array(
       'align' => true,
+      'html' => false,
       'color' => array(
         'link' => true,
         '__experimentalSkipSerialization' => array(
@@ -660,7 +1018,8 @@
         'type' => 'rich-text',
         'source' => 'rich-text',
         'selector' => 'code',
-        '__unstablePreserveWhiteSpace' => true
+        '__unstablePreserveWhiteSpace' => true,
+        'role' => 'content'
       )
     ),
     'supports' => array(
@@ -735,9 +1094,6 @@
       'width' => array(
         'type' => 'string'
       ),
-      'allowedBlocks' => array(
-        'type' => 'array'
-      ),
       'templateLock' => array(
         'type' => array(
           'string',
@@ -803,7 +1159,8 @@
       'layout' => true,
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'allowedBlocks' => true
     )
   ),
   'columns' => array(
@@ -1668,7 +2025,8 @@
     'textdomain' => 'default',
     'attributes' => array(
       'url' => array(
-        'type' => 'string'
+        'type' => 'string',
+        'role' => 'content'
       ),
       'useFeaturedImage' => array(
         'type' => 'boolean',
@@ -1728,9 +2086,6 @@
         'type' => 'boolean',
         'default' => true
       ),
-      'allowedBlocks' => array(
-        'type' => 'array'
-      ),
       'templateLock' => array(
         'type' => array(
           'string',
@@ -1749,6 +2104,12 @@
       ),
       'sizeSlug' => array(
         'type' => 'string'
+      ),
+      'poster' => array(
+        'type' => 'string',
+        'source' => 'attribute',
+        'selector' => 'video',
+        'attribute' => 'poster'
       )
     ),
     'usesContext' => array(
@@ -1785,7 +2146,6 @@
         )
       ),
       'color' => array(
-        '__experimentalDuotone' => '> .wp-block-cover__image-background, > .wp-block-cover__video-background',
         'heading' => true,
         'text' => true,
         'background' => false,
@@ -1815,6 +2175,15 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
+      ),
+      'filter' => array(
+        'duotone' => true
+      ),
+      'allowedBlocks' => true
+    ),
+    'selectors' => array(
+      'filter' => array(
+        'duotone' => '.wp-block-cover > .wp-block-cover__image-background, .wp-block-cover > .wp-block-cover__video-background'
       )
     ),
     'editorStyle' => 'wp-block-cover-editor',
@@ -1828,7 +2197,6 @@
     'category' => 'text',
     'description' => 'Hide and show additional content.',
     'keywords' => array(
-      'accordion',
       'summary',
       'toggle',
       'disclosure'
@@ -1842,16 +2210,14 @@
       'summary' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
-        'selector' => 'summary'
+        'selector' => 'summary',
+        'role' => 'content'
       ),
       'name' => array(
         'type' => 'string',
         'source' => 'attribute',
         'attribute' => 'name',
         'selector' => '.wp-block-details'
-      ),
-      'allowedBlocks' => array(
-        'type' => 'array'
       ),
       'placeholder' => array(
         'type' => 'string'
@@ -1905,7 +2271,8 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'allowedBlocks' => true
     ),
     'editorStyle' => 'wp-block-details-editor',
     'style' => 'wp-block-details'
@@ -2243,7 +2610,8 @@
       'caption' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
-        'selector' => '.blocks-gallery-caption'
+        'selector' => '.blocks-gallery-caption',
+        'role' => 'content'
       ),
       'imageCrop' => array(
         'type' => 'boolean',
@@ -2270,6 +2638,10 @@
       'allowResize' => array(
         'type' => 'boolean',
         'default' => false
+      ),
+      'aspectRatio' => array(
+        'type' => 'string',
+        'default' => 'auto'
       )
     ),
     'providesContext' => array(
@@ -2364,9 +2736,6 @@
           'contentOnly',
           false
         )
-      ),
-      'allowedBlocks' => array(
-        'type' => 'array'
       )
     ),
     'supports' => array(
@@ -2446,7 +2815,8 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'allowedBlocks' => true
     ),
     'editorStyle' => 'wp-block-group-editor',
     'style' => 'wp-block-group'
@@ -2524,6 +2894,7 @@
         '__experimentalTextTransform' => true,
         '__experimentalTextDecoration' => true,
         '__experimentalWritingMode' => true,
+        'fitText' => true,
         '__experimentalDefaultControls' => array(
           'fontSize' => true
         )
@@ -2599,7 +2970,8 @@
     'attributes' => array(
       'content' => array(
         'type' => 'string',
-        'source' => 'raw'
+        'source' => 'raw',
+        'role' => 'content'
       )
     ),
     'supports' => array(
@@ -3037,10 +3409,6 @@
         'source' => 'html',
         'selector' => 'ol,ul',
         'multiline' => 'li',
-        '__unstableMultilineWrapperTags' => array(
-          'ol',
-          'ul'
-        ),
         'default' => '',
         'role' => 'content'
       ),
@@ -3248,6 +3616,32 @@
     ),
     'style' => 'wp-block-loginout'
   ),
+  'math' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/math',
+    'title' => 'Math',
+    'category' => 'text',
+    'description' => 'Display mathematical notation using LaTeX.',
+    'keywords' => array(
+      'equation',
+      'formula',
+      'latex',
+      'mathematics'
+    ),
+    'textdomain' => 'default',
+    'attributes' => array(
+      'latex' => array(
+        'type' => 'string',
+        'role' => 'content'
+      ),
+      'mathML' => array(
+        'type' => 'string',
+        'source' => 'html',
+        'selector' => 'math'
+      )
+    )
+  ),
   'media-text' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -3343,9 +3737,6 @@
       'focalPoint' => array(
         'type' => 'object'
       ),
-      'allowedBlocks' => array(
-        'type' => 'array'
-      ),
       'useFeaturedImage' => array(
         'type' => 'boolean',
         'default' => false
@@ -3402,7 +3793,8 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'allowedBlocks' => true
     ),
     'editorStyle' => 'wp-block-media-text-editor',
     'style' => 'wp-block-media-text'
@@ -3452,7 +3844,8 @@
     'attributes' => array(
       'customText' => array(
         'type' => 'string',
-        'default' => ''
+        'default' => '',
+        'role' => 'content'
       ),
       'noTeaser' => array(
         'type' => 'boolean',
@@ -3633,7 +4026,8 @@
         )
       ),
       'interactivity' => true,
-      'renaming' => false
+      'renaming' => false,
+      'contentRole' => true
     ),
     'editorStyle' => 'wp-block-navigation-editor',
     'style' => 'wp-block-navigation'
@@ -3656,7 +4050,8 @@
     'textdomain' => 'default',
     'attributes' => array(
       'label' => array(
-        'type' => 'string'
+        'type' => 'string',
+        'role' => 'content'
       ),
       'type' => array(
         'type' => 'string'
@@ -3740,7 +4135,8 @@
     'textdomain' => 'default',
     'attributes' => array(
       'label' => array(
-        'type' => 'string'
+        'type' => 'string',
+        'role' => 'content'
       ),
       'type' => array(
         'type' => 'string'
@@ -3918,7 +4314,8 @@
           'padding' => false,
           'margin' => false
         )
-      )
+      ),
+      'contentRole' => true
     ),
     'editorStyle' => 'wp-block-page-list-editor',
     'style' => 'wp-block-page-list'
@@ -4056,6 +4453,7 @@
         '__experimentalLetterSpacing' => true,
         '__experimentalTextTransform' => true,
         '__experimentalWritingMode' => true,
+        'fitText' => true,
         '__experimentalDefaultControls' => array(
           'fontSize' => true
         )
@@ -4080,6 +4478,7 @@
       'html' => false,
       'inserter' => false,
       'renaming' => false,
+      'blockVisibility' => false,
       'interactivity' => array(
         'clientNavigation' => true
       )
@@ -4155,7 +4554,6 @@
       'color' => array(
         'gradients' => true,
         'link' => true,
-        '__experimentalDuotone' => '.wp-block-post-author__avatar img',
         '__experimentalDefaultControls' => array(
           'background' => true,
           'text' => true
@@ -4175,6 +4573,14 @@
           'width' => true,
           'style' => true
         )
+      ),
+      'filter' => array(
+        'duotone' => true
+      )
+    ),
+    'selectors' => array(
+      'filter' => array(
+        'duotone' => '.wp-block-post-author .wp-block-post-author__avatar img'
       )
     ),
     'editorStyle' => 'wp-block-post-author-editor',
@@ -4320,6 +4726,63 @@
     ),
     'style' => 'wp-block-post-author-name'
   ),
+  'post-comments-count' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/post-comments-count',
+    'title' => 'Comments Count',
+    'category' => 'theme',
+    'description' => 'Display a post\'s comments count.',
+    'textdomain' => 'default',
+    'attributes' => array(
+      'textAlign' => array(
+        'type' => 'string'
+      )
+    ),
+    'usesContext' => array(
+      'postId'
+    ),
+    'example' => array(
+      'viewportWidth' => 350
+    ),
+    'supports' => array(
+      'html' => false,
+      'color' => array(
+        'gradients' => true,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'text' => true
+        )
+      ),
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      )
+    ),
+    'style' => 'wp-block-post-comments-count'
+  ),
   'post-comments-form' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -4388,6 +4851,71 @@
       )
     )
   ),
+  'post-comments-link' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/post-comments-link',
+    'title' => 'Comments Link',
+    'category' => 'theme',
+    'description' => 'Displays the link to the current post comments.',
+    'textdomain' => 'default',
+    'usesContext' => array(
+      'postType',
+      'postId'
+    ),
+    'attributes' => array(
+      'textAlign' => array(
+        'type' => 'string'
+      )
+    ),
+    'example' => array(
+      'viewportWidth' => 350
+    ),
+    'supports' => array(
+      'html' => false,
+      'color' => array(
+        'link' => true,
+        'text' => false,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'link' => true
+        )
+      ),
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true,
+        '__experimentalDefaultControls' => array(
+          'radius' => true,
+          'color' => true,
+          'width' => true,
+          'style' => true
+        )
+      )
+    ),
+    'style' => 'wp-block-post-comments-link'
+  ),
   'post-content' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -4400,6 +4928,12 @@
       'postId',
       'postType',
       'queryId'
+    ),
+    'attributes' => array(
+      'tagName' => array(
+        'type' => 'string',
+        'default' => 'div'
+      )
     ),
     'example' => array(
       'viewportWidth' => 350
@@ -4452,6 +4986,9 @@
           'fontSize' => true
         )
       ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
       '__experimentalBorder' => array(
         'radius' => true,
         'color' => true,
@@ -4477,6 +5014,10 @@
     'description' => 'Display the publish date for an entry such as a post or page.',
     'textdomain' => 'default',
     'attributes' => array(
+      'datetime' => array(
+        'type' => 'string',
+        'role' => 'content'
+      ),
       'textAlign' => array(
         'type' => 'string'
       ),
@@ -4487,10 +5028,6 @@
         'type' => 'boolean',
         'default' => false,
         'role' => 'content'
-      ),
-      'displayType' => array(
-        'type' => 'string',
-        'default' => 'date'
       )
     ),
     'usesContext' => array(
@@ -4559,7 +5096,8 @@
         'type' => 'string'
       ),
       'moreText' => array(
-        'type' => 'string'
+        'type' => 'string',
+        'role' => 'content'
       ),
       'showMoreOnNewLine' => array(
         'type' => 'boolean',
@@ -4760,7 +5298,8 @@
         'default' => 'next'
       ),
       'label' => array(
-        'type' => 'string'
+        'type' => 'string',
+        'role' => 'content'
       ),
       'showTitle' => array(
         'type' => 'boolean',
@@ -4903,11 +5442,13 @@
       ),
       'prefix' => array(
         'type' => 'string',
-        'default' => ''
+        'default' => '',
+        'role' => 'content'
       ),
       'suffix' => array(
         'type' => 'string',
-        'default' => ''
+        'default' => '',
+        'role' => 'content'
       )
     ),
     'usesContext' => array(
@@ -4962,6 +5503,76 @@
       )
     ),
     'style' => 'wp-block-post-terms'
+  ),
+  'post-time-to-read' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/post-time-to-read',
+    'title' => 'Time to Read',
+    'category' => 'theme',
+    'description' => 'Show minutes required to finish reading the post. Can also show a word count.',
+    'textdomain' => 'default',
+    'usesContext' => array(
+      'postId',
+      'postType'
+    ),
+    'attributes' => array(
+      'textAlign' => array(
+        'type' => 'string'
+      ),
+      'displayAsRange' => array(
+        'type' => 'boolean',
+        'default' => true
+      ),
+      'displayMode' => array(
+        'type' => 'string',
+        'default' => 'time'
+      ),
+      'averageReadingSpeed' => array(
+        'type' => 'number',
+        'default' => 189
+      )
+    ),
+    'supports' => array(
+      'color' => array(
+        'gradients' => true,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'text' => true
+        )
+      ),
+      'html' => false,
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true,
+        '__experimentalDefaultControls' => array(
+          'margin' => false,
+          'padding' => false
+        )
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true
+      )
+    )
   ),
   'post-title' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -5287,7 +5898,8 @@
       ),
       'html' => false,
       'layout' => true,
-      'interactivity' => true
+      'interactivity' => true,
+      'contentRole' => true
     ),
     'editorStyle' => 'wp-block-query-editor'
   ),
@@ -5595,6 +6207,9 @@
         'type' => 'search'
       )
     ),
+    'usesContext' => array(
+      'query'
+    ),
     'supports' => array(
       'align' => array(
         'wide',
@@ -5811,7 +6426,8 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
-      )
+      ),
+      'allowedBlocks' => true
     ),
     'styles' => array(
       array(
@@ -5837,7 +6453,8 @@
     'textdomain' => 'default',
     'attributes' => array(
       'content' => array(
-        'type' => 'string'
+        'type' => 'string',
+        'role' => 'content'
       ),
       'linkTarget' => array(
         'type' => 'string',
@@ -5914,7 +6531,8 @@
       ),
       'feedURL' => array(
         'type' => 'string',
-        'default' => ''
+        'default' => '',
+        'role' => 'content'
       ),
       'itemsToShow' => array(
         'type' => 'number',
@@ -5935,6 +6553,13 @@
       'excerptLength' => array(
         'type' => 'number',
         'default' => 55
+      ),
+      'openInNewTab' => array(
+        'type' => 'boolean',
+        'default' => false
+      ),
+      'rel' => array(
+        'type' => 'string'
       )
     ),
     'supports' => array(
@@ -6153,7 +6778,8 @@
     'attributes' => array(
       'text' => array(
         'type' => 'string',
-        'source' => 'raw'
+        'source' => 'raw',
+        'role' => 'content'
       )
     ),
     'supports' => array(
@@ -6201,7 +6827,6 @@
       'align' => true,
       'alignWide' => false,
       'color' => array(
-        '__experimentalDuotone' => 'img, .components-placeholder__illustration, .components-placeholder::before',
         'text' => false,
         'background' => false
       ),
@@ -6215,6 +6840,9 @@
       ),
       'interactivity' => array(
         'clientNavigation' => true
+      ),
+      'filter' => array(
+        'duotone' => true
       )
     ),
     'styles' => array(
@@ -6228,6 +6856,11 @@
         'label' => 'Rounded'
       )
     ),
+    'selectors' => array(
+      'filter' => array(
+        'duotone' => '.wp-block-site-logo img, .wp-block-site-logo .components-placeholder__illustration, .wp-block-site-logo .components-placeholder::before'
+      )
+    ),
     'editorStyle' => 'wp-block-site-logo-editor',
     'style' => 'wp-block-site-logo'
   ),
@@ -6237,7 +6870,7 @@
     'name' => 'core/site-tagline',
     'title' => 'Site Tagline',
     'category' => 'theme',
-    'description' => 'Describe in a few words what the site is about. The tagline can be used in search results or when sharing on social networks even if it’s not displayed in the theme design.',
+    'description' => 'Describe in a few words what this site is about. This is important for search results, sharing on social media, and gives overall clarity to visitors.',
     'keywords' => array(
       'description'
     ),
@@ -6282,6 +6915,7 @@
           'text' => true
         )
       ),
+      'contentRole' => true,
       'spacing' => array(
         'margin' => true,
         'padding' => true,
@@ -6513,6 +7147,7 @@
         'right'
       ),
       'anchor' => true,
+      'html' => false,
       '__experimentalExposeControlsToChildren' => true,
       'layout' => array(
         'allowSwitching' => false,
@@ -6565,7 +7200,8 @@
           'width' => true,
           'style' => true
         )
-      )
+      ),
+      'contentRole' => true
     ),
     'styles' => array(
       array(
@@ -6639,7 +7275,8 @@
       'caption' => array(
         'type' => 'rich-text',
         'source' => 'rich-text',
-        'selector' => 'figcaption'
+        'selector' => 'figcaption',
+        'role' => 'content'
       ),
       'head' => array(
         'type' => 'array',
@@ -6659,7 +7296,8 @@
             'query' => array(
               'content' => array(
                 'type' => 'rich-text',
-                'source' => 'rich-text'
+                'source' => 'rich-text',
+                'role' => 'content'
               ),
               'tag' => array(
                 'type' => 'string',
@@ -6708,7 +7346,8 @@
             'query' => array(
               'content' => array(
                 'type' => 'rich-text',
-                'source' => 'rich-text'
+                'source' => 'rich-text',
+                'role' => 'content'
               ),
               'tag' => array(
                 'type' => 'string',
@@ -6757,7 +7396,8 @@
             'query' => array(
               'content' => array(
                 'type' => 'rich-text',
-                'source' => 'rich-text'
+                'source' => 'rich-text',
+                'role' => 'content'
               ),
               'tag' => array(
                 'type' => 'string',
@@ -6963,6 +7603,73 @@
     ),
     'editorStyle' => 'wp-block-template-part-editor'
   ),
+  'term-count' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/term-count',
+    'title' => 'Term Count',
+    'category' => 'theme',
+    'description' => 'Displays the post count of a taxonomy term.',
+    'textdomain' => 'default',
+    'usesContext' => array(
+      'termId',
+      'taxonomy'
+    ),
+    'attributes' => array(
+      'bracketType' => array(
+        'type' => 'string',
+        'enum' => array(
+          'none',
+          'round',
+          'square',
+          'curly',
+          'angle'
+        ),
+        'default' => 'round'
+      )
+    ),
+    'supports' => array(
+      'html' => false,
+      'color' => array(
+        'gradients' => true,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'text' => true
+        )
+      ),
+      'spacing' => array(
+        'padding' => true
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => true,
+          'width' => true,
+          'style' => true
+        )
+      )
+    ),
+    'style' => 'wp-block-term-count'
+  ),
   'term-description' => array(
     '$schema' => 'https://schemas.wp.org/trunk/block.json',
     'apiVersion' => 3,
@@ -6971,6 +7678,10 @@
     'category' => 'theme',
     'description' => 'Display the description of categories, tags and custom taxonomies when viewing an archive.',
     'textdomain' => 'default',
+    'usesContext' => array(
+      'termId',
+      'taxonomy'
+    ),
     'attributes' => array(
       'textAlign' => array(
         'type' => 'string'
@@ -7021,6 +7732,202 @@
           'style' => true
         )
       )
+    )
+  ),
+  'term-name' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/term-name',
+    'title' => 'Term Name',
+    'category' => 'theme',
+    'description' => 'Displays the name of a taxonomy term.',
+    'keywords' => array(
+      'term title'
+    ),
+    'textdomain' => 'default',
+    'usesContext' => array(
+      'termId',
+      'taxonomy'
+    ),
+    'attributes' => array(
+      'textAlign' => array(
+        'type' => 'string'
+      ),
+      'level' => array(
+        'type' => 'number',
+        'default' => 0
+      ),
+      'isLink' => array(
+        'type' => 'boolean',
+        'default' => false
+      )
+    ),
+    'supports' => array(
+      'align' => array(
+        'wide',
+        'full'
+      ),
+      'html' => false,
+      'color' => array(
+        'gradients' => true,
+        'link' => true,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'text' => true,
+          'link' => true
+        )
+      ),
+      'spacing' => array(
+        'padding' => true
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true,
+        '__experimentalDefaultControls' => array(
+          'color' => true,
+          'width' => true,
+          'style' => true
+        )
+      )
+    ),
+    'style' => 'wp-block-term-name'
+  ),
+  'term-template' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/term-template',
+    'title' => 'Term Template',
+    'category' => 'theme',
+    'ancestor' => array(
+      'core/terms-query'
+    ),
+    'description' => 'Contains the block elements used to render a taxonomy term, like the name, description, and more.',
+    'textdomain' => 'default',
+    'usesContext' => array(
+      'termQuery'
+    ),
+    'supports' => array(
+      'reusable' => false,
+      'html' => false,
+      'align' => array(
+        'wide',
+        'full'
+      ),
+      'layout' => true,
+      'color' => array(
+        'gradients' => true,
+        'link' => true,
+        '__experimentalDefaultControls' => array(
+          'background' => true,
+          'text' => true
+        )
+      ),
+      'typography' => array(
+        'fontSize' => true,
+        'lineHeight' => true,
+        '__experimentalFontFamily' => true,
+        '__experimentalFontWeight' => true,
+        '__experimentalFontStyle' => true,
+        '__experimentalTextTransform' => true,
+        '__experimentalTextDecoration' => true,
+        '__experimentalLetterSpacing' => true,
+        '__experimentalDefaultControls' => array(
+          'fontSize' => true
+        )
+      ),
+      'spacing' => array(
+        'margin' => true,
+        'padding' => true,
+        'blockGap' => array(
+          '__experimentalDefault' => '1.25em'
+        ),
+        '__experimentalDefaultControls' => array(
+          'blockGap' => true,
+          'padding' => false,
+          'margin' => false
+        )
+      ),
+      'interactivity' => array(
+        'clientNavigation' => true
+      ),
+      '__experimentalBorder' => array(
+        'radius' => true,
+        'color' => true,
+        'width' => true,
+        'style' => true
+      )
+    ),
+    'style' => 'wp-block-term-template',
+    'editorStyle' => 'wp-block-term-template-editor'
+  ),
+  'terms-query' => array(
+    '$schema' => 'https://schemas.wp.org/trunk/block.json',
+    'apiVersion' => 3,
+    'name' => 'core/terms-query',
+    'title' => 'Terms Query',
+    'category' => 'theme',
+    'description' => 'An advanced block that allows displaying taxonomy terms based on different query parameters and visual configurations.',
+    'keywords' => array(
+      'terms',
+      'taxonomy',
+      'categories',
+      'tags',
+      'list'
+    ),
+    'textdomain' => 'default',
+    'attributes' => array(
+      'termQuery' => array(
+        'type' => 'object',
+        'default' => array(
+          'perPage' => 10,
+          'taxonomy' => 'category',
+          'order' => 'asc',
+          'orderBy' => 'name',
+          'include' => array(
+            
+          ),
+          'hideEmpty' => true,
+          'showNested' => false,
+          'inherit' => false
+        )
+      ),
+      'tagName' => array(
+        'type' => 'string',
+        'default' => 'div'
+      )
+    ),
+    'usesContext' => array(
+      'templateSlug'
+    ),
+    'providesContext' => array(
+      'termQuery' => 'termQuery'
+    ),
+    'supports' => array(
+      'align' => array(
+        'wide',
+        'full'
+      ),
+      'html' => false,
+      'layout' => true,
+      'interactivity' => true
     )
   ),
   'text-columns' => array(

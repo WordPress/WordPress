@@ -30,17 +30,6 @@
   width:100%;
 }
 
-.wp-block-search__input{
-  appearance:none;
-  border:1px solid #949494;
-  flex-grow:1;
-  margin-left:0;
-  margin-right:0;
-  min-width:3rem;
-  padding:8px;
-  text-decoration:unset !important;
-}
-
 .wp-block-search.wp-block-search__button-only .wp-block-search__button{
   box-sizing:border-box;
   display:flex;
@@ -73,16 +62,25 @@
 }
 
 :where(.wp-block-search__input){
+  appearance:none;
+  border:1px solid #949494;
+  flex-grow:1;
   font-family:inherit;
   font-size:inherit;
   font-style:inherit;
   font-weight:inherit;
   letter-spacing:inherit;
   line-height:inherit;
+  margin-left:0;
+  margin-right:0;
+  min-width:3rem;
+  padding:8px;
+  text-decoration:unset !important;
   text-transform:inherit;
 }
 
 :where(.wp-block-search__button-inside .wp-block-search__inside-wrapper){
+  background-color:#fff;
   border:1px solid #949494;
   box-sizing:border-box;
   padding:4px;

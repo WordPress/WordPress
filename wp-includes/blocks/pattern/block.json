@@ -9,6 +9,7 @@
 		"html": false,
 		"inserter": false,
 		"renaming": false,
+		"blockVisibility": false,
 		"interactivity": {
 			"clientNavigation": true
 		}

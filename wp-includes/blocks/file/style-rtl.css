@@ -27,7 +27,7 @@
   display:inline-block;
   padding:.5em 1em;
 }
-:where(.wp-block-file__button):is(a):active,:where(.wp-block-file__button):is(a):focus,:where(.wp-block-file__button):is(a):hover,:where(.wp-block-file__button):is(a):visited{
+:where(.wp-block-file__button):where(a):active,:where(.wp-block-file__button):where(a):focus,:where(.wp-block-file__button):where(a):hover,:where(.wp-block-file__button):where(a):visited{
   box-shadow:none;
   color:#fff;
   opacity:.85;

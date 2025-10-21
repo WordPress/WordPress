@@ -42,6 +42,8 @@ __webpack_require__.d(__webpack_exports__, {
   privateApis: () => (/* reexport */ privateApis)
 });
 
+;// external "ReactJSXRuntime"
+const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/route-recognizer/dist/route-recognizer.es.js
 var createObject = Object.create;
 function createMap() {
@@ -1535,33 +1537,19 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
 const external_wp_url_namespaceObject = window["wp"]["url"];
 ;// external ["wp","compose"]
 const external_wp_compose_namespaceObject = window["wp"]["compose"];
-;// external "ReactJSXRuntime"
-const external_ReactJSXRuntime_namespaceObject = window["ReactJSXRuntime"];
 ;// ./node_modules/@wordpress/router/build-module/router.js
-/* wp:polyfill */
-/**
- * External dependencies
- */
-
-
-
-/**
- * WordPress dependencies
- */
 
 
 
 
-/**
- * Internal dependencies
- */
+
 
 const router_history = createBrowserHistory();
 const RoutesContext = (0,external_wp_element_namespaceObject.createContext)(null);
-const ConfigContext = (0,external_wp_element_namespaceObject.createContext)({
-  pathArg: 'p'
-});
-const locationMemo = new WeakMap();
+RoutesContext.displayName = "RoutesContext";
+const ConfigContext = (0,external_wp_element_namespaceObject.createContext)({ pathArg: "p" });
+ConfigContext.displayName = "ConfigContext";
+const locationMemo = /* @__PURE__ */ new WeakMap();
 function getLocationWithQuery() {
   const location = router_history.location;
   let locationWithQuery = locationMemo.get(location);
@@ -1577,102 +1565,113 @@ function getLocationWithQuery() {
 function useLocation() {
   const context = (0,external_wp_element_namespaceObject.useContext)(RoutesContext);
   if (!context) {
-    throw new Error('useLocation must be used within a RouterProvider');
+    throw new Error("useLocation must be used within a RouterProvider");
   }
   return context;
 }
 function useHistory() {
-  const {
-    pathArg,
-    beforeNavigate
-  } = (0,external_wp_element_namespaceObject.useContext)(ConfigContext);
-  const navigate = (0,external_wp_compose_namespaceObject.useEvent)(async (rawPath, options = {}) => {
-    var _getPath;
-    const query = (0,external_wp_url_namespaceObject.getQueryArgs)(rawPath);
-    const path = (_getPath = (0,external_wp_url_namespaceObject.getPath)('http://domain.com/' + rawPath)) !== null && _getPath !== void 0 ? _getPath : '';
-    const performPush = () => {
-      const result = beforeNavigate ? beforeNavigate({
-        path,
-        query
-      }) : {
-        path,
-        query
+  const { pathArg, beforeNavigate } = (0,external_wp_element_namespaceObject.useContext)(ConfigContext);
+  const navigate = (0,external_wp_compose_namespaceObject.useEvent)(
+    async (rawPath, options = {}) => {
+      const query = (0,external_wp_url_namespaceObject.getQueryArgs)(rawPath);
+      const path = (0,external_wp_url_namespaceObject.getPath)("http://domain.com/" + rawPath) ?? "";
+      const performPush = () => {
+        const result = beforeNavigate ? beforeNavigate({ path, query }) : { path, query };
+        return router_history.push(
+          {
+            search: (0,external_wp_url_namespaceObject.buildQueryString)({
+              [pathArg]: result.path,
+              ...result.query
+            })
+          },
+          options.state
+        );
       };
-      return router_history.push({
-        search: (0,external_wp_url_namespaceObject.buildQueryString)({
-          [pathArg]: result.path,
-          ...result.query
-        })
-      }, options.state);
-    };
-
-    /*
-     * Skip transition in mobile, otherwise it crashes the browser.
-     * See: https://github.com/WordPress/gutenberg/pull/63002.
-     */
-    const isMediumOrBigger = window.matchMedia('(min-width: 782px)').matches;
-    if (!isMediumOrBigger || !document.startViewTransition || !options.transition) {
-      performPush();
-      return;
-    }
-    await new Promise(resolve => {
-      var _options$transition;
-      const classname = (_options$transition = options.transition) !== null && _options$transition !== void 0 ? _options$transition : '';
-      document.documentElement.classList.add(classname);
-      const transition = document.startViewTransition(() => performPush());
-      transition.finished.finally(() => {
-        document.documentElement.classList.remove(classname);
-        resolve();
+      const isMediumOrBigger = window.matchMedia("(min-width: 782px)").matches;
+      if (!isMediumOrBigger || !document.startViewTransition || !options.transition) {
+        performPush();
+        return;
+      }
+      await new Promise((resolve) => {
+        const classname = options.transition ?? "";
+        document.documentElement.classList.add(classname);
+        const transition = document.startViewTransition(
+          () => performPush()
+        );
+        transition.finished.finally(() => {
+          document.documentElement.classList.remove(classname);
+          resolve();
+        });
       });
-    });
-  });
-  return (0,external_wp_element_namespaceObject.useMemo)(() => ({
-    navigate,
-    back: router_history.back
-  }), [navigate]);
+    }
+  );
+  return (0,external_wp_element_namespaceObject.useMemo)(
+    () => ({
+      navigate,
+      back: router_history.back,
+      invalidate: () => {
+        router_history.replace({
+          search: router_history.location.search
+        });
+      }
+    }),
+    [navigate]
+  );
 }
 function useMatch(location, matcher, pathArg, matchResolverArgs) {
-  const {
-    query: rawQuery = {}
-  } = location;
-  return (0,external_wp_element_namespaceObject.useMemo)(() => {
-    const {
-      [pathArg]: path = '/',
-      ...query
-    } = rawQuery;
-    const result = matcher.recognize(path)?.[0];
-    if (!result) {
-      return {
-        name: '404',
+  const { query: rawQuery = {} } = location;
+  const [resolvedMatch, setMatch] = (0,external_wp_element_namespaceObject.useState)();
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    const { [pathArg]: path = "/", ...query } = rawQuery;
+    const ret = matcher.recognize(path)?.[0];
+    async function resolveMatch(result) {
+      const matchedRoute = result.handler;
+      const resolveFunctions = async (record = {}) => {
+        const entries = await Promise.all(
+          Object.entries(record).map(async ([key, value]) => {
+            if (typeof value === "function") {
+              return [
+                key,
+                await value({
+                  query,
+                  params: result.params,
+                  ...matchResolverArgs
+                })
+              ];
+            }
+            return [key, value];
+          })
+        );
+        return Object.fromEntries(entries);
+      };
+      const [resolvedAreas, resolvedWidths] = await Promise.all([
+        resolveFunctions(matchedRoute.areas),
+        resolveFunctions(matchedRoute.widths)
+      ]);
+      setMatch({
+        name: matchedRoute.name,
+        areas: resolvedAreas,
+        widths: resolvedWidths,
+        params: result.params,
+        query,
+        path: (0,external_wp_url_namespaceObject.addQueryArgs)(path, query)
+      });
+    }
+    if (!ret) {
+      setMatch({
+        name: "404",
         path: (0,external_wp_url_namespaceObject.addQueryArgs)(path, query),
         areas: {},
         widths: {},
         query,
         params: {}
-      };
+      });
+    } else {
+      resolveMatch(ret);
     }
-    const matchedRoute = result.handler;
-    const resolveFunctions = (record = {}) => {
-      return Object.fromEntries(Object.entries(record).map(([key, value]) => {
-        if (typeof value === 'function') {
-          return [key, value({
-            query,
-            params: result.params,
-            ...matchResolverArgs
-          })];
-        }
-        return [key, value];
-      }));
-    };
-    return {
-      name: matchedRoute.name,
-      areas: resolveFunctions(matchedRoute.areas),
-      widths: resolveFunctions(matchedRoute.widths),
-      params: result.params,
-      query,
-      path: (0,external_wp_url_namespaceObject.addQueryArgs)(path, query)
-    };
+    return () => setMatch(void 0);
   }, [matcher, rawQuery, pathArg, matchResolverArgs]);
+  return resolvedMatch;
 }
 function RouterProvider({
   routes,
@@ -1681,68 +1680,52 @@ function RouterProvider({
   children,
   matchResolverArgs
 }) {
-  const location = (0,external_wp_element_namespaceObject.useSyncExternalStore)(router_history.listen, getLocationWithQuery, getLocationWithQuery);
+  const location = (0,external_wp_element_namespaceObject.useSyncExternalStore)(
+    router_history.listen,
+    getLocationWithQuery,
+    getLocationWithQuery
+  );
   const matcher = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const ret = new route_recognizer_es();
-    routes.forEach(route => {
-      ret.add([{
-        path: route.path,
-        handler: route
-      }], {
+    (routes ?? []).forEach((route) => {
+      ret.add([{ path: route.path, handler: route }], {
         as: route.name
       });
     });
     return ret;
   }, [routes]);
   const match = useMatch(location, matcher, pathArg, matchResolverArgs);
-  const config = (0,external_wp_element_namespaceObject.useMemo)(() => ({
-    beforeNavigate,
-    pathArg
-  }), [beforeNavigate, pathArg]);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(ConfigContext.Provider, {
-    value: config,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(RoutesContext.Provider, {
-      value: match,
-      children: children
-    })
-  });
+  const previousMatch = (0,external_wp_compose_namespaceObject.usePrevious)(match);
+  const config = (0,external_wp_element_namespaceObject.useMemo)(
+    () => ({ beforeNavigate, pathArg }),
+    [beforeNavigate, pathArg]
+  );
+  const renderedMatch = match || previousMatch;
+  if (!renderedMatch) {
+    return null;
+  }
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(ConfigContext.Provider, { value: config, children: /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(RoutesContext.Provider, { value: renderedMatch, children }) });
 }
 
+
 ;// ./node_modules/@wordpress/router/build-module/link.js
-/**
- * WordPress dependencies
- */
 
 
-
-/**
- * Internal dependencies
- */
 
 
 function useLink(to, options = {}) {
-  var _getPath;
   const history = useHistory();
-  const {
-    pathArg,
-    beforeNavigate
-  } = (0,external_wp_element_namespaceObject.useContext)(ConfigContext);
+  const { pathArg, beforeNavigate } = (0,external_wp_element_namespaceObject.useContext)(ConfigContext);
   function onClick(event) {
     event?.preventDefault();
     history.navigate(to, options);
   }
   const query = (0,external_wp_url_namespaceObject.getQueryArgs)(to);
-  const path = (_getPath = (0,external_wp_url_namespaceObject.getPath)('http://domain.com/' + to)) !== null && _getPath !== void 0 ? _getPath : '';
+  const path = (0,external_wp_url_namespaceObject.getPath)("http://domain.com/" + to) ?? "";
   const link = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return beforeNavigate ? beforeNavigate({
-      path,
-      query
-    }) : {
-      path,
-      query
-    };
+    return beforeNavigate ? beforeNavigate({ path, query }) : { path, query };
   }, [path, query, beforeNavigate]);
-  const [before] = window.location.href.split('?');
+  const [before] = window.location.href.split("?");
   return {
     href: `${before}?${(0,external_wp_url_namespaceObject.buildQueryString)({
       [pathArg]: link.path,
@@ -1757,34 +1740,22 @@ function Link({
   children,
   ...props
 }) {
-  const {
-    href,
-    onClick
-  } = useLink(to, options);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("a", {
-    href: href,
-    onClick: onClick,
-    ...props,
-    children: children
-  });
+  const { href, onClick } = useLink(to, options);
+  return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)("a", { href, onClick, ...props, children });
 }
+
 
 ;// external ["wp","privateApis"]
 const external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// ./node_modules/@wordpress/router/build-module/lock-unlock.js
-/**
- * WordPress dependencies
- */
 
-const {
-  lock,
-  unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.', '@wordpress/router');
+const { lock, unlock } = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)(
+  "I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.",
+  "@wordpress/router"
+);
+
 
 ;// ./node_modules/@wordpress/router/build-module/private-apis.js
-/**
- * Internal dependencies
- */
 
 
 
@@ -1797,7 +1768,9 @@ lock(privateApis, {
   Link: Link
 });
 
+
 ;// ./node_modules/@wordpress/router/build-module/index.js
+
 
 
 (window.wp = window.wp || {}).router = __webpack_exports__;

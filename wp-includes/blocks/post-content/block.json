@@ -7,6 +7,12 @@
 	"description": "Displays the contents of a post or page.",
 	"textdomain": "default",
 	"usesContext": [ "postId", "postType", "queryId" ],
+	"attributes": {
+		"tagName": {
+			"type": "string",
+			"default": "div"
+		}
+	},
 	"example": {
 		"viewportWidth": 350
 	},
@@ -54,6 +60,9 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
+		},
+		"interactivity": {
+			"clientNavigation": true
 		},
 		"__experimentalBorder": {
 			"radius": true,

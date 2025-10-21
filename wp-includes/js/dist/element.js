@@ -88,7 +88,7 @@ __webpack_require__.d(__webpack_exports__, {
   Children: () => (/* reexport */ external_React_namespaceObject.Children),
   Component: () => (/* reexport */ external_React_namespaceObject.Component),
   Fragment: () => (/* reexport */ external_React_namespaceObject.Fragment),
-  Platform: () => (/* reexport */ platform),
+  Platform: () => (/* reexport */ platform_default),
   PureComponent: () => (/* reexport */ external_React_namespaceObject.PureComponent),
   RawHTML: () => (/* reexport */ RawHTML),
   StrictMode: () => (/* reexport */ external_React_namespaceObject.StrictMode),
@@ -97,7 +97,7 @@ __webpack_require__.d(__webpack_exports__, {
   concatChildren: () => (/* reexport */ concatChildren),
   createContext: () => (/* reexport */ external_React_namespaceObject.createContext),
   createElement: () => (/* reexport */ external_React_namespaceObject.createElement),
-  createInterpolateElement: () => (/* reexport */ create_interpolate_element),
+  createInterpolateElement: () => (/* reexport */ create_interpolate_element_default),
   createPortal: () => (/* reexport */ external_ReactDOM_.createPortal),
   createRef: () => (/* reexport */ external_React_namespaceObject.createRef),
   createRoot: () => (/* reexport */ client/* createRoot */.H),
@@ -111,7 +111,7 @@ __webpack_require__.d(__webpack_exports__, {
   lazy: () => (/* reexport */ external_React_namespaceObject.lazy),
   memo: () => (/* reexport */ external_React_namespaceObject.memo),
   render: () => (/* reexport */ external_ReactDOM_.render),
-  renderToString: () => (/* reexport */ serialize),
+  renderToString: () => (/* reexport */ serialize_default),
   startTransition: () => (/* reexport */ external_React_namespaceObject.startTransition),
   switchChildrenNodeName: () => (/* reexport */ switchChildrenNodeName),
   unmountComponentAtNode: () => (/* reexport */ external_ReactDOM_.unmountComponentAtNode),
@@ -135,75 +135,12 @@ __webpack_require__.d(__webpack_exports__, {
 ;// external "React"
 const external_React_namespaceObject = window["React"];
 ;// ./node_modules/@wordpress/element/build-module/create-interpolate-element.js
-/**
- * Internal dependencies
- */
 
-
-/**
- * Object containing a React element.
- *
- * @typedef {import('react').ReactElement} Element
- */
-
-let indoc, offset, output, stack;
-
-/**
- * Matches tags in the localized string
- *
- * This is used for extracting the tag pattern groups for parsing the localized
- * string and along with the map converting it to a react element.
- *
- * There are four references extracted using this tokenizer:
- *
- * match: Full match of the tag (i.e. <strong>, </strong>, <br/>)
- * isClosing: The closing slash, if it exists.
- * name: The name portion of the tag (strong, br) (if )
- * isSelfClosed: The slash on a self closing tag, if it exists.
- *
- * @type {RegExp}
- */
+let indoc;
+let offset;
+let output;
+let stack;
 const tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
-
-/**
- * The stack frame tracking parse progress.
- *
- * @typedef Frame
- *
- * @property {Element}   element            A parent element which may still have
- * @property {number}    tokenStart         Offset at which parent element first
- *                                          appears.
- * @property {number}    tokenLength        Length of string marking start of parent
- *                                          element.
- * @property {number}    [prevOffset]       Running offset at which parsing should
- *                                          continue.
- * @property {number}    [leadingTextStart] Offset at which last closing element
- *                                          finished, used for finding text between
- *                                          elements.
- * @property {Element[]} children           Children.
- */
-
-/**
- * Tracks recursive-descent parse state.
- *
- * This is a Stack frame holding parent elements until all children have been
- * parsed.
- *
- * @private
- * @param {Element} element            A parent element which may still have
- *                                     nested children not yet parsed.
- * @param {number}  tokenStart         Offset at which parent element first
- *                                     appears.
- * @param {number}  tokenLength        Length of string marking start of parent
- *                                     element.
- * @param {number}  [prevOffset]       Running offset at which parsing should
- *                                     continue.
- * @param {number}  [leadingTextStart] Offset at which last closing element
- *                                     finished, used for finding text between
- *                                     elements.
- *
- * @return {Frame} The stack frame tracking parse progress.
- */
 function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextStart) {
   return {
     element,
@@ -214,34 +151,6 @@ function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextSt
     children: []
   };
 }
-
-/**
- * This function creates an interpolated element from a passed in string with
- * specific tags matching how the string should be converted to an element via
- * the conversion map value.
- *
- * @example
- * For example, for the given string:
- *
- * "This is a <span>string</span> with <a>a link</a> and a self-closing
- * <CustomComponentB/> tag"
- *
- * You would have something like this as the conversionMap value:
- *
- * ```js
- * {
- *     span: <span />,
- *     a: <a href={ 'https://github.com' } />,
- *     CustomComponentB: <CustomComponent />,
- * }
- * ```
- *
- * @param {string}                  interpolatedString The interpolation string to be parsed.
- * @param {Record<string, Element>} conversionMap      The map used to convert the string to
- *                                                     a react element.
- * @throws {TypeError}
- * @return {Element}  A wp element.
- */
 const createInterpolateElement = (interpolatedString, conversionMap) => {
   indoc = interpolatedString;
   offset = 0;
@@ -249,94 +158,86 @@ const createInterpolateElement = (interpolatedString, conversionMap) => {
   stack = [];
   tokenizer.lastIndex = 0;
   if (!isValidConversionMap(conversionMap)) {
-    throw new TypeError('The conversionMap provided is not valid. It must be an object with values that are React Elements');
+    throw new TypeError(
+      "The conversionMap provided is not valid. It must be an object with values that are React Elements"
+    );
   }
   do {
-    // twiddle our thumbs
   } while (proceed(conversionMap));
   return (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, ...output);
 };
-
-/**
- * Validate conversion map.
- *
- * A map is considered valid if it's an object and every value in the object
- * is a React Element
- *
- * @private
- *
- * @param {Object} conversionMap The map being validated.
- *
- * @return {boolean}  True means the map is valid.
- */
-const isValidConversionMap = conversionMap => {
-  const isObject = typeof conversionMap === 'object';
+const isValidConversionMap = (conversionMap) => {
+  const isObject = typeof conversionMap === "object" && conversionMap !== null;
   const values = isObject && Object.values(conversionMap);
-  return isObject && values.length && values.every(element => (0,external_React_namespaceObject.isValidElement)(element));
+  return isObject && values.length > 0 && values.every((element) => (0,external_React_namespaceObject.isValidElement)(element));
 };
-
-/**
- * This is the iterator over the matches in the string.
- *
- * @private
- *
- * @param {Object} conversionMap The conversion map for the string.
- *
- * @return {boolean} true for continuing to iterate, false for finished.
- */
 function proceed(conversionMap) {
   const next = nextToken();
   const [tokenType, name, startOffset, tokenLength] = next;
   const stackDepth = stack.length;
   const leadingTextStart = startOffset > offset ? offset : null;
-  if (!conversionMap[name]) {
+  if (name && !conversionMap[name]) {
     addText();
     return false;
   }
   switch (tokenType) {
-    case 'no-more-tokens':
+    case "no-more-tokens":
       if (stackDepth !== 0) {
-        const {
-          leadingTextStart: stackLeadingText,
-          tokenStart
-        } = stack.pop();
+        const { leadingTextStart: stackLeadingText, tokenStart } = stack.pop();
         output.push(indoc.substr(stackLeadingText, tokenStart));
       }
       addText();
       return false;
-    case 'self-closed':
+    case "self-closed":
       if (0 === stackDepth) {
         if (null !== leadingTextStart) {
-          output.push(indoc.substr(leadingTextStart, startOffset - leadingTextStart));
+          output.push(
+            indoc.substr(
+              leadingTextStart,
+              startOffset - leadingTextStart
+            )
+          );
         }
         output.push(conversionMap[name]);
         offset = startOffset + tokenLength;
         return true;
       }
-
-      // Otherwise we found an inner element.
-      addChild(createFrame(conversionMap[name], startOffset, tokenLength));
+      addChild(
+        createFrame(conversionMap[name], startOffset, tokenLength)
+      );
       offset = startOffset + tokenLength;
       return true;
-    case 'opener':
-      stack.push(createFrame(conversionMap[name], startOffset, tokenLength, startOffset + tokenLength, leadingTextStart));
+    case "opener":
+      stack.push(
+        createFrame(
+          conversionMap[name],
+          startOffset,
+          tokenLength,
+          startOffset + tokenLength,
+          leadingTextStart
+        )
+      );
       offset = startOffset + tokenLength;
       return true;
-    case 'closer':
-      // If we're not nesting then this is easy - close the block.
+    case "closer":
       if (1 === stackDepth) {
         closeOuterElement(startOffset);
         offset = startOffset + tokenLength;
         return true;
       }
-
-      // Otherwise we're nested and we have to close out the current
-      // block and add it as a innerBlock to the parent.
       const stackTop = stack.pop();
-      const text = indoc.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
+      const text = indoc.substr(
+        stackTop.prevOffset,
+        startOffset - stackTop.prevOffset
+      );
       stackTop.children.push(text);
       stackTop.prevOffset = startOffset + tokenLength;
-      const frame = createFrame(stackTop.element, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
+      const frame = createFrame(
+        stackTop.element,
+        stackTop.tokenStart,
+        stackTop.tokenLength,
+        startOffset + tokenLength
+      );
       frame.children = stackTop.children;
       addChild(frame);
       offset = startOffset + tokenLength;
@@ -346,39 +247,22 @@ function proceed(conversionMap) {
       return false;
   }
 }
-
-/**
- * Grabs the next token match in the string and returns it's details.
- *
- * @private
- *
- * @return {Array}  An array of details for the token matched.
- */
 function nextToken() {
   const matches = tokenizer.exec(indoc);
-  // We have no more tokens.
   if (null === matches) {
-    return ['no-more-tokens'];
+    return ["no-more-tokens"];
   }
   const startedAt = matches.index;
   const [match, isClosing, name, isSelfClosed] = matches;
   const length = match.length;
   if (isSelfClosed) {
-    return ['self-closed', name, startedAt, length];
+    return ["self-closed", name, startedAt, length];
   }
   if (isClosing) {
-    return ['closer', name, startedAt, length];
+    return ["closer", name, startedAt, length];
   }
-  return ['opener', name, startedAt, length];
+  return ["opener", name, startedAt, length];
 }
-
-/**
- * Pushes text extracted from the indoc string to the output stack given the
- * current rawLength value and offset (if rawLength is provided ) or the
- * indoc.length and offset.
- *
- * @private
- */
 function addText() {
   const length = indoc.length - offset;
   if (0 === length) {
@@ -386,468 +270,111 @@ function addText() {
   }
   output.push(indoc.substr(offset, length));
 }
-
-/**
- * Pushes a child element to the associated parent element's children for the
- * parent currently active in the stack.
- *
- * @private
- *
- * @param {Frame} frame The Frame containing the child element and it's
- *                      token information.
- */
 function addChild(frame) {
-  const {
-    element,
-    tokenStart,
-    tokenLength,
-    prevOffset,
-    children
-  } = frame;
+  const { element, tokenStart, tokenLength, prevOffset, children } = frame;
   const parent = stack[stack.length - 1];
-  const text = indoc.substr(parent.prevOffset, tokenStart - parent.prevOffset);
+  const text = indoc.substr(
+    parent.prevOffset,
+    tokenStart - parent.prevOffset
+  );
   if (text) {
     parent.children.push(text);
   }
   parent.children.push((0,external_React_namespaceObject.cloneElement)(element, null, ...children));
   parent.prevOffset = prevOffset ? prevOffset : tokenStart + tokenLength;
 }
-
-/**
- * This is called for closing tags. It creates the element currently active in
- * the stack.
- *
- * @private
- *
- * @param {number} endOffset Offset at which the closing tag for the element
- *                           begins in the string. If this is greater than the
- *                           prevOffset attached to the element, then this
- *                           helps capture any remaining nested text nodes in
- *                           the element.
- */
 function closeOuterElement(endOffset) {
-  const {
-    element,
-    leadingTextStart,
-    prevOffset,
-    tokenStart,
-    children
-  } = stack.pop();
+  const { element, leadingTextStart, prevOffset, tokenStart, children } = stack.pop();
   const text = endOffset ? indoc.substr(prevOffset, endOffset - prevOffset) : indoc.substr(prevOffset);
   if (text) {
     children.push(text);
   }
   if (null !== leadingTextStart) {
-    output.push(indoc.substr(leadingTextStart, tokenStart - leadingTextStart));
+    output.push(
+      indoc.substr(leadingTextStart, tokenStart - leadingTextStart)
+    );
   }
   output.push((0,external_React_namespaceObject.cloneElement)(element, null, ...children));
 }
-/* harmony default export */ const create_interpolate_element = (createInterpolateElement);
+var create_interpolate_element_default = createInterpolateElement;
+
 
 ;// ./node_modules/@wordpress/element/build-module/react.js
-/**
- * External dependencies
- */
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 
-
-/**
- * Object containing a React element.
- *
- * @typedef {import('react').ReactElement} Element
- */
-
-/**
- * Object containing a React component.
- *
- * @typedef {import('react').ComponentType} ComponentType
- */
-
-/**
- * Object containing a React synthetic event.
- *
- * @typedef {import('react').SyntheticEvent} SyntheticEvent
- */
-
-/**
- * Object containing a React ref object.
- *
- * @template T
- * @typedef {import('react').RefObject<T>} RefObject<T>
- */
-
-/**
- * Object containing a React ref callback.
- *
- * @template T
- * @typedef {import('react').RefCallback<T>} RefCallback<T>
- */
-
-/**
- * Object containing a React ref.
- *
- * @template T
- * @typedef {import('react').Ref<T>} Ref<T>
- */
-
-/**
- * Object that provides utilities for dealing with React children.
- */
-
-
-/**
- * Creates a copy of an element with extended props.
- *
- * @param {Element} element Element
- * @param {?Object} props   Props to apply to cloned element
- *
- * @return {Element} Cloned element.
- */
-
-
-/**
- * A base class to create WordPress Components (Refs, state and lifecycle hooks)
- */
-
-
-/**
- * Creates a context object containing two components: a provider and consumer.
- *
- * @param {Object} defaultValue A default data stored in the context.
- *
- * @return {Object} Context object.
- */
-
-
-/**
- * Returns a new element of given type. Type can be either a string tag name or
- * another function which itself returns an element.
- *
- * @param {?(string|Function)} type     Tag name or element creator
- * @param {Object}             props    Element properties, either attribute
- *                                      set to apply to DOM node or values to
- *                                      pass through to element creator
- * @param {...Element}         children Descendant elements
- *
- * @return {Element} Element.
- */
-
-
-/**
- * Returns an object tracking a reference to a rendered element via its
- * `current` property as either a DOMElement or Element, dependent upon the
- * type of element rendered with the ref attribute.
- *
- * @return {Object} Ref object.
- */
-
-
-/**
- * Component enhancer used to enable passing a ref to its wrapped component.
- * Pass a function argument which receives `props` and `ref` as its arguments,
- * returning an element using the forwarded ref. The return value is a new
- * component which forwards its ref.
- *
- * @param {Function} forwarder Function passed `props` and `ref`, expected to
- *                             return an element.
- *
- * @return {Component} Enhanced component.
- */
-
-
-/**
- * A component which renders its children without any wrapping element.
- */
-
-
-/**
- * Checks if an object is a valid React Element.
- *
- * @param {Object} objectToCheck The object to be checked.
- *
- * @return {boolean} true if objectToTest is a valid React Element and false otherwise.
- */
-
-
-/**
- * @see https://react.dev/reference/react/memo
- */
-
-
-/**
- * Component that activates additional checks and warnings for its descendants.
- */
-
-
-/**
- * @see https://react.dev/reference/react/useCallback
- */
-
-
-/**
- * @see https://react.dev/reference/react/useContext
- */
-
-
-/**
- * @see https://react.dev/reference/react/useDebugValue
- */
-
-
-/**
- * @see https://react.dev/reference/react/useDeferredValue
- */
-
-
-/**
- * @see https://react.dev/reference/react/useEffect
- */
-
-
-/**
- * @see https://react.dev/reference/react/useId
- */
-
-
-/**
- * @see https://react.dev/reference/react/useImperativeHandle
- */
-
-
-/**
- * @see https://react.dev/reference/react/useInsertionEffect
- */
-
-
-/**
- * @see https://react.dev/reference/react/useLayoutEffect
- */
-
-
-/**
- * @see https://react.dev/reference/react/useMemo
- */
-
-
-/**
- * @see https://react.dev/reference/react/useReducer
- */
-
-
-/**
- * @see https://react.dev/reference/react/useRef
- */
-
-
-/**
- * @see https://react.dev/reference/react/useState
- */
-
-
-/**
- * @see https://react.dev/reference/react/useSyncExternalStore
- */
-
-
-/**
- * @see https://react.dev/reference/react/useTransition
- */
-
-
-/**
- * @see https://react.dev/reference/react/startTransition
- */
-
-
-/**
- * @see https://react.dev/reference/react/lazy
- */
-
-
-/**
- * @see https://react.dev/reference/react/Suspense
- */
-
-
-/**
- * @see https://react.dev/reference/react/PureComponent
- */
-
-
-/**
- * Concatenate two or more React children objects.
- *
- * @param {...?Object} childrenArguments Array of children arguments (array of arrays/strings/objects) to concatenate.
- *
- * @return {Array} The concatenated value.
- */
 function concatChildren(...childrenArguments) {
-  return childrenArguments.reduce((accumulator, children, i) => {
-    external_React_namespaceObject.Children.forEach(children, (child, j) => {
-      if (child && 'string' !== typeof child) {
-        child = (0,external_React_namespaceObject.cloneElement)(child, {
-          key: [i, j].join()
-        });
-      }
-      accumulator.push(child);
-    });
-    return accumulator;
-  }, []);
+  return childrenArguments.reduce(
+    (accumulator, children, i) => {
+      external_React_namespaceObject.Children.forEach(children, (child, j) => {
+        if ((0,external_React_namespaceObject.isValidElement)(child) && typeof child !== "string") {
+          child = (0,external_React_namespaceObject.cloneElement)(child, {
+            key: [i, j].join()
+          });
+        }
+        accumulator.push(child);
+      });
+      return accumulator;
+    },
+    []
+  );
 }
-
-/**
- * Switches the nodeName of all the elements in the children object.
- *
- * @param {?Object} children Children object.
- * @param {string}  nodeName Node name.
- *
- * @return {?Object} The updated children object.
- */
 function switchChildrenNodeName(children, nodeName) {
   return children && external_React_namespaceObject.Children.map(children, (elt, index) => {
-    if (typeof elt?.valueOf() === 'string') {
-      return (0,external_React_namespaceObject.createElement)(nodeName, {
-        key: index
-      }, elt);
+    if (typeof elt?.valueOf() === "string") {
+      return (0,external_React_namespaceObject.createElement)(nodeName, { key: index }, elt);
     }
-    const {
-      children: childrenProp,
-      ...props
-    } = elt.props;
-    return (0,external_React_namespaceObject.createElement)(nodeName, {
-      key: index,
-      ...props
-    }, childrenProp);
+    if (!(0,external_React_namespaceObject.isValidElement)(elt)) {
+      return elt;
+    }
+    const { children: childrenProp, ...props } = elt.props;
+    return (0,external_React_namespaceObject.createElement)(
+      nodeName,
+      { key: index, ...props },
+      childrenProp
+    );
   });
 }
+
 
 // EXTERNAL MODULE: external "ReactDOM"
 var external_ReactDOM_ = __webpack_require__(5795);
 // EXTERNAL MODULE: ./node_modules/react-dom/client.js
 var client = __webpack_require__(4140);
 ;// ./node_modules/@wordpress/element/build-module/react-platform.js
-/**
- * External dependencies
- */
 
 
-
-/**
- * Creates a portal into which a component can be rendered.
- *
- * @see https://github.com/facebook/react/issues/10309#issuecomment-318433235
- *
- * @param {import('react').ReactElement} child     Any renderable child, such as an element,
- *                                                 string, or fragment.
- * @param {HTMLElement}                  container DOM node into which element should be rendered.
- */
-
-
-/**
- * Finds the dom node of a React component.
- *
- * @param {import('react').ComponentType} component Component's instance.
- */
-
-
-/**
- * Forces React to flush any updates inside the provided callback synchronously.
- *
- * @param {Function} callback Callback to run synchronously.
- */
-
-
-/**
- * Renders a given element into the target DOM node.
- *
- * @deprecated since WordPress 6.2.0. Use `createRoot` instead.
- * @see https://react.dev/reference/react-dom/render
- */
-
-
-/**
- * Hydrates a given element into the target DOM node.
- *
- * @deprecated since WordPress 6.2.0. Use `hydrateRoot` instead.
- * @see https://react.dev/reference/react-dom/hydrate
- */
-
-
-/**
- * Creates a new React root for the target DOM node.
- *
- * @since 6.2.0 Introduced in WordPress core.
- * @see https://react.dev/reference/react-dom/client/createRoot
- */
-
-
-/**
- * Creates a new React root for the target DOM node and hydrates it with a pre-generated markup.
- *
- * @since 6.2.0 Introduced in WordPress core.
- * @see https://react.dev/reference/react-dom/client/hydrateRoot
- */
-
-
-/**
- * Removes any mounted element from the target DOM node.
- *
- * @deprecated since WordPress 6.2.0. Use `root.unmount()` instead.
- * @see https://react.dev/reference/react-dom/unmountComponentAtNode
- */
 
 
 ;// ./node_modules/@wordpress/element/build-module/utils.js
-/**
- * Checks if the provided WP element is empty.
- *
- * @param {*} element WP element to check.
- * @return {boolean} True when an element is considered empty.
- */
-const isEmptyElement = element => {
-  if (typeof element === 'number') {
+const isEmptyElement = (element) => {
+  if (typeof element === "number") {
     return false;
   }
-  if (typeof element?.valueOf() === 'string' || Array.isArray(element)) {
+  if (typeof element?.valueOf() === "string" || Array.isArray(element)) {
     return !element.length;
   }
   return !element;
 };
 
+
 ;// ./node_modules/@wordpress/element/build-module/platform.js
-/**
- * Parts of this source were derived and modified from react-native-web,
- * released under the MIT license.
- *
- * Copyright (c) 2016-present, Nicolas Gallagher.
- * Copyright (c) 2015-present, Facebook, Inc.
- *
- */
 const Platform = {
-  OS: 'web',
-  select: spec => 'web' in spec ? spec.web : spec.default,
+  /** Platform identifier. Will always be `'web'` in this module. */
+  OS: "web",
+  /**
+   * Select a value based on the platform.
+   *
+   * @template T
+   * @param    spec - Object with optional platform-specific values.
+   * @return The selected value.
+   */
+  select(spec) {
+    return "web" in spec ? spec.web : spec.default;
+  },
+  /** Whether the platform is web */
   isWeb: true
 };
-/**
- * Component used to detect the current Platform being used.
- * Use Platform.OS === 'web' to detect if running on web environment.
- *
- * This is the same concept as the React Native implementation.
- *
- * @see https://reactnative.dev/docs/platform-specific-code#platform-module
- *
- * Here is an example of how to use the select method:
- * @example
- * ```js
- * import { Platform } from '@wordpress/element';
- *
- * const placeholderLabel = Platform.select( {
- *   native: __( 'Add media' ),
- *   web: __( 'Drag images, upload new ones or select files from your library.' ),
- * } );
- * ```
- */
-/* harmony default export */ const platform = (Platform);
+var platform_default = Platform;
+
 
 ;// ./node_modules/is-plain-object/dist/is-plain-object.mjs
 /*!
@@ -1388,401 +915,439 @@ function paramCase(input, options) {
 ;// external ["wp","escapeHtml"]
 const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// ./node_modules/@wordpress/element/build-module/raw-html.js
-/**
- * Internal dependencies
- */
 
-
-/** @typedef {{children: string} & import('react').ComponentPropsWithoutRef<'div'>} RawHTMLProps */
-
-/**
- * Component used as equivalent of Fragment with unescaped HTML, in cases where
- * it is desirable to render dangerous HTML without needing a wrapper element.
- * To preserve additional props, a `div` wrapper _will_ be created if any props
- * aside from `children` are passed.
- *
- * @param {RawHTMLProps} props Children should be a string of HTML or an array
- *                             of strings. Other props will be passed through
- *                             to the div wrapper.
- *
- * @return {JSX.Element} Dangerously-rendering component.
- */
 function RawHTML({
   children,
   ...props
 }) {
-  let rawHtml = '';
-
-  // Cast children as an array, and concatenate each element if it is a string.
-  external_React_namespaceObject.Children.toArray(children).forEach(child => {
-    if (typeof child === 'string' && child.trim() !== '') {
+  let rawHtml = "";
+  external_React_namespaceObject.Children.toArray(children).forEach((child) => {
+    if (typeof child === "string" && child.trim() !== "") {
       rawHtml += child;
     }
   });
-
-  // The `div` wrapper will be stripped by the `renderElement` serializer in
-  // `./serialize.js` unless there are non-children props present.
-  return (0,external_React_namespaceObject.createElement)('div', {
-    dangerouslySetInnerHTML: {
-      __html: rawHtml
-    },
+  return (0,external_React_namespaceObject.createElement)("div", {
+    dangerouslySetInnerHTML: { __html: rawHtml },
     ...props
   });
 }
 
+
 ;// ./node_modules/@wordpress/element/build-module/serialize.js
-/**
- * Parts of this source were derived and modified from fast-react-render,
- * released under the MIT license.
- *
- * https://github.com/alt-j/fast-react-render
- *
- * Copyright (c) 2016 Andrey Morozov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/**
- * External dependencies
- */
 
 
 
-/**
- * WordPress dependencies
- */
 
 
-/**
- * Internal dependencies
- */
-
-
-
-/** @typedef {import('react').ReactElement} ReactElement */
-
-const {
-  Provider,
-  Consumer
-} = (0,external_React_namespaceObject.createContext)(undefined);
+const Context = (0,external_React_namespaceObject.createContext)(void 0);
+Context.displayName = "ElementContext";
+const { Provider, Consumer } = Context;
 const ForwardRef = (0,external_React_namespaceObject.forwardRef)(() => {
   return null;
 });
-
-/**
- * Valid attribute types.
- *
- * @type {Set<string>}
- */
-const ATTRIBUTES_TYPES = new Set(['string', 'boolean', 'number']);
-
-/**
- * Element tags which can be self-closing.
- *
- * @type {Set<string>}
- */
-const SELF_CLOSING_TAGS = new Set(['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
-
-/**
- * Boolean attributes are attributes whose presence as being assigned is
- * meaningful, even if only empty.
- *
- * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes
- * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
- *
- * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
- *     .filter( ( tr ) => tr.lastChild.textContent.indexOf( 'Boolean attribute' ) !== -1 )
- *     .reduce( ( result, tr ) => Object.assign( result, {
- *         [ tr.firstChild.textContent.trim() ]: true
- *     } ), {} ) ).sort();
- *
- * @type {Set<string>}
- */
-const BOOLEAN_ATTRIBUTES = new Set(['allowfullscreen', 'allowpaymentrequest', 'allowusermedia', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled', 'download', 'formnovalidate', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed', 'selected', 'typemustmatch']);
-
-/**
- * Enumerated attributes are attributes which must be of a specific value form.
- * Like boolean attributes, these are meaningful if specified, even if not of a
- * valid enumerated value.
- *
- * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute
- * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
- *
- * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
- *     .filter( ( tr ) => /^("(.+?)";?\s*)+/.test( tr.lastChild.textContent.trim() ) )
- *     .reduce( ( result, tr ) => Object.assign( result, {
- *         [ tr.firstChild.textContent.trim() ]: true
- *     } ), {} ) ).sort();
- *
- * Some notable omissions:
- *
- *  - `alt`: https://blog.whatwg.org/omit-alt
- *
- * @type {Set<string>}
- */
-const ENUMERATED_ATTRIBUTES = new Set(['autocapitalize', 'autocomplete', 'charset', 'contenteditable', 'crossorigin', 'decoding', 'dir', 'draggable', 'enctype', 'formenctype', 'formmethod', 'http-equiv', 'inputmode', 'kind', 'method', 'preload', 'scope', 'shape', 'spellcheck', 'translate', 'type', 'wrap']);
-
-/**
- * Set of CSS style properties which support assignment of unitless numbers.
- * Used in rendering of style properties, where `px` unit is assumed unless
- * property is included in this set or value is zero.
- *
- * Generated via:
- *
- * Object.entries( document.createElement( 'div' ).style )
- *     .filter( ( [ key ] ) => (
- *         ! /^(webkit|ms|moz)/.test( key ) &&
- *         ( e.style[ key ] = 10 ) &&
- *         e.style[ key ] === '10'
- *     ) )
- *     .map( ( [ key ] ) => key )
- *     .sort();
- *
- * @type {Set<string>}
- */
-const CSS_PROPERTIES_SUPPORTS_UNITLESS = new Set(['animation', 'animationIterationCount', 'baselineShift', 'borderImageOutset', 'borderImageSlice', 'borderImageWidth', 'columnCount', 'cx', 'cy', 'fillOpacity', 'flexGrow', 'flexShrink', 'floodOpacity', 'fontWeight', 'gridColumnEnd', 'gridColumnStart', 'gridRowEnd', 'gridRowStart', 'lineHeight', 'opacity', 'order', 'orphans', 'r', 'rx', 'ry', 'shapeImageThreshold', 'stopOpacity', 'strokeDasharray', 'strokeDashoffset', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'tabSize', 'widows', 'x', 'y', 'zIndex', 'zoom']);
-
-/**
- * Returns true if the specified string is prefixed by one of an array of
- * possible prefixes.
- *
- * @param {string}   string   String to check.
- * @param {string[]} prefixes Possible prefixes.
- *
- * @return {boolean} Whether string has prefix.
- */
+const ATTRIBUTES_TYPES = /* @__PURE__ */ new Set(["string", "boolean", "number"]);
+const SELF_CLOSING_TAGS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "command",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "keygen",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+const BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
+  "allowfullscreen",
+  "allowpaymentrequest",
+  "allowusermedia",
+  "async",
+  "autofocus",
+  "autoplay",
+  "checked",
+  "controls",
+  "default",
+  "defer",
+  "disabled",
+  "download",
+  "formnovalidate",
+  "hidden",
+  "ismap",
+  "itemscope",
+  "loop",
+  "multiple",
+  "muted",
+  "nomodule",
+  "novalidate",
+  "open",
+  "playsinline",
+  "readonly",
+  "required",
+  "reversed",
+  "selected",
+  "typemustmatch"
+]);
+const ENUMERATED_ATTRIBUTES = /* @__PURE__ */ new Set([
+  "autocapitalize",
+  "autocomplete",
+  "charset",
+  "contenteditable",
+  "crossorigin",
+  "decoding",
+  "dir",
+  "draggable",
+  "enctype",
+  "formenctype",
+  "formmethod",
+  "http-equiv",
+  "inputmode",
+  "kind",
+  "method",
+  "preload",
+  "scope",
+  "shape",
+  "spellcheck",
+  "translate",
+  "type",
+  "wrap"
+]);
+const CSS_PROPERTIES_SUPPORTS_UNITLESS = /* @__PURE__ */ new Set([
+  "animation",
+  "animationIterationCount",
+  "baselineShift",
+  "borderImageOutset",
+  "borderImageSlice",
+  "borderImageWidth",
+  "columnCount",
+  "cx",
+  "cy",
+  "fillOpacity",
+  "flexGrow",
+  "flexShrink",
+  "floodOpacity",
+  "fontWeight",
+  "gridColumnEnd",
+  "gridColumnStart",
+  "gridRowEnd",
+  "gridRowStart",
+  "lineHeight",
+  "opacity",
+  "order",
+  "orphans",
+  "r",
+  "rx",
+  "ry",
+  "shapeImageThreshold",
+  "stopOpacity",
+  "strokeDasharray",
+  "strokeDashoffset",
+  "strokeMiterlimit",
+  "strokeOpacity",
+  "strokeWidth",
+  "tabSize",
+  "widows",
+  "x",
+  "y",
+  "zIndex",
+  "zoom"
+]);
 function hasPrefix(string, prefixes) {
-  return prefixes.some(prefix => string.indexOf(prefix) === 0);
+  return prefixes.some((prefix) => string.indexOf(prefix) === 0);
 }
-
-/**
- * Returns true if the given prop name should be ignored in attributes
- * serialization, or false otherwise.
- *
- * @param {string} attribute Attribute to check.
- *
- * @return {boolean} Whether attribute should be ignored.
- */
 function isInternalAttribute(attribute) {
-  return 'key' === attribute || 'children' === attribute;
+  return "key" === attribute || "children" === attribute;
 }
-
-/**
- * Returns the normal form of the element's attribute value for HTML.
- *
- * @param {string} attribute Attribute name.
- * @param {*}      value     Non-normalized attribute value.
- *
- * @return {*} Normalized attribute value.
- */
 function getNormalAttributeValue(attribute, value) {
   switch (attribute) {
-    case 'style':
+    case "style":
       return renderStyle(value);
   }
   return value;
 }
-/**
- * This is a map of all SVG attributes that have dashes. Map(lower case prop => dashed lower case attribute).
- * We need this to render e.g strokeWidth as stroke-width.
- *
- * List from: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute.
- */
-const SVG_ATTRIBUTE_WITH_DASHES_LIST = ['accentHeight', 'alignmentBaseline', 'arabicForm', 'baselineShift', 'capHeight', 'clipPath', 'clipRule', 'colorInterpolation', 'colorInterpolationFilters', 'colorProfile', 'colorRendering', 'dominantBaseline', 'enableBackground', 'fillOpacity', 'fillRule', 'floodColor', 'floodOpacity', 'fontFamily', 'fontSize', 'fontSizeAdjust', 'fontStretch', 'fontStyle', 'fontVariant', 'fontWeight', 'glyphName', 'glyphOrientationHorizontal', 'glyphOrientationVertical', 'horizAdvX', 'horizOriginX', 'imageRendering', 'letterSpacing', 'lightingColor', 'markerEnd', 'markerMid', 'markerStart', 'overlinePosition', 'overlineThickness', 'paintOrder', 'panose1', 'pointerEvents', 'renderingIntent', 'shapeRendering', 'stopColor', 'stopOpacity', 'strikethroughPosition', 'strikethroughThickness', 'strokeDasharray', 'strokeDashoffset', 'strokeLinecap', 'strokeLinejoin', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'textAnchor', 'textDecoration', 'textRendering', 'underlinePosition', 'underlineThickness', 'unicodeBidi', 'unicodeRange', 'unitsPerEm', 'vAlphabetic', 'vHanging', 'vIdeographic', 'vMathematical', 'vectorEffect', 'vertAdvY', 'vertOriginX', 'vertOriginY', 'wordSpacing', 'writingMode', 'xmlnsXlink', 'xHeight'].reduce((map, attribute) => {
-  // The keys are lower-cased for more robust lookup.
-  map[attribute.toLowerCase()] = attribute;
-  return map;
-}, {});
-
-/**
- * This is a map of all case-sensitive SVG attributes. Map(lowercase key => proper case attribute).
- * The keys are lower-cased for more robust lookup.
- * Note that this list only contains attributes that contain at least one capital letter.
- * Lowercase attributes don't need mapping, since we lowercase all attributes by default.
- */
-const CASE_SENSITIVE_SVG_ATTRIBUTES = ['allowReorder', 'attributeName', 'attributeType', 'autoReverse', 'baseFrequency', 'baseProfile', 'calcMode', 'clipPathUnits', 'contentScriptType', 'contentStyleType', 'diffuseConstant', 'edgeMode', 'externalResourcesRequired', 'filterRes', 'filterUnits', 'glyphRef', 'gradientTransform', 'gradientUnits', 'kernelMatrix', 'kernelUnitLength', 'keyPoints', 'keySplines', 'keyTimes', 'lengthAdjust', 'limitingConeAngle', 'markerHeight', 'markerUnits', 'markerWidth', 'maskContentUnits', 'maskUnits', 'numOctaves', 'pathLength', 'patternContentUnits', 'patternTransform', 'patternUnits', 'pointsAtX', 'pointsAtY', 'pointsAtZ', 'preserveAlpha', 'preserveAspectRatio', 'primitiveUnits', 'refX', 'refY', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'specularConstant', 'specularExponent', 'spreadMethod', 'startOffset', 'stdDeviation', 'stitchTiles', 'suppressContentEditableWarning', 'suppressHydrationWarning', 'surfaceScale', 'systemLanguage', 'tableValues', 'targetX', 'targetY', 'textLength', 'viewBox', 'viewTarget', 'xChannelSelector', 'yChannelSelector'].reduce((map, attribute) => {
-  // The keys are lower-cased for more robust lookup.
-  map[attribute.toLowerCase()] = attribute;
-  return map;
-}, {});
-
-/**
- * This is a map of all SVG attributes that have colons.
- * Keys are lower-cased and stripped of their colons for more robust lookup.
- */
-const SVG_ATTRIBUTES_WITH_COLONS = ['xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'xmlns:xlink'].reduce((map, attribute) => {
-  map[attribute.replace(':', '').toLowerCase()] = attribute;
-  return map;
-}, {});
-
-/**
- * Returns the normal form of the element's attribute name for HTML.
- *
- * @param {string} attribute Non-normalized attribute name.
- *
- * @return {string} Normalized attribute name.
- */
+const SVG_ATTRIBUTE_WITH_DASHES_LIST = [
+  "accentHeight",
+  "alignmentBaseline",
+  "arabicForm",
+  "baselineShift",
+  "capHeight",
+  "clipPath",
+  "clipRule",
+  "colorInterpolation",
+  "colorInterpolationFilters",
+  "colorProfile",
+  "colorRendering",
+  "dominantBaseline",
+  "enableBackground",
+  "fillOpacity",
+  "fillRule",
+  "floodColor",
+  "floodOpacity",
+  "fontFamily",
+  "fontSize",
+  "fontSizeAdjust",
+  "fontStretch",
+  "fontStyle",
+  "fontVariant",
+  "fontWeight",
+  "glyphName",
+  "glyphOrientationHorizontal",
+  "glyphOrientationVertical",
+  "horizAdvX",
+  "horizOriginX",
+  "imageRendering",
+  "letterSpacing",
+  "lightingColor",
+  "markerEnd",
+  "markerMid",
+  "markerStart",
+  "overlinePosition",
+  "overlineThickness",
+  "paintOrder",
+  "panose1",
+  "pointerEvents",
+  "renderingIntent",
+  "shapeRendering",
+  "stopColor",
+  "stopOpacity",
+  "strikethroughPosition",
+  "strikethroughThickness",
+  "strokeDasharray",
+  "strokeDashoffset",
+  "strokeLinecap",
+  "strokeLinejoin",
+  "strokeMiterlimit",
+  "strokeOpacity",
+  "strokeWidth",
+  "textAnchor",
+  "textDecoration",
+  "textRendering",
+  "underlinePosition",
+  "underlineThickness",
+  "unicodeBidi",
+  "unicodeRange",
+  "unitsPerEm",
+  "vAlphabetic",
+  "vHanging",
+  "vIdeographic",
+  "vMathematical",
+  "vectorEffect",
+  "vertAdvY",
+  "vertOriginX",
+  "vertOriginY",
+  "wordSpacing",
+  "writingMode",
+  "xmlnsXlink",
+  "xHeight"
+].reduce(
+  (map, attribute) => {
+    map[attribute.toLowerCase()] = attribute;
+    return map;
+  },
+  {}
+);
+const CASE_SENSITIVE_SVG_ATTRIBUTES = [
+  "allowReorder",
+  "attributeName",
+  "attributeType",
+  "autoReverse",
+  "baseFrequency",
+  "baseProfile",
+  "calcMode",
+  "clipPathUnits",
+  "contentScriptType",
+  "contentStyleType",
+  "diffuseConstant",
+  "edgeMode",
+  "externalResourcesRequired",
+  "filterRes",
+  "filterUnits",
+  "glyphRef",
+  "gradientTransform",
+  "gradientUnits",
+  "kernelMatrix",
+  "kernelUnitLength",
+  "keyPoints",
+  "keySplines",
+  "keyTimes",
+  "lengthAdjust",
+  "limitingConeAngle",
+  "markerHeight",
+  "markerUnits",
+  "markerWidth",
+  "maskContentUnits",
+  "maskUnits",
+  "numOctaves",
+  "pathLength",
+  "patternContentUnits",
+  "patternTransform",
+  "patternUnits",
+  "pointsAtX",
+  "pointsAtY",
+  "pointsAtZ",
+  "preserveAlpha",
+  "preserveAspectRatio",
+  "primitiveUnits",
+  "refX",
+  "refY",
+  "repeatCount",
+  "repeatDur",
+  "requiredExtensions",
+  "requiredFeatures",
+  "specularConstant",
+  "specularExponent",
+  "spreadMethod",
+  "startOffset",
+  "stdDeviation",
+  "stitchTiles",
+  "suppressContentEditableWarning",
+  "suppressHydrationWarning",
+  "surfaceScale",
+  "systemLanguage",
+  "tableValues",
+  "targetX",
+  "targetY",
+  "textLength",
+  "viewBox",
+  "viewTarget",
+  "xChannelSelector",
+  "yChannelSelector"
+].reduce(
+  (map, attribute) => {
+    map[attribute.toLowerCase()] = attribute;
+    return map;
+  },
+  {}
+);
+const SVG_ATTRIBUTES_WITH_COLONS = [
+  "xlink:actuate",
+  "xlink:arcrole",
+  "xlink:href",
+  "xlink:role",
+  "xlink:show",
+  "xlink:title",
+  "xlink:type",
+  "xml:base",
+  "xml:lang",
+  "xml:space",
+  "xmlns:xlink"
+].reduce(
+  (map, attribute) => {
+    map[attribute.replace(":", "").toLowerCase()] = attribute;
+    return map;
+  },
+  {}
+);
 function getNormalAttributeName(attribute) {
   switch (attribute) {
-    case 'htmlFor':
-      return 'for';
-    case 'className':
-      return 'class';
+    case "htmlFor":
+      return "for";
+    case "className":
+      return "class";
   }
   const attributeLowerCase = attribute.toLowerCase();
   if (CASE_SENSITIVE_SVG_ATTRIBUTES[attributeLowerCase]) {
     return CASE_SENSITIVE_SVG_ATTRIBUTES[attributeLowerCase];
   } else if (SVG_ATTRIBUTE_WITH_DASHES_LIST[attributeLowerCase]) {
-    return paramCase(SVG_ATTRIBUTE_WITH_DASHES_LIST[attributeLowerCase]);
+    return paramCase(
+      SVG_ATTRIBUTE_WITH_DASHES_LIST[attributeLowerCase]
+    );
   } else if (SVG_ATTRIBUTES_WITH_COLONS[attributeLowerCase]) {
     return SVG_ATTRIBUTES_WITH_COLONS[attributeLowerCase];
   }
   return attributeLowerCase;
 }
-
-/**
- * Returns the normal form of the style property name for HTML.
- *
- * - Converts property names to kebab-case, e.g. 'backgroundColor' → 'background-color'
- * - Leaves custom attributes alone, e.g. '--myBackgroundColor' → '--myBackgroundColor'
- * - Converts vendor-prefixed property names to -kebab-case, e.g. 'MozTransform' → '-moz-transform'
- *
- * @param {string} property Property name.
- *
- * @return {string} Normalized property name.
- */
 function getNormalStylePropertyName(property) {
-  if (property.startsWith('--')) {
+  if (property.startsWith("--")) {
     return property;
   }
-  if (hasPrefix(property, ['ms', 'O', 'Moz', 'Webkit'])) {
-    return '-' + paramCase(property);
+  if (hasPrefix(property, ["ms", "O", "Moz", "Webkit"])) {
+    return "-" + paramCase(property);
   }
   return paramCase(property);
 }
-
-/**
- * Returns the normal form of the style property value for HTML. Appends a
- * default pixel unit if numeric, not a unitless property, and not zero.
- *
- * @param {string} property Property name.
- * @param {*}      value    Non-normalized property value.
- *
- * @return {*} Normalized property value.
- */
 function getNormalStylePropertyValue(property, value) {
-  if (typeof value === 'number' && 0 !== value && !CSS_PROPERTIES_SUPPORTS_UNITLESS.has(property)) {
-    return value + 'px';
+  if (typeof value === "number" && 0 !== value && !hasPrefix(property, ["--"]) && !CSS_PROPERTIES_SUPPORTS_UNITLESS.has(property)) {
+    return value + "px";
   }
   return value;
 }
-
-/**
- * Serializes a React element to string.
- *
- * @param {import('react').ReactNode} element         Element to serialize.
- * @param {Object}                    [context]       Context object.
- * @param {Object}                    [legacyContext] Legacy context object.
- *
- * @return {string} Serialized element.
- */
 function renderElement(element, context, legacyContext = {}) {
-  if (null === element || undefined === element || false === element) {
-    return '';
+  if (null === element || void 0 === element || false === element) {
+    return "";
   }
   if (Array.isArray(element)) {
     return renderChildren(element, context, legacyContext);
   }
   switch (typeof element) {
-    case 'string':
+    case "string":
       return (0,external_wp_escapeHtml_namespaceObject.escapeHTML)(element);
-    case 'number':
+    case "number":
       return element.toString();
   }
-  const {
-    type,
-    props
-  } = /** @type {{type?: any, props?: any}} */
-  element;
+  const { type, props } = element;
   switch (type) {
     case external_React_namespaceObject.StrictMode:
     case external_React_namespaceObject.Fragment:
       return renderChildren(props.children, context, legacyContext);
     case RawHTML:
-      const {
-        children,
-        ...wrapperProps
-      } = props;
-      return renderNativeComponent(!Object.keys(wrapperProps).length ? null : 'div', {
-        ...wrapperProps,
-        dangerouslySetInnerHTML: {
-          __html: children
-        }
-      }, context, legacyContext);
+      const { children, ...wrapperProps } = props;
+      return renderNativeComponent(
+        !Object.keys(wrapperProps).length ? null : "div",
+        {
+          ...wrapperProps,
+          dangerouslySetInnerHTML: { __html: children }
+        },
+        context,
+        legacyContext
+      );
   }
   switch (typeof type) {
-    case 'string':
+    case "string":
       return renderNativeComponent(type, props, context, legacyContext);
-    case 'function':
-      if (type.prototype && typeof type.prototype.render === 'function') {
+    case "function":
+      if (type.prototype && typeof type.prototype.render === "function") {
         return renderComponent(type, props, context, legacyContext);
       }
-      return renderElement(type(props, legacyContext), context, legacyContext);
+      return renderElement(
+        type(props, legacyContext),
+        context,
+        legacyContext
+      );
   }
   switch (type && type.$$typeof) {
     case Provider.$$typeof:
       return renderChildren(props.children, props.value, legacyContext);
     case Consumer.$$typeof:
-      return renderElement(props.children(context || type._currentValue), context, legacyContext);
+      return renderElement(
+        props.children(context || type._currentValue),
+        context,
+        legacyContext
+      );
     case ForwardRef.$$typeof:
-      return renderElement(type.render(props), context, legacyContext);
+      return renderElement(
+        type.render(props),
+        context,
+        legacyContext
+      );
   }
-  return '';
+  return "";
 }
-
-/**
- * Serializes a native component type to string.
- *
- * @param {?string} type            Native component type to serialize, or null if
- *                                  rendering as fragment of children content.
- * @param {Object}  props           Props object.
- * @param {Object}  [context]       Context object.
- * @param {Object}  [legacyContext] Legacy context object.
- *
- * @return {string} Serialized element.
- */
 function renderNativeComponent(type, props, context, legacyContext = {}) {
-  let content = '';
-  if (type === 'textarea' && props.hasOwnProperty('value')) {
-    // Textarea children can be assigned as value prop. If it is, render in
-    // place of children. Ensure to omit so it is not assigned as attribute
-    // as well.
+  let content = "";
+  if (type === "textarea" && props.hasOwnProperty("value")) {
     content = renderChildren(props.value, context, legacyContext);
-    const {
-      value,
-      ...restProps
-    } = props;
+    const { value, ...restProps } = props;
     props = restProps;
-  } else if (props.dangerouslySetInnerHTML && typeof props.dangerouslySetInnerHTML.__html === 'string') {
-    // Dangerous content is left unescaped.
+  } else if (props.dangerouslySetInnerHTML && typeof props.dangerouslySetInnerHTML.__html === "string") {
     content = props.dangerouslySetInnerHTML.__html;
-  } else if (typeof props.children !== 'undefined') {
+  } else if (typeof props.children !== "undefined") {
     content = renderChildren(props.children, context, legacyContext);
   }
   if (!type) {
@@ -1790,140 +1355,87 @@ function renderNativeComponent(type, props, context, legacyContext = {}) {
   }
   const attributes = renderAttributes(props);
   if (SELF_CLOSING_TAGS.has(type)) {
-    return '<' + type + attributes + '/>';
+    return "<" + type + attributes + "/>";
   }
-  return '<' + type + attributes + '>' + content + '</' + type + '>';
+  return "<" + type + attributes + ">" + content + "</" + type + ">";
 }
-
-/** @typedef {import('react').ComponentType} ComponentType */
-
-/**
- * Serializes a non-native component type to string.
- *
- * @param {ComponentType} Component       Component type to serialize.
- * @param {Object}        props           Props object.
- * @param {Object}        [context]       Context object.
- * @param {Object}        [legacyContext] Legacy context object.
- *
- * @return {string} Serialized element
- */
 function renderComponent(Component, props, context, legacyContext = {}) {
-  const instance = new (/** @type {import('react').ComponentClass} */
-  Component)(props, legacyContext);
-  if (typeof
-  // Ignore reason: Current prettier reformats parens and mangles type assertion
-  // prettier-ignore
-  /** @type {{getChildContext?: () => unknown}} */
-  instance.getChildContext === 'function') {
-    Object.assign(legacyContext, /** @type {{getChildContext?: () => unknown}} */instance.getChildContext());
+  const instance = new Component(props, legacyContext);
+  if (typeof instance.getChildContext === "function") {
+    Object.assign(legacyContext, instance.getChildContext());
   }
   const html = renderElement(instance.render(), context, legacyContext);
   return html;
 }
-
-/**
- * Serializes an array of children to string.
- *
- * @param {import('react').ReactNodeArray} children        Children to serialize.
- * @param {Object}                         [context]       Context object.
- * @param {Object}                         [legacyContext] Legacy context object.
- *
- * @return {string} Serialized children.
- */
 function renderChildren(children, context, legacyContext = {}) {
-  let result = '';
-  children = Array.isArray(children) ? children : [children];
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
+  let result = "";
+  const childrenArray = Array.isArray(children) ? children : [children];
+  for (let i = 0; i < childrenArray.length; i++) {
+    const child = childrenArray[i];
     result += renderElement(child, context, legacyContext);
   }
   return result;
 }
-
-/**
- * Renders a props object as a string of HTML attributes.
- *
- * @param {Object} props Props object.
- *
- * @return {string} Attributes string.
- */
 function renderAttributes(props) {
-  let result = '';
+  let result = "";
   for (const key in props) {
     const attribute = getNormalAttributeName(key);
     if (!(0,external_wp_escapeHtml_namespaceObject.isValidAttributeName)(attribute)) {
       continue;
     }
     let value = getNormalAttributeValue(key, props[key]);
-
-    // If value is not of serializable type, skip.
     if (!ATTRIBUTES_TYPES.has(typeof value)) {
       continue;
     }
-
-    // Don't render internal attribute names.
     if (isInternalAttribute(key)) {
       continue;
     }
     const isBooleanAttribute = BOOLEAN_ATTRIBUTES.has(attribute);
-
-    // Boolean attribute should be omitted outright if its value is false.
     if (isBooleanAttribute && value === false) {
       continue;
     }
-    const isMeaningfulAttribute = isBooleanAttribute || hasPrefix(key, ['data-', 'aria-']) || ENUMERATED_ATTRIBUTES.has(attribute);
-
-    // Only write boolean value as attribute if meaningful.
-    if (typeof value === 'boolean' && !isMeaningfulAttribute) {
+    const isMeaningfulAttribute = isBooleanAttribute || hasPrefix(key, ["data-", "aria-"]) || ENUMERATED_ATTRIBUTES.has(attribute);
+    if (typeof value === "boolean" && !isMeaningfulAttribute) {
       continue;
     }
-    result += ' ' + attribute;
-
-    // Boolean attributes should write attribute name, but without value.
-    // Mere presence of attribute name is effective truthiness.
+    result += " " + attribute;
     if (isBooleanAttribute) {
       continue;
     }
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       value = (0,external_wp_escapeHtml_namespaceObject.escapeAttribute)(value);
     }
     result += '="' + value + '"';
   }
   return result;
 }
-
-/**
- * Renders a style object as a string attribute value.
- *
- * @param {Object} style Style object.
- *
- * @return {string} Style attribute value.
- */
 function renderStyle(style) {
-  // Only generate from object, e.g. tolerate string value.
   if (!isPlainObject(style)) {
     return style;
   }
   let result;
-  for (const property in style) {
-    const value = style[property];
-    if (null === value || undefined === value) {
+  const styleObj = style;
+  for (const property in styleObj) {
+    const value = styleObj[property];
+    if (null === value || void 0 === value) {
       continue;
     }
     if (result) {
-      result += ';';
+      result += ";";
     } else {
-      result = '';
+      result = "";
     }
     const normalName = getNormalStylePropertyName(property);
     const normalValue = getNormalStylePropertyValue(property, value);
-    result += normalName + ':' + normalValue;
+    result += normalName + ":" + normalValue;
   }
   return result;
 }
-/* harmony default export */ const serialize = (renderElement);
+var serialize_default = renderElement;
+
 
 ;// ./node_modules/@wordpress/element/build-module/index.js
+
 
 
 

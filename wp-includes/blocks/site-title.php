@@ -16,8 +16,8 @@
  */
 function render_block_core_site_title( $attributes ) {
 	$site_title = get_bloginfo( 'name' );
-	if ( ! $site_title ) {
-		return;
+	if ( ! trim( $site_title ) ) {
+		return '';
 	}
 
 	$tag_name = 'h1';

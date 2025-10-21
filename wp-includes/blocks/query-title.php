@@ -7,23 +7,28 @@
 
 /**
  * Renders the `core/query-title` block on the server.
- * For now it only supports Archive title,
+ * For now it supports Archive title, Search title, and Post Type Label,
  * using queried object information
  *
  * @since 5.8.0
  *
- * @param array $attributes Block attributes.
+ * @param array  $attributes Block attributes.
+ * @param array  $_content   Block content.
+ * @param object $block      Block instance.
  *
  * @return string Returns the query title based on the queried object.
  */
-function render_block_core_query_title( $attributes ) {
+function render_block_core_query_title( $attributes, $content, $block ) {
 	$type       = isset( $attributes['type'] ) ? $attributes['type'] : null;
 	$is_archive = is_archive();
 	$is_search  = is_search();
+	$post_type  = isset( $block->context['query']['postType'] ) ? $block->context['query']['postType'] : get_post_type();
+
 	if ( ! $type ||
 		( 'archive' === $type && ! $is_archive ) ||
-		( 'search' === $type && ! $is_search )
-		) {
+		( 'search' === $type && ! $is_search ) ||
+		( 'post-type' === $type && ! $post_type )
+	) {
 		return '';
 	}
 	$title = '';
@@ -48,8 +53,30 @@ function render_block_core_query_title( $attributes ) {
 			);
 		}
 	}
+	if ( 'post-type' === $type ) {
+		$post_type_object = get_post_type_object( $post_type );
 
-	$tag_name           = isset( $attributes['level'] ) ? 'h' . (int) $attributes['level'] : 'h1';
+		if ( ! $post_type_object ) {
+			return '';
+		}
+
+		$post_type_name = $post_type_object->labels->singular_name;
+		$show_prefix    = isset( $attributes['showPrefix'] ) ? $attributes['showPrefix'] : true;
+
+		if ( $show_prefix ) {
+			$title = sprintf(
+				/* translators: %s is the post type name. */
+				__( 'Post Type: "%s"' ),
+				$post_type_name
+			);
+		} else {
+			$title = $post_type_name;
+		}
+	}
+
+	$level    = isset( $attributes['level'] ) ? (int) $attributes['level'] : 1;
+	$tag_name = 0 === $level ? 'p' : 'h' . (int) $attributes['level'];
+
 	$align_class_name   = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
 	return sprintf(

@@ -4,7 +4,7 @@
   color:currentColor;
   margin-bottom:1.75em;
 }
-.wp-block-pullquote cite,.wp-block-pullquote footer,.wp-block-pullquote__citation{
+.wp-block-pullquote :where(cite),.wp-block-pullquote :where(footer),.wp-block-pullquote__citation{
   color:currentColor;
   font-size:.8125em;
   font-style:normal;
