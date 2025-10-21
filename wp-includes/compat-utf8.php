@@ -535,7 +535,7 @@ function _wp_utf8_decode_fallback( $utf8_text ) {
 		}
 
 		// All convertible code points are not greater than U+FF.
-		$byte2 = ord( $utf8_text[ $at + 1 ] );
+		$byte2      = ord( $utf8_text[ $at + 1 ] );
 		$code_point = ( ( $byte1 & 0x1F ) << 6 ) | ( ( $byte2 & 0x3F ) );
 		if ( $code_point > 0xFF ) {
 			goto flush_sub_part;

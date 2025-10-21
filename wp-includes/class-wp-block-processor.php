@@ -933,8 +933,8 @@ class WP_Block_Processor {
 
 				$name_length = 1 + strspn( $text, 'abcdefghijklmnopqrstuvwxyz0123456789-_', $name_at + 1 );
 			} else {
-				$name_at          = $namespace_at;
-				$name_length      = $namespace_length;
+				$name_at     = $namespace_at;
+				$name_length = $namespace_length;
 			}
 
 			if ( $name_at + $name_length >= $end ) {
