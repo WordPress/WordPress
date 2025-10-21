@@ -383,6 +383,10 @@
 				"typography": {
 					"fontSize": "inherit",
 					"fontFamily": "inherit",
+					"fontStyle": "inherit",
+					"fontWeight": "inherit",
+					"letterSpacing": "inherit",
+					"textTransform": "inherit",
 					"lineHeight": "inherit",
 					"textDecoration": "none"
 				},
