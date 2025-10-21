@@ -8,6 +8,13 @@
  */
 
 /**
+ * Bail early when the REST API bootstrap has already run to avoid redeclarations.
+ */
+if ( defined( 'REST_API_VERSION' ) ) {
+        return;
+}
+
+/**
  * Version number for our API.
  *
  * @var string
@@ -226,14 +233,16 @@ endif;
  * @see add_rewrite_rule()
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
-function rest_api_register_rewrites() {
-	global $wp_rewrite;
+if ( ! function_exists( 'rest_api_register_rewrites' ) ) :
+        function rest_api_register_rewrites() {
+                global $wp_rewrite;
 
-	add_rewrite_rule( '^' . rest_get_url_prefix() . '/?$', 'index.php?rest_route=/', 'top' );
-	add_rewrite_rule( '^' . rest_get_url_prefix() . '/(.*)?', 'index.php?rest_route=/$matches[1]', 'top' );
-	add_rewrite_rule( '^' . $wp_rewrite->index . '/' . rest_get_url_prefix() . '/?$', 'index.php?rest_route=/', 'top' );
-	add_rewrite_rule( '^' . $wp_rewrite->index . '/' . rest_get_url_prefix() . '/(.*)?', 'index.php?rest_route=/$matches[1]', 'top' );
-}
+                add_rewrite_rule( '^' . rest_get_url_prefix() . '/?$', 'index.php?rest_route=/', 'top' );
+                add_rewrite_rule( '^' . rest_get_url_prefix() . '/(.*)?', 'index.php?rest_route=/$matches[1]', 'top' );
+                add_rewrite_rule( '^' . $wp_rewrite->index . '/' . rest_get_url_prefix() . '/?$', 'index.php?rest_route=/', 'top' );
+                add_rewrite_rule( '^' . $wp_rewrite->index . '/' . rest_get_url_prefix() . '/(.*)?', 'index.php?rest_route=/$matches[1]', 'top' );
+        }
+endif;
 
 /**
  * Registers the default REST API filters.
