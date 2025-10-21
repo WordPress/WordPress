@@ -1311,21 +1311,6 @@ function update_user_meta( $user_id, $meta_key, $meta_value, $prev_value = '' ) 
 }
 
 /**
- * Queue user meta for lazy-loading.
- *
- * @since 6.9.0
- *
- * @param int[] $user_ids List of user IDs.
- */
-function wp_lazyload_user_meta( array $user_ids ) {
-	if ( empty( $user_ids ) ) {
-		return;
-	}
-	$lazyloader = wp_metadata_lazyloader();
-	$lazyloader->queue_objects( 'user', $user_ids );
-}
-
-/**
  * Counts number of users who have each of the user roles.
  *
  * Assumes there are neither duplicated nor orphaned capabilities meta_values.
