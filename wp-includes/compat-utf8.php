@@ -36,12 +36,12 @@
  * @since 6.9.0
  * @access private
  *
- * @param string   $bytes             UTF-8 encoded string which might include invalid spans of bytes.
- * @param int      $at                Where to start scanning.
- * @param int      $invalid_length    Will be set to how many bytes are to be ignored after `$at`.
- * @param int|null $max_bytes         Stop scanning after this many bytes have been seen.
- * @param int|null $max_code_points   Stop scanning after this many code points have been seen.
- * @param bool     $has_noncharacters Set to indicate if scanned string contained noncharacters.
+ * @param string    $bytes             UTF-8 encoded string which might include invalid spans of bytes.
+ * @param int       $at                Where to start scanning.
+ * @param int       $invalid_length    Will be set to how many bytes are to be ignored after `$at`.
+ * @param int|null  $max_bytes         Stop scanning after this many bytes have been seen.
+ * @param int|null  $max_code_points   Stop scanning after this many code points have been seen.
+ * @param bool|null $has_noncharacters Set to indicate if scanned string contained noncharacters.
  * @return int How many code points were successfully scanned.
  */
 function _wp_scan_utf8( string $bytes, int &$at, int &$invalid_length, ?int $max_bytes = null, ?int $max_code_points = null, ?bool &$has_noncharacters = null ): int {
