@@ -323,12 +323,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$max_pages      = (int) $query->max_num_pages;
 
 		if ( $total_comments < 1 ) {
-			// Out-of-bounds, run the query again without LIMIT for total count.
+			// Out-of-bounds, run the query without pagination/offset to get the total count.
 			unset( $prepared_args['number'], $prepared_args['offset'] );
 
-			$query                    = new WP_Comment_Query();
-			$prepared_args['count']   = true;
-			$prepared_args['orderby'] = 'none';
+			$query                                      = new WP_Comment_Query();
+			$prepared_args['count']                     = true;
+			$prepared_args['orderby']                   = 'none';
+			$prepared_args['update_comment_meta_cache'] = false;
 
 			$total_comments = $query->query( $prepared_args );
 			$max_pages      = (int) ceil( $total_comments / $request['per_page'] );
