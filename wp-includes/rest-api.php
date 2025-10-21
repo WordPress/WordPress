@@ -181,23 +181,25 @@ endif;
  *                                          Default is 'null', no schema entry will be returned.
  * }
  */
-function register_rest_field( $object_type, $attribute, $args = array() ) {
-	global $wp_rest_additional_fields;
+if ( ! function_exists( 'register_rest_field' ) ) :
+        function register_rest_field( $object_type, $attribute, $args = array() ) {
+                global $wp_rest_additional_fields;
 
-	$defaults = array(
-		'get_callback'    => null,
-		'update_callback' => null,
-		'schema'          => null,
-	);
+                $defaults = array(
+                        'get_callback'    => null,
+                        'update_callback' => null,
+                        'schema'          => null,
+                );
 
-	$args = wp_parse_args( $args, $defaults );
+                $args = wp_parse_args( $args, $defaults );
 
-	$object_types = (array) $object_type;
+                $object_types = (array) $object_type;
 
-	foreach ( $object_types as $object_type ) {
-		$wp_rest_additional_fields[ $object_type ][ $attribute ] = $args;
-	}
-}
+                foreach ( $object_types as $object_type ) {
+                        $wp_rest_additional_fields[ $object_type ][ $attribute ] = $args;
+                }
+        }
+endif;
 
 /**
  * Registers rewrite rules for the REST API.
