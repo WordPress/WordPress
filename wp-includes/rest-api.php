@@ -10,10 +10,9 @@
 /**
  * Bail early when the REST API bootstrap has already run to avoid redeclarations.
  */
-if ( function_exists( 'rest_api_default_filters' ) ) {
-	return;
+if ( defined( 'REST_API_VERSION' ) ) {
+        return;
 }
-
 
 /**
  * Version number for our API.
@@ -23,7 +22,6 @@ if ( function_exists( 'rest_api_default_filters' ) ) {
 if ( ! defined( 'REST_API_VERSION' ) ) {
 	define( 'REST_API_VERSION', '2.0' );
 }
-
 
 if ( ! function_exists( 'register_rest_route' ) ) :
 	/**
