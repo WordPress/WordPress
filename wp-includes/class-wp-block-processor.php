@@ -1332,14 +1332,14 @@ class WP_Block_Processor {
 
 			$closer_must_be_at = $dashes_at + 2 + strspn( $text, '-', $dashes_at + 2 );
 			if ( $closer_must_be_at < $search_end && '!' === $text[ $closer_must_be_at ] ) {
-				$closer_must_be_at++;
+				++$closer_must_be_at;
 			}
 
 			if ( $closer_must_be_at < $search_end && '>' === $text[ $closer_must_be_at ] ) {
 				return $closer_must_be_at + 1;
 			}
 
-			$now_at++;
+			++$now_at;
 		}
 
 		return $search_end;
