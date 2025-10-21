@@ -306,6 +306,9 @@ function wp_typography_get_preset_inline_style_value( $style_value, $css_propert
  * @return string Filtered block content.
  */
 function wp_render_typography_support( $block_content, $block ) {
+	if ( ! empty( $block['attrs']['fitText'] ) ) {
+		wp_enqueue_script_module( '@wordpress/block-editor/utils/fit-text-frontend' );
+	}
 	if ( ! isset( $block['attrs']['style']['typography']['fontSize'] ) ) {
 		return $block_content;
 	}
