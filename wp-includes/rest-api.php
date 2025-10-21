@@ -19,7 +19,9 @@ if ( defined( 'REST_API_VERSION' ) ) {
  *
  * @var string
  */
-define( 'REST_API_VERSION', '2.0' );
+if ( ! defined( 'REST_API_VERSION' ) ) {
+	define( 'REST_API_VERSION', '2.0' );
+}
 
 if ( ! function_exists( 'register_rest_route' ) ) :
 	/**
