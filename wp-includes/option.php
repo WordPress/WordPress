@@ -2959,6 +2959,25 @@ function register_initial_settings() {
 			'description'  => __( 'Allow people to submit comments on new posts.' ),
 		)
 	);
+
+	register_setting(
+		'reading',
+		'active_templates',
+		array(
+			'type'         => 'object',
+			// Do not set the default value to an empty array! For some reason
+			// that will prevent the option from being set to an empty array.
+			'show_in_rest' => array(
+				'schema' => array(
+					'type'                 => 'object',
+					// Properties can be integers, strings, or false
+					// (deactivated).
+					'additionalProperties' => true,
+				),
+			),
+			'label'        => 'Active Templates',
+		)
+	);
 }
 
 /**

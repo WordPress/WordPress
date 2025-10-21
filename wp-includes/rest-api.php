@@ -263,6 +263,15 @@ function rest_api_default_filters() {
  * @since 4.7.0
  */
 function create_initial_rest_routes() {
+	global $wp_post_types;
+
+	// Register the registered templates endpoint. For that we need to copy the
+	// wp_template post type so that it's available as an entity in core-data.
+	$wp_post_types['wp_registered_template']                        = clone $wp_post_types['wp_template'];
+	$wp_post_types['wp_registered_template']->name                  = 'wp_registered_template';
+	$wp_post_types['wp_registered_template']->rest_base             = 'wp_registered_template';
+	$wp_post_types['wp_registered_template']->rest_controller_class = 'WP_REST_Registered_Templates_Controller';
+
 	foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
 		$controller = $post_type->get_rest_controller();
 
@@ -288,6 +297,64 @@ function create_initial_rest_routes() {
 			$controller->register_routes();
 		}
 	}
+
+	// Register the old templates endpoints. The WP_REST_Templates_Controller
+	// and sub-controllers used linked to the wp_template post type, but are no
+	// longer. They still require a post type object when contructing the class.
+	// To maintain backward and changes to these controller classes, we make use
+	// that the wp_template post type has the right information it needs.
+	$wp_post_types['wp_template']->rest_base = 'templates';
+	// Store the classes so they can be restored.
+	$original_rest_controller_class           = $wp_post_types['wp_template']->rest_controller_class;
+	$original_autosave_rest_controller_class  = $wp_post_types['wp_template']->autosave_rest_controller_class;
+	$original_revisions_rest_controller_class = $wp_post_types['wp_template']->revisions_rest_controller_class;
+	// Temporarily set the old classes.
+	$wp_post_types['wp_template']->rest_controller_class           = 'WP_REST_Templates_Controller';
+	$wp_post_types['wp_template']->autosave_rest_controller_class  = 'WP_REST_Template_Autosaves_Controller';
+	$wp_post_types['wp_template']->revisions_rest_controller_class = 'WP_REST_Template_Revisions_Controller';
+	// Initialize the controllers. The order is important: the autosave
+	// controller needs both the templates and revisions controllers.
+	$controller                                    = new WP_REST_Templates_Controller( 'wp_template' );
+	$wp_post_types['wp_template']->rest_controller = $controller;
+	$revisions_controller                          = new WP_REST_Template_Revisions_Controller( 'wp_template' );
+	$wp_post_types['wp_template']->revisions_rest_controller = $revisions_controller;
+	$autosaves_controller                                    = new WP_REST_Template_Autosaves_Controller( 'wp_template' );
+	// Unset the controller cache, it will be re-initialized when
+	// get_rest_controller is called.
+	$wp_post_types['wp_template']->rest_controller           = null;
+	$wp_post_types['wp_template']->revisions_rest_controller = null;
+	// Restore the original classes.
+	$wp_post_types['wp_template']->rest_controller_class           = $original_rest_controller_class;
+	$wp_post_types['wp_template']->autosave_rest_controller_class  = $original_autosave_rest_controller_class;
+	$wp_post_types['wp_template']->revisions_rest_controller_class = $original_revisions_rest_controller_class;
+	// Restore the original base.
+	$wp_post_types['wp_template']->rest_base = 'wp_template';
+
+	// Register the old routes.
+	$autosaves_controller->register_routes();
+	$revisions_controller->register_routes();
+	$controller->register_routes();
+
+	register_rest_field(
+		'wp_template',
+		'theme',
+		array(
+			'get_callback' => function ( $post_arr ) {
+				// add_additional_fields_to_object is also called for the old
+				// templates controller, so we need to check if the id is an
+				// integer to make sure it's the proper post type endpoint.
+				if ( ! is_int( $post_arr['id'] ) ) {
+					$template = get_block_template( $post_arr['id'], 'wp_template' );
+					return $template ? $template->theme : null;
+				}
+				$terms = get_the_terms( $post_arr['id'], 'wp_theme' );
+				if ( is_wp_error( $terms ) || empty( $terms ) ) {
+					return null;
+				}
+				return $terms[0]->slug;
+			},
+		)
+	);
 
 	// Post types.
 	$controller = new WP_REST_Post_Types_Controller();

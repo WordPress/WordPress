@@ -1074,6 +1074,46 @@ function _build_block_template_result_from_post( $post ) {
 	return $template;
 }
 
+function get_registered_block_templates( $query ) {
+	$template_files = _get_block_templates_files( 'wp_template', $query );
+	$query_result   = array();
+
+	// _get_block_templates_files seems broken, it does not obey the query.
+	if ( isset( $query['slug__in'] ) && is_array( $query['slug__in'] ) ) {
+		$template_files = array_filter(
+			$template_files,
+			function ( $template_file ) use ( $query ) {
+				return in_array( $template_file['slug'], $query['slug__in'], true );
+			}
+		);
+	}
+
+	foreach ( $template_files as $template_file ) {
+		$query_result[] = _build_block_template_result_from_file( $template_file, 'wp_template' );
+	}
+
+	// Add templates registered through the template registry. Filtering out the
+	// ones which have a theme file.
+	$registered_templates          = WP_Block_Templates_Registry::get_instance()->get_by_query( $query );
+	$matching_registered_templates = array_filter(
+		$registered_templates,
+		function ( $registered_template ) use ( $template_files ) {
+			foreach ( $template_files as $template_file ) {
+				if ( $template_file['slug'] === $registered_template->slug ) {
+					return false;
+				}
+			}
+			return true;
+		}
+	);
+
+	$query_result = array_merge( $query_result, $matching_registered_templates );
+
+	// Templates added by PHP filter also count as registered templates.
+	/** This filter is documented in wp-includes/block-template-utils.php */
+	return apply_filters( 'get_block_templates', $query_result, $query, 'wp_template' );
+}
+
 /**
  * Retrieves a list of unified template objects based on a query.
  *
@@ -1152,6 +1192,8 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 		$wp_query_args['post_status'] = 'publish';
 	}
 
+	$active_templates = get_option( 'active_templates', array() );
+
 	$template_query = new WP_Query( $wp_query_args );
 	$query_result   = array();
 	foreach ( $template_query->posts as $post ) {
@@ -1173,7 +1215,14 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 			continue;
 		}
 
-		$query_result[] = $template;
+		if ( $template->is_custom || isset( $query['wp_id'] ) ) {
+			// Custom templates don't need to be activated, leave them be.
+			// Also don't filter out templates when querying by wp_id.
+			$query_result[] = $template;
+		} elseif ( isset( $active_templates[ $template->slug ] ) && $active_templates[ $template->slug ] === $post->ID ) {
+			// Only include active templates.
+			$query_result[] = $template;
+		}
 	}
 
 	if ( ! isset( $query['wp_id'] ) ) {
@@ -1296,7 +1345,25 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 		return null;
 	}
 	list( $theme, $slug ) = $parts;
-	$wp_query_args        = array(
+
+	$active_templates = get_option( 'active_templates', array() );
+
+	if ( ! empty( $active_templates[ $slug ] ) ) {
+		if ( is_int( $active_templates[ $slug ] ) ) {
+			$post = get_post( $active_templates[ $slug ] );
+			if ( $post && 'publish' === $post->post_status ) {
+				$template = _build_block_template_result_from_post( $post );
+
+				if ( ! is_wp_error( $template ) && $theme === $template->theme ) {
+					return $template;
+				}
+			}
+		} elseif ( false === $active_templates[ $slug ] ) {
+			return null;
+		}
+	}
+
+	$wp_query_args  = array(
 		'post_name__in'  => array( $slug ),
 		'post_type'      => $template_type,
 		'post_status'    => array( 'auto-draft', 'draft', 'publish', 'trash' ),
@@ -1310,11 +1377,17 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 			),
 		),
 	);
-	$template_query       = new WP_Query( $wp_query_args );
-	$posts                = $template_query->posts;
+	$template_query = new WP_Query( $wp_query_args );
+	$posts          = $template_query->posts;
 
 	if ( count( $posts ) > 0 ) {
 		$template = _build_block_template_result_from_post( $posts[0] );
+
+		// Custom templates don't need to be activated, so if it's a custom
+		// template, return it.
+		if ( ! is_wp_error( $template ) && $template->is_custom ) {
+			return $template;
+		}
 
 		if ( ! is_wp_error( $template ) ) {
 			return $template;
@@ -1778,4 +1851,34 @@ function inject_ignored_hooked_blocks_metadata_attributes( $changes, $deprecated
 	}
 
 	return $changes;
+}
+
+function wp_assign_new_template_to_theme( $changes, $request ) {
+	// Do not run this for templates created through the old enpoint.
+	$template = $request['id'] ? get_block_template( $request['id'], 'wp_template' ) : null;
+	if ( $template ) {
+		return $changes;
+	}
+	if ( ! isset( $changes->tax_input ) ) {
+		$changes->tax_input = array();
+	}
+	$changes->tax_input['wp_theme'] = isset( $request['theme'] ) ? $request['theme'] : get_stylesheet();
+	// All new templates saved will receive meta so we can distinguish between
+	// templates created the old way as edits and templates created the new way.
+	if ( ! isset( $changes->meta_input ) ) {
+		$changes->meta_input = array();
+	}
+	$changes->meta_input['is_inactive_by_default'] = true;
+	return $changes;
+}
+
+function wp_maybe_activate_template( $post_id ) {
+	$post                   = get_post( $post_id );
+	$is_inactive_by_default = get_post_meta( $post_id, 'is_inactive_by_default', true );
+	if ( $is_inactive_by_default ) {
+		return;
+	}
+	$active_templates                     = get_option( 'active_templates', array() );
+	$active_templates[ $post->post_name ] = $post->ID;
+	update_option( 'active_templates', $active_templates );
 }
