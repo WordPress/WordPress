@@ -2264,6 +2264,11 @@ function wp_print_head_scripts() {
 /**
  * Private, for use in *_footer_scripts hooks
  *
+ * In classic themes, when block styles are loaded on demand via {@see wp_load_classic_theme_block_styles_on_demand()},
+ * this function is replaced by a closure in {@see wp_hoist_late_printed_styles()} which will capture the output of
+ * {@see print_late_styles()} before printing footer scripts as usual. The captured late-printed styles are then hoisted
+ * to the HEAD by means of the template enhancement output buffer.
+ *
  * @since 3.3.0
  */
 function _wp_footer_scripts() {
@@ -3232,6 +3237,7 @@ function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
  * }
  */
 function wp_enqueue_stored_styles( $options = array() ) {
+	// Note: Styles printed at wp_footer for classic themes may still end up in the head due to wp_load_classic_theme_block_styles_on_demand().
 	$is_block_theme   = wp_is_block_theme();
 	$is_classic_theme = ! $is_block_theme;
 
@@ -3467,6 +3473,153 @@ function wp_remove_surrounding_empty_script_tags( $contents ) {
 			)
 		);
 	}
+}
+
+/**
+ * Adds hooks to load block styles on demand in classic themes.
+ *
+ * @since 6.9.0
+ */
+function wp_load_classic_theme_block_styles_on_demand() {
+	if ( wp_is_block_theme() ) {
+		return;
+	}
+
+	/*
+	 * Make sure that wp_should_output_buffer_template_for_enhancement() returns true even if there aren't any
+	 * `wp_template_enhancement_output_buffer` filters added, but do so at priority zero so that applications which
+	 * wish to stream responses can more easily turn this off.
+	 */
+	add_filter( 'wp_should_output_buffer_template_for_enhancement', '__return_true', 0 );
+
+	if ( ! wp_should_output_buffer_template_for_enhancement() ) {
+		return;
+	}
+
+	/*
+	 * Load separate block styles so that the large block-library stylesheet is not enqueued unconditionally,
+	 * and so that block-specific styles will only be enqueued when they are used on the page.
+	 */
+	add_filter( 'should_load_separate_core_block_assets', '__return_true', 0 );
+
+	// Also ensure that block assets are loaded on demand (although the default value is from should_load_separate_core_block_assets).
+	add_filter( 'should_load_block_assets_on_demand', '__return_true', 0 );
+
+	// Add hooks which require the presence of the output buffer. Ideally the above two filters could be added here, but they run too early.
+	add_action( 'wp_template_enhancement_output_buffer_started', 'wp_hoist_late_printed_styles' );
+}
+
+/**
+ * Adds the hooks needed for CSS output to be delayed until after the content of the page has been established.
+ *
+ * @since 6.9.0
+ *
+ * @see wp_load_classic_theme_block_styles_on_demand()
+ * @see _wp_footer_scripts()
+ */
+function wp_hoist_late_printed_styles() {
+	// Skip the embed template on-demand styles aren't relevant, and there is no wp_head action.
+	if ( is_embed() ) {
+		return;
+	}
+
+	/*
+	 * While normally late styles are printed, there is a filter to disable prevent this, so this makes sure they are
+	 * printed. Note that this filter was intended to control whether to print the styles queued too late for the HTML
+	 * head. This filter was introduced in <https://core.trac.wordpress.org/ticket/9346>. However, with the template
+	 * enhancement output buffer, essentially no style can be enqueued too late, because an output buffer filter can
+	 * always hoist it to the HEAD.
+	 */
+	add_filter( 'print_late_styles', '__return_true', PHP_INT_MAX );
+
+	/*
+	 * Print a placeholder comment where the late styles can be hoisted from the footer to be printed in the header
+	 * by means of a filter below on the template enhancement output buffer.
+	 */
+	$placeholder = sprintf( '/*%s*/', uniqid( 'wp_late_styles_placeholder:' ) );
+
+	wp_add_inline_style( 'wp-block-library', $placeholder );
+
+	// Wrap print_late_styles() with a closure that captures the late-printed styles.
+	$printed_late_styles = '';
+	$capture_late_styles = static function () use ( &$printed_late_styles ) {
+		ob_start();
+		print_late_styles();
+		$printed_late_styles = ob_get_clean();
+	};
+
+	/*
+	 * If _wp_footer_scripts() was unhooked from the wp_print_footer_scripts action, or if wp_print_footer_scripts()
+	 * was unhooked from running at the wp_footer action, then only add a callback to wp_footer which will capture the
+	 * late-printed styles.
+	 *
+	 * Otherwise, in the normal case where _wp_footer_scripts() will run at the wp_print_footer_scripts action, then
+	 * swap out _wp_footer_scripts() with an alternative which captures the printed styles (for hoisting to HEAD) before
+	 * proceeding with printing the footer scripts.
+	 */
+	$wp_print_footer_scripts_priority = has_action( 'wp_print_footer_scripts', '_wp_footer_scripts' );
+	if ( false === $wp_print_footer_scripts_priority || false === has_action( 'wp_footer', 'wp_print_footer_scripts' ) ) {
+		// The normal priority for wp_print_footer_scripts() is to run at 20.
+		add_action( 'wp_footer', $capture_late_styles, 20 );
+	} else {
+		remove_action( 'wp_print_footer_scripts', '_wp_footer_scripts', $wp_print_footer_scripts_priority );
+		add_action(
+			'wp_print_footer_scripts',
+			static function () use ( $capture_late_styles ) {
+				$capture_late_styles();
+				print_footer_scripts();
+			},
+			$wp_print_footer_scripts_priority
+		);
+	}
+
+	// Replace placeholder with the captured late styles.
+	add_filter(
+		'wp_template_enhancement_output_buffer',
+		function ( $buffer ) use ( $placeholder, &$printed_late_styles ) {
+
+			// Anonymous subclass of WP_HTML_Tag_Processor which exposes underlying bookmark spans.
+			$processor = new class( $buffer ) extends WP_HTML_Tag_Processor {
+				public function get_span(): WP_HTML_Span {
+					$instance = $this; // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewClosure.ThisFoundOutsideClass -- It is inside an anonymous class.
+					$instance->set_bookmark( 'here' );
+					return $instance->bookmarks['here'];
+				}
+			};
+
+			// Loop over STYLE tags.
+			while ( $processor->next_tag( array( 'tag_name' => 'STYLE' ) ) ) {
+				// Skip to the next if this is not the inline style for the wp-block-library stylesheet (which contains the placeholder).
+				if ( 'wp-block-library-inline-css' !== $processor->get_attribute( 'id' ) ) {
+					continue;
+				}
+
+				// If the inline style lacks the placeholder comment, then something went wrong and we need to abort.
+				$css_text = $processor->get_modifiable_text();
+				if ( ! str_contains( $css_text, $placeholder ) ) {
+					break;
+				}
+
+				// Remove the placeholder now that we've located the inline style.
+				$processor->set_modifiable_text( str_replace( $placeholder, '', $css_text ) );
+				$buffer = $processor->get_updated_html();
+
+				// Insert the $printed_late_styles immediately after the closing inline STYLE tag. This preserves the CSS cascade.
+				$span   = $processor->get_span();
+				$buffer = implode(
+					'',
+					array(
+						substr( $buffer, 0, $span->start + $span->length ),
+						$printed_late_styles,
+						substr( $buffer, $span->start + $span->length ),
+					)
+				);
+				break;
+			}
+
+			return $buffer;
+		}
+	);
 }
 
 /**
