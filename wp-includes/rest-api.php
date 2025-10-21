@@ -209,12 +209,14 @@ endif;
  * @see rest_api_register_rewrites()
  * @global WP $wp Current WordPress environment instance.
  */
-function rest_api_init() {
-	rest_api_register_rewrites();
+if ( ! function_exists( 'rest_api_init' ) ) :
+	function rest_api_init() {
+		rest_api_register_rewrites();
 
-	global $wp;
-	$wp->add_query_var( 'rest_route' );
-}
+		global $wp;
+		$wp->add_query_var( 'rest_route' );
+	}
+endif;
 
 /**
  * Adds REST rewrite rules.
