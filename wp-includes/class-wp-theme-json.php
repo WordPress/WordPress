@@ -613,24 +613,22 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 * @since 6.1.0 Added `heading`, `button`, and `caption` elements.
-	 * @since 6.9.0 Added `textInput` elements.
 	 * @var string[]
 	 */
 	const ELEMENTS = array(
-		'link'      => 'a:where(:not(.wp-element-button))', // The `where` is needed to lower the specificity.
-		'heading'   => 'h1, h2, h3, h4, h5, h6',
-		'h1'        => 'h1',
-		'h2'        => 'h2',
-		'h3'        => 'h3',
-		'h4'        => 'h4',
-		'h5'        => 'h5',
-		'h6'        => 'h6',
+		'link'    => 'a:where(:not(.wp-element-button))', // The `where` is needed to lower the specificity.
+		'heading' => 'h1, h2, h3, h4, h5, h6',
+		'h1'      => 'h1',
+		'h2'      => 'h2',
+		'h3'      => 'h3',
+		'h4'      => 'h4',
+		'h5'      => 'h5',
+		'h6'      => 'h6',
 		// We have the .wp-block-button__link class so that this will target older buttons that have been serialized.
-		'button'    => '.wp-element-button, .wp-block-button__link',
+		'button'  => '.wp-element-button, .wp-block-button__link',
 		// The block classes are necessary to target older content that won't use the new class names.
-		'caption'   => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
-		'cite'      => 'cite',
-		'textInput' => 'textarea, input:where([type=email],[type=number],[type=password],[type=search],[type=text],[type=tel],[type=url])',
+		'caption' => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
+		'cite'    => 'cite',
 	);
 
 	const __EXPERIMENTAL_ELEMENT_CLASS_NAMES = array(
