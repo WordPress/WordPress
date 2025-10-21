@@ -182,6 +182,7 @@ function register_block_script_module_id( $metadata, $field_name, $index = 0 ) {
 		( isset( $metadata['supports']['interactivity']['interactive'] ) && true === $metadata['supports']['interactivity']['interactive'] )
 	) {
 		$args['fetchpriority'] = 'low';
+		$args['in_footer']     = true;
 	}
 
 	wp_register_script_module(
