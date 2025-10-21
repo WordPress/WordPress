@@ -86,6 +86,14 @@ final class WP_Interactivity_API {
 	private $has_processed_router_region = false;
 
 	/**
+	 * Set of script modules that can be loaded after client-side navigation.
+	 *
+	 * @since 6.9.0
+	 * @var array<string, true>
+	 */
+	private $script_modules_that_can_load_on_client_navigation = array();
+
+	/**
 	 * Stack of namespaces defined by `data-wp-interactive` directives, in
 	 * the order they are processed.
 	 *
@@ -371,10 +379,56 @@ final class WP_Interactivity_API {
 	 * Adds the necessary hooks for the Interactivity API.
 	 *
 	 * @since 6.5.0
+	 * @since 6.9.0 Adds support for client-side navigation in script modules.
 	 */
 	public function add_hooks() {
 		add_filter( 'script_module_data_@wordpress/interactivity', array( $this, 'filter_script_module_interactivity_data' ) );
 		add_filter( 'script_module_data_@wordpress/interactivity-router', array( $this, 'filter_script_module_interactivity_router_data' ) );
+		add_filter( 'wp_script_attributes', array( $this, 'add_load_on_client_navigation_attribute_to_script_modules' ), 10, 1 );
+	}
+
+	/**
+	 * Adds the `data-wp-router-options` attribute to script modules that
+	 * support client-side navigation.
+	 *
+	 * This method filters the script attributes to include loading instructions
+	 * for the Interactivity API router, indicating which modules can be loaded
+	 * during client-side navigation.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param array<string, string|true>|mixed $attributes The script tag attributes.
+	 * @return array The modified script tag attributes.
+	 */
+	public function add_load_on_client_navigation_attribute_to_script_modules( $attributes ) {
+		if (
+			is_array( $attributes ) &&
+			isset( $attributes['type'], $attributes['id'] ) &&
+			'module' === $attributes['type'] &&
+			array_key_exists(
+				preg_replace( '/-js-module$/', '', $attributes['id'] ),
+				$this->script_modules_that_can_load_on_client_navigation
+			)
+		) {
+			$attributes['data-wp-router-options'] = wp_json_encode( array( 'loadOnClientNavigation' => true ) );
+		}
+		return $attributes;
+	}
+
+	/**
+	 * Marks a script module as compatible with client-side navigation.
+	 *
+	 * This method registers a script module to be loaded during client-side
+	 * navigation in the Interactivity API router. Script modules marked with
+	 * this method will have the `loadOnClientNavigation` option enabled in the
+	 * `data-wp-router-options` directive.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param string $script_module_id The script module identifier.
+	 */
+	public function add_client_navigation_support_to_script_module( string $script_module_id ) {
+		$this->script_modules_that_can_load_on_client_navigation[ $script_module_id ] = true;
 	}
 
 	/**
