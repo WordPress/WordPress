@@ -965,7 +965,7 @@
 		wp.a11y.speak( __( 'Plugin dependencies check completed successfully.' ) );
 		$document.trigger( 'wp-check-plugin-dependencies-success', response );
 
-		if ( 'plugins-network' === pagenow ) {
+		if ( 'plugins-network' === pagenow || 'plugin-install-network' === pagenow ) {
 			buttonText = _x( 'Network Activate', 'plugin' );
 			ariaLabel  = sprintf(
 				/* translators: %s: Plugin name. */
