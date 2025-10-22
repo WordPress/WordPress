@@ -5043,7 +5043,7 @@ class WP_Query {
 		}
 
 		// Add a default orderby value of date to ensure same cache key generation.
-		if ( ! isset( $q['orderby'] ) ) {
+		if ( ! isset( $args['orderby'] ) ) {
 			$args['orderby'] = 'date';
 		}
 
