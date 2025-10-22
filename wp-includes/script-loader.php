@@ -2869,7 +2869,7 @@ function wp_enqueue_editor_format_library_assets() {
  * @return string String made of sanitized `<script>` tag attributes.
  */
 function wp_sanitize_script_attributes( $attributes ) {
-	$html5_script_support = ! is_admin() && ! current_theme_supports( 'html5', 'script' );
+	$html5_script_support = is_admin() || current_theme_supports( 'html5', 'script' );
 	$attributes_string    = '';
 
 	/*
@@ -2879,7 +2879,7 @@ function wp_sanitize_script_attributes( $attributes ) {
 	foreach ( $attributes as $attribute_name => $attribute_value ) {
 		if ( is_bool( $attribute_value ) ) {
 			if ( $attribute_value ) {
-				$attributes_string .= $html5_script_support ? sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) ) : ' ' . esc_attr( $attribute_name );
+				$attributes_string .= $html5_script_support ? ' ' . esc_attr( $attribute_name ) : sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_name ) );
 			}
 		} else {
 			$attributes_string .= sprintf( ' %1$s="%2$s"', esc_attr( $attribute_name ), esc_attr( $attribute_value ) );
