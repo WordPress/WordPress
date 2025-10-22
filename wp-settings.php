@@ -35,6 +35,7 @@ require ABSPATH . WPINC . '/version.php';
 require ABSPATH . WPINC . '/compat-utf8.php';
 require ABSPATH . WPINC . '/compat.php';
 require ABSPATH . WPINC . '/load.php';
+require( ABSPATH . WPINC . '/plugin.php' );
 
 // Check the server requirements.
 wp_check_php_mysql_versions();
