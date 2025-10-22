@@ -601,6 +601,7 @@ class WP_Theme_JSON {
 	 * @since 6.1.0
 	 * @since 6.2.0 Added support for ':link' and ':any-link'.
 	 * @since 6.8.0 Added support for ':focus-visible'.
+	 * @since 6.9.0 Added `textInput` and `select` elements.
 	 * @var array
 	 */
 	const VALID_ELEMENT_PSEUDO_SELECTORS = array(
@@ -616,20 +617,21 @@ class WP_Theme_JSON {
 	 * @var string[]
 	 */
 	const ELEMENTS = array(
-		'link'    => 'a:where(:not(.wp-element-button))', // The `where` is needed to lower the specificity.
-		'heading' => 'h1, h2, h3, h4, h5, h6',
-		'h1'      => 'h1',
-		'h2'      => 'h2',
-		'h3'      => 'h3',
-		'h4'      => 'h4',
-		'h5'      => 'h5',
-		'h6'      => 'h6',
+		'link'      => 'a:where(:not(.wp-element-button))', // The `where` is needed to lower the specificity.
+		'heading'   => 'h1, h2, h3, h4, h5, h6',
+		'h1'        => 'h1',
+		'h2'        => 'h2',
+		'h3'        => 'h3',
+		'h4'        => 'h4',
+		'h5'        => 'h5',
+		'h6'        => 'h6',
 		// We have the .wp-block-button__link class so that this will target older buttons that have been serialized.
-		'button'  => '.wp-element-button, .wp-block-button__link',
+		'button'    => '.wp-element-button, .wp-block-button__link',
 		// The block classes are necessary to target older content that won't use the new class names.
-		'caption' => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
-		'cite'    => 'cite',
-		'select'  => 'select',
+		'caption'   => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
+		'cite'      => 'cite',
+		'textInput' => 'textarea, input:where([type=email],[type=number],[type=password],[type=search],[type=text],[type=tel],[type=url])',
+		'select'    => 'select',
 	);
 
 	const __EXPERIMENTAL_ELEMENT_CLASS_NAMES = array(
