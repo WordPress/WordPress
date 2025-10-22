@@ -149,6 +149,7 @@ if ( ! CUSTOM_TAGS ) {
 		'details'    => array(
 			'align' => true,
 			'open'  => true,
+			'name'  => true,
 		),
 		'div'        => array(
 			'align'   => true,
