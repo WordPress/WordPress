@@ -401,6 +401,31 @@ class WP_Ability {
 	}
 
 	/**
+	 * Normalizes the input for the ability, applying the default value from the input schema when needed.
+	 *
+	 * When no input is provided and the input schema is defined with a top-level `default` key, this method returns
+	 * the value of that key. If the input schema does not define a `default`, or if the input schema is empty,
+	 * this method returns null. If input is provided, it is returned as-is.
+	 *
+	 * @since 6.9.0
+	 *
+	 * @param mixed $input Optional. The raw input provided for the ability. Default `null`.
+	 * @return mixed The same input, or the default from schema, or `null` if default not set.
+	 */
+	public function normalize_input( $input = null ) {
+		if ( null !== $input ) {
+			return $input;
+		}
+
+		$input_schema = $this->get_input_schema();
+		if ( ! empty( $input_schema ) && array_key_exists( 'default', $input_schema ) ) {
+			return $input_schema['default'];
+		}
+
+		return null;
+	}
+
+	/**
 	 * Validates input data against the input schema.
 	 *
 	 * @since 6.9.0
@@ -536,6 +561,7 @@ class WP_Ability {
 	 * @return mixed|WP_Error The result of the ability execution, or WP_Error on failure.
 	 */
 	public function execute( $input = null ) {
+		$input    = $this->normalize_input( $input );
 		$is_valid = $this->validate_input( $input );
 		if ( is_wp_error( $is_valid ) ) {
 			return $is_valid;

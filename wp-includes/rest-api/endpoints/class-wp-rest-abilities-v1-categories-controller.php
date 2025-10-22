@@ -93,7 +93,7 @@ class WP_REST_Abilities_V1_Categories_Controller extends WP_REST_Controller {
 		$offset   = ( $page - 1 ) * $per_page;
 
 		$total_categories = count( $categories );
-		$max_pages        = ceil( $total_categories / $per_page );
+		$max_pages        = (int) ceil( $total_categories / $per_page );
 
 		if ( $request->get_method() === 'HEAD' ) {
 			$response = new WP_REST_Response( array() );

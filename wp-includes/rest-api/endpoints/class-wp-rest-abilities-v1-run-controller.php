@@ -159,6 +159,7 @@ class WP_REST_Abilities_V1_Run_Controller extends WP_REST_Controller {
 		}
 
 		$input    = $this->get_input_from_request( $request );
+		$input    = $ability->normalize_input( $input );
 		$is_valid = $ability->validate_input( $input );
 		if ( is_wp_error( $is_valid ) ) {
 			$is_valid->add_data( array( 'status' => 400 ) );
