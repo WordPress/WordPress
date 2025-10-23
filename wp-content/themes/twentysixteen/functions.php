@@ -246,6 +246,13 @@ add_action( 'after_setup_theme', 'twentysixteen_setup' );
  * @since Twenty Sixteen 1.0
  */
 function twentysixteen_content_width() {
+	/**
+	 * Filters Twenty Sixteen content width of the theme.
+	 *
+	 * @since Twenty Sixteen 1.0
+	 *
+	 * @param int $content_width Content width in pixels.
+	 */
 	$GLOBALS['content_width'] = apply_filters( 'twentysixteen_content_width', 840 );
 }
 add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
