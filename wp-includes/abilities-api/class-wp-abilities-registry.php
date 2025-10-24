@@ -121,8 +121,7 @@ final class WP_Abilities_Registry {
 
 		// Validate ability category exists if provided (will be validated as required in WP_Ability).
 		if ( isset( $args['category'] ) ) {
-			$category_registry = WP_Ability_Categories_Registry::get_instance();
-			if ( ! $category_registry->is_registered( $args['category'] ) ) {
+			if ( ! wp_has_ability_category( $args['category'] ) ) {
 				_doing_it_wrong(
 					__METHOD__,
 					sprintf(
