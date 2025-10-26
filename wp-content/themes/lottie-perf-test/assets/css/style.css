@@ -1,4 +1,4 @@
-/* Main Styles - Tipalti Finance AI Replica */
+/* Main Styles - Tipalti Finance AI Replica - Enhanced Performance */
 
 :root {
   --primary-color: #0066cc;
@@ -12,6 +12,121 @@
   --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  
+  /* Performance Mode Colors */
+  --mode-global: #dc267f;
+  --mode-defer: #ffc107;
+  --mode-lazy: #28a745;
+  --mode-canvas: #007bff;
+}
+
+/* Enhanced Loading States for All Modes */
+.lottie-loading-placeholder,
+.lottie-defer-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-spinner,
+.defer-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e3e3e3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text,
+.defer-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.error-text {
+    color: #d63638;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Canvas Mode Specific Styles */
+.canvas-loading {
+    opacity: 0.7;
+    filter: blur(1px);
+    transition: all 0.3s ease;
+}
+
+.canvas-ready {
+    opacity: 1;
+    filter: none;
+}
+
+.canvas-error {
+    border: 2px dashed #d63638;
+    background-color: #fcf0f1;
+}
+
+.canvas-timeout {
+    border: 2px dashed #f0b849;
+    background-color: #fef8e7;
+}
+
+/* Performance Mode Indicators */
+.performance-mode-indicator {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.performance-mode-indicator.global { background: rgba(220, 38, 127, 0.8); }
+.performance-mode-indicator.defer { background: rgba(255, 193, 7, 0.8); }
+.performance-mode-indicator.lazy { background: rgba(40, 167, 69, 0.8); }
+.performance-mode-indicator.canvas { background: rgba(0, 123, 255, 0.8); }
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .lottie-loading-placeholder,
+    .lottie-defer-placeholder {
+        min-height: 200px;
+        margin: 10px 0;
+    }
+    
+    .loading-spinner,
+    .defer-spinner {
+        width: 30px;
+        height: 30px;
+        border-width: 3px;
+    }
+    
+    .loading-text,
+    .defer-text {
+        font-size: 12px;
+    }
 }
 
 /* Layout */

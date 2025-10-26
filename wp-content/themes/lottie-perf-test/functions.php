@@ -27,27 +27,66 @@ function lottie_perf_test_setup() {
 }
 add_action('after_setup_theme', 'lottie_perf_test_setup');
 
-// Enqueue scripts and styles
+// Enhanced Lottie Performance Optimization Scripts
 function lottie_perf_test_scripts() {
     // Get current page template
     $template = get_page_template_slug();
     
-    // Enqueue main stylesheet
-    wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
-    wp_enqueue_style('lottie-perf-test-style', get_template_directory_uri() . '/assets/css/style.css', array('lottie-perf-test-reset'), '1.0.0');
+    // Only load Lottie-related scripts on Lottie pages (Conditional Enqueueing)
+    $lottie_templates = array('page-global.php', 'page-defer.php', 'page-lazy.php', 'page-canvas.php', 'page-home.php');
     
-    // Enqueue scripts based on page template
-    if ($template === 'page-global.php') {
-        wp_enqueue_script('lottie-global', get_template_directory_uri() . '/assets/js/lottie-global.js', array(), '1.0.0', true);
-    } elseif ($template === 'page-defer.php') {
-        wp_enqueue_script('lottie-defer', get_template_directory_uri() . '/assets/js/lottie-defer.js', array(), '1.0.0', true);
-    } elseif ($template === 'page-lazy.php') {
-        wp_enqueue_script('lottie-lazy', get_template_directory_uri() . '/assets/js/lottie-lazy.js', array(), '1.0.0', true);
-    } elseif ($template === 'page-canvas.php') {
-        wp_enqueue_script('lottie-canvas', get_template_directory_uri() . '/assets/js/lottie-canvas.js', array(), '1.0.0', true);
+    if (in_array($template, $lottie_templates)) {
+        // Enqueue main stylesheet
+        wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
+        wp_enqueue_style('lottie-perf-test-style', get_template_directory_uri() . '/assets/css/style.css', array('lottie-perf-test-reset'), '1.0.0');
+        
+        // Strategy 1: Local Lottie Player with Defer/Async
+        if ($template === 'page-global.php') {
+            // Global CDN mode - load in head (baseline)
+            wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, false);
+            wp_enqueue_script('lottie-global', get_template_directory_uri() . '/assets/js/lottie-global.js', array('dotlottie-player-cdn'), '1.0.0', true);
+        } elseif ($template === 'page-defer.php') {
+            // Local player with defer
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-defer', get_template_directory_uri() . '/assets/js/lottie-defer.js', array('dotlottie-player-local'), '1.0.0', true);
+        } elseif ($template === 'page-lazy.php') {
+            // Local player with async + lazy loading
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'async', true);
+            wp_enqueue_script('lottie-lazy', get_template_directory_uri() . '/assets/js/lottie-lazy.js', array('dotlottie-player-local'), '1.0.0', true);
+        } elseif ($template === 'page-canvas.php') {
+            // Local player with canvas renderer
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-canvas', get_template_directory_uri() . '/assets/js/lottie-canvas.js', array('dotlottie-player-local'), '1.0.0', true);
+        } elseif ($template === 'page-home.php') {
+            // Home page - minimal loading
+            wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
+            wp_enqueue_style('lottie-perf-test-style', get_template_directory_uri() . '/assets/css/style.css', array('lottie-perf-test-reset'), '1.0.0');
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'lottie_perf_test_scripts');
+
+// Strategy 5: Local Hosting with Long-term Caching
+function lottie_perf_test_add_caching_headers() {
+    // Only apply to Lottie files
+    if (strpos($_SERVER['REQUEST_URI'], '.lottie') !== false || 
+        strpos($_SERVER['REQUEST_URI'], 'dotlottie-player.min.js') !== false) {
+        
+        // Set long-term caching headers
+        header('Cache-Control: public, max-age=31536000, immutable'); // 1 year
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
+        header('ETag: "' . md5_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']) . '"');
+        
+        // Enable compression
+        if (extension_loaded('zlib') && !ob_get_level()) {
+            ob_start('ob_gzhandler');
+        }
+    }
+}
+add_action('init', 'lottie_perf_test_add_caching_headers');
 
 // Add Lottie player script to head for global mode
 function lottie_perf_test_head_scripts() {
