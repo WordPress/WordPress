@@ -1939,8 +1939,8 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 		$where .= " AND p.post_status = 'publish'";
 	}
 
-	$op    = $previous ? '<' : '>';
-	$order = $previous ? 'DESC' : 'ASC';
+	$comparison_operator = $previous ? '<' : '>';
+	$order               = $previous ? 'DESC' : 'ASC';
 
 	/**
 	 * Filters the JOIN clause in the SQL for an adjacent post query.
@@ -1964,6 +1964,9 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 */
 	$join = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_term, $excluded_terms, $taxonomy, $post );
 
+	// Prepare the where clause for the adjacent post query.
+	$where_prepared = $wpdb->prepare( "WHERE (p.post_date $comparison_operator %s OR (p.post_date = %s AND p.ID $comparison_operator %d)) AND p.post_type = %s $where", $current_post_date, $current_post_date, $post->ID, $post->post_type ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $comparison_operator is a string literal, either '<' or '>'.
+
 	/**
 	 * Filters the WHERE clause in the SQL for an adjacent post query.
 	 *
@@ -1977,6 +1980,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$taxonomy` and `$post` parameters.
+	 * @since 6.9.0 Adds ID-based fallback for posts with identical dates in adjacent post queries.
 	 *
 	 * @param string       $where          The `WHERE` clause in the SQL.
 	 * @param bool         $in_same_term   Whether post should be in the same taxonomy term.
@@ -1984,7 +1988,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @param string       $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
 	 * @param WP_Post      $post           WP_Post object.
 	 */
-	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms, $taxonomy, $post );
+	$where = apply_filters( "get_{$adjacent}_post_where", $where_prepared, $in_same_term, $excluded_terms, $taxonomy, $post );
 
 	/**
 	 * Filters the ORDER BY clause in the SQL for an adjacent post query.
@@ -2000,12 +2004,13 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$post` parameter.
 	 * @since 4.9.0 Added the `$order` parameter.
+	 * @since 6.9.0 Adds ID sort to ensure deterministic ordering for posts with identical dates.
 	 *
 	 * @param string $order_by The `ORDER BY` clause in the SQL.
 	 * @param WP_Post $post    WP_Post object.
 	 * @param string  $order   Sort order. 'DESC' for previous post, 'ASC' for next.
 	 */
-	$sort = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1", $post, $order );
+	$sort = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order, p.ID $order LIMIT 1", $post, $order );
 
 	$query        = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort";
 	$key          = md5( $query );
