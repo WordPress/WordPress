@@ -56,10 +56,10 @@ function lottie_perf_test_scripts() {
             wp_script_add_data('dotlottie-player-local', 'async', true);
             wp_enqueue_script('lottie-lazy', get_template_directory_uri() . '/assets/js/lottie-lazy.js', array('dotlottie-player-local'), '1.0.0', true);
         } elseif ($template === 'page-canvas.php') {
-            // Local player with canvas renderer
+            // Local player with canvas renderer - OPTIMIZED
             wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
             wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-canvas', get_template_directory_uri() . '/assets/js/lottie-canvas.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-canvas-optimized', get_template_directory_uri() . '/assets/js/lottie-canvas-optimized.js', array('dotlottie-player-local'), '1.0.0', true);
         } elseif ($template === 'page-home.php') {
             // Home page - minimal loading
             wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
@@ -87,6 +87,22 @@ function lottie_perf_test_add_caching_headers() {
     }
 }
 add_action('init', 'lottie_perf_test_add_caching_headers');
+
+// Add performance optimizations
+function lottie_perf_test_performance_optimizations() {
+    // Add preconnect hints for external resources
+    echo '<link rel="preconnect" href="https://unpkg.com" crossorigin>';
+    echo '<link rel="dns-prefetch" href="https://unpkg.com">';
+    
+    // Add compression headers
+    if (!headers_sent()) {
+        header('Vary: Accept-Encoding');
+        if (extension_loaded('zlib') && !ob_get_level()) {
+            ob_start('ob_gzhandler');
+        }
+    }
+}
+add_action('wp_head', 'lottie_perf_test_performance_optimizations', 1);
 
 // Fix WordPress Lottie file support
 function lottie_perf_test_add_lottie_support($mimes) {
