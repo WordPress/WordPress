@@ -56,10 +56,9 @@ function lottie_perf_test_scripts() {
             wp_script_add_data('dotlottie-player-local', 'async', true);
             wp_enqueue_script('lottie-lazy', get_template_directory_uri() . '/assets/js/lottie-lazy.js', array('dotlottie-player-local'), '1.0.0', true);
         } elseif ($template === 'page-canvas.php') {
-            // Local player with canvas renderer - OPTIMIZED
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-canvas-optimized', get_template_directory_uri() . '/assets/js/lottie-canvas-optimized.js', array('dotlottie-player-local'), '1.0.0', true);
+            // Canvas renderer - Use CDN (like original Tipalti) with canvas optimization
+            wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, false);
+            wp_enqueue_script('lottie-canvas-independent', get_template_directory_uri() . '/assets/js/lottie-canvas-independent.js', array('dotlottie-player-cdn'), '1.0.0', true);
         } elseif ($template === 'page-home.php') {
             // Home page - minimal loading
             wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
