@@ -449,7 +449,19 @@ function wp_login_url( $redirect = '', $force_reauth = false ) {
         $query_arg = wp_admin_login_slug_query_arg();
 
         if ( '' !== get_option( 'permalink_structure' ) ) {
-                $login_url = home_url( trailingslashit( $slug ) );
+                global $wp_rewrite;
+
+                $path = ltrim( trailingslashit( $slug ), '/' );
+
+                if ( $wp_rewrite instanceof WP_Rewrite && $wp_rewrite->using_index_permalinks() ) {
+                        $front = trim( $wp_rewrite->front, '/' );
+
+                        if ( '' !== $front ) {
+                                $path = $front . '/' . $path;
+                        }
+                }
+
+                $login_url = home_url( $path );
         } else {
                 $login_url = add_query_arg( $query_arg, $slug, site_url( 'wp-login.php', 'login' ) );
         }
@@ -513,6 +525,20 @@ function wp_maybe_redirect_admin_login_slug() {
         }
 
         $request_path = trim( $request_path, '/' );
+
+        global $wp_rewrite;
+
+        if ( $wp_rewrite instanceof WP_Rewrite && $wp_rewrite->using_index_permalinks() ) {
+                $front = trim( $wp_rewrite->front, '/' );
+
+                if ( '' !== $front && str_starts_with( $request_path, $front ) ) {
+                        $stripped_request_path = substr( $request_path, strlen( $front ) );
+
+                        if ( false !== $stripped_request_path ) {
+                                $request_path = ltrim( $stripped_request_path, '/' );
+                        }
+                }
+        }
 
         if ( $request_path !== $slug ) {
                 return;
