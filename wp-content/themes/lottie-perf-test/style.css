@@ -1,0 +1,192 @@
+/*
+Theme Name: Lottie Performance Test
+Description: Tipalti Finance AI replica with 4 Lottie integration strategies for performance testing
+Version: 1.0.0
+Author: Performance Test Team
+Text Domain: lottie-perf-test
+*/
+
+/* Import our custom styles */
+@import url('./assets/css/reset.css');
+@import url('./assets/css/style.css');
+
+/* WordPress-specific overrides */
+.wp-admin-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+body.admin-bar header {
+    margin-top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar header {
+        margin-top: 46px;
+    }
+}
+
+/* WordPress content styling */
+.wp-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* WordPress navigation styling */
+.wp-nav-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.wp-nav-menu a {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.wp-nav-menu a:hover {
+    color: var(--primary-color);
+}
+
+/* WordPress widget areas */
+.widget-area {
+    background: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.widget-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+/* WordPress comments */
+.comments-area {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.comment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.comment {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--secondary-color);
+    border-radius: 8px;
+}
+
+.comment-author {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.comment-meta {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.comment-content {
+    line-height: 1.6;
+}
+
+/* WordPress pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 3rem 0;
+}
+
+.pagination a,
+.pagination span {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pagination a:hover,
+.pagination .current {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* WordPress search form */
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0;
+}
+
+.search-form input[type="search"] {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.search-form input[type="submit"] {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-form input[type="submit"]:hover {
+    background: var(--primary-dark);
+}
+
+/* WordPress error messages */
+.wp-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.wp-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+/* WordPress login/logout links */
+.wp-login-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.wp-login-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.wp-login-links a:hover {
+    color: var(--primary-color);
+}
