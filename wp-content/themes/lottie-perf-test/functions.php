@@ -46,15 +46,13 @@ function lottie_perf_test_scripts() {
             wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, false);
             wp_enqueue_script('lottie-global', get_template_directory_uri() . '/assets/js/lottie-global.js', array('dotlottie-player-cdn'), '1.0.0', true);
         } elseif ($template === 'page-defer.php') {
-            // Local player with defer
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-defer', get_template_directory_uri() . '/assets/js/lottie-defer.js', array('dotlottie-player-local'), '1.0.0', true);
+            // CDN player with defer optimization
+            wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, true);
+            wp_script_add_data('dotlottie-player-cdn', 'defer', true);
+            wp_enqueue_script('lottie-defer', get_template_directory_uri() . '/assets/js/lottie-defer.js', array('dotlottie-player-cdn'), '1.0.0', true);
         } elseif ($template === 'page-lazy.php') {
-            // Local player with async + lazy loading
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'async', true);
-            wp_enqueue_script('lottie-lazy', get_template_directory_uri() . '/assets/js/lottie-lazy.js', array('dotlottie-player-local'), '1.0.0', true);
+            // Optimized lazy loading - no CDN dependency, loads on demand
+            wp_enqueue_script('lottie-lazy-optimized', get_template_directory_uri() . '/assets/js/lottie-lazy-optimized.js', array(), '1.0.0', true);
         } elseif ($template === 'page-canvas.php') {
             // Canvas renderer - Use CDN (like original Tipalti) with canvas optimization
             wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, false);
@@ -87,20 +85,21 @@ function lottie_perf_test_add_caching_headers() {
 }
 add_action('init', 'lottie_perf_test_add_caching_headers');
 
-// Add performance optimizations
-function lottie_perf_test_performance_optimizations() {
-    // Add preconnect hints for external resources
-    echo '<link rel="preconnect" href="https://unpkg.com" crossorigin>';
-    echo '<link rel="dns-prefetch" href="https://unpkg.com">';
-    
-    // Add compression headers
-    if (!headers_sent()) {
-        header('Vary: Accept-Encoding');
-        if (extension_loaded('zlib') && !ob_get_level()) {
-            ob_start('ob_gzhandler');
+    // Add performance optimizations
+    function lottie_perf_test_performance_optimizations() {
+        // Add preconnect hints for external resources
+        echo '<link rel="preconnect" href="https://unpkg.com" crossorigin>';
+        echo '<link rel="dns-prefetch" href="https://unpkg.com">';
+        
+        // Add compression headers
+        if (!headers_sent()) {
+            header('Vary: Accept-Encoding');
+            header('Cache-Control: public, max-age=3600'); // 1 hour cache
+            if (extension_loaded('zlib') && !ob_get_level()) {
+                ob_start('ob_gzhandler');
+            }
         }
     }
-}
 add_action('wp_head', 'lottie_perf_test_performance_optimizations', 1);
 
 // Fix WordPress Lottie file support
