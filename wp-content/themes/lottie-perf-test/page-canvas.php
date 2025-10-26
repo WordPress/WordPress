@@ -53,7 +53,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 300px; height: 300px;">
                     </dotlottie-player>
                 </div>
@@ -66,7 +66,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 300px; height: 300px;">
                     </dotlottie-player>
                 </div>
@@ -79,7 +79,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-request-agent.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 300px; height: 300px;">
                     </dotlottie-player>
                 </div>
@@ -102,7 +102,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-1.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 400px; height: 300px;">
                     </dotlottie-player>
                 </div>
@@ -144,7 +144,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 300px; height: 200px;">
                     </dotlottie-player>
                 </div>
@@ -157,7 +157,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/approval-chains-and-audit-trail.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 300px; height: 200px;">
                     </dotlottie-player>
                 </div>
@@ -178,7 +178,7 @@ get_header(); ?>
                 <dotlottie-player 
                     src="<?php echo get_template_directory_uri(); ?>/assets/lottie/two-and-three-way-po-matching.lottie" 
                     autoplay loop 
-                    renderer="svg" 
+                    renderer="canvas" 
                     style="width: 400px; height: 300px;">
                 </dotlottie-player>
             </div>
@@ -201,7 +201,7 @@ get_header(); ?>
                 <dotlottie-player 
                     src="<?php echo get_template_directory_uri(); ?>/assets/lottie/erp-sync-resolution-agent.lottie" 
                     autoplay loop 
-                    renderer="svg" 
+                    renderer="canvas" 
                     style="width: 300px; height: 300px;">
                 </dotlottie-player>
             </div>
@@ -270,7 +270,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/scan-expenses-receipt-agent.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 200px; height: 150px;">
                     </dotlottie-player>
                 </div>
@@ -288,7 +288,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-2.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 200px; height: 150px;">
                     </dotlottie-player>
                 </div>
@@ -306,7 +306,7 @@ get_header(); ?>
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-matching-agent.lottie" 
                         autoplay loop 
-                        renderer="svg" 
+                        renderer="canvas" 
                         style="width: 200px; height: 150px;">
                     </dotlottie-player>
                 </div>
