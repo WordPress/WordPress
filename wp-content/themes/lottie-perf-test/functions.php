@@ -162,6 +162,23 @@ add_action('admin_menu', 'lottie_perf_test_admin_menu');
 // Include Lottie content functionality
 require_once get_template_directory() . '/lottie-content.php';
 
+// Fix Wasmer admin access
+function fix_wasmer_admin_access() {
+    // Remove Wasmer magic login redirects
+    remove_action('init', 'wasmer_magic_login');
+    remove_action('wp_ajax_wasmer_magic_login', 'wasmer_magic_login_handler');
+    remove_action('wp_ajax_nopriv_wasmer_magic_login', 'wasmer_magic_login_handler');
+    
+    // Ensure standard WordPress login works
+    if (is_admin() && !is_user_logged_in()) {
+        // Allow access to wp-login.php
+        if (strpos($_SERVER['REQUEST_URI'], 'wp-login.php') !== false) {
+            return;
+        }
+    }
+}
+add_action('init', 'fix_wasmer_admin_access', 1);
+
 function lottie_perf_test_dashboard() {
     $tests = get_posts(array(
         'post_type' => 'performance_test',

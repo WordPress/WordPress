@@ -106,8 +106,16 @@ define( 'WP_DEBUG_DISPLAY', false );
 // Force standard WordPress login
 define( 'FORCE_SSL_ADMIN', false );
 
-// Disable custom authentication that might conflict with Wasmer
-remove_action( 'init', 'wasmer_magic_login' );
+// Disable Wasmer magic login system
+define( 'DISALLOW_FILE_EDIT', false );
+define( 'WP_ALLOW_REPAIR', true );
+
+// Remove Wasmer authentication hooks
+if (function_exists('remove_action')) {
+    remove_action( 'init', 'wasmer_magic_login' );
+    remove_action( 'wp_ajax_wasmer_magic_login', 'wasmer_magic_login_handler' );
+    remove_action( 'wp_ajax_nopriv_wasmer_magic_login', 'wasmer_magic_login_handler' );
+}
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
