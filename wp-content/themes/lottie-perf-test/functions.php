@@ -88,6 +88,25 @@ function lottie_perf_test_add_caching_headers() {
 }
 add_action('init', 'lottie_perf_test_add_caching_headers');
 
+// Fix WordPress Lottie file support
+function lottie_perf_test_add_lottie_support($mimes) {
+    $mimes['lottie'] = 'application/json';
+    $mimes['dotlottie'] = 'application/json';
+    return $mimes;
+}
+add_filter('upload_mimes', 'lottie_perf_test_add_lottie_support');
+
+// Allow Lottie files in uploads
+function lottie_perf_test_allow_lottie_uploads($file) {
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    if ($ext === 'lottie' || $ext === 'dotlottie') {
+        $file['type'] = 'application/json';
+        $file['ext'] = $ext;
+    }
+    return $file;
+}
+add_filter('wp_handle_upload_prefilter', 'lottie_perf_test_allow_lottie_uploads');
+
 // Add Lottie player script to head for global mode
 function lottie_perf_test_head_scripts() {
     $template = get_page_template_slug();
