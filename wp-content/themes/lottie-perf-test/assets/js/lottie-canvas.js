@@ -40,7 +40,7 @@ class LottieCanvasRenderer {
     }
 
     configurePlayer(player, index) {
-        // Set canvas renderer for better mobile performance
+        // Force canvas renderer for better mobile performance
         player.setAttribute('renderer', 'canvas');
         
         // Mobile-specific optimizations

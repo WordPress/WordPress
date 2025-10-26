@@ -36,9 +36,9 @@ function lottie_perf_test_scripts() {
     $lottie_templates = array('page-global.php', 'page-defer.php', 'page-lazy.php', 'page-canvas.php', 'page-home.php');
     
     if (in_array($template, $lottie_templates)) {
-        // Enqueue main stylesheet
+        // Enqueue main stylesheets
         wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
-        wp_enqueue_style('lottie-perf-test-style', get_template_directory_uri() . '/assets/css/style.css', array('lottie-perf-test-reset'), '1.0.0');
+        wp_enqueue_style('lottie-perf-test-tipalti', get_template_directory_uri() . '/assets/css/tipalti-styles.css', array('lottie-perf-test-reset'), '1.0.0');
         
         // Strategy 1: Local Lottie Player with Defer/Async
         if ($template === 'page-global.php') {
