@@ -106,9 +106,6 @@ define( 'WP_DEBUG_DISPLAY', false );
 // Force standard WordPress login
 define( 'FORCE_SSL_ADMIN', false );
 
-// Disable Wasmer magic login system
-define( 'DISALLOW_FILE_EDIT', false );
-define( 'WP_ALLOW_REPAIR', true );
 
 // Remove Wasmer authentication hooks
 if (function_exists('remove_action')) {
