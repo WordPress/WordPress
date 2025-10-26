@@ -159,6 +159,9 @@ function lottie_perf_test_admin_menu() {
 }
 add_action('admin_menu', 'lottie_perf_test_admin_menu');
 
+// Include Lottie content functionality
+require_once get_template_directory() . '/lottie-content.php';
+
 function lottie_perf_test_dashboard() {
     $tests = get_posts(array(
         'post_type' => 'performance_test',
