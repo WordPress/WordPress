@@ -274,7 +274,7 @@ function wp_register_ability( string $name, array $args ): ?WP_Ability {
 			__FUNCTION__,
 			sprintf(
 				/* translators: 1: wp_abilities_api_init, 2: string value of the ability name. */
-				esc_html__( 'Abilities must be registered on the %1$s action. The ability %2$s was not registered.' ),
+				__( 'Abilities must be registered on the %1$s action. The ability %2$s was not registered.' ),
 				'<code>wp_abilities_api_init</code>',
 				'<code>' . esc_html( $name ) . '</code>'
 			),

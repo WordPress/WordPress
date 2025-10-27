@@ -205,7 +205,9 @@ final class WP_Ability_Categories_Registry {
 			_doing_it_wrong(
 				__METHOD__,
 				sprintf(
-					__( 'Ability API should not be initialized before the <code>init</code> action has fired' )
+					// translators: %s: init action.
+					__( 'Ability API should not be initialized before the %s action has fired.' ),
+					'<code>init</code>'
 				),
 				'6.9.0'
 			);
@@ -249,6 +251,6 @@ final class WP_Ability_Categories_Registry {
 	 *                        This is a security hardening measure to prevent serialization of the registry.
 	 */
 	public function __sleep(): array {
-		throw new LogicException( __CLASS__ . ' should never be serialized' );
+		throw new LogicException( __CLASS__ . ' should never be serialized.' );
 	}
 }
