@@ -79,7 +79,7 @@ function wp_register_core_abilities(): void {
 			'description' => __( 'The WordPress version.' ),
 		),
 	);
-	$site_info_fields = array_keys( $site_info_properties );
+	$site_info_fields     = array_keys( $site_info_properties );
 
 	wp_register_ability(
 		'core/get-site-info',
