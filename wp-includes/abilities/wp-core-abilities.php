@@ -8,6 +8,7 @@
  */
 
 declare( strict_types = 1 );
+
 /**
  * Registers the core ability categories.
  *
@@ -44,16 +45,41 @@ function wp_register_core_abilities(): void {
 	$category_site = 'site';
 	$category_user = 'user';
 
-	$site_info_fields = array(
-		'name',
-		'description',
-		'url',
-		'wpurl',
-		'admin_email',
-		'charset',
-		'language',
-		'version',
+	$site_info_properties = array(
+		'name'        => array(
+			'type'        => 'string',
+			'description' => __( 'The site title.' ),
+		),
+		'description' => array(
+			'type'        => 'string',
+			'description' => __( 'The site tagline.' ),
+		),
+		'url'         => array(
+			'type'        => 'string',
+			'description' => __( 'The site home URL.' ),
+		),
+		'wpurl'       => array(
+			'type'        => 'string',
+			'description' => __( 'The WordPress installation URL.' ),
+		),
+		'admin_email' => array(
+			'type'        => 'string',
+			'description' => __( 'The site administrator email address.' ),
+		),
+		'charset'     => array(
+			'type'        => 'string',
+			'description' => __( 'The site character encoding.' ),
+		),
+		'language'    => array(
+			'type'        => 'string',
+			'description' => __( 'The site language locale code.' ),
+		),
+		'version'     => array(
+			'type'        => 'string',
+			'description' => __( 'The WordPress version.' ),
+		),
 	);
+	$site_info_fields = array_keys( $site_info_properties );
 
 	wp_register_ability(
 		'core/get-site-info',
@@ -78,40 +104,7 @@ function wp_register_core_abilities(): void {
 			),
 			'output_schema'       => array(
 				'type'                 => 'object',
-				'properties'           => array(
-					'name'        => array(
-						'type'        => 'string',
-						'description' => __( 'The site title.' ),
-					),
-					'description' => array(
-						'type'        => 'string',
-						'description' => __( 'The site tagline.' ),
-					),
-					'url'         => array(
-						'type'        => 'string',
-						'description' => __( 'The site home URL.' ),
-					),
-					'wpurl'       => array(
-						'type'        => 'string',
-						'description' => __( 'The WordPress installation URL.' ),
-					),
-					'admin_email' => array(
-						'type'        => 'string',
-						'description' => __( 'The site administrator email address.' ),
-					),
-					'charset'     => array(
-						'type'        => 'string',
-						'description' => __( 'The site character encoding.' ),
-					),
-					'language'    => array(
-						'type'        => 'string',
-						'description' => __( 'The site language locale code.' ),
-					),
-					'version'     => array(
-						'type'        => 'string',
-						'description' => __( 'The WordPress version.' ),
-					),
-				),
+				'properties'           => $site_info_properties,
 				'additionalProperties' => false,
 			),
 			'execute_callback'    => static function ( $input = array() ) use ( $site_info_fields ): array {

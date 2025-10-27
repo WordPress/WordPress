@@ -290,7 +290,7 @@ require ABSPATH . WPINC . '/abilities-api/class-wp-ability-categories-registry.p
 require ABSPATH . WPINC . '/abilities-api/class-wp-ability.php';
 require ABSPATH . WPINC . '/abilities-api/class-wp-abilities-registry.php';
 require ABSPATH . WPINC . '/abilities-api.php';
-require ABSPATH . WPINC . '/abilities/wp-core-abilities.php';
+require ABSPATH . WPINC . '/abilities.php';
 require ABSPATH . WPINC . '/rest-api.php';
 require ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php';
 require ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php';
