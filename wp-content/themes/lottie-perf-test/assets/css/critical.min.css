@@ -1,0 +1,182 @@
+/* Critical CSS - Above the Fold Styles */
+/* Inline this CSS in <head> for immediate rendering */
+
+/* CSS Reset - Essential */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* CSS Variables - Essential */
+:root {
+  --tipalti-blue: #0066cc;
+  --tipalti-yellow: #ffc107;
+  --tipalti-dark: #1a1a1a;
+  --tipalti-gray: #666666;
+  --tipalti-light-gray: #f8f9fa;
+  --tipalti-border: #e1e5e9;
+  --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-xxl: 64px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Layout - Essential */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+}
+
+/* Performance Mode Indicator - Critical for above fold */
+.performance-mode-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.performance-mode-indicator.global { background: rgba(220, 38, 127, 0.8); }
+.performance-mode-indicator.defer { background: rgba(255, 193, 7, 0.8); }
+.performance-mode-indicator.lazy { background: rgba(40, 167, 69, 0.8); }
+.performance-mode-indicator.canvas { background: rgba(0, 123, 255, 0.8); }
+
+/* Hero Section - Critical Above the Fold */
+.hero-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: white;
+  padding: var(--spacing-xxl) 0;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.2;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons - Critical for CTA */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  font-size: 16px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--tipalti-yellow);
+  color: var(--tipalti-dark);
+}
+
+.btn-primary:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--tipalti-dark);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Responsive - Critical */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .performance-mode-indicator {
+    top: 5px;
+    right: 5px;
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+}
+
+/* Focus styles - Accessibility */
+*:focus {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
