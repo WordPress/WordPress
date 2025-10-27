@@ -94,16 +94,8 @@ wp-content/themes/lottie-perf-test/
 1. Upload the `lottie-perf-test` theme to your WordPress themes directory
 2. Activate the theme in WordPress admin
 
-### 2. Download the Local Player File
-The `dotlottie-player.min.js` file is currently a placeholder. You need to download the actual file:
-
-```bash
-# Navigate to the theme's assets/js directory
-cd wp-content/themes/lottie-perf-test/assets/js/
-
-# Download the actual dotlottie player (replace with correct URL)
-curl -o dotlottie-player.min.js https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.min.js
-```
+### 2. Local Player File Ready
+The `dotlottie-player.min.js` file is already available and contains the complete dotlottie player implementation from unpkg. No additional download is needed.
 
 ### 3. Create Test Pages
 Create WordPress pages using each template:
