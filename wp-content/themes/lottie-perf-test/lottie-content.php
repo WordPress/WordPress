@@ -104,8 +104,8 @@ function lottie_shortcode($atts) {
 }
 add_shortcode('lottie', 'lottie_shortcode');
 
-// Add Lottie player script to head
-function enqueue_lottie_player() {
-    echo '<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>';
-}
+// // Add Lottie player script to head
+// function enqueue_lottie_player() {
+//     echo '<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>';
+// }
 add_action('wp_head', 'enqueue_lottie_player');
