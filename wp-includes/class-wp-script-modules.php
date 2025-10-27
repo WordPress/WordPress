@@ -398,7 +398,7 @@ class WP_Script_Modules {
 				! $this->registered[ $id ]['in_footer']
 			) {
 				// If any dependency is set to be printed in footer, skip printing this module in head.
-				$dependencies = $this->get_dependencies( array( $id ) );
+				$dependencies = array_keys( $this->get_dependencies( array( $id ) ) );
 				foreach ( $dependencies as $dependency_id ) {
 					if (
 						in_array( $dependency_id, $this->queue, true ) &&
@@ -528,7 +528,7 @@ class WP_Script_Modules {
 	 */
 	private function get_import_map(): array {
 		$imports = array();
-		foreach ( $this->get_dependencies( $this->queue ) as $id ) {
+		foreach ( array_keys( $this->get_dependencies( $this->queue ) ) as $id ) {
 			$src = $this->get_src( $id );
 			if ( '' !== $src ) {
 				$imports[ $id ] = $src;
@@ -566,7 +566,7 @@ class WP_Script_Modules {
 	 * @param string[] $ids          The identifiers of the script modules for which to gather dependencies.
 	 * @param string[] $import_types Optional. Import types of dependencies to retrieve: 'static', 'dynamic', or both.
 	 *                                         Default is both.
-	 * @return string[] List of IDs for script module dependencies.
+	 * @return array<string, array> List of dependencies, keyed by script module identifier.
 	 */
 	private function get_dependencies( array $ids, array $import_types = array( 'static', 'dynamic' ) ): array {
 		$all_dependencies = array();
@@ -584,7 +584,7 @@ class WP_Script_Modules {
 					in_array( $dependency['import'], $import_types, true ) &&
 					isset( $this->registered[ $dependency['id'] ] )
 				) {
-					$all_dependencies[ $dependency['id'] ] = true;
+					$all_dependencies[ $dependency['id'] ] = $this->registered[ $dependency['id'] ];
 
 					// Add this dependency to the list to get dependencies for.
 					$id_queue[] = $dependency['id'];
@@ -592,7 +592,7 @@ class WP_Script_Modules {
 			}
 		}
 
-		return array_keys( $all_dependencies );
+		return $all_dependencies;
 	}
 
 	/**
