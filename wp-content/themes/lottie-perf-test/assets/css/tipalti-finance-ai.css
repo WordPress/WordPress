@@ -113,10 +113,243 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Sidekick Section */
+.sidekick-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.sidekick-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.sidekick-text h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.sidekick-text p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
 /* AI Agents Section */
 .ai-agents-section {
     padding: 100px 0;
+    background: white;
+}
+
+/* Agents Workflow Section */
+.agents-workflow-section {
+    padding: 100px 0;
     background: #f8f9fa;
+}
+
+.workflow-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.workflow-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.3;
+}
+
+.workflow-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 80px;
+}
+
+.workflow-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.workflow-item:nth-child(even) {
+    direction: rtl;
+}
+
+.workflow-item:nth-child(even) > * {
+    direction: ltr;
+}
+
+.workflow-content h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.workflow-content p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.workflow-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.workflow-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.workflow-content ul li {
+    padding: 5px 0;
+    color: #495057;
+    position: relative;
+    padding-left: 20px;
+}
+
+.workflow-content ul li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Productivity Section */
+.productivity-section {
+    padding: 100px 0;
+    background: white;
+}
+
+.productivity-content {
+    text-align: center;
+}
+
+.productivity-text {
+    margin-bottom: 60px;
+}
+
+.productivity-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.productivity-text p {
+    font-size: 1.2rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.productivity-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+}
+
+.feature-item {
+    text-align: center;
+}
+
+.feature-item h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.feature-item p {
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+/* PO Matching Section */
+.po-matching-section {
+    padding: 100px 0;
+    background: #f8f9fa;
+}
+
+.po-matching-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.po-matching-text h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.po-matching-text p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Invoice Capture 2 Section */
+.invoice-capture-2-section {
+    padding: 100px 0;
+    background: white;
+}
+
+.invoice-capture-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.invoice-text h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.invoice-text p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.invoice-text ul {
+    list-style: none;
+    padding: 0;
+}
+
+.invoice-text ul li {
+    padding: 8px 0;
+    color: #495057;
+    position: relative;
+    padding-left: 20px;
+}
+
+.invoice-text ul li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
 }
 
 .section-header {

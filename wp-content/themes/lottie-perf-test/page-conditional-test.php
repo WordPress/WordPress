@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Step 6 - Conditional Test
- * Description: Tipalti Finance AI replica - Step 6: Conditional enqueue (per-page)
+ * Description: Tipalti Finance AI replica - Step 6: Cache + Conditional enqueue (per-page)
  */
 
 get_header(); ?>
@@ -11,17 +11,16 @@ get_header(); ?>
     <div class="container">
         <div class="hero-content">
             <div class="hero-text">
-                <h1 class="hero-title">Finance AI</h1>
-                <p class="hero-subtitle">Intelligent automation that puts you in control</p>
+                <h1 class="hero-title">Tipalti AI</h1>
+                <p class="hero-subtitle">Redefine Finance Productivity with AI</p>
                 <p class="hero-description">
-                    Transform your accounts payable with AI-powered agents that automate invoice processing, 
-                    approval workflows, and compliance—while keeping finance teams in the driver's seat.
+                    Intelligent finance automation that learns your business, streamlines your workflows, and scales with your growth—putting you in complete control of your financial operations.
                 </p>
                 <div class="hero-cta">
                     <button class="btn-primary">Get Started</button>
                     <button class="btn-secondary">Request Demo</button>
                 </div>
-                <!-- Performance Metrics -->
+                <!-- Performance Metrics (Hidden by default, shown for testing) -->
                 <div class="performance-metrics" style="margin-top: 20px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 8px; font-size: 12px;">
                     <strong>Step 6 Performance (Conditional Enqueue):</strong>
                     FCP: <span id="fcp">-</span> | 
@@ -39,6 +38,30 @@ get_header(); ?>
                     style="width: 500px; height: 400px;" 
                     loop 
                     autoplay
+                    renderer="canvas">
+                </lottie-player>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sidekick Section -->
+<section class="sidekick-section">
+    <div class="container">
+        <div class="sidekick-content">
+            <div class="sidekick-text">
+                <h2>Meet Your New Sidekick: Tipalti AI Assistant</h2>
+                <p>AI that works alongside your finance team to automate routine tasks, provide intelligent insights, and help you make faster, more informed decisions.</p>
+                <button class="btn-primary">Learn More</button>
+            </div>
+            <div class="sidekick-animation">
+                <lottie-player 
+                    src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 400px; height: 300px;" 
+                    loop 
+                    autoplay
                     renderer="canvas"
                     data-lazy="true">
                 </lottie-player>
@@ -47,12 +70,12 @@ get_header(); ?>
     </div>
 </section>
 
-<!-- AI Agents Section -->
+<!-- Get to Know AI Agents Section -->
 <section class="ai-agents-section">
     <div class="container">
         <div class="section-header">
-            <h2>Meet Your AI Finance Team</h2>
-            <p>Specialized AI agents that handle routine tasks so your team can focus on strategic work</p>
+            <h2>Get to Know the Tipalti AI Agents</h2>
+            <p>Meet the intelligent agents that streamline finance workflows, working for you even when you don't see them.</p>
         </div>
         
         <div class="agents-grid">
@@ -71,11 +94,6 @@ get_header(); ?>
                 </div>
                 <h3>Invoice Capture Agent</h3>
                 <p>Automatically captures, validates, and codes invoices with 99.5% accuracy using advanced OCR and machine learning.</p>
-                <ul class="agent-features">
-                    <li>Smart data extraction</li>
-                    <li>Auto GL coding</li>
-                    <li>Duplicate detection</li>
-                </ul>
             </div>
 
             <div class="agent-card">
@@ -93,11 +111,6 @@ get_header(); ?>
                 </div>
                 <h3>Bill Approvers Agent</h3>
                 <p>Intelligently routes invoices to the right approvers and learns from patterns to speed up future approvals.</p>
-                <ul class="agent-features">
-                    <li>Smart routing</li>
-                    <li>Approval workflows</li>
-                    <li>Pattern learning</li>
-                </ul>
             </div>
 
             <div class="agent-card">
@@ -113,34 +126,196 @@ get_header(); ?>
                         data-lazy="true">
                     </lottie-player>
                 </div>
-                <h3>PO Matching Agent</h3>
-                <p>Matches invoices with purchase orders by analyzing contextual descriptions, not just exact matches.</p>
-                <ul class="agent-features">
-                    <li>Contextual matching</li>
-                    <li>Exception handling</li>
-                    <li>Variance analysis</li>
-                </ul>
+                <h3>Purchase Request Agent</h3>
+                <p>Streamlines purchase order creation and approval workflows with intelligent automation.</p>
             </div>
+        </div>
+    </div>
+</section>
 
-            <div class="agent-card">
-                <div class="agent-animation">
+<!-- AI Agents Workflow Section -->
+<section class="agents-workflow-section">
+    <div class="container">
+        <div class="workflow-header">
+            <h2>Tipalti AI Agents streamline finance workflows, working for you even when you don't see them.</h2>
+        </div>
+        
+        <div class="workflow-grid">
+            <div class="workflow-item">
+                <div class="workflow-animation">
                     <lottie-player 
-                        src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" 
+                        src="<?php echo get_template_directory_uri(); ?>/assets/lottie/scan-expenses-receipt-agent.lottie" 
                         background="transparent" 
                         speed="1" 
-                        style="width: 200px; height: 200px;" 
+                        style="width: 300px; height: 250px;" 
                         loop 
                         autoplay
                         renderer="canvas"
                         data-lazy="true">
                     </lottie-player>
                 </div>
-                <h3>Duplicate Bill Detection</h3>
-                <p>Proactively identifies and prevents duplicate payments using advanced pattern recognition.</p>
-                <ul class="agent-features">
-                    <li>Real-time scanning</li>
-                    <li>Pattern recognition</li>
-                    <li>Fraud prevention</li>
+                <div class="workflow-content">
+                    <h3>Invoice Capture Agent</h3>
+                    <p>Scans and extracts data from invoices automatically, reducing manual data entry by 95%.</p>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>OCR technology</li>
+                        <li>Smart data extraction</li>
+                        <li>Auto GL coding</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="workflow-item">
+                <div class="workflow-animation">
+                    <lottie-player 
+                        src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-request-agent.lottie" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 300px; height: 250px;" 
+                        loop 
+                        autoplay
+                        renderer="canvas"
+                        data-lazy="true">
+                    </lottie-player>
+                </div>
+                <div class="workflow-content">
+                    <h3>PO Matching Agent</h3>
+                    <p>Intelligently matches invoices to purchase orders, handling exceptions automatically.</p>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Contextual matching</li>
+                        <li>Exception handling</li>
+                        <li>Variance analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="workflow-item">
+                <div class="workflow-animation">
+                    <lottie-player 
+                        src="<?php echo get_template_directory_uri(); ?>/assets/lottie/erp-sync-resolution-agent.lottie" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 300px; height: 250px;" 
+                        loop 
+                        autoplay
+                        renderer="canvas"
+                        data-lazy="true">
+                    </lottie-player>
+                </div>
+                <div class="workflow-content">
+                    <h3>ERP Sync Resolution Agent</h3>
+                    <p>Automatically resolves ERP synchronization issues and maintains data integrity.</p>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Real-time sync monitoring</li>
+                        <li>Automatic error resolution</li>
+                        <li>Data validation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Productivity Section -->
+<section class="productivity-section">
+    <div class="container">
+        <div class="productivity-content">
+            <div class="productivity-text">
+                <h2>Boost Productivity. Without Sacrificing Control.</h2>
+                <p>Tipalti AI enhances your team's capabilities while keeping you in the driver's seat of every financial decision.</p>
+            </div>
+            
+            <div class="productivity-features">
+                <div class="feature-item">
+                    <div class="feature-animation">
+                        <lottie-player 
+                            src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" 
+                            background="transparent" 
+                            speed="1" 
+                            style="width: 200px; height: 150px;" 
+                            loop 
+                            autoplay
+                            renderer="canvas"
+                            data-lazy="true">
+                        </lottie-player>
+                    </div>
+                    <h3>Duplicate Bill Detection</h3>
+                    <p>Proactively identifies and prevents duplicate payments using advanced pattern recognition.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-animation">
+                        <lottie-player 
+                            src="<?php echo get_template_directory_uri(); ?>/assets/lottie/approval-chains-and-audit-trail.lottie" 
+                            background="transparent" 
+                            speed="1" 
+                            style="width: 200px; height: 150px;" 
+                            loop 
+                            autoplay
+                            renderer="canvas"
+                            data-lazy="true">
+                        </lottie-player>
+                    </div>
+                    <h3>Approval Chains and Audit Trail</h3>
+                    <p>Maintains complete audit trails while streamlining approval workflows.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Two and Three-way PO Matching Section -->
+<section class="po-matching-section">
+    <div class="container">
+        <div class="po-matching-content">
+            <div class="po-matching-text">
+                <h2>Two and Three-way PO Matching</h2>
+                <p>Automated matching of purchase orders, invoices, and receipts with intelligent exception handling.</p>
+                <button class="btn-primary">Learn More</button>
+            </div>
+            <div class="po-matching-animation">
+                <lottie-player 
+                    src="<?php echo get_template_directory_uri(); ?>/assets/lottie/two-and-three-way-po-matching.lottie" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 500px; height: 400px;" 
+                    loop 
+                    autoplay
+                    renderer="canvas"
+                    data-lazy="true">
+                </lottie-player>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Invoice Capture Agent 2 Section -->
+<section class="invoice-capture-2-section">
+    <div class="container">
+        <div class="invoice-capture-content">
+            <div class="invoice-animation">
+                <lottie-player 
+                    src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-2.lottie" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 400px; height: 350px;" 
+                    loop 
+                    autoplay
+                    renderer="canvas"
+                    data-lazy="true">
+                </lottie-player>
+            </div>
+            <div class="invoice-text">
+                <h2>AI Built for Global AP Teams</h2>
+                <p>Advanced invoice processing that handles multiple currencies, languages, and regional compliance requirements.</p>
+                <ul>
+                    <li>Multi-language OCR</li>
+                    <li>Currency conversion</li>
+                    <li>Regional tax compliance</li>
+                    <li>Global approval workflows</li>
                 </ul>
             </div>
         </div>
