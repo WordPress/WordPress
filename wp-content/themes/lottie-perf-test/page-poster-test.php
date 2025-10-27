@@ -31,7 +31,7 @@ get_header(); ?>
                 </div>
             </div>
             <div class="hero-animation">
-                <lottie-player 
+                <dotlottie-player 
                     src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-1.lottie" 
                     background="transparent" 
                     speed="1" 
@@ -39,7 +39,7 @@ get_header(); ?>
                     loop 
                     autoplay
                     renderer="canvas">
-                </lottie-player>
+                </dotlottie-player>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@ get_header(); ?>
                 <button class="btn-primary">Learn More</button>
             </div>
             <div class="sidekick-animation">
-                <lottie-player 
+                <dotlottie-player 
                     src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie" 
                     background="transparent" 
                     speed="1" 
@@ -65,7 +65,7 @@ get_header(); ?>
                     renderer="canvas"
                     data-lazy="true"
                     poster="<?php echo get_template_directory_uri(); ?>/assets/images/bill-approvers-poster.png">
-                </lottie-player>
+                </dotlottie-player>
             </div>
         </div>
     </div>
@@ -82,7 +82,7 @@ get_header(); ?>
         <div class="agents-grid">
             <div class="agent-card">
                 <div class="agent-animation">
-                    <lottie-player 
+                    <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-1.lottie" 
                         background="transparent" 
                         speed="1" 
@@ -92,7 +92,7 @@ get_header(); ?>
                         renderer="canvas"
                         data-lazy="true"
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/invoice-capture-poster.png">
-                    </lottie-player>
+                    </dotlottie-player>
                 </div>
                 <h3>Invoice Capture Agent</h3>
                 <p>Automatically captures, validates, and codes invoices with 99.5% accuracy using advanced OCR and machine learning.</p>
@@ -100,7 +100,7 @@ get_header(); ?>
 
             <div class="agent-card">
                 <div class="agent-animation">
-                    <lottie-player 
+                    <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie" 
                         background="transparent" 
                         speed="1" 
@@ -110,7 +110,7 @@ get_header(); ?>
                         renderer="canvas"
                         data-lazy="true"
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/bill-approvers-poster.png">
-                    </lottie-player>
+                    </dotlottie-player>
                 </div>
                 <h3>Bill Approvers Agent</h3>
                 <p>Intelligently routes invoices to the right approvers and learns from patterns to speed up future approvals.</p>
@@ -118,7 +118,7 @@ get_header(); ?>
 
             <div class="agent-card">
                 <div class="agent-animation">
-                    <lottie-player 
+                    <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-matching-agent.lottie" 
                         background="transparent" 
                         speed="1" 
@@ -128,7 +128,7 @@ get_header(); ?>
                         renderer="canvas"
                         data-lazy="true"
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-matching-poster.png">
-                    </lottie-player>
+                    </dotlottie-player>
                 </div>
                 <h3>Purchase Request Agent</h3>
                 <p>Streamlines purchase order creation and approval workflows with intelligent automation.</p>
@@ -147,7 +147,7 @@ get_header(); ?>
         <div class="workflow-grid">
             <div class="workflow-item">
                 <div class="workflow-animation">
-                    <lottie-player 
+                    <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/scan-expenses-receipt-agent.lottie" 
                         background="transparent" 
                         speed="1" 
@@ -157,7 +157,7 @@ get_header(); ?>
                         renderer="canvas"
                         data-lazy="true"
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/scan-expenses-poster.png">
-                    </lottie-player>
+                    </dotlottie-player>
                 </div>
                 <div class="workflow-content">
                     <h3>Invoice Capture Agent</h3>
@@ -173,7 +173,7 @@ get_header(); ?>
 
             <div class="workflow-item">
                 <div class="workflow-animation">
-                    <lottie-player 
+                    <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-request-agent.lottie" 
                         background="transparent" 
                         speed="1" 
@@ -183,7 +183,7 @@ get_header(); ?>
                         renderer="canvas"
                         data-lazy="true"
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-request-poster.png">
-                    </lottie-player>
+                    </dotlottie-player>
                 </div>
                 <div class="workflow-content">
                     <h3>PO Matching Agent</h3>
@@ -199,7 +199,7 @@ get_header(); ?>
 
             <div class="workflow-item">
                 <div class="workflow-animation">
-                    <lottie-player 
+                    <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/erp-sync-resolution-agent.lottie" 
                         background="transparent" 
                         speed="1" 
@@ -209,7 +209,7 @@ get_header(); ?>
                         renderer="canvas"
                         data-lazy="true"
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/erp-sync-poster.png">
-                    </lottie-player>
+                    </dotlottie-player>
                 </div>
                 <div class="workflow-content">
                     <h3>ERP Sync Resolution Agent</h3>
@@ -238,7 +238,7 @@ get_header(); ?>
             <div class="productivity-features">
                 <div class="feature-item">
                     <div class="feature-animation">
-                        <lottie-player 
+                        <dotlottie-player 
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" 
                             background="transparent" 
                             speed="1" 
@@ -248,7 +248,7 @@ get_header(); ?>
                             renderer="canvas"
                             data-lazy="true"
                             poster="<?php echo get_template_directory_uri(); ?>/assets/images/duplicate-bill-poster.png">
-                        </lottie-player>
+                        </dotlottie-player>
                     </div>
                     <h3>Duplicate Bill Detection</h3>
                     <p>Proactively identifies and prevents duplicate payments using advanced pattern recognition.</p>
@@ -256,7 +256,7 @@ get_header(); ?>
 
                 <div class="feature-item">
                     <div class="feature-animation">
-                        <lottie-player 
+                        <dotlottie-player 
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/approval-chains-and-audit-trail.lottie" 
                             background="transparent" 
                             speed="1" 
@@ -266,7 +266,7 @@ get_header(); ?>
                             renderer="canvas"
                             data-lazy="true"
                             poster="<?php echo get_template_directory_uri(); ?>/assets/images/approval-chains-poster.png">
-                        </lottie-player>
+                        </dotlottie-player>
                     </div>
                     <h3>Approval Chains and Audit Trail</h3>
                     <p>Maintains complete audit trails while streamlining approval workflows.</p>
@@ -286,7 +286,7 @@ get_header(); ?>
                 <button class="btn-primary">Learn More</button>
             </div>
             <div class="po-matching-animation">
-                <lottie-player 
+                <dotlottie-player 
                     src="<?php echo get_template_directory_uri(); ?>/assets/lottie/two-and-three-way-po-matching.lottie" 
                     background="transparent" 
                     speed="1" 
@@ -296,7 +296,7 @@ get_header(); ?>
                     renderer="canvas"
                     data-lazy="true"
                     poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-matching-large-poster.png">
-                </lottie-player>
+                </dotlottie-player>
             </div>
         </div>
     </div>
@@ -307,7 +307,7 @@ get_header(); ?>
     <div class="container">
         <div class="invoice-capture-content">
             <div class="invoice-animation">
-                <lottie-player 
+                <dotlottie-player 
                     src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-2.lottie" 
                     background="transparent" 
                     speed="1" 
@@ -317,7 +317,7 @@ get_header(); ?>
                     renderer="canvas"
                     data-lazy="true"
                     poster="<?php echo get_template_directory_uri(); ?>/assets/images/invoice-capture-2-poster.png">
-                </lottie-player>
+                </dotlottie-player>
             </div>
             <div class="invoice-text">
                 <h2>AI Built for Global AP Teams</h2>

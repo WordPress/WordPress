@@ -1,30 +1,30 @@
 /**
  * Step 1: Basic Local Player Implementation
- * Simple initialization of Lottie players with local dotlottie-player.min.js
+ * Simple initialization of Lottie players with local dotlottie-player-correct.mjs
  */
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Step 1: Basic Local Player loaded');
-    console.log('Custom elements available:', customElements.get('lottie-player'));
+    console.log('Custom elements available:', customElements.get('dotlottie-player'));
     
     // Wait for custom element to be defined
-    if (customElements.get('lottie-player')) {
-        console.log('lottie-player already defined');
+    if (customElements.get('dotlottie-player')) {
+        console.log('dotlottie-player already defined');
         initializePlayers();
     } else {
-        console.log('Waiting for lottie-player to be defined...');
-        customElements.whenDefined('lottie-player').then(() => {
-            console.log('lottie-player is now defined');
+        console.log('Waiting for dotlottie-player to be defined...');
+        customElements.whenDefined('dotlottie-player').then(() => {
+            console.log('dotlottie-player is now defined');
             initializePlayers();
         });
     }
     
     function initializePlayers() {
-        // Initialize all lottie players
-        const lottiePlayers = document.querySelectorAll('lottie-player');
-        console.log('Found', lottiePlayers.length, 'lottie-player elements');
+        // Initialize all dotlottie players
+        const dotlottiePlayers = document.querySelectorAll('dotlottie-player');
+        console.log('Found', dotlottiePlayers.length, 'dotlottie-player elements');
         
-        lottiePlayers.forEach((player, index) => {
+        dotlottiePlayers.forEach((player, index) => {
             console.log(`Initializing player ${index + 1}:`, player.src);
             
             // Add event listeners for debugging

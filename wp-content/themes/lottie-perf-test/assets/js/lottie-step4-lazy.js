@@ -5,23 +5,23 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Step 4: Lazy Loading with IntersectionObserver loaded');
-    console.log('Custom elements available:', customElements.get('lottie-player'));
+    console.log('Custom elements available:', customElements.get('dotlottie-player'));
     
     // Wait for custom element to be defined
-    if (customElements.get('lottie-player')) {
-        console.log('lottie-player already defined');
+    if (customElements.get('dotlottie-player')) {
+        console.log('dotlottie-player already defined');
         initializeLazyPlayers();
     } else {
-        console.log('Waiting for lottie-player to be defined...');
-        customElements.whenDefined('lottie-player').then(() => {
-            console.log('lottie-player is now defined');
+        console.log('Waiting for dotlottie-player to be defined...');
+        customElements.whenDefined('dotlottie-player').then(() => {
+            console.log('dotlottie-player is now defined');
             initializeLazyPlayers();
         });
     }
     
     function initializeLazyPlayers() {
-        const lottiePlayers = document.querySelectorAll('lottie-player[data-lazy="true"]');
-        console.log('Found', lottiePlayers.length, 'lazy lottie-player elements');
+        const lottiePlayers = document.querySelectorAll('dotlottie-player[data-lazy="true"]');
+        console.log('Found', lottiePlayers.length, 'lazy dotlottie-player elements');
         
         if (lottiePlayers.length === 0) {
             console.log('No lazy players found');
