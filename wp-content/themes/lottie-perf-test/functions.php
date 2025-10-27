@@ -90,76 +90,9 @@ function lottie_perf_test_scripts() {
     );
     
     if (in_array($template, $lottie_templates)) {
-        // CSS loading is now handled by critical CSS inline and non-critical CSS with media="print" trick
-        // No need to enqueue CSS files here anymore
-        
-        // Step 1: Local Player File (Basic) - OPTIMIZED with module loading
-        if ($template === 'page-local-test.php') {
-            // Load self-hosted Lottie library first
-            add_action('wp_head', function() {
-                echo '<script src="' . get_template_directory_uri() . '/assets/js/lottie-light.js?ver=1.0.0"></script>';
-            }, 3);            
-        }
-        
-        // Step 2: Local Player File + Canvas Renderer - OPTIMIZED with module loading
-        elseif ($template === 'page-canvas-mode-test.php') {
-            // Load ES module with proper type attribute
-            add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dotlottie-player-correct.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step2-canvas', get_template_directory_uri() . '/assets/js/lottie-step2-canvas.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step2-canvas', 'async', true);
-        }
-        
-        // Step 3: Step 2 + Deferred/Async Load Method - OPTIMIZED with module loading
-        elseif ($template === 'page-defer-test.php') {
-            // Load ES module with proper type attribute
-            add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dotlottie-player-correct.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step3-defer', get_template_directory_uri() . '/assets/js/lottie-step3-defer.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step3-defer', 'async', true);
-        }
-        
-        // Step 4: Step 3 + Lazy Loading with IntersectionObserver - OPTIMIZED with module loading
-        elseif ($template === 'page-lazy-test.php') {
-            // Load ES module with proper type attribute
-            add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dotlottie-player-correct.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step4-lazy', get_template_directory_uri() . '/assets/js/lottie-step4-lazy.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step4-lazy', 'async', true);
-        }
-        
-        // Step 5: Step 4 + Asset Compression & Caching (Brotli + Cache-Control) - OPTIMIZED with module loading
-        elseif ($template === 'page-cache-test.php') {
-            // Load ES module with proper type attribute
-            add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dotlottie-player-correct.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step5-cache', get_template_directory_uri() . '/assets/js/lottie-step5-cache.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step5-cache', 'async', true);
-        }
-        
-        // Step 6: Step 5 + Conditional Enqueue (Per-Page) - OPTIMIZED with module loading
-        elseif ($template === 'page-conditional-test.php') {
-            // Load ES module with proper type attribute
-            add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dotlottie-player-correct.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step6-conditional', get_template_directory_uri() . '/assets/js/lottie-step6-conditional.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step6-conditional', 'async', true);
-        }
-        
-        // Step 7: Step 6 + Poster Fallback for Below-Fold Animations - OPTIMIZED with module loading
-        elseif ($template === 'page-poster-test.php') {
-            // Load ES module with proper type attribute
-            add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dotlottie-player-correct.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step7-poster', get_template_directory_uri() . '/assets/js/lottie-step7-poster.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step7-poster', 'async', true);
-        }
+        add_action('wp_head', function() {
+            echo '<script src="' . get_template_directory_uri() . '/assets/js/lottie-light.js?ver=1.0.0"></script>';
+        }, 3);            
     }
 }
 add_action('wp_enqueue_scripts', 'lottie_perf_test_scripts');
