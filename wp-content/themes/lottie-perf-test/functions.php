@@ -48,6 +48,7 @@ function lottie_perf_test_scripts() {
         // Enqueue main stylesheets for all Lottie pages
         wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
         wp_enqueue_style('lottie-perf-test-tipalti', get_template_directory_uri() . '/assets/css/tipalti-styles.css', array('lottie-perf-test-reset'), '1.0.0');
+        wp_enqueue_style('tipalti-finance-ai', get_template_directory_uri() . '/assets/css/tipalti-finance-ai.css', array('lottie-perf-test-tipalti'), '1.0.0');
         
         // Step 1: Local Player File (Basic)
         if ($template === 'page-local-test.php') {
