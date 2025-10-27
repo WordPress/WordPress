@@ -95,12 +95,10 @@ function lottie_perf_test_scripts() {
         
         // Step 1: Local Player File (Basic) - OPTIMIZED with module loading
         if ($template === 'page-local-test.php') {
-            // Load standalone ES module with proper type attribute
+            // Load self-hosted Lottie library first
             add_action('wp_head', function() {
-                echo '<script type="module" src="' . get_template_directory_uri() . '/assets/js/dist/standalone-lottie-player.min.mjs?ver=1.0.0" async></script>';
-            }, 5);
-            wp_enqueue_script('lottie-step1-local', get_template_directory_uri() . '/assets/js/lottie-step1-local.js', array(), '1.0.0', true);
-            wp_script_add_data('lottie-step1-local', 'async', true);
+                echo '<script src="' . get_template_directory_uri() . '/assets/js/lottie-light.js?ver=1.0.0"></script>';
+            }, 3);            
         }
         
         // Step 2: Local Player File + Canvas Renderer - OPTIMIZED with module loading
@@ -168,38 +166,101 @@ add_action('wp_enqueue_scripts', 'lottie_perf_test_scripts');
 
 // Strategy 5: Local Hosting with Long-term Caching
 function lottie_perf_test_add_caching_headers() {
-    // Only apply to Lottie files
-    if (strpos($_SERVER['REQUEST_URI'], '.lottie') !== false || 
-        strpos($_SERVER['REQUEST_URI'], 'dotlottie-player-correct.mjs') !== false) {
+    // Only apply to Lottie files and only if we're in a WordPress context
+    if (defined('ABSPATH') && isset($_SERVER['REQUEST_URI'])) {
+        $request_uri = $_SERVER['REQUEST_URI'];
         
-        // Set long-term caching headers
-        header('Cache-Control: public, max-age=31536000, immutable'); // 1 year
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
-        header('ETag: "' . md5_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']) . '"');
-        
-        // Enable compression
-        if (extension_loaded('zlib') && !ob_get_level()) {
-            ob_start('ob_gzhandler');
+        // Only apply to Lottie files
+        if (strpos($request_uri, '.lottie') !== false || 
+            strpos($request_uri, 'dotlottie-player-correct.mjs') !== false) {
+            
+            // Check if file exists before trying to get ETag
+            $file_path = $_SERVER['DOCUMENT_ROOT'] . $request_uri;
+            if (file_exists($file_path)) {
+                // Set long-term caching headers
+                header('Cache-Control: public, max-age=31536000, immutable'); // 1 year
+                header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
+                header('ETag: "' . md5_file($file_path) . '"');
+                
+                // Enable compression
+                if (extension_loaded('zlib') && !ob_get_level()) {
+                    ob_start('ob_gzhandler');
+                }
+            }
         }
     }
 }
 add_action('init', 'lottie_perf_test_add_caching_headers');
 
+// Handle static file serving to prevent WordPress from processing them
+function lottie_perf_test_handle_static_files() {
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $request_uri = $_SERVER['REQUEST_URI'];
+        
+        // Check if this is a request for static assets
+        if (preg_match('/\.(css|js|mjs|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|lottie|dotlottie)$/', $request_uri)) {
+            $file_path = $_SERVER['DOCUMENT_ROOT'] . $request_uri;
+            
+            // If file exists, serve it directly
+            if (file_exists($file_path)) {
+                // Set proper headers
+                $mime_types = array(
+                    'css' => 'text/css',
+                    'js' => 'application/javascript',
+                    'mjs' => 'application/javascript',
+                    'png' => 'image/png',
+                    'jpg' => 'image/jpeg',
+                    'jpeg' => 'image/jpeg',
+                    'gif' => 'image/gif',
+                    'svg' => 'image/svg+xml',
+                    'woff' => 'font/woff',
+                    'woff2' => 'font/woff2',
+                    'ttf' => 'font/ttf',
+                    'eot' => 'font/eot',
+                    'lottie' => 'application/json',
+                    'dotlottie' => 'application/json'
+                );
+                
+                $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                if (isset($mime_types[$extension])) {
+                    header('Content-Type: ' . $mime_types[$extension]);
+                }
+                
+                // Set caching headers
+                header('Cache-Control: public, max-age=31536000, immutable');
+                header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
+                
+                // Output file content
+                readfile($file_path);
+                exit;
+            }
+        }
+    }
+}
+add_action('init', 'lottie_perf_test_handle_static_files', 1);
+
     // Add performance optimizations
     function lottie_perf_test_performance_optimizations() {
-        // Add preconnect hints for external resources
-        echo '<link rel="preconnect" href="https://unpkg.com" crossorigin>';
-        echo '<link rel="dns-prefetch" href="https://unpkg.com">';
-        
-        // Add resource hints for local assets
-        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/css/non-critical.css" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
-        
-        // Add compression headers
-        if (!headers_sent()) {
-            header('Vary: Accept-Encoding');
-            header('Cache-Control: public, max-age=3600'); // 1 hour cache
-            if (extension_loaded('zlib') && !ob_get_level()) {
-                ob_start('ob_gzhandler');
+        // Only add performance optimizations if we're not serving static files
+        if (!isset($_SERVER['REQUEST_URI']) || 
+            (strpos($_SERVER['REQUEST_URI'], '.css') === false && 
+             strpos($_SERVER['REQUEST_URI'], '.js') === false && 
+             strpos($_SERVER['REQUEST_URI'], '.mjs') === false)) {
+            
+            // Add preconnect hints for external resources
+            echo '<link rel="preconnect" href="https://unpkg.com" crossorigin>';
+            echo '<link rel="dns-prefetch" href="https://unpkg.com">';
+            
+            // Add resource hints for local assets
+            echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/css/non-critical.css" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
+            
+            // Add compression headers only for HTML pages
+            if (!headers_sent()) {
+                header('Vary: Accept-Encoding');
+                header('Cache-Control: public, max-age=3600'); // 1 hour cache
+                if (extension_loaded('zlib') && !ob_get_level()) {
+                    ob_start('ob_gzhandler');
+                }
             }
         }
     }

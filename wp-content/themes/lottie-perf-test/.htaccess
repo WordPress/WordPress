@@ -1,24 +1,34 @@
-# WordPress Lottie File Support
-<FilesMatch "\.(lottie|dotlottie)$">
-    Header set Content-Type "application/json"
-    Header set Cache-Control "public, max-age=31536000, immutable"
-    Header set Access-Control-Allow-Origin "*"
+# Ensure static assets are served directly without WordPress processing
+<FilesMatch "\.(css|js|mjs|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|lottie|dotlottie)$">
+    # Disable PHP processing for static files
+    RemoveHandler .css .js .mjs .png .jpg .jpeg .gif .svg .woff .woff2 .ttf .eot .lottie .dotlottie
+    
+    # Set proper MIME types
+    <IfModule mod_mime.c>
+        AddType text/css .css
+        AddType application/javascript .js
+        AddType application/javascript .mjs
+        AddType image/png .png
+        AddType image/jpeg .jpg .jpeg
+        AddType image/gif .gif
+        AddType image/svg+xml .svg
+        AddType font/woff .woff
+        AddType font/woff2 .woff2
+        AddType font/ttf .ttf
+        AddType font/eot .eot
+        AddType application/json .lottie .dotlottie
+    </IfModule>
+    
+    # Set caching headers for static assets
+    <IfModule mod_headers.c>
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
+    </IfModule>
+    
+    # Enable compression
+    <IfModule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/css
+        AddOutputFilterByType DEFLATE application/javascript
+        AddOutputFilterByType DEFLATE application/json
+    </IfModule>
 </FilesMatch>
-
-# Enable compression for Lottie files
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE application/json
-</IfModule>
-
-# WordPress default rules
-# BEGIN WordPress
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-</IfModule>
-# END WordPress
