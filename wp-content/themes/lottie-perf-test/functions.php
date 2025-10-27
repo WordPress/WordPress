@@ -27,40 +27,73 @@ function lottie_perf_test_setup() {
 }
 add_action('after_setup_theme', 'lottie_perf_test_setup');
 
-// Enhanced Lottie Performance Optimization Scripts
+// 7-Step Lottie Performance Optimization Scripts
 function lottie_perf_test_scripts() {
     // Get current page template
     $template = get_page_template_slug();
     
-    // Only load Lottie-related scripts on Lottie pages (Conditional Enqueueing)
-    $lottie_templates = array('page-global.php', 'page-defer.php', 'page-lazy.php', 'page-canvas.php', 'page-home.php');
+    // Define all Lottie test page templates
+    $lottie_templates = array(
+        'page-local-test.php',
+        'page-canvas-mode-test.php', 
+        'page-defer-test.php',
+        'page-lazy-test.php',
+        'page-cache-test.php',
+        'page-conditional-test.php',
+        'page-poster-test.php',
+        'page-home.php'
+    );
     
     if (in_array($template, $lottie_templates)) {
-        // Enqueue main stylesheets
+        // Enqueue main stylesheets for all Lottie pages
         wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
         wp_enqueue_style('lottie-perf-test-tipalti', get_template_directory_uri() . '/assets/css/tipalti-styles.css', array('lottie-perf-test-reset'), '1.0.0');
         
-        // Strategy 1: Local Lottie Player with Defer/Async
-        if ($template === 'page-global.php') {
-            // Global CDN mode - load in head (baseline)
-            wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, false);
-            wp_enqueue_script('lottie-global', get_template_directory_uri() . '/assets/js/lottie-global.js', array('dotlottie-player-cdn'), '1.0.0', true);
-        } elseif ($template === 'page-defer.php') {
-            // CDN player with defer optimization
-            wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, true);
-            wp_script_add_data('dotlottie-player-cdn', 'defer', true);
-            wp_enqueue_script('lottie-defer', get_template_directory_uri() . '/assets/js/lottie-defer.js', array('dotlottie-player-cdn'), '1.0.0', true);
-        } elseif ($template === 'page-lazy.php') {
-            // Optimized lazy loading - no CDN dependency, loads on demand
-            wp_enqueue_script('lottie-lazy-optimized', get_template_directory_uri() . '/assets/js/lottie-lazy-optimized.js', array(), '1.0.0', true);
-        } elseif ($template === 'page-canvas.php') {
-            // Canvas renderer - Use CDN (like original Tipalti) with canvas optimization
-            wp_enqueue_script('dotlottie-player-cdn', 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js', array(), null, false);
-            wp_enqueue_script('lottie-canvas-independent', get_template_directory_uri() . '/assets/js/lottie-canvas-independent.js', array('dotlottie-player-cdn'), '1.0.0', true);
-        } elseif ($template === 'page-home.php') {
-            // Home page - minimal loading
-            wp_enqueue_style('lottie-perf-test-reset', get_template_directory_uri() . '/assets/css/reset.css', array(), '1.0.0');
-            wp_enqueue_style('lottie-perf-test-style', get_template_directory_uri() . '/assets/css/style.css', array('lottie-perf-test-reset'), '1.0.0');
+        // Step 1: Local Player File (Basic)
+        if ($template === 'page-local-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_enqueue_script('lottie-step1-local', get_template_directory_uri() . '/assets/js/lottie-step1-local.js', array('dotlottie-player-local'), '1.0.0', true);
+        }
+        
+        // Step 2: Local Player File + Canvas Renderer
+        elseif ($template === 'page-canvas-mode-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_enqueue_script('lottie-step2-canvas', get_template_directory_uri() . '/assets/js/lottie-step2-canvas.js', array('dotlottie-player-local'), '1.0.0', true);
+        }
+        
+        // Step 3: Step 2 + Deferred/Async Load Method
+        elseif ($template === 'page-defer-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step3-defer', get_template_directory_uri() . '/assets/js/lottie-step3-defer.js', array('dotlottie-player-local'), '1.0.0', true);
+        }
+        
+        // Step 4: Step 3 + Lazy Loading with IntersectionObserver
+        elseif ($template === 'page-lazy-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step4-lazy', get_template_directory_uri() . '/assets/js/lottie-step4-lazy.js', array('dotlottie-player-local'), '1.0.0', true);
+        }
+        
+        // Step 5: Step 4 + Asset Compression & Caching (Brotli + Cache-Control)
+        elseif ($template === 'page-cache-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step5-cache', get_template_directory_uri() . '/assets/js/lottie-step5-cache.js', array('dotlottie-player-local'), '1.0.0', true);
+        }
+        
+        // Step 6: Step 5 + Conditional Enqueue (Per-Page)
+        elseif ($template === 'page-conditional-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step6-conditional', get_template_directory_uri() . '/assets/js/lottie-step6-conditional.js', array('dotlottie-player-local'), '1.0.0', true);
+        }
+        
+        // Step 7: Step 6 + Poster Fallback for Below-Fold Animations
+        elseif ($template === 'page-poster-test.php') {
+            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
+            wp_script_add_data('dotlottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step7-poster', get_template_directory_uri() . '/assets/js/lottie-step7-poster.js', array('dotlottie-player-local'), '1.0.0', true);
         }
     }
 }
