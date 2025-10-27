@@ -52,49 +52,49 @@ function lottie_perf_test_scripts() {
         
         // Step 1: Local Player File (Basic)
         if ($template === 'page-local-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_enqueue_script('lottie-step1-local', get_template_directory_uri() . '/assets/js/lottie-step1-local.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_enqueue_script('lottie-step1-local', get_template_directory_uri() . '/assets/js/lottie-step1-local.js', array('lottie-player-local'), '1.0.0', true);
         }
         
         // Step 2: Local Player File + Canvas Renderer
         elseif ($template === 'page-canvas-mode-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_enqueue_script('lottie-step2-canvas', get_template_directory_uri() . '/assets/js/lottie-step2-canvas.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_enqueue_script('lottie-step2-canvas', get_template_directory_uri() . '/assets/js/lottie-step2-canvas.js', array('lottie-player-local'), '1.0.0', true);
         }
         
         // Step 3: Step 2 + Deferred/Async Load Method
         elseif ($template === 'page-defer-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-step3-defer', get_template_directory_uri() . '/assets/js/lottie-step3-defer.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_script_add_data('lottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step3-defer', get_template_directory_uri() . '/assets/js/lottie-step3-defer.js', array('lottie-player-local'), '1.0.0', true);
         }
         
         // Step 4: Step 3 + Lazy Loading with IntersectionObserver
         elseif ($template === 'page-lazy-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-step4-lazy', get_template_directory_uri() . '/assets/js/lottie-step4-lazy.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_script_add_data('lottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step4-lazy', get_template_directory_uri() . '/assets/js/lottie-step4-lazy.js', array('lottie-player-local'), '1.0.0', true);
         }
         
         // Step 5: Step 4 + Asset Compression & Caching (Brotli + Cache-Control)
         elseif ($template === 'page-cache-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-step5-cache', get_template_directory_uri() . '/assets/js/lottie-step5-cache.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_script_add_data('lottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step5-cache', get_template_directory_uri() . '/assets/js/lottie-step5-cache.js', array('lottie-player-local'), '1.0.0', true);
         }
         
         // Step 6: Step 5 + Conditional Enqueue (Per-Page)
         elseif ($template === 'page-conditional-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-step6-conditional', get_template_directory_uri() . '/assets/js/lottie-step6-conditional.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_script_add_data('lottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step6-conditional', get_template_directory_uri() . '/assets/js/lottie-step6-conditional.js', array('lottie-player-local'), '1.0.0', true);
         }
         
         // Step 7: Step 6 + Poster Fallback for Below-Fold Animations
         elseif ($template === 'page-poster-test.php') {
-            wp_enqueue_script('dotlottie-player-local', get_template_directory_uri() . '/assets/js/dotlottie-player.min.js', array(), '1.0.0', true);
-            wp_script_add_data('dotlottie-player-local', 'defer', true);
-            wp_enqueue_script('lottie-step7-poster', get_template_directory_uri() . '/assets/js/lottie-step7-poster.js', array('dotlottie-player-local'), '1.0.0', true);
+            wp_enqueue_script('lottie-player-local', get_template_directory_uri() . '/assets/js/lottie-player.js', array(), '1.0.0', true);
+            wp_script_add_data('lottie-player-local', 'defer', true);
+            wp_enqueue_script('lottie-step7-poster', get_template_directory_uri() . '/assets/js/lottie-step7-poster.js', array('lottie-player-local'), '1.0.0', true);
         }
     }
 }
@@ -104,7 +104,7 @@ add_action('wp_enqueue_scripts', 'lottie_perf_test_scripts');
 function lottie_perf_test_add_caching_headers() {
     // Only apply to Lottie files
     if (strpos($_SERVER['REQUEST_URI'], '.lottie') !== false || 
-        strpos($_SERVER['REQUEST_URI'], 'dotlottie-player.min.js') !== false) {
+        strpos($_SERVER['REQUEST_URI'], 'lottie-player.js') !== false) {
         
         // Set long-term caching headers
         header('Cache-Control: public, max-age=31536000, immutable'); // 1 year

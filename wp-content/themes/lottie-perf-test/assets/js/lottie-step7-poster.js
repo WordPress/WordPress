@@ -5,10 +5,23 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Step 7: Poster Fallback for Below-Fold Animations loaded');
+    console.log('Custom elements available:', customElements.get('lottie-player'));
     
-    // Wait for dotlottie-player to be available
-    const initPosterPlayers = () => {
+    // Wait for custom element to be defined
+    if (customElements.get('lottie-player')) {
+        console.log('lottie-player already defined');
+        initializePosterPlayers();
+    } else {
+        console.log('Waiting for lottie-player to be defined...');
+        customElements.whenDefined('lottie-player').then(() => {
+            console.log('lottie-player is now defined');
+            initializePosterPlayers();
+        });
+    }
+    
+    function initializePosterPlayers() {
         const lottiePlayers = document.querySelectorAll('lottie-player[data-lazy="true"]');
+        console.log('Found', lottiePlayers.length, 'lazy lottie-player elements');
         
         if (lottiePlayers.length === 0) {
             console.log('No lazy players found on this page');
@@ -91,25 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Start observing
             observer.observe(player);
         });
-    };
-    
-    // Check if dotlottie-player is available, if not wait
-    if (typeof customElements !== 'undefined' && customElements.get('lottie-player')) {
-        initPosterPlayers();
-    } else {
-        // Wait for the custom element to be defined
-        const checkInterval = setInterval(() => {
-            if (typeof customElements !== 'undefined' && customElements.get('lottie-player')) {
-                clearInterval(checkInterval);
-                initPosterPlayers();
-            }
-        }, 100);
-        
-        // Timeout after 5 seconds
-        setTimeout(() => {
-            clearInterval(checkInterval);
-            console.warn('dotlottie-player not loaded after 5 seconds');
-        }, 5000);
     }
     
     // Performance tracking with enhanced metrics
@@ -121,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const resources = performance.getEntriesByType('resource');
         const lottieResources = resources.filter(resource => 
             resource.name.includes('.lottie') || 
-            resource.name.includes('dotlottie-player')
+            resource.name.includes('lottie-player')
         );
         
         lottieResources.forEach(resource => {

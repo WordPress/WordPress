@@ -5,10 +5,23 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Step 3: Deferred Loading loaded');
+    console.log('Custom elements available:', customElements.get('lottie-player'));
     
-    // Wait for dotlottie-player to be available
-    const initPlayers = () => {
+    // Wait for custom element to be defined
+    if (customElements.get('lottie-player')) {
+        console.log('lottie-player already defined');
+        initializeDeferredPlayers();
+    } else {
+        console.log('Waiting for lottie-player to be defined...');
+        customElements.whenDefined('lottie-player').then(() => {
+            console.log('lottie-player is now defined');
+            initializeDeferredPlayers();
+        });
+    }
+    
+    function initializeDeferredPlayers() {
         const lottiePlayers = document.querySelectorAll('lottie-player');
+        console.log('Found', lottiePlayers.length, 'lottie-player elements');
         
         lottiePlayers.forEach((player, index) => {
             console.log(`Initializing deferred canvas player ${index + 1}:`, player.src);
@@ -27,25 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error(`Deferred canvas player ${index + 1} error:`, e);
             });
         });
-    };
-    
-    // Check if dotlottie-player is available, if not wait
-    if (typeof customElements !== 'undefined' && customElements.get('lottie-player')) {
-        initPlayers();
-    } else {
-        // Wait for the custom element to be defined
-        const checkInterval = setInterval(() => {
-            if (typeof customElements !== 'undefined' && customElements.get('lottie-player')) {
-                clearInterval(checkInterval);
-                initPlayers();
-            }
-        }, 100);
-        
-        // Timeout after 5 seconds
-        setTimeout(() => {
-            clearInterval(checkInterval);
-            console.warn('dotlottie-player not loaded after 5 seconds');
-        }, 5000);
     }
     
     // Performance tracking

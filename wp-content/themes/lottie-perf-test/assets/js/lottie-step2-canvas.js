@@ -5,27 +5,43 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Step 2: Canvas Renderer loaded');
+    console.log('Custom elements available:', customElements.get('lottie-player'));
     
-    // Initialize all lottie players with canvas renderer
-    const lottiePlayers = document.querySelectorAll('lottie-player');
+    // Wait for custom element to be defined
+    if (customElements.get('lottie-player')) {
+        console.log('lottie-player already defined');
+        initializeCanvasPlayers();
+    } else {
+        console.log('Waiting for lottie-player to be defined...');
+        customElements.whenDefined('lottie-player').then(() => {
+            console.log('lottie-player is now defined');
+            initializeCanvasPlayers();
+        });
+    }
     
-    lottiePlayers.forEach((player, index) => {
-        console.log(`Initializing canvas player ${index + 1}:`, player.src);
+    function initializeCanvasPlayers() {
+        // Initialize all lottie players with canvas renderer
+        const lottiePlayers = document.querySelectorAll('lottie-player');
+        console.log('Found', lottiePlayers.length, 'lottie-player elements');
         
-        // Ensure canvas renderer is set
-        if (!player.getAttribute('renderer')) {
-            player.setAttribute('renderer', 'canvas');
-        }
-        
-        // Add event listeners for debugging
-        player.addEventListener('ready', () => {
-            console.log(`Canvas player ${index + 1} ready`);
+        lottiePlayers.forEach((player, index) => {
+            console.log(`Initializing canvas player ${index + 1}:`, player.src);
+            
+            // Ensure canvas renderer is set
+            if (!player.getAttribute('renderer')) {
+                player.setAttribute('renderer', 'canvas');
+            }
+            
+            // Add event listeners for debugging
+            player.addEventListener('ready', () => {
+                console.log(`Canvas player ${index + 1} ready`);
+            });
+            
+            player.addEventListener('error', (e) => {
+                console.error(`Canvas player ${index + 1} error:`, e);
+            });
         });
-        
-        player.addEventListener('error', (e) => {
-            console.error(`Canvas player ${index + 1} error:`, e);
-        });
-    });
+    }
     
     // Performance tracking
     if ('performance' in window) {
