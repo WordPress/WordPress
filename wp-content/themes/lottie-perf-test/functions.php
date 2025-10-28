@@ -237,6 +237,18 @@ function lottie_perf_test_resource_hints() {
     echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
     echo '<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>';
     
+    // Additional font optimization
+    echo '<style>
+        .font-loading {
+            font-display: swap;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        /* Prevent layout shifts during font loading */
+        h1, h2, h3, h4, h5, h6 {
+            font-display: swap;
+        }
+    </style>';
+    
     // Preload critical Lottie animations to prevent CLS
     $template = get_page_template_slug();
     if ($template === 'page-local-test.php') {

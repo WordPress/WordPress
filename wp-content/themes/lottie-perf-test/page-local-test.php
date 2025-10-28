@@ -349,8 +349,33 @@ get_header(); ?>
 </section>
 
 <script>
-// Performance measurement script
+// Performance measurement script with CLS prevention
 document.addEventListener('DOMContentLoaded', function() {
+    // Hide skeleton loading once Lottie animations are loaded
+    const lottiePlayers = document.querySelectorAll('dotlottie-player');
+    
+    lottiePlayers.forEach(player => {
+        player.addEventListener('ready', function() {
+            // Remove skeleton loading animation
+            const container = this.parentElement;
+            if (container) {
+                container.style.background = 'transparent';
+                const skeleton = container.querySelector('::before');
+                if (skeleton) {
+                    skeleton.style.display = 'none';
+                }
+            }
+        });
+        
+        // Fallback: hide skeleton after 3 seconds
+        setTimeout(() => {
+            const container = player.parentElement;
+            if (container) {
+                container.style.background = 'transparent';
+            }
+        }, 3000);
+    });
+    
     // Measure performance metrics
     if ('performance' in window) {
         const perfData = performance.getEntriesByType('navigation')[0];

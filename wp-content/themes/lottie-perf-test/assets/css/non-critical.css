@@ -582,6 +582,23 @@ section {
   align-items: center;
   width: 500px;
   height: 400px; /* Fixed dimensions to prevent CLS */
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  position: relative;
+  contain: layout style paint; /* Prevent layout shifts */
+}
+
+/* Skeleton loading animation for hero */
+.hero-animation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 12px;
 }
 
 .performance-metrics {
@@ -593,13 +610,16 @@ section {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Sidekick Section - Fixed dimensions to prevent CLS */
+/* Sidekick Section - Aggressive CLS prevention */
 .sidekick-section {
   padding: 80px 0;
   background: #f8f9fa;
   min-height: 480px; /* Reserve space for animation */
+  height: 480px; /* Force exact height */
   display: flex;
   align-items: center;
+  contain: layout style paint; /* Isolate layout changes */
+  overflow: hidden; /* Prevent content overflow */
 }
 
 .sidekick-content {
@@ -629,6 +649,28 @@ section {
   align-items: center;
   width: 400px;
   height: 300px; /* Fixed dimensions to prevent CLS */
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  position: relative;
+  contain: layout style paint; /* Prevent layout shifts */
+}
+
+/* Skeleton loading animation */
+.sidekick-animation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes skeleton-loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* Agents Workflow Section */
