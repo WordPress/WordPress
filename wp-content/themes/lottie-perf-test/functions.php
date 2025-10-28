@@ -42,7 +42,15 @@ function lottie_perf_test_critical_css() {
     );
     
     if (in_array($template, $lottie_templates)) {
-        $critical_css_path = get_template_directory() . '/assets/css/critical.css';
+        $base_path = get_template_directory() . '/assets/css/';
+        $final_file = 'critical.final.min.css';
+        $min_file = 'critical.min.css';
+        $dev_file = 'critical.css';
+        
+        // Prefer final minified version, fallback to regular minified, then dev
+        $critical_css_path = file_exists($base_path . $final_file) ? $base_path . $final_file : 
+                            (file_exists($base_path . $min_file) ? $base_path . $min_file : $base_path . $dev_file);
+        
         if (file_exists($critical_css_path)) {
             echo '<style id="critical-css">' . file_get_contents($critical_css_path) . '</style>';
         }
@@ -66,7 +74,13 @@ function lottie_perf_test_non_critical_css() {
     
     if (in_array($template, $lottie_templates)) {
         $base_url = get_template_directory_uri() . '/assets/css/';
-        $non_critical_css_url = $base_url . 'non-critical.min.css';
+        $base_path = get_template_directory() . '/assets/css/';
+        
+        // Prefer final minified version, fallback to regular minified
+        $final_file = 'non-critical.final.min.css';
+        $min_file = 'non-critical.min.css';
+        $css_file = file_exists($base_path . $final_file) ? $final_file : $min_file;
+        $non_critical_css_url = $base_url . $css_file;
         
         // Preload the non-critical CSS
         echo '<link rel="preload" href="' . esc_url($non_critical_css_url) . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
@@ -108,9 +122,13 @@ function lottie_perf_test_scripts() {
         add_action('wp_head', function() {
             $base_uri = get_template_directory_uri() . '/assets/js/';
             $base_path = get_template_directory() . '/assets/js/';
+            $final_file = 'lottie-light.final.min.js';
             $min_file = 'lottie-light.min.js';
             $dev_file = 'lottie-light.js';
-            $script = file_exists($base_path . $min_file) ? $min_file : $dev_file;
+            
+            // Prefer final minified version, fallback to regular minified, then dev
+            $script = file_exists($base_path . $final_file) ? $final_file : 
+                     (file_exists($base_path . $min_file) ? $min_file : $dev_file);
             
             // Preload the JavaScript file
             echo '<link rel="preload" href="' . esc_url($base_uri . $script) . '?ver=1.0.0" as="script" crossorigin>';

@@ -85,7 +85,8 @@ get_header(); ?>
                         style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy>
+                        data-lazy
+                        poster="<?php echo get_template_directory_uri(); ?>/assets/images/invoice-capture-poster.png">
                     </dotlottie-player>
                 </div>
                 <h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 16px; color: #141414;">Reporting Agent</h3>
@@ -101,7 +102,8 @@ get_header(); ?>
                         style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy>
+                        data-lazy
+                        poster="<?php echo get_template_directory_uri(); ?>/assets/images/bill-approvers-poster.png">
                     </dotlottie-player>
                 </div>
                 <h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 16px; color: #141414;">Bill Approvers Agent</h3>
@@ -117,7 +119,8 @@ get_header(); ?>
                         style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy>
+                        data-lazy
+                        poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-matching-poster.png">
                     </dotlottie-player>
                 </div>
                 <h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 16px; color: #141414;">Purchase Request Agent</h3>
@@ -148,7 +151,8 @@ get_header(); ?>
                         style="width: 480px; height: 360px; position: absolute; top: 0; left: 0;"
                         loop
                         autoplay
-                        data-lazy>
+                        data-lazy
+                        poster="<?php echo get_template_directory_uri(); ?>/assets/images/invoice-capture-poster.png">
                     </dotlottie-player>
                 </div>
                 <div class="tab-navigation" style="display: flex; flex-direction: column; gap: 20px; border-left: 1px solid #efefef; padding-left: 40px; min-width: 300px;">
@@ -204,7 +208,8 @@ get_header(); ?>
                             style="width: 300px; height: 200px; position: absolute; top: 0; left: 0;" 
                             loop 
                             autoplay
-                            data-lazy>
+                            data-lazy
+                            poster="<?php echo get_template_directory_uri(); ?>/assets/images/duplicate-bill-poster.png">
                         </dotlottie-player>
                     </div>
                 </div>
@@ -225,7 +230,8 @@ get_header(); ?>
                             style="width: 300px; height: 200px; position: absolute; top: 0; left: 0;" 
                             loop 
                             autoplay
-                            data-lazy>
+                            data-lazy
+                            poster="<?php echo get_template_directory_uri(); ?>/assets/images/bill-approvers-poster.png">
                         </dotlottie-player>
                     </div>
                 </div>
@@ -250,7 +256,8 @@ get_header(); ?>
                         style="width: 400px; height: 300px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy>
+                        data-lazy
+                        poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-matching-poster.png">
                     </dotlottie-player>
                 </div>
             </div>
