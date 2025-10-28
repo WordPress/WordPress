@@ -3593,13 +3593,21 @@ function wp_load_classic_theme_block_styles_on_demand() {
 	}
 
 	/*
-	 * Load separate block styles so that the large block-library stylesheet is not enqueued unconditionally,
-	 * and so that block-specific styles will only be enqueued when they are used on the page.
+	 * If the theme supports block styles, add filters to ensure they are loaded separately and on demand. Without this,
+	 * if a theme does not want or support block styles, then enabling these filters can result in undesired separate
+	 * block-specific styles being enqueued, though a theme may also be trying to nullify the wp-block-library
+	 * stylesheet.
 	 */
-	add_filter( 'should_load_separate_core_block_assets', '__return_true', 0 );
+	if ( current_theme_supports( 'wp-block-styles' ) ) {
+		/*
+		 * Load separate block styles so that the large block-library stylesheet is not enqueued unconditionally,
+		 * and so that block-specific styles will only be enqueued when they are used on the page.
+		 */
+		add_filter( 'should_load_separate_core_block_assets', '__return_true', 0 );
 
-	// Also ensure that block assets are loaded on demand (although the default value is from should_load_separate_core_block_assets).
-	add_filter( 'should_load_block_assets_on_demand', '__return_true', 0 );
+		// Also ensure that block assets are loaded on demand (although the default value is from should_load_separate_core_block_assets).
+		add_filter( 'should_load_block_assets_on_demand', '__return_true', 0 );
+	}
 
 	// Add hooks which require the presence of the output buffer. Ideally the above two filters could be added here, but they run too early.
 	add_action( 'wp_template_enhancement_output_buffer_started', 'wp_hoist_late_printed_styles' );
@@ -3684,33 +3692,50 @@ function wp_hoist_late_printed_styles() {
 			};
 
 			// Loop over STYLE tags.
-			while ( $processor->next_tag( array( 'tag_name' => 'STYLE' ) ) ) {
-				// Skip to the next if this is not the inline style for the wp-block-library stylesheet (which contains the placeholder).
-				if ( 'wp-block-library-inline-css' !== $processor->get_attribute( 'id' ) ) {
-					continue;
-				}
+			while ( $processor->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
 
-				// If the inline style lacks the placeholder comment, then something went wrong and we need to abort.
-				$css_text = $processor->get_modifiable_text();
-				if ( ! str_contains( $css_text, $placeholder ) ) {
+				// We've encountered the inline style for the 'wp-block-library' stylesheet which probably has the placeholder comment.
+				if (
+					! $processor->is_tag_closer() &&
+					'STYLE' === $processor->get_tag() &&
+					'wp-block-library-inline-css' === $processor->get_attribute( 'id' )
+				) {
+					// If the inline style lacks the placeholder comment, then we have to continue until we get to </HEAD> to append the styles there.
+					$css_text = $processor->get_modifiable_text();
+					if ( ! str_contains( $css_text, $placeholder ) ) {
+						continue;
+					}
+
+					// Remove the placeholder now that we've located the inline style.
+					$processor->set_modifiable_text( str_replace( $placeholder, '', $css_text ) );
+					$buffer = $processor->get_updated_html();
+
+					// Insert the $printed_late_styles immediately after the closing inline STYLE tag. This preserves the CSS cascade.
+					$span   = $processor->get_span();
+					$buffer = implode(
+						'',
+						array(
+							substr( $buffer, 0, $span->start + $span->length ),
+							$printed_late_styles,
+							substr( $buffer, $span->start + $span->length ),
+						)
+					);
 					break;
 				}
 
-				// Remove the placeholder now that we've located the inline style.
-				$processor->set_modifiable_text( str_replace( $placeholder, '', $css_text ) );
-				$buffer = $processor->get_updated_html();
-
-				// Insert the $printed_late_styles immediately after the closing inline STYLE tag. This preserves the CSS cascade.
-				$span   = $processor->get_span();
-				$buffer = implode(
-					'',
-					array(
-						substr( $buffer, 0, $span->start + $span->length ),
-						$printed_late_styles,
-						substr( $buffer, $span->start + $span->length ),
-					)
-				);
-				break;
+				// As a fallback, append the hoisted late styles to the end of the HEAD.
+				if ( $processor->is_tag_closer() && 'HEAD' === $processor->get_tag() ) {
+					$span   = $processor->get_span();
+					$buffer = implode(
+						'',
+						array(
+							substr( $buffer, 0, $span->start ),
+							$printed_late_styles,
+							substr( $buffer, $span->start ),
+						)
+					);
+					break;
+				}
 			}
 
 			return $buffer;
