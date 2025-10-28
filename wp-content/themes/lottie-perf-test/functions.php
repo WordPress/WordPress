@@ -126,14 +126,13 @@ function lottie_perf_test_scripts() {
             $min_file = 'lottie-light.min.js';
             $dev_file = 'lottie-light.js';
             
-            // Prefer final minified version, fallback to regular minified, then dev
-            $script = file_exists($base_path . $final_file) ? $final_file : 
-                     (file_exists($base_path . $min_file) ? $min_file : $dev_file);
+            // Use original lottie-light.js (includes dotlottie-player component)
+            $script = 'lottie-light.js';
             
             // Preload the JavaScript file
             echo '<link rel="preload" href="' . esc_url($base_uri . $script) . '?ver=1.0.0" as="script" crossorigin>';
             
-            // Load with defer for optimal performance
+            // Load original Tipalti implementation (includes everything needed)
             echo '<script src="' . esc_url($base_uri . $script) . '?ver=1.0.0" defer crossorigin></script>';
         }, 3);
     }
@@ -307,12 +306,10 @@ function lottie_perf_test_resource_hints() {
         }
     </style>';
     
-    // Preload critical Lottie animations to prevent CLS
+    // Preload only the first critical Lottie animation to prevent CLS
     $template = get_page_template_slug();
     if ($template === 'page-local-test.php') {
-        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/invoice-capture-agent-1.lottie" as="fetch" type="application/json" crossorigin>';
-        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/bill-approvers-agent.lottie" as="fetch" type="application/json" crossorigin>';
-        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/po-request-agent.lottie" as="fetch" type="application/json" crossorigin>';
+        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/invoice-capture-agent-1.lottie" as="fetch" crossorigin>';
     }
 }
 add_action('wp_head', 'lottie_perf_test_resource_hints', 0);
@@ -336,14 +333,8 @@ function lottie_perf_test_allow_lottie_uploads($file) {
 }
 add_filter('wp_handle_upload_prefilter', 'lottie_perf_test_allow_lottie_uploads');
 
-// Add Lottie player script to head for global mode
-function lottie_perf_test_head_scripts() {
-    $template = get_page_template_slug();
-    if ($template === 'page-global.php') {
-        echo '<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>';
-    }
-}
-add_action('wp_head', 'lottie_perf_test_head_scripts');
+// Note: Using Tipalti's lottie-light.js which includes dotlottie-player component
+// No additional script loading needed for local-test.php
 
 // Register navigation menus
 function lottie_perf_test_menus() {

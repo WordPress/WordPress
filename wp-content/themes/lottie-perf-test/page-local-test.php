@@ -86,7 +86,6 @@ get_header(); ?>
                         style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/invoice-capture-poster.png">
                     </dotlottie-player>
                 </div>
@@ -103,7 +102,6 @@ get_header(); ?>
                         style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/bill-approvers-poster.png">
                     </dotlottie-player>
                 </div>
@@ -120,7 +118,6 @@ get_header(); ?>
                         style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-matching-poster.png">
                     </dotlottie-player>
                 </div>
@@ -152,7 +149,6 @@ get_header(); ?>
                         style="width: 480px; height: 360px; position: absolute; top: 0; left: 0;"
                         loop
                         autoplay
-                        data-lazy
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/invoice-capture-poster.png">
                     </dotlottie-player>
                 </div>
@@ -209,7 +205,6 @@ get_header(); ?>
                             style="width: 300px; height: 200px; position: absolute; top: 0; left: 0;" 
                             loop 
                             autoplay
-                            data-lazy
                             poster="<?php echo get_template_directory_uri(); ?>/assets/images/duplicate-bill-poster.png">
                         </dotlottie-player>
                     </div>
@@ -231,7 +226,6 @@ get_header(); ?>
                             style="width: 300px; height: 200px; position: absolute; top: 0; left: 0;" 
                             loop 
                             autoplay
-                            data-lazy
                             poster="<?php echo get_template_directory_uri(); ?>/assets/images/bill-approvers-poster.png">
                         </dotlottie-player>
                     </div>
@@ -257,7 +251,6 @@ get_header(); ?>
                         style="width: 400px; height: 300px; position: absolute; top: 0; left: 0;" 
                         loop 
                         autoplay
-                        data-lazy
                         poster="<?php echo get_template_directory_uri(); ?>/assets/images/po-matching-poster.png">
                     </dotlottie-player>
                 </div>
@@ -776,7 +769,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Load optimized scripts -->
-<script src="<?php echo get_template_directory_uri(); ?>/assets/js/lite-vimeo-embed.js" defer></script>
-<script src="<?php echo get_template_directory_uri(); ?>/assets/js/optimized-lottie-loader.js" defer></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/assets/js/lite-vimeo-embed.js" defer></script>
 
 <?php get_footer(); ?>
