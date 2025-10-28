@@ -126,13 +126,13 @@ function lottie_perf_test_scripts() {
             $min_file = 'lottie-light.min.js';
             $dev_file = 'lottie-light.js';
             
-            // Use original lottie-light.js (includes dotlottie-player component)
-            $script = 'lottie-light.js';
+            // Use minimal lottie implementation (only 5KB vs 422KB)
+            $script = 'lottie-minimal.js';
             
             // Preload the JavaScript file
             echo '<link rel="preload" href="' . esc_url($base_uri . $script) . '?ver=1.0.0" as="script" crossorigin>';
             
-            // Load original Tipalti implementation (includes everything needed)
+            // Load minimal Lottie implementation (5KB vs 422KB)
             echo '<script src="' . esc_url($base_uri . $script) . '?ver=1.0.0" defer crossorigin></script>';
         }, 3);
     }
