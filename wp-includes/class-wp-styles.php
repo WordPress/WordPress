@@ -194,7 +194,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		if ( isset( $obj->args ) ) {
-			$media = esc_attr( $obj->args );
+			$media = $obj->args;
 		} else {
 			$media = 'all';
 		}
@@ -218,16 +218,16 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		$rel   = isset( $obj->extra['alt'] ) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-		$title = isset( $obj->extra['title'] ) ? sprintf( " title='%s'", esc_attr( $obj->extra['title'] ) ) : '';
+		$title = isset( $obj->extra['title'] ) ? $obj->extra['title'] : '';
 
 		$tag = sprintf(
 			"<link rel='%s' id='%s-css'%s href='%s'%s media='%s' />\n",
 			$rel,
-			$handle,
-			$title,
+			esc_attr( $handle ),
+			$title ? sprintf( " title='%s'", esc_attr( $title ) ) : '',
 			$href,
 			$this->type_attr,
-			$media
+			esc_attr( $media )
 		);
 
 		/**
@@ -255,11 +255,11 @@ class WP_Styles extends WP_Dependencies {
 			$rtl_tag = sprintf(
 				"<link rel='%s' id='%s-rtl-css'%s href='%s'%s media='%s' />\n",
 				$rel,
-				$handle,
-				$title,
+				esc_attr( $handle ),
+				$title ? sprintf( " title='%s'", esc_attr( $title ) ) : '',
 				$rtl_href,
 				$this->type_attr,
-				$media
+				esc_attr( $media )
 			);
 
 			/** This filter is documented in wp-includes/class-wp-styles.php */
