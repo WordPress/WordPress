@@ -182,7 +182,6 @@ $preload_paths = array(
 	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
 	array( rest_get_route_for_post_type_items( 'page' ), 'OPTIONS' ),
 	'/wp/v2/types?context=view',
-	'/wp/v2/wp_registered_template?context=edit',
 	'/wp/v2/types/wp_template?context=edit',
 	'/wp/v2/types/wp_template_part?context=edit',
 	'/wp/v2/templates?context=edit&per_page=-1',

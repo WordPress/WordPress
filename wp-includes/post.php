@@ -398,7 +398,7 @@ function create_initial_post_types() {
 			'show_in_menu'            => false,
 			'show_in_rest'            => true,
 			'rewrite'                 => false,
-			'rest_base'               => 'wp_template',
+			'rest_base'               => 'created-templates',
 			'rest_controller_class'   => 'WP_REST_Posts_Controller',
 			'late_route_registration' => true,
 			'capability_type'         => array( 'template', 'templates' ),

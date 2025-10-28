@@ -263,15 +263,6 @@ function rest_api_default_filters() {
  * @since 4.7.0
  */
 function create_initial_rest_routes() {
-	global $wp_post_types;
-
-	// Register the registered templates endpoint. For that we need to copy the
-	// wp_template post type so that it's available as an entity in core-data.
-	$wp_post_types['wp_registered_template']                        = clone $wp_post_types['wp_template'];
-	$wp_post_types['wp_registered_template']->name                  = 'wp_registered_template';
-	$wp_post_types['wp_registered_template']->rest_base             = 'wp_registered_template';
-	$wp_post_types['wp_registered_template']->rest_controller_class = 'WP_REST_Registered_Templates_Controller';
-
 	foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
 		$controller = $post_type->get_rest_controller();
 
@@ -298,11 +289,14 @@ function create_initial_rest_routes() {
 		}
 	}
 
+	global $wp_post_types;
+
 	// Register the old templates endpoints. The WP_REST_Templates_Controller
 	// and sub-controllers used linked to the wp_template post type, but are no
 	// longer. They still require a post type object when contructing the class.
 	// To maintain backward and changes to these controller classes, we make use
 	// that the wp_template post type has the right information it needs.
+	$current_wp_template_rest_base           = $wp_post_types['wp_template']->rest_base;
 	$wp_post_types['wp_template']->rest_base = 'templates';
 	// Store the classes so they can be restored.
 	$original_rest_controller_class           = $wp_post_types['wp_template']->rest_controller_class;
@@ -328,7 +322,7 @@ function create_initial_rest_routes() {
 	$wp_post_types['wp_template']->autosave_rest_controller_class  = $original_autosave_rest_controller_class;
 	$wp_post_types['wp_template']->revisions_rest_controller_class = $original_revisions_rest_controller_class;
 	// Restore the original base.
-	$wp_post_types['wp_template']->rest_base = 'wp_template';
+	$wp_post_types['wp_template']->rest_base = $current_wp_template_rest_base;
 
 	// Register the old routes.
 	$autosaves_controller->register_routes();
@@ -355,6 +349,10 @@ function create_initial_rest_routes() {
 			},
 		)
 	);
+
+	// Registered templates.
+	$controller = new WP_REST_Registered_Templates_Controller();
+	$controller->register_routes();
 
 	// Post types.
 	$controller = new WP_REST_Post_Types_Controller();

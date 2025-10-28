@@ -1358,8 +1358,6 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 					return $template;
 				}
 			}
-		} elseif ( false === $active_templates[ $slug ] ) {
-			return null;
 		}
 	}
 
@@ -1880,5 +1878,59 @@ function wp_maybe_activate_template( $post_id ) {
 	}
 	$active_templates                     = get_option( 'active_templates', array() );
 	$active_templates[ $post->post_name ] = $post->ID;
+	update_option( 'active_templates', $active_templates );
+}
+
+function _wp_migrate_active_templates() {
+	// Do not run during installation when the database is not yet available.
+	if ( wp_installing() ) {
+		return;
+	}
+
+	$active_templates = get_option( 'active_templates', false );
+
+	if ( false !== $active_templates ) {
+		return;
+	}
+
+	// Query all templates in the database. See `get_block_templates`.
+	$wp_query_args = array(
+		'post_status'         => 'publish',
+		'post_type'           => 'wp_template',
+		'posts_per_page'      => -1,
+		'no_found_rows'       => true,
+		'lazy_load_term_meta' => false,
+		'tax_query'           => array(
+			array(
+				'taxonomy' => 'wp_theme',
+				'field'    => 'name',
+				'terms'    => get_stylesheet(),
+			),
+		),
+		// Only get templates that are not inactive by default. We check these
+		// meta to make sure we don't fill the option with inactive templates
+		// created after the 6.9 release when for some reason the option is
+		// deleted.
+		'meta_query'          => array(
+			'relation' => 'OR',
+			array(
+				'key'     => 'is_inactive_by_default',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'is_inactive_by_default',
+				'value'   => false,
+				'compare' => '=',
+			),
+		),
+	);
+
+	$template_query   = new WP_Query( $wp_query_args );
+	$active_templates = array();
+
+	foreach ( $template_query->posts as $post ) {
+		$active_templates[ $post->post_name ] = $post->ID;
+	}
+
 	update_option( 'active_templates', $active_templates );
 }
