@@ -1,0 +1,29 @@
+# Node and build artifacts
+node_modules/
+**/node_modules/
+
+# Vite/Rollup outputs
+**/dist/
+assets/dist/
+
+# Generated minified/compressed assets (keep originals in git)
+**/*.min.js.map
+**/*.min.css.map
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.*.local
+
+# Editor settings
+.vscode/
+.idea/

@@ -50,7 +50,7 @@ function lottie_perf_test_critical_css() {
 }
 add_action('wp_head', 'lottie_perf_test_critical_css', 1);
 
-// Non-Critical CSS with media="print" + onload trick
+// Non-Critical CSS with preload and optimized loading
 function lottie_perf_test_non_critical_css() {
     $template = get_page_template_slug();
     $lottie_templates = array(
@@ -65,9 +65,24 @@ function lottie_perf_test_non_critical_css() {
     );
     
     if (in_array($template, $lottie_templates)) {
-        $non_critical_css_url = get_template_directory_uri() . '/assets/css/non-critical.css';
-        echo '<link rel="stylesheet" href="' . esc_url($non_critical_css_url) . '" media="print" onload="this.media=\'all\'">';
+        $base_url = get_template_directory_uri() . '/assets/css/';
+        $non_critical_css_url = $base_url . 'non-critical.min.css';
+        
+        // Preload the non-critical CSS
+        echo '<link rel="preload" href="' . esc_url($non_critical_css_url) . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
         echo '<noscript><link rel="stylesheet" href="' . esc_url($non_critical_css_url) . '"></noscript>';
+        
+        // Add fallback for browsers that don't support preload
+        echo '<script>
+            (function() {
+                var link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = "' . esc_url($non_critical_css_url) . '";
+                link.media = "print";
+                link.onload = function() { this.media = "all"; };
+                document.head.appendChild(link);
+            })();
+        </script>';
     }
 }
 add_action('wp_head', 'lottie_perf_test_non_critical_css', 2);
@@ -96,7 +111,12 @@ function lottie_perf_test_scripts() {
             $min_file = 'lottie-light.min.js';
             $dev_file = 'lottie-light.js';
             $script = file_exists($base_path . $min_file) ? $min_file : $dev_file;
-            echo '<script src="' . esc_url($base_uri . $script) . '?ver=1.0.0" defer></script>';
+            
+            // Preload the JavaScript file
+            echo '<link rel="preload" href="' . esc_url($base_uri . $script) . '?ver=1.0.0" as="script" crossorigin>';
+            
+            // Load with defer for optimal performance
+            echo '<script src="' . esc_url($base_uri . $script) . '?ver=1.0.0" defer crossorigin></script>';
         }, 3);
     }
 }
@@ -229,9 +249,12 @@ add_action('wp_head', 'lottie_perf_test_performance_optimizations', 1);
 
 // Add resource hints as early as possible in <head>
 function lottie_perf_test_resource_hints() {
-    // External preconnects
+    // External preconnects for better performance
     echo '<link rel="preconnect" href="https://wordpress-l92nz.wasmer.app" crossorigin>';
-    echo '<link rel="dns-prefetch" href="https://wordpress-l92nz.wasmer.app">';
+    echo '<link rel="preconnect" href="https://f.vimeocdn.com" crossorigin>';
+    echo '<link rel="preconnect" href="https://player.vimeo.com" crossorigin>';
+    echo '<link rel="dns-prefetch" href="https://fonts.googleapis.com">';
+    echo '<link rel="dns-prefetch" href="https://fonts.gstatic.com">';
     
     // Font preloading to prevent CLS
     echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
@@ -247,6 +270,12 @@ function lottie_perf_test_resource_hints() {
         h1, h2, h3, h4, h5, h6 {
             font-display: swap;
         }
+        /* Optimize font loading */
+        @font-face {
+            font-family: "Inter";
+            font-display: swap;
+            font-weight: 400 700;
+        }
     </style>';
     
     // Preload critical Lottie animations to prevent CLS
@@ -254,6 +283,7 @@ function lottie_perf_test_resource_hints() {
     if ($template === 'page-local-test.php') {
         echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/invoice-capture-agent-1.lottie" as="fetch" type="application/json" crossorigin>';
         echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/bill-approvers-agent.lottie" as="fetch" type="application/json" crossorigin>';
+        echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/lottie/po-request-agent.lottie" as="fetch" type="application/json" crossorigin>';
     }
 }
 add_action('wp_head', 'lottie_perf_test_resource_hints', 0);

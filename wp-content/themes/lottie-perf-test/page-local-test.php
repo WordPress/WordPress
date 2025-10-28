@@ -43,13 +43,14 @@ get_header(); ?>
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
         <div class="ai-assistant-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
             <div class="assistant-video" style="position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 16/9;">
-                <iframe 
-                    src="https://player.vimeo.com/video/1121254619?autoplay=1&muted=1&loop=1&byline=0&title=0&controls=0"
-                    frameborder="0"
-                    allow="autoplay; fullscreen"
-                    allowfullscreen
-                    style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
-                </iframe>
+                <lite-vimeo 
+                    videoid="1121254619" 
+                    aspect-ratio="16/9"
+                    autoplay
+                    muted
+                    loop
+                    style="width: 100%; height: 100%;">
+                </lite-vimeo>
             </div>
             <div class="assistant-text">
                 <p class="section-tag" style="color: #4d62d3; font-size: 0.875rem; font-weight: 500; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">Tipalti AI Assistant</p>
@@ -76,14 +77,15 @@ get_header(); ?>
         
         <div class="agents-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; margin-bottom: 40px;">
             <div class="agent-card" style="display: flex; flex-direction: column; align-items: flex-start;">
-                <div class="agent-animation" style="margin-bottom: 24px;">
+                <div class="agent-animation" style="margin-bottom: 24px; width: 200px; height: 200px; position: relative;">
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-1.lottie" 
                         background="transparent" 
                         speed="1" 
-                        style="width: 200px; height: 200px;" 
+                        style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
-                        autoplay>
+                        autoplay
+                        data-lazy>
                     </dotlottie-player>
                 </div>
                 <h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 16px; color: #141414;">Reporting Agent</h3>
@@ -91,14 +93,15 @@ get_header(); ?>
             </div>
 
             <div class="agent-card" style="display: flex; flex-direction: column; align-items: flex-start;">
-                <div class="agent-animation" style="margin-bottom: 24px;">
+                <div class="agent-animation" style="margin-bottom: 24px; width: 200px; height: 200px; position: relative;">
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/bill-approvers-agent.lottie" 
                         background="transparent" 
                         speed="1" 
-                        style="width: 200px; height: 200px;" 
+                        style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
-                        autoplay>
+                        autoplay
+                        data-lazy>
                     </dotlottie-player>
                 </div>
                 <h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 16px; color: #141414;">Bill Approvers Agent</h3>
@@ -106,14 +109,15 @@ get_header(); ?>
             </div>
 
             <div class="agent-card" style="display: flex; flex-direction: column; align-items: flex-start;">
-                <div class="agent-animation" style="margin-bottom: 24px;">
+                <div class="agent-animation" style="margin-bottom: 24px; width: 200px; height: 200px; position: relative;">
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/po-request-agent.lottie" 
                         background="transparent" 
                         speed="1" 
-                        style="width: 200px; height: 200px;" 
+                        style="width: 200px; height: 200px; position: absolute; top: 0; left: 0;" 
                         loop 
-                        autoplay>
+                        autoplay
+                        data-lazy>
                     </dotlottie-player>
                 </div>
                 <h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 16px; color: #141414;">Purchase Request Agent</h3>
@@ -135,15 +139,16 @@ get_header(); ?>
         <!-- Workflow Slider/Tabs -->
         <div class="workflow-tabs" style="background: white; border-radius: 24px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
             <div class="workflow-inner" style="display: flex; gap: 40px; align-items: stretch;">
-                <div class="media-viewer" style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div class="media-viewer" style="flex: 1; display: flex; align-items: center; justify-content: center; width: 480px; height: 360px; position: relative; margin: 0 auto;">
                     <dotlottie-player 
                         class="workflow-player"
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/invoice-capture-agent-1.lottie"
                         background="transparent"
                         speed="1"
-                        style="width: 480px; height: 360px;"
+                        style="width: 480px; height: 360px; position: absolute; top: 0; left: 0;"
                         loop
-                        autoplay>
+                        autoplay
+                        data-lazy>
                     </dotlottie-player>
                 </div>
                 <div class="tab-navigation" style="display: flex; flex-direction: column; gap: 20px; border-left: 1px solid #efefef; padding-left: 40px; min-width: 300px;">
@@ -191,14 +196,15 @@ get_header(); ?>
                     <p style="font-size: 1rem; line-height: 1.6; color: #6c6c6c; margin-bottom: 40px;">
                         Prevent fraud and overpayments. Tipalti AI strengthens AP controls by flagging duplicate invoices and anomalies early.
                     </p>
-                    <div class="feature-animation" style="text-align: center;">
+                    <div class="feature-animation" style="text-align: center; width: 300px; height: 200px; position: relative; margin: 0 auto;">
                         <dotlottie-player 
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/duplicate-bill-detection.lottie" 
                             background="transparent" 
                             speed="1" 
-                            style="width: 300px; height: 200px;" 
+                            style="width: 300px; height: 200px; position: absolute; top: 0; left: 0;" 
                             loop 
-                            autoplay>
+                            autoplay
+                            data-lazy>
                         </dotlottie-player>
                     </div>
                 </div>
@@ -211,14 +217,15 @@ get_header(); ?>
                     <p style="font-size: 1rem; line-height: 1.6; color: #6c6c6c; margin-bottom: 40px;">
                         Manage approvals, payments, and audit trails across multiple entities in one consolidated view with clear visibility into each entity.
                     </p>
-                    <div class="feature-animation" style="text-align: center;">
+                    <div class="feature-animation" style="text-align: center; width: 300px; height: 200px; position: relative; margin: 0 auto;">
                         <dotlottie-player 
                             src="<?php echo get_template_directory_uri(); ?>/assets/lottie/approval-chains-and-audit-trail.lottie" 
                             background="transparent" 
                             speed="1" 
-                            style="width: 300px; height: 200px;" 
+                            style="width: 300px; height: 200px; position: absolute; top: 0; left: 0;" 
                             loop 
-                            autoplay>
+                            autoplay
+                            data-lazy>
                         </dotlottie-player>
                     </div>
                 </div>
@@ -235,14 +242,15 @@ get_header(); ?>
                         Strengthen reviews with built-in two- and three-way PO matching at both the header and line level, combining automation with control.
                     </p>
                 </div>
-                <div class="po-animation" style="text-align: center;">
+                <div class="po-animation" style="text-align: center; width: 400px; height: 300px; position: relative; margin: 0 auto;">
                     <dotlottie-player 
                         src="<?php echo get_template_directory_uri(); ?>/assets/lottie/two-and-three-way-po-matching.lottie" 
                         background="transparent" 
                         speed="1" 
-                        style="width: 400px; height: 300px;" 
+                        style="width: 400px; height: 300px; position: absolute; top: 0; left: 0;" 
                         loop 
-                        autoplay>
+                        autoplay
+                        data-lazy>
                     </dotlottie-player>
                 </div>
             </div>
@@ -266,13 +274,14 @@ get_header(); ?>
                 <button class="btn-link" style="background: none; border: none; color: #4d62d3; font-size: 1rem; cursor: pointer; text-decoration: underline;">Learn More →</button>
             </div>
             <div class="global-ap-video" style="position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 1/1;">
-                <iframe 
-                    src="https://player.vimeo.com/video/1118182888?background=1&autoplay=1&muted=1&loop=1&byline=0&title=0"
-                    frameborder="0"
-                    allow="autoplay; fullscreen"
-                    allowfullscreen
-                    style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
-                </iframe>
+                <lite-vimeo 
+                    videoid="1118182888" 
+                    aspect-ratio="1/1"
+                    autoplay
+                    muted
+                    loop
+                    style="width: 100%; height: 100%;">
+                </lite-vimeo>
             </div>
         </div>
     </div>
@@ -544,15 +553,21 @@ get_header(); ?>
     }
 }
 
-/* Button hover effects */
+/* Button hover effects - CLS optimized */
 .btn-primary:hover,
 .btn-secondary:hover {
     opacity: 0.9;
     transform: translateY(-2px);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
 }
 
-/* Tab interaction */
+/* Tab interaction - CLS optimized */
+.tab-item {
+    transition: background-color 0.3s ease, border-left-color 0.3s ease;
+    will-change: background-color, border-left-color;
+}
+
 .tab-item:hover {
     background: #f0f4ff !important;
 }
@@ -560,6 +575,50 @@ get_header(); ?>
 .tab-item.active {
     background: #e4edfb !important;
     border-left-color: #4d62d3 !important;
+}
+
+/* Agent card hover effects - CLS optimized */
+.agent-card {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
+}
+
+.agent-card:hover {
+    transform: scale(1.03);
+    opacity: 0.95;
+}
+
+/* Feature card hover effects - CLS optimized */
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* Testimonial card hover effects - CLS optimized */
+.testimonial-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+/* Resource card hover effects - CLS optimized */
+.resource-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.resource-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
 }
 
 /* FAQ details styling */
@@ -706,5 +765,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<!-- Load optimized scripts -->
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/lite-vimeo-embed.js" defer></script>
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/lottie-lazy-loader.js" defer></script>
 
 <?php get_footer(); ?>

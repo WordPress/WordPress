@@ -1,0 +1,21 @@
+{
+  "name": "lottie-perf-test",
+  "version": "1.0.0",
+  "description": "WordPress theme optimized for Lottie animations performance",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "terser": "^5.24.0",
+    "cssnano": "^6.0.1",
+    "postcss": "^8.4.32",
+    "autoprefixer": "^10.4.16"
+  },
+  "dependencies": {
+    "@dotlottie/player-component": "^1.0.0"
+  }
+}

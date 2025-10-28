@@ -1,34 +1,113 @@
-# Ensure static assets are served directly without WordPress processing
-<FilesMatch "\.(css|js|mjs|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|lottie|dotlottie)$">
-    # Disable PHP processing for static files
-    RemoveHandler .css .js .mjs .png .jpg .jpeg .gif .svg .woff .woff2 .ttf .eot .lottie .dotlottie
+# Performance Optimizations for WordPress Lottie Theme
+# Enable compression and caching for optimal performance
+
+# Enable Brotli compression (preferred over gzip)
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/css
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/json
+    AddOutputFilterByType BROTLI_COMPRESS text/html
+    AddOutputFilterByType BROTLI_COMPRESS text/plain
+    AddOutputFilterByType BROTLI_COMPRESS text/xml
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+    AddOutputFilterByType BROTLI_COMPRESS font/woff2
+    AddOutputFilterByType BROTLI_COMPRESS font/woff
+    AddOutputFilterByType BROTLI_COMPRESS font/ttf
+    AddOutputFilterByType BROTLI_COMPRESS font/eot
+</IfModule>
+
+# Fallback to gzip if Brotli not available
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/woff2
+    AddOutputFilterByType DEFLATE font/woff
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE font/eot
+</IfModule>
+
+# Serve pre-compressed files when available
+<IfModule mod_rewrite.c>
+    RewriteEngine On
     
-    # Set proper MIME types
-    <IfModule mod_mime.c>
-        AddType text/css .css
-        AddType application/javascript .js
-        AddType application/javascript .mjs
-        AddType image/png .png
-        AddType image/jpeg .jpg .jpeg
-        AddType image/gif .gif
-        AddType image/svg+xml .svg
-        AddType font/woff .woff
-        AddType font/woff2 .woff2
-        AddType font/ttf .ttf
-        AddType font/eot .eot
-        AddType application/json .lottie .dotlottie
-    </IfModule>
+    # Serve .br files if browser supports Brotli and file exists
+    RewriteCond %{HTTP:Accept-Encoding} br
+    RewriteCond %{REQUEST_FILENAME}\.br -f
+    RewriteRule ^(.*)$ $1.br [QSA,L]
+    
+    # Serve .gz files if browser supports gzip and file exists
+    RewriteCond %{HTTP:Accept-Encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}\.gz -f
+    RewriteRule ^(.*)$ $1.gz [QSA,L]
+</IfModule>
+
+# Set proper MIME types for compressed files
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+    AddType application/javascript .mjs
+    AddType image/png .png
+    AddType image/jpeg .jpg .jpeg
+    AddType image/gif .gif
+    AddType image/svg+xml .svg
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType font/ttf .ttf
+    AddType font/eot .eot
+    AddType application/json .lottie .dotlottie
+    
+    # Compressed file types
+    AddType text/css .css.br .css.gz
+    AddType application/javascript .js.br .js.gz
+    AddType application/json .json.br .json.gz
+    AddType image/svg+xml .svg.br .svg.gz
+    AddType font/woff2 .woff2.br .woff2.gz
+    AddType font/woff .woff.br .woff.gz
+    AddType font/ttf .ttf.br .ttf.gz
+    AddType font/eot .eot.br .eot.gz
+</IfModule>
+
+# Ensure static assets are served directly without WordPress processing
+<FilesMatch "\.(css|js|mjs|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|lottie|dotlottie|br|gz)$">
+    # Disable PHP processing for static files
+    RemoveHandler .css .js .mjs .png .jpg .jpeg .gif .svg .woff .woff2 .ttf .eot .lottie .dotlottie .br .gz
     
     # Set caching headers for static assets
     <IfModule mod_headers.c>
-        Header set Cache-Control "public, max-age=31536000, immutable"
-        Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
-    </IfModule>
-    
-    # Enable compression
-    <IfModule mod_deflate.c>
-        AddOutputFilterByType DEFLATE text/css
-        AddOutputFilterByType DEFLATE application/javascript
-        AddOutputFilterByType DEFLATE application/json
+        # Long-term caching for versioned assets
+        <FilesMatch "\.(css|js|mjs|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|lottie|dotlottie)$">
+            Header set Cache-Control "public, max-age=31536000, immutable"
+            Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
+            Header set Vary "Accept-Encoding"
+        </FilesMatch>
+        
+        # Shorter cache for compressed files
+        <FilesMatch "\.(br|gz)$">
+            Header set Cache-Control "public, max-age=31536000, immutable"
+            Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
+            Header set Vary "Accept-Encoding"
+        </FilesMatch>
+        
+        # Set compression headers
+        <FilesMatch "\.(css|js|mjs|json|svg|woff|woff2|ttf|eot)\.br$">
+            Header set Content-Encoding "br"
+        </FilesMatch>
+        
+        <FilesMatch "\.(css|js|mjs|json|svg|woff|woff2|ttf|eot)\.gz$">
+            Header set Content-Encoding "gzip"
+        </FilesMatch>
     </IfModule>
 </FilesMatch>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
