@@ -1,0 +1,33 @@
+# Node modules and build artifacts
+node_modules/
+**/node_modules/
+
+# Development files
+*.log
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Build outputs (keep minified files)
+**/dist/
+assets/dist/
+
+# Source maps
+*.map
+
+# Environment files
+.env
+.env.*
