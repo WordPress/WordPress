@@ -91,8 +91,13 @@ function lottie_perf_test_scripts() {
     
     if (in_array($template, $lottie_templates)) {
         add_action('wp_head', function() {
-            echo '<script src="' . get_template_directory_uri() . '/assets/js/lottie-light.js?ver=1.0.0"></script>';
-        }, 3);            
+            $base_uri = get_template_directory_uri() . '/assets/js/';
+            $base_path = get_template_directory() . '/assets/js/';
+            $min_file = 'lottie-light.min.js';
+            $dev_file = 'lottie-light.js';
+            $script = file_exists($base_path . $min_file) ? $min_file : $dev_file;
+            echo '<script src="' . esc_url($base_uri . $script) . '?ver=1.0.0" defer></script>';
+        }, 3);
     }
 }
 add_action('wp_enqueue_scripts', 'lottie_perf_test_scripts');
@@ -158,6 +163,29 @@ function lottie_perf_test_handle_static_files() {
                 if (isset($mime_types[$extension])) {
                     header('Content-Type: ' . $mime_types[$extension]);
                 }
+
+                // Prefer serving precompressed variants when available and accepted
+                $accept_encoding = isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '';
+                $served_compressed = false;
+                if (in_array($extension, array('css','js','mjs'))) {
+                    header('Vary: Accept-Encoding');
+                    if (strpos($accept_encoding, 'br') !== false && file_exists($file_path . '.br')) {
+                        header('Content-Encoding: br');
+                        header('Cache-Control: public, max-age=31536000, immutable');
+                        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
+                        readfile($file_path . '.br');
+                        $served_compressed = true;
+                    } elseif (strpos($accept_encoding, 'gzip') !== false && file_exists($file_path . '.gz')) {
+                        header('Content-Encoding: gzip');
+                        header('Cache-Control: public, max-age=31536000, immutable');
+                        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
+                        readfile($file_path . '.gz');
+                        $served_compressed = true;
+                    }
+                }
+                if ($served_compressed) {
+                    exit;
+                }
                 
                 // Set caching headers
                 header('Cache-Control: public, max-age=31536000, immutable');
@@ -198,6 +226,14 @@ add_action('init', 'lottie_perf_test_handle_static_files', 1);
         }
     }
 add_action('wp_head', 'lottie_perf_test_performance_optimizations', 1);
+
+// Add resource hints as early as possible in <head>
+function lottie_perf_test_resource_hints() {
+    // External preconnects
+    echo '<link rel="preconnect" href="https://wordpress-l92nz.wasmer.app" crossorigin>';
+    echo '<link rel="dns-prefetch" href="https://wordpress-l92nz.wasmer.app">';
+}
+add_action('wp_head', 'lottie_perf_test_resource_hints', 0);
 
 // Fix WordPress Lottie file support
 function lottie_perf_test_add_lottie_support($mimes) {
