@@ -20,6 +20,10 @@ body {
   color: #333;
   background-color: #fff;
   font-display: swap; /* Prevent invisible text flash */
+  /* Optimize for Speed Index */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
 }
 
 img {
@@ -104,6 +108,9 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   padding: var(--spacing-xxl) 0;
   text-align: center;
+  /* Optimize for Speed Index */
+  contain: layout style paint;
+  will-change: auto;
 }
 
 .hero-title {
@@ -111,6 +118,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-lg);
   line-height: 1.2;
+  /* Prevent layout shifts */
+  min-height: 4.2rem;
 }
 
 .hero-actions {
@@ -118,6 +127,60 @@ h1, h2, h3, h4, h5, h6 {
   gap: var(--spacing-sm);
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* AI Assistant Section - Critical Above the Fold */
+.ai-assistant-section {
+  padding: 80px 0;
+  background: #fafafa;
+  contain: layout style paint;
+}
+
+.ai-assistant-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.assistant-video {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  /* Optimize for Speed Index */
+  contain: layout style paint;
+  background: #000;
+}
+
+/* Lottie Animation Placeholders - Critical */
+.lottie-placeholder {
+  background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+              linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+              linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+              linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lottie-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #4d62d3;
+  border-radius: 50%;
+  animation: lottie-spin 1s linear infinite;
+}
+
+@keyframes lottie-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Buttons - Critical for CTA */

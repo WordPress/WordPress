@@ -49,6 +49,7 @@ get_header(); ?>
                     autoplay
                     muted
                     loop
+                    poster="https://vumbnail.com/1121254619.jpg"
                     style="width: 100%; height: 100%;">
                 </lite-vimeo>
             </div>
@@ -287,6 +288,7 @@ get_header(); ?>
                     autoplay
                     muted
                     loop
+                    poster="https://vumbnail.com/1118182888.jpg"
                     style="width: 100%; height: 100%;">
                 </lite-vimeo>
             </div>
@@ -775,6 +777,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Load optimized scripts -->
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/lite-vimeo-embed.js" defer></script>
-<script src="<?php echo get_template_directory_uri(); ?>/assets/js/lottie-lazy-loader.js" defer></script>
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/optimized-lottie-loader.js" defer></script>
 
 <?php get_footer(); ?>

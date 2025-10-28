@@ -271,14 +271,19 @@ function lottie_perf_test_resource_hints() {
     echo '<link rel="preconnect" href="https://wordpress-l92nz.wasmer.app" crossorigin>';
     echo '<link rel="preconnect" href="https://f.vimeocdn.com" crossorigin>';
     echo '<link rel="preconnect" href="https://player.vimeo.com" crossorigin>';
+    echo '<link rel="preconnect" href="https://vumbnail.com" crossorigin>';
     echo '<link rel="dns-prefetch" href="https://fonts.googleapis.com">';
     echo '<link rel="dns-prefetch" href="https://fonts.gstatic.com">';
     
-    // Font preloading to prevent CLS
+    // Font preloading to prevent CLS and improve Speed Index
     echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
     echo '<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>';
     
-    // Additional font optimization
+    // Preload critical Vimeo thumbnails for Speed Index
+    echo '<link rel="preload" href="https://vumbnail.com/1121254619.jpg" as="image">';
+    echo '<link rel="preload" href="https://vumbnail.com/1118182888.jpg" as="image">';
+    
+    // Additional font optimization for Speed Index
     echo '<style>
         .font-loading {
             font-display: swap;
@@ -288,11 +293,17 @@ function lottie_perf_test_resource_hints() {
         h1, h2, h3, h4, h5, h6 {
             font-display: swap;
         }
-        /* Optimize font loading */
+        /* Optimize font loading for Speed Index */
         @font-face {
             font-family: "Inter";
             font-display: swap;
             font-weight: 400 700;
+        }
+        /* Optimize text rendering for Speed Index */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
         }
     </style>';
     
